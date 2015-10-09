@@ -24,6 +24,7 @@
   },
   "scripts": {
     "budo": "NODE_ENV=development budo main.js --live | garnish",
+    "boring-test": "babel-tape-runner tape tests/*.test.js | tap-spec",
     "build": "NODE_ENV=production browserify main.js | uglifyjs -cm > dist/bundle.js",
     "flow": "flow check",
     "lint": "standard",
