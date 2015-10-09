@@ -11,7 +11,7 @@ import { OBSERVATION_ADD, EVENT_ADD, PLACE_ADD } from '../actions/actionTypes'
 
 const observationsInitialState = Immutable.List()
 
-export let observations = (state = observationsInitialState, action) => {
+export let observations = (state = observationsInitialState, action = {}) => {
   switch (action.type) {
     case OBSERVATION_ADD:
       return state.push(Immutable.Map({
@@ -26,7 +26,7 @@ export let observations = (state = observationsInitialState, action) => {
 
 const eventsInitialState = Immutable.List()
 
-export let events = (state = eventsInitialState, action) => {
+export let events = (state = eventsInitialState, action = {}) => {
   switch (action.type) {
     case EVENT_ADD:
       return state.push(Immutable.Map({
@@ -41,7 +41,7 @@ export let events = (state = eventsInitialState, action) => {
 
 const placesInitialState = Immutable.List()
 
-export let places = (state = placesInitialState, action) => {
+export let places = (state = placesInitialState, action = {}) => {
   switch (action.type) {
     case PLACE_ADD:
       return state.push(Immutable.Map({
