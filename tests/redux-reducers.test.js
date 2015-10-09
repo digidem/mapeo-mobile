@@ -1,5 +1,4 @@
 var test = require('tape')
-import * as types from '../redux/actions/actionTypes'
 import * as actions from '../redux/actions/actions'
 import * as reducers from '../redux/reducers/reducers'
 import Immutable from 'immutable'
@@ -25,8 +24,8 @@ test('Places reducer', function (t) {
   ])
   console.log(reducers.places(undefined, firstPlace))
   console.log(firstState)
-  console.log("É igual pelo immutable?" + Immutable.is(reducers.places(undefined, firstPlace), firstState))
-  console.log("É igual pelo equals?" + equal(reducers.places(undefined, firstPlace), firstState), {strict: true})
+  console.log('É igual pelo immutable?' + Immutable.is(reducers.places(undefined, firstPlace), firstState))
+  console.log('É igual pelo equals?' + equal(reducers.places(undefined, firstPlace), firstState), {strict: true})
   t.deepEqual(reducers.places(undefined, firstPlace).toJS(), firstState.toJS(), 'Reducer handdles PLACE_ADD')
 })
 
