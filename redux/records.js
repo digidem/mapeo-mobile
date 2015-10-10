@@ -18,6 +18,8 @@ import { Record, Map } from 'immutable'
  * @property {string} hash      Hash of current version
  * @property {string} prev      Previous version hash
  * @property {object} tags      Map of key-value pairs
+ * @property {array}  relations Array of relation `uuid`s this is a member of
+ * @property {array}  ways      Array of way `uuid`s
  */
 const OsmElement = Record({
   id: undefined,
@@ -32,6 +34,8 @@ const OsmElement = Record({
   user_uuid: undefined,
   hash: undefined,
   prev: undefined,
-  tags: undefined
+  tags: Record({}),
+  relations: [],
+  ways: []
 })
 
