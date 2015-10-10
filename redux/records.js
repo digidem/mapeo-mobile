@@ -20,6 +20,7 @@ import { Record, Map } from 'immutable'
  * @property {object} tags      Map of key-value pairs
  * @property {array}  relations Array of relation `uuid`s this is a member of
  * @property {array}  ways      Array of way `uuid`s
+ * @property {string} role      One of `observation`, `place`, `event`
  */
 const OsmElement = Record({
   id: undefined,
