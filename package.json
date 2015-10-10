@@ -12,13 +12,6 @@
   "browserify": {
     "transform": [
       "envify",
-      [
-        "reactify",
-        {
-          "stripTypes": true
-        }
-      ],
-      "uglifyify",
       "babelify"
     ]
   },
