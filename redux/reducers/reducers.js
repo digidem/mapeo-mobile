@@ -17,7 +17,8 @@ export let observations = (state = observationsInitialState, action = {}) => {
       return state.push(Immutable.Map({
         text: action.data.text,
         lat: action.data.lat,
-        lng: action.data.lng
+        lng: action.data.lng,
+        _id: action.data._id
       }))
     default:
       return state
@@ -32,7 +33,8 @@ export let events = (state = eventsInitialState, action = {}) => {
       return state.push(Immutable.Map({
         text: action.data.text,
         lat: action.data.lat,
-        lng: action.data.lng
+        lng: action.data.lng,
+        _id: action.data._id
       }))
     default:
       return state
@@ -47,7 +49,8 @@ export let places = (state = placesInitialState, action = {}) => {
       return state.push(Immutable.Map({
         text: action.data.text,
         lat: action.data.lat,
-        lng: action.data.lng
+        lng: action.data.lng,
+        _id: action.data._id
       }))
     default:
       return state

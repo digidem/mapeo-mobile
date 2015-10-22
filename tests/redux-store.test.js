@@ -17,7 +17,8 @@ test('Store testing', function (t) {
   store.dispatch(actions.placeAdd(
     'casa do Pai Tomás',
     -23.73454,
-    -47.987
+    -47.987,
+    1
   ))
 
   const firstActionResult = Immutable.fromJS({
@@ -26,7 +27,8 @@ test('Store testing', function (t) {
     places: [{
       text: 'casa do Pai Tomás',
       lat: -23.73454,
-      lng: -47.987
+      lng: -47.987,
+      _id: 1
     }]
   })
   t.ok(Immutable.is(store.getState(), firstActionResult), 'First place added')
@@ -37,12 +39,14 @@ test('Store testing', function (t) {
   store.dispatch(actions.eventAdd(
     'Burning Man Festival 2016',
     -23.73454,
-    -47.987
+    -47.987,
+    2
   ))
   const secondActionResult = firstActionResult.updateIn(['events'], obs => obs.push(Immutable.Map({
     text: 'Burning Man Festival 2016',
     lat: -23.73454,
-    lng: -47.987
+    lng: -47.987,
+    _id: 2
   })))
 
   t.ok(Immutable.is(store.getState(), secondActionResult), 'First event added')
@@ -53,12 +57,14 @@ test('Store testing', function (t) {
   store.dispatch(actions.observationAdd(
     'The Festival is crazy, yo!',
     -23.73454,
-    -47.987
+    -47.987,
+    3
   ))
   const thirdActionResult = secondActionResult.updateIn(['observations'], obs => obs.push(Immutable.Map({
     text: 'The Festival is crazy, yo!',
     lat: -23.73454,
-    lng: -47.987
+    lng: -47.987,
+    _id: 3
   })))
 
   t.ok(Immutable.is(store.getState(), thirdActionResult), 'First observation added')
@@ -70,12 +76,14 @@ test('Store testing', function (t) {
   store.dispatch(actions.observationAdd(
     'I am yet to see somethin as crazy as here',
     -23.73454,
-    -47.987
+    -47.987,
+    4
   ))
   const fourthActionResult = thirdActionResult.updateIn(['observations'], obs => obs.push(Immutable.Map({
     text: 'I am yet to see somethin as crazy as here',
     lat: -23.73454,
-    lng: -47.987
+    lng: -47.987,
+    _id: 4
   })))
   t.ok(Immutable.is(store.getState(), fourthActionResult), 'second observation added')
 })
