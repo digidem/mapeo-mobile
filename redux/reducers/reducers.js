@@ -1,13 +1,7 @@
 import Immutable from 'immutable'
-import { OBSERVATION_ADD, EVENT_ADD, PLACE_ADD } from '../actions/actionTypes'
-
-// CONSTRUCT = () => {
-//   return Immutable.fromJS({
-//     observations: [],
-//     events: [],
-//     places: []
-//   })
-// }
+import { OBSERVATION_ADD, OBSERVATION_REMOVE,
+         EVENT_ADD, EVENT_REMOVE,
+         PLACE_ADD, PLACE_REMOVE } from '../actions/actionTypes'
 
 const observationsInitialState = Immutable.List()
 
@@ -20,6 +14,8 @@ export let observations = (state = observationsInitialState, action = {}) => {
         lng: action.data.lng,
         _id: action.data._id
       }))
+    case OBSERVATION_REMOVE:
+      return state.filter(x => x.get('_id') !== action.data._id)
     default:
       return state
   }
@@ -36,6 +32,8 @@ export let events = (state = eventsInitialState, action = {}) => {
         lng: action.data.lng,
         _id: action.data._id
       }))
+    case EVENT_REMOVE:
+      return state.filter(x => x.get('_id') !== action.data._id)
     default:
       return state
   }
@@ -52,6 +50,8 @@ export let places = (state = placesInitialState, action = {}) => {
         lng: action.data.lng,
         _id: action.data._id
       }))
+    case PLACE_REMOVE:
+      return state.filter(x => x.get('_id') !== action.data._id)
     default:
       return state
   }

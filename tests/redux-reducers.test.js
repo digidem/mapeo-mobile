@@ -6,12 +6,12 @@ var equal = require('deep-equal')
 import uuid from 'uuid'
 
 test('Places reducer', function (t) {
-  t.plan(2)
+  t.plan(4)
 
   t.deepEqual(reducers.places(undefined, {}), Immutable.List(), 'Places Reducer returns an empty list as default')
 
   let test_id = uuid.v1()
-  let firstPlace = actions.placeAdd(
+  let placeAddAction = actions.placeAdd(
     'casa do Pai Tomás',
     -23.73454,
     -47.987,
@@ -26,25 +26,33 @@ test('Places reducer', function (t) {
       _id: test_id
     }
   ])
-  console.log(reducers.places(undefined, firstPlace))
+  console.log(reducers.places(undefined, placeAddAction))
   console.log(firstState)
-  console.log('É igual pelo immutable?' + Immutable.is(reducers.places(undefined, firstPlace), firstState))
-  console.log('É igual pelo equals?' + equal(reducers.places(undefined, firstPlace), firstState), {strict: true})
-  t.deepEqual(reducers.places(undefined, firstPlace).toJS(), firstState.toJS(), 'Reducer handdles PLACE_ADD')
+  console.log('É igual pelo immutable?' + Immutable.is(reducers.places(undefined, placeAddAction), firstState))
+  console.log('É igual pelo equals?' + equal(reducers.places(undefined, placeAddAction), firstState), {strict: true})
+  t.deepEqual(reducers.places(undefined, placeAddAction).toJS(), firstState.toJS(), 'Reducer handdles PLACE_ADD')
+
+  let placeRemoveAction = actions.placeRemove(test_id)
+  t.deepEqual(reducers.places(undefined, placeRemoveAction), Immutable.List(), 'Reducer handles PLACE_REMOVE on empty state')
+
+  let composedReducerState = reducers.places(reducers.places(undefined, placeAddAction), placeRemoveAction)
+  t.deepEqual(composedReducerState, Immutable.List(), 'Composition of adding action and removing action works')
 })
 
 test('Events reducer', function (t) {
-  t.plan(2)
+  t.plan(4)
 
   t.deepEqual(reducers.events(undefined, {}), Immutable.List(), 'Events Reducer returns an empty list as default')
 
   let test_id = uuid.v1()
-  let firstEvent = actions.eventAdd(
+  let eventAddAction = actions.eventAdd(
     'casa do Pai Tomás',
     -23.73454,
     -47.987,
     test_id
   )
+
+  let eventRemoveAction = actions.eventRemove(test_id)
 
   let firstState = Immutable.fromJS([
     {
@@ -54,21 +62,29 @@ test('Events reducer', function (t) {
       _id: test_id
     }
   ])
-  t.deepEqual(reducers.events(undefined, firstEvent).toJS(), firstState.toJS(), 'Reducer handdles EVENT_ADD')
+  t.deepEqual(reducers.events(undefined, eventAddAction).toJS(), firstState.toJS(), 'Reducer handdles EVENT_ADD')
+
+  t.deepEqual(reducers.events(undefined, eventRemoveAction), Immutable.List(), 'Reducer handles EVENT_REMOVE on empty state')
+
+  let composedReducerState = reducers.events(reducers.events(undefined, eventAddAction), eventRemoveAction)
+
+  t.deepEqual(composedReducerState, Immutable.List(), 'Composition of adding action and removing action works')
 })
 
 test('Observations reducer', function (t) {
-  t.plan(2)
+  t.plan(4)
 
   t.deepEqual(reducers.observations(undefined, {}), Immutable.List(), 'Observations Reducer returns an empty list as default')
 
   let test_id = uuid.v1()
-  let firstEvent = actions.observationAdd(
+  let observationAddAction = actions.observationAdd(
     'casa do Pai Tomás',
     -23.73454,
     -47.987,
     test_id
   )
+
+  let observationRemoveAction = actions.observationRemove(test_id)
 
   let firstState = Immutable.fromJS([
     {
@@ -78,5 +94,11 @@ test('Observations reducer', function (t) {
       _id: test_id
     }
   ])
-  t.deepEqual(reducers.observations(undefined, firstEvent).toJS(), firstState.toJS(), 'Reducer handdles OBSERVATION_ADD')
+  t.deepEqual(reducers.observations(undefined, observationAddAction).toJS(), firstState.toJS(), 'Reducer handdles OBSERVATION_ADD')
+
+  t.deepEqual(reducers.observations(undefined, observationRemoveAction), Immutable.List(), 'Reducer handles OBSERVATION_REMOVE on empty state')
+
+  let composedReducerState = reducers.observations(reducers.events(undefined, observationAddAction), observationRemoveAction)
+
+  t.deepEqual(composedReducerState, Immutable.List(), 'Composition of adding action and removing action works')
 })

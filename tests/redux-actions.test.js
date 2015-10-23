@@ -21,6 +21,18 @@ test('Action to add place', function (t) {
   t.deepEqual(actions.placeAdd(text, lat, lng, _id), expected_action, 'Add Place Action OK')
 })
 
+test('Action to remove place', function (t) {
+  t.plan(1)
+  const _id = uuid.v1()
+  const expected_action = {
+    type: types.PLACE_REMOVE,
+    data: {
+      _id: _id
+    }
+  }
+  t.deepEqual(actions.placeRemove(_id), expected_action, 'Remove Place Action OK')
+})
+
 test('Action to add event', function (t) {
   t.plan(1)
   const text = 'Weird oil spill'
@@ -39,6 +51,18 @@ test('Action to add event', function (t) {
   t.deepEqual(actions.eventAdd(text, lat, lng, _id), expected_action, 'Add Event Action OK')
 })
 
+test('Action to remove event', function (t) {
+  t.plan(1)
+  const _id = uuid.v1()
+  const expected_action = {
+    type: types.EVENT_REMOVE,
+    data: {
+      _id: _id
+    }
+  }
+  t.deepEqual(actions.eventRemove(_id), expected_action, 'Remove Event Action OK')
+})
+
 test('Action to add observation', function (t) {
   t.plan(1)
   const text = 'Maan, this spill is ugly'
@@ -55,4 +79,16 @@ test('Action to add observation', function (t) {
     }
   }
   t.deepEqual(actions.observationAdd(text, lat, lng, _id), expected_action, 'Add Observation Action OK')
+})
+
+test('Action to remove observation', function (t) {
+  t.plan(1)
+  const _id = uuid.v1()
+  const expected_action = {
+    type: types.OBSERVATION_REMOVE,
+    data: {
+      _id: _id
+    }
+  }
+  t.deepEqual(actions.observationRemove(_id), expected_action, 'Remove Observation Action OK')
 })
