@@ -1,11 +1,14 @@
 /* Observation actions */
 export const OBSERVATION_ADD = 'OBSERVATION_ADD'
-const OBSERVATION_REMOVE = 'OBSERVATION_REMOVE'
+export const OBSERVATION_EDIT = 'OBSERVATION_EDIT'
+export const OBSERVATION_REMOVE = 'OBSERVATION_REMOVE'
 
 /* Event actions */
 export const EVENT_ADD = 'EVENT_ADD'
-const EVENT_REMOVE = 'EVENT_REMOVE'
+export const EVENT_EDIT = 'EVENT_EDIT'
+export const EVENT_REMOVE = 'EVENT_REMOVE'
 
 /* Place actions */
 export const PLACE_ADD = 'PLACE_ADD'
-const PLACE_REMOVE = 'PLACE_REMOVE'
+export const PLACE_EDIT = 'PLACE_EDIT'
+export const PLACE_REMOVE = 'PLACE_REMOVE'
