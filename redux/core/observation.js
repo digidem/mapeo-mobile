@@ -14,7 +14,7 @@ Observation.prototype = Object.create(Entity.prototype)
 
 _.extend(Observation.prototype, {
   type: 'observation',
-  nodeId: null,
+  link: null,
 
   extent: function () {
     return new geo.Extent(this.loc)
@@ -30,12 +30,12 @@ _.extend(Observation.prototype, {
     return this.update({loc: loc})
   },
 
-  linkNode: function (id) {
-    return this.update({nodeId: id})
+  setLink: function (id) {
+    return this.update({link: id})
   },
 
-  unLinkNode: function () {
-    return this.update({nodeId: null})
+  removeLink: function () {
+    return this.setLink(null)
   },
 
   asJXON: function (changeset_id) {
@@ -45,7 +45,7 @@ _.extend(Observation.prototype, {
         '@lon': this.loc[0],
         '@lat': this.loc[1],
         '@version': (this.version || 0),
-        '@nodeId': this.node,
+        'link': { keyAttributes: { type: this.link.type, ref: Entity.id.toOSM(this.link.id) } },
         tag: _.map(this.tags, function (v, k) {
           return { keyAttributes: { k: k, v: v } }
         })

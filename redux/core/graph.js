@@ -258,16 +258,16 @@ Graph.prototype = {
       }
     } else if (type === 'observation') {
       // Update observations
-      let toRemove = oldentity && oldentity.nodeId
-      let toAdd = entity && entity.nodeId
+      let toRemove = oldentity && oldentity.link
+      let toAdd = entity && entity.link
 
       if (toRemove) {
-        observations[toRemove] = _.without(observations[toRemove], oldentity.id)
+        observations[toRemove.id] = _.without(observations[toRemove.id], oldentity.id)
       }
       if (toAdd) {
-        let addedObservations = _.without(observations[toAdd], entity.id)
+        let addedObservations = _.without(observations[toAdd.id], entity.id)
         addedObservations.push(entity.id)
-        observations[toAdd] = addedObservations
+        observations[toAdd.id] = addedObservations
       }
     }
   },
