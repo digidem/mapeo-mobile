@@ -4,6 +4,7 @@ import d3 from '../../lib/d3'
 import Entity from './entity'
 
 // TODO: how to implement / do we need this?
+// areaKeys will be needed for rendering a map with areas
 const oneWayTags = {}
 const areaKeys = {}
 
