@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import geo from 'id-geo'
+import deepEqual from 'deep-equal'
 import Entity from './entity'
 
 const Observation = Entity.observation = function () {
@@ -20,22 +21,17 @@ _.extend(Observation.prototype, {
     return new geo.Extent(this.loc)
   },
 
-  geometry: function (graph) {
-    return graph.transient(this, 'geometry', function () {
-      return 'point'
-    })
-  },
-
   move: function (loc) {
     return this.update({loc: loc})
   },
 
-  setLink: function (id) {
-    return this.update({link: id})
+  setLink: function (link) {
+    if (deepEqual(link, this.link)) return this
+    return this.update({link: link})
   },
 
   removeLink: function () {
-    return this.setLink(null)
+    return this.update({link: null})
   },
 
   asJXON: function (changeset_id) {
@@ -45,11 +41,18 @@ _.extend(Observation.prototype, {
         '@lon': this.loc[0],
         '@lat': this.loc[1],
         '@version': (this.version || 0),
-        'link': { keyAttributes: { type: this.link.type, ref: Entity.id.toOSM(this.link.id) } },
         tag: _.map(this.tags, function (v, k) {
           return { keyAttributes: { k: k, v: v } }
         })
       }
+    }
+    if (this.link) {
+      r.observation.link = [{
+        keyAttributes: {
+          type: this.link.type,
+          ref: Entity.id.toOSM(this.link.id)
+        }
+      }]
     }
     if (changeset_id) r.observation['@changeset'] = changeset_id
     return r
