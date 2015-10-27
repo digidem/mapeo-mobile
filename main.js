@@ -1,26 +1,31 @@
-/* @flow */
-var React = require('react')
 
-var App = React.createClass({
-  getInitialState: function () { return { n: 0 } },
-  render: function () {
-    if (process.env.NODE_ENV === 'development') {
-      this.state.isItDev = "yadda é desenvolvimento"
-    }
-     else {
-       this.state.isItDev = 'não é desenvolvimento'
-     }
-    return <div>
-      <h1>clicked {this.state.n} times</h1>
-      <h2>E então: {this.state.isItDev}</h2>
-      <button onClick={this.handleClick}>Me clica!</button>
-    </div>
-  },
-  handleClick: function () {
-    this.setState({ n: this.state.n + 1 })
+import React, { Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom'
+import store from './redux/store'
+import App from './components/app'
+
+import { ReduxRouter } from 'redux-router'
+
+import { Route, Link } from 'react-router'
+import { Provider, connect } from 'react-redux'
+import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'
+
+class Root extends Component {
+  render () {
+    return (
+      <div>
+        <Provider store={store}>
+          <ReduxRouter>
+            <Route path='/' component={App}>
+            </Route>
+          </ReduxRouter>
+        </Provider>
+        <DebugPanel top right bottom>
+          <DevTools store={store} monitor={LogMonitor} />
+        </DebugPanel>
+      </div>
+    )
   }
-})
-React.render(<App />, document.querySelector('#content'))
+}
 
-
-console.log(process.env.NODE_ENV)
+ReactDOM.render(<Root />, document.getElementById('root'))
