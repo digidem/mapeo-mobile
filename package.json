@@ -28,10 +28,12 @@
     "test-browser": "browserify test/*.js | testlingify"
   },
   "dependencies": {
+    "camelcase": "^1.2.1",
     "id-core": "^1.0.0-alpha1",
     "id-geo": "^1.0.0-alpha1",
     "immutable": "^3.7.5",
     "immutable-js": "^0.3.1-6",
+    "keymirror": "^0.1.1",
     "ramda": "^0.17.1",
     "react": "^0.14.0-rc1",
     "react-dom": "^0.14.0-rc1",
