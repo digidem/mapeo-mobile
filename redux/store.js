@@ -3,7 +3,7 @@ import { combineReducers } from 'redux-immutablejs'
 import thunk from 'redux-thunk'
 import promise from 'redux-promise'
 import createLogger from 'redux-logger'
-import * as reducers from './reducers/reducers'
+import * as reducers from './reducers'
 
 const reducer = combineReducers(reducers)
 
