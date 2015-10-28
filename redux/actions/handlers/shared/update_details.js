@@ -7,9 +7,12 @@
  * @param {string} options.entityId Id of entity to update
  * @param {Object} options.tags     Shallow object of keys/values to set.
  */
-export default function UpdateDetails ({ entityId, tags }) {
+export default function UpdateDetails ({ entityId, tags = {} } = {}) {
   return function (graph) {
     var entity = graph.entity(entityId)
+    if (!entity) {
+      throw new Error('entity id:%s not found', entityId)
+    }
     return graph.replace(entity.update({tags: tags}))
   }
 }

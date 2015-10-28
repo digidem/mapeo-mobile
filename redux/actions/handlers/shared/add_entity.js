@@ -1,3 +1,7 @@
+import { Node, Way, Observation } from '../../../core'
+
+const validTypes = [Node, Way, Observation]
+
 /**
  * Adds an entity to the graph
  * @param  {Node|Way|Observation} entity Entity to add to graph
@@ -5,6 +9,9 @@
  */
 export default function AddEntity (entity) {
   return function (graph) {
+    if (validTypes.indexOf(typeof entity) === -1) {
+      throw new Error('entity must be a Node, Way or Observation')
+    }
     return graph.replace(entity)
   }
 }

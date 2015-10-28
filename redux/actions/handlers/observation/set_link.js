@@ -1,25 +1,20 @@
-import Noop from '../shared/noop'
-
 /**
  * Links an observation to an event or place.
  * @param {string} options.entityId Id of the observation to be linked
  * @param {Object} options.linkId Id of the entity to be linked
  */
 export default function ObservationSetLink ({ entityId, linkId }) {
-  if (!linkId) {
-    console.log('missing link id')
-    return Noop()
-  }
   return function (graph) {
     const entity = graph.entity(entityId)
-    if (entity.type !== 'observation') {
-      console.log('setLink only works on observations')
-      return graph
+    if (!entity || entity.type !== 'observation') {
+      throw new Error('observation id:%s not found', entityId)
     }
     const linkedEntity = graph.entity(linkId)
     if (!linkedEntity) {
-      console.log('linked entity Id not found on graph')
-      return graph
+      throw new Error('linked entity id:%s not found', linkId)
+    }
+    if (linkedEntity.type === 'observation') {
+      throw new Error('cannot link an observation to another observation')
     }
     return graph.replace(entity.setLink({ id: linkId, type: linkedEntity.type }))
   }
