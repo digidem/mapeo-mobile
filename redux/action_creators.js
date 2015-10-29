@@ -1,5 +1,5 @@
 import camelCase from 'camelcase'
-import actionTypes from './types'
+import actionTypes from './constants'
 
 /**
  * Makes a FSA action creator for a given type

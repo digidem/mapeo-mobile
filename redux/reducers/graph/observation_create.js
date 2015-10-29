@@ -1,6 +1,6 @@
-import AddEntity from '../shared/add_entity'
-import { Observation } from '../../../core'
-import { isValidLocation } from '../../../util/geo'
+import AddEntity from './add_entity'
+import { Observation } from '../../core'
+import { isValidLocation } from '../../util/geo'
 
 /**
  * Creates a new observation with given [optional] defaults

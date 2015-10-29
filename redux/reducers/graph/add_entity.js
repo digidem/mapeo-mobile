@@ -1,4 +1,4 @@
-import { Node, Way, Observation } from '../../../core'
+import { Node, Way, Observation } from '../../core'
 
 const validTypes = [Node, Way, Observation]
 

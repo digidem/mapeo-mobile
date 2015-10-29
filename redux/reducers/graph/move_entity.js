@@ -1,4 +1,4 @@
-import { isValidLocation } from '../../../util/geo'
+import { isValidLocation } from '../../util/geo'
 
 /**
  * Moves a entity (observation and point place or event) to a new location,
