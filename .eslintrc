@@ -1,15 +1,11 @@
 {
-    "rules": {},
+    "parser": "babel-eslint",
+    "rules": {
+      "strict": 0
+    },
     "env": {
         "es6": true,
         "browser": true
     },
-    "extends": ["standard", "standard-react"],
-    "ecmaFeatures": {
-        "jsx": true,
-        "experimentalObjectRestSpread": true
-    },
-    "plugins": [
-        "react"
-    ]
+    "extends": ["standard", "standard-react"]
 }
