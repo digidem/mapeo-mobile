@@ -20,8 +20,7 @@
     "build": "NODE_ENV=production browserify main.js | uglifyjs -cm > dist/bundle.js",
     "flow": "flow check",
     "lint": "standard",
-    "start": "NODE_ENV=development budo main.js -- -t babelify -p livereactload | garnish",
-    "start-a-new": "NODE_ENV=development budo main.js --  | garnish",
+    "start": "NODE_ENV=development budo main.js -- -p livereactload | garnish",
     "test": "babel-tape-runner tape tests/*.test.js | tap-nyan",
     "test-browser": "browserify test/*.js | testlingify"
   },
