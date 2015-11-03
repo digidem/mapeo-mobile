@@ -134,7 +134,14 @@ test('#isUsed', function (t) {
 
   node = Node()
   var observation = Observation({nodeId: node.id})
-  graph = Graph([node, observation])
+  var little_way = Way({nodes: [node.id]})
+  //graph = Graph([node, observation])
+  graph = Graph()
+  graph.load([node, observation, little_way])
+  console.log('=====================')
+  console.dir(node)
+  console.dir(graph)
+  console.log('little_way.isUsed(graph) = ' + little_way.isUsed(graph))
   t.true(node.isUsed(graph), 'returns true for an entity that has an observation')
 
   t.end()

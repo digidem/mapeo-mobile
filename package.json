@@ -21,6 +21,7 @@
   "scripts": {
     "boring-test": "babel-tape-runner tape tests/*.test.js | tap-spec",
     "build": "NODE_ENV=production browserify main.js | uglifyjs -cm > dist/bundle.js",
+    "debug-test": "babel-tape-runner tape tests/*.test.js | tap-bail | tap-spec",
     "flow": "flow check",
     "lint": "standard",
     "start": "NODE_ENV=development budo main.js -- -p livereactload | garnish",
