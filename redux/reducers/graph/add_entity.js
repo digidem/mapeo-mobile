@@ -9,7 +9,7 @@ const validTypes = [Node, Way, Observation]
  */
 export default function AddEntity (entity) {
   return function (graph) {
-    if (validTypes.indexOf(typeof entity) === -1) {
+    if (validTypes.filter(x => entity instanceof x) === []) {
       throw new Error('entity must be a Node, Way or Observation')
     }
     return graph.replace(entity)
