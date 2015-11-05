@@ -133,7 +133,7 @@ test('#isUsed', function (t) {
   t.false(node.isUsed(graph), 'returns false for an entity with only an area=yes tag')
 
   node = Node()
-  var observation = Observation({nodeId: node.id})
+  var observation = Observation({link: {id: node.id}})
   var little_way = Way({nodes: [node.id]})
   //graph = Graph([node, observation])
   graph = Graph()
