@@ -1,20 +1,29 @@
-import { createStore, applyMiddleware } from 'redux'
-import { combineReducers } from 'redux-immutablejs'
+
+import { reduxReactRouter, routerStateReducer } from 'redux-router'
+import { createHistory } from 'history'
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+// import { combineReducers } from 'redux-immutablejs'
 import thunk from 'redux-thunk'
-import promise from 'redux-promise'
-import createLogger from 'redux-logger'
 import catchErrors from './middleware/catch_errors'
-import * as reducers from './reducers'
+import * as reducers from './reducers/reducers'
+// For tap events to work with Material UI
+import { devTools } from 'redux-devtools'
 
-const reducer = combineReducers(reducers)
+const reducer = combineReducers({
+  router: routerStateReducer,
+  ...reducers})
 
-// If we are developing, we apply logger middleware
-let createStoreWithMiddleware
+let store
 if (process.env.NODE_ENV === 'development') {
-  const logger = createLogger({ logger: logger || console })
-  createStoreWithMiddleware = applyMiddleware(thunk, promise, logger)(createStore)
+  store = compose(
+    reduxReactRouter({createHistory}),
+    devTools()
+  )(createStore)(reducer)
 } else {
-  createStoreWithMiddleware = applyMiddleware(thunk, catchErrors)(createStore)
+  store = compose(
+    applyMiddleware(thunk, catchErrors),
+    reduxReactRouter({createHistory}),
+  )(createStore)(reducer)
 }
-const store = createStoreWithMiddleware(reducer)
+
 export default store
