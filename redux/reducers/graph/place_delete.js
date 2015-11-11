@@ -1,4 +1,6 @@
 import invariant from 'invariant'
+import deleteNode from './delete_node'
+import deleteWay from './delete_way'
 
 /**
  * Deletes a place
@@ -9,8 +11,13 @@ export default function PlaceDelete (placeId) {
   return function (graph) {
     const entity = graph.entity(placeId)
     invariant(!!entity, 'Place id:%s not found', placeId)
-    const isPlace = entity.type === 'node' || entity.type === 'way'
-    invariant(isPlace, 'Entity id:%s is not a place', placeId)
-    return graph.remove(entity)
+
+    if (entity.type === 'node') {
+      return deleteNode(entity)
+    } else if (entity.type === 'way') {
+      return deleteWay(entity)
+    } else {
+      invariant(false, 'Entity id:%s is not a place', placeId)
+    }
   }
 }
