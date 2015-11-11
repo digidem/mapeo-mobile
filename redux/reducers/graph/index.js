@@ -1,8 +1,7 @@
+import invariant from 'invariant'
 import { Graph } from '../../core'
-import observationCreate from './observation_create'
+import observationSave from './observation_save'
 import observationDelete from './observation_delete'
-import observationSetLink from './observation_set_link'
-import updateDetails from './update_details'
 import actionTypes from './constants'
 
 /**
@@ -14,18 +13,14 @@ import actionTypes from './constants'
  * @return {Graph} A new Graph object with actions applied
  */
 export default function graph (state = Graph(), {actionType, payload} = {}) {
+  invariant(state instanceof Graph, 'State should be instance of Graph')
+
   switch (actionType) {
-    case actionTypes.OBSERVATION_CREATE:
-      return observationCreate(payload)(state)
+    case actionTypes.OBSERVATION_SAVE:
+      return observationSave(payload)(state)
 
     case actionTypes.OBSERVATION_DELETE:
       return observationDelete(payload)(state)
-
-    case actionTypes.OBSERVATION_SET_LINK:
-      return observationSetLink(payload)(state)
-
-    case actionTypes.OBSERVATION_UPDATE_DETAILS:
-      return updateDetails(payload)(state)
 
     default:
       return state

@@ -34,6 +34,7 @@
     "id-geo": "^1.0.0-alpha1",
     "immutable": "^3.7.5",
     "immutable-js": "^0.3.1-6",
+    "invariant": "^2.1.2",
     "keymirror": "^0.1.1",
     "ramda": "^0.17.1",
     "react": "^0.14.0-rc1",
