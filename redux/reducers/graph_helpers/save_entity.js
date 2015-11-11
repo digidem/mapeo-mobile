@@ -20,7 +20,7 @@ const VALID_KINDS = ['observation', 'event', 'place']
  * @param {Object} [options.details] Object of key-value pairs, maps to OSM tags
  * @param {Object} [options.media]   Details of any attached media
  * @param {String} options.media.id  Unique identifier for media file (required if `options.media`)
- * @param {String} options.media.type One of `photo`, `video`, `audio` (required if `options.media`)
+ * @param {String} options.media.type One of `image`, `video`, `audio` (required if `options.media`)
  * @param {String} options.kind      One of `observation`, `event`, `place`
  * @return {function} Accepts a Graph and returns new Graph with entity added/updated
  */
@@ -41,12 +41,18 @@ export default function EntitySave ({
   const isValidKind = VALID_KINDS.indexOf(kind) > -1
   invariant(isValidKind, '%s is not a valid kind of entity', kind)
 
+  let mediaTags
+  let gpsTags
   // TODO: need to define a URI format for media ids - we are using a hash
   // for any media, so filenames will be unique. The URI should point to
   // a persistant store, that works online or offline.
-  const mediaTags = prefixTags(media, {prefix: media.type, blacklist: ['id', 'type']})
-  mediaTags[media.type + ':uri'] = media.id
-  const gpsTags = prefixTags(gps, {prefix: 'gps', blacklist: ['loc']})
+  if (media) {
+    mediaTags = prefixTags(media, {prefix: media.type, blacklist: ['id', 'type']})
+    mediaTags[media.type + ':uri'] = media.id
+  }
+  if (gps) {
+    gpsTags = prefixTags(gps, {prefix: 'gps', blacklist: ['loc']})
+  }
 
   const attrs = {
     link,
