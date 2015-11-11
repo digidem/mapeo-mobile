@@ -4,6 +4,7 @@ import { createHistory } from 'history'
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 // import { combineReducers } from 'redux-immutablejs'
 import thunk from 'redux-thunk'
+import catchErrors from './middleware/catch_errors'
 import * as reducers from './reducers/reducers'
 // For tap events to work with Material UI
 import { devTools } from 'redux-devtools'
@@ -20,7 +21,7 @@ if (process.env.NODE_ENV === 'development') {
   )(createStore)(reducer)
 } else {
   store = compose(
-    applyMiddleware(thunk),
+    applyMiddleware(thunk, catchErrors),
     reduxReactRouter({createHistory}),
   )(createStore)(reducer)
 }

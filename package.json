@@ -21,6 +21,7 @@
   "scripts": {
     "boring-test": "babel-tape-runner tape tests/*.test.js | tap-spec",
     "build": "NODE_ENV=production browserify main.js | uglifyjs -cm > dist/bundle.js",
+    "debug-test": "babel-tape-runner tape tests/*.test.js | tap-bail | tap-spec",
     "flow": "flow check",
     "lint": "standard",
     "start": "NODE_ENV=development budo main.js -- -p livereactload | garnish",
@@ -28,11 +29,14 @@
     "test-browser": "browserify test/*.js | testlingify"
   },
   "dependencies": {
+    "camelcase": "^1.2.1",
     "history": "^1.12.6",
     "id-core": "^1.0.0-alpha1",
     "id-geo": "^1.0.0-alpha1",
     "immutable": "^3.7.5",
     "immutable-js": "^0.3.1-6",
+    "invariant": "^2.1.2",
+    "keymirror": "^0.1.1",
     "material-ui": "^0.13.1",
     "ramda": "^0.17.1",
     "react": "^0.14.0",
@@ -71,6 +75,7 @@
     "eslint-plugin-standard": "^1.3.1",
     "garnish": "^3.2.1",
     "livereactload": "^2.0.5",
+    "proxyquire": "^1.7.3",
     "react-proxy": "^1.1.1",
     "reactify": "^1.1.1",
     "redux-devtools": "^2.1.5",
