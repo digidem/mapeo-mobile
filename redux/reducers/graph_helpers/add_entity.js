@@ -1,5 +1,5 @@
+import invariant from 'invariant'
 import { Node, Way, Observation } from '../../core'
-
 const validTypes = [Node, Way, Observation]
 
 /**
@@ -9,9 +9,8 @@ const validTypes = [Node, Way, Observation]
  */
 export default function AddEntity (entity) {
   return function (graph) {
-    if (validTypes.indexOf(typeof entity) === -1) {
-      throw new Error('entity must be a Node, Way or Observation')
-    }
+    const isValidType = validTypes.filter(x => entity instanceof x).length
+    invariant(isValidType, 'entity must be a Node, Way or Observation')
     return graph.replace(entity)
   }
 }

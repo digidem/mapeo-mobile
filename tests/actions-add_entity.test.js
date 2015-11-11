@@ -1,9 +1,23 @@
 import test from 'tape'
-import { Entity, Graph } from '../redux/core'
-import AddEntity from '../redux/actions/handers/shared/add_entity'
+import { Entity, Graph, Node } from '../redux/core'
+import AddEntity from '../redux/reducers/graph_helpers/add_entity'
 
-test('actions/handlers/shared/AddEntity', function (t) {
-  var entity = Entity()
+test('AddEntity, adding a dumb entity of type node', function (t) {
+  t.plan(1)
+  var entity = Entity({type: 'node'})
   var graph = AddEntity(entity)(Graph())
-  t.equal(graph.entity(entity.id), entity, 'adds an entity to the graph')
+  t.equal(graph.entity(entity.id), entity, 'adds a dumb entity to the graph')
+})
+
+test('AddEntity, adding a node should work', function (t) {
+  t.plan(1)
+  var entity = Node()
+  var graph = AddEntity(entity)(Graph())
+  t.equal(graph.entity(entity.id), entity, 'adds an node entity to the graph')
+})
+
+test('AddEntity, adding an observation entity, should fail', function (t) {
+  t.plan(1)
+  var entity = Entity({type: 'observation'})
+  t.throws(AddEntity(entity)(Graph()), 'adding an observation won\'t work')
 })
