@@ -9,15 +9,15 @@ import deleteEntity from './graph_helpers/delete_entity'
  * (places, events, observations) are stored. Based on the action.type
  * it calls the relevant action handler if it exists.
  * @param  {Graph} state A Graph object
- * @param  {String} options.actionType Action identifier
+ * @param  {String} options.type Action identifier
  * @param  {Object} options.payload    Payload for action
  * @return {Graph} A new Graph object with actions applied
  */
-export default function graph (state = Graph(), {actionType, payload = {}} = {}) {
+export default function graph (state = Graph(), {type, payload = {}} = {}) {
   invariant(state instanceof Graph, 'State should be instance of Graph')
 
   let attrs
-  switch (actionType) {
+  switch (type) {
     case actionTypes.OBSERVATION_SAVE:
       attrs = Object.assign({}, payload, {kind: 'observation'})
       return saveEntity(attrs)(state)

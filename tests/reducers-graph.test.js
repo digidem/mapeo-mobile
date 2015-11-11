@@ -22,8 +22,7 @@ test('Type checking', function (t) {
   t.end()
 })
 
-// TODO: Cannot for the life of me get mocking / proxyquire to work with ES6 modules.
-test.skip('Save actions', function (t) {
+test('Save actions', function (t) {
   const testPayload = {
     some: 'attrs'
   }
@@ -39,17 +38,16 @@ test.skip('Save actions', function (t) {
   for (let kind in saveActions) {
     let expectedResult = {
       callee: 'save_entity',
-      args1: [graph],
-      args2: [Object.assign({}, testPayload, {kind: kind})]
+      args1: [Object.assign({}, testPayload, {kind: kind})],
+      args2: [graph]
     }
-    t.deepEqual(graphReducer(graph, saveActions[kind]), expectedResult, saveActions[kind].actionType + ' calls saveEntity() with expected arguments')
+    t.deepEqual(graphReducer(graph, saveActions[kind]), expectedResult, saveActions[kind].type + ' calls saveEntity() with expected arguments')
   }
 
   t.end()
 })
 
-// TODO: Cannot for the life of me get mocking / proxyquire to work with ES6 modules.
-test.skip('Save actions', function (t) {
+test('Delete actions', function (t) {
   const testPayload = {
     id: '123456'
   }
@@ -65,10 +63,10 @@ test.skip('Save actions', function (t) {
   for (let kind in deleteActions) {
     let expectedResult = {
       callee: 'delete_entity',
-      args1: [graph],
-      args2: [testPayload.id]
+      args1: [testPayload.id],
+      args2: [graph]
     }
-    t.deepEqual(graphReducer(graph, deleteActions[kind]), expectedResult, deleteActions[kind].actionType + ' calls saveEntity() with expected arguments')
+    t.deepEqual(graphReducer(graph, deleteActions[kind]), expectedResult, deleteActions[kind].type + ' calls deleteEntity() with expected arguments')
   }
 
   t.end()
