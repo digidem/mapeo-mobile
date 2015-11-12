@@ -20,7 +20,7 @@ const style = {
 }
 
 const PhoneWrapper = (Component) => (props) => {
-  if (window.innerWidth < 500) {
+  if (window.innerWidth < 860) {
     return <Component {...props} />
   } else {
     return (
