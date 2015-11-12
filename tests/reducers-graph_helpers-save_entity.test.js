@@ -14,10 +14,14 @@ test('Save new Observation', function (t) {
   const newEntityId = Object.keys(newGraph.entities)[0]
   const newObservation = newGraph.entities[newEntityId]
   const expectedTags = Object.assign({}, attrs.details, {'reporter:kind': attrs.kind})
+  // 'survey:date' is automatically added to the tags with the current date.
+  // It's hard to test with the other tags, so we'll test it separately.
+  const newObservationTagsNoDate = Object.assign({}, newObservation.tags)
+  delete newObservationTagsNoDate['survey:date']
 
   t.true(newObservation instanceof Observation, 'Adds a new entity, instance of Observation, to Graph')
   t.equal(newObservation.loc, attrs.gps.loc, 'New Observation has assigned location')
-  t.deepEqual(newObservation.tags, expectedTags, 'Details are added as tags, kind tag is prefixed')
+  t.deepEqual(newObservationTagsNoDate, expectedTags, 'Details are added as tags, kind tag is prefixed')
   t.end()
 })
 
@@ -49,6 +53,11 @@ test('Save new Observation with GPS and media metadata', function (t) {
     'image:caption': attrs.media.caption,
     'image:cameraModel': attrs.media.cameraModel
   })
-  t.deepEqual(newObservation.tags, expectedTags, 'Expected metadata tags are prefixed and added')
+  // 'survey:date' is automatically added to the tags with the current date.
+  // It's hard to test with the other tags, so we'll test it separately.
+  const newObservationTagsNoDate = Object.assign({}, newObservation.tags)
+  delete newObservationTagsNoDate['survey:date']
+
+  t.deepEqual(newObservationTagsNoDate, expectedTags, 'Expected metadata tags are prefixed and added')
   t.end()
 })
