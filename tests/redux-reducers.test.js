@@ -1,6 +1,6 @@
 // var test = require('tape')
-// import * as actions from '../redux/actions/actions'
-// import * as reducers from '../redux/reducers/reducers'
+// import * as actions from '../src/actions/actions'
+// import * as reducers from '../src/reducers/reducers'
 // var Immutable = require('immutable')
 // var equal = require('deep-equal')
 // var uuid = require('uuid')

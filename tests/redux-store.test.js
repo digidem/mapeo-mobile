@@ -1,6 +1,6 @@
 // let test = require('tape')
-// import store from '../redux/store'
-// import * as actions from '../redux/actions/actions'
+// import store from '../src/store'
+// import * as actions from '../src/actions/actions'
 // import Immutable from 'immutable'
 //
 // test('Store testing', function (t) {

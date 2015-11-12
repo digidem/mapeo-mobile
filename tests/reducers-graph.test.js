@@ -1,7 +1,7 @@
 import proxyquire from 'proxyquire'
 import test from 'tape'
-import { Graph } from '../redux/core'
-import actionCreators from '../redux/action_creators'
+import { Graph } from '../src/core'
+import actionCreators from '../src/action_creators'
 
 const createHelperStub = (callee) => (...args1) => (...args2) => {
   return { callee, args1, args2 }
@@ -12,7 +12,7 @@ const stubs = {
   './graph_helpers/delete_entity': createHelperStub('delete_entity')
 }
 
-const graphReducer = proxyquire('../redux/reducers/graph', stubs)
+const graphReducer = proxyquire('../src/reducers/graph', stubs)
 
 test('Type checking', function (t) {
   const graph = Graph()

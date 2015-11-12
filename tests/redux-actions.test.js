@@ -1,6 +1,6 @@
 // var test = require('tape')
-// import * as actions from '../redux/actions/actions'
-// import * as types from '../redux/actions/actionTypes'
+// import * as actions from '../src/actions/actions'
+// import * as types from '../src/actions/actionTypes'
 // import uuid from 'uuid'
 //
 // test('Action to add place', function (t) {

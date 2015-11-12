@@ -1,5 +1,5 @@
 import test from 'tape'
-import { Node, Way, Graph } from '../redux/core'
+import { Node, Way, Graph } from '../src/core'
 
 test('Way', function (t) {
   // if (debug) {

@@ -1,5 +1,5 @@
 import test from 'tape'
-import { prefixTags } from '../redux/util/utils'
+import { prefixTags } from '../src/util/utils'
 
 test('Prefix Tags', function (t) {
   const obj = {

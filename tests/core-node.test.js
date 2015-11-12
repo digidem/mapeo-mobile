@@ -1,5 +1,5 @@
 import test from 'tape'
-import { Node, Way, Graph } from '../redux/core'
+import { Node, Way, Graph } from '../src/core'
 
 test('instantiation', function (t) {
   t.ok(Node() instanceof Node, 'returns instance of Node')
