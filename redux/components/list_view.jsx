@@ -1,77 +1,13 @@
 import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
 import { ListDivider } from 'material-ui/lib/lists'
 import Paper from 'material-ui/lib/paper'
+import distance from 'turf-distance'
+import Point from 'turf-point'
+
 import { ListItem } from './'
 
-const itemsFixture = [
-  {
-    title: 'Contamination',
-    date: 1447050187800,
-    distance: 10
-  },
-  {
-    title: 'Hunting Camp',
-    date: 1446940177800,
-    distance: 150
-  },
-  {
-    title: 'River',
-    date: 1446930187800,
-    distance: 700
-  },
-  {
-    title: 'Oil Spill',
-    date: 1446945187800,
-    distance: 1400
-  },
-  {
-    title: 'Contamination',
-    date: 1446830187800,
-    distance: 1410
-  },
-  {
-    title: 'Hunting Camp',
-    date: 1446735187800,
-    distance: 1500
-  },
-  {
-    title: 'River',
-    date: 1446645187800,
-    distance: 3000
-  },
-  {
-    title: 'Oil Spill',
-    date: 1446534187800,
-    distance: 3200
-  },
-  {
-    title: 'Contamination',
-    date: 1446020187800,
-    distance: 3250
-  },
-  {
-    title: 'Hunting Camp',
-    date: 1446010187800,
-    distance: 5000
-  },
-  {
-    title: 'River',
-    date: 1445845187800,
-    distance: 5100
-  },
-  {
-    title: 'Oil Spill',
-    date: 1445540187800,
-    distance: 5200
-  },
-  {
-    title: 'Contamination',
-    date: 1445430187800,
-    distance: 5220
-  }
-]
-
-const ListView = ({ items = itemsFixture, onOpen }) => (
+const ListView = ({ items = [], onOpen }) => (
   <Paper zIndex={1}>
     {items.map((item = {}, id) => (
       <div key={id}>
@@ -90,4 +26,20 @@ ListView.propTypes = {
   onOpen: PropTypes.func
 }
 
-export default ListView
+function select (state) {
+  const entities = []
+  for (let id in state.graph.entities) {
+    entities.push(state.graph.entities[id])
+  }
+  return {
+    items: entities.map(entity => {
+      return {
+        title: entity.tags['category'],
+        date: Date.parse(entity.tags['survey:date']),
+        distance: distance(Point(state.location), Point(entity.loc))
+      }
+    }).sort((a, b) => a.distance - b.distance)
+  }
+}
+
+export default connect(select)(ListView)

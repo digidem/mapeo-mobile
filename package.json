@@ -55,6 +55,8 @@
     "redux-immutablejs": "0.0.6",
     "redux-simple-router": "0.0.7",
     "redux-thunk": "^1.0.0",
+    "turf-distance": "^1.0.1",
+    "turf-point": "^2.0.1",
     "uuid": "^2.0.1",
     "watchify": "^3.4.0"
   },

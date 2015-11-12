@@ -14,6 +14,7 @@ const SummaryText = ({ distance, date, style }) => {
     distance = distance / 1000
     unit = 'km'
   }
+  distance = distance.toFixed(1)
   return (
     <div style={style}>
       <FormattedTime
