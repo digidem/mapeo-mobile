@@ -1,29 +1,31 @@
+import createBrowserHistory from 'history/lib/createBrowserHistory'
+import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
+import createLogger from 'redux-logger'
 
-import { reduxReactRouter, routerStateReducer } from 'redux-router'
-import { createHistory } from 'history'
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
-// import { combineReducers } from 'redux-immutablejs'
-import thunk from 'redux-thunk'
 import catchErrors from './middleware/catch_errors'
-import * as reducers from './reducers/reducers'
-// For tap events to work with Material UI
-import { devTools } from 'redux-devtools'
+import * as reducers from './reducers'
 
 const reducer = combineReducers({
-  router: routerStateReducer,
+  routing: routeReducer,
   ...reducers})
 
-let store
-if (process.env.NODE_ENV === 'development') {
-  store = compose(
-    reduxReactRouter({createHistory}),
-    devTools()
-  )(createStore)(reducer)
-} else {
-  store = compose(
-    applyMiddleware(thunk, catchErrors),
-    reduxReactRouter({createHistory}),
-  )(createStore)(reducer)
-}
+const logger = createLogger()
+const createStoreWithMiddleWare = applyMiddleware(logger, catchErrors)(createStore)
+const store = createStoreWithMiddleWare(reducer)
+syncReduxAndRouter(createBrowserHistory(), store)
+
+// let store
+// if (process.env.NODE_ENV === 'development') {
+//   store = compose(
+//     reduxReactRouter({createHistory}),
+//     devTools()
+//   )(createStore)(reducer)
+// } else {
+//   store = compose(
+//     applyMiddleware(thunk, catchErrors),
+//     reduxReactRouter({createHistory}),
+//   )(createStore)(reducer)
+// }
 
 export default store
