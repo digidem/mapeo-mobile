@@ -1,9 +1,9 @@
 import React from 'react'
 import Transition from 'react-motion-ui-pack'
 import Dimensions from 'react-dimensions'
+
 import PhoneWrapper from '../util/phone_wrapper'
 import Home from './home'
-
 import {
   ObservationEdit,
   EventEdit,
