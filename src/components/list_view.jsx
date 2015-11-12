@@ -47,7 +47,7 @@ function createSelector () {
         return {
           title: entity.tags['category'],
           date: Date.parse(entity.tags['survey:date']),
-          distance: distance(Point(state.location), Point(entity.loc))
+          distance: distance(Point(state.location), Point(entity.loc)) * 1000
         }
       }).sort((a, b) => a.distance - b.distance)
     }
