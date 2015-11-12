@@ -1,4 +1,4 @@
-import test from 'tape'
+import test from 'prova'
 import { Observation } from '../../src/core'
 
 test('instantiation', function (t) {

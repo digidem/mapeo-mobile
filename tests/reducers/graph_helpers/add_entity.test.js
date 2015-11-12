@@ -1,4 +1,4 @@
-import test from 'tape'
+import test from 'prova'
 import { Entity, Graph, Node } from '../../../src/core'
 import AddEntity from '../../../src/reducers/graph_helpers/add_entity'
 

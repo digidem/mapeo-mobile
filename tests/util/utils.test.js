@@ -1,4 +1,4 @@
-import test from 'tape'
+import test from 'prova'
 import { prefixTags } from '../../src/util/utils'
 
 test('Prefix Tags', function (t) {
