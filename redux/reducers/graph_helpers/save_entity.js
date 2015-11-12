@@ -64,7 +64,15 @@ export default function EntitySave ({
     return UpdateEntity(id, attrs)
   }
 
+  // We categorize events, places and observations as 'kinds'. We use a tag to store this.
+  // NB. If submitting to OSM we should strip this, and probably only keep kind = place.
   attrs.tags[TAG_NAMESPACE + 'kind'] = kind
+
+  // When creating new entities, we should always store a 'survey:date' tag. This is also used for
+  // sorting entities on the main screen.
+  if (!attrs.tags['survey:date']) {
+    attrs.tags['survey:date'] = (new Date()).toISOString()
+  }
 
   // New events and places are always Nodes - we don't have functionality to create
   // new Ways at this time.
