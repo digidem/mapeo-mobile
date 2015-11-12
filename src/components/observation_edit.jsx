@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
 import AppBar from 'material-ui/lib/app-bar'
 import IconButton from 'material-ui/lib/icon-button'
 import NavigationClose from 'material-ui/lib/svg-icons/navigation/close'
@@ -23,7 +24,7 @@ const messages = defineMessages({
   }
 })
 
-const ObservationEdit = ({ onClose, id, intl: {formatMessage}, style }) => {
+const ObservationEdit = ({ onClose, id, observation, intl: {formatMessage}, style }) => {
   const isNew = id === 'new'
   const title = isNew ? formatMessage(messages.title_new)
     : formatMessage(messages.title_existing)
@@ -35,7 +36,9 @@ const ObservationEdit = ({ onClose, id, intl: {formatMessage}, style }) => {
         title={title}
         iconElementLeft={closeIcon}
       />
-      id: {id}
+      <pre>
+      {JSON.stringify(observation, null, '  ')}
+      </pre>
     </div>
   )
 }
@@ -46,7 +49,17 @@ ObservationEdit.propTypes = {
     PropTypes.number,
     PropTypes.string
   ]).isRequired,
+  observation: PropTypes.object,
   intl: intlShape.isRequired
 }
 
-export default injectIntl(ObservationEdit)
+function select (state, ownProps) {
+  if (ownProps.id === 'new') {
+    return {}
+  }
+  return {
+    observation: state.graph.entities[ownProps.id].asJSON()
+  }
+}
+
+export default connect(select)(injectIntl(ObservationEdit))

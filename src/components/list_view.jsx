@@ -9,10 +9,10 @@ import { ListItem } from './'
 
 const ListView = ({ items = [], onOpen }) => (
   <Paper zIndex={1}>
-    {items.map((item = {}, id) => (
-      <div key={id}>
+    {items.map((item = {}) => (
+      <div key={item.id}>
         <ListItem
-          onTouchTap={e => onOpen(e, {id, type: 'observation'})}
+          onTouchTap={e => onOpen(e, {id: item.id, type: 'observation'})}
           {...item }
         />
         <ListDivider />
@@ -45,6 +45,7 @@ function createSelector () {
     cache.items = {
       items: entities.map(entity => {
         return {
+          id: entity.id,
           title: entity.tags['category'],
           date: Date.parse(entity.tags['survey:date']),
           distance: distance(Point(state.location), Point(entity.loc)) * 1000
