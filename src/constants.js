@@ -13,5 +13,8 @@ export default keymirror({
 
 /* Place actions */
   PLACE_SAVE: null,
-  PLACE_DELETE: null
+  PLACE_DELETE: null,
+
+/* Geolocation actions */
+  GEOLOCATION_UPDATE: null,
 })
