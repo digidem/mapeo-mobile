@@ -1,6 +1,6 @@
 import test from 'tape'
 import { Entity, Graph, Node } from '../redux/core'
-import AddEntity from '../redux/reducers/graph/add_entity'
+import AddEntity from '../redux/reducers/graph_helpers/add_entity'
 
 test('AddEntity, adding a dumb entity of type node', function (t) {
   t.plan(1)
