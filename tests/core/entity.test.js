@@ -1,5 +1,5 @@
 import test from 'tape'
-import { Entity, Node, Way, Observation, Graph } from '../src/core'
+import { Entity, Node, Way, Observation, Graph } from '../../src/core'
 
 test('returns a subclass of the appropriate type', function (t) {
   t.ok(Entity({type: 'node'}) instanceof Node)

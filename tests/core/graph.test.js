@@ -1,5 +1,5 @@
 import test from 'tape'
-import { Graph, Entity, Node, Way, Observation } from '../src/core'
+import { Graph, Entity, Node, Way, Observation } from '../../src/core'
 import deepEqual from 'deep-equal'
 
 // Compares two objects deeply and also compares their prototypes.

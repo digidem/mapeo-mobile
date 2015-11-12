@@ -1,6 +1,6 @@
 import test from 'tape'
-import saveEntity from '../src/reducers/graph_helpers/save_entity'
-import { Graph, Observation } from '../src/core'
+import saveEntity from '../../../src/reducers/graph_helpers/save_entity'
+import { Graph, Observation } from '../../../src/core'
 
 test('Save new Observation', function (t) {
   const graph = Graph()

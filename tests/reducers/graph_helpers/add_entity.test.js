@@ -1,6 +1,6 @@
 import test from 'tape'
-import { Entity, Graph, Node } from '../src/core'
-import AddEntity from '../src/reducers/graph_helpers/add_entity'
+import { Entity, Graph, Node } from '../../../src/core'
+import AddEntity from '../../../src/reducers/graph_helpers/add_entity'
 
 test('AddEntity, adding a dumb entity of type node', function (t) {
   t.plan(1)

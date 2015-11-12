@@ -19,14 +19,13 @@
     "parser": "babel-eslint"
   },
   "scripts": {
-    "boring-test": "babel-tape-runner tape tests/*.test.js | tap-spec",
     "build": "NODE_ENV=production browserify main.js | uglifyjs -cm > dist/bundle.js",
-    "debug-test": "babel-tape-runner tape tests/*.test.js | tap-bail | tap-spec",
-    "flow": "flow check",
-    "lint": "standard",
+    "lint": "standard ./src",
     "start": "NODE_ENV=development budo redux/index.jsx:index.js --  --extension .jsx -p livereactload | garnish",
-    "test": "babel-tape-runner tape tests/*.test.js | tap-nyan",
-    "test-browser": "browserify test/*.js | testlingify"
+    "test": "npm run lint && npm run test:tap | tap-nyan",
+    "test:tap": "babel-tape-runner tape tests/**/*.test.js",
+    "test:debug": "npm run test:tap | tap-spec",
+    "test:browser": "browserify test/*.js | testlingify"
   },
   "dependencies": {
     "camelcase": "^1.2.1",

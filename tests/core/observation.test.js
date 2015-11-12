@@ -1,5 +1,5 @@
 import test from 'tape'
-import { Observation } from '../src/core'
+import { Observation } from '../../src/core'
 
 test('instantiation', function (t) {
   t.ok(Observation() instanceof Observation, 'returns instance of Observation')
