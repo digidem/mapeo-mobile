@@ -70,6 +70,7 @@ function createSelector () {
       }
       items = entities.map(entity => {
         return {
+          id: entity.id,
           title: entity.tags['category'],
           date: Date.parse(entity.tags['survey:date']),
           distance: distance(Point(state.location.coords), Point(entity.loc)) * 1000

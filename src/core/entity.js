@@ -152,6 +152,22 @@ Entity.prototype = {
     // })
 
     return deprecated
+  },
+
+  asJSON: function () {
+    const gps = {
+      loc: this.loc && this.loc.slice()
+    }
+    const details = Object.assign({}, this.tags)
+    const media = {}
+
+    // TODO: move details props to media & gps object...
+
+    return {
+      gps,
+      media,
+      details
+    }
   }
 }
 

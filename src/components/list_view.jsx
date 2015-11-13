@@ -6,10 +6,10 @@ import { ListItem } from './'
 
 const ListView = ({ items = [], onOpen }) => (
   <Paper zIndex={1}>
-    {items.map((item = {}, id) => (
-      <div key={id}>
+    {items.map((item = {}) => (
+      <div key={item.id}>
         <ListItem
-          onTouchTap={e => onOpen(e, {id, type: 'observation'})}
+          onTouchTap={e => onOpen(e, {id: item.id, type: 'observation'})}
           {...item }
         />
         <ListDivider />
