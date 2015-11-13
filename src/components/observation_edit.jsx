@@ -58,6 +58,10 @@ const ObservationEdit = ({ onClose, id, observation, intl: {formatMessage}, styl
     : formatMessage(messages.title_existing)
   const closeIcon = <IconButton onTouchTap={onClose}><CloseIcon /></IconButton>
 
+  const LocationText = (observation)
+    ? observation.gps.loc[0].toFixed(4) + ', ' + observation.gps.loc[1].toFixed(4)
+    : 'Waiting for location fix...'
+
   return (
     <div style={Object.assign({}, styles.wrapper, style)}>
       <AppBar
@@ -67,7 +71,7 @@ const ObservationEdit = ({ onClose, id, observation, intl: {formatMessage}, styl
       <List>
         <ListItem
           style={styles.listItem}
-          primaryText={observation.gps.loc[0].toFixed(4) + ', ' + observation.gps.loc[1].toFixed(4)}
+          primaryText={LocationText}
           leftIcon={<LocationIcon style={styles.listIcon} />}
           rightIcon={<RightIcon style={styles.listIcon} />}
         />
