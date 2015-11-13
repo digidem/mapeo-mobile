@@ -24,6 +24,7 @@
     "serve:build": "st -i index.html --dir dist",
     "lint": "standard ./src",
     "start": "NODE_ENV=development budo src/index.jsx:index.js --  --extension .jsx -p livereactload | garnish",
+    "start:nohot": "NODE_ENV=development budo src/index.jsx:index.js --  --extension .jsx | garnish",
     "test": "npm run lint && npm run test:tap",
     "test:tap": "babel-tape-runner 'tests/**/*.test.js'",
     "test:debug": "npm run test:tap | tap-spec",
