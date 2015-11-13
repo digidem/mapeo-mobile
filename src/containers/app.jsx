@@ -7,7 +7,8 @@ import Home from './home'
 import {
   ObservationEdit,
   EventEdit,
-  PlaceEdit
+  PlaceEdit,
+  Geolocation
 } from '../components'
 
 const App = ({ containerHeight, params, history: { pushState } }) => {
@@ -40,6 +41,7 @@ const App = ({ containerHeight, params, history: { pushState } }) => {
 
   return (
     <div>
+      <Geolocation />
       <Home filter={filter} onOpen={handleOpen} />
       <Transition
         component={false}
