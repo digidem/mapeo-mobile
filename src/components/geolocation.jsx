@@ -1,22 +1,26 @@
 import { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { geolocationUpdate } from '../action_creators'
+import { geolocationErrors } from '../action_creators'
 
 class Geolocation extends Component {
 
   watchID = null
 
   componentDidMount () {
-    if ('geolocation' in navigator) {
-      console.log('geolocation exists')
-    } else {
-      console.log('geolocation DOES NOT exist')
+    // This check is just a precaution to throw an error if geolocation is not available.
+    // Hopefully it will be never needed.
+    // TODO: Finish this part, godamnit
+    if ( !('geolocation' in navigator) ) {
+    // should throw an error to the store
     }
 
+    // The watchPosition constantly updates the store with new values (once at 300 miliseconds),
+    // according to my testing. Some of the values in 'meta' positions can be NaN or may not exist
+    // at all, depending on the implementation. So I'm adding checks here.
     this.watchID = navigator.geolocation.watchPosition(
       (position) => this.props.dispatch(geolocationUpdate({
-        coords: [ position.coords.longitude, position.coords.latitude ],
-        timestamp: position.timestamp
+        position
       })),
       (error) => this.props.dispatch(geolocationUpdate({
         error
