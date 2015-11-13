@@ -31,9 +31,10 @@ class Home extends React.Component {
   }
 
   render () {
+    const { containerWidth, containerHeight, onOpen, coords, items } = this.props
     return (
       <div style={style}>
-        <MapView kind='small' />
+        <MapView {...{containerWidth, containerHeight, coords}} kind='small' />
         <AddButton
           onTouchTap={this.handleAddObservation}
         />
@@ -44,6 +45,8 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
+  containerWidth: PropTypes.number,
+  containerHeight: PropTypes.number,
   coords: PropTypes.array,
   items: PropTypes.array,
   onOpen: PropTypes.func
