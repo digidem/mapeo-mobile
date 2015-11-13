@@ -10,21 +10,13 @@ class Geolocation extends Component {
   componentDidMount () {
     // This check is just a precaution to throw an error if geolocation is not available.
     // Hopefully it will be never needed.
-    // TODO: Finish this part, godamnit
-    if ( !('geolocation' in navigator) ) {
-    // should throw an error to the store
-    }
-
+    if ( !('geolocation' in navigator) ) { new Error() }
     // The watchPosition constantly updates the store with new values (once at 300 miliseconds),
     // according to my testing. Some of the values in 'meta' positions can be NaN or may not exist
     // at all, depending on the implementation. So I'm adding checks here.
     this.watchID = navigator.geolocation.watchPosition(
-      (position) => this.props.dispatch(geolocationUpdate({
-        position
-      })),
-      (error) => this.props.dispatch(geolocationUpdate({
-        error
-      })),
+      (position) => this.props.dispatch(geolocationUpdate({ position })),
+      (error) => this.props.dispatch(geolocationUpdate({ error })),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     )
   }
