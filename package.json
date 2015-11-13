@@ -49,7 +49,7 @@
     "react-dom": "^0.14.0",
     "react-infinite": "^0.5.10",
     "react-intl": "^2.0.0-beta-1",
-    "react-map-gl": "github:uber/react-map-gl#react-14",
+    "react-map-gl": "github:digidem/react-map-gl#react-14",
     "react-motion-ui-pack": "^0.5.1",
     "react-redux": "^3.1.0",
     "react-router": "^1.0.0-rc4",
