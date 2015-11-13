@@ -28,10 +28,10 @@ ListView.propTypes = {
 
 function createSelector () {
   const cache = {
-    location: [180, 90]
+    coords: [180, 90]
   }
   return function select (state) {
-    const distanceFromLastLocation = cache.location ? distance(Point(state.location), Point(cache.location)) : Infinity
+    const distanceFromLastLocation = cache.coords ? distance(Point(state.location.coords), Point(cache.coords)) : Infinity
     // If the graph has not changed and we haven't moved more than 100m
     // do not change the list of items
     if (state.graph === cache.graph && distanceFromLastLocation < 0.1) {
@@ -47,11 +47,11 @@ function createSelector () {
         return {
           title: entity.tags['category'],
           date: Date.parse(entity.tags['survey:date']),
-          distance: distance(Point(state.location), Point(entity.loc)) * 1000
+          distance: distance(Point(state.location.coords), Point(entity.loc)) * 1000
         }
       }).sort((a, b) => a.distance - b.distance)
     }
-    cache.location = state.location
+    cache.coords = state.location.coords
     cache.graph = state.graph
     return cache.items
   }
