@@ -12,9 +12,9 @@
     "Gregor MacLennan",
     "Tiago Fassoni"
   ],
-  "repository" : {
-     "type" : "git",
-     "url" : "https://github.com/digidem/reporter-app.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digidem/reporter-app.git"
   },
   "license": "MPL-2.0",
   "browserify": {
@@ -43,6 +43,7 @@
     "immutable-js": "^0.3.1-6",
     "invariant": "^2.1.2",
     "keymirror": "^0.1.1",
+    "lodash": "^3.10.1",
     "material-ui": "^0.13.1",
     "ramda": "^0.17.1",
     "react": "^0.14.0",
