@@ -11,7 +11,7 @@ import {
   Geolocation
 } from '../components'
 
-const App = ({ containerHeight, params, history: { pushState } }) => {
+const App = ({ containerHeight, containerWidth, params, history: { pushState } }) => {
   const {id, type} = params
   let EditView, filter
 
@@ -42,7 +42,7 @@ const App = ({ containerHeight, params, history: { pushState } }) => {
   return (
     <div>
       <Geolocation />
-      <Home filter={filter} onOpen={handleOpen} />
+      <Home filter={filter} onOpen={handleOpen} {...{containerHeight, containerWidth}} />
       <Transition
         component={false}
         appear={{
