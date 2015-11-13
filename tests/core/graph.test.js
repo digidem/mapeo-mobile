@@ -1,4 +1,4 @@
-import test from 'tape'
+import test from 'prova'
 import { Graph, Entity, Node, Way, Observation } from '../../src/core'
 import deepEqual from 'deep-equal'
 

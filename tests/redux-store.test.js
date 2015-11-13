@@ -1,4 +1,4 @@
-// let test = require('tape')
+// let test = require('prova')
 // import store from '../src/store'
 // import * as actions from '../src/actions/actions'
 // import Immutable from 'immutable'

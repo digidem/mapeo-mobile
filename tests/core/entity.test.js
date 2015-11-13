@@ -1,4 +1,4 @@
-import test from 'tape'
+import test from 'prova'
 import { Entity, Node, Way, Observation, Graph } from '../../src/core'
 
 test('returns a subclass of the appropriate type', function (t) {

@@ -1,5 +1,5 @@
 import proxyquire from 'proxyquire'
-import test from 'tape'
+import test from 'prova'
 import { Graph } from '../../src/core'
 import actionCreators from '../../src/action_creators'
 

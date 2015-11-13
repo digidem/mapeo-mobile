@@ -1,4 +1,4 @@
-import test from 'tape'
+import test from 'prova'
 import saveEntity from '../../../src/reducers/graph_helpers/save_entity'
 import { Graph, Observation } from '../../../src/core'
 

@@ -1,4 +1,4 @@
-import test from 'tape'
+import test from 'prova'
 import { Node, Way, Graph } from '../../src/core'
 
 test('Way', function (t) {
