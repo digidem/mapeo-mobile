@@ -12,3 +12,4 @@ export ObservationEdit from './observation_edit'
 export const EventEdit = () => (<div />)
 export const PlaceEdit = () => (<div />)
 export SummaryText from './summary_text'
+export Geolocation from './geolocation'
