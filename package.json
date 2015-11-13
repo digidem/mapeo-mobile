@@ -7,7 +7,15 @@
     "reporter",
     "i_dont_really_know"
   ],
-  "author": "Tiago Fassoni",
+  "author": "Digital Democracy",
+  "contributors": [
+    "Gregor MacLennan",
+    "Tiago Fassoni"
+  ],
+  "repository" : {
+     "type" : "git",
+     "url" : "https://github.com/digidem/reporter-app.git"
+  },
   "license": "MPL-2.0",
   "browserify": {
     "transform": [
