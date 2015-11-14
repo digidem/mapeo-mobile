@@ -43,6 +43,7 @@ const AddButton = ({ onTouchTap }) => (
       }
       secondaryText={' '}
       onTouchTap={onTouchTap}
+      disableTouchRipple
     />
   </Paper>
 )

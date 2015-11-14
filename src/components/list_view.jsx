@@ -4,11 +4,18 @@ import Paper from 'material-ui/lib/paper'
 
 import { ListItem } from './'
 
-const ListView = ({ items = [], onOpen }) => (
+const styles = {
+  listItemSelected: {
+    backgroundColor: 'lightgrey'
+  }
+}
+
+const ListView = ({ items = [], onOpen, activeId }) => (
   <Paper zIndex={1}>
     {items.map((item = {}) => (
       <div key={item.id}>
         <ListItem
+          style={activeId === item.id ? styles.listItemSelected : {}}
           onTouchTap={e => onOpen(e, {id: item.id, type: 'observation'})}
           {...item }
         />

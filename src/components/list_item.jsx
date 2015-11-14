@@ -10,8 +10,9 @@ import CameraIcon from 'material-ui/lib/svg-icons/image/photo-camera'
 import Colors from 'material-ui/lib/styles/colors'
 import { SummaryText } from './'
 
-const MyListItem = ({ title, date, distance, onTouchTap }) => (
+const MyListItem = ({ title, date, distance, onTouchTap, style }) => (
   <ListItem
+    style={style}
     leftAvatar={<Avatar
       backgroundColor={Colors.blue500}
       icon={<CameraIcon />}
@@ -20,6 +21,7 @@ const MyListItem = ({ title, date, distance, onTouchTap }) => (
     secondaryText={<SummaryText distance={distance} date={date} />}
     secondaryTextLines={2}
     onTouchTap={onTouchTap}
+    disableTouchRipple
   />
 )
 
@@ -27,7 +29,8 @@ MyListItem.propTypes = {
   title: PropTypes.string,
   date: PropTypes.number,
   distance: PropTypes.number,
-  onTouchTap: PropTypes.func
+  onTouchTap: PropTypes.func,
+  style: PropTypes.object
 }
 
 export default MyListItem

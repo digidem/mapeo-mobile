@@ -42,7 +42,7 @@ const App = ({ containerHeight, containerWidth, params, history: { pushState } }
   return (
     <div>
       <Geolocation />
-      <Home filter={filter} onOpen={handleOpen} {...{containerHeight, containerWidth}} />
+      <Home filter={filter} onOpen={handleOpen} {...{containerHeight, containerWidth, params}} />
       <Transition
         component={false}
         appear={{

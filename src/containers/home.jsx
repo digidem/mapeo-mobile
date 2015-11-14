@@ -31,14 +31,14 @@ class Home extends React.Component {
   }
 
   render () {
-    const { containerWidth, containerHeight, onOpen, location, items } = this.props
+    const { containerWidth, containerHeight, onOpen, location, items, params } = this.props
     return (
       <div style={style}>
         <MapView {...{containerWidth, containerHeight, location}} kind='small' />
         <AddButton
           onTouchTap={this.handleAddObservation}
         />
-        <ListView {...{onOpen, items}} />
+        <ListView {...{onOpen, items}} activeId={params.id} />
       </div>
     )
   }
@@ -49,7 +49,8 @@ Home.propTypes = {
   containerHeight: PropTypes.number,
   location: PropTypes.object,
   items: PropTypes.array,
-  onOpen: PropTypes.func
+  onOpen: PropTypes.func,
+  params: PropTypes.object
 }
 
 function createSelector () {
