@@ -4,6 +4,7 @@ import LocationIcon from 'material-ui/lib/svg-icons/maps/my-location'
 import Colors from 'material-ui/lib/styles/colors'
 import distance from 'turf-distance'
 import Point from 'turf-point'
+import _ from 'lodash'
 import MapboxGL from './mapbox_gl'
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
@@ -66,7 +67,7 @@ class MapView extends React.Component {
         <MapboxGL
           token={MAPBOX_TOKEN}
           location={location}
-          onMove={this.onMove}
+          onMove={_.throttle(this.onMove, 100)}
           centerOnLocation={this.state.centerOnLocation}
         />
         <FloatingActionButton
