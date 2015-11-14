@@ -9,7 +9,9 @@ import Colors from 'material-ui/lib/styles/colors'
 
 const styles = {
   wrapper: {
-    marginBottom: 15
+    marginBottom: 15,
+    zIndex: 1,
+    position: 'relative'
   },
   listItem: {
     height: 72,
