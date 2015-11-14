@@ -1,22 +1,21 @@
 import React, { PropTypes } from 'react'
-import MapGL from 'react-map-gl'
 import FloatingActionButton from 'material-ui/lib/floating-action-button'
-import LocationActive from 'material-ui/lib/svg-icons/maps/my-location'
-import LocationInActive from 'material-ui/lib/svg-icons/device/location-searching'
+import LocationIcon from 'material-ui/lib/svg-icons/maps/my-location'
 import Colors from 'material-ui/lib/styles/colors'
+import distance from 'turf-distance'
+import Point from 'turf-point'
+import MapboxGL from './mapbox_gl'
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
 
 const styles = {
-  base: {
-    backgroundImage: 'url(img/map-placeholder.jpg)'
-  },
-  small: {
-    height: 400
+  wrapper: {
+    position: 'relative',
+    width: '100%'
   },
   myLocationButton: {
     position: 'absolute',
-    top: 340,
+    bottom: 20,
     right: 20
   }
 }
@@ -28,67 +27,54 @@ class MapView extends React.Component {
 
   static propTypes = {
     kind: PropTypes.string,
+    containerHeight: PropTypes.number,
     containerWidth: PropTypes.number,
-    coords: PropTypes.array
+    location: PropTypes.object
   }
 
   state = {
-    longitude: this.props.coords[0],
-    latitude: this.props.coords[1],
-    zoom: 12,
-    startDragLatLng: null,
-    isDragging: false,
-    centeredOnLocation: true
+    centerOnLocation: true
   }
 
-  onChangeViewport = (opt) => {
+  onMove = (e) => {
+    const mapCenter = e.target.getCenter().toArray()
+    const location = this.props.location
+    // If the map is within 1m of our location, consider it centered on our location
+    const centeredOnLocation = distance(Point(mapCenter), Point(location.coords)) < 0.001
     this.setState({
-      latitude: opt.latitude,
-      longitude: opt.longitude,
-      zoom: opt.zoom,
-      startDragLatLng: opt.startDragLatLng,
-      isDragging: opt.isDragging,
-      centeredOnLocation: false
+      ...this.state,
+      centerOnLocation: centeredOnLocation
     })
   }
 
   centerOnLocation = (e) => {
     this.setState({
       ...this.state,
-      longitude: this.props.coords[0],
-      latitude: this.props.coords[1],
-      centeredOnLocation: true
+      centerOnLocation: true
     })
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.coords !== this.props.coords && this.state.centeredOnLocation) {
-      this.setState({
-        ...this.state,
-        longitude: nextProps.coords[0],
-        latitude: nextProps.coords[1]
-      })
-    }
+
   }
 
   render () {
-    const { kind, containerWidth } = this.props
+    const { kind, containerHeight, location } = this.props
+    const mapHeight = kind === 'small' ? containerHeight / 2 : containerHeight
     return (
-      <div>
-        <MapGL
-          width={containerWidth}
-          height={styles[kind].height}
-          mapboxApiAccessToken={MAPBOX_TOKEN}
-          onChangeViewport={this.onChangeViewport}
-          {...this.state}
+      <div style={{...styles.wrapper, height: mapHeight}}>
+        <MapboxGL
+          token={MAPBOX_TOKEN}
+          location={location}
+          onMove={this.onMove}
+          centerOnLocation={this.state.centerOnLocation}
         />
         <FloatingActionButton
-          mini
           style={styles.myLocationButton}
           backgroundColor='white'
           onTouchTap={this.centerOnLocation}>
-          {this.state.centeredOnLocation ? <LocationActive color={Colors.blue700} />
-            : <LocationInActive color={Colors.grey500} />}
+          {this.state.centerOnLocation ? <LocationIcon color={Colors.blue700} />
+            : <LocationIcon color={Colors.grey500} />}
         </FloatingActionButton>
       </div>
     )

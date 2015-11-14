@@ -31,10 +31,10 @@ class Home extends React.Component {
   }
 
   render () {
-    const { containerWidth, containerHeight, onOpen, coords, items } = this.props
+    const { containerWidth, containerHeight, onOpen, location, items } = this.props
     return (
       <div style={style}>
-        <MapView {...{containerWidth, containerHeight, coords}} kind='small' />
+        <MapView {...{containerWidth, containerHeight, location}} kind='small' />
         <AddButton
           onTouchTap={this.handleAddObservation}
         />
@@ -47,7 +47,7 @@ class Home extends React.Component {
 Home.propTypes = {
   containerWidth: PropTypes.number,
   containerHeight: PropTypes.number,
-  coords: PropTypes.array,
+  location: PropTypes.object,
   items: PropTypes.array,
   onOpen: PropTypes.func
 }
@@ -81,7 +81,7 @@ function createSelector () {
     cache.graph = state.graph
     cache.items = items
     return {
-      coords: state.location.coords,
+      location: state.location,
       items: items
     }
   }
