@@ -5,11 +5,19 @@ import Dimensions from 'react-dimensions'
 import PhoneWrapper from '../util/phone_wrapper'
 import Home from './home'
 import {
+  AnimationWrapper,
   ObservationEdit,
   EventEdit,
   PlaceEdit,
   Geolocation
 } from '../components'
+
+const styles = {
+  animationWrapper: {
+    zIndex: 1,
+    position: 'relative'
+  }
+}
 
 const App = ({ containerHeight, containerWidth, params, history: { pushState } }) => {
   const {id, type} = params
@@ -55,7 +63,7 @@ const App = ({ containerHeight, containerWidth, params, history: { pushState } }
           translateY: containerHeight + 100
         }}
       >
-        { EditView && <EditView {...params} onClose={handleClose} />}
+        { EditView && <AnimationWrapper style={styles.animationWrapper}><EditView {...params} onClose={handleClose} /></AnimationWrapper>}
       </Transition>
     </div>
   )
