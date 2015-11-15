@@ -4,22 +4,34 @@ import { ListDivider } from 'material-ui/lib/lists'
 import Paper from 'material-ui/lib/paper'
 import distance from 'turf-distance'
 import Point from 'turf-point'
+import shouldPureComponentUpdate from 'react-pure-render'
 
 import { ListItem } from './'
 
-const ListView = ({ items = [], onOpen }) => (
-  <Paper zIndex={1}>
-    {items.map((item = {}, id) => (
-      <div key={id}>
-        <ListItem
-          onTouchTap={e => onOpen(e, {id, type: 'observation'})}
-          {...item }
-        />
-        <ListDivider />
-      </div>
-    ))}
-  </Paper>
-)
+class ListView extends React.Component {
+  static defaultProps = {
+    items: []
+  }
+
+  shouldComponentUpdate = shouldPureComponentUpdate
+
+  render () {
+    const { items, onOpen } = this.props
+    return (
+      <Paper zIndex={1}>
+        {items.map((item = {}, id) => (
+          <div key={id}>
+            <ListItem
+              onTouchTap={e => onOpen(e, {id, type: 'observation'})}
+              {...item }
+            />
+            <ListDivider />
+          </div>
+        ))}
+      </Paper>
+    )
+  }
+}
 
 ListView.propTypes = {
   items: PropTypes.array,
