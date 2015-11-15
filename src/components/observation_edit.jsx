@@ -17,10 +17,8 @@ import { defineMessages, injectIntl, intlShape } from 'react-intl'
 
 const styles = {
   wrapper: {
-    position: 'absolute',
     height: '100%',
     width: '100%',
-    top: 0,
     backgroundColor: 'white'
   },
   listItem: {
