@@ -111,13 +111,20 @@ ObservationEdit.propTypes = {
   intl: intlShape.isRequired
 }
 
-function select (state, ownProps) {
-  if (ownProps.id === 'new') {
-    return {}
-  }
-  return {
-    observation: state.graph.entities[ownProps.id].asJSON()
+function createSelector () {
+  let cache = {}
+  const empty = {}
+  return function select (state, {id} = {}) {
+    if (id === 'new') {
+      return empty
+    }
+    let observationJSON = cache.id === id ? cache.observationJSON
+      : state.graph.entities[id].asJSON()
+    cache = { id, observationJSON }
+    return {
+      observation: observationJSON
+    }
   }
 }
 
-export default connect(select)(injectIntl(ObservationEdit))
+export default connect(createSelector())(injectIntl(ObservationEdit))
