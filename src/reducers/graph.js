@@ -10,7 +10,7 @@ const defaultState = Graph(fixtureObservations.map(attrs => Observation(attrs)))
 /**
  * This is a reducer that acts on the Graph where all our core data
  * (places, events, observations) are stored. Based on the action.type
- * it calls the relevant action handler if it exists.
+ * it calls the relevant action helper if it exists.
  * @param  {Graph} state A Graph object
  * @param  {String} options.type Action identifier
  * @param  {Object} options.payload    Payload for action
