@@ -1,11 +1,13 @@
 import React, { PropTypes } from 'react'
 import { ListDivider } from 'material-ui/lib/lists'
-import Paper from 'material-ui/lib/paper'
 import shouldPureComponentUpdate from 'react-pure-render'
 
 import { ListItem } from './'
 
 const styles = {
+  wrapper: {
+    backgroundColor: 'white'
+  },
   listItemSelected: {
     backgroundColor: 'lightgrey'
   }
@@ -21,7 +23,7 @@ class ListView extends React.Component {
   render () {
     const { items, onOpen, activeId } = this.props
     return (
-      <Paper zIndex={1}>
+      <div style={styles.wrapper}>
         {items.map((item = {}) => (
           <div key={item.id}>
             <ListItem
@@ -32,7 +34,7 @@ class ListView extends React.Component {
             <ListDivider />
           </div>
         ))}
-      </Paper>
+      </div>
     )
   }
 }

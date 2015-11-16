@@ -14,7 +14,8 @@ import InjectWindowDimensions from '../hocs/inject_window_dimensions'
 const styles = {
   animationWrapper: {
     zIndex: 1,
-    position: 'relative'
+    position: 'fixed',
+    top: 0,
   }
 }
 
@@ -27,6 +28,7 @@ const App = ({ windowHeight, windowWidth, params, history: { pushState } }) => {
   }
 
   function handleClose (e) {
+    e.preventDefault()
     pushState(null, '/')
   }
 
@@ -62,7 +64,11 @@ const App = ({ windowHeight, windowWidth, params, history: { pushState } }) => {
           translateY: windowHeight + 100
         }}
       >
-        { EditView && <AnimationWrapper style={styles.animationWrapper}><EditView {...params} onClose={handleClose} /></AnimationWrapper>}
+        { EditView &&
+          <AnimationWrapper style={styles.animationWrapper}>
+            <EditView {...params} onClose={handleClose} />
+          </AnimationWrapper>
+        }
       </Transition>
     </div>
   )

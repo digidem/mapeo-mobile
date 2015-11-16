@@ -19,8 +19,6 @@ import InjectWindowDimensions from '../hocs/inject_window_dimensions'
 
 const styles = {
   wrapper: {
-    height: '100%',
-    width: '100%',
     backgroundColor: 'white'
   },
   listItem: {
