@@ -29,11 +29,7 @@ function roundedEqual (a, b, {decimalPlaces = 0} = {}) {
 
 class Home extends React.Component {
   state = {
-    isMapFullscreen: false,
-    dragDown: 0,
-    dragDownStartY: null,
-    dragStartWindowY: null,
-    touchStartY: null
+    isMapFullscreen: false
   }
 
   handleAddObservation = (e) => {
