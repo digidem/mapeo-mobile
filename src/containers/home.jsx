@@ -31,7 +31,7 @@ class Home extends React.Component {
   }
 
   render () {
-    const { containerWidth, containerHeight, onOpen, location, items, params } = this.props
+    const { windowWidth, windowHeight, onOpen, location, items, params } = this.props
     return (
       <div style={style}>
         <MapView {...{containerWidth, containerHeight, location}} kind='small' />
@@ -45,8 +45,8 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-  containerWidth: PropTypes.number,
-  containerHeight: PropTypes.number,
+  windowWidth: PropTypes.number,
+  windowHeight: PropTypes.number,
   location: PropTypes.object,
   items: PropTypes.array,
   onOpen: PropTypes.func,

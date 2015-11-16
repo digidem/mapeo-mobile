@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import AppBar from 'material-ui/lib/app-bar'
 import IconButton from 'material-ui/lib/icon-button'
 import List from 'material-ui/lib/lists/list'
@@ -14,6 +15,7 @@ import DetailsIcon from 'material-ui/lib/svg-icons/editor/mode-edit'
 import RightIcon from 'material-ui/lib/svg-icons/navigation/chevron-right'
 
 import { defineMessages, injectIntl, intlShape } from 'react-intl'
+import InjectWindowDimensions from '../hocs/inject_window_dimensions'
 
 const styles = {
   wrapper: {
@@ -50,7 +52,22 @@ const messages = defineMessages({
   }
 })
 
-const ObservationEdit = ({ onClose, id, observation, intl: {formatMessage}, style }) => {
+/**
+ * Without this the touch / drag event gets passed through to window
+ * and the whole thing scrolls, which is not what we want.
+ */
+function stopScreenScrolling (e) {
+  e.preventDefault()
+}
+
+const ObservationEdit = ({
+  onClose,
+  id,
+  observation,
+  intl: {formatMessage},
+  windowWidth,
+  windowHeight
+}) => {
   const isNew = id === 'new'
   const title = isNew ? formatMessage(messages.title_new)
     : formatMessage(messages.title_existing)
@@ -60,8 +77,9 @@ const ObservationEdit = ({ onClose, id, observation, intl: {formatMessage}, styl
     ? observation.gps.loc[0].toFixed(4) + ', ' + observation.gps.loc[1].toFixed(4)
     : 'Waiting for location fix...'
 
+  const wrapperStyle = {...styles.wrapper, height: windowHeight, width: windowWidth}
   return (
-    <div style={Object.assign({}, styles.wrapper, style)}>
+    <div style={wrapperStyle} onTouchMove={stopScreenScrolling}>
       <AppBar
         title={title}
         iconElementLeft={closeIcon}
@@ -127,4 +145,8 @@ function createSelector () {
   }
 }
 
-export default connect(createSelector())(injectIntl(ObservationEdit))
+export default compose(
+  connect(createSelector()),
+  InjectWindowDimensions,
+  injectIntl
+)(ObservationEdit)
