@@ -10,7 +10,7 @@ import invariant from 'invariant'
  * @param  {Array}  options.blacklist Array of keys names to exclude from returned object
  * @return {Object}           New object with prefixed keys
  */
-export function prefixTags (o, { prefix, blacklist = [] }) {
+export const prefixTags = function prefixTags (o, { prefix, blacklist = [] }) {
   invariant(!!prefix, 'Missing prefix')
   return Object.keys(o).reduce((prev, key) => {
     if (blacklist.indexOf(key) > -1) {
