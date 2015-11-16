@@ -11,7 +11,7 @@ const DEFAULT_COORDS = [-59.5, 2.7]
  */
 class MapboxGL extends React.Component {
   static defaultProps = {
-    style: 'mapbox://styles/mapbox/streets-v8',
+    mapStyle: 'mapbox://styles/mapbox/streets-v8',
     initialZoom: 12,
     centerOnLocation: true,
     width: '100%',
