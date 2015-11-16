@@ -1,17 +1,14 @@
 import React, { PropTypes } from 'react'
-import FloatingActionButton from 'material-ui/lib/floating-action-button'
-import LocationIcon from 'material-ui/lib/svg-icons/maps/my-location'
-import Colors from 'material-ui/lib/styles/colors'
 import distance from 'turf-distance'
 import Point from 'turf-point'
 import _ from 'lodash'
 import MapboxGL from './mapbox_gl'
+import LocationButton from './location_button'
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
 
 const styles = {
   wrapper: {
-    position: 'relative',
     width: '100%'
   },
   myLocationButton: {
@@ -22,61 +19,85 @@ const styles = {
 }
 
 class MapView extends React.Component {
-  static defaultProps = {
-    kind: 'small'
-  }
-
   static propTypes = {
-    kind: PropTypes.string,
-    containerHeight: PropTypes.number,
-    containerWidth: PropTypes.number,
-    location: PropTypes.object
+    /**
+     * Height of the map view. This is animated between the full-page map and the
+     * smaller inset map
+     */
+    height: PropTypes.number,
+    /**
+     * We do not animate the map height, because of performance. `mapHeight` is the
+     * target height that `height` is animating towards. E.g.
+     * 0 sec: height = 320px, mapHeight = 320px
+     * 0.2 sec: height = 413px (animating), mapHeight = 640px
+     * 0.5 sec: height = 640px (finished animating), mapHeight = 640px
+     * We offset the map within the container so that it remains centered as the container
+     * height is animated.
+     */
+    mapHeight: PropTypes.number,
+    /**
+     * Width of the map view.
+     */
+    width: PropTypes.number,
+    /**
+     * Triggered when the map is clicked
+     */
+    onClick: PropTypes.func,
+    /**
+     * Location object (with coords and meta) for our current position
+     */
+    location: PropTypes.object,
+    /**
+     * Whether the map should respond to mouse and touch events. When it is small we
+     * turn off interactivity.
+     */
+    interactive: PropTypes.bool
   }
 
   state = {
     centerOnLocation: true
   }
 
-  onMove = (e) => {
+  onMapMove = (e) => {
     const mapCenter = e.target.getCenter().toArray()
-    const location = this.props.location
+    const locationCoords = this.props.location.coords
     // If the map is within 1m of our location, consider it centered on our location
-    const centeredOnLocation = distance(Point(mapCenter), Point(location.coords)) < 0.001
+    const centerOnLocation = locationCoords && distance(Point(mapCenter), Point(locationCoords)) < 0.001
     this.setState({
       ...this.state,
-      centerOnLocation: centeredOnLocation
+      centerOnLocation: centerOnLocation
     })
   }
 
-  centerOnLocation = (e) => {
+  onClickLocationButton = (e) => {
+    e.preventDefault()
     this.setState({
       ...this.state,
       centerOnLocation: true
     })
   }
 
-  componentWillReceiveProps (nextProps) {
-
-  }
-
   render () {
-    const { kind, containerHeight, location } = this.props
-    const mapHeight = kind === 'small' ? containerHeight / 2 : containerHeight
+    const { height, width, onClick, location, interactive } = this.props
+    const { centerOnLocation } = this.state
     return (
-      <div style={{...styles.wrapper, height: mapHeight}}>
+      <div onClick={onClick}>
         <MapboxGL
+          height={height}
+          width={width}
           token={MAPBOX_TOKEN}
           location={location}
-          onMove={_.throttle(this.onMove, 100)}
-          centerOnLocation={this.state.centerOnLocation}
+          onMove={_.throttle(this.onMapMove, 100)}
+          centerOnLocation={centerOnLocation}
+          interactive={interactive}
         />
-        <FloatingActionButton
-          style={styles.myLocationButton}
-          backgroundColor='white'
-          onTouchTap={this.centerOnLocation}>
-          {this.state.centerOnLocation ? <LocationIcon color={Colors.blue700} />
-            : <LocationIcon color={Colors.grey500} />}
-        </FloatingActionButton>
+        {interactive &&
+          <LocationButton
+            onTouchTap={this.onClickLocationButton}
+            isCentered={centerOnLocation}
+            style={styles.myLocationButton}
+          />
+        }
       </div>
     )
   }
