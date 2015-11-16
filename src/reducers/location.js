@@ -6,7 +6,7 @@ import actionTypes, { geolocationErrors } from '../constants'
 
 const firstLocationState = {
   isLocationWorking: false,
-  coords: [-59.5, 2.7], // format: [lon, lat]
+  coords: undefined, // format: [lon, lat]
   meta: {}, // should include accuracy (in m) if available, alitutude, and in addition any other metadata like HDOP, type of fix etc.
   positionError: geolocationErrors.POSITION_UNAVAILABLE, // the possible values are 'PERMISSION_DENIED', 'POSITION_UNAVAILABLE', 'TIMEOUT'
   timestamp: undefined // timestamp of last position fix
