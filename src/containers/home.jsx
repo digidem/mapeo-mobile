@@ -58,8 +58,9 @@ function createSelector () {
     coords: [180, 90]
   }
   return function select (state) {
+    const locationCoords = state.location.coords
     let items
-    const distanceFromLastLocation = cache.coords ? distance(Point(state.location.coords), Point(cache.coords)) : Infinity
+    const distanceFromLastLocation = cache.coords && locationCoords ? distance(Point(locationCoords), Point(cache.coords)) : Infinity
     // If the graph has not changed and we haven't moved more than 100m
     // do not change the list of items
     if (state.graph === cache.graph && distanceFromLastLocation < 0.1) {
@@ -74,7 +75,7 @@ function createSelector () {
           id: entity.id,
           title: entity.tags['category'],
           date: Date.parse(entity.tags['survey:date']),
-          distance: distance(Point(state.location.coords), Point(entity.loc)) * 1000
+          distance: locationCoords ? distance(Point(locationCoords), Point(entity.loc)) * 1000 : 9999999
         }
       }).sort((a, b) => a.distance - b.distance)
     }
