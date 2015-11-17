@@ -1,10 +1,7 @@
 import test from 'prova'
 import { location as locationReducer } from '../../src/reducers'
 import { geolocationUpdate } from '../../src/action_creators'
-import actionTypes, { geolocationErrors } from '../../src/constants'
-// import { Geolocation } from '../../src/components'
-global.window = {}
-global.navigator = {}
+import { geolocationErrors } from '../../src/constants'
 
 test('Empty reducer', (t) => {
   const shouldBeState = {
