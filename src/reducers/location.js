@@ -31,11 +31,11 @@ const firstLocationState = {
 /**
  * Location reducer
  * @param  {Object} state Current location state
- * @param  {string} type the action type
- * @param  {Object|Error} payload
- * @param  {Position} [payload.position] geolocation Position http://www.w3.org/TR/geolocation-API/#position_interface
- * @param  {boolean} error If `true` `payload` should be Error object.
- * @return {Object} Returns the new Location state
+ * @param  {string} options.type Action type
+ * @param  {Object|Error} options.payload Action payload
+ * @param  {Position} [options.payload.position] Geolocation Position http://www.w3.org/TR/geolocation-API/#position_interface
+ * @param  {boolean} options.error If `true` `payload` should be Error object.
+ * @return {Object} New Location state
  */
 export default function location (
   state = firstLocationState, {
