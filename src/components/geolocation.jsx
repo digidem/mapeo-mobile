@@ -6,7 +6,7 @@ class Geolocation extends Component {
 
   watchID = null
 
-  componentDidMount () {
+  componentWillMount () {
     // Dispatch error and return early if we don't have geolocation
     if (!('geolocation' in navigator)) {
       const error = new Error('Geolocation not supported by client')
