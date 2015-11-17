@@ -20,3 +20,10 @@ export function prefixTags (o, { prefix, blacklist = [] }) {
     return prev
   }, {})
 }
+
+export const geolocation = (function () {
+  if (!global.navigator || !('geolocation' in global.navigator)) {
+    return
+  }
+  return global.navigator.geolocation
+})()

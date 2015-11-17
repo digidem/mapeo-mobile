@@ -2,6 +2,7 @@ import test from 'prova'
 import { location as locationReducer } from '../../src/reducers'
 import { geolocationUpdate } from '../../src/action_creators'
 import { geolocationErrors } from '../../src/constants'
+import PositionError from '../mock-errors.js'
 
 test('Empty reducer', (t) => {
   const shouldBeState = {
@@ -42,10 +43,27 @@ test('Reducer handles Error()', (t) => {
   t.end()
 })
 
-// test('Reducer handles geolocation Error', (t) => {
-//
-//   t.deepEqual(resultingState, shouldBeState, 'Reducer handles geolocation Error okay')
-// })
+test('Reducer handles geolocation Error', (t) => {
+  const MockError = new PositionError()
+
+  const resultingState = locationReducer(undefined, geolocationUpdate(MockError, true))
+
+  const shouldBeState = {
+    coords: [-59.5, 2.7],
+    meta: {
+      accuracy: null,
+      altitude: null,
+      altitudeAccuracy: null,
+      heading: null,
+      speed: null
+    },
+    positionError: geolocationErrors.PERMISSION_DENIED,
+    timestamp: null
+  }
+
+  t.deepEqual(resultingState, shouldBeState, 'Reducer handles geolocation Error okay')
+  t.end()
+})
 
 test('Reducer handles geolocation update', (t) => {
   const shouldBeState = {
@@ -70,33 +88,11 @@ test('Reducer handles geolocation update', (t) => {
 })
 
 test('Let\'s break some invariants!', (t) => {
-  t.plan(4)
+  t.throws(locationReducer.bind(this, undefined, geolocationUpdate({'whatever': 'yo'}, true)), 'error is true and payload is not an Error()')
 
-  try {
-    t.throws(locationReducer(undefined, geolocationUpdate({'whatever': 'yo'}, true)))
-    t.fail('invariant did not work as planned')
-  } catch (e) {
-    t.pass('error is true and payload is not an Error()')
-  }
+  t.throws(locationReducer.bind(this, undefined, geolocationUpdate(new Error(), false)), 'error is true and payload is a damn Error()')
 
-  try {
-    locationReducer(undefined, geolocationUpdate(new Error(), false))
-    t.fail('invariant did not work as planned')
-  } catch (e) {
-    t.pass('error is true and payload is a damn Error()')
-  }
+  t.throws(locationReducer.bind(this, undefined, geolocationUpdate({'whatever': 'yo'}, false)), 'error is false but there is no position anywhere to be seen')
 
-  try {
-    locationReducer(undefined, geolocationUpdate({'whatever': 'yo'}, false))
-    t.fail('invariant did not work as planned')
-  } catch (e) {
-    t.pass('error is false but there is no position anywhere to be seen')
-  }
-
-  try {
-    locationReducer(undefined, geolocationUpdate(new Error(), true))
-    t.pass('the try/catch madness block actually works')
-  } catch (e) {
-    t.fail('invariant did not work as planned')
-  }
+  t.end()
 })
