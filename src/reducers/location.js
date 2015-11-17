@@ -41,12 +41,11 @@ export default function location (
   state = firstLocationState, {
     type,
     payload = {},
-    error = false
+    error
   }) {
   switch (type) {
     case actionTypes.GEOLOCATION_UPDATE:
-      invariant(error || !(payload instanceof Error), 'If error is true payload should be instance of Error')
-      invariant(!error || payload.position, 'Payload should have position property')
+      invariant((error && payload instanceof Error) || (!error && payload.position), 'We have only two possibilities: error is true and payload is an Error() OR error is false and payload has a position')
       if (!(payload instanceof Error)) {
         // Okay, geolocation works
         const { longitude, latitude, ...meta } = payload.position.coords
