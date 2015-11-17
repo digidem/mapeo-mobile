@@ -41,7 +41,6 @@ class Home extends React.Component {
 
   switchMapView = (e) => {
     this.setState({
-      ...this.state,
       isMapFullscreen: !this.state.isMapFullscreen
     })
   }

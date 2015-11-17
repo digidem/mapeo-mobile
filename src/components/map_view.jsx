@@ -64,7 +64,6 @@ class MapView extends React.Component {
     // If the map is within 1m of our location, consider it centered on our location
     const centerOnLocation = locationCoords && distance(Point(mapCenter), Point(locationCoords)) < 0.001
     this.setState({
-      ...this.state,
       centerOnLocation: centerOnLocation
     })
   }
@@ -72,7 +71,6 @@ class MapView extends React.Component {
   onClickLocationButton = (e) => {
     e.preventDefault()
     this.setState({
-      ...this.state,
       centerOnLocation: true
     })
   }
