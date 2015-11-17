@@ -1,15 +1,42 @@
 import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 import AppBar from 'material-ui/lib/app-bar'
 import IconButton from 'material-ui/lib/icon-button'
-import NavigationClose from 'material-ui/lib/svg-icons/navigation/close'
-import { defineMessages, injectIntl, intlShape } from 'react-intl'
+import List from 'material-ui/lib/lists/list'
+import ListDivider from 'material-ui/lib/lists/list-divider'
+import ListItem from 'material-ui/lib/lists/list-item'
+import RaisedButton from 'material-ui/lib/raised-button'
+import CloseIcon from 'material-ui/lib/svg-icons/navigation/close'
+import LocationIcon from 'material-ui/lib/svg-icons/maps/my-location'
+import CategoryIcon from 'material-ui/lib/svg-icons/file/folder'
+import MediaIcon from 'material-ui/lib/svg-icons/image/photo-camera'
+import DetailsIcon from 'material-ui/lib/svg-icons/editor/mode-edit'
+import RightIcon from 'material-ui/lib/svg-icons/navigation/chevron-right'
 
-const baseStyle = {
-  position: 'absolute',
-  height: '100%',
-  width: '100%',
-  top: 0,
-  backgroundColor: 'lightblue'
+import { defineMessages, injectIntl, intlShape } from 'react-intl'
+import InjectWindowDimensions from '../hocs/inject_window_dimensions'
+
+const styles = {
+  wrapper: {
+    backgroundColor: 'white'
+  },
+  listItem: {
+    lineHeight: '40px'
+  },
+  listIcon: {
+    top: 12
+  },
+  saveButton: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: '72px'
+  },
+  saveButtonLabel: {
+    fontSize: '36px',
+    lineHeight: '72px'
+  }
 }
 
 const messages = defineMessages({
@@ -23,19 +50,69 @@ const messages = defineMessages({
   }
 })
 
-const ObservationEdit = ({ onClose, id, intl: {formatMessage}, style }) => {
+/**
+ * Without this the touch / drag event gets passed through to window
+ * and the whole thing scrolls, which is not what we want.
+ */
+function stopScreenScrolling (e) {
+  e.preventDefault()
+}
+
+const ObservationEdit = ({
+  onClose,
+  id,
+  observation,
+  intl: {formatMessage},
+  windowWidth,
+  windowHeight
+}) => {
   const isNew = id === 'new'
   const title = isNew ? formatMessage(messages.title_new)
     : formatMessage(messages.title_existing)
-  const closeIcon = <IconButton onTouchTap={onClose}><NavigationClose /></IconButton>
+  const closeIcon = <IconButton onTouchTap={onClose}><CloseIcon /></IconButton>
 
+  const LocationText = (observation)
+    ? observation.gps.loc[0].toFixed(4) + ', ' + observation.gps.loc[1].toFixed(4)
+    : 'Waiting for location fix...'
+
+  const wrapperStyle = {...styles.wrapper, height: windowHeight, width: windowWidth}
   return (
-    <div style={Object.assign({}, baseStyle, style)}>
+    <div style={wrapperStyle} onTouchMove={stopScreenScrolling}>
       <AppBar
         title={title}
         iconElementLeft={closeIcon}
       />
-      id: {id}
+      <List>
+        <ListItem
+          style={styles.listItem}
+          primaryText={LocationText}
+          leftIcon={<LocationIcon style={styles.listIcon} />}
+          rightIcon={<RightIcon style={styles.listIcon} />}
+        />
+        <ListDivider inset />
+        <ListItem
+          style={styles.listItem}
+          primaryText='Category'
+          leftIcon={<CategoryIcon style={styles.listIcon} />}
+          rightIcon={<RightIcon style={styles.listIcon} />}
+        />
+        <ListDivider inset />
+        <ListItem
+          style={styles.listItem}
+          primaryText='Add Photo...'
+          leftIcon={<MediaIcon style={styles.listIcon} />}
+          rightIcon={<RightIcon style={styles.listIcon} />}
+        />
+        <ListDivider inset />
+        <ListItem
+          style={styles.listItem}
+          primaryText='Details'
+          leftIcon={<DetailsIcon style={styles.listIcon} />}
+          rightIcon={<RightIcon style={styles.listIcon} />}
+        />
+        <ListDivider inset />
+      </List>
+      <RaisedButton primary label='SAVE' style={styles.saveButton} labelStyle={styles.saveButtonLabel} />
     </div>
   )
 }
@@ -46,7 +123,28 @@ ObservationEdit.propTypes = {
     PropTypes.number,
     PropTypes.string
   ]).isRequired,
+  observation: PropTypes.object,
   intl: intlShape.isRequired
 }
 
-export default injectIntl(ObservationEdit)
+function createSelector () {
+  let cache = {}
+  const empty = {}
+  return function select (state, {id} = {}) {
+    if (id === 'new') {
+      return empty
+    }
+    let observationJSON = cache.id === id ? cache.observationJSON
+      : state.graph.entities[id].asJSON()
+    cache = { id, observationJSON }
+    return {
+      observation: observationJSON
+    }
+  }
+}
+
+export default compose(
+  connect(createSelector()),
+  InjectWindowDimensions,
+  injectIntl
+)(ObservationEdit)

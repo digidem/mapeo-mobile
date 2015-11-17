@@ -13,5 +13,14 @@ export default keymirror({
 
 /* Place actions */
   PLACE_SAVE: null,
-  PLACE_DELETE: null
+  PLACE_DELETE: null,
+
+/* Geolocation actions */
+  GEOLOCATION_UPDATE: null
+})
+
+export const geolocationErrors = keymirror({
+  PERMISSION_DENIED: null,
+  POSITION_UNAVAILABLE: null,
+  TIMEOUT: null
 })

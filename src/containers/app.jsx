@@ -1,24 +1,25 @@
 import React from 'react'
 import Transition from 'react-motion-ui-pack'
-import Dimensions from 'react-dimensions'
 
-import PhoneWrapper from '../util/phone_wrapper'
 import Home from './home'
 import {
   AnimationWrapper,
   ObservationEdit,
   EventEdit,
-  PlaceEdit
+  PlaceEdit,
+  Geolocation
 } from '../components'
+import InjectWindowDimensions from '../hocs/inject_window_dimensions'
 
 const styles = {
   animationWrapper: {
     zIndex: 1,
-    position: 'relative'
+    position: 'fixed',
+    top: 0,
   }
 }
 
-const App = ({ containerHeight, params, history: { pushState } }) => {
+const App = ({ windowHeight, windowWidth, params, history: { pushState } }) => {
   const {id, type} = params
   let EditView, filter
 
@@ -27,6 +28,7 @@ const App = ({ containerHeight, params, history: { pushState } }) => {
   }
 
   function handleClose (e) {
+    e.preventDefault()
     pushState(null, '/')
   }
 
@@ -48,23 +50,28 @@ const App = ({ containerHeight, params, history: { pushState } }) => {
 
   return (
     <div>
-      <Home filter={filter} onOpen={handleOpen} />
+      <Geolocation />
+      <Home filter={filter} onOpen={handleOpen} {...{windowHeight, windowWidth, params}} />
       <Transition
         component={false}
         appear={{
-          translateY: containerHeight
+          translateY: windowHeight
         }}
         enter={{
           translateY: 0
         }}
         leave={{
-          translateY: containerHeight + 100
+          translateY: windowHeight + 100
         }}
       >
-        { EditView && <AnimationWrapper style={styles.animationWrapper}><EditView {...params} onClose={handleClose} /></AnimationWrapper>}
+        { EditView &&
+          <AnimationWrapper style={styles.animationWrapper}>
+            <EditView {...params} onClose={handleClose} />
+          </AnimationWrapper>
+        }
       </Transition>
     </div>
   )
 }
 
-export default PhoneWrapper(Dimensions()(App))
+export default InjectWindowDimensions(App)

@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import { ListItem } from 'material-ui/lib/lists'
-import Paper from 'material-ui/lib/paper'
 import Avatar from 'material-ui/lib/avatar'
 import AddIcon from 'material-ui/lib/svg-icons/content/add'
 import HelpIcon from 'material-ui/lib/svg-icons/action/help'
@@ -12,7 +11,8 @@ const styles = {
   wrapper: {
     marginBottom: 15,
     zIndex: 1,
-    position: 'relative'
+    position: 'relative',
+    backgroundColor: 'white'
   },
   listItem: {
     height: 72,
@@ -29,10 +29,10 @@ class AddButton extends React.Component {
   render () {
     const { onTouchTap } = this.props
     return (
-      <Paper
-        rounded={false}
+      <div
+
         style={styles.wrapper}
-        zIndex={1}
+
       >
         <ListItem
           style={styles.listItem}
@@ -51,7 +51,7 @@ class AddButton extends React.Component {
           onTouchTap={onTouchTap}
           disableTouchRipple
         />
-      </Paper>
+      </div>
     )
   }
 }

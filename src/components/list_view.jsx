@@ -1,12 +1,17 @@
 import React, { PropTypes } from 'react'
-import { connect } from 'react-redux'
 import { ListDivider } from 'material-ui/lib/lists'
-import Paper from 'material-ui/lib/paper'
-import distance from 'turf-distance'
-import Point from 'turf-point'
 import shouldPureComponentUpdate from 'react-pure-render'
 
 import { ListItem } from './'
+
+const styles = {
+  wrapper: {
+    backgroundColor: 'white'
+  },
+  listItemSelected: {
+    backgroundColor: 'lightgrey'
+  }
+}
 
 class ListView extends React.Component {
   static defaultProps = {
@@ -16,57 +21,31 @@ class ListView extends React.Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   render () {
-    const { items, onOpen } = this.props
+    const { items, onOpen, activeId } = this.props
     return (
-      <Paper zIndex={1}>
-        {items.map((item = {}, id) => (
-          <div key={id}>
+      <div style={styles.wrapper}>
+        {items.map((item = {}) => (
+          <div key={item.id}>
             <ListItem
-              onTouchTap={e => onOpen(e, {id, type: 'observation'})}
+              style={activeId === item.id ? styles.listItemSelected : {}}
+              onTouchTap={e => onOpen(e, {id: item.id, type: 'observation'})}
               {...item }
             />
             <ListDivider />
           </div>
         ))}
-      </Paper>
+      </div>
     )
   }
 }
 
 ListView.propTypes = {
   items: PropTypes.array,
-  onOpen: PropTypes.func
+  onOpen: PropTypes.func,
+  activeId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ])
 }
 
-function createSelector () {
-  const cache = {
-    location: [180, 90]
-  }
-  return function select (state) {
-    const distanceFromLastLocation = cache.location ? distance(Point(state.location), Point(cache.location)) : Infinity
-    // If the graph has not changed and we haven't moved more than 100m
-    // do not change the list of items
-    if (state.graph === cache.graph && distanceFromLastLocation < 0.1) {
-      return cache.items
-    }
-    const entities = []
-    for (let id in state.graph.entities) {
-      entities.push(state.graph.entities[id])
-    }
-
-    cache.items = {
-      items: entities.map(entity => {
-        return {
-          title: entity.tags['category'],
-          date: Date.parse(entity.tags['survey:date']),
-          distance: distance(Point(state.location), Point(entity.loc)) * 1000
-        }
-      }).sort((a, b) => a.distance - b.distance)
-    }
-    cache.location = state.location
-    cache.graph = state.graph
-    return cache.items
-  }
-}
-
-export default connect(createSelector())(ListView)
+export default ListView

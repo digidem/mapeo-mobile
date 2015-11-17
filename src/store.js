@@ -11,21 +11,13 @@ const reducer = combineReducers({
   ...reducers})
 
 const logger = createLogger()
-const createStoreWithMiddleWare = applyMiddleware(logger, catchErrors)(createStore)
+let createStoreWithMiddleWare
+if (process.env.NODE_ENV === 'development') {
+  createStoreWithMiddleWare = applyMiddleware(logger)(createStore)
+} else {
+  createStoreWithMiddleWare = applyMiddleware(catchErrors)(createStore)
+}
 const store = createStoreWithMiddleWare(reducer)
 syncReduxAndRouter(createBrowserHistory(), store)
-
-// let store
-// if (process.env.NODE_ENV === 'development') {
-//   store = compose(
-//     reduxReactRouter({createHistory}),
-//     devTools()
-//   )(createStore)(reducer)
-// } else {
-//   store = compose(
-//     applyMiddleware(thunk, catchErrors),
-//     reduxReactRouter({createHistory}),
-//   )(createStore)(reducer)
-// }
 
 export default store

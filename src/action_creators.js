@@ -8,10 +8,11 @@ import actionTypes from './constants'
  * and returns an object (action) with properties `type` and `payload`.
  */
 function makeActionCreator (type) {
-  return function (payload) {
+  return function (payload, error = false) {
     return {
       type,
-      payload
+      payload,
+      error
     }
   }
 }

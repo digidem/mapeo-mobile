@@ -13,3 +13,4 @@ export const EventEdit = () => (<div />)
 export const PlaceEdit = () => (<div />)
 export SummaryText from './summary_text'
 export AnimationWrapper from './animation_wrapper'
+export Geolocation from './geolocation'
