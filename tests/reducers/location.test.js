@@ -16,8 +16,8 @@ test('Default state', (t) => {
 
   t.equal(defaultState.coords, null, 'Coords null')
   t.deepEqual(defaultState.meta, emptyMeta, 'Default meta object does not have any values')
-  t.true(defaultState.error instanceof Error, 'Defaults to location error')
-  t.equal(defaultState.error.code, geolocationErrors.POSITION_UNAVAILABLE, 'Default error type is "POSITION_UNAVAILABLE"')
+  t.true(defaultState.positionError instanceof Error, 'Defaults to location error')
+  t.equal(defaultState.positionError.code, geolocationErrors.POSITION_UNAVAILABLE, 'Default error type is "POSITION_UNAVAILABLE"')
   t.equal(defaultState.timestamp, null, 'Timestamp null')
   t.end()
 })
