@@ -17,6 +17,7 @@ test('Default state', (t) => {
   t.equal(defaultState.coords, null, 'Coords null')
   t.deepEqual(defaultState.meta, emptyMeta, 'Default meta object does not have any values')
   t.true(defaultState.positionError instanceof Error, 'Defaults to location error')
+  t.true(Number.isInteger(defaultState.positionError.code), 'Error code should be an integer')
   t.equal(defaultState.positionError.code, geolocationErrors.POSITION_UNAVAILABLE, 'Default error type is "POSITION_UNAVAILABLE"')
   t.equal(defaultState.timestamp, null, 'Timestamp null')
   t.end()
@@ -30,6 +31,8 @@ test('Ignores actions when type is not "GEOLOCATION_UPDATE"', (t) => {
 })
 
 test('Error handling - no error code', (t) => {
+  const errorWithNoCode = new Error()
+
   const initialState = {
     coords: [-59.5, 2.7],
     meta: emptyMeta,
@@ -37,7 +40,7 @@ test('Error handling - no error code', (t) => {
     timestamp: 1447803656154
   }
 
-  const newState = locationReducer(initialState, geolocationUpdate(new Error(), true))
+  const newState = locationReducer(initialState, geolocationUpdate(errorWithNoCode, true))
 
   t.equal(initialState.coords, newState.coords, 'Coordinates are not changed')
   t.equal(initialState.meta, newState.meta, 'meta is not changed')
@@ -63,7 +66,7 @@ test('Error handling - geolocation position denied Error', (t) => {
   t.equal(initialState.meta, newState.meta, 'meta is not changed')
   t.equal(initialState.timestamp, newState.timestamp, 'timestamp is not changed')
   t.true(newState.positionError instanceof Error, 'positionError is changed to Error')
-  t.equal(newState.positionError.code, positionDeniedError.code, 'positionError default code is "POSITION_UNAVAILABLE"')
+  t.equal(newState.positionError.code, geolocationErrors.PERMISSION_DENIED, 'positionError default code is "POSITION_UNAVAILABLE"')
   t.end()
 })
 

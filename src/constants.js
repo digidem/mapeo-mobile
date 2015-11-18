@@ -19,8 +19,8 @@ export default keymirror({
   GEOLOCATION_UPDATE: null
 })
 
-export const geolocationErrors = keymirror({
-  PERMISSION_DENIED: null,
-  POSITION_UNAVAILABLE: null,
-  TIMEOUT: null
-})
+export const geolocationErrors = {
+  PERMISSION_DENIED: 1,
+  POSITION_UNAVAILABLE: 2,
+  TIMEOUT: 3
+}
