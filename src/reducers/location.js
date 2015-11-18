@@ -49,22 +49,23 @@ export default function location (
   switch (type) {
     case actionTypes.GEOLOCATION_UPDATE:
       invariant((error && payload instanceof Error) || (!error && payload.position), 'We have only two possibilities: error is true and payload is an Error() OR error is false and payload has a position')
-      if (!(payload instanceof Error)) {
-        // Okay, geolocation works
-        const { longitude, latitude, ...meta } = payload.position.coords
-        return {
-          coords: [longitude, latitude],
-          meta: meta,
-          timestamp: payload.position.timestamp,
-          positionError: null
+      if (error) {
+        // If error is true, then the payload is an Error object
+        if (!payload.code) {
+          // If we don't have an error code, default to:
+          payload.code = geolocationErrors.POSITION_UNAVAILABLE
         }
-      } else if (payload.code) {
-        // Darn, geolocation failed! This time, at least
-        return {...state, positionError: positionErrorCodes[payload.code]}
-      } else {
-        return {...state, positionError: geolocationErrors.POSITION_UNAVAILABLE}
+        return {...state, positionError: payload}
       }
-      break
+
+      // Okay, geolocation works
+      const { longitude, latitude, ...meta } = payload.position.coords
+      return {
+        coords: [longitude, latitude],
+        meta: meta,
+        timestamp: payload.position.timestamp,
+        positionError: null
+      }
 
     default:
       return state
