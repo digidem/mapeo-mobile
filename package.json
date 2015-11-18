@@ -29,7 +29,7 @@
   "scripts": {
     "build": "NODE_ENV=production browserify src/index.js | uglifyjs -cm > dist/index.js",
     "build:gh-pages": "npm run build && buildbranch gh-pages dist",
-    "prebuild": "mkdir -p dist && cp -Rf index.html img dist/",
+    "prebuild": "mkdir -p dist && cp -Rf index.html circle.yml img dist/",
     "serve:build": "st -i index.html --dir dist",
     "lint": "standard ./src",
     "start": "NODE_ENV=development budo src/index.js:index.js -- -p livereactload | garnish",
