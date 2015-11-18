@@ -94,11 +94,11 @@ test('Geolocation update updates state', (t) => {
 })
 
 test('Let\'s break some invariants!', (t) => {
-  t.throws(locationReducer.bind(this, undefined, geolocationUpdate({'whatever': 'yo'}, true)), 'Throws if error is true and payload is not an Error()')
+  t.throws(locationReducer.bind(null, undefined, geolocationUpdate({'whatever': 'yo'}, true)), 'Throws if error is true and payload is not an Error()')
 
-  t.throws(locationReducer.bind(this, undefined, geolocationUpdate(new Error(), false)), 'Throws if error is false and payload is a damn Error()')
+  t.throws(locationReducer.bind(null, undefined, geolocationUpdate(new Error(), false)), 'Throws if error is false and payload is a damn Error()')
 
-  t.throws(locationReducer.bind(this, undefined, geolocationUpdate({'whatever': 'yo'}, false)), 'Throws if error is false but there is no position anywhere to be seen')
+  t.throws(locationReducer.bind(null, undefined, geolocationUpdate({'whatever': 'yo'}, false)), 'Throws if error is false but there is no position anywhere to be seen')
 
   t.end()
 })
