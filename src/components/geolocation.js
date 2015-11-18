@@ -21,7 +21,11 @@ class Geolocation extends Component {
     // this.watchID = navigator.geolocation.watchPosition(
     this.watchID = geolocation.watchPosition(
       (position) => this.props.dispatch(geolocationUpdate({ position })),
-      (error) => this.props.dispatch(geolocationUpdate(error, true)),
+      (positionError) => {
+        const error = new Error(positionError.message)
+        error.code = positionError.code
+        this.props.dispatch(geolocationUpdate(error, true))
+      },
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     )
   }
