@@ -16,7 +16,7 @@ const positionErrorCodes = {
  * @type {number} timestamp Timestamp of last position fix
  */
 const firstLocationState = {
-  coords: [-59.5, 2.7],
+  coords: null,
   meta: {
     accuracy: null,
     altitude: null,
