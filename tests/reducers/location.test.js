@@ -2,7 +2,6 @@ import test from 'prova'
 import { location as locationReducer } from '../../src/reducers'
 import { geolocationUpdate } from '../../src/action_creators'
 import { geolocationErrors } from '../../src/constants'
-import PositionError from '../mock-errors.js'
 
 const emptyMeta = {
   accuracy: null,
