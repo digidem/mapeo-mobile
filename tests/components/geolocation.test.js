@@ -34,12 +34,14 @@ test('Component lifecycle', function (t) {
 test('Geolocation error position', function (t) {
   const dispatch = sinon.spy()
   const shallowRenderer = createRenderer()
-  const mockError = new Error()
+  const mockError = {'message': 'User denied geolocation prompt', 'code': 1}
 
   shallowRenderer.render(<Geolocation dispatch={dispatch} />)
   geolocationMock.sendError(mockError)
   t.equal(dispatch.args[0][0].type, actionTypes.GEOLOCATION_UPDATE, 'action type is correct')
-  t.equal(dispatch.args[0][0].payload, mockError, 'payload is the Error returned from geolocation')
+  t.true(dispatch.args[0][0].payload instanceof Error, 'payload is an Error()')
+  t.equal(dispatch.args[0][0].payload.code, mockError.code, 'payload has the right code')
+  t.equal(dispatch.args[0][0].payload.message, mockError.message, 'payload has the right message')
   t.true(dispatch.args[0][0].error, 'error variable is true')
   t.end()
 })
