@@ -48,8 +48,8 @@ export default function location (
   }) {
   switch (type) {
     case actionTypes.GEOLOCATION_UPDATE:
-      invariant(!error || (payload instanceof Error), 'If error is true payload should be instance of Error')
-      invariant(error || payload.position, 'Payload should have position property: %s', payload)
+      invariant(!error || (payload instanceof Error), '`error` was true but payload (%s) was not an error', payload)
+      invariant(error || payload.position, '`error` was false but the payload is missing `position` property: %s', payload)
       if (error) {
         // If error is true, then the payload is an Error object
         if (!payload.code) {
