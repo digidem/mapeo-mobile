@@ -27,13 +27,13 @@
     "parser": "babel-eslint"
   },
   "scripts": {
-    "build": "NODE_ENV=production browserify src/index.jsx | uglifyjs -cm > dist/index.js",
+    "build": "NODE_ENV=production browserify src/index.js | uglifyjs -cm > dist/index.js",
     "build:gh-pages": "npm run build && buildbranch gh-pages dist",
     "prebuild": "mkdir -p dist && cp -Rf index.html img dist/",
     "serve:build": "st -i index.html --dir dist",
     "lint": "standard ./src",
-    "start": "NODE_ENV=development budo src/index.jsx:index.js -- -p livereactload | garnish",
-    "start:nohot": "NODE_ENV=development budo src/index.jsx:index.js | garnish",
+    "start": "NODE_ENV=development budo src/index.js:index.js -- -p livereactload | garnish",
+    "start:nohot": "NODE_ENV=development budo src/index.js:index.js | garnish",
     "test": "npm run lint && npm run test:tap",
     "test:tap": "babel-tape-runner 'tests/**/*.test.js'",
     "test:browser": "babel-tape-runner 'tests/**/*.test.js' -b"
