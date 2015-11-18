@@ -7,8 +7,11 @@ const positionErrorCodes = {
   3: geolocationErrors.POSITION_UNAVAILABLE
 }
 
+const defaultError = new Error('Position unavailable')
+defaultError.code = geolocationErrors.POSITION_UNAVAILABLE
+
 /**
- * Location store. This should have the store and some associated data. Exaplining why:
+ * Location state defaults.
  * @type {array} coords Has the coordinates in [lon, lat] format, because that's what GeoJSON, Mapbox-gl-js and d3 use
  * @type {object} meta For all the associated data which might or might not be available. Has default values so we can simplify the rest of the code
  * should include accuracy (in m) if available, alitutude, and in addition any other metadata like HDOP, type of fix etc.
@@ -24,7 +27,7 @@ const firstLocationState = {
     heading: null,
     speed: null
   },
-  positionError: geolocationErrors.POSITION_UNAVAILABLE,
+  positionError: defaultError,
   timestamp: null
 }
 
