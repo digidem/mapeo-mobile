@@ -1,11 +1,18 @@
 {
-  "name": "dd-reporter-app",
+  "name": "mira-app",
   "version": "0.1.0",
-  "description": "A reporter app made for empowerment by Digital Democracy",
-  "main": "redux/index.jsx",
+  "description": "Monitor and document the world around you",
+  "main": "src/index.js",
   "keywords": [
-    "reporter",
-    "i_dont_really_know"
+    "openstreetmap",
+    "osm",
+    "android",
+    "monitor",
+    "environment",
+    "human rights",
+    "redux",
+    "react",
+    "map"
   ],
   "author": "Digital Democracy",
   "contributors": [
@@ -14,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/digidem/reporter-app.git"
+    "url": "https://github.com/digidem/mira-app.git"
   },
   "license": "MPL-2.0",
   "browserify": {
