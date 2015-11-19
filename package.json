@@ -95,7 +95,6 @@
     "reactify": "^1.1.1",
     "redux-devtools": "^2.1.5",
     "redux-logger": "^2.0.4",
-    "sinon": "^1.17.2",
     "smash": "^0.0.15",
     "st": "^1.0.0",
     "standard": "^5.3.1",
