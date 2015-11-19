@@ -1,7 +1,6 @@
 import React from 'react'
 import proxyquire from 'proxyquire'
 import test from 'prova'
-import sinon from 'sinon'
 import { createRenderer } from 'react-addons-test-utils'
 import actionTypes from '../../src/constants'
 
@@ -21,8 +20,9 @@ const stubs = {
 const Geolocation = proxyquire('../../src/components/geolocation', stubs)
 
 test('Component lifecycle', function (t) {
-  const dispatch = sinon.spy()
+  geolocationMock.reset()
   const shallowRenderer = createRenderer()
+  const dispatch = () => null
 
   shallowRenderer.render(<Geolocation dispatch={dispatch} />)
   t.false(shallowRenderer.getRenderOutput(), 'does not render anything')
@@ -32,45 +32,59 @@ test('Component lifecycle', function (t) {
 })
 
 test('Geolocation error position', function (t) {
-  const dispatch = sinon.spy()
+  t.plan(7)
+  geolocationMock.reset()
   const shallowRenderer = createRenderer()
   const mockError = {'message': 'User denied geolocation prompt', 'code': 1}
 
+  const dispatch = action => {
+    t.equal(action.type, actionTypes.GEOLOCATION_UPDATE, 'action type is correct')
+    t.true(action.payload instanceof Error, 'payload is instance of Error')
+    t.notEqual(action.payload, mockError, 'Error returned is not same as error thrown by geolocation')
+    t.equal(action.payload.message, mockError.message, 'Message from PositionError is copied to error thrown')
+    t.equal(action.payload.code, mockError.code, 'Code from PositionError is copied to error thrown')
+    t.true(action.error, 'error variable is true')
+  }
+
   shallowRenderer.render(<Geolocation dispatch={dispatch} />)
   geolocationMock.sendError(mockError)
-  t.equal(dispatch.args[0][0].type, actionTypes.GEOLOCATION_UPDATE, 'action type is correct')
-  t.true(dispatch.args[0][0].payload instanceof Error, 'payload is an Error()')
-  t.equal(dispatch.args[0][0].payload.code, mockError.code, 'payload has the right code')
-  t.equal(dispatch.args[0][0].payload.message, mockError.message, 'payload has the right message')
-  t.true(dispatch.args[0][0].error, 'error variable is true')
-  t.end()
+  t.false(shallowRenderer.getRenderOutput(), 'dispatching error does not render anything')
 })
 
 test('Geolocation good position', function (t) {
-  const dispatch = sinon.spy()
+  t.plan(3)
+  geolocationMock.reset()
   const shallowRenderer = createRenderer()
+
+  const dispatch = action => {
+    t.equal(action.type, actionTypes.GEOLOCATION_UPDATE, 'action type is correct')
+    t.deepEqual(action.payload, {position: { location: [1, 2] }}, 'passes expected payload')
+  }
 
   shallowRenderer.render(<Geolocation dispatch={dispatch} />)
   geolocationMock.sendPosition({ location: [1, 2] })
-  t.equal(dispatch.args[0][0].type, actionTypes.GEOLOCATION_UPDATE, 'action type is correct')
-  t.deepEqual(dispatch.args[0][0].payload, {position: { location: [1, 2] }}, 'passes expected payload')
   t.false(shallowRenderer.getRenderOutput(), 'dispatching update does not render anything')
-  t.end()
 })
 
 test('Geolocation handles updates on location', function (t) {
-  const dispatch = sinon.spy()
+  t.plan(8)
+  geolocationMock.reset()
   const shallowRenderer = createRenderer()
+  const testLocations = [[1, 2], [3, 4], [5, 6]]
+  let callCount = 0
+
+  const dispatch = action => {
+    t.equal(action.type, actionTypes.GEOLOCATION_UPDATE, 'action type is correct')
+    t.deepEqual(action.payload, {position: { location: testLocations.shift() }}, 'passes expected payload')
+    callCount++
+    if (callCount === 3) {
+      t.pass('dispatch called 3 times, once for each update')
+    }
+  }
 
   shallowRenderer.render(<Geolocation dispatch={dispatch} />)
   geolocationMock.sendPosition({ location: [1, 2] })
   geolocationMock.sendPosition({ location: [3, 4] })
   geolocationMock.sendPosition({ location: [5, 6] })
-  t.equal(dispatch.args[0][0].type, actionTypes.GEOLOCATION_UPDATE, 'action type is correct')
-  t.deepEqual(dispatch.args[0][0].payload, {position: { location: [1, 2] }}, 'passes expected payload')
-  t.deepEqual(dispatch.args[1][0].payload, {position: { location: [3, 4] }}, 'passes second payload')
-  t.deepEqual(dispatch.args[2][0].payload, {position: { location: [5, 6] }}, 'passes third payload')
-  t.equal(dispatch.callCount, 3, 'dispatch is called 3 times, once for each update')
   t.false(shallowRenderer.getRenderOutput(), 'dispatching multiple updates does not render anything')
-  t.end()
 })

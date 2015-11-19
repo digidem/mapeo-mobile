@@ -1,12 +1,6 @@
 import invariant from 'invariant'
 import actionTypes, { geolocationErrors } from '../constants'
 
-const positionErrorCodes = {
-  1: geolocationErrors.PERMISSION_DENIED,
-  2: geolocationErrors.POSITION_UNAVAILABLE,
-  3: geolocationErrors.POSITION_UNAVAILABLE
-}
-
 const defaultError = new Error('Position unavailable')
 defaultError.code = geolocationErrors.POSITION_UNAVAILABLE
 
