@@ -28,11 +28,16 @@ export const createGeolocationMock = () => {
     return watches.length === 0
   }
 
+  function reset () {
+    watches = []
+  }
+
   return {
     watchPosition,
     clearWatch,
     sendPosition,
     sendError,
-    areWatchesRemoved
+    areWatchesRemoved,
+    reset
   }
 }
