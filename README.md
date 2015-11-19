@@ -3,9 +3,12 @@ Mira
 
 **PRE-APLHA:** Under heavy development and with limited functionality
 
-**Mira is a mobile app for monitoring and documenting the world around you**. It is built for communities to map and document their territory – how it is used and why it is important to them – and to monitor and document how their lives and territory are being impacted by oil drilling, mining, logging, land invasions etc.
+**Mira is a mobile app for monitoring and documenting the world around you**. It is built for communities to map and document their territory – how it is used and why it is important to them – and to monitor and document how their lives and territory are being impacted by oil drilling, mining, logging, land invasions, and other environmental threats.
 
-It is designed to be fexible and adaptable: You could use it for citizen science – documenting water samples, invertebrate surveys etc.; citizen journalism – collecting stories or testimonies; or mapping, including collecting data to update OpenStreetMap.
+It is designed to be fexible and adaptable: You could use it for:
+- citizen science – documenting water samples, invertebrate surveys etc.
+- citizen journalism – collecting stories or testimonies
+- mapping, including collecting data to update OpenStreetMap.
 
 The app is built around 3 core data types / concepts:
 
@@ -24,7 +27,7 @@ However, forms are linear in nature and are slow to navigate, and data entry is 
 
 Each observation can have a long form attached, but we encourage observation forms to be kept small, and instead recommend making several observations at a particular site. Instead of a long, linear form guiding the user through what data to gather, Mira will use contextual suggestions: lists of suggested observations to make, based on where the user is or what process they have just started. E.g. if the user documents a contaminated river then the contextual suggestions will include documenting if there is a source of the spill, signs of oil on the ground, a pipeline nearby, each as a separate observation. The user can choose to move through these suggestions in any order.
 
-Many existing apps are also built around a heirarchical research structure: those gathering the data are not the same as those analysing and using the data. Accessing and analysing previous data gathered can be difficult. Mira is built around a distributed peer-to-peer data model and each device has a replica of all the data. This allows new observations to be linked to existing places and incidents: one of our biggest challenge with community-based monitoring programs has been deciphering which incident new surveys refer to, or whether they are documenting a new event.
+Many existing apps are also built around a heirarchical research structure: those gathering the data are not the same as those analysing and using the data. Accessing and analysing previous data gathered can be difficult. Mira is built around a distributed peer-to-peer data model and each device has a replica of all the data. This allows new observations to be linked to existing places and incidents: one of our biggest challenges with community-based monitoring programs has been deciphering which incident new surveys refer to, or whether they are documenting a new event.
 
 Finally, Mira puts maps front and center. The map is built upon [mapbox-gl-js](https://github.com/mapbox/mapbox-gl-js) which renders data in realtime as it is updated. Everything is attached to a location, rather than having taking a GPS point as a separate step.
 
