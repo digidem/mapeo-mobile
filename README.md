@@ -6,6 +6,7 @@ Mira
 **Mira is a mobile app for monitoring and documenting the world around you**. It is built for communities to map and document their territory – how it is used and why it is important to them – and to monitor and document how their lives and territory are being impacted by oil drilling, mining, logging, land invasions, and other environmental threats.
 
 It is designed to be fexible and adaptable: You could use it for:
+
 - citizen science – documenting water samples, invertebrate surveys etc.
 - citizen journalism – collecting stories or testimonies
 - mapping, including collecting data to update OpenStreetMap.
