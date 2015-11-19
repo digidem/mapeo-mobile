@@ -114,7 +114,7 @@ function createSelector () {
           id: entity.id,
           title: entity.tags['category'],
           date: Date.parse(entity.tags['survey:date']),
-          distance: locationCoords ? distance(Point(locationCoords), Point(entity.loc)) * 1000 : 9999999
+          distance: locationCoords ? distance(Point(locationCoords), Point(entity.loc)) * 1000 : null
         }
       }).sort((a, b) => a.distance - b.distance)
     }
