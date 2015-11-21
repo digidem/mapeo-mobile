@@ -15,7 +15,12 @@ injectTapEventPlugin()
 
 const styles = {
   wrapper: {
-    backgroundColor: Colors.grey300
+    backgroundColor: Colors.grey300,
+    position: 'absolute',
+    width: '100vw',
+    height: '100vh',
+    overflowY: 'scroll',
+    WebkitOverflowScrolling: 'touch'
   },
   mapWrapper: {
     overflow: 'hidden',

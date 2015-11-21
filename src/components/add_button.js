@@ -10,7 +10,6 @@ import shouldPureComponentUpdate from 'react-pure-render/function'
 const styles = {
   wrapper: {
     marginBottom: 15,
-    zIndex: 1,
     position: 'relative',
     backgroundColor: 'white'
   },
