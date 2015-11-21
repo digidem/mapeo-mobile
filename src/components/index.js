@@ -14,3 +14,5 @@ export const PlaceEdit = () => (<div />)
 export SummaryText from './summary_text'
 export AnimationWrapper from './animation_wrapper'
 export Geolocation from './geolocation'
+export RouteTransition from './route_transition'
+export HomeTransition from './home_transition'

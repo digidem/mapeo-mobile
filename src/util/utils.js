@@ -27,3 +27,19 @@ export const geolocation = (function () {
   }
   return global.navigator.geolocation
 })()
+
+/**
+ * Parse a style object for `translateX`, `translateY`, `translateZ` and `scale` and
+ * built a CSS transform string.
+ * @param  {Object} style         Style object
+ * @param  {String} options.units Units, defaults to `%`, could be `px`
+ * @return {Object}               New style object with translate/scale properties combined as `transform`
+ */
+export const parseTransformStyle = (style, {units = '%'} = {}) => {
+  let {translateX = 0, translateY = 0, translateZ = 0, scale = 1, ...nonTransformStyles} = style
+  let [x, y, z] = [translateX, translateY, translateZ].map(v => v.toFixed(1))
+  return {
+    ...nonTransformStyles,
+    transform: `translate3d(${x}${units},${y}${units},${z}px) scale(${scale.toFixed(4)})`
+  }
+}

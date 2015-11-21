@@ -1,75 +1,33 @@
 import React from 'react'
-import Transition from 'react-motion-ui-pack'
 
 import Home from './home'
-import {
-  AnimationWrapper,
-  ObservationEdit,
-  EventEdit,
-  PlaceEdit,
-  Geolocation
-} from '../components'
+import { Geolocation, RouteTransition, HomeTransition } from '../components'
 import InjectWindowDimensions from '../hocs/inject_window_dimensions'
 
-const styles = {
-  animationWrapper: {
-    zIndex: 1,
-    position: 'fixed',
-    top: 0,
-  }
-}
-
-const App = ({ windowHeight, windowWidth, params, history: { pushState } }) => {
+const App = ({ windowHeight, windowWidth, params, location, history, children }) => {
   const {id, type} = params
-  let EditView, filter
-
-  if (!id) {
-    filter = type
-  }
+  const filter = (id) ? null : type
+  const homeTransitionType = (id === 'new') ? 'fadeBack' : 'slideToLeft'
+  const childRouteTransitionType = (id === 'new') ? 'slideFromBottom' : 'slideFromRight'
 
   function handleClose (e) {
     e.preventDefault()
-    pushState(null, '/')
+    history.replaceState(null, '/')
   }
 
   function handleOpen (e, {id, type}) {
-    pushState(null, `/${type}/${id}`)
-  }
-
-  switch (type) {
-    case 'observation':
-      EditView = ObservationEdit
-      break
-    case 'event':
-      EditView = EventEdit
-      break
-    case 'place':
-      EditView = PlaceEdit
-      break
+    history.pushState(null, `/${type}/${id}`)
   }
 
   return (
     <div>
       <Geolocation />
-      <Home filter={filter} onOpen={handleOpen} {...{windowHeight, windowWidth, params}} />
-      <Transition
-        component={false}
-        appear={{
-          translateY: windowHeight
-        }}
-        enter={{
-          translateY: 0
-        }}
-        leave={{
-          translateY: windowHeight + 100
-        }}
-      >
-        { EditView &&
-          <AnimationWrapper style={styles.animationWrapper}>
-            <EditView {...params} onClose={handleClose} />
-          </AnimationWrapper>
-        }
-      </Transition>
+      <HomeTransition active={!!children} type={homeTransitionType}>
+        <Home filter={filter} onOpen={handleOpen} {...{windowHeight, windowWidth, params}} />
+      </HomeTransition>
+      <RouteTransition pathname={location.pathname} type={childRouteTransitionType}>
+        {children && React.cloneElement(children, {onClose: handleClose})}
+      </RouteTransition>
     </div>
   )
 }
