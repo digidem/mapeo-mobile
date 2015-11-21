@@ -6,11 +6,12 @@ defaultError.code = geolocationErrors.POSITION_UNAVAILABLE
 
 /**
  * Location state defaults.
- * @type {array} coords Has the coordinates in [lon, lat] format, because that's what GeoJSON, Mapbox-gl-js and d3 use
- * @type {object} meta For all the associated data which might or might not be available. Has default values so we can simplify the rest of the code
+ * @namespace
+ * @prop {array} coords Has the coordinates in [lon, lat] format, because that's what GeoJSON, Mapbox-gl-js and d3 use
+ * @prop {object} meta For all the associated data which might or might not be available. Has default values so we can simplify the rest of the code
  * should include accuracy (in m) if available, alitutude, and in addition any other metadata like HDOP, type of fix etc.
- * @type {string} positionError 'PERMISSION_DENIED' || 'POSITION_UNAVAILABLE' || 'TIMEOUT' from http://www.w3.org/TR/geolocation-API/#position_error_interface
- * @type {number} timestamp Timestamp of last position fix
+ * @prop {string} positionError 'PERMISSION_DENIED' || 'POSITION_UNAVAILABLE' || 'TIMEOUT' from http://www.w3.org/TR/geolocation-API/#position_error_interface
+ * @prop {number} timestamp Timestamp of last position fix
  */
 const firstLocationState = {
   coords: null,

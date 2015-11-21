@@ -21,6 +21,11 @@ export const prefixTags = function prefixTags (o, { prefix, blacklist = [] }) {
   }, {})
 }
 
+/**
+ * Used for tests: returns the global navigator geolocation object, but returns
+ * `undefined` and can be mocked in tests.
+ * @return {geolocation}   `navigator.geolocation`
+ */
 export const geolocation = (function () {
   if (!global.navigator || !('geolocation' in global.navigator)) {
     return
