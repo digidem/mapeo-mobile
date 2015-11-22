@@ -1,7 +1,9 @@
 import test from 'prova'
 import { geolocation as locationReducer } from '../../src/reducers'
-import { geolocationUpdate } from '../../src/action_creators'
+import actionCreators from '../../src/action_creators'
 import { geolocationErrors } from '../../src/constants'
+
+const { geolocationUpdate } = actionCreators
 
 const emptyMeta = {
   accuracy: null,
