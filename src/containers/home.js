@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react'
-import { Motion, spring } from 'react-motion'
 import Colors from 'material-ui/lib/styles/colors'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
 import MyPropTypes from '../util/prop_types'
 import {
   ListView,
+  MapTransition,
   MapView,
   AddButton } from '../components'
 
@@ -19,18 +19,11 @@ const styles = {
     height: '100vh',
     overflowY: 'scroll',
     WebkitOverflowScrolling: 'touch'
-  },
-  mapWrapper: {
-    overflow: 'hidden',
-    position: 'relative',
-    width: '100%',
-    height: '100%'
   }
 }
 
-function roundedEqual (a, b, {decimalPlaces = 0} = {}) {
-  return a.toFixed(decimalPlaces) === b.toFixed(decimalPlaces)
-}
+/** @type {number} This should be the height of the AddButton */
+const mapPaddingBottom = 72
 
 class Home extends React.Component {
   state = {
@@ -51,37 +44,19 @@ class Home extends React.Component {
   }
 
   render () {
-    const { windowWidth, windowHeight, onOpen, geolocation, items, params } = this.props
+    const { onOpen, geolocation, items, params } = this.props
     const { isMapFullscreen } = this.state
-    const smallMapHeight = Math.round(windowWidth * 2 / 3)
-    const fullScreenMapHeight = windowHeight - 72
-    const mapHeight = isMapFullscreen ? fullScreenMapHeight : smallMapHeight
+    const size = isMapFullscreen ? 'large' : 'small'
     return (
       <div style={styles.wrapper}>
-        <Motion style={{animatedHeight: spring(mapHeight)}}>
-          {({animatedHeight}) => {
-            // We don't animate the map size, because this causes performance issues
-            // We toggle the map size between large and small, and animate the container
-            // using the offset to keep the map centered.
-            const eventualHeight = roundedEqual(animatedHeight, smallMapHeight) ? smallMapHeight : fullScreenMapHeight
-            const offsetY = ((animatedHeight - eventualHeight) / 2).toFixed(1)
-            return (
-              <div style={{...styles.mapWrapper, height: animatedHeight}}>
-                <div style={{transform: `translateY(${offsetY}px)`, width: '100%', height: '100%'}}>
-                  <MapView
-                    size={isMapFullscreen}
-                    geolocation={geolocation}
-                    interactive={isMapFullscreen}
-                    onClick={this.switchMapView}
-                  />
-                </div>
-              </div>
-            )
-          }}
-        </Motion>
-        <AddButton
-          onTouchTap={this.handleAddObservation}
-        />
+        <MapTransition size={size} paddingBottom={mapPaddingBottom}>
+          <MapView
+            geolocation={geolocation}
+            interactive={isMapFullscreen}
+            onClick={this.switchMapView}
+          />
+        </MapTransition>
+        <AddButton onTouchTap={this.handleAddObservation} />
         <ListView {...{onOpen, items}} activeId={params.id} />
       </div>
     )
@@ -89,8 +64,6 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-  windowWidth: PropTypes.number,
-  windowHeight: PropTypes.number,
   geolocation: MyPropTypes.geolocation,
   items: PropTypes.array,
   onOpen: PropTypes.func,

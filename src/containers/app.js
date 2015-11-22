@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Home from './home'
 import { Geolocation, RouteTransition, HomeTransition } from '../components'
-import InjectWindowDimensions from '../hocs/inject_window_dimensions'
 import geolocationSelector from '../selectors/geolocation'
 import itemsSelector from '../selectors/items'
 
@@ -25,7 +24,7 @@ const App = ({ windowHeight, windowWidth, params, geolocation, location, history
     <div>
       <Geolocation />
       <HomeTransition active={!!children} type={homeTransitionType}>
-        <Home filter={filter} onOpen={handleOpen} {...{windowHeight, windowWidth, params, items, geolocation}} />
+        <Home filter={filter} onOpen={handleOpen} {...{params, items, geolocation}} />
       </HomeTransition>
       <RouteTransition pathname={location.pathname} type={childRouteTransitionType}>
         {children && React.cloneElement(children, {onClose: handleClose})}
@@ -41,4 +40,4 @@ function selector (state) {
   }
 }
 
-export default InjectWindowDimensions(connect(selector)(App))
+export default connect(selector)(App)
