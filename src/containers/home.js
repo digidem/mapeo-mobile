@@ -24,7 +24,9 @@ const styles = {
   },
   mapWrapper: {
     overflow: 'hidden',
-    position: 'relative'
+    position: 'relative',
+    width: '100%',
+    height: '100%'
   }
 }
 
@@ -67,9 +69,9 @@ class Home extends React.Component {
             const offsetY = ((animatedHeight - eventualHeight) / 2).toFixed(1)
             return (
               <div style={{...styles.mapWrapper, height: animatedHeight}}>
-                <div style={{transform: `translateY(${offsetY}px)`}}>
+                <div style={{transform: `translateY(${offsetY}px)`, width: '100%', height: '100%'}}>
                   <MapView
-                    height={eventualHeight}
+                    size={isMapFullscreen}
                     location={location}
                     interactive={isMapFullscreen}
                     onClick={this.switchMapView}

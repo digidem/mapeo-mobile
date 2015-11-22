@@ -11,17 +11,30 @@ const DEFAULT_COORDS = [-59.5, 2.7]
  */
 class MapboxGL extends React.Component {
   static defaultProps = {
-    mapStyle: 'mapbox://styles/mapbox/streets-v8',
-    initialZoom: 12,
     centerOnLocation: true,
-    width: '100%',
-    height: '100%',
+    initialZoom: 12,
     interactive: false,
+    mapStyle: 'mapbox://styles/mapbox/streets-v8',
     onMove: () => null
   }
 
   static propTypes = {
-    location: PropTypes.object,
+    /**
+     * Should the map keep following the current location?
+     */
+    centerOnLocation: PropTypes.bool,
+    /**
+     * If `false`, no mouse, touch, or keyboard listeners are attached to the map, so it will not respond to input
+     */
+    interactive: PropTypes.bool,
+    /**
+     * Initial zoom level of the map when first rendered
+     */
+    initialZoom: PropTypes.number,
+    /**
+     * Location object (see location reducer documentation for shape)
+     */
+    location: MyPropTypes.location,
     /**
      * - NOT yet dynamic e.g. if you change it the map won't change
      * Map style. This must be an an object conforming to the schema described in the [style reference](https://mapbox.com/mapbox-gl-style-spec/), or a URL to a JSON style. To load a style from the Mapbox API, you can use a URL of the form `mapbox://styles/:owner/:style`, where `:owner` is your Mapbox account name and `:style` is the style ID. Or you can use one of the predefined Mapbox styles:
@@ -32,36 +45,25 @@ class MapboxGL extends React.Component {
      * `mapbox://styles/mapbox/dark-v8` - Subtle dark backdrop for data vizualizations.
      */
     mapStyle: MyPropTypes.stringOrObject,
-    width: MyPropTypes.stringOrNumber,
-    height: MyPropTypes.stringOrNumber,
-    /**
-     * Mapbox [API access token](https://www.mapbox.com/help/create-api-access-token/)
-     */
-    token: PropTypes.string.isRequired,
-    /**
-     * Initial zoom level of the map when first rendered
-     */
-    initialZoom: PropTypes.number,
-    /**
-     * Should the map keep following the current location?
-     */
-    centerOnLocation: PropTypes.bool,
-    /**
-     * If `false`, no mouse, touch, or keyboard listeners are attached to the map, so it will not respond to input
-     */
-    interactive: PropTypes.bool,
     /**
      * Triggered whenever the map moves. Access the map object on `event.target.map`
      */
-    onMove: PropTypes.func
+    onMove: PropTypes.func,
+    /**
+     * This value can be anything, if it changes (!==) the map is redrawn
+     */
+    size: PropTypes.any,
+    /**
+     * Mapbox [API access token](https://www.mapbox.com/help/create-api-access-token/)
+     */
+    token: PropTypes.string.isRequired
   }
 
   render () {
-    const { width, height } = this.props
     return (
       <div
         ref={el => this.mapDiv = el}
-        style={{width, height}}
+        style={{height: '100%', width: '100%'}}
       />
     )
   }
@@ -101,11 +103,8 @@ class MapboxGL extends React.Component {
       })
     }
 
-    const heightHasChanged = nextProps.height !== this.props.height
-    const widthHasChanged = nextProps.width !== this.props.width
-    if (heightHasChanged || widthHasChanged) {
-      this.mapDiv.style.height = nextProps.height + 'px'
-      this.mapDiv.style.width = nextProps.width + 'px'
+    const sizeHasChanged = nextProps.size !== this.props.size
+    if (sizeHasChanged) {
       this.map.resize()
     }
 
