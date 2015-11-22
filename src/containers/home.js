@@ -1,10 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Motion, spring } from 'react-motion'
-import { connect } from 'react-redux'
 import Colors from 'material-ui/lib/styles/colors'
 import injectTapEventPlugin from 'react-tap-event-plugin'
-import distance from 'turf-distance'
-import Point from 'turf-point'
 
 import {
   ListView,
@@ -99,40 +96,4 @@ Home.propTypes = {
   params: PropTypes.object
 }
 
-function createSelector () {
-  const cache = {
-    coords: [180, 90]
-  }
-  return function select (state) {
-    const locationCoords = state.location.coords
-    let items
-    const distanceFromLastLocation = cache.coords && locationCoords ? distance(Point(locationCoords), Point(cache.coords)) : Infinity
-    // If the graph has not changed and we haven't moved more than 100m
-    // do not change the list of items
-    if (state.graph === cache.graph && distanceFromLastLocation < 0.1) {
-      items = cache.items
-    } else {
-      const entities = []
-      for (let id in state.graph.entities) {
-        entities.push(state.graph.entities[id])
-      }
-      items = entities.map(entity => {
-        return {
-          id: entity.id,
-          title: entity.tags['category'],
-          date: Date.parse(entity.tags['survey:date']),
-          distance: locationCoords ? distance(Point(locationCoords), Point(entity.loc)) * 1000 : null
-        }
-      }).sort((a, b) => a.distance - b.distance)
-    }
-    cache.coords = state.location.coords
-    cache.graph = state.graph
-    cache.items = items
-    return {
-      location: state.location,
-      items: items
-    }
-  }
-}
-
-export default connect(createSelector())(Home)
+export default Home
