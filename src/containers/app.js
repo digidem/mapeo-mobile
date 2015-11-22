@@ -9,8 +9,9 @@ import HomeTransition from '../components/transitions/home_transition'
 import geolocationSelector from '../selectors/geolocation'
 import itemsSelector from '../selectors/items'
 import MyPropTypes from '../util/prop_types'
+import actionCreators from '../action_creators'
 
-const App = ({ children, geolocation, history, items, location, params }) => {
+const App = ({ children, geolocation, geolocationUpdate, history, items, location, params }) => {
   const {id} = params
   const homeTransitionType = (id === 'new') ? 'fadeBack' : 'slideToLeft'
   const childRouteTransitionType = (id === 'new') ? 'slideFromBottom' : 'slideFromRight'
@@ -26,7 +27,7 @@ const App = ({ children, geolocation, history, items, location, params }) => {
 
   return (
     <div>
-      <Geolocation />
+      <Geolocation onGeolocationUpdate={geolocationUpdate} />
       <HomeTransition active={!!children} type={homeTransitionType}>
         <HomeView onOpen={handleOpen} {...{params, items, geolocation}} />
       </HomeTransition>
@@ -40,17 +41,24 @@ const App = ({ children, geolocation, history, items, location, params }) => {
 App.propTypes = {
   children: PropTypes.element,
   geolocation: MyPropTypes.geolocation.isRequired,
+  geolocationUpdate: PropTypes.func.isRequired,
   history: RouterPropTypes.history.isRequired,
   items: PropTypes.array.isRequired,
   location: RouterPropTypes.location.isRequired,
   params: PropTypes.object.isRequired
 }
 
-function selector (state) {
+function mapStateToProps (state) {
   return {
     items: itemsSelector(state),
     geolocation: geolocationSelector(state)
   }
 }
 
-export default connect(selector)(App)
+function mapDispatchToProps (dispatch) {
+  return {
+    geolocationUpdate: (...args) => dispatch(actionCreators.geolocationUpdate(...args))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

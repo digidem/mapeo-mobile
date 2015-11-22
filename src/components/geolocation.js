@@ -1,18 +1,22 @@
 import { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { geolocationUpdate } from '../action_creators'
 import { geolocation } from '../util/utils'
 
+/**
+ * An empty component that attaches an event to
+ *   navigator.geolocation.watchPosition and calls `onGeolocationUpdate` when
+ *   the position updates or there is a geolocation position error.
+ */
 class Geolocation extends Component {
 
   watchID = null
 
   componentWillMount () {
+    const {onGeolocationUpdate} = this.props
     // Dispatch error and return early if we don't have geolocation
     // if (!('geolocation' in navigator)) {
     if (typeof geolocation === 'undefined') {
       const error = new Error('Geolocation not supported by client')
-      this.props.dispatch(geolocationUpdate(error, true))
+      onGeolocationUpdate(error, true)
       return
     }
     // The watchPosition constantly updates the store with new values (once at 300 miliseconds),
@@ -20,11 +24,11 @@ class Geolocation extends Component {
     // at all, depending on the implementation. So I'm adding checks here.
     // this.watchID = navigator.geolocation.watchPosition(
     this.watchID = geolocation.watchPosition(
-      (position) => this.props.dispatch(geolocationUpdate({ position })),
+      (position) => onGeolocationUpdate({ position }),
       (positionError) => {
         const error = new Error(positionError.message)
         error.code = positionError.code
-        this.props.dispatch(geolocationUpdate(error, true))
+        onGeolocationUpdate(error, true)
       },
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     )
@@ -32,7 +36,6 @@ class Geolocation extends Component {
 
   componentWillUnmount () {
     if (this.watchID) {
-      // navigator.geolocation.clearWatch(this.watchID)
       geolocation.clearWatch(this.watchID)
     }
   }
@@ -43,8 +46,12 @@ class Geolocation extends Component {
 }
 
 Geolocation.propTypes = {
-  dispatch: PropTypes.func.isRequired
+  /**
+   * Called when geolocation position updates
+   * @param {object|Error} payload Error() or payload with position property
+   * @param {bool} error true if error
+   */
+  onGeolocationUpdate: PropTypes.func.isRequired
 }
 
-// Connect with no arguments injects the dispatch function into props
-export default connect()(Geolocation)
+export default Geolocation
