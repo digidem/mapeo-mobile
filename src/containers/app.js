@@ -6,8 +6,7 @@ import geolocationSelector from '../selectors/geolocation'
 import itemsSelector from '../selectors/items'
 
 const App = ({ windowHeight, windowWidth, params, geolocation, location, history, children, items }) => {
-  const {id, type} = params
-  const filter = (id) ? null : type
+  const {id} = params
   const homeTransitionType = (id === 'new') ? 'fadeBack' : 'slideToLeft'
   const childRouteTransitionType = (id === 'new') ? 'slideFromBottom' : 'slideFromRight'
 
@@ -24,7 +23,7 @@ const App = ({ windowHeight, windowWidth, params, geolocation, location, history
     <div>
       <Geolocation />
       <HomeTransition active={!!children} type={homeTransitionType}>
-        <Home filter={filter} onOpen={handleOpen} {...{params, items, geolocation}} />
+        <Home onOpen={handleOpen} {...{params, items, geolocation}} />
       </HomeTransition>
       <RouteTransition pathname={location.pathname} type={childRouteTransitionType}>
         {children && React.cloneElement(children, {onClose: handleClose})}
