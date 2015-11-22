@@ -4,9 +4,9 @@ import Point from 'turf-point'
 const cache = {}
 
 function selectSortedItemList (state) {
-  const locationCoords = state.location.coords
+  const geolocationCoords = state.geolocation.coords
   let items
-  const distanceFromLastLocation = cache.coords && locationCoords ? distance(Point(locationCoords), Point(cache.coords)) : Infinity
+  const distanceFromLastLocation = cache.coords && geolocationCoords ? distance(Point(geolocationCoords), Point(cache.coords)) : Infinity
   // If the graph has not changed and we haven't moved more than 100m
   // do not change the list of items
   // TODO: switch to quicker distance function if necessary
@@ -22,11 +22,11 @@ function selectSortedItemList (state) {
         id: entity.id,
         title: entity.tags['category'],
         date: Date.parse(entity.tags['survey:date']),
-        distance: locationCoords ? distance(Point(locationCoords), Point(entity.loc)) * 1000 : null
+        distance: geolocationCoords ? distance(Point(geolocationCoords), Point(entity.loc)) * 1000 : null
       }
     }).sort((a, b) => a.distance - b.distance)
   }
-  cache.coords = state.location.coords
+  cache.coords = state.geolocation.coords
   cache.graph = state.graph
   cache.items = items
   return items

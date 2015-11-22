@@ -9,7 +9,7 @@ export default {
     PropTypes.string,
     PropTypes.object
   ]),
-  location: PropTypes.shape({
+  geolocation: PropTypes.shape({
     coords: PropTypes.arrayOf(PropTypes.number),
     meta: PropTypes.object,
     positionError: PropTypes.instanceOf(Error),

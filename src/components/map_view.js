@@ -29,7 +29,7 @@ class MapView extends React.Component {
     /**
      * Location object (with coords and meta) for our current position
      */
-    location: MyPropTypes.location.isRequired,
+    geolocation: MyPropTypes.geolocation.isRequired,
     /**
      * Whether the map should respond to mouse and touch events. When it is small we
      * turn off interactivity.
@@ -43,7 +43,7 @@ class MapView extends React.Component {
 
   onMapMove = (e) => {
     const mapCenter = e.target.getCenter().toArray()
-    const locationCoords = this.props.location.coords
+    const locationCoords = this.props.geolocation.coords
     // If the map is within 1m of our location, consider it centered on our location
     const centerOnLocation = locationCoords && distance(Point(mapCenter), Point(locationCoords)) < 0.001
     this.setState({

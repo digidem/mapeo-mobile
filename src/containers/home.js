@@ -3,6 +3,7 @@ import { Motion, spring } from 'react-motion'
 import Colors from 'material-ui/lib/styles/colors'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
+import MyPropTypes from '../util/prop_types'
 import {
   ListView,
   MapView,
@@ -50,7 +51,7 @@ class Home extends React.Component {
   }
 
   render () {
-    const { windowWidth, windowHeight, onOpen, location, items, params } = this.props
+    const { windowWidth, windowHeight, onOpen, geolocation, items, params } = this.props
     const { isMapFullscreen } = this.state
     const smallMapHeight = Math.round(windowWidth * 2 / 3)
     const fullScreenMapHeight = windowHeight - 72
@@ -69,7 +70,7 @@ class Home extends React.Component {
                 <div style={{transform: `translateY(${offsetY}px)`, width: '100%', height: '100%'}}>
                   <MapView
                     size={isMapFullscreen}
-                    location={location}
+                    geolocation={geolocation}
                     interactive={isMapFullscreen}
                     onClick={this.switchMapView}
                   />
@@ -90,7 +91,7 @@ class Home extends React.Component {
 Home.propTypes = {
   windowWidth: PropTypes.number,
   windowHeight: PropTypes.number,
-  location: PropTypes.object,
+  geolocation: MyPropTypes.geolocation,
   items: PropTypes.array,
   onOpen: PropTypes.func,
   params: PropTypes.object

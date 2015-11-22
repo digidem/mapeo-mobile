@@ -32,9 +32,9 @@ class MapboxGL extends React.Component {
      */
     initialZoom: PropTypes.number,
     /**
-     * Location object (see location reducer documentation for shape)
+     * Geolocation object (see geolocation reducer documentation for shape)
      */
-    location: MyPropTypes.location,
+    geolocation: MyPropTypes.geolocation,
     /**
      * - NOT yet dynamic e.g. if you change it the map won't change
      * Map style. This must be an an object conforming to the schema described in the [style reference](https://mapbox.com/mapbox-gl-style-spec/), or a URL to a JSON style. To load a style from the Mapbox API, you can use a URL of the form `mapbox://styles/:owner/:style`, where `:owner` is your Mapbox account name and `:style` is the style ID. Or you can use one of the predefined Mapbox styles:
@@ -71,12 +71,12 @@ class MapboxGL extends React.Component {
   // The first time our component mounts, render a new map into `mapDiv`
   // with settings from props.
   componentDidMount () {
-    const { initialZoom, token, mapStyle, location, interactive, onMove } = this.props
+    const { initialZoom, token, mapStyle, geolocation, interactive, onMove } = this.props
     mapboxgl.accessToken = token
     this.map = global.map = new mapboxgl.Map({
       style: mapStyle,
       container: this.mapDiv,
-      center: location.coords || DEFAULT_COORDS,
+      center: geolocation.coords || DEFAULT_COORDS,
       zoom: initialZoom,
       interactive: interactive,
       attributionControl: false
@@ -88,7 +88,7 @@ class MapboxGL extends React.Component {
   // handle any rendering of the map itself, we do all that via mapboxgl
   shouldComponentUpdate (nextProps) {
     const mapCenter = this.map.getCenter().toArray()
-    const newCenter = nextProps.location.coords
+    const newCenter = nextProps.geolocation.coords
     const isNotAtLocation = newCenter && !isPrettyClose(newCenter, mapCenter)
     const atDefaultCoords = mapCenter[0] === DEFAULT_COORDS[0] && mapCenter[1] === DEFAULT_COORDS[1]
     if (atDefaultCoords && newCenter) {
