@@ -21,7 +21,7 @@ const LocationButton = ({ isCentered, onTouchTap, style }) => (
 
 LocationButton.propTypes = {
   isCentered: PropTypes.bool,
-  onTouchTap: PropTypes.func,
+  onTouchTap: PropTypes.func.isRequired,
   style: PropTypes.object
 }
 

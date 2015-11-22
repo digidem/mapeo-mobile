@@ -1,8 +1,12 @@
+/**
+ * ListView shows a list of entities, with date and distance from a given
+ *   location
+ */
 import React, { PropTypes } from 'react'
 import { ListDivider } from 'material-ui/lib/lists'
 import shouldPureComponentUpdate from 'react-pure-render'
 
-import { ListItem } from './'
+import ListItem from './list_item'
 
 const styles = {
   wrapper: {
@@ -41,7 +45,7 @@ class ListView extends React.Component {
 
 ListView.propTypes = {
   items: PropTypes.array,
-  onOpen: PropTypes.func,
+  onOpen: PropTypes.func.isRequired,
   activeId: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number

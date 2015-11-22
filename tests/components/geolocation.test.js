@@ -11,9 +11,6 @@ const geolocationMock = createGeolocationMock()
 const stubs = {
   '../util/utils': {
     geolocation: geolocationMock
-  },
-  'react-redux': {
-    connect: () => (Component) => Component
   }
 }
 
@@ -22,9 +19,9 @@ const Geolocation = proxyquire('../../src/components/geolocation', stubs)
 test('Component lifecycle', function (t) {
   geolocationMock.reset()
   const shallowRenderer = createRenderer()
-  const dispatch = () => null
+  const handleGeolocationUpdate = () => null
 
-  shallowRenderer.render(<Geolocation dispatch={dispatch} />)
+  shallowRenderer.render(<Geolocation onGeolocationUpdate={handleGeolocationUpdate} />)
   t.false(shallowRenderer.getRenderOutput(), 'does not render anything')
   shallowRenderer.unmount()
   t.ok(geolocationMock.areWatchesRemoved(), 'watches are removed after component unmounts')
@@ -32,21 +29,20 @@ test('Component lifecycle', function (t) {
 })
 
 test('Geolocation error position', function (t) {
-  t.plan(7)
+  t.plan(6)
   geolocationMock.reset()
   const shallowRenderer = createRenderer()
   const mockError = {'message': 'User denied geolocation prompt', 'code': 1}
 
-  const dispatch = action => {
-    t.equal(action.type, actionTypes.GEOLOCATION_UPDATE, 'action type is correct')
-    t.true(action.payload instanceof Error, 'payload is instance of Error')
-    t.notEqual(action.payload, mockError, 'Error returned is not same as error thrown by geolocation')
-    t.equal(action.payload.message, mockError.message, 'Message from PositionError is copied to error thrown')
-    t.equal(action.payload.code, mockError.code, 'Code from PositionError is copied to error thrown')
-    t.true(action.error, 'error variable is true')
+  const handleGeolocationUpdate = (payload, error) => {
+    t.true(payload instanceof Error, 'payload is instance of Error')
+    t.notEqual(payload, mockError, 'Error returned is not same as error thrown by geolocation')
+    t.equal(payload.message, mockError.message, 'Message from PositionError is copied to error thrown')
+    t.equal(payload.code, mockError.code, 'Code from PositionError is copied to error thrown')
+    t.true(error, 'error variable is true')
   }
 
-  shallowRenderer.render(<Geolocation dispatch={dispatch} />)
+  shallowRenderer.render(<Geolocation onGeolocationUpdate={handleGeolocationUpdate} />)
   geolocationMock.sendError(mockError)
   t.false(shallowRenderer.getRenderOutput(), 'dispatching error does not render anything')
 })
@@ -56,12 +52,12 @@ test('Geolocation good position', function (t) {
   geolocationMock.reset()
   const shallowRenderer = createRenderer()
 
-  const dispatch = action => {
-    t.equal(action.type, actionTypes.GEOLOCATION_UPDATE, 'action type is correct')
-    t.deepEqual(action.payload, {position: { location: [1, 2] }}, 'passes expected payload')
+  const handleGeolocationUpdate = (payload, error) => {
+    t.deepEqual(payload, {position: { location: [1, 2] }}, 'passes expected payload')
+    t.false(error, 'error is false')
   }
 
-  shallowRenderer.render(<Geolocation dispatch={dispatch} />)
+  shallowRenderer.render(<Geolocation onGeolocationUpdate={handleGeolocationUpdate} />)
   geolocationMock.sendPosition({ location: [1, 2] })
   t.false(shallowRenderer.getRenderOutput(), 'dispatching update does not render anything')
 })
@@ -73,16 +69,16 @@ test('Geolocation handles updates on location', function (t) {
   const testLocations = [[1, 2], [3, 4], [5, 6]]
   let callCount = 0
 
-  const dispatch = action => {
-    t.equal(action.type, actionTypes.GEOLOCATION_UPDATE, 'action type is correct')
-    t.deepEqual(action.payload, {position: { location: testLocations.shift() }}, 'passes expected payload')
+  const handleGeolocationUpdate = (payload, error) => {
+    t.deepEqual(payload, {position: { location: testLocations.shift() }}, 'passes expected payload')
+    t.false(error, 'error is false')
     callCount++
     if (callCount === 3) {
       t.pass('dispatch called 3 times, once for each update')
     }
   }
 
-  shallowRenderer.render(<Geolocation dispatch={dispatch} />)
+  shallowRenderer.render(<Geolocation onGeolocationUpdate={handleGeolocationUpdate} />)
   geolocationMock.sendPosition({ location: [1, 2] })
   geolocationMock.sendPosition({ location: [3, 4] })
   geolocationMock.sendPosition({ location: [5, 6] })

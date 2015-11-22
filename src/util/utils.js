@@ -21,9 +21,30 @@ export const prefixTags = function prefixTags (o, { prefix, blacklist = [] }) {
   }, {})
 }
 
+/**
+ * Used for tests: returns the global navigator geolocation object, but returns
+ * `undefined` and can be mocked in tests.
+ * @return {geolocation}   `navigator.geolocation`
+ */
 export const geolocation = (function () {
   if (!global.navigator || !('geolocation' in global.navigator)) {
     return
   }
   return global.navigator.geolocation
 })()
+
+/**
+ * Parse a style object for `translateX`, `translateY`, `translateZ` and `scale` and
+ * built a CSS transform string.
+ * @param  {Object} style         Style object
+ * @param  {String} options.units Units, defaults to `%`, could be `px`
+ * @return {Object}               New style object with translate/scale properties combined as `transform`
+ */
+export const parseTransformStyle = (style, {units = '%'} = {}) => {
+  let {translateX = 0, translateY = 0, translateZ = 0, scale = 1, ...nonTransformStyles} = style
+  let [x, y, z] = [translateX, translateY, translateZ].map(v => v.toFixed(1))
+  return {
+    ...nonTransformStyles,
+    transform: `translate3d(${x}${units},${y}${units},${z}px) scale(${scale.toFixed(4)})`
+  }
+}

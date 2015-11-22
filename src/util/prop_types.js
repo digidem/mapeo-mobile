@@ -8,5 +8,11 @@ export default {
   stringOrObject: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object
-  ])
+  ]),
+  geolocation: PropTypes.shape({
+    coords: PropTypes.arrayOf(PropTypes.number),
+    meta: PropTypes.object,
+    positionError: PropTypes.instanceOf(Error),
+    timestamp: PropTypes.number
+  })
 }

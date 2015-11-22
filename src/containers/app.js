@@ -1,77 +1,64 @@
-import React from 'react'
-import Transition from 'react-motion-ui-pack'
+import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
+import RouterPropTypes from 'react-router/lib/PropTypes'
 
-import Home from './home'
-import {
-  AnimationWrapper,
-  ObservationEdit,
-  EventEdit,
-  PlaceEdit,
-  Geolocation
-} from '../components'
-import InjectWindowDimensions from '../hocs/inject_window_dimensions'
+import HomeView from '../components/home_view'
+import Geolocation from '../components/geolocation'
+import RouteTransition from '../components/transitions/route_transition'
+import HomeTransition from '../components/transitions/home_transition'
+import geolocationSelector from '../selectors/geolocation'
+import itemsSelector from '../selectors/items'
+import MyPropTypes from '../util/prop_types'
+import actionCreators from '../action_creators'
 
-const styles = {
-  animationWrapper: {
-    zIndex: 1,
-    position: 'fixed',
-    top: 0,
-  }
-}
-
-const App = ({ windowHeight, windowWidth, params, history: { pushState } }) => {
-  const {id, type} = params
-  let EditView, filter
-
-  if (!id) {
-    filter = type
-  }
+const App = ({ children, geolocation, geolocationUpdate, history, items, location, params }) => {
+  const {id} = params
+  const homeTransitionType = (id === 'new') ? 'fadeBack' : 'slideToLeft'
+  const childRouteTransitionType = (id === 'new') ? 'slideFromBottom' : 'slideFromRight'
 
   function handleClose (e) {
     e.preventDefault()
-    pushState(null, '/')
+    history.replaceState(null, '/')
   }
 
   function handleOpen (e, {id, type}) {
-    pushState(null, `/${type}/${id}`)
-  }
-
-  switch (type) {
-    case 'observation':
-      EditView = ObservationEdit
-      break
-    case 'event':
-      EditView = EventEdit
-      break
-    case 'place':
-      EditView = PlaceEdit
-      break
+    history.pushState(null, `/${type}/${id}`)
   }
 
   return (
     <div>
-      <Geolocation />
-      <Home filter={filter} onOpen={handleOpen} {...{windowHeight, windowWidth, params}} />
-      <Transition
-        component={false}
-        appear={{
-          translateY: windowHeight
-        }}
-        enter={{
-          translateY: 0
-        }}
-        leave={{
-          translateY: windowHeight + 100
-        }}
-      >
-        { EditView &&
-          <AnimationWrapper style={styles.animationWrapper}>
-            <EditView {...params} onClose={handleClose} />
-          </AnimationWrapper>
-        }
-      </Transition>
+      <Geolocation onGeolocationUpdate={geolocationUpdate} />
+      <HomeTransition active={!!children} type={homeTransitionType}>
+        <HomeView onOpen={handleOpen} {...{params, items, geolocation}} />
+      </HomeTransition>
+      <RouteTransition pathname={location.pathname} type={childRouteTransitionType}>
+        {children && React.cloneElement(children, {onClose: handleClose})}
+      </RouteTransition>
     </div>
   )
 }
 
-export default InjectWindowDimensions(App)
+App.propTypes = {
+  children: PropTypes.element,
+  geolocation: MyPropTypes.geolocation.isRequired,
+  geolocationUpdate: PropTypes.func.isRequired,
+  history: RouterPropTypes.history.isRequired,
+  items: PropTypes.array.isRequired,
+  location: RouterPropTypes.location.isRequired,
+  params: PropTypes.object.isRequired
+}
+
+function mapStateToProps (state) {
+  return {
+    items: itemsSelector(state),
+    geolocation: geolocationSelector(state)
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    geolocationUpdate: (...args) => dispatch(actionCreators.geolocationUpdate(...args))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
