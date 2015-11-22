@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import mapboxgl from 'mapbox-gl'
-import { isPrettyClose } from '../util/geo'
-import MyPropTypes from '../util/prop_types'
+import { isPrettyClose } from '../../util/geo'
+import MyPropTypes from '../../util/prop_types'
 
 const DEFAULT_COORDS = [-59.5, 2.7]
 

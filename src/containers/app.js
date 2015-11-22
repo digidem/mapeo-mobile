@@ -1,11 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Home from './home'
-import { Geolocation, RouteTransition, HomeTransition } from '../components'
+
+import HomeView from '../components/home_view'
+import Geolocation from '../components/geolocation'
+import RouteTransition from '../components/transitions/route_transition'
+import HomeTransition from '../components/transitions/home_transition'
 import geolocationSelector from '../selectors/geolocation'
 import itemsSelector from '../selectors/items'
 
-const App = ({ windowHeight, windowWidth, params, geolocation, location, history, children, items }) => {
+const App = ({ params, geolocation, location, history, children, items }) => {
   const {id} = params
   const homeTransitionType = (id === 'new') ? 'fadeBack' : 'slideToLeft'
   const childRouteTransitionType = (id === 'new') ? 'slideFromBottom' : 'slideFromRight'
@@ -23,7 +26,7 @@ const App = ({ windowHeight, windowWidth, params, geolocation, location, history
     <div>
       <Geolocation />
       <HomeTransition active={!!children} type={homeTransitionType}>
-        <Home onOpen={handleOpen} {...{params, items, geolocation}} />
+        <HomeView onOpen={handleOpen} {...{params, items, geolocation}} />
       </HomeTransition>
       <RouteTransition pathname={location.pathname} type={childRouteTransitionType}>
         {children && React.cloneElement(children, {onClose: handleClose})}

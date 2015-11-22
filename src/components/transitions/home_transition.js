@@ -6,7 +6,7 @@
 import React, { PropTypes } from 'react'
 import { Motion, spring } from 'react-motion'
 
-import { parseTransformStyle } from '../util/utils'
+import { parseTransformStyle } from '../../util/utils'
 
 const styles = {
   /* base shared style */

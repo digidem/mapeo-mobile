@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { ListDivider } from 'material-ui/lib/lists'
 import shouldPureComponentUpdate from 'react-pure-render'
 
-import { ListItem } from './'
+import ListItem from './list_item'
 
 const styles = {
   wrapper: {

@@ -2,12 +2,11 @@ import React, { PropTypes } from 'react'
 import Colors from 'material-ui/lib/styles/colors'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
-import MyPropTypes from '../util/prop_types'
-import {
-  ListView,
-  MapTransition,
-  MapView,
-  AddButton } from '../components'
+import MyPropTypes from '../../util/prop_types'
+import ListView from '../list_view'
+import MapTransition from '../transitions/map_transition'
+import MapView from '../map_view'
+import AddButton from './add_button'
 
 injectTapEventPlugin()
 

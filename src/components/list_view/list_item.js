@@ -1,14 +1,10 @@
 import React, { PropTypes } from 'react'
-import {
-  FormattedTime,
-  FormattedNumber,
-  FormattedMessage
-} from 'react-intl'
 import { ListItem } from 'material-ui/lib/lists'
 import Avatar from 'material-ui/lib/avatar'
 import CameraIcon from 'material-ui/lib/svg-icons/image/photo-camera'
 import Colors from 'material-ui/lib/styles/colors'
-import { SummaryText } from './'
+
+import SummaryText from './summary_text'
 
 const MyListItem = ({ title, date, distance, onTouchTap, style }) => (
   <ListItem

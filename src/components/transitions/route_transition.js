@@ -7,7 +7,7 @@
 import React, { PropTypes } from 'react'
 import { TransitionMotion, spring } from 'react-motion'
 
-import { parseTransformStyle } from '../util/utils'
+import { parseTransformStyle } from '../../util/utils'
 
 /** @type {Array} react-motion spring configuration https://github.com/chenglou/react-motion#spring-number---stiffness-damping---configurationobject */
 const fastSpringPreset = [250, 30]

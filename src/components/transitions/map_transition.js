@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Motion, spring } from 'react-motion'
-import injectWindowDimensions from '../hocs/inject_window_dimensions'
+import injectWindowDimensions from '../../hocs/inject_window_dimensions'
 
 const styles = {
   mapWrapper: {

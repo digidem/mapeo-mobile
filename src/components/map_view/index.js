@@ -2,9 +2,10 @@ import React, { PropTypes } from 'react'
 import distance from 'turf-distance'
 import Point from 'turf-point'
 import _ from 'lodash'
+
 import MapboxGL from './mapbox_gl'
 import LocationButton from './location_button'
-import MyPropTypes from '../util/prop_types'
+import MyPropTypes from '../../util/prop_types'
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg'
 
