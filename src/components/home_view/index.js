@@ -1,3 +1,8 @@
+/**
+ * HomeView is the main view of the app, which shows a map, and "Add
+ *   Observation" button, and a list of entities (observations, places,
+ *   events) which can be filtered and sorted
+ */
 import React, { PropTypes } from 'react'
 import Colors from 'material-ui/lib/styles/colors'
 import injectTapEventPlugin from 'react-tap-event-plugin'

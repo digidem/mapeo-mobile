@@ -1,3 +1,7 @@
+/**
+ * ListView shows a list of entities, with date and distance from a given
+ *   location
+ */
 import React, { PropTypes } from 'react'
 import { ListDivider } from 'material-ui/lib/lists'
 import shouldPureComponentUpdate from 'react-pure-render'

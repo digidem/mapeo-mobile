@@ -1,3 +1,7 @@
+/**
+ * MapTransition handles animated transitions between the split view with a
+ *   small map, and the view with a fullscreen map
+ */
 import React, { PropTypes } from 'react'
 import { Motion, spring } from 'react-motion'
 import injectWindowDimensions from '../../hocs/inject_window_dimensions'

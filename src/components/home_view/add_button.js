@@ -1,3 +1,7 @@
+/**
+ * The main action button of the app. Creates a new observation or shows a
+ *   list of suggested observations to make
+ */
 import React, { PropTypes } from 'react'
 import { ListItem } from 'material-ui/lib/lists'
 import Avatar from 'material-ui/lib/avatar'
