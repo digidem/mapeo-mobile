@@ -56,7 +56,7 @@ class AddButton extends React.Component {
 }
 
 AddButton.propTypes = {
-  onTouchTap: PropTypes.func
+  onTouchTap: PropTypes.func.isRequired
 }
 
 export default AddButton

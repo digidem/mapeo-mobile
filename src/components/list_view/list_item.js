@@ -22,10 +22,10 @@ const MyListItem = ({ title, date, distance, onTouchTap, style }) => (
 )
 
 MyListItem.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.string.isRequired,
   date: PropTypes.number,
   distance: PropTypes.number,
-  onTouchTap: PropTypes.func,
+  onTouchTap: PropTypes.func.isRequired,
   style: PropTypes.object
 }
 

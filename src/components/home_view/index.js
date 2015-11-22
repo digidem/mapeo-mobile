@@ -63,10 +63,10 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-  geolocation: MyPropTypes.geolocation,
-  items: PropTypes.array,
-  onOpen: PropTypes.func,
-  params: PropTypes.object
+  geolocation: MyPropTypes.geolocation.isRequired,
+  items: PropTypes.array.isRequired,
+  onOpen: PropTypes.func.isRequired,
+  params: PropTypes.object.isRequired
 }
 
 export default Home

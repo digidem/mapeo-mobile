@@ -43,7 +43,7 @@ class Geolocation extends Component {
 }
 
 Geolocation.propTypes = {
-  dispatch: PropTypes.func
+  dispatch: PropTypes.func.isRequired
 }
 
 // Connect with no arguments injects the dispatch function into props

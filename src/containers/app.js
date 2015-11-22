@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import RouterPropTypes from 'react-router/lib/PropTypes'
 
 import HomeView from '../components/home_view'
 import Geolocation from '../components/geolocation'
@@ -7,8 +8,9 @@ import RouteTransition from '../components/transitions/route_transition'
 import HomeTransition from '../components/transitions/home_transition'
 import geolocationSelector from '../selectors/geolocation'
 import itemsSelector from '../selectors/items'
+import MyPropTypes from '../util/prop_types'
 
-const App = ({ params, geolocation, location, history, children, items }) => {
+const App = ({ children, geolocation, history, items, location, params }) => {
   const {id} = params
   const homeTransitionType = (id === 'new') ? 'fadeBack' : 'slideToLeft'
   const childRouteTransitionType = (id === 'new') ? 'slideFromBottom' : 'slideFromRight'
@@ -33,6 +35,15 @@ const App = ({ params, geolocation, location, history, children, items }) => {
       </RouteTransition>
     </div>
   )
+}
+
+App.propTypes = {
+  children: PropTypes.element,
+  geolocation: MyPropTypes.geolocation.isRequired,
+  history: RouterPropTypes.history.isRequired,
+  items: PropTypes.array.isRequired,
+  location: RouterPropTypes.location.isRequired,
+  params: PropTypes.object.isRequired
 }
 
 function selector (state) {

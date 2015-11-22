@@ -41,7 +41,7 @@ class ListView extends React.Component {
 
 ListView.propTypes = {
   items: PropTypes.array,
-  onOpen: PropTypes.func,
+  onOpen: PropTypes.func.isRequired,
   activeId: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
