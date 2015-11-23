@@ -61,7 +61,7 @@ npm install
 Start development server and view in browser:
 
 ```sh
-npm start:nohot && open http://localhost:9966/
+npm run start:nohot && open http://localhost:9966/
 ```
 
 This is a mobile app so will work best if you use Chrome's [Device Mode](https://developers.google.com/web/tools/chrome-devtools/iterate/device-mode/)
