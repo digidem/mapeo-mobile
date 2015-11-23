@@ -3,7 +3,7 @@ Mira
 
 [![Circle CI](https://circleci.com/gh/digidem/reporter-app.svg?style=shield&circle-token=6f496f8dd7eaa049bcc5dfecd826bb0b9726416b)](https://circleci.com/gh/digidem/reporter-app)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
-
+[![bitHound Dependencies](https://www.bithound.io/projects/badges/c4a7caf0-8255-11e5-b411-a594fc03e20f/dependencies.svg)](https://www.bithound.io/github/digidem/reporter-app/master/dependencies/npm)
 
 **PRE-APLHA:** Under heavy development and with limited functionality
 
