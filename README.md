@@ -76,7 +76,7 @@ Mira is built with [React](https://facebook.github.io/react/) and [Redux](https:
 Contributing
 ------------
 
-Do you want to help? Fantastic! We really need a team of people to bring this app to its full potential. We've tried to make the design as modular as possible, so you should be able to work on a specific component independently to the rest of the app.
+Do you want to help? Fantastic! We really need a team of people to bring this app to its full potential. We've tried to make the design as modular as possible, so you should be able to work on a specific component independently to the rest of the app. Don't forget to checkout our [CONTRIBUTING](docs/CONTRIBUTING.md) doc - it includes a few technical details that will make the process a lot smoothier.
 
 1. [Fork this repo](https://help.github.com/articles/fork-a-repo/)
 2. Clone locally with `git clone git@github.com:MYUSERNAME/reporter-app.git`
