@@ -4,6 +4,7 @@ Mira
 [![Circle CI](https://circleci.com/gh/digidem/reporter-app.svg?style=shield&circle-token=6f496f8dd7eaa049bcc5dfecd826bb0b9726416b)](https://circleci.com/gh/digidem/reporter-app)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
+
 **PRE-APLHA:** Under heavy development and with limited functionality
 
 **Mira is a mobile app for monitoring and documenting the world around you**. It is built for communities to map and document their territory – how it is used and why it is important to them – and to monitor and document how their lives and territory are being impacted by oil drilling, mining, logging, land invasions, and other environmental threats.
