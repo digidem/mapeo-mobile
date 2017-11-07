@@ -55,3 +55,4 @@ buck-out/
 # react-native-node app
 #
 /rnnodeapp
+/android/app/src/main/res/raw/rnnodebundle
