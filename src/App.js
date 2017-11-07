@@ -32,25 +32,27 @@ export default class App extends Component {
 
   _query() {
     fetch("http://localhost:9080/query")
-    .then(res => res.text())
-    .then(response => {
-      this.setState(() => ({ response }));
-    });
+      .then(res => res.text())
+      .then(response => {
+        this.setState(() => ({ response }));
+      });
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <TouchableHighlight style={styles.btn} onPress={() => this._ping()}>
-          <Text style={styles.btnText}>Ping</Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.btn} onPress={() => this._create()}>
-          <Text style={styles.btnText}>Create</Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.btn} onPress={() => this._query()}>
-          <Text style={styles.btnText}>Query</Text>
-        </TouchableHighlight>
+        <View style={styles.mapPlaceholder} />
+        <View style={styles.buttons}>
+          <TouchableHighlight style={styles.btn} onPress={() => this._ping()}>
+            <Text style={styles.btnText}>Ping</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.btn} onPress={() => this._create()}>
+            <Text style={styles.btnText}>Create</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.btn} onPress={() => this._query()}>
+            <Text style={styles.btnText}>Query</Text>
+          </TouchableHighlight>
+        </View>
         <Text style={styles.info}>{this.state.response}</Text>
       </View>
     );
@@ -60,21 +62,25 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "white"
   },
 
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
+  mapPlaceholder: {
+    backgroundColor: "#AAFFAA",
+    alignSelf: "stretch",
+    height: 300
+  },
+
+  buttons: {
+    flexDirection: "row"
   },
 
   btn: {
     backgroundColor: "#4444FF",
     padding: 10,
-    marginBottom: 10
+    margin: 10
   },
 
   btnText: {

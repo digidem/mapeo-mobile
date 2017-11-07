@@ -1,5 +1,6 @@
 # Next
 
+- Add a license
 - Add osm-p2p-server
 
 # Must
@@ -11,6 +12,5 @@
 
 - Use fd-chunk-store instead of memory-chunk-store
 - Write a README.md
-- Add a license
 
 # Could
