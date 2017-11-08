@@ -10,6 +10,5 @@
 # Should
 
 - Use fd-chunk-store instead of memory-chunk-store
-- Write a README.md
 
 # Could
