@@ -1,6 +1,5 @@
 # Next
 
-- Add a license
 - Add osm-p2p-server
 
 # Must

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "license-check": "license-check"
   },
   "dependencies": {
     "react": "16.0.0",
@@ -15,8 +16,16 @@
     "babel-jest": "21.2.0",
     "babel-preset-react-native": "4.0.0",
     "jest": "21.2.1",
+    "license-check": "^1.1.5",
     "noderify": "^3.0.2",
     "react-test-renderer": "16.0.0"
+  },
+  "license-check-config": {
+    "src": ["src/**/*.js", "index.js", "!./node_modules/**/*"],
+    "path": "license-header.txt",
+    "blocking": false,
+    "logInfo": false,
+    "logError": true
   },
   "jest": {
     "preset": "react-native"
