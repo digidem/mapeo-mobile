@@ -23,17 +23,21 @@ const level = require("level");
 const fdstore = require("fd-chunk-store");
 const osmdb = require("osm-p2p-db");
 const osmrouter = require("osm-p2p-server");
+const mkdirp = require("mkdirp");
+
+const osmdbPath = "~/osm-p2p";
+
+mkdirp.sync(osmdbPath);
 
 const db = {
-  log: level("/tmp/osm-p2p/log"),
-  index: level("/tmp/osm-p2p/index")
+  log: level(osmdbPath + "/log"),
+  index: level(osmdbPath + "/index")
 };
-const storefile = "/tmp/osm-p2p/kdb";
 
 const osm = osmdb({
   log: hyperlog(db.log, { valueEncoding: "json" }),
   db: db.index,
-  store: fdstore(4096, storefile)
+  store: fdstore(4096, osmdbPath + "/kdb")
 });
 
 const router = osmrouter(osm);

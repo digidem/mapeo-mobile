@@ -8,6 +8,7 @@
     "hyperlog": "4.9.0",
     "level": "1.7.0",
     "memdown": "1.2.4",
+    "mkdirp": "0.5.1",
     "fd-chunk-store": "2.0.0"
   }
 }
