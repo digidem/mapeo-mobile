@@ -5,7 +5,6 @@
 # Must
 
 - Add tests for osm-p2p-db
-- Use fd-chunk-store instead of memory-chunk-store
 
 # Should
 

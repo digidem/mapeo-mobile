@@ -10,7 +10,6 @@ cd ./rnnodeapp && npm i && cd ..;
 echo "Minifying...";
 $(npm bin)/noderify \
   --replace.leveldown=memdown \
-  --replace.fd-chunk-store=memory-chunk-store \
   ./rnnodeapp/main.js > ./rnnodeapp/index.js;
 rm ./rnnodeapp/main.js;
 
