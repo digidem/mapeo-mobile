@@ -3712,9 +3712,9 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-node@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-node/-/react-native-node-3.1.1.tgz#d147382958e82693b1d1ba1623bc8d635bdb226d"
+react-native-node@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-node/-/react-native-node-3.2.0.tgz#a66d7ef56a5ff6294daba06f00d21d15bffb88ba"
   dependencies:
     cheerio "^1.0.0-rc.1"
     mkdirp "^0.5.1"
