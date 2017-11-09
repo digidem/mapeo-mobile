@@ -57,6 +57,14 @@ export default class App extends Component {
       });
   }
 
+  _cap() {
+    fetch("http://localhost:9080/api/0.6/capabilities")
+      .then(res => res.text())
+      .then(response => {
+        this.setState(() => ({ response }));
+      });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -70,6 +78,9 @@ export default class App extends Component {
           </TouchableHighlight>
           <TouchableHighlight style={styles.btn} onPress={() => this._query()}>
             <Text style={styles.btnText}>Query</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.btn} onPress={() => this._cap()}>
+            <Text style={styles.btnText}>Capabilities</Text>
           </TouchableHighlight>
         </View>
         <Text style={styles.info}>{this.state.response}</Text>
@@ -107,7 +118,7 @@ const styles = StyleSheet.create({
   },
 
   info: {
-    textAlign: "center",
+    textAlign: "left",
     color: "#333333",
     marginBottom: 5
   }

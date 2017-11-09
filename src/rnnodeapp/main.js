@@ -22,6 +22,7 @@ const hyperlog = require("hyperlog");
 const level = require("level");
 const fdstore = require("fd-chunk-store");
 const osmdb = require("osm-p2p-db");
+const osmrouter = require("osm-p2p-server");
 
 const db = {
   log: level("/tmp/osm-p2p/log"),
@@ -35,8 +36,13 @@ const osm = osmdb({
   store: fdstore(4096, storefile)
 });
 
+const router = osmrouter(osm);
+
 http
   .createServer(function(request, response) {
+    if (router.handle(request, response)) {
+      return;
+    }
     if (request.url.endsWith("/ping")) {
       response.write("pong");
       response.end();
@@ -67,6 +73,8 @@ http
           response.end();
         }
       });
+    } else {
+      console.log("Invalid request:", request);
     }
   })
   .listen(9080);

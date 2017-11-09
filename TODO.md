@@ -1,14 +1,15 @@
 # Next
 
-- Add osm-p2p-server
+- Use a persistent leveldown implementation
 
 # Must
 
-- Use osm-p2p in a reasonable way
-- Use a persistent leveldown implementation
+- Add tests for osm-p2p-db
+- Use fd-chunk-store instead of memory-chunk-store
 
 # Should
 
-- Use fd-chunk-store instead of memory-chunk-store
+- Add tests for osm-p2p-server
+- Add integration tests
 
 # Could
