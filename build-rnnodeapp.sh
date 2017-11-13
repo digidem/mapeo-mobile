@@ -9,7 +9,9 @@ cd ./rnnodeapp && npm i && cd ..;
 
 echo "Minifying...";
 $(npm bin)/noderify \
-  --replace.leveldown=memdown \
+  --replace.leveldown=@staltz/jsondown \
+  --replace.runtimejs=noop2 \
+  --replace.fatfs=noop2 \
   ./rnnodeapp/main.js > ./rnnodeapp/index.js;
 rm ./rnnodeapp/main.js;
 

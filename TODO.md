@@ -1,10 +1,10 @@
 # Next
 
-- Use a persistent leveldown implementation
+- Add tests for osm-p2p-db
 
 # Must
 
-- Add tests for osm-p2p-db
+- Use a faster leveldown implementation, maybe SQLite or level itself
 
 # Should
 

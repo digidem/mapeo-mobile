@@ -24,8 +24,10 @@ const fdstore = require("fd-chunk-store");
 const osmdb = require("osm-p2p-db");
 const osmrouter = require("osm-p2p-server");
 const mkdirp = require("mkdirp");
+const path = require("path");
+const os = require("os");
 
-const osmdbPath = "~/osm-p2p";
+const osmdbPath = path.resolve(os.homedir(), "osm-p2p");
 
 mkdirp.sync(osmdbPath);
 

@@ -7,7 +7,8 @@
     "osm-p2p-server": "2.3.5",
     "hyperlog": "4.9.0",
     "level": "1.7.0",
-    "memdown": "1.2.4",
+    "@staltz/jsondown": "1.0.2",
+    "noop2": "2.0.0",
     "mkdirp": "0.5.1",
     "fd-chunk-store": "2.0.0"
   }
