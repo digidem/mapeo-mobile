@@ -12,8 +12,9 @@ $(npm bin)/noderify \
   --replace.leveldown=@staltz/jsondown \
   --replace.runtimejs=noop2 \
   --replace.fatfs=noop2 \
-  ./rnnodeapp/main.js > ./rnnodeapp/index.js;
-rm ./rnnodeapp/main.js;
+  ./rnnodeapp/index.js > ./rnnodeapp/_index.js;
+rm ./rnnodeapp/index.js;
+mv ./rnnodeapp/_index.js ./rnnodeapp/index.js;
 
 echo "Cleaning up...";
 declare -a keepThese=("hyperlog")
