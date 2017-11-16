@@ -1,14 +1,16 @@
 # Next
 
-- Add tests for osm-p2p-db
+- Test performance for bbox queries
 
 # Must
 
 - Use a faster leveldown implementation, maybe SQLite or level itself
+- Set up a build process with CI
 
 # Should
 
-- Add tests for osm-p2p-server
-- Add integration tests
+- Set up APK release through Dat (Dat Installer)
 
 # Could
+
+- Investigate sync via a USB drive (USB-OTG)
