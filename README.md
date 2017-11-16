@@ -16,3 +16,21 @@ This is a React Native project, making use of [react-native-node](https://github
 
 - Execute `./build-rnnodeapp.sh` as a bash script to compile the Node.js background project. It should create the folder `./rnnodeapp`
 - `react-native run-android` will compile the Android/Java project and install the APK on the USB-connected device
+
+### Benchmarks and low-level tests
+
+Low-level library tests run a benchmarks-only background Node.js process in the Android device, and use Calabash to verify the results on-screen, which is Ruby-based. Check [how to install Calabash for Android](https://github.com/calabash/calabash-android/blob/master/documentation/installation.md).
+
+```
+gem install bundler
+```
+
+```
+cd android/app
+bundle install
+cd ..
+```
+
+```
+npm run benchmark
+```

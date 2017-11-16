@@ -2,7 +2,11 @@
 
 echo "Setting up...";
 mkdir -p ./rnnodeapp;
-cp -r ./src/rnnodeapp ./;
+if [ "$1" = "benchmark" ]; then
+  cp -r ./benchmark/rnnodeapp ./;
+else
+  cp -r ./src/rnnodeapp ./;
+fi
 
 echo "Installing dependencies...";
 cd ./rnnodeapp && npm i && cd ..;
