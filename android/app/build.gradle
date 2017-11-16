@@ -126,6 +126,8 @@ android {
     productFlavors {
         benchmark {
         }
+        app {
+        }
     }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
