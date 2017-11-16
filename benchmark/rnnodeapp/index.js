@@ -61,6 +61,31 @@ require("osm-p2p-db/test/super_relation");
 require("osm-p2p-db/test/super_relation_bare");
 require("osm-p2p-db/test/update");
 
+require("osm-p2p-server/test/api/close_changeset.test");
+require("osm-p2p-server/test/api/create_changeset.test");
+require("osm-p2p-server/test/api/create_element.test");
+require("osm-p2p-server/test/api/get_changes.test");
+require("osm-p2p-server/test/api/get_element.test");
+require("osm-p2p-server/test/lib/filter_deletes.test");
+require("osm-p2p-server/test/lib/replace_ids.test");
+require("osm-p2p-server/test/lib/util");
+require("osm-p2p-server/test/lib/validate_changeset.test");
+require("osm-p2p-server/test/bbox");
+require("osm-p2p-server/test/bbox_order");
+require("osm-p2p-server/test/capabilities");
+require("osm-p2p-server/test/changeset");
+require("osm-p2p-server/test/changeset_delete");
+require("osm-p2p-server/test/changeset_placeholder");
+require("osm-p2p-server/test/changeset_upload");
+require("osm-p2p-server/test/changeset_upload_relation");
+require("osm-p2p-server/test/delete");
+require("osm-p2p-server/test/ghost_points");
+require("osm-p2p-server/test/history");
+require("osm-p2p-server/test/malformed_changeset");
+require("osm-p2p-server/test/many_types");
+require("osm-p2p-server/test/multi_fetch");
+require("osm-p2p-server/test/split_delete_way");
+
 test("last", function(t) {
   t.end();
   testStream.emit("end");
