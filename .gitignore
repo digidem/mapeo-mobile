@@ -61,3 +61,7 @@ buck-out/
 #
 /benchmark/test_servers
 /benchmark/screenshot*.png
+
+# Code editors
+#
+/.vscode
