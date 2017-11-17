@@ -25,11 +25,10 @@ const benchmark = require('osm-p2p-db-benchmark');
 const level = require('level');
 const fdchunk = require('fd-chunk-store');
 
-const testStream = test.createStream();
-const resultStream = testStream.pipe(tapjson());
+const results = { stats: null, perf: null };
 
-let results = { stats: null, perf: null };
-resultStream.on('data', function(res) {
+const testStream = test.createStream();
+testStream.pipe(tapjson()).on('data', function(res) {
   results.stats = res.stats;
   console.log('stats:', res.stats);
 });
