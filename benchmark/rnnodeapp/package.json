@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "main": "index.js",
   "dependencies": {
-    "osm-p2p-db": "4.2.4",
+    "osm-p2p-db": "4.2.5",
     "osm-p2p-server": "2.3.5",
-    "hyperlog": "4.9.0",
+    "osm-p2p-db-benchmark": "1.2.0",
+    "hyperlog": "4.12.x",
     "level": "1.7.0",
     "@staltz/jsondown": "1.1.2",
     "tape": "^4.3.0",

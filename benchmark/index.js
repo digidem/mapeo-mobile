@@ -17,31 +17,41 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, AppRegistry } from "react-native";
-import RNNode from "react-native-node";
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View, AppRegistry } from 'react-native';
+import RNNode from 'react-native-node';
 
 export default class BenchmarkApp extends Component {
   constructor(props) {
     super(props);
-    this.state = { response: "" };
+    this.state = { response: {} };
   }
 
   componentDidMount() {
     RNNode.start();
     setInterval(() => {
-      fetch("http://localhost:9080/test")
+      fetch('http://localhost:9080/test')
         .then(res => res.text())
-        .then(response => {
-          this.setState(() => ({ response }));
+        .then(text => {
+          this.setState(() => ({ response: JSON.parse(text) }));
         });
     }, 500);
   }
 
   render() {
+    const stats = this.state.response.stats;
+    const perf = this.state.response.perf;
+
     return (
       <View style={styles.container}>
-        <Text style={styles.info}>{this.state.response}</Text>
+        <Text style={styles.title}>Tests</Text>
+        <Text style={styles.info}>
+          {stats ? JSON.stringify(stats) : 'in progress...'}
+        </Text>
+        <Text style={styles.title}>Performance</Text>
+        <Text style={styles.info}>
+          {perf ? JSON.stringify(perf) : 'in progress...'}
+        </Text>
       </View>
     );
   }
@@ -50,16 +60,24 @@ export default class BenchmarkApp extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    backgroundColor: "white"
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    backgroundColor: 'white',
+    padding: 10,
+  },
+
+  title: {
+    textAlign: 'left',
+    color: '#232323',
+    fontSize: 18,
   },
 
   info: {
-    textAlign: "left",
-    color: "#333333",
-    marginBottom: 5
-  }
+    textAlign: 'left',
+    color: '#151515',
+    marginTop: 10,
+    marginBottom: 20,
+  },
 });
 
-AppRegistry.registerComponent("MapeoMobile", () => BenchmarkApp);
+AppRegistry.registerComponent('MapeoMobile', () => BenchmarkApp);

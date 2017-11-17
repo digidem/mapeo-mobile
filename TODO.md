@@ -1,10 +1,9 @@
 # Next
 
-- Test performance for bbox queries
+- Use a faster leveldown implementation, maybe SQLite or level itself
 
 # Must
 
-- Use a faster leveldown implementation, maybe SQLite or level itself
 - Set up a build process with CI
 
 # Should
