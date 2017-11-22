@@ -6,6 +6,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "license-check": "license-check",
+    "build-rnnodeapp": "./build-rnnodeapp.sh",
+    "android": "react-native run-android --variant=appDebug",
     "benchmark": "./run-benchmark.sh"
   },
   "dependencies": {
@@ -22,7 +24,11 @@
     "react-test-renderer": "16.0.0"
   },
   "license-check-config": {
-    "src": ["src/**/*.js", "index.js", "!./node_modules/**/*"],
+    "src": [
+      "src/**/*.js",
+      "index.js",
+      "!./node_modules/**/*"
+    ],
     "path": "license-header.txt",
     "blocking": false,
     "logInfo": false,

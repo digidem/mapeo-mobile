@@ -14,8 +14,8 @@ This is a React Native project, making use of [react-native-node](https://github
 
 ### Compile
 
-- Execute `./build-rnnodeapp.sh` as a bash script to compile the Node.js background project. It should create the folder `./rnnodeapp`
-- `react-native run-android --variant=appDebug` will compile the Android/Java project and install the APK on the USB-connected device
+- Execute `npm run build-rnnodeapp` to compile the Node.js background project. It should create the folder `./rnnodeapp`
+- `npm run android` will compile the Android/Java project and install the APK on the USB-connected device
 
 ### Benchmarks and low-level tests
 
