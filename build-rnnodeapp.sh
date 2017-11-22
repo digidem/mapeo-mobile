@@ -14,7 +14,7 @@ cd ./rnnodeapp && npm i && cd ..;
 
 echo "Minifying...";
 $(npm bin)/noderify \
-  --replace.leveldown=@staltz/jsondown \
+  --replace.leveldown=jsondown \
   --replace.runtimejs=noop2 \
   --replace.fatfs=noop2 \
   ./rnnodeapp/index.js > ./rnnodeapp/_index.js;
