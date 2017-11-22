@@ -17,29 +17,29 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-const http = require("http");
-const hyperlog = require("hyperlog");
-const level = require("level");
-const fdstore = require("fd-chunk-store");
-const osmdb = require("osm-p2p-db");
-const osmrouter = require("osm-p2p-server");
-const mkdirp = require("mkdirp");
-const path = require("path");
-const os = require("os");
+const http = require('http');
+const hyperlog = require('hyperlog');
+const level = require('level');
+const fdstore = require('fd-chunk-store');
+const osmdb = require('osm-p2p-db');
+const osmrouter = require('osm-p2p-server');
+const mkdirp = require('mkdirp');
+const path = require('path');
+const os = require('os');
 
-const osmdbPath = path.resolve(os.homedir(), "osm-p2p");
+const osmdbPath = path.resolve(os.homedir(), 'osm-p2p');
 
 mkdirp.sync(osmdbPath);
 
 const db = {
-  log: level(osmdbPath + "/log"),
-  index: level(osmdbPath + "/index")
+  log: level(osmdbPath + '/log'),
+  index: level(osmdbPath + '/index'),
 };
 
 const osm = osmdb({
-  log: hyperlog(db.log, { valueEncoding: "json" }),
+  log: hyperlog(db.log, { valueEncoding: 'json' }),
   db: db.index,
-  store: fdstore(4096, osmdbPath + "/kdb")
+  store: fdstore(4096, osmdbPath + '/kdb'),
 });
 
 const router = osmrouter(osm);
@@ -49,16 +49,16 @@ http
     if (router.handle(request, response)) {
       return;
     }
-    if (request.url.endsWith("/ping")) {
-      response.write("pong");
+    if (request.url.endsWith('/ping')) {
+      response.write('pong');
       response.end();
       return;
     }
-    if (request.url.endsWith("/create")) {
+    if (request.url.endsWith('/create')) {
       const node = {
-        type: "node",
+        type: 'node',
         lat: 64 + Math.random(),
-        lon: -148 + Math.random()
+        lon: -148 + Math.random(),
       };
       osm.create(node, function(err, key, node) {
         if (err) console.error(err);
@@ -68,11 +68,11 @@ http
       response.end();
       return;
     }
-    if (request.url.endsWith("/query")) {
-      console.log("got /query request");
+    if (request.url.endsWith('/query')) {
+      console.log('got /query request');
       const q = [[60, 70], [-200, -100]];
       osm.query(q, function(err, pts) {
-        console.log("query finished");
+        console.log('query finished');
         if (err) console.error(err);
         else {
           response.write(JSON.stringify(pts));
@@ -80,7 +80,7 @@ http
         }
       });
     } else {
-      console.log("Invalid request:", request);
+      console.log('Invalid request:', request);
     }
   })
   .listen(9080);

@@ -17,20 +17,20 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Platform,
   StyleSheet,
   Text,
   View,
-  TouchableHighlight
-} from "react-native";
-import RNNode from "react-native-node";
+  TouchableHighlight,
+} from 'react-native';
+import RNNode from 'react-native-node';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { response: "" };
+    this.state = { response: '' };
   }
 
   componentDidMount() {
@@ -38,7 +38,7 @@ export default class App extends Component {
   }
 
   _ping() {
-    fetch("http://localhost:9080/ping")
+    fetch('http://localhost:9080/ping')
       .then(res => res.text())
       .then(response => {
         this.setState(() => ({ response }));
@@ -46,11 +46,11 @@ export default class App extends Component {
   }
 
   _create() {
-    fetch("http://localhost:9080/create");
+    fetch('http://localhost:9080/create');
   }
 
   _query() {
-    fetch("http://localhost:9080/query")
+    fetch('http://localhost:9080/query')
       .then(res => res.text())
       .then(response => {
         this.setState(() => ({ response }));
@@ -58,7 +58,7 @@ export default class App extends Component {
   }
 
   _cap() {
-    fetch("http://localhost:9080/api/0.6/capabilities")
+    fetch('http://localhost:9080/api/0.6/capabilities')
       .then(res => res.text())
       .then(response => {
         this.setState(() => ({ response }));
@@ -92,34 +92,34 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    backgroundColor: "white"
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: 'white',
   },
 
   mapPlaceholder: {
-    backgroundColor: "#AAFFAA",
-    alignSelf: "stretch",
-    height: 300
+    backgroundColor: '#AAFFAA',
+    alignSelf: 'stretch',
+    height: 300,
   },
 
   buttons: {
-    flexDirection: "row"
+    flexDirection: 'row',
   },
 
   btn: {
-    backgroundColor: "#4444FF",
+    backgroundColor: '#4444FF',
     padding: 10,
-    margin: 10
+    margin: 10,
   },
 
   btnText: {
-    color: "white"
+    color: 'white',
   },
 
   info: {
-    textAlign: "left",
-    color: "#333333",
-    marginBottom: 5
-  }
+    textAlign: 'left',
+    color: '#333333',
+    marginBottom: 5,
+  },
 });
