@@ -8,7 +8,7 @@
     "osm-p2p-db-benchmark": "1.2.0",
     "hyperlog": "4.12.x",
     "level": "1.7.0",
-    "jsondown": "1.0.0",
+    "leveldown-android-prebuilt": "2.0.3",
     "tape": "^4.3.0",
     "tap-json": "1.0.0",
     "memdb": "^1.3.1",
@@ -20,7 +20,6 @@
     "isostring": "0.0.1",
     "run-waterfall": "^1.1.3",
     "xml-parser": "^1.2.1",
-    "noop2": "2.0.0",
     "mkdirp": "0.5.1",
     "fd-chunk-store": "2.0.0"
   }

@@ -14,12 +14,13 @@ cd ./rnnodeapp && npm i && cd ..;
 
 echo "Minifying...";
 $(npm bin)/noderify \
-  --replace.leveldown=jsondown \
-  --replace.runtimejs=noop2 \
-  --replace.fatfs=noop2 \
+  --replace.leveldown=leveldown-android-prebuilt \
   ./rnnodeapp/index.js > ./rnnodeapp/_index.js;
 rm ./rnnodeapp/index.js;
 mv ./rnnodeapp/_index.js ./rnnodeapp/index.js;
+
+echo "Setting up folder for native bindings...";
+mv ./rnnodeapp/node_modules/leveldown-android-prebuilt/compiled ./rnnodeapp/compiled;
 
 echo "Cleaning up...";
 declare -a keepThese=("hyperlog" "osm-p2p-db-benchmark")
