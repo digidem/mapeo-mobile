@@ -1,0 +1,75 @@
+language: android
+jdk: oraclejdk8
+sudo: required
+dist: trusty
+group: edge
+
+addons:
+  artifacts:
+    paths:
+    - $(ls ./benchmark/screenshot_*.png | tr "\n" ":")
+
+env:
+  global:
+    - API=22
+    - TAG=default
+    - ABI=armeabi-v7a
+    - QEMU_AUDIO_DRV=none
+    - ANDROID_HOME=/usr/local/android-sdk-23.0.1
+    - TOOLS=${ANDROID_HOME}/tools
+    - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
+    - ADB_INSTALL_TIMEOUT=20
+
+android:
+  components:
+    - build-tools-23.0.1
+    - android-23
+
+before_install:
+  # Setup keystore for calabash-android resigning
+  - keytool -genkey -v -keystore ./benchmark/debug.keystore -alias androiddebugkey -storepass android -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+  - echo '{' > ./benchmark/.calabash_settings
+  - echo '"keystore_location":"./debug.keystore",' >> ./benchmark/.calabash_settings
+  - echo '"keystore_alias":"androiddebugkey",' >> ./benchmark/.calabash_settings
+  - echo '"keystore_password":"android"' >> ./benchmark/.calabash_settings
+  - echo "}" >> ./benchmark/.calabash_settings
+  # Setup Android tooling
+  - export EMULATOR="system-images;android-${API};${TAG};${ABI}"
+  - echo 'count=0' > /home/travis/.android/repositories.cfg
+  # Install calabash-android for integration tests
+  - gem install bundler
+  - cd benchmark && bundle install && cd ..
+  # Install node.js
+  - nvm install 8
+  - node --version
+
+install:
+  # Install Android dependencies
+  - sdkmanager --list || true  - sdkmanager --uninstall "system-images;android-15;default;armeabi-v7a"
+  - sdkmanager --uninstall "extras;google;google_play_services"
+  - echo yes | sdkmanager "tools" > /dev/null
+  - echo yes | sdkmanager "platforms;android-${API}" > /dev/null
+  - echo yes | sdkmanager "extras;android;m2repository" > /dev/null
+  - echo yes | sdkmanager "extras;google;m2repository" > /dev/null
+  - echo yes | sdkmanager "$EMULATOR" > /dev/null
+  - echo no | avdmanager create avd -n acib -k "$EMULATOR" -f --abi "$ABI" --tag "$TAG"
+  - sdkmanager --list || true
+  - sudo ln -s /usr/local/android-sdk-25.2.3 /usr/local/android-sdk-23.0.1
+  # Start emulator
+  - cd /usr/local/android-sdk/tools && ./emulator -avd acib -no-window -no-audio -verbose &
+  - adb wait-for-device get-serialno
+  # Install the React Native project dependencies
+  - npm install -g yarn
+  - cd "$TRAVIS_BUILD_DIR" && yarn
+
+before_script:
+  - android-wait-for-emulator
+  - adb shell settings put global window_animation_scale 0 &
+  - adb shell settings put global transition_animation_scale 0 &
+  - adb shell settings put global animator_duration_scale 0 &
+  - sleep 30
+  - adb shell input keyevent 82 &
+  - sleep 10
+
+script:
+  - npm run benchmark
