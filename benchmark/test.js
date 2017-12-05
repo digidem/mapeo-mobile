@@ -2,25 +2,43 @@ var wd = require('wd');
 var path = require('path');
 var test = require('tape');
 
+var lastArg = process.argv.length - 1;
+var ciMode = process.argv[lastArg] === 'ci';
+
+var browserStackConfig = 'http://hub-cloud.browserstack.com/wd/hub';
+var localServerConfig = { host: 'localhost', port: 4723 };
+
+var browserStackCapabilities = {
+    'browserstack.user': process.env.BROWSERSTACK_USERNAME,
+    'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY,
+    'build': 'Benchmark Android',
+    'name': 'session_' +
+      (new Date(Date.now()))
+      .toISOString()
+      .substr(0,16)
+      .replace(/\-|T|\:/g,'_'),
+    'device' : 'Google Pixel',
+    'app': process.env.BROWSERSTACK_APP_URL,
+    'browserstack.debug': true
+}
+var localCapabilities = {
+  browserName: 'Android - local server',
+  platformName: 'Android',
+  deviceName: 'Android device',
+  app: path.resolve(
+    __dirname,
+    '../android/app/build/outputs/apk/app-benchmark-debug.apk'
+  )
+};
+
 var driver;
 
 test('setup and open android app', function(t) {
-  var serverConfig = { host: 'localhost', port: 4723 };
+  var serverConfig = ciMode ? browserStackConfig : localServerConfig;
+  var capabilities = ciMode ? browserStackCapabilities : localCapabilities;
+
   driver = wd.promiseChainRemote(serverConfig);
-
-  var desiredCapabilities = {
-    browserName: 'android - local server',
-    // 'appium-version': '1.7',
-    // platformVersion: '7.1.1',
-    platformName: 'Android',
-    deviceName: 'Android device',
-    app: path.resolve(
-      __dirname,
-      '../android/app/build/outputs/apk/app-benchmark-debug.apk'
-    )
-  };
-
-  driver.init(desiredCapabilities).then(() => {
+  driver.init(capabilities).then(() => {
     t.end();
   });
 });
@@ -31,7 +49,7 @@ test('displays texts "Tests", "Performance", "in progress..."x2', function(t) {
   var inProgressSelector = 'new UiSelector().textContains("in progress...")';
 
   driver
-    .waitForElementByAndroidUIAutomator(testsSelector, 8000)
+    .waitForElementByAndroidUIAutomator(testsSelector, 90000)
     .then(el => t.ok(el, 'should have Tests title'))
     .then(() => driver.elementByAndroidUIAutomator(performanceSelector))
     .then(el => t.ok(el, 'should have Performance title'))
@@ -41,8 +59,8 @@ test('displays texts "Tests", "Performance", "in progress..."x2', function(t) {
 });
 
 test('displays osm-p2p test results', function(t) {
-  var testsSelector = 'new UiSelector().textContains("asserts")';
-  var performanceSelector = 'new UiSelector().textContains("insert")';
+  var testsResultsSelector = 'new UiSelector().textContains("asserts")';
+  var perfResultsSelector = 'new UiSelector().textContains("insert")';
 
   var expectedTests = {
     asserts: 2297,
@@ -61,7 +79,7 @@ test('displays osm-p2p test results', function(t) {
   ];
 
   driver
-    .waitForElementByAndroidUIAutomator(performanceSelector, 20000)
+    .waitForElementByAndroidUIAutomator(perfResultsSelector, 90000)
     .then(el => el.text())
     .then(text => JSON.parse(text))
     .then(perfResults => {
@@ -75,7 +93,7 @@ test('displays osm-p2p test results', function(t) {
       })
       return;
     })
-    .then(() => driver.waitForElementByAndroidUIAutomator(testsSelector, 20000))
+    .then(() => driver.waitForElementByAndroidUIAutomator(testsResultsSelector, 90000))
     .then(el => el.text())
     .then(text =>
       t.equal(text, JSON.stringify(expectedTests), 'should pass all osm-p2p tests')
