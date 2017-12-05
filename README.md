@@ -26,7 +26,7 @@ gem install bundler
 ```
 
 ```
-cd android/app
+cd benchmark
 bundle install
 cd ..
 ```
