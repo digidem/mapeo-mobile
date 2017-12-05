@@ -73,9 +73,11 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: gradle.startParameter.taskNames.contains("assembleBenchmarkRelease") ?
+    entryFile: gradle.startParameter.taskNames.contains("assembleBenchmarkDebug") ?
         "benchmark/index.js" :
-        "index.js"
+        "index.js",
+    devDisabledInBenchmarkDebug: true,
+    bundleInBenchmarkDebug: true
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"

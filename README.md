@@ -19,17 +19,7 @@ This is a React Native project, making use of [react-native-node](https://github
 
 ### Benchmarks and low-level tests
 
-Low-level library tests run a benchmarks-only background Node.js process in the Android device, and use Calabash to verify the results on-screen, which is Ruby-based. Check [how to install Calabash for Android](https://github.com/calabash/calabash-android/blob/master/documentation/installation.md).
-
-```
-gem install bundler
-```
-
-```
-cd benchmark
-bundle install
-cd ..
-```
+Low-level library tests run a benchmarks-only background Node.js process in the Android device, and use Appium with `wd` to verify the results on-screen.
 
 ```
 npm run benchmark

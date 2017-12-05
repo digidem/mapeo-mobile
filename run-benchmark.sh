@@ -5,6 +5,6 @@
   # Clean the React Native JavaScript app
   watchman watch-del-all && rm -rf $TMPDIR/react-* && \
   # Build the React Native Android app for benchmarking
-  cd android && ./gradlew clean && ./gradlew assembleBenchmarkRelease && cd .. && \
+  cd android && ./gradlew clean && ./gradlew assembleBenchmarkDebug && cd .. && \
   # Run automated test that verifies the benchmark results
-  cd benchmark && ./run-app.sh && cd ..;
+  node ./benchmark/test.js;
