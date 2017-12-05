@@ -11,6 +11,8 @@ env:
     - TOOLS=${ANDROID_HOME}/tools
     - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
     - ADB_INSTALL_TIMEOUT=20
+    - BROWSERSTACK_UPLOAD=https://api.browserstack.com/app-automate/upload
+    - BENCHMARK_APK="android/app/build/outputs/apk/app-benchmark-debug.apk"
 
 android:
   components:
@@ -37,4 +39,11 @@ install:
   - cd "$TRAVIS_BUILD_DIR" && yarn
 
 script:
-  - npm run benchmark
+  # Build the background Node.js process containing only tests
+  - ./build-rnnodeapp.sh benchmark
+  # Build the React Native Android app for benchmarking
+  - cd android && ./gradlew clean && ./gradlew assembleBenchmarkDebug && cd ..
+  # Upload to BrowserStack
+  - export BROWSERSTACK_APP_URL=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" -X POST "$BROWSERSTACK_UPLOAD" -F "file=@/$TRAVIS_BUILD_DIR/$BENCHMARK_APK" | cut -c 13-57)
+  # Run automated test that verifies the benchmark results
+  - node ./benchmark/test.js ci;
