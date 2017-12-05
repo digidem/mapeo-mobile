@@ -6,11 +6,9 @@ group: edge
 
 env:
   global:
-    - API=22
     - ANDROID_HOME=/usr/local/android-sdk-23.0.1
     - TOOLS=${ANDROID_HOME}/tools
     - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
-    - ADB_INSTALL_TIMEOUT=20
     - BROWSERSTACK_UPLOAD=https://api.browserstack.com/app-automate/upload
     - BENCHMARK_APK="android/app/build/outputs/apk/app-benchmark-debug.apk"
 
@@ -18,6 +16,7 @@ android:
   components:
     - build-tools-23.0.1
     - android-23
+    - tools
 
 before_install:
   # Install node.js
@@ -25,18 +24,11 @@ before_install:
   - node --version
 
 install:
-  # Install Android dependencies
-  - sdkmanager --list || true  - sdkmanager --uninstall "system-images;android-15;default;armeabi-v7a"
-  - sdkmanager --uninstall "extras;google;google_play_services"
-  - echo yes | sdkmanager "tools" > /dev/null
-  - echo yes | sdkmanager "platforms;android-${API}" > /dev/null
-  - echo yes | sdkmanager "extras;android;m2repository" > /dev/null
-  - echo yes | sdkmanager "extras;google;m2repository" > /dev/null
-  - sdkmanager --list || true
+  # Setup Android dependencies
   - sudo ln -s /usr/local/android-sdk-25.2.3 /usr/local/android-sdk-23.0.1
   # Install the React Native project dependencies
   - npm install -g yarn
-  - cd "$TRAVIS_BUILD_DIR" && yarn
+  - yarn
 
 script:
   # Build the background Node.js process containing only tests
