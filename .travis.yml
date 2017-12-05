@@ -31,6 +31,7 @@ install:
   - echo yes | sdkmanager "extras;android;m2repository" > /dev/null
   - echo yes | sdkmanager "extras;google;m2repository" > /dev/null
   - sdkmanager --list || true
+  - sudo ln -s /usr/local/android-sdk-25.2.3 /usr/local/android-sdk-23.0.1
   # Install the React Native project dependencies
   - npm install -g yarn
   - cd "$TRAVIS_BUILD_DIR" && yarn
