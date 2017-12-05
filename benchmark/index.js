@@ -35,7 +35,7 @@ export default class BenchmarkApp extends Component {
         .then(text => {
           this.setState(() => ({ response: JSON.parse(text) }));
         });
-    }, 500);
+    }, 2000);
   }
 
   render() {
