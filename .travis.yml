@@ -6,7 +6,7 @@ group: edge
 
 env:
   global:
-    - ANDROID_HOME=/usr/local/android-sdk-23.0.1
+    - ANDROID_HOME=/usr/local/android-sdk-26.0.1
     - TOOLS=${ANDROID_HOME}/tools
     - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
     - BROWSERSTACK_UPLOAD=https://api.browserstack.com/app-automate/upload
@@ -15,6 +15,8 @@ env:
 android:
   components:
     - build-tools-23.0.1
+    - build-tools-26.0.1
+    - android-26
     - android-23
     - tools
 
@@ -25,7 +27,7 @@ before_install:
 
 install:
   # Setup Android dependencies
-  - sudo ln -s /usr/local/android-sdk-25.2.3 /usr/local/android-sdk-23.0.1
+  - sudo ln -s /usr/local/android-sdk-25.2.3 /usr/local/android-sdk-26.0.1
   # Install the React Native project dependencies
   - npm install -g yarn
   - yarn
