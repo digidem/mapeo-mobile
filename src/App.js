@@ -23,18 +23,23 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
+  TouchableHighlight
 } from 'react-native';
 import RNNode from 'react-native-node';
+import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import env from '../env.json';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { response: '' };
+    this.state = { response: '', hasMapToken: false };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     RNNode.start();
+    await MapboxGL.requestAndroidLocationPermissions();
+    MapboxGL.setAccessToken(env['accessToken']);
+    this.setState(prev => ({ ...prev, hasMapToken: true }));
   }
 
   _ping() {
@@ -68,7 +73,11 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.mapPlaceholder} />
+        {this.state.hasMapToken ? (
+          <MapboxGL.MapView style={styles.map} />
+        ) : (
+          <View style={styles.mapPlaceholder} />
+        )}
         <View style={styles.buttons}>
           <TouchableHighlight style={styles.btn} onPress={() => this._ping()}>
             <Text style={styles.btnText}>Ping</Text>
@@ -94,32 +103,37 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
 
   mapPlaceholder: {
     backgroundColor: '#AAFFAA',
     alignSelf: 'stretch',
+    height: 300
+  },
+
+  map: {
     height: 300,
+    alignSelf: 'stretch'
   },
 
   buttons: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
 
   btn: {
     backgroundColor: '#4444FF',
     padding: 10,
-    margin: 10,
+    margin: 10
   },
 
   btnText: {
-    color: 'white',
+    color: 'white'
   },
 
   info: {
     textAlign: 'left',
     color: '#333333',
-    marginBottom: 5,
-  },
+    marginBottom: 5
+  }
 });

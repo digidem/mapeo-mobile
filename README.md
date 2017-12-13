@@ -11,6 +11,7 @@ This is a React Native project, making use of [react-native-node](https://github
 - Make sure you have installed all React Native dependencies for Android development on your operating system, follow [these official instructions](http://facebook.github.io/react-native/docs/getting-started.html)
 - `yarn` to install dependencies
 - Have an Android device (not emulator, due to the Node.js background process built for ARM architectures) with developer mode enabled
+- Acquire a MapBox access token (make an account and sign in) then insert the accessToken into the `env.json` file (not in version control): `{"accessToken":"HEREGOESYOURMAPBOXACCESSTOKEN"}`
 
 ### Compile
 

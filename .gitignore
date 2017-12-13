@@ -52,6 +52,10 @@ buck-out/
 */fastlane/Preview.html
 */fastlane/screenshots
 
+# Secrets
+#
+/env.json
+
 # react-native-node app
 #
 /rnnodeapp

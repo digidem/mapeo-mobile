@@ -1,5 +1,7 @@
 rootProject.name = 'MapeoMobile'
 include ':react-native-node'
 project(':react-native-node').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-node/android')
+include ':mapbox-react-native-mapbox-gl'
+project(':mapbox-react-native-mapbox-gl').projectDir = new File(rootProject.projectDir, '../node_modules/@mapbox/react-native-mapbox-gl/android/rctmgl')
 
 include ':app'

@@ -11,6 +11,7 @@
     "benchmark": "./run-benchmark.sh"
   },
   "dependencies": {
+    "@mapbox/react-native-mapbox-gl": "^6.0.2-rc1",
     "react": "16.0.0",
     "react-native": "0.50.1",
     "react-native-node": "^3.3.0"
