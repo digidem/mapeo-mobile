@@ -127,6 +127,11 @@ android {
     }
     productFlavors {
         benchmark {
+            // We avoid using `26` because that would cause benchmarkDebug app
+            // to show a dialog asking for permissions. SDK 26 is only required
+            // by MapboxGL, which we don't use in benchmark, so it's easier to
+            // fall back to SDK 22
+            targetSdkVersion 22
         }
         app {
         }

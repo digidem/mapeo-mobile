@@ -13,7 +13,10 @@ set -e
 watchman watch-del-all && rm -rf $TMPDIR/react-*
 
 # Build the React Native Android app for benchmarking
-cd android && ./gradlew clean && ./gradlew assembleBenchmarkDebug && cd ..
+cd android
+./gradlew clean
+./gradlew assembleBenchmarkDebug
+cd ..
 
 # Start Appium server
 $(npm bin)/appium > appium.log & echo $! > appium-server.pid
