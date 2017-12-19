@@ -32,7 +32,7 @@ import env from '../env.json';
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { response: '', hasMapToken: false };
+    this.state = { response: '', hasMapToken: false, geojson: null };
   }
 
   async componentDidMount() {
@@ -42,42 +42,39 @@ export default class App extends Component {
     this.setState(prev => ({ ...prev, hasMapToken: true }));
   }
 
-  _ping() {
-    fetch('http://localhost:9080/ping')
-      .then(res => res.text())
-      .then(response => {
-        this.setState(() => ({ response }));
-      });
+  async _ping() {
+    const res = await fetch('http://localhost:9080/ping');
+    const response = await res.text();
+    this.setState(prev => ({ ...prev, response }));
   }
 
   _create() {
     fetch('http://localhost:9080/create');
   }
 
-  _query() {
-    fetch('http://localhost:9080/query')
-      .then(res => res.text())
-      .then(response => {
-        this.setState(() => ({ response }));
-      });
+  async _query() {
+    const res = await fetch('http://localhost:9080/query');
+    const response = await res.text();
+    const res2 = await fetch('http://localhost:9080/geojson');
+    const geojson = JSON.parse(await res2.text());
+
+    this.setState(prev => ({ ...prev, response, geojson }));
   }
 
-  _cap() {
-    fetch('http://localhost:9080/api/0.6/capabilities')
-      .then(res => res.text())
-      .then(response => {
-        this.setState(() => ({ response }));
-      });
+  async _cap() {
+    const res = await fetch('http://localhost:9080/api/0.6/capabilities');
+    const response = await res.text();
+    this.setState(prev => ({ ...prev, response }));
   }
 
   render() {
     return (
       <View style={styles.container}>
-        {this.state.hasMapToken ? (
-          <MapboxGL.MapView style={styles.map} />
-        ) : (
-          <View style={styles.mapPlaceholder} />
-        )}
+        {this.state.hasMapToken ? <MapboxGL.MapView style={styles.map}>
+            <MapboxGL.ShapeSource id="smileyFaceSource" shape={this.state.geojson}>
+              <MapboxGL.CircleLayer id="circles" style={mapboxStyles.point} />
+            </MapboxGL.ShapeSource>
+          </MapboxGL.MapView> : <View style={styles.mapPlaceholder} />}
         <View style={styles.buttons}>
           <TouchableHighlight style={styles.btn} onPress={() => this._ping()}>
             <Text style={styles.btnText}>Ping</Text>
@@ -97,6 +94,12 @@ export default class App extends Component {
     );
   }
 }
+
+const mapboxStyles = MapboxGL.StyleSheet.create({
+  point: {
+    circleColor: 'red',
+  },
+});
 
 const styles = StyleSheet.create({
   container: {
