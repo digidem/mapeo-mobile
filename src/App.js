@@ -92,7 +92,10 @@ export default class App extends Component<null, State> {
       <View style={styles.container}>
         {hasMapToken && (
           <MapboxGL.MapView style={styles.map}>
-            <MapboxGL.ShapeSource id="smileyFaceSource" shape={this.state.geojson}>
+            <MapboxGL.ShapeSource
+              id="smileyFaceSource"
+              shape={this.state.geojson}
+            >
               <MapboxGL.CircleLayer id="circles" style={mapboxStyles.point} />
             </MapboxGL.ShapeSource>
           </MapboxGL.MapView>

@@ -1,5 +1,5 @@
 // @flow
-import { StoreState, Action, Reducers } from '../types/redux';
+import { StoreState, Action, Reducers } from '@src/types/redux';
 
 export function create<M, P>(
   type: string,

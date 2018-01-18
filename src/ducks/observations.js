@@ -1,5 +1,5 @@
 // @flow
-import { create } from '../lib/redux';
+import { create } from '@src/lib/redux';
 
 export const {
   type: OBSERVATION_LIST,
