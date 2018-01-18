@@ -14,15 +14,27 @@
     "@mapbox/react-native-mapbox-gl": "^6.0.2-rc1",
     "react": "16.0.0",
     "react-native": "0.50.1",
-    "react-native-node": "^3.3.0"
+    "react-native-node": "^3.3.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "appium": "^1.7.1",
+    "babel-eslint": "^8.2.1",
     "babel-jest": "21.2.0",
     "babel-preset-react-native": "4.0.0",
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-flowtype": "^2.41.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.5.1",
+    "flow": "^0.2.3",
+    "flow-bin": "^0.63.1",
     "jest": "21.2.1",
     "license-check": "^1.1.5",
     "noderify": "^3.0.2",
+    "prettier": "1.10.2",
     "react-test-renderer": "16.0.0",
     "tape": "^4.8.0",
     "wd": "^1.4.1"
