@@ -1,17 +1,16 @@
 // @flow
 import { create } from '@src/lib/redux';
+import { update } from 'immutability-helper';
 
 export const {
   type: OBSERVATION_LIST,
   action: observationList,
   reducer: observationListReducer,
 } = create('OBSERVATION_LIST', {
-  start: (state, action) => {
-    console.log(action.meta);
-  },
-  success: (state, action) => {
-    console.log(action.payload);
-  },
+  success: (state, action) =>
+    update(state, {
+      observations: action.payload,
+    }),
 });
 
 export default [observationListReducer];

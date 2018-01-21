@@ -21,7 +21,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import RNNode from 'react-native-node';
+import { Provider } from 'redux';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import { configureStore } from '@lib/store';
 import env from '../env.json';
 
 type State = {
@@ -89,34 +91,36 @@ export default class App extends Component<null, State> {
     const { hasMapToken } = this.state;
 
     return (
-      <View style={styles.container}>
-        {hasMapToken && (
-          <MapboxGL.MapView style={styles.map}>
-            <MapboxGL.ShapeSource
-              id="smileyFaceSource"
-              shape={this.state.geojson}
-            >
-              <MapboxGL.CircleLayer id="circles" style={mapboxStyles.point} />
-            </MapboxGL.ShapeSource>
-          </MapboxGL.MapView>
-        )}
-        {!hasMapToken && <View style={styles.mapPlaceholder} />}
-        <View style={styles.buttons}>
-          <TouchableHighlight style={styles.btn}>
-            <Text style={styles.btnText}>Ping</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.btn}>
-            <Text style={styles.btnText}>Create</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.btn}>
-            <Text style={styles.btnText}>Query</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.btn}>
-            <Text style={styles.btnText}>Capabilities</Text>
-          </TouchableHighlight>
+      <Provider store={configureStore()}>
+        <View style={styles.container}>
+          {hasMapToken && (
+            <MapboxGL.MapView style={styles.map}>
+              <MapboxGL.ShapeSource
+                id="smileyFaceSource"
+                shape={this.state.geojson}
+              >
+                <MapboxGL.CircleLayer id="circles" style={mapboxStyles.point} />
+              </MapboxGL.ShapeSource>
+            </MapboxGL.MapView>
+          )}
+          {!hasMapToken && <View style={styles.mapPlaceholder} />}
+          <View style={styles.buttons}>
+            <TouchableHighlight style={styles.btn}>
+              <Text style={styles.btnText}>Ping</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.btn}>
+              <Text style={styles.btnText}>Create</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.btn}>
+              <Text style={styles.btnText}>Query</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.btn}>
+              <Text style={styles.btnText}>Capabilities</Text>
+            </TouchableHighlight>
+          </View>
+          <Text style={styles.info}>{this.state.response}</Text>
         </View>
-        <Text style={styles.info}>{this.state.response}</Text>
-      </View>
+      </Provider>
     );
   }
 }

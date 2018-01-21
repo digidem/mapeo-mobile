@@ -1,5 +1,11 @@
 // @flow
-export interface StoreState {}
+import { Observation } from '@types/observation';
+
+export interface StoreState {
+  observations: {
+    [id: string]: Observation,
+  };
+}
 
 export type ActionStatus = 'Start' | 'Error' | 'Success';
 
@@ -12,9 +18,7 @@ export interface Action<M, P> {
 }
 
 export interface Reducers<M, P> {
-  start?: Reducer<M, P>;
-  success?: Reducer<M, P>;
-  error?: Reducer<M, P>;
+  start?: (state: StoreState, action: Action<M, P>) => StoreState;
+  success?: (state: StoreState, action: Action<M, P>) => StoreState;
+  error?: (state: StoreState, action: Action<M, P>) => StoreState;
 }
-
-export type Reducer<M, P> = (state: StoreState, action: Action<M, P>) => StoreState;

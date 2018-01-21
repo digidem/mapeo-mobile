@@ -8,7 +8,13 @@
         "root": ["./src"],
         "extensions": [".js", ".ios.js", ".android.js"],
         "alias": {
-          "@src": "./src"
+          "@src": "./src",
+          "@ducks": "./src/ducks",
+          "@epics": "./src/epics",
+          "@components": "./src/components",
+          "@types": "./src/types",
+          "@mocks": "./src/mocks",
+          "@lib": "./src/lib"
         }
       }
     ]

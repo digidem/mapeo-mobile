@@ -30,6 +30,11 @@ module.system=haste
 munge_underscores=true
 
 module.name_mapper='^@src' ->'<PROJECT_ROOT>/src'
+module.name_mapper='^@ducks' ->'<PROJECT_ROOT>/src/ducks'
+module.name_mapper='^@mocks' ->'<PROJECT_ROOT>/src/mocks'
+module.name_mapper='^@epics' ->'<PROJECT_ROOT>/src/epics'
+module.name_mapper='^@types' ->'<PROJECT_ROOT>/src/types'
+module.name_mapper='^@lib' ->'<PROJECT_ROOT>/src/lib'
 module.name_mapper='^[./a-zA-Z0-9$_-]+\.\(bmp\|gif\|jpg\|jpeg\|png\|psd\|svg\|webp\|m4v\|mov\|mp4\|mpeg\|mpg\|webm\|aac\|aiff\|caf\|m4a\|mp3\|wav\|html\|pdf\)$' -> 'RelativeImageStub'
 
 suppress_type=$FlowIssue

@@ -1,17 +1,17 @@
 // @flow
-import { StoreState, Action, Reducers } from '@src/types/redux';
+import { StoreState, Action, Reducers } from '@types/redux';
 
 export function create<M, P>(
   type: string,
   reducers: Reducers<M, P>,
 ): {
   type: string,
-  action: (meta: M, payload: P, error: Error) => Action<M, P>,
-  reducer: (state: StoreState, action: Action<M, P>) => StoreState,
+  action: (meta: M, payload?: P, error?: Error) => Action<M, P>,
+  reducer: (state: StoreState, action: Action<M, P>) => ?StoreState,
 } {
   return {
     type,
-    action: (meta: M, payload: P, error: Error) => {
+    action: (meta: M, payload?: P, error?: Error) => {
       if (payload === undefined) {
         return { type, status: 'Start', meta };
       } else if (error) {
