@@ -1,5 +1,6 @@
 // @flow
 import { StoreState, Action, Reducers } from '@types/redux';
+import { createInitialStore } from './store';
 
 export function create<M, P>(
   type: string,
@@ -7,7 +8,7 @@ export function create<M, P>(
 ): {
   type: string,
   action: (meta: M, payload?: P, error?: Error) => Action<M, P>,
-  reducer: (state: StoreState, action: Action<M, P>) => ?StoreState,
+  reducer: (state: StoreState, action: Action<M, P>) => StoreState,
 } {
   return {
     type,
@@ -34,23 +35,25 @@ export function create<M, P>(
         switch (action.status) {
           case 'Start':
             if (reducers.start) {
-              reducers.start(state, action);
+              return reducers.start(state, action);
             }
             break;
           case 'Error':
             if (reducers.error) {
-              reducers.error(state, action);
+              return reducers.error(state, action);
             }
             break;
           case 'Success':
             if (reducers.success) {
-              reducers.success(state, action);
+              return reducers.success(state, action);
             }
             break;
           default:
             break;
         }
       }
+
+      return state === undefined ? createInitialStore() : state;
     },
   };
 }

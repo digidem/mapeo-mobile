@@ -5,8 +5,14 @@ import rootReducer from '@ducks';
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
-export default function configureStore() {
+export function configureStore() {
   const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
 
   return store;
+}
+
+export function createInitialStore() {
+  return {
+    observations: {},
+  };
 }

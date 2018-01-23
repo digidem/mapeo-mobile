@@ -18,108 +18,24 @@
 */
 
 // @flow
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import React from 'react';
 import RNNode from 'react-native-node';
-import { Provider } from 'redux';
-import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import { Provider } from 'react-redux';
 import { configureStore } from '@lib/store';
-import env from '../env.json';
+import MapView from '@src/components/Views/MapView';
+import 'rxjs';
 
-type State = {
-  response: string,
-  hasMapToken: boolean,
-  geojson: ?string,
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-
-  mapPlaceholder: {
-    backgroundColor: '#AAFFAA',
-    alignSelf: 'stretch',
-    height: 300,
-  },
-
-  map: {
-    height: 300,
-    alignSelf: 'stretch',
-  },
-
-  buttons: {
-    flexDirection: 'row',
-  },
-
-  btn: {
-    backgroundColor: '#4444FF',
-    padding: 10,
-    margin: 10,
-  },
-
-  btnText: {
-    color: 'white',
-  },
-
-  info: {
-    textAlign: 'left',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-const mapboxStyles = MapboxGL.StyleSheet.create({
-  point: {
-    circleColor: 'red',
-  },
-});
-
-export default class App extends Component<null, State> {
-  state = { response: '', hasMapToken: true, geojson: null };
-
-  async componentDidMount() {
+export default class App extends React.PureComponent<null, null> {
+  componentDidMount() {
     RNNode.start();
-    await MapboxGL.requestAndroidLocationPermissions();
-    MapboxGL.setAccessToken(env.accessToken);
   }
 
   render() {
-    const { hasMapToken } = this.state;
+    const store = configureStore();
 
     return (
-      <Provider store={configureStore()}>
-        <View style={styles.container}>
-          {hasMapToken && (
-            <MapboxGL.MapView style={styles.map}>
-              <MapboxGL.ShapeSource
-                id="smileyFaceSource"
-                shape={this.state.geojson}
-              >
-                <MapboxGL.CircleLayer id="circles" style={mapboxStyles.point} />
-              </MapboxGL.ShapeSource>
-            </MapboxGL.MapView>
-          )}
-          {!hasMapToken && <View style={styles.mapPlaceholder} />}
-          <View style={styles.buttons}>
-            <TouchableHighlight style={styles.btn}>
-              <Text style={styles.btnText}>Ping</Text>
-            </TouchableHighlight>
-            <TouchableHighlight style={styles.btn}>
-              <Text style={styles.btnText}>Create</Text>
-            </TouchableHighlight>
-            <TouchableHighlight style={styles.btn}>
-              <Text style={styles.btnText}>Query</Text>
-            </TouchableHighlight>
-            <TouchableHighlight style={styles.btn}>
-              <Text style={styles.btnText}>Capabilities</Text>
-            </TouchableHighlight>
-          </View>
-          <Text style={styles.info}>{this.state.response}</Text>
-        </View>
+      <Provider store={store}>
+        <MapView />
       </Provider>
     );
   }
