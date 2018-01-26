@@ -8,10 +8,7 @@ class CameraViewNavigation extends React.Component {
   }
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../../../images/photo-camera.png')}
-        style={{ color: tintColor }}
-      />
+      <Image source={require('../../../images/photo-camera.png')} />
     ),
   };
 

@@ -9,10 +9,15 @@ const routeConfiguration = {
 };
 
 const tabConfiguration = {
+  swipeEnabled: false,
   tabBarPosition: 'bottom',
   tabBarOptions: {
+    activeTintColor: 'blue',
     showIcon: true,
     showLabel: false,
+    style: {
+      backgroundColor: 'white',
+    },
   },
 };
 

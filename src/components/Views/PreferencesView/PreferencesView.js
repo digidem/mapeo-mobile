@@ -18,15 +18,15 @@ const styles = StyleSheet.create({
 
 });
 
-class MyObservationsView extends React.Component {
+class PreferencesView extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center' }}>
-        <Text>Observations</Text>
+        <Text>Prefences &amp; Settings</Text>
       </View>
     );
   }
 }
 
-export default MyObservationsView;
+export default PreferencesView;
 

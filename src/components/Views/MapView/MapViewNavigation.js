@@ -8,10 +8,7 @@ class MapViewNavigation extends React.Component {
   }
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../../../images/location-arrow.png')}
-        style={{ color: tintColor }}
-      />
+      <Image source={require('../../../images/location-arrow.png')} />
     ),
   };
 
