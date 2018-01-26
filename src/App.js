@@ -22,7 +22,7 @@ import React from 'react';
 import RNNode from 'react-native-node';
 import { Provider } from 'react-redux';
 import { configureStore } from '@lib/store';
-import MapView from '@src/components/Views/MapView';
+import TabBarNavigation from '@src/components/TabBar/TabBarNavigation';
 import 'rxjs';
 
 export default class App extends React.PureComponent<null, null> {
@@ -35,7 +35,7 @@ export default class App extends React.PureComponent<null, null> {
 
     return (
       <Provider store={store}>
-        <MapView />
+        <TabBarNavigation />
       </Provider>
     );
   }

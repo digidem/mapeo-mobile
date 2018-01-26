@@ -85,34 +85,34 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
     const { hasMapToken, geojson } = this.state;
     const { observations } = this.props;
 
-    return (
-      <View style={{flex: 1}}>
-        <Text>MapView</Text>
-      </View>
-    );
-
     // return (
-    //   <View style={{ flex: 1 }}>
-    //     {hasMapToken && (
-    //       <MapboxGL.MapView style={styles.map}>
-    //         <MapboxGL.ShapeSource id="smileyFaceSource" shape={geojson}>
-    //           <MapboxGL.CircleLayer id="circles" style={mapboxStyles.point} />
-    //         </MapboxGL.ShapeSource>
-    //       </MapboxGL.MapView>
-    //     )}
-    //     {!hasMapToken && <View style={styles.mapPlaceholder} />}
-    //     <View style={styles.container}>
-    //       <View style={styles.buttons}>
-    //         {map(observations, o => (
-    //           <TouchableHighlight style={styles.btn} key={o.id}>
-    //             <Text style={styles.btnText}>{`${o.lat}, ${o.lon}`}</Text>
-    //           </TouchableHighlight>
-    //         ))}
-    //       </View>
-    //       <Text style={styles.info}>{this.state.response}</Text>
-    //     </View>
+    //   <View style={{flex: 1}}>
+    //     <Text>MapView</Text>
     //   </View>
     // );
+
+    return (
+      <View style={{ flex: 1 }}>
+        {hasMapToken && (
+          <MapboxGL.MapView style={styles.map}>
+            <MapboxGL.ShapeSource id="smileyFaceSource" shape={geojson}>
+              <MapboxGL.CircleLayer id="circles" style={mapboxStyles.point} />
+            </MapboxGL.ShapeSource>
+          </MapboxGL.MapView>
+        )}
+        {!hasMapToken && <View style={styles.mapPlaceholder} />}
+        <View style={styles.container}>
+          <View style={styles.buttons}>
+            {map(observations, o => (
+              <TouchableHighlight style={styles.btn} key={o.id}>
+                <Text style={styles.btnText}>{`${o.lat}, ${o.lon}`}</Text>
+              </TouchableHighlight>
+            ))}
+          </View>
+          <Text style={styles.info}>{this.state.response}</Text>
+        </View>
+      </View>
+    );
   }
 }
 
