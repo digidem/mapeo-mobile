@@ -1,53 +1,41 @@
 // @flow
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-import { DrawerNavigator } from 'react-navigation';
-
-import MyObservationsView from '@src/components/Views/MyObservationsView/MyObservationsView';
-import PreferencesView from '@src/components/Views/PreferencesView/PreferencesView';
 
 const styles = StyleSheet.create({
   myObservationsIcon: {
-    alignSelf: 'flex-end',
+    position: 'absolute',
+    right: 20,
+    top: 20,
   },
   profileIcon: {
-    alignSelf: 'flex-start',
+    position: 'absolute',
+    left: 20,
+    top: 20,
   },
 });
 
-const CameraNavView = ({navigation}) => (
-  <View style={{flex: 1, flexDirection: 'row'}}>
-    <TouchableHighlight
-      onPress={() => navigation.navigate('DrawerOpen')}
-      underlayColor='antiquewhite'
-    >
-      <Image source={require('../../../images/profile.png')} style={styles.profileIcon} />
-    </TouchableHighlight>
-    <TouchableHighlight
-      onPress={() => navigation.navigate('DrawerOpen')}
-      underlayColor='antiquewhite'
-    >
-      <Image source={require('../../../images/collections.png')} style={styles.myObservationsIcon}/>
-    </TouchableHighlight>
-  </View>
-);
-
-
-const myObservationsDrawerRouteConfiguration = {
-  CameraNavView: { screen: CameraNavView },
-};
-const myObservationsDrawerNavigatorConfiguration = {
-  contentComponent: MyObservationsView,
-  drawerPosition: 'right',
-};
-
-const MyObservationsDrawer = DrawerNavigator(myObservationsDrawerRouteConfiguration, myObservationsDrawerNavigatorConfiguration);
-const CameraView = DrawerNavigator({
-  Child: {
-    screen: MyObservationsDrawer,
+class CameraView extends React.Component {
+  render() {
+    return (
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <TouchableHighlight
+          onPress={() => this.props.navigation.navigate('DrawerClose')}
+          style={styles.profileIcon}
+          underlayColor='antiquewhite'
+        >
+          <Image source={require('../../../images/profile.png')} />
+        </TouchableHighlight>
+        <TouchableHighlight
+          onPress={() => this.props.navigation.navigate('RightDrawerOpen')}
+          style={styles.myObservationsIcon}
+          underlayColor='antiquewhite'
+        >
+          <Image source={require('../../../images/collections.png')} />
+        </TouchableHighlight>
+      </View>
+    );
   }
-}, {
-  contentComponent: PreferencesView,
-});
+}
 
 export default CameraView;

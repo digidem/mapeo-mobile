@@ -1,11 +1,9 @@
 import React from 'react';
 import { Image } from 'react-native';
-import CameraView from '@src/components/Views/CameraView/CameraView';
+import CameraViewDrawerNavigation from '@src/components/Views/CameraView/CameraViewDrawerNavigation';
 
 class CameraViewNavigation extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
       <Image source={require('../../../images/photo-camera.png')} />
@@ -14,7 +12,7 @@ class CameraViewNavigation extends React.Component {
 
   render() {
     return (
-      <CameraView />
+      <CameraViewDrawerNavigation />
     );
   }
 }
