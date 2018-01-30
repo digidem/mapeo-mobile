@@ -1,7 +1,8 @@
 // @flow
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { Button, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import env from '@src/../env.json';
+import { NavigationActions } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { Observation } from '@types/observation';
 import { isEmpty, map } from 'lodash';
@@ -84,6 +85,7 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
   render() {
     const { hasMapToken, geojson } = this.state;
     const { observations } = this.props;
+    const { dispatch, navigate } = this.props.navigation;
 
     // return (
     //   <View style={{flex: 1}}>
@@ -108,6 +110,22 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
                 <Text style={styles.btnText}>{`${o.lat}, ${o.lon}`}</Text>
               </TouchableHighlight>
             ))}
+            <Button onPress={() => {
+              // const navigateAction = NavigationActions.navigate({
+              //   routeName: "CameraViewNavigation",
+              // });
+              // dispatch(navigateAction);
+              dispatch({
+                type: "Navigation/NAVIGATE",
+                routeName: "MainStackNavigation",
+              });
+              dispatch({
+                type: "Navigation/NAVIGATE",
+                routeName: "NewObservationView",
+              })
+              // this.props.screenProps.rootNavigation.navigate("NewObservationView");
+            }}
+            title="New Observation" />
           </View>
           <Text style={styles.info}>{this.state.response}</Text>
         </View>

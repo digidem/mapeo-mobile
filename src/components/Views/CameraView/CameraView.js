@@ -16,18 +16,21 @@ const styles = StyleSheet.create({
 });
 
 class CameraView extends React.Component {
+  
   render() {
+    const { navigate } = this.props.navigation;
+
     return (
       <View style={{flex: 1, flexDirection: 'row'}}>
         <TouchableHighlight
-          onPress={() => this.props.navigation.navigate('DrawerClose')}
+          onPress={() => navigate('DrawerOpen')}
           style={styles.profileIcon}
           underlayColor='antiquewhite'
         >
           <Image source={require('../../../images/profile.png')} />
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={() => this.props.navigation.navigate('RightDrawerOpen')}
+          onPress={() => navigate('RightDrawerOpen')}
           style={styles.myObservationsIcon}
           underlayColor='antiquewhite'
         >

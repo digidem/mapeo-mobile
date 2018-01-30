@@ -1,11 +1,22 @@
 // @flow
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
+
+// import MapViewStackNavigation from '@src/components/Views/MapView/MapViewStackNavigation';
 import MapViewNavigation from '@src/components/Views/MapView/MapViewNavigation';
+
 import CameraViewNavigation from '@src/components/Views/CameraView/CameraViewNavigation';
+import { Image } from 'react-native';
 
 const routeConfiguration = {
-  MapViewNavigation: { screen: MapViewNavigation },
+  MapViewNavigation: {
+    screen: MapViewNavigation,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => (
+        <Image source={require('../../images/location-arrow.png')} />
+      ),
+    },
+  },
   CameraViewNavigation: { screen: CameraViewNavigation },
 };
 
