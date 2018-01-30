@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     right: 20,
     top: 20,
   },
+  
   profileIcon: {
     position: 'absolute',
     left: 20,

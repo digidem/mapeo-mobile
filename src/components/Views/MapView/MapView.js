@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { Button, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { Button, Image, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import env from '@src/../env.json';
 import { NavigationActions } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
@@ -61,6 +61,18 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+
+  myObservationsIcon: {
+    position: 'absolute',
+    right: 20,
+    top: 20,
+  },
+
+  profileIcon: {
+    position: 'absolute',
+    left: 20,
+    top: 20,
+  },
 });
 
 const mapboxStyles = MapboxGL.StyleSheet.create({
@@ -95,6 +107,22 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
 
     return (
       <View style={{ flex: 1 }}>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <TouchableHighlight
+            onPress={() => navigate('DrawerOpen')}
+            style={styles.profileIcon}
+            underlayColor='antiquewhite'
+          >
+            <Image source={require('../../../images/profile.png')} />
+          </TouchableHighlight>
+          <TouchableHighlight
+            onPress={() => navigate('RightDrawerOpen')}
+            style={styles.myObservationsIcon}
+            underlayColor='antiquewhite'
+          >
+            <Image source={require('../../../images/collections.png')} />
+          </TouchableHighlight>
+        </View>
         {hasMapToken && (
           <MapboxGL.MapView style={styles.map}>
             <MapboxGL.ShapeSource id="smileyFaceSource" shape={geojson}>
@@ -115,15 +143,15 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
               //   routeName: "CameraViewNavigation",
               // });
               // dispatch(navigateAction);
-              dispatch({
-                type: "Navigation/NAVIGATE",
-                routeName: "MainStackNavigation",
-              });
-              dispatch({
-                type: "Navigation/NAVIGATE",
-                routeName: "NewObservationView",
-              })
-              // this.props.screenProps.rootNavigation.navigate("NewObservationView");
+              // dispatch({
+              //   type: "Navigation/NAVIGATE",
+              //   routeName: "MainStackNavigation",
+              // });
+              // dispatch({
+              //   type: "Navigation/NAVIGATE",
+              //   routeName: "NewObservationView",
+              // })
+              navigate("NewObservationView");
             }}
             title="New Observation" />
           </View>

@@ -2,11 +2,11 @@ import { DrawerNavigator } from 'react-navigation';
 
 import MyObservationsView from '@src/components/Views/MyObservationsView/MyObservationsView';
 import PreferencesView from '@src/components/Views/PreferencesView/PreferencesView';
-import CameraView from '@src/components/Views/CameraView/CameraView';
+import MapView from '@src/components/Views/MapView/MapView';
 
 const myObservationsDrawerRouteConfiguration = {
-  CameraView: {
-    screen: CameraView,
+  MapView: {
+    screen: MapView,
   },
 };
 const myObservationsDrawerNavigatorConfiguration = {
@@ -16,7 +16,7 @@ const myObservationsDrawerNavigatorConfiguration = {
 };
 
 const MyObservationsDrawer = DrawerNavigator(myObservationsDrawerRouteConfiguration, myObservationsDrawerNavigatorConfiguration);
-const CameraViewDrawerNavigation = DrawerNavigator({
+const MapViewDrawerNavigation = DrawerNavigator({
   Child: {
     screen: MyObservationsDrawer,
     navigationOptions: ({navigation}) => ({
@@ -26,4 +26,4 @@ const CameraViewDrawerNavigation = DrawerNavigator({
   contentComponent: PreferencesView,
 });
 
-export default CameraViewDrawerNavigation;
+export default MapViewDrawerNavigation;
