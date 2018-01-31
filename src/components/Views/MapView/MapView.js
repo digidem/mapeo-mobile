@@ -107,7 +107,7 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
 
     return (
       <View style={{ flex: 1 }}>
-        <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', height: 60}}>
           <TouchableHighlight
             onPress={() => navigate('DrawerOpen')}
             style={styles.profileIcon}
@@ -139,19 +139,19 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
               </TouchableHighlight>
             ))}
             <Button onPress={() => {
-              // const navigateAction = NavigationActions.navigate({
-              //   routeName: "CameraViewNavigation",
-              // });
-              // dispatch(navigateAction);
-              // dispatch({
-              //   type: "Navigation/NAVIGATE",
-              //   routeName: "MainStackNavigation",
-              // });
-              // dispatch({
-              //   type: "Navigation/NAVIGATE",
-              //   routeName: "NewObservationView",
-              // })
-              navigate("NewObservationView");
+              dispatch({
+                type: "Navigation/NAVIGATE",
+                routeName: "MainDrawerNavigation",
+              });
+              dispatch({
+                type: "Navigation/NAVIGATE",
+                routeName: "MainStackNavigation",
+              });
+              dispatch({
+                type: "Navigation/NAVIGATE",
+                routeName: "NewObservationView",
+              })
+              // navigate("NewObservationView");
             }}
             title="New Observation" />
           </View>

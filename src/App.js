@@ -22,7 +22,8 @@ import React from 'react';
 import RNNode from 'react-native-node';
 import { Provider } from 'react-redux';
 import { configureStore } from '@lib/store';
-import MainStackNavigation from '@src/components/MainStackNavigation/MainStackNavigation';
+import MainStackNavigation from '@src/components/MainNavigation/MainStackNavigation';
+import MainDrawerNavigation from '@src/components/MainNavigation/MainDrawerNavigation';
 import 'rxjs';
 
 export default class App extends React.PureComponent<null, null> {
