@@ -23,6 +23,7 @@ class MyObservationsView extends React.Component {
     return (
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <Text>Observations</Text>
+        <Button onPress={this.props.closeRightDrawer} title='close' />
       </View>
     );
   }

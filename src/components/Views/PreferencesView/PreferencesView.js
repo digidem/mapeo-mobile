@@ -23,6 +23,7 @@ class PreferencesView extends React.Component {
     return (
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <Text>Prefences &amp; Settings</Text>
+        <Button onPress={this.props.closeLeftDrawer} title='close' />
       </View>
     );
   }

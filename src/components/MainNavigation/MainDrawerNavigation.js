@@ -3,7 +3,6 @@ import { DrawerNavigator } from 'react-navigation';
 
 import MyObservationsView from '@src/components/Views/MyObservationsView/MyObservationsView';
 import PreferencesView from '@src/components/Views/PreferencesView/PreferencesView';
-import CameraView from '@src/components/Views/CameraView/CameraView';
 import TabBarNavigation from '@src/components/Views/TabBarView/TabBarNavigation';
 
 const myObservationsDrawerRouteConfiguration = {

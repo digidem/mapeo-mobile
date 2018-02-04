@@ -6,6 +6,7 @@ import { NavigationActions } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { Observation } from '@types/observation';
 import { isEmpty, map } from 'lodash';
+import PreferencesView from '@src/components/Views/PreferencesView/PreferencesView';
 
 type State = {
   response: string,
@@ -62,17 +63,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 
-  myObservationsIcon: {
-    position: 'absolute',
-    right: 20,
-    top: 20,
-  },
-
-  profileIcon: {
-    position: 'absolute',
-    left: 20,
-    top: 20,
-  },
 });
 
 const mapboxStyles = MapboxGL.StyleSheet.create({
@@ -94,35 +84,20 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
     }
   }
 
+  navigateToNewObservation = () => {
+    const navigateToNewObservationView = NavigationActions.navigate({
+      routeName: 'NewObservationView',
+    });
+    this.props.navigation.dispatch(navigateToNewObservationView);
+  };
+
   render() {
     const { hasMapToken, geojson } = this.state;
     const { observations } = this.props;
     const { dispatch, navigate } = this.props.navigation;
 
-    // return (
-    //   <View style={{flex: 1}}>
-    //     <Text>MapView</Text>
-    //   </View>
-    // );
-
     return (
       <View style={{ flex: 1 }}>
-        <View style={{flexDirection: 'row', height: 60}}>
-          <TouchableHighlight
-            onPress={() => navigate('DrawerOpen')}
-            style={styles.profileIcon}
-            underlayColor='antiquewhite'
-          >
-            <Image source={require('../../../images/profile.png')} />
-          </TouchableHighlight>
-          <TouchableHighlight
-            onPress={() => navigate('RightDrawerOpen')}
-            style={styles.myObservationsIcon}
-            underlayColor='antiquewhite'
-          >
-            <Image source={require('../../../images/collections.png')} />
-          </TouchableHighlight>
-        </View>
         {hasMapToken && (
           <MapboxGL.MapView style={styles.map}>
             <MapboxGL.ShapeSource id="smileyFaceSource" shape={geojson}>
@@ -138,21 +113,7 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
                 <Text style={styles.btnText}>{`${o.lat}, ${o.lon}`}</Text>
               </TouchableHighlight>
             ))}
-            <Button onPress={() => {
-              dispatch({
-                type: "Navigation/NAVIGATE",
-                routeName: "MainDrawerNavigation",
-              });
-              dispatch({
-                type: "Navigation/NAVIGATE",
-                routeName: "MainStackNavigation",
-              });
-              dispatch({
-                type: "Navigation/NAVIGATE",
-                routeName: "NewObservationView",
-              })
-              // navigate("NewObservationView");
-            }}
+            <Button onPress={() => navigate('NewObservationView')}
             title="New Observation" />
           </View>
           <Text style={styles.info}>{this.state.response}</Text>
