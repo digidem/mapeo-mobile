@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import observations from './observations';
-
 import MainStackNavigation from '@src/components/MainNavigation/MainStackNavigation';
-import TabBarNavigation from '@src/components/Views/TabBarView/TabBarNavigation';
+import TabBarNavigation from '@src/components/Views/TabBarView';
+
+import observations from './observations';
 
 const rootReducer = combineReducers({
   ...observations,

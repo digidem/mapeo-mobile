@@ -4,12 +4,13 @@ import { observationList } from '@ducks/observations';
 import type { Dispatch } from 'redux';
 import { StoreState } from '@types/redux';
 import MapView from './MapView';
+import type { DispatchProps, StateProps } from './MapView';
 
-function mapStateToProps(state: StoreState) {
-  return { observations: state[0].observations };
+function mapStateToProps(state: StoreState): StateProps {
+  return { observations: state.observations };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
+function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return { listObservations: () => dispatch(observationList('')) };
 }
 

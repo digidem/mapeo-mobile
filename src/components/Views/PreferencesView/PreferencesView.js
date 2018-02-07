@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, Text, View } from 'react-native';
 
 // type State = {};
 
@@ -14,20 +14,15 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 //   listObservations: () => void,
 // };
 
-const styles = StyleSheet.create({
-
-});
-
-class PreferencesView extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        <Text>Prefences &amp; Settings</Text>
-        <Button onPress={this.props.closeLeftDrawer} title='close' />
-      </View>
-    );
-  }
+type Props = {
+  closeLeftDrawer: Function;
 }
 
-export default PreferencesView;
+const PreferencesView = (props: Props) => (
+  <View style={{ flex: 1, justifyContent: 'center' }}>
+    <Text>Prefences &amp; Settings</Text>
+    <Button onPress={props.closeLeftDrawer} title="close" />
+  </View>
+);
 
+export default PreferencesView;

@@ -1,31 +1,36 @@
 // @flow
 import React from 'react';
-import { connect } from 'react-redux';
 import { addNavigationHelpers, TabNavigator } from 'react-navigation';
-import { Button, Image, StyleSheet, TouchableHighlight, View } from 'react-native';
+import { Image, StyleSheet, TouchableHighlight, View } from 'react-native';
 import Drawer from 'react-native-drawer';
+import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
 import MapView from '@src/components/Views/MapView';
 import CameraView from '@src/components/Views/CameraView/CameraView';
 import PreferencesView from '@src/components/Views/PreferencesView/PreferencesView';
 import MyObservationsView from '@src/components/Views/MyObservationsView';
 
+import MapViewIcon from '../../../images/location-arrow.png';
+import CameraViewIcon from '../../../images/photo-camera.png';
+import ProfileImg from '../../../images/profile.png';
+import CollectionsImg from '../../../images/collections.png';
+
 const routeConfiguration = {
   MapView: {
     screen: MapView,
     navigationOptions: {
-      tabBarIcon: ({ tintColor }) => (
-        <Image source={require('../../../images/location-arrow.png')} />
+      tabBarIcon: () => (
+        <Image source={MapViewIcon} />
       ),
     },
   },
   CameraView: {
     screen: CameraView,
     navigationOptions: {
-      tabBarIcon: ({ tintColor }) => (
-        <Image source={require('../../../images/photo-camera.png')} />
+      tabBarIcon: () => (
+        <Image source={CameraViewIcon} />
       ),
-    }
+    },
   },
 };
 
@@ -44,12 +49,6 @@ const tabConfiguration = {
 
 const TabBar = TabNavigator(routeConfiguration, tabConfiguration);
 
-const mapStateToProps = (state) => {
-  return {
-    navigationState: state.tabBar,
-  }
-};
-
 const styles = StyleSheet.create({
   myObservationsIcon: {
     position: 'absolute',
@@ -64,7 +63,15 @@ const styles = StyleSheet.create({
   },
 });
 
-class TabBarNavigation extends React.Component {
+export type StateProps = {
+  navigationState: any;
+  dispatch: any;
+}
+
+class TabBarNavigation extends React.Component<StateProps> {
+  static router = TabBar.router;
+  leftDrawer: Drawer;
+  rightDrawer: Drawer;
 
   closeLeftDrawer = () => {
     this.leftDrawer.close();
@@ -82,44 +89,53 @@ class TabBarNavigation extends React.Component {
     this.rightDrawer.open();
   }
 
+  handleLeftDrawerRef = (ref: Drawer) => {
+    this.leftDrawer = ref;
+  }
+
+  handleRightDrawerRef = (ref: Drawer) => {
+    this.rightDrawer = ref;
+  }
+
   render() {
     const { dispatch, navigationState } = this.props;
 
-    return(
+    return (
       <Drawer
-        ref={(ref) => this.leftDrawer = ref}
+        ref={this.handleLeftDrawerRef}
         content={<PreferencesView closeLeftDrawer={this.closeLeftDrawer} />}
         openDrawerOffset={30}
-        type='displace'
+        type="displace"
       >
         <Drawer
-          ref={(ref) => this.rightDrawer = ref}
+          ref={this.handleRightDrawerRef}
           content={<MyObservationsView closeRightDrawer={this.closeRightDrawer} />}
           openDrawerOffset={30}
-          side='right'
-          type='displace'
+          side="right"
+          type="displace"
         >
-          <View style={{flexDirection: 'row', height: 60}}>
+          <View style={{ flexDirection: 'row', height: 60 }}>
             <TouchableHighlight
               onPress={this.openLeftDrawer}
               style={styles.profileIcon}
-              underlayColor='antiquewhite'
+              underlayColor="antiquewhite"
             >
-              <Image source={require('../../../images/profile.png')} />
+              <Image source={ProfileImg} />
             </TouchableHighlight>
             <TouchableHighlight
               onPress={this.openRightDrawer}
               style={styles.myObservationsIcon}
-              underlayColor='antiquewhite'
+              underlayColor="antiquewhite"
             >
-              <Image source={require('../../../images/collections.png')} />
+              <Image source={CollectionsImg} />
             </TouchableHighlight>
           </View>
           <TabBar
             navigation={
               addNavigationHelpers({
-                dispatch: dispatch,
+                dispatch,
                 state: navigationState,
+                addListener: createReduxBoundAddListener('tabBar'),
               })
             }
           />
@@ -129,6 +145,4 @@ class TabBarNavigation extends React.Component {
   }
 }
 
-TabBarNavigation.router = TabBar.router;
-
-export default connect(mapStateToProps)(TabBarNavigation);
+export default TabBarNavigation;

@@ -5,6 +5,8 @@ export interface StoreState {
   observations: {
     [id: string]: Observation,
   };
+
+  tabBar: any;
 }
 
 export type ActionStatus = 'Start' | 'Error' | 'Success';

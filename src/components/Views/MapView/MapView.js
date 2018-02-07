@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { Button, Image, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { Button, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import env from '@src/../env.json';
 import { NavigationActions } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
@@ -23,6 +23,10 @@ export type StateProps = {
 export type DispatchProps = {
   listObservations: () => void,
 };
+
+type Props = {
+  navigation: NavigationActions;
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -71,7 +75,7 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
   },
 });
 
-class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
+class MapView extends React.PureComponent<Props & StateProps & DispatchProps, State> {
   state = { response: '', hasMapToken: true, geojson: null };
 
   async componentDidMount() {
@@ -94,7 +98,7 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
   render() {
     const { hasMapToken, geojson } = this.state;
     const { observations } = this.props;
-    const { dispatch, navigate } = this.props.navigation;
+    const { navigate } = this.props.navigation;
 
     return (
       <View style={{ flex: 1 }}>
@@ -113,8 +117,10 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
                 <Text style={styles.btnText}>{`${o.lat}, ${o.lon}`}</Text>
               </TouchableHighlight>
             ))}
-            <Button onPress={() => navigate('NewObservationView')}
-            title="New Observation" />
+            <Button
+              onPress={() => navigate('NewObservationView')}
+              title="New Observation"
+            />
           </View>
           <Text style={styles.info}>{this.state.response}</Text>
         </View>

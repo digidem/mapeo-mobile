@@ -3,7 +3,7 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import NewObservationView from '@src/components/Views/NewObservationView/NewObservationView';
-import TabBarNavigation from '@src/components/Views/TabBarView/TabBarNavigation';
+import TabBarNavigation from '@src/components/Views/TabBarView';
 import MyObservationsView from '@src/components/Views/MyObservationsView';
 import PreferencesView from '@src/components/Views/PreferencesView/PreferencesView';
 
