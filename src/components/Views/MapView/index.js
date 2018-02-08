@@ -6,9 +6,9 @@ import { StoreState } from '@types/redux';
 import MapView from './MapView';
 import type { DispatchProps, StateProps } from './MapView';
 
-function mapStateToProps(state: StoreState): StateProps {
-  return { observations: state.observations };
-}
+const mapStateToProps = (state: StoreState): StateProps => ({
+  observations: state.app.observations,
+});
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return { listObservations: () => dispatch(observationList('')) };

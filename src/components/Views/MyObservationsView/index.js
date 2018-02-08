@@ -6,7 +6,7 @@ import { StoreState } from '@types/redux';
 import MyObservationsView from './MyObservationsView';
 
 function mapStateToProps(state: StoreState) {
-  return { observations: state.observations };
+  return { observations: state.app.observations };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {

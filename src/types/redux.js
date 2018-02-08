@@ -1,10 +1,14 @@
 // @flow
 import { Observation } from '@types/observation';
 
-export interface StoreState {
+export interface AppStoreState {
   observations: {
     [id: string]: Observation,
   };
+}
+
+export interface StoreState {
+  app: AppStoreState;
 
   tabBar: any;
 }

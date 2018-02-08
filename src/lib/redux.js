@@ -57,3 +57,12 @@ export function create<M, P>(
     },
   };
 }
+
+export const combineReducers = (...reducers: Function[]): Function =>
+  (state: StoreState, action: Action<any, any>) => {
+    let newState = state;
+    reducers.forEach((reducer) => {
+      newState = reducer(newState, action);
+    });
+    return newState;
+  };

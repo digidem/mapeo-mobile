@@ -11,15 +11,18 @@ export const {
   action: observationList,
   reducer: observationListReducer,
 } = create('OBSERVATION_LIST', {
-  success: (state, action) =>
-    update(state, {
+  success: (state, action) => {
+    const newState = update(state, {
       observations: { $set: keyBy(action.payload, 'id') },
-    }),
+    });
+
+    return newState;
+  },
 });
 
 export const selectContact = createSelector(
   [
-    (state: StoreState, id: string): Observation => state.observations[id],
+    (state: StoreState, id: string): Observation => state.app.observations[id],
   ],
   (observation: Observation): Observation => observation,
   (observation: Observation, id: string): string => id,
