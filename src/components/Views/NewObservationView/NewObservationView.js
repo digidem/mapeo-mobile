@@ -28,7 +28,7 @@ const NewObservationView = (props: Props) => {
       <Button
         onPress={() => {
           const navigateAction = NavigationActions.navigate({
-            routeName: 'MapView',
+            routeName: 'TabBarNavigation',
           });
           dispatch(navigateAction);
         }}

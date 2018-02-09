@@ -1,5 +1,4 @@
 // @flow
-import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import NewObservationView from '@src/components/Views/NewObservationView/NewObservationView';
