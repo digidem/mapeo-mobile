@@ -13,6 +13,7 @@
   "dependencies": {
     "@mapbox/react-native-mapbox-gl": "^6.0.2-rc1",
     "immutability-helper": "^2.6.4",
+    "moment": "^2.20.1",
     "react": "16.0.0",
     "react-native": "0.50.1",
     "react-native-drawer": "^2.5.0",

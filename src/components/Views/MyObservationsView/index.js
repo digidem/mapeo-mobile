@@ -1,16 +1,11 @@
 // @flow
 import { connect } from 'react-redux';
-import { observationList } from '@ducks/observations';
-import type { Dispatch } from 'redux';
 import { StoreState } from '@types/redux';
 import MyObservationsView from './MyObservationsView';
+import type { StateProps } from './MyObservationsView';
 
-function mapStateToProps(state: StoreState) {
+function mapStateToProps(state: StoreState): StateProps {
   return { observations: state.app.observations };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
-  return { listObservations: () => dispatch(observationList('')) };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyObservationsView);
+export default connect(mapStateToProps)(MyObservationsView);

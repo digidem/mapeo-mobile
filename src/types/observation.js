@@ -6,4 +6,6 @@ export interface Observation {
   lat: number;
   lon: number;
   link: string;
+  created: Date;
+  name: string;
 }
