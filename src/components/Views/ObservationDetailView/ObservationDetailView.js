@@ -1,12 +1,16 @@
 // @flow
 import React from 'react';
 import { Button, Image, Text, TouchableHighlight, View, ScrollView, StyleSheet } from 'react-native';
-import { map } from 'lodash';
+import moment from 'moment';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import type { Observation } from '@types/observation';
 
 import BackImg from '../../../images/left-chevron.png';
 import ProfileImg from '../../../images/profile.png';
+
+type State = {
+  showStillHappening: boolean,
+};
 
 export type StateProps = {
   observations: {
@@ -84,6 +88,14 @@ const styles = StyleSheet.create({
     paddingLeft: -5,
     marginBottom: 20,
   },
+  stillHappening: {
+    color: 'black',
+    fontSize: 12,
+    fontWeight: '400',
+    paddingTop: 15,
+    paddingBottom: 15,
+    textAlign: 'center',
+  },
   textNotes : {
     color: 'black',
     fontSize: 20,
@@ -106,39 +118,62 @@ const styles = StyleSheet.create({
   },
 });
 
-const ObservationDetailView = (props: StateProps & Props) => (
-  <ScrollView style={styles.container}>
-    <View style={styles.header}>
-      <TouchableHighlight onPress={() => {props.navigation.navigate('TabBarNavigation')}}>
-        <Image source={BackImg} style={styles.backChevron} />
-      </TouchableHighlight>
-      <Text style={styles.title}>Oil Spill</Text>
-      <Text style={styles.date}>December 12, 2017</Text>
-      <Text style={styles.time}>12:00 PM</Text>
-    </View>
-    <View style={styles.notes}>
-      <Text style={styles.mediaContentText}>2 photos, 1 video</Text>
-      <View style={{flexDirection: 'row', height: 125}}>
-        <View style={{flex: 1, backgroundColor: 'white'}}></View>
-        <View style={{flex: 1, backgroundColor: 'blue'}}></View>
-        <View style={{flex: 1, backgroundColor: 'lightgray'}}></View>
-      </View>
-      <Text style={styles.textNotes}>This is pretty bad. It smells pretty noxious, and the entire pond is affected.</Text>
-    </View>
-    <View style={styles.map}>
-      <Text style={styles.mapText}>0.0 km</Text>
-      <View style={{flexDirection: 'row', height: 200}}>
-        <View style={{flex: 1, backgroundColor: 'lightblue', marginBottom: 15, marginLeft: 15, marginRight: 15}}></View>
-      </View>
-    </View>
-    <View style={styles.observedBy}>
-      <Text style={styles.observedByTitle}>Observed by</Text>
-      <View style={{flexDirection: 'row'}}>
-        <Image source={ProfileImg} style={styles.profileImage}/>
-        <Text style={styles.observedByText}>You</Text>
-      </View>
-    </View>
-  </ScrollView>
-);
+class ObservationDetailView extends React.PureComponent<Props & StateProps, State> {
+  state = { showStillHappening: true };
+
+  dismissStillHappening = () => {
+    if (this.state.showStillHappening) this.setState({ showStillHappening: false });
+  }
+
+  render() {
+    const id = this.props.navigation.state.params.id;
+    const observation = this.props.observations[id];
+
+    return (
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <TouchableHighlight onPress={() => {this.props.navigation.navigate('TabBarNavigation')}}>
+            <Image source={BackImg} style={styles.backChevron} />
+          </TouchableHighlight>
+          <Text style={styles.title}>{observation.name}</Text>
+          <Text style={styles.date}>{moment(observation.created).format('MMMM D, YYYY')}</Text>
+          <Text style={styles.time}>{moment(observation.created).format('h:m A')}</Text>
+        </View>
+        <View style={styles.notes}>
+          <Text style={styles.mediaContentText}>2 photos, 1 video</Text>
+          <View style={{flexDirection: 'row', height: 125}}>
+            <View style={{flex: 1, backgroundColor: 'white'}}></View>
+            <View style={{flex: 1, backgroundColor: 'blue'}}></View>
+            <View style={{flex: 1, backgroundColor: 'lightgray'}}></View>
+          </View>
+          <Text style={styles.textNotes}>{observation.notes}</Text>
+        </View>
+        <View style={styles.map}>
+          <Text style={styles.mapText}>0.0 km</Text>
+          <View style={{flexDirection: 'row', height: 200}}>
+            <View style={{flex: 1, backgroundColor: 'lightblue', marginBottom: 15, marginLeft: 15, marginRight: 15}}></View>
+          </View>
+        </View>
+        <View style={styles.observedBy}>
+          <Text style={styles.observedByTitle}>Observed by</Text>
+          <View style={{flexDirection: 'row'}}>
+            <Image source={ProfileImg} style={styles.profileImage}/>
+            <Text style={styles.observedByText}>{observation.observedBy}</Text>
+          </View>
+        </View>
+        {
+          this.state.showStillHappening ?
+          <View style={{flex: 1, backgroundColor: '#f2f2f2'}}>
+            <Text style={styles.stillHappening}>Is this still happening here?</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+              <Button onPress={this.dismissStillHappening} title="Yes" />
+              <Button onPress={this.dismissStillHappening} title="No" />
+            </View>
+          </View> : null
+        }
+      </ScrollView>
+    );
+  }
+};
 
 export default withNavigation(ObservationDetailView);

@@ -9,6 +9,8 @@ export const createObservation = (observation?: Observation | void) => ({
   link: 'linkID',
   created: new Date(),
   name: 'Oil Spill',
-
+  notes: 'This is pretty bad. It smells pretty noxious, and the entire pond is affected.',
+  observedBy: 'You',
+  
   ...observation,
 });
