@@ -2,15 +2,17 @@
 import { StackNavigator } from 'react-navigation';
 
 import NewObservationView from '@src/components/Views/NewObservationView/NewObservationView';
-import TabBarNavigation from '@src/components/Views/TabBarView';
 import MyObservationsView from '@src/components/Views/MyObservationsView';
+import ObservationDetailView from '@src/components/Views/ObservationDetailView';
 import PreferencesView from '@src/components/Views/PreferencesView/PreferencesView';
+import TabBarNavigation from '@src/components/Views/TabBarView';
 
 const routeConfiguration = {
-  TabBarNavigation: { screen: TabBarNavigation },
   NewObservationView: { screen: NewObservationView },
   MyObservationsView: { screen: MyObservationsView },
+  ObservationDetailView: { screen: ObservationDetailView },
   PreferencesView: { screen: PreferencesView },
+  TabBarNavigation: { screen: TabBarNavigation },
 };
 const stackConfiguration = {
   initialRouteName: 'TabBarNavigation',

@@ -2,10 +2,9 @@
 import React from 'react';
 import { Button, Text, View, StyleSheet } from 'react-native';
 import { map } from 'lodash';
+import { NavigationActions, withNavigation } from 'react-navigation';
 import type { Observation } from '@types/observation';
 import ObservationCell from './ObservationCell';
-
-// type State = {};
 
 export type StateProps = {
   observations: {
@@ -15,6 +14,7 @@ export type StateProps = {
 
 type Props = {
   closeRightDrawer: Function;
+  navigation: NavigationActions;
 };
 
 const styles = StyleSheet.create({
@@ -39,11 +39,15 @@ const MyObservationsView = (props: StateProps & Props) => (
     <Text style={styles.header}>My Observations</Text>
     <View style={{ flex: 1, flexDirection: 'column' }}>
       {map(props.observations, observation => (
-        <ObservationCell observation={observation} key={observation.id} />
+        <ObservationCell
+          navigation={props.navigation}
+          observation={observation}
+          key={observation.id}
+        />
       ))}
     </View>
     <Button onPress={props.closeRightDrawer} title="close" />
   </View>
 );
 
-export default MyObservationsView;
+export default withNavigation(MyObservationsView);

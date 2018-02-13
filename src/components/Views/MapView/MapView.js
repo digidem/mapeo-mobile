@@ -88,13 +88,6 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps, St
     }
   }
 
-  navigateToNewObservation = () => {
-    const navigateToNewObservationView = NavigationActions.navigate({
-      routeName: 'NewObservationView',
-    });
-    this.props.navigation.dispatch(navigateToNewObservationView);
-  };
-
   render() {
     const { hasMapToken, geojson } = this.state;
     const { observations } = this.props;

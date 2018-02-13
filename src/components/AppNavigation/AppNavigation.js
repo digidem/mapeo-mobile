@@ -15,7 +15,7 @@ const AppNavigation = (props: Props) => (
       addNavigationHelpers({
         dispatch: props.dispatch,
         state: props.navigationState,
-        addListener: createReduxBoundAddListener('tabBar'),
+        addListener: createReduxBoundAddListener('mainStack'),
       })}
   />
 );
