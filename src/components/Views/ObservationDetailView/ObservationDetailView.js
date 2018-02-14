@@ -3,6 +3,7 @@ import React from 'react';
 import { Button, Image, Text, TouchableHighlight, View, ScrollView, StyleSheet } from 'react-native';
 import moment from 'moment';
 import { NavigationActions, withNavigation } from 'react-navigation';
+import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import type { Observation } from '@types/observation';
 
 import BackImg from '../../../images/left-chevron.png';
@@ -45,48 +46,34 @@ const styles = StyleSheet.create({
     height: 200,
     paddingVertical: 20,
   },
-  map: {
-    borderBottomColor: 'lightgray',
-    borderBottomWidth: 1,
-  },
-  mapText: {
-    color: 'gray',
-    fontSize: 12,
-    marginBottom: 15,
-    marginLeft: 15,
-    marginTop: 15,
-  },
-  mediaContentText: {
-    color: 'gray',
-    fontSize: 12,
-    marginBottom: 15,
-    marginLeft: 15,
-    marginTop: 15,
-  },
-  notes: {
-    borderBottomColor: 'lightgray',
-    borderBottomWidth: 1,
+  mapBox: {
     flex: 1,
-  },
-  observedBy: {
-    paddingTop: 15,
-    paddingLeft: 15,
+    alignSelf: 'stretch',
+    marginBottom: 15,
+    marginLeft: 15,
+    marginRight: 15,
   },
   observedByText: {
     color: 'black',
     fontSize: 20,
     fontWeight: '700',
     paddingLeft: 10,
-    paddingTop: 20,
-  },
-  observedByTitle: {
-    color: 'gray',
-    fontSize: 12,
   },
   profileImage: {
-    marginTop: 20,
-    paddingLeft: -5,
+    marginLeft: 10,
     marginBottom: 20,
+  },
+  section: {
+    borderBottomColor: 'lightgray',
+    borderBottomWidth: 1,
+    flex: 1,
+  },
+  sectionText: {
+    color: 'gray',
+    fontSize: 12,
+    marginBottom: 15,
+    marginLeft: 15,
+    marginTop: 15,
   },
   stillHappening: {
     color: 'black',
@@ -137,10 +124,10 @@ class ObservationDetailView extends React.PureComponent<Props & StateProps, Stat
           </TouchableHighlight>
           <Text style={styles.title}>{observation.name}</Text>
           <Text style={styles.date}>{moment(observation.created).format('MMMM D, YYYY')}</Text>
-          <Text style={styles.time}>{moment(observation.created).format('h:m A')}</Text>
+          <Text style={styles.time}>{moment(observation.created).format('h:mm A')}</Text>
         </View>
-        <View style={styles.notes}>
-          <Text style={styles.mediaContentText}>2 photos, 1 video</Text>
+        <View style={styles.section}>
+          <Text style={styles.sectionText}>2 photos, 1 video</Text>
           <View style={{flexDirection: 'row', height: 125}}>
             <View style={{flex: 1, backgroundColor: 'white'}}></View>
             <View style={{flex: 1, backgroundColor: 'blue'}}></View>
@@ -148,14 +135,20 @@ class ObservationDetailView extends React.PureComponent<Props & StateProps, Stat
           </View>
           <Text style={styles.textNotes}>{observation.notes}</Text>
         </View>
-        <View style={styles.map}>
-          <Text style={styles.mapText}>0.0 km</Text>
-          <View style={{flexDirection: 'row', height: 200}}>
-            <View style={{flex: 1, backgroundColor: 'lightblue', marginBottom: 15, marginLeft: 15, marginRight: 15}}></View>
+        <View style={styles.section}>
+          <Text style={styles.sectionText}>0.0 km</Text>
+          <View style={{height: 200}}>
+            <MapboxGL.MapView
+              style={styles.mapBox}
+              styleURL={MapboxGL.StyleURL.Street}
+              zoomLevel={15}
+              centerCoordinate={[11.256, 43.770]}
+            >
+            </MapboxGL.MapView>
           </View>
         </View>
-        <View style={styles.observedBy}>
-          <Text style={styles.observedByTitle}>Observed by</Text>
+        <View style={styles.section}>
+          <Text style={styles.sectionText}>Observed by</Text>
           <View style={{flexDirection: 'row'}}>
             <Image source={ProfileImg} style={styles.profileImage}/>
             <Text style={styles.observedByText}>{observation.observedBy}</Text>
