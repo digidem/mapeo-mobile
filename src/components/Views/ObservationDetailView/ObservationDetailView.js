@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   header: {
     alignSelf: 'stretch',
-    backgroundColor: '#e6ffff',
+    backgroundColor: '#ccffff',
     borderBottomColor: 'lightgray',
     borderBottomWidth: 1,
     height: 200,
@@ -83,12 +83,11 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     textAlign: 'center',
   },
-  textNotes : {
+  textNotes: {
     color: 'black',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
-    marginBottom: 20,
-    marginTop: 20,
+    margin: 20,
     textAlign: 'center',
   },
   time: {
@@ -99,7 +98,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'black',
-    fontSize: 20,
+    fontFamily: 'HelveticaNeue',
+    fontSize: 18,
     fontWeight: '700',
     textAlign: 'center',
   },
@@ -113,13 +113,12 @@ class ObservationDetailView extends React.PureComponent<Props & StateProps, Stat
   }
 
   render() {
-    const id = this.props.navigation.state.params.id;
-    const observation = this.props.observations[id];
+    const observation = this.props.observations[this.props.navigation.state.params.id];
 
     return (
       <ScrollView style={styles.container}>
         <View style={styles.header}>
-          <TouchableHighlight onPress={() => {this.props.navigation.navigate('TabBarNavigation')}}>
+          <TouchableHighlight onPress={() => { this.props.navigation.navigate('TabBarNavigation'); }}>
             <Image source={BackImg} style={styles.backChevron} />
           </TouchableHighlight>
           <Text style={styles.title}>{observation.name}</Text>
@@ -128,45 +127,44 @@ class ObservationDetailView extends React.PureComponent<Props & StateProps, Stat
         </View>
         <View style={styles.section}>
           <Text style={styles.sectionText}>2 photos, 1 video</Text>
-          <View style={{flexDirection: 'row', height: 125}}>
-            <View style={{flex: 1, backgroundColor: 'white'}}></View>
-            <View style={{flex: 1, backgroundColor: 'blue'}}></View>
-            <View style={{flex: 1, backgroundColor: 'lightgray'}}></View>
+          <View style={{ flexDirection: 'row', height: 125 }}>
+            <View style={{ flex: 1, backgroundColor: 'white' }} />
+            <View style={{ flex: 1, backgroundColor: 'blue' }} />
+            <View style={{ flex: 1, backgroundColor: 'lightgray' }} />
           </View>
           <Text style={styles.textNotes}>{observation.notes}</Text>
         </View>
         <View style={styles.section}>
           <Text style={styles.sectionText}>0.0 km</Text>
-          <View style={{height: 200}}>
+          <View style={{ height: 200 }}>
             <MapboxGL.MapView
               style={styles.mapBox}
               styleURL={MapboxGL.StyleURL.Street}
               zoomLevel={15}
               centerCoordinate={[11.256, 43.770]}
-            >
-            </MapboxGL.MapView>
+            />
           </View>
         </View>
         <View style={styles.section}>
           <Text style={styles.sectionText}>Observed by</Text>
-          <View style={{flexDirection: 'row'}}>
-            <Image source={ProfileImg} style={styles.profileImage}/>
+          <View style={{ flexDirection: 'row' }}>
+            <Image source={ProfileImg} style={styles.profileImage} />
             <Text style={styles.observedByText}>{observation.observedBy}</Text>
           </View>
         </View>
         {
           this.state.showStillHappening ?
-          <View style={{flex: 1, backgroundColor: '#f2f2f2'}}>
-            <Text style={styles.stillHappening}>Is this still happening here?</Text>
-            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-              <Button onPress={this.dismissStillHappening} title="Yes" />
-              <Button onPress={this.dismissStillHappening} title="No" />
-            </View>
-          </View> : null
+            <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+              <Text style={styles.stillHappening}>Is this still happening here?</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <Button onPress={this.dismissStillHappening} title="Yes" />
+                <Button onPress={this.dismissStillHappening} title="No" />
+              </View>
+            </View> : null
         }
       </ScrollView>
     );
   }
-};
+}
 
 export default withNavigation(ObservationDetailView);

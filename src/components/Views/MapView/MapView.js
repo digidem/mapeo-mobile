@@ -6,7 +6,6 @@ import { NavigationActions } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { Observation } from '@types/observation';
 import { isEmpty, map } from 'lodash';
-import PreferencesView from '@src/components/Views/PreferencesView/PreferencesView';
 
 type State = {
   response: string,

@@ -35,18 +35,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const ObservationCell = (props: Props) => {
-  
-  return (
-    <TouchableHighlight onPress={() => props.navigation.navigate('ObservationDetailView', { id: props.observation.id })}>
-      <View style={styles.container}>
-        <View style={styles.text}>
-          <Text>{props.observation.name}</Text>
-          <Text>{moment(props.observation.created).format('dddd, ha')}</Text>
-        </View>
+const ObservationCell = (props: Props) => (
+  <TouchableHighlight onPress={() => props.navigation.navigate('ObservationDetailView', { id: props.observation.id })}>
+    <View style={styles.container}>
+      <View style={styles.text}>
+        <Text>{props.observation.name}</Text>
+        <Text>{moment(props.observation.created).format('dddd, ha')}</Text>
       </View>
-    </TouchableHighlight>
-  );
-};
+    </View>
+  </TouchableHighlight>
+);
 
 export default ObservationCell;
