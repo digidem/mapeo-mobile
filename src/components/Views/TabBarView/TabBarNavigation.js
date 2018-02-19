@@ -9,20 +9,20 @@ import TabBar from './TabBar';
 import PreferencesView from '@src/components/Views/PreferencesView/PreferencesView';
 import MyObservationsView from '@src/components/Views/MyObservationsView';
 
-import ProfileImg from '../../../images/profile.png';
-import CollectionsImg from '../../../images/collections.png';
+import ProfileImg from 'react-native-vector-icons/FontAwesome';
+import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 
 const styles = StyleSheet.create({
   myObservationsIcon: {
     position: 'absolute',
     right: 20,
-    top: 20,
+    top: 15,
   },
 
   profileIcon: {
     position: 'absolute',
     left: 20,
-    top: 20,
+    top: 15,
   },
 });
 
@@ -83,14 +83,22 @@ class TabBarNavigation extends React.Component<StateProps> {
               style={styles.profileIcon}
               underlayColor="antiquewhite"
             >
-              <Image source={ProfileImg} />
+              <ProfileImg
+                color="black"
+                name="user-circle"
+                size={40}
+              />
             </TouchableHighlight>
             <TouchableHighlight
               onPress={this.openRightDrawer}
               style={styles.myObservationsIcon}
               underlayColor="antiquewhite"
             >
-              <Image source={CollectionsImg} />
+              <CollectionsImg
+                color="black"
+                name="collections"
+                size={40}
+              />
             </TouchableHighlight>
           </View>
           <TabBar

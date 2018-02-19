@@ -1,19 +1,21 @@
 // @flow
 import React from 'react';
 import { addNavigationHelpers, TabNavigator } from 'react-navigation';
-import { Image } from 'react-native';
 import MapView from '@src/components/Views/MapView';
 import CameraView from '@src/components/Views/CameraView/CameraView';
-
-import MapViewIcon from '../../../images/location-arrow.png';
-import CameraViewIcon from '../../../images/photo-camera.png';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const routeConfiguration = {
   MapView: {
     screen: MapView,
     navigationOptions: {
       tabBarIcon: () => (
-        <Image source={MapViewIcon} />
+        <Icon 
+          color="black"
+          name="near-me"
+          size={30}
+          style={{ marginLeft: -3 }}
+        />
       ),
     },
   },
@@ -21,7 +23,12 @@ const routeConfiguration = {
     screen: CameraView,
     navigationOptions: {
       tabBarIcon: () => (
-        <Image source={CameraViewIcon} />
+        <Icon
+          color="black"
+          name="photo-camera"
+          size={30}
+          style={{ marginLeft: -3 }}
+        />
       ),
     },
   },

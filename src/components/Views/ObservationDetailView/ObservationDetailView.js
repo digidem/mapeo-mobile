@@ -6,8 +6,8 @@ import { NavigationActions, withNavigation } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import type { Observation } from '@types/observation';
 
-import BackImg from '../../../images/left-chevron.png';
-import ProfileImg from '../../../images/profile.png';
+import LeftChevron from 'react-native-vector-icons/Entypo';
+import ProfileImg from 'react-native-vector-icons/FontAwesome';
 
 type State = {
   showStillHappening: boolean,
@@ -25,7 +25,7 @@ type Props = {
 
 const styles = StyleSheet.create({
   backChevron: {
-    marginLeft: 20,
+    marginLeft: 15,
   },
   container: {
     backgroundColor: 'white',
@@ -119,7 +119,12 @@ class ObservationDetailView extends React.PureComponent<Props & StateProps, Stat
       <ScrollView style={styles.container}>
         <View style={styles.header}>
           <TouchableHighlight onPress={() => { this.props.navigation.navigate('TabBarNavigation'); }}>
-            <Image source={BackImg} style={styles.backChevron} />
+            <LeftChevron
+              color="black"
+              name="chevron-left"
+              size={25}
+              style={styles.backChevron}
+            />
           </TouchableHighlight>
           <Text style={styles.title}>{observation.name}</Text>
           <Text style={styles.date}>{moment(observation.created).format('MMMM D, YYYY')}</Text>
@@ -148,7 +153,12 @@ class ObservationDetailView extends React.PureComponent<Props & StateProps, Stat
         <View style={styles.section}>
           <Text style={styles.sectionText}>Observed by</Text>
           <View style={{ flexDirection: 'row' }}>
-            <Image source={ProfileImg} style={styles.profileImage} />
+            <ProfileImg
+              color="lightgray"
+              name="user-circle-o"
+              size={30}
+              style={styles.profileImage}
+            />
             <Text style={styles.observedByText}>{observation.observedBy}</Text>
           </View>
         </View>
