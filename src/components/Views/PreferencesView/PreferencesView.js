@@ -1,11 +1,11 @@
 // @flow
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import LeftChevron from 'react-native-vector-icons/Entypo';
 
 type Props = {
-  closeLeftDrawer: Function;
-}
+  closeLeftDrawer: Function
+};
 
 const styles = StyleSheet.create({
   closeDrawerButton: {
@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
     width: 40,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   leftChevron: {
     alignSelf: 'center',
-    justifyContent: 'center',
-  },
+    justifyContent: 'center'
+  }
 });
 
 const PreferencesView = (props: Props) => (
@@ -29,12 +29,11 @@ const PreferencesView = (props: Props) => (
       <Text>Prefences &amp; Settings</Text>
     </View>
     <View style={{ flexDirection: 'row' }}>
-      <TouchableHighlight onPress={props.closeLeftDrawer} style={styles.closeDrawerButton}>
-        <LeftChevron
-          color="white"
-          name="chevron-left"
-          size={30}
-        />
+      <TouchableHighlight
+        onPress={props.closeLeftDrawer}
+        style={styles.closeDrawerButton}
+      >
+        <LeftChevron color="white" name="chevron-left" size={30} />
       </TouchableHighlight>
     </View>
   </View>

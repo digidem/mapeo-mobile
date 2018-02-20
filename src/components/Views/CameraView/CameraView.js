@@ -17,7 +17,9 @@ const styles = StyleSheet.create({
 });
 
 
-class CameraView extends React.PureComponent {
+class CameraView extends React.PureComponent<{}> {
+  camera: RNCamera;
+
   takePicture = async () => {
     if (this.camera) {
       const options = { quality: 0.5, base64: true, exif: true };

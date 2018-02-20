@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { addNavigationHelpers, TabNavigator } from 'react-navigation';
+import { TabNavigator } from 'react-navigation';
 import MapView from '@src/components/Views/MapView';
 import CameraView from '@src/components/Views/CameraView/CameraView';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -10,7 +10,7 @@ const routeConfiguration = {
     screen: MapView,
     navigationOptions: {
       tabBarIcon: () => (
-        <Icon 
+        <Icon
           color="black"
           name="near-me"
           size={30}
@@ -50,4 +50,3 @@ const tabConfiguration = {
 const TabBar = TabNavigator(routeConfiguration, tabConfiguration);
 
 export default TabBar;
-

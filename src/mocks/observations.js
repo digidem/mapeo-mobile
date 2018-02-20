@@ -1,7 +1,6 @@
 // @flow
-import type { Observation } from '@src/types/observation';
 
-export const createObservation = (observation?: Observation | void) => ({
+export const createObservation = (observation?: any) => ({
   type: 'Observation',
   id: 'ObservationID',
   lat: 50.5,
@@ -9,8 +8,9 @@ export const createObservation = (observation?: Observation | void) => ({
   link: 'linkID',
   created: new Date(),
   name: 'Oil Spill',
-  notes: 'This is pretty bad. It smells pretty noxious, and the entire pond is affected.',
+  notes:
+    'This is pretty bad. It smells pretty noxious, and the entire pond is affected.',
   observedBy: 'You',
-  
+
   ...observation,
 });

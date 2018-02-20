@@ -11,12 +11,11 @@ interface Props {
 
 const AppNavigation = (props: Props) => (
   <MainStackNavigation
-    navigation={
-      addNavigationHelpers({
-        dispatch: props.dispatch,
-        state: props.navigationState,
-        addListener: createReduxBoundAddListener('mainStack'),
-      })}
+    navigation={addNavigationHelpers({
+      dispatch: props.dispatch,
+      state: props.navigationState,
+      addListener: createReduxBoundAddListener('mainStack')
+    })}
   />
 );
 

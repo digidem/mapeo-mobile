@@ -8,4 +8,6 @@ export interface Observation {
   link: string;
   created: Date;
   name: string;
+  notes: string;
+  observedBy: string;
 }

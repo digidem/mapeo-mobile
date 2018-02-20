@@ -1,16 +1,16 @@
 // @flow
 import React from 'react';
-import { addNavigationHelpers, TabNavigator } from 'react-navigation';
-import { Image, StyleSheet, TouchableHighlight, View } from 'react-native';
+import { addNavigationHelpers } from 'react-navigation';
+import { StyleSheet, TouchableHighlight, View } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
-
-import TabBar from './TabBar';
 import PreferencesView from '@src/components/Views/PreferencesView/PreferencesView';
 import MyObservationsView from '@src/components/Views/MyObservationsView';
 
 import ProfileImg from 'react-native-vector-icons/FontAwesome';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
+
+import TabBar from './TabBar';
 
 const styles = StyleSheet.create({
   myObservationsIcon: {
@@ -27,9 +27,9 @@ const styles = StyleSheet.create({
 });
 
 export type StateProps = {
-  navigationState: any;
-  dispatch: any;
-}
+  navigationState: any,
+  dispatch: any,
+};
 
 class TabBarNavigation extends React.Component<StateProps> {
   static router = TabBar.router;
@@ -38,27 +38,27 @@ class TabBarNavigation extends React.Component<StateProps> {
 
   closeLeftDrawer = () => {
     this.leftDrawer.close();
-  }
+  };
 
   openLeftDrawer = () => {
     this.leftDrawer.open();
-  }
+  };
 
   closeRightDrawer = () => {
     this.rightDrawer.close();
-  }
+  };
 
   openRightDrawer = () => {
     this.rightDrawer.open();
-  }
+  };
 
   handleLeftDrawerRef = (ref: Drawer) => {
     this.leftDrawer = ref;
-  }
+  };
 
   handleRightDrawerRef = (ref: Drawer) => {
     this.rightDrawer = ref;
-  }
+  };
 
   render() {
     const { dispatch, navigationState } = this.props;
@@ -72,7 +72,9 @@ class TabBarNavigation extends React.Component<StateProps> {
       >
         <Drawer
           ref={this.handleRightDrawerRef}
-          content={<MyObservationsView closeRightDrawer={this.closeRightDrawer} />}
+          content={
+            <MyObservationsView closeRightDrawer={this.closeRightDrawer} />
+          }
           openDrawerOffset={30}
           side="right"
           type="displace"
@@ -83,32 +85,22 @@ class TabBarNavigation extends React.Component<StateProps> {
               style={styles.profileIcon}
               underlayColor="antiquewhite"
             >
-              <ProfileImg
-                color="black"
-                name="user-circle"
-                size={40}
-              />
+              <ProfileImg color="black" name="user-circle" size={40} />
             </TouchableHighlight>
             <TouchableHighlight
               onPress={this.openRightDrawer}
               style={styles.myObservationsIcon}
               underlayColor="antiquewhite"
             >
-              <CollectionsImg
-                color="black"
-                name="collections"
-                size={40}
-              />
+              <CollectionsImg color="black" name="collections" size={40} />
             </TouchableHighlight>
           </View>
           <TabBar
-            navigation={
-              addNavigationHelpers({
-                dispatch,
-                state: navigationState,
-                addListener: createReduxBoundAddListener('tabBar'),
-              })
-            }
+            navigation={addNavigationHelpers({
+              dispatch,
+              state: navigationState,
+              addListener: createReduxBoundAddListener('tabBar'),
+            })}
           />
         </Drawer>
       </Drawer>

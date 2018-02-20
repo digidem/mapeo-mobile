@@ -1,6 +1,13 @@
 // @flow
 import React from 'react';
-import { Button, Image, Text, TouchableHighlight, View, ScrollView, StyleSheet } from 'react-native';
+import {
+  Button,
+  Text,
+  TouchableHighlight,
+  View,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 import moment from 'moment';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
@@ -20,7 +27,7 @@ export type StateProps = {
 };
 
 type Props = {
-  navigation: NavigationActions;
+  navigation: NavigationActions,
 };
 
 const styles = StyleSheet.create({
@@ -105,20 +112,29 @@ const styles = StyleSheet.create({
   },
 });
 
-class ObservationDetailView extends React.PureComponent<Props & StateProps, State> {
+class ObservationDetailView extends React.PureComponent<
+  Props & StateProps,
+  State,
+> {
   state = { showStillHappening: true };
 
   dismissStillHappening = () => {
-    if (this.state.showStillHappening) this.setState({ showStillHappening: false });
-  }
+    if (this.state.showStillHappening) { this.setState({ showStillHappening: false }); }
+  };
 
   render() {
-    const observation = this.props.observations[this.props.navigation.state.params.id];
+    const observation = this.props.observations[
+      this.props.navigation.state.params.id
+    ];
 
     return (
       <ScrollView style={styles.container}>
         <View style={styles.header}>
-          <TouchableHighlight onPress={() => { this.props.navigation.navigate('TabBarNavigation'); }}>
+          <TouchableHighlight
+            onPress={() => {
+              this.props.navigation.navigate('TabBarNavigation');
+            }}
+          >
             <LeftChevron
               color="black"
               name="chevron-left"
@@ -127,8 +143,12 @@ class ObservationDetailView extends React.PureComponent<Props & StateProps, Stat
             />
           </TouchableHighlight>
           <Text style={styles.title}>{observation.name}</Text>
-          <Text style={styles.date}>{moment(observation.created).format('MMMM D, YYYY')}</Text>
-          <Text style={styles.time}>{moment(observation.created).format('h:mm A')}</Text>
+          <Text style={styles.date}>
+            {moment(observation.created).format('MMMM D, YYYY')}
+          </Text>
+          <Text style={styles.time}>
+            {moment(observation.created).format('h:mm A')}
+          </Text>
         </View>
         <View style={styles.section}>
           <Text style={styles.sectionText}>2 photos, 1 video</Text>
@@ -146,7 +166,7 @@ class ObservationDetailView extends React.PureComponent<Props & StateProps, Stat
               style={styles.mapBox}
               styleURL={MapboxGL.StyleURL.Street}
               zoomLevel={15}
-              centerCoordinate={[11.256, 43.770]}
+              centerCoordinate={[11.256, 43.77]}
             />
           </View>
         </View>
@@ -162,16 +182,17 @@ class ObservationDetailView extends React.PureComponent<Props & StateProps, Stat
             <Text style={styles.observedByText}>{observation.observedBy}</Text>
           </View>
         </View>
-        {
-          this.state.showStillHappening ?
-            <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-              <Text style={styles.stillHappening}>Is this still happening here?</Text>
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                <Button onPress={this.dismissStillHappening} title="Yes" />
-                <Button onPress={this.dismissStillHappening} title="No" />
-              </View>
-            </View> : null
-        }
+        {this.state.showStillHappening ? (
+          <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+            <Text style={styles.stillHappening}>
+              Is this still happening here?
+            </Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <Button onPress={this.dismissStillHappening} title="Yes" />
+              <Button onPress={this.dismissStillHappening} title="No" />
+            </View>
+          </View>
+        ) : null}
       </ScrollView>
     );
   }
