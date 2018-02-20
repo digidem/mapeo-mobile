@@ -7,13 +7,14 @@ import {
   Text,
   TouchableHighlight,
   StyleSheet,
-  Dimensions,
+  Dimensions
 } from 'react-native';
 import type { Observation } from '@types/observation';
+import { LIGHT_GREY } from '@lib/styles';
 
 type Props = {
   navigation: NavigationActions,
-  observation: Observation,
+  observation: Observation
 };
 
 const styles = StyleSheet.create({
@@ -23,55 +24,55 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    borderBottomColor: 'gray',
+    borderBottomColor: LIGHT_GREY,
     borderBottomWidth: 1,
     width: Dimensions.get('window').width - 30,
-    paddingHorizontal: 30,
+    paddingHorizontal: 30
   },
   header: {
     fontSize: 20,
     textAlign: 'center',
     paddingVertical: 20,
     fontWeight: '700',
-    color: 'black',
+    color: 'black'
   },
   text: {
     width: 200,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'flex-start',
+    alignItems: 'flex-start'
   },
   circle: {
     width: 50,
     height: 50,
     backgroundColor: 'white',
     borderRadius: 50,
-    borderColor: 'gray',
+    borderColor: LIGHT_GREY,
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 15,
     shadowColor: 'red',
     shadowRadius: 10,
-    shadowOpacity: 1,
+    shadowOpacity: 1
   },
   innerCircle: {
     width: 40,
     height: 40,
-    backgroundColor: 'gray',
-    borderRadius: 50,
+    backgroundColor: LIGHT_GREY,
+    borderRadius: 50
   },
   title: {
     fontSize: 20,
     fontWeight: '700',
-    color: 'black',
+    color: 'black'
   },
   media: {
     width: 60,
     height: 60,
     borderRadius: 2,
-    backgroundColor: 'blue',
-  },
+    backgroundColor: 'blue'
+  }
 });
 
 const ObservationCell = (props: Props) => {
@@ -81,14 +82,14 @@ const ObservationCell = (props: Props) => {
     nextWeek: 'ddd, h:mm A',
     lastDay: '[Yesterday], h:mm A',
     lastWeek: '[Last] ddd, h:mm A',
-    sameElse: 'MMM D YYYY, h:mm A',
+    sameElse: 'MMM D YYYY, h:mm A'
   });
 
   return (
     <TouchableHighlight
       onPress={() =>
         props.navigation.navigate('ObservationDetailView', {
-          id: props.observation.id,
+          id: props.observation.id
         })
       }
     >

@@ -29,6 +29,10 @@ export const observationListEpic = (
         createObservation({
           id: '5',
           created: new Date(new Date() - 24 * 60 * 60 * 1000 * 40)
+        }),
+        createObservation({
+          id: '6',
+          created: new Date(new Date() - 24 * 60 * 60 * 1000 * 70)
         })
       ])
     );

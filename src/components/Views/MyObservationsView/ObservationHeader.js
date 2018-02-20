@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { LIGHT_GREY } from '@lib/styles';
 
 type Props = {
   title: string
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    borderBottomColor: 'gray',
+    borderBottomColor: LIGHT_GREY,
     borderBottomWidth: 1,
     width: Dimensions.get('window').width - 30,
     paddingHorizontal: 30

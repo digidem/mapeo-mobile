@@ -1,10 +1,18 @@
 // @flow
 import React from 'react';
 import moment from 'moment';
-import { Button, Text, View, StyleSheet, SectionList } from 'react-native';
+import {
+  Button,
+  Text,
+  View,
+  StyleSheet,
+  SectionList,
+  Dimensions
+} from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import type { Observation } from '@types/observation';
 import { map } from 'lodash';
+import { LIGHT_GREY } from '@lib/styles';
 import ObservationCell from './ObservationCell';
 import ObservationHeader from './ObservationHeader';
 
@@ -27,10 +35,14 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: 'left',
     paddingVertical: 20,
     fontWeight: '700',
-    color: 'black'
+    color: 'black',
+    borderBottomColor: LIGHT_GREY,
+    borderBottomWidth: 1,
+    width: Dimensions.get('window').width - 30,
+    paddingHorizontal: 30
   }
 });
 
