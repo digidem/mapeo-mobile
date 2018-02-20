@@ -6,6 +6,7 @@ import Drawer from 'react-native-drawer';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 import PreferencesView from '@src/components/Views/PreferencesView/PreferencesView';
 import MyObservationsView from '@src/components/Views/MyObservationsView';
+import { WHITE } from '@lib/styles';
 
 import ProfileImg from 'react-native-vector-icons/FontAwesome';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
@@ -16,19 +17,19 @@ const styles = StyleSheet.create({
   myObservationsIcon: {
     position: 'absolute',
     right: 20,
-    top: 15,
+    top: 15
   },
 
   profileIcon: {
     position: 'absolute',
     left: 20,
-    top: 15,
-  },
+    top: 15
+  }
 });
 
 export type StateProps = {
   navigationState: any,
-  dispatch: any,
+  dispatch: any
 };
 
 class TabBarNavigation extends React.Component<StateProps> {
@@ -79,27 +80,37 @@ class TabBarNavigation extends React.Component<StateProps> {
           side="right"
           type="displace"
         >
-          <View style={{ flexDirection: 'row', height: 60 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              height: 60,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              zIndex: 5
+            }}
+          >
             <TouchableHighlight
               onPress={this.openLeftDrawer}
               style={styles.profileIcon}
-              underlayColor="antiquewhite"
+              underlayColor="transparent"
             >
-              <ProfileImg color="black" name="user-circle" size={40} />
+              <ProfileImg color={WHITE} name="user-circle" size={40} />
             </TouchableHighlight>
             <TouchableHighlight
               onPress={this.openRightDrawer}
               style={styles.myObservationsIcon}
-              underlayColor="antiquewhite"
+              underlayColor="transparent"
             >
-              <CollectionsImg color="black" name="collections" size={40} />
+              <CollectionsImg color={WHITE} name="collections" size={40} />
             </TouchableHighlight>
           </View>
           <TabBar
             navigation={addNavigationHelpers({
               dispatch,
               state: navigationState,
-              addListener: createReduxBoundAddListener('tabBar'),
+              addListener: createReduxBoundAddListener('tabBar')
             })}
           />
         </Drawer>
