@@ -1,5 +1,12 @@
 // @flow
 
+export type MediaType = 'Photo' | 'Video' | 'Audio';
+
+export interface ObservationMedia {
+  source: string;
+  type: MediaType;
+}
+
 export interface Observation {
   type: string;
   id: string;
@@ -10,4 +17,5 @@ export interface Observation {
   name: string;
   notes: string;
   observedBy: string;
+  media: ObservationMedia[];
 }
