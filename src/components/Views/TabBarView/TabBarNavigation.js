@@ -76,7 +76,7 @@ class TabBarNavigation extends React.Component<StateProps> {
           content={
             <MyObservationsView closeRightDrawer={this.closeRightDrawer} />
           }
-          openDrawerOffset={30}
+          openDrawerOffset={0}
           side="right"
           type="displace"
         >

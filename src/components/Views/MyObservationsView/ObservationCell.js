@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomColor: LIGHT_GREY,
     borderBottomWidth: 1,
-    width: Dimensions.get('window').width - 30,
+    width: Dimensions.get('window').width - 40,
     paddingHorizontal: 30
   },
   header: {

@@ -2,17 +2,18 @@
 import React from 'react';
 import moment from 'moment';
 import {
-  Button,
   Text,
   View,
   StyleSheet,
   SectionList,
-  Dimensions
+  Dimensions,
+  TouchableHighlight
 } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
+import LeftChevron from 'react-native-vector-icons/Entypo';
 import type { Observation } from '@types/observation';
 import { map } from 'lodash';
-import { LIGHT_GREY } from '@lib/styles';
+import { LIGHT_GREY, WHITE } from '@lib/styles';
 import ObservationCell from './ObservationCell';
 import ObservationHeader from './ObservationHeader';
 
@@ -41,8 +42,22 @@ const styles = StyleSheet.create({
     color: 'black',
     borderBottomColor: LIGHT_GREY,
     borderBottomWidth: 1,
-    width: Dimensions.get('window').width - 30,
+    width: Dimensions.get('window').width - 40,
     paddingHorizontal: 30
+  },
+  closeDrawerButton: {
+    backgroundColor: '#333333',
+    borderBottomRightRadius: 15,
+    borderTopRightRadius: 15,
+    width: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  leftChevron: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    transform: [{ rotate: '180deg' }]
   }
 });
 
@@ -77,23 +92,37 @@ const MyObservationsView = (props: StateProps & Props) => {
   }));
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>My Observations</Text>
-      <SectionList
-        style={{ flex: 1, flexDirection: 'column' }}
-        renderItem={({ item }) => (
-          <ObservationCell
-            navigation={props.navigation}
-            observation={item}
-            key={item.id}
+    <View style={{ flexDirection: 'row', flex: 1, backgroundColor: WHITE }}>
+      <View style={{ flexDirection: 'row' }}>
+        <TouchableHighlight
+          onPress={props.closeRightDrawer}
+          style={styles.closeDrawerButton}
+        >
+          <LeftChevron
+            color="white"
+            name="chevron-left"
+            size={30}
+            style={styles.leftChevron}
           />
-        )}
-        renderSectionHeader={({ section }) => (
-          <ObservationHeader title={section.title} />
-        )}
-        sections={sections}
-      />
-      <Button onPress={props.closeRightDrawer} title="close" />
+        </TouchableHighlight>
+      </View>
+      <View style={styles.container}>
+        <Text style={styles.header}>My Observations</Text>
+        <SectionList
+          style={{ flex: 1, flexDirection: 'column' }}
+          renderItem={({ item }) => (
+            <ObservationCell
+              navigation={props.navigation}
+              observation={item}
+              key={item.id}
+            />
+          )}
+          renderSectionHeader={({ section }) => (
+            <ObservationHeader title={section.title} />
+          )}
+          sections={sections}
+        />
+      </View>
     </View>
   );
 };
