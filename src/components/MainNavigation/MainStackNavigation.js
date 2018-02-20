@@ -1,5 +1,6 @@
 // @flow
 import { StackNavigator } from 'react-navigation';
+import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 
 import NewObservationView from '@src/components/Views/NewObservationView/NewObservationView';
 import MyObservationsView from '@src/components/Views/MyObservationsView';
@@ -12,13 +13,20 @@ const routeConfiguration = {
   MyObservationsView: { screen: MyObservationsView },
   ObservationDetailView: { screen: ObservationDetailView },
   PreferencesView: { screen: PreferencesView },
-  TabBarNavigation: { screen: TabBarNavigation },
+  TabBarNavigation: { screen: TabBarNavigation }
 };
 const stackConfiguration = {
   initialRouteName: 'TabBarNavigation',
   headerMode: 'none',
+  transitionConfig: () => ({
+    screenInterpolator: sceneProps =>
+      CardStackStyleInterpolator.forHorizontal(sceneProps)
+  })
 };
 
-const MainStackNavigation = StackNavigator(routeConfiguration, stackConfiguration);
+const MainStackNavigation = StackNavigator(
+  routeConfiguration,
+  stackConfiguration
+);
 
 export default MainStackNavigation;

@@ -6,7 +6,7 @@ import {
   TouchableHighlight,
   View,
   ScrollView,
-  StyleSheet,
+  StyleSheet
 } from 'react-native';
 import moment from 'moment';
 import { NavigationActions, withNavigation } from 'react-navigation';
@@ -17,33 +17,33 @@ import LeftChevron from 'react-native-vector-icons/Entypo';
 import ProfileImg from 'react-native-vector-icons/FontAwesome';
 
 type State = {
-  showStillHappening: boolean,
+  showStillHappening: boolean
 };
 
 export type StateProps = {
   observations: {
-    [id: string]: Observation,
-  },
+    [id: string]: Observation
+  }
 };
 
 type Props = {
-  navigation: NavigationActions,
+  navigation: NavigationActions
 };
 
 const styles = StyleSheet.create({
   backChevron: {
-    marginLeft: 15,
+    marginLeft: 15
   },
   container: {
     backgroundColor: 'white',
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   date: {
     color: 'black',
     fontSize: 12,
     fontWeight: '600',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   header: {
     alignSelf: 'stretch',
@@ -51,36 +51,36 @@ const styles = StyleSheet.create({
     borderBottomColor: 'lightgray',
     borderBottomWidth: 1,
     height: 200,
-    paddingVertical: 20,
+    paddingVertical: 20
   },
   mapBox: {
     flex: 1,
     alignSelf: 'stretch',
     marginBottom: 15,
     marginLeft: 15,
-    marginRight: 15,
+    marginRight: 15
   },
   observedByText: {
     color: 'black',
     fontSize: 20,
     fontWeight: '700',
-    paddingLeft: 10,
+    paddingLeft: 10
   },
   profileImage: {
     marginLeft: 10,
-    marginBottom: 20,
+    marginBottom: 20
   },
   section: {
     borderBottomColor: 'lightgray',
     borderBottomWidth: 1,
-    flex: 1,
+    flex: 1
   },
   sectionText: {
     color: 'gray',
     fontSize: 12,
     marginBottom: 15,
     marginLeft: 15,
-    marginTop: 15,
+    marginTop: 15
   },
   stillHappening: {
     color: 'black',
@@ -88,38 +88,40 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     paddingTop: 15,
     paddingBottom: 15,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   textNotes: {
     color: 'black',
     fontSize: 18,
     fontWeight: '700',
     margin: 20,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   time: {
     color: 'grey',
     fontSize: 12,
     fontWeight: '300',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   title: {
     color: 'black',
     fontFamily: 'HelveticaNeue',
     fontSize: 18,
     fontWeight: '700',
-    textAlign: 'center',
-  },
+    textAlign: 'center'
+  }
 });
 
 class ObservationDetailView extends React.PureComponent<
   Props & StateProps,
-  State,
+  State
 > {
   state = { showStillHappening: true };
 
   dismissStillHappening = () => {
-    if (this.state.showStillHappening) { this.setState({ showStillHappening: false }); }
+    if (this.state.showStillHappening) {
+      this.setState({ showStillHappening: false });
+    }
   };
 
   render() {
@@ -132,7 +134,7 @@ class ObservationDetailView extends React.PureComponent<
         <View style={styles.header}>
           <TouchableHighlight
             onPress={() => {
-              this.props.navigation.navigate('TabBarNavigation');
+              this.props.navigation.goBack();
             }}
           >
             <LeftChevron
