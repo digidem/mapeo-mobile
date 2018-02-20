@@ -2,6 +2,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import LeftChevron from 'react-native-vector-icons/Entypo';
+import { LIGHT_GREY, WHITE } from '@lib/styles';
 
 type Props = {
   closeLeftDrawer: Function
@@ -17,16 +18,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 60,
+    borderBottomColor: LIGHT_GREY,
+    borderBottomWidth: 1,
+  },
   leftChevron: {
     alignSelf: 'center',
     justifyContent: 'center'
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black'
   }
 });
 
 const PreferencesView = (props: Props) => (
-  <View style={{ flex: 1, flexDirection: 'row' }}>
-    <View style={{ flex: 1, justifyContent: 'center' }}>
-      <Text>Prefences &amp; Settings</Text>
+  <View style={{ flex: 1, flexDirection: 'row', backgroundColor: WHITE }}>
+    <View style={styles.container}>
+      <Text style={styles.title}>Prefences &amp; Settings</Text>
     </View>
     <View style={{ flexDirection: 'row' }}>
       <TouchableHighlight

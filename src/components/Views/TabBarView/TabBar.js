@@ -1,17 +1,18 @@
 // @flow
 import React from 'react';
-import { TabNavigator } from 'react-navigation';
+import { TabNavigator, TabBarTop } from 'react-navigation';
 import MapView from '@src/components/Views/MapView';
 import CameraView from '@src/components/Views/CameraView/CameraView';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { DARK_GREY, MAPEO_BLUE, WHITE } from '@lib/styles';
 
 const routeConfiguration = {
   MapView: {
     screen: MapView,
     navigationOptions: {
-      tabBarIcon: () => (
+      tabBarIcon: ({ tintColor }) => (
         <Icon
-          color="black"
+          color={tintColor}
           name="near-me"
           size={30}
           style={{ marginLeft: -3 }}
@@ -22,9 +23,9 @@ const routeConfiguration = {
   CameraView: {
     screen: CameraView,
     navigationOptions: {
-      tabBarIcon: () => (
+      tabBarIcon: ({ tintColor }) => (
         <Icon
-          color="black"
+          color={tintColor}
           name="photo-camera"
           size={30}
           style={{ marginLeft: -3 }}
@@ -36,14 +37,19 @@ const routeConfiguration = {
 
 const tabConfiguration = {
   swipeEnabled: false,
+  tabBarComponent: props => (
+    <TabBarTop {...props} indicatorStyle={{ borderBottomColor: 'white', borderBottomWidth: 10 }} />
+  ),
   tabBarPosition: 'bottom',
   tabBarOptions: {
-    activeTintColor: 'blue',
+    activeTintColor: MAPEO_BLUE,
+    inactiveTintColor: DARK_GREY,
     showIcon: true,
     showLabel: false,
     style: {
-      backgroundColor: 'white',
-    },
+      backgroundColor: WHITE,
+      borderTopWidth: 0
+    }
   },
 };
 
