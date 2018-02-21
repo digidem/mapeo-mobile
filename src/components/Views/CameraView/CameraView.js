@@ -8,7 +8,7 @@ import CircleImg from '../../../images/circle-64.png';
 const styles = StyleSheet.create({
   capture: {
     alignSelf: 'center',
-    marginTop: 375,
+    marginTop: 425,
   },
   preview: {
     flex: 1,

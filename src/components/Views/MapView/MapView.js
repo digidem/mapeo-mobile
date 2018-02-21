@@ -1,11 +1,13 @@
 // @flow
 import React from 'react';
-import { Button, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { Button, Image, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import env from '@src/../env.json';
 import { NavigationActions } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import { Observation } from '@types/observation';
 import { isEmpty, map } from 'lodash';
+
+import CircleImg from '../../../images/circle-64.png';
 
 type State = {
   response: string,
@@ -42,8 +44,12 @@ const styles = StyleSheet.create({
   },
 
   map: {
-    height: 300,
+    flex: 1,
     alignSelf: 'stretch',
+  },
+
+  newObservation: {
+    alignSelf: 'center',
   },
 
   buttons: {
@@ -92,29 +98,30 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps, St
     const { observations } = this.props;
     const { navigate } = this.props.navigation;
 
-    return (
+    return ( 
       <View style={{ flex: 1 }}>
         {hasMapToken && (
-          <MapboxGL.MapView style={styles.map}>
-            <MapboxGL.ShapeSource id="smileyFaceSource" shape={geojson}>
-              <MapboxGL.CircleLayer id="circles" style={mapboxStyles.point} />
-            </MapboxGL.ShapeSource>
+          <MapboxGL.MapView
+            style={styles.map}
+            styleURL={MapboxGL.StyleURL.Dark}
+            showUserLocation={true}
+          >
           </MapboxGL.MapView>
         )}
         {!hasMapToken && <View style={styles.mapPlaceholder} />}
-        <View style={styles.container}>
-          <View style={styles.buttons}>
-            {map(observations, o => (
-              <TouchableHighlight style={styles.btn} key={o.id}>
-                <Text style={styles.btnText}>{`${o.lat}, ${o.lon}`}</Text>
-              </TouchableHighlight>
-            ))}
-            <Button
-              onPress={() => navigate('NewObservationView')}
-              title="New Observation"
-            />
-          </View>
-          <Text style={styles.info}>{this.state.response}</Text>
+        <View
+          style={{
+            height: 100,
+            position: 'absolute',
+            bottom: 0,
+            alignSelf: 'center',
+            backgroundColor: 'transparent',
+            zIndex: 5 
+          }}
+        >
+          <TouchableHighlight onPress={() => navigate('NewObservationView')} style={styles.newObservation}>
+            <Image source={CircleImg} />
+          </TouchableHighlight>
         </View>
       </View>
     );
