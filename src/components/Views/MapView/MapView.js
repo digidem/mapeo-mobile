@@ -119,7 +119,7 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps, St
             zIndex: 5 
           }}
         >
-          <TouchableHighlight onPress={() => navigate('NewObservationView')} style={styles.newObservation}>
+          <TouchableHighlight onPress={() => navigate('Position')} style={styles.newObservation}>
             <Image source={CircleImg} />
           </TouchableHighlight>
         </View>
