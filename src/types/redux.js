@@ -1,9 +1,14 @@
 // @flow
-import { Observation } from '@types/observation';
+import type { Observation } from '@types/observation';
+import type { Category } from '@types/category';
 
 export interface AppStoreState {
   observations: {
-    [id: string]: Observation,
+    [id: string]: Observation
+  };
+
+  categories: {
+    [id: string]: Category
   };
 }
 

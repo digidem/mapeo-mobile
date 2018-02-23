@@ -90,6 +90,7 @@ const MyObservationsView = (props: StateProps & Props) => {
     title,
     data
   }));
+  const keyExtractor = item => item.id;
 
   return (
     <View style={{ flexDirection: 'row', flex: 1, backgroundColor: WHITE }}>
@@ -110,15 +111,12 @@ const MyObservationsView = (props: StateProps & Props) => {
         <Text style={styles.header}>My Observations</Text>
         <SectionList
           style={{ flex: 1, flexDirection: 'column' }}
+          keyExtractor={keyExtractor}
           renderItem={({ item }) => (
-            <ObservationCell
-              navigation={props.navigation}
-              observation={item}
-              key={item.id}
-            />
+            <ObservationCell navigation={props.navigation} observation={item} />
           )}
           renderSectionHeader={({ section }) => (
-            <ObservationHeader title={section.title} />
+            <ObservationHeader title={section.title} key={section.title} />
           )}
           sections={sections}
         />
