@@ -112,6 +112,11 @@ class MapView extends React.PureComponent<
       media: []
     });
 
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'TabBarNavigation' })]
+    });
+    navigation.dispatch(resetAction);
     navigation.navigate('Position');
   };
 
