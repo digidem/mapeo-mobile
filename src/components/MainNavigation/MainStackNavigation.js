@@ -3,8 +3,9 @@ import { StackNavigator } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 
 import Categories from '@src/components/Views/Categories';
-import Position from '@src/components/Views/Position/Position';
+import Position from '@src/components/Views/Position';
 import ObservationEditor from '@src/components/Views/ObservationEditor';
+import CameraView from '@src/components/Views/CameraView';
 import MyObservationsView from '@src/components/Views/MyObservationsView';
 import ObservationDetailView from '@src/components/Views/ObservationDetailView';
 import PreferencesView from '@src/components/Views/PreferencesView/PreferencesView';
@@ -15,6 +16,7 @@ const routeConfiguration = {
   Position: { screen: Position },
   ObservationEditor: { screen: ObservationEditor },
   MyObservationsView: { screen: MyObservationsView },
+  CameraView: { screen: CameraView },
   ObservationDetailView: { screen: ObservationDetailView },
   PreferencesView: { screen: PreferencesView },
   TabBarNavigation: { screen: TabBarNavigation }

@@ -1,86 +1,89 @@
 // @flow
 import React from 'react';
-import { Button, Image, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { Image, StyleSheet, View, TouchableHighlight } from 'react-native';
 import env from '@src/../env.json';
 import { NavigationActions } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
-import { Observation } from '@types/observation';
-import { isEmpty, map } from 'lodash';
+import type { Observation } from '@types/observation';
+import { isEmpty, size } from 'lodash';
 
 import CircleImg from '../../../images/circle-64.png';
 
 type State = {
   response: string,
   hasMapToken: boolean,
-  geojson: ?string,
+  geojson: ?string
 };
 
 export type StateProps = {
   observations: {
-    [id: string]: Observation,
-  },
+    [id: string]: Observation
+  }
 };
 
 export type DispatchProps = {
   listObservations: () => void,
+  createObservation: (observation: Observation) => void
 };
 
 type Props = {
-  navigation: NavigationActions;
-}
+  navigation: NavigationActions
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
 
   mapPlaceholder: {
     backgroundColor: '#AAFFAA',
     alignSelf: 'stretch',
-    height: 300,
+    height: 300
   },
 
   map: {
     flex: 1,
-    alignSelf: 'stretch',
+    alignSelf: 'stretch'
   },
 
   newObservation: {
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
 
   buttons: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
 
   btn: {
     backgroundColor: '#4444FF',
     padding: 10,
-    margin: 10,
+    margin: 10
   },
 
   btnText: {
-    color: 'white',
+    color: 'white'
   },
 
   info: {
     textAlign: 'left',
     color: '#333333',
-    marginBottom: 5,
-  },
-
+    marginBottom: 5
+  }
 });
 
 const mapboxStyles = MapboxGL.StyleSheet.create({
   point: {
-    circleColor: 'red',
-  },
+    circleColor: 'red'
+  }
 });
 
-class MapView extends React.PureComponent<Props & StateProps & DispatchProps, State> {
+class MapView extends React.PureComponent<
+  Props & StateProps & DispatchProps,
+  State
+> {
   state = { response: '', hasMapToken: true, geojson: null };
 
   async componentDidMount() {
@@ -93,21 +96,37 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps, St
     }
   }
 
+  handleCreateObservation = () => {
+    const { createObservation, navigation, observations } = this.props;
+
+    createObservation({
+      type: 'Rios y corrientes',
+      id: size(observations),
+      lat: 0,
+      lon: 0,
+      link: 'link',
+      created: new Date(),
+      name: '',
+      notes: '',
+      observedBy: 'user',
+      media: []
+    });
+
+    navigation.navigate('Position');
+  };
+
   render() {
     const { hasMapToken, geojson } = this.state;
-    const { observations } = this.props;
-    const { navigate } = this.props.navigation;
 
-    return ( 
+    return (
       <View style={{ flex: 1 }}>
         {hasMapToken && (
           <MapboxGL.MapView
             style={styles.map}
-            styleURL={'mapbox://styles/mapbox/light-v9'}
-            showUserLocation={true}
+            styleURL="mapbox://styles/mapbox/light-v9"
+            showUserLocation
             zoomLevel={16}
-          >
-          </MapboxGL.MapView>
+          />
         )}
         {!hasMapToken && <View style={styles.mapPlaceholder} />}
         <View
@@ -117,10 +136,13 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps, St
             bottom: 0,
             alignSelf: 'center',
             backgroundColor: 'transparent',
-            zIndex: 5 
+            zIndex: 5
           }}
         >
-          <TouchableHighlight onPress={() => navigate('Position')} style={styles.newObservation}>
+          <TouchableHighlight
+            onPress={this.handleCreateObservation}
+            style={styles.newObservation}
+          >
             <Image source={CircleImg} />
           </TouchableHighlight>
         </View>

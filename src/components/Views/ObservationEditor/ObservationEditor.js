@@ -6,11 +6,13 @@ import {
   Text,
   StyleSheet,
   TouchableHighlight,
-  TextInput
+  TextInput,
+  Image
 } from 'react-native';
 import ForwardIcon from 'react-native-vector-icons/Feather';
 import CloseIcon from 'react-native-vector-icons/MaterialIcons';
 import type { Category } from '@types/category';
+import type { Observation } from '@types/observation';
 import { DARK_GREY, LIGHT_GREY, CHARCOAL, WHITE, MANGO } from '@lib/styles';
 
 export type Props = {
@@ -18,7 +20,12 @@ export type Props = {
 };
 
 export type StateProps = {
-  category?: Category
+  category?: Category,
+  selectedObservation: Observation
+};
+
+export type DispatchProps = {
+  updateObservation: (o: Observation) => void
 };
 
 type State = {
@@ -95,15 +102,41 @@ const styles = StyleSheet.create({
   }
 });
 
-class ObservationEditor extends React.PureComponent<Props & StateProps, State> {
+class ObservationEditor extends React.PureComponent<
+  Props & StateProps & DispatchProps,
+  State
+> {
   constructor() {
     super();
 
     this.state = { text: '' };
   }
 
+  componentDidMount() {
+    const { updateObservation, selectedObservation, category } = this.props;
+
+    if (selectedObservation && category) {
+      updateObservation({
+        ...selectedObservation,
+        type: category.name
+      });
+    }
+  }
+
   handleTextInputChange = text => {
     this.setState({ text });
+  };
+
+  handleUpdateObservation = () => {
+    const { updateObservation, selectedObservation } = this.props;
+    const { text } = this.state;
+
+    if (selectedObservation) {
+      updateObservation({
+        ...selectedObservation,
+        notes: text
+      });
+    }
   };
 
   renderHeader = () => {
@@ -118,18 +151,21 @@ class ObservationEditor extends React.PureComponent<Props & StateProps, State> {
           <CloseIcon color="gray" name="close" size={25} />
         </TouchableHighlight>
         <Text style={styles.title}>Observaciones</Text>
-        <TouchableHighlight style={styles.forward}>
-          <ForwardIcon color="white" name="arrow-right" size={25} />
+        <TouchableHighlight
+          style={styles.forward}
+          onPress={this.handleUpdateObservation}
+        >
+          <Icon color="white" name="arrow-forward" size={25} />
         </TouchableHighlight>
       </View>
     );
   };
 
   render() {
-    const { category, navigation } = this.props;
+    const { navigation, selectedObservation } = this.props;
     const { text } = this.state;
 
-    if (!category) {
+    if (!selectedObservation) {
       navigation.goBack();
       return <View />;
     }
@@ -141,7 +177,9 @@ class ObservationEditor extends React.PureComponent<Props & StateProps, State> {
           <View style={styles.categoryRow}>
             <View style={styles.map} />
             <View style={styles.categoryContainer}>
-              <Text style={styles.categoryName}>{category.name}</Text>
+              <Text style={styles.categoryName}>
+                {selectedObservation.type}
+              </Text>
             </View>
           </View>
           <TextInput
@@ -154,12 +192,25 @@ class ObservationEditor extends React.PureComponent<Props & StateProps, State> {
             multiline
             autoGrow
           />
-          <TouchableHighlight
-            style={styles.mediaList}
-            onPress={() => navigation.navigate('TabBarNavigation')}
-          >
-            <Text style={styles.cameraText}>No hay fotos. ?Toma algunos?</Text>
-          </TouchableHighlight>
+          {selectedObservation &&
+            !!selectedObservation.media.length && (
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                {selectedObservation.media.map(m => (
+                  <Image source={m.source} style={{ width: 50, height: 50 }} />
+                ))}
+              </View>
+            )}
+          {selectedObservation &&
+            !selectedObservation.media.length && (
+              <TouchableHighlight
+                style={styles.mediaList}
+                onPress={() => navigation.navigate('CameraView')}
+              >
+                <Text style={styles.cameraText}>
+                  No hay fotos. ?Toma algunos?
+                </Text>
+              </TouchableHighlight>
+            )}
         </View>
       </View>
     );

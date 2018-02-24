@@ -33,24 +33,24 @@ const osmdbPath = path.resolve(os.homedir(), 'osm-p2p');
 mkdirp.sync(osmdbPath);
 
 const db = {
-  log: level(osmdbPath + '/log'),
-  index: level(osmdbPath + '/index'),
+  log: level(`${osmdbPath  }/log`),
+  index: level(`${osmdbPath  }/index`)
 };
 
 const osm = osmdb({
   log: hyperlog(db.log, { valueEncoding: 'json' }),
   db: db.index,
-  store: fdstore(4096, osmdbPath + '/kdb'),
+  store: fdstore(4096, `${osmdbPath  }/kdb`)
 });
 
 const router = osmrouter(osm);
 
 http
-  .createServer(function(request, response) {
+  .createServer((request, response) => {
     if (request.url.endsWith('/geojson')) {
       const q = [[-Infinity, Infinity], [-Infinity, Infinity]];
-      osm.query(q, function (err, docs) {
-        getGeoJSON(osm, { docs}, function (err, geojson) {
+      osm.query(q, (err, docs) => {
+        getGeoJSON(osm, { docs }, (err, geojson) => {
           response.write(JSON.stringify(geojson));
           response.end();
         });
@@ -73,9 +73,9 @@ http
         type: 'node',
         lat: 64 + Math.random(),
         lon: -148 + Math.random(),
-        tags: { foo: "bar" },
+        tags: { foo: 'bar' }
       };
-      osm.create(node, function(err, key, node) {
+      osm.create(node, (err, key, node) => {
         if (err) console.error(err);
         else console.log(key);
       });
@@ -86,7 +86,7 @@ http
 
     if (request.url.endsWith('/query')) {
       const q = [[-Infinity, Infinity], [-Infinity, Infinity]];
-      osm.query(q, function(err, pts) {
+      osm.query(q, (err, pts) => {
         if (err) console.error(err);
         else {
           response.write(JSON.stringify(pts));

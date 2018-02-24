@@ -19,9 +19,18 @@ import {
   VERY_LIGHT_GREEN,
   WHITE
 } from '@lib/styles';
+import type { Observation } from '@types/observation';
 
 export type Props = {
   navigation: NavigationActions
+};
+
+export type StateProps = {
+  selectedObservation: Observation
+};
+
+export type DispatchProps = {
+  updateObservation: (o: Observation) => void
 };
 
 type State = {
@@ -107,7 +116,10 @@ const styles = StyleSheet.create({
   }
 });
 
-class Position extends React.PureComponent<Props, State> {
+class Position extends React.PureComponent<
+  Props & StateProps & DispatchProps,
+  State
+> {
   constructor() {
     super();
 
@@ -115,11 +127,28 @@ class Position extends React.PureComponent<Props, State> {
   }
 
   handlePositionTextInputChange = text => {
-    this.setState({ distanceText: this.state.distanceText, positionText: text });
+    this.setState({
+      distanceText: this.state.distanceText,
+      positionText: text
+    });
   };
 
   handleDistanceTextInputChange = text => {
-    this.setState({ distanceText: text, positionText: this.state.positionText });
+    this.setState({
+      distanceText: text,
+      positionText: this.state.positionText
+    });
+  };
+
+  handleUpdateObservation = () => {
+    const { updateObservation, selectedObservation, navigation } = this.props;
+
+    if (selectedObservation) {
+      updateObservation({
+        ...selectedObservation
+      });
+      navigation.navigate('Categories');
+    }
   };
 
   render() {
@@ -129,11 +158,17 @@ class Position extends React.PureComponent<Props, State> {
     return (
       <ScrollView style={styles.container}>
         <View style={styles.header}>
-          <TouchableHighlight onPress={() => navigation.goBack()} style={styles.closeIcon}>
+          <TouchableHighlight
+            onPress={() => navigation.goBack()}
+            style={styles.closeIcon}
+          >
             <CloseIcon color="gray" name="close" size={25} />
           </TouchableHighlight>
           <Text style={styles.title}>Posicíon</Text>
-          <TouchableHighlight onPress={() => navigation.navigate('Categories')} style={styles.forwardButton}>
+          <TouchableHighlight
+            onPress={this.handleUpdateObservation}
+            style={styles.forwardButton}
+          >
             <ArrowIcon
               color="white"
               name="arrow-right"
@@ -153,7 +188,9 @@ class Position extends React.PureComponent<Props, State> {
             underlineColorAndroid={CHARCOAL}
             style={styles.textInput}
           />
-          <Text style={styles.detailLabel}>?Qué tan lejos está la observación?</Text>
+          <Text style={styles.detailLabel}>
+            ?Qué tan lejos está la observación?
+          </Text>
           <TextInput
             value={distanceText}
             onChangeText={this.handleDistanceTextInputChange}
@@ -162,10 +199,7 @@ class Position extends React.PureComponent<Props, State> {
           />
           <Text style={styles.detailLabel}>Cerce de...</Text>
           <View style={{ borderWidth: 2, borderColor: CHARCOAL }}>
-            <TextInput
-              value="Sinangoe"
-              style={styles.closeTo}
-            />
+            <TextInput value="Sinangoe" style={styles.closeTo} />
           </View>
         </View>
       </ScrollView>

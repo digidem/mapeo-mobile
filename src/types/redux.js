@@ -10,6 +10,8 @@ export interface AppStoreState {
   categories: {
     [id: string]: Category
   };
+
+  selectedObservation: Observation;
 }
 
 export interface StoreState {

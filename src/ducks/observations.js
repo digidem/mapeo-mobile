@@ -3,8 +3,8 @@ import { create } from '@src/lib/redux';
 import update from 'immutability-helper';
 import { keyBy } from 'lodash';
 import { createSelector } from '@src/lib/selector';
-import { StoreState } from '@types/redux';
-import { Observation } from '@types/observation';
+import type { StoreState } from '@types/redux';
+import type { Observation } from '@types/observation';
 
 export const {
   type: OBSERVATION_LIST,
@@ -20,10 +20,44 @@ export const {
   }
 });
 
+export const {
+  type: OBSERVATION_CREATE,
+  action: observationCreate,
+  reducer: observationCreateReducer
+} = create('OBSERVATION_CREATE', {
+  start: (state, action) => {
+    const newState = update(state, {
+      selectedObservation: { $set: action.meta }
+    });
+
+    return newState;
+  }
+});
+
+export const {
+  type: OBSERVATION_UPDATE,
+  action: observationUpdate,
+  reducer: observationUpdateReducer
+} = create('OBSERVATION_UPDATE', {
+  start: (state, action) => {
+    const newState = update(state, {
+      selectedObservation: {
+        $set: action.meta
+      }
+    });
+
+    return newState;
+  }
+});
+
 export const selectObservation = createSelector(
   [(state: StoreState, id: string): Observation => state.app.observations[id]],
   (observation: Observation): Observation => observation,
   (observation: Observation, id: string): string => id
 );
 
-export default [observationListReducer];
+export default [
+  observationListReducer,
+  observationCreateReducer,
+  observationUpdateReducer
+];

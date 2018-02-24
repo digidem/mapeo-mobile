@@ -7,25 +7,26 @@ import type { ActionsObservable } from 'redux-observable';
 
 const initialCategories = [
   { name: 'Rios y corrientes' },
-  { name: 'Túneles/cuevas' },
+  { name: 'Túneles / cuevas' },
   { name: 'Sitios de caza' },
   { name: 'Sitios de pesca' },
-  { name: 'Casa antiguas y granjas' },
+  { name: 'Casas antiguas y granjas' },
   { name: 'Cementerios' },
   { name: 'Plantas medicinales' },
   { name: 'Recursos para artesania' },
   { name: 'Oro' },
-  { name: 'Arboles frutales plantados' },
+  { name: 'Árboles frutales plantados' },
   { name: 'Yoko' },
   { name: 'Yage' },
   { name: 'Gente invisible' },
   { name: 'Cascadas' },
-  { name: 'Colinas y montanas (sagrado)' },
-  { name: 'Enormes arboles especiales' },
+  { name: 'Colinas y montañas (sagrado)' },
+  { name: 'Enormes árboles especiales' },
   { name: 'Boas' },
-  { name: 'Lugares historicos' },
-  { name: 'Plantas y animales en peligro de extincion' }
+  { name: 'Lugares históricos' },
+  { name: 'Plantas y animales en peligro de extinció' }
 ];
+
 export const categoryListEpic = (
   action$: ActionsObservable<Action<string, Category[]>>
 ) =>
