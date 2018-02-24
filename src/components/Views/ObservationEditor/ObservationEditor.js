@@ -8,7 +8,7 @@ import {
   TouchableHighlight,
   TextInput,
   Image,
-  FlatList
+  Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Category } from '@types/category';
@@ -164,7 +164,7 @@ class ObservationEditor extends React.PureComponent<
   render() {
     const { navigation, selectedObservation } = this.props;
     const { text } = this.state;
-    const keyExtractor = item => item.source;
+    // const keyExtractor = item => item.source;
 
     if (!selectedObservation) {
       navigation.goBack();
@@ -195,6 +195,25 @@ class ObservationEditor extends React.PureComponent<
           />
           {selectedObservation &&
             !!selectedObservation.media.length && (
+              <View
+                style={{
+                  width: Dimensions.get('window').width,
+                  height: Dimensions.get('window').width,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <Image
+                  source={{ uri: selectedObservation.media[0].source }}
+                  style={{
+                    width: Dimensions.get('window').width * 0.75,
+                    height: Dimensions.get('window').width * 0.75
+                  }}
+                />
+              </View>
+            )}
+          {/* {selectedObservation &&
+            !!selectedObservation.media.length && (
               <FlatList
                 style={{
                   flex: 1,
@@ -202,16 +221,20 @@ class ObservationEditor extends React.PureComponent<
                   paddingVertical: 5,
                   paddingHorizontal: 10
                 }}
+                contentContainerStyle={{
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
                 keyExtractor={keyExtractor}
                 renderItem={({ item }) => (
                   <Image
                     source={{ uri: item.source }}
-                    style={{ width: 80, height: 80 }}
+                    style={{ width: 150, height: 150 }}
                   />
                 )}
                 data={selectedObservation.media}
               />
-            )}
+            )} */}
           {selectedObservation &&
             !selectedObservation.media.length && (
               <TouchableHighlight
