@@ -10,6 +10,9 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
   return {
     category:
       (state.app.categories &&
+        ownProps.navigation.state &&
+        ownProps.navigation.state.params &&
+        ownProps.navigation.state.params.category &&
         state.app.categories[ownProps.navigation.state.params.category]) ||
       undefined,
     selectedObservation: state.app.selectedObservation
