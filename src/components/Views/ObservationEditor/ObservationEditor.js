@@ -9,8 +9,7 @@ import {
   TextInput,
   Image
 } from 'react-native';
-import ForwardIcon from 'react-native-vector-icons/Feather';
-import CloseIcon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Category } from '@types/category';
 import type { Observation } from '@types/observation';
 import { DARK_GREY, LIGHT_GREY, CHARCOAL, WHITE, MANGO } from '@lib/styles';
@@ -148,7 +147,7 @@ class ObservationEditor extends React.PureComponent<
           style={styles.close}
           onPress={() => navigation.goBack()}
         >
-          <CloseIcon color="gray" name="close" size={25} />
+          <Icon color="gray" name="close" size={25} />
         </TouchableHighlight>
         <Text style={styles.title}>Observaciones</Text>
         <TouchableHighlight
