@@ -8,7 +8,8 @@ import {
   TouchableHighlight,
   TextInput
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import ForwardIcon from 'react-native-vector-icons/Feather';
+import CloseIcon from 'react-native-vector-icons/MaterialIcons';
 import type { Category } from '@types/category';
 import { DARK_GREY, LIGHT_GREY, CHARCOAL, WHITE, MANGO } from '@lib/styles';
 
@@ -114,11 +115,11 @@ class ObservationEditor extends React.PureComponent<Props & StateProps, State> {
           style={styles.close}
           onPress={() => navigation.goBack()}
         >
-          <Icon color="gray" name="close" size={25} />
+          <CloseIcon color="gray" name="close" size={25} />
         </TouchableHighlight>
         <Text style={styles.title}>Observaciones</Text>
         <TouchableHighlight style={styles.forward}>
-          <Icon color="white" name="arrow-forward" size={25} />
+          <ForwardIcon color="white" name="arrow-right" size={25} />
         </TouchableHighlight>
       </View>
     );

@@ -1,50 +1,176 @@
 // @flow
 import React from 'react';
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  View
+} from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import { DARK_GREY, LIGHT_GREY, MANGO } from '@lib/styles';
+import CloseIcon from 'react-native-vector-icons/MaterialIcons';
+import ArrowIcon from 'react-native-vector-icons/Feather';
+import {
+  DARK_GREY,
+  CHARCOAL,
+  LIGHT_GREY,
+  MANGO,
+  VERY_LIGHT_GREEN,
+  WHITE
+} from '@lib/styles';
 
-type Props = {
+export type Props = {
   navigation: NavigationActions
 };
 
+type State = {
+  distanceText: string,
+  positionText: string
+};
+
 const styles = StyleSheet.create({
+  closeIcon: {
+    marginHorizontal: 15,
+    marginTop: 3
+  },
+  closeTo: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: WHITE,
+    padding: 20,
+    flex: 1
+  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: DARK_GREY
+    backgroundColor: DARK_GREY,
+    flexDirection: 'column'
   },
-  forward: {
+  details: {
+    margin: 15
+  },
+  detailLabel: {
+    color: LIGHT_GREY,
+    fontWeight: '700',
+    fontSize: 12,
+    marginBottom: 10
+  },
+  forwardButton: {
     backgroundColor: MANGO,
-    height: 50
+    height: 30,
+    width: 45,
+    borderRadius: 15,
+    marginRight: 15
+  },
+  forwardIcon: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: 2
+  },
+  gpsText: {
+    backgroundColor: DARK_GREY,
+    color: 'white',
+    marginTop: 15,
+    width: 150,
+    alignSelf: 'center',
+    textAlign: 'center',
+    paddingVertical: 10,
+    borderRadius: 20,
+    fontWeight: '700'
   },
   header: {
     flexDirection: 'row',
-    height: 100
+    height: 60,
+    paddingTop: 15
   },
-  title: {
+  map: {
+    backgroundColor: VERY_LIGHT_GREEN,
+    height: 200
+  },
+  textInput: {
+    backgroundColor: CHARCOAL,
+    color: WHITE,
     fontSize: 20,
     fontWeight: '700',
-    color: LIGHT_GREY
+    padding: 20,
+    marginBottom: 15,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start'
+  },
+  title: {
+    flex: 1,
+    fontSize: 20,
+    fontWeight: '700',
+    color: LIGHT_GREY,
+    textAlign: 'center',
+    alignItems: 'center'
   }
 });
 
-const Position = (props: Props) => (
-  <View style={styles.container}>
-    <View style={styles.header}>
-      <TouchableHighlight onPress={() => props.navigation.goBack()}>
-        <Icon color="gray" name="close" size={25} />
-      </TouchableHighlight>
-      <Text style={styles.title}>Position</Text>
-      <TouchableHighlight
-        onPress={() => props.navigation.navigate('Categories')}
-        style={styles.forward}
-      >
-        <Icon color="white" name="arrow-forward" size={25} />
-      </TouchableHighlight>
-    </View>
-  </View>
-  );
+class Position extends React.PureComponent<Props, State> {
+  constructor() {
+    super();
+
+    this.state = { distanceText: '', positionText: '' };
+  }
+
+  handlePositionTextInputChange = text => {
+    this.setState({ distanceText: this.state.distanceText, positionText: text });
+  };
+
+  handleDistanceTextInputChange = text => {
+    this.setState({ distanceText: text, positionText: this.state.positionText });
+  };
+
+  render() {
+    const { navigation } = this.props;
+    const { distanceText, positionText } = this.state;
+
+    return (
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <TouchableHighlight onPress={() => navigation.goBack()} style={styles.closeIcon}>
+            <CloseIcon color="gray" name="close" size={25} />
+          </TouchableHighlight>
+          <Text style={styles.title}>Posicíon</Text>
+          <TouchableHighlight onPress={() => navigation.navigate('Categories')} style={styles.forwardButton}>
+            <ArrowIcon
+              color="white"
+              name="arrow-right"
+              size={25}
+              style={styles.forwardIcon}
+            />
+          </TouchableHighlight>
+        </View>
+        <View style={styles.map}>
+          <Text style={styles.gpsText}>GPS: Fuerte</Text>
+        </View>
+        <View style={styles.details}>
+          <Text style={styles.detailLabel}>Tu posicíon</Text>
+          <TextInput
+            value={positionText}
+            onChangeText={this.handlePositionTextInputChange}
+            underlineColorAndroid={CHARCOAL}
+            style={styles.textInput}
+          />
+          <Text style={styles.detailLabel}>?Qué tan lejos está la observación?</Text>
+          <TextInput
+            value={distanceText}
+            onChangeText={this.handleDistanceTextInputChange}
+            underlineColorAndroid={CHARCOAL}
+            style={styles.textInput}
+          />
+          <Text style={styles.detailLabel}>Cerce de...</Text>
+          <View style={{ borderWidth: 2, borderColor: CHARCOAL }}>
+            <TextInput
+              value="Sinangoe"
+              style={styles.closeTo}
+            />
+          </View>
+        </View>
+      </ScrollView>
+    );
+  }
+}
 
 export default withNavigation(Position);

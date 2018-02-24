@@ -103,8 +103,9 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps, St
         {hasMapToken && (
           <MapboxGL.MapView
             style={styles.map}
-            styleURL={MapboxGL.StyleURL.Dark}
+            styleURL={'mapbox://styles/mapbox/light-v9'}
             showUserLocation={true}
+            zoomLevel={16}
           >
           </MapboxGL.MapView>
         )}
