@@ -5,7 +5,10 @@ import ObservationDetailView from './ObservationDetailView';
 import type { StateProps } from './ObservationDetailView';
 
 function mapStateToProps(state: StoreState): StateProps {
-  return { observations: state.app.observations };
+  return {
+    observations: state.app.observations,
+    selectedObservation: state.app.selectedObservation
+  };
 }
 
 export default connect(mapStateToProps)(ObservationDetailView);

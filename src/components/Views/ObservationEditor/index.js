@@ -1,6 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 import { StoreState } from '@types/redux';
+import { NavigationActions } from 'react-navigation';
 import type { Dispatch } from 'redux';
 import { observationUpdate } from '@ducks/observations';
 import ObservationEditor from './ObservationEditor';
@@ -21,7 +22,14 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
-    updateObservation: observation => dispatch(observationUpdate(observation))
+    updateObservation: observation => dispatch(observationUpdate(observation)),
+    goToObservationDetailReview: () =>
+      dispatch(
+        NavigationActions.navigate({
+          routeName: 'ObservationDetailView',
+          params: { review: true }
+        })
+      )
   };
 }
 

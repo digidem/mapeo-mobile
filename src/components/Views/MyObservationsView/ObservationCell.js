@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import moment from 'moment';
-import { NavigationActions } from 'react-navigation';
 import {
   View,
   Text,
@@ -13,8 +12,8 @@ import type { Observation } from '@types/observation';
 import { LIGHT_GREY } from '@lib/styles';
 
 type Props = {
-  navigation: NavigationActions,
-  observation: Observation
+  observation: Observation,
+  onPress: (i: Observation) => void
 };
 
 const styles = StyleSheet.create({
@@ -84,15 +83,12 @@ const ObservationCell = (props: Props) => {
     lastWeek: '[Last] ddd, h:mm A',
     sameElse: 'MMM D YYYY, h:mm A'
   });
+  const handlePress = () => {
+    props.onPress(props.observation);
+  };
 
   return (
-    <TouchableHighlight
-      onPress={() =>
-        props.navigation.navigate('ObservationDetailView', {
-          id: props.observation.id
-        })
-      }
-    >
+    <TouchableHighlight onPress={handlePress}>
       <View style={styles.container}>
         <View style={styles.circle}>
           <View style={styles.innerCircle} />

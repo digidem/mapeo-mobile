@@ -25,7 +25,8 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
-  updateObservation: (o: Observation) => void
+  updateObservation: (o: Observation) => void,
+  goToObservationDetailReview: () => void
 };
 
 type State = {
@@ -128,7 +129,11 @@ class ObservationEditor extends React.PureComponent<
   };
 
   handleUpdateObservation = () => {
-    const { updateObservation, selectedObservation } = this.props;
+    const {
+      updateObservation,
+      selectedObservation,
+      goToObservationDetailReview
+    } = this.props;
     const { text } = this.state;
 
     if (selectedObservation) {
@@ -136,6 +141,7 @@ class ObservationEditor extends React.PureComponent<
         ...selectedObservation,
         notes: text
       });
+      goToObservationDetailReview();
     }
   };
 

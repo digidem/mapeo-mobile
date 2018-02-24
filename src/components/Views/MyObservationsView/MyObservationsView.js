@@ -21,6 +21,11 @@ export type StateProps = {
   observations: Observation[]
 };
 
+export type DispatchProps = {
+  selectObservation: (o: Observation) => void,
+  goToObservationDetail: () => void
+};
+
 type Props = {
   closeRightDrawer: Function,
   navigation: NavigationActions
@@ -61,7 +66,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const MyObservationsView = (props: StateProps & Props) => {
+const MyObservationsView = (props: StateProps & Props & DispatchProps) => {
   const { observations } = props;
   const sectionMappings = {};
   let label;
@@ -91,6 +96,10 @@ const MyObservationsView = (props: StateProps & Props) => {
     data
   }));
   const keyExtractor = item => item.id;
+  const handleItemPress = item => {
+    props.selectObservation(item);
+    props.goToObservationDetail();
+  };
 
   return (
     <View style={{ flexDirection: 'row', flex: 1, backgroundColor: WHITE }}>
@@ -113,7 +122,11 @@ const MyObservationsView = (props: StateProps & Props) => {
           style={{ flex: 1, flexDirection: 'column' }}
           keyExtractor={keyExtractor}
           renderItem={({ item }) => (
-            <ObservationCell navigation={props.navigation} observation={item} />
+            <ObservationCell
+              navigation={props.navigation}
+              observation={item}
+              onPress={handleItemPress}
+            />
           )}
           renderSectionHeader={({ section }) => (
             <ObservationHeader title={section.title} key={section.title} />

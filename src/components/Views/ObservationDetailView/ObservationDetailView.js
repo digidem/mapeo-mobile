@@ -21,9 +21,7 @@ type State = {
 };
 
 export type StateProps = {
-  observations: {
-    [id: string]: Observation
-  }
+  selectedObservation?: Observation
 };
 
 type Props = {
@@ -125,9 +123,11 @@ class ObservationDetailView extends React.PureComponent<
   };
 
   render() {
-    const observation = this.props.observations[
-      this.props.navigation.state.params.id
-    ];
+    const { selectedObservation } = this.props;
+
+    if (!selectedObservation) {
+      return <View />;
+    }
 
     return (
       <ScrollView style={styles.container}>
@@ -144,12 +144,12 @@ class ObservationDetailView extends React.PureComponent<
               style={styles.backChevron}
             />
           </TouchableHighlight>
-          <Text style={styles.title}>{observation.name}</Text>
+          <Text style={styles.title}>{selectedObservation.name}</Text>
           <Text style={styles.date}>
-            {moment(observation.created).format('MMMM D, YYYY')}
+            {moment(selectedObservation.created).format('MMMM D, YYYY')}
           </Text>
           <Text style={styles.time}>
-            {moment(observation.created).format('h:mm A')}
+            {moment(selectedObservation.created).format('h:mm A')}
           </Text>
         </View>
         <View style={styles.section}>
@@ -159,7 +159,7 @@ class ObservationDetailView extends React.PureComponent<
             <View style={{ flex: 1, backgroundColor: 'blue' }} />
             <View style={{ flex: 1, backgroundColor: 'lightgray' }} />
           </View>
-          <Text style={styles.textNotes}>{observation.notes}</Text>
+          <Text style={styles.textNotes}>{selectedObservation.notes}</Text>
         </View>
         <View style={styles.section}>
           <Text style={styles.sectionText}>0.0 km</Text>
@@ -181,7 +181,9 @@ class ObservationDetailView extends React.PureComponent<
               size={30}
               style={styles.profileImage}
             />
-            <Text style={styles.observedByText}>{observation.observedBy}</Text>
+            <Text style={styles.observedByText}>
+              {selectedObservation.observedBy}
+            </Text>
           </View>
         </View>
         {this.state.showStillHappening ? (
