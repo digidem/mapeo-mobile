@@ -51,7 +51,7 @@ class CameraView extends React.PureComponent<
               }
             ])
           });
-          navigation.navigate('ObservationEditor');
+          setTimeout(() => navigation.navigate('ObservationEditor'), 500);
         }
 
         console.log(data.uri, data.exif);

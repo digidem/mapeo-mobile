@@ -7,7 +7,8 @@ import {
   StyleSheet,
   TouchableHighlight,
   TextInput,
-  Image
+  Image,
+  FlatList
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Category } from '@types/category';
@@ -163,6 +164,7 @@ class ObservationEditor extends React.PureComponent<
   render() {
     const { navigation, selectedObservation } = this.props;
     const { text } = this.state;
+    const keyExtractor = item => item.source;
 
     if (!selectedObservation) {
       navigation.goBack();
@@ -193,11 +195,22 @@ class ObservationEditor extends React.PureComponent<
           />
           {selectedObservation &&
             !!selectedObservation.media.length && (
-              <View style={{ flex: 1, flexDirection: 'row' }}>
-                {selectedObservation.media.map(m => (
-                  <Image source={m.source} style={{ width: 50, height: 50 }} />
-                ))}
-              </View>
+              <FlatList
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  paddingVertical: 5,
+                  paddingHorizontal: 10
+                }}
+                keyExtractor={keyExtractor}
+                renderItem={({ item }) => (
+                  <Image
+                    source={{ uri: item.source }}
+                    style={{ width: 80, height: 80 }}
+                  />
+                )}
+                data={selectedObservation.media}
+              />
             )}
           {selectedObservation &&
             !selectedObservation.media.length && (
