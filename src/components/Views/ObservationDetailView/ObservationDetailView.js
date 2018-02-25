@@ -12,6 +12,7 @@ import moment from 'moment';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import type { Observation } from '@types/observation';
+import { DARK_GREY, LIGHT_GREY } from '@lib/styles';
 
 import LeftChevron from 'react-native-vector-icons/Entypo';
 import ProfileImg from 'react-native-vector-icons/FontAwesome';
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center'
   },
-  header: {
+  topSection: {
     alignSelf: 'stretch',
     backgroundColor: '#ccffff',
     borderBottomColor: 'lightgray',
@@ -107,6 +108,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     textAlign: 'center'
+  },
+  header: {
+    flexDirection: 'row',
+    backgroundColor: DARK_GREY,
+    paddingVertical: 20,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: LIGHT_GREY
   }
 });
 
@@ -116,6 +129,16 @@ class ObservationDetailView extends React.PureComponent<
 > {
   state = { showStillHappening: true };
 
+  isReviewMode() {
+    const { navigation } = this.props;
+
+    return !!(
+      navigation.state &&
+      navigation.state.params &&
+      navigation.state.params.review
+    );
+  }
+
   dismissStillHappening = () => {
     if (this.state.showStillHappening) {
       this.setState({ showStillHappening: false });
@@ -124,6 +147,7 @@ class ObservationDetailView extends React.PureComponent<
 
   render() {
     const { selectedObservation } = this.props;
+    const reviewMode = this.isReviewMode();
 
     if (!selectedObservation) {
       return <View />;
@@ -131,19 +155,26 @@ class ObservationDetailView extends React.PureComponent<
 
     return (
       <ScrollView style={styles.container}>
-        <View style={styles.header}>
-          <TouchableHighlight
-            onPress={() => {
-              this.props.navigation.goBack();
-            }}
-          >
-            <LeftChevron
-              color="black"
-              name="chevron-left"
-              size={25}
-              style={styles.backChevron}
-            />
-          </TouchableHighlight>
+        {reviewMode && (
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Review</Text>
+          </View>
+        )}
+        <View style={styles.topSection}>
+          {!reviewMode && (
+            <TouchableHighlight
+              onPress={() => {
+                this.props.navigation.goBack();
+              }}
+            >
+              <LeftChevron
+                color="black"
+                name="chevron-left"
+                size={25}
+                style={styles.backChevron}
+              />
+            </TouchableHighlight>
+          )}
           <Text style={styles.title}>{selectedObservation.name}</Text>
           <Text style={styles.date}>
             {moment(selectedObservation.created).format('MMMM D, YYYY')}
