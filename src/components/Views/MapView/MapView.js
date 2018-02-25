@@ -84,7 +84,11 @@ class MapView extends React.PureComponent<
   Props & StateProps & DispatchProps,
   State
 > {
-  state = { response: '', hasMapToken: true, geojson: null };
+  state = {
+    response: '',
+    hasMapToken: true,
+    geojson: null
+  };
 
   async componentDidMount() {
     const { observations, listObservations } = this.props;
@@ -98,26 +102,37 @@ class MapView extends React.PureComponent<
 
   handleCreateObservation = () => {
     const { createObservation, navigation, observations } = this.props;
+    let latitude, longitude, error = null;
 
-    createObservation({
-      type: 'Rios y corrientes',
-      id: size(observations),
-      lat: 0,
-      lon: 0,
-      link: 'link',
-      created: new Date(),
-      name: '',
-      notes: '',
-      observedBy: 'user',
-      media: []
-    });
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        latitude = (position.coords.latitude).toFixed(4);
+        longitude = (position.coords.longitude).toFixed(4);
 
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'TabBarNavigation' })]
-    });
-    navigation.dispatch(resetAction);
-    navigation.navigate('Position');
+        createObservation({
+          type: 'Rios y corrientes',
+          id: size(observations),
+          lat: latitude,
+          lon: longitude,
+          error: error,
+          link: 'link',
+          created: new Date(),
+          name: '',
+          notes: '',
+          observedBy: 'user',
+          media: []
+        });
+
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: 'TabBarNavigation' })]
+        });
+        navigation.dispatch(resetAction);
+        navigation.navigate('Position');
+      },
+      (error) => error = error.message,
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
   };
 
   render() {

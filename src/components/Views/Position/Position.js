@@ -120,10 +120,13 @@ class Position extends React.PureComponent<
   Props & StateProps & DispatchProps,
   State
 > {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.state = { distanceText: '', positionText: '' };
+    this.state = {
+      distanceText: '',
+      positionText: `${props.selectedObservation.lat}, ${props.selectedObservation.lon}`
+    };
   }
 
   handlePositionTextInputChange = text => {
@@ -152,7 +155,7 @@ class Position extends React.PureComponent<
   };
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, selectedObservation } = this.props;
     const { distanceText, positionText } = this.state;
 
     return (
@@ -199,7 +202,11 @@ class Position extends React.PureComponent<
           />
           <Text style={styles.detailLabel}>Cerce de...</Text>
           <View style={{ borderWidth: 2, borderColor: CHARCOAL }}>
-            <TextInput value="Sinangoe" style={styles.closeTo} />
+            <TextInput
+              value="Sinangoe"
+              underlineColorAndroid={DARK_GREY}
+              style={styles.closeTo}
+            />
           </View>
         </View>
       </ScrollView>
