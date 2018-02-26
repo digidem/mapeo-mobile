@@ -21,6 +21,7 @@ import {
 
 import LeftChevron from 'react-native-vector-icons/Entypo';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import CameraIcon from 'react-native-vector-icons/MaterialIcons';
 
 type State = {
   showStillHappening: boolean
@@ -50,6 +51,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     textAlign: 'center'
+  },
+  cameraButton: {
+    alignSelf: 'center',
+    marginVertical: 20
   },
   cancelButton: {
     flex: 1,
@@ -254,6 +259,21 @@ class ObservationDetailView extends React.PureComponent<
               <View style={{ flex: 1, backgroundColor: 'blue' }} />
               <View style={{ flex: 1, backgroundColor: 'lightgray' }} />
             </View>
+            {reviewMode && (
+              <TouchableHighlight
+                style={{ borderBottomWidth: 1, borderColor: CHARCOAL }}
+                onPress={() => {
+                  navigation.navigate('CameraView');
+                }}
+              >
+                <CameraIcon
+                  color="white"
+                  name="photo-camera"
+                  size={30}
+                  style={styles.cameraButton}
+                />
+              </TouchableHighlight>
+            )}
             <Text style={reviewMode ? styles.textNotesReview : styles.textNotes}>{selectedObservation.notes}</Text>
             {reviewMode && (
               <TouchableHighlight
