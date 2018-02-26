@@ -226,7 +226,7 @@ class ObservationDetailView extends React.PureComponent<
         <ScrollView style={reviewMode ? styles.containerReview : styles.container}>
           {reviewMode && (
             <View style={styles.header}>
-              <Text style={styles.headerTitle}>Review</Text>
+              <Text style={styles.headerTitle}>Revisíon</Text>
             </View>
           )}
           <View style={styles.topSection}>
@@ -316,7 +316,7 @@ class ObservationDetailView extends React.PureComponent<
             </View>
           </View>
           <View style={reviewMode ? styles.sectionReview : styles.section}>
-            <Text style={styles.sectionText}>Observed by</Text>
+            <Text style={styles.sectionText}>Observado por</Text>
             <View style={{ flexDirection: 'row' }}>
               <FontAwesomeIcon
                 color="lightgray"
@@ -349,14 +349,10 @@ class ObservationDetailView extends React.PureComponent<
             <TouchableHighlight
               style={styles.cancelButton}
               onPress={() => {
-                const resetAction = NavigationActions.reset({
-                  index: 0,
-                  actions: [NavigationActions.navigate({ routeName: 'TabBarNavigation' })]
-                });
-                navigation.dispatch(resetAction);
+                navigation.goBack();
               }}
             >
-              <Text style={styles.bottomButtonText}>Cancel</Text>
+              <Text style={styles.bottomButtonText}>Editar</Text>
             </TouchableHighlight>
             <TouchableHighlight
               style={styles.saveButton}
@@ -368,7 +364,7 @@ class ObservationDetailView extends React.PureComponent<
                 navigation.dispatch(resetAction);
               }}
             >
-              <Text style={styles.bottomButtonText}>Save</Text>
+              <Text style={styles.bottomButtonText}>Guardar</Text>
             </TouchableHighlight>
           </View>
         )}
