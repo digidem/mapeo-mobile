@@ -131,8 +131,10 @@ class MapView extends React.PureComponent<
         navigation.navigate('Position');
       },
       (error) => error = error.message,
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      { timeout: 20000, maximumAge: 1000 }
     );
+
+    
   };
 
   render() {
