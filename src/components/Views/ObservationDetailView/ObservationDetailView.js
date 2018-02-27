@@ -2,6 +2,8 @@
 import React from 'react';
 import {
   Button,
+  Dimensions,
+  Image,
   Text,
   TouchableHighlight,
   View,
@@ -21,7 +23,7 @@ import {
 
 import LeftChevron from 'react-native-vector-icons/Entypo';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import CameraIcon from 'react-native-vector-icons/MaterialIcons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 type State = {
   showStillHappening: boolean
@@ -52,10 +54,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center'
   },
-  cameraButton: {
-    alignSelf: 'center',
-    marginVertical: 20
-  },
   cancelButton: {
     flex: 1,
     borderRadius: 30,
@@ -63,6 +61,10 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     marginRight: 10,
     backgroundColor: 'gray'
+  },
+  close: {
+    position: 'absolute',
+    left: 10
   },
   container: {
     backgroundColor: 'white',
@@ -79,11 +81,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
     textAlign: 'center'
-  },
-  editIcon: {
-    alignSelf: 'flex-end',
-    marginRight: 20,
-    marginBottom: 20
   },
   topSection: {
     alignSelf: 'stretch',
@@ -187,7 +184,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: 'grey'
+    color: 'white'
   }
 });
 
@@ -226,6 +223,12 @@ class ObservationDetailView extends React.PureComponent<
         <ScrollView style={reviewMode ? styles.containerReview : styles.container}>
           {reviewMode && (
             <View style={styles.header}>
+              <TouchableHighlight
+                style={styles.close}
+                onPress={() => navigation.goBack()}
+              >
+                <MaterialIcon color="gray" name="close" size={25} />
+              </TouchableHighlight>
               <Text style={styles.headerTitle}>Revisíon</Text>
             </View>
           )}
@@ -254,41 +257,19 @@ class ObservationDetailView extends React.PureComponent<
           </View>
           <View style={reviewMode ? styles.sectionReview : styles.section}>
             <Text style={styles.sectionText}>2 photos, 1 video</Text>
-            <View style={{ flexDirection: 'row', height: 125 }}>
-              <View style={{ flex: 1, backgroundColor: 'white' }} />
-              <View style={{ flex: 1, backgroundColor: 'blue' }} />
-              <View style={{ flex: 1, backgroundColor: 'lightgray' }} />
-            </View>
-            {reviewMode && (
-              <TouchableHighlight
-                style={{ borderBottomWidth: 1, borderColor: CHARCOAL }}
-                onPress={() => {
-                  navigation.navigate('CameraView');
-                }}
-              >
-                <CameraIcon
-                  color="white"
-                  name="photo-camera"
-                  size={30}
-                  style={styles.cameraButton}
-                />
-              </TouchableHighlight>
-            )}
+            {selectedObservation &&
+              selectedObservation.media &&
+              selectedObservation.media[0] &&
+              selectedObservation.media[0].source && (
+              <View style={{ flexDirection: 'row', height: 125, justifyContent: 'center' }}>
+                <Image
+                    source={{ uri: selectedObservation.media[0].source }}
+                    style={{
+                      width: Dimensions.get('window').width * 0.3
+                    }}
+                  />
+              </View>)}
             <Text style={reviewMode ? styles.textNotesReview : styles.textNotes}>{selectedObservation.notes}</Text>
-            {reviewMode && (
-              <TouchableHighlight
-                onPress={() => {
-                  navigation.goBack();
-                }}
-              >
-                <FontAwesomeIcon
-                  color="lightgray"
-                  name="pencil"
-                  size={20}
-                  style={styles.editIcon}
-                />
-              </TouchableHighlight>
-            )}
           </View>
           <View style={reviewMode ? styles.sectionReview : styles.section}>
             <Text style={styles.sectionText}>0.0 km</Text>
