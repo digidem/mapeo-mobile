@@ -162,7 +162,13 @@ class Position extends React.PureComponent<
       <ScrollView style={styles.container}>
         <View style={styles.header}>
           <TouchableHighlight
-            onPress={() => navigation.goBack()}
+            onPress={() => {
+              const resetAction = NavigationActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({ routeName: 'TabBarNavigation' })]
+              });
+              navigation.dispatch(resetAction);
+            }}
             style={styles.closeIcon}
           >
             <CloseIcon color="gray" name="close" size={25} />

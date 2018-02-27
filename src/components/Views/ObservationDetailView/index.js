@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { StoreState } from '@types/redux';
 import ObservationDetailView from './ObservationDetailView';
 import type { StateProps } from './ObservationDetailView';
+import type { Dispatch } from 'redux';
+import { observationUpdate } from '@ducks/observations';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
@@ -11,4 +13,10 @@ function mapStateToProps(state: StoreState): StateProps {
   };
 }
 
-export default connect(mapStateToProps)(ObservationDetailView);
+function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
+  return {
+    updateObservation: observation => dispatch(observationUpdate(observation))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ObservationDetailView);

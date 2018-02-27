@@ -33,6 +33,11 @@ export type StateProps = {
   selectedObservation?: Observation
 };
 
+export type DispatchProps = {
+  updateObservation: (o: Observation) => void,
+  goToObservationDetailReview: () => void
+};
+
 type Props = {
   navigation: NavigationActions
 };
@@ -189,7 +194,7 @@ const styles = StyleSheet.create({
 });
 
 class ObservationDetailView extends React.PureComponent<
-  Props & StateProps,
+  Props & StateProps & DispatchProps,
   State
 > {
   state = { showStillHappening: true };
@@ -211,8 +216,12 @@ class ObservationDetailView extends React.PureComponent<
   };
 
   render() {
-    const { navigation, selectedObservation } = this.props;
+    const { navigation, selectedObservation, updateObservation } = this.props;
     const reviewMode = this.isReviewMode();
+    let mediaText = '';
+    const thereIsMedia = selectedObservation && selectedObservation.media 
+      && (selectedObservation.media.length > 0);
+    if (thereIsMedia) mediaText = '1 Photo';
 
     if (!selectedObservation) {
       return <View />;
@@ -247,7 +256,7 @@ class ObservationDetailView extends React.PureComponent<
                 />
               </TouchableHighlight>
             )}
-            <Text style={styles.title}>{selectedObservation.name}</Text>
+            <Text style={styles.title}>{selectedObservation.type}</Text>
             <Text style={styles.date}>
               {moment(selectedObservation.created).format('MMMM D, YYYY')}
             </Text>
@@ -256,7 +265,7 @@ class ObservationDetailView extends React.PureComponent<
             </Text>
           </View>
           <View style={reviewMode ? styles.sectionReview : styles.section}>
-            <Text style={styles.sectionText}>2 photos, 1 video</Text>
+            <Text style={styles.sectionText}>{mediaText}</Text>
             {selectedObservation &&
               selectedObservation.media &&
               selectedObservation.media[0] &&
@@ -338,6 +347,7 @@ class ObservationDetailView extends React.PureComponent<
             <TouchableHighlight
               style={styles.saveButton}
               onPress={() => {
+                updateObservation({ ...selectedObservation });
                 const resetAction = NavigationActions.reset({
                   index: 0,
                   actions: [NavigationActions.navigate({ routeName: 'TabBarNavigation' })]
