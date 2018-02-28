@@ -41,8 +41,7 @@ class CameraView extends React.PureComponent<
     const {
       updateObservation,
       selectedObservation,
-      goToObservationEditor,
-      resetNavigation
+      goToObservationEditor
     } = this.props;
     if (this.camera) {
       const options = { quality: 0.5, base64: true, exif: true };

@@ -105,7 +105,6 @@ class MapView extends React.PureComponent<
   handleCreateObservation = () => {
     const {
       createObservation,
-      navigation,
       observations,
       resetNavigation,
       goToPosition
@@ -119,7 +118,7 @@ class MapView extends React.PureComponent<
 
         createObservation({
           type: 'Rios y corrientes',
-          id: size(observations),
+          id: size(observations) + 1,
           lat: Math.round(latitude),
           lon: Math.round(longitude),
           link: 'link',
