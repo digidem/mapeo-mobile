@@ -125,8 +125,23 @@ class Position extends React.PureComponent<
 
     this.state = {
       distanceText: '',
-      positionText: `${props.selectedObservation.lat}, ${props.selectedObservation.lon}`
+      positionText: props.selectedObservation
+        ? `${props.selectedObservation.lat}, ${props.selectedObservation.lon}`
+        : 'Loading...'
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.selectedObservation !== this.props.selectedObservation &&
+      nextProps.selectedObservation
+    ) {
+      this.setState({
+        positionText: `${nextProps.selectedObservation.lat}, ${
+          nextProps.selectedObservation.lon
+        }`
+      });
+    }
   }
 
   handlePositionTextInputChange = text => {
@@ -155,7 +170,7 @@ class Position extends React.PureComponent<
   };
 
   render() {
-    const { navigation, selectedObservation } = this.props;
+    const { navigation } = this.props;
     const { distanceText, positionText } = this.state;
 
     return (
@@ -165,7 +180,9 @@ class Position extends React.PureComponent<
             onPress={() => {
               const resetAction = NavigationActions.reset({
                 index: 0,
-                actions: [NavigationActions.navigate({ routeName: 'TabBarNavigation' })]
+                actions: [
+                  NavigationActions.navigate({ routeName: 'TabBarNavigation' })
+                ]
               });
               navigation.dispatch(resetAction);
             }}

@@ -107,10 +107,12 @@ class ObservationEditor extends React.PureComponent<
   Props & StateProps & DispatchProps,
   State
 > {
-  constructor() {
+  constructor(props: Props & StateProps & DispatchProps) {
     super();
 
-    this.state = { text: '' };
+    this.state = {
+      text: props.selectedObservation ? props.selectedObservation.notes : ''
+    };
   }
 
   componentDidMount() {
@@ -119,7 +121,8 @@ class ObservationEditor extends React.PureComponent<
     if (selectedObservation && category) {
       updateObservation({
         ...selectedObservation,
-        type: category.name
+        type: category.name,
+        name: category.name
       });
     }
   }
@@ -142,6 +145,17 @@ class ObservationEditor extends React.PureComponent<
         notes: text
       });
       goToObservationDetailReview();
+    }
+  };
+
+  handleTextInputBlur = () => {
+    const { selectedObservation, updateObservation } = this.props;
+
+    if (selectedObservation) {
+      updateObservation({
+        ...selectedObservation,
+        notes: this.state.text
+      });
     }
   };
 
@@ -196,6 +210,7 @@ class ObservationEditor extends React.PureComponent<
             placeholder="?Qué está pasando aquí"
             placeholderTextColor={DARK_GREY}
             underlineColorAndroid={DARK_GREY}
+            onBlur={this.handleTextInputBlur}
             multiline
             autoGrow
           />

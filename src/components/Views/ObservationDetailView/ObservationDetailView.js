@@ -14,12 +14,7 @@ import moment from 'moment';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import type { Observation } from '@types/observation';
-import {
-  CHARCOAL,
-  DARK_GREY,
-  LIGHT_GREY,
-  MANGO
-} from '@lib/styles';
+import { CHARCOAL, DARK_GREY, MANGO } from '@lib/styles';
 
 import LeftChevron from 'react-native-vector-icons/Entypo';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
@@ -34,8 +29,8 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
-  updateObservation: (o: Observation) => void,
-  goToObservationDetailReview: () => void
+  goToTabNav: () => void,
+  addObservation: (o: Observation) => void
 };
 
 type Props = {
@@ -215,12 +210,23 @@ class ObservationDetailView extends React.PureComponent<
     }
   };
 
+  saveObservation = () => {
+    const { selectedObservation, addObservation, goToTabNav } = this.props;
+
+    if (selectedObservation) {
+      addObservation(selectedObservation);
+      goToTabNav();
+    }
+  };
+
   render() {
-    const { navigation, selectedObservation, updateObservation } = this.props;
+    const { navigation, selectedObservation } = this.props;
     const reviewMode = this.isReviewMode();
     let mediaText = '';
-    const thereIsMedia = selectedObservation && selectedObservation.media 
-      && (selectedObservation.media.length > 0);
+    const thereIsMedia =
+      selectedObservation &&
+      selectedObservation.media &&
+      selectedObservation.media.length > 0;
     if (thereIsMedia) mediaText = '1 Photo';
 
     if (!selectedObservation) {
@@ -229,7 +235,9 @@ class ObservationDetailView extends React.PureComponent<
 
     return (
       <View style={{ flex: 1 }}>
-        <ScrollView style={reviewMode ? styles.containerReview : styles.container}>
+        <ScrollView
+          style={reviewMode ? styles.containerReview : styles.container}
+        >
           {reviewMode && (
             <View style={styles.header}>
               <TouchableHighlight
@@ -270,15 +278,26 @@ class ObservationDetailView extends React.PureComponent<
               selectedObservation.media &&
               selectedObservation.media[0] &&
               selectedObservation.media[0].source && (
-              <View style={{ flexDirection: 'row', height: 125, justifyContent: 'center' }}>
-                <Image
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    height: 125,
+                    justifyContent: 'center'
+                  }}
+                >
+                  <Image
                     source={{ uri: selectedObservation.media[0].source }}
                     style={{
                       width: Dimensions.get('window').width * 0.3
                     }}
                   />
-              </View>)}
-            <Text style={reviewMode ? styles.textNotesReview : styles.textNotes}>{selectedObservation.notes}</Text>
+                </View>
+              )}
+            <Text
+              style={reviewMode ? styles.textNotesReview : styles.textNotes}
+            >
+              {selectedObservation.notes}
+            </Text>
           </View>
           <View style={reviewMode ? styles.sectionReview : styles.section}>
             <Text style={styles.sectionText}>0.0 km</Text>
@@ -319,9 +338,7 @@ class ObservationDetailView extends React.PureComponent<
               </Text>
             </View>
           </View>
-          {reviewMode && (
-            <View style={{ height: 75 }}></View>
-          )}
+          {reviewMode && <View style={{ height: 75 }} />}
           {!reviewMode && this.state.showStillHappening ? (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
               <Text style={styles.stillHappening}>
@@ -346,14 +363,7 @@ class ObservationDetailView extends React.PureComponent<
             </TouchableHighlight>
             <TouchableHighlight
               style={styles.saveButton}
-              onPress={() => {
-                updateObservation({ ...selectedObservation });
-                const resetAction = NavigationActions.reset({
-                  index: 0,
-                  actions: [NavigationActions.navigate({ routeName: 'TabBarNavigation' })]
-                });
-                navigation.dispatch(resetAction);
-              }}
+              onPress={this.saveObservation}
             >
               <Text style={styles.bottomButtonText}>Guardar</Text>
             </TouchableHighlight>

@@ -27,7 +27,9 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
-  updateObservation: (o: Observation) => void
+  updateObservation: (o: Observation) => void,
+  goToObservationEditor: () => void,
+  resetNavigation: () => void
 };
 
 class CameraView extends React.PureComponent<
@@ -36,11 +38,17 @@ class CameraView extends React.PureComponent<
   camera: RNCamera;
 
   takePicture = async () => {
-    const { updateObservation, selectedObservation, navigation } = this.props;
+    const {
+      updateObservation,
+      selectedObservation,
+      goToObservationEditor,
+      resetNavigation
+    } = this.props;
     if (this.camera) {
       const options = { quality: 0.5, base64: true, exif: true };
       try {
         const data = await this.camera.takePictureAsync(options);
+
         if (selectedObservation) {
           updateObservation({
             ...selectedObservation,
@@ -51,12 +59,11 @@ class CameraView extends React.PureComponent<
               }
             ])
           });
-          setTimeout(() => navigation.navigate('ObservationEditor'), 500);
+          resetNavigation();
+          goToObservationEditor();
         }
-
-        console.log(data.uri, data.exif);
       } catch (error) {
-        console.error(error);
+        console.warn(error);
       }
     }
   };

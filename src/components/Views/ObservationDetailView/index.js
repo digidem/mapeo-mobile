@@ -1,10 +1,11 @@
 // @flow
 import { connect } from 'react-redux';
 import { StoreState } from '@types/redux';
-import ObservationDetailView from './ObservationDetailView';
-import type { StateProps } from './ObservationDetailView';
 import type { Dispatch } from 'redux';
-import { observationUpdate } from '@ducks/observations';
+import { NavigationActions } from 'react-navigation';
+import { observationAdd } from '@ducks/observations';
+import ObservationDetailView from './ObservationDetailView';
+import type { StateProps, DispatchProps } from './ObservationDetailView';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
@@ -15,8 +16,12 @@ function mapStateToProps(state: StoreState): StateProps {
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
-    updateObservation: observation => dispatch(observationUpdate(observation))
+    addObservation: observation => dispatch(observationAdd(observation)),
+    goToTabNav: () =>
+      dispatch(NavigationActions.navigate({ routeName: 'TabBarNavigation' }))
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ObservationDetailView);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ObservationDetailView
+);

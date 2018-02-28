@@ -66,6 +66,22 @@ export const {
   }
 });
 
+export const {
+  type: OBSERVATION_ADD,
+  action: observationAdd,
+  reducer: observationAddReducer
+} = create('OBSERVATION_ADD', {
+  start: (state, action) => {
+    const newState = update(state, {
+      observations: {
+        [action.meta.id]: { $set: action.meta }
+      }
+    });
+
+    return newState;
+  }
+});
+
 export const selectObservation = createSelector(
   [(state: StoreState, id: string): Observation => state.app.observations[id]],
   (observation: Observation): Observation => observation,
@@ -76,5 +92,6 @@ export default [
   observationListReducer,
   observationCreateReducer,
   observationUpdateReducer,
-  observationSelectReducer
+  observationSelectReducer,
+  observationAddReducer
 ];

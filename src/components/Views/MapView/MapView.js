@@ -23,7 +23,9 @@ export type StateProps = {
 
 export type DispatchProps = {
   listObservations: () => void,
-  createObservation: (observation: Observation) => void
+  createObservation: (observation: Observation) => void,
+  resetNavigation: () => void,
+  goToPosition: () => void
 };
 
 type Props = {
@@ -101,20 +103,25 @@ class MapView extends React.PureComponent<
   }
 
   handleCreateObservation = () => {
-    const { createObservation, navigation, observations } = this.props;
-    let latitude, longitude, error = null;
+    const {
+      createObservation,
+      navigation,
+      observations,
+      resetNavigation,
+      goToPosition
+    } = this.props;
 
+    resetNavigation();
+    goToPosition();
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        latitude = (position.coords.latitude).toFixed(4);
-        longitude = (position.coords.longitude).toFixed(4);
+      position => {
+        const { latitude, longitude } = position.coords;
 
         createObservation({
           type: 'Rios y corrientes',
           id: size(observations),
-          lat: latitude,
-          lon: longitude,
-          error: error,
+          lat: Math.round(latitude),
+          lon: Math.round(longitude),
           link: 'link',
           created: new Date(),
           name: '',
@@ -122,19 +129,9 @@ class MapView extends React.PureComponent<
           observedBy: 'user',
           media: []
         });
-
-        const resetAction = NavigationActions.reset({
-          index: 0,
-          actions: [NavigationActions.navigate({ routeName: 'TabBarNavigation' })]
-        });
-        navigation.dispatch(resetAction);
-        navigation.navigate('Position');
       },
-      (error) => error = error.message,
-      { timeout: 20000, maximumAge: 1000 }
+      error => console.warn(error)
     );
-
-    
   };
 
   render() {
