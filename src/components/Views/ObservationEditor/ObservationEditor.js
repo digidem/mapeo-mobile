@@ -216,22 +216,26 @@ class ObservationEditor extends React.PureComponent<
           />
           {selectedObservation &&
             !!selectedObservation.media.length && (
-              <View
-                style={{
-                  width: Dimensions.get('window').width,
-                  height: Dimensions.get('window').width,
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
+              <TouchableHighlight
+                onPress={() => navigation.navigate('PhotoView')}
               >
-                <Image
-                  source={{ uri: selectedObservation.media[0].source }}
+                <View
                   style={{
-                    width: Dimensions.get('window').width * 0.75,
-                    height: Dimensions.get('window').width * 0.75
+                    width: Dimensions.get('window').width,
+                    height: Dimensions.get('window').width,
+                    justifyContent: 'center',
+                    alignItems: 'center'
                   }}
-                />
-              </View>
+                >
+                  <Image
+                    source={{ uri: selectedObservation.media[0].source }}
+                    style={{
+                      width: Dimensions.get('window').width * 0.75,
+                      height: Dimensions.get('window').width * 0.75
+                    }}
+                  />
+                </View>
+              </TouchableHighlight>
             )}
           {/* {selectedObservation &&
             !!selectedObservation.media.length && (

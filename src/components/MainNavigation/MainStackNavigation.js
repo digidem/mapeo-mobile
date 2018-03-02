@@ -6,6 +6,7 @@ import Categories from '@src/components/Views/Categories';
 import Position from '@src/components/Views/Position';
 import ObservationEditor from '@src/components/Views/ObservationEditor';
 import CameraView from '@src/components/Views/CameraView';
+import PhotoView from '@src/components/Views/PhotoView';
 import MyObservationsView from '@src/components/Views/MyObservationsView';
 import ObservationDetailView from '@src/components/Views/ObservationDetailView';
 import PreferencesView from '@src/components/Views/PreferencesView/PreferencesView';
@@ -17,6 +18,7 @@ const routeConfiguration = {
   ObservationEditor: { screen: ObservationEditor },
   MyObservationsView: { screen: MyObservationsView },
   CameraView: { screen: CameraView },
+  PhotoView: { screen: PhotoView },
   ObservationDetailView: { screen: ObservationDetailView },
   PreferencesView: { screen: PreferencesView },
   TabBarNavigation: { screen: TabBarNavigation }
