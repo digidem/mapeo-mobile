@@ -11,6 +11,7 @@
     "benchmark": "./run-benchmark.sh"
   },
   "dependencies": {
+    "@mapbox/geo-viewport": "^0.2.2",
     "@mapbox/react-native-mapbox-gl": "^6.0.2-rc1",
     "immutability-helper": "^2.6.4",
     "moment": "^2.20.1",

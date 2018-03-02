@@ -1,18 +1,25 @@
 // @flow
 import React from 'react';
-import { Image, StyleSheet, View, TouchableHighlight } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  View,
+  TouchableHighlight,
+  Dimensions,
+  Text
+} from 'react-native';
 import env from '@src/../env.json';
-import { NavigationActions } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import geoViewport from '@mapbox/geo-viewport';
 import type { Observation } from '@types/observation';
 import { isEmpty, size } from 'lodash';
 
 import CircleImg from '../../../images/circle-64.png';
 
 type State = {
-  response: string,
   hasMapToken: boolean,
-  geojson: ?string
+  offlineRegion: any,
+  offlineRegionStatus: any
 };
 
 export type StateProps = {
@@ -29,10 +36,6 @@ export type DispatchProps = {
   goToPosition: () => void
 };
 
-type Props = {
-  navigation: NavigationActions
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -42,9 +45,11 @@ const styles = StyleSheet.create({
   },
 
   mapPlaceholder: {
-    backgroundColor: '#AAFFAA',
-    alignSelf: 'stretch',
-    height: 300
+    backgroundColor: '#000',
+    color: '#FFF',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
   map: {
@@ -77,31 +82,88 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapboxStyles = MapboxGL.StyleSheet.create({
-  point: {
-    circleColor: 'red'
-  }
-});
+// const mapboxStyles = MapboxGL.StyleSheet.create({
+//   point: {
+//     circleColor: 'red'
+//   }
+// });
 
-class MapView extends React.PureComponent<
-  Props & StateProps & DispatchProps,
-  State
-> {
+const CENTER_COORD = [23.466667, 4.566667];
+const MAPBOX_VECTOR_TILE_SIZE = 512;
+
+class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
   state = {
-    response: '',
     hasMapToken: true,
-    geojson: null
+    offlineRegion: null,
+    offlineRegionStatus: null
   };
 
   async componentDidMount() {
     const { observations, listObservations } = this.props;
     MapboxGL.setAccessToken(env.accessToken);
     await MapboxGL.requestAndroidLocationPermissions();
+    await MapboxGL.offlineManager.getPack('Sinangoe');
 
     if (!observations || isEmpty(observations)) {
       listObservations();
     }
   }
+
+  async onDidFinishLoadingStyle() {
+    const { width, height } = Dimensions.get('window');
+    const bounds = geoViewport.bounds(
+      CENTER_COORD,
+      12,
+      [width, height],
+      MAPBOX_VECTOR_TILE_SIZE
+    );
+
+    const options = {
+      name: 'Sinangoe',
+      styleURL: MapboxGL.StyleURL.Street,
+      bounds: [[bounds[0], bounds[1]], [bounds[2], bounds[3]]],
+      minZoom: 2,
+      maxZoom: 24
+    };
+
+    // start download
+    console.log('RN - start download');
+    await MapboxGL.offlineManager.createPack(
+      options,
+      this.onDownloadProgress,
+      this.onError
+    );
+  }
+
+  onDownloadProgress = (offlineRegion, offlineRegionStatus) => {
+    console.log('RN - ', offlineRegionStatus, offlineRegionStatus.percentage);
+    this.setState({
+      offlineRegion,
+      offlineRegionStatus
+    });
+  };
+
+  onError = err => {
+    console.log('RN - ', err);
+  };
+
+  getRegionDownloadState = (downloadState: string) => {
+    switch (downloadState) {
+      case MapboxGL.OfflinePackDownloadState.Active:
+        return 'Active';
+      case MapboxGL.OfflinePackDownloadState.Complete:
+        return 'Complete';
+      default:
+        return 'Inactive';
+    }
+  };
+
+  formatPercent = () => {
+    if (!this.state.offlineRegionStatus) {
+      return '0%';
+    }
+    return Math.round(this.state.offlineRegionStatus.percentage / 10) / 10;
+  };
 
   handleCreateObservation = () => {
     const {
@@ -136,27 +198,37 @@ class MapView extends React.PureComponent<
           lat: Math.round(latitude),
           lon: Math.round(longitude)
         });
-
-        console.log('RN - observation updated');
       },
       error => console.warn(error)
     );
   };
 
   render() {
-    const { hasMapToken, geojson } = this.state;
+    const { hasMapToken, offlineRegionStatus } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
+        <Text style={{ fontSize: 20, color: '#FFF' }}>
+          Download Percent: {this.formatPercent()}
+        </Text>
         {hasMapToken && (
           <MapboxGL.MapView
             style={styles.map}
             styleURL="mapbox://styles/mapbox/light-v9"
-            showUserLocation
-            zoomLevel={16}
+            centerCoordinate={CENTER_COORD}
+            onDidFinishLoadingMap={this.onDidFinishLoadingStyle}
+            zoomLevel={8}
+            maxZoom={24}
+            minZoom={2}
           />
         )}
-        {!hasMapToken && <View style={styles.mapPlaceholder} />}
+        {(!hasMapToken || offlineRegionStatus !== null) && (
+          <View style={styles.mapPlaceholder}>
+            <Text style={{ fontSize: 20, color: '#FFF' }}>
+              Download Percent: {this.formatPercent()}
+            </Text>
+          </View>
+        )}
         <View
           style={{
             height: 100,
