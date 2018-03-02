@@ -19,7 +19,8 @@ import CircleImg from '../../../images/circle-64.png';
 type State = {
   hasMapToken: boolean,
   offlineRegion: any,
-  offlineRegionStatus: any
+  offlineRegionStatus: any,
+  map: any
 };
 
 export type StateProps = {
@@ -94,6 +95,7 @@ const MAPBOX_VECTOR_TILE_SIZE = 512;
 class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
   state = {
     hasMapToken: true,
+    map: null,
     offlineRegion: null,
     offlineRegionStatus: null
   };
@@ -102,7 +104,10 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
     const { observations, listObservations } = this.props;
     MapboxGL.setAccessToken(env.accessToken);
     await MapboxGL.requestAndroidLocationPermissions();
-    await MapboxGL.offlineManager.getPack('Sinangoe');
+    const map = await MapboxGL.offlineManager.getPack('Sinangoe');
+    this.setState({
+      map
+    });
 
     if (!observations || isEmpty(observations)) {
       listObservations();
@@ -128,11 +133,14 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
 
     // start download
     console.log('RN - start download');
-    await MapboxGL.offlineManager.createPack(
-      options,
-      this.onDownloadProgress,
-      this.onError
-    );
+    if (!this.state.map) {
+      const map = await MapboxGL.offlineManager.createPack(
+        options,
+        this.onDownloadProgress,
+        this.onError
+      );
+      this.setState({ map });
+    }
   }
 
   onDownloadProgress = (offlineRegion, offlineRegionStatus) => {
