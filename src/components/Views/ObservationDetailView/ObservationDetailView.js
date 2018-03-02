@@ -20,10 +20,6 @@ import LeftChevron from 'react-native-vector-icons/Entypo';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-type State = {
-  showStillHappening: boolean
-};
-
 export type StateProps = {
   selectedObservation?: Observation
 };
@@ -33,7 +29,7 @@ export type DispatchProps = {
   addObservation: (o: Observation) => void
 };
 
-type Props = {
+export type Props = {
   navigation: NavigationActions
 };
 
@@ -189,10 +185,8 @@ const styles = StyleSheet.create({
 });
 
 class ObservationDetailView extends React.PureComponent<
-  Props & StateProps & DispatchProps,
-  State
+  Props & StateProps & DispatchProps
 > {
-  state = { showStillHappening: true };
 
   isReviewMode() {
     const { navigation } = this.props;
@@ -203,12 +197,6 @@ class ObservationDetailView extends React.PureComponent<
       navigation.state.params.review
     );
   }
-
-  dismissStillHappening = () => {
-    if (this.state.showStillHappening) {
-      this.setState({ showStillHappening: false });
-    }
-  };
 
   saveObservation = () => {
     const { selectedObservation, addObservation, goToTabNav } = this.props;
@@ -339,17 +327,6 @@ class ObservationDetailView extends React.PureComponent<
             </View>
           </View>
           {reviewMode && <View style={{ height: 75 }} />}
-          {!reviewMode && this.state.showStillHappening ? (
-            <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-              <Text style={styles.stillHappening}>
-                Is this still happening here?
-              </Text>
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                <Button onPress={this.dismissStillHappening} title="Yes" />
-                <Button onPress={this.dismissStillHappening} title="No" />
-              </View>
-            </View>
-          ) : null}
         </ScrollView>
         {reviewMode && (
           <View style={styles.bottomButtonContainer}>
