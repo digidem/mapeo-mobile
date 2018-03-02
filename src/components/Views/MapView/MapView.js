@@ -24,6 +24,7 @@ export type StateProps = {
 export type DispatchProps = {
   listObservations: () => void,
   createObservation: (observation: Observation) => void,
+  updateObservation: (observation: Observation) => void,
   resetNavigation: () => void,
   goToPosition: () => void
 };
@@ -94,8 +95,8 @@ class MapView extends React.PureComponent<
 
   async componentDidMount() {
     const { observations, listObservations } = this.props;
-    await MapboxGL.requestAndroidLocationPermissions();
     MapboxGL.setAccessToken(env.accessToken);
+    await MapboxGL.requestAndroidLocationPermissions();
 
     if (!observations || isEmpty(observations)) {
       listObservations();
@@ -107,27 +108,36 @@ class MapView extends React.PureComponent<
       createObservation,
       observations,
       resetNavigation,
+      updateObservation,
       goToPosition
     } = this.props;
+    const initialObservation = {
+      type: 'Rios y corrientes',
+      id: size(observations) + 1,
+      lat: 0,
+      lon: 0,
+      link: 'link',
+      created: new Date(),
+      name: '',
+      notes: '',
+      observedBy: 'user',
+      media: []
+    };
 
     resetNavigation();
     goToPosition();
+
+    createObservation(initialObservation);
     navigator.geolocation.getCurrentPosition(
       position => {
         const { latitude, longitude } = position.coords;
-
-        createObservation({
-          type: 'Rios y corrientes',
-          id: size(observations) + 1,
+        updateObservation({
+          ...initialObservation,
           lat: Math.round(latitude),
-          lon: Math.round(longitude),
-          link: 'link',
-          created: new Date(),
-          name: '',
-          notes: '',
-          observedBy: 'user',
-          media: []
+          lon: Math.round(longitude)
         });
+
+        console.log('RN - observation updated');
       },
       error => console.warn(error)
     );

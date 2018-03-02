@@ -1,6 +1,10 @@
 // @flow
 import { connect } from 'react-redux';
-import { observationList, observationCreate } from '@ducks/observations';
+import {
+  observationList,
+  observationCreate,
+  observationUpdate
+} from '@ducks/observations';
 import { NavigationActions } from 'react-navigation';
 import type { Dispatch } from 'redux';
 import { StoreState } from '@types/redux';
@@ -22,7 +26,8 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     createObservation: observation => dispatch(observationCreate(observation)),
     resetNavigation: () => dispatch(resetAction),
     goToPosition: () =>
-      dispatch(NavigationActions.navigate({ routeName: 'Position' }))
+      dispatch(NavigationActions.navigate({ routeName: 'Position' })),
+    updateObservation: observation => dispatch(observationUpdate(observation))
   };
 }
 
