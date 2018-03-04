@@ -105,7 +105,7 @@ const MyObservationsView = (props: StateProps & Props & DispatchProps) => {
     <View style={{ flexDirection: 'row', flex: 1, backgroundColor: WHITE }}>
       <View style={{ flexDirection: 'row' }}>
         <TouchableHighlight
-          onPress={props.closeRightDrawer}
+          onPress={() => { props.navigation.navigate('MapView') }}
           style={styles.closeDrawerButton}
         >
           <LeftChevron

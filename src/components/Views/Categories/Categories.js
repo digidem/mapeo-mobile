@@ -102,7 +102,7 @@ class Categories extends React.PureComponent<
     return (
       <TouchableHighlight
         style={{ flexDirection: 'row' }}
-        onPress={() => navigation.goBack()}
+        onPress={() => navigation.navigate('Position')}
       >
         <View style={styles.header}>
           <Icon style={styles.close} color="gray" name="close" size={25} />

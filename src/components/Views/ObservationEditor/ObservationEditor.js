@@ -166,7 +166,7 @@ class ObservationEditor extends React.PureComponent<
       <View style={styles.header}>
         <TouchableHighlight
           style={styles.close}
-          onPress={() => navigation.goBack()}
+          onPress={() => navigation.navigate('Categories')}
         >
           <Icon color="gray" name="close" size={25} />
         </TouchableHighlight>
