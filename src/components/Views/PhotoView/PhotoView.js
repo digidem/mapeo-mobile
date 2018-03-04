@@ -2,7 +2,6 @@
 import React from 'react';
 import {
   Dimensions,
-  ScrollView,
   StyleSheet,
   Image,
   Text,
@@ -10,12 +9,8 @@ import {
   View
 } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
-import {
-  CHARCOAL,
-  MAGENTA,
-  WHITE
-} from '@lib/styles';
-import type { Observation } from '@types/observation';
+import { CHARCOAL, MAGENTA, WHITE } from '../../../lib/styles';
+import type { Observation } from '../../../types/observation';
 
 export type Props = {
   navigation: NavigationActions
@@ -54,11 +49,7 @@ class PhotoView extends React.PureComponent<
   Props & StateProps & DispatchProps
 > {
   handleDeletePhoto = () => {
-    const {
-      navigation,
-      updateObservation,
-      selectedObservation,
-    } = this.props;
+    const { navigation, updateObservation, selectedObservation } = this.props;
 
     if (selectedObservation) {
       updateObservation({
@@ -71,12 +62,12 @@ class PhotoView extends React.PureComponent<
 
   render() {
     const { navigation, selectedObservation } = this.props;
-    const hasPhoto = 
-      selectedObservation && 
+    const hasPhoto =
+      selectedObservation &&
       selectedObservation.media &&
       selectedObservation.media.length >= 1;
 
-    return(
+    return (
       <View style={{ flex: 1 }}>
         <View
           style={{

@@ -1,13 +1,14 @@
 // @flow
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
+import type { Dispatch } from 'redux';
 import {
   observationList,
   observationCreate,
   observationUpdate
-} from '@ducks/observations';
-import { NavigationActions } from 'react-navigation';
-import type { Dispatch } from 'redux';
-import { StoreState } from '@types/redux';
+} from '../../../ducks/observations';
+
+import { StoreState } from '../../../types/redux';
 import MapView from './MapView';
 import type { DispatchProps, StateProps } from './MapView';
 

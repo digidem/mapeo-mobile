@@ -1,9 +1,9 @@
 // @flow
-import { CATEGORY_LIST, categoryList } from '@ducks/categories';
-import { createCategory } from '@mocks/categories';
-import type { Action } from '@types/redux';
-import type { Category } from '@types/category';
 import type { ActionsObservable } from 'redux-observable';
+import { CATEGORY_LIST, categoryList } from '../ducks/categories';
+import { createCategory } from '../mocks/categories';
+import type { Action } from '../types/redux';
+import type { Category } from '../types/category';
 
 const initialCategories = [
   { name: 'Rios y corrientes' },

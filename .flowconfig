@@ -29,7 +29,7 @@ module.system=haste
 
 munge_underscores=true
 
-module.name_mapper='^@src' ->'<PROJECT_ROOT>/src'
+module.name_mapper='^@source' ->'<PROJECT_ROOT>/src'
 module.name_mapper='^@ducks' ->'<PROJECT_ROOT>/src/ducks'
 module.name_mapper='^@mocks' ->'<PROJECT_ROOT>/src/mocks'
 module.name_mapper='^@epics' ->'<PROJECT_ROOT>/src/epics'

@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import type { Category } from '@types/category';
-import { DARK_GREY, LIGHT_GREY, CHARCOAL, WHITE } from '@lib/styles';
+import type { Category } from '../../../types/category';
+import { DARK_GREY, LIGHT_GREY, CHARCOAL, WHITE } from '../../../lib/styles';
 
 type Props = {
   navigation: NavigationActions

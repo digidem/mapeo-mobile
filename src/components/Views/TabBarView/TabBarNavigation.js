@@ -1,10 +1,8 @@
 // @flow
 import React from 'react';
 import { addNavigationHelpers } from 'react-navigation';
-import { StyleSheet, TouchableHighlight, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
-import MyObservationsView from '@src/components/Views/MyObservationsView';
-import { WHITE } from '@lib/styles';
 
 import TabBar from './TabBar';
 

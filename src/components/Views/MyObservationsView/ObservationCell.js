@@ -6,10 +6,11 @@ import {
   Text,
   TouchableHighlight,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  Image
 } from 'react-native';
-import type { Observation } from '@types/observation';
-import { LIGHT_GREY } from '@lib/styles';
+import type { Observation } from '../../../types/observation';
+import { LIGHT_GREY } from '../../../lib/styles';
 
 type Props = {
   observation: Observation,
@@ -97,7 +98,13 @@ const ObservationCell = (props: Props) => {
           <Text style={styles.title}>{props.observation.name}</Text>
           <Text>{dateString}</Text>
         </View>
-        <View style={styles.media} />
+        {props.observation &&
+          !!props.observation.media.length && (
+            <Image
+              source={{ uri: props.observation.media[0].source }}
+              style={styles.media}
+            />
+          )}
       </View>
     </TouchableHighlight>
   );

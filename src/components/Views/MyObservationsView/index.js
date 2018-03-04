@@ -1,10 +1,11 @@
 // @flow
 import { connect } from 'react-redux';
-import { StoreState } from '@types/redux';
 import { NavigationActions } from 'react-navigation';
 import { values } from 'lodash';
 import type { Dispatch } from 'redux';
-import { observationSelect } from '@ducks/observations';
+import { StoreState } from '../../../types/redux';
+
+import { observationSelect } from '../../../ducks/observations';
 import MyObservationsView from './MyObservationsView';
 import type { StateProps, DispatchProps } from './MyObservationsView';
 

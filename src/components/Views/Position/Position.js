@@ -13,16 +13,10 @@ import {
 import { NavigationActions, withNavigation } from 'react-navigation';
 import CloseIcon from 'react-native-vector-icons/MaterialIcons';
 import ArrowIcon from 'react-native-vector-icons/Feather';
-import {
-  DARK_GREY,
-  CHARCOAL,
-  LIGHT_GREY,
-  MANGO,
-  WHITE
-} from '@lib/styles';
-import type { Observation } from '@types/observation';
-import ConfirmPositionImg from '@src/images/confirm-position.png';
-import PositionImg from '@src/images/position.png';
+import { DARK_GREY, CHARCOAL, LIGHT_GREY, MANGO, WHITE } from '@lib/styles';
+import type { Observation } from '../../../types/observation';
+import ConfirmPositionImg from '../../../images/confirm-position.png';
+import PositionImg from '../../../images/position.png';
 
 export type Props = {
   navigation: NavigationActions
@@ -222,7 +216,10 @@ class Position extends React.PureComponent<
         </View>
         <View style={styles.map}>
           <Text style={styles.gpsText}>GPS: Fuerte</Text>
-          <Image style={styles.confirmPositionImg} source={ConfirmPositionImg} />
+          <Image
+            style={styles.confirmPositionImg}
+            source={ConfirmPositionImg}
+          />
           <Image style={styles.positionImg} source={PositionImg} />
         </View>
         <View style={styles.details}>

@@ -1,9 +1,8 @@
 // @flow
-import { OBSERVATION_LIST, observationList } from '@ducks/observations';
-import { createObservation } from '@mocks/observations';
-import { Action } from '@types/redux';
-import { Observation } from '@types/observation';
 import type { ActionsObservable } from 'redux-observable';
+import { OBSERVATION_LIST, observationList } from '../ducks/observations';
+import { Action } from '../types/redux';
+import { Observation } from '../types/observation';
 
 export const observationListEpic = (
   action$: ActionsObservable<Action<string, Observation[]>>

@@ -2,12 +2,8 @@
 import React from 'react';
 import { withNavigation } from 'react-navigation';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import {
-  RNCamera,
-  requestPermissions,
-  CameraManager
-} from 'react-native-camera';
-import type { Observation } from '@types/observation';
+import { RNCamera } from 'react-native-camera';
+import type { Observation } from '../../../types/observation';
 
 import CircleImg from '../../../images/circle-64.png';
 
@@ -28,8 +24,7 @@ export type StateProps = {
 
 export type DispatchProps = {
   updateObservation: (o: Observation) => void,
-  goToObservationEditor: () => void,
-  resetNavigation: () => void
+  goToObservationEditor: () => void
 };
 
 class CameraView extends React.PureComponent<StateProps & DispatchProps> {

@@ -3,7 +3,7 @@ import React from 'react';
 import { BackHandler } from 'react-native';
 import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
-import MainStackNavigation from '@src/components/MainNavigation/MainStackNavigation';
+import MainStackNavigation from '../MainNavigation/MainStackNavigation';
 
 interface Props {
   dispatch: any;

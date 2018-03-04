@@ -8,7 +8,7 @@
         "root": ["./src"],
         "extensions": [".js", ".ios.js", ".android.js"],
         "alias": {
-          "@src": "./src",
+          "@source": "./src",
           "@ducks": "./src/ducks",
           "@epics": "./src/epics",
           "@components": "./src/components",

@@ -11,8 +11,8 @@ import {
   Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import type { Category } from '@types/category';
-import type { Observation } from '@types/observation';
+import type { Category } from '../../../types/category';
+import type { Observation } from '../../../types/observation';
 import {
   DARK_GREY,
   LIGHT_GREY,
@@ -20,8 +20,8 @@ import {
   WHITE,
   MANGO,
   VERY_LIGHT_GREEN
-} from '@lib/styles';
-import PositionImg from '@src/images/position.png'
+} from '../../../lib/styles';
+import PositionImg from '../../../images/position.png';
 
 export type Props = {
   navigation: NavigationActions

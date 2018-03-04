@@ -1,10 +1,11 @@
 // @flow
 import React from 'react';
 import { TabNavigator, TabBarTop } from 'react-navigation';
-import MapView from '@src/components/Views/MapView';
-import MyObservationsView from '@src/components/Views/MyObservationsView';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { DARK_GREY, MAPEO_BLUE, WHITE } from '@lib/styles';
+import MapView from '../../Views/MapView';
+import MyObservationsView from '../../Views/MyObservationsView';
+
+import { DARK_GREY, MAPEO_BLUE, WHITE } from '../../../lib/styles';
 
 const routeConfiguration = {
   MapView: {
@@ -17,8 +18,8 @@ const routeConfiguration = {
           size={30}
           style={{ marginLeft: -3 }}
         />
-      ),
-    },
+      )
+    }
   },
   MyObservationsView: {
     screen: MyObservationsView,
@@ -30,15 +31,18 @@ const routeConfiguration = {
           size={30}
           style={{ marginLeft: -3 }}
         />
-      ),
-    },
-  },
+      )
+    }
+  }
 };
 
 const tabConfiguration = {
   swipeEnabled: false,
   tabBarComponent: props => (
-    <TabBarTop {...props} indicatorStyle={{ borderBottomColor: 'white', borderBottomWidth: 10 }} />
+    <TabBarTop
+      {...props}
+      indicatorStyle={{ borderBottomColor: 'white', borderBottomWidth: 10 }}
+    />
   ),
   tabBarPosition: 'bottom',
   tabBarOptions: {
@@ -50,7 +54,7 @@ const tabConfiguration = {
       backgroundColor: WHITE,
       borderTopWidth: 0
     }
-  },
+  }
 };
 
 const TabBar = TabNavigator(routeConfiguration, tabConfiguration);

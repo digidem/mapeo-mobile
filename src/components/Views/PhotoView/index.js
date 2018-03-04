@@ -1,8 +1,9 @@
 // @flow
 import { connect } from 'react-redux';
-import { observationUpdate } from '@ducks/observations';
 import type { Dispatch } from 'redux';
-import type { StoreState } from '@types/redux';
+import { observationUpdate } from '../../../ducks/observations';
+
+import type { StoreState } from '../../../types/redux';
 import PhotoView from './PhotoView';
 import type { StateProps, DispatchProps } from './PhotoView';
 

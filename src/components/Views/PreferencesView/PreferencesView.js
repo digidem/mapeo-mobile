@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import LeftChevron from 'react-native-vector-icons/Entypo';
-import { LIGHT_GREY, WHITE } from '@lib/styles';
+import { LIGHT_GREY, WHITE } from '../../../lib/styles';
 
 type Props = {
   closeLeftDrawer: Function
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 60,
     borderBottomColor: LIGHT_GREY,
-    borderBottomWidth: 1,
+    borderBottomWidth: 1
   },
   leftChevron: {
     alignSelf: 'center',

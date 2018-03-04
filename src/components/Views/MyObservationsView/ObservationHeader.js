@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { LIGHT_GREY } from '@lib/styles';
+import { LIGHT_GREY } from '../../../lib/styles';
 
 type Props = {
   title: string

@@ -1,7 +1,8 @@
 // @flow
-import { create } from '@src/lib/redux';
+
 import update from 'immutability-helper';
 import { keyBy } from 'lodash';
+import { create } from '../lib/redux';
 
 export const {
   type: CATEGORY_LIST,

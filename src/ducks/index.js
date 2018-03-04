@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import { combineReducers as appCombineReducers } from '@src/lib/redux';
-import MainStackNavigation from '@src/components/MainNavigation/MainStackNavigation';
-import TabBarNavigation from '@src/components/Views/TabBarView';
+import { combineReducers as appCombineReducers } from '../lib/redux';
+import MainStackNavigation from '../components/MainNavigation/MainStackNavigation';
+import TabBarNavigation from '../components/Views/TabBarView';
 
 import categories from './categories';
 import observations from './observations';

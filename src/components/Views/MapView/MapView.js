@@ -8,11 +8,11 @@ import {
   Dimensions,
   Text
 } from 'react-native';
-import env from '@src/../env.json';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import geoViewport from '@mapbox/geo-viewport';
 import type { Observation } from '@types/observation';
 import { isEmpty, size } from 'lodash';
+import env from '../../../../env.json';
 
 import CircleImg from '../../../images/circle-64.png';
 

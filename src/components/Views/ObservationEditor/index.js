@@ -1,9 +1,10 @@
 // @flow
 import { connect } from 'react-redux';
-import { StoreState } from '@types/redux';
 import { NavigationActions } from 'react-navigation';
 import type { Dispatch } from 'redux';
-import { observationUpdate } from '@ducks/observations';
+import { StoreState } from '../../../types/redux';
+
+import { observationUpdate } from '../../../ducks/observations';
 import ObservationEditor from './ObservationEditor';
 import type { Props, StateProps, DispatchProps } from './ObservationEditor';
 

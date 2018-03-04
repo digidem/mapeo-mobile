@@ -21,9 +21,9 @@
 import React from 'react';
 import RNNode from 'react-native-node';
 import { Provider } from 'react-redux';
-import { configureStore } from '@lib/store';
-import AppNavigation from '@src/components/AppNavigation';
 import 'rxjs';
+import { configureStore } from './lib/store';
+import AppNavigation from './components/AppNavigation';
 
 export default class App extends React.PureComponent<null, null> {
   componentDidMount() {

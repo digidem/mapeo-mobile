@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import {
-  Button,
   Dimensions,
   Image,
   Text,
@@ -13,12 +12,11 @@ import {
 import moment from 'moment';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
-import type { Observation } from '@types/observation';
-import { CHARCOAL, DARK_GREY, MANGO } from '@lib/styles';
-
 import LeftChevron from 'react-native-vector-icons/Entypo';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import type { Observation } from '../../../types/observation';
+import { CHARCOAL, DARK_GREY, MANGO } from '../../../lib/styles';
 
 export type StateProps = {
   selectedObservation?: Observation
@@ -187,7 +185,6 @@ const styles = StyleSheet.create({
 class ObservationDetailView extends React.PureComponent<
   Props & StateProps & DispatchProps
 > {
-
   isReviewMode() {
     const { navigation } = this.props;
 
@@ -287,31 +284,33 @@ class ObservationDetailView extends React.PureComponent<
               {selectedObservation.notes}
             </Text>
           </View>
-          <View style={reviewMode ? styles.sectionReview : styles.section}>
-            <Text style={styles.sectionText}>0.0 km</Text>
-            <View style={{ height: 240 }}>
-              <MapboxGL.MapView
-                style={styles.mapBox}
-                styleURL={MapboxGL.StyleURL.Street}
-                zoomLevel={15}
-                centerCoordinate={[11.256, 43.77]}
-              />
-              {reviewMode && (
-                <TouchableHighlight
-                  onPress={() => {
-                    navigation.navigate('Position');
-                  }}
-                >
-                  <FontAwesomeIcon
-                    color="lightgray"
-                    name="pencil"
-                    size={20}
-                    style={styles.mapEditIcon}
-                  />
-                </TouchableHighlight>
-              )}
+          {false && (
+            <View style={reviewMode ? styles.sectionReview : styles.section}>
+              <Text style={styles.sectionText}>0.0 km</Text>
+              <View style={{ height: 240 }}>
+                <MapboxGL.MapView
+                  style={styles.mapBox}
+                  styleURL={MapboxGL.StyleURL.Street}
+                  zoomLevel={15}
+                  centerCoordinate={[11.256, 43.77]}
+                />
+                {reviewMode && (
+                  <TouchableHighlight
+                    onPress={() => {
+                      navigation.navigate('Position');
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      color="lightgray"
+                      name="pencil"
+                      size={20}
+                      style={styles.mapEditIcon}
+                    />
+                  </TouchableHighlight>
+                )}
+              </View>
             </View>
-          </View>
+          )}
           <View style={reviewMode ? styles.sectionReview : styles.section}>
             <Text style={styles.sectionText}>Observado por</Text>
             <View style={{ flexDirection: 'row' }}>

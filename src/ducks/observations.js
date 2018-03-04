@@ -1,10 +1,11 @@
 // @flow
-import { create } from '@src/lib/redux';
+
 import update from 'immutability-helper';
 import { keyBy } from 'lodash';
-import { createSelector } from '@src/lib/selector';
-import type { StoreState } from '@types/redux';
-import type { Observation } from '@types/observation';
+import { create } from '../lib/redux';
+import { createSelector } from '../lib/selector';
+import type { StoreState } from '../types/redux';
+import type { Observation } from '../types/observation';
 
 export const {
   type: OBSERVATION_LIST,

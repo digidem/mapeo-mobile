@@ -11,9 +11,10 @@ import {
 } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import LeftChevron from 'react-native-vector-icons/Entypo';
-import type { Observation } from '@types/observation';
 import { map } from 'lodash';
-import { LIGHT_GREY, WHITE } from '@lib/styles';
+import type { Observation } from '../../../types/observation';
+
+import { LIGHT_GREY, WHITE } from '../../../lib/styles';
 import ObservationCell from './ObservationCell';
 import ObservationHeader from './ObservationHeader';
 
@@ -105,7 +106,9 @@ const MyObservationsView = (props: StateProps & Props & DispatchProps) => {
     <View style={{ flexDirection: 'row', flex: 1, backgroundColor: WHITE }}>
       <View style={{ flexDirection: 'row' }}>
         <TouchableHighlight
-          onPress={() => { props.navigation.navigate('MapView') }}
+          onPress={() => {
+            props.navigation.navigate('MapView');
+          }}
           style={styles.closeDrawerButton}
         >
           <LeftChevron
