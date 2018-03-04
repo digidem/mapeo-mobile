@@ -1,6 +1,8 @@
 // @flow
 import React from 'react';
 import {
+  Dimensions,
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -16,10 +18,11 @@ import {
   CHARCOAL,
   LIGHT_GREY,
   MANGO,
-  VERY_LIGHT_GREEN,
   WHITE
 } from '@lib/styles';
 import type { Observation } from '@types/observation';
+import ConfirmPositionImg from '@src/images/confirm-position.png';
+import PositionImg from '@src/images/position.png';
 
 export type Props = {
   navigation: NavigationActions
@@ -49,6 +52,13 @@ const styles = StyleSheet.create({
     color: WHITE,
     padding: 20,
     flex: 1
+  },
+  confirmPositionImg: {
+    flex: 1,
+    alignSelf: 'stretch',
+    position: 'absolute',
+    height: 200,
+    width: Dimensions.get('window').width
   },
   container: {
     flex: 1,
@@ -81,11 +91,11 @@ const styles = StyleSheet.create({
     color: 'white',
     marginTop: 15,
     width: 150,
-    alignSelf: 'center',
     textAlign: 'center',
     paddingVertical: 10,
     borderRadius: 20,
-    fontWeight: '700'
+    fontWeight: '700',
+    zIndex: 5
   },
   header: {
     flexDirection: 'row',
@@ -93,8 +103,15 @@ const styles = StyleSheet.create({
     paddingTop: 15
   },
   map: {
-    backgroundColor: VERY_LIGHT_GREEN,
-    height: 200
+    backgroundColor: 'transparent',
+    height: 200,
+    alignItems: 'center'
+  },
+  positionImg: {
+    zIndex: 5,
+    width: 40,
+    height: 47,
+    marginTop: 20
   },
   textInput: {
     backgroundColor: CHARCOAL,
@@ -205,6 +222,8 @@ class Position extends React.PureComponent<
         </View>
         <View style={styles.map}>
           <Text style={styles.gpsText}>GPS: Fuerte</Text>
+          <Image style={styles.confirmPositionImg} source={ConfirmPositionImg} />
+          <Image style={styles.positionImg} source={PositionImg} />
         </View>
         <View style={styles.details}>
           <Text style={styles.detailLabel}>Tu posicíon</Text>
@@ -219,6 +238,8 @@ class Position extends React.PureComponent<
           </Text>
           <TextInput
             value={distanceText}
+            placeholder="Por ejemplo: 20 metros"
+            placeholderTextColor={DARK_GREY}
             onChangeText={this.handleDistanceTextInputChange}
             underlineColorAndroid={CHARCOAL}
             style={styles.textInput}

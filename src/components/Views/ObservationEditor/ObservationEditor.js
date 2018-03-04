@@ -13,7 +13,15 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Category } from '@types/category';
 import type { Observation } from '@types/observation';
-import { DARK_GREY, LIGHT_GREY, CHARCOAL, WHITE, MANGO } from '@lib/styles';
+import {
+  DARK_GREY,
+  LIGHT_GREY,
+  CHARCOAL,
+  WHITE,
+  MANGO,
+  VERY_LIGHT_GREEN
+} from '@lib/styles';
+import PositionImg from '@src/images/position.png'
 
 export type Props = {
   navigation: NavigationActions
@@ -71,7 +79,13 @@ const styles = StyleSheet.create({
   map: {
     height: 80,
     width: 80,
-    backgroundColor: MANGO
+    backgroundColor: VERY_LIGHT_GREEN,
+    justifyContent: 'center'
+  },
+  positionImg: {
+    width: 40,
+    height: 47,
+    alignSelf: 'center'
   },
   categoryContainer: {
     flex: 1,
@@ -196,7 +210,9 @@ class ObservationEditor extends React.PureComponent<
         {this.renderHeader()}
         <View style={{ flex: 1 }}>
           <View style={styles.categoryRow}>
-            <View style={styles.map} />
+            <View style={styles.map}>
+              <Image style={styles.positionImg} source={PositionImg} />
+            </View>
             <View style={styles.categoryContainer}>
               <Text style={styles.categoryName}>
                 {selectedObservation.type}
