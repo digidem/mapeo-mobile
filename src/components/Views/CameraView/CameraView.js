@@ -24,7 +24,8 @@ export type StateProps = {
 
 export type DispatchProps = {
   updateObservation: (o: Observation) => void,
-  goToObservationEditor: () => void
+  goToObservationEditor: () => void,
+  resetNavigation: () => void
 };
 
 class CameraView extends React.PureComponent<StateProps & DispatchProps> {
@@ -34,7 +35,8 @@ class CameraView extends React.PureComponent<StateProps & DispatchProps> {
     const {
       updateObservation,
       selectedObservation,
-      goToObservationEditor
+      goToObservationEditor,
+      resetNavigation
     } = this.props;
     if (this.camera) {
       const options = { quality: 0.5, base64: true, exif: true };
@@ -51,7 +53,7 @@ class CameraView extends React.PureComponent<StateProps & DispatchProps> {
               }
             ])
           });
-          // resetNavigation();
+          resetNavigation();
           goToObservationEditor();
         }
       } catch (error) {

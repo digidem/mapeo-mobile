@@ -20,7 +20,7 @@ import {
   MANGO,
   WHITE,
   MEDIUM_GREY
-} from '@lib/styles';
+} from '../../../lib/styles';
 import type { Observation } from '../../../types/observation';
 import ConfirmPositionImg from '../../../images/confirm-position.png';
 import PositionImg from '../../../images/position.png';

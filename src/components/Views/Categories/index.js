@@ -1,9 +1,9 @@
 // @flow
 import { connect } from 'react-redux';
-import { StoreState } from '@types/redux';
 import type { Dispatch } from 'redux';
 import { values } from 'lodash';
-import { categoryList } from '@ducks/categories';
+import { StoreState } from '../../../types/redux';
+import { categoryList } from '../../../ducks/categories';
 import Categories from './Categories';
 import type { StateProps } from './Categories';
 
