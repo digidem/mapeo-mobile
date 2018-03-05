@@ -19,7 +19,8 @@ import {
   CHARCOAL,
   WHITE,
   MANGO,
-  VERY_LIGHT_GREEN
+  VERY_LIGHT_GREEN,
+  MEDIUM_GREY
 } from '../../../lib/styles';
 import PositionImg from '../../../images/position.png';
 
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
   },
   cameraText: {
     fontSize: 15,
-    color: DARK_GREY,
+    color: MEDIUM_GREY,
     fontWeight: '600'
   },
   mediaList: {
@@ -224,7 +225,7 @@ class ObservationEditor extends React.PureComponent<
             value={text}
             onChangeText={this.handleTextInputChange}
             placeholder="?Qué está pasando aquí"
-            placeholderTextColor={DARK_GREY}
+            placeholderTextColor={MEDIUM_GREY}
             underlineColorAndroid={DARK_GREY}
             onBlur={this.handleTextInputBlur}
             multiline

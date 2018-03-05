@@ -13,7 +13,14 @@ import {
 import { NavigationActions, withNavigation } from 'react-navigation';
 import CloseIcon from 'react-native-vector-icons/MaterialIcons';
 import ArrowIcon from 'react-native-vector-icons/Feather';
-import { DARK_GREY, CHARCOAL, LIGHT_GREY, MANGO, WHITE } from '@lib/styles';
+import {
+  DARK_GREY,
+  CHARCOAL,
+  LIGHT_GREY,
+  MANGO,
+  WHITE,
+  MEDIUM_GREY
+} from '@lib/styles';
 import type { Observation } from '../../../types/observation';
 import ConfirmPositionImg from '../../../images/confirm-position.png';
 import PositionImg from '../../../images/position.png';
@@ -226,6 +233,7 @@ class Position extends React.PureComponent<
           <Text style={styles.detailLabel}>Tu posicíon</Text>
           <TextInput
             value={positionText}
+            placeholderTextColor={MEDIUM_GREY}
             onChangeText={this.handlePositionTextInputChange}
             underlineColorAndroid={CHARCOAL}
             style={styles.textInput}
@@ -236,7 +244,7 @@ class Position extends React.PureComponent<
           <TextInput
             value={distanceText}
             placeholder="Por ejemplo: 20 metros"
-            placeholderTextColor={DARK_GREY}
+            placeholderTextColor={MEDIUM_GREY}
             onChangeText={this.handleDistanceTextInputChange}
             underlineColorAndroid={CHARCOAL}
             style={styles.textInput}
