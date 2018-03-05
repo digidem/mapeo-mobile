@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     backgroundColor: LIGHT_GREY,
-    borderRadius: 50
+    borderRadius: 50,
+    alignItems: 'center'
   },
   cellContainer: {
     flex: 1,
@@ -123,7 +124,7 @@ class Categories extends React.PureComponent<
     >
       <View style={styles.cell}>
         <View style={styles.circle}>
-          <View style={styles.innerCircle} />
+          <View style={styles.innerCircle}>{item.icon}</View>
         </View>
         <Text style={styles.categoryName}>{item.name}</Text>
       </View>
