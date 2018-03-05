@@ -16,6 +16,8 @@ import env from '../../../../env.json';
 
 import CircleImg from '../../../images/circle-64.png';
 
+const styleURL = 'http://localhost:9080/style.json',
+
 type State = {
   hasMapToken: boolean,
   offlineRegion: any,
@@ -125,7 +127,7 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
 
     const options = {
       name: 'Sinangoe',
-      styleURL: MapboxGL.StyleURL.Street,
+      styleURL: styleURL,
       bounds: [[bounds[0], bounds[1]], [bounds[2], bounds[3]]],
       minZoom: 2,
       maxZoom: 24
@@ -222,7 +224,7 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
         {hasMapToken && (
           <MapboxGL.MapView
             style={styles.map}
-            styleURL="mapbox://styles/mapbox/light-v9"
+            styleURL=styleURL,
             centerCoordinate={CENTER_COORD}
             onDidFinishLoadingMap={this.onDidFinishLoadingStyle}
             zoomLevel={8}
