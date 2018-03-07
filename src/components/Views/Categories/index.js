@@ -4,6 +4,7 @@ import type { Dispatch } from 'redux';
 import { values } from 'lodash';
 import { StoreState } from '../../../types/redux';
 import { categoryList } from '../../../ducks/categories';
+import { observationUpdate } from '../../../ducks/observations';
 import Categories from './Categories';
 import type { StateProps } from './Categories';
 
@@ -12,11 +13,17 @@ function mapStateToProps(state: StoreState): StateProps {
     (a, b) => a.name - b.name
   );
 
-  return { categories };
+  return {
+    categories,
+    selectedObservation: state.app.selectedObservation
+  };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return { listCategories: () => dispatch(categoryList('')) };
+  return {
+    updateObservation: observation => dispatch(observationUpdate(observation)),
+    listCategories: () => dispatch(categoryList(''))
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);

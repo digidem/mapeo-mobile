@@ -104,21 +104,6 @@ const MyObservationsView = (props: StateProps & Props & DispatchProps) => {
 
   return (
     <View style={{ flexDirection: 'row', flex: 1, backgroundColor: WHITE }}>
-      <View style={{ flexDirection: 'row' }}>
-        <TouchableHighlight
-          onPress={() => {
-            props.navigation.navigate('MapView');
-          }}
-          style={styles.closeDrawerButton}
-        >
-          <LeftChevron
-            color="white"
-            name="chevron-left"
-            size={30}
-            style={styles.leftChevron}
-          />
-        </TouchableHighlight>
-      </View>
       <View style={styles.container}>
         <Text style={styles.header}>My Observations</Text>
         <SectionList

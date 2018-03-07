@@ -92,7 +92,7 @@ const ObservationCell = (props: Props) => {
     <TouchableHighlight onPress={handlePress}>
       <View style={styles.container}>
         <View style={styles.circle}>
-          <View style={styles.innerCircle} />
+          <View style={styles.innerCircle}>{props.observation.icon}</View>
         </View>
         <View style={styles.text}>
           <Text style={styles.title}>{props.observation.name}</Text>

@@ -113,14 +113,25 @@ class Categories extends React.PureComponent<
     );
   };
 
+  handleUpdateObservation = (item) => {
+    const {
+      updateObservation,
+      selectedObservation
+    } = this.props;
+
+    updateObservation({
+      ...selectedObservation,
+      icon: item.icon
+    });
+    this.props.navigation.navigate('ObservationEditor', {
+      category: item.id
+    });
+  };
+
   renderItem = ({ item }) => (
     <TouchableHighlight
       style={styles.cellContainer}
-      onPress={() =>
-        this.props.navigation.navigate('ObservationEditor', {
-          category: item.id
-        })
-      }
+      onPress={() => this.handleUpdateObservation(item)}
     >
       <View style={styles.cell}>
         <View style={styles.circle}>
