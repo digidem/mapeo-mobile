@@ -1,29 +1,14 @@
 // @flow
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  View,
-  TouchableHighlight,
-  Dimensions,
-  Text
-} from 'react-native';
+import { Image, StyleSheet, View, TouchableHighlight } from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
-import geoViewport from '@mapbox/geo-viewport';
 import type { Observation } from '@types/observation';
 import { isEmpty, size } from 'lodash';
 import env from '../../../../env.json';
 
 import CircleImg from '../../../images/circle-64.png';
 
-const styleURL = 'http://localhost:9080/style.json',
-
-type State = {
-  hasMapToken: boolean,
-  offlineRegion: any,
-  offlineRegionStatus: any,
-  map: any
-};
+const styleURL = 'http://localhost:9080/style.json';
 
 export type StateProps = {
   observations: {
@@ -37,6 +22,10 @@ export type DispatchProps = {
   updateObservation: (observation: Observation) => void,
   resetNavigation: () => void,
   goToPosition: () => void
+};
+
+type State = {
+  hasMapToken: boolean
 };
 
 const styles = StyleSheet.create({
@@ -92,88 +81,28 @@ const styles = StyleSheet.create({
 // });
 
 const CENTER_COORD = [23.466667, 4.566667];
-const MAPBOX_VECTOR_TILE_SIZE = 512;
 
 class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
   state = {
-    hasMapToken: true,
-    map: null,
-    offlineRegion: null,
-    offlineRegionStatus: null
+    hasMapToken: true
   };
 
   async componentDidMount() {
     const { observations, listObservations } = this.props;
     MapboxGL.setAccessToken(env.accessToken);
     await MapboxGL.requestAndroidLocationPermissions();
-    const map = await MapboxGL.offlineManager.getPack('Sinangoe');
-    this.setState({
-      map
-    });
 
     if (!observations || isEmpty(observations)) {
       listObservations();
     }
+
+    this.check();
   }
 
-  async onDidFinishLoadingStyle() {
-    const { width, height } = Dimensions.get('window');
-    const bounds = geoViewport.bounds(
-      CENTER_COORD,
-      12,
-      [width, height],
-      MAPBOX_VECTOR_TILE_SIZE
-    );
-
-    const options = {
-      name: 'Sinangoe',
-      styleURL: styleURL,
-      bounds: [[bounds[0], bounds[1]], [bounds[2], bounds[3]]],
-      minZoom: 2,
-      maxZoom: 24
-    };
-
-    // start download
-    console.log('RN - start download');
-    if (!this.state.map) {
-      const map = await MapboxGL.offlineManager.createPack(
-        options,
-        this.onDownloadProgress,
-        this.onError
-      );
-      this.setState({ map });
-    }
+  async check() {
+    const resp = await fetch('http://localhost:9080/style.json');
+    console.log(resp, this.state.hasMapToken);
   }
-
-  onDownloadProgress = (offlineRegion, offlineRegionStatus) => {
-    console.log('RN - ', offlineRegionStatus, offlineRegionStatus.percentage);
-    this.setState({
-      offlineRegion,
-      offlineRegionStatus
-    });
-  };
-
-  onError = err => {
-    console.log('RN - ', err);
-  };
-
-  getRegionDownloadState = (downloadState: string) => {
-    switch (downloadState) {
-      case MapboxGL.OfflinePackDownloadState.Active:
-        return 'Active';
-      case MapboxGL.OfflinePackDownloadState.Complete:
-        return 'Complete';
-      default:
-        return 'Inactive';
-    }
-  };
-
-  formatPercent = () => {
-    if (!this.state.offlineRegionStatus) {
-      return '0%';
-    }
-    return Math.round(this.state.offlineRegionStatus.percentage / 10) / 10;
-  };
 
   handleCreateObservation = () => {
     const {
@@ -214,30 +143,19 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
   };
 
   render() {
-    const { hasMapToken, offlineRegionStatus } = this.state;
+    const { hasMapToken } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
-        <Text style={{ fontSize: 20, color: '#FFF' }}>
-          Download Percent: {this.formatPercent()}
-        </Text>
         {hasMapToken && (
           <MapboxGL.MapView
             style={styles.map}
-            styleURL=styleURL,
+            styleURL={styleURL}
             centerCoordinate={CENTER_COORD}
-            onDidFinishLoadingMap={this.onDidFinishLoadingStyle}
             zoomLevel={8}
             maxZoom={24}
             minZoom={2}
           />
-        )}
-        {(!hasMapToken || offlineRegionStatus !== null) && (
-          <View style={styles.mapPlaceholder}>
-            <Text style={{ fontSize: 20, color: '#FFF' }}>
-              Download Percent: {this.formatPercent()}
-            </Text>
-          </View>
         )}
         <View
           style={{

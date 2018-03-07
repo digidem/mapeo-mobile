@@ -23,27 +23,27 @@ const level = require('level');
 const fdstore = require('fd-chunk-store');
 const osmdb = require('osm-p2p-db');
 const osmrouter = require('osm-p2p-server');
-const styleServer = require('./serve_styles.js')
+const styleServer = require('./serve_styles.js');
 const getGeoJSON = require('osm-p2p-geojson');
 const mkdirp = require('mkdirp');
 const path = require('path');
 const os = require('os');
 
 const osmdbPath = path.resolve(os.homedir(), 'osm-p2p');
-const stylePath = path.resolve(os.homedir(), 'mapeo', 'style')
+const stylePath = path.resolve(os.homedir(), 'rnnodeapp', 'mapeo');
 
 mkdirp.sync(stylePath);
 mkdirp.sync(osmdbPath);
 
 const db = {
-  log: level(`${osmdbPath  }/log`),
-  index: level(`${osmdbPath  }/index`)
+  log: level(`${osmdbPath}/log`),
+  index: level(`${osmdbPath}/index`)
 };
 
 const osm = osmdb({
   log: hyperlog(db.log, { valueEncoding: 'json' }),
   db: db.index,
-  store: fdstore(4096, `${osmdbPath  }/kdb`)
+  store: fdstore(4096, `${osmdbPath}/kdb`)
 });
 
 const router = osmrouter(osm);
@@ -100,7 +100,7 @@ http
       return;
     }
 
-    styleRouter(request, response)
+    styleRouter(request, response);
     console.warn('Invalid request:', request.url);
   })
   .listen(9080);
