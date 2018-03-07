@@ -3,14 +3,15 @@
   "version": "0.0.0",
   "main": "index.js",
   "dependencies": {
-    "osm-p2p-db": "4.2.5",
-    "osm-p2p-server": "2.3.5",
-    "osm-p2p-geojson": "3.0.2",
+    "ecstatic": "^3.2.0",
+    "fd-chunk-store": "2.0.0",
     "hyperlog": "4.12.1",
     "level": "1.7.0",
     "leveldown-android-prebuilt": "2.0.3",
-    "noop2": "2.0.0",
     "mkdirp": "0.5.1",
-    "fd-chunk-store": "2.0.0"
+    "noop2": "2.0.0",
+    "osm-p2p-db": "4.2.5",
+    "osm-p2p-geojson": "3.0.2",
+    "osm-p2p-server": "2.3.5"
   }
 }

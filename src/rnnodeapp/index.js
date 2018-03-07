@@ -23,13 +23,16 @@ const level = require('level');
 const fdstore = require('fd-chunk-store');
 const osmdb = require('osm-p2p-db');
 const osmrouter = require('osm-p2p-server');
+const styleServer = require('./serve_styles.js')
 const getGeoJSON = require('osm-p2p-geojson');
 const mkdirp = require('mkdirp');
 const path = require('path');
 const os = require('os');
 
 const osmdbPath = path.resolve(os.homedir(), 'osm-p2p');
+const stylePath = path.resolve(os.homedir(), 'mapeo', 'style')
 
+mkdirp.sync(stylePath);
 mkdirp.sync(osmdbPath);
 
 const db = {
@@ -44,6 +47,7 @@ const osm = osmdb({
 });
 
 const router = osmrouter(osm);
+const styleRouter = styleServer(stylePath);
 
 http
   .createServer((request, response) => {
@@ -96,6 +100,7 @@ http
       return;
     }
 
-    console.warn('Invalid request:', request);
+    styleRouter(request, response)
+    console.warn('Invalid request:', request.url);
   })
   .listen(9080);
