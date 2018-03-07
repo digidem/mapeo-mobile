@@ -19,7 +19,7 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     addObservation: observation => dispatch(observationAdd(observation)),
     goToTabNav: () =>
-      dispatch(NavigationActions.navigate({ routeName: 'TabBarNavigation' }))
+      dispatch(NavigationActions.navigate({ routeName: 'MyObservationsView' }))
   };
 }
 

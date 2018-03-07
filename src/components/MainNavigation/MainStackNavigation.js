@@ -16,7 +16,6 @@ const routeConfiguration = {
   Categories: { screen: Categories },
   Position: { screen: Position },
   ObservationEditor: { screen: ObservationEditor },
-  MyObservationsView: { screen: MyObservationsView },
   CameraView: { screen: CameraView },
   PhotoView: { screen: PhotoView },
   ObservationDetailView: { screen: ObservationDetailView },
