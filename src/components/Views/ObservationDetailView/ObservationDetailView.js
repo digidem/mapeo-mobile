@@ -17,6 +17,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
 import { CHARCOAL, DARK_GREY, MANGO } from '../../../lib/styles';
+import CategoryPin from '../../../images/category-pin.png';
 
 export type StateProps = {
   selectedObservation?: Observation
@@ -55,6 +56,16 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     marginRight: 10,
     backgroundColor: 'gray'
+  },
+  categoryIconContainer: {
+    alignItems: 'center',
+    marginTop: -65,
+    marginBottom: 30
+  },
+  categoryPin: {
+    alignSelf: 'center',
+    width: 80,
+    height: 85
   },
   close: {
     position: 'absolute',
@@ -249,6 +260,8 @@ class ObservationDetailView extends React.PureComponent<
                 />
               </TouchableHighlight>
             )}
+            <Image source={CategoryPin} style={styles.categoryPin} />
+            <View style={styles.categoryIconContainer}>{selectedObservation.icon}</View>
             <Text style={styles.title}>{selectedObservation.type}</Text>
             <Text style={styles.date}>
               {moment(selectedObservation.created).format('MMMM D, YYYY')}
