@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
 //   }
 // });
 
-const CENTER_COORD = [23.466667, 4.566667];
+const CENTER_COORD = [-77.43049196, 0.1236344282];
 const MAPBOX_VECTOR_TILE_SIZE = 512;
 
 class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
