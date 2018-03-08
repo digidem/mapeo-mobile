@@ -1,7 +1,15 @@
 // @flow
 import React from 'react';
-import { Image, StyleSheet, View, TouchableHighlight } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  View,
+  TouchableHighlight,
+  Text,
+  Dimensions
+} from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import geoViewport from '@mapbox/geo-viewport';
 import type { Observation } from '@types/observation';
 import { isEmpty, size } from 'lodash';
 import env from '../../../../env.json';
@@ -12,6 +20,11 @@ export type StateProps = {
   observations: {
     [id: string]: Observation
   }
+};
+
+type State = {
+  name: string,
+  offlineRegionStatus: any | null
 };
 
 export type DispatchProps = {
@@ -68,53 +81,77 @@ const styles = StyleSheet.create({
   }
 });
 
-// const mapboxStyles = MapboxGL.StyleSheet.create({
-//   point: {
-//     circleColor: 'red'
-//   }
-// });
+function getRegionDownloadState(downloadState) {
+  switch (downloadState) {
+    case MapboxGL.OfflinePackDownloadState.Active:
+      return 'Active';
+    case MapboxGL.OfflinePackDownloadState.Complete:
+      return 'Complete';
+    default:
+      return 'Inactive';
+  }
+}
 
-// const CENTER_COORD = [-77.43049196, 0.1236344282];
-const CENTER_COORD = [-122.2632601, 37.8027446];
-const STYLE = {
-  version: 8,
-  sources: {
-    'simple-tiles': {
-      type: 'raster',
-      // point to our third-party tiles. Note that some examples
-      // show a "url" property. This only applies to tilesets with
-      // corresponding TileJSON (such as mapbox tiles).
-      tiles: ['http://localhost:9080/tiles/{z}/{x}/{y}.png'],
-      tileSize: 256
-    }
-  },
-  layers: [
-    {
-      id: 'simple-tiles',
-      type: 'raster',
-      source: 'simple-tiles',
-      minzoom: 12,
-      maxzoom: 12
-    }
-  ]
-};
+const CENTER_COORD = [-77.43049196, 0.1236344282];
+const MAPBOX_VECTOR_TILE_SIZE = 512;
 
-class MapView extends React.PureComponent<StateProps & DispatchProps> {
+class MapView extends React.Component<StateProps & DispatchProps, State> {
+  constructor() {
+    super();
+
+    this.state = {
+      name: `Sinangoe`,
+      offlineRegionStatus: null
+    };
+  }
+
   async componentDidMount() {
     const { observations, listObservations } = this.props;
+
     MapboxGL.setAccessToken(env.accessToken);
     await MapboxGL.requestAndroidLocationPermissions();
-    // const resp = await fetch('http://localhost:9080/tiles/12/1581/655.png');
-    // console.log(JSON.stringify(resp));
+
+    this.onDownloadProgress = this.onDownloadProgress.bind(this);
+    this.onDidFinishLoadingStyle = this.onDidFinishLoadingStyle.bind(this);
 
     if (!observations || isEmpty(observations)) {
       listObservations();
     }
   }
 
-  onError = err => {
-    console.log('RN - ', err);
-  };
+  componentWillUnmount() {
+    // avoid setState warnings if we back out before we finishing downloading
+    MapboxGL.offlineManager.deletePack(this.state.name);
+    MapboxGL.offlineManager.unsubscribe('test');
+  }
+
+  async onDidFinishLoadingStyle() {
+    const { width, height } = Dimensions.get('window');
+    const bounds = geoViewport.bounds(
+      CENTER_COORD,
+      12,
+      [width * 4, height * 4],
+      MAPBOX_VECTOR_TILE_SIZE
+    );
+
+    const options = {
+      name: this.state.name,
+      styleURL: MapboxGL.StyleURL.Street,
+      bounds: [[bounds[0], bounds[1]], [bounds[2], bounds[3]]],
+      minZoom: 10,
+      maxZoom: 14
+    };
+
+    // start download
+    MapboxGL.offlineManager.createPack(options, this.onDownloadProgress);
+  }
+
+  onDownloadProgress(offlineRegion, offlineRegionStatus) {
+    this.setState({
+      name: offlineRegion.name,
+      offlineRegionStatus
+    });
+  }
 
   handleCreateObservation = () => {
     const {
@@ -156,35 +193,50 @@ class MapView extends React.PureComponent<StateProps & DispatchProps> {
   };
 
   render() {
+    const { offlineRegionStatus } = this.state;
+
     return (
       <View style={{ flex: 1 }}>
         <MapboxGL.MapView
-          style={styles.map}
-          // styleURL="mapbox://styles/mapbox/satellite-v9"
+          style={{ flex: 1 }}
           centerCoordinate={CENTER_COORD}
+          ref={c => (this.map = c)}
+          onDidFinishLoadingMap={this.onDidFinishLoadingStyle}
+          maxZoom={14}
+          minZoom={10}
           zoomLevel={12}
-          maxZoom={12}
-          minZoom={12}
           zoomEnabled={false}
-          pitchEnabled={false}
-          scrollEnabled={false}
+          pinchEnabled={false}
           rotateEnabled={false}
           logoEnabled
-        >
-          <MapboxGL.RasterSource
-            id="base"
-            url="http://localhost:9080/tile.json"
-            tileSize={256}
-            minZoomLevel={12}
-            maxZoomLevel={12}
-          >
-            <MapboxGL.RasterLayer
-              id="baseLayer"
-              sourceID="base"
-              style={{ rasterOpacity: 0.7 }}
-            />
-          </MapboxGL.RasterSource>
-        </MapboxGL.MapView>
+        />
+        {offlineRegionStatus !== null &&
+        offlineRegionStatus.percentage !== 100 ? (
+          <View style={{ position: 'absolute', top: 0, left: 0 }}>
+            <View style={{ flex: 1 }}>
+              <Text>
+                Download State:{' '}
+                {getRegionDownloadState(offlineRegionStatus.state)}
+              </Text>
+              <Text>Download Percent: {offlineRegionStatus.percentage}</Text>
+              <Text>
+                Completed Resource Count:{' '}
+                {offlineRegionStatus.completedResourceCount}
+              </Text>
+              <Text>
+                Completed Resource Size:{' '}
+                {offlineRegionStatus.completedResourceSize}
+              </Text>
+              <Text>
+                Completed Tile Count: {offlineRegionStatus.completedTileCount}
+              </Text>
+              <Text>
+                Required Resource Count:{' '}
+                {offlineRegionStatus.requiredResourceCount}
+              </Text>
+            </View>
+          </View>
+        ) : null}
         <View
           style={{
             height: 100,
