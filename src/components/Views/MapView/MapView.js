@@ -1,27 +1,12 @@
 // @flow
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  View,
-  TouchableHighlight,
-  Dimensions,
-  Text
-} from 'react-native';
+import { Image, StyleSheet, View, TouchableHighlight } from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
-import geoViewport from '@mapbox/geo-viewport';
 import type { Observation } from '@types/observation';
 import { isEmpty, size } from 'lodash';
 import env from '../../../../env.json';
 
 import CircleImg from '../../../images/circle-64.png';
-
-type State = {
-  hasMapToken: boolean,
-  offlineRegion: any,
-  offlineRegionStatus: any,
-  map: any
-};
 
 export type StateProps = {
   observations: {
@@ -89,88 +74,46 @@ const styles = StyleSheet.create({
 //   }
 // });
 
-const CENTER_COORD = [-77.43049196, 0.1236344282];
-const MAPBOX_VECTOR_TILE_SIZE = 512;
+// const CENTER_COORD = [-77.43049196, 0.1236344282];
+const CENTER_COORD = [-122.2632601, 37.8027446];
+const STYLE = {
+  version: 8,
+  sources: {
+    'simple-tiles': {
+      type: 'raster',
+      // point to our third-party tiles. Note that some examples
+      // show a "url" property. This only applies to tilesets with
+      // corresponding TileJSON (such as mapbox tiles).
+      tiles: ['http://localhost:9080/tiles/{z}/{x}/{y}.png'],
+      tileSize: 256
+    }
+  },
+  layers: [
+    {
+      id: 'simple-tiles',
+      type: 'raster',
+      source: 'simple-tiles',
+      minzoom: 12,
+      maxzoom: 12
+    }
+  ]
+};
 
-class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
-  state = {
-    hasMapToken: true,
-    map: null,
-    offlineRegion: null,
-    offlineRegionStatus: null
-  };
-
+class MapView extends React.PureComponent<StateProps & DispatchProps> {
   async componentDidMount() {
     const { observations, listObservations } = this.props;
     MapboxGL.setAccessToken(env.accessToken);
     await MapboxGL.requestAndroidLocationPermissions();
-    const map = await MapboxGL.offlineManager.getPack('Sinangoe');
-    this.setState({
-      map
-    });
+    const resp = await fetch('http://localhost:9080/tiles/12/1581/655.png');
+    console.log(JSON.stringify(resp));
 
     if (!observations || isEmpty(observations)) {
       listObservations();
     }
   }
 
-  async onDidFinishLoadingStyle() {
-    const { width, height } = Dimensions.get('window');
-    const bounds = geoViewport.bounds(
-      CENTER_COORD,
-      12,
-      [width, height],
-      MAPBOX_VECTOR_TILE_SIZE
-    );
-
-    const options = {
-      name: 'Sinangoe',
-      styleURL: MapboxGL.StyleURL.Street,
-      bounds: [[bounds[0], bounds[1]], [bounds[2], bounds[3]]],
-      minZoom: 2,
-      maxZoom: 24
-    };
-
-    // start download
-    console.log('RN - start download');
-    if (!this.state.map) {
-      const map = await MapboxGL.offlineManager.createPack(
-        options,
-        this.onDownloadProgress,
-        this.onError
-      );
-      this.setState({ map });
-    }
-  }
-
-  onDownloadProgress = (offlineRegion, offlineRegionStatus) => {
-    console.log('RN - ', offlineRegionStatus, offlineRegionStatus.percentage);
-    this.setState({
-      offlineRegion,
-      offlineRegionStatus
-    });
-  };
-
   onError = err => {
     console.log('RN - ', err);
-  };
-
-  getRegionDownloadState = (downloadState: string) => {
-    switch (downloadState) {
-      case MapboxGL.OfflinePackDownloadState.Active:
-        return 'Active';
-      case MapboxGL.OfflinePackDownloadState.Complete:
-        return 'Complete';
-      default:
-        return 'Inactive';
-    }
-  };
-
-  formatPercent = () => {
-    if (!this.state.offlineRegionStatus) {
-      return '0%';
-    }
-    return Math.round(this.state.offlineRegionStatus.percentage / 10) / 10;
   };
 
   handleCreateObservation = () => {
@@ -213,31 +156,35 @@ class MapView extends React.PureComponent<StateProps & DispatchProps, State> {
   };
 
   render() {
-    const { hasMapToken, offlineRegionStatus } = this.state;
-
     return (
       <View style={{ flex: 1 }}>
-        <Text style={{ fontSize: 20, color: '#FFF' }}>
-          Download Percent: {this.formatPercent()}
-        </Text>
-        {hasMapToken && (
-          <MapboxGL.MapView
-            style={styles.map}
-            styleURL="mapbox://styles/mapbox/light-v9"
-            centerCoordinate={CENTER_COORD}
-            onDidFinishLoadingMap={this.onDidFinishLoadingStyle}
-            zoomLevel={8}
-            maxZoom={24}
-            minZoom={2}
-          />
-        )}
-        {(!hasMapToken || offlineRegionStatus !== null) && (
-          <View style={styles.mapPlaceholder}>
-            <Text style={{ fontSize: 20, color: '#FFF' }}>
-              Download Percent: {this.formatPercent()}
-            </Text>
-          </View>
-        )}
+        <MapboxGL.MapView
+          style={styles.map}
+          // styleURL="mapbox://styles/mapbox/satellite-v9"
+          centerCoordinate={CENTER_COORD}
+          zoomLevel={12}
+          maxZoom={12}
+          minZoom={12}
+          zoomEnabled={false}
+          pitchEnabled={false}
+          scrollEnabled={false}
+          rotateEnabled={false}
+          logoEnabled
+        >
+          <MapboxGL.RasterSource
+            id="base"
+            url="http://localhost:9080/tile.json"
+            tileSize={256}
+            minZoomLevel={12}
+            maxZoomLevel={12}
+          >
+            <MapboxGL.RasterLayer
+              id="baseLayer"
+              sourceID="base"
+              style={{ rasterOpacity: 0.7 }}
+            />
+          </MapboxGL.RasterSource>
+        </MapboxGL.MapView>
         <View
           style={{
             height: 100,

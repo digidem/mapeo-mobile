@@ -27,20 +27,23 @@ const getGeoJSON = require('osm-p2p-geojson');
 const mkdirp = require('mkdirp');
 const path = require('path');
 const os = require('os');
+const url = require('url');
+const fs = require('fs');
 
 const osmdbPath = path.resolve(os.homedir(), 'osm-p2p');
+const mapeoPath = path.resolve(os.homedir(), 'rnnodeapp', 'mapeo');
 
 mkdirp.sync(osmdbPath);
 
 const db = {
-  log: level(`${osmdbPath  }/log`),
-  index: level(`${osmdbPath  }/index`)
+  log: level(`${osmdbPath}/log`),
+  index: level(`${osmdbPath}/index`)
 };
 
 const osm = osmdb({
   log: hyperlog(db.log, { valueEncoding: 'json' }),
   db: db.index,
-  store: fdstore(4096, `${osmdbPath  }/kdb`)
+  store: fdstore(4096, `${osmdbPath}/kdb`)
 });
 
 const router = osmrouter(osm);
@@ -93,6 +96,26 @@ http
           response.end();
         }
       });
+      return;
+    }
+
+    if (url.parse(request.url).pathname.match(/tiles\/\d+\/\d+\/\d+.png/)) {
+      const { pathname } = url.parse(request.url);
+      const split = pathname.split('/');
+      const file = fs.readFileSync(
+        `${mapeoPath}/tiles/${split[split.length - 3]}/${
+          split[split.length - 2]
+        }/${split[split.length - 1]}`
+      );
+      response.statusCode = 200;
+      response.end(file);
+      return;
+    }
+
+    if (request.url.endsWith('/tile.json')) {
+      const file = fs.readFileSync(`${mapeoPath}/tiles/tile.json`);
+      response.statusCode = 200;
+      response.end(file);
       return;
     }
 
