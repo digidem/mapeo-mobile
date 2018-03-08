@@ -104,8 +104,8 @@ class MapView extends React.PureComponent<StateProps & DispatchProps> {
     const { observations, listObservations } = this.props;
     MapboxGL.setAccessToken(env.accessToken);
     await MapboxGL.requestAndroidLocationPermissions();
-    const resp = await fetch('http://localhost:9080/tiles/12/1581/655.png');
-    console.log(JSON.stringify(resp));
+    // const resp = await fetch('http://localhost:9080/tiles/12/1581/655.png');
+    // console.log(JSON.stringify(resp));
 
     if (!observations || isEmpty(observations)) {
       listObservations();
