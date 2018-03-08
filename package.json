@@ -16,7 +16,7 @@
     "immutability-helper": "^2.6.4",
     "moment": "^2.20.1",
     "react": "16.0.0",
-    "react-native": "0.50.1",
+    "react-native": "0.50.3",
     "react-native-camera": "^1.0.1",
     "react-native-drawer": "^2.5.0",
     "react-native-node": "^3.3.0",
