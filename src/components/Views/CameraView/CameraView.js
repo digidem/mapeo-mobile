@@ -53,8 +53,8 @@ class CameraView extends React.PureComponent<StateProps & DispatchProps> {
               }
             ])
           });
-          resetNavigation();
           goToObservationEditor();
+          resetNavigation();
         }
       } catch (error) {
         console.warn(error);
