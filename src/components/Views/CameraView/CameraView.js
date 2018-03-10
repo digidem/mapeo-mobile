@@ -1,13 +1,36 @@
 // @flow
 import React from 'react';
-import { withNavigation } from 'react-navigation';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { NavigationActions, withNavigation } from 'react-navigation';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import type { Observation } from '../../../types/observation';
+import { CHARCOAL, WHITE } from '../../../lib/styles.js';
 
 import CircleImg from '../../../images/circle-64.png';
 
 const styles = StyleSheet.create({
+  cancelButton: {
+    backgroundColor: CHARCOAL,
+    justifyContent: 'center',
+    height: 65,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0
+  },
+  cancelText: {
+    fontSize: 20,
+    fontWeight: '700',
+    textAlign: 'center',
+    color: WHITE
+  },
   capture: {
     alignSelf: 'center',
     marginTop: 425
@@ -17,6 +40,10 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 });
+
+export type Props = {
+  navigation: NavigationActions
+};
 
 export type StateProps = {
   selectedObservation: Observation
@@ -28,7 +55,9 @@ export type DispatchProps = {
   resetNavigation: () => void
 };
 
-class CameraView extends React.PureComponent<StateProps & DispatchProps> {
+class CameraView extends React.PureComponent<
+  Props & StateProps & DispatchProps
+> {
   camera: RNCamera;
 
   takePicture = async () => {
@@ -78,6 +107,12 @@ class CameraView extends React.PureComponent<StateProps & DispatchProps> {
           <TouchableOpacity onPress={this.takePicture} style={styles.capture}>
             <Image source={CircleImg} />
           </TouchableOpacity>
+          <TouchableHighlight
+            style={styles.cancelButton}
+            onPress={() => this.props.navigation.goBack()}
+          >
+            <Text style={styles.cancelText}>Cancelar</Text>
+          </TouchableHighlight>
         </RNCamera>
       </View>
     );

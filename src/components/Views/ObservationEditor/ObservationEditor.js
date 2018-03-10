@@ -109,12 +109,20 @@ const styles = StyleSheet.create({
   cameraText: {
     fontSize: 15,
     color: MEDIUM_GREY,
-    fontWeight: '600'
+    fontWeight: '600',
+    padding: 20
   },
-  mediaList: {
-    flexDirection: 'row',
-    padding: 20,
-    alignItems: 'center'
+  cameraButton: {
+    paddingVertical: 15,
+    alignSelf: 'stretch',
+    backgroundColor: DARK_GREY
+  },
+  cameraButtonContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignSelf: 'center'
   }
 });
 
@@ -240,15 +248,15 @@ class ObservationEditor extends React.PureComponent<
                   style={{
                     width: Dimensions.get('window').width,
                     height: Dimensions.get('window').width,
-                    justifyContent: 'center',
                     alignItems: 'center'
                   }}
                 >
                   <Image
                     source={{ uri: selectedObservation.media[0].source }}
                     style={{
-                      width: Dimensions.get('window').width * 0.75,
-                      height: Dimensions.get('window').width * 0.75
+                      width: Dimensions.get('window').width * 0.30,
+                      height: Dimensions.get('window').width * 0.30,
+                      margin: 20
                     }}
                   />
                 </View>
@@ -277,17 +285,38 @@ class ObservationEditor extends React.PureComponent<
                 data={selectedObservation.media}
               />
             )} */}
-          {selectedObservation &&
-            !selectedObservation.media.length && (
-              <TouchableHighlight
-                style={styles.mediaList}
-                onPress={() => navigation.navigate('CameraView')}
-              >
+          <View style={{ flex: 1 }}>
+            {selectedObservation && 
+              !selectedObservation.media.length && (
                 <Text style={styles.cameraText}>
                   No hay fotos. ?Toma algunos?
                 </Text>
-              </TouchableHighlight>
             )}
+            <View style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: (
+                selectedObservation &&
+                selectedObservation.media.length ?
+                  15 : 0
+              ),
+              alignSelf: 'center'
+              }}
+            >
+              <TouchableHighlight
+                style={styles.cameraButton}
+                onPress={() => navigation.navigate('CameraView')}
+              >
+                <Icon
+                  color="white"
+                  name="photo-camera"
+                  size={30}
+                  style={{ alignSelf: 'center' }}
+                />
+              </TouchableHighlight>
+            </View>
+          </View>
         </View>
       </View>
     );
