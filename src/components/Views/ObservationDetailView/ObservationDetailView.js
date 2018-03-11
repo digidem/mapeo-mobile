@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import {
-  Dimensions,
+  FlatList,
   Image,
   Text,
   TouchableHighlight,
@@ -24,6 +24,7 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
+  goToPhotoView: (photoSource: string) => void,
   goToTabNav: () => void,
   addObservation: (o: Observation) => void
 };
@@ -216,8 +217,9 @@ class ObservationDetailView extends React.PureComponent<
   };
 
   render() {
-    const { navigation, selectedObservation } = this.props;
+    const { navigation, selectedObservation, goToPhotoView } = this.props;
     const reviewMode = this.isReviewMode();
+    const keyExtractor = item => item.source;
     let mediaText = '';
     const thereIsMedia =
       selectedObservation &&
@@ -273,23 +275,36 @@ class ObservationDetailView extends React.PureComponent<
           <View style={reviewMode ? styles.sectionReview : styles.section}>
             <Text style={styles.sectionText}>{mediaText}</Text>
             {selectedObservation &&
-              selectedObservation.media &&
-              selectedObservation.media[0] &&
-              selectedObservation.media[0].source && (
-                <View
+              selectedObservation.media.length && (
+                <FlatList
+                  horizontal
+                  scrollEnabled
                   style={{
-                    flexDirection: 'row',
-                    height: 125,
-                    justifyContent: 'center'
+                    flex: 1,
+                    flexDirection: 'column',
+                    paddingHorizontal: 10
                   }}
-                >
-                  <Image
-                    source={{ uri: selectedObservation.media[0].source }}
-                    style={{
-                      width: Dimensions.get('window').width * 0.3
-                    }}
-                  />
-                </View>
+                  contentContainerStyle={{
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                  keyExtractor={keyExtractor}
+                  renderItem={({ item }) => (
+                    <TouchableHighlight
+                      onPress={() => goToPhotoView(item.source)}
+                    >
+                      <Image
+                        source={{ uri: item.source }}
+                        style={{
+                          width: 125,
+                          height: 125,
+                          margin: 10
+                        }}
+                      />
+                    </TouchableHighlight>
+                  )}
+                  data={selectedObservation.media}
+                />
               )}
             <Text
               style={reviewMode ? styles.textNotesReview : styles.textNotes}

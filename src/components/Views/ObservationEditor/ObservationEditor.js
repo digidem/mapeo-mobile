@@ -3,12 +3,14 @@ import React from 'react';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import {
   View,
+  KeyboardAvoidingView,
   Text,
   StyleSheet,
   TouchableHighlight,
   TextInput,
   Image,
-  Dimensions
+  Dimensions,
+  FlatList
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Category } from '../../../types/category';
@@ -35,7 +37,8 @@ export type StateProps = {
 
 export type DispatchProps = {
   updateObservation: (o: Observation) => void,
-  goToObservationDetailReview: () => void
+  goToObservationDetailReview: () => void,
+  goToPhotoView: (photoSource: string) => void
 };
 
 type State = {
@@ -205,9 +208,9 @@ class ObservationEditor extends React.PureComponent<
   };
 
   render() {
-    const { navigation, selectedObservation } = this.props;
+    const { navigation, selectedObservation, goToPhotoView } = this.props;
     const { text } = this.state;
-    // const keyExtractor = item => item.source;
+    const keyExtractor = item => item.source;
 
     if (!selectedObservation) {
       navigation.goBack();
@@ -215,7 +218,7 @@ class ObservationEditor extends React.PureComponent<
     }
 
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         {this.renderHeader()}
         <View style={{ flex: 1 }}>
           <View style={styles.categoryRow}>
@@ -241,33 +244,10 @@ class ObservationEditor extends React.PureComponent<
           />
           {selectedObservation &&
             !!selectedObservation.media.length && (
-              <TouchableHighlight
-                onPress={() => navigation.navigate('PhotoView')}
-              >
-                <View
-                  style={{
-                    width: Dimensions.get('window').width,
-                    height: Dimensions.get('window').width,
-                    alignItems: 'center'
-                  }}
-                >
-                  <Image
-                    source={{ uri: selectedObservation.media[0].source }}
-                    style={{
-                      width: Dimensions.get('window').width * 0.30,
-                      height: Dimensions.get('window').width * 0.30,
-                      margin: 20
-                    }}
-                  />
-                </View>
-              </TouchableHighlight>
-            )}
-          {/* {selectedObservation &&
-            !!selectedObservation.media.length && (
               <FlatList
+                numColumns={2}
                 style={{
-                  flex: 1,
-                  flexDirection: 'row',
+                  flexDirection: 'column',
                   paddingVertical: 5,
                   paddingHorizontal: 10
                 }}
@@ -277,48 +257,43 @@ class ObservationEditor extends React.PureComponent<
                 }}
                 keyExtractor={keyExtractor}
                 renderItem={({ item }) => (
-                  <Image
-                    source={{ uri: item.source }}
-                    style={{ width: 150, height: 150 }}
-                  />
+                  <TouchableHighlight
+                    onPress={() => goToPhotoView(item.source)}
+                  >
+                    <Image
+                      source={{ uri: item.source }}
+                      style={{
+                        width: Dimensions.get('window').width / 2,
+                        height: Dimensions.get('window').width / 2,
+                        margin: 10
+                      }}
+                    />
+                  </TouchableHighlight>
                 )}
                 data={selectedObservation.media}
               />
-            )} */}
-          <View style={{ flex: 1 }}>
-            {selectedObservation && 
-              !selectedObservation.media.length && (
-                <Text style={styles.cameraText}>
-                  No hay fotos. ?Toma algunos?
-                </Text>
-            )}
-            <View style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              bottom: (
-                selectedObservation &&
-                selectedObservation.media.length ?
-                  15 : 0
-              ),
-              alignSelf: 'center'
-              }}
+          )}
+          {selectedObservation && 
+            !selectedObservation.media.length && (
+              <Text style={styles.cameraText}>
+                No hay fotos. ?Toma algunos?
+              </Text>
+          )}
+          <View style={styles.cameraButtonContainer}>
+            <TouchableHighlight
+              style={styles.cameraButton}
+              onPress={() => navigation.navigate('CameraView')}
             >
-              <TouchableHighlight
-                style={styles.cameraButton}
-                onPress={() => navigation.navigate('CameraView')}
-              >
-                <Icon
-                  color="white"
-                  name="photo-camera"
-                  size={30}
-                  style={{ alignSelf: 'center' }}
-                />
-              </TouchableHighlight>
-            </View>
+              <Icon
+                color="white"
+                name="photo-camera"
+                size={30}
+                style={{ alignSelf: 'center' }}
+              />
+            </TouchableHighlight>
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

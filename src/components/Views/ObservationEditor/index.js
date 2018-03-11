@@ -30,6 +30,13 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
           routeName: 'ObservationDetailView',
           params: { review: true }
         })
+      ),
+    goToPhotoView: (source) =>
+      dispatch(
+        NavigationActions.navigate({
+          routeName: 'PhotoView',
+          params: { photoSource: source }
+        })
       )
   };
 }

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   cancelButton: {
     backgroundColor: CHARCOAL,
     justifyContent: 'center',
-    height: 65,
+    height: 60,
     position: 'absolute',
     bottom: 0,
     left: 0,

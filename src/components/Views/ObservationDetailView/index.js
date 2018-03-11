@@ -19,7 +19,14 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     addObservation: observation => dispatch(observationAdd(observation)),
     goToTabNav: () =>
-      dispatch(NavigationActions.navigate({ routeName: 'MyObservationsView' }))
+      dispatch(NavigationActions.navigate({ routeName: 'MyObservationsView' })),
+    goToPhotoView: (source) =>
+      dispatch(
+        NavigationActions.navigate({
+          routeName: 'PhotoView',
+          params: { photoSource: source }
+        })
+      )
   };
 }
 

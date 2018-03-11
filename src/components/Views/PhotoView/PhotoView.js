@@ -54,7 +54,10 @@ class PhotoView extends React.PureComponent<
     if (selectedObservation) {
       updateObservation({
         ...selectedObservation,
-        media: []
+        media: selectedObservation.media.filter(
+          photo => 
+            navigation.state.params.photoSource !== photo.source
+        )
       });
       navigation.goBack();
     }
@@ -81,7 +84,7 @@ class PhotoView extends React.PureComponent<
                 width: Dimensions.get('window').width,
                 height: Dimensions.get('window').height - 70
               }}
-              source={{ uri: selectedObservation.media[0].source }}
+              source={{ uri: navigation.state.params.photoSource }}
             />
           )}
         </View>
