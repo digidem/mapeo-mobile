@@ -1,16 +1,8 @@
 // @flow
 import React from 'react';
 import moment from 'moment';
-import {
-  Text,
-  View,
-  StyleSheet,
-  SectionList,
-  Dimensions,
-  TouchableHighlight
-} from 'react-native';
+import { Text, View, StyleSheet, SectionList, Dimensions } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
-import LeftChevron from 'react-native-vector-icons/Entypo';
 import { map } from 'lodash';
 import type { Observation } from '../../../types/observation';
 
@@ -28,7 +20,6 @@ export type DispatchProps = {
 };
 
 type Props = {
-  closeRightDrawer: Function,
   navigation: NavigationActions
 };
 

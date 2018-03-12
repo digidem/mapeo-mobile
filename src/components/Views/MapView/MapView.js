@@ -5,13 +5,12 @@ import {
   StyleSheet,
   View,
   TouchableHighlight,
-  Text,
   Dimensions
 } from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import geoViewport from '@mapbox/geo-viewport';
 import type { Observation } from '@types/observation';
-import { isEmpty, size } from 'lodash';
+import { isEmpty, size, map } from 'lodash';
 import env from '../../../../env.json';
 
 import CircleImg from '../../../images/circle-64.png';
@@ -94,6 +93,20 @@ function getRegionDownloadState(downloadState) {
 
 const CENTER_COORD = [-77.43049196, 0.1236344282];
 const MAPBOX_VECTOR_TILE_SIZE = 512;
+const mapboxStyles = MapboxGL.StyleSheet.create({
+  point: {
+    circleColor: '#5086EC',
+    circleRadius: 5,
+    circleStrokeColor: '#fff',
+    circleStrokeWidth: 2
+  },
+  observation: {
+    circleColor: '#F29D4B',
+    circleRadius: 5,
+    circleStrokeColor: '#fff',
+    circleStrokeWidth: 2
+  }
+});
 
 class MapView extends React.Component<StateProps & DispatchProps, State> {
   constructor() {
@@ -111,8 +124,8 @@ class MapView extends React.Component<StateProps & DispatchProps, State> {
     MapboxGL.setAccessToken(env.accessToken);
     await MapboxGL.requestAndroidLocationPermissions();
 
-    this.onDownloadProgress = this.onDownloadProgress.bind(this);
-    this.onDidFinishLoadingStyle = this.onDidFinishLoadingStyle.bind(this);
+    // this.onDownloadProgress = this.onDownloadProgress.bind(this);
+    // this.onDidFinishLoadingStyle = this.onDidFinishLoadingStyle.bind(this);
 
     if (!observations || isEmpty(observations)) {
       listObservations();
@@ -184,8 +197,8 @@ class MapView extends React.Component<StateProps & DispatchProps, State> {
         const { latitude, longitude } = position.coords;
         updateObservation({
           ...initialObservation,
-          lat: Math.round(latitude),
-          lon: Math.round(longitude)
+          lat: Math.round(latitude * 1000) / 1000,
+          lon: Math.round(longitude * 1000) / 1000
         });
       },
       error => console.warn(error)
@@ -193,50 +206,41 @@ class MapView extends React.Component<StateProps & DispatchProps, State> {
   };
 
   render() {
-    const { offlineRegionStatus } = this.state;
+    const { observations } = this.props;
 
     return (
       <View style={{ flex: 1 }}>
         <MapboxGL.MapView
           style={{ flex: 1 }}
-          centerCoordinate={CENTER_COORD}
+          showUserLocation
           ref={c => (this.map = c)}
-          onDidFinishLoadingMap={this.onDidFinishLoadingStyle}
-          maxZoom={14}
-          minZoom={10}
           zoomLevel={12}
-          zoomEnabled={false}
-          pinchEnabled={false}
-          rotateEnabled={false}
           logoEnabled
-        />
-        {offlineRegionStatus !== null &&
-        offlineRegionStatus.percentage !== 100 ? (
-          <View style={{ position: 'absolute', top: 0, left: 0 }}>
-            <View style={{ flex: 1 }}>
-              <Text>
-                Download State:{' '}
-                {getRegionDownloadState(offlineRegionStatus.state)}
-              </Text>
-              <Text>Download Percent: {offlineRegionStatus.percentage}</Text>
-              <Text>
-                Completed Resource Count:{' '}
-                {offlineRegionStatus.completedResourceCount}
-              </Text>
-              <Text>
-                Completed Resource Size:{' '}
-                {offlineRegionStatus.completedResourceSize}
-              </Text>
-              <Text>
-                Completed Tile Count: {offlineRegionStatus.completedTileCount}
-              </Text>
-              <Text>
-                Required Resource Count:{' '}
-                {offlineRegionStatus.requiredResourceCount}
-              </Text>
-            </View>
-          </View>
-        ) : null}
+        >
+          {!!observations && !isEmpty(observations)
+            ? map(observations, (o: Observation) => (
+              <MapboxGL.ShapeSource
+                key={o.id}
+                id={`observations-${o.id}`}
+                shape={{
+                    type: 'Feature',
+                    geometry: {
+                      type: 'Point',
+                      coordinates: [o.lon, o.lat]
+                    },
+                    properties: {
+                      name: o.name
+                    }
+                  }}
+              >
+                <MapboxGL.CircleLayer
+                  id={`circles-${o.id}`}
+                  style={mapboxStyles.observation}
+                />
+              </MapboxGL.ShapeSource>
+              ))
+            : null}
+        </MapboxGL.MapView>
         <View
           style={{
             height: 100,

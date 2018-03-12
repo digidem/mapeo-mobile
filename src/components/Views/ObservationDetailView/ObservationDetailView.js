@@ -225,7 +225,7 @@ class ObservationDetailView extends React.PureComponent<
       selectedObservation &&
       selectedObservation.media &&
       selectedObservation.media.length > 0;
-    if (thereIsMedia) mediaText = '1 Photo';
+    if (thereIsMedia) mediaText = `${selectedObservation.media.length} Photo`;
 
     if (!selectedObservation) {
       return <View />;
@@ -263,7 +263,9 @@ class ObservationDetailView extends React.PureComponent<
               </TouchableHighlight>
             )}
             <Image source={CategoryPin} style={styles.categoryPin} />
-            <View style={styles.categoryIconContainer}>{selectedObservation.icon}</View>
+            <View style={styles.categoryIconContainer}>
+              {selectedObservation.icon}
+            </View>
             <Text style={styles.title}>{selectedObservation.type}</Text>
             <Text style={styles.date}>
               {moment(selectedObservation.created).format('MMMM D, YYYY')}
@@ -274,8 +276,8 @@ class ObservationDetailView extends React.PureComponent<
           </View>
           <View style={reviewMode ? styles.sectionReview : styles.section}>
             <Text style={styles.sectionText}>{mediaText}</Text>
-            {selectedObservation &&
-              selectedObservation.media.length && (
+            {!!selectedObservation &&
+              !!selectedObservation.media.length && (
                 <FlatList
                   horizontal
                   scrollEnabled
