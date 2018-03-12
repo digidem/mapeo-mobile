@@ -26,7 +26,8 @@ export type StateProps = {
 export type DispatchProps = {
   goToPhotoView: (photoSource: string) => void,
   goToTabNav: () => void,
-  addObservation: (o: Observation) => void
+  addObservation: (o: Observation) => void,
+  resetNavigation: () => void
 };
 
 export type Props = {
@@ -194,6 +195,21 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapboxStyles = MapboxGL.StyleSheet.create({
+  point: {
+    circleColor: '#5086EC',
+    circleRadius: 5,
+    circleStrokeColor: '#fff',
+    circleStrokeWidth: 2
+  },
+  observation: {
+    circleColor: '#F29D4B',
+    circleRadius: 5,
+    circleStrokeColor: '#fff',
+    circleStrokeWidth: 2
+  }
+});
+
 class ObservationDetailView extends React.PureComponent<
   Props & StateProps & DispatchProps
 > {
@@ -208,11 +224,17 @@ class ObservationDetailView extends React.PureComponent<
   }
 
   saveObservation = () => {
-    const { selectedObservation, addObservation, goToTabNav } = this.props;
+    const {
+      selectedObservation,
+      addObservation,
+      goToTabNav,
+      resetNavigation
+    } = this.props;
 
     if (selectedObservation) {
       addObservation(selectedObservation);
       goToTabNav();
+      resetNavigation();
     }
   };
 
@@ -314,33 +336,57 @@ class ObservationDetailView extends React.PureComponent<
               {selectedObservation.notes}
             </Text>
           </View>
-          {false && (
-            <View style={reviewMode ? styles.sectionReview : styles.section}>
-              <Text style={styles.sectionText}>0.0 km</Text>
-              <View style={{ height: 240 }}>
-                <MapboxGL.MapView
-                  style={styles.mapBox}
-                  styleURL={MapboxGL.StyleURL.Street}
-                  zoomLevel={15}
-                  centerCoordinate={[11.256, 43.77]}
-                />
-                {reviewMode && (
-                  <TouchableHighlight
-                    onPress={() => {
-                      navigation.navigate('Position');
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      color="lightgray"
-                      name="pencil"
-                      size={20}
-                      style={styles.mapEditIcon}
-                    />
-                  </TouchableHighlight>
-                )}
-              </View>
+          <View style={reviewMode ? styles.sectionReview : styles.section}>
+            <Text style={styles.sectionText}>0.0 km</Text>
+            <View style={{ height: 240 }}>
+              <MapboxGL.MapView
+                style={styles.mapBox}
+                styleURL={MapboxGL.StyleURL.Street}
+                zoomLevel={15}
+                centerCoordinate={[
+                  selectedObservation.lon,
+                  selectedObservation.lat
+                ]}
+              >
+                <MapboxGL.ShapeSource
+                  key={selectedObservation.id}
+                  id={`observations-${selectedObservation.id}`}
+                  shape={{
+                    type: 'Feature',
+                    geometry: {
+                      type: 'Point',
+                      coordinates: [
+                        selectedObservation.lon,
+                        selectedObservation.lat
+                      ]
+                    },
+                    properties: {
+                      name: selectedObservation.name
+                    }
+                  }}
+                >
+                  <MapboxGL.CircleLayer
+                    id={`circles-${selectedObservation.id}`}
+                    style={mapboxStyles.point}
+                  />
+                </MapboxGL.ShapeSource>
+              </MapboxGL.MapView>
+              {reviewMode && (
+                <TouchableHighlight
+                  onPress={() => {
+                    navigation.navigate('Position');
+                  }}
+                >
+                  <FontAwesomeIcon
+                    color="lightgray"
+                    name="pencil"
+                    size={20}
+                    style={styles.mapEditIcon}
+                  />
+                </TouchableHighlight>
+              )}
             </View>
-          )}
+          </View>
           <View style={reviewMode ? styles.sectionReview : styles.section}>
             <Text style={styles.sectionText}>Observado por</Text>
             <View style={{ flexDirection: 'row' }}>

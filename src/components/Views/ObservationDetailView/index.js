@@ -8,6 +8,14 @@ import { observationAdd } from '../../../ducks/observations';
 import ObservationDetailView from './ObservationDetailView';
 import type { StateProps, DispatchProps } from './ObservationDetailView';
 
+const resetAction = NavigationActions.reset({
+  index: 1,
+  actions: [
+    NavigationActions.navigate({ routeName: 'ObservationEditor' }),
+    NavigationActions.navigate({ routeName: 'TabBarNavigation' })
+  ]
+});
+
 function mapStateToProps(state: StoreState): StateProps {
   return {
     observations: state.app.observations,
@@ -20,13 +28,14 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     addObservation: observation => dispatch(observationAdd(observation)),
     goToTabNav: () =>
       dispatch(NavigationActions.navigate({ routeName: 'MyObservationsView' })),
-    goToPhotoView: (source) =>
+    goToPhotoView: source =>
       dispatch(
         NavigationActions.navigate({
           routeName: 'PhotoView',
           params: { photoSource: source }
         })
-      )
+      ),
+    resetNavigation: () => dispatch(resetAction)
   };
 }
 

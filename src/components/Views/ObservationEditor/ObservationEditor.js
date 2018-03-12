@@ -185,6 +185,18 @@ class ObservationEditor extends React.PureComponent<
     }
   };
 
+  goToCameraView = () => {
+    const { selectedObservation, updateObservation, navigation } = this.props;
+
+    if (selectedObservation) {
+      updateObservation({
+        ...selectedObservation,
+        notes: this.state.text
+      });
+    }
+    navigation.navigate('CameraView');
+  };
+
   renderHeader = () => {
     const { navigation } = this.props;
 
@@ -272,17 +284,17 @@ class ObservationEditor extends React.PureComponent<
                 )}
                 data={selectedObservation.media}
               />
-          )}
-          {selectedObservation && 
+            )}
+          {selectedObservation &&
             !selectedObservation.media.length && (
               <Text style={styles.cameraText}>
                 No hay fotos. ?Toma algunos?
               </Text>
-          )}
+            )}
           <View style={styles.cameraButtonContainer}>
             <TouchableHighlight
               style={styles.cameraButton}
-              onPress={() => navigation.navigate('CameraView')}
+              onPress={this.goToCameraView}
             >
               <Icon
                 color="white"
