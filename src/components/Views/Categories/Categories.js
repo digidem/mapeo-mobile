@@ -11,6 +11,7 @@ import {
 import { NavigationActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Category } from '../../../types/category';
+import type { Observation } from '../../../types/observation';
 import { DARK_GREY, LIGHT_GREY, CHARCOAL, WHITE } from '../../../lib/styles';
 
 type Props = {
@@ -18,11 +19,13 @@ type Props = {
 };
 
 export type StateProps = {
-  categories: Category[]
+  categories: Category[],
+  selectedObservation: Observation
 };
 
 export type DispatchProps = {
-  listCategories: () => void
+  listCategories: () => void,
+  updateObservation: (obs: Observation) => void
 };
 
 const styles = StyleSheet.create({
@@ -97,6 +100,18 @@ class Categories extends React.PureComponent<
     listCategories();
   }
 
+  handleUpdateObservation = item => {
+    const { updateObservation, selectedObservation } = this.props;
+
+    updateObservation({
+      ...selectedObservation,
+      icon: item.icon
+    });
+    this.props.navigation.navigate('ObservationEditor', {
+      category: item.id
+    });
+  };
+
   renderHeader = () => {
     const { navigation } = this.props;
 
@@ -111,21 +126,6 @@ class Categories extends React.PureComponent<
         </View>
       </TouchableHighlight>
     );
-  };
-
-  handleUpdateObservation = (item) => {
-    const {
-      updateObservation,
-      selectedObservation
-    } = this.props;
-
-    updateObservation({
-      ...selectedObservation,
-      icon: item.icon
-    });
-    this.props.navigation.navigate('ObservationEditor', {
-      category: item.id
-    });
   };
 
   renderItem = ({ item }) => (

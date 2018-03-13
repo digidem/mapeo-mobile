@@ -1,14 +1,7 @@
 // @flow
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  View,
-  TouchableHighlight,
-  Dimensions
-} from 'react-native';
+import { Image, StyleSheet, View, TouchableHighlight } from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
-import geoViewport from '@mapbox/geo-viewport';
 import type { Observation } from '@types/observation';
 import { isEmpty, size, map } from 'lodash';
 import env from '../../../../env.json';
@@ -19,11 +12,6 @@ export type StateProps = {
   observations: {
     [id: string]: Observation
   }
-};
-
-type State = {
-  name: string,
-  offlineRegionStatus: any | null
 };
 
 export type DispatchProps = {
@@ -80,19 +68,6 @@ const styles = StyleSheet.create({
   }
 });
 
-function getRegionDownloadState(downloadState) {
-  switch (downloadState) {
-    case MapboxGL.OfflinePackDownloadState.Active:
-      return 'Active';
-    case MapboxGL.OfflinePackDownloadState.Complete:
-      return 'Complete';
-    default:
-      return 'Inactive';
-  }
-}
-
-const CENTER_COORD = [-77.43049196, 0.1236344282];
-const MAPBOX_VECTOR_TILE_SIZE = 512;
 const mapboxStyles = MapboxGL.StyleSheet.create({
   point: {
     circleColor: '#5086EC',
@@ -108,16 +83,7 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
   }
 });
 
-class MapView extends React.Component<StateProps & DispatchProps, State> {
-  constructor() {
-    super();
-
-    this.state = {
-      name: `Sinangoe`,
-      offlineRegionStatus: null
-    };
-  }
-
+class MapView extends React.Component<StateProps & DispatchProps> {
   async componentDidMount() {
     const { observations, listObservations } = this.props;
 
@@ -132,39 +98,7 @@ class MapView extends React.Component<StateProps & DispatchProps, State> {
     }
   }
 
-  componentWillUnmount() {
-    // avoid setState warnings if we back out before we finishing downloading
-    MapboxGL.offlineManager.deletePack(this.state.name);
-    MapboxGL.offlineManager.unsubscribe('test');
-  }
-
-  async onDidFinishLoadingStyle() {
-    const { width, height } = Dimensions.get('window');
-    const bounds = geoViewport.bounds(
-      CENTER_COORD,
-      12,
-      [width * 4, height * 4],
-      MAPBOX_VECTOR_TILE_SIZE
-    );
-
-    const options = {
-      name: this.state.name,
-      styleURL: MapboxGL.StyleURL.Street,
-      bounds: [[bounds[0], bounds[1]], [bounds[2], bounds[3]]],
-      minZoom: 10,
-      maxZoom: 14
-    };
-
-    // start download
-    MapboxGL.offlineManager.createPack(options, this.onDownloadProgress);
-  }
-
-  onDownloadProgress(offlineRegion, offlineRegionStatus) {
-    this.setState({
-      name: offlineRegion.name,
-      offlineRegionStatus
-    });
-  }
+  map: any;
 
   handleCreateObservation = () => {
     const {

@@ -247,7 +247,12 @@ class ObservationDetailView extends React.PureComponent<
       selectedObservation &&
       selectedObservation.media &&
       selectedObservation.media.length > 0;
-    if (thereIsMedia) mediaText = `${selectedObservation.media.length} Photo`;
+    if (thereIsMedia)
+      mediaText = `${
+        selectedObservation && selectedObservation.media
+          ? selectedObservation.media.length
+          : 0
+      } Photo`;
 
     if (!selectedObservation) {
       return <View />;
