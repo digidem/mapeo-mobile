@@ -3,7 +3,7 @@ import React from 'react';
 import { Image, StyleSheet, View, TouchableHighlight } from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import type { Observation } from '@types/observation';
-import { isEmpty, size, map } from 'lodash';
+import { isEmpty, size, map, filter } from 'lodash';
 import env from '../../../../env.json';
 
 import CircleImg from '../../../images/circle-64.png';
@@ -19,7 +19,9 @@ export type DispatchProps = {
   createObservation: (observation: Observation) => void,
   updateObservation: (observation: Observation) => void,
   resetNavigation: () => void,
-  goToPosition: () => void
+  goToPosition: () => void,
+  goToObservationDetail: () => void,
+  selectObservation: (observation: Observation) => void
 };
 
 const styles = StyleSheet.create({
@@ -139,6 +141,31 @@ class MapView extends React.Component<StateProps & DispatchProps> {
     );
   };
 
+  handlePress = point => {
+    const {
+      observations,
+      selectObservation,
+      goToObservationDetail,
+      resetNavigation
+    } = this.props;
+    const { coordinates } = point.geometry;
+
+    const observation = filter(
+      observations,
+      o =>
+        Math.round(o.lon * 1000) / 1000 ===
+          Math.round(coordinates[0] * 1000) / 1000 &&
+        Math.round(o.lat * 1000) / 1000 ===
+          Math.round(coordinates[1] * 1000) / 1000
+    );
+
+    if (observation[0]) {
+      selectObservation(observation[0]);
+      resetNavigation();
+      goToObservationDetail();
+    }
+  };
+
   render() {
     const { observations } = this.props;
 
@@ -150,6 +177,7 @@ class MapView extends React.Component<StateProps & DispatchProps> {
           ref={c => (this.map = c)}
           zoomLevel={12}
           logoEnabled
+          onPress={this.handlePress}
         >
           {!!observations && !isEmpty(observations)
             ? map(observations, (o: Observation) => (

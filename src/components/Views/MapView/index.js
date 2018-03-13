@@ -5,7 +5,8 @@ import type { Dispatch } from 'redux';
 import {
   observationList,
   observationCreate,
-  observationUpdate
+  observationUpdate,
+  observationSelect
 } from '../../../ducks/observations';
 
 import { StoreState } from '../../../types/redux';
@@ -28,7 +29,12 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     resetNavigation: () => dispatch(resetAction),
     goToPosition: () =>
       dispatch(NavigationActions.navigate({ routeName: 'Position' })),
-    updateObservation: observation => dispatch(observationUpdate(observation))
+    updateObservation: observation => dispatch(observationUpdate(observation)),
+    selectObservation: o => dispatch(observationSelect(o)),
+    goToObservationDetail: () =>
+      dispatch(
+        NavigationActions.navigate({ routeName: 'ObservationDetailView' })
+      )
   };
 }
 
