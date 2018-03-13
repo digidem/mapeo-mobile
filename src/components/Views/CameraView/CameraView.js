@@ -60,6 +60,16 @@ class CameraView extends React.PureComponent<
 > {
   camera: RNCamera;
 
+  showCancelButton() {
+    const { navigation } = this.props;
+
+    return !!(
+      navigation.state &&
+      navigation.state.params &&
+      navigation.state.params.showCancelButton
+    );
+  }
+
   takePicture = async () => {
     const {
       updateObservation,
@@ -92,6 +102,8 @@ class CameraView extends React.PureComponent<
   };
 
   render() {
+    const cancelButton = this.showCancelButton();
+
     return (
       <View style={{ flex: 1, flexDirection: 'column' }}>
         <RNCamera
@@ -107,12 +119,14 @@ class CameraView extends React.PureComponent<
           <TouchableOpacity onPress={this.takePicture} style={styles.capture}>
             <Image source={CircleImg} />
           </TouchableOpacity>
-          <TouchableHighlight
-            style={styles.cancelButton}
-            onPress={() => this.props.navigation.goBack()}
-          >
-            <Text style={styles.cancelText}>Cancelar</Text>
-          </TouchableHighlight>
+          {cancelButton && (
+            <TouchableHighlight
+              style={styles.cancelButton}
+              onPress={() => this.props.navigation.goBack()}
+            >
+              <Text style={styles.cancelText}>Cancelar</Text>
+            </TouchableHighlight>
+          )}
         </RNCamera>
       </View>
     );

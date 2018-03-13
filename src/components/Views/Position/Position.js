@@ -200,13 +200,14 @@ class Position extends React.PureComponent<
         <View style={styles.header}>
           <TouchableHighlight
             onPress={() => {
-              const resetAction = NavigationActions.reset({
-                index: 0,
+              const navigateToMapView = NavigationActions.navigate({
+                routeName: 'TabBarNavigation',
+                params: {},
                 actions: [
-                  NavigationActions.navigate({ routeName: 'TabBarNavigation' })
+                  NavigationActions.navigate({ routeName: 'MapView' })
                 ]
               });
-              navigation.dispatch(resetAction);
+              navigation.dispatch(navigateToMapView);
             }}
             style={styles.closeIcon}
           >

@@ -1,8 +1,16 @@
 // @flow
 import React from 'react';
 import moment from 'moment';
-import { Text, View, StyleSheet, SectionList, Dimensions } from 'react-native';
+import {
+  TouchableHighlight,
+  Text,
+  View,
+  StyleSheet,
+  SectionList,
+  Dimensions
+} from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
+import LeftChevron from 'react-native-vector-icons/Entypo';
 import { map } from 'lodash';
 import type { Observation } from '../../../types/observation';
 
@@ -20,6 +28,7 @@ export type DispatchProps = {
 };
 
 type Props = {
+  closeRightDrawer: Function,
   navigation: NavigationActions
 };
 
@@ -95,6 +104,19 @@ const MyObservationsView = (props: StateProps & Props & DispatchProps) => {
 
   return (
     <View style={{ flexDirection: 'row', flex: 1, backgroundColor: WHITE }}>
+      <View style={{ flexDirection: 'row' }}>
+        <TouchableHighlight
+          onPress={props.closeRightDrawer}
+          style={styles.closeDrawerButton}
+        >
+          <LeftChevron
+            color={WHITE}
+            name="chevron-left"
+            size={30}
+            style={styles.leftChevron}
+          />
+        </TouchableHighlight>
+      </View>
       <View style={styles.container}>
         <Text style={styles.header}>My Observations</Text>
         <SectionList

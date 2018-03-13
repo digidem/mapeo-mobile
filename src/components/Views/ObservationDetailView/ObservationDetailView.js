@@ -227,13 +227,11 @@ class ObservationDetailView extends React.PureComponent<
     const {
       selectedObservation,
       addObservation,
-      goToTabNav,
       resetNavigation
     } = this.props;
 
     if (selectedObservation) {
       addObservation(selectedObservation);
-      goToTabNav();
       resetNavigation();
     }
   };

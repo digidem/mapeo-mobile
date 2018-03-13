@@ -3,7 +3,7 @@ import React from 'react';
 import { TabNavigator, TabBarTop } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MapView from '../../Views/MapView';
-import MyObservationsView from '../../Views/MyObservationsView';
+import CameraView from '../../Views/CameraView';
 
 import { DARK_GREY, MAPEO_BLUE, WHITE } from '../../../lib/styles';
 
@@ -21,13 +21,13 @@ const routeConfiguration = {
       )
     }
   },
-  MyObservationsView: {
-    screen: MyObservationsView,
+  CameraView: {
+    screen: CameraView,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
         <Icon
           color={tintColor}
-          name="collections"
+          name="photo-camera"
           size={30}
           style={{ marginLeft: -3 }}
         />
