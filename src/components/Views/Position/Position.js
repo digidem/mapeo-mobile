@@ -178,10 +178,14 @@ class Position extends React.PureComponent<
 
   handleUpdateObservation = () => {
     const { updateObservation, selectedObservation, navigation } = this.props;
+    const { positionText } = this.state;
+    const split = positionText.split(',');
 
     if (selectedObservation) {
       updateObservation({
-        ...selectedObservation
+        ...selectedObservation,
+        lat: parseFloat(split[0].trim()),
+        lon: parseFloat(split[1].trim())
       });
       navigation.navigate('Categories');
     }
