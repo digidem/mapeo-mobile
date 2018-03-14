@@ -25,7 +25,6 @@ export type StateProps = {
 
 export type DispatchProps = {
   goToPhotoView: (photoSource: string) => void,
-  goToTabNav: () => void,
   addObservation: (o: Observation) => void,
   resetNavigation: () => void
 };

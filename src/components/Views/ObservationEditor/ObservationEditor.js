@@ -12,6 +12,7 @@ import {
   Dimensions,
   FlatList
 } from 'react-native';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
@@ -94,12 +95,17 @@ const styles = StyleSheet.create({
   categoryContainer: {
     flex: 1,
     paddingHorizontal: 20,
-    justifyContent: 'center'
+    paddingVertical: 30,
+    justifyContent: 'center',
+    flexDirection: 'row'
   },
   categoryName: {
     fontSize: 15,
     color: WHITE,
-    fontWeight: '600'
+    fontWeight: '600',
+    flex: 1
+  },
+  categoryEditIcon: {
   },
   textInput: {
     fontSize: 20,
@@ -245,6 +251,18 @@ class ObservationEditor extends React.PureComponent<
               <Text style={styles.categoryName}>
                 {selectedObservation.type}
               </Text>
+              <TouchableHighlight
+                onPress={() => {
+                  navigation.navigate('Categories');
+                }}
+                style={styles.categoryEditIcon}
+              >
+                <FontAwesomeIcon
+                  color="lightgray"
+                  name="pencil"
+                  size={20}
+                />
+              </TouchableHighlight>
             </View>
           </View>
           <TextInput
