@@ -109,11 +109,13 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 20,
+    height: 270,
     padding: 20,
     paddingBottom: 30,
     color: WHITE,
     alignItems: 'flex-start',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    textAlignVertical: 'top'
   },
   cameraText: {
     fontSize: 15,
@@ -269,7 +271,7 @@ class ObservationEditor extends React.PureComponent<
             style={styles.textInput}
             value={text}
             onChangeText={this.handleTextInputChange}
-            placeholder="?Qué está pasando aquí"
+            placeholder="¿Qué está pasando aquí..."
             placeholderTextColor={MEDIUM_GREY}
             underlineColorAndroid={DARK_GREY}
             onBlur={this.handleTextInputBlur}
@@ -279,15 +281,14 @@ class ObservationEditor extends React.PureComponent<
           {selectedObservation &&
             !!selectedObservation.media.length && (
               <FlatList
-                numColumns={2}
+                horizontal
                 style={{
                   flexDirection: 'column',
-                  paddingVertical: 5,
-                  paddingHorizontal: 10
+                  position: 'absolute',
+                  bottom: 55
                 }}
                 contentContainerStyle={{
-                  justifyContent: 'center',
-                  alignItems: 'center'
+                  alignContent: 'flex-start'
                 }}
                 keyExtractor={keyExtractor}
                 renderItem={({ item }) => (
@@ -297,9 +298,8 @@ class ObservationEditor extends React.PureComponent<
                     <Image
                       source={{ uri: item.source }}
                       style={{
-                        width: Dimensions.get('window').width / 2,
-                        height: Dimensions.get('window').width / 2,
-                        margin: 10
+                        width: Dimensions.get('window').width / 5,
+                        height: Dimensions.get('window').width / 5
                       }}
                     />
                   </TouchableHighlight>
@@ -310,7 +310,7 @@ class ObservationEditor extends React.PureComponent<
           {selectedObservation &&
             !selectedObservation.media.length && (
               <Text style={styles.cameraText}>
-                No hay fotos. ?Toma algunos?
+                No hay fotos. ¿Toma algunos?
               </Text>
             )}
           <View style={styles.cameraButtonContainer}>

@@ -93,13 +93,13 @@ class PhotoView extends React.PureComponent<
             style={styles.backButton}
             onPress={() => navigation.goBack()}
           >
-            <Text style={styles.buttonText}>Back</Text>
+            <Text style={styles.buttonText}>Regresso</Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.deleteButton}
             onPress={this.handleDeletePhoto}
           >
-            <Text style={styles.buttonText}>Delete</Text>
+            <Text style={styles.buttonText}>Borrar</Text>
           </TouchableHighlight>
         </View>
       </View>
