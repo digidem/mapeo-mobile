@@ -15,7 +15,10 @@ import type { DispatchProps, StateProps } from './MapView';
 
 const resetAction = NavigationActions.reset({
   index: 0,
-  actions: [NavigationActions.navigate({ routeName: 'TabBarNavigation' })]
+  actions: [
+    NavigationActions.navigate({
+      routeName: 'TabBarNavigation'
+    })]
 });
 
 const mapStateToProps = (state: StoreState): StateProps => ({

@@ -10,6 +10,7 @@ import {
   View
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import { size } from 'lodash';
 import type { Observation } from '../../../types/observation';
 import { CHARCOAL, WHITE } from '../../../lib/styles.js';
 
@@ -46,55 +47,96 @@ export type Props = {
 };
 
 export type StateProps = {
+  observations: {
+    [id: string]: Observation
+  },
   selectedObservation: Observation
 };
 
 export type DispatchProps = {
+  createObservation: (observation: Observation) => void,
   updateObservation: (o: Observation) => void,
   goToObservationEditor: () => void,
+  goToPhotoView: () => void,
   resetNavigation: () => void
 };
 
-class CameraView extends React.PureComponent<
+class CameraTabView extends React.PureComponent<
   Props & StateProps & DispatchProps
 > {
   camera: RNCamera;
 
-  showCancelButton() {
-    const { navigation } = this.props;
+  handleCreateObservation = (data) => {
 
-    return !!(
-      navigation.state &&
-      navigation.state.params &&
-      navigation.state.params.showCancelButton
-    );
-  }
+  };
 
   takePicture = async () => {
-    const {
-      updateObservation,
-      selectedObservation,
-      goToObservationEditor,
-      resetNavigation
-    } = this.props;
+    // const {
+    //   updateObservation,
+    //   selectedObservation,
+    //   goToObservationEditor,
+    //   resetNavigation
+    // } = this.props;
     if (this.camera) {
       const options = { quality: 0.5, base64: true, exif: true };
       try {
         const data = await this.camera.takePictureAsync(options);
 
-        if (selectedObservation) {
-          updateObservation({
-            ...selectedObservation,
-            media: selectedObservation.media.concat([
-              {
-                type: 'Photo',
-                source: data.uri
-              }
-            ])
-          });
-          goToObservationEditor();
-          resetNavigation();
-        }
+        const {
+          createObservation,
+          observations,
+          resetNavigation,
+          updateObservation,
+          goToPhotoView
+        } = this.props;
+        const initialObservation = {
+          type: 'Rios y corrientes',
+          id: size(observations) + 1,
+          lat: 0,
+          lon: 0,
+          link: 'link',
+          created: new Date(),
+          name: '',
+          notes: '',
+          observedBy: 'user',
+          media: [],
+          icon: null
+        };
+
+        resetNavigation();
+
+        createObservation(initialObservation);
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            const { latitude, longitude } = position.coords;
+            updateObservation({
+              ...initialObservation,
+              lat: Math.round(latitude * 1000) / 1000,
+              lon: Math.round(longitude * 1000) / 1000,
+              media: initialObservation.media.concat([
+                {
+                  type: 'Photo',
+                  source: data.uri
+                }
+              ])
+            });
+          },
+          error => console.warn(error)
+        );
+        goToPhotoView(data.uri);
+        // if (selectedObservation) {
+        //   updateObservation({
+        //     ...selectedObservation,
+        //     media: selectedObservation.media.concat([
+        //       {
+        //         type: 'Photo',
+        //         source: data.uri
+        //       }
+        //     ])
+        //   });
+        //   goToObservationEditor();
+        //   resetNavigation();
+        // }
       } catch (error) {
         console.warn(error);
       }
@@ -102,8 +144,6 @@ class CameraView extends React.PureComponent<
   };
 
   render() {
-    // const cancelButton = this.showCancelButton();
-
     return (
       <View style={{ flex: 1, flexDirection: 'column' }}>
         <RNCamera
@@ -119,16 +159,10 @@ class CameraView extends React.PureComponent<
           <TouchableOpacity onPress={this.takePicture} style={styles.capture}>
             <Image source={CircleImg} />
           </TouchableOpacity>
-          <TouchableHighlight
-            style={styles.cancelButton}
-            onPress={() => this.props.navigation.goBack()}
-          >
-            <Text style={styles.cancelText}>Cancelar</Text>
-          </TouchableHighlight>
         </RNCamera>
       </View>
     );
   }
 }
 
-export default withNavigation(CameraView);
+export default withNavigation(CameraTabView);

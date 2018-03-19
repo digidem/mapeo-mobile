@@ -8,13 +8,11 @@ import { observationAdd } from '../../../ducks/observations';
 import ObservationDetailView from './ObservationDetailView';
 import type { StateProps, DispatchProps } from './ObservationDetailView';
 
-const resetAction = NavigationActions.navigate({
-  routeName: 'TabBarNavigation',
-  params: {},
+const resetAction = NavigationActions.reset({
+  index: 0,
   actions: [
     NavigationActions.navigate({
-      routeName: 'CameraView',
-      params: { showCancelButton: false }
+      routeName: 'TabBarNavigation'
     })
   ]
 });

@@ -3,13 +3,19 @@ import React from 'react';
 import {
   Dimensions,
   StyleSheet,
-  Image,
+  ImageBackground,
   Text,
   TouchableHighlight,
   View
 } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
-import { CHARCOAL, MAGENTA, WHITE } from '../../../lib/styles';
+import Icon from 'react-native-vector-icons/Feather';
+import {
+  CHARCOAL,
+  MAGENTA,
+  MANGO,
+  WHITE
+} from '../../../lib/styles';
 import type { Observation } from '../../../types/observation';
 
 export type Props = {
@@ -25,6 +31,20 @@ export type DispatchProps = {
 };
 
 const styles = StyleSheet.create({
+  arrowButton: {
+    backgroundColor: MANGO,
+    height: 40,
+    width: 60,
+    borderRadius: 25,
+    marginRight: 15,
+    position: 'absolute',
+    bottom: 50,
+  },
+  arrowIcon: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: 2
+  },
   backButton: {
     flex: 1,
     backgroundColor: CHARCOAL,
@@ -48,6 +68,16 @@ const styles = StyleSheet.create({
 class PhotoView extends React.PureComponent<
   Props & StateProps & DispatchProps
 > {
+  isFromCameraTab() {
+    const { navigation } = this.props;
+
+    return !!(
+      navigation.state &&
+      navigation.state.params &&
+      navigation.state.params.fromCameraTab
+    );
+  }
+
   handleDeletePhoto = () => {
     const { navigation, updateObservation, selectedObservation } = this.props;
 
@@ -65,6 +95,9 @@ class PhotoView extends React.PureComponent<
 
   render() {
     const { navigation, selectedObservation } = this.props;
+    const fromCameraTab = this.isFromCameraTab();
+    const imageHeight = fromCameraTab ?
+                  Dimensions.get('window').height : Dimensions.get('window').height - 70;
     const hasPhoto =
       selectedObservation &&
       selectedObservation.media &&
@@ -79,29 +112,46 @@ class PhotoView extends React.PureComponent<
           }}
         >
           {hasPhoto && (
-            <Image
+            <ImageBackground
               style={{
                 width: Dimensions.get('window').width,
-                height: Dimensions.get('window').height - 70
+                height: imageHeight,
+                alignItems: 'center'
               }}
               source={{ uri: navigation.state.params.photoSource }}
-            />
+            >
+              {fromCameraTab && (
+                <TouchableHighlight
+                  style={styles.arrowButton}
+                  onPress={() => navigation.navigate('Position')}
+                >
+                  <Icon
+                    color="white"
+                    name="arrow-right"
+                    size={35}
+                    style={styles.arrowIcon}
+                  />
+                </TouchableHighlight>
+              )}
+            </ImageBackground>
           )}
         </View>
-        <View style={{ flexDirection: 'row' }}>
-          <TouchableHighlight
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={styles.buttonText}>Regresso</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={styles.deleteButton}
-            onPress={this.handleDeletePhoto}
-          >
-            <Text style={styles.buttonText}>Borrar</Text>
-          </TouchableHighlight>
-        </View>
+        {!fromCameraTab && (
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableHighlight
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Text style={styles.buttonText}>Regresso</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={styles.deleteButton}
+              onPress={this.handleDeletePhoto}
+            >
+              <Text style={styles.buttonText}>Borrar</Text>
+            </TouchableHighlight>
+          </View>
+        )}
       </View>
     );
   }

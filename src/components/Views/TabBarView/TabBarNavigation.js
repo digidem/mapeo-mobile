@@ -4,11 +4,10 @@ import { addNavigationHelpers } from 'react-navigation';
 import { StyleSheet, View, TouchableHighlight } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
+import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import MyObservationsView from '../../Views/MyObservationsView';
 import TabBar from './TabBar';
 import { WHITE } from '../../../lib/styles';
-
-import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 
 const styles = StyleSheet.create({
   myObservationsIcon: {

@@ -203,8 +203,7 @@ class ObservationEditor extends React.PureComponent<
       });
     }
     const cameraAction = NavigationActions.navigate({
-      routeName: 'CameraView',
-      params: { showCancelButton: true }
+      routeName: 'CameraView'
     });
     navigation.dispatch(cameraAction);
   };

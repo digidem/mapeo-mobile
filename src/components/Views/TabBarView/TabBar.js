@@ -3,7 +3,7 @@ import React from 'react';
 import { TabNavigator, TabBarTop } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MapView from '../../Views/MapView';
-import CameraView from '../../Views/CameraView';
+import CameraTabView from '../../Views/CameraTabView';
 
 import { DARK_GREY, MAPEO_BLUE, WHITE } from '../../../lib/styles';
 
@@ -21,8 +21,8 @@ const routeConfiguration = {
       )
     }
   },
-  CameraView: {
-    screen: CameraView,
+  CameraTabView: {
+    screen: CameraTabView,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
         <Icon
