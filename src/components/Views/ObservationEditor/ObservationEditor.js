@@ -8,10 +8,8 @@ import {
   Text,
   StyleSheet,
   TouchableHighlight,
-  TouchableWithoutFeedback,
   TextInput,
   Image,
-  Dimensions,
   FlatList
 } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
@@ -96,6 +94,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: LIGHT_GREY
   },
+  check: {
+    position: 'absolute',
+    right: 10,
+    backgroundColor: MANGO,
+    height: 35,
+    width: 35,
+    borderRadius: 50,
+    justifyContent: 'center'
+  },
+  checkIcon: {
+    alignSelf: 'center'
+  },
   close: {
     position: 'absolute',
     left: 10
@@ -108,18 +118,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: WHITE
   },
-  forward: {
+  greyCheck: {
     position: 'absolute',
     right: 10,
-    backgroundColor: MANGO,
-    height: 30,
-    width: 45,
-    borderRadius: 15,
-  },
-  forwardIcon: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    marginTop: 2
+    backgroundColor: LIGHT_GREY,
+    height: 35,
+    width: 35,
+    borderRadius: 50,
+    justifyContent: 'center'
   },
   header: {
     flexDirection: 'row',
@@ -140,14 +146,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 65,
     height: 65,
-    backgroundColor: 'lightgray'
+    backgroundColor: 'lightgray',
+    borderRadius: 5
   },
   mediaRow: {
     flex: 1,
     backgroundColor: 'whitesmoke',
     borderColor: LIGHT_GREY,
-    borderTopWidth: 1,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    paddingHorizontal: 10,
+    marginTop: -10
   },
   positionImg: {
     width: 35,
@@ -267,7 +275,12 @@ class ObservationEditor extends React.PureComponent<
   };
 
   renderHeader = () => {
-    const { navigation } = this.props;
+    const { navigation, selectedObservation } = this.props;
+    const { text } = this.state;
+    const showGreyCheck =
+      text === '' &&
+      selectedObservation &&
+      !selectedObservation.media.length;
 
     return (
       <View style={styles.header}>
@@ -278,17 +291,30 @@ class ObservationEditor extends React.PureComponent<
           <Icon color="lightgray" name="close" size={25} />
         </TouchableHighlight>
         <Text style={styles.title}>Observaciones</Text>
-        <TouchableHighlight
-          style={styles.forward}
-          onPress={this.handleUpdateObservation}
-        >
-          <FeatherIcon
-            color="white"
-            name="arrow-right"
-            size={25}
-            style={styles.forwardIcon}
-          />
-        </TouchableHighlight>
+        {showGreyCheck && (
+          <View style={styles.greyCheck}>
+            <FeatherIcon
+              color="white"
+              name="check"
+              size={15}
+              style={styles.checkIcon}
+            />
+          </View>
+        )}
+        {!showGreyCheck && (
+          <TouchableHighlight
+            style={styles.check}
+            onPress={this.handleUpdateObservation}
+          >
+            <FeatherIcon
+              color="white"
+              name="check"
+              size={15}
+              style={styles.checkIcon}
+            />
+          </TouchableHighlight>
+        )}
+        
       </View>
     );
   };
@@ -350,17 +376,14 @@ class ObservationEditor extends React.PureComponent<
           {selectedObservation &&
             !selectedObservation.media.length && (
               <View style={styles.mediaRow}>
-                <TouchableHighlight
-                  style={styles.mediaPlaceholder}
-                  onPress={this.goToCameraView}
-                >
+                <View style={styles.mediaPlaceholder}>
                   <Icon
                     color={WHITE}
                     name="photo"
                     size={30}
                     style={styles.collectionsImg}
                   />
-                </TouchableHighlight>
+                </View>
               </View>
             )}
           {selectedObservation &&
@@ -383,7 +406,8 @@ class ObservationEditor extends React.PureComponent<
                         source={{ uri: item.source }}
                         style={{
                           width: 65,
-                          height: 65
+                          height: 65,
+                          borderRadius: 5
                         }}
                       />
                     </TouchableHighlight>
