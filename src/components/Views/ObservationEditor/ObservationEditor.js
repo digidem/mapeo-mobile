@@ -3,10 +3,12 @@ import React from 'react';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import {
   View,
+  Keyboard,
   KeyboardAvoidingView,
   Text,
   StyleSheet,
   TouchableHighlight,
+  TouchableWithoutFeedback,
   TextInput,
   Image,
   Dimensions,
@@ -18,9 +20,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
 import {
-  DARK_GREY,
   LIGHT_GREY,
-  CHARCOAL,
   WHITE,
   MANGO,
   MEDIUM_GREY,
@@ -44,6 +44,7 @@ export type DispatchProps = {
 };
 
 type State = {
+  keyboardShown: boolean,
   text: string
 };
 
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
     height: 65,
     backgroundColor: 'lightgray'
   },
-  mediaPlaceholderRow: {
+  mediaRow: {
     flex: 1,
     backgroundColor: 'whitesmoke',
     borderColor: LIGHT_GREY,
@@ -183,9 +184,14 @@ class ObservationEditor extends React.PureComponent<
     };
   }
 
+  componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  }
+
   componentDidMount() {
     const { updateObservation, selectedObservation, category } = this.props;
-
+    
     if (selectedObservation && category) {
       updateObservation({
         ...selectedObservation,
@@ -195,6 +201,23 @@ class ObservationEditor extends React.PureComponent<
     }
   }
 
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  keyboardDidShow = () => {
+    this.setState(previousState => {
+      return { keyboardShown: true, text: previousState.text }
+    });
+  };
+
+  keyboardDidHide = () => {
+    this.setState(previousState => {
+      return { keyboardShown: false, text: previousState.text }
+    });
+  };
+  
   handleTextInputChange = text => {
     this.setState({ text });
   };
@@ -228,6 +251,7 @@ class ObservationEditor extends React.PureComponent<
   };
 
   goToCameraView = () => {
+    Keyboard.dismiss();
     const { selectedObservation, updateObservation, navigation } = this.props;
 
     if (selectedObservation) {
@@ -271,7 +295,7 @@ class ObservationEditor extends React.PureComponent<
 
   render() {
     const { navigation, selectedObservation, goToPhotoView } = this.props;
-    const { text } = this.state;
+    const { keyboardShown, text } = this.state;
     const positionText = selectedObservation
         ? `${selectedObservation.lat}, ${selectedObservation.lon}`
         : 'Loading...';
@@ -325,48 +349,91 @@ class ObservationEditor extends React.PureComponent<
           />
           {selectedObservation &&
             !selectedObservation.media.length && (
-              <View style={styles.mediaPlaceholderRow}>
-                <View style={styles.mediaPlaceholder}>
+              <View style={styles.mediaRow}>
+                <TouchableHighlight
+                  style={styles.mediaPlaceholder}
+                  onPress={this.goToCameraView}
+                >
                   <Icon
                     color={WHITE}
                     name="photo"
                     size={30}
                     style={styles.collectionsImg}
                   />
-                </View>
+                </TouchableHighlight>
               </View>
             )}
           {selectedObservation &&
             !!selectedObservation.media.length && (
-              <FlatList
-                horizontal
-                style={{
-                  flexDirection: 'column',
-                  position: 'absolute',
-                  bottom: 55
-                }}
-                contentContainerStyle={{
-                  alignContent: 'flex-start'
-                }}
-                keyExtractor={keyExtractor}
-                renderItem={({ item }) => (
-                  <TouchableHighlight
-                    onPress={() => goToPhotoView(item.source)}
-                  >
-                    <Image
-                      source={{ uri: item.source }}
-                      style={{
-                        width: Dimensions.get('window').width / 5,
-                        height: Dimensions.get('window').width / 5
-                      }}
-                    />
-                  </TouchableHighlight>
-                )}
-                data={selectedObservation.media}
-              />
+              <View style={styles.mediaRow}>
+                <FlatList
+                  horizontal
+                  style={{
+                    flexDirection: 'column'
+                  }}
+                  contentContainerStyle={{
+                    alignContent: 'flex-start'
+                  }}
+                  keyExtractor={keyExtractor}
+                  renderItem={({ item }) => (
+                    <TouchableHighlight
+                      onPress={() => goToPhotoView(item.source)}
+                    >
+                      <Image
+                        source={{ uri: item.source }}
+                        style={{
+                          width: 65,
+                          height: 65
+                        }}
+                      />
+                    </TouchableHighlight>
+                  )}
+                  data={selectedObservation.media}
+                />
+              </View>
             )}
           <View style={styles.bottomButton}>
-            <Text style={styles.addText}>Add...</Text>
+            <View
+              style={{
+                flexDirection: 'row'
+              }}
+            >
+              <Text style={styles.addText}>Add...</Text>
+              {keyboardShown && (
+                <TouchableHighlight
+                  style={{ marginLeft: 70 }}
+                  onPress={this.goToCameraView}
+                >
+                  <Icon
+                    color={MEDIUM_GREY}
+                    name="photo-camera"
+                    size={30}
+                  />
+                </TouchableHighlight>
+              )}
+              {keyboardShown && (
+                <TouchableHighlight
+                  style={{ marginHorizontal: 60 }}
+                >
+                  <FontAwesomeIcon
+                    color={MEDIUM_GREY}
+                    name="microphone"
+                    size={30}
+                  />
+                </TouchableHighlight>
+              )}
+              {keyboardShown && (
+                <TouchableHighlight
+                  style={{ marginRight: 30 }}
+                >
+                  <FontAwesomeIcon
+                    color={MEDIUM_GREY}
+                    name="pencil"
+                    size={30}
+                  />
+                </TouchableHighlight>
+              )}
+            </View>
           </View>
           <TouchableHighlight
             style={styles.bottomButton}

@@ -7,7 +7,6 @@ import Position from '../Views/Position';
 import ObservationEditor from '../Views/ObservationEditor';
 import CameraView from '../Views/CameraView';
 import PhotoView from '../Views/PhotoView';
-import MyObservationsView from '../Views/MyObservationsView';
 import ObservationDetailView from '../Views/ObservationDetailView';
 import PreferencesView from '../Views/PreferencesView/PreferencesView';
 import TabBarNavigation from '../Views/TabBarView';

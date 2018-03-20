@@ -66,17 +66,7 @@ class CameraTabView extends React.PureComponent<
 > {
   camera: RNCamera;
 
-  handleCreateObservation = (data) => {
-
-  };
-
   takePicture = async () => {
-    // const {
-    //   updateObservation,
-    //   selectedObservation,
-    //   goToObservationEditor,
-    //   resetNavigation
-    // } = this.props;
     if (this.camera) {
       const options = { quality: 0.5, base64: true, exif: true };
       try {
@@ -124,19 +114,6 @@ class CameraTabView extends React.PureComponent<
           error => console.warn(error)
         );
         goToPhotoView(data.uri);
-        // if (selectedObservation) {
-        //   updateObservation({
-        //     ...selectedObservation,
-        //     media: selectedObservation.media.concat([
-        //       {
-        //         type: 'Photo',
-        //         source: data.uri
-        //       }
-        //     ])
-        //   });
-        //   goToObservationEditor();
-        //   resetNavigation();
-        // }
       } catch (error) {
         console.warn(error);
       }
@@ -152,7 +129,7 @@ class CameraTabView extends React.PureComponent<
           }}
           style={styles.preview}
           type={RNCamera.Constants.Type.back}
-          flashMode={RNCamera.Constants.FlashMode.on}
+          flashMode={RNCamera.Constants.FlashMode.auto}
           permissionDialogTitle="Permission to use camera"
           permissionDialogMessage="We need your permission to use your camera phone"
         >
