@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: LIGHT_GREY,
     borderRadius: 50,
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   cellContainer: {
     flex: 1,

@@ -17,14 +17,14 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
+import CategoryPin from '../../../images/category-pin.png';
 import {
   LIGHT_GREY,
   WHITE,
   MANGO,
   MEDIUM_GREY,
-  VERY_LIGHT_GREEN
+  VERY_LIGHT_BLUE
 } from '../../../lib/styles';
-import PositionImg from '../../../images/position.png';
 
 export type Props = {
   navigation: NavigationActions
@@ -37,8 +37,9 @@ export type StateProps = {
 
 export type DispatchProps = {
   updateObservation: (o: Observation) => void,
-  goToObservationDetailReview: () => void,
-  goToPhotoView: (photoSource: string) => void
+  goToPhotoView: (photoSource: string) => void,
+  addObservation: (o: Observation) => void,
+  resetNavigation: () => void
 };
 
 type State = {
@@ -78,10 +79,25 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center'
   },
+  categoryIcon: {
+    height: 65,
+    width: 65,
+    backgroundColor: VERY_LIGHT_BLUE,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   categoryName: {
     fontSize: 15,
     color: 'black',
     fontWeight: '600'
+  },
+  categoryPin: {
+    width: 60,
+    height: 60
+  },
+  categoryPinContainer: {
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   categoryPositionText: {
     fontSize: 12,
@@ -136,25 +152,19 @@ const styles = StyleSheet.create({
     borderColor: LIGHT_GREY,
     borderBottomWidth: 1
   },
-  map: {
-    height: 65,
-    width: 65,
-    backgroundColor: VERY_LIGHT_GREEN,
-    justifyContent: 'center'
-  },
   mediaPlaceholder: {
     justifyContent: 'center',
     width: 65,
     height: 65,
     backgroundColor: 'lightgray',
-    borderRadius: 5
+    borderRadius: 5,
+    marginLeft: 10
   },
   mediaRow: {
     flex: 1,
     backgroundColor: 'whitesmoke',
     borderColor: LIGHT_GREY,
     borderBottomWidth: 1,
-    paddingHorizontal: 10,
     marginTop: -10
   },
   positionImg: {
@@ -230,20 +240,20 @@ class ObservationEditor extends React.PureComponent<
     this.setState({ text });
   };
 
-  handleUpdateObservation = () => {
+  handleSaveObservation = () => {
     const {
-      updateObservation,
+      addObservation,
       selectedObservation,
-      goToObservationDetailReview
+      resetNavigation
     } = this.props;
     const { text } = this.state;
 
     if (selectedObservation) {
-      updateObservation({
+      addObservation({
         ...selectedObservation,
         notes: text
       });
-      goToObservationDetailReview();
+      resetNavigation();
     }
   };
 
@@ -304,7 +314,7 @@ class ObservationEditor extends React.PureComponent<
         {!showGreyCheck && (
           <TouchableHighlight
             style={styles.check}
-            onPress={this.handleUpdateObservation}
+            onPress={this.handleSaveObservation}
           >
             <FeatherIcon
               color="white"
@@ -337,9 +347,23 @@ class ObservationEditor extends React.PureComponent<
         {this.renderHeader()}
         <View style={{ flex: 1 }}>
           <View style={styles.categoryRow}>
-            <View style={styles.map}>
-              <Image style={styles.positionImg} source={PositionImg} />
-            </View>
+            <TouchableHighlight
+              style={styles.categoryIcon}
+              onPress={() => navigation.navigate('Categories')}
+            >
+              <View style={{ justifyContent: 'center' }}>
+                <Image source={CategoryPin} style={styles.categoryPin} />
+                <View 
+                  style={{
+                    position: 'absolute',
+                    alignSelf: 'center',
+                    bottom: 20
+                  }}
+                >
+                  {selectedObservation && (selectedObservation.icon)}
+                </View>
+              </View>
+            </TouchableHighlight>
             <View style={styles.categoryContainer}>
               <View style={{ flexDirection: 'column', flex: 1 }}>
                 <Text style={styles.categoryName}>
@@ -401,6 +425,7 @@ class ObservationEditor extends React.PureComponent<
                   renderItem={({ item }) => (
                     <TouchableHighlight
                       onPress={() => goToPhotoView(item.source)}
+                      style={{ paddingLeft: 10 }}
                     >
                       <Image
                         source={{ uri: item.source }}

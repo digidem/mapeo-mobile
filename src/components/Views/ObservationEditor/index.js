@@ -4,9 +4,18 @@ import { NavigationActions } from 'react-navigation';
 import type { Dispatch } from 'redux';
 import { StoreState } from '../../../types/redux';
 
-import { observationUpdate } from '../../../ducks/observations';
+import { observationAdd, observationUpdate } from '../../../ducks/observations';
 import ObservationEditor from './ObservationEditor';
 import type { Props, StateProps, DispatchProps } from './ObservationEditor';
+
+const resetAction = NavigationActions.reset({
+  index: 0,
+  actions: [
+    NavigationActions.navigate({
+      routeName: 'TabBarNavigation'
+    })
+  ]
+});
 
 function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
   return {
@@ -23,21 +32,16 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
+    addObservation: observation => dispatch(observationAdd(observation)),
     updateObservation: observation => dispatch(observationUpdate(observation)),
-    goToObservationDetailReview: () =>
-      dispatch(
-        NavigationActions.navigate({
-          routeName: 'ObservationDetailView',
-          params: { review: true }
-        })
-      ),
     goToPhotoView: (source) =>
       dispatch(
         NavigationActions.navigate({
           routeName: 'PhotoView',
           params: { photoSource: source }
         })
-      )
+      ),
+    resetNavigation: () => dispatch(resetAction)
   };
 }
 

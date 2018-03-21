@@ -13,7 +13,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_0.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -23,7 +23,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_1.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -33,7 +33,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_2.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -43,7 +43,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_3.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -53,7 +53,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_4.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -63,7 +63,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_5.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -73,7 +73,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_6.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -83,7 +83,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_7.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -93,7 +93,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_8.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -103,7 +103,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_9.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -113,7 +113,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_10.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -123,7 +123,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_11.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -133,7 +133,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_12.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -143,7 +143,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_13.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -153,7 +153,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_14.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -163,7 +163,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_15.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -173,7 +173,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_16.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -183,7 +183,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_17.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
@@ -193,7 +193,7 @@ const initialCategories = [
     icon: (
       <Image
         source={require('../images/categories/category_18.png')}
-        style={{ width: 40, height: 40 }}
+        style={{ width: 25, height: 25 }}
         resizeMode="contain"
       />
     )
