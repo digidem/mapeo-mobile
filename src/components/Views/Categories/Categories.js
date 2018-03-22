@@ -7,13 +7,14 @@ import {
   TouchableHighlight,
   View,
   FlatList,
-  Dimensions
+  Dimensions,
+  Image
 } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
-import { DARK_GREY, LIGHT_GREY, WHITE } from '../../../lib/styles';
+import { DARK_GREY, LIGHT_GREY, WHITE, CHARCOAL } from '../../../lib/styles';
 
 type Props = {
   navigation: NavigationActions
@@ -172,9 +173,27 @@ class Categories extends React.PureComponent<
               coordinate={[selectedObservation.lon, selectedObservation.lat]}
               selected
             >
-              <MapboxGL.Callout
-                title={`${selectedObservation.lon}, ${selectedObservation.lat}`}
-              />
+              <MapboxGL.Callout>
+                <View
+                  style={{
+                    backgroundColor: WHITE,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: 10,
+                    borderRadius: 5
+                  }}
+                >
+                  {!!selectedObservation.media.length && (
+                    <Image
+                      style={{ width: 50, height: 50, marginBottom: 10 }}
+                      source={{ uri: selectedObservation.media[0].source }}
+                    />
+                  )}
+                  <Text style={{ color: CHARCOAL }}>
+                    {selectedObservation.lon}, {selectedObservation.lat}
+                  </Text>
+                </View>
+              </MapboxGL.Callout>
             </MapboxGL.PointAnnotation>
           )}
         </MapboxGL.MapView>

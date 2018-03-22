@@ -1,14 +1,7 @@
 // @flow
 import React from 'react';
 import { NavigationActions, withNavigation } from 'react-navigation';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { size } from 'lodash';
 import type { Observation } from '../../../types/observation';
@@ -57,7 +50,7 @@ export type DispatchProps = {
   createObservation: (observation: Observation) => void,
   updateObservation: (o: Observation) => void,
   goToObservationEditor: () => void,
-  goToPhotoView: () => void,
+  goToCategories: () => void,
   resetNavigation: () => void
 };
 
@@ -77,7 +70,7 @@ class CameraTabView extends React.PureComponent<
           observations,
           resetNavigation,
           updateObservation,
-          goToPhotoView
+          goToCategories
         } = this.props;
         const initialObservation = {
           type: 'Rios y corrientes',
@@ -113,7 +106,7 @@ class CameraTabView extends React.PureComponent<
           },
           error => console.warn(error)
         );
-        goToPhotoView(data.uri);
+        goToCategories();
       } catch (error) {
         console.warn(error);
       }
