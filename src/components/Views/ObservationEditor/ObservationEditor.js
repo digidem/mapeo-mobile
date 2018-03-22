@@ -10,7 +10,9 @@ import {
   TouchableHighlight,
   TextInput,
   Image,
-  FlatList
+  ImageBackground,
+  FlatList,
+  Dimensions
 } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -48,12 +50,6 @@ type State = {
 };
 
 const styles = StyleSheet.create({
-  addText: {
-    marginLeft: 20,
-    fontSize: 20,
-    fontWeight: '700',
-    color: 'black'
-  },
   bottomButton: {
     alignSelf: 'stretch',
     justifyContent: 'center',
@@ -72,47 +68,27 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '400'
   },
-  categoryContainer: {
-    paddingHorizontal: 20,
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flex: 1,
-    alignSelf: 'center'
-  },
-  categoryIcon: {
-    height: 65,
-    width: 65,
-    backgroundColor: VERY_LIGHT_BLUE,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   categoryName: {
     fontSize: 15,
     color: 'black',
     fontWeight: '600'
   },
   categoryPin: {
-    width: 60,
-    height: 60
-  },
-  categoryPinContainer: {
-    alignItems: 'center',
-    justifyContent: 'center'
+    width: 80,
+    height: 90,
+    marginTop: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   categoryPositionText: {
     fontSize: 12,
     color: 'black',
     fontWeight: '700'
   },
-  categoryRow: {
-    flexDirection: 'row',
-    height: 65,
-    borderBottomWidth: 1,
-    borderColor: LIGHT_GREY
-  },
   check: {
     position: 'absolute',
-    right: 10,
+    top: 20,
+    right: 20,
     backgroundColor: MANGO,
     height: 35,
     width: 35,
@@ -121,10 +97,6 @@ const styles = StyleSheet.create({
   },
   checkIcon: {
     alignSelf: 'center'
-  },
-  close: {
-    position: 'absolute',
-    left: 10
   },
   collectionsImg: {
     alignSelf: 'center'
@@ -136,7 +108,8 @@ const styles = StyleSheet.create({
   },
   greyCheck: {
     position: 'absolute',
-    right: 10,
+    top: 20,
+    right: 20,
     backgroundColor: LIGHT_GREY,
     height: 35,
     width: 35,
@@ -144,44 +117,39 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   header: {
-    flexDirection: 'row',
-    backgroundColor: WHITE,
-    paddingVertical: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: 150,
+    backgroundColor: VERY_LIGHT_BLUE,
     borderColor: LIGHT_GREY,
     borderBottomWidth: 1
   },
-  mediaPlaceholder: {
-    justifyContent: 'center',
-    width: 65,
-    height: 65,
-    backgroundColor: 'lightgray',
-    borderRadius: 5,
-    marginLeft: 10
-  },
   mediaRow: {
     flex: 1,
-    backgroundColor: 'whitesmoke',
+    backgroundColor: WHITE,
     borderColor: LIGHT_GREY,
     borderBottomWidth: 1,
-    marginTop: -10
+    borderTopWidth: 1,
+    paddingVertical: 15
   },
-  positionImg: {
-    width: 35,
-    height: 41,
-    alignSelf: 'center'
+  photosButton: {
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    backgroundColor: WHITE,
+    height: 60,
+    borderColor: LIGHT_GREY,
+    borderBottomWidth: 1,
+    borderTopWidth: 1
   },
   textInput: {
     fontSize: 20,
-    height: 130,
+    height: 145,
     padding: 20,
     paddingBottom: 30,
     color: 'black',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     textAlignVertical: 'top',
-    backgroundColor: 'whitesmoke'
+    backgroundColor: 'white',
+    borderColor: LIGHT_GREY
   },
   title: {
     fontSize: 20,
@@ -284,51 +252,6 @@ class ObservationEditor extends React.PureComponent<
     navigation.dispatch(cameraAction);
   };
 
-  renderHeader = () => {
-    const { navigation, selectedObservation } = this.props;
-    const { text } = this.state;
-    const showGreyCheck =
-      text === '' &&
-      selectedObservation &&
-      !selectedObservation.media.length;
-
-    return (
-      <View style={styles.header}>
-        <TouchableHighlight
-          style={styles.close}
-          onPress={() => navigation.navigate('Categories')}
-        >
-          <Icon color="lightgray" name="close" size={25} />
-        </TouchableHighlight>
-        <Text style={styles.title}>Observaciones</Text>
-        {showGreyCheck && (
-          <View style={styles.greyCheck}>
-            <FeatherIcon
-              color="white"
-              name="check"
-              size={15}
-              style={styles.checkIcon}
-            />
-          </View>
-        )}
-        {!showGreyCheck && (
-          <TouchableHighlight
-            style={styles.check}
-            onPress={this.handleSaveObservation}
-          >
-            <FeatherIcon
-              color="white"
-              name="check"
-              size={15}
-              style={styles.checkIcon}
-            />
-          </TouchableHighlight>
-        )}
-        
-      </View>
-    );
-  };
-
   render() {
     const { navigation, selectedObservation, goToPhotoView } = this.props;
     const { keyboardShown, text } = this.state;
@@ -336,6 +259,10 @@ class ObservationEditor extends React.PureComponent<
         ? `${selectedObservation.lat}, ${selectedObservation.lon}`
         : 'Loading...';
     const keyExtractor = item => item.source;
+    const showGreyCheck =
+      text === '' &&
+      selectedObservation &&
+      !selectedObservation.media.length;
 
     if (!selectedObservation) {
       navigation.goBack();
@@ -344,72 +271,74 @@ class ObservationEditor extends React.PureComponent<
 
     return (
       <KeyboardAvoidingView style={styles.container}>
-        {this.renderHeader()}
-        <View style={{ flex: 1 }}>
-          <View style={styles.categoryRow}>
+        <View style={styles.header}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'center'
+            }}
+          >
             <TouchableHighlight
-              style={styles.categoryIcon}
+              style={{ position: 'absolute', left: 20, top: 20 }}
               onPress={() => navigation.navigate('Categories')}
             >
-              <View style={{ justifyContent: 'center' }}>
-                <Image source={CategoryPin} style={styles.categoryPin} />
-                <View 
-                  style={{
-                    position: 'absolute',
-                    alignSelf: 'center',
-                    bottom: 20
-                  }}
-                >
-                  {selectedObservation && (selectedObservation.icon)}
-                </View>
-              </View>
+              <FeatherIcon color="lightgray" name="chevron-left" size={25} />
             </TouchableHighlight>
-            <View style={styles.categoryContainer}>
-              <View style={{ flexDirection: 'column', flex: 1 }}>
-                <Text style={styles.categoryName}>
-                  {selectedObservation.type}
-                </Text>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={styles.categoryAtText}>at </Text>
-                  <Text style={styles.categoryPositionText}>{positionText}</Text>
+            <ImageBackground
+              source={CategoryPin}
+              style={styles.categoryPin}
+            >
+              {selectedObservation && (
+                <View style={{ marginTop: -10 }}>
+                  {selectedObservation.icon}
                 </View>
+              )}
+            </ImageBackground>
+            {showGreyCheck && (
+              <View style={styles.greyCheck}>
+                <FeatherIcon
+                  color="white"
+                  name="check"
+                  size={15}
+                  style={styles.checkIcon}
+                />
               </View>
+            )}
+            {!showGreyCheck && (
               <TouchableHighlight
-                onPress={() => navigation.navigate('Categories')}
-                style={{ flex: 1, position: 'absolute', right: 5, alignSelf: 'center' }}
+                style={styles.check}
+                onPress={this.handleSaveObservation}
               >
                 <FeatherIcon
-                  color="lightgray"
-                  name="chevron-right"
-                  size={25}
+                  color="white"
+                  name="check"
+                  size={15}
+                  style={styles.checkIcon}
                 />
               </TouchableHighlight>
+            )}
+          </View>
+          <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 10 }}>
+            <Text style={styles.title}>{selectedObservation.type}</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={styles.categoryAtText}>at </Text>
+              <Text style={styles.categoryPositionText}>{positionText}</Text>
             </View>
           </View>
+        </View>
+        <View style={{ flex: 1 }}>
           <TextInput
             style={styles.textInput}
             value={text}
             onChangeText={this.handleTextInputChange}
-            placeholder="¿Qué está pasando aquí..."
+            placeholder="What's happening here?"
             placeholderTextColor="silver"
             underlineColorAndroid="transparent"
             onBlur={this.handleTextInputBlur}
             multiline
             autoGrow
           />
-          {selectedObservation &&
-            !selectedObservation.media.length && (
-              <View style={styles.mediaRow}>
-                <View style={styles.mediaPlaceholder}>
-                  <Icon
-                    color={WHITE}
-                    name="photo"
-                    size={30}
-                    style={styles.collectionsImg}
-                  />
-                </View>
-              </View>
-            )}
           {selectedObservation &&
             !!selectedObservation.media.length && (
               <View style={styles.mediaRow}>
@@ -441,16 +370,25 @@ class ObservationEditor extends React.PureComponent<
                 />
               </View>
             )}
-          <View style={styles.bottomButton}>
+          <View
+            style={{
+              paddingTop: 15, 
+              borderTopWidth:1,
+              borderColor: LIGHT_GREY,
+              position: 'absolute',
+              bottom: 15,
+              left: 0,
+              right: 0
+            }}
+          >
             <View
               style={{
                 flexDirection: 'row'
               }}
             >
-              <Text style={styles.addText}>Add...</Text>
               {keyboardShown && (
                 <TouchableHighlight
-                  style={{ marginLeft: 70 }}
+                  style={{ flex: 1, marginLeft: 60 }}
                   onPress={this.goToCameraView}
                 >
                   <Icon
@@ -462,7 +400,7 @@ class ObservationEditor extends React.PureComponent<
               )}
               {keyboardShown && (
                 <TouchableHighlight
-                  style={{ marginHorizontal: 60 }}
+                  style={{ flex: 1, marginLeft: 15 }}
                 >
                   <FontAwesomeIcon
                     color={MEDIUM_GREY}
@@ -473,7 +411,7 @@ class ObservationEditor extends React.PureComponent<
               )}
               {keyboardShown && (
                 <TouchableHighlight
-                  style={{ marginRight: 30 }}
+                  style={{ flex: 1, marginLeft: 10 }}
                 >
                   <FontAwesomeIcon
                     color={MEDIUM_GREY}
@@ -484,42 +422,46 @@ class ObservationEditor extends React.PureComponent<
               )}
             </View>
           </View>
-          <TouchableHighlight
-            style={styles.bottomButton}
-            onPress={this.goToCameraView}
-          >
-            <View style={{ flexDirection: 'row' }}>
-              <Icon
-                color={MEDIUM_GREY}
-                name="photo-camera"
-                size={30}
-                style={{ marginHorizontal: 30 }}
-              />
-              <Text style={styles.bottomButtonText}>Photos & Videos</Text>
+          {!keyboardShown && (
+            <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+              <TouchableHighlight
+                style={styles.photosButton}
+                onPress={this.goToCameraView}
+              >
+                <View style={{ flexDirection: 'row' }}>
+                  <Icon
+                    color={MEDIUM_GREY}
+                    name="photo-camera"
+                    size={30}
+                    style={{ marginHorizontal: 30 }}
+                  />
+                  <Text style={styles.bottomButtonText}>Photos & Videos</Text>
+                </View>
+              </TouchableHighlight>
+              <TouchableHighlight style={styles.bottomButton}>
+                <View style={{ flexDirection: 'row' }}>
+                  <FontAwesomeIcon
+                    color={MEDIUM_GREY}
+                    name="microphone"
+                    size={30}
+                    style={{ marginHorizontal: 35 }}
+                  />
+                  <Text style={styles.bottomButtonText}>Audio</Text>
+                </View>
+              </TouchableHighlight>
+              <TouchableHighlight style={styles.bottomButton}>
+                <View style={{ flexDirection: 'row' }}>
+                  <FontAwesomeIcon
+                    color={MEDIUM_GREY}
+                    name="pencil"
+                    size={30}
+                    style={{ marginHorizontal: 32 }}
+                  />
+                  <Text style={styles.bottomButtonText}>Details</Text>
+                </View>
+              </TouchableHighlight>
             </View>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.bottomButton}>
-            <View style={{ flexDirection: 'row' }}>
-              <FontAwesomeIcon
-                color={MEDIUM_GREY}
-                name="microphone"
-                size={30}
-                style={{ marginHorizontal: 35 }}
-              />
-              <Text style={styles.bottomButtonText}>Audio</Text>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.bottomButton}>
-            <View style={{ flexDirection: 'row' }}>
-              <FontAwesomeIcon
-                color={MEDIUM_GREY}
-                name="pencil"
-                size={30}
-                style={{ marginHorizontal: 32 }}
-              />
-              <Text style={styles.bottomButtonText}>Details</Text>
-            </View>
-          </TouchableHighlight>
+          )}
         </View>
       </KeyboardAvoidingView>
     );

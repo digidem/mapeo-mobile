@@ -112,7 +112,7 @@ class CameraView extends React.PureComponent<
           }}
           style={styles.preview}
           type={RNCamera.Constants.Type.back}
-          flashMode={RNCamera.Constants.FlashMode.auto}
+          flashMode={RNCamera.Constants.FlashMode.off}
           permissionDialogTitle="Permission to use camera"
           permissionDialogMessage="We need your permission to use your camera phone"
         >
@@ -123,7 +123,7 @@ class CameraView extends React.PureComponent<
             style={styles.cancelButton}
             onPress={() => this.props.navigation.goBack()}
           >
-            <Text style={styles.cancelText}>Cancelar</Text>
+            <Text style={styles.cancelText}>Cancel</Text>
           </TouchableHighlight>
         </RNCamera>
       </View>
