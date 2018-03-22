@@ -18,7 +18,8 @@ const resetAction = NavigationActions.reset({
   actions: [
     NavigationActions.navigate({
       routeName: 'TabBarNavigation'
-    })]
+    })
+  ]
 });
 
 const mapStateToProps = (state: StoreState): StateProps => ({
@@ -31,7 +32,7 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     createObservation: observation => dispatch(observationCreate(observation)),
     resetNavigation: () => dispatch(resetAction),
     goToPosition: () =>
-      dispatch(NavigationActions.navigate({ routeName: 'Position' })),
+      dispatch(NavigationActions.navigate({ routeName: 'Categories' })),
     updateObservation: observation => dispatch(observationUpdate(observation)),
     selectObservation: o => dispatch(observationSelect(o)),
     goToObservationDetail: () =>

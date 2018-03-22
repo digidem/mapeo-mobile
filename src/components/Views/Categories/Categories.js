@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import {
   StyleSheet,
   Text,
@@ -12,7 +13,7 @@ import { NavigationActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
-import { DARK_GREY, LIGHT_GREY, CHARCOAL, WHITE } from '../../../lib/styles';
+import { DARK_GREY, LIGHT_GREY, WHITE } from '../../../lib/styles';
 
 type Props = {
   navigation: NavigationActions
@@ -25,15 +26,11 @@ export type StateProps = {
 
 export type DispatchProps = {
   listCategories: () => void,
-  updateObservation: (obs: Observation) => void
+  updateObservation: (obs: Observation) => void,
+  resetNavigation: () => void
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: CHARCOAL
-  },
   header: {
     flexDirection: 'row',
     flex: 1,
@@ -101,6 +98,7 @@ class Categories extends React.PureComponent<
     listCategories();
   }
 
+  map: any;
   handleUpdateObservation = item => {
     const { updateObservation, selectedObservation } = this.props;
 
@@ -129,30 +127,58 @@ class Categories extends React.PureComponent<
     );
   };
 
-  renderItem = ({ item }) => (
-    <TouchableHighlight
-      style={styles.cellContainer}
-      onPress={() => this.handleUpdateObservation(item)}
-    >
-      <View style={styles.cell}>
-        <View style={styles.circle}>
-          <View style={styles.innerCircle}>{item.icon}</View>
+  renderItem = ({ item }) => {
+    const { resetNavigation } = this.props;
+
+    return (
+      <TouchableHighlight
+        style={styles.cellContainer}
+        underlayColor="transparent"
+        onPress={() => {
+          resetNavigation();
+          this.handleUpdateObservation(item);
+        }}
+      >
+        <View style={styles.cell}>
+          <View style={styles.circle}>
+            <View style={styles.innerCircle}>{item.icon}</View>
+          </View>
+          <Text style={styles.categoryName}>{item.name}</Text>
         </View>
-        <Text style={styles.categoryName}>{item.name}</Text>
-      </View>
-    </TouchableHighlight>
-  );
+      </TouchableHighlight>
+    );
+  };
 
   render() {
-    const { categories } = this.props;
+    const { categories, selectedObservation } = this.props;
     const keyExtractor = item => item.id;
 
     return (
-      <View style={styles.container}>
-        {this.renderHeader()}
+      <View style={{ flex: 1 }}>
+        <MapboxGL.MapView
+          style={{ flex: 1 }}
+          showUserLocation
+          ref={c => (this.map = c)}
+          zoomLevel={12}
+          logoEnabled={false}
+        >
+          {selectedObservation && (
+            <MapboxGL.PointAnnotation
+              id="selected"
+              coordinate={[selectedObservation.lon, selectedObservation.lat]}
+              selected
+            >
+              <MapboxGL.Callout
+                title={`${selectedObservation.lon}, ${selectedObservation.lat}`}
+              />
+            </MapboxGL.PointAnnotation>
+          )}
+        </MapboxGL.MapView>
         <FlatList
           style={{
-            flex: 1
+            height: 80,
+            width: Dimensions.get('window').width,
+            backgroundColor: '#595F50'
           }}
           keyExtractor={keyExtractor}
           renderItem={this.renderItem}
