@@ -157,7 +157,11 @@ class Categories extends React.PureComponent<
       <View style={{ flex: 1 }}>
         <MapboxGL.MapView
           style={{ flex: 1 }}
-          showUserLocation
+          centerCoordinate={
+            selectedObservation
+              ? [selectedObservation.lon, selectedObservation.lat]
+              : undefined
+          }
           ref={c => (this.map = c)}
           zoomLevel={12}
           logoEnabled={false}

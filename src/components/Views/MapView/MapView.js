@@ -166,6 +166,35 @@ class MapView extends React.Component<StateProps & DispatchProps> {
     }
   };
 
+  handleLongPress = point => {
+    const { coordinates } = point.geometry;
+
+    const {
+      createObservation,
+      observations,
+      resetNavigation,
+      goToPosition
+    } = this.props;
+    const initialObservation = {
+      type: 'Rios y corrientes',
+      id: size(observations) + 1,
+      lat: coordinates[1],
+      lon: coordinates[0],
+      link: 'link',
+      created: new Date(),
+      name: '',
+      notes: '',
+      observedBy: 'user',
+      media: [],
+      icon: null
+    };
+
+    resetNavigation();
+    goToPosition();
+
+    createObservation(initialObservation);
+  };
+
   render() {
     const { observations } = this.props;
 
@@ -178,6 +207,7 @@ class MapView extends React.Component<StateProps & DispatchProps> {
           zoomLevel={12}
           logoEnabled
           onPress={this.handlePress}
+          onLongPress={this.handleLongPress}
         >
           {!!observations && !isEmpty(observations)
             ? map(observations, (o: Observation) => (
