@@ -83,7 +83,8 @@ class CameraTabView extends React.PureComponent<
           notes: '',
           observedBy: 'user',
           media: [],
-          icon: null
+          icon: null,
+          createdFrom: 'Camera'
         };
 
         resetNavigation();

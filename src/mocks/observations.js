@@ -12,6 +12,8 @@ export const createObservation = (observation?: any) => ({
     'This is pretty bad. It smells pretty noxious, and the entire pond is affected.',
   observedBy: 'You',
   media: [],
+  icon: null,
+  createdFrom: 'map',
 
   ...observation
 });

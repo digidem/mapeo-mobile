@@ -19,4 +19,5 @@ export interface Observation {
   observedBy: string;
   media: ObservationMedia[];
   icon: any;
+  createdFrom: string;
 }

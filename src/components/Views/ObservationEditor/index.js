@@ -12,7 +12,8 @@ const resetAction = NavigationActions.reset({
   index: 0,
   actions: [
     NavigationActions.navigate({
-      routeName: 'TabBarNavigation'
+      routeName: 'TabBarNavigation',
+      params: { showModal: true },
     })
   ]
 });

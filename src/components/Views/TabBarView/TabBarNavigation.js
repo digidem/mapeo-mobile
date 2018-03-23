@@ -1,55 +1,154 @@
 // @flow
 import React from 'react';
-import { addNavigationHelpers } from 'react-navigation';
+import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 import {
   StyleSheet,
   View,
   TouchableHighlight,
   ActivityIndicator,
-  Text
+  Text,
+  Modal,
+  Dimensions,
+  ImageBackground
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
+import moment from 'moment';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
+import type { Observation } from '../../../types/observation';
 import MyObservationsView from '../../Views/MyObservationsView';
 import TabBar from './TabBar';
-import { WHITE, MAPEO_BLUE } from '../../../lib/styles';
+import {
+  WHITE,
+  MAPEO_BLUE,
+  LIGHT_GREY,
+  VERY_LIGHT_BLUE,
+  MEDIUM_GREY
+} from '../../../lib/styles';
+import CategoryPin from '../../../images/category-pin.png';
 
 const styles = StyleSheet.create({
+  buttonText: {
+    alignSelf: 'center',
+    fontSize: 18,
+    fontWeight: '400',
+    color: MAPEO_BLUE
+  },
+  categoryAtText: {
+    fontSize: 12,
+    color: 'black',
+    fontWeight: '400'
+  },
+  categoryContainer: {
+    flex: 3,
+    backgroundColor: VERY_LIGHT_BLUE,
+    borderColor: LIGHT_GREY,
+    borderBottomWidth: 1,
+    alignSelf: 'stretch',
+    alignItems: 'center'
+  },
+  categoryPin: {
+    width: 80,
+    height: 90,
+    marginTop: 15,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  categoryPositionText: {
+    fontSize: 12,
+    color: 'black',
+    fontWeight: '700'
+  },
+  confirmationModal: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    width: Dimensions.get('window').width * 0.8,
+    height: Dimensions.get('window').height * 0.7,
+    backgroundColor: 'white',
+    marginTop: 50,
+    borderRadius: 20
+  },
+  date: {
+    color: MEDIUM_GREY,
+    fontSize: 12,
+    fontWeight: '400'
+  },
   myObservationsIcon: {
     position: 'absolute',
     right: 20,
     top: 15
   },
-
   profileIcon: {
     position: 'absolute',
     left: 20,
     top: 15
+  },
+  returnToContainer: {
+    flex: 1,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  savedContainer: {
+    borderColor: LIGHT_GREY,
+    borderBottomWidth: 1,
+    flex: 1,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+    textAlign: 'center'
+  },
+  viewNowContainer: {
+    borderColor: LIGHT_GREY,
+    borderBottomWidth: 1,
+    flex: 1,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   }
 });
 
 export type StateProps = {
+  selectedObservation: Observation,
   navigationState: any,
-  dispatch: any
+  dispatch: any,
+  navigation: NavigationActions
 };
 
 type State = {
-  loading: boolean
+  loading: boolean,
+  showModal: boolean
 };
 
 class TabBarNavigation extends React.Component<StateProps, State> {
   static router = TabBar.router;
   state = {
-    loading: true
+    loading: true,
+    showModal: false
   };
 
   componentDidMount() {
-    this.timeout = setTimeout(() => this.setState({ loading: false }), 2000);
+    this.timeout = setTimeout(() => this.setState({ loading: false, showModal: this.shouldShowModal() }), 2000);
+  }
+
+  setModalVisible(visible) {
+    this.setState({ loading: false, showModal: visible });
   }
 
   timeout: any;
   rightDrawer: Drawer;
+
+  shouldShowModal() {
+    const { navigation } = this.props;
+    return !!(
+      navigation.state &&
+      navigation.state.params &&
+      navigation.state.params.showModal
+    );
+  }
+
   closeRightDrawer = () => {
     this.rightDrawer.close();
   };
@@ -63,8 +162,9 @@ class TabBarNavigation extends React.Component<StateProps, State> {
   };
 
   render() {
-    const { dispatch, navigationState } = this.props;
-    const { loading } = this.state;
+    const { dispatch, navigationState, selectedObservation } = this.props;
+    const { loading, showModal } = this.state;
+    console.log(this.props);
 
     return (
       <Drawer
@@ -133,6 +233,70 @@ class TabBarNavigation extends React.Component<StateProps, State> {
             <CollectionsImg color={WHITE} name="collections" size={40} />
           </TouchableHighlight>
         </View>
+        {selectedObservation && (
+          <Modal
+            animation="slide"
+            transparent
+            visible={this.state.showModal}
+            onRequestClose={() => {
+              alert('Modal closed');
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: 'rgba(52, 52, 52, 0.8)',
+                flex: 1
+              }}
+            >
+              <View style={styles.confirmationModal}>
+                <View style={styles.savedContainer}>
+                  <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '700', color: 'black' }}>Saved!</Text>
+                </View>
+                <View
+                  style={styles.categoryContainer}
+                >
+                  <ImageBackground
+                    source={CategoryPin}
+                    style={styles.categoryPin}
+                  >
+                    {selectedObservation && (
+                      <View style={{ marginTop: -10 }}>
+                        {selectedObservation.icon}
+                      </View>
+                    )}
+                  </ImageBackground>
+                  <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 10 }}>
+                    <Text style={styles.title}>{selectedObservation.type}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Text style={styles.categoryAtText}>at </Text>
+                      <Text style={styles.categoryPositionText}>{`${selectedObservation.lat}, ${selectedObservation.lon}.`}</Text>
+                    </View>
+                    <Text style={styles.date}>
+                      on {moment(selectedObservation.created).format('MMMM D, h:hh A')}
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.viewNowContainer}>
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalVisible(!showModal);
+                      this.openRightDrawer();
+                    }}
+                  >
+                    <Text style={styles.buttonText}>View Now</Text>
+                  </TouchableHighlight>
+                </View>
+                <View style={styles.returnToContainer}>
+                  <TouchableHighlight
+                    onPress={() => this.setModalVisible(!showModal)}
+                  >
+                    <Text style={styles.buttonText}>Return to {selectedObservation.createdFrom}</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        )}
         <TabBar
           navigation={addNavigationHelpers({
             dispatch,

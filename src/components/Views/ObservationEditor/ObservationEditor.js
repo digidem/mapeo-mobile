@@ -11,8 +11,7 @@ import {
   TextInput,
   Image,
   ImageBackground,
-  FlatList,
-  Dimensions
+  FlatList
 } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -154,7 +153,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '700',
-    color: 'black'
+    color: 'black',
+    textAlign: 'center'
   }
 });
 
