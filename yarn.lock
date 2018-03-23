@@ -5488,9 +5488,9 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-camera@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-1.0.1.tgz#ebb131226394b4ee3ec6692979a257522b3ac0c1"
+react-native-camera@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-1.0.2.tgz#490e75b14196af0ec972a759bb6027693ad4aad6"
   dependencies:
     lodash "^4.17.4"
     prop-types "^15.5.10"
