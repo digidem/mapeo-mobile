@@ -81,7 +81,7 @@ class CameraTabView extends React.PureComponent<
           created: new Date(),
           name: '',
           notes: '',
-          observedBy: 'user',
+          observedBy: 'You',
           media: [],
           icon: null,
           createdFrom: 'Camera'

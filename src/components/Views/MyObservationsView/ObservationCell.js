@@ -70,8 +70,7 @@ const styles = StyleSheet.create({
   media: {
     width: 60,
     height: 60,
-    borderRadius: 2,
-    backgroundColor: 'blue'
+    borderRadius: 7
   }
 });
 
@@ -92,7 +91,18 @@ const ObservationCell = (props: Props) => {
     <TouchableHighlight onPress={handlePress}>
       <View style={styles.container}>
         <View style={styles.circle}>
-          <View style={styles.innerCircle}>{props.observation.icon}</View>
+          <View style={styles.innerCircle}>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 7
+              }}
+            >
+              {props.observation.icon}
+            </View>
+          
+          </View>
         </View>
         <View style={styles.text}>
           <Text style={styles.title}>{props.observation.name}</Text>

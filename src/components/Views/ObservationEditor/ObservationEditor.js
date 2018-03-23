@@ -344,6 +344,7 @@ class ObservationEditor extends React.PureComponent<
               <View style={styles.mediaRow}>
                 <FlatList
                   horizontal
+                  scrollEnabled
                   style={{
                     flexDirection: 'column'
                   }}

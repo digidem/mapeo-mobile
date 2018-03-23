@@ -59,13 +59,15 @@ const styles = StyleSheet.create({
   },
   categoryIconContainer: {
     alignItems: 'center',
-    marginTop: -65,
+    marginTop: 10,
     marginBottom: 30
   },
   categoryPin: {
     alignSelf: 'center',
     width: 80,
-    height: 85
+    height: 85,
+    position: 'absolute',
+    top: 30
   },
   close: {
     position: 'absolute',
@@ -107,6 +109,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     paddingLeft: 10
+  },
+  positionAtText: {
+    fontSize: 12,
+    color: 'black',
+    fontWeight: '400'
+  },
+  positionText: {
+    fontSize: 12,
+    color: 'black',
+    fontWeight: '700'
   },
   profileImage: {
     marginLeft: 10,
@@ -217,7 +229,7 @@ class ObservationDetailView extends React.PureComponent<
         selectedObservation && selectedObservation.media
           ? selectedObservation.media.length
           : 0
-      } Photo`;
+      } photo`;
 
     if (!selectedObservation) {
       return <View />;
@@ -235,7 +247,7 @@ class ObservationDetailView extends React.PureComponent<
               }}
             >
               <LeftChevron
-                color="black"
+                color="lightgrey"
                 name="chevron-left"
                 size={25}
                 style={styles.backChevron}
@@ -246,11 +258,12 @@ class ObservationDetailView extends React.PureComponent<
               {selectedObservation.icon}
             </View>
             <Text style={styles.title}>{selectedObservation.type}</Text>
-            <Text style={styles.date}>
-              {moment(selectedObservation.created).format('MMMM D, YYYY')}
-            </Text>
+            <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+              <Text style={styles.positionAtText}>at </Text>
+              <Text style={styles.positionText}>{`${selectedObservation.lat}, ${selectedObservation.lon}.`}</Text>
+            </View>
             <Text style={styles.time}>
-              {moment(selectedObservation.created).format('h:mm A')}
+              on {moment(selectedObservation.created).format('MMMM D, h:hh A')}
             </Text>
           </View>
           <View style={styles.section}>
@@ -262,12 +275,7 @@ class ObservationDetailView extends React.PureComponent<
                   scrollEnabled
                   style={{
                     flex: 1,
-                    flexDirection: 'column',
-                    paddingHorizontal: 10
-                  }}
-                  contentContainerStyle={{
-                    justifyContent: 'center',
-                    alignItems: 'center'
+                    flexDirection: 'column'
                   }}
                   keyExtractor={keyExtractor}
                   renderItem={({ item }) => (
@@ -279,7 +287,7 @@ class ObservationDetailView extends React.PureComponent<
                         style={{
                           width: 125,
                           height: 125,
-                          margin: 10
+                          margin: 1
                         }}
                       />
                     </TouchableHighlight>
@@ -294,7 +302,7 @@ class ObservationDetailView extends React.PureComponent<
             </Text>
           </View>
           <View style={styles.section}>
-            <Text style={styles.sectionText}>0.0 km</Text>
+            <Text style={styles.sectionText}>0.0 km away</Text>
             <View style={{ height: 240 }}>
               <MapboxGL.MapView
                 style={styles.mapBox}
@@ -331,7 +339,7 @@ class ObservationDetailView extends React.PureComponent<
             </View>
           </View>
           <View style={styles.section}>
-            <Text style={styles.sectionText}>Observado por</Text>
+            <Text style={styles.sectionText}>Observed by</Text>
             <View style={{ flexDirection: 'row' }}>
               <FontAwesomeIcon
                 color="lightgray"

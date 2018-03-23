@@ -119,7 +119,7 @@ class MapView extends React.Component<StateProps & DispatchProps> {
       created: new Date(),
       name: '',
       notes: '',
-      observedBy: 'user',
+      observedBy: 'You',
       media: [],
       icon: null,
       createdFrom: 'Map'

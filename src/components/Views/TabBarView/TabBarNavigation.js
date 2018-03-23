@@ -34,11 +34,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: MAPEO_BLUE
   },
-  categoryAtText: {
-    fontSize: 12,
-    color: 'black',
-    fontWeight: '400'
-  },
   categoryContainer: {
     flex: 3,
     backgroundColor: VERY_LIGHT_BLUE,
@@ -53,11 +48,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  categoryPositionText: {
-    fontSize: 12,
-    color: 'black',
-    fontWeight: '700'
   },
   confirmationModal: {
     alignSelf: 'center',
@@ -77,6 +67,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     top: 15
+  },
+  positionAtText: {
+    fontSize: 12,
+    color: 'black',
+    fontWeight: '400'
+  },
+  positionText: {
+    fontSize: 12,
+    color: 'black',
+    fontWeight: '700'
   },
   profileIcon: {
     position: 'absolute',
@@ -268,8 +268,8 @@ class TabBarNavigation extends React.Component<StateProps, State> {
                   <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 10 }}>
                     <Text style={styles.title}>{selectedObservation.type}</Text>
                     <View style={{ flexDirection: 'row' }}>
-                      <Text style={styles.categoryAtText}>at </Text>
-                      <Text style={styles.categoryPositionText}>{`${selectedObservation.lat}, ${selectedObservation.lon}.`}</Text>
+                      <Text style={styles.positionAtText}>at </Text>
+                      <Text style={styles.positionText}>{`${selectedObservation.lat}, ${selectedObservation.lon}.`}</Text>
                     </View>
                     <Text style={styles.date}>
                       on {moment(selectedObservation.created).format('MMMM D, h:hh A')}
