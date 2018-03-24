@@ -204,11 +204,7 @@ class ObservationDetailView extends React.PureComponent<
   Props & StateProps & DispatchProps
 > {
   saveObservation = () => {
-    const {
-      selectedObservation,
-      addObservation,
-      resetNavigation
-    } = this.props;
+    const { selectedObservation, addObservation, resetNavigation } = this.props;
 
     if (selectedObservation) {
       addObservation(selectedObservation);
@@ -237,9 +233,7 @@ class ObservationDetailView extends React.PureComponent<
 
     return (
       <View style={{ flex: 1 }}>
-        <ScrollView
-          style={styles.container}
-        >
+        <ScrollView style={styles.container}>
           <View style={styles.topSection}>
             <TouchableHighlight
               onPress={() => {
@@ -260,7 +254,9 @@ class ObservationDetailView extends React.PureComponent<
             <Text style={styles.title}>{selectedObservation.type}</Text>
             <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
               <Text style={styles.positionAtText}>at </Text>
-              <Text style={styles.positionText}>{`${selectedObservation.lat}, ${selectedObservation.lon}.`}</Text>
+              <Text style={styles.positionText}>
+                {`${selectedObservation.lat}, ${selectedObservation.lon}.`}
+              </Text>
             </View>
             <Text style={styles.time}>
               on {moment(selectedObservation.created).format('MMMM D, h:hh A')}
@@ -275,7 +271,7 @@ class ObservationDetailView extends React.PureComponent<
                   scrollEnabled
                   style={{
                     flex: 1,
-                    flexDirection: 'column'
+                    flexDirection: 'row'
                   }}
                   keyExtractor={keyExtractor}
                   renderItem={({ item }) => (
@@ -295,11 +291,7 @@ class ObservationDetailView extends React.PureComponent<
                   data={selectedObservation.media}
                 />
               )}
-            <Text
-              style={styles.textNotes}
-            >
-              {selectedObservation.notes}
-            </Text>
+            <Text style={styles.textNotes}>{selectedObservation.notes}</Text>
           </View>
           <View style={styles.section}>
             <Text style={styles.sectionText}>0.0 km away</Text>
