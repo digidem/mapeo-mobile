@@ -187,7 +187,8 @@ class MapView extends React.Component<StateProps & DispatchProps> {
       notes: '',
       observedBy: 'user',
       media: [],
-      icon: null
+      icon: null,
+      createdFrom: 'Map'
     };
 
     resetNavigation();
