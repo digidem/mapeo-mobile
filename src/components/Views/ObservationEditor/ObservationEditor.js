@@ -166,18 +166,25 @@ class ObservationEditor extends React.PureComponent<
     super();
 
     this.state = {
+      keyboardShown: false,
       text: props.selectedObservation ? props.selectedObservation.notes : ''
     };
   }
 
   componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this.keyboardDidShow
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this.keyboardDidHide
+    );
   }
 
   componentDidMount() {
     const { updateObservation, selectedObservation, category } = this.props;
-    
+
     if (selectedObservation && category) {
       updateObservation({
         ...selectedObservation,
@@ -192,28 +199,29 @@ class ObservationEditor extends React.PureComponent<
     this.keyboardDidHideListener.remove();
   }
 
+  keyboardDidShowListener: any;
+  keyboardDidHideListener: any;
+
   keyboardDidShow = () => {
-    this.setState(previousState => {
-      return { keyboardShown: true, text: previousState.text }
-    });
+    this.setState(previousState => ({
+      keyboardShown: true,
+      text: previousState.text
+    }));
   };
 
   keyboardDidHide = () => {
-    this.setState(previousState => {
-      return { keyboardShown: false, text: previousState.text }
-    });
+    this.setState(previousState => ({
+      keyboardShown: false,
+      text: previousState.text
+    }));
   };
-  
+
   handleTextInputChange = text => {
     this.setState({ text });
   };
 
   handleSaveObservation = () => {
-    const {
-      addObservation,
-      selectedObservation,
-      resetNavigation
-    } = this.props;
+    const { addObservation, selectedObservation, resetNavigation } = this.props;
     const { text } = this.state;
 
     if (selectedObservation) {
@@ -256,13 +264,11 @@ class ObservationEditor extends React.PureComponent<
     const { navigation, selectedObservation, goToPhotoView } = this.props;
     const { keyboardShown, text } = this.state;
     const positionText = selectedObservation
-        ? `${selectedObservation.lat}, ${selectedObservation.lon}`
-        : 'Loading...';
+      ? `${selectedObservation.lat}, ${selectedObservation.lon}`
+      : 'Loading...';
     const keyExtractor = item => item.source;
     const showGreyCheck =
-      text === '' &&
-      selectedObservation &&
-      !selectedObservation.media.length;
+      text === '' && selectedObservation && !selectedObservation.media.length;
 
     if (!selectedObservation) {
       navigation.goBack();
@@ -285,10 +291,7 @@ class ObservationEditor extends React.PureComponent<
             >
               <FeatherIcon color="lightgray" name="chevron-left" size={25} />
             </TouchableHighlight>
-            <ImageBackground
-              source={CategoryPin}
-              style={styles.categoryPin}
-            >
+            <ImageBackground source={CategoryPin} style={styles.categoryPin}>
               {selectedObservation && (
                 <View style={{ marginTop: -10 }}>
                   {selectedObservation.icon}
@@ -319,7 +322,13 @@ class ObservationEditor extends React.PureComponent<
               </TouchableHighlight>
             )}
           </View>
-          <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 10 }}>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingBottom: 10
+            }}
+          >
             <Text style={styles.title}>{selectedObservation.type}</Text>
             <View style={{ flexDirection: 'row' }}>
               <Text style={styles.categoryAtText}>at </Text>
@@ -346,7 +355,8 @@ class ObservationEditor extends React.PureComponent<
                   horizontal
                   scrollEnabled
                   style={{
-                    flexDirection: 'column'
+                    flex: 1,
+                    flexDirection: 'row'
                   }}
                   contentContainerStyle={{
                     alignContent: 'flex-start'
@@ -373,8 +383,8 @@ class ObservationEditor extends React.PureComponent<
             )}
           <View
             style={{
-              paddingTop: 15, 
-              borderTopWidth:1,
+              paddingTop: 15,
+              borderTopWidth: 1,
               borderColor: LIGHT_GREY,
               position: 'absolute',
               bottom: 15,
@@ -392,17 +402,11 @@ class ObservationEditor extends React.PureComponent<
                   style={{ flex: 1, marginLeft: 60 }}
                   onPress={this.goToCameraView}
                 >
-                  <Icon
-                    color={MEDIUM_GREY}
-                    name="photo-camera"
-                    size={30}
-                  />
+                  <Icon color={MEDIUM_GREY} name="photo-camera" size={30} />
                 </TouchableHighlight>
               )}
               {keyboardShown && (
-                <TouchableHighlight
-                  style={{ flex: 1, marginLeft: 15 }}
-                >
+                <TouchableHighlight style={{ flex: 1, marginLeft: 15 }}>
                   <FontAwesomeIcon
                     color={MEDIUM_GREY}
                     name="microphone"
@@ -411,9 +415,7 @@ class ObservationEditor extends React.PureComponent<
                 </TouchableHighlight>
               )}
               {keyboardShown && (
-                <TouchableHighlight
-                  style={{ flex: 1, marginLeft: 10 }}
-                >
+                <TouchableHighlight style={{ flex: 1, marginLeft: 10 }}>
                   <FontAwesomeIcon
                     color={MEDIUM_GREY}
                     name="pencil"
@@ -424,7 +426,9 @@ class ObservationEditor extends React.PureComponent<
             </View>
           </View>
           {!keyboardShown && (
-            <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+            <View
+              style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}
+            >
               <TouchableHighlight
                 style={styles.photosButton}
                 onPress={this.goToCameraView}
