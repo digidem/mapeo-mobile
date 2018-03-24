@@ -51,7 +51,6 @@ export type StateProps = {
 
 export type DispatchProps = {
   updateObservation: (o: Observation) => void,
-  goToObservationEditor: () => void,
   resetNavigation: () => void
 };
 
@@ -64,7 +63,6 @@ class CameraView extends React.PureComponent<
     const {
       updateObservation,
       selectedObservation,
-      goToObservationEditor,
       resetNavigation
     } = this.props;
     if (this.camera) {
@@ -82,7 +80,6 @@ class CameraView extends React.PureComponent<
               }
             ])
           });
-          goToObservationEditor();
           resetNavigation();
         }
       } catch (error) {

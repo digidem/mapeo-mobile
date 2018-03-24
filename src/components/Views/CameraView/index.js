@@ -8,11 +8,8 @@ import CameraView from './CameraView';
 import type { StateProps, DispatchProps } from './CameraView';
 
 const resetAction = NavigationActions.reset({
-  index: 1,
-  actions: [
-    NavigationActions.navigate({ routeName: 'CameraView' }),
-    NavigationActions.navigate({ routeName: 'ObservationEditor' })
-  ]
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: 'ObservationEditor' })]
 });
 
 function mapStateToProps(state: StoreState): StateProps {
@@ -24,12 +21,6 @@ function mapStateToProps(state: StoreState): StateProps {
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     updateObservation: observation => dispatch(observationUpdate(observation)),
-    goToObservationEditor: () =>
-      dispatch(
-        NavigationActions.navigate({
-          routeName: 'ObservationEditor'
-        })
-      ),
     resetNavigation: () => dispatch(resetAction)
   };
 }

@@ -42,14 +42,12 @@ export type Props = {
 export type StateProps = {
   observations: {
     [id: string]: Observation
-  },
-  selectedObservation: Observation
+  }
 };
 
 export type DispatchProps = {
   createObservation: (observation: Observation) => void,
   updateObservation: (o: Observation) => void,
-  goToObservationEditor: () => void,
   goToCategories: () => void,
   resetNavigation: () => void
 };
