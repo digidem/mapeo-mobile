@@ -44,6 +44,7 @@ export type DispatchProps = {
 };
 
 type State = {
+  goToCamera: boolean,
   keyboardShown: boolean,
   text: string
 };
@@ -125,8 +126,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: WHITE,
     borderColor: LIGHT_GREY,
-    borderBottomWidth: 1,
     borderTopWidth: 1,
+    paddingVertical: 15
+  },
+  mediaRowKeyboardShown: {
+    flex: 1,
+    backgroundColor: WHITE,
+    borderColor: LIGHT_GREY,
     paddingVertical: 15
   },
   photosButton: {
@@ -167,7 +173,8 @@ class ObservationEditor extends React.PureComponent<
 
     this.state = {
       keyboardShown: false,
-      text: props.selectedObservation ? props.selectedObservation.notes : ''
+      text: props.selectedObservation ? props.selectedObservation.notes : '',
+      goToCamera: false
     };
   }
 
@@ -204,16 +211,27 @@ class ObservationEditor extends React.PureComponent<
 
   keyboardDidShow = () => {
     this.setState(previousState => ({
+      goToCamera: false,
       keyboardShown: true,
       text: previousState.text
     }));
   };
 
   keyboardDidHide = () => {
-    this.setState(previousState => ({
-      keyboardShown: false,
-      text: previousState.text
-    }));
+    if (this.state.goToCamera) {
+      this.setState(previousState => ({
+        goToCamera: false,
+        keyboardShown: false,
+        text: previousState.text
+      }));
+      this.props.navigation.navigate('CameraView');
+    } else {
+      this.setState(previousState => ({
+        goToCamera: previousState.goToCamera,
+        keyboardShown: false,
+        text: previousState.text
+      }));
+    }
   };
 
   handleTextInputChange = text => {
@@ -245,7 +263,6 @@ class ObservationEditor extends React.PureComponent<
   };
 
   goToCameraView = () => {
-    Keyboard.dismiss();
     const { selectedObservation, updateObservation, navigation } = this.props;
 
     if (selectedObservation) {
@@ -254,10 +271,16 @@ class ObservationEditor extends React.PureComponent<
         notes: this.state.text
       });
     }
-    const cameraAction = NavigationActions.navigate({
-      routeName: 'CameraView'
-    });
-    navigation.dispatch(cameraAction);
+    if (this.state.keyboardShown) {
+      this.setState(previousState => ({
+        goToCamera: true,
+        keyboardShown: false,
+        text: previousState.text
+      }));
+    } else {
+      navigation.navigate('CameraView');
+    }
+    Keyboard.dismiss();
   };
 
   render() {
@@ -350,7 +373,9 @@ class ObservationEditor extends React.PureComponent<
           />
           {selectedObservation &&
             !!selectedObservation.media.length && (
-              <View style={styles.mediaRow}>
+              <View
+                style={keyboardShown ? styles.mediaRowKeyboardShown : styles.mediaRow}
+              >
                 <FlatList
                   horizontal
                   scrollEnabled
@@ -401,6 +426,7 @@ class ObservationEditor extends React.PureComponent<
                 <TouchableHighlight
                   style={{ flex: 1, marginLeft: 60 }}
                   onPress={this.goToCameraView}
+                  underlayColor="transparent"
                 >
                   <Icon color={MEDIUM_GREY} name="photo-camera" size={30} />
                 </TouchableHighlight>
@@ -432,6 +458,7 @@ class ObservationEditor extends React.PureComponent<
               <TouchableHighlight
                 style={styles.photosButton}
                 onPress={this.goToCameraView}
+                underlayColor="transparent"
               >
                 <View style={{ flexDirection: 'row' }}>
                   <Icon

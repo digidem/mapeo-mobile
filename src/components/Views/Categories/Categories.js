@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   categoryName: {
-    color: WHITE,
+    color: 'black',
+    fontWeight: '700',
     textAlign: 'center',
     maxWidth: Dimensions.get('window').width / 3
   }
@@ -201,7 +202,7 @@ class Categories extends React.PureComponent<
           style={{
             height: 80,
             width: Dimensions.get('window').width,
-            backgroundColor: '#595F50'
+            backgroundColor: WHITE
           }}
           keyExtractor={keyExtractor}
           renderItem={this.renderItem}

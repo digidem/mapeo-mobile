@@ -142,7 +142,7 @@ class MapView extends React.Component<StateProps & DispatchProps> {
     );
   };
 
-  handlePress = point => {
+  handlePress = (point: Object) => {
     const {
       observations,
       selectObservation,
@@ -167,7 +167,7 @@ class MapView extends React.Component<StateProps & DispatchProps> {
     }
   };
 
-  handleLongPress = point => {
+  handleLongPress = (point: Object) => {
     const { coordinates } = point.geometry;
 
     const {

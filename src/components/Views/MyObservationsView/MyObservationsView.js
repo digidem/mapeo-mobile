@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#333333',
     borderBottomRightRadius: 15,
     borderTopRightRadius: 15,
-    width: 40,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
@@ -104,10 +103,12 @@ const MyObservationsView = (props: StateProps & Props & DispatchProps) => {
 
   return (
     <View style={{ flexDirection: 'row', flex: 1, backgroundColor: WHITE }}>
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', backgroundColor: 'transparent' }}>
         <TouchableHighlight
           onPress={props.closeRightDrawer}
           style={styles.closeDrawerButton}
+          activeOpacity={0}
+          underlayColor="rgba(0, 0, 0, 0)"
         >
           <LeftChevron
             color={WHITE}
