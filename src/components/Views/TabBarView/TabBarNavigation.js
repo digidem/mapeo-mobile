@@ -181,8 +181,15 @@ class TabBarNavigation extends React.Component<StateProps, State> {
   render() {
     const { dispatch, navigationState, selectedObservation } = this.props;
     const { firstLaunch, loading, showModal } = this.state;
-    let component = null;
-    if (firstLaunch === null) component = null;
+    let component = (
+      <Image
+        source={SplashScreen}
+        style={{
+          width: Dimensions.get('window').width,
+          height: Dimensions.get('window').height
+        }}
+      />);
+    // if (firstLaunch === null) component = null;
     component = firstLaunch ?
       (<Image
         source={SplashScreen}
