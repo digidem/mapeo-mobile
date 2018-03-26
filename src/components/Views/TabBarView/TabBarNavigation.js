@@ -61,6 +61,11 @@ const styles = StyleSheet.create({
     marginTop: 50,
     borderRadius: 20
   },
+  continueContainer: {
+    flex: 1,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
   date: {
     color: MEDIUM_GREY,
     fontSize: 12,
@@ -86,7 +91,9 @@ const styles = StyleSheet.create({
     left: 20,
     top: 15
   },
-  returnToContainer: {
+  reviewContainer: {
+    borderColor: LIGHT_GREY,
+    borderBottomWidth: 1,
     flex: 1,
     alignSelf: 'stretch',
     justifyContent: 'center'
@@ -103,13 +110,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: 'black',
     textAlign: 'center'
-  },
-  viewNowContainer: {
-    borderColor: LIGHT_GREY,
-    borderBottomWidth: 1,
-    flex: 1,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
   }
 });
 
@@ -129,7 +129,7 @@ type State = {
 class TabBarNavigation extends React.Component<StateProps, State> {
   static router = TabBar.router;
   state = {
-    showSplash: true,
+    showSplash: false,
     loading: true,
     showModal: false
   };
@@ -191,15 +191,7 @@ class TabBarNavigation extends React.Component<StateProps, State> {
   render() {
     const { dispatch, navigationState, selectedObservation } = this.props;
     const { showSplash, loading, showModal } = this.state;
-    let component = (
-      <Image
-        source={SplashScreen}
-        style={{
-          width: Dimensions.get('window').width,
-          height: Dimensions.get('window').height
-        }}
-      />);
-    component = showSplash ?
+    const component = showSplash ?
       (<Image
         source={SplashScreen}
         style={{
@@ -317,21 +309,21 @@ class TabBarNavigation extends React.Component<StateProps, State> {
                       </Text>
                     </View>
                   </View>
-                  <View style={styles.viewNowContainer}>
+                  <View style={styles.reviewContainer}>
                     <TouchableHighlight
                       onPress={() => {
                         this.setModalVisible(!showModal);
                         this.openRightDrawer();
                       }}
                     >
-                      <Text style={styles.buttonText}>View Now</Text>
+                      <Text style={styles.buttonText}>Review</Text>
                     </TouchableHighlight>
                   </View>
-                  <View style={styles.returnToContainer}>
+                  <View style={styles.continueContainer}>
                     <TouchableHighlight
                       onPress={() => this.setModalVisible(!showModal)}
                     >
-                      <Text style={styles.buttonText}>Return to {selectedObservation.createdFrom}</Text>
+                      <Text style={styles.buttonText}>Continue</Text>
                     </TouchableHighlight>
                   </View>
                 </View>
