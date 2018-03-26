@@ -121,7 +121,7 @@ export type StateProps = {
 };
 
 type State = {
-  firstLaunch: boolean,
+  showSplash: boolean,
   loading: boolean,
   showModal: boolean
 };
@@ -129,29 +129,39 @@ type State = {
 class TabBarNavigation extends React.Component<StateProps, State> {
   static router = TabBar.router;
   state = {
-    firstLaunch: null,
+    showSplash: true,
     loading: true,
     showModal: false
   };
 
   async componentWillMount() {
-    AsyncStorage.getItem('alreadyLaunched').then(value => {
+    AsyncStorage.getItem('showSplash').then(value => {
       if (value === null) {
-        AsyncStorage.setItem('alreadyLaunched', 'true');
-        this.setState({ loading: false, firstLaunch: true, showModal: false });
+        AsyncStorage.setItem('showSplash', 'true');
+        this.setState({ loading: false, showSplash: true, showModal: false });
+        setTimeout(() => {this.setState({ loading: false, showSplash: false, showModal: false });}, 1000);
       }
       else {
-        this.setState({ loading: false, firstLaunch: false, showModal: false });
+        this.setState({ loading: false, showSplash: false, showModal: false });
       }
     });
   }
 
   componentDidMount() {
-    this.timeout = setTimeout(() => this.setState({ loading: false, firstLaunch: false, showModal: this.shouldShowModal() }), 2000);
+    this.timeout = setTimeout(
+      () => this.setState({
+        showSplash: this.state.showSplash,
+        loading: false,
+        showModal: this.shouldShowModal()
+      }), 2000);
   }
 
   setModalVisible(visible: boolean) {
-    this.setState({ loading: false, firstLaunch: false, showModal: visible });
+    this.setState({
+      loading: false,
+      showSplash: false,
+      showModal: visible
+    });
   }
 
   timeout: any;
@@ -180,7 +190,7 @@ class TabBarNavigation extends React.Component<StateProps, State> {
 
   render() {
     const { dispatch, navigationState, selectedObservation } = this.props;
-    const { firstLaunch, loading, showModal } = this.state;
+    const { showSplash, loading, showModal } = this.state;
     let component = (
       <Image
         source={SplashScreen}
@@ -189,8 +199,7 @@ class TabBarNavigation extends React.Component<StateProps, State> {
           height: Dimensions.get('window').height
         }}
       />);
-    // if (firstLaunch === null) component = null;
-    component = firstLaunch ?
+    component = showSplash ?
       (<Image
         source={SplashScreen}
         style={{

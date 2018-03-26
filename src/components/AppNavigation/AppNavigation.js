@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { BackHandler } from 'react-native';
+import { AsyncStorage, BackHandler } from 'react-native';
 import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 import MainStackNavigation from '../MainNavigation/MainStackNavigation';
@@ -20,8 +20,13 @@ class AppNavigation extends React.PureComponent<Props> {
     });
   }
 
-  componentWillUnmount() {
+  async componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress');
+    try {
+      await AsyncStorage.removeItem('showSplash');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   shouldCloseApp = (nav: any) => nav.index === 0;
