@@ -2,7 +2,6 @@
 import React from 'react';
 import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 import {
-  AsyncStorage,
   StyleSheet,
   View,
   TouchableHighlight,
@@ -10,8 +9,7 @@ import {
   Text,
   Modal,
   Dimensions,
-  ImageBackground,
-  Image
+  ImageBackground
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
@@ -27,7 +25,6 @@ import {
   VERY_LIGHT_BLUE,
   MEDIUM_GREY
 } from '../../../lib/styles';
-import SplashScreen from '../../../images/splash-screen.png';
 import CategoryPin from '../../../images/category-pin.png';
 
 const styles = StyleSheet.create({
@@ -121,7 +118,6 @@ export type StateProps = {
 };
 
 type State = {
-  showSplash: boolean,
   loading: boolean,
   showModal: boolean
 };
@@ -129,37 +125,30 @@ type State = {
 class TabBarNavigation extends React.Component<StateProps, State> {
   static router = TabBar.router;
   state = {
-    showSplash: false,
-    loading: true,
-    showModal: false
+    showModal: false,
+    loading: true
   };
-
-  async componentWillMount() {
-    AsyncStorage.getItem('showSplash').then(value => {
-      if (value === null) {
-        AsyncStorage.setItem('showSplash', 'true');
-        this.setState({ loading: false, showSplash: true, showModal: false });
-        setTimeout(() => {this.setState({ loading: false, showSplash: false, showModal: false });}, 1000);
-      }
-      else {
-        this.setState({ loading: false, showSplash: false, showModal: false });
-      }
-    });
-  }
 
   componentDidMount() {
     this.timeout = setTimeout(
-      () => this.setState({
-        showSplash: this.state.showSplash,
-        loading: false,
-        showModal: this.shouldShowModal()
-      }), 2000);
+      () =>
+        this.setState({
+          loading: false,
+          showModal: this.shouldShowModal()
+        }),
+      2000
+    );
+  }
+
+  componentWillUnmount() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
   }
 
   setModalVisible(visible: boolean) {
     this.setState({
       loading: false,
-      showSplash: false,
       showModal: visible
     });
   }
@@ -190,155 +179,168 @@ class TabBarNavigation extends React.Component<StateProps, State> {
 
   render() {
     const { dispatch, navigationState, selectedObservation } = this.props;
-    const { showSplash, loading, showModal } = this.state;
-    const component = showSplash ?
-      (<Image
-        source={SplashScreen}
-        style={{
-          width: Dimensions.get('window').width,
-          height: Dimensions.get('window').height
-        }}
-      />) :
-      (
-        <Drawer
-          ref={this.handleRightDrawerRef}
-          content={
-            <MyObservationsView closeRightDrawer={this.closeRightDrawer} />
-          }
-          openDrawerOffset={0}
-          side="right"
-          type="displace"
+    const { loading, showModal } = this.state;
+
+    return (
+      <Drawer
+        ref={this.handleRightDrawerRef}
+        content={
+          <MyObservationsView closeRightDrawer={this.closeRightDrawer} />
+        }
+        openDrawerOffset={0}
+        side="right"
+        type="displace"
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 60,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 5
+          }}
         >
           <View
             style={{
+              height: 35,
               flexDirection: 'row',
-              justifyContent: 'center',
               alignItems: 'center',
-              height: 60,
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              zIndex: 5
+              backgroundColor: 'rgba(0, 0, 0, .8)',
+              borderRadius: 50,
+              paddingLeft: loading ? 7 : 13,
+              paddingRight: 15
+            }}
+          >
+            {loading && (
+              <ActivityIndicator
+                style={{ height: 30, width: 30 }}
+                color={MAPEO_BLUE}
+              />
+            )}
+            {loading && (
+              <Text style={{ color: WHITE, marginLeft: 5 }}>
+                GPS: Loading...
+              </Text>
+            )}
+            {!loading && (
+              <View
+                style={{
+                  backgroundColor: '#7AFA4C',
+                  height: 10,
+                  width: 10,
+                  borderRadius: 50
+                }}
+              />
+            )}
+            {!loading && (
+              <Text style={{ color: WHITE, marginLeft: 10 }}>GPS: Strong</Text>
+            )}
+          </View>
+          <TouchableHighlight
+            onPress={this.openRightDrawer}
+            style={styles.myObservationsIcon}
+            underlayColor="transparent"
+          >
+            <CollectionsImg color={WHITE} name="collections" size={40} />
+          </TouchableHighlight>
+        </View>
+        {selectedObservation && (
+          <Modal
+            animation="slide"
+            transparent
+            visible={this.state.showModal}
+            onRequestClose={() => {
+              alert('Modal closed');
             }}
           >
             <View
               style={{
-                height: 35,
-                flexDirection: 'row',
-                alignItems: 'center',
-                backgroundColor: 'rgba(0, 0, 0, .8)',
-                borderRadius: 50,
-                paddingLeft: loading ? 7 : 13,
-                paddingRight: 15
+                backgroundColor: 'rgba(52, 52, 52, 0.8)',
+                flex: 1
               }}
             >
-              {loading && (
-                <ActivityIndicator
-                  style={{ height: 30, width: 30 }}
-                  color={MAPEO_BLUE}
-                />
-              )}
-              {loading && (
-                <Text style={{ color: WHITE, marginLeft: 5 }}>
-                  GPS: Loading...
-                </Text>
-              )}
-              {!loading && (
-                <View
-                  style={{
-                    backgroundColor: '#7AFA4C',
-                    height: 10,
-                    width: 10,
-                    borderRadius: 50
-                  }}
-                />
-              )}
-              {!loading && (
-                <Text style={{ color: WHITE, marginLeft: 10 }}>GPS: Strong</Text>
-              )}
-            </View>
-            <TouchableHighlight
-              onPress={this.openRightDrawer}
-              style={styles.myObservationsIcon}
-              underlayColor="transparent"
-            >
-              <CollectionsImg color={WHITE} name="collections" size={40} />
-            </TouchableHighlight>
-          </View>
-          {selectedObservation && (
-            <Modal
-              animation="slide"
-              transparent
-              visible={this.state.showModal}
-              onRequestClose={() => {
-                alert('Modal closed');
-              }}
-            >
-              <View
-                style={{
-                  backgroundColor: 'rgba(52, 52, 52, 0.8)',
-                  flex: 1
-                }}
-              >
-                <View style={styles.confirmationModal}>
-                  <View style={styles.savedContainer}>
-                    <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '700', color: 'black' }}>Saved!</Text>
-                  </View>
-                  <View
-                    style={styles.categoryContainer}
+              <View style={styles.confirmationModal}>
+                <View style={styles.savedContainer}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 20,
+                      fontWeight: '700',
+                      color: 'black'
+                    }}
                   >
-                    <ImageBackground
-                      source={CategoryPin}
-                      style={styles.categoryPin}
-                    >
-                      {selectedObservation && (
-                        <View style={{ marginTop: -10 }}>
-                          {selectedObservation.icon}
-                        </View>
-                      )}
-                    </ImageBackground>
-                    <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 10 }}>
-                      <Text style={styles.title}>{selectedObservation.type}</Text>
-                      <View style={{ flexDirection: 'row' }}>
-                        <Text style={styles.positionAtText}>at </Text>
-                        <Text style={styles.positionText}>{`${selectedObservation.lat}, ${selectedObservation.lon}.`}</Text>
+                    Saved!
+                  </Text>
+                </View>
+                <View style={styles.categoryContainer}>
+                  <ImageBackground
+                    source={CategoryPin}
+                    style={styles.categoryPin}
+                  >
+                    {selectedObservation && (
+                      <View style={{ marginTop: -10 }}>
+                        {selectedObservation.icon}
                       </View>
-                      <Text style={styles.date}>
-                        on {moment(selectedObservation.created).format('MMMM D, h:hh A')}
+                    )}
+                  </ImageBackground>
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      paddingBottom: 10
+                    }}
+                  >
+                    <Text style={styles.title}>{selectedObservation.type}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Text style={styles.positionAtText}>at </Text>
+                      <Text style={styles.positionText}>
+                        {`${selectedObservation.lat}, ${
+                          selectedObservation.lon
+                        }.`}
                       </Text>
                     </View>
-                  </View>
-                  <View style={styles.reviewContainer}>
-                    <TouchableHighlight
-                      onPress={() => {
-                        this.setModalVisible(!showModal);
-                        this.openRightDrawer();
-                      }}
-                    >
-                      <Text style={styles.buttonText}>Review</Text>
-                    </TouchableHighlight>
-                  </View>
-                  <View style={styles.continueContainer}>
-                    <TouchableHighlight
-                      onPress={() => this.setModalVisible(!showModal)}
-                    >
-                      <Text style={styles.buttonText}>Continue</Text>
-                    </TouchableHighlight>
+                    <Text style={styles.date}>
+                      on{' '}
+                      {moment(selectedObservation.created).format(
+                        'MMMM D, h:hh A'
+                      )}
+                    </Text>
                   </View>
                 </View>
+                <View style={styles.reviewContainer}>
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalVisible(!showModal);
+                      this.openRightDrawer();
+                    }}
+                  >
+                    <Text style={styles.buttonText}>Review</Text>
+                  </TouchableHighlight>
+                </View>
+                <View style={styles.continueContainer}>
+                  <TouchableHighlight
+                    onPress={() => this.setModalVisible(!showModal)}
+                  >
+                    <Text style={styles.buttonText}>Continue</Text>
+                  </TouchableHighlight>
+                </View>
               </View>
-            </Modal>
-          )}
-          <TabBar
-            navigation={addNavigationHelpers({
-              dispatch,
-              state: navigationState,
-              addListener: createReduxBoundAddListener('tabBar')
-            })}
-          />
-        </Drawer>);
-    return (component);
+            </View>
+          </Modal>
+        )}
+        <TabBar
+          navigation={addNavigationHelpers({
+            dispatch,
+            state: navigationState,
+            addListener: createReduxBoundAddListener('tabBar')
+          })}
+        />
+      </Drawer>
+    );
   }
 }
 
