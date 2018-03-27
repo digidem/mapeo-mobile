@@ -19,6 +19,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
 import CategoryPin from '../../../images/category-pin.png';
+import PencilIcon from '../../../images/editor-details.png';
 import {
   LIGHT_GREY,
   WHITE,
@@ -158,6 +159,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+    textAlign: 'center'
+  },
+  titleLong: {
+    fontSize: 18,
     fontWeight: '700',
     color: 'black',
     textAlign: 'center'
@@ -352,7 +359,13 @@ class ObservationEditor extends React.PureComponent<
               paddingBottom: 10
             }}
           >
-            <Text style={styles.title}>{selectedObservation.type}</Text>
+            <Text
+              style={
+                selectedObservation.type.length > 31 ? 
+                styles.titleLong : styles.title}
+            >
+              {selectedObservation.type}
+            </Text>
             <View style={{ flexDirection: 'row' }}>
               <Text style={styles.categoryAtText}>at </Text>
               <Text style={styles.categoryPositionText}>{positionText}</Text>
@@ -432,7 +445,7 @@ class ObservationEditor extends React.PureComponent<
                 </TouchableHighlight>
               )}
               {keyboardShown && (
-                <TouchableHighlight style={{ flex: 1, marginLeft: 15 }}>
+                <TouchableHighlight style={{ flex: 1, marginLeft: 20 }}>
                   <FontAwesomeIcon
                     color={MEDIUM_GREY}
                     name="microphone"
@@ -442,10 +455,9 @@ class ObservationEditor extends React.PureComponent<
               )}
               {keyboardShown && (
                 <TouchableHighlight style={{ flex: 1, marginLeft: 10 }}>
-                  <FontAwesomeIcon
-                    color={MEDIUM_GREY}
-                    name="pencil"
-                    size={30}
+                  <Image
+                    source={PencilIcon}
+                    style={{ marginTop: 2, width: 25, height: 25 }}
                   />
                 </TouchableHighlight>
               )}
@@ -483,11 +495,14 @@ class ObservationEditor extends React.PureComponent<
               </TouchableHighlight>
               <TouchableHighlight style={styles.bottomButton}>
                 <View style={{ flexDirection: 'row' }}>
-                  <FontAwesomeIcon
-                    color={MEDIUM_GREY}
-                    name="pencil"
-                    size={30}
-                    style={{ marginHorizontal: 32 }}
+                  <Image
+                    source={PencilIcon}
+                    style={{
+                      marginLeft: 34,
+                      marginRight: 31,
+                      width: 25,
+                      height: 25
+                    }}
                   />
                   <Text style={styles.bottomButtonText}>Details</Text>
                 </View>

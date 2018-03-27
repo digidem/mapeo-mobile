@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '700',
     textAlign: 'center',
-    maxWidth: Dimensions.get('window').width / 3
+    maxWidth: (Dimensions.get('window').width / 3) - 2
   }
 });
 

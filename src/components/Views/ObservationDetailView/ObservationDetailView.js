@@ -304,6 +304,8 @@ class ObservationDetailView extends React.PureComponent<
                 style={styles.mapBox}
                 styleURL={MapboxGL.StyleURL.Street}
                 zoomLevel={15}
+                scrollEnabled={false}
+                rotateEnabled={false}
                 centerCoordinate={[
                   selectedObservation.lon,
                   selectedObservation.lat
