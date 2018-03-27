@@ -25,8 +25,13 @@ const stackConfiguration = {
   initialRouteName: 'TabBarNavigation',
   headerMode: 'none',
   transitionConfig: () => ({
-    screenInterpolator: sceneProps =>
-      CardStackStyleInterpolator.forHorizontal(sceneProps)
+    screenInterpolator: sceneProps => {
+      if (sceneProps.scene.route.routeName.match('Categories')) {
+        return CardStackStyleInterpolator.forVertical(sceneProps);
+      }
+
+      return CardStackStyleInterpolator.forHorizontal(sceneProps);
+    }
   })
 };
 
