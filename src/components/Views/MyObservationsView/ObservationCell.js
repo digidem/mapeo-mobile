@@ -101,7 +101,6 @@ const ObservationCell = (props: Props) => {
             >
               {props.observation.icon}
             </View>
-          
           </View>
         </View>
         <View style={styles.text}>
@@ -111,7 +110,11 @@ const ObservationCell = (props: Props) => {
         {props.observation &&
           !!props.observation.media.length && (
             <Image
-              source={{ uri: props.observation.media[0].source }}
+              source={
+                props.observation.media[0].type === 'LocalPhoto'
+                  ? props.observation.media[0].source
+                  : { uri: props.observation.media[0].source }
+              }
               style={styles.media}
             />
           )}

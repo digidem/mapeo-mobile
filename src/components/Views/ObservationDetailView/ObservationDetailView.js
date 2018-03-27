@@ -279,7 +279,11 @@ class ObservationDetailView extends React.PureComponent<
                       onPress={() => goToPhotoView(item.source)}
                     >
                       <Image
-                        source={{ uri: item.source }}
+                        source={
+                          item.type === 'LocalPhoto'
+                            ? item.source
+                            : { uri: item.source }
+                        }
                         style={{
                           width: 125,
                           height: 125,

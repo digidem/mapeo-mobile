@@ -1,6 +1,6 @@
 // @flow
 
-export type MediaType = 'Photo' | 'Video' | 'Audio';
+export type MediaType = 'Photo' | 'Video' | 'Audio' | 'LocalPhoto';
 
 export interface ObservationMedia {
   source: string;
