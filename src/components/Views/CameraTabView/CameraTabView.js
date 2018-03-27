@@ -71,7 +71,7 @@ class CameraTabView extends React.PureComponent<
           goToCategories
         } = this.props;
         const initialObservation = {
-          type: 'Rios y corrientes',
+          type: '',
           id: size(observations) + 1,
           lat: 0,
           lon: 0,
@@ -81,8 +81,7 @@ class CameraTabView extends React.PureComponent<
           notes: '',
           observedBy: 'You',
           media: [],
-          icon: null,
-          createdFrom: 'Camera'
+          icon: null
         };
 
         resetNavigation();

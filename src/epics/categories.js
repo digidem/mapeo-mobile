@@ -9,7 +9,7 @@ import type { Category } from '../types/category';
 
 const initialCategories = [
   {
-    name: 'Rios y corrientes',
+    name: 'Rivers and streams',
     icon: (
       <Image
         source={require('../images/categories/category_0.png')}
@@ -19,7 +19,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Túneles / cuevas',
+    name: 'Tunnels / caves',
     icon: (
       <Image
         source={require('../images/categories/category_1.png')}
@@ -29,7 +29,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Sitios de caza',
+    name: 'Hunting sites',
     icon: (
       <Image
         source={require('../images/categories/category_2.png')}
@@ -39,7 +39,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Sitios de pesca',
+    name: 'Fishing sites',
     icon: (
       <Image
         source={require('../images/categories/category_3.png')}
@@ -49,7 +49,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Casas antiguas y granjas',
+    name: 'Old houses and farms',
     icon: (
       <Image
         source={require('../images/categories/category_4.png')}
@@ -59,7 +59,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Cementerios',
+    name: 'Burial sites',
     icon: (
       <Image
         source={require('../images/categories/category_5.png')}
@@ -69,7 +69,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Plantas medicinales',
+    name: 'Medicinal plants',
     icon: (
       <Image
         source={require('../images/categories/category_6.png')}
@@ -79,7 +79,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Recursos para artesania',
+    name: 'Resources for artesania',
     icon: (
       <Image
         source={require('../images/categories/category_7.png')}
@@ -89,7 +89,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Oro',
+    name: 'Gold',
     icon: (
       <Image
         source={require('../images/categories/category_8.png')}
@@ -99,7 +99,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Árboles frutales plantados',
+    name: 'Planted fruit trees',
     icon: (
       <Image
         source={require('../images/categories/category_9.png')}
@@ -129,7 +129,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Gente invisible',
+    name: 'Invisible people',
     icon: (
       <Image
         source={require('../images/categories/category_12.png')}
@@ -139,7 +139,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Cascadas',
+    name: 'Waterfalls',
     icon: (
       <Image
         source={require('../images/categories/category_13.png')}
@@ -149,7 +149,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Colinas y montañas (sagrado)',
+    name: 'Hills and mountains (sacred)',
     icon: (
       <Image
         source={require('../images/categories/category_14.png')}
@@ -159,7 +159,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Enormes árboles especiales',
+    name: 'Huge special trees',
     icon: (
       <Image
         source={require('../images/categories/category_15.png')}
@@ -179,7 +179,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Lugares históricos',
+    name: 'Historical sites',
     icon: (
       <Image
         source={require('../images/categories/category_17.png')}
@@ -189,7 +189,7 @@ const initialCategories = [
     )
   },
   {
-    name: 'Plantas y animales en peligro de extinció',
+    name: 'Plants and animals in danger of extinction',
     icon: (
       <Image
         source={require('../images/categories/category_18.png')}

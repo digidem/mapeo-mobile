@@ -121,8 +121,7 @@ class MapView extends React.Component<StateProps & DispatchProps> {
       notes: '',
       observedBy: 'You',
       media: [],
-      icon: null,
-      createdFrom: 'Map'
+      icon: null
     };
 
     resetNavigation();
@@ -187,8 +186,7 @@ class MapView extends React.Component<StateProps & DispatchProps> {
       notes: '',
       observedBy: 'user',
       media: [],
-      icon: null,
-      createdFrom: 'Map'
+      icon: null
     };
 
     resetNavigation();

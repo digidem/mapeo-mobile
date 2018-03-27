@@ -13,7 +13,6 @@ export const createObservation = (observation?: any) => ({
   observedBy: 'You',
   media: [],
   icon: null,
-  createdFrom: 'map',
 
   ...observation
 });
