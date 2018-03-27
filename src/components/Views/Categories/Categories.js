@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
 import { DARK_GREY, LIGHT_GREY, WHITE, CHARCOAL } from '../../../lib/styles';
@@ -152,64 +153,82 @@ class Categories extends React.PureComponent<
   };
 
   render() {
-    const { categories, selectedObservation } = this.props;
+    const { categories, selectedObservation, navigation } = this.props;
     const keyExtractor = item => item.id;
 
     return (
       <View style={{ flex: 1 }}>
-        <MapboxGL.MapView
-          style={{ flex: 1 }}
-          centerCoordinate={
-            selectedObservation
-              ? [selectedObservation.lon, selectedObservation.lat]
-              : undefined
-          }
-          ref={c => (this.map = c)}
-          zoomLevel={12}
-          logoEnabled={false}
-        >
-          {selectedObservation && (
-            <MapboxGL.PointAnnotation
-              id="selected"
-              coordinate={[selectedObservation.lon, selectedObservation.lat]}
-              selected
-            >
-              <MapboxGL.Callout>
-                <View
-                  style={{
-                    backgroundColor: WHITE,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: 10,
-                    borderRadius: 5
-                  }}
-                >
-                  {!!selectedObservation.media.length && (
-                    <Image
-                      style={{ width: 50, height: 50, marginBottom: 10 }}
-                      source={{ uri: selectedObservation.media[0].source }}
-                    />
-                  )}
-                  <Text style={{ color: CHARCOAL }}>
-                    {selectedObservation.lon}, {selectedObservation.lat}
-                  </Text>
-                </View>
-              </MapboxGL.Callout>
-            </MapboxGL.PointAnnotation>
-          )}
-        </MapboxGL.MapView>
-        <FlatList
+        <View style={{ flex: 1 }}>
+          <MapboxGL.MapView
+            style={{ flex: 1 }}
+            centerCoordinate={
+              selectedObservation
+                ? [selectedObservation.lon, selectedObservation.lat]
+                : undefined
+            }
+            ref={c => (this.map = c)}
+            zoomLevel={12}
+            logoEnabled={false}
+          >
+            {selectedObservation && (
+              <MapboxGL.PointAnnotation
+                id="selected"
+                coordinate={[selectedObservation.lon, selectedObservation.lat]}
+                selected
+              >
+                <MapboxGL.Callout>
+                  <View
+                    style={{
+                      backgroundColor: WHITE,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: 10,
+                      borderRadius: 5
+                    }}
+                  >
+                    {!!selectedObservation.media.length && (
+                      <Image
+                        style={{ width: 50, height: 50, marginBottom: 10 }}
+                        source={{ uri: selectedObservation.media[0].source }}
+                      />
+                    )}
+                    <Text style={{ color: CHARCOAL }}>
+                      {selectedObservation.lon}, {selectedObservation.lat}
+                    </Text>
+                  </View>
+                </MapboxGL.Callout>
+              </MapboxGL.PointAnnotation>
+            )}
+          </MapboxGL.MapView>
+          <FlatList
+            style={{
+              height: 80,
+              width: Dimensions.get('window').width,
+              backgroundColor: WHITE
+            }}
+            keyExtractor={keyExtractor}
+            renderItem={this.renderItem}
+            data={categories}
+            numColumns={3}
+          />
+        </View>
+        <View
           style={{
-            height: 80,
-            width: Dimensions.get('window').width,
-            backgroundColor: WHITE
+            position: 'absolute',
+            left: 0,
+            backgroundColor: 'transparent'
           }}
-          keyExtractor={keyExtractor}
-          renderItem={this.renderItem}
-          data={categories}
-          numColumns={3}
-        />
+        >
+          <TouchableHighlight
+            style={{ margin: 20 }}
+            underlayColor="rgba(0, 0, 0, 0.5)"
+            onPress={() => navigation.goBack()}
+          >
+            <FeatherIcon color="lightgray" name="chevron-left" size={25} />
+          </TouchableHighlight>
+        </View>
       </View>
+      
     );
   }
 }
