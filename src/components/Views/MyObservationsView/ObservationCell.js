@@ -67,6 +67,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: 'black'
   },
+  titleLong: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: 'black'
+  },
   media: {
     width: 60,
     height: 60,
@@ -104,7 +109,14 @@ const ObservationCell = (props: Props) => {
           </View>
         </View>
         <View style={styles.text}>
-          <Text style={styles.title}>{props.observation.name}</Text>
+          <Text
+            style={
+              props.observation.name.length > 20 ?
+              styles.titleLong : styles.title
+            }
+          >
+            {props.observation.name}
+          </Text>
           <Text>{dateString}</Text>
         </View>
         {props.observation &&

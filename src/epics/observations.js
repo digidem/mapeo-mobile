@@ -45,58 +45,7 @@ export const observationListEpic = (
             />
           ),
           mock: true
-        },
-        {
-          type: 'Old houses and farms',
-          id: 2,
-          lat: 0.104585252,
-          lon: -77.4283526,
-          link: 'link',
-          created: new Date('2018-03-24T12:00:00Z'),
-          name: 'Old houses and farms',
-          notes: `Pedro and Maria's smallholding`,
-          observedBy: 'Aliya',
-          media: [
-            {
-              type: 'LocalPhoto',
-              source: require('../images/mock-data/2-farm.jpg')
-            }
-          ],
-          icon: (
-            <Image
-              source={require('../images/categories/category_0.png')}
-              style={{ width: 25, height: 25 }}
-              resizeMode="contain"
-            />
-          ),
-          mock: true
-        },
-        {
-          type: 'Fishing sites',
-          id: 3,
-          lat: 0.094604287,
-          lon: -77.41709795,
-          link: 'link',
-          created: new Date('2018-03-25T12:30:00Z'),
-          name: 'Fishing sites',
-          notes: `A deep pool, good for spearing catfish`,
-          observedBy: 'Aliya',
-          media: [
-            {
-              type: 'LocalPhoto',
-              source: require('../images/mock-data/3-fishingspot.jpg')
-            }
-          ],
-          icon: (
-            <Image
-              source={require('../images/categories/category_3.png')}
-              style={{ width: 25, height: 25 }}
-              resizeMode="contain"
-            />
-          ),
-          mock: true
         }
-        // },
         // {
         //   type: 'Hunting site',
         //   id: 4,
