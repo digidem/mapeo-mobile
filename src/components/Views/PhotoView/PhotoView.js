@@ -118,7 +118,9 @@ class PhotoView extends React.PureComponent<
                 height: imageHeight,
                 alignItems: 'center'
               }}
-              source={{ uri: navigation.state.params.photoSource }}
+              source={navigation.state.params.photoType === 'LocalPhoto' ?
+              navigation.state.params.photoSource :
+              { uri: navigation.state.params.photoSource }}
             >
               {fromCameraTab && (
                 <TouchableHighlight

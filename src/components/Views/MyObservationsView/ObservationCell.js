@@ -104,7 +104,9 @@ const ObservationCell = (props: Props) => {
                 marginTop: 7
               }}
             >
-              {props.observation.media[0].type === 'LocalPhoto'
+              {props.observation &&
+                !!props.observation.media.length &&
+                props.observation.media[0].type === 'LocalPhoto'
                 ? <Image
                   source={props.observation.icon}
                   style={{ width: 25, height: 25 }}

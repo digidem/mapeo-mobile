@@ -1,23 +1,19 @@
 // @flow
 import React from 'react';
-import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import {
   StyleSheet,
   Text,
   TouchableHighlight,
   View,
   FlatList,
-  Dimensions,
-  Image,
-  ImageBackground
+  Dimensions
 } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
-import { DARK_GREY, LIGHT_GREY, WHITE, CHARCOAL } from '../../../lib/styles';
-import Gradient from '../../../images/gradient-overlay.png';
+import { DARK_GREY, LIGHT_GREY, WHITE } from '../../../lib/styles';
 
 type Props = {
   navigation: NavigationActions
@@ -155,53 +151,39 @@ class Categories extends React.PureComponent<
   };
 
   render() {
-    const { categories, selectedObservation, navigation } = this.props;
+    const { categories, navigation } = this.props;
     const keyExtractor = item => item.id;
 
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
-          <MapboxGL.MapView
-            style={{ flex: 1 }}
-            centerCoordinate={
-              selectedObservation
-                ? [selectedObservation.lon, selectedObservation.lat]
-                : undefined
-            }
-            ref={c => (this.map = c)}
-            zoomLevel={12}
-            logoEnabled={false}
+          <View
+            style={{
+              backgroundColor: WHITE,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingTop: 20
+            }}
           >
-            {selectedObservation && (
-              <MapboxGL.PointAnnotation
-                id="selected"
-                coordinate={[selectedObservation.lon, selectedObservation.lat]}
-                selected
-              >
-                <MapboxGL.Callout>
-                  <View
-                    style={{
-                      backgroundColor: WHITE,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: 10,
-                      borderRadius: 5
-                    }}
-                  >
-                    {!!selectedObservation.media.length && (
-                      <Image
-                        style={{ width: 50, height: 50, marginBottom: 10 }}
-                        source={{ uri: selectedObservation.media[0].source }}
-                      />
-                    )}
-                    <Text style={{ color: CHARCOAL }}>
-                      {selectedObservation.lon}, {selectedObservation.lat}
-                    </Text>
-                  </View>
-                </MapboxGL.Callout>
-              </MapboxGL.PointAnnotation>
-            )}
-          </MapboxGL.MapView>
+            <TouchableHighlight
+              style={{ paddingLeft: 10, width: 70, position: 'absolute', top: 20, left: 20 }}
+              underlayColor="rgba(0, 0, 0, 0.5)"
+              onPress={() => navigation.goBack()}
+            >
+              <FeatherIcon color="lightgray" name="chevron-down" size={25} />
+            </TouchableHighlight>
+            <Text
+              style={{
+                fontWeight: '700',
+                fontSize: 20,
+                color: 'black',
+                textAlign: 'center'
+              }}
+            >
+              Category
+            </Text>
+          </View>
           <FlatList
             style={{
               height: 80,
@@ -213,65 +195,6 @@ class Categories extends React.PureComponent<
             data={categories}
             numColumns={3}
           />
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            position: 'absolute',
-            left: 0,
-            backgroundColor: 'transparent'
-          }}
-        >
-          <ImageBackground
-            source={Gradient}
-            style={{
-              width: Dimensions.get('window').width,
-              height: 150
-            }}
-          >
-            <TouchableHighlight
-              style={{ margin: 20 }}
-              underlayColor="rgba(0, 0, 0, 0.5)"
-              onPress={() => navigation.goBack()}
-            >
-              <FeatherIcon color="lightgray" name="chevron-left" size={25} />
-            </TouchableHighlight>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 60,
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                zIndex: 5
-              }}
-            >
-              <View
-                style={{
-                  height: 35,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  backgroundColor: 'rgba(0, 0, 0, .8)',
-                  borderRadius: 50,
-                  paddingLeft: 13,
-                  paddingRight: 15
-                }}
-              >
-                <View
-                  style={{
-                    backgroundColor: '#7AFA4C',
-                    height: 10,
-                    width: 10,
-                    borderRadius: 50
-                  }}
-                />
-                <Text style={{ color: WHITE, marginLeft: 10 }}>GPS: Strong</Text>
-              </View>
-            </View>
-          </ImageBackground>
         </View>
       </View>
       

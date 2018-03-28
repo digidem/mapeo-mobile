@@ -27,11 +27,11 @@ function mapStateToProps(state: StoreState): StateProps {
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     addObservation: observation => dispatch(observationAdd(observation)),
-    goToPhotoView: source =>
+    goToPhotoView: params =>
       dispatch(
         NavigationActions.navigate({
           routeName: 'PhotoView',
-          params: { photoSource: source }
+          params: { photoType: params.type, photoSource: params.source }
         })
       ),
     resetNavigation: () => dispatch(resetAction)

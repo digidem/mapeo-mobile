@@ -26,6 +26,7 @@ import {
   MEDIUM_GREY
 } from '../../../lib/styles';
 import CategoryPin from '../../../images/category-pin.png';
+import Gradient from '../../../images/gradient-overlay.png';
 
 const styles = StyleSheet.create({
   buttonText: {
@@ -191,154 +192,167 @@ class TabBarNavigation extends React.Component<StateProps, State> {
         side="right"
         type="displace"
       >
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 60,
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 5
-          }}
-        >
-          <View
-            style={{
-              height: 35,
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: 'rgba(0, 0, 0, .8)',
-              borderRadius: 50,
-              paddingLeft: loading ? 7 : 13,
-              paddingRight: 15
-            }}
-          >
-            {loading && (
-              <ActivityIndicator
-                style={{ height: 30, width: 30 }}
-                color={MAPEO_BLUE}
-              />
-            )}
-            {loading && (
-              <Text style={{ color: WHITE, marginLeft: 5 }}>
-                GPS: Loading...
-              </Text>
-            )}
-            {!loading && (
-              <View
-                style={{
-                  backgroundColor: '#7AFA4C',
-                  height: 10,
-                  width: 10,
-                  borderRadius: 50
-                }}
-              />
-            )}
-            {!loading && (
-              <Text style={{ color: WHITE, marginLeft: 10 }}>GPS: Strong</Text>
-            )}
-          </View>
-          <TouchableHighlight
-            onPress={this.openRightDrawer}
-            style={styles.myObservationsIcon}
-            underlayColor="transparent"
-          >
-            <CollectionsImg color={WHITE} name="collections" size={40} />
-          </TouchableHighlight>
-        </View>
-        {selectedObservation && (
-          <Modal
-            animation="slide"
-            transparent
-            visible={this.state.showModal}
-            onRequestClose={() => {
-              alert('Modal closed');
-            }}
-          >
-            <View
-              style={{
-                backgroundColor: 'rgba(52, 52, 52, 0.8)',
-                flex: 1
+        <View style={{ flex: 1 }}>
+          
+          {selectedObservation && (
+            <Modal
+              animation="slide"
+              transparent
+              visible={this.state.showModal}
+              onRequestClose={() => {
+                alert('Modal closed');
               }}
             >
-              <View style={styles.confirmationModal}>
-                <View style={styles.savedContainer}>
-                  <Text
-                    style={{
-                      textAlign: 'center',
-                      fontSize: 20,
-                      fontWeight: '700',
-                      color: 'black'
-                    }}
-                  >
-                    Saved!
-                  </Text>
-                </View>
-                <View style={styles.categoryContainer}>
-                  <ImageBackground
-                    source={CategoryPin}
-                    style={styles.categoryPin}
-                  >
-                    {selectedObservation && (
-                      <View style={{ marginTop: -10 }}>
-                        {selectedObservation.icon}
-                      </View>
-                    )}
-                  </ImageBackground>
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      paddingBottom: 10
-                    }}
-                  >
-                    <Text style={styles.title}>{selectedObservation.type}</Text>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text style={styles.positionAtText}>at </Text>
-                      <Text style={styles.positionText}>
-                        {`${selectedObservation.lat}, ${
-                          selectedObservation.lon
-                        }.`}
-                      </Text>
-                    </View>
-                    <Text style={styles.date}>
-                      on{' '}
-                      {moment(selectedObservation.created).format(
-                        'MMMM D, h:hh A'
-                      )}
+              <View
+                style={{
+                  backgroundColor: 'rgba(52, 52, 52, 0.8)',
+                  flex: 1
+                }}
+              >
+                <View style={styles.confirmationModal}>
+                  <View style={styles.savedContainer}>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        fontSize: 20,
+                        fontWeight: '700',
+                        color: 'black'
+                      }}
+                    >
+                      Saved!
                     </Text>
                   </View>
-                </View>
-                <View style={styles.reviewContainer}>
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.setModalVisible(!showModal);
-                      this.openRightDrawer();
-                    }}
-                  >
-                    <Text style={styles.buttonText}>Review</Text>
-                  </TouchableHighlight>
-                </View>
-                <View style={styles.continueContainer}>
-                  <TouchableHighlight
-                    onPress={() => this.setModalVisible(!showModal)}
-                  >
-                    <Text style={styles.buttonText}>Continue</Text>
-                  </TouchableHighlight>
+                  <View style={styles.categoryContainer}>
+                    <ImageBackground
+                      source={CategoryPin}
+                      style={styles.categoryPin}
+                    >
+                      {selectedObservation && (
+                        <View style={{ marginTop: -10 }}>
+                          {selectedObservation.icon}
+                        </View>
+                      )}
+                    </ImageBackground>
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        paddingBottom: 10
+                      }}
+                    >
+                      <Text style={styles.title}>{selectedObservation.type}</Text>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.positionAtText}>at </Text>
+                        <Text style={styles.positionText}>
+                          {`${selectedObservation.lat}, ${
+                            selectedObservation.lon
+                          }.`}
+                        </Text>
+                      </View>
+                      <Text style={styles.date}>
+                        on{' '}
+                        {moment(selectedObservation.created).format(
+                          'MMMM D, h:hh A'
+                        )}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.reviewContainer}>
+                    <TouchableHighlight
+                      onPress={() => {
+                        this.setModalVisible(!showModal);
+                        this.openRightDrawer();
+                      }}
+                    >
+                      <Text style={styles.buttonText}>Review</Text>
+                    </TouchableHighlight>
+                  </View>
+                  <View style={styles.continueContainer}>
+                    <TouchableHighlight
+                      onPress={() => this.setModalVisible(!showModal)}
+                    >
+                      <Text style={styles.buttonText}>Continue</Text>
+                    </TouchableHighlight>
+                  </View>
                 </View>
               </View>
-            </View>
-          </Modal>
-        )}
-        <TabBar
-          navigation={addNavigationHelpers({
-            dispatch,
-            state: navigationState,
-            addListener: createReduxBoundAddListener('tabBar')
-          })}
-        />
+            </Modal>
+          )}
+          <TabBar
+            navigation={addNavigationHelpers({
+              dispatch,
+              state: navigationState,
+              addListener: createReduxBoundAddListener('tabBar')
+            })}
+          />
+          <View style={{ position: 'absolute', left: 0, backgroundColor: 'transparent' }}>
+            <ImageBackground
+              source={Gradient}
+              style={{
+                width: Dimensions.get('window').width,
+                height: 100
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 60,
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  zIndex: 5
+                }}
+              >
+                <View
+                  style={{
+                    height: 35,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    backgroundColor: 'rgba(0, 0, 0, .8)',
+                    borderRadius: 50,
+                    paddingLeft: loading ? 7 : 13,
+                    paddingRight: 15
+                  }}
+                >
+                  {loading && (
+                    <ActivityIndicator
+                      style={{ height: 30, width: 30 }}
+                      color={MAPEO_BLUE}
+                    />
+                  )}
+                  {loading && (
+                    <Text style={{ color: WHITE, marginLeft: 5 }}>
+                      GPS: Loading...
+                    </Text>
+                  )}
+                  {!loading && (
+                    <View
+                      style={{
+                        backgroundColor: '#7AFA4C',
+                        height: 10,
+                        width: 10,
+                        borderRadius: 50
+                      }}
+                    />
+                  )}
+                  {!loading && (
+                    <Text style={{ color: WHITE, marginLeft: 10 }}>GPS: Strong</Text>
+                  )}
+                </View>
+                <TouchableHighlight
+                  onPress={this.openRightDrawer}
+                  style={styles.myObservationsIcon}
+                  underlayColor="transparent"
+                >
+                  <CollectionsImg color={WHITE} name="collections" size={40} />
+                </TouchableHighlight>
+              </View>
+            </ImageBackground>
+          </View>
+        </View>
       </Drawer>
     );
   }

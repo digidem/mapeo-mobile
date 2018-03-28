@@ -13,7 +13,7 @@ import { RNCamera } from 'react-native-camera';
 import type { Observation } from '../../../types/observation';
 import { CHARCOAL, WHITE } from '../../../lib/styles.js';
 
-import CircleImg from '../../../images/circle-64.png';
+import AddButton from '../../../images/add-button.png';
 
 const styles = StyleSheet.create({
   cancelButton: {
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   capture: {
     alignSelf: 'center',
-    marginTop: 425
+    marginTop: 375
   },
   preview: {
     flex: 1,
@@ -102,7 +102,13 @@ class CameraView extends React.PureComponent<
           permissionDialogMessage="We need your permission to use your camera phone"
         >
           <TouchableOpacity onPress={this.takePicture} style={styles.capture}>
-            <Image source={CircleImg} />
+            <Image
+              source={AddButton}
+              style={{
+                width: 125,
+                height: 125
+              }}
+            />
           </TouchableOpacity>
           <TouchableHighlight
             style={styles.cancelButton}

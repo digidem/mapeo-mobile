@@ -23,7 +23,7 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
-  goToPhotoView: (photoSource: string) => void,
+  goToPhotoView: (params: Object) => void,
   addObservation: (o: Observation) => void,
   resetNavigation: () => void
 };
@@ -250,7 +250,9 @@ class ObservationDetailView extends React.PureComponent<
             </TouchableHighlight>
             <Image source={CategoryPin} style={styles.categoryPin} />
             <View style={styles.categoryIconContainer}>
-              {selectedObservation.media[0].type === 'LocalPhoto'
+              {selectedObservation &&
+                !!selectedObservation.media.length &&
+                selectedObservation.media[0].type === 'LocalPhoto'
                 ? <Image
                   source={selectedObservation.icon}
                   style={{ width: 25, height: 25 }}
@@ -271,18 +273,6 @@ class ObservationDetailView extends React.PureComponent<
           </View>
           <View style={styles.section}>
             <Text style={styles.sectionText}>{mediaText}</Text>
-            {/* !!selectedObservation &&
-              !!selectedObservation.media.length &&
-              selectedObservation.media[0].type === 'LocalPhoto' && (
-                <Image
-                  source={selectedObservation.media[0].source}
-                  style={{
-                    width: 125,
-                    height: 125,
-                    margin: 1
-                  }}
-                />
-            ) */}
             {!!selectedObservation &&
               !!selectedObservation.media.length && (
                 <FlatList
@@ -295,7 +285,9 @@ class ObservationDetailView extends React.PureComponent<
                   keyExtractor={keyExtractor}
                   renderItem={({ item }) => (
                     <TouchableHighlight
-                      onPress={() => goToPhotoView(item.source)}
+                      onPress={
+                        () => goToPhotoView({ type: item.type, source: item.source })
+                      }
                     >
                       <Image
                         source={
