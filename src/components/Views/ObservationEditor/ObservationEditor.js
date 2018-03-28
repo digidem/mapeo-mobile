@@ -317,7 +317,7 @@ class ObservationEditor extends React.PureComponent<
           >
             <TouchableHighlight
               style={{ position: 'absolute', left: 20, top: 20 }}
-              onPress={() => navigation.navigate('Categories')}
+              onPress={() => navigation.goBack()}
             >
               <FeatherIcon color="lightgray" name="chevron-left" size={25} />
             </TouchableHighlight>
@@ -361,8 +361,10 @@ class ObservationEditor extends React.PureComponent<
           >
             <Text
               style={
-                selectedObservation.type.length > 31 ? 
-                styles.titleLong : styles.title}
+                selectedObservation.type.length > 31
+                  ? styles.titleLong
+                  : styles.title
+              }
             >
               {selectedObservation.type}
             </Text>
@@ -387,7 +389,9 @@ class ObservationEditor extends React.PureComponent<
           {selectedObservation &&
             !!selectedObservation.media.length && (
               <View
-                style={keyboardShown ? styles.mediaRowKeyboardShown : styles.mediaRow}
+                style={
+                  keyboardShown ? styles.mediaRowKeyboardShown : styles.mediaRow
+                }
               >
                 <FlatList
                   horizontal

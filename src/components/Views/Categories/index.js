@@ -10,7 +10,7 @@ import Categories from './Categories';
 import type { StateProps } from './Categories';
 
 const resetAction = NavigationActions.reset({
-  index: 1,
+  index: 0,
   actions: [
     NavigationActions.navigate({
       routeName: 'TabBarNavigation'

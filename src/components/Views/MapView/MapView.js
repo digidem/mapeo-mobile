@@ -106,7 +106,6 @@ class MapView extends React.Component<StateProps & DispatchProps> {
     const {
       createObservation,
       observations,
-      resetNavigation,
       updateObservation,
       goToPosition
     } = this.props;
@@ -124,7 +123,6 @@ class MapView extends React.Component<StateProps & DispatchProps> {
       icon: null
     };
 
-    resetNavigation();
     goToPosition();
 
     createObservation(initialObservation);
@@ -169,12 +167,7 @@ class MapView extends React.Component<StateProps & DispatchProps> {
   handleLongPress = (point: Object) => {
     const { coordinates } = point.geometry;
 
-    const {
-      createObservation,
-      observations,
-      resetNavigation,
-      goToPosition
-    } = this.props;
+    const { createObservation, observations, goToPosition } = this.props;
     const initialObservation = {
       type: 'Rios y corrientes',
       id: size(observations) + 1,
@@ -189,7 +182,6 @@ class MapView extends React.Component<StateProps & DispatchProps> {
       icon: null
     };
 
-    resetNavigation();
     goToPosition();
 
     createObservation(initialObservation);

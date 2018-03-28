@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '700',
     textAlign: 'center',
-    maxWidth: (Dimensions.get('window').width / 3) - 2
+    maxWidth: Dimensions.get('window').width / 3 - 2
   }
 });
 
@@ -128,27 +128,22 @@ class Categories extends React.PureComponent<
     );
   };
 
-  renderItem = ({ item }) => {
-    const { resetNavigation } = this.props;
-
-    return (
-      <TouchableHighlight
-        style={styles.cellContainer}
-        underlayColor="transparent"
-        onPress={() => {
-          resetNavigation();
+  renderItem = ({ item }) => (
+    <TouchableHighlight
+      style={styles.cellContainer}
+      underlayColor="transparent"
+      onPress={() => {
           this.handleUpdateObservation(item);
         }}
-      >
-        <View style={styles.cell}>
-          <View style={styles.circle}>
-            <View style={styles.innerCircle}>{item.icon}</View>
-          </View>
-          <Text style={styles.categoryName}>{item.name}</Text>
+    >
+      <View style={styles.cell}>
+        <View style={styles.circle}>
+          <View style={styles.innerCircle}>{item.icon}</View>
         </View>
-      </TouchableHighlight>
+        <Text style={styles.categoryName}>{item.name}</Text>
+      </View>
+    </TouchableHighlight>
     );
-  };
 
   render() {
     const { categories, navigation } = this.props;
@@ -167,7 +162,13 @@ class Categories extends React.PureComponent<
             }}
           >
             <TouchableHighlight
-              style={{ paddingLeft: 10, width: 70, position: 'absolute', top: 20, left: 20 }}
+              style={{
+                paddingLeft: 10,
+                width: 70,
+                position: 'absolute',
+                top: 20,
+                left: 20
+              }}
               underlayColor="rgba(0, 0, 0, 0.5)"
               onPress={() => navigation.goBack()}
             >
@@ -197,7 +198,6 @@ class Categories extends React.PureComponent<
           />
         </View>
       </View>
-      
     );
   }
 }

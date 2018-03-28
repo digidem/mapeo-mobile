@@ -1,11 +1,19 @@
 // @flow
 import React from 'react';
 import { NavigationActions, withNavigation } from 'react-navigation';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  ActivityIndicator,
+  Text
+} from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { size } from 'lodash';
 import type { Observation } from '../../../types/observation';
-import { CHARCOAL, WHITE } from '../../../lib/styles.js';
+import { CHARCOAL, WHITE, LIGHT_GREY } from '../../../lib/styles.js';
 
 import AddButton from '../../../images/add-button.png';
 
@@ -45,6 +53,10 @@ export type StateProps = {
   }
 };
 
+type State = {
+  loading: boolean
+};
+
 export type DispatchProps = {
   createObservation: (observation: Observation) => void,
   updateObservation: (o: Observation) => void,
@@ -53,16 +65,18 @@ export type DispatchProps = {
 };
 
 class CameraTabView extends React.PureComponent<
-  Props & StateProps & DispatchProps
+  Props & StateProps & DispatchProps,
+  State
 > {
   camera: RNCamera;
+  state = {
+    loading: false
+  };
 
   takePicture = async () => {
     if (this.camera) {
-      const options = { quality: 0.5, base64: true, exif: true };
+      const options = { quality: 0.5, base64: true, fixOrientation: true };
       try {
-        const data = await this.camera.takePictureAsync(options);
-
         const {
           createObservation,
           observations,
@@ -70,6 +84,14 @@ class CameraTabView extends React.PureComponent<
           updateObservation,
           goToCategories
         } = this.props;
+
+        this.setState({ loading: true });
+
+        const data = await this.camera.takePictureAsync(options);
+
+        this.setState({ loading: false });
+        resetNavigation();
+        goToCategories();
         const initialObservation = {
           type: '',
           id: size(observations) + 1,
@@ -83,10 +105,8 @@ class CameraTabView extends React.PureComponent<
           media: [],
           icon: null
         };
-
-        resetNavigation();
-
         createObservation(initialObservation);
+
         navigator.geolocation.getCurrentPosition(
           position => {
             const { latitude, longitude } = position.coords;
@@ -104,7 +124,6 @@ class CameraTabView extends React.PureComponent<
           },
           error => console.warn(error)
         );
-        goToCategories();
       } catch (error) {
         console.warn(error);
       }
@@ -112,8 +131,14 @@ class CameraTabView extends React.PureComponent<
   };
 
   render() {
+    const { loading } = this.state;
     return (
-      <View style={{ flex: 1, flexDirection: 'column' }}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'column'
+        }}
+      >
         <RNCamera
           ref={ref => {
             this.camera = ref;
@@ -134,6 +159,31 @@ class CameraTabView extends React.PureComponent<
             />
           </TouchableOpacity>
         </RNCamera>
+        {loading && (
+          <View
+            style={{
+              position: 'absolute',
+              height: Dimensions.get('window').height - 30,
+              width: Dimensions.get('window').width,
+              backgroundColor: 'rgba(66,66,66,.8)',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: '#FFF',
+                paddingHorizontal: 50,
+                paddingVertical: 30,
+                justifyContent: 'center',
+                borderRadius: 3
+              }}
+            >
+              <ActivityIndicator />
+              <Text>Saving Image</Text>
+            </View>
+          </View>
+        )}
       </View>
     );
   }
