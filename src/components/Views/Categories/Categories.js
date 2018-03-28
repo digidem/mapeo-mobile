@@ -8,7 +8,8 @@ import {
   View,
   FlatList,
   Dimensions,
-  Image
+  Image,
+  ImageBackground
 } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -16,6 +17,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
 import { DARK_GREY, LIGHT_GREY, WHITE, CHARCOAL } from '../../../lib/styles';
+import Gradient from '../../../images/gradient-overlay.png';
 
 type Props = {
   navigation: NavigationActions
@@ -214,18 +216,62 @@ class Categories extends React.PureComponent<
         </View>
         <View
           style={{
+            flexDirection: 'row',
             position: 'absolute',
             left: 0,
             backgroundColor: 'transparent'
           }}
         >
-          <TouchableHighlight
-            style={{ margin: 20 }}
-            underlayColor="rgba(0, 0, 0, 0.5)"
-            onPress={() => navigation.goBack()}
+          <ImageBackground
+            source={Gradient}
+            style={{
+              width: Dimensions.get('window').width,
+              height: 150
+            }}
           >
-            <FeatherIcon color="lightgray" name="chevron-left" size={25} />
-          </TouchableHighlight>
+            <TouchableHighlight
+              style={{ margin: 20 }}
+              underlayColor="rgba(0, 0, 0, 0.5)"
+              onPress={() => navigation.goBack()}
+            >
+              <FeatherIcon color="lightgray" name="chevron-left" size={25} />
+            </TouchableHighlight>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 60,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                zIndex: 5
+              }}
+            >
+              <View
+                style={{
+                  height: 35,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  backgroundColor: 'rgba(0, 0, 0, .8)',
+                  borderRadius: 50,
+                  paddingLeft: 13,
+                  paddingRight: 15
+                }}
+              >
+                <View
+                  style={{
+                    backgroundColor: '#7AFA4C',
+                    height: 10,
+                    width: 10,
+                    borderRadius: 50
+                  }}
+                />
+                <Text style={{ color: WHITE, marginLeft: 10 }}>GPS: Strong</Text>
+              </View>
+            </View>
+          </ImageBackground>
         </View>
       </View>
       

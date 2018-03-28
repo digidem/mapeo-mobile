@@ -239,6 +239,7 @@ class ObservationDetailView extends React.PureComponent<
               onPress={() => {
                 navigation.goBack();
               }}
+              underlayColor="transparent"
             >
               <LeftChevron
                 color="lightgrey"
@@ -249,7 +250,13 @@ class ObservationDetailView extends React.PureComponent<
             </TouchableHighlight>
             <Image source={CategoryPin} style={styles.categoryPin} />
             <View style={styles.categoryIconContainer}>
-              {selectedObservation.icon}
+              {selectedObservation.media[0].type === 'LocalPhoto'
+                ? <Image
+                  source={selectedObservation.icon}
+                  style={{ width: 25, height: 25 }}
+                  resizeMode="contain"
+                />
+                : selectedObservation.icon}
             </View>
             <Text style={styles.title}>{selectedObservation.type}</Text>
             <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
@@ -264,6 +271,18 @@ class ObservationDetailView extends React.PureComponent<
           </View>
           <View style={styles.section}>
             <Text style={styles.sectionText}>{mediaText}</Text>
+            {/* !!selectedObservation &&
+              !!selectedObservation.media.length &&
+              selectedObservation.media[0].type === 'LocalPhoto' && (
+                <Image
+                  source={selectedObservation.media[0].source}
+                  style={{
+                    width: 125,
+                    height: 125,
+                    margin: 1
+                  }}
+                />
+            ) */}
             {!!selectedObservation &&
               !!selectedObservation.media.length && (
                 <FlatList
@@ -303,7 +322,7 @@ class ObservationDetailView extends React.PureComponent<
               <MapboxGL.MapView
                 style={styles.mapBox}
                 styleURL={MapboxGL.StyleURL.Street}
-                zoomLevel={15}
+                zoomLevel={12}
                 scrollEnabled={false}
                 rotateEnabled={false}
                 centerCoordinate={[

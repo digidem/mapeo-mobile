@@ -37,13 +37,7 @@ export const observationListEpic = (
               source: require('../images/mock-data/1-house.jpg')
             }
           ],
-          icon: (
-            <Image
-              source={require('../images/categories/category_0.png')}
-              style={{ width: 25, height: 25 }}
-              resizeMode="contain"
-            />
-          ),
+          icon: require('../images/categories/category_0.png'),
           mock: true
         },
         {
@@ -62,13 +56,7 @@ export const observationListEpic = (
               source: require('../images/mock-data/4-camp.jpg')
             }
           ],
-          icon: (
-            <Image
-              source={require('../images/categories/category_2.png')}
-              style={{ width: 25, height: 25 }}
-              resizeMode="contain"
-            />
-          ),
+          icon: require('../images/categories/category_2.png'),
           mock: true
         },
         {
@@ -106,13 +94,7 @@ export const observationListEpic = (
               source: require('../images/mock-data/6-plant.jpg')
             }
           ],
-          icon: (
-            <Image
-              source={require('../images/categories/category_6.png')}
-              style={{ width: 25, height: 25 }}
-              resizeMode="contain"
-            />
-          ),
+          icon: require('../images/categories/category_6.png'),
           mock: true
         },
         {
@@ -131,13 +113,7 @@ export const observationListEpic = (
               source: require('../images/mock-data/7-waterfall.jpg')
             }
           ],
-          icon: (
-            <Image
-              source={require('../images/categories/category_13.png')}
-              style={{ width: 25, height: 25 }}
-              resizeMode="contain"
-            />
-          ),
+          icon: require('../images/categories/category_13.png'),
           mock: true
         },
         {
@@ -156,13 +132,7 @@ export const observationListEpic = (
               source: require('../images/mock-data/8-threat.jpg')
             }
           ],
-          icon: (
-            <Image
-              source={require('../images/categories/category_0.png')}
-              style={{ width: 25, height: 25 }}
-              resizeMode="contain"
-            />
-          ),
+          icon: require('../images/categories/category_0.png'),
           mock: true
         },
         {
@@ -181,13 +151,7 @@ export const observationListEpic = (
               source: require('../images/mock-data/9-specialsite.jpg')
             }
           ],
-          icon: (
-            <Image
-              source={require('../images/categories/category_17.png')}
-              style={{ width: 25, height: 25 }}
-              resizeMode="contain"
-            />
-          ),
+          icon: require('../images/categories/category_17.png'),
           mock: true
         },
         {
@@ -206,13 +170,7 @@ export const observationListEpic = (
               source: require('../images/mock-data/10-threat.jpg')
             }
           ],
-          icon: (
-            <Image
-              source={require('../images/categories/category_8.png')}
-              style={{ width: 25, height: 25 }}
-              resizeMode="contain"
-            />
-          ),
+          icon: require('../images/categories/category_8.png'),
           mock: true
         }
       ])

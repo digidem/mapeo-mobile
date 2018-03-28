@@ -6,7 +6,7 @@ import type { Observation } from '@types/observation';
 import { isEmpty, size, map, filter } from 'lodash';
 import env from '../../../../env.json';
 
-import CircleImg from '../../../images/circle-64.png';
+import AddButton from '../../../images/add-button.png';
 
 export type StateProps = {
   observations: {
@@ -235,7 +235,7 @@ class MapView extends React.Component<StateProps & DispatchProps> {
         </MapboxGL.MapView>
         <View
           style={{
-            height: 100,
+            height: 135,
             position: 'absolute',
             bottom: 0,
             alignSelf: 'center',
@@ -246,8 +246,15 @@ class MapView extends React.Component<StateProps & DispatchProps> {
           <TouchableHighlight
             onPress={this.handleCreateObservation}
             style={styles.newObservation}
+            underlayColor="transparent"
           >
-            <Image source={CircleImg} />
+            <Image
+              source={AddButton}
+              style={{
+                width: 125,
+                height: 125
+              }}
+            />
           </TouchableHighlight>
         </View>
       </View>
