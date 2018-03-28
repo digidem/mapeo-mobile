@@ -41,13 +41,13 @@ export const observationListEpic = (
           mock: true
         },
         {
-          type: 'Hunting site',
+          type: 'Hunting sites',
           id: 2,
           lat: 0.088170932,
           lon: -77.44020885,
           link: 'link',
           created: new Date('2018-03-25T12:30:00Z'),
-          name: 'Hunting site',
+          name: 'Hunting sites',
           notes: `Don Pancho's hunting camp`,
           observedBy: 'Aliya',
           media: [
