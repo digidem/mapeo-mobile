@@ -7,7 +7,9 @@ import {
   Text,
   TouchableHighlight,
   TouchableOpacity,
-  View
+  View,
+  Dimensions,
+  ActivityIndicator
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import type { Observation } from '../../../types/observation';
@@ -54,10 +56,18 @@ export type DispatchProps = {
   resetNavigation: () => void
 };
 
+type State = {
+  loading: boolean
+};
+
 class CameraView extends React.PureComponent<
-  Props & StateProps & DispatchProps
+  Props & StateProps & DispatchProps,
+  State
 > {
   camera: RNCamera;
+  state = {
+    loading: false
+  };
 
   takePicture = async () => {
     const {
@@ -66,9 +76,11 @@ class CameraView extends React.PureComponent<
       resetNavigation
     } = this.props;
     if (this.camera) {
-      const options = { quality: 0.5, base64: true, exif: true };
+      const options = { quality: 0.5, base64: true, fixOrientation: true };
       try {
+        this.setState({ loading: true });
         const data = await this.camera.takePictureAsync(options);
+        this.setState({ loading: false });
 
         if (selectedObservation) {
           updateObservation({
@@ -89,6 +101,7 @@ class CameraView extends React.PureComponent<
   };
 
   render() {
+    const { loading } = this.state;
     return (
       <View style={{ flex: 1, flexDirection: 'column' }}>
         <RNCamera
@@ -117,6 +130,31 @@ class CameraView extends React.PureComponent<
             <Text style={styles.cancelText}>Cancel</Text>
           </TouchableHighlight>
         </RNCamera>
+        {loading && (
+          <View
+            style={{
+              position: 'absolute',
+              height: Dimensions.get('window').height - 30,
+              width: Dimensions.get('window').width,
+              backgroundColor: 'rgba(66,66,66,.8)',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: '#FFF',
+                paddingHorizontal: 50,
+                paddingVertical: 30,
+                justifyContent: 'center',
+                borderRadius: 3
+              }}
+            >
+              <ActivityIndicator />
+              <Text>Saving Image</Text>
+            </View>
+          </View>
+        )}
       </View>
     );
   }
