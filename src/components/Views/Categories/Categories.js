@@ -133,8 +133,8 @@ class Categories extends React.PureComponent<
       style={styles.cellContainer}
       underlayColor="transparent"
       onPress={() => {
-          this.handleUpdateObservation(item);
-        }}
+        this.handleUpdateObservation(item);
+      }}
     >
       <View style={styles.cell}>
         <View style={styles.circle}>
@@ -143,7 +143,7 @@ class Categories extends React.PureComponent<
         <Text style={styles.categoryName}>{item.name}</Text>
       </View>
     </TouchableHighlight>
-    );
+  );
 
   render() {
     const { categories, navigation } = this.props;
@@ -170,7 +170,7 @@ class Categories extends React.PureComponent<
                 left: 20
               }}
               underlayColor="rgba(0, 0, 0, 0.5)"
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate('TabBarNavigation')}
             >
               <FeatherIcon color="lightgray" name="chevron-down" size={25} />
             </TouchableHighlight>

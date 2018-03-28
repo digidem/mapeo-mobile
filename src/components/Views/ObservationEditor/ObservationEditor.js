@@ -317,7 +317,7 @@ class ObservationEditor extends React.PureComponent<
           >
             <TouchableHighlight
               style={{ position: 'absolute', left: 20, top: 20 }}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate('Categories')}
             >
               <FeatherIcon color="lightgray" name="chevron-left" size={25} />
             </TouchableHighlight>
