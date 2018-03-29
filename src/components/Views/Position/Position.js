@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableHighlight,
+  TouchableOpacity,
   View
 } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
@@ -198,23 +198,21 @@ class Position extends React.PureComponent<
     return (
       <ScrollView style={styles.container}>
         <View style={styles.header}>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => {
               const navigateToMapView = NavigationActions.navigate({
                 routeName: 'TabBarNavigation',
                 params: {},
-                actions: [
-                  NavigationActions.navigate({ routeName: 'MapView' })
-                ]
+                actions: [NavigationActions.navigate({ routeName: 'MapView' })]
               });
               navigation.dispatch(navigateToMapView);
             }}
             style={styles.closeIcon}
           >
             <CloseIcon color="gray" name="close" size={25} />
-          </TouchableHighlight>
+          </TouchableOpacity>
           <Text style={styles.title}>Posicíon</Text>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={this.handleUpdateObservation}
             style={styles.forwardButton}
           >
@@ -224,7 +222,7 @@ class Position extends React.PureComponent<
               size={25}
               style={styles.forwardIcon}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
         <View style={styles.map}>
           <Text style={styles.gpsText}>GPS: Fuerte</Text>

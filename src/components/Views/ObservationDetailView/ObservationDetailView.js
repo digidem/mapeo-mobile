@@ -4,7 +4,7 @@ import {
   FlatList,
   Image,
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
   View,
   ScrollView,
   StyleSheet
@@ -235,7 +235,7 @@ class ObservationDetailView extends React.PureComponent<
       <View style={{ flex: 1 }}>
         <ScrollView style={styles.container}>
           <View style={styles.topSection}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 navigation.goBack();
               }}
@@ -247,18 +247,20 @@ class ObservationDetailView extends React.PureComponent<
                 size={25}
                 style={styles.backChevron}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
             <Image source={CategoryPin} style={styles.categoryPin} />
             <View style={styles.categoryIconContainer}>
               {selectedObservation &&
-                !!selectedObservation.media.length &&
-                selectedObservation.media[0].type === 'LocalPhoto'
-                ? <Image
+              !!selectedObservation.media.length &&
+              selectedObservation.media[0].type === 'LocalPhoto' ? (
+                <Image
                   source={selectedObservation.icon}
                   style={{ width: 25, height: 25 }}
                   resizeMode="contain"
                 />
-                : selectedObservation.icon}
+              ) : (
+                selectedObservation.icon
+              )}
             </View>
             <Text style={styles.title}>{selectedObservation.type}</Text>
             <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
@@ -284,9 +286,9 @@ class ObservationDetailView extends React.PureComponent<
                   }}
                   keyExtractor={keyExtractor}
                   renderItem={({ item }) => (
-                    <TouchableHighlight
-                      onPress={
-                        () => goToPhotoView({ type: item.type, source: item.source })
+                    <TouchableOpacity
+                      onPress={() =>
+                        goToPhotoView({ type: item.type, source: item.source })
                       }
                     >
                       <Image
@@ -301,7 +303,7 @@ class ObservationDetailView extends React.PureComponent<
                           margin: 1
                         }}
                       />
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                   )}
                   data={selectedObservation.media}
                 />

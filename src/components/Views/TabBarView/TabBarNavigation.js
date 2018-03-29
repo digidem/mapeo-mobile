@@ -4,7 +4,7 @@ import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 import {
   StyleSheet,
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   ActivityIndicator,
   Text,
   Modal,
@@ -193,7 +193,6 @@ class TabBarNavigation extends React.Component<StateProps, State> {
         type="displace"
       >
         <View style={{ flex: 1 }}>
-          
           {selectedObservation && (
             <Modal
               animation="slide"
@@ -240,7 +239,9 @@ class TabBarNavigation extends React.Component<StateProps, State> {
                         paddingBottom: 10
                       }}
                     >
-                      <Text style={styles.title}>{selectedObservation.type}</Text>
+                      <Text style={styles.title}>
+                        {selectedObservation.type}
+                      </Text>
                       <View style={{ flexDirection: 'row' }}>
                         <Text style={styles.positionAtText}>at </Text>
                         <Text style={styles.positionText}>
@@ -258,21 +259,21 @@ class TabBarNavigation extends React.Component<StateProps, State> {
                     </View>
                   </View>
                   <View style={styles.reviewContainer}>
-                    <TouchableHighlight
+                    <TouchableOpacity
                       onPress={() => {
                         this.setModalVisible(!showModal);
                         this.openRightDrawer();
                       }}
                     >
                       <Text style={styles.buttonText}>Review</Text>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                   </View>
                   <View style={styles.continueContainer}>
-                    <TouchableHighlight
+                    <TouchableOpacity
                       onPress={() => this.setModalVisible(!showModal)}
                     >
                       <Text style={styles.buttonText}>Continue</Text>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>
@@ -285,7 +286,13 @@ class TabBarNavigation extends React.Component<StateProps, State> {
               addListener: createReduxBoundAddListener('tabBar')
             })}
           />
-          <View style={{ position: 'absolute', left: 0, backgroundColor: 'transparent' }}>
+          <View
+            style={{
+              position: 'absolute',
+              left: 0,
+              backgroundColor: 'transparent'
+            }}
+          >
             <ImageBackground
               source={Gradient}
               style={{
@@ -339,16 +346,18 @@ class TabBarNavigation extends React.Component<StateProps, State> {
                     />
                   )}
                   {!loading && (
-                    <Text style={{ color: WHITE, marginLeft: 10 }}>GPS: Strong</Text>
+                    <Text style={{ color: WHITE, marginLeft: 10 }}>
+                      GPS: Strong
+                    </Text>
                   )}
                 </View>
-                <TouchableHighlight
+                <TouchableOpacity
                   onPress={this.openRightDrawer}
                   style={styles.myObservationsIcon}
                   underlayColor="transparent"
                 >
                   <CollectionsImg color={WHITE} name="collections" size={40} />
-                </TouchableHighlight>
+                </TouchableOpacity>
               </View>
             </ImageBackground>
           </View>

@@ -4,7 +4,7 @@ import moment from 'moment';
 import {
   View,
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
   StyleSheet,
   Dimensions,
   Image
@@ -93,7 +93,7 @@ const ObservationCell = (props: Props) => {
   };
 
   return (
-    <TouchableHighlight onPress={handlePress}>
+    <TouchableOpacity onPress={handlePress}>
       <View style={styles.container}>
         <View style={styles.circle}>
           <View style={styles.innerCircle}>
@@ -105,22 +105,25 @@ const ObservationCell = (props: Props) => {
               }}
             >
               {props.observation &&
-                !!props.observation.media.length &&
-                props.observation.media[0].type === 'LocalPhoto'
-                ? <Image
+              !!props.observation.media.length &&
+              props.observation.media[0].type === 'LocalPhoto' ? (
+                <Image
                   source={props.observation.icon}
                   style={{ width: 25, height: 25 }}
                   resizeMode="contain"
                 />
-                : props.observation.icon}
+              ) : (
+                props.observation.icon
+              )}
             </View>
           </View>
         </View>
         <View style={styles.text}>
           <Text
             style={
-              props.observation.name.length > 20 ?
-              styles.titleLong : styles.title
+              props.observation.name.length > 20
+                ? styles.titleLong
+                : styles.title
             }
           >
             {props.observation.name}
@@ -139,7 +142,7 @@ const ObservationCell = (props: Props) => {
             />
           )}
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 

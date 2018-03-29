@@ -5,7 +5,6 @@ import {
   Image,
   StyleSheet,
   Text,
-  TouchableHighlight,
   TouchableOpacity,
   View,
   Dimensions,
@@ -123,12 +122,12 @@ class CameraView extends React.PureComponent<
               }}
             />
           </TouchableOpacity>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.cancelButton}
             onPress={() => this.props.navigation.goBack()}
           >
             <Text style={styles.cancelText}>Cancel</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </RNCamera>
         {loading && (
           <View

@@ -5,17 +5,12 @@ import {
   StyleSheet,
   ImageBackground,
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
   View
 } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Feather';
-import {
-  CHARCOAL,
-  MAGENTA,
-  MANGO,
-  WHITE
-} from '../../../lib/styles';
+import { CHARCOAL, MAGENTA, MANGO, WHITE } from '../../../lib/styles';
 import type { Observation } from '../../../types/observation';
 
 export type Props = {
@@ -38,7 +33,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginRight: 15,
     position: 'absolute',
-    bottom: 50,
+    bottom: 50
   },
   arrowIcon: {
     alignSelf: 'center',
@@ -85,8 +80,7 @@ class PhotoView extends React.PureComponent<
       updateObservation({
         ...selectedObservation,
         media: selectedObservation.media.filter(
-          photo => 
-            navigation.state.params.photoSource !== photo.source
+          photo => navigation.state.params.photoSource !== photo.source
         )
       });
       navigation.goBack();
@@ -96,8 +90,9 @@ class PhotoView extends React.PureComponent<
   render() {
     const { navigation, selectedObservation } = this.props;
     const fromCameraTab = this.isFromCameraTab();
-    const imageHeight = fromCameraTab ?
-                  Dimensions.get('window').height : Dimensions.get('window').height - 70;
+    const imageHeight = fromCameraTab
+      ? Dimensions.get('window').height
+      : Dimensions.get('window').height - 70;
     const hasPhoto =
       selectedObservation &&
       selectedObservation.media &&
@@ -118,12 +113,14 @@ class PhotoView extends React.PureComponent<
                 height: imageHeight,
                 alignItems: 'center'
               }}
-              source={navigation.state.params.photoType === 'LocalPhoto' ?
-              navigation.state.params.photoSource :
-              { uri: navigation.state.params.photoSource }}
+              source={
+                navigation.state.params.photoType === 'LocalPhoto'
+                  ? navigation.state.params.photoSource
+                  : { uri: navigation.state.params.photoSource }
+              }
             >
               {fromCameraTab && (
-                <TouchableHighlight
+                <TouchableOpacity
                   style={styles.arrowButton}
                   onPress={() => navigation.navigate('Position')}
                 >
@@ -133,25 +130,25 @@ class PhotoView extends React.PureComponent<
                     size={35}
                     style={styles.arrowIcon}
                   />
-                </TouchableHighlight>
+                </TouchableOpacity>
               )}
             </ImageBackground>
           )}
         </View>
         {!fromCameraTab && (
           <View style={{ flexDirection: 'row' }}>
-            <TouchableHighlight
+            <TouchableOpacity
               style={styles.backButton}
               onPress={() => navigation.goBack()}
             >
               <Text style={styles.buttonText}>Back</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
+            </TouchableOpacity>
+            <TouchableOpacity
               style={styles.deleteButton}
               onPress={this.handleDeletePhoto}
             >
               <Text style={styles.buttonText}>Delete</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         )}
       </View>

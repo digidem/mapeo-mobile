@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { Image, StyleSheet, View, TouchableHighlight } from 'react-native';
+import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import type { Observation } from '@types/observation';
 import { isEmpty, size, map, filter } from 'lodash';
@@ -235,10 +235,9 @@ class MapView extends React.Component<StateProps & DispatchProps> {
             zIndex: 5
           }}
         >
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={this.handleCreateObservation}
             style={styles.newObservation}
-            underlayColor="transparent"
           >
             <Image
               source={AddButton}
@@ -247,7 +246,7 @@ class MapView extends React.Component<StateProps & DispatchProps> {
                 height: 125
               }}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       </View>
     );

@@ -3,7 +3,7 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
   View,
   FlatList,
   Dimensions
@@ -116,7 +116,7 @@ class Categories extends React.PureComponent<
     const { navigation } = this.props;
 
     return (
-      <TouchableHighlight
+      <TouchableOpacity
         style={{ flexDirection: 'row' }}
         onPress={() => navigation.navigate('Position')}
       >
@@ -124,12 +124,12 @@ class Categories extends React.PureComponent<
           <Icon style={styles.close} color="gray" name="close" size={25} />
           <Text style={styles.title}>Categoría</Text>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   };
 
   renderItem = ({ item }) => (
-    <TouchableHighlight
+    <TouchableOpacity
       style={styles.cellContainer}
       underlayColor="transparent"
       onPress={() => {
@@ -142,7 +142,7 @@ class Categories extends React.PureComponent<
         </View>
         <Text style={styles.categoryName}>{item.name}</Text>
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 
   render() {
@@ -161,7 +161,7 @@ class Categories extends React.PureComponent<
               paddingTop: 20
             }}
           >
-            <TouchableHighlight
+            <TouchableOpacity
               style={{
                 paddingLeft: 10,
                 width: 70,
@@ -173,7 +173,7 @@ class Categories extends React.PureComponent<
               onPress={() => navigation.navigate('TabBarNavigation')}
             >
               <FeatherIcon color="lightgray" name="chevron-down" size={25} />
-            </TouchableHighlight>
+            </TouchableOpacity>
             <Text
               style={{
                 fontWeight: '700',

@@ -7,7 +7,7 @@ import {
   KeyboardAvoidingView,
   Text,
   StyleSheet,
-  TouchableHighlight,
+  TouchableOpacity,
   TextInput,
   Image,
   ImageBackground,
@@ -315,12 +315,12 @@ class ObservationEditor extends React.PureComponent<
               justifyContent: 'center'
             }}
           >
-            <TouchableHighlight
+            <TouchableOpacity
               style={{ position: 'absolute', left: 20, top: 20 }}
               onPress={() => navigation.navigate('Categories')}
             >
               <FeatherIcon color="lightgray" name="chevron-left" size={25} />
-            </TouchableHighlight>
+            </TouchableOpacity>
             <ImageBackground source={CategoryPin} style={styles.categoryPin}>
               {selectedObservation && (
                 <View style={{ marginTop: -10 }}>
@@ -339,7 +339,7 @@ class ObservationEditor extends React.PureComponent<
               </View>
             )}
             {!showGreyCheck && (
-              <TouchableHighlight
+              <TouchableOpacity
                 style={styles.check}
                 onPress={this.handleSaveObservation}
               >
@@ -349,7 +349,7 @@ class ObservationEditor extends React.PureComponent<
                   size={15}
                   style={styles.checkIcon}
                 />
-              </TouchableHighlight>
+              </TouchableOpacity>
             )}
           </View>
           <View
@@ -405,7 +405,7 @@ class ObservationEditor extends React.PureComponent<
                   }}
                   keyExtractor={keyExtractor}
                   renderItem={({ item }) => (
-                    <TouchableHighlight
+                    <TouchableOpacity
                       onPress={() => goToPhotoView(item.source)}
                       style={{ paddingLeft: 10 }}
                     >
@@ -417,7 +417,7 @@ class ObservationEditor extends React.PureComponent<
                           borderRadius: 5
                         }}
                       />
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                   )}
                   data={selectedObservation.media}
                 />
@@ -440,30 +440,30 @@ class ObservationEditor extends React.PureComponent<
               }}
             >
               {keyboardShown && (
-                <TouchableHighlight
+                <TouchableOpacity
                   style={{ flex: 1, marginLeft: 60 }}
                   onPress={this.goToCameraView}
                   underlayColor="transparent"
                 >
                   <Icon color={MEDIUM_GREY} name="photo-camera" size={30} />
-                </TouchableHighlight>
+                </TouchableOpacity>
               )}
               {keyboardShown && (
-                <TouchableHighlight style={{ flex: 1, marginLeft: 20 }}>
+                <TouchableOpacity style={{ flex: 1, marginLeft: 20 }}>
                   <FontAwesomeIcon
                     color={MEDIUM_GREY}
                     name="microphone"
                     size={30}
                   />
-                </TouchableHighlight>
+                </TouchableOpacity>
               )}
               {keyboardShown && (
-                <TouchableHighlight style={{ flex: 1, marginLeft: 10 }}>
+                <TouchableOpacity style={{ flex: 1, marginLeft: 10 }}>
                   <Image
                     source={PencilIcon}
                     style={{ marginTop: 2, width: 25, height: 25 }}
                   />
-                </TouchableHighlight>
+                </TouchableOpacity>
               )}
             </View>
           </View>
@@ -471,7 +471,7 @@ class ObservationEditor extends React.PureComponent<
             <View
               style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}
             >
-              <TouchableHighlight
+              <TouchableOpacity
                 style={styles.photosButton}
                 onPress={this.goToCameraView}
                 underlayColor="transparent"
@@ -485,8 +485,8 @@ class ObservationEditor extends React.PureComponent<
                   />
                   <Text style={styles.bottomButtonText}>Photos & Videos</Text>
                 </View>
-              </TouchableHighlight>
-              <TouchableHighlight style={styles.bottomButton}>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.bottomButton}>
                 <View style={{ flexDirection: 'row' }}>
                   <FontAwesomeIcon
                     color={MEDIUM_GREY}
@@ -496,8 +496,8 @@ class ObservationEditor extends React.PureComponent<
                   />
                   <Text style={styles.bottomButtonText}>Audio</Text>
                 </View>
-              </TouchableHighlight>
-              <TouchableHighlight style={styles.bottomButton}>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.bottomButton}>
                 <View style={{ flexDirection: 'row' }}>
                   <Image
                     source={PencilIcon}
@@ -510,7 +510,7 @@ class ObservationEditor extends React.PureComponent<
                   />
                   <Text style={styles.bottomButtonText}>Details</Text>
                 </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           )}
         </View>

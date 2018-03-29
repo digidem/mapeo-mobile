@@ -2,7 +2,7 @@
 import React from 'react';
 import moment from 'moment';
 import {
-  TouchableHighlight,
+  TouchableOpacity,
   Text,
   View,
   StyleSheet,
@@ -104,11 +104,9 @@ const MyObservationsView = (props: StateProps & Props & DispatchProps) => {
   return (
     <View style={{ flexDirection: 'row', flex: 1, backgroundColor: WHITE }}>
       <View style={{ flexDirection: 'row', backgroundColor: 'transparent' }}>
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={props.closeRightDrawer}
           style={styles.closeDrawerButton}
-          activeOpacity={0}
-          underlayColor="rgba(0, 0, 0, 0)"
         >
           <LeftChevron
             color={WHITE}
@@ -116,7 +114,7 @@ const MyObservationsView = (props: StateProps & Props & DispatchProps) => {
             size={30}
             style={styles.leftChevron}
           />
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
       <View style={styles.container}>
         <Text style={styles.header}>My Observations</Text>
