@@ -75,7 +75,7 @@ export const observationListEpic = (
               source: require('../images/mock-data/5-threat.jpg')
             }
           ],
-          icon: null,
+          icon: require('../images/categories/category_18.png'),
           mock: true
         },
         {

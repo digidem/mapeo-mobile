@@ -1,12 +1,20 @@
 // @flow
 import React from 'react';
-import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Dimensions
+} from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import type { Observation } from '@types/observation';
 import { isEmpty, size, map, filter } from 'lodash';
 import env from '../../../../env.json';
 
 import AddButton from '../../../images/add-button.png';
+import Gradient from '../../../images/gradient-overlay.png';
 
 export type StateProps = {
   observations: {
@@ -192,61 +200,78 @@ class MapView extends React.Component<StateProps & DispatchProps> {
 
     return (
       <View style={{ flex: 1 }}>
-        <MapboxGL.MapView
-          style={{ flex: 1 }}
-          showUserLocation
-          ref={c => (this.map = c)}
-          zoomLevel={12}
-          logoEnabled
-          onPress={this.handlePress}
-          onLongPress={this.handleLongPress}
-        >
-          {!!observations && !isEmpty(observations)
-            ? map(observations, (o: Observation) => (
-              <MapboxGL.ShapeSource
-                key={o.id}
-                id={`observations-${o.id}`}
-                shape={{
-                    type: 'Feature',
-                    geometry: {
-                      type: 'Point',
-                      coordinates: [o.lon, o.lat]
-                    },
-                    properties: {
-                      name: o.name
-                    }
-                  }}
-              >
-                <MapboxGL.CircleLayer
-                  id={`circles-${o.id}`}
-                  style={mapboxStyles.observation}
-                />
-              </MapboxGL.ShapeSource>
-              ))
-            : null}
-        </MapboxGL.MapView>
+        <View style={{ flex: 1 }}>
+          <MapboxGL.MapView
+            style={{ flex: 1 }}
+            showUserLocation
+            ref={c => (this.map = c)}
+            zoomLevel={12}
+            logoEnabled
+            onPress={this.handlePress}
+            onLongPress={this.handleLongPress}
+          >
+            {!!observations && !isEmpty(observations)
+              ? map(observations, (o: Observation) => (
+                <MapboxGL.ShapeSource
+                  key={o.id}
+                  id={`observations-${o.id}`}
+                  shape={{
+                      type: 'Feature',
+                      geometry: {
+                        type: 'Point',
+                        coordinates: [o.lon, o.lat]
+                      },
+                      properties: {
+                        name: o.name
+                      }
+                    }}
+                >
+                  <MapboxGL.CircleLayer
+                    id={`circles-${o.id}`}
+                    style={mapboxStyles.observation}
+                  />
+                </MapboxGL.ShapeSource>
+                ))
+              : null}
+          </MapboxGL.MapView>
+          <View
+            style={{
+              height: 135,
+              position: 'absolute',
+              bottom: 0,
+              alignSelf: 'center',
+              backgroundColor: 'transparent',
+              zIndex: 5
+            }}
+          >
+            <TouchableOpacity
+              onPress={this.handleCreateObservation}
+              style={styles.newObservation}
+            >
+              <Image
+                source={AddButton}
+                style={{
+                  width: 125,
+                  height: 125
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
         <View
           style={{
-            height: 135,
             position: 'absolute',
-            bottom: 0,
-            alignSelf: 'center',
-            backgroundColor: 'transparent',
-            zIndex: 5
+            left: 0,
+            backgroundColor: 'transparent'
           }}
         >
-          <TouchableOpacity
-            onPress={this.handleCreateObservation}
-            style={styles.newObservation}
-          >
-            <Image
-              source={AddButton}
-              style={{
-                width: 125,
-                height: 125
-              }}
-            />
-          </TouchableOpacity>
+          <ImageBackground
+            source={Gradient}
+            style={{
+              width: Dimensions.get('window').width,
+              height: 100
+            }}
+          />
         </View>
       </View>
     );

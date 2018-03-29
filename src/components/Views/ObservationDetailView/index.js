@@ -31,7 +31,11 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
       dispatch(
         NavigationActions.navigate({
           routeName: 'PhotoView',
-          params: { photoType: params.type, photoSource: params.source }
+          params: {
+            fromDetailView: params.fromDetailView,
+            photoType: params.type,
+            photoSource: params.source
+          }
         })
       ),
     resetNavigation: () => dispatch(resetAction)

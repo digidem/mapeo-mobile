@@ -197,6 +197,16 @@ const initialCategories = [
         resizeMode="contain"
       />
     )
+  },
+  {
+    name: 'Threat',
+    icon: (
+      <Image
+        source={require('../images/categories/category_18.png')}
+        style={{ width: 25, height: 25 }}
+        resizeMode="contain"
+      />
+    )
   }
 ];
 

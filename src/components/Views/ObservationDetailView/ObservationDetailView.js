@@ -284,11 +284,16 @@ class ObservationDetailView extends React.PureComponent<
                     flex: 1,
                     flexDirection: 'row'
                   }}
+                  contentStyle={{ justifyContent: 'center' }}
                   keyExtractor={keyExtractor}
                   renderItem={({ item }) => (
                     <TouchableOpacity
                       onPress={() =>
-                        goToPhotoView({ type: item.type, source: item.source })
+                        goToPhotoView({
+                          type: item.type,
+                          source: item.source,
+                          fromDetailView: true
+                        })
                       }
                     >
                       <Image

@@ -10,8 +10,10 @@ import {
 } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Feather';
+import CloseIcon from 'react-native-vector-icons/MaterialIcons';
 import { CHARCOAL, MAGENTA, MANGO, WHITE } from '../../../lib/styles';
 import type { Observation } from '../../../types/observation';
+import Gradient from '../../../images/gradient-overlay.png';
 
 export type Props = {
   navigation: NavigationActions
@@ -73,6 +75,16 @@ class PhotoView extends React.PureComponent<
     );
   }
 
+  isFromDetailView() {
+    const { navigation } = this.props;
+
+    return !!(
+      navigation.state &&
+      navigation.state.params &&
+      navigation.state.params.fromDetailView
+    );
+  }
+
   handleDeletePhoto = () => {
     const { navigation, updateObservation, selectedObservation } = this.props;
 
@@ -90,6 +102,7 @@ class PhotoView extends React.PureComponent<
   render() {
     const { navigation, selectedObservation } = this.props;
     const fromCameraTab = this.isFromCameraTab();
+    const fromDetailView = this.isFromDetailView();
     const imageHeight = fromCameraTab
       ? Dimensions.get('window').height
       : Dimensions.get('window').height - 70;
@@ -110,9 +123,10 @@ class PhotoView extends React.PureComponent<
             <ImageBackground
               style={{
                 width: Dimensions.get('window').width,
-                height: imageHeight,
+                height: fromDetailView ? Dimensions.get('window').height : imageHeight,
                 alignItems: 'center'
               }}
+              resizeMode={selectedObservation.mock ? 'contain' : 'cover'}
               source={
                 navigation.state.params.photoType === 'LocalPhoto'
                   ? navigation.state.params.photoSource
@@ -132,10 +146,52 @@ class PhotoView extends React.PureComponent<
                   />
                 </TouchableOpacity>
               )}
+              {fromDetailView && 
+                selectedObservation.mock ?
+                  <View
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      backgroundColor: 'transparent'
+                    }}
+                  >
+                    <ImageBackground
+                      source={Gradient}
+                      style={{
+                        width: Dimensions.get('window').width,
+                        height: 100
+                      }}
+                    >
+                      <TouchableOpacity
+                        style={{ position: 'absolute', right: 15, top: 15 }}
+                        onPress={() => navigation.goBack()}
+                      >
+                        <CloseIcon
+                          color="white"
+                          name="close"
+                          size={30}
+                          style={styles.arrowIcon}
+                        />
+                      </TouchableOpacity>
+                    </ImageBackground>
+                  </View> :
+                  <TouchableOpacity
+                    style={{ position: 'absolute', right: 15, top: 15 }}
+                    onPress={() => navigation.goBack()}
+                  >
+                    <CloseIcon
+                      color="white"
+                      name="close"
+                      size={30}
+                      style={styles.arrowIcon}
+                    />
+                  </TouchableOpacity>
+              }
             </ImageBackground>
           )}
         </View>
-        {!fromCameraTab && (
+        {!fromCameraTab && 
+          !fromDetailView && (
           <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity
               style={styles.backButton}
