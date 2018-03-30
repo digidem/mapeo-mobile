@@ -292,7 +292,7 @@ class ObservationEditor extends React.PureComponent<
   };
 
   handleSaveObservation = () => {
-    const { addObservation, selectedObservation } = this.props;
+    const { addObservation, selectedObservation, navigation } = this.props;
     const { text } = this.state;
 
     if (selectedObservation) {
@@ -301,6 +301,8 @@ class ObservationEditor extends React.PureComponent<
         notes: text
       });
     }
+
+    navigation.navigate({ routeName: 'TabBarNavigation', params: { showModal: true }});
   };
 
   handleTextInputBlur = () => {
