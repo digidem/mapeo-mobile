@@ -12,7 +12,6 @@ import {
   ImageBackground
 } from 'react-native';
 import Drawer from 'react-native-drawer';
-import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 import moment from 'moment';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
@@ -26,6 +25,7 @@ import {
   MEDIUM_GREY
 } from '../../../lib/styles';
 import CategoryPin from '../../../images/category-pin.png';
+import { tabBarAddListener } from '../../../lib/store';
 
 const styles = StyleSheet.create({
   buttonText: {
@@ -237,9 +237,7 @@ class TabBarNavigation extends React.Component<StateProps, State> {
               />
             )}
             {!loading && (
-              <Text style={{ color: WHITE, marginLeft: 10 }}>
-                GPS: Strong
-              </Text>
+              <Text style={{ color: WHITE, marginLeft: 10 }}>GPS: Strong</Text>
             )}
           </View>
           <TouchableOpacity
@@ -337,7 +335,7 @@ class TabBarNavigation extends React.Component<StateProps, State> {
           navigation={addNavigationHelpers({
             dispatch,
             state: navigationState,
-            addListener: createReduxBoundAddListener('tabBar')
+            addListener: tabBarAddListener
           })}
         />
       </Drawer>

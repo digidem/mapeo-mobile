@@ -6,8 +6,11 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  PermissionsAndroid
 } from 'react-native';
+import ReactNavigation from 'react-navigation';
+import { withNavigationFocus } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import type { Observation } from '@types/observation';
 import { isEmpty, size, map, filter } from 'lodash';
@@ -26,10 +29,17 @@ export type DispatchProps = {
   listObservations: () => void,
   createObservation: (observation: Observation) => void,
   updateObservation: (observation: Observation) => void,
-  resetNavigation: () => void,
-  goToPosition: () => void,
+  goToCategories: () => void,
   goToObservationDetail: () => void,
   selectObservation: (observation: Observation) => void
+};
+
+type Props = {
+  navigation: any
+};
+
+type State = {
+  inView: boolean
 };
 
 const styles = StyleSheet.create({
@@ -93,29 +103,48 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
   }
 });
 
-class MapView extends React.Component<StateProps & DispatchProps> {
+class MapView extends React.Component<
+  Props & StateProps & DispatchProps,
+  State
+> {
+  state = { inView: true };
+
   async componentDidMount() {
-    const { observations, listObservations } = this.props;
+    const { observations, listObservations, navigation } = this.props;
 
     MapboxGL.setAccessToken(env.accessToken);
     await MapboxGL.requestAndroidLocationPermissions();
-
-    // this.onDownloadProgress = this.onDownloadProgress.bind(this);
-    // this.onDidFinishLoadingStyle = this.onDidFinishLoadingStyle.bind(this);
+    await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
 
     if (!observations || isEmpty(observations)) {
       listObservations();
     }
+
+    console.log('RN -', navigation);
+
+    this.willFocusListener = navigation.addListener('willFocus', () =>
+      this.setState({ inView: true })
+    );
+    this.didBlurListener = navigation.addListener('didBlur', () =>
+      this.setState({ inView: false })
+    );
+  }
+
+  componentWillUnmount() {
+    this.willFocusListener.remove();
+    this.didBlurListener.remove();
   }
 
   map: any;
+  willFocusListener: any;
+  didBlurListener: any;
 
   handleCreateObservation = () => {
     const {
       createObservation,
       observations,
       updateObservation,
-      goToPosition
+      goToCategories
     } = this.props;
     const initialObservation = {
       type: 'Rios y corrientes',
@@ -131,28 +160,24 @@ class MapView extends React.Component<StateProps & DispatchProps> {
       icon: null
     };
 
-    goToPosition();
+    goToCategories();
 
     createObservation(initialObservation);
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        const { latitude, longitude } = position.coords;
-        updateObservation({
-          ...initialObservation,
-          lat: Math.round(latitude * 1000) / 1000,
-          lon: Math.round(longitude * 1000) / 1000
-        });
-      },
-      error => console.warn(error)
-    );
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      updateObservation({
+        ...initialObservation,
+        lat: Math.round(latitude * 1000) / 1000,
+        lon: Math.round(longitude * 1000) / 1000
+      });
+    });
   };
 
   handlePress = (point: Object) => {
     const {
       observations,
       selectObservation,
-      goToObservationDetail,
-      resetNavigation
+      goToObservationDetail
     } = this.props;
     const { coordinates } = point.geometry;
 
@@ -167,7 +192,6 @@ class MapView extends React.Component<StateProps & DispatchProps> {
 
     if (observation[0]) {
       selectObservation(observation[0]);
-      resetNavigation();
       goToObservationDetail();
     }
   };
@@ -175,7 +199,7 @@ class MapView extends React.Component<StateProps & DispatchProps> {
   handleLongPress = (point: Object) => {
     const { coordinates } = point.geometry;
 
-    const { createObservation, observations, goToPosition } = this.props;
+    const { createObservation, observations, goToCategories } = this.props;
     const initialObservation = {
       type: 'Rios y corrientes',
       id: size(observations) + 1,
@@ -190,13 +214,18 @@ class MapView extends React.Component<StateProps & DispatchProps> {
       icon: null
     };
 
-    goToPosition();
+    goToCategories();
 
     createObservation(initialObservation);
   };
 
   render() {
     const { observations } = this.props;
+    const { inView } = this.state;
+
+    if (!inView) {
+      return <View />;
+    }
 
     return (
       <View style={{ flex: 1 }}>
@@ -278,4 +307,4 @@ class MapView extends React.Component<StateProps & DispatchProps> {
   }
 }
 
-export default MapView;
+export default ReactNavigation.withNavigationFocus(MapView);

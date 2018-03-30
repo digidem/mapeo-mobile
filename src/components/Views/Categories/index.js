@@ -9,18 +9,6 @@ import { observationUpdate } from '../../../ducks/observations';
 import Categories from './Categories';
 import type { StateProps } from './Categories';
 
-const resetAction = NavigationActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({
-      routeName: 'TabBarNavigation'
-    }),
-    NavigationActions.navigate({
-      routeName: 'Categories'
-    })
-  ]
-});
-
 function mapStateToProps(state: StoreState): StateProps {
   const categories = values(state.app.categories).sort(
     (a, b) => a.name - b.name
@@ -36,7 +24,16 @@ function mapDispatchToProps(dispatch: Dispatch) {
   return {
     updateObservation: observation => dispatch(observationUpdate(observation)),
     listCategories: () => dispatch(categoryList('')),
-    resetNavigation: () => dispatch(resetAction)
+    goToObservationEditor: category =>
+      dispatch(
+        NavigationActions.navigate({
+          routeName: 'ObservationEditor',
+          params: {
+            category
+          }
+        })
+      ),
+    goBack: () => dispatch(NavigationActions.back())
   };
 }
 

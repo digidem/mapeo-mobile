@@ -2,9 +2,9 @@
 import React from 'react';
 import { BackHandler, AppState, Dimensions, Image, View } from 'react-native';
 import { addNavigationHelpers, NavigationActions } from 'react-navigation';
-import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 import MainStackNavigation from '../MainNavigation/MainStackNavigation';
 import SplashScreen from '../../images/splash-screen.png';
+import { mainStackAddListener } from '../../lib/store';
 
 interface Props {
   dispatch: any;
@@ -51,7 +51,10 @@ class AppNavigation extends React.PureComponent<Props, State> {
       nextAppState === 'active'
     ) {
       this.setState({ showSplash: true }, () => {
-        setTimeout(() => this.setState({ showSplash: false }), 1000);
+        this.timeout = setTimeout(
+          () => this.setState({ showSplash: false }),
+          1000
+        );
       });
     }
     this.setState({ appState: nextAppState });
@@ -60,15 +63,16 @@ class AppNavigation extends React.PureComponent<Props, State> {
   shouldCloseApp = (nav: any) => nav.index === 0;
 
   render() {
+    const { dispatch, navigationState } = this.props;
     const { showSplash } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
         <MainStackNavigation
           navigation={addNavigationHelpers({
-            dispatch: this.props.dispatch,
-            state: this.props.navigationState,
-            addListener: createReduxBoundAddListener('mainStack')
+            dispatch,
+            addListener: mainStackAddListener,
+            state: navigationState
           })}
         />
         {showSplash && (

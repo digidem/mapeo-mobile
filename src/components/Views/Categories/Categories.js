@@ -8,16 +8,10 @@ import {
   FlatList,
   Dimensions
 } from 'react-native';
-import { NavigationActions, withNavigation } from 'react-navigation';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
 import { DARK_GREY, LIGHT_GREY, WHITE } from '../../../lib/styles';
-
-type Props = {
-  navigation: NavigationActions
-};
 
 export type StateProps = {
   categories: Category[],
@@ -27,7 +21,8 @@ export type StateProps = {
 export type DispatchProps = {
   listCategories: () => void,
   updateObservation: (obs: Observation) => void,
-  resetNavigation: () => void
+  goToObservationEditor: (category: string) => void,
+  goBack: () => void
 };
 
 const styles = StyleSheet.create({
@@ -90,9 +85,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class Categories extends React.PureComponent<
-  StateProps & Props & DispatchProps
-> {
+class Categories extends React.PureComponent<StateProps & DispatchProps> {
   componentDidMount() {
     const { listCategories } = this.props;
 
@@ -101,31 +94,18 @@ class Categories extends React.PureComponent<
 
   map: any;
   handleUpdateObservation = item => {
-    const { updateObservation, selectedObservation } = this.props;
+    const {
+      updateObservation,
+      selectedObservation,
+      goToObservationEditor
+    } = this.props;
 
     updateObservation({
       ...selectedObservation,
       icon: item.icon
     });
-    this.props.navigation.navigate('ObservationEditor', {
-      category: item.id
-    });
-  };
 
-  renderHeader = () => {
-    const { navigation } = this.props;
-
-    return (
-      <TouchableOpacity
-        style={{ flexDirection: 'row' }}
-        onPress={() => navigation.navigate('Position')}
-      >
-        <View style={styles.header}>
-          <Icon style={styles.close} color="gray" name="close" size={25} />
-          <Text style={styles.title}>Categoría</Text>
-        </View>
-      </TouchableOpacity>
-    );
+    goToObservationEditor(item.id);
   };
 
   renderItem = ({ item }) => (
@@ -146,7 +126,7 @@ class Categories extends React.PureComponent<
   );
 
   render() {
-    const { categories, navigation } = this.props;
+    const { categories, goBack } = this.props;
     const keyExtractor = item => item.id;
 
     return (
@@ -170,7 +150,7 @@ class Categories extends React.PureComponent<
                 left: 20
               }}
               underlayColor="rgba(0, 0, 0, 0.5)"
-              onPress={() => navigation.navigate('TabBarNavigation')}
+              onPress={goBack}
             >
               <FeatherIcon color="lightgray" name="chevron-down" size={25} />
             </TouchableOpacity>
@@ -202,4 +182,4 @@ class Categories extends React.PureComponent<
   }
 }
 
-export default withNavigation(Categories);
+export default Categories;

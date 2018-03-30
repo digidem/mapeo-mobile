@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { NavigationActions, withNavigation } from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import {
   Image,
   StyleSheet,
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 });
 
 export type Props = {
-  navigation: NavigationActions
+  navigation: any
 };
 
 export type StateProps = {
@@ -52,27 +52,74 @@ export type StateProps = {
 
 export type DispatchProps = {
   updateObservation: (o: Observation) => void,
-  resetNavigation: () => void
+  goToObservationEditor: () => void
 };
 
 type State = {
-  loading: boolean
+  loading: boolean,
+  inView: boolean
 };
 
 class CameraView extends React.PureComponent<
   Props & StateProps & DispatchProps,
   State
 > {
-  camera: RNCamera;
   state = {
-    loading: false
+    loading: false,
+    inView: true
   };
+
+  componentDidMount() {
+    const { navigation } = this.props;
+
+    if (!navigation || !navigation.addListener) {
+      return;
+    }
+
+    this.willFocusListener = navigation.addListener('willFocus', () =>
+      this.setState({ inView: true })
+    );
+    this.didBlurListener = navigation.addListener('didBlur', () =>
+      this.setState({ inView: false })
+    );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { navigation } = nextProps;
+
+    if (
+      navigation &&
+      navigation.addListener &&
+      (!this.willFocusListener || !this.didBlurListener)
+    ) {
+      this.willFocusListener = navigation.addListener('willFocus', () =>
+        this.setState({ inView: true })
+      );
+      this.didBlurListener = navigation.addListener('didBlur', () =>
+        this.setState({ inView: false })
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.willFocusListener) {
+      this.willFocusListener.remove();
+    }
+
+    if (this.didBlurListener) {
+      this.didBlurListener.remove();
+    }
+  }
+
+  camera: RNCamera;
+  willFocusListener: any;
+  didBlurListener: any;
 
   takePicture = async () => {
     const {
       updateObservation,
       selectedObservation,
-      resetNavigation
+      goToObservationEditor
     } = this.props;
     if (this.camera) {
       const options = { quality: 0.5, base64: true, fixOrientation: true };
@@ -91,7 +138,7 @@ class CameraView extends React.PureComponent<
               }
             ])
           });
-          resetNavigation();
+          goToObservationEditor();
         }
       } catch (error) {
         console.warn(error);
@@ -100,7 +147,12 @@ class CameraView extends React.PureComponent<
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, inView } = this.state;
+
+    if (!inView) {
+      return <View />;
+    }
+
     return (
       <View style={{ flex: 1, flexDirection: 'column' }}>
         <RNCamera

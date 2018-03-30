@@ -13,15 +13,6 @@ import { StoreState } from '../../../types/redux';
 import MapView from './MapView';
 import type { DispatchProps, StateProps } from './MapView';
 
-const resetAction = NavigationActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({
-      routeName: 'TabBarNavigation'
-    })
-  ]
-});
-
 const mapStateToProps = (state: StoreState): StateProps => ({
   observations: state.app.observations
 });
@@ -30,8 +21,7 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     listObservations: () => dispatch(observationList('')),
     createObservation: observation => dispatch(observationCreate(observation)),
-    resetNavigation: () => dispatch(resetAction),
-    goToPosition: () =>
+    goToCategories: () =>
       dispatch(NavigationActions.navigate({ routeName: 'Categories' })),
     updateObservation: observation => dispatch(observationUpdate(observation)),
     selectObservation: o => dispatch(observationSelect(o)),

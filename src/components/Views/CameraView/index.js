@@ -7,11 +7,6 @@ import type { StoreState } from '../../../types/redux';
 import CameraView from './CameraView';
 import type { StateProps, DispatchProps } from './CameraView';
 
-const resetAction = NavigationActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: 'ObservationEditor' })]
-});
-
 function mapStateToProps(state: StoreState): StateProps {
   return {
     selectedObservation: state.app.selectedObservation
@@ -21,7 +16,8 @@ function mapStateToProps(state: StoreState): StateProps {
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     updateObservation: observation => dispatch(observationUpdate(observation)),
-    resetNavigation: () => dispatch(resetAction)
+    goToObservationEditor: () =>
+      dispatch(NavigationActions.navigate({ routeName: 'ObservationEditor' }))
   };
 }
 

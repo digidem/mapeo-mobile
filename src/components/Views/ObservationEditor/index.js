@@ -13,7 +13,7 @@ const resetAction = NavigationActions.reset({
   actions: [
     NavigationActions.navigate({
       routeName: 'TabBarNavigation',
-      params: { showModal: true },
+      params: { showModal: true }
     })
   ]
 });
@@ -35,14 +35,20 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     addObservation: observation => dispatch(observationAdd(observation)),
     updateObservation: observation => dispatch(observationUpdate(observation)),
-    goToPhotoView: (source) =>
+    goToPhotoView: source =>
       dispatch(
         NavigationActions.navigate({
           routeName: 'PhotoView',
           params: { photoSource: source }
         })
       ),
-    resetNavigation: () => dispatch(resetAction)
+    goToCameraView: () =>
+      dispatch(
+        NavigationActions.navigate({
+          routeName: 'CameraView'
+        })
+      ),
+    goBack: () => dispatch(NavigationActions.back())
   };
 }
 

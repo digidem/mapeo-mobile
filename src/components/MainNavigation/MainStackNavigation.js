@@ -1,6 +1,6 @@
 // @flow
 import { StackNavigator } from 'react-navigation';
-import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
+import CardStackStyleInterpolator from 'react-navigation/src/views/StackView/StackViewStyleInterpolator';
 
 import Categories from '../Views/Categories';
 import Position from '../Views/Position';

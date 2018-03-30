@@ -10,15 +10,6 @@ import type { StoreState } from '../../../types/redux';
 import CameraTabView from './CameraTabView';
 import type { StateProps, DispatchProps } from './CameraTabView';
 
-const resetAction = NavigationActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({
-      routeName: 'TabBarNavigation'
-    })
-  ]
-});
-
 function mapStateToProps(state: StoreState): StateProps {
   return {
     observations: state.app.observations,
@@ -33,8 +24,7 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     goToObservationEditor: () =>
       dispatch(NavigationActions.navigate({ routeName: 'ObservationEditor' })),
     goToCategories: () =>
-      dispatch(NavigationActions.navigate({ routeName: 'Categories' })),
-    resetNavigation: () => dispatch(resetAction)
+      dispatch(NavigationActions.navigate({ routeName: 'Categories' }))
   };
 }
 

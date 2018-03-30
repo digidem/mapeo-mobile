@@ -24,12 +24,15 @@ export type StateProps = {
 
 export type DispatchProps = {
   goToPhotoView: (params: Object) => void,
-  addObservation: (o: Observation) => void,
-  resetNavigation: () => void
+  addObservation: (o: Observation) => void
 };
 
 export type Props = {
   navigation: NavigationActions
+};
+
+type State = {
+  inView: boolean
 };
 
 const styles = StyleSheet.create({
@@ -201,19 +204,67 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
 });
 
 class ObservationDetailView extends React.PureComponent<
-  Props & StateProps & DispatchProps
+  Props & StateProps & DispatchProps,
+  State
 > {
+  state = { inView: true };
+
+  componentDidMount() {
+    const { navigation } = this.props;
+
+    if (!navigation || !navigation.addListener) {
+      return;
+    }
+
+    this.willFocusListener = navigation.addListener('willFocus', () =>
+      this.setState({ inView: true })
+    );
+    this.didBlurListener = navigation.addListener('didBlur', () =>
+      this.setState({ inView: false })
+    );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { navigation } = nextProps;
+
+    if (
+      navigation &&
+      navigation.addListener &&
+      (!this.willFocusListener || !this.didBlurListener)
+    ) {
+      this.willFocusListener = navigation.addListener('willFocus', () =>
+        this.setState({ inView: true })
+      );
+      this.didBlurListener = navigation.addListener('didBlur', () =>
+        this.setState({ inView: false })
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.willFocusListener) {
+      this.willFocusListener.remove();
+    }
+
+    if (this.didBlurListener) {
+      this.didBlurListener.remove();
+    }
+  }
+
+  willFocusListener: any;
+  didBlurListener: any;
+
   saveObservation = () => {
-    const { selectedObservation, addObservation, resetNavigation } = this.props;
+    const { selectedObservation, addObservation } = this.props;
 
     if (selectedObservation) {
       addObservation(selectedObservation);
-      resetNavigation();
     }
   };
 
   render() {
     const { navigation, selectedObservation, goToPhotoView } = this.props;
+    const { inView } = this.state;
     const keyExtractor = item => item.source;
     let mediaText = '';
     const thereIsMedia =
@@ -227,7 +278,7 @@ class ObservationDetailView extends React.PureComponent<
           : 0
       } photo`;
 
-    if (!selectedObservation) {
+    if (!selectedObservation || !inView) {
       return <View />;
     }
 

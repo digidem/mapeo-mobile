@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import { NavigationActions, withNavigation } from 'react-navigation';
 import {
   View,
   Keyboard,
@@ -13,6 +12,7 @@ import {
   ImageBackground,
   FlatList
 } from 'react-native';
+import { NavigationActions, withNavigation } from 'react-navigation';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -28,26 +28,28 @@ import {
   VERY_LIGHT_BLUE
 } from '../../../lib/styles';
 
-export type Props = {
-  navigation: NavigationActions
-};
-
 export type StateProps = {
   category?: Category,
   selectedObservation: Observation
+};
+
+type Props = {
+  navigation: NavigationActions
 };
 
 export type DispatchProps = {
   updateObservation: (o: Observation) => void,
   goToPhotoView: (photoSource: string) => void,
   addObservation: (o: Observation) => void,
-  resetNavigation: () => void
+  goToCameraView: () => void,
+  goBack: () => void
 };
 
 type State = {
   goToCamera: boolean,
   keyboardShown: boolean,
-  text: string
+  text: string,
+  inView: boolean
 };
 
 const styles = StyleSheet.create({
@@ -175,11 +177,12 @@ class ObservationEditor extends React.PureComponent<
   Props & StateProps & DispatchProps,
   State
 > {
-  constructor(props: Props & StateProps & DispatchProps) {
+  constructor(props: StateProps & DispatchProps) {
     super();
 
     this.state = {
       keyboardShown: false,
+      inView: true,
       text: props.selectedObservation ? props.selectedObservation.notes : '',
       goToCamera: false
     };
@@ -197,7 +200,12 @@ class ObservationEditor extends React.PureComponent<
   }
 
   componentDidMount() {
-    const { updateObservation, selectedObservation, category } = this.props;
+    const {
+      updateObservation,
+      selectedObservation,
+      category,
+      navigation
+    } = this.props;
 
     if (selectedObservation && category) {
       updateObservation({
@@ -206,15 +214,53 @@ class ObservationEditor extends React.PureComponent<
         name: category.name
       });
     }
+
+    if (!navigation || !navigation.addListener) {
+      return;
+    }
+
+    this.willFocusListener = navigation.addListener('willFocus', () =>
+      this.setState({ inView: true })
+    );
+    this.didBlurListener = navigation.addListener('didBlur', () =>
+      this.setState({ inView: false })
+    );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { navigation } = nextProps;
+
+    if (
+      navigation &&
+      navigation.addListener &&
+      (!this.willFocusListener || !this.didBlurListener)
+    ) {
+      this.willFocusListener = navigation.addListener('willFocus', () =>
+        this.setState({ inView: true })
+      );
+      this.didBlurListener = navigation.addListener('didBlur', () =>
+        this.setState({ inView: false })
+      );
+    }
   }
 
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
+
+    if (this.willFocusListener) {
+      this.willFocusListener.remove();
+    }
+
+    if (this.didBlurListener) {
+      this.didBlurListener.remove();
+    }
   }
 
   keyboardDidShowListener: any;
   keyboardDidHideListener: any;
+  willFocusListener: any;
+  didBlurListener: any;
 
   keyboardDidShow = () => {
     this.setState(previousState => ({
@@ -231,7 +277,7 @@ class ObservationEditor extends React.PureComponent<
         keyboardShown: false,
         text: previousState.text
       }));
-      this.props.navigation.navigate('CameraView');
+      this.props.goToCameraView();
     } else {
       this.setState(previousState => ({
         goToCamera: previousState.goToCamera,
@@ -246,7 +292,7 @@ class ObservationEditor extends React.PureComponent<
   };
 
   handleSaveObservation = () => {
-    const { addObservation, selectedObservation, resetNavigation } = this.props;
+    const { addObservation, selectedObservation } = this.props;
     const { text } = this.state;
 
     if (selectedObservation) {
@@ -254,7 +300,6 @@ class ObservationEditor extends React.PureComponent<
         ...selectedObservation,
         notes: text
       });
-      resetNavigation();
     }
   };
 
@@ -270,7 +315,11 @@ class ObservationEditor extends React.PureComponent<
   };
 
   goToCameraView = () => {
-    const { selectedObservation, updateObservation, navigation } = this.props;
+    const {
+      selectedObservation,
+      updateObservation,
+      goToCameraView
+    } = this.props;
 
     if (selectedObservation) {
       updateObservation({
@@ -285,14 +334,14 @@ class ObservationEditor extends React.PureComponent<
         text: previousState.text
       }));
     } else {
-      navigation.navigate('CameraView');
+      goToCameraView();
     }
     Keyboard.dismiss();
   };
 
   render() {
-    const { navigation, selectedObservation, goToPhotoView } = this.props;
-    const { keyboardShown, text } = this.state;
+    const { goBack, selectedObservation, goToPhotoView } = this.props;
+    const { keyboardShown, text, inView } = this.state;
     const positionText = selectedObservation
       ? `${selectedObservation.lat}, ${selectedObservation.lon}`
       : 'Loading...';
@@ -301,7 +350,11 @@ class ObservationEditor extends React.PureComponent<
       text === '' && selectedObservation && !selectedObservation.media.length;
 
     if (!selectedObservation) {
-      navigation.goBack();
+      goBack();
+      return <View />;
+    }
+
+    if (!inView) {
       return <View />;
     }
 
@@ -317,7 +370,7 @@ class ObservationEditor extends React.PureComponent<
           >
             <TouchableOpacity
               style={{ position: 'absolute', left: 20, top: 20 }}
-              onPress={() => navigation.navigate('Categories')}
+              onPress={goBack}
             >
               <FeatherIcon color="lightgray" name="chevron-left" size={25} />
             </TouchableOpacity>

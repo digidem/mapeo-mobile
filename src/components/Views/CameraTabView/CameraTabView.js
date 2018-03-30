@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { NavigationActions, withNavigation } from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import {
   Image,
   StyleSheet,
@@ -13,7 +13,7 @@ import {
 import { RNCamera } from 'react-native-camera';
 import { size } from 'lodash';
 import type { Observation } from '../../../types/observation';
-import { CHARCOAL, WHITE, LIGHT_GREY } from '../../../lib/styles.js';
+import { CHARCOAL, WHITE } from '../../../lib/styles.js';
 
 import AddButton from '../../../images/add-button.png';
 
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 });
 
 export type Props = {
-  navigation: NavigationActions
+  navigation: any
 };
 
 export type StateProps = {
@@ -54,24 +54,70 @@ export type StateProps = {
 };
 
 type State = {
-  loading: boolean
+  loading: boolean,
+  inView: boolean
 };
 
 export type DispatchProps = {
   createObservation: (observation: Observation) => void,
   updateObservation: (o: Observation) => void,
-  goToCategories: () => void,
-  resetNavigation: () => void
+  goToCategories: () => void
 };
 
 class CameraTabView extends React.PureComponent<
   Props & StateProps & DispatchProps,
   State
 > {
-  camera: RNCamera;
   state = {
-    loading: false
+    loading: false,
+    inView: true
   };
+
+  componentDidMount() {
+    const { navigation } = this.props;
+
+    if (!navigation || !navigation.addListener) {
+      return;
+    }
+
+    this.willFocusListener = navigation.addListener('willFocus', () =>
+      this.setState({ inView: true })
+    );
+    this.didBlurListener = navigation.addListener('didBlur', () =>
+      this.setState({ inView: false })
+    );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { navigation } = nextProps;
+
+    if (
+      navigation &&
+      navigation.addListener &&
+      (!this.willFocusListener || !this.didBlurListener)
+    ) {
+      this.willFocusListener = navigation.addListener('willFocus', () =>
+        this.setState({ inView: true })
+      );
+      this.didBlurListener = navigation.addListener('didBlur', () =>
+        this.setState({ inView: false })
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.willFocusListener) {
+      this.willFocusListener.remove();
+    }
+
+    if (this.didBlurListener) {
+      this.didBlurListener.remove();
+    }
+  }
+
+  willFocusListener: any;
+  didBlurListener: any;
+  camera: RNCamera;
 
   takePicture = async () => {
     if (this.camera) {
@@ -80,7 +126,6 @@ class CameraTabView extends React.PureComponent<
         const {
           createObservation,
           observations,
-          resetNavigation,
           updateObservation,
           goToCategories
         } = this.props;
@@ -90,7 +135,7 @@ class CameraTabView extends React.PureComponent<
         const data = await this.camera.takePictureAsync(options);
 
         this.setState({ loading: false });
-        resetNavigation();
+
         goToCategories();
         const initialObservation = {
           type: '',
@@ -131,7 +176,12 @@ class CameraTabView extends React.PureComponent<
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, inView } = this.state;
+
+    if (!inView) {
+      return <View />;
+    }
+
     return (
       <View
         style={{
