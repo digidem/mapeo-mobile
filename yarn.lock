@@ -5596,7 +5596,7 @@ react-native-tab-view@^0.0.74:
   dependencies:
     prop-types "^15.6.0"
 
-"react-native-tab-view@github:react-navigation/react-native-tab-view":
+react-native-tab-view@react-navigation/react-native-tab-view:
   version "0.0.74"
   resolved "https://codeload.github.com/react-navigation/react-native-tab-view/tar.gz/36ebd834d78b841fc19778c966465d02fd1213bb"
   dependencies:

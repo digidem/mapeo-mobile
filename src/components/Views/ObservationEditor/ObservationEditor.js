@@ -12,7 +12,7 @@ import {
   ImageBackground,
   FlatList
 } from 'react-native';
-import { NavigationActions, withNavigation } from 'react-navigation';
+import { withNavigationFocus } from 'react-navigation';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -33,8 +33,9 @@ export type StateProps = {
   selectedObservation: Observation
 };
 
-type Props = {
-  navigation: NavigationActions
+export type Props = {
+  isFocused: boolean,
+  navigation: any
 };
 
 export type DispatchProps = {
@@ -42,14 +43,14 @@ export type DispatchProps = {
   goToPhotoView: (photoSource: string) => void,
   addObservation: (o: Observation) => void,
   goToCameraView: () => void,
-  goBack: () => void
+  goBack: () => void,
+  goToTabBarNavigation: () => void
 };
 
 type State = {
   goToCamera: boolean,
   keyboardShown: boolean,
-  text: string,
-  inView: boolean
+  text: string
 };
 
 const styles = StyleSheet.create({
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class ObservationEditor extends React.PureComponent<
+class ObservationEditor extends React.Component<
   Props & StateProps & DispatchProps,
   State
 > {
@@ -182,13 +183,22 @@ class ObservationEditor extends React.PureComponent<
 
     this.state = {
       keyboardShown: false,
-      inView: true,
       text: props.selectedObservation ? props.selectedObservation.notes : '',
       goToCamera: false
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    const { updateObservation, selectedObservation, category } = this.props;
+
+    if (selectedObservation && category) {
+      updateObservation({
+        ...selectedObservation,
+        type: category.name,
+        name: category.name
+      });
+    }
+
     this.keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       this.keyboardDidShow
@@ -199,68 +209,24 @@ class ObservationEditor extends React.PureComponent<
     );
   }
 
-  componentDidMount() {
-    const {
-      updateObservation,
-      selectedObservation,
-      category,
-      navigation
-    } = this.props;
-
-    if (selectedObservation && category) {
-      updateObservation({
-        ...selectedObservation,
-        type: category.name,
-        name: category.name
-      });
+  shouldComponentUpdate(
+    nextProps: Props & StateProps & DispatchProps,
+    nextState: State
+  ) {
+    if (nextProps.isFocused) {
+      return nextProps !== this.props || nextState !== this.state;
     }
 
-    if (!navigation || !navigation.addListener) {
-      return;
-    }
-
-    this.willFocusListener = navigation.addListener('willFocus', () =>
-      this.setState({ inView: true })
-    );
-    this.didBlurListener = navigation.addListener('didBlur', () =>
-      this.setState({ inView: false })
-    );
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { navigation } = nextProps;
-
-    if (
-      navigation &&
-      navigation.addListener &&
-      (!this.willFocusListener || !this.didBlurListener)
-    ) {
-      this.willFocusListener = navigation.addListener('willFocus', () =>
-        this.setState({ inView: true })
-      );
-      this.didBlurListener = navigation.addListener('didBlur', () =>
-        this.setState({ inView: false })
-      );
-    }
+    return false;
   }
 
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
-
-    if (this.willFocusListener) {
-      this.willFocusListener.remove();
-    }
-
-    if (this.didBlurListener) {
-      this.didBlurListener.remove();
-    }
   }
 
   keyboardDidShowListener: any;
   keyboardDidHideListener: any;
-  willFocusListener: any;
-  didBlurListener: any;
 
   keyboardDidShow = () => {
     this.setState(previousState => ({
@@ -292,7 +258,11 @@ class ObservationEditor extends React.PureComponent<
   };
 
   handleSaveObservation = () => {
-    const { addObservation, selectedObservation, navigation } = this.props;
+    const {
+      addObservation,
+      selectedObservation,
+      goToTabBarNavigation
+    } = this.props;
     const { text } = this.state;
 
     if (selectedObservation) {
@@ -302,7 +272,7 @@ class ObservationEditor extends React.PureComponent<
       });
     }
 
-    navigation.navigate({ routeName: 'TabBarNavigation', params: { showModal: true }});
+    goToTabBarNavigation();
   };
 
   handleTextInputBlur = () => {
@@ -343,7 +313,7 @@ class ObservationEditor extends React.PureComponent<
 
   render() {
     const { goBack, selectedObservation, goToPhotoView } = this.props;
-    const { keyboardShown, text, inView } = this.state;
+    const { keyboardShown, text } = this.state;
     const positionText = selectedObservation
       ? `${selectedObservation.lat}, ${selectedObservation.lon}`
       : 'Loading...';
@@ -353,10 +323,6 @@ class ObservationEditor extends React.PureComponent<
 
     if (!selectedObservation) {
       goBack();
-      return <View />;
-    }
-
-    if (!inView) {
       return <View />;
     }
 
@@ -574,4 +540,4 @@ class ObservationEditor extends React.PureComponent<
   }
 }
 
-export default withNavigation(ObservationEditor);
+export default withNavigationFocus(ObservationEditor);

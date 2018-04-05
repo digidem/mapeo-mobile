@@ -10,7 +10,7 @@ import {
   StyleSheet
 } from 'react-native';
 import moment from 'moment';
-import { NavigationActions, withNavigation } from 'react-navigation';
+import { withNavigationFocus } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import LeftChevron from 'react-native-vector-icons/Entypo';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
@@ -24,15 +24,12 @@ export type StateProps = {
 
 export type DispatchProps = {
   goToPhotoView: (params: Object) => void,
-  addObservation: (o: Observation) => void
+  addObservation: (o: Observation) => void,
+  goBack: () => void
 };
 
 export type Props = {
-  navigation: NavigationActions
-};
-
-type State = {
-  inView: boolean
+  isFocused: boolean
 };
 
 const styles = StyleSheet.create({
@@ -203,56 +200,16 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
   }
 });
 
-class ObservationDetailView extends React.PureComponent<
-  Props & StateProps & DispatchProps,
-  State
+class ObservationDetailView extends React.Component<
+  Props & StateProps & DispatchProps
 > {
-  state = { inView: true };
-
-  componentDidMount() {
-    const { navigation } = this.props;
-
-    if (!navigation || !navigation.addListener) {
-      return;
+  shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
+    if (nextProps.isFocused) {
+      return nextProps !== this.props;
     }
 
-    this.willFocusListener = navigation.addListener('willFocus', () =>
-      this.setState({ inView: true })
-    );
-    this.didBlurListener = navigation.addListener('didBlur', () =>
-      this.setState({ inView: false })
-    );
+    return false;
   }
-
-  componentWillReceiveProps(nextProps) {
-    const { navigation } = nextProps;
-
-    if (
-      navigation &&
-      navigation.addListener &&
-      (!this.willFocusListener || !this.didBlurListener)
-    ) {
-      this.willFocusListener = navigation.addListener('willFocus', () =>
-        this.setState({ inView: true })
-      );
-      this.didBlurListener = navigation.addListener('didBlur', () =>
-        this.setState({ inView: false })
-      );
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.willFocusListener) {
-      this.willFocusListener.remove();
-    }
-
-    if (this.didBlurListener) {
-      this.didBlurListener.remove();
-    }
-  }
-
-  willFocusListener: any;
-  didBlurListener: any;
 
   saveObservation = () => {
     const { selectedObservation, addObservation } = this.props;
@@ -263,8 +220,7 @@ class ObservationDetailView extends React.PureComponent<
   };
 
   render() {
-    const { navigation, selectedObservation, goToPhotoView } = this.props;
-    const { inView } = this.state;
+    const { selectedObservation, goToPhotoView, goBack } = this.props;
     const keyExtractor = item => item.source;
     let mediaText = '';
     const thereIsMedia =
@@ -278,7 +234,7 @@ class ObservationDetailView extends React.PureComponent<
           : 0
       } photo`;
 
-    if (!selectedObservation || !inView) {
+    if (!selectedObservation) {
       return <View />;
     }
 
@@ -286,12 +242,7 @@ class ObservationDetailView extends React.PureComponent<
       <View style={{ flex: 1 }}>
         <ScrollView style={styles.container}>
           <View style={styles.topSection}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}
-              underlayColor="transparent"
-            >
+            <TouchableOpacity onPress={goBack} underlayColor="transparent">
               <LeftChevron
                 color="lightgrey"
                 name="chevron-left"
@@ -425,4 +376,4 @@ class ObservationDetailView extends React.PureComponent<
   }
 }
 
-export default withNavigation(ObservationDetailView);
+export default withNavigationFocus(ObservationDetailView);

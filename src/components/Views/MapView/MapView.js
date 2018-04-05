@@ -9,7 +9,6 @@ import {
   Dimensions,
   PermissionsAndroid
 } from 'react-native';
-import ReactNavigation from 'react-navigation';
 import { withNavigationFocus } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import type { Observation } from '@types/observation';
@@ -35,11 +34,7 @@ export type DispatchProps = {
 };
 
 type Props = {
-  navigation: any
-};
-
-type State = {
-  inView: boolean
+  isFocused: boolean
 };
 
 const styles = StyleSheet.create({
@@ -103,14 +98,9 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
   }
 });
 
-class MapView extends React.Component<
-  Props & StateProps & DispatchProps,
-  State
-> {
-  state = { inView: true };
-
+class MapView extends React.Component<Props & StateProps & DispatchProps> {
   async componentDidMount() {
-    const { observations, listObservations, navigation } = this.props;
+    const { observations, listObservations } = this.props;
 
     MapboxGL.setAccessToken(env.accessToken);
     await MapboxGL.requestAndroidLocationPermissions();
@@ -119,15 +109,14 @@ class MapView extends React.Component<
     if (!observations || isEmpty(observations)) {
       listObservations();
     }
+  }
 
-    console.log('RN -', navigation);
+  shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
+    if (nextProps.isFocused) {
+      return nextProps !== this.props;
+    }
 
-    this.willFocusListener = navigation.addListener('willFocus', () =>
-      this.setState({ inView: true })
-    );
-    this.didBlurListener = navigation.addListener('didBlur', () =>
-      this.setState({ inView: false })
-    );
+    return false;
   }
 
   componentWillUnmount() {
@@ -219,13 +208,12 @@ class MapView extends React.Component<
     createObservation(initialObservation);
   };
 
+  handleMapViewRef = c => {
+    this.map = c;
+  };
+
   render() {
     const { observations } = this.props;
-    const { inView } = this.state;
-
-    if (!inView) {
-      return <View />;
-    }
 
     return (
       <View style={{ flex: 1 }}>
@@ -233,7 +221,7 @@ class MapView extends React.Component<
           <MapboxGL.MapView
             style={{ flex: 1 }}
             showUserLocation
-            ref={c => (this.map = c)}
+            ref={this.handleMapViewRef}
             zoomLevel={12}
             logoEnabled
             onPress={this.handlePress}
@@ -307,4 +295,4 @@ class MapView extends React.Component<
   }
 }
 
-export default ReactNavigation.withNavigationFocus(MapView);
+export default withNavigationFocus(MapView);

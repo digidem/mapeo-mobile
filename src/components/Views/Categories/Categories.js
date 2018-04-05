@@ -8,10 +8,15 @@ import {
   FlatList,
   Dimensions
 } from 'react-native';
+import { withNavigationFocus } from 'react-navigation';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
 import { DARK_GREY, LIGHT_GREY, WHITE } from '../../../lib/styles';
+
+type Props = {
+  isFocused: boolean
+};
 
 export type StateProps = {
   categories: Category[],
@@ -85,11 +90,19 @@ const styles = StyleSheet.create({
   }
 });
 
-class Categories extends React.PureComponent<StateProps & DispatchProps> {
+class Categories extends React.Component<Props & StateProps & DispatchProps> {
   componentDidMount() {
     const { listCategories } = this.props;
 
     listCategories();
+  }
+
+  shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
+    if (nextProps.isFocused) {
+      return nextProps !== this.props;
+    }
+
+    return false;
   }
 
   map: any;
@@ -182,4 +195,4 @@ class Categories extends React.PureComponent<StateProps & DispatchProps> {
   }
 }
 
-export default Categories;
+export default withNavigationFocus(Categories);

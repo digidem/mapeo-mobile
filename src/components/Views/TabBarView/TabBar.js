@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { TabNavigator, TabBarTop } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MapView from '../../Views/MapView';
 import CameraTabView from '../../Views/CameraTabView';
@@ -11,7 +11,7 @@ const routeConfiguration = {
   MapView: {
     screen: MapView,
     navigationOptions: {
-      tabBarIcon: ({ tintColor }) => (
+      tabBarIcon: ({ tintColor }: { tintColor: string }) => (
         <Icon
           color={tintColor}
           name="near-me"
@@ -24,7 +24,7 @@ const routeConfiguration = {
   CameraTabView: {
     screen: CameraTabView,
     navigationOptions: {
-      tabBarIcon: ({ tintColor }) => (
+      tabBarIcon: ({ tintColor }: { tintColor: string }) => (
         <Icon
           color={tintColor}
           name="photo-camera"
@@ -38,12 +38,6 @@ const routeConfiguration = {
 
 const tabConfiguration = {
   swipeEnabled: false,
-  tabBarComponent: props => (
-    <TabBarTop
-      {...props}
-      indicatorStyle={{ borderBottomColor: 'white', borderBottomWidth: 10 }}
-    />
-  ),
   tabBarPosition: 'bottom',
   tabBarOptions: {
     activeTintColor: MAPEO_BLUE,
@@ -57,6 +51,6 @@ const tabConfiguration = {
   }
 };
 
-const TabBar = TabNavigator(routeConfiguration, tabConfiguration);
+const TabBar = createBottomTabNavigator(routeConfiguration, tabConfiguration);
 
 export default TabBar;

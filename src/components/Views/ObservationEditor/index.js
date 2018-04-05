@@ -8,16 +8,6 @@ import { observationAdd, observationUpdate } from '../../../ducks/observations';
 import ObservationEditor from './ObservationEditor';
 import type { Props, StateProps, DispatchProps } from './ObservationEditor';
 
-const resetAction = NavigationActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({
-      routeName: 'TabBarNavigation',
-      params: { showModal: true }
-    })
-  ]
-});
-
 function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
   return {
     category:
@@ -48,7 +38,14 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
           routeName: 'CameraView'
         })
       ),
-    goBack: () => dispatch(NavigationActions.back())
+    goBack: () => dispatch(NavigationActions.back()),
+    goToTabBarNavigation: () =>
+      dispatch(
+        NavigationActions.navigate({
+          routeName: 'TabBarNavigation',
+          params: { showModal: true }
+        })
+      )
   };
 }
 

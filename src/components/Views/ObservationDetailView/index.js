@@ -28,7 +28,8 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
             photoSource: params.source
           }
         })
-      )
+      ),
+    goBack: () => dispatch(NavigationActions.back())
   };
 }
 
