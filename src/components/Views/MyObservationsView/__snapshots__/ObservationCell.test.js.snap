@@ -108,7 +108,7 @@ exports[`ObservationCell tests snapshots 1`] = `
         allowFontScaling={true}
         ellipsizeMode="tail"
       >
-        Today, 4:46 PM
+        Yesterday, 11:06 PM
       </Text>
     </View>
   </View>

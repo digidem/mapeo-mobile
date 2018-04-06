@@ -222,7 +222,7 @@ export const categoryListEpic = (
         initialCategories.map((c, i) =>
           createCategory({
             name: c.name,
-            id: i,
+            id: i.toString(),
             icon: c.icon
           })
         )
