@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObservationCell tests snapshots 1`] = `
+<View
+  accessibilityComponentType={undefined}
+  accessibilityLabel={undefined}
+  accessibilityTraits={undefined}
+  accessible={true}
+  collapsable={undefined}
+  hitSlop={undefined}
+  isTVSelectable={true}
+  nativeID={undefined}
+  onLayout={undefined}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+  testID={undefined}
+  tvParallaxProperties={undefined}
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "white",
+        "borderBottomColor": "#EAEAEA",
+        "borderBottomWidth": 1,
+        "flexDirection": "row",
+        "height": 80,
+        "justifyContent": "flex-start",
+        "paddingHorizontal": 30,
+        "width": 710,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#EAEAEA",
+          "borderRadius": 50,
+          "borderWidth": 1,
+          "height": 50,
+          "justifyContent": "center",
+          "marginRight": 15,
+          "shadowColor": "red",
+          "shadowOpacity": 1,
+          "shadowRadius": 10,
+          "width": 50,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "#EAEAEA",
+            "borderRadius": 50,
+            "height": 40,
+            "width": 40,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "justifyContent": "center",
+              "marginTop": 7,
+            }
+          }
+        />
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "flex-start",
+          "flex": 1,
+          "flexDirection": "column",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "black",
+            "fontSize": 20,
+            "fontWeight": "700",
+          }
+        }
+      >
+        Oil Spill
+      </Text>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+      >
+        Today, 4:46 PM
+      </Text>
+    </View>
+  </View>
+</View>
+`;

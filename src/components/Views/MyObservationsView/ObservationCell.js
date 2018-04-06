@@ -12,7 +12,7 @@ import {
 import type { Observation } from '../../../types/observation';
 import { LIGHT_GREY } from '../../../lib/styles';
 
-type Props = {
+export type Props = {
   observation: Observation,
   onPress: (i: Observation) => void
 };
