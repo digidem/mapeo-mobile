@@ -14,6 +14,7 @@ import { withNavigationFocus } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import LeftChevron from 'react-native-vector-icons/Entypo';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import I18n from 'react-native-i18n';
 import type { Observation } from '../../../types/observation';
 import { DARK_GREY, MANGO } from '../../../lib/styles';
 import CategoryPin from '../../../images/category-pin.png';
@@ -200,6 +201,12 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
   }
 });
 
+I18n.fallbacks = true;
+I18n.translations = {
+  en: require('../../../translations/en'),
+  es: require('../../../translations/es')
+};
+
 class ObservationDetailView extends React.Component<
   Props & StateProps & DispatchProps
 > {
@@ -232,7 +239,7 @@ class ObservationDetailView extends React.Component<
         selectedObservation && selectedObservation.media
           ? selectedObservation.media.length
           : 0
-      } photo`;
+      } ${I18n.t('detail_view.photo')}`;
 
     if (!selectedObservation) {
       return <View />;
@@ -264,15 +271,18 @@ class ObservationDetailView extends React.Component<
                 selectedObservation.icon
               )}
             </View>
-            <Text style={styles.title}>{selectedObservation.type}</Text>
+            <Text style={styles.title}>
+              {I18n.t(`categories.${selectedObservation.categoryId}`)}
+            </Text>
             <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-              <Text style={styles.positionAtText}>at </Text>
+              <Text style={styles.positionAtText}>{I18n.t('at')} </Text>
               <Text style={styles.positionText}>
                 {`${selectedObservation.lat}, ${selectedObservation.lon}.`}
               </Text>
             </View>
             <Text style={styles.time}>
-              on {moment(selectedObservation.created).format('MMMM D, h:hh A')}
+              {I18n.t('on')}{' '}
+              {moment(selectedObservation.created).format('MMMM D, h:hh A')}
             </Text>
           </View>
           <View style={styles.section}>
@@ -318,7 +328,9 @@ class ObservationDetailView extends React.Component<
             <Text style={styles.textNotes}>{selectedObservation.notes}</Text>
           </View>
           <View style={styles.section}>
-            <Text style={styles.sectionText}>0.0 km away</Text>
+            <Text style={styles.sectionText}>
+              0.0 {I18n.t('detail_view.km_away')}
+            </Text>
             <View style={{ height: 240 }}>
               <MapboxGL.MapView
                 style={styles.mapBox}
@@ -357,7 +369,9 @@ class ObservationDetailView extends React.Component<
             </View>
           </View>
           <View style={styles.section}>
-            <Text style={styles.sectionText}>Observed by</Text>
+            <Text style={styles.sectionText}>
+              {I18n.t('detail_view.observed_by')}
+            </Text>
             <View style={{ flexDirection: 'row' }}>
               <FontAwesomeIcon
                 color="lightgray"

@@ -1,0 +1,41 @@
+{
+  "at": "at",
+  "on": "on",
+  "category": "Category",
+  "categories": {
+    "0": "Rivers and streams",
+    "1": "Tunnels / caves",
+    "2": "Hunting sites",
+    "3": "Fishing sites",
+    "4": "Old houses and farms",
+    "5": "Burial sites",
+    "6": "Medicinal plants",
+    "7": "Resources for artesania",
+    "8": "Gold",
+    "9": "Planted fruit trees",
+    "10": "Yoko",
+    "11": "Yage",
+    "12": "Invisible people",
+    "13": "Waterfalls",
+    "14": "Hills and mountains (sacred)",
+    "15": "Huge special trees",
+    "16": "Boas",
+    "17": "Historical sites",
+    "18": "Plants and animals in danger of extinction",
+    "19": "Threats"
+  },
+  "observations": {
+    "title": "Observations",
+    "this_week": "This Week",
+    "this_month": "This Month"
+  },
+  "strong": "Strong",
+  "editor": {
+    "placeholder": "What's happening here?"
+  },
+  "detail": {
+    "km_away": "km away",
+    "photo": "photo",
+    "observed_by": "Observed by"
+  }
+}

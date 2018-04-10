@@ -13,9 +13,10 @@ import {
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import moment from 'moment';
+import I18n from 'react-native-i18n';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
-import MyObservationsView from '../../Views/MyObservationsView';
+import ObservationsView from '../../Views/ObservationsView';
 import TabBar from './TabBar';
 import {
   WHITE,
@@ -122,6 +123,12 @@ type State = {
   showModal: boolean
 };
 
+I18n.fallbacks = true;
+I18n.translations = {
+  en: require('../../../translations/en'),
+  es: require('../../../translations/es')
+};
+
 class TabBarNavigation extends React.Component<StateProps, State> {
   static router = TabBar.router;
   state = {
@@ -184,9 +191,7 @@ class TabBarNavigation extends React.Component<StateProps, State> {
     return (
       <Drawer
         ref={this.handleRightDrawerRef}
-        content={
-          <MyObservationsView closeRightDrawer={this.closeRightDrawer} />
-        }
+        content={<ObservationsView closeRightDrawer={this.closeRightDrawer} />}
         openDrawerOffset={0}
         side="right"
         type="displace"
@@ -237,7 +242,9 @@ class TabBarNavigation extends React.Component<StateProps, State> {
               />
             )}
             {!loading && (
-              <Text style={{ color: WHITE, marginLeft: 10 }}>GPS: Strong</Text>
+              <Text style={{ color: WHITE, marginLeft: 10 }}>
+                GPS: {I18n.t('strong')}
+              </Text>
             )}
           </View>
           <TouchableOpacity
@@ -295,7 +302,7 @@ class TabBarNavigation extends React.Component<StateProps, State> {
                   >
                     <Text style={styles.title}>{selectedObservation.type}</Text>
                     <View style={{ flexDirection: 'row' }}>
-                      <Text style={styles.positionAtText}>at </Text>
+                      <Text style={styles.positionAtText}>{I18n.t('at')} </Text>
                       <Text style={styles.positionText}>
                         {`${selectedObservation.lat}, ${
                           selectedObservation.lon
@@ -303,7 +310,7 @@ class TabBarNavigation extends React.Component<StateProps, State> {
                       </Text>
                     </View>
                     <Text style={styles.date}>
-                      on{' '}
+                      {I18n.t('on')}{' '}
                       {moment(selectedObservation.created).format(
                         'MMMM D, h:hh A'
                       )}

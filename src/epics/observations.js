@@ -38,6 +38,7 @@ export const observationListEpic = (
             }
           ],
           icon: require('../images/categories/category_0.png'),
+          categoryId: 4,
           mock: true
         },
         {
@@ -57,6 +58,7 @@ export const observationListEpic = (
             }
           ],
           icon: require('../images/categories/category_2.png'),
+          categoryId: 2,
           mock: true
         },
         {
@@ -76,6 +78,7 @@ export const observationListEpic = (
             }
           ],
           icon: require('../images/categories/category_18.png'),
+          categoryId: 19,
           mock: true
         },
         {
@@ -95,6 +98,7 @@ export const observationListEpic = (
             }
           ],
           icon: require('../images/categories/category_6.png'),
+          categoryId: 6,
           mock: true
         },
         {
@@ -114,6 +118,7 @@ export const observationListEpic = (
             }
           ],
           icon: require('../images/categories/category_13.png'),
+          categoryId: 13,
           mock: true
         },
         {
@@ -133,6 +138,7 @@ export const observationListEpic = (
             }
           ],
           icon: require('../images/categories/category_0.png'),
+          categoryId: 0,
           mock: true
         },
         {
@@ -152,6 +158,7 @@ export const observationListEpic = (
             }
           ],
           icon: require('../images/categories/category_17.png'),
+          categoryId: 17,
           mock: true
         },
         {
@@ -171,6 +178,7 @@ export const observationListEpic = (
             }
           ],
           icon: require('../images/categories/category_8.png'),
+          categoryId: 8,
           mock: true
         }
       ])

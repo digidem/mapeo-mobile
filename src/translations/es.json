@@ -1,0 +1,41 @@
+{
+  "at": "en",
+  "on": "el",
+  "category": "Categoría",
+  "categories": {
+    "0": "Rios y corrientes",
+    "1": "Túneles / cuevas",
+    "2": "Sitios de caza",
+    "3": "Sitios de pesca",
+    "4": "Casas antiguas y granjas",
+    "5": "Cementerios",
+    "6": "Plantas medicinales",
+    "7": "Recursos para artesania",
+    "8": "Oro",
+    "9": "Árboles frutales plantados",
+    "10": "Yoko",
+    "11": "Yage",
+    "12": "Gente invisible",
+    "13": "Cascadas",
+    "14": "Colinas y montañas (sagrado)",
+    "15": "Enormes árboles especiales",
+    "16": "Boas",
+    "17": "Lugares históricos",
+    "18": "Plantas y animales en peligro de extinció",
+    "19": "Amenazas"
+  },
+  "observations": {
+    "title": "Observaciones",
+    "this_week": "Esta Semana",
+    "this_month": "Esta Mes"
+  },
+  "strong": "Fuerte",
+  "editor": {
+    "placeholder": "¿Que esta pasando aqui?"
+  },
+  "detail_view": {
+    "km_away": "km de distancia",
+    "photo": "foto",
+    "observed_by": "Observado por"
+  }
+}

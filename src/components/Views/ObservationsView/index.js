@@ -6,8 +6,8 @@ import type { Dispatch } from 'redux';
 import { StoreState } from '../../../types/redux';
 
 import { observationSelect } from '../../../ducks/observations';
-import MyObservationsView from './MyObservationsView';
-import type { StateProps, DispatchProps } from './MyObservationsView';
+import ObservationsView from './ObservationsView';
+import type { StateProps, DispatchProps } from './ObservationsView';
 
 function mapStateToProps(state: StoreState): StateProps {
   const observations = values(state.app.observations).sort(
@@ -27,4 +27,4 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyObservationsView);
+export default connect(mapStateToProps, mapDispatchToProps)(ObservationsView);

@@ -9,6 +9,7 @@ import {
   Dimensions,
   Image
 } from 'react-native';
+import I18n from 'react-native-i18n';
 import type { Observation } from '../../../types/observation';
 import { LIGHT_GREY } from '../../../lib/styles';
 
@@ -79,6 +80,12 @@ const styles = StyleSheet.create({
   }
 });
 
+I18n.fallbacks = true;
+I18n.translations = {
+  en: require('../../../translations/en'),
+  es: require('../../../translations/es')
+};
+
 const ObservationCell = (props: Props) => {
   const dateString = moment(props.observation.created).calendar(null, {
     sameDay: '[Today], h:mm A',
@@ -91,6 +98,8 @@ const ObservationCell = (props: Props) => {
   const handlePress = () => {
     props.onPress(props.observation);
   };
+
+  console.log(props.observation);
 
   return (
     <TouchableOpacity onPress={handlePress}>
@@ -126,7 +135,7 @@ const ObservationCell = (props: Props) => {
                 : styles.title
             }
           >
-            {props.observation.name}
+            {I18n.t(`categories.${props.observation.categoryId}`)}
           </Text>
           <Text>{dateString}</Text>
         </View>

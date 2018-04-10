@@ -101,14 +101,14 @@ exports[`ObservationCell tests snapshots 1`] = `
           }
         }
       >
-        Oil Spill
+        [missing "en.categories.null" translation]
       </Text>
       <Text
         accessible={true}
         allowFontScaling={true}
         ellipsizeMode="tail"
       >
-        Yesterday, 11:06 PM
+        Mar 1 2018, 1:06 PM
       </Text>
     </View>
   </View>

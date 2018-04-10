@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import I18n from 'react-native-i18n';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
 import { DARK_GREY, LIGHT_GREY, WHITE } from '../../../lib/styles';
@@ -90,6 +91,12 @@ const styles = StyleSheet.create({
   }
 });
 
+I18n.fallbacks = true;
+I18n.translations = {
+  en: require('../../../translations/en'),
+  es: require('../../../translations/es')
+};
+
 class Categories extends React.Component<Props & StateProps & DispatchProps> {
   componentDidMount() {
     const { listCategories } = this.props;
@@ -115,7 +122,8 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
 
     updateObservation({
       ...selectedObservation,
-      icon: item.icon
+      icon: item.icon,
+      categoryId: item.id
     });
 
     goToObservationEditor(item.id);
@@ -133,7 +141,9 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
         <View style={styles.circle}>
           <View style={styles.innerCircle}>{item.icon}</View>
         </View>
-        <Text style={styles.categoryName}>{item.name}</Text>
+        <Text style={styles.categoryName}>
+          {I18n.t(`categories.${item.id}`)}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -175,7 +185,7 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
                 textAlign: 'center'
               }}
             >
-              Category
+              {I18n.t('category')}
             </Text>
           </View>
           <FlatList

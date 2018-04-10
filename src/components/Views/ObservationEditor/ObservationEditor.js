@@ -16,6 +16,7 @@ import { withNavigationFocus } from 'react-navigation';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import I18n from 'react-native-i18n';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
 import CategoryPin from '../../../images/category-pin.png';
@@ -174,6 +175,12 @@ const styles = StyleSheet.create({
   }
 });
 
+I18n.fallbacks = true;
+I18n.translations = {
+  en: require('../../../translations/en'),
+  es: require('../../../translations/es')
+};
+
 class ObservationEditor extends React.Component<
   Props & StateProps & DispatchProps,
   State
@@ -312,7 +319,12 @@ class ObservationEditor extends React.Component<
   };
 
   render() {
-    const { goBack, selectedObservation, goToPhotoView } = this.props;
+    const {
+      navigation,
+      goBack,
+      selectedObservation,
+      goToPhotoView
+    } = this.props;
     const { keyboardShown, text } = this.state;
     const positionText = selectedObservation
       ? `${selectedObservation.lat}, ${selectedObservation.lon}`
@@ -387,10 +399,10 @@ class ObservationEditor extends React.Component<
                   : styles.title
               }
             >
-              {selectedObservation.type}
+              {I18n.t(`categories.${selectedObservation.categoryId}`)}
             </Text>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={styles.categoryAtText}>at </Text>
+              <Text style={styles.categoryAtText}>{I18n.t('at')} </Text>
               <Text style={styles.categoryPositionText}>{positionText}</Text>
             </View>
           </View>
@@ -400,7 +412,7 @@ class ObservationEditor extends React.Component<
             style={styles.textInput}
             value={text}
             onChangeText={this.handleTextInputChange}
-            placeholder="What's happening here?"
+            placeholder={I18n.t('editor.placeholder')}
             placeholderTextColor="silver"
             underlineColorAndroid="transparent"
             onBlur={this.handleTextInputBlur}

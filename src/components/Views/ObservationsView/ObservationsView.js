@@ -12,6 +12,7 @@ import {
 import { NavigationActions, withNavigation } from 'react-navigation';
 import LeftChevron from 'react-native-vector-icons/Entypo';
 import { map } from 'lodash';
+import I18n from 'react-native-i18n';
 import type { Observation } from '../../../types/observation';
 
 import { LIGHT_GREY, WHITE } from '../../../lib/styles';
@@ -66,19 +67,28 @@ const styles = StyleSheet.create({
   }
 });
 
-const MyObservationsView = (props: StateProps & Props & DispatchProps) => {
+I18n.fallbacks = true;
+I18n.translations = {
+  en: require('../../../translations/en'),
+  es: require('../../../translations/es')
+};
+
+const ObservationsView = (props: StateProps & Props & DispatchProps) => {
   const { observations } = props;
   const sectionMappings = {};
   let label;
+  const esLocale = require('moment/locale/es');
+  if (I18n.currentLocale() === 'es') moment.locale('es', esLocale);
+
   observations.forEach(o => {
     const createdMoment = moment(o.created);
     const thisWeek = moment().startOf('week');
     const thisMonth = moment().startOf('month');
     const thisYear = moment().startOf('year');
     if (createdMoment.isSameOrAfter(thisWeek)) {
-      label = 'This Week';
+      label = `${I18n.t('observations.this_week')}`;
     } else if (createdMoment.isSameOrAfter(thisMonth)) {
-      label = 'This Month';
+      label = `${I18n.t('observations.this_month')}`;
     } else if (createdMoment.isSameOrAfter(thisYear)) {
       label = createdMoment.format('MMMM');
     } else {
@@ -117,7 +127,7 @@ const MyObservationsView = (props: StateProps & Props & DispatchProps) => {
         </TouchableOpacity>
       </View>
       <View style={styles.container}>
-        <Text style={styles.header}>My Observations</Text>
+        <Text style={styles.header}>{I18n.t('observations.title')}</Text>
         <SectionList
           style={{ flex: 1, flexDirection: 'column' }}
           keyExtractor={keyExtractor}
@@ -138,4 +148,4 @@ const MyObservationsView = (props: StateProps & Props & DispatchProps) => {
   );
 };
 
-export default withNavigation(MyObservationsView);
+export default withNavigation(ObservationsView);
