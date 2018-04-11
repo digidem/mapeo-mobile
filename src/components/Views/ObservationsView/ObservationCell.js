@@ -99,8 +99,6 @@ const ObservationCell = (props: Props) => {
     props.onPress(props.observation);
   };
 
-  console.log(props.observation);
-
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.container}>

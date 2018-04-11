@@ -1,6 +1,10 @@
 // @flow
 import React from 'react';
-import { NavigationActions, addNavigationHelpers } from 'react-navigation';
+import {
+  NavigationActions,
+  addNavigationHelpers,
+  withNavigationFocus
+} from 'react-navigation';
 import {
   StyleSheet,
   View,
@@ -89,13 +93,6 @@ const styles = StyleSheet.create({
     left: 20,
     top: 15
   },
-  reviewContainer: {
-    borderColor: LIGHT_GREY,
-    borderBottomWidth: 1,
-    flex: 1,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  },
   savedContainer: {
     borderColor: LIGHT_GREY,
     borderBottomWidth: 1,
@@ -110,6 +107,10 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 });
+
+type Props = {
+  isFocused: boolean
+};
 
 export type StateProps = {
   selectedObservation: Observation,
@@ -129,7 +130,7 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class TabBarNavigation extends React.Component<StateProps, State> {
+class TabBarNavigation extends React.Component<Props & StateProps, State> {
   static router = TabBar.router;
   state = {
     showModal: false,
@@ -141,10 +142,33 @@ class TabBarNavigation extends React.Component<StateProps, State> {
       () =>
         this.setState({
           loading: false,
-          showModal: this.shouldShowModal()
+          showModal: false
         }),
       2000
     );
+  }
+
+  componentWillReceiveProps(nextProps: Props & StateProps) {
+    if (nextProps.isFocused) {
+      const { navigation } = nextProps;
+      const shouldShowModal = !!(
+        navigation.state &&
+        navigation.state.params &&
+        navigation.state.params.showModal
+      );
+      if (shouldShowModal !== this.state.showModal) {
+        this.setState({ showModal: shouldShowModal });
+      }
+    }
+  }
+
+  shouldComponentUpdate(nextProps: Props & StateProps, nextState: State) {
+    if (nextProps.isFocused) {
+      if (nextProps !== this.props || nextState !== this.state) {
+        return true;
+      }
+    }
+    return false;
   }
 
   componentWillUnmount() {
@@ -228,7 +252,7 @@ class TabBarNavigation extends React.Component<StateProps, State> {
             )}
             {loading && (
               <Text style={{ color: WHITE, marginLeft: 5 }}>
-                GPS: Loading...
+                GPS: {I18n.t('loading')}
               </Text>
             )}
             {!loading && (
@@ -279,7 +303,7 @@ class TabBarNavigation extends React.Component<StateProps, State> {
                       color: 'black'
                     }}
                   >
-                    Saved!
+                    {I18n.t('saved')}
                   </Text>
                 </View>
                 <View style={styles.categoryContainer}>
@@ -317,21 +341,14 @@ class TabBarNavigation extends React.Component<StateProps, State> {
                     </Text>
                   </View>
                 </View>
-                <View style={styles.reviewContainer}>
+                <View style={styles.continueContainer}>
                   <TouchableOpacity
                     onPress={() => {
                       this.setModalVisible(!showModal);
-                      this.props.navigation.navigate('ObservationDetailView');
+                      this.props.navigation.setParams({ showModal: false });
                     }}
                   >
-                    <Text style={styles.buttonText}>Review</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.continueContainer}>
-                  <TouchableOpacity
-                    onPress={() => this.setModalVisible(!showModal)}
-                  >
-                    <Text style={styles.buttonText}>Continue</Text>
+                    <Text style={styles.buttonText}>{I18n.t('continue')}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -350,4 +367,4 @@ class TabBarNavigation extends React.Component<StateProps, State> {
   }
 }
 
-export default TabBarNavigation;
+export default withNavigationFocus(TabBarNavigation);

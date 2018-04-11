@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { size } from 'lodash';
+import I18n from 'react-native-i18n';
 import type { Observation } from '../../../types/observation';
 import { CHARCOAL, WHITE } from '../../../lib/styles.js';
 
@@ -61,6 +62,12 @@ export type DispatchProps = {
   createObservation: (observation: Observation) => void,
   updateObservation: (o: Observation) => void,
   goToCategories: () => void
+};
+
+I18n.fallbacks = true;
+I18n.translations = {
+  en: require('../../../translations/en'),
+  es: require('../../../translations/es')
 };
 
 class CameraTabView extends React.Component<
@@ -198,7 +205,7 @@ class CameraTabView extends React.Component<
               }}
             >
               <ActivityIndicator />
-              <Text>Saving Image</Text>
+              <Text>{I18n.t('saving_image')}</Text>
             </View>
           </View>
         )}

@@ -79,6 +79,7 @@ const ObservationsView = (props: StateProps & Props & DispatchProps) => {
   let label;
   const esLocale = require('moment/locale/es');
   if (I18n.currentLocale() === 'es') moment.locale('es', esLocale);
+  else moment.locale('en');
 
   observations.forEach(o => {
     const createdMoment = moment(o.created);

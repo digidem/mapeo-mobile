@@ -11,6 +11,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import I18n from 'react-native-i18n';
 import type { Observation } from '../../../types/observation';
 import { CHARCOAL, WHITE } from '../../../lib/styles.js';
 
@@ -58,6 +59,12 @@ export type DispatchProps = {
 
 type State = {
   loading: boolean
+};
+
+I18n.fallbacks = true;
+I18n.translations = {
+  en: require('../../../translations/en'),
+  es: require('../../../translations/es')
 };
 
 class CameraView extends React.Component<
@@ -170,7 +177,7 @@ class CameraView extends React.Component<
               }}
             >
               <ActivityIndicator />
-              <Text>Saving Image</Text>
+              <Text>{I18n.t('saving_image')}</Text>
             </View>
           </View>
         )}

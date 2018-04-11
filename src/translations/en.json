@@ -26,14 +26,18 @@
   },
   "observations": {
     "title": "Observations",
-    "this_week": "This Week",
-    "this_month": "This Month"
+    "this_week": "This week",
+    "this_month": "This month"
   },
   "strong": "Strong",
+  "loading": "Loading...",
+  "saved": "Saved!",
+  "continue": "Continue",
+  "saving_image": "Saving Image",
   "editor": {
     "placeholder": "What's happening here?"
   },
-  "detail": {
+  "detail_view": {
     "km_away": "km away",
     "photo": "photo",
     "observed_by": "Observed by"
