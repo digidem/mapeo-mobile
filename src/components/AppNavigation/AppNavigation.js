@@ -1,7 +1,8 @@
 // @flow
 import React from 'react';
 import { BackHandler, AppState, Dimensions, Image, View } from 'react-native';
-import { addNavigationHelpers, NavigationActions } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
+import addNavigationHelpers from 'react-navigation/src/addNavigationHelpers';
 import MainStackNavigation from '../MainNavigation/MainStackNavigation';
 import SplashScreen from '../../images/splash-screen.png';
 import { mainStackAddListener } from '../../lib/store';

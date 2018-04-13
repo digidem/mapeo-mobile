@@ -10,10 +10,7 @@ const rootReducer = combineReducers({
   app: appCombineReducers(...categories, ...observations),
 
   mainStack: (state, action) =>
-    MainStackNavigation.router.getStateForAction(action, state),
-
-  tabBar: (state, action) =>
-    TabBarNavigation.router.getStateForAction(action, state)
+    MainStackNavigation.router.getStateForAction(action, state)
 });
 
 export default rootReducer;
