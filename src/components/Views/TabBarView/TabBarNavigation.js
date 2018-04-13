@@ -15,10 +15,12 @@ import {
 import Drawer from 'react-native-drawer';
 import moment from 'moment';
 import I18n from 'react-native-i18n';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
 import ObservationsView from '../../Views/ObservationsView';
 import MapView from '../MapView';
+import CameraView from '../CameraView';
 import {
   WHITE,
   MAPEO_BLUE,
@@ -75,6 +77,11 @@ const styles = StyleSheet.create({
     right: 20,
     top: 15
   },
+  cameraIcon: {
+    position: 'absolute',
+    left: 20,
+    top: 15
+  },
   positionAtText: {
     fontSize: 12,
     color: 'black',
@@ -118,7 +125,8 @@ export type StateProps = {
 
 type State = {
   loading: boolean,
-  showModal: boolean
+  showModal: boolean,
+  showCamera: boolean
 };
 
 I18n.fallbacks = true;
@@ -130,7 +138,8 @@ I18n.translations = {
 class TabBarNavigation extends React.Component<Props & StateProps, State> {
   state = {
     showModal: false,
-    loading: true
+    loading: true,
+    showCamera: false
   };
 
   componentDidMount() {
@@ -204,9 +213,17 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
     this.rightDrawer = ref;
   };
 
+  goToCameraView = () => {
+    this.setState({ showCamera: true });
+  };
+
+  goToMapView = () => {
+    this.setState({ showCamera: false });
+  };
+
   render() {
     const { dispatch, navigationState, selectedObservation } = this.props;
-    const { loading, showModal } = this.state;
+    const { loading, showModal, showCamera } = this.state;
 
     return (
       <Drawer
@@ -219,16 +236,27 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
         <View
           style={{
             flexDirection: 'row',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
             alignItems: 'center',
             height: 60,
             position: 'absolute',
             top: 0,
             left: 0,
             right: 0,
+            marginHorizontal: 15,
             zIndex: 5
           }}
         >
+          {!showCamera && (
+            <TouchableOpacity onPress={this.goToCameraView}>
+              <Icon color={WHITE} name="photo-camera" size={30} />
+            </TouchableOpacity>
+          )}
+          {showCamera && (
+            <TouchableOpacity onPress={this.goToMapView}>
+              <Icon color={WHITE} name="map" size={30} />
+            </TouchableOpacity>
+          )}
           <View
             style={{
               height: 35,
@@ -267,11 +295,8 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
               </Text>
             )}
           </View>
-          <TouchableOpacity
-            onPress={this.openRightDrawer}
-            style={styles.myObservationsIcon}
-          >
-            <CollectionsImg color={WHITE} name="collections" size={40} />
+          <TouchableOpacity onPress={this.openRightDrawer}>
+            <CollectionsImg color={WHITE} name="collections" size={30} />
           </TouchableOpacity>
         </View>
         {selectedObservation && (
@@ -351,7 +376,8 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
             </View>
           </Modal>
         )}
-        <MapView />
+        {!showCamera && <MapView />}
+        {showCamera && <CameraView />}
       </Drawer>
     );
   }

@@ -11,12 +11,14 @@ import {
 } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '@types/observation';
 import { isEmpty, size, map, filter } from 'lodash';
 import env from '../../../../env.json';
 
 import AddButton from '../../../images/add-button.png';
 import Gradient from '../../../images/gradient-overlay.png';
+import { WHITE } from '../../../lib/styles';
 
 export type StateProps = {
   observations: {
@@ -119,14 +121,7 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
     return false;
   }
 
-  componentWillUnmount() {
-    this.willFocusListener.remove();
-    this.didBlurListener.remove();
-  }
-
   map: any;
-  willFocusListener: any;
-  didBlurListener: any;
 
   handleCreateObservation = () => {
     const {
@@ -226,6 +221,7 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
             logoEnabled
             onPress={this.handlePress}
             onLongPress={this.handleLongPress}
+            compassEnabled={false}
           >
             {!!observations && !isEmpty(observations)
               ? map(observations, (o: Observation) => (
@@ -256,11 +252,16 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
               height: 135,
               position: 'absolute',
               bottom: 0,
-              alignSelf: 'center',
+              alignItems: 'center',
               backgroundColor: 'transparent',
-              zIndex: 5
+              zIndex: 5,
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              flex: 1,
+              width: Dimensions.get('window').width
             }}
           >
+            <View style={{ width: 50 }} />
             <TouchableOpacity
               onPress={this.handleCreateObservation}
               style={styles.newObservation}
@@ -272,6 +273,9 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
                   height: 125
                 }}
               />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log('ere')}>
+              <Icon color={WHITE} name="my-location" size={50} />
             </TouchableOpacity>
           </View>
         </View>
