@@ -26,14 +26,11 @@ const stackConfiguration = {
   headerMode: 'none',
   transitionConfig: () => ({
     screenInterpolator: sceneProps => {
-      if (
-        sceneProps.scene.route.routeName.match('Categories') ||
-        sceneProps.scene.route.routeName.match('TabBar')
-      ) {
-        return CardStackStyleInterpolator.forFadeFromBottomAndroid(sceneProps);
+      if (sceneProps.scene.route.routeName.match('ObservationDetailView')) {
+        return CardStackStyleInterpolator.forHorizontal(sceneProps);
       }
 
-      return CardStackStyleInterpolator.forHorizontal(sceneProps);
+      return CardStackStyleInterpolator.forFade(sceneProps);
     }
   })
 };

@@ -18,7 +18,7 @@ import I18n from 'react-native-i18n';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
 import ObservationsView from '../../Views/ObservationsView';
-import TabBar from './TabBar';
+import MapView from '../MapView';
 import {
   WHITE,
   MAPEO_BLUE,
@@ -128,7 +128,6 @@ I18n.translations = {
 };
 
 class TabBarNavigation extends React.Component<Props & StateProps, State> {
-  static router = TabBar.router;
   state = {
     showModal: false,
     loading: true
@@ -352,13 +351,7 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
             </View>
           </Modal>
         )}
-        <TabBar
-          navigation={addNavigationHelpers({
-            dispatch,
-            state: navigationState,
-            addListener: tabBarAddListener
-          })}
-        />
+        <MapView />
       </Drawer>
     );
   }
