@@ -1,10 +1,7 @@
 // @flow
 import React from 'react';
-import {
-  NavigationActions,
-  addNavigationHelpers,
-  withNavigationFocus
-} from 'react-navigation';
+import { NavigationActions, withNavigationFocus } from 'react-navigation';
+import addNavigationHelpers from 'react-navigation/src/addNavigationHelpers';
 import {
   StyleSheet,
   View,

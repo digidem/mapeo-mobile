@@ -26,8 +26,11 @@ const stackConfiguration = {
   headerMode: 'none',
   transitionConfig: () => ({
     screenInterpolator: sceneProps => {
-      if (sceneProps.scene.route.routeName.match('Categories')) {
-        return CardStackStyleInterpolator.forVertical(sceneProps);
+      if (
+        sceneProps.scene.route.routeName.match('Categories') ||
+        sceneProps.scene.route.routeName.match('TabBar')
+      ) {
+        return CardStackStyleInterpolator.forFadeFromBottomAndroid(sceneProps);
       }
 
       return CardStackStyleInterpolator.forHorizontal(sceneProps);
