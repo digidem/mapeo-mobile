@@ -9,11 +9,17 @@ import {
   Dimensions
 } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
-import FeatherIcon from 'react-native-vector-icons/Feather';
+import CheckIcon from 'react-native-vector-icons/Octicons';
+import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import I18n from 'react-native-i18n';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
-import { DARK_GREY, LIGHT_GREY, WHITE } from '../../../lib/styles';
+import {
+  DARK_GREY,
+  LIGHT_GREY,
+  VERY_LIGHT_BLUE,
+  WHITE
+} from '../../../lib/styles';
 
 type Props = {
   isFocused: boolean
@@ -26,7 +32,7 @@ export type StateProps = {
 
 export type DispatchProps = {
   listCategories: () => void,
-  updateObservation: (obs: Observation) => void,
+  updateObservation: (obs: Object) => void,
   goToObservationEditor: (category: string) => void,
   goBack: () => void
 };
@@ -58,9 +64,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: 'red',
+    shadowColor: 'black',
     shadowRadius: 10,
     shadowOpacity: 1,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
     marginBottom: 5
   },
   innerCircle: {
@@ -88,6 +96,28 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
     maxWidth: Dimensions.get('window').width / 3 - 2
+  },
+  checkIcon: {
+    alignSelf: 'center',
+    marginLeft: 3
+  },
+  greyCheck: {
+    backgroundColor: LIGHT_GREY,
+    height: 35,
+    width: 35,
+    borderRadius: 50,
+    justifyContent: 'center'
+  },
+  greyCheckOuterCircle: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    width: 40,
+    height: 40,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#d6d2cf'
   }
 });
 
@@ -138,9 +168,7 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
       }}
     >
       <View style={styles.cell}>
-        <View style={styles.circle}>
-          <View style={styles.innerCircle}>{item.icon}</View>
-        </View>
+        <View style={styles.circle}>{item.icon}</View>
         <Text style={styles.categoryName}>
           {I18n.t(`categories.${item.id}`)}
         </Text>
@@ -157,11 +185,12 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
         <View style={{ flex: 1 }}>
           <View
             style={{
-              backgroundColor: WHITE,
+              backgroundColor: VERY_LIGHT_BLUE,
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
-              paddingTop: 20
+              paddingTop: 10,
+              height: 65
             }}
           >
             <TouchableOpacity
@@ -169,30 +198,53 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
                 paddingLeft: 10,
                 width: 70,
                 position: 'absolute',
-                top: 20,
+                top: 25,
                 left: 20
               }}
               underlayColor="rgba(0, 0, 0, 0.5)"
               onPress={goBack}
             >
-              <FeatherIcon color="lightgray" name="chevron-down" size={25} />
+              <CloseIcon color="#9E9C9C" name="window-close" size={25} />
             </TouchableOpacity>
-            <Text
+            <View
               style={{
-                fontWeight: '700',
-                fontSize: 20,
-                color: 'black',
-                textAlign: 'center'
+                height: 35,
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: 'rgba(0, 0, 0, .8)',
+                borderRadius: 50,
+                paddingLeft: 13,
+                paddingRight: 15
               }}
             >
-              {I18n.t('category')}
-            </Text>
+              <View
+                style={{
+                  backgroundColor: '#7AFA4C',
+                  height: 10,
+                  width: 10,
+                  borderRadius: 50
+                }}
+              />
+              <Text style={{ color: WHITE, marginHorizontal: 20 }}>
+                {`+/- 100m`}
+              </Text>
+            </View>
+            <View style={styles.greyCheckOuterCircle}>
+              <View style={styles.greyCheck}>
+                <CheckIcon
+                  color="white"
+                  name="check"
+                  size={18}
+                  style={styles.checkIcon}
+                />
+              </View>
+            </View>
           </View>
           <FlatList
             style={{
               height: 80,
               width: Dimensions.get('window').width,
-              backgroundColor: WHITE
+              backgroundColor: VERY_LIGHT_BLUE
             }}
             keyExtractor={keyExtractor}
             renderItem={this.renderItem}

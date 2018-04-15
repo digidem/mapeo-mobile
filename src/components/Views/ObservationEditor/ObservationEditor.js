@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   View,
+  Animated,
   Keyboard,
   KeyboardAvoidingView,
   Text,
@@ -10,12 +11,16 @@ import {
   TextInput,
   Image,
   ImageBackground,
-  FlatList
+  FlatList,
+  ScrollView
 } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import CheckIcon from 'react-native-vector-icons/Octicons';
+import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import LocationPin from 'react-native-vector-icons/Entypo';
 import I18n from 'react-native-i18n';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
@@ -51,7 +56,8 @@ export type DispatchProps = {
 type State = {
   goToCamera: boolean,
   keyboardShown: boolean,
-  text: string
+  text: string,
+  textInputHeight: number
 };
 
 const styles = StyleSheet.create({
@@ -88,57 +94,84 @@ const styles = StyleSheet.create({
   categoryPositionText: {
     fontSize: 12,
     color: 'black',
-    fontWeight: '700'
+    fontWeight: '700',
+    marginLeft: 3
   },
   check: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
     backgroundColor: MANGO,
     height: 35,
     width: 35,
     borderRadius: 50,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  checkOuterCircle: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    width: 40,
+    height: 40,
+    backgroundColor: '#ed6109',
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   checkIcon: {
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginLeft: 3
+  },
+  circle: {
+    width: 60,
+    height: 60,
+    backgroundColor: 'white',
+    borderRadius: 50,
+    borderColor: LIGHT_GREY,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: 'black',
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+    shadowOpacity: 1,
+    marginVertical: 5
   },
   collectionsImg: {
     alignSelf: 'center'
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: WHITE
   },
   greyCheck: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
     backgroundColor: LIGHT_GREY,
     height: 35,
     width: 35,
     borderRadius: 50,
     justifyContent: 'center'
   },
-  header: {
-    height: 150,
-    backgroundColor: VERY_LIGHT_BLUE,
-    borderColor: LIGHT_GREY,
-    borderBottomWidth: 1
+  greyCheckOuterCircle: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    width: 40,
+    height: 40,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#d6d2cf'
   },
   mediaRow: {
     flex: 1,
     backgroundColor: WHITE,
     borderColor: LIGHT_GREY,
     borderTopWidth: 1,
-    paddingVertical: 15
+    paddingTop: 15
   },
   mediaRowKeyboardShown: {
     flex: 1,
     backgroundColor: WHITE,
-    borderColor: LIGHT_GREY,
-    paddingVertical: 15
+    borderColor: LIGHT_GREY
   },
   photosButton: {
     alignSelf: 'stretch',
@@ -146,12 +179,11 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
     height: 60,
     borderColor: LIGHT_GREY,
-    borderBottomWidth: 1,
-    borderTopWidth: 1
+    borderBottomWidth: 1
   },
   textInput: {
+    maxHeight: 115,
     fontSize: 20,
-    height: 145,
     padding: 20,
     paddingBottom: 30,
     color: 'black',
@@ -172,6 +204,20 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: 'black',
     textAlign: 'center'
+  },
+  triangle: {
+    alignSelf: 'center',
+    width: 0,
+    height: 0,
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderLeftWidth: 7,
+    borderRightWidth: 7,
+    borderBottomWidth: 7,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: 'rgba(0, 0, 0, .8)',
+    transform: [{ rotate: '180deg' }]
   }
 });
 
@@ -185,14 +231,32 @@ class ObservationEditor extends React.Component<
   Props & StateProps & DispatchProps,
   State
 > {
+  paddingInput: Animated.Value;
+  keyboardWillShowListener: any;
+  keyboardWillHideListener: any;
+
   constructor(props: StateProps & DispatchProps) {
     super();
+
+    this.paddingInput = new Animated.Value(0);
 
     this.state = {
       keyboardShown: false,
       text: props.selectedObservation ? props.selectedObservation.notes : '',
-      goToCamera: false
+      goToCamera: false,
+      textInputHeight: 0
     };
+  }
+
+  componentWillMount() {
+    this.keyboardWillShowListener = Keyboard.addListener(
+      'keyboardWillShow',
+      this.keyboardWillShow
+    );
+    this.keyboardWillHideListener = Keyboard.addListener(
+      'keyboardWillHide',
+      this.keyboardWillHide
+    );
   }
 
   componentDidMount() {
@@ -228,14 +292,33 @@ class ObservationEditor extends React.Component<
   }
 
   componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
   }
 
+  keyboardWillShow = e => {
+    Animated.timing(this.paddingInput, {
+      duration: e.duration,
+      toValue: 60
+    }).start();
+  };
+
+  keyboardWillHide = e => {
+    Animated.timing(this.paddingInput, {
+      duration: e.duration,
+      toValue: 0
+    }).start();
+  };
+
   keyboardDidShowListener: any;
   keyboardDidHideListener: any;
 
-  keyboardDidShow = () => {
+  scrollView: any;
+  textInput: any;
+
+  keyboardDidShow = e => {
     this.setState(previousState => ({
       goToCamera: false,
       keyboardShown: true,
@@ -262,6 +345,10 @@ class ObservationEditor extends React.Component<
 
   handleTextInputChange = text => {
     this.setState({ text });
+  };
+
+  handleTextInputScroll = ({ nativeEvent: event }) => {
+    this.setState({ textInputHeight: event.contentSize.height });
   };
 
   handleSaveObservation = () => {
@@ -340,170 +427,184 @@ class ObservationEditor extends React.Component<
 
     return (
       <KeyboardAvoidingView style={styles.container}>
-        <View style={styles.header}>
-          <View
+        <View
+          style={{
+            backgroundColor: VERY_LIGHT_BLUE,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingTop: 10,
+            height: 65
+          }}
+        >
+          <TouchableOpacity
             style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'center'
+              paddingLeft: 10,
+              width: 70,
+              position: 'absolute',
+              top: 25,
+              left: 20
             }}
+            underlayColor="rgba(0, 0, 0, 0.5)"
+            onPress={goBack}
           >
-            <TouchableOpacity
-              style={{ position: 'absolute', left: 20, top: 20 }}
-              onPress={goBack}
+            <CloseIcon color="#9E9C9C" name="window-close" size={25} />
+          </TouchableOpacity>
+          <View style={{ marginTop: 6 }}>
+            <View
+              style={{
+                height: 35,
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: 'rgba(0, 0, 0, .8)',
+                borderRadius: 50,
+                paddingLeft: 13,
+                paddingRight: 15
+              }}
             >
-              <FeatherIcon color="lightgray" name="chevron-left" size={25} />
-            </TouchableOpacity>
-            <ImageBackground source={CategoryPin} style={styles.categoryPin}>
-              {selectedObservation && (
-                <View style={{ marginTop: -10 }}>
-                  {selectedObservation.icon}
-                </View>
-              )}
-            </ImageBackground>
-            {showGreyCheck && (
+              <View
+                style={{
+                  backgroundColor: '#7AFA4C',
+                  height: 10,
+                  width: 10,
+                  borderRadius: 50
+                }}
+              />
+              <Text style={{ color: WHITE, marginHorizontal: 20 }}>
+                {`+/- 100m`}
+              </Text>
+            </View>
+            <View style={styles.triangle} />
+          </View>
+          {showGreyCheck && (
+            <View style={styles.greyCheckOuterCircle}>
               <View style={styles.greyCheck}>
-                <FeatherIcon
+                <CheckIcon
                   color="white"
                   name="check"
-                  size={15}
+                  size={18}
                   style={styles.checkIcon}
                 />
               </View>
-            )}
-            {!showGreyCheck && (
-              <TouchableOpacity
-                style={styles.check}
-                onPress={this.handleSaveObservation}
-              >
-                <FeatherIcon
+            </View>
+          )}
+          {!showGreyCheck && (
+            <TouchableOpacity
+              style={styles.checkOuterCircle}
+              onPress={this.handleSaveObservation}
+            >
+              <View style={styles.check}>
+                <CheckIcon
                   color="white"
                   name="check"
-                  size={15}
+                  size={18}
                   style={styles.checkIcon}
                 />
-              </TouchableOpacity>
-            )}
-          </View>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingBottom: 10
-            }}
-          >
-            <Text
-              style={
-                selectedObservation.type.length > 31
-                  ? styles.titleLong
-                  : styles.title
-              }
-            >
-              {I18n.t(`categories.${selectedObservation.categoryId}`)}
-            </Text>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={styles.categoryAtText}>{I18n.t('at')} </Text>
-              <Text style={styles.categoryPositionText}>{positionText}</Text>
-            </View>
+              </View>
+            </TouchableOpacity>
+          )}
+        </View>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingBottom: 10,
+            backgroundColor: VERY_LIGHT_BLUE
+          }}
+        >
+          <View style={styles.circle}>{selectedObservation.icon}</View>
+          <View style={{ marginTop: 5, flexDirection: 'row' }}>
+            <LocationPin color={MANGO} name="location-pin" size={15} />
+            <Text style={styles.categoryPositionText}>{positionText}</Text>
           </View>
         </View>
-        <View style={{ flex: 1 }}>
+        <ScrollView
+          style={{ height: this.state.textInputHeight + 30 }}
+          ref={ref => (this.scrollView = ref)}
+        >
           <TextInput
-            style={styles.textInput}
+            ref={ref => (this.textInput = ref)}
+            style={[styles.textInput, { height: this.state.textInputHeight }]}
             value={text}
             onChangeText={this.handleTextInputChange}
+            onContentSizeChange={this.handleTextInputScroll}
+            onFocus={() => this.scrollView.scrollToEnd()}
             placeholder={I18n.t('editor.placeholder')}
             placeholderTextColor="silver"
             underlineColorAndroid="transparent"
             onBlur={this.handleTextInputBlur}
             multiline
             autoGrow
+            autoFocus
           />
-          {selectedObservation &&
-            !!selectedObservation.media.length && (
-              <View
-                style={
-                  keyboardShown ? styles.mediaRowKeyboardShown : styles.mediaRow
-                }
-              >
-                <FlatList
-                  horizontal
-                  scrollEnabled
-                  style={{
-                    flex: 1,
-                    flexDirection: 'row'
-                  }}
-                  contentContainerStyle={{
-                    alignContent: 'flex-start'
-                  }}
-                  keyExtractor={keyExtractor}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      onPress={() => goToPhotoView(item.source)}
-                      style={{ paddingLeft: 10 }}
-                    >
-                      <Image
-                        source={{ uri: item.source }}
-                        style={{
-                          width: 65,
-                          height: 65,
-                          borderRadius: 5
-                        }}
-                      />
-                    </TouchableOpacity>
-                  )}
-                  data={selectedObservation.media}
-                />
-              </View>
-            )}
-          <View
-            style={{
-              paddingTop: 15,
-              borderTopWidth: 1,
-              borderColor: LIGHT_GREY,
-              position: 'absolute',
-              bottom: 15,
-              left: 0,
-              right: 0
-            }}
-          >
+        </ScrollView>
+        {selectedObservation &&
+          !!selectedObservation.media.length && (
             <View
+              style={
+                keyboardShown ? styles.mediaRowKeyboardShown : styles.mediaRow
+              }
+            >
+              <FlatList
+                horizontal
+                scrollEnabled
+                style={{
+                  flex: 1,
+                  flexDirection: 'row'
+                }}
+                contentContainerStyle={{
+                  alignContent: 'flex-start'
+                }}
+                keyExtractor={keyExtractor}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    onPress={() => goToPhotoView(item.source)}
+                    style={{ paddingLeft: 10 }}
+                  >
+                    <Image
+                      source={{ uri: item.source }}
+                      style={{
+                        width: 65,
+                        height: 65,
+                        borderRadius: 5
+                      }}
+                    />
+                  </TouchableOpacity>
+                )}
+                data={selectedObservation.media}
+              />
+            </View>
+          )}
+        <View
+          style={{
+            borderTopWidth: 1,
+            borderColor: LIGHT_GREY
+          }}
+        >
+          {keyboardShown && (
+            <Animated.View
               style={{
-                flexDirection: 'row'
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-around',
+                backgroundColor: 'white',
+                marginBottom: 250,
+                paddingVertical: 15
               }}
             >
-              {keyboardShown && (
-                <TouchableOpacity
-                  style={{ flex: 1, marginLeft: 60 }}
-                  onPress={this.goToCameraView}
-                  underlayColor="transparent"
-                >
-                  <Icon color={MEDIUM_GREY} name="photo-camera" size={30} />
-                </TouchableOpacity>
-              )}
-              {keyboardShown && (
-                <TouchableOpacity style={{ flex: 1, marginLeft: 20 }}>
-                  <FontAwesomeIcon
-                    color={MEDIUM_GREY}
-                    name="microphone"
-                    size={30}
-                  />
-                </TouchableOpacity>
-              )}
-              {keyboardShown && (
-                <TouchableOpacity style={{ flex: 1, marginLeft: 10 }}>
-                  <Image
-                    source={PencilIcon}
-                    style={{ marginTop: 2, width: 25, height: 25 }}
-                  />
-                </TouchableOpacity>
-              )}
-            </View>
-          </View>
+              <TouchableOpacity
+                onPress={this.goToCameraView}
+                underlayColor="transparent"
+              >
+                <Icon color={MEDIUM_GREY} name="photo-camera" size={30} />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image source={PencilIcon} style={{ width: 25, height: 25 }} />
+              </TouchableOpacity>
+            </Animated.View>
+          )}
           {!keyboardShown && (
-            <View
-              style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}
-            >
+            <View>
               <TouchableOpacity
                 style={styles.photosButton}
                 onPress={this.goToCameraView}
@@ -517,17 +618,6 @@ class ObservationEditor extends React.Component<
                     style={{ marginHorizontal: 30 }}
                   />
                   <Text style={styles.bottomButtonText}>Photos & Videos</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.bottomButton}>
-                <View style={{ flexDirection: 'row' }}>
-                  <FontAwesomeIcon
-                    color={MEDIUM_GREY}
-                    name="microphone"
-                    size={30}
-                    style={{ marginHorizontal: 35 }}
-                  />
-                  <Text style={styles.bottomButtonText}>Audio</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity style={styles.bottomButton}>

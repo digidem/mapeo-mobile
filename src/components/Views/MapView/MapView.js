@@ -28,8 +28,8 @@ export type StateProps = {
 
 export type DispatchProps = {
   listObservations: () => void,
-  createObservation: (observation: Observation) => void,
-  updateObservation: (observation: Observation) => void,
+  createObservation: (observation: Object) => void,
+  updateObservation: (observation: Object) => void,
   goToCategories: () => void,
   goToObservationDetail: () => void,
   selectObservation: (observation: Observation) => void
