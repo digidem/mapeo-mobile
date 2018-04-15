@@ -57,7 +57,8 @@ type State = {
   goToCamera: boolean,
   keyboardShown: boolean,
   text: string,
-  textInputHeight: number
+  textInputHeight: number,
+  keyboardHeight: number
 };
 
 const styles = StyleSheet.create({
@@ -162,16 +163,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#d6d2cf'
   },
   mediaRow: {
-    flex: 1,
     backgroundColor: WHITE,
     borderColor: LIGHT_GREY,
     borderTopWidth: 1,
-    paddingTop: 15
+    height: 85
   },
   mediaRowKeyboardShown: {
     flex: 1,
     backgroundColor: WHITE,
-    borderColor: LIGHT_GREY
+    borderColor: LIGHT_GREY,
+    marginBottom: -20
   },
   photosButton: {
     alignSelf: 'stretch',
@@ -182,7 +183,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1
   },
   textInput: {
-    maxHeight: 115,
     fontSize: 20,
     padding: 20,
     paddingBottom: 30,
@@ -234,6 +234,10 @@ class ObservationEditor extends React.Component<
   paddingInput: Animated.Value;
   keyboardWillShowListener: any;
   keyboardWillHideListener: any;
+  keyboardDidShowListener: any;
+  keyboardDidHideListener: any;
+  scrollView: any;
+  textInput: any;
 
   constructor(props: StateProps & DispatchProps) {
     super();
@@ -244,7 +248,8 @@ class ObservationEditor extends React.Component<
       keyboardShown: false,
       text: props.selectedObservation ? props.selectedObservation.notes : '',
       goToCamera: false,
-      textInputHeight: 0
+      textInputHeight: 0,
+      keyboardHeight: 0
     };
   }
 
@@ -312,17 +317,12 @@ class ObservationEditor extends React.Component<
     }).start();
   };
 
-  keyboardDidShowListener: any;
-  keyboardDidHideListener: any;
-
-  scrollView: any;
-  textInput: any;
-
   keyboardDidShow = e => {
     this.setState(previousState => ({
       goToCamera: false,
       keyboardShown: true,
-      text: previousState.text
+      text: previousState.text,
+      keyboardHeight: e.endCoordinates.height
     }));
   };
 
@@ -518,13 +518,10 @@ class ObservationEditor extends React.Component<
             <Text style={styles.categoryPositionText}>{positionText}</Text>
           </View>
         </View>
-        <ScrollView
-          style={{ height: this.state.textInputHeight + 30 }}
-          ref={ref => (this.scrollView = ref)}
-        >
+        <ScrollView ref={ref => (this.scrollView = ref)}>
           <TextInput
             ref={ref => (this.textInput = ref)}
-            style={[styles.textInput, { height: this.state.textInputHeight }]}
+            style={[styles.textInput]}
             value={text}
             onChangeText={this.handleTextInputChange}
             onContentSizeChange={this.handleTextInputScroll}
@@ -550,7 +547,8 @@ class ObservationEditor extends React.Component<
                 scrollEnabled
                 style={{
                   flex: 1,
-                  flexDirection: 'row'
+                  flexDirection: 'row',
+                  paddingTop: 10
                 }}
                 contentContainerStyle={{
                   alignContent: 'flex-start'
@@ -588,8 +586,8 @@ class ObservationEditor extends React.Component<
                 alignItems: 'center',
                 justifyContent: 'space-around',
                 backgroundColor: 'white',
-                marginBottom: 250,
-                paddingVertical: 15
+                marginBottom: this.state.keyboardHeight,
+                height: 55
               }}
             >
               <TouchableOpacity
@@ -617,7 +615,9 @@ class ObservationEditor extends React.Component<
                     size={30}
                     style={{ marginHorizontal: 30 }}
                   />
-                  <Text style={styles.bottomButtonText}>Photos & Videos</Text>
+                  <Text style={styles.bottomButtonText}>
+                    {I18n.t('editor.media_button')}
+                  </Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity style={styles.bottomButton}>
@@ -631,7 +631,9 @@ class ObservationEditor extends React.Component<
                       height: 25
                     }}
                   />
-                  <Text style={styles.bottomButtonText}>Details</Text>
+                  <Text style={styles.bottomButtonText}>
+                    {I18n.t('editor.details_button')}
+                  </Text>
                 </View>
               </TouchableOpacity>
             </View>
