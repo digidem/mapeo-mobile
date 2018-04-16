@@ -33,6 +33,7 @@ import {
   MEDIUM_GREY,
   VERY_LIGHT_BLUE
 } from '../../../lib/styles';
+import Header from '../../Base/Header/Header';
 
 export type StateProps = {
   category?: Category,
@@ -100,18 +101,15 @@ const styles = StyleSheet.create({
   },
   check: {
     backgroundColor: MANGO,
-    height: 35,
-    width: 35,
+    height: 25,
+    width: 25,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center'
   },
   checkOuterCircle: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
     backgroundColor: '#ed6109',
     borderRadius: 50,
     justifyContent: 'center',
@@ -146,17 +144,14 @@ const styles = StyleSheet.create({
   },
   greyCheck: {
     backgroundColor: LIGHT_GREY,
-    height: 35,
-    width: 35,
+    height: 25,
+    width: 25,
     borderRadius: 50,
     justifyContent: 'center'
   },
   greyCheckOuterCircle: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
@@ -427,83 +422,48 @@ class ObservationEditor extends React.Component<
 
     return (
       <KeyboardAvoidingView style={styles.container}>
-        <View
-          style={{
-            backgroundColor: VERY_LIGHT_BLUE,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingTop: 10,
-            height: 65
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              paddingLeft: 10,
-              width: 70,
-              position: 'absolute',
-              top: 25,
-              left: 20
-            }}
-            underlayColor="rgba(0, 0, 0, 0.5)"
-            onPress={goBack}
-          >
-            <CloseIcon color="#9E9C9C" name="window-close" size={25} />
-          </TouchableOpacity>
-          <View style={{ marginTop: 6 }}>
-            <View
-              style={{
-                height: 35,
-                flexDirection: 'row',
-                alignItems: 'center',
-                backgroundColor: 'rgba(0, 0, 0, .8)',
-                borderRadius: 50,
-                paddingLeft: 13,
-                paddingRight: 15
-              }}
-            >
-              <View
-                style={{
-                  backgroundColor: '#7AFA4C',
-                  height: 10,
-                  width: 10,
-                  borderRadius: 50
-                }}
-              />
-              <Text style={{ color: WHITE, marginHorizontal: 20 }}>
-                {`+/- 100m`}
-              </Text>
-            </View>
-            <View style={styles.triangle} />
-          </View>
-          {showGreyCheck && (
-            <View style={styles.greyCheckOuterCircle}>
-              <View style={styles.greyCheck}>
-                <CheckIcon
-                  color="white"
-                  name="check"
-                  size={18}
-                  style={styles.checkIcon}
-                />
-              </View>
-            </View>
-          )}
-          {!showGreyCheck && (
+        <Header
+          leftIcon={
             <TouchableOpacity
-              style={styles.checkOuterCircle}
-              onPress={this.handleSaveObservation}
+              underlayColor="rgba(0, 0, 0, 0.5)"
+              onPress={goBack}
             >
-              <View style={styles.check}>
-                <CheckIcon
-                  color="white"
-                  name="check"
-                  size={18}
-                  style={styles.checkIcon}
-                />
-              </View>
+              <CloseIcon color="#9E9C9C" name="window-close" size={30} />
             </TouchableOpacity>
-          )}
-        </View>
+          }
+          rightIcon={
+            showGreyCheck ? (
+              <View style={styles.greyCheckOuterCircle}>
+                <View style={styles.greyCheck}>
+                  <CheckIcon
+                    color="white"
+                    name="check"
+                    size={18}
+                    style={styles.checkIcon}
+                  />
+                </View>
+              </View>
+            ) : (
+              <TouchableOpacity
+                style={styles.checkOuterCircle}
+                onPress={this.handleSaveObservation}
+              >
+                <View style={styles.check}>
+                  <CheckIcon
+                    color="white"
+                    name="check"
+                    size={18}
+                    style={styles.checkIcon}
+                  />
+                </View>
+              </TouchableOpacity>
+            )
+          }
+          showTriangle
+          style={{
+            backgroundColor: VERY_LIGHT_BLUE
+          }}
+        />
         <View
           style={{
             justifyContent: 'center',
