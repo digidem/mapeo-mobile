@@ -121,13 +121,15 @@ const ObservationCell = (props: Props) => {
                         resizeMode="contain"
                       />
                     )}
-                  {!!props.observation.icon && (
-                    <Image
-                      source={props.observation.icon}
-                      style={{ width: 30, height: 30 }}
-                      resizeMode="contain"
-                    />
-                  )}
+                  {(!props.observation.media.length ||
+                    props.observation.media[0].type !== 'LocalPhoto') &&
+                    !!props.observation.icon && (
+                      <Image
+                        source={props.observation.icon}
+                        style={{ width: 30, height: 30 }}
+                        resizeMode="contain"
+                      />
+                    )}
                 </View>
               )}
           </View>
