@@ -35,7 +35,9 @@
   "continue": "Continuar",
   "saving_image": "Guardar Imagen",
   "editor": {
-    "placeholder": "¿Que esta pasando aqui?"
+    "placeholder": "¿Que esta pasando aqui?",
+    "media_button": "Fotos y Videos",
+    "details_button": "Detalles"
   },
   "detail_view": {
     "km_away": "km de distancia",
