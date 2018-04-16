@@ -3543,6 +3543,10 @@ http-status-codes@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/http-status-codes/-/http-status-codes-1.3.0.tgz#9cd0e71391773d0671b489d41cbc5094aa4163b6"
 
+i18n-js@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/i18n-js/-/i18n-js-3.0.3.tgz#f537b2bd1e2801eee4f4728a17189ef0991c0270"
+
 iconv-lite@0.4.11:
   version "0.4.11"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.11.tgz#2ecb42fd294744922209a2e7c404dac8793d8ade"
@@ -5535,6 +5539,10 @@ react-lifecycles-compat@^1.0.2:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-1.1.0.tgz#6641d0709bd5505329b5c90322147ef2d343485c"
 
+react-lifecycles-compat@^2.0.0:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-2.0.2.tgz#00a23160eec17a43b94dd74f95d44a1a2c3c5ec1"
+
 react-native-camera@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-1.0.2.tgz#490e75b14196af0ec972a759bb6027693ad4aad6"
@@ -5565,6 +5573,16 @@ react-native-drawer@^2.5.0:
     prop-types "^15.5.8"
     tween-functions "^1.0.1"
 
+react-native-i18n@^2.0.12:
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/react-native-i18n/-/react-native-i18n-2.0.12.tgz#4a503cc73b2fe55e8518f6d4a1340d3b449d8d1a"
+  dependencies:
+    i18n-js "^3.0.3"
+
+react-native-locale-listener@^1.0.7:
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/react-native-locale-listener/-/react-native-locale-listener-1.0.24.tgz#2553ed51ecee3c9728cdba9876e94c8cebfbcbd4"
+
 react-native-node@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/react-native-node/-/react-native-node-3.3.0.tgz#c91a250de046e0c4625e82043d3c47881cae3d50"
@@ -5575,14 +5593,19 @@ react-native-node@^3.3.0:
     tar "^3.1.5"
     yargs "^8.0.2"
 
-react-native-paper@^1.2.4:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-1.2.5.tgz#3a4480ca967aae4b3e65a987116973dd012d1fa8"
+react-native-paper@^1.2.5:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-1.2.7.tgz#703c01305ad231351f40985be29ae92d2c553740"
   dependencies:
     color "^2.0.1"
     create-react-context "^0.2.1"
     deepmerge "^2.0.1"
     hoist-non-react-statics "^2.5.0"
+    react-lifecycles-compat "^2.0.0"
+
+react-native-restart@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-restart/-/react-native-restart-0.0.6.tgz#77770d078683947b2c1f2adb876f179269d8443a"
 
 react-native-safe-area-view@^0.7.0:
   version "0.7.0"
@@ -5590,15 +5613,15 @@ react-native-safe-area-view@^0.7.0:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
-react-native-tab-view@^0.0.74:
-  version "0.0.74"
-  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.74.tgz#62c0c882d9232b461ce181d440d683b4f99d1bd8"
-  dependencies:
-    prop-types "^15.6.0"
-
 react-native-tab-view@react-navigation/react-native-tab-view:
   version "0.0.74"
   resolved "https://codeload.github.com/react-navigation/react-native-tab-view/tar.gz/36ebd834d78b841fc19778c966465d02fd1213bb"
+  dependencies:
+    prop-types "^15.6.0"
+
+react-native-tab-view@~0.0.77:
+  version "0.0.77"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.77.tgz#11ceb8e7c23100d07e628dc151b57797524d00d4"
   dependencies:
     prop-types "^15.6.0"
 
@@ -5679,20 +5702,20 @@ react-navigation-redux-helpers@^1.0.1:
   dependencies:
     invariant "^2.2.2"
 
-react-navigation-tabs@0.1.0-alpha.3:
-  version "0.1.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/react-navigation-tabs/-/react-navigation-tabs-0.1.0-alpha.3.tgz#a68ace954e84206b7c3e6f5793f234d3931d03dc"
+react-navigation-tabs@0.1.0-alpha.6, react-navigation-tabs@^0.1.0-alpha.3:
+  version "0.1.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/react-navigation-tabs/-/react-navigation-tabs-0.1.0-alpha.6.tgz#2d10b41f8406e4be7b48f53df60c8f78fdd0c8fb"
   dependencies:
     hoist-non-react-statics "^2.5.0"
     prop-types "^15.6.0"
     react-lifecycles-compat "^1.0.2"
-    react-native-paper "^1.2.4"
+    react-native-paper "^1.2.5"
     react-native-safe-area-view "^0.7.0"
-    react-native-tab-view "^0.0.74"
+    react-native-tab-view "~0.0.77"
 
-react-navigation@^2.0.0-alpha.0:
-  version "2.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-2.0.0-beta.6.tgz#49777573f9a4f8f56c44a14f149797ee5da4241a"
+react-navigation@^2.0.0-beta.6:
+  version "2.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-2.0.0-rc.2.tgz#07e791145b0a8281ca1b6b1b582cfc9d91a79615"
   dependencies:
     clamp "^1.0.1"
     create-react-context "^0.2.1"
@@ -5703,7 +5726,7 @@ react-navigation@^2.0.0-alpha.0:
     react-native-drawer-layout-polyfill "^1.3.2"
     react-native-safe-area-view "^0.7.0"
     react-navigation-deprecated-tab-navigator "1.0.1"
-    react-navigation-tabs "0.1.0-alpha.3"
+    react-navigation-tabs "0.1.0-alpha.6"
 
 react-proxy@^1.1.7:
   version "1.1.8"
@@ -5828,6 +5851,10 @@ readable-stream@~2.0.0:
 redux-observable@^0.17.0:
   version "0.17.0"
   resolved "https://registry.yarnpkg.com/redux-observable/-/redux-observable-0.17.0.tgz#23e29e3f3c39204b7ed6a14b67a29e317c03106b"
+
+redux-persist@^5.9.1:
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-5.9.1.tgz#83bd4abd526ef768f63fceee338fa9d8ed6552d6"
 
 redux@^3.7.2:
   version "3.7.2"

@@ -21,6 +21,7 @@
 import React from 'react';
 import RNNode from 'react-native-node';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 import 'rxjs';
 import { configureStore } from './lib/store';
 import AppNavigation from './components/AppNavigation';
@@ -42,11 +43,13 @@ export default class App extends React.PureComponent<null, null> {
   }
 
   render() {
-    const store = configureStore();
+    const { store, persistor } = configureStore();
 
     return (
       <Provider store={store}>
-        <AppNavigation />
+        <PersistGate persistor={persistor}>
+          <AppNavigation />
+        </PersistGate>
       </Provider>
     );
   }

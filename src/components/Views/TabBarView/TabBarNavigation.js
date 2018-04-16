@@ -10,7 +10,8 @@ import {
   Text,
   Modal,
   Dimensions,
-  ImageBackground
+  ImageBackground,
+  Image
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import moment from 'moment';
@@ -30,6 +31,7 @@ import {
 } from '../../../lib/styles';
 import CategoryPin from '../../../images/category-pin.png';
 import { tabBarAddListener } from '../../../lib/store';
+import Header from '../../Base/Header/Header';
 
 const styles = StyleSheet.create({
   buttonText: {
@@ -124,7 +126,6 @@ export type StateProps = {
 };
 
 type State = {
-  loading: boolean,
   showModal: boolean,
   showCamera: boolean
 };
@@ -138,7 +139,6 @@ I18n.translations = {
 class TabBarNavigation extends React.Component<Props & StateProps, State> {
   state = {
     showModal: false,
-    loading: true,
     showCamera: false
   };
 
@@ -146,7 +146,6 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
     this.timeout = setTimeout(
       () =>
         this.setState({
-          loading: false,
           showModal: false
         }),
       2000
@@ -184,7 +183,6 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
 
   setModalVisible(visible: boolean) {
     this.setState({
-      loading: false,
       showModal: visible
     });
   }
@@ -223,7 +221,7 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
 
   render() {
     const { dispatch, navigationState, selectedObservation } = this.props;
-    const { loading, showModal, showCamera } = this.state;
+    const { showModal, showCamera } = this.state;
 
     return (
       <Drawer
@@ -233,72 +231,31 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
         side="right"
         type="displace"
       >
-        <View
+        <Header
+          leftIcon={
+            !showCamera ? (
+              <TouchableOpacity onPress={this.goToCameraView}>
+                <Icon color={WHITE} name="photo-camera" size={30} />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={this.goToMapView}>
+                <Icon color={WHITE} name="map" size={30} />
+              </TouchableOpacity>
+            )
+          }
+          rightIcon={
+            <TouchableOpacity onPress={this.openRightDrawer}>
+              <CollectionsImg color={WHITE} name="collections" size={30} />
+            </TouchableOpacity>
+          }
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            height: 60,
             position: 'absolute',
             top: 0,
             left: 0,
             right: 0,
-            marginHorizontal: 15,
             zIndex: 5
           }}
-        >
-          {!showCamera && (
-            <TouchableOpacity onPress={this.goToCameraView}>
-              <Icon color={WHITE} name="photo-camera" size={30} />
-            </TouchableOpacity>
-          )}
-          {showCamera && (
-            <TouchableOpacity onPress={this.goToMapView}>
-              <Icon color={WHITE} name="map" size={30} />
-            </TouchableOpacity>
-          )}
-          <View
-            style={{
-              height: 35,
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: 'rgba(0, 0, 0, .8)',
-              borderRadius: 50,
-              paddingLeft: loading ? 7 : 13,
-              paddingRight: 15
-            }}
-          >
-            {loading && (
-              <ActivityIndicator
-                style={{ height: 30, width: 30 }}
-                color={MAPEO_BLUE}
-              />
-            )}
-            {loading && (
-              <Text style={{ color: WHITE, marginLeft: 5 }}>
-                GPS: {I18n.t('loading')}
-              </Text>
-            )}
-            {!loading && (
-              <View
-                style={{
-                  backgroundColor: '#7AFA4C',
-                  height: 10,
-                  width: 10,
-                  borderRadius: 50
-                }}
-              />
-            )}
-            {!loading && (
-              <Text style={{ color: WHITE, marginLeft: 10 }}>
-                GPS: {I18n.t('strong')}
-              </Text>
-            )}
-          </View>
-          <TouchableOpacity onPress={this.openRightDrawer}>
-            <CollectionsImg color={WHITE} name="collections" size={30} />
-          </TouchableOpacity>
-        </View>
+        />
         {selectedObservation && (
           <Modal
             animation="slide"
@@ -334,7 +291,13 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
                   >
                     {selectedObservation && (
                       <View style={{ marginTop: -10 }}>
-                        {selectedObservation.icon}
+                        {selectedObservation.icon && (
+                          <Image
+                            source={selectedObservation.icon}
+                            style={{ width: 30, height: 30 }}
+                            resizeMode="contain"
+                          />
+                        )}
                       </View>
                     )}
                   </ImageBackground>

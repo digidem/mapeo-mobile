@@ -1,4 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import {
   createReactNavigationReduxMiddleware,
   createReduxBoundAddListener
@@ -19,13 +22,20 @@ const mainStackMiddleware = createReactNavigationReduxMiddleware(
 export const tabBarAddListener = createReduxBoundAddListener('tabBar');
 export const mainStackAddListener = createReduxBoundAddListener('mainStack');
 
+const persistConfig = {
+  key: 'root',
+  storage,
+  stateReconciler: autoMergeLevel2 // see "Merge Process" section for details.
+};
+
 export function configureStore() {
   const store = createStore(
-    rootReducer,
+    persistReducer(persistConfig, rootReducer),
     applyMiddleware(mainStackMiddleware, epicMiddleware, tabBarMiddleware)
   );
+  const persistor = persistStore(store);
 
-  return store;
+  return { store, persistor };
 }
 
 export function createInitialStore() {
