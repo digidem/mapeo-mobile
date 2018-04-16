@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   View,
   FlatList,
-  Dimensions
+  Dimensions,
+  Image
 } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
 import CheckIcon from 'react-native-vector-icons/Octicons';
@@ -168,7 +169,15 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
       }}
     >
       <View style={styles.cell}>
-        <View style={styles.circle}>{item.icon}</View>
+        {!!item.icon && (
+          <View style={styles.circle}>
+            <Image
+              source={item.icon}
+              style={{ width: 30, height: 30 }}
+              resizeMode="contain"
+            />
+          </View>
+        )}
         <Text style={styles.categoryName}>
           {I18n.t(`categories.${item.id}`)}
         </Text>

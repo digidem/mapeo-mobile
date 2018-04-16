@@ -10,203 +10,83 @@ import type { Category } from '../types/category';
 const initialCategories = [
   {
     name: 'Rivers and streams',
-    icon: (
-      <Image
-        source={require('../images/categories/category_0.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_0.png')
   },
   {
     name: 'Tunnels / caves',
-    icon: (
-      <Image
-        source={require('../images/categories/category_1.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_1.png')
   },
   {
     name: 'Hunting sites',
-    icon: (
-      <Image
-        source={require('../images/categories/category_2.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_2.png')
   },
   {
     name: 'Fishing sites',
-    icon: (
-      <Image
-        source={require('../images/categories/category_3.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_3.png')
   },
   {
     name: 'Old houses and farms',
-    icon: (
-      <Image
-        source={require('../images/categories/category_4.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_4.png')
   },
   {
     name: 'Burial sites',
-    icon: (
-      <Image
-        source={require('../images/categories/category_5.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_5.png')
   },
   {
     name: 'Medicinal plants',
-    icon: (
-      <Image
-        source={require('../images/categories/category_6.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_6.png')
   },
   {
     name: 'Resources for artesania',
-    icon: (
-      <Image
-        source={require('../images/categories/category_7.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_7.png')
   },
   {
     name: 'Gold',
-    icon: (
-      <Image
-        source={require('../images/categories/category_8.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_8.png')
   },
   {
     name: 'Planted fruit trees',
-    icon: (
-      <Image
-        source={require('../images/categories/category_9.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_9.png')
   },
   {
     name: 'Yoko',
-    icon: (
-      <Image
-        source={require('../images/categories/category_10.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_10.png')
   },
   {
     name: 'Yage',
-    icon: (
-      <Image
-        source={require('../images/categories/category_11.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_11.png')
   },
   {
     name: 'Invisible people',
-    icon: (
-      <Image
-        source={require('../images/categories/category_12.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_12.png')
   },
   {
     name: 'Waterfalls',
-    icon: (
-      <Image
-        source={require('../images/categories/category_13.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_13.png')
   },
   {
     name: 'Hills and mountains (sacred)',
-    icon: (
-      <Image
-        source={require('../images/categories/category_14.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_14.png')
   },
   {
     name: 'Huge special trees',
-    icon: (
-      <Image
-        source={require('../images/categories/category_15.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_15.png')
   },
   {
     name: 'Boas',
-    icon: (
-      <Image
-        source={require('../images/categories/category_16.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_16.png')
   },
   {
     name: 'Historical sites',
-    icon: (
-      <Image
-        source={require('../images/categories/category_17.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_17.png')
   },
   {
     name: 'Plants and animals in danger of extinction',
-    icon: (
-      <Image
-        source={require('../images/categories/category_18.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_18.png')
   },
   {
     name: 'Threat',
-    icon: (
-      <Image
-        source={require('../images/categories/category_18.png')}
-        style={{ width: 30, height: 30 }}
-        resizeMode="contain"
-      />
-    )
+    icon: require('../images/categories/category_18.png')
   }
 ];
 

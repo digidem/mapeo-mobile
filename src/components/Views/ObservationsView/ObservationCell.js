@@ -104,25 +104,32 @@ const ObservationCell = (props: Props) => {
       <View style={styles.container}>
         <View style={styles.circle}>
           <View style={styles.innerCircle}>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: 7
-              }}
-            >
-              {props.observation &&
-              !!props.observation.media.length &&
-              props.observation.media[0].type === 'LocalPhoto' ? (
-                <Image
-                  source={props.observation.icon}
-                  style={{ width: 25, height: 25 }}
-                  resizeMode="contain"
-                />
-              ) : (
-                props.observation.icon
+            {!!props.observation &&
+              !!props.observation.icon && (
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginTop: 7
+                  }}
+                >
+                  {!!props.observation.media.length &&
+                    props.observation.media[0].type === 'LocalPhoto' && (
+                      <Image
+                        source={props.observation.icon}
+                        style={{ width: 25, height: 25 }}
+                        resizeMode="contain"
+                      />
+                    )}
+                  {!!props.observation.icon && (
+                    <Image
+                      source={props.observation.icon}
+                      style={{ width: 30, height: 30 }}
+                      resizeMode="contain"
+                    />
+                  )}
+                </View>
               )}
-            </View>
           </View>
         </View>
         <View style={styles.text}>

@@ -10,7 +10,8 @@ import {
   Text,
   Modal,
   Dimensions,
-  ImageBackground
+  ImageBackground,
+  Image
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import moment from 'moment';
@@ -334,7 +335,13 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
                   >
                     {selectedObservation && (
                       <View style={{ marginTop: -10 }}>
-                        {selectedObservation.icon}
+                        {selectedObservation.icon && (
+                          <Image
+                            source={selectedObservation.icon}
+                            style={{ width: 30, height: 30 }}
+                            resizeMode="contain"
+                          />
+                        )}
                       </View>
                     )}
                   </ImageBackground>
