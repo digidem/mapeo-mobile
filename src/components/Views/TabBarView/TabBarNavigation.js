@@ -21,7 +21,7 @@ import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
 import ObservationsView from '../../Views/ObservationsView';
 import MapView from '../MapView';
-import CameraView from '../CameraView';
+import CameraView from '../CameraMainView';
 import {
   WHITE,
   MAPEO_BLUE,

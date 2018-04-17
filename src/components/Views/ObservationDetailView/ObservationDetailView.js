@@ -228,7 +228,7 @@ class ObservationDetailView extends React.Component<
 
   render() {
     const { selectedObservation, goToPhotoView, goBack } = this.props;
-    const keyExtractor = item => item.source;
+    const keyExtractor = item => item.source.toString();
     let mediaText = '';
     const thereIsMedia =
       selectedObservation &&
@@ -259,17 +259,11 @@ class ObservationDetailView extends React.Component<
             </TouchableOpacity>
             <Image source={CategoryPin} style={styles.categoryPin} />
             <View style={styles.categoryIconContainer}>
-              {selectedObservation &&
-              !!selectedObservation.media.length &&
-              selectedObservation.media[0].type === 'LocalPhoto' ? (
-                <Image
-                  source={selectedObservation.icon}
-                  style={{ width: 25, height: 25 }}
-                  resizeMode="contain"
-                />
-              ) : (
-                selectedObservation.icon
-              )}
+              <Image
+                source={selectedObservation.icon}
+                style={{ width: 25, height: 25 }}
+                resizeMode="contain"
+              />
             </View>
             <Text style={styles.title}>
               {I18n.t(`categories.${selectedObservation.categoryId}`)}

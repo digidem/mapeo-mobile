@@ -472,15 +472,17 @@ class ObservationEditor extends React.Component<
             backgroundColor: VERY_LIGHT_BLUE
           }}
         >
-          <View style={styles.circle}>
-            {selectedObservation.icon && (
-              <Image
-                source={selectedObservation.icon}
-                style={{ width: 30, height: 30 }}
-                resizeMode="contain"
-              />
-            )}
-          </View>
+          <TouchableOpacity onPress={goBack}>
+            <View style={styles.circle}>
+              {selectedObservation.icon && (
+                <Image
+                  source={selectedObservation.icon}
+                  style={{ width: 30, height: 30 }}
+                  resizeMode="contain"
+                />
+              )}
+            </View>
+          </TouchableOpacity>
           <View style={{ marginTop: 5, flexDirection: 'row' }}>
             <LocationPin color={MANGO} name="location-pin" size={15} />
             <Text style={styles.categoryPositionText}>{positionText}</Text>
