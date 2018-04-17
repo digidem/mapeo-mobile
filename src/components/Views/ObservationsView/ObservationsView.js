@@ -54,8 +54,64 @@ const styles = StyleSheet.create({
   closeDrawerButton: {
     backgroundColor: 'transparent'
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 65,
+    paddingHorizontal: 15,
+    backgroundColor: 'white'
+  },
+  headerBottom: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    backgroundColor: '#f7f7f7',
+    borderColor: LIGHT_GREY,
+    borderTopWidth: 1,
+    borderBottomWidth: 1
+  },
   leftChevron: {
     justifyContent: 'center'
+  },
+  syncButtonInnerCircle: {
+    alignSelf: 'center',
+    backgroundColor: LIGHT_GREY,
+    height: 30,
+    width: 30,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  syncButtonOuterCircle: {
+    width: 35,
+    height: 35,
+    backgroundColor: '#d6d2cf',
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  syncTipContainer: {
+    zIndex: 5,
+    position: 'absolute',
+    top: 50,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    shadowColor: 'black',
+    shadowRadius: 100,
+    shadowOpacity: 6,
+    shadowOffset: { width: 0, height: 100 },
+    elevation: 3
+  },
+  syncTipInnerContainer: {
+    height: 35,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: MAPEO_BLUE,
+    borderRadius: 8,
+    paddingHorizontal: 5,
+    marginTop: 7
   },
   triangle: {
     position: 'absolute',
@@ -151,16 +207,7 @@ class ObservationsView extends React.Component<
                 flexDirection: 'column'
               }}
             >
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  height: 65,
-                  paddingHorizontal: 15,
-                  backgroundColor: 'white'
-                }}
-              >
+              <View style={styles.header}>
                 <TouchableOpacity
                   onPress={this.props.closeRightDrawer}
                   style={styles.closeDrawerButton}
@@ -172,27 +219,8 @@ class ObservationsView extends React.Component<
                     flexDirection: 'column'
                   }}
                 >
-                  <TouchableOpacity
-                    style={{
-                      width: 35,
-                      height: 35,
-                      backgroundColor: '#d6d2cf',
-                      borderRadius: 50,
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <View
-                      style={{
-                        alignSelf: 'center',
-                        backgroundColor: LIGHT_GREY,
-                        height: 30,
-                        width: 30,
-                        borderRadius: 50,
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                      }}
-                    >
+                  <TouchableOpacity style={styles.syncButtonOuterCircle}>
+                    <View style={styles.syncButtonInnerCircle}>
                       <SyncIcon
                         color={WHITE}
                         name="bolt"
@@ -206,18 +234,7 @@ class ObservationsView extends React.Component<
                   <SettingsIcon color="#a5a5a4" name="settings" size={30} />
                 </TouchableOpacity>
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  backgroundColor: '#f7f7f7',
-                  borderColor: LIGHT_GREY,
-                  borderTopWidth: 1,
-                  borderBottomWidth: 1
-                }}
-              >
+              <View style={styles.headerBottom}>
                 <Text
                   style={{ fontWeight: '700', fontSize: 12, color: 'black' }}
                 >
@@ -228,31 +245,8 @@ class ObservationsView extends React.Component<
                 </Text>
               </View>
               {this.state.showSyncTip ? (
-                <View
-                  style={{
-                    zIndex: 5,
-                    position: 'absolute',
-                    top: 50,
-                    justifyContent: 'center',
-                    alignSelf: 'center',
-                    shadowColor: 'black',
-                    shadowRadius: 100,
-                    shadowOpacity: 6,
-                    shadowOffset: { width: 0, height: 100 },
-                    elevation: 3
-                  }}
-                >
-                  <View
-                    style={{
-                      height: 35,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      backgroundColor: MAPEO_BLUE,
-                      borderRadius: 8,
-                      paddingHorizontal: 5,
-                      marginTop: 7
-                    }}
-                  >
+                <View style={styles.syncTipContainer}>
+                  <View style={styles.syncTipInnerContainer}>
                     <Text style={{ color: WHITE, marginHorizontal: 20 }}>
                       {I18n.t('observations.sync')}
                     </Text>

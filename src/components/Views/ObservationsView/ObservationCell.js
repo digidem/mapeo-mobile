@@ -60,6 +60,22 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     elevation: 3
   },
+  circleWithMedia: {
+    position: 'absolute',
+    right: 0,
+    bottom: -5,
+    width: 25,
+    height: 25,
+    zIndex: 5
+  },
+  icon: {
+    width: 15,
+    height: 15
+  },
+  iconWithMedia: {
+    width: 12,
+    height: 12
+  },
   innerCircle: {
     width: 40,
     height: 40,
@@ -139,21 +155,7 @@ const ObservationCell = (props: Props) => {
               style={styles.media}
             />
           )}
-          <View
-            style={[
-              styles.circle,
-              hasMedia
-                ? {
-                    position: 'absolute',
-                    right: 0,
-                    bottom: -5,
-                    width: 25,
-                    height: 25,
-                    zIndex: 5
-                  }
-                : {}
-            ]}
-          >
+          <View style={[styles.circle, hasMedia ? styles.circleWithMedia : {}]}>
             {!!props.observation &&
               !!props.observation.icon && (
                 <View
@@ -164,11 +166,7 @@ const ObservationCell = (props: Props) => {
                 >
                   <Image
                     source={props.observation.icon}
-                    style={
-                      hasMedia
-                        ? { width: 12, height: 12 }
-                        : { width: 25, height: 25 }
-                    }
+                    style={hasMedia ? styles.iconWithMedia : styles.icon}
                     resizeMode="contain"
                   />
                 </View>
