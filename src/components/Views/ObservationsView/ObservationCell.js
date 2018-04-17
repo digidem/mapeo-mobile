@@ -14,6 +14,7 @@ import type { Observation } from '../../../types/observation';
 import { LIGHT_GREY } from '../../../lib/styles';
 
 export type Props = {
+  currentLocale: string,
   observation: Observation,
   onPress: (i: Observation) => void
 };
@@ -27,8 +28,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomColor: LIGHT_GREY,
     borderBottomWidth: 1,
-    width: Dimensions.get('window').width - 40,
-    paddingHorizontal: 30
+    width: Dimensions.get('window').width,
+    paddingHorizontal: 20
   },
   header: {
     fontSize: 20,
@@ -52,10 +53,28 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 15,
-    shadowColor: 'red',
+    marginRight: -5,
+    shadowColor: 'black',
     shadowRadius: 10,
-    shadowOpacity: 1
+    shadowOpacity: 1,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3
+  },
+  circleWithMedia: {
+    position: 'absolute',
+    right: 0,
+    bottom: -5,
+    width: 25,
+    height: 25,
+    zIndex: 5
+  },
+  icon: {
+    width: 15,
+    height: 15
+  },
+  iconWithMedia: {
+    width: 12,
+    height: 12
   },
   innerCircle: {
     width: 40,
@@ -64,7 +83,7 @@ const styles = StyleSheet.create({
     borderRadius: 50
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
     color: 'black'
   },
@@ -87,67 +106,46 @@ I18n.translations = {
 };
 
 const ObservationCell = (props: Props) => {
-  const dateString = moment(props.observation.created).calendar(null, {
-    sameDay: '[Today], h:mm A',
-    nextDay: '[Tomorrow], h:mm A',
-    nextWeek: 'ddd, h:mm A',
-    lastDay: '[Yesterday], h:mm A',
-    lastWeek: '[Last] ddd, h:mm A',
-    sameElse: 'MMM D YYYY, h:mm A'
-  });
+  const esLocale = require('moment/locale/es');
+  const currentLocale = props.currentLocale;
+  let dateString;
+  if (currentLocale.includes('es') || moment.locale() === 'es') {
+    moment.updateLocale('es', esLocale);
+    dateString = moment(props.observation.created).calendar(null, {
+      sameDay: '[Hoy], h:mm A',
+      nextDay: '[Mañana], h:mm A',
+      nextWeek: 'ddd, h:mm A',
+      lastDay: '[Ayer], h:mm A',
+      lastWeek: 'ddd, h:mm A',
+      sameElse: 'MM/D/YYYY, h:mm A'
+    });
+  } else {
+    moment.updateLocale('en');
+    dateString = moment(props.observation.created).calendar(null, {
+      sameDay: '[Today], h:mm A',
+      nextDay: '[Tomorrow], h:mm A',
+      nextWeek: 'ddd, h:mm A',
+      lastDay: '[Yesterday], h:mm A',
+      lastWeek: 'ddd, h:mm A',
+      sameElse: 'MM/D/YYYY, h:mm A'
+    });
+  }
+
   const handlePress = () => {
     props.onPress(props.observation);
   };
 
+  const hasMedia = props.observation && !!props.observation.media.length;
+
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.container}>
-        <View style={styles.circle}>
-          <View style={styles.innerCircle}>
-            {!!props.observation &&
-              !!props.observation.icon && (
-                <View
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginTop: 7
-                  }}
-                >
-                  {!!props.observation.media.length &&
-                    props.observation.media[0].type === 'LocalPhoto' && (
-                      <Image
-                        source={props.observation.icon}
-                        style={{ width: 25, height: 25 }}
-                        resizeMode="contain"
-                      />
-                    )}
-                  {(!props.observation.media.length ||
-                    props.observation.media[0].type !== 'LocalPhoto') &&
-                    !!props.observation.icon && (
-                      <Image
-                        source={props.observation.icon}
-                        style={{ width: 30, height: 30 }}
-                        resizeMode="contain"
-                      />
-                    )}
-                </View>
-              )}
-          </View>
-        </View>
         <View style={styles.text}>
-          <Text
-            style={
-              props.observation.name.length > 20
-                ? styles.titleLong
-                : styles.title
-            }
-          >
-            {I18n.t(`categories.${props.observation.categoryId}`)}
-          </Text>
-          <Text>{dateString}</Text>
+          <Text style={styles.title}>{dateString}</Text>
+          <Text>{I18n.t(`categories.${props.observation.categoryId}`)}</Text>
         </View>
-        {props.observation &&
-          !!props.observation.media.length && (
+        <View style={{ flexDirection: 'column' }}>
+          {hasMedia && (
             <Image
               source={
                 props.observation.media[0].type === 'LocalPhoto'
@@ -157,6 +155,24 @@ const ObservationCell = (props: Props) => {
               style={styles.media}
             />
           )}
+          <View style={[styles.circle, hasMedia ? styles.circleWithMedia : {}]}>
+            {!!props.observation &&
+              !!props.observation.icon && (
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <Image
+                    source={props.observation.icon}
+                    style={hasMedia ? styles.iconWithMedia : styles.icon}
+                    resizeMode="contain"
+                  />
+                </View>
+              )}
+          </View>
+        </View>
       </View>
     </TouchableOpacity>
   );

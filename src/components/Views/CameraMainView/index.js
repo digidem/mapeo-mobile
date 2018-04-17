@@ -7,8 +7,8 @@ import {
   observationUpdate
 } from '../../../ducks/observations';
 import type { StoreState } from '../../../types/redux';
-import CameraTabView from './CameraTabView';
-import type { StateProps, DispatchProps } from './CameraTabView';
+import CameraMainView from './CameraMainView';
+import type { StateProps, DispatchProps } from './CameraMainView';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
@@ -28,4 +28,4 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CameraTabView);
+export default connect(mapStateToProps, mapDispatchToProps)(CameraMainView);

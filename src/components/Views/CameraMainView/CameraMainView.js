@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
   },
   capture: {
     alignSelf: 'center',
-    marginTop: 385
+    position: 'absolute',
+    bottom: 7
   },
   preview: {
     flex: 1,
@@ -70,7 +71,7 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class CameraTabView extends React.Component<
+class CameraMainView extends React.Component<
   Props & StateProps & DispatchProps,
   State
 > {
@@ -214,4 +215,4 @@ class CameraTabView extends React.Component<
   }
 }
 
-export default withNavigationFocus(CameraTabView);
+export default withNavigationFocus(CameraMainView);
