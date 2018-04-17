@@ -244,7 +244,7 @@ class ObservationsView extends React.Component<
                   {I18n.t('observations.view_by')}
                 </Text>
               </View>
-              {this.state.showSyncTip ? (
+              {!!this.state.showSyncTip && (
                 <View style={styles.syncTipContainer}>
                   <View style={styles.syncTipInnerContainer}>
                     <Text style={{ color: WHITE, marginHorizontal: 20 }}>
@@ -253,7 +253,7 @@ class ObservationsView extends React.Component<
                   </View>
                   <View style={styles.triangle} />
                 </View>
-              ) : null}
+              )}
             </View>
           }
           style={{ width: Dimensions.get('window').width }}
