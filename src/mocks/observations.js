@@ -2,7 +2,7 @@
 
 export const createObservation = (observation?: any) => ({
   type: 'Observation',
-  id: 'ObservationID',
+  id: 1,
   lat: 50.5,
   lon: 50.5,
   link: 'linkID',
@@ -12,8 +12,8 @@ export const createObservation = (observation?: any) => ({
     'This is pretty bad. It smells pretty noxious, and the entire pond is affected.',
   observedBy: 'You',
   media: [],
-  icon: null,
-  categoryId: null,
+  icon: require('../images/categories/category_18.png'),
+  categoryId: 19,
 
   ...observation
 });

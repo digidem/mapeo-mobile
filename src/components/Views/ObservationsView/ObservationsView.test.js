@@ -1,0 +1,30 @@
+// @flow
+import React from 'react';
+import 'react-native';
+import renderer from 'react-test-renderer';
+import { NavigationActions } from 'react-navigation';
+import ObservationsView from './ObservationsView';
+import { createObservation } from '../../../mocks/observations';
+
+describe('ObservationsView tests', () => {
+  const closeRightDrawer = jest.fn();
+  const observation = createObservation();
+  const cases = [observation];
+  jest.mock('./ObservationCell', () => 'mock-observation-cell');
+
+  beforeEach(() => {
+    closeRightDrawer.mockReset();
+  });
+
+  test('snapshots', () => {
+    let tree;
+    tree = renderer.create(
+      <ObservationsView
+        closeRightDrawer={closeRightDrawer}
+        navigation={NavigationActions}
+        observations={cases}
+      />
+    );
+    expect(tree).toMatchSnapshot();
+  });
+});

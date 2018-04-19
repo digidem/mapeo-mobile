@@ -18,7 +18,11 @@ describe('ObservationCell tests', () => {
     let tree;
     cases.forEach(props => {
       tree = renderer.create(
-        <ObservationCell observation={props.observation} onPress={onPress} />
+        <ObservationCell
+          currentLocale="es"
+          observation={props.observation}
+          onPress={onPress}
+        />
       );
       expect(tree).toMatchSnapshot();
     });
