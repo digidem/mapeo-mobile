@@ -2,10 +2,12 @@ package com.mapeomobile;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.mapbox.rctmgl.RCTMGLPackage;
+import io.fabric.sdk.android.Fabric;
 import org.reactnative.camera.RNCameraPackage;
 import com.staltz.reactnativenode.RNNodePackage;
 import com.mapbox.rctmgl.RCTMGLPackage;
@@ -51,6 +53,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    Fabric.with(this, new Crashlytics());
     SoLoader.init(this, /* native exopackage */ false);
   }
 }
