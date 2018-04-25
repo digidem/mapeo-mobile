@@ -9,7 +9,7 @@ import CameraView from '../Views/CameraView';
 import PhotoView from '../Views/PhotoView';
 import ObservationDetailView from '../Views/ObservationDetailView';
 import PreferencesView from '../Views/PreferencesView/PreferencesView';
-import TabBarNavigation from '../Views/TabBarView';
+import TabBarNavigation from '../Views/TabBarNavigation';
 
 const routeConfiguration = {
   Categories: { screen: Categories },

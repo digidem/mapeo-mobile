@@ -1,4 +1,5 @@
 // @flow
+import moment from 'moment';
 
 export const createObservation = (observation?: any) => ({
   type: 'Observation',
@@ -6,7 +7,7 @@ export const createObservation = (observation?: any) => ({
   lat: 50.5,
   lon: 50.5,
   link: 'linkID',
-  created: 'Thu Mar 01 2018 23:06:45 GMT+0200 (CEST)',
+  created: moment('2018-03-25 19:30'),
   name: 'Oil Spill',
   notes:
     'This is pretty bad. It smells pretty noxious, and the entire pond is affected.',

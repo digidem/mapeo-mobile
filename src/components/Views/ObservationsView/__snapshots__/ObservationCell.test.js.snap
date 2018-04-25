@@ -63,7 +63,7 @@ exports[`ObservationCell tests snapshots 1`] = `
           }
         }
       >
-        03/1/2018, 1:06 PM
+        03/25/2018, 7:30 PM
       </Text>
       <Text
         accessible={true}

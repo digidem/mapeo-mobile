@@ -14,6 +14,7 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '@types/observation';
 import { isEmpty, size, map, filter } from 'lodash';
+import moment from 'moment';
 import env from '../../../../env.json';
 
 import AddButton from '../../../images/add-button.png';
@@ -136,7 +137,7 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
       lat: 0,
       lon: 0,
       link: 'link',
-      created: new Date(),
+      created: moment(),
       name: '',
       notes: '',
       observedBy: 'You',
@@ -190,7 +191,7 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
       lat: coordinates[1],
       lon: coordinates[0],
       link: 'link',
-      created: new Date(),
+      created: moment(),
       name: '',
       notes: '',
       observedBy: 'user',

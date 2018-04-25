@@ -16,6 +16,7 @@
     "immutability-helper": "^2.6.4",
     "moment": "^2.20.1",
     "react": "16.0.0",
+    "react-dom": "^16.3.2",
     "react-native": "^0.55.2",
     "react-native-camera": "^1.0.2",
     "react-native-drawer": "^2.5.0",
@@ -39,6 +40,9 @@
     "babel-jest": "21.2.0",
     "babel-plugin-module-resolver": "^3.0.0",
     "babel-preset-react-native": "4.0.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.3",
     "eslint": "^4.15.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-prettier": "^2.9.0",
@@ -70,6 +74,9 @@
   },
   "jest": {
     "preset": "react-native",
+    "setupFiles": [
+      "<rootDir>/src/setupTests.js"
+    ],
     "testPathIgnorePatterns": [
       "/benchmark"
     ],

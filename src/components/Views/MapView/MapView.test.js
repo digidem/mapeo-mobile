@@ -2,18 +2,18 @@
 import React from 'react';
 import 'react-native';
 import renderer from 'react-test-renderer';
-import ObservationEditor from './ObservationEditor';
+import MapView from './MapView';
 import { createObservation } from '../../../mocks/observations';
 
-describe('ObservationEditor tests', () => {
-  const observation = createObservation();
-  const isFocused = () => true;
-  const addListener = () => true;
-
+describe('MapView tests', () => {
   test('snapshots', () => {
+    const observation = createObservation();
+    const isFocused = () => true;
+    const addListener = () => true;
+
     let tree;
-    tree = renderer.create(
-      <ObservationEditor
+    tree = shallow(
+      <MapView
         navigation={{ isFocused, addListener }}
         selectedObservation={observation}
       />
