@@ -11,8 +11,7 @@ describe('TabBarNavigation tests', () => {
     const isFocused = () => true;
     const addListener = () => true;
 
-    let tree;
-    tree = shallow(
+    const tree = shallow(
       <TabBarNavigation navigation={{ isFocused, addListener }} />
     ).dive();
     expect(tree).toMatchSnapshot();

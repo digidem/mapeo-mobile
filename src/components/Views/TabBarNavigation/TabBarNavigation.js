@@ -43,10 +43,9 @@ const styles = StyleSheet.create({
   categoryContainer: {
     flex: 3,
     backgroundColor: VERY_LIGHT_BLUE,
-    borderColor: LIGHT_GREY,
-    borderBottomWidth: 1,
     alignSelf: 'stretch',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderRadius: 20
   },
   categoryPin: {
     width: 80,
@@ -59,15 +58,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     width: Dimensions.get('window').width * 0.8,
-    height: Dimensions.get('window').height * 0.7,
+    height: Dimensions.get('window').height * 0.5,
     backgroundColor: 'white',
-    marginTop: 50,
     borderRadius: 20
-  },
-  continueContainer: {
-    flex: 1,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
   },
   date: {
     color: MEDIUM_GREY,
@@ -143,13 +136,9 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
   };
 
   componentDidMount() {
-    this.timeout = setTimeout(
-      () =>
-        this.setState({
-          showModal: false
-        }),
-      2000
-    );
+    this.setState({
+      showModal: false
+    });
   }
 
   componentWillReceiveProps(nextProps: Props & StateProps) {
@@ -160,8 +149,14 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
         navigation.state.params &&
         navigation.state.params.showModal
       );
-      if (shouldShowModal !== this.state.showModal) {
-        this.setState({ showModal: shouldShowModal });
+      if (shouldShowModal) {
+        this.timeout = setTimeout(
+          () =>
+            this.setState({
+              showModal: true
+            }),
+          2000
+        );
       }
     }
   }
@@ -261,14 +256,14 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
             animation="slide"
             transparent
             visible={this.state.showModal}
-            onRequestClose={() => {
-              alert('Modal closed');
-            }}
+            onRequestClose={() => {}}
           >
             <View
               style={{
                 backgroundColor: 'rgba(52, 52, 52, 0.8)',
-                flex: 1
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center'
               }}
             >
               <View style={styles.confirmationModal}>
@@ -324,16 +319,6 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
                       )}
                     </Text>
                   </View>
-                </View>
-                <View style={styles.continueContainer}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.setModalVisible(!showModal);
-                      this.props.navigation.setParams({ showModal: false });
-                    }}
-                  >
-                    <Text style={styles.buttonText}>{I18n.t('continue')}</Text>
-                  </TouchableOpacity>
                 </View>
               </View>
             </View>

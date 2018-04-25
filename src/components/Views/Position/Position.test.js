@@ -11,8 +11,7 @@ describe('Position tests', () => {
     const isFocused = () => true;
     const addListener = () => true;
 
-    let tree;
-    tree = renderer.create(
+    const tree = renderer.create(
       <Position
         navigation={{ isFocused, addListener }}
         selectedObservation={observation}

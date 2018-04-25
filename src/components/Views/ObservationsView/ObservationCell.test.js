@@ -27,4 +27,21 @@ describe('ObservationCell tests', () => {
       expect(tree).toMatchSnapshot();
     });
   });
+
+  test('should call onPress with the observation when pressed', () => {
+    const observation = createObservation();
+    const tree = shallow(
+      <ObservationCell
+        currentLocale="es"
+        observation={observation}
+        onPress={onPress}
+      />
+    );
+    tree
+      .find('TouchableOpacity')
+      .first()
+      .props()
+      .onPress();
+    expect(onPress).toHaveBeenCalledWith(observation);
+  });
 });

@@ -10,9 +10,8 @@ describe('ObservationEditor tests', () => {
   const isFocused = () => true;
   const addListener = () => true;
 
-  test('snapshots', () => {
-    let tree;
-    tree = renderer.create(
+  test('snapshot', () => {
+    const tree = renderer.create(
       <ObservationEditor
         navigation={{ isFocused, addListener }}
         selectedObservation={observation}

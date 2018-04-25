@@ -6,13 +6,12 @@ import PhotoView from './PhotoView';
 import { createObservation } from '../../../mocks/observations';
 
 describe('PhotoView tests', () => {
-  test('snapshots', () => {
+  test('snapshot', () => {
     const observation = createObservation();
     const isFocused = () => true;
     const addListener = () => true;
 
-    let tree;
-    tree = renderer.create(
+    const tree = renderer.create(
       <PhotoView
         navigation={{ isFocused, addListener }}
         selectedObservation={observation}

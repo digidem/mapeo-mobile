@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ObservationsView tests snapshots 1`] = `
+exports[`ObservationsView tests snapshot 1`] = `
 <View
   style={
     Object {

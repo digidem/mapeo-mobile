@@ -16,9 +16,8 @@ describe('Categories tests', () => {
     const React = require('React');
   });
 
-  test('snapshots', () => {
-    let tree;
-    tree = shallow(
+  test('snapshot', () => {
+    const tree = shallow(
       <Categories
         categories={categories}
         selectedObservation={selectedObservation}

@@ -5,14 +5,13 @@ import renderer from 'react-test-renderer';
 import ObservationDetailView from './ObservationDetailView';
 import { createObservation } from '../../../mocks/observations';
 
-describe.only('ObservationDetailView tests', () => {
-  test('snapshots', () => {
+describe('ObservationDetailView tests', () => {
+  test('snapshot', () => {
     const observation = createObservation();
     const isFocused = () => true;
     const addListener = () => true;
 
-    let tree;
-    tree = shallow(
+    const tree = shallow(
       <ObservationDetailView
         navigation={{ isFocused, addListener }}
         selectedObservation={observation}

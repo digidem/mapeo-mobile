@@ -16,9 +16,8 @@ describe('ObservationsView tests', () => {
     closeRightDrawer.mockReset();
   });
 
-  test('snapshots', () => {
-    let tree;
-    tree = renderer.create(
+  test('snapshot', () => {
+    const tree = renderer.create(
       <ObservationsView
         closeRightDrawer={closeRightDrawer}
         navigation={NavigationActions}

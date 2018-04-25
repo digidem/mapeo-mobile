@@ -11,11 +11,35 @@ describe('ObservationHeader tests', () => {
     closeRightDrawer.mockReset();
   });
 
-  test('snapshots', () => {
-    let tree;
-    tree = renderer.create(
+  test('snapshot with showSyncTip as true', () => {
+    const tree = renderer.create(
       <ObservationHeader closeRightDrawer={closeRightDrawer} showSyncTip />
     );
     expect(tree).toMatchSnapshot();
+  });
+
+  test('snapshot with showSyncTip as false', () => {
+    const tree = renderer.create(
+      <ObservationHeader
+        closeRightDrawer={closeRightDrawer}
+        showSyncTip={false}
+      />
+    );
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('should call the closeRightDrawer function when the left chevron is pressed', () => {
+    const tree = shallow(
+      <ObservationHeader
+        closeRightDrawer={closeRightDrawer}
+        showSyncTip={false}
+      />
+    );
+    tree
+      .find('TouchableOpacity')
+      .first()
+      .props()
+      .onPress();
+    expect(closeRightDrawer).toHaveBeenCalled();
   });
 });
