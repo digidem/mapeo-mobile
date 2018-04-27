@@ -1,0 +1,152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header tests snapshot with triangle prop 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "height": 60,
+        "justifyContent": "space-between",
+        "paddingHorizontal": 15,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "rgba(0, 0, 0, .8)",
+          "borderRadius": 50,
+          "flexDirection": "row",
+          "height": 35,
+          "paddingLeft": 13,
+          "paddingRight": 15,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "#7AFA4C",
+            "borderRadius": 50,
+            "height": 10,
+            "width": 10,
+          }
+        }
+      />
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#ffffff",
+            "marginHorizontal": 20,
+          }
+        }
+      >
+        +/- 100m
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "backgroundColor": "transparent",
+          "borderBottomColor": "rgba(0, 0, 0, .8)",
+          "borderBottomWidth": 7,
+          "borderLeftColor": "transparent",
+          "borderLeftWidth": 7,
+          "borderRightColor": "transparent",
+          "borderRightWidth": 7,
+          "borderStyle": "solid",
+          "height": 0,
+          "position": "absolute",
+          "top": 35,
+          "transform": Array [
+            Object {
+              "rotate": "180deg",
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Header tests snapshot without triangle prop 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "height": 60,
+        "justifyContent": "space-between",
+        "paddingHorizontal": 15,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "rgba(0, 0, 0, .8)",
+          "borderRadius": 50,
+          "flexDirection": "row",
+          "height": 35,
+          "paddingLeft": 13,
+          "paddingRight": 15,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "#7AFA4C",
+            "borderRadius": 50,
+            "height": 10,
+            "width": 10,
+          }
+        }
+      />
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#ffffff",
+            "marginHorizontal": 20,
+          }
+        }
+      >
+        +/- 100m
+      </Text>
+    </View>
+  </View>
+</View>
+`;

@@ -13,6 +13,7 @@ import {
 import { RNCamera } from 'react-native-camera';
 import { size } from 'lodash';
 import I18n from 'react-native-i18n';
+import moment from 'moment';
 import type { Observation } from '../../../types/observation';
 import { CHARCOAL, WHITE } from '../../../lib/styles.js';
 
@@ -116,7 +117,7 @@ class CameraMainView extends React.Component<
           lat: 0,
           lon: 0,
           link: 'link',
-          created: new Date(),
+          created: moment(),
           name: '',
           notes: '',
           observedBy: 'You',

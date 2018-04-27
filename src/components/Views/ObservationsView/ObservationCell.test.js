@@ -18,9 +18,30 @@ describe('ObservationCell tests', () => {
     let tree;
     cases.forEach(props => {
       tree = renderer.create(
-        <ObservationCell observation={props.observation} onPress={onPress} />
+        <ObservationCell
+          currentLocale="es"
+          observation={props.observation}
+          onPress={onPress}
+        />
       );
       expect(tree).toMatchSnapshot();
     });
+  });
+
+  test('should call onPress with the observation when pressed', () => {
+    const observation = createObservation();
+    const tree = shallow(
+      <ObservationCell
+        currentLocale="es"
+        observation={observation}
+        onPress={onPress}
+      />
+    );
+    tree
+      .find('TouchableOpacity')
+      .first()
+      .props()
+      .onPress();
+    expect(onPress).toHaveBeenCalledWith(observation);
   });
 });

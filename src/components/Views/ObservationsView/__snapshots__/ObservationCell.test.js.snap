@@ -7,6 +7,7 @@ exports[`ObservationCell tests snapshots 1`] = `
   accessibilityTraits={undefined}
   accessible={true}
   collapsable={undefined}
+  hasTVPreferredFocus={undefined}
   hitSlop={undefined}
   isTVSelectable={true}
   nativeID={undefined}
@@ -35,50 +36,11 @@ exports[`ObservationCell tests snapshots 1`] = `
         "flexDirection": "row",
         "height": 80,
         "justifyContent": "flex-start",
-        "paddingHorizontal": 30,
-        "width": 710,
+        "paddingHorizontal": 20,
+        "width": 750,
       }
     }
   >
-    <View
-      style={
-        Object {
-          "alignItems": "center",
-          "backgroundColor": "white",
-          "borderColor": "#EAEAEA",
-          "borderRadius": 50,
-          "borderWidth": 1,
-          "height": 50,
-          "justifyContent": "center",
-          "marginRight": 15,
-          "shadowColor": "red",
-          "shadowOpacity": 1,
-          "shadowRadius": 10,
-          "width": 50,
-        }
-      }
-    >
-      <View
-        style={
-          Object {
-            "backgroundColor": "#EAEAEA",
-            "borderRadius": 50,
-            "height": 40,
-            "width": 40,
-          }
-        }
-      >
-        <View
-          style={
-            Object {
-              "alignItems": "center",
-              "justifyContent": "center",
-              "marginTop": 7,
-            }
-          }
-        />
-      </View>
-    </View>
     <View
       style={
         Object {
@@ -96,20 +58,78 @@ exports[`ObservationCell tests snapshots 1`] = `
         style={
           Object {
             "color": "black",
-            "fontSize": 20,
+            "fontSize": 18,
             "fontWeight": "700",
           }
         }
       >
-        [missing "en.categories.null" translation]
+        03/25/2018, 7:30 PM
       </Text>
       <Text
         accessible={true}
         allowFontScaling={true}
         ellipsizeMode="tail"
       >
-        Mar 1 2018, 1:06 PM
+        Threat
       </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "column",
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "white",
+              "borderColor": "#EAEAEA",
+              "borderRadius": 50,
+              "borderWidth": 1,
+              "elevation": 3,
+              "height": 50,
+              "justifyContent": "center",
+              "marginRight": -5,
+              "shadowColor": "black",
+              "shadowOffset": Object {
+                "height": 2,
+                "width": 0,
+              },
+              "shadowOpacity": 1,
+              "shadowRadius": 10,
+              "width": 50,
+            },
+            Object {},
+          ]
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Image
+            resizeMode="contain"
+            source={
+              Object {
+                "testUri": "../../../src/images/categories/category_18.png",
+              }
+            }
+            style={
+              Object {
+                "height": 15,
+                "width": 15,
+              }
+            }
+          />
+        </View>
+      </View>
     </View>
   </View>
 </View>

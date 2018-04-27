@@ -40,6 +40,7 @@ export function configureStore() {
 
 export function createInitialStore() {
   return {
-    observations: {}
+    observations: {},
+    categories: {}
   };
 }

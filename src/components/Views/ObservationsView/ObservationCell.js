@@ -109,7 +109,10 @@ const ObservationCell = (props: Props) => {
   const esLocale = require('moment/locale/es');
   const currentLocale = props.currentLocale;
   let dateString;
-  if (currentLocale.includes('es') || moment.locale() === 'es') {
+  if (
+    (currentLocale && currentLocale.includes('es')) ||
+    moment.locale() === 'es'
+  ) {
     moment.updateLocale('es', esLocale);
     dateString = moment(props.observation.created).calendar(null, {
       sameDay: '[Hoy], h:mm A',

@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MapView tests snapshots 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <withNavigation(withNavigationFocus(MapView))
+    navigation={
+      Object {
+        "addListener": [Function],
+        "isFocused": [Function],
+      }
+    }
+    selectedObservation={
+      Object {
+        "categoryId": 19,
+        "created": "2018-03-26T02:30:00.000Z",
+        "icon": Object {
+          "testUri": "../../../src/images/categories/category_18.png",
+        },
+        "id": 1,
+        "lat": 50.5,
+        "link": "linkID",
+        "lon": 50.5,
+        "media": Array [],
+        "name": "Oil Spill",
+        "notes": "This is pretty bad. It smells pretty noxious, and the entire pond is affected.",
+        "observedBy": "You",
+        "type": "Observation",
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "class",
+    "props": Object {
+      "children": [Function],
+    },
+    "ref": null,
+    "rendered": [Function],
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "children": [Function],
+      },
+      "ref": null,
+      "rendered": [Function],
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

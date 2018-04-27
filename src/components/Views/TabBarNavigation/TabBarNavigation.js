@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
-import { NavigationActions, withNavigationFocus } from 'react-navigation';
-import addNavigationHelpers from 'react-navigation/src/addNavigationHelpers';
+import { NavigationActions } from 'react-navigation';
 import {
   StyleSheet,
   View,
@@ -19,7 +18,7 @@ import I18n from 'react-native-i18n';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
-import ObservationsView from '../../Views/ObservationsView';
+import ObservationsView from '../ObservationsView';
 import MapView from '../MapView';
 import CameraView from '../CameraMainView';
 import {
@@ -30,7 +29,6 @@ import {
   MEDIUM_GREY
 } from '../../../lib/styles';
 import CategoryPin from '../../../images/category-pin.png';
-import { tabBarAddListener } from '../../../lib/store';
 import Header from '../../Base/Header/Header';
 
 const styles = StyleSheet.create({
@@ -43,10 +41,9 @@ const styles = StyleSheet.create({
   categoryContainer: {
     flex: 3,
     backgroundColor: VERY_LIGHT_BLUE,
-    borderColor: LIGHT_GREY,
-    borderBottomWidth: 1,
     alignSelf: 'stretch',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderRadius: 20
   },
   categoryPin: {
     width: 80,
@@ -59,15 +56,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     width: Dimensions.get('window').width * 0.8,
-    height: Dimensions.get('window').height * 0.7,
+    height: Dimensions.get('window').height * 0.5,
     backgroundColor: 'white',
-    marginTop: 50,
     borderRadius: 20
-  },
-  continueContainer: {
-    flex: 1,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
   },
   date: {
     color: MEDIUM_GREY,
@@ -120,7 +111,6 @@ type Props = {
 
 export type StateProps = {
   selectedObservation: Observation,
-  navigationState: any,
   dispatch: any,
   navigation: NavigationActions
 };
@@ -143,13 +133,9 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
   };
 
   componentDidMount() {
-    this.timeout = setTimeout(
-      () =>
-        this.setState({
-          showModal: false
-        }),
-      2000
-    );
+    this.setState({
+      showModal: false
+    });
   }
 
   componentWillReceiveProps(nextProps: Props & StateProps) {
@@ -160,8 +146,14 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
         navigation.state.params &&
         navigation.state.params.showModal
       );
-      if (shouldShowModal !== this.state.showModal) {
-        this.setState({ showModal: shouldShowModal });
+      if (shouldShowModal) {
+        this.timeout = setTimeout(
+          () =>
+            this.setState({
+              showModal: true
+            }),
+          2000
+        );
       }
     }
   }
@@ -220,7 +212,7 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
   };
 
   render() {
-    const { dispatch, navigationState, selectedObservation } = this.props;
+    const { dispatch, selectedObservation } = this.props;
     const { showModal, showCamera } = this.state;
 
     return (
@@ -261,14 +253,14 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
             animation="slide"
             transparent
             visible={this.state.showModal}
-            onRequestClose={() => {
-              alert('Modal closed');
-            }}
+            onRequestClose={() => {}}
           >
             <View
               style={{
                 backgroundColor: 'rgba(52, 52, 52, 0.8)',
-                flex: 1
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center'
               }}
             >
               <View style={styles.confirmationModal}>
@@ -320,20 +312,10 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
                     <Text style={styles.date}>
                       {I18n.t('on')}{' '}
                       {moment(selectedObservation.created).format(
-                        'MMMM D, h:hh A'
+                        'MMMM D, h:mm A'
                       )}
                     </Text>
                   </View>
-                </View>
-                <View style={styles.continueContainer}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.setModalVisible(!showModal);
-                      this.props.navigation.setParams({ showModal: false });
-                    }}
-                  >
-                    <Text style={styles.buttonText}>{I18n.t('continue')}</Text>
-                  </TouchableOpacity>
                 </View>
               </View>
             </View>
@@ -346,4 +328,4 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
   }
 }
 
-export default withNavigationFocus(TabBarNavigation);
+export default TabBarNavigation;
