@@ -30,6 +30,7 @@
     "react-navigation-tabs": "^0.1.0-alpha.3",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
+    "redux-mock-store": "^1.5.1",
     "redux-observable": "^0.17.0",
     "redux-persist": "^5.9.1",
     "rxjs": "^5.5.6"
@@ -73,6 +74,7 @@
     "logError": true
   },
   "jest": {
+    "automock": false,
     "preset": "react-native",
     "setupFiles": [
       "<rootDir>/src/setupTests.js"

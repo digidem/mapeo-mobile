@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
-import { NavigationActions, withNavigationFocus } from 'react-navigation';
-import addNavigationHelpers from 'react-navigation/src/addNavigationHelpers';
+import { NavigationActions } from 'react-navigation';
 import {
   StyleSheet,
   View,
@@ -19,7 +18,7 @@ import I18n from 'react-native-i18n';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
-import ObservationsView from '../../Views/ObservationsView';
+import ObservationsView from '../ObservationsView';
 import MapView from '../MapView';
 import CameraView from '../CameraMainView';
 import {
@@ -30,7 +29,6 @@ import {
   MEDIUM_GREY
 } from '../../../lib/styles';
 import CategoryPin from '../../../images/category-pin.png';
-import { tabBarAddListener } from '../../../lib/store';
 import Header from '../../Base/Header/Header';
 
 const styles = StyleSheet.create({
@@ -113,7 +111,6 @@ type Props = {
 
 export type StateProps = {
   selectedObservation: Observation,
-  navigationState: any,
   dispatch: any,
   navigation: NavigationActions
 };
@@ -215,7 +212,7 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
   };
 
   render() {
-    const { dispatch, navigationState, selectedObservation } = this.props;
+    const { dispatch, selectedObservation } = this.props;
     const { showModal, showCamera } = this.state;
 
     return (
@@ -315,7 +312,7 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
                     <Text style={styles.date}>
                       {I18n.t('on')}{' '}
                       {moment(selectedObservation.created).format(
-                        'MMMM D, h:hh A'
+                        'MMMM D, h:mm A'
                       )}
                     </Text>
                   </View>
@@ -331,4 +328,4 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
   }
 }
 
-export default withNavigationFocus(TabBarNavigation);
+export default TabBarNavigation;

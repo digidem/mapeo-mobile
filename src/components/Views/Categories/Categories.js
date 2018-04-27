@@ -9,7 +9,6 @@ import {
   Dimensions,
   Image
 } from 'react-native';
-import { withNavigationFocus } from 'react-navigation';
 import CheckIcon from 'react-native-vector-icons/Octicons';
 import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import I18n from 'react-native-i18n';
@@ -229,4 +228,4 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
   }
 }
 
-export default withNavigationFocus(Categories);
+export default Categories;

@@ -3,27 +3,32 @@ import React from 'react';
 import 'react-native';
 import renderer from 'react-test-renderer';
 import Categories from './Categories';
-import { categoryList } from '../../../ducks/categories';
 import { createObservation } from '../../../mocks/observations';
 import { createCategory } from '../../../mocks/categories';
 
 describe('Categories tests', () => {
-  const isFocused = () => true;
   const addListener = () => true;
   const categories = [createCategory()];
   const selectedObservation = createObservation();
-  jest.mock(`react-native-camera`, () => {
-    const React = require('React');
-  });
+  const listCategories = jest.fn();
+  const goToObservationEditor = jest.fn();
+  const goBack = jest.fn();
+  const updateObservation = jest.fn();
 
   test('snapshot', () => {
-    const tree = shallow(
-      <Categories
-        categories={categories}
-        selectedObservation={selectedObservation}
-        navigation={{ isFocused, addListener }}
-      />
-    );
+    const tree = renderer
+      .create(
+        <Categories
+          categories={categories}
+          isFocused
+          selectedObservation={selectedObservation}
+          listCategories={listCategories}
+          updateObservation={updateObservation}
+          goToObservationEditor={goToObservationEditor}
+          goBack={goBack}
+        />
+      )
+      .toJSON();
     expect(tree).toMatchSnapshot();
   });
 });
