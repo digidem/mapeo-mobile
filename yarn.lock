@@ -6220,10 +6220,6 @@ react-native-i18n@^2.0.12:
   dependencies:
     i18n-js "^3.0.3"
 
-react-native-locale-listener@^1.0.7:
-  version "1.0.24"
-  resolved "https://registry.yarnpkg.com/react-native-locale-listener/-/react-native-locale-listener-1.0.24.tgz#2553ed51ecee3c9728cdba9876e94c8cebfbcbd4"
-
 react-native-node@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/react-native-node/-/react-native-node-3.3.0.tgz#c91a250de046e0c4625e82043d3c47881cae3d50"
@@ -6274,7 +6270,7 @@ react-native-vector-icons@^4.5.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-react-native@^0.55.2:
+react-native@^0.55.3:
   version "0.55.3"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.55.3.tgz#6ff1691bd0645d0480fba16377edb9dce5bd28c4"
   dependencies:
@@ -6423,9 +6419,9 @@ react-transform-hmr@^1.0.4:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react@16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.0.0.tgz#ce7df8f1941b036f02b2cca9dbd0cb1f0e855e2d"
+react@^16.3.1:
+  version "16.3.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.3.2.tgz#fdc8420398533a1e58872f59091b272ce2f91ea9"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"

@@ -126,11 +126,15 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class TabBarNavigation extends React.Component<Props & StateProps, State> {
+export default class TabBarNavigation extends React.Component<
+  Props & StateProps,
+  State
+> {
   state = {
     showModal: false,
     showCamera: false
   };
+  timer: any;
 
   componentDidMount() {
     this.setState({
@@ -138,7 +142,10 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
     });
   }
 
-  componentWillReceiveProps(nextProps: Props & StateProps) {
+  static getDerivedStateFromProps(
+    nextProps: Props & StateProps,
+    prevState: State
+  ) {
     if (nextProps.isFocused) {
       const { navigation } = nextProps;
       const shouldShowModal = !!(
@@ -146,50 +153,38 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
         navigation.state.params &&
         navigation.state.params.showModal
       );
-      if (shouldShowModal) {
-        this.timeout = setTimeout(
-          () =>
-            this.setState({
-              showModal: true
-            }),
-          2000
-        );
+      if (shouldShowModal !== prevState.showModal) {
+        return { showModal: shouldShowModal };
       }
     }
+    return null;
   }
 
   shouldComponentUpdate(nextProps: Props & StateProps, nextState: State) {
     if (nextProps.isFocused) {
-      if (nextProps !== this.props || nextState !== this.state) {
+      if (nextProps !== this.props) {
+        if (nextState.showModal) {
+          this.timer = setTimeout(() => {
+            this.setState({
+              showModal: false
+            });
+          }, 2000);
+          nextProps.navigation.setParams({ showModal: false });
+        }
         return true;
       }
     }
     return false;
   }
 
-  componentWillUnmount() {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
+  componentDidUpdate() {
+    if (this.timer) {
+      clearTimeout(this.timer);
     }
-  }
-
-  setModalVisible(visible: boolean) {
-    this.setState({
-      showModal: visible
-    });
   }
 
   timeout: any;
   rightDrawer: Drawer;
-
-  shouldShowModal() {
-    const { navigation } = this.props;
-    return !!(
-      navigation.state &&
-      navigation.state.params &&
-      navigation.state.params.showModal
-    );
-  }
 
   closeRightDrawer = () => {
     this.rightDrawer.close();
@@ -327,5 +322,3 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
     );
   }
 }
-
-export default TabBarNavigation;

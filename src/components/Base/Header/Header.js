@@ -53,15 +53,19 @@ class Header extends React.PureComponent<Props, State> {
     loading: true
   };
 
-  componentDidMount() {
-    this.timeout = setTimeout(
-      () =>
-        this.setState({
-          loading: false
-        }),
-      2000
-    );
-  }
+  // componentDidMount() {
+  //   this.timeout = setTimeout(
+  //     () =>
+  //       this.setState({
+  //         loading: false
+  //       }),
+  //     2000
+  //   );
+  // }
+  //
+  // componentWillUnmount() {
+  //   clearTimeout(this.timeout);
+  // }
 
   render() {
     const { leftIcon, rightIcon, style, showTriangle } = this.props;

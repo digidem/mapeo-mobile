@@ -47,25 +47,43 @@ class ObservationsView extends React.Component<
   State
 > {
   state = {
-    showSyncTip: true
+    showSyncTip: false
   };
-  timeout: any;
+  timer: any;
 
-  componentWillReceiveProps() {
-    this.timeout = setTimeout(
-      () =>
-        this.setState({
-          showSyncTip: false
-        }),
-      2000
-    );
+  componentDidMount() {
+    this.setState({
+      showSyncTip: false
+    });
   }
 
-  componentWillUnmount() {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
+  static getDerivedStateFromProps(
+    nextProps: Props & StateProps,
+    prevState: State
+  ) {
+    return { showSyncTip: true };
+  }
+
+  shouldComponentUpdate(nextProps: Props & StateProps, nextState: State) {
+    if (nextState.showSyncTip)
+      this.timer = setTimeout(() => {
+        this.setState({ showSyncTip: false });
+      }, 2000);
+    if (nextProps !== this.props || nextState !== this.state) {
+      return true;
+    }
+    return false;
+  }
+
+  componentDidUpdate() {
+    if (this.timer) {
+      clearTimeout(this.timer);
     }
   }
+
+  showSyncTipHelper = () => {
+    this.setState({ showSyncTip: false });
+  };
 
   render() {
     const { observations } = this.props;

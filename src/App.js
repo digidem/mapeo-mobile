@@ -25,21 +25,10 @@ import { PersistGate } from 'redux-persist/lib/integration/react';
 import 'rxjs';
 import { configureStore } from './lib/store';
 import AppNavigation from './components/AppNavigation';
-import RNReactNativeLocale from 'react-native-locale-listener';
-import RNRestart from 'react-native-restart';
 
 export default class App extends React.PureComponent<null, null> {
-  changeLayout(language: string) {
-    RNRestart.Restart();
-  }
-
   componentDidMount() {
     RNNode.start();
-    RNReactNativeLocale.addLocaleListener(this.changeLayout);
-  }
-
-  componentWillUnmount() {
-    RNReactNativeLocale.removeLocaleListener(this.changeLayout);
   }
 
   render() {
