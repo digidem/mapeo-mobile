@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   capture: {
     alignSelf: 'center',
     position: 'absolute',
-    bottom: 7
+    bottom: 25
   },
   preview: {
     flex: 1,
@@ -153,7 +153,6 @@ class CameraMainView extends React.Component<
     const { loading } = this.state;
     const { isFocused } = this.props;
 
-    console.log('RN - ', isFocused);
     if (!isFocused) {
       console.log('RN - unmount RNCamera in TabView');
       return <View />;
@@ -162,8 +161,8 @@ class CameraMainView extends React.Component<
     return (
       <View
         style={{
-          flex: 1,
-          flexDirection: 'column'
+          width: Dimensions.get('window').width,
+          height: Dimensions.get('window').height
         }}
       >
         <RNCamera
@@ -190,7 +189,7 @@ class CameraMainView extends React.Component<
           <View
             style={{
               position: 'absolute',
-              height: Dimensions.get('window').height - 30,
+              height: Dimensions.get('window').height,
               width: Dimensions.get('window').width,
               backgroundColor: 'rgba(66,66,66,.8)',
               alignItems: 'center',

@@ -212,7 +212,12 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
     const { observations } = this.props;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View
+        style={{
+          width: Dimensions.get('window').width,
+          height: Dimensions.get('window').height
+        }}
+      >
         <View style={{ flex: 1 }}>
           <MapboxGL.MapView
             style={{ flex: 1 }}
@@ -250,15 +255,13 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
           </MapboxGL.MapView>
           <View
             style={{
-              height: 135,
               position: 'absolute',
-              bottom: 0,
+              bottom: 25,
               alignItems: 'center',
               backgroundColor: 'transparent',
               zIndex: 5,
               flexDirection: 'row',
               justifyContent: 'space-around',
-              flex: 1,
               width: Dimensions.get('window').width
             }}
           >

@@ -137,7 +137,7 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
         />
         {showSavedModal && <SavedModal />}
         {!showCamera && <MapView />}
-        {showCamera && <CameraView />}
+        <CameraView />
       </Drawer>
     );
   }
