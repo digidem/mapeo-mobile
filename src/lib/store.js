@@ -41,6 +41,9 @@ export function configureStore() {
 export function createInitialStore() {
   return {
     observations: {},
-    categories: {}
+    categories: {},
+    modals: {
+      saved: false
+    }
   };
 }
