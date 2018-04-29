@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import {
   StyleSheet,
   View,
@@ -13,7 +13,6 @@ import {
   Image
 } from 'react-native';
 import Drawer from 'react-native-drawer';
-import moment from 'moment';
 import I18n from 'react-native-i18n';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
@@ -28,8 +27,8 @@ import {
   VERY_LIGHT_BLUE,
   MEDIUM_GREY
 } from '../../../lib/styles';
-import CategoryPin from '../../../images/category-pin.png';
 import Header from '../../Base/Header/Header';
+import SavedModal from './SavedModal';
 
 const styles = StyleSheet.create({
   buttonText: {
@@ -37,33 +36,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '400',
     color: MAPEO_BLUE
-  },
-  categoryContainer: {
-    flex: 3,
-    backgroundColor: VERY_LIGHT_BLUE,
-    alignSelf: 'stretch',
-    alignItems: 'center',
-    borderRadius: 20
-  },
-  categoryPin: {
-    width: 80,
-    height: 90,
-    marginTop: 15,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  confirmationModal: {
-    alignSelf: 'center',
-    alignItems: 'center',
-    width: Dimensions.get('window').width * 0.8,
-    height: Dimensions.get('window').height * 0.5,
-    backgroundColor: 'white',
-    borderRadius: 20
-  },
-  date: {
-    color: MEDIUM_GREY,
-    fontSize: 12,
-    fontWeight: '400'
   },
   myObservationsIcon: {
     position: 'absolute',
@@ -75,33 +47,10 @@ const styles = StyleSheet.create({
     left: 20,
     top: 15
   },
-  positionAtText: {
-    fontSize: 12,
-    color: 'black',
-    fontWeight: '400'
-  },
-  positionText: {
-    fontSize: 12,
-    color: 'black',
-    fontWeight: '700'
-  },
   profileIcon: {
     position: 'absolute',
     left: 20,
     top: 15
-  },
-  savedContainer: {
-    borderColor: LIGHT_GREY,
-    borderBottomWidth: 1,
-    flex: 1,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: 'black',
-    textAlign: 'center'
   }
 });
 
@@ -110,13 +59,10 @@ type Props = {
 };
 
 export type StateProps = {
-  selectedObservation: Observation,
-  dispatch: any,
-  navigation: NavigationActions
+  showSavedModal: boolean
 };
 
 type State = {
-  showModal: boolean,
   showCamera: boolean
 };
 
@@ -126,64 +72,10 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-export default class TabBarNavigation extends React.Component<
-  Props & StateProps,
-  State
-> {
+class TabBarNavigation extends React.Component<Props & StateProps, State> {
   state = {
-    showModal: false,
     showCamera: false
   };
-  timer: any;
-
-  componentDidMount() {
-    this.setState({
-      showModal: false
-    });
-  }
-
-  static getDerivedStateFromProps(
-    nextProps: Props & StateProps,
-    prevState: State
-  ) {
-    if (nextProps.isFocused) {
-      const { navigation } = nextProps;
-      const shouldShowModal = !!(
-        navigation.state &&
-        navigation.state.params &&
-        navigation.state.params.showModal
-      );
-      if (shouldShowModal !== prevState.showModal) {
-        return { showModal: shouldShowModal };
-      }
-    }
-    return null;
-  }
-
-  shouldComponentUpdate(nextProps: Props & StateProps, nextState: State) {
-    if (nextProps.isFocused) {
-      if (nextProps !== this.props) {
-        if (nextState.showModal) {
-          this.timer = setTimeout(() => {
-            this.setState({
-              showModal: false
-            });
-          }, 2000);
-          nextProps.navigation.setParams({ showModal: false });
-        }
-        return true;
-      }
-    }
-    return false;
-  }
-
-  componentDidUpdate() {
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-  }
-
-  timeout: any;
   rightDrawer: Drawer;
 
   closeRightDrawer = () => {
@@ -207,8 +99,8 @@ export default class TabBarNavigation extends React.Component<
   };
 
   render() {
-    const { dispatch, selectedObservation } = this.props;
-    const { showModal, showCamera } = this.state;
+    const { showSavedModal } = this.props;
+    const { showCamera } = this.state;
 
     return (
       <Drawer
@@ -243,82 +135,12 @@ export default class TabBarNavigation extends React.Component<
             zIndex: 5
           }}
         />
-        {selectedObservation && (
-          <Modal
-            animation="slide"
-            transparent
-            visible={this.state.showModal}
-            onRequestClose={() => {}}
-          >
-            <View
-              style={{
-                backgroundColor: 'rgba(52, 52, 52, 0.8)',
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <View style={styles.confirmationModal}>
-                <View style={styles.savedContainer}>
-                  <Text
-                    style={{
-                      textAlign: 'center',
-                      fontSize: 20,
-                      fontWeight: '700',
-                      color: 'black'
-                    }}
-                  >
-                    {I18n.t('saved')}
-                  </Text>
-                </View>
-                <View style={styles.categoryContainer}>
-                  <ImageBackground
-                    source={CategoryPin}
-                    style={styles.categoryPin}
-                  >
-                    {selectedObservation && (
-                      <View style={{ marginTop: -10 }}>
-                        {selectedObservation.icon && (
-                          <Image
-                            source={selectedObservation.icon}
-                            style={{ width: 30, height: 30 }}
-                            resizeMode="contain"
-                          />
-                        )}
-                      </View>
-                    )}
-                  </ImageBackground>
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      paddingBottom: 10
-                    }}
-                  >
-                    <Text style={styles.title}>{selectedObservation.type}</Text>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text style={styles.positionAtText}>{I18n.t('at')} </Text>
-                      <Text style={styles.positionText}>
-                        {`${selectedObservation.lat}, ${
-                          selectedObservation.lon
-                        }.`}
-                      </Text>
-                    </View>
-                    <Text style={styles.date}>
-                      {I18n.t('on')}{' '}
-                      {moment(selectedObservation.created).format(
-                        'MMMM D, h:mm A'
-                      )}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </Modal>
-        )}
+        {showSavedModal && <SavedModal />}
         {!showCamera && <MapView />}
-        {showCamera && <CameraView />}
+        <CameraView />
       </Drawer>
     );
   }
 }
+
+export default TabBarNavigation;

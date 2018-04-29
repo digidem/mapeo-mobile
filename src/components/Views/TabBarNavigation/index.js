@@ -5,8 +5,7 @@ import { withNavigationFocus } from 'react-navigation';
 import TabBarNavigation from './TabBarNavigation';
 
 const mapStateToProps = state => ({
-  navigationState: state.tabBar,
-  selectedObservation: state.app.selectedObservation
-});
+    showSavedModal: state.app.modals.saved
+  });
 
-export default connect(mapStateToProps)(withNavigationFocus(TabBarNavigation));
+export default connect(mapStateToProps)(TabBarNavigation);

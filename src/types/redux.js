@@ -1,6 +1,7 @@
 // @flow
 import type { Observation } from './observation';
 import type { Category } from './category';
+import type { ModalState } from './modal';
 
 export interface AppStoreState {
   observations: {
@@ -11,7 +12,9 @@ export interface AppStoreState {
     [id: string]: Category
   };
 
-  selectedObservation: Observation;
+  selectedObservation?: Observation;
+
+  modals: ModalState;
 }
 
 export interface StoreState {

@@ -37,7 +37,7 @@ import Header from '../../Base/Header/Header';
 
 export type StateProps = {
   category?: Category,
-  selectedObservation: Observation
+  selectedObservation?: Observation
 };
 
 export type Props = {
@@ -51,7 +51,8 @@ export type DispatchProps = {
   addObservation: (o: Observation) => void,
   goToCameraView: () => void,
   goBack: () => void,
-  goToTabBarNavigation: () => void
+  goToTabBarNavigation: () => void,
+  showSavedModal: () => void
 };
 
 type State = {
@@ -350,7 +351,8 @@ class ObservationEditor extends React.Component<
     const {
       addObservation,
       selectedObservation,
-      goToTabBarNavigation
+      goToTabBarNavigation,
+      showSavedModal
     } = this.props;
     const { text } = this.state;
 
@@ -361,6 +363,7 @@ class ObservationEditor extends React.Component<
       });
     }
 
+    showSavedModal();
     goToTabBarNavigation();
   };
 

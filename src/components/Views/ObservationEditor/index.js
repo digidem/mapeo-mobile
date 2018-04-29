@@ -5,6 +5,7 @@ import type { Dispatch } from 'redux';
 import { StoreState } from '../../../types/redux';
 
 import { observationAdd, observationUpdate } from '../../../ducks/observations';
+import { modalShow } from '../../../ducks/modals';
 import ObservationEditor from './ObservationEditor';
 import type { Props, StateProps, DispatchProps } from './ObservationEditor';
 
@@ -45,7 +46,8 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
           routeName: 'TabBarNavigation',
           params: { showModal: true }
         })
-      )
+      ),
+    showSavedModal: () => dispatch(modalShow('saved'))
   };
 }
 
