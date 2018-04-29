@@ -6240,10 +6240,6 @@ react-native-paper@^1.2.5:
     hoist-non-react-statics "^2.5.0"
     react-lifecycles-compat "^2.0.0"
 
-react-native-restart@0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-restart/-/react-native-restart-0.0.6.tgz#77770d078683947b2c1f2adb876f179269d8443a"
-
 react-native-safe-area-view@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.7.0.tgz#38f5ab9368d6ef9e5d18ab64212938af3ec39421"

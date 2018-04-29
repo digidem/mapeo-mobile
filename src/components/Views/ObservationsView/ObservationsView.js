@@ -8,7 +8,7 @@ import {
   FlatList,
   Dimensions
 } from 'react-native';
-import { NavigationActions, withNavigation } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import LeftChevron from 'react-native-vector-icons/Feather';
 import SyncIcon from 'react-native-vector-icons/FontAwesome';
 import SettingsIcon from 'react-native-vector-icons/MaterialIcons';
@@ -148,4 +148,4 @@ class ObservationsView extends React.Component<
   }
 }
 
-export default withNavigation(ObservationsView);
+export default ObservationsView;
