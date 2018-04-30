@@ -13,8 +13,8 @@ function mapStateToProps(state: StoreState): StateProps {
   const observations = values(state.app.observations).sort(
     (a, b) => b.created - a.created
   );
-
-  return { observations };
+  const drawerIsOpen = state.app.drawers.opened;
+  return { drawerIsOpen, observations };
 }
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {

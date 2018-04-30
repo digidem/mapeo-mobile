@@ -150,11 +150,7 @@ const ObservationCell = (props: Props) => {
         <View style={{ flexDirection: 'column' }}>
           {hasMedia && (
             <Image
-              source={
-                props.observation.media[0].type === 'LocalPhoto'
-                  ? props.observation.media[0].source
-                  : { uri: props.observation.media[0].source }
-              }
+              source={{ uri: props.observation.media[0].source }}
               style={styles.media}
             />
           )}

@@ -303,11 +303,7 @@ class ObservationDetailView extends React.Component<
                       }
                     >
                       <Image
-                        source={
-                          item.type === 'LocalPhoto'
-                            ? item.source
-                            : { uri: item.source }
-                        }
+                        source={{ uri: item.source }}
                         style={{
                           width: 125,
                           height: 125,
