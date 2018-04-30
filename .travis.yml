@@ -33,11 +33,5 @@ install:
   - yarn
 
 script:
-  # Build the background Node.js process containing only tests
-  - ./build-rnnodeapp.sh benchmark
-  # Build the React Native Android app for benchmarking
-  - cd android && ./gradlew clean && ./gradlew assembleBenchmarkDebug && cd ..
-  # Upload to BrowserStack
-  - export BROWSERSTACK_APP_URL=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" -X POST "$BROWSERSTACK_UPLOAD" -F "file=@/$TRAVIS_BUILD_DIR/$BENCHMARK_APK" | cut -c 13-57)
-  # Run automated test that verifies the benchmark results
-  - node ./benchmark/test.js ci;
+  # Run unit tests
+  - yarn jest
