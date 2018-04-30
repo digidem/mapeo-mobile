@@ -2,24 +2,38 @@
 
 exports[`ObservationsView tests snapshot 1`] = `
 <View
+  accessibilityComponentType={undefined}
+  accessibilityLabel={undefined}
+  accessibilityTraits={undefined}
+  accessible={true}
+  hitSlop={undefined}
+  nativeID={undefined}
+  onLayout={undefined}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Object {
       "flex": 1,
     }
   }
+  testID={undefined}
 >
   <RCTScrollView
     ListHeaderComponent={
       <ObservationHeader
         closeRightDrawer={[Function]}
-        showSyncTip={false}
+        showSyncTip={true}
       />
     }
     data={
       Array [
         Object {
           "categoryId": 19,
-          "created": "2018-03-26T02:30:00.000Z",
+          "created": "2018-03-25T07:30:00.000Z",
           "icon": Object {
             "testUri": "../../../src/images/categories/category_18.png",
           },
@@ -306,6 +320,72 @@ exports[`ObservationsView tests snapshot 1`] = `
               View by Most Recent
             </Text>
           </View>
+          <View
+            style={
+              Object {
+                "alignSelf": "center",
+                "elevation": 3,
+                "justifyContent": "center",
+                "position": "absolute",
+                "shadowColor": "black",
+                "shadowOffset": Object {
+                  "height": 100,
+                  "width": 0,
+                },
+                "shadowOpacity": 6,
+                "shadowRadius": 100,
+                "top": 50,
+                "zIndex": 5,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#3366ff",
+                  "borderRadius": 8,
+                  "flexDirection": "row",
+                  "height": 35,
+                  "marginTop": 7,
+                  "paddingHorizontal": 5,
+                }
+              }
+            >
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "color": "#ffffff",
+                    "marginHorizontal": 20,
+                  }
+                }
+              >
+                Connect to sync
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignSelf": "center",
+                  "backgroundColor": "transparent",
+                  "borderBottomColor": "#3366ff",
+                  "borderBottomWidth": 7,
+                  "borderLeftColor": "transparent",
+                  "borderLeftWidth": 7,
+                  "borderRightColor": "transparent",
+                  "borderRightWidth": 7,
+                  "borderStyle": "solid",
+                  "height": 0,
+                  "position": "absolute",
+                  "top": 0,
+                  "width": 0,
+                }
+              }
+            />
+          </View>
         </View>
       </View>
       <View
@@ -374,7 +454,7 @@ exports[`ObservationsView tests snapshot 1`] = `
                   }
                 }
               >
-                03/25/2018, 7:30 PM
+                03/25/2018, 7:30 AM
               </Text>
               <Text
                 accessible={true}

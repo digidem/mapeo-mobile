@@ -62,6 +62,11 @@ export type StateProps = {
   showSavedModal: boolean
 };
 
+export type DispatchProps = {
+  onDrawerClose: () => void,
+  onDrawerOpen: () => void
+};
+
 type State = {
   showCamera: boolean
 };
@@ -72,7 +77,10 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class TabBarNavigation extends React.Component<Props & StateProps, State> {
+class TabBarNavigation extends React.Component<
+  Props & StateProps & DispatchProps,
+  State
+> {
   state = {
     showCamera: false
   };
@@ -99,13 +107,15 @@ class TabBarNavigation extends React.Component<Props & StateProps, State> {
   };
 
   render() {
-    const { showSavedModal } = this.props;
+    const { onDrawerClose, onDrawerOpen, showSavedModal } = this.props;
     const { showCamera } = this.state;
 
     return (
       <Drawer
         ref={this.handleRightDrawerRef}
         content={<ObservationsView closeRightDrawer={this.closeRightDrawer} />}
+        onCloseStart={onDrawerClose}
+        onOpenStart={onDrawerOpen}
         openDrawerOffset={0}
         side="right"
         type="displace"
