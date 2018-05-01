@@ -24,6 +24,7 @@ before_install:
   # Install node.js
   - nvm install 8
   - node --version
+  - export TZ=Canada/Pacific
 
 install:
   # Setup Android dependencies
