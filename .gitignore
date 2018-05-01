@@ -54,7 +54,7 @@ buck-out/
 
 # Secrets
 #
-# /env.json
+/env.json
 
 # react-native-node app
 #
