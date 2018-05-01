@@ -5,6 +5,7 @@ import type { ActionsObservable } from 'redux-observable';
 import { OBSERVATION_LIST, observationList } from '../ducks/observations';
 import { Action } from '../types/redux';
 import { Observation } from '../types/observation';
+import moment from 'moment';
 
 export const observationListEpic = (
   action$: ActionsObservable<Action<string, Observation[]>>,

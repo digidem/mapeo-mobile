@@ -46,7 +46,7 @@ export function createInitialStore() {
       saved: false
     },
     drawers: {
-      opened: false
+      observations: false
     }
   };
 }

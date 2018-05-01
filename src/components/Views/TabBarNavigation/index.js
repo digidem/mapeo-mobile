@@ -10,8 +10,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onDrawerClose: () => dispatch(drawerClose('opened')),
-  onDrawerOpen: () => dispatch(drawerOpen('opened'))
+  onDrawerClose: () => dispatch(drawerClose('observations')),
+  onDrawerOpen: () => dispatch(drawerOpen('observations'))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabBarNavigation);

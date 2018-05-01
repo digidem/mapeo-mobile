@@ -20,7 +20,7 @@ import ObservationCell from './ObservationCell';
 import ObservationHeader from './ObservationHeader';
 
 export type StateProps = {
-  drawerIsOpen: boolean,
+  drawerOpened: boolean,
   observations: Observation[]
 };
 

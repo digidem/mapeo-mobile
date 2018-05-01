@@ -33,7 +33,7 @@ exports[`ObservationsView tests snapshot 1`] = `
       Array [
         Object {
           "categoryId": 19,
-          "created": "2018-03-26T02:30:00.000Z",
+          "created": 2018-02-25T20:23:00.000Z,
           "icon": Object {
             "testUri": "../../../src/images/categories/category_18.png",
           },
@@ -454,7 +454,7 @@ exports[`ObservationsView tests snapshot 1`] = `
                   }
                 }
               >
-                03/25/2018, 7:30 PM
+                02/25/2018, 12:23 PM
               </Text>
               <Text
                 accessible={true}
