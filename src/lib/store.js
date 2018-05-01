@@ -44,6 +44,9 @@ export function createInitialStore() {
     categories: {},
     modals: {
       saved: false
+    },
+    drawers: {
+      observations: false
     }
   };
 }

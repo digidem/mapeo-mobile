@@ -4,11 +4,17 @@ import MainStackNavigation from '../components/MainNavigation/MainStackNavigatio
 import TabBarNavigation from '../components/Views/TabBarNavigation';
 
 import categories from './categories';
+import drawers from './drawers';
 import modals from './modals';
 import observations from './observations';
 
 const rootReducer = combineReducers({
-  app: appCombineReducers(...categories, ...observations, ...modals),
+  app: appCombineReducers(
+    ...categories,
+    ...drawers,
+    ...modals,
+    ...observations
+  ),
 
   mainStack: (state, action) =>
     MainStackNavigation.router.getStateForAction(action, state)

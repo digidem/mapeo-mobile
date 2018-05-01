@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import {
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Text,
   View,
   FlatList,
@@ -19,6 +20,7 @@ import ObservationCell from './ObservationCell';
 import ObservationHeader from './ObservationHeader';
 
 export type StateProps = {
+  drawerOpened: boolean,
   observations: Observation[]
 };
 
@@ -53,22 +55,11 @@ class ObservationsView extends React.Component<
 
   componentDidMount() {
     this.setState({
-      showSyncTip: false
+      showSyncTip: true
     });
   }
 
-  static getDerivedStateFromProps(
-    nextProps: Props & StateProps,
-    prevState: State
-  ) {
-    return { showSyncTip: true };
-  }
-
   shouldComponentUpdate(nextProps: Props & StateProps, nextState: State) {
-    if (nextState.showSyncTip)
-      this.timer = setTimeout(() => {
-        this.setState({ showSyncTip: false });
-      }, 2000);
     if (nextProps !== this.props || nextState !== this.state) {
       return true;
     }
@@ -81,7 +72,7 @@ class ObservationsView extends React.Component<
     }
   }
 
-  showSyncTipHelper = () => {
+  hideTip = () => {
     this.setState({ showSyncTip: false });
   };
 
@@ -118,32 +109,34 @@ class ObservationsView extends React.Component<
     };
 
     return (
-      <View
-        style={{
-          flex: 1
-        }}
-      >
-        <FlatList
-          scrollEnabled
-          ListHeaderComponent={
-            <ObservationHeader
-              closeRightDrawer={this.props.closeRightDrawer}
-              showSyncTip={this.state.showSyncTip}
-            />
-          }
-          style={{ width: Dimensions.get('window').width }}
-          keyExtractor={keyExtractor}
-          renderItem={({ item }) => (
-            <ObservationCell
-              currentLocale={I18n.currentLocale()}
-              navigation={this.props.navigation}
-              observation={item}
-              onPress={handleItemPress}
-            />
-          )}
-          data={sortedObservations}
-        />
-      </View>
+      <TouchableWithoutFeedback onPress={this.hideTip}>
+        <View
+          style={{
+            flex: 1
+          }}
+        >
+          <FlatList
+            scrollEnabled
+            ListHeaderComponent={
+              <ObservationHeader
+                closeRightDrawer={this.props.closeRightDrawer}
+                showSyncTip={this.state.showSyncTip}
+              />
+            }
+            style={{ width: Dimensions.get('window').width }}
+            keyExtractor={keyExtractor}
+            renderItem={({ item }) => (
+              <ObservationCell
+                currentLocale={I18n.currentLocale()}
+                navigation={this.props.navigation}
+                observation={item}
+                onPress={handleItemPress}
+              />
+            )}
+            data={sortedObservations}
+          />
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

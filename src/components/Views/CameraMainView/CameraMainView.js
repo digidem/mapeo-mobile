@@ -117,7 +117,7 @@ class CameraMainView extends React.Component<
           lat: 0,
           lon: 0,
           link: 'link',
-          created: moment(),
+          created: new Date(),
           name: '',
           notes: '',
           observedBy: 'You',

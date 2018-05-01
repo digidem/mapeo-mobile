@@ -2,6 +2,7 @@
 import type { Observation } from './observation';
 import type { Category } from './category';
 import type { ModalState } from './modal';
+import type { DrawerState } from './drawer';
 
 export interface AppStoreState {
   observations: {
@@ -15,6 +16,8 @@ export interface AppStoreState {
   selectedObservation?: Observation;
 
   modals: ModalState;
+
+  drawers: DrawerState;
 }
 
 export interface StoreState {
