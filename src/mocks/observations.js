@@ -7,7 +7,7 @@ export const createObservation = (observation?: any) => ({
   lat: 50.5,
   lon: 50.5,
   link: 'linkID',
-  created: new Date('2018-02-25T12:23'),
+  created: new Date('2018-02-25T20:23:00.000Z'),
   name: 'Oil Spill',
   notes:
     'This is pretty bad. It smells pretty noxious, and the entire pond is affected.',
