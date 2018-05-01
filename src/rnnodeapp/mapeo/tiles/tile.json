@@ -1,0 +1,6 @@
+{
+  "tilejson": "2.2.0",
+  "tiles": [
+      "http://localhost:9080/tiles/{z}/{x}/{y}.png"
+  ],
+}

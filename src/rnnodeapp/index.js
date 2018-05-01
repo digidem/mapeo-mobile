@@ -27,30 +27,33 @@ const getGeoJSON = require('osm-p2p-geojson');
 const mkdirp = require('mkdirp');
 const path = require('path');
 const os = require('os');
+const url = require('url');
+const fs = require('fs');
 
 const osmdbPath = path.resolve(os.homedir(), 'osm-p2p');
+const mapeoPath = path.resolve(os.homedir(), 'rnnodeapp', 'mapeo');
 
 mkdirp.sync(osmdbPath);
 
 const db = {
-  log: level(osmdbPath + '/log'),
-  index: level(osmdbPath + '/index'),
+  log: level(`${osmdbPath}/log`),
+  index: level(`${osmdbPath}/index`)
 };
 
 const osm = osmdb({
   log: hyperlog(db.log, { valueEncoding: 'json' }),
   db: db.index,
-  store: fdstore(4096, osmdbPath + '/kdb'),
+  store: fdstore(4096, `${osmdbPath}/kdb`)
 });
 
 const router = osmrouter(osm);
 
 http
-  .createServer(function(request, response) {
+  .createServer((request, response) => {
     if (request.url.endsWith('/geojson')) {
       const q = [[-Infinity, Infinity], [-Infinity, Infinity]];
-      osm.query(q, function (err, docs) {
-        getGeoJSON(osm, { docs}, function (err, geojson) {
+      osm.query(q, (err, docs) => {
+        getGeoJSON(osm, { docs }, (err, geojson) => {
           response.write(JSON.stringify(geojson));
           response.end();
         });
@@ -73,9 +76,9 @@ http
         type: 'node',
         lat: 64 + Math.random(),
         lon: -148 + Math.random(),
-        tags: { foo: "bar" },
+        tags: { foo: 'bar' }
       };
-      osm.create(node, function(err, key, node) {
+      osm.create(node, (err, key, node) => {
         if (err) console.error(err);
         else console.log(key);
       });
@@ -86,13 +89,33 @@ http
 
     if (request.url.endsWith('/query')) {
       const q = [[-Infinity, Infinity], [-Infinity, Infinity]];
-      osm.query(q, function(err, pts) {
+      osm.query(q, (err, pts) => {
         if (err) console.error(err);
         else {
           response.write(JSON.stringify(pts));
           response.end();
         }
       });
+      return;
+    }
+
+    if (url.parse(request.url).pathname.match(/tiles\/\d+\/\d+\/\d+.png/)) {
+      const { pathname } = url.parse(request.url);
+      const split = pathname.split('/');
+      const file = fs.readFileSync(
+        `${mapeoPath}/tiles/${split[split.length - 3]}/${
+          split[split.length - 2]
+        }/${split[split.length - 1]}`
+      );
+      response.statusCode = 200;
+      response.end(file);
+      return;
+    }
+
+    if (request.url.endsWith('/tile.json')) {
+      const file = fs.readFileSync(`${mapeoPath}/tiles/tile.json`);
+      response.statusCode = 200;
+      response.end(file);
       return;
     }
 

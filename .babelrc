@@ -1,3 +1,22 @@
 {
-  "presets": ["react-native"]
+  "presets": ["react-native"],
+  "plugins": [
+    "transform-react-jsx-source",
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "extensions": [".js", ".ios.js", ".android.js"],
+        "alias": {
+          "@source": "./src",
+          "@ducks": "./src/ducks",
+          "@epics": "./src/epics",
+          "@components": "./src/components",
+          "@types": "./src/types",
+          "@mocks": "./src/mocks",
+          "@lib": "./src/lib"
+        }
+      }
+    ]
+  ]
 }

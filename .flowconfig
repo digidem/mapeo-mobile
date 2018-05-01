@@ -29,6 +29,12 @@ module.system=haste
 
 munge_underscores=true
 
+module.name_mapper='^@source' ->'<PROJECT_ROOT>/src'
+module.name_mapper='^@ducks' ->'<PROJECT_ROOT>/src/ducks'
+module.name_mapper='^@mocks' ->'<PROJECT_ROOT>/src/mocks'
+module.name_mapper='^@epics' ->'<PROJECT_ROOT>/src/epics'
+module.name_mapper='^@types' ->'<PROJECT_ROOT>/src/types'
+module.name_mapper='^@lib' ->'<PROJECT_ROOT>/src/lib'
 module.name_mapper='^[./a-zA-Z0-9$_-]+\.\(bmp\|gif\|jpg\|jpeg\|png\|psd\|svg\|webp\|m4v\|mov\|mp4\|mpeg\|mpg\|webm\|aac\|aiff\|caf\|m4a\|mp3\|wav\|html\|pdf\)$' -> 'RelativeImageStub'
 
 suppress_type=$FlowIssue
@@ -42,7 +48,5 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(>=0\\.\\(5[0-6]\\|[1-4][0-9]\\|
 suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
-unsafe.enable_getters_and_setters=true
-
 [version]
-^0.56.0
+^0.63.1

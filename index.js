@@ -17,7 +17,7 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { AppRegistry } from "react-native";
-import App from "./src/App";
+import { AppRegistry } from 'react-native';
+import App from './src/App';
 
-AppRegistry.registerComponent("MapeoMobile", () => App);
+AppRegistry.registerComponent('MapeoMobile', () => App);

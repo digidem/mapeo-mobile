@@ -1,0 +1,47 @@
+{
+  "at": "en",
+  "on": "el",
+  "category": "Categoría",
+  "categories": {
+    "0": "Corriente de rió",
+    "1": "Túnel/cueva",
+    "2": "Sitio de caza",
+    "3": "Sitio de pesca",
+    "4": "Casa/granja vieja",
+    "5": "Cementerio",
+    "6": "Planta medicinal",
+    "7": "Recurso para artesania",
+    "8": "Oro",
+    "9": "Árbol frutal plantado",
+    "10": "Yoko",
+    "11": "Yage",
+    "12": "Persona invisible",
+    "13": "Cascada",
+    "14": "Colina/montaña (sagrado)",
+    "15": "Enorme árbol especial",
+    "16": "Boa",
+    "17": "Sitio historico",
+    "18": "Planta/animal en peligro de extinción",
+    "19": "Amenaza"
+  },
+  "observations": {
+    "title": "Observaciones",
+    "sync": "Conectarse para sincronizar",
+    "all_observations": "Todas las observaciones",
+    "view_by": "Ver por más reciente"
+  },
+  "loading": "Cargando...",
+  "saved": "Salvado!",
+  "continue": "Continuar",
+  "saving_image": "Guardar Imagen",
+  "editor": {
+    "placeholder": "¿Que esta pasando aqui?",
+    "media_button": "Fotos y Videos",
+    "details_button": "Detalles"
+  },
+  "detail_view": {
+    "km_away": "km de distancia",
+    "photo": "foto",
+    "observed_by": "Observado por"
+  }
+}

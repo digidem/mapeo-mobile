@@ -11,19 +11,52 @@
     "benchmark": "./run-benchmark.sh"
   },
   "dependencies": {
+    "@mapbox/geo-viewport": "^0.2.2",
     "@mapbox/react-native-mapbox-gl": "^6.0.2-rc1",
-    "react": "16.0.0",
-    "react-native": "0.50.1",
-    "react-native-node": "^3.3.0"
+    "immutability-helper": "^2.6.4",
+    "moment": "^2.20.1",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.2",
+    "react-native": "^0.55.3",
+    "react-native-camera": "^1.0.2",
+    "react-native-drawer": "^2.5.0",
+    "react-native-i18n": "^2.0.12",
+    "react-native-node": "^3.3.0",
+    "react-native-vector-icons": "^4.5.0",
+    "react-navigation": "^2.0.0-rc.5",
+    "react-navigation-redux-helpers": "^1.0.1",
+    "react-navigation-tabs": "^0.1.0-alpha.3",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-mock-store": "^1.5.1",
+    "redux-observable": "^0.17.0",
+    "redux-persist": "^5.9.1",
+    "rxjs": "^5.5.6"
   },
   "devDependencies": {
     "appium": "^1.7.1",
+    "babel-eslint": "^8.2.1",
     "babel-jest": "21.2.0",
+    "babel-plugin-module-resolver": "^3.0.0",
     "babel-preset-react-native": "4.0.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.3",
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-import-resolver-babel-module": "^4.0.0",
+    "eslint-plugin-flowtype": "^2.41.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.5.1",
+    "flow": "^0.2.3",
+    "flow-bin": "^0.63.1",
     "jest": "21.2.1",
     "license-check": "^1.1.5",
     "noderify": "^3.0.2",
-    "react-test-renderer": "16.0.0",
+    "prettier": "1.10.2",
+    "react-test-renderer": "^16.3.2",
     "tape": "^4.8.0",
     "wd": "^1.4.1"
   },
@@ -39,6 +72,16 @@
     "logError": true
   },
   "jest": {
-    "preset": "react-native"
+    "automock": false,
+    "preset": "react-native",
+    "setupFiles": [
+      "<rootDir>/src/setupTests.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/benchmark"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-navigation)"
+    ]
   }
 }

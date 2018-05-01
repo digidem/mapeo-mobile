@@ -1,4 +1,10 @@
 rootProject.name = 'MapeoMobile'
+include ':react-native-vector-icons'
+project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+include ':react-native-i18n'
+project(':react-native-i18n').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-i18n/android')
+include ':react-native-camera'
+project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
 include ':react-native-node'
 project(':react-native-node').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-node/android')
 include ':mapbox-react-native-mapbox-gl'

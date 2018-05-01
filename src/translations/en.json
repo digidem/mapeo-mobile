@@ -1,0 +1,47 @@
+{
+  "at": "at",
+  "on": "on",
+  "category": "Category",
+  "categories": {
+    "0": "River/stream",
+    "1": "Tunnel/cave",
+    "2": "Hunting site",
+    "3": "Fishing site",
+    "4": "Old house/farm",
+    "5": "Burial site",
+    "6": "Medicinal plant",
+    "7": "Resource for artesania",
+    "8": "Gold",
+    "9": "Planted fruit tree",
+    "10": "Yoko",
+    "11": "Yage",
+    "12": "Invisible person",
+    "13": "Waterfall",
+    "14": "Hill/mountain (sacred)",
+    "15": "Huge special tree",
+    "16": "Boa",
+    "17": "Historical site",
+    "18": "Plant/animal in danger of extinction",
+    "19": "Threat"
+  },
+  "observations": {
+    "title": "Observations",
+    "sync": "Connect to sync",
+    "all_observations": "All Observations",
+    "view_by": "View by Most Recent"
+  },
+  "loading": "Loading...",
+  "saved": "Saved!",
+  "continue": "Continue",
+  "saving_image": "Saving Image",
+  "editor": {
+    "placeholder": "What's happening here?",
+    "media_button": "Photos & Videos",
+    "details_button": "Details"
+  },
+  "detail_view": {
+    "km_away": "km away",
+    "photo": "photo",
+    "observed_by": "Observed by"
+  }
+}
