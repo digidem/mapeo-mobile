@@ -16,6 +16,7 @@ import EntypoIcon from 'react-native-vector-icons/Entypo';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
+import type { UpdateRequest } from '@api/observations';
 import type { Observation } from '../../../types/observation';
 import { DARK_GREY, MEDIUM_GREY, MANGO } from '../../../lib/styles';
 import CategoryPin from '../../../images/category-pin.png';
@@ -28,7 +29,7 @@ export type StateProps = {
 export type DispatchProps = {
   goToEditorView: () => void,
   goToPhotoView: (params: Object) => void,
-  addObservation: (o: Observation) => void,
+  updateObservation: (o: UpdateRequest) => void,
   goBack: () => void
 };
 
@@ -235,10 +236,10 @@ class ObservationDetailView extends React.Component<
   }
 
   saveObservation = () => {
-    const { selectedObservation, addObservation } = this.props;
+    const { selectedObservation, updateObservation } = this.props;
 
     if (selectedObservation) {
-      addObservation(selectedObservation);
+      updateObservation(selectedObservation);
     }
   };
 
@@ -313,7 +314,13 @@ class ObservationDetailView extends React.Component<
               />
             </View>
             <Text style={styles.title}>
-              {I18n.t(`categories.${selectedObservation.categoryId}`)}
+              {I18n.t(
+                `categories.${
+                  selectedObservation.categoryId
+                    ? selectedObservation.categoryId
+                    : ''
+                }`
+              )}
             </Text>
             <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
               <Text style={styles.positionAtText}>{I18n.t('at')} </Text>

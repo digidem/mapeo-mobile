@@ -58,7 +58,10 @@ class ObservationsView extends React.Component<
     });
   }
 
-  shouldComponentUpdate(nextProps: Props & StateProps, nextState: State) {
+  shouldComponentUpdate(
+    nextProps: Props & StateProps & DispatchProps,
+    nextState: State
+  ) {
     if (nextProps !== this.props || nextState !== this.state) {
       return true;
     }

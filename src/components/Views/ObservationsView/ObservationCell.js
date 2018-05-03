@@ -108,6 +108,7 @@ I18n.translations = {
 const ObservationCell = (props: Props) => {
   const esLocale = require('moment/locale/es');
   const currentLocale = props.currentLocale;
+  const { observation, onPress } = props;
   let dateString;
   if (currentLocale && currentLocale.includes('es')) {
     dateString = moment(props.observation.created).calendar(null, {
@@ -130,28 +131,34 @@ const ObservationCell = (props: Props) => {
   }
 
   const handlePress = () => {
-    props.onPress(props.observation);
+    onPress(observation);
   };
 
-  const hasMedia = props.observation && !!props.observation.media.length;
+  const hasMedia = observation && !!observation.media.length;
 
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.container}>
         <View style={styles.text}>
           <Text style={styles.title}>{dateString}</Text>
-          <Text>{I18n.t(`categories.${props.observation.categoryId}`)}</Text>
+          <Text>
+            {I18n.t(
+              `categories.${
+                observation.categoryId ? observation.categoryId : ''
+              }`
+            )}
+          </Text>
         </View>
         <View style={{ flexDirection: 'column' }}>
           {hasMedia && (
             <Image
-              source={{ uri: props.observation.media[0].source }}
+              source={{ uri: observation.media[0].source }}
               style={styles.media}
             />
           )}
           <View style={[styles.circle, hasMedia ? styles.circleWithMedia : {}]}>
-            {!!props.observation &&
-              !!props.observation.icon && (
+            {!!observation &&
+              !!observation.icon && (
                 <View
                   style={{
                     alignItems: 'center',
@@ -159,7 +166,7 @@ const ObservationCell = (props: Props) => {
                   }}
                 >
                   <Image
-                    source={props.observation.icon}
+                    source={observation.icon}
                     style={hasMedia ? styles.iconWithMedia : styles.icon}
                     resizeMode="contain"
                   />

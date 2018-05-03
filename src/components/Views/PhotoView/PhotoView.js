@@ -11,6 +11,7 @@ import {
 import { NavigationActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Feather';
 import CloseIcon from 'react-native-vector-icons/MaterialIcons';
+import type { UpdateRequest } from '@api/observations';
 import { CHARCOAL, MAGENTA, MANGO, WHITE } from '../../../lib/styles';
 import type { Observation } from '../../../types/observation';
 import Gradient from '../../../images/gradient-overlay.png';
@@ -20,11 +21,11 @@ export type Props = {
 };
 
 export type StateProps = {
-  selectedObservation: Observation
+  selectedObservation?: Observation
 };
 
 export type DispatchProps = {
-  updateObservation: (o: Observation) => void
+  updateObservation: (o: UpdateRequest) => void
 };
 
 const styles = StyleSheet.create({
@@ -90,7 +91,7 @@ class PhotoView extends React.PureComponent<
 
     if (selectedObservation) {
       updateObservation({
-        ...selectedObservation,
+        id: selectedObservation.id,
         media: selectedObservation.media.filter(
           photo => navigation.state.params.photoSource !== photo.source
         )
@@ -119,35 +120,37 @@ class PhotoView extends React.PureComponent<
             alignItems: 'center'
           }}
         >
-          {hasPhoto && (
-            <ImageBackground
-              style={{
-                width: Dimensions.get('window').width,
-                height: fromDetailView ? Dimensions.get('window').height : imageHeight,
-                alignItems: 'center'
-              }}
-              resizeMode={selectedObservation.mock ? 'contain' : 'cover'}
-              source={
-                navigation.state.params.photoType === 'LocalPhoto'
-                  ? navigation.state.params.photoSource
-                  : { uri: navigation.state.params.photoSource }
-              }
-            >
-              {fromCameraTab && (
-                <TouchableOpacity
-                  style={styles.arrowButton}
-                  onPress={() => navigation.navigate('Position')}
-                >
-                  <Icon
-                    color="white"
-                    name="arrow-right"
-                    size={35}
-                    style={styles.arrowIcon}
-                  />
-                </TouchableOpacity>
-              )}
-              {fromDetailView && 
-                selectedObservation.mock ?
+          {hasPhoto &&
+            selectedObservation && (
+              <ImageBackground
+                style={{
+                  width: Dimensions.get('window').width,
+                  height: fromDetailView
+                    ? Dimensions.get('window').height
+                    : imageHeight,
+                  alignItems: 'center'
+                }}
+                resizeMode="cover"
+                source={
+                  navigation.state.params.photoType === 'LocalPhoto'
+                    ? navigation.state.params.photoSource
+                    : { uri: navigation.state.params.photoSource }
+                }
+              >
+                {fromCameraTab && (
+                  <TouchableOpacity
+                    style={styles.arrowButton}
+                    onPress={() => navigation.navigate('Position')}
+                  >
+                    <Icon
+                      color="white"
+                      name="arrow-right"
+                      size={35}
+                      style={styles.arrowIcon}
+                    />
+                  </TouchableOpacity>
+                )}
+                {fromDetailView && selectedObservation.mock ? (
                   <View
                     style={{
                       position: 'absolute',
@@ -174,7 +177,8 @@ class PhotoView extends React.PureComponent<
                         />
                       </TouchableOpacity>
                     </ImageBackground>
-                  </View> :
+                  </View>
+                ) : (
                   <TouchableOpacity
                     style={{ position: 'absolute', right: 15, top: 15 }}
                     onPress={() => navigation.goBack()}
@@ -186,27 +190,27 @@ class PhotoView extends React.PureComponent<
                       style={styles.arrowIcon}
                     />
                   </TouchableOpacity>
-              }
-            </ImageBackground>
-          )}
+                )}
+              </ImageBackground>
+            )}
         </View>
-        {!fromCameraTab && 
+        {!fromCameraTab &&
           !fromDetailView && (
-          <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity
-              style={styles.backButton}
-              onPress={() => navigation.goBack()}
-            >
-              <Text style={styles.buttonText}>Back</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.deleteButton}
-              onPress={this.handleDeletePhoto}
-            >
-              <Text style={styles.buttonText}>Delete</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.goBack()}
+              >
+                <Text style={styles.buttonText}>Back</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={this.handleDeletePhoto}
+              >
+                <Text style={styles.buttonText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          )}
       </View>
     );
   }

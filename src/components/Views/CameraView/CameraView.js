@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import I18n from 'react-native-i18n';
+import type { UpdateRequest } from '@api/observations';
 import type { Observation } from '../../../types/observation';
 import { CHARCOAL, WHITE } from '../../../lib/styles.js';
 
@@ -49,11 +50,11 @@ export type Props = {
 };
 
 export type StateProps = {
-  selectedObservation: Observation
+  selectedObservation?: Observation
 };
 
 export type DispatchProps = {
-  updateObservation: (o: Observation) => void,
+  updateObservation: (o: UpdateRequest) => void,
   goToObservationEditor: () => void
 };
 

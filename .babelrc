@@ -14,7 +14,8 @@
           "@components": "./src/components",
           "@types": "./src/types",
           "@mocks": "./src/mocks",
-          "@lib": "./src/lib"
+          "@lib": "./src/lib",
+          "@api": "./src/api"
         }
       }
     ]

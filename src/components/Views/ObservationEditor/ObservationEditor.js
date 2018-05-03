@@ -22,6 +22,7 @@ import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import LocationPin from 'react-native-vector-icons/Entypo';
 import I18n from 'react-native-i18n';
+import type { UpdateRequest } from '@api/observations';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
 import CategoryPin from '../../../images/category-pin.png';
@@ -47,10 +48,9 @@ export type Props = {
 };
 
 export type DispatchProps = {
-  updateObservation: (o: Observation) => void,
+  updateObservation: (o: UpdateRequest) => void,
   goToPhotoView: (photoSource: string) => void,
   goToObservationFields: () => void,
-  addObservation: (o: Observation) => void,
   goToCameraView: () => void,
   goToCategories: () => void,
   goBack: () => void,
@@ -347,7 +347,7 @@ class ObservationEditor extends React.Component<
 
   handleSaveObservation = () => {
     const {
-      addObservation,
+      updateObservation,
       selectedObservation,
       goToTabBarNavigation,
       showSavedModal
@@ -355,7 +355,7 @@ class ObservationEditor extends React.Component<
     const { text } = this.state;
 
     if (selectedObservation) {
-      addObservation({
+      updateObservation({
         ...selectedObservation,
         notes: text
       });
@@ -370,7 +370,7 @@ class ObservationEditor extends React.Component<
 
     if (selectedObservation) {
       updateObservation({
-        ...selectedObservation,
+        id: selectedObservation.id,
         notes: this.state.text
       });
     }
@@ -385,7 +385,7 @@ class ObservationEditor extends React.Component<
 
     if (selectedObservation) {
       updateObservation({
-        ...selectedObservation,
+        id: selectedObservation.id,
         notes: this.state.text
       });
     }

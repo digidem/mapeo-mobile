@@ -13,6 +13,7 @@ import {
 import { NavigationActions, withNavigation } from 'react-navigation';
 import CloseIcon from 'react-native-vector-icons/MaterialIcons';
 import ArrowIcon from 'react-native-vector-icons/Feather';
+import type { UpdateRequest } from '@api/observations';
 import {
   DARK_GREY,
   CHARCOAL,
@@ -30,11 +31,11 @@ export type Props = {
 };
 
 export type StateProps = {
-  selectedObservation: Observation
+  selectedObservation?: Observation
 };
 
 export type DispatchProps = {
-  updateObservation: (o: Observation) => void
+  updateObservation: (o: UpdateRequest) => void
 };
 
 type State = {
@@ -183,7 +184,7 @@ class Position extends React.PureComponent<
 
     if (selectedObservation) {
       updateObservation({
-        ...selectedObservation,
+        id: selectedObservation.id,
         lat: parseFloat(split[0].trim()),
         lon: parseFloat(split[1].trim())
       });

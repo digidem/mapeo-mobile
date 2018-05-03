@@ -5,7 +5,7 @@ import type { Dispatch } from 'redux';
 import { values } from 'lodash';
 import { StoreState } from '../../../types/redux';
 
-import { observationAdd, observationUpdate } from '../../../ducks/observations';
+import { observationUpdate } from '../../../ducks/observations';
 import { modalShow } from '../../../ducks/modals';
 import ObservationEditor from './ObservationEditor';
 import type { Props, StateProps, DispatchProps } from './ObservationEditor';
@@ -26,7 +26,6 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
-    addObservation: observation => dispatch(observationAdd(observation)),
     updateObservation: observation => dispatch(observationUpdate(observation)),
     goToPhotoView: source =>
       dispatch(
