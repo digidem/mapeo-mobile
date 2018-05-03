@@ -42,10 +42,11 @@ I18n.translations = {
 };
 
 class ObservationsView extends React.Component<
-  Props & StateProps & DispatchProps
+  Props & StateProps & DispatchProps,
+  State
 > {
-  shouldComponentUpdate(nextProps: Props & StateProps) {
-    if (nextProps !== this.props) {
+  shouldComponentUpdate(nextProps: Props & StateProps, nextState: State) {
+    if (nextProps !== this.props || nextState !== this.state) {
       return true;
     }
     return false;

@@ -29,96 +29,40 @@ const path = require('path');
 const os = require('os');
 const url = require('url');
 const fs = require('fs');
+const Osm = require('osm-p2p');
+const blobstore = require('fs-blob-store');
+const Router = require('mapeo-mobile-server');
 
-const osmdbPath = path.resolve(os.homedir(), 'osm-p2p');
-const mapeoPath = path.resolve(os.homedir(), 'rnnodeapp', 'mapeo');
+const osm = Osm('./db');
+const media = blobstore('./media');
 
-mkdirp.sync(osmdbPath);
+const route = Router(osm, media);
 
-const db = {
-  log: level(`${osmdbPath}/log`),
-  index: level(`${osmdbPath}/index`)
-};
-
-const osm = osmdb({
-  log: hyperlog(db.log, { valueEncoding: 'json' }),
-  db: db.index,
-  store: fdstore(4096, `${osmdbPath}/kdb`)
+const server = http.createServer((req, res) => {
+  const fn = route(req, res);
+  if (fn) {
+    fn();
+  } else {
+    res.statusCode = 404;
+    res.end('not found\n');
+  }
 });
+server.listen(5000);
 
-const router = osmrouter(osm);
-
-http
-  .createServer((request, response) => {
-    if (request.url.endsWith('/geojson')) {
-      const q = [[-Infinity, Infinity], [-Infinity, Infinity]];
-      osm.query(q, (err, docs) => {
-        getGeoJSON(osm, { docs }, (err, geojson) => {
-          response.write(JSON.stringify(geojson));
-          response.end();
-        });
-      });
-      return;
-    }
-
-    if (router.handle(request, response)) {
-      return;
-    }
-
-    if (request.url.endsWith('/ping')) {
-      response.write('pong');
-      response.end();
-      return;
-    }
-
-    if (request.url.endsWith('/create')) {
-      const node = {
-        type: 'node',
-        lat: 64 + Math.random(),
-        lon: -148 + Math.random(),
-        tags: { foo: 'bar' }
-      };
-      osm.create(node, (err, key, node) => {
-        if (err) console.error(err);
-        else console.log(key);
-      });
-      response.writeHead(200);
-      response.end();
-      return;
-    }
-
-    if (request.url.endsWith('/query')) {
-      const q = [[-Infinity, Infinity], [-Infinity, Infinity]];
-      osm.query(q, (err, pts) => {
-        if (err) console.error(err);
-        else {
-          response.write(JSON.stringify(pts));
-          response.end();
-        }
-      });
-      return;
-    }
-
-    if (url.parse(request.url).pathname.match(/tiles\/\d+\/\d+\/\d+.png/)) {
-      const { pathname } = url.parse(request.url);
-      const split = pathname.split('/');
-      const file = fs.readFileSync(
-        `${mapeoPath}/tiles/${split[split.length - 3]}/${
-          split[split.length - 2]
-        }/${split[split.length - 1]}`
-      );
-      response.statusCode = 200;
-      response.end(file);
-      return;
-    }
-
-    if (request.url.endsWith('/tile.json')) {
-      const file = fs.readFileSync(`${mapeoPath}/tiles/tile.json`);
-      response.statusCode = 200;
-      response.end(file);
-      return;
-    }
-
-    console.warn('Invalid request:', request);
-  })
-  .listen(9080);
+// const osmdbPath = path.resolve(os.homedir(), 'osm-p2p');
+// const mapeoPath = path.resolve(os.homedir(), 'rnnodeapp', 'mapeo');
+//
+// mkdirp.sync(osmdbPath);
+//
+// const db = {
+//   log: level(`${osmdbPath}/log`),
+//   index: level(`${osmdbPath}/index`)
+// };
+//
+// const osm = osmdb({
+//   log: hyperlog(db.log, { valueEncoding: 'json' }),
+//   db: db.index,
+//   store: fdstore(4096, `${osmdbPath}/kdb`)
+// });
+//
+// const router = osmrouter(osm);

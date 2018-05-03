@@ -15,6 +15,14 @@ import {
 import Drawer from 'react-native-drawer';
 import I18n from 'react-native-i18n';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { isEmpty, size, map, filter } from 'lodash';
+import type { CreateRequest, UpdateRequest } from '@api/observations';
+import env from '../../../../env.json';
+import AddButton from '../../../images/add-button.png';
+import Gradient from '../../../images/gradient-overlay.png';
+import { applyObservationDefaults } from '../../../models/observations';
+import type { Resource } from '../../../types/redux';
+import type { GPSState } from '../../../types/gps';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
 import ObservationsView from '../ObservationsView';
@@ -28,6 +36,31 @@ import {
 } from '../../../lib/styles';
 import Header from '../../Base/Header';
 import SavedModal from '../../Base/SavedModal';
+
+export type StateProps = {
+  observations: {
+    [id: string]: Observation
+  },
+  selectedObservation?: Observation,
+  gps?: GPSState,
+  showSavedModal: boolean
+};
+
+export type DispatchProps = {
+  listObservations: () => void,
+  createObservation: (observation: CreateRequest) => void,
+  updateObservation: (observation: UpdateRequest) => void,
+  goToCategories: () => void,
+  goToObservationDetail: () => void,
+  selectObservation: (observation: Observation) => void,
+  onDrawerClose: () => void,
+  onDrawerOpen: () => void
+};
+
+type Props = {
+  isFocused: boolean,
+  navigation: NavigationActions
+};
 
 const styles = StyleSheet.create({
   buttonText: {
@@ -52,19 +85,6 @@ const styles = StyleSheet.create({
     top: 15
   }
 });
-
-type Props = {
-  navigation: NavigationActions
-};
-
-export type StateProps = {
-  showSavedModal: boolean
-};
-
-export type DispatchProps = {
-  onDrawerClose: () => void,
-  onDrawerOpen: () => void
-};
 
 I18n.fallbacks = true;
 I18n.translations = {
