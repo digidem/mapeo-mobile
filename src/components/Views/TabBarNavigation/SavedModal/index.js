@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withNavigationFocus } from 'react-navigation';
 
 import SavedModal from './SavedModal';
+import { observationSelect } from '../../../../ducks/observations';
 import { modalHide } from '../../../../ducks/modals';
 import { observationSelect } from '../../../../ducks/observations';
 
