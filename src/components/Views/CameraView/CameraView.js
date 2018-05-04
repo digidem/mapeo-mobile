@@ -95,7 +95,7 @@ class CameraView extends React.Component<
       goToObservationEditor
     } = this.props;
     if (this.camera) {
-      const options = { quality: 0.5, base64: true, fixOrientation: true };
+      const options = { quality: 0.5, fixOrientation: true };
       try {
         this.setState({ loading: true });
         const data = await this.camera.takePictureAsync(options);
@@ -124,7 +124,6 @@ class CameraView extends React.Component<
     const { isFocused } = this.props;
 
     if (!isFocused) {
-      console.log('RN - Unmount RNCamera in CameraView');
       return <View />;
     }
 

@@ -1,5 +1,4 @@
 // @flow
-import moment from 'moment';
 
 export const createObservation = (observation?: any) => ({
   type: 'Observation',
