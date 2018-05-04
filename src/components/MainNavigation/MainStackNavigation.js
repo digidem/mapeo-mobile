@@ -1,5 +1,5 @@
 // @flow
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/StackView/StackViewStyleInterpolator';
 
 import Categories from '../Views/Categories';
@@ -35,7 +35,7 @@ const stackConfiguration = {
   })
 };
 
-const MainStackNavigation = StackNavigator(
+const MainStackNavigation = createStackNavigator(
   routeConfiguration,
   stackConfiguration
 );

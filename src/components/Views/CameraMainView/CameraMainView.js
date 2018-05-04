@@ -95,7 +95,7 @@ class CameraMainView extends React.Component<
 
   takePicture = async () => {
     if (this.camera) {
-      const options = { quality: 0.5, base64: true, fixOrientation: true };
+      const options = { quality: 0.5, fixOrientation: true };
       try {
         const {
           createObservation,
