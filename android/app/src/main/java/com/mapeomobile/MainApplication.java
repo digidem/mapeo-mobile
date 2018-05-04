@@ -5,6 +5,7 @@ import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.react.ReactApplication;
 import com.mapbox.rctmgl.RCTMGLPackage;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.mapbox.rctmgl.RCTMGLPackage;
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImageResizerPackage(),
             new VectorIconsPackage(),
             new RNI18nPackage(),
           new RNCameraPackage(),
