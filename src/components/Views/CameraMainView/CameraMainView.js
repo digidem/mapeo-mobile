@@ -2,8 +2,6 @@
 import React from 'react';
 import { withNavigationFocus } from 'react-navigation';
 import {
-  CameraRoll,
-  PermissionsAndroid,
   Image,
   StyleSheet,
   TouchableOpacity,
@@ -82,27 +80,6 @@ class CameraMainView extends React.Component<
     loading: false
   };
 
-  componentDidMount() {
-    (async () => {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          {
-            title: 'Mapeo Mobile Storage Permission',
-            message:
-              'Mapeo Mobile needs access to your Camera Roll ' +
-              'so you can save your photos'
-          }
-        );
-
-        return granted;
-      } catch (err) {
-        console.warn('Failed to request permission', err);
-        return null;
-      }
-    })();
-  }
-
   shouldComponentUpdate(
     nextProps: Props & StateProps & DispatchProps,
     nextState: State
@@ -131,7 +108,6 @@ class CameraMainView extends React.Component<
 
         const data = await this.camera.takePictureAsync(options);
         this.setState({ loading: false });
-        CameraRoll.saveToCameraRoll(data.uri);
 
         goToCategories();
         const initialObservation = {

@@ -2,7 +2,6 @@
 import React from 'react';
 import { withNavigationFocus } from 'react-navigation';
 import {
-  CameraRoll,
   Image,
   StyleSheet,
   Text,
@@ -101,7 +100,6 @@ class CameraView extends React.Component<
         this.setState({ loading: true });
         const data = await this.camera.takePictureAsync(options);
         this.setState({ loading: false });
-        CameraRoll.saveToCameraRoll(data.uri);
 
         if (selectedObservation) {
           updateObservation({
