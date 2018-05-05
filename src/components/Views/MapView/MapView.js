@@ -20,11 +20,13 @@ import env from '../../../../env.json';
 import AddButton from '../../../images/add-button.png';
 import Gradient from '../../../images/gradient-overlay.png';
 import { WHITE } from '../../../lib/styles';
+import { applyObservationDefaults } from '../../../models/observations';
 
 export type StateProps = {
   observations: {
     [id: string]: Observation
-  }
+  },
+  selectedObservation?: Observation
 };
 
 export type DispatchProps = {
@@ -129,29 +131,19 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
       createObservation,
       observations,
       updateObservation,
-      goToCategories
+      goToCategories,
+      selectedObservation
     } = this.props;
-    const initialObservation = {
-      type: 'Rios y corrientes',
-      id: size(observations) + 1,
-      lat: 0,
-      lon: 0,
-      link: 'link',
-      created: new Date(),
-      name: '',
-      notes: '',
-      observedBy: 'You',
-      media: [],
-      icon: null
-    };
-
+    const initialObservation = applyObservationDefaults({
+      id: size(observations) + 1
+    });
     goToCategories();
 
     createObservation(initialObservation);
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords;
       updateObservation({
-        ...initialObservation,
+        ...(selectedObservation || initialObservation),
         lat: Math.round(latitude * 1000) / 1000,
         lon: Math.round(longitude * 1000) / 1000
       });
@@ -185,19 +177,9 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
     const { coordinates } = point.geometry;
 
     const { createObservation, observations, goToCategories } = this.props;
-    const initialObservation = {
-      type: 'Rios y corrientes',
-      id: size(observations) + 1,
-      lat: coordinates[1],
-      lon: coordinates[0],
-      link: 'link',
-      created: new Date(),
-      name: '',
-      notes: '',
-      observedBy: 'user',
-      media: [],
-      icon: null
-    };
+    const initialObservation = applyObservationDefaults({
+      id: size(observations) + 1
+    });
 
     goToCategories();
 
