@@ -18,6 +18,12 @@ function mapStateToProps(state: StoreState): StateProps {
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     addObservation: observation => dispatch(observationAdd(observation)),
+    goToEditorView: () =>
+      dispatch(
+        NavigationActions.navigate({
+          routeName: 'ObservationEditor'
+        })
+      ),
     goToPhotoView: params =>
       dispatch(
         NavigationActions.navigate({
