@@ -107,7 +107,6 @@ class CameraMainView extends React.Component<
         this.setState({ loading: true });
 
         const data = await this.camera.takePictureAsync(options);
-
         this.setState({ loading: false });
 
         goToCategories();
@@ -129,6 +128,7 @@ class CameraMainView extends React.Component<
         navigator.geolocation.getCurrentPosition(
           position => {
             const { latitude, longitude } = position.coords;
+
             updateObservation({
               ...initialObservation,
               lat: Math.round(latitude * 1000) / 1000,

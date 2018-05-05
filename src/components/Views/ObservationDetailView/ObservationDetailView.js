@@ -18,12 +18,14 @@ import I18n from 'react-native-i18n';
 import type { Observation } from '../../../types/observation';
 import { DARK_GREY, MANGO } from '../../../lib/styles';
 import CategoryPin from '../../../images/category-pin.png';
+import PencilIcon from '../../../images/editor-details.png';
 
 export type StateProps = {
   selectedObservation?: Observation
 };
 
 export type DispatchProps = {
+  goToEditorView: () => void,
   goToPhotoView: (params: Object) => void,
   addObservation: (o: Observation) => void,
   goBack: () => void
@@ -227,7 +229,12 @@ class ObservationDetailView extends React.Component<
   };
 
   render() {
-    const { selectedObservation, goToPhotoView, goBack } = this.props;
+    const {
+      selectedObservation,
+      goToEditorView,
+      goToPhotoView,
+      goBack
+    } = this.props;
     const keyExtractor = item => item.source.toString();
     let mediaText = '';
     const thereIsMedia =
@@ -258,6 +265,12 @@ class ObservationDetailView extends React.Component<
               />
             </TouchableOpacity>
             <Image source={CategoryPin} style={styles.categoryPin} />
+            <TouchableOpacity
+              onPress={() => goToEditorView()}
+              style={{ position: 'absolute', right: 20, top: 25 }}
+            >
+              <Image source={PencilIcon} style={{ width: 20, height: 20 }} />
+            </TouchableOpacity>
             <View style={styles.categoryIconContainer}>
               <Image
                 source={selectedObservation.icon}
