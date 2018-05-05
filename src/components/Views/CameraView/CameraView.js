@@ -101,10 +101,7 @@ class CameraView extends React.Component<
         this.setState({ loading: true });
         const data = await this.camera.takePictureAsync(options);
         this.setState({ loading: false });
-
-        CameraRoll.saveToCameraRoll(data.uri)
-          .then(() => alert('success!'), () => alert('failed'))
-          .catch(() => console.warn('error saving photo to camera roll'));
+        CameraRoll.saveToCameraRoll(data.uri);
 
         if (selectedObservation) {
           updateObservation({
