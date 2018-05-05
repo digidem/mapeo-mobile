@@ -14,7 +14,6 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '@types/observation';
 import { isEmpty, size, map, filter } from 'lodash';
-import moment from 'moment';
 import env from '../../../../env.json';
 
 import AddButton from '../../../images/add-button.png';

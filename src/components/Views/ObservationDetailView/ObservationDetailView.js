@@ -9,7 +9,7 @@ import {
   ScrollView,
   StyleSheet
 } from 'react-native';
-import moment from 'moment';
+import moment from '../../../lib/localizedMoment';
 import { withNavigationFocus } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import LeftChevron from 'react-native-vector-icons/Entypo';

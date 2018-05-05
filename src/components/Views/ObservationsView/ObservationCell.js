@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import moment from 'moment';
 import {
   View,
   Text,
@@ -12,6 +11,7 @@ import {
 import I18n from 'react-native-i18n';
 import type { Observation } from '../../../types/observation';
 import { LIGHT_GREY } from '../../../lib/styles';
+import moment from '../../../lib/localizedMoment';
 
 export type Props = {
   currentLocale: string,
@@ -109,11 +109,7 @@ const ObservationCell = (props: Props) => {
   const esLocale = require('moment/locale/es');
   const currentLocale = props.currentLocale;
   let dateString;
-  if (
-    (currentLocale && currentLocale.includes('es')) ||
-    moment.locale() === 'es'
-  ) {
-    moment.updateLocale('es', esLocale);
+  if (currentLocale && currentLocale.includes('es')) {
     dateString = moment(props.observation.created).calendar(null, {
       sameDay: '[Hoy], h:mm A',
       nextDay: '[Mañana], h:mm A',
@@ -123,7 +119,6 @@ const ObservationCell = (props: Props) => {
       sameElse: 'MM/D/YYYY, h:mm A'
     });
   } else {
-    moment.updateLocale('en');
     dateString = moment(props.observation.created).calendar(null, {
       sameDay: '[Today], h:mm A',
       nextDay: '[Tomorrow], h:mm A',

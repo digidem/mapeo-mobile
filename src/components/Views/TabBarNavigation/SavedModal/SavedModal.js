@@ -12,7 +12,7 @@ import {
 import type { Observation } from '../../../../types/observation';
 import Toast from '../../../Base/Toast/Toast';
 import I18n from 'react-native-i18n';
-import moment from 'moment';
+import moment from '../../../../lib/localizedMoment';
 import {
   WHITE,
   MAPEO_BLUE,

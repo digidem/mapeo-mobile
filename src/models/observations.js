@@ -12,6 +12,7 @@ export const applyObservationDefaults = (partial: Object): Observation => ({
   observedBy: 'You',
   media: [],
   icon: null,
+  categoryId: '0',
 
   ...partial
 });

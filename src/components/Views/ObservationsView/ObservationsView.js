@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import moment from 'moment';
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -18,6 +17,7 @@ import I18n from 'react-native-i18n';
 import type { Observation } from '../../../types/observation';
 import ObservationCell from './ObservationCell';
 import ObservationHeader from './ObservationHeader';
+import moment from '../../../lib/localizedMoment';
 
 export type StateProps = {
   drawerOpened: boolean,
@@ -80,9 +80,6 @@ class ObservationsView extends React.Component<
     const { observations } = this.props;
     const sectionMappings = {};
     let label;
-    const esLocale = require('moment/locale/es');
-    if (I18n.currentLocale() === 'es') moment.locale('es', esLocale);
-    else moment.locale('en');
 
     observations.forEach(o => {
       const createdMoment = moment(o.created);
