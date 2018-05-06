@@ -13,11 +13,11 @@ import {
 import { RNCamera } from 'react-native-camera';
 import { size } from 'lodash';
 import I18n from 'react-native-i18n';
-import moment from 'moment';
 import type { Observation } from '../../../types/observation';
 import { CHARCOAL, WHITE } from '../../../lib/styles.js';
 
 import AddButton from '../../../images/add-button.png';
+import { applyObservationDefaults } from '../../../models/observations';
 
 const styles = StyleSheet.create({
   cancelButton: {
@@ -53,7 +53,8 @@ export type Props = {
 export type StateProps = {
   observations: {
     [id: string]: Observation
-  }
+  },
+  selectedObservation?: Observation
 };
 
 type State = {
@@ -101,7 +102,8 @@ class CameraMainView extends React.Component<
           createObservation,
           observations,
           updateObservation,
-          goToCategories
+          goToCategories,
+          selectedObservation
         } = this.props;
 
         this.setState({ loading: true });
@@ -110,19 +112,9 @@ class CameraMainView extends React.Component<
         this.setState({ loading: false });
 
         goToCategories();
-        const initialObservation = {
-          type: '',
-          id: size(observations) + 1,
-          lat: 0,
-          lon: 0,
-          link: 'link',
-          created: new Date(),
-          name: '',
-          notes: '',
-          observedBy: 'You',
-          media: [],
-          icon: null
-        };
+        const initialObservation = applyObservationDefaults({
+          id: size(observations) + 1
+        });
         createObservation(initialObservation);
 
         navigator.geolocation.getCurrentPosition(
@@ -130,7 +122,7 @@ class CameraMainView extends React.Component<
             const { latitude, longitude } = position.coords;
 
             updateObservation({
-              ...initialObservation,
+              ...(selectedObservation || initialObservation),
               lat: Math.round(latitude * 1000) / 1000,
               lon: Math.round(longitude * 1000) / 1000,
               media: initialObservation.media.concat([

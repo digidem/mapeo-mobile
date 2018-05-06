@@ -14,7 +14,8 @@ import MapView from './MapView';
 import type { DispatchProps, StateProps } from './MapView';
 
 const mapStateToProps = (state: StoreState): StateProps => ({
-  observations: state.app.observations
+  observations: state.app.observations,
+  selectedObservation: state.app.selectedObservation
 });
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
