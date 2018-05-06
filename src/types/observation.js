@@ -19,5 +19,5 @@ export interface Observation {
   observedBy: string;
   media: ObservationMedia[];
   icon: any;
-  categoryId?: string;
+  categoryId: string;
 }
