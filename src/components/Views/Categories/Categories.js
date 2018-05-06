@@ -14,7 +14,7 @@ import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import I18n from 'react-native-i18n';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
-import Header from '../../Base/Header/Header';
+import Header from '../../Base/Header';
 import {
   DARK_GREY,
   LIGHT_GREY,

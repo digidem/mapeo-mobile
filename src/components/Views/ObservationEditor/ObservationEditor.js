@@ -33,7 +33,7 @@ import {
   MEDIUM_GREY,
   VERY_LIGHT_BLUE
 } from '../../../lib/styles';
-import Header from '../../Base/Header/Header';
+import Header from '../../Base/Header';
 
 export type StateProps = {
   category?: Category,

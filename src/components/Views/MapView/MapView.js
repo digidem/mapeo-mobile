@@ -20,6 +20,8 @@ import AddButton from '../../../images/add-button.png';
 import Gradient from '../../../images/gradient-overlay.png';
 import { WHITE } from '../../../lib/styles';
 import { applyObservationDefaults } from '../../../models/observations';
+import type { Resource } from '../../../types/redux';
+import type { GPSState } from '../../../types/gps';
 
 export type StateProps = {
   observations: {
@@ -103,12 +105,14 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
 });
 
 class MapView extends React.Component<Props & StateProps & DispatchProps> {
-  async componentDidMount() {
-    const { observations, listObservations } = this.props;
+  constructor() {
+    super();
 
     MapboxGL.setAccessToken(env.accessToken);
-    await MapboxGL.requestAndroidLocationPermissions();
-    await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
+  }
+
+  componentDidMount() {
+    const { observations, listObservations } = this.props;
 
     if (!observations || isEmpty(observations)) {
       listObservations();
@@ -139,14 +143,6 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
     goToCategories();
 
     createObservation(initialObservation);
-    navigator.geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords;
-      updateObservation({
-        ...(selectedObservation || initialObservation),
-        lat: Math.round(latitude * 1000) / 1000,
-        lon: Math.round(longitude * 1000) / 1000
-      });
-    });
   };
 
   handlePress = (point: Object) => {
@@ -177,11 +173,12 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
 
     const { createObservation, observations, goToCategories } = this.props;
     const initialObservation = applyObservationDefaults({
-      id: size(observations) + 1
+      id: size(observations) + 1,
+      lat: coordinates[1],
+      lon: coordinates[0]
     });
 
     goToCategories();
-
     createObservation(initialObservation);
   };
 

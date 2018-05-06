@@ -47,6 +47,7 @@ export function createInitialStore() {
     },
     drawers: {
       observations: false
-    }
+    },
+    gps: { status: 'Pending' }
   };
 }
