@@ -17,22 +17,31 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-const osm = require('osm-p2p-db');
+const http = require('http');
+const path = require('path');
+const osm = require('osm-p2p');
 const blobstore = require('fs-blob-store');
 const Router = require('mapeo-mobile-server');
+const os = require('os');
+const mkdirp = require('mkdirp');
 
-const media = blobstore('./media');
+const USER_PATH = path.join(os.homedir(), 'mapeo', 'default');
+const DB_PATH = path.join(USER_PATH, 'db');
+const MEDIA_PATH = path.join(USER_PATH, 'media');
+mkdirp.sync(DB_PATH);
+mkdirp.sync(MEDIA_PATH);
 
-const route = Router(osm, media);
+const db = osm(DB_PATH);
+const media = blobstore(MEDIA_PATH);
 
-const http = require('http');
+const route = Router(db, media);
 
-const server = http
-  .createServer((req, res) => {
-    if (route(req, res)) {
-    } else {
-      res.statusCode = 404;
-      res.end('not found\n');
-    }
-  })
-  .listen(9080);
+const server = http.createServer((req, res) => {
+  if (route(req, res)) {
+  } else {
+    res.statusCode = 404;
+    res.end('not found\n');
+  }
+});
+
+server.listen(9080);
