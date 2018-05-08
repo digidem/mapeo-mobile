@@ -15,6 +15,16 @@ ShallowWrapper {
       Object {
         "categoryId": 19,
         "created": 2018-02-25T20:23:00.000Z,
+        "fields": Array [
+          Object {
+            "answer": "",
+            "answered": false,
+            "id": "0",
+            "name": "Source",
+            "placeholder": "Source of the data",
+            "type": "text",
+          },
+        ],
         "icon": Object {
           "testUri": "../../../src/images/categories/category_18.png",
         },

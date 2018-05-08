@@ -14,6 +14,16 @@ export const createObservation = (observation?: any) => ({
   media: [],
   icon: require('../images/categories/category_18.png'),
   categoryId: 19,
+  fields: [
+    {
+      id: '0',
+      name: 'Source',
+      type: 'text',
+      placeholder: 'Source of the data',
+      answered: false,
+      answer: ''
+    }
+  ],
 
   ...observation
 });

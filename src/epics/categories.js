@@ -9,84 +9,104 @@ import type { Category } from '../types/category';
 
 const initialCategories = [
   {
-    name: 'Rivers and streams',
-    icon: require('../images/categories/category_0.png')
+    name: 'River/stream',
+    icon: require('../images/categories/category_0.png'),
+    fieldIds: [7]
   },
   {
-    name: 'Tunnels / caves',
-    icon: require('../images/categories/category_1.png')
+    name: 'Tunnel/cave',
+    icon: require('../images/categories/category_1.png'),
+    fieldIds: [7]
   },
   {
-    name: 'Hunting sites',
-    icon: require('../images/categories/category_2.png')
+    name: 'Hunting site',
+    icon: require('../images/categories/category_2.png'),
+    fieldIds: [7]
   },
   {
-    name: 'Fishing sites',
-    icon: require('../images/categories/category_3.png')
+    name: 'Fishing site',
+    icon: require('../images/categories/category_3.png'),
+    fieldIds: [7]
   },
   {
-    name: 'Old houses and farms',
-    icon: require('../images/categories/category_4.png')
+    name: 'Old house/farm',
+    icon: require('../images/categories/category_4.png'),
+    fieldIds: [7, 5]
   },
   {
-    name: 'Burial sites',
-    icon: require('../images/categories/category_5.png')
+    name: 'Burial site',
+    icon: require('../images/categories/category_5.png'),
+    fieldIds: [7]
   },
   {
-    name: 'Medicinal plants',
-    icon: require('../images/categories/category_6.png')
+    name: 'Medicinal plant',
+    icon: require('../images/categories/category_6.png'),
+    fieldIds: [7, 6]
   },
   {
-    name: 'Resources for artesania',
-    icon: require('../images/categories/category_7.png')
+    name: 'Resource for artesania',
+    icon: require('../images/categories/category_7.png'),
+    fieldIds: [7, 6]
   },
   {
     name: 'Gold',
-    icon: require('../images/categories/category_8.png')
+    icon: require('../images/categories/category_8.png'),
+    fieldIds: [7]
   },
   {
-    name: 'Planted fruit trees',
-    icon: require('../images/categories/category_9.png')
+    name: 'Planted fruit tree',
+    icon: require('../images/categories/category_9.png'),
+    fieldIds: [7, 8]
   },
   {
     name: 'Yoko',
-    icon: require('../images/categories/category_10.png')
+    icon: require('../images/categories/category_10.png'),
+    fieldIds: [7]
   },
   {
     name: 'Yage',
-    icon: require('../images/categories/category_11.png')
+    icon: require('../images/categories/category_11.png'),
+    fieldIds: [7]
   },
   {
-    name: 'Invisible people',
-    icon: require('../images/categories/category_12.png')
+    name: 'Invisible person',
+    icon: require('../images/categories/category_12.png'),
+    fieldIds: [7, 2]
   },
   {
-    name: 'Waterfalls',
-    icon: require('../images/categories/category_13.png')
+    name: 'Waterfall',
+    icon: require('../images/categories/category_13.png'),
+    fieldIds: [7, 2]
   },
   {
-    name: 'Hills and mountains (sacred)',
-    icon: require('../images/categories/category_14.png')
+    name: 'Hill/mountain (sacred)',
+    icon: require('../images/categories/category_14.png'),
+    fieldIds: [7, 2]
   },
   {
-    name: 'Huge special trees',
-    icon: require('../images/categories/category_15.png')
+    name: 'Huge special tree',
+    icon: require('../images/categories/category_15.png'),
+    fieldIds: [7, 2, 8]
   },
   {
-    name: 'Boas',
-    icon: require('../images/categories/category_16.png')
+    name: 'Boa',
+    icon: require('../images/categories/category_16.png'),
+    fieldIds: [7]
   },
   {
-    name: 'Historical sites',
-    icon: require('../images/categories/category_17.png')
+    name: 'Historical site',
+    icon: require('../images/categories/category_17.png'),
+    fieldIds: [7, 2]
   },
   {
-    name: 'Plants and animals in danger of extinction',
-    icon: require('../images/categories/category_18.png')
+    name: 'Plant/animal in danger of extinction',
+    icon: require('../images/categories/category_18.png'),
+    fieldIds: [7, 6]
   },
   {
     name: 'Threat',
-    icon: require('../images/categories/category_18.png')
+    icon: require('../images/categories/category_18.png'),
+    fieldIds: [7]
   }
 ];
 
@@ -103,7 +123,8 @@ export const categoryListEpic = (
           createCategory({
             name: c.name,
             id: i.toString(),
-            icon: c.icon
+            icon: c.icon,
+            fieldIds: c.fieldIds
           })
         )
       )

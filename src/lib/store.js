@@ -42,6 +42,7 @@ export function createInitialStore() {
   return {
     observations: {},
     categories: {},
+    fields: {},
     modals: {
       saved: false
     },

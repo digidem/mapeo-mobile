@@ -4,6 +4,7 @@ import type { Category } from './category';
 import type { ModalState } from './modal';
 import type { DrawerState } from './drawer';
 import type { GPSState } from './gps';
+import type { Field } from './field';
 
 export interface AppStoreState {
   observations: {
@@ -21,6 +22,10 @@ export interface AppStoreState {
   drawers: DrawerState;
 
   gps: Resource<GPSState>;
+
+  fields: {
+    [id: string]: Field
+  };
 }
 
 export interface StoreState {

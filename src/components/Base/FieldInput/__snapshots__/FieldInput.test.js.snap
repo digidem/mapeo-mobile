@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FieldInput tests snapshot 1`] = `
+<View
+  style={
+    Object {
+      "borderBottomWidth": 1,
+      "borderColor": "#EAEAEA",
+      "flex": 1,
+      "padding": 20,
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "black",
+        "fontSize": 20,
+        "fontWeight": "700",
+      }
+    }
+  >
+    fieldName
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    placeholder="this is some placeholder text"
+    style={
+      Object {
+        "borderColor": "#EAEAEA",
+        "borderRadius": 5,
+        "borderWidth": 1,
+        "fontSize": 20,
+        "height": 50,
+        "marginVertical": 10,
+        "paddingHorizontal": 10,
+      }
+    }
+    underlineColorAndroid="transparent"
+    value=""
+  />
+</View>
+`;
