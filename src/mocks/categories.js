@@ -3,7 +3,7 @@
 export const createCategory = (category?: any) => ({
   id: 'categoryID',
   name: 'categoryName',
-  fieldIds: [7],
+  fieldIds: [0],
 
   ...category
 });

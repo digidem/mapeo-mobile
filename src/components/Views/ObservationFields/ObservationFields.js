@@ -55,6 +55,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: WHITE
+  },
+  progressContainer: {
+    height: 50,
+    backgroundColor: 'rgba(0, 0, 0, .8)',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20
+  },
+  progressText: {
+    color: WHITE,
+    textAlign: 'center',
+    fontWeight: '400',
+    paddingRight: 25
   }
 });
 
@@ -163,25 +176,8 @@ class ObservationDetails extends React.Component<
           }}
         />
         <ScrollView>{fieldDetails}</ScrollView>
-        <View
-          style={{
-            height: 50,
-            backgroundColor: 'rgba(0, 0, 0, .8)',
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 20
-          }}
-        >
-          <Text
-            style={{
-              color: WHITE,
-              textAlign: 'center',
-              fontWeight: '400',
-              paddingRight: 25
-            }}
-          >
-            {progressText}
-          </Text>
+        <View style={styles.progressContainer}>
+          <Text style={styles.progressText}>{progressText}</Text>
           {progressBar}
         </View>
       </KeyboardAvoidingView>
