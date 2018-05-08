@@ -3,15 +3,10 @@
   "version": "0.0.0",
   "main": "index.js",
   "dependencies": {
-    "fd-chunk-store": "2.0.0",
-    "hyperlog": "4.12.1",
-    "level": "1.7.0",
+    "fs-blob-store": "^5.2.1",
     "leveldown-android-prebuilt": "2.0.3",
     "mapeo-mobile-server": "github:digidem/mapeo-mobile-server",
     "mkdirp": "0.5.1",
-    "noop2": "2.0.0",
-    "osm-p2p-db": "4.2.5",
-    "osm-p2p-geojson": "3.0.2",
-    "osm-p2p-server": "2.3.5"
+    "osm-p2p": "^2.0.0"
   }
 }
