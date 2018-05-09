@@ -1,7 +1,7 @@
 // @flow
 
 export const createField = (field?: any) => ({
-  id: 'fieldId',
+  id: '0',
   name: 'fieldName',
   type: 'text',
   placeholder: 'this is some placeholder text',

@@ -55,8 +55,11 @@ class FieldInput extends React.PureComponent<
 
   componentDidMount() {
     const { field } = this.props;
-    if (field.answered) this.setState({ text: field.answer });
-    else this.setState({ text: '' });
+    if (field.answered) {
+      this.setState({ text: field.answer });
+    } else {
+      this.setState({ text: '' });
+    }
   }
 
   updateText = () => {
@@ -66,7 +69,7 @@ class FieldInput extends React.PureComponent<
       if (f.name === field.name) {
         return {
           ...f,
-          answered: this.state.text !== '',
+          answered: !!this.state.text,
           answer: this.state.text
         };
       }

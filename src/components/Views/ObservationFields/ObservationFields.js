@@ -101,9 +101,7 @@ class ObservationDetails extends React.Component<
     const { addObservation, selectedObservation } = this.props;
 
     if (selectedObservation) {
-      addObservation({
-        ...selectedObservation
-      });
+      addObservation(selectedObservation);
     }
   };
 
@@ -116,11 +114,8 @@ class ObservationDetails extends React.Component<
       goToPhotoView
     } = this.props;
 
-    const fields = selectedObservation.fields;
-    let fieldsAnswered = 0;
-    fields.forEach(field => {
-      if (field.answered) fieldsAnswered++;
-    });
+    const { fields } = selectedObservation;
+    const fieldsAnswered = fields.filter(f => f.answered).length;
 
     const fieldDetails = fields.map((field, i) => (
       <FieldInput
