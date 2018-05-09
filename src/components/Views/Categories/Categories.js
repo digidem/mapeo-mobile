@@ -13,6 +13,7 @@ import CheckIcon from 'react-native-vector-icons/Octicons';
 import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import I18n from 'react-native-i18n';
 import type { Category } from '../../../types/category';
+import type { Field } from '../../../types/field';
 import type { Observation } from '../../../types/observation';
 import Header from '../../Base/Header';
 import {
@@ -27,6 +28,7 @@ type Props = {
 };
 
 export type StateProps = {
+  allFields: Field[],
   categories: Category[],
   selectedObservation: Observation
 };
@@ -141,8 +143,9 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
   }
 
   map: any;
-  handleUpdateObservation = item => {
+  handleUpdateObservation = (item: Category) => {
     const {
+      allFields,
       updateObservation,
       selectedObservation,
       goToObservationEditor
@@ -151,7 +154,8 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
     updateObservation({
       ...selectedObservation,
       icon: item.icon,
-      categoryId: item.id
+      categoryId: item.id,
+      fields: item.fieldIds.map(fieldId => allFields[fieldId])
     });
 
     goToObservationEditor(item.id);

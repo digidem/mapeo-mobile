@@ -8,6 +8,7 @@ import drawers from './drawers';
 import modals from './modals';
 import observations from './observations';
 import gps from './gps';
+import fields from './fields';
 
 const rootReducer = combineReducers({
   app: appCombineReducers(
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     ...drawers,
     ...modals,
     ...observations,
-    ...gps
+    ...gps,
+    ...fields
   ),
 
   mainStack: (state, action) =>

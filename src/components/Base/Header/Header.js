@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, ActivityIndicator, Text } from 'react-native';
 import I18n from 'react-native-i18n';
-import { WHITE, MAPEO_BLUE } from '../../../lib/styles';
+import { GREEN, WHITE, MAPEO_BLUE } from '../../../lib/styles';
 import type { Resource } from '../../../types/redux';
 import type { GPSState } from '../../../types/gps';
 
@@ -73,7 +73,7 @@ class Header extends React.PureComponent<Props & StateProps> {
             {!showLoading && (
               <View
                 style={{
-                  backgroundColor: '#7AFA4C',
+                  backgroundColor: GREEN,
                   height: 10,
                   width: 10,
                   borderRadius: 50

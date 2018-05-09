@@ -5,6 +5,7 @@ import { values } from 'lodash';
 import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import { StoreState } from '../../../types/redux';
 import { categoryList } from '../../../ducks/categories';
+import { fieldList } from '../../../ducks/fields';
 import { observationUpdate } from '../../../ducks/observations';
 import Categories from './Categories';
 import type { StateProps } from './Categories';
@@ -13,8 +14,10 @@ function mapStateToProps(state: StoreState): StateProps {
   const categories = values(state.app.categories).sort(
     (a, b) => a.name - b.name
   );
+  const allFields = values(state.app.fields);
 
   return {
+    allFields,
     categories,
     selectedObservation: state.app.selectedObservation
   };

@@ -1,5 +1,7 @@
 // @flow
 
+import type { Field } from './field';
+
 export type MediaType = 'Photo' | 'Video' | 'Audio' | 'LocalPhoto';
 
 export interface ObservationMedia {
@@ -20,4 +22,5 @@ export interface Observation {
   media: ObservationMedia[];
   icon: any;
   categoryId: string;
+  fields: Field[];
 }

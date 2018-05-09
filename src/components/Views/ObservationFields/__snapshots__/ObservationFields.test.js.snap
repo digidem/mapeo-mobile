@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObservationFields tests snapshot 1`] = `
+<View
+  enabled={true}
+  keyboardVerticalOffset={0}
+  onLayout={[Function]}
+  style={
+    Object {
+      "backgroundColor": "#ffffff",
+      "flex": 1,
+    }
+  }
+>
+  <RCTScrollView>
+    <View />
+  </RCTScrollView>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "rgba(0, 0, 0, .8)",
+        "flexDirection": "row",
+        "height": 50,
+        "paddingHorizontal": 20,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#ffffff",
+          "fontWeight": "400",
+          "paddingRight": 25,
+          "textAlign": "center",
+        }
+      }
+    >
+      0 of 1 answered
+    </Text>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "paddingTop": 2,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "borderRightColor": "rgba(0, 0, 0, .85)",
+            "borderWidth": 0.5,
+            "height": 8,
+            "width": 575,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

@@ -69,6 +69,9 @@ exports[`Categories tests snapshot 1`] = `
     data={
       Array [
         Object {
+          "fieldIds": Array [
+            0,
+          ],
           "id": "categoryID",
           "name": "categoryName",
         },

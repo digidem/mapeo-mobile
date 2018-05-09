@@ -9,7 +9,6 @@ import {
   Dimensions
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
-import LeftChevron from 'react-native-vector-icons/Feather';
 import SyncIcon from 'react-native-vector-icons/FontAwesome';
 import SettingsIcon from 'react-native-vector-icons/MaterialIcons';
 import { orderBy, map } from 'lodash';
