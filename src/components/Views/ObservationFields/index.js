@@ -20,13 +20,6 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     addObservation: observation => dispatch(observationAdd(observation)),
     updateObservation: observation => dispatch(observationUpdate(observation)),
-    goToPhotoView: source =>
-      dispatch(
-        NavigationActions.navigate({
-          routeName: 'PhotoView',
-          params: { photoSource: source }
-        })
-      ),
     goBack: () => dispatch(NavigationActions.back())
   };
 }

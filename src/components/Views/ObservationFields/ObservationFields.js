@@ -44,7 +44,6 @@ export type Props = {
 
 export type DispatchProps = {
   updateObservation: (o: Observation) => void,
-  goToPhotoView: (photoSource: string) => void,
   addObservation: (o: Observation) => void,
   goBack: () => void
 };
@@ -106,13 +105,7 @@ class ObservationDetails extends React.Component<
   };
 
   render() {
-    const {
-      allFields,
-      navigation,
-      goBack,
-      selectedObservation,
-      goToPhotoView
-    } = this.props;
+    const { allFields, navigation, goBack, selectedObservation } = this.props;
 
     const { fields } = selectedObservation;
     const fieldsAnswered = fields.filter(f => f.answered).length;
