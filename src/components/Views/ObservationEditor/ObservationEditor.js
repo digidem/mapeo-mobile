@@ -424,16 +424,16 @@ class ObservationEditor extends React.Component<
       : 'Loading...';
     const keyExtractor = item => item.source;
 
-    let fieldsAnswered = 0;
+    let fieldAnswered;
     if (selectedObservation) {
-      fieldsAnswered = selectedObservation.fields.filter(f => f.answered)
-        .length;
+      fieldAnswered = selectedObservation.fields.find(f => f.answered);
     }
+
     const showGreyCheck =
       text === '' &&
       selectedObservation &&
       !selectedObservation.media.length &&
-      fieldsAnswered === 0;
+      !fieldAnswered;
 
     if (!selectedObservation) {
       goBack();
