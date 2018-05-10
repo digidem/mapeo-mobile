@@ -14,13 +14,17 @@ import SettingsIcon from 'react-native-vector-icons/MaterialIcons';
 import { orderBy, map } from 'lodash';
 import I18n from 'react-native-i18n';
 import type { Observation } from '../../../types/observation';
+import type { Category } from '../../../types/category';
 import ObservationCell from './ObservationCell';
 import ObservationHeader from './ObservationHeader';
 import moment from '../../../lib/localizedMoment';
 
 export type StateProps = {
   drawerOpened: boolean,
-  observations: Observation[]
+  observations: Observation[],
+  categories: {
+    [id: string]: Category
+  }
 };
 
 export type DispatchProps = {
@@ -79,7 +83,7 @@ class ObservationsView extends React.Component<
   };
 
   render() {
-    const { observations } = this.props;
+    const { observations, categories } = this.props;
     const sectionMappings = {};
     let label;
 
@@ -130,6 +134,7 @@ class ObservationsView extends React.Component<
                 navigation={this.props.navigation}
                 observation={item}
                 onPress={handleItemPress}
+                category={categories[item.categoryId]}
               />
             )}
             data={sortedObservations}

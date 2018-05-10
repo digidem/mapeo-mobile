@@ -122,9 +122,7 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
   componentDidMount() {
     const { observations, listObservations } = this.props;
 
-    if (!observations || isEmpty(observations)) {
-      listObservations();
-    }
+    listObservations();
   }
 
   shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {

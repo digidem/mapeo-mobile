@@ -153,7 +153,6 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
 
     updateObservation({
       ...selectedObservation,
-      icon: item.icon,
       categoryId: item.id,
       fields: item.fieldIds.map(fieldId => allFields[fieldId])
     });
