@@ -1,6 +1,7 @@
 // @flow
 import fetch from 'fetch';
 import { jsonRequest } from './base';
+import { applyObservationDefaults } from '../models/observations';
 
 export interface CreateRequest {
   lat: number;
@@ -16,7 +17,7 @@ class Observation {
     jsonRequest({
       method: 'GET',
       route: '/observations'
-    });
+    }).map(observations => observations.map(applyObservationDefaults));
 
   static create = (observation: CreateRequest) =>
     jsonRequest({

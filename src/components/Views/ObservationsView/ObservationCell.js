@@ -10,12 +10,14 @@ import {
 } from 'react-native';
 import I18n from 'react-native-i18n';
 import type { Observation } from '../../../types/observation';
+import type { Category } from '../../../types/category';
 import { LIGHT_GREY } from '../../../lib/styles';
 import moment from '../../../lib/localizedMoment';
 
 export type Props = {
   currentLocale: string,
   observation: Observation,
+  category: Category,
   onPress: (i: Observation) => void
 };
 

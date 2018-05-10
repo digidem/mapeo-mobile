@@ -14,7 +14,7 @@ function mapStateToProps(state: StoreState): StateProps {
     (a, b) => new Date(b.created) - new Date(a.created)
   );
   const drawerOpened = state.app.drawers.observations;
-  return { drawerOpened, observations };
+  return { drawerOpened, observations, categories: state.app.categories };
 }
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {

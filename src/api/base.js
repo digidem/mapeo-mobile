@@ -1,7 +1,7 @@
 // @flow
 import { Observable } from 'rxjs';
 
-export const API_DOMAIN_URL = 'http://localhost:9080/';
+export const API_DOMAIN_URL = 'http://172.27.6.45:9080';
 
 const request = (method: string, route: string, body?: any) => {
   let resp: any;

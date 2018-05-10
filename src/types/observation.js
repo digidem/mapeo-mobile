@@ -20,7 +20,6 @@ export interface Observation {
   notes: string;
   observedBy: string;
   media: ObservationMedia[];
-  icon: any;
   categoryId: string;
   fields: Field[];
 }

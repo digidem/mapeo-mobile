@@ -24,7 +24,10 @@ export const observationListEpic = (
     .ofType(OBSERVATION_LIST)
     .filter(action => action.status === 'Start')
     .flatMap(() =>
-      Observation.list().map(observations => observationList('', observations))
+      Observation.list().map(observations => {
+        console.log('RN - Observations List', observations);
+        return observationList('', observations);
+      })
     );
 
 export const observationCreateEpic = (
@@ -35,9 +38,10 @@ export const observationCreateEpic = (
     .ofType(OBSERVATION_CREATE)
     .filter(action => action.status === 'Start')
     .flatMap(action =>
-      Observation.create(action.meta).map(observation =>
-        observationCreate(action.meta, observation)
-      )
+      Observation.create(action.meta).map(observation => {
+        console.log('RN - Observation Created');
+        return observationCreate(action.meta, observation);
+      })
     );
 
 export const observationUpdateEpic = (
@@ -53,4 +57,8 @@ export const observationUpdateEpic = (
       )
     );
 
-export default [observationListEpic];
+export default [
+  observationListEpic,
+  observationCreateEpic,
+  observationUpdateEpic
+];
