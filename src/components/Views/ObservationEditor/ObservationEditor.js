@@ -33,7 +33,7 @@ import {
   MEDIUM_GREY,
   VERY_LIGHT_BLUE
 } from '../../../lib/styles';
-import Header from '../../Base/Header/Header';
+import Header from '../../Base/Header';
 
 export type StateProps = {
   category?: Category,
@@ -48,6 +48,7 @@ export type Props = {
 export type DispatchProps = {
   updateObservation: (o: Observation) => void,
   goToPhotoView: (photoSource: string) => void,
+  goToObservationFields: () => void,
   addObservation: (o: Observation) => void,
   goToCameraView: () => void,
   goBack: () => void,
@@ -403,20 +404,36 @@ class ObservationEditor extends React.Component<
     Keyboard.dismiss();
   };
 
+  goToObservationFields = () => {
+    const { goToObservationFields } = this.props;
+    goToObservationFields();
+    Keyboard.dismiss();
+  };
+
   render() {
     const {
       navigation,
       goBack,
       selectedObservation,
-      goToPhotoView
+      goToPhotoView,
+      goToObservationFields
     } = this.props;
     const { keyboardShown, text } = this.state;
     const positionText = selectedObservation
       ? `${selectedObservation.lat}, ${selectedObservation.lon}`
       : 'Loading...';
     const keyExtractor = item => item.source;
+
+    let fieldAnswered;
+    if (selectedObservation) {
+      fieldAnswered = selectedObservation.fields.find(f => f.answered);
+    }
+
     const showGreyCheck =
-      text === '' && selectedObservation && !selectedObservation.media.length;
+      text === '' &&
+      selectedObservation &&
+      !selectedObservation.media.length &&
+      !fieldAnswered;
 
     if (!selectedObservation) {
       goBack();
@@ -569,7 +586,10 @@ class ObservationEditor extends React.Component<
               >
                 <Icon color={MEDIUM_GREY} name="photo-camera" size={30} />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.goToObservationFields}
+                underlayColor="transparent"
+              >
                 <Image source={PencilIcon} style={{ width: 25, height: 25 }} />
               </TouchableOpacity>
             </Animated.View>
@@ -593,7 +613,11 @@ class ObservationEditor extends React.Component<
                   </Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.bottomButton}>
+              <TouchableOpacity
+                style={styles.bottomButton}
+                onPress={this.goToObservationFields}
+                underlayColor="transparent"
+              >
                 <View style={{ flexDirection: 'row' }}>
                   <Image
                     source={PencilIcon}

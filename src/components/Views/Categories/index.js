@@ -5,6 +5,7 @@ import { values } from 'lodash';
 import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import { StoreState } from '../../../types/redux';
 import { categoryList } from '../../../ducks/categories';
+import { fieldList } from '../../../ducks/fields';
 import { observationUpdate } from '../../../ducks/observations';
 import Categories from './Categories';
 import type { StateProps } from './Categories';
@@ -15,6 +16,7 @@ function mapStateToProps(state: StoreState): StateProps {
   );
 
   return {
+    allFields: state.app.fields,
     categories,
     selectedObservation: state.app.selectedObservation
   };
@@ -23,7 +25,10 @@ function mapStateToProps(state: StoreState): StateProps {
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
     updateObservation: observation => dispatch(observationUpdate(observation)),
-    listCategories: () => dispatch(categoryList('')),
+    listCategories: () => {
+      dispatch(categoryList(''));
+      dispatch(fieldList(''));
+    },
     goToObservationEditor: category =>
       dispatch(
         NavigationActions.navigate({

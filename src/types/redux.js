@@ -3,6 +3,8 @@ import type { Observation } from './observation';
 import type { Category } from './category';
 import type { ModalState } from './modal';
 import type { DrawerState } from './drawer';
+import type { GPSState } from './gps';
+import type { Field } from './field';
 
 export interface AppStoreState {
   observations: {
@@ -18,6 +20,12 @@ export interface AppStoreState {
   modals: ModalState;
 
   drawers: DrawerState;
+
+  gps: Resource<GPSState>;
+
+  fields: {
+    [id: string]: Field
+  };
 }
 
 export interface StoreState {
@@ -37,7 +45,15 @@ export interface Action<M, P> {
 }
 
 export interface Reducers<M, P> {
-  start?: (state: StoreState, action: Action<M, P>) => StoreState;
-  success?: (state: StoreState, action: Action<M, P>) => StoreState;
-  error?: (state: StoreState, action: Action<M, P>) => StoreState;
+  start?: (state: AppStoreState, action: Action<M, P>) => AppStoreState;
+  success?: (state: AppStoreState, action: Action<M, P>) => AppStoreState;
+  error?: (state: AppStoreState, action: Action<M, P>) => AppStoreState;
+}
+
+export type ResourceStatus = 'Pending' | 'Success' | 'Failed';
+
+export interface Resource<M> {
+  status: ResourceStatus;
+  data: M;
+  error?: Error;
 }

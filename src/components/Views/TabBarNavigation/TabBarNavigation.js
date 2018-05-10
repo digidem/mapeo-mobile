@@ -27,7 +27,7 @@ import {
   VERY_LIGHT_BLUE,
   MEDIUM_GREY
 } from '../../../lib/styles';
-import Header from '../../Base/Header/Header';
+import Header from '../../Base/Header';
 import SavedModal from './SavedModal';
 
 const styles = StyleSheet.create({

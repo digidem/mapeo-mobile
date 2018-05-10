@@ -42,11 +42,13 @@ export function createInitialStore() {
   return {
     observations: {},
     categories: {},
+    fields: {},
     modals: {
       saved: false
     },
     drawers: {
       observations: false
-    }
+    },
+    gps: { status: 'Pending' }
   };
 }

@@ -27,8 +27,15 @@ export const {
   reducer: observationCreateReducer
 } = create('OBSERVATION_CREATE', {
   start: (state, action) => {
+    const observation = action.meta;
+
+    if (!observation.lat && !observation.lon && state.gps.data) {
+      observation.lat = state.gps.data.latitude;
+      observation.lon = state.gps.data.longitude;
+    }
+
     const newState = update(state, {
-      selectedObservation: { $set: action.meta }
+      selectedObservation: { $set: observation }
     });
 
     return newState;

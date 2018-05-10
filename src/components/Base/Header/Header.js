@@ -1,13 +1,19 @@
 import React from 'react';
 import { StyleSheet, View, ActivityIndicator, Text } from 'react-native';
 import I18n from 'react-native-i18n';
-import { WHITE, MAPEO_BLUE } from '../../../lib/styles';
+import { GREEN, WHITE, MAPEO_BLUE } from '../../../lib/styles';
+import type { Resource } from '../../../types/redux';
+import type { GPSState } from '../../../types/gps';
 
 interface Props {
   leftIcon: any;
   rightIcon: any;
   style?: any;
   showTriangle?: boolean;
+}
+
+export interface StateProps {
+  gps: Resource<GPSState>;
 }
 
 interface State {
@@ -48,28 +54,10 @@ const styles = StyleSheet.create({
   }
 });
 
-class Header extends React.PureComponent<Props, State> {
-  state = {
-    loading: true
-  };
-
-  // componentDidMount() {
-  //   this.timeout = setTimeout(
-  //     () =>
-  //       this.setState({
-  //         loading: false
-  //       }),
-  //     2000
-  //   );
-  // }
-  //
-  // componentWillUnmount() {
-  //   clearTimeout(this.timeout);
-  // }
-
+class Header extends React.PureComponent<Props & StateProps> {
   render() {
-    const { leftIcon, rightIcon, style, showTriangle } = this.props;
-    const { loading } = this.state;
+    const { leftIcon, rightIcon, style, showTriangle, gps } = this.props;
+    const showLoading = gps.status === 'Pending' || gps.data.accuracy > 100;
 
     return (
       <View style={[styles.headerBar, style]}>
@@ -81,16 +69,21 @@ class Header extends React.PureComponent<Props, State> {
           }}
         >
           <View style={styles.gpsPill}>
-            <View
-              style={{
-                backgroundColor: '#7AFA4C',
-                height: 10,
-                width: 10,
-                borderRadius: 50
-              }}
-            />
+            {showLoading && <ActivityIndicator />}
+            {!showLoading && (
+              <View
+                style={{
+                  backgroundColor: GREEN,
+                  height: 10,
+                  width: 10,
+                  borderRadius: 50
+                }}
+              />
+            )}
             <Text style={{ color: WHITE, marginHorizontal: 20 }}>
-              {`+/- 100m`}
+              {gps.status === 'Pending'
+                ? 'GPS Loading...'
+                : `+/-  ${Math.round(gps.data.accuracy)}m`}
             </Text>
           </View>
           {showTriangle && <View style={styles.triangle} />}
