@@ -28,9 +28,9 @@ type Props = {
 };
 
 export type StateProps = {
-  allFields: Field[],
+  allFields: { id: Field },
   categories: Category[],
-  selectedObservation: Observation
+  selectedObservation?: Observation
 };
 
 export type DispatchProps = {

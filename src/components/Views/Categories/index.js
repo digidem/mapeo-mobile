@@ -14,10 +14,9 @@ function mapStateToProps(state: StoreState): StateProps {
   const categories = values(state.app.categories).sort(
     (a, b) => a.name - b.name
   );
-  const allFields = values(state.app.fields);
 
   return {
-    allFields,
+    allFields: state.app.fields,
     categories,
     selectedObservation: state.app.selectedObservation
   };
@@ -26,7 +25,10 @@ function mapStateToProps(state: StoreState): StateProps {
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
     updateObservation: observation => dispatch(observationUpdate(observation)),
-    listCategories: () => dispatch(categoryList('')),
+    listCategories: () => {
+      dispatch(categoryList(''));
+      dispatch(fieldList(''));
+    },
     goToObservationEditor: category =>
       dispatch(
         NavigationActions.navigate({
