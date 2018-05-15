@@ -40,8 +40,9 @@
     "details_button": "Details"
   },
   "detail_view": {
-    "km_away": "km away",
     "photo": "photo",
+    "details": "Details",
+    "not_entered": "Not entered",
     "observed_by": "Observed by"
   }
 }
