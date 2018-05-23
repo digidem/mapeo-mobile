@@ -19,12 +19,16 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
 import type { UpdateRequest } from '@api/observations';
 import type { Observation } from '../../../types/observation';
+import type { Category } from '../../../types/category';
 import { DARK_GREY, MEDIUM_GREY, MANGO } from '../../../lib/styles';
 import CategoryPin from '../../../images/category-pin.png';
 import PencilIcon from '../../../images/editor-details.png';
 
 export type StateProps = {
-  selectedObservation?: Observation
+  selectedObservation?: Observation,
+  categories: {
+    [id: string]: Category
+  }
 };
 
 export type DispatchProps = {
@@ -254,7 +258,13 @@ class ObservationDetailView extends React.Component<
   };
 
   render() {
-    const { selectedObservation, goToEditorView, goToPhotoView } = this.props;
+    const {
+      selectedObservation,
+      goToEditorView,
+      goToPhotoView,
+      goBack,
+      categories
+    } = this.props;
     const keyExtractor = item => item.source.toString();
     let mediaTitle = null;
     let mediaText = `0 ${I18n.t('detail_view.photo')}s`;
@@ -317,7 +327,7 @@ class ObservationDetailView extends React.Component<
             </TouchableOpacity>
             <View style={styles.categoryIconContainer}>
               <Image
-                source={selectedObservation.icon}
+                source={categories[selectedObservation.categoryId].icon}
                 style={{ width: 25, height: 25 }}
                 resizeMode="contain"
               />

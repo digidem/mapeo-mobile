@@ -110,7 +110,7 @@ I18n.translations = {
 const ObservationCell = (props: Props) => {
   const esLocale = require('moment/locale/es');
   const currentLocale = props.currentLocale;
-  const { observation, onPress } = props;
+  const { observation, onPress, category } = props;
   let dateString;
   if (currentLocale && currentLocale.includes('es')) {
     dateString = moment(props.observation.created).calendar(null, {
@@ -159,8 +159,7 @@ const ObservationCell = (props: Props) => {
             />
           )}
           <View style={[styles.circle, hasMedia ? styles.circleWithMedia : {}]}>
-            {!!observation &&
-              !!observation.icon && (
+            {!!category.icon && (
                 <View
                   style={{
                     alignItems: 'center',
@@ -168,7 +167,7 @@ const ObservationCell = (props: Props) => {
                   }}
                 >
                   <Image
-                    source={observation.icon}
+                    source={category.icon}
                     style={hasMedia ? styles.iconWithMedia : styles.icon}
                     resizeMode="contain"
                   />

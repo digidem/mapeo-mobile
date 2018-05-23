@@ -13,8 +13,8 @@ import type { StateProps, DispatchProps } from './ObservationDetailView';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
-    observations: state.app.observations,
-    selectedObservation: state.app.selectedObservation
+    selectedObservation: state.app.selectedObservation,
+    categories: state.app.categories
   };
 }
 
