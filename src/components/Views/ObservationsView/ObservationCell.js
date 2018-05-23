@@ -1,14 +1,15 @@
 // @flow
 import React from 'react';
 import {
-  View,
+  Dimensions,
+  Image,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-  Image
+  View
 } from 'react-native';
 import I18n from 'react-native-i18n';
+
 import type { Observation } from '../../../types/observation';
 import type { Category } from '../../../types/category';
 import { LIGHT_GREY } from '../../../lib/styles';
@@ -70,35 +71,17 @@ const styles = StyleSheet.create({
     height: 25,
     zIndex: 5
   },
-  icon: {
-    width: 15,
-    height: 15
-  },
-  iconWithMedia: {
-    width: 12,
-    height: 12
-  },
+  icon: { width: 15, height: 15 },
+  iconWithMedia: { width: 12, height: 12 },
   innerCircle: {
     width: 40,
     height: 40,
     backgroundColor: LIGHT_GREY,
     borderRadius: 50
   },
-  title: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: 'black'
-  },
-  titleLong: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: 'black'
-  },
-  media: {
-    width: 60,
-    height: 60,
-    borderRadius: 7
-  }
+  title: { fontSize: 18, fontWeight: '700', color: 'black' },
+  titleLong: { fontSize: 16, fontWeight: '700', color: 'black' },
+  media: { width: 60, height: 60, borderRadius: 7 }
 });
 
 I18n.fallbacks = true;
@@ -159,7 +142,8 @@ const ObservationCell = (props: Props) => {
             />
           )}
           <View style={[styles.circle, hasMedia ? styles.circleWithMedia : {}]}>
-            {!!category.icon && (
+            {!!category &&
+              !!category.icon && (
                 <View
                   style={{
                     alignItems: 'center',

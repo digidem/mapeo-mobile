@@ -44,21 +44,22 @@ export const observationCreateEpic = (
       })
     );
 
-export const observationUpdateEpic = (
-  action$: ActionsObservable<Action<UpdateRequest, ObservationType>>,
-  store: StoreState
-) =>
-  action$
-    .ofType(OBSERVATION_UPDATE)
-    .filter(action => action.status === 'Start')
-    .flatMap(action =>
-      Observation.update(action.meta).map(observation =>
-        observationUpdate(action.meta, observation)
-      )
-    );
+// export const observationUpdateEpic = (
+//   action$: ActionsObservable<Action<UpdateRequest, ObservationType>>,
+//   store: StoreState
+// ) =>
+//   action$
+//     .ofType(OBSERVATION_UPDATE)
+//     .filter(action => action.status === 'Start')
+//     .flatMap(action =>
+//       Observation.update(action.meta).map(observation => {
+//         console.log('RN - Observation Updated - ', action.meta, observation);
+//         return observationUpdate(action.meta, observation);
+//       })
+//     );
 
 export default [
   observationListEpic,
-  observationCreateEpic,
-  observationUpdateEpic
+  observationCreateEpic
+  // observationUpdateEpic
 ];

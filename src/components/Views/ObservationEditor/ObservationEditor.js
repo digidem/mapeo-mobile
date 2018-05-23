@@ -503,7 +503,8 @@ class ObservationEditor extends React.Component<
       goToObservationFields,
       showCancelModal,
       cancelModalVisible,
-      showManualGPSModal
+      showManualGPSModal,
+      category
     } = this.props;
     const { keyboardShown, text } = this.state;
     const positionText = selectedObservation
@@ -562,13 +563,14 @@ class ObservationEditor extends React.Component<
         >
           <TouchableOpacity onPress={this.goToCategoriesView}>
             <View style={styles.circle}>
-              {selectedObservation.icon && (
-                <Image
-                  source={selectedObservation.icon}
-                  style={{ width: 30, height: 30 }}
-                  resizeMode="contain"
-                />
-              )}
+              {!!category &&
+                !!category.icon && (
+                  <Image
+                    source={category.icon}
+                    style={{ width: 30, height: 30 }}
+                    resizeMode="contain"
+                  />
+                )}
             </View>
           </TouchableOpacity>
           <View style={{ marginTop: 5, flexDirection: 'row' }}>

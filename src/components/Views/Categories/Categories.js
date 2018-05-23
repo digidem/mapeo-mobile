@@ -1,17 +1,18 @@
 // @flow
 import React from 'react';
 import {
+  Dimensions,
+  FlatList,
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  FlatList,
-  Dimensions,
-  Image
+  View
 } from 'react-native';
-import CheckIcon from 'react-native-vector-icons/Octicons';
-import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import I18n from 'react-native-i18n';
+import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import CheckIcon from 'react-native-vector-icons/Octicons';
+
 import type { Category } from '../../../types/category';
 import type { Field } from '../../../types/field';
 import type { Observation } from '../../../types/observation';
@@ -51,15 +52,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  close: {
-    position: 'absolute',
-    left: 10
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: LIGHT_GREY
-  },
+  close: { position: 'absolute', left: 10 },
+  title: { fontSize: 20, fontWeight: '700', color: LIGHT_GREY },
   circle: {
     width: 50,
     height: 50,
@@ -91,21 +85,14 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     width: Dimensions.get('window').width / 3
   },
-  cell: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
+  cell: { flex: 1, flexDirection: 'column', alignItems: 'center' },
   categoryName: {
     color: 'black',
     fontWeight: '700',
     textAlign: 'center',
     maxWidth: Dimensions.get('window').width / 3 - 2
   },
-  checkIcon: {
-    alignSelf: 'center',
-    marginLeft: 3
-  },
+  checkIcon: { alignSelf: 'center', marginLeft: 3 },
   greyCheck: {
     backgroundColor: LIGHT_GREY,
     height: 25,
@@ -153,13 +140,15 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
       goToObservationEditor
     } = this.props;
 
-    updateObservation({
-      ...selectedObservation,
-      categoryId: item.id,
-      fields: item.fieldIds.map(fieldId => allFields[fieldId])
-    });
+    if (selectedObservation) {
+      updateObservation({
+        id: selectedObservation.id,
+        categoryId: item.id,
+        fields: item.fieldIds.map(fieldId => allFields[fieldId])
+      });
 
-    goToObservationEditor(item.id);
+      goToObservationEditor(item.id);
+    }
   };
 
   renderItem = ({ item }) => (
