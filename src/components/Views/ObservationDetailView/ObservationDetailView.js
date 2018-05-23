@@ -395,8 +395,8 @@ class ObservationDetailView extends React.Component<
                 scrollEnabled={false}
                 rotateEnabled={false}
                 centerCoordinate={[
-                  selectedObservation.lon,
-                  selectedObservation.lat
+                  parseFloat(selectedObservation.lon),
+                  parseFloat(selectedObservation.lat)
                 ]}
               >
                 <MapboxGL.ShapeSource
@@ -407,8 +407,8 @@ class ObservationDetailView extends React.Component<
                     geometry: {
                       type: 'Point',
                       coordinates: [
-                        selectedObservation.lon,
-                        selectedObservation.lat
+                        parseFloat(selectedObservation.lon),
+                        parseFloat(selectedObservation.lat)
                       ]
                     },
                     properties: {

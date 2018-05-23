@@ -6,6 +6,8 @@ import type { Dispatch } from 'redux';
 import { StoreState } from '../../../types/redux';
 
 import { observationSelect } from '../../../ducks/observations';
+import { categoryList } from '../../../ducks/categories';
+import { fieldList } from '../../../ducks/fields';
 import ObservationsView from './ObservationsView';
 import type { StateProps, DispatchProps } from './ObservationsView';
 
@@ -23,7 +25,11 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     goToObservationDetail: () =>
       dispatch(
         NavigationActions.navigate({ routeName: 'ObservationDetailView' })
-      )
+      ),
+    listCategories: () => {
+      dispatch(categoryList(''));
+      dispatch(fieldList(''));
+    }
   };
 }
 

@@ -7,7 +7,8 @@ import { observationSelect } from '../../../../ducks/observations';
 import { modalHide } from '../../../../ducks/modals';
 
 const mapStateToProps = state => ({
-  selectedObservation: state.app.selectedObservation
+  selectedObservation: state.app.selectedObservation,
+  categories: state.app.categories,
 });
 
 const mapDispatchToProps = dispatch => ({

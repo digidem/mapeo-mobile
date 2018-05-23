@@ -29,7 +29,8 @@ export type StateProps = {
 
 export type DispatchProps = {
   selectObservation: (o: Observation) => void,
-  goToObservationDetail: () => void
+  goToObservationDetail: () => void,
+  listCategories: () => void
 };
 
 type Props = {
@@ -57,6 +58,10 @@ class ObservationsView extends React.Component<
   timer: any;
 
   componentDidMount() {
+    if (!Object.keys(this.props.categories).length) {
+      this.props.listCategories();
+    }
+
     this.setState({
       showSyncTip: true
     });
