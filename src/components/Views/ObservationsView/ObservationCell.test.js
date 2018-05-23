@@ -4,6 +4,7 @@ import 'react-native';
 import renderer from 'react-test-renderer';
 import ObservationCell from './ObservationCell';
 import { createObservation } from '../../../mocks/observations';
+import { createCategory } from '../../../mocks/categories';
 
 describe('ObservationCell tests', () => {
   const onPress = jest.fn();
@@ -13,7 +14,7 @@ describe('ObservationCell tests', () => {
   });
 
   test('snapshots', () => {
-    const cases = [{ observation: createObservation() }];
+    const cases = [{ observation: createObservation(), category: createCategory() }];
 
     let tree;
     cases.forEach(props => {
@@ -22,6 +23,7 @@ describe('ObservationCell tests', () => {
           currentLocale="es"
           observation={props.observation}
           onPress={onPress}
+          category={props.category}
         />
       );
       expect(tree).toMatchSnapshot();
