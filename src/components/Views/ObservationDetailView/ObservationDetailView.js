@@ -12,11 +12,12 @@ import {
 import moment from '../../../lib/localizedMoment';
 import { withNavigationFocus } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
-import LeftChevron from 'react-native-vector-icons/Entypo';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
 import type { Observation } from '../../../types/observation';
-import { DARK_GREY, MANGO } from '../../../lib/styles';
+import { DARK_GREY, MEDIUM_GREY, MANGO } from '../../../lib/styles';
 import CategoryPin from '../../../images/category-pin.png';
 import PencilIcon from '../../../images/editor-details.png';
 
@@ -87,13 +88,17 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center'
   },
-  topSection: {
-    alignSelf: 'stretch',
-    backgroundColor: '#ccffff',
-    borderBottomColor: 'lightgray',
-    borderBottomWidth: 1,
-    height: 200,
-    paddingVertical: 20
+  fieldAnswer: {
+    color: 'black',
+    fontSize: 18,
+    fontWeight: '700',
+    marginTop: 7,
+    marginBottom: 15
+  },
+  fieldTitle: {
+    color: 'black',
+    fontSize: 14,
+    fontWeight: '700'
   },
   mapBox: {
     flex: 1,
@@ -140,10 +145,11 @@ const styles = StyleSheet.create({
     flex: 1
   },
   sectionText: {
-    color: 'gray',
-    fontSize: 12,
+    color: 'black',
+    fontSize: 14,
+    fontWeight: '700',
     marginBottom: 15,
-    marginLeft: 15,
+    marginLeft: 10,
     marginTop: 15
   },
   stillHappening: {
@@ -173,6 +179,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     textAlign: 'center'
+  },
+  topSection: {
+    alignSelf: 'stretch',
+    backgroundColor: '#ccffff',
+    borderBottomColor: 'lightgray',
+    borderBottomWidth: 1,
+    height: 200,
+    paddingVertical: 20
   },
   header: {
     flexDirection: 'row',
@@ -236,28 +250,48 @@ class ObservationDetailView extends React.Component<
       goBack
     } = this.props;
     const keyExtractor = item => item.source.toString();
-    let mediaText = '';
-    const thereIsMedia =
-      selectedObservation &&
-      selectedObservation.media &&
-      selectedObservation.media.length > 0;
-    if (thereIsMedia)
-      mediaText = `${
-        selectedObservation && selectedObservation.media
-          ? selectedObservation.media.length
-          : 0
-      } ${I18n.t('detail_view.photo')}`;
-
+    let mediaTitle = null;
+    let mediaText = `0 ${I18n.t('detail_view.photo')}s`;
+    const numOfMedia =
+      selectedObservation && selectedObservation.media
+        ? selectedObservation.media.length
+        : null;
+    if (numOfMedia && numOfMedia > 0) {
+      mediaText = `${numOfMedia} ${I18n.t('detail_view.photo')}`;
+      if (numOfMedia && numOfMedia > 1) {
+        mediaText = `${mediaText}s`;
+      }
+      mediaTitle = (
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginLeft: 15
+          }}
+        >
+          <MaterialIcon color={MEDIUM_GREY} name="photo-camera" size={15} />
+          <Text style={styles.sectionText}>{mediaText}</Text>
+        </View>
+      );
+    }
     if (!selectedObservation) {
       return <View />;
     }
-
+    const latLonText = `${selectedObservation.lat}, ${selectedObservation.lon}`;
+    const fields = selectedObservation.fields.map(f => (
+      <View key={f.name} style={{ marginLeft: 15 }}>
+        <Text style={styles.fieldTitle}>{f.name}</Text>
+        <Text style={styles.fieldAnswer}>
+          {f.answered ? f.answer : I18n.t('detail_view.not_entered')}
+        </Text>
+      </View>
+    ));
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={styles.container}>
           <View style={styles.topSection}>
             <TouchableOpacity onPress={goBack} underlayColor="transparent">
-              <LeftChevron
+              <EntypoIcon
                 color="lightgrey"
                 name="chevron-left"
                 size={25}
@@ -293,7 +327,7 @@ class ObservationDetailView extends React.Component<
             </Text>
           </View>
           <View style={styles.section}>
-            <Text style={styles.sectionText}>{mediaText}</Text>
+            {mediaTitle}
             {!!selectedObservation &&
               !!selectedObservation.media.length && (
                 <FlatList
@@ -331,9 +365,16 @@ class ObservationDetailView extends React.Component<
             <Text style={styles.textNotes}>{selectedObservation.notes}</Text>
           </View>
           <View style={styles.section}>
-            <Text style={styles.sectionText}>
-              0.0 {I18n.t('detail_view.km_away')}
-            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginLeft: 15
+              }}
+            >
+              <EntypoIcon color={MANGO} name="location-pin" size={15} />
+              <Text style={styles.sectionText}>{latLonText}</Text>
+            </View>
             <View style={{ height: 240 }}>
               <MapboxGL.MapView
                 style={styles.mapBox}
@@ -370,6 +411,24 @@ class ObservationDetailView extends React.Component<
                 </MapboxGL.ShapeSource>
               </MapboxGL.MapView>
             </View>
+          </View>
+          <View style={styles.section}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginLeft: 15
+              }}
+            >
+              <Image
+                source={PencilIcon}
+                style={{ marginLeft: 3, width: 15, height: 15 }}
+              />
+              <Text style={styles.sectionText}>
+                {I18n.t('detail_view.details')}
+              </Text>
+            </View>
+            {fields}
           </View>
           <View style={styles.section}>
             <Text style={styles.sectionText}>
