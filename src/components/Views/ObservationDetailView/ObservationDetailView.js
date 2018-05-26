@@ -251,23 +251,14 @@ class ObservationDetailView extends React.Component<
     } = this.props;
     const keyExtractor = item => item.source.toString();
     let mediaTitle = null;
-    let mediaText = '';
-    const thereIsMedia =
-      selectedObservation &&
-      selectedObservation.media &&
-      selectedObservation.media.length > 0;
-    const multipleMedia =
-      thereIsMedia &&
-      selectedObservation &&
-      selectedObservation.media &&
-      selectedObservation.media.length > 1;
-    if (thereIsMedia) {
-      mediaText = `${
-        selectedObservation && selectedObservation.media
-          ? selectedObservation.media.length
-          : 0
-      } ${I18n.t('detail_view.photo')}`;
-      if (multipleMedia) {
+    let mediaText = `0 ${I18n.t('detail_view.photo')}s`;
+    const numOfMedia =
+      selectedObservation && selectedObservation.media
+        ? selectedObservation.media.length
+        : null;
+    if (numOfMedia && numOfMedia > 0) {
+      mediaText = `${numOfMedia} ${I18n.t('detail_view.photo')}`;
+      if (numOfMedia && numOfMedia > 1) {
         mediaText = `${mediaText}s`;
       }
       mediaTitle = (
