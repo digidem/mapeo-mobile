@@ -15,7 +15,8 @@ import type { DispatchProps, StateProps } from './MapView';
 
 const mapStateToProps = (state: StoreState): StateProps => ({
   observations: state.app.observations,
-  selectedObservation: state.app.selectedObservation
+  selectedObservation: state.app.selectedObservation,
+  gps: state.app.gps.data
 });
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {

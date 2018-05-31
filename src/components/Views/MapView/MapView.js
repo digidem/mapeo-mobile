@@ -27,7 +27,8 @@ export type StateProps = {
   observations: {
     [id: string]: Observation
   },
-  selectedObservation?: Observation
+  selectedObservation?: Observation,
+  gps?: GPSState
 };
 
 export type DispatchProps = {
@@ -101,6 +102,12 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
     circleRadius: 5,
     circleStrokeColor: '#fff',
     circleStrokeWidth: 2
+  },
+  currentLocation: {
+    circleColor: '#2657B1',
+    circleRadius: 7,
+    circleStrokeColor: '#fff',
+    circleStrokeWidth: 3
   }
 });
 
@@ -186,8 +193,16 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
     this.map = c;
   };
 
+  goToCurrentLocation = () => {
+    const { gps } = this.props;
+
+    if (this.map && gps) {
+      this.map.moveTo([gps.longitude, gps.latitude], 200);
+    }
+  };
+
   render() {
-    const { observations } = this.props;
+    const { observations, gps } = this.props;
 
     return (
       <View
@@ -199,7 +214,7 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
         <View style={{ flex: 1 }}>
           <MapboxGL.MapView
             style={{ flex: 1 }}
-            showUserLocation
+            centerCoordinate={gps ? [gps.longitude, gps.latitude] : undefined}
             ref={this.handleMapViewRef}
             zoomLevel={12}
             logoEnabled
@@ -230,6 +245,24 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
                 </MapboxGL.ShapeSource>
                 ))
               : null}
+            {gps && (
+              <MapboxGL.ShapeSource
+                key="current-location"
+                id="current-location"
+                shape={{
+                  type: 'Feature',
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [gps.longitude, gps.latitude]
+                  }
+                }}
+              >
+                <MapboxGL.CircleLayer
+                  id="circles-current-location"
+                  style={mapboxStyles.currentLocation}
+                />
+              </MapboxGL.ShapeSource>
+            )}
           </MapboxGL.MapView>
           <View
             style={{
@@ -256,7 +289,7 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
                 }}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => console.log('ere')}>
+            <TouchableOpacity onPress={this.goToCurrentLocation}>
               <Icon color={WHITE} name="my-location" size={50} />
             </TouchableOpacity>
           </View>
