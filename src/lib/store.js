@@ -4,23 +4,20 @@ import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import {
   createReactNavigationReduxMiddleware,
-  createReduxBoundAddListener
+  createNavigationPropConstructor
 } from 'react-navigation-redux-helpers';
 import { createEpicMiddleware } from 'redux-observable';
 import rootEpic from '../epics';
 import rootReducer from '../ducks';
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
-const tabBarMiddleware = createReactNavigationReduxMiddleware(
-  'tabBar',
-  state => state.tabBar
-);
 const mainStackMiddleware = createReactNavigationReduxMiddleware(
   'mainStack',
   state => state.mainStack
 );
-export const tabBarAddListener = createReduxBoundAddListener('tabBar');
-export const mainStackAddListener = createReduxBoundAddListener('mainStack');
+export const mainStackNavigationPropConstructor = createNavigationPropConstructor(
+  'mainStack'
+);
 
 const persistConfig = {
   key: 'root',
@@ -31,7 +28,7 @@ const persistConfig = {
 export function configureStore() {
   const store = createStore(
     persistReducer(persistConfig, rootReducer),
-    applyMiddleware(mainStackMiddleware, epicMiddleware, tabBarMiddleware)
+    applyMiddleware(mainStackMiddleware, epicMiddleware)
   );
   const persistor = persistStore(store);
 
