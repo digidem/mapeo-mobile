@@ -5,7 +5,10 @@ import type { Dispatch } from 'redux';
 import { values } from 'lodash';
 import { StoreState } from '../../../types/redux';
 
-import { observationUpdate } from '../../../ducks/observations';
+import {
+  observationUpdate,
+  observationSave
+} from '../../../ducks/observations';
 import { modalShow } from '../../../ducks/modals';
 import ObservationEditor from './ObservationEditor';
 import type { Props, StateProps, DispatchProps } from './ObservationEditor';
@@ -64,7 +67,8 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
           params: { showModal: true }
         })
       ),
-    showSavedModal: () => dispatch(modalShow('saved'))
+    showSavedModal: () => dispatch(modalShow('saved')),
+    saveObservation: () => dispatch(observationSave(null))
   };
 }
 

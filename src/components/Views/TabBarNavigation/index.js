@@ -4,6 +4,7 @@ import { withNavigationFocus } from 'react-navigation';
 
 import TabBarNavigation from './TabBarNavigation';
 import { drawerClose, drawerOpen } from '../../../ducks/drawers';
+import { observationList } from '../../../ducks/observations';
 
 const mapStateToProps = state => ({
   showSavedModal: state.app.modals.saved
@@ -11,7 +12,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onDrawerClose: () => dispatch(drawerClose('observations')),
-  onDrawerOpen: () => dispatch(drawerOpen('observations'))
+  onDrawerOpen: () => dispatch(drawerOpen('observations')),
+  listObservations: () => dispatch(observationList(''))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabBarNavigation);

@@ -64,7 +64,8 @@ export type StateProps = {
 
 export type DispatchProps = {
   onDrawerClose: () => void,
-  onDrawerOpen: () => void
+  onDrawerOpen: () => void,
+  listObservations: () => void
 };
 
 type State = {
@@ -85,6 +86,12 @@ class TabBarNavigation extends React.Component<
     showCamera: false
   };
   rightDrawer: Drawer;
+
+  componentWillReceiveProps(nextProps: Props & StateProps & DispatchProps) {
+    if (nextProps.isFocused && this.props.isFocused !== nextProps.isFocused) {
+      nextProps.listObservations();
+    }
+  }
 
   closeRightDrawer = () => {
     this.rightDrawer.close();

@@ -208,6 +208,7 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
             logoEnabled
             onLongPress={this.handleLongPress}
             compassEnabled={false}
+            textureMode
           >
             {!!observations && !isEmpty(observations)
               ? map(observations, (o: Observation) => (

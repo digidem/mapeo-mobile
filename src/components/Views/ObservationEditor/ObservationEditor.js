@@ -55,7 +55,8 @@ export type DispatchProps = {
   goToCategories: () => void,
   goBack: () => void,
   goToTabBarNavigation: () => void,
-  showSavedModal: () => void
+  showSavedModal: () => void,
+  saveObservation: () => void
 };
 
 type State = {
@@ -350,7 +351,8 @@ class ObservationEditor extends React.Component<
       updateObservation,
       selectedObservation,
       goToTabBarNavigation,
-      showSavedModal
+      showSavedModal,
+      saveObservation
     } = this.props;
     const { text } = this.state;
 
@@ -359,9 +361,10 @@ class ObservationEditor extends React.Component<
         ...selectedObservation,
         notes: text
       });
+      saveObservation();
+      showSavedModal();
     }
 
-    showSavedModal();
     goToTabBarNavigation();
   };
 
