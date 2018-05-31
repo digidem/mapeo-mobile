@@ -127,7 +127,7 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
   }
 
   shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
-    if (nextProps.isFocused) {
+    if (nextProps.isFocused || this.props.isFocused) {
       return nextProps !== this.props;
     }
 
