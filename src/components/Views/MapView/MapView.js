@@ -127,7 +127,7 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
   }
 
   shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
-    if (nextProps.isFocused || this.props.isFocused) {
+    if (nextProps.isFocused) {
       return nextProps !== this.props;
     }
 
@@ -152,32 +152,21 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
     createObservation(initialObservation);
   };
 
-  handlePress = (point: Object) => {
+  handleObservationPress = (id: string) => {
     const {
       observations,
       selectObservation,
       goToObservationDetail
     } = this.props;
-    const { coordinates } = point.geometry;
 
-    const observation = filter(
-      observations,
-      o =>
-        Math.round(o.lon * 1000) / 1000 ===
-          Math.round(coordinates[0] * 1000) / 1000 &&
-        Math.round(o.lat * 1000) / 1000 ===
-          Math.round(coordinates[1] * 1000) / 1000
-    );
-
-    if (observation[0]) {
-      selectObservation(observation[0]);
+    if (observations[id]) {
+      selectObservation(observations[id]);
       goToObservationDetail();
     }
   };
 
   handleLongPress = (point: Object) => {
     const { coordinates } = point.geometry;
-
     const { createObservation, observations, goToCategories } = this.props;
     const initialObservation = applyObservationDefaults({
       id: size(observations) + 1,
@@ -218,13 +207,13 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
             ref={this.handleMapViewRef}
             zoomLevel={12}
             logoEnabled
-            onPress={this.handlePress}
             onLongPress={this.handleLongPress}
             compassEnabled={false}
           >
             {!!observations && !isEmpty(observations)
               ? map(observations, (o: Observation) => (
                 <MapboxGL.ShapeSource
+                  onPress={() => this.handleObservationPress(o.id)}
                   key={o.id}
                   id={`observations-${o.id}`}
                   shape={{

@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@mapbox/geo-viewport": "^0.2.2",
-    "@mapbox/react-native-mapbox-gl": "^6.0.2-rc1",
+    "@mapbox/react-native-mapbox-gl": "^6.1.2-beta2",
     "immutability-helper": "^2.6.4",
     "moment": "^2.20.1",
     "react": "^16.3.1",
