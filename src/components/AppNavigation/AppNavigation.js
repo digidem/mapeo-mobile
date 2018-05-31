@@ -2,10 +2,10 @@
 import React from 'react';
 import { BackHandler, AppState, Dimensions, Image, View } from 'react-native';
 import { NavigationActions } from 'react-navigation';
-import addNavigationHelpers from 'react-navigation/src/addNavigationHelpers';
 import MainStackNavigation from '../MainNavigation/MainStackNavigation';
 import SplashScreen from '../../images/splash-screen.png';
-import { mainStackAddListener } from '../../lib/store';
+import { mainStackNavigationPropConstructor } from '../../lib/store';
+import { initializeListeners } from 'react-navigation-redux-helpers';
 
 interface Props {
   dispatch: any;
@@ -24,14 +24,15 @@ class AppNavigation extends React.PureComponent<Props, State> {
   };
 
   componentDidMount() {
+    const { dispatch, navigationState } = this.props;
     BackHandler.addEventListener('hardwareBackPress', () => {
-      const { dispatch, navigationState } = this.props;
       if (this.shouldCloseApp(navigationState)) return false;
       dispatch(NavigationActions.back());
       return true;
     });
     AppState.addEventListener('change', this.handleAppStateChange);
     this.timeout = setTimeout(() => this.setState({ showSplash: false }), 500);
+    initializeListeners('mainStack', navigationState);
   }
 
   componentWillUnmount() {
@@ -70,11 +71,10 @@ class AppNavigation extends React.PureComponent<Props, State> {
     return (
       <View style={{ flex: 1 }}>
         <MainStackNavigation
-          navigation={addNavigationHelpers({
+          navigation={mainStackNavigationPropConstructor(
             dispatch,
-            addListener: mainStackAddListener,
-            state: navigationState
-          })}
+            navigationState
+          )}
         />
         {showSplash && (
           <Image

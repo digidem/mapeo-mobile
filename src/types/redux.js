@@ -31,7 +31,7 @@ export interface AppStoreState {
 export interface StoreState {
   app: AppStoreState;
 
-  tabBar: any;
+  mainStack: any;
 }
 
 export type ActionStatus = 'Start' | 'Error' | 'Success';
