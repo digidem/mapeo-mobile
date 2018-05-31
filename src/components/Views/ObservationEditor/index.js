@@ -7,7 +7,8 @@ import { StoreState } from '../../../types/redux';
 
 import {
   observationUpdate,
-  observationSelect
+  observationSelect,
+  observationSave
 } from '../../../ducks/observations';
 import { modalHide, modalShow } from '../../../ducks/modals';
 import ObservationEditor from './ObservationEditor';
@@ -82,7 +83,8 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     showCancelModal: () => dispatch(modalShow('cancelled')),
     hideCancelModal: () => dispatch(modalHide('cancelled')),
     hideManualGPSModal: () => dispatch(modalHide('manualGPS')),
-    showManualGPSModal: () => dispatch(modalShow('manualGPS'))
+    showManualGPSModal: () => dispatch(modalShow('manualGPS')),
+    saveObservation: () => dispatch(observationSave(null))
   };
 }
 

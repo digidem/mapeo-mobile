@@ -70,7 +70,9 @@ export type DispatchProps = {
   hideCancelModal: () => void,
   clearSelectedObservation: () => void,
   hideManualGPSModal: () => void,
-  showManualGPSModal: () => void
+  showManualGPSModal: () => void,
+  showSavedModal: () => void,
+  saveObservation: () => void
 };
 
 type State = {
@@ -355,7 +357,8 @@ class ObservationEditor extends React.Component<
       goToCameraView,
       goToMainCameraView,
       gps,
-      showManualGPSModal
+      showManualGPSModal,
+      saveObservation
     } = this.props;
     const { text, keyboardShown } = this.state;
 
@@ -364,6 +367,8 @@ class ObservationEditor extends React.Component<
         ...selectedObservation,
         notes: text
       });
+      saveObservation();
+      showSavedModal();
     }
 
     if (gps.status !== 'Success' || (gps.data && gps.data.accuracy > 100)) {

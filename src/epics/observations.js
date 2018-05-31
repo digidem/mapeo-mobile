@@ -5,8 +5,8 @@ import type { ActionsObservable } from 'redux-observable';
 import {
   OBSERVATION_LIST,
   observationList,
-  OBSERVATION_CREATE,
-  observationCreate,
+  OBSERVATION_SAVE,
+  observationSave,
   OBSERVATION_UPDATE,
   observationUpdate
 } from '../ducks/observations';
@@ -24,42 +24,26 @@ export const observationListEpic = (
     .ofType(OBSERVATION_LIST)
     .filter(action => action.status === 'Start')
     .flatMap(() =>
-      Observation.list().map(observations => {
-        console.log('RN - Observations List', observations);
-        return observationList('', observations);
-      })
+      Observation.list().map(observations => observationList('', observations))
     );
 
-export const observationCreateEpic = (
+export const observationSaveEpic = (
   action$: ActionsObservable<Action<CreateRequest, ObservationType>>,
-  store: StoreState
+  store: any
 ) =>
   action$
-    .ofType(OBSERVATION_CREATE)
-    .filter(action => action.status === 'Start')
+    .ofType(OBSERVATION_SAVE)
+    .filter(
+      action =>
+        action.status === 'Start' && !!store.getState().app.selectedObservation
+    )
     .flatMap(action =>
-      Observation.create(action.meta).map(observation => {
-        console.log('RN - Observation Created');
-        return observationCreate(action.meta, observation);
-      })
+      Observation.create(store.getState().app.selectedObservation).map(
+        observation => {
+          console.log('RN - ', observation);
+          return observationSave(action.meta, observation);
+        }
+      )
     );
 
-// export const observationUpdateEpic = (
-//   action$: ActionsObservable<Action<UpdateRequest, ObservationType>>,
-//   store: StoreState
-// ) =>
-//   action$
-//     .ofType(OBSERVATION_UPDATE)
-//     .filter(action => action.status === 'Start')
-//     .flatMap(action =>
-//       Observation.update(action.meta).map(observation => {
-//         console.log('RN - Observation Updated - ', action.meta, observation);
-//         return observationUpdate(action.meta, observation);
-//       })
-//     );
-
-export default [
-  observationListEpic,
-  observationCreateEpic
-  // observationUpdateEpic
-];
+export default [observationListEpic, observationSaveEpic];
