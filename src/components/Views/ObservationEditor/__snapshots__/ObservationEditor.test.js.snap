@@ -58,7 +58,7 @@ exports[`ObservationEditor tests snapshot 1`] = `
             "elevation": 3,
             "height": 60,
             "justifyContent": "center",
-            "marginVertical": 5,
+            "margin": 5,
             "shadowColor": "black",
             "shadowOffset": Object {
               "height": 2,
@@ -132,7 +132,13 @@ exports[`ObservationEditor tests snapshot 1`] = `
       </Text>
     </View>
   </View>
-  <RCTScrollView>
+  <RCTScrollView
+    contentContainerStyle={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
     <View>
       <TextInput
         allowFontScaling={true}
@@ -141,24 +147,22 @@ exports[`ObservationEditor tests snapshot 1`] = `
         multiline={true}
         onBlur={[Function]}
         onChangeText={[Function]}
-        onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="What's happening here?"
         placeholderTextColor="silver"
         style={
-          Array [
-            Object {
-              "alignItems": "flex-start",
-              "backgroundColor": "white",
-              "borderColor": "#EAEAEA",
-              "color": "black",
-              "fontSize": 20,
-              "justifyContent": "flex-start",
-              "padding": 20,
-              "paddingBottom": 30,
-              "textAlignVertical": "top",
-            },
-          ]
+          Object {
+            "alignItems": "flex-start",
+            "backgroundColor": "white",
+            "borderColor": "#EAEAEA",
+            "color": "black",
+            "flex": 1,
+            "fontSize": 20,
+            "justifyContent": "flex-start",
+            "padding": 20,
+            "paddingBottom": 30,
+            "textAlignVertical": "top",
+          }
         }
         underlineColorAndroid="transparent"
         value="This is pretty bad. It smells pretty noxious, and the entire pond is affected."
