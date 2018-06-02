@@ -2,6 +2,7 @@
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import type { Dispatch } from 'redux';
+import { values } from 'lodash';
 import { StoreState } from '../../../types/redux';
 
 import { observationAdd, observationUpdate } from '../../../ducks/observations';
@@ -18,7 +19,8 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
         ownProps.navigation.state.params.category &&
         state.app.categories[ownProps.navigation.state.params.category]) ||
       undefined,
-    selectedObservation: state.app.selectedObservation
+    selectedObservation: state.app.selectedObservation,
+    observations: values(state.app.observations)
   };
 }
 
@@ -43,7 +45,8 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     goToCategories: () =>
       dispatch(
         NavigationActions.navigate({
-          routeName: 'Categories'
+          routeName: 'Categories',
+          key: 'CategoriesView'
         })
       ),
     goToObservationFields: () =>
@@ -52,7 +55,9 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
           routeName: 'ObservationFields'
         })
       ),
-    goBack: () => dispatch(NavigationActions.back()),
+    goBack: () => {
+      dispatch(NavigationActions.back());
+    },
     goToTabBarNavigation: () =>
       dispatch(
         NavigationActions.navigate({

@@ -37,7 +37,8 @@ import Header from '../../Base/Header';
 
 export type StateProps = {
   category?: Category,
-  selectedObservation?: Observation
+  selectedObservation?: Observation,
+  observations: Observation[]
 };
 
 export type Props = {
@@ -349,8 +350,7 @@ class ObservationEditor extends React.Component<
       addObservation,
       selectedObservation,
       goToTabBarNavigation,
-      showSavedModal,
-      navigation
+      showSavedModal
     } = this.props;
     const { text } = this.state;
 
@@ -401,6 +401,29 @@ class ObservationEditor extends React.Component<
     Keyboard.dismiss();
   };
 
+  goToCategoriesView = () => {
+    const {
+      goBack,
+      goToCategories,
+      observations,
+      selectedObservation
+    } = this.props;
+    let updateFlow = false;
+    if (selectedObservation) {
+      observations.forEach(o => {
+        if (o.id === selectedObservation.id) {
+          updateFlow = true;
+        }
+      });
+    }
+
+    if (updateFlow) {
+      goToCategories();
+    } else {
+      goBack();
+    }
+  };
+
   goToObservationFields = () => {
     const { goToObservationFields } = this.props;
     goToObservationFields();
@@ -412,7 +435,6 @@ class ObservationEditor extends React.Component<
       navigation,
       goBack,
       selectedObservation,
-      goToCategories,
       goToPhotoView,
       goToObservationFields
     } = this.props;
@@ -490,7 +512,7 @@ class ObservationEditor extends React.Component<
             backgroundColor: VERY_LIGHT_BLUE
           }}
         >
-          <TouchableOpacity onPress={goToCategories}>
+          <TouchableOpacity onPress={this.goToCategoriesView}>
             <View style={styles.circle}>
               {selectedObservation.icon && (
                 <Image
