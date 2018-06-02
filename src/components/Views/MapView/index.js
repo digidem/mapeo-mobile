@@ -24,7 +24,12 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     listObservations: () => dispatch(observationList('')),
     createObservation: observation => dispatch(observationCreate(observation)),
     goToCategories: () =>
-      dispatch(NavigationActions.navigate({ routeName: 'Categories' })),
+      dispatch(
+        NavigationActions.navigate({
+          routeName: 'Categories',
+          key: 'CategoriesView'
+        })
+      ),
     updateObservation: observation => dispatch(observationUpdate(observation)),
     selectObservation: o => dispatch(observationSelect(o)),
     goToObservationDetail: () =>

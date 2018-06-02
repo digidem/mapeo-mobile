@@ -37,7 +37,8 @@ import Header from '../../Base/Header';
 
 export type StateProps = {
   category?: Category,
-  selectedObservation?: Observation
+  selectedObservation?: Observation,
+  observations: Observation[]
 };
 
 export type Props = {
@@ -51,6 +52,7 @@ export type DispatchProps = {
   goToObservationFields: () => void,
   addObservation: (o: Observation) => void,
   goToCameraView: () => void,
+  goToCategories: () => void,
   goBack: () => void,
   goToTabBarNavigation: () => void,
   showSavedModal: () => void
@@ -60,7 +62,6 @@ type State = {
   goToCamera: boolean,
   keyboardShown: boolean,
   text: string,
-  textInputHeight: number,
   keyboardHeight: number
 };
 
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     elevation: 3,
     shadowOpacity: 1,
-    marginVertical: 5
+    margin: 5
   },
   collectionsImg: {
     alignSelf: 'center'
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: WHITE,
     borderColor: LIGHT_GREY,
-    marginBottom: -20
+    marginBottom: -100
   },
   photosButton: {
     alignSelf: 'stretch',
@@ -180,6 +181,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1
   },
   textInput: {
+    flex: 1,
     fontSize: 20,
     padding: 20,
     paddingBottom: 30,
@@ -245,7 +247,6 @@ class ObservationEditor extends React.Component<
       keyboardShown: false,
       text: props.selectedObservation ? props.selectedObservation.notes : '',
       goToCamera: false,
-      textInputHeight: 0,
       keyboardHeight: 0
     };
   }
@@ -344,10 +345,6 @@ class ObservationEditor extends React.Component<
     this.setState({ text });
   };
 
-  handleTextInputScroll = ({ nativeEvent: event }) => {
-    this.setState({ textInputHeight: event.contentSize.height });
-  };
-
   handleSaveObservation = () => {
     const {
       addObservation,
@@ -402,6 +399,29 @@ class ObservationEditor extends React.Component<
       goToCameraView();
     }
     Keyboard.dismiss();
+  };
+
+  goToCategoriesView = () => {
+    const {
+      goBack,
+      goToCategories,
+      observations,
+      selectedObservation
+    } = this.props;
+    let updateFlow = false;
+    if (selectedObservation) {
+      observations.forEach(o => {
+        if (o.id === selectedObservation.id) {
+          updateFlow = true;
+        }
+      });
+    }
+
+    if (updateFlow) {
+      goToCategories();
+    } else {
+      goBack();
+    }
   };
 
   goToObservationFields = () => {
@@ -492,7 +512,7 @@ class ObservationEditor extends React.Component<
             backgroundColor: VERY_LIGHT_BLUE
           }}
         >
-          <TouchableOpacity onPress={goBack}>
+          <TouchableOpacity onPress={this.goToCategoriesView}>
             <View style={styles.circle}>
               {selectedObservation.icon && (
                 <Image
@@ -508,13 +528,15 @@ class ObservationEditor extends React.Component<
             <Text style={styles.categoryPositionText}>{positionText}</Text>
           </View>
         </View>
-        <ScrollView ref={ref => (this.scrollView = ref)}>
+        <ScrollView
+          ref={ref => (this.scrollView = ref)}
+          contentContainerStyle={{ flex: 1 }}
+        >
           <TextInput
             ref={ref => (this.textInput = ref)}
-            style={[styles.textInput]}
+            style={styles.textInput}
             value={text}
             onChangeText={this.handleTextInputChange}
-            onContentSizeChange={this.handleTextInputScroll}
             onFocus={() => this.scrollView.scrollToEnd()}
             placeholder={I18n.t('editor.placeholder')}
             placeholderTextColor="silver"
@@ -583,12 +605,14 @@ class ObservationEditor extends React.Component<
               <TouchableOpacity
                 onPress={this.goToCameraView}
                 underlayColor="transparent"
+                style={{ flex: 1, alignItems: 'center' }}
               >
                 <Icon color={MEDIUM_GREY} name="photo-camera" size={30} />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={this.goToObservationFields}
                 underlayColor="transparent"
+                style={{ flex: 1, alignItems: 'center' }}
               >
                 <Image source={PencilIcon} style={{ width: 25, height: 25 }} />
               </TouchableOpacity>
