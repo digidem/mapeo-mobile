@@ -17,6 +17,7 @@ export const createObservation = (observation?: any) => ({
   icon: require('../images/categories/category_18.png'),
   categoryId: 19,
   fields: [createField()],
+  createdFrom: 'map',
 
   ...observation
 });

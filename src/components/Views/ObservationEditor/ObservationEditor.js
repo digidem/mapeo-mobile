@@ -52,9 +52,10 @@ export type DispatchProps = {
   goToObservationFields: () => void,
   addObservation: (o: Observation) => void,
   goToCameraView: () => void,
+  goToMainCameraView: () => void,
   goToCategories: () => void,
   goBack: () => void,
-  goToTabBarNavigation: () => void,
+  goToMapView: () => void,
   showSavedModal: () => void
 };
 
@@ -349,8 +350,9 @@ class ObservationEditor extends React.Component<
     const {
       addObservation,
       selectedObservation,
-      goToTabBarNavigation,
-      showSavedModal
+      goToMapView,
+      showSavedModal,
+      goToMainCameraView
     } = this.props;
     const { text } = this.state;
 
@@ -362,7 +364,11 @@ class ObservationEditor extends React.Component<
     }
 
     showSavedModal();
-    goToTabBarNavigation();
+    if (selectedObservation && selectedObservation.createdFrom === 'map') {
+      goToMapView();
+    } else {
+      goToMainCameraView();
+    }
   };
 
   handleTextInputBlur = () => {

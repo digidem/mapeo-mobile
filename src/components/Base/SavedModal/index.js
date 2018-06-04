@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { withNavigationFocus } from 'react-navigation';
 
 import SavedModal from './SavedModal';
-import { modalHide } from '../../../../ducks/modals';
-import { observationSelect } from '../../../../ducks/observations';
+import { modalHide } from '../../../ducks/modals';
+import { observationSelect } from '../../../ducks/observations';
 
 const mapStateToProps = state => ({
   selectedObservation: state.app.selectedObservation

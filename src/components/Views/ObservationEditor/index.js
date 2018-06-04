@@ -42,6 +42,12 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
           params: { source: 'editor' }
         })
       ),
+    goToMainCameraView: () =>
+      dispatch(
+        NavigationActions.navigate({
+          routeName: 'CameraView'
+        })
+      ),
     goToCategories: () =>
       dispatch(
         NavigationActions.navigate({
@@ -58,11 +64,10 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     goBack: () => {
       dispatch(NavigationActions.back());
     },
-    goToTabBarNavigation: () =>
+    goToMapView: () =>
       dispatch(
         NavigationActions.navigate({
-          routeName: 'TabBarNavigation',
-          params: { showModal: true }
+          routeName: 'MapView'
         })
       ),
     showSavedModal: () => dispatch(modalShow('saved'))

@@ -3,7 +3,7 @@ import React from 'react';
 import 'react-native';
 import renderer from 'react-test-renderer';
 import SavedModal from './SavedModal';
-import { createObservation } from '../../../../mocks/observations';
+import { createObservation } from '../../../mocks/observations';
 
 describe('SavedModal tests', () => {
   test('snapshots', () => {

@@ -9,18 +9,18 @@ import {
   StyleSheet,
   Image
 } from 'react-native';
-import type { Observation } from '../../../../types/observation';
-import Toast from '../../../Base/Toast/Toast';
+import type { Observation } from '../../../types/observation';
+import Toast from '../Toast/Toast';
 import I18n from 'react-native-i18n';
-import moment from '../../../../lib/localizedMoment';
+import moment from '../../../lib/localizedMoment';
 import {
   WHITE,
   MAPEO_BLUE,
   LIGHT_GREY,
   VERY_LIGHT_BLUE,
   MEDIUM_GREY
-} from '../../../../lib/styles';
-import CategoryPin from '../../../../images/category-pin.png';
+} from '../../../lib/styles';
+import CategoryPin from '../../../images/category-pin.png';
 
 export type StateProps = {
   selectedObservation: Observation

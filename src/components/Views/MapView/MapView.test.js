@@ -3,21 +3,19 @@ import React from 'react';
 import 'react-native';
 import renderer from 'react-test-renderer';
 import MapView from './MapView';
-import { createObservation } from '../../../mocks/observations';
+
+jest.mock('../ObservationsView', () => () => null);
+jest.mock('./Map', () => () => null);
+jest.mock('../../Base/SavedModal', () => () => null);
 
 describe('MapView tests', () => {
   test('snapshots', () => {
-    const observation = createObservation();
-    const isFocused = () => true;
-    const addListener = () => true;
+    const props = [{ showSavedModal: true }, { showSavedModal: false }];
 
     let tree;
-    tree = shallow(
-      <MapView
-        navigation={{ isFocused, addListener }}
-        selectedObservation={observation}
-      />
-    );
-    expect(tree).toMatchSnapshot();
+    props.forEach(p => {
+      tree = shallow(<MapView showSavedModal={p.showSavedModal} />);
+      expect(tree).toMatchSnapshot();
+    });
   });
 });

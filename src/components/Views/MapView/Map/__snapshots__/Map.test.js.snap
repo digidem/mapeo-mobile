@@ -1,14 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CameraMainView tests snapshot 1`] = `
+exports[`MapView tests snapshots 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <withNavigation(withNavigationFocus(CameraMainView))
+  Symbol(enzyme.__unrendered__): <withNavigation(withNavigationFocus(Map))
     navigation={
       Object {
         "addListener": [Function],
         "isFocused": [Function],
+      }
+    }
+    selectedObservation={
+      Object {
+        "categoryId": 19,
+        "created": 2018-02-25T20:23:00.000Z,
+        "createdFrom": "map",
+        "fields": Array [
+          Object {
+            "answer": "",
+            "answered": false,
+            "id": "0",
+            "name": "fieldName",
+            "placeholder": "this is some placeholder text",
+            "type": "text",
+          },
+        ],
+        "icon": Object {
+          "testUri": "../../../src/images/categories/category_18.png",
+        },
+        "id": 1,
+        "lat": 50.5,
+        "link": "linkID",
+        "lon": 50.5,
+        "media": Array [],
+        "name": "Oil Spill",
+        "notes": "This is pretty bad. It smells pretty noxious, and the entire pond is affected.",
+        "observedBy": "You",
+        "type": "Observation",
       }
     }
   />,
