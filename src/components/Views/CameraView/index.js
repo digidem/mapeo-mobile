@@ -16,12 +16,7 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
   return {
     observations: state.app.observations,
     selectedObservation: state.app.selectedObservation,
-    showSavedModal: state.app.modals.saved,
-    fromEditor:
-      ownProps.navigation &&
-      ownProps.navigation.state &&
-      ownProps.navigation.state.params &&
-      ownProps.navigation.state.params.source === 'editor'
+    showSavedModal: state.app.modals.saved
   };
 }
 

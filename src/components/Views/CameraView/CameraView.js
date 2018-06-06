@@ -3,6 +3,7 @@ import React from 'react';
 import { withNavigationFocus } from 'react-navigation';
 import {
   Image,
+  Keyboard,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
   capture: {
     alignSelf: 'center',
     position: 'absolute',
-    bottom: 25
+    bottom: 5
   },
   captureFromEditor: {
     alignSelf: 'center',
@@ -62,7 +63,6 @@ export type Props = {
 };
 
 export type StateProps = {
-  fromEditor: boolean,
   observations: {
     [id: string]: Observation
   },
@@ -98,6 +98,16 @@ class CameraView extends React.Component<
   state = {
     loading: false
   };
+  camera: RNCamera;
+  keyboardWillShowListener: any;
+  rightDrawer: Drawer;
+
+  componentWillMount() {
+    this.keyboardWillShowListener = Keyboard.addListener(
+      'keyboardWillShow',
+      this.keyboardWillShow
+    );
+  }
 
   shouldComponentUpdate(
     nextProps: Props & StateProps & DispatchProps,
@@ -110,13 +120,17 @@ class CameraView extends React.Component<
     return false;
   }
 
-  camera: RNCamera;
-  rightDrawer: Drawer;
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+  }
+
+  keyboardWillShow = () => {
+    Keyboard.dismiss();
+  };
 
   takePicture = async () => {
     const {
       createObservation,
-      fromEditor,
       goToObservationEditor,
       goToCategories,
       navigation,
@@ -126,25 +140,23 @@ class CameraView extends React.Component<
       updateObservationSource
     } = this.props;
     if (this.camera) {
-      const options = { quality: 0.5, base64: true, fixOrientation: true };
+      const options = { quality: 0.5, base64: false, fixOrientation: true };
       try {
         this.setState({ loading: true });
         const data = await this.camera.takePictureAsync(options);
         this.setState({ loading: false });
 
-        if (fromEditor) {
-          if (selectedObservation) {
-            updateObservation({
-              ...selectedObservation,
-              media: selectedObservation.media.concat([
-                {
-                  type: 'Photo',
-                  source: data.uri
-                }
-              ])
-            });
-            goToObservationEditor();
-          }
+        if (selectedObservation) {
+          updateObservation({
+            ...selectedObservation,
+            media: selectedObservation.media.concat([
+              {
+                type: 'Photo',
+                source: data.uri
+              }
+            ])
+          });
+          goToObservationEditor();
         } else {
           goToCategories();
           const initialObservation = applyObservationDefaults({
@@ -152,25 +164,15 @@ class CameraView extends React.Component<
           });
           updateObservationSource();
           createObservation(initialObservation);
-
-          navigator.geolocation.getCurrentPosition(
-            position => {
-              const { latitude, longitude } = position.coords;
-
-              updateObservation({
-                ...(selectedObservation || initialObservation),
-                lat: Math.round(latitude * 1000) / 1000,
-                lon: Math.round(longitude * 1000) / 1000,
-                media: initialObservation.media.concat([
-                  {
-                    type: 'Photo',
-                    source: data.uri
-                  }
-                ])
-              });
-            },
-            error => console.warn(error)
-          );
+          updateObservation({
+            ...initialObservation,
+            media: initialObservation.media.concat([
+              {
+                type: 'Photo',
+                source: data.uri
+              }
+            ])
+          });
         }
       } catch (error) {
         console.warn(error);
@@ -195,10 +197,73 @@ class CameraView extends React.Component<
     goToMapView();
   };
 
+  renderCamera = (fromEditor: boolean, loading) => (
+    <View style={{ flex: 1, flexDirection: 'column' }}>
+      <RNCamera
+        ref={ref => {
+          this.camera = ref;
+        }}
+        style={styles.preview}
+        type={RNCamera.Constants.Type.back}
+        flashMode={RNCamera.Constants.FlashMode.off}
+        permissionDialogTitle="Permission to use camera"
+        permissionDialogMessage="We need your permission to use your camera phone"
+      >
+        <TouchableOpacity
+          onPress={this.takePicture}
+          style={fromEditor ? styles.captureFromEditor : styles.capture}
+        >
+          <Image
+            source={AddButton}
+            style={{
+              width: 125,
+              height: 125
+            }}
+          />
+        </TouchableOpacity>
+        {fromEditor && (
+          <TouchableOpacity
+            style={styles.cancelButton}
+            onPress={() => this.props.navigation.goBack()}
+          >
+            <Text style={styles.cancelText}>Cancel</Text>
+          </TouchableOpacity>
+        )}
+      </RNCamera>
+      {loading && (
+        <View
+          style={{
+            position: 'absolute',
+            height: fromEditor
+              ? Dimensions.get('window').height - 30
+              : Dimensions.get('window').height,
+            width: Dimensions.get('window').width,
+            backgroundColor: 'rgba(66,66,66,.8)',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: '#FFF',
+              paddingHorizontal: 50,
+              paddingVertical: 30,
+              justifyContent: 'center',
+              borderRadius: 3
+            }}
+          >
+            <ActivityIndicator />
+            <Text>{I18n.t('saving_image')}</Text>
+          </View>
+        </View>
+      )}
+    </View>
+  );
+
   render() {
     const { loading } = this.state;
     const {
-      fromEditor,
+      selectedObservation,
       isFocused,
       navigation,
       onDrawerOpen,
@@ -211,69 +276,8 @@ class CameraView extends React.Component<
       return null;
     }
 
-    if (fromEditor) {
-      return (
-        <View style={{ flex: 1, flexDirection: 'column' }}>
-          <RNCamera
-            ref={ref => {
-              this.camera = ref;
-            }}
-            style={styles.preview}
-            type={RNCamera.Constants.Type.back}
-            flashMode={RNCamera.Constants.FlashMode.off}
-            permissionDialogTitle="Permission to use camera"
-            permissionDialogMessage="We need your permission to use your camera phone"
-          >
-            <TouchableOpacity
-              onPress={this.takePicture}
-              style={fromEditor ? styles.captureFromEditor : styles.capture}
-            >
-              <Image
-                source={AddButton}
-                style={{
-                  width: 125,
-                  height: 125
-                }}
-              />
-            </TouchableOpacity>
-            {fromEditor && (
-              <TouchableOpacity
-                style={styles.cancelButton}
-                onPress={() => this.props.navigation.goBack()}
-              >
-                <Text style={styles.cancelText}>Cancel</Text>
-              </TouchableOpacity>
-            )}
-          </RNCamera>
-          {loading && (
-            <View
-              style={{
-                position: 'absolute',
-                height: fromEditor
-                  ? Dimensions.get('window').height - 30
-                  : Dimensions.get('window').height,
-                width: Dimensions.get('window').width,
-                backgroundColor: 'rgba(66,66,66,.8)',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <View
-                style={{
-                  backgroundColor: '#FFF',
-                  paddingHorizontal: 50,
-                  paddingVertical: 30,
-                  justifyContent: 'center',
-                  borderRadius: 3
-                }}
-              >
-                <ActivityIndicator />
-                <Text>{I18n.t('saving_image')}</Text>
-              </View>
-            </View>
-          )}
-        </View>
-      );
+    if (selectedObservation) {
+      return this.renderCamera(true, loading);
     }
 
     return (
@@ -306,66 +310,7 @@ class CameraView extends React.Component<
           }}
         />
         {showSavedModal && <SavedModal />}
-        <View style={{ flex: 1, flexDirection: 'column' }}>
-          <RNCamera
-            ref={ref => {
-              this.camera = ref;
-            }}
-            style={styles.preview}
-            type={RNCamera.Constants.Type.back}
-            flashMode={RNCamera.Constants.FlashMode.off}
-            permissionDialogTitle="Permission to use camera"
-            permissionDialogMessage="We need your permission to use your camera phone"
-          >
-            <TouchableOpacity
-              onPress={this.takePicture}
-              style={fromEditor ? styles.captureFromEditor : styles.capture}
-            >
-              <Image
-                source={AddButton}
-                style={{
-                  width: 125,
-                  height: 125
-                }}
-              />
-            </TouchableOpacity>
-            {fromEditor && (
-              <TouchableOpacity
-                style={styles.cancelButton}
-                onPress={() => this.props.navigation.goBack()}
-              >
-                <Text style={styles.cancelText}>Cancel</Text>
-              </TouchableOpacity>
-            )}
-          </RNCamera>
-          {loading && (
-            <View
-              style={{
-                position: 'absolute',
-                height: fromEditor
-                  ? Dimensions.get('window').height - 30
-                  : Dimensions.get('window').height,
-                width: Dimensions.get('window').width,
-                backgroundColor: 'rgba(66,66,66,.8)',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <View
-                style={{
-                  backgroundColor: '#FFF',
-                  paddingHorizontal: 50,
-                  paddingVertical: 30,
-                  justifyContent: 'center',
-                  borderRadius: 3
-                }}
-              >
-                <ActivityIndicator />
-                <Text>{I18n.t('saving_image')}</Text>
-              </View>
-            </View>
-          )}
-        </View>
+        {this.renderCamera(false, loading)}
       </Drawer>
     );
   }
