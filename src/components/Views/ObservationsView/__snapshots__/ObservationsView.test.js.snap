@@ -34,7 +34,6 @@ exports[`ObservationsView tests snapshot 1`] = `
         Object {
           "categoryId": 19,
           "created": 2018-02-25T20:23:00.000Z,
-          "createdFrom": "map",
           "fields": Array [
             Object {
               "answer": "",

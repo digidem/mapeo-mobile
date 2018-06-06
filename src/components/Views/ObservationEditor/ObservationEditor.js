@@ -366,7 +366,7 @@ class ObservationEditor extends React.Component<
     }
 
     showSavedModal();
-    if (observationSource.source === 'map') {
+    if (observationSource === 'map') {
       goToMapView();
     } else {
       goToMainCameraView();
