@@ -8,7 +8,8 @@ const rootEpics = combineEpics(
   ...categories,
   ...devices,
   ...observations,
-  ...fields
+  ...fields,
+  ...map
 );
 
 export default rootEpics;

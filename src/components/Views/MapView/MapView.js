@@ -36,6 +36,7 @@ import {
 } from '../../../lib/styles';
 import Header from '../../Base/Header';
 import SavedModal from '../../Base/SavedModal';
+import { API_DOMAIN_URL } from '../../../api/base';
 
 export type StateProps = {
   observations: {
@@ -44,6 +45,7 @@ export type StateProps = {
   selectedObservation?: Observation,
   gps?: GPSState,
   showSavedModal: boolean
+  selectedStyle?: string
 };
 
 export type DispatchProps = {
@@ -55,6 +57,7 @@ export type DispatchProps = {
   selectObservation: (observation: Observation) => void,
   onDrawerClose: () => void,
   onDrawerOpen: () => void
+  listStyles: () => void
 };
 
 type Props = {
@@ -116,7 +119,8 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
       navigation,
       onDrawerClose,
       onDrawerOpen,
-      showSavedModal
+      showSavedModal,
+      selectedStyle
     } = this.props;
 
     return (
