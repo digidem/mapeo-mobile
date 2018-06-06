@@ -38,7 +38,8 @@ import Header from '../../Base/Header';
 export type StateProps = {
   category?: Category,
   selectedObservation?: Observation,
-  observations: Observation[]
+  observations: Observation[],
+  observationSource: string
 };
 
 export type Props = {
@@ -54,7 +55,7 @@ export type DispatchProps = {
   goToCameraView: () => void,
   goToCategories: () => void,
   goBack: () => void,
-  goToTabBarNavigation: () => void,
+  goToMapView: () => void,
   showSavedModal: () => void
 };
 
@@ -349,8 +350,10 @@ class ObservationEditor extends React.Component<
     const {
       addObservation,
       selectedObservation,
-      goToTabBarNavigation,
-      showSavedModal
+      goToMapView,
+      showSavedModal,
+      observationSource,
+      goToCameraView
     } = this.props;
     const { text } = this.state;
 
@@ -362,7 +365,11 @@ class ObservationEditor extends React.Component<
     }
 
     showSavedModal();
-    goToTabBarNavigation();
+    if (observationSource === 'map') {
+      goToMapView();
+    } else {
+      goToCameraView();
+    }
   };
 
   handleTextInputBlur = () => {

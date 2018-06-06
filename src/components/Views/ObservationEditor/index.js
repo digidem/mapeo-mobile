@@ -20,7 +20,8 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
         state.app.categories[ownProps.navigation.state.params.category]) ||
       undefined,
     selectedObservation: state.app.selectedObservation,
-    observations: values(state.app.observations)
+    observations: values(state.app.observations),
+    observationSource: state.app.observationSource.source
   };
 }
 
@@ -38,8 +39,7 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     goToCameraView: () =>
       dispatch(
         NavigationActions.navigate({
-          routeName: 'CameraView',
-          params: { source: 'editor' }
+          routeName: 'CameraView'
         })
       ),
     goToCategories: () =>
@@ -58,11 +58,10 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     goBack: () => {
       dispatch(NavigationActions.back());
     },
-    goToTabBarNavigation: () =>
+    goToMapView: () =>
       dispatch(
         NavigationActions.navigate({
-          routeName: 'TabBarNavigation',
-          params: { showModal: true }
+          routeName: 'MapView'
         })
       ),
     showSavedModal: () => dispatch(modalShow('saved'))

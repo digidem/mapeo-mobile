@@ -4,41 +4,8 @@ exports[`MapView tests snapshots 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <withNavigation(withNavigationFocus(MapView))
-    navigation={
-      Object {
-        "addListener": [Function],
-        "isFocused": [Function],
-      }
-    }
-    selectedObservation={
-      Object {
-        "categoryId": 19,
-        "created": 2018-02-25T20:23:00.000Z,
-        "fields": Array [
-          Object {
-            "answer": "",
-            "answered": false,
-            "id": "0",
-            "name": "fieldName",
-            "placeholder": "this is some placeholder text",
-            "type": "text",
-          },
-        ],
-        "icon": Object {
-          "testUri": "../../../src/images/categories/category_18.png",
-        },
-        "id": 1,
-        "lat": 50.5,
-        "link": "linkID",
-        "lon": 50.5,
-        "media": Array [],
-        "name": "Oil Spill",
-        "notes": "This is pretty bad. It smells pretty noxious, and the entire pond is affected.",
-        "observedBy": "You",
-        "type": "Observation",
-      }
-    }
+  Symbol(enzyme.__unrendered__): <MapView
+    showSavedModal={true}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -50,49 +17,569 @@ ShallowWrapper {
   Symbol(enzyme.__node__): Object {
     "instance": null,
     "key": undefined,
-    "nodeType": "function",
+    "nodeType": "class",
     "props": Object {
-      "children": [Function],
+      "acceptDoubleTap": false,
+      "acceptPan": true,
+      "acceptPanOnDrawer": true,
+      "acceptTap": false,
+      "captureGestures": "open",
+      "children": Array [
+        <Unknown
+          leftIcon={
+            <TouchableOpacity
+              activeOpacity={0.2}
+              onPress={[Function]}
+            >
+              <Icon
+                allowFontScaling={false}
+                color="#ffffff"
+                name="photo-camera"
+                size={30}
+              />
+            </TouchableOpacity>
+          }
+          rightIcon={
+            <TouchableOpacity
+              activeOpacity={0.2}
+              onPress={[Function]}
+            >
+              <Icon
+                allowFontScaling={false}
+                color="#ffffff"
+                name="collections"
+                size={30}
+              />
+            </TouchableOpacity>
+          }
+          style={
+            Object {
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "zIndex": 5,
+            }
+          }
+        />,
+        <Unknown />,
+        <Unknown />,
+      ],
+      "closedDrawerOffset": 0,
+      "content": <Unknown
+        closeRightDrawer={[Function]}
+      />,
+      "disabled": false,
+      "elevation": 0,
+      "initializeOpen": false,
+      "negotiatePan": false,
+      "onClose": [Function],
+      "onCloseStart": undefined,
+      "onOpen": [Function],
+      "onOpenStart": undefined,
+      "open": null,
+      "openDrawerOffset": 0,
+      "panCloseMask": null,
+      "panOpenMask": null,
+      "panThreshold": 0.25,
+      "side": "right",
+      "styles": Object {},
+      "tapToClose": false,
+      "tweenDuration": 250,
+      "tweenEasing": "linear",
+      "tweenHandler": null,
+      "type": "displace",
+      "useInteractionManager": false,
     },
-    "ref": null,
-    "rendered": [Function],
-    "type": Object {
-      "$$typeof": Symbol(react.context),
-      "Consumer": [Circular],
-      "Provider": Object {
-        "$$typeof": Symbol(react.provider),
-        "_context": [Circular],
+    "ref": [Function],
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "leftIcon": <TouchableOpacity
+            activeOpacity={0.2}
+            onPress={[Function]}
+          >
+            <Icon
+              allowFontScaling={false}
+              color="#ffffff"
+              name="photo-camera"
+              size={30}
+            />
+          </TouchableOpacity>,
+          "rightIcon": <TouchableOpacity
+            activeOpacity={0.2}
+            onPress={[Function]}
+          >
+            <Icon
+              allowFontScaling={false}
+              color="#ffffff"
+              name="collections"
+              size={30}
+            />
+          </TouchableOpacity>,
+          "style": Object {
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+            "zIndex": 5,
+          },
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
       },
-      "_calculateChangedBits": null,
-      "_changedBits": 0,
-      "_currentRenderer": null,
-      "_currentValue": undefined,
-      "_defaultValue": undefined,
-    },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {},
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {},
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+    ],
+    "type": [Function],
   },
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
       "key": undefined,
-      "nodeType": "function",
+      "nodeType": "class",
       "props": Object {
-        "children": [Function],
+        "acceptDoubleTap": false,
+        "acceptPan": true,
+        "acceptPanOnDrawer": true,
+        "acceptTap": false,
+        "captureGestures": "open",
+        "children": Array [
+          <Unknown
+            leftIcon={
+              <TouchableOpacity
+                activeOpacity={0.2}
+                onPress={[Function]}
+              >
+                <Icon
+                  allowFontScaling={false}
+                  color="#ffffff"
+                  name="photo-camera"
+                  size={30}
+                />
+              </TouchableOpacity>
+            }
+            rightIcon={
+              <TouchableOpacity
+                activeOpacity={0.2}
+                onPress={[Function]}
+              >
+                <Icon
+                  allowFontScaling={false}
+                  color="#ffffff"
+                  name="collections"
+                  size={30}
+                />
+              </TouchableOpacity>
+            }
+            style={
+              Object {
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+                "zIndex": 5,
+              }
+            }
+          />,
+          <Unknown />,
+          <Unknown />,
+        ],
+        "closedDrawerOffset": 0,
+        "content": <Unknown
+          closeRightDrawer={[Function]}
+        />,
+        "disabled": false,
+        "elevation": 0,
+        "initializeOpen": false,
+        "negotiatePan": false,
+        "onClose": [Function],
+        "onCloseStart": undefined,
+        "onOpen": [Function],
+        "onOpenStart": undefined,
+        "open": null,
+        "openDrawerOffset": 0,
+        "panCloseMask": null,
+        "panOpenMask": null,
+        "panThreshold": 0.25,
+        "side": "right",
+        "styles": Object {},
+        "tapToClose": false,
+        "tweenDuration": 250,
+        "tweenEasing": "linear",
+        "tweenHandler": null,
+        "type": "displace",
+        "useInteractionManager": false,
       },
-      "ref": null,
-      "rendered": [Function],
-      "type": Object {
-        "$$typeof": Symbol(react.context),
-        "Consumer": [Circular],
-        "Provider": Object {
-          "$$typeof": Symbol(react.provider),
-          "_context": [Circular],
+      "ref": [Function],
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "leftIcon": <TouchableOpacity
+              activeOpacity={0.2}
+              onPress={[Function]}
+            >
+              <Icon
+                allowFontScaling={false}
+                color="#ffffff"
+                name="photo-camera"
+                size={30}
+              />
+            </TouchableOpacity>,
+            "rightIcon": <TouchableOpacity
+              activeOpacity={0.2}
+              onPress={[Function]}
+            >
+              <Icon
+                allowFontScaling={false}
+                color="#ffffff"
+                name="collections"
+                size={30}
+              />
+            </TouchableOpacity>,
+            "style": Object {
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "zIndex": 5,
+            },
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
         },
-        "_calculateChangedBits": null,
-        "_changedBits": 0,
-        "_currentRenderer": null,
-        "_currentValue": undefined,
-        "_defaultValue": undefined,
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {},
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {},
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+      ],
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
       },
+    },
+  },
+}
+`;
+
+exports[`MapView tests snapshots 2`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <MapView
+    showSavedModal={false}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "class",
+    "props": Object {
+      "acceptDoubleTap": false,
+      "acceptPan": true,
+      "acceptPanOnDrawer": true,
+      "acceptTap": false,
+      "captureGestures": "open",
+      "children": Array [
+        <Unknown
+          leftIcon={
+            <TouchableOpacity
+              activeOpacity={0.2}
+              onPress={[Function]}
+            >
+              <Icon
+                allowFontScaling={false}
+                color="#ffffff"
+                name="photo-camera"
+                size={30}
+              />
+            </TouchableOpacity>
+          }
+          rightIcon={
+            <TouchableOpacity
+              activeOpacity={0.2}
+              onPress={[Function]}
+            >
+              <Icon
+                allowFontScaling={false}
+                color="#ffffff"
+                name="collections"
+                size={30}
+              />
+            </TouchableOpacity>
+          }
+          style={
+            Object {
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "zIndex": 5,
+            }
+          }
+        />,
+        false,
+        <Unknown />,
+      ],
+      "closedDrawerOffset": 0,
+      "content": <Unknown
+        closeRightDrawer={[Function]}
+      />,
+      "disabled": false,
+      "elevation": 0,
+      "initializeOpen": false,
+      "negotiatePan": false,
+      "onClose": [Function],
+      "onCloseStart": undefined,
+      "onOpen": [Function],
+      "onOpenStart": undefined,
+      "open": null,
+      "openDrawerOffset": 0,
+      "panCloseMask": null,
+      "panOpenMask": null,
+      "panThreshold": 0.25,
+      "side": "right",
+      "styles": Object {},
+      "tapToClose": false,
+      "tweenDuration": 250,
+      "tweenEasing": "linear",
+      "tweenHandler": null,
+      "type": "displace",
+      "useInteractionManager": false,
+    },
+    "ref": [Function],
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "leftIcon": <TouchableOpacity
+            activeOpacity={0.2}
+            onPress={[Function]}
+          >
+            <Icon
+              allowFontScaling={false}
+              color="#ffffff"
+              name="photo-camera"
+              size={30}
+            />
+          </TouchableOpacity>,
+          "rightIcon": <TouchableOpacity
+            activeOpacity={0.2}
+            onPress={[Function]}
+          >
+            <Icon
+              allowFontScaling={false}
+              color="#ffffff"
+              name="collections"
+              size={30}
+            />
+          </TouchableOpacity>,
+          "style": Object {
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+            "zIndex": 5,
+          },
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      false,
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {},
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+    ],
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "acceptDoubleTap": false,
+        "acceptPan": true,
+        "acceptPanOnDrawer": true,
+        "acceptTap": false,
+        "captureGestures": "open",
+        "children": Array [
+          <Unknown
+            leftIcon={
+              <TouchableOpacity
+                activeOpacity={0.2}
+                onPress={[Function]}
+              >
+                <Icon
+                  allowFontScaling={false}
+                  color="#ffffff"
+                  name="photo-camera"
+                  size={30}
+                />
+              </TouchableOpacity>
+            }
+            rightIcon={
+              <TouchableOpacity
+                activeOpacity={0.2}
+                onPress={[Function]}
+              >
+                <Icon
+                  allowFontScaling={false}
+                  color="#ffffff"
+                  name="collections"
+                  size={30}
+                />
+              </TouchableOpacity>
+            }
+            style={
+              Object {
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+                "zIndex": 5,
+              }
+            }
+          />,
+          false,
+          <Unknown />,
+        ],
+        "closedDrawerOffset": 0,
+        "content": <Unknown
+          closeRightDrawer={[Function]}
+        />,
+        "disabled": false,
+        "elevation": 0,
+        "initializeOpen": false,
+        "negotiatePan": false,
+        "onClose": [Function],
+        "onCloseStart": undefined,
+        "onOpen": [Function],
+        "onOpenStart": undefined,
+        "open": null,
+        "openDrawerOffset": 0,
+        "panCloseMask": null,
+        "panOpenMask": null,
+        "panThreshold": 0.25,
+        "side": "right",
+        "styles": Object {},
+        "tapToClose": false,
+        "tweenDuration": 250,
+        "tweenEasing": "linear",
+        "tweenHandler": null,
+        "type": "displace",
+        "useInteractionManager": false,
+      },
+      "ref": [Function],
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "leftIcon": <TouchableOpacity
+              activeOpacity={0.2}
+              onPress={[Function]}
+            >
+              <Icon
+                allowFontScaling={false}
+                color="#ffffff"
+                name="photo-camera"
+                size={30}
+              />
+            </TouchableOpacity>,
+            "rightIcon": <TouchableOpacity
+              activeOpacity={0.2}
+              onPress={[Function]}
+            >
+              <Icon
+                allowFontScaling={false}
+                color="#ffffff"
+                name="collections"
+                size={30}
+              />
+            </TouchableOpacity>,
+            "style": Object {
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "zIndex": 5,
+            },
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        false,
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {},
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+      ],
+      "type": [Function],
     },
   ],
   Symbol(enzyme.__options__): Object {

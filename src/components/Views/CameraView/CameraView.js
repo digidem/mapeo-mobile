@@ -3,6 +3,7 @@ import React from 'react';
 import { withNavigationFocus } from 'react-navigation';
 import {
   Image,
+  Keyboard,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -11,11 +12,19 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import { size } from 'lodash';
+import Drawer from 'react-native-drawer';
 import I18n from 'react-native-i18n';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
 import { CHARCOAL, WHITE } from '../../../lib/styles.js';
 
+import ObservationsView from '../ObservationsView';
 import AddButton from '../../../images/add-button.png';
+import { applyObservationDefaults } from '../../../models/observations';
+import Header from '../../Base/Header';
+import SavedModal from '../../Base/SavedModal';
 
 const styles = StyleSheet.create({
   cancelButton: {
@@ -35,6 +44,11 @@ const styles = StyleSheet.create({
   },
   capture: {
     alignSelf: 'center',
+    position: 'absolute',
+    bottom: 5
+  },
+  captureFromEditor: {
+    alignSelf: 'center',
     marginTop: 375
   },
   preview: {
@@ -49,12 +63,22 @@ export type Props = {
 };
 
 export type StateProps = {
-  selectedObservation: Observation
+  observations: {
+    [id: string]: Observation
+  },
+  selectedObservation?: Observation,
+  showSavedModal: boolean
 };
 
 export type DispatchProps = {
+  createObservation: (observation: Observation) => void,
+  goToCategories: () => void,
+  goToObservationEditor: () => void,
+  goToMapView: () => void,
   updateObservation: (o: Observation) => void,
-  goToObservationEditor: () => void
+  onDrawerClose: () => void,
+  onDrawerOpen: () => void,
+  updateObservationSource: () => void
 };
 
 type State = {
@@ -74,6 +98,16 @@ class CameraView extends React.Component<
   state = {
     loading: false
   };
+  camera: RNCamera;
+  keyboardWillShowListener: any;
+  rightDrawer: Drawer;
+
+  componentWillMount() {
+    this.keyboardWillShowListener = Keyboard.addListener(
+      'keyboardWillShow',
+      this.keyboardWillShow
+    );
+  }
 
   shouldComponentUpdate(
     nextProps: Props & StateProps & DispatchProps,
@@ -86,16 +120,27 @@ class CameraView extends React.Component<
     return false;
   }
 
-  camera: RNCamera;
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+  }
+
+  keyboardWillShow = () => {
+    Keyboard.dismiss();
+  };
 
   takePicture = async () => {
     const {
-      updateObservation,
+      createObservation,
+      goToObservationEditor,
+      goToCategories,
+      navigation,
+      observations,
       selectedObservation,
-      goToObservationEditor
+      updateObservation,
+      updateObservationSource
     } = this.props;
     if (this.camera) {
-      const options = { quality: 0.5, base64: true, fixOrientation: true };
+      const options = { quality: 0.5, base64: false, fixOrientation: true };
       try {
         this.setState({ loading: true });
         const data = await this.camera.takePictureAsync(options);
@@ -112,6 +157,22 @@ class CameraView extends React.Component<
             ])
           });
           goToObservationEditor();
+        } else {
+          goToCategories();
+          const initialObservation = applyObservationDefaults({
+            id: size(observations) + 1
+          });
+          updateObservationSource();
+          createObservation(initialObservation);
+          updateObservation({
+            ...initialObservation,
+            media: initialObservation.media.concat([
+              {
+                type: 'Photo',
+                source: data.uri
+              }
+            ])
+          });
         }
       } catch (error) {
         console.warn(error);
@@ -119,69 +180,138 @@ class CameraView extends React.Component<
     }
   };
 
-  render() {
-    const { loading } = this.state;
-    const { isFocused } = this.props;
+  closeRightDrawer = () => {
+    this.rightDrawer.close();
+  };
 
-    if (!isFocused) {
-      console.log('RN - Unmount RNCamera in CameraView');
-      return <View />;
-    }
+  openRightDrawer = () => {
+    this.rightDrawer.open();
+  };
 
-    return (
-      <View style={{ flex: 1, flexDirection: 'column' }}>
-        <RNCamera
-          ref={ref => {
-            this.camera = ref;
-          }}
-          style={styles.preview}
-          type={RNCamera.Constants.Type.back}
-          flashMode={RNCamera.Constants.FlashMode.off}
-          permissionDialogTitle="Permission to use camera"
-          permissionDialogMessage="We need your permission to use your camera phone"
+  handleRightDrawerRef = (ref: Drawer) => {
+    this.rightDrawer = ref;
+  };
+
+  goToMapView = () => {
+    const { goToMapView } = this.props;
+    goToMapView();
+  };
+
+  renderCamera = (fromEditor: boolean, loading) => (
+    <View style={{ flex: 1, flexDirection: 'column' }}>
+      <RNCamera
+        ref={ref => {
+          this.camera = ref;
+        }}
+        style={styles.preview}
+        type={RNCamera.Constants.Type.back}
+        flashMode={RNCamera.Constants.FlashMode.off}
+        permissionDialogTitle="Permission to use camera"
+        permissionDialogMessage="We need your permission to use your camera phone"
+      >
+        <TouchableOpacity
+          onPress={this.takePicture}
+          style={fromEditor ? styles.captureFromEditor : styles.capture}
         >
-          <TouchableOpacity onPress={this.takePicture} style={styles.capture}>
-            <Image
-              source={AddButton}
-              style={{
-                width: 125,
-                height: 125
-              }}
-            />
-          </TouchableOpacity>
+          <Image
+            source={AddButton}
+            style={{
+              width: 125,
+              height: 125
+            }}
+          />
+        </TouchableOpacity>
+        {fromEditor && (
           <TouchableOpacity
             style={styles.cancelButton}
             onPress={() => this.props.navigation.goBack()}
           >
             <Text style={styles.cancelText}>Cancel</Text>
           </TouchableOpacity>
-        </RNCamera>
-        {loading && (
+        )}
+      </RNCamera>
+      {loading && (
+        <View
+          style={{
+            position: 'absolute',
+            height: fromEditor
+              ? Dimensions.get('window').height - 30
+              : Dimensions.get('window').height,
+            width: Dimensions.get('window').width,
+            backgroundColor: 'rgba(66,66,66,.8)',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
           <View
             style={{
-              position: 'absolute',
-              height: Dimensions.get('window').height - 30,
-              width: Dimensions.get('window').width,
-              backgroundColor: 'rgba(66,66,66,.8)',
-              alignItems: 'center',
-              justifyContent: 'center'
+              backgroundColor: '#FFF',
+              paddingHorizontal: 50,
+              paddingVertical: 30,
+              justifyContent: 'center',
+              borderRadius: 3
             }}
           >
-            <View
-              style={{
-                backgroundColor: '#FFF',
-                paddingHorizontal: 50,
-                paddingVertical: 30,
-                justifyContent: 'center',
-                borderRadius: 3
-              }}
-            >
-              <ActivityIndicator />
-              <Text>{I18n.t('saving_image')}</Text>
-            </View>
+            <ActivityIndicator />
+            <Text>{I18n.t('saving_image')}</Text>
           </View>
-        )}
-      </View>
+        </View>
+      )}
+    </View>
+  );
+
+  render() {
+    const { loading } = this.state;
+    const {
+      selectedObservation,
+      isFocused,
+      navigation,
+      onDrawerOpen,
+      onDrawerClose,
+      showSavedModal
+    } = this.props;
+
+    if (!isFocused) {
+      console.log('RN - Unmount RNCamera in CameraView');
+      return null;
+    }
+
+    if (selectedObservation) {
+      return this.renderCamera(true, loading);
+    }
+
+    return (
+      <Drawer
+        ref={this.handleRightDrawerRef}
+        content={<ObservationsView closeRightDrawer={this.closeRightDrawer} />}
+        onCloseStart={onDrawerClose}
+        onOpenStart={onDrawerOpen}
+        openDrawerOffset={0}
+        side="right"
+        type="displace"
+      >
+        <Header
+          leftIcon={
+            <TouchableOpacity onPress={this.goToMapView}>
+              <Icon color={WHITE} name="map" size={30} />
+            </TouchableOpacity>
+          }
+          rightIcon={
+            <TouchableOpacity onPress={this.openRightDrawer}>
+              <CollectionsImg color={WHITE} name="collections" size={30} />
+            </TouchableOpacity>
+          }
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 5
+          }}
+        />
+        {showSavedModal && <SavedModal />}
+        {this.renderCamera(false, loading)}
+      </Drawer>
     );
   }
 }
