@@ -37,7 +37,8 @@ export type DispatchProps = {
   updateObservation: (observation: Observation) => void,
   goToCategories: () => void,
   goToObservationDetail: () => void,
-  selectObservation: (observation: Observation) => void
+  selectObservation: (observation: Observation) => void,
+  updateObservationSource: () => void
 };
 
 type Props = {
@@ -142,14 +143,15 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
       observations,
       updateObservation,
       goToCategories,
-      selectedObservation
+      selectedObservation,
+      updateObservationSource
     } = this.props;
     const initialObservation = applyObservationDefaults({
-      id: size(observations) + 1,
-      createdFrom: 'map'
+      id: size(observations) + 1
     });
-    goToCategories();
 
+    goToCategories();
+    updateObservationSource();
     createObservation(initialObservation);
   };
 
@@ -168,15 +170,20 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
 
   handleLongPress = (point: Object) => {
     const { coordinates } = point.geometry;
-    const { createObservation, observations, goToCategories } = this.props;
+    const {
+      createObservation,
+      observations,
+      goToCategories,
+      updateObservationSource
+    } = this.props;
     const initialObservation = applyObservationDefaults({
       id: size(observations) + 1,
       lat: coordinates[1],
-      lon: coordinates[0],
-      createdFrom: 'map'
+      lon: coordinates[0]
     });
 
     goToCategories();
+    updateObservationSource();
     createObservation(initialObservation);
   };
 

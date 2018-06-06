@@ -14,7 +14,6 @@ export const applyObservationDefaults = (partial: Object): Observation => ({
   icon: null,
   categoryId: '0',
   fields: [],
-  createdFrom: 'map',
 
   ...partial
 });

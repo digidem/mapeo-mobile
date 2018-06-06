@@ -6,6 +6,7 @@ import {
   observationCreate,
   observationUpdate
 } from '../../../ducks/observations';
+import { observationSource } from '../../../ducks/observationSource';
 import type { StoreState } from '../../../types/redux';
 import CameraView from './CameraView';
 import type { Props, StateProps, DispatchProps } from './CameraView';
@@ -33,7 +34,10 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     goToCategories: () =>
       dispatch(NavigationActions.navigate({ routeName: 'Categories' })),
     onDrawerClose: () => dispatch(drawerClose('observations')),
-    onDrawerOpen: () => dispatch(drawerOpen('observations'))
+    goToMapView: () =>
+      dispatch(NavigationActions.navigate({ routeName: 'MapView' })),
+    onDrawerOpen: () => dispatch(drawerOpen('observations')),
+    updateObservationSource: () => dispatch(observationSource('camera'))
   };
 }
 

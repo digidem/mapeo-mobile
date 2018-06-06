@@ -8,7 +8,7 @@ import {
   observationUpdate,
   observationSelect
 } from '../../../../ducks/observations';
-
+import { observationSource } from '../../../../ducks/observationSource';
 import { StoreState } from '../../../../types/redux';
 import Map from './Map';
 import type { DispatchProps, StateProps } from './Map';
@@ -35,7 +35,8 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     goToObservationDetail: () =>
       dispatch(
         NavigationActions.navigate({ routeName: 'ObservationDetailView' })
-      )
+      ),
+    updateObservationSource: () => dispatch(observationSource('map'))
   };
 }
 

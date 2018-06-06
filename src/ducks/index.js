@@ -9,6 +9,7 @@ import modals from './modals';
 import observations from './observations';
 import gps from './gps';
 import fields from './fields';
+import observationSource from './observationSource';
 
 const rootReducer = combineReducers({
   app: appCombineReducers(
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     ...modals,
     ...observations,
     ...gps,
-    ...fields
+    ...fields,
+    ...observationSource
   ),
   mainStack: createNavigationReducer(MainStackNavigation)
 });

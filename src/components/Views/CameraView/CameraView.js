@@ -74,9 +74,11 @@ export type DispatchProps = {
   createObservation: (observation: Observation) => void,
   goToCategories: () => void,
   goToObservationEditor: () => void,
+  goToMapView: () => void,
   updateObservation: (o: Observation) => void,
   onDrawerClose: () => void,
-  onDrawerOpen: () => void
+  onDrawerOpen: () => void,
+  updateObservationSource: () => void
 };
 
 type State = {
@@ -120,7 +122,8 @@ class CameraView extends React.Component<
       navigation,
       observations,
       selectedObservation,
-      updateObservation
+      updateObservation,
+      updateObservationSource
     } = this.props;
     if (this.camera) {
       const options = { quality: 0.5, base64: true, fixOrientation: true };
@@ -145,9 +148,9 @@ class CameraView extends React.Component<
         } else {
           goToCategories();
           const initialObservation = applyObservationDefaults({
-            id: size(observations) + 1,
-            createdFrom: 'camera'
+            id: size(observations) + 1
           });
+          updateObservationSource();
           createObservation(initialObservation);
 
           navigator.geolocation.getCurrentPosition(
@@ -188,7 +191,8 @@ class CameraView extends React.Component<
   };
 
   goToMapView = () => {
-    this.props.navigation.navigate({ routeName: 'MapView' });
+    const { goToMapView } = this.props;
+    goToMapView();
   };
 
   render() {
@@ -271,6 +275,7 @@ class CameraView extends React.Component<
         </View>
       );
     }
+
     return (
       <Drawer
         ref={this.handleRightDrawerRef}

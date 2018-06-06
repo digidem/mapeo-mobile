@@ -38,7 +38,8 @@ import Header from '../../Base/Header';
 export type StateProps = {
   category?: Category,
   selectedObservation?: Observation,
-  observations: Observation[]
+  observations: Observation[],
+  observationSource: string
 };
 
 export type Props = {
@@ -352,7 +353,8 @@ class ObservationEditor extends React.Component<
       selectedObservation,
       goToMapView,
       showSavedModal,
-      goToMainCameraView
+      goToMainCameraView,
+      observationSource
     } = this.props;
     const { text } = this.state;
 
@@ -364,7 +366,7 @@ class ObservationEditor extends React.Component<
     }
 
     showSavedModal();
-    if (selectedObservation && selectedObservation.createdFrom === 'map') {
+    if (observationSource.source === 'map') {
       goToMapView();
     } else {
       goToMainCameraView();

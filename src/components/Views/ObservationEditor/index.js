@@ -20,7 +20,8 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
         state.app.categories[ownProps.navigation.state.params.category]) ||
       undefined,
     selectedObservation: state.app.selectedObservation,
-    observations: values(state.app.observations)
+    observations: values(state.app.observations),
+    observationSource: state.app.observationSource.source
   };
 }
 

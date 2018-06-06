@@ -23,5 +23,4 @@ export interface Observation {
   icon: any;
   categoryId: string;
   fields: Field[];
-  createdFrom: string;
 }
