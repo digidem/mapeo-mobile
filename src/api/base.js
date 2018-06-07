@@ -19,7 +19,7 @@ const request = (method: string, route: string, body?: any) => {
       body: encodedBody,
       headers
     })
-  ).flatMap(response => {
+  ).retry(3).flatMap(response => {
     if (response.ok) {
       return Observable.of(response);
     }
