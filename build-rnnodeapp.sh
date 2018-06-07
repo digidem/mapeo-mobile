@@ -14,6 +14,7 @@ cd ./rnnodeapp && npm i && cd ..;
 
 echo "Minifying...";
 $(npm bin)/noderify \
+  --filter original-fs \
   --replace.leveldown=leveldown-android-prebuilt \
   ./rnnodeapp/index.js > ./rnnodeapp/_index.js;
 rm ./rnnodeapp/index.js;
