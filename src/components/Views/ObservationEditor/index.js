@@ -2,6 +2,7 @@
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import type { Dispatch } from 'redux';
+import { values } from 'lodash';
 import { StoreState } from '../../../types/redux';
 
 import { observationAdd, observationUpdate } from '../../../ducks/observations';
@@ -18,7 +19,9 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
         ownProps.navigation.state.params.category &&
         state.app.categories[ownProps.navigation.state.params.category]) ||
       undefined,
-    selectedObservation: state.app.selectedObservation
+    selectedObservation: state.app.selectedObservation,
+    observations: values(state.app.observations),
+    observationSource: state.app.observationSource.source
   };
 }
 
@@ -39,18 +42,26 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
           routeName: 'CameraView'
         })
       ),
+    goToCategories: () =>
+      dispatch(
+        NavigationActions.navigate({
+          routeName: 'Categories',
+          key: 'CategoriesView'
+        })
+      ),
     goToObservationFields: () =>
       dispatch(
         NavigationActions.navigate({
           routeName: 'ObservationFields'
         })
       ),
-    goBack: () => dispatch(NavigationActions.back()),
-    goToTabBarNavigation: () =>
+    goBack: () => {
+      dispatch(NavigationActions.back());
+    },
+    goToMapView: () =>
       dispatch(
         NavigationActions.navigate({
-          routeName: 'TabBarNavigation',
-          params: { showModal: true }
+          routeName: 'MapView'
         })
       ),
     showSavedModal: () => dispatch(modalShow('saved'))
