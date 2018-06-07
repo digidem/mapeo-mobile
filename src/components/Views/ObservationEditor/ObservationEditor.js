@@ -53,6 +53,7 @@ export type DispatchProps = {
   goToObservationFields: () => void,
   addObservation: (o: Observation) => void,
   goToCameraView: () => void,
+  goToMainCameraView: () => void,
   goToCategories: () => void,
   goBack: () => void,
   goToMapView: () => void,
@@ -353,7 +354,8 @@ class ObservationEditor extends React.Component<
       goToMapView,
       showSavedModal,
       observationSource,
-      goToCameraView
+      goToCameraView,
+      goToMainCameraView
     } = this.props;
     const { text } = this.state;
 
@@ -368,7 +370,7 @@ class ObservationEditor extends React.Component<
     if (observationSource === 'map') {
       goToMapView();
     } else {
-      goToCameraView();
+      goToMainCameraView();
     }
   };
 

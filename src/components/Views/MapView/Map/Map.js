@@ -172,8 +172,8 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
     const { coordinates } = point.geometry;
     const {
       createObservation,
-      observations,
       goToCategories,
+      observations,
       updateObservationSource
     } = this.props;
     const initialObservation = applyObservationDefaults({

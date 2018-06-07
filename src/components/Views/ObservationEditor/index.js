@@ -39,7 +39,15 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     goToCameraView: () =>
       dispatch(
         NavigationActions.navigate({
-          routeName: 'CameraView'
+          routeName: 'CameraView',
+          params: { showEditorView: true }
+        })
+      ),
+    goToMainCameraView: () =>
+      dispatch(
+        NavigationActions.navigate({
+          routeName: 'CameraView',
+          params: { showEditorView: false }
         })
       ),
     goToCategories: () =>
