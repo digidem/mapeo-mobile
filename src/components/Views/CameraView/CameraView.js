@@ -67,7 +67,8 @@ export type StateProps = {
     [id: string]: Observation
   },
   selectedObservation?: Observation,
-  showSavedModal: boolean
+  showSavedModal: boolean,
+  showEditorView: boolean
 };
 
 export type DispatchProps = {
@@ -99,15 +100,7 @@ class CameraView extends React.Component<
     loading: false
   };
   camera: RNCamera;
-  keyboardWillShowListener: any;
   rightDrawer: Drawer;
-
-  componentWillMount() {
-    this.keyboardWillShowListener = Keyboard.addListener(
-      'keyboardWillShow',
-      this.keyboardWillShow
-    );
-  }
 
   shouldComponentUpdate(
     nextProps: Props & StateProps & DispatchProps,
@@ -119,14 +112,6 @@ class CameraView extends React.Component<
 
     return false;
   }
-
-  componentWillUnmount() {
-    this.keyboardWillShowListener.remove();
-  }
-
-  keyboardWillShow = () => {
-    Keyboard.dismiss();
-  };
 
   takePicture = async () => {
     const {
@@ -268,7 +253,8 @@ class CameraView extends React.Component<
       navigation,
       onDrawerOpen,
       onDrawerClose,
-      showSavedModal
+      showSavedModal,
+      showEditorView
     } = this.props;
 
     if (!isFocused) {
@@ -276,7 +262,7 @@ class CameraView extends React.Component<
       return null;
     }
 
-    if (selectedObservation) {
+    if (showEditorView) {
       return this.renderCamera(true, loading);
     }
 

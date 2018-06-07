@@ -16,7 +16,12 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
   return {
     observations: state.app.observations,
     selectedObservation: state.app.selectedObservation,
-    showSavedModal: state.app.modals.saved
+    showSavedModal: state.app.modals.saved,
+    showEditorView:
+      ownProps.navigation &&
+      ownProps.navigation.state &&
+      ownProps.navigation.state.params &&
+      ownProps.navigation.state.params.showEditorView
   };
 }
 
