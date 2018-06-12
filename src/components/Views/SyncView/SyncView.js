@@ -66,7 +66,6 @@ class SyncView extends React.Component<Props & StateProps & DispatchProps> {
       toggleDeviceSelect,
       updateDeviceSync
     } = this.props;
-    console.log(this.props);
 
     let headerDeviceText = I18n.t('sync.available');
     if (selectedDevice) {
