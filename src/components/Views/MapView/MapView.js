@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import {
   StyleSheet,
   View,
@@ -44,7 +44,7 @@ export type StateProps = {
   },
   selectedObservation?: Observation,
   gps?: GPSState,
-  showSavedModal: boolean
+  showSavedModal: boolean,
   selectedStyle?: string
 };
 
@@ -56,7 +56,7 @@ export type DispatchProps = {
   goToObservationDetail: () => void,
   selectObservation: (observation: Observation) => void,
   onDrawerClose: () => void,
-  onDrawerOpen: () => void
+  onDrawerOpen: () => void,
   listStyles: () => void
 };
 
@@ -95,8 +95,20 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class MapView extends React.Component<Props & StateProps & DispatchProps> {
+class MapView extends React.PureComponent<Props & StateProps & DispatchProps> {
   rightDrawer: Drawer;
+
+  componentDidMount() {
+    const { listObservations } = this.props;
+
+    listObservations();
+  }
+
+  componentWillReceiveProps(nextProps: Props & DispatchProps & StateProps) {
+    if (nextProps.isFocused && nextProps.isFocused !== this.props.isFocused) {
+      nextProps.listObservations();
+    }
+  }
 
   closeRightDrawer = () => {
     this.rightDrawer.close();
@@ -159,4 +171,4 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
   }
 }
 
-export default MapView;
+export default withNavigationFocus(MapView);

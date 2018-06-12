@@ -1,7 +1,8 @@
 // @flow
 import { Observable } from 'rxjs';
 
-export const API_DOMAIN_URL = 'http://localhost:9080';
+export const API_DOMAIN_URL = 'http://10.0.2.2:9080';
+// export const API_DOMAIN_URL = 'http://192.168.1.2:9080';
 
 const request = (method: string, route: string, body?: any) => {
   let resp: any;
@@ -19,24 +20,26 @@ const request = (method: string, route: string, body?: any) => {
       body: encodedBody,
       headers
     })
-  ).retry(3).flatMap(response => {
-    if (response.ok) {
-      return Observable.of(response);
-    }
+  )
+    .retry(3)
+    .flatMap(response => {
+      if (response.ok) {
+        return Observable.of(response);
+      }
 
-    resp = response;
+      resp = response;
 
-    return Observable.from(response.json())
-      .catch(err => {
-        throw new Error(err.toString());
-      })
-      .flatMap(json => {
-        if (json && json.code && json.description) {
-          throw new Error(json.description);
-        }
-        throw new Error('unknown error');
-      });
-  });
+      return Observable.from(response.json())
+        .catch(err => {
+          throw new Error(err.toString());
+        })
+        .flatMap(json => {
+          if (json && json.code && json.description) {
+            throw new Error(json.description);
+          }
+          throw new Error('unknown error');
+        });
+    });
 };
 
 type Parameters = {

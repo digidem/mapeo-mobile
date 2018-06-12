@@ -54,6 +54,9 @@ export function createInitialStore() {
     devices: {},
     settings: {
       gpsFormat: 'DD'
+    },
+    map: {
+      styles: {}
     }
   };
 }

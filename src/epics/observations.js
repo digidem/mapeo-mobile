@@ -33,17 +33,23 @@ export const observationSaveEpic = (
 ) =>
   action$
     .ofType(OBSERVATION_SAVE)
-    .filter(
-      action =>
+    .filter(action => {
+      console.log('RN - filter epic', store.getState().app.selectedObservation);
+      return (
         action.status === 'Start' && !!store.getState().app.selectedObservation
-    )
-    .flatMap(action =>
-      Observation.create(store.getState().app.selectedObservation).map(
+      );
+    })
+    .flatMap(action => {
+      console.log(
+        'RN - before create',
+        store.getState().app.selectedObservation
+      );
+      return Observation.create(store.getState().app.selectedObservation).map(
         observation => {
           console.log('RN - ', observation);
           return observationSave(action.meta, observation);
         }
-      )
-    );
+      );
+    });
 
 export default [observationListEpic, observationSaveEpic];
