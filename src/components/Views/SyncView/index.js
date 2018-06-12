@@ -8,7 +8,8 @@ import { StoreState } from '../../../types/redux';
 import {
   deviceList,
   deviceSelect,
-  deviceToggleSelect
+  deviceToggleSelect,
+  deviceSyncUpdate
 } from '../../../ducks/devices';
 import SyncView from './SyncView';
 import type { StateProps, DispatchProps } from './SyncView';
@@ -25,7 +26,11 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     goBack: () => dispatch(NavigationActions.back()),
     listDevices: () => dispatch(deviceList('')),
     selectDevice: device => dispatch(deviceSelect(device)),
-    toggleDeviceSelect: device => dispatch(deviceToggleSelect(device))
+    toggleDeviceSelect: device => dispatch(deviceToggleSelect(device)),
+    updateDeviceSync: device => {
+      dispatch(deviceSyncUpdate(device));
+      dispatch(deviceSelect(device));
+    }
   };
 }
 

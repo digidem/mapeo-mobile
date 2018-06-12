@@ -108,15 +108,18 @@ exports[`ObservationHeader tests snapshot with showSyncTip as false 1`] = `
       >
         <View
           style={
-            Object {
-              "alignItems": "center",
-              "alignSelf": "center",
-              "backgroundColor": "#EAEAEA",
-              "borderRadius": 50,
-              "height": 30,
-              "justifyContent": "center",
-              "width": 30,
-            }
+            Array [
+              Object {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "backgroundColor": "#EAEAEA",
+                "borderRadius": 50,
+                "height": 30,
+                "justifyContent": "center",
+                "width": 30,
+              },
+              undefined,
+            ]
           }
         >
           <Text
@@ -349,15 +352,18 @@ exports[`ObservationHeader tests snapshot with showSyncTip as true 1`] = `
       >
         <View
           style={
-            Object {
-              "alignItems": "center",
-              "alignSelf": "center",
-              "backgroundColor": "#EAEAEA",
-              "borderRadius": 50,
-              "height": 30,
-              "justifyContent": "center",
-              "width": 30,
-            }
+            Array [
+              Object {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "backgroundColor": "#EAEAEA",
+                "borderRadius": 50,
+                "height": 30,
+                "justifyContent": "center",
+                "width": 30,
+              },
+              undefined,
+            ]
           }
         >
           <Text

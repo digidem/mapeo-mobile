@@ -52,8 +52,27 @@ export const {
   }
 });
 
+export const {
+  type: DEVICE_SYNC_UPDATE,
+  action: deviceSyncUpdate,
+  reducer: deviceSyncUpdateReducer
+} = create('DEVICE_SYNC_UPDATE', {
+  start: (state, action) => {
+    const newState = update(state, {
+      devices: {
+        [action.meta.id]: {
+          $set: action.meta
+        }
+      }
+    });
+
+    return newState;
+  }
+});
+
 export default [
   deviceListReducer,
   deviceToggleSelectReducer,
-  deviceSelectReducer
+  deviceSelectReducer,
+  deviceSyncUpdateReducer
 ];

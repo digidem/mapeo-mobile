@@ -28,6 +28,7 @@ exports[`ObservationsView tests snapshot 1`] = `
         closeRightDrawer={[Function]}
         goToSyncView={undefined}
         showSyncTip={true}
+        syncReady={false}
       />
     }
     data={
@@ -201,15 +202,18 @@ exports[`ObservationsView tests snapshot 1`] = `
               >
                 <View
                   style={
-                    Object {
-                      "alignItems": "center",
-                      "alignSelf": "center",
-                      "backgroundColor": "#EAEAEA",
-                      "borderRadius": 50,
-                      "height": 30,
-                      "justifyContent": "center",
-                      "width": 30,
-                    }
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "alignSelf": "center",
+                        "backgroundColor": "#EAEAEA",
+                        "borderRadius": 50,
+                        "height": 30,
+                        "justifyContent": "center",
+                        "width": 30,
+                      },
+                      false,
+                    ]
                   }
                 >
                   <Text

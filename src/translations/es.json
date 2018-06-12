@@ -27,6 +27,7 @@
   "observations": {
     "title": "Observaciones",
     "sync": "Conectarse para sincronizar",
+    "sync_ready": "Sincronizar Listo",
     "all_observations": "Todas las observaciones",
     "view_by": "Ver por más reciente"
   },
@@ -46,9 +47,13 @@
     "observed_by": "Observado por"
   },
   "sync": {
-    "via_wifi": "vía WiFi",
-    "sync": "Sincronizacíon",
     "available": "Dispositivos Disponibles",
-    "selected": "Dispositivo Seleccionados"
+    "selected": "Dispositivo Seleccionados",
+    "initiated": "Sincronización iniciada",
+    "progress": "Sincronización en progreso",
+    "via_wifi": "vía WiFi",
+    "requested": "Sincronización solicitada",
+    "syncing": "Sincronizacíon",
+    "sync": "Sincronizacíon"
   }
 }

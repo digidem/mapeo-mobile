@@ -11,12 +11,19 @@ import LeftChevron from 'react-native-vector-icons/Feather';
 import SyncIcon from 'react-native-vector-icons/FontAwesome';
 import SettingsIcon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
-import { LIGHT_GREY, MAPEO_BLUE, WHITE } from '../../../lib/styles';
+import {
+  DARK_MANGO,
+  LIGHT_GREY,
+  MANGO,
+  MAPEO_BLUE,
+  WHITE
+} from '../../../lib/styles';
 
 type Props = {
   closeRightDrawer: Function,
   goToSyncView: Function,
-  showSyncTip: boolean
+  showSyncTip: boolean,
+  syncReady: boolean
 };
 
 const styles = StyleSheet.create({
@@ -132,10 +139,18 @@ const ObservationHeader = (props: Props) => (
         }}
       >
         <TouchableOpacity
-          style={styles.syncButtonOuterCircle}
+          style={[
+            styles.syncButtonOuterCircle,
+            props.syncReady && { backgroundColor: DARK_MANGO }
+          ]}
           onPress={props.goToSyncView}
         >
-          <View style={styles.syncButtonInnerCircle}>
+          <View
+            style={[
+              styles.syncButtonInnerCircle,
+              props.syncReady && { backgroundColor: MANGO }
+            ]}
+          >
             <SyncIcon
               color={WHITE}
               name="bolt"
@@ -159,7 +174,9 @@ const ObservationHeader = (props: Props) => (
       <View style={styles.syncTipContainer}>
         <View style={styles.syncTipInnerContainer}>
           <Text style={{ color: WHITE, marginHorizontal: 20 }}>
-            {I18n.t('observations.sync')}
+            {props.syncReady
+              ? I18n.t('observations.sync_ready')
+              : I18n.t('observations.sync')}
           </Text>
         </View>
         <View style={styles.triangle} />

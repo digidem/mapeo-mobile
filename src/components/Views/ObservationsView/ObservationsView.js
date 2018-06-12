@@ -35,7 +35,8 @@ type Props = {
 };
 
 type State = {
-  showSyncTip: boolean
+  showSyncTip: boolean,
+  syncReady: boolean
 };
 
 I18n.fallbacks = true;
@@ -49,13 +50,15 @@ class ObservationsView extends React.Component<
   State
 > {
   state = {
-    showSyncTip: false
+    showSyncTip: false,
+    syncReady: false
   };
   timer: any;
 
   componentDidMount() {
     this.setState({
-      showSyncTip: true
+      showSyncTip: true,
+      syncReady: false
     });
   }
 
@@ -70,10 +73,18 @@ class ObservationsView extends React.Component<
     if (this.timer) {
       clearTimeout(this.timer);
     }
+    if (this.props.drawerOpened) {
+      setTimeout(() => {
+        this.setState({
+          showSyncTip: this.state.showSyncTip,
+          syncReady: true
+        });
+      }, 2000);
+    }
   }
 
   hideTip = () => {
-    this.setState({ showSyncTip: false });
+    this.setState({ showSyncTip: false, syncReady: true });
   };
 
   render() {
@@ -119,6 +130,7 @@ class ObservationsView extends React.Component<
                 closeRightDrawer={this.props.closeRightDrawer}
                 goToSyncView={this.props.goToSyncView}
                 showSyncTip={this.state.showSyncTip}
+                syncReady={this.state.syncReady}
               />
             }
             style={{ width: Dimensions.get('window').width }}

@@ -10,15 +10,18 @@ import type { Device } from '../types/device';
 const initialDevices = [
   {
     name: `Aldo's MacBook`,
-    selected: false
+    selected: false,
+    syncStatus: 'notStarted'
   },
   {
     name: `Cindy's MacBook`,
-    selected: false
+    selected: false,
+    syncStatus: 'notStarted'
   },
   {
     name: `Gregor's MacBook`,
-    selected: false
+    selected: false,
+    syncStatus: 'notStarted'
   }
 ];
 
@@ -35,7 +38,8 @@ export const deviceListEpic = (
           createDevice({
             name: d.name,
             id: i.toString(),
-            selected: d.selected
+            selected: d.selected,
+            syncStatus: d.syncStatus
           })
         )
       )

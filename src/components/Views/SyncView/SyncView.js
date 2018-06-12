@@ -30,7 +30,8 @@ export type DispatchProps = {
   listDevices: () => void,
   goBack: () => void,
   selectDevice: (device?: Device) => void,
-  toggleDeviceSelect: (device: Device) => void
+  toggleDeviceSelect: (device: Device) => void,
+  updateDeviceSync: (device: Device) => void
 };
 
 if (I18n) {
@@ -62,13 +63,22 @@ class SyncView extends React.Component<Props & StateProps & DispatchProps> {
       goBack,
       selectDevice,
       selectedDevice,
-      toggleDeviceSelect
+      toggleDeviceSelect,
+      updateDeviceSync
     } = this.props;
     console.log(this.props);
 
-    const headerDeviceText = selectedDevice
-      ? I18n.t('sync.selected')
-      : I18n.t('sync.available');
+    let headerDeviceText = I18n.t('sync.available');
+    if (selectedDevice) {
+      headerDeviceText = I18n.t('sync.selected');
+
+      if (selectedDevice.syncStatus === 'requested') {
+        headerDeviceText = I18n.t('sync.initiated');
+      } else if (selectedDevice.syncStatus === 'syncing') {
+        headerDeviceText = I18n.t('sync.progress');
+      }
+    }
+
     const keyExtractor = (item, index) => item.id;
     const handleDevicePress = item => {
       toggleDeviceSelect({ ...item });
@@ -77,11 +87,18 @@ class SyncView extends React.Component<Props & StateProps & DispatchProps> {
       }
       selectDevice({
         ...item,
-        selected: true
+        selected: true,
+        syncStatus: 'notStarted'
       });
     };
     const renderItem = ({ item }) => (
-      <DeviceCell device={item} onPress={handleDevicePress} />
+      <DeviceCell
+        device={item}
+        onPress={handleDevicePress}
+        selectDevice={selectDevice}
+        selectedDevice={selectedDevice}
+        updateDeviceSync={updateDeviceSync}
+      />
     );
     const closeSyncView = () => {
       if (selectedDevice) {

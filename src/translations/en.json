@@ -27,6 +27,7 @@
   "observations": {
     "title": "Observations",
     "sync": "Connect to sync",
+    "sync_ready": "Sync Ready",
     "all_observations": "All Observations",
     "view_by": "View by Most Recent"
   },
@@ -46,10 +47,14 @@
     "observed_by": "Observed by"
   },
   "sync": {
-    "via_wifi": "via WiFi",
-    "sync": "Sync",
     "available": "Available Devices",
-    "selected": "Device Selected"
+    "selected": "Device Selected",
+    "initiated": "Sync initiated...",
+    "progress": "Sync in progress...",
+    "via_wifi": "via WiFi",
+    "requested": "Sync requested...",
+    "syncing": "Syncing...",
+    "sync": "Sync"
   }
 
 }
