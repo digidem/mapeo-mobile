@@ -6,6 +6,7 @@ import type { DrawerState } from './drawer';
 import type { GPSState } from './gps';
 import type { Field } from './field';
 import type { ObservationSourceState } from './observationSource';
+import type { Device } from './device';
 
 export interface AppStoreState {
   observations: {
@@ -29,6 +30,12 @@ export interface AppStoreState {
   };
 
   observationSource: ObservationSourceState;
+
+  devices: {
+    [id: string]: Device
+  };
+
+  selectedDevice?: Device;
 }
 
 export interface StoreState {

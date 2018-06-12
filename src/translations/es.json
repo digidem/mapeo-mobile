@@ -44,5 +44,11 @@
     "details": "Detalles",
     "not_entered": "No entró",
     "observed_by": "Observado por"
+  },
+  "sync": {
+    "via_wifi": "vía WiFi",
+    "sync": "Sincronizacíon",
+    "available": "Dispositivos Disponibles",
+    "selected": "Dispositivo Seleccionados"
   }
 }

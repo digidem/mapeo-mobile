@@ -25,7 +25,8 @@ export type StateProps = {
 
 export type DispatchProps = {
   selectObservation: (o: Observation) => void,
-  goToObservationDetail: () => void
+  goToObservationDetail: () => void,
+  goToSyncView: () => void
 };
 
 type Props = {
@@ -116,6 +117,7 @@ class ObservationsView extends React.Component<
             ListHeaderComponent={
               <ObservationHeader
                 closeRightDrawer={this.props.closeRightDrawer}
+                goToSyncView={this.props.goToSyncView}
                 showSyncTip={this.state.showSyncTip}
               />
             }

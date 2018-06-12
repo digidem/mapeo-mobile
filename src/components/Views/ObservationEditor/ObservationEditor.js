@@ -27,6 +27,7 @@ import type { Observation } from '../../../types/observation';
 import CategoryPin from '../../../images/category-pin.png';
 import PencilIcon from '../../../images/editor-details.png';
 import {
+  DARK_MANGO,
   LIGHT_GREY,
   WHITE,
   MANGO,
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
   checkOuterCircle: {
     width: 30,
     height: 30,
-    backgroundColor: '#ed6109',
+    backgroundColor: DARK_MANGO,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center'

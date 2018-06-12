@@ -23,7 +23,9 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     goToObservationDetail: () =>
       dispatch(
         NavigationActions.navigate({ routeName: 'ObservationDetailView' })
-      )
+      ),
+    goToSyncView: () =>
+      dispatch(NavigationActions.navigate({ routeName: 'SyncView' }))
   };
 }
 

@@ -47,6 +47,7 @@ export function createInitialStore() {
       observations: false
     },
     gps: { status: 'Pending' },
-    observationSource: { source: undefined }
+    observationSource: { source: undefined },
+    devices: {}
   };
 }

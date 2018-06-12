@@ -15,6 +15,7 @@ import { LIGHT_GREY, MAPEO_BLUE, WHITE } from '../../../lib/styles';
 
 type Props = {
   closeRightDrawer: Function,
+  goToSyncView: Function,
   showSyncTip: boolean
 };
 
@@ -130,7 +131,10 @@ const ObservationHeader = (props: Props) => (
           flexDirection: 'column'
         }}
       >
-        <TouchableOpacity style={styles.syncButtonOuterCircle}>
+        <TouchableOpacity
+          style={styles.syncButtonOuterCircle}
+          onPress={props.goToSyncView}
+        >
           <View style={styles.syncButtonInnerCircle}>
             <SyncIcon
               color={WHITE}
