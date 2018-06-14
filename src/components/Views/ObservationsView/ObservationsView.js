@@ -8,7 +8,7 @@ import {
   FlatList,
   Dimensions
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import SyncIcon from 'react-native-vector-icons/FontAwesome';
 import SettingsIcon from 'react-native-vector-icons/MaterialIcons';
 import { orderBy, map } from 'lodash';
@@ -30,7 +30,8 @@ export type DispatchProps = {
 
 type Props = {
   closeRightDrawer: Function,
-  navigation: NavigationActions
+  navigation: NavigationActions,
+  isFocused: boolean
 };
 
 type State = {
@@ -137,4 +138,4 @@ class ObservationsView extends React.Component<
   }
 }
 
-export default ObservationsView;
+export default withNavigationFocus(ObservationsView);
