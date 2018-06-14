@@ -114,6 +114,7 @@ class ObservationsView extends React.Component<
         >
           <FlatList
             scrollEnabled
+            stickyHeaderIndices={[0]}
             ListHeaderComponent={
               <ObservationHeader
                 closeRightDrawer={this.props.closeRightDrawer}
