@@ -8,7 +8,7 @@ import {
   FlatList,
   Dimensions
 } from 'react-native';
-import { NavigationActions, withNavigationFocus } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import SyncIcon from 'react-native-vector-icons/FontAwesome';
 import SettingsIcon from 'react-native-vector-icons/MaterialIcons';
 import { orderBy, map } from 'lodash';
@@ -121,4 +121,4 @@ class ObservationsView extends React.Component<
   }
 }
 
-export default withNavigationFocus(ObservationsView);
+export default ObservationsView;

@@ -1,6 +1,6 @@
 // @flow
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import { values } from 'lodash';
 import type { Dispatch } from 'redux';
 import { StoreState } from '../../../types/redux';
@@ -27,4 +27,6 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ObservationsView);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withNavigationFocus(ObservationsView)
+);
