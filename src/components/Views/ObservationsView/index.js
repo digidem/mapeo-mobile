@@ -11,7 +11,7 @@ import type { StateProps, DispatchProps } from './ObservationsView';
 
 function mapStateToProps(state: StoreState): StateProps {
   const observations = values(state.app.observations).sort(
-    (a, b) => b.created - a.created
+    (a, b) => new Date(b.created) - new Date(a.created)
   );
   const drawerOpened = state.app.drawers.observations;
   return { drawerOpened, observations };
