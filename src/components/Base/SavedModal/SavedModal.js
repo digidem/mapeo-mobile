@@ -10,6 +10,7 @@ import {
   Image
 } from 'react-native';
 import type { Observation } from '../../../types/observation';
+import type { Category } from '../../../types/category';
 import Toast from '../Toast/Toast';
 import I18n from 'react-native-i18n';
 import moment from '../../../lib/localizedMoment';
@@ -23,7 +24,10 @@ import {
 import CategoryPin from '../../../images/category-pin.png';
 
 export type StateProps = {
-  selectedObservation: Observation
+  selectedObservation: Observation,
+  categories: {
+    [id: string]: Category
+  }
 };
 
 export type DispatchProps = {
@@ -86,7 +90,12 @@ const styles = StyleSheet.create({
 
 class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
   render() {
-    const { onHide, selectedObservation } = this.props;
+    const { onHide, selectedObservation, categories } = this.props;
+    let category;
+
+    if (selectedObservation.categoryId !== undefined) {
+      category = categories[selectedObservation.categoryId];
+    }
 
     return (
       <Toast onHide={onHide}>
@@ -117,11 +126,11 @@ class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
                   source={CategoryPin}
                   style={styles.categoryPin}
                 >
-                  {selectedObservation && (
+                  {category && (
                     <View style={{ marginTop: -10 }}>
-                      {selectedObservation.icon && (
+                      {category.icon && (
                         <Image
-                          source={selectedObservation.icon}
+                          source={category.icon}
                           style={{ width: 30, height: 30 }}
                           resizeMode="contain"
                         />

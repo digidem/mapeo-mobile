@@ -78,7 +78,11 @@ exports[`ObservationsView tests snapshot 1`] = `
     renderItem={[Function]}
     scrollEnabled={true}
     scrollEventThrottle={50}
-    stickyHeaderIndices={Array []}
+    stickyHeaderIndices={
+      Array [
+        0,
+      ]
+    }
     style={
       Object {
         "width": 750,

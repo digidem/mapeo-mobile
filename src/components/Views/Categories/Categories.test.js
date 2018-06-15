@@ -5,6 +5,7 @@ import renderer from 'react-test-renderer';
 import Categories from './Categories';
 import { createObservation } from '../../../mocks/observations';
 import { createCategory } from '../../../mocks/categories';
+import { createField } from '../../../mocks/fields';
 
 describe('Categories tests', () => {
   const addListener = () => true;
@@ -14,6 +15,8 @@ describe('Categories tests', () => {
   const goToObservationEditor = jest.fn();
   const goBack = jest.fn();
   const updateObservation = jest.fn();
+  const clearSelectedObservation = jest.fn();
+  const field = createField();
 
   test('snapshot', () => {
     const tree = renderer
@@ -26,6 +29,9 @@ describe('Categories tests', () => {
           updateObservation={updateObservation}
           goToObservationEditor={goToObservationEditor}
           goBack={goBack}
+          allFields={{ [field.id]: field }}
+          updateFlow={false}
+          clearSelectedObservation={clearSelectedObservation}
         />
       )
       .toJSON();
