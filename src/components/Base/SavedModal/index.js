@@ -8,7 +8,8 @@ import { observationSelect } from '../../../ducks/observations';
 import { observationSource } from '../../../ducks/observationSource';
 
 const mapStateToProps = state => ({
-  selectedObservation: state.app.selectedObservation
+  selectedObservation: state.app.selectedObservation,
+  categories: state.app.categories
 });
 
 const mapDispatchToProps = dispatch => ({
