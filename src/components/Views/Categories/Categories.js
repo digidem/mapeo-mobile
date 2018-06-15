@@ -28,16 +28,18 @@ type Props = {
 };
 
 export type StateProps = {
-  allFields: { id: Field },
+  allFields: Object,
   categories: Category[],
-  selectedObservation?: Observation
+  selectedObservation?: Observation,
+  updateFlow: boolean
 };
 
 export type DispatchProps = {
   listCategories: () => void,
   updateObservation: (obs: Object) => void,
   goToObservationEditor: (category: string) => void,
-  goBack: () => void
+  goBack: () => void,
+  clearSelectedObservation: () => void
 };
 
 const styles = StyleSheet.create({
@@ -187,6 +189,16 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
     </TouchableOpacity>
   );
 
+  handleBack = () => {
+    const { goBack, clearSelectedObservation, updateFlow } = this.props;
+
+    if (!updateFlow) {
+      clearSelectedObservation();
+    }
+
+    goBack();
+  };
+
   render() {
     const { categories, goBack } = this.props;
     const keyExtractor = item => item.id;
@@ -199,7 +211,7 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
               leftIcon={
                 <TouchableOpacity
                   underlayColor="rgba(0, 0, 0, 0.5)"
-                  onPress={goBack}
+                  onPress={this.handleBack}
                 >
                   <CloseIcon color="#9E9C9C" name="window-close" size={30} />
                 </TouchableOpacity>
