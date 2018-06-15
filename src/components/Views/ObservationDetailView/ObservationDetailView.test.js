@@ -15,8 +15,6 @@ describe('ObservationDetailView tests', () => {
       <ObservationDetailView
         navigation={{ isFocused, addListener }}
         selectedObservation={observation}
-        clearSelectedObservation={jest.fn()}
-        goBack={jest.fn()}
       />
     );
     expect(tree).toMatchSnapshot();

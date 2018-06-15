@@ -29,8 +29,7 @@ export type DispatchProps = {
   goToEditorView: () => void,
   goToPhotoView: (params: Object) => void,
   addObservation: (o: Observation) => void,
-  goBack: () => void,
-  clearSelectedObservation: () => void
+  goBack: () => void
 };
 
 export type Props = {
@@ -243,15 +242,13 @@ class ObservationDetailView extends React.Component<
     }
   };
 
-  handleBack = () => {
-    const { goBack, clearSelectedObservation } = this.props;
-
-    clearSelectedObservation();
-    goBack();
-  };
-
   render() {
-    const { selectedObservation, goToEditorView, goToPhotoView } = this.props;
+    const {
+      selectedObservation,
+      goToEditorView,
+      goToPhotoView,
+      goBack
+    } = this.props;
     const keyExtractor = item => item.source.toString();
     let mediaTitle = null;
     let mediaText = `0 ${I18n.t('detail_view.photo')}s`;
@@ -289,15 +286,11 @@ class ObservationDetailView extends React.Component<
         </Text>
       </View>
     ));
-
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={styles.container}>
           <View style={styles.topSection}>
-            <TouchableOpacity
-              onPress={this.handleBack}
-              underlayColor="transparent"
-            >
+            <TouchableOpacity onPress={goBack} underlayColor="transparent">
               <EntypoIcon
                 color="lightgrey"
                 name="chevron-left"

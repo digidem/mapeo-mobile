@@ -72,9 +72,6 @@ exports[`Categories tests snapshot 1`] = `
           "fieldIds": Array [
             0,
           ],
-          "icon": Object {
-            "testUri": "../../../src/images/categories/category_18.png",
-          },
           "id": "categoryID",
           "name": "categoryName",
         },
@@ -168,44 +165,6 @@ exports[`Categories tests snapshot 1`] = `
                 }
               }
             >
-              <View
-                style={
-                  Object {
-                    "alignItems": "center",
-                    "backgroundColor": "white",
-                    "borderColor": "#EAEAEA",
-                    "borderRadius": 50,
-                    "borderWidth": 1,
-                    "elevation": 3,
-                    "height": 50,
-                    "justifyContent": "center",
-                    "marginBottom": 5,
-                    "shadowColor": "black",
-                    "shadowOffset": Object {
-                      "height": 2,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 1,
-                    "shadowRadius": 10,
-                    "width": 50,
-                  }
-                }
-              >
-                <Image
-                  resizeMode="contain"
-                  source={
-                    Object {
-                      "testUri": "../../../src/images/categories/category_18.png",
-                    }
-                  }
-                  style={
-                    Object {
-                      "height": 30,
-                      "width": 30,
-                    }
-                  }
-                />
-              </View>
               <Text
                 accessible={true}
                 allowFontScaling={true}
