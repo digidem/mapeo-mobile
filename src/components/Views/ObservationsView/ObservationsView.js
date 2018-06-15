@@ -30,8 +30,7 @@ export type DispatchProps = {
 
 type Props = {
   closeRightDrawer: Function,
-  navigation: NavigationActions,
-  isFocused: boolean
+  navigation: NavigationActions
 };
 
 type State = {
@@ -81,6 +80,24 @@ class ObservationsView extends React.Component<
     const sectionMappings = {};
     let label;
 
+    observations.forEach(o => {
+      const createdMoment = moment(o.created);
+      const thisWeek = moment().startOf('week');
+      const thisMonth = moment().startOf('month');
+      const thisYear = moment().startOf('year');
+      if (createdMoment.isSameOrAfter(thisWeek)) {
+        label = `${I18n.t('observations.this_week')}`;
+      } else if (createdMoment.isSameOrAfter(thisMonth)) {
+        label = `${I18n.t('observations.this_month')}`;
+      } else if (createdMoment.isSameOrAfter(thisYear)) {
+        label = createdMoment.format('MMMM');
+      } else {
+        label = createdMoment.format('MMMM YYYY');
+      }
+    });
+
+    const sortedObservations = orderBy(observations, ['created'], ['desc']);
+
     const keyExtractor = item => item.id.toString();
     const handleItemPress = item => {
       this.props.selectObservation(item);
@@ -96,7 +113,6 @@ class ObservationsView extends React.Component<
         >
           <FlatList
             scrollEnabled
-            stickyHeaderIndices={[0]}
             ListHeaderComponent={
               <ObservationHeader
                 closeRightDrawer={this.props.closeRightDrawer}
@@ -113,7 +129,7 @@ class ObservationsView extends React.Component<
                 onPress={handleItemPress}
               />
             )}
-            data={observations}
+            data={sortedObservations}
           />
         </View>
       </TouchableWithoutFeedback>

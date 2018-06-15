@@ -4,7 +4,7 @@ import type { Dispatch } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import { StoreState } from '../../../types/redux';
 
-import { observationAdd, observationSelect } from '../../../ducks/observations';
+import { observationAdd } from '../../../ducks/observations';
 import ObservationDetailView from './ObservationDetailView';
 import type { StateProps, DispatchProps } from './ObservationDetailView';
 
@@ -35,8 +35,7 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
           }
         })
       ),
-    goBack: () => dispatch(NavigationActions.back()),
-    clearSelectedObservation: () => dispatch(observationSelect(undefined))
+    goBack: () => dispatch(NavigationActions.back())
   };
 }
 
