@@ -6,7 +6,11 @@ import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import { StoreState } from '../../../types/redux';
 import { categoryList } from '../../../ducks/categories';
 import { fieldList } from '../../../ducks/fields';
-import { observationUpdate } from '../../../ducks/observations';
+import {
+  observationUpdate,
+  observationSelect
+} from '../../../ducks/observations';
+import { observationSource } from '../../../ducks/observationSource';
 import Categories from './Categories';
 import type { StateProps } from './Categories';
 
@@ -14,11 +18,18 @@ function mapStateToProps(state: StoreState): StateProps {
   const categories = values(state.app.categories).sort(
     (a, b) => a.name - b.name
   );
+  const { selectedObservation, observations } = state.app;
+
+  let updateFlow = false;
+  if (selectedObservation && observations[selectedObservation.id]) {
+    updateFlow = true;
+  }
 
   return {
     allFields: state.app.fields,
     categories,
-    selectedObservation: state.app.selectedObservation
+    selectedObservation,
+    updateFlow
   };
 }
 
@@ -38,7 +49,13 @@ function mapDispatchToProps(dispatch: Dispatch) {
           }
         })
       ),
-    goBack: () => dispatch(NavigationActions.back())
+    goBack: () => {
+      dispatch(NavigationActions.back());
+    },
+    clearSelectedObservation: () => {
+      dispatch(observationSelect(undefined));
+      dispatch(observationSource(undefined));
+    }
   };
 }
 
