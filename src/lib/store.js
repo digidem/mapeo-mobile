@@ -41,7 +41,8 @@ export function createInitialStore() {
     categories: {},
     fields: {},
     modals: {
-      saved: false
+      saved: false,
+      cancelled: false
     },
     drawers: {
       observations: false

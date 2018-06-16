@@ -15,6 +15,7 @@ import {
   ScrollView
 } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
+import CancelModal from '../../Base/CancelModal';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CheckIcon from 'react-native-vector-icons/Octicons';
@@ -27,6 +28,7 @@ import type { Observation } from '../../../types/observation';
 import CategoryPin from '../../../images/category-pin.png';
 import PencilIcon from '../../../images/editor-details.png';
 import {
+  DARK_MANGO,
   LIGHT_GREY,
   WHITE,
   MANGO,
@@ -39,7 +41,8 @@ export type StateProps = {
   category?: Category,
   selectedObservation?: Observation,
   observations: Observation[],
-  observationSource: string
+  observationSource: string,
+  cancelModalVisible: boolean
 };
 
 export type Props = {
@@ -57,7 +60,10 @@ export type DispatchProps = {
   goToCategories: () => void,
   goBack: () => void,
   goToMapView: () => void,
-  showSavedModal: () => void
+  showSavedModal: () => void,
+  showCancelModal: () => void,
+  hideCancelModal: () => void,
+  clearSelectedObservation: () => void
 };
 
 type State = {
@@ -115,7 +121,7 @@ const styles = StyleSheet.create({
   checkOuterCircle: {
     width: 30,
     height: 30,
-    backgroundColor: '#ed6109',
+    backgroundColor: DARK_MANGO,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center'
@@ -439,13 +445,38 @@ class ObservationEditor extends React.Component<
     Keyboard.dismiss();
   };
 
+  handleModalCancel = () => {
+    const {
+      clearSelectedObservation,
+      goToMainCameraView,
+      goToMapView,
+      hideCancelModal,
+      observationSource,
+      updateObservation
+    } = this.props;
+    hideCancelModal();
+    if (observationSource === 'map') {
+      goToMapView();
+    } else {
+      goToMainCameraView();
+    }
+    clearSelectedObservation();
+  };
+
+  handleModalContinue = () => {
+    const { hideCancelModal } = this.props;
+    hideCancelModal();
+  };
+
   render() {
     const {
       navigation,
       goBack,
       selectedObservation,
       goToPhotoView,
-      goToObservationFields
+      goToObservationFields,
+      showCancelModal,
+      cancelModalVisible
     } = this.props;
     const { keyboardShown, text } = this.state;
     const positionText = selectedObservation
@@ -475,7 +506,7 @@ class ObservationEditor extends React.Component<
           leftIcon={
             <TouchableOpacity
               underlayColor="rgba(0, 0, 0, 0.5)"
-              onPress={goBack}
+              onPress={showCancelModal}
             >
               <CloseIcon color="#9E9C9C" name="window-close" size={30} />
             </TouchableOpacity>
@@ -669,6 +700,11 @@ class ObservationEditor extends React.Component<
             </View>
           )}
         </View>
+        <CancelModal
+          onContinue={this.handleModalContinue}
+          onCancel={this.handleModalCancel}
+          visible={cancelModalVisible}
+        />
       </KeyboardAvoidingView>
     );
   }

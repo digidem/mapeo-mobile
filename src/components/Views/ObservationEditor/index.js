@@ -5,8 +5,12 @@ import type { Dispatch } from 'redux';
 import { values } from 'lodash';
 import { StoreState } from '../../../types/redux';
 
-import { observationAdd, observationUpdate } from '../../../ducks/observations';
-import { modalShow } from '../../../ducks/modals';
+import {
+  observationAdd,
+  observationUpdate,
+  observationSelect
+} from '../../../ducks/observations';
+import { modalHide, modalShow } from '../../../ducks/modals';
 import ObservationEditor from './ObservationEditor';
 import type { Props, StateProps, DispatchProps } from './ObservationEditor';
 
@@ -21,7 +25,8 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
       undefined,
     selectedObservation: state.app.selectedObservation,
     observations: values(state.app.observations),
-    observationSource: state.app.observationSource.source
+    observationSource: state.app.observationSource.source,
+    cancelModalVisible: state.app.modals.cancelled
   };
 }
 
@@ -29,6 +34,7 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     addObservation: observation => dispatch(observationAdd(observation)),
     updateObservation: observation => dispatch(observationUpdate(observation)),
+    clearSelectedObservation: () => dispatch(observationSelect(undefined)),
     goToPhotoView: source =>
       dispatch(
         NavigationActions.navigate({
@@ -72,7 +78,9 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
           routeName: 'MapView'
         })
       ),
-    showSavedModal: () => dispatch(modalShow('saved'))
+    showSavedModal: () => dispatch(modalShow('saved')),
+    showCancelModal: () => dispatch(modalShow('cancelled')),
+    hideCancelModal: () => dispatch(modalHide('cancelled'))
   };
 }
 
