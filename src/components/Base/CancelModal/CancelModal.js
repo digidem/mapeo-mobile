@@ -9,7 +9,6 @@ import {
   StyleSheet,
   Image
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 import type { Observation } from '../../../types/observation';
 import type { Category } from '../../../types/category';
 import I18n from 'react-native-i18n';
@@ -24,14 +23,8 @@ import {
 } from '../../../lib/styles';
 
 export type Props = {
-  goBack: () => void,
-  navigation: NavigationActions,
   onContinue: Function,
   onCancel: Function,
-  visible: boolean
-};
-
-type State = {
   visible: boolean
 };
 
@@ -107,27 +100,9 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class CancelModal extends React.Component<Props, State> {
-  state = { visible: false };
-
-  // componentDidUpdate(prevProps: Props, prevState: State) {
-  //   if (this.props.visible !== prevProps.visible) {
-  //     this.setState({ visible: this.props.visible });
-  //   }
-  // }
-
-  handleContinue = () => {
-    this.setState({ visible: false });
-  };
-
-  handleCancel = () => {
-    const { goBack } = this.props;
-    this.setState({ visible: false });
-    goBack();
-  };
+class CancelModal extends React.Component<Props> {
   render() {
     const { onCancel, onContinue, visible } = this.props;
-    // const visible = this.state.visible;
     return (
       <Modal
         animation="slide"

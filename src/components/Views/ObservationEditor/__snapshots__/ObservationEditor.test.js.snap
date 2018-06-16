@@ -326,5 +326,188 @@ exports[`ObservationEditor tests snapshot 1`] = `
       </View>
     </View>
   </View>
+  <Modal
+    animation="slide"
+    hardwareAccelerated={false}
+    onRequestClose={[Function]}
+    transparent={true}
+    visible={true}
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "rgba(52, 52, 52, 0.8)",
+          "flex": 1,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "backgroundColor": "white",
+            "borderRadius": 20,
+            "height": 667,
+            "padding": 10,
+            "width": 600,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "borderBottomColor": "#EAEAEA",
+              "borderBottomWidth": 1,
+              "flex": 2,
+              "justifyContent": "center",
+              "marginHorizontal": 10,
+              "paddingBottom": 10,
+              "paddingHorizontal": 10,
+              "paddingTop": 20,
+            }
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "color": "black",
+                "fontSize": 16,
+                "fontWeight": "700",
+                "textAlign": "center",
+              }
+            }
+          >
+            Changes not saved!
+          </Text>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "color": "#666666",
+                "fontSize": 16,
+                "textAlign": "center",
+              }
+            }
+          >
+            Are you sure you want to cancel your observation?
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "alignSelf": "stretch",
+              "borderBottomColor": "#EAEAEA",
+              "borderBottomWidth": 1,
+              "flex": 1,
+              "justifyContent": "center",
+              "marginHorizontal": 10,
+              "paddingVertical": 15,
+            }
+          }
+        >
+          <View
+            accessibilityComponentType={undefined}
+            accessibilityLabel={undefined}
+            accessibilityTraits={undefined}
+            accessible={true}
+            collapsable={undefined}
+            hasTVPreferredFocus={undefined}
+            hitSlop={undefined}
+            isTVSelectable={true}
+            nativeID={undefined}
+            onLayout={undefined}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "opacity": 1,
+              }
+            }
+            testID={undefined}
+            tvParallaxProperties={undefined}
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "color": "#3366ff",
+                  "fontSize": 16,
+                }
+              }
+            >
+              Continue Editing
+            </Text>
+          </View>
+        </View>
+        <View
+          accessibilityComponentType={undefined}
+          accessibilityLabel={undefined}
+          accessibilityTraits={undefined}
+          accessible={true}
+          collapsable={undefined}
+          hasTVPreferredFocus={undefined}
+          hitSlop={undefined}
+          isTVSelectable={true}
+          nativeID={undefined}
+          onLayout={undefined}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "alignSelf": "stretch",
+              "backgroundColor": "#ff9933",
+              "borderColor": "#ed6109",
+              "borderRadius": 30,
+              "borderWidth": 2,
+              "flex": 1,
+              "justifyContent": "center",
+              "marginBottom": 7,
+              "marginTop": 15,
+              "opacity": 1,
+              "paddingVertical": 5,
+            }
+          }
+          testID={undefined}
+          tvParallaxProperties={undefined}
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "color": "#ffffff",
+                "fontSize": 16,
+                "fontWeight": "700",
+              }
+            }
+          >
+            Yes, Cancel
+          </Text>
+        </View>
+      </View>
+    </View>
+  </Modal>
 </View>
 `;

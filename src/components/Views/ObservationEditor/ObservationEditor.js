@@ -15,7 +15,7 @@ import {
   ScrollView
 } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
-import CancelModal from '../../Base/CancelModal';
+import CancelModal from '../../Base/CancelModal/CancelModal';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CheckIcon from 'react-native-vector-icons/Octicons';

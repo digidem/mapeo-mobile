@@ -9,6 +9,7 @@ describe('ObservationEditor tests', () => {
   const observation = createObservation();
   const isFocused = () => true;
   const addListener = () => true;
+  jest.mock('../../Base/CancelModal/CancelModal', () => () => null);
 
   test('snapshot', () => {
     const tree = renderer.create(
