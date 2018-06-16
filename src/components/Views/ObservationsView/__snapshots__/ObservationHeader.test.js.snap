@@ -95,7 +95,7 @@ exports[`ObservationHeader tests snapshot with showSyncTip as false 1`] = `
         style={
           Object {
             "alignItems": "center",
-            "backgroundColor": "#d6d2cf",
+            "backgroundColor": "#ed6109",
             "borderRadius": 50,
             "height": 35,
             "justifyContent": "center",
@@ -108,18 +108,15 @@ exports[`ObservationHeader tests snapshot with showSyncTip as false 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
-                "alignItems": "center",
-                "alignSelf": "center",
-                "backgroundColor": "#EAEAEA",
-                "borderRadius": 50,
-                "height": 30,
-                "justifyContent": "center",
-                "width": 30,
-              },
-              undefined,
-            ]
+            Object {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "backgroundColor": "#ff9933",
+              "borderRadius": 50,
+              "height": 30,
+              "justifyContent": "center",
+              "width": 30,
+            }
           }
         >
           <Text
@@ -339,7 +336,7 @@ exports[`ObservationHeader tests snapshot with showSyncTip as true 1`] = `
         style={
           Object {
             "alignItems": "center",
-            "backgroundColor": "#d6d2cf",
+            "backgroundColor": "#ed6109",
             "borderRadius": 50,
             "height": 35,
             "justifyContent": "center",
@@ -352,18 +349,15 @@ exports[`ObservationHeader tests snapshot with showSyncTip as true 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
-                "alignItems": "center",
-                "alignSelf": "center",
-                "backgroundColor": "#EAEAEA",
-                "borderRadius": 50,
-                "height": 30,
-                "justifyContent": "center",
-                "width": 30,
-              },
-              undefined,
-            ]
+            Object {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "backgroundColor": "#ff9933",
+              "borderRadius": 50,
+              "height": 30,
+              "justifyContent": "center",
+              "width": 30,
+            }
           }
         >
           <Text
@@ -484,72 +478,6 @@ exports[`ObservationHeader tests snapshot with showSyncTip as true 1`] = `
     >
       View by Most Recent
     </Text>
-  </View>
-  <View
-    style={
-      Object {
-        "alignSelf": "center",
-        "elevation": 3,
-        "justifyContent": "center",
-        "position": "absolute",
-        "shadowColor": "black",
-        "shadowOffset": Object {
-          "height": 100,
-          "width": 0,
-        },
-        "shadowOpacity": 6,
-        "shadowRadius": 100,
-        "top": 50,
-        "zIndex": 5,
-      }
-    }
-  >
-    <View
-      style={
-        Object {
-          "alignItems": "center",
-          "backgroundColor": "#3366ff",
-          "borderRadius": 8,
-          "flexDirection": "row",
-          "height": 35,
-          "marginTop": 7,
-          "paddingHorizontal": 5,
-        }
-      }
-    >
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "color": "#ffffff",
-            "marginHorizontal": 20,
-          }
-        }
-      >
-        Connect to sync
-      </Text>
-    </View>
-    <View
-      style={
-        Object {
-          "alignSelf": "center",
-          "backgroundColor": "transparent",
-          "borderBottomColor": "#3366ff",
-          "borderBottomWidth": 7,
-          "borderLeftColor": "transparent",
-          "borderLeftWidth": 7,
-          "borderRightColor": "transparent",
-          "borderRightWidth": 7,
-          "borderStyle": "solid",
-          "height": 0,
-          "position": "absolute",
-          "top": 0,
-          "width": 0,
-        }
-      }
-    />
   </View>
 </View>
 `;

@@ -34,11 +34,6 @@ type Props = {
   navigation: NavigationActions
 };
 
-type State = {
-  showSyncTip: boolean,
-  syncReady: boolean
-};
-
 I18n.fallbacks = true;
 I18n.translations = {
   en: require('../../../translations/en'),
@@ -46,46 +41,14 @@ I18n.translations = {
 };
 
 class ObservationsView extends React.Component<
-  Props & StateProps & DispatchProps,
-  State
+  Props & StateProps & DispatchProps
 > {
-  state = {
-    showSyncTip: false,
-    syncReady: false
-  };
-  timer: any;
-
-  componentDidMount() {
-    this.setState({
-      showSyncTip: true,
-      syncReady: false
-    });
-  }
-
-  shouldComponentUpdate(nextProps: Props & StateProps, nextState: State) {
-    if (nextProps !== this.props || nextState !== this.state) {
+  shouldComponentUpdate(nextProps: Props & StateProps) {
+    if (nextProps !== this.props) {
       return true;
     }
     return false;
   }
-
-  componentDidUpdate() {
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-    if (this.props.drawerOpened) {
-      setTimeout(() => {
-        this.setState({
-          showSyncTip: this.state.showSyncTip,
-          syncReady: true
-        });
-      }, 2000);
-    }
-  }
-
-  hideTip = () => {
-    this.setState({ showSyncTip: false, syncReady: true });
-  };
 
   render() {
     const { observations } = this.props;
@@ -117,7 +80,7 @@ class ObservationsView extends React.Component<
     };
 
     return (
-      <TouchableWithoutFeedback onPress={this.hideTip}>
+      <TouchableWithoutFeedback>
         <View
           style={{
             flex: 1
@@ -129,8 +92,6 @@ class ObservationsView extends React.Component<
               <ObservationHeader
                 closeRightDrawer={this.props.closeRightDrawer}
                 goToSyncView={this.props.goToSyncView}
-                showSyncTip={this.state.showSyncTip}
-                syncReady={this.state.syncReady}
               />
             }
             style={{ width: Dimensions.get('window').width }}

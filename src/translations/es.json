@@ -49,8 +49,9 @@
   "sync": {
     "available": "Dispositivos Disponibles",
     "selected": "Dispositivo Seleccionados",
-    "initiated": "Sincronización iniciada",
-    "progress": "Sincronización en progreso",
+    "initiated": "Sincronización iniciada...",
+    "progress": "Sincronización en progreso...",
+    "stopped": "Sincronización detenida...",
     "via_wifi": "vía WiFi",
     "requested": "Sincronización solicitada",
     "syncing": "Sincronizacíon",

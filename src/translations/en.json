@@ -51,6 +51,7 @@
     "selected": "Device Selected",
     "initiated": "Sync initiated...",
     "progress": "Sync in progress...",
+    "stopped": "Sync stopped...",
     "via_wifi": "via WiFi",
     "requested": "Sync requested...",
     "syncing": "Syncing...",

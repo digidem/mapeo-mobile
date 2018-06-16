@@ -21,9 +21,7 @@ import {
 
 type Props = {
   closeRightDrawer: Function,
-  goToSyncView: Function,
-  showSyncTip: boolean,
-  syncReady: boolean
+  goToSyncView: Function
 };
 
 const styles = StyleSheet.create({
@@ -59,7 +57,7 @@ const styles = StyleSheet.create({
   },
   syncButtonInnerCircle: {
     alignSelf: 'center',
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: MANGO,
     height: 30,
     width: 30,
     borderRadius: 50,
@@ -69,7 +67,7 @@ const styles = StyleSheet.create({
   syncButtonOuterCircle: {
     width: 35,
     height: 35,
-    backgroundColor: '#d6d2cf',
+    backgroundColor: DARK_MANGO,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center'
@@ -85,30 +83,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 6,
     shadowOffset: { width: 0, height: 100 },
     elevation: 3
-  },
-  syncTipInnerContainer: {
-    height: 35,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: MAPEO_BLUE,
-    borderRadius: 8,
-    paddingHorizontal: 5,
-    marginTop: 7
-  },
-  triangle: {
-    position: 'absolute',
-    top: 0,
-    width: 0,
-    height: 0,
-    backgroundColor: 'transparent',
-    borderStyle: 'solid',
-    borderLeftWidth: 7,
-    borderRightWidth: 7,
-    borderBottomWidth: 7,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderBottomColor: MAPEO_BLUE,
-    alignSelf: 'center'
   }
 });
 
@@ -139,18 +113,10 @@ const ObservationHeader = (props: Props) => (
         }}
       >
         <TouchableOpacity
-          style={[
-            styles.syncButtonOuterCircle,
-            props.syncReady && { backgroundColor: DARK_MANGO }
-          ]}
+          style={styles.syncButtonOuterCircle}
           onPress={props.goToSyncView}
         >
-          <View
-            style={[
-              styles.syncButtonInnerCircle,
-              props.syncReady && { backgroundColor: MANGO }
-            ]}
-          >
+          <View style={styles.syncButtonInnerCircle}>
             <SyncIcon
               color={WHITE}
               name="bolt"
@@ -170,18 +136,6 @@ const ObservationHeader = (props: Props) => (
       </Text>
       <Text style={{ fontSize: 12 }}>{I18n.t('observations.view_by')}</Text>
     </View>
-    {props.showSyncTip && (
-      <View style={styles.syncTipContainer}>
-        <View style={styles.syncTipInnerContainer}>
-          <Text style={{ color: WHITE, marginHorizontal: 20 }}>
-            {props.syncReady
-              ? I18n.t('observations.sync_ready')
-              : I18n.t('observations.sync')}
-          </Text>
-        </View>
-        <View style={styles.triangle} />
-      </View>
-    )}
   </View>
 );
 

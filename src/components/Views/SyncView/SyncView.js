@@ -67,14 +67,25 @@ class SyncView extends React.Component<Props & StateProps & DispatchProps> {
       updateDeviceSync
     } = this.props;
 
+    let syncStopped = false;
     let headerDeviceText = I18n.t('sync.available');
     if (selectedDevice) {
-      headerDeviceText = I18n.t('sync.selected');
-
-      if (selectedDevice.syncStatus === 'requested') {
-        headerDeviceText = I18n.t('sync.initiated');
-      } else if (selectedDevice.syncStatus === 'syncing') {
-        headerDeviceText = I18n.t('sync.progress');
+      switch (selectedDevice.syncStatus) {
+        case 'requested':
+          headerDeviceText = I18n.t('sync.initiated');
+          break;
+        case 'syncing':
+          headerDeviceText = I18n.t('sync.progress');
+          break;
+        case 'stopped':
+          headerDeviceText = I18n.t('sync.stopped');
+          syncStopped = true;
+          break;
+        case 'completed':
+          headerDeviceText = 'Sync completed';
+          break;
+        default:
+          headerDeviceText = I18n.t('sync.selected');
       }
     }
 
@@ -103,10 +114,10 @@ class SyncView extends React.Component<Props & StateProps & DispatchProps> {
       if (selectedDevice) {
         selectDevice(undefined);
         toggleDeviceSelect({ ...selectedDevice });
-        goBack();
-      } else {
-        goBack();
       }
+      const { listDevices } = this.props;
+      listDevices();
+      goBack();
     };
 
     return (
@@ -122,6 +133,7 @@ class SyncView extends React.Component<Props & StateProps & DispatchProps> {
             <SyncHeader
               closeSyncView={closeSyncView}
               deviceText={headerDeviceText}
+              syncStopped={syncStopped}
             />
           }
           data={devices}

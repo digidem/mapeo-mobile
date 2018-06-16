@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    borderBottomColor: DARK_BLUE,
+    borderBottomColor: MEDIUM_BLUE,
     borderBottomWidth: 1,
     width: Dimensions.get('window').width,
     paddingHorizontal: 20
@@ -48,35 +48,18 @@ const styles = StyleSheet.create({
   deviceTextContainer: {
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'flex-start',
-    marginLeft: 30
-  },
-  radioButtonOuterCircle: {
-    width: 20,
-    height: 20,
-    backgroundColor: 'white',
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: -15
-  },
-  radioButtonInnerCircle: {
-    alignSelf: 'center',
-    height: 15,
-    width: 15,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'flex-start'
   },
   syncArrow: {
     alignSelf: 'center',
-    justifyContent: 'center',
-    transform: [{ rotate: '-45deg' }]
+    justifyContent: 'center'
   },
   syncButtonContainer: {
     backgroundColor: 'transparent',
     position: 'absolute',
-    right: 20
+    right: 20,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   syncButtonInnerCircle: {
     width: 25,
@@ -107,25 +90,36 @@ I18n.translations = {
 
 const DeviceCell = (props: Props) => {
   const handlePress = () => {
-    if (props.selectedDevice) {
-      props.updateDeviceSync({
-        ...props.selectedDevice,
-        syncStatus: 'notStarted'
-      });
-    }
     props.onPress(props.device);
   };
   const handleSyncUpdate = () => {
-    props.updateDeviceSync({
-      ...props.device,
-      syncStatus: 'requested'
-    });
-    setTimeout(() => {
+    const syncInProgress =
+      props.device.syncStatus === 'requested' ||
+      props.device.syncStatus === 'syncing';
+
+    if (syncInProgress) {
       props.updateDeviceSync({
         ...props.device,
-        syncStatus: 'syncing'
+        syncStatus: 'stopped'
       });
-    }, 1000);
+    } else {
+      props.updateDeviceSync({
+        ...props.device,
+        syncStatus: 'requested'
+      });
+      setTimeout(() => {
+        props.updateDeviceSync({
+          ...props.device,
+          syncStatus: 'syncing'
+        });
+      }, 1000);
+      setTimeout(() => {
+        props.updateDeviceSync({
+          ...props.device,
+          syncStatus: 'completed'
+        });
+      }, 4000);
+    }
   };
 
   let syncStatusText = I18n.t('sync.via_wifi');
@@ -135,6 +129,10 @@ const DeviceCell = (props: Props) => {
     syncStatusText = I18n.t('sync.syncing');
   }
 
+  const syncInProgress =
+    (props.device.selected && props.device.syncStatus === 'requested') ||
+    (props.device.selected && props.device.syncStatus === 'syncing');
+
   return (
     <TouchableOpacity onPress={handlePress}>
       <View
@@ -143,42 +141,52 @@ const DeviceCell = (props: Props) => {
           { backgroundColor: props.device.selected ? MEDIUM_BLUE : MAPEO_BLUE }
         ]}
       >
-        <View style={styles.radioButtonOuterCircle}>
-          <View
-            style={[
-              styles.radioButtonInnerCircle,
-              { backgroundColor: props.device.selected ? 'black' : MAPEO_BLUE }
-            ]}
-          />
-        </View>
         <View style={styles.deviceTextContainer}>
           <Text style={styles.deviceName}>{props.device.name}</Text>
           <Text style={styles.syncStatus}>{syncStatusText}</Text>
         </View>
-        {props.device.selected &&
-          props.device.syncStatus === 'notStarted' && (
-            <TouchableOpacity
-              style={styles.syncButtonContainer}
-              onPress={handleSyncUpdate}
-            >
-              <View style={styles.syncButtonOuterCircle}>
-                <View style={styles.syncButtonInnerCircle}>
-                  <Icon
-                    color="white"
-                    name="arrow-forward"
-                    size={23}
-                    style={styles.syncArrow}
-                  />
-                </View>
+        {!syncInProgress && (
+          <TouchableOpacity
+            style={styles.syncButtonContainer}
+            onPress={handleSyncUpdate}
+          >
+            <View style={styles.syncButtonOuterCircle}>
+              <View style={styles.syncButtonInnerCircle}>
+                <Icon
+                  color="white"
+                  name="arrow-forward"
+                  size={23}
+                  style={styles.syncArrow}
+                />
               </View>
-            </TouchableOpacity>
-          )}
-        {props.device.selected &&
-          props.device.syncStatus !== 'notStarted' && (
-            <View style={styles.syncButtonContainer}>
-              <ActivityIndicator size="large" color={VERY_LIGHT_BLUE} />
             </View>
-          )}
+          </TouchableOpacity>
+        )}
+        {syncInProgress && (
+          <TouchableOpacity
+            style={styles.syncButtonContainer}
+            onPress={handleSyncUpdate}
+          >
+            <View
+              style={{
+                position: 'absolute',
+                top: 13,
+                bottom: 0,
+                right: 0,
+                left: 13
+              }}
+            >
+              <View
+                style={{
+                  width: 10,
+                  height: 10,
+                  backgroundColor: 'white'
+                }}
+              />
+            </View>
+            <ActivityIndicator size="large" color={VERY_LIGHT_BLUE} />
+          </TouchableOpacity>
+        )}
       </View>
     </TouchableOpacity>
   );

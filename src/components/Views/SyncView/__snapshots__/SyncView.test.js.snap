@@ -14,6 +14,7 @@ exports[`SyncView tests snapshot 1`] = `
       <SyncHeader
         closeSyncView={[Function]}
         deviceText="Available Devices"
+        syncStopped={false}
       />
     }
     data={
@@ -155,13 +156,16 @@ exports[`SyncView tests snapshot 1`] = `
           </View>
           <View
             style={
-              Object {
-                "backgroundColor": "#17317c",
-                "flexDirection": "row",
-                "justifyContent": "space-between",
-                "paddingHorizontal": 10,
-                "paddingVertical": 10,
-              }
+              Array [
+                Object {
+                  "backgroundColor": "#17317c",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "paddingHorizontal": 10,
+                  "paddingVertical": 10,
+                },
+                null,
+              ]
             }
           >
             <Text
@@ -215,7 +219,7 @@ exports[`SyncView tests snapshot 1`] = `
               Array [
                 Object {
                   "alignItems": "center",
-                  "borderBottomColor": "#17317c",
+                  "borderBottomColor": "#2752d1",
                   "borderBottomWidth": 1,
                   "flexDirection": "row",
                   "height": 80,
@@ -232,41 +236,9 @@ exports[`SyncView tests snapshot 1`] = `
             <View
               style={
                 Object {
-                  "alignItems": "center",
-                  "backgroundColor": "white",
-                  "borderRadius": 50,
-                  "height": 20,
-                  "justifyContent": "center",
-                  "marginTop": -15,
-                  "width": 20,
-                }
-              }
-            >
-              <View
-                style={
-                  Array [
-                    Object {
-                      "alignItems": "center",
-                      "alignSelf": "center",
-                      "borderRadius": 50,
-                      "height": 15,
-                      "justifyContent": "center",
-                      "width": 15,
-                    },
-                    Object {
-                      "backgroundColor": "#3366ff",
-                    },
-                  ]
-                }
-              />
-            </View>
-            <View
-              style={
-                Object {
                   "alignItems": "flex-start",
                   "flexDirection": "column",
                   "justifyContent": "center",
-                  "marginLeft": 30,
                 }
               }
             >
@@ -298,6 +270,85 @@ exports[`SyncView tests snapshot 1`] = `
               >
                 via WiFi
               </Text>
+            </View>
+            <View
+              accessibilityComponentType={undefined}
+              accessibilityLabel={undefined}
+              accessibilityTraits={undefined}
+              accessible={true}
+              collapsable={undefined}
+              hasTVPreferredFocus={undefined}
+              hitSlop={undefined}
+              isTVSelectable={true}
+              nativeID={undefined}
+              onLayout={undefined}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "transparent",
+                  "justifyContent": "center",
+                  "opacity": 1,
+                  "position": "absolute",
+                  "right": 20,
+                }
+              }
+              testID={undefined}
+              tvParallaxProperties={undefined}
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#ed6109",
+                    "borderRadius": 50,
+                    "height": 30,
+                    "justifyContent": "center",
+                    "width": 30,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "backgroundColor": "#ff9933",
+                      "borderRadius": 50,
+                      "height": 25,
+                      "width": 25,
+                    }
+                  }
+                >
+                  <Text
+                    accessible={true}
+                    allowFontScaling={false}
+                    ellipsizeMode="tail"
+                    style={
+                      Array [
+                        Object {
+                          "color": "white",
+                          "fontSize": 23,
+                        },
+                        Object {
+                          "alignSelf": "center",
+                          "justifyContent": "center",
+                        },
+                        Object {
+                          "fontFamily": "Material Icons",
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                      ]
+                    }
+                  >
+                    
+                  </Text>
+                </View>
+              </View>
             </View>
           </View>
         </View>

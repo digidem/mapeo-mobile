@@ -11,11 +11,17 @@ import {
 import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import I18n from 'react-native-i18n';
 import type { Device } from '../../../types/device';
-import { DARK_BLUE, MAPEO_BLUE, WHITE } from '../../../lib/styles';
+import {
+  DARK_BLUE,
+  DARK_MAGENTA,
+  MAPEO_BLUE,
+  WHITE
+} from '../../../lib/styles';
 
 type Props = {
   closeSyncView: () => void,
-  deviceText: string
+  deviceText: string,
+  syncStopped: boolean
 };
 
 const styles = StyleSheet.create({
@@ -65,7 +71,12 @@ const SyncHeader = (props: Props) => (
         <Text style={styles.headerText}>{I18n.t('sync.sync')}</Text>
       </View>
     </View>
-    <View style={styles.headerBottom}>
+    <View
+      style={[
+        styles.headerBottom,
+        props.syncStopped ? { backgroundColor: DARK_MAGENTA } : null
+      ]}
+    >
       <Text style={{ fontWeight: '700', fontSize: 12, color: WHITE }}>
         {props.deviceText}
       </Text>

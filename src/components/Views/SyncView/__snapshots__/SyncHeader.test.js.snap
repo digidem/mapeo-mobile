@@ -96,13 +96,16 @@ exports[`SyncHeader tests snapshot with available devices 1`] = `
   </View>
   <View
     style={
-      Object {
-        "backgroundColor": "#17317c",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "paddingHorizontal": 10,
-        "paddingVertical": 10,
-      }
+      Array [
+        Object {
+          "backgroundColor": "#17317c",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "paddingHorizontal": 10,
+          "paddingVertical": 10,
+        },
+        null,
+      ]
     }
   >
     <Text
@@ -219,13 +222,16 @@ exports[`SyncHeader tests snapshot with device selected 1`] = `
   </View>
   <View
     style={
-      Object {
-        "backgroundColor": "#17317c",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "paddingHorizontal": 10,
-        "paddingVertical": 10,
-      }
+      Array [
+        Object {
+          "backgroundColor": "#17317c",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "paddingHorizontal": 10,
+          "paddingVertical": 10,
+        },
+        null,
+      ]
     }
   >
     <Text
