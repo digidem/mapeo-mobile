@@ -8,7 +8,7 @@ import ObservationFields from '../Views/ObservationFields';
 import CameraView from '../Views/CameraView';
 import PhotoView from '../Views/PhotoView';
 import ObservationDetailView from '../Views/ObservationDetailView';
-import PreferencesView from '../Views/PreferencesView/PreferencesView';
+import SettingsView from '../Views/SettingsView';
 import MapView from '../Views/MapView';
 
 const routeConfiguration = {
@@ -18,7 +18,7 @@ const routeConfiguration = {
   CameraView: { screen: CameraView },
   PhotoView: { screen: PhotoView },
   ObservationDetailView: { screen: ObservationDetailView },
-  PreferencesView: { screen: PreferencesView },
+  SettingsView: { screen: SettingsView },
   MapView: { screen: MapView }
 };
 const stackConfiguration = {
@@ -28,7 +28,8 @@ const stackConfiguration = {
     screenInterpolator: sceneProps => {
       if (
         sceneProps.scene.route.routeName.match('ObservationDetailView') ||
-        sceneProps.scene.route.routeName.match('ObservationFields')
+        sceneProps.scene.route.routeName.match('ObservationFields') ||
+        sceneProps.scene.route.routeName.match('SettingsView')
       ) {
         return CardStackStyleInterpolator.forHorizontal(sceneProps);
       }

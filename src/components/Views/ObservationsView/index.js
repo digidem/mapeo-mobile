@@ -23,7 +23,9 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     goToObservationDetail: () =>
       dispatch(
         NavigationActions.navigate({ routeName: 'ObservationDetailView' })
-      )
+      ),
+    goToSettings: () =>
+      dispatch(NavigationActions.navigate({ routeName: 'SettingsView' }))
   };
 }
 

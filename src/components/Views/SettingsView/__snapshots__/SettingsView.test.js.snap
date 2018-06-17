@@ -1,0 +1,737 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsView tests snapshot 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#ffffff",
+      "flex": 1,
+      "flexDirection": "column",
+      "justifyContent": "flex-start",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderBottomColor": "#EAEAEA",
+        "borderBottomWidth": 1,
+        "flexDirection": "row",
+        "height": 60,
+        "justifyContent": "space-around",
+        "width": 750,
+      }
+    }
+  >
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      collapsable={undefined}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+      testID={undefined}
+      tvParallaxProperties={undefined}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={false}
+        ellipsizeMode="tail"
+        style={
+          Array [
+            Object {
+              "color": "#a5a5a4",
+              "fontSize": 30,
+            },
+            undefined,
+            Object {
+              "fontFamily": "Feather",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#000000",
+          "flex": 1,
+          "fontSize": 20,
+          "fontWeight": "700",
+        }
+      }
+    >
+      Settings
+    </Text>
+    <View
+      style={
+        Object {
+          "width": 30,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "column",
+          "padding": 20,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#000000",
+            "fontSize": 14,
+            "fontWeight": "700",
+            "marginBottom": 10,
+          }
+        }
+      >
+        GPS Coordinate Format
+      </Text>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#EAEAEA",
+            "borderRadius": 3,
+            "borderWidth": 1,
+          }
+        }
+      >
+        <View
+          style={undefined}
+        >
+          <RCTPicker
+            items={
+              Array [
+                Object {
+                  "label": "Decimal Degrees (DDD.DDDDD°)",
+                  "textColor": undefined,
+                  "value": "DD",
+                },
+                Object {
+                  "label": "Degrees & Decimal Minutes (DDD° MM.MMM')",
+                  "textColor": undefined,
+                  "value": "DDM",
+                },
+                Object {
+                  "label": "Degrees, Minutes, Seconds (DDD° MM' SS.S\\")",
+                  "textColor": undefined,
+                  "value": "DMS",
+                },
+                Object {
+                  "label": "UTM Coordinates (10S 123456m E 7654321m N)",
+                  "textColor": undefined,
+                  "value": "UTM",
+                },
+              ]
+            }
+            onChange={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            selectedIndex={0}
+            style={
+              Array [
+                Object {
+                  "height": 216,
+                },
+                Object {
+                  "width": 710,
+                },
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`SettingsView tests snapshot 2`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#ffffff",
+      "flex": 1,
+      "flexDirection": "column",
+      "justifyContent": "flex-start",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderBottomColor": "#EAEAEA",
+        "borderBottomWidth": 1,
+        "flexDirection": "row",
+        "height": 60,
+        "justifyContent": "space-around",
+        "width": 750,
+      }
+    }
+  >
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      collapsable={undefined}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+      testID={undefined}
+      tvParallaxProperties={undefined}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={false}
+        ellipsizeMode="tail"
+        style={
+          Array [
+            Object {
+              "color": "#a5a5a4",
+              "fontSize": 30,
+            },
+            undefined,
+            Object {
+              "fontFamily": "Feather",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#000000",
+          "flex": 1,
+          "fontSize": 20,
+          "fontWeight": "700",
+        }
+      }
+    >
+      Settings
+    </Text>
+    <View
+      style={
+        Object {
+          "width": 30,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "column",
+          "padding": 20,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#000000",
+            "fontSize": 14,
+            "fontWeight": "700",
+            "marginBottom": 10,
+          }
+        }
+      >
+        GPS Coordinate Format
+      </Text>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#EAEAEA",
+            "borderRadius": 3,
+            "borderWidth": 1,
+          }
+        }
+      >
+        <View
+          style={undefined}
+        >
+          <RCTPicker
+            items={
+              Array [
+                Object {
+                  "label": "Decimal Degrees (DDD.DDDDD°)",
+                  "textColor": undefined,
+                  "value": "DD",
+                },
+                Object {
+                  "label": "Degrees & Decimal Minutes (DDD° MM.MMM')",
+                  "textColor": undefined,
+                  "value": "DDM",
+                },
+                Object {
+                  "label": "Degrees, Minutes, Seconds (DDD° MM' SS.S\\")",
+                  "textColor": undefined,
+                  "value": "DMS",
+                },
+                Object {
+                  "label": "UTM Coordinates (10S 123456m E 7654321m N)",
+                  "textColor": undefined,
+                  "value": "UTM",
+                },
+              ]
+            }
+            onChange={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            selectedIndex={1}
+            style={
+              Array [
+                Object {
+                  "height": 216,
+                },
+                Object {
+                  "width": 710,
+                },
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`SettingsView tests snapshot 3`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#ffffff",
+      "flex": 1,
+      "flexDirection": "column",
+      "justifyContent": "flex-start",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderBottomColor": "#EAEAEA",
+        "borderBottomWidth": 1,
+        "flexDirection": "row",
+        "height": 60,
+        "justifyContent": "space-around",
+        "width": 750,
+      }
+    }
+  >
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      collapsable={undefined}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+      testID={undefined}
+      tvParallaxProperties={undefined}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={false}
+        ellipsizeMode="tail"
+        style={
+          Array [
+            Object {
+              "color": "#a5a5a4",
+              "fontSize": 30,
+            },
+            undefined,
+            Object {
+              "fontFamily": "Feather",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#000000",
+          "flex": 1,
+          "fontSize": 20,
+          "fontWeight": "700",
+        }
+      }
+    >
+      Settings
+    </Text>
+    <View
+      style={
+        Object {
+          "width": 30,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "column",
+          "padding": 20,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#000000",
+            "fontSize": 14,
+            "fontWeight": "700",
+            "marginBottom": 10,
+          }
+        }
+      >
+        GPS Coordinate Format
+      </Text>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#EAEAEA",
+            "borderRadius": 3,
+            "borderWidth": 1,
+          }
+        }
+      >
+        <View
+          style={undefined}
+        >
+          <RCTPicker
+            items={
+              Array [
+                Object {
+                  "label": "Decimal Degrees (DDD.DDDDD°)",
+                  "textColor": undefined,
+                  "value": "DD",
+                },
+                Object {
+                  "label": "Degrees & Decimal Minutes (DDD° MM.MMM')",
+                  "textColor": undefined,
+                  "value": "DDM",
+                },
+                Object {
+                  "label": "Degrees, Minutes, Seconds (DDD° MM' SS.S\\")",
+                  "textColor": undefined,
+                  "value": "DMS",
+                },
+                Object {
+                  "label": "UTM Coordinates (10S 123456m E 7654321m N)",
+                  "textColor": undefined,
+                  "value": "UTM",
+                },
+              ]
+            }
+            onChange={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            selectedIndex={2}
+            style={
+              Array [
+                Object {
+                  "height": 216,
+                },
+                Object {
+                  "width": 710,
+                },
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`SettingsView tests snapshot 4`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#ffffff",
+      "flex": 1,
+      "flexDirection": "column",
+      "justifyContent": "flex-start",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderBottomColor": "#EAEAEA",
+        "borderBottomWidth": 1,
+        "flexDirection": "row",
+        "height": 60,
+        "justifyContent": "space-around",
+        "width": 750,
+      }
+    }
+  >
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      collapsable={undefined}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+      testID={undefined}
+      tvParallaxProperties={undefined}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={false}
+        ellipsizeMode="tail"
+        style={
+          Array [
+            Object {
+              "color": "#a5a5a4",
+              "fontSize": 30,
+            },
+            undefined,
+            Object {
+              "fontFamily": "Feather",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#000000",
+          "flex": 1,
+          "fontSize": 20,
+          "fontWeight": "700",
+        }
+      }
+    >
+      Settings
+    </Text>
+    <View
+      style={
+        Object {
+          "width": 30,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "column",
+          "padding": 20,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#000000",
+            "fontSize": 14,
+            "fontWeight": "700",
+            "marginBottom": 10,
+          }
+        }
+      >
+        GPS Coordinate Format
+      </Text>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#EAEAEA",
+            "borderRadius": 3,
+            "borderWidth": 1,
+          }
+        }
+      >
+        <View
+          style={undefined}
+        >
+          <RCTPicker
+            items={
+              Array [
+                Object {
+                  "label": "Decimal Degrees (DDD.DDDDD°)",
+                  "textColor": undefined,
+                  "value": "DD",
+                },
+                Object {
+                  "label": "Degrees & Decimal Minutes (DDD° MM.MMM')",
+                  "textColor": undefined,
+                  "value": "DDM",
+                },
+                Object {
+                  "label": "Degrees, Minutes, Seconds (DDD° MM' SS.S\\")",
+                  "textColor": undefined,
+                  "value": "DMS",
+                },
+                Object {
+                  "label": "UTM Coordinates (10S 123456m E 7654321m N)",
+                  "textColor": undefined,
+                  "value": "UTM",
+                },
+              ]
+            }
+            onChange={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            selectedIndex={3}
+            style={
+              Array [
+                Object {
+                  "height": 216,
+                },
+                Object {
+                  "width": 710,
+                },
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

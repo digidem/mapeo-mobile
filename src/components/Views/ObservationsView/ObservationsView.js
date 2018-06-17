@@ -25,13 +25,13 @@ export type StateProps = {
 
 export type DispatchProps = {
   selectObservation: (o: Observation) => void,
-  goToObservationDetail: () => void
+  goToObservationDetail: () => void,
+  goToSettings: () => void
 };
 
 type Props = {
   closeRightDrawer: Function,
-  navigation: NavigationActions,
-  isFocused: boolean
+  navigation: NavigationActions
 };
 
 type State = {
@@ -77,7 +77,7 @@ class ObservationsView extends React.Component<
   };
 
   render() {
-    const { observations } = this.props;
+    const { observations, goToSettings } = this.props;
     const sectionMappings = {};
     let label;
 
@@ -101,6 +101,7 @@ class ObservationsView extends React.Component<
               <ObservationHeader
                 closeRightDrawer={this.props.closeRightDrawer}
                 showSyncTip={this.state.showSyncTip}
+                onSettingsPress={goToSettings}
               />
             }
             style={{ width: Dimensions.get('window').width }}

@@ -19,6 +19,10 @@ describe('ObservationsView tests', () => {
   test('snapshot', () => {
     const tree = renderer.create(
       <ObservationsView
+        drawerOpened
+        selectObservation={jest.fn()}
+        goToObservationDetail={jest.fn()}
+        goToSettings={jest.fn()}
         closeRightDrawer={closeRightDrawer}
         navigation={NavigationActions}
         observations={cases}
