@@ -153,21 +153,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: WHITE
   },
-  greyCheck: {
-    backgroundColor: LIGHT_GREY,
-    height: 25,
-    width: 25,
-    borderRadius: 50,
-    justifyContent: 'center'
-  },
-  greyCheckOuterCircle: {
-    width: 30,
-    height: 30,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#d6d2cf'
-  },
   mediaRow: {
     backgroundColor: WHITE,
     borderColor: LIGHT_GREY,
@@ -514,32 +499,19 @@ class ObservationEditor extends React.Component<
             </TouchableOpacity>
           }
           rightIcon={
-            showGreyCheck ? (
-              <View style={styles.greyCheckOuterCircle}>
-                <View style={styles.greyCheck}>
-                  <CheckIcon
-                    color="white"
-                    name="check"
-                    size={18}
-                    style={styles.checkIcon}
-                  />
-                </View>
+            <TouchableOpacity
+              style={styles.checkOuterCircle}
+              onPress={this.handleSaveObservation}
+            >
+              <View style={styles.check}>
+                <CheckIcon
+                  color="white"
+                  name="check"
+                  size={18}
+                  style={styles.checkIcon}
+                />
               </View>
-            ) : (
-              <TouchableOpacity
-                style={styles.checkOuterCircle}
-                onPress={this.handleSaveObservation}
-              >
-                <View style={styles.check}>
-                  <CheckIcon
-                    color="white"
-                    name="check"
-                    size={18}
-                    style={styles.checkIcon}
-                  />
-                </View>
-              </TouchableOpacity>
-            )
+            </TouchableOpacity>
           }
           showTriangle
           style={{
