@@ -48,6 +48,9 @@ export function createInitialStore() {
       observations: false
     },
     gps: { status: 'Pending' },
-    observationSource: { source: undefined }
+    observationSource: { source: undefined },
+    settings: {
+      gpsFormat: 'DD'
+    }
   };
 }

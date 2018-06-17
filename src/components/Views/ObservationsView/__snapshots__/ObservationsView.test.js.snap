@@ -26,6 +26,7 @@ exports[`ObservationsView tests snapshot 1`] = `
     ListHeaderComponent={
       <ObservationHeader
         closeRightDrawer={[Function]}
+        onSettingsPress={[Function]}
         showSyncTip={true}
       />
     }

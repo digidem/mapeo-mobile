@@ -15,7 +15,8 @@ import { LIGHT_GREY, MAPEO_BLUE, WHITE } from '../../../lib/styles';
 
 type Props = {
   closeRightDrawer: Function,
-  showSyncTip: boolean
+  showSyncTip: boolean,
+  onSettingsPress: Function
 };
 
 const styles = StyleSheet.create({
@@ -141,7 +142,7 @@ const ObservationHeader = (props: Props) => (
           </View>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={props.onSettingsPress}>
         <SettingsIcon color="#a5a5a4" name="settings" size={30} />
       </TouchableOpacity>
     </View>
