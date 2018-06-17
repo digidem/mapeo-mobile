@@ -477,12 +477,6 @@ class ObservationEditor extends React.Component<
       fieldAnswered = selectedObservation.fields.find(f => f.answered);
     }
 
-    const showGreyCheck =
-      text === '' &&
-      selectedObservation &&
-      !selectedObservation.media.length &&
-      !fieldAnswered;
-
     if (!selectedObservation) {
       goBack();
       return <View />;
