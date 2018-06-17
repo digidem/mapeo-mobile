@@ -1,6 +1,5 @@
 // @flow
 import { connect } from 'react-redux';
-import { withNavigationFocus } from 'react-navigation';
 
 import SavedModal from './SavedModal';
 import { modalHide } from '../../../ducks/modals';

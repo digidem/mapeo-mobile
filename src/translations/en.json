@@ -37,7 +37,13 @@
   "editor": {
     "placeholder": "What's happening here?",
     "media_button": "Photos & Videos",
-    "details_button": "Details"
+    "details_button": "Details",
+    "modal": {
+      "title": "Changes not saved!",
+      "question": "Are you sure you want to cancel your observation?",
+      "continue": "Continue Editing",
+      "cancel": "Yes, Cancel"
+    }
   },
   "detail_view": {
     "photo": "photo",
