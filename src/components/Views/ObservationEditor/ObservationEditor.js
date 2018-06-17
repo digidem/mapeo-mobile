@@ -441,6 +441,7 @@ class ObservationEditor extends React.Component<
 
   goToObservationFields = () => {
     const { goToObservationFields } = this.props;
+
     goToObservationFields();
     Keyboard.dismiss();
   };
@@ -454,6 +455,7 @@ class ObservationEditor extends React.Component<
       observationSource,
       updateObservation
     } = this.props;
+
     hideCancelModal();
     if (observationSource === 'map') {
       goToMapView();
