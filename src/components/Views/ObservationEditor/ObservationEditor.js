@@ -452,6 +452,7 @@ class ObservationEditor extends React.Component<
 
   handleModalContinue = () => {
     const { hideCancelModal } = this.props;
+
     hideCancelModal();
   };
 
