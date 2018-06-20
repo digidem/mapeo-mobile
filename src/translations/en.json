@@ -38,7 +38,13 @@
   "editor": {
     "placeholder": "What's happening here?",
     "media_button": "Photos & Videos",
-    "details_button": "Details"
+    "details_button": "Details",
+    "modal": {
+      "title": "Changes not saved!",
+      "question": "Are you sure you want to cancel your observation?",
+      "continue": "Continue Editing",
+      "cancel": "Yes, Cancel"
+    }
   },
   "detail_view": {
     "photo": "photo",
@@ -47,6 +53,8 @@
     "observed_by": "Observed by"
   },
   "sync": {
+    "none": "No Available Devices",
+    "check": "Make sure devices are turned on and connected to WiFi",
     "available": "Available Devices",
     "selected": "Device Selected",
     "initiated": "Sync initiated...",

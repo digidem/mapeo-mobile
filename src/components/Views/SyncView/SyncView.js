@@ -7,13 +7,15 @@ import {
   View,
   FlatList,
   Dimensions,
-  StyleSheet
+  StyleSheet,
+  NetInfo
 } from 'react-native';
 import { NavigationActions, withNavigationFocus } from 'react-navigation';
+import WifiIcon from 'react-native-vector-icons/MaterialIcons';
 import SyncHeader from './SyncHeader';
 import DeviceCell from './DeviceCell';
 import type { Device } from '../../../types/device';
-import { MAPEO_BLUE } from '../../../lib/styles';
+import { MAPEO_BLUE, MEDIUM_BLUE } from '../../../lib/styles';
 import I18n from 'react-native-i18n';
 
 type Props = {
@@ -34,6 +36,10 @@ export type DispatchProps = {
   updateDeviceSync: (device: Device) => void
 };
 
+type State = {
+  wifi: boolean
+};
+
 if (I18n) {
   I18n.fallbacks = true;
   I18n.translations = {
@@ -42,20 +48,49 @@ if (I18n) {
   };
 }
 
-class SyncView extends React.Component<Props & StateProps & DispatchProps> {
+class SyncView extends React.Component<
+  Props & StateProps & DispatchProps,
+  State
+> {
+  state = { wifi: false };
+
   componentDidMount() {
     const { listDevices } = this.props;
 
     listDevices();
+    NetInfo.getConnectionInfo().then(connectionInfo => {
+      if (connectionInfo.type === 'wifi') {
+        this.setState({ wifi: true });
+      }
+    });
+    NetInfo.addEventListener('connectionChange', this.handleConnectionChange);
   }
 
-  shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
+  componentWillUnmount() {
+    NetInfo.removeEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    );
+  }
+
+  shouldComponentUpdate(
+    nextProps: Props & StateProps & DispatchProps,
+    nextState: State
+  ) {
     if (nextProps.isFocused) {
-      return nextProps !== this.props;
+      return nextProps !== this.props || nextState !== this.state;
     }
 
     return false;
   }
+
+  handleConnectionChange = connectionInfo => {
+    if (connectionInfo.type === 'wifi') {
+      this.setState({ wifi: true });
+    } else {
+      this.setState({ wifi: false });
+    }
+  };
 
   render() {
     const {
@@ -66,9 +101,13 @@ class SyncView extends React.Component<Props & StateProps & DispatchProps> {
       toggleDeviceSelect,
       updateDeviceSync
     } = this.props;
+    const { wifi } = this.state;
 
     let syncStopped = false;
-    let headerDeviceText = I18n.t('sync.available');
+    const noDevices = devices.length === 0 || !wifi;
+    let headerDeviceText = noDevices
+      ? I18n.t('sync.none')
+      : I18n.t('sync.available');
     if (selectedDevice) {
       switch (selectedDevice.syncStatus) {
         case 'requested':
@@ -127,20 +166,61 @@ class SyncView extends React.Component<Props & StateProps & DispatchProps> {
           backgroundColor: MAPEO_BLUE
         }}
       >
-        <FlatList
-          scrollEnabled
-          ListHeaderComponent={
+        {noDevices ? (
+          <View style={{ flex: 1 }}>
             <SyncHeader
               closeSyncView={closeSyncView}
               deviceText={headerDeviceText}
               syncStopped={syncStopped}
             />
-          }
-          data={devices}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-          style={{ width: Dimensions.get('window').width }}
-        />
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <View
+                style={{
+                  width: 200,
+                  height: 200,
+                  backgroundColor: MEDIUM_BLUE,
+                  borderRadius: 100,
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <WifiIcon name="wifi" size={180} color="white" />
+              </View>
+              <Text
+                style={{
+                  marginTop: 30,
+                  color: 'white',
+                  fontWeight: '700',
+                  fontSize: 18,
+                  textAlign: 'center'
+                }}
+              >
+                {I18n.t('sync.check')}
+              </Text>
+            </View>
+          </View>
+        ) : (
+          <FlatList
+            scrollEnabled
+            ListHeaderComponent={
+              <SyncHeader
+                closeSyncView={closeSyncView}
+                deviceText={headerDeviceText}
+                syncStopped={syncStopped}
+              />
+            }
+            data={devices}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem}
+            style={{ width: Dimensions.get('window').width }}
+          />
+        )}
       </View>
     );
   }

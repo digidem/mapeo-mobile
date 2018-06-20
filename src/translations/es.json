@@ -38,7 +38,13 @@
   "editor": {
     "placeholder": "¿Que esta pasando aqui?",
     "media_button": "Fotos y Videos",
-    "details_button": "Detalles"
+    "details_button": "Detalles",
+    "modal": {
+      "title": "¡Cambios no guardados!",
+      "question": "¿Estás seguro de que deseas cancelar tu observación?",
+      "continue": "Continua Editando",
+      "cancel": "Sí, Cancelar"
+    }
   },
   "detail_view": {
     "photo": "foto",
@@ -47,6 +53,8 @@
     "observed_by": "Observado por"
   },
   "sync": {
+    "none": "No hay dispositivos disponibles",
+    "check": "Asegúrate de que los dispositivos estén encendidos y conectados a wifi",
     "available": "Dispositivos Disponibles",
     "selected": "Dispositivo Seleccionados",
     "initiated": "Sincronización iniciada...",

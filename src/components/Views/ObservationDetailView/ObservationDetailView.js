@@ -13,6 +13,7 @@ import moment from '../../../lib/localizedMoment';
 import { withNavigationFocus } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
@@ -29,7 +30,8 @@ export type DispatchProps = {
   goToEditorView: () => void,
   goToPhotoView: (params: Object) => void,
   addObservation: (o: Observation) => void,
-  goBack: () => void
+  goBack: () => void,
+  clearSelectedObservation: () => void
 };
 
 export type Props = {
@@ -242,13 +244,15 @@ class ObservationDetailView extends React.Component<
     }
   };
 
+  handleBack = () => {
+    const { goBack, clearSelectedObservation } = this.props;
+
+    clearSelectedObservation();
+    goBack();
+  };
+
   render() {
-    const {
-      selectedObservation,
-      goToEditorView,
-      goToPhotoView,
-      goBack
-    } = this.props;
+    const { selectedObservation, goToEditorView, goToPhotoView } = this.props;
     const keyExtractor = item => item.source.toString();
     let mediaTitle = null;
     let mediaText = `0 ${I18n.t('detail_view.photo')}s`;
@@ -286,15 +290,19 @@ class ObservationDetailView extends React.Component<
         </Text>
       </View>
     ));
+
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={styles.container}>
           <View style={styles.topSection}>
-            <TouchableOpacity onPress={goBack} underlayColor="transparent">
-              <EntypoIcon
+            <TouchableOpacity
+              onPress={this.handleBack}
+              underlayColor="transparent"
+            >
+              <FeatherIcon
                 color="lightgrey"
                 name="chevron-left"
-                size={25}
+                size={30}
                 style={styles.backChevron}
               />
             </TouchableOpacity>

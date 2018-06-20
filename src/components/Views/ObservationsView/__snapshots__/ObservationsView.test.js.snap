@@ -27,6 +27,7 @@ exports[`ObservationsView tests snapshot 1`] = `
       <ObservationHeader
         closeRightDrawer={[Function]}
         goToSyncView={undefined}
+        onSettingsPress={[Function]}
       />
     }
     data={
@@ -78,7 +79,11 @@ exports[`ObservationsView tests snapshot 1`] = `
     renderItem={[Function]}
     scrollEnabled={true}
     scrollEventThrottle={50}
-    stickyHeaderIndices={Array []}
+    stickyHeaderIndices={
+      Array [
+        0,
+      ]
+    }
     style={
       Object {
         "width": 750,

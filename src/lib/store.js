@@ -41,13 +41,17 @@ export function createInitialStore() {
     categories: {},
     fields: {},
     modals: {
-      saved: false
+      saved: false,
+      cancelled: false
     },
     drawers: {
       observations: false
     },
     gps: { status: 'Pending' },
     observationSource: { source: undefined },
-    devices: {}
+    devices: {},
+    settings: {
+      gpsFormat: 'DD'
+    }
   };
 }

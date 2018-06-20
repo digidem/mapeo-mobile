@@ -3,7 +3,7 @@ import type { Observation } from './observation';
 import type { Category } from './category';
 import type { ModalState } from './modal';
 import type { DrawerState } from './drawer';
-import type { GPSState } from './gps';
+import type { GPSState, GPSFormat } from './gps';
 import type { Field } from './field';
 import type { ObservationSourceState } from './observationSource';
 import type { Device } from './device';
@@ -36,7 +36,12 @@ export interface AppStoreState {
   };
 
   selectedDevice?: Device;
+  settings: SettingsState;
 }
+
+export type SettingsState = {
+  gpsFormat: GPSFormat
+};
 
 export interface StoreState {
   app: AppStoreState;

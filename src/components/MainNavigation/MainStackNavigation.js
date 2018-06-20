@@ -8,7 +8,7 @@ import ObservationFields from '../Views/ObservationFields';
 import CameraView from '../Views/CameraView';
 import PhotoView from '../Views/PhotoView';
 import ObservationDetailView from '../Views/ObservationDetailView';
-import PreferencesView from '../Views/PreferencesView/PreferencesView';
+import SettingsView from '../Views/SettingsView';
 import MapView from '../Views/MapView';
 import SyncView from '../Views/SyncView';
 
@@ -19,9 +19,9 @@ const routeConfiguration = {
   CameraView: { screen: CameraView },
   PhotoView: { screen: PhotoView },
   ObservationDetailView: { screen: ObservationDetailView },
-  PreferencesView: { screen: PreferencesView },
   MapView: { screen: MapView },
-  SyncView: { screen: SyncView }
+  SyncView: { screen: SyncView },
+  SettingsView: { screen: SettingsView }
 };
 const stackConfiguration = {
   initialRouteName: 'MapView',
@@ -31,7 +31,8 @@ const stackConfiguration = {
       if (
         sceneProps.scene.route.routeName.match('ObservationDetailView') ||
         sceneProps.scene.route.routeName.match('ObservationFields') ||
-        sceneProps.scene.route.routeName.match('SyncView')
+        sceneProps.scene.route.routeName.match('SyncView') ||
+        sceneProps.scene.route.routeName.match('SettingsView')
       ) {
         return CardStackStyleInterpolator.forHorizontal(sceneProps);
       }

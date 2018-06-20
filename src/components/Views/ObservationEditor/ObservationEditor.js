@@ -15,6 +15,7 @@ import {
   ScrollView
 } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
+import CancelModal from '../../Base/CancelModal/CancelModal';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CheckIcon from 'react-native-vector-icons/Octicons';
@@ -40,7 +41,8 @@ export type StateProps = {
   category?: Category,
   selectedObservation?: Observation,
   observations: Observation[],
-  observationSource: string
+  observationSource: string,
+  cancelModalVisible: boolean
 };
 
 export type Props = {
@@ -58,7 +60,10 @@ export type DispatchProps = {
   goToCategories: () => void,
   goBack: () => void,
   goToMapView: () => void,
-  showSavedModal: () => void
+  showSavedModal: () => void,
+  showCancelModal: () => void,
+  hideCancelModal: () => void,
+  clearSelectedObservation: () => void
 };
 
 type State = {
@@ -147,21 +152,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: WHITE
-  },
-  greyCheck: {
-    backgroundColor: LIGHT_GREY,
-    height: 25,
-    width: 25,
-    borderRadius: 50,
-    justifyContent: 'center'
-  },
-  greyCheckOuterCircle: {
-    width: 30,
-    height: 30,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#d6d2cf'
   },
   mediaRow: {
     backgroundColor: WHITE,
@@ -436,8 +426,34 @@ class ObservationEditor extends React.Component<
 
   goToObservationFields = () => {
     const { goToObservationFields } = this.props;
+
     goToObservationFields();
     Keyboard.dismiss();
+  };
+
+  handleModalCancel = () => {
+    const {
+      clearSelectedObservation,
+      goToMainCameraView,
+      goToMapView,
+      hideCancelModal,
+      observationSource,
+      updateObservation
+    } = this.props;
+
+    hideCancelModal();
+    if (observationSource === 'map') {
+      goToMapView();
+    } else {
+      goToMainCameraView();
+    }
+    clearSelectedObservation();
+  };
+
+  handleModalContinue = () => {
+    const { hideCancelModal } = this.props;
+
+    hideCancelModal();
   };
 
   render() {
@@ -446,7 +462,9 @@ class ObservationEditor extends React.Component<
       goBack,
       selectedObservation,
       goToPhotoView,
-      goToObservationFields
+      goToObservationFields,
+      showCancelModal,
+      cancelModalVisible
     } = this.props;
     const { keyboardShown, text } = this.state;
     const positionText = selectedObservation
@@ -459,12 +477,6 @@ class ObservationEditor extends React.Component<
       fieldAnswered = selectedObservation.fields.find(f => f.answered);
     }
 
-    const showGreyCheck =
-      text === '' &&
-      selectedObservation &&
-      !selectedObservation.media.length &&
-      !fieldAnswered;
-
     if (!selectedObservation) {
       goBack();
       return <View />;
@@ -476,38 +488,25 @@ class ObservationEditor extends React.Component<
           leftIcon={
             <TouchableOpacity
               underlayColor="rgba(0, 0, 0, 0.5)"
-              onPress={goBack}
+              onPress={showCancelModal}
             >
               <CloseIcon color="#9E9C9C" name="window-close" size={30} />
             </TouchableOpacity>
           }
           rightIcon={
-            showGreyCheck ? (
-              <View style={styles.greyCheckOuterCircle}>
-                <View style={styles.greyCheck}>
-                  <CheckIcon
-                    color="white"
-                    name="check"
-                    size={18}
-                    style={styles.checkIcon}
-                  />
-                </View>
+            <TouchableOpacity
+              style={styles.checkOuterCircle}
+              onPress={this.handleSaveObservation}
+            >
+              <View style={styles.check}>
+                <CheckIcon
+                  color="white"
+                  name="check"
+                  size={18}
+                  style={styles.checkIcon}
+                />
               </View>
-            ) : (
-              <TouchableOpacity
-                style={styles.checkOuterCircle}
-                onPress={this.handleSaveObservation}
-              >
-                <View style={styles.check}>
-                  <CheckIcon
-                    color="white"
-                    name="check"
-                    size={18}
-                    style={styles.checkIcon}
-                  />
-                </View>
-              </TouchableOpacity>
-            )
+            </TouchableOpacity>
           }
           showTriangle
           style={{
@@ -670,6 +669,11 @@ class ObservationEditor extends React.Component<
             </View>
           )}
         </View>
+        <CancelModal
+          onContinue={this.handleModalContinue}
+          onCancel={this.handleModalCancel}
+          visible={cancelModalVisible}
+        />
       </KeyboardAvoidingView>
     );
   }

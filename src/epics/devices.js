@@ -25,6 +25,8 @@ const initialDevices = [
   }
 ];
 
+// const initialDevices = [];
+
 export const deviceListEpic = (
   action$: ActionsObservable<Action<string, Device[]>>
 ) =>
