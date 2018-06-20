@@ -50,5 +50,28 @@
     "details": "Details",
     "not_entered": "Not entered",
     "observed_by": "Observed by"
+  },
+  "manual_gps": {
+    "manual_gps": "Manual GPS",
+    "searching": "Searching...",
+    "searching_text": "Saving will not record your position",
+    "weak": "GPS Weak",
+    "weak_text": "Saving will not record your position with less accuracy",
+    "waiting": "Continue Waiting",
+    "manual_enter": "Manually Enter Position",
+    "save": "Save",
+    "longitude": "Longitude",
+    "latitude": "Latitude",
+    "grid_zone": "UTM Grid Zone",
+    "easting": "Easting",
+    "northing": "Northing",
+  },
+  "settings": {
+    "settings": "Settings",
+    "gps_format": "GPS Coordinate Format",
+    "dd": "Decimal Degrees",
+    "ddm": "Degrees & Decimal Minutes",
+    "dms": "Degrees, Minutes, Seconds",
+    "utm": "UTM Coordinates",
   }
 }

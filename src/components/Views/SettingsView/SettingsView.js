@@ -8,6 +8,7 @@ import {
   Picker,
   Dimensions
 } from 'react-native';
+import I18n from 'react-native-i18n';
 import LeftChevron from 'react-native-vector-icons/Feather';
 import { LIGHT_GREY, WHITE, BLACK } from '../../../lib/styles';
 import type { GPSFormat } from '../../../types/gps';
@@ -74,6 +75,12 @@ const styles = StyleSheet.create({
   }
 });
 
+I18n.fallbacks = true;
+I18n.translations = {
+  en: require('../../../translations/en'),
+  es: require('../../../translations/es')
+};
+
 class SettingsView extends React.PureComponent<StateProps & DispatchProps> {
   handleValueSelect = (format: GPSFormat) => {
     const { setGPSFormat } = this.props;
@@ -97,12 +104,12 @@ class SettingsView extends React.PureComponent<StateProps & DispatchProps> {
           <TouchableOpacity onPress={goBack}>
             <LeftChevron color="#a5a5a4" name="chevron-left" size={30} />
           </TouchableOpacity>
-          <Text style={styles.title}>Settings</Text>
+          <Text style={styles.title}>{I18n.t('settings.settings')}</Text>
           <View style={styles.empty} />
         </View>
         <View style={styles.container}>
           <View style={styles.fieldContainer}>
-            <Text style={styles.heading}>GPS Coordinate Format</Text>
+            <Text style={styles.heading}>{I18n.t('settings.gps_format')}</Text>
             <View style={styles.pickerContainer}>
               <Picker
                 mode="dropdown"
@@ -110,17 +117,20 @@ class SettingsView extends React.PureComponent<StateProps & DispatchProps> {
                 onValueChange={this.handleValueSelect}
                 selectedValue={gpsFormat}
               >
-                <Picker.Item label="Decimal Degrees (DDD.DDDDD°)" value="DD" />
                 <Picker.Item
-                  label="Degrees & Decimal Minutes (DDD° MM.MMM')"
+                  label={`${I18n.t('settings.dd')} (DDD.DDDDD°)`}
+                  value="DD"
+                />
+                <Picker.Item
+                  label={`${I18n.t('settings.ddm')} (DDD° MM.MMM')`}
                   value="DDM"
                 />
                 <Picker.Item
-                  label={"Degrees, Minutes, Seconds (DDD° MM' SS.S" + '"' + ')'}
+                  label={`${I18n.t('settings.dms')} (DDD° MM' SS.S")`}
                   value="DMS"
                 />
                 <Picker.Item
-                  label="UTM Coordinates (10S 123456m E 7654321m N)"
+                  label={`${I18n.t('settings.utm')} (10S 123456m E 7654321m N)`}
                   value="UTM"
                 />
               </Picker>

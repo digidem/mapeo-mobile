@@ -42,7 +42,8 @@ export function createInitialStore() {
     fields: {},
     modals: {
       saved: false,
-      cancelled: false
+      cancelled: false,
+      manualGPS: false
     },
     drawers: {
       observations: false
