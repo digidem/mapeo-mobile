@@ -13,6 +13,7 @@ import moment from '../../../lib/localizedMoment';
 import { withNavigationFocus } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
@@ -298,10 +299,10 @@ class ObservationDetailView extends React.Component<
               onPress={this.handleBack}
               underlayColor="transparent"
             >
-              <EntypoIcon
+              <FeatherIcon
                 color="lightgrey"
                 name="chevron-left"
-                size={25}
+                size={30}
                 style={styles.backChevron}
               />
             </TouchableOpacity>

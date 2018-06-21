@@ -10,6 +10,7 @@ import observations from './observations';
 import gps from './gps';
 import fields from './fields';
 import observationSource from './observationSource';
+import settings from './settings';
 
 const rootReducer = combineReducers({
   app: appCombineReducers(
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     ...observations,
     ...gps,
     ...fields,
-    ...observationSource
+    ...observationSource,
+    ...settings
   ),
   mainStack: createNavigationReducer(MainStackNavigation)
 });
