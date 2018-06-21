@@ -265,8 +265,14 @@ class ObservationEditor extends React.Component<
   }
 
   componentDidMount() {
-    const { updateObservation, selectedObservation, category } = this.props;
+    const {
+      updateObservation,
+      selectedObservation,
+      category,
+      hideManualGPSModal
+    } = this.props;
 
+    hideManualGPSModal();
     if (selectedObservation && category) {
       updateObservation({
         ...selectedObservation,
@@ -367,8 +373,6 @@ class ObservationEditor extends React.Component<
         ...selectedObservation,
         notes: text
       });
-      saveObservation();
-      showSavedModal();
     }
 
     if (gps.status !== 'Success' || (gps.data && gps.data.accuracy > 100)) {
@@ -377,6 +381,7 @@ class ObservationEditor extends React.Component<
       }
       showManualGPSModal();
     } else {
+      saveObservation();
       showSavedModal();
       if (observationSource === 'map') {
         goToMapView();
@@ -488,9 +493,11 @@ class ObservationEditor extends React.Component<
       showSavedModal,
       observationSource,
       goToMapView,
-      goToMainCameraView
+      goToMainCameraView,
+      saveObservation
     } = this.props;
 
+    saveObservation();
     showSavedModal();
     if (observationSource === 'map') {
       goToMapView();

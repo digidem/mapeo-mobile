@@ -1,5 +1,6 @@
 // @flow
 import { Observable } from 'rxjs';
+import { retryBackoff } from 'backoff-rxjs';
 
 export const API_DOMAIN_URL = 'http://10.0.2.2:9080';
 // export const API_DOMAIN_URL = 'http://192.168.1.2:9080';
@@ -21,7 +22,7 @@ const request = (method: string, route: string, body?: any) => {
       headers
     })
   )
-    .retry(3)
+    .let(retryBackoff({ initialInterval: 200 }))
     .flatMap(response => {
       if (response.ok) {
         return Observable.of(response);

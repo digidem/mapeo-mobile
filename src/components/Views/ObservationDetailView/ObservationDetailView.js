@@ -35,7 +35,7 @@ export type DispatchProps = {
   goToEditorView: () => void,
   goToPhotoView: (params: Object) => void,
   goBack: () => void,
-  clearSelectedObservation: () => void
+  clearSelectedObservation: () => void,
   updateObservation: (o: UpdateRequest) => void,
   goBack: () => void
 };
