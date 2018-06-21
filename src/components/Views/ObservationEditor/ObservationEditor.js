@@ -25,6 +25,8 @@ import LocationPin from 'react-native-vector-icons/Entypo';
 import I18n from 'react-native-i18n';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
+import type { Resource } from '../../../types/redux';
+import type { GPSState } from '../../../types/gps';
 import CategoryPin from '../../../images/category-pin.png';
 import PencilIcon from '../../../images/editor-details.png';
 import {
@@ -36,13 +38,16 @@ import {
   VERY_LIGHT_BLUE
 } from '../../../lib/styles';
 import Header from '../../Base/Header';
+import ManualGPSModal from '../../Base/ManualGPSModal';
 
 export type StateProps = {
   category?: Category,
   selectedObservation?: Observation,
   observations: Observation[],
   observationSource: string,
-  cancelModalVisible: boolean
+  cancelModalVisible: boolean,
+  gps: Resource<GPSState>,
+  manualGPSModalVisible: boolean
 };
 
 export type Props = {
@@ -63,7 +68,9 @@ export type DispatchProps = {
   showSavedModal: () => void,
   showCancelModal: () => void,
   hideCancelModal: () => void,
-  clearSelectedObservation: () => void
+  clearSelectedObservation: () => void,
+  hideManualGPSModal: () => void,
+  showManualGPSModal: () => void
 };
 
 type State = {
@@ -231,7 +238,7 @@ class ObservationEditor extends React.Component<
   scrollView: any;
   textInput: any;
 
-  constructor(props: StateProps & DispatchProps) {
+  constructor(props: Props & StateProps & DispatchProps) {
     super();
 
     this.paddingInput = new Animated.Value(0);
@@ -346,9 +353,11 @@ class ObservationEditor extends React.Component<
       showSavedModal,
       observationSource,
       goToCameraView,
-      goToMainCameraView
+      goToMainCameraView,
+      gps,
+      showManualGPSModal
     } = this.props;
-    const { text } = this.state;
+    const { text, keyboardShown } = this.state;
 
     if (selectedObservation) {
       addObservation({
@@ -357,11 +366,18 @@ class ObservationEditor extends React.Component<
       });
     }
 
-    showSavedModal();
-    if (observationSource === 'map') {
-      goToMapView();
+    if (gps.status !== 'Success' || (gps.data && gps.data.accuracy > 100)) {
+      if (keyboardShown) {
+        Keyboard.dismiss();
+      }
+      showManualGPSModal();
     } else {
-      goToMainCameraView();
+      showSavedModal();
+      if (observationSource === 'map') {
+        goToMapView();
+      } else {
+        goToMainCameraView();
+      }
     }
   };
 
@@ -456,6 +472,28 @@ class ObservationEditor extends React.Component<
     hideCancelModal();
   };
 
+  handleWaiting = () => {
+    const { hideManualGPSModal } = this.props;
+
+    hideManualGPSModal();
+  };
+
+  handleSave = () => {
+    const {
+      showSavedModal,
+      observationSource,
+      goToMapView,
+      goToMainCameraView
+    } = this.props;
+
+    showSavedModal();
+    if (observationSource === 'map') {
+      goToMapView();
+    } else {
+      goToMainCameraView();
+    }
+  };
+
   render() {
     const {
       navigation,
@@ -464,7 +502,8 @@ class ObservationEditor extends React.Component<
       goToPhotoView,
       goToObservationFields,
       showCancelModal,
-      cancelModalVisible
+      cancelModalVisible,
+      showManualGPSModal
     } = this.props;
     const { keyboardShown, text } = this.state;
     const positionText = selectedObservation
@@ -553,7 +592,7 @@ class ObservationEditor extends React.Component<
             onBlur={this.handleTextInputBlur}
             multiline
             autoGrow
-            autoFocus
+            autoFocus={!showManualGPSModal}
           />
         </ScrollView>
         {!!selectedObservation &&
@@ -673,6 +712,10 @@ class ObservationEditor extends React.Component<
           onContinue={this.handleModalContinue}
           onCancel={this.handleModalCancel}
           visible={cancelModalVisible}
+        />
+        <ManualGPSModal
+          onWaiting={this.handleWaiting}
+          onSave={this.handleSave}
         />
       </KeyboardAvoidingView>
     );

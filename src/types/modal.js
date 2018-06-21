@@ -1,6 +1,7 @@
 // @flow
 
-export interface ModalState {
-  saved: boolean;
-  cancelled: boolean;
-}
+export type ModalState = {
+  saved: boolean,
+  cancelled: boolean,
+  manualGPS: boolean
+};
