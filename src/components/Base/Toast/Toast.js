@@ -5,8 +5,7 @@ import { Modal } from 'react-native';
 type Props = {
   children: any,
   onRequestClose?: Function,
-  onHide?: Function,
-  visible?: boolean
+  onHide?: Function
 };
 
 type State = {
@@ -26,12 +25,6 @@ class Toast extends React.PureComponent<Props, State> {
         }
       });
     }, 2000);
-  }
-
-  componentDidUpdate(prevProps: Props, prevState: State) {
-    if (this.props.visible !== prevState.visible) {
-      this.setState({ visible: this.props.visible });
-    }
   }
 
   componentWillUnmount() {
