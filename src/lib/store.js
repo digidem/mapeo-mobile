@@ -43,13 +43,15 @@ export function createInitialStore() {
     modals: {
       saved: false,
       cancelled: false,
-      manualGPS: false
+      manualGPS: false,
+      synced: false
     },
     drawers: {
       observations: false
     },
     gps: { status: 'Pending' },
     observationSource: { source: undefined },
+    devices: {},
     settings: {
       gpsFormat: 'DD'
     }

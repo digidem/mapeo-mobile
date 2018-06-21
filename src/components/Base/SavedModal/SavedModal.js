@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '700'
   },
-  savedContainer: {
+  syncedContainer: {
     borderColor: LIGHT_GREY,
     borderBottomWidth: 1,
     flex: 1,
@@ -115,7 +115,7 @@ class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
             }}
           >
             <View style={styles.confirmationModal}>
-              <View style={styles.savedContainer}>
+              <View style={styles.syncedContainer}>
                 <Text
                   style={{
                     textAlign: 'center',

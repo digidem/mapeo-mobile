@@ -26,16 +26,13 @@ export type StateProps = {
 export type DispatchProps = {
   selectObservation: (o: Observation) => void,
   goToObservationDetail: () => void,
+  goToSyncView: () => void,
   goToSettings: () => void
 };
 
 type Props = {
   closeRightDrawer: Function,
   navigation: NavigationActions
-};
-
-type State = {
-  showSyncTip: boolean
 };
 
 I18n.fallbacks = true;
@@ -45,36 +42,14 @@ I18n.translations = {
 };
 
 class ObservationsView extends React.Component<
-  Props & StateProps & DispatchProps,
-  State
+  Props & StateProps & DispatchProps
 > {
-  state = {
-    showSyncTip: false
-  };
-  timer: any;
-
-  componentDidMount() {
-    this.setState({
-      showSyncTip: true
-    });
-  }
-
-  shouldComponentUpdate(nextProps: Props & StateProps, nextState: State) {
-    if (nextProps !== this.props || nextState !== this.state) {
+  shouldComponentUpdate(nextProps: Props & StateProps) {
+    if (nextProps !== this.props) {
       return true;
     }
     return false;
   }
-
-  componentDidUpdate() {
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-  }
-
-  hideTip = () => {
-    this.setState({ showSyncTip: false });
-  };
 
   render() {
     const { observations, goToSettings } = this.props;
@@ -88,7 +63,7 @@ class ObservationsView extends React.Component<
     };
 
     return (
-      <TouchableWithoutFeedback onPress={this.hideTip}>
+      <TouchableWithoutFeedback>
         <View
           style={{
             flex: 1
@@ -100,7 +75,7 @@ class ObservationsView extends React.Component<
             ListHeaderComponent={
               <ObservationHeader
                 closeRightDrawer={this.props.closeRightDrawer}
-                showSyncTip={this.state.showSyncTip}
+                goToSyncView={this.props.goToSyncView}
                 onSettingsPress={goToSettings}
               />
             }

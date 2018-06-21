@@ -24,6 +24,8 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
       dispatch(
         NavigationActions.navigate({ routeName: 'ObservationDetailView' })
       ),
+    goToSyncView: () =>
+      dispatch(NavigationActions.navigate({ routeName: 'SyncView' })),
     goToSettings: () =>
       dispatch(NavigationActions.navigate({ routeName: 'SettingsView' }))
   };

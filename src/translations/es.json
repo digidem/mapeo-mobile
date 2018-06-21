@@ -27,6 +27,7 @@
   "observations": {
     "title": "Observaciones",
     "sync": "Conectarse para sincronizar",
+    "sync_ready": "Sincronizar Listo",
     "all_observations": "Todas las observaciones",
     "view_by": "Ver por más reciente"
   },
@@ -73,5 +74,23 @@
     "ddm": "Degrees & Decimal Minutes",
     "dms": "Degrees, Minutes, Seconds",
     "utm": "UTM Coordinates"
+  },
+  "sync": {
+    "none": "No hay dispositivos disponibles",
+    "check": "Asegúrate de que los dispositivos estén encendidos y conectados a wifi",
+    "available": "Dispositivos Disponibles",
+    "selected": "Dispositivo Seleccionados",
+    "initiated": "Sincronización iniciada...",
+    "progress": "Sincronización en progreso...",
+    "stopped": "Sincronización detenida...",
+    "via_wifi": "vía WiFi",
+    "requested": "Sincronización solicitada",
+    "syncing": "Sincronizacíon",
+    "sync": "Sincronizacíon",
+    "modal": {
+      "title": "Sincronización completa",
+      "details": "Se agregaron nuevas observaciones",
+      "ok": "OK"
+    }
   }
 }

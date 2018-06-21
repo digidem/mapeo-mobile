@@ -3,5 +3,6 @@
 export type ModalState = {
   saved: boolean,
   cancelled: boolean,
-  manualGPS: boolean
+  manualGPS: boolean,
+  synced: boolean
 };
