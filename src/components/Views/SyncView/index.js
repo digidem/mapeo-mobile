@@ -11,13 +11,15 @@ import {
   deviceToggleSelect,
   deviceSyncUpdate
 } from '../../../ducks/devices';
+import { modalShow, modalHide } from '../../../ducks/modals';
 import SyncView from './SyncView';
 import type { StateProps, DispatchProps } from './SyncView';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
     devices: values(state.app.devices),
-    selectedDevice: state.app.selectedDevice
+    selectedDevice: state.app.selectedDevice,
+    syncedModalVisible: state.app.modals.synced
   };
 }
 
@@ -30,7 +32,9 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     updateDeviceSync: device => {
       dispatch(deviceSyncUpdate(device));
       dispatch(deviceSelect(device));
-    }
+    },
+    showSyncedModal: () => dispatch(modalShow('synced')),
+    hideSyncedModal: () => dispatch(modalHide('synced'))
   };
 }
 

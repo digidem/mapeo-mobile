@@ -63,7 +63,12 @@
     "via_wifi": "via WiFi",
     "requested": "Sync requested...",
     "syncing": "Syncing...",
-    "sync": "Sync"
+    "sync": "Sync",
+    "modal": {
+      "title": "Sync Complete",
+      "details": "New observations have been added",
+      "ok": "OK"
+    }
   }
 
 }

@@ -63,6 +63,11 @@
     "via_wifi": "vía WiFi",
     "requested": "Sincronización solicitada",
     "syncing": "Sincronizacíon",
-    "sync": "Sincronizacíon"
+    "sync": "Sincronizacíon",
+    "modal": {
+      "title": "Sincronización completa",
+      "details": "Se agregaron nuevas observaciones",
+      "ok": "OK"
+    }
   }
 }

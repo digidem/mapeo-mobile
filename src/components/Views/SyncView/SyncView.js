@@ -14,6 +14,7 @@ import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import WifiIcon from 'react-native-vector-icons/MaterialIcons';
 import SyncHeader from './SyncHeader';
 import DeviceCell from './DeviceCell';
+import SyncedModal from '../../Base/SyncedModal/SyncedModal';
 import type { Device } from '../../../types/device';
 import { MAPEO_BLUE, MEDIUM_BLUE } from '../../../lib/styles';
 import I18n from 'react-native-i18n';
@@ -25,7 +26,8 @@ type Props = {
 
 export type StateProps = {
   devices: Device[],
-  selectedDevice: Device
+  selectedDevice: Device,
+  syncedModalVisible: boolean
 };
 
 export type DispatchProps = {
@@ -33,7 +35,9 @@ export type DispatchProps = {
   goBack: () => void,
   selectDevice: (device?: Device) => void,
   toggleDeviceSelect: (device: Device) => void,
-  updateDeviceSync: (device: Device) => void
+  updateDeviceSync: (device: Device) => void,
+  showSyncedModal: () => void,
+  hideSyncedModal: () => void
 };
 
 type State = {
@@ -99,7 +103,10 @@ class SyncView extends React.Component<
       selectDevice,
       selectedDevice,
       toggleDeviceSelect,
-      updateDeviceSync
+      updateDeviceSync,
+      hideSyncedModal,
+      showSyncedModal,
+      syncedModalVisible
     } = this.props;
     const { wifi } = this.state;
 
@@ -130,9 +137,9 @@ class SyncView extends React.Component<
 
     const keyExtractor = (item, index) => item.id;
     const handleDevicePress = item => {
-      toggleDeviceSelect({ ...item });
+      toggleDeviceSelect(item);
       if (selectedDevice) {
-        toggleDeviceSelect({ ...selectedDevice });
+        toggleDeviceSelect(selectedDevice);
       }
       selectDevice({
         ...item,
@@ -146,17 +153,21 @@ class SyncView extends React.Component<
         onPress={handleDevicePress}
         selectDevice={selectDevice}
         selectedDevice={selectedDevice}
+        showSyncedModal={showSyncedModal}
         updateDeviceSync={updateDeviceSync}
       />
     );
     const closeSyncView = () => {
       if (selectedDevice) {
         selectDevice(undefined);
-        toggleDeviceSelect({ ...selectedDevice });
+        toggleDeviceSelect(selectedDevice);
       }
       const { listDevices } = this.props;
       listDevices();
       goBack();
+    };
+    const handleModalContinue = () => {
+      hideSyncedModal();
     };
 
     return (
@@ -206,20 +217,26 @@ class SyncView extends React.Component<
             </View>
           </View>
         ) : (
-          <FlatList
-            scrollEnabled
-            ListHeaderComponent={
-              <SyncHeader
-                closeSyncView={closeSyncView}
-                deviceText={headerDeviceText}
-                syncStopped={syncStopped}
-              />
-            }
-            data={devices}
-            keyExtractor={keyExtractor}
-            renderItem={renderItem}
-            style={{ width: Dimensions.get('window').width }}
-          />
+          <View>
+            <FlatList
+              scrollEnabled
+              ListHeaderComponent={
+                <SyncHeader
+                  closeSyncView={closeSyncView}
+                  deviceText={headerDeviceText}
+                  syncStopped={syncStopped}
+                />
+              }
+              data={devices}
+              keyExtractor={keyExtractor}
+              renderItem={renderItem}
+              style={{ width: Dimensions.get('window').width }}
+            />
+            <SyncedModal
+              onContinue={handleModalContinue}
+              visible={syncedModalVisible}
+            />
+          </View>
         )}
       </View>
     );

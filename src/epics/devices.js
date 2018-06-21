@@ -9,17 +9,37 @@ import type { Device } from '../types/device';
 
 const initialDevices = [
   {
-    name: `Aldo's MacBook`,
+    host: `Aldo's MacBook`,
+    ip: '192.168.0.1',
+    port: 123,
     selected: false,
     syncStatus: 'notStarted'
   },
   {
-    name: `Cindy's MacBook`,
+    host: `Cindy's MacBook`,
+    ip: '192.168.0.1',
+    port: 123,
     selected: false,
     syncStatus: 'notStarted'
   },
   {
-    name: `Gregor's MacBook`,
+    host: `Stephen's Laptop`,
+    ip: '192.168.0.1',
+    port: 123,
+    selected: false,
+    syncStatus: 'notStarted'
+  },
+  {
+    host: `Karissa's MacBook`,
+    ip: '192.168.0.1',
+    port: 123,
+    selected: false,
+    syncStatus: 'notStarted'
+  },
+  {
+    host: `Gregor's MacBook`,
+    ip: '192.168.0.1',
+    port: 123,
     selected: false,
     syncStatus: 'notStarted'
   }
@@ -38,8 +58,10 @@ export const deviceListEpic = (
         '',
         initialDevices.map((d, i) =>
           createDevice({
-            name: d.name,
+            host: d.host,
             id: i.toString(),
+            ip: d.ip,
+            port: d.port,
             selected: d.selected,
             syncStatus: d.syncStatus
           })

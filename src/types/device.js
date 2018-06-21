@@ -8,7 +8,9 @@ export type SyncStatus =
   | 'completed';
 export interface Device {
   id: string;
-  name: string;
+  ip: string;
+  host: string;
+  port: number;
   selected: boolean;
   syncStatus: SyncStatus;
 }

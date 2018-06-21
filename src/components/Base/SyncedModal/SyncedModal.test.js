@@ -2,23 +2,16 @@
 import React from 'react';
 import 'react-native';
 import renderer from 'react-test-renderer';
-import CancelModal from './CancelModal';
+import SyncedModal from './SyncedModal';
 
-describe('CancelModal tests', () => {
+describe('SyncedModal tests', () => {
   test('snapshots', () => {
     const onContinue = jest.fn();
-    const onCancel = jest.fn();
     const visible = true;
 
     let tree;
     tree = renderer
-      .create(
-        <CancelModal
-          onContinue={onContinue}
-          onCancel={onCancel}
-          visible={visible}
-        />
-      )
+      .create(<SyncedModal onContinue={onContinue} visible={visible} />)
       .toJSON();
     expect(tree).toMatchSnapshot();
   });

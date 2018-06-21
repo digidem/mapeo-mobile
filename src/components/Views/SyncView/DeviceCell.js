@@ -26,6 +26,7 @@ type Props = {
   onPress: (i: Device) => void,
   selectDevice: (device: Device) => void,
   selectedDevice?: Device,
+  showSyncedModal: () => void,
   updateDeviceSync: (device: Device) => void
 };
 
@@ -118,6 +119,7 @@ const DeviceCell = (props: Props) => {
           ...props.device,
           syncStatus: 'completed'
         });
+        props.showSyncedModal();
       }, 4000);
     }
   };
@@ -130,8 +132,9 @@ const DeviceCell = (props: Props) => {
   }
 
   const syncInProgress =
-    (props.device.selected && props.device.syncStatus === 'requested') ||
-    (props.device.selected && props.device.syncStatus === 'syncing');
+    props.device.selected &&
+    (props.device.syncStatus === 'requested' ||
+      props.device.syncStatus === 'syncing');
 
   return (
     <TouchableOpacity onPress={handlePress}>
@@ -142,7 +145,7 @@ const DeviceCell = (props: Props) => {
         ]}
       >
         <View style={styles.deviceTextContainer}>
-          <Text style={styles.deviceName}>{props.device.name}</Text>
+          <Text style={styles.deviceName}>{props.device.host}</Text>
           <Text style={styles.syncStatus}>{syncStatusText}</Text>
         </View>
         {!syncInProgress && (
