@@ -1,6 +1,5 @@
 // @flow
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
 import type { Dispatch } from 'redux';
 import {
   observationList,
@@ -12,6 +11,7 @@ import { observationSource } from '../../../../ducks/observationSource';
 import { StoreState } from '../../../../types/redux';
 import Map from './Map';
 import type { DispatchProps, StateProps } from './Map';
+import NavigationService from '../../../AppNavigation/NavigationService';
 
 const mapStateToProps = (state: StoreState): StateProps => ({
   observations: state.app.observations,
@@ -24,18 +24,14 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     listObservations: () => dispatch(observationList('')),
     createObservation: observation => dispatch(observationCreate(observation)),
     goToCategories: () =>
-      dispatch(
-        NavigationActions.navigate({
-          routeName: 'Categories',
-          key: 'CategoriesView'
-        })
-      ),
+      NavigationService.navigate({
+        routeName: 'Categories',
+        key: 'CategoriesView'
+      }),
     updateObservation: observation => dispatch(observationUpdate(observation)),
     selectObservation: o => dispatch(observationSelect(o)),
     goToObservationDetail: () =>
-      dispatch(
-        NavigationActions.navigate({ routeName: 'ObservationDetailView' })
-      ),
+      NavigationService.navigate({ routeName: 'ObservationDetailView' }),
     updateObservationSource: () => dispatch(observationSource('map'))
   };
 }

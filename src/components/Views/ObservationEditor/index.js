@@ -1,6 +1,5 @@
 // @flow
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
 import type { Dispatch } from 'redux';
 import { values } from 'lodash';
 import { StoreState } from '../../../types/redux';
@@ -13,6 +12,7 @@ import {
 import { modalHide, modalShow } from '../../../ducks/modals';
 import ObservationEditor from './ObservationEditor';
 import type { Props, StateProps, DispatchProps } from './ObservationEditor';
+import NavigationService from '../../AppNavigation/NavigationService';
 
 function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
   return {
@@ -37,48 +37,36 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     updateObservation: observation => dispatch(observationUpdate(observation)),
     clearSelectedObservation: () => dispatch(observationSelect(undefined)),
     goToPhotoView: source =>
-      dispatch(
-        NavigationActions.navigate({
-          routeName: 'PhotoView',
-          params: { photoSource: source }
-        })
-      ),
+      NavigationService.navigate({
+        routeName: 'PhotoView',
+        params: { photoSource: source }
+      }),
     goToCameraView: () =>
-      dispatch(
-        NavigationActions.navigate({
-          routeName: 'CameraView',
-          params: { showEditorView: true }
-        })
-      ),
+      NavigationService.navigate({
+        routeName: 'CameraView',
+        params: { showEditorView: true }
+      }),
     goToMainCameraView: () =>
-      dispatch(
-        NavigationActions.navigate({
-          routeName: 'CameraView',
-          params: { showEditorView: false }
-        })
-      ),
+      NavigationService.navigate({
+        routeName: 'CameraView',
+        params: { showEditorView: false }
+      }),
     goToCategories: () =>
-      dispatch(
-        NavigationActions.navigate({
-          routeName: 'Categories',
-          key: 'CategoriesView'
-        })
-      ),
+      NavigationService.navigate({
+        routeName: 'Categories',
+        key: 'CategoriesView'
+      }),
     goToObservationFields: () =>
-      dispatch(
-        NavigationActions.navigate({
-          routeName: 'ObservationFields'
-        })
-      ),
+      NavigationService.navigate({
+        routeName: 'ObservationFields'
+      }),
     goBack: () => {
-      dispatch(NavigationActions.back());
+      dispatch(NavigationService.back());
     },
     goToMapView: () =>
-      dispatch(
-        NavigationActions.navigate({
-          routeName: 'MapView'
-        })
-      ),
+      NavigationService.navigate({
+        routeName: 'MapView'
+      }),
     showSavedModal: () => dispatch(modalShow('saved')),
     showCancelModal: () => dispatch(modalShow('cancelled')),
     hideCancelModal: () => dispatch(modalHide('cancelled')),

@@ -1,7 +1,6 @@
 // @flow
 import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
-import { NavigationActions } from 'react-navigation';
 import { StoreState } from '../../../types/redux';
 
 import {
@@ -10,6 +9,7 @@ import {
 } from '../../../ducks/observations';
 import ObservationDetailView from './ObservationDetailView';
 import type { StateProps, DispatchProps } from './ObservationDetailView';
+import NavigationService from '../../AppNavigation/NavigationService';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
@@ -21,24 +21,20 @@ function mapStateToProps(state: StoreState): StateProps {
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     goToEditorView: () =>
-      dispatch(
-        NavigationActions.navigate({
-          routeName: 'ObservationEditor'
-        })
-      ),
+      NavigationService.navigate({
+        routeName: 'ObservationEditor'
+      }),
     updateObservation: observation => dispatch(observationUpdate(observation)),
     goToPhotoView: params =>
-      dispatch(
-        NavigationActions.navigate({
-          routeName: 'PhotoView',
-          params: {
-            fromDetailView: params.fromDetailView,
-            photoType: params.type,
-            photoSource: params.source
-          }
-        })
-      ),
-    goBack: () => dispatch(NavigationActions.back()),
+      NavigationService.navigate({
+        routeName: 'PhotoView',
+        params: {
+          fromDetailView: params.fromDetailView,
+          photoType: params.type,
+          photoSource: params.source
+        }
+      }),
+    goBack: () => NavigationService.back(),
     clearSelectedObservation: () => dispatch(observationSelect(undefined))
   };
 }

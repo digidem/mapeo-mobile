@@ -50,14 +50,8 @@ export type StateProps = {
 
 export type DispatchProps = {
   listObservations: () => void,
-  createObservation: (observation: CreateRequest) => void,
-  updateObservation: (observation: UpdateRequest) => void,
-  goToCategories: () => void,
-  goToObservationDetail: () => void,
-  selectObservation: (observation: Observation) => void,
   onDrawerClose: () => void,
-  onDrawerOpen: () => void,
-  listStyles: () => void
+  onDrawerOpen: () => void
 };
 
 type Props = {

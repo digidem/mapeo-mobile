@@ -1,6 +1,6 @@
 // @flow
 import { connect } from 'react-redux';
-import { NavigationActions, withNavigationFocus } from 'react-navigation';
+import { withNavigationFocus } from 'react-navigation';
 import { values } from 'lodash';
 import type { Dispatch } from 'redux';
 import { StoreState } from '../../../types/redux';
@@ -10,6 +10,7 @@ import { categoryList } from '../../../ducks/categories';
 import { fieldList } from '../../../ducks/fields';
 import ObservationsView from './ObservationsView';
 import type { StateProps, DispatchProps } from './ObservationsView';
+import NavigationService from '../../AppNavigation/NavigationService';
 
 function mapStateToProps(state: StoreState): StateProps {
   const observations = values(state.app.observations).sort(
@@ -23,13 +24,10 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     selectObservation: o => dispatch(observationSelect(o)),
     goToObservationDetail: () =>
-      dispatch(
-        NavigationActions.navigate({ routeName: 'ObservationDetailView' })
-      ),
-    goToSyncView: () =>
-      dispatch(NavigationActions.navigate({ routeName: 'SyncView' })),
+      NavigationService.navigate({ routeName: 'ObservationDetailView' }),
+    goToSyncView: () => NavigationService.navigate({ routeName: 'SyncView' }),
     goToSettings: () =>
-      dispatch(NavigationActions.navigate({ routeName: 'SettingsView' })),
+      NavigationService.navigate({ routeName: 'SettingsView' }),
     listCategories: () => {
       dispatch(categoryList(''));
       dispatch(fieldList(''));

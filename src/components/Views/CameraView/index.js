@@ -1,6 +1,5 @@
 // @flow
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
 import type { Dispatch } from 'redux';
 import {
   observationCreate,
@@ -11,6 +10,7 @@ import type { StoreState } from '../../../types/redux';
 import CameraView from './CameraView';
 import type { Props, StateProps, DispatchProps } from './CameraView';
 import { drawerClose, drawerOpen } from '../../../ducks/drawers';
+import NavigationService from '../../AppNavigation/NavigationService';
 
 function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
   return {
@@ -30,12 +30,11 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     createObservation: observation => dispatch(observationCreate(observation)),
     updateObservation: observation => dispatch(observationUpdate(observation)),
     goToObservationEditor: () =>
-      dispatch(NavigationActions.navigate({ routeName: 'ObservationEditor' })),
+      NavigationService.navigate({ routeName: 'ObservationEditor' }),
     goToCategories: () =>
-      dispatch(NavigationActions.navigate({ routeName: 'Categories' })),
+      NavigationService.navigate({ routeName: 'Categories' }),
     onDrawerClose: () => dispatch(drawerClose('observations')),
-    goToMapView: () =>
-      dispatch(NavigationActions.navigate({ routeName: 'MapView' })),
+    goToMapView: () => NavigationService.navigate({ routeName: 'MapView' }),
     onDrawerOpen: () => dispatch(drawerOpen('observations')),
     updateObservationSource: () => dispatch(observationSource('camera'))
   };
