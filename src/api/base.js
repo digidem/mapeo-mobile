@@ -2,8 +2,7 @@
 import { Observable } from 'rxjs';
 import { retryBackoff } from 'backoff-rxjs';
 
-export const API_DOMAIN_URL = 'http://10.0.2.2:9080';
-// export const API_DOMAIN_URL = 'http://192.168.1.2:9080';
+export const API_DOMAIN_URL = 'http://localhost:9080';
 
 const request = (method: string, route: string, body?: any) => {
   let resp: any;
@@ -24,6 +23,7 @@ const request = (method: string, route: string, body?: any) => {
   )
     .let(retryBackoff({ initialInterval: 200 }))
     .flatMap(response => {
+      console.log('RN - response', response);
       if (response.ok) {
         return Observable.of(response);
       }
@@ -32,6 +32,7 @@ const request = (method: string, route: string, body?: any) => {
 
       return Observable.from(response.json())
         .catch(err => {
+          console.log('RN -', err);
           throw new Error(err.toString());
         })
         .flatMap(json => {
