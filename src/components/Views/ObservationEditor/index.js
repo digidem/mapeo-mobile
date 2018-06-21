@@ -26,7 +26,9 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
     selectedObservation: state.app.selectedObservation,
     observations: values(state.app.observations),
     observationSource: state.app.observationSource.source,
-    cancelModalVisible: state.app.modals.cancelled
+    cancelModalVisible: state.app.modals.cancelled,
+    gps: state.app.gps,
+    manualGPSModalVisible: state.app.modals.manualGPS
   };
 }
 
@@ -80,7 +82,9 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
       ),
     showSavedModal: () => dispatch(modalShow('saved')),
     showCancelModal: () => dispatch(modalShow('cancelled')),
-    hideCancelModal: () => dispatch(modalHide('cancelled'))
+    hideCancelModal: () => dispatch(modalHide('cancelled')),
+    hideManualGPSModal: () => dispatch(modalHide('manualGPS')),
+    showManualGPSModal: () => dispatch(modalShow('manualGPS'))
   };
 }
 

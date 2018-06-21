@@ -43,6 +43,7 @@ export function createInitialStore() {
     modals: {
       saved: false,
       cancelled: false,
+      manualGPS: false,
       synced: false
     },
     drawers: {

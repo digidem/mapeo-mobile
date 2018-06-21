@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '700'
   },
-  savedContainer: {
+  syncedContainer: {
     borderColor: LIGHT_GREY,
     borderBottomWidth: 1,
     flex: 1,
@@ -87,6 +87,12 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 });
+
+I18n.fallbacks = true;
+I18n.translations = {
+  en: require('../../../translations/en'),
+  es: require('../../../translations/es')
+};
 
 class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
   render() {
@@ -109,7 +115,7 @@ class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
             }}
           >
             <View style={styles.confirmationModal}>
-              <View style={styles.savedContainer}>
+              <View style={styles.syncedContainer}>
                 <Text
                   style={{
                     textAlign: 'center',
@@ -145,7 +151,9 @@ class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
                     paddingBottom: 10
                   }}
                 >
-                  <Text style={styles.title}>{selectedObservation.type}</Text>
+                  <Text style={styles.title}>
+                    {I18n.t(`categories.${selectedObservation.categoryId}`)}
+                  </Text>
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.positionAtText}>{I18n.t('at')} </Text>
                     <Text style={styles.positionText}>
