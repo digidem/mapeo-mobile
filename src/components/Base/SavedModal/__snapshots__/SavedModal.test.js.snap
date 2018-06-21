@@ -54,7 +54,7 @@ exports[`SavedModal tests snapshots 1`] = `
             }
           }
         >
-          [missing "en.saved" translation]
+          Saved!
         </Text>
       </View>
       <View
@@ -148,7 +148,7 @@ exports[`SavedModal tests snapshots 1`] = `
               }
             }
           >
-            Observation
+            Threat
           </Text>
           <View
             style={
@@ -169,7 +169,7 @@ exports[`SavedModal tests snapshots 1`] = `
                 }
               }
             >
-              [missing "en.at" translation]
+              at
                
             </Text>
             <Text
@@ -199,7 +199,7 @@ exports[`SavedModal tests snapshots 1`] = `
               }
             }
           >
-            [missing "en.on" translation]
+            on
              
             February 25, 12:23 PM
           </Text>

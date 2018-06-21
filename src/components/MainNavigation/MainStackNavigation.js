@@ -10,6 +10,7 @@ import PhotoView from '../Views/PhotoView';
 import ObservationDetailView from '../Views/ObservationDetailView';
 import SettingsView from '../Views/SettingsView';
 import MapView from '../Views/MapView';
+import ManualGPS from '../Views/ManualGPS';
 
 const routeConfiguration = {
   Categories: { screen: Categories },
@@ -19,7 +20,8 @@ const routeConfiguration = {
   PhotoView: { screen: PhotoView },
   ObservationDetailView: { screen: ObservationDetailView },
   SettingsView: { screen: SettingsView },
-  MapView: { screen: MapView }
+  MapView: { screen: MapView },
+  ManualGPSView: { screen: ManualGPS }
 };
 const stackConfiguration = {
   initialRouteName: 'MapView',
@@ -29,7 +31,8 @@ const stackConfiguration = {
       if (
         sceneProps.scene.route.routeName.match('ObservationDetailView') ||
         sceneProps.scene.route.routeName.match('ObservationFields') ||
-        sceneProps.scene.route.routeName.match('SettingsView')
+        sceneProps.scene.route.routeName.match('SettingsView') ||
+        sceneProps.scene.route.routeName.match('ManualGPSView')
       ) {
         return CardStackStyleInterpolator.forHorizontal(sceneProps);
       }

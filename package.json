@@ -31,7 +31,8 @@
     "redux-mock-store": "^1.5.1",
     "redux-observable": "^0.17.0",
     "redux-persist": "^5.9.1",
-    "rxjs": "^5.5.6"
+    "rxjs": "^5.5.6",
+    "utm": "^1.1.1"
   },
   "devDependencies": {
     "appium": "^1.7.1",

@@ -13,3 +13,4 @@ export const MEDIUM_GREY = '#666666';
 export const LIGHT_GREY = '#EAEAEA';
 export const CHARCOAL = '#1F1F1F';
 export const GREEN = '#7AFA4C';
+export const RED = '#BC271A';
