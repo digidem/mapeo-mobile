@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   capture: {
     alignSelf: 'center',
     position: 'absolute',
-    bottom: 5
+    bottom: 2
   },
   captureFromEditor: {
     alignSelf: 'center',

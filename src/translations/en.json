@@ -27,6 +27,7 @@
   "observations": {
     "title": "Observations",
     "sync": "Connect to sync",
+    "sync_ready": "Sync Ready",
     "all_observations": "All Observations",
     "view_by": "View by Most Recent"
   },
@@ -73,5 +74,23 @@
     "ddm": "Degrees & Decimal Minutes",
     "dms": "Degrees, Minutes, Seconds",
     "utm": "UTM Coordinates"
+  },
+  "sync": {
+    "none": "No Available Devices",
+    "check": "Make sure devices are turned on and connected to WiFi",
+    "available": "Available Devices",
+    "selected": "Device Selected",
+    "initiated": "Sync initiated...",
+    "progress": "Sync in progress...",
+    "stopped": "Sync stopped...",
+    "via_wifi": "via WiFi",
+    "requested": "Sync requested...",
+    "syncing": "Syncing...",
+    "sync": "Sync",
+    "modal": {
+      "title": "Sync Complete",
+      "details": "New observations have been added",
+      "ok": "OK"
+    }
   }
 }

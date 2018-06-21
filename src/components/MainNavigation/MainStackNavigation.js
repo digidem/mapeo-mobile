@@ -11,6 +11,7 @@ import ObservationDetailView from '../Views/ObservationDetailView';
 import SettingsView from '../Views/SettingsView';
 import MapView from '../Views/MapView';
 import ManualGPS from '../Views/ManualGPS';
+import SyncView from '../Views/SyncView';
 
 const routeConfiguration = {
   Categories: { screen: Categories },
@@ -21,7 +22,8 @@ const routeConfiguration = {
   ObservationDetailView: { screen: ObservationDetailView },
   SettingsView: { screen: SettingsView },
   MapView: { screen: MapView },
-  ManualGPSView: { screen: ManualGPS }
+  ManualGPSView: { screen: ManualGPS },
+  SyncView: { screen: SyncView }
 };
 const stackConfiguration = {
   initialRouteName: 'MapView',
@@ -32,7 +34,8 @@ const stackConfiguration = {
         sceneProps.scene.route.routeName.match('ObservationDetailView') ||
         sceneProps.scene.route.routeName.match('ObservationFields') ||
         sceneProps.scene.route.routeName.match('SettingsView') ||
-        sceneProps.scene.route.routeName.match('ManualGPSView')
+        sceneProps.scene.route.routeName.match('ManualGPSView') ||
+        sceneProps.scene.route.routeName.match('SyncView')
       ) {
         return CardStackStyleInterpolator.forHorizontal(sceneProps);
       }
