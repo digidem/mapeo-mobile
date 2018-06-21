@@ -64,7 +64,7 @@
     "latitude": "Latitude",
     "grid_zone": "UTM Grid Zone",
     "easting": "Easting",
-    "northing": "Northing",
+    "northing": "Northing"
   },
   "settings": {
     "settings": "Settings",
@@ -72,6 +72,6 @@
     "dd": "Decimal Degrees",
     "ddm": "Degrees & Decimal Minutes",
     "dms": "Degrees, Minutes, Seconds",
-    "utm": "UTM Coordinates",
+    "utm": "UTM Coordinates"
   }
 }
