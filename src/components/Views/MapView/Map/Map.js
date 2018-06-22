@@ -28,7 +28,8 @@ export type StateProps = {
     [id: string]: Observation
   },
   selectedObservation?: Observation,
-  gps?: GPSState
+  gps?: GPSState,
+  selectedStyle?: string
 };
 
 export type DispatchProps = {
@@ -38,7 +39,8 @@ export type DispatchProps = {
   goToCategories: () => void,
   goToObservationDetail: () => void,
   selectObservation: (observation: Observation) => void,
-  updateObservationSource: () => void
+  updateObservationSource: () => void,
+  listStyles: () => void
 };
 
 type Props = {
@@ -120,10 +122,19 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
   }
 
   componentDidMount() {
-    const { observations, listObservations } = this.props;
+    const {
+      observations,
+      listObservations,
+      selectedStyle,
+      listStyles
+    } = this.props;
 
     if (!observations || isEmpty(observations)) {
       listObservations();
+    }
+
+    if (!selectedStyle) {
+      listStyles();
     }
   }
 
@@ -200,7 +211,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
   };
 
   render() {
-    const { observations, gps } = this.props;
+    const { observations, gps, selectedStyle } = this.props;
 
     return (
       <View
@@ -218,6 +229,11 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
             logoEnabled
             onLongPress={this.handleLongPress}
             compassEnabled={false}
+            styleURL={
+              selectedStyle
+                ? `http://localhost:9080/styles/${selectedStyle}/style.json`
+                : undefined
+            }
           >
             {!!observations && !isEmpty(observations)
               ? map(observations, (o: Observation) => (

@@ -1,6 +1,6 @@
 // @flow
 import { connect } from 'react-redux';
-
+import { withNavigationFocus } from 'react-navigation';
 import MapView from './MapView';
 import { drawerClose, drawerOpen } from '../../../ducks/drawers';
 import { observationList } from '../../../ducks/observations';
@@ -15,4 +15,6 @@ const mapDispatchToProps = dispatch => ({
   listObservations: () => dispatch(observationList(''))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapView);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withNavigationFocus(MapView)
+);

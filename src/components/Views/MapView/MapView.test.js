@@ -3,10 +3,12 @@ import React from 'react';
 import 'react-native';
 import renderer from 'react-test-renderer';
 import MapView from './MapView';
+import { createObservation } from '../../../mocks/observations';
 
 jest.mock('../ObservationsView', () => () => null);
 jest.mock('./Map', () => () => null);
 jest.mock('../../Base/SavedModal', () => () => null);
+jest.mock('backoff-rxjs', () => ({ retryBackoff: () => null }));
 
 describe('MapView tests', () => {
   test('snapshots', () => {
@@ -14,7 +16,15 @@ describe('MapView tests', () => {
 
     let tree;
     props.forEach(p => {
-      tree = shallow(<MapView showSavedModal={p.showSavedModal} />);
+      tree = renderer.create(
+        <MapView
+          showSavedModal={p.showSavedModal}
+          observations={[createObservation()]}
+          listObservations={jest.fn()}
+          onDrawerOpen={jest.fn()}
+          onDrawerClose={jest.fn()}
+        />
+      );
       expect(tree).toMatchSnapshot();
     });
   });

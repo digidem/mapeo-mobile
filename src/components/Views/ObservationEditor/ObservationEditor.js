@@ -272,7 +272,10 @@ class ObservationEditor extends React.Component<
       hideManualGPSModal
     } = this.props;
 
-    hideManualGPSModal();
+    if (hideManualGPSModal) {
+      hideManualGPSModal();
+    }
+
     if (selectedObservation && category) {
       updateObservation({
         ...selectedObservation,

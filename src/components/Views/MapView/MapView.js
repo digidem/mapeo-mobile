@@ -165,4 +165,4 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps> {
   }
 }
 
-export default withNavigationFocus(MapView);
+export default MapView;

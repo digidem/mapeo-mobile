@@ -26,6 +26,9 @@ describe('ObservationsView tests', () => {
         closeRightDrawer={closeRightDrawer}
         navigation={NavigationActions}
         observations={cases}
+        categories={{}}
+        listCategories={jest.fn()}
+        goToSyncView={jest.fn()}
       />
     );
     expect(tree).toMatchSnapshot();

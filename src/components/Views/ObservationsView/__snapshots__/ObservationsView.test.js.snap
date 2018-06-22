@@ -26,7 +26,7 @@ exports[`ObservationsView tests snapshot 1`] = `
     ListHeaderComponent={
       <ObservationHeader
         closeRightDrawer={[Function]}
-        goToSyncView={undefined}
+        goToSyncView={[Function]}
         onSettingsPress={[Function]}
       />
     }
@@ -445,31 +445,7 @@ exports[`ObservationsView tests snapshot 1`] = `
                     Object {},
                   ]
                 }
-              >
-                <View
-                  style={
-                    Object {
-                      "alignItems": "center",
-                      "justifyContent": "center",
-                    }
-                  }
-                >
-                  <Image
-                    resizeMode="contain"
-                    source={
-                      Object {
-                        "testUri": "../../../src/images/categories/category_18.png",
-                      }
-                    }
-                    style={
-                      Object {
-                        "height": 15,
-                        "width": 15,
-                      }
-                    }
-                  />
-                </View>
-              </View>
+              />
             </View>
           </View>
         </View>

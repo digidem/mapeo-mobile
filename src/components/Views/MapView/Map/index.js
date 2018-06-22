@@ -12,11 +12,13 @@ import { StoreState } from '../../../../types/redux';
 import Map from './Map';
 import type { DispatchProps, StateProps } from './Map';
 import NavigationService from '../../../AppNavigation/NavigationService';
+import { styleList } from '../../../../ducks/map';
 
 const mapStateToProps = (state: StoreState): StateProps => ({
   observations: state.app.observations,
   selectedObservation: state.app.selectedObservation,
-  gps: state.app.gps.data
+  gps: state.app.gps.data,
+  selectedStyle: state.app.map.selectedStyle
 });
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
@@ -32,7 +34,8 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     selectObservation: o => dispatch(observationSelect(o)),
     goToObservationDetail: () =>
       NavigationService.navigate({ routeName: 'ObservationDetailView' }),
-    updateObservationSource: () => dispatch(observationSource('map'))
+    updateObservationSource: () => dispatch(observationSource('map')),
+    listStyles: () => dispatch(styleList(''))
   };
 }
 
