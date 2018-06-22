@@ -32,12 +32,14 @@ export type DispatchProps = {
   goToObservationDetail: () => void,
   goToSyncView: () => void,
   goToSettings: () => void,
-  listCategories: () => void
+  listCategories: () => void,
+  listObservations: () => void
 };
 
 type Props = {
   closeRightDrawer: Function,
-  navigation: NavigationActions
+  navigation: NavigationActions,
+  isFocused: boolean
 };
 
 I18n.fallbacks = true;
@@ -51,6 +53,7 @@ class ObservationsView extends React.Component<
   State
 > {
   componentDidMount() {
+    this.props.listObservations();
     if (!Object.keys(this.props.categories).length) {
       this.props.listCategories();
     }
@@ -61,6 +64,9 @@ class ObservationsView extends React.Component<
     nextState: State
   ) {
     if (nextProps !== this.props || nextState !== this.state) {
+      if (nextProps.isFocused) {
+        nextProps.listObservations();
+      }
       return true;
     }
     return false;

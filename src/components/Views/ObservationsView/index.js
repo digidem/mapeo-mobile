@@ -5,7 +5,10 @@ import { values } from 'lodash';
 import type { Dispatch } from 'redux';
 import { StoreState } from '../../../types/redux';
 
-import { observationSelect } from '../../../ducks/observations';
+import {
+  observationSelect,
+  observationList
+} from '../../../ducks/observations';
 import { categoryList } from '../../../ducks/categories';
 import { fieldList } from '../../../ducks/fields';
 import ObservationsView from './ObservationsView';
@@ -31,7 +34,8 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     listCategories: () => {
       dispatch(categoryList(''));
       dispatch(fieldList(''));
-    }
+    },
+    listObservations: () => dispatch(observationList(''))
   };
 }
 

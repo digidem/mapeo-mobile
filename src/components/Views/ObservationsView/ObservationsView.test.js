@@ -29,6 +29,7 @@ describe('ObservationsView tests', () => {
         categories={{}}
         listCategories={jest.fn()}
         goToSyncView={jest.fn()}
+        listObservations={jest.fn()}
       />
     );
     expect(tree).toMatchSnapshot();

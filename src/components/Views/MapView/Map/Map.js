@@ -129,9 +129,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
       listStyles
     } = this.props;
 
-    if (!observations || isEmpty(observations)) {
-      listObservations();
-    }
+    listObservations();
 
     if (!selectedStyle) {
       listStyles();
@@ -140,6 +138,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
 
   shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
     if (nextProps.isFocused) {
+      nextProps.listObservations();
       return nextProps !== this.props;
     }
 
