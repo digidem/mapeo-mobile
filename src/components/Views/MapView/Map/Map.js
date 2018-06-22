@@ -130,10 +130,6 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
     } = this.props;
 
     listObservations();
-
-    if (!selectedStyle) {
-      listStyles();
-    }
   }
 
   shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
@@ -228,11 +224,6 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
             logoEnabled
             onLongPress={this.handleLongPress}
             compassEnabled={false}
-            styleURL={
-              selectedStyle
-                ? `http://localhost:9080/styles/${selectedStyle}/style.json`
-                : undefined
-            }
           >
             {!!observations && !isEmpty(observations)
               ? map(observations, (o: Observation) => (
