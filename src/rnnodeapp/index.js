@@ -26,6 +26,8 @@ const os = require('os');
 const mkdirp = require('mkdirp');
 const styles = require('mapeo-styles');
 
+console.log('1: init')
+
 const USER_PATH = path.join(os.homedir(), 'mapeo', 'default');
 const DB_PATH = path.join(USER_PATH, 'db');
 const MEDIA_PATH = path.join(USER_PATH, 'media');
@@ -33,14 +35,17 @@ const STATIC_PATH = path.join(USER_PATH, 'static');
 mkdirp.sync(DB_PATH);
 mkdirp.sync(MEDIA_PATH);
 mkdirp.sync(STATIC_PATH);
+console.log('2: dirs created')
 
 // Unpack styles and presets, if needed
-styles.unpackIfNew(STATIC_PATH, function (err) {
+styles.unpackIfNew(STATIC_PATH, function (err, didWrite) {
+  console.log('3: unpacked', err, didWrite)
   if (err) throw err;
   start()
 });
 
 function start () {
+  console.log('4: starting')
   const db = osm(DB_PATH);
   const media = blobstore(MEDIA_PATH);
 
@@ -54,5 +59,7 @@ function start () {
     }
   });
 
-  server.listen(9080);
+  server.listen(9080, function () {
+    console.log('5: server listening')
+  });
 }
