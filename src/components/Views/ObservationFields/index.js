@@ -1,13 +1,13 @@
 // @flow
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
 import type { Dispatch } from 'redux';
 import { values } from 'lodash';
 import { StoreState } from '../../../types/redux';
 import { fieldList } from '../../../ducks/fields';
-import { observationAdd, observationUpdate } from '../../../ducks/observations';
+import { observationUpdate } from '../../../ducks/observations';
 import ObservationFields from './ObservationFields';
 import type { Props, StateProps, DispatchProps } from './ObservationFields';
+import NavigationService from '../../AppNavigation/NavigationService';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
@@ -18,9 +18,9 @@ function mapStateToProps(state: StoreState): StateProps {
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
-    addObservation: observation => dispatch(observationAdd(observation)),
+    addObservation: observation => dispatch(observationUpdate(observation)),
     updateObservation: observation => dispatch(observationUpdate(observation)),
-    goBack: () => dispatch(NavigationActions.back())
+    goBack: () => NavigationService.back()
   };
 }
 

@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 import { values } from 'lodash';
-import { NavigationActions, withNavigationFocus } from 'react-navigation';
+import { withNavigationFocus } from 'react-navigation';
 import { StoreState } from '../../../types/redux';
 import { categoryList } from '../../../ducks/categories';
 import { fieldList } from '../../../ducks/fields';
@@ -13,6 +13,7 @@ import {
 import { observationSource } from '../../../ducks/observationSource';
 import Categories from './Categories';
 import type { StateProps } from './Categories';
+import NavigationService from '../../AppNavigation/NavigationService';
 
 function mapStateToProps(state: StoreState): StateProps {
   const categories = values(state.app.categories).sort(
@@ -41,16 +42,14 @@ function mapDispatchToProps(dispatch: Dispatch) {
       dispatch(fieldList(''));
     },
     goToObservationEditor: category =>
-      dispatch(
-        NavigationActions.navigate({
-          routeName: 'ObservationEditor',
-          params: {
-            category
-          }
-        })
-      ),
+      NavigationService.navigate({
+        routeName: 'ObservationEditor',
+        params: {
+          category
+        }
+      }),
     goBack: () => {
-      dispatch(NavigationActions.back());
+      dispatch(NavigationService.back());
     },
     clearSelectedObservation: () => {
       dispatch(observationSelect(undefined));

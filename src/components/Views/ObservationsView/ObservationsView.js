@@ -14,25 +14,32 @@ import SettingsIcon from 'react-native-vector-icons/MaterialIcons';
 import { orderBy, map } from 'lodash';
 import I18n from 'react-native-i18n';
 import type { Observation } from '../../../types/observation';
+import type { Category } from '../../../types/category';
 import ObservationCell from './ObservationCell';
 import ObservationHeader from './ObservationHeader';
 import moment from '../../../lib/localizedMoment';
 
 export type StateProps = {
   drawerOpened: boolean,
-  observations: Observation[]
+  observations: Observation[],
+  categories: {
+    [id: string]: Category
+  }
 };
 
 export type DispatchProps = {
   selectObservation: (o: Observation) => void,
   goToObservationDetail: () => void,
   goToSyncView: () => void,
-  goToSettings: () => void
+  goToSettings: () => void,
+  listCategories: () => void,
+  listObservations: () => void
 };
 
 type Props = {
   closeRightDrawer: Function,
-  navigation: NavigationActions
+  navigation: NavigationActions,
+  isFocused: boolean
 };
 
 I18n.fallbacks = true;
@@ -42,17 +49,31 @@ I18n.translations = {
 };
 
 class ObservationsView extends React.Component<
-  Props & StateProps & DispatchProps
+  Props & StateProps & DispatchProps,
+  State
 > {
-  shouldComponentUpdate(nextProps: Props & StateProps) {
-    if (nextProps !== this.props) {
+  componentDidMount() {
+    this.props.listObservations();
+    if (!Object.keys(this.props.categories).length) {
+      this.props.listCategories();
+    }
+  }
+
+  shouldComponentUpdate(
+    nextProps: Props & StateProps & DispatchProps,
+    nextState: State
+  ) {
+    if (nextProps !== this.props || nextState !== this.state) {
+      if (nextProps.isFocused) {
+        nextProps.listObservations();
+      }
       return true;
     }
     return false;
   }
 
   render() {
-    const { observations, goToSettings } = this.props;
+    const { observations, goToSettings, categories } = this.props;
     const sectionMappings = {};
     let label;
 
@@ -87,6 +108,7 @@ class ObservationsView extends React.Component<
                 navigation={this.props.navigation}
                 observation={item}
                 onPress={handleItemPress}
+                category={categories[item.categoryId]}
               />
             )}
             data={observations}

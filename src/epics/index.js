@@ -3,12 +3,14 @@ import categories from './categories';
 import observations from './observations';
 import fields from './fields';
 import devices from './devices';
+import map from './map';
 
 const rootEpics = combineEpics(
   ...categories,
   ...devices,
   ...observations,
-  ...fields
+  ...fields,
+  ...map
 );
 
 export default rootEpics;

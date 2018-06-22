@@ -1,7 +1,6 @@
 // @flow
 
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
 import { values } from 'lodash';
 import type { Dispatch } from 'redux';
 import { StoreState } from '../../../types/redux';
@@ -14,6 +13,7 @@ import {
 import { modalShow, modalHide } from '../../../ducks/modals';
 import SyncView from './SyncView';
 import type { StateProps, DispatchProps } from './SyncView';
+import NavigationService from '../../AppNavigation/NavigationService';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
@@ -25,7 +25,7 @@ function mapStateToProps(state: StoreState): StateProps {
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
-    goBack: () => dispatch(NavigationActions.back()),
+    goBack: () => NavigationService.back(),
     listDevices: () => dispatch(deviceList('')),
     selectDevice: device => dispatch(deviceSelect(device)),
     toggleDeviceSelect: device => dispatch(deviceToggleSelect(device)),
