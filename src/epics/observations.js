@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { Image } from 'react-native';
+import { debounceTime } from 'rxjs/operators';
 import type { ActionsObservable } from 'redux-observable';
 import {
   OBSERVATION_LIST,
@@ -23,6 +24,7 @@ export const observationListEpic = (
   action$
     .ofType(OBSERVATION_LIST)
     .filter(action => action.status === 'Start')
+    .pipe(debounceTime(500))
     .flatMap(() =>
       Observation.list().map(observations => observationList('', observations))
     );
