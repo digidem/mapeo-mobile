@@ -6,7 +6,8 @@
     "bufferutil": "^3.0.5",
     "fs-blob-store": "^5.2.1",
     "leveldown-android-prebuilt": "2.0.3",
-    "mapeo-server": "github:digidem/mapeo-server",
+    "mapeo-server": "^5.0.0",
+    "mapeo-styles": "^1.0.2",
     "mkdirp": "0.5.1",
     "osm-p2p": "^2.0.0",
     "utf-8-validate": "^4.0.2"

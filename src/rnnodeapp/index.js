@@ -24,24 +24,35 @@ const blobstore = require('fs-blob-store');
 const Router = require('mapeo-server');
 const os = require('os');
 const mkdirp = require('mkdirp');
+const styles = require('mapeo-styles');
 
 const USER_PATH = path.join(os.homedir(), 'mapeo', 'default');
 const DB_PATH = path.join(USER_PATH, 'db');
 const MEDIA_PATH = path.join(USER_PATH, 'media');
+const STATIC_PATH = path.join(USER_PATH, 'static');
 mkdirp.sync(DB_PATH);
 mkdirp.sync(MEDIA_PATH);
+mkdirp.sync(STATIC_PATH);
 
-const db = osm(DB_PATH);
-const media = blobstore(MEDIA_PATH);
-
-const route = Router(db, media);
-
-const server = http.createServer((req, res) => {
-  if (route.handle(req, res)) {
-  } else {
-    res.statusCode = 404;
-    res.end('not found\n');
-  }
+// Unpack styles and presets, if needed
+styles.unpackIfNew(STATIC_PATH, function (err) {
+  if (err) throw err;
+  start()
 });
 
-server.listen(9080);
+function start () {
+  const db = osm(DB_PATH);
+  const media = blobstore(MEDIA_PATH);
+
+  const route = Router(db, media, { staticRoot: STATIC_PATH });
+
+  const server = http.createServer((req, res) => {
+    if (route.handle(req, res)) {
+    } else {
+      res.statusCode = 404;
+      res.end('not found\n');
+    }
+  });
+
+  server.listen(9080);
+}
