@@ -64,7 +64,7 @@ class ObservationsView extends React.Component<
     nextState: State
   ) {
     if (nextProps !== this.props || nextState !== this.state) {
-      if (nextProps.isFocused) {
+      if (nextProps.isFocused && !this.props.isFocused) {
         nextProps.listObservations();
       }
       return true;
