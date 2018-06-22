@@ -21,7 +21,7 @@ const http = require('http');
 const path = require('path');
 const osm = require('osm-p2p');
 const blobstore = require('fs-blob-store');
-const Router = require('mapeo-mobile-server');
+const Router = require('mapeo-server');
 const os = require('os');
 const mkdirp = require('mkdirp');
 
@@ -37,7 +37,7 @@ const media = blobstore(MEDIA_PATH);
 const route = Router(db, media);
 
 const server = http.createServer((req, res) => {
-  if (route(req, res)) {
+  if (route.handle(req, res)) {
   } else {
     res.statusCode = 404;
     res.end('not found\n');
