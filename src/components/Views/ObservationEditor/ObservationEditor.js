@@ -23,6 +23,7 @@ import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import LocationPin from 'react-native-vector-icons/Entypo';
 import I18n from 'react-native-i18n';
+import type { UpdateRequest } from '@api/observations';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
 import type { Resource } from '../../../types/redux';
@@ -56,10 +57,9 @@ export type Props = {
 };
 
 export type DispatchProps = {
-  updateObservation: (o: Observation) => void,
+  updateObservation: (o: UpdateRequest) => void,
   goToPhotoView: (photoSource: string) => void,
   goToObservationFields: () => void,
-  addObservation: (o: Observation) => void,
   goToCameraView: () => void,
   goToMainCameraView: () => void,
   goToCategories: () => void,
@@ -70,7 +70,9 @@ export type DispatchProps = {
   hideCancelModal: () => void,
   clearSelectedObservation: () => void,
   hideManualGPSModal: () => void,
-  showManualGPSModal: () => void
+  showManualGPSModal: () => void,
+  showSavedModal: () => void,
+  saveObservation: () => void
 };
 
 type State = {
@@ -263,7 +265,16 @@ class ObservationEditor extends React.Component<
   }
 
   componentDidMount() {
-    const { updateObservation, selectedObservation, category } = this.props;
+    const {
+      updateObservation,
+      selectedObservation,
+      category,
+      hideManualGPSModal
+    } = this.props;
+
+    if (hideManualGPSModal) {
+      hideManualGPSModal();
+    }
 
     if (selectedObservation && category) {
       updateObservation({
@@ -347,7 +358,7 @@ class ObservationEditor extends React.Component<
 
   handleSaveObservation = () => {
     const {
-      addObservation,
+      updateObservation,
       selectedObservation,
       goToMapView,
       showSavedModal,
@@ -355,12 +366,13 @@ class ObservationEditor extends React.Component<
       goToCameraView,
       goToMainCameraView,
       gps,
-      showManualGPSModal
+      showManualGPSModal,
+      saveObservation
     } = this.props;
     const { text, keyboardShown } = this.state;
 
     if (selectedObservation) {
-      addObservation({
+      updateObservation({
         ...selectedObservation,
         notes: text
       });
@@ -372,6 +384,7 @@ class ObservationEditor extends React.Component<
       }
       showManualGPSModal();
     } else {
+      saveObservation();
       showSavedModal();
       if (observationSource === 'map') {
         goToMapView();
@@ -386,7 +399,7 @@ class ObservationEditor extends React.Component<
 
     if (selectedObservation) {
       updateObservation({
-        ...selectedObservation,
+        id: selectedObservation.id,
         notes: this.state.text
       });
     }
@@ -401,7 +414,7 @@ class ObservationEditor extends React.Component<
 
     if (selectedObservation) {
       updateObservation({
-        ...selectedObservation,
+        id: selectedObservation.id,
         notes: this.state.text
       });
     }
@@ -483,9 +496,11 @@ class ObservationEditor extends React.Component<
       showSavedModal,
       observationSource,
       goToMapView,
-      goToMainCameraView
+      goToMainCameraView,
+      saveObservation
     } = this.props;
 
+    saveObservation();
     showSavedModal();
     if (observationSource === 'map') {
       goToMapView();
@@ -503,7 +518,8 @@ class ObservationEditor extends React.Component<
       goToObservationFields,
       showCancelModal,
       cancelModalVisible,
-      showManualGPSModal
+      showManualGPSModal,
+      category
     } = this.props;
     const { keyboardShown, text } = this.state;
     const positionText = selectedObservation
@@ -562,13 +578,14 @@ class ObservationEditor extends React.Component<
         >
           <TouchableOpacity onPress={this.goToCategoriesView}>
             <View style={styles.circle}>
-              {selectedObservation.icon && (
-                <Image
-                  source={selectedObservation.icon}
-                  style={{ width: 30, height: 30 }}
-                  resizeMode="contain"
-                />
-              )}
+              {!!category &&
+                !!category.icon && (
+                  <Image
+                    source={category.icon}
+                    style={{ width: 30, height: 30 }}
+                    resizeMode="contain"
+                  />
+                )}
             </View>
           </TouchableOpacity>
           <View style={{ marginTop: 5, flexDirection: 'row' }}>

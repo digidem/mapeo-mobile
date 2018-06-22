@@ -12,13 +12,10 @@ export const {
   action: observationList,
   reducer: observationListReducer
 } = create('OBSERVATION_LIST', {
-  success: (state, action) => {
-    const newState = update(state, {
+  success: (state, action) =>
+    update(state, {
       observations: { $set: keyBy(action.payload, 'id') }
-    });
-
-    return newState;
-  }
+    })
 });
 
 export const {
@@ -39,6 +36,13 @@ export const {
     });
 
     return newState;
+  },
+  success: (state, action) => {
+    const newState = update(state, {
+      selectObservation: { $set: action.payload }
+    });
+
+    return newState;
   }
 });
 
@@ -48,11 +52,25 @@ export const {
   reducer: observationUpdateReducer
 } = create('OBSERVATION_UPDATE', {
   start: (state, action) => {
-    const newState = update(state, {
-      selectedObservation: {
-        $set: action.meta
-      }
-    });
+    let newState;
+    if (
+      state.selectedObservation &&
+      action.meta.id === state.selectedObservation.id
+    ) {
+      newState = update(state, {
+        selectedObservation: {
+          $set: { ...state.selectedObservation, ...action.meta }
+        }
+      });
+    } else {
+      newState = update(state, {
+        observations: {
+          [action.meta.id]: {
+            $set: { ...state.observations[action.meta.id], ...action.meta }
+          }
+        }
+      });
+    }
 
     return newState;
   }
@@ -63,32 +81,15 @@ export const {
   action: observationSelect,
   reducer: observationSelectReducer
 } = create('OBSERVATION_SELECT', {
-  start: (state, action) => {
-    const newState = update(state, {
-      selectedObservation: {
-        $set: action.meta
-      }
-    });
-
-    return newState;
-  }
+  start: (state, action) =>
+    update(state, { selectedObservation: { $set: action.meta } })
 });
 
 export const {
-  type: OBSERVATION_ADD,
-  action: observationAdd,
-  reducer: observationAddReducer
-} = create('OBSERVATION_ADD', {
-  start: (state, action) => {
-    const newState = update(state, {
-      observations: {
-        [action.meta.id]: { $set: action.meta }
-      }
-    });
-
-    return newState;
-  }
-});
+  type: OBSERVATION_SAVE,
+  action: observationSave,
+  reducer: observationSaveReducer
+} = create('OBSERVATION_SAVE', {});
 
 export const selectObservation = createSelector(
   [(state: StoreState, id: string): Observation => state.app.observations[id]],
@@ -100,6 +101,5 @@ export default [
   observationListReducer,
   observationCreateReducer,
   observationUpdateReducer,
-  observationSelectReducer,
-  observationAddReducer
+  observationSelectReducer
 ];

@@ -10,7 +10,7 @@ import {
   StyleSheet,
   NetInfo
 } from 'react-native';
-import { NavigationActions, withNavigationFocus } from 'react-navigation';
+import { withNavigationFocus } from 'react-navigation';
 import WifiIcon from 'react-native-vector-icons/MaterialIcons';
 import SyncHeader from './SyncHeader';
 import DeviceCell from './DeviceCell';
@@ -20,8 +20,7 @@ import { MAPEO_BLUE, MEDIUM_BLUE } from '../../../lib/styles';
 import I18n from 'react-native-i18n';
 
 type Props = {
-  isFocused: boolean,
-  navigation: NavigationActions
+  isFocused: boolean
 };
 
 export type StateProps = {

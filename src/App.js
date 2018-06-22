@@ -27,7 +27,7 @@ import { PersistGate } from 'redux-persist/lib/integration/react';
 import 'rxjs';
 import { configureStore } from './lib/store';
 import { gpsSet } from './ducks/gps';
-import AppNavigation from './components/AppNavigation';
+import AppNavigation from './components/AppNavigation/AppNavigation';
 import SplashScreen from './images/splash-screen.png';
 
 export default class App extends React.PureComponent<null, null> {

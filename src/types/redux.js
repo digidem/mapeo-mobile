@@ -7,6 +7,7 @@ import type { GPSState, GPSFormat } from './gps';
 import type { Field } from './field';
 import type { ObservationSourceState } from './observationSource';
 import type { Device } from './device';
+import type { MapState } from './map';
 
 export interface AppStoreState {
   observations: {
@@ -37,6 +38,7 @@ export interface AppStoreState {
 
   selectedDevice?: Device;
   settings: SettingsState;
+  map: MapState;
 }
 
 export type SettingsState = {

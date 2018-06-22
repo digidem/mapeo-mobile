@@ -17,21 +17,27 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
+import type { UpdateRequest } from '@api/observations';
 import type { Observation } from '../../../types/observation';
+import type { Category } from '../../../types/category';
 import { DARK_GREY, MEDIUM_GREY, MANGO } from '../../../lib/styles';
 import CategoryPin from '../../../images/category-pin.png';
 import PencilIcon from '../../../images/editor-details.png';
 
 export type StateProps = {
-  selectedObservation?: Observation
+  selectedObservation?: Observation,
+  categories: {
+    [id: string]: Category
+  }
 };
 
 export type DispatchProps = {
   goToEditorView: () => void,
   goToPhotoView: (params: Object) => void,
-  addObservation: (o: Observation) => void,
   goBack: () => void,
-  clearSelectedObservation: () => void
+  clearSelectedObservation: () => void,
+  updateObservation: (o: UpdateRequest) => void,
+  goBack: () => void
 };
 
 export type Props = {
@@ -237,10 +243,10 @@ class ObservationDetailView extends React.Component<
   }
 
   saveObservation = () => {
-    const { selectedObservation, addObservation } = this.props;
+    const { selectedObservation, updateObservation } = this.props;
 
     if (selectedObservation) {
-      addObservation(selectedObservation);
+      updateObservation(selectedObservation);
     }
   };
 
@@ -252,7 +258,13 @@ class ObservationDetailView extends React.Component<
   };
 
   render() {
-    const { selectedObservation, goToEditorView, goToPhotoView } = this.props;
+    const {
+      selectedObservation,
+      goToEditorView,
+      goToPhotoView,
+      goBack,
+      categories
+    } = this.props;
     const keyExtractor = item => item.source.toString();
     let mediaTitle = null;
     let mediaText = `0 ${I18n.t('detail_view.photo')}s`;
@@ -315,13 +327,19 @@ class ObservationDetailView extends React.Component<
             </TouchableOpacity>
             <View style={styles.categoryIconContainer}>
               <Image
-                source={selectedObservation.icon}
+                source={categories[selectedObservation.categoryId].icon}
                 style={{ width: 25, height: 25 }}
                 resizeMode="contain"
               />
             </View>
             <Text style={styles.title}>
-              {I18n.t(`categories.${selectedObservation.categoryId}`)}
+              {I18n.t(
+                `categories.${
+                  selectedObservation.categoryId
+                    ? selectedObservation.categoryId
+                    : ''
+                }`
+              )}
             </Text>
             <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
               <Text style={styles.positionAtText}>{I18n.t('at')} </Text>
@@ -391,8 +409,8 @@ class ObservationDetailView extends React.Component<
                 scrollEnabled={false}
                 rotateEnabled={false}
                 centerCoordinate={[
-                  selectedObservation.lon,
-                  selectedObservation.lat
+                  parseFloat(selectedObservation.lon),
+                  parseFloat(selectedObservation.lat)
                 ]}
               >
                 <MapboxGL.ShapeSource
@@ -403,8 +421,8 @@ class ObservationDetailView extends React.Component<
                     geometry: {
                       type: 'Point',
                       coordinates: [
-                        selectedObservation.lon,
-                        selectedObservation.lat
+                        parseFloat(selectedObservation.lon),
+                        parseFloat(selectedObservation.lat)
                       ]
                     },
                     properties: {

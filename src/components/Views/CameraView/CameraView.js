@@ -15,6 +15,7 @@ import { RNCamera } from 'react-native-camera';
 import { size } from 'lodash';
 import Drawer from 'react-native-drawer';
 import I18n from 'react-native-i18n';
+import type { UpdateRequest } from '@api/observations';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
@@ -76,7 +77,7 @@ export type DispatchProps = {
   goToCategories: () => void,
   goToObservationEditor: () => void,
   goToMapView: () => void,
-  updateObservation: (o: Observation) => void,
+  updateObservation: (o: UpdateRequest) => void,
   onDrawerClose: () => void,
   onDrawerOpen: () => void,
   updateObservationSource: () => void

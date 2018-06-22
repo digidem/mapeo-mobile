@@ -1,7 +1,5 @@
 import { combineReducers } from 'redux';
-import { createNavigationReducer } from 'react-navigation-redux-helpers';
 import { combineReducers as appCombineReducers } from '../lib/redux';
-import MainStackNavigation from '../components/MainNavigation/MainStackNavigation';
 
 import categories from './categories';
 import drawers from './drawers';
@@ -12,6 +10,7 @@ import fields from './fields';
 import observationSource from './observationSource';
 import devices from './devices';
 import settings from './settings';
+import map from './map';
 
 const rootReducer = combineReducers({
   app: appCombineReducers(
@@ -23,9 +22,9 @@ const rootReducer = combineReducers({
     ...settings,
     ...gps,
     ...modals,
-    ...observations
-  ),
-  mainStack: createNavigationReducer(MainStackNavigation)
+    ...observations,
+    ...map
+  )
 });
 
 export default rootReducer;

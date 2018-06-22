@@ -69,22 +69,7 @@ exports[`ObservationEditor tests snapshot 1`] = `
             "width": 60,
           }
         }
-      >
-        <Image
-          resizeMode="contain"
-          source={
-            Object {
-              "testUri": "../../../src/images/categories/category_18.png",
-            }
-          }
-          style={
-            Object {
-              "height": 30,
-              "width": 30,
-            }
-          }
-        />
-      </View>
+      />
     </View>
     <View
       style={
@@ -142,7 +127,7 @@ exports[`ObservationEditor tests snapshot 1`] = `
     <View>
       <TextInput
         allowFontScaling={true}
-        autoFocus={true}
+        autoFocus={false}
         autoGrow={true}
         multiline={true}
         onBlur={[Function]}
