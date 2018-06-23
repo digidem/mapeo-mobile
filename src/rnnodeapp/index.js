@@ -20,28 +20,46 @@
 const http = require('http');
 const path = require('path');
 const osm = require('osm-p2p');
-const blobstore = require('fs-blob-store');
+const blobstore = require('safe-fs-blob-store');
 const Router = require('mapeo-server');
 const os = require('os');
 const mkdirp = require('mkdirp');
+const styles = require('mapeo-styles');
+
+console.log('1: init')
 
 const USER_PATH = path.join(os.homedir(), 'mapeo', 'default');
 const DB_PATH = path.join(USER_PATH, 'db');
 const MEDIA_PATH = path.join(USER_PATH, 'media');
+const STATIC_PATH = path.join(USER_PATH, 'static');
 mkdirp.sync(DB_PATH);
 mkdirp.sync(MEDIA_PATH);
+mkdirp.sync(STATIC_PATH);
+console.log('2: dirs created')
 
-const db = osm(DB_PATH);
-const media = blobstore(MEDIA_PATH);
-
-const route = Router(db, media);
-
-const server = http.createServer((req, res) => {
-  if (route.handle(req, res)) {
-  } else {
-    res.statusCode = 404;
-    res.end('not found\n');
-  }
+// Unpack styles and presets, if needed
+styles.unpackIfNew(STATIC_PATH, function (err, didWrite) {
+  console.log('3: unpacked', err, didWrite)
+  if (err) throw err;
+  start()
 });
 
-server.listen(9080);
+function start () {
+  console.log('4: starting')
+  const db = osm(DB_PATH);
+  const media = blobstore(MEDIA_PATH);
+
+  const route = Router(db, media, { staticRoot: STATIC_PATH });
+
+  const server = http.createServer((req, res) => {
+    if (route.handle(req, res)) {
+    } else {
+      res.statusCode = 404;
+      res.end('not found\n');
+    }
+  });
+
+  server.listen(9080, function () {
+    console.log('5: server listening')
+  });
+}
