@@ -12,14 +12,19 @@ import I18n from 'react-native-i18n';
 import LeftChevron from 'react-native-vector-icons/Feather';
 import { LIGHT_GREY, WHITE, BLACK } from '../../../lib/styles';
 import type { GPSFormat } from '../../../types/gps';
+import type { Style } from '../../../types/map';
 
 export type StateProps = {
-  gpsFormat: GPSFormat
+  gpsFormat: GPSFormat,
+  selectedStyle?: Style,
+  styles: { [id: string]: Style }
 };
 
 export type DispatchProps = {
   goBack: () => void,
-  setGPSFormat: (format: GPSFormat) => void
+  setGPSFormat: (format: GPSFormat) => void,
+  setSelectedStyle: (style: Style) => void,
+  listStyles: () => void
 };
 
 const styles = StyleSheet.create({
@@ -82,14 +87,29 @@ I18n.translations = {
 };
 
 class SettingsView extends React.PureComponent<StateProps & DispatchProps> {
+  componentDidMount() {
+    const { selectedStyle, listStyles } = this.props;
+
+    if (!selectedStyle) {
+      listStyles();
+    }
+  }
+
   handleValueSelect = (format: GPSFormat) => {
     const { setGPSFormat } = this.props;
 
     setGPSFormat(format);
   };
 
+  handleStyleSelect = (style: string) => {
+    const { setSelectedStyle, styles } = this.props;
+
+    setSelectedStyle(styles[style]);
+  };
+
   render() {
-    const { gpsFormat, goBack } = this.props;
+    const { gpsFormat, goBack, selectedStyle } = this.props;
+    const mapStyles = this.props.styles;
 
     return (
       <View
@@ -133,6 +153,21 @@ class SettingsView extends React.PureComponent<StateProps & DispatchProps> {
                   label={`${I18n.t('settings.utm')} (10S 123456m E 7654321m N)`}
                   value="UTM"
                 />
+              </Picker>
+            </View>
+          </View>
+          <View style={styles.fieldContainer}>
+            <Text style={styles.heading}>{I18n.t('settings.map_style')}</Text>
+            <View style={styles.pickerContainer}>
+              <Picker
+                mode="dropdown"
+                itemStyle={{ width: Dimensions.get('window').width - 40 }}
+                onValueChange={this.handleStyleSelect}
+                selectedValue={selectedStyle && selectedStyle.id}
+              >
+                {Object.keys(mapStyles).map(id => (
+                  <Picker.Item label={mapStyles[id].name} value={id} key={id} />
+                ))}
               </Picker>
             </View>
           </View>
