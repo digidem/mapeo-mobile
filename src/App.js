@@ -49,6 +49,9 @@ export default class App extends React.PureComponent<null, null> {
     // set permissions
     await MapboxGL.requestAndroidLocationPermissions();
     await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
+    await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+    );
 
     this.watchId = navigator.geolocation.watchPosition(
       this.handlePositionChange

@@ -52,3 +52,8 @@ export const jsonRequest = (parameters: Parameters) =>
   request(parameters.method, parameters.route, parameters.body).flatMap(
     response => response.json()
   );
+
+export const blankRequest = (parameters: Parameters) =>
+  request(parameters.method, parameters.route, parameters.body).flatMap(() =>
+    Observable.of(null)
+  );
