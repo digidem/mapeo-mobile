@@ -21,12 +21,16 @@ export const mediaSaveEpic = (
     .ofType(MEDIA_SAVE)
     .filter(action => action.status === 'Start')
     .flatMap(action =>
-      saveToCameraRoll(action.meta.source).map(uri =>
-        mediaBackup({
-          observationId: action.meta.observationId,
-          mediaId: action.meta.mediaId,
-          cameraRollUri: uri
-        })
+      saveToCameraRoll(action.meta.source).flatMap(uri =>
+        Observable.merge(
+          Observable.of(
+            mediaBackup({
+              observationId: action.meta.observationId,
+              mediaId: action.meta.mediaId,
+              cameraRollUri: uri
+            })
+          )
+        )
       )
     );
 
