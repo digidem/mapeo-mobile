@@ -22,6 +22,7 @@ import { WHITE } from '../../../../lib/styles';
 import { applyObservationDefaults } from '../../../../models/observations';
 import type { Resource } from '../../../../types/redux';
 import type { GPSState } from '../../../../types/gps';
+import type { Style } from '../../../../types/map';
 
 export type StateProps = {
   observations: {
@@ -29,7 +30,7 @@ export type StateProps = {
   },
   selectedObservation?: Observation,
   gps?: GPSState,
-  selectedStyle?: string
+  selectedStyle?: Style
 };
 
 export type DispatchProps = {
@@ -130,6 +131,10 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
     } = this.props;
 
     listObservations();
+
+    if (!selectedStyle) {
+      listStyles();
+    }
   }
 
   shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
@@ -150,7 +155,8 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
       updateObservation,
       goToCategories,
       selectedObservation,
-      updateObservationSource
+      updateObservationSource,
+      selectedStyle
     } = this.props;
     const initialObservation = applyObservationDefaults({
       id: size(observations) + 1
@@ -220,10 +226,23 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
             style={{ flex: 1 }}
             centerCoordinate={gps ? [gps.longitude, gps.latitude] : undefined}
             ref={this.handleMapViewRef}
-            zoomLevel={12}
+            zoomLevel={
+              selectedStyle
+                ? Math.floor(
+                    (selectedStyle.minzoom + selectedStyle.maxzoom) / 2
+                  )
+                : 12
+            }
+            minZoomLevel={selectedStyle ? selectedStyle.minzoom : undefined}
+            maxZoomLevel={selectedStyle ? selectedStyle.maxzoom : undefined}
             logoEnabled
             onLongPress={this.handleLongPress}
             compassEnabled={false}
+            styleURL={
+              selectedStyle
+                ? `http://localhost:9080/styles/${selectedStyle.id}/style.json`
+                : undefined
+            }
           >
             {!!observations && !isEmpty(observations)
               ? map(observations, (o: Observation) => (

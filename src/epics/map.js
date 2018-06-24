@@ -1,5 +1,6 @@
 // @flow
 import { Action } from '../types/redux';
+import { Observable } from 'rxjs';
 import type { Style as StyleType } from '../types/map';
 import type { ActionsObservable } from 'redux-observable';
 import type { StoreState } from '../types/redux';
@@ -17,7 +18,9 @@ export const styleListEpic = (
       Style.list().flatMap(styles =>
         Observable.merge(
           Observable.of(styleList('', styles)),
-          styles.length ? Observable.of(styleSelect(styles[0])) : undefined
+          styles.length
+            ? Observable.of(styleSelect(styles[1]))
+            : Observable.of(null)
         )
       )
     );

@@ -49,7 +49,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         }
       }),
     goBack: () => {
-      dispatch(NavigationService.back());
+      NavigationService.back();
     },
     clearSelectedObservation: () => {
       dispatch(observationSelect(undefined));

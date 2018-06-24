@@ -24,7 +24,7 @@ echo "Setting up folder for native bindings...";
 mv ./rnnodeapp/node_modules/leveldown-android-prebuilt/compiled ./rnnodeapp/compiled;
 
 echo "Cleaning up...";
-declare -a keepThese=("hyperlog" "osm-p2p-db-benchmark")
+declare -a keepThese=("hyperlog" "osm-p2p-db-benchmark" "mapeo-styles")
 for x in "${keepThese[@]}"
 do
   if [ -e "./rnnodeapp/node_modules/$x" ]; then
