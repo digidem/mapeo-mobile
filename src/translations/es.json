@@ -73,7 +73,8 @@
     "dd": "Decimal Degrees",
     "ddm": "Degrees & Decimal Minutes",
     "dms": "Degrees, Minutes, Seconds",
-    "utm": "UTM Coordinates"
+    "utm": "UTM Coordinates",
+    "map_style": "Map Style"
   },
   "sync": {
     "none": "No hay dispositivos disponibles",

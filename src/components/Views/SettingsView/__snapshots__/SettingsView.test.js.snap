@@ -180,6 +180,70 @@ exports[`SettingsView tests snapshot 1`] = `
         </View>
       </View>
     </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "column",
+          "padding": 20,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#000000",
+            "fontSize": 14,
+            "fontWeight": "700",
+            "marginBottom": 10,
+          }
+        }
+      >
+        Map Style
+      </Text>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#EAEAEA",
+            "borderRadius": 3,
+            "borderWidth": 1,
+          }
+        }
+      >
+        <View
+          style={undefined}
+        >
+          <RCTPicker
+            items={
+              Array [
+                Object {
+                  "label": "Test Style",
+                  "textColor": undefined,
+                  "value": "test-style",
+                },
+              ]
+            }
+            onChange={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            selectedIndex={0}
+            style={
+              Array [
+                Object {
+                  "height": 216,
+                },
+                Object {
+                  "width": 710,
+                },
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
   </View>
 </View>
 `;
@@ -350,6 +414,70 @@ exports[`SettingsView tests snapshot 2`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             selectedIndex={1}
+            style={
+              Array [
+                Object {
+                  "height": 216,
+                },
+                Object {
+                  "width": 710,
+                },
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "column",
+          "padding": 20,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#000000",
+            "fontSize": 14,
+            "fontWeight": "700",
+            "marginBottom": 10,
+          }
+        }
+      >
+        Map Style
+      </Text>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#EAEAEA",
+            "borderRadius": 3,
+            "borderWidth": 1,
+          }
+        }
+      >
+        <View
+          style={undefined}
+        >
+          <RCTPicker
+            items={
+              Array [
+                Object {
+                  "label": "Test Style",
+                  "textColor": undefined,
+                  "value": "test-style",
+                },
+              ]
+            }
+            onChange={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            selectedIndex={0}
             style={
               Array [
                 Object {
@@ -548,6 +676,70 @@ exports[`SettingsView tests snapshot 3`] = `
         </View>
       </View>
     </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "column",
+          "padding": 20,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#000000",
+            "fontSize": 14,
+            "fontWeight": "700",
+            "marginBottom": 10,
+          }
+        }
+      >
+        Map Style
+      </Text>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#EAEAEA",
+            "borderRadius": 3,
+            "borderWidth": 1,
+          }
+        }
+      >
+        <View
+          style={undefined}
+        >
+          <RCTPicker
+            items={
+              Array [
+                Object {
+                  "label": "Test Style",
+                  "textColor": undefined,
+                  "value": "test-style",
+                },
+              ]
+            }
+            onChange={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            selectedIndex={0}
+            style={
+              Array [
+                Object {
+                  "height": 216,
+                },
+                Object {
+                  "width": 710,
+                },
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
   </View>
 </View>
 `;
@@ -718,6 +910,70 @@ exports[`SettingsView tests snapshot 4`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             selectedIndex={3}
+            style={
+              Array [
+                Object {
+                  "height": 216,
+                },
+                Object {
+                  "width": 710,
+                },
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "column",
+          "padding": 20,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#000000",
+            "fontSize": 14,
+            "fontWeight": "700",
+            "marginBottom": 10,
+          }
+        }
+      >
+        Map Style
+      </Text>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#EAEAEA",
+            "borderRadius": 3,
+            "borderWidth": 1,
+          }
+        }
+      >
+        <View
+          style={undefined}
+        >
+          <RCTPicker
+            items={
+              Array [
+                Object {
+                  "label": "Test Style",
+                  "textColor": undefined,
+                  "value": "test-style",
+                },
+              ]
+            }
+            onChange={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            selectedIndex={0}
             style={
               Array [
                 Object {

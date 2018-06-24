@@ -2,7 +2,7 @@
 
 export interface MapState {
   styles: { [id: string]: Style };
-  selectedStyle: string;
+  selectedStyle: Style;
 }
 
 export interface Style {
