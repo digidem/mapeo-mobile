@@ -35,7 +35,6 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     updateObservation: observation => dispatch(observationUpdate(observation)),
     clearSelectedObservation: () => dispatch(observationSelect(undefined)),
-    showSavedModal: () => dispatch(modalShow('saved')),
     showCancelModal: () => dispatch(modalShow('cancelled')),
     hideCancelModal: () => dispatch(modalHide('cancelled')),
     hideManualGPSModal: () => dispatch(modalHide('manualGPS')),
