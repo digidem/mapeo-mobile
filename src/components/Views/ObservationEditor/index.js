@@ -61,7 +61,7 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
         routeName: 'ObservationFields'
       }),
     goBack: () => {
-      dispatch(NavigationService.back());
+      NavigationService.back();
     },
     goToMapView: () =>
       NavigationService.navigate({
