@@ -57,13 +57,11 @@ export type Props = {
 
 export type DispatchProps = {
   updateObservation: (o: UpdateRequest) => void,
-  showSavedModal: () => void,
   showCancelModal: () => void,
   hideCancelModal: () => void,
   clearSelectedObservation: () => void,
   hideManualGPSModal: () => void,
   showManualGPSModal: () => void,
-  showSavedModal: () => void,
   saveObservation: () => void
 };
 
@@ -355,7 +353,6 @@ class ObservationEditor extends React.Component<
     const {
       updateObservation,
       selectedObservation,
-      showSavedModal,
       observationSource,
       navigation,
       gps,
@@ -378,7 +375,6 @@ class ObservationEditor extends React.Component<
       showManualGPSModal();
     } else {
       saveObservation();
-      showSavedModal();
       if (observationSource === 'map') {
         navigation.navigate({
           routeName: 'MapView'
@@ -493,15 +489,9 @@ class ObservationEditor extends React.Component<
   };
 
   handleSave = () => {
-    const {
-      showSavedModal,
-      observationSource,
-      navigation,
-      saveObservation
-    } = this.props;
+    const { observationSource, navigation, saveObservation } = this.props;
 
     saveObservation();
-    showSavedModal();
     if (observationSource === 'map') {
       navigation.navigate({
         routeName: 'MapView'

@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { Image } from 'react-native';
+import { Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import type { ActionsObservable } from 'redux-observable';
 import {
@@ -11,6 +12,7 @@ import {
   OBSERVATION_UPDATE,
   observationUpdate
 } from '../ducks/observations';
+import { modalShow } from '../ducks/modals';
 import { Action } from '../types/redux';
 import type { Observation as ObservationType } from '../types/observation';
 import type { StoreState } from '../types/redux';
@@ -35,23 +37,18 @@ export const observationSaveEpic = (
 ) =>
   action$
     .ofType(OBSERVATION_SAVE)
-    .filter(action => {
-      console.log('RN - filter epic', store.getState().app.selectedObservation);
-      return (
+    .filter(
+      action =>
         action.status === 'Start' && !!store.getState().app.selectedObservation
-      );
-    })
-    .flatMap(action => {
-      console.log(
-        'RN - before create',
-        store.getState().app.selectedObservation
-      );
-      return Observation.create(store.getState().app.selectedObservation).map(
-        observation => {
-          console.log('RN - ', observation);
-          return observationSave(action.meta, observation);
-        }
-      );
-    });
+    )
+    .flatMap(action =>
+      Observation.create(store.getState().app.selectedObservation).flatMap(
+        observation =>
+          Observable.merge(
+            Observable.of(observationSave(action.meta, observation)),
+            Observable.of(modalShow('saved'))
+          )
+      )
+    );
 
 export default [observationListEpic, observationSaveEpic];

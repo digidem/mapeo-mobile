@@ -38,7 +38,7 @@ export type StateProps = {
 export type DispatchProps = {
   updateObservation: (observation: Observation) => void,
   setGPSFormat: (format: GPSFormat) => void,
-  showSavedModal: () => void
+  saveObservation: () => void
 };
 
 type State = {
@@ -134,9 +134,9 @@ class ManualGPS extends React.PureComponent<
       updateObservation,
       gpsFormat,
       selectedObservation,
-      showSavedModal,
       observationSource,
-      navigation
+      navigation,
+      saveObservation
     } = this.props;
     const {
       longitude,
@@ -239,7 +239,7 @@ class ManualGPS extends React.PureComponent<
     }
 
     if (updated) {
-      showSavedModal();
+      saveObservation();
       if (observationSource === 'map') {
         navigation.navigate({ routeName: 'MapView' });
       } else {
