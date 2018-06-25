@@ -9,7 +9,7 @@ import {
   Dimensions,
   PermissionsAndroid
 } from 'react-native';
-import { withNavigationFocus } from 'react-navigation';
+import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '@types/observation';
@@ -37,15 +37,13 @@ export type DispatchProps = {
   listObservations: () => void,
   createObservation: (observation: Observation) => void,
   updateObservation: (observation: Observation) => void,
-  goToCategories: () => void,
-  goToObservationDetail: () => void,
   selectObservation: (observation: Observation) => void,
   updateObservationSource: () => void,
   listStyles: () => void
 };
 
 type Props = {
-  isFocused: boolean
+  navigation: NavigationActions
 };
 
 const styles = StyleSheet.create({
@@ -138,7 +136,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
   }
 
   shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
-    if (nextProps.isFocused) {
+    if (nextProps.navigation.isFocused()) {
       nextProps.listObservations();
       return nextProps !== this.props;
     }
@@ -153,30 +151,29 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
       createObservation,
       observations,
       updateObservation,
-      goToCategories,
       selectedObservation,
       updateObservationSource,
-      selectedStyle
+      selectedStyle,
+      navigation
     } = this.props;
     const initialObservation = applyObservationDefaults({
       id: size(observations) + 1
     });
 
-    goToCategories();
+    navigation.navigate({
+      routeName: 'Categories',
+      key: 'CategoriesView'
+    });
     updateObservationSource();
     createObservation(initialObservation);
   };
 
   handleObservationPress = (id: string) => {
-    const {
-      observations,
-      selectObservation,
-      goToObservationDetail
-    } = this.props;
+    const { observations, selectObservation, navigation } = this.props;
 
     if (observations[id]) {
       selectObservation(observations[id]);
-      goToObservationDetail();
+      navigation.navigate({ routeName: 'ObservationDetailView' });
     }
   };
 
@@ -184,7 +181,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
     const { coordinates } = point.geometry;
     const {
       createObservation,
-      goToCategories,
+      navigation,
       observations,
       updateObservationSource
     } = this.props;
@@ -194,7 +191,10 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
       lon: coordinates[0]
     });
 
-    goToCategories();
+    navigation.navigate({
+      routeName: 'Categories',
+      key: 'CategoriesView'
+    });
     updateObservationSource();
     createObservation(initialObservation);
   };

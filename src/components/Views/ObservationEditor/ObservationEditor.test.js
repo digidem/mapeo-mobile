@@ -20,20 +20,11 @@ describe('ObservationEditor tests', () => {
           navigation={{ isFocused, addListener }}
           selectedObservation={observation}
           updateObservation={jest.fn()}
-          goToPhotoView={jest.fn()}
-          goToObservationFields={jest.fn()}
-          goToCameraView={jest.fn()}
-          goToMainCameraView={jest.fn()}
-          goToCategories={jest.fn()}
-          goBack={jest.fn()}
-          goToMapView={jest.fn()}
-          showSavedModal={jest.fn()}
           showCancelModal={jest.fn()}
           hideCancelModal={jest.fn()}
           clearSelectedObservation={jest.fn()}
           hideManualGPSModal={jest.fn()}
           showManualGPSModal={jest.fn()}
-          showSavedModal={jest.fn()}
           saveObservation={jest.fn()}
         />
       )

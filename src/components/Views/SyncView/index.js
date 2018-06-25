@@ -13,7 +13,6 @@ import {
 import { modalShow, modalHide } from '../../../ducks/modals';
 import SyncView from './SyncView';
 import type { StateProps, DispatchProps } from './SyncView';
-import NavigationService from '../../AppNavigation/NavigationService';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
@@ -25,7 +24,6 @@ function mapStateToProps(state: StoreState): StateProps {
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
-    goBack: () => NavigationService.back(),
     listDevices: () => dispatch(deviceList('')),
     selectDevice: device => dispatch(deviceSelect(device)),
     toggleDeviceSelect: device => dispatch(deviceToggleSelect(device)),

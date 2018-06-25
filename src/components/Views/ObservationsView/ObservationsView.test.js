@@ -21,14 +21,11 @@ describe('ObservationsView tests', () => {
       <ObservationsView
         drawerOpened
         selectObservation={jest.fn()}
-        goToObservationDetail={jest.fn()}
-        goToSettings={jest.fn()}
         closeRightDrawer={closeRightDrawer}
         navigation={NavigationActions}
         observations={cases}
         categories={{}}
         listCategories={jest.fn()}
-        goToSyncView={jest.fn()}
         listObservations={jest.fn()}
       />
     );

@@ -59,8 +59,7 @@ const styles = StyleSheet.create({
 });
 
 export type Props = {
-  navigation: any,
-  isFocused: boolean
+  navigation: any
 };
 
 export type StateProps = {
@@ -74,9 +73,6 @@ export type StateProps = {
 
 export type DispatchProps = {
   createObservation: (observation: Observation) => void,
-  goToCategories: () => void,
-  goToObservationEditor: () => void,
-  goToMapView: () => void,
   updateObservation: (o: UpdateRequest) => void,
   onDrawerClose: () => void,
   onDrawerOpen: () => void,
@@ -107,7 +103,7 @@ class CameraView extends React.Component<
     nextProps: Props & StateProps & DispatchProps,
     nextState: State
   ) {
-    if (nextProps.isFocused) {
+    if (nextProps.navigation.isFocused()) {
       return nextProps !== this.props || nextState !== this.state;
     }
 
@@ -117,8 +113,6 @@ class CameraView extends React.Component<
   takePicture = async () => {
     const {
       createObservation,
-      goToObservationEditor,
-      goToCategories,
       navigation,
       observations,
       selectedObservation,
@@ -142,9 +136,9 @@ class CameraView extends React.Component<
               }
             ])
           });
-          goToObservationEditor();
+          navigation.navigate({ routeName: 'ObservationEditor' });
         } else {
-          goToCategories();
+          navigation.navigate({ routeName: 'Categories' });
           const initialObservation = applyObservationDefaults({
             id: size(observations) + 1
           });
@@ -179,8 +173,8 @@ class CameraView extends React.Component<
   };
 
   goToMapView = () => {
-    const { goToMapView } = this.props;
-    goToMapView();
+    const { navigation } = this.props;
+    navigation.navigate({ routeName: 'MapView' });
   };
 
   renderCamera = (fromEditor: boolean, loading) => (
@@ -250,7 +244,6 @@ class CameraView extends React.Component<
     const { loading } = this.state;
     const {
       selectedObservation,
-      isFocused,
       navigation,
       onDrawerOpen,
       onDrawerClose,
@@ -258,7 +251,7 @@ class CameraView extends React.Component<
       showEditorView
     } = this.props;
 
-    if (!isFocused) {
+    if (!navigation.isFocused()) {
       console.log('RN - Unmount RNCamera in CameraView');
       return null;
     }

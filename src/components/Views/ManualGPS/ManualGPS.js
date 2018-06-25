@@ -9,6 +9,7 @@ import {
   Picker,
   TextInput
 } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import I18n from 'react-native-i18n';
 import LeftChevron from 'react-native-vector-icons/Feather';
 import CheckIcon from 'react-native-vector-icons/Octicons';
@@ -24,6 +25,10 @@ import {
   RED
 } from '../../../lib/styles';
 
+type Props = {
+  navigation: NavigationActions
+};
+
 export type StateProps = {
   gpsFormat: GPSFormat,
   selectedObservation?: Observation,
@@ -32,11 +37,8 @@ export type StateProps = {
 
 export type DispatchProps = {
   updateObservation: (observation: Observation) => void,
-  goBack: () => void,
   setGPSFormat: (format: GPSFormat) => void,
-  goToMapView: () => void,
-  goToCameraView: () => void,
-  showSavedModal: () => void
+  saveObservation: () => void
 };
 
 type State = {
@@ -117,7 +119,10 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class ManualGPS extends React.PureComponent<StateProps & DispatchProps, State> {
+class ManualGPS extends React.PureComponent<
+  Props & StateProps & DispatchProps,
+  State
+> {
   constructor() {
     super();
 
@@ -129,10 +134,9 @@ class ManualGPS extends React.PureComponent<StateProps & DispatchProps, State> {
       updateObservation,
       gpsFormat,
       selectedObservation,
-      showSavedModal,
       observationSource,
-      goToCameraView,
-      goToMapView
+      navigation,
+      saveObservation
     } = this.props;
     const {
       longitude,
@@ -235,11 +239,14 @@ class ManualGPS extends React.PureComponent<StateProps & DispatchProps, State> {
     }
 
     if (updated) {
-      showSavedModal();
+      saveObservation();
       if (observationSource === 'map') {
-        goToMapView();
+        navigation.navigate({ routeName: 'MapView' });
       } else {
-        goToCameraView();
+        navigation.navigate({
+          routeName: 'CameraView',
+          params: { showEditorView: false }
+        });
       }
     }
   };
@@ -701,7 +708,8 @@ class ManualGPS extends React.PureComponent<StateProps & DispatchProps, State> {
   };
 
   render() {
-    const { goBack, gpsFormat } = this.props;
+    const { navigation, gpsFormat } = this.props;
+    const goBack = navigation.goBack();
 
     return (
       <View style={styles.container}>

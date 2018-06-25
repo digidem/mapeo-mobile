@@ -18,4 +18,10 @@ export const {
   }
 });
 
-export default [fieldListReducer];
+export const {
+  type: PRESETS_SELECT,
+  action: presetsSelect,
+  reducer: presetsSelectReducer
+} = create('PRESETS_SELECT', {});
+
+export default [fieldListReducer, presetsSelectReducer];

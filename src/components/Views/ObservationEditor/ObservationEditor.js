@@ -52,26 +52,16 @@ export type StateProps = {
 };
 
 export type Props = {
-  isFocused: boolean,
   navigation: any
 };
 
 export type DispatchProps = {
   updateObservation: (o: UpdateRequest) => void,
-  goToPhotoView: (photoSource: string) => void,
-  goToObservationFields: () => void,
-  goToCameraView: () => void,
-  goToMainCameraView: () => void,
-  goToCategories: () => void,
-  goBack: () => void,
-  goToMapView: () => void,
-  showSavedModal: () => void,
   showCancelModal: () => void,
   hideCancelModal: () => void,
   clearSelectedObservation: () => void,
   hideManualGPSModal: () => void,
   showManualGPSModal: () => void,
-  showSavedModal: () => void,
   saveObservation: () => void
 };
 
@@ -298,7 +288,7 @@ class ObservationEditor extends React.Component<
     nextProps: Props & StateProps & DispatchProps,
     nextState: State
   ) {
-    if (nextProps.isFocused) {
+    if (nextProps.navigation.isFocused()) {
       return nextProps !== this.props || nextState !== this.state;
     }
 
@@ -342,7 +332,10 @@ class ObservationEditor extends React.Component<
         keyboardShown: false,
         text: previousState.text
       }));
-      this.props.goToCameraView();
+      this.props.navigation.navigate({
+        routeName: 'CameraView',
+        params: { showEditorView: true }
+      });
     } else {
       this.setState(previousState => ({
         goToCamera: previousState.goToCamera,
@@ -360,11 +353,8 @@ class ObservationEditor extends React.Component<
     const {
       updateObservation,
       selectedObservation,
-      goToMapView,
-      showSavedModal,
       observationSource,
-      goToCameraView,
-      goToMainCameraView,
+      navigation,
       gps,
       showManualGPSModal,
       saveObservation
@@ -385,11 +375,15 @@ class ObservationEditor extends React.Component<
       showManualGPSModal();
     } else {
       saveObservation();
-      showSavedModal();
       if (observationSource === 'map') {
-        goToMapView();
+        navigation.navigate({
+          routeName: 'MapView'
+        });
       } else {
-        goToMainCameraView();
+        navigation.navigate({
+          routeName: 'CameraView',
+          params: { showEditorView: false }
+        });
       }
     }
   };
@@ -406,11 +400,7 @@ class ObservationEditor extends React.Component<
   };
 
   goToCameraView = () => {
-    const {
-      selectedObservation,
-      updateObservation,
-      goToCameraView
-    } = this.props;
+    const { selectedObservation, updateObservation, navigation } = this.props;
 
     if (selectedObservation) {
       updateObservation({
@@ -425,18 +415,16 @@ class ObservationEditor extends React.Component<
         text: previousState.text
       }));
     } else {
-      goToCameraView();
+      navigation.navigate({
+        routeName: 'CameraView',
+        params: { showEditorView: true }
+      });
     }
     Keyboard.dismiss();
   };
 
   goToCategoriesView = () => {
-    const {
-      goBack,
-      goToCategories,
-      observations,
-      selectedObservation
-    } = this.props;
+    const { navigation, observations, selectedObservation } = this.props;
     let updateFlow = false;
     if (selectedObservation) {
       observations.forEach(o => {
@@ -447,34 +435,43 @@ class ObservationEditor extends React.Component<
     }
 
     if (updateFlow) {
-      goToCategories();
+      navigation.navigate({
+        routeName: 'Categories',
+        key: 'CategoriesView'
+      });
     } else {
-      goBack();
+      navigation.goBack();
     }
   };
 
   goToObservationFields = () => {
-    const { goToObservationFields } = this.props;
+    const { navigation } = this.props;
 
-    goToObservationFields();
+    navigation.navigate({
+      routeName: 'ObservationFields'
+    });
     Keyboard.dismiss();
   };
 
   handleModalCancel = () => {
     const {
       clearSelectedObservation,
-      goToMainCameraView,
-      goToMapView,
       hideCancelModal,
       observationSource,
-      updateObservation
+      updateObservation,
+      navigation
     } = this.props;
 
     hideCancelModal();
     if (observationSource === 'map') {
-      goToMapView();
+      navigation.navigate({
+        routeName: 'MapView'
+      });
     } else {
-      goToMainCameraView();
+      navigation.navigate({
+        routeName: 'CameraView',
+        params: { showEditorView: false }
+      });
     }
     clearSelectedObservation();
   };
@@ -492,30 +489,25 @@ class ObservationEditor extends React.Component<
   };
 
   handleSave = () => {
-    const {
-      showSavedModal,
-      observationSource,
-      goToMapView,
-      goToMainCameraView,
-      saveObservation
-    } = this.props;
+    const { observationSource, navigation, saveObservation } = this.props;
 
     saveObservation();
-    showSavedModal();
     if (observationSource === 'map') {
-      goToMapView();
+      navigation.navigate({
+        routeName: 'MapView'
+      });
     } else {
-      goToMainCameraView();
+      navigation.navigate({
+        routeName: 'CameraView',
+        params: { showEditorView: false }
+      });
     }
   };
 
   render() {
     const {
       navigation,
-      goBack,
       selectedObservation,
-      goToPhotoView,
-      goToObservationFields,
       showCancelModal,
       cancelModalVisible,
       showManualGPSModal,
@@ -526,14 +518,16 @@ class ObservationEditor extends React.Component<
       ? `${selectedObservation.lat}, ${selectedObservation.lon}`
       : 'Loading...';
     const keyExtractor = item => item.source;
-
+    const goToManualEnter = () => {
+      navigation.navigate({ routeName: 'ManualGPSView' });
+    };
     let fieldAnswered;
     if (selectedObservation) {
       fieldAnswered = selectedObservation.fields.find(f => f.answered);
     }
 
     if (!selectedObservation) {
-      goBack();
+      navigation.goBack();
       return <View />;
     }
 
@@ -633,7 +627,12 @@ class ObservationEditor extends React.Component<
                 keyExtractor={keyExtractor}
                 renderItem={({ item }) => (
                   <TouchableOpacity
-                    onPress={() => goToPhotoView(item.source)}
+                    onPress={() => {
+                      navigation.navigate({
+                        routeName: 'PhotoView',
+                        params: { photoSource: item.source }
+                      });
+                    }}
                     style={{ paddingLeft: 10 }}
                   >
                     <Image
@@ -731,6 +730,7 @@ class ObservationEditor extends React.Component<
           visible={cancelModalVisible}
         />
         <ManualGPSModal
+          goToManualEnter={goToManualEnter}
           onWaiting={this.handleWaiting}
           onSave={this.handleSave}
         />

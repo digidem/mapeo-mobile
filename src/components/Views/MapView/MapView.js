@@ -55,7 +55,6 @@ export type DispatchProps = {
 };
 
 type Props = {
-  isFocused: boolean,
   navigation: NavigationActions
 };
 
@@ -99,7 +98,10 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps> {
   }
 
   componentWillReceiveProps(nextProps: Props & DispatchProps & StateProps) {
-    if (nextProps.isFocused && nextProps.isFocused !== this.props.isFocused) {
+    if (
+      nextProps.navigation.isFocused() &&
+      nextProps.navigation.isFocused() !== this.props.navigation.isFocused()
+    ) {
       nextProps.listObservations();
     }
   }
