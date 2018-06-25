@@ -8,11 +8,16 @@ import {
   Picker,
   Dimensions
 } from 'react-native';
+import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import I18n from 'react-native-i18n';
 import LeftChevron from 'react-native-vector-icons/Feather';
 import { LIGHT_GREY, WHITE, BLACK } from '../../../lib/styles';
 import type { GPSFormat } from '../../../types/gps';
 import type { Style } from '../../../types/map';
+
+type Props = {
+  navigation: NavigationActions
+};
 
 export type StateProps = {
   gpsFormat: GPSFormat,
@@ -21,7 +26,6 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
-  goBack: () => void,
   setGPSFormat: (format: GPSFormat) => void,
   setSelectedStyle: (style: Style) => void,
   listStyles: () => void
@@ -41,10 +45,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    height: 60,
+    height: 65,
     borderBottomColor: LIGHT_GREY,
     borderBottomWidth: 1,
-    width: Dimensions.get('window').width
+    width: Dimensions.get('window').width,
+    paddingHorizontal: 15
   },
   leftChevron: {
     alignSelf: 'center',
@@ -54,7 +59,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: BLACK,
-    flex: 1
+    flex: 1,
+    textAlign: 'center'
   },
   empty: {
     width: 30
@@ -86,13 +92,20 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class SettingsView extends React.PureComponent<StateProps & DispatchProps> {
+class SettingsView extends React.Component<Props & StateProps & DispatchProps> {
   componentDidMount() {
     const { selectedStyle, listStyles } = this.props;
 
     if (!selectedStyle) {
       listStyles();
     }
+  }
+
+  shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
+    if (nextProps.navigation.isFocused()) {
+      return nextProps !== this.props;
+    }
+    return false;
   }
 
   handleValueSelect = (format: GPSFormat) => {
@@ -108,7 +121,7 @@ class SettingsView extends React.PureComponent<StateProps & DispatchProps> {
   };
 
   render() {
-    const { gpsFormat, goBack, selectedStyle } = this.props;
+    const { gpsFormat, navigation, selectedStyle } = this.props;
     const mapStyles = this.props.styles;
 
     return (
@@ -121,7 +134,11 @@ class SettingsView extends React.PureComponent<StateProps & DispatchProps> {
         }}
       >
         <View style={styles.header}>
-          <TouchableOpacity onPress={goBack}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
             <LeftChevron color="#a5a5a4" name="chevron-left" size={30} />
           </TouchableOpacity>
           <Text style={styles.title}>{I18n.t('settings.settings')}</Text>
@@ -177,4 +194,4 @@ class SettingsView extends React.PureComponent<StateProps & DispatchProps> {
   }
 }
 
-export default SettingsView;
+export default withNavigationFocus(SettingsView);

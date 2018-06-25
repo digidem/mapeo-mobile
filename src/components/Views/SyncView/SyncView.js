@@ -10,7 +10,7 @@ import {
   StyleSheet,
   NetInfo
 } from 'react-native';
-import { withNavigationFocus } from 'react-navigation';
+import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import WifiIcon from 'react-native-vector-icons/MaterialIcons';
 import SyncHeader from './SyncHeader';
 import DeviceCell from './DeviceCell';
@@ -20,7 +20,7 @@ import { MAPEO_BLUE, MEDIUM_BLUE } from '../../../lib/styles';
 import I18n from 'react-native-i18n';
 
 type Props = {
-  isFocused: boolean
+  navigation: NavigationActions
 };
 
 export type StateProps = {
@@ -31,7 +31,6 @@ export type StateProps = {
 
 export type DispatchProps = {
   listDevices: () => void,
-  goBack: () => void,
   selectDevice: (device?: Device) => void,
   toggleDeviceSelect: (device: Device) => void,
   updateDeviceSync: (device: Device) => void,
@@ -80,7 +79,7 @@ class SyncView extends React.Component<
     nextProps: Props & StateProps & DispatchProps,
     nextState: State
   ) {
-    if (nextProps.isFocused) {
+    if (nextProps.navigation.isFocused()) {
       return nextProps !== this.props || nextState !== this.state;
     }
 
@@ -98,7 +97,7 @@ class SyncView extends React.Component<
   render() {
     const {
       devices,
-      goBack,
+      navigation,
       selectDevice,
       selectedDevice,
       toggleDeviceSelect,
@@ -163,7 +162,7 @@ class SyncView extends React.Component<
       }
       const { listDevices } = this.props;
       listDevices();
-      goBack();
+      navigation.goBack();
     };
     const handleModalContinue = () => {
       hideSyncedModal();

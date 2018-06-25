@@ -13,7 +13,6 @@ import {
 import { observationSource } from '../../../ducks/observationSource';
 import Categories from './Categories';
 import type { StateProps } from './Categories';
-import NavigationService from '../../AppNavigation/NavigationService';
 
 function mapStateToProps(state: StoreState): StateProps {
   const categories = values(state.app.categories).sort(
@@ -40,16 +39,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
     listCategories: () => {
       dispatch(categoryList(''));
       dispatch(fieldList(''));
-    },
-    goToObservationEditor: category =>
-      NavigationService.navigate({
-        routeName: 'ObservationEditor',
-        params: {
-          category
-        }
-      }),
-    goBack: () => {
-      NavigationService.back();
     },
     clearSelectedObservation: () => {
       dispatch(observationSelect(undefined));

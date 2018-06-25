@@ -12,7 +12,7 @@ import {
   Image,
   ScrollView
 } from 'react-native';
-import { withNavigationFocus } from 'react-navigation';
+import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -38,14 +38,12 @@ export type StateProps = {
 };
 
 export type Props = {
-  isFocused: boolean,
-  navigation: any
+  navigation: NavigationActions
 };
 
 export type DispatchProps = {
   updateObservation: (o: Observation) => void,
-  addObservation: (o: Observation) => void,
-  goBack: () => void
+  addObservation: (o: Observation) => void
 };
 
 type State = {};
@@ -89,7 +87,7 @@ class ObservationDetails extends React.Component<
     nextProps: Props & StateProps & DispatchProps,
     nextState: State
   ) {
-    if (nextProps.isFocused) {
+    if (nextProps.navigation.isFocused()) {
       return nextProps !== this.props || nextState !== this.state;
     }
 
@@ -105,7 +103,7 @@ class ObservationDetails extends React.Component<
   };
 
   render() {
-    const { allFields, navigation, goBack, selectedObservation } = this.props;
+    const { allFields, navigation, selectedObservation } = this.props;
 
     const { fields } = selectedObservation;
     const fieldsAnswered = fields.filter(f => f.answered).length;
@@ -150,7 +148,9 @@ class ObservationDetails extends React.Component<
           leftIcon={
             <TouchableOpacity
               underlayColor="rgba(0, 0, 0, 0.5)"
-              onPress={goBack}
+              onPress={() => {
+                navigation.goBack();
+              }}
             >
               <FeatherIcon color="#a5a5a4" name="chevron-left" size={30} />
             </TouchableOpacity>

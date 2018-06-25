@@ -18,8 +18,9 @@ exports[`SettingsView tests snapshot 1`] = `
         "borderBottomColor": "#EAEAEA",
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 60,
+        "height": 65,
         "justifyContent": "space-around",
+        "paddingHorizontal": 15,
         "width": 750,
       }
     }
@@ -81,6 +82,7 @@ exports[`SettingsView tests snapshot 1`] = `
           "flex": 1,
           "fontSize": 20,
           "fontWeight": "700",
+          "textAlign": "center",
         }
       }
     >
@@ -266,8 +268,9 @@ exports[`SettingsView tests snapshot 2`] = `
         "borderBottomColor": "#EAEAEA",
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 60,
+        "height": 65,
         "justifyContent": "space-around",
+        "paddingHorizontal": 15,
         "width": 750,
       }
     }
@@ -329,6 +332,7 @@ exports[`SettingsView tests snapshot 2`] = `
           "flex": 1,
           "fontSize": 20,
           "fontWeight": "700",
+          "textAlign": "center",
         }
       }
     >
@@ -514,8 +518,9 @@ exports[`SettingsView tests snapshot 3`] = `
         "borderBottomColor": "#EAEAEA",
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 60,
+        "height": 65,
         "justifyContent": "space-around",
+        "paddingHorizontal": 15,
         "width": 750,
       }
     }
@@ -577,6 +582,7 @@ exports[`SettingsView tests snapshot 3`] = `
           "flex": 1,
           "fontSize": 20,
           "fontWeight": "700",
+          "textAlign": "center",
         }
       }
     >
@@ -762,8 +768,9 @@ exports[`SettingsView tests snapshot 4`] = `
         "borderBottomColor": "#EAEAEA",
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 60,
+        "height": 65,
         "justifyContent": "space-around",
+        "paddingHorizontal": 15,
         "width": 750,
       }
     }
@@ -825,6 +832,7 @@ exports[`SettingsView tests snapshot 4`] = `
           "flex": 1,
           "fontSize": 20,
           "fontWeight": "700",
+          "textAlign": "center",
         }
       }
     >

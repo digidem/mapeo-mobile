@@ -5,7 +5,6 @@ import SettingsView from './SettingsView';
 import type { StoreState } from '../../../types/redux';
 import type { StateProps, DispatchProps } from './SettingsView';
 import { gpsFormatSettingsSet } from '../../../ducks/settings';
-import NavigationService from '../../AppNavigation/NavigationService';
 import { styleSelect, styleList } from '../../../ducks/map';
 
 function mapStateToProps(state: StoreState): StateProps {
@@ -18,7 +17,6 @@ function mapStateToProps(state: StoreState): StateProps {
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
-    goBack: () => NavigationService.back(),
     setGPSFormat: format => dispatch(gpsFormatSettingsSet(format)),
     setSelectedStyle: style => dispatch(styleSelect(style)),
     listStyles: () => dispatch(styleList(''))

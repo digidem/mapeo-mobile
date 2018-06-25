@@ -8,7 +8,6 @@ import { createField } from '../../../mocks/fields';
 import { createStyle } from '../../../mocks/map';
 
 describe('SettingsView tests', () => {
-  const goBack = jest.fn();
   const setGPSFormat = jest.fn();
   const setSelectedStyle = jest.fn();
   const listStyles = jest.fn();
@@ -16,9 +15,10 @@ describe('SettingsView tests', () => {
   const styles = {
     [style.id]: style
   };
+  const isFocused = () => true;
+  const addListener = () => true;
 
   beforeEach(() => {
-    goBack.mockReset();
     setGPSFormat.mockReset();
     setSelectedStyle.mockReset();
     listStyles.mockReset();
@@ -36,8 +36,8 @@ describe('SettingsView tests', () => {
     props.forEach(p => {
       tree = renderer.create(
         <SettingsView
+          navigation={{ isFocused, addListener }}
           gpsFormat={p.gpsFormat}
-          goBack={goBack}
           setGPSFormat={setGPSFormat}
           setSelectedStyle={setSelectedStyle}
           listStyles={listStyles}
