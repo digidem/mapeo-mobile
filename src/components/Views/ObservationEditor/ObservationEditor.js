@@ -379,6 +379,10 @@ class ObservationEditor extends React.Component<
         navigation.navigate({
           routeName: 'MapView'
         });
+      } else if (observationSource === 'detail') {
+        navigation.navigate({
+          routeName: 'ObservationDetailView'
+        });
       } else {
         navigation.navigate({
           routeName: 'CameraView',
@@ -495,6 +499,10 @@ class ObservationEditor extends React.Component<
     if (observationSource === 'map') {
       navigation.navigate({
         routeName: 'MapView'
+      });
+    } else if (observationSource === 'detail') {
+      navigation.navigate({
+        routeName: 'ObservationDetailView'
       });
     } else {
       navigation.navigate({
