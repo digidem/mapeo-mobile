@@ -43,7 +43,6 @@ export type DispatchProps = {
 };
 
 type Props = {
-  isFocused: boolean,
   navigation: NavigationActions
 };
 
@@ -137,7 +136,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
   }
 
   shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
-    if (nextProps.isFocused) {
+    if (nextProps.navigation.isFocused()) {
       nextProps.listObservations();
       return nextProps !== this.props;
     }

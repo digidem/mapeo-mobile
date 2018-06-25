@@ -9,7 +9,7 @@ import {
   Picker,
   TextInput
 } from 'react-native';
-import { NavigationActions, withNavigation } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import I18n from 'react-native-i18n';
 import LeftChevron from 'react-native-vector-icons/Feather';
 import CheckIcon from 'react-native-vector-icons/Octicons';
@@ -769,4 +769,4 @@ class ManualGPS extends React.PureComponent<
   }
 }
 
-export default withNavigation(ManualGPS);
+export default ManualGPS;

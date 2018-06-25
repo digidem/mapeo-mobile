@@ -37,7 +37,6 @@ export type DispatchProps = {
 };
 
 export type Props = {
-  isFocused: boolean,
   navigation: NavigationActions
 };
 
@@ -232,7 +231,7 @@ class ObservationDetailView extends React.Component<
   Props & StateProps & DispatchProps
 > {
   shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
-    if (nextProps.isFocused) {
+    if (nextProps.navigation.isFocused()) {
       return nextProps !== this.props;
     }
 

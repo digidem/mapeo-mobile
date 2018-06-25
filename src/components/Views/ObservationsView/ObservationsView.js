@@ -35,8 +35,7 @@ export type DispatchProps = {
 
 type Props = {
   closeRightDrawer: Function,
-  navigation: NavigationActions,
-  isFocused: boolean
+  navigation: NavigationActions
 };
 
 I18n.fallbacks = true;
@@ -61,7 +60,10 @@ class ObservationsView extends React.Component<
     nextState: State
   ) {
     if (nextProps !== this.props || nextState !== this.state) {
-      if (nextProps.isFocused && !this.props.isFocused) {
+      if (
+        nextProps.navigation.isFocused() &&
+        !this.props.navigation.isFocused()
+      ) {
         nextProps.listObservations();
       }
       return true;

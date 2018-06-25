@@ -16,7 +16,6 @@ import type { GPSFormat } from '../../../types/gps';
 import type { Style } from '../../../types/map';
 
 type Props = {
-  isFocused: boolean,
   navigation: NavigationActions
 };
 
@@ -103,7 +102,7 @@ class SettingsView extends React.Component<Props & StateProps & DispatchProps> {
   }
 
   shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
-    if (nextProps.isFocused) {
+    if (nextProps.navigation.isFocused()) {
       return nextProps !== this.props;
     }
     return false;

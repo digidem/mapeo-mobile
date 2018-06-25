@@ -20,7 +20,6 @@ import { MAPEO_BLUE, MEDIUM_BLUE } from '../../../lib/styles';
 import I18n from 'react-native-i18n';
 
 type Props = {
-  isFocused: boolean,
   navigation: NavigationActions
 };
 
@@ -80,7 +79,7 @@ class SyncView extends React.Component<
     nextProps: Props & StateProps & DispatchProps,
     nextState: State
   ) {
-    if (nextProps.isFocused) {
+    if (nextProps.navigation.isFocused()) {
       return nextProps !== this.props || nextState !== this.state;
     }
 

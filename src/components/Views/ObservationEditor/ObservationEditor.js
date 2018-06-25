@@ -52,7 +52,6 @@ export type StateProps = {
 };
 
 export type Props = {
-  isFocused: boolean,
   navigation: any
 };
 
@@ -291,7 +290,7 @@ class ObservationEditor extends React.Component<
     nextProps: Props & StateProps & DispatchProps,
     nextState: State
   ) {
-    if (nextProps.isFocused) {
+    if (nextProps.navigation.isFocused()) {
       return nextProps !== this.props || nextState !== this.state;
     }
 
