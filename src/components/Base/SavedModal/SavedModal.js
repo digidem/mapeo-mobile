@@ -99,6 +99,10 @@ class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
     const { onHide, selectedObservation, categories } = this.props;
     let category;
 
+    if (!selectedObservation) {
+      return null;
+    }
+
     if (selectedObservation.categoryId !== undefined) {
       category = categories[selectedObservation.categoryId];
     }
