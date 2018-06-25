@@ -10,7 +10,7 @@ import {
   StyleSheet
 } from 'react-native';
 import moment from '../../../lib/localizedMoment';
-import { withNavigationFocus } from 'react-navigation';
+import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -32,16 +32,13 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
-  goToEditorView: () => void,
-  goToPhotoView: (params: Object) => void,
-  goBack: () => void,
   clearSelectedObservation: () => void,
-  updateObservation: (o: UpdateRequest) => void,
-  goBack: () => void
+  updateObservation: (o: UpdateRequest) => void
 };
 
 export type Props = {
-  isFocused: boolean
+  isFocused: boolean,
+  navigation: NavigationActions
 };
 
 const styles = StyleSheet.create({
@@ -251,20 +248,14 @@ class ObservationDetailView extends React.Component<
   };
 
   handleBack = () => {
-    const { goBack, clearSelectedObservation } = this.props;
+    const { navigation, clearSelectedObservation } = this.props;
 
     clearSelectedObservation();
-    goBack();
+    navigation.goBack();
   };
 
   render() {
-    const {
-      selectedObservation,
-      goToEditorView,
-      goToPhotoView,
-      goBack,
-      categories
-    } = this.props;
+    const { selectedObservation, categories, navigation } = this.props;
     const keyExtractor = item => item.source.toString();
     let mediaTitle = null;
     let mediaText = `0 ${I18n.t('detail_view.photo')}s`;
@@ -320,7 +311,11 @@ class ObservationDetailView extends React.Component<
             </TouchableOpacity>
             <Image source={CategoryPin} style={styles.categoryPin} />
             <TouchableOpacity
-              onPress={() => goToEditorView()}
+              onPress={() =>
+                navigation.navigate({
+                  routeName: 'ObservationEditor'
+                })
+              }
               style={{ position: 'absolute', right: 20, top: 25 }}
             >
               <Image source={PencilIcon} style={{ width: 20, height: 20 }} />
@@ -368,10 +363,13 @@ class ObservationDetailView extends React.Component<
                   renderItem={({ item }) => (
                     <TouchableOpacity
                       onPress={() =>
-                        goToPhotoView({
-                          type: item.type,
-                          source: item.source,
-                          fromDetailView: true
+                        navigation.navigate({
+                          routeName: 'PhotoView',
+                          params: {
+                            fromDetailView: true,
+                            photoType: item.type,
+                            photoSource: item.source
+                          }
                         })
                       }
                     >

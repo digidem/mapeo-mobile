@@ -9,7 +9,6 @@ import {
 } from '../../../ducks/observations';
 import ObservationDetailView from './ObservationDetailView';
 import type { StateProps, DispatchProps } from './ObservationDetailView';
-import NavigationService from '../../AppNavigation/NavigationService';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
@@ -20,21 +19,7 @@ function mapStateToProps(state: StoreState): StateProps {
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
-    goToEditorView: () =>
-      NavigationService.navigate({
-        routeName: 'ObservationEditor'
-      }),
     updateObservation: observation => dispatch(observationUpdate(observation)),
-    goToPhotoView: params =>
-      NavigationService.navigate({
-        routeName: 'PhotoView',
-        params: {
-          fromDetailView: params.fromDetailView,
-          photoType: params.type,
-          photoSource: params.source
-        }
-      }),
-    goBack: () => NavigationService.back(),
     clearSelectedObservation: () => dispatch(observationSelect(undefined))
   };
 }

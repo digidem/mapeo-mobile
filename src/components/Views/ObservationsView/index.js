@@ -13,7 +13,6 @@ import { categoryList } from '../../../ducks/categories';
 import { fieldList } from '../../../ducks/fields';
 import ObservationsView from './ObservationsView';
 import type { StateProps, DispatchProps } from './ObservationsView';
-import NavigationService from '../../AppNavigation/NavigationService';
 
 function mapStateToProps(state: StoreState): StateProps {
   const observations = values(state.app.observations).sort(
@@ -26,11 +25,6 @@ function mapStateToProps(state: StoreState): StateProps {
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     selectObservation: o => dispatch(observationSelect(o)),
-    goToObservationDetail: () =>
-      NavigationService.navigate({ routeName: 'ObservationDetailView' }),
-    goToSyncView: () => NavigationService.navigate({ routeName: 'SyncView' }),
-    goToSettings: () =>
-      NavigationService.navigate({ routeName: 'SettingsView' }),
     listCategories: () => {
       dispatch(categoryList(''));
       dispatch(fieldList(''));

@@ -7,7 +7,6 @@ import { fieldList } from '../../../ducks/fields';
 import { observationUpdate } from '../../../ducks/observations';
 import ObservationFields from './ObservationFields';
 import type { Props, StateProps, DispatchProps } from './ObservationFields';
-import NavigationService from '../../AppNavigation/NavigationService';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
@@ -19,8 +18,7 @@ function mapStateToProps(state: StoreState): StateProps {
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     addObservation: observation => dispatch(observationUpdate(observation)),
-    updateObservation: observation => dispatch(observationUpdate(observation)),
-    goBack: () => NavigationService.back()
+    updateObservation: observation => dispatch(observationUpdate(observation))
   };
 }
 

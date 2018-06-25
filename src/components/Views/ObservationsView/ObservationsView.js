@@ -29,9 +29,6 @@ export type StateProps = {
 
 export type DispatchProps = {
   selectObservation: (o: Observation) => void,
-  goToObservationDetail: () => void,
-  goToSyncView: () => void,
-  goToSettings: () => void,
   listCategories: () => void,
   listObservations: () => void
 };
@@ -73,14 +70,25 @@ class ObservationsView extends React.Component<
   }
 
   render() {
-    const { observations, goToSettings, categories } = this.props;
+    const {
+      navigation,
+      observations,
+      categories,
+      selectObservation
+    } = this.props;
     const sectionMappings = {};
     let label;
 
     const keyExtractor = item => item.id.toString();
     const handleItemPress = item => {
-      this.props.selectObservation(item);
-      this.props.goToObservationDetail();
+      selectObservation(item);
+      navigation.navigate({ routeName: 'ObservationDetailView' });
+    };
+    const goToSettings = () => {
+      navigation.navigate({ routeName: 'SettingsView' });
+    };
+    const goToSyncView = () => {
+      navigation.navigate({ routeName: 'SyncView' });
     };
 
     return (
@@ -96,7 +104,7 @@ class ObservationsView extends React.Component<
             ListHeaderComponent={
               <ObservationHeader
                 closeRightDrawer={this.props.closeRightDrawer}
-                goToSyncView={this.props.goToSyncView}
+                goToSyncView={goToSyncView}
                 onSettingsPress={goToSettings}
               />
             }

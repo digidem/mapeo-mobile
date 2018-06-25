@@ -4,7 +4,6 @@ import { BackHandler, AppState, Dimensions, Image, View } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import MainStackNavigation from '../MainNavigation/MainStackNavigation';
 import SplashScreen from '../../images/splash-screen.png';
-import NavigationService from './NavigationService';
 
 interface State {
   showSplash: boolean;
@@ -32,7 +31,7 @@ class AppNavigation extends React.PureComponent<{}, State> {
 
   timeout: any;
 
-  handleAppStateChange = nextAppState => {
+  handleAppStateChange = (nextAppState: State) => {
     if (
       this.state.appState &&
       this.state.appState.match(/background/) &&
@@ -55,11 +54,7 @@ class AppNavigation extends React.PureComponent<{}, State> {
 
     return (
       <View style={{ flex: 1 }}>
-        <MainStackNavigation
-          ref={navigatorRef => {
-            NavigationService.setTopLevelNavigator(navigatorRef);
-          }}
-        />
+        <MainStackNavigation />
         {showSplash && (
           <Image
             source={SplashScreen}

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import I18n from 'react-native-i18n';
 import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CheckIcon from 'react-native-vector-icons/Octicons';
@@ -25,7 +26,8 @@ import {
 } from '../../../lib/styles';
 
 type Props = {
-  isFocused: boolean
+  isFocused: boolean,
+  navigation: NavigationActions
 };
 
 export type StateProps = {
@@ -38,8 +40,6 @@ export type StateProps = {
 export type DispatchProps = {
   listCategories: () => void,
   updateObservation: (obs: Object) => void,
-  goToObservationEditor: (category: string) => void,
-  goBack: () => void,
   clearSelectedObservation: () => void
 };
 
@@ -137,7 +137,7 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
       allFields,
       updateObservation,
       selectedObservation,
-      goToObservationEditor
+      navigation
     } = this.props;
 
     if (selectedObservation) {
@@ -147,7 +147,12 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
         fields: item.fieldIds.map(fieldId => allFields[fieldId])
       });
 
-      goToObservationEditor(item.id);
+      navigation.navigate({
+        routeName: 'ObservationEditor',
+        params: {
+          category: item.id
+        }
+      });
     }
   };
 
@@ -177,17 +182,17 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
   );
 
   handleBack = () => {
-    const { goBack, clearSelectedObservation, updateFlow } = this.props;
+    const { navigation, clearSelectedObservation, updateFlow } = this.props;
 
     if (!updateFlow) {
       clearSelectedObservation();
     }
 
-    goBack();
+    navigation.goBack();
   };
 
   render() {
-    const { categories, goBack } = this.props;
+    const { categories } = this.props;
     const keyExtractor = item => item.id;
 
     return (

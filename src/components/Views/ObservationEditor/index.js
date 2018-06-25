@@ -12,7 +12,6 @@ import {
 import { modalHide, modalShow } from '../../../ducks/modals';
 import ObservationEditor from './ObservationEditor';
 import type { Props, StateProps, DispatchProps } from './ObservationEditor';
-import NavigationService from '../../AppNavigation/NavigationService';
 
 function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
   return {
@@ -36,37 +35,6 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     updateObservation: observation => dispatch(observationUpdate(observation)),
     clearSelectedObservation: () => dispatch(observationSelect(undefined)),
-    goToPhotoView: source =>
-      NavigationService.navigate({
-        routeName: 'PhotoView',
-        params: { photoSource: source }
-      }),
-    goToCameraView: () =>
-      NavigationService.navigate({
-        routeName: 'CameraView',
-        params: { showEditorView: true }
-      }),
-    goToMainCameraView: () =>
-      NavigationService.navigate({
-        routeName: 'CameraView',
-        params: { showEditorView: false }
-      }),
-    goToCategories: () =>
-      NavigationService.navigate({
-        routeName: 'Categories',
-        key: 'CategoriesView'
-      }),
-    goToObservationFields: () =>
-      NavigationService.navigate({
-        routeName: 'ObservationFields'
-      }),
-    goBack: () => {
-      dispatch(NavigationService.back());
-    },
-    goToMapView: () =>
-      NavigationService.navigate({
-        routeName: 'MapView'
-      }),
     showSavedModal: () => dispatch(modalShow('saved')),
     showCancelModal: () => dispatch(modalShow('cancelled')),
     hideCancelModal: () => dispatch(modalHide('cancelled')),

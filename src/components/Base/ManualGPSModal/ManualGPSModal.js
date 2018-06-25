@@ -25,12 +25,9 @@ export type StateProps = {
 };
 
 export type Props = {
+  goToManualEnter: () => void,
   onWaiting: Function,
   onSave: Function
-};
-
-export type DispatchProps = {
-  goToManualEnter: () => void
 };
 
 const windowWidth = Dimensions.get('window').width;
@@ -107,7 +104,7 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-const ManualGPSModal: React.SFC<Props & StateProps & DispatchProps> = ({
+const ManualGPSModal: React.SFC<Props & StateProps> = ({
   onWaiting,
   goToManualEnter,
   onSave,
