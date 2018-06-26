@@ -374,21 +374,7 @@ class ObservationEditor extends React.Component<
       }
       showManualGPSModal();
     } else {
-      saveObservation();
-      if (observationSource === 'map') {
-        navigation.navigate({
-          routeName: 'MapView'
-        });
-      } else if (observationSource === 'detail') {
-        navigation.navigate({
-          routeName: 'ObservationDetailView'
-        });
-      } else {
-        navigation.navigate({
-          routeName: 'CameraView',
-          params: { showEditorView: false }
-        });
-      }
+      this.handleSave();
     }
   };
 
@@ -501,9 +487,7 @@ class ObservationEditor extends React.Component<
         routeName: 'MapView'
       });
     } else if (observationSource === 'detail') {
-      navigation.navigate({
-        routeName: 'ObservationDetailView'
-      });
+      navigation.navigate({ routeName: 'ObservationDetailView' });
     } else {
       navigation.navigate({
         routeName: 'CameraView',

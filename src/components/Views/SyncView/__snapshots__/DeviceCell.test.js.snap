@@ -82,34 +82,15 @@ exports[`DeviceCell tests snapshot 1`] = `
       </Text>
     </View>
     <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
-      accessible={true}
-      collapsable={undefined}
-      hasTVPreferredFocus={undefined}
-      hitSlop={undefined}
-      isTVSelectable={true}
-      nativeID={undefined}
-      onLayout={undefined}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Object {
           "alignItems": "center",
           "backgroundColor": "transparent",
           "justifyContent": "center",
-          "opacity": 1,
           "position": "absolute",
           "right": 20,
         }
       }
-      testID={undefined}
-      tvParallaxProperties={undefined}
     >
       <View
         style={
