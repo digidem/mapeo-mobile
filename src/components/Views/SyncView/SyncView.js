@@ -142,20 +142,20 @@ class SyncView extends React.Component<
         updateDeviceSync({
           ...item,
           selected: true,
-          syncStatus: 'requested'
+          syncStatus: 'replication-started'
         });
         setTimeout(() => {
           updateDeviceSync({
             ...item,
             selected: true,
-            syncStatus: 'syncing'
+            syncStatus: 'replication-progress'
           });
         }, 1000);
         setTimeout(() => {
           updateDeviceSync({
             ...item,
             selected: true,
-            syncStatus: 'completed'
+            syncStatus: 'replication-complete'
           });
           toggleDeviceSelect(item);
           showSyncedModal();
@@ -165,7 +165,7 @@ class SyncView extends React.Component<
         updateDeviceSync({
           ...selectedDevice,
           selected: false,
-          syncStatus: 'stopped'
+          syncStatus: 'replication-stopped'
         });
 
         if (selectedDevice.id !== item.id) {
