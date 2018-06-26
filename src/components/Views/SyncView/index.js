@@ -28,8 +28,8 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     selectDevice: device => dispatch(deviceSelect(device)),
     toggleDeviceSelect: device => dispatch(deviceToggleSelect(device)),
     updateDeviceSync: device => {
-      dispatch(deviceSyncUpdate(device));
       dispatch(deviceSelect(device));
+      dispatch(deviceSyncUpdate(device));
     },
     showSyncedModal: () => dispatch(modalShow('synced')),
     hideSyncedModal: () => dispatch(modalHide('synced'))

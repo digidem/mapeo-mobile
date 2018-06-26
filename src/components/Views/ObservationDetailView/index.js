@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 import { StoreState } from '../../../types/redux';
-
+import { observationSource } from '../../../ducks/observationSource';
 import {
   observationUpdate,
   observationSelect
@@ -20,7 +20,8 @@ function mapStateToProps(state: StoreState): StateProps {
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
     updateObservation: observation => dispatch(observationUpdate(observation)),
-    clearSelectedObservation: () => dispatch(observationSelect(undefined))
+    clearSelectedObservation: () => dispatch(observationSelect(undefined)),
+    updateObservationSource: () => dispatch(observationSource('detail'))
   };
 }
 

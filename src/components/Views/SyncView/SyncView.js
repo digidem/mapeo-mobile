@@ -134,25 +134,53 @@ class SyncView extends React.Component<
     }
 
     const keyExtractor = (item, index) => item.id;
+
     const handleDevicePress = item => {
-      toggleDeviceSelect(item);
+      const syncInProgress =
+        item.syncStatus === 'requested' || item.syncStatus === 'syncing';
+      const startSync = () => {
+        updateDeviceSync({
+          ...item,
+          selected: true,
+          syncStatus: 'requested'
+        });
+        setTimeout(() => {
+          updateDeviceSync({
+            ...item,
+            selected: true,
+            syncStatus: 'syncing'
+          });
+        }, 1000);
+        setTimeout(() => {
+          updateDeviceSync({
+            ...item,
+            selected: true,
+            syncStatus: 'completed'
+          });
+          toggleDeviceSelect(item);
+          showSyncedModal();
+        }, 4000);
+      };
       if (selectedDevice) {
-        toggleDeviceSelect(selectedDevice);
+        updateDeviceSync({
+          ...selectedDevice,
+          selected: false,
+          syncStatus: 'stopped'
+        });
+
+        if (selectedDevice.id !== item.id) {
+          startSync();
+        }
+      } else {
+        startSync();
       }
-      selectDevice({
-        ...item,
-        selected: true,
-        syncStatus: 'notStarted'
-      });
     };
     const renderItem = ({ item }) => (
       <DeviceCell
         device={item}
         onPress={handleDevicePress}
-        selectDevice={selectDevice}
         selectedDevice={selectedDevice}
         showSyncedModal={showSyncedModal}
-        updateDeviceSync={updateDeviceSync}
       />
     );
     const closeSyncView = () => {
