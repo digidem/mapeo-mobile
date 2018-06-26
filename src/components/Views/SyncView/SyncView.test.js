@@ -10,12 +10,14 @@ describe('SyncView tests', () => {
   const cases = [device];
   const isFocused = () => true;
   const addListener = () => true;
+  const announceSync = jest.fn();
   const listDevices = jest.fn();
   jest.mock('./DeviceCell', () => 'mock-device-cell');
 
   test('snapshot', () => {
     const tree = renderer.create(
       <SyncView
+        announceSync={announceSync}
         devices={cases}
         navigation={{ addListener, isFocused }}
         listDevices={listDevices}

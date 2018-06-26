@@ -11,7 +11,7 @@ export const {
 } = create('ANNOUNCE_SYNC', {
   success: (state, action) => {
     const newState = update(state, {
-      $toggle: ['announceSync']
+      $toggle: ['syncAnnounced']
     });
 
     return newState;

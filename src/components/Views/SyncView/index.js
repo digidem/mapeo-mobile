@@ -19,6 +19,7 @@ function mapStateToProps(state: StoreState): StateProps {
   return {
     devices: values(state.app.devices),
     selectedDevice: state.app.selectedDevice,
+    syncAnnounced: state.app.syncAnnounced,
     syncedModalVisible: state.app.modals.synced
   };
 }

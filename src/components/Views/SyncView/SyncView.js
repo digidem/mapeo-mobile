@@ -25,7 +25,8 @@ type Props = {
 
 export type StateProps = {
   devices: Device[],
-  selectedDevice: Device,
+  selectedDevice?: Device,
+  syncAnnounced: boolean,
   syncedModalVisible: boolean
 };
 

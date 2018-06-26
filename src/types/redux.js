@@ -39,6 +39,7 @@ export interface AppStoreState {
   selectedDevice?: Device;
   settings: SettingsState;
   map: MapState;
+  syncAnnounced: boolean;
 }
 
 export type SettingsState = {

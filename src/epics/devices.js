@@ -54,29 +54,7 @@ const initialDevices = [
 
 // const initialDevices = [];
 
-// export const deviceListEpic = (
-//   action$: ActionsObservable<Action<string, Device[]>>
-// ) =>
-//   action$
-//     .ofType(DEVICE_LIST)
-//     .filter(action => action.status === 'Start')
-//     .map(() =>
-//       deviceList(
-//         '',
-//         initialDevices.map((d, i) =>
-//           createDevice({
-//             host: d.host,
-//             id: i.toString(),
-//             ip: d.ip,
-//             port: d.port,
-//             selected: d.selected,
-//             syncStatus: d.syncStatus
-//           })
-//         )
-//       )
-//     );
-
-export const announceSyncEpic = action$ =>
+export const announceSyncEpic = (action$: ActionsObservable<any>) =>
   action$
     .ofType(ANNOUNCE_SYNC)
     .filter(action => action.status === 'Start')
