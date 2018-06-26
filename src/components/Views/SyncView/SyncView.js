@@ -30,6 +30,7 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
+  announceSync: () => void,
   listDevices: () => void,
   selectDevice: (device?: Device) => void,
   toggleDeviceSelect: (device: Device) => void,
@@ -57,8 +58,9 @@ class SyncView extends React.Component<
   state = { wifi: false };
 
   componentDidMount() {
-    const { listDevices } = this.props;
+    const { announceSync, listDevices } = this.props;
 
+    announceSync();
     listDevices();
     NetInfo.getConnectionInfo().then(connectionInfo => {
       if (connectionInfo.type === 'wifi') {

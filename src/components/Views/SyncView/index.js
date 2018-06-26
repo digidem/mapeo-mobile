@@ -5,6 +5,7 @@ import { values } from 'lodash';
 import type { Dispatch } from 'redux';
 import { StoreState } from '../../../types/redux';
 import {
+  announceSync,
   deviceList,
   deviceSelect,
   deviceToggleSelect,
@@ -24,6 +25,7 @@ function mapStateToProps(state: StoreState): StateProps {
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
+    announceSync: () => dispatch(announceSync()),
     listDevices: () => dispatch(deviceList('')),
     selectDevice: device => dispatch(deviceSelect(device)),
     toggleDeviceSelect: device => dispatch(deviceToggleSelect(device)),

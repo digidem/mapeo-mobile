@@ -5,6 +5,20 @@ import { keyBy } from 'lodash';
 import { create } from '../lib/redux';
 
 export const {
+  type: ANNOUNCE_SYNC,
+  action: announceSync,
+  reducer: announceSyncReducer
+} = create('ANNOUNCE_SYNC', {
+  success: (state, action) => {
+    const newState = update(state, {
+      $toggle: ['announceSync']
+    });
+
+    return newState;
+  }
+});
+
+export const {
   type: DEVICE_LIST,
   action: deviceList,
   reducer: deviceListReducer
@@ -71,6 +85,7 @@ export const {
 });
 
 export default [
+  announceSyncReducer,
   deviceListReducer,
   deviceToggleSelectReducer,
   deviceSelectReducer,

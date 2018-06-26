@@ -46,6 +46,7 @@ export function createInitialStore() {
     },
     map: {
       styles: {}
-    }
+    },
+    announceSync: false
   };
 }
