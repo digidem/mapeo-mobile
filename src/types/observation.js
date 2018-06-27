@@ -9,6 +9,12 @@ export interface ObservationMedia {
   type: MediaType;
 }
 
+export type BackupMedia = {
+  id: string,
+  type: string,
+  observationMediaId: string
+};
+
 export interface Observation {
   type: string;
   id: string;
@@ -22,4 +28,6 @@ export interface Observation {
   media: ObservationMedia[];
   categoryId: string;
   fields: Field[];
+
+  mediaBackup: BackupMedia[];
 }

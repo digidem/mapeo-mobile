@@ -2,12 +2,14 @@
 import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 import { values } from 'lodash';
+import { withNavigationFocus } from 'react-navigation';
 import { StoreState } from '../../../types/redux';
 
 import {
   observationUpdate,
   observationSelect,
-  observationSave
+  observationSave,
+  observationUpdateSave
 } from '../../../ducks/observations';
 import { modalHide, modalShow } from '../../../ducks/modals';
 import ObservationEditor from './ObservationEditor';
@@ -39,8 +41,16 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
     hideCancelModal: () => dispatch(modalHide('cancelled')),
     hideManualGPSModal: () => dispatch(modalHide('manualGPS')),
     showManualGPSModal: () => dispatch(modalShow('manualGPS')),
-    saveObservation: () => dispatch(observationSave(null))
+    saveObservation: (update: boolean) => {
+      if (update) {
+        dispatch(observationUpdateSave(null));
+      } else {
+        dispatch(observationSave(null));
+      }
+    }
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ObservationEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withNavigationFocus(ObservationEditor)
+);
