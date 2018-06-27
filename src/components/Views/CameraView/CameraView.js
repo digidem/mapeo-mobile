@@ -204,7 +204,11 @@ class CameraView extends React.Component<
         {fromEditor && (
           <TouchableOpacity
             style={styles.cancelButton}
-            onPress={() => this.props.navigation.goBack()}
+            onPress={() =>
+              this.props.navigation.navigate({
+                routeName: 'ObservationEditor'
+              })
+            }
           >
             <Text style={styles.cancelText}>Cancel</Text>
           </TouchableOpacity>
