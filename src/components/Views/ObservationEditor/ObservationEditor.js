@@ -70,7 +70,9 @@ type State = {
   keyboardShown: boolean,
   text: string,
   keyboardHeight: number,
-  numExistingPhotos: number
+  numExistingPhotos: number,
+  existingNotes: string,
+  numExistingFieldsAnswered: number
 };
 
 const styles = StyleSheet.create({
@@ -238,9 +240,15 @@ class ObservationEditor extends React.Component<
 
     const { observations, selectedObservation } = props;
     let numExistingPhotos = 0;
+    let existingNotes = '';
+    let numExistingFieldsAnswered = 0;
     if (selectedObservation && observations) {
       if (observations.find(o => o.id === selectedObservation.id)) {
         numExistingPhotos = selectedObservation.media.length;
+        existingNotes = selectedObservation.notes;
+        numExistingFieldsAnswered = selectedObservation.fields.filter(
+          field => field.answered
+        ).length;
       }
     }
 
@@ -249,7 +257,9 @@ class ObservationEditor extends React.Component<
       text: props.selectedObservation ? props.selectedObservation.notes : '',
       goToCamera: false,
       keyboardHeight: 0,
-      numExistingPhotos
+      numExistingPhotos,
+      existingNotes,
+      numExistingFieldsAnswered
     };
   }
 
@@ -528,8 +538,26 @@ class ObservationEditor extends React.Component<
 
   hasEdits = () => {
     const { selectedObservation } = this.props;
+    const {
+      numExistingPhotos,
+      existingNotes,
+      numExistingFieldsAnswered,
+      text
+    } = this.state;
 
     if (selectedObservation) {
+      if (this.observationExists()) {
+        const currentFieldsAnswered = selectedObservation.fields.filter(
+          field => field.answered
+        ).length;
+
+        const hasEdits =
+          selectedObservation.media.length !== numExistingPhotos ||
+          text !== existingNotes ||
+          currentFieldsAnswered !== numExistingFieldsAnswered;
+
+        return hasEdits;
+      }
       const hasFieldAnswered = !!selectedObservation.fields.find(
         field => field.answered
       );
