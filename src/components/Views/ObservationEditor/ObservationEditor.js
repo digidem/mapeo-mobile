@@ -70,6 +70,7 @@ type State = {
   keyboardShown: boolean,
   text: string,
   keyboardHeight: number,
+  observationExists: boolean,
   numExistingPhotos: number,
   existingNotes: string,
   numExistingFieldsAnswered: number
@@ -239,11 +240,13 @@ class ObservationEditor extends React.Component<
     this.paddingInput = new Animated.Value(0);
 
     const { observations, selectedObservation } = props;
+    let observationExists = false;
     let numExistingPhotos = 0;
     let existingNotes = '';
     let numExistingFieldsAnswered = 0;
     if (selectedObservation && observations) {
       if (observations.find(o => o.id === selectedObservation.id)) {
+        observationExists = true;
         numExistingPhotos = selectedObservation.media.length;
         existingNotes = selectedObservation.notes;
         numExistingFieldsAnswered = selectedObservation.fields.filter(
@@ -257,6 +260,7 @@ class ObservationEditor extends React.Component<
       text: props.selectedObservation ? props.selectedObservation.notes : '',
       goToCamera: false,
       keyboardHeight: 0,
+      observationExists,
       numExistingPhotos,
       existingNotes,
       numExistingFieldsAnswered
@@ -313,6 +317,19 @@ class ObservationEditor extends React.Component<
     }
 
     return false;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { observations, selectedObservation } = this.props;
+
+    if (selectedObservation !== nextProps.selectedObservation) {
+      if (selectedObservation && observations) {
+        const observationExists = !!observations.find(
+          o => o.id === selectedObservation.id
+        );
+        this.setState({ observationExists });
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -427,7 +444,8 @@ class ObservationEditor extends React.Component<
     } else {
       navigation.navigate({
         routeName: 'CameraView',
-        params: { showEditorView: true }
+        params: { showEditorView: true },
+        key: 'camera-view'
       });
     }
     Keyboard.dismiss();
@@ -511,27 +529,18 @@ class ObservationEditor extends React.Component<
     } else {
       navigation.navigate({
         routeName: 'CameraView',
-        params: { showEditorView: false }
+        params: { showEditorView: false },
+        key: 'camera-view'
       });
     }
   };
 
-  observationExists = () => {
-    const { observations, selectedObservation } = this.props;
-
-    if (selectedObservation && observations) {
-      if (observations.find(o => o.id === selectedObservation.id)) {
-        return true;
-      }
-    }
-
-    return false;
-  };
-
   allowEditing = (index: number) => {
+    const { observationExists } = this.state;
+
     const allowEdit =
-      !this.observationExists() ||
-      (this.observationExists() && index >= this.state.numExistingPhotos);
+      !observationExists ||
+      (observationExists && index >= this.state.numExistingPhotos);
 
     return allowEdit;
   };
@@ -542,11 +551,12 @@ class ObservationEditor extends React.Component<
       numExistingPhotos,
       existingNotes,
       numExistingFieldsAnswered,
-      text
+      text,
+      observationExists
     } = this.state;
 
     if (selectedObservation) {
-      if (this.observationExists()) {
+      if (observationExists) {
         const currentFieldsAnswered = selectedObservation.fields.filter(
           field => field.answered
         ).length;
