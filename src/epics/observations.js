@@ -2,7 +2,6 @@
 import React from 'react';
 import { Observable } from 'rxjs';
 import { Image } from 'react-native';
-import { Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import type { ActionsObservable } from 'redux-observable';
 import {
