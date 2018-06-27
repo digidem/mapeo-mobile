@@ -69,7 +69,8 @@ type State = {
   goToCamera: boolean,
   keyboardShown: boolean,
   text: string,
-  keyboardHeight: number
+  keyboardHeight: number,
+  numExistingPhotos: number
 };
 
 const styles = StyleSheet.create({
@@ -235,11 +236,20 @@ class ObservationEditor extends React.Component<
 
     this.paddingInput = new Animated.Value(0);
 
+    const { observations, selectedObservation } = props;
+    let numExistingPhotos = 0;
+    if (selectedObservation && observations) {
+      if (observations.find(o => o.id === selectedObservation.id)) {
+        numExistingPhotos = selectedObservation.media.length;
+      }
+    }
+
     this.state = {
       keyboardShown: false,
       text: props.selectedObservation ? props.selectedObservation.notes : '',
       goToCamera: false,
-      keyboardHeight: 0
+      keyboardHeight: 0,
+      numExistingPhotos
     };
   }
 
@@ -496,6 +506,58 @@ class ObservationEditor extends React.Component<
     }
   };
 
+  observationExists = () => {
+    const { observations, selectedObservation } = this.props;
+
+    if (selectedObservation && observations) {
+      if (observations.find(o => o.id === selectedObservation.id)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  allowEditing = (index: number) => {
+    const allowEdit =
+      !this.observationExists() ||
+      (this.observationExists() && index >= this.state.numExistingPhotos);
+
+    return allowEdit;
+  };
+
+  hasEdits = () => {
+    const { selectedObservation } = this.props;
+
+    if (selectedObservation) {
+      const hasFieldAnswered = !!selectedObservation.fields.find(
+        field => field.answered
+      );
+      const noEdits =
+        selectedObservation &&
+        selectedObservation.media.length === 0 &&
+        selectedObservation.notes === '' &&
+        !hasFieldAnswered;
+
+      return !noEdits;
+    }
+
+    return false;
+  };
+
+  handleCancel = () => {
+    const { navigation, observationSource, showCancelModal } = this.props;
+    if (this.hasEdits()) {
+      showCancelModal();
+    } else if (observationSource === 'map') {
+      navigation.navigate({
+        routeName: 'MapView'
+      });
+    } else if (observationSource === 'detail') {
+      navigation.navigate({ routeName: 'ObservationDetailView' });
+    }
+  };
+
   render() {
     const {
       navigation,
@@ -529,7 +591,7 @@ class ObservationEditor extends React.Component<
           leftIcon={
             <TouchableOpacity
               underlayColor="rgba(0, 0, 0, 0.5)"
-              onPress={showCancelModal}
+              onPress={this.handleCancel}
             >
               <CloseIcon color="#9E9C9C" name="window-close" size={30} />
             </TouchableOpacity>
@@ -617,13 +679,24 @@ class ObservationEditor extends React.Component<
                   alignContent: 'flex-start'
                 }}
                 keyExtractor={keyExtractor}
-                renderItem={({ item }) => (
+                renderItem={({ item, index }) => (
                   <TouchableOpacity
                     onPress={() => {
-                      navigation.navigate({
-                        routeName: 'PhotoView',
-                        params: { photoSource: item.source }
-                      });
+                      if (this.allowEditing(index)) {
+                        navigation.navigate({
+                          routeName: 'PhotoView',
+                          params: { photoSource: item.source }
+                        });
+                      } else {
+                        navigation.navigate({
+                          routeName: 'PhotoView',
+                          params: {
+                            fromDetailView: true,
+                            photoType: item.type,
+                            photoSource: item.source
+                          }
+                        });
+                      }
                     }}
                     style={{ paddingLeft: 10 }}
                   >
