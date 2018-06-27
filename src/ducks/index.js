@@ -11,6 +11,7 @@ import observationSource from './observationSource';
 import devices from './devices';
 import settings from './settings';
 import map from './map';
+import media from './media';
 
 const rootReducer = combineReducers({
   app: appCombineReducers(
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
     ...gps,
     ...modals,
     ...observations,
-    ...map
+    ...map,
+    ...media
   )
 });
 

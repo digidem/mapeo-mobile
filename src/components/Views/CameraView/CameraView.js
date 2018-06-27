@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
 import { CHARCOAL, WHITE } from '../../../lib/styles.js';
+import { saveToCameraRoll } from '../../../lib/media';
 
 import ObservationsView from '../ObservationsView';
 import AddButton from '../../../images/add-button.png';

@@ -386,6 +386,20 @@ class ObservationEditor extends React.Component<
     this.setState({ text });
   };
 
+  isUpdateFlow = () => {
+    const { selectedObservation, observations } = this.props;
+    let updateFlow = false;
+    if (selectedObservation) {
+      observations.forEach(o => {
+        if (o.id === selectedObservation.id) {
+          updateFlow = true;
+        }
+      });
+    }
+
+    return updateFlow;
+  };
+
   handleSaveObservation = () => {
     const {
       updateObservation,
@@ -394,7 +408,8 @@ class ObservationEditor extends React.Component<
       navigation,
       gps,
       showManualGPSModal,
-      saveObservation
+      saveObservation,
+      observations
     } = this.props;
     const { text, keyboardShown } = this.state;
 
@@ -404,6 +419,8 @@ class ObservationEditor extends React.Component<
         notes: text
       });
     }
+
+    const updateFlow = this.isUpdateFlow();
 
     if (gps.status !== 'Success' || (gps.data && gps.data.accuracy > 100)) {
       if (keyboardShown) {
@@ -519,7 +536,7 @@ class ObservationEditor extends React.Component<
   handleSave = () => {
     const { observationSource, navigation, saveObservation } = this.props;
 
-    saveObservation();
+    saveObservation(this.isUpdateFlow());
     if (observationSource === 'map') {
       navigation.navigate({
         routeName: 'MapView'
@@ -842,4 +859,4 @@ class ObservationEditor extends React.Component<
   }
 }
 
-export default withNavigationFocus(ObservationEditor);
+export default ObservationEditor;

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
-import { Image } from 'react-native';
 import { Observable } from 'rxjs';
+import { Image } from 'react-native';
 import { debounceTime } from 'rxjs/operators';
 import type { ActionsObservable } from 'redux-observable';
 import {
@@ -10,9 +10,12 @@ import {
   OBSERVATION_SAVE,
   observationSave,
   OBSERVATION_UPDATE,
-  observationUpdate
+  observationUpdate,
+  OBSERVATION_UPDATE_SAVE,
+  observationUpdateSave
 } from '../ducks/observations';
 import { modalShow } from '../ducks/modals';
+import { mediaSave } from '../ducks/media';
 import { Action } from '../types/redux';
 import type { Observation as ObservationType } from '../types/observation';
 import type { StoreState } from '../types/redux';
@@ -46,9 +49,40 @@ export const observationSaveEpic = (
         observation =>
           Observable.merge(
             Observable.of(observationSave(action.meta, observation)),
-            Observable.of(modalShow('saved'))
+            Observable.of(modalShow('saved')),
+            ...observation.media.map(m =>
+              Observable.of(
+                mediaSave({
+                  observationId: observation.id,
+                  mediaId: m.id,
+                  source: m.source
+                })
+              )
+            )
           )
       )
     );
 
-export default [observationListEpic, observationSaveEpic];
+export const observationUpdateSaveEpic = (
+  action$: ActionsObservable<Action<UpdateRequest, ObservationType>>,
+  store: any
+) =>
+  action$
+    .ofType(OBSERVATION_UPDATE_SAVE)
+    .filter(
+      action =>
+        action.status === 'Start' &&
+        ((!action.meta && !!store.getState().app.selectedObservation) ||
+          action.meta)
+    )
+    .flatMap(action =>
+      Observation.update(
+        action.meta || store.getState().app.selectedObservation
+      ).map(observation => observationUpdateSave(action.meta, observation))
+    );
+
+export default [
+  observationListEpic,
+  observationSaveEpic,
+  observationUpdateSaveEpic
+];
