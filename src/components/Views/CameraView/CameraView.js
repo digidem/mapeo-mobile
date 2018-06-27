@@ -118,7 +118,8 @@ class CameraView extends React.Component<
       observations,
       selectedObservation,
       updateObservation,
-      updateObservationSource
+      updateObservationSource,
+      showEditorView
     } = this.props;
     if (this.camera) {
       const options = { quality: 0.5, base64: false, fixOrientation: true };
@@ -127,7 +128,7 @@ class CameraView extends React.Component<
         const data = await this.camera.takePictureAsync(options);
         this.setState({ loading: false });
 
-        if (selectedObservation) {
+        if (showEditorView && selectedObservation) {
           updateObservation({
             ...selectedObservation,
             media: selectedObservation.media.concat([
@@ -205,7 +206,9 @@ class CameraView extends React.Component<
         {fromEditor && (
           <TouchableOpacity
             style={styles.cancelButton}
-            onPress={() => this.props.navigation.goBack()}
+            onPress={() => {
+              this.props.navigation.goBack('camera-view');
+            }}
           >
             <Text style={styles.cancelText}>Cancel</Text>
           </TouchableOpacity>
