@@ -33,7 +33,8 @@ export type StateProps = {
 
 export type DispatchProps = {
   clearSelectedObservation: () => void,
-  updateObservation: (o: UpdateRequest) => void
+  updateObservation: (o: UpdateRequest) => void,
+  updateObservationSource: () => void
 };
 
 export type Props = {
@@ -254,7 +255,12 @@ class ObservationDetailView extends React.Component<
   };
 
   render() {
-    const { selectedObservation, categories, navigation } = this.props;
+    const {
+      selectedObservation,
+      categories,
+      navigation,
+      updateObservationSource
+    } = this.props;
     const keyExtractor = item => item.source.toString();
     let mediaTitle = null;
     let mediaText = `0 ${I18n.t('detail_view.photo')}s`;
@@ -300,6 +306,7 @@ class ObservationDetailView extends React.Component<
             <TouchableOpacity
               onPress={this.handleBack}
               underlayColor="transparent"
+              style={{ width: 40 }}
             >
               <FeatherIcon
                 color="lightgrey"
@@ -310,11 +317,12 @@ class ObservationDetailView extends React.Component<
             </TouchableOpacity>
             <Image source={CategoryPin} style={styles.categoryPin} />
             <TouchableOpacity
-              onPress={() =>
+              onPress={() => {
+                updateObservationSource();
                 navigation.navigate({
                   routeName: 'ObservationEditor'
-                })
-              }
+                });
+              }}
               style={{ position: 'absolute', right: 20, top: 25 }}
             >
               <Image source={PencilIcon} style={{ width: 20, height: 20 }} />

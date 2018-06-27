@@ -24,10 +24,8 @@ import {
 type Props = {
   device: Device,
   onPress: (i: Device) => void,
-  selectDevice: (device: Device) => void,
   selectedDevice?: Device,
-  showSyncedModal: () => void,
-  updateDeviceSync: (device: Device) => void
+  showSyncedModal: () => void
 };
 
 const styles = StyleSheet.create({
@@ -93,36 +91,6 @@ const DeviceCell = (props: Props) => {
   const handlePress = () => {
     props.onPress(props.device);
   };
-  const handleSyncUpdate = () => {
-    const syncInProgress =
-      props.device.syncStatus === 'requested' ||
-      props.device.syncStatus === 'syncing';
-
-    if (syncInProgress) {
-      props.updateDeviceSync({
-        ...props.device,
-        syncStatus: 'stopped'
-      });
-    } else {
-      props.updateDeviceSync({
-        ...props.device,
-        syncStatus: 'requested'
-      });
-      setTimeout(() => {
-        props.updateDeviceSync({
-          ...props.device,
-          syncStatus: 'syncing'
-        });
-      }, 1000);
-      setTimeout(() => {
-        props.updateDeviceSync({
-          ...props.device,
-          syncStatus: 'completed'
-        });
-        props.showSyncedModal();
-      }, 4000);
-    }
-  };
 
   let syncStatusText = I18n.t('sync.via_wifi');
   if (props.device.syncStatus === 'requested') {
@@ -149,10 +117,7 @@ const DeviceCell = (props: Props) => {
           <Text style={styles.syncStatus}>{syncStatusText}</Text>
         </View>
         {!syncInProgress && (
-          <TouchableOpacity
-            style={styles.syncButtonContainer}
-            onPress={handleSyncUpdate}
-          >
+          <View style={styles.syncButtonContainer}>
             <View style={styles.syncButtonOuterCircle}>
               <View style={styles.syncButtonInnerCircle}>
                 <Icon
@@ -163,13 +128,10 @@ const DeviceCell = (props: Props) => {
                 />
               </View>
             </View>
-          </TouchableOpacity>
+          </View>
         )}
         {syncInProgress && (
-          <TouchableOpacity
-            style={styles.syncButtonContainer}
-            onPress={handleSyncUpdate}
-          >
+          <View style={styles.syncButtonContainer}>
             <View
               style={{
                 position: 'absolute',
@@ -188,7 +150,7 @@ const DeviceCell = (props: Props) => {
               />
             </View>
             <ActivityIndicator size="large" color={VERY_LIGHT_BLUE} />
-          </TouchableOpacity>
+          </View>
         )}
       </View>
     </TouchableOpacity>
