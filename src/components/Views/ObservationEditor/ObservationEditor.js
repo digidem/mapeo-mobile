@@ -62,7 +62,7 @@ export type DispatchProps = {
   clearSelectedObservation: () => void,
   hideManualGPSModal: () => void,
   showManualGPSModal: () => void,
-  saveObservation: () => void
+  saveObservation: (update: boolean) => void
 };
 
 type State = {

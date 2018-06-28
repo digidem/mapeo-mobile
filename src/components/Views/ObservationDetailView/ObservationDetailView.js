@@ -351,7 +351,11 @@ class ObservationDetailView extends React.Component<
             </View>
             <Text style={styles.time}>
               {I18n.t('on')}{' '}
-              {moment(selectedObservation.created).format('MMMM D, h:hh A')}
+              {I18n.currentLocale().indexOf('en') !== -1
+                ? moment(selectedObservation.created).format(
+                    'MMMM D YYYY, h:hh A'
+                  )
+                : moment(selectedObservation.created).format('LLL')}
             </Text>
           </View>
           <View style={styles.section}>

@@ -54,10 +54,27 @@ const styles = StyleSheet.create({
   }
 });
 
+I18n.fallbacks = true;
+I18n.translations = {
+  en: require('../../../translations/en'),
+  es: require('../../../translations/es')
+};
+
 class Header extends React.PureComponent<Props & StateProps> {
   render() {
     const { leftIcon, rightIcon, style, showTriangle, gps } = this.props;
-    const showLoading = gps.status === 'Pending' || gps.data.accuracy > 100;
+    const showLoading =
+      gps &&
+      (gps.status === 'Pending' || (gps.data && gps.data.accuracy > 100));
+
+    let title = '';
+    if (gps === undefined || gps.status === 'Failed') {
+      title = I18n.t('gps.off');
+    } else if (gps.status === 'Pending') {
+      title = I18n.t('gps.loading');
+    } else {
+      title = `+/-  ${Math.round(gps.data.accuracy)}m`;
+    }
 
     return (
       <View style={[styles.headerBar, style]}>
@@ -73,18 +90,17 @@ class Header extends React.PureComponent<Props & StateProps> {
             {!showLoading && (
               <View
                 style={{
-                  backgroundColor: GREEN,
+                  backgroundColor:
+                    gps === undefined || gps.status === 'Failed'
+                      ? 'lightgrey'
+                      : GREEN,
                   height: 10,
                   width: 10,
                   borderRadius: 50
                 }}
               />
             )}
-            <Text style={{ color: WHITE, marginHorizontal: 20 }}>
-              {gps.status === 'Pending'
-                ? 'GPS Loading...'
-                : `+/-  ${Math.round(gps.data.accuracy)}m`}
-            </Text>
+            <Text style={{ color: WHITE, marginHorizontal: 20 }}>{title}</Text>
           </View>
           {showTriangle && <View style={styles.triangle} />}
         </View>

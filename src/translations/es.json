@@ -84,6 +84,7 @@
     "initiated": "Sincronización iniciada...",
     "progress": "Sincronización en progreso...",
     "stopped": "Sincronización detenida...",
+    "completed": "Sincronización completa",
     "via_wifi": "vía WiFi",
     "requested": "Sincronización solicitada",
     "syncing": "Sincronizacíon",
@@ -93,5 +94,9 @@
       "details": "Se agregaron nuevas observaciones",
       "ok": "OK"
     }
+  },
+  "gps": {
+    "loading": "Carga de GPS...",
+    "off": "GPS desactivado"
   }
 }

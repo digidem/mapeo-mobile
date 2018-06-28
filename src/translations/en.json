@@ -84,6 +84,7 @@
     "initiated": "Sync initiated...",
     "progress": "Sync in progress...",
     "stopped": "Sync stopped...",
+    "completed": "Sync completed",
     "via_wifi": "via WiFi",
     "requested": "Sync requested...",
     "syncing": "Syncing...",
@@ -93,5 +94,9 @@
       "details": "New observations have been added",
       "ok": "OK"
     }
+  },
+  "gps": {
+    "loading": "GPS Loading...",
+    "off": "GPS Off"
   }
 }
