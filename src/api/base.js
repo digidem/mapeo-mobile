@@ -1,6 +1,7 @@
 // @flow
 import { Observable } from 'rxjs';
 import { retryBackoff } from 'backoff-rxjs';
+import DOMParser from 'react-xml-parser';
 
 export const API_DOMAIN_URL = 'http://localhost:9080';
 
@@ -51,6 +52,14 @@ type Parameters = {
 export const jsonRequest = (parameters: Parameters) =>
   request(parameters.method, parameters.route, parameters.body).flatMap(
     response => response.json()
+  );
+
+export const xmlRequest = (parameters: Parameters) =>
+  request(parameters.method, parameters.route, parameters.body).flatMap(
+    response => {
+      console.log('RN -', response.json(), response.text());
+      return new DOMParser().parseFromString(response.text(), 'text/xml');
+    }
   );
 
 export const blankRequest = (parameters: Parameters) =>

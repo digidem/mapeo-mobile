@@ -143,7 +143,7 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
       updateObservation({
         id: selectedObservation.id,
         categoryId: item.id,
-        fields: item.fieldIds.map(fieldId => allFields[fieldId])
+        fields: item.fields.map(field => allFields[field])
       });
 
       navigation.navigate({
@@ -173,9 +173,7 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
             />
           </View>
         )}
-        <Text style={styles.categoryName}>
-          {I18n.t(`categories.${item.id}`)}
-        </Text>
+        <Text style={styles.categoryName}>{item.name}</Text>
       </View>
     </TouchableOpacity>
   );

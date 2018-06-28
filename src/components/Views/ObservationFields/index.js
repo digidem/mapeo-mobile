@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 import { values } from 'lodash';
 import { StoreState } from '../../../types/redux';
-import { fieldList } from '../../../ducks/fields';
 import { observationUpdate } from '../../../ducks/observations';
 import ObservationFields from './ObservationFields';
 import type { Props, StateProps, DispatchProps } from './ObservationFields';

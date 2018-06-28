@@ -5,7 +5,6 @@ import { values } from 'lodash';
 import { withNavigationFocus } from 'react-navigation';
 import { StoreState } from '../../../types/redux';
 import { categoryList } from '../../../ducks/categories';
-import { fieldList } from '../../../ducks/fields';
 import {
   observationUpdate,
   observationSelect
@@ -38,7 +37,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
     updateObservation: observation => dispatch(observationUpdate(observation)),
     listCategories: () => {
       dispatch(categoryList(''));
-      dispatch(fieldList(''));
     },
     clearSelectedObservation: () => {
       dispatch(observationSelect(undefined));

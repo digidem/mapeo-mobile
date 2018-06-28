@@ -1,6 +1,5 @@
 // @flow
-import fetch from 'fetch';
-import { jsonRequest } from './base';
+import { jsonRequest, xmlRequest } from './base';
 import { applyStyleDefaults } from '../models/map';
 
 class Presets {
@@ -13,6 +12,11 @@ class Presets {
     jsonRequest({
       method: 'GET',
       route: `/presets/${id}/presets.json`
+    });
+  static icons = (id: string) =>
+    xmlRequest({
+      method: 'GET',
+      route: `/presets/${id}/icons.svg`
     });
 }
 
