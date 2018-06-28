@@ -2,6 +2,7 @@
 
 import update from 'immutability-helper';
 import { keyBy } from 'lodash';
+import shortid from 'shortid';
 import { create } from '../lib/redux';
 import { createSelector } from '../lib/selector';
 import type { StoreState } from '../types/redux';
@@ -77,6 +78,26 @@ export const {
 });
 
 export const {
+  type: OBSERVATION_UPDATE_SAVE,
+  action: observationUpdateSave,
+  reducer: observationUpdateSaveReducer
+} = create('OBSERVATION_UPDATE_SAVE', {
+  success: (state, action) => {
+    if (!action.payload) {
+      return state;
+    }
+
+    return update(state, {
+      observations: {
+        [action.payload.id]: {
+          $set: action.payload
+        }
+      }
+    });
+  }
+});
+
+export const {
   type: OBSERVATION_SELECT,
   action: observationSelect,
   reducer: observationSelectReducer
@@ -89,7 +110,47 @@ export const {
   type: OBSERVATION_SAVE,
   action: observationSave,
   reducer: observationSaveReducer
-} = create('OBSERVATION_SAVE', {});
+} = create('OBSERVATION_SAVE', {
+  start: (state, action) => {
+    if (
+      !state.selectedObservation ||
+      !state.selectedObservation.media ||
+      !state.selectedObservation.media.length
+    ) {
+      return state;
+    }
+
+    return update(state, {
+      selectedObservation: {
+        media: {
+          $set: state.selectedObservation.media.map(m => {
+            if (!m.id) {
+              return {
+                ...m,
+                id: shortid.generate()
+              };
+            }
+
+            return m;
+          })
+        }
+      }
+    });
+  },
+  success: (state, action) => {
+    if (!action.payload) {
+      return state;
+    }
+
+    return update(state, {
+      observations: {
+        [action.payload.id]: {
+          $set: action.payload
+        }
+      }
+    });
+  }
+});
 
 export const selectObservation = createSelector(
   [(state: StoreState, id: string): Observation => state.app.observations[id]],

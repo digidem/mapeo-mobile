@@ -306,6 +306,7 @@ class ObservationDetailView extends React.Component<
             <TouchableOpacity
               onPress={this.handleBack}
               underlayColor="transparent"
+              style={{ width: 40 }}
             >
               <FeatherIcon
                 color="lightgrey"

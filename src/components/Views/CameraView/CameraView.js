@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
 import { CHARCOAL, WHITE } from '../../../lib/styles.js';
+import { saveToCameraRoll } from '../../../lib/media';
 
 import ObservationsView from '../ObservationsView';
 import AddButton from '../../../images/add-button.png';
@@ -117,7 +118,8 @@ class CameraView extends React.Component<
       observations,
       selectedObservation,
       updateObservation,
-      updateObservationSource
+      updateObservationSource,
+      showEditorView
     } = this.props;
     if (this.camera) {
       const options = { quality: 0.5, base64: false, fixOrientation: true };
@@ -126,7 +128,7 @@ class CameraView extends React.Component<
         const data = await this.camera.takePictureAsync(options);
         this.setState({ loading: false });
 
-        if (selectedObservation) {
+        if (showEditorView && selectedObservation) {
           updateObservation({
             ...selectedObservation,
             media: selectedObservation.media.concat([
@@ -204,7 +206,9 @@ class CameraView extends React.Component<
         {fromEditor && (
           <TouchableOpacity
             style={styles.cancelButton}
-            onPress={() => this.props.navigation.goBack()}
+            onPress={() => {
+              this.props.navigation.goBack('camera-view');
+            }}
           >
             <Text style={styles.cancelText}>Cancel</Text>
           </TouchableOpacity>
