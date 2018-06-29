@@ -385,7 +385,7 @@ class ObservationEditor extends React.Component<
     }
   };
 
-  handleTextInputChange = text => {
+  handleTextInputChange = (text: string) => {
     this.setState({ text });
   };
 

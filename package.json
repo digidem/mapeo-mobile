@@ -39,7 +39,7 @@
     "redux-persist": "^5.9.1",
     "rxjs": "^5.5.6",
     "shortid": "^2.2.8",
-    "utm": "^1.1.1",
+    "utm": "^1.1.1"
   },
   "devDependencies": {
     "appium": "^1.7.1",

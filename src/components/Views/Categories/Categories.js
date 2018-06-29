@@ -144,7 +144,7 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
       updateObservation({
         id: selectedObservation.id,
         categoryId: item.id,
-        fields: item.fields.map(field => allFields[field])
+        fields: item && item.fields.map(field => allFields[field])
       });
 
       navigation.navigate({

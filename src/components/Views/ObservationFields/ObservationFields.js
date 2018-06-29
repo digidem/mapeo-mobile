@@ -33,7 +33,7 @@ import {
 import Header from '../../Base/Header';
 
 export type StateProps = {
-  allFields: Field[],
+  allFields: Object,
   selectedObservation: Observation
 };
 
@@ -112,8 +112,8 @@ class ObservationDetails extends React.Component<
       <FieldInput
         key={i}
         field={field}
-        title={allFields[parseInt(field.id)].name}
-        placeholder={allFields[parseInt(field.id)].placeholder}
+        title={allFields[field.id].name}
+        placeholder={allFields[field.id].placeholder}
       />
     ));
 

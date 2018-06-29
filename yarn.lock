@@ -7032,12 +7032,6 @@ react-native-safe-area-view@^0.8.0:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
-react-native-svg-uri@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/react-native-svg-uri/-/react-native-svg-uri-1.2.3.tgz#2f67f30564068a0fee68a751845332a5185a1aab"
-  dependencies:
-    xmldom "^0.1.22"
-
 react-native-svg@^6.3.1:
   version "6.3.1"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-6.3.1.tgz#06a573f17c59ce953a56fd62e776fd79d632d765"
@@ -7247,10 +7241,6 @@ react-transform-hmr@^1.0.4:
   dependencies:
     global "^4.3.0"
     react-proxy "^1.1.7"
-
-react-xml-parser@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/react-xml-parser/-/react-xml-parser-1.0.7.tgz#e1f6f9d8ee57ff082eb2ce638a4e14d78a5c0172"
 
 react@^16.3.1:
   version "16.4.1"
