@@ -16,6 +16,10 @@ import ObservationEditor from './ObservationEditor';
 import type { Props, StateProps, DispatchProps } from './ObservationEditor';
 
 function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
+  const category = state.app.selectedObservation
+    ? state.app.categories[state.app.selectedObservation.categoryId]
+    : undefined;
+
   return {
     category:
       (state.app.categories &&
@@ -23,13 +27,15 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
         ownProps.navigation.state.params &&
         ownProps.navigation.state.params.category &&
         state.app.categories[ownProps.navigation.state.params.category]) ||
-      undefined,
+      category,
     selectedObservation: state.app.selectedObservation,
     observations: values(state.app.observations),
     observationSource: state.app.observationSource.source,
     cancelModalVisible: state.app.modals.cancelled,
     gps: state.app.gps,
-    manualGPSModalVisible: state.app.modals.manualGPS
+    manualGPSModalVisible: state.app.modals.manualGPS,
+    gpsFormat: state.app.settings.gpsFormat,
+    icons: state.app.icons
   };
 }
 

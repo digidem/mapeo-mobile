@@ -15,19 +15,23 @@ describe('Categories tests', () => {
   const updateObservation = jest.fn();
   const clearSelectedObservation = jest.fn();
   const field = createField();
+  const icons = {
+    [createCategory().icon]: 'icon'
+  };
 
   test('snapshot', () => {
     const tree = renderer
       .create(
         <Categories
           categories={categories}
-          isFocused
+          navigation={{}}
           selectedObservation={selectedObservation}
           listCategories={listCategories}
           updateObservation={updateObservation}
           allFields={{ [field.id]: field }}
           updateFlow={false}
           clearSelectedObservation={clearSelectedObservation}
+          icons={icons}
         />
       )
       .toJSON();

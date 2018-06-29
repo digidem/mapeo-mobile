@@ -6,9 +6,9 @@ import {
   Modal,
   Text,
   ImageBackground,
-  StyleSheet,
-  Image
+  StyleSheet
 } from 'react-native';
+import Image from 'react-native-remote-svg';
 import type { Observation } from '../../../types/observation';
 import type { Category } from '../../../types/category';
 import Toast from '../Toast/Toast';
@@ -21,13 +21,16 @@ import {
   VERY_LIGHT_BLUE,
   MEDIUM_GREY
 } from '../../../lib/styles';
+import getGPSText from '../../../lib/getGPSText';
 import CategoryPin from '../../../images/category-pin.png';
 
 export type StateProps = {
   selectedObservation: Observation,
   categories: {
     [id: string]: Category
-  }
+  },
+  gpsFormat: string,
+  icons: Object
 };
 
 export type DispatchProps = {
@@ -96,7 +99,18 @@ I18n.translations = {
 
 class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
   render() {
-    const { onHide, selectedObservation, categories } = this.props;
+    const {
+      onHide,
+      selectedObservation,
+      categories,
+      gpsFormat,
+      icons
+    } = this.props;
+    const positionText = getGPSText({
+      gpsFormat,
+      lat: selectedObservation.lat,
+      lon: selectedObservation.lon
+    });
     let category;
 
     if (!selectedObservation) {
@@ -138,13 +152,17 @@ class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
                 >
                   {category && (
                     <View style={{ marginTop: -10 }}>
-                      {category.icon && (
-                        <Image
-                          source={category.icon}
-                          style={{ width: 30, height: 30 }}
-                          resizeMode="contain"
-                        />
-                      )}
+                      {!!category.icon &&
+                        !!icons[category.icon] && (
+                          <Image
+                            source={{
+                              uri: `data:image/svg+xml;utf8,${
+                                icons[category.icon]
+                              }`
+                            }}
+                            style={{ height: 30, width: 30 }}
+                          />
+                        )}
                     </View>
                   )}
                 </ImageBackground>
@@ -156,21 +174,21 @@ class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
                   }}
                 >
                   <Text style={styles.title}>
-                    {I18n.t(`categories.${selectedObservation.categoryId}`)}
+                    {selectedObservation.categoryId}
                   </Text>
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.positionAtText}>{I18n.t('at')} </Text>
                     <Text style={styles.positionText}>
-                      {`${selectedObservation.lat}, ${
-                        selectedObservation.lon
-                      }.`}
+                      {`${positionText}.`}
                     </Text>
                   </View>
                   <Text style={styles.date}>
                     {I18n.t('on')}{' '}
-                    {moment(selectedObservation.created).format(
-                      'MMMM D, h:mm A'
-                    )}
+                    {I18n.currentLocale().indexOf('en') !== -1
+                      ? moment(selectedObservation.created).format(
+                          'MMMM D YYYY, h:hh A'
+                        )
+                      : moment(selectedObservation.created).format('LLL')}
                   </Text>
                 </View>
               </View>

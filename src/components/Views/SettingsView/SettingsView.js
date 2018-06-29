@@ -183,7 +183,11 @@ class SettingsView extends React.Component<Props & StateProps & DispatchProps> {
                 selectedValue={selectedStyle && selectedStyle.id}
               >
                 {Object.keys(mapStyles).map(id => (
-                  <Picker.Item label={mapStyles[id].name} value={id} key={id} />
+                  <Picker.Item
+                    label={I18n.t(`settings.${mapStyles[id].name.toString()}`)}
+                    value={id}
+                    key={id}
+                  />
                 ))}
               </Picker>
             </View>

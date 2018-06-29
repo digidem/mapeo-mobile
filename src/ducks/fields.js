@@ -24,4 +24,19 @@ export const {
   reducer: presetsSelectReducer
 } = create('PRESETS_SELECT', {});
 
-export default [fieldListReducer, presetsSelectReducer];
+export const {
+  type: PRESETS_ICONS_LIST,
+  action: presetsIconsList,
+  reducer: presetsIconsListReducer
+} = create('PRESETS_ICONS_LIST', {
+  success: (state, action) =>
+    update(state, {
+      icons: { $set: action.payload }
+    })
+});
+
+export default [
+  fieldListReducer,
+  presetsSelectReducer,
+  presetsIconsListReducer
+];

@@ -1,6 +1,9 @@
 {
   "at": "at",
   "on": "on",
+  "of": "of",
+  "answered": "answered",
+  "cancel": "Cancel",
   "category": "Category",
   "categories": {
     "0": "River/stream",
@@ -74,7 +77,10 @@
     "ddm": "Degrees & Decimal Minutes",
     "dms": "Degrees, Minutes, Seconds",
     "utm": "UTM Coordinates",
-    "map_style": "Map Style"
+    "map_style": "Map Style",
+    "Mapbox Streets": "Mapbox Streets",
+    "Satellite": "Satellite",
+    "Mapbox Satellite Streets": "Mapbox Satellite Streets"
   },
   "sync": {
     "none": "No Available Devices",
@@ -84,6 +90,7 @@
     "initiated": "Sync initiated...",
     "progress": "Sync in progress...",
     "stopped": "Sync stopped...",
+    "completed": "Sync completed",
     "via_wifi": "via WiFi",
     "requested": "Sync requested...",
     "syncing": "Syncing...",
@@ -93,5 +100,9 @@
       "details": "New observations have been added",
       "ok": "OK"
     }
+  },
+  "gps": {
+    "loading": "GPS Loading...",
+    "off": "GPS Off"
   }
 }

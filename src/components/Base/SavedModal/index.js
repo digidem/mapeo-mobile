@@ -8,7 +8,9 @@ import { observationSource } from '../../../ducks/observationSource';
 
 const mapStateToProps = state => ({
   selectedObservation: state.app.selectedObservation,
-  categories: state.app.categories
+  categories: state.app.categories,
+  gpsFormat: state.app.settings.gpsFormat,
+  icons: state.app.icons
 });
 
 const mapDispatchToProps = dispatch => ({
