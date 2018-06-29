@@ -308,7 +308,6 @@ class ObservationDetailView extends React.Component<
       lon: selectedObservation.lon
     });
     const category = categories[selectedObservation.categoryId];
-    console.log('RN - ', icons[category.icon]);
 
     return (
       <View style={{ flex: 1 }}>

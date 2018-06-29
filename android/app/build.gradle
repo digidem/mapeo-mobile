@@ -195,7 +195,6 @@ dependencies {
     compile project(':react-native-vector-icons')
     compile project(':react-native-i18n')
     compile project(':react-native-camera')
-    compile project(':react-native-svg')
     compile project(':react-native-node')
     compile project(':mapbox-react-native-mapbox-gl')
     compile fileTree(dir: "libs", include: ["*.jar"])
