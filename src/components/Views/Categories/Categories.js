@@ -158,7 +158,6 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
 
   renderItem = ({ item }) => {
     const { icons } = this.props;
-    console.log('RN -', icons, item.icon, icons[item.icon]);
 
     return (
       <TouchableOpacity
