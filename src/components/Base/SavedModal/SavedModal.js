@@ -21,13 +21,15 @@ import {
   VERY_LIGHT_BLUE,
   MEDIUM_GREY
 } from '../../../lib/styles';
+import getGPSText from '../../../lib/getGPSText';
 import CategoryPin from '../../../images/category-pin.png';
 
 export type StateProps = {
   selectedObservation: Observation,
   categories: {
     [id: string]: Category
-  }
+  },
+  gpsFormat: string
 };
 
 export type DispatchProps = {
@@ -96,7 +98,12 @@ I18n.translations = {
 
 class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
   render() {
-    const { onHide, selectedObservation, categories } = this.props;
+    const { onHide, selectedObservation, categories, gpsFormat } = this.props;
+    const positionText = getGPSText({
+      gpsFormat,
+      lat: selectedObservation.lat,
+      lon: selectedObservation.lon
+    });
     let category;
 
     if (!selectedObservation) {
@@ -161,16 +168,16 @@ class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.positionAtText}>{I18n.t('at')} </Text>
                     <Text style={styles.positionText}>
-                      {`${selectedObservation.lat}, ${
-                        selectedObservation.lon
-                      }.`}
+                      {`${positionText}.`}
                     </Text>
                   </View>
                   <Text style={styles.date}>
                     {I18n.t('on')}{' '}
-                    {moment(selectedObservation.created).format(
-                      'MMMM D, h:mm A'
-                    )}
+                    {I18n.currentLocale().indexOf('en') !== -1
+                      ? moment(selectedObservation.created).format(
+                          'MMMM D YYYY, h:hh A'
+                        )
+                      : moment(selectedObservation.created).format('LLL')}
                   </Text>
                 </View>
               </View>

@@ -40,6 +40,7 @@ import {
 } from '../../../lib/styles';
 import Header from '../../Base/Header';
 import ManualGPSModal from '../../Base/ManualGPSModal';
+import getGPSText from '../../../lib/getGPSText';
 
 export type StateProps = {
   category?: Category,
@@ -48,7 +49,8 @@ export type StateProps = {
   observationSource: string,
   cancelModalVisible: boolean,
   gps: Resource<GPSState>,
-  manualGPSModalVisible: boolean
+  manualGPSModalVisible: boolean,
+  gpsFormat: string
 };
 
 export type Props = {
@@ -62,7 +64,7 @@ export type DispatchProps = {
   clearSelectedObservation: () => void,
   hideManualGPSModal: () => void,
   showManualGPSModal: () => void,
-  saveObservation: () => void
+  saveObservation: (update: boolean) => void
 };
 
 type State = {
@@ -620,16 +622,22 @@ class ObservationEditor extends React.Component<
       showCancelModal,
       cancelModalVisible,
       showManualGPSModal,
-      category
+      category,
+      gpsFormat
     } = this.props;
     const { keyboardShown, text } = this.state;
-    const positionText = selectedObservation
-      ? `${selectedObservation.lat}, ${selectedObservation.lon}`
-      : 'Loading...';
     const keyExtractor = item => item.source;
     const goToManualEnter = () => {
       navigation.navigate({ routeName: 'ManualGPSView' });
     };
+    let positionText = I18n.t('loading');
+    if (selectedObservation) {
+      positionText = getGPSText({
+        gpsFormat,
+        lat: selectedObservation.lat,
+        lon: selectedObservation.lon
+      });
+    }
     let fieldAnswered;
     if (selectedObservation) {
       fieldAnswered = selectedObservation.fields.find(f => f.answered);

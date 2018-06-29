@@ -21,6 +21,7 @@ import type { UpdateRequest } from '@api/observations';
 import type { Observation } from '../../../types/observation';
 import type { Category } from '../../../types/category';
 import { DARK_GREY, MEDIUM_GREY, MANGO } from '../../../lib/styles';
+import getGPSText from '../../../lib/getGPSText';
 import CategoryPin from '../../../images/category-pin.png';
 import PencilIcon from '../../../images/editor-details.png';
 
@@ -28,7 +29,8 @@ export type StateProps = {
   selectedObservation?: Observation,
   categories: {
     [id: string]: Category
-  }
+  },
+  gpsFormat: string
 };
 
 export type DispatchProps = {
@@ -259,7 +261,8 @@ class ObservationDetailView extends React.Component<
       selectedObservation,
       categories,
       navigation,
-      updateObservationSource
+      updateObservationSource,
+      gpsFormat
     } = this.props;
     const keyExtractor = item => item.source.toString();
     let mediaTitle = null;
@@ -298,6 +301,11 @@ class ObservationDetailView extends React.Component<
         </Text>
       </View>
     ));
+    const positionText = getGPSText({
+      gpsFormat,
+      lat: selectedObservation.lat,
+      lon: selectedObservation.lon
+    });
 
     return (
       <View style={{ flex: 1 }}>
@@ -345,13 +353,15 @@ class ObservationDetailView extends React.Component<
             </Text>
             <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
               <Text style={styles.positionAtText}>{I18n.t('at')} </Text>
-              <Text style={styles.positionText}>
-                {`${selectedObservation.lat}, ${selectedObservation.lon}.`}
-              </Text>
+              <Text style={styles.positionText}>{positionText}</Text>
             </View>
             <Text style={styles.time}>
               {I18n.t('on')}{' '}
-              {moment(selectedObservation.created).format('MMMM D, h:hh A')}
+              {I18n.currentLocale().indexOf('en') !== -1
+                ? moment(selectedObservation.created).format(
+                    'MMMM D YYYY, h:hh A'
+                  )
+                : moment(selectedObservation.created).format('LLL')}
             </Text>
           </View>
           <View style={styles.section}>

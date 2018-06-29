@@ -222,7 +222,7 @@ exports[`SettingsView tests snapshot 1`] = `
             items={
               Array [
                 Object {
-                  "label": "Test Style",
+                  "label": "[missing \\"en.settings.Test Style\\" translation]",
                   "textColor": undefined,
                   "value": "test-style",
                 },
@@ -472,7 +472,7 @@ exports[`SettingsView tests snapshot 2`] = `
             items={
               Array [
                 Object {
-                  "label": "Test Style",
+                  "label": "[missing \\"en.settings.Test Style\\" translation]",
                   "textColor": undefined,
                   "value": "test-style",
                 },
@@ -722,7 +722,7 @@ exports[`SettingsView tests snapshot 3`] = `
             items={
               Array [
                 Object {
-                  "label": "Test Style",
+                  "label": "[missing \\"en.settings.Test Style\\" translation]",
                   "textColor": undefined,
                   "value": "test-style",
                 },
@@ -972,7 +972,7 @@ exports[`SettingsView tests snapshot 4`] = `
             items={
               Array [
                 Object {
-                  "label": "Test Style",
+                  "label": "[missing \\"en.settings.Test Style\\" translation]",
                   "textColor": undefined,
                   "value": "test-style",
                 },
