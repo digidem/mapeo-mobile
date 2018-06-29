@@ -28,7 +28,8 @@ function mapStateToProps(state: StoreState): StateProps {
     allFields: state.app.fields,
     categories,
     selectedObservation,
-    updateFlow
+    updateFlow,
+    icons: state.app.icons
   };
 }
 

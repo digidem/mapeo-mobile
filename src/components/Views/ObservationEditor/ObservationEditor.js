@@ -9,11 +9,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Image,
   ImageBackground,
   FlatList,
   ScrollView
 } from 'react-native';
+import Image from 'react-native-remote-svg';
 import { withNavigationFocus } from 'react-navigation';
 import CancelModal from '../../Base/CancelModal/CancelModal';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
@@ -50,7 +50,8 @@ export type StateProps = {
   cancelModalVisible: boolean,
   gps: Resource<GPSState>,
   manualGPSModalVisible: boolean,
-  gpsFormat: string
+  gpsFormat: string,
+  icons: Object
 };
 
 export type Props = {
@@ -622,8 +623,9 @@ class ObservationEditor extends React.Component<
       showCancelModal,
       cancelModalVisible,
       showManualGPSModal,
+      gpsFormat,
       category,
-      gpsFormat
+      icons
     } = this.props;
     const { keyboardShown, text } = this.state;
     const keyExtractor = item => item.source;
@@ -690,11 +692,13 @@ class ObservationEditor extends React.Component<
           <TouchableOpacity onPress={this.goToCategoriesView}>
             <View style={styles.circle}>
               {!!category &&
-                !!category.icon && (
+                !!category.icon &&
+                !!icons[category.icon] && (
                   <Image
-                    source={category.icon}
-                    style={{ width: 30, height: 30 }}
-                    resizeMode="contain"
+                    source={{
+                      uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
+                    }}
+                    style={{ height: 30, width: 30 }}
                   />
                 )}
             </View>

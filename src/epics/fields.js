@@ -14,6 +14,7 @@ import type { Action } from '../types/redux';
 import type { Field } from '../types/field';
 import { values } from 'lodash';
 import Presets from '../api/presets';
+import DOMParser from 'react-native-xml2js';
 
 export const presetsSelectEpic = (
   action$: ActionsObservable<Action<string, Field[]>>
@@ -23,8 +24,7 @@ export const presetsSelectEpic = (
     .filter(action => action.status === 'Start')
     .flatMap(action =>
       Presets.get(action.meta).flatMap(presets =>
-        Observable.merge(
-          Observable.of(presetsIconsList(action.meta)),
+        Observable.concat(
           Observable.of(
             fieldList(
               '',
@@ -48,7 +48,8 @@ export const presetsSelectEpic = (
                 fields: presets.presets[k].fields
               }))
             )
-          )
+          ),
+          Observable.of(presetsIconsList(action.meta))
         )
       )
     );
@@ -60,8 +61,27 @@ export const presetsIconsListEpic = (
     .ofType(PRESETS_ICONS_LIST)
     .filter(action => action.status === 'Start')
     .flatMap(action =>
-      Presets.icons(action.meta).map(icons =>
-        presetsIconsList(action.meta, icons)
+      Presets.icons(action.meta).flatMap(iconsString =>
+        Observable.create(observer => {
+          DOMParser.parseString(iconsString, { trim: true }, (err, result) => {
+            if (err) {
+              observer.error(err);
+            }
+
+            const icons = {};
+            const builder = new DOMParser.Builder({
+              rootName: 'svg',
+              headless: true
+            });
+            result.svg.symbol.forEach(s => {
+              icons[s.$.id] = builder.buildObject(s);
+            });
+
+            observer.next(icons);
+          });
+        })
+          .map(icons => presetsIconsList(action.meta, icons))
+          .catch(err => Observable.of(presetsIconsList(action.meta, err)))
       )
     );
 

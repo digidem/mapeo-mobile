@@ -2,13 +2,13 @@
 import React from 'react';
 import {
   FlatList,
-  Image,
   Text,
   TouchableOpacity,
   View,
   ScrollView,
   StyleSheet
 } from 'react-native';
+import Image from 'react-native-remote-svg';
 import moment from '../../../lib/localizedMoment';
 import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
@@ -30,7 +30,8 @@ export type StateProps = {
   categories: {
     [id: string]: Category
   },
-  gpsFormat: string
+  gpsFormat: string,
+  icons: Object
 };
 
 export type DispatchProps = {
@@ -70,7 +71,6 @@ const styles = StyleSheet.create({
   },
   categoryIconContainer: {
     alignItems: 'center',
-    marginTop: 10,
     marginBottom: 30
   },
   categoryPin: {
@@ -262,7 +262,8 @@ class ObservationDetailView extends React.Component<
       categories,
       navigation,
       updateObservationSource,
-      gpsFormat
+      gpsFormat,
+      icons
     } = this.props;
     const keyExtractor = item => item.source.toString();
     let mediaTitle = null;
@@ -306,6 +307,8 @@ class ObservationDetailView extends React.Component<
       lat: selectedObservation.lat,
       lon: selectedObservation.lon
     });
+    const category = categories[selectedObservation.categoryId];
+    console.log('RN - ', icons[category.icon]);
 
     return (
       <View style={{ flex: 1 }}>
@@ -336,21 +339,17 @@ class ObservationDetailView extends React.Component<
               <Image source={PencilIcon} style={{ width: 20, height: 20 }} />
             </TouchableOpacity>
             <View style={styles.categoryIconContainer}>
-              <Image
-                source={categories[selectedObservation.categoryId].icon}
-                style={{ width: 25, height: 25 }}
-                resizeMode="contain"
-              />
+              {!!category &&
+                !!icons[category.icon] && (
+                  <Image
+                    source={{
+                      uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
+                    }}
+                    style={{ height: 30, width: 30 }}
+                  />
+                )}
             </View>
-            <Text style={styles.title}>
-              {I18n.t(
-                `categories.${
-                  selectedObservation.categoryId
-                    ? selectedObservation.categoryId
-                    : ''
-                }`
-              )}
-            </Text>
+            <Text style={styles.title}>{selectedObservation.categoryId}</Text>
             <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
               <Text style={styles.positionAtText}>{I18n.t('at')} </Text>
               <Text style={styles.positionText}>{positionText}</Text>

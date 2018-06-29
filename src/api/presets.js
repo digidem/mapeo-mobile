@@ -1,5 +1,5 @@
 // @flow
-import { jsonRequest, xmlRequest } from './base';
+import { jsonRequest, textRequest } from './base';
 import { applyStyleDefaults } from '../models/map';
 
 class Presets {
@@ -14,7 +14,7 @@ class Presets {
       route: `/presets/${id}/presets.json`
     });
   static icons = (id: string) =>
-    xmlRequest({
+    textRequest({
       method: 'GET',
       route: `/presets/${id}/icons.svg`
     });

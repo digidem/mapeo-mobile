@@ -2,13 +2,13 @@
 import React from 'react';
 import {
   Dimensions,
-  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
 import I18n from 'react-native-i18n';
+import Image from 'react-native-remote-svg';
 
 import type { Observation } from '../../../types/observation';
 import type { Category } from '../../../types/category';
@@ -19,7 +19,8 @@ export type Props = {
   currentLocale: string,
   observation: Observation,
   category: Category,
-  onPress: (i: Observation) => void
+  onPress: (i: Observation) => void,
+  icons: Object
 };
 
 const styles = StyleSheet.create({
@@ -93,7 +94,7 @@ I18n.translations = {
 const ObservationCell = (props: Props) => {
   const esLocale = require('moment/locale/es');
   const currentLocale = props.currentLocale;
-  const { observation, onPress, category } = props;
+  const { observation, onPress, category, icons } = props;
   let dateString;
   if (currentLocale && currentLocale.includes('es')) {
     dateString = moment(props.observation.created).calendar(null, {
@@ -126,13 +127,7 @@ const ObservationCell = (props: Props) => {
       <View style={styles.container}>
         <View style={styles.text}>
           <Text style={styles.title}>{dateString}</Text>
-          <Text>
-            {I18n.t(
-              `categories.${
-                observation.categoryId ? observation.categoryId : ''
-              }`
-            )}
-          </Text>
+          <Text>{observation.categoryId}</Text>
         </View>
         <View style={{ flexDirection: 'column' }}>
           {hasMedia && (
@@ -143,7 +138,8 @@ const ObservationCell = (props: Props) => {
           )}
           <View style={[styles.circle, hasMedia ? styles.circleWithMedia : {}]}>
             {!!category &&
-              !!category.icon && (
+              !!category.icon &&
+              !!icons[category.icon] && (
                 <View
                   style={{
                     alignItems: 'center',
@@ -151,9 +147,10 @@ const ObservationCell = (props: Props) => {
                   }}
                 >
                   <Image
-                    source={category.icon}
+                    source={{
+                      uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
+                    }}
                     style={hasMedia ? styles.iconWithMedia : styles.icon}
-                    resizeMode="contain"
                   />
                 </View>
               )}

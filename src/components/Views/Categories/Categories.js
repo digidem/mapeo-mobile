@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Dimensions,
   FlatList,
-  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -13,6 +12,7 @@ import { NavigationActions } from 'react-navigation';
 import I18n from 'react-native-i18n';
 import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CheckIcon from 'react-native-vector-icons/Octicons';
+import Image from 'react-native-remote-svg';
 
 import type { Category } from '../../../types/category';
 import type { Field } from '../../../types/field';
@@ -33,7 +33,8 @@ export type StateProps = {
   allFields: Object,
   categories: Category[],
   selectedObservation?: Observation,
-  updateFlow: boolean
+  updateFlow: boolean,
+  icons: Object
 };
 
 export type DispatchProps = {
@@ -155,28 +156,37 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
     }
   };
 
-  renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.cellContainer}
-      underlayColor="transparent"
-      onPress={() => {
-        this.handleUpdateObservation(item);
-      }}
-    >
-      <View style={styles.cell}>
-        {!!item.icon && (
-          <View style={styles.circle}>
-            <Image
-              source={item.icon}
-              style={{ width: 30, height: 30 }}
-              resizeMode="contain"
-            />
-          </View>
-        )}
-        <Text style={styles.categoryName}>{item.name}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+  renderItem = ({ item }) => {
+    const { icons } = this.props;
+    console.log('RN -', icons, item.icon, icons[item.icon]);
+
+    return (
+      <TouchableOpacity
+        style={styles.cellContainer}
+        underlayColor="transparent"
+        onPress={() => {
+          this.handleUpdateObservation(item);
+        }}
+      >
+        <View style={styles.cell}>
+          {!!item.icon &&
+            !!icons[item.icon] && (
+              <View style={styles.circle}>
+                <Image
+                  source={{
+                    uri: `data:image/svg+xml;utf8,${icons[item.icon]}`
+                  }}
+                  height="30"
+                  width="30"
+                  style={{ height: 30, width: 30 }}
+                />
+              </View>
+            )}
+          <Text style={styles.categoryName}>{item.name}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   handleBack = () => {
     const { navigation, clearSelectedObservation, updateFlow } = this.props;

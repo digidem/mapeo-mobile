@@ -1,11 +1,15 @@
 // @flow
 import { Observable } from 'rxjs';
 import { retryBackoff } from 'backoff-rxjs';
-import DOMParser from 'react-xml-parser';
 
 export const API_DOMAIN_URL = 'http://localhost:9080';
 
-const request = (method: string, route: string, body?: any) => {
+const request = (
+  method: string,
+  route: string,
+  body?: any,
+  parseAsText?: boolean
+) => {
   let resp: any;
   let encodedBody: any;
   const headers: { [name: string]: string } = {};
@@ -30,7 +34,7 @@ const request = (method: string, route: string, body?: any) => {
 
       resp = response;
 
-      return Observable.from(response.json())
+      return Observable.from(parseAsText ? response.text() : response.json())
         .catch(err => {
           throw new Error(err.toString());
         })
@@ -54,12 +58,9 @@ export const jsonRequest = (parameters: Parameters) =>
     response => response.json()
   );
 
-export const xmlRequest = (parameters: Parameters) =>
-  request(parameters.method, parameters.route, parameters.body).flatMap(
-    response => {
-      console.log('RN -', response.json(), response.text());
-      return new DOMParser().parseFromString(response.text(), 'text/xml');
-    }
+export const textRequest = (parameters: Parameters) =>
+  request(parameters.method, parameters.route, parameters.body, true).flatMap(
+    response => response.text()
   );
 
 export const blankRequest = (parameters: Parameters) =>

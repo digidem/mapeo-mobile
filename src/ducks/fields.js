@@ -29,10 +29,10 @@ export const {
   action: presetsIconsList,
   reducer: presetsIconsListReducer
 } = create('PRESETS_ICONS_LIST', {
-  success: (state, action) => {
-    console.log('RN -', action.payload);
-    return state;
-  }
+  success: (state, action) =>
+    update(state, {
+      icons: { $set: action.payload }
+    })
 });
 
 export default [
