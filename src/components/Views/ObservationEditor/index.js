@@ -29,7 +29,8 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
     observationSource: state.app.observationSource.source,
     cancelModalVisible: state.app.modals.cancelled,
     gps: state.app.gps,
-    manualGPSModalVisible: state.app.modals.manualGPS
+    manualGPSModalVisible: state.app.modals.manualGPS,
+    gpsFormat: state.app.settings.gpsFormat
   };
 }
 

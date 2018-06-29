@@ -1,6 +1,9 @@
 {
   "at": "at",
   "on": "on",
+  "of": "of",
+  "answered": "answered",
+  "cancel": "Cancel",
   "category": "Category",
   "categories": {
     "0": "River/stream",
@@ -74,7 +77,10 @@
     "ddm": "Degrees & Decimal Minutes",
     "dms": "Degrees, Minutes, Seconds",
     "utm": "UTM Coordinates",
-    "map_style": "Map Style"
+    "map_style": "Map Style",
+    "Mapbox Streets": "Mapbox Streets",
+    "Satellite": "Satellite",
+    "Mapbox Satellite Streets": "Mapbox Satellite Streets"
   },
   "sync": {
     "none": "No Available Devices",

@@ -1,6 +1,9 @@
 {
   "at": "en",
   "on": "el",
+  "of": "de",
+  "answered": "respuestas",
+  "cancel": "Cancelar",
   "category": "Categoría",
   "categories": {
     "0": "Corriente de rió",
@@ -53,28 +56,32 @@
     "observed_by": "Observado por"
   },
   "manual_gps": {
-    "manual_gps": "Manual GPS",
-    "searching": "Searching...",
-    "searching_text": "Saving will not record your position",
-    "weak": "GPS Weak",
-    "weak_text": "Saving will not record your position with less accuracy",
-    "waiting": "Continue Waiting",
-    "manual_enter": "Manually Enter Position",
-    "save": "Save",
-    "longitude": "Longitude",
-    "latitude": "Latitude",
+    "manual_gps": "GPS Manual",
+    "searching": "Buscando...",
+    "searching_text": "El guardado no registrará su posición",
+    "weak": "GPS débil",
+    "weak_text": "El guardado no registrará su posición con menos precisión",
+    "waiting": "Continuar esperando",
+    "manual_enter": "Manualmente ingrese la posición",
+    "save": "Salvar",
+    "longitude": "Longitud",
+    "latitude": "Latitud",
     "grid_zone": "UTM Grid Zone",
-    "easting": "Easting",
-    "northing": "Northing"
+    "easting": "Este",
+    "northing": "Norte"
   },
   "settings": {
-    "settings": "Settings",
-    "gps_format": "GPS Coordinate Format",
-    "dd": "Decimal Degrees",
-    "ddm": "Degrees & Decimal Minutes",
-    "dms": "Degrees, Minutes, Seconds",
-    "utm": "UTM Coordinates",
-    "map_style": "Map Style"
+    "settings": "Configuraciones",
+    "gps_format": "Formato de coordenadas GPS",
+    "dd": "Grados decimales",
+    "ddm": "Grados y minutos decimales",
+    "dms": "Grados, minutos, segundos",
+    "utm": "Coordenadas UTM",
+    "map_style": "Estilo de mapa",
+    "Mapbox Streets": "Calles de Mapbox",
+    "Satellite": "Satélite",
+    "Mapbox Satellite Streets": "Calles satélite de Mapbox"
+
   },
   "sync": {
     "none": "No hay dispositivos disponibles",

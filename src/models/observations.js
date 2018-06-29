@@ -9,7 +9,7 @@ export const applyObservationDefaults = (partial: Object): Observation => ({
   created: new Date(),
   name: '',
   notes: '',
-  observedBy: 'You',
+  observedBy: 'Tú',
   media: [],
   icon: null,
   categoryId: '0',
