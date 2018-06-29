@@ -14,7 +14,8 @@ function mapStateToProps(state: StoreState): StateProps {
   return {
     selectedObservation: state.app.selectedObservation,
     categories: state.app.categories,
-    gpsFormat: state.app.settings.gpsFormat
+    gpsFormat: state.app.settings.gpsFormat,
+    icons: state.app.icons
   };
 }
 

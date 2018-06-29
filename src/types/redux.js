@@ -39,6 +39,10 @@ export interface AppStoreState {
   selectedDevice?: Device;
   settings: SettingsState;
   map: MapState;
+
+  icons: {
+    [id: string]: string
+  };
 }
 
 export type SettingsState = {

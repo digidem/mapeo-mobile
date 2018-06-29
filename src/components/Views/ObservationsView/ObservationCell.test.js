@@ -14,7 +14,13 @@ describe('ObservationCell tests', () => {
   });
 
   test('snapshots', () => {
-    const cases = [{ observation: createObservation(), category: createCategory() }];
+    const cases = [
+      {
+        observation: createObservation(),
+        category: createCategory(),
+        icons: { [createCategory().icon]: 'icon' }
+      }
+    ];
 
     let tree;
     cases.forEach(props => {
@@ -24,6 +30,7 @@ describe('ObservationCell tests', () => {
           observation={props.observation}
           onPress={onPress}
           category={props.category}
+          icons={props.icons}
         />
       );
       expect(tree).toMatchSnapshot();
@@ -37,6 +44,8 @@ describe('ObservationCell tests', () => {
         currentLocale="es"
         observation={observation}
         onPress={onPress}
+        category={createCategory()}
+        icons={{ [createCategory().icon]: 'icon' }}
       />
     );
     tree
