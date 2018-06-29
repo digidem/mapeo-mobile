@@ -709,7 +709,7 @@ class ManualGPS extends React.PureComponent<
 
   render() {
     const { navigation, gpsFormat } = this.props;
-    const goBack = navigation.goBack();
+    const goBack = navigation.goBack;
 
     return (
       <View style={styles.container}>
