@@ -26,13 +26,12 @@ type Props = {
 export type StateProps = {
   devices: Device[],
   selectedDevice?: Device,
-  syncAnnounced: boolean,
   syncedModalVisible: boolean
 };
 
 export type DispatchProps = {
   announceSync: () => void,
-  listDevices: () => void,
+  startSync: (device: Device) => void,
   selectDevice: (device?: Device) => void,
   toggleDeviceSelect: (device: Device) => void,
   updateDeviceSync: (device: Device) => void,
@@ -59,16 +58,23 @@ class SyncView extends React.Component<
   state = { wifi: false };
 
   componentDidMount() {
-    const { announceSync, listDevices } = this.props;
+    const { announceSync } = this.props;
 
     announceSync();
-    listDevices();
     NetInfo.getConnectionInfo().then(connectionInfo => {
       if (connectionInfo.type === 'wifi') {
         this.setState({ wifi: true });
       }
     });
     NetInfo.addEventListener('connectionChange', this.handleConnectionChange);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { announceSync, navigation } = nextProps;
+
+    if (navigation.isFocused() && !this.props.navigation.isFocused()) {
+      announceSync();
+    }
   }
 
   componentWillUnmount() {
@@ -107,7 +113,8 @@ class SyncView extends React.Component<
       updateDeviceSync,
       hideSyncedModal,
       showSyncedModal,
-      syncedModalVisible
+      syncedModalVisible,
+      startSync
     } = this.props;
     const { wifi } = this.state;
 
@@ -141,42 +148,30 @@ class SyncView extends React.Component<
     const handleDevicePress = item => {
       const syncInProgress =
         item.syncStatus === 'requested' || item.syncStatus === 'syncing';
-      const startSync = () => {
-        updateDeviceSync({
-          ...item,
-          selected: true,
-          syncStatus: 'replication-started'
-        });
-        setTimeout(() => {
-          updateDeviceSync({
-            ...item,
-            selected: true,
-            syncStatus: 'replication-progress'
-          });
-        }, 1000);
-        setTimeout(() => {
-          updateDeviceSync({
-            ...item,
-            selected: true,
-            syncStatus: 'replication-complete'
-          });
-          toggleDeviceSelect(item);
-          showSyncedModal();
-        }, 4000);
-      };
-      if (selectedDevice) {
-        updateDeviceSync({
-          ...selectedDevice,
-          selected: false,
-          syncStatus: 'replication-stopped'
-        });
 
-        if (selectedDevice.id !== item.id) {
-          startSync();
-        }
-      } else {
-        startSync();
-      }
+      startSync(item);
+      // setTimeout(() => {
+      //   updateDeviceSync({
+      //     ...item,
+      //     selected: true,
+      //     syncStatus: 'replication-complete'
+      //   });
+      //   toggleDeviceSelect(item);
+      //   showSyncedModal();
+      // }, 4000);
+      // if (selectedDevice) {
+      //   // updateDeviceSync({
+      //   //   ...selectedDevice,
+      //   //   selected: false,
+      //   //   syncStatus: 'replication-stopped'
+      //   // });
+      //
+      //   if (selectedDevice.id !== item.id) {
+      //     startSync(item);
+      //   }
+      // } else {
+      //   startSync();
+      // }
     };
     const renderItem = ({ item }) => (
       <DeviceCell

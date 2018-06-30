@@ -3,8 +3,9 @@
 import React from 'react';
 import type { ActionsObservable } from 'redux-observable';
 import {
-  ANNOUNCE_SYNC,
-  announceSync,
+  SYNC_ANNOUNCE,
+  SYNC_START,
+  syncStart,
   DEVICE_LIST,
   deviceList
 } from '../ducks/devices';
@@ -54,11 +55,19 @@ const initialDevices = [
 
 // const initialDevices = [];
 
-export const announceSyncEpic = (action$: ActionsObservable<any>) =>
+export const syncAnnounceEpic = (action$: ActionsObservable<any>) =>
   action$
-    .ofType(ANNOUNCE_SYNC)
+    .ofType(SYNC_ANNOUNCE)
     .filter(action => action.status === 'Start')
-    .flatMap(() => Sync.announce());
+    .flatMap(() => Sync.announce().map(response => deviceList('')));
+
+export const syncStartEpic = (action$: ActionsObservable<any>) =>
+  action$
+    .ofType(SYNC_START)
+    .filter(action => action.status === 'Start')
+    .flatMap(action =>
+      Sync.start(action.meta).map(response => syncStart(action.meta, response))
+    );
 
 export const deviceListEpic = (
   action$: ActionsObservable<Action<string, Device[]>>,
