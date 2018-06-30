@@ -93,16 +93,16 @@ const DeviceCell = (props: Props) => {
   };
 
   let syncStatusText = I18n.t('sync.via_wifi');
-  if (props.device.syncStatus === 'requested') {
+  if (props.device.syncStatus === 'replication-started') {
     syncStatusText = I18n.t('sync.requested');
-  } else if (props.device.syncStatus === 'syncing') {
+  } else if (props.device.syncStatus === 'replication-progress') {
     syncStatusText = I18n.t('sync.syncing');
   }
 
   const syncInProgress =
     props.device.selected &&
-    (props.device.syncStatus === 'requested' ||
-      props.device.syncStatus === 'syncing');
+    (props.device.syncStatus === 'replication-started' ||
+      props.device.syncStatus === 'replication-progress');
 
   return (
     <TouchableOpacity onPress={handlePress}>

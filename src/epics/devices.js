@@ -2,10 +2,18 @@
 
 import React from 'react';
 import type { ActionsObservable } from 'redux-observable';
-import { DEVICE_LIST, deviceList } from '../ducks/devices';
+import {
+  SYNC_ANNOUNCE,
+  SYNC_START,
+  syncStart,
+  DEVICE_LIST,
+  deviceList
+} from '../ducks/devices';
 import { createDevice } from '../mocks/devices';
 import type { Action } from '../types/redux';
 import type { Device } from '../types/device';
+import type { StoreState } from '../types/redux';
+import Sync from '../api/sync';
 
 const initialDevices = [
   {
@@ -47,26 +55,45 @@ const initialDevices = [
 
 // const initialDevices = [];
 
+export const syncAnnounceEpic = (action$: ActionsObservable<any>) =>
+  action$
+    .ofType(SYNC_ANNOUNCE)
+    .filter(action => action.status === 'Start')
+    .flatMap(() => Sync.announce().map(response => deviceList('')));
+
+export const syncStartEpic = (action$: ActionsObservable<any>) =>
+  action$
+    .ofType(SYNC_START)
+    .filter(action => action.status === 'Start')
+    .flatMap(action =>
+      Sync.start(action.meta).map(response => {
+        return syncStart(action.meta, response);
+      })
+    );
+
 export const deviceListEpic = (
-  action$: ActionsObservable<Action<string, Device[]>>
+  action$: ActionsObservable<Action<string, Device[]>>,
+  store: StoreState
 ) =>
   action$
     .ofType(DEVICE_LIST)
     .filter(action => action.status === 'Start')
-    .map(() =>
-      deviceList(
-        '',
-        initialDevices.map((d, i) =>
-          createDevice({
-            host: d.host,
-            id: i.toString(),
-            ip: d.ip,
-            port: d.port,
-            selected: d.selected,
-            syncStatus: d.syncStatus
-          })
+    .flatMap(() =>
+      Sync.list().map(devices =>
+        deviceList(
+          '',
+          devices.map((d, i) =>
+            createDevice({
+              host: d.host,
+              id: i.toString(),
+              ip: d.ip,
+              port: d.port,
+              selected: false,
+              syncStatus: null
+            })
+          )
         )
       )
     );
 
-export default [deviceListEpic];
+export default [syncAnnounceEpic, syncStartEpic, deviceListEpic];
