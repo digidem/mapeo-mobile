@@ -66,7 +66,9 @@ export const syncStartEpic = (action$: ActionsObservable<any>) =>
     .ofType(SYNC_START)
     .filter(action => action.status === 'Start')
     .flatMap(action =>
-      Sync.start(action.meta).map(response => syncStart(action.meta, response))
+      Sync.start(action.meta).map(response => {
+        return syncStart(action.meta, response);
+      })
     );
 
 export const deviceListEpic = (
@@ -94,4 +96,4 @@ export const deviceListEpic = (
       )
     );
 
-export default [announceSyncEpic, deviceListEpic];
+export default [syncAnnounceEpic, syncStartEpic, deviceListEpic];

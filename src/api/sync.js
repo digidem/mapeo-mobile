@@ -1,9 +1,9 @@
-import { jsonRequest } from './base';
+import { jsonRequest, blankRequest } from './base';
 import type { Device } from '../types/device';
 
 class Sync {
   static announce = () =>
-    jsonRequest({
+    blankRequest({
       method: 'GET',
       route: '/sync/announce'
     });
@@ -15,9 +15,9 @@ class Sync {
     });
 
   static start = (device: Device) =>
-    jsonRequest({
+    blankRequest({
       method: 'GET',
-      route: `/sync/start?ip=${device.ip}&port=${device.port}`
+      route: `/sync/start?host=${device.host}&port=${device.port}`
     });
 }
 

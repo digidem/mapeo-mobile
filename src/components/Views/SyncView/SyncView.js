@@ -186,8 +186,6 @@ class SyncView extends React.Component<
         selectDevice(undefined);
         toggleDeviceSelect(selectedDevice);
       }
-      const { listDevices } = this.props;
-      listDevices();
       navigation.goBack();
     };
     const handleModalContinue = () => {
