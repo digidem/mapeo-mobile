@@ -26,4 +26,17 @@ export const {
   reducer: mediaBackupReducer
 } = create('MEDIA_BACKUP', {});
 
-export default [mediaBackupReducer, mediaSaveReducer];
+export const {
+  type: MEDIA_RESIZE,
+  action: mediaResize,
+  reducer: mediaResizeReducer
+} = create('MEDIA_RESIZE', {
+  success: (state, action) =>
+    update(state, {
+      resizedImages: {
+        [action.meta]: { $set: action.payload }
+      }
+    })
+});
+
+export default [mediaBackupReducer, mediaSaveReducer, mediaResizeReducer];

@@ -7,11 +7,14 @@ import {
   MEDIA_SAVE,
   mediaSave,
   MEDIA_BACKUP,
-  mediaBackup
+  mediaBackup,
+  MEDIA_RESIZE,
+  mediaResize
 } from '../ducks/media';
 import type { MediaSaveMeta, MediaBackupMeta } from '../ducks/media';
 import { observationUpdateSave } from '../ducks/observations';
 import { saveToCameraRoll } from '../lib/media';
+import * as ImageResizer from 'react-native-image-resizer';
 
 export const mediaSaveEpic = (
   action$: ActionsObservable<Action<MediaSaveMeta, Object>>,
@@ -54,4 +57,23 @@ export const mediaBackupEpic = (
         .catch(err => Observable.of(observationUpdateSave(action.meta, err)))
     );
 
-export default [mediaSaveEpic, mediaBackupEpic];
+export const mediaResizeEpic = (
+  action$: ActionsObservable<Action<string, string>>,
+  store: StoreState
+) =>
+  action$
+    .ofType(MEDIA_RESIZE)
+    .filter(action => action.status === 'Start')
+    .flatMap(action =>
+      Observable.from(
+        ImageResizer.default.createResizedImage(
+          action.meta,
+          300,
+          300,
+          'JPEG',
+          50
+        )
+      ).map(resizedImage => mediaResize(action.meta, resizedImage.uri))
+    );
+
+export default [mediaSaveEpic, mediaBackupEpic, mediaResizeEpic];

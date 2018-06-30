@@ -6996,6 +6996,10 @@ react-native-i18n@^2.0.12:
   dependencies:
     i18n-js "^3.0.3"
 
+react-native-image-resizer@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-image-resizer/-/react-native-image-resizer-1.0.0.tgz#d47e14943c37938e287fbd639e4db7ceb7fd8917"
+
 react-native-node@^3.3.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/react-native-node/-/react-native-node-3.3.1.tgz#293921fb81a01a95f6906e0b0e15f343c63f1b58"
