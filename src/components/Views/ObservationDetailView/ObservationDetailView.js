@@ -31,7 +31,8 @@ export type StateProps = {
     [id: string]: Category
   },
   gpsFormat: string,
-  icons: Object
+  icons: Object,
+  resizedImages: Object
 };
 
 export type DispatchProps = {
@@ -263,7 +264,8 @@ class ObservationDetailView extends React.Component<
       navigation,
       updateObservationSource,
       gpsFormat,
-      icons
+      icons,
+      resizedImages
     } = this.props;
     const keyExtractor = item => item.source.toString();
     let mediaTitle = null;
@@ -389,7 +391,12 @@ class ObservationDetailView extends React.Component<
                       }
                     >
                       <Image
-                        source={{ uri: item.source }}
+                        source={{
+                          uri:
+                            resizedImages && resizedImages[item.source]
+                              ? resizedImages[item.source]
+                              : item.source
+                        }}
                         style={{
                           width: 125,
                           height: 125,

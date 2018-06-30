@@ -15,12 +15,14 @@ import type { Category } from '../../../types/category';
 import { LIGHT_GREY } from '../../../lib/styles';
 import moment from '../../../lib/localizedMoment';
 
-export type Props = {
+type Props = {
   currentLocale: string,
   observation: Observation,
   category: Category,
   onPress: (i: Observation) => void,
-  icons: Object
+  icons: Object,
+  resizedImages: Object,
+  getResizedImage: (source: string) => void
 };
 
 const styles = StyleSheet.create({
@@ -91,74 +93,97 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-const ObservationCell = (props: Props) => {
-  const esLocale = require('moment/locale/es');
-  const currentLocale = props.currentLocale;
-  const { observation, onPress, category, icons } = props;
-  let dateString;
-  if (currentLocale && currentLocale.includes('es')) {
-    dateString = moment(props.observation.created).calendar(null, {
-      sameDay: '[Hoy], h:mm A',
-      nextDay: '[Mañana], h:mm A',
-      nextWeek: 'ddd, h:mm A',
-      lastDay: '[Ayer], h:mm A',
-      lastWeek: 'ddd, h:mm A',
-      sameElse: 'MM/D/YYYY, h:mm A'
-    });
-  } else {
-    dateString = moment(props.observation.created).calendar(null, {
-      sameDay: '[Today], h:mm A',
-      nextDay: '[Tomorrow], h:mm A',
-      nextWeek: 'ddd, h:mm A',
-      lastDay: '[Yesterday], h:mm A',
-      lastWeek: 'ddd, h:mm A',
-      sameElse: 'MM/D/YYYY, h:mm A'
-    });
+class ObservationCell extends React.Component<Props> {
+  componentDidMount() {
+    const { observation, resizedImages, getResizedImage } = this.props;
+    const hasMedia = observation && !!observation.media.length;
+    const source = hasMedia ? observation.media[0].source : '';
+
+    if (hasMedia && (!resizedImages || !resizedImages[source])) {
+      getResizedImage(source);
+    }
   }
 
-  const handlePress = () => {
-    onPress(observation);
-  };
+  render() {
+    const {
+      resizedImages,
+      currentLocale,
+      observation,
+      onPress,
+      category,
+      icons
+    } = this.props;
+    const esLocale = require('moment/locale/es');
+    let dateString;
+    if (currentLocale && currentLocale.includes('es')) {
+      dateString = moment(observation.created).calendar(null, {
+        sameDay: '[Hoy], h:mm A',
+        nextDay: '[Mañana], h:mm A',
+        nextWeek: 'ddd, h:mm A',
+        lastDay: '[Ayer], h:mm A',
+        lastWeek: 'ddd, h:mm A',
+        sameElse: 'MM/D/YYYY, h:mm A'
+      });
+    } else {
+      dateString = moment(observation.created).calendar(null, {
+        sameDay: '[Today], h:mm A',
+        nextDay: '[Tomorrow], h:mm A',
+        nextWeek: 'ddd, h:mm A',
+        lastDay: '[Yesterday], h:mm A',
+        lastWeek: 'ddd, h:mm A',
+        sameElse: 'MM/D/YYYY, h:mm A'
+      });
+    }
 
-  const hasMedia = observation && !!observation.media.length;
+    const handlePress = () => {
+      onPress(observation);
+    };
 
-  return (
-    <TouchableOpacity onPress={handlePress}>
-      <View style={styles.container}>
-        <View style={styles.text}>
-          <Text style={styles.title}>{dateString}</Text>
-          <Text>{observation.categoryId}</Text>
-        </View>
-        <View style={{ flexDirection: 'column' }}>
-          {hasMedia && (
-            <Image
-              source={{ uri: observation.media[0].source }}
-              style={styles.media}
-            />
-          )}
-          <View style={[styles.circle, hasMedia ? styles.circleWithMedia : {}]}>
-            {!!category &&
-              !!category.icon &&
-              !!icons[category.icon] && (
-                <View
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                >
-                  <Image
-                    source={{
-                      uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
+    const hasMedia = observation && !!observation.media.length;
+    const source = hasMedia ? observation.media[0].source : '';
+
+    return (
+      <TouchableOpacity onPress={handlePress}>
+        <View style={styles.container}>
+          <View style={styles.text}>
+            <Text style={styles.title}>{dateString}</Text>
+            <Text>{observation.categoryId}</Text>
+          </View>
+          <View style={{ flexDirection: 'column' }}>
+            {hasMedia && (
+              <Image
+                source={{
+                  uri: resizedImages ? resizedImages[source] : source
+                }}
+                style={styles.media}
+              />
+            )}
+            <View
+              style={[styles.circle, hasMedia ? styles.circleWithMedia : {}]}
+            >
+              {!!category &&
+                !!category.icon &&
+                !!icons[category.icon] && (
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
-                    style={hasMedia ? styles.iconWithMedia : styles.icon}
-                  />
-                </View>
-              )}
+                  >
+                    <Image
+                      source={{
+                        uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
+                      }}
+                      style={hasMedia ? styles.iconWithMedia : styles.icon}
+                    />
+                  </View>
+                )}
+            </View>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
-};
+      </TouchableOpacity>
+    );
+  }
+}
 
 export default ObservationCell;

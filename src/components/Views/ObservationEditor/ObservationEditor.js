@@ -51,7 +51,8 @@ export type StateProps = {
   gps: Resource<GPSState>,
   manualGPSModalVisible: boolean,
   gpsFormat: string,
-  icons: Object
+  icons: Object,
+  resizedImages: Object
 };
 
 export type Props = {
@@ -625,7 +626,8 @@ class ObservationEditor extends React.Component<
       showManualGPSModal,
       gpsFormat,
       category,
-      icons
+      icons,
+      resizedImages
     } = this.props;
     const { keyboardShown, text } = this.state;
     const keyExtractor = item => item.source;
@@ -768,7 +770,12 @@ class ObservationEditor extends React.Component<
                     style={{ paddingLeft: 10 }}
                   >
                     <Image
-                      source={{ uri: item.source }}
+                      source={{
+                        uri:
+                          resizedImages && resizedImages[item.source]
+                            ? resizedImages[item.source]
+                            : item.source
+                      }}
                       style={{
                         width: 65,
                         height: 65,
