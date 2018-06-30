@@ -210,7 +210,7 @@ class CameraView extends React.Component<
               this.props.navigation.goBack('camera-view');
             }}
           >
-            <Text style={styles.cancelText}>Cancel</Text>
+            <Text style={styles.cancelText}>{I18n.t('cancel')}</Text>
           </TouchableOpacity>
         )}
       </RNCamera>

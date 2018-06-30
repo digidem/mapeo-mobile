@@ -2,13 +2,13 @@
 import React from 'react';
 import {
   FlatList,
-  Image,
   Text,
   TouchableOpacity,
   View,
   ScrollView,
   StyleSheet
 } from 'react-native';
+import Image from 'react-native-remote-svg';
 import moment from '../../../lib/localizedMoment';
 import { NavigationActions, withNavigationFocus } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
@@ -21,6 +21,7 @@ import type { UpdateRequest } from '@api/observations';
 import type { Observation } from '../../../types/observation';
 import type { Category } from '../../../types/category';
 import { DARK_GREY, MEDIUM_GREY, MANGO } from '../../../lib/styles';
+import getGPSText from '../../../lib/getGPSText';
 import CategoryPin from '../../../images/category-pin.png';
 import PencilIcon from '../../../images/editor-details.png';
 
@@ -28,7 +29,9 @@ export type StateProps = {
   selectedObservation?: Observation,
   categories: {
     [id: string]: Category
-  }
+  },
+  gpsFormat: string,
+  icons: Object
 };
 
 export type DispatchProps = {
@@ -68,7 +71,6 @@ const styles = StyleSheet.create({
   },
   categoryIconContainer: {
     alignItems: 'center',
-    marginTop: 10,
     marginBottom: 30
   },
   categoryPin: {
@@ -259,7 +261,9 @@ class ObservationDetailView extends React.Component<
       selectedObservation,
       categories,
       navigation,
-      updateObservationSource
+      updateObservationSource,
+      gpsFormat,
+      icons
     } = this.props;
     const keyExtractor = item => item.source.toString();
     let mediaTitle = null;
@@ -298,6 +302,12 @@ class ObservationDetailView extends React.Component<
         </Text>
       </View>
     ));
+    const positionText = getGPSText({
+      gpsFormat,
+      lat: selectedObservation.lat,
+      lon: selectedObservation.lon
+    });
+    const category = categories[selectedObservation.categoryId];
 
     return (
       <View style={{ flex: 1 }}>
@@ -328,30 +338,28 @@ class ObservationDetailView extends React.Component<
               <Image source={PencilIcon} style={{ width: 20, height: 20 }} />
             </TouchableOpacity>
             <View style={styles.categoryIconContainer}>
-              <Image
-                source={categories[selectedObservation.categoryId].icon}
-                style={{ width: 25, height: 25 }}
-                resizeMode="contain"
-              />
+              {!!category &&
+                !!icons[category.icon] && (
+                  <Image
+                    source={{
+                      uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
+                    }}
+                    style={{ height: 30, width: 30 }}
+                  />
+                )}
             </View>
-            <Text style={styles.title}>
-              {I18n.t(
-                `categories.${
-                  selectedObservation.categoryId
-                    ? selectedObservation.categoryId
-                    : ''
-                }`
-              )}
-            </Text>
+            <Text style={styles.title}>{selectedObservation.categoryId}</Text>
             <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
               <Text style={styles.positionAtText}>{I18n.t('at')} </Text>
-              <Text style={styles.positionText}>
-                {`${selectedObservation.lat}, ${selectedObservation.lon}.`}
-              </Text>
+              <Text style={styles.positionText}>{positionText}</Text>
             </View>
             <Text style={styles.time}>
               {I18n.t('on')}{' '}
-              {moment(selectedObservation.created).format('MMMM D, h:hh A')}
+              {I18n.currentLocale().indexOf('en') !== -1
+                ? moment(selectedObservation.created).format(
+                    'MMMM D YYYY, h:hh A'
+                  )
+                : moment(selectedObservation.created).format('LLL')}
             </Text>
           </View>
           <View style={styles.section}>

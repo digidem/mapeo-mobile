@@ -69,9 +69,7 @@ exports[`Categories tests snapshot 1`] = `
     data={
       Array [
         Object {
-          "fieldIds": Array [
-            0,
-          ],
+          "fields": Array [],
           "icon": Object {
             "testUri": "../../../src/images/categories/category_18.png",
           },
@@ -191,20 +189,71 @@ exports[`Categories tests snapshot 1`] = `
                   }
                 }
               >
-                <Image
-                  resizeMode="contain"
-                  source={
-                    Object {
-                      "testUri": "../../../src/images/categories/category_18.png",
-                    }
-                  }
+                <View
+                  pointerEvents="none"
                   style={
-                    Object {
-                      "height": 30,
-                      "width": 30,
-                    }
+                    Array [
+                      Object {
+                        "height": 30,
+                        "width": 30,
+                      },
+                      undefined,
+                    ]
                   }
-                />
+                >
+                  <View
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <RCTWebView
+                      allowsInlineMediaPlayback={undefined}
+                      automaticallyAdjustContentInsets={undefined}
+                      bounces={undefined}
+                      contentInset={undefined}
+                      dataDetectorTypes={undefined}
+                      decelerationRate={undefined}
+                      injectedJavaScript={undefined}
+                      mediaPlaybackRequiresUserAction={undefined}
+                      messagingEnabled={false}
+                      onLoadingError={[Function]}
+                      onLoadingFinish={[Function]}
+                      onLoadingStart={[Function]}
+                      onMessage={[Function]}
+                      onShouldStartLoadWithRequest={undefined}
+                      scalesPageToFit={true}
+                      scrollEnabled={false}
+                      source={
+                        Object {
+                          "html": "<html><head><style>html, body { margin:0; padding:0; overflow:hidden; background-color: transparent; } svg { position:fixed; top:0; left:0; height:100%; width:100% }</style></head><body>n</body></html>",
+                        }
+                      }
+                      style={
+                        Array [
+                          Object {
+                            "flex": 1,
+                          },
+                          Object {
+                            "backgroundColor": "#ffffff",
+                          },
+                          Array [
+                            Object {
+                              "backgroundColor": "transparent",
+                              "height": 100,
+                              "width": 200,
+                            },
+                            Object {
+                              "height": 30,
+                              "width": 30,
+                            },
+                          ],
+                        ]
+                      }
+                    />
+                  </View>
+                </View>
               </View>
               <Text
                 accessible={true}
@@ -219,7 +268,7 @@ exports[`Categories tests snapshot 1`] = `
                   }
                 }
               >
-                [missing "en.categories.categoryID" translation]
+                categoryName
               </Text>
             </View>
           </View>

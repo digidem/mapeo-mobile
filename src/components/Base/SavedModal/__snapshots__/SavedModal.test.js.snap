@@ -110,20 +110,71 @@ exports[`SavedModal tests snapshots 1`] = `
               }
             }
           >
-            <Image
-              resizeMode="contain"
-              source={
-                Object {
-                  "testUri": "../../../src/images/categories/category_18.png",
-                }
-              }
+            <View
+              pointerEvents="none"
               style={
-                Object {
-                  "height": 30,
-                  "width": 30,
-                }
+                Array [
+                  Object {
+                    "height": 30,
+                    "width": 30,
+                  },
+                  undefined,
+                ]
               }
-            />
+            >
+              <View
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <RCTWebView
+                  allowsInlineMediaPlayback={undefined}
+                  automaticallyAdjustContentInsets={undefined}
+                  bounces={undefined}
+                  contentInset={undefined}
+                  dataDetectorTypes={undefined}
+                  decelerationRate={undefined}
+                  injectedJavaScript={undefined}
+                  mediaPlaybackRequiresUserAction={undefined}
+                  messagingEnabled={false}
+                  onLoadingError={[Function]}
+                  onLoadingFinish={[Function]}
+                  onLoadingStart={[Function]}
+                  onMessage={[Function]}
+                  onShouldStartLoadWithRequest={undefined}
+                  scalesPageToFit={true}
+                  scrollEnabled={false}
+                  source={
+                    Object {
+                      "html": "<html><head><style>html, body { margin:0; padding:0; overflow:hidden; background-color: transparent; } svg { position:fixed; top:0; left:0; height:100%; width:100% }</style></head><body>n</body></html>",
+                    }
+                  }
+                  style={
+                    Array [
+                      Object {
+                        "flex": 1,
+                      },
+                      Object {
+                        "backgroundColor": "#ffffff",
+                      },
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "height": 100,
+                          "width": 200,
+                        },
+                        Object {
+                          "height": 30,
+                          "width": 30,
+                        },
+                      ],
+                    ]
+                  }
+                />
+              </View>
+            </View>
           </View>
         </View>
         <View
@@ -148,7 +199,7 @@ exports[`SavedModal tests snapshots 1`] = `
               }
             }
           >
-            Threat
+            19
           </Text>
           <View
             style={
@@ -201,7 +252,7 @@ exports[`SavedModal tests snapshots 1`] = `
           >
             on
              
-            February 25, 12:23 PM
+            February 25 2018, 12:12 PM
           </Text>
         </View>
       </View>

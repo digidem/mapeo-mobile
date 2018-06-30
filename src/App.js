@@ -26,7 +26,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import 'rxjs';
 import { configureStore } from './lib/store';
-import { gpsSet } from './ducks/gps';
+import { gpsSet, gpsFailed } from './ducks/gps';
 import AppNavigation from './components/AppNavigation/AppNavigation';
 import SplashScreen from './images/splash-screen.png';
 
@@ -53,14 +53,23 @@ export default class App extends React.PureComponent<null, null> {
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
     );
 
-    this.watchId = navigator.geolocation.watchPosition(
-      this.handlePositionChange
+    navigator.geolocation.getCurrentPosition(
+      this.handlePositionChange,
+      this.handlePositionError
     );
-    navigator.geolocation.getCurrentPosition(this.handlePositionChange);
+
+    this.watchId = navigator.geolocation.watchPosition(
+      this.handlePositionChange,
+      this.handlePositionError
+    );
   }
 
-  handlePositionChange = position => {
+  handlePositionChange = (position: Position) => {
     this.store.dispatch(gpsSet(position.coords));
+  };
+
+  handlePositionError = (error: PositionError) => {
+    this.store.dispatch(gpsFailed('Failed'));
   };
 
   componentWillUnmount() {

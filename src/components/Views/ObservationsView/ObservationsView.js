@@ -24,7 +24,8 @@ export type StateProps = {
   observations: Observation[],
   categories: {
     [id: string]: Category
-  }
+  },
+  icons: Object
 };
 
 export type DispatchProps = {
@@ -76,7 +77,8 @@ class ObservationsView extends React.Component<
       navigation,
       observations,
       categories,
-      selectObservation
+      selectObservation,
+      icons
     } = this.props;
     const sectionMappings = {};
     let label;
@@ -119,6 +121,7 @@ class ObservationsView extends React.Component<
                 observation={item}
                 onPress={handleItemPress}
                 category={categories[item.categoryId]}
+                icons={icons}
               />
             )}
             data={observations}

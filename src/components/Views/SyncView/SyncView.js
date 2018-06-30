@@ -129,7 +129,7 @@ class SyncView extends React.Component<
           syncStopped = true;
           break;
         case 'completed':
-          headerDeviceText = 'Sync completed';
+          headerDeviceText = I18n.t('sync.completed');
           break;
         default:
           headerDeviceText = I18n.t('sync.selected');

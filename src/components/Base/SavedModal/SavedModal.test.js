@@ -12,6 +12,9 @@ describe('SavedModal tests', () => {
     const categories = {
       [observation.categoryId]: createCategory()
     };
+    const icons = {
+      [createCategory().icon]: 'icon'
+    };
     const onHide = jest.fn();
 
     const props = [{ observation }];
@@ -24,6 +27,8 @@ describe('SavedModal tests', () => {
             selectedObservation={p.observation}
             onHide={onHide}
             categories={categories}
+            icons={icons}
+            gpsFormat="utm"
           />
         )
         .toJSON();

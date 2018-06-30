@@ -33,7 +33,7 @@ import {
 import Header from '../../Base/Header';
 
 export type StateProps = {
-  allFields: Field[],
+  allFields: Object,
   selectedObservation: Observation
 };
 
@@ -112,12 +112,14 @@ class ObservationDetails extends React.Component<
       <FieldInput
         key={i}
         field={field}
-        title={allFields[parseInt(field.id)].name}
-        placeholder={allFields[parseInt(field.id)].placeholder}
+        title={allFields[field.id].name}
+        placeholder={allFields[field.id].placeholder}
       />
     ));
 
-    const progressText = `${fieldsAnswered} of ${fields.length} answered`;
+    const progressText = `${fieldsAnswered} ${I18n.t('of')} ${
+      fields.length
+    } ${I18n.t('answered')}`;
     const progressBar = (
       <View
         style={{

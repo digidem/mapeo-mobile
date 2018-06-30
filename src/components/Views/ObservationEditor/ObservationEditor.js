@@ -9,11 +9,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Image,
   ImageBackground,
   FlatList,
   ScrollView
 } from 'react-native';
+import Image from 'react-native-remote-svg';
 import { withNavigationFocus } from 'react-navigation';
 import CancelModal from '../../Base/CancelModal/CancelModal';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
@@ -40,6 +40,7 @@ import {
 } from '../../../lib/styles';
 import Header from '../../Base/Header';
 import ManualGPSModal from '../../Base/ManualGPSModal';
+import getGPSText from '../../../lib/getGPSText';
 
 export type StateProps = {
   category?: Category,
@@ -48,7 +49,9 @@ export type StateProps = {
   observationSource: string,
   cancelModalVisible: boolean,
   gps: Resource<GPSState>,
-  manualGPSModalVisible: boolean
+  manualGPSModalVisible: boolean,
+  gpsFormat: string,
+  icons: Object
 };
 
 export type Props = {
@@ -62,7 +65,7 @@ export type DispatchProps = {
   clearSelectedObservation: () => void,
   hideManualGPSModal: () => void,
   showManualGPSModal: () => void,
-  saveObservation: () => void
+  saveObservation: (update: boolean) => void
 };
 
 type State = {
@@ -382,7 +385,7 @@ class ObservationEditor extends React.Component<
     }
   };
 
-  handleTextInputChange = text => {
+  handleTextInputChange = (text: string) => {
     this.setState({ text });
   };
 
@@ -620,16 +623,23 @@ class ObservationEditor extends React.Component<
       showCancelModal,
       cancelModalVisible,
       showManualGPSModal,
-      category
+      gpsFormat,
+      category,
+      icons
     } = this.props;
     const { keyboardShown, text } = this.state;
-    const positionText = selectedObservation
-      ? `${selectedObservation.lat}, ${selectedObservation.lon}`
-      : 'Loading...';
     const keyExtractor = item => item.source;
     const goToManualEnter = () => {
       navigation.navigate({ routeName: 'ManualGPSView' });
     };
+    let positionText = I18n.t('loading');
+    if (selectedObservation) {
+      positionText = getGPSText({
+        gpsFormat,
+        lat: selectedObservation.lat,
+        lon: selectedObservation.lon
+      });
+    }
     let fieldAnswered;
     if (selectedObservation) {
       fieldAnswered = selectedObservation.fields.find(f => f.answered);
@@ -682,11 +692,13 @@ class ObservationEditor extends React.Component<
           <TouchableOpacity onPress={this.goToCategoriesView}>
             <View style={styles.circle}>
               {!!category &&
-                !!category.icon && (
+                !!category.icon &&
+                !!icons[category.icon] && (
                   <Image
-                    source={category.icon}
-                    style={{ width: 30, height: 30 }}
-                    resizeMode="contain"
+                    source={{
+                      uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
+                    }}
+                    style={{ height: 30, width: 30 }}
                   />
                 )}
             </View>
