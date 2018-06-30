@@ -47,6 +47,7 @@ export function createInitialStore() {
     map: {
       styles: {}
     },
-    icons: {}
+    icons: {},
+    resizedImages: {}
   };
 }

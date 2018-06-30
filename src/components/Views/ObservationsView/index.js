@@ -11,6 +11,7 @@ import {
 } from '../../../ducks/observations';
 import { categoryList } from '../../../ducks/categories';
 import { fieldList } from '../../../ducks/fields';
+import { mediaResize } from '../../../ducks/media';
 import ObservationsView from './ObservationsView';
 import type { StateProps, DispatchProps } from './ObservationsView';
 
@@ -23,7 +24,8 @@ function mapStateToProps(state: StoreState): StateProps {
     drawerOpened,
     observations,
     categories: state.app.categories,
-    icons: state.app.icons
+    icons: state.app.icons,
+    resizedImages: state.app.resizedImages
   };
 }
 
@@ -34,7 +36,8 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
       dispatch(categoryList(''));
       dispatch(fieldList(''));
     },
-    listObservations: () => dispatch(observationList(''))
+    listObservations: () => dispatch(observationList('')),
+    getResizedImage: source => dispatch(mediaResize(source))
   };
 }
 

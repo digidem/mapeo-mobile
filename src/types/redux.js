@@ -43,6 +43,10 @@ export interface AppStoreState {
   icons: {
     [id: string]: string
   };
+
+  resizedImages: {
+    [uri: string]: string
+  };
 }
 
 export type SettingsState = {

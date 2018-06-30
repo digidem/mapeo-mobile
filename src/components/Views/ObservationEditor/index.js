@@ -12,6 +12,7 @@ import {
   observationUpdateSave
 } from '../../../ducks/observations';
 import { modalHide, modalShow } from '../../../ducks/modals';
+import { mediaResize } from '../../../ducks/media';
 import ObservationEditor from './ObservationEditor';
 import type { Props, StateProps, DispatchProps } from './ObservationEditor';
 
@@ -35,7 +36,8 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
     gps: state.app.gps,
     manualGPSModalVisible: state.app.modals.manualGPS,
     gpsFormat: state.app.settings.gpsFormat,
-    icons: state.app.icons
+    icons: state.app.icons,
+    resizedImages: state.app.resizedImages
   };
 }
 

@@ -25,13 +25,15 @@ export type StateProps = {
   categories: {
     [id: string]: Category
   },
-  icons: Object
+  icons: Object,
+  resizedImages: Object
 };
 
 export type DispatchProps = {
   selectObservation: (o: Observation) => void,
   listCategories: () => void,
-  listObservations: () => void
+  listObservations: () => void,
+  getResizedImage: (source: string) => void
 };
 
 type Props = {
@@ -78,7 +80,9 @@ class ObservationsView extends React.Component<
       observations,
       categories,
       selectObservation,
-      icons
+      icons,
+      resizedImages,
+      getResizedImage
     } = this.props;
     const sectionMappings = {};
     let label;
@@ -122,6 +126,8 @@ class ObservationsView extends React.Component<
                 onPress={handleItemPress}
                 category={categories[item.categoryId]}
                 icons={icons}
+                resizedImages={resizedImages}
+                getResizedImage={getResizedImage}
               />
             )}
             data={observations}

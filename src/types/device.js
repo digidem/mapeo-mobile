@@ -1,11 +1,11 @@
 // @flow
 
 export type SyncStatus =
-  | 'notStarted'
-  | 'requested'
-  | 'syncing'
-  | 'stopped'
-  | 'completed';
+  | null
+  | 'replication-started'
+  | 'replication-progress'
+  | 'replication-stopped'
+  | 'replication-complete';
 export interface Device {
   id: string;
   ip: string;
