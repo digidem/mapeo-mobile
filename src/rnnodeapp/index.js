@@ -28,10 +28,16 @@ const styles = require('mapeo-styles');
 
 console.log('1: init')
 
-const USER_PATH = path.join(os.homedir(), 'mapeo', 'default');
+// NOTE: in the future, we might want separate private keys
+// for each user, so let's just have a 'default' user for now so it'll be
+// easier to migrate later
+const USER_ID = 'default' 
+const USER_PATH = path.join(os.homedir(), 'mapeo', USER_ID);
 const DB_PATH = path.join(USER_PATH, 'db');
 const MEDIA_PATH = path.join(USER_PATH, 'media');
-const STATIC_PATH = path.join(USER_PATH, 'static');
+
+const STATIC_PATH = path.join('/sdcard/Android/data/com.mapeomobile/static');
+
 mkdirp.sync(DB_PATH);
 mkdirp.sync(MEDIA_PATH);
 mkdirp.sync(STATIC_PATH);
