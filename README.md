@@ -18,6 +18,20 @@ This is a React Native project, making use of [react-native-node](https://github
 - Execute `npm run build-rnnodeapp` to compile the Node.js background project. It should create the folder `./rnnodeapp`
 - `npm run android` will compile the Android/Java project and install the APK on the USB-connected device
 
+### Generate Release APK
+
+In `mapeo-mobile/android/app` run
+
+```
+keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+```
+
+and then in `mapeo-mobile/android` run
+
+```
+./gradlew assembleRelease
+```
+
 ### Benchmarks and low-level tests
 
 Low-level library tests run a benchmarks-only background Node.js process in the Android device, and use Appium with `wd` to verify the results on-screen.
