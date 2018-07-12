@@ -94,11 +94,8 @@ I18n.translations = {
 
 class SettingsView extends React.Component<Props & StateProps & DispatchProps> {
   componentDidMount() {
-    const { selectedStyle, listStyles } = this.props;
-
-    if (!selectedStyle) {
-      listStyles();
-    }
+    const { listStyles } = this.props;
+    listStyles();
   }
 
   shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
