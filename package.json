@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start:debugger": "REACT_DEBUGGER=\"open -g 'rndebugger://set-debugger-loc?port=8081' ||\" npm start",
     "test": "jest",
     "license-check": "license-check",
     "build-rnnodeapp": "./build-rnnodeapp.sh",
