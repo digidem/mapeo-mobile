@@ -234,7 +234,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
                 : 12
             }
             minZoomLevel={selectedStyle ? selectedStyle.minzoom : undefined}
-            maxZoomLevel={selectedStyle ? selectedStyle.maxzoom : undefined}
+            maxZoomLevel={22}
             logoEnabled
             pitchEnabled={false}
             rotateEnabled={false}
