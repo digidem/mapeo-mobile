@@ -8,7 +8,8 @@
     "license-check": "license-check",
     "build-rnnodeapp": "./build-rnnodeapp.sh",
     "android": "react-native run-android --variant=appDebug",
-    "benchmark": "./run-benchmark.sh"
+    "benchmark": "./run-benchmark.sh",
+    "logcat": "adb logcat *:S nodejs:V ReactNative:V ReactNativeJS:V"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "^0.2.2",
