@@ -5,6 +5,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { createEpicMiddleware } from 'redux-observable';
 import rootEpic from '../epics';
 import rootReducer from '../ducks';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
@@ -17,7 +18,7 @@ const persistConfig = {
 export function configureStore() {
   const store = createStore(
     persistReducer(persistConfig, rootReducer),
-    applyMiddleware(epicMiddleware)
+    composeWithDevTools(applyMiddleware(epicMiddleware))
   );
   const persistor = persistStore(store);
 
