@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start:debugger": "REACT_DEBUGGER=\"open -g 'rndebugger://set-debugger-loc?port=8081' ||\" npm start",
     "test": "jest",
     "license-check": "license-check",
     "build-rnnodeapp": "./build-rnnodeapp.sh",
     "android": "react-native run-android --variant=appDebug",
-    "benchmark": "./run-benchmark.sh"
+    "benchmark": "./run-benchmark.sh",
+    "logcat": "adb logcat *:S nodejs:V ReactNative:V ReactNativeJS:V"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "^0.2.2",
@@ -35,6 +37,7 @@
     "react-navigation-tabs": "0.1.0-alpha.3",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.5",
     "redux-mock-store": "^1.5.1",
     "redux-observable": "^0.17.0",
     "redux-persist": "^5.9.1",
