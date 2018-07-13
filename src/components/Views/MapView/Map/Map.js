@@ -43,7 +43,7 @@ export type DispatchProps = {
 };
 
 type Props = {
-  navigation: NavigationActions
+  navigation: Object
 };
 
 const styles = StyleSheet.create({
