@@ -35,18 +35,18 @@
     "view_by": "Ver por más reciente"
   },
   "loading": "Cargando...",
-  "saved": "Salvado!",
+  "saved": "¡Guardado!",
   "continue": "Continuar",
-  "saving_image": "Guardar Imagen",
+  "saving_image": "Guardando imagen...",
   "editor": {
-    "placeholder": "¿Que esta pasando aqui?",
-    "media_button": "Fotos y Videos",
+    "placeholder": "¿Qué está pasando aquí?",
+    "media_button": "Tomar foto",
     "details_button": "Detalles",
     "modal": {
-      "title": "¡Cambios no guardados!",
-      "question": "¿Estás seguro de que deseas cancelar tu observación?",
-      "continue": "Continua Editando",
-      "cancel": "Sí, Cancelar"
+      "title": "¿Queres descartar esta observación?",
+      "question": "Si no quieres perder esta observación, seleccionar “Continuar editando”",
+      "continue": "Continuar editando",
+      "cancel": "Descartar observación"
     }
   },
   "detail_view": {
@@ -57,13 +57,13 @@
   },
   "manual_gps": {
     "manual_gps": "GPS Manual",
-    "searching": "Buscando...",
-    "searching_text": "El guardado no registrará su posición",
+    "searching": "Sin GPS todavía...",
+    "searching_text": "El GPS esta buscando su posición todavía",
     "weak": "GPS débil",
-    "weak_text": "El guardado no registrará su posición con menos precisión",
-    "waiting": "Continuar esperando",
-    "manual_enter": "Manualmente ingrese la posición",
-    "save": "Salvar",
+    "weak_text": "La posición del GPS no esta muy preciso todavía",
+    "waiting": "Seguir esperando",
+    "manual_enter": "Ingresar la posición manualmente",
+    "save": "Guardar",
     "longitude": "Longitud",
     "latitude": "Latitud",
     "grid_zone": "UTM Grid Zone",
@@ -85,7 +85,7 @@
   },
   "sync": {
     "none": "No hay dispositivos disponibles",
-    "check": "Asegúrate de que los dispositivos estén encendidos y conectados a wifi",
+    "check": "Conectar este celular y otra celular o laptop a la misma red WiFi para poder sincronizar datos",
     "available": "Dispositivos Disponibles",
     "selected": "Dispositivo Seleccionados",
     "initiated": "Sincronización iniciada...",
@@ -94,8 +94,8 @@
     "completed": "Sincronización completa",
     "via_wifi": "vía WiFi",
     "requested": "Sincronización solicitada",
-    "syncing": "Sincronizacíon",
-    "sync": "Sincronizacíon",
+    "syncing": "Sincronización",
+    "sync": "Sincronización",
     "modal": {
       "title": "Sincronización completa",
       "details": "Se agregaron nuevas observaciones",
@@ -103,7 +103,7 @@
     }
   },
   "gps": {
-    "loading": "Carga de GPS...",
+    "loading": "Buscando GPS...",
     "off": "GPS desactivado"
   }
 }
