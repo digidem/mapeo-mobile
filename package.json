@@ -61,7 +61,7 @@
     "eslint-plugin-react": "^7.5.1",
     "flow": "^0.2.3",
     "flow-bin": "^0.63.1",
-    "jest": "21.2.1",
+    "jest": "23.4.0",
     "license-check": "^1.1.5",
     "noderify": "^3.0.2",
     "prettier": "1.10.2",
