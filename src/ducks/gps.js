@@ -1,52 +1,61 @@
 // @flow
 
 import update from 'immutability-helper';
-import { create } from '../lib/redux';
-import {
-  resourcePending,
-  resourceSuccess,
-  resourceFailed
-} from '../lib/resource';
+import GeoLocation from '@digidem/react-native-geolocation';
 
-export const {
-  type: GPS_PENDING,
-  action: gpsPending,
-  reducer: gpsPendingReducer
-} = create('GPS_PENDING', {
-  start: (state, meta) => {
-    const newState = update(state, {
-      gps: { $set: resourcePending(meta) }
-    });
+// actions
+const UPDATE = 'mapeo-mobile/location/UPDATE';
+const ERROR = 'mapeo-mobile/location/ERROR';
 
-    return newState;
-  }
-});
+// status
+export const PERMISSION_DENIED = 'PERMISSION_DENIED';
+export const UNAVAILABLE = 'UNAVAILABLE';
+export const SEARCHING = 'SEARCHING';
+export const LOW_ACCURACY = 'LOW_ACCURACY';
+export const HIGH_ACCURACY = 'HIGH_ACCURACY';
 
-export const { type: GPS_SET, action: gpsSet, reducer: gpsSetReducer } = create(
-  'GPS_SET',
-  {
-    start: (state, meta) => {
-      const newState = update(state, {
-        gps: { $set: resourceSuccess(meta) }
-      });
+const statusMap = {
+  [GeoLocation.SEARCHING]: SEARCHING,
+  [GeoLocation.LOW_ACCURACY]: LOW_ACCURACY,
+  [GeoLocation.HIGH_ACCURACY]: HIGH_ACCURACY
+};
 
-      return newState;
+const errorCodeMap = {
+  [GeoLocation.PERMISSION_DENIED]: PERMISSION_DENIED,
+  [GeoLocation.POSITION_UNAVAILABLE]: UNAVAILABLE,
+  [GeoLocation.TIMEOUT]: UNAVAILABLE,
+  [GeoLocation.UNKNOWN]: UNAVAILABLE
+};
+
+export default [
+  function reducer(state = {}, { type, payload } = {}) {
+    switch (type) {
+      case UPDATE:
+        return update(state, {
+          gps: {
+            status: { $set: statusMap[payload.status] },
+            timestamp: { $set: payload.timestamp },
+            coords: { $set: payload.coords }
+          }
+        });
+      case ERROR:
+        return update(state, {
+          gps: {
+            status: { $set: errorCodeMap[payload.code] }
+          }
+        });
+      default:
+        return state;
     }
   }
-);
+];
 
-export const {
-  type: GPS_FAILED,
-  action: gpsFailed,
-  reducer: gpsFailedReducer
-} = create('GPS_FAILED', {
-  start: (state, meta) => {
-    const newState = update(state, {
-      gps: { $set: resourceFailed(meta) }
-    });
-
-    return newState;
-  }
+export const locationUpdate = payload => ({
+  type: UPDATE,
+  payload
 });
 
-export default [gpsPendingReducer, gpsSetReducer, gpsFailedReducer];
+export const locationError = payload => ({
+  type: ERROR,
+  payload
+});

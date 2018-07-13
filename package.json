@@ -19,6 +19,8 @@
     "flow coverage": "flow coverage"
   },
   "dependencies": {
+    "@digidem/react-native-geolocation": "^1.0.2",
+    "@digidem/react-native-gps-state": "^1.0.0",
     "@mapbox/geo-viewport": "^0.2.2",
     "@mapbox/react-native-mapbox-gl": "^6.1.2-beta2",
     "backoff-rxjs": "^0.0.9",
@@ -48,6 +50,7 @@
     "redux-mock-store": "^1.5.1",
     "redux-observable": "^0.17.0",
     "redux-persist": "^5.9.1",
+    "round-to": "^3.0.0",
     "rxjs": "^5.5.6",
     "shortid": "^2.2.8",
     "utm": "^1.1.1"

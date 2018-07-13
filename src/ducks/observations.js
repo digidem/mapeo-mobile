@@ -27,9 +27,9 @@ export const {
   start: (state, meta) => {
     const observation = meta;
 
-    if (!observation.lat && !observation.lon && state.gps.data) {
-      observation.lat = state.gps.data.latitude;
-      observation.lon = state.gps.data.longitude;
+    if (!observation.lat && !observation.lon && state.gps.coords) {
+      observation.lat = state.gps.coords.latitude;
+      observation.lon = state.gps.coords.longitude;
     }
 
     const newState = update(state, {

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.react.ReactApplication;
+import br.com.dopaminamob.gpsstate.GPSStatePackage;
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.horcrux.svg.SvgPackage;
 import com.mapbox.rctmgl.RCTMGLPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new GPSStatePackage(),
             new ImageResizerPackage(),
             new SvgPackage(),
             new VectorIconsPackage(),

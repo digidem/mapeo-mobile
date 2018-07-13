@@ -3,15 +3,17 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { createEpicMiddleware } from 'redux-observable';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import rootEpic from '../epics';
 import rootReducer from '../ducks';
-import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
 const persistConfig = {
   key: 'root',
+  version: 1,
   storage,
+  whitelist: ['settings', 'modals', 'drawers', 'map'],
   stateReconciler: autoMergeLevel2 // see "Merge Process" section for details.
 };
 
@@ -39,7 +41,7 @@ export function createInitialStore() {
     drawers: {
       observations: false
     },
-    gps: { status: 'Pending' },
+    gps: { status: 'SEARCHING' },
     observationSource: { source: undefined },
     devices: {},
     settings: {
