@@ -77,16 +77,8 @@ exports[`SyncedModal tests snapshots 1`] = `
         </Text>
       </View>
       <View
-        accessibilityComponentType={undefined}
-        accessibilityLabel={undefined}
-        accessibilityTraits={undefined}
         accessible={true}
-        collapsable={undefined}
-        hasTVPreferredFocus={undefined}
-        hitSlop={undefined}
         isTVSelectable={true}
-        nativeID={undefined}
-        onLayout={undefined}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
         onResponderRelease={[Function]}
@@ -109,8 +101,6 @@ exports[`SyncedModal tests snapshots 1`] = `
             "paddingVertical": 5,
           }
         }
-        testID={undefined}
-        tvParallaxProperties={undefined}
       >
         <Text
           accessible={true}

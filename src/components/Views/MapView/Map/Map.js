@@ -43,7 +43,7 @@ export type DispatchProps = {
 };
 
 type Props = {
-  navigation: NavigationActions
+  navigation: Object
 };
 
 const styles = StyleSheet.create({
@@ -234,8 +234,10 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
                 : 12
             }
             minZoomLevel={selectedStyle ? selectedStyle.minzoom : undefined}
-            maxZoomLevel={selectedStyle ? selectedStyle.maxzoom : undefined}
+            maxZoomLevel={22}
             logoEnabled
+            pitchEnabled={false}
+            rotateEnabled={false}
             onLongPress={this.handleLongPress}
             compassEnabled={false}
             styleURL={

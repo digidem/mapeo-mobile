@@ -21,16 +21,8 @@ exports[`SyncHeader tests snapshot with available devices 1`] = `
     }
   >
     <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
       accessible={true}
-      collapsable={undefined}
-      hasTVPreferredFocus={undefined}
-      hitSlop={undefined}
       isTVSelectable={true}
-      nativeID={undefined}
-      onLayout={undefined}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
       onResponderRelease={[Function]}
@@ -45,8 +37,6 @@ exports[`SyncHeader tests snapshot with available devices 1`] = `
           "position": "absolute",
         }
       }
-      testID={undefined}
-      tvParallaxProperties={undefined}
     >
       <Text
         accessible={true}
@@ -147,16 +137,8 @@ exports[`SyncHeader tests snapshot with device selected 1`] = `
     }
   >
     <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
       accessible={true}
-      collapsable={undefined}
-      hasTVPreferredFocus={undefined}
-      hitSlop={undefined}
       isTVSelectable={true}
-      nativeID={undefined}
-      onLayout={undefined}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
       onResponderRelease={[Function]}
@@ -171,8 +153,6 @@ exports[`SyncHeader tests snapshot with device selected 1`] = `
           "position": "absolute",
         }
       }
-      testID={undefined}
-      tvParallaxProperties={undefined}
     >
       <Text
         accessible={true}

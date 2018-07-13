@@ -5,12 +5,17 @@ ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <withNavigation(withNavigationFocus(Map))
+    createObservation={[MockFunction]}
+    listObservations={[MockFunction]}
+    listStyles={[MockFunction]}
     navigation={
       Object {
         "addListener": [Function],
         "isFocused": [Function],
       }
     }
+    observations={Object {}}
+    selectObservation={[MockFunction]}
     selectedObservation={
       Object {
         "categoryId": 19,
@@ -39,6 +44,8 @@ ShallowWrapper {
         "type": "Observation",
       }
     }
+    updateObservation={[MockFunction]}
+    updateObservationSource={[MockFunction]}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],

@@ -24,16 +24,8 @@ exports[`PhotoView tests snapshot 1`] = `
     }
   >
     <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
       accessible={true}
-      collapsable={undefined}
-      hasTVPreferredFocus={undefined}
-      hitSlop={undefined}
       isTVSelectable={true}
-      nativeID={undefined}
-      onLayout={undefined}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
       onResponderRelease={[Function]}
@@ -49,8 +41,6 @@ exports[`PhotoView tests snapshot 1`] = `
           "opacity": 1,
         }
       }
-      testID={undefined}
-      tvParallaxProperties={undefined}
     >
       <Text
         accessible={true}
@@ -69,16 +59,8 @@ exports[`PhotoView tests snapshot 1`] = `
       </Text>
     </View>
     <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
       accessible={true}
-      collapsable={undefined}
-      hasTVPreferredFocus={undefined}
-      hitSlop={undefined}
       isTVSelectable={true}
-      nativeID={undefined}
-      onLayout={undefined}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
       onResponderRelease={[Function]}
@@ -94,8 +76,6 @@ exports[`PhotoView tests snapshot 1`] = `
           "opacity": 1,
         }
       }
-      testID={undefined}
-      tvParallaxProperties={undefined}
     >
       <Text
         accessible={true}

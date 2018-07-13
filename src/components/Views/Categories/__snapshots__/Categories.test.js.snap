@@ -83,7 +83,6 @@ exports[`Categories tests snapshot 1`] = `
     getItemCount={[Function]}
     horizontal={false}
     initialNumToRender={10}
-    invertStickyHeaders={undefined}
     keyExtractor={[Function]}
     maxToRenderPerBatch={10}
     numColumns={3}
@@ -128,16 +127,8 @@ exports[`Categories tests snapshot 1`] = `
           }
         >
           <View
-            accessibilityComponentType={undefined}
-            accessibilityLabel={undefined}
-            accessibilityTraits={undefined}
             accessible={true}
-            collapsable={undefined}
-            hasTVPreferredFocus={undefined}
-            hitSlop={undefined}
             isTVSelectable={true}
-            nativeID={undefined}
-            onLayout={undefined}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
             onResponderRelease={[Function]}
@@ -154,8 +145,6 @@ exports[`Categories tests snapshot 1`] = `
                 "width": 250,
               }
             }
-            testID={undefined}
-            tvParallaxProperties={undefined}
           >
             <View
               style={
@@ -209,20 +198,11 @@ exports[`Categories tests snapshot 1`] = `
                     }
                   >
                     <RCTWebView
-                      allowsInlineMediaPlayback={undefined}
-                      automaticallyAdjustContentInsets={undefined}
-                      bounces={undefined}
-                      contentInset={undefined}
-                      dataDetectorTypes={undefined}
-                      decelerationRate={undefined}
-                      injectedJavaScript={undefined}
-                      mediaPlaybackRequiresUserAction={undefined}
                       messagingEnabled={false}
                       onLoadingError={[Function]}
                       onLoadingFinish={[Function]}
                       onLoadingStart={[Function]}
                       onMessage={[Function]}
-                      onShouldStartLoadWithRequest={undefined}
                       scalesPageToFit={true}
                       scrollEnabled={false}
                       source={

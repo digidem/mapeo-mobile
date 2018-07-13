@@ -4,7 +4,7 @@ exports[`Toast tests snapshots 1`] = `
 <Modal
   animation="slide"
   hardwareAccelerated={false}
-  onRequestClose={[Function]}
+  onRequestClose={[MockFunction]}
   transparent={true}
   visible={true}
 />

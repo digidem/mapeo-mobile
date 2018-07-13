@@ -130,20 +130,11 @@ exports[`SavedModal tests snapshots 1`] = `
                 }
               >
                 <RCTWebView
-                  allowsInlineMediaPlayback={undefined}
-                  automaticallyAdjustContentInsets={undefined}
-                  bounces={undefined}
-                  contentInset={undefined}
-                  dataDetectorTypes={undefined}
-                  decelerationRate={undefined}
-                  injectedJavaScript={undefined}
-                  mediaPlaybackRequiresUserAction={undefined}
                   messagingEnabled={false}
                   onLoadingError={[Function]}
                   onLoadingFinish={[Function]}
                   onLoadingStart={[Function]}
                   onMessage={[Function]}
-                  onShouldStartLoadWithRequest={undefined}
                   scalesPageToFit={true}
                   scrollEnabled={false}
                   source={

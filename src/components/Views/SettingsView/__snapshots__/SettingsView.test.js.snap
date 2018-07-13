@@ -26,16 +26,8 @@ exports[`SettingsView tests snapshot 1`] = `
     }
   >
     <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
       accessible={true}
-      collapsable={undefined}
-      hasTVPreferredFocus={undefined}
-      hitSlop={undefined}
       isTVSelectable={true}
-      nativeID={undefined}
-      onLayout={undefined}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
       onResponderRelease={[Function]}
@@ -47,8 +39,6 @@ exports[`SettingsView tests snapshot 1`] = `
           "opacity": 1,
         }
       }
-      testID={undefined}
-      tvParallaxProperties={undefined}
     >
       <Text
         accessible={true}
@@ -136,9 +126,7 @@ exports[`SettingsView tests snapshot 1`] = `
           }
         }
       >
-        <View
-          style={undefined}
-        >
+        <View>
           <RCTPicker
             items={
               Array [
@@ -215,14 +203,12 @@ exports[`SettingsView tests snapshot 1`] = `
           }
         }
       >
-        <View
-          style={undefined}
-        >
+        <View>
           <RCTPicker
             items={
               Array [
                 Object {
-                  "label": "[missing \\"en.settings.Test Style\\" translation]",
+                  "label": "Test Style",
                   "textColor": undefined,
                   "value": "test-style",
                 },
@@ -276,16 +262,8 @@ exports[`SettingsView tests snapshot 2`] = `
     }
   >
     <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
       accessible={true}
-      collapsable={undefined}
-      hasTVPreferredFocus={undefined}
-      hitSlop={undefined}
       isTVSelectable={true}
-      nativeID={undefined}
-      onLayout={undefined}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
       onResponderRelease={[Function]}
@@ -297,8 +275,6 @@ exports[`SettingsView tests snapshot 2`] = `
           "opacity": 1,
         }
       }
-      testID={undefined}
-      tvParallaxProperties={undefined}
     >
       <Text
         accessible={true}
@@ -386,9 +362,7 @@ exports[`SettingsView tests snapshot 2`] = `
           }
         }
       >
-        <View
-          style={undefined}
-        >
+        <View>
           <RCTPicker
             items={
               Array [
@@ -465,14 +439,12 @@ exports[`SettingsView tests snapshot 2`] = `
           }
         }
       >
-        <View
-          style={undefined}
-        >
+        <View>
           <RCTPicker
             items={
               Array [
                 Object {
-                  "label": "[missing \\"en.settings.Test Style\\" translation]",
+                  "label": "Test Style",
                   "textColor": undefined,
                   "value": "test-style",
                 },
@@ -526,16 +498,8 @@ exports[`SettingsView tests snapshot 3`] = `
     }
   >
     <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
       accessible={true}
-      collapsable={undefined}
-      hasTVPreferredFocus={undefined}
-      hitSlop={undefined}
       isTVSelectable={true}
-      nativeID={undefined}
-      onLayout={undefined}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
       onResponderRelease={[Function]}
@@ -547,8 +511,6 @@ exports[`SettingsView tests snapshot 3`] = `
           "opacity": 1,
         }
       }
-      testID={undefined}
-      tvParallaxProperties={undefined}
     >
       <Text
         accessible={true}
@@ -636,9 +598,7 @@ exports[`SettingsView tests snapshot 3`] = `
           }
         }
       >
-        <View
-          style={undefined}
-        >
+        <View>
           <RCTPicker
             items={
               Array [
@@ -715,14 +675,12 @@ exports[`SettingsView tests snapshot 3`] = `
           }
         }
       >
-        <View
-          style={undefined}
-        >
+        <View>
           <RCTPicker
             items={
               Array [
                 Object {
-                  "label": "[missing \\"en.settings.Test Style\\" translation]",
+                  "label": "Test Style",
                   "textColor": undefined,
                   "value": "test-style",
                 },
@@ -776,16 +734,8 @@ exports[`SettingsView tests snapshot 4`] = `
     }
   >
     <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
       accessible={true}
-      collapsable={undefined}
-      hasTVPreferredFocus={undefined}
-      hitSlop={undefined}
       isTVSelectable={true}
-      nativeID={undefined}
-      onLayout={undefined}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
       onResponderRelease={[Function]}
@@ -797,8 +747,6 @@ exports[`SettingsView tests snapshot 4`] = `
           "opacity": 1,
         }
       }
-      testID={undefined}
-      tvParallaxProperties={undefined}
     >
       <Text
         accessible={true}
@@ -886,9 +834,7 @@ exports[`SettingsView tests snapshot 4`] = `
           }
         }
       >
-        <View
-          style={undefined}
-        >
+        <View>
           <RCTPicker
             items={
               Array [
@@ -965,14 +911,12 @@ exports[`SettingsView tests snapshot 4`] = `
           }
         }
       >
-        <View
-          style={undefined}
-        >
+        <View>
           <RCTPicker
             items={
               Array [
                 Object {
-                  "label": "[missing \\"en.settings.Test Style\\" translation]",
+                  "label": "Test Style",
                   "textColor": undefined,
                   "value": "test-style",
                 },
