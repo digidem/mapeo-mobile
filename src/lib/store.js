@@ -49,6 +49,7 @@ export function createInitialStore() {
       styles: {}
     },
     icons: {},
-    resizedImages: {}
+    resizedImages: {},
+    attachments: {},
   };
 }

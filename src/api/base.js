@@ -8,7 +8,7 @@ const request = (
   method: string,
   route: string,
   body?: any,
-  parseAsText?: boolean
+  parseAsText?: boolean,
 ) => {
   let resp: any;
   let encodedBody: any;
@@ -23,8 +23,8 @@ const request = (
     fetch(API_DOMAIN_URL + route, {
       method,
       body: encodedBody,
-      headers
-    })
+      headers,
+    }),
   )
     .let(retryBackoff({ initialInterval: 200 }))
     .flatMap(response => {
@@ -33,6 +33,8 @@ const request = (
       }
 
       resp = response;
+
+      console.log('RN - ', resp);
 
       return Observable.from(parseAsText ? response.text() : response.json())
         .catch(err => {
@@ -50,20 +52,20 @@ const request = (
 type Parameters = {
   method: string,
   route: string,
-  body?: any
+  body?: any,
 };
 
 export const jsonRequest = (parameters: Parameters) =>
   request(parameters.method, parameters.route, parameters.body).flatMap(
-    response => response.json()
+    response => response.json(),
   );
 
 export const textRequest = (parameters: Parameters) =>
   request(parameters.method, parameters.route, parameters.body, true).flatMap(
-    response => response.text()
+    response => response.text(),
   );
 
 export const blankRequest = (parameters: Parameters) =>
   request(parameters.method, parameters.route, parameters.body).flatMap(() =>
-    Observable.of(null)
+    Observable.of(null),
   );

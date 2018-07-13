@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 import Image from 'react-native-remote-svg';
 import moment from '../../../lib/localizedMoment';
@@ -28,39 +28,38 @@ import PencilIcon from '../../../images/editor-details.png';
 export type StateProps = {
   selectedObservation?: Observation,
   categories: {
-    [id: string]: Category
+    [id: string]: Category,
   },
   gpsFormat: string,
   icons: Object,
-  resizedImages: Object
 };
 
 export type DispatchProps = {
   clearSelectedObservation: () => void,
   updateObservation: (o: UpdateRequest) => void,
-  updateObservationSource: () => void
+  updateObservationSource: () => void,
 };
 
 export type Props = {
-  navigation: NavigationActions
+  navigation: any,
 };
 
 const styles = StyleSheet.create({
   backChevron: {
-    marginLeft: 15
+    marginLeft: 15,
   },
   bottomButtonContainer: {
     flexDirection: 'row',
     backgroundColor: DARK_GREY,
     position: 'absolute',
     bottom: 0,
-    padding: 15
+    padding: 15,
   },
   bottomButtonText: {
     color: 'white',
     fontSize: 20,
     fontWeight: '700',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   cancelButton: {
     flex: 1,
@@ -68,89 +67,89 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     paddingVertical: 15,
     marginRight: 10,
-    backgroundColor: 'gray'
+    backgroundColor: 'gray',
   },
   categoryIconContainer: {
     alignItems: 'center',
-    marginBottom: 30
+    marginBottom: 30,
   },
   categoryPin: {
     alignSelf: 'center',
     width: 80,
     height: 85,
     position: 'absolute',
-    top: 30
+    top: 30,
   },
   close: {
     position: 'absolute',
-    left: 10
+    left: 10,
   },
   container: {
     backgroundColor: 'white',
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   date: {
     color: 'black',
     fontSize: 12,
     fontWeight: '600',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   fieldAnswer: {
     color: 'black',
     fontSize: 18,
     fontWeight: '700',
     marginTop: 7,
-    marginBottom: 15
+    marginBottom: 15,
   },
   fieldTitle: {
     color: 'black',
     fontSize: 14,
-    fontWeight: '700'
+    fontWeight: '700',
   },
   mapBox: {
     flex: 1,
     alignSelf: 'stretch',
     marginBottom: 15,
     marginLeft: 15,
-    marginRight: 15
+    marginRight: 15,
   },
   mapEditIcon: {
     alignSelf: 'flex-end',
     marginRight: 20,
-    marginBottom: 20
+    marginBottom: 20,
   },
   observedByText: {
     color: 'black',
     fontSize: 20,
     fontWeight: '700',
-    paddingLeft: 10
+    paddingLeft: 10,
   },
   positionAtText: {
     fontSize: 12,
     color: 'black',
-    fontWeight: '400'
+    fontWeight: '400',
   },
   positionText: {
     fontSize: 12,
     color: 'black',
-    fontWeight: '700'
+    fontWeight: '700',
   },
   profileImage: {
     marginLeft: 10,
-    marginBottom: 20
+    marginBottom: 20,
   },
   saveButton: {
     flex: 1,
     borderRadius: 30,
     paddingHorizontal: 25,
     paddingVertical: 15,
-    backgroundColor: MANGO
+    backgroundColor: MANGO,
   },
   section: {
     borderBottomColor: 'lightgray',
     borderBottomWidth: 1,
-    flex: 1
+    flex: 1,
   },
   sectionText: {
     color: 'black',
@@ -158,7 +157,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 15,
     marginLeft: 10,
-    marginTop: 15
+    marginTop: 15,
   },
   stillHappening: {
     color: 'black',
@@ -166,27 +165,27 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     paddingTop: 15,
     paddingBottom: 15,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   textNotes: {
     color: 'black',
     fontSize: 18,
     fontWeight: '700',
     margin: 20,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   time: {
     color: 'grey',
     fontSize: 12,
     fontWeight: '300',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   title: {
     color: 'black',
     fontFamily: 'HelveticaNeue',
     fontSize: 18,
     fontWeight: '700',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   topSection: {
     alignSelf: 'stretch',
@@ -194,20 +193,20 @@ const styles = StyleSheet.create({
     borderBottomColor: 'lightgray',
     borderBottomWidth: 1,
     height: 200,
-    paddingVertical: 20
+    paddingVertical: 20,
   },
   header: {
     flexDirection: 'row',
     backgroundColor: DARK_GREY,
     paddingVertical: 20,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: 'white'
-  }
+    color: 'white',
+  },
 });
 
 const mapboxStyles = MapboxGL.StyleSheet.create({
@@ -215,24 +214,24 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
     circleColor: '#5086EC',
     circleRadius: 5,
     circleStrokeColor: '#fff',
-    circleStrokeWidth: 2
+    circleStrokeWidth: 2,
   },
   observation: {
     circleColor: '#F29D4B',
     circleRadius: 5,
     circleStrokeColor: '#fff',
-    circleStrokeWidth: 2
-  }
+    circleStrokeWidth: 2,
+  },
 });
 
 I18n.fallbacks = true;
 I18n.translations = {
   en: require('../../../translations/en'),
-  es: require('../../../translations/es')
+  es: require('../../../translations/es'),
 };
 
 class ObservationDetailView extends React.Component<
-  Props & StateProps & DispatchProps
+  Props & StateProps & DispatchProps,
 > {
   shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
     if (nextProps.navigation.isFocused()) {
@@ -265,14 +264,13 @@ class ObservationDetailView extends React.Component<
       updateObservationSource,
       gpsFormat,
       icons,
-      resizedImages
     } = this.props;
-    const keyExtractor = item => item.source.toString();
+    const keyExtractor = item => item;
     let mediaTitle = null;
     let mediaText = `0 ${I18n.t('detail_view.photo')}s`;
     const numOfMedia =
-      selectedObservation && selectedObservation.media
-        ? selectedObservation.media.length
+      selectedObservation && selectedObservation.attachments
+        ? selectedObservation.attachments.length
         : null;
     if (numOfMedia && numOfMedia > 0) {
       mediaText = `${numOfMedia} ${I18n.t('detail_view.photo')}`;
@@ -284,7 +282,7 @@ class ObservationDetailView extends React.Component<
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            marginLeft: 15
+            marginLeft: 15,
           }}
         >
           <MaterialIcon color={MEDIUM_GREY} name="photo-camera" size={15} />
@@ -307,7 +305,7 @@ class ObservationDetailView extends React.Component<
     const positionText = getGPSText({
       gpsFormat,
       lat: selectedObservation.lat,
-      lon: selectedObservation.lon
+      lon: selectedObservation.lon,
     });
     const category = categories[selectedObservation.categoryId];
 
@@ -332,7 +330,7 @@ class ObservationDetailView extends React.Component<
               onPress={() => {
                 updateObservationSource();
                 navigation.navigate({
-                  routeName: 'ObservationEditor'
+                  routeName: 'ObservationEditor',
                 });
               }}
               style={{ position: 'absolute', right: 20, top: 25 }}
@@ -344,7 +342,7 @@ class ObservationDetailView extends React.Component<
                 !!icons[category.icon] && (
                   <Image
                     source={{
-                      uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
+                      uri: `data:image/svg+xml;utf8,${icons[category.icon]}`,
                     }}
                     style={{ height: 30, width: 30 }}
                   />
@@ -359,7 +357,7 @@ class ObservationDetailView extends React.Component<
               {I18n.t('on')}{' '}
               {I18n.currentLocale().indexOf('en') !== -1
                 ? moment(selectedObservation.created).format(
-                    'MMMM D YYYY, h:hh A'
+                    'MMMM D YYYY, h:hh A',
                   )
                 : moment(selectedObservation.created).format('LLL')}
             </Text>
@@ -367,13 +365,13 @@ class ObservationDetailView extends React.Component<
           <View style={styles.section}>
             {mediaTitle}
             {!!selectedObservation &&
-              !!selectedObservation.media.length && (
+              !!selectedObservation.attachments.length && (
                 <FlatList
                   horizontal
                   scrollEnabled
                   style={{
                     flex: 1,
-                    flexDirection: 'row'
+                    flexDirection: 'row',
                   }}
                   contentStyle={{ justifyContent: 'center' }}
                   keyExtractor={keyExtractor}
@@ -384,9 +382,8 @@ class ObservationDetailView extends React.Component<
                           routeName: 'PhotoView',
                           params: {
                             fromDetailView: true,
-                            photoType: item.type,
-                            photoSource: item.source
-                          }
+                            photoId: item,
+                          },
                         })
                       }
                     >
@@ -395,17 +392,17 @@ class ObservationDetailView extends React.Component<
                           uri:
                             resizedImages && resizedImages[item.source]
                               ? resizedImages[item.source]
-                              : item.source
+                              : item.source,
                         }}
                         style={{
                           width: 125,
                           height: 125,
-                          margin: 1
+                          margin: 1,
                         }}
                       />
                     </TouchableOpacity>
                   )}
-                  data={selectedObservation.media}
+                  data={selectedObservation.attachments}
                 />
               )}
             <Text style={styles.textNotes}>{selectedObservation.notes}</Text>
@@ -415,7 +412,7 @@ class ObservationDetailView extends React.Component<
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                marginLeft: 15
+                marginLeft: 15,
               }}
             >
               <EntypoIcon color={MANGO} name="location-pin" size={15} />
@@ -430,7 +427,7 @@ class ObservationDetailView extends React.Component<
                 rotateEnabled={false}
                 centerCoordinate={[
                   parseFloat(selectedObservation.lon),
-                  parseFloat(selectedObservation.lat)
+                  parseFloat(selectedObservation.lat),
                 ]}
               >
                 <MapboxGL.ShapeSource
@@ -442,12 +439,12 @@ class ObservationDetailView extends React.Component<
                       type: 'Point',
                       coordinates: [
                         parseFloat(selectedObservation.lon),
-                        parseFloat(selectedObservation.lat)
-                      ]
+                        parseFloat(selectedObservation.lat),
+                      ],
                     },
                     properties: {
-                      name: selectedObservation.name
-                    }
+                      name: selectedObservation.name,
+                    },
                   }}
                 >
                   <MapboxGL.CircleLayer
@@ -463,7 +460,7 @@ class ObservationDetailView extends React.Component<
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                marginLeft: 15
+                marginLeft: 15,
               }}
             >
               <Image

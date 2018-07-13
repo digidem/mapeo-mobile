@@ -10,11 +10,10 @@ export const applyObservationDefaults = (partial: Object): Observation => ({
   name: '',
   notes: '',
   observedBy: 'Tú',
-  media: [],
+  attachments: [],
   icon: null,
   categoryId: '0',
   fields: [],
-  mediaBackup: [],
 
-  ...partial
+  ...partial,
 });

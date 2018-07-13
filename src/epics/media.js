@@ -7,60 +7,69 @@ import Media from '../api/media';
 import {
   MEDIA_SAVE,
   mediaSave,
-  MEDIA_BACKUP,
-  mediaBackup,
+  MEDIA_SAVE_TO_CAMERA_ROLL,
+  mediaSaveToCameraRoll,
   MEDIA_RESIZE,
-  mediaResize
+  mediaResize,
 } from '../ducks/media';
-import type { MediaSaveMeta, MediaBackupMeta } from '../ducks/media';
-import { observationUpdateSave } from '../ducks/observations';
+import type { MediaSaveMeta, MediaSaveToCameraRollMeta } from '../ducks/media';
+import {
+  observationUpdateSave,
+  observationAttachmentUpdate,
+} from '../ducks/observations';
 import { saveToCameraRoll } from '../lib/media';
 import * as ImageResizer from 'react-native-image-resizer';
 
+export const mediaSaveToCameraRollEpic = (
+  action$: ActionsObservable<Action<MediaSaveToCameraRollMeta, Object>>,
+  store: StoreState,
+) =>
+  action$
+    .ofType(MEDIA_SAVE_TO_CAMERA_ROLL)
+    .filter(action => action.status === 'Start')
+    .flatMap(action =>
+      saveToCameraRoll(action.meta.source).map(uri =>
+        mediaResize({
+          mediaId: action.meta.mediaId,
+          cameraRollUri: uri,
+        }),
+      ),
+    );
+
 export const mediaSaveEpic = (
   action$: ActionsObservable<Action<MediaSaveMeta, Object>>,
-  store: StoreState
+  store: any,
 ) =>
   action$
     .ofType(MEDIA_SAVE)
     .filter(action => action.status === 'Start')
-    .flatMap(action =>
-      saveToCameraRoll(action.meta.source).flatMap(uri =>
-        Observable.merge(
-          Observable.of(
-            mediaBackup({
-              observationId: action.meta.observationId,
-              mediaId: action.meta.mediaId,
-              cameraRollUri: uri
-            })
-          )
-        )
-      )
-    );
+    .flatMap(
+      action =>
+        Media.backup(action.meta.cameraRollUri, action.meta.resizedUri).flatMap(
+          id => {
+            const { mediaId } = action.meta;
+            const observationId = store.getState().app.attachments[mediaId]
+              .observation;
 
-export const mediaBackupEpic = (
-  action$: ActionsObservable<Action<MediaBackupMeta, Object>>,
-  store: StoreState
-) =>
-  action$
-    .ofType(MEDIA_BACKUP)
-    .filter(action => action.status === 'Start')
-    .flatMap(action =>
-      Media.backup(action.meta.cameraRollUri)
-        .map(backup =>
-          observationUpdateSave({
-            id: action.meta.observationId,
-            mediaBackup: store.observations[action.meta.observationId].concat(
-              backup
-            )
-          })
-        )
-        .catch(err => Observable.of(observationUpdateSave(action.meta, err)))
+            return Observable.merge(
+              Observable.of(mediaSave(action.meta, id)),
+              Observable.of(
+                observationAttachmentUpdate({
+                  tempId: mediaId,
+                  observation:
+                    observationId === 'selected' ? undefined : observationId,
+                  mediaId: id,
+                }),
+              ),
+            );
+          },
+        ),
+      // .catch(err => Observable.of(mediaSave(action.meta, err))),
     );
 
 export const mediaResizeEpic = (
   action$: ActionsObservable<Action<string, string>>,
-  store: StoreState
+  store: StoreState,
 ) =>
   action$
     .ofType(MEDIA_RESIZE)
@@ -68,13 +77,19 @@ export const mediaResizeEpic = (
     .flatMap(action =>
       Observable.from(
         ImageResizer.default.createResizedImage(
-          action.meta,
+          action.meta.cameraRollUri,
           300,
           300,
           'JPEG',
-          50
-        )
-      ).map(resizedImage => mediaResize(action.meta, resizedImage.uri))
+          50,
+        ),
+      ).map(resizedImage =>
+        mediaSave({
+          resizedUri: resizedImage.uri,
+          cameraRollUri: action.meta.cameraRollUri,
+          mediaId: action.meta.mediaId,
+        }),
+      ),
     );
 
-export default [mediaSaveEpic, mediaBackupEpic, mediaResizeEpic];
+export default [mediaSaveToCameraRollEpic, mediaSaveEpic, mediaResizeEpic];

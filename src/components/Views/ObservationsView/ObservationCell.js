@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import I18n from 'react-native-i18n';
 import Image from 'react-native-remote-svg';
@@ -22,7 +22,7 @@ type Props = {
   onPress: (i: Observation) => void,
   icons: Object,
   resizedImages: Object,
-  getResizedImage: (source: string) => void
+  getResizedImage: (source: string) => void,
 };
 
 const styles = StyleSheet.create({
@@ -35,20 +35,20 @@ const styles = StyleSheet.create({
     borderBottomColor: LIGHT_GREY,
     borderBottomWidth: 1,
     width: Dimensions.get('window').width,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   header: {
     fontSize: 20,
     textAlign: 'center',
     paddingVertical: 20,
     fontWeight: '700',
-    color: 'black'
+    color: 'black',
   },
   text: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
   circle: {
     width: 50,
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOpacity: 1,
     shadowOffset: { width: 0, height: 2 },
-    elevation: 3
+    elevation: 3,
   },
   circleWithMedia: {
     position: 'absolute',
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     bottom: -5,
     width: 25,
     height: 25,
-    zIndex: 5
+    zIndex: 5,
   },
   icon: { width: 15, height: 15 },
   iconWithMedia: { width: 12, height: 12 },
@@ -80,30 +80,20 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     backgroundColor: LIGHT_GREY,
-    borderRadius: 50
+    borderRadius: 50,
   },
   title: { fontSize: 18, fontWeight: '700', color: 'black' },
   titleLong: { fontSize: 16, fontWeight: '700', color: 'black' },
-  media: { width: 60, height: 60, borderRadius: 7 }
+  media: { width: 60, height: 60, borderRadius: 7 },
 });
 
 I18n.fallbacks = true;
 I18n.translations = {
   en: require('../../../translations/en'),
-  es: require('../../../translations/es')
+  es: require('../../../translations/es'),
 };
 
 class ObservationCell extends React.Component<Props> {
-  componentDidMount() {
-    const { observation, resizedImages, getResizedImage } = this.props;
-    const hasMedia = observation && !!observation.media.length;
-    const source = hasMedia ? observation.media[0].source : '';
-
-    if (hasMedia && (!resizedImages || !resizedImages[source])) {
-      getResizedImage(source);
-    }
-  }
-
   render() {
     const {
       resizedImages,
@@ -111,7 +101,7 @@ class ObservationCell extends React.Component<Props> {
       observation,
       onPress,
       category,
-      icons
+      icons,
     } = this.props;
     const esLocale = require('moment/locale/es');
     let dateString;
@@ -122,7 +112,7 @@ class ObservationCell extends React.Component<Props> {
         nextWeek: 'ddd, h:mm A',
         lastDay: '[Ayer], h:mm A',
         lastWeek: 'ddd, h:mm A',
-        sameElse: 'MM/D/YYYY, h:mm A'
+        sameElse: 'MM/D/YYYY, h:mm A',
       });
     } else {
       dateString = moment(observation.created).calendar(null, {
@@ -131,7 +121,7 @@ class ObservationCell extends React.Component<Props> {
         nextWeek: 'ddd, h:mm A',
         lastDay: '[Yesterday], h:mm A',
         lastWeek: 'ddd, h:mm A',
-        sameElse: 'MM/D/YYYY, h:mm A'
+        sameElse: 'MM/D/YYYY, h:mm A',
       });
     }
 
@@ -139,8 +129,8 @@ class ObservationCell extends React.Component<Props> {
       onPress(observation);
     };
 
-    const hasMedia = observation && !!observation.media.length;
-    const source = hasMedia ? observation.media[0].source : '';
+    const hasMedia = observation && !!observation.attachments.length;
+    const source = hasMedia ? observation.attachments[0] : '';
 
     return (
       <TouchableOpacity onPress={handlePress}>
@@ -153,7 +143,7 @@ class ObservationCell extends React.Component<Props> {
             {hasMedia && (
               <Image
                 source={{
-                  uri: resizedImages ? resizedImages[source] : source
+                  uri: `htpp://localhost:9080/media/thumbnail/${source}`,
                 }}
                 style={styles.media}
               />
@@ -167,12 +157,12 @@ class ObservationCell extends React.Component<Props> {
                   <View
                     style={{
                       alignItems: 'center',
-                      justifyContent: 'center'
+                      justifyContent: 'center',
                     }}
                   >
                     <Image
                       source={{
-                        uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
+                        uri: `data:image/svg+xml;utf8,${icons[category.icon]}`,
                       }}
                       style={hasMedia ? styles.iconWithMedia : styles.icon}
                     />

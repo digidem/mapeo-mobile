@@ -1,5 +1,5 @@
 // @flow
-import type { Observation } from './observation';
+import type { Observation, Attachment } from './observation';
 import type { Category } from './category';
 import type { ModalState } from './modal';
 import type { DrawerState } from './drawer';
@@ -46,6 +46,10 @@ export interface AppStoreState {
 
   resizedImages: {
     [uri: string]: string
+  };
+
+  attachments: {
+    [id: string]: Resource<Attachment>
   };
 }
 

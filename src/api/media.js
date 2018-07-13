@@ -1,13 +1,15 @@
 // @flow
 import fetch from 'fetch';
-import { jsonRequest } from './base';
+import { jsonRequest, textRequest } from './base';
 import { applyStyleDefaults } from '../models/map';
 
 class Media {
-  static backup = (file: string) =>
+  static backup = (file: string, thumbnail?: string) =>
     jsonRequest({
       method: 'PUT',
-      route: `/media?file=${file}`
+      route: thumbnail
+        ? `/media?file=${encodeURI(file)}&thumbnail=${encodeURI(thumbnail)}`
+        : `/media?file=${encodeURI(file)}`,
     });
 }
 

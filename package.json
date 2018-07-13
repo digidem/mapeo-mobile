@@ -33,6 +33,7 @@
     "react-native-drawer": "^2.5.0",
     "react-native-i18n": "^2.0.12",
     "react-native-image-resizer": "^1.0.0",
+    "react-native-mime-types": "^2.2.1",
     "react-native-node": "^3.3.0",
     "react-native-remote-svg": "^1.2.0",
     "react-native-svg": "^6.3.1",

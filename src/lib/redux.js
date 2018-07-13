@@ -4,11 +4,11 @@ import { createInitialStore } from './store';
 
 export function create<M, P>(
   type: string,
-  reducers: Reducers<M, P>
+  reducers: Reducers<M, P>,
 ): {
   type: string,
   action: (meta: M, payload?: P, error?: Error) => Action<M, P>,
-  reducer: (state: AppStoreState, action: Action<M, P>) => AppStoreState
+  reducer: (state: AppStoreState, action: Action<M, P>) => AppStoreState,
 } {
   return {
     type,
@@ -20,14 +20,14 @@ export function create<M, P>(
           type,
           status: 'Error',
           meta,
-          error
+          error,
         };
       }
       return {
         type,
         status: 'Success',
         meta,
-        payload
+        payload,
       };
     },
     reducer: (state: AppStoreState, action: Action<M, P>) => {
@@ -54,13 +54,13 @@ export function create<M, P>(
       }
 
       return state === undefined ? createInitialStore() : state;
-    }
+    },
   };
 }
 
 export const combineReducers = (...reducers: Function[]): Function => (
   state: AppStoreState,
-  action: Action<any, any>
+  action: Action<any, any>,
 ) => {
   let newState = state;
   reducers.forEach(reducer => {
