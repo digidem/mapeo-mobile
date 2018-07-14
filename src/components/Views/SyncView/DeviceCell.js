@@ -113,7 +113,7 @@ const DeviceCell = (props: Props) => {
         ]}
       >
         <View style={styles.deviceTextContainer}>
-          <Text style={styles.deviceName}>{props.device.name}</Text>
+          <Text style={styles.deviceName}>{props.device.host}</Text>
           <Text style={styles.syncStatus}>{syncStatusText}</Text>
         </View>
         {!syncInProgress && (
