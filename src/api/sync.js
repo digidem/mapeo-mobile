@@ -18,7 +18,7 @@ class Sync {
   static start = (device: Device) =>
     blankRequest({
       method: 'GET',
-      route: `/sync/start?host=${device.host}&port=${device.port}`
+      route: `/sync/start?host=${device.ip}&port=${device.port}`
     });
 }
 
