@@ -12,7 +12,11 @@
     "build-rnnodeapp": "./build-rnnodeapp.sh",
     "android": "react-native run-android --variant=appDebug",
     "benchmark": "./run-benchmark.sh",
-    "logcat": "adb logcat *:S nodejs:V ReactNative:V ReactNativeJS:V"
+    "logcat": "adb logcat *:S nodejs:V ReactNative:V ReactNativeJS:V",
+    "flow start": "flow start",
+    "flow stop": "flow stop",
+    "flow status": "flow status",
+    "flow coverage": "flow coverage"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "^0.2.2",
