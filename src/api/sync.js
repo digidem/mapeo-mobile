@@ -1,3 +1,4 @@
+// @flow
 import { jsonRequest, blankRequest } from './base';
 import type { Device } from '../types/device';
 

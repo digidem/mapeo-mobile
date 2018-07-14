@@ -1,3 +1,4 @@
+// @flow
 import type { Style } from '../types/map';
 
 export const createStyle = (partial: Object): Style => ({

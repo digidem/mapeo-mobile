@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { StyleSheet, View, ActivityIndicator, Text } from 'react-native';
 import I18n from 'react-native-i18n';

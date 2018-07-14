@@ -1,3 +1,4 @@
+// @flow
 import { CameraRoll } from 'react-native';
 import { Observable } from 'rxjs';
 

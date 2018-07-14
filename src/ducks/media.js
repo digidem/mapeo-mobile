@@ -1,3 +1,4 @@
+// @flow
 import update from 'immutability-helper';
 import { create } from '../lib/redux';
 import type { StoreState } from '../types/redux';

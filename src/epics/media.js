@@ -1,3 +1,4 @@
+// @flow
 import { Action } from '../types/redux';
 import { Observable } from 'rxjs';
 import type { ActionsObservable } from 'redux-observable';
