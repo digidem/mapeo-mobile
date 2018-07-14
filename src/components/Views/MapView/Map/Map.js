@@ -248,11 +248,11 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
           >
             {!!observations && !isEmpty(observations)
               ? map(observations, (o: Observation) => (
-                <MapboxGL.ShapeSource
-                  onPress={() => this.handleObservationPress(o.id)}
-                  key={o.id}
-                  id={`observations-${o.id}`}
-                  shape={{
+                  <MapboxGL.ShapeSource
+                    onPress={() => this.handleObservationPress(o.id)}
+                    key={o.id}
+                    id={`observations-${o.id}`}
+                    shape={{
                       type: 'Feature',
                       geometry: {
                         type: 'Point',
@@ -262,12 +262,12 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
                         name: o.name
                       }
                     }}
-                >
-                  <MapboxGL.CircleLayer
-                    id={`circles-${o.id}`}
-                    style={mapboxStyles.observation}
-                  />
-                </MapboxGL.ShapeSource>
+                  >
+                    <MapboxGL.CircleLayer
+                      id={`circles-${o.id}`}
+                      style={mapboxStyles.observation}
+                    />
+                  </MapboxGL.ShapeSource>
                 ))
               : null}
             {gps && (

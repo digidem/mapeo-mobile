@@ -5,9 +5,9 @@ export const resourceSuccess = (data: any) => ({
 });
 
 export const resourcePending = (data?: any) => ({
-    status: 'Pending',
-    data: data || undefined
-  });
+  status: 'Pending',
+  data: data || undefined
+});
 
 export const resourceFailed = (error: any, data?: any) => ({
   status: 'Failed',
