@@ -84,6 +84,7 @@ export const deviceListEpic = (
           '',
           devices.map((d, i) =>
             createDevice({
+              name: d.name,
               host: d.host,
               id: i.toString(),
               ip: d.ip,
