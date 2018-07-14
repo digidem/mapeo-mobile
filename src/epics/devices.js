@@ -84,12 +84,13 @@ export const deviceListEpic = (
           '',
           devices.map((d, i) =>
             createDevice({
-              host: d.host,
+              host: d.name,
               id: i.toString(),
               ip: d.ip,
               port: d.port,
               selected: false,
-              syncStatus: null
+              syncStatus: d.status,
+              message: d.message
             })
           )
         )
