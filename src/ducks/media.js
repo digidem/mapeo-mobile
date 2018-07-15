@@ -36,6 +36,15 @@ export const {
         }
       }
     });
+  },
+  error: (state, meta, error) => {
+    return update(state, {
+      attachments: {
+        [meta.mediaId]: {
+          $set: resourceFailed()
+        }
+      }
+    });
   }
 });
 
@@ -73,19 +82,6 @@ export const {
             type,
             id: payload
           })
-        }
-      }
-    });
-  },
-  error: (state, meta, error) => {
-    if (!meta.mediaId) {
-      return state;
-    }
-
-    return update(state, {
-      attachments: {
-        [meta.mediaId]: {
-          $set: resourceFailed()
         }
       }
     });

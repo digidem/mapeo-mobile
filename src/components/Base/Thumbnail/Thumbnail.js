@@ -5,6 +5,7 @@ import { getMediaUrl } from '../../../lib/media';
 import type { Resource } from '../../../types/redux';
 import type { Attachment } from '../../../types/observation';
 import { LIGHT_GREY } from '../../../lib/styles';
+import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export type StateProps = {
   attachment: Resource<Attachment>
@@ -19,7 +20,7 @@ class Thumbnail extends React.PureComponent<StateProps & Props> {
   render() {
     const { attachment, attachmentId, style } = this.props;
 
-    if (attachment.status === 'Pending') {
+    if (attachment.status === 'Pending' || attachment.status === 'Failed') {
       return (
         <View
           style={[
@@ -35,7 +36,8 @@ class Thumbnail extends React.PureComponent<StateProps & Props> {
             style
           ]}
         >
-          <ActivityIndicator />
+          {attachment.status === 'Pending' && <ActivityIndicator />}
+          {attachment.status === 'Failed' && <CloseIcon />}
         </View>
       );
     }

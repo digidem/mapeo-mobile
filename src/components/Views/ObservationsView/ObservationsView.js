@@ -45,7 +45,7 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class ObservationsView extends React.PureComponent<
+class ObservationsView extends React.Component<
   Props & StateProps & DispatchProps
 > {
   componentDidMount() {
