@@ -11,18 +11,18 @@ import type { Observation } from '../types/observation';
 export const {
   type: OBSERVATION_LIST,
   action: observationList,
-  reducer: observationListReducer,
+  reducer: observationListReducer
 } = create('OBSERVATION_LIST', {
   success: (state, action) =>
     update(state, {
-      observations: { $set: keyBy(action.payload, 'id') },
-    }),
+      observations: { $set: keyBy(action.payload, 'id') }
+    })
 });
 
 export const {
   type: OBSERVATION_CREATE,
   action: observationCreate,
-  reducer: observationCreateReducer,
+  reducer: observationCreateReducer
 } = create('OBSERVATION_CREATE', {
   start: (state, action) => {
     const observation = action.meta;
@@ -33,24 +33,24 @@ export const {
     }
 
     const newState = update(state, {
-      selectedObservation: { $set: observation },
+      selectedObservation: { $set: observation }
     });
 
     return newState;
   },
   success: (state, action) => {
     const newState = update(state, {
-      selectObservation: { $set: action.payload },
+      selectObservation: { $set: action.payload }
     });
 
     return newState;
-  },
+  }
 });
 
 export const {
   type: OBSERVATION_UPDATE,
   action: observationUpdate,
-  reducer: observationUpdateReducer,
+  reducer: observationUpdateReducer
 } = create('OBSERVATION_UPDATE', {
   start: (state, action) => {
     let newState;
@@ -60,27 +60,27 @@ export const {
     ) {
       newState = update(state, {
         selectedObservation: {
-          $set: { ...state.selectedObservation, ...action.meta },
-        },
+          $set: { ...state.selectedObservation, ...action.meta }
+        }
       });
     } else {
       newState = update(state, {
         observations: {
           [action.meta.id]: {
-            $set: { ...state.observations[action.meta.id], ...action.meta },
-          },
-        },
+            $set: { ...state.observations[action.meta.id], ...action.meta }
+          }
+        }
       });
     }
 
     return newState;
-  },
+  }
 });
 
 export const {
   type: OBSERVATION_UPDATE_SAVE,
   action: observationUpdateSave,
-  reducer: observationUpdateSaveReducer,
+  reducer: observationUpdateSaveReducer
 } = create('OBSERVATION_UPDATE_SAVE', {
   success: (state, action) => {
     if (!action.payload) {
@@ -90,26 +90,26 @@ export const {
     return update(state, {
       observations: {
         [action.payload.id]: {
-          $set: action.payload,
-        },
-      },
+          $set: action.payload
+        }
+      }
     });
-  },
+  }
 });
 
 export const {
   type: OBSERVATION_SELECT,
   action: observationSelect,
-  reducer: observationSelectReducer,
+  reducer: observationSelectReducer
 } = create('OBSERVATION_SELECT', {
   start: (state, action) =>
-    update(state, { selectedObservation: { $set: action.meta } }),
+    update(state, { selectedObservation: { $set: action.meta } })
 });
 
 export const {
   type: OBSERVATION_SAVE,
   action: observationSave,
-  reducer: observationSaveReducer,
+  reducer: observationSaveReducer
 } = create('OBSERVATION_SAVE', {
   success: (state, action) => {
     if (!action.payload) {
@@ -121,23 +121,23 @@ export const {
     return update(state, {
       observations: {
         [action.payload.id]: {
-          $set: action.payload,
-        },
-      },
+          $set: action.payload
+        }
+      }
     });
-  },
+  }
 });
 
 export type observationAttachmentUpdateMeta = {
   tempId: string,
   observation?: string,
-  mediaId: string,
+  mediaId: string
 };
 
 export const {
   type: OBSERVATION_ATTACHMENT_UPDATE,
   action: observationAttachmentUpdate,
-  reducer: observationAttachmentUpdateReducer,
+  reducer: observationAttachmentUpdateReducer
 } = create('OBSERVATION_ATTACHMENT_UPDATE', {
   start: (state, action) => {
     let observation = state.selectedObservation;
@@ -161,27 +161,27 @@ export const {
         observations: {
           [action.meta.observation]: {
             attachments: {
-              $splice: [index, 1, action.meta.mediaId],
-            },
-          },
-        },
+              $splice: [index, 1, action.meta.mediaId]
+            }
+          }
+        }
       });
     } else {
       return update(state, {
         selectedObservation: {
           attachments: {
-            $splice: [index, 1, action.meta.mediaId],
-          },
-        },
+            $splice: [index, 1, action.meta.mediaId]
+          }
+        }
       });
     }
-  },
+  }
 });
 
 export const selectObservation = createSelector(
   [(state: StoreState, id: string): Observation => state.app.observations[id]],
   (observation: Observation): Observation => observation,
-  (observation: Observation, id: string): string => id,
+  (observation: Observation, id: string): string => id
 );
 
 export default [
@@ -189,5 +189,5 @@ export default [
   observationCreateReducer,
   observationUpdateReducer,
   observationSelectReducer,
-  observationAttachmentUpdateReducer,
+  observationAttachmentUpdateReducer
 ];

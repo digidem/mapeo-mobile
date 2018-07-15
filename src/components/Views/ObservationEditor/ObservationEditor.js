@@ -11,7 +11,7 @@ import {
   TextInput,
   ImageBackground,
   FlatList,
-  ScrollView,
+  ScrollView
 } from 'react-native';
 import Image from 'react-native-remote-svg';
 import { withNavigationFocus } from 'react-navigation';
@@ -36,7 +36,7 @@ import {
   WHITE,
   MANGO,
   MEDIUM_GREY,
-  VERY_LIGHT_BLUE,
+  VERY_LIGHT_BLUE
 } from '../../../lib/styles';
 import Header from '../../Base/Header';
 import ManualGPSModal from '../../Base/ManualGPSModal';
@@ -52,11 +52,11 @@ export type StateProps = {
   manualGPSModalVisible: boolean,
   gpsFormat: string,
   icons: Object,
-  resizedImages: Object,
+  resizedImages: Object
 };
 
 export type Props = {
-  navigation: any,
+  navigation: any
 };
 
 export type DispatchProps = {
@@ -66,7 +66,7 @@ export type DispatchProps = {
   clearSelectedObservation: () => void,
   hideManualGPSModal: () => void,
   showManualGPSModal: () => void,
-  saveObservation: (update: boolean) => void,
+  saveObservation: (update: boolean) => void
 };
 
 type State = {
@@ -77,7 +77,7 @@ type State = {
   observationExists: boolean,
   numExistingPhotos: number,
   existingNotes: string,
-  numExistingFieldsAnswered: number,
+  numExistingFieldsAnswered: number
 };
 
 const styles = StyleSheet.create({
@@ -87,35 +87,35 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
     height: 60,
     borderColor: LIGHT_GREY,
-    borderBottomWidth: 1,
+    borderBottomWidth: 1
   },
   bottomButtonText: {
     fontSize: 20,
     fontWeight: '700',
-    color: 'black',
+    color: 'black'
   },
   categoryAtText: {
     fontSize: 12,
     color: 'black',
-    fontWeight: '400',
+    fontWeight: '400'
   },
   categoryName: {
     fontSize: 15,
     color: 'black',
-    fontWeight: '600',
+    fontWeight: '600'
   },
   categoryPin: {
     width: 80,
     height: 90,
     marginTop: 5,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   categoryPositionText: {
     fontSize: 12,
     color: 'black',
     fontWeight: '700',
-    marginLeft: 3,
+    marginLeft: 3
   },
   check: {
     backgroundColor: MANGO,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     width: 25,
     borderRadius: 50,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   checkOuterCircle: {
     width: 30,
@@ -131,11 +131,11 @@ const styles = StyleSheet.create({
     backgroundColor: DARK_MANGO,
     borderRadius: 50,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   checkIcon: {
     alignSelf: 'center',
-    marginLeft: 3,
+    marginLeft: 3
   },
   circle: {
     width: 60,
@@ -151,26 +151,26 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     elevation: 3,
     shadowOpacity: 1,
-    margin: 5,
+    margin: 5
   },
   collectionsImg: {
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   container: {
     flex: 1,
-    backgroundColor: WHITE,
+    backgroundColor: WHITE
   },
   mediaRow: {
     backgroundColor: WHITE,
     borderColor: LIGHT_GREY,
     borderTopWidth: 1,
-    height: 85,
+    height: 85
   },
   mediaRowKeyboardShown: {
     flex: 1,
     backgroundColor: WHITE,
     borderColor: LIGHT_GREY,
-    marginBottom: -100,
+    marginBottom: -100
   },
   photosButton: {
     alignSelf: 'stretch',
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
     height: 60,
     borderColor: LIGHT_GREY,
-    borderBottomWidth: 1,
+    borderBottomWidth: 1
   },
   textInput: {
     flex: 1,
@@ -190,19 +190,19 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     textAlignVertical: 'top',
     backgroundColor: 'white',
-    borderColor: LIGHT_GREY,
+    borderColor: LIGHT_GREY
   },
   title: {
     fontSize: 20,
     fontWeight: '700',
     color: 'black',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   titleLong: {
     fontSize: 18,
     fontWeight: '700',
     color: 'black',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   triangle: {
     alignSelf: 'center',
@@ -216,19 +216,19 @@ const styles = StyleSheet.create({
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderBottomColor: 'rgba(0, 0, 0, .8)',
-    transform: [{ rotate: '180deg' }],
-  },
+    transform: [{ rotate: '180deg' }]
+  }
 });
 
 I18n.fallbacks = true;
 I18n.translations = {
   en: require('../../../translations/en'),
-  es: require('../../../translations/es'),
+  es: require('../../../translations/es')
 };
 
 class ObservationEditor extends React.Component<
   Props & StateProps & DispatchProps,
-  State,
+  State
 > {
   paddingInput: Animated.Value;
   keyboardWillShowListener: any;
@@ -254,7 +254,7 @@ class ObservationEditor extends React.Component<
         numExistingPhotos = selectedObservation.media.length;
         existingNotes = selectedObservation.notes;
         numExistingFieldsAnswered = selectedObservation.fields.filter(
-          field => field.answered,
+          field => field.answered
         ).length;
       }
     }
@@ -267,18 +267,18 @@ class ObservationEditor extends React.Component<
       observationExists,
       numExistingPhotos,
       existingNotes,
-      numExistingFieldsAnswered,
+      numExistingFieldsAnswered
     };
   }
 
   componentWillMount() {
     this.keyboardWillShowListener = Keyboard.addListener(
       'keyboardWillShow',
-      this.keyboardWillShow,
+      this.keyboardWillShow
     );
     this.keyboardWillHideListener = Keyboard.addListener(
       'keyboardWillHide',
-      this.keyboardWillHide,
+      this.keyboardWillHide
     );
   }
 
@@ -287,7 +287,7 @@ class ObservationEditor extends React.Component<
       updateObservation,
       selectedObservation,
       category,
-      hideManualGPSModal,
+      hideManualGPSModal
     } = this.props;
 
     if (hideManualGPSModal) {
@@ -298,23 +298,23 @@ class ObservationEditor extends React.Component<
       updateObservation({
         ...selectedObservation,
         type: category.name,
-        name: category.name,
+        name: category.name
       });
     }
 
     this.keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
-      this.keyboardDidShow,
+      this.keyboardDidShow
     );
     this.keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
-      this.keyboardDidHide,
+      this.keyboardDidHide
     );
   }
 
   shouldComponentUpdate(
     nextProps: Props & StateProps & DispatchProps,
-    nextState: State,
+    nextState: State
   ) {
     if (nextProps.navigation.isFocused()) {
       return nextProps !== this.props || nextState !== this.state;
@@ -329,7 +329,7 @@ class ObservationEditor extends React.Component<
     if (selectedObservation !== nextProps.selectedObservation) {
       if (selectedObservation && observations) {
         const observationExists = !!observations.find(
-          o => o.id === selectedObservation.id,
+          o => o.id === selectedObservation.id
         );
         this.setState({ observationExists });
       }
@@ -346,14 +346,14 @@ class ObservationEditor extends React.Component<
   keyboardWillShow = e => {
     Animated.timing(this.paddingInput, {
       duration: e.duration,
-      toValue: 60,
+      toValue: 60
     }).start();
   };
 
   keyboardWillHide = e => {
     Animated.timing(this.paddingInput, {
       duration: e.duration,
-      toValue: 0,
+      toValue: 0
     }).start();
   };
 
@@ -362,7 +362,7 @@ class ObservationEditor extends React.Component<
       goToCamera: false,
       keyboardShown: true,
       text: previousState.text,
-      keyboardHeight: e.endCoordinates.height,
+      keyboardHeight: e.endCoordinates.height
     }));
   };
 
@@ -371,17 +371,17 @@ class ObservationEditor extends React.Component<
       this.setState(previousState => ({
         goToCamera: false,
         keyboardShown: false,
-        text: previousState.text,
+        text: previousState.text
       }));
       this.props.navigation.navigate({
         routeName: 'CameraView',
-        params: { showEditorView: true },
+        params: { showEditorView: true }
       });
     } else {
       this.setState(previousState => ({
         goToCamera: previousState.goToCamera,
         keyboardShown: false,
-        text: previousState.text,
+        text: previousState.text
       }));
     }
   };
@@ -413,14 +413,14 @@ class ObservationEditor extends React.Component<
       gps,
       showManualGPSModal,
       saveObservation,
-      observations,
+      observations
     } = this.props;
     const { text, keyboardShown } = this.state;
 
     if (selectedObservation) {
       updateObservation({
         ...selectedObservation,
-        notes: text,
+        notes: text
       });
     }
 
@@ -442,7 +442,7 @@ class ObservationEditor extends React.Component<
     if (selectedObservation) {
       updateObservation({
         id: selectedObservation.id,
-        notes: this.state.text,
+        notes: this.state.text
       });
     }
   };
@@ -453,20 +453,20 @@ class ObservationEditor extends React.Component<
     if (selectedObservation) {
       updateObservation({
         id: selectedObservation.id,
-        notes: this.state.text,
+        notes: this.state.text
       });
     }
     if (this.state.keyboardShown) {
       this.setState(previousState => ({
         goToCamera: true,
         keyboardShown: false,
-        text: previousState.text,
+        text: previousState.text
       }));
     } else {
       navigation.navigate({
         routeName: 'CameraView',
         params: { showEditorView: true },
-        key: 'camera-view',
+        key: 'camera-view'
       });
     }
     Keyboard.dismiss();
@@ -486,7 +486,7 @@ class ObservationEditor extends React.Component<
     if (updateFlow) {
       navigation.navigate({
         routeName: 'Categories',
-        key: 'CategoriesView',
+        key: 'CategoriesView'
       });
     } else {
       navigation.goBack();
@@ -497,7 +497,7 @@ class ObservationEditor extends React.Component<
     const { navigation } = this.props;
 
     navigation.navigate({
-      routeName: 'ObservationFields',
+      routeName: 'ObservationFields'
     });
     Keyboard.dismiss();
   };
@@ -508,18 +508,18 @@ class ObservationEditor extends React.Component<
       hideCancelModal,
       observationSource,
       updateObservation,
-      navigation,
+      navigation
     } = this.props;
 
     hideCancelModal();
     if (observationSource === 'map') {
       navigation.navigate({
-        routeName: 'MapView',
+        routeName: 'MapView'
       });
     } else {
       navigation.navigate({
         routeName: 'CameraView',
-        params: { showEditorView: false },
+        params: { showEditorView: false }
       });
     }
     clearSelectedObservation();
@@ -543,7 +543,7 @@ class ObservationEditor extends React.Component<
     saveObservation(this.isUpdateFlow());
     if (observationSource === 'map') {
       navigation.navigate({
-        routeName: 'MapView',
+        routeName: 'MapView'
       });
     } else if (observationSource === 'detail') {
       navigation.navigate({ routeName: 'ObservationDetailView' });
@@ -551,7 +551,7 @@ class ObservationEditor extends React.Component<
       navigation.navigate({
         routeName: 'CameraView',
         params: { showEditorView: false },
-        key: 'camera-view',
+        key: 'camera-view'
       });
     }
   };
@@ -573,13 +573,13 @@ class ObservationEditor extends React.Component<
       existingNotes,
       numExistingFieldsAnswered,
       text,
-      observationExists,
+      observationExists
     } = this.state;
 
     if (selectedObservation) {
       if (observationExists) {
         const currentFieldsAnswered = selectedObservation.fields.filter(
-          field => field.answered,
+          field => field.answered
         ).length;
 
         const hasEdits =
@@ -590,7 +590,7 @@ class ObservationEditor extends React.Component<
         return hasEdits;
       }
       const hasFieldAnswered = !!selectedObservation.fields.find(
-        field => field.answered,
+        field => field.answered
       );
       const noEdits =
         selectedObservation &&
@@ -610,7 +610,7 @@ class ObservationEditor extends React.Component<
       showCancelModal();
     } else if (observationSource === 'map') {
       navigation.navigate({
-        routeName: 'MapView',
+        routeName: 'MapView'
       });
     } else if (observationSource === 'detail') {
       navigation.navigate({ routeName: 'ObservationDetailView' });
@@ -627,7 +627,7 @@ class ObservationEditor extends React.Component<
       gpsFormat,
       category,
       icons,
-      resizedImages,
+      resizedImages
     } = this.props;
     const { keyboardShown, text } = this.state;
     const keyExtractor = item => item.source;
@@ -639,7 +639,7 @@ class ObservationEditor extends React.Component<
       positionText = getGPSText({
         gpsFormat,
         lat: selectedObservation.lat,
-        lon: selectedObservation.lon,
+        lon: selectedObservation.lon
       });
     }
     let fieldAnswered;
@@ -680,7 +680,7 @@ class ObservationEditor extends React.Component<
           }
           showTriangle
           style={{
-            backgroundColor: VERY_LIGHT_BLUE,
+            backgroundColor: VERY_LIGHT_BLUE
           }}
         />
         <View
@@ -688,7 +688,7 @@ class ObservationEditor extends React.Component<
             justifyContent: 'center',
             alignItems: 'center',
             paddingBottom: 10,
-            backgroundColor: VERY_LIGHT_BLUE,
+            backgroundColor: VERY_LIGHT_BLUE
           }}
         >
           <TouchableOpacity onPress={this.goToCategoriesView}>
@@ -698,7 +698,7 @@ class ObservationEditor extends React.Component<
                 !!icons[category.icon] && (
                   <Image
                     source={{
-                      uri: `data:image/svg+xml;utf8,${icons[category.icon]}`,
+                      uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
                     }}
                     style={{ height: 30, width: 30 }}
                   />
@@ -742,10 +742,10 @@ class ObservationEditor extends React.Component<
                 style={{
                   flex: 1,
                   flexDirection: 'row',
-                  paddingTop: 10,
+                  paddingTop: 10
                 }}
                 contentContainerStyle={{
-                  alignContent: 'flex-start',
+                  alignContent: 'flex-start'
                 }}
                 keyExtractor={keyExtractor}
                 renderItem={({ item, index }) => (
@@ -754,15 +754,15 @@ class ObservationEditor extends React.Component<
                       if (this.allowEditing(index)) {
                         navigation.navigate({
                           routeName: 'PhotoView',
-                          params: { photoId: item },
+                          params: { photoId: item }
                         });
                       } else {
                         navigation.navigate({
                           routeName: 'PhotoView',
                           params: {
                             fromDetailView: true,
-                            photoId: item,
-                          },
+                            photoId: item
+                          }
                         });
                       }
                     }}
@@ -770,12 +770,12 @@ class ObservationEditor extends React.Component<
                   >
                     <Image
                       source={{
-                        uri: `http://localhost:9080/media/thumbnail/${item}`,
+                        uri: `http://localhost:9080/media/thumbnail/${item}`
                       }}
                       style={{
                         width: 65,
                         height: 65,
-                        borderRadius: 5,
+                        borderRadius: 5
                       }}
                     />
                   </TouchableOpacity>
@@ -787,7 +787,7 @@ class ObservationEditor extends React.Component<
         <View
           style={{
             borderTopWidth: 1,
-            borderColor: LIGHT_GREY,
+            borderColor: LIGHT_GREY
           }}
         >
           {keyboardShown && (
@@ -798,7 +798,7 @@ class ObservationEditor extends React.Component<
                 justifyContent: 'space-around',
                 backgroundColor: 'white',
                 marginBottom: this.state.keyboardHeight,
-                height: 55,
+                height: 55
               }}
             >
               <TouchableOpacity
@@ -848,7 +848,7 @@ class ObservationEditor extends React.Component<
                       marginLeft: 34,
                       marginRight: 31,
                       width: 25,
-                      height: 25,
+                      height: 25
                     }}
                   />
                   <Text style={styles.bottomButtonText}>

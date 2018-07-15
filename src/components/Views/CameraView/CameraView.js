@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
-  ActivityIndicator,
+  ActivityIndicator
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { size } from 'lodash';
@@ -37,40 +37,40 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     left: 0,
-    right: 0,
+    right: 0
   },
   cancelText: {
     fontSize: 20,
     fontWeight: '700',
     textAlign: 'center',
-    color: WHITE,
+    color: WHITE
   },
   capture: {
     alignSelf: 'center',
     position: 'absolute',
-    bottom: 2,
+    bottom: 2
   },
   captureFromEditor: {
     alignSelf: 'center',
-    marginTop: 375,
+    marginTop: 375
   },
   preview: {
     flex: 1,
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 });
 
 export type Props = {
-  navigation: any,
+  navigation: any
 };
 
 export type StateProps = {
   observations: {
-    [id: string]: Observation,
+    [id: string]: Observation
   },
   selectedObservation?: Observation,
   showSavedModal: boolean,
-  showEditorView: boolean,
+  showEditorView: boolean
 };
 
 export type DispatchProps = {
@@ -79,32 +79,32 @@ export type DispatchProps = {
   onDrawerClose: () => void,
   onDrawerOpen: () => void,
   updateObservationSource: () => void,
-  saveToCameraRoll: (meta: MediaSaveToCameraRollMeta) => void,
+  saveToCameraRoll: (meta: MediaSaveToCameraRollMeta) => void
 };
 
 type State = {
-  loading: boolean,
+  loading: boolean
 };
 
 I18n.fallbacks = true;
 I18n.translations = {
   en: require('../../../translations/en'),
-  es: require('../../../translations/es'),
+  es: require('../../../translations/es')
 };
 
 class CameraView extends React.Component<
   Props & StateProps & DispatchProps,
-  State,
+  State
 > {
   state = {
-    loading: false,
+    loading: false
   };
   camera: RNCamera;
   rightDrawer: Drawer;
 
   shouldComponentUpdate(
     nextProps: Props & StateProps & DispatchProps,
-    nextState: State,
+    nextState: State
   ) {
     if (nextProps.navigation.isFocused()) {
       return nextProps !== this.props || nextState !== this.state;
@@ -121,7 +121,7 @@ class CameraView extends React.Component<
       selectedObservation,
       updateObservationSource,
       showEditorView,
-      saveToCameraRoll,
+      saveToCameraRoll
     } = this.props;
     if (this.camera) {
       const options = { quality: 0.5, base64: false, fixOrientation: true };
@@ -136,7 +136,7 @@ class CameraView extends React.Component<
         } else {
           navigation.navigate({ routeName: 'Categories' });
           const initialObservation = applyObservationDefaults({
-            id: size(observations) + 1,
+            id: size(observations) + 1
           });
           updateObservationSource();
           createObservation(initialObservation);
@@ -185,7 +185,7 @@ class CameraView extends React.Component<
             source={AddButton}
             style={{
               width: 125,
-              height: 125,
+              height: 125
             }}
           />
         </TouchableOpacity>
@@ -210,7 +210,7 @@ class CameraView extends React.Component<
             width: Dimensions.get('window').width,
             backgroundColor: 'rgba(66,66,66,.8)',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'center'
           }}
         >
           <View
@@ -219,7 +219,7 @@ class CameraView extends React.Component<
               paddingHorizontal: 50,
               paddingVertical: 30,
               justifyContent: 'center',
-              borderRadius: 3,
+              borderRadius: 3
             }}
           >
             <ActivityIndicator />
@@ -238,7 +238,7 @@ class CameraView extends React.Component<
       onDrawerOpen,
       onDrawerClose,
       showSavedModal,
-      showEditorView,
+      showEditorView
     } = this.props;
 
     if (!navigation.isFocused()) {
@@ -276,7 +276,7 @@ class CameraView extends React.Component<
             top: 0,
             left: 0,
             right: 0,
-            zIndex: 5,
+            zIndex: 5
           }}
         />
         {showSavedModal && <SavedModal />}

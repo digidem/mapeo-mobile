@@ -5,8 +5,8 @@ import type { Field } from './field';
 export type Attachment = {
   id: string,
   type: string, //mime type
-  observation?: string,
-}
+  observation?: string
+};
 
 export type Observation = {
   type: string,
@@ -20,5 +20,5 @@ export type Observation = {
   observedBy: string,
   attachments: string[],
   categoryId: string,
-  fields: Field[],
-}
+  fields: Field[]
+};

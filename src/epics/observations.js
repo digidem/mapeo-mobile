@@ -12,7 +12,7 @@ import {
   OBSERVATION_UPDATE,
   observationUpdate,
   OBSERVATION_UPDATE_SAVE,
-  observationUpdateSave,
+  observationUpdateSave
 } from '../ducks/observations';
 import { modalShow } from '../ducks/modals';
 import { mediaSave } from '../ducks/media';
@@ -24,39 +24,39 @@ import type { CreateRequest, UpdateRequest } from '../api/observations';
 
 export const observationListEpic = (
   action$: ActionsObservable<Action<string, ObservationType[]>>,
-  store: StoreState,
+  store: StoreState
 ) =>
   action$
     .ofType(OBSERVATION_LIST)
     .filter(action => action.status === 'Start')
     .pipe(debounceTime(500))
     .flatMap(() =>
-      Observation.list().map(observations => observationList('', observations)),
+      Observation.list().map(observations => observationList('', observations))
     );
 
 export const observationSaveEpic = (
   action$: ActionsObservable<Action<CreateRequest, ObservationType>>,
-  store: any,
+  store: any
 ) =>
   action$
     .ofType(OBSERVATION_SAVE)
     .filter(
       action =>
-        action.status === 'Start' && !!store.getState().app.selectedObservation,
+        action.status === 'Start' && !!store.getState().app.selectedObservation
     )
     .flatMap(action =>
       Observation.create(store.getState().app.selectedObservation).flatMap(
         observation =>
           Observable.merge(
             Observable.of(observationSave(action.meta, observation)),
-            Observable.of(modalShow('saved')),
-          ),
-      ),
+            Observable.of(modalShow('saved'))
+          )
+      )
     );
 
 export const observationUpdateSaveEpic = (
   action$: ActionsObservable<Action<UpdateRequest, ObservationType>>,
-  store: any,
+  store: any
 ) =>
   action$
     .ofType(OBSERVATION_UPDATE_SAVE)
@@ -64,16 +64,16 @@ export const observationUpdateSaveEpic = (
       action =>
         action.status === 'Start' &&
         ((!action.meta && !!store.getState().app.selectedObservation) ||
-          action.meta),
+          action.meta)
     )
     .flatMap(action =>
       Observation.update(
-        action.meta || store.getState().app.selectedObservation,
-      ).map(observation => observationUpdateSave(action.meta, observation)),
+        action.meta || store.getState().app.selectedObservation
+      ).map(observation => observationUpdateSave(action.meta, observation))
     );
 
 export default [
   observationListEpic,
   observationSaveEpic,
-  observationUpdateSaveEpic,
+  observationUpdateSaveEpic
 ];

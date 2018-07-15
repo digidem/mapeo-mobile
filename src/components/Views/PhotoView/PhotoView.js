@@ -6,7 +6,7 @@ import {
   ImageBackground,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Feather';
@@ -17,15 +17,15 @@ import type { Observation } from '../../../types/observation';
 import Gradient from '../../../images/gradient-overlay.png';
 
 export type Props = {
-  navigation: NavigationActions,
+  navigation: NavigationActions
 };
 
 export type StateProps = {
-  selectedObservation?: Observation,
+  selectedObservation?: Observation
 };
 
 export type DispatchProps = {
-  updateObservation: (o: UpdateRequest) => void,
+  updateObservation: (o: UpdateRequest) => void
 };
 
 const styles = StyleSheet.create({
@@ -36,35 +36,35 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginRight: 15,
     position: 'absolute',
-    bottom: 50,
+    bottom: 50
   },
   arrowIcon: {
     alignSelf: 'center',
     justifyContent: 'center',
-    marginTop: 2,
+    marginTop: 2
   },
   backButton: {
     flex: 1,
     backgroundColor: CHARCOAL,
     justifyContent: 'center',
-    height: 65,
+    height: 65
   },
   buttonText: {
     fontSize: 20,
     fontWeight: '700',
     textAlign: 'center',
-    color: WHITE,
+    color: WHITE
   },
   deleteButton: {
     flex: 1,
     backgroundColor: MAGENTA,
     justifyContent: 'center',
-    height: 65,
-  },
+    height: 65
+  }
 });
 
 class PhotoView extends React.PureComponent<
-  Props & StateProps & DispatchProps,
+  Props & StateProps & DispatchProps
 > {
   isFromCameraTab() {
     const { navigation } = this.props;
@@ -93,8 +93,8 @@ class PhotoView extends React.PureComponent<
       updateObservation({
         id: selectedObservation.id,
         media: selectedObservation.attachments.filter(
-          photo => navigation.state.params.photoId !== photo,
-        ),
+          photo => navigation.state.params.photoId !== photo
+        )
       });
       navigation.goBack();
     }
@@ -118,7 +118,7 @@ class PhotoView extends React.PureComponent<
         <View
           style={{
             flex: 1,
-            alignItems: 'center',
+            alignItems: 'center'
           }}
         >
           {hasPhoto &&
@@ -129,11 +129,11 @@ class PhotoView extends React.PureComponent<
                   height: fromDetailView
                     ? Dimensions.get('window').height
                     : imageHeight,
-                  alignItems: 'center',
+                  alignItems: 'center'
                 }}
                 resizeMode="cover"
                 source={{
-                  uri: `http://localhost:9080/media/original/${photoId}`,
+                  uri: `http://localhost:9080/media/original/${photoId}`
                 }}
               >
                 {fromCameraTab && (
@@ -154,14 +154,14 @@ class PhotoView extends React.PureComponent<
                     style={{
                       position: 'absolute',
                       left: 0,
-                      backgroundColor: 'transparent',
+                      backgroundColor: 'transparent'
                     }}
                   >
                     <ImageBackground
                       source={Gradient}
                       style={{
                         width: Dimensions.get('window').width,
-                        height: 100,
+                        height: 100
                       }}
                     >
                       <TouchableOpacity

@@ -15,5 +15,5 @@ export const applyObservationDefaults = (partial: Object): Observation => ({
   categoryId: '0',
   fields: [],
 
-  ...partial,
+  ...partial
 });

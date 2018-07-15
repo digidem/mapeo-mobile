@@ -50,6 +50,6 @@ export function createInitialStore() {
     },
     icons: {},
     resizedImages: {},
-    attachments: {},
+    attachments: {}
   };
 }

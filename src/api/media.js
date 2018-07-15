@@ -9,7 +9,7 @@ class Media {
       method: 'PUT',
       route: thumbnail
         ? `/media?file=${encodeURI(file)}&thumbnail=${encodeURI(thumbnail)}`
-        : `/media?file=${encodeURI(file)}`,
+        : `/media?file=${encodeURI(file)}`
     });
 }
 

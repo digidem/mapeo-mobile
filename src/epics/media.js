@@ -10,19 +10,19 @@ import {
   MEDIA_SAVE_TO_CAMERA_ROLL,
   mediaSaveToCameraRoll,
   MEDIA_RESIZE,
-  mediaResize,
+  mediaResize
 } from '../ducks/media';
 import type { MediaSaveMeta, MediaSaveToCameraRollMeta } from '../ducks/media';
 import {
   observationUpdateSave,
-  observationAttachmentUpdate,
+  observationAttachmentUpdate
 } from '../ducks/observations';
 import { saveToCameraRoll } from '../lib/media';
 import * as ImageResizer from 'react-native-image-resizer';
 
 export const mediaSaveToCameraRollEpic = (
   action$: ActionsObservable<Action<MediaSaveToCameraRollMeta, Object>>,
-  store: StoreState,
+  store: StoreState
 ) =>
   action$
     .ofType(MEDIA_SAVE_TO_CAMERA_ROLL)
@@ -31,14 +31,14 @@ export const mediaSaveToCameraRollEpic = (
       saveToCameraRoll(action.meta.source).map(uri =>
         mediaResize({
           mediaId: action.meta.mediaId,
-          cameraRollUri: uri,
-        }),
-      ),
+          cameraRollUri: uri
+        })
+      )
     );
 
 export const mediaSaveEpic = (
   action$: ActionsObservable<Action<MediaSaveMeta, Object>>,
-  store: any,
+  store: any
 ) =>
   action$
     .ofType(MEDIA_SAVE)
@@ -58,18 +58,18 @@ export const mediaSaveEpic = (
                   tempId: mediaId,
                   observation:
                     observationId === 'selected' ? undefined : observationId,
-                  mediaId: id,
-                }),
-              ),
+                  mediaId: id
+                })
+              )
             );
-          },
-        ),
+          }
+        )
       // .catch(err => Observable.of(mediaSave(action.meta, err))),
     );
 
 export const mediaResizeEpic = (
   action$: ActionsObservable<Action<string, string>>,
-  store: StoreState,
+  store: StoreState
 ) =>
   action$
     .ofType(MEDIA_RESIZE)
@@ -81,15 +81,15 @@ export const mediaResizeEpic = (
           300,
           300,
           'JPEG',
-          50,
-        ),
+          50
+        )
       ).map(resizedImage =>
         mediaSave({
           resizedUri: resizedImage.uri,
           cameraRollUri: action.meta.cameraRollUri,
-          mediaId: action.meta.mediaId,
-        }),
-      ),
+          mediaId: action.meta.mediaId
+        })
+      )
     );
 
 export default [mediaSaveToCameraRollEpic, mediaSaveEpic, mediaResizeEpic];
