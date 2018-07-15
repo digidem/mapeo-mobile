@@ -9,9 +9,9 @@ export const {
   action: categoryList,
   reducer: categoryListReducer
 } = create('CATEGORY_LIST', {
-  success: (state, action) => {
+  success: (state, meta, payload) => {
     const newState = update(state, {
-      categories: { $set: keyBy(action.payload, 'id') }
+      categories: { $set: keyBy(payload, 'id') }
     });
 
     return newState;

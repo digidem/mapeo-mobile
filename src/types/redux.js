@@ -73,11 +73,11 @@ export interface Action<M, P> {
   error?: Error;
 }
 
-export interface Reducers<M, P> {
-  start?: (state: AppStoreState, action: Action<M, P>) => AppStoreState;
-  success?: (state: AppStoreState, action: Action<M, P>) => AppStoreState;
-  error?: (state: AppStoreState, action: Action<M, P>) => AppStoreState;
-}
+export type Reducers = {
+  start?: (state: AppStoreState, meta: any) => AppStoreState,
+  success?: (state: AppStoreState, meta: any, payload: any) => AppStoreState,
+  error?: (state: AppStoreState, meta: any, error: Error) => AppStoreState
+};
 
 export type ResourceStatus = 'Pending' | 'Success' | 'Failed';
 

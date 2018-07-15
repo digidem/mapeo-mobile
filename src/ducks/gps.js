@@ -13,9 +13,9 @@ export const {
   action: gpsPending,
   reducer: gpsPendingReducer
 } = create('GPS_PENDING', {
-  start: (state, action) => {
+  start: (state, meta) => {
     const newState = update(state, {
-      gps: { $set: resourcePending(action.meta) }
+      gps: { $set: resourcePending(meta) }
     });
 
     return newState;
@@ -25,9 +25,9 @@ export const {
 export const { type: GPS_SET, action: gpsSet, reducer: gpsSetReducer } = create(
   'GPS_SET',
   {
-    start: (state, action) => {
+    start: (state, meta) => {
       const newState = update(state, {
-        gps: { $set: resourceSuccess(action.meta) }
+        gps: { $set: resourceSuccess(meta) }
       });
 
       return newState;
@@ -40,9 +40,9 @@ export const {
   action: gpsFailed,
   reducer: gpsFailedReducer
 } = create('GPS_FAILED', {
-  start: (state, action) => {
+  start: (state, meta) => {
     const newState = update(state, {
-      gps: { $set: resourceFailed(action.meta) }
+      gps: { $set: resourceFailed(meta) }
     });
 
     return newState;

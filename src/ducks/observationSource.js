@@ -8,10 +8,10 @@ export const {
   action: observationSource,
   reducer: observationSourceReducer
 } = create('OBSERVATION_SOURCE', {
-  start: (state, action) => {
+  start: (state, meta) => {
     const newState = update(state, {
       observationSource: {
-        source: { $set: action.meta }
+        source: { $set: meta }
       }
     });
 

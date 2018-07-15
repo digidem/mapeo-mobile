@@ -9,10 +9,10 @@ export const {
   action: drawerOpen,
   reducer: drawerOpenReducer
 } = create('DRAWER_OPEN', {
-  start: (state, action) => {
+  start: (state, meta) => {
     const newState = update(state, {
       drawers: {
-        [action.meta]: { $set: true }
+        [meta]: { $set: true }
       }
     });
 
@@ -25,10 +25,10 @@ export const {
   action: drawerClose,
   reducer: drawerCloseReducer
 } = create('DRAWER_CLOSE', {
-  start: (state, action) => {
+  start: (state, meta) => {
     const newState = update(state, {
       drawers: {
-        [action.meta]: { $set: false }
+        [meta]: { $set: false }
       }
     });
 

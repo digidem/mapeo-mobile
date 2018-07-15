@@ -29,7 +29,7 @@ export const observationListEpic = (
   action$
     .ofType(OBSERVATION_LIST)
     .filter(action => action.status === 'Start')
-    .pipe(debounceTime(500))
+    .pipe(debounceTime(1000))
     .flatMap(() =>
       Observation.list().map(observations => observationList('', observations))
     );

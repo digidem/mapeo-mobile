@@ -13,9 +13,9 @@ export const {
   action: observationList,
   reducer: observationListReducer
 } = create('OBSERVATION_LIST', {
-  success: (state, action) =>
+  success: (state, meta, payload) =>
     update(state, {
-      observations: { $set: keyBy(action.payload, 'id') }
+      observations: { $set: keyBy(payload, 'id') }
     })
 });
 
@@ -24,8 +24,8 @@ export const {
   action: observationCreate,
   reducer: observationCreateReducer
 } = create('OBSERVATION_CREATE', {
-  start: (state, action) => {
-    const observation = action.meta;
+  start: (state, meta) => {
+    const observation = meta;
 
     if (!observation.lat && !observation.lon && state.gps.data) {
       observation.lat = state.gps.data.latitude;
@@ -38,9 +38,9 @@ export const {
 
     return newState;
   },
-  success: (state, action) => {
+  success: (state, meta, payload) => {
     const newState = update(state, {
-      selectObservation: { $set: action.payload }
+      selectObservation: { $set: payload }
     });
 
     return newState;
@@ -52,22 +52,19 @@ export const {
   action: observationUpdate,
   reducer: observationUpdateReducer
 } = create('OBSERVATION_UPDATE', {
-  start: (state, action) => {
+  start: (state, meta) => {
     let newState;
-    if (
-      state.selectedObservation &&
-      action.meta.id === state.selectedObservation.id
-    ) {
+    if (state.selectedObservation && meta.id === state.selectedObservation.id) {
       newState = update(state, {
         selectedObservation: {
-          $set: { ...state.selectedObservation, ...action.meta }
+          $set: { ...state.selectedObservation, ...meta }
         }
       });
     } else {
       newState = update(state, {
         observations: {
-          [action.meta.id]: {
-            $set: { ...state.observations[action.meta.id], ...action.meta }
+          [meta.id]: {
+            $set: { ...state.observations[meta.id], ...meta }
           }
         }
       });
@@ -82,15 +79,11 @@ export const {
   action: observationUpdateSave,
   reducer: observationUpdateSaveReducer
 } = create('OBSERVATION_UPDATE_SAVE', {
-  success: (state, action) => {
-    if (!action.payload) {
-      return state;
-    }
-
+  success: (state, meta, payload) => {
     return update(state, {
       observations: {
-        [action.payload.id]: {
-          $set: action.payload
+        [payload.id]: {
+          $set: payload
         }
       }
     });
@@ -102,8 +95,7 @@ export const {
   action: observationSelect,
   reducer: observationSelectReducer
 } = create('OBSERVATION_SELECT', {
-  start: (state, action) =>
-    update(state, { selectedObservation: { $set: action.meta } })
+  start: (state, meta) => update(state, { selectedObservation: { $set: meta } })
 });
 
 export const {
@@ -111,17 +103,13 @@ export const {
   action: observationSave,
   reducer: observationSaveReducer
 } = create('OBSERVATION_SAVE', {
-  success: (state, action) => {
-    if (!action.payload) {
-      return state;
-    }
-
+  success: (state, meta, payload) => {
     const pendingAttachments = state.attachments;
 
     return update(state, {
       observations: {
-        [action.payload.id]: {
-          $set: action.payload
+        [payload.id]: {
+          $set: payload
         }
       }
     });
@@ -139,29 +127,29 @@ export const {
   action: observationAttachmentUpdate,
   reducer: observationAttachmentUpdateReducer
 } = create('OBSERVATION_ATTACHMENT_UPDATE', {
-  start: (state, action) => {
+  start: (state, meta) => {
     let observation = state.selectedObservation;
 
-    if (action.meta.observation) {
-      observation = state.observations[action.meta.observation];
+    if (meta.observation) {
+      observation = state.observations[meta.observation];
     }
 
     if (!observation || !observation.attachments) {
       return state;
     }
 
-    const index = observation.attachments.indexOf(action.meta.tempId);
+    const index = observation.attachments.indexOf(meta.tempId);
 
     if (index === -1) {
       return state;
     }
 
-    if (action.meta.observation) {
+    if (meta.observation) {
       return update(state, {
         observations: {
-          [action.meta.observation]: {
+          [meta.observation]: {
             attachments: {
-              $splice: [index, 1, action.meta.mediaId]
+              $splice: [index, 1, meta.mediaId]
             }
           }
         }
@@ -170,7 +158,7 @@ export const {
       return update(state, {
         selectedObservation: {
           attachments: {
-            $splice: [index, 1, action.meta.mediaId]
+            $splice: [index, 1, meta.mediaId]
           }
         }
       });

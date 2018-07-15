@@ -5,7 +5,7 @@ import {
   observationCreate,
   observationUpdate
 } from '../../../ducks/observations';
-import { mediaSaveToCameraRoll } from '../../../ducks/media';
+import { mediaSave } from '../../../ducks/media';
 import { observationSource } from '../../../ducks/observationSource';
 import type { StoreState, Action } from '../../../types/redux';
 import CameraView from './CameraView';
@@ -32,7 +32,7 @@ function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
     onDrawerClose: () => dispatch(drawerClose('observations')),
     onDrawerOpen: () => dispatch(drawerOpen('observations')),
     updateObservationSource: () => dispatch(observationSource('camera')),
-    saveToCameraRoll: meta => dispatch(mediaSaveToCameraRoll(meta))
+    saveMedia: meta => dispatch(mediaSave(meta))
   };
 }
 

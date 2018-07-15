@@ -21,9 +21,9 @@ export const {
   action: deviceList,
   reducer: deviceListReducer
 } = create('DEVICE_LIST', {
-  success: (state, action) => {
+  success: (state, meta, payload) => {
     const newState = update(state, {
-      devices: { $set: keyBy(action.payload, 'id') }
+      devices: { $set: keyBy(payload, 'id') }
     });
 
     return newState;
@@ -35,10 +35,10 @@ export const {
   action: deviceToggleSelect,
   reducer: deviceToggleSelectReducer
 } = create('DEVICE_TOGGLE_SELECT', {
-  start: (state, action) => {
+  start: (state, meta) => {
     const newState = update(state, {
       devices: {
-        [action.meta.id]: {
+        [meta.id]: {
           $toggle: ['selected']
         }
       }
@@ -53,10 +53,10 @@ export const {
   action: deviceSelect,
   reducer: deviceSelectReducer
 } = create('DEVICE_SELECT', {
-  start: (state, action) => {
+  start: (state, meta) => {
     const newState = update(state, {
       selectedDevice: {
-        $set: action.meta
+        $set: meta
       }
     });
 
@@ -69,11 +69,11 @@ export const {
   action: deviceSyncUpdate,
   reducer: deviceSyncUpdateReducer
 } = create('DEVICE_SYNC_UPDATE', {
-  start: (state, action) => {
+  start: (state, meta) => {
     const newState = update(state, {
       devices: {
-        [action.meta.id]: {
-          $set: action.meta
+        [meta.id]: {
+          $set: meta
         }
       }
     });

@@ -1,10 +1,11 @@
 // @flow
-import { AppStoreState, Action, Reducers } from '../types/redux';
+import { AppStoreState, Action } from '../types/redux';
+import type { Reducers } from '../types/redux';
 import { createInitialStore } from './store';
 
 export function create<M, P>(
   type: string,
-  reducers: Reducers<M, P>
+  reducers: Reducers
 ): {
   type: string,
   action: (meta: M, payload?: P, error?: Error) => Action<M, P>,
@@ -34,18 +35,19 @@ export function create<M, P>(
       if (action.type === type) {
         switch (action.status) {
           case 'Start':
+            11;
             if (reducers.start) {
-              return reducers.start(state, action);
+              return reducers.start(state, action.meta);
             }
             break;
           case 'Error':
-            if (reducers.error) {
-              return reducers.error(state, action);
+            if (reducers.error && action.error !== undefined) {
+              return reducers.error(state, action.meta, action.error);
             }
             break;
           case 'Success':
-            if (reducers.success) {
-              return reducers.success(state, action);
+            if (reducers.success && action.payload !== undefined) {
+              return reducers.success(state, action.meta, action.payload);
             }
             break;
           default:

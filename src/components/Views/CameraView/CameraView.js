@@ -20,14 +20,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';
 import { CHARCOAL, WHITE } from '../../../lib/styles.js';
-import { saveToCameraRoll } from '../../../lib/media';
 
 import ObservationsView from '../ObservationsView';
 import AddButton from '../../../images/add-button.png';
 import { applyObservationDefaults } from '../../../models/observations';
 import Header from '../../Base/Header';
 import SavedModal from '../../Base/SavedModal';
-import type { MediaSaveToCameraRollMeta } from '../../../ducks/media';
+import type { MediaSaveMeta } from '../../../ducks/media';
 
 const styles = StyleSheet.create({
   cancelButton: {
@@ -79,7 +78,7 @@ export type DispatchProps = {
   onDrawerClose: () => void,
   onDrawerOpen: () => void,
   updateObservationSource: () => void,
-  saveToCameraRoll: (meta: MediaSaveToCameraRollMeta) => void
+  saveMedia: (meta: MediaSaveMeta) => void
 };
 
 type State = {
@@ -121,7 +120,7 @@ class CameraView extends React.Component<
       selectedObservation,
       updateObservationSource,
       showEditorView,
-      saveToCameraRoll
+      saveMedia
     } = this.props;
     if (this.camera) {
       const options = { quality: 0.5, base64: false, fixOrientation: true };
@@ -131,7 +130,7 @@ class CameraView extends React.Component<
         this.setState({ loading: false });
 
         if (showEditorView && selectedObservation) {
-          saveToCameraRoll({ source: data.uri });
+          saveMedia({ source: data.uri, generateThumbnail: true });
           navigation.navigate({ routeName: 'ObservationEditor' });
         } else {
           navigation.navigate({ routeName: 'Categories' });
@@ -140,7 +139,7 @@ class CameraView extends React.Component<
           });
           updateObservationSource();
           createObservation(initialObservation);
-          saveToCameraRoll({ source: data.uri });
+          saveMedia({ source: data.uri, generateThumbnail: true });
         }
       } catch (error) {
         console.warn(error);

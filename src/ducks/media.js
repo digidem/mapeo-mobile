@@ -1,97 +1,106 @@
 // @flow
 import update from 'immutability-helper';
 import { create } from '../lib/redux';
-import type { StoreState } from '../types/redux';
-import shortid from 'shortid';
+import type { StoreState, AppStoreState } from '../types/redux';
 import { lookup } from 'mime-types';
 import {
   resourcePending,
   resourceSuccess,
-  resourceFailed,
+  resourceFailed
 } from '../lib/resource';
 
-export type MediaSaveToCameraRollMeta = {
-  observationId?: string,
+export type MediaLoadingMeta = {
+  mediaId: string,
+  type: string,
+  observation: string,
   source: string,
+  generateThumbnail: boolean
 };
 
 export const {
-  type: MEDIA_SAVE_TO_CAMERA_ROLL,
-  action: mediaSaveToCameraRoll,
-  reducer: mediaSaveToCameraRollReducer,
-} = create('MEDIA_SAVE_TO_CAMERA_ROLL', {
-  start: (state, action) => {
-    const tempId = shortid.generate();
-    const type = lookup(action.meta.source) || '';
-    const observation = action.meta.observationId || 'selected';
+  type: MEDIA_LOADING,
+  action: mediaLoading,
+  reducer: mediaLoadingReducer
+} = create('MEDIA_LOADING', {
+  start: (state, meta) => {
+    const { mediaId, type, observation } = meta;
 
     return update(state, {
       attachments: {
-        [tempId]: {
+        [mediaId]: {
           $set: resourcePending({
-            id: tempId,
+            id: mediaId,
             type,
-            observation,
-          }),
-        },
-      },
+            observation
+          })
+        }
+      }
     });
-  },
+  }
+});
+
+export const {
+  type: MEDIA_DELETE,
+  action: mediaDelete,
+  reducer: mediaDeleteReducer
+} = create('MEDIA_DELETE', {
+  start: (state, meta) =>
+    update(state, {
+      attachments: {
+        $unset: [meta]
+      }
+    })
 });
 
 export type MediaSaveMeta = {
-  mediaId: string,
-  cameraRollUri: string,
-  resizedUri: string,
+  observationId?: string,
+  source: string,
+  generateThumbnail: boolean
 };
 
 export const {
   type: MEDIA_SAVE,
   action: mediaSave,
-  reducer: mediaSaveReducer,
+  reducer: mediaSaveReducer
 } = create('MEDIA_SAVE', {
-  success: (state, action) => {
-    const type = action.meta.cameraRollUri && lookup(action.meta.cameraRollUri);
-
-    if (!action.payload) {
-      return state;
-    }
+  success: (state, meta, payload) => {
+    const type = lookup(payload);
 
     return update(state, {
       attachments: {
-        [action.payload.id]: {
+        [payload]: {
           $set: resourceSuccess({
             type,
-            id: action.payload.id,
-          }),
-        },
-      },
+            id: payload
+          })
+        }
+      }
     });
   },
-  error: (state, action) => {
-    if (!action.error || !action.meta.mediaId) {
+  error: (state, meta, error) => {
+    if (!meta.mediaId) {
       return state;
     }
 
     return update(state, {
       attachments: {
-        [action.meta.mediaId]: {
-          $set: resourceFailed(),
-        },
-      },
+        [meta.mediaId]: {
+          $set: resourceFailed()
+        }
+      }
     });
-  },
+  }
 });
 
 export type MediaResizeMeta = {
-  mediaId: string,
-  cameraRollUri: string,
+  observationId?: string,
+  source: string
 };
 
 export const {
   type: MEDIA_RESIZE,
   action: mediaResize,
-  reducer: mediaResizeReducer,
+  reducer: mediaResizeReducer
 } = create('MEDIA_RESIZE', {});
 
-export default [mediaSaveReducer, mediaSaveToCameraRollReducer];
+export default [mediaSaveReducer, mediaDeleteReducer, mediaLoadingReducer];

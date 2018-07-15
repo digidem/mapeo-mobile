@@ -9,10 +9,10 @@ export const {
   action: gpsFormatSettingsSet,
   reducer: gpsFormatSettingsSetReducer
 } = create('GPS_FORMAT_SETTINGS_SET', {
-  start: (state, action) => {
+  start: (state, meta) => {
     const newState = update(state, {
       settings: {
-        gpsFormat: { $set: action.meta }
+        gpsFormat: { $set: meta }
       }
     });
 
