@@ -1,5 +1,5 @@
 // @flow
-import { memoize, MemoizedFunction } from 'lodash';
+import { memoize } from 'lodash';
 import { StoreState } from '../types/redux';
 
 export function createSelector<ArgumentType, StateProps, ReturnType>(
@@ -9,7 +9,7 @@ export function createSelector<ArgumentType, StateProps, ReturnType>(
   scopeStateProps?: string[]
 ) {
   memoize.Cache = Map;
-  const memoized: MemoizedFunction = customHash
+  const memoized: Function = customHash
     ? memoize(callback, customHash)
     : memoize(callback);
   let prevState: StoreState;

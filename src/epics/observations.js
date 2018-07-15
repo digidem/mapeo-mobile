@@ -44,15 +44,16 @@ export const observationSaveEpic = (
       action =>
         action.status === 'Start' && !!store.getState().app.selectedObservation
     )
-    .flatMap(action =>
-      Observation.create(store.getState().app.selectedObservation).flatMap(
-        observation =>
-          Observable.merge(
-            Observable.of(observationSave(action.meta, observation)),
-            Observable.of(modalShow('saved'))
-          )
-      )
-    );
+    .flatMap(action => {
+      return Observation.create(
+        store.getState().app.selectedObservation
+      ).flatMap(observation =>
+        Observable.merge(
+          Observable.of(observationSave(action.meta, observation)),
+          Observable.of(modalShow('saved'))
+        )
+      );
+    });
 
 export const observationUpdateSaveEpic = (
   action$: ActionsObservable<Action<UpdateRequest, ObservationType>>,

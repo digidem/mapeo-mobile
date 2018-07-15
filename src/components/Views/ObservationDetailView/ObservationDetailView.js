@@ -24,6 +24,8 @@ import { DARK_GREY, MEDIUM_GREY, MANGO } from '../../../lib/styles';
 import getGPSText from '../../../lib/getGPSText';
 import CategoryPin from '../../../images/category-pin.png';
 import PencilIcon from '../../../images/editor-details.png';
+import { getMediaUrl } from '../../../lib/media';
+import Thumbnail from '../../Base/Thumbnail';
 
 export type StateProps = {
   selectedObservation?: Observation,
@@ -387,19 +389,7 @@ class ObservationDetailView extends React.Component<
                         })
                       }
                     >
-                      <Image
-                        source={{
-                          uri:
-                            resizedImages && resizedImages[item.source]
-                              ? resizedImages[item.source]
-                              : item.source
-                        }}
-                        style={{
-                          width: 125,
-                          height: 125,
-                          margin: 1
-                        }}
-                      />
+                      <Thumbnail attachmentId={item} />
                     </TouchableOpacity>
                   )}
                   data={selectedObservation.attachments}
@@ -495,4 +485,4 @@ class ObservationDetailView extends React.Component<
   }
 }
 
-export default withNavigationFocus(ObservationDetailView);
+export default ObservationDetailView;

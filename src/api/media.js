@@ -1,6 +1,6 @@
 // @flow
 import fetch from 'fetch';
-import { jsonRequest, textRequest } from './base';
+import { jsonRequest } from './base';
 import { applyStyleDefaults } from '../models/map';
 
 class Media {

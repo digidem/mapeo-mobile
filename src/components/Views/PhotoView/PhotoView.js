@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import type { NavigationScreenProp } from 'react-navigation';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Feather';
 import CloseIcon from 'react-native-vector-icons/MaterialIcons';
@@ -15,9 +16,10 @@ import type { UpdateRequest } from '@api/observations';
 import { CHARCOAL, MAGENTA, MANGO, WHITE } from '../../../lib/styles';
 import type { Observation } from '../../../types/observation';
 import Gradient from '../../../images/gradient-overlay.png';
+import { getMediaUrl } from '../../../lib/media';
 
 export type Props = {
-  navigation: NavigationActions
+  navigation: NavigationScreenProp<*>
 };
 
 export type StateProps = {
@@ -69,21 +71,13 @@ class PhotoView extends React.PureComponent<
   isFromCameraTab() {
     const { navigation } = this.props;
 
-    return !!(
-      navigation.state &&
-      navigation.state.params &&
-      navigation.state.params.fromCameraTab
-    );
+    return !!navigation.getParam('fromCameraTab', false);
   }
 
   isFromDetailView() {
     const { navigation } = this.props;
 
-    return !!(
-      navigation.state &&
-      navigation.state.params &&
-      navigation.state.params.fromDetailView
-    );
+    return !!navigation.getParam('fromDetailView', false);
   }
 
   handleDeletePhoto = () => {
@@ -133,7 +127,7 @@ class PhotoView extends React.PureComponent<
                 }}
                 resizeMode="cover"
                 source={{
-                  uri: `http://localhost:9080/media/original/${photoId}`
+                  uri: getMediaUrl(photoId)
                 }}
               >
                 {fromCameraTab && (
@@ -215,4 +209,4 @@ class PhotoView extends React.PureComponent<
   }
 }
 
-export default withNavigation(PhotoView);
+export default PhotoView;

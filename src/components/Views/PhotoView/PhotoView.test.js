@@ -4,17 +4,18 @@ import 'react-native';
 import renderer from 'react-test-renderer';
 import PhotoView from './PhotoView';
 import { createObservation } from '../../../mocks/observations';
+import { createNavigationScreenProp } from '../../../mocks/navigation';
 
 describe('PhotoView tests', () => {
   test('snapshot', () => {
     const observation = createObservation();
-    const isFocused = () => true;
-    const addListener = () => true;
+    const updateObservation = jest.fn();
 
     const tree = renderer.create(
       <PhotoView
-        navigation={{ isFocused, addListener }}
+        navigation={createNavigationScreenProp()}
         selectedObservation={observation}
+        updateObservation={updateObservation}
       />
     );
     expect(tree).toMatchSnapshot();

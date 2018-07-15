@@ -14,7 +14,7 @@ import {
   ScrollView
 } from 'react-native';
 import Image from 'react-native-remote-svg';
-import { withNavigationFocus } from 'react-navigation';
+import type { NavigationScreenProp } from 'react-navigation';
 import CancelModal from '../../Base/CancelModal/CancelModal';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -41,6 +41,7 @@ import {
 import Header from '../../Base/Header';
 import ManualGPSModal from '../../Base/ManualGPSModal';
 import getGPSText from '../../../lib/getGPSText';
+import Thumbnail from '../../Base/Thumbnail';
 
 export type StateProps = {
   category?: Category,
@@ -51,12 +52,11 @@ export type StateProps = {
   gps: Resource<GPSState>,
   manualGPSModalVisible: boolean,
   gpsFormat: string,
-  icons: Object,
-  resizedImages: Object
+  icons: Object
 };
 
 export type Props = {
-  navigation: any
+  navigation: NavigationScreenProp<*>
 };
 
 export type DispatchProps = {
@@ -251,7 +251,7 @@ class ObservationEditor extends React.Component<
     if (selectedObservation && observations) {
       if (observations.find(o => o.id === selectedObservation.id)) {
         observationExists = true;
-        numExistingPhotos = selectedObservation.media.length;
+        numExistingPhotos = selectedObservation.attachments.length;
         existingNotes = selectedObservation.notes;
         numExistingFieldsAnswered = selectedObservation.fields.filter(
           field => field.answered
@@ -323,7 +323,7 @@ class ObservationEditor extends React.Component<
     return false;
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: StateProps & DispatchProps & Props) {
     const { observations, selectedObservation } = this.props;
 
     if (selectedObservation !== nextProps.selectedObservation) {
@@ -583,7 +583,7 @@ class ObservationEditor extends React.Component<
         ).length;
 
         const hasEdits =
-          selectedObservation.media.length !== numExistingPhotos ||
+          selectedObservation.attachments.length !== numExistingPhotos ||
           text !== existingNotes ||
           currentFieldsAnswered !== numExistingFieldsAnswered;
 
@@ -626,11 +626,10 @@ class ObservationEditor extends React.Component<
       showManualGPSModal,
       gpsFormat,
       category,
-      icons,
-      resizedImages
+      icons
     } = this.props;
     const { keyboardShown, text } = this.state;
-    const keyExtractor = item => item.source;
+    const keyExtractor = item => item;
     const goToManualEnter = () => {
       navigation.navigate({ routeName: 'ManualGPSView' });
     };
@@ -768,16 +767,7 @@ class ObservationEditor extends React.Component<
                     }}
                     style={{ paddingLeft: 10 }}
                   >
-                    <Image
-                      source={{
-                        uri: `http://localhost:9080/media/thumbnail/${item}`
-                      }}
-                      style={{
-                        width: 65,
-                        height: 65,
-                        borderRadius: 5
-                      }}
-                    />
+                    <Thumbnail attachmentId={item} />
                   </TouchableOpacity>
                 )}
                 data={selectedObservation.attachments}

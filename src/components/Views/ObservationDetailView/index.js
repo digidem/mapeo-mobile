@@ -15,12 +15,11 @@ function mapStateToProps(state: StoreState): StateProps {
     selectedObservation: state.app.selectedObservation,
     categories: state.app.categories,
     gpsFormat: state.app.settings.gpsFormat,
-    icons: state.app.icons,
-    resizedImages: state.app.resizedImages
+    icons: state.app.icons
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
   return {
     updateObservation: observation => dispatch(observationUpdate(observation)),
     clearSelectedObservation: () => dispatch(observationSelect(undefined)),

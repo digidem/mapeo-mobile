@@ -17,7 +17,7 @@ import {
 } from '../ducks/media';
 import type { MediaSaveMeta } from '../ducks/media';
 import {
-  observationUpdateSave,
+  observationUpdate,
   observationAttachmentUpdate
 } from '../ducks/observations';
 import { generateThumbnail } from '../lib/media';
@@ -36,30 +36,31 @@ export const mediaLoadingEpic = (
             Media.backup(source, resized.uri)
           )
         : Media.backup(source);
+      const { mediaId, observation } = action.meta;
+      const observationId = store.getState().app.attachments[mediaId]
+        .observation;
+      const meta = {
+        observationId: observation,
+        source,
+        generateThumbnail
+      };
 
-      return backup.flatMap(id => {
-        const { mediaId, observation } = action.meta;
-        const observationId = store.getState().app.attachments[mediaId]
-          .observation;
-        const meta = {
-          observationId: observation,
-          source,
-          generateThumbnail
-        };
-
-        return Observable.merge(
-          Observable.of(mediaSave(meta, id)),
-          Observable.of(mediaDelete(mediaId)),
-          Observable.of(
-            observationAttachmentUpdate({
-              tempId: mediaId,
-              observation:
-                observationId === 'selected' ? undefined : observationId,
-              mediaId: id
-            })
-          )
-        );
-      });
+      return backup
+        .flatMap(id => {
+          return Observable.merge(
+            Observable.of(mediaSave(meta, id)),
+            Observable.of(mediaDelete(mediaId)),
+            Observable.of(
+              observationAttachmentUpdate({
+                tempId: mediaId,
+                observation:
+                  observationId === 'selected' ? undefined : observationId,
+                mediaId: id
+              })
+            )
+          );
+        })
+        .catch(err => Observable.of(mediaSave(meta, err)));
     });
 
 export const mediaSaveEpic = (
@@ -69,19 +70,36 @@ export const mediaSaveEpic = (
   action$
     .ofType(MEDIA_SAVE)
     .filter(action => action.status === 'Start')
-    .map(action => {
+    .flatMap(action => {
       const { meta } = action;
       const id = shortid.generate();
       const type = lookup(meta.source) || '';
       const observation = meta.observationId || 'selected';
 
-      return mediaLoading({
-        mediaId: id,
-        observation,
-        type,
-        source: meta.source,
-        generateThumbnail: meta.generateThumbnail
-      });
+      let updatedObservation = store.getState().app.selectedObservation;
+      if (meta.observationId) {
+        updatedObservation = store.getState().app.observations[
+          meta.observationId
+        ];
+      }
+
+      return Observable.merge(
+        Observable.of(
+          mediaLoading({
+            mediaId: id,
+            observation,
+            type,
+            source: meta.source,
+            generateThumbnail: meta.generateThumbnail
+          })
+        ),
+        Observable.of(
+          observationUpdate({
+            ...updatedObservation,
+            attachments: updatedObservation.attachments.concat([id])
+          })
+        )
+      );
     });
 
 export default [mediaLoadingEpic, mediaSaveEpic];

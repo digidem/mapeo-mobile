@@ -7,7 +7,7 @@ import {
 } from '../../../ducks/observations';
 import { mediaSave } from '../../../ducks/media';
 import { observationSource } from '../../../ducks/observationSource';
-import type { StoreState, Action } from '../../../types/redux';
+import type { StoreState } from '../../../types/redux';
 import CameraView from './CameraView';
 import type { Props, StateProps, DispatchProps } from './CameraView';
 import { drawerClose, drawerOpen } from '../../../ducks/drawers';

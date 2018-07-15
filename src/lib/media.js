@@ -18,3 +18,11 @@ export const generateThumbnail = (uri: string) => {
     ImageResizer.default.createResizedImage(uri, 300, 300, 'JPEG', 50)
   );
 };
+
+export const getMediaUrl = (id: string, thumbnail?: boolean) => {
+  if (thumbnail) {
+    return `http://localhost:9080/media/thumbnail/${id}`;
+  }
+
+  return `http://localhost:9080/media/original/${id}`;
+};
