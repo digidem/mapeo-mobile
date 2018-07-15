@@ -4,8 +4,8 @@ import { View, ActivityIndicator, Image } from 'react-native';
 import { getMediaUrl } from '../../../lib/media';
 import type { Resource } from '../../../types/redux';
 import type { Attachment } from '../../../types/observation';
-import { LIGHT_GREY } from '../../../lib/styles';
-import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { LIGHT_GREY, RED } from '../../../lib/styles';
+import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export type StateProps = {
   attachment: Resource<Attachment>
@@ -37,7 +37,9 @@ class Thumbnail extends React.PureComponent<StateProps & Props> {
           ]}
         >
           {attachment.status === 'Pending' && <ActivityIndicator />}
-          {attachment.status === 'Failed' && <CloseIcon />}
+          {attachment.status === 'Failed' && (
+            <Icons color={RED} name="alert" size={30} />
+          )}
         </View>
       );
     }

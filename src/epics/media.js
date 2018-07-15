@@ -60,7 +60,9 @@ export const mediaLoadingEpic = (
             )
           );
         })
-        .catch(err => Observable.of(mediaLoading(action.meta, err)));
+        .catch(err => {
+          return Observable.of(mediaLoading(action.meta, err));
+        });
     });
 
 export const mediaSaveEpic = (

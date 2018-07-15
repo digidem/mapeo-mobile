@@ -41,7 +41,9 @@ export const {
     return update(state, {
       attachments: {
         [meta.mediaId]: {
-          $set: resourceFailed()
+          $set: resourceFailed(error, {
+            source: meta.source
+          })
         }
       }
     });

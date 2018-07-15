@@ -8,20 +8,20 @@ export function create<M, P>(
   reducers: Reducers
 ): {
   type: string,
-  action: (meta: M, payload?: P, error?: Error) => Action<M, P>,
+  action: (meta: M, payload?: P | Error) => Action<M, P>,
   reducer: (state: AppStoreState, action: Action<M, P>) => AppStoreState
 } {
   return {
     type,
-    action: (meta: M, payload?: P, error?: Error) => {
+    action: (meta: M, payload?: P | Error) => {
       if (payload === undefined) {
         return { type, status: 'Start', meta };
-      } else if (error) {
+      } else if (payload instanceof Error) {
         return {
           type,
           status: 'Error',
           meta,
-          error
+          error: payload
         };
       }
       return {
