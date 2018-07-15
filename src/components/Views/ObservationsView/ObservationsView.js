@@ -8,7 +8,7 @@ import {
   FlatList,
   Dimensions
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import type { NavigationScreenProp } from 'react-navigation';
 import SyncIcon from 'react-native-vector-icons/FontAwesome';
 import SettingsIcon from 'react-native-vector-icons/MaterialIcons';
 import { orderBy, map } from 'lodash';
@@ -25,20 +25,18 @@ export type StateProps = {
   categories: {
     [id: string]: Category
   },
-  icons: Object,
-  resizedImages: Object
+  icons: Object
 };
 
 export type DispatchProps = {
   selectObservation: (o: Observation) => void,
   listCategories: () => void,
-  listObservations: () => void,
-  getResizedImage: (source: string) => void
+  listObservations: () => void
 };
 
 type Props = {
   closeRightDrawer: Function,
-  navigation: NavigationActions
+  navigation: NavigationScreenProp<*>
 };
 
 I18n.fallbacks = true;
@@ -47,9 +45,8 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class ObservationsView extends React.Component<
-  Props & StateProps & DispatchProps,
-  State
+class ObservationsView extends React.PureComponent<
+  Props & StateProps & DispatchProps
 > {
   componentDidMount() {
     this.props.listObservations();
@@ -58,11 +55,8 @@ class ObservationsView extends React.Component<
     }
   }
 
-  shouldComponentUpdate(
-    nextProps: Props & StateProps & DispatchProps,
-    nextState: State
-  ) {
-    if (nextProps !== this.props || nextState !== this.state) {
+  shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
+    if (nextProps !== this.props) {
       if (
         nextProps.navigation.isFocused() &&
         !this.props.navigation.isFocused()
@@ -80,9 +74,7 @@ class ObservationsView extends React.Component<
       observations,
       categories,
       selectObservation,
-      icons,
-      resizedImages,
-      getResizedImage
+      icons
     } = this.props;
     const sectionMappings = {};
     let label;
@@ -126,8 +118,6 @@ class ObservationsView extends React.Component<
                 onPress={handleItemPress}
                 category={categories[item.categoryId]}
                 icons={icons}
-                resizedImages={resizedImages}
-                getResizedImage={getResizedImage}
               />
             )}
             data={observations}

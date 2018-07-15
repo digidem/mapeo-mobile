@@ -21,9 +21,7 @@ type Props = {
   observation: Observation,
   category: Category,
   onPress: (i: Observation) => void,
-  icons: Object,
-  resizedImages: Object,
-  getResizedImage: (source: string) => void
+  icons: Object
 };
 
 const styles = StyleSheet.create({
@@ -96,14 +94,7 @@ I18n.translations = {
 
 class ObservationCell extends React.Component<Props> {
   render() {
-    const {
-      resizedImages,
-      currentLocale,
-      observation,
-      onPress,
-      category,
-      icons
-    } = this.props;
+    const { currentLocale, observation, onPress, category, icons } = this.props;
     const esLocale = require('moment/locale/es');
     let dateString;
     if (currentLocale && currentLocale.includes('es')) {

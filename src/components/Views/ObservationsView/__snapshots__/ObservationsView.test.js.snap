@@ -26,6 +26,7 @@ exports[`ObservationsView tests snapshot 1`] = `
     data={
       Array [
         Object {
+          "attachments": Array [],
           "categoryId": 19,
           "created": 2018-02-25T20:23:00.000Z,
           "fields": Array [
@@ -45,7 +46,6 @@ exports[`ObservationsView tests snapshot 1`] = `
           "lat": 50.5,
           "link": "linkID",
           "lon": 50.5,
-          "media": Array [],
           "name": "Oil Spill",
           "notes": "This is pretty bad. It smells pretty noxious, and the entire pond is affected.",
           "observedBy": "You",
@@ -303,104 +303,51 @@ exports[`ObservationsView tests snapshot 1`] = `
         onLayout={[Function]}
         style={null}
       >
-        <View
-          accessible={true}
-          isTVSelectable={true}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
+        <mock-observation-cell
+          currentLocale="en"
+          icons={Object {}}
+          navigation={
             Object {
-              "opacity": 1,
+              "addListener": [MockFunction],
+              "dispatch": [MockFunction],
+              "getParam": [MockFunction],
+              "goBack": [MockFunction],
+              "isFocused": [MockFunction],
+              "navigate": [MockFunction],
+              "setParams": [MockFunction],
+              "state": Object {},
             }
           }
-        >
-          <View
-            style={
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "white",
-                "borderBottomColor": "#EAEAEA",
-                "borderBottomWidth": 1,
-                "flexDirection": "row",
-                "height": 80,
-                "justifyContent": "flex-start",
-                "paddingHorizontal": 20,
-                "width": 750,
-              }
+          observation={
+            Object {
+              "attachments": Array [],
+              "categoryId": 19,
+              "created": 2018-02-25T20:23:00.000Z,
+              "fields": Array [
+                Object {
+                  "answer": "",
+                  "answered": false,
+                  "id": "0",
+                  "name": "fieldName",
+                  "placeholder": "this is some placeholder text",
+                  "type": "text",
+                },
+              ],
+              "icon": Object {
+                "testUri": "../../../src/images/categories/category_18.png",
+              },
+              "id": 1,
+              "lat": 50.5,
+              "link": "linkID",
+              "lon": 50.5,
+              "name": "Oil Spill",
+              "notes": "This is pretty bad. It smells pretty noxious, and the entire pond is affected.",
+              "observedBy": "You",
+              "type": "Observation",
             }
-          >
-            <View
-              style={
-                Object {
-                  "alignItems": "flex-start",
-                  "flex": 1,
-                  "flexDirection": "column",
-                  "justifyContent": "center",
-                }
-              }
-            >
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
-                style={
-                  Object {
-                    "color": "black",
-                    "fontSize": 18,
-                    "fontWeight": "700",
-                  }
-                }
-              >
-                02/25/2018, 12:23 PM
-              </Text>
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
-              >
-                19
-              </Text>
-            </View>
-            <View
-              style={
-                Object {
-                  "flexDirection": "column",
-                }
-              }
-            >
-              <View
-                style={
-                  Array [
-                    Object {
-                      "alignItems": "center",
-                      "backgroundColor": "white",
-                      "borderColor": "#EAEAEA",
-                      "borderRadius": 50,
-                      "borderWidth": 1,
-                      "elevation": 3,
-                      "height": 50,
-                      "justifyContent": "center",
-                      "marginRight": -5,
-                      "shadowColor": "black",
-                      "shadowOffset": Object {
-                        "height": 2,
-                        "width": 0,
-                      },
-                      "shadowOpacity": 1,
-                      "shadowRadius": 10,
-                      "width": 50,
-                    },
-                    Object {},
-                  ]
-                }
-              />
-            </View>
-          </View>
-        </View>
+          }
+          onPress={[Function]}
+        />
       </View>
     </View>
   </RCTScrollView>

@@ -18,6 +18,7 @@ ShallowWrapper {
     selectObservation={[MockFunction]}
     selectedObservation={
       Object {
+        "attachments": Array [],
         "categoryId": 19,
         "created": 2018-02-25T20:23:00.000Z,
         "fields": Array [
@@ -37,7 +38,6 @@ ShallowWrapper {
         "lat": 50.5,
         "link": "linkID",
         "lon": 50.5,
-        "media": Array [],
         "name": "Oil Spill",
         "notes": "This is pretty bad. It smells pretty noxious, and the entire pond is affected.",
         "observedBy": "You",

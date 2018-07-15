@@ -5,7 +5,7 @@ import renderer from 'react-test-renderer';
 import ObservationEditor from './ObservationEditor';
 import { createObservation } from '../../../mocks/observations';
 import { createNavigationScreenProp } from '../../../mocks/navigation';
-import { resourceLoading } from '../../../lib/resource';
+import { resourceSuccess } from '../../../lib/resource';
 import { createCategory } from '../../../mocks/categories';
 import { createGPSState } from '../../../mocks/gps';
 
@@ -23,7 +23,7 @@ describe('ObservationEditor tests', () => {
           observations={[]}
           observationSource=""
           cancelModalVisible={false}
-          gps={resourceLoading(createGPSState())}
+          gps={resourceSuccess(createGPSState())}
           manualGPSModalVisible={false}
           gpsFormat=""
           icons={{}}

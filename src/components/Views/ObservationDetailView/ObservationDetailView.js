@@ -439,7 +439,7 @@ class ObservationDetailView extends React.Component<
                 >
                   <MapboxGL.CircleLayer
                     id={`circles-${selectedObservation.id}`}
-                    style={mapboxStyles.point}
+                    style={mapboxStyles && mapboxStyles.point}
                   />
                 </MapboxGL.ShapeSource>
               </MapboxGL.MapView>

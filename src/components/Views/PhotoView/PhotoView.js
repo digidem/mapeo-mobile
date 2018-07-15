@@ -105,7 +105,7 @@ class PhotoView extends React.PureComponent<
       selectedObservation &&
       selectedObservation.attachments &&
       selectedObservation.attachments.length >= 1;
-    const { photoId } = navigation.state.params;
+    const photoId = navigation.getParam('photoId', '');
 
     return (
       <View style={{ flex: 1 }}>
