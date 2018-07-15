@@ -8,9 +8,14 @@ class Media {
     jsonRequest({
       method: 'PUT',
       route: thumbnail
-        ? `/media?file=${encodeURI(file)}&thumbnail=${encodeURI(thumbnail)}`
-        : `/media?file=${encodeURI(file)}`
+        ? `/media?file=${encodePath(file)}&thumbnail=${encodePath(thumbnail)}`
+        : `/media?file=${encodePath(file)}`
     });
 }
 
 export default Media;
+
+
+function encodePath (filepath) {
+  return encodeURI(filepath.replace(/^.*:\/\//, ''))
+}
