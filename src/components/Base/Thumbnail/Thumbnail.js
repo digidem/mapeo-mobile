@@ -11,25 +11,29 @@ export type StateProps = {
 };
 
 export type Props = {
-  attachmentId: string
+  attachmentId: string,
+  style?: any
 };
 
 class Thumbnail extends React.PureComponent<StateProps & Props> {
   render() {
-    const { attachment, attachmentId } = this.props;
+    const { attachment, attachmentId, style } = this.props;
 
     if (attachment.status === 'Pending') {
       return (
         <View
-          style={{
-            width: 65,
-            height: 65,
-            borderRadius: 5,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: LIGHT_GREY,
-            marginHorizontal: 5
-          }}
+          style={[
+            {
+              width: 65,
+              height: 65,
+              borderRadius: 5,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: LIGHT_GREY,
+              marginHorizontal: 5
+            },
+            style
+          ]}
         >
           <ActivityIndicator />
         </View>
@@ -41,12 +45,15 @@ class Thumbnail extends React.PureComponent<StateProps & Props> {
         source={{
           uri: getMediaUrl(attachmentId, true)
         }}
-        style={{
-          width: 65,
-          height: 65,
-          borderRadius: 5,
-          marginHorizontal: 5
-        }}
+        style={[
+          {
+            width: 65,
+            height: 65,
+            borderRadius: 5,
+            marginHorizontal: 5
+          },
+          style
+        ]}
       />
     );
   }

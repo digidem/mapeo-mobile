@@ -14,6 +14,7 @@ import type { Observation } from '../../../types/observation';
 import type { Category } from '../../../types/category';
 import { LIGHT_GREY } from '../../../lib/styles';
 import moment from '../../../lib/localizedMoment';
+import Thumbnail from '../../Base/Thumbnail';
 
 type Props = {
   currentLocale: string,
@@ -141,12 +142,7 @@ class ObservationCell extends React.Component<Props> {
           </View>
           <View style={{ flexDirection: 'column' }}>
             {hasMedia && (
-              <Image
-                source={{
-                  uri: `htpp://localhost:9080/media/thumbnail/${source}`
-                }}
-                style={styles.media}
-              />
+              <Thumbnail attachmentId={source} style={styles.media} />
             )}
             <View
               style={[styles.circle, hasMedia ? styles.circleWithMedia : {}]}
