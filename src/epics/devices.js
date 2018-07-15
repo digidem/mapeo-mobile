@@ -17,36 +17,36 @@ import Sync from '../api/sync';
 
 const initialDevices = [
   {
-    host: `Aldo's MacBook`,
-    ip: '192.168.0.1',
+    name: `Aldo's MacBook`,
+    host: '192.168.0.1',
     port: 123,
     selected: false,
     syncStatus: 'notStarted'
   },
   {
-    host: `Cindy's MacBook`,
-    ip: '192.168.0.1',
+    name: `Cindy's MacBook`,
+    host: '192.168.0.1',
     port: 123,
     selected: false,
     syncStatus: 'notStarted'
   },
   {
-    host: `Stephen's Laptop`,
-    ip: '192.168.0.1',
+    name: `Stephen's Laptop`,
+    host: '192.168.0.1',
     port: 123,
     selected: false,
     syncStatus: 'notStarted'
   },
   {
-    host: `Karissa's MacBook`,
-    ip: '192.168.0.1',
+    name: `Karissa's MacBook`,
+    host: '192.168.0.1',
     port: 123,
     selected: false,
     syncStatus: 'notStarted'
   },
   {
-    host: `Gregor's MacBook`,
-    ip: '192.168.0.1',
+    name: `Gregor's MacBook`,
+    host: '192.168.0.1',
     port: 123,
     selected: false,
     syncStatus: 'notStarted'
@@ -84,9 +84,9 @@ export const deviceListEpic = (
           '',
           devices.map((d, i) =>
             createDevice({
-              host: d.name,
+              name: d.name,
               id: i.toString(),
-              ip: d.ip,
+              host: d.host,
               port: d.port,
               selected: false,
               syncStatus: d.status,
