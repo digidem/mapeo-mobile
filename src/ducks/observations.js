@@ -149,7 +149,7 @@ export const {
         observations: {
           [meta.observation]: {
             attachments: {
-              $splice: [index, 1, meta.mediaId]
+              $splice: [[index, 1, meta.mediaId]]
             }
           }
         }
@@ -158,7 +158,7 @@ export const {
       return update(state, {
         selectedObservation: {
           attachments: {
-            $splice: [index, 1, meta.mediaId]
+            $splice: [[index, 1, meta.mediaId]]
           }
         }
       });

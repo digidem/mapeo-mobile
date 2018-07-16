@@ -5,6 +5,8 @@ import type { Field } from './field';
 export type Attachment = {
   id: string,
   type: string, //mime type
+  originalFallback: string,
+  thumbnailFallback?: string,
   observation?: string
 };
 

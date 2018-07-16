@@ -10,12 +10,11 @@ class Media {
       route: thumbnail
         ? `/media?file=${encodePath(file)}&thumbnail=${encodePath(thumbnail)}`
         : `/media?file=${encodePath(file)}`
-    });
+    }).map(id => ({ id: id.id, file, thumbnail }));
 }
 
 export default Media;
 
-
-function encodePath (filepath) {
-  return encodeURI(filepath.replace(/^.*:\/\//, ''))
+function encodePath(filepath) {
+  return encodeURI(filepath.replace(/^.*:\/\//, ''));
 }

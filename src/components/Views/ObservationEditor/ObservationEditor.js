@@ -629,7 +629,7 @@ class ObservationEditor extends React.Component<
       icons
     } = this.props;
     const { keyboardShown, text } = this.state;
-    const keyExtractor = item => item;
+    const keyExtractor = (item, i) => i.toString();
     const goToManualEnter = () => {
       navigation.navigate({ routeName: 'ManualGPSView' });
     };

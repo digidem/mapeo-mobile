@@ -17,17 +17,24 @@ import { CHARCOAL, MAGENTA, MANGO, WHITE } from '../../../lib/styles';
 import type { Observation } from '../../../types/observation';
 import Gradient from '../../../images/gradient-overlay.png';
 import { getMediaUrl } from '../../../lib/media';
+import type { Resource } from '../../../types/redux';
+import type { Attachment } from '../../../types/observation';
 
 export type Props = {
   navigation: NavigationScreenProp<*>
 };
 
 export type StateProps = {
-  selectedObservation?: Observation
+  selectedObservation?: Observation,
+  attachment?: Resource<Attachment>
 };
 
 export type DispatchProps = {
   updateObservation: (o: UpdateRequest) => void
+};
+
+type State = {
+  error: boolean
 };
 
 const styles = StyleSheet.create({
@@ -66,8 +73,15 @@ const styles = StyleSheet.create({
 });
 
 class PhotoView extends React.PureComponent<
-  Props & StateProps & DispatchProps
+  Props & StateProps & DispatchProps,
+  State
 > {
+  constructor() {
+    super();
+
+    this.state = { error: false };
+  }
+
   isFromCameraTab() {
     const { navigation } = this.props;
 
@@ -86,7 +100,7 @@ class PhotoView extends React.PureComponent<
     if (selectedObservation) {
       updateObservation({
         id: selectedObservation.id,
-        media: selectedObservation.attachments.filter(
+        attachments: selectedObservation.attachments.filter(
           photo => navigation.state.params.photoId !== photo
         )
       });
@@ -94,8 +108,13 @@ class PhotoView extends React.PureComponent<
     }
   };
 
+  handleImageError = () => {
+    this.setState({ error: true });
+  };
+
   render() {
-    const { navigation, selectedObservation } = this.props;
+    const { navigation, selectedObservation, attachment } = this.props;
+    const { error } = this.state;
     const fromCameraTab = this.isFromCameraTab();
     const fromDetailView = this.isFromDetailView();
     const imageHeight = fromCameraTab
@@ -116,7 +135,9 @@ class PhotoView extends React.PureComponent<
           }}
         >
           {hasPhoto &&
-            selectedObservation && (
+            !!attachment &&
+            attachment.status === 'Success' &&
+            !!selectedObservation && (
               <ImageBackground
                 style={{
                   width: Dimensions.get('window').width,
@@ -125,9 +146,12 @@ class PhotoView extends React.PureComponent<
                     : imageHeight,
                   alignItems: 'center'
                 }}
+                onError={this.handleImageError}
                 resizeMode="cover"
                 source={{
-                  uri: getMediaUrl(photoId)
+                  uri: error
+                    ? attachment.data && attachment.data.originalFallback
+                    : getMediaUrl(photoId)
                 }}
               >
                 {fromCameraTab && (

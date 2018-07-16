@@ -5,13 +5,18 @@ import { observationUpdate } from '../../../ducks/observations';
 
 import type { StoreState } from '../../../types/redux';
 import PhotoView from './PhotoView';
-import type { StateProps, DispatchProps } from './PhotoView';
+import type { StateProps, DispatchProps, Props } from './PhotoView';
 
-function mapStateToProps(state: StoreState): StateProps {
-  return { selectedObservation: state.app.selectedObservation };
+function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
+  const id = ownProps.navigation.getParam('photoId', '');
+
+  return {
+    selectedObservation: state.app.selectedObservation,
+    attachment: id ? state.app.attachments[id] : undefined
+  };
 }
 
-function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
   return {
     updateObservation: observation => dispatch(observationUpdate(observation))
   };

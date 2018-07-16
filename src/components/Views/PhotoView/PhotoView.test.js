@@ -5,6 +5,7 @@ import renderer from 'react-test-renderer';
 import PhotoView from './PhotoView';
 import { createObservation } from '../../../mocks/observations';
 import { createNavigationScreenProp } from '../../../mocks/navigation';
+import { resourcePending } from '../../../lib/resource';
 
 describe('PhotoView tests', () => {
   test('snapshot', () => {

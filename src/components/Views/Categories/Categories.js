@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import type { NavigationScreenProp } from 'react-navigation';
 import I18n from 'react-native-i18n';
 import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CheckIcon from 'react-native-vector-icons/Octicons';
@@ -26,7 +26,7 @@ import {
 } from '../../../lib/styles';
 
 type Props = {
-  navigation: NavigationActions
+  navigation: NavigationScreenProp<*>
 };
 
 export type StateProps = {
@@ -144,7 +144,8 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
       updateObservation({
         id: selectedObservation.id,
         categoryId: item.id,
-        fields: item && item.fields.map(field => allFields[field])
+        fields:
+          item && item.fields && item.fields.map(field => allFields[field])
       });
 
       navigation.navigate({
@@ -156,7 +157,7 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
     }
   };
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item }: { item: Category }) => {
     const { icons } = this.props;
 
     return (

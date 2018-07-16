@@ -83,6 +83,6 @@ export type ResourceStatus = 'Pending' | 'Success' | 'Failed';
 
 export interface Resource<M> {
   status: ResourceStatus;
-  data: M;
+  data?: M;
   error?: Error;
 }

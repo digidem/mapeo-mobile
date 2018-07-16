@@ -16,11 +16,34 @@ export type Props = {
   style?: any
 };
 
-class Thumbnail extends React.PureComponent<StateProps & Props> {
+type State = {
+  error: boolean
+};
+
+class Thumbnail extends React.PureComponent<StateProps & Props, State> {
+  constructor() {
+    super();
+
+    this.state = { error: false };
+  }
+
+  handleImageError = () => {
+    this.setState({ error: true });
+  };
+
   render() {
     const { attachment, attachmentId, style } = this.props;
+    const { error } = this.state;
 
-    if (attachment.status === 'Pending' || attachment.status === 'Failed') {
+    if (!attachment) {
+      return null;
+    }
+
+    if (
+      attachment.status === 'Pending' ||
+      attachment.status === 'Failed' ||
+      !attachment.data
+    ) {
       return (
         <View
           style={[
@@ -46,8 +69,12 @@ class Thumbnail extends React.PureComponent<StateProps & Props> {
 
     return (
       <Image
+        onError={this.handleImageError}
         source={{
-          uri: getMediaUrl(attachmentId, true)
+          uri: error
+            ? attachment.data.thumbnailFallback ||
+              attachment.data.originalFallback
+            : getMediaUrl(attachmentId, true)
         }}
         style={[
           {
