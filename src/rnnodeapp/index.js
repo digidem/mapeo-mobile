@@ -60,7 +60,10 @@ function start() {
   const db = osm(DB_PATH);
   const media = blobstore(MEDIA_PATH);
 
-  const route = Router(db, media, { staticRoot: STATIC_PATH });
+  const route = Router(db, media, {
+    media: {mode: 'push'},
+    staticRoot: STATIC_PATH
+  });
 
   const server = http.createServer((req, res) => {
     if (route.handle(req, res)) {
