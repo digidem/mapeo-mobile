@@ -55,7 +55,9 @@ exports[`DeviceCell tests snapshot 1`] = `
             "fontWeight": "700",
           }
         }
-      />
+      >
+        deviceName
+      </Text>
       <Text
         accessible={true}
         allowFontScaling={true}
