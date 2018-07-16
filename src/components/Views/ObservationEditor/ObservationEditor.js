@@ -237,6 +237,7 @@ class ObservationEditor extends React.Component<
   keyboardDidHideListener: any;
   scrollView: any;
   textInput: any;
+  focusListener: any;
 
   constructor(props: Props & StateProps & DispatchProps) {
     super();
@@ -287,7 +288,8 @@ class ObservationEditor extends React.Component<
       updateObservation,
       selectedObservation,
       category,
-      hideManualGPSModal
+      hideManualGPSModal,
+      navigation
     } = this.props;
 
     if (hideManualGPSModal) {
@@ -310,7 +312,17 @@ class ObservationEditor extends React.Component<
       'keyboardDidHide',
       this.keyboardDidHide
     );
+
+    this.focusListener = navigation.addListener('willFocus', this.onFocus);
   }
+
+  onFocus = () => {
+    const { manualGPSModalVisible, hideManualGPSModal } = this.props;
+
+    if (manualGPSModalVisible) {
+      hideManualGPSModal();
+    }
+  };
 
   shouldComponentUpdate(
     nextProps: Props & StateProps & DispatchProps,
@@ -341,6 +353,7 @@ class ObservationEditor extends React.Component<
     this.keyboardWillHideListener.remove();
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
+    this.focusListener.remove();
   }
 
   keyboardWillShow = (e: any) => {

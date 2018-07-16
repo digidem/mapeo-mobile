@@ -97,6 +97,8 @@ const DeviceCell = (props: Props) => {
     syncStatusText = I18n.t('sync.requested');
   } else if (props.device.syncStatus === 'replication-progress') {
     syncStatusText = I18n.t('sync.syncing');
+  } else if (props.device.syncStatus === 'replication-complete') {
+    syncStatusText = I18n.t('sync.completed');
   }
 
   const syncInProgress =
@@ -113,7 +115,7 @@ const DeviceCell = (props: Props) => {
         ]}
       >
         <View style={styles.deviceTextContainer}>
-          <Text style={styles.deviceName}>{props.device.host}</Text>
+          <Text style={styles.deviceName}>{props.device.name}</Text>
           <Text style={styles.syncStatus}>{syncStatusText}</Text>
         </View>
         {!syncInProgress && (

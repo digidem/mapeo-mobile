@@ -8,7 +8,7 @@ export type SyncStatus =
   | 'replication-complete';
 export interface Device {
   id: string;
-  ip: string;
+  name: string;
   host: string;
   port: number;
   selected: boolean;
