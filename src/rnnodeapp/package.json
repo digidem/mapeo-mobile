@@ -4,6 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "bufferutil": "^3.0.5",
+    "fs-blob-store": "^5.2.1",
     "leveldown-android-prebuilt": "2.0.3",
     "mapeo-server": "^7.0.0",
     "mapeo-styles": "^2.0.0",
