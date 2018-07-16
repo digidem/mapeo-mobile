@@ -36,14 +36,14 @@ class Thumbnail extends React.PureComponent<StateProps & Props, State> {
     const { error } = this.state;
 
     if (!attachment) {
-      return null;
+      // return null;
     }
 
-    if (
+    if (attachment && (
       attachment.status === 'Pending' ||
       attachment.status === 'Failed' ||
       !attachment.data
-    ) {
+    )) {
       return (
         <View
           style={[
@@ -67,14 +67,13 @@ class Thumbnail extends React.PureComponent<StateProps & Props, State> {
       );
     }
 
+    console.log(getMediaUrl(attachmentId, true))
+
     return (
       <Image
         onError={this.handleImageError}
         source={{
-          uri: error
-            ? attachment.data.thumbnailFallback ||
-              attachment.data.originalFallback
-            : getMediaUrl(attachmentId, true)
+          uri: getMediaUrl(attachmentId, true)
         }}
         style={[
           {

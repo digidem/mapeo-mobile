@@ -135,8 +135,8 @@ class PhotoView extends React.PureComponent<
           }}
         >
           {hasPhoto &&
-            !!attachment &&
-            attachment.status === 'Success' &&
+            (!!attachment ?
+            attachment.status === 'Success' : true) &&
             !!selectedObservation && (
               <ImageBackground
                 style={{
@@ -149,9 +149,7 @@ class PhotoView extends React.PureComponent<
                 onError={this.handleImageError}
                 resizeMode="cover"
                 source={{
-                  uri: error
-                    ? attachment.data && attachment.data.originalFallback
-                    : getMediaUrl(photoId)
+                  uri: getMediaUrl(photoId)
                 }}
               >
                 {fromCameraTab && (
