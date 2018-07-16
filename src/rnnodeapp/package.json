@@ -5,6 +5,7 @@
   "dependencies": {
     "bufferutil": "^3.0.5",
     "fs-blob-store": "^5.2.1",
+    "fs-walk": "0.0.2",
     "leveldown-android-prebuilt": "2.0.3",
     "mapeo-server": "^7.0.0",
     "mapeo-styles": "^2.0.0",

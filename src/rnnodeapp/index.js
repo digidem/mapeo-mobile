@@ -22,9 +22,20 @@ const path = require('path');
 const osm = require('osm-p2p');
 const blobstore = require('fs-blob-store');
 const Router = require('mapeo-server');
+const walk = require('fs-walk')
 const os = require('os');
 const mkdirp = require('mkdirp');
 const styles = require('mapeo-styles');
+
+blobstore.prototype._list = function (cb) {
+  var names = []
+  walk.files(this._dir, function (basedir, filename, stat, next) {
+    names.push(filename)
+  }, function (err) {
+    if (err && err.code === 'ENOENT') cb(null, [])
+    else cb(err, names)
+  })
+}
 
 console.log('1: init');
 
@@ -55,7 +66,10 @@ function start() {
   const db = osm(DB_PATH);
   const media = blobstore(MEDIA_PATH);
 
-  const route = Router(db, media, { staticRoot: STATIC_PATH });
+  const route = Router(db, media, {
+    media: {mode: 'push'},
+    staticRoot: STATIC_PATH
+  });
 
   const server = http.createServer((req, res) => {
     if (route.handle(req, res)) {
