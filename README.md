@@ -60,3 +60,8 @@ Low-level library tests run a benchmarks-only background Node.js process in the 
 ```sh
 npm run benchmark
 ```
+
+## Helpful Resources
+
+- Enzyme Example: https://github.com/airbnb/enzyme#shallow-rendering
+- Jest Snapshot Testing: https://facebook.github.io/jest/docs/en/snapshot-testing.html
