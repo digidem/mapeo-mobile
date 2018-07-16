@@ -343,21 +343,21 @@ class ObservationEditor extends React.Component<
     this.keyboardDidHideListener.remove();
   }
 
-  keyboardWillShow = e => {
+  keyboardWillShow = (e: any) => {
     Animated.timing(this.paddingInput, {
       duration: e.duration,
       toValue: 60
     }).start();
   };
 
-  keyboardWillHide = e => {
+  keyboardWillHide = (e: any) => {
     Animated.timing(this.paddingInput, {
       duration: e.duration,
       toValue: 0
     }).start();
   };
 
-  keyboardDidShow = e => {
+  keyboardDidShow = (e: any) => {
     this.setState(previousState => ({
       goToCamera: false,
       keyboardShown: true,

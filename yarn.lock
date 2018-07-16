@@ -524,6 +524,14 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
+"@digidem/react-native-geolocation@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@digidem/react-native-geolocation/-/react-native-geolocation-1.0.2.tgz#63d6e85f1edbf14b5dc74bd1ba9bc4e8b19aa02e"
+
+"@digidem/react-native-gps-state@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@digidem/react-native-gps-state/-/react-native-gps-state-1.0.0.tgz#b775d4e7f5bd9ffebc8360b8562887f7b253a9f1"
+
 "@mapbox/geo-viewport@^0.2.2":
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/@mapbox/geo-viewport/-/geo-viewport-0.2.2.tgz#93206c044238c21a60fca7e9064c8ce63e8027b4"
@@ -7682,6 +7690,10 @@ rimraf@~2.4.0:
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.4.5.tgz#ee710ce5d93a8fdb856fb5ea8ff0e2d75934b2da"
   dependencies:
     glob "^6.0.1"
+
+round-to@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/round-to/-/round-to-3.0.0.tgz#f457177d68e5a1d9d55796528cd03daea0bb4fb9"
 
 rst-selector-parser@^2.2.3:
   version "2.2.3"

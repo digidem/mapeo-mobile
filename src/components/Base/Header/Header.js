@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, View, ActivityIndicator, Text } from 'react-native';
 import I18n from 'react-native-i18n';
-import roundTo from 'round-to'
+import roundTo from 'round-to';
 import {
   PERMISSION_DENIED,
   UNAVAILABLE,
@@ -78,14 +78,16 @@ class Header extends React.PureComponent<Props & StateProps> {
       case PERMISSION_DENIED:
       case UNAVAILABLE:
         title = I18n.t('gps.off');
-        gpsFailed = true
+        gpsFailed = true;
         break;
       case SEARCHING:
         title = I18n.t('gps.loading');
         break;
       case LOW_ACCURACY:
       case HIGH_ACCURACY:
-        title = `± ${roundTo(gps.coords.accuracy, 2)}m`;
+        if (gps.coords) {
+          title = `± ${roundTo(gps.coords.accuracy, 2)}m`;
+        }
         break;
       default:
         title = '';
@@ -101,20 +103,18 @@ class Header extends React.PureComponent<Props & StateProps> {
           }}
         >
           <View style={styles.gpsPill}>
-            {gps.status === SEARCHING
-            ? <ActivityIndicator />
-            : (<View
-              style={{
-                backgroundColor:
-                  gpsFailed
-                    ? 'lightgrey'
-                    : GREEN,
-                height: 10,
-                width: 10,
-                borderRadius: 50
-              }}
-            />)
-            }
+            {gps.status === SEARCHING ? (
+              <ActivityIndicator />
+            ) : (
+              <View
+                style={{
+                  backgroundColor: gpsFailed ? 'lightgrey' : GREEN,
+                  height: 10,
+                  width: 10,
+                  borderRadius: 50
+                }}
+              />
+            )}
             <Text style={{ color: WHITE, marginHorizontal: 20 }}>{title}</Text>
           </View>
           {showTriangle && <View style={styles.triangle} />}
