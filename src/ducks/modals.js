@@ -9,10 +9,10 @@ export const {
   action: modalShow,
   reducer: modalShowReducer
 } = create('MODAL_SHOW', {
-  start: (state, action) => {
+  start: (state, meta) => {
     const newState = update(state, {
       modals: {
-        [action.meta]: { $set: true }
+        [meta]: { $set: true }
       }
     });
 
@@ -25,10 +25,10 @@ export const {
   action: modalHide,
   reducer: modalHideReducer
 } = create('MODAL_HIDE', {
-  start: (state, action) => {
+  start: (state, meta) => {
     const newState = update(state, {
       modals: {
-        [action.meta]: { $set: false }
+        [meta]: { $set: false }
       }
     });
 

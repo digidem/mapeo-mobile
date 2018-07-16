@@ -1,43 +1,114 @@
 // @flow
 import update from 'immutability-helper';
 import { create } from '../lib/redux';
-import type { StoreState } from '../types/redux';
+import type { StoreState, AppStoreState } from '../types/redux';
+import { lookup } from 'mime-types';
+import {
+  resourcePending,
+  resourceSuccess,
+  resourceFailed
+} from '../lib/resource';
+
+export type MediaLoadingMeta = {
+  mediaId: string,
+  type: string,
+  observation: string,
+  source: string,
+  generateThumbnail: boolean
+};
+
+export const {
+  type: MEDIA_LOADING,
+  action: mediaLoading,
+  reducer: mediaLoadingReducer
+} = create('MEDIA_LOADING', {
+  start: (state, meta) => {
+    const { mediaId, type, observation } = meta;
+
+    return update(state, {
+      attachments: {
+        [mediaId]: {
+          $set: resourcePending({
+            id: mediaId,
+            type,
+            observation
+          })
+        }
+      }
+    });
+  },
+  error: (state, meta, error) => {
+    return update(state, {
+      attachments: {
+        [meta.mediaId]: {
+          $set: resourceFailed(error, {
+            source: meta.source,
+            generateThumbnail: meta.generateThumbnail
+          })
+        }
+      }
+    });
+  }
+});
+
+export const {
+  type: MEDIA_DELETE,
+  action: mediaDelete,
+  reducer: mediaDeleteReducer
+} = create('MEDIA_DELETE', {
+  start: (state, meta) =>
+    update(state, {
+      attachments: {
+        $unset: [meta]
+      }
+    })
+});
 
 export type MediaSaveMeta = {
-  observationId: string,
-  mediaId: string,
-  source: string
+  observationId?: string,
+  source: string,
+  generateThumbnail: boolean
+};
+
+export type MediaSavePayload = {
+  resizeUri?: string,
+  cacheUri: string,
+  serverId: string
 };
 
 export const {
   type: MEDIA_SAVE,
   action: mediaSave,
   reducer: mediaSaveReducer
-} = create('MEDIA_SAVE', {});
+} = create('MEDIA_SAVE', {
+  success: (state, meta, payload) => {
+    const { resizedUri, cacheUri, serverId } = payload;
+    const type = lookup(serverId);
 
-export type MediaBackupMeta = {
-  mediaId: string,
-  observationId: string,
-  cameraRollUri: string
+    return update(state, {
+      attachments: {
+        [serverId]: {
+          $set: resourceSuccess({
+            type,
+            id: serverId,
+            originalFallback: cacheUri,
+            thumbnailFallback: resizedUri
+          })
+        }
+      }
+    });
+  }
+});
+
+export type MediaResizeMeta = {
+  observationId?: string,
+  source: string
 };
-
-export const {
-  type: MEDIA_BACKUP,
-  action: mediaBackup,
-  reducer: mediaBackupReducer
-} = create('MEDIA_BACKUP', {});
 
 export const {
   type: MEDIA_RESIZE,
   action: mediaResize,
   reducer: mediaResizeReducer
-} = create('MEDIA_RESIZE', {
-  success: (state, action) =>
-    update(state, {
-      resizedImages: {
-        [action.meta]: { $set: action.payload }
-      }
-    })
-});
+} = create('MEDIA_RESIZE', {});
 
-export default [mediaBackupReducer, mediaSaveReducer, mediaResizeReducer];
+export default [mediaSaveReducer, mediaDeleteReducer, mediaLoadingReducer];

@@ -24,6 +24,8 @@ import { DARK_GREY, MEDIUM_GREY, MANGO } from '../../../lib/styles';
 import getGPSText from '../../../lib/getGPSText';
 import CategoryPin from '../../../images/category-pin.png';
 import PencilIcon from '../../../images/editor-details.png';
+import { getMediaUrl } from '../../../lib/media';
+import Thumbnail from '../../Base/Thumbnail';
 
 export type StateProps = {
   selectedObservation?: Observation,
@@ -31,8 +33,7 @@ export type StateProps = {
     [id: string]: Category
   },
   gpsFormat: string,
-  icons: Object,
-  resizedImages: Object
+  icons: Object
 };
 
 export type DispatchProps = {
@@ -42,7 +43,7 @@ export type DispatchProps = {
 };
 
 export type Props = {
-  navigation: NavigationActions
+  navigation: any
 };
 
 const styles = StyleSheet.create({
@@ -264,15 +265,14 @@ class ObservationDetailView extends React.Component<
       navigation,
       updateObservationSource,
       gpsFormat,
-      icons,
-      resizedImages
+      icons
     } = this.props;
-    const keyExtractor = item => item.source.toString();
+    const keyExtractor = item => item;
     let mediaTitle = null;
     let mediaText = `0 ${I18n.t('detail_view.photo')}s`;
     const numOfMedia =
-      selectedObservation && selectedObservation.media
-        ? selectedObservation.media.length
+      selectedObservation && selectedObservation.attachments
+        ? selectedObservation.attachments.length
         : null;
     if (numOfMedia && numOfMedia > 0) {
       mediaText = `${numOfMedia} ${I18n.t('detail_view.photo')}`;
@@ -367,7 +367,7 @@ class ObservationDetailView extends React.Component<
           <View style={styles.section}>
             {mediaTitle}
             {!!selectedObservation &&
-              !!selectedObservation.media.length && (
+              !!selectedObservation.attachments.length && (
                 <FlatList
                   horizontal
                   scrollEnabled
@@ -384,28 +384,15 @@ class ObservationDetailView extends React.Component<
                           routeName: 'PhotoView',
                           params: {
                             fromDetailView: true,
-                            photoType: item.type,
-                            photoSource: item.source
+                            photoId: item
                           }
                         })
                       }
                     >
-                      <Image
-                        source={{
-                          uri:
-                            resizedImages && resizedImages[item.source]
-                              ? resizedImages[item.source]
-                              : item.source
-                        }}
-                        style={{
-                          width: 125,
-                          height: 125,
-                          margin: 1
-                        }}
-                      />
+                      <Thumbnail attachmentId={item} />
                     </TouchableOpacity>
                   )}
-                  data={selectedObservation.media}
+                  data={selectedObservation.attachments}
                 />
               )}
             <Text style={styles.textNotes}>{selectedObservation.notes}</Text>
@@ -452,7 +439,7 @@ class ObservationDetailView extends React.Component<
                 >
                   <MapboxGL.CircleLayer
                     id={`circles-${selectedObservation.id}`}
-                    style={mapboxStyles.point}
+                    style={mapboxStyles && mapboxStyles.point}
                   />
                 </MapboxGL.ShapeSource>
               </MapboxGL.MapView>
@@ -498,4 +485,4 @@ class ObservationDetailView extends React.Component<
   }
 }
 
-export default withNavigationFocus(ObservationDetailView);
+export default ObservationDetailView;

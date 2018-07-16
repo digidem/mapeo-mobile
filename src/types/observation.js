@@ -1,33 +1,26 @@
 // @flow
-
+import type { Resource } from './redux';
 import type { Field } from './field';
 
-export type MediaType = 'Photo' | 'Video' | 'Audio' | 'LocalPhoto';
-
-export interface ObservationMedia {
-  source: string;
-  type: MediaType;
-}
-
-export type BackupMedia = {
+export type Attachment = {
   id: string,
-  type: string,
-  observationMediaId: string
+  type: string, //mime type
+  originalFallback: string,
+  thumbnailFallback?: string,
+  observation?: string
 };
 
-export interface Observation {
-  type: string;
-  id: string;
-  lat: number;
-  lon: number;
-  link: string;
-  created: Date;
-  name: string;
-  notes: string;
-  observedBy: string;
-  media: ObservationMedia[];
-  categoryId: string;
-  fields: Field[];
-
-  mediaBackup: BackupMedia[];
-}
+export type Observation = {
+  type: string,
+  id: string,
+  lat: number,
+  lon: number,
+  link: string,
+  created: Date,
+  name: string,
+  notes: string,
+  observedBy: string,
+  attachments: string[],
+  categoryId: string,
+  fields: Field[]
+};

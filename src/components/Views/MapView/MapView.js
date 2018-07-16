@@ -91,21 +91,6 @@ I18n.translations = {
 class MapView extends React.PureComponent<Props & StateProps & DispatchProps> {
   rightDrawer: Drawer;
 
-  componentDidMount() {
-    const { listObservations } = this.props;
-
-    listObservations();
-  }
-
-  componentWillReceiveProps(nextProps: Props & DispatchProps & StateProps) {
-    if (
-      nextProps.navigation.isFocused() &&
-      nextProps.navigation.isFocused() !== this.props.navigation.isFocused()
-    ) {
-      nextProps.listObservations();
-    }
-  }
-
   closeRightDrawer = () => {
     this.rightDrawer.close();
   };

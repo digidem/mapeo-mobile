@@ -13,7 +13,7 @@ export const createObservation = (observation?: any) => ({
   notes:
     'This is pretty bad. It smells pretty noxious, and the entire pond is affected.',
   observedBy: 'You',
-  media: [],
+  attachments: [],
   icon: require('../images/categories/category_18.png'),
   categoryId: 19,
   fields: [createField()],

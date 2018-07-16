@@ -5,7 +5,7 @@
   "dependencies": {
     "bufferutil": "^3.0.5",
     "leveldown-android-prebuilt": "2.0.3",
-    "mapeo-server": "^5.0.2",
+    "mapeo-server": "^6.0.0",
     "mapeo-styles": "^2.0.0",
     "mkdirp": "0.5.1",
     "osm-p2p": "^2.0.0",

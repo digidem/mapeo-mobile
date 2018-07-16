@@ -34,6 +34,8 @@ const request = (
 
       resp = response;
 
+      console.log('RN - ', resp);
+
       return Observable.from(parseAsText ? response.text() : response.json())
         .catch(err => {
           throw new Error(err.toString());

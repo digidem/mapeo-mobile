@@ -2,9 +2,7 @@
 import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 import { values } from 'lodash';
-import { withNavigationFocus } from 'react-navigation';
 import { StoreState } from '../../../types/redux';
-
 import {
   observationUpdate,
   observationSelect,
@@ -36,12 +34,11 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
     gps: state.app.gps,
     manualGPSModalVisible: state.app.modals.manualGPS,
     gpsFormat: state.app.settings.gpsFormat,
-    icons: state.app.icons,
-    resizedImages: state.app.resizedImages
+    icons: state.app.icons
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<any>): DispatchProps {
   return {
     updateObservation: observation => dispatch(observationUpdate(observation)),
     clearSelectedObservation: () => dispatch(observationSelect(undefined)),
@@ -59,6 +56,4 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  withNavigationFocus(ObservationEditor)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(ObservationEditor);

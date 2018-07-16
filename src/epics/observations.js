@@ -29,7 +29,7 @@ export const observationListEpic = (
   action$
     .ofType(OBSERVATION_LIST)
     .filter(action => action.status === 'Start')
-    .pipe(debounceTime(500))
+    .pipe(debounceTime(1000))
     .flatMap(() =>
       Observation.list().map(observations => observationList('', observations))
     );
@@ -44,24 +44,16 @@ export const observationSaveEpic = (
       action =>
         action.status === 'Start' && !!store.getState().app.selectedObservation
     )
-    .flatMap(action =>
-      Observation.create(store.getState().app.selectedObservation).flatMap(
-        observation =>
-          Observable.merge(
-            Observable.of(observationSave(action.meta, observation)),
-            Observable.of(modalShow('saved')),
-            ...observation.media.map(m =>
-              Observable.of(
-                mediaSave({
-                  observationId: observation.id,
-                  mediaId: m.id,
-                  source: m.source
-                })
-              )
-            )
-          )
-      )
-    );
+    .flatMap(action => {
+      return Observation.create(
+        store.getState().app.selectedObservation
+      ).flatMap(observation =>
+        Observable.merge(
+          Observable.of(observationSave(action.meta, observation)),
+          Observable.of(modalShow('saved'))
+        )
+      );
+    });
 
 export const observationUpdateSaveEpic = (
   action$: ActionsObservable<Action<UpdateRequest, ObservationType>>,

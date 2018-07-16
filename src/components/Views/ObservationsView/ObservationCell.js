@@ -14,15 +14,14 @@ import type { Observation } from '../../../types/observation';
 import type { Category } from '../../../types/category';
 import { LIGHT_GREY } from '../../../lib/styles';
 import moment from '../../../lib/localizedMoment';
+import Thumbnail from '../../Base/Thumbnail';
 
 type Props = {
   currentLocale: string,
   observation: Observation,
   category: Category,
   onPress: (i: Observation) => void,
-  icons: Object,
-  resizedImages: Object,
-  getResizedImage: (source: string) => void
+  icons: Object
 };
 
 const styles = StyleSheet.create({
@@ -94,25 +93,8 @@ I18n.translations = {
 };
 
 class ObservationCell extends React.Component<Props> {
-  componentDidMount() {
-    const { observation, resizedImages, getResizedImage } = this.props;
-    const hasMedia = observation && !!observation.media.length;
-    const source = hasMedia ? observation.media[0].source : '';
-
-    if (hasMedia && (!resizedImages || !resizedImages[source])) {
-      getResizedImage(source);
-    }
-  }
-
   render() {
-    const {
-      resizedImages,
-      currentLocale,
-      observation,
-      onPress,
-      category,
-      icons
-    } = this.props;
+    const { currentLocale, observation, onPress, category, icons } = this.props;
     const esLocale = require('moment/locale/es');
     let dateString;
     if (currentLocale && currentLocale.includes('es')) {
@@ -139,8 +121,8 @@ class ObservationCell extends React.Component<Props> {
       onPress(observation);
     };
 
-    const hasMedia = observation && !!observation.media.length;
-    const source = hasMedia ? observation.media[0].source : '';
+    const hasMedia = observation && !!observation.attachments.length;
+    const source = hasMedia ? observation.attachments[0] : '';
 
     return (
       <TouchableOpacity onPress={handlePress}>
@@ -151,12 +133,7 @@ class ObservationCell extends React.Component<Props> {
           </View>
           <View style={{ flexDirection: 'column' }}>
             {hasMedia && (
-              <Image
-                source={{
-                  uri: resizedImages ? resizedImages[source] : source
-                }}
-                style={styles.media}
-              />
+              <Thumbnail attachmentId={source} style={styles.media} />
             )}
             <View
               style={[styles.circle, hasMedia ? styles.circleWithMedia : {}]}

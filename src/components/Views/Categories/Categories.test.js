@@ -6,6 +6,7 @@ import Categories from './Categories';
 import { createObservation } from '../../../mocks/observations';
 import { createCategory } from '../../../mocks/categories';
 import { createField } from '../../../mocks/fields';
+import { createNavigationScreenProp } from '../../../mocks/navigation';
 
 describe('Categories tests', () => {
   const addListener = () => true;
@@ -24,7 +25,7 @@ describe('Categories tests', () => {
       .create(
         <Categories
           categories={categories}
-          navigation={{}}
+          navigation={createNavigationScreenProp()}
           selectedObservation={selectedObservation}
           listCategories={listCategories}
           updateObservation={updateObservation}

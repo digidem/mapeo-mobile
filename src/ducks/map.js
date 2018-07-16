@@ -10,11 +10,11 @@ export const {
   action: styleList,
   reducer: styleListReducer
 } = create('STYLE_LIST', {
-  success: (state, action) =>
+  success: (state, meta, payload) =>
     update(state, {
       map: {
         styles: {
-          $set: keyBy(action.payload, 'id')
+          $set: keyBy(payload, 'id')
         }
       }
     })
@@ -25,11 +25,11 @@ export const {
   action: styleSelect,
   reducer: styleSelectReducer
 } = create('STYLE_SELECT', {
-  start: (state, action) =>
+  start: (state, meta) =>
     update(state, {
       map: {
         selectedStyle: {
-          $set: action.meta
+          $set: meta
         }
       }
     })

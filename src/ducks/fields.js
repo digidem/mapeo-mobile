@@ -9,9 +9,9 @@ export const {
   action: fieldList,
   reducer: fieldListReducer
 } = create('FIELD_LIST', {
-  success: (state, action) => {
+  success: (state, meta, payload) => {
     const newState = update(state, {
-      fields: { $set: keyBy(action.payload, 'id') }
+      fields: { $set: keyBy(payload, 'id') }
     });
 
     return newState;
@@ -29,9 +29,9 @@ export const {
   action: presetsIconsList,
   reducer: presetsIconsListReducer
 } = create('PRESETS_ICONS_LIST', {
-  success: (state, action) =>
+  success: (state, meta, payload) =>
     update(state, {
-      icons: { $set: action.payload }
+      icons: { $set: payload }
     })
 });
 
