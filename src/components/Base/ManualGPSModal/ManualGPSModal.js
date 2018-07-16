@@ -8,8 +8,7 @@ import {
   Text,
   TouchableOpacity
 } from 'react-native';
-import type { GPSState } from '../../../types/gps';
-import type { Resource } from '../../../types/redux';
+import type { GPSStatus } from '../../../types/gps';
 import {
   WHITE,
   LIGHT_GREY,
@@ -18,9 +17,16 @@ import {
   MANGO,
   DARK_MANGO
 } from '../../../lib/styles';
+import {
+  PERMISSION_DENIED,
+  UNAVAILABLE,
+  SEARCHING,
+  LOW_ACCURACY,
+  HIGH_ACCURACY
+} from '../../../ducks/gps';
 
 export type StateProps = {
-  gps?: Resource<GPSState>,
+  gpsStatus: GPSStatus,
   visible: boolean
 };
 
@@ -108,20 +114,37 @@ const ManualGPSModal: React.SFC<Props & StateProps> = ({
   onWaiting,
   goToManualEnter,
   onSave,
-  gps,
+  gpsStatus,
   visible
 }) => {
   if (!visible) {
     return null;
   }
 
-  const showWeak = gps.status === 'Success' && gps.data.accuracy > 100;
-  let heading = I18n.t('manual_gps.searching');
-  let text = I18n.t('manual_gps.searching_text');
+  let gpsError = false
+  let heading
+  let text
 
-  if (showWeak) {
-    heading = I18n.t('manual_gps.weak');
-    text = I18n.t('manual_gps.weak_text');
+  switch (gpsStatus) {
+    case PERMISSION_DENIED:
+      gpsError = true;
+      heading = I18n.t('manual_gps.denied');
+      text = I18n.t('manual_gps.denied_text');
+      break;
+    case UNAVAILABLE:
+      gpsError = true;
+      heading = I18n.t('manual_gps.unavailable');
+      text = I18n.t('manual_gps.unavailable_text');
+      break;
+    case SEARCHING:
+      heading = I18n.t('manual_gps.searching');
+      text = I18n.t('manual_gps.searching_text');
+      break;
+    case LOW_ACCURACY:
+      heading = I18n.t('manual_gps.weak');
+      text = I18n.t('manual_gps.weak_text');
+      break;
+    default:
   }
 
   return (
@@ -131,12 +154,12 @@ const ManualGPSModal: React.SFC<Props & StateProps> = ({
           <Text style={styles.heading}>{heading}</Text>
           <Text style={styles.text}>{text}</Text>
         </View>
-        <TouchableOpacity
+        {!gpsError && <TouchableOpacity
           style={[styles.button, styles.borderTop]}
           onPress={onWaiting}
         >
           <Text style={styles.buttonText}>{I18n.t('manual_gps.waiting')}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
         <TouchableOpacity style={styles.button} onPress={goToManualEnter}>
           <Text style={styles.buttonText}>
             {I18n.t('manual_gps.manual_enter')}

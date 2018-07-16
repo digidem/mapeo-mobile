@@ -57,6 +57,10 @@
   },
   "manual_gps": {
     "manual_gps": "GPS Manual",
+    "denied": "Permiso Denegado",
+    "denied_text": "Mapeo Mobile no tiene permiso a acceder a tu ubicación",
+    "unavailable": "GPS No Disponible",
+    "unavailable_text": "Parece que tu GPS esta apagado o no esta funcionando",
     "searching": "Sin GPS todavía...",
     "searching_text": "El GPS esta buscando su posición todavía",
     "weak": "GPS débil",

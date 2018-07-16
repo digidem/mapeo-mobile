@@ -16,7 +16,7 @@ import { styleList } from '../../../../ducks/map';
 const mapStateToProps = (state: StoreState): StateProps => ({
   observations: state.app.observations,
   selectedObservation: state.app.selectedObservation,
-  gps: state.app.gps.data,
+  coords: state.app.gps.coords,
   selectedStyle: state.app.map.selectedStyle
 });
 

@@ -21,7 +21,6 @@ import env from '../../../../env.json';
 import AddButton from '../../../images/add-button.png';
 import Gradient from '../../../images/gradient-overlay.png';
 import { applyObservationDefaults } from '../../../models/observations';
-import type { Resource } from '../../../types/redux';
 import type { GPSState } from '../../../types/gps';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '../../../types/observation';

@@ -5,7 +5,7 @@ import ManualGPSModal from './ManualGPSModal';
 
 const mapStateToProps = state => ({
   visible: state.app.modals.manualGPS,
-  gps: state.app.gps
+  gpsStatus: state.app.gps.status
 });
 
 export default connect(mapStateToProps)(ManualGPSModal);

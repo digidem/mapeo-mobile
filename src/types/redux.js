@@ -24,7 +24,7 @@ export interface AppStoreState {
 
   drawers: DrawerState;
 
-  gps: Resource<GPSState>;
+  gps: GPSState;
 
   fields: {
     [id: string]: Field

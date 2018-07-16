@@ -22,16 +22,16 @@ import React from 'react';
 import { PermissionsAndroid, Image, Dimensions } from 'react-native';
 import RNNode from 'react-native-node';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import GeoLocation from '@digidem/react-native-geolocation'
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import 'rxjs';
 import { configureStore } from './lib/store';
-import { gpsSet, gpsFailed } from './ducks/gps';
+import { locationUpdate, locationError } from './ducks/gps';
 import AppNavigation from './components/AppNavigation/AppNavigation';
 import SplashScreen from './images/splash-screen.png';
 
 export default class App extends React.PureComponent<null, null> {
-  watchId: number;
   store: any;
   persistor: any;
 
@@ -41,6 +41,7 @@ export default class App extends React.PureComponent<null, null> {
     const { store, persistor } = configureStore();
     this.store = store;
     this.persistor = persistor;
+    this.loc = new GeoLocation()
   }
 
   async componentDidMount() {
@@ -53,29 +54,22 @@ export default class App extends React.PureComponent<null, null> {
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
     );
 
-    navigator.geolocation.getCurrentPosition(
+    this.loc.startObserving(
       this.handlePositionChange,
       this.handlePositionError
-    );
-
-    this.watchId = navigator.geolocation.watchPosition(
-      this.handlePositionChange,
-      this.handlePositionError
-    );
+    )
   }
 
   handlePositionChange = (position: Position) => {
-    this.store.dispatch(gpsSet(position.coords));
+    this.store.dispatch(locationUpdate(position));
   };
 
   handlePositionError = (error: PositionError) => {
-    this.store.dispatch(gpsFailed('Failed'));
+    this.store.dispatch(locationError(error));
   };
 
   componentWillUnmount() {
-    if (this.watchId) {
-      navigator.geolocation.stopObserving();
-    }
+    this.loc.stopObserving()
   }
 
   render() {

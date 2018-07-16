@@ -20,8 +20,7 @@ import AddButton from '../../../../images/add-button.png';
 import Gradient from '../../../../images/gradient-overlay.png';
 import { WHITE } from '../../../../lib/styles';
 import { applyObservationDefaults } from '../../../../models/observations';
-import type { Resource } from '../../../../types/redux';
-import type { GPSState } from '../../../../types/gps';
+import type { Coordinates } from '../../../../types/gps';
 import type { Style } from '../../../../types/map';
 
 export type StateProps = {
@@ -29,7 +28,7 @@ export type StateProps = {
     [id: string]: Observation
   },
   selectedObservation?: Observation,
-  gps?: GPSState,
+  coords?: Coordinates,
   selectedStyle?: Style
 };
 
@@ -204,15 +203,15 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
   };
 
   goToCurrentLocation = () => {
-    const { gps } = this.props;
+    const { coords } = this.props;
 
-    if (this.map && gps) {
-      this.map.moveTo([gps.longitude, gps.latitude], 200);
+    if (this.map && coords) {
+      this.map.moveTo([coords.longitude, coords.latitude], 200);
     }
   };
 
   render() {
-    const { observations, gps, selectedStyle } = this.props;
+    const { observations, coords, selectedStyle } = this.props;
 
     return (
       <View
@@ -224,7 +223,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
         <View style={{ flex: 1 }}>
           <MapboxGL.MapView
             style={{ flex: 1 }}
-            centerCoordinate={gps ? [gps.longitude, gps.latitude] : undefined}
+            centerCoordinate={coords ? [coords.longitude, coords.latitude] : undefined}
             ref={this.handleMapViewRef}
             zoomLevel={
               selectedStyle
@@ -270,7 +269,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
                   </MapboxGL.ShapeSource>
                 ))
               : null}
-            {gps && (
+            {coords && (
               <MapboxGL.ShapeSource
                 key="current-location"
                 id="current-location"
@@ -278,7 +277,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
                   type: 'Feature',
                   geometry: {
                     type: 'Point',
-                    coordinates: [gps.longitude, gps.latitude]
+                    coordinates: [coords.longitude, coords.latitude]
                   }
                 }}
               >

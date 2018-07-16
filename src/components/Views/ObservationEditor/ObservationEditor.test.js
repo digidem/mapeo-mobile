@@ -11,6 +11,9 @@ import { createGPSState } from '../../../mocks/gps';
 
 jest.mock('../../Base/CancelModal/CancelModal', () => () => null);
 jest.mock('../../Base/ManualGPSModal', () => () => null);
+jest.mock('../../../ducks/gps', () => ({
+  HIGH_ACCURACY: 'HIGH_ACCURACY'
+}));
 
 describe('ObservationEditor tests', () => {
   const observation = createObservation();

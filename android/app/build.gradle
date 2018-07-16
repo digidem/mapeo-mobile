@@ -191,6 +191,7 @@ repositories {
 
 
 dependencies {
+    compile project(':@digidem/react-native-gps-state')
     compile project(':react-native-image-resizer')
     compile project(':react-native-svg')
     compile project(':react-native-vector-icons')

@@ -56,6 +56,11 @@
 		C6485F07B1204D2B8E89DDAE /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0B7C70A33E14F798D661B4C /* libRNSVG.a */; };
 		6FC16E8579D54F3C827A968E /* libRNSVG-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 263AA283152E4E8F9B99C381 /* libRNSVG-tvOS.a */; };
 		65C8A57503FD4AA084780BA2 /* libRCTImageResizer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F74475F2734319953D5712 /* libRCTImageResizer.a */; };
+		F1956DB7B3BC4DA79B0C7161 /* gpsstatus.app in Resources */ = {isa = PBXBuildFile; fileRef = 703B264DF85F4C0683DC63BC /* gpsstatus.app */; };
+		7D74ACDD07C746DFABE2ACEF /* gpsstatusTests.xctest in Resources */ = {isa = PBXBuildFile; fileRef = 238D443F53524727B60FFA39 /* gpsstatusTests.xctest */; };
+		2B53D511FE384FA1809E7294 /* gpsstatus-tvOS.app in Resources */ = {isa = PBXBuildFile; fileRef = 4137E237A6D14BC39418B967 /* gpsstatus-tvOS.app */; };
+		E28C4D1D90EB48A8B70E4F3E /* gpsstatus-tvOSTests.xctest in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3205424794D41AB9AEDB6 /* gpsstatus-tvOSTests.xctest */; };
+		2E73CCCEF2DC4A6DB6CB90C4 /* libDPMGpsState.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6BE0EFC149D4D8DB4A1A080 /* libDPMGpsState.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -311,6 +316,13 @@
 		263AA283152E4E8F9B99C381 /* libRNSVG-tvOS.a */ = {isa = PBXFileReference; name = "libRNSVG-tvOS.a"; path = "libRNSVG-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		DEB1EDFA716841DC89C0BC41 /* RCTImageResizer.xcodeproj */ = {isa = PBXFileReference; name = "RCTImageResizer.xcodeproj"; path = "../node_modules/react-native-image-resizer/ios/RCTImageResizer.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		18F74475F2734319953D5712 /* libRCTImageResizer.a */ = {isa = PBXFileReference; name = "libRCTImageResizer.a"; path = "libRCTImageResizer.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		B524C17F11C942BD9B33E18B /* gpsstatus.xcodeproj */ = {isa = PBXFileReference; name = "gpsstatus.xcodeproj"; path = "../node_modules/@digidem/react-native-geolocation/ios/gpsstatus.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		703B264DF85F4C0683DC63BC /* gpsstatus.app */ = {isa = PBXFileReference; name = "gpsstatus.app"; path = "gpsstatus.app"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.application; explicitFileType = undefined; includeInIndex = 0; };
+		238D443F53524727B60FFA39 /* gpsstatusTests.xctest */ = {isa = PBXFileReference; name = "gpsstatusTests.xctest"; path = "gpsstatusTests.xctest"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.cfbundle; explicitFileType = undefined; includeInIndex = 0; };
+		4137E237A6D14BC39418B967 /* gpsstatus-tvOS.app */ = {isa = PBXFileReference; name = "gpsstatus-tvOS.app"; path = "gpsstatus-tvOS.app"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.application; explicitFileType = undefined; includeInIndex = 0; };
+		2CA3205424794D41AB9AEDB6 /* gpsstatus-tvOSTests.xctest */ = {isa = PBXFileReference; name = "gpsstatus-tvOSTests.xctest"; path = "gpsstatus-tvOSTests.xctest"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.cfbundle; explicitFileType = undefined; includeInIndex = 0; };
+		13261D3081484B3CB5628733 /* DPMGpsState.xcodeproj */ = {isa = PBXFileReference; name = "DPMGpsState.xcodeproj"; path = "../node_modules/@digidem/react-native-gps-state/ios/DPMGpsState.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		A6BE0EFC149D4D8DB4A1A080 /* libDPMGpsState.a */ = {isa = PBXFileReference; name = "libDPMGpsState.a"; path = "libDPMGpsState.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -347,6 +359,9 @@
 				E1EDFBF326C94E34BF22CE4A /* libRCTRestart.a in Frameworks */,
 				C6485F07B1204D2B8E89DDAE /* libRNSVG.a in Frameworks */,
 				65C8A57503FD4AA084780BA2 /* libRCTImageResizer.a in Frameworks */,
+				F1956DB7B3BC4DA79B0C7161 /* gpsstatus.app in Resources */,
+				7D74ACDD07C746DFABE2ACEF /* gpsstatusTests.xctest in Resources */,
+				2E73CCCEF2DC4A6DB6CB90C4 /* libDPMGpsState.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,6 +378,8 @@
 				2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */,
 				2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */,
 				6FC16E8579D54F3C827A968E /* libRNSVG-tvOS.a in Frameworks */,
+				2B53D511FE384FA1809E7294 /* gpsstatus-tvOS.app in Resources */,
+				E28C4D1D90EB48A8B70E4F3E /* gpsstatus-tvOSTests.xctest in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +541,8 @@
 				B816AE607B6C43A4911BE194 /* RCTRestart.xcodeproj */,
 				ADDE3C7A81B94FC4B123E167 /* RNSVG.xcodeproj */,
 				DEB1EDFA716841DC89C0BC41 /* RCTImageResizer.xcodeproj */,
+				B524C17F11C942BD9B33E18B /* gpsstatus.xcodeproj */,
+				13261D3081484B3CB5628733 /* DPMGpsState.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1111,6 +1130,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1122,6 +1146,8 @@
 					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/@digidem/react-native-geolocation/ios/gpsstatus",
+					"$(SRCROOT)/../node_modules/@digidem/react-native-gps-state/ios",
 				);
 			};
 			name = Debug;
@@ -1151,6 +1177,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1162,6 +1193,8 @@
 					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/@digidem/react-native-geolocation/ios/gpsstatus",
+					"$(SRCROOT)/../node_modules/@digidem/react-native-gps-state/ios",
 				);
 			};
 			name = Release;
@@ -1191,6 +1224,8 @@
 					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/@digidem/react-native-geolocation/ios/gpsstatus",
+					"$(SRCROOT)/../node_modules/@digidem/react-native-gps-state/ios",
 				);
 			};
 			name = Debug;
@@ -1219,6 +1254,8 @@
 					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/@digidem/react-native-geolocation/ios/gpsstatus",
+					"$(SRCROOT)/../node_modules/@digidem/react-native-gps-state/ios",
 				);
 			};
 			name = Release;
@@ -1257,6 +1294,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1268,6 +1310,8 @@
 					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/@digidem/react-native-geolocation/ios/gpsstatus",
+					"$(SRCROOT)/../node_modules/@digidem/react-native-gps-state/ios",
 				);
 			};
 			name = Debug;
@@ -1306,6 +1350,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1317,6 +1366,8 @@
 					"$(SRCROOT)/../node_modules/react-native-restart/ios/RCTRestart/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/@digidem/react-native-geolocation/ios/gpsstatus",
+					"$(SRCROOT)/../node_modules/@digidem/react-native-gps-state/ios",
 				);
 			};
 			name = Release;
@@ -1350,6 +1401,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1374,6 +1430,11 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

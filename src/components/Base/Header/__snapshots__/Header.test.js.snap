@@ -15,6 +15,7 @@ exports[`Header tests snapshot with triangle prop 1`] = `
     ]
   }
 >
+  
   <View
     style={
       Object {
@@ -57,7 +58,7 @@ exports[`Header tests snapshot with triangle prop 1`] = `
           }
         }
       >
-        +/-  50m
+        ± 50m
       </Text>
     </View>
     <View
@@ -84,6 +85,7 @@ exports[`Header tests snapshot with triangle prop 1`] = `
       }
     />
   </View>
+  
 </View>
 `;
 
@@ -102,6 +104,7 @@ exports[`Header tests snapshot without triangle prop 1`] = `
     ]
   }
 >
+  
   <View
     style={
       Object {
@@ -144,9 +147,10 @@ exports[`Header tests snapshot without triangle prop 1`] = `
           }
         }
       >
-        +/-  50m
+        ± 50m
       </Text>
     </View>
   </View>
+  
 </View>
 `;

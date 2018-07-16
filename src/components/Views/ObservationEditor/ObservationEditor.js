@@ -26,7 +26,6 @@ import I18n from 'react-native-i18n';
 import type { UpdateRequest } from '@api/observations';
 import type { Category } from '../../../types/category';
 import type { Observation } from '../../../types/observation';
-import type { Resource } from '../../../types/redux';
 import type { GPSState } from '../../../types/gps';
 import CategoryPin from '../../../images/category-pin.png';
 import PencilIcon from '../../../images/editor-details.png';
@@ -41,6 +40,7 @@ import {
 import Header from '../../Base/Header';
 import ManualGPSModal from '../../Base/ManualGPSModal';
 import getGPSText from '../../../lib/getGPSText';
+import { HIGH_ACCURACY } from '../../../ducks/gps';
 import Thumbnail from '../../Base/Thumbnail';
 
 export type StateProps = {
@@ -49,7 +49,7 @@ export type StateProps = {
   observations: Observation[],
   observationSource: string,
   cancelModalVisible: boolean,
-  gps: Resource<GPSState>,
+  gps: GPSState,
   manualGPSModalVisible: boolean,
   gpsFormat: string,
   icons: Object
@@ -343,21 +343,21 @@ class ObservationEditor extends React.Component<
     this.keyboardDidHideListener.remove();
   }
 
-  keyboardWillShow = e => {
+  keyboardWillShow = (e: any) => {
     Animated.timing(this.paddingInput, {
       duration: e.duration,
       toValue: 60
     }).start();
   };
 
-  keyboardWillHide = e => {
+  keyboardWillHide = (e: any) => {
     Animated.timing(this.paddingInput, {
       duration: e.duration,
       toValue: 0
     }).start();
   };
 
-  keyboardDidShow = e => {
+  keyboardDidShow = (e: any) => {
     this.setState(previousState => ({
       goToCamera: false,
       keyboardShown: true,
@@ -426,7 +426,7 @@ class ObservationEditor extends React.Component<
 
     const updateFlow = this.isUpdateFlow();
 
-    if (gps.status !== 'Success' || (gps.data && gps.data.accuracy > 100)) {
+    if (gps.status !== HIGH_ACCURACY) {
       if (keyboardShown) {
         Keyboard.dismiss();
       }
