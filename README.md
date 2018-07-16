@@ -31,6 +31,14 @@ This is a React Native project, making use of [react-native-node](https://github
 - react-native debugger should show you redux actions, the react component heirarchy, and the console log and dev tools from Chrome.
 - To debug the node process run logcat with `npm run logcat`. This will give you console and error output from rnnode. Note that when you make changes to anything in rnnode you will have to run `npm run build-rnnodeapp` *and* uninstall the debug app from the phone and reinstall with `npm run android`.
 
+### Testing
+
+Currently mapeo-mobile only supports component testing. All tests are put in `*.test.js` files right next to the script file being tested.
+
+To run tests: `yarn test` (make sure you are not in `src/rnnodeapp`)
+
+To update snapshots (necessary when you change UI): `yarn test -u` (make sure you are not in `src/rnnodeapp`)
+
 ### Generate Release APK
 
 In `mapeo-mobile/android/app` run
