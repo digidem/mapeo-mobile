@@ -37,7 +37,7 @@ describe('SavedModal tests', () => {
             onHide={onHide}
             categories={categories}
             icons={icons}
-            gpsFormat="utm"
+            gpsFormat="UTM"
             show={p.show}
           />
         )
