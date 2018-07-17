@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import { withNavigationFocus } from 'react-navigation';
 import {
   Image,
   Keyboard,
@@ -15,6 +14,7 @@ import { RNCamera } from 'react-native-camera';
 import { size } from 'lodash';
 import Drawer from 'react-native-drawer';
 import I18n from 'react-native-i18n';
+import type { NavigationScreenProp } from 'react-navigation';
 import type { UpdateRequest } from '@api/observations';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 });
 
 export type Props = {
-  navigation: any
+  navigation: NavigationScreenProp<*>
 };
 
 export type StateProps = {
@@ -101,17 +101,6 @@ class CameraView extends React.Component<
   camera: RNCamera;
   rightDrawer: Drawer;
 
-  shouldComponentUpdate(
-    nextProps: Props & StateProps & DispatchProps,
-    nextState: State
-  ) {
-    if (nextProps.navigation.isFocused()) {
-      return nextProps !== this.props || nextState !== this.state;
-    }
-
-    return false;
-  }
-
   takePicture = async () => {
     const {
       createObservation,
@@ -133,11 +122,13 @@ class CameraView extends React.Component<
           saveMedia({ source: data.uri, generateThumbnail: true });
           navigation.navigate({ routeName: 'ObservationEditor' });
         } else {
-          navigation.navigate({ routeName: 'Categories' });
+          navigation.navigate({
+            routeName: 'Categories'
+          });
           const initialObservation = applyObservationDefaults({
             id: size(observations) + 1
           });
-          console.log('updating source, creating, saving media')
+          console.log('updating source, creating, saving media');
           updateObservationSource();
           createObservation(initialObservation);
           saveMedia({ source: data.uri, generateThumbnail: true });
@@ -165,7 +156,7 @@ class CameraView extends React.Component<
     navigation.navigate({ routeName: 'MapView' });
   };
 
-  renderCamera = (fromEditor: boolean, loading) => (
+  renderCamera = (fromEditor: boolean, loading: boolean) => (
     <View style={{ flex: 1, flexDirection: 'column' }}>
       <RNCamera
         ref={ref => {
@@ -241,11 +232,6 @@ class CameraView extends React.Component<
       showEditorView
     } = this.props;
 
-    if (!navigation.isFocused()) {
-      console.log('RN - Unmount RNCamera in CameraView');
-      return null;
-    }
-
     if (showEditorView) {
       return this.renderCamera(true, loading);
     }
@@ -253,7 +239,12 @@ class CameraView extends React.Component<
     return (
       <Drawer
         ref={this.handleRightDrawerRef}
-        content={<ObservationsView closeRightDrawer={this.closeRightDrawer} />}
+        content={
+          <ObservationsView
+            closeRightDrawer={this.closeRightDrawer}
+            navigation={navigation}
+          />
+        }
         onCloseStart={onDrawerClose}
         onOpenStart={onDrawerOpen}
         openDrawerOffset={0}
@@ -279,11 +270,11 @@ class CameraView extends React.Component<
             zIndex: 5
           }}
         />
-        {showSavedModal && <SavedModal />}
+        <SavedModal />
         {this.renderCamera(false, loading)}
       </Drawer>
     );
   }
 }
 
-export default withNavigationFocus(CameraView);
+export default CameraView;

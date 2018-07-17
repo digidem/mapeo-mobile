@@ -12,7 +12,6 @@ describe('Categories tests', () => {
   const addListener = () => true;
   const categories = [createCategory()];
   const selectedObservation = createObservation();
-  const listCategories = jest.fn();
   const updateObservation = jest.fn();
   const clearSelectedObservation = jest.fn();
   const field = createField();
@@ -27,7 +26,6 @@ describe('Categories tests', () => {
           categories={categories}
           navigation={createNavigationScreenProp()}
           selectedObservation={selectedObservation}
-          listCategories={listCategories}
           updateObservation={updateObservation}
           allFields={{ [field.id]: field }}
           updateFlow={false}

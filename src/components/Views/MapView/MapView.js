@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { NavigationActions, withNavigationFocus } from 'react-navigation';
+import type { NavigationScreenProp } from 'react-navigation';
 import {
   StyleSheet,
   View,
@@ -37,24 +37,13 @@ import Header from '../../Base/Header';
 import SavedModal from '../../Base/SavedModal';
 import { API_DOMAIN_URL } from '../../../api/base';
 
-export type StateProps = {
-  observations: {
-    [id: string]: Observation
-  },
-  selectedObservation?: Observation,
-  gps?: GPSState,
-  showSavedModal: boolean,
-  selectedStyle?: string
-};
-
 export type DispatchProps = {
-  listObservations: () => void,
   onDrawerClose: () => void,
   onDrawerOpen: () => void
 };
 
 type Props = {
-  navigation: NavigationActions
+  navigation: NavigationScreenProp<*>
 };
 
 const styles = StyleSheet.create({
@@ -87,7 +76,7 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class MapView extends React.PureComponent<Props & StateProps & DispatchProps> {
+class MapView extends React.PureComponent<Props & DispatchProps> {
   rightDrawer: Drawer;
 
   closeRightDrawer = () => {
@@ -107,18 +96,17 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps> {
   };
 
   render() {
-    const {
-      navigation,
-      onDrawerClose,
-      onDrawerOpen,
-      showSavedModal,
-      selectedStyle
-    } = this.props;
+    const { navigation, onDrawerClose, onDrawerOpen } = this.props;
 
     return (
       <Drawer
         ref={this.handleRightDrawerRef}
-        content={<ObservationsView closeRightDrawer={this.closeRightDrawer} />}
+        content={
+          <ObservationsView
+            closeRightDrawer={this.closeRightDrawer}
+            navigation={navigation}
+          />
+        }
         onCloseStart={onDrawerClose}
         onOpenStart={onDrawerOpen}
         openDrawerOffset={0}
@@ -144,8 +132,8 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps> {
             zIndex: 5
           }}
         />
-        {showSavedModal && <SavedModal />}
-        <Map />
+        <SavedModal />
+        <Map navigation={navigation} />
       </Drawer>
     );
   }

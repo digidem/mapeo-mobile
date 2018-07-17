@@ -38,7 +38,6 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
-  listCategories: () => void,
   updateObservation: (obs: Object) => void,
   clearSelectedObservation: () => void
 };
@@ -117,21 +116,6 @@ I18n.translations = {
 };
 
 class Categories extends React.Component<Props & StateProps & DispatchProps> {
-  componentDidMount() {
-    const { listCategories } = this.props;
-
-    listCategories();
-  }
-
-  shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
-    if (nextProps.navigation.isFocused()) {
-      return nextProps !== this.props;
-    }
-
-    return false;
-  }
-
-  map: any;
   handleUpdateObservation = (item: Category) => {
     const {
       allFields,

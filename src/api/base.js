@@ -26,15 +26,22 @@ const request = (
       headers
     })
   )
-    .let(retryBackoff({ initialInterval: 200 }))
+    .retryWhen(errors =>
+      errors.delayWhen(err => {
+        console.log(err.message, route);
+        if (err.message.match(/Network Request Failed/i)) {
+          return Observable.timer(1000);
+        }
+
+        return Observable.throw(err);
+      })
+    )
     .flatMap(response => {
       if (response.ok) {
         return Observable.of(response);
       }
 
       resp = response;
-
-      console.log('RN - ', resp);
 
       return Observable.from(parseAsText ? response.text() : response.json())
         .catch(err => {

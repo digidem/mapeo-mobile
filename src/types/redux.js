@@ -10,6 +10,8 @@ import type { Device } from './device';
 import type { MapState } from './map';
 
 export interface StoreState {
+  appReady: boolean;
+
   observations: {
     [id: string]: Observation
   };

@@ -10,7 +10,7 @@ class Media {
       route: thumbnail
         ? `/media?file=${encodePath(file)}&thumbnail=${encodePath(thumbnail)}`
         : `/media?file=${encodePath(file)}`
-    }).map(id => ({ id: id.id, file, thumbnail }));
+    });
 }
 
 export default Media;

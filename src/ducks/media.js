@@ -70,29 +70,20 @@ export type MediaSaveMeta = {
   generateThumbnail: boolean
 };
 
-export type MediaSavePayload = {
-  resizeUri?: string,
-  cacheUri: string,
-  serverId: string
-};
-
 export const {
   type: MEDIA_SAVE,
   action: mediaSave,
   reducer: mediaSaveReducer
 } = create('MEDIA_SAVE', {
   success: (state, meta, payload) => {
-    const { resizedUri, cacheUri, serverId } = payload;
-    const type = lookup(serverId);
+    const type = lookup(payload);
 
     return update(state, {
       attachments: {
-        [serverId]: {
+        [payload]: {
           $set: resourceSuccess({
             type,
-            id: serverId,
-            originalFallback: cacheUri,
-            thumbnailFallback: resizedUri
+            id: payload
           })
         }
       }

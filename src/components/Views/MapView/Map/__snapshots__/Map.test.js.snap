@@ -4,14 +4,20 @@ exports[`MapView tests snapshots 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <withNavigation(withNavigationFocus(Map))
+  Symbol(enzyme.__unrendered__): <Map
     createObservation={[MockFunction]}
     listObservations={[MockFunction]}
     listStyles={[MockFunction]}
     navigation={
       Object {
-        "addListener": [Function],
-        "isFocused": [Function],
+        "addListener": [MockFunction],
+        "dispatch": [MockFunction],
+        "getParam": [MockFunction],
+        "goBack": [MockFunction],
+        "isFocused": [MockFunction],
+        "navigate": [MockFunction],
+        "setParams": [MockFunction],
+        "state": Object {},
       }
     }
     observations={Object {}}
@@ -57,55 +63,863 @@ ShallowWrapper {
   Symbol(enzyme.__node__): Object {
     "instance": null,
     "key": undefined,
-    "nodeType": "function",
+    "nodeType": "class",
     "props": Object {
-      "children": [Function],
+      "children": Array [
+        <Component
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <UNDEFINED
+            compassEnabled={false}
+            logoEnabled={true}
+            maxZoomLevel={22}
+            onLongPress={[Function]}
+            pitchEnabled={false}
+            rotateEnabled={false}
+            style={
+              Object {
+                "flex": 1,
+              }
+            }
+            zoomLevel={12}
+          />
+          <Component
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "transparent",
+                "bottom": 25,
+                "flexDirection": "row",
+                "justifyContent": "space-around",
+                "position": "absolute",
+                "width": 750,
+                "zIndex": 5,
+              }
+            }
+          >
+            <Component
+              style={
+                Object {
+                  "width": 50,
+                }
+              }
+            />
+            <TouchableOpacity
+              activeOpacity={0.2}
+              onPress={[Function]}
+              style={
+                Object {
+                  "alignSelf": "center",
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/images/add-button.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": 125,
+                    "width": 125,
+                  }
+                }
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.2}
+              onPress={[Function]}
+            >
+              <Icon
+                allowFontScaling={false}
+                color="#ffffff"
+                name="my-location"
+                size={50}
+              />
+            </TouchableOpacity>
+          </Component>
+        </Component>,
+        <Component
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "left": 0,
+              "position": "absolute",
+            }
+          }
+        >
+          <ImageBackground
+            source={
+              Object {
+                "testUri": "../../../src/images/gradient-overlay.png",
+              }
+            }
+            style={
+              Object {
+                "height": 100,
+                "width": 750,
+              }
+            }
+          />
+        </Component>,
+      ],
+      "style": Object {
+        "height": 1334,
+        "width": 750,
+      },
     },
     "ref": null,
-    "rendered": [Function],
-    "type": Object {
-      "$$typeof": Symbol(react.context),
-      "Consumer": [Circular],
-      "Provider": Object {
-        "$$typeof": Symbol(react.provider),
-        "_context": [Circular],
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "children": Array [
+            <UNDEFINED
+              compassEnabled={false}
+              logoEnabled={true}
+              maxZoomLevel={22}
+              onLongPress={[Function]}
+              pitchEnabled={false}
+              rotateEnabled={false}
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+              zoomLevel={12}
+            />,
+            <Component
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "transparent",
+                  "bottom": 25,
+                  "flexDirection": "row",
+                  "justifyContent": "space-around",
+                  "position": "absolute",
+                  "width": 750,
+                  "zIndex": 5,
+                }
+              }
+            >
+              <Component
+                style={
+                  Object {
+                    "width": 50,
+                  }
+                }
+              />
+              <TouchableOpacity
+                activeOpacity={0.2}
+                onPress={[Function]}
+                style={
+                  Object {
+                    "alignSelf": "center",
+                  }
+                }
+              >
+                <Image
+                  source={
+                    Object {
+                      "testUri": "../../../src/images/add-button.png",
+                    }
+                  }
+                  style={
+                    Object {
+                      "height": 125,
+                      "width": 125,
+                    }
+                  }
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.2}
+                onPress={[Function]}
+              >
+                <Icon
+                  allowFontScaling={false}
+                  color="#ffffff"
+                  name="my-location"
+                  size={50}
+                />
+              </TouchableOpacity>
+            </Component>,
+          ],
+          "style": Object {
+            "flex": 1,
+          },
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "centerCoordinate": undefined,
+              "children": Array [
+                null,
+                undefined,
+              ],
+              "compassEnabled": false,
+              "logoEnabled": true,
+              "maxZoomLevel": 22,
+              "minZoomLevel": undefined,
+              "onLongPress": [Function],
+              "pitchEnabled": false,
+              "rotateEnabled": false,
+              "style": Object {
+                "flex": 1,
+              },
+              "styleURL": undefined,
+              "zoomLevel": 12,
+            },
+            "ref": [Function],
+            "rendered": Array [
+              null,
+              undefined,
+            ],
+            "type": undefined,
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "children": Array [
+                <Component
+                  style={
+                    Object {
+                      "width": 50,
+                    }
+                  }
+                />,
+                <TouchableOpacity
+                  activeOpacity={0.2}
+                  onPress={[Function]}
+                  style={
+                    Object {
+                      "alignSelf": "center",
+                    }
+                  }
+                >
+                  <Image
+                    source={
+                      Object {
+                        "testUri": "../../../src/images/add-button.png",
+                      }
+                    }
+                    style={
+                      Object {
+                        "height": 125,
+                        "width": 125,
+                      }
+                    }
+                  />
+                </TouchableOpacity>,
+                <TouchableOpacity
+                  activeOpacity={0.2}
+                  onPress={[Function]}
+                >
+                  <Icon
+                    allowFontScaling={false}
+                    color="#ffffff"
+                    name="my-location"
+                    size={50}
+                  />
+                </TouchableOpacity>,
+              ],
+              "style": Object {
+                "alignItems": "center",
+                "backgroundColor": "transparent",
+                "bottom": 25,
+                "flexDirection": "row",
+                "justifyContent": "space-around",
+                "position": "absolute",
+                "width": 750,
+                "zIndex": 5,
+              },
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "style": Object {
+                    "width": 50,
+                  },
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "activeOpacity": 0.2,
+                  "children": <Image
+                    source={
+                      Object {
+                        "testUri": "../../../src/images/add-button.png",
+                      }
+                    }
+                    style={
+                      Object {
+                        "height": 125,
+                        "width": 125,
+                      }
+                    }
+                  />,
+                  "onPress": [Function],
+                  "style": Object {
+                    "alignSelf": "center",
+                  },
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "source": Object {
+                      "testUri": "../../../src/images/add-button.png",
+                    },
+                    "style": Object {
+                      "height": 125,
+                      "width": 125,
+                    },
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "activeOpacity": 0.2,
+                  "children": <Icon
+                    allowFontScaling={false}
+                    color="#ffffff"
+                    name="my-location"
+                    size={50}
+                  />,
+                  "onPress": [Function],
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "allowFontScaling": false,
+                    "color": "#ffffff",
+                    "name": "my-location",
+                    "size": 50,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                "type": [Function],
+              },
+            ],
+            "type": [Function],
+          },
+        ],
+        "type": [Function],
       },
-      "_calculateChangedBits": null,
-      "_changedBits": 0,
-      "_changedBits2": 0,
-      "_currentRenderer": null,
-      "_currentRenderer2": null,
-      "_currentValue": undefined,
-      "_currentValue2": undefined,
-      "_defaultValue": undefined,
-    },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "children": <ImageBackground
+            source={
+              Object {
+                "testUri": "../../../src/images/gradient-overlay.png",
+              }
+            }
+            style={
+              Object {
+                "height": 100,
+                "width": 750,
+              }
+            }
+          />,
+          "style": Object {
+            "backgroundColor": "transparent",
+            "left": 0,
+            "position": "absolute",
+          },
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "source": Object {
+              "testUri": "../../../src/images/gradient-overlay.png",
+            },
+            "style": Object {
+              "height": 100,
+              "width": 750,
+            },
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": [Function],
+      },
+    ],
+    "type": [Function],
   },
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
       "key": undefined,
-      "nodeType": "function",
+      "nodeType": "class",
       "props": Object {
-        "children": [Function],
+        "children": Array [
+          <Component
+            style={
+              Object {
+                "flex": 1,
+              }
+            }
+          >
+            <UNDEFINED
+              compassEnabled={false}
+              logoEnabled={true}
+              maxZoomLevel={22}
+              onLongPress={[Function]}
+              pitchEnabled={false}
+              rotateEnabled={false}
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+              zoomLevel={12}
+            />
+            <Component
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "transparent",
+                  "bottom": 25,
+                  "flexDirection": "row",
+                  "justifyContent": "space-around",
+                  "position": "absolute",
+                  "width": 750,
+                  "zIndex": 5,
+                }
+              }
+            >
+              <Component
+                style={
+                  Object {
+                    "width": 50,
+                  }
+                }
+              />
+              <TouchableOpacity
+                activeOpacity={0.2}
+                onPress={[Function]}
+                style={
+                  Object {
+                    "alignSelf": "center",
+                  }
+                }
+              >
+                <Image
+                  source={
+                    Object {
+                      "testUri": "../../../src/images/add-button.png",
+                    }
+                  }
+                  style={
+                    Object {
+                      "height": 125,
+                      "width": 125,
+                    }
+                  }
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.2}
+                onPress={[Function]}
+              >
+                <Icon
+                  allowFontScaling={false}
+                  color="#ffffff"
+                  name="my-location"
+                  size={50}
+                />
+              </TouchableOpacity>
+            </Component>
+          </Component>,
+          <Component
+            style={
+              Object {
+                "backgroundColor": "transparent",
+                "left": 0,
+                "position": "absolute",
+              }
+            }
+          >
+            <ImageBackground
+              source={
+                Object {
+                  "testUri": "../../../src/images/gradient-overlay.png",
+                }
+              }
+              style={
+                Object {
+                  "height": 100,
+                  "width": 750,
+                }
+              }
+            />
+          </Component>,
+        ],
+        "style": Object {
+          "height": 1334,
+          "width": 750,
+        },
       },
       "ref": null,
-      "rendered": [Function],
-      "type": Object {
-        "$$typeof": Symbol(react.context),
-        "Consumer": [Circular],
-        "Provider": Object {
-          "$$typeof": Symbol(react.provider),
-          "_context": [Circular],
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "children": Array [
+              <UNDEFINED
+                compassEnabled={false}
+                logoEnabled={true}
+                maxZoomLevel={22}
+                onLongPress={[Function]}
+                pitchEnabled={false}
+                rotateEnabled={false}
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+                zoomLevel={12}
+              />,
+              <Component
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "transparent",
+                    "bottom": 25,
+                    "flexDirection": "row",
+                    "justifyContent": "space-around",
+                    "position": "absolute",
+                    "width": 750,
+                    "zIndex": 5,
+                  }
+                }
+              >
+                <Component
+                  style={
+                    Object {
+                      "width": 50,
+                    }
+                  }
+                />
+                <TouchableOpacity
+                  activeOpacity={0.2}
+                  onPress={[Function]}
+                  style={
+                    Object {
+                      "alignSelf": "center",
+                    }
+                  }
+                >
+                  <Image
+                    source={
+                      Object {
+                        "testUri": "../../../src/images/add-button.png",
+                      }
+                    }
+                    style={
+                      Object {
+                        "height": 125,
+                        "width": 125,
+                      }
+                    }
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  activeOpacity={0.2}
+                  onPress={[Function]}
+                >
+                  <Icon
+                    allowFontScaling={false}
+                    color="#ffffff"
+                    name="my-location"
+                    size={50}
+                  />
+                </TouchableOpacity>
+              </Component>,
+            ],
+            "style": Object {
+              "flex": 1,
+            },
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "centerCoordinate": undefined,
+                "children": Array [
+                  null,
+                  undefined,
+                ],
+                "compassEnabled": false,
+                "logoEnabled": true,
+                "maxZoomLevel": 22,
+                "minZoomLevel": undefined,
+                "onLongPress": [Function],
+                "pitchEnabled": false,
+                "rotateEnabled": false,
+                "style": Object {
+                  "flex": 1,
+                },
+                "styleURL": undefined,
+                "zoomLevel": 12,
+              },
+              "ref": [Function],
+              "rendered": Array [
+                null,
+                undefined,
+              ],
+              "type": undefined,
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "children": Array [
+                  <Component
+                    style={
+                      Object {
+                        "width": 50,
+                      }
+                    }
+                  />,
+                  <TouchableOpacity
+                    activeOpacity={0.2}
+                    onPress={[Function]}
+                    style={
+                      Object {
+                        "alignSelf": "center",
+                      }
+                    }
+                  >
+                    <Image
+                      source={
+                        Object {
+                          "testUri": "../../../src/images/add-button.png",
+                        }
+                      }
+                      style={
+                        Object {
+                          "height": 125,
+                          "width": 125,
+                        }
+                      }
+                    />
+                  </TouchableOpacity>,
+                  <TouchableOpacity
+                    activeOpacity={0.2}
+                    onPress={[Function]}
+                  >
+                    <Icon
+                      allowFontScaling={false}
+                      color="#ffffff"
+                      name="my-location"
+                      size={50}
+                    />
+                  </TouchableOpacity>,
+                ],
+                "style": Object {
+                  "alignItems": "center",
+                  "backgroundColor": "transparent",
+                  "bottom": 25,
+                  "flexDirection": "row",
+                  "justifyContent": "space-around",
+                  "position": "absolute",
+                  "width": 750,
+                  "zIndex": 5,
+                },
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "style": Object {
+                      "width": 50,
+                    },
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "activeOpacity": 0.2,
+                    "children": <Image
+                      source={
+                        Object {
+                          "testUri": "../../../src/images/add-button.png",
+                        }
+                      }
+                      style={
+                        Object {
+                          "height": 125,
+                          "width": 125,
+                        }
+                      }
+                    />,
+                    "onPress": [Function],
+                    "style": Object {
+                      "alignSelf": "center",
+                    },
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "source": Object {
+                        "testUri": "../../../src/images/add-button.png",
+                      },
+                      "style": Object {
+                        "height": 125,
+                        "width": 125,
+                      },
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "activeOpacity": 0.2,
+                    "children": <Icon
+                      allowFontScaling={false}
+                      color="#ffffff"
+                      name="my-location"
+                      size={50}
+                    />,
+                    "onPress": [Function],
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "allowFontScaling": false,
+                      "color": "#ffffff",
+                      "name": "my-location",
+                      "size": 50,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+              ],
+              "type": [Function],
+            },
+          ],
+          "type": [Function],
         },
-        "_calculateChangedBits": null,
-        "_changedBits": 0,
-        "_changedBits2": 0,
-        "_currentRenderer": null,
-        "_currentRenderer2": null,
-        "_currentValue": undefined,
-        "_currentValue2": undefined,
-        "_defaultValue": undefined,
-      },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "children": <ImageBackground
+              source={
+                Object {
+                  "testUri": "../../../src/images/gradient-overlay.png",
+                }
+              }
+              style={
+                Object {
+                  "height": 100,
+                  "width": 750,
+                }
+              }
+            />,
+            "style": Object {
+              "backgroundColor": "transparent",
+              "left": 0,
+              "position": "absolute",
+            },
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "source": Object {
+                "testUri": "../../../src/images/gradient-overlay.png",
+              },
+              "style": Object {
+                "height": 100,
+                "width": 750,
+              },
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": [Function],
+        },
+      ],
+      "type": [Function],
     },
   ],
   Symbol(enzyme.__options__): Object {

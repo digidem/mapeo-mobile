@@ -13,7 +13,7 @@ const persistConfig = {
   key: 'root',
   version: 2,
   storage,
-  whitelist: ['settings', 'modals', 'drawers', 'map'],
+  whitelist: ['settings', 'modals', 'drawers', 'map', 'appReady'],
   stateReconciler: autoMergeLevel1 // see "Merge Process" section for details.
 };
 
@@ -29,6 +29,7 @@ export function configureStore() {
 
 export function createInitialStore() {
   return {
+    appReady: false,
     observations: {},
     categories: {},
     fields: {},

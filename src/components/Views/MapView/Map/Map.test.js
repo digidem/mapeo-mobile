@@ -5,6 +5,7 @@ import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 import Map from './Map';
 import { createObservation } from '../../../../mocks/observations';
+import { createNavigationScreenProp } from '../../../../mocks/navigation';
 
 describe('MapView tests', () => {
   test('snapshots', () => {
@@ -22,7 +23,7 @@ describe('MapView tests', () => {
     tree = shallow(
       <Map
         observations={{}}
-        navigation={{ isFocused, addListener }}
+        navigation={createNavigationScreenProp()}
         selectedObservation={observation}
         listObservations={listObservations}
         createObservation={createObservationMock}

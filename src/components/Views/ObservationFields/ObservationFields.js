@@ -74,24 +74,13 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class ObservationDetails extends React.Component<
+class ObservationDetails extends React.PureComponent<
   Props & StateProps & DispatchProps,
   State
 > {
   constructor(props: StateProps & DispatchProps) {
     super();
     this.state = {};
-  }
-
-  shouldComponentUpdate(
-    nextProps: Props & StateProps & DispatchProps,
-    nextState: State
-  ) {
-    if (nextProps.navigation.isFocused()) {
-      return nextProps !== this.props || nextState !== this.state;
-    }
-
-    return false;
   }
 
   handleSaveObservation = () => {

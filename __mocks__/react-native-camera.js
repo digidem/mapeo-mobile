@@ -1,24 +1,30 @@
 import React from 'react';
 
-const constants = (constants = {
-  Aspect: {},
-  BarCodeType: {},
-  Type: {},
-  CaptureMode: {},
-  CaptureTarget: {},
-  CaptureQuality: {},
-  Orientation: {},
-  FlashMode: {},
-  TorchMode: {}
-});
+const timeout = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-class Camera extends React.Component {
-  static constants = constants;
+export class RNCamera extends React.Component {
+  static Constants = {
+    Aspect: {},
+    BarCodeType: {},
+    Type: { back: 'back', front: 'front' },
+    CaptureMode: {},
+    CaptureTarget: {},
+    CaptureQuality: {},
+    Orientation: {},
+    FlashMode: {},
+    TorchMode: {}
+  };
+
+  takePictureAsync = async () => {
+    await timeout(2000);
+    return {
+      base64: 'base64string'
+    };
+  };
+
   render() {
     return null;
   }
 }
 
-Camera.constants = constants;
-
-export default Camera;
+export default RNCamera;

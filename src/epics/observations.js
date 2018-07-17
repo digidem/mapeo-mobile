@@ -29,10 +29,12 @@ export const observationListEpic = (
   action$
     .ofType(OBSERVATION_LIST)
     .filter(action => action.status === 'Start')
-    .pipe(debounceTime(1000))
-    .flatMap(() =>
-      Observation.list().map(observations => observationList('', observations))
-    );
+    .pipe(debounceTime(500))
+    .flatMap(() => {
+      return Observation.list().map(observations =>
+        observationList('', observations)
+      );
+    });
 
 export const observationSaveEpic = (
   action$: ActionsObservable<Action<CreateRequest, ObservationType>>,
@@ -45,13 +47,13 @@ export const observationSaveEpic = (
         action.status === 'Start' && !!store.getState().selectedObservation
     )
     .flatMap(action => {
-      return Observation.create(
-        store.getState().selectedObservation
-      ).flatMap(observation =>
-        Observable.merge(
-          Observable.of(observationSave(action.meta, observation)),
-          Observable.of(modalShow('saved'))
-        )
+      return Observation.create(store.getState().selectedObservation).flatMap(
+        observation =>
+          Observable.merge(
+            Observable.of(observationSave(action.meta, observation)),
+            Observable.of(observationList('')),
+            Observable.of(modalShow('saved'))
+          )
       );
     });
 
@@ -67,11 +69,16 @@ export const observationUpdateSaveEpic = (
         ((!action.meta && !!store.getState().selectedObservation) ||
           action.meta)
     )
-    .flatMap(action =>
-      Observation.update(
+    .flatMap(action => {
+      return Observation.update(
         action.meta || store.getState().selectedObservation
-      ).map(observation => observationUpdateSave(action.meta, observation))
-    );
+      ).flatMap(observation => {
+        return Observable.merge(
+          Observable.of(observationUpdateSave(action.meta, observation)),
+          Observable.of(observationList(''))
+        );
+      });
+    });
 
 export default [
   observationListEpic,

@@ -9,7 +9,7 @@ import {
   Dimensions,
   PermissionsAndroid
 } from 'react-native';
-import { NavigationActions, withNavigationFocus } from 'react-navigation';
+import type { NavigationScreenProp } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import type { Observation } from '@types/observation';
@@ -33,16 +33,14 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
-  listObservations: () => void,
   createObservation: (observation: Observation) => void,
   updateObservation: (observation: Observation) => void,
   selectObservation: (observation: Observation) => void,
-  updateObservationSource: () => void,
-  listStyles: () => void
+  updateObservationSource: () => void
 };
 
 type Props = {
-  navigation: Object
+  navigation: NavigationScreenProp<*>
 };
 
 const styles = StyleSheet.create({
@@ -113,37 +111,13 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
 });
 
 class Map extends React.Component<Props & StateProps & DispatchProps> {
+  map: any;
+
   constructor() {
     super();
 
     MapboxGL.setAccessToken(env.accessToken);
   }
-
-  componentDidMount() {
-    const {
-      observations,
-      listObservations,
-      selectedStyle,
-      listStyles
-    } = this.props;
-
-    listObservations();
-
-    if (!selectedStyle) {
-      listStyles();
-    }
-  }
-
-  shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
-    if (nextProps.navigation.isFocused()) {
-      nextProps.listObservations();
-      return nextProps !== this.props;
-    }
-
-    return false;
-  }
-
-  map: any;
 
   handleCreateObservation = () => {
     const {
@@ -198,7 +172,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
     createObservation(initialObservation);
   };
 
-  handleMapViewRef = c => {
+  handleMapViewRef = (c: any) => {
     this.map = c;
   };
 
@@ -223,7 +197,9 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
         <View style={{ flex: 1 }}>
           <MapboxGL.MapView
             style={{ flex: 1 }}
-            centerCoordinate={coords ? [coords.longitude, coords.latitude] : undefined}
+            centerCoordinate={
+              coords ? [coords.longitude, coords.latitude] : undefined
+            }
             ref={this.handleMapViewRef}
             zoomLevel={
               selectedStyle
@@ -338,4 +314,4 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
   }
 }
 
-export default withNavigationFocus(Map);
+export default Map;
