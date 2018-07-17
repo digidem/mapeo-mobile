@@ -26,6 +26,7 @@ const request = (
       headers
     })
   )
+    // TODO: This retry does not work
     .retryWhen(errors =>
       errors.delayWhen(err => {
         console.log(err.message, route);

@@ -29,14 +29,23 @@ import throttle from 'lodash/throttle';
 import 'rxjs';
 import { configureStore } from './lib/store';
 import { locationUpdate, locationError } from './ducks/gps';
-import { appReady } from './ducks/app';
-import AppNavigation from './components/AppNavigation';
+import { observationList } from './ducks/observations';
+import { styleList } from './ducks/map';
+import { fieldList } from './ducks/fields';
+import { categoryList } from './ducks/categories';
+import { API_DOMAIN_URL } from './api/base';
+import AppNavigation from './components/AppNavigation/AppNavigation';
 import SplashScreen from './images/splash-screen.png';
 
-export default class App extends React.PureComponent<null, null> {
+type State = {
+  ready: boolean
+};
+
+export default class App extends React.PureComponent<null, State> {
   store: any;
   persistor: any;
   loc: any;
+  timeout: TimeoutID;
 
   constructor() {
     super();
@@ -45,6 +54,7 @@ export default class App extends React.PureComponent<null, null> {
     this.store = store;
     this.persistor = persistor;
     this.loc = new GeoLocation();
+    this.state = { ready: false };
   }
 
   async componentDidMount() {
@@ -62,7 +72,21 @@ export default class App extends React.PureComponent<null, null> {
       this.handlePositionError
     );
 
-    this.store.dispatch(appReady());
+    this.onReady(() => {
+      this.store.dispatch(observationList(''));
+      this.store.dispatch(styleList(''));
+      this.store.dispatch(categoryList(''));
+      this.setState({ ready: true });
+    });
+  }
+
+  // Ping the rnnodeapp server every 500ms until it responds
+  onReady(callback: () => void) {
+    const pingServer = () =>
+      fetch(API_DOMAIN_URL + '/ready')
+        .then(() => callback())
+        .catch(() => this.timeout = setTimeout(pingServer, 500));
+    pingServer();
   }
 
   handlePositionChange = (position: Position) => {
@@ -74,11 +98,12 @@ export default class App extends React.PureComponent<null, null> {
   };
 
   componentWillUnmount() {
+    clearTimeout(this.timeout);
     this.loc.stopObserving();
   }
 
   render() {
-    if (!this.store || !this.persistor) {
+    if (!this.state.ready || !this.store || !this.persistor) {
       return (
         <Image
           source={SplashScreen}
