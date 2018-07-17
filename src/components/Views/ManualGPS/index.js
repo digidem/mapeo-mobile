@@ -17,7 +17,7 @@ const mapStateToProps = (state: StoreState): StateProps => ({
   observationSource: state.observationSource.source
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
+const mapDispatchToProps = (dispatch: Dispatch<*>): DispatchProps => ({
   updateObservation: observation => dispatch(observationUpdate(observation)),
   setGPSFormat: format => dispatch(gpsFormatSettingsSet(format)),
   saveObservation: () => dispatch(observationSave())

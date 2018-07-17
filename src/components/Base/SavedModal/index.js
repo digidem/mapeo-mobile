@@ -10,8 +10,7 @@ const mapStateToProps = state => {
     selectedObservation: state.selectedObservation,
     categories: state.categories,
     gpsFormat: state.settings.gpsFormat,
-    icons: state.icons,
-    show: state.modals.saved
+    icons: state.icons
   };
 };
 

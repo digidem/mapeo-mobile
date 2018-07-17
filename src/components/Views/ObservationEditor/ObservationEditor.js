@@ -649,8 +649,7 @@ class ObservationEditor extends React.Component<
     }
 
     if (!selectedObservation) {
-      navigation.goBack();
-      return <View />;
+      return null;
     }
 
     return (
