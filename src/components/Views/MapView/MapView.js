@@ -37,16 +37,6 @@ import Header from '../../Base/Header';
 import SavedModal from '../../Base/SavedModal';
 import { API_DOMAIN_URL } from '../../../api/base';
 
-export type StateProps = {
-  observations: {
-    [id: string]: Observation
-  },
-  selectedObservation?: Observation,
-  gps?: GPSState,
-  showSavedModal: boolean,
-  selectedStyle?: string
-};
-
 export type DispatchProps = {
   onDrawerClose: () => void,
   onDrawerOpen: () => void,
@@ -87,7 +77,7 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class MapView extends React.PureComponent<Props & StateProps & DispatchProps> {
+class MapView extends React.PureComponent<Props & DispatchProps> {
   rightDrawer: Drawer;
   focusListener: any;
 
@@ -124,13 +114,7 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps> {
   };
 
   render() {
-    const {
-      navigation,
-      onDrawerClose,
-      onDrawerOpen,
-      showSavedModal,
-      selectedStyle
-    } = this.props;
+    const { navigation, onDrawerClose, onDrawerOpen } = this.props;
 
     return (
       <Drawer
@@ -161,7 +145,7 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps> {
             zIndex: 5
           }}
         />
-        {showSavedModal && <SavedModal />}
+        <SavedModal />
         <Map navigation={navigation} />
       </Drawer>
     );

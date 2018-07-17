@@ -18,7 +18,9 @@ class Toast extends React.PureComponent<Props, State> {
   componentDidMount() {
     const { onHide } = this.props;
     this.timer = setTimeout(() => {
-      this.setState({ visible: false });
+      this.setState({ visible: false }, () => {
+        onHide();
+      });
     }, 2000);
   }
 

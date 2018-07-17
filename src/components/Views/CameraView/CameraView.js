@@ -265,7 +265,7 @@ class CameraView extends React.Component<
             zIndex: 5
           }}
         />
-        {showSavedModal && <SavedModal />}
+        <SavedModal />
         {this.renderCamera(false, loading)}
       </Drawer>
     );

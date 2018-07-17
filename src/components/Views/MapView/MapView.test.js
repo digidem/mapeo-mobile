@@ -13,57 +13,15 @@ jest.mock('backoff-rxjs', () => ({ retryBackoff: () => null }));
 
 describe('MapView tests', () => {
   test('snapshots', () => {
-    const observation = createObservation();
-    const observations = {
-      [observation.id]: observation
-    };
-    const props = [
-      {
-        showSavedModal: true,
-        observations,
-        selectedObservation: undefined,
-        gps: undefined,
-        selectedStyle: undefined
-      },
-      {
-        showSavedModal: false,
-        observations,
-        selectedObservation: undefined,
-        gps: undefined,
-        selectedStyle: undefined
-      },
-      {
-        showSavedModal: true,
-        observations,
-        selectedObservation: observation,
-        gps: undefined,
-        selectedStyle: undefined
-      },
-      {
-        showSavedModal: false,
-        observations,
-        selectedObservation: observation,
-        gps: undefined,
-        selectedStyle: undefined
-      }
-    ];
-
     let tree;
-    props.forEach(p => {
-      tree = renderer.create(
-        <MapView
-          showSavedModal={p.showSavedModal}
-          observations={p.observations}
-          selectedObservation={p.selectedObservation}
-          gps={p.gps}
-          selectedStyle={p.selectedStyle}
-          navigation={createNavigationScreenProp()}
-          onDrawerOpen={jest.fn()}
-          onDrawerClose={jest.fn()}
-          listObservations={jest.fn()}
-        />
-      );
-      expect(tree).toMatchSnapshot();
-    });
+    tree = renderer.create(
+      <MapView
+        navigation={createNavigationScreenProp()}
+        onDrawerOpen={jest.fn()}
+        onDrawerClose={jest.fn()}
+        listObservations={jest.fn()}
+      />
+    );
+    expect(tree).toMatchSnapshot();
   });
 });

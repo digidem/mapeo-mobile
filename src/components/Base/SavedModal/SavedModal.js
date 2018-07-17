@@ -33,7 +33,8 @@ export type StateProps = {
   gpsFormat: GPSFormat,
   icons: {
     [id: string]: string
-  }
+  },
+  show: boolean
 };
 
 export type DispatchProps = {
@@ -107,10 +108,11 @@ class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
       selectedObservation,
       categories,
       gpsFormat,
-      icons
+      icons,
+      show
     } = this.props;
 
-    if (!selectedObservation) {
+    if (!selectedObservation || !show) {
       return null;
     }
 
