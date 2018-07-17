@@ -14,10 +14,10 @@ import Categories from './Categories';
 import type { StateProps } from './Categories';
 
 function mapStateToProps(state: StoreState): StateProps {
-  const categories = values(state.app.categories).sort(
+  const categories = values(state.categories).sort(
     (a, b) => a.name - b.name
   );
-  const { selectedObservation, observations } = state.app;
+  const { selectedObservation, observations } = state;
 
   let updateFlow = false;
   if (selectedObservation && observations[selectedObservation.id]) {
@@ -25,11 +25,11 @@ function mapStateToProps(state: StoreState): StateProps {
   }
 
   return {
-    allFields: state.app.fields,
+    allFields: state.fields,
     categories,
     selectedObservation,
     updateFlow,
-    icons: state.app.icons
+    icons: state.icons
   };
 }
 

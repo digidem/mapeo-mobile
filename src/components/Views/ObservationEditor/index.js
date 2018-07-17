@@ -15,26 +15,26 @@ import ObservationEditor from './ObservationEditor';
 import type { Props, StateProps, DispatchProps } from './ObservationEditor';
 
 function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
-  const category = state.app.selectedObservation
-    ? state.app.categories[state.app.selectedObservation.categoryId]
+  const category = state.selectedObservation
+    ? state.categories[state.selectedObservation.categoryId]
     : undefined;
 
   return {
     category:
-      (state.app.categories &&
+      (state.categories &&
         ownProps.navigation.state &&
         ownProps.navigation.state.params &&
         ownProps.navigation.state.params.category &&
-        state.app.categories[ownProps.navigation.state.params.category]) ||
+        state.categories[ownProps.navigation.state.params.category]) ||
       category,
-    selectedObservation: state.app.selectedObservation,
-    observations: values(state.app.observations),
-    observationSource: state.app.observationSource.source,
-    cancelModalVisible: state.app.modals.cancelled,
-    gps: state.app.gps,
-    manualGPSModalVisible: state.app.modals.manualGPS,
-    gpsFormat: state.app.settings.gpsFormat,
-    icons: state.app.icons
+    selectedObservation: state.selectedObservation,
+    observations: values(state.observations),
+    observationSource: state.observationSource.source,
+    cancelModalVisible: state.modals.cancelled,
+    gps: state.gps,
+    manualGPSModalVisible: state.modals.manualGPS,
+    gpsFormat: state.settings.gpsFormat,
+    icons: state.icons
   };
 }
 

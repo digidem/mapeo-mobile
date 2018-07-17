@@ -8,7 +8,7 @@ import type { StateProps } from './FieldInput';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
-    selectedObservation: state.app.selectedObservation
+    selectedObservation: state.selectedObservation
   };
 }
 

@@ -9,9 +9,9 @@ import { styleSelect, styleList } from '../../../ducks/map';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
-    gpsFormat: state.app.settings.gpsFormat,
-    selectedStyle: state.app.map.selectedStyle,
-    styles: state.app.map.styles
+    gpsFormat: state.settings.gpsFormat,
+    selectedStyle: state.map.selectedStyle,
+    styles: state.map.styles
   };
 }
 

@@ -11,8 +11,8 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
   const id = ownProps.navigation.getParam('photoId', '');
 
   return {
-    selectedObservation: state.app.selectedObservation,
-    attachment: id ? state.app.attachments[id] : undefined
+    selectedObservation: state.selectedObservation,
+    attachment: id ? state.attachments[id] : undefined
   };
 }
 

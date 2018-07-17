@@ -14,10 +14,10 @@ import type { DispatchProps, StateProps } from './Map';
 import { styleList } from '../../../../ducks/map';
 
 const mapStateToProps = (state: StoreState): StateProps => ({
-  observations: state.app.observations,
-  selectedObservation: state.app.selectedObservation,
-  coords: state.app.gps.coords,
-  selectedStyle: state.app.map.selectedStyle
+  observations: state.observations,
+  selectedObservation: state.selectedObservation,
+  coords: state.gps.coords,
+  selectedStyle: state.map.selectedStyle
 });
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {

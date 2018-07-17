@@ -1,7 +1,7 @@
 // @flow
 import { CameraRoll } from 'react-native';
 import { Observable } from 'rxjs';
-import * as ImageResizer from 'react-native-image-resizer';
+import ImageResizer from 'react-native-image-resizer';
 
 type MediaType = 'photo' | 'video';
 
@@ -15,7 +15,7 @@ export const saveToCameraRoll = (uri: string, type: MediaType) => {
 
 export const generateThumbnail = (uri: string) => {
   return Observable.from(
-    ImageResizer.default.createResizedImage(uri, 300, 300, 'JPEG', 50)
+    ImageResizer.createResizedImage(uri, 300, 300, 'JPEG', 50)
   );
 };
 

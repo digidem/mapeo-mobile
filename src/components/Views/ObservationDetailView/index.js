@@ -12,10 +12,10 @@ import type { StateProps, DispatchProps } from './ObservationDetailView';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
-    selectedObservation: state.app.selectedObservation,
-    categories: state.app.categories,
-    gpsFormat: state.app.settings.gpsFormat,
-    icons: state.app.icons
+    selectedObservation: state.selectedObservation,
+    categories: state.categories,
+    gpsFormat: state.settings.gpsFormat,
+    icons: state.icons
   };
 }
 

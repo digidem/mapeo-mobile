@@ -5,7 +5,7 @@ import Header from './Header';
 import type { StateProps } from './Header';
 
 const mapStateToProps = (state: StoreState): StateProps => ({
-  gps: state.app.gps
+  gps: state.gps
 });
 
 export default connect(mapStateToProps, null)(Header);

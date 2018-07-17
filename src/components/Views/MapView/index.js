@@ -6,7 +6,7 @@ import { drawerClose, drawerOpen } from '../../../ducks/drawers';
 import { observationList } from '../../../ducks/observations';
 
 const mapStateToProps = state => ({
-  showSavedModal: state.app.modals.saved
+  showSavedModal: state.modals.saved
 });
 
 const mapDispatchToProps = dispatch => ({

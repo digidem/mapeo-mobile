@@ -137,6 +137,7 @@ class CameraView extends React.Component<
           const initialObservation = applyObservationDefaults({
             id: size(observations) + 1
           });
+          console.log('updating source, creating, saving media')
           updateObservationSource();
           createObservation(initialObservation);
           saveMedia({ source: data.uri, generateThumbnail: true });

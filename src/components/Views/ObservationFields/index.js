@@ -9,8 +9,8 @@ import type { Props, StateProps, DispatchProps } from './ObservationFields';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
-    allFields: state.app.fields,
-    selectedObservation: state.app.selectedObservation
+    allFields: state.fields,
+    selectedObservation: state.selectedObservation
   };
 }
 
