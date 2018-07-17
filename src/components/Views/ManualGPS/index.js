@@ -12,9 +12,9 @@ import { gpsFormatSettingsSet } from '../../../ducks/settings';
 import { modalShow } from '../../../ducks/modals';
 
 const mapStateToProps = (state: StoreState): StateProps => ({
-  gpsFormat: state.app.settings.gpsFormat,
-  selectedObservation: state.app.selectedObservation,
-  observationSource: state.app.observationSource.source
+  gpsFormat: state.settings.gpsFormat,
+  selectedObservation: state.selectedObservation,
+  observationSource: state.observationSource.source
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({

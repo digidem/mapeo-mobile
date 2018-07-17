@@ -42,11 +42,11 @@ export const observationSaveEpic = (
     .ofType(OBSERVATION_SAVE)
     .filter(
       action =>
-        action.status === 'Start' && !!store.getState().app.selectedObservation
+        action.status === 'Start' && !!store.getState().selectedObservation
     )
     .flatMap(action => {
       return Observation.create(
-        store.getState().app.selectedObservation
+        store.getState().selectedObservation
       ).flatMap(observation =>
         Observable.merge(
           Observable.of(observationSave(action.meta, observation)),
@@ -64,12 +64,12 @@ export const observationUpdateSaveEpic = (
     .filter(
       action =>
         action.status === 'Start' &&
-        ((!action.meta && !!store.getState().app.selectedObservation) ||
+        ((!action.meta && !!store.getState().selectedObservation) ||
           action.meta)
     )
     .flatMap(action =>
       Observation.update(
-        action.meta || store.getState().app.selectedObservation
+        action.meta || store.getState().selectedObservation
       ).map(observation => observationUpdateSave(action.meta, observation))
     );
 

@@ -16,16 +16,16 @@ import ObservationsView from './ObservationsView';
 import type { StateProps, DispatchProps } from './ObservationsView';
 
 function mapStateToProps(state: StoreState): StateProps {
-  const observations = values(state.app.observations).sort(
+  const observations = values(state.observations).sort(
     (a, b) => new Date(b.created) - new Date(a.created)
   );
-  const drawerOpened = state.app.drawers.observations;
+  const drawerOpened = state.drawers.observations;
   return {
     drawerOpened,
     observations,
-    categories: state.app.categories,
-    icons: state.app.icons,
-    resizedImages: state.app.resizedImages
+    categories: state.categories,
+    icons: state.icons,
+    resizedImages: state.resizedImages
   };
 }
 

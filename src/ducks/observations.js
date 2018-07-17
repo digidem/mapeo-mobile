@@ -167,7 +167,7 @@ export const {
 });
 
 export const selectObservation = createSelector(
-  [(state: StoreState, id: string): Observation => state.app.observations[id]],
+  [(state: StoreState, id: string): Observation => state.observations[id]],
   (observation: Observation): Observation => observation,
   (observation: Observation, id: string): string => id
 );

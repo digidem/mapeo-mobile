@@ -13,20 +13,18 @@ import settings from './settings';
 import map from './map';
 import media from './media';
 
-const rootReducer = combineReducers({
-  app: appCombineReducers(
-    ...categories,
-    ...devices,
-    ...drawers,
-    ...fields,
-    ...observationSource,
-    ...settings,
-    ...gps,
-    ...modals,
-    ...observations,
-    ...map,
-    ...media
-  )
-});
+const rootReducer = appCombineReducers(
+  ...categories,
+  ...devices,
+  ...drawers,
+  ...fields,
+  ...observationSource,
+  ...settings,
+  ...gps,
+  ...modals,
+  ...observations,
+  ...map,
+  ...media
+)
 
 export default rootReducer;

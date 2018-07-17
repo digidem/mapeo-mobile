@@ -17,9 +17,9 @@ import type { StateProps, DispatchProps } from './SyncView';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
-    devices: values(state.app.devices),
-    selectedDevice: state.app.selectedDevice,
-    syncedModalVisible: state.app.modals.synced
+    devices: values(state.devices),
+    selectedDevice: state.selectedDevice,
+    syncedModalVisible: state.modals.synced
   };
 }
 

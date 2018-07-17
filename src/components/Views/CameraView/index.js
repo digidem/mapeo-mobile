@@ -14,9 +14,9 @@ import { drawerClose, drawerOpen } from '../../../ducks/drawers';
 
 function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
   return {
-    observations: state.app.observations,
-    selectedObservation: state.app.selectedObservation,
-    showSavedModal: state.app.modals.saved,
+    observations: state.observations,
+    selectedObservation: state.selectedObservation,
+    showSavedModal: state.modals.saved,
     showEditorView:
       ownProps.navigation &&
       ownProps.navigation.state &&

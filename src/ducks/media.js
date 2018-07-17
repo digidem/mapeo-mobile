@@ -1,7 +1,7 @@
 // @flow
 import update from 'immutability-helper';
 import { create } from '../lib/redux';
-import type { StoreState, AppStoreState } from '../types/redux';
+import type { StoreState } from '../types/redux';
 import { lookup } from 'mime-types';
 import {
   resourcePending,

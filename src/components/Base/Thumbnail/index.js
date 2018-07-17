@@ -7,7 +7,7 @@ import Thumbnail from './Thumbnail';
 
 const mapStateToProps = (state: StoreState, ownProps: Props) => {
   return {
-    attachment: state.app.attachments[ownProps.attachmentId]
+    attachment: state.attachments[ownProps.attachmentId]
   };
 };
 

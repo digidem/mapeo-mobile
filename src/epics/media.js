@@ -37,7 +37,7 @@ export const mediaLoadingEpic = (
           })
         : Media.backup(source);
       const { mediaId, observation } = action.meta;
-      const observationId = store.getState().app.attachments[mediaId]
+      const observationId = store.getState().attachments[mediaId]
         .observation;
       const meta = {
         observationId: observation,
@@ -84,9 +84,9 @@ export const mediaSaveEpic = (
       const type = lookup(meta.source) || '';
       const observation = meta.observationId || 'selected';
 
-      let updatedObservation = store.getState().app.selectedObservation;
+      let updatedObservation = store.getState().selectedObservation;
       if (meta.observationId) {
-        updatedObservation = store.getState().app.observations[
+        updatedObservation = store.getState().observations[
           meta.observationId
         ];
       }

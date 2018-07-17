@@ -9,7 +9,7 @@ import type { ObservationSourceState } from './observationSource';
 import type { Device } from './device';
 import type { MapState } from './map';
 
-export interface AppStoreState {
+export interface StoreState {
   observations: {
     [id: string]: Observation
   };
@@ -57,12 +57,6 @@ export type SettingsState = {
   gpsFormat: GPSFormat
 };
 
-export interface StoreState {
-  app: AppStoreState;
-
-  mainStack: any;
-}
-
 export type ActionStatus = 'Start' | 'Error' | 'Success';
 
 export interface Action<M, P> {
@@ -74,9 +68,9 @@ export interface Action<M, P> {
 }
 
 export type Reducers = {
-  start?: (state: AppStoreState, meta: any) => AppStoreState,
-  success?: (state: AppStoreState, meta: any, payload: any) => AppStoreState,
-  error?: (state: AppStoreState, meta: any, error: Error) => AppStoreState
+  start?: (state: StoreState, meta: any) => StoreState,
+  success?: (state: StoreState, meta: any, payload: any) => StoreState,
+  error?: (state: StoreState, meta: any, error: Error) => StoreState
 };
 
 export type ResourceStatus = 'Pending' | 'Success' | 'Failed';

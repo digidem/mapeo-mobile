@@ -10,11 +10,11 @@ import {
 export type GPSFormat = 'DD' | 'DDM' | 'DMS' | 'UTM';
 
 export type GPSStatus =
-  | PERMISSION_DENIED
-  | UNAVAILABLE
-  | SEARCHING
-  | LOW_ACCURACY
-  | HIGH_ACCURACY;
+  | 'PERMISSION_DENIED'
+  | 'UNAVAILABLE'
+  | 'SEARCHING'
+  | 'LOW_ACCURACY'
+  | 'HIGH_ACCURACY';
 
 export type Coordinates = {
   longitude: number,

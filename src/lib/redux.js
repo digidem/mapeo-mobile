@@ -1,5 +1,5 @@
 // @flow
-import { AppStoreState, Action } from '../types/redux';
+import { StoreState, Action } from '../types/redux';
 import type { Reducers } from '../types/redux';
 import { createInitialStore } from './store';
 
@@ -9,7 +9,7 @@ export function create<M, P>(
 ): {
   type: string,
   action: (meta: M, payload?: P | Error) => Action<M, P>,
-  reducer: (state: AppStoreState, action: Action<M, P>) => AppStoreState
+  reducer: (state: StoreState, action: Action<M, P>) => StoreState
 } {
   return {
     type,
@@ -31,7 +31,7 @@ export function create<M, P>(
         payload
       };
     },
-    reducer: (state: AppStoreState, action: Action<M, P>) => {
+    reducer: (state: StoreState, action: Action<M, P>) => {
       if (action.type === type) {
         switch (action.status) {
           case 'Start':
@@ -61,7 +61,7 @@ export function create<M, P>(
 }
 
 export const combineReducers = (...reducers: Function[]): Function => (
-  state: AppStoreState,
+  state: StoreState,
   action: Action<any, any>
 ) => {
   let newState = state;

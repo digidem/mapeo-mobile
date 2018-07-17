@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1';
 import { createEpicMiddleware } from 'redux-observable';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import rootEpic from '../epics';
@@ -11,10 +11,10 @@ const epicMiddleware = createEpicMiddleware(rootEpic);
 
 const persistConfig = {
   key: 'root',
-  version: 1,
+  version: 2,
   storage,
   whitelist: ['settings', 'modals', 'drawers', 'map'],
-  stateReconciler: autoMergeLevel2 // see "Merge Process" section for details.
+  stateReconciler: autoMergeLevel1 // see "Merge Process" section for details.
 };
 
 export function configureStore() {
