@@ -37,6 +37,8 @@ class Observation {
       route: `/observations/${observation.id}`,
       body: {
         id: observation.id,
+        lat: observation.lat || undefined,
+        lon: observation.lon || undefined,
         properties: observation
       }
     }).map(applyObservationDefaults);

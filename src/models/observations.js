@@ -16,6 +16,6 @@ export const applyObservationDefaults = (partial: Object): Observation => ({
   ...partial.properties,
 
   id: partial.id,
-  lat: parseInt(partial.lat) || 0,
-  lon: parseInt(partial.lon) || 0
+  lat: parseFloat(partial.lat) || parseFloat(partial.properties.lat) || 0,
+  lon: parseFloat(partial.lon) || parseFloat(partial.properties.lon) || 0
 });
