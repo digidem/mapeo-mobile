@@ -239,7 +239,12 @@ class CameraView extends React.Component<
     return (
       <Drawer
         ref={this.handleRightDrawerRef}
-        content={<ObservationsView closeRightDrawer={this.closeRightDrawer} />}
+        content={
+          <ObservationsView
+            closeRightDrawer={this.closeRightDrawer}
+            navigation={navigation}
+          />
+        }
         onCloseStart={onDrawerClose}
         onOpenStart={onDrawerOpen}
         openDrawerOffset={0}

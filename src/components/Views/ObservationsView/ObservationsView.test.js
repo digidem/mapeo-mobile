@@ -28,8 +28,6 @@ describe('ObservationsView tests', () => {
         selectObservation={jest.fn()}
         closeRightDrawer={closeRightDrawer}
         navigation={createNavigationScreenProp()}
-        listCategories={jest.fn()}
-        listObservations={jest.fn()}
       />
     );
     expect(tree).toMatchSnapshot();

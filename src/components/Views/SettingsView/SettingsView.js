@@ -8,7 +8,7 @@ import {
   Picker,
   Dimensions
 } from 'react-native';
-import { NavigationActions, withNavigationFocus } from 'react-navigation';
+import type { NavigationScreenProp } from 'react-navigation';
 import I18n from 'react-native-i18n';
 import LeftChevron from 'react-native-vector-icons/Feather';
 import { LIGHT_GREY, WHITE, BLACK } from '../../../lib/styles';
@@ -16,7 +16,7 @@ import type { GPSFormat } from '../../../types/gps';
 import type { Style } from '../../../types/map';
 
 type Props = {
-  navigation: NavigationActions
+  navigation: NavigationScreenProp<*>
 };
 
 export type StateProps = {
@@ -27,8 +27,7 @@ export type StateProps = {
 
 export type DispatchProps = {
   setGPSFormat: (format: GPSFormat) => void,
-  setSelectedStyle: (style: Style) => void,
-  listStyles: () => void
+  setSelectedStyle: (style: Style) => void
 };
 
 const styles = StyleSheet.create({
@@ -92,19 +91,9 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class SettingsView extends React.Component<Props & StateProps & DispatchProps> {
-  componentDidMount() {
-    const { listStyles } = this.props;
-    listStyles();
-  }
-
-  shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
-    if (nextProps.navigation.isFocused()) {
-      return nextProps !== this.props;
-    }
-    return false;
-  }
-
+class SettingsView extends React.PureComponent<
+  Props & StateProps & DispatchProps
+> {
   handleValueSelect = (format: GPSFormat) => {
     const { setGPSFormat } = this.props;
 
@@ -195,4 +184,4 @@ class SettingsView extends React.Component<Props & StateProps & DispatchProps> {
   }
 }
 
-export default withNavigationFocus(SettingsView);
+export default SettingsView;

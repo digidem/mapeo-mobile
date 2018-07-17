@@ -10,15 +10,33 @@ interface State {
   appState: any;
 }
 
-class AppNavigation extends React.PureComponent<{}, State> {
+interface StateProps {
+  appReady: boolean;
+}
+
+class AppNavigation extends React.PureComponent<StateProps, State> {
   state = {
     appState: AppState.currentState,
     showSplash: true
   };
 
   componentDidMount() {
+    const { appReady } = this.props;
+
     AppState.addEventListener('change', this.handleAppStateChange);
     this.timeout = setTimeout(() => this.setState({ showSplash: false }), 500);
+
+    if (!appReady) {
+      clearTimeout(this.timeout);
+    }
+  }
+
+  componentWillReceiveProps(nextProps: StateProps) {
+    const { showSplash } = this.state;
+
+    if (showSplash && nextProps.appReady) {
+      this.setState({ showSplash: false });
+    }
   }
 
   componentWillUnmount() {

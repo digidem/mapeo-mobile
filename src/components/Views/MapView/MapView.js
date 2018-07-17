@@ -39,8 +39,7 @@ import { API_DOMAIN_URL } from '../../../api/base';
 
 export type DispatchProps = {
   onDrawerClose: () => void,
-  onDrawerOpen: () => void,
-  listObservations: () => void
+  onDrawerOpen: () => void
 };
 
 type Props = {
@@ -79,7 +78,6 @@ I18n.translations = {
 
 class MapView extends React.PureComponent<Props & DispatchProps> {
   rightDrawer: Drawer;
-  focusListener: any;
 
   closeRightDrawer = () => {
     this.rightDrawer.close();
@@ -97,29 +95,18 @@ class MapView extends React.PureComponent<Props & DispatchProps> {
     this.props.navigation.navigate({ routeName: 'CameraView' });
   };
 
-  componentDidMount() {
-    const { navigation } = this.props;
-
-    this.focusListener = navigation.addListener('willFocus', this.onFocus);
-  }
-
-  componentWillUnmount() {
-    this.focusListener.remove();
-  }
-
-  onFocus = () => {
-    const { listObservations } = this.props;
-
-    listObservations();
-  };
-
   render() {
     const { navigation, onDrawerClose, onDrawerOpen } = this.props;
 
     return (
       <Drawer
         ref={this.handleRightDrawerRef}
-        content={<ObservationsView closeRightDrawer={this.closeRightDrawer} />}
+        content={
+          <ObservationsView
+            closeRightDrawer={this.closeRightDrawer}
+            navigation={navigation}
+          />
+        }
         onCloseStart={onDrawerClose}
         onOpenStart={onDrawerOpen}
         openDrawerOffset={0}

@@ -133,6 +133,18 @@ ShallowWrapper {
       "closedDrawerOffset": 0,
       "content": <Unknown
         closeRightDrawer={[Function]}
+        navigation={
+          Object {
+            "addListener": [MockFunction],
+            "dispatch": [MockFunction],
+            "getParam": [MockFunction],
+            "goBack": [MockFunction],
+            "isFocused": [MockFunction],
+            "navigate": [MockFunction],
+            "setParams": [MockFunction],
+            "state": Object {},
+          }
+        }
       />,
       "disabled": false,
       "elevation": 0,
@@ -459,6 +471,18 @@ ShallowWrapper {
         "closedDrawerOffset": 0,
         "content": <Unknown
           closeRightDrawer={[Function]}
+          navigation={
+            Object {
+              "addListener": [MockFunction],
+              "dispatch": [MockFunction],
+              "getParam": [MockFunction],
+              "goBack": [MockFunction],
+              "isFocused": [MockFunction],
+              "navigate": [MockFunction],
+              "setParams": [MockFunction],
+              "state": Object {},
+            }
+          }
         />,
         "disabled": false,
         "elevation": 0,

@@ -33,12 +33,10 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
-  listObservations: () => void,
   createObservation: (observation: Observation) => void,
   updateObservation: (observation: Observation) => void,
   selectObservation: (observation: Observation) => void,
-  updateObservationSource: () => void,
-  listStyles: () => void
+  updateObservationSource: () => void
 };
 
 type Props = {
@@ -119,14 +117,6 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
     super();
 
     MapboxGL.setAccessToken(env.accessToken);
-  }
-
-  componentDidMount() {
-    const { observations, selectedStyle, listStyles } = this.props;
-
-    if (!selectedStyle) {
-      listStyles();
-    }
   }
 
   handleCreateObservation = () => {

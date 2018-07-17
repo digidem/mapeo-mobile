@@ -22,27 +22,31 @@ const path = require('path');
 const osm = require('osm-p2p');
 const blobstore = require('fs-blob-store');
 const Router = require('mapeo-server');
-const walk = require('fs-walk')
+const walk = require('fs-walk');
 const os = require('os');
 const mkdirp = require('mkdirp');
 const styles = require('mapeo-styles');
 
-blobstore.prototype._list = function (cb) {
-  var names = []
-  walk.files(this._dir, function (basedir, filename, stat, next) {
-    names.push(filename)
-  }, function (err) {
-    if (err && err.code === 'ENOENT') cb(null, [])
-    else cb(err, names)
-  })
-}
+blobstore.prototype._list = function(cb) {
+  var names = [];
+  walk.files(
+    this._dir,
+    function(basedir, filename, stat, next) {
+      names.push(filename);
+    },
+    function(err) {
+      if (err && err.code === 'ENOENT') cb(null, []);
+      else cb(err, names);
+    }
+  );
+};
 
 console.log('1: init');
 
 // NOTE: in the future, we might want separate private keys
 // for each user, so let's just have a 'default' user for now so it'll be
 // easier to migrate later
-const USER_ID = 'default' 
+const USER_ID = 'default';
 const USER_PATH = path.join(os.homedir(), 'mapeo', USER_ID);
 const DB_PATH = path.join(USER_PATH, 'db');
 const MEDIA_PATH = path.join(USER_PATH, 'media');
@@ -67,12 +71,16 @@ function start() {
   const media = blobstore(MEDIA_PATH);
 
   const route = Router(db, media, {
-    media: {mode: 'push'},
+    media: { mode: 'push' },
     staticRoot: STATIC_PATH
   });
 
   const server = http.createServer((req, res) => {
-    if (route.handle(req, res)) {
+    if (req.url.endsWith('/ready')) {
+      res.write('ready');
+      res.end();
+      return;
+    } else if (route.handle(req, res)) {
     } else {
       res.statusCode = 404;
       res.end('not found\n');

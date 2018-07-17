@@ -29,9 +29,7 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
-  selectObservation: (o: Observation) => void,
-  listCategories: () => void,
-  listObservations: () => void
+  selectObservation: (o: Observation) => void
 };
 
 type Props = {
@@ -48,28 +46,6 @@ I18n.translations = {
 class ObservationsView extends React.Component<
   Props & StateProps & DispatchProps
 > {
-  focusListener: any;
-
-  componentDidMount() {
-    const { navigation, listCategories, categories } = this.props;
-
-    if (!Object.keys(categories).length) {
-      listCategories();
-    }
-
-    this.focusListener = navigation.addListener('willFocus', this.onFocus);
-  }
-
-  componentWillUnmount() {
-    this.focusListener.remove();
-  }
-
-  onFocus = () => {
-    const { listObservations } = this.props;
-
-    listObservations();
-  };
-
   render() {
     const {
       navigation,

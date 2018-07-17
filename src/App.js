@@ -22,19 +22,21 @@ import React from 'react';
 import { PermissionsAndroid, Image, Dimensions } from 'react-native';
 import RNNode from 'react-native-node';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
-import GeoLocation from '@digidem/react-native-geolocation'
+import GeoLocation from '@digidem/react-native-geolocation';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
-import throttle from 'lodash/throttle'
+import throttle from 'lodash/throttle';
 import 'rxjs';
 import { configureStore } from './lib/store';
 import { locationUpdate, locationError } from './ducks/gps';
-import AppNavigation from './components/AppNavigation/AppNavigation';
+import { appReady } from './ducks/app';
+import AppNavigation from './components/AppNavigation';
 import SplashScreen from './images/splash-screen.png';
 
 export default class App extends React.PureComponent<null, null> {
   store: any;
   persistor: any;
+  loc: any;
 
   constructor() {
     super();
@@ -42,7 +44,7 @@ export default class App extends React.PureComponent<null, null> {
     const { store, persistor } = configureStore();
     this.store = store;
     this.persistor = persistor;
-    this.loc = new GeoLocation()
+    this.loc = new GeoLocation();
   }
 
   async componentDidMount() {
@@ -58,7 +60,9 @@ export default class App extends React.PureComponent<null, null> {
     this.loc.startObserving(
       throttle(this.handlePositionChange, 1000),
       this.handlePositionError
-    )
+    );
+
+    this.store.dispatch(appReady());
   }
 
   handlePositionChange = (position: Position) => {
@@ -70,7 +74,7 @@ export default class App extends React.PureComponent<null, null> {
   };
 
   componentWillUnmount() {
-    this.loc.stopObserving()
+    this.loc.stopObserving();
   }
 
   render() {

@@ -19,7 +19,6 @@ describe('MapView tests', () => {
         navigation={createNavigationScreenProp()}
         onDrawerOpen={jest.fn()}
         onDrawerClose={jest.fn()}
-        listObservations={jest.fn()}
       />
     );
     expect(tree).toMatchSnapshot();

@@ -7,19 +7,7 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <Map
     createObservation={[MockFunction]}
     listObservations={[MockFunction]}
-    listStyles={
-      [MockFunction] {
-        "calls": Array [
-          Array [],
-        ],
-        "results": Array [
-          Object {
-            "isThrow": false,
-            "value": undefined,
-          },
-        ],
-      }
-    }
+    listStyles={[MockFunction]}
     navigation={
       Object {
         "addListener": [MockFunction],

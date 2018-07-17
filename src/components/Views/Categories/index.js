@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 import { values } from 'lodash';
 import { StoreState } from '../../../types/redux';
-import { categoryList } from '../../../ducks/categories';
 import {
   observationUpdate,
   observationSelect
@@ -13,9 +12,7 @@ import Categories from './Categories';
 import type { StateProps } from './Categories';
 
 function mapStateToProps(state: StoreState): StateProps {
-  const categories = values(state.categories).sort(
-    (a, b) => a.name - b.name
-  );
+  const categories = values(state.categories).sort((a, b) => a.name - b.name);
   const { selectedObservation, observations } = state;
 
   let updateFlow = false;
@@ -32,12 +29,9 @@ function mapStateToProps(state: StoreState): StateProps {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<any>) {
+function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     updateObservation: observation => dispatch(observationUpdate(observation)),
-    listCategories: () => {
-      dispatch(categoryList(''));
-    },
     clearSelectedObservation: () => {
       dispatch(observationSelect(undefined));
       dispatch(observationSource(undefined));

@@ -7,22 +7,19 @@ import type { StateProps } from './SettingsView';
 import { createObservation } from '../../../mocks/observations';
 import { createField } from '../../../mocks/fields';
 import { createStyle } from '../../../mocks/map';
+import { createNavigationScreenProp } from '../../../mocks/navigation';
 
 describe('SettingsView tests', () => {
   const setGPSFormat = jest.fn();
   const setSelectedStyle = jest.fn();
-  const listStyles = jest.fn();
   const style = createStyle();
   const styles = {
     [style.id]: style
   };
-  const isFocused = () => true;
-  const addListener = () => true;
 
   beforeEach(() => {
     setGPSFormat.mockReset();
     setSelectedStyle.mockReset();
-    listStyles.mockReset();
   });
 
   test('snapshot', () => {
@@ -37,11 +34,10 @@ describe('SettingsView tests', () => {
     props.forEach(p => {
       tree = renderer.create(
         <SettingsView
-          navigation={{ isFocused, addListener }}
+          navigation={createNavigationScreenProp()}
           gpsFormat={p.gpsFormat}
           setGPSFormat={setGPSFormat}
           setSelectedStyle={setSelectedStyle}
-          listStyles={listStyles}
           styles={p.styles}
         />
       );

@@ -1,16 +1,10 @@
 // @flow
 import { connect } from 'react-redux';
-import { withNavigationFocus } from 'react-navigation';
 import { values } from 'lodash';
 import type { Dispatch } from 'redux';
 import { StoreState } from '../../../types/redux';
 
-import {
-  observationSelect,
-  observationList
-} from '../../../ducks/observations';
-import { categoryList } from '../../../ducks/categories';
-import { fieldList } from '../../../ducks/fields';
+import { observationSelect } from '../../../ducks/observations';
 import { mediaResize } from '../../../ducks/media';
 import ObservationsView from './ObservationsView';
 import type { StateProps, DispatchProps } from './ObservationsView';
@@ -24,23 +18,14 @@ function mapStateToProps(state: StoreState): StateProps {
     drawerOpened,
     observations,
     categories: state.categories,
-    icons: state.icons,
-    resizedImages: state.resizedImages
+    icons: state.icons
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
-    selectObservation: o => dispatch(observationSelect(o)),
-    listCategories: () => {
-      dispatch(categoryList(''));
-      dispatch(fieldList(''));
-    },
-    listObservations: () => dispatch(observationList('')),
-    getResizedImage: source => dispatch(mediaResize(source))
+    selectObservation: o => dispatch(observationSelect(o))
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  withNavigationFocus(ObservationsView)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(ObservationsView);
