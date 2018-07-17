@@ -324,17 +324,6 @@ class ObservationEditor extends React.Component<
     }
   };
 
-  shouldComponentUpdate(
-    nextProps: Props & StateProps & DispatchProps,
-    nextState: State
-  ) {
-    if (nextProps.navigation.isFocused()) {
-      return nextProps !== this.props || nextState !== this.state;
-    }
-
-    return false;
-  }
-
   componentWillReceiveProps(nextProps: StateProps & DispatchProps & Props) {
     const { observations, selectedObservation } = this.props;
 

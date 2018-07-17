@@ -46,15 +46,9 @@ export const mediaLoadingEpic = (
       };
 
       return backup
-        .flatMap(({ id, file, thumbnail }) => {
+        .flatMap(({ id }) => {
           return Observable.merge(
-            Observable.of(
-              mediaSave(meta, {
-                resizedUri: thumbnail,
-                cacheUri: file,
-                serverId: id
-              })
-            ),
+            Observable.of(mediaSave(meta, id)),
             Observable.of(mediaDelete(mediaId)),
             Observable.of(
               observationAttachmentUpdate({

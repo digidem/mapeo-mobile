@@ -4,8 +4,7 @@ import { Modal } from 'react-native';
 
 type Props = {
   children: any,
-  onRequestClose?: Function,
-  onHide?: Function
+  onHide: Function
 };
 
 type State = {
@@ -19,11 +18,7 @@ class Toast extends React.PureComponent<Props, State> {
   componentDidMount() {
     const { onHide } = this.props;
     this.timer = setTimeout(() => {
-      this.setState({ visible: false }, () => {
-        if (onHide) {
-          onHide();
-        }
-      });
+      this.setState({ visible: false });
     }, 2000);
   }
 
@@ -34,7 +29,7 @@ class Toast extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { children, onRequestClose } = this.props;
+    const { children, onHide } = this.props;
     const { visible } = this.state;
 
     return (
@@ -42,7 +37,7 @@ class Toast extends React.PureComponent<Props, State> {
         animation="slide"
         transparent
         visible={visible}
-        onRequestClose={onRequestClose || (() => {})}
+        onRequestClose={onHide}
       >
         {children}
       </Modal>

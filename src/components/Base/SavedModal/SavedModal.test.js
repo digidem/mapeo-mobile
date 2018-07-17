@@ -17,7 +17,16 @@ describe('SavedModal tests', () => {
     };
     const onHide = jest.fn();
 
-    const props = [{ observation }];
+    const props = [
+      {
+        observation,
+        show: false
+      },
+      {
+        observation,
+        show: true
+      }
+    ];
 
     let tree;
     props.forEach(p => {
@@ -29,6 +38,7 @@ describe('SavedModal tests', () => {
             categories={categories}
             icons={icons}
             gpsFormat="utm"
+            show={p.show}
           />
         )
         .toJSON();

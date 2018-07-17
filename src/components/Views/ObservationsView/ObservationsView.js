@@ -48,25 +48,27 @@ I18n.translations = {
 class ObservationsView extends React.Component<
   Props & StateProps & DispatchProps
 > {
+  focusListener: any;
+
   componentDidMount() {
-    this.props.listObservations();
-    if (!Object.keys(this.props.categories).length) {
-      this.props.listCategories();
+    const { navigation, listCategories, categories } = this.props;
+
+    if (!Object.keys(categories).length) {
+      listCategories();
     }
+
+    this.focusListener = navigation.addListener('willFocus', this.onFocus);
   }
 
-  shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
-    if (nextProps !== this.props) {
-      if (
-        nextProps.navigation.isFocused() &&
-        !this.props.navigation.isFocused()
-      ) {
-        nextProps.listObservations();
-      }
-      return true;
-    }
-    return false;
+  componentWillUnmount() {
+    this.focusListener.remove();
   }
+
+  onFocus = () => {
+    const { listObservations } = this.props;
+
+    listObservations();
+  };
 
   render() {
     const {

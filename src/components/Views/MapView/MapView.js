@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { NavigationActions, withNavigationFocus } from 'react-navigation';
+import type { NavigationScreenProp } from 'react-navigation';
 import {
   StyleSheet,
   View,
@@ -48,13 +48,13 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
-  listObservations: () => void,
   onDrawerClose: () => void,
-  onDrawerOpen: () => void
+  onDrawerOpen: () => void,
+  listObservations: () => void
 };
 
 type Props = {
-  navigation: NavigationActions
+  navigation: NavigationScreenProp<*>
 };
 
 const styles = StyleSheet.create({
@@ -89,6 +89,7 @@ I18n.translations = {
 
 class MapView extends React.PureComponent<Props & StateProps & DispatchProps> {
   rightDrawer: Drawer;
+  focusListener: any;
 
   closeRightDrawer = () => {
     this.rightDrawer.close();
@@ -104,6 +105,22 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps> {
 
   goToCameraView = () => {
     this.props.navigation.navigate({ routeName: 'CameraView' });
+  };
+
+  componentDidMount() {
+    const { navigation } = this.props;
+
+    this.focusListener = navigation.addListener('willFocus', this.onFocus);
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
+  }
+
+  onFocus = () => {
+    const { listObservations } = this.props;
+
+    listObservations();
   };
 
   render() {
@@ -145,7 +162,7 @@ class MapView extends React.PureComponent<Props & StateProps & DispatchProps> {
           }}
         />
         {showSavedModal && <SavedModal />}
-        <Map />
+        <Map navigation={navigation} />
       </Drawer>
     );
   }

@@ -29,10 +29,12 @@ export const observationListEpic = (
   action$
     .ofType(OBSERVATION_LIST)
     .filter(action => action.status === 'Start')
-    .pipe(debounceTime(1000))
-    .flatMap(() =>
-      Observation.list().map(observations => observationList('', observations))
-    );
+    .pipe(debounceTime(500))
+    .flatMap(() => {
+      return Observation.list().map(observations =>
+        observationList('', observations)
+      );
+    });
 
 export const observationSaveEpic = (
   action$: ActionsObservable<Action<CreateRequest, ObservationType>>,

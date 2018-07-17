@@ -2,7 +2,6 @@
 import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 import { values } from 'lodash';
-import { withNavigationFocus } from 'react-navigation';
 import { StoreState } from '../../../types/redux';
 import { categoryList } from '../../../ducks/categories';
 import {
@@ -33,7 +32,7 @@ function mapStateToProps(state: StoreState): StateProps {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<any>) {
   return {
     updateObservation: observation => dispatch(observationUpdate(observation)),
     listCategories: () => {
@@ -46,6 +45,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  withNavigationFocus(Categories)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(Categories);

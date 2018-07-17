@@ -23,18 +23,22 @@ import {
 } from '../../../lib/styles';
 import getGPSText from '../../../lib/getGPSText';
 import CategoryPin from '../../../images/category-pin.png';
+import type { GPSFormat } from '../../../types/gps';
 
 export type StateProps = {
-  selectedObservation: Observation,
+  selectedObservation?: Observation,
   categories: {
     [id: string]: Category
   },
-  gpsFormat: string,
-  icons: Object
+  gpsFormat: GPSFormat,
+  icons: {
+    [id: string]: string
+  },
+  show: boolean
 };
 
 export type DispatchProps = {
-  onHide: Function
+  onHide: () => void
 };
 
 const styles = StyleSheet.create({
@@ -104,18 +108,20 @@ class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
       selectedObservation,
       categories,
       gpsFormat,
-      icons
+      icons,
+      show
     } = this.props;
+
+    if (!selectedObservation || !show) {
+      return null;
+    }
+
     const positionText = getGPSText({
       gpsFormat,
       lat: selectedObservation.lat,
       lon: selectedObservation.lon
     });
     let category;
-
-    if (!selectedObservation) {
-      return null;
-    }
 
     if (selectedObservation.categoryId !== undefined) {
       category = categories[selectedObservation.categoryId];

@@ -235,14 +235,6 @@ I18n.translations = {
 class ObservationDetailView extends React.Component<
   Props & StateProps & DispatchProps
 > {
-  shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
-    if (nextProps.navigation.isFocused()) {
-      return nextProps !== this.props;
-    }
-
-    return false;
-  }
-
   saveObservation = () => {
     const { selectedObservation, updateObservation } = this.props;
 

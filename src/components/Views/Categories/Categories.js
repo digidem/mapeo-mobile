@@ -123,15 +123,6 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
     listCategories();
   }
 
-  shouldComponentUpdate(nextProps: Props & StateProps & DispatchProps) {
-    if (nextProps.navigation.isFocused()) {
-      return nextProps !== this.props;
-    }
-
-    return false;
-  }
-
-  map: any;
   handleUpdateObservation = (item: Category) => {
     const {
       allFields,
