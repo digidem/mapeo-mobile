@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import { withNavigationFocus } from 'react-navigation';
 import {
   Image,
   Keyboard,
@@ -129,7 +128,7 @@ class CameraView extends React.Component<
           const initialObservation = applyObservationDefaults({
             id: size(observations) + 1
           });
-          console.log('updating source, creating, saving media')
+          console.log('updating source, creating, saving media');
           updateObservationSource();
           createObservation(initialObservation);
           saveMedia({ source: data.uri, generateThumbnail: true });

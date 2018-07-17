@@ -1,5 +1,6 @@
 const Mapbox = {
   StyleURL: { ShapeSource: {} },
-  StyleSheet: { create: () => {} }
+  StyleSheet: { create: () => {} },
+  setAccessToken: jest.fn()
 };
 export default Mapbox;

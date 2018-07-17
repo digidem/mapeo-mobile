@@ -104,6 +104,10 @@
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|react-navigation)"
-    ]
+    ],
+    "moduleNameMapper": {
+      "@mapbox/react-native-mapbox-gl": "<rootDir>/__mocks__/@mapbox/react-native-mapbox-gl",
+      "react-native-camera": "<rootDir>/__mocks__/react-native-camera"
+    }
   }
 }

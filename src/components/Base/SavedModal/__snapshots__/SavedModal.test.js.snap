@@ -1,10 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SavedModal tests snapshots 1`] = `
+exports[`SavedModal tests snapshots 1`] = `null`;
+
+exports[`SavedModal tests snapshots 2`] = `
 <Modal
   animation="slide"
   hardwareAccelerated={false}
-  onRequestClose={[Function]}
+  onRequestClose={[MockFunction]}
   transparent={true}
   visible={true}
 >
@@ -226,7 +228,7 @@ exports[`SavedModal tests snapshots 1`] = `
                 }
               }
             >
-              50.5, 50.5.
+              39U 464539.55m E 5594344.79m N.
             </Text>
           </View>
           <Text

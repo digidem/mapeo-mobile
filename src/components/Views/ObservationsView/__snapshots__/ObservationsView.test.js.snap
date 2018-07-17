@@ -308,7 +308,20 @@ exports[`ObservationsView tests snapshot 1`] = `
           icons={Object {}}
           navigation={
             Object {
-              "addListener": [MockFunction],
+              "addListener": [MockFunction] {
+                "calls": Array [
+                  Array [
+                    "willFocus",
+                    [Function],
+                  ],
+                ],
+                "results": Array [
+                  Object {
+                    "isThrow": false,
+                    "value": undefined,
+                  },
+                ],
+              },
               "dispatch": [MockFunction],
               "getParam": [MockFunction],
               "goBack": [MockFunction],
