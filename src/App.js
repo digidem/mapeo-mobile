@@ -25,6 +25,7 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import GeoLocation from '@digidem/react-native-geolocation'
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
+import throttle from 'lodash/throttle'
 import 'rxjs';
 import { configureStore } from './lib/store';
 import { locationUpdate, locationError } from './ducks/gps';
@@ -55,7 +56,7 @@ export default class App extends React.PureComponent<null, null> {
     );
 
     this.loc.startObserving(
-      this.handlePositionChange,
+      throttle(this.handlePositionChange, 1000),
       this.handlePositionError
     )
   }
