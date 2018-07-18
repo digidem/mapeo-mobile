@@ -24,19 +24,24 @@ class Observation {
       method: 'POST',
       route: '/observations',
       body: {
+        lat: observation.lat,
+        lon: observation.lon,
         device_id: '1',
-        ...observation
+        properties: observation
       }
-    });
+    }).map(applyObservationDefaults);
 
   static update = (observation: UpdateRequest) =>
     jsonRequest({
       method: 'PUT',
       route: `/observations/${observation.id}`,
       body: {
-        ...observation
+        id: observation.id,
+        lat: observation.lat || undefined,
+        lon: observation.lon || undefined,
+        properties: observation
       }
-    });
+    }).map(applyObservationDefaults);
 }
 
 export default Observation;
