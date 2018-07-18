@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import { combineReducers as appCombineReducers } from '../lib/redux';
 
-import app from './app';
 import categories from './categories';
 import drawers from './drawers';
 import modals from './modals';
@@ -25,8 +24,7 @@ const rootReducer = appCombineReducers(
   ...modals,
   ...observations,
   ...map,
-  ...media,
-  ...app
+  ...media
 );
 
 export default rootReducer;

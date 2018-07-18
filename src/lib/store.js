@@ -29,7 +29,6 @@ export function configureStore() {
 
 export function createInitialStore() {
   return {
-    appReady: false,
     observations: {},
     categories: {},
     fields: {},

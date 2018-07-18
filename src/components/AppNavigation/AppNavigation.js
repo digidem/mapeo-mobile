@@ -10,33 +10,15 @@ interface State {
   appState: any;
 }
 
-interface StateProps {
-  appReady: boolean;
-}
-
-class AppNavigation extends React.PureComponent<StateProps, State> {
+class AppNavigation extends React.PureComponent<{}, State> {
   state = {
-    appState: AppState.currentState,
-    showSplash: true
+    showSplash: true,
+    appState: AppState.currentState
   };
 
   componentDidMount() {
-    const { appReady } = this.props;
-
     AppState.addEventListener('change', this.handleAppStateChange);
     this.timeout = setTimeout(() => this.setState({ showSplash: false }), 500);
-
-    if (!appReady) {
-      clearTimeout(this.timeout);
-    }
-  }
-
-  componentWillReceiveProps(nextProps: StateProps) {
-    const { showSplash } = this.state;
-
-    if (showSplash && nextProps.appReady) {
-      this.setState({ showSplash: false });
-    }
   }
 
   componentWillUnmount() {
@@ -47,7 +29,7 @@ class AppNavigation extends React.PureComponent<StateProps, State> {
     }
   }
 
-  timeout: any;
+  timeout: TimeoutID;
 
   handleAppStateChange = (nextAppState: State) => {
     if (
@@ -58,7 +40,7 @@ class AppNavigation extends React.PureComponent<StateProps, State> {
       this.setState({ showSplash: true }, () => {
         this.timeout = setTimeout(
           () => this.setState({ showSplash: false }),
-          1000
+          500
         );
       });
     }

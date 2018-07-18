@@ -19,41 +19,44 @@ const request = (
     encodedBody = JSON.stringify(body);
   }
 
-  return Observable.from(
-    fetch(API_DOMAIN_URL + route, {
-      method,
-      body: encodedBody,
-      headers
-    })
-  )
-    .retryWhen(errors =>
-      errors.delayWhen(err => {
-        console.log(err.message, route);
-        if (err.message.match(/Network Request Failed/i)) {
-          return Observable.timer(1000);
-        }
-
-        return Observable.throw(err);
+  return (
+    Observable.from(
+      fetch(API_DOMAIN_URL + route, {
+        method,
+        body: encodedBody,
+        headers
       })
     )
-    .flatMap(response => {
-      if (response.ok) {
-        return Observable.of(response);
-      }
-
-      resp = response;
-
-      return Observable.from(parseAsText ? response.text() : response.json())
-        .catch(err => {
-          throw new Error(err.toString());
-        })
-        .flatMap(json => {
-          if (json && json.code && json.description) {
-            throw new Error(json.description);
+      // TODO: This retry does not work
+      .retryWhen(errors =>
+        errors.delayWhen(err => {
+          console.log(err.message, route);
+          if (err.message.match(/Network Request Failed/i)) {
+            return Observable.timer(1000);
           }
-          throw new Error('unknown error');
-        });
-    });
+
+          return Observable.throw(err);
+        })
+      )
+      .flatMap(response => {
+        if (response.ok) {
+          return Observable.of(response);
+        }
+
+        resp = response;
+
+        return Observable.from(parseAsText ? response.text() : response.json())
+          .catch(err => {
+            throw new Error(err.toString());
+          })
+          .flatMap(json => {
+            if (json && json.code && json.description) {
+              throw new Error(json.description);
+            }
+            throw new Error('unknown error');
+          });
+      })
+  );
 };
 
 type Parameters = {
