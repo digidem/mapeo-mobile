@@ -121,9 +121,9 @@ const ManualGPSModal: React.SFC<Props & StateProps> = ({
     return null;
   }
 
-  let gpsError = false
-  let heading
-  let text
+  let gpsError = false;
+  let heading;
+  let text;
 
   switch (gpsStatus) {
     case PERMISSION_DENIED:
@@ -154,12 +154,16 @@ const ManualGPSModal: React.SFC<Props & StateProps> = ({
           <Text style={styles.heading}>{heading}</Text>
           <Text style={styles.text}>{text}</Text>
         </View>
-        {!gpsError && <TouchableOpacity
-          style={[styles.button, styles.borderTop]}
-          onPress={onWaiting}
-        >
-          <Text style={styles.buttonText}>{I18n.t('manual_gps.waiting')}</Text>
-        </TouchableOpacity>}
+        {!gpsError && (
+          <TouchableOpacity
+            style={[styles.button, styles.borderTop]}
+            onPress={onWaiting}
+          >
+            <Text style={styles.buttonText}>
+              {I18n.t('manual_gps.waiting')}
+            </Text>
+          </TouchableOpacity>
+        )}
         <TouchableOpacity style={styles.button} onPress={goToManualEnter}>
           <Text style={styles.buttonText}>
             {I18n.t('manual_gps.manual_enter')}

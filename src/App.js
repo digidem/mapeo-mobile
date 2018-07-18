@@ -85,7 +85,7 @@ export default class App extends React.PureComponent<null, State> {
     const pingServer = () =>
       fetch(API_DOMAIN_URL + '/ready')
         .then(() => callback())
-        .catch(() => this.timeout = setTimeout(pingServer, 500));
+        .catch(() => (this.timeout = setTimeout(pingServer, 500)));
     pingServer();
   }
 

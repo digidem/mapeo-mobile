@@ -135,8 +135,7 @@ class PhotoView extends React.PureComponent<
           }}
         >
           {hasPhoto &&
-            (!!attachment ?
-            attachment.status === 'Success' : true) &&
+            (!!attachment ? attachment.status === 'Success' : true) &&
             !!selectedObservation && (
               <ImageBackground
                 style={{

@@ -37,8 +37,7 @@ export const mediaLoadingEpic = (
           })
         : Media.backup(source);
       const { mediaId, observation } = action.meta;
-      const observationId = store.getState().attachments[mediaId]
-        .observation;
+      const observationId = store.getState().attachments[mediaId].observation;
       const meta = {
         observationId: observation,
         source,
@@ -80,9 +79,7 @@ export const mediaSaveEpic = (
 
       let updatedObservation = store.getState().selectedObservation;
       if (meta.observationId) {
-        updatedObservation = store.getState().observations[
-          meta.observationId
-        ];
+        updatedObservation = store.getState().observations[meta.observationId];
       }
 
       return Observable.merge(
