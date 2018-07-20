@@ -35,6 +35,7 @@ export type DispatchProps = {
   selectDevice: (device?: Device) => void,
   toggleDeviceSelect: (device: Device) => void,
   updateDeviceSync: (device: Device) => void,
+  deviceList: () => void,
   showSyncedModal: () => void,
   hideSyncedModal: () => void
 };
@@ -58,9 +59,13 @@ class SyncView extends React.Component<
   state = { wifi: false };
 
   componentDidMount() {
-    const { announceSync } = this.props;
+    const { deviceList, announceSync } = this.props;
 
-    announceSync();
+    this.interval = setInterval(function() {
+      deviceList();
+      announceSync();
+    }, 1000);
+
     NetInfo.getConnectionInfo().then(connectionInfo => {
       if (connectionInfo.type === 'wifi') {
         this.setState({ wifi: true });
@@ -78,6 +83,7 @@ class SyncView extends React.Component<
   }
 
   componentWillUnmount() {
+    clearInterval(this.interval);
     NetInfo.removeEventListener(
       'connectionChange',
       this.handleConnectionChange
