@@ -69,3 +69,4 @@ env.json
 # Code editors
 #
 /.vscode
+.gitsecret/keys/random_seed

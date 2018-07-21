@@ -39,15 +39,37 @@ To run tests: `yarn test` (make sure you are not in `src/rnnodeapp`)
 
 To update snapshots (necessary when you change UI): `yarn test -u` (make sure you are not in `src/rnnodeapp`)
 
+### Decrypt Keystore for APK signing
+
+The APK needs to be signed to be installed on the phone (non-debug version) and released on the Play Store. All releases must be signed with the same keys, otherwise the user will need to uninstall and loose all their data in order to install a new version. The keystore is included in this repo encrypted with pgp using [`git-secret`](http://git-secret.io/). In order to decrypt it you need to create a gpg key-pair and an authorised user (e.g. gmaclennan@digital-democracy.org) needs to add your public key to `git-secret`. Then you can decrypt the keystore into the correct location (`android/app/my-release-key.keystore`)
+
+#### 1. Create a new GPG keypair
+
+1. Install GnuPG, on mac this is easiest if you install [homebrew](https://brew.sh/) and then run `brew install gpg`
+2. Create a gpg keypair if you don't have one already `gpg --gen-key` (you can generally accept the defaults)
+3. Export your public key to a file `gpg --export -a "email@example.com" > public.key
+` (use the email you used to generate the keypair)
+4. Send your public key to an existing authorized user (e.g. gmaclennan@digital-democracy.org)
+
+#### Install git-secret
+
+Follow the instructions on [gitsecret.io](http://git-secret.io/installation), on a mac: `brew install git-secret`.
+
+#### Add a user to git-secret
+
+This will enable a user to decrypt the keystore. You will need to have the users public key file (e.g. `users-public-key.key`) and you will need to already be authorized.
+
+1. Import the users public key into your gpg: `gpg --import users-public-key.key` (replace the key name with a path to the public key file from the user)
+2. Now add this person to the `git-secret` by running `git secret tell persons@email.id`
+3. Reencrypt the files, now they will be able to decrypt them with their secret key: `git secret hide`
+
+#### Decrypt the keystore
+
+Run `git secret reveal`. It will ask you for your gpg private key password. They keystore will be decrypted to `android/app/my-release-key.keystore`. You're done! Phew.
+
 ### Generate Release APK
 
-In `mapeo-mobile/android/app` run
-
-```sh
-keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
-```
-
-and then in `mapeo-mobile/android` run
+Make sure you have decrypted the keystore my following the instructions above, then:
 
 ```sh
 ./gradlew assembleRelease
