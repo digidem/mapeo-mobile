@@ -41,11 +41,9 @@ To update snapshots (necessary when you change UI): `yarn test -u` (make sure yo
 
 ### Generate Release APK
 
-In `mapeo-mobile/android/app` run
+Download keystore using this link: https://drive.google.com/file/d/19Lx_Hir8mHVdI0MdtzSITpy5PDI-b8Hi/view?usp=sharing
 
-```sh
-keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
-```
+Place keystore in `mapeo-mobile/android/app`
 
 and then in `mapeo-mobile/android` run
 
