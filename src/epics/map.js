@@ -19,7 +19,7 @@ export const styleListEpic = (
         const actions = [Observable.of(styleList('', styles))];
 
         if (styles.length && !store.getState().map.selectedStyle) {
-          actions.push(Observable.of(styleSelect(styles[1])));
+          actions.push(Observable.of(styleSelect(styles[0])));
         }
 
         return Observable.merge(...actions);
