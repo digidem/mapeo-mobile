@@ -19,10 +19,10 @@
 
 const http = require('http');
 const test = require('tape');
-const path = require('path');
 const tapjson = require('tap-json');
 const benchmark = require('osm-p2p-db-benchmark');
 const level = require('level');
+const path = require('path');
 const fdchunk = require('fd-chunk-store');
 
 const results = { stats: null, perf: null };
@@ -33,8 +33,6 @@ testStream.pipe(tapjson()).on('data', function(res) {
   console.log('stats:', res.stats);
 });
 
-// The requires need to be explicit here because noderify will statically
-// analyze these require calls to create one single index.js file.
 require('osm-p2p-db/test/batch');
 require('osm-p2p-db/test/changeset');
 require('osm-p2p-db/test/create');
@@ -93,7 +91,11 @@ test('last', function(t) {
   testStream.emit('end');
 });
 
-benchmark(level, fdchunk, function(err, res) {
+const proxyLevel = function (location) {
+  return level(path.resolve(__dirname, location));
+}
+
+benchmark(proxyLevel, fdchunk, function(err, res) {
   console.log('perf:', err ? err : res);
   results.perf = res;
 });

@@ -19,7 +19,7 @@
 
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, AppRegistry } from 'react-native';
-import RNNode from 'react-native-node';
+import nodejs from 'nodejs-mobile-react-native';
 
 export default class BenchmarkApp extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ export default class BenchmarkApp extends Component {
   }
 
   componentDidMount() {
-    RNNode.start();
+    nodejs.start('index.js');
     setInterval(() => {
       fetch('http://localhost:9080/test')
         .then(res => res.text())
