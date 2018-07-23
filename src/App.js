@@ -102,22 +102,26 @@ export default class App extends React.PureComponent<null, State> {
     this.loc.stopObserving();
   }
 
+  renderLoading = () => {
+    return (
+      <Image
+        source={SplashScreen}
+        style={{
+          width: Dimensions.get('window').width,
+          height: Dimensions.get('window').height
+        }}
+      />
+    );
+  };
+
   render() {
     if (!this.state.ready || !this.store || !this.persistor) {
-      return (
-        <Image
-          source={SplashScreen}
-          style={{
-            width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height
-          }}
-        />
-      );
+      return this.renderLoading();
     }
 
     return (
       <Provider store={this.store}>
-        <PersistGate persistor={this.persistor}>
+        <PersistGate persistor={this.persistor} loading={this.renderLoading()}>
           <AppNavigation />
         </PersistGate>
       </Provider>

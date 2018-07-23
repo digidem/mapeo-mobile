@@ -9,20 +9,21 @@ import { STYLE_LIST, styleList, styleSelect } from '../ducks/map';
 
 export const styleListEpic = (
   action$: ActionsObservable<Action<string, StyleType[]>>,
-  store: StoreState
+  store: any
 ) =>
   action$
     .ofType(STYLE_LIST)
     .filter(action => action.status === 'Start')
     .flatMap(() =>
-      Style.list().flatMap(styles =>
-        Observable.merge(
-          Observable.of(styleList('', styles)),
-          styles.length
-            ? Observable.of(styleSelect(styles[1]))
-            : Observable.of(null)
-        )
-      )
+      Style.list().flatMap(styles => {
+        const actions = [Observable.of(styleList('', styles))];
+
+        if (styles.length && !store.getState().map.selectedStyle) {
+          actions.push(Observable.of(styleSelect(styles[0])));
+        }
+
+        return Observable.merge(...actions);
+      })
     );
 
 export default [styleListEpic];
