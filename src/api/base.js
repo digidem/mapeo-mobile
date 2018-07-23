@@ -19,12 +19,14 @@ const request = (
     encodedBody = JSON.stringify(body);
   }
 
-  return Observable.from(
-    fetch(API_DOMAIN_URL + route, {
-      method,
-      body: encodedBody,
-      headers
-    })
+  return Observable.defer(() =>
+    Observable.from(
+      fetch(API_DOMAIN_URL + route, {
+        method,
+        body: encodedBody,
+        headers
+      })
+    )
   )
     .retryWhen(errors =>
       errors.delayWhen(err => {

@@ -20,7 +20,7 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity"/>
-    <service android:name="com.staltz.reactnativenode.RNNodeService"/>    <meta-data android:name="io.fabric.ApiKey" android:value="69df4693403ded0a934e0479d0ff6d6898912f62"/>
+      <meta-data android:name="io.fabric.ApiKey" android:value="69df4693403ded0a934e0479d0ff6d6898912f62"/>
     </application>
 
 </manifest>

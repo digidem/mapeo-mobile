@@ -13,7 +13,7 @@ import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.mapbox.rctmgl.RCTMGLPackage;
 import io.fabric.sdk.android.Fabric;
 import org.reactnative.camera.RNCameraPackage;
-import com.staltz.reactnativenode.RNNodePackage;
+import com.janeasystems.rn_nodejs_mobile.RNNodeJsMobilePackage;
 import com.mapbox.rctmgl.RCTMGLPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -41,7 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
             new VectorIconsPackage(),
             new RNI18nPackage(),
           new RNCameraPackage(),
-          new RNNodePackage(),
+          new RNNodeJsMobilePackage(),
           new RCTMGLPackage()
       );
     }

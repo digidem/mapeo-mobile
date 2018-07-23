@@ -110,7 +110,10 @@ android {
         versionCode 1
         versionName "1.0"
         ndk {
-            abiFilters "armeabi-v7a", "x86"
+            abiFilters "armeabi-v7a"
+        }
+        aaptOptions {
+            ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
     dexOptions {
@@ -121,7 +124,7 @@ android {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86"
+            include "armeabi-v7a"
         }
     }
     signingConfigs {
@@ -197,7 +200,7 @@ dependencies {
     compile project(':react-native-vector-icons')
     compile project(':react-native-i18n')
     compile project(':react-native-camera')
-    compile project(':react-native-node')
+    compile project(':nodejs-mobile-react-native')
     compile project(':mapbox-react-native-mapbox-gl')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"

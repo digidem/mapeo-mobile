@@ -20,7 +20,7 @@
 // @flow
 import React from 'react';
 import { PermissionsAndroid, Image, Dimensions } from 'react-native';
-import RNNode from 'react-native-node';
+import nodejs from 'nodejs-mobile-react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import GeoLocation from '@digidem/react-native-geolocation';
 import { Provider } from 'react-redux';
@@ -48,7 +48,7 @@ export default class App extends React.PureComponent<null, null> {
   }
 
   async componentDidMount() {
-    RNNode.start();
+    nodejs.start('index.js');
 
     // set permissions
     await MapboxGL.requestAndroidLocationPermissions();

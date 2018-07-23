@@ -1,17 +1,23 @@
 {
-  "name": "rnnodeapp",
+  "name": "mapeo-mobile-server",
   "version": "0.0.0",
   "main": "index.js",
   "dependencies": {
+    "bindings-noderify-nodejs-mobile": "10.3.0",
     "bufferutil": "^3.0.5",
     "fs-blob-store": "^5.2.1",
     "fs-walk": "0.0.2",
-    "leveldown-android-prebuilt": "2.0.3",
+    "deferred-leveldown": "1.2.1",
+    "encoding-down": "5.0.2",
+    "leveldown": "2.1.1",
     "mapeo-server": "^7.0.0",
     "mapeo-styles": "^2.0.0",
     "mkdirp": "0.5.1",
     "osm-p2p": "^2.0.0",
     "safe-fs-blob-store": "^1.0.0",
     "utf-8-validate": "^4.0.2"
+  },
+  "devDependencies": {
+    "noderify": "3.0.2"
   }
 }

@@ -7,7 +7,7 @@ set -e
 #
 
 # Build the background Node.js process containing only tests
-./build-rnnodeapp.sh benchmark
+./build-nodejs-project.sh benchmark
 
 # Clean the React Native JavaScript app
 watchman watch-del-all && rm -rf $TMPDIR/react-*
