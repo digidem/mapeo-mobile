@@ -7,6 +7,7 @@ import { createDevice } from '../../../mocks/devices';
 import { createNavigationScreenProp } from '../../../mocks/navigation';
 
 jest.mock('./DeviceCell', () => 'mock-device-cell');
+jest.useFakeTimers();
 
 describe('SyncView tests', () => {
   const device = createDevice();
@@ -36,6 +37,7 @@ describe('SyncView tests', () => {
         hideSyncedModal={hideSyncedModal}
       />
     );
+
     expect(tree).toMatchSnapshot();
   });
 });
