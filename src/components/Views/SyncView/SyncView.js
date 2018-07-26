@@ -84,7 +84,10 @@ class SyncView extends React.Component<
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+
     NetInfo.removeEventListener(
       'connectionChange',
       this.handleConnectionChange
