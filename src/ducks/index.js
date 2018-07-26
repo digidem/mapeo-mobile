@@ -12,6 +12,7 @@ import devices from './devices';
 import settings from './settings';
 import map from './map';
 import media from './media';
+import presets from './presets';
 
 const rootReducer = appCombineReducers(
   ...categories,
@@ -22,9 +23,10 @@ const rootReducer = appCombineReducers(
   ...settings,
   ...gps,
   ...modals,
-  ...observations,
   ...map,
-  ...media
+  ...media,
+  ...observations,
+  ...presets
 );
 
 export default rootReducer;

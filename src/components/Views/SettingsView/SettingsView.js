@@ -22,12 +22,15 @@ type Props = {
 export type StateProps = {
   gpsFormat: GPSFormat,
   selectedStyle?: Style,
-  styles: { [id: string]: Style }
+  styles: { [id: string]: Style },
+  presets: string[],
+  selectedPreset: string
 };
 
 export type DispatchProps = {
   setGPSFormat: (format: GPSFormat) => void,
-  setSelectedStyle: (style: Style) => void
+  setSelectedStyle: (style: Style) => void,
+  setSelectedPreset: (preset: string) => void
 };
 
 const styles = StyleSheet.create({
@@ -106,8 +109,20 @@ class SettingsView extends React.PureComponent<
     setSelectedStyle(styles[style]);
   };
 
+  handlePresetSelect = (preset: string) => {
+    const { setSelectedPreset } = this.props;
+
+    setSelectedPreset(preset);
+  };
+
   render() {
-    const { gpsFormat, navigation, selectedStyle } = this.props;
+    const {
+      gpsFormat,
+      navigation,
+      selectedStyle,
+      selectedPreset,
+      presets
+    } = this.props;
     const mapStyles = this.props.styles;
 
     return (
@@ -175,6 +190,19 @@ class SettingsView extends React.PureComponent<
                     key={id}
                   />
                 ))}
+              </Picker>
+            </View>
+          </View>
+          <View style={styles.fieldContainer}>
+            <Text style={styles.heading}>{I18n.t('settings.presets')}</Text>
+            <View style={styles.pickerContainer}>
+              <Picker
+                mode="dropdown"
+                itemStyle={{ width: Dimensions.get('window').width - 40 }}
+                onValueChange={this.handlePresetSelect}
+                selectedValue={selectedPreset}
+              >
+                {presets.map(p => <Picker.Item label={p} value={p} key={p} />)}
               </Picker>
             </View>
           </View>

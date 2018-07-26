@@ -32,7 +32,7 @@ import { locationUpdate, locationError } from './ducks/gps';
 import { observationList } from './ducks/observations';
 import { styleList } from './ducks/map';
 import { fieldList } from './ducks/fields';
-import { categoryList } from './ducks/categories';
+import { presetsList } from './ducks/presets';
 import { API_DOMAIN_URL } from './api/base';
 import AppNavigation from './components/AppNavigation/AppNavigation';
 import SplashScreen from './images/splash-screen.png';
@@ -75,7 +75,7 @@ export default class App extends React.PureComponent<null, State> {
     this.onReady(() => {
       this.store.dispatch(observationList(''));
       this.store.dispatch(styleList(''));
-      this.store.dispatch(categoryList(''));
+      this.store.dispatch(presetsList(''));
       this.setState({ ready: true });
     });
   }

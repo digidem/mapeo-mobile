@@ -84,8 +84,8 @@
     "map_style": "Estilo de mapa",
     "Mapbox Streets": "Calles de Mapbox",
     "Satellite": "Satélite",
-    "Mapbox Satellite Streets": "Calles satélite de Mapbox"
-
+    "Mapbox Satellite Streets": "Calles satélite de Mapbox",
+    "preset": "Presets"
   },
   "sync": {
     "none": "No hay dispositivos disponibles",

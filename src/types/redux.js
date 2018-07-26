@@ -10,7 +10,6 @@ import type { Device } from './device';
 import type { MapState } from './map';
 
 export interface StoreState {
-
   observations: {
     [id: string]: Observation
   };
@@ -52,6 +51,9 @@ export interface StoreState {
   attachments: {
     [id: string]: Resource<Attachment>
   };
+
+  presets: string[];
+  selectedPreset: string;
 }
 
 export type SettingsState = {

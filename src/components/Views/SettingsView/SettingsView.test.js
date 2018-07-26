@@ -12,22 +12,25 @@ import { createNavigationScreenProp } from '../../../mocks/navigation';
 describe('SettingsView tests', () => {
   const setGPSFormat = jest.fn();
   const setSelectedStyle = jest.fn();
+  const setSelectedPreset = jest.fn();
   const style = createStyle();
   const styles = {
     [style.id]: style
   };
+  const presets = ['presets0', 'presets1'];
 
   beforeEach(() => {
     setGPSFormat.mockReset();
     setSelectedStyle.mockReset();
+    setSelectedPreset.mockReset();
   });
 
   test('snapshot', () => {
     const props: StateProps[] = [
-      { gpsFormat: 'DD', styles },
-      { gpsFormat: 'DDM', styles },
-      { gpsFormat: 'DMS', styles },
-      { gpsFormat: 'UTM', styles }
+      { gpsFormat: 'DD', styles, presets, selectedPreset: presets[0] },
+      { gpsFormat: 'DDM', styles, presets, selectedPreset: presets[0] },
+      { gpsFormat: 'DMS', styles, presets, selectedPreset: presets[0] },
+      { gpsFormat: 'UTM', styles, presets, selectedPreset: presets[0] }
     ];
 
     let tree;
@@ -39,6 +42,9 @@ describe('SettingsView tests', () => {
           setGPSFormat={setGPSFormat}
           setSelectedStyle={setSelectedStyle}
           styles={p.styles}
+          presets={p.presets}
+          selectedPreset={p.selectedPreset}
+          setSelectedPreset={setSelectedPreset}
         />
       );
       expect(tree).toMatchSnapshot();

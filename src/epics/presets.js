@@ -2,19 +2,42 @@
 import React from 'react';
 import { Observable } from 'rxjs';
 import type { ActionsObservable } from 'redux-observable';
+import { Image } from 'react-native';
+import DOMParser from 'react-native-xml2js';
+import { values } from 'lodash';
 import {
   PRESETS_SELECT,
   presetsSelect,
-  fieldList,
-  presetsIconsList,
-  PRESETS_ICONS_LIST
-} from '../ducks/fields';
+  PRESETS_LIST,
+  presetsList,
+  PRESETS_ICONS_LIST,
+  presetsIconsList
+} from '../ducks/presets';
 import { categoryList } from '../ducks/categories';
+import { fieldList } from '../ducks/fields';
 import type { Action } from '../types/redux';
+import type { Category } from '../types/category';
 import type { Field } from '../types/field';
-import { values } from 'lodash';
 import Presets from '../api/presets';
-import DOMParser from 'react-native-xml2js';
+
+export const presetsListEpic = (
+  action$: ActionsObservable<Action<string, Category[]>>,
+  store: any
+) =>
+  action$
+    .ofType(PRESETS_LIST)
+    .filter(action => action.status === 'Start')
+    .flatMap(action =>
+      Presets.list().flatMap(list => {
+        const actions = [Observable.of(presetsList(action.meta, list))];
+
+        if (!store.getState().selectedPreset) {
+          actions.push(Observable.of(presetsSelect(list[0])));
+        }
+
+        return Observable.merge(...actions);
+      })
+    );
 
 export const presetsSelectEpic = (
   action$: ActionsObservable<Action<string, Field[]>>
@@ -85,4 +108,4 @@ export const presetsIconsListEpic = (
       )
     );
 
-export default [presetsSelectEpic, presetsIconsListEpic];
+export default [presetsListEpic, presetsSelectEpic, presetsIconsListEpic];

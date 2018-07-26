@@ -84,7 +84,8 @@
     "map_style": "Map Style",
     "Mapbox Streets": "Mapbox Streets",
     "Satellite": "Satellite",
-    "Mapbox Satellite Streets": "Mapbox Satellite Streets"
+    "Mapbox Satellite Streets": "Mapbox Satellite Streets",
+    "presets": "Presets"
   },
   "sync": {
     "none": "No Available Devices",

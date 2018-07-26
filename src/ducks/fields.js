@@ -18,25 +18,4 @@ export const {
   }
 });
 
-export const {
-  type: PRESETS_SELECT,
-  action: presetsSelect,
-  reducer: presetsSelectReducer
-} = create('PRESETS_SELECT', {});
-
-export const {
-  type: PRESETS_ICONS_LIST,
-  action: presetsIconsList,
-  reducer: presetsIconsListReducer
-} = create('PRESETS_ICONS_LIST', {
-  success: (state, meta, payload) =>
-    update(state, {
-      icons: { $set: payload }
-    })
-});
-
-export default [
-  fieldListReducer,
-  presetsSelectReducer,
-  presetsIconsListReducer
-];
+export default [fieldListReducer];
