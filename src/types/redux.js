@@ -10,7 +10,6 @@ import type { Device } from './device';
 import type { MapState } from './map';
 
 export interface StoreState {
-
   observations: {
     [id: string]: Observation
   };

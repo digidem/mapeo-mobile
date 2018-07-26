@@ -7,6 +7,7 @@ import { StoreState } from '../../../types/redux';
 import {
   syncAnnounce,
   syncStart,
+  deviceList,
   deviceSelect,
   deviceToggleSelect,
   deviceSyncUpdate
@@ -25,6 +26,7 @@ function mapStateToProps(state: StoreState): StateProps {
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return {
+    deviceList: () => dispatch(deviceList()),
     announceSync: () => dispatch(syncAnnounce()),
     startSync: device => dispatch(syncStart(device)),
     selectDevice: device => dispatch(deviceSelect(device)),

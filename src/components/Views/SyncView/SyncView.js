@@ -10,7 +10,7 @@ import {
   StyleSheet,
   NetInfo
 } from 'react-native';
-import { NavigationActions, withNavigationFocus } from 'react-navigation';
+import type { NavigationScreenProp } from 'react-navigation';
 import WifiIcon from 'react-native-vector-icons/MaterialIcons';
 import SyncHeader from './SyncHeader';
 import DeviceCell from './DeviceCell';
@@ -20,7 +20,7 @@ import { MAPEO_BLUE, MEDIUM_BLUE } from '../../../lib/styles';
 import I18n from 'react-native-i18n';
 
 type Props = {
-  navigation: NavigationActions
+  navigation: NavigationScreenProp<*>
 };
 
 export type StateProps = {
@@ -35,6 +35,7 @@ export type DispatchProps = {
   selectDevice: (device?: Device) => void,
   toggleDeviceSelect: (device: Device) => void,
   updateDeviceSync: (device: Device) => void,
+  deviceList: () => void,
   showSyncedModal: () => void,
   hideSyncedModal: () => void
 };
@@ -56,11 +57,16 @@ class SyncView extends React.Component<
   State
 > {
   state = { wifi: false };
+  interval: any;
 
   componentDidMount() {
-    const { announceSync } = this.props;
+    const { deviceList, announceSync } = this.props;
 
-    announceSync();
+    this.interval = setInterval(function() {
+      deviceList();
+      announceSync();
+    }, 1000);
+
     NetInfo.getConnectionInfo().then(connectionInfo => {
       if (connectionInfo.type === 'wifi') {
         this.setState({ wifi: true });
@@ -69,7 +75,7 @@ class SyncView extends React.Component<
     NetInfo.addEventListener('connectionChange', this.handleConnectionChange);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props & StateProps & DispatchProps) {
     const { announceSync, navigation } = nextProps;
 
     if (navigation.isFocused() && !this.props.navigation.isFocused()) {
@@ -78,6 +84,10 @@ class SyncView extends React.Component<
   }
 
   componentWillUnmount() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+
     NetInfo.removeEventListener(
       'connectionChange',
       this.handleConnectionChange
@@ -95,7 +105,7 @@ class SyncView extends React.Component<
     return false;
   }
 
-  handleConnectionChange = connectionInfo => {
+  handleConnectionChange = (connectionInfo: Object) => {
     if (connectionInfo.type === 'wifi') {
       this.setState({ wifi: true });
     } else {
@@ -265,4 +275,4 @@ class SyncView extends React.Component<
   }
 }
 
-export default withNavigationFocus(SyncView);
+export default SyncView;
