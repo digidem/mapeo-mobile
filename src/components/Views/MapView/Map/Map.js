@@ -217,7 +217,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
             compassEnabled={false}
             styleURL={
               selectedStyle
-                ? `http://localhost:9080/styles/${selectedStyle.id}/style.json`
+                ? `http://127.0.0.1:9080/styles/${selectedStyle.id}/style.json`
                 : undefined
             }
           >
