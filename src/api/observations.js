@@ -1,11 +1,13 @@
 // @flow
 import { jsonRequest } from './base';
-import { applyObservationDefaults } from '../models/observations';
+import { parseObservationResponse } from '../models/observations';
 
-export interface CreateRequest {
-  lat: number;
-  lon: number;
-}
+export type ObservationAPI = {
+  lat: number,
+  lon: number,
+  attachments: Array<{ id: string }>,
+  tags: Object
+};
 
 export type UpdateRequest = {
   id: string
@@ -16,26 +18,21 @@ class Observation {
     jsonRequest({
       method: 'GET',
       route: '/observations'
-    }).map(observations => observations.map(applyObservationDefaults));
+    }).map(observations => observations.map(parseObservationResponse));
 
-  static create = (observation: CreateRequest) =>
+  static create = (observation: ObservationAPI) =>
     jsonRequest({
       method: 'POST',
       route: '/observations',
-      body: {
-        device_id: '1',
-        ...observation
-      }
-    });
+      body: observation
+    }).map(parseObservationResponse);
 
-  static update = (observation: UpdateRequest) =>
+  static update = (observation: ObservationAPI & UpdateRequest) =>
     jsonRequest({
       method: 'PUT',
       route: `/observations/${observation.id}`,
-      body: {
-        ...observation
-      }
-    });
+      body: observation
+    }).map(parseObservationResponse);
 }
 
 export default Observation;

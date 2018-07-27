@@ -6,7 +6,7 @@
     "bufferutil": "^3.0.5",
     "fs-walk": "0.0.2",
     "leveldown-android-prebuilt": "2.0.3",
-    "mapeo-server": "^7.0.0",
+    "mapeo-server": "^8.0.0",
     "mapeo-styles": "^2.0.0",
     "mkdirp": "0.5.1",
     "osm-p2p": "^2.0.0",

@@ -19,7 +19,7 @@ import env from '../../../../../env.json';
 import AddButton from '../../../../images/add-button.png';
 import Gradient from '../../../../images/gradient-overlay.png';
 import { WHITE } from '../../../../lib/styles';
-import { applyObservationDefaults } from '../../../../models/observations';
+import { defaultObservation } from '../../../../models/observations';
 import type { Coordinates } from '../../../../types/gps';
 import type { Style } from '../../../../types/map';
 
@@ -129,9 +129,10 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
       selectedStyle,
       navigation
     } = this.props;
-    const initialObservation = applyObservationDefaults({
-      id: size(observations) + 1
-    });
+    const initialObservation = {
+      ...defaultObservation,
+      id: (size(observations) + 1).toString()
+    };
 
     navigation.navigate({
       routeName: 'Categories',
@@ -158,11 +159,12 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
       observations,
       updateObservationSource
     } = this.props;
-    const initialObservation = applyObservationDefaults({
-      id: size(observations) + 1,
+    const initialObservation = {
+      ...defaultObservation,
+      id: (size(observations) + 1).toString(),
       lat: coordinates[1],
       lon: coordinates[0]
-    });
+    };
 
     navigation.navigate({
       routeName: 'Categories',

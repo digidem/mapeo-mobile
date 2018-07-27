@@ -9,16 +9,15 @@ export type Attachment = {
 };
 
 export type Observation = {
-  type: string,
   id: string,
   lat: number,
   lon: number,
-  link: string,
   created: Date,
   name: string,
   notes: string,
   observedBy: string,
   attachments: string[],
   categoryId: string,
-  fields: Field[]
+  fields: Field[],
+  version?: string
 };

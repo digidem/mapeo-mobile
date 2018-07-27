@@ -23,7 +23,7 @@ import { CHARCOAL, WHITE } from '../../../lib/styles.js';
 
 import ObservationsView from '../ObservationsView';
 import AddButton from '../../../images/add-button.png';
-import { applyObservationDefaults } from '../../../models/observations';
+import { defaultObservation } from '../../../models/observations';
 import Header from '../../Base/Header';
 import SavedModal from '../../Base/SavedModal';
 import type { MediaSaveMeta } from '../../../ducks/media';
@@ -125,9 +125,10 @@ class CameraView extends React.Component<
           navigation.navigate({
             routeName: 'Categories'
           });
-          const initialObservation = applyObservationDefaults({
-            id: size(observations) + 1
-          });
+          const initialObservation = {
+            ...defaultObservation,
+            id: (size(observations) + 1).toString()
+          };
           console.log('updating source, creating, saving media');
           updateObservationSource();
           createObservation(initialObservation);

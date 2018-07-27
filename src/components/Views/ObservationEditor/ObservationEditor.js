@@ -299,7 +299,6 @@ class ObservationEditor extends React.Component<
     if (selectedObservation && category) {
       updateObservation({
         ...selectedObservation,
-        type: category.name,
         name: category.name
       });
     }
