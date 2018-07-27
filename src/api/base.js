@@ -2,7 +2,7 @@
 import { Observable } from 'rxjs';
 import { retryBackoff } from 'backoff-rxjs';
 
-export const API_DOMAIN_URL = 'http://localhost:9080';
+export const API_DOMAIN_URL = 'http://127.0.0.1:9080';
 
 const request = (
   method: string,
