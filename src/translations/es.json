@@ -64,7 +64,7 @@
     "searching": "Sin GPS todavía...",
     "searching_text": "El GPS esta buscando su posición todavía",
     "weak": "GPS débil",
-    "weak_text": "La posición del GPS no esta muy preciso todavía",
+    "weak_text": "La precisión del GPS esta más que 10 metros.",
     "waiting": "Seguir esperando",
     "manual_enter": "Ingresar la posición manualmente",
     "save": "Guardar",
