@@ -29,6 +29,12 @@ export const parseObservationRequest = (
     }
   });
 
+  // set fields as individual tags
+  const fields = tags.fields;
+  Object.keys(tags.fields).forEach(field => {
+    tags[field.name] = field.answer;
+  });
+
   // remove topLevel properties
   const topLevel = ['lat', 'lon', 'attachments', 'id'];
   topLevel.forEach(p => delete tags[p]);
@@ -45,6 +51,13 @@ export const parseObservationRequest = (
 };
 
 export const parseObservationResponse = (observation: Object): Observation => {
+  // reconcile tags into fields
+  if (observation.tags.fields) {
+    observation.tags.fields.forEach(field => {
+      delete observation.tags[field.name];
+    });
+  }
+
   const obs = {
     ...defaultObservation,
     ...observation.tags,
