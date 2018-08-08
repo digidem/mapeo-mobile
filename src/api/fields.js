@@ -1,5 +1,4 @@
 // @flow
-import fetch from 'fetch';
 import { jsonRequest } from './base';
 import { computeField } from '../models/fields';
 
