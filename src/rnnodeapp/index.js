@@ -37,6 +37,9 @@ const USER_PATH = path.join(os.homedir(), 'mapeo', USER_ID);
 const DB_PATH = path.join(USER_PATH, 'db');
 const MEDIA_PATH = path.join(USER_PATH, 'media');
 
+// TODO: get user's name, defined in front-end
+const HOST = 'Android phone'
+
 const STATIC_PATH = path.join('/sdcard/Android/data/com.mapeomobile/static');
 
 mkdirp.sync(DB_PATH);
@@ -57,6 +60,7 @@ function start() {
   const media = blobstore(MEDIA_PATH);
 
   const route = Router(db, media, {
+    host: HOST,
     media: { mode: 'push' },
     staticRoot: STATIC_PATH
   });
