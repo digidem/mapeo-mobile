@@ -88,23 +88,34 @@ I18n.translations = {
 };
 
 const DeviceCell = (props: Props) => {
+  const { selectedDevice, device } = props;
   const handlePress = () => {
     props.onPress(props.device);
   };
 
+  const isSelected = selectedDevice && device.ip === selectedDevice.ip;
+
   let syncStatusText = I18n.t('sync.via_wifi');
-  if (props.device.syncStatus === 'replication-started') {
+  if (
+    selectedDevice &&
+    isSelected &&
+    selectedDevice.syncStatus === 'replication-started'
+  ) {
     syncStatusText = I18n.t('sync.requested');
-  } else if (props.device.syncStatus === 'replication-progress') {
+  } else if (
+    selectedDevice &&
+    isSelected &&
+    selectedDevice.syncStatus === 'replication-progress'
+  ) {
     syncStatusText = I18n.t('sync.syncing');
   } else if (props.device.syncStatus === 'replication-complete') {
     syncStatusText = I18n.t('sync.completed');
   }
 
   const syncInProgress =
-    props.device.selected &&
-    (props.device.syncStatus === 'replication-started' ||
-      props.device.syncStatus === 'replication-progress');
+    selectedDevice &&
+    isSelected &&
+    selectedDevice.syncStatus === 'replication-progress';
 
   return (
     <TouchableOpacity onPress={handlePress}>
@@ -134,7 +145,7 @@ const DeviceCell = (props: Props) => {
         )}
         {syncInProgress && (
           <View style={styles.syncButtonContainer}>
-            <View
+            {/* <View
               style={{
                 position: 'absolute',
                 top: 13,
@@ -150,7 +161,7 @@ const DeviceCell = (props: Props) => {
                   backgroundColor: 'white'
                 }}
               />
-            </View>
+            </View> */}
             <ActivityIndicator size="large" color={VERY_LIGHT_BLUE} />
           </View>
         )}

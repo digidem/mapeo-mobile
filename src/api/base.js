@@ -79,3 +79,35 @@ export const blankRequest = (parameters: Parameters) =>
   request(parameters.method, parameters.route, parameters.body).flatMap(() =>
     Observable.of(null)
   );
+
+export const syncRequest = (parameters: Parameters) => {
+  return Observable.create(observer => {
+    const request = new XMLHttpRequest();
+    request.onprogress = e => {
+      if (request.response) {
+        const progressArr = request.response.trim().split('\n');
+        const progress = JSON.parse(progressArr.pop());
+
+        const acceptedTopics = {
+          'replication-started': true,
+          'replication-progress': true,
+          'replication-error': true,
+          'replication-complete': true
+        };
+
+        if (acceptedTopics[progress.topic]) {
+          observer.next(progress.topic);
+        }
+
+        if (progress.topic === 'replication-complete') {
+          observer.complete();
+        }
+      }
+    };
+
+    request.open(parameters.method, API_DOMAIN_URL + parameters.route);
+    request.send();
+  }).flatMap(response => {
+    return Observable.of(response);
+  });
+};

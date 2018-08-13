@@ -135,17 +135,17 @@ class SyncView extends React.Component<
       : I18n.t('sync.available');
     if (selectedDevice) {
       switch (selectedDevice.syncStatus) {
-        case 'requested':
+        case 'replication-started':
           headerDeviceText = I18n.t('sync.initiated');
           break;
-        case 'syncing':
+        case 'replication-progress':
           headerDeviceText = I18n.t('sync.progress');
           break;
-        case 'stopped':
+        case 'replication-error':
           headerDeviceText = I18n.t('sync.stopped');
           syncStopped = true;
           break;
-        case 'completed':
+        case 'replication-complete':
           headerDeviceText = I18n.t('sync.completed');
           break;
         default:
@@ -156,32 +156,12 @@ class SyncView extends React.Component<
     const keyExtractor = (item, index) => item.id;
 
     const handleDevicePress = item => {
+      const { selectDevice } = this.props;
       const syncInProgress =
         item.syncStatus === 'requested' || item.syncStatus === 'syncing';
 
+      selectDevice(item);
       startSync(item);
-      // setTimeout(() => {
-      //   updateDeviceSync({
-      //     ...item,
-      //     selected: true,
-      //     syncStatus: 'replication-complete'
-      //   });
-      //   toggleDeviceSelect(item);
-      //   showSyncedModal();
-      // }, 4000);
-      // if (selectedDevice) {
-      //   // updateDeviceSync({
-      //   //   ...selectedDevice,
-      //   //   selected: false,
-      //   //   syncStatus: 'replication-stopped'
-      //   // });
-      //
-      //   if (selectedDevice.id !== item.id) {
-      //     startSync(item);
-      //   }
-      // } else {
-      //   startSync();
-      // }
     };
     const renderItem = ({ item }) => (
       <DeviceCell
@@ -192,10 +172,6 @@ class SyncView extends React.Component<
       />
     );
     const closeSyncView = () => {
-      if (selectedDevice) {
-        selectDevice(undefined);
-        toggleDeviceSelect(selectedDevice);
-      }
       navigation.goBack();
     };
     const handleModalContinue = () => {
