@@ -17,6 +17,7 @@ This is a React Native project, making use of [react-native-node](https://github
 
 - Execute `npm run build-rnnodeapp` to compile the Node.js background project. It should create the folder `./rnnodeapp`
 - `npm run android` will compile the Android/Java project and install the APK on the USB-connected device
+- **IMPORTANT: rnnodeapp changes:** If you change any code within `./rnnodeapp` you will need to re-run `npm run build-rnnodeapp` **AND** at least quit and re-run `npm run android` and if the app is still not updating, uninstall it and re-install.
 
 #### Before commit (or in your editor config)
 
@@ -69,9 +70,11 @@ Run `git secret reveal`. It will ask you for your gpg private key password. They
 
 ### Generate Release APK
 
-Make sure you have decrypted the keystore my following the instructions above, then:
+Make sure you have decrypted the keystore my following the instructions above, the make sure the node app is up to date:
 
 ```sh
+npm run build-rnnodeapp
+cd android
 ./gradlew assembleRelease
 ```
 
