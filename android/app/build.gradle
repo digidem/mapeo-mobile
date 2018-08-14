@@ -77,7 +77,8 @@ project.ext.react = [
         "benchmark/index.js" :
         "index.js",
     devDisabledInBenchmarkDebug: true,
-    bundleInBenchmarkDebug: true
+    bundleInBenchmarkDebug: true,
+    inputExcludes: ["android/**", "ios/**", ".gitsecret/**", "flow-typed/**"]
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
