@@ -11,6 +11,12 @@ export const {
 } = create('SYNC_ANNOUNCE', {});
 
 export const {
+  type: SYNC_UNANNOUNCE,
+  action: syncUnannounce,
+  reducer: syncUnannounceReducer
+} = create('SYNC_UNANNOUNCE', {});
+
+export const {
   type: SYNC_START,
   action: syncStart,
   reducer: syncStartReducer

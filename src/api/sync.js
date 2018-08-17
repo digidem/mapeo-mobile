@@ -3,6 +3,12 @@ import { jsonRequest, blankRequest } from './base';
 import type { Device } from '../types/device';
 
 class Sync {
+  static unannounce = () =>
+    blankRequest({
+      method: 'GET',
+      route: '/sync/unannounce'
+    });
+
   static announce = () =>
     blankRequest({
       method: 'GET',

@@ -3,6 +3,7 @@
 import React from 'react';
 import type { ActionsObservable } from 'redux-observable';
 import {
+  SYNC_UNANNOUNCE,
   SYNC_ANNOUNCE,
   SYNC_START,
   syncStart,
@@ -54,6 +55,12 @@ const initialDevices = [
 ];
 
 // const initialDevices = [];
+
+export const syncUnannounceEpic = (action$: ActionsObservable<any>) =>
+  action$
+    .ofType(SYNC_UNANNOUNCE)
+    .filter(action => action.status === 'Start')
+    .flatMap(() => Sync.unannounce().map(response => deviceList('')));
 
 export const syncAnnounceEpic = (action$: ActionsObservable<any>) =>
   action$

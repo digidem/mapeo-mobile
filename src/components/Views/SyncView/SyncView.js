@@ -30,6 +30,7 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
+  unannounceSync: () => void,
   announceSync: () => void,
   startSync: (device: Device) => void,
   selectDevice: (device?: Device) => void,
@@ -84,9 +85,13 @@ class SyncView extends React.Component<
   }
 
   componentWillUnmount() {
+    const { unannounceSync } = nextProps;
+
     if (this.interval) {
       clearInterval(this.interval);
     }
+
+    unannounceSync();
 
     NetInfo.removeEventListener(
       'connectionChange',
