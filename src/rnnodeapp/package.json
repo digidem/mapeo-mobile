@@ -5,10 +5,12 @@
   "dependencies": {
     "bufferutil": "^3.0.5",
     "fs-walk": "0.0.2",
+    "glob": "^7.1.2",
     "leveldown-android-prebuilt": "2.0.3",
     "mapeo-server": "^8.0.0",
     "mapeo-styles": "^2.0.0",
     "mkdirp": "0.5.1",
+    "once": "^1.4.0",
     "osm-p2p": "^2.0.0",
     "safe-fs-blob-store": "^1.0.1",
     "utf-8-validate": "^4.0.2"

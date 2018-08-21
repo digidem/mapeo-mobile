@@ -1,0 +1,377 @@
+{
+    "categories": {},
+    "fields": {
+        "additional-field": {
+            "key": "additional-field",
+            "type": "textarea",
+            "universal": true,
+            "icon": "note",
+            "label": "Additional field",
+            "placeholder": "You can create any questions that you want to collect other information"
+        }
+    },
+    "presets": {
+        "berries": {
+            "icon": "berries",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "berries"
+            },
+            "terms": [
+                "berries"
+            ],
+            "name": "Berries"
+        },
+        "burial": {
+            "icon": "burial",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "burial_site"
+            },
+            "terms": [
+                "burial"
+            ],
+            "name": "Burial"
+        },
+        "cafe-restaurant": {
+            "icon": "cafe-restaurant",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "cafe_or_restaurant"
+            },
+            "terms": [
+                "cafe",
+                "restaurant"
+            ],
+            "name": "Cafe / restaurant"
+        },
+        "camp": {
+            "icon": "camp",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "camp"
+            },
+            "terms": [
+                "campsite",
+                "camping"
+            ],
+            "name": "Camp"
+        },
+        "community-gathering-space": {
+            "icon": "community-gathering-space",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "community_space"
+            },
+            "terms": [
+                "community"
+            ],
+            "name": "Community gathering space"
+        },
+        "fishing-spot": {
+            "icon": "fishing-spot",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "fishing_spot"
+            },
+            "terms": [
+                "fishing"
+            ],
+            "name": "Fishing spot"
+        },
+        "house": {
+            "icon": "house",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "house"
+            },
+            "terms": [
+                "house",
+                "home"
+            ],
+            "name": "House"
+        },
+        "medicinal-plants": {
+            "icon": "medicinal-plants",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "medicinal_plant"
+            },
+            "terms": [
+                "medicinal"
+            ],
+            "name": "Medicinal plant"
+        },
+        "moose": {
+            "icon": "moose",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "moose"
+            },
+            "terms": [
+                "moose"
+            ],
+            "name": "Moose"
+        },
+        "moose-lick": {
+            "icon": "moose-lick",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "moose_lick"
+            },
+            "terms": [
+                "moose"
+            ],
+            "name": "Moose lick"
+        },
+        "contaminated-fish": {
+            "icon": "contaminated-fish",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "monitoring",
+                "category": "contaminated_fish"
+            },
+            "terms": [
+                "fish",
+                "poison"
+            ],
+            "name": "Contaminated fish"
+        },
+        "other": {
+            "icon": "other",
+            "name": "Other",
+            "tags": {},
+            "geometry": [
+                "point"
+            ]
+        },
+        "pesticide-contamination": {
+            "icon": "pesticide-contamination",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "monitoring",
+                "category": "pesticide"
+            },
+            "terms": [
+                "pesticide"
+            ],
+            "name": "Pesticide contamination"
+        },
+        "playground": {
+            "icon": "playground",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "playground"
+            },
+            "terms": [
+                "playground"
+            ],
+            "name": "Playground"
+        },
+        "contaminated-animal": {
+            "icon": "contaminated-animal",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "monitoring",
+                "category": "contaminated_animal"
+            },
+            "terms": [
+                "animal",
+                "poison"
+            ],
+            "name": "Contaminated animal"
+        },
+        "oil-spill": {
+            "icon": "oil-spill",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "monitoring",
+                "category": "oil_spill"
+            },
+            "terms": [
+                "oil"
+            ],
+            "name": "Oil spill"
+        },
+        "public-seating-resting": {
+            "icon": "public-seating-resting-spot",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "public_seating"
+            },
+            "terms": [
+                "seating"
+            ],
+            "name": "Public seating or resting"
+        },
+        "trapline": {
+            "icon": "trapline",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "hunting"
+            },
+            "terms": [],
+            "name": "Trapline"
+        },
+        "sacred-site": {
+            "icon": "sacred-site",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "sacred_site"
+            },
+            "terms": [
+                "sacred"
+            ],
+            "name": "Sacred site"
+        },
+        "river": {
+            "icon": "river",
+            "fields": [
+                "additional-field"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "activity": "mapping",
+                "category": "river"
+            },
+            "terms": [
+                "river"
+            ],
+            "name": "River"
+        }
+    },
+    "defaults": {
+        "area": [],
+        "line": [],
+        "point": [
+            "berries",
+            "burial",
+            "cafe-restaurant",
+            "camp",
+            "community-gathering-space",
+            "contaminated-animal",
+            "contaminated-fish",
+            "fishing-spot",
+            "house",
+            "medicinal-plants",
+            "moose-lick",
+            "moose",
+            "oil-spill",
+            "other",
+            "pesticide-contamination",
+            "playground",
+            "public-seating-resting",
+            "river",
+            "sacred-site",
+            "trapline"
+        ],
+        "vertex": [],
+        "relation": []
+    }
+}

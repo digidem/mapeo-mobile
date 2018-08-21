@@ -27,6 +27,8 @@ const os = require('os');
 const mkdirp = require('mkdirp');
 const styles = require('mapeo-styles');
 
+const unpackAssets = require('./unpack-assets')
+
 console.log('1: init');
 
 // NOTE: in the future, we might want separate private keys
@@ -51,7 +53,10 @@ console.log('2: dirs created');
 styles.unpackIfNew(STATIC_PATH, function(err, didWrite) {
   console.log('3: unpacked', err, didWrite);
   if (err) throw err;
-  start();
+  unpackAssets(STATIC_PATH, function (err) {
+    if (err) throw err;
+    start();
+  });
 });
 
 function start() {

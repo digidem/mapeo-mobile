@@ -1,0 +1,95 @@
+{
+    "en": {
+        "presets": {
+            "categories": {},
+            "fields": {
+                "additional-field": {
+                    "label": "Additional field",
+                    "placeholder": "You can create any questions that you want to collect other information"
+                }
+            },
+            "presets": {
+                "berries": {
+                    "name": "Berries",
+                    "terms": "berries"
+                },
+                "burial": {
+                    "name": "Burial",
+                    "terms": "burial"
+                },
+                "cafe-restaurant": {
+                    "name": "Cafe / restaurant",
+                    "terms": "cafe,restaurant"
+                },
+                "camp": {
+                    "name": "Camp",
+                    "terms": "campsite,camping"
+                },
+                "community-gathering-space": {
+                    "name": "Community gathering space",
+                    "terms": "community"
+                },
+                "fishing-spot": {
+                    "name": "Fishing spot",
+                    "terms": "fishing"
+                },
+                "house": {
+                    "name": "House",
+                    "terms": "house,home"
+                },
+                "medicinal-plants": {
+                    "name": "Medicinal plant",
+                    "terms": "medicinal"
+                },
+                "moose": {
+                    "name": "Moose",
+                    "terms": "moose"
+                },
+                "moose-lick": {
+                    "name": "Moose lick",
+                    "terms": "moose"
+                },
+                "contaminated-fish": {
+                    "name": "Contaminated fish",
+                    "terms": "fish,poison"
+                },
+                "other": {
+                    "name": "Other",
+                    "terms": ""
+                },
+                "pesticide-contamination": {
+                    "name": "Pesticide contamination",
+                    "terms": "pesticide"
+                },
+                "playground": {
+                    "name": "Playground",
+                    "terms": "playground"
+                },
+                "contaminated-animal": {
+                    "name": "Contaminated animal",
+                    "terms": "animal,poison"
+                },
+                "oil-spill": {
+                    "name": "Oil spill",
+                    "terms": "oil"
+                },
+                "public-seating-resting": {
+                    "name": "Public seating or resting",
+                    "terms": "seating"
+                },
+                "trapline": {
+                    "name": "Trapline",
+                    "terms": ""
+                },
+                "sacred-site": {
+                    "name": "Sacred site",
+                    "terms": "sacred"
+                },
+                "river": {
+                    "name": "River",
+                    "terms": "river"
+                }
+            }
+        }
+    }
+}
