@@ -24,8 +24,7 @@ import {
 type Props = {
   device: Device,
   onPress: (i: Device) => void,
-  selectedDevice?: Device,
-  showSyncedModal: () => void
+  selected: boolean
 };
 
 const styles = StyleSheet.create({
@@ -102,7 +101,7 @@ const DeviceCell = (props: Props) => {
   }
 
   const syncInProgress =
-    props.device.selected &&
+    props.selected &&
     (props.device.syncStatus === 'replication-started' ||
       props.device.syncStatus === 'replication-progress');
 
@@ -111,7 +110,7 @@ const DeviceCell = (props: Props) => {
       <View
         style={[
           styles.cellContainer,
-          { backgroundColor: props.device.selected ? MEDIUM_BLUE : MAPEO_BLUE }
+          { backgroundColor: props.selected ? MEDIUM_BLUE : MAPEO_BLUE }
         ]}
       >
         <View style={styles.deviceTextContainer}>
