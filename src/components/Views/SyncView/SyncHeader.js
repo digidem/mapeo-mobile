@@ -19,7 +19,7 @@ import {
 } from '../../../lib/styles';
 
 type Props = {
-  back: () => void,
+  back: Function,
   progressText: string,
   syncStopped: boolean
 };

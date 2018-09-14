@@ -130,6 +130,12 @@ class SyncView extends React.Component<
     );
   };
 
+  handleBack = () => {
+    const { navigation } = this.props;
+
+    navigation.goBack();
+  };
+
   render() {
     const { devices, navigation, syncTarget, setSyncTarget, sync } = this.props;
     const { wifi } = this.state;
@@ -171,8 +177,8 @@ class SyncView extends React.Component<
         {noDevices ? (
           <View style={{ flex: 1 }}>
             <SyncHeader
-              back={navigation.goBack}
-              deviceText={headerDeviceText}
+              back={this.handleBack}
+              deviceText={progressText}
               syncStopped={syncStopped}
             />
             <View

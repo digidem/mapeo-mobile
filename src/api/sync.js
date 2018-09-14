@@ -9,17 +9,19 @@ class Sync {
       route: '/sync/unannounce'
     });
 
-  static announce = () =>
-    blankRequest({
+  static announce = () => {
+    return blankRequest({
       method: 'GET',
       route: '/sync/announce'
     });
+  };
 
-  static list = () =>
-    jsonRequest({
+  static list = () => {
+    return jsonRequest({
       method: 'GET',
       route: '/sync/targets'
     });
+  };
 
   static start = (device: Device) =>
     blankRequest({

@@ -23,8 +23,8 @@ function mapStateToProps(state: StoreState): StateProps {
 function mapDispatchToProps(dispatch: Dispatch<*>): DispatchProps {
   return {
     announceSync: () => {
-      dispatch(deviceList());
       dispatch(syncAnnounce());
+      dispatch(deviceList());
     },
     unannounceSync: () => dispatch(syncUnannounce()),
     setSyncTarget: device => dispatch(deviceSelect(device)),
