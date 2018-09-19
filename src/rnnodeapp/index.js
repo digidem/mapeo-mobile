@@ -62,7 +62,8 @@ function start() {
   const route = Router(db, media, {
     host: HOST,
     media: { mode: 'push' },
-    staticRoot: STATIC_PATH
+    staticRoot: STATIC_PATH,
+    writeFormat: 'osm-p2p-syncfile'
   });
 
   const server = http.createServer((req, res) => {
