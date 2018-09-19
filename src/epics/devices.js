@@ -65,11 +65,12 @@ export const syncStartEpic = (action$: ActionsObservable<any>) =>
   action$
     .ofType(SYNC_START)
     .filter(action => action.status === 'Start')
-    .flatMap(action =>
+    .flatMap(action => {
+      if (action.meta.filename) return Sync.toFile(action.meta.filename)
       Sync.start(action.meta).map(response => {
         return syncStart(action.meta, response);
       })
-    );
+    });
 
 export const deviceListEpic = (
   action$: ActionsObservable<Action<string, Device[]>>,

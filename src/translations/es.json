@@ -104,7 +104,8 @@
       "title": "Sincronización completa",
       "details": "Se agregaron nuevas observaciones",
       "ok": "OK"
-    }
+    },
+    "export_button": "Sincronizar al Archivo"
   },
   "gps": {
     "loading": "Buscando GPS...",

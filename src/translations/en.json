@@ -103,7 +103,8 @@
       "title": "Sync Complete",
       "details": "New observations have been added",
       "ok": "OK"
-    }
+    },
+    "export_button": "Sync to USB"
   },
   "gps": {
     "loading": "GPS Loading...",

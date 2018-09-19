@@ -20,6 +20,12 @@ class Sync {
       method: 'GET',
       route: `/sync/start?host=${device.host}&port=${device.port}`
     });
+
+  static toFile = (filename: string) =>
+    blankRequest({
+      method: 'GET',
+      route: `/sync/start?filename=${filename}`
+    });
 }
 
 export default Sync;

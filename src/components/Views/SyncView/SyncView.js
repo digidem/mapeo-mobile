@@ -11,6 +11,7 @@ import {
   NetInfo
 } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
+import SyncIcon from 'react-native-vector-icons/MaterialIcons';
 import WifiIcon from 'react-native-vector-icons/MaterialIcons';
 import SyncHeader from './SyncHeader';
 import DeviceCell from './DeviceCell';
@@ -155,6 +156,10 @@ class SyncView extends React.Component<
 
     const keyExtractor = (item, index) => item.id;
 
+    const handleUSBPress = () => {
+      startSync({filename: '/sdcard/Android/data/com.mapeomobile/static'})
+    }
+
     const handleDevicePress = item => {
       const syncInProgress =
         item.syncStatus === 'requested' || item.syncStatus === 'syncing';
@@ -270,6 +275,22 @@ class SyncView extends React.Component<
             />
           </View>
         )}
+
+        <TouchableOpacity
+          onPress={handleUSBPress}
+          underlayColor="transparent"
+          style={{ flex: 1, alignItems: 'center' }}
+        >
+          <View style={{ flexDirection: 'row' }}>
+            <SyncIcon
+              size={30}
+              style={{ marginHorizontal: 30 }}
+            />
+            <Text>
+              {I18n.t('sync.export_button')}
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
