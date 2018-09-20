@@ -66,7 +66,7 @@ export const syncStartEpic = (action$: ActionsObservable<any>) =>
     .ofType(SYNC_START)
     .filter(action => action.status === 'Start')
     .flatMap(action => {
-      const syncing = action.meta.filename ? Sync.toFile(action.meta.filename) : Sync.start(action.meta);
+      const syncing = action.meta.dataset ? Sync.dataset(action.meta.dataset) : Sync.start(action.meta);
       return syncing.map(resp => syncStart(meta, resp));
     });
 

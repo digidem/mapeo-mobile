@@ -157,7 +157,7 @@ class SyncView extends React.Component<
     const keyExtractor = (item, index) => item.id;
 
     const handleUSBPress = () => {
-      startSync({filename: '/sdcard/Android/data/com.mapeomobile/static/data.syncfile'})
+      startSync({dataset: 'default'})
     }
 
     const handleDevicePress = item => {

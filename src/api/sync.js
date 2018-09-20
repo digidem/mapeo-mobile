@@ -21,10 +21,10 @@ class Sync {
       route: `/sync/start?host=${device.host}&port=${device.port}`
     });
 
-  static toFile = (filename: string) =>
+  static dataset = (dataset: string) =>
     blankRequest({
       method: 'GET',
-      route: `/sync/start?filename=${filename}`
+      route: `/sync/start?dataset=${dataset}`
     });
 }
 
