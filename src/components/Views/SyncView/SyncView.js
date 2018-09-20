@@ -157,6 +157,8 @@ class SyncView extends React.Component<
     const keyExtractor = (item, index) => item.id;
 
     const handleUSBPress = () => {
+      // One day... the user is prompted to pick datasets from a list and the
+      // resulting dataset_id is passed to startSync
       startSync({dataset: 'default'})
     }
 
