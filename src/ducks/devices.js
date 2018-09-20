@@ -14,7 +14,26 @@ export const {
   type: SYNC_START,
   action: syncStart,
   reducer: syncStartReducer
-} = create('SYNC_START', {});
+} = create('SYNC_START', {
+  start: (state, action) => {
+    const newState = update(state, {
+      selectedDevice: {
+        syncStatus: { $set: 'requested' }
+      }
+    });
+
+    return newState;
+  },
+  success: (state, action) => {
+    const newState = update(state, {
+      selectedDevice: {
+        syncStatus: { $set: action.payload }
+      }
+    });
+
+    return newState;
+  }
+});
 
 export const {
   type: DEVICE_LIST,
@@ -86,5 +105,6 @@ export default [
   deviceListReducer,
   deviceToggleSelectReducer,
   deviceSelectReducer,
-  deviceSyncUpdateReducer
+  deviceSyncUpdateReducer,
+  syncStartReducer
 ];

@@ -1,5 +1,5 @@
 // @flow
-import { jsonRequest, blankRequest } from './base';
+import { jsonRequest, blankRequest, syncRequest } from './base';
 import type { Device } from '../types/device';
 
 class Sync {
@@ -16,7 +16,7 @@ class Sync {
     });
 
   static start = (device: Device) =>
-    blankRequest({
+    syncRequest({
       method: 'GET',
       route: `/sync/start?host=${device.host}&port=${device.port}`
     });
