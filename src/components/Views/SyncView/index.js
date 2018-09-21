@@ -1,6 +1,7 @@
 // @flow
-import { connect } from 'react-redux';
 import { values } from 'lodash';
+import { connect } from 'react-redux';
+
 import type { Dispatch } from 'redux';
 import type { StoreState } from '../../../types/redux';
 import type { Device } from '../../../types/device';
@@ -16,7 +17,7 @@ import type { StateProps, DispatchProps } from './SyncView';
 function mapStateToProps(state: StoreState): StateProps {
   return {
     devices: values(state.devices),
-    syncTarget: state.selectedDevice
+    syncTarget: state.selectedDevice,
   };
 }
 
@@ -27,8 +28,8 @@ function mapDispatchToProps(dispatch: Dispatch<*>): DispatchProps {
       dispatch(deviceList());
     },
     unannounceSync: () => dispatch(syncUnannounce()),
-    setSyncTarget: device => dispatch(deviceSelect(device)),
-    sync: device => dispatch(syncStart(device))
+    clearSyncTarget: () => dispatch(deviceSelect(undefined)),
+    sync: (device: Device) => dispatch(syncStart(device))
   };
 }
 

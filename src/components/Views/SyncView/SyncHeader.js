@@ -64,7 +64,10 @@ if (I18n) {
 const SyncHeader = (props: Props) => (
   <View style={{ flexDirection: 'column' }}>
     <View style={styles.header}>
-      <TouchableOpacity onPress={props.back} style={styles.closeIcon}>
+      <TouchableOpacity
+        onPress={() => props.back()}
+        style={styles.closeIcon}
+      >
         <CloseIcon color={WHITE} name="close" size={30} />
       </TouchableOpacity>
       <View style={{ flexDirection: 'column' }}>

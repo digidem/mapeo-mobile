@@ -1,65 +1,26 @@
 // @flow
-
 import React from 'react';
 import type { ActionsObservable } from 'redux-observable';
-import { DEVICE_LIST, deviceList } from '../ducks/devices';
+import { DEVICE_LIST, deviceList, deviceSyncUpdate } from '../ducks/devices';
 import {
   SYNC_UNANNOUNCE,
   SYNC_ANNOUNCE,
   SYNC_START,
-  syncStart
+  syncStart,
+  syncUnannounce
 } from '../ducks/sync';
 import { createDevice } from '../mocks/devices';
 import type { Action } from '../types/redux';
 import type { Device } from '../types/device';
 import type { StoreState } from '../types/redux';
 import Sync from '../api/sync';
-
-const initialDevices = [
-  {
-    name: `Aldo's MacBook`,
-    host: '192.168.0.1',
-    port: 123,
-    selected: false,
-    syncStatus: 'notStarted'
-  },
-  {
-    name: `Cindy's MacBook`,
-    host: '192.168.0.1',
-    port: 123,
-    selected: false,
-    syncStatus: 'notStarted'
-  },
-  {
-    name: `Stephen's Laptop`,
-    host: '192.168.0.1',
-    port: 123,
-    selected: false,
-    syncStatus: 'notStarted'
-  },
-  {
-    name: `Karissa's MacBook`,
-    host: '192.168.0.1',
-    port: 123,
-    selected: false,
-    syncStatus: 'notStarted'
-  },
-  {
-    name: `Gregor's MacBook`,
-    host: '192.168.0.1',
-    port: 123,
-    selected: false,
-    syncStatus: 'notStarted'
-  }
-];
-
-// const initialDevices = [];
+import { applyDefaultsToDevice } from '../models/device';
 
 export const syncUnannounceEpic = (action$: ActionsObservable<any>) =>
   action$
     .ofType(SYNC_UNANNOUNCE)
     .filter(action => action.status === 'Start')
-    .flatMap(() => Sync.unannounce().map(response => deviceList('')));
+    .flatMap(() => Sync.unannounce().map(() => syncUnannounce(null, null)));
 
 export const syncAnnounceEpic = (action$: ActionsObservable<any>) =>
   action$
@@ -73,7 +34,7 @@ export const syncStartEpic = (action$: ActionsObservable<any>) =>
     .filter(action => action.status === 'Start')
     .flatMap(action =>
       Sync.start(action.meta).map(response => {
-        return syncStart(action.meta, response);
+        return deviceSyncUpdate(action.meta, response);
       })
     );
 
@@ -86,20 +47,7 @@ export const deviceListEpic = (
     .filter(action => action.status === 'Start')
     .flatMap(() =>
       Sync.list().map(devices => {
-        return deviceList(
-          '',
-          devices.map((d, i) =>
-            createDevice({
-              name: d.name,
-              id: i.toString(),
-              host: d.host,
-              port: d.port,
-              selected: false,
-              syncStatus: d.status,
-              message: d.message
-            })
-          )
-        );
+        return deviceList('', devices.map(applyDefaultsToDevice));
       })
     );
 

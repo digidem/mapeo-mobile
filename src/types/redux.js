@@ -36,7 +36,7 @@ export interface StoreState {
     [id: string]: Device
   };
 
-  selectedDevice?: Device;
+  selectedDevice?: string;
   settings: SettingsState;
   map: MapState;
 

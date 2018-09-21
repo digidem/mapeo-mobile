@@ -1,15 +1,16 @@
 // @flow
 import React from 'react';
 import {
+  Dimensions,
+  FlatList,
+  NetInfo,
+  StyleSheet,
+  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Text,
-  View,
-  FlatList,
-  Dimensions,
-  StyleSheet,
-  NetInfo
+  View
 } from 'react-native';
+
 import type { NavigationScreenProp } from 'react-navigation';
 import WifiIcon from 'react-native-vector-icons/MaterialIcons';
 import SyncHeader from './SyncHeader';
@@ -25,14 +26,14 @@ type Props = {
 
 export type StateProps = {
   devices: Device[],
-  syncTarget?: Device
+  syncTarget?: string
 };
 
 export type DispatchProps = {
-  announceSync: () => void,
-  unannounceSync: () => void,
-  setSyncTarget: (device?: Device) => void,
-  sync: (device: Device) => void
+  announceSync: () => any,
+  unannounceSync: () => any,
+  clearSyncTarget: () => any,
+  sync: (device: Device) => any
 };
 
 type State = {
@@ -91,12 +92,12 @@ class SyncView extends React.Component<
   };
 
   handleBlur = () => {
-    const { unannounceSync, syncTarget, setSyncTarget } = this.props;
+    const { unannounceSync, syncTarget, clearSyncTarget } = this.props;
 
     // on screen blur, unannounce and clear selected device
     unannounceSync();
     if (syncTarget) {
-      setSyncTarget(undefined);
+      clearSyncTarget();
     }
   };
 
@@ -111,7 +112,8 @@ class SyncView extends React.Component<
   handleDevicePress = (item: Device) => {
     const { sync } = this.props;
     const syncInProgress =
-      item.syncStatus === 'requested' || item.syncStatus === 'syncing';
+      item.syncStatus === 'replication-started' ||
+      item.syncStatus === 'replication-progress';
 
     if (!syncInProgress) {
       sync(item);
@@ -125,39 +127,44 @@ class SyncView extends React.Component<
       <DeviceCell
         device={item}
         onPress={this.handleDevicePress}
-        selected={!!syncTarget && item.id === syncTarget.id}
+        selected={!!syncTarget && item.id === syncTarget}
       />
     );
   };
 
   handleBack = () => {
     const { navigation } = this.props;
+    console.log('clicked back');
 
     navigation.goBack();
   };
 
   render() {
-    const { devices, navigation, syncTarget, setSyncTarget, sync } = this.props;
+    const { devices, navigation, syncTarget, sync } = this.props;
     const { wifi } = this.state;
 
     let syncStopped = false;
-    const noDevices = devices.length === 0 || !wifi;
-    let progressText = noDevices
+    const noDevices: boolean = devices.length === 0 || !wifi;
+
+    let progressText: string = noDevices
       ? I18n.t('sync.none')
       : I18n.t('sync.available');
-    if (syncTarget) {
-      switch (syncTarget.syncStatus) {
-        case 'requested':
+    const selectedDevice: ?Device = syncTarget ?
+      devices.find(device => device.id === syncTarget) : undefined;
+
+    if (selectedDevice) {
+      switch (selectedDevice.syncStatus) {
+        case 'replication-started':
           progressText = I18n.t('sync.initiated');
           break;
-        case 'syncing':
+        case 'replication-progress':
           progressText = I18n.t('sync.progress');
           break;
-        case 'stopped':
+        case 'replication-error':
           progressText = I18n.t('sync.stopped');
           syncStopped = true;
           break;
-        case 'completed':
+        case 'replication-complete':
           progressText = I18n.t('sync.completed');
           break;
         default:
@@ -178,7 +185,7 @@ class SyncView extends React.Component<
           <View style={{ flex: 1 }}>
             <SyncHeader
               back={this.handleBack}
-              deviceText={progressText}
+              progressText={progressText}
               syncStopped={syncStopped}
             />
             <View
