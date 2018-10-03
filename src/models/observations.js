@@ -52,7 +52,7 @@ export const parseObservationRequest = (
 
 export const parseObservationResponse = (observation: Object): Observation => {
   // reconcile tags into fields
-  if (observation.tags.fields) {
+  if (observation.tags && observation.tags.fields) {
     observation.tags.fields.forEach(field => {
       delete observation.tags[field.name];
     });
