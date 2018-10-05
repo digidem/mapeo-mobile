@@ -26,8 +26,9 @@ const walk = require('fs-walk');
 const os = require('os');
 const mkdirp = require('mkdirp');
 const styles = require('mapeo-styles');
+const mapeoServerVersion = require('mapeo-server/package.json').version
 
-console.log('1: init');
+console.log('1: init mapeo-server version', mapeoServerVersion);
 
 // NOTE: in the future, we might want separate private keys
 // for each user, so let's just have a 'default' user for now so it'll be
