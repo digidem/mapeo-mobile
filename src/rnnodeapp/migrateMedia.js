@@ -1,5 +1,4 @@
 const path = require('path')
-const pump = require('pump')
 const parallel = require('run-parallel')
 const fs = require('fs')
 const safe = require('safe-fs-blob-store')
@@ -8,7 +7,7 @@ const safe = require('safe-fs-blob-store')
 // 1. see if original/media has files
 // 2. add each file to safe-fs-blob-store
 // 3. remove old file
-//
+
 module.exports = migrateDirectory
 
 function migrateDirectory (mediaPath, cb) {

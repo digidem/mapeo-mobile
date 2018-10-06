@@ -10,7 +10,6 @@
     "mapeo-styles": "^2.0.0",
     "mkdirp": "0.5.1",
     "osm-p2p": "^2.0.0",
-    "pump": "^3.0.0",
     "run-parallel": "^1.1.9",
     "safe-fs-blob-store": "^1.0.1",
     "utf-8-validate": "^4.0.2"

@@ -1,7 +1,6 @@
 const concat = require('concat-stream')
 const mkdirp = require('mkdirp')
 const rimraf = require('rimraf')
-const pump = require('pump')
 const blobstore = require('fs-blob-store')
 const fs = require('fs')
 const safeBlobstore = require('safe-fs-blob-store')
@@ -35,10 +34,16 @@ test('migrates files', function (t) {
       migrateMedia(MEDIA_PATH, function (err) {
         t.error(err, 'error on migrate')
         var safe = safeBlobstore(MEDIA_PATH)
+        console.log(key)
         var newFile = safe.createReadStream({key})
-        pump(newFile, concat(function (data) {
+        newFile.on('error', function (err) {
+          t.error(err, 'error on reading from safe blob store')
+          t.end()
+        })
+        newFile.pipe(concat(function (data) {
           t.same(fs.readFileSync(testImage), data)
-        }), done)
+          done()
+        }))
       })
     })
   }
@@ -49,7 +54,7 @@ test('migrates files', function (t) {
 })
 
 test('when there is nothing to migrate, nothing happens', function (t) {
-  resetMediaPath()
+  // resetMediaPath()
   migrateMedia(MEDIA_PATH, function (err) {
     t.error(err, 'error on migrate')
     t.end()
