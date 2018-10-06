@@ -15,6 +15,7 @@
     "utf-8-validate": "^4.0.2"
   },
   "devDependencies": {
-    "fs-blob-store": "^5.2.1"
+    "fs-blob-store": "^5.2.1",
+    "run-series": "^1.1.8"
   }
 }
