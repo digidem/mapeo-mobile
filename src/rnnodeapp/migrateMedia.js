@@ -48,7 +48,7 @@ function migrateDirectory (dir, cb) {
         var keyWithPrefix = `${path.dirname(key).split('/').pop()}/${key}`
         var writeStream = blobstore.createWriteStream({key: keyWithPrefix}, cleanup)
         readStream.pipe(writeStream)
-      }
+      } else cb()
     })
   }
 }
