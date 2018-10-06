@@ -51,13 +51,13 @@ console.log('2: dirs created');
 
 // Migrate media from old fs-blob-store, if needed
 migrateMedia(MEDIA_PATH, function (err) {
-  if (err) throw err;
+  if (err) console.error(err);
 })
 
 // Unpack styles and presets, if needed
 styles.unpackIfNew(STATIC_PATH, function(err, didWrite) {
   console.log('3: unpacked', err, didWrite);
-  if (err) throw err;
+  if (err) console.error(err);
 
   start();
 });
