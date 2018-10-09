@@ -19,7 +19,7 @@ import env from '../../../../../env.json';
 import AddButton from '../../../../images/add-button.png';
 import Gradient from '../../../../images/gradient-overlay.png';
 import { WHITE } from '../../../../lib/styles';
-import { defaultObservation } from '../../../../models/observations';
+import { createDefaultObservation } from '../../../../models/observations';
 import type { Coordinates } from '../../../../types/gps';
 import type { Style } from '../../../../types/map';
 
@@ -130,7 +130,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
       navigation
     } = this.props;
     const initialObservation = {
-      ...defaultObservation,
+      ...createDefaultObservation(),
       id: (size(observations) + 1).toString()
     };
 
@@ -220,9 +220,9 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
             {!!observations && !isEmpty(observations)
               ? map(observations, (o: Observation) => (
                   <MapboxGL.ShapeSource
-                    onPress={() => this.handleObservationPress(o.id)}
+                    onPress={() => this.handleObservationPress(o.id || '')}
                     key={o.id}
-                    id={`observations-${o.id}`}
+                    id={`observations-${o.id || ''}`}
                     shape={{
                       type: 'Feature',
                       geometry: {
@@ -230,12 +230,12 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
                         coordinates: [o.lon, o.lat]
                       },
                       properties: {
-                        name: o.name
+                        categoryId: o.categoryId
                       }
                     }}
                   >
                     <MapboxGL.CircleLayer
-                      id={`circles-${o.id}`}
+                      id={`circles-${o.id || ''}`}
                       style={mapboxStyles.observation}
                     />
                   </MapboxGL.ShapeSource>

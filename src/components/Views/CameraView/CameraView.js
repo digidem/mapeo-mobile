@@ -15,15 +15,14 @@ import { size } from 'lodash';
 import Drawer from 'react-native-drawer';
 import I18n from 'react-native-i18n';
 import type { NavigationScreenProp } from 'react-navigation';
-import type { UpdateRequest } from '@api/observations';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
-import type { Observation } from '../../../types/observation';
+import type { Observation, UpdateRequest } from '../../../types/observation';
 import { CHARCOAL, WHITE } from '../../../lib/styles.js';
 
 import ObservationsView from '../ObservationsView';
 import AddButton from '../../../images/add-button.png';
-import { defaultObservation } from '../../../models/observations';
+import { createDefaultObservation } from '../../../models/observations';
 import Header from '../../Base/Header';
 import SavedModal from '../../Base/SavedModal';
 import type { MediaSaveMeta } from '../../../ducks/media';
@@ -126,7 +125,7 @@ class CameraView extends React.Component<
             routeName: 'Categories'
           });
           const initialObservation = {
-            ...defaultObservation,
+            ...createDefaultObservation(),
             id: (size(observations) + 1).toString()
           };
           console.log('updating source, creating, saving media');

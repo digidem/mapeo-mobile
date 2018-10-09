@@ -1,72 +1,83 @@
 // @flow
-import type { Observation } from '../types/observation';
-import type { ObservationAPI } from '../api/observations';
+import type {
+  Observation,
+  ServerObservationCreate,
+  ServerObservationResponse
+} from '../types/observation';
 
-export const defaultObservation: Observation = {
-  id: '',
-  lat: 0,
-  lon: 0,
-  created: new Date(),
-  name: '',
+export const createDefaultObservation = (): Observation => ({
+  created_at: new Date().toISOString(),
   notes: '',
-  observedBy: 'Tú',
-  attachments: [],
   categoryId: '',
+  attachments: [],
   fields: []
-};
+});
+
+// Properties at the top level of a server observation object
+const SERVER_PROPS: Array<$Keys<ServerObservationResponse>> = [
+  'id',
+  'version',
+  'created_at',
+  'timestamp',
+  'lon',
+  'lat',
+  'schemaVersion',
+  'ref',
+  'metadata',
+  'attachments',
+  'fields',
+  'tags'
+];
+
+// Properties at top level of local observation object copied from server obj
+const LOCAL_PROPS: Array<$Keys<Observation>> = [
+  'id',
+  'version',
+  'created_at',
+  'lat',
+  'lon',
+  'fields'
+];
 
 export const parseObservationRequest = (
-  observation: Object
-): ObservationAPI => {
-  const { lat, lon, attachments, version } = observation;
-  const tags = { ...observation };
+  observation: Observation
+): ServerObservationCreate | ServerObservationResponse => {
+  const serverObservation: Object = { tags: {} };
 
-  // remove observation defaults
-  const keep = { created: true };
-  Object.keys(tags).forEach(property => {
-    if (!keep[property] && tags[property] === defaultObservation[property]) {
-      delete tags[property];
+  // Maintain top-level props and copy other props as tags
+  Object.keys(observation).forEach(prop => {
+    if (SERVER_PROPS.includes(prop)) {
+      serverObservation[prop] = observation[prop];
+    } else {
+      serverObservation.tags[prop] = observation[prop];
     }
   });
 
-  // set fields as individual tags
-  const fields = tags.fields;
-  Object.keys(tags.fields).forEach(field => {
-    tags[field.name] = field.answer;
+  // set field answers as individual tags
+  observation.fields.forEach(field => {
+    serverObservation.tags[field.name] = field.answer;
   });
 
-  // remove topLevel properties
-  const topLevel = ['lat', 'lon', 'attachments', 'id'];
-  topLevel.forEach(p => delete tags[p]);
-
-  return {
-    lat: lat || 0,
-    lon: lon || 0,
-    version,
-    attachments: (attachments || []).map(id => ({ id })),
-    type: 'observation',
-    device_id: '1',
-    tags
-  };
+  return serverObservation;
 };
 
-export const parseObservationResponse = (observation: Object): Observation => {
-  // reconcile tags into fields
-  if (observation.tags && observation.tags.fields) {
-    observation.tags.fields.forEach(field => {
-      delete observation.tags[field.name];
-    });
-  }
+export const parseObservationResponse = (
+  serverObservation: ServerObservationResponse
+): Observation => {
+  const obs = createDefaultObservation();
 
-  const obs = {
-    ...defaultObservation,
-    ...observation.tags,
-    id: observation.id,
-    lat: observation.lat,
-    lon: observation.lon,
-    attachments: observation.attachments.map(a => a.id),
-    version: observation.version
-  };
+  Object.keys(serverObservation).forEach(prop => {
+    if (LOCAL_PROPS.includes(prop)) {
+      // $FlowFixMe
+      obs[prop] = serverObservation[prop];
+    }
+  });
+
+  obs.attachments = (serverObservation.attachments || []).map(a => a.id);
+
+  const tags = serverObservation.tags || {};
+  obs.notes = tags.notes || '';
+  obs.categoryId = tags.categoryId || '';
 
   return obs;
 };

@@ -23,9 +23,8 @@ import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import LocationPin from 'react-native-vector-icons/Entypo';
 import I18n from 'react-native-i18n';
-import type { UpdateRequest } from '@api/observations';
 import type { Category } from '../../../types/category';
-import type { Observation } from '../../../types/observation';
+import type { Observation, UpdateRequest } from '../../../types/observation';
 import type { GPSState } from '../../../types/gps';
 import CategoryPin from '../../../images/category-pin.png';
 import PencilIcon from '../../../images/editor-details.png';
@@ -299,7 +298,7 @@ class ObservationEditor extends React.Component<
     if (selectedObservation && category) {
       updateObservation({
         ...selectedObservation,
-        name: category.name
+        categoryId: category.id
       });
     }
 

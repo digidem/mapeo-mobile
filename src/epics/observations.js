@@ -17,10 +17,13 @@ import {
 import { modalShow } from '../ducks/modals';
 import { mediaSave } from '../ducks/media';
 import { Action } from '../types/redux';
-import type { Observation as ObservationType } from '../types/observation';
+import type {
+  Observation as ObservationType,
+  ServerObservationCreate,
+  ServerObservationResponse
+} from '../types/observation';
 import type { StoreState } from '../types/redux';
 import Observation from '../api/observations';
-import type { ObservationAPI, UpdateRequest } from '../api/observations';
 import { parseObservationRequest } from '../models/observations';
 
 export const observationListEpic = (
@@ -38,7 +41,9 @@ export const observationListEpic = (
     });
 
 export const observationSaveEpic = (
-  action$: ActionsObservable<Action<ObservationAPI, ObservationType>>,
+  action$: ActionsObservable<
+    Action<ServerObservationResponse, ObservationType>
+  >,
   store: any
 ) =>
   action$
@@ -62,7 +67,9 @@ export const observationSaveEpic = (
     });
 
 export const observationUpdateSaveEpic = (
-  action$: ActionsObservable<Action<UpdateRequest, ObservationType>>,
+  action$: ActionsObservable<
+    Action<ServerObservationResponse, ObservationType>
+  >,
   store: any
 ) =>
   action$

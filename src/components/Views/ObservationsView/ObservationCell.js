@@ -98,7 +98,7 @@ class ObservationCell extends React.Component<Props> {
     const esLocale = require('moment/locale/es');
     let dateString;
     if (currentLocale && currentLocale.includes('es')) {
-      dateString = moment(observation.created).calendar(null, {
+      dateString = moment(observation.created_at).calendar(null, {
         sameDay: '[Hoy], h:mm A',
         nextDay: '[Mañana], h:mm A',
         nextWeek: 'ddd, h:mm A',
@@ -107,7 +107,7 @@ class ObservationCell extends React.Component<Props> {
         sameElse: 'MM/D/YYYY, h:mm A'
       });
     } else {
-      dateString = moment(observation.created).calendar(null, {
+      dateString = moment(observation.created_at).calendar(null, {
         sameDay: '[Today], h:mm A',
         nextDay: '[Tomorrow], h:mm A',
         nextWeek: 'ddd, h:mm A',

@@ -17,8 +17,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
-import type { UpdateRequest } from '@api/observations';
-import type { Observation } from '../../../types/observation';
+import type { Observation, UpdateRequest } from '../../../types/observation';
 import type { Category } from '../../../types/category';
 import { DARK_GREY, MEDIUM_GREY, MANGO } from '../../../lib/styles';
 import getGPSText from '../../../lib/getGPSText';
@@ -287,7 +286,10 @@ class ObservationDetailView extends React.Component<
     if (!selectedObservation) {
       return <View />;
     }
-    const latLonText = `${selectedObservation.lat}, ${selectedObservation.lon}`;
+    const latLonText =
+      selectedObservation.lat && selectedObservation.lon
+        ? `${selectedObservation.lat}, ${selectedObservation.lon}`
+        : '…';
     const fields = selectedObservation.fields.map(f => (
       <View key={f.name} style={{ marginLeft: 15 }}>
         <Text style={styles.fieldTitle}>{f.name}</Text>
@@ -350,10 +352,10 @@ class ObservationDetailView extends React.Component<
             <Text style={styles.time}>
               {I18n.t('on')}{' '}
               {I18n.currentLocale().indexOf('en') !== -1
-                ? moment(selectedObservation.created).format(
-                    'MMMM D YYYY, h:hh A'
+                ? moment(selectedObservation.created_at).format(
+                    'MMMM D YYYY, h:mm A'
                   )
-                : moment(selectedObservation.created).format('LLL')}
+                : moment(selectedObservation.created_at).format('LLL')}
             </Text>
           </View>
           <View style={styles.section}>
@@ -425,7 +427,7 @@ class ObservationDetailView extends React.Component<
                       ]
                     },
                     properties: {
-                      name: selectedObservation.name
+                      categoryId: selectedObservation.categoryId
                     }
                   }}
                 >
