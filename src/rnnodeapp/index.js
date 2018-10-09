@@ -26,7 +26,7 @@ const walk = require('fs-walk');
 const os = require('os');
 const mkdirp = require('mkdirp');
 const styles = require('mapeo-styles');
-const mapeoServerVersion = require('mapeo-server/package.json').version
+const mapeoServerVersion = require('mapeo-server/package.json').version;
 
 console.log('1: init mapeo-server version', mapeoServerVersion);
 
@@ -39,7 +39,7 @@ const DB_PATH = path.join(USER_PATH, 'db');
 const MEDIA_PATH = path.join(USER_PATH, 'media');
 
 // TODO: get user's name, defined in front-end
-const HOST = 'Android phone'
+const HOST = 'Android phone';
 
 const STATIC_PATH = path.join('/sdcard/Android/data/com.mapeomobile/static');
 
