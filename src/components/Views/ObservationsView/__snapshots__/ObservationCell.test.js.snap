@@ -42,9 +42,6 @@ exports[`ObservationCell tests snapshots 1`] = `
       }
     >
       <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
         style={
           Object {
             "color": "black",
@@ -53,13 +50,9 @@ exports[`ObservationCell tests snapshots 1`] = `
           }
         }
       >
-        02/25/2018, 12:23 PM
+        02/25/2018, 11:23 PM
       </Text>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-      >
+      <Text>
         19
       </Text>
     </View>
@@ -129,6 +122,7 @@ exports[`ObservationCell tests snapshots 1`] = `
                 onLoadingFinish={[Function]}
                 onLoadingStart={[Function]}
                 onMessage={[Function]}
+                onShouldStartLoadWithRequest={[Function]}
                 scalesPageToFit={true}
                 scrollEnabled={false}
                 source={

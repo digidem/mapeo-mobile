@@ -47,9 +47,6 @@ exports[`SyncedModal tests snapshots 1`] = `
         }
       >
         <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
           style={
             Object {
               "color": "black",
@@ -62,9 +59,6 @@ exports[`SyncedModal tests snapshots 1`] = `
           Sync Complete
         </Text>
         <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
           style={
             Object {
               "color": "#666666",
@@ -103,9 +97,6 @@ exports[`SyncedModal tests snapshots 1`] = `
         }
       >
         <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
           style={
             Object {
               "color": "#ffffff",

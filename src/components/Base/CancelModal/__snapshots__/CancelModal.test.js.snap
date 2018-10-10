@@ -47,9 +47,6 @@ exports[`CancelModal tests snapshots 1`] = `
         }
       >
         <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
           style={
             Object {
               "color": "black",
@@ -62,9 +59,6 @@ exports[`CancelModal tests snapshots 1`] = `
           Changes not saved!
         </Text>
         <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
           style={
             Object {
               "color": "#666666",
@@ -106,9 +100,6 @@ exports[`CancelModal tests snapshots 1`] = `
           }
         >
           <Text
-            accessible={true}
-            allowFontScaling={true}
-            ellipsizeMode="tail"
             style={
               Object {
                 "color": "#3366ff",
@@ -147,9 +138,6 @@ exports[`CancelModal tests snapshots 1`] = `
         }
       >
         <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
           style={
             Object {
               "color": "#ffffff",

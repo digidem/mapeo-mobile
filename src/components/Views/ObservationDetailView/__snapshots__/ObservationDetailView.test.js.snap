@@ -25,7 +25,7 @@ ShallowWrapper {
       Object {
         "attachments": Array [],
         "categoryId": 19,
-        "created": 2018-02-25T20:23:00.000Z,
+        "created_at": "2018-02-25T20:23:00.000Z",
         "fields": Array [
           Object {
             "answer": "",
@@ -36,17 +36,11 @@ ShallowWrapper {
             "type": "text",
           },
         ],
-        "icon": Object {
-          "testUri": "../../../src/images/categories/category_18.png",
-        },
         "id": 1,
         "lat": 50.5,
-        "link": "linkID",
         "lon": 50.5,
-        "name": "Oil Spill",
         "notes": "This is pretty bad. It smells pretty noxious, and the entire pond is affected.",
         "observedBy": "You",
-        "type": "Observation",
       }
     }
     updateObservation={[MockFunction]}
@@ -156,10 +150,7 @@ ShallowWrapper {
               }
             }
           />
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            ellipsizeMode="tail"
+          <Component
             style={
               Object {
                 "color": "black",
@@ -171,7 +162,7 @@ ShallowWrapper {
             }
           >
             19
-          </Text>
+          </Component>
           <Component
             style={
               Object {
@@ -180,10 +171,7 @@ ShallowWrapper {
               }
             }
           >
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            <Component
               style={
                 Object {
                   "color": "black",
@@ -194,11 +182,8 @@ ShallowWrapper {
             >
               at
                
-            </Text>
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            </Component>
+            <Component
               style={
                 Object {
                   "color": "black",
@@ -208,12 +193,9 @@ ShallowWrapper {
               }
             >
               50.5, 50.5
-            </Text>
+            </Component>
           </Component>
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            ellipsizeMode="tail"
+          <Component
             style={
               Object {
                 "color": "grey",
@@ -225,8 +207,8 @@ ShallowWrapper {
           >
             on
              
-            February 25 2018, 12:12 PM
-          </Text>
+            February 25 2018, 11:23 PM
+          </Component>
         </Component>
         <Component
           style={
@@ -237,10 +219,7 @@ ShallowWrapper {
             }
           }
         >
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            ellipsizeMode="tail"
+          <Component
             style={
               Object {
                 "color": "black",
@@ -252,7 +231,7 @@ ShallowWrapper {
             }
           >
             This is pretty bad. It smells pretty noxious, and the entire pond is affected.
-          </Text>
+          </Component>
         </Component>
         <Component
           style={
@@ -278,10 +257,7 @@ ShallowWrapper {
               name="location-pin"
               size={15}
             />
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            <Component
               style={
                 Object {
                   "color": "black",
@@ -294,7 +270,7 @@ ShallowWrapper {
               }
             >
               50.5, 50.5
-            </Text>
+            </Component>
           </Component>
           <Component
             style={
@@ -335,7 +311,7 @@ ShallowWrapper {
                       "type": "Point",
                     },
                     "properties": Object {
-                      "name": "Oil Spill",
+                      "categoryId": 19,
                     },
                     "type": "Feature",
                   }
@@ -380,10 +356,7 @@ ShallowWrapper {
                 }
               }
             />
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            <Component
               style={
                 Object {
                   "color": "black",
@@ -396,7 +369,7 @@ ShallowWrapper {
               }
             >
               Details
-            </Text>
+            </Component>
           </Component>
           <Component
             style={
@@ -405,10 +378,7 @@ ShallowWrapper {
               }
             }
           >
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            <Component
               style={
                 Object {
                   "color": "black",
@@ -418,11 +388,8 @@ ShallowWrapper {
               }
             >
               fieldName
-            </Text>
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            </Component>
+            <Component
               style={
                 Object {
                   "color": "black",
@@ -434,7 +401,7 @@ ShallowWrapper {
               }
             >
               Not entered
-            </Text>
+            </Component>
           </Component>
         </Component>
         <Component
@@ -446,10 +413,7 @@ ShallowWrapper {
             }
           }
         >
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            ellipsizeMode="tail"
+          <Component
             style={
               Object {
                 "color": "black",
@@ -462,7 +426,7 @@ ShallowWrapper {
             }
           >
             Observed by
-          </Text>
+          </Component>
           <Component
             style={
               Object {
@@ -482,10 +446,7 @@ ShallowWrapper {
                 }
               }
             />
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            <Component
               style={
                 Object {
                   "color": "black",
@@ -496,7 +457,7 @@ ShallowWrapper {
               }
             >
               You
-            </Text>
+            </Component>
           </Component>
         </Component>
       </ScrollView>,
@@ -594,10 +555,7 @@ ShallowWrapper {
                 }
               }
             />
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            <Component
               style={
                 Object {
                   "color": "black",
@@ -609,7 +567,7 @@ ShallowWrapper {
               }
             >
               19
-            </Text>
+            </Component>
             <Component
               style={
                 Object {
@@ -618,10 +576,7 @@ ShallowWrapper {
                 }
               }
             >
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -632,11 +587,8 @@ ShallowWrapper {
               >
                 at
                  
-              </Text>
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              </Component>
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -646,12 +598,9 @@ ShallowWrapper {
                 }
               >
                 50.5, 50.5
-              </Text>
+              </Component>
             </Component>
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            <Component
               style={
                 Object {
                   "color": "grey",
@@ -663,8 +612,8 @@ ShallowWrapper {
             >
               on
                
-              February 25 2018, 12:12 PM
-            </Text>
+              February 25 2018, 11:23 PM
+            </Component>
           </Component>,
           <Component
             style={
@@ -675,10 +624,7 @@ ShallowWrapper {
               }
             }
           >
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            <Component
               style={
                 Object {
                   "color": "black",
@@ -690,7 +636,7 @@ ShallowWrapper {
               }
             >
               This is pretty bad. It smells pretty noxious, and the entire pond is affected.
-            </Text>
+            </Component>
           </Component>,
           <Component
             style={
@@ -716,10 +662,7 @@ ShallowWrapper {
                 name="location-pin"
                 size={15}
               />
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -732,7 +675,7 @@ ShallowWrapper {
                 }
               >
                 50.5, 50.5
-              </Text>
+              </Component>
             </Component>
             <Component
               style={
@@ -773,7 +716,7 @@ ShallowWrapper {
                         "type": "Point",
                       },
                       "properties": Object {
-                        "name": "Oil Spill",
+                        "categoryId": 19,
                       },
                       "type": "Feature",
                     }
@@ -818,10 +761,7 @@ ShallowWrapper {
                   }
                 }
               />
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -834,7 +774,7 @@ ShallowWrapper {
                 }
               >
                 Details
-              </Text>
+              </Component>
             </Component>
             <Component
               style={
@@ -843,10 +783,7 @@ ShallowWrapper {
                 }
               }
             >
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -856,11 +793,8 @@ ShallowWrapper {
                 }
               >
                 fieldName
-              </Text>
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              </Component>
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -872,7 +806,7 @@ ShallowWrapper {
                 }
               >
                 Not entered
-              </Text>
+              </Component>
             </Component>
           </Component>,
           <Component
@@ -884,10 +818,7 @@ ShallowWrapper {
               }
             }
           >
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            <Component
               style={
                 Object {
                   "color": "black",
@@ -900,7 +831,7 @@ ShallowWrapper {
               }
             >
               Observed by
-            </Text>
+            </Component>
             <Component
               style={
                 Object {
@@ -920,10 +851,7 @@ ShallowWrapper {
                   }
                 }
               />
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -934,7 +862,7 @@ ShallowWrapper {
                 }
               >
                 You
-              </Text>
+              </Component>
             </Component>
           </Component>,
         ],
@@ -1023,10 +951,7 @@ ShallowWrapper {
                   }
                 }
               />,
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -1038,7 +963,7 @@ ShallowWrapper {
                 }
               >
                 19
-              </Text>,
+              </Component>,
               <Component
                 style={
                   Object {
@@ -1047,10 +972,7 @@ ShallowWrapper {
                   }
                 }
               >
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -1061,11 +983,8 @@ ShallowWrapper {
                 >
                   at
                    
-                </Text>
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                </Component>
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -1075,12 +994,9 @@ ShallowWrapper {
                   }
                 >
                   50.5, 50.5
-                </Text>
+                </Component>
               </Component>,
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "grey",
@@ -1092,8 +1008,8 @@ ShallowWrapper {
               >
                 on
                  
-                February 25 2018, 12:12 PM
-              </Text>,
+                February 25 2018, 11:23 PM
+              </Component>,
             ],
             "style": Object {
               "alignSelf": "stretch",
@@ -1235,10 +1151,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
-                "accessible": true,
-                "allowFontScaling": true,
                 "children": 19,
-                "ellipsizeMode": "tail",
                 "style": Object {
                   "color": "black",
                   "fontFamily": "HelveticaNeue",
@@ -1257,10 +1170,7 @@ ShallowWrapper {
               "nodeType": "class",
               "props": Object {
                 "children": Array [
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -1271,11 +1181,8 @@ ShallowWrapper {
                   >
                     at
                      
-                  </Text>,
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  </Component>,
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -1285,7 +1192,7 @@ ShallowWrapper {
                     }
                   >
                     50.5, 50.5
-                  </Text>,
+                  </Component>,
                 ],
                 "style": Object {
                   "alignSelf": "center",
@@ -1299,13 +1206,10 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "class",
                   "props": Object {
-                    "accessible": true,
-                    "allowFontScaling": true,
                     "children": Array [
                       "at",
                       " ",
                     ],
-                    "ellipsizeMode": "tail",
                     "style": Object {
                       "color": "black",
                       "fontSize": 12,
@@ -1324,10 +1228,7 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "class",
                   "props": Object {
-                    "accessible": true,
-                    "allowFontScaling": true,
                     "children": "50.5, 50.5",
-                    "ellipsizeMode": "tail",
                     "style": Object {
                       "color": "black",
                       "fontSize": 12,
@@ -1346,14 +1247,11 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
-                "accessible": true,
-                "allowFontScaling": true,
                 "children": Array [
                   "on",
                   " ",
-                  "February 25 2018, 12:12 PM",
+                  "February 25 2018, 11:23 PM",
                 ],
-                "ellipsizeMode": "tail",
                 "style": Object {
                   "color": "grey",
                   "fontSize": 12,
@@ -1365,7 +1263,7 @@ ShallowWrapper {
               "rendered": Array [
                 "on",
                 " ",
-                "February 25 2018, 12:12 PM",
+                "February 25 2018, 11:23 PM",
               ],
               "type": [Function],
             },
@@ -1380,10 +1278,7 @@ ShallowWrapper {
             "children": Array [
               null,
               false,
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -1395,7 +1290,7 @@ ShallowWrapper {
                 }
               >
                 This is pretty bad. It smells pretty noxious, and the entire pond is affected.
-              </Text>,
+              </Component>,
             ],
             "style": Object {
               "borderBottomColor": "lightgray",
@@ -1412,10 +1307,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
-                "accessible": true,
-                "allowFontScaling": true,
                 "children": "This is pretty bad. It smells pretty noxious, and the entire pond is affected.",
-                "ellipsizeMode": "tail",
                 "style": Object {
                   "color": "black",
                   "fontSize": 18,
@@ -1452,10 +1344,7 @@ ShallowWrapper {
                   name="location-pin"
                   size={15}
                 />
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -1468,7 +1357,7 @@ ShallowWrapper {
                   }
                 >
                   50.5, 50.5
-                </Text>
+                </Component>
               </Component>,
               <Component
                 style={
@@ -1509,7 +1398,7 @@ ShallowWrapper {
                           "type": "Point",
                         },
                         "properties": Object {
-                          "name": "Oil Spill",
+                          "categoryId": 19,
                         },
                         "type": "Feature",
                       }
@@ -1542,10 +1431,7 @@ ShallowWrapper {
                     name="location-pin"
                     size={15}
                   />,
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -1558,7 +1444,7 @@ ShallowWrapper {
                     }
                   >
                     50.5, 50.5
-                  </Text>,
+                  </Component>,
                 ],
                 "style": Object {
                   "alignItems": "center",
@@ -1587,10 +1473,7 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "class",
                   "props": Object {
-                    "accessible": true,
-                    "allowFontScaling": true,
                     "children": "50.5, 50.5",
-                    "ellipsizeMode": "tail",
                     "style": Object {
                       "color": "black",
                       "fontSize": 14,
@@ -1644,7 +1527,7 @@ ShallowWrapper {
                           "type": "Point",
                         },
                         "properties": Object {
-                          "name": "Oil Spill",
+                          "categoryId": 19,
                         },
                         "type": "Feature",
                       }
@@ -1681,7 +1564,7 @@ ShallowWrapper {
                           "type": "Point",
                         },
                         "properties": Object {
-                          "name": "Oil Spill",
+                          "categoryId": 19,
                         },
                         "type": "Feature",
                       }
@@ -1722,7 +1605,7 @@ ShallowWrapper {
                         "type": "Point",
                       },
                       "properties": Object {
-                        "name": "Oil Spill",
+                        "categoryId": 19,
                       },
                       "type": "Feature",
                     },
@@ -1778,10 +1661,7 @@ ShallowWrapper {
                     }
                   }
                 />
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -1794,7 +1674,7 @@ ShallowWrapper {
                   }
                 >
                   Details
-                </Text>
+                </Component>
               </Component>,
               Array [
                 <Component
@@ -1804,10 +1684,7 @@ ShallowWrapper {
                     }
                   }
                 >
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -1817,11 +1694,8 @@ ShallowWrapper {
                     }
                   >
                     fieldName
-                  </Text>
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  </Component>
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -1833,7 +1707,7 @@ ShallowWrapper {
                     }
                   >
                     Not entered
-                  </Text>
+                  </Component>
                 </Component>,
               ],
             ],
@@ -1865,10 +1739,7 @@ ShallowWrapper {
                       }
                     }
                   />,
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -1881,7 +1752,7 @@ ShallowWrapper {
                     }
                   >
                     Details
-                  </Text>,
+                  </Component>,
                 ],
                 "style": Object {
                   "alignItems": "center",
@@ -1914,10 +1785,7 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "class",
                   "props": Object {
-                    "accessible": true,
-                    "allowFontScaling": true,
                     "children": "Details",
-                    "ellipsizeMode": "tail",
                     "style": Object {
                       "color": "black",
                       "fontSize": 14,
@@ -1940,10 +1808,7 @@ ShallowWrapper {
               "nodeType": "class",
               "props": Object {
                 "children": Array [
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -1953,11 +1818,8 @@ ShallowWrapper {
                     }
                   >
                     fieldName
-                  </Text>,
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  </Component>,
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -1969,7 +1831,7 @@ ShallowWrapper {
                     }
                   >
                     Not entered
-                  </Text>,
+                  </Component>,
                 ],
                 "style": Object {
                   "marginLeft": 15,
@@ -1982,10 +1844,7 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "class",
                   "props": Object {
-                    "accessible": true,
-                    "allowFontScaling": true,
                     "children": "fieldName",
-                    "ellipsizeMode": "tail",
                     "style": Object {
                       "color": "black",
                       "fontSize": 14,
@@ -2001,10 +1860,7 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "class",
                   "props": Object {
-                    "accessible": true,
-                    "allowFontScaling": true,
                     "children": "Not entered",
-                    "ellipsizeMode": "tail",
                     "style": Object {
                       "color": "black",
                       "fontSize": 18,
@@ -2029,10 +1885,7 @@ ShallowWrapper {
           "nodeType": "class",
           "props": Object {
             "children": Array [
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -2045,7 +1898,7 @@ ShallowWrapper {
                 }
               >
                 Observed by
-              </Text>,
+              </Component>,
               <Component
                 style={
                   Object {
@@ -2065,10 +1918,7 @@ ShallowWrapper {
                     }
                   }
                 />
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -2079,7 +1929,7 @@ ShallowWrapper {
                   }
                 >
                   You
-                </Text>
+                </Component>
               </Component>,
             ],
             "style": Object {
@@ -2095,10 +1945,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
-                "accessible": true,
-                "allowFontScaling": true,
                 "children": "Observed by",
-                "ellipsizeMode": "tail",
                 "style": Object {
                   "color": "black",
                   "fontSize": 14,
@@ -2130,10 +1977,7 @@ ShallowWrapper {
                       }
                     }
                   />,
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -2144,7 +1988,7 @@ ShallowWrapper {
                     }
                   >
                     You
-                  </Text>,
+                  </Component>,
                 ],
                 "style": Object {
                   "flexDirection": "row",
@@ -2175,10 +2019,7 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "class",
                   "props": Object {
-                    "accessible": true,
-                    "allowFontScaling": true,
                     "children": "You",
-                    "ellipsizeMode": "tail",
                     "style": Object {
                       "color": "black",
                       "fontSize": 20,
@@ -2299,10 +2140,7 @@ ShallowWrapper {
                 }
               }
             />
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            <Component
               style={
                 Object {
                   "color": "black",
@@ -2314,7 +2152,7 @@ ShallowWrapper {
               }
             >
               19
-            </Text>
+            </Component>
             <Component
               style={
                 Object {
@@ -2323,10 +2161,7 @@ ShallowWrapper {
                 }
               }
             >
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -2337,11 +2172,8 @@ ShallowWrapper {
               >
                 at
                  
-              </Text>
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              </Component>
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -2351,12 +2183,9 @@ ShallowWrapper {
                 }
               >
                 50.5, 50.5
-              </Text>
+              </Component>
             </Component>
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            <Component
               style={
                 Object {
                   "color": "grey",
@@ -2368,8 +2197,8 @@ ShallowWrapper {
             >
               on
                
-              February 25 2018, 12:12 PM
-            </Text>
+              February 25 2018, 11:23 PM
+            </Component>
           </Component>
           <Component
             style={
@@ -2380,10 +2209,7 @@ ShallowWrapper {
               }
             }
           >
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            <Component
               style={
                 Object {
                   "color": "black",
@@ -2395,7 +2221,7 @@ ShallowWrapper {
               }
             >
               This is pretty bad. It smells pretty noxious, and the entire pond is affected.
-            </Text>
+            </Component>
           </Component>
           <Component
             style={
@@ -2421,10 +2247,7 @@ ShallowWrapper {
                 name="location-pin"
                 size={15}
               />
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -2437,7 +2260,7 @@ ShallowWrapper {
                 }
               >
                 50.5, 50.5
-              </Text>
+              </Component>
             </Component>
             <Component
               style={
@@ -2478,7 +2301,7 @@ ShallowWrapper {
                         "type": "Point",
                       },
                       "properties": Object {
-                        "name": "Oil Spill",
+                        "categoryId": 19,
                       },
                       "type": "Feature",
                     }
@@ -2523,10 +2346,7 @@ ShallowWrapper {
                   }
                 }
               />
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -2539,7 +2359,7 @@ ShallowWrapper {
                 }
               >
                 Details
-              </Text>
+              </Component>
             </Component>
             <Component
               style={
@@ -2548,10 +2368,7 @@ ShallowWrapper {
                 }
               }
             >
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -2561,11 +2378,8 @@ ShallowWrapper {
                 }
               >
                 fieldName
-              </Text>
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              </Component>
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -2577,7 +2391,7 @@ ShallowWrapper {
                 }
               >
                 Not entered
-              </Text>
+              </Component>
             </Component>
           </Component>
           <Component
@@ -2589,10 +2403,7 @@ ShallowWrapper {
               }
             }
           >
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
+            <Component
               style={
                 Object {
                   "color": "black",
@@ -2605,7 +2416,7 @@ ShallowWrapper {
               }
             >
               Observed by
-            </Text>
+            </Component>
             <Component
               style={
                 Object {
@@ -2625,10 +2436,7 @@ ShallowWrapper {
                   }
                 }
               />
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -2639,7 +2447,7 @@ ShallowWrapper {
                 }
               >
                 You
-              </Text>
+              </Component>
             </Component>
           </Component>
         </ScrollView>,
@@ -2737,10 +2545,7 @@ ShallowWrapper {
                   }
                 }
               />
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -2752,7 +2557,7 @@ ShallowWrapper {
                 }
               >
                 19
-              </Text>
+              </Component>
               <Component
                 style={
                   Object {
@@ -2761,10 +2566,7 @@ ShallowWrapper {
                   }
                 }
               >
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -2775,11 +2577,8 @@ ShallowWrapper {
                 >
                   at
                    
-                </Text>
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                </Component>
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -2789,12 +2588,9 @@ ShallowWrapper {
                   }
                 >
                   50.5, 50.5
-                </Text>
+                </Component>
               </Component>
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "grey",
@@ -2806,8 +2602,8 @@ ShallowWrapper {
               >
                 on
                  
-                February 25 2018, 12:12 PM
-              </Text>
+                February 25 2018, 11:23 PM
+              </Component>
             </Component>,
             <Component
               style={
@@ -2818,10 +2614,7 @@ ShallowWrapper {
                 }
               }
             >
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -2833,7 +2626,7 @@ ShallowWrapper {
                 }
               >
                 This is pretty bad. It smells pretty noxious, and the entire pond is affected.
-              </Text>
+              </Component>
             </Component>,
             <Component
               style={
@@ -2859,10 +2652,7 @@ ShallowWrapper {
                   name="location-pin"
                   size={15}
                 />
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -2875,7 +2665,7 @@ ShallowWrapper {
                   }
                 >
                   50.5, 50.5
-                </Text>
+                </Component>
               </Component>
               <Component
                 style={
@@ -2916,7 +2706,7 @@ ShallowWrapper {
                           "type": "Point",
                         },
                         "properties": Object {
-                          "name": "Oil Spill",
+                          "categoryId": 19,
                         },
                         "type": "Feature",
                       }
@@ -2961,10 +2751,7 @@ ShallowWrapper {
                     }
                   }
                 />
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -2977,7 +2764,7 @@ ShallowWrapper {
                   }
                 >
                   Details
-                </Text>
+                </Component>
               </Component>
               <Component
                 style={
@@ -2986,10 +2773,7 @@ ShallowWrapper {
                   }
                 }
               >
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -2999,11 +2783,8 @@ ShallowWrapper {
                   }
                 >
                   fieldName
-                </Text>
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                </Component>
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -3015,7 +2796,7 @@ ShallowWrapper {
                   }
                 >
                   Not entered
-                </Text>
+                </Component>
               </Component>
             </Component>,
             <Component
@@ -3027,10 +2808,7 @@ ShallowWrapper {
                 }
               }
             >
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <Component
                 style={
                   Object {
                     "color": "black",
@@ -3043,7 +2821,7 @@ ShallowWrapper {
                 }
               >
                 Observed by
-              </Text>
+              </Component>
               <Component
                 style={
                   Object {
@@ -3063,10 +2841,7 @@ ShallowWrapper {
                     }
                   }
                 />
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -3077,7 +2852,7 @@ ShallowWrapper {
                   }
                 >
                   You
-                </Text>
+                </Component>
               </Component>
             </Component>,
           ],
@@ -3166,10 +2941,7 @@ ShallowWrapper {
                     }
                   }
                 />,
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -3181,7 +2953,7 @@ ShallowWrapper {
                   }
                 >
                   19
-                </Text>,
+                </Component>,
                 <Component
                   style={
                     Object {
@@ -3190,10 +2962,7 @@ ShallowWrapper {
                     }
                   }
                 >
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -3204,11 +2973,8 @@ ShallowWrapper {
                   >
                     at
                      
-                  </Text>
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  </Component>
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -3218,12 +2984,9 @@ ShallowWrapper {
                     }
                   >
                     50.5, 50.5
-                  </Text>
+                  </Component>
                 </Component>,
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                <Component
                   style={
                     Object {
                       "color": "grey",
@@ -3235,8 +2998,8 @@ ShallowWrapper {
                 >
                   on
                    
-                  February 25 2018, 12:12 PM
-                </Text>,
+                  February 25 2018, 11:23 PM
+                </Component>,
               ],
               "style": Object {
                 "alignSelf": "stretch",
@@ -3378,10 +3141,7 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "class",
                 "props": Object {
-                  "accessible": true,
-                  "allowFontScaling": true,
                   "children": 19,
-                  "ellipsizeMode": "tail",
                   "style": Object {
                     "color": "black",
                     "fontFamily": "HelveticaNeue",
@@ -3400,10 +3160,7 @@ ShallowWrapper {
                 "nodeType": "class",
                 "props": Object {
                   "children": Array [
-                    <Text
-                      accessible={true}
-                      allowFontScaling={true}
-                      ellipsizeMode="tail"
+                    <Component
                       style={
                         Object {
                           "color": "black",
@@ -3414,11 +3171,8 @@ ShallowWrapper {
                     >
                       at
                        
-                    </Text>,
-                    <Text
-                      accessible={true}
-                      allowFontScaling={true}
-                      ellipsizeMode="tail"
+                    </Component>,
+                    <Component
                       style={
                         Object {
                           "color": "black",
@@ -3428,7 +3182,7 @@ ShallowWrapper {
                       }
                     >
                       50.5, 50.5
-                    </Text>,
+                    </Component>,
                   ],
                   "style": Object {
                     "alignSelf": "center",
@@ -3442,13 +3196,10 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "class",
                     "props": Object {
-                      "accessible": true,
-                      "allowFontScaling": true,
                       "children": Array [
                         "at",
                         " ",
                       ],
-                      "ellipsizeMode": "tail",
                       "style": Object {
                         "color": "black",
                         "fontSize": 12,
@@ -3467,10 +3218,7 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "class",
                     "props": Object {
-                      "accessible": true,
-                      "allowFontScaling": true,
                       "children": "50.5, 50.5",
-                      "ellipsizeMode": "tail",
                       "style": Object {
                         "color": "black",
                         "fontSize": 12,
@@ -3489,14 +3237,11 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "class",
                 "props": Object {
-                  "accessible": true,
-                  "allowFontScaling": true,
                   "children": Array [
                     "on",
                     " ",
-                    "February 25 2018, 12:12 PM",
+                    "February 25 2018, 11:23 PM",
                   ],
-                  "ellipsizeMode": "tail",
                   "style": Object {
                     "color": "grey",
                     "fontSize": 12,
@@ -3508,7 +3253,7 @@ ShallowWrapper {
                 "rendered": Array [
                   "on",
                   " ",
-                  "February 25 2018, 12:12 PM",
+                  "February 25 2018, 11:23 PM",
                 ],
                 "type": [Function],
               },
@@ -3523,10 +3268,7 @@ ShallowWrapper {
               "children": Array [
                 null,
                 false,
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -3538,7 +3280,7 @@ ShallowWrapper {
                   }
                 >
                   This is pretty bad. It smells pretty noxious, and the entire pond is affected.
-                </Text>,
+                </Component>,
               ],
               "style": Object {
                 "borderBottomColor": "lightgray",
@@ -3555,10 +3297,7 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "class",
                 "props": Object {
-                  "accessible": true,
-                  "allowFontScaling": true,
                   "children": "This is pretty bad. It smells pretty noxious, and the entire pond is affected.",
-                  "ellipsizeMode": "tail",
                   "style": Object {
                     "color": "black",
                     "fontSize": 18,
@@ -3595,10 +3334,7 @@ ShallowWrapper {
                     name="location-pin"
                     size={15}
                   />
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -3611,7 +3347,7 @@ ShallowWrapper {
                     }
                   >
                     50.5, 50.5
-                  </Text>
+                  </Component>
                 </Component>,
                 <Component
                   style={
@@ -3652,7 +3388,7 @@ ShallowWrapper {
                             "type": "Point",
                           },
                           "properties": Object {
-                            "name": "Oil Spill",
+                            "categoryId": 19,
                           },
                           "type": "Feature",
                         }
@@ -3685,10 +3421,7 @@ ShallowWrapper {
                       name="location-pin"
                       size={15}
                     />,
-                    <Text
-                      accessible={true}
-                      allowFontScaling={true}
-                      ellipsizeMode="tail"
+                    <Component
                       style={
                         Object {
                           "color": "black",
@@ -3701,7 +3434,7 @@ ShallowWrapper {
                       }
                     >
                       50.5, 50.5
-                    </Text>,
+                    </Component>,
                   ],
                   "style": Object {
                     "alignItems": "center",
@@ -3730,10 +3463,7 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "class",
                     "props": Object {
-                      "accessible": true,
-                      "allowFontScaling": true,
                       "children": "50.5, 50.5",
-                      "ellipsizeMode": "tail",
                       "style": Object {
                         "color": "black",
                         "fontSize": 14,
@@ -3787,7 +3517,7 @@ ShallowWrapper {
                             "type": "Point",
                           },
                           "properties": Object {
-                            "name": "Oil Spill",
+                            "categoryId": 19,
                           },
                           "type": "Feature",
                         }
@@ -3824,7 +3554,7 @@ ShallowWrapper {
                             "type": "Point",
                           },
                           "properties": Object {
-                            "name": "Oil Spill",
+                            "categoryId": 19,
                           },
                           "type": "Feature",
                         }
@@ -3865,7 +3595,7 @@ ShallowWrapper {
                           "type": "Point",
                         },
                         "properties": Object {
-                          "name": "Oil Spill",
+                          "categoryId": 19,
                         },
                         "type": "Feature",
                       },
@@ -3921,10 +3651,7 @@ ShallowWrapper {
                       }
                     }
                   />
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -3937,7 +3664,7 @@ ShallowWrapper {
                     }
                   >
                     Details
-                  </Text>
+                  </Component>
                 </Component>,
                 Array [
                   <Component
@@ -3947,10 +3674,7 @@ ShallowWrapper {
                       }
                     }
                   >
-                    <Text
-                      accessible={true}
-                      allowFontScaling={true}
-                      ellipsizeMode="tail"
+                    <Component
                       style={
                         Object {
                           "color": "black",
@@ -3960,11 +3684,8 @@ ShallowWrapper {
                       }
                     >
                       fieldName
-                    </Text>
-                    <Text
-                      accessible={true}
-                      allowFontScaling={true}
-                      ellipsizeMode="tail"
+                    </Component>
+                    <Component
                       style={
                         Object {
                           "color": "black",
@@ -3976,7 +3697,7 @@ ShallowWrapper {
                       }
                     >
                       Not entered
-                    </Text>
+                    </Component>
                   </Component>,
                 ],
               ],
@@ -4008,10 +3729,7 @@ ShallowWrapper {
                         }
                       }
                     />,
-                    <Text
-                      accessible={true}
-                      allowFontScaling={true}
-                      ellipsizeMode="tail"
+                    <Component
                       style={
                         Object {
                           "color": "black",
@@ -4024,7 +3742,7 @@ ShallowWrapper {
                       }
                     >
                       Details
-                    </Text>,
+                    </Component>,
                   ],
                   "style": Object {
                     "alignItems": "center",
@@ -4057,10 +3775,7 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "class",
                     "props": Object {
-                      "accessible": true,
-                      "allowFontScaling": true,
                       "children": "Details",
-                      "ellipsizeMode": "tail",
                       "style": Object {
                         "color": "black",
                         "fontSize": 14,
@@ -4083,10 +3798,7 @@ ShallowWrapper {
                 "nodeType": "class",
                 "props": Object {
                   "children": Array [
-                    <Text
-                      accessible={true}
-                      allowFontScaling={true}
-                      ellipsizeMode="tail"
+                    <Component
                       style={
                         Object {
                           "color": "black",
@@ -4096,11 +3808,8 @@ ShallowWrapper {
                       }
                     >
                       fieldName
-                    </Text>,
-                    <Text
-                      accessible={true}
-                      allowFontScaling={true}
-                      ellipsizeMode="tail"
+                    </Component>,
+                    <Component
                       style={
                         Object {
                           "color": "black",
@@ -4112,7 +3821,7 @@ ShallowWrapper {
                       }
                     >
                       Not entered
-                    </Text>,
+                    </Component>,
                   ],
                   "style": Object {
                     "marginLeft": 15,
@@ -4125,10 +3834,7 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "class",
                     "props": Object {
-                      "accessible": true,
-                      "allowFontScaling": true,
                       "children": "fieldName",
-                      "ellipsizeMode": "tail",
                       "style": Object {
                         "color": "black",
                         "fontSize": 14,
@@ -4144,10 +3850,7 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "class",
                     "props": Object {
-                      "accessible": true,
-                      "allowFontScaling": true,
                       "children": "Not entered",
-                      "ellipsizeMode": "tail",
                       "style": Object {
                         "color": "black",
                         "fontSize": 18,
@@ -4172,10 +3875,7 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "children": Array [
-                <Text
-                  accessible={true}
-                  allowFontScaling={true}
-                  ellipsizeMode="tail"
+                <Component
                   style={
                     Object {
                       "color": "black",
@@ -4188,7 +3888,7 @@ ShallowWrapper {
                   }
                 >
                   Observed by
-                </Text>,
+                </Component>,
                 <Component
                   style={
                     Object {
@@ -4208,10 +3908,7 @@ ShallowWrapper {
                       }
                     }
                   />
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
+                  <Component
                     style={
                       Object {
                         "color": "black",
@@ -4222,7 +3919,7 @@ ShallowWrapper {
                     }
                   >
                     You
-                  </Text>
+                  </Component>
                 </Component>,
               ],
               "style": Object {
@@ -4238,10 +3935,7 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "class",
                 "props": Object {
-                  "accessible": true,
-                  "allowFontScaling": true,
                   "children": "Observed by",
-                  "ellipsizeMode": "tail",
                   "style": Object {
                     "color": "black",
                     "fontSize": 14,
@@ -4273,10 +3967,7 @@ ShallowWrapper {
                         }
                       }
                     />,
-                    <Text
-                      accessible={true}
-                      allowFontScaling={true}
-                      ellipsizeMode="tail"
+                    <Component
                       style={
                         Object {
                           "color": "black",
@@ -4287,7 +3978,7 @@ ShallowWrapper {
                       }
                     >
                       You
-                    </Text>,
+                    </Component>,
                   ],
                   "style": Object {
                     "flexDirection": "row",
@@ -4318,10 +4009,7 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "class",
                     "props": Object {
-                      "accessible": true,
-                      "allowFontScaling": true,
                       "children": "You",
-                      "ellipsizeMode": "tail",
                       "style": Object {
                         "color": "black",
                         "fontSize": 20,

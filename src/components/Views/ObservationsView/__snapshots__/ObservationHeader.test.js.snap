@@ -37,9 +37,7 @@ exports[`ObservationHeader tests snapshot with showSyncTip as false 1`] = `
       }
     >
       <Text
-        accessible={true}
         allowFontScaling={false}
-        ellipsizeMode="tail"
         style={
           Array [
             Object {
@@ -100,9 +98,7 @@ exports[`ObservationHeader tests snapshot with showSyncTip as false 1`] = `
           }
         >
           <Text
-            accessible={true}
             allowFontScaling={false}
-            ellipsizeMode="tail"
             style={
               Array [
                 Object {
@@ -145,9 +141,7 @@ exports[`ObservationHeader tests snapshot with showSyncTip as false 1`] = `
       }
     >
       <Text
-        accessible={true}
         allowFontScaling={false}
-        ellipsizeMode="tail"
         style={
           Array [
             Object {
@@ -182,9 +176,6 @@ exports[`ObservationHeader tests snapshot with showSyncTip as false 1`] = `
     }
   >
     <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
       style={
         Object {
           "color": "black",
@@ -196,9 +187,6 @@ exports[`ObservationHeader tests snapshot with showSyncTip as false 1`] = `
       All Observations
     </Text>
     <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
       style={
         Object {
           "fontSize": 12,
@@ -248,9 +236,7 @@ exports[`ObservationHeader tests snapshot with showSyncTip as true 1`] = `
       }
     >
       <Text
-        accessible={true}
         allowFontScaling={false}
-        ellipsizeMode="tail"
         style={
           Array [
             Object {
@@ -311,9 +297,7 @@ exports[`ObservationHeader tests snapshot with showSyncTip as true 1`] = `
           }
         >
           <Text
-            accessible={true}
             allowFontScaling={false}
-            ellipsizeMode="tail"
             style={
               Array [
                 Object {
@@ -356,9 +340,7 @@ exports[`ObservationHeader tests snapshot with showSyncTip as true 1`] = `
       }
     >
       <Text
-        accessible={true}
         allowFontScaling={false}
-        ellipsizeMode="tail"
         style={
           Array [
             Object {
@@ -393,9 +375,6 @@ exports[`ObservationHeader tests snapshot with showSyncTip as true 1`] = `
     }
   >
     <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
       style={
         Object {
           "color": "black",
@@ -407,9 +386,6 @@ exports[`ObservationHeader tests snapshot with showSyncTip as true 1`] = `
       All Observations
     </Text>
     <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
       style={
         Object {
           "fontSize": 12,
