@@ -50,8 +50,8 @@ const request = (
             throw new Error(err.toString());
           })
           .flatMap(json => {
-            if (json && json.code && json.description) {
-              throw new Error(json.description);
+            if (json && json.error) {
+              throw new Error(json.error);
             }
             throw new Error('unknown error');
           });
