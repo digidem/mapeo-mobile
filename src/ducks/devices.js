@@ -17,6 +17,18 @@ export const {
 });
 
 export const {
+  type: DEVICE_CLEAR,
+  action: deviceClear,
+  reducer: deviceClearReducer,
+} = create('DEVICE_CLEAR', {
+  start: (state, meta) => {
+    const newState = update(state, { devices: { $set: {} } });
+
+    return newState;
+  }
+});
+
+export const {
   type: DEVICE_SELECT,
   action: deviceSelect,
   reducer: deviceSelectReducer
@@ -54,5 +66,6 @@ export const {
 export default [
   deviceListReducer,
   deviceSelectReducer,
+  deviceClearReducer,
   deviceSyncUpdateReducer
 ];

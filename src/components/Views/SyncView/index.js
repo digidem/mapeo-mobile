@@ -8,7 +8,8 @@ import type { Device } from '../../../types/device';
 import {
   deviceList,
   deviceSelect,
-  deviceSyncUpdate
+  deviceSyncUpdate,
+  deviceClear
 } from '../../../ducks/devices';
 import { syncAnnounce, syncStart, syncUnannounce } from '../../../ducks/sync';
 import SyncView from './SyncView';
@@ -27,7 +28,10 @@ function mapDispatchToProps(dispatch: Dispatch<*>): DispatchProps {
       dispatch(syncAnnounce());
       dispatch(deviceList());
     },
-    unannounceSync: () => dispatch(syncUnannounce()),
+    unannounceSync: () => {
+      dispatch(deviceClear());
+      dispatch(syncUnannounce());
+    },
     clearSyncTarget: () => dispatch(deviceSelect(undefined)),
     sync: (device: Device) => dispatch(syncStart(device))
   };
