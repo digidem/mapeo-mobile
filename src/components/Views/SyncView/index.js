@@ -1,42 +1,34 @@
 // @flow
-
 import { connect } from 'react-redux';
 import { values } from 'lodash';
 import type { Dispatch } from 'redux';
-import { StoreState } from '../../../types/redux';
+import type { StoreState } from '../../../types/redux';
+import type { Device } from '../../../types/device';
 import {
-  syncAnnounce,
-  syncStart,
   deviceList,
   deviceSelect,
-  deviceToggleSelect,
   deviceSyncUpdate
 } from '../../../ducks/devices';
-import { modalShow, modalHide } from '../../../ducks/modals';
+import { syncAnnounce, syncStart, syncUnannounce } from '../../../ducks/sync';
 import SyncView from './SyncView';
 import type { StateProps, DispatchProps } from './SyncView';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
     devices: values(state.devices),
-    selectedDevice: state.selectedDevice,
-    syncedModalVisible: state.modals.synced
+    syncTarget: state.selectedDevice
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<*>): DispatchProps {
   return {
-    deviceList: () => dispatch(deviceList()),
-    announceSync: () => dispatch(syncAnnounce()),
-    startSync: device => dispatch(syncStart(device)),
-    selectDevice: device => dispatch(deviceSelect(device)),
-    toggleDeviceSelect: device => dispatch(deviceToggleSelect(device)),
-    updateDeviceSync: device => {
-      dispatch(deviceSelect(device));
-      dispatch(deviceSyncUpdate(device));
+    announceSync: () => {
+      dispatch(syncAnnounce());
+      dispatch(deviceList());
     },
-    showSyncedModal: () => dispatch(modalShow('synced')),
-    hideSyncedModal: () => dispatch(modalHide('synced'))
+    unannounceSync: () => dispatch(syncUnannounce()),
+    setSyncTarget: device => dispatch(deviceSelect(device)),
+    sync: device => dispatch(syncStart(device))
   };
 }
 

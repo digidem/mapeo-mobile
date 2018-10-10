@@ -5,18 +5,6 @@ import { keyBy } from 'lodash';
 import { create } from '../lib/redux';
 
 export const {
-  type: SYNC_ANNOUNCE,
-  action: syncAnnounce,
-  reducer: syncAnnounceReducer
-} = create('SYNC_ANNOUNCE', {});
-
-export const {
-  type: SYNC_START,
-  action: syncStart,
-  reducer: syncStartReducer
-} = create('SYNC_START', {});
-
-export const {
   type: DEVICE_LIST,
   action: deviceList,
   reducer: deviceListReducer
@@ -24,24 +12,6 @@ export const {
   success: (state, meta, payload) => {
     const newState = update(state, {
       devices: { $set: keyBy(payload, 'id') }
-    });
-
-    return newState;
-  }
-});
-
-export const {
-  type: DEVICE_TOGGLE_SELECT,
-  action: deviceToggleSelect,
-  reducer: deviceToggleSelectReducer
-} = create('DEVICE_TOGGLE_SELECT', {
-  start: (state, meta) => {
-    const newState = update(state, {
-      devices: {
-        [meta.id]: {
-          $toggle: ['selected']
-        }
-      }
     });
 
     return newState;
@@ -84,7 +54,6 @@ export const {
 
 export default [
   deviceListReducer,
-  deviceToggleSelectReducer,
   deviceSelectReducer,
   deviceSyncUpdateReducer
 ];
