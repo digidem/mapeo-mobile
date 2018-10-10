@@ -27,6 +27,7 @@ const os = require('os');
 const mkdirp = require('mkdirp');
 const styles = require('mapeo-styles');
 const mapeoServerVersion = require('mapeo-server/package.json').version;
+const migrateMedia = require('./migrateMedia')
 
 console.log('1: init mapeo-server version', mapeoServerVersion);
 
@@ -48,14 +49,24 @@ mkdirp.sync(MEDIA_PATH);
 mkdirp.sync(STATIC_PATH);
 console.log('2: dirs created');
 
+// Migrate media from old fs-blob-store, if needed
+migrateMedia(MEDIA_PATH, function (err) {
+  if (err) console.error(err);
+  start();
+})
+
 // Unpack styles and presets, if needed
 styles.unpackIfNew(STATIC_PATH, function(err, didWrite) {
   console.log('3: unpacked', err, didWrite);
-  if (err) throw err;
+  if (err) console.error(err);
   start();
 });
 
+
+let pending = 2
 function start() {
+  pending--
+  if (pending !== 0) return
   console.log('4: starting');
   const db = osm(DB_PATH);
   const media = blobstore(MEDIA_PATH);
