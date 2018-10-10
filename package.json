@@ -43,6 +43,7 @@
     "react-native-xml2js": "^1.0.3",
     "react-navigation": "^2.4.1",
     "react-navigation-redux-helpers": "^2.0.2",
+    "react-navigation-stack": "^0.5.1",
     "react-navigation-tabs": "0.1.0-alpha.3",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
