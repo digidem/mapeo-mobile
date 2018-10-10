@@ -19,6 +19,7 @@ const SERVER_PROPS: Array<$Keys<ServerObservationResponse>> = [
   'version',
   'created_at',
   'timestamp',
+  'type',
   'lon',
   'lat',
   'schemaVersion',
@@ -57,6 +58,12 @@ export const parseObservationRequest = (
   observation.fields.forEach(field => {
     serverObservation.tags[field.name] = field.answer;
   });
+
+  serverObservation.attachments = (observation.attachments || []).map(a => ({
+    id: a
+  }));
+
+  serverObservation.type = 'observation';
 
   return serverObservation;
 };

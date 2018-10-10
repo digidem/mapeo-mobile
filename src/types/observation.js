@@ -30,6 +30,7 @@ export type ServerObservationResponse = {|
   version: string,
   created_at: string,
   timestamp: string,
+  type: 'observation',
   lat?: number,
   lon?: number,
   schemaVersion: 3,
@@ -46,6 +47,7 @@ export type ServerObservationResponse = {|
 
 // Observation create request
 export type ServerObservationCreate = {|
+  type: 'observation',
   lat?: number,
   lon?: number,
   schemaVersion: 3,
