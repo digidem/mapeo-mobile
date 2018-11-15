@@ -17,10 +17,14 @@ import {
 import { modalShow } from '../ducks/modals';
 import { mediaSave } from '../ducks/media';
 import { Action } from '../types/redux';
-import type { Observation as ObservationType } from '../types/observation';
+import type {
+  Observation as ObservationType,
+  ServerObservationCreate,
+  ServerObservationResponse
+} from '../types/observation';
 import type { StoreState } from '../types/redux';
 import Observation from '../api/observations';
-import type { CreateRequest, UpdateRequest } from '../api/observations';
+import { parseObservationRequest } from '../models/observations';
 
 export const observationListEpic = (
   action$: ActionsObservable<Action<string, ObservationType[]>>,
@@ -37,7 +41,9 @@ export const observationListEpic = (
     });
 
 export const observationSaveEpic = (
-  action$: ActionsObservable<Action<CreateRequest, ObservationType>>,
+  action$: ActionsObservable<
+    Action<ServerObservationResponse, ObservationType>
+  >,
   store: any
 ) =>
   action$
@@ -47,18 +53,23 @@ export const observationSaveEpic = (
         action.status === 'Start' && !!store.getState().selectedObservation
     )
     .flatMap(action => {
-      return Observation.create(store.getState().selectedObservation).flatMap(
-        observation =>
-          Observable.merge(
-            Observable.of(observationSave(action.meta, observation)),
-            Observable.of(observationList('')),
-            Observable.of(modalShow('saved'))
-          )
+      const request = parseObservationRequest(
+        store.getState().selectedObservation
       );
+
+      return Observation.create(request).flatMap(o => {
+        return Observable.concat(
+          Observable.of(observationSave(action.meta, o)),
+          Observable.of(observationList('')),
+          Observable.of(modalShow('saved'))
+        );
+      });
     });
 
 export const observationUpdateSaveEpic = (
-  action$: ActionsObservable<Action<UpdateRequest, ObservationType>>,
+  action$: ActionsObservable<
+    Action<ServerObservationResponse, ObservationType>
+  >,
   store: any
 ) =>
   action$
@@ -70,14 +81,17 @@ export const observationUpdateSaveEpic = (
           action.meta)
     )
     .flatMap(action => {
-      return Observation.update(
-        action.meta || store.getState().selectedObservation
-      ).flatMap(observation => {
-        return Observable.merge(
-          Observable.of(observationUpdateSave(action.meta, observation)),
-          Observable.of(observationList(''))
-        );
-      });
+      const observation = action.meta || store.getState().selectedObservation;
+      const request = parseObservationRequest(observation);
+
+      return Observation.update({ ...request, id: observation.id }).flatMap(
+        o => {
+          return Observable.merge(
+            Observable.of(observationUpdateSave(action.meta, o)),
+            Observable.of(observationList(''))
+          );
+        }
+      );
     });
 
 export default [

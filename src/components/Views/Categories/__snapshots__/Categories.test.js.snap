@@ -110,7 +110,6 @@ exports[`Categories tests snapshot 1`] = `
     <View>
       <View
         onLayout={[Function]}
-        style={null}
       />
       <View
         onLayout={[Function]}
@@ -118,12 +117,9 @@ exports[`Categories tests snapshot 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
-                "flexDirection": "row",
-              },
-              undefined,
-            ]
+            Object {
+              "flexDirection": "row",
+            }
           }
         >
           <View
@@ -203,6 +199,7 @@ exports[`Categories tests snapshot 1`] = `
                       onLoadingFinish={[Function]}
                       onLoadingStart={[Function]}
                       onMessage={[Function]}
+                      onShouldStartLoadWithRequest={[Function]}
                       scalesPageToFit={true}
                       scrollEnabled={false}
                       source={
@@ -236,9 +233,6 @@ exports[`Categories tests snapshot 1`] = `
                 </View>
               </View>
               <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
                 style={
                   Object {
                     "color": "black",

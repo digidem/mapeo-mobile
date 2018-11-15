@@ -2,8 +2,6 @@
 
 exports[`ObservationFields tests snapshot 1`] = `
 <View
-  enabled={true}
-  keyboardVerticalOffset={0}
   onLayout={[Function]}
   style={
     Object {
@@ -27,9 +25,6 @@ exports[`ObservationFields tests snapshot 1`] = `
     }
   >
     <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
       style={
         Object {
           "color": "#ffffff",

@@ -8,17 +8,56 @@ export type Attachment = {
   observation?: string
 };
 
-export type Observation = {
-  type: string,
-  id: string,
-  lat: number,
-  lon: number,
-  link: string,
-  created: Date,
-  name: string,
-  notes: string,
-  observedBy: string,
-  attachments: string[],
-  categoryId: string,
-  fields: Field[]
+export type UpdateRequest = {
+  id: string
 };
+
+export type Observation = {|
+  id?: string,
+  version?: string,
+  created_at: string,
+  lat?: number,
+  lon?: number,
+  notes: string,
+  categoryId: string,
+  attachments: string[],
+  fields: Field[]
+|};
+
+// Observation get response
+export type ServerObservationResponse = {|
+  id: string,
+  version: string,
+  created_at: string,
+  timestamp: string,
+  type: 'observation',
+  lat?: number,
+  lon?: number,
+  schemaVersion: 3,
+  ref?: string,
+  metadata?: {},
+  attachments?: Array<{ id: string }>,
+  fields?: Field[],
+  tags?: {
+    name: string,
+    notes: string,
+    categoryId: string
+  }
+|};
+
+// Observation create request
+export type ServerObservationCreate = {|
+  type: 'observation',
+  lat?: number,
+  lon?: number,
+  schemaVersion: 3,
+  ref?: string,
+  metadata?: {},
+  attachments: Array<{ id: string }>,
+  fields: Field[],
+  tags: {
+    name: string,
+    notes: string,
+    categoryId: string
+  }
+|};

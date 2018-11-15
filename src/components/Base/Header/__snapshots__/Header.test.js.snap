@@ -48,9 +48,6 @@ exports[`Header tests snapshot with triangle prop 1`] = `
         }
       />
       <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
         style={
           Object {
             "color": "#ffffff",
@@ -137,9 +134,6 @@ exports[`Header tests snapshot without triangle prop 1`] = `
         }
       />
       <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
         style={
           Object {
             "color": "#ffffff",

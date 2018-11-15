@@ -41,9 +41,7 @@ exports[`SettingsView tests snapshot 1`] = `
       }
     >
       <Text
-        accessible={true}
         allowFontScaling={false}
-        ellipsizeMode="tail"
         style={
           Array [
             Object {
@@ -63,9 +61,6 @@ exports[`SettingsView tests snapshot 1`] = `
       </Text>
     </View>
     <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
       style={
         Object {
           "color": "#000000",
@@ -102,9 +97,6 @@ exports[`SettingsView tests snapshot 1`] = `
       }
     >
       <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
         style={
           Object {
             "color": "#000000",
@@ -179,9 +171,6 @@ exports[`SettingsView tests snapshot 1`] = `
       }
     >
       <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
         style={
           Object {
             "color": "#000000",
@@ -277,9 +266,7 @@ exports[`SettingsView tests snapshot 2`] = `
       }
     >
       <Text
-        accessible={true}
         allowFontScaling={false}
-        ellipsizeMode="tail"
         style={
           Array [
             Object {
@@ -299,9 +286,6 @@ exports[`SettingsView tests snapshot 2`] = `
       </Text>
     </View>
     <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
       style={
         Object {
           "color": "#000000",
@@ -338,9 +322,6 @@ exports[`SettingsView tests snapshot 2`] = `
       }
     >
       <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
         style={
           Object {
             "color": "#000000",
@@ -415,9 +396,6 @@ exports[`SettingsView tests snapshot 2`] = `
       }
     >
       <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
         style={
           Object {
             "color": "#000000",
@@ -513,9 +491,7 @@ exports[`SettingsView tests snapshot 3`] = `
       }
     >
       <Text
-        accessible={true}
         allowFontScaling={false}
-        ellipsizeMode="tail"
         style={
           Array [
             Object {
@@ -535,9 +511,6 @@ exports[`SettingsView tests snapshot 3`] = `
       </Text>
     </View>
     <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
       style={
         Object {
           "color": "#000000",
@@ -574,9 +547,6 @@ exports[`SettingsView tests snapshot 3`] = `
       }
     >
       <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
         style={
           Object {
             "color": "#000000",
@@ -651,9 +621,6 @@ exports[`SettingsView tests snapshot 3`] = `
       }
     >
       <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
         style={
           Object {
             "color": "#000000",
@@ -749,9 +716,7 @@ exports[`SettingsView tests snapshot 4`] = `
       }
     >
       <Text
-        accessible={true}
         allowFontScaling={false}
-        ellipsizeMode="tail"
         style={
           Array [
             Object {
@@ -771,9 +736,6 @@ exports[`SettingsView tests snapshot 4`] = `
       </Text>
     </View>
     <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
       style={
         Object {
           "color": "#000000",
@@ -810,9 +772,6 @@ exports[`SettingsView tests snapshot 4`] = `
       }
     >
       <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
         style={
           Object {
             "color": "#000000",
@@ -887,9 +846,6 @@ exports[`SettingsView tests snapshot 4`] = `
       }
     >
       <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
         style={
           Object {
             "color": "#000000",

@@ -1,22 +1,30 @@
 // @flow
-import { jsonRequest, blankRequest } from './base';
+import { jsonRequest, blankRequest, syncRequest } from './base';
 import type { Device } from '../types/device';
 
 class Sync {
-  static announce = () =>
+  static unannounce = () =>
     blankRequest({
+      method: 'GET',
+      route: '/sync/unannounce'
+    });
+
+  static announce = () => {
+    return blankRequest({
       method: 'GET',
       route: '/sync/announce'
     });
+  };
 
-  static list = () =>
-    jsonRequest({
+  static list = () => {
+    return jsonRequest({
       method: 'GET',
       route: '/sync/targets'
     });
+  };
 
   static start = (device: Device) =>
-    blankRequest({
+    syncRequest({
       method: 'GET',
       route: `/sync/start?host=${device.host}&port=${device.port}`
     });

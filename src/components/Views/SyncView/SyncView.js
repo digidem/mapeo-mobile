@@ -1,15 +1,16 @@
 // @flow
 import React from 'react';
 import {
+  Dimensions,
+  FlatList,
+  NetInfo,
+  StyleSheet,
+  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Text,
-  View,
-  FlatList,
-  Dimensions,
-  StyleSheet,
-  NetInfo
+  View
 } from 'react-native';
+
 import type { NavigationScreenProp } from 'react-navigation';
 import WifiIcon from 'react-native-vector-icons/MaterialIcons';
 import SyncHeader from './SyncHeader';
@@ -25,19 +26,14 @@ type Props = {
 
 export type StateProps = {
   devices: Device[],
-  selectedDevice?: Device,
-  syncedModalVisible: boolean
+  syncTarget?: string
 };
 
 export type DispatchProps = {
-  announceSync: () => void,
-  startSync: (device: Device) => void,
-  selectDevice: (device?: Device) => void,
-  toggleDeviceSelect: (device: Device) => void,
-  updateDeviceSync: (device: Device) => void,
-  deviceList: () => void,
-  showSyncedModal: () => void,
-  hideSyncedModal: () => void
+  announceSync: () => any,
+  unannounceSync: () => any,
+  clearSyncTarget: () => any,
+  sync: (device: Device) => any
 };
 
 type State = {
@@ -57,15 +53,13 @@ class SyncView extends React.Component<
   State
 > {
   state = { wifi: false };
-  interval: any;
+  focusListener: any;
+  blurListener: any;
 
   componentDidMount() {
-    const { deviceList, announceSync } = this.props;
+    const { announceSync, navigation } = this.props;
 
-    this.interval = setInterval(function() {
-      deviceList();
-      announceSync();
-    }, 1000);
+    announceSync();
 
     NetInfo.getConnectionInfo().then(connectionInfo => {
       if (connectionInfo.type === 'wifi') {
@@ -73,20 +67,17 @@ class SyncView extends React.Component<
       }
     });
     NetInfo.addEventListener('connectionChange', this.handleConnectionChange);
-  }
 
-  componentWillReceiveProps(nextProps: Props & StateProps & DispatchProps) {
-    const { announceSync, navigation } = nextProps;
-
-    if (navigation.isFocused() && !this.props.navigation.isFocused()) {
-      announceSync();
-    }
+    this.focusListener = navigation.addListener('willFocus', this.handleFocus);
+    this.blurListener = navigation.addListener('willBlur', this.handleBlur);
   }
 
   componentWillUnmount() {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
+    const { unannounceSync } = this.props;
+
+    unannounceSync();
+    this.focusListener.remove();
+    this.blurListener.remove();
 
     NetInfo.removeEventListener(
       'connectionChange',
@@ -94,16 +85,21 @@ class SyncView extends React.Component<
     );
   }
 
-  shouldComponentUpdate(
-    nextProps: Props & StateProps & DispatchProps,
-    nextState: State
-  ) {
-    if (nextProps.navigation.isFocused()) {
-      return nextProps !== this.props || nextState !== this.state;
-    }
+  handleFocus = () => {
+    const { announceSync } = this.props;
 
-    return false;
-  }
+    announceSync();
+  };
+
+  handleBlur = () => {
+    const { unannounceSync, syncTarget, clearSyncTarget } = this.props;
+
+    // on screen blur, unannounce and clear selected device
+    unannounceSync();
+    if (syncTarget) {
+      clearSyncTarget();
+    }
+  };
 
   handleConnectionChange = (connectionInfo: Object) => {
     if (connectionInfo.type === 'wifi') {
@@ -113,94 +109,70 @@ class SyncView extends React.Component<
     }
   };
 
+  handleDevicePress = (item: Device) => {
+    const { sync } = this.props;
+    const syncInProgress =
+      item.syncStatus === 'replication-started' ||
+      item.syncStatus === 'replication-progress';
+
+    if (!syncInProgress) {
+      sync(item);
+    }
+  };
+
+  renderItem = ({ item }: { item: Device }) => {
+    const { syncTarget } = this.props;
+
+    return (
+      <DeviceCell
+        device={item}
+        onPress={this.handleDevicePress}
+        selected={!!syncTarget && item.id === syncTarget}
+      />
+    );
+  };
+
+  handleBack = () => {
+    const { navigation } = this.props;
+    console.log('clicked back');
+
+    navigation.goBack();
+  };
+
   render() {
-    const {
-      devices,
-      navigation,
-      selectDevice,
-      selectedDevice,
-      toggleDeviceSelect,
-      updateDeviceSync,
-      hideSyncedModal,
-      showSyncedModal,
-      syncedModalVisible,
-      startSync
-    } = this.props;
+    const { devices, navigation, syncTarget, sync } = this.props;
     const { wifi } = this.state;
 
     let syncStopped = false;
-    const noDevices = devices.length === 0 || !wifi;
-    let headerDeviceText = noDevices
+    const noDevices: boolean = devices.length === 0 || !wifi;
+
+    let progressText: string = noDevices
       ? I18n.t('sync.none')
       : I18n.t('sync.available');
+    const selectedDevice: ?Device = syncTarget ?
+      devices.find(device => device.id === syncTarget) : undefined;
+
     if (selectedDevice) {
       switch (selectedDevice.syncStatus) {
-        case 'requested':
-          headerDeviceText = I18n.t('sync.initiated');
+        case 'replication-started':
+          progressText = I18n.t('sync.initiated');
           break;
-        case 'syncing':
-          headerDeviceText = I18n.t('sync.progress');
+        case 'replication-progress':
+          progressText = I18n.t('sync.progress');
           break;
-        case 'stopped':
-          headerDeviceText = I18n.t('sync.stopped');
+        case 'replication-error':
+          progressText = I18n.t('sync.stopped');
           syncStopped = true;
           break;
-        case 'completed':
-          headerDeviceText = I18n.t('sync.completed');
+        case 'replication-complete':
+          progressText = I18n.t('sync.completed');
           break;
         default:
-          headerDeviceText = I18n.t('sync.selected');
+          progressText = I18n.t('sync.selected');
       }
     }
 
     const keyExtractor = (item, index) => item.id;
-
-    const handleDevicePress = item => {
-      const syncInProgress =
-        item.syncStatus === 'requested' || item.syncStatus === 'syncing';
-
-      startSync(item);
-      // setTimeout(() => {
-      //   updateDeviceSync({
-      //     ...item,
-      //     selected: true,
-      //     syncStatus: 'replication-complete'
-      //   });
-      //   toggleDeviceSelect(item);
-      //   showSyncedModal();
-      // }, 4000);
-      // if (selectedDevice) {
-      //   // updateDeviceSync({
-      //   //   ...selectedDevice,
-      //   //   selected: false,
-      //   //   syncStatus: 'replication-stopped'
-      //   // });
-      //
-      //   if (selectedDevice.id !== item.id) {
-      //     startSync(item);
-      //   }
-      // } else {
-      //   startSync();
-      // }
-    };
-    const renderItem = ({ item }) => (
-      <DeviceCell
-        device={item}
-        onPress={handleDevicePress}
-        selectedDevice={selectedDevice}
-        showSyncedModal={showSyncedModal}
-      />
-    );
-    const closeSyncView = () => {
-      if (selectedDevice) {
-        selectDevice(undefined);
-        toggleDeviceSelect(selectedDevice);
-      }
-      navigation.goBack();
-    };
-    const handleModalContinue = () => {
-      hideSyncedModal();
-    };
 
     return (
       <View
@@ -212,8 +184,8 @@ class SyncView extends React.Component<
         {noDevices ? (
           <View style={{ flex: 1 }}>
             <SyncHeader
-              closeSyncView={closeSyncView}
-              deviceText={headerDeviceText}
+              back={this.handleBack}
+              progressText={progressText}
               syncStopped={syncStopped}
             />
             <View
@@ -254,19 +226,15 @@ class SyncView extends React.Component<
               scrollEnabled
               ListHeaderComponent={
                 <SyncHeader
-                  closeSyncView={closeSyncView}
-                  deviceText={headerDeviceText}
+                  back={navigation.goBack}
+                  progressText={progressText}
                   syncStopped={syncStopped}
                 />
               }
               data={devices}
               keyExtractor={keyExtractor}
-              renderItem={renderItem}
+              renderItem={this.renderItem}
               style={{ width: Dimensions.get('window').width }}
-            />
-            <SyncedModal
-              onContinue={handleModalContinue}
-              visible={syncedModalVisible}
             />
           </View>
         )}

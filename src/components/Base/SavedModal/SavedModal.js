@@ -191,10 +191,10 @@ class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
                   <Text style={styles.date}>
                     {I18n.t('on')}{' '}
                     {I18n.currentLocale().indexOf('en') !== -1
-                      ? moment(selectedObservation.created).format(
-                          'MMMM D YYYY, h:hh A'
+                      ? moment(selectedObservation.created_at).format(
+                          'MMMM D YYYY, h:mm A'
                         )
-                      : moment(selectedObservation.created).format('LLL')}
+                      : moment(selectedObservation.created_at).format('LLL')}
                   </Text>
                 </View>
               </View>

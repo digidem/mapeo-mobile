@@ -1,41 +1,33 @@
 // @flow
 import { jsonRequest } from './base';
-import { applyObservationDefaults } from '../models/observations';
+import { parseObservationResponse } from '../models/observations';
 
-export interface CreateRequest {
-  lat: number;
-  lon: number;
-}
-
-export type UpdateRequest = {
-  id: string
-};
+import type {
+  Observation as ObservationType,
+  ServerObservationResponse,
+  ServerObservationCreate
+} from '../types/observation';
 
 class Observation {
   static list = () =>
     jsonRequest({
       method: 'GET',
       route: '/observations'
-    }).map(observations => observations.map(applyObservationDefaults));
+    }).map(observations => observations.map(parseObservationResponse));
 
-  static create = (observation: CreateRequest) =>
+  static create = (observation: ServerObservationCreate) =>
     jsonRequest({
       method: 'POST',
       route: '/observations',
-      body: {
-        device_id: '1',
-        ...observation
-      }
-    });
+      body: observation
+    }).map(parseObservationResponse);
 
-  static update = (observation: UpdateRequest) =>
+  static update = (observation: ServerObservationResponse) =>
     jsonRequest({
       method: 'PUT',
       route: `/observations/${observation.id}`,
-      body: {
-        ...observation
-      }
-    });
+      body: observation
+    }).map(parseObservationResponse);
 }
 
 export default Observation;

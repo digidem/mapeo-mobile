@@ -26,7 +26,7 @@ ShallowWrapper {
       Object {
         "attachments": Array [],
         "categoryId": 19,
-        "created": 2018-02-25T20:23:00.000Z,
+        "created_at": "2018-02-25T20:23:00.000Z",
         "fields": Array [
           Object {
             "answer": "",
@@ -37,17 +37,11 @@ ShallowWrapper {
             "type": "text",
           },
         ],
-        "icon": Object {
-          "testUri": "../../../src/images/categories/category_18.png",
-        },
         "id": 1,
         "lat": 50.5,
-        "link": "linkID",
         "lon": 50.5,
-        "name": "Oil Spill",
         "notes": "This is pretty bad. It smells pretty noxious, and the entire pond is affected.",
         "observedBy": "You",
-        "type": "Observation",
       }
     }
     updateObservation={[MockFunction]}
@@ -85,7 +79,6 @@ ShallowWrapper {
                 "flex": 1,
               }
             }
-            zoomLevel={12}
           />
           <Component
             style={
@@ -117,7 +110,7 @@ ShallowWrapper {
                 }
               }
             >
-              <Image
+              <Component
                 source={
                   Object {
                     "testUri": "../../../src/images/add-button.png",
@@ -193,7 +186,6 @@ ShallowWrapper {
                   "flex": 1,
                 }
               }
-              zoomLevel={12}
             />,
             <Component
               style={
@@ -225,7 +217,7 @@ ShallowWrapper {
                   }
                 }
               >
-                <Image
+                <Component
                   source={
                     Object {
                       "testUri": "../../../src/images/add-button.png",
@@ -263,7 +255,6 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "function",
             "props": Object {
-              "centerCoordinate": undefined,
               "children": Array [
                 null,
                 undefined,
@@ -279,7 +270,6 @@ ShallowWrapper {
                 "flex": 1,
               },
               "styleURL": undefined,
-              "zoomLevel": 12,
             },
             "ref": [Function],
             "rendered": Array [
@@ -310,7 +300,7 @@ ShallowWrapper {
                     }
                   }
                 >
-                  <Image
+                  <Component
                     source={
                       Object {
                         "testUri": "../../../src/images/add-button.png",
@@ -368,7 +358,7 @@ ShallowWrapper {
                 "nodeType": "class",
                 "props": Object {
                   "activeOpacity": 0.2,
-                  "children": <Image
+                  "children": <Component
                     source={
                       Object {
                         "testUri": "../../../src/images/add-button.png",
@@ -516,7 +506,6 @@ ShallowWrapper {
                   "flex": 1,
                 }
               }
-              zoomLevel={12}
             />
             <Component
               style={
@@ -548,7 +537,7 @@ ShallowWrapper {
                   }
                 }
               >
-                <Image
+                <Component
                   source={
                     Object {
                       "testUri": "../../../src/images/add-button.png",
@@ -624,7 +613,6 @@ ShallowWrapper {
                     "flex": 1,
                   }
                 }
-                zoomLevel={12}
               />,
               <Component
                 style={
@@ -656,7 +644,7 @@ ShallowWrapper {
                     }
                   }
                 >
-                  <Image
+                  <Component
                     source={
                       Object {
                         "testUri": "../../../src/images/add-button.png",
@@ -694,7 +682,6 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "function",
               "props": Object {
-                "centerCoordinate": undefined,
                 "children": Array [
                   null,
                   undefined,
@@ -710,7 +697,6 @@ ShallowWrapper {
                   "flex": 1,
                 },
                 "styleURL": undefined,
-                "zoomLevel": 12,
               },
               "ref": [Function],
               "rendered": Array [
@@ -741,7 +727,7 @@ ShallowWrapper {
                       }
                     }
                   >
-                    <Image
+                    <Component
                       source={
                         Object {
                           "testUri": "../../../src/images/add-button.png",
@@ -799,7 +785,7 @@ ShallowWrapper {
                   "nodeType": "class",
                   "props": Object {
                     "activeOpacity": 0.2,
-                    "children": <Image
+                    "children": <Component
                       source={
                         Object {
                           "testUri": "../../../src/images/add-button.png",

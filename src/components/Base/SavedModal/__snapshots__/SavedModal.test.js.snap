@@ -44,9 +44,6 @@ exports[`SavedModal tests snapshots 2`] = `
         }
       >
         <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
           style={
             Object {
               "color": "black",
@@ -72,6 +69,7 @@ exports[`SavedModal tests snapshots 2`] = `
         }
       >
         <View
+          accessibilityIgnoresInvertColors={true}
           style={
             Object {
               "alignItems": "center",
@@ -137,6 +135,7 @@ exports[`SavedModal tests snapshots 2`] = `
                   onLoadingFinish={[Function]}
                   onLoadingStart={[Function]}
                   onMessage={[Function]}
+                  onShouldStartLoadWithRequest={[Function]}
                   scalesPageToFit={true}
                   scrollEnabled={false}
                   source={
@@ -180,9 +179,6 @@ exports[`SavedModal tests snapshots 2`] = `
           }
         >
           <Text
-            accessible={true}
-            allowFontScaling={true}
-            ellipsizeMode="tail"
             style={
               Object {
                 "color": "black",
@@ -202,9 +198,6 @@ exports[`SavedModal tests snapshots 2`] = `
             }
           >
             <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
               style={
                 Object {
                   "color": "black",
@@ -217,9 +210,6 @@ exports[`SavedModal tests snapshots 2`] = `
                
             </Text>
             <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
               style={
                 Object {
                   "color": "black",
@@ -232,9 +222,6 @@ exports[`SavedModal tests snapshots 2`] = `
             </Text>
           </View>
           <Text
-            accessible={true}
-            allowFontScaling={true}
-            ellipsizeMode="tail"
             style={
               Object {
                 "color": "#666666",
@@ -245,7 +232,7 @@ exports[`SavedModal tests snapshots 2`] = `
           >
             on
              
-            February 25 2018, 12:12 PM
+            February 25 2018, 11:23 PM
           </Text>
         </View>
       </View>

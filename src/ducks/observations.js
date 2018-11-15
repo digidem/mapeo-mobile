@@ -37,13 +37,6 @@ export const {
     });
 
     return newState;
-  },
-  success: (state, meta, payload) => {
-    const newState = update(state, {
-      selectObservation: { $set: payload }
-    });
-
-    return newState;
   }
 });
 
@@ -104,8 +97,6 @@ export const {
   reducer: observationSaveReducer
 } = create('OBSERVATION_SAVE', {
   success: (state, meta, payload) => {
-    const pendingAttachments = state.attachments;
-
     return update(state, {
       observations: {
         [payload.id]: {
@@ -177,5 +168,7 @@ export default [
   observationCreateReducer,
   observationUpdateReducer,
   observationSelectReducer,
+  observationSaveReducer,
+  observationUpdateSaveReducer,
   observationAttachmentUpdateReducer
 ];
