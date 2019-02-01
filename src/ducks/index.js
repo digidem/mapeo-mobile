@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { combineReducers as appCombineReducers } from '../lib/redux';
 
 import categories from './categories';
-import drawers from './drawers';
 import modals from './modals';
 import observations from './observations';
 import gps from './gps';
@@ -17,7 +16,6 @@ import sync from './sync';
 const rootReducer = appCombineReducers(
   ...categories,
   ...devices,
-  ...drawers,
   ...fields,
   ...observationSource,
   ...settings,

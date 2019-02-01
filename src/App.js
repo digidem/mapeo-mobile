@@ -29,7 +29,6 @@ import throttle from 'lodash/throttle';
 import 'rxjs';
 import { configureStore } from './lib/store';
 import { locationUpdate, locationError } from './ducks/gps';
-import { observationList } from './ducks/observations';
 import { styleList } from './ducks/map';
 import { fieldList } from './ducks/fields';
 import { categoryList } from './ducks/categories';
@@ -73,7 +72,6 @@ export default class App extends React.PureComponent<null, State> {
     );
 
     this.onReady(() => {
-      this.store.dispatch(observationList(''));
       this.store.dispatch(styleList(''));
       this.store.dispatch(categoryList(''));
       this.setState({ ready: true });

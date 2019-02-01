@@ -9,17 +9,6 @@ import type { StoreState } from '../types/redux';
 import type { Observation } from '../types/observation';
 
 export const {
-  type: OBSERVATION_LIST,
-  action: observationList,
-  reducer: observationListReducer
-} = create('OBSERVATION_LIST', {
-  success: (state, meta, payload) =>
-    update(state, {
-      observations: { $set: keyBy(payload, 'id') }
-    })
-});
-
-export const {
   type: OBSERVATION_CREATE,
   action: observationCreate,
   reducer: observationCreateReducer
@@ -164,7 +153,6 @@ export const selectObservation = createSelector(
 );
 
 export default [
-  observationListReducer,
   observationCreateReducer,
   observationUpdateReducer,
   observationSelectReducer,

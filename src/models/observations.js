@@ -6,6 +6,7 @@ import type {
 } from '../types/observation';
 
 export const createDefaultObservation = (): Observation => ({
+  id: 'NEW_OBSERVATION',
   created_at: new Date().toISOString(),
   notes: '',
   categoryId: '',

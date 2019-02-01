@@ -5,8 +5,6 @@ import { Image } from 'react-native';
 import { debounceTime } from 'rxjs/operators';
 import type { ActionsObservable } from 'redux-observable';
 import {
-  OBSERVATION_LIST,
-  observationList,
   OBSERVATION_SAVE,
   observationSave,
   OBSERVATION_UPDATE,
@@ -25,20 +23,6 @@ import type {
 import type { StoreState } from '../types/redux';
 import Observation from '../api/observations';
 import { parseObservationRequest } from '../models/observations';
-
-export const observationListEpic = (
-  action$: ActionsObservable<Action<string, ObservationType[]>>,
-  store: StoreState
-) =>
-  action$
-    .ofType(OBSERVATION_LIST)
-    .filter(action => action.status === 'Start')
-    .pipe(debounceTime(500))
-    .flatMap(() => {
-      return Observation.list().map(observations =>
-        observationList('', observations)
-      );
-    });
 
 export const observationSaveEpic = (
   action$: ActionsObservable<
@@ -60,7 +44,6 @@ export const observationSaveEpic = (
       return Observation.create(request).flatMap(o => {
         return Observable.concat(
           Observable.of(observationSave(action.meta, o)),
-          Observable.of(observationList('')),
           Observable.of(modalShow('saved'))
         );
       });
@@ -87,15 +70,13 @@ export const observationUpdateSaveEpic = (
       return Observation.update({ ...request, id: observation.id }).flatMap(
         o => {
           return Observable.merge(
-            Observable.of(observationUpdateSave(action.meta, o)),
-            Observable.of(observationList(''))
+            Observable.of(observationUpdateSave(action.meta, o))
           );
         }
       );
     });
 
 export default [
-  observationListEpic,
   observationSaveEpic,
   observationUpdateSaveEpic
 ];

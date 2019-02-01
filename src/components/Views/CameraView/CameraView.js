@@ -6,13 +6,13 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
   Dimensions,
   ActivityIndicator
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { size } from 'lodash';
-import Drawer from 'react-native-drawer';
 import I18n from 'react-native-i18n';
 import type { NavigationScreenProp } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -63,9 +63,6 @@ export type Props = {
 };
 
 export type StateProps = {
-  observations: {
-    [id: string]: Observation
-  },
   selectedObservation?: Observation,
   showSavedModal: boolean,
   showEditorView: boolean
@@ -74,8 +71,6 @@ export type StateProps = {
 export type DispatchProps = {
   createObservation: (observation: Observation) => void,
   updateObservation: (o: UpdateRequest) => void,
-  onDrawerClose: () => void,
-  onDrawerOpen: () => void,
   updateObservationSource: () => void,
   saveMedia: (meta: MediaSaveMeta) => void
 };
@@ -98,13 +93,11 @@ class CameraView extends React.Component<
     loading: false
   };
   camera: RNCamera;
-  rightDrawer: Drawer;
 
   takePicture = async () => {
     const {
       createObservation,
       navigation,
-      observations,
       selectedObservation,
       updateObservationSource,
       showEditorView,
@@ -124,10 +117,7 @@ class CameraView extends React.Component<
           navigation.navigate({
             routeName: 'Categories'
           });
-          const initialObservation = {
-            ...createDefaultObservation(),
-            id: (size(observations) + 1).toString()
-          };
+          const initialObservation = createDefaultObservation()
           console.log('updating source, creating, saving media');
           updateObservationSource();
           createObservation(initialObservation);
@@ -139,21 +129,13 @@ class CameraView extends React.Component<
     }
   };
 
-  closeRightDrawer = () => {
-    this.rightDrawer.close();
-  };
-
-  openRightDrawer = () => {
-    this.rightDrawer.open();
-  };
-
-  handleRightDrawerRef = (ref: Drawer) => {
-    this.rightDrawer = ref;
-  };
-
   goToMapView = () => {
     const { navigation } = this.props;
     navigation.navigate({ routeName: 'MapView' });
+  };
+
+  goToObservationsView = () => {
+    this.props.navigation.navigate({ routeName: 'ObservationsView' });
   };
 
   renderCamera = (fromEditor: boolean, loading: boolean) => (
@@ -226,8 +208,6 @@ class CameraView extends React.Component<
     const {
       selectedObservation,
       navigation,
-      onDrawerOpen,
-      onDrawerClose,
       showSavedModal,
       showEditorView
     } = this.props;
@@ -237,20 +217,12 @@ class CameraView extends React.Component<
     }
 
     return (
-      <Drawer
-        ref={this.handleRightDrawerRef}
-        content={
-          <ObservationsView
-            closeRightDrawer={this.closeRightDrawer}
-            navigation={navigation}
-          />
-        }
-        onCloseStart={onDrawerClose}
-        onOpenStart={onDrawerOpen}
-        openDrawerOffset={0}
-        side="right"
-        type="displace"
-      >
+      <TouchableWithoutFeedback>
+        <View
+          style={{
+            flex: 1
+          }}
+        >
         <Header
           leftIcon={
             <TouchableOpacity onPress={this.goToMapView}>
@@ -258,7 +230,7 @@ class CameraView extends React.Component<
             </TouchableOpacity>
           }
           rightIcon={
-            <TouchableOpacity onPress={this.openRightDrawer}>
+            <TouchableOpacity onPress={this.goToObservationsView}>
               <CollectionsImg color={WHITE} name="collections" size={30} />
             </TouchableOpacity>
           }
@@ -272,7 +244,8 @@ class CameraView extends React.Component<
         />
         <SavedModal />
         {this.renderCamera(false, loading)}
-      </Drawer>
+      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

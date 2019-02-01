@@ -92,7 +92,7 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class ObservationCell extends React.Component<Props> {
+class ObservationCell extends React.PureComponent<Props> {
   render() {
     const { currentLocale, observation, onPress, category, icons } = this.props;
     const esLocale = require('moment/locale/es');

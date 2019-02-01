@@ -13,10 +13,10 @@ import type { StateProps } from './Categories';
 
 function mapStateToProps(state: StoreState): StateProps {
   const categories = values(state.categories).sort((a, b) => a.name - b.name);
-  const { selectedObservation, observations } = state;
+  const { selectedObservation } = state;
 
   let updateFlow = false;
-  if (selectedObservation && observations[selectedObservation.id]) {
+  if (selectedObservation && selectedObservation.id === 'NEW_OBSERVATION') {
     updateFlow = true;
   }
 

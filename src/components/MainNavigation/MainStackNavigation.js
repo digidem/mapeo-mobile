@@ -12,11 +12,13 @@ import SettingsView from '../Views/SettingsView';
 import MapView from '../Views/MapView';
 import ManualGPS from '../Views/ManualGPS';
 import SyncView from '../Views/SyncView';
+import ObservationsView from '../Views/ObservationsView';
 
 const routeConfiguration = {
   Categories: { screen: Categories },
   ObservationEditor: { screen: ObservationEditor },
   ObservationFields: { screen: ObservationFields },
+  ObservationsView: { screen: ObservationsView },
   CameraView: { screen: CameraView },
   PhotoView: { screen: PhotoView },
   ObservationDetailView: { screen: ObservationDetailView },
@@ -33,6 +35,7 @@ const stackConfiguration = {
       if (
         sceneProps.scene.route.routeName.match('ObservationDetailView') ||
         sceneProps.scene.route.routeName.match('ObservationFields') ||
+        sceneProps.scene.route.routeName.match('ObservationsView') ||
         sceneProps.scene.route.routeName.match('SettingsView') ||
         sceneProps.scene.route.routeName.match('ManualGPSView') ||
         sceneProps.scene.route.routeName.match('SyncView')

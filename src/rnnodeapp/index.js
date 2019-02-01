@@ -78,11 +78,13 @@ function start() {
   });
 
   const server = http.createServer((req, res) => {
+    console.log('handling request', req.url)
     if (req.url.endsWith('/ready')) {
       res.write('ready');
       res.end();
       return;
     } else if (route.handle(req, res)) {
+      console.log('request handled')
     } else {
       res.statusCode = 404;
       res.end('not found\n');
