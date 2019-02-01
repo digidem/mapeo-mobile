@@ -57,9 +57,9 @@ class SyncView extends React.Component<
   blurListener: any;
 
   componentDidMount() {
-    const { announceSync, navigation } = this.props;
+    const { navigation } = this.props;
 
-    announceSync();
+    this.startSyncIntervals()
 
     NetInfo.getConnectionInfo().then(connectionInfo => {
       if (connectionInfo.type === 'wifi') {
@@ -68,14 +68,34 @@ class SyncView extends React.Component<
     });
     NetInfo.addEventListener('connectionChange', this.handleConnectionChange);
 
-    this.focusListener = navigation.addListener('willFocus', this.handleFocus);
-    this.blurListener = navigation.addListener('willBlur', this.handleBlur);
+    this.focusListener = navigation.addListener('willFocus', this.handleFocus.bind(this));
+    this.blurListener = navigation.addListener('willBlur', this.handleBlur.bind(this));
+  }
+
+  startSyncIntervals () {
+    const { announceSync } = this.props;
+
+    this.interval = setInterval(() => {
+      if (this.interval) announceSync();
+    }, 3000)
+  }
+
+  stopSyncIntervals () {
+    const { unannounceSync, syncTarget, clearSyncTarget } = this.props;
+    if (this.interval) {
+      console.log('clearing interval')
+      clearInterval(this.interval)
+      this.interval = null
+    }
+
+    unannounceSync();
+    if (syncTarget) {
+      clearSyncTarget();
+    }
   }
 
   componentWillUnmount() {
-    const { unannounceSync } = this.props;
-
-    unannounceSync();
+    this.stopSyncIntervals();
     this.focusListener.remove();
     this.blurListener.remove();
 
@@ -86,19 +106,11 @@ class SyncView extends React.Component<
   }
 
   handleFocus = () => {
-    const { announceSync } = this.props;
-
-    announceSync();
+    this.startSyncIntervals();
   };
 
   handleBlur = () => {
-    const { unannounceSync, syncTarget, clearSyncTarget } = this.props;
-
-    // on screen blur, unannounce and clear selected device
-    unannounceSync();
-    if (syncTarget) {
-      clearSyncTarget();
-    }
+    this.stopSyncIntervals();
   };
 
   handleConnectionChange = (connectionInfo: Object) => {
@@ -133,8 +145,9 @@ class SyncView extends React.Component<
   };
 
   handleBack = () => {
-    const { navigation } = this.props;
+    const { unannounceSync, navigation } = this.props;
     console.log('clicked back');
+    this.stopSyncIntervals();
 
     navigation.goBack();
   };
