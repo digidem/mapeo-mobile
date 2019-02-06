@@ -74,6 +74,7 @@ class SyncView extends React.Component<
 
   startSyncIntervals () {
     const { announceSync } = this.props;
+    if (this.interval) return
 
     this.interval = setInterval(() => {
       if (this.interval) announceSync();
@@ -83,7 +84,6 @@ class SyncView extends React.Component<
   stopSyncIntervals () {
     const { unannounceSync, syncTarget, clearSyncTarget } = this.props;
     if (this.interval) {
-      console.log('clearing interval')
       clearInterval(this.interval)
       this.interval = null
     }
@@ -123,6 +123,7 @@ class SyncView extends React.Component<
 
   handleDevicePress = (item: Device) => {
     const { sync } = this.props;
+    console.log(item)
     const syncInProgress =
       item.syncStatus === 'replication-started' ||
       item.syncStatus === 'replication-progress';
@@ -167,6 +168,7 @@ class SyncView extends React.Component<
       : undefined;
 
     if (selectedDevice) {
+      console.log(selectedDevice.syncStatus)
       switch (selectedDevice.syncStatus) {
         case 'replication-started':
           progressText = I18n.t('sync.initiated');
