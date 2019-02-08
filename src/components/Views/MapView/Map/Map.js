@@ -169,6 +169,10 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
     MapboxGL.setAccessToken(env.accessToken);
   }
 
+  shouldComponentUpdate() {
+    return this.props.navigation.isFocused();
+  }
+
   handleCreateObservation = () => {
     const {
       createObservation,
