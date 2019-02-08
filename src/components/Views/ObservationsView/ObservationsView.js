@@ -45,6 +45,8 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
+const OBSERVATION_CELL_HEIGHT = 80;
+
 class ObservationsView extends React.Component<
   Props & StateProps & DispatchProps
 > {
@@ -66,11 +68,20 @@ class ObservationsView extends React.Component<
     this.subscription.remove();
   }
 
+  getItemLayout(data, index) {
+    return {
+      length: OBSERVATION_CELL_HEIGHT,
+      offset: OBSERVATION_CELL_HEIGHT * index,
+      index
+    };
+  }
+
   willFocus = () => {
     var observable = Observation.list();
+    const start = Date.now();
     console.log('asking for obs');
     var onSuccess = result => {
-      console.log('got obs');
+      console.log('got obs in %s ms', Date.now() - start);
       this.setState({
         observations: values(result).sort(
           (a, b) => new Date(b.created_at) - new Date(a.created_at)
@@ -85,7 +96,9 @@ class ObservationsView extends React.Component<
 
   render() {
     const { navigation, categories, selectObservation, icons } = this.props;
-
+    const itemsPerWindow = Math.ceil(
+      (Dimensions.get('window').height - 65) / OBSERVATION_CELL_HEIGHT
+    );
     const { observations } = this.state;
 
     const sectionMappings = {};
@@ -115,7 +128,9 @@ class ObservationsView extends React.Component<
           }}
         >
           <FlatList
-            initialNumToRender={20}
+            initialNumToRender={
+              itemsPerWindow * 2 /** always render a screens worth extra */
+            }
             scrollEnabled
             stickyHeaderIndices={[0]}
             ListHeaderComponent={
@@ -125,6 +140,7 @@ class ObservationsView extends React.Component<
                 onSettingsPress={goToSettings}
               />
             }
+            getItemLayout={this.getItemLayout}
             style={{ width: Dimensions.get('window').width }}
             keyExtractor={keyExtractor}
             renderItem={({ item }) => (
