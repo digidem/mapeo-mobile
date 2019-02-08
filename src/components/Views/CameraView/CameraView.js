@@ -117,7 +117,7 @@ class CameraView extends React.Component<
           navigation.navigate({
             routeName: 'Categories'
           });
-          const initialObservation = createDefaultObservation()
+          const initialObservation = createDefaultObservation();
           console.log('updating source, creating, saving media');
           updateObservationSource();
           createObservation(initialObservation);
@@ -223,28 +223,28 @@ class CameraView extends React.Component<
             flex: 1
           }}
         >
-        <Header
-          leftIcon={
-            <TouchableOpacity onPress={this.goToMapView}>
-              <Icon color={WHITE} name="map" size={30} />
-            </TouchableOpacity>
-          }
-          rightIcon={
-            <TouchableOpacity onPress={this.goToObservationsView}>
-              <CollectionsImg color={WHITE} name="collections" size={30} />
-            </TouchableOpacity>
-          }
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 5
-          }}
-        />
-        <SavedModal />
-        {this.renderCamera(false, loading)}
-      </View>
+          <Header
+            leftIcon={
+              <TouchableOpacity onPress={this.goToMapView}>
+                <Icon color={WHITE} name="map" size={30} />
+              </TouchableOpacity>
+            }
+            rightIcon={
+              <TouchableOpacity onPress={this.goToObservationsView}>
+                <CollectionsImg color={WHITE} name="collections" size={30} />
+              </TouchableOpacity>
+            }
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              zIndex: 5
+            }}
+          />
+          <SavedModal />
+          {this.renderCamera(false, loading)}
+        </View>
       </TouchableWithoutFeedback>
     );
   }

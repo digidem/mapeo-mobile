@@ -371,9 +371,9 @@ class ObservationEditor extends React.Component<
     this.setState({ text });
   };
 
-  isUpdateFlow = (props) => {
-    const { selectedObservation } = props || this.props
-    return selectedObservation && selectedObservation.id !== 'NEW_OBSERVATION'
+  isUpdateFlow = props => {
+    const { selectedObservation } = props || this.props;
+    return selectedObservation && selectedObservation.id !== 'NEW_OBSERVATION';
   };
 
   handleSaveObservation = () => {
@@ -384,7 +384,7 @@ class ObservationEditor extends React.Component<
       navigation,
       gps,
       showManualGPSModal,
-      saveObservation,
+      saveObservation
     } = this.props;
     const { text, keyboardShown } = this.state;
 

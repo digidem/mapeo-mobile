@@ -184,7 +184,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
       navigation
     } = this.props;
 
-    const initialObservation = createDefaultObservation()
+    const initialObservation = createDefaultObservation();
 
     navigation.navigate({
       routeName: 'Categories',
@@ -194,10 +194,10 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
     createObservation(initialObservation);
   };
 
-  handleObservationPress = (e) => {
-    var observation = e.nativeEvent && e.nativeEvent.payload
-    if (!observation || !observation.properties) return
-    var id = observation.properties.id
+  handleObservationPress = e => {
+    var observation = e.nativeEvent && e.nativeEvent.payload;
+    if (!observation || !observation.properties) return;
+    var id = observation.properties.id;
 
     const { observations, selectObservation, navigation } = this.props;
 

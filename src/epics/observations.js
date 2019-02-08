@@ -76,7 +76,4 @@ export const observationUpdateSaveEpic = (
       );
     });
 
-export default [
-  observationSaveEpic,
-  observationUpdateSaveEpic
-];
+export default [observationSaveEpic, observationUpdateSaveEpic];

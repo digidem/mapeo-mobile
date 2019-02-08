@@ -2,7 +2,7 @@
 import { jsonRequest } from './base';
 import { keyBy } from 'lodash';
 import { parseObservationResponse } from '../models/observations';
-import querystring from 'querystring'
+import querystring from 'querystring';
 
 import type {
   Observation as ObservationType,
@@ -11,13 +11,13 @@ import type {
 } from '../types/observation';
 
 class Observation {
-  static list = (opts) =>
+  static list = opts =>
     jsonRequest({
       method: 'GET',
       route: '/observations?' + querystring.stringify(opts)
     }).map(observations => {
-      var payload = observations.map(parseObservationResponse)
-      return keyBy(payload, 'id')
+      var payload = observations.map(parseObservationResponse);
+      return keyBy(payload, 'id');
     });
 
   static create = (observation: ServerObservationCreate) =>

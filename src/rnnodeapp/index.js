@@ -27,7 +27,7 @@ const os = require('os');
 const mkdirp = require('mkdirp');
 const styles = require('mapeo-styles');
 const mapeoServerVersion = require('mapeo-server/package.json').version;
-const migrateMedia = require('./migrateMedia')
+const migrateMedia = require('./migrateMedia');
 
 console.log('1: init mapeo-server version', mapeoServerVersion);
 
@@ -50,10 +50,10 @@ mkdirp.sync(STATIC_PATH);
 console.log('2: dirs created');
 
 // Migrate media from old fs-blob-store, if needed
-migrateMedia(MEDIA_PATH, function (err) {
+migrateMedia(MEDIA_PATH, function(err) {
   if (err) console.error(err);
   start();
-})
+});
 
 // Unpack styles and presets, if needed
 styles.unpackIfNew(STATIC_PATH, function(err, didWrite) {
@@ -62,11 +62,10 @@ styles.unpackIfNew(STATIC_PATH, function(err, didWrite) {
   start();
 });
 
-
-let pending = 2
+let pending = 2;
 function start() {
-  pending--
-  if (pending !== 0) return
+  pending--;
+  if (pending !== 0) return;
   console.log('4: starting');
   const db = osm(DB_PATH);
   const media = blobstore(MEDIA_PATH);
@@ -78,13 +77,13 @@ function start() {
   });
 
   const server = http.createServer((req, res) => {
-    console.log('handling request', req.url)
+    console.log('handling request', req.url);
     if (req.url.endsWith('/ready')) {
       res.write('ready');
       res.end();
       return;
     } else if (route.handle(req, res)) {
-      console.log('request handled')
+      console.log('request handled');
     } else {
       res.statusCode = 404;
       res.end('not found\n');

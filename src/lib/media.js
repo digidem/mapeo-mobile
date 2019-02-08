@@ -28,5 +28,5 @@ export const getMediaUrl = (id: string, thumbnail?: boolean) => {
 };
 
 export const getSvgUri = (svg: string) => {
-  return `data:image/svg+xml;utf8,${svg}`.replace(new RegExp('#', 'g'), '%23')
+  return `data:image/svg+xml;utf8,${svg}`.replace(new RegExp('#', 'g'), '%23');
 };

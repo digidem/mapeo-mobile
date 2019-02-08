@@ -19,7 +19,7 @@ export const {
 export const {
   type: DEVICE_CLEAR,
   action: deviceClear,
-  reducer: deviceClearReducer,
+  reducer: deviceClearReducer
 } = create('DEVICE_CLEAR', {
   start: (state, meta) => {
     const newState = update(state, { devices: { $set: {} } });

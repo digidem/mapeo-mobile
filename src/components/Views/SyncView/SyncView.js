@@ -149,8 +149,9 @@ class SyncView extends React.Component<
     let progressText: string = noDevices
       ? I18n.t('sync.none')
       : I18n.t('sync.available');
-    const selectedDevice: ?Device = syncTarget ?
-      devices.find(device => device.id === syncTarget) : undefined;
+    const selectedDevice: ?Device = syncTarget
+      ? devices.find(device => device.id === syncTarget)
+      : undefined;
 
     if (selectedDevice) {
       switch (selectedDevice.syncStatus) {

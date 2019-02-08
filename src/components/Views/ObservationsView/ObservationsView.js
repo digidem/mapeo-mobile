@@ -20,7 +20,7 @@ import ObservationCell from './ObservationCell';
 import ObservationHeader from './ObservationHeader';
 import Observation from '../../../api/observations';
 import moment from '../../../lib/localizedMoment';
-import memoize from 'memoize-one'
+import memoize from 'memoize-one';
 
 export type StateProps = {
   drawerOpened: boolean,
@@ -48,50 +48,45 @@ I18n.translations = {
 class ObservationsView extends React.Component<
   Props & StateProps & DispatchProps
 > {
-
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       observations: []
-    }
+    };
   }
 
-  componentDidMount () {
-    this.subscription = this.props.navigation.addListener('willFocus', this.willFocus)
-  };
+  componentDidMount() {
+    this.subscription = this.props.navigation.addListener(
+      'willFocus',
+      this.willFocus
+    );
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.subscription.remove();
   }
 
   willFocus = () => {
-    var observable = Observation.list()
-    console.log('asking for obs')
-    var onSuccess = (result) => {
-      console.log('got obs')
+    var observable = Observation.list();
+    console.log('asking for obs');
+    var onSuccess = result => {
+      console.log('got obs');
       this.setState({
         observations: values(result).sort(
           (a, b) => new Date(b.created_at) - new Date(a.created_at)
         )
-      })
+      });
     };
-    var onError = (err) => {
+    var onError = err => {
       console.log('eff', err);
     };
     observable.subscribe(onSuccess, onError);
-  }
+  };
 
   render() {
-    const {
-      navigation,
-      categories,
-      selectObservation,
-      icons
-    } = this.props;
+    const { navigation, categories, selectObservation, icons } = this.props;
 
-    const {
-      observations
-    } = this.state;
+    const { observations } = this.state;
 
     const sectionMappings = {};
     let label;
@@ -108,9 +103,9 @@ class ObservationsView extends React.Component<
       navigation.navigate({ routeName: 'SyncView' });
     };
     const goToMapView = () => {
-      navigation.navigate({ routeName: 'MapView', });
+      navigation.navigate({ routeName: 'MapView' });
     };
-    console.log('rendering', observations.length)
+    console.log('rendering', observations.length);
 
     return (
       <TouchableWithoutFeedback>
