@@ -22,7 +22,7 @@
     "@digidem/react-native-geolocation": "^1.0.3",
     "@digidem/react-native-gps-state": "^1.0.0",
     "@mapbox/geo-viewport": "^0.2.2",
-    "@mapbox/react-native-mapbox-gl": "^6.1.2-beta2",
+    "@mapbox/react-native-mapbox-gl": "^6.1.3",
     "backoff-rxjs": "^0.0.9",
     "formatcoords": "^1.1.3",
     "immutability-helper": "^2.6.4",
