@@ -94,6 +94,10 @@ class MapView extends React.Component<Props & StateProps & DispatchProps> {
     );
   }
 
+  shouldComponentUpdate() {
+    return this.props.navigation.isFocused();
+  }
+
   componentWillUnmount() {
     this.subscription.remove();
   }
