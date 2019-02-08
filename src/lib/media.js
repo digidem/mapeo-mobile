@@ -26,3 +26,7 @@ export const getMediaUrl = (id: string, thumbnail?: boolean) => {
 
   return `http://127.0.0.1:9080/media/original/${id}`;
 };
+
+export const getSvgUri = (svg: string) => {
+  return `data:image/svg+xml;utf8,${svg}`.replace(new RegExp('#', 'g'), '%23')
+};

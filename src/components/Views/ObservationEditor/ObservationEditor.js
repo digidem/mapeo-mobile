@@ -41,6 +41,7 @@ import ManualGPSModal from '../../Base/ManualGPSModal';
 import getGPSText from '../../../lib/getGPSText';
 import { HIGH_ACCURACY } from '../../../ducks/gps';
 import Thumbnail from '../../Base/Thumbnail';
+import { getSvgUri } from '../../../lib/media';
 
 export type StateProps = {
   category?: Category,
@@ -655,7 +656,7 @@ class ObservationEditor extends React.Component<
                 !!icons[category.icon] && (
                   <Image
                     source={{
-                      uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
+                      uri: getSvgUri(icons[category.icon])
                     }}
                     style={{ height: 30, width: 30 }}
                   />
