@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   ActivityIndicator,
   Text,
   Modal,
@@ -12,7 +13,6 @@ import {
   ImageBackground,
   Image
 } from 'react-native';
-import Drawer from 'react-native-drawer';
 import I18n from 'react-native-i18n';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { isEmpty, size, map, filter } from 'lodash';
@@ -21,8 +21,12 @@ import AddButton from '../../../images/add-button.png';
 import Gradient from '../../../images/gradient-overlay.png';
 import type { GPSState } from '../../../types/gps';
 import CollectionsImg from 'react-native-vector-icons/MaterialIcons';
-import type { Observation, UpdateRequest } from '../../../types/observation';
+import type {
+  ObservationType,
+  UpdateRequest
+} from '../../../types/observation';
 import ObservationsView from '../ObservationsView';
+import Observation from '../../../api/observations';
 import Map from './Map';
 import {
   WHITE,
@@ -35,13 +39,14 @@ import Header from '../../Base/Header';
 import SavedModal from '../../Base/SavedModal';
 import { API_DOMAIN_URL } from '../../../api/base';
 
-export type DispatchProps = {
-  onDrawerClose: () => void,
-  onDrawerOpen: () => void
-};
-
 type Props = {
   navigation: NavigationScreenProp<*>
+};
+
+type StateProps = {
+  observations: {
+    [id: string]: ObservationType
+  }
 };
 
 const styles = StyleSheet.create({
@@ -74,65 +79,86 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class MapView extends React.PureComponent<Props & DispatchProps> {
-  rightDrawer: Drawer;
+class MapView extends React.Component<Props & StateProps & DispatchProps> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      observations: []
+    };
+  }
 
-  closeRightDrawer = () => {
-    this.rightDrawer.close();
-  };
+  componentDidMount() {
+    this.subscription = this.props.navigation.addListener(
+      'willFocus',
+      this.willFocus
+    );
+  }
 
-  openRightDrawer = () => {
-    this.rightDrawer.open();
-  };
+  shouldComponentUpdate() {
+    return this.props.navigation.isFocused();
+  }
 
-  handleRightDrawerRef = (ref: Drawer) => {
-    this.rightDrawer = ref;
+  componentWillUnmount() {
+    this.subscription.remove();
+  }
+
+  willFocus = () => {
+    this.getObservations();
   };
 
   goToCameraView = () => {
     this.props.navigation.navigate({ routeName: 'CameraView' });
   };
 
+  goToObservationsView = () => {
+    this.props.navigation.navigate({ routeName: 'ObservationsView' });
+  };
+
+  getObservations() {
+    var observable = Observation.list();
+    var onSuccess = observations => {
+      this.setState({ observations });
+    };
+    var onError = err => {
+      console.log('eff', err);
+    };
+    observable.subscribe(onSuccess, onError);
+  }
+
   render() {
-    const { navigation, onDrawerClose, onDrawerOpen } = this.props;
+    const { navigation } = this.props;
+    const { observations } = this.state;
 
     return (
-      <Drawer
-        ref={this.handleRightDrawerRef}
-        content={
-          <ObservationsView
-            closeRightDrawer={this.closeRightDrawer}
-            navigation={navigation}
-          />
-        }
-        onCloseStart={onDrawerClose}
-        onOpenStart={onDrawerOpen}
-        openDrawerOffset={0}
-        side="right"
-        type="displace"
-      >
-        <Header
-          leftIcon={
-            <TouchableOpacity onPress={this.goToCameraView}>
-              <Icon color={WHITE} name="photo-camera" size={30} />
-            </TouchableOpacity>
-          }
-          rightIcon={
-            <TouchableOpacity onPress={this.openRightDrawer}>
-              <CollectionsImg color={WHITE} name="collections" size={30} />
-            </TouchableOpacity>
-          }
+      <TouchableWithoutFeedback>
+        <View
           style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 5
+            flex: 1
           }}
-        />
-        <SavedModal />
-        <Map navigation={navigation} />
-      </Drawer>
+        >
+          <Header
+            leftIcon={
+              <TouchableOpacity onPress={this.goToCameraView}>
+                <Icon color={WHITE} name="photo-camera" size={30} />
+              </TouchableOpacity>
+            }
+            rightIcon={
+              <TouchableOpacity onPress={this.goToObservationsView}>
+                <CollectionsImg color={WHITE} name="collections" size={30} />
+              </TouchableOpacity>
+            }
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              zIndex: 5
+            }}
+          />
+          <SavedModal />
+          <Map observations={observations} navigation={navigation} />
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

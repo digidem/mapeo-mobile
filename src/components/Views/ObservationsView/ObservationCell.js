@@ -15,6 +15,7 @@ import type { Category } from '../../../types/category';
 import { LIGHT_GREY } from '../../../lib/styles';
 import moment from '../../../lib/localizedMoment';
 import Thumbnail from '../../Base/Thumbnail';
+import { getSvgUri } from '../../../lib/media';
 
 type Props = {
   currentLocale: string,
@@ -92,7 +93,7 @@ I18n.translations = {
   es: require('../../../translations/es')
 };
 
-class ObservationCell extends React.Component<Props> {
+class ObservationCell extends React.PureComponent<Props> {
   render() {
     const { currentLocale, observation, onPress, category, icons } = this.props;
     const esLocale = require('moment/locale/es');
@@ -149,7 +150,7 @@ class ObservationCell extends React.Component<Props> {
                   >
                     <Image
                       source={{
-                        uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
+                        uri: getSvgUri(icons[category.icon])
                       }}
                       style={hasMedia ? styles.iconWithMedia : styles.icon}
                     />

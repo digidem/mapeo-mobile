@@ -12,7 +12,7 @@ import {
 import type { NavigationScreenProp } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import type { Observation } from '@types/observation';
+import type { Observation as ObservationType } from '@types/observation';
 import { isEmpty, size, map, filter } from 'lodash';
 import env from '../../../../../env.json';
 
@@ -24,22 +24,22 @@ import type { Coordinates } from '../../../../types/gps';
 import type { Style } from '../../../../types/map';
 
 export type StateProps = {
-  observations: {
-    [id: string]: Observation
-  },
-  selectedObservation?: Observation,
+  selectedObservation?: ObservationType,
   coords?: Coordinates,
   selectedStyle?: Style
 };
 
 export type DispatchProps = {
-  createObservation: (observation: Observation) => void,
-  updateObservation: (observation: Observation) => void,
-  selectObservation: (observation: Observation) => void,
+  createObservation: (observation: ObservationType) => void,
+  updateObservation: (observation: ObservationType) => void,
+  selectObservation: (observation: ObservationType) => void,
   updateObservationSource: () => void
 };
 
 type Props = {
+  observations: {
+    [id: string]: ObservationType
+  },
   navigation: NavigationScreenProp<*>
 };
 
@@ -110,12 +110,62 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
   }
 });
 
+const emptyFeatureCollection = {
+  type: 'FeatureCollection',
+  features: []
+};
+
+type ObsMapLayerProps = {
+  onPress: Function,
+  observations: {
+    [id: string]: ObservationType
+  }
+};
+
+function mapObservationsToFeatures(obs: { [string]: ObservationType }) {
+  if (!obs || isEmpty(obs)) return [];
+  return Object.keys(obs)
+    .filter(
+      id => typeof obs[id].lon !== undefined && typeof obs[id].lat !== undefined
+    )
+    .map(id => ({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [obs[id].lon, obs[id].lat]
+      },
+      properties: {
+        id: id,
+        categoryId: obs[id].categoryId
+      }
+    }));
+}
+
+class ObservationMapLayer extends React.PureComponent<ObsMapLayerProps> {
+  render() {
+    const { onPress, observations } = this.props;
+    const featureCollection = {
+      type: 'FeatureCollection',
+      features: mapObservationsToFeatures(observations)
+    };
+    return (
+      <MapboxGL.ShapeSource
+        onPress={onPress}
+        key={`observations-source`}
+        id={`observations-source`}
+        shape={featureCollection}
+      >
+        <MapboxGL.CircleLayer id={`circles`} style={mapboxStyles.observation} />
+      </MapboxGL.ShapeSource>
+    );
+  }
+}
+
 class Map extends React.Component<Props & StateProps & DispatchProps> {
   map: any;
 
   constructor() {
     super();
-
     MapboxGL.setAccessToken(env.accessToken);
   }
 
@@ -129,10 +179,8 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
       selectedStyle,
       navigation
     } = this.props;
-    const initialObservation = {
-      ...createDefaultObservation(),
-      id: (size(observations) + 1).toString()
-    };
+
+    const initialObservation = createDefaultObservation();
 
     navigation.navigate({
       routeName: 'Categories',
@@ -142,7 +190,11 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
     createObservation(initialObservation);
   };
 
-  handleObservationPress = (id: string) => {
+  handleObservationPress = e => {
+    var observation = e.nativeEvent && e.nativeEvent.payload;
+    if (!observation || !observation.properties) return;
+    var id = observation.properties.id;
+
     const { observations, selectObservation, navigation } = this.props;
 
     if (observations[id]) {
@@ -156,12 +208,10 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
     const {
       createObservation,
       navigation,
-      observations,
       updateObservationSource
     } = this.props;
     const initialObservation = {
-      ...defaultObservation,
-      id: (size(observations) + 1).toString(),
+      ...createDefaultObservation(),
       lat: coordinates[1],
       lon: coordinates[0]
     };
@@ -210,6 +260,7 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
             pitchEnabled={false}
             rotateEnabled={false}
             onLongPress={this.handleLongPress}
+            onPress={this.handleObservationPress}
             compassEnabled={false}
             styleURL={
               selectedStyle
@@ -217,30 +268,10 @@ class Map extends React.Component<Props & StateProps & DispatchProps> {
                 : undefined
             }
           >
-            {!!observations && !isEmpty(observations)
-              ? map(observations, (o: Observation) => (
-                  <MapboxGL.ShapeSource
-                    onPress={() => this.handleObservationPress(o.id || '')}
-                    key={o.id}
-                    id={`observations-${o.id || ''}`}
-                    shape={{
-                      type: 'Feature',
-                      geometry: {
-                        type: 'Point',
-                        coordinates: [o.lon, o.lat]
-                      },
-                      properties: {
-                        categoryId: o.categoryId
-                      }
-                    }}
-                  >
-                    <MapboxGL.CircleLayer
-                      id={`circles-${o.id || ''}`}
-                      style={mapboxStyles.observation}
-                    />
-                  </MapboxGL.ShapeSource>
-                ))
-              : null}
+            <ObservationMapLayer
+              onPress={this.handleObservationPress}
+              observations={observations}
+            />
             {coords && (
               <MapboxGL.ShapeSource
                 key="current-location"

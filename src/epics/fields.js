@@ -76,7 +76,6 @@ export const presetsIconsListEpic = (
             result.svg.symbol.forEach(s => {
               icons[s.$.id] = builder.buildObject(s);
             });
-
             observer.next(icons);
           });
         })

@@ -20,7 +20,7 @@ import {
 } from '../../../lib/styles';
 
 type Props = {
-  closeRightDrawer: Function,
+  goToMapView: Function,
   goToSyncView: Function,
   onSettingsPress: Function
 };
@@ -103,7 +103,7 @@ const ObservationHeader = (props: Props) => (
   >
     <View style={styles.header}>
       <TouchableOpacity
-        onPress={props.closeRightDrawer}
+        onPress={props.goToMapView}
         style={styles.closeDrawerButton}
       >
         <LeftChevron color="#a5a5a4" name="chevron-left" size={30} />

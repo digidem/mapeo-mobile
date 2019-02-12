@@ -18,7 +18,7 @@ import type { StateProps, DispatchProps } from './SyncView';
 function mapStateToProps(state: StoreState): StateProps {
   return {
     devices: values(state.devices),
-    syncTarget: state.selectedDevice,
+    syncTarget: state.selectedDevice
   };
 }
 

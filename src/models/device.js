@@ -7,6 +7,6 @@ export const applyDefaultsToDevice = (d: any): Device => {
     name: d.name,
     host: d.host,
     port: d.port,
-    syncStatus: null,
+    syncStatus: null
   };
-}
+};

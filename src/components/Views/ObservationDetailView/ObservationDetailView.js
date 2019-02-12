@@ -25,6 +25,7 @@ import CategoryPin from '../../../images/category-pin.png';
 import PencilIcon from '../../../images/editor-details.png';
 import { getMediaUrl } from '../../../lib/media';
 import Thumbnail from '../../Base/Thumbnail';
+import { getSvgUri } from '../../../lib/media';
 
 export type StateProps = {
   selectedObservation?: Observation,
@@ -338,7 +339,7 @@ class ObservationDetailView extends React.Component<
                 !!icons[category.icon] && (
                   <Image
                     source={{
-                      uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
+                      uri: getSvgUri(icons[category.icon])
                     }}
                     style={{ height: 30, width: 30 }}
                   />

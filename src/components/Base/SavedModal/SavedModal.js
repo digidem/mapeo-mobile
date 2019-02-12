@@ -24,6 +24,7 @@ import {
 import getGPSText from '../../../lib/getGPSText';
 import CategoryPin from '../../../images/category-pin.png';
 import type { GPSFormat } from '../../../types/gps';
+import { getSvgUri } from '../../../lib/media';
 
 export type StateProps = {
   selectedObservation?: Observation,
@@ -162,9 +163,7 @@ class SavedModal extends React.PureComponent<StateProps & DispatchProps> {
                         !!icons[category.icon] && (
                           <Image
                             source={{
-                              uri: `data:image/svg+xml;utf8,${
-                                icons[category.icon]
-                              }`
+                              uri: getSvgUri(icons[category.icon])
                             }}
                             style={{ height: 30, width: 30 }}
                           />

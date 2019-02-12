@@ -41,11 +41,11 @@ import ManualGPSModal from '../../Base/ManualGPSModal';
 import getGPSText from '../../../lib/getGPSText';
 import { HIGH_ACCURACY } from '../../../ducks/gps';
 import Thumbnail from '../../Base/Thumbnail';
+import { getSvgUri } from '../../../lib/media';
 
 export type StateProps = {
   category?: Category,
   selectedObservation?: Observation,
-  observations: Observation[],
   observationSource: string,
   cancelModalVisible: boolean,
   gps: GPSState,
@@ -73,7 +73,6 @@ type State = {
   keyboardShown: boolean,
   text: string,
   keyboardHeight: number,
-  observationExists: boolean,
   numExistingPhotos: number,
   existingNotes: string,
   numExistingFieldsAnswered: number
@@ -243,20 +242,16 @@ class ObservationEditor extends React.Component<
 
     this.paddingInput = new Animated.Value(0);
 
-    const { observations, selectedObservation } = props;
-    let observationExists = false;
+    const { selectedObservation } = props;
     let numExistingPhotos = 0;
     let existingNotes = '';
     let numExistingFieldsAnswered = 0;
-    if (selectedObservation && observations) {
-      if (observations.find(o => o.id === selectedObservation.id)) {
-        observationExists = true;
-        numExistingPhotos = selectedObservation.attachments.length;
-        existingNotes = selectedObservation.notes;
-        numExistingFieldsAnswered = selectedObservation.fields.filter(
-          field => field.answered
-        ).length;
-      }
+    if (selectedObservation) {
+      numExistingPhotos = selectedObservation.attachments.length;
+      existingNotes = selectedObservation.notes;
+      numExistingFieldsAnswered = selectedObservation.fields.filter(
+        field => field.answered
+      ).length;
     }
 
     this.state = {
@@ -264,7 +259,6 @@ class ObservationEditor extends React.Component<
       text: props.selectedObservation ? props.selectedObservation.notes : '',
       goToCamera: false,
       keyboardHeight: 0,
-      observationExists,
       numExistingPhotos,
       existingNotes,
       numExistingFieldsAnswered
@@ -322,19 +316,6 @@ class ObservationEditor extends React.Component<
     }
   };
 
-  componentWillReceiveProps(nextProps: StateProps & DispatchProps & Props) {
-    const { observations, selectedObservation } = this.props;
-
-    if (selectedObservation !== nextProps.selectedObservation) {
-      if (selectedObservation && observations) {
-        const observationExists = !!observations.find(
-          o => o.id === selectedObservation.id
-        );
-        this.setState({ observationExists });
-      }
-    }
-  }
-
   componentWillUnmount() {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
@@ -390,18 +371,9 @@ class ObservationEditor extends React.Component<
     this.setState({ text });
   };
 
-  isUpdateFlow = () => {
-    const { selectedObservation, observations } = this.props;
-    let updateFlow = false;
-    if (selectedObservation) {
-      observations.forEach(o => {
-        if (o.id === selectedObservation.id) {
-          updateFlow = true;
-        }
-      });
-    }
-
-    return updateFlow;
+  isUpdateFlow = props => {
+    const { selectedObservation } = props || this.props;
+    return selectedObservation && selectedObservation.id !== 'NEW_OBSERVATION';
   };
 
   handleSaveObservation = () => {
@@ -412,8 +384,7 @@ class ObservationEditor extends React.Component<
       navigation,
       gps,
       showManualGPSModal,
-      saveObservation,
-      observations
+      saveObservation
     } = this.props;
     const { text, keyboardShown } = this.state;
 
@@ -473,17 +444,8 @@ class ObservationEditor extends React.Component<
   };
 
   goToCategoriesView = () => {
-    const { navigation, observations, selectedObservation } = this.props;
-    let updateFlow = false;
-    if (selectedObservation) {
-      observations.forEach(o => {
-        if (o.id === selectedObservation.id) {
-          updateFlow = true;
-        }
-      });
-    }
-
-    if (updateFlow) {
+    const { navigation } = this.props;
+    if (this.isUpdateFlow()) {
       navigation.navigate({
         routeName: 'Categories',
         key: 'CategoriesView'
@@ -557,8 +519,7 @@ class ObservationEditor extends React.Component<
   };
 
   allowEditing = (index: number) => {
-    const { observationExists } = this.state;
-
+    const observationExists = this.isUpdateFlow();
     const allowEdit =
       !observationExists ||
       (observationExists && index >= this.state.numExistingPhotos);
@@ -572,12 +533,11 @@ class ObservationEditor extends React.Component<
       numExistingPhotos,
       existingNotes,
       numExistingFieldsAnswered,
-      text,
-      observationExists
+      text
     } = this.state;
 
     if (selectedObservation) {
-      if (observationExists) {
+      if (this.isUpdateFlow()) {
         const currentFieldsAnswered = selectedObservation.fields.filter(
           field => field.answered
         ).length;
@@ -696,7 +656,7 @@ class ObservationEditor extends React.Component<
                 !!icons[category.icon] && (
                   <Image
                     source={{
-                      uri: `data:image/svg+xml;utf8,${icons[category.icon]}`
+                      uri: getSvgUri(icons[category.icon])
                     }}
                     style={{ height: 30, width: 30 }}
                   />

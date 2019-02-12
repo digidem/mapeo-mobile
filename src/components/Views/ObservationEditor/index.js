@@ -28,7 +28,6 @@ function mapStateToProps(state: StoreState, ownProps: Props): StateProps {
         state.categories[ownProps.navigation.state.params.category]) ||
       category,
     selectedObservation: state.selectedObservation,
-    observations: values(state.observations),
     observationSource: state.observationSource.source,
     cancelModalVisible: state.modals.cancelled,
     gps: state.gps,

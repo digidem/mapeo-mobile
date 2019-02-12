@@ -25,6 +25,8 @@ import {
   WHITE
 } from '../../../lib/styles';
 
+import { getSvgUri } from '../../../lib/media';
+
 type Props = {
   navigation: NavigationScreenProp<*>
 };
@@ -157,7 +159,7 @@ class Categories extends React.Component<Props & StateProps & DispatchProps> {
               <View style={styles.circle}>
                 <Image
                   source={{
-                    uri: `data:image/svg+xml;utf8,${icons[item.icon]}`
+                    uri: getSvgUri(icons[item.icon])
                   }}
                   height="30"
                   width="30"

@@ -12,7 +12,6 @@ import Map from './Map';
 import type { DispatchProps, StateProps } from './Map';
 
 const mapStateToProps = (state: StoreState) => ({
-  observations: state.observations,
   selectedObservation: state.selectedObservation,
   coords: state.gps.coords,
   selectedStyle: state.map.selectedStyle
