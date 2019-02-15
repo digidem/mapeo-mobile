@@ -29,7 +29,7 @@ function mapDispatchToProps(dispatch: Dispatch<*>): DispatchProps {
       dispatch(deviceList());
     },
     unannounceSync: () => {
-      dispatch(deviceClear());
+      console.log('sync unannouncing from index.js')
       dispatch(syncUnannounce());
     },
     clearSyncTarget: () => dispatch(deviceSelect(undefined)),

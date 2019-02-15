@@ -51,4 +51,4 @@ export const deviceListEpic = (
       })
     );
 
-export default [syncAnnounceEpic, syncStartEpic, deviceListEpic];
+export default [syncUnannounceEpic, syncAnnounceEpic, syncStartEpic, deviceListEpic];

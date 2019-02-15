@@ -3,11 +3,12 @@ import { jsonRequest, blankRequest, syncRequest } from './base';
 import type { Device } from '../types/device';
 
 class Sync {
-  static unannounce = () =>
-    blankRequest({
+  static unannounce = () => {
+    return blankRequest({
       method: 'GET',
       route: '/sync/unannounce'
     });
+  }
 
   static announce = () => {
     return blankRequest({
@@ -23,11 +24,12 @@ class Sync {
     });
   };
 
-  static start = (device: Device) =>
-    syncRequest({
+  static start = (device: Device) => {
+    return syncRequest({
       method: 'GET',
       route: `/sync/start?host=${device.host}&port=${device.port}`
     });
+  }
 }
 
 export default Sync;
