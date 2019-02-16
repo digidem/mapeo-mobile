@@ -25,8 +25,7 @@ type Props = {
 };
 
 export type StateProps = {
-  devices: Device[],
-  syncTarget?: string
+  devices: Device[]
 };
 
 export type DispatchProps = {
@@ -82,16 +81,13 @@ class SyncView extends React.Component<
   }
 
   stopSyncIntervals () {
-    const { unannounceSync, syncTarget, clearSyncTarget } = this.props;
+    const { unannounceSync } = this.props;
     if (this.interval) {
       clearInterval(this.interval)
       this.interval = null
     }
 
     unannounceSync();
-    if (syncTarget) {
-      clearSyncTarget();
-    }
   }
 
   componentWillUnmount() {
@@ -123,10 +119,10 @@ class SyncView extends React.Component<
 
   handleDevicePress = (item: Device) => {
     const { sync } = this.props;
-    console.log(item)
     const syncInProgress =
       item.syncStatus === 'replication-started' ||
-      item.syncStatus === 'replication-progress';
+      item.syncStatus === 'replication-progress' ||
+      item.syncStatus === 'replication-complete';
 
     if (!syncInProgress) {
       sync(item);
@@ -134,27 +130,23 @@ class SyncView extends React.Component<
   };
 
   renderItem = ({ item }: { item: Device }) => {
-    const { syncTarget } = this.props;
-
     return (
       <DeviceCell
         device={item}
         onPress={this.handleDevicePress}
-        selected={!!syncTarget && item.id === syncTarget}
       />
     );
   };
 
   handleBack = () => {
     const { unannounceSync, navigation } = this.props;
-    console.log('clicked back');
     this.stopSyncIntervals();
 
     navigation.goBack();
   };
 
   render() {
-    const { devices, navigation, syncTarget, sync } = this.props;
+    const { devices, navigation, sync } = this.props;
     const { wifi } = this.state;
 
     let syncStopped = false;
@@ -163,13 +155,11 @@ class SyncView extends React.Component<
     let progressText: string = noDevices
       ? I18n.t('sync.none')
       : I18n.t('sync.available');
-    const selectedDevice: ?Device = syncTarget
-      ? devices.find(device => device.id === syncTarget)
-      : undefined;
 
-    if (selectedDevice) {
-      console.log(selectedDevice.syncStatus)
-      switch (selectedDevice.syncStatus) {
+    let stuffHappening: ?Device = devices.find(device => device.syncStatus !== null)
+
+    if (stuffHappening) {
+      switch (stuffHappening) {
         case 'replication-started':
           progressText = I18n.t('sync.initiated');
           break;
@@ -184,7 +174,7 @@ class SyncView extends React.Component<
           progressText = I18n.t('sync.completed');
           break;
         default:
-          progressText = I18n.t('sync.selected');
+          progressText = I18n.t('sync.available');
       }
     }
 

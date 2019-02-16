@@ -92,19 +92,29 @@ const DeviceCell = (props: Props) => {
   };
 
   let syncStatusText = I18n.t('sync.via_wifi');
+  let syncInProgress = false
+  let syncIcon = <Icon
+                  color="white"
+                  name="arrow-forward"
+                  size={23}
+                  style={styles.syncArrow}
+                />
   if (props.device.syncStatus === 'replication-started') {
     syncStatusText = I18n.t('sync.requested');
+    syncInProgress = true
   } else if (props.device.syncStatus === 'replication-progress') {
     syncStatusText = I18n.t('sync.syncing');
+    syncInProgress = true
   } else if (props.device.syncStatus === 'replication-complete') {
     syncStatusText = I18n.t('sync.completed');
+    syncInProgress = false
+    syncIcon = <Icon
+      color="white"
+      name="check"
+      size={23}
+      style={styles.syncArrow}
+    />
   }
-
-  const syncInProgress =
-    props.selected &&
-    (props.device.syncStatus === 'replication-started' ||
-      props.device.syncStatus === 'replication-progress');
-
   return (
     <TouchableOpacity onPress={handlePress}>
       <View
@@ -119,43 +129,35 @@ const DeviceCell = (props: Props) => {
         </View>
         {!syncInProgress && (
           <View style={styles.syncButtonContainer}>
-            <View style={styles.syncButtonOuterCircle}>
-              <View style={styles.syncButtonInnerCircle}>
-                <Icon
-                  color="white"
-                  name="arrow-forward"
-                  size={23}
-                  style={styles.syncArrow}
-                />
-              </View>
-            </View>
+            {syncIcon}
           </View>
         )}
         {syncInProgress && (
           <View style={styles.syncButtonContainer}>
-            <View
-              style={{
-                position: 'absolute',
-                top: 13,
-                bottom: 0,
-                right: 0,
-                left: 13
-              }}
-            >
-              <View
-                style={{
-                  width: 10,
-                  height: 10,
-                  backgroundColor: 'white'
-                }}
-              />
-            </View>
-            <ActivityIndicator size="large" color={VERY_LIGHT_BLUE} />
+          <View
+          style={{
+            position: 'absolute',
+              top: 13,
+              bottom: 0,
+              right: 0,
+              left: 13
+          }}
+          >
+          <View
+          style={{
+            width: 10,
+              height: 10,
+              backgroundColor: 'white'
+          }}
+          />
+          </View>
+          <ActivityIndicator size="large" color={VERY_LIGHT_BLUE} />
           </View>
         )}
       </View>
     </TouchableOpacity>
   );
 };
+
 
 export default DeviceCell;

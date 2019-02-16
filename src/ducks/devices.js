@@ -50,15 +50,13 @@ export const {
   action: deviceSyncUpdate,
   reducer: deviceSyncUpdateReducer
 } = create('DEVICE_SYNC_UPDATE', {
-  start: (state, meta) => {
-    console.log('DEVICE_SYNC_UPDATE', meta.id, state.devices[meta.id])
+  success: (state, meta, payload) => {
     if (!state.devices[meta.id]) {
       return state;
     }
 
     const newState = update(state, {
-      devices: { [meta.id]: { syncStatus: { $set: { syncStatus: meta.status } } } },
-      selectedDevice: { syncStatus: { $set: { syncStatus: meta.status } } }
+      devices: { [meta.id]: { syncStatus: { $set: payload } } }
     });
 
     return newState;

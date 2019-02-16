@@ -8,7 +8,6 @@ import type { Device } from '../../../types/device';
 import {
   deviceList,
   deviceSelect,
-  deviceSyncUpdate,
   deviceClear
 } from '../../../ducks/devices';
 import { syncAnnounce, syncStart, syncUnannounce } from '../../../ducks/sync';
@@ -17,8 +16,7 @@ import type { StateProps, DispatchProps } from './SyncView';
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
-    devices: values(state.devices),
-    syncTarget: state.selectedDevice
+    devices: values(state.devices)
   };
 }
 

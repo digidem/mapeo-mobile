@@ -38,22 +38,15 @@ export const syncStartEpic = (action$: ActionsObservable<any>) =>
   action$
     .ofType(SYNC_START)
     .filter(action => action.status === 'Start')
-    .flatMap(action => {
-      return Sync.start(action.meta)
-        .map(response => {
-          console.log('sending', action.meta.id, response)
-          Observable.of(deviceSyncUpdate('', {
-            id: action.meta.id,
-            status: response
-          }));
+    .flatMap(action =>
+      Sync.start(action.meta)
+        .flatMap(response => {
+          return Observable.of(deviceSyncUpdate(action.meta, response))
         })
         .catch(err => {
-          Observable.of(deviceSyncUpdate('', {
-            id: action.meta.id,
-            status: 'replication-error'
-          }))
-        });
-    });
+          return Observable.of(deviceSyncUpdate(action.meta, 'replication-error'))
+        })
+    );
 
 export const deviceListEpic = (
   action$: ActionsObservable<Action<string, Device[]>>,
@@ -62,11 +55,12 @@ export const deviceListEpic = (
   action$
     .ofType(DEVICE_LIST)
     .filter(action => action.status === 'Start')
-    .flatMap(() =>
-      Sync.list().map(devices => {
+    .flatMap(() => {
+      return Sync.list().map(devices => {
         return deviceList('', devices.map(applyDefaultsToDevice));
       })
-    );
+    });
+
 
 export default [
   syncUnannounceEpic,
