@@ -1,7 +1,13 @@
 // @flow
 import React from 'react';
+import { Observable } from 'rxjs';
 import type { ActionsObservable } from 'redux-observable';
-import { DEVICE_LIST, deviceList, deviceSyncUpdate } from '../ducks/devices';
+import {
+  DEVICE_SYNC_UPDATE,
+  DEVICE_LIST,
+  deviceList,
+  deviceSyncUpdate
+} from '../ducks/devices';
 import {
   SYNC_UNANNOUNCE,
   SYNC_ANNOUNCE,
@@ -32,11 +38,22 @@ export const syncStartEpic = (action$: ActionsObservable<any>) =>
   action$
     .ofType(SYNC_START)
     .filter(action => action.status === 'Start')
-    .flatMap(action =>
-      Sync.start(action.meta).map(response => {
-        return deviceSyncUpdate(action.meta, response);
-      })
-    );
+    .flatMap(action => {
+      return Sync.start(action.meta)
+        .map(response => {
+          console.log('sending', action.meta.id, response)
+          Observable.of(deviceSyncUpdate('', {
+            id: action.meta.id,
+            status: response
+          }));
+        })
+        .catch(err => {
+          Observable.of(deviceSyncUpdate('', {
+            id: action.meta.id,
+            status: 'replication-error'
+          }))
+        });
+    });
 
 export const deviceListEpic = (
   action$: ActionsObservable<Action<string, Device[]>>,
@@ -51,4 +68,9 @@ export const deviceListEpic = (
       })
     );
 
-export default [syncUnannounceEpic, syncAnnounceEpic, syncStartEpic, deviceListEpic];
+export default [
+  syncUnannounceEpic,
+  syncAnnounceEpic,
+  syncStartEpic,
+  deviceListEpic
+];
