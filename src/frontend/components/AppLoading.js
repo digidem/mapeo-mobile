@@ -16,11 +16,11 @@ import ServerStatus from "./ServerStatus";
 
 const log = debug("mapeo:AppLoading");
 
-// Time before we think something is up with the server
 const DEFAULT_TIMEOUT = 10000; // 10 seconds
 
 type Props = {
   children: React.Node,
+  /** Time (ms) to wait for heartbeat from server before showing error */
   timeout: number
 };
 
@@ -31,6 +31,14 @@ type State = {
 
 type AppStateType = "active" | "background" | "inactive";
 
+/**
+ * Listens to the nodejs-mobile process and only renders children when the
+ * server is up and running and listening.
+ * On initial app load it waits for the server before dismissing the native
+ * splash screen.
+ * If it doesn't hear a heartbeat message for timeout, it displays a screen to
+ * the user so they know something is wrong.
+ */
 export default class AppLoading extends React.Component<Props, State> {
   static defaultProps = {
     timeout: DEFAULT_TIMEOUT

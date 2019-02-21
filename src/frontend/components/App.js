@@ -10,6 +10,8 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View, Button } from "react-native";
 import debug from "debug";
+
+import ErrorBoundary from "./ErrorBoundary";
 import AppLoading from "./AppLoading";
 
 // Turn on logging if in debug mode
@@ -24,19 +26,17 @@ const instructions = Platform.select({
 
 type Props = {};
 
-class App extends Component<Props> {
-  render() {
-    return (
-      <AppLoading>
-        <View style={styles.container}>
-          <Text style={styles.welcome}>Welcome to React Native!</Text>
-          <Text style={styles.instructions} />
-          <Text style={styles.instructions}>{instructions}</Text>
-        </View>
-      </AppLoading>
-    );
-  }
-}
+const App = () => (
+  <ErrorBoundary>
+    <AppLoading>
+      <View style={styles.container}>
+        <Text style={styles.welcome}>Welcome to React Native!</Text>
+        <Text style={styles.instructions} />
+        <Text style={styles.instructions}>{instructions}</Text>
+      </View>
+    </AppLoading>
+  </ErrorBoundary>
+);
 
 export default App;
 
