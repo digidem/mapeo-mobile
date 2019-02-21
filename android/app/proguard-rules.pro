@@ -15,3 +15,11 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Needed for expo-core to work
+-keepclassmembers class * {
+  @expo.core.interfaces.ExpoProp *;
+}
+-keepclassmembers class * {
+  @expo.core.interfaces.ExpoMethod *;
+}

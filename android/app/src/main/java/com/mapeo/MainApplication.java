@@ -10,10 +10,27 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
+import expo.adapters.react.ModuleRegistryAdapter;
+import expo.adapters.react.ReactAdapterPackage;
+import expo.adapters.react.ReactModuleRegistryProvider;
+import expo.core.interfaces.Package;
+import expo.core.interfaces.SingletonModule;
+import expo.modules.constants.ConstantsPackage;
+import expo.modules.filesystem.FileSystemPackage;
+import expo.modules.permissions.PermissionsPackage;
+import expo.modules.location.LocationPackage;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
+  private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(Arrays.<Package>asList(
+    new ReactAdapterPackage(),
+    new ConstantsPackage(),
+    new PermissionsPackage(),
+    new FileSystemPackage(),
+    new LocationPackage()
+  ), Arrays.<SingletonModule>asList());
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
@@ -26,7 +43,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new SplashScreenReactPackage(),
-          new RNNodeJsMobilePackage()
+          new RNNodeJsMobilePackage(),
+          new ModuleRegistryAdapter(mModuleRegistryProvider)
       );
     }
 
