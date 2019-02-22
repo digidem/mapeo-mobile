@@ -36,6 +36,7 @@ script:
   - echo $ANDROID_KEYSTORE_BASE64 > android/app/my-release-key.keystore.base64
   - base64 --decode android/app/my-release-key.keystore.base64 > android/app/my-release-key.keystore
   - npm install
+  - npm run build-rnnodeapp
   - |
     docker run --name=rn-build --rm \
       -v $HOME/.gradle:/root/.gradle \
