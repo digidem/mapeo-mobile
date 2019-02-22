@@ -1,30 +1,50 @@
-language: android
-jdk: oraclejdk8
-sudo: required
-dist: trusty
-group: edge
+language: node_js
+node_js:
+  - "10"
 
-android:
-  components:
-    - build-tools-23.0.1
-    - build-tools-26.0.1
-    - android-26
-    - android-23
-    - tools
+services:
+  - docker
+git:
+  depth: 10
+
+# A peculiarity of dependency caching in Gradle means that to avoid uploading
+# the cache after every build you need to add the following lines
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  # Cache npm dependencies
+  npm: true
+  # Cache gradle build caches
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
 
 before_install:
-  # Install node.js
-  - nvm install 8
-  - node --version
-  - export TZ=America/Los_Angeles
+  # Download the docker image that we are going to use
+  - docker pull digidem/android:ndk-19b
+  # Update to latest npm
+  - npm install -g npm
+  - mkdir -p dist
 
 install:
-  # Setup Android dependencies
-  - sudo ln -s /usr/local/android-sdk-25.2.3 /usr/local/android-sdk-26.0.1
-  # Install the React Native project dependencies
-  - npm install -g yarn
-  - yarn
+  - pip install --user awscli
 
 script:
-  # Run unit tests using Jest
-  - yarn jest
+  - export ARTIFACT_PATH="dist/`date -u +"%Y%m%d_%H%M%S"`_mapeo_$TRAVIS_COMMIT.apk"
+  - echo $ANDROID_KEYSTORE_BASE64 > android/app/my-release-key.keystore.base64
+  - base64 --decode android/app/my-release-key.keystore.base64 > android/app/my-release-key.keystore
+  - npm install
+  - |
+    docker run --name=rn-build --rm \
+      -v $HOME/.gradle:/root/.gradle \
+      -v $HOME/.android:/root/.android \
+      -v $PWD:/code \
+      -w /code \
+      digidem/android:ndk-16b \
+      /code/scripts/build-release-android.sh
+  - cp android/app/build/outputs/apk/release/app-app-release.apk $ARTIFACT_PATH
+
+after_success:
+  - aws s3 cp $ARTIFACT_PATH s3://$AWS_BUCKET/`basename $ARTIFACT_PATH`
