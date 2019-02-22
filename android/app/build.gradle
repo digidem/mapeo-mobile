@@ -112,10 +112,21 @@ android {
             include "armeabi-v7a", "x86", "arm64-v8a"
         }
     }
+    signingConfigs {
+        release {
+            if (project.hasProperty('MAPEO_MOBILE_RELEASE_STORE_FILE')) {
+                storeFile file(MAPEO_MOBILE_RELEASE_STORE_FILE)
+                storePassword MAPEO_MOBILE_RELEASE_STORE_PASSWORD
+                keyAlias MAPEO_MOBILE_RELEASE_KEY_ALIAS
+                keyPassword MAPEO_MOBILE_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
