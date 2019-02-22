@@ -23,7 +23,7 @@ cache:
 
 before_install:
   # Download the docker image that we are going to use
-  - docker pull digidem/android:ndk-19b
+  - docker pull digidem/android:ndk-16b
   # Update to latest npm
   - npm install -g npm
   - mkdir -p dist
