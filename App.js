@@ -22,7 +22,7 @@ const instructions = Platform.select({
 type Props = {};
 export default class App extends Component<Props> {
   componentDidMount() {
-    nodejs.start("main.js");
+    nodejs.start("index.js");
     nodejs.channel.addListener(
       "message",
       msg => {

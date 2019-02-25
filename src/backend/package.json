@@ -1,0 +1,17 @@
+{
+  "name": "mapeo-mobile-node",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mapeo Core running on nodejs-mobile",
+  "main": "main.js",
+  "author": "Digital Democracy",
+  "license": "MIT",
+  "dependencies": {
+    "bindings-noderify-nodejs-mobile": "^10.3.0",
+    "debug": "^4.1.1",
+    "level": "^4.0.0"
+  },
+  "devDependencies": {
+    "noderify": "^4.1.0"
+  }
+}

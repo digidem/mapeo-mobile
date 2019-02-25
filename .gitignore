@@ -54,3 +54,7 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
+package-lock.json
+
+# nodejs-mobile
+/nodejs-assets

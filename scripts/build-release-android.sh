@@ -13,8 +13,11 @@ function onFailure() {
   exit 1
 }
 
-echo "Building Android release...";
-cd android;
-./gradlew assembleRelease;
+echo "Building nodejs backend..."
+./build-backend.sh
 
-echo "Done.";
+echo "Building Android release..."
+cd android
+./gradlew assembleRelease
+
+echo "Done."
