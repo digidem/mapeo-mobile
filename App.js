@@ -10,6 +10,7 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View, Button } from "react-native";
 import nodejs from "nodejs-mobile-react-native";
+import SplashScreen from "react-native-splash-screen";
 
 const instructions = Platform.select({
   ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
@@ -20,7 +21,7 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
-  componentWillMount() {
+  componentDidMount() {
     nodejs.start("main.js");
     nodejs.channel.addListener(
       "message",
@@ -29,6 +30,7 @@ export default class App extends Component<Props> {
       },
       this
     );
+    SplashScreen.hide();
   }
   render() {
     return (
