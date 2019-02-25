@@ -34,10 +34,11 @@ export default class App extends Component<Props> {
   }
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.container} testID="root">
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Button
+          testID="message_node_button"
           title="Message Node"
           onPress={() => nodejs.channel.send("A message!")}
         />

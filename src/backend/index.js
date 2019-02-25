@@ -76,6 +76,6 @@ function start() {
   server.listen(PORT, () => status.setState(constants.LISTENING));
   db.get("test", function(err, value) {
     if (err) console.log("db get error:", err);
-    rnBridge.channel.send(JSON.stringify(value));
+    // rnBridge.channel.send(JSON.stringify(value));
   });
 }
