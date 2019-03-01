@@ -24,7 +24,6 @@ function mapDispatchToProps(dispatch: Dispatch<*>): DispatchProps {
   return {
     announceSync: () => {
       dispatch(syncAnnounce());
-      dispatch(deviceList());
     },
     unannounceSync: () => {
       console.log('sync unannouncing from index.js')
