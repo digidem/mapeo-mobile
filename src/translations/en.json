@@ -88,6 +88,7 @@
   },
   "sync": {
     "none": "No Available Devices",
+    "searching": "Searching for devices...",
     "check": "Make sure devices are turned on and connected to WiFi",
     "available": "Available Devices",
     "selected": "Device Selected",

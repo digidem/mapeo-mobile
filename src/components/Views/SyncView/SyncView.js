@@ -135,35 +135,29 @@ class SyncView extends React.Component<
 
   render() {
     const { devices, navigation, sync } = this.props;
-    const { wifi } = this.state;
 
     let syncStopped = false;
-    const noDevices: boolean = devices.length === 0 || !wifi;
-
-    let progressText: string = noDevices
-      ? I18n.t('sync.none')
-      : I18n.t('sync.available');
+    const noDevices: boolean = devices.length === 0;
 
     let stuffHappening: ?Device = devices.find(device => device.syncStatus !== null)
-
-    if (stuffHappening) {
-      switch (stuffHappening) {
-        case 'replication-started':
-          progressText = I18n.t('sync.initiated');
-          break;
-        case 'replication-progress':
-          progressText = I18n.t('sync.progress');
-          break;
-        case 'replication-error':
-          progressText = I18n.t('sync.stopped');
-          syncStopped = true;
-          break;
-        case 'replication-complete':
-          progressText = I18n.t('sync.completed');
-          break;
-        default:
-          progressText = I18n.t('sync.available');
-      }
+    switch (stuffHappening && stuffHappening.syncStatus) {
+      case 'replication-started':
+        progressText = I18n.t('sync.initiated');
+        break;
+      case 'replication-progress':
+        progressText = I18n.t('sync.progress');
+        break;
+      case 'replication-error':
+        progressText = I18n.t('sync.stopped');
+        syncStopped = true;
+        break;
+      case 'replication-complete':
+        progressText = I18n.t('sync.completed');
+        break;
+      default:
+        progressText = noDevices
+          ? I18n.t('sync.searching')
+          : I18n.t('sync.available');
     }
 
     const keyExtractor = (item, index) => item.id;

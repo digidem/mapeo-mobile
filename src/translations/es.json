@@ -90,6 +90,7 @@
   "sync": {
     "none": "No hay dispositivos disponibles",
     "check": "Conectar este celular y otra celular o laptop a la misma red WiFi para poder sincronizar datos",
+    "searching": "Buscando a dispositivos...",
     "available": "Dispositivos Disponibles",
     "selected": "Dispositivo Seleccionados",
     "initiated": "Sincronización iniciada...",
