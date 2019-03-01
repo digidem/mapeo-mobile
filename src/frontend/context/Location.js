@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { Constants, Permissions } from "@unimodules/core";
+import { Permissions } from "@unimodules/core";
 import * as Location from "expo-location";
 import debug from "debug";
 
@@ -26,7 +26,7 @@ type ProviderType = {
   networkAvailable: boolean
 };
 
-type ContextType = {
+export type LocationType = {
   position?: PositionType,
   provider?: ProviderType,
   permission?: "granted" | "denied",
@@ -49,9 +49,9 @@ const LOCATION_TIMEOUT = 10000;
 const {
   Provider,
   Consumer: LocationConsumer
-} = React.createContext<ContextType>({});
+} = React.createContext<LocationType>({});
 
-class LocationProvider extends React.Component<Props, ContextType> {
+class LocationProvider extends React.Component<Props, LocationType> {
   state = {
     error: false
   };
@@ -121,10 +121,20 @@ class LocationProvider extends React.Component<Props, ContextType> {
   }
 }
 
-const withLocation = (Component: any) => (props: any) => (
-  <LocationConsumer>
-    {location => <Component {...props} location={location} />}
-  </LocationConsumer>
-);
+const withLocation = (WrappedComponent: any) => {
+  const WithLocation = (props: any) => (
+    <LocationConsumer>
+      {location => <WrappedComponent {...props} location={location} />}
+    </LocationConsumer>
+  );
+  WithLocation.displayName = `WithLocation(${getDisplayName(
+    WrappedComponent
+  )})`;
+  return WithLocation;
+};
 
 export { LocationProvider, LocationConsumer, withLocation };
+
+function getDisplayName(WrappedComponent) {
+  return WrappedComponent.displayName || WrappedComponent.name || "Component";
+}

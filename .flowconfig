@@ -19,6 +19,9 @@
 ; Ignore metro
 .*/node_modules/metro/.*
 
+; Ignore module-deps test
+.*/node_modules/module-deps/test/.*
+
 [include]
 
 [libs]

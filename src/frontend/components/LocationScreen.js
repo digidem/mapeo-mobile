@@ -1,11 +1,13 @@
-import React, { Component } from "react";
-import { Platform, Text, View, StyleSheet } from "react-native";
-import { Constants, Permissions } from "@unimodules/core";
-import * as Location from "expo-location";
+// @flow
+
+import React from "react";
+import { Text, View, StyleSheet } from "react-native";
+import { Constants } from "@unimodules/core";
 
 import { withLocation } from "../context/Location";
+import type { LocationType } from "../context/Location";
 
-export default withLocation(({ location }) => {
+export default withLocation(({ location }: { location: LocationType }) => {
   let text = JSON.stringify(location, null, 2);
 
   return (

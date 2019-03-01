@@ -18,7 +18,6 @@
  */
 
 const http = require("http");
-const os = require("os");
 const path = require("path");
 const level = require("level");
 const rnBridge = require("rn-bridge");

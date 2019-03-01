@@ -3,13 +3,7 @@ import * as React from "react";
 import nodejs from "nodejs-mobile-react-native";
 import SplashScreen from "react-native-splash-screen";
 import debug from "debug";
-import {
-  AppState,
-  StyleSheet,
-  View,
-  Text,
-  ActivityIndicator
-} from "react-native";
+import { AppState } from "react-native";
 
 import * as status from "../../backend/constants";
 import ServerStatus from "./ServerStatus";
