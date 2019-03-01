@@ -35,10 +35,6 @@ export type DispatchProps = {
   sync: (device: Device) => any
 };
 
-type State = {
-  wifi: boolean
-};
-
 if (I18n) {
   I18n.fallbacks = true;
   I18n.translations = {
@@ -51,7 +47,6 @@ class SyncView extends React.Component<
   Props & StateProps & DispatchProps,
   State
 > {
-  state = { wifi: false };
   focusListener: any;
   blurListener: any;
 
@@ -60,11 +55,6 @@ class SyncView extends React.Component<
 
     this.startSyncIntervals()
 
-    NetInfo.getConnectionInfo().then(connectionInfo => {
-      if (connectionInfo.type === 'wifi') {
-        this.setState({ wifi: true });
-      }
-    });
     NetInfo.addEventListener('connectionChange', this.handleConnectionChange);
 
     this.focusListener = navigation.addListener('willFocus', this.handleFocus.bind(this));
@@ -76,7 +66,9 @@ class SyncView extends React.Component<
     if (this.interval) return
 
     this.interval = setInterval(() => {
-      if (this.interval) announceSync();
+      if (this.interval) {
+        announceSync();
+      }
     }, 3000)
   }
 
@@ -110,11 +102,7 @@ class SyncView extends React.Component<
   };
 
   handleConnectionChange = (connectionInfo: Object) => {
-    if (connectionInfo.type === 'wifi') {
-      this.setState({ wifi: true });
-    } else {
-      this.setState({ wifi: false });
-    }
+    // TODO: re-announce once we aren't announcing every three seconds 
   };
 
   handleDevicePress = (item: Device) => {
