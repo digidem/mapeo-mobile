@@ -175,6 +175,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     api project(':expo-location')
+    api project(':expo-camera')
 
     // Detox
     androidTestImplementation(project(path: ":detox"))
