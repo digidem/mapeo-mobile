@@ -58,3 +58,5 @@ package-lock.json
 
 # nodejs-mobile
 /nodejs-assets
+# docz
+.docz
