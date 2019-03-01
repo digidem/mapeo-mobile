@@ -13,7 +13,7 @@ import debug from "debug";
 
 import ErrorBoundary from "./ErrorBoundary";
 import AppLoading from "./AppLoading";
-import LocationScreen from "./LocationScreen";
+import AppContainer from "./AppContainer";
 import { LocationProvider } from "../context/Location";
 
 // Turn on logging if in debug mode
@@ -23,7 +23,7 @@ const App = () => (
   <ErrorBoundary>
     <AppLoading>
       <LocationProvider>
-        <LocationScreen />
+        <AppContainer />
       </LocationProvider>
     </AppLoading>
   </ErrorBoundary>
