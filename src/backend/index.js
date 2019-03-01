@@ -22,15 +22,19 @@ const os = require("os");
 const path = require("path");
 const level = require("level");
 const rnBridge = require("rn-bridge");
+const debug = require("debug");
+debug.enable("*");
 
 const ServerStatus = require("./status");
 const constants = require("./constants");
 
+const log = debug("mapeo-core:index");
 const PORT = 9080;
 const status = new ServerStatus();
 status.startHeartbeat();
 
 process.on("uncaughtException", function(err) {
+  log(err);
   status.setState(constants.ERROR);
 });
 
@@ -40,7 +44,7 @@ const db = level(path.join(rnBridge.app.datadir(), "db"), {
 
 const server = http.createServer((req, res) => {
   db.get("test", function(err, value) {
-    if (err) console.log("db get error:", err);
+    if (err) log("db get error:", err);
     res.write(JSON.stringify(value, null, 2));
     res.end();
   });
@@ -68,14 +72,14 @@ rnBridge.app.on("resume", () => {
 });
 
 db.put("test", { foo: "bar", num: 1 }, function(err) {
-  if (err) console.log("db put error:", err);
+  if (err) log("db put error:", err);
   start();
 });
 
 function start() {
   server.listen(PORT, () => status.setState(constants.LISTENING));
   db.get("test", function(err, value) {
-    if (err) console.log("db get error:", err);
+    if (err) log("db get error:", err);
     // rnBridge.channel.send(JSON.stringify(value));
   });
 }

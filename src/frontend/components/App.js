@@ -9,8 +9,11 @@
 
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View, Button } from "react-native";
-import nodejs from "nodejs-mobile-react-native";
-import SplashScreen from "react-native-splash-screen";
+import debug from "debug";
+import AppLoading from "./AppLoading";
+
+// Turn on logging if in debug mode
+if (__DEV__) debug.enable("*");
 
 const instructions = Platform.select({
   ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
@@ -20,32 +23,22 @@ const instructions = Platform.select({
 });
 
 type Props = {};
-export default class App extends Component<Props> {
-  componentDidMount() {
-    nodejs.start("index.js");
-    nodejs.channel.addListener(
-      "message",
-      msg => {
-        alert("From node: " + msg);
-      },
-      this
-    );
-    SplashScreen.hide();
-  }
+
+class App extends Component<Props> {
   render() {
     return (
-      <View style={styles.container} testID="root">
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Button
-          testID="message_node_button"
-          title="Message Node"
-          onPress={() => nodejs.channel.send("A message!")}
-        />
-      </View>
+      <AppLoading>
+        <View style={styles.container}>
+          <Text style={styles.welcome}>Welcome to React Native!</Text>
+          <Text style={styles.instructions} />
+          <Text style={styles.instructions}>{instructions}</Text>
+        </View>
+      </AppLoading>
     );
   }
 }
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {

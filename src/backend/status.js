@@ -1,5 +1,5 @@
 const rnBridge = require("rn-bridge");
-const debug = require("debug")("mapeo-core:status");
+const log = require("debug")("mapeo-core:status");
 const constants = require("./constants");
 
 class ServerStatus {
@@ -8,7 +8,7 @@ class ServerStatus {
   }
   startHeartbeat() {
     this.intervalId = setInterval(() => {
-      rnBridge.channel.post("status", serverState);
+      rnBridge.channel.post("status", this.state);
     }, 2000);
   }
   pauseHeartbeat() {
@@ -16,7 +16,7 @@ class ServerStatus {
   }
   setState(nextState) {
     if (nextState === this.state) return;
-    debug("state changed", nextState);
+    log("state changed", nextState);
     this.state = nextState;
     rnBridge.channel.post("status", nextState);
   }
