@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "android": "npm run build:backend && react-native run-android",
+    "build:backend": "./scripts/build-backend.sh",
+    "build:release": "npm run build:backend && ./scripts/build-release-android.sh",
     "test": "jest",
     "lint": "eslint *.js \"src/**/*.js\"",
     "flow": "flow",
