@@ -127,7 +127,7 @@ class Map extends React.Component<Props> {
         rotateEnabled={false}
         onPress={this.handleObservationPress}
         compassEnabled={false}
-        styleURL="mapbox://styles/mapbox/light-v9"
+        styleURL="mapbox://styles/mapbox/outdoors-v9"
       >
         <ObservationMapLayer
           onPress={this.handleObservationPress}
