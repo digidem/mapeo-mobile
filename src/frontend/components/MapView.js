@@ -1,6 +1,5 @@
 // @flow
 import React from "react";
-import type { NavigationScreenProp } from "react-navigation";
 import MapboxGL from "@mapbox/react-native-mapbox-gl";
 
 import type { MapStyle } from "../types/map";

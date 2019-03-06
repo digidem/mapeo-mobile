@@ -55,9 +55,3 @@ export default class TabViewExample extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  scene: {
-    flex: 1
-  }
-});
