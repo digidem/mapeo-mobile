@@ -69,6 +69,10 @@ export default class AppLoading extends React.Component<Props, State> {
     if (serverStatus === status.LISTENING) this.restartTimeout();
     // No unnecessary re-renders
     if (serverStatus === this.state.serverStatus) return;
+    // Re-rendering during CLOSING or CLOSED causes a crash if reloading the app
+    // in development mode. No need to update the state for these statuses
+    if (serverStatus === status.CLOSING || serverStatus === status.CLOSED)
+      return;
     log("status change", serverStatus);
     this.setState({ serverStatus });
   };
