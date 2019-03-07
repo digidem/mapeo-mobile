@@ -165,6 +165,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-fs')
     implementation project(':react-native-reanimated')
     implementation project(':react-native-gesture-handler')
     implementation project(':react-native-splash-screen')
