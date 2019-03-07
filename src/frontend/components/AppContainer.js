@@ -1,6 +1,6 @@
 // import { createBottomTabNavigator, createAppContainer } from "react-navigation";
 import * as React from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, Dimensions } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
@@ -29,7 +29,6 @@ export default class TabViewExample extends React.Component {
   );
 
   renderIcon({ route, color }) {
-    console.log("render icon", route.icon);
     return <Icon name={route.icon} size={30} color={color} />;
   }
 

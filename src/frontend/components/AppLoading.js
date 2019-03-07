@@ -3,7 +3,8 @@ import * as React from "react";
 import nodejs from "nodejs-mobile-react-native";
 import SplashScreen from "react-native-splash-screen";
 import debug from "debug";
-import { AppState } from "react-native";
+import { AppState, PermissionsAndroid } from "react-native";
+import RNFS from "react-native-fs";
 
 import * as status from "../../backend/constants";
 import ServerStatus from "./ServerStatus";
@@ -20,7 +21,8 @@ type Props = {
 
 type State = {
   serverStatus: string,
-  didTimeout: boolean
+  didTimeout: boolean,
+  hasStoragePermission: boolean
 };
 
 type AppStateType = "active" | "background" | "inactive";
@@ -40,23 +42,31 @@ export default class AppLoading extends React.Component<Props, State> {
 
   state = {
     serverStatus: status.STARTING,
-    didTimeout: false
+    didTimeout: false,
+    hasStoragePermission: false
   };
 
   timeoutId: TimeoutID;
+  _nodeAlive: boolean;
+  _hasSentStoragePath: boolean;
+  _hasStoragePermission: boolean;
 
   constructor(props: Props) {
     super(props);
     // Start up the node process
     nodejs.start("loader.js");
+    this._nodeAlive = false;
     this.restartTimeout();
     log("Constructor");
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     log("Didmount");
     nodejs.channel.addListener("status", this.handleStatusChange);
     AppState.addEventListener("change", this.handleAppStateChange);
+
+    this._hasStoragePermission = await requestStoragePermission();
+    this.sendStoragePathToNode();
   }
 
   componentWillUnmount() {
@@ -64,7 +74,20 @@ export default class AppLoading extends React.Component<Props, State> {
     AppState.removeEventListener("change", this.handleAppStateChange);
   }
 
+  // Once we have permission to access external storage and the nodejs process
+  // has started, it needs to know about where to store shared data that the
+  // user can access (normall /sdcard/)
+  sendStoragePathToNode() {
+    if (this._hasSentStoragePath) return;
+    if (!(this._hasStoragePermission && this._nodeAlive)) return;
+    nodejs.channel.post("storagePath", RNFS.ExternalDirectoryPath);
+    this._hasSentStoragePath = true;
+  }
+
   handleStatusChange = (serverStatus: string) => {
+    // We know the process has started once we get the first message
+    this._nodeAlive = true;
+    this.sendStoragePathToNode();
     // If we get a heartbeat, restart the timeout timer
     if (serverStatus === status.LISTENING) this.restartTimeout();
     // No unnecessary re-renders
@@ -106,4 +129,19 @@ export default class AppLoading extends React.Component<Props, State> {
         return <ServerStatus variant="waiting" />;
     }
   }
+}
+
+async function requestStoragePermission() {
+  const status = await PermissionsAndroid.requestMultiple([
+    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+  ]);
+  const readExternalPermission =
+    status[PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE];
+  const writeExternalPermission =
+    status[PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE];
+  return (
+    readExternalPermission === PermissionsAndroid.RESULTS.GRANTED &&
+    writeExternalPermission === PermissionsAndroid.RESULTS.GRANTED
+  );
 }

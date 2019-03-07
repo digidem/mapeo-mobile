@@ -30,6 +30,8 @@ const constants = require("./constants");
 const log = debug("mapeo-core:index");
 const PORT = 9080;
 const status = new ServerStatus();
+let storagePath = null;
+
 status.startHeartbeat();
 
 process.on("uncaughtException", function(err) {
@@ -51,6 +53,11 @@ const server = http.createServer((req, res) => {
 
 rnBridge.channel.on("message", msg => {
   rnBridge.channel.send(msg);
+});
+
+rnBridge.channel.on("storagePath", path => {
+  storagePath = path;
+  log("storagePath", storagePath);
 });
 
 // Close the server and pause heartbeat when in background
