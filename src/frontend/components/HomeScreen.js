@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import CameraView from "./CameraView";
 import MapView from "./MapView";
 import ObservationListButton from "./ObservationListButton";
+import AddButton from "./AddButton";
 
 export default class TabViewExample extends React.Component {
   state = {
@@ -59,9 +60,16 @@ export default class TabViewExample extends React.Component {
           onIndexChange={index => this.setState({ index })}
           initialLayout={{ width: Dimensions.get("window").width }}
         />
-        {/* <View style={{ position: "absolute", bottom: 20 }}>
-          <Text>Hello World</Text>
-        </View> */}
+        <View
+          style={{
+            position: "absolute",
+            zIndex: 10,
+            bottom: 75,
+            alignSelf: "center"
+          }}
+        >
+          <AddButton />
+        </View>
       </View>
     );
   }
