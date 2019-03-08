@@ -3,7 +3,9 @@ import { Text, View } from "react-native";
 import { Permissions } from "@unimodules/core";
 import { Camera } from "expo-camera";
 
-export default class CameraExample extends React.Component {
+import withNavigationMount from "../hocs/withNavigationMount";
+
+class CameraView extends React.Component {
   state = {
     hasCameraPermission: null
   };
@@ -38,3 +40,5 @@ export default class CameraExample extends React.Component {
     }
   }
 }
+
+export default withNavigationMount(CameraView);
