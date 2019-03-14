@@ -4,18 +4,22 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Constants } from "@unimodules/core";
 
-import { withLocation } from "../context/Location";
-import type { LocationType } from "../context/Location";
+import LocationContext from "../context/LocationContext";
+import type { LocationContextType } from "../context/LocationContext";
 
-export default withLocation(({ location }: { location: LocationType }) => {
-  let text = JSON.stringify(location, null, 2);
+const LocationScreen = ({ location }: { location: LocationContextType }) => (
+  <LocationContext.Consumer>
+    {location => (
+      <View style={styles.container}>
+        <Text style={styles.paragraph}>
+          {JSON.stringify(location, null, 2)}
+        </Text>
+      </View>
+    )}
+  </LocationContext.Consumer>
+);
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.paragraph}>{text}</Text>
-    </View>
-  );
-});
+export default LocationScreen;
 
 const styles = StyleSheet.create({
   container: {

@@ -17,20 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const http = require("http");
-const path = require("path");
-const level = require("level");
 const rnBridge = require("rn-bridge");
 const debug = require("debug");
 debug.enable("*");
 
 const ServerStatus = require("./status");
 const constants = require("./constants");
+const createServer = require("./server");
 
 const log = debug("mapeo-core:index");
 const PORT = 9080;
 const status = new ServerStatus();
-let storagePath = null;
+let paused = false;
+let storagePath;
+let server;
 
 status.startHeartbeat();
 
@@ -39,53 +39,67 @@ process.on("uncaughtException", function(err) {
   status.setState(constants.ERROR);
 });
 
-const db = level(path.join(rnBridge.app.datadir(), "db"), {
-  valueEncoding: "json"
-});
-
-const server = http.createServer((req, res) => {
-  db.get("test", function(err, value) {
-    if (err) log("db get error:", err);
-    res.write(JSON.stringify(value, null, 2));
-    res.end();
-  });
-});
-
-rnBridge.channel.on("message", msg => {
-  rnBridge.channel.send(msg);
-});
-
+/**
+ * We use a user folder on external storage for some data (custom map styles and
+ * presets). "External Storage" on Android does not actually mean an external SD
+ * card. It is a shared folder that the user can access. The data folder
+ * accessible through rnBridge.app.datadir() is not accessible by the user.
+ *
+ * The node process cannot request permission to read this folder and it does
+ * not know the filepath. We need to wait for the React Native process to tell
+ * us where the folder is. This code supports re-starting the server with a
+ * different folder if necessary (we probably shouldn't do that)
+ */
 rnBridge.channel.on("storagePath", path => {
+  log("storagePath", path);
+  if (path === storagePath) return;
+  const prevStoragePath = storagePath;
+  if (server)
+    server.close(() => {
+      log("closed server with storagePath", prevStoragePath);
+    });
   storagePath = path;
-  log("storagePath", storagePath);
+  server = createServer({
+    privateStorage: rnBridge.app.datadir(),
+    sharedStorage: storagePath
+  });
+  if (!paused) startServer();
 });
 
-// Close the server and pause heartbeat when in background
+/**
+ * Close the server and pause heartbeat when in background
+ * We need to do this because otherwise Android/iOS may shutdown the node
+ * process when it sees it is doing things in the background
+ */
 rnBridge.app.on("pause", pauseLock => {
+  paused = true;
   status.pauseHeartbeat();
-  status.setState(constants.CLOSING);
-  server.close(() => {
-    status.setState(constants.CLOSED);
-    pauseLock.release();
-  });
+  stopServer(() => pauseLock.release());
 });
 
 // Start things up again when app is back in foreground
 rnBridge.app.on("resume", () => {
+  // When the RN app requests permissions from the user it causes a resume event
+  // but no pause event. We don't need to start the server if it's already
+  // listening (because it wasn't paused)
+  // https://github.com/janeasystems/nodejs-mobile/issues/177
+  if (!paused) return;
+  paused = false;
   status.setState(constants.STARTING);
   status.startHeartbeat();
-  start();
+  startServer();
 });
 
-db.put("test", { foo: "bar", num: 1 }, function(err) {
-  if (err) log("db put error:", err);
-  start();
-});
-
-function start() {
+function startServer(cb) {
+  if (!server) return;
   server.listen(PORT, () => status.setState(constants.LISTENING));
-  db.get("test", function(err, value) {
-    if (err) log("db get error:", err);
-    // rnBridge.channel.send(JSON.stringify(value));
+}
+
+function stopServer(cb) {
+  if (!server) return;
+  status.setState(constants.CLOSING);
+  server.close(() => {
+    status.setState(constants.CLOSED);
+    cb();
   });
 }

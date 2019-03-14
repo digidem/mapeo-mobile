@@ -7,15 +7,22 @@ class ServerStatus {
     this.setState(constants.STARTING);
   }
   startHeartbeat() {
+    if (this.intervalId) return; // Don't have two heartbeats
     this.intervalId = setInterval(() => {
       rnBridge.channel.post("status", this.state);
     }, 2000);
   }
   pauseHeartbeat() {
     clearInterval(this.intervalId);
+    this.intervalId = null;
+  }
+  getState() {
+    return this.state;
   }
   setState(nextState) {
     if (nextState === this.state) return;
+    // Once we have an uncaught error, don't try to pretend it's gone away
+    if (this.state === constants.ERROR) return;
     log("state changed", nextState);
     this.state = nextState;
     rnBridge.channel.post("status", nextState);

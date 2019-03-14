@@ -15,7 +15,8 @@ import { useScreens } from "react-native-screens";
 import ErrorBoundary from "./ErrorBoundary";
 import AppLoading from "./AppLoading";
 import AppContainer from "./AppContainer";
-import { LocationProvider } from "../context/Location";
+import LocationContext from "../context/LocationContext";
+import PermissionsContext from "../context/PermissionsContext";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -25,11 +26,13 @@ useScreens();
 
 const App = () => (
   <ErrorBoundary>
-    <AppLoading>
-      <LocationProvider>
-        <AppContainer />
-      </LocationProvider>
-    </AppLoading>
+    <PermissionsContext.Provider>
+      <LocationContext.Provider>
+        <AppLoading>
+          <AppContainer />
+        </AppLoading>
+      </LocationContext.Provider>
+    </PermissionsContext.Provider>
   </ErrorBoundary>
 );
 

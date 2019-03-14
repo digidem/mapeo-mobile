@@ -3,11 +3,16 @@ import * as React from "react";
 import nodejs from "nodejs-mobile-react-native";
 import SplashScreen from "react-native-splash-screen";
 import debug from "debug";
-import { AppState, PermissionsAndroid } from "react-native";
+import { AppState } from "react-native";
 import RNFS from "react-native-fs";
 
 import * as status from "../../backend/constants";
 import ServerStatus from "./ServerStatus";
+import {
+  withPermissions,
+  PERMISSIONS,
+  RESULTS
+} from "../context/PermissionsContext";
 
 const log = debug("mapeo:AppLoading");
 
@@ -21,8 +26,7 @@ type Props = {
 
 type State = {
   serverStatus: string,
-  didTimeout: boolean,
-  hasStoragePermission: boolean
+  didTimeout: boolean
 };
 
 type AppStateType = "active" | "background" | "inactive";
@@ -35,15 +39,14 @@ type AppStateType = "active" | "background" | "inactive";
  * If it doesn't hear a heartbeat message for timeout, it displays a screen to
  * the user so they know something is wrong.
  */
-export default class AppLoading extends React.Component<Props, State> {
+class AppLoading extends React.Component<Props, State> {
   static defaultProps = {
     timeout: DEFAULT_TIMEOUT
   };
 
   state = {
     serverStatus: status.STARTING,
-    didTimeout: false,
-    hasStoragePermission: false
+    didTimeout: false
   };
 
   timeoutId: TimeoutID;
@@ -53,19 +56,27 @@ export default class AppLoading extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
+    log("REQUESTING NODE START");
     // Start up the node process
     nodejs.start("loader.js");
     this._nodeAlive = false;
     this.restartTimeout();
-    log("Constructor");
   }
 
   async componentDidMount() {
     log("Didmount");
     nodejs.channel.addListener("status", this.handleStatusChange);
     AppState.addEventListener("change", this.handleAppStateChange);
+    this.props.requestPermissions([
+      PERMISSIONS.CAMERA,
+      PERMISSIONS.ACCESS_COARSE_LOCATION,
+      PERMISSIONS.ACCESS_FINE_LOCATION,
+      PERMISSIONS.READ_EXTERNAL_STORAGE,
+      PERMISSIONS.WRITE_EXTERNAL_STORAGE
+    ]);
+  }
 
-    this._hasStoragePermission = await requestStoragePermission();
+  componentDidUpdate() {
     this.sendStoragePathToNode();
   }
 
@@ -74,17 +85,26 @@ export default class AppLoading extends React.Component<Props, State> {
     AppState.removeEventListener("change", this.handleAppStateChange);
   }
 
+  hasStoragePermission() {
+    const { permissions } = this.props;
+    return (
+      permissions[PERMISSIONS.READ_EXTERNAL_STORAGE] === RESULTS.GRANTED &&
+      permissions[PERMISSIONS.WRITE_EXTERNAL_STORAGE] === RESULTS.GRANTED
+    );
+  }
+
   // Once we have permission to access external storage and the nodejs process
   // has started, it needs to know about where to store shared data that the
   // user can access (normall /sdcard/)
   sendStoragePathToNode() {
     if (this._hasSentStoragePath) return;
-    if (!(this._hasStoragePermission && this._nodeAlive)) return;
+    if (!(this.hasStoragePermission() && this._nodeAlive)) return;
     nodejs.channel.post("storagePath", RNFS.ExternalDirectoryPath);
     this._hasSentStoragePath = true;
   }
 
   handleStatusChange = (serverStatus: string) => {
+    log("status change", serverStatus);
     // We know the process has started once we get the first message
     this._nodeAlive = true;
     this.sendStoragePathToNode();
@@ -96,7 +116,6 @@ export default class AppLoading extends React.Component<Props, State> {
     // in development mode. No need to update the state for these statuses
     if (serverStatus === status.CLOSING || serverStatus === status.CLOSED)
       return;
-    log("status change", serverStatus);
     this.setState({ serverStatus });
   };
 
@@ -126,22 +145,10 @@ export default class AppLoading extends React.Component<Props, State> {
       case status.ERROR:
         return <ServerStatus variant="error" />;
       default:
+        log("render", this.state.serverStatus);
         return <ServerStatus variant="waiting" />;
     }
   }
 }
 
-async function requestStoragePermission() {
-  const status = await PermissionsAndroid.requestMultiple([
-    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-  ]);
-  const readExternalPermission =
-    status[PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE];
-  const writeExternalPermission =
-    status[PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE];
-  return (
-    readExternalPermission === PermissionsAndroid.RESULTS.GRANTED &&
-    writeExternalPermission === PermissionsAndroid.RESULTS.GRANTED
-  );
-}
+export default withPermissions(AppLoading);

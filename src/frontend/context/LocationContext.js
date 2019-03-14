@@ -1,8 +1,10 @@
 // @flow
 import * as React from "react";
-import { Permissions } from "@unimodules/core";
 import * as Location from "expo-location";
 import debug from "debug";
+
+import { withPermissions, PERMISSIONS, RESULTS } from "./PermissionsContext";
+import type { PermissionResult, PermissionsType } from "./PermissionsContext";
 
 const log = debug("mapeo:Location");
 
@@ -26,15 +28,20 @@ type ProviderType = {
   networkAvailable: boolean
 };
 
-export type LocationType = {
+export type LocationContextType = {
   position?: PositionType,
   provider?: ProviderType,
-  permission?: "granted" | "denied",
-  error?: boolean
+  permission?: PermissionResult,
+  error: boolean
 };
 
 type Props = {
-  children: React.Node
+  children: React.Node,
+  permissions: PermissionsType
+};
+
+const defaultContext = {
+  error: false
 };
 
 const positionOptions = {
@@ -49,39 +56,58 @@ const LOCATION_TIMEOUT = 10000;
 const {
   Provider,
   Consumer: LocationConsumer
-} = React.createContext<LocationType>({});
+} = React.createContext<LocationContextType>(defaultContext);
 
-class LocationProvider extends React.Component<Props, LocationType> {
-  state = {
-    error: false
-  };
-
+class LocationProvider extends React.Component<Props, LocationContextType> {
   _isMounted: boolean;
-  watch: { remove: () => null };
-  timeoutId: TimeoutID;
+  _watch: null | { remove: () => null };
+  _timeoutId: TimeoutID;
 
-  async componentDidMount() {
+  // This React method is "bad" to use, but we use it for convenience - we
+  // include the location permission state in the location context object
+  static getDerivedStateFromProps(props, state) {
+    if (props.permissions[PERMISSIONS.LOCATION] === state.permission)
+      return state;
+    return {
+      ...state,
+      permission: props.permissions[PERMISSIONS.LOCATION]
+    };
+  }
+
+  state = defaultContext;
+  _watch = null;
+
+  componentDidMount() {
     // Track this in case the component unmounts before the async functions
     // return and we shouldn't set state. This will be easier with hooks.
     this._isMounted = true;
-    let provider: ProviderType | void;
+    this.updateStatus();
+  }
 
+  componentDidUpdate(prevProps) {
+    const { permissions } = this.props;
+    const permissionHasChanged =
+      permissions[PERMISSIONS.LOCATION] !==
+      prevProps.permissions[PERMISSIONS.LOCATION];
+    if (permissionHasChanged) this.updateStatus();
+  }
+
+  async updateStatus() {
     try {
-      const { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (!this._isMounted) return;
-      if (status === "granted") {
-        provider = await Location.getProviderStatusAsync();
-      }
-      if (!this._isMounted) return;
+      const hasLocationPermission =
+        this.props.permissions[PERMISSIONS.LOCATION] === RESULTS.GRANTED;
+      if (!hasLocationPermission) return;
+      const provider = await Location.getProviderStatusAsync();
+      if (this._watch) return;
       if (provider && provider.locationServicesEnabled) {
-        this.watch = await Location.watchPositionAsync(
+        this._watch = await Location.watchPositionAsync(
           positionOptions,
           this.onPosition
         );
       }
       // bail before setState if we've unmounted
       if (!this._isMounted) return;
-      this.setState({ provider, permission: status });
+      this.setState({ provider });
     } catch (err) {
       log("Error reading position", err);
       if (!this._isMounted) return;
@@ -91,7 +117,9 @@ class LocationProvider extends React.Component<Props, LocationType> {
 
   componentWillUnmount() {
     this._isMounted = false;
-    if (this.watch) this.watch.remove();
+    if (this._watch) this._watch.remove();
+    clearTimeout(this._timeoutId);
+    this._watch = null;
   }
 
   onPosition = (position: PositionType) => {
@@ -101,8 +129,8 @@ class LocationProvider extends React.Component<Props, LocationType> {
     // won't know why. If we haven't had a location update for a while, we check
     // on the provider status to see if location services are enabled, so that
     // we can update the state with the current status
-    clearTimeout(this.timeoutId);
-    this.timeoutId = setTimeout(this.checkProviderStatus, LOCATION_TIMEOUT);
+    clearTimeout(this._timeoutId);
+    this._timeoutId = setTimeout(this.checkProviderStatus, LOCATION_TIMEOUT);
     this.setState({ position });
   };
 
@@ -111,7 +139,7 @@ class LocationProvider extends React.Component<Props, LocationType> {
     if (!this._isMounted) return;
     if (!provider.locationServicesEnabled) {
       // Not enabled? Check again in a bit
-      this.timeoutId = setTimeout(this.checkProviderStatus, LOCATION_TIMEOUT);
+      this._timeoutId = setTimeout(this.checkProviderStatus, LOCATION_TIMEOUT);
     }
     this.setState({ provider });
   };
@@ -121,7 +149,7 @@ class LocationProvider extends React.Component<Props, LocationType> {
   }
 }
 
-const withLocation = (WrappedComponent: any) => {
+export const withLocation = (WrappedComponent: any) => {
   const WithLocation = (props: any) => (
     <LocationConsumer>
       {location => <WrappedComponent {...props} location={location} />}
@@ -133,7 +161,10 @@ const withLocation = (WrappedComponent: any) => {
   return WithLocation;
 };
 
-export { LocationProvider, LocationConsumer, withLocation };
+export default {
+  Provider: withPermissions(LocationProvider),
+  Consumer: LocationConsumer
+};
 
 function getDisplayName(WrappedComponent) {
   return WrappedComponent.displayName || WrappedComponent.name || "Component";
