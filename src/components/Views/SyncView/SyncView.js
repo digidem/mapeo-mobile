@@ -25,8 +25,7 @@ type Props = {
 };
 
 export type StateProps = {
-  devices: Device[],
-  syncTarget?: string
+  devices: Device[]
 };
 
 export type DispatchProps = {
@@ -34,10 +33,6 @@ export type DispatchProps = {
   unannounceSync: () => any,
   clearSyncTarget: () => any,
   sync: (device: Device) => any
-};
-
-type State = {
-  wifi: boolean
 };
 
 if (I18n) {
@@ -52,7 +47,6 @@ class SyncView extends React.Component<
   Props & StateProps & DispatchProps,
   State
 > {
-  state = { wifi: false };
   focusListener: any;
   blurListener: any;
 
@@ -61,11 +55,6 @@ class SyncView extends React.Component<
 
     this.startSyncIntervals()
 
-    NetInfo.getConnectionInfo().then(connectionInfo => {
-      if (connectionInfo.type === 'wifi') {
-        this.setState({ wifi: true });
-      }
-    });
     NetInfo.addEventListener('connectionChange', this.handleConnectionChange);
 
     this.focusListener = navigation.addListener('willFocus', this.handleFocus.bind(this));
@@ -77,21 +66,20 @@ class SyncView extends React.Component<
     if (this.interval) return
 
     this.interval = setInterval(() => {
-      if (this.interval) announceSync();
+      if (this.interval) {
+        announceSync();
+      }
     }, 3000)
   }
 
   stopSyncIntervals () {
-    const { unannounceSync, syncTarget, clearSyncTarget } = this.props;
+    const { unannounceSync } = this.props;
     if (this.interval) {
       clearInterval(this.interval)
       this.interval = null
     }
 
     unannounceSync();
-    if (syncTarget) {
-      clearSyncTarget();
-    }
   }
 
   componentWillUnmount() {
@@ -114,19 +102,15 @@ class SyncView extends React.Component<
   };
 
   handleConnectionChange = (connectionInfo: Object) => {
-    if (connectionInfo.type === 'wifi') {
-      this.setState({ wifi: true });
-    } else {
-      this.setState({ wifi: false });
-    }
+    // TODO: re-announce once we aren't announcing every three seconds 
   };
 
   handleDevicePress = (item: Device) => {
     const { sync } = this.props;
-    console.log(item)
     const syncInProgress =
       item.syncStatus === 'replication-started' ||
-      item.syncStatus === 'replication-progress';
+      item.syncStatus === 'replication-progress' ||
+      item.syncStatus === 'replication-complete';
 
     if (!syncInProgress) {
       sync(item);
@@ -134,58 +118,46 @@ class SyncView extends React.Component<
   };
 
   renderItem = ({ item }: { item: Device }) => {
-    const { syncTarget } = this.props;
-
     return (
       <DeviceCell
         device={item}
         onPress={this.handleDevicePress}
-        selected={!!syncTarget && item.id === syncTarget}
       />
     );
   };
 
   handleBack = () => {
     const { unannounceSync, navigation } = this.props;
-    console.log('clicked back');
     this.stopSyncIntervals();
 
     navigation.goBack();
   };
 
   render() {
-    const { devices, navigation, syncTarget, sync } = this.props;
-    const { wifi } = this.state;
+    const { devices, navigation, sync } = this.props;
 
     let syncStopped = false;
-    const noDevices: boolean = devices.length === 0 || !wifi;
+    const noDevices: boolean = devices.length === 0;
 
-    let progressText: string = noDevices
-      ? I18n.t('sync.none')
-      : I18n.t('sync.available');
-    const selectedDevice: ?Device = syncTarget
-      ? devices.find(device => device.id === syncTarget)
-      : undefined;
-
-    if (selectedDevice) {
-      console.log(selectedDevice.syncStatus)
-      switch (selectedDevice.syncStatus) {
-        case 'replication-started':
-          progressText = I18n.t('sync.initiated');
-          break;
-        case 'replication-progress':
-          progressText = I18n.t('sync.progress');
-          break;
-        case 'replication-error':
-          progressText = I18n.t('sync.stopped');
-          syncStopped = true;
-          break;
-        case 'replication-complete':
-          progressText = I18n.t('sync.completed');
-          break;
-        default:
-          progressText = I18n.t('sync.selected');
-      }
+    let stuffHappening: ?Device = devices.find(device => device.syncStatus !== null)
+    switch (stuffHappening && stuffHappening.syncStatus) {
+      case 'replication-started':
+        progressText = I18n.t('sync.initiated');
+        break;
+      case 'replication-progress':
+        progressText = I18n.t('sync.progress');
+        break;
+      case 'replication-error':
+        progressText = I18n.t('sync.stopped');
+        syncStopped = true;
+        break;
+      case 'replication-complete':
+        progressText = I18n.t('sync.completed');
+        break;
+      default:
+        progressText = noDevices
+          ? I18n.t('sync.searching')
+          : I18n.t('sync.available');
     }
 
     const keyExtractor = (item, index) => item.id;

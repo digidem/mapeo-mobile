@@ -1,6 +1,6 @@
 // @flow
 export type SyncStatus =
-  | null
+  | undefined
   | 'replication-started'
   | 'replication-progress'
   | 'replication-error'
