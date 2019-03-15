@@ -72,15 +72,13 @@ type Props = {
     [id: string]: ObservationType
   },
   mapStyle: MapStyle,
-  onPressObservation: (observationId: string) => void,
-  onPressNew: () => void
+  onPressObservation: (observationId: string) => void
 };
 
 class Map extends React.Component<Props> {
   static defaultProps = {
-    observations: [],
-    onPressObservation: () => null,
-    onPressNew: () => null
+    observations: {},
+    onPressObservation: () => null
   };
 
   constructor(props: Props) {
@@ -94,6 +92,7 @@ class Map extends React.Component<Props> {
   map: any;
 
   handleObservationPress = e => {
+    log("handle obs press");
     const pressedFeature = e.nativeEvent && e.nativeEvent.payload;
     if (!pressedFeature || !pressedFeature.properties) return;
 

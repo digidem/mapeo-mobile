@@ -1,0 +1,112 @@
+{
+  "at": "at",
+  "on": "on",
+  "of": "of",
+  "answered": "answered",
+  "cancel": "Cancel",
+  "category": "Category",
+  "categories": {
+    "0": "River/stream",
+    "1": "Tunnel/cave",
+    "2": "Hunting site",
+    "3": "Fishing site",
+    "4": "Old house/farm",
+    "5": "Burial site",
+    "6": "Medicinal plant",
+    "7": "Resource for artesania",
+    "8": "Gold",
+    "9": "Planted fruit tree",
+    "10": "Yoko",
+    "11": "Yage",
+    "12": "Invisible person",
+    "13": "Waterfall",
+    "14": "Hill/mountain (sacred)",
+    "15": "Huge special tree",
+    "16": "Boa",
+    "17": "Historical site",
+    "18": "Plant/animal in danger of extinction",
+    "19": "Threat"
+  },
+  "observations": {
+    "title": "Observations",
+    "sync": "Connect to sync",
+    "sync_ready": "Sync Ready",
+    "all_observations": "All Observations",
+    "view_by": "View by Most Recent"
+  },
+  "loading": "Loading...",
+  "saved": "Saved!",
+  "continue": "Continue",
+  "saving_image": "Saving Image",
+  "editor": {
+    "placeholder": "What's happening here?",
+    "media_button": "Photos & Videos",
+    "details_button": "Details",
+    "modal": {
+      "title": "Changes not saved!",
+      "question": "Are you sure you want to cancel your observation?",
+      "continue": "Continue Editing",
+      "cancel": "Yes, Cancel"
+    }
+  },
+  "detail_view": {
+    "photo": "photo",
+    "details": "Details",
+    "not_entered": "Not entered",
+    "observed_by": "Observed by"
+  },
+  "manual_gps": {
+    "manual_gps": "Manual GPS",
+    "denied": "Permission Denied",
+    "denied_text": "Mapeo Mobile does not have permission to access your location",
+    "unavailable": "GPS Unavailable",
+    "unavailable_text": "Your GPS appears to be turned off or not working",
+    "searching": "Searching...",
+    "searching_text": "Saving will not record your position",
+    "weak": "Poor GPS Accuracy",
+    "weak_text": "GPS accuracy is more than 10m, you can continue waiting to get a more accurate location",
+    "waiting": "Continue Waiting",
+    "manual_enter": "Manually Enter Position",
+    "save": "Save",
+    "longitude": "Longitude",
+    "latitude": "Latitude",
+    "grid_zone": "UTM Grid Zone",
+    "easting": "Easting",
+    "northing": "Northing"
+  },
+  "settings": {
+    "settings": "Settings",
+    "gps_format": "GPS Coordinate Format",
+    "dd": "Decimal Degrees",
+    "ddm": "Degrees & Decimal Minutes",
+    "dms": "Degrees, Minutes, Seconds",
+    "utm": "UTM Coordinates",
+    "map_style": "Map Style",
+    "Mapbox Streets": "Mapbox Streets",
+    "Satellite": "Satellite",
+    "Mapbox Satellite Streets": "Mapbox Satellite Streets"
+  },
+  "sync": {
+    "none": "No Available Devices",
+    "check": "Make sure devices are turned on and connected to WiFi",
+    "available": "Available Devices",
+    "selected": "Device Selected",
+    "initiated": "Sync initiated...",
+    "progress": "Sync in progress...",
+    "stopped": "Sync stopped...",
+    "completed": "Sync completed",
+    "via_wifi": "via WiFi",
+    "requested": "Sync requested...",
+    "syncing": "Syncing...",
+    "sync": "Sync",
+    "modal": {
+      "title": "Sync Complete",
+      "details": "New observations have been added",
+      "ok": "OK"
+    }
+  },
+  "gps": {
+    "loading": "GPS Loading...",
+    "off": "GPS Off"
+  }
+}

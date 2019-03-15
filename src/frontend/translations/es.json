@@ -1,0 +1,113 @@
+{
+  "at": "en",
+  "on": "el",
+  "of": "de",
+  "answered": "respuestas",
+  "cancel": "Cancelar",
+  "category": "Categoría",
+  "categories": {
+    "0": "Corriente de rió",
+    "1": "Túnel/cueva",
+    "2": "Sitio de caza",
+    "3": "Sitio de pesca",
+    "4": "Casa/granja vieja",
+    "5": "Cementerio",
+    "6": "Planta medicinal",
+    "7": "Recurso para artesania",
+    "8": "Oro",
+    "9": "Árbol frutal plantado",
+    "10": "Yoko",
+    "11": "Yage",
+    "12": "Persona invisible",
+    "13": "Cascada",
+    "14": "Colina/montaña (sagrado)",
+    "15": "Enorme árbol especial",
+    "16": "Boa",
+    "17": "Sitio historico",
+    "18": "Planta/animal en peligro de extinción",
+    "19": "Amenaza"
+  },
+  "observations": {
+    "title": "Observaciones",
+    "sync": "Conectarse para sincronizar",
+    "sync_ready": "Sincronizar Listo",
+    "all_observations": "Todas las observaciones",
+    "view_by": "Ver por más reciente"
+  },
+  "loading": "Cargando...",
+  "saved": "¡Guardado!",
+  "continue": "Continuar",
+  "saving_image": "Guardando imagen...",
+  "editor": {
+    "placeholder": "¿Qué está pasando aquí?",
+    "media_button": "Tomar foto",
+    "details_button": "Detalles",
+    "modal": {
+      "title": "¿Queres descartar esta observación?",
+      "question": "Si no quieres perder esta observación, seleccionar “Continuar editando”",
+      "continue": "Continuar editando",
+      "cancel": "Descartar observación"
+    }
+  },
+  "detail_view": {
+    "photo": "foto",
+    "details": "Detalles",
+    "not_entered": "No entró",
+    "observed_by": "Observado por"
+  },
+  "manual_gps": {
+    "manual_gps": "GPS Manual",
+    "denied": "Permiso Denegado",
+    "denied_text": "Mapeo Mobile no tiene permiso a acceder a tu ubicación",
+    "unavailable": "GPS No Disponible",
+    "unavailable_text": "Parece que tu GPS esta apagado o no esta funcionando",
+    "searching": "Sin GPS todavía...",
+    "searching_text": "El GPS esta buscando su posición todavía",
+    "weak": "GPS débil",
+    "weak_text": "La precisión del GPS esta más que 10 metros.",
+    "waiting": "Seguir esperando",
+    "manual_enter": "Ingresar la posición manualmente",
+    "save": "Guardar",
+    "longitude": "Longitud",
+    "latitude": "Latitud",
+    "grid_zone": "UTM Grid Zone",
+    "easting": "Este",
+    "northing": "Norte"
+  },
+  "settings": {
+    "settings": "Configuraciones",
+    "gps_format": "Formato de coordenadas GPS",
+    "dd": "Grados decimales",
+    "ddm": "Grados y minutos decimales",
+    "dms": "Grados, minutos, segundos",
+    "utm": "Coordenadas UTM",
+    "map_style": "Estilo de mapa",
+    "Mapbox Streets": "Calles de Mapbox",
+    "Satellite": "Satélite",
+    "Mapbox Satellite Streets": "Calles satélite de Mapbox"
+
+  },
+  "sync": {
+    "none": "No hay dispositivos disponibles",
+    "check": "Conectar este celular y otra celular o laptop a la misma red WiFi para poder sincronizar datos",
+    "available": "Dispositivos Disponibles",
+    "selected": "Dispositivo Seleccionados",
+    "initiated": "Sincronización iniciada...",
+    "progress": "Sincronización en progreso...",
+    "stopped": "Sincronización detenida...",
+    "completed": "Sincronización completa",
+    "via_wifi": "vía WiFi",
+    "requested": "Sincronización solicitada",
+    "syncing": "Sincronización",
+    "sync": "Sincronización",
+    "modal": {
+      "title": "Sincronización completa",
+      "details": "Se agregaron nuevas observaciones",
+      "ok": "OK"
+    }
+  },
+  "gps": {
+    "loading": "Buscando GPS...",
+    "off": "GPS desactivado"
+  }
+}

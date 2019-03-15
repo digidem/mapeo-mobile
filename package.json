@@ -22,6 +22,7 @@
     "expo-camera": "^3.0.0",
     "expo-location": "^3.0.0",
     "hoist-non-react-statics": "^3.3.0",
+    "memoize-one": "^5.0.0",
     "nodejs-mobile-react-native": "^0.3.3",
     "react": "16.6.3",
     "react-native": "0.58.5",

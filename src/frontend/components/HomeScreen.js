@@ -4,7 +4,7 @@ import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 import CameraView from "./CameraView";
-import MapView from "./MapView";
+import MapScreen from "./MapScreen";
 import ObservationListButton from "./ObservationListButton";
 import AddButton from "./AddButton";
 
@@ -53,7 +53,7 @@ export default class TabViewExample extends React.Component {
           tabBarPosition="bottom"
           navigationState={this.state}
           renderScene={SceneMap({
-            map: MapView,
+            map: MapScreen,
             photo: CameraView
           })}
           renderTabBar={this.renderTabBar}

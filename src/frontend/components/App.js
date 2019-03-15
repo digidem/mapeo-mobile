@@ -17,6 +17,7 @@ import AppLoading from "./AppLoading";
 import AppContainer from "./AppContainer";
 import LocationContext from "../context/LocationContext";
 import PermissionsContext from "../context/PermissionsContext";
+import ObservationsContext from "../context/ObservationsContext";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -28,9 +29,11 @@ const App = () => (
   <ErrorBoundary>
     <PermissionsContext.Provider>
       <LocationContext.Provider>
-        <AppLoading>
-          <AppContainer />
-        </AppLoading>
+        <ObservationsContext.Provider>
+          <AppLoading>
+            <AppContainer />
+          </AppLoading>
+        </ObservationsContext.Provider>
       </LocationContext.Provider>
     </PermissionsContext.Provider>
   </ErrorBoundary>

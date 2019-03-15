@@ -1,11 +1,16 @@
 import React from "react";
-import { Text } from "react-native";
-import CenteredView from "./CenteredView";
+import ObservationsContext from "../context/ObservationsContext";
+import ObservationsList from "./ObservationsList";
 
 const ObservationList = () => (
-  <CenteredView>
-    <Text>Observation List</Text>
-  </CenteredView>
+  <ObservationsContext.Consumer>
+    {({ observations }) => (
+      <ObservationsList
+        observations={observations}
+        onPressObservation={console.log}
+      />
+    )}
+  </ObservationsContext.Consumer>
 );
 
 export default ObservationList;
