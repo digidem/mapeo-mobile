@@ -1,4 +1,4 @@
-import React from "React";
+import React from "react";
 import { StyleSheet, Text } from "react-native";
 import CenteredView from "./CenteredView";
 
