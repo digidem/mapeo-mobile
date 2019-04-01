@@ -9,7 +9,14 @@
   "dependencies": {
     "bindings-noderify-nodejs-mobile": "^10.3.0",
     "debug": "^4.1.1",
-    "level": "^4.0.0"
+    "ecstatic": "^3.3.1",
+    "kappa-core": "^2.6.2",
+    "kappa-osm": "^2.3.0",
+    "level": "^4.0.0",
+    "mapeo-server": "^10.0.0",
+    "osm-p2p-server": "^3.0.0",
+    "random-access-file": "^2.1.0",
+    "safe-fs-blob-store": "^1.0.3"
   },
   "devDependencies": {
     "noderify": "^4.1.0"

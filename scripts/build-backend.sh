@@ -33,6 +33,7 @@ cd ./nodejs-assets/nodejs-project
 "$(npm bin)/noderify" \
   --replace.bindings=bindings-noderify-nodejs-mobile \
   --filter=rn-bridge \
+  --filter=original-fs \
   index.js >_index.js
 rm index.js
 mv _index.js index.js
