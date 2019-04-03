@@ -13,7 +13,13 @@ import Categories from './Categories';
 import type { StateProps } from './Categories';
 
 const memoizedCategoriesSort = memoize(categories =>
-  values(categories).sort((a, b) => a.name - b.name)
+  values(categories).sort((a, b) => {
+    if (typeof a.sort !== 'undefined' && typeof b.sort !== 'undefined') {
+      return a.sort - b.sort;
+    } else {
+      return (a.name || '').localeCompare(b.name);
+    }
+  })
 );
 
 function mapStateToProps(state: StoreState): StateProps {
