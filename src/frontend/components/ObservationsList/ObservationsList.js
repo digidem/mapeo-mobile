@@ -64,6 +64,8 @@ const ObservationsList = ({
           const { icon, name } = getPreset(item) || {};
           return (
             <ObservationListItem
+              key={id}
+              id={id}
               style={styles.listItem}
               title={name}
               iconId={icon}

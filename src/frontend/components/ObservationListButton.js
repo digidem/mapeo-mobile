@@ -11,6 +11,7 @@ const ObservationListButton = ({ onPress }) => (
       justifyContent: "center",
       alignItems: "center"
     }}
+    testID="ObservationListButton"
     onPress={onPress}
   >
     <Icon name="photo-library" size={30} color="white" />

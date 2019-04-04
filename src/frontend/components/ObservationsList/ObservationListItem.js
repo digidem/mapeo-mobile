@@ -31,7 +31,8 @@ type Props = {
   subtitle?: string,
   imageSrc?: string,
   iconId?: string,
-  style?: $PropertyType<React.ElementProps<typeof View>, "style">
+  style?: $PropertyType<React.ElementProps<typeof View>, "style">,
+  id: string
 };
 
 const ObservationListItem = ({
@@ -40,9 +41,10 @@ const ObservationListItem = ({
   subtitle,
   imageSrc,
   iconId,
-  style
+  style,
+  id
 }: Props) => (
-  <TouchableOpacity onPress={onPress}>
+  <TouchableOpacity onPress={onPress} testID={"ObservationListItem:" + id}>
     <View style={{ ...styles.container, ...style }}>
       <View style={styles.text}>
         <Text style={styles.title}>{title}</Text>
