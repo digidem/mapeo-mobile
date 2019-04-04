@@ -67,6 +67,7 @@ class AppLoading extends React.Component<Props, State> {
     log("Didmount");
     nodejs.channel.addListener("status", this.handleStatusChange);
     AppState.addEventListener("change", this.handleAppStateChange);
+    // $FlowFixMe - needs HOC type to be fixed
     this.props.requestPermissions([
       PERMISSIONS.CAMERA,
       PERMISSIONS.ACCESS_COARSE_LOCATION,
@@ -86,6 +87,7 @@ class AppLoading extends React.Component<Props, State> {
   }
 
   hasStoragePermission() {
+    // $FlowFixMe - needs HOC type to be fixed
     const { permissions } = this.props;
     return (
       permissions[PERMISSIONS.READ_EXTERNAL_STORAGE] === RESULTS.GRANTED &&
@@ -104,7 +106,6 @@ class AppLoading extends React.Component<Props, State> {
   }
 
   handleStatusChange = (serverStatus: string) => {
-    log("status change", serverStatus);
     // We know the process has started once we get the first message
     this._nodeAlive = true;
     this.sendStoragePathToNode();
@@ -112,6 +113,7 @@ class AppLoading extends React.Component<Props, State> {
     if (serverStatus === status.LISTENING) this.restartTimeout();
     // No unnecessary re-renders
     if (serverStatus === this.state.serverStatus) return;
+    log("status change", serverStatus);
     // Re-rendering during CLOSING or CLOSED causes a crash if reloading the app
     // in development mode. No need to update the state for these statuses
     if (serverStatus === status.CLOSING || serverStatus === status.CLOSED)

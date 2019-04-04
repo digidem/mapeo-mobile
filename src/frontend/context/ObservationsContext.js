@@ -1,12 +1,42 @@
 // @flow
 import * as React from "react";
-import ObservationsApi from "../api/observations";
+import { getObservations } from "../api";
 import debug from "debug";
 
 const log = debug("mapeo:ObservationsContext");
 
-type ObservationContext = {
-  observations: {},
+export type ObservationAttachment = {|
+  id: string,
+  type: string
+|};
+
+export type ObservationValue = {
+  lat?: number,
+  lon?: number,
+  metadata?: {},
+  refs?: Array<{ id: string }>,
+  attachments?: Array<ObservationAttachment>,
+  tags: { [string]: any }
+};
+
+export type Observation = {
+  id: string,
+  version: string,
+  createdAt: string,
+  modifiedAt: string,
+  userId: string,
+  type: "observation",
+  links: string[],
+  schemaVersion: 4,
+  value: ObservationValue
+};
+
+export type ObservationsMap = {
+  [id: string]: Observation
+};
+
+type ObservationsContext = {
+  observations: ObservationsMap,
   reload: () => void
 };
 
@@ -18,15 +48,13 @@ const defaultContext = {
 const {
   Provider,
   Consumer: ObservationsConsumer
-} = React.createContext<ObservationContext>(defaultContext);
+} = React.createContext<ObservationsContext>(defaultContext);
 
 type Props = {
   children: React.Node
 };
 
-type State = {
-  observations: {},
-  reload: () => void,
+type State = ObservationsContext & {
   loading: boolean,
   error?: Error
 };
@@ -38,13 +66,6 @@ class ObservationsProvider extends React.Component<Props, State> {
     loading: false
   };
 
-  api: typeof ObservationsApi;
-
-  constructor(props: Props) {
-    super(props);
-    this.api = new ObservationsApi();
-  }
-
   componentDidMount() {
     this.reload();
   }
@@ -52,7 +73,7 @@ class ObservationsProvider extends React.Component<Props, State> {
   reload = () => {
     log("reload");
     this.setState({ loading: true });
-    this.api.list((err, obsList) => {
+    getObservations((err, obsList) => {
       if (err) return this.handleError(err);
       const observations = obsList.reduce(idReducer, {});
       this.setState({ observations, loading: false });
@@ -69,28 +90,10 @@ class ObservationsProvider extends React.Component<Props, State> {
   }
 }
 
-export const withObservations = (WrappedComponent: any) => {
-  const WithObservations = (props: any) => (
-    <ObservationsConsumer>
-      {observationsContext => (
-        <WrappedComponent {...props} {...observationsContext} />
-      )}
-    </ObservationsConsumer>
-  );
-  WithObservations.displayName = `WithObservations(${getDisplayName(
-    WrappedComponent
-  )})`;
-  return WithObservations;
-};
-
 export default {
   Provider: ObservationsProvider,
   Consumer: ObservationsConsumer
 };
-
-function getDisplayName(WrappedComponent) {
-  return WrappedComponent.displayName || WrappedComponent.name || "Component";
-}
 
 function idReducer(acc, obs) {
   acc[obs.id] = obs;

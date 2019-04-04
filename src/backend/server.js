@@ -6,6 +6,9 @@ const raf = require("random-access-file");
 const createOsmDb = require("kappa-osm");
 const createMediaStore = require("safe-fs-blob-store");
 const createMapeoRouter = require("mapeo-server");
+const debug = require("debug");
+
+const log = debug("mapeo-core:server");
 
 module.exports = createServer;
 
@@ -39,6 +42,7 @@ function createServer({ privateStorage, sharedStorage }) {
   });
 
   const server = http.createServer(function requestListener(req, res) {
+    log(req.method + ": " + req.url);
     // Check if the route is handled by Mapeo Server
     var match = mapeoRouter.handle(req, res);
 

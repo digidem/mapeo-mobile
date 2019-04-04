@@ -45,7 +45,6 @@ export type ServerObservationCreate = {|
   ref?: string,
   metadata?: {},
   attachments: Array<{ id: string }>,
-  fields: Field[],
   tags: {
     name: string,
     notes: string,

@@ -1,28 +1,27 @@
 // @flow
 import React from "react";
-import { View, FlatList, Dimensions } from "react-native";
-import type { NavigationScreenProp } from "react-navigation";
-
-// import I18n from 'react-native-i18n';
-
-import ObservationCell from "./ObservationCell";
-// import moment from '../../../lib/localizedMoment';
+import { View, FlatList, Dimensions, StyleSheet } from "react-native";
 import memoize from "memoize-one";
+import debug from "debug";
 
-type Props = {
-  closeRightDrawer: Function,
-  navigation: NavigationScreenProp<*>
-};
+import ObservationListItem from "./ObservationListItem";
+import type {
+  Observation,
+  ObservationsMap
+} from "../../context/ObservationsContext";
+import type { Preset } from "../../context/PresetsContext";
 
-// I18n.fallbacks = true;
-// I18n.translations = {
-//   en: require("../../translations/en"),
-//   es: require("../../translations/es")
-// };
-
-const t = require("../../translations/en");
-
+const log = debug("mapeo:ObservationsList");
 const OBSERVATION_CELL_HEIGHT = 80;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  listItem: {
+    height: OBSERVATION_CELL_HEIGHT
+  }
+});
 
 const getItemLayout = (data, index) => ({
   length: OBSERVATION_CELL_HEIGHT,
@@ -30,21 +29,28 @@ const getItemLayout = (data, index) => ({
   index
 });
 
-const getValuesMemoized = memoize(obj => Object.values(obj));
+// $FlowFixMe
+const getValuesMemoized = memoize((obj): Observation[] => Object.values(obj));
 
 const keyExtractor = item => item.id.toString();
 
-const ObservationsList = ({ observations, onPressObservation }) => {
+type Props = {
+  observations: ObservationsMap,
+  onPressObservation: (id: string) => any,
+  getPreset: Observation => ?Preset
+};
+
+const ObservationsList = ({
+  observations,
+  onPressObservation,
+  getPreset
+}: Props) => {
   const itemsPerWindow = Math.ceil(
     (Dimensions.get("window").height - 65) / OBSERVATION_CELL_HEIGHT
   );
   const observationsArray = getValuesMemoized(observations);
   return (
-    <View
-      style={{
-        flex: 1
-      }}
-    >
+    <View style={styles.container}>
       <FlatList
         initialNumToRender={
           itemsPerWindow * 2 /** always render a screens worth extra */
@@ -52,9 +58,20 @@ const ObservationsList = ({ observations, onPressObservation }) => {
         getItemLayout={getItemLayout}
         style={{ width: Dimensions.get("window").width }}
         keyExtractor={keyExtractor}
-        renderItem={({ item }) => (
-          <ObservationCell observation={item} onPress={onPressObservation} />
-        )}
+        renderItem={({ item }) => {
+          log("getPreset:", typeof getPreset);
+          const { id, createdAt } = item;
+          const { icon, name } = getPreset(item) || {};
+          return (
+            <ObservationListItem
+              style={styles.listItem}
+              title={name}
+              iconId={icon}
+              subtitle={createdAt}
+              onPress={() => onPressObservation(id)}
+            />
+          );
+        }}
         data={observationsArray}
       />
     </View>

@@ -3,6 +3,7 @@ import React from "react";
 import MapboxGL from "@mapbox/react-native-mapbox-gl";
 
 import type { MapStyle } from "../types/map";
+import type { ObservationsMap } from "../context/ObservationsContext";
 import debug from "debug";
 
 const log = debug("mapeo:MapView");
@@ -16,6 +17,15 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
   }
 });
 
+type ObservationFeature = {
+  type: "Feature",
+  geometry: {
+    type: "Point",
+    coordinates: [number, number] | [number, number, number]
+  },
+  properties: {| id: string |}
+};
+
 /**
  * Convert a map of observations into a GeoJSON FeatureCollection
  *
@@ -23,31 +33,30 @@ const mapboxStyles = MapboxGL.StyleSheet.create({
  * @returns GeoJSON FeatureCollection with Features that have the observation
  * location and id
  */
-function mapObservationsToFeatures(obs: { [string]: ObservationType }) {
+function mapObservationsToFeatures(obs: ObservationsMap): ObservationFeature[] {
   if (!obs || Object.keys(obs).length === 0) return [];
   return Object.keys(obs)
     .filter(
       id =>
-        typeof obs[id].lon !== "undefined" && typeof obs[id].lat !== "undefined"
+        typeof obs[id].value.lon !== "undefined" &&
+        typeof obs[id].value.lat !== "undefined"
     )
     .map(id => ({
       type: "Feature",
       geometry: {
         type: "Point",
-        coordinates: [obs[id].lon, obs[id].lat]
+        // $FlowFixMe - flow doesn't realise we filtered out undefined
+        coordinates: [obs[id].value.lon, obs[id].value.lat]
       },
       properties: {
-        id: id,
-        categoryId: obs[id].categoryId
+        id: id
       }
     }));
 }
 
 class ObservationMapLayer extends React.PureComponent<{
   onPress: Function,
-  observations: {
-    [id: string]: ObservationType
-  }
+  observations: ObservationsMap
 }> {
   render() {
     const { onPress, observations } = this.props;
@@ -68,17 +77,15 @@ class ObservationMapLayer extends React.PureComponent<{
 }
 
 type Props = {
-  observations: {
-    [id: string]: ObservationType
-  },
-  mapStyle: MapStyle,
+  observations: ObservationsMap,
+  mapStyle?: MapStyle,
   onPressObservation: (observationId: string) => void
 };
 
 class Map extends React.Component<Props> {
   static defaultProps = {
     observations: {},
-    onPressObservation: () => null
+    onPressObservation: () => {}
   };
 
   constructor(props: Props) {
@@ -92,7 +99,13 @@ class Map extends React.Component<Props> {
 
   map: any;
 
-  handleObservationPress = e => {
+  handleObservationPress = (e: {
+    nativeEvent?: {
+      payload?: {
+        properties?: { id: string }
+      }
+    }
+  }) => {
     log("handle obs press");
     const pressedFeature = e.nativeEvent && e.nativeEvent.payload;
     if (!pressedFeature || !pressedFeature.properties) return;

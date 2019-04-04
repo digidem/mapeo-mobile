@@ -15,9 +15,8 @@ import { useScreens } from "react-native-screens";
 import ErrorBoundary from "./ErrorBoundary";
 import AppLoading from "./AppLoading";
 import AppContainer from "./AppContainer";
-import LocationContext from "../context/LocationContext";
 import PermissionsContext from "../context/PermissionsContext";
-import ObservationsContext from "../context/ObservationsContext";
+import AppProvider from "../context/AppProvider";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -27,14 +26,17 @@ useScreens();
 
 const App = () => (
   <ErrorBoundary>
+    {/* Permissions provider must be before AppLoading because it waits for
+        permissions before showing main app screen */}
     <PermissionsContext.Provider>
-      <LocationContext.Provider>
-        <ObservationsContext.Provider>
-          <AppLoading>
-            <AppContainer />
-          </AppLoading>
-        </ObservationsContext.Provider>
-      </LocationContext.Provider>
+      <AppLoading>
+        {/* AppProvider must be after AppLoading because it makes requests to the
+            mapeo-core server. AppLoading only renders children once the server
+            is ready and listening */}
+        <AppProvider>
+          <AppContainer />
+        </AppProvider>
+      </AppLoading>
     </PermissionsContext.Provider>
   </ErrorBoundary>
 );
