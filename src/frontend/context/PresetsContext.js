@@ -83,7 +83,6 @@ class PresetsProvider extends React.Component<Props, State> {
   }
 
   getPreset(observation: Observation): ?Preset {
-    log("call getPreset for id:", observation.id);
     const categoryId = observation.value.tags.categoryId;
     if (categoryId) return this.state.presets[categoryId];
   }

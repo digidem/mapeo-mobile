@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import ObservationsContext from "../context/ObservationsContext";
-import ObservationsList from "./ObservationsList";
+import ObservationsList from "../components/ObservationsList";
 import PresetsContext from "../context/PresetsContext";
 
 const ObservationList = () => (
@@ -19,5 +19,9 @@ const ObservationList = () => (
     )}
   </ObservationsContext.Consumer>
 );
+
+ObservationList.navigationOptions = {
+  title: "Observations"
+};
 
 export default ObservationList;

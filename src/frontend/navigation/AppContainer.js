@@ -8,17 +8,11 @@ import ObservationListScreen from "./ObservationListScreen";
 const AppNavigator = createStackNavigator(
   {
     Home: {
-      screen: HomeScreen,
-      navigationOptions: {
-        header: null
-      }
+      screen: HomeScreen
     },
     ObservationList: {
       screen: ObservationListScreen,
-      path: "observations",
-      navigationOptions: {
-        title: "Observations"
-      }
+      path: "observations"
     }
   },
   {

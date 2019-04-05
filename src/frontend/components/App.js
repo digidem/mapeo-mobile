@@ -14,7 +14,7 @@ import { useScreens } from "react-native-screens";
 
 import ErrorBoundary from "./ErrorBoundary";
 import AppLoading from "./AppLoading";
-import AppContainer from "./AppContainer";
+import AppContainer from "../navigation/AppContainer";
 import PermissionsContext from "../context/PermissionsContext";
 import AppProvider from "../context/AppProvider";
 

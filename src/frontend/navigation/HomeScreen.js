@@ -3,12 +3,16 @@ import { View, Dimensions } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-import CameraView from "./CameraView";
+import CameraScreen from "./CameraScreen";
 import MapScreen from "./MapScreen";
-import ObservationListButton from "./ObservationListButton";
-import AddButton from "./AddButton";
+import ObservationListButton from "../components/ObservationListButton";
+import AddButton from "../components/AddButton";
 
-export default class TabViewExample extends React.Component {
+export default class HomeScreen extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
+
   state = {
     index: 0,
     routes: [
@@ -54,7 +58,7 @@ export default class TabViewExample extends React.Component {
           navigationState={this.state}
           renderScene={SceneMap({
             map: MapScreen,
-            photo: CameraView
+            photo: CameraScreen
           })}
           renderTabBar={this.renderTabBar}
           onIndexChange={index => this.setState({ index })}

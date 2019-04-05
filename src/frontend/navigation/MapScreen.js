@@ -1,9 +1,8 @@
 // @flow
-
 import React from "react";
 import { View } from "react-native";
 
-import MapView from "./MapView";
+import MapView from "../components/MapView";
 import ObservationsContext from "../context/ObservationsContext";
 
 const MapScreen = () => (

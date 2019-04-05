@@ -2,7 +2,6 @@
 import React from "react";
 import { View, FlatList, Dimensions, StyleSheet } from "react-native";
 import memoize from "memoize-one";
-import debug from "debug";
 
 import ObservationListItem from "./ObservationListItem";
 import type {
@@ -11,7 +10,6 @@ import type {
 } from "../../context/ObservationsContext";
 import type { Preset } from "../../context/PresetsContext";
 
-const log = debug("mapeo:ObservationsList");
 const OBSERVATION_CELL_HEIGHT = 80;
 
 const styles = StyleSheet.create({
@@ -29,7 +27,7 @@ const getItemLayout = (data, index) => ({
   index
 });
 
-// $FlowFixMe
+// $FlowFixMe - Flow thinks Object.values returns mixed type
 const getValuesMemoized = memoize((obj): Observation[] => Object.values(obj));
 
 const keyExtractor = item => item.id.toString();
@@ -59,7 +57,6 @@ const ObservationsList = ({
         style={{ width: Dimensions.get("window").width }}
         keyExtractor={keyExtractor}
         renderItem={({ item }) => {
-          log("getPreset:", typeof getPreset);
           const { id, createdAt } = item;
           const { icon, name } = getPreset(item) || {};
           return (
