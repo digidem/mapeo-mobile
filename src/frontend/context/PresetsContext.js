@@ -31,13 +31,16 @@ export type Field = {|
 type PresetsContext = {
   presets: { [string]: Preset },
   fields: { [string]: Field },
-  getPreset: (observation: Observation) => ?Preset
+  getPreset: (observation: Observation) => ?Preset,
+  loading: boolean,
+  error?: boolean
 };
 
 const defaultContext = {
   presets: {},
   fields: {},
-  getPreset: () => {}
+  getPreset: () => {},
+  loading: false
 };
 
 const {
@@ -49,12 +52,7 @@ type Props = {
   children: React.Node
 };
 
-type State = PresetsContext & {
-  loading: boolean,
-  error?: boolean
-};
-
-class PresetsProvider extends React.Component<Props, State> {
+class PresetsProvider extends React.Component<Props, PresetsContext> {
   state = {
     presets: {},
     fields: {},

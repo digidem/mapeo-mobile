@@ -37,12 +37,15 @@ export type ObservationsMap = {
 
 type ObservationsContext = {
   observations: ObservationsMap,
-  reload: () => void
+  reload: () => void,
+  loading: boolean,
+  error?: Error
 };
 
 const defaultContext = {
   observations: {},
-  reload: () => {}
+  reload: () => {},
+  loading: false
 };
 
 const {
@@ -54,12 +57,7 @@ type Props = {
   children: React.Node
 };
 
-type State = ObservationsContext & {
-  loading: boolean,
-  error?: Error
-};
-
-class ObservationsProvider extends React.Component<Props, State> {
+class ObservationsProvider extends React.Component<Props, ObservationsContext> {
   state = {
     observations: {},
     reload: this.reload,
