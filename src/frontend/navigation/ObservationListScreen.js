@@ -4,24 +4,33 @@ import ObservationsContext from "../context/ObservationsContext";
 import ObservationsList from "../components/ObservationsList";
 import PresetsContext from "../context/PresetsContext";
 
-const ObservationList = () => (
-  <ObservationsContext.Consumer>
-    {({ observations }) => (
-      <PresetsContext.Consumer>
-        {({ getPreset }) => (
-          <ObservationsList
-            observations={observations}
-            onPressObservation={console.log}
-            getPreset={getPreset}
-          />
-        )}
-      </PresetsContext.Consumer>
-    )}
-  </ObservationsContext.Consumer>
-);
+class ObservationList extends React.Component {
+  static navigationOptions = {
+    title: "Observations"
+  };
 
-ObservationList.navigationOptions = {
-  title: "Observations"
-};
+  navigateToObservation = (observationId: string, params = {}) => {
+    const { navigation } = this.props;
+    navigation.navigate("ObservationDetail", { ...params, observationId });
+  };
+
+  render() {
+    return (
+      <ObservationsContext.Consumer>
+        {({ observations }) => (
+          <PresetsContext.Consumer>
+            {({ getPreset }) => (
+              <ObservationsList
+                observations={observations}
+                onPressObservation={this.navigateToObservation}
+                getPreset={getPreset}
+              />
+            )}
+          </PresetsContext.Consumer>
+        )}
+      </ObservationsContext.Consumer>
+    );
+  }
+}
 
 export default ObservationList;

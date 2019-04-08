@@ -7,9 +7,9 @@ import type { Observation } from "./ObservationsContext";
 
 const log = debug("mapeo:PresetsContext");
 
-export type Preset = {|
+type PresetBase<T> = {|
   icon?: string,
-  fields: string[],
+  fields?: T[],
   geometry: Array<"point" | "area" | "line" | "vertex" | "relation">,
   terms?: string[],
   tags: { [string]: any },
@@ -28,10 +28,13 @@ export type Field = {|
   universal?: boolean
 |};
 
+export type Preset = PresetBase<string>;
+export type PresetWithFields = PresetBase<Field>;
+
 type PresetsContext = {
   presets: { [string]: Preset },
   fields: { [string]: Field },
-  getPreset: (observation: Observation) => ?Preset,
+  getPreset: (observation: Observation) => ?PresetWithFields,
   loading: boolean,
   error?: boolean
 };
@@ -80,9 +83,16 @@ class PresetsProvider extends React.Component<Props, PresetsContext> {
     });
   }
 
-  getPreset(observation: Observation): ?Preset {
+  getPreset(observation: Observation): ?PresetWithFields {
     const categoryId = observation.value.tags.categoryId;
-    if (categoryId) return this.state.presets[categoryId];
+    if (!categoryId) return;
+    const { presets, fields } = this.state;
+    const preset = presets[categoryId];
+    if (!preset) return;
+    const presetWithFields = Object.assign({}, preset, {
+      fields: getFieldDefinitions(preset, fields)
+    });
+    return presetWithFields;
   }
 
   render() {
@@ -94,3 +104,10 @@ export default {
   Provider: PresetsProvider,
   Consumer: PresetsConsumer
 };
+
+function getFieldDefinitions(
+  preset: Preset,
+  fields: $ElementType<PresetsContext, "fields">
+): PresetWithFields {
+  return (preset.fields || []).map(fieldId => fields[fieldId]).filter(Boolean);
+}

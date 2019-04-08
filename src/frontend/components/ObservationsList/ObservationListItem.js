@@ -2,7 +2,8 @@
 import * as React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import ObservationIcon from "./ObservationIcon";
+import ObservationIcon from "../ObservationIcon";
+import Circle from "../Circle";
 
 const styles = StyleSheet.create({
   container: {
@@ -21,8 +22,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start"
   },
-  title: { fontSize: 18, fontWeight: "700", color: "black" },
-  media: { width: 60, height: 60, borderRadius: 7 }
+  title: { fontSize: 18, fontWeight: "700", color: "black" }
+  // media: { width: 60, height: 60, borderRadius: 7 }
 });
 
 type Props = {
@@ -50,9 +51,9 @@ const ObservationListItem = ({
         <Text style={styles.title}>{title}</Text>
         <Text>{subtitle}</Text>
       </View>
-      <View style={{ flexDirection: "column" }}>
+      <Circle>
         <ObservationIcon iconId={iconId} size="medium" />
-      </View>
+      </Circle>
     </View>
   </TouchableOpacity>
 );

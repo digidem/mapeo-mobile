@@ -34,7 +34,7 @@ const keyExtractor = item => item.id.toString();
 
 type Props = {
   observations: ObservationsMap,
-  onPressObservation: (id: string) => any,
+  onPressObservation: (id: string, params: {}) => any,
   getPreset: Observation => ?Preset
 };
 
@@ -67,7 +67,7 @@ const ObservationsList = ({
               title={name}
               iconId={icon}
               subtitle={createdAt}
-              onPress={() => onPressObservation(id)}
+              onPress={() => onPressObservation(id, { observationTitle: name })}
             />
           );
         }}

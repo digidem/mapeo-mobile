@@ -5,6 +5,7 @@ import {
 } from "react-navigation";
 import HomeScreen from "./HomeScreen";
 import ObservationListScreen from "./ObservationListScreen";
+import ObservationDetailScreen from "./ObservationDetailScreen";
 const AppNavigator = createStackNavigator(
   {
     Home: {
@@ -13,6 +14,10 @@ const AppNavigator = createStackNavigator(
     ObservationList: {
       screen: ObservationListScreen,
       path: "observations"
+    },
+    ObservationDetail: {
+      screen: ObservationDetailScreen,
+      path: "observations/:observationId"
     }
   },
   {
