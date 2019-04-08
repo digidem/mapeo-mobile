@@ -27,7 +27,7 @@ const getItemLayout = (data, index) => ({
   index
 });
 
-// $FlowFixMe - Flow thinks Object.values returns mixed type
+// $FlowIssue - Flow thinks Object.values returns mixed type
 const getValuesMemoized = memoize((obj): Observation[] => Object.values(obj));
 
 const keyExtractor = item => item.id.toString();

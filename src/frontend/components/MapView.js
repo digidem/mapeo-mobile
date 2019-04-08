@@ -45,7 +45,7 @@ function mapObservationsToFeatures(obs: ObservationsMap): ObservationFeature[] {
       type: "Feature",
       geometry: {
         type: "Point",
-        // $FlowFixMe - flow doesn't realise we filtered out undefined
+        // $FlowIssue - flow doesn't realise we filtered out undefined
         coordinates: [obs[id].value.lon, obs[id].value.lat]
       },
       properties: {
