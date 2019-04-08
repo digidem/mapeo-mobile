@@ -9,7 +9,7 @@
     "prettier/react",
     "prettier/standard"
   ],
-  "plugins": ["flowtype", "react", "prettier", "standard"],
+  "plugins": ["flowtype", "react", "prettier", "standard", "react-native"],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 6,
@@ -20,10 +20,12 @@
   },
   "env": {
     "es6": true,
-    "browser": true
+    "react-native/react-native": true
   },
   "rules": {
-    "react/prop-types": 0
+    "react/prop-types": 0,
+    "react-native/no-unused-styles": 2,
+    "react-native/no-raw-text": 2
   },
   "settings": {
     "react": {
