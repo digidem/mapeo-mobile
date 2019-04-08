@@ -2,14 +2,15 @@
 import * as React from "react";
 import debug from "debug";
 
-import { getPresets } from "../api";
+import { getPresets, getFields } from "../api";
 import type { Observation } from "./ObservationsContext";
 
 const log = debug("mapeo:PresetsContext");
 
-type PresetBase<T> = {|
+export type Preset = {|
+  id: string,
   icon?: string,
-  fields?: T[],
+  fields?: string[],
   geometry: Array<"point" | "area" | "line" | "vertex" | "relation">,
   terms?: string[],
   tags: { [string]: any },
@@ -20,6 +21,7 @@ type PresetBase<T> = {|
 |};
 
 export type Field = {|
+  id: string,
   key: string,
   type: "text" | "textarea" | "number" | "localized" | "check" | "combo",
   label: string,
@@ -28,20 +30,30 @@ export type Field = {|
   universal?: boolean
 |};
 
-export type Preset = PresetBase<string>;
-export type PresetWithFields = PresetBase<Field>;
+export type PresetWithFields = {|
+  id: string,
+  icon?: string,
+  fields: Field[],
+  geometry: Array<"point" | "area" | "line" | "vertex" | "relation">,
+  terms?: string[],
+  tags: { [string]: any },
+  name: string,
+  sort?: number,
+  matchScore?: number,
+  searchable?: boolean
+|};
 
 type PresetsContext = {
-  presets: { [string]: Preset },
-  fields: { [string]: Field },
-  getPreset: (observation: Observation) => ?PresetWithFields,
+  presets: Map<string, Preset>,
+  fields: Map<string, Field>,
+  getPreset: (observation: Observation) => PresetWithFields | void,
   loading: boolean,
   error?: boolean
 };
 
 const defaultContext = {
-  presets: {},
-  fields: {},
+  presets: new Map(),
+  fields: new Map(),
   getPreset: () => {},
   loading: false
 };
@@ -57,42 +69,58 @@ type Props = {
 
 class PresetsProvider extends React.Component<Props, PresetsContext> {
   state = {
-    presets: {},
-    fields: {},
+    presets: new Map(),
+    fields: new Map(),
     getPreset: this.getPreset.bind(this),
     loading: true
   };
 
   componentDidMount() {
-    getPresets((err, data) => {
+    getPresets((err, presetsList) => {
       if (err) {
         log("Error loading presets\n", err);
         this.setState({ error: true, loading: false });
         return;
       }
-      log(
-        `Loaded ${Object.keys(data.presets).length} presets and ${
-          Object.keys(data.fields).length
-        } fields`
-      );
+      log(`Loaded ${presetsList.length} presets`);
       this.setState({
-        presets: data.presets,
-        fields: data.fields,
+        presets: new Map(presetsList.map(p => [p.id, p])),
+        loading: false
+      });
+    });
+    getFields((err, fieldsList) => {
+      if (err) {
+        log("Error loading fields\n", err);
+        this.setState({ error: true, loading: false });
+        return;
+      }
+      log(`Loaded ${fieldsList.length} fields`);
+      this.setState({
+        fields: new Map(fieldsList.map(p => [p.id, p])),
         loading: false
       });
     });
   }
 
-  getPreset(observation: Observation): ?PresetWithFields {
+  addFieldDefinitions(preset: Preset): PresetWithFields {
+    const { fields } = this.state;
+    const fieldDefs = Array.isArray(preset.fields)
+      ? preset.fields.map(fieldId => fields.get(fieldId))
+      : [];
+    // $FlowFixMe - Need to figure out how to convert types like this
+    return {
+      ...preset,
+      fields: filterFalsy(fieldDefs)
+    };
+  }
+
+  getPreset(observation: Observation): PresetWithFields | void {
     const categoryId = observation.value.tags.categoryId;
     if (!categoryId) return;
-    const { presets, fields } = this.state;
-    const preset = presets[categoryId];
+    const { presets } = this.state;
+    const preset = presets.get(categoryId);
     if (!preset) return;
-    const presetWithFields = Object.assign({}, preset, {
-      fields: getFieldDefinitions(preset, fields)
-    });
-    return presetWithFields;
+    return this.addFieldDefinitions(preset);
   }
 
   render() {
@@ -105,9 +133,8 @@ export default {
   Consumer: PresetsConsumer
 };
 
-function getFieldDefinitions(
-  preset: Preset,
-  fields: $ElementType<PresetsContext, "fields">
-): PresetWithFields {
-  return (preset.fields || []).map(fieldId => fields[fieldId]).filter(Boolean);
+// This is a helper function to force the type definition
+// It filters an array to remove any falsy values
+function filterFalsy<T>(arr: Array<T | void>): Array<T> {
+  return arr.filter(Boolean);
 }

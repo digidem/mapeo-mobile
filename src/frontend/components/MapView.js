@@ -33,25 +33,29 @@ type ObservationFeature = {
  * @returns GeoJSON FeatureCollection with Features that have the observation
  * location and id
  */
-function mapObservationsToFeatures(obs: ObservationsMap): ObservationFeature[] {
-  if (!obs || Object.keys(obs).length === 0) return [];
-  return Object.keys(obs)
-    .filter(
-      id =>
-        typeof obs[id].value.lon !== "undefined" &&
-        typeof obs[id].value.lat !== "undefined"
-    )
-    .map(id => ({
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        // $FlowIssue - flow doesn't realise we filtered out undefined
-        coordinates: [obs[id].value.lon, obs[id].value.lat]
-      },
-      properties: {
-        id: id
-      }
-    }));
+function mapObservationsToFeatures(
+  obsMap: ObservationsMap
+): ObservationFeature[] {
+  const features = [];
+  for (let obs of obsMap.values()) {
+    // Only include observations with a location in the map view
+    if (
+      typeof obs.value.lon === "number" &&
+      typeof obs.value.lat === "number"
+    ) {
+      features.push({
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [obs.value.lon, obs.value.lat]
+        },
+        properties: {
+          id: obs.id
+        }
+      });
+    }
+  }
+  return features;
 }
 
 class ObservationMapLayer extends React.PureComponent<{
@@ -112,7 +116,7 @@ class Map extends React.Component<Props> {
 
     const observationId = pressedFeature.properties.id;
     const { observations, onPressObservation } = this.props;
-    if (observations[observationId]) {
+    if (observations.get(observationId)) {
       onPressObservation(observationId);
     } else {
       log(

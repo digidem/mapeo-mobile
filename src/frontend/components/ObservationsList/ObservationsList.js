@@ -8,7 +8,7 @@ import type {
   Observation,
   ObservationsMap
 } from "../../context/ObservationsContext";
-import type { Preset } from "../../context/PresetsContext";
+import type { PresetWithFields } from "../../context/PresetsContext";
 
 const OBSERVATION_CELL_HEIGHT = 80;
 
@@ -27,15 +27,16 @@ const getItemLayout = (data, index) => ({
   index
 });
 
-// $FlowIssue - Flow thinks Object.values returns mixed type
-const getValuesMemoized = memoize((obj): Observation[] => Object.values(obj));
+const getValuesMemoized = memoize(
+  (map): Observation[] => Array.from(map.values())
+);
 
 const keyExtractor = item => item.id.toString();
 
 type Props = {
   observations: ObservationsMap,
   onPressObservation: (id: string, params: {}) => any,
-  getPreset: Observation => ?Preset
+  getPreset: Observation => PresetWithFields | void
 };
 
 const ObservationsList = ({

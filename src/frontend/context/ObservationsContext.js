@@ -31,9 +31,7 @@ export type Observation = {
   value: ObservationValue
 };
 
-export type ObservationsMap = {
-  [id: string]: Observation
-};
+export type ObservationsMap = Map<string, Observation>;
 
 type ObservationsContext = {
   observations: ObservationsMap,
@@ -43,7 +41,7 @@ type ObservationsContext = {
 };
 
 const defaultContext = {
-  observations: {},
+  observations: new Map(),
   reload: () => {},
   loading: false
 };
@@ -59,7 +57,7 @@ type Props = {
 
 class ObservationsProvider extends React.Component<Props, ObservationsContext> {
   state = {
-    observations: {},
+    observations: new Map(),
     reload: this.reload,
     loading: false
   };
@@ -73,7 +71,7 @@ class ObservationsProvider extends React.Component<Props, ObservationsContext> {
     this.setState({ loading: true });
     getObservations((err, obsList) => {
       if (err) return this.handleError(err);
-      const observations = obsList.reduce(idReducer, {});
+      const observations = new Map(obsList.map(obs => [obs.id, obs]));
       this.setState({ observations, loading: false });
     });
   };
@@ -92,8 +90,3 @@ export default {
   Provider: ObservationsProvider,
   Consumer: ObservationsConsumer
 };
-
-function idReducer(acc, obs) {
-  acc[obs.id] = obs;
-  return acc;
-}
