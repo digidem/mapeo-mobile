@@ -18,6 +18,23 @@ const log = debug("mapeo:AppLoading");
 
 const DEFAULT_TIMEOUT = 10000; // 10 seconds
 
+/**
+ * Hide the spashscreen once children have mounted. If we hide before mounting
+ * then the user sees the <ServerStatus variant="waiting" /> screen.
+ */
+class HideSplashScreen extends React.Component<{ children: React.Node }> {
+  componentDidMount() {
+    // We need to leave a slight delay for the map to do an initial render
+    setTimeout(() => {
+      SplashScreen.hide();
+      log("hiding splashscreen");
+    }, 500);
+  }
+  render() {
+    return this.props.children;
+  }
+}
+
 type Props = {
   children: React.Node,
   /** Time (ms) to wait for heartbeat from server before showing error */
@@ -127,7 +144,11 @@ class AppLoading extends React.Component<Props, State> {
     if (nextAppState === "active") {
       this.restartTimeout();
       this.setState({ serverStatus: status.STARTING });
-    } else clearTimeout(this.timeoutId);
+    } else {
+      clearTimeout(this.timeoutId);
+      // Show splashscreen while app is in background
+      SplashScreen.show();
+    }
   };
 
   restartTimeout() {
@@ -142,8 +163,7 @@ class AppLoading extends React.Component<Props, State> {
     if (this.state.didTimeout) return <ServerStatus variant="timeout" />;
     switch (this.state.serverStatus) {
       case status.LISTENING:
-        SplashScreen.hide();
-        return this.props.children;
+        return <HideSplashScreen>{this.props.children}</HideSplashScreen>;
       case status.ERROR:
         return <ServerStatus variant="error" />;
       default:
