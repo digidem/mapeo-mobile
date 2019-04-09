@@ -6,6 +6,8 @@ import {
 import HomeScreen from "./HomeScreen";
 import ObservationListScreen from "./ObservationListScreen";
 import ObservationDetailScreen from "./ObservationDetailScreen";
+import ObservationEditScreen from "./ObservationEditScreen";
+
 const AppNavigator = createStackNavigator(
   {
     Home: {
@@ -18,6 +20,10 @@ const AppNavigator = createStackNavigator(
     ObservationDetail: {
       screen: ObservationDetailScreen,
       path: "observations/:observationId"
+    },
+    ObservationEdit: {
+      screen: ObservationEditScreen,
+      path: "observations/:observationId/edit"
     }
   },
   {

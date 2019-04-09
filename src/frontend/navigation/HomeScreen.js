@@ -1,18 +1,64 @@
+// @flow
 import * as React from "react";
-import { View, Dimensions } from "react-native";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+import { View, Dimensions, StyleSheet } from "react-native";
+import { TabView, TabBar } from "react-native-tab-view";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import debug from "debug";
+import type { NavigationScreenConfigProps } from "react-navigation";
 
 import CameraScreen from "./CameraScreen";
 import MapScreen from "./MapScreen";
 import ObservationListButton from "../components/ObservationListButton";
-import AddButton from "../components/AddButton";
+import DraftObservationContext from "../context/DraftObservationContext";
+import type { DraftObservationContext as DraftContextType } from "../context/DraftObservationContext";
 
-export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    header: null
-  };
+const log = debug("HomeScreen");
 
+const styles = StyleSheet.create({
+  listButtonContainer: {
+    position: "absolute",
+    zIndex: 10,
+    top: 0,
+    right: 0
+  }
+});
+
+class SceneComponent extends React.PureComponent<*> {
+  render() {
+    const { component, ...rest } = this.props;
+    return React.createElement(component, rest);
+  }
+}
+
+function SceneMap<T: *>(
+  scenes: { [key: string]: React.ComponentType<T> },
+  createObservation: $ElementType<DraftContextType, "addPhoto">
+) {
+  // eslint-disable-next-line react/display-name
+  return ({ route, jumpTo }: T) => (
+    <SceneComponent
+      key={route.key}
+      component={scenes[route.key]}
+      route={route}
+      jumpTo={jumpTo}
+      createObservation={createObservation}
+    />
+  );
+}
+
+type Props = {
+  ...NavigationScreenConfigProps,
+  addPhoto: $ElementType<DraftContextType, "addPhoto">,
+  setObservationValue: $ElementType<DraftContextType, "setValue">,
+  clearDraft: $ElementType<DraftContextType, "clear">
+};
+
+type State = {
+  index: number,
+  routes: any
+};
+
+class HomeScreen extends React.Component<Props, State> {
   state = {
     index: 0,
     routes: [
@@ -21,7 +67,8 @@ export default class HomeScreen extends React.Component {
     ]
   };
 
-  renderTabBar = props => (
+  renderTabBar = (props: any) => (
+    // $FlowFixMe
     <TabBar
       {...props}
       style={{ backgroundColor: "white" }}
@@ -33,48 +80,68 @@ export default class HomeScreen extends React.Component {
     />
   );
 
-  renderIcon({ route, color }) {
+  renderIcon({ route, color }: any) {
     return <Icon name={route.icon} size={30} color={color} />;
   }
+
+  createObservation = capture => {
+    log("createObservation");
+    const {
+      addPhoto,
+      clearDraft,
+      setObservationValue,
+      navigation
+    } = this.props;
+    clearDraft();
+    setObservationValue({ tags: {} });
+    addPhoto(capture);
+    navigation.push("ObservationEdit", { observationId: "NEW_OBSERVATION" });
+  };
 
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <View
-          style={{
-            position: "absolute",
-            zIndex: 10,
-            top: 0,
-            right: 0
-          }}
-        >
+        <View style={styles.listButtonContainer}>
           <ObservationListButton
             onPress={() => this.props.navigation.navigate("ObservationList")}
           />
         </View>
+        {/* $FlowFixMe */}
         <TabView
           swipeEnabled={this.state.index !== 0}
           tabBarPosition="bottom"
           navigationState={this.state}
-          renderScene={SceneMap({
-            map: MapScreen,
-            photo: CameraScreen
-          })}
+          renderScene={SceneMap(
+            {
+              map: MapScreen,
+              photo: CameraScreen
+            },
+            this.createObservation
+          )}
           renderTabBar={this.renderTabBar}
           onIndexChange={index => this.setState({ index })}
           initialLayout={{ width: Dimensions.get("window").width }}
         />
-        <View
-          style={{
-            position: "absolute",
-            zIndex: 10,
-            bottom: 75,
-            alignSelf: "center"
-          }}
-        >
-          <AddButton />
-        </View>
       </View>
     );
   }
 }
+
+const HomeScreenWithDraftProps = (props: NavigationScreenConfigProps) => (
+  <DraftObservationContext.Consumer>
+    {({ addPhoto, setValue, clear }) => (
+      <HomeScreen
+        {...props}
+        addPhoto={addPhoto}
+        setObservationValue={setValue}
+        clearDraft={clear}
+      />
+    )}
+  </DraftObservationContext.Consumer>
+);
+
+HomeScreenWithDraftProps.navigationOptions = {
+  header: null
+};
+
+export default HomeScreenWithDraftProps;
