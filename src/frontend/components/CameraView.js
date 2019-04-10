@@ -2,6 +2,7 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Camera } from "expo-camera";
+import debug from "debug";
 
 import withNavigationMount from "../hocs/withNavigationMount";
 import AddButton from "../components/AddButton";
@@ -10,6 +11,8 @@ import PermissionsContext, {
   RESULTS
 } from "../context/PermissionsContext";
 import type { DraftObservationContext } from "../context/DraftObservationContext";
+
+const log = debug("CameraView");
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -39,6 +42,7 @@ class CameraView extends React.Component<Props> {
   }
   handleAddButtonPress = () => {
     const camera = this.cameraRef.current;
+    if (!camera) return log("Camera view not ready");
     this.props.addPhoto(camera.takePictureAsync(captureOptions));
   };
   render() {
@@ -55,11 +59,9 @@ class CameraView extends React.Component<Props> {
                 type={Camera.Constants.Type.back}
                 useCamera2Api={false}
               />
-              {this.cameraRef.current && (
-                <View style={styles.buttonContainer}>
-                  <AddButton onPress={this.handleAddButtonPress} />
-                </View>
-              )}
+              <View style={styles.buttonContainer}>
+                <AddButton onPress={this.handleAddButtonPress} />
+              </View>
             </View>
           );
         }}
