@@ -1,13 +1,36 @@
 // @flow
 import React from "react";
-import { View, ActivityIndicator, Image } from "react-native";
+import { View, ActivityIndicator, Image, StyleSheet } from "react-native";
+import debug from "debug";
 
 import { getMediaUrl } from "../api";
-import { LIGHT_GREY, RED } from "../../../lib/styles";
+import { LIGHT_GREY } from "../lib/styles";
 import AlertIcon from "./icons/AlertIcon";
 
+const log = debug("Thumbnail");
+
+const styles = StyleSheet.create({
+  container: {
+    width: 65,
+    height: 65,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: LIGHT_GREY,
+    marginHorizontal: 5,
+    overflow: "hidden"
+  },
+  image: {
+    width: 65,
+    height: 65
+  }
+});
+
 type Props = {
-  attachmentId: string,
+  attachmentId?: string,
+  uri?: string,
+  loading: boolean,
+  error?: boolean,
   style?: any
 };
 
@@ -18,59 +41,31 @@ type State = {
 class Thumbnail extends React.PureComponent<Props, State> {
   state = { error: false };
 
-  handleImageError = () => {
+  handleImageError = (e: any) => {
+    log("Error loading image:\n", e.nativeEvent && e.nativeEvent.error);
     this.setState({ error: true });
   };
 
   render() {
-    const { attachmentId, style } = this.props;
-    const { error } = this.state;
-
-    if (
-      attachment &&
-      (attachment.status === "Pending" ||
-        attachment.status === "Failed" ||
-        !attachment.data)
-    ) {
-      return (
-        <View
-          style={[
-            {
-              width: 65,
-              height: 65,
-              borderRadius: 5,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: LIGHT_GREY,
-              marginHorizontal: 5
-            },
-            style
-          ]}
-        >
-          {attachment.status === "Pending" && <ActivityIndicator />}
-          {attachment.status === "Failed" && (
-            <Icons color={RED} name="alert" size={30} />
-          )}
-        </View>
-      );
-    }
-
+    const { attachmentId, loading, style } = this.props;
+    const uri = attachmentId
+      ? getMediaUrl(attachmentId, "thumbnail")
+      : this.props.uri;
+    const error = this.props.error || this.state.error;
     return (
-      <Image
-        onError={this.handleImageError}
-        source={{
-          uri: getMediaUrl(attachmentId)
-        }}
-        style={[
-          {
-            width: 65,
-            height: 65,
-            borderRadius: 5,
-            marginHorizontal: 5
-          },
-          style
-        ]}
-      />
+      <View style={[styles.container, style]}>
+        {error ? (
+          <AlertIcon />
+        ) : loading ? (
+          <ActivityIndicator />
+        ) : (
+          <Image
+            onError={this.handleImageError}
+            source={{ uri }}
+            style={styles.image}
+          />
+        )}
+      </View>
     );
   }
 }

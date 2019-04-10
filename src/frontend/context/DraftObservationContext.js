@@ -13,20 +13,20 @@ const log = debug("mapeo:DraftObservationContext");
  * cancellation of any edits. During photo capture a preview is available to
  * show in the UI while the full-res photo is saved.
  */
-type Photo = {
+export type Photo = {|
   // id of the photo in the Mapeo database, only set if this is already saved
   id?: string,
   // uri to a local thumbnail image (this is uploaded to Mapeo server)
   thumbnailUri?: string,
-  // uri to a temporary preview image, discarded after save
-  previewUri?: string,
   // uri to a local full-resolution image (this is uploaded to Mapeo server)
   fullUri?: string,
   // If an image is to be deleted
   deleted?: boolean,
   // If there was any kind of error on image capture
-  error?: boolean
-};
+  error?: boolean,
+  // If the photo is still being captured
+  capturing: boolean
+|};
 
 type CapturePromise = Promise<{ uri: string, width: number, height: number }>;
 
@@ -40,7 +40,7 @@ export type DraftObservationContext = {|
    * resolves to a uri of a preview image, for faster display of the thumbnail
    * during full-size photo capture
    */
-  addPhoto: (capture: CapturePromise, preview?: Promise<string>) => void,
+  addPhoto: (capture: CapturePromise) => void,
   // Wait for photos to finish saving and return an ObservationValue object
   // ready to be saved in the database
   getForSave: (cb: (error: Error, ObservationValue) => any) => void,
@@ -86,7 +86,8 @@ class DraftObservationProvider extends React.Component<
     log("current state", this.state.photos);
     this.setState(
       state => ({
-        photos: [...state.photos, {}]
+        // If the photo is still being captured
+        photos: [...state.photos, { capturing: true }]
       }),
       onSetState
     );
@@ -97,7 +98,8 @@ class DraftObservationProvider extends React.Component<
     // 2. Resize the image to get a thumbnail ready for display & upload
     function onSetState() {
       const index = this.state.photos.length - 1;
-      const photo: Photo = {};
+      // If the photo is still being captured
+      const photo: Photo = { capturing: false };
       // If we clear the draft we need to track any pending promises and cancel
       // them before they setState
       const signal = {};

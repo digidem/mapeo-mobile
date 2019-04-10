@@ -3,21 +3,17 @@ import { Text, Image } from "react-native";
 
 import DraftObservationContext from "../context/DraftObservationContext";
 import CenteredView from "../components/CenteredView";
+import Thumbnail from "../components/Thumbnail";
 
 const ObservationEditScreen = () => (
   <DraftObservationContext.Consumer>
     {({ photos }) => (
       <CenteredView>
-        {photos[0].thumbnailUri ? (
-          <Image
-            source={{
-              uri: photos[0].thumbnailUri
-            }}
-            style={{ width: 200, height: 200 }}
-          />
-        ) : (
-          <Text>{JSON.stringify(photos, null, 2)}</Text>
-        )}
+        <Thumbnail
+          uri={photos[0].thumbnailUri}
+          loading={photos[0].capturing}
+          error={photos[0].error}
+        />
       </CenteredView>
     )}
   </DraftObservationContext.Consumer>
