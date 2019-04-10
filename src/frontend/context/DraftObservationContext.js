@@ -80,11 +80,10 @@ class DraftObservationProvider extends React.Component<
     setValue: this.setValue.bind(this),
     clear: this.clear.bind(this)
   };
+  pending = [];
 
   addPhoto(capture: CapturePromise) {
-    const { photos } = this.state;
-    const self = this;
-    const index = photos.length;
+    log("current state", this.state.photos);
     this.setState(
       state => ({
         photos: [...state.photos, {}]
@@ -97,26 +96,33 @@ class DraftObservationProvider extends React.Component<
     // 1. Wait for the image capture to complete
     // 2. Resize the image to get a thumbnail ready for display & upload
     function onSetState() {
-      log("Set state done");
+      const index = this.state.photos.length - 1;
       const photo: Photo = {};
+      // If we clear the draft we need to track any pending promises and cancel
+      // them before they setState
+      const signal = {};
+      this.pending.push(signal);
       capture
         .then(({ uri, width, height }) => {
-          log("captured image", uri);
+          if (signal.cancelled) throw new Error("Cancelled");
+          log("captured image", uri, signal);
           photo.fullUri = uri;
           return ImageResizer.createResizedImage(uri, 300, 300, "JPEG", 50);
         })
         .then(({ uri }) => {
-          log("resized image", uri);
+          if (signal.cancelled) throw new Error("Cancelled");
+          log("resized image", uri, signal);
           photo.thumbnailUri = uri;
-          log("new photo", photo);
-          self.setState(state => ({
+          this.setState(state => ({
             photos: splice(state.photos, index, photo)
           }));
         })
         .catch(err => {
-          log("Error capturing image:\n", err);
+          if (signal.cancelled || err.message === "Cancelled")
+            return log("Cancelled!");
+          log("Error capturing image:\n", err, signal);
           photo.error = true;
-          self.setState(state => ({
+          this.setState(state => ({
             photos: splice(state.photos, index, photo)
           }));
         });
@@ -136,6 +142,9 @@ class DraftObservationProvider extends React.Component<
 
   clear() {
     // TODO: Cleanup photos and previews in temp storage here
+    // Signal any pending photo captures to cancel:
+    this.pending.forEach(signal => (signal.cancelled = true));
+    this.pending = [];
     this.setState({
       photos: [],
       value: null
