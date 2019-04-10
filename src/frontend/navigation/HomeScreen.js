@@ -95,7 +95,8 @@ class HomeScreen extends React.Component<Props, State> {
     clearDraft();
     setObservationValue({ tags: {} });
     addPhoto(capture);
-    navigation.push("ObservationEdit", { observationId: "NEW_OBSERVATION" });
+    // $FlowFixMe - need to fix type that navigation prop is not optional
+    navigation.push("NewObservation", { observationId: "NEW_OBSERVATION" });
   };
 
   render() {
@@ -103,7 +104,10 @@ class HomeScreen extends React.Component<Props, State> {
       <View style={{ flex: 1 }}>
         <View style={styles.listButtonContainer}>
           <ObservationListButton
-            onPress={() => this.props.navigation.navigate("ObservationList")}
+            onPress={() => {
+              // $FlowFixMe - need to fix type that navigation prop is not optional
+              this.props.navigation.navigate("ObservationList");
+            }}
           />
         </View>
         {/* $FlowFixMe */}
