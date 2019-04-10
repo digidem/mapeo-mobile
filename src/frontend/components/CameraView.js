@@ -34,8 +34,9 @@ type Props = {
   addPhoto: $ElementType<DraftObservationContext, "addPhoto">
 };
 
-class CameraView extends React.Component<Props> {
+class CameraView extends React.Component<Props, { takingPicture: boolean }> {
   cameraRef: { current: any };
+  state = { takingPicture: false };
   constructor(props) {
     super(props);
     this.cameraRef = React.createRef();
@@ -43,9 +44,21 @@ class CameraView extends React.Component<Props> {
   handleAddButtonPress = () => {
     const camera = this.cameraRef.current;
     if (!camera) return log("Camera view not ready");
-    this.props.addPhoto(camera.takePictureAsync(captureOptions));
+    if (this.state.takingPicture) return log("Shutter pressed twice");
+    const capture = camera.takePictureAsync(captureOptions);
+    this.setState(
+      {
+        takingPicture: true
+      },
+      () => {
+        // Slight wierness with a expo-camera bug: if we navigate away straight
+        // away then the capture promise never resolves.
+        setTimeout(this.props.addPhoto, 0, capture);
+      }
+    );
   };
   render() {
+    const { takingPicture } = this.state;
     return (
       <PermissionsContext.Consumer>
         {({ permissions }) => {
@@ -59,7 +72,12 @@ class CameraView extends React.Component<Props> {
                 type={Camera.Constants.Type.back}
                 useCamera2Api={false}
               />
-              <View style={styles.buttonContainer}>
+              <View
+                style={[
+                  styles.buttonContainer,
+                  { opacity: takingPicture ? 0.5 : 1 }
+                ]}
+              >
                 <AddButton onPress={this.handleAddButtonPress} />
               </View>
             </View>
