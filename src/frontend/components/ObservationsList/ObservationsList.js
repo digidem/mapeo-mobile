@@ -68,7 +68,7 @@ const ObservationsList = ({
               title={name}
               iconId={icon}
               subtitle={createdAt}
-              onPress={() => onPressObservation(id, { observationTitle: name })}
+              onPress={onPressObservation}
             />
           );
         }}

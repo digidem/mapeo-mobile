@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  onPress: () => any,
+  onPress: (string, {}) => any,
   title: string,
   subtitle?: string,
   imageSrc?: string,
@@ -45,7 +45,10 @@ const ObservationListItem = ({
   style,
   id
 }: Props) => (
-  <TouchableOpacity onPress={onPress} testID={"ObservationListItem:" + id}>
+  <TouchableOpacity
+    onPress={() => onPress(id, { observationTitle: title })}
+    testID={"ObservationListItem:" + id}
+  >
     <View style={{ ...styles.container, ...style }}>
       <View style={styles.text}>
         <Text style={styles.title}>{title}</Text>
