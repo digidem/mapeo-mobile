@@ -38,7 +38,7 @@ export type CapturePromise = Promise<{
 
 export type DraftObservationContext = {|
   photos: Photo[],
-  value: ObservationValue | null,
+  value: ObservationValue,
   /**
    * Adds a photo to the draft observation. The first argument is a promise
    * which returns a uri to a local image file (in temp cache) and the image
@@ -59,7 +59,7 @@ export type DraftObservationContext = {|
 
 const defaultContext = {
   photos: [],
-  value: null,
+  value: { tags: {} },
   addPhoto: () => {},
   save: () => {},
   setValue: () => {},
@@ -82,7 +82,7 @@ class DraftObservationProvider extends React.Component<
 > {
   state = {
     photos: [],
-    value: null,
+    value: { tags: {} },
     addPhoto: this.addPhoto.bind(this),
     save: this.getForSave.bind(this),
     setValue: this.setValue.bind(this),
@@ -156,10 +156,10 @@ class DraftObservationProvider extends React.Component<
   }
 
   clear() {
-    this.new(null);
+    this.new({ tags: {} });
   }
 
-  new(value: ObservationValue | null, capture?: CapturePromise) {
+  new(value: ObservationValue, capture?: CapturePromise) {
     // TODO: Cleanup photos and previews in temp storage here
     // Signal any pending photo captures to cancel:
     this.pending.forEach(signal => (signal.cancelled = true));

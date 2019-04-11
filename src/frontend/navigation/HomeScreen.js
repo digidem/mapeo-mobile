@@ -52,7 +52,7 @@ function SceneMap<T: *>(
 }
 
 type Props = {
-  ...NavigationScreenConfigProps,
+  ...$Exact<NavigationScreenConfigProps>,
   draft: DraftContextType
 };
 
@@ -95,11 +95,10 @@ class HomeScreen extends React.Component<Props, State> {
     log("pressed add button");
     const { draft, navigation } = this.props;
     draft.new({ tags: {} }, capture);
-    // $FlowFixMe - need to fix type that navigation prop is not optional
     navigation.navigate(
       "NewObservation",
       {},
-      NavigationActions.navigate({ routeName: "ObservationCategories" })
+      NavigationActions.navigate({ routeName: "CategoryChooser" })
     );
   };
 
@@ -109,7 +108,6 @@ class HomeScreen extends React.Component<Props, State> {
         <View style={styles.listButtonContainer}>
           <ObservationListButton
             onPress={() => {
-              // $FlowFixMe - need to fix type that navigation prop is not optional
               this.props.navigation.navigate("ObservationList");
             }}
           />

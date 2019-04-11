@@ -43,9 +43,12 @@ export type PresetWithFields = {|
   searchable?: boolean
 |};
 
+export type PresetsMap = Map<string, Preset>;
+export type FieldsMap = Map<string, Field>;
+
 type PresetsContext = {
-  presets: Map<string, Preset>,
-  fields: Map<string, Field>,
+  presets: PresetsMap,
+  fields: FieldsMap,
   getPreset: (observation: Observation) => PresetWithFields | void,
   loading: boolean,
   error?: boolean

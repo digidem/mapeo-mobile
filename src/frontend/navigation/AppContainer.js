@@ -7,15 +7,15 @@ import HomeScreen from "./HomeScreen";
 import ObservationListScreen from "./ObservationListScreen";
 import ObservationDetailScreen from "./ObservationDetailScreen";
 import ObservationEditScreen from "./ObservationEditScreen";
-import ObservationCategoriesScreen from "./ObservationCategoriesScreen";
+import CategoriesScreen from "./CategoriesScreen";
 
 const EditStack = createStackNavigator(
   {
     ObservationEdit: {
       screen: ObservationEditScreen
     },
-    ObservationCategories: {
-      screen: ObservationCategoriesScreen
+    CategoryChooser: {
+      screen: CategoriesScreen
     }
   },
   {
