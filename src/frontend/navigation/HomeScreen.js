@@ -3,14 +3,19 @@ import * as React from "react";
 import { View, Dimensions, StyleSheet } from "react-native";
 import { TabView, TabBar } from "react-native-tab-view";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { NavigationActions } from "react-navigation";
 import debug from "debug";
+
 import type { NavigationScreenConfigProps } from "react-navigation";
 
 import CameraScreen from "./CameraScreen";
 import MapScreen from "./MapScreen";
 import ObservationListButton from "../components/ObservationListButton";
-import DraftObservationContext from "../context/DraftObservationContext";
-import type { DraftObservationContext as DraftContextType } from "../context/DraftObservationContext";
+import { withDraft } from "../context/DraftObservationContext";
+import type {
+  DraftObservationContext as DraftContextType,
+  CapturePromise
+} from "../context/DraftObservationContext";
 
 const log = debug("HomeScreen");
 
@@ -32,7 +37,7 @@ class SceneComponent extends React.PureComponent<*> {
 
 function SceneMap<T: *>(
   scenes: { [key: string]: React.ComponentType<T> },
-  createObservation: $ElementType<DraftContextType, "addPhoto">
+  onAddPress: $ElementType<DraftContextType, "addPhoto">
 ) {
   // eslint-disable-next-line react/display-name
   return ({ route, jumpTo }: T) => (
@@ -41,16 +46,14 @@ function SceneMap<T: *>(
       component={scenes[route.key]}
       route={route}
       jumpTo={jumpTo}
-      createObservation={createObservation}
+      onAddPress={onAddPress}
     />
   );
 }
 
 type Props = {
   ...NavigationScreenConfigProps,
-  addPhoto: $ElementType<DraftContextType, "addPhoto">,
-  setObservationValue: $ElementType<DraftContextType, "setValue">,
-  clearDraft: $ElementType<DraftContextType, "clear">
+  draft: DraftContextType
 };
 
 type State = {
@@ -59,6 +62,10 @@ type State = {
 };
 
 class HomeScreen extends React.Component<Props, State> {
+  static navigationOptions = {
+    header: null
+  };
+
   state = {
     index: 0,
     routes: [
@@ -84,19 +91,16 @@ class HomeScreen extends React.Component<Props, State> {
     return <Icon name={route.icon} size={30} color={color} />;
   }
 
-  createObservation = capture => {
-    log("createObservation");
-    const {
-      addPhoto,
-      clearDraft,
-      setObservationValue,
-      navigation
-    } = this.props;
-    clearDraft();
-    setObservationValue({ tags: {} });
-    addPhoto(capture);
+  handleAddPress = (e: any, capture?: CapturePromise) => {
+    log("pressed add button");
+    const { draft, navigation } = this.props;
+    draft.new({ tags: {} }, capture);
     // $FlowFixMe - need to fix type that navigation prop is not optional
-    navigation.push("NewObservation", { observationId: "NEW_OBSERVATION" });
+    navigation.navigate(
+      "NewObservation",
+      {},
+      NavigationActions.navigate({ routeName: "ObservationCategories" })
+    );
   };
 
   render() {
@@ -120,7 +124,7 @@ class HomeScreen extends React.Component<Props, State> {
               map: MapScreen,
               photo: CameraScreen
             },
-            this.createObservation
+            this.handleAddPress
           )}
           renderTabBar={this.renderTabBar}
           onIndexChange={index => this.setState({ index })}
@@ -131,21 +135,4 @@ class HomeScreen extends React.Component<Props, State> {
   }
 }
 
-const HomeScreenWithDraftProps = (props: NavigationScreenConfigProps) => (
-  <DraftObservationContext.Consumer>
-    {({ addPhoto, setValue, clear }) => (
-      <HomeScreen
-        {...props}
-        addPhoto={addPhoto}
-        setObservationValue={setValue}
-        clearDraft={clear}
-      />
-    )}
-  </DraftObservationContext.Consumer>
-);
-
-HomeScreenWithDraftProps.navigationOptions = {
-  header: null
-};
-
-export default HomeScreenWithDraftProps;
+export default withDraft(HomeScreen);

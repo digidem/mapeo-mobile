@@ -4,6 +4,7 @@ import MapboxGL from "@mapbox/react-native-mapbox-gl";
 
 import type { MapStyle } from "../types/map";
 import type { ObservationsMap } from "../context/ObservationsContext";
+import AddButton from "../components/AddButton";
 import debug from "debug";
 
 const log = debug("mapeo:MapView");
@@ -83,12 +84,13 @@ class ObservationMapLayer extends React.PureComponent<{
 type Props = {
   observations: ObservationsMap,
   mapStyle?: MapStyle,
+  onAddPress: () => void,
   onPressObservation: (observationId: string) => void
 };
 
-class Map extends React.Component<Props> {
+class MapView extends React.Component<Props> {
   static defaultProps = {
-    observations: {},
+    onAddPress: () => {},
     onPressObservation: () => {}
   };
 
@@ -132,27 +134,30 @@ class Map extends React.Component<Props> {
   };
 
   render() {
-    const { observations } = this.props;
+    const { observations, onAddPress } = this.props;
 
     return (
-      <MapboxGL.MapView
-        style={{ flex: 1 }}
-        ref={this.handleMapViewRef}
-        maxZoomLevel={22}
-        logoEnabled
-        pitchEnabled={false}
-        rotateEnabled={false}
-        onPress={this.handleObservationPress}
-        compassEnabled={false}
-        styleURL="mapbox://styles/mapbox/outdoors-v9"
-      >
-        <ObservationMapLayer
+      <>
+        <MapboxGL.MapView
+          style={{ flex: 1 }}
+          ref={this.handleMapViewRef}
+          maxZoomLevel={22}
+          logoEnabled
+          pitchEnabled={false}
+          rotateEnabled={false}
           onPress={this.handleObservationPress}
-          observations={observations}
-        />
-      </MapboxGL.MapView>
+          compassEnabled={false}
+          styleURL="mapbox://styles/mapbox/outdoors-v9"
+        >
+          <ObservationMapLayer
+            onPress={this.handleObservationPress}
+            observations={observations}
+          />
+        </MapboxGL.MapView>
+        <AddButton onPress={onAddPress} />
+      </>
     );
   }
 }
 
-export default Map;
+export default MapView;

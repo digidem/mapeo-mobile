@@ -5,11 +5,15 @@ import { View } from "react-native";
 import MapView from "../components/MapView";
 import ObservationsContext from "../context/ObservationsContext";
 
-const MapScreen = () => (
+type Props = {
+  onAddPress: () => void
+};
+
+const MapScreen = ({ onAddPress }: Props) => (
   <View style={{ flex: 1 }}>
     <ObservationsContext.Consumer>
       {({ observations }) => (
-        <MapView observations={observations} onPressObservation={console.log} />
+        <MapView observations={observations} onAddPress={onAddPress} />
       )}
     </ObservationsContext.Consumer>
   </View>

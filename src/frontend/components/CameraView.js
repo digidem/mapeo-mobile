@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View } from "react-native";
 import { Camera } from "expo-camera";
 import debug from "debug";
 
@@ -10,18 +10,9 @@ import PermissionsContext, {
   PERMISSIONS,
   RESULTS
 } from "../context/PermissionsContext";
-import type { DraftObservationContext } from "../context/DraftObservationContext";
+import type { CapturePromise } from "../context/DraftObservationContext";
 
 const log = debug("CameraView");
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    position: "absolute",
-    zIndex: 10,
-    bottom: 25,
-    alignSelf: "center"
-  }
-});
 
 const captureOptions = {
   quality: 0.75,
@@ -31,7 +22,7 @@ const captureOptions = {
 };
 
 type Props = {
-  addPhoto: $ElementType<DraftObservationContext, "addPhoto">
+  onAddPress: (e: any, capture: CapturePromise) => void
 };
 
 class CameraView extends React.Component<Props, { takingPicture: boolean }> {
@@ -41,7 +32,7 @@ class CameraView extends React.Component<Props, { takingPicture: boolean }> {
     super(props);
     this.cameraRef = React.createRef();
   }
-  handleAddButtonPress = () => {
+  handleAddPress = (e: any) => {
     const camera = this.cameraRef.current;
     if (!camera) return log("Camera view not ready");
     if (this.state.takingPicture) return log("Shutter pressed twice");
@@ -51,9 +42,9 @@ class CameraView extends React.Component<Props, { takingPicture: boolean }> {
         takingPicture: true
       },
       () => {
-        // Slight wierness with a expo-camera bug: if we navigate away straight
+        // Slight weirdness with a expo-camera bug: if we navigate away straight
         // away then the capture promise never resolves.
-        setTimeout(this.props.addPhoto, 0, capture);
+        setTimeout(this.props.onAddPress, 0, e, capture);
       }
     );
   };
@@ -72,14 +63,10 @@ class CameraView extends React.Component<Props, { takingPicture: boolean }> {
                 type={Camera.Constants.Type.back}
                 useCamera2Api={false}
               />
-              <View
-                style={[
-                  styles.buttonContainer,
-                  { opacity: takingPicture ? 0.5 : 1 }
-                ]}
-              >
-                <AddButton onPress={this.handleAddButtonPress} />
-              </View>
+              <AddButton
+                onPress={this.handleAddPress}
+                style={{ opacity: takingPicture ? 0.5 : 1 }}
+              />
             </View>
           );
         }}

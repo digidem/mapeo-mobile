@@ -7,8 +7,25 @@ import HomeScreen from "./HomeScreen";
 import ObservationListScreen from "./ObservationListScreen";
 import ObservationDetailScreen from "./ObservationDetailScreen";
 import ObservationEditScreen from "./ObservationEditScreen";
+import ObservationCategoriesScreen from "./ObservationCategoriesScreen";
 
-const AppNavigator = createStackNavigator(
+const EditStack = createStackNavigator(
+  {
+    ObservationEdit: {
+      screen: ObservationEditScreen
+    },
+    ObservationCategories: {
+      screen: ObservationCategoriesScreen
+    }
+  },
+  {
+    initialRouteName: "ObservationEdit",
+    gesturesEnabled: true,
+    transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS
+  }
+);
+
+const MainStack = createStackNavigator(
   {
     Home: {
       screen: HomeScreen
@@ -22,7 +39,7 @@ const AppNavigator = createStackNavigator(
       path: "observations/:observationId"
     },
     ObservationEdit: {
-      screen: ObservationEditScreen,
+      screen: EditStack,
       path: "observations/:observationId/edit"
     }
   },
@@ -33,4 +50,21 @@ const AppNavigator = createStackNavigator(
   }
 );
 
-export default createAppContainer(AppNavigator);
+const RootStack = createStackNavigator(
+  {
+    Main: {
+      screen: MainStack
+    },
+    NewObservation: {
+      screen: EditStack
+    }
+  },
+  {
+    initialRouteName: "Main",
+    gesturesEnabled: true,
+    mode: "modal",
+    headerMode: "none"
+  }
+);
+
+export default createAppContainer(RootStack);

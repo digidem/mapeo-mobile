@@ -2,15 +2,20 @@ import React from "react";
 import { Text, TouchableHighlight } from "react-native";
 
 import CenteredView from "../components/CenteredView";
-import Thumbnail from "../components/Thumbnail";
 
-class ObservationEditScreen extends React.Component {
+class ObservationCategoriesScreen extends React.Component {
+  componentDidMount() {
+    console.log("Categories mount");
+  }
+  componentWillUnmount() {
+    console.log("Categories UNmount");
+  }
   render() {
     const { navigation } = this.props;
     return (
       <CenteredView>
         <TouchableHighlight
-          onPress={() => navigation.push("ObservationCategories")}
+          onPress={() => navigation.navigate("ObservationEdit")}
         >
           <Text style={{ padding: 50, backgroundColor: "#cccccc" }}>
             Navigate
@@ -21,8 +26,8 @@ class ObservationEditScreen extends React.Component {
   }
 }
 
-ObservationEditScreen.navigationOptions = {
-  title: "Edit"
+ObservationCategoriesScreen.navigationOptions = {
+  title: "Category"
 };
 
-export default ObservationEditScreen;
+export default ObservationCategoriesScreen;

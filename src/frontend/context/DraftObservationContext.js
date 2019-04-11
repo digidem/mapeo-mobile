@@ -2,7 +2,9 @@
 import * as React from "react";
 import ImageResizer from "react-native-image-resizer";
 import debug from "debug";
+import hoistStatics from "hoist-non-react-statics";
 
+import { getDisplayName } from "../lib/utils";
 import type { ObservationValue } from "./ObservationsContext";
 
 const log = debug("mapeo:DraftObservationContext");
@@ -28,7 +30,11 @@ export type Photo = {|
   capturing: boolean
 |};
 
-type CapturePromise = Promise<{ uri: string, width: number, height: number }>;
+export type CapturePromise = Promise<{
+  uri: string,
+  width: number,
+  height: number
+}>;
 
 export type DraftObservationContext = {|
   photos: Photo[],
@@ -41,22 +47,24 @@ export type DraftObservationContext = {|
    * during full-size photo capture
    */
   addPhoto: (capture: CapturePromise) => void,
-  // Wait for photos to finish saving and return an ObservationValue object
-  // ready to be saved in the database
-  getForSave: (cb: (error: Error, ObservationValue) => any) => void,
+  // Save draft to server
+  save: () => void,
   // Performs a shallow merge of the observation value, like setState
-  setValue: ObservationValue => void,
+  setValue: (value: ObservationValue) => void,
   // Clear the current draft
-  clear: () => void
+  clear: () => void,
+  // Create a new draft observation
+  new: (value: ObservationValue, capture?: CapturePromise) => void
 |};
 
 const defaultContext = {
   photos: [],
   value: null,
   addPhoto: () => {},
-  getForSave: () => {},
+  save: () => {},
   setValue: () => {},
-  clear: () => {}
+  clear: () => {},
+  new: () => {}
 };
 
 const {
@@ -76,9 +84,10 @@ class DraftObservationProvider extends React.Component<
     photos: [],
     value: null,
     addPhoto: this.addPhoto.bind(this),
-    getForSave: this.getForSave.bind(this),
+    save: this.getForSave.bind(this),
     setValue: this.setValue.bind(this),
-    clear: this.clear.bind(this)
+    clear: this.clear.bind(this),
+    new: this.new.bind(this)
   };
   pending = [];
 
@@ -114,12 +123,16 @@ class DraftObservationProvider extends React.Component<
         .then(({ uri }) => {
           if (signal.cancelled) throw new Error("Cancelled");
           log("resized image", uri, signal);
+          // Remove from pending
+          this.pending = this.pending.filter(s => s !== signal);
           photo.thumbnailUri = uri;
           this.setState(state => ({
             photos: splice(state.photos, index, photo)
           }));
         })
         .catch(err => {
+          // Remove from pending
+          this.pending = this.pending.filter(s => s !== signal);
           if (signal.cancelled || err.message === "Cancelled")
             return log("Cancelled!");
           log("Error capturing image:\n", err, signal);
@@ -143,20 +156,39 @@ class DraftObservationProvider extends React.Component<
   }
 
   clear() {
+    this.new(null);
+  }
+
+  new(value: ObservationValue | null, capture?: CapturePromise) {
     // TODO: Cleanup photos and previews in temp storage here
     // Signal any pending photo captures to cancel:
     this.pending.forEach(signal => (signal.cancelled = true));
     this.pending = [];
-    this.setState({
-      photos: [],
-      value: null
-    });
+    this.setState(
+      {
+        photos: [],
+        value: value
+      },
+      () => {
+        if (capture) this.addPhoto(capture);
+      }
+    );
   }
 
   render() {
     return <Provider value={this.state}>{this.props.children}</Provider>;
   }
 }
+
+export const withDraft = (WrappedComponent: any) => {
+  const WithDraft = (props: any) => (
+    <DraftObservationConsumer>
+      {draft => <WrappedComponent {...props} draft={draft} />}
+    </DraftObservationConsumer>
+  );
+  WithDraft.displayName = `WithDraft(${getDisplayName(WrappedComponent)})`;
+  return hoistStatics(WithDraft, WrappedComponent);
+};
 
 export default {
   Provider: DraftObservationProvider,

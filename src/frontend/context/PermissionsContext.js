@@ -3,6 +3,8 @@ import * as React from "react";
 import { PermissionsAndroid } from "react-native";
 import debug from "debug";
 
+import { getDisplayName } from "../lib/utils";
+
 const log = debug("mapeo:Permissions");
 
 export type PermissionResult = "granted" | "denied" | "never_ask_again";
@@ -119,7 +121,3 @@ export default {
   Provider: PermissionsProvider,
   Consumer: PermissionsConsumer
 };
-
-function getDisplayName(WrappedComponent) {
-  return WrappedComponent.displayName || WrappedComponent.name || "Component";
-}
