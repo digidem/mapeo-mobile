@@ -1,10 +1,10 @@
 // @flow
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
+import { NavigationEvents, withNavigationFocus } from "react-navigation";
 import { Camera } from "expo-camera";
 import debug from "debug";
 
-import withNavigationMount from "../hocs/withNavigationMount";
 import AddButton from "../components/AddButton";
 import PermissionsContext, {
   PERMISSIONS,
@@ -14,6 +14,13 @@ import type { CapturePromise } from "../context/DraftObservationContext";
 
 const log = debug("CameraView");
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "black"
+  }
+});
+
 const captureOptions = {
   quality: 0.75,
   base64: false,
@@ -22,16 +29,24 @@ const captureOptions = {
 };
 
 type Props = {
-  onAddPress: (e: any, capture: CapturePromise) => void
+  onAddPress: (e: any, capture: CapturePromise) => void,
+  isFocused: boolean
 };
 
-class CameraView extends React.Component<Props, { takingPicture: boolean }> {
+type State = {
+  takingPicture: boolean,
+  showCamera: boolean
+};
+
+class CameraView extends React.Component<Props, State> {
   cameraRef: { current: any };
-  state = { takingPicture: false };
-  constructor(props) {
+  state = { takingPicture: false, showCamera: true };
+
+  constructor(props: Props) {
     super(props);
     this.cameraRef = React.createRef();
   }
+
   handleAddPress = (e: any) => {
     const camera = this.cameraRef.current;
     if (!camera) return log("Camera view not ready");
@@ -48,6 +63,18 @@ class CameraView extends React.Component<Props, { takingPicture: boolean }> {
       }
     );
   };
+
+  componentDidUpdate(prevProps) {
+    // When the camera view returns to view the camera needs to be re-mounted or
+    // otherwise it will not work, so this trick re-mounts the camera when this
+    // view comes into focus
+    if (!prevProps.isFocused && this.props.isFocused) {
+      this.setState({ showCamera: false });
+    } else if (!this.state.showCamera && this.props.isFocused) {
+      this.setState({ showCamera: true });
+    }
+  }
+
   render() {
     const { takingPicture } = this.state;
     return (
@@ -56,13 +83,15 @@ class CameraView extends React.Component<Props, { takingPicture: boolean }> {
           if (permissions[PERMISSIONS.CAMERA] !== RESULTS.GRANTED)
             return <Text>No access to camera</Text>;
           return (
-            <View style={{ flex: 1 }}>
-              <Camera
-                ref={this.cameraRef}
-                style={{ flex: 1 }}
-                type={Camera.Constants.Type.back}
-                useCamera2Api={false}
-              />
+            <View style={styles.container}>
+              {this.state.showCamera && (
+                <Camera
+                  ref={this.cameraRef}
+                  style={{ flex: 1 }}
+                  type={Camera.Constants.Type.back}
+                  useCamera2Api={false}
+                />
+              )}
               <AddButton
                 onPress={this.handleAddPress}
                 style={{ opacity: takingPicture ? 0.5 : 1 }}
@@ -75,4 +104,4 @@ class CameraView extends React.Component<Props, { takingPicture: boolean }> {
   }
 }
 
-export default withNavigationMount(CameraView);
+export default withNavigationFocus(CameraView);
