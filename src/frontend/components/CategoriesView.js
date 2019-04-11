@@ -9,12 +9,15 @@ import {
   Text
 } from "react-native";
 import memoize from "memoize-one";
+// import debug from "debug";
 
 import ObservationIcon from "./ObservationIcon";
 import Circle from "./Circle";
 import type { PresetsMap, Preset } from "../context/PresetsContext";
 
 const ROW_HEIGHT = 120;
+const MIN_COL_WIDTH = 100;
+// const log = debug("CategoriesView");
 
 const styles = StyleSheet.create({
   cellContainer: {
@@ -80,6 +83,9 @@ class CategoriesView extends React.Component<Props> {
     const rowsPerWindow = Math.ceil(
       (Dimensions.get("window").height - 65) / ROW_HEIGHT
     );
+    const numColumns = Math.floor(
+      Dimensions.get("window").width / MIN_COL_WIDTH
+    );
     return (
       <View style={{ flex: 1 }}>
         <FlatList
@@ -89,7 +95,7 @@ class CategoriesView extends React.Component<Props> {
           style={{ width: Dimensions.get("window").width }}
           renderItem={this.renderItem}
           data={presetsList}
-          numColumns={3}
+          numColumns={numColumns}
         />
       </View>
     );
