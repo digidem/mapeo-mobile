@@ -44,16 +44,14 @@ const ObservationsList = ({
   onPressObservation,
   getPreset
 }: Props) => {
-  const itemsPerWindow = Math.ceil(
+  const rowsPerWindow = Math.ceil(
     (Dimensions.get("window").height - 65) / OBSERVATION_CELL_HEIGHT
   );
   const observationsArray = getValuesMemoized(observations);
   return (
     <View style={styles.container}>
       <FlatList
-        initialNumToRender={
-          itemsPerWindow * 2 /** always render a screens worth extra */
-        }
+        initialNumToRender={rowsPerWindow}
         getItemLayout={getItemLayout}
         style={{ width: Dimensions.get("window").width }}
         keyExtractor={keyExtractor}
