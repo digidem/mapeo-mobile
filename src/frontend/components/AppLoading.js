@@ -23,12 +23,20 @@ const DEFAULT_TIMEOUT = 10000; // 10 seconds
  * then the user sees the <ServerStatus variant="waiting" /> screen.
  */
 class HideSplashScreen extends React.Component<{ children: React.Node }> {
+  timeoutId: TimeoutID | null;
   componentDidMount() {
     // We need to leave a slight delay for the map to do an initial render
-    setTimeout(() => {
+    this.timeoutId = setTimeout(() => {
       SplashScreen.hide();
+      this.timeoutId = null;
       log("hiding splashscreen");
     }, 500);
+  }
+  componentWillUnmount() {
+    if (!this.timeoutId) return;
+    clearTimeout(this.timeoutId);
+    SplashScreen.hide();
+    d;
   }
   render() {
     return this.props.children;
@@ -67,6 +75,7 @@ class AppLoading extends React.Component<Props, State> {
   };
 
   timeoutId: TimeoutID;
+  _splashVisible: boolean = true;
   _nodeAlive: boolean;
   _hasSentStoragePath: boolean;
   _hasStoragePermission: boolean;
@@ -147,7 +156,15 @@ class AppLoading extends React.Component<Props, State> {
     } else {
       clearTimeout(this.timeoutId);
       // Show splashscreen while app is in background
-      SplashScreen.show();
+      // BUGFIX: don't show splashscreen if it is already showing, otherwise it
+      // is impossible to hide. This happened on first load because showing the
+      // permissions request dialog puts the app into the background before it
+      // finishes loading.
+      if (!this._splashVisible) {
+        this._splashVisible = true;
+        log("showing splash screen");
+        SplashScreen.show();
+      }
     }
   };
 
@@ -163,6 +180,7 @@ class AppLoading extends React.Component<Props, State> {
     if (this.state.didTimeout) return <ServerStatus variant="timeout" />;
     switch (this.state.serverStatus) {
       case status.LISTENING:
+        this._splashVisible = false;
         return <HideSplashScreen>{this.props.children}</HideSplashScreen>;
       case status.ERROR:
         return <ServerStatus variant="error" />;
