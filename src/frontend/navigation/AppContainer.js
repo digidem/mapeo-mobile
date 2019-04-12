@@ -1,4 +1,5 @@
 import React from "react";
+import { fromBottom } from "react-navigation-transitions";
 import {
   createStackNavigator,
   createAppContainer,
@@ -67,6 +68,8 @@ const MainStack = createStackNavigator(
   }
 );
 
+const FROM_BOTTOM_MODALS = ["NewObservation"];
+
 const RootStack = createStackNavigator(
   {
     Main: {
@@ -83,9 +86,13 @@ const RootStack = createStackNavigator(
     initialRouteName: "Main",
     mode: "modal",
     headerMode: "none",
-    transparentCard: true,
-    cardStyle: {
-      opacity: 1
+    transitionConfig: (props, prevProps) => {
+      // Modals in this array will slide up from the bottom of the screen
+      if (FROM_BOTTOM_MODALS.some(matchRoute(props, prevProps))) {
+        return fromBottom();
+      } else {
+        return StackViewTransitionConfigs.getTransitionConfig();
+      }
     },
     defaultNavigationOptions: {
       headerLeft: HeaderLeft
@@ -94,3 +101,12 @@ const RootStack = createStackNavigator(
 );
 
 export default createAppContainer(RootStack);
+
+function matchRoute(props, prevProps) {
+  return function(screenName) {
+    return (
+      screenName === props.scene.route.routeName ||
+      (prevProps && screenName === prevProps.scene.route.routeName)
+    );
+  };
+}
