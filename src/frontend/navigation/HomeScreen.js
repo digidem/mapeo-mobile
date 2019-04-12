@@ -5,6 +5,7 @@ import { TabView, TabBar } from "react-native-tab-view";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { NavigationActions } from "react-navigation";
 import debug from "debug";
+import LinearGradient from "react-native-linear-gradient";
 
 import type { NavigationScreenConfigProps } from "react-navigation";
 
@@ -25,6 +26,14 @@ const styles = StyleSheet.create({
     zIndex: 10,
     top: 0,
     right: 0
+  },
+  linearGradient: {
+    height: 60,
+    position: "absolute",
+    top: 0,
+    right: 0,
+    left: 0,
+    backgroundColor: "transparent"
   }
 });
 
@@ -127,6 +136,10 @@ class HomeScreen extends React.Component<Props, State> {
           renderTabBar={this.renderTabBar}
           onIndexChange={index => this.setState({ index })}
           initialLayout={{ width: Dimensions.get("window").width }}
+        />
+        <LinearGradient
+          style={styles.linearGradient}
+          colors={["#0006", "#0000"]}
         />
       </View>
     );
