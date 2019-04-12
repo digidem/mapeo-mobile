@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
-import { TouchableNativeFeedback, Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   container: {

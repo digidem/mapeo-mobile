@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
 import ObservationIcon from "../ObservationIcon";
 import Circle from "../Circle";
@@ -45,7 +46,7 @@ const ObservationListItem = ({
   style,
   id
 }: Props) => (
-  <TouchableOpacity
+  <TouchableNativeFeedback
     onPress={() => onPress(id, { observationTitle: title })}
     testID={"ObservationListItem:" + id}
   >
@@ -58,7 +59,7 @@ const ObservationListItem = ({
         <ObservationIcon iconId={iconId} size="medium" />
       </Circle>
     </View>
-  </TouchableOpacity>
+  </TouchableNativeFeedback>
 );
 
 export default React.memo<Props>(ObservationListItem);
