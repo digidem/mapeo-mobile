@@ -13,12 +13,33 @@ import CategoriesScreen from "./CategoriesScreen";
 import GpsModalScreen from "./GpsModalScreen";
 import IconButton from "../components/IconButton";
 import BackIcon from "../components/icons/BackIcon";
+import CloseIcon from "../components/icons/CloseIcon";
 
 const HeaderLeft = ({ onPress }) => (
   <IconButton onPress={onPress}>
     <BackIcon />
   </IconButton>
 );
+
+const EditHeaderLeft = ({ navigation }) => {
+  console.log("nav state", navigation.state);
+  if (
+    isTopOfStack(navigation) ||
+    navigation.state.routeName === "ObservationEdit"
+  ) {
+    return (
+      <IconButton onPress={() => navigation.navigate("Main")}>
+        <CloseIcon />
+      </IconButton>
+    );
+  } else {
+    return (
+      <IconButton onPress={() => navigation.pop()}>
+        <BackIcon />
+      </IconButton>
+    );
+  }
+};
 
 const defaultNavigationOptions = {
   headerStyle: {
@@ -39,7 +60,10 @@ const EditStack = createStackNavigator(
   {
     initialRouteName: "ObservationEdit",
     transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS,
-    defaultNavigationOptions
+    defaultNavigationOptions: ({ navigation }) => ({
+      ...defaultNavigationOptions,
+      headerLeft: <EditHeaderLeft navigation={navigation} />
+    })
   }
 );
 
@@ -109,4 +133,10 @@ function matchRoute(props, prevProps) {
       (prevProps && screenName === prevProps.scene.route.routeName)
     );
   };
+}
+
+// returns true of the component is top of the stack
+function isTopOfStack(navigation) {
+  const parent = navigation.dangerouslyGetParent();
+  return parent && parent.state && parent.state.index === 0;
 }

@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   onPress: (SyntheticEvent<>) => void,
-  style: any,
+  style?: any,
   children: React.Node
 };
 

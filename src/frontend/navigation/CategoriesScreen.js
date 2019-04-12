@@ -4,6 +4,7 @@ import React from "react";
 import CategoriesView from "../components/CategoriesView";
 import PresetsContext from "../context/PresetsContext";
 import { withDraft } from "../context/DraftObservationContext";
+
 import type { DraftObservationContext } from "../context/DraftObservationContext";
 import type { Preset } from "../context/PresetsContext";
 import type { NavigationScreenConfigProps } from "react-navigation";
