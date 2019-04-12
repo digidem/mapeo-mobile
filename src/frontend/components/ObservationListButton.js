@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   container: {
     width: 60,
     height: 60,
-    flex: 1,
+    flex: 0,
     justifyContent: "center",
     alignItems: "center"
   },
@@ -15,9 +15,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const ObservationListButton = ({ onPress }) => (
+const ObservationListButton = ({ onPress, style }) => (
   <TouchableNativeFeedback testID="ObservationListButton" onPress={onPress}>
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Image
         source={require("../images/observation-manager-icon.png")}
         style={styles.icon}

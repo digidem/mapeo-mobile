@@ -8,6 +8,7 @@ import ObservationListScreen from "./ObservationListScreen";
 import ObservationDetailScreen from "./ObservationDetailScreen";
 import ObservationEditScreen from "./ObservationEditScreen";
 import CategoriesScreen from "./CategoriesScreen";
+import GpsModalScreen from "./GpsModalScreen";
 
 const EditStack = createStackNavigator(
   {
@@ -57,13 +58,22 @@ const RootStack = createStackNavigator(
     },
     NewObservation: {
       screen: EditStack
+    },
+    GpsModal: {
+      screen: GpsModalScreen
     }
   },
   {
     initialRouteName: "Main",
-    gesturesEnabled: true,
     mode: "modal",
-    headerMode: "none"
+    headerMode: "none",
+    transparentCard: true,
+    cardStyle: {
+      opacity: 1
+    },
+    navigationOptions: {
+      gesturesEnabled: true
+    }
   }
 );
 

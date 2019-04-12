@@ -12,6 +12,7 @@ import type { NavigationScreenConfigProps } from "react-navigation";
 import CameraScreen from "./CameraScreen";
 import MapScreen from "./MapScreen";
 import ObservationListButton from "../components/ObservationListButton";
+import GpsPill from "../components/GpsPill";
 import { withDraft } from "../context/DraftObservationContext";
 import type {
   DraftObservationContext as DraftContextType,
@@ -21,11 +22,22 @@ import type {
 const log = debug("HomeScreen");
 
 const styles = StyleSheet.create({
-  listButtonContainer: {
+  header: {
     position: "absolute",
     zIndex: 10,
     top: 0,
-    right: 0
+    right: 0,
+    left: 0,
+    height: 60,
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  rightButton: {},
+  leftButton: {
+    width: 60,
+    height: 60
   },
   linearGradient: {
     height: 60,
@@ -114,8 +126,11 @@ class HomeScreen extends React.Component<Props, State> {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <View style={styles.listButtonContainer}>
+        <View style={styles.header}>
+          <View style={styles.leftButton} />
+          <GpsPill />
           <ObservationListButton
+            style={styles.rightButton}
             onPress={() => {
               this.props.navigation.navigate("ObservationList");
             }}
