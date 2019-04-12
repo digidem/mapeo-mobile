@@ -1,21 +1,29 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import { TouchableNativeFeedback, Image, StyleSheet, View } from "react-native";
+
+const styles = StyleSheet.create({
+  container: {
+    width: 60,
+    height: 60,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  icon: {
+    width: 30,
+    height: 30
+  }
+});
 
 const ObservationListButton = ({ onPress }) => (
-  <TouchableOpacity
-    style={{
-      width: 56,
-      height: 56,
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center"
-    }}
-    testID="ObservationListButton"
-    onPress={onPress}
-  >
-    <Icon name="photo-library" size={30} color="white" />
-  </TouchableOpacity>
+  <TouchableNativeFeedback testID="ObservationListButton" onPress={onPress}>
+    <View style={styles.container}>
+      <Image
+        source={require("../images/observation-manager-icon.png")}
+        style={styles.icon}
+      />
+    </View>
+  </TouchableNativeFeedback>
 );
 
-export default ObservationListButton;
+export default React.memo(ObservationListButton);
