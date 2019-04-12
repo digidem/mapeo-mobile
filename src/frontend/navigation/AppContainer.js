@@ -1,3 +1,4 @@
+import React from "react";
 import {
   createStackNavigator,
   createAppContainer,
@@ -9,6 +10,21 @@ import ObservationDetailScreen from "./ObservationDetailScreen";
 import ObservationEditScreen from "./ObservationEditScreen";
 import CategoriesScreen from "./CategoriesScreen";
 import GpsModalScreen from "./GpsModalScreen";
+import IconButton from "../components/IconButton";
+import BackIcon from "../components/icons/BackIcon";
+
+const HeaderLeft = ({ onPress }) => (
+  <IconButton onPress={onPress}>
+    <BackIcon />
+  </IconButton>
+);
+
+const defaultNavigationOptions = {
+  headerStyle: {
+    height: 60
+  },
+  headerLeft: React.memo(HeaderLeft)
+};
 
 const EditStack = createStackNavigator(
   {
@@ -21,8 +37,8 @@ const EditStack = createStackNavigator(
   },
   {
     initialRouteName: "ObservationEdit",
-    gesturesEnabled: true,
-    transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS
+    transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS,
+    defaultNavigationOptions
   }
 );
 
@@ -46,8 +62,8 @@ const MainStack = createStackNavigator(
   },
   {
     initialRouteName: "Home",
-    gesturesEnabled: true,
-    transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS
+    transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS,
+    defaultNavigationOptions
   }
 );
 
@@ -71,8 +87,8 @@ const RootStack = createStackNavigator(
     cardStyle: {
       opacity: 1
     },
-    navigationOptions: {
-      gesturesEnabled: true
+    defaultNavigationOptions: {
+      headerLeft: HeaderLeft
     }
   }
 );

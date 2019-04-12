@@ -11,7 +11,8 @@ import type { NavigationScreenConfigProps } from "react-navigation";
 
 import CameraScreen from "./CameraScreen";
 import MapScreen from "./MapScreen";
-import ObservationListButton from "../components/ObservationListButton";
+import IconButton from "../components/IconButton";
+import ObservationListIcon from "../components/icons/ObservationListIcon";
 import GpsPill from "../components/GpsPill";
 import { withDraft } from "../context/DraftObservationContext";
 import type {
@@ -129,12 +130,14 @@ class HomeScreen extends React.Component<Props, State> {
         <View style={styles.header}>
           <View style={styles.leftButton} />
           <GpsPill />
-          <ObservationListButton
+          <IconButton
             style={styles.rightButton}
             onPress={() => {
               this.props.navigation.navigate("ObservationList");
             }}
-          />
+          >
+            <ObservationListIcon />
+          </IconButton>
         </View>
         {/* $FlowFixMe */}
         <TabView
