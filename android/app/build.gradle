@@ -139,6 +139,17 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
         }
+        debug {
+            applicationIdSuffix ".debug"
+        }
+    }
+    flavorDimensions "version"
+    productFlavors {
+        qa {
+            applicationIdSuffix ".qa"
+            versionNameSuffix "-qa"
+        }
+        app {}
     }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
