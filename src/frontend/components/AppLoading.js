@@ -36,7 +36,6 @@ class HideSplashScreen extends React.Component<{ children: React.Node }> {
     if (!this.timeoutId) return;
     clearTimeout(this.timeoutId);
     SplashScreen.hide();
-    d;
   }
   render() {
     return this.props.children;
