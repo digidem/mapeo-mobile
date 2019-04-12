@@ -2,14 +2,14 @@
 import React from "react";
 import {
   View,
-  TouchableOpacity,
+  TouchableHighlight,
   StyleSheet,
   Dimensions,
   FlatList,
   Text
 } from "react-native";
 import memoize from "memoize-one";
-// import debug from "debug";
+import debug from "debug";
 
 import ObservationIcon from "./ObservationIcon";
 import Circle from "./Circle";
@@ -17,15 +17,28 @@ import type { PresetsMap, Preset } from "../context/PresetsContext";
 
 const ROW_HEIGHT = 120;
 const MIN_COL_WIDTH = 100;
-// const log = debug("CategoriesView");
+const log = debug("CategoriesView");
 
 const styles = StyleSheet.create({
+  container: {
+    paddingTop: 5,
+    flex: 1
+  },
+  cellTouchable: {
+    flex: 1,
+    height: ROW_HEIGHT,
+    marginBottom: 5,
+    borderRadius: 10
+  },
   cellContainer: {
     flex: 1,
     alignItems: "center",
-    height: ROW_HEIGHT,
-    paddingTop: 15,
-    paddingBottom: 15
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "transparent",
+    backgroundColor: "white"
   },
   categoryName: {
     color: "black",
@@ -63,22 +76,27 @@ const getItemLayout = (data, index) => ({
 
 const keyExtractor = item => item.id;
 
-class CategoriesView extends React.Component<Props> {
+class CategoriesView extends React.PureComponent<Props> {
   renderItem = ({ item }: { item: Preset }) => (
-    <TouchableOpacity
-      style={styles.cellContainer}
+    <TouchableHighlight
+      style={styles.cellTouchable}
       onPress={() => this.props.onSelect(item)}
+      activeOpacity={1}
+      underlayColor="#000033"
     >
-      <Circle>
-        <ObservationIcon iconId={item.icon} size="medium" />
-      </Circle>
-      <Text numberOfLines={3} style={styles.categoryName}>
-        {item.name}
-      </Text>
-    </TouchableOpacity>
+      <View style={styles.cellContainer}>
+        <Circle>
+          <ObservationIcon iconId={item.icon} size="medium" />
+        </Circle>
+        <Text numberOfLines={3} style={styles.categoryName}>
+          {item.name}
+        </Text>
+      </View>
+    </TouchableHighlight>
   );
 
   render() {
+    log("render");
     const presetsList = getPresetsList(this.props.presets);
     const rowsPerWindow = Math.ceil(
       (Dimensions.get("window").height - 65) / ROW_HEIGHT
@@ -87,7 +105,7 @@ class CategoriesView extends React.Component<Props> {
       Dimensions.get("window").width / MIN_COL_WIDTH
     );
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         <FlatList
           initialNumToRender={rowsPerWindow}
           keyExtractor={keyExtractor}
