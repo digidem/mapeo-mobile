@@ -50,23 +50,13 @@ type State = {
 };
 
 export class GpsPill extends React.PureComponent<Props, State> {
-  static getDerivedStateFromProps(props: Props, state: State = {}) {
-    // This weirdness is to not update the text when the screen is not focussed
-    // (i.e. the user has navigated away). If we just did
-    // shouldComponentUpdate() based on isFocused then the component would never
-    // render with isFocused=false and the icon would not stop animating
-    if (props.isFocused) return { precision: props.precision };
-    else return { precision: state.precision };
-  }
-  state = {};
   render() {
-    const { onPress, variant, isFocused } = this.props;
-    const { precision } = this.state;
+    const { onPress, variant, precision, isFocused } = this.props;
     let text: string;
     if (variant === "error") text = "No GPS";
     else if (variant === "searching" || typeof precision === "undefined")
       text = "Searching...";
-    else text = `± ${precision.toFixed(0)} m`;
+    else text = `± ${precision} m`;
     return (
       <TouchableOpacity onPress={onPress}>
         <View
@@ -98,14 +88,19 @@ const ConnectedGpsPill = ({ navigation, isFocused }) => (
       let variant: Variant;
       if (error || gpsUnavailable || locationServicesDisabled || noPermission)
         variant = "error";
-      else if (precision && Math.round(precision) <= GOOD_PRECISION)
+      else if (
+        typeof precision === "number" &&
+        Math.round(precision) <= GOOD_PRECISION
+      )
         variant = "good";
-      else if (precision) variant = "improving";
+      else if (typeof precision === "number") variant = "improving";
       else variant = "searching";
       return (
         <GpsPill
           onPress={() => navigation.navigate("GpsModal")}
-          precision={precision}
+          precision={
+            typeof precision === "number" ? Math.round(precision) : undefined
+          }
           variant={variant}
           isFocused={isFocused}
         />
