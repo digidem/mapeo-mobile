@@ -1,4 +1,4 @@
-package com.mapeomobile;
+package com.mapeo;
 
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;

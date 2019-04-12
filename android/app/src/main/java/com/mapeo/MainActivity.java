@@ -1,4 +1,4 @@
-package com.mapeomobile;
+package com.mapeo;
 
 import android.os.Bundle; // react-native-splash-screen
 import com.facebook.react.ReactFragmentActivity; // react-native-screens

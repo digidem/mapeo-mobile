@@ -1,4 +1,4 @@
-package com.mapeomobile;
+package com.mapeo;
 
 import android.app.Application;
 
