@@ -90,26 +90,30 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
     if (permissionHasChanged) this.updateStatus();
   }
 
-  async updateStatus() {
+  updateStatus = async () => {
     try {
       const hasLocationPermission =
         this.props.permissions[PERMISSIONS.ACCESS_FINE_LOCATION] ===
         RESULTS.GRANTED;
       if (!hasLocationPermission) return;
+      clearTimeout(this._timeoutId);
       const provider = await Location.getProviderStatusAsync();
-      if (this._watch) return;
-      if (provider && provider.locationServicesEnabled) {
+      if (provider && provider.locationServicesEnabled && !this._watch) {
         this._watch = await Location.watchPositionAsync(
           positionOptions,
           this.onPosition
         );
+      } else {
+        if (this._watch) this._watch.remove();
+        this._watch = null;
+        this._timeoutId = setTimeout(this.updateStatus, LOCATION_TIMEOUT);
       }
       this.setState({ provider });
     } catch (err) {
       log("Error reading position", err);
       this.setState({ error: true });
     }
-  }
+  };
 
   componentWillUnmount() {
     if (this._watch) this._watch.remove();
@@ -125,17 +129,8 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
     // on the provider status to see if location services are enabled, so that
     // we can update the state with the current status
     clearTimeout(this._timeoutId);
-    this._timeoutId = setTimeout(this.checkProviderStatus, LOCATION_TIMEOUT);
+    this._timeoutId = setTimeout(this.updateStatus, LOCATION_TIMEOUT);
     this.setState({ position });
-  };
-
-  checkProviderStatus = async () => {
-    const provider = await Location.getProviderStatusAsync();
-    if (!provider.locationServicesEnabled) {
-      // Not enabled? Check again in a bit
-      this._timeoutId = setTimeout(this.checkProviderStatus, LOCATION_TIMEOUT);
-    }
-    this.setState({ provider });
   };
 
   render() {
