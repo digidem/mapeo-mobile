@@ -76,28 +76,36 @@ const getItemLayout = (data, index) => ({
 
 const keyExtractor = item => item.id;
 
-class CategoriesView extends React.PureComponent<Props> {
-  renderItem = ({ item }: { item: Preset }) => (
-    <TouchableHighlight
-      style={styles.cellTouchable}
-      onPress={() => this.props.onSelect(item)}
-      activeOpacity={1}
-      underlayColor="#000033"
-    >
-      <View style={styles.cellContainer}>
-        <Circle>
-          <ObservationIcon iconId={item.icon} size="medium" />
-        </Circle>
-        <Text numberOfLines={3} style={styles.categoryName}>
-          {item.name}
-        </Text>
-      </View>
-    </TouchableHighlight>
-  );
+const Item = ({
+  item,
+  onSelect
+}: {
+  item: Preset,
+  onSelect: (preset: Preset) => void
+}) => (
+  <TouchableHighlight
+    style={styles.cellTouchable}
+    onPress={() => onSelect(item)}
+    activeOpacity={1}
+    underlayColor="#000033"
+  >
+    <View style={styles.cellContainer}>
+      <Circle>
+        <ObservationIcon iconId={item.icon} size="medium" />
+      </Circle>
+      <Text numberOfLines={3} style={styles.categoryName}>
+        {item.name}
+      </Text>
+    </View>
+  </TouchableHighlight>
+);
 
+const PureItem = React.memo(Item);
+
+class CategoriesView extends React.PureComponent<Props> {
   render() {
-    log("render");
-    const presetsList = getPresetsList(this.props.presets);
+    const { presets, onSelect } = this.props;
+    const presetsList = getPresetsList(presets);
     const rowsPerWindow = Math.ceil(
       (Dimensions.get("window").height - 65) / ROW_HEIGHT
     );
@@ -110,8 +118,13 @@ class CategoriesView extends React.PureComponent<Props> {
           initialNumToRender={rowsPerWindow}
           keyExtractor={keyExtractor}
           getItemLayout={getItemLayout}
+          windowSize={1}
+          maxToRenderPerBatch={numColumns}
+          removeClippedSubviews
           style={{ width: Dimensions.get("window").width }}
-          renderItem={this.renderItem}
+          renderItem={({ item }) => (
+            <PureItem item={item} onSelect={onSelect} />
+          )}
           data={presetsList}
           numColumns={numColumns}
         />

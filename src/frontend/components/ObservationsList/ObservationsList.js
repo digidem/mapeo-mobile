@@ -55,6 +55,8 @@ const ObservationsList = ({
         getItemLayout={getItemLayout}
         style={{ width: Dimensions.get("window").width }}
         keyExtractor={keyExtractor}
+        windowSize={3}
+        removeClippedSubviews
         renderItem={({ item }) => {
           const { id, createdAt } = item;
           const { icon, name } = getPreset(item) || {};

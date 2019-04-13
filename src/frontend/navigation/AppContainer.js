@@ -22,7 +22,6 @@ const HeaderLeft = ({ onPress }) => (
 );
 
 const EditHeaderLeft = ({ navigation }) => {
-  console.log("nav state", navigation.state);
   if (
     isTopOfStack(navigation) ||
     navigation.state.routeName === "ObservationEdit"
@@ -110,14 +109,6 @@ const RootStack = createStackNavigator(
     initialRouteName: "Main",
     mode: "modal",
     headerMode: "none",
-    transitionConfig: (props, prevProps) => {
-      // Modals in this array will slide up from the bottom of the screen
-      if (FROM_BOTTOM_MODALS.some(matchRoute(props, prevProps))) {
-        return fromBottom();
-      } else {
-        return StackViewTransitionConfigs.getTransitionConfig();
-      }
-    },
     defaultNavigationOptions: {
       headerLeft: HeaderLeft
     }
