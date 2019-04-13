@@ -59,7 +59,6 @@ const {
 } = React.createContext<LocationContextType>(defaultContext);
 
 class LocationProvider extends React.Component<Props, LocationContextType> {
-  _isMounted: boolean;
   _watch: null | { remove: () => null };
   _timeoutId: TimeoutID;
 
@@ -80,9 +79,6 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
   _watch = null;
 
   componentDidMount() {
-    // Track this in case the component unmounts before the async functions
-    // return and we shouldn't set state. This will be easier with hooks.
-    this._isMounted = true;
     this.updateStatus();
   }
 
@@ -108,18 +104,14 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
           this.onPosition
         );
       }
-      // bail before setState if we've unmounted
-      if (!this._isMounted) return;
       this.setState({ provider });
     } catch (err) {
       log("Error reading position", err);
-      if (!this._isMounted) return;
       this.setState({ error: true });
     }
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
     if (this._watch) this._watch.remove();
     clearTimeout(this._timeoutId);
     this._watch = null;
@@ -139,7 +131,6 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
 
   checkProviderStatus = async () => {
     const provider = await Location.getProviderStatusAsync();
-    if (!this._isMounted) return;
     if (!provider.locationServicesEnabled) {
       // Not enabled? Check again in a bit
       this._timeoutId = setTimeout(this.checkProviderStatus, LOCATION_TIMEOUT);
