@@ -3,6 +3,7 @@ package com.mapeo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
@@ -51,6 +52,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new AsyncStoragePackage(),
             new LinearGradientPackage(),
             new ImageResizerPackage(),
             new RNScreensPackage(),
