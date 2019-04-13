@@ -2,6 +2,7 @@
 import * as React from "react";
 import { PermissionsAndroid } from "react-native";
 import debug from "debug";
+import shallowequal from "shallowequal";
 
 import { getDisplayName } from "../lib/utils";
 
@@ -72,24 +73,13 @@ class PermissionsProvider extends React.Component<
     permissions: initialPermissions
   };
 
-  _isMounted: boolean;
-
-  componentDidMount() {
-    // Track this in case the component unmounts before the async functions
-    // return and we shouldn't set state. This will be easier with hooks.
-    this._isMounted = true;
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
   async requestPermissions(permissions: PermissionType | PermissionType[]) {
     if (!Array.isArray(permissions)) permissions = [permissions];
     // $FlowFixMe
     const status = await PermissionsAndroid.requestMultiple(permissions);
     log("Permission status", status);
-    if (!this._isMounted) return;
+    // Bail if nothing to update
+    if (shallowequal(this.state.permissions, status)) return;
     this.setState({
       permissions: {
         ...this.state.permissions,

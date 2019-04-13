@@ -28,6 +28,7 @@
     "ky": "^0.9.0",
     "memoize-one": "^5.0.0",
     "nodejs-mobile-react-native": "^0.3.3",
+    "prop-types": "^15.7.2",
     "react": "16.6.3",
     "react-native": "0.58.5",
     "react-native-fs": "^2.13.3",
@@ -42,6 +43,7 @@
     "react-native-vector-icons": "^6.3.0",
     "react-navigation": "^3.7.1",
     "react-navigation-transitions": "^1.0.10",
+    "shallowequal": "^1.1.0",
     "utm": "^1.1.1"
   },
   "devDependencies": {
