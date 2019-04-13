@@ -1,12 +1,14 @@
 // @flow
 import * as React from "react";
 import * as Location from "expo-location";
+import AsyncStorage from "@react-native-community/async-storage";
 import debug from "debug";
 
 import { withPermissions, PERMISSIONS, RESULTS } from "./PermissionsContext";
 import type { PermissionResult, PermissionsType } from "./PermissionsContext";
 
 const log = debug("mapeo:Location");
+const STORE_KEY = "@MapeoPosition";
 
 type PositionType = {
   timestamp: number,
@@ -32,6 +34,8 @@ export type LocationContextType = {
   position?: PositionType,
   provider?: ProviderType,
   permission?: PermissionResult,
+  // This is the previous known position from the last time the app was open
+  savedPosition?: PositionType,
   error: boolean
 };
 
@@ -40,7 +44,7 @@ type Props = {
   permissions: PermissionsType
 };
 
-const defaultContext = {
+const defaultContext: LocationContextType = {
   error: false
 };
 
@@ -78,16 +82,32 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
   state = defaultContext;
   _watch = null;
 
-  componentDidMount() {
+  async componentDidMount() {
     this.updateStatus();
+    try {
+      const savedPosition = await AsyncStorage.getItem(STORE_KEY);
+      if (savedPosition != null && !this.state.position) {
+        this.setState({ savedPosition: JSON.parse(savedPosition) });
+      }
+    } catch (e) {
+      log("Error reading storage", e);
+    }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const { permissions } = this.props;
+    const { position } = this.state;
     const permissionHasChanged =
       permissions[PERMISSIONS.ACCESS_FINE_LOCATION] !==
       prevProps.permissions[PERMISSIONS.ACCESS_FINE_LOCATION];
     if (permissionHasChanged) this.updateStatus();
+    if (position !== prevState.position && position) {
+      try {
+        AsyncStorage.setItem(STORE_KEY, JSON.stringify(position));
+      } catch (e) {
+        log("Error writing to storage", e);
+      }
+    }
   }
 
   updateStatus = async () => {
