@@ -10,7 +10,7 @@
 
 import React from "react";
 import debug from "debug";
-import { useScreens } from "react-native-screens";
+// import { useScreens } from "react-native-screens";
 
 import ErrorBoundary from "./ErrorBoundary";
 import AppLoading from "./AppLoading";
@@ -22,7 +22,7 @@ import AppProvider from "../context/AppProvider";
 if (__DEV__) debug.enable("*");
 
 // Use native navigation screens, see: https://github.com/kmagiera/react-native-screens
-useScreens();
+// useScreens();
 
 const App = () => (
   <ErrorBoundary>
