@@ -1,5 +1,4 @@
 import React from "react";
-import { fromBottom } from "react-navigation-transitions";
 import {
   createStackNavigator,
   createAppContainer,
@@ -91,8 +90,6 @@ const MainStack = createStackNavigator(
   }
 );
 
-const FROM_BOTTOM_MODALS = ["NewObservation"];
-
 const RootStack = createStackNavigator(
   {
     Main: {
@@ -116,15 +113,6 @@ const RootStack = createStackNavigator(
 );
 
 export default createAppContainer(RootStack);
-
-function matchRoute(props, prevProps) {
-  return function(screenName) {
-    return (
-      screenName === props.scene.route.routeName ||
-      (prevProps && screenName === prevProps.scene.route.routeName)
-    );
-  };
-}
 
 // returns true of the component is top of the stack
 function isTopOfStack(navigation) {
