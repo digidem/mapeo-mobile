@@ -103,7 +103,7 @@ class HomeScreen extends React.Component<Props, State> {
       style={{ backgroundColor: "white" }}
       activeColor="black"
       inactiveColor="#777777"
-      indicatorStyle={{ backgroundColor: "blue" }}
+      indicatorStyle={{ backgroundColor: "#3333FF" }}
       renderIcon={this.renderIcon}
       renderLabel={() => null}
     />
