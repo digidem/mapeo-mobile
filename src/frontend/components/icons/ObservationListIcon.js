@@ -14,4 +14,4 @@ const ObservationListIcon = ({ size = 30, style }: Props) => (
   />
 );
 
-export default React.memo(ObservationListIcon);
+export default React.memo<Props>(ObservationListIcon);
