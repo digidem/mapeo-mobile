@@ -5,13 +5,9 @@ import { withNavigation, withNavigationFocus } from "react-navigation";
 
 import LocationContext from "../context/LocationContext";
 import GpsIcon from "./icons/GpsIcon";
+import { getLocationStatus } from "../lib/utils";
+import type { LocationStatus } from "../lib/utils";
 
-// If the current position on the app state is more than 60 seconds old then we
-// consider it stale and show that the GPS is searching for a new position
-const STALE_TIMEOUT = 60 * 1000; // 60 seconds
-// If the precision is less than 10 meters then we consider this to be a "good
-// position" and we change the UI accordingly
-const GOOD_PRECISION = 10; // 10 meters
 const ERROR_COLOR = "#FF0000";
 
 const styles = StyleSheet.create({
@@ -42,12 +38,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export type Variant = "searching" | "improving" | "good" | "error";
-
 type Props = {
   onPress: null | (() => void),
   precision?: number,
-  variant: Variant,
+  variant: LocationStatus,
   isFocused: boolean
 };
 
@@ -85,32 +79,16 @@ export class GpsPill extends React.PureComponent<Props, State> {
 
 const ConnectedGpsPill = ({ navigation, isFocused }) => (
   <LocationContext.Consumer>
-    {({ position, provider, permission, error }) => {
-      const precision = position && position.coords.accuracy;
-      const gpsUnavailable = provider && !provider.gpsAvailable;
-      const locationServicesDisabled =
-        provider && !provider.locationServicesEnabled;
-      const noPermission = permission && permission !== "granted";
-      const positionStale =
-        position && Date.now() - position.timestamp > STALE_TIMEOUT;
-      let variant: Variant;
-      if (error || gpsUnavailable || locationServicesDisabled || noPermission)
-        variant = "error";
-      else if (positionStale) variant = "searching";
-      else if (
-        typeof precision === "number" &&
-        Math.round(precision) <= GOOD_PRECISION
-      )
-        variant = "good";
-      else if (typeof precision === "number") variant = "improving";
-      else variant = "searching";
+    {location => {
+      const locationStatus = getLocationStatus(location);
+      const precision = location.position && location.position.coords.accuracy;
       return (
         <GpsPill
           onPress={() => navigation.navigate("GpsModal")}
           precision={
             typeof precision === "number" ? Math.round(precision) : undefined
           }
-          variant={variant}
+          variant={locationStatus}
           isFocused={isFocused}
         />
       );

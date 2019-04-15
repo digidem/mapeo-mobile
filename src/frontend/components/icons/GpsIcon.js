@@ -38,6 +38,7 @@ const renderProgress = (color: string) => (
     indeterminate
     color={color}
     strokeCap="round"
+    direction="clockwise"
   />
 );
 const renderGood = () => (
