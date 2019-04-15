@@ -4,10 +4,13 @@ import ImageResizer from "react-native-image-resizer";
 import debug from "debug";
 import hoistStatics from "hoist-non-react-statics";
 import pick from "lodash/pick";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import { getDisplayName } from "../lib/utils";
 import type { ObservationValue } from "./ObservationsContext";
 
+// WARNING: This needs to change if we change the draft data structure
+const STORE_KEY = "@MapeoDraft@2";
 const log = debug("mapeo:DraftObservationContext");
 
 /**
@@ -91,6 +94,29 @@ class DraftObservationProvider extends React.Component<
     newDraft: this.newDraft.bind(this)
   };
   pending = [];
+
+  async componentDidMount() {
+    try {
+      const savedDraft = await AsyncStorage.getItem(STORE_KEY);
+      if (savedDraft != null) {
+        const { photos, value } = JSON.parse(savedDraft);
+        log("Read draft from storage:\n", savedDraft);
+        this.setState({ photos, value });
+      }
+    } catch (e) {
+      log("Error reading draft from storage\n", e);
+    }
+  }
+
+  componentDidUpdate() {
+    const { photos, value } = this.state;
+    try {
+      log("Writing draft to storage:\n", photos, value);
+      AsyncStorage.setItem(STORE_KEY, JSON.stringify({ photos, value }));
+    } catch (e) {
+      log("Error writing to storage", e);
+    }
+  }
 
   addPhoto(capture: CapturePromise) {
     log("current state", this.state.photos);
