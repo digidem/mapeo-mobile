@@ -3,6 +3,8 @@ import * as React from "react";
 import { getObservations } from "../api";
 import debug from "debug";
 
+import type { LocationContextType } from "./LocationContext";
+
 const log = debug("mapeo:ObservationsContext");
 
 export type ObservationAttachment = {|
@@ -13,7 +15,9 @@ export type ObservationAttachment = {|
 export type ObservationValue = {
   lat?: number,
   lon?: number,
-  metadata?: {},
+  metadata?: {
+    location?: LocationContextType
+  },
   refs?: Array<{ id: string }>,
   attachments?: Array<ObservationAttachment>,
   tags: { [string]: any }

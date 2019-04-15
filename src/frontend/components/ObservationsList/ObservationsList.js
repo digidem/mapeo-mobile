@@ -8,7 +8,7 @@ import type {
   Observation,
   ObservationsMap
 } from "../../context/ObservationsContext";
-import type { PresetWithFields } from "../../context/PresetsContext";
+import type { PresetsContext } from "../../context/PresetsContext";
 
 const OBSERVATION_CELL_HEIGHT = 80;
 
@@ -36,7 +36,7 @@ const keyExtractor = item => item.id.toString();
 type Props = {
   observations: ObservationsMap,
   onPressObservation: (id: string, params: {}) => any,
-  getPreset: Observation => PresetWithFields | void
+  getPreset: $ElementType<PresetsContext, "getPreset">
 };
 
 const ObservationsList = ({
@@ -59,7 +59,7 @@ const ObservationsList = ({
         removeClippedSubviews
         renderItem={({ item }) => {
           const { id, createdAt } = item;
-          const { icon, name } = getPreset(item) || {};
+          const { icon, name } = getPreset(item.value) || {};
           return (
             <ObservationListItem
               key={id}

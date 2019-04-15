@@ -28,7 +28,7 @@ const ObservationDetailScreen = ({
           const id = navigation.getParam("observationId");
           const obs = typeof id === "string" && observations.get(id);
           if (!obs) return <ObservationNotFound />;
-          const preset = getPreset(obs);
+          const preset = getPreset(obs.value);
           const title = preset ? preset.name : "Observation";
           return (
             <>

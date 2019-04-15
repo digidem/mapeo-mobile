@@ -75,7 +75,7 @@ function SceneMap<T: *>(
 
 type Props = {
   ...$Exact<NavigationScreenConfigProps>,
-  draft: DraftContextType
+  newDraft: $ElementType<DraftContextType, "newDraft">
 };
 
 type State = {
@@ -115,8 +115,8 @@ class HomeScreen extends React.Component<Props, State> {
 
   handleAddPress = (e: any, capture?: CapturePromise) => {
     log("pressed add button");
-    const { draft, navigation } = this.props;
-    draft.new({ tags: {} }, capture);
+    const { newDraft, navigation } = this.props;
+    newDraft({ tags: {} }, capture);
     navigation.navigate(
       "NewObservation",
       {},
@@ -164,4 +164,4 @@ class HomeScreen extends React.Component<Props, State> {
   }
 }
 
-export default withDraft(HomeScreen);
+export default withDraft(["newDraft"])(HomeScreen);

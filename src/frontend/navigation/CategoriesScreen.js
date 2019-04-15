@@ -44,4 +44,4 @@ class CategoriesScreen extends React.Component<Props> {
   }
 }
 
-export default withDraft(CategoriesScreen);
+export default withDraft()(CategoriesScreen);

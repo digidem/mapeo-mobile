@@ -3,6 +3,7 @@ import * as React from "react";
 import ImageResizer from "react-native-image-resizer";
 import debug from "debug";
 import hoistStatics from "hoist-non-react-statics";
+import pick from "lodash/pick";
 
 import { getDisplayName } from "../lib/utils";
 import type { ObservationValue } from "./ObservationsContext";
@@ -54,7 +55,7 @@ export type DraftObservationContext = {|
   // Clear the current draft
   clear: () => void,
   // Create a new draft observation
-  new: (value: ObservationValue, capture?: CapturePromise) => void
+  newDraft: (value: ObservationValue, capture?: CapturePromise) => void
 |};
 
 const defaultContext = {
@@ -64,7 +65,7 @@ const defaultContext = {
   save: () => {},
   setValue: () => {},
   clear: () => {},
-  new: () => {}
+  newDraft: () => {}
 };
 
 const {
@@ -87,7 +88,7 @@ class DraftObservationProvider extends React.Component<
     save: this.getForSave.bind(this),
     setValue: this.setValue.bind(this),
     clear: this.clear.bind(this),
-    new: this.new.bind(this)
+    newDraft: this.newDraft.bind(this)
   };
   pending = [];
 
@@ -156,10 +157,10 @@ class DraftObservationProvider extends React.Component<
   }
 
   clear() {
-    this.new({ tags: {} });
+    this.newDraft({ tags: {} });
   }
 
-  new(value: ObservationValue, capture?: CapturePromise) {
+  newDraft(value: ObservationValue, capture?: CapturePromise) {
     // TODO: Cleanup photos and previews in temp storage here
     // Signal any pending photo captures to cancel:
     this.pending.forEach(signal => (signal.cancelled = true));
@@ -180,10 +181,16 @@ class DraftObservationProvider extends React.Component<
   }
 }
 
-export const withDraft = (WrappedComponent: any) => {
+export const withDraft = (keys?: Array<$Keys<DraftObservationContext>>) => (
+  WrappedComponent: any
+) => {
   const WithDraft = (props: any) => (
     <DraftObservationConsumer>
-      {draft => <WrappedComponent {...props} draft={draft} />}
+      {draft => {
+        if (!keys) return <WrappedComponent {...props} draft={draft} />;
+        const addedProps = pick(draft, keys);
+        return <WrappedComponent {...props} {...addedProps} />;
+      }}
     </DraftObservationConsumer>
   );
   WithDraft.displayName = `WithDraft(${getDisplayName(WrappedComponent)})`;

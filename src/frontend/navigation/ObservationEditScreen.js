@@ -1,22 +1,30 @@
 import React from "react";
-import { Text, TouchableHighlight } from "react-native";
 
-import CenteredView from "../components/CenteredView";
-import Thumbnail from "../components/Thumbnail";
+import ObservationEdit from "../components/ObservationEdit";
+import PresetsContext from "../context/PresetsContext";
+import DraftObservationContext from "../context/DraftObservationContext";
 
 class ObservationEditScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     return (
-      <CenteredView>
-        <TouchableHighlight
-          onPress={() => navigation.push("ObservationCategories")}
-        >
-          <Text style={{ padding: 50, backgroundColor: "#cccccc" }}>
-            Navigate
-          </Text>
-        </TouchableHighlight>
-      </CenteredView>
+      <DraftObservationContext.Consumer>
+        {({ value }) => (
+          <PresetsContext.Consumer>
+            {({ getPreset }) => {
+              const preset = getPreset(value);
+              return (
+                <ObservationEdit
+                  isNew={navigation.getParam("observationId") === undefined}
+                  onPressCategory={() => navigation.navigate("CategoryChooser")}
+                  onPressCamera={() => navigation.navigate("AddPhoto")}
+                  preset={preset}
+                />
+              );
+            }}
+          </PresetsContext.Consumer>
+        )}
+      </DraftObservationContext.Consumer>
     );
   }
 }

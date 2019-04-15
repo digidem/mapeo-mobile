@@ -6,6 +6,7 @@ import debug from "debug";
 import { getMediaUrl } from "../api";
 import { LIGHT_GREY } from "../lib/styles";
 import AlertIcon from "./icons/AlertIcon";
+import type { Photo } from "../context/DraftObservationContext";
 
 const log = debug("Thumbnail");
 
@@ -17,7 +18,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: LIGHT_GREY,
-    marginHorizontal: 5,
     overflow: "hidden"
   },
   image: {
@@ -27,10 +27,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  attachmentId?: string,
-  uri?: string,
-  loading: boolean,
-  error?: boolean,
+  ...$Exact<Photo>,
   style?: any
 };
 
@@ -47,16 +44,16 @@ class Thumbnail extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { attachmentId, loading, style } = this.props;
+    const { id: attachmentId, thumbnailUri, capturing, style } = this.props;
     const uri = attachmentId
       ? getMediaUrl(attachmentId, "thumbnail")
-      : this.props.uri;
+      : thumbnailUri;
     const error = this.props.error || this.state.error;
     return (
       <View style={[styles.container, style]}>
         {error ? (
           <AlertIcon />
-        ) : loading ? (
+        ) : capturing ? (
           <ActivityIndicator />
         ) : (
           <Image
