@@ -20,6 +20,8 @@ import AppProvider from "../context/AppProvider";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
+// WARNING: This needs to change if we change the navigation structure
+const NAV_STORE_KEY = "@MapeoNavigation@1";
 
 // Use native navigation screens, see: https://github.com/kmagiera/react-native-screens
 // useScreens();
@@ -34,7 +36,7 @@ const App = () => (
             mapeo-core server. AppLoading only renders children once the server
             is ready and listening */}
         <AppProvider>
-          <AppContainer />
+          <AppContainer persistenceKey={NAV_STORE_KEY} />
         </AppProvider>
       </AppLoading>
     </PermissionsContext.Provider>
