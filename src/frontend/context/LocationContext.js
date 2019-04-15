@@ -14,12 +14,12 @@ type PositionType = {
   timestamp: number,
   mocked: boolean,
   coords: {
-    altitude?: number,
-    heading?: number,
-    longitude?: number,
-    speed?: number,
-    latitude?: number,
-    accuracy?: number
+    altitude: number,
+    heading: number,
+    longitude: number,
+    speed: number,
+    latitude: number,
+    accuracy: number
   }
 };
 
