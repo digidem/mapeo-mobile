@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import omit from "lodash/omit";
 
 import { withLocation } from "../context/LocationContext";
 import { withDraft } from "../context/DraftObservationContext";
@@ -46,7 +47,7 @@ class LocationField extends React.Component<FieldProps> {
         lat: location.position.coords.latitude,
         metadata: {
           ...value.metadata,
-          location: location
+          location: omit(location, "savedPosition")
         }
       });
   }
