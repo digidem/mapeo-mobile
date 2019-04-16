@@ -48,6 +48,7 @@
     "utm": "^1.1.1"
   },
   "devDependencies": {
+    "@turf/random": "^6.0.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "24.1.0",
@@ -71,10 +72,13 @@
     "flow-typed": "^2.5.1",
     "jest": "^24.1.0",
     "metro-react-native-babel-preset": "0.52.0",
+    "random-date-generator": "^1.0.2",
+    "random-title": "^1.0.4",
     "react-art": "^16.8.2",
     "react-dom": "^16.8.6",
     "react-native-web": "^0.10.0",
     "react-test-renderer": "16.6.3",
+    "txtgen": "^2.2.2",
     "webpack": "4.28.4"
   },
   "jest": {
