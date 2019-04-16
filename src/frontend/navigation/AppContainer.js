@@ -8,6 +8,7 @@ import HomeScreen from "./HomeScreen";
 import ObservationListScreen from "./ObservationListScreen";
 import ObservationDetailScreen from "./ObservationDetailScreen";
 import ObservationEditScreen from "./ObservationEditScreen";
+import AddPhotoScreen from "./AddPhotoScreen";
 import CategoriesScreen from "./CategoriesScreen";
 import GpsModalScreen from "./GpsModalScreen";
 import IconButton from "../components/IconButton";
@@ -53,7 +54,8 @@ const EditStack = createStackNavigator(
     },
     CategoryChooser: {
       screen: CategoriesScreen
-    }
+    },
+    AddPhoto: AddPhotoScreen
   },
   {
     initialRouteName: "ObservationEdit",

@@ -100,7 +100,6 @@ class DraftObservationProvider extends React.Component<
       const savedDraft = await AsyncStorage.getItem(STORE_KEY);
       if (savedDraft != null) {
         const { photos, value } = JSON.parse(savedDraft);
-        log("Read draft from storage:\n", savedDraft);
         this.setState({ photos, value });
       }
     } catch (e) {
@@ -111,7 +110,6 @@ class DraftObservationProvider extends React.Component<
   componentDidUpdate() {
     const { photos, value } = this.state;
     try {
-      log("Writing draft to storage:\n", photos, value);
       AsyncStorage.setItem(STORE_KEY, JSON.stringify({ photos, value }));
     } catch (e) {
       log("Error writing to storage", e);
@@ -153,6 +151,7 @@ class DraftObservationProvider extends React.Component<
           // Remove from pending
           this.pending = this.pending.filter(s => s !== signal);
           photo.thumbnailUri = uri;
+          log("new photos state", splice(this.state.photos, index, photo));
           this.setState(state => ({
             photos: splice(state.photos, index, photo)
           }));

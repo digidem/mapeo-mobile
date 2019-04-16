@@ -12,23 +12,18 @@ const log = debug("Thumbnail");
 
 const styles = StyleSheet.create({
   container: {
-    width: 65,
-    height: 65,
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: LIGHT_GREY,
     overflow: "hidden"
-  },
-  image: {
-    width: 65,
-    height: 65
   }
 });
 
 type Props = {
   ...$Exact<Photo>,
-  style?: any
+  style?: any,
+  size?: number
 };
 
 type State = {
@@ -37,6 +32,9 @@ type State = {
 
 class Thumbnail extends React.PureComponent<Props, State> {
   state = { error: false };
+  static defaultProps = {
+    size: 100
+  };
 
   handleImageError = (e: any) => {
     log("Error loading image:\n", e.nativeEvent && e.nativeEvent.error);
@@ -44,13 +42,11 @@ class Thumbnail extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { id: attachmentId, thumbnailUri, capturing, style } = this.props;
-    const uri = attachmentId
-      ? getMediaUrl(attachmentId, "thumbnail")
-      : thumbnailUri;
+    const { id, thumbnailUri, capturing, style, size } = this.props;
+    const uri = id ? getMediaUrl(id, "thumbnail") : thumbnailUri;
     const error = this.props.error || this.state.error;
     return (
-      <View style={[styles.container, style]}>
+      <View style={[styles.container, { width: size, height: size }, style]}>
         {error ? (
           <AlertIcon />
         ) : capturing ? (
@@ -59,7 +55,7 @@ class Thumbnail extends React.PureComponent<Props, State> {
           <Image
             onError={this.handleImageError}
             source={{ uri }}
-            style={styles.image}
+            style={{ width: size, height: size }}
           />
         )}
       </View>

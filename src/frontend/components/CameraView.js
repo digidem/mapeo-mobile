@@ -1,11 +1,11 @@
 // @flow
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { NavigationEvents, withNavigationFocus } from "react-navigation";
 import { Camera } from "expo-camera";
 import debug from "debug";
 
 import AddButton from "../components/AddButton";
+import withNavigationFocus from "../lib/withNavigationFocus";
 import PermissionsContext, {
   PERMISSIONS,
   RESULTS
@@ -64,17 +64,6 @@ class CameraView extends React.Component<Props, State> {
     );
   };
 
-  componentDidUpdate(prevProps) {
-    // When the camera view returns to view the camera needs to be re-mounted or
-    // otherwise it will not work, so this trick re-mounts the camera when this
-    // view comes into focus
-    if (!prevProps.isFocused && this.props.isFocused) {
-      this.setState({ showCamera: false });
-    } else if (!this.state.showCamera && this.props.isFocused) {
-      this.setState({ showCamera: true });
-    }
-  }
-
   render() {
     const { takingPicture } = this.state;
     return (
@@ -84,7 +73,7 @@ class CameraView extends React.Component<Props, State> {
             return <Text>No access to camera</Text>;
           return (
             <View style={styles.container}>
-              {this.state.showCamera && (
+              {this.props.isFocused && (
                 <Camera
                   ref={this.cameraRef}
                   style={{ flex: 1 }}
