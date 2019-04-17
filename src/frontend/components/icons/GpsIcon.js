@@ -4,7 +4,7 @@ import { View } from "react-native";
 import * as Progress from "react-native-progress";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-import type { Variant } from "../GpsPill";
+import type { LocationStatus } from "../../lib/utils";
 
 const renderError = () => (
   <View
@@ -53,7 +53,7 @@ const renderGood = () => (
   />
 );
 
-type Props = { variant: Variant };
+type Props = { variant: LocationStatus };
 
 const GpsIcon = ({ variant }: Props) => {
   switch (variant) {
