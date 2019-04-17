@@ -1,8 +1,11 @@
+// @flow
 import React from "react";
 import {
   createStackNavigator,
   createAppContainer,
-  StackViewTransitionConfigs
+  // $FlowFixMe
+  StackViewTransitionConfigs,
+  StackActions
 } from "react-navigation";
 import HomeScreen from "./HomeScreen";
 import ObservationListScreen from "./ObservationListScreen";
@@ -22,39 +25,33 @@ const HeaderLeft = ({ onPress }) => (
 );
 
 const EditHeaderLeft = ({ navigation }) => {
-  if (
+  const parent = navigation.dangerouslyGetParent();
+  const isClose =
     isTopOfStack(navigation) ||
-    navigation.state.routeName === "ObservationEdit"
-  ) {
-    return (
-      <IconButton onPress={() => navigation.navigate("Main")}>
-        <CloseIcon />
-      </IconButton>
-    );
-  } else {
-    return (
-      <IconButton onPress={() => navigation.pop()}>
-        <BackIcon />
-      </IconButton>
-    );
-  }
+    (navigation.state.routeName === "ObservationEdit" &&
+      parent &&
+      parent.state.routeName === "NewObservation");
+  return (
+    <IconButton onPress={() => navigation.pop()}>
+      {isClose ? <CloseIcon /> : <BackIcon />}
+    </IconButton>
+  );
 };
 
 const defaultNavigationOptions = {
   headerStyle: {
     height: 60
   },
-  headerLeft: React.memo(HeaderLeft)
+  headerLeft: React.memo(HeaderLeft),
+  headerTitleStyle: {
+    marginHorizontal: 0
+  }
 };
 
 const EditStack = createStackNavigator(
   {
-    ObservationEdit: {
-      screen: ObservationEditScreen
-    },
-    CategoryChooser: {
-      screen: CategoriesScreen
-    },
+    ObservationEdit: ObservationEditScreen,
+    CategoryChooser: CategoriesScreen,
     AddPhoto: AddPhotoScreen
   },
   {
@@ -67,12 +64,40 @@ const EditStack = createStackNavigator(
   }
 );
 
+const defaultGetStateForAction = EditStack.router.getStateForAction;
+
+EditStack.router.getStateForAction = (action, state) => {
+  let newState = defaultGetStateForAction(action, state);
+  // This is a hack that pops the ObservationEdit screen to the top of the stack
+  // when in the NewObservation stack. This is so that after selecting a
+  // category then the back button cancels the new observation, and when you
+  // subsequently change the category, then the screen enters from the
+  // right-hand-side
+  if (
+    state &&
+    !state.isTransitioning &&
+    newState &&
+    newState.routeName === "NewObservation" &&
+    action &&
+    action.type === StackActions.COMPLETE_TRANSITION &&
+    newState.index === 1 &&
+    newState.routes &&
+    newState.routes[1].routeName === "ObservationEdit"
+  ) {
+    newState = {
+      ...newState,
+      index: 0,
+      routes: [newState.routes[1]]
+    };
+  }
+  return newState;
+};
+
 const MainStack = createStackNavigator(
   {
-    Home: {
-      screen: HomeScreen
-    },
+    Home: HomeScreen,
     ObservationList: {
+      // $FlowFixMe
       screen: ObservationListScreen,
       path: "observations"
     },
@@ -94,15 +119,9 @@ const MainStack = createStackNavigator(
 
 const RootStack = createStackNavigator(
   {
-    Main: {
-      screen: MainStack
-    },
-    NewObservation: {
-      screen: EditStack
-    },
-    GpsModal: {
-      screen: GpsModalScreen
-    }
+    Main: MainStack,
+    NewObservation: EditStack,
+    GpsModal: GpsModalScreen
   },
   {
     initialRouteName: "Main",
@@ -114,6 +133,7 @@ const RootStack = createStackNavigator(
   }
 );
 
+// $FlowFixMe
 export default createAppContainer(RootStack);
 
 // returns true of the component is top of the stack
