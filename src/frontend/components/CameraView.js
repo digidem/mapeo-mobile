@@ -47,6 +47,16 @@ class CameraView extends React.Component<Props, State> {
     this.cameraRef = React.createRef();
   }
 
+  // async componentDidMount() {
+  //   const camera = this.cameraRef.current;
+  //   const ratios = await camera.getSupportedRatiosAsync();
+  //   log("ratios", ratios);
+  //   const sizes = await Promise.all(
+  //     ratios.map(r => camera.getAvailablePictureSizesAsync(r))
+  //   );
+  //   log("sizes", sizes);
+  // }
+
   handleAddPress = (e: any) => {
     const camera = this.cameraRef.current;
     if (!camera) return log("Camera view not ready");

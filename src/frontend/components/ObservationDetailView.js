@@ -3,7 +3,7 @@ import React from "react";
 import { Text, Image, View, ScrollView, StyleSheet } from "react-native";
 
 import FormattedCoords from "./FormattedCoords";
-// import Thumbnail from "./Thumbnail";
+import ThumbnailScrollView from "./ThumbnailScrollVIew";
 import InsetMapView from "./InsetMapView";
 import ObservationIcon from "./ObservationIcon";
 import LocationIcon from "./icons/LocationIcon";
@@ -61,13 +61,6 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     textAlign: "center"
   },
-  title: {
-    color: "black",
-    fontFamily: "HelveticaNeue",
-    fontSize: 18,
-    fontWeight: "700",
-    textAlign: "center"
-  },
   fieldAnswer: {
     color: "black",
     fontSize: 18,
@@ -95,7 +88,10 @@ type ODVProps = {
 };
 
 const ObservationDetailView = ({ observation, preset = {} }: ODVProps) => {
-  const { lat, lon } = observation.value;
+  const { lat, lon, attachments } = observation.value;
+  const photos =
+    attachments && attachments.filter(a => a.type === "image/jpeg");
+  console.log(observation.value);
   return (
     <ScrollView style={styles.container}>
       <>
@@ -130,6 +126,8 @@ const ObservationDetailView = ({ observation, preset = {} }: ODVProps) => {
             <InsetMapView style={{ height: 240 }} />
           </View>
         )}
+        {/* $FlowFixMe - not sure why flow is not getting this type */}
+        {photos && <ThumbnailScrollView photos={photos} />}
         {preset.fields && preset.fields.length && (
           <View style={styles.section}>
             <View

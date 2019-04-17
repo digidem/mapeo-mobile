@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  onPress: (SyntheticEvent<>) => void,
+  onPress: (SyntheticEvent<>) => any,
   style?: any,
   children: React.Node,
   testID?: string

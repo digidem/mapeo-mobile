@@ -28,7 +28,10 @@ const getItemLayout = (data, index) => ({
 });
 
 const getValuesMemoized = memoize(
-  (map): Observation[] => Array.from(map.values())
+  (map): Observation[] =>
+    Array.from(map.values()).sort((a, b) =>
+      a.createdAt < b.createdAt ? 1 : -1
+    )
 );
 
 const keyExtractor = item => item.id.toString();

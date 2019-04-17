@@ -58,8 +58,9 @@ export type DraftObservationContext = {|
    * during full-size photo capture
    */
   addPhoto: (capture: CapturePromise) => void,
-  // Save draft to server
-  save: () => void,
+  // Get the photos on a draft once capture is complete. Returns a Promise that
+  // resolves with a Photo array once the photos have finished capturing
+  getPhotos: () => Promise<Array<Photo>>,
   // Performs a shallow merge of the observation value, like setState
   setValue: (value: ObservationValue) => void,
   // Clear the current draft
@@ -72,7 +73,7 @@ const defaultContext = {
   photos: [],
   value: { tags: {} },
   addPhoto: () => {},
-  save: () => {},
+  getPhotos: () => Promise.resolve(),
   setValue: () => {},
   clear: () => {},
   newDraft: () => {}
@@ -95,7 +96,7 @@ class DraftObservationProvider extends React.Component<
     photos: [],
     value: { tags: {} },
     addPhoto: this.addPhoto.bind(this),
-    save: this.getForSave.bind(this),
+    getPhotos: this.getPhotos.bind(this),
     setValue: this.setValue.bind(this),
     clear: this.clear.bind(this),
     newDraft: this.newDraft.bind(this)
@@ -107,7 +108,7 @@ class DraftObservationProvider extends React.Component<
       const savedDraft = await AsyncStorage.getItem(STORE_KEY);
       if (savedDraft != null) {
         const { photos, value } = JSON.parse(savedDraft);
-        this.setState({ photos, value });
+        this.setState({ photos: photos.filter(filterCapturedPhotos), value });
       }
     } catch (e) {
       log("Error reading draft from storage\n", e);
@@ -194,7 +195,11 @@ class DraftObservationProvider extends React.Component<
     }
   }
 
-  getForSave() {}
+  async getPhotos() {
+    log("getPhotos", this.pending);
+    await Promise.all(this.pending);
+    return this.state.photos;
+  }
 
   setValue(value: ObservationValue) {
     this.setState({
@@ -256,4 +261,10 @@ function splice(arr: Array<*>, index: number, value: any) {
   const newArray = [...arr];
   newArray[index] = value;
   return newArray;
+}
+
+// If we crash during photo capture and restore state from async storage, then,
+// unfortunately, any photos that did not finish capturing are lost :(
+function filterCapturedPhotos(photo: Photo) {
+  return photo.id || photo.fullUri;
 }

@@ -3,6 +3,7 @@ import React from "react";
 import ObservationEdit from "../components/ObservationEdit";
 import PresetsContext from "../context/PresetsContext";
 import DraftObservationContext from "../context/DraftObservationContext";
+import SaveButton from "../components/SaveButton";
 
 class ObservationEditScreen extends React.Component {
   render() {
@@ -29,8 +30,9 @@ class ObservationEditScreen extends React.Component {
   }
 }
 
-ObservationEditScreen.navigationOptions = {
-  title: "Edit"
-};
+ObservationEditScreen.navigationOptions = ({ navigation }) => ({
+  title: "Edit",
+  headerRight: <SaveButton navigation={navigation} />
+});
 
 export default ObservationEditScreen;
