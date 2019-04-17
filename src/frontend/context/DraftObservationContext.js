@@ -11,6 +11,11 @@ import type { ObservationValue } from "./ObservationsContext";
 
 // WARNING: This needs to change if we change the draft data structure
 const STORE_KEY = "@MapeoDraft@2";
+const THUMBNAIL_SIZE = 400;
+const THUMBNAIL_QUALITY = 50;
+const PREVIEW_SIZE = 2000;
+const PREVIEW_QUALITY = 50;
+
 const log = debug("mapeo:DraftObservationContext");
 
 /**
@@ -24,6 +29,8 @@ export type Photo = {|
   id?: string,
   // uri to a local thumbnail image (this is uploaded to Mapeo server)
   thumbnailUri?: string,
+  // uri to a local preview image
+  previewUri?: string,
   // uri to a local full-resolution image (this is uploaded to Mapeo server)
   fullUri?: string,
   // If an image is to be deleted
@@ -136,21 +143,37 @@ class DraftObservationProvider extends React.Component<
       const photo: Photo = { capturing: false };
       // If we clear the draft we need to track any pending promises and cancel
       // them before they setState
-      const signal = {};
-      this.pending.push(signal);
-      capture
-        .then(({ uri, width, height }) => {
-          if (signal.cancelled) throw new Error("Cancelled");
-          log("captured image", uri, signal);
+      const capturePromise: any = capture
+        .then(({ uri }) => {
+          if (capturePromise.cancelled) throw new Error("Cancelled");
+          log("captured image", uri);
           photo.fullUri = uri;
-          return ImageResizer.createResizedImage(uri, 300, 300, "JPEG", 50);
+          return ImageResizer.createResizedImage(
+            uri,
+            THUMBNAIL_SIZE,
+            THUMBNAIL_SIZE,
+            "JPEG",
+            THUMBNAIL_QUALITY
+          );
         })
         .then(({ uri }) => {
-          if (signal.cancelled) throw new Error("Cancelled");
-          log("resized image", uri, signal);
-          // Remove from pending
-          this.pending = this.pending.filter(s => s !== signal);
+          if (capturePromise.cancelled) throw new Error("Cancelled");
+          log("captured image", uri);
           photo.thumbnailUri = uri;
+          return ImageResizer.createResizedImage(
+            uri,
+            PREVIEW_SIZE,
+            PREVIEW_SIZE,
+            "JPEG",
+            PREVIEW_QUALITY
+          );
+        })
+        .then(({ uri }) => {
+          if (capturePromise.cancelled) throw new Error("Cancelled");
+          log("resized image", uri);
+          // Remove from pending
+          this.pending = this.pending.filter(p => p !== capturePromise);
+          photo.previewUri = uri;
           log("new photos state", splice(this.state.photos, index, photo));
           this.setState(state => ({
             photos: splice(state.photos, index, photo)
@@ -158,15 +181,16 @@ class DraftObservationProvider extends React.Component<
         })
         .catch(err => {
           // Remove from pending
-          this.pending = this.pending.filter(s => s !== signal);
-          if (signal.cancelled || err.message === "Cancelled")
+          this.pending = this.pending.filter(p => p !== capturePromise);
+          if (capturePromise.cancelled || err.message === "Cancelled")
             return log("Cancelled!");
-          log("Error capturing image:\n", err, signal);
+          log("Error capturing image:\n", err);
           photo.error = true;
           this.setState(state => ({
             photos: splice(state.photos, index, photo)
           }));
         });
+      this.pending.push(capturePromise);
     }
   }
 
@@ -188,7 +212,7 @@ class DraftObservationProvider extends React.Component<
   newDraft(value: ObservationValue, capture?: CapturePromise) {
     // TODO: Cleanup photos and previews in temp storage here
     // Signal any pending photo captures to cancel:
-    this.pending.forEach(signal => (signal.cancelled = true));
+    this.pending.forEach(p => (p.cancelled = true));
     this.pending = [];
     this.setState(
       {
