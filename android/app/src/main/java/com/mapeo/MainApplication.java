@@ -68,7 +68,7 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected String getJSMainModuleName() {
-      return "index";
+      return BuildConfig.isStorybook ? "storybook-native/index" : "index";
     }
   };
 

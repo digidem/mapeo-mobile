@@ -72,8 +72,15 @@ import com.android.build.OutputFile
  * ]
  */
 
+def startArgs = gradle.startParameter.taskRequests.args[0]
+def isStorybook = startArgs.contains("installStorybookDebug") ||
+    startArgs.contains("assembleStorybookDebug") ||
+    startArgs.contains("installStorybookRelease") ||
+    startArgs.contains("assembleStorybookRelease")
+
 project.ext.react = [
-    entryFile: "index.js"
+    entryFile: isStorybook ? "storybook-native/index.js" : "index.js",
+    inputExcludes: ["android/**", "ios/**", ".gitsecret/**", "flow-typed/**"]
 ]
 
 project.ext.vectoricons = [
@@ -148,8 +155,15 @@ android {
         qa {
             applicationIdSuffix ".qa"
             versionNameSuffix "-qa"
+            buildConfigField "boolean", "isStorybook", "false"
         }
-        app {}
+        storybook {
+            applicationIdSuffix ".storybook"
+            buildConfigField "boolean", "isStorybook", "true"
+        }
+        app {
+            buildConfigField "boolean", "isStorybook", "false"
+        }
     }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
