@@ -5,6 +5,7 @@ import { TouchableHighlight } from "react-native-gesture-handler";
 
 import ObservationIcon from "../ObservationIcon";
 import Circle from "../Circle";
+import type { Style } from "../../types/other";
 
 const styles = StyleSheet.create({
   container: {
@@ -35,7 +36,7 @@ type Props = {
   subtitle?: string,
   imageSrc?: string,
   iconId?: string,
-  style?: $PropertyType<React.ElementProps<typeof View>, "style">,
+  style?: Style<typeof View>,
   id: string
 };
 

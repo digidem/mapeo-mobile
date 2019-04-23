@@ -2,11 +2,12 @@
 import * as React from "react";
 import { Text } from "react-native";
 import { fromLatLon } from "utm";
+import type { Style } from "../types/other";
 
 type Props = {
   lat: number,
   lon: number,
-  style?: $PropertyType<React.ElementProps<typeof Text>, "style">
+  style?: Style<typeof Text>
 };
 
 const FormattedCoords = ({ lat, lon, style }: Props) => {

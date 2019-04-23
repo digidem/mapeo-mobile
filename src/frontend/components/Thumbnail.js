@@ -8,6 +8,7 @@ import { LIGHT_GREY } from "../lib/styles";
 import AlertIcon from "./icons/AlertIcon";
 import type { Photo } from "../context/DraftObservationContext";
 import type { ObservationAttachment } from "../context/ObservationsContext";
+import type { Style } from "../types/other";
 
 const log = debug("Thumbnail");
 
@@ -24,12 +25,12 @@ const styles = StyleSheet.create({
 type Props =
   | {
       ...Photo,
-      style?: any,
+      style?: Style<typeof View>,
       size?: number
     }
   | {
       ...ObservationAttachment,
-      style?: any,
+      style?: Style<typeof View>,
       size?: number
     };
 
