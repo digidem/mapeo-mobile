@@ -8,7 +8,7 @@ import { LIGHT_GREY } from "../lib/styles";
 import { AlertIcon } from "./icons";
 import type { Photo } from "../context/DraftObservationContext";
 import type { ObservationAttachment } from "../context/ObservationsContext";
-import type { Style } from "../types/other";
+import type { Style } from "../types";
 
 const log = debug("Thumbnail");
 

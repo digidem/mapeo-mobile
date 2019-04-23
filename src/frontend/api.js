@@ -10,7 +10,7 @@ import type {
   Observation,
   ObservationValue
 } from "./context/ObservationsContext";
-import type { IconSize, ImageSize } from "./types/other";
+import type { IconSize, ImageSize } from "./types";
 import type { Photo } from "./context/DraftObservationContext";
 
 const BASE_URL = "http://127.0.0.1:9080/";

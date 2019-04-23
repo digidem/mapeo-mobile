@@ -4,7 +4,7 @@ import { Image } from "react-native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import { getIconUrl } from "../../api";
-import type { IconSize } from "../../types/other";
+import type { IconSize } from "../../types";
 
 type Props = {
   size: IconSize,

@@ -2,7 +2,7 @@
 import React from "react";
 import MapboxGL from "@mapbox/react-native-mapbox-gl";
 
-import type { MapStyle } from "../types/map";
+import type { MapStyle } from "../types";
 import type { ObservationsMap } from "../context/ObservationsContext";
 import AddButton from "../components/AddButton";
 import debug from "debug";

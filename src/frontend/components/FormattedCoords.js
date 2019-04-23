@@ -2,7 +2,7 @@
 import * as React from "react";
 import { Text } from "react-native";
 import { fromLatLon } from "utm";
-import type { Style } from "../types/other";
+import type { Style } from "../types";
 
 type Props = {
   lat: number,

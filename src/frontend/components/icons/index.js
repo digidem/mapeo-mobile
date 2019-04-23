@@ -6,7 +6,7 @@ import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { Image, Text } from "react-native";
 
 import { RED, DARK_GREY, MANGO, MEDIUM_GREY } from "../../lib/styles";
-import type { Style } from "../../types/other";
+import type { Style } from "../../types";
 
 type FontIconProps = {
   size?: number,

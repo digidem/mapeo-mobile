@@ -5,7 +5,7 @@ import { TouchableHighlight } from "react-native-gesture-handler";
 
 import { CategoryIcon } from "../icons";
 import Circle from "../Circle";
-import type { Style } from "../../types/other";
+import type { Style } from "../../types";
 
 const styles = StyleSheet.create({
   container: {
