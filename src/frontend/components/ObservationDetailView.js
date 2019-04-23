@@ -87,7 +87,6 @@ const ObservationDetailView = ({ observation, preset = {} }: ODVProps) => {
   const { lat, lon, attachments } = observation.value;
   const photos =
     attachments && attachments.filter(a => a.type === "image/jpeg");
-  console.log(observation.value);
   return (
     <ScrollView style={styles.container}>
       <>

@@ -38,7 +38,7 @@ const keyExtractor = item => item.id.toString();
 
 type Props = {
   observations: ObservationsMap,
-  onPressObservation: (id: string, params: {}) => any,
+  onPressObservation: (id: string) => any,
   getPreset: $ElementType<PresetsContext, "getPreset">
 };
 

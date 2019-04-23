@@ -11,9 +11,9 @@ class ObservationList extends React.Component<NavigationScreenConfigProps> {
     title: "Observations"
   };
 
-  navigateToObservation = (observationId: string, params: {} = {}) => {
+  navigateToObservation = (observationId: string) => {
     const { navigation } = this.props;
-    navigation.navigate("ObservationDetail", { ...params, observationId });
+    navigation.navigate("ObservationDetail", { observationId });
   };
 
   render() {

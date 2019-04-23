@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  onPress: (string, {}) => any,
+  onPress: string => any,
   title: string,
   subtitle?: string,
   imageSrc?: string,
@@ -50,7 +50,7 @@ const ObservationListItem = ({
   id
 }: Props) => (
   <TouchableHighlight
-    onPress={() => onPress(id, { observationTitle: title })}
+    onPress={() => onPress(id)}
     testID={"ObservationListItem:" + id}
   >
     <View style={[styles.container, style]}>

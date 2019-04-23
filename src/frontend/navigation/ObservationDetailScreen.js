@@ -1,13 +1,11 @@
 // @flow
 import React from "react";
-import { Text } from "react-native";
+import { Text, Platform, StyleSheet } from "react-native";
 import type { NavigationScreenConfigProps } from "react-navigation";
 
 import ObservationDetailView from "../components/ObservationDetailView";
-import SetNavigationParam from "../components/SetNavigationParam";
 import CenteredView from "../components/CenteredView";
-import ObservationsContext from "../context/ObservationsContext";
-import PresetsContext from "../context/PresetsContext";
+import ObservationPreset from "../context/ObservationPreset";
 
 // TODO: Add a better message for the user.
 // In the future if we add deep-linking we could get here,
@@ -18,32 +16,56 @@ const ObservationNotFound = () => (
   </CenteredView>
 );
 
+const ObservationTitle = ({ navigation }: NavigationScreenConfigProps) => (
+  <ObservationPreset id={navigation.getParam("observationId")}>
+    {({ observation, preset }) => (
+      <Text numberOfLines={1} style={styles.title}>
+        {preset ? preset.name : "Observation"}
+      </Text>
+    )}
+  </ObservationPreset>
+);
+
 const ObservationDetailScreen = ({
   navigation
 }: NavigationScreenConfigProps) => (
-  <ObservationsContext.Consumer>
-    {({ observations }) => (
-      <PresetsContext.Consumer>
-        {({ getPreset }) => {
-          const id = navigation.getParam("observationId");
-          const obs = typeof id === "string" && observations.get(id);
-          if (!obs) return <ObservationNotFound />;
-          const preset = getPreset(obs.value);
-          const title = preset ? preset.name : "Observation";
-          return (
-            <>
-              <SetNavigationParam name="observationTitle" value={title} />
-              <ObservationDetailView observation={obs} preset={preset} />
-            </>
-          );
-        }}
-      </PresetsContext.Consumer>
-    )}
-  </ObservationsContext.Consumer>
+  <ObservationPreset id={navigation.getParam("observationId")}>
+    {({ observation, preset }) =>
+      observation ? (
+        <ObservationDetailView observation={observation} preset={preset} />
+      ) : (
+        <ObservationNotFound />
+      )
+    }
+  </ObservationPreset>
 );
 
 ObservationDetailScreen.navigationOptions = ({ navigation }) => ({
-  title: navigation.getParam("observationTitle") || "Observation"
+  headerTitle: <ObservationTitle navigation={navigation} />
 });
 
 export default ObservationDetailScreen;
+
+const styles = StyleSheet.create({
+  title: {
+    ...Platform.select({
+      ios: {
+        fontSize: 17,
+        fontWeight: "600",
+        color: "rgba(0, 0, 0, .9)",
+        marginRight: 16
+      },
+      android: {
+        fontSize: 20,
+        fontWeight: "500",
+        color: "rgba(0, 0, 0, .9)",
+        marginRight: 16
+      },
+      default: {
+        fontSize: 18,
+        fontWeight: "400",
+        color: "#3c4043"
+      }
+    })
+  }
+});
