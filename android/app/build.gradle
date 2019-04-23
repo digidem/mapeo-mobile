@@ -72,24 +72,14 @@ import com.android.build.OutputFile
  * ]
  */
 
-def startArgs = gradle.startParameter.taskRequests.args[0]
-def isStorybook = startArgs.contains("installStorybookDebug") ||
-    startArgs.contains("assembleStorybookDebug") ||
-    startArgs.contains("installStorybookRelease") ||
-    startArgs.contains("assembleStorybookRelease")
-
 project.ext.react = [
-    entryFile: isStorybook ? "storybook-native/index.js" : "index.js",
+    entryFile: "index.js",
     inputExcludes: ["android/**", "ios/**", ".gitsecret/**", "flow-typed/**"]
 ]
 
 project.ext.vectoricons = [
     iconFontNames: [ 'MaterialIcons.ttf', 'Octicons.ttf', 'MaterialCommunityIcons.ttf', 'FontAwesome.ttf' ]
 ]
-
-apply from: "../../node_modules/react-native/react.gradle"
-apply from: '../../node_modules/@unimodules/core/build.gradle'
-apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -160,6 +150,7 @@ android {
         storybook {
             applicationIdSuffix ".storybook"
             buildConfigField "boolean", "isStorybook", "true"
+            project.ext.react.entryFile = "storybook-native/index.js"
         }
         app {
             buildConfigField "boolean", "isStorybook", "false"
@@ -188,6 +179,10 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
 }
+
+apply from: "../../node_modules/react-native/react.gradle"
+apply from: '../../node_modules/@unimodules/core/build.gradle'
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 dependencies {
     implementation project(':@react-native-community_async-storage')
