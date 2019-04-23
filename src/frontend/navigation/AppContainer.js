@@ -15,8 +15,7 @@ import AddPhotoScreen from "./AddPhotoScreen";
 import CategoriesScreen from "./CategoriesScreen";
 import GpsModalScreen from "./GpsModalScreen";
 import IconButton from "../components/IconButton";
-import BackIcon from "../components/icons/BackIcon";
-import CloseIcon from "../components/icons/CloseIcon";
+import { BackIcon, CloseIcon } from "../components/icons";
 
 const HeaderLeft = ({ onPress }) => (
   <IconButton onPress={onPress}>

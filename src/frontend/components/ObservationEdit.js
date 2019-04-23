@@ -5,8 +5,7 @@ import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
 import LocationField from "./LocationField";
 import FormattedCoords from "./FormattedCoords";
-import ObservationIcon from "./ObservationIcon";
-import CameraIcon from "./icons/CameraIcon";
+import { CameraIcon, CategoryIcon } from "./icons";
 import ThumbnailScrollView from "./ThumbnailScrollVIew";
 import Circle from "./Circle";
 import { VERY_LIGHT_BLUE } from "../lib/styles";
@@ -114,7 +113,7 @@ const CategoryView = ({
   <View style={styles.categoryContainer}>
     <View style={styles.categoryIcon}>
       <Circle>
-        <ObservationIcon iconId={preset.icon} />
+        <CategoryIcon iconId={preset.icon} />
       </Circle>
     </View>
     <Text style={styles.categoryName}>{preset.name || "Observation"}</Text>

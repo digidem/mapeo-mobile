@@ -11,7 +11,7 @@ import {
 import memoize from "memoize-one";
 import debug from "debug";
 
-import ObservationIcon from "./ObservationIcon";
+import { CategoryIcon } from "./icons";
 import Circle from "./Circle";
 import type { PresetsMap, Preset } from "../context/PresetsContext";
 
@@ -91,7 +91,7 @@ const Item = ({
   >
     <View style={styles.cellContainer}>
       <Circle>
-        <ObservationIcon iconId={item.icon} size="medium" />
+        <CategoryIcon iconId={item.icon} size="medium" />
       </Circle>
       <Text numberOfLines={3} style={styles.categoryName}>
         {item.name}

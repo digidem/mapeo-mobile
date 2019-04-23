@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { withNavigation, withNavigationFocus } from "react-navigation";
 
 import LocationContext from "../context/LocationContext";
-import GpsIcon from "./icons/GpsIcon";
+import { GpsIcon } from "./icons";
 import { getLocationStatus } from "../lib/utils";
 import type { LocationStatus } from "../lib/utils";
 

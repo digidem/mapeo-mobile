@@ -3,7 +3,7 @@ import React from "react";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
 
 import IconButton from "../components/IconButton";
-import CloseIcon from "../components/icons/CloseIcon";
+import { CloseIcon } from "../components/icons";
 import LocationContext from "../context/LocationContext";
 import FormattedCoords from "../components/FormattedCoords";
 

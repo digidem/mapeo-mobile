@@ -4,7 +4,7 @@ import React from "react";
 import debug from "debug";
 
 import IconButton from "../components/IconButton";
-import SaveIcon from "../components/icons/SaveIcon";
+import { SaveIcon } from "../components/icons";
 import { withDraft } from "../context/DraftObservationContext";
 import { withObservations } from "../context/ObservationsContext";
 import { savePhoto } from "../api";

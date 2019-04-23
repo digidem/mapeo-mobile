@@ -5,7 +5,7 @@ import debug from "debug";
 
 import { getMediaUrl } from "../api";
 import { LIGHT_GREY } from "../lib/styles";
-import AlertIcon from "./icons/AlertIcon";
+import { AlertIcon } from "./icons";
 import type { Photo } from "../context/DraftObservationContext";
 import type { ObservationAttachment } from "../context/ObservationsContext";
 import type { Style } from "../types/other";

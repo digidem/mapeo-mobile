@@ -5,11 +5,7 @@ import { Text, Image, View, ScrollView, StyleSheet } from "react-native";
 import FormattedCoords from "./FormattedCoords";
 import ThumbnailScrollView from "./ThumbnailScrollVIew";
 import InsetMapView from "./InsetMapView";
-import ObservationIcon from "./ObservationIcon";
-import LocationIcon from "./icons/LocationIcon";
-// import UserIcon from "./icons/UserIcon";
-// import CameraIcon from "./icons/CameraIcon";
-import EditIcon from "./icons/EditIcon";
+import { LocationIcon, EditIcon, CategoryIcon } from "./icons";
 import type { PresetWithFields } from "../context/PresetsContext";
 import type { Observation } from "../context/ObservationsContext";
 
@@ -100,7 +96,7 @@ const ObservationDetailView = ({ observation, preset = {} }: ODVProps) => {
           style={styles.categoryPin}
         />
         <View style={styles.categoryIconContainer}>
-          <ObservationIcon iconId={preset.icon} />
+          <CategoryIcon iconId={preset.icon} />
         </View>
         {lat != null && lon != null && (
           <View style={{ flexDirection: "row", alignSelf: "center" }}>

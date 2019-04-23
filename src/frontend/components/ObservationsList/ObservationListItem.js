@@ -3,7 +3,7 @@ import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-import ObservationIcon from "../ObservationIcon";
+import { CategoryIcon } from "../icons";
 import Circle from "../Circle";
 import type { Style } from "../../types/other";
 
@@ -59,7 +59,7 @@ const ObservationListItem = ({
         <Text>{subtitle}</Text>
       </View>
       <Circle>
-        <ObservationIcon iconId={iconId} size="medium" />
+        <CategoryIcon iconId={iconId} size="medium" />
       </Circle>
     </View>
   </TouchableHighlight>

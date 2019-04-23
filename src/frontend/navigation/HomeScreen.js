@@ -12,7 +12,7 @@ import type { NavigationScreenConfigProps } from "react-navigation";
 import CameraScreen from "./CameraScreen";
 import MapScreen from "./MapScreen";
 import IconButton from "../components/IconButton";
-import ObservationListIcon from "../components/icons/ObservationListIcon";
+import { ObservationListIcon } from "../components/icons";
 import GpsPill from "../components/GpsPill";
 import { withDraft } from "../context/DraftObservationContext";
 import type {

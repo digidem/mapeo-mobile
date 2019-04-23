@@ -3,8 +3,8 @@ import React from "react";
 import { Image } from "react-native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import { getIconUrl } from "../api";
-import type { IconSize } from "../types/other";
+import { getIconUrl } from "../../api";
+import type { IconSize } from "../../types/other";
 
 type Props = {
   size: IconSize,
@@ -15,7 +15,7 @@ type State = {
   error: boolean
 };
 
-class ObservationIcon extends React.PureComponent<Props, State> {
+class CategoryIcon extends React.PureComponent<Props, State> {
   static defaultProps = {
     size: "medium"
   };
@@ -44,4 +44,4 @@ class ObservationIcon extends React.PureComponent<Props, State> {
   }
 }
 
-export default ObservationIcon;
+export default CategoryIcon;
