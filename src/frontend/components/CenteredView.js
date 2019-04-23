@@ -9,6 +9,8 @@ const CenteredView = ({ children }: { children: React.Node }) => (
   <View style={styles.container}>{children}</View>
 );
 
+export default CenteredView;
+
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFill,
@@ -19,5 +21,3 @@ const styles = StyleSheet.create({
     padding: 20
   }
 });
-
-export default CenteredView;

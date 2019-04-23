@@ -9,7 +9,7 @@ import {
   Text
 } from "react-native";
 import memoize from "memoize-one";
-import debug from "debug";
+// import debug from "debug";
 
 import { CategoryIcon } from "./icons";
 import Circle from "./Circle";
@@ -17,38 +17,7 @@ import type { PresetsMap, Preset } from "../context/PresetsContext";
 
 const ROW_HEIGHT = 120;
 const MIN_COL_WIDTH = 100;
-const log = debug("CategoriesView");
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 5,
-    flex: 1
-  },
-  cellTouchable: {
-    flex: 1,
-    height: ROW_HEIGHT,
-    marginBottom: 5,
-    borderRadius: 10
-  },
-  cellContainer: {
-    flex: 1,
-    alignItems: "center",
-    paddingTop: 5,
-    paddingBottom: 5,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "transparent",
-    backgroundColor: "white"
-  },
-  categoryName: {
-    color: "black",
-    fontWeight: "400",
-    textAlign: "center",
-    marginTop: 5,
-    paddingLeft: 5,
-    paddingRight: 5
-  }
-});
+// const log = debug("CategoriesView");
 
 type Props = {
   presets: PresetsMap,
@@ -133,3 +102,34 @@ class CategoriesView extends React.PureComponent<Props> {
   }
 }
 export default CategoriesView;
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 5,
+    flex: 1
+  },
+  cellTouchable: {
+    flex: 1,
+    height: ROW_HEIGHT,
+    marginBottom: 5,
+    borderRadius: 10
+  },
+  cellContainer: {
+    flex: 1,
+    alignItems: "center",
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "transparent",
+    backgroundColor: "white"
+  },
+  categoryName: {
+    color: "black",
+    fontWeight: "400",
+    textAlign: "center",
+    marginTop: 5,
+    paddingLeft: 5,
+    paddingRight: 5
+  }
+});

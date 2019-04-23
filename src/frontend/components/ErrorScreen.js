@@ -14,6 +14,8 @@ const ErrorScreen = () => (
   </CenteredView>
 );
 
+export default ErrorScreen;
+
 const styles = StyleSheet.create({
   notice: {
     fontSize: 20,
@@ -26,5 +28,3 @@ const styles = StyleSheet.create({
     margin: 20
   }
 });
-
-export default ErrorScreen;

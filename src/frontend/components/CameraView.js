@@ -14,13 +14,6 @@ import type { CapturePromise } from "../context/DraftObservationContext";
 
 const log = debug("CameraView");
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "black"
-  }
-});
-
 const captureOptions = {
   quality: 0.75,
   base64: false,
@@ -104,3 +97,10 @@ class CameraView extends React.Component<Props, State> {
 }
 
 export default withNavigationFocus(CameraView);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "black"
+  }
+});

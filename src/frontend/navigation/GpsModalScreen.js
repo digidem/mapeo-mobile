@@ -11,52 +11,6 @@ import { getLocationStatus } from "../lib/utils";
 import type { LocationStatus } from "../lib/utils";
 import type { LocationContextType } from "../context/LocationContext";
 
-const styles = StyleSheet.create({
-  header: {
-    flex: 1,
-    height: 60,
-    marginBottom: 20,
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  title: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 20,
-    flex: 1,
-    textAlign: "center",
-    marginRight: 60
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.85)",
-    flexDirection: "column"
-  },
-  row: {
-    flexDirection: "row"
-  },
-  sectionTitle: {
-    color: "white",
-    fontWeight: "700",
-    marginTop: 10,
-    marginBottom: 5,
-    fontSize: 16
-  },
-  rowLabel: {
-    color: "white",
-    fontWeight: "700",
-    minWidth: "50%"
-  },
-  rowValue: {
-    color: "white",
-    fontWeight: "400"
-  },
-  infoArea: {
-    paddingLeft: 15,
-    paddingRight: 15
-  }
-});
-
 type HeaderProps = {
   onClose: () => void,
   variant: LocationStatus
@@ -141,3 +95,49 @@ function getLastUpdateText(location: LocationContextType) {
       location.savedPosition.timestamp;
   return new Date(lastTimestamp).toLocaleString();
 }
+
+const styles = StyleSheet.create({
+  header: {
+    flex: 1,
+    height: 60,
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  title: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 20,
+    flex: 1,
+    textAlign: "center",
+    marginRight: 60
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.85)",
+    flexDirection: "column"
+  },
+  row: {
+    flexDirection: "row"
+  },
+  sectionTitle: {
+    color: "white",
+    fontWeight: "700",
+    marginTop: 10,
+    marginBottom: 5,
+    fontSize: 16
+  },
+  rowLabel: {
+    color: "white",
+    fontWeight: "700",
+    minWidth: "50%"
+  },
+  rowValue: {
+    color: "white",
+    fontWeight: "400"
+  },
+  infoArea: {
+    paddingLeft: 15,
+    paddingRight: 15
+  }
+});

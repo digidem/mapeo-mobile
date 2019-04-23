@@ -9,68 +9,6 @@ import { LocationIcon, EditIcon, CategoryIcon } from "./icons";
 import type { PresetWithFields } from "../context/PresetsContext";
 import type { Observation } from "../context/ObservationsContext";
 
-const styles = StyleSheet.create({
-  categoryIconContainer: {
-    alignSelf: "center",
-    position: "absolute",
-    top: 25
-  },
-  categoryPin: {
-    alignSelf: "center",
-    width: 80,
-    height: 85,
-    marginTop: 5
-  },
-  container: {
-    backgroundColor: "white",
-    flex: 1,
-    flexDirection: "column"
-  },
-  positionText: {
-    fontSize: 12,
-    color: "black",
-    fontWeight: "700"
-  },
-  section: {
-    borderBottomColor: "lightgray",
-    borderBottomWidth: 1,
-    flex: 1
-  },
-  sectionText: {
-    color: "black",
-    fontSize: 14,
-    fontWeight: "700",
-    marginBottom: 15,
-    marginLeft: 10,
-    marginTop: 15
-  },
-  textNotes: {
-    color: "black",
-    fontSize: 18,
-    fontWeight: "700",
-    margin: 20,
-    textAlign: "center"
-  },
-  time: {
-    color: "grey",
-    fontSize: 12,
-    fontWeight: "300",
-    textAlign: "center"
-  },
-  fieldAnswer: {
-    color: "black",
-    fontSize: 18,
-    fontWeight: "700",
-    marginTop: 7,
-    marginBottom: 15
-  },
-  fieldTitle: {
-    color: "black",
-    fontSize: 14,
-    fontWeight: "700"
-  }
-});
-
 const FieldView = ({ label, answer }) => (
   <View style={{ marginLeft: 15 }}>
     <Text style={styles.fieldTitle}>{label}</Text>
@@ -152,3 +90,65 @@ const ObservationDetailView = ({ observation, preset = {} }: ODVProps) => {
 };
 
 export default ObservationDetailView;
+
+const styles = StyleSheet.create({
+  categoryIconContainer: {
+    alignSelf: "center",
+    position: "absolute",
+    top: 25
+  },
+  categoryPin: {
+    alignSelf: "center",
+    width: 80,
+    height: 85,
+    marginTop: 5
+  },
+  container: {
+    backgroundColor: "white",
+    flex: 1,
+    flexDirection: "column"
+  },
+  positionText: {
+    fontSize: 12,
+    color: "black",
+    fontWeight: "700"
+  },
+  section: {
+    borderBottomColor: "lightgray",
+    borderBottomWidth: 1,
+    flex: 1
+  },
+  sectionText: {
+    color: "black",
+    fontSize: 14,
+    fontWeight: "700",
+    marginBottom: 15,
+    marginLeft: 10,
+    marginTop: 15
+  },
+  textNotes: {
+    color: "black",
+    fontSize: 18,
+    fontWeight: "700",
+    margin: 20,
+    textAlign: "center"
+  },
+  time: {
+    color: "grey",
+    fontSize: 12,
+    fontWeight: "300",
+    textAlign: "center"
+  },
+  fieldAnswer: {
+    color: "black",
+    fontSize: 18,
+    fontWeight: "700",
+    marginTop: 7,
+    marginBottom: 15
+  },
+  fieldTitle: {
+    color: "black",
+    fontSize: 14,
+    fontWeight: "700"
+  }
+});

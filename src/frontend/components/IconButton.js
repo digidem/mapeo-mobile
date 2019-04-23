@@ -13,16 +13,6 @@ TouchableNativeFeedback.propTypes = {
   background: PropTypes.object
 };
 
-const styles = StyleSheet.create({
-  container: {
-    width: 60,
-    height: 60,
-    flex: 0,
-    justifyContent: "center",
-    alignItems: "center"
-  }
-});
-
 type Props = {
   onPress: (SyntheticEvent<>) => any,
   style?: Style<typeof View>,
@@ -41,3 +31,13 @@ const IconButton = ({ onPress, style, children, testID }: Props) => (
 );
 
 export default React.memo<Props>(IconButton);
+
+const styles = StyleSheet.create({
+  container: {
+    width: 60,
+    height: 60,
+    flex: 0,
+    justifyContent: "center",
+    alignItems: "center"
+  }
+});

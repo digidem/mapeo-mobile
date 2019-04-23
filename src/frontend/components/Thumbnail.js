@@ -12,16 +12,6 @@ import type { Style } from "../types";
 
 const log = debug("Thumbnail");
 
-const styles = StyleSheet.create({
-  container: {
-    borderRadius: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: LIGHT_GREY,
-    overflow: "hidden"
-  }
-});
-
 type Props =
   | {
       ...Photo,
@@ -74,3 +64,13 @@ class Thumbnail extends React.PureComponent<Props, State> {
 }
 
 export default Thumbnail;
+
+const styles = StyleSheet.create({
+  container: {
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: LIGHT_GREY,
+    overflow: "hidden"
+  }
+});

@@ -10,34 +10,6 @@ import type { LocationStatus } from "../lib/utils";
 
 const ERROR_COLOR = "#FF0000";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 0,
-    minWidth: 100,
-    maxWidth: 200,
-    borderRadius: 18,
-    height: 36,
-    paddingLeft: 32,
-    paddingRight: 20,
-    borderWidth: 3,
-    borderColor: "#33333366",
-    backgroundColor: "#000000",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row"
-  },
-  error: {
-    backgroundColor: ERROR_COLOR
-  },
-  text: {
-    color: "white"
-  },
-  icon: {
-    position: "absolute",
-    left: 6
-  }
-});
-
 type Props = {
   onPress: null | (() => void),
   precision?: number,
@@ -97,3 +69,31 @@ const ConnectedGpsPill = ({ navigation, isFocused }) => (
 );
 
 export default withNavigation(withNavigationFocus(ConnectedGpsPill));
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 0,
+    minWidth: 100,
+    maxWidth: 200,
+    borderRadius: 18,
+    height: 36,
+    paddingLeft: 32,
+    paddingRight: 20,
+    borderWidth: 3,
+    borderColor: "#33333366",
+    backgroundColor: "#000000",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row"
+  },
+  error: {
+    backgroundColor: ERROR_COLOR
+  },
+  text: {
+    color: "white"
+  },
+  icon: {
+    position: "absolute",
+    left: 6
+  }
+});

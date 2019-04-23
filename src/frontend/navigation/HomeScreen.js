@@ -22,34 +22,6 @@ import type {
 
 const log = debug("HomeScreen");
 
-const styles = StyleSheet.create({
-  header: {
-    position: "absolute",
-    zIndex: 10,
-    top: 0,
-    right: 0,
-    left: 0,
-    height: 60,
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  rightButton: {},
-  leftButton: {
-    width: 60,
-    height: 60
-  },
-  linearGradient: {
-    height: 60,
-    position: "absolute",
-    top: 0,
-    right: 0,
-    left: 0,
-    backgroundColor: "transparent"
-  }
-});
-
 class SceneComponent extends React.PureComponent<*> {
   render() {
     const { component, ...rest } = this.props;
@@ -165,3 +137,31 @@ class HomeScreen extends React.Component<Props, State> {
 }
 
 export default withDraft(["newDraft"])(HomeScreen);
+
+const styles = StyleSheet.create({
+  header: {
+    position: "absolute",
+    zIndex: 10,
+    top: 0,
+    right: 0,
+    left: 0,
+    height: 60,
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  rightButton: {},
+  leftButton: {
+    width: 60,
+    height: 60
+  },
+  linearGradient: {
+    height: 60,
+    position: "absolute",
+    top: 0,
+    right: 0,
+    left: 0,
+    backgroundColor: "transparent"
+  }
+});

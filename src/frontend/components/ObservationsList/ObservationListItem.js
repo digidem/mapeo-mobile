@@ -7,29 +7,6 @@ import { CategoryIcon } from "../icons";
 import Circle from "../Circle";
 import type { Style } from "../../types";
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    backgroundColor: "white",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    borderBottomColor: "#EAEAEA",
-    borderBottomWidth: 1,
-    width: "100%",
-    paddingHorizontal: 20,
-    flex: 1,
-    height: 80
-  },
-  text: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "flex-start"
-  },
-  title: { fontSize: 18, fontWeight: "700", color: "black" }
-  // media: { width: 60, height: 60, borderRadius: 7 }
-});
-
 type Props = {
   onPress: string => any,
   title: string,
@@ -66,3 +43,26 @@ const ObservationListItem = ({
 );
 
 export default React.memo<Props>(ObservationListItem);
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    backgroundColor: "white",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    borderBottomColor: "#EAEAEA",
+    borderBottomWidth: 1,
+    width: "100%",
+    paddingHorizontal: 20,
+    flex: 1,
+    height: 80
+  },
+  text: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start"
+  },
+  title: { fontSize: 18, fontWeight: "700", color: "black" }
+  // media: { width: 60, height: 60, borderRadius: 7 }
+});

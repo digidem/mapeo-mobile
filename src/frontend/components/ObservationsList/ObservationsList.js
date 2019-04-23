@@ -12,15 +12,6 @@ import type { PresetsContext } from "../../context/PresetsContext";
 
 const OBSERVATION_CELL_HEIGHT = 80;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  listItem: {
-    height: OBSERVATION_CELL_HEIGHT
-  }
-});
-
 const getItemLayout = (data, index) => ({
   length: OBSERVATION_CELL_HEIGHT,
   offset: OBSERVATION_CELL_HEIGHT * index,
@@ -82,3 +73,12 @@ const ObservationsList = ({
 };
 
 export default ObservationsList;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  listItem: {
+    height: OBSERVATION_CELL_HEIGHT
+  }
+});

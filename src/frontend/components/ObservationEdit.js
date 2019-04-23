@@ -13,81 +13,6 @@ import { withDraft } from "../context/DraftObservationContext";
 
 import type { Preset } from "../context/PresetsContext";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    alignContent: "stretch"
-  },
-  locationContainer: {
-    flex: 0,
-    backgroundColor: "#dddddd",
-    minHeight: 48,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingTop: 5,
-    paddingBottom: 5
-  },
-  accuracy: {
-    fontWeight: "bold"
-  },
-  categoryContainer: {
-    flex: 0,
-    flexDirection: "row",
-    alignItems: "center",
-    alignContent: "stretch",
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingTop: 10,
-    paddingBottom: 10
-  },
-  categoryIcon: {
-    flex: 0
-  },
-  categoryName: {
-    fontWeight: "bold",
-    marginLeft: 15,
-    flex: 1
-  },
-  categoryButton: {
-    flex: 0,
-    padding: 10,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  categoryButtonText: {
-    color: "blue"
-  },
-  descriptionContainer: {
-    minHeight: 200,
-    flex: 1
-  },
-  addPhotoButton: {
-    flex: 0,
-    alignSelf: "flex-end",
-    height: 60,
-    flexDirection: "row",
-    alignItems: "center",
-    borderTopWidth: 1,
-    borderTopColor: "#dddddd"
-  },
-  addPhotoIcon: {
-    flex: 0,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingLeft: 30,
-    paddingRight: 30
-  },
-  addPhotoLabel: {
-    flex: 1,
-    fontWeight: "bold",
-    fontSize: 20
-  }
-});
-
 const LocationView = ({ longitude, latitude, accuracy }) => (
   <View style={styles.locationContainer}>
     {longitude === undefined ||
@@ -165,3 +90,78 @@ const ObservationEdit = ({
 );
 
 export default React.memo<Props>(ObservationEdit);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    alignContent: "stretch"
+  },
+  locationContainer: {
+    flex: 0,
+    backgroundColor: "#dddddd",
+    minHeight: 48,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 5,
+    paddingBottom: 5
+  },
+  accuracy: {
+    fontWeight: "bold"
+  },
+  categoryContainer: {
+    flex: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    alignContent: "stretch",
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  categoryIcon: {
+    flex: 0
+  },
+  categoryName: {
+    fontWeight: "bold",
+    marginLeft: 15,
+    flex: 1
+  },
+  categoryButton: {
+    flex: 0,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  categoryButtonText: {
+    color: "blue"
+  },
+  descriptionContainer: {
+    minHeight: 200,
+    flex: 1
+  },
+  addPhotoButton: {
+    flex: 0,
+    alignSelf: "flex-end",
+    height: 60,
+    flexDirection: "row",
+    alignItems: "center",
+    borderTopWidth: 1,
+    borderTopColor: "#dddddd"
+  },
+  addPhotoIcon: {
+    flex: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingLeft: 30,
+    paddingRight: 30
+  },
+  addPhotoLabel: {
+    flex: 1,
+    fontWeight: "bold",
+    fontSize: 20
+  }
+});
