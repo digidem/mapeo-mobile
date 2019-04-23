@@ -48,7 +48,7 @@ export function getObservations(cb: GetObservationsCallback): void {
   setTimeout(() => cb(null, observationsFixture), 1000);
 }
 
-export function getIconUrl(iconId: string, size: IconSize): string {
+export function getIconUrl(iconId: string, size: IconSize = "medium"): string {
   const roundedRatio = Math.floor(pixelRatio);
   return `${BASE_URL}icons/${iconId}_${size}@${roundedRatio}x.png`;
 }
