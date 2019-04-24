@@ -23,7 +23,7 @@
 .*/node_modules/module-deps/test/.*
 
 ; Ignore node backend stuff
-src/backend/node_modules/.*
+src/backend/.*
 nodejs-assets/.*
 
 [include]
