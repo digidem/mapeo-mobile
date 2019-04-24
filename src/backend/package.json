@@ -9,11 +9,11 @@
   "dependencies": {
     "bindings-noderify-nodejs-mobile": "^10.3.0",
     "debug": "^4.1.1",
-    "ecstatic": "^3.3.1",
     "kappa-core": "^2.6.2",
-    "kappa-osm": "^2.3.0",
+    "kappa-osm": "^3.0.1",
     "level": "^4.0.0",
-    "mapeo-server": "^10.0.0",
+    "mapeo-server": "^13.1.1",
+    "mkdirp": "^0.5.1",
     "random-access-file": "^2.1.0",
     "safe-fs-blob-store": "^1.0.3"
   },

@@ -22,6 +22,10 @@
 ; Ignore module-deps test
 .*/node_modules/module-deps/test/.*
 
+; Ignore node backend stuff
+src/backend/node_modules/.*
+nodejs-assets/.*
+
 [include]
 
 [libs]
