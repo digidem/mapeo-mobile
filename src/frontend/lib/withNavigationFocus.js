@@ -1,15 +1,14 @@
 import React from "react";
-import { View } from "react-native";
 import hoistStatics from "hoist-non-react-statics";
 import { withNavigation } from "react-navigation";
 
 /**
- * This Higher Order Component (HOC) unmounts a component when it looses
- * navigation 'focus' - e.g. it will unmount when you navigate away from it.
- * Unlike the react-navigation `withNavigationFocus` it will unmount on the
- * `didBlur` event instead of `willBlur` - i.e. the unmount will happen at the
- * end of any navigation transition. This is necessary because unmounting the
- * camera component is expensive and can lock-up the transition animation.
+ * This Higher Order Component (HOC) that provides an `isFocussed` prop to the
+ * wrapped component, similar to
+ * [`withNavigationFocus`](https://reactnavigation.org/docs/en/with-navigation-focus.html)
+ * from `react-navigation` but in contrast to that, this one considers the
+ * screen to be focussed until it finishes animating out, as opposed to until
+ * when is starts animating out.
  */
 export default function withNavigationFocus(Component) {
   class ComponentWithNavigationFocus extends React.Component {
@@ -41,14 +40,12 @@ export default function withNavigationFocus(Component) {
     }
 
     render() {
-      return this.state.isFocused ? (
+      return (
         <Component
           {...this.props}
           isFocused={this.state.isFocused}
           ref={this.props.onRef}
         />
-      ) : (
-        <View />
       );
     }
   }
