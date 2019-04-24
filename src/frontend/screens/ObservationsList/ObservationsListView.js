@@ -28,11 +28,18 @@ const getValuesMemoized = memoize(
 const keyExtractor = item => item.id.toString();
 
 type Props = {
+  // A map of observations, by id
   observations: ObservationsMap,
+  // Called when the user presses a list item, called with observation id
   onPressObservation: (id: string) => any,
+  // A function called with an observation value that returns a preset that
+  // matches the observation, used for rendering the icon and title
   getPreset: $ElementType<PresetsContext, "getPreset">
 };
 
+/**
+ * Renders a list view of observations
+ */
 const ObservationsListView = ({
   observations,
   onPressObservation,
@@ -47,7 +54,6 @@ const ObservationsListView = ({
       <FlatList
         initialNumToRender={rowsPerWindow}
         getItemLayout={getItemLayout}
-        style={{ width: Dimensions.get("window").width }}
         keyExtractor={keyExtractor}
         windowSize={3}
         removeClippedSubviews

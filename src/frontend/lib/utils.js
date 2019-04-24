@@ -1,5 +1,7 @@
 // @flow
 import type { LocationContextType } from "../context/LocationContext";
+import type { ObservationValue } from "../context/ObservationsContext";
+import type { Preset, PresetsMap } from "../context/PresetsContext";
 
 export function getDisplayName(WrappedComponent: any) {
   return WrappedComponent.displayName || WrappedComponent.name || "Component";
@@ -37,4 +39,14 @@ export function getLocationStatus({
     return "good";
   else if (typeof precision === "number") return "improving";
   return "searching";
+}
+
+// Get a matching preset from a Map of presets, for a given observation value
+export function matchPreset(
+  observationValue: ObservationValue,
+  presets: PresetsMap
+): Preset | void {
+  const categoryId = observationValue.tags.categoryId;
+  if (!categoryId) return;
+  return presets.get(categoryId);
 }

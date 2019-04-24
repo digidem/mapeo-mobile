@@ -3,6 +3,7 @@ import * as React from "react";
 import debug from "debug";
 
 import { getPresets, getFields } from "../api";
+import { matchPreset } from "../lib/utils";
 import type { ObservationValue } from "./ObservationsContext";
 
 const log = debug("mapeo:PresetsContext");
@@ -129,10 +130,7 @@ class PresetsProvider extends React.Component<Props, PresetsContext> {
   }
 
   getPreset(observationValue: ObservationValue): PresetWithFields | void {
-    const categoryId = observationValue.tags.categoryId;
-    if (!categoryId) return;
-    const { presets } = this.state;
-    const preset = presets.get(categoryId);
+    const preset = matchPreset(observationValue, this.state.presets);
     if (!preset) return;
     return this.addFieldDefinitions(preset);
   }

@@ -1,9 +1,9 @@
 // @flow
 import React from "react";
 import { View } from "react-native";
-import * as Progress from "react-native-progress";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
+import Progress from "./Progress";
 import type { LocationStatus } from "../../lib/utils";
 
 const renderError = () => (
@@ -32,15 +32,7 @@ const renderError = () => (
     />
   </View>
 );
-const renderProgress = (color: string) => (
-  <Progress.CircleSnail
-    size={22}
-    indeterminate
-    color={color}
-    strokeCap="round"
-    direction="clockwise"
-  />
-);
+const renderProgress = (color: string) => <Progress size={22} color={color} />;
 const renderGood = () => (
   <View
     style={{

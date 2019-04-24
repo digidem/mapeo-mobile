@@ -12,7 +12,16 @@ module.exports = async ({ config }) => {
   config.resolve.alias = {
     ...config.resolve.alias,
     "react-native": "react-native-web",
-    "@storybook/react-native": "@storybook/react"
+    "@storybook/react-native": "@storybook/react",
+    "react-native-gesture-handler": "react-native-web",
+    "react-native-vector-icons/Octicons":
+      "react-native-vector-icons/dist/Octicons",
+    "react-native-vector-icons/MaterialIcons":
+      "react-native-vector-icons/dist/MaterialIcons",
+    "react-native-vector-icons/FontAwesome":
+      "react-native-vector-icons/dist/FontAwesome",
+    "react-native-vector-icons/MaterialCommunityIcons":
+      "react-native-vector-icons/dist/MaterialCommunityIcons"
   };
 
   return config;
