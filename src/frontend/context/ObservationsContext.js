@@ -42,11 +42,18 @@ export type Observation = {
 export type ObservationsMap = Map<string, Observation>;
 
 export type ObservationsContext = {
+  // A map of all observations in memory, by id
   observations: ObservationsMap,
-  reload: () => void,
+  // Reload the observations from Mapeo Core
+  reload: () => any,
+  // True whilst loading from Mapeo Core
   loading: boolean,
+  // Create a new observation, saving it to the server
   create: (value: ObservationValue) => Promise<Observation>,
+  // Update an existing observation
   update: (id: string, value: ObservationValue) => Promise<Observation>,
+  // If there is an error loading or saving an observation this will contain the
+  // error object
   error?: Error
 };
 
@@ -67,6 +74,10 @@ type Props = {
   children: React.Node
 };
 
+/**
+ * The ObservationsProvider is responsible for loading observations from Mapeo
+ * Core and provides methods for creating, updating and deleting observations.
+ */
 class ObservationsProvider extends React.Component<Props, ObservationsContext> {
   state = {
     observations: new Map(),
@@ -122,10 +133,13 @@ class ObservationsProvider extends React.Component<Props, ObservationsContext> {
   }
 }
 
+// This HOC adds props from the observation context to the wrapped component. If
+// called with no arguments, all properties are passed, or you can pass an array
+// of prop names e.g. `["observations", "loading"] to only pass certain props.
 export const withObservations = (keys?: Array<$Keys<ObservationsContext>>) => (
   WrappedComponent: any
 ) => {
-  const WithDraft = (props: any) => (
+  const WithObservations = (props: any) => (
     <ObservationsConsumer>
       {ctx => {
         const addedProps = keys ? pick(ctx, keys) : ctx;
@@ -133,8 +147,10 @@ export const withObservations = (keys?: Array<$Keys<ObservationsContext>>) => (
       }}
     </ObservationsConsumer>
   );
-  WithDraft.displayName = `WithDraft(${getDisplayName(WrappedComponent)})`;
-  return hoistStatics(WithDraft, WrappedComponent);
+  WithObservations.displayName = `WithObservations(${getDisplayName(
+    WrappedComponent
+  )})`;
+  return hoistStatics(WithObservations, WrappedComponent);
 };
 
 export default {

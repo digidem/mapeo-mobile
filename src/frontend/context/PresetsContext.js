@@ -47,10 +47,16 @@ export type PresetsMap = Map<string, Preset>;
 export type FieldsMap = Map<string, Field>;
 
 export type PresetsContext = {
+  // A map of presets by preset id
   presets: PresetsMap,
+  // A map of all defined fields by field id
   fields: FieldsMap,
+  // Look up the best matching preset for the given observation value. Returns
+  // the preset with fields expanded from ids to field objects
   getPreset: (observation: ObservationValue) => PresetWithFields | void,
+  // True if the presets are currently loading from Mapeo Core
   loading: boolean,
+  // True if there is an error loading presets from Mapeo Core
   error?: boolean
 };
 
@@ -70,6 +76,11 @@ type Props = {
   children: React.Node
 };
 
+/**
+ * The PresetsProvider is responsible for loading the preset and field
+ * definitions from Mapeo Core and provides a method for matching a preset to a
+ * given observation.
+ */
 class PresetsProvider extends React.Component<Props, PresetsContext> {
   state = {
     presets: new Map(),

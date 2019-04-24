@@ -11,8 +11,11 @@ const log = debug("mapeo:Location");
 const STORE_KEY = "@MapeoPosition";
 
 type PositionType = {
+  // The timestamp of when the current position was obtained
   timestamp: number,
+  // Whether the position is mocked or not
   mocked: boolean,
+  // Position details, should be self explanatory. Units in meters
   coords: {
     altitude: number,
     heading: number,
@@ -24,18 +27,29 @@ type PositionType = {
 };
 
 type ProviderType = {
+  // Whether the user has enabled GPS for device location (this is not the same
+  // as turning location services off, this is a setting whether to use just
+  // wifi and bluetooth or use GPS for location)
   gpsAvailable: boolean,
+  // Whether the device can lookup location based on wifi and bluetooth networks
   passiveAvailable: boolean,
+  // Has the user enabled location services on the device (this is often turned
+  // off when the device is in airplane mode)
   locationServicesEnabled: boolean,
+  // Whether the device can lookup location based on cell phone towers
   networkAvailable: boolean
 };
 
 export type LocationContextType = {
+  // If available, details of the current position
   position?: PositionType,
+  // What location services / providers are available on this device
   provider?: ProviderType,
+  // Whether the user has granted permissions to use location to this app
   permission?: PermissionResult,
   // This is the previous known position from the last time the app was open
   savedPosition?: PositionType,
+  // True if there is some kind of error getting the device location
   error: boolean
 };
 
@@ -49,7 +63,11 @@ const defaultContext: LocationContextType = {
 };
 
 const positionOptions = {
+  // See https://docs.expo.io/versions/v32.0.0/sdk/location/#locationaccuracy
+  // this is the best possible accuracy using GPS and other sensors
   accuracy: Location.Accuracy.BestForNavigation,
+  // This is the interval between location updates. We should get a new GPS
+  // reading every 2000ms.
   timeInterval: 2000
 };
 
@@ -62,6 +80,15 @@ const {
   Consumer: LocationConsumer
 } = React.createContext<LocationContextType>(defaultContext);
 
+/**
+ * The LocationProvider provides details about the current device location based
+ * on sensors including GPS. It must be included in the component heirarchy
+ * below the PermissionsProvider, since it needs to read the permissions granted
+ * for device location. There is no event we can listen to for when the user
+ * switches off location (e.g. changes to airplane mode) so we use a timeout ->
+ * if we get not new readings for 10 seconds then we check to see whether the
+ * user has turned off location.
+ */
 class LocationProvider extends React.Component<Props, LocationContextType> {
   _watch: null | { remove: () => null };
   _timeoutId: TimeoutID;

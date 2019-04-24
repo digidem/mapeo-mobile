@@ -6,6 +6,7 @@ import type { Observation } from "../context/ObservationsContext";
 import type { PresetWithFields } from "../context/PresetsContext";
 
 type Props = {
+  // id of observation to return
   id?: any,
   children: ({
     observation?: Observation,
@@ -14,9 +15,9 @@ type Props = {
 };
 
 /**
- * Pass an id prop and look up an observation with that id and look up the best
- * matching preset. Pass a function as a child component, which will be called
- * with ({ observation, preset }) if any match is found.
+ * This is a convenience wrapper for the Observation and Preset contexts.
+ * For a given `id` this will call a child function with a matching observation
+ * and matching preset.
  */
 const ObservationPreset = ({ id, children }: Props) => (
   <ObservationsContext.Consumer>

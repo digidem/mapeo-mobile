@@ -53,9 +53,7 @@ export type DraftObservationContext = {|
   /**
    * Adds a photo to the draft observation. The first argument is a promise
    * which returns a uri to a local image file (in temp cache) and the image
-   * width and height. Optionally can pass a promise as a second argument that
-   * resolves to a uri of a preview image, for faster display of the thumbnail
-   * during full-size photo capture
+   * width and height.
    */
   addPhoto: (capture: CapturePromise) => void,
   // Get the photos on a draft once capture is complete. Returns a Promise that
@@ -88,6 +86,13 @@ type Props = {
   children: React.Node
 };
 
+/**
+ * The DraftObservationProvider is used to manage the local state of any
+ * observation that is being edited / created. It saves the state to local
+ * storage, in order to recover from app crashes, or the app being forced
+ * closed. After a draft has been saved or deleted from Mapeo Core it must be
+ * cleared before creating a new draft.
+ */
 class DraftObservationProvider extends React.Component<
   Props,
   DraftObservationContext

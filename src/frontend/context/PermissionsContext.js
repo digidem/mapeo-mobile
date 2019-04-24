@@ -38,7 +38,10 @@ export const PERMISSIONS: { [string]: PermissionType } = {
 type RequestPermissions = (type: PermissionType | PermissionType[]) => any;
 
 type PermissionsContextType = {|
+  // Call with a string or array of strings of the permissions to request
   requestPermissions: RequestPermissions,
+  // An object map of permissions and the current status, which can be "granted"
+  // | "denied" | "never_ask_again"
   permissions: PermissionsType
 |};
 
@@ -64,6 +67,10 @@ const {
   permissions: initialPermissions
 });
 
+/**
+ * The PermissionsProvider is responsible for requesting app permissions and
+ * stores the current status of the permissions granted by the user.
+ */
 class PermissionsProvider extends React.Component<
   Props,
   PermissionsContextType
