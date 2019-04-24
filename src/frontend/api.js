@@ -19,15 +19,17 @@ const pixelRatio = PixelRatio.get();
 type GetPresetsCallback = (error: Error | null, data: Preset[]) => void;
 
 export function getPresets(cb: GetPresetsCallback): void {
-  const presets: Preset[] = mapToArray(presetsFixture.presets);
-  setTimeout(() => {
-    cb(null, presets);
-  }, 1000);
-  // const url = BASE_URL + "presets/";
-  // ky(url, { retry: 0 })
-  //   .json()
-  //   .then(data => cb(null, data))
-  //   .catch(cb);
+  const url = BASE_URL + "presets/default/presets.json";
+  ky(url, {
+    retry: 0,
+    headers: {
+      "cache-control": "no-cache",
+      pragma: "no-cache"
+    }
+  })
+    .json()
+    .then(data => cb(null, mapToArray(data.presets)))
+    .catch(cb);
 }
 
 type GetFieldsCallback = (error: Error | null, data: Field[]) => void;
@@ -50,7 +52,7 @@ export function getObservations(cb: GetObservationsCallback): void {
 
 export function getIconUrl(iconId: string, size: IconSize = "medium"): string {
   const roundedRatio = Math.floor(pixelRatio);
-  return `${BASE_URL}icons/${iconId}_${size}@${roundedRatio}x.png`;
+  return `${BASE_URL}presets/default/icons/${iconId}-40@${roundedRatio}x.png`;
 }
 
 export function getMediaUrl(attachmentId: string, size: ImageSize): string {

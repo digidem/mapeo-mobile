@@ -7,6 +7,7 @@ const createOsmDb = require("kappa-osm");
 const createMediaStore = require("safe-fs-blob-store");
 const createMapeoRouter = require("mapeo-server");
 const debug = require("debug");
+const mkdirp = require("mkdirp");
 
 const log = debug("mapeo-core:server");
 
@@ -24,6 +25,9 @@ function createServer({ privateStorage, sharedStorage }) {
       raf(path.join(privateStorage, "index", "bkd", name))
     );
   }
+  // create folders for presets & styles
+  mkdirp.sync(path.join(sharedStorage, "presets/default"));
+  mkdirp.sync(path.join(sharedStorage, "styles/default"));
 
   // The main osm db for observations and map data
   const osm = createOsmDb({
@@ -37,7 +41,7 @@ function createServer({ privateStorage, sharedStorage }) {
 
   // Handles all other routes for Mapeo
   const mapeoRouter = createMapeoRouter(osm, media, {
-    staticRoot: path.join(sharedStorage, "static"),
+    staticRoot: sharedStorage,
     writeFormat: "osm-p2p-syncfile"
   });
 
