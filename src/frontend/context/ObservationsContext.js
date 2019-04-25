@@ -1,26 +1,26 @@
-// @flow
+// @flow strict
 import * as React from "react";
 import debug from "debug";
 import hoistStatics from "hoist-non-react-statics";
 import pick from "lodash/pick";
 
 import { getDisplayName } from "../lib/utils";
-import { getObservations } from "../api";
+import { getObservations, createObservation } from "../api";
 
 import type { LocationContextType } from "./LocationContext";
 
 const log = debug("mapeo:ObservationsContext");
 
-export type ObservationAttachment = {|
+export type ObservationAttachment = {
   id: string,
-  type: string
-|};
+  type?: string
+};
 
 export type ObservationValue = {
-  lat?: number,
-  lon?: number,
+  lat?: number | null,
+  lon?: number | null,
   metadata?: {
-    location?: LocationContextType
+    location?: LocationContextType | void
   },
   refs?: Array<{ id: string }>,
   attachments?: Array<ObservationAttachment>,
@@ -30,11 +30,11 @@ export type ObservationValue = {
 export type Observation = {
   id: string,
   version: string,
-  createdAt: string,
-  modifiedAt: string,
-  userId: string,
+  created_at: string,
+  timestamp?: string,
+  userId?: string,
   type: "observation",
-  links: string[],
+  links?: string[],
   schemaVersion: 4,
   value: ObservationValue
 };
@@ -91,34 +91,28 @@ class ObservationsProvider extends React.Component<Props, ObservationsContext> {
     this.reload();
   }
 
-  reload() {
-    log("reload");
+  async reload() {
+    log("Reload observations");
     this.setState({ loading: true });
-    getObservations((err, obsList) => {
-      if (err) return this.handleError(err);
-      const observations = new Map(obsList.map(obs => [obs.id, obs]));
-      this.setState({ observations, loading: false });
-    });
+    try {
+      const obsList = await getObservations();
+      this.setState({
+        observations: new Map(obsList.map(obs => [obs.id, obs])),
+        loading: false
+      });
+    } catch (e) {
+      this.handleError(e);
+    }
   }
 
   create(value: ObservationValue) {
-    const newObservation: Observation = {
-      id: Math.random() + "",
-      createdAt: new Date().toISOString(),
-      modifiedAt: new Date().toISOString(),
-      userId: "unknown",
-      version: Math.random() + "",
-      links: [],
-      type: "observation",
-      schemaVersion: 4,
-      value: value
-    };
-    this.setState(state => {
-      const cloned = new Map(this.state.observations);
-      cloned.set(newObservation.id, newObservation);
-      return { observations: cloned };
+    return createObservation(value).then(newObservation => {
+      this.setState(state => {
+        const cloned = new Map(this.state.observations);
+        cloned.set(newObservation.id, newObservation);
+        return { observations: cloned };
+      });
     });
-    return Promise.resolve(newObservation);
   }
 
   update() {}

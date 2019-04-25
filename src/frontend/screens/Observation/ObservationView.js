@@ -45,7 +45,7 @@ const ObservationView = ({ observation, preset = {} }: ODVProps) => {
             <FormattedCoords lon={lon} lat={lat} style={styles.positionText} />
           </View>
         )}
-        <Text style={styles.time}>{observation.createdAt}</Text>
+        <Text style={styles.time}>{observation.created_at}</Text>
         <View style={styles.section}>
           <Text style={styles.textNotes}>{observation.value.tags.notes}</Text>
         </View>

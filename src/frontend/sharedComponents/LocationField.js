@@ -9,8 +9,8 @@ import type { LocationContextType } from "../context/LocationContext";
 
 type FieldProps = {
   children: ({
-    longitude?: number,
-    latitude?: number,
+    longitude?: number | null,
+    latitude?: number | null,
     accuracy?: number
   }) => React.Node,
   value: $ElementType<DraftObservationContextType, "value">,

@@ -30,8 +30,8 @@ function randomizeObs(o) {
   var r = JSON.parse(JSON.stringify(o));
   r.id = randomBytes(8).toString("hex");
   r.version = randomBytes(32).toString("hex");
-  r.createdAt = addDateFuzz(o.createdAt);
-  r.modifiedAt = addDateFuzz(o.modifiedAt, r.createdAt);
+  r.created_at = addDateFuzz(o.created_at);
+  r.timestamp = addDateFuzz(o.timestamp, r.created_at);
   var pos = randomPosition(bbox);
   r.value.lon = pos[0];
   r.value.lat = pos[1];

@@ -21,7 +21,7 @@ const getItemLayout = (data, index) => ({
 const getValuesMemoized = memoize(
   (map): Observation[] =>
     Array.from(map.values()).sort((a, b) =>
-      a.createdAt < b.createdAt ? 1 : -1
+      a.created_at < b.created_at ? 1 : -1
     )
 );
 
@@ -58,7 +58,7 @@ const ObservationsListView = ({
         windowSize={3}
         removeClippedSubviews
         renderItem={({ item }) => {
-          const { id, createdAt } = item;
+          const { id, created_at } = item;
           const { icon, name } = getPreset(item.value) || {};
           return (
             <ObservationListItem
@@ -67,7 +67,7 @@ const ObservationsListView = ({
               style={styles.listItem}
               title={name}
               iconId={icon}
-              subtitle={createdAt}
+              subtitle={created_at}
               onPress={onPressObservation}
             />
           );

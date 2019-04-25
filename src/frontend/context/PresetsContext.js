@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import * as React from "react";
 import debug from "debug";
 
@@ -90,31 +90,21 @@ class PresetsProvider extends React.Component<Props, PresetsContext> {
     loading: true
   };
 
-  componentDidMount() {
-    getPresets((err, presetsList) => {
-      if (err) {
-        log("Error loading presets\n", err);
-        this.setState({ error: true, loading: false });
-        return;
-      }
-      log(`Loaded ${presetsList.length} presets`);
+  async componentDidMount() {
+    try {
+      const [presetsList, fieldsList] = await Promise.all([
+        getPresets(),
+        getFields()
+      ]);
       this.setState({
         presets: new Map(presetsList.map(p => [p.id, p])),
-        loading: false
-      });
-    });
-    getFields((err, fieldsList) => {
-      if (err) {
-        log("Error loading fields\n", err);
-        this.setState({ error: true, loading: false });
-        return;
-      }
-      log(`Loaded ${fieldsList.length} fields`);
-      this.setState({
         fields: new Map(fieldsList.map(p => [p.id, p])),
         loading: false
       });
-    });
+    } catch (err) {
+      log("Error loading presets and fields", err);
+      this.setState({ error: true, loading: false });
+    }
   }
 
   addFieldDefinitions(preset: Preset): PresetWithFields {

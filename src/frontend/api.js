@@ -3,8 +3,6 @@ import "core-js/es6/reflect";
 import { PixelRatio } from "react-native";
 import ky from "ky";
 
-import observationsFixture from "./test_observations.json";
-import presetsFixture from "./test_presets.json";
 import type { Preset, Field } from "./context/PresetsContext";
 import type {
   Observation,
@@ -12,47 +10,42 @@ import type {
 } from "./context/ObservationsContext";
 import type { IconSize, ImageSize } from "./types";
 import type { Photo } from "./context/DraftObservationContext";
+import type { Observation as ServerObservation } from "mapeo-schema";
 
 const BASE_URL = "http://127.0.0.1:9080/";
+const api = ky.extend({
+  prefixUrl: BASE_URL,
+  headers: {
+    "cache-control": "no-cache",
+    pragma: "no-cache"
+  }
+});
 const pixelRatio = PixelRatio.get();
 
-type GetPresetsCallback = (error: Error | null, data: Preset[]) => void;
-
-export function getPresets(cb: GetPresetsCallback): void {
-  const url = BASE_URL + "presets/default/presets.json";
-  ky(url, {
-    retry: 0,
-    headers: {
-      "cache-control": "no-cache",
-      pragma: "no-cache"
-    }
-  })
+export function getPresets(): Promise<Preset[]> {
+  return api
+    .get("presets/default/presets.json")
     .json()
-    .then(data => cb(null, mapToArray(data.presets)))
-    .catch(cb);
+    .then(data => mapToArray(data.presets));
 }
 
-type GetFieldsCallback = (error: Error | null, data: Field[]) => void;
-
-export function getFields(cb: GetFieldsCallback): void {
-  const fields: Field[] = mapToArray(presetsFixture.fields);
-  setTimeout(() => {
-    cb(null, fields);
-  }, 1000);
+export function getFields(): Promise<Field[]> {
+  return api
+    .get("presets/default/presets.json")
+    .json()
+    .then(data => mapToArray(data.fields));
 }
 
-type GetObservationsCallback = (
-  error: Error | null,
-  data: Observation[]
-) => void;
-
-export function getObservations(cb: GetObservationsCallback): void {
-  setTimeout(() => cb(null, observationsFixture), 1000);
+export function getObservations(): Promise<Observation[]> {
+  return api
+    .get("observations")
+    .json()
+    .then(data => data.map(convertFromServer));
 }
 
 export function getIconUrl(iconId: string, size: IconSize = "medium"): string {
   const roundedRatio = Math.floor(pixelRatio);
-  return `${BASE_URL}presets/default/icons/${iconId}-40@${roundedRatio}x.png`;
+  return `${BASE_URL}presets/default/icons/${iconId}-medium@${roundedRatio}x.png`;
 }
 
 export function getMediaUrl(attachmentId: string, size: ImageSize): string {
@@ -69,23 +62,25 @@ export function savePhoto({
     );
   fullUri = fullUri.replace(/^file:\/\//, "");
   thumbnailUri = thumbnailUri.replace(/^file:\/\//, "");
-  const url = `${BASE_URL}media?file=${fullUri}&thumbnail=${thumbnailUri}`;
-  return ky.put(url).json();
+  const url = `media?file=${fullUri}&thumbnail=${thumbnailUri}`;
+  return api.put(url).json();
 }
 
 export function updateObservation(
   id: string,
   value: ObservationValue
 ): Promise<Observation> {
-  const url = `${BASE_URL}observations/${id}`;
-  return ky.put(url, { json: value }).json();
+  return api.put(`observations/${id}`, { json: value }).json();
 }
 
 export function createObservation(
   value: ObservationValue
 ): Promise<Observation> {
-  const url = `${BASE_URL}observations`;
-  return ky.post(url, { json: value }).json();
+  const valueForServer = {
+    ...value,
+    type: "observation"
+  };
+  return api.post("observations", { json: valueForServer }).json();
 }
 
 function mapToArray<T>(map: { [string]: T }): Array<T> {
@@ -93,4 +88,40 @@ function mapToArray<T>(map: { [string]: T }): Array<T> {
     ...map[id],
     id: id
   }));
+}
+
+// function convertToServer(obs: Observation): ServerObservation {
+//   const { value, ...other } = obs;
+//   return {
+//     ...other,
+//     ...value
+//   };
+// }
+
+function convertFromServer(obs: ServerObservation): Observation {
+  const {
+    id,
+    version,
+    type,
+    created_at,
+    timestamp,
+    userId,
+    links,
+    schemaVersion,
+    ...value
+  } = obs;
+  return {
+    id,
+    version,
+    type,
+    created_at,
+    timestamp,
+    userId,
+    links,
+    schemaVersion,
+    value: {
+      ...value,
+      tags: (value || {}).tags
+    }
+  };
 }
