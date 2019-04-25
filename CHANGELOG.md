@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.0.0-alpha.1](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.0...v1.0.0-alpha.1) (2019-04-25)
+
+
+### Bug Fixes
+
+* **internal:** don't unmount the whole camera screen on focus loss ([840ebab](https://github.com/digidem/mapeo-mobile/commit/840ebab))
+
+
+### Features
+
+* **newObservation:** Add save button (new observation is lost after app restart) ([92d615f](https://github.com/digidem/mapeo-mobile/commit/92d615f))
+* **photos:** also create preview image ([7629cf4](https://github.com/digidem/mapeo-mobile/commit/7629cf4))
+* Load and save observations and presets from mapeo-core ([0c5d686](https://github.com/digidem/mapeo-mobile/commit/0c5d686))
+* load presets from mapeo core ([b4cbef1](https://github.com/digidem/mapeo-mobile/commit/b4cbef1))
+
+
+
 # 1.0.0-alpha.0 (2019-04-17)
 
 
