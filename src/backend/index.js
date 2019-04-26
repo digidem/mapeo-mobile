@@ -35,7 +35,7 @@ let server;
 status.startHeartbeat();
 
 process.on("uncaughtException", function(err) {
-  log(err);
+  log(err.message);
   status.setState(constants.ERROR);
 });
 
