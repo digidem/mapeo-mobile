@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-// import { StyleSheet } from "react-native";
+import { Alert } from "react-native";
 import debug from "debug";
 
 import IconButton from "../../sharedComponents/IconButton";
@@ -26,6 +26,7 @@ type State = {
   error: boolean
 };
 
+const MINIMUM_ACCURACY = 10;
 const log = debug("SaveButton");
 
 class SaveButton extends React.PureComponent<Props, State> {
@@ -35,6 +36,54 @@ class SaveButton extends React.PureComponent<Props, State> {
   };
 
   handleSavePress = async () => {
+    const { navigation, draft } = this.props;
+    const isNew = navigation.getParam("observationId") === undefined;
+    if (!isNew) return this.doSave();
+    if (draft.value.lat === undefined && draft.value.lon === undefined) {
+      Alert.alert(
+        "No GPS Location",
+        "This observation does not have a location, you can keep waiting or save the observation without a location",
+        [
+          {
+            text: "Keep waiting",
+            onPress: () => log("Cancelled save"),
+            style: "cancel"
+          },
+          {
+            text: "Save anyway",
+            onPress: this.doSave,
+            style: "default"
+          }
+        ]
+      );
+    } else if (
+      draft.value.metadata &&
+      draft.value.metadata.location &&
+      draft.value.metadata.location.position &&
+      draft.value.metadata.location.position.coords.accuracy > MINIMUM_ACCURACY
+    ) {
+      Alert.alert(
+        "Weak GPS Signal",
+        "The accuracy of the GPS location of this observation is not very good. You can keep waiting for better accuracy, or save anyway",
+        [
+          {
+            text: "Keep waiting",
+            onPress: () => log("Cancelled save"),
+            style: "cancel"
+          },
+          {
+            text: "Save anyway",
+            onPress: this.doSave,
+            style: "default"
+          }
+        ]
+      );
+    } else {
+      this.doSave();
+    }
+  };
+
+  doSave = async () => {
     const { navigation, create, draft } = this.props;
     log("start save");
     this.setState({ saving: true });
