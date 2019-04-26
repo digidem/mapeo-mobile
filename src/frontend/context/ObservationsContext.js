@@ -109,6 +109,7 @@ class ObservationsProvider extends React.Component<Props, ObservationsContext> {
     return createObservation(value).then(newObservation => {
       this.setState(state => {
         const cloned = new Map(this.state.observations);
+        log("Created new observation", newObservation);
         cloned.set(newObservation.id, newObservation);
         return { observations: cloned };
       });

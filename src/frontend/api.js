@@ -80,7 +80,10 @@ export function createObservation(
     ...value,
     type: "observation"
   };
-  return api.post("observations", { json: valueForServer }).json();
+  return api
+    .post("observations", { json: valueForServer })
+    .json()
+    .then(serverObservation => convertFromServer(serverObservation));
 }
 
 function mapToArray<T>(map: { [string]: T }): Array<T> {
