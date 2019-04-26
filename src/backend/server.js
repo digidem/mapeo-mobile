@@ -29,6 +29,10 @@ function createServer({ privateStorage, sharedStorage }) {
   mkdirp.sync(path.join(sharedStorage, "presets/default"));
   mkdirp.sync(path.join(sharedStorage, "styles/default"));
 
+  // Folder with default (built-in) presets to server when the user has not
+  // added any presets
+  const fallbackPresetsDir = path.join(process.cwd(), "presets");
+
   // The main osm db for observations and map data
   const osm = createOsmDb({
     core: coreDb,
@@ -42,7 +46,8 @@ function createServer({ privateStorage, sharedStorage }) {
   // Handles all other routes for Mapeo
   const mapeoRouter = createMapeoRouter(osm, media, {
     staticRoot: sharedStorage,
-    writeFormat: "osm-p2p-syncfile"
+    writeFormat: "osm-p2p-syncfile",
+    fallbackPresetsDir: fallbackPresetsDir
   });
 
   const server = http.createServer(function requestListener(req, res) {

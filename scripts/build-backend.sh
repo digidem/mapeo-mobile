@@ -40,6 +40,13 @@ mv _index.js index.js
 cd ../..
 echo -en " done.\n"
 
+echo -en "Create presets fallback folder"
+cd ./nodejs-assets/nodejs-project
+mkdir -p presets
+mv ./node_modules/mapeo-default-settings/build ./presets/default
+cd ../..
+echo -en " done.\n"
+
 echo "Keeping some node modules..."
 declare -a keepThese=("leveldown")
 for x in "${keepThese[@]}"; do
