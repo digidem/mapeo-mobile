@@ -81,6 +81,10 @@ project.ext.vectoricons = [
     iconFontNames: [ 'MaterialIcons.ttf', 'Octicons.ttf', 'MaterialCommunityIcons.ttf', 'FontAwesome.ttf' ]
 ]
 
+apply from: "./react.gradle"
+apply from: '../../node_modules/@unimodules/core/build.gradle'
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -143,16 +147,19 @@ android {
     flavorDimensions "version"
     productFlavors {
         qa {
+            dimension "version"
             applicationIdSuffix ".qa"
             versionNameSuffix "-qa"
             buildConfigField "boolean", "isStorybook", "false"
         }
         storybook {
+            dimension "version"
             applicationIdSuffix ".storybook"
             buildConfigField "boolean", "isStorybook", "true"
-            project.ext.react.entryFile = "storybook-native/index.js"
+            ext.entryFile = "storybook-native/index.js"
         }
         app {
+            dimension "version"
             buildConfigField "boolean", "isStorybook", "false"
         }
     }
@@ -179,10 +186,6 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
 }
-
-apply from: "../../node_modules/react-native/react.gradle"
-apply from: '../../node_modules/@unimodules/core/build.gradle'
-apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 dependencies {
     implementation project(':@react-native-community_async-storage')
