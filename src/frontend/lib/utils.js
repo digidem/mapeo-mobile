@@ -50,3 +50,14 @@ export function matchPreset(
   if (!categoryId) return;
   return presets.get(categoryId);
 }
+
+export function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  const options = {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  };
+  return date.toLocaleString(options);
+}

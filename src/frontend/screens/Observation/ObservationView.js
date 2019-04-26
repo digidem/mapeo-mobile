@@ -9,6 +9,7 @@ import {
   EditIcon,
   CategoryIcon
 } from "../../sharedComponents/icons";
+import { formatDate } from "../../lib/utils";
 import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
 
@@ -45,7 +46,7 @@ const ObservationView = ({ observation, preset = {} }: ODVProps) => {
             <FormattedCoords lon={lon} lat={lat} style={styles.positionText} />
           </View>
         )}
-        <Text style={styles.time}>{observation.created_at}</Text>
+        <Text style={styles.time}>{formatDate(observation.created_at)}</Text>
         <View style={styles.section}>
           <Text style={styles.textNotes}>{observation.value.tags.notes}</Text>
         </View>
