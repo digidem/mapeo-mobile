@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.0.0-alpha.3](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2019-04-26)
+
+
+### Bug Fixes
+
+* transform new observations on save ([42fb168](https://github.com/digidem/mapeo-mobile/commit/42fb168))
+
+
+### Features
+
+* **createObservation:** Add default presets for when the user has not included presets ([bbea3d8](https://github.com/digidem/mapeo-mobile/commit/bbea3d8))
+
+
+
 # [1.0.0-alpha.2](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2019-04-26)
 
 
