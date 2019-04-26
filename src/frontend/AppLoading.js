@@ -182,7 +182,11 @@ class AppLoading extends React.Component<Props, State> {
         this._splashVisible = false;
         return <HideSplashScreen>{this.props.children}</HideSplashScreen>;
       case status.ERROR:
-        return <ServerStatus variant="error" />;
+        return (
+          <HideSplashScreen>
+            <ServerStatus variant="error" />
+          </HideSplashScreen>
+        );
       default:
         log("render", this.state.serverStatus);
         return <ServerStatus variant="waiting" />;
