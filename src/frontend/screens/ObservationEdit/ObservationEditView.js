@@ -6,7 +6,7 @@ import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import LocationField from "../../sharedComponents/LocationField";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import { CameraIcon, CategoryCircleIcon } from "../../sharedComponents/icons";
-import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollVIew";
+import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { VERY_LIGHT_BLUE } from "../../lib/styles";
 import { withDraft } from "../../context/DraftObservationContext";
 

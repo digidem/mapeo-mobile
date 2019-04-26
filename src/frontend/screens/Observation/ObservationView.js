@@ -3,7 +3,7 @@ import React from "react";
 import { Text, Image, View, ScrollView, StyleSheet } from "react-native";
 
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
-import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollVIew";
+import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import {
   LocationIcon,
   EditIcon,
