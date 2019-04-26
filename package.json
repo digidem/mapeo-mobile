@@ -17,6 +17,7 @@
     "release": "standard-version",
     "release:alpha": "standard-version --prerelease alpha",
     "release:beta": "standard-version --prerelease beta",
+    "release-notes": "conventional-changelog -r 2 -p angular",
     "storybook-native": "./node_modules/@storybook/react-native-server/bin/index.js -p 7007 -c ./storybook-native",
     "storybook-web": "./node_modules/@storybook/react/bin/index.js -c ./storybook-web -s ./public"
   },
@@ -68,6 +69,7 @@
     "babel-loader": "^8.0.5",
     "babel-plugin-react-native-web": "^0.11.2",
     "buble": "^0.19.6",
+    "conventional-changelog-cli": "^2.0.17",
     "detox": "^10.0.10",
     "eslint": "^5.14.1",
     "eslint-config-prettier": "^4.1.0",
