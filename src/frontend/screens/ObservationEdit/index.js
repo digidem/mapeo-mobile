@@ -25,7 +25,7 @@ const ObservationEdit = ({ navigation }: NavigationScreenConfigProps) => (
 );
 
 ObservationEdit.navigationOptions = ({ navigation }) => ({
-  title: "Edit",
+  title: navigation.getParam("observationId") ? "Edit" : "Create Observation",
   headerRight: <SaveButton navigation={navigation} />
 });
 
