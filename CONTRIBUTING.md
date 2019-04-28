@@ -107,3 +107,18 @@ watchers](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-
 ```sh
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 ```
+
+### Missing debug.keystore
+
+Android Studio automatically creates a keystore for locally signing debug builds
+`~/.android/debug.keystore`. You may not have this file if you have never used
+Android Studio before. To create this keystore manually:
+
+```
+keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+```
+
+This keystore is used to sign the debug builds of Mapeo Mobile. It should not be
+used for signing any builds of Mapeo that will be shared with others. In order
+to sign Mapeo for sharing you must use the private keystore that is encrypted in
+this repo with git-secret.

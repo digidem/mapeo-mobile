@@ -74,7 +74,11 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     entryFile: "index.js",
-    inputExcludes: ["android/**", "ios/**", ".gitsecret/**", "flow-typed/**"]
+    inputExcludes: ["android/**", "ios/**", ".gitsecret/**", "flow-typed/**"],
+    // We distribute the QA debug build for testing, so that we get debug logs.
+    // This setting bundles the JS into the APK, so you don't need the metro
+    // bundler running in order to run the Debug QA build
+    bundleInQaDebug: true
 ]
 
 project.ext.vectoricons = [
@@ -134,16 +138,6 @@ android {
             }
         }
     }
-    buildTypes {
-        release {
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.release
-        }
-        debug {
-            applicationIdSuffix ".debug"
-        }
-    }
     flavorDimensions "version"
     productFlavors {
         qa {
@@ -155,12 +149,35 @@ android {
         storybook {
             dimension "version"
             applicationIdSuffix ".storybook"
+            // We use this config field in MainApplication.java to set the
+            // bundle name for loading different code for the storybook version
             buildConfigField "boolean", "isStorybook", "true"
+            // This sets a custom entry file for the storybook version of the
+            // app. This requires a custom react.gradle see `./react.gradle`
             ext.entryFile = "storybook-native/index.js"
         }
         app {
             dimension "version"
             buildConfigField "boolean", "isStorybook", "false"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+        }
+        debug {
+            // Sign the QA Debug build with the release key but regular debug
+            // build with the default debug keystore
+            productFlavors.qa.signingConfig signingConfigs.release
+            productFlavors.app.signingConfig signingConfig
+            signingConfig null
+            // Storybook and QA flavors share the same applicationId between
+            // release and debug builds, but the main app flavor has a suffix
+            // for debug builds, so that when developing you can have the debug
+            // version and the release version on your phone at the same time
+            productFlavors.app.applicationIdSuffix ".debug"
         }
     }
     // applicationVariants are e.g. debug, release

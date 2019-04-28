@@ -21,9 +21,9 @@ afterEvaluate {
         def targetName = variant.name.capitalize()
         def targetPath = variant.dirName
         // Get custom entryFile from flavor config
-        def entryFile = variant.productFlavors[0].ext.has("entryFile") ? variant.productFlavors.get(0).ext.entryFile : config.entryFile ?: "index.android.js"
-        println targetName
-        println entryFile
+        def entryFile = variant.productFlavors[0].ext.has("entryFile") ?
+            variant.productFlavors.get(0).ext.entryFile :
+            config.entryFile ?: "index.android.js"
         // React js bundle directories
         def jsBundleDir = file("$buildDir/generated/assets/react/${targetPath}")
         def resourcesDir = file("$buildDir/generated/res/react/${targetPath}")
