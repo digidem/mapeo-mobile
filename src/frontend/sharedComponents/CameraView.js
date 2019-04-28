@@ -65,7 +65,6 @@ class CameraView extends React.Component<Props, State> {
         setTimeout(this.props.onAddPress, 0, e, capture);
       }
     );
-    capture.finally(() => this.setState({ takingPicture: false }));
   };
 
   render() {

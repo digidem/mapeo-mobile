@@ -8,6 +8,7 @@ const createMediaStore = require("safe-fs-blob-store");
 const createMapeoRouter = require("mapeo-server");
 const debug = require("debug");
 const mkdirp = require("mkdirp");
+const rnBridge = require("rn-bridge");
 
 const log = debug("mapeo-core:server");
 
@@ -37,7 +38,8 @@ function createServer({ privateStorage, sharedStorage }) {
   const osm = createOsmDb({
     core: coreDb,
     index: indexDb,
-    storage: createStorage
+    storage: createStorage,
+    deviceType: "mobile"
   });
 
   // The media store for photos, video etc.
@@ -49,6 +51,7 @@ function createServer({ privateStorage, sharedStorage }) {
     writeFormat: "osm-p2p-syncfile",
     fallbackPresetsDir: fallbackPresetsDir
   });
+  const mapeoCore = mapeoRouter.api.core;
 
   const server = http.createServer(function requestListener(req, res) {
     log(req.method + ": " + req.url);
@@ -66,6 +69,78 @@ function createServer({ privateStorage, sharedStorage }) {
       res.end(JSON.stringify(error));
     }
   });
+
+  const origListen = server.listen;
+  const origClose = server.close;
+
+  server.listen = function listen(...args) {
+    mapeoCore.sync.listen(() => {
+      mapeoCore.sync.on("peer", sendPeerUpdateToRN);
+      mapeoCore.sync.on("down", sendPeerUpdateToRN);
+      rnBridge.channel.on("sync-start", startSync);
+      origListen.apply(server, args);
+    });
+  };
+
+  // Send message to frontend whenever there is an update to the peer list
+  function sendPeerUpdateToRN(peer) {
+    const peers = mapeoCore.sync.peers().map(peer => {
+      const { connection, ...rest } = peer;
+      return rest;
+    });
+    rnBridge.channel.post("peer-update", peers);
+  }
+
+  function startSync(target = {}) {
+    if (!target.host || !target.port) return;
+    const sync = mapeoCore.sync.replicate(target, { deviceType: "mobile" });
+    sync.on("error", onend);
+    sync.on("progress", sendPeerUpdateToRN);
+    sync.on("end", onend);
+    sendPeerUpdateToRN();
+
+    function onend(err) {
+      if (err) log(err.message);
+      sync.removeListener("error", onend);
+      sync.removeListener("progress", sendPeerUpdateToRN);
+      sync.removeListener("end", onend);
+      sendPeerUpdateToRN();
+    }
+  }
+
+  server.close = function close(cb) {
+    mapeoCore.sync.removeListener("peer", sendPeerUpdateToRN);
+    mapeoCore.sync.removeListener("down", sendPeerUpdateToRN);
+    rnBridge.channel.removeListener("request-sync", startSync);
+    onReplicationComplete(() => {
+      mapeoCore.sync.destroy(() => origClose.call(server, cb));
+    });
+  };
+
+  function onReplicationComplete(cb) {
+    // Wait for up to 15 minutes for replication to complete
+    const timeoutId = setTimeout(() => {
+      mapeoCore.sync.removeListener("down", checkIfDone);
+      cb();
+    }, 15 * 60 * 1000);
+
+    checkIfDone();
+
+    function checkIfDone() {
+      const currentlyReplicatingPeers = mapeoCore.sync
+        .peers()
+        .filter(
+          peer =>
+            peer.topic === "replication-started" ||
+            peer.topic === "replication-progress"
+        );
+      if (currentlyReplicatingPeers.length === 0) {
+        clearTimeout(timeoutId);
+        return cb();
+      }
+      mapeoCore.sync.once("down", checkIfDone);
+    }
+  }
 
   return server;
 }

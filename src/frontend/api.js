@@ -2,6 +2,7 @@
 import "core-js/es6/reflect";
 import { PixelRatio } from "react-native";
 import ky from "ky";
+import nodejs from "nodejs-mobile-react-native";
 
 import type { Preset, Field } from "./context/PresetsContext";
 import type {
@@ -84,6 +85,25 @@ export function createObservation(
     .post("observations", { json: valueForServer })
     .json()
     .then(serverObservation => convertFromServer(serverObservation));
+}
+
+export function syncJoin() {
+  api.get("sync/join?name=Mapeo%20Mobile");
+}
+
+export function syncLeave() {
+  api.get("sync/leave");
+}
+
+export function syncGetPeers() {
+  return api
+    .get("sync/peers")
+    .json()
+    .then(data => data && data.message);
+}
+
+export function syncStart(target: { host: string, port: number }) {
+  nodejs.channel.post("sync-start", target);
 }
 
 function mapToArray<T>(map: { [string]: T }): Array<T> {
