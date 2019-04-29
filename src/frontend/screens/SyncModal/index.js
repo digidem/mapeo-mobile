@@ -11,6 +11,7 @@ import { View, Text, StyleSheet } from "react-native";
 import nodejs from "nodejs-mobile-react-native";
 import NetInfo from "@react-native-community/netinfo";
 import { NetworkInfo } from "react-native-network-info";
+import OpenSettings from "react-native-android-open-settings";
 
 import IconButton from "../../sharedComponents/IconButton";
 import { CloseIcon } from "../../sharedComponents/icons";
@@ -178,6 +179,10 @@ class SyncModal extends React.Component<Props, State> {
     const peer = this.state.serverPeers.find(peer => peer.id === peerId);
     // Peer could have vanished in the moment the button was pressed
     if (peer) syncStart(peer);
+  };
+
+  handleWifiPress = () => {
+    OpenSettings.wifiSettings();
   };
 
   async getPeerList() {
