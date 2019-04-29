@@ -9,6 +9,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import nodejs from "nodejs-mobile-react-native";
+import NetInfo from "@react-native-community/netinfo";
 
 import IconButton from "../../sharedComponents/IconButton";
 import { CloseIcon } from "../../sharedComponents/icons";
@@ -16,6 +17,7 @@ import PeerList from "./PeerList";
 import { syncJoin, syncLeave, syncGetPeers, syncStart } from "../../api";
 import { withObservations } from "../../context/ObservationsContext";
 import type { ObservationsContext } from "../../context/ObservationsContext";
+import type { NetInfoData } from "@react-native-community/netinfo";
 
 type HeaderProps = {
   onClose: () => void
@@ -112,13 +114,16 @@ type State = {
   // Map of peer ids to errors
   syncErrors: Map<string, string>,
   // Whether there was an error trying to load peer status
-  loadError?: boolean
+  loadError?: boolean,
+  // Whether the user is connected to wifi
+  wifi?: boolean
 };
 
 class SyncModal extends React.Component<Props, State> {
   state = { serverPeers: [], syncErrors: new Map() };
   _opened: number;
   _timeoutIds: Map<string, TimeoutID> = new Map();
+  _subscription: { remove: () => void };
 
   constructor(props: Props) {
     super(props);
@@ -133,6 +138,11 @@ class SyncModal extends React.Component<Props, State> {
     // listen for an event from mapeo-core whenever the peers change, then
     // request an updated peer list.
     nodejs.channel.addListener("peer-update", this.updatePeers);
+    // Subscribe to NetInfo to know when the user connects/disconnects to wifi
+    this._subscription = NetInfo.addEventListener(
+      "connectionChange",
+      this.handleConnectionChange
+    );
   }
 
   componentWillUnmount() {
@@ -142,8 +152,15 @@ class SyncModal extends React.Component<Props, State> {
     for (var timeoutId of this._timeoutIds.values()) {
       clearTimeout(timeoutId);
     }
+    if (this._subscription) this._subscription.remove();
     this.props.reload();
   }
+
+  handleConnectionChange = (data: NetInfoData) => {
+    this.setState({
+      wifi: data.type === "wifi"
+    });
+  };
 
   handleSyncPress = (peerId: string) => {
     const peer = this.state.serverPeers.find(peer => peer.id === peerId);
