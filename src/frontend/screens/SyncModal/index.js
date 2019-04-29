@@ -1,19 +1,36 @@
 // @flow
+/**
+ * This component contains all the state logic for sync. Some state is stored in
+ * Mapeo Core, but whether a peer has done syncing or an error during sync can
+ * be lost during the time the sync modal remains open. This component also
+ * manages the network / wifi state. All the rendering and interaction logic is
+ * in `./PeerList`.
+ */
 import React from "react";
-import { View, ScrollView, Text, StyleSheet } from "react-native";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
-import { CircleSnail, Circle } from "react-native-progress";
+import { View, Text, StyleSheet } from "react-native";
 import nodejs from "nodejs-mobile-react-native";
 
-import IconButton from "../sharedComponents/IconButton";
-import { CloseIcon } from "../sharedComponents/icons";
-import { syncJoin, syncLeave, syncGetPeers, syncStart } from "../api";
-import { withObservations } from "../context/ObservationsContext";
-import type { ObservationsContext } from "../context/ObservationsContext";
+import IconButton from "../../sharedComponents/IconButton";
+import { CloseIcon } from "../../sharedComponents/icons";
+import PeerList from "./PeerList";
+import { syncJoin, syncLeave, syncGetPeers, syncStart } from "../../api";
+import { withObservations } from "../../context/ObservationsContext";
+import type { ObservationsContext } from "../../context/ObservationsContext";
 
 type HeaderProps = {
   onClose: () => void
 };
+
+const SyncModalHeader = ({ onClose }: HeaderProps) => (
+  <View style={styles.header}>
+    <IconButton onPress={onClose}>
+      <CloseIcon color="white" />
+    </IconButton>
+    <Text numberOfLines={1} style={styles.title}>
+      Sync
+    </Text>
+  </View>
+);
 
 type PeerStatus = {|
   // Peer is ready to sync
@@ -26,7 +43,7 @@ type PeerStatus = {|
   COMPLETE: "COMPLETE"
 |};
 
-type Peer = {|
+export type Peer = {|
   // Unique identifier for the peer
   id: string,
   // User friendly peer name
@@ -78,80 +95,12 @@ type ServerPeer = {
       |}
 };
 
-const peerStatus: PeerStatus = {
+export const peerStatus: PeerStatus = {
   READY: "READY",
   PROGRESS: "PROGRESS",
   ERROR: "ERROR",
   COMPLETE: "COMPLETE"
 };
-
-const SyncModalHeader = ({ onClose, variant }: HeaderProps) => (
-  <View style={styles.header}>
-    <IconButton onPress={onClose}>
-      <CloseIcon color="white" />
-    </IconButton>
-    <Text numberOfLines={1} style={styles.title}>
-      Sync
-    </Text>
-  </View>
-);
-
-const Progress = ({ progress }: { progress?: number }) =>
-  progress !== undefined ? (
-    <Circle
-      size={40}
-      progress={progress}
-      showsText
-      color={"blue"}
-      strokeCap="round"
-      direction="clockwise"
-    />
-  ) : (
-    <CircleSnail
-      size={40}
-      color={"blue"}
-      strokeCap="round"
-      direction="clockwise"
-    />
-  );
-
-const PeerView = ({
-  id,
-  name,
-  status,
-  progress,
-  lastCompleted,
-  onSyncPress
-}: {
-  ...$Exact<Peer>,
-  onSyncPress: (id: string) => any
-}) => (
-  <TouchableNativeFeedback onPress={() => onSyncPress(id)}>
-    <View style={styles.row}>
-      <View style={{ flexDirection: "column", flex: 1 }}>
-        <Text style={styles.sectionTitle}>{name}</Text>
-        {lastCompleted && (
-          <Text style={styles.rowValue}>
-            {new Date(lastCompleted).toLocaleString()}
-          </Text>
-        )}
-      </View>
-      {status === peerStatus.PROGRESS && (
-        <View
-          style={{
-            width: 80,
-            flex: 0,
-            backgroundColor: "lightblue",
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          <Progress progress={progress} />
-        </View>
-      )}
-    </View>
-  </TouchableNativeFeedback>
-);
 
 type Props = {
   navigation: any,
@@ -232,7 +181,7 @@ class SyncModal extends React.Component<Props, State> {
    * 3. A peer remains "completed" another sync starts of the modal is closed
    * 4. A peer is only in the "ready" state when first discovered
    */
-  getDerivedPeerState() {
+  getDerivedPeerState(): Array<Peer> {
     const { serverPeers, syncErrors } = this.state;
     return serverPeers.map(serverPeer => {
       let status = peerStatus.READY;
@@ -270,17 +219,7 @@ class SyncModal extends React.Component<Props, State> {
     return (
       <View style={styles.container}>
         <SyncModalHeader onClose={() => navigation.pop()} />
-        <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
-          <View style={styles.infoArea}>
-            {peers.map(peer => (
-              <PeerView
-                {...peer}
-                key={peer.id}
-                onSyncPress={this.handleSyncPress}
-              />
-            ))}
-          </View>
-        </ScrollView>
+        <PeerList peers={peers} onSyncPress={this.handleSyncPress} />
       </View>
     );
   }
@@ -332,26 +271,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.85)",
     flexDirection: "column"
-  },
-  row: {
-    flexDirection: "row",
-    minHeight: 80,
-    borderBottomColor: "#666666",
-    borderBottomWidth: 1
-  },
-  sectionTitle: {
-    fontWeight: "700",
-    marginTop: 10,
-    marginBottom: 5,
-    fontSize: 16
-  },
-  rowValue: {
-    fontWeight: "400"
-  },
-  infoArea: {
-    flex: 1,
-    backgroundColor: "white",
-    paddingLeft: 15,
-    paddingRight: 15
   }
 });
