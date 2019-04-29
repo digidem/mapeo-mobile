@@ -27,7 +27,8 @@ module.exports = async ({ config }) => {
     "nodejs-mobile-react-native": path.join(
       __dirname,
       "../__mocks__/nodejs-mobile-react-native.js"
-    )
+    ),
+    "@babel/runtime": "@babel/runtime"
   };
 
   return config;

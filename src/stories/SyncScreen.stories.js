@@ -17,17 +17,35 @@ const peers = [
     error: undefined
   },
   {
+    id: "10",
+    name: "Kashint",
+    status: peerStatus.PROGRESS,
+    progress: undefined,
+    lastCompleted: 1556574843306,
+    error: undefined,
+    deviceType: "desktop"
+  },
+  {
     id: "1",
     name: "Nunchuck",
     status: peerStatus.PROGRESS,
     progress: 0.2,
-    lastCompleted: undefined,
-    error: undefined
+    lastCompleted: 1556574843306,
+    error: undefined,
+    deviceType: "desktop"
   },
   {
     id: "2",
     name: "Kama",
-    status: peerStatus.READY,
+    status: peerStatus.COMPLETE,
+    progress: undefined,
+    lastCompleted: 1556574843306,
+    error: undefined
+  },
+  {
+    id: "3",
+    name: "Really long device name here",
+    status: peerStatus.ERROR,
     progress: undefined,
     lastCompleted: undefined,
     error: undefined
@@ -56,7 +74,7 @@ storiesOf("SyncScreen", module)
   ))
   .add("With Peers", () => (
     <SyncView
-      peers={peers}
+      peers={peers.concat(peers)}
       wifi="My Wifi Network"
       onClosePress={action("close")}
       onSyncPress={action("sync")}

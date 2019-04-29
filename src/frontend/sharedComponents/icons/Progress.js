@@ -6,14 +6,15 @@ const Progress = ({ size, color, progress }) =>
     <Circle
       size={size}
       progress={progress}
-      showsText
       color={color}
-      strokeCap="round"
+      strokeCap="butt"
       direction="clockwise"
+      borderWidth={0}
+      thicknes={3}
     />
   ) : (
     <CircleSnail
-      size={size}
+      size={size + 6}
       color={color}
       strokeCap="round"
       direction="clockwise"

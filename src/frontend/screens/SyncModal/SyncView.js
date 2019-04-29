@@ -29,7 +29,7 @@ const WifiBar = ({ onPress, ssid }) => (
     <View style={styles.wifiBar}>
       <WifiIcon />
       <Text style={styles.wifiBarText}>
-        <Text style={styles.bold}>Wifi:</Text> {ssid}
+        <Text style={styles.bold}>Wi-Fi:</Text> {ssid}
       </Text>
     </View>
   </TouchableNativeFeedback>
@@ -60,7 +60,7 @@ const SearchingBox = () => (
       <View style={styles.searchingTextContainer}>
         <Text style={styles.infoHeader}>Searching</Text>
         <Text style={styles.infoSubheader}>
-          Make sure devices are turned on and connected to the same wi-fi
+          Make sure devices are turned on and connected to the same Wi-Fi
           network
         </Text>
       </View>
@@ -111,7 +111,8 @@ const styles = StyleSheet.create({
     flexShrink: 0,
     height: 60,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "#3366FF"
   },
   title: {
     color: "white",
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#3366FF"
+    backgroundColor: "#2348B2"
   },
   scrollViewContent: {
     flex: 1,

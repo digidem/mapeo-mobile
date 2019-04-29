@@ -8,6 +8,7 @@
     "android-storybook": "react-native run-android --variant=storybookDebug --appIdSuffix=storybook",
     "build:backend": "./scripts/build-backend.sh",
     "build:release": "npm run build:backend && ./scripts/build-release-android.sh",
+    "build:storybook": "./node_modules/@storybook/react/bin/build.js -c ./storybook-web -s ./public -o ./build --no-dll",
     "test": "jest",
     "lint": "eslint *.js \"src/**/*.js\"",
     "flow": "flow",
@@ -20,7 +21,7 @@
     "release:beta": "standard-version --prerelease beta",
     "release-notes": "conventional-changelog -r 2 -p angular",
     "storybook-native": "./node_modules/@storybook/react-native-server/bin/index.js -p 7007 -c ./storybook-native",
-    "storybook-web": "./node_modules/@storybook/react/bin/index.js -c ./storybook-web -s ./public"
+    "storybook-web": "./node_modules/@storybook/react/bin/index.js -c ./storybook-web -s ./public -p 5005 --ci"
   },
   "dependencies": {
     "@mapbox/react-native-mapbox-gl": "^6.1.3",

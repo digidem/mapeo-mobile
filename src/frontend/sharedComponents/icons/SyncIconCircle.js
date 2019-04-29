@@ -9,7 +9,7 @@ type Props = {
   inprogress?: boolean
 };
 
-const SyncIcon = ({ inprogress }: Props) => (
+const SyncIconCircle = ({ inprogress }: Props) => (
   <View style={[styles.outerCircle, { opacity: inprogress ? 0.5 : 1 }]}>
     <View style={styles.innerCircle}>
       <Icon
@@ -22,7 +22,7 @@ const SyncIcon = ({ inprogress }: Props) => (
   </View>
 );
 
-export default SyncIcon;
+export default SyncIconCircle;
 
 const styles = StyleSheet.create({
   outerCircle: {

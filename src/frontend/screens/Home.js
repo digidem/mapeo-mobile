@@ -12,7 +12,7 @@ import type { NavigationScreenConfigProps } from "react-navigation";
 import CameraScreen from "./Camera";
 import MapScreen from "./MapScreen";
 import IconButton from "../sharedComponents/IconButton";
-import { ObservationListIcon, SyncIcon } from "../sharedComponents/icons";
+import { ObservationListIcon, SyncIconCircle } from "../sharedComponents/icons";
 import GpsPill from "../sharedComponents/GpsPill";
 import { withDraft } from "../context/DraftObservationContext";
 import type {
@@ -106,7 +106,7 @@ class Home extends React.Component<Props, State> {
               this.props.navigation.navigate("SyncModal");
             }}
           >
-            <SyncIcon />
+            <SyncIconCircle />
           </IconButton>
           <GpsPill />
           <IconButton

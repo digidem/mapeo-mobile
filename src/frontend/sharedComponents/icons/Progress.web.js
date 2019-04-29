@@ -1,10 +1,11 @@
 import React from "react";
 import { View } from "react-native";
 
-const Progress = ({ size, color }) => (
+const Progress = ({ size = 30, color = "white" }) => (
   <View
     style={{
-      backgroundColor: color,
+      borderColor: color,
+      borderWidth: 4,
       margin: 1.5,
       borderRadius: size / 2,
       width: size,

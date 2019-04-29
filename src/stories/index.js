@@ -5,7 +5,6 @@ import { linkTo } from "@storybook/addon-links";
 
 import "./SyncScreen.stories";
 import "./ObservationsList.stories";
-import "./PeerItem.stories";
 
 import Welcome from "./Welcome";
 

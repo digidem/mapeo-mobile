@@ -1,8 +1,15 @@
 // @flow
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 
+import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
+import {
+  CellphoneIcon,
+  LaptopIcon,
+  SyncIcon,
+  DoneIcon,
+  ErrorIcon
+} from "../../sharedComponents/icons";
 import Progress from "../../sharedComponents/icons/Progress";
 
 type PeerStatus = {|
@@ -27,7 +34,8 @@ export type Peer = {|
   progress?: number,
   // The time of last completed sync in milliseconds since UNIX Epoch
   lastCompleted?: number,
-  error?: string
+  error?: string,
+  deviceType?: "mobile" | "desktop"
 |};
 
 export const peerStatus: PeerStatus = {
@@ -37,34 +45,83 @@ export const peerStatus: PeerStatus = {
   COMPLETE: "COMPLETE"
 };
 
+const SyncButton = ({ progress, onPress, status }) => {
+  let style;
+  let text;
+  let icon;
+  switch (status) {
+    case peerStatus.READY:
+      style = styles.syncButtonReady;
+      text = "Sync";
+      icon = <SyncIcon />;
+      break;
+    case peerStatus.PROGRESS:
+      style = styles.syncButtonProgress;
+      text = ((progress || 0) * 100).toFixed(0) + "%";
+      icon = (
+        <View style={styles.progressBackground}>
+          <Progress progress={progress} size={25} color="white" />
+        </View>
+      );
+      break;
+    case peerStatus.ERROR:
+      style = styles.syncButtonError;
+      text = "Error";
+      icon = <ErrorIcon color="red" />;
+      break;
+    case peerStatus.COMPLETE:
+      style = styles.syncButtonDone;
+      text = "Done";
+      icon = <DoneIcon />;
+  }
+  return (
+    <TouchableNativeFeedback
+      style={styles.syncTouchable}
+      onPress={onPress}
+      hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}
+    >
+      <View style={[styles.syncButtonBase, style]}>
+        <View style={styles.iconContainer}>{icon}</View>
+        <Text style={styles.buttonText}>{text}</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+};
+
 export const PeerItem = ({
   id,
   name,
   status,
   progress,
   lastCompleted,
-  onSyncPress
+  onSyncPress,
+  deviceType
 }: {
   ...$Exact<Peer>,
   onSyncPress: (id: string) => any
 }) => (
-  <TouchableNativeFeedback onPress={() => onSyncPress(id)}>
-    <View style={styles.row}>
-      <View style={styles.itemInfo}>
-        <Text style={styles.sectionTitle}>{name}</Text>
-        {lastCompleted && (
-          <Text style={styles.rowValue}>
-            {new Date(lastCompleted).toLocaleString()}
-          </Text>
-        )}
-      </View>
-      {status === peerStatus.PROGRESS && (
-        <View style={styles.progressContainer}>
-          <Progress progress={progress} size={40} color="white" />
-        </View>
+  <View style={styles.row}>
+    {deviceType === "desktop" ? (
+      <LaptopIcon style={styles.peerIcon} size={40} />
+    ) : (
+      <CellphoneIcon style={styles.peerIcon} size={40} />
+    )}
+    <View style={styles.itemInfo}>
+      <Text numberOfLines={1} style={styles.sectionTitle}>
+        {name}
+      </Text>
+      {lastCompleted && (
+        <Text style={styles.rowValue}>
+          {new Date(lastCompleted).toLocaleString()}
+        </Text>
       )}
     </View>
-  </TouchableNativeFeedback>
+    <SyncButton
+      status={status}
+      progress={progress}
+      onPress={() => onSyncPress(id)}
+    />
+  </View>
 );
 
 const PeerItemMemoized = React.memo(PeerItem);
@@ -89,29 +146,77 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     height: 100,
-    borderBottomColor: "#666666",
-    borderBottomWidth: 1
+    borderBottomColor: "#1D3B94",
+    borderBottomWidth: 2,
+    paddingRight: 15,
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   sectionTitle: {
     fontWeight: "700",
     color: "white",
-    marginTop: 10,
-    marginBottom: 5,
     fontSize: 22
   },
   rowValue: {
-    fontWeight: "400"
+    fontWeight: "400",
+    color: "white",
+    marginTop: 5
   },
   container: {
     backgroundColor: "#2348B2"
   },
-  noBottomBorder: {
-    borderBottomWidth: 0
+  peerIcon: {
+    paddingHorizontal: 20
   },
-  itemInfo: { flexDirection: "column", flex: 1 },
-  progressContainer: {
-    width: 80,
-    flex: 0,
+  itemInfo: { flexDirection: "column", flex: 1, marginRight: 10 },
+  syncTouchable: {
+    borderRadius: 10
+  },
+  syncButtonBase: {
+    width: 120,
+    borderRadius: 10,
+    height: 45,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    paddingHorizontal: 10
+  },
+  syncButtonReady: {
+    borderWidth: 1,
+    borderColor: "white",
+    backgroundColor: "#2348B2"
+  },
+  syncButtonProgress: {
+    borderWidth: 0,
+    backgroundColor: "#3366FF"
+  },
+  syncButtonDone: {
+    borderWidth: 0,
+    backgroundColor: "#19337F"
+  },
+  syncButtonError: {
+    borderWidth: 1,
+    borderColor: "red",
+    backgroundColor: "#2348B2"
+  },
+  iconContainer: {
+    width: 30,
+    height: 30,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  buttonText: {
+    flex: 1,
+    color: "white",
+    fontWeight: "500",
+    fontSize: 16,
+    textAlign: "center"
+  },
+  progressBackground: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "#264CBF",
     alignItems: "center",
     justifyContent: "center"
   }
