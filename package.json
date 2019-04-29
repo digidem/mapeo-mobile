@@ -45,6 +45,7 @@
     "react-native-gesture-handler": "^1.1.0",
     "react-native-image-resizer": "^1.0.1",
     "react-native-linear-gradient": "^2.5.4",
+    "react-native-network-info": "github:pusherman/react-native-network-info#301c66e9bb8f4b7d65e8e0d29188d0b0dbbdb6c2",
     "react-native-progress": "^3.6.0",
     "react-native-reanimated": "^1.0.0-alpha.12",
     "react-native-screens": "^1.0.0-alpha.22",
