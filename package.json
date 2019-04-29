@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "android": "npm run build:backend && react-native run-android --variant=appDebug --appIdSuffix=debug",
-    "android-storybook": "react-native run-android --variant=storybookDebug --appIdSuffix=storybook.debug",
+    "android-storybook": "react-native run-android --variant=storybookDebug --appIdSuffix=storybook",
     "build:backend": "./scripts/build-backend.sh",
     "build:release": "npm run build:backend && ./scripts/build-release-android.sh",
     "test": "jest",

@@ -26,7 +26,7 @@ const Progress = ({ progress }: { progress?: number }) =>
     />
   );
 
-const PeerItem = ({
+export const PeerItem = ({
   id,
   name,
   status,
