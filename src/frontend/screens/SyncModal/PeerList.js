@@ -82,7 +82,9 @@ const SyncButton = ({ progress, onPress, status }) => {
     >
       <View style={[styles.syncButtonBase, style]}>
         <View style={styles.iconContainer}>{icon}</View>
-        <Text style={styles.buttonText}>{text}</Text>
+        <Text numberOfLines={1} style={styles.buttonText}>
+          {text}
+        </Text>
       </View>
     </TouchableNativeFeedback>
   );
@@ -111,7 +113,7 @@ export const PeerItem = ({
         {name}
       </Text>
       {lastCompleted && (
-        <Text style={styles.rowValue}>
+        <Text numberOfLines={1} style={styles.rowValue}>
           {new Date(lastCompleted).toLocaleString()}
         </Text>
       )}
@@ -173,13 +175,13 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   syncButtonBase: {
-    width: 120,
+    width: 100,
     borderRadius: 10,
     height: 45,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    paddingHorizontal: 10
+    paddingHorizontal: 6
   },
   syncButtonReady: {
     borderWidth: 1,
