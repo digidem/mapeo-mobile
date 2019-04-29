@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import { ScrollView, View, Text, StyleSheet } from "react-native";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 
 import LocationField from "../../sharedComponents/LocationField";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";

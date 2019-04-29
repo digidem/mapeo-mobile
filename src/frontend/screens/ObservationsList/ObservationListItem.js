@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { TouchableHighlight } from "react-native-gesture-handler";
+import { TouchableHighlight } from "../../sharedComponents/Touchables";
 
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
 import type { Style } from "../../types";
@@ -28,6 +28,7 @@ const ObservationListItem = ({
   <TouchableHighlight
     onPress={() => onPress(id)}
     testID={"ObservationListItem:" + id}
+    style={{ flex: 1, height: 80 }}
   >
     <View style={[styles.container, style]}>
       <View style={styles.text}>

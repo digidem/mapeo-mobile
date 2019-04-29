@@ -3,9 +3,9 @@ import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { linkTo } from "@storybook/addon-links";
 
+import "./SyncScreen.stories";
 import "./ObservationsList.stories";
 import "./PeerItem.stories";
-import "./SyncScreen.stories";
 
 import Welcome from "./Welcome";
 

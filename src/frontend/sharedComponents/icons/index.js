@@ -28,6 +28,32 @@ export const AlertIcon = ({ size = 30, color = RED, style }: FontIconProps) => (
   <MaterialCommunityIcon color={color} name="alert" size={size} style={style} />
 );
 
+export const CellphoneIcon = ({
+  size = 30,
+  color = "white",
+  style
+}: FontIconProps) => (
+  <MaterialCommunityIcon
+    color={color}
+    name="cellphone-android"
+    size={size}
+    style={style}
+  />
+);
+
+export const LaptopIcon = ({
+  size = 30,
+  color = "white",
+  style
+}: FontIconProps) => (
+  <MaterialCommunityIcon
+    color={color}
+    name="laptop-windows"
+    size={size}
+    style={style}
+  />
+);
+
 export const BackIcon = ({ size = 30, color, style }: FontIconProps) => (
   <MaterialIcon name="arrow-back" color={color} style={style} size={size} />
 );
@@ -46,6 +72,27 @@ export const LocationIcon = ({
   style
 }: FontIconProps) => (
   <MaterialIcon color={color} style={style} name="my-location" size={size} />
+);
+
+export const WifiOffIcon = ({
+  size = 30,
+  color = "#490827",
+  style
+}: FontIconProps) => (
+  <MaterialIcon
+    color={color}
+    style={style}
+    name="signal-wifi-off"
+    size={size}
+  />
+);
+
+export const WifiIcon = ({
+  size = 30,
+  color = "white",
+  style
+}: FontIconProps) => (
+  <MaterialIcon color={color} style={style} name="wifi" size={size} />
 );
 
 export const CloseIcon = ({ size = 30, color, style }: FontIconProps) => (

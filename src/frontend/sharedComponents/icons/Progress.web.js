@@ -4,11 +4,11 @@ import { View } from "react-native";
 const Progress = ({ size, color }) => (
   <View
     style={{
-      backgroundColor: "#00FF02",
+      backgroundColor: color,
       margin: 1.5,
-      borderRadius: 7,
-      width: 14,
-      height: 14
+      borderRadius: size / 2,
+      width: size,
+      height: size
     }}
   />
 );

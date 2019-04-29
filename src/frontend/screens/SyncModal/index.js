@@ -15,33 +15,10 @@ import OpenSettings from "react-native-android-open-settings";
 import SyncView from "./SyncView";
 import { syncJoin, syncLeave, syncGetPeers, syncStart } from "../../api";
 import { withObservations } from "../../context/ObservationsContext";
+import { peerStatus } from "./PeerList";
 import type { ObservationsContext } from "../../context/ObservationsContext";
 import type { NetInfoData } from "@react-native-community/netinfo";
-
-type PeerStatus = {|
-  // Peer is ready to sync
-  READY: "READY",
-  // Synchronization is in progress
-  PROGRESS: "PROGRESS",
-  // An error occurred during sync
-  ERROR: "ERROR",
-  // Synchronization is complete
-  COMPLETE: "COMPLETE"
-|};
-
-export type Peer = {|
-  // Unique identifier for the peer
-  id: string,
-  // User friendly peer name
-  name: string,
-  // See above
-  status: $Keys<PeerStatus>,
-  // Sync progress, between 0 to 1
-  progress?: number,
-  // The time of last completed sync in milliseconds since UNIX Epoch
-  lastCompleted?: number,
-  error?: string
-|};
+import type { Peer } from "./PeerList";
 
 type ServerPeer = {
   id: string,
@@ -81,13 +58,6 @@ type ServerPeer = {
       |}
 };
 
-export const peerStatus: PeerStatus = {
-  READY: "READY",
-  PROGRESS: "PROGRESS",
-  ERROR: "ERROR",
-  COMPLETE: "COMPLETE"
-};
-
 type Props = {
   navigation: any,
   reload: $ElementType<ObservationsContext, "reload">
@@ -113,10 +83,10 @@ class SyncModal extends React.Component<Props, State> {
     super(props);
     // When the modal opens, start announcing this device as available for sync
     syncJoin();
-    this._opened = Date.now();
   }
 
   componentDidMount() {
+    this._opened = Date.now();
     this.getPeerList();
     // We sidestep the http API here, and instead of polling the endpoint, we
     // listen for an event from mapeo-core whenever the peers change, then

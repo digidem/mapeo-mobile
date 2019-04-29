@@ -38,8 +38,7 @@ function createServer({ privateStorage, sharedStorage }) {
   const osm = createOsmDb({
     core: coreDb,
     index: indexDb,
-    storage: createStorage,
-    deviceType: "mobile"
+    storage: createStorage
   });
 
   // The media store for photos, video etc.
@@ -49,7 +48,8 @@ function createServer({ privateStorage, sharedStorage }) {
   const mapeoRouter = createMapeoRouter(osm, media, {
     staticRoot: sharedStorage,
     writeFormat: "osm-p2p-syncfile",
-    fallbackPresetsDir: fallbackPresetsDir
+    fallbackPresetsDir: fallbackPresetsDir,
+    deviceType: "mobile"
   });
   const mapeoCore = mapeoRouter.api.core;
 

@@ -56,6 +56,8 @@ const ObservationsListView = ({
         initialNumToRender={rowsPerWindow}
         getItemLayout={getItemLayout}
         keyExtractor={keyExtractor}
+        style={styles.container}
+        scrollViewContent={styles.scrollViewContent}
         windowSize={3}
         removeClippedSubviews
         renderItem={({ item }) => {
@@ -87,5 +89,10 @@ const styles = StyleSheet.create({
   },
   listItem: {
     height: OBSERVATION_CELL_HEIGHT
+  },
+  scrollViewContent: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "flex-start"
   }
 });

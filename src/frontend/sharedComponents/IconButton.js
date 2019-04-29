@@ -2,7 +2,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, View } from "react-native";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import { TouchableNativeFeedback } from "../sharedComponents/Touchables";
 
 import { VERY_LIGHT_BLUE } from "../lib/styles";
 import type { Style } from "../types";

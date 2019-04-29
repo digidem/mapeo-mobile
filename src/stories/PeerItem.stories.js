@@ -2,8 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { action } from "@storybook/addon-actions";
 
-import { PeerItem } from "../frontend/screens/SyncModal/PeerList";
-import { peerStatus } from "../frontend/screens/SyncModal";
+import { PeerItem, peerStatus } from "../frontend/screens/SyncModal/PeerList";
 
 storiesOf("PeerItem", module).add("default", () => (
   <PeerItem

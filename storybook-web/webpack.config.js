@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = async ({ config }) => {
   config.module.rules.push({
     test: /\.(gif|jpe?g|png|svg)$/,
@@ -21,7 +23,11 @@ module.exports = async ({ config }) => {
     "react-native-vector-icons/FontAwesome":
       "react-native-vector-icons/dist/FontAwesome",
     "react-native-vector-icons/MaterialCommunityIcons":
-      "react-native-vector-icons/dist/MaterialCommunityIcons"
+      "react-native-vector-icons/dist/MaterialCommunityIcons",
+    "nodejs-mobile-react-native": path.join(
+      __dirname,
+      "../__mocks__/nodejs-mobile-react-native.js"
+    )
   };
 
   return config;

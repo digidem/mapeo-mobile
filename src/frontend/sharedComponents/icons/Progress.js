@@ -1,14 +1,23 @@
 import React from "react";
-import { CircleSnail } from "react-native-progress";
+import { Circle, CircleSnail } from "react-native-progress";
 
-const Progress = ({ size, color }) => (
-  <CircleSnail
-    size={size}
-    indeterminate
-    color={color}
-    strokeCap="round"
-    direction="clockwise"
-  />
-);
+const Progress = ({ size, color, progress }) =>
+  progress !== undefined ? (
+    <Circle
+      size={size}
+      progress={progress}
+      showsText
+      color={color}
+      strokeCap="round"
+      direction="clockwise"
+    />
+  ) : (
+    <CircleSnail
+      size={size}
+      color={color}
+      strokeCap="round"
+      direction="clockwise"
+    />
+  );
 
 export default Progress;

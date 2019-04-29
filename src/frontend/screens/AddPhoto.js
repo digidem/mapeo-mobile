@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import { TouchableNativeFeedback } from "../sharedComponents/Touchables";
 import debug from "debug";
 
 import CameraView from "../sharedComponents/CameraView";

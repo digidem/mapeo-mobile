@@ -1,11 +1,13 @@
 // @flow
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, ScrollView, Text, StyleSheet } from "react-native";
+import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 
 import IconButton from "../../sharedComponents/IconButton";
-import { CloseIcon } from "../../sharedComponents/icons";
+import { CloseIcon, WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
+import DotIndicator from "./DotIndicator";
 import PeerList from "./PeerList";
-import type { Peer } from "./";
+import type { Peer } from "./PeerList";
 
 type HeaderProps = {
   onClosePress: () => void
@@ -22,15 +24,54 @@ const Header = ({ onClosePress }: HeaderProps) => (
   </View>
 );
 
-const WifiBar = ({ onPress }) => <View style={styles.wifiBar} />;
+const WifiBar = ({ onPress, ssid }) => (
+  <TouchableNativeFeedback onPress={onPress}>
+    <View style={styles.wifiBar}>
+      <WifiIcon />
+      <Text style={styles.wifiBarText}>
+        <Text style={styles.bold}>Wifi:</Text> {ssid}
+      </Text>
+    </View>
+  </TouchableNativeFeedback>
+);
 
-const NoWifiBox = ({ onPress }) => <View style={styles.noWifiBox} />;
+const NoWifiBox = ({ onPress }) => (
+  <TouchableNativeFeedback onPress={onPress}>
+    <View style={styles.noWifiBox}>
+      <View style={styles.noWifiBoxInner}>
+        <View style={styles.noWifiIcon}>
+          <WifiOffIcon size={50} />
+        </View>
+        <View style={styles.noWifiTextContainer}>
+          <Text style={styles.infoHeader}>Wi-Fi Off</Text>
+          <Text style={styles.infoSubheader}>
+            Go to settings and turn on & connect
+          </Text>
+        </View>
+      </View>
+    </View>
+  </TouchableNativeFeedback>
+);
 
-const SearchingBox = () => <View style={styles.searchingBox} />;
+const SearchingBox = () => (
+  <View style={styles.searchingBox}>
+    <View style={styles.searchingBoxInner}>
+      <DotIndicator />
+      <View style={styles.searchingTextContainer}>
+        <Text style={styles.infoHeader}>Searching</Text>
+        <Text style={styles.infoSubheader}>
+          Make sure devices are turned on and connected to the same wi-fi
+          network
+        </Text>
+      </View>
+    </View>
+  </View>
+);
 
 type Props = {
   onClosePress: () => void,
   onSyncPress: (peerId: string) => void,
+  onWifiPress: () => void,
   peers: Array<Peer>,
   wifi: null | string
 };
@@ -42,11 +83,14 @@ const SyncView = ({
   wifi,
   onWifiPress
 }: Props) => (
-  <View style={styles.container}>
+  <ScrollView
+    style={styles.container}
+    contentContainerStyle={styles.scrollViewContent}
+  >
     <Header onClosePress={onClosePress} />
     {wifi ? (
       <>
-        <WifiBar />
+        <WifiBar onPress={onWifiPress} ssid={wifi} />
         {peers.length ? (
           <PeerList peers={peers} onSyncPress={onSyncPress} />
         ) : (
@@ -54,18 +98,18 @@ const SyncView = ({
         )}
       </>
     ) : (
-      <NoWifiBox />
+      <NoWifiBox onPress={onWifiPress} />
     )}
-  </View>
+  </ScrollView>
 );
 
 export default SyncView;
 
 const styles = StyleSheet.create({
   header: {
-    flex: 0,
+    flexGrow: 0,
+    flexShrink: 0,
     height: 60,
-    marginBottom: 20,
     flexDirection: "row",
     alignItems: "center"
   },
@@ -79,19 +123,77 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#3366FF",
-    flexDirection: "column"
+    backgroundColor: "#3366FF"
+  },
+  scrollViewContent: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "flex-start"
   },
   noWifiBox: {
     backgroundColor: "#AD145C",
-    minHeight: 250
+    minHeight: 300,
+    paddingHorizontal: 30,
+    flexDirection: "column",
+    justifyContent: "center"
+  },
+  noWifiBoxInner: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  searchingBoxInner: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  noWifiIcon: {
+    width: 120,
+    height: 120,
+    backgroundColor: "#93114E",
+    borderRadius: 60,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  infoHeader: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 24
+  },
+  infoSubheader: {
+    color: "white",
+    fontWeight: "400",
+    fontSize: 20
+  },
+  noWifiTextContainer: {
+    maxWidth: "60%",
+    marginLeft: 20
+  },
+  searchingTextContainer: {
+    maxWidth: "75%",
+    marginLeft: 30
   },
   wifiBar: {
     backgroundColor: "#19337F",
-    height: 45
+    height: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingHorizontal: 15
+  },
+  wifiBarText: {
+    color: "white",
+    paddingLeft: 10
+  },
+  bold: {
+    fontWeight: "700"
   },
   searchingBox: {
     backgroundColor: "#2348B2",
-    minHieght: 250
+    minHeight: 250,
+    paddingHorizontal: 30,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "stretch"
   }
 });

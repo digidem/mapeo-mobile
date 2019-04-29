@@ -1,30 +1,41 @@
 // @flow
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
-import { CircleSnail, Circle } from "react-native-progress";
+import { View, Text, StyleSheet } from "react-native";
+import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 
-import { peerStatus } from "./";
-import type { Peer } from "./";
+import Progress from "../../sharedComponents/icons/Progress";
 
-const Progress = ({ progress }: { progress?: number }) =>
-  progress !== undefined ? (
-    <Circle
-      size={40}
-      progress={progress}
-      showsText
-      color={"blue"}
-      strokeCap="round"
-      direction="clockwise"
-    />
-  ) : (
-    <CircleSnail
-      size={40}
-      color={"blue"}
-      strokeCap="round"
-      direction="clockwise"
-    />
-  );
+type PeerStatus = {|
+  // Peer is ready to sync
+  READY: "READY",
+  // Synchronization is in progress
+  PROGRESS: "PROGRESS",
+  // An error occurred during sync
+  ERROR: "ERROR",
+  // Synchronization is complete
+  COMPLETE: "COMPLETE"
+|};
+
+export type Peer = {|
+  // Unique identifier for the peer
+  id: string,
+  // User friendly peer name
+  name: string,
+  // See above
+  status: $Keys<PeerStatus>,
+  // Sync progress, between 0 to 1
+  progress?: number,
+  // The time of last completed sync in milliseconds since UNIX Epoch
+  lastCompleted?: number,
+  error?: string
+|};
+
+export const peerStatus: PeerStatus = {
+  READY: "READY",
+  PROGRESS: "PROGRESS",
+  ERROR: "ERROR",
+  COMPLETE: "COMPLETE"
+};
 
 export const PeerItem = ({
   id,
@@ -49,7 +60,7 @@ export const PeerItem = ({
       </View>
       {status === peerStatus.PROGRESS && (
         <View style={styles.progressContainer}>
-          <Progress progress={progress} />
+          <Progress progress={progress} size={40} color="white" />
         </View>
       )}
     </View>
@@ -65,13 +76,11 @@ const PeerList = ({
   peers: Array<Peer>,
   onSyncPress: (id: string) => any
 }) => (
-  <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
-    <View style={styles.infoArea}>
-      {peers.map(peer => (
-        <PeerItemMemoized {...peer} key={peer.id} onSyncPress={onSyncPress} />
-      ))}
-    </View>
-  </ScrollView>
+  <View style={styles.container}>
+    {peers.map(peer => (
+      <PeerItemMemoized {...peer} key={peer.id} onSyncPress={onSyncPress} />
+    ))}
+  </View>
 );
 
 export default PeerList;
@@ -79,30 +88,30 @@ export default PeerList;
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
-    minHeight: 80,
+    height: 100,
     borderBottomColor: "#666666",
     borderBottomWidth: 1
   },
   sectionTitle: {
     fontWeight: "700",
+    color: "white",
     marginTop: 10,
     marginBottom: 5,
-    fontSize: 16
+    fontSize: 22
   },
   rowValue: {
     fontWeight: "400"
   },
-  infoArea: {
-    flex: 1,
-    backgroundColor: "white",
-    paddingLeft: 15,
-    paddingRight: 15
+  container: {
+    backgroundColor: "#2348B2"
+  },
+  noBottomBorder: {
+    borderBottomWidth: 0
   },
   itemInfo: { flexDirection: "column", flex: 1 },
   progressContainer: {
     width: 80,
     flex: 0,
-    backgroundColor: "lightblue",
     alignItems: "center",
     justifyContent: "center"
   }
