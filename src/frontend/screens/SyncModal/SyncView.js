@@ -22,11 +22,11 @@ const Header = ({ onClosePress }: HeaderProps) => (
   </View>
 );
 
-const WifiBar = ({ onPress }) => <View />;
+const WifiBar = ({ onPress }) => <View style={styles.wifiBar} />;
 
-const NoWifiBox = ({ onPress }) => <View />;
+const NoWifiBox = ({ onPress }) => <View style={styles.noWifiBox} />;
 
-const SearchingBox = () => <View />;
+const SearchingBox = () => <View style={styles.searchingBox} />;
 
 type Props = {
   onClosePress: () => void,
@@ -79,7 +79,19 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.85)",
+    backgroundColor: "#3366FF",
     flexDirection: "column"
+  },
+  noWifiBox: {
+    backgroundColor: "#AD145C",
+    minHeight: 250
+  },
+  wifiBar: {
+    backgroundColor: "#19337F",
+    height: 45
+  },
+  searchingBox: {
+    backgroundColor: "#2348B2",
+    minHieght: 250
   }
 });
