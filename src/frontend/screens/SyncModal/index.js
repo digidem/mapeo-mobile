@@ -10,6 +10,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import nodejs from "nodejs-mobile-react-native";
 import NetInfo from "@react-native-community/netinfo";
+import { NetworkInfo } from "react-native-network-info";
 
 import IconButton from "../../sharedComponents/IconButton";
 import { CloseIcon } from "../../sharedComponents/icons";
@@ -115,12 +116,12 @@ type State = {
   syncErrors: Map<string, string>,
   // Whether there was an error trying to load peer status
   loadError?: boolean,
-  // Whether the user is connected to wifi
-  wifi?: boolean
+  // SSID of wifi network, if connected
+  wifi: null | string
 };
 
 class SyncModal extends React.Component<Props, State> {
-  state = { serverPeers: [], syncErrors: new Map() };
+  state = { serverPeers: [], syncErrors: new Map(), wifi: null };
   _opened: number;
   _timeoutIds: Map<string, TimeoutID> = new Map();
   _subscription: { remove: () => void };
@@ -156,10 +157,21 @@ class SyncModal extends React.Component<Props, State> {
     this.props.reload();
   }
 
-  handleConnectionChange = (data: NetInfoData) => {
-    this.setState({
-      wifi: data.type === "wifi"
-    });
+  handleConnectionChange = async (data: NetInfoData) => {
+    const hasWifiConnection = data.type === "wifi";
+    if (!hasWifiConnection) return this.setState({ wifi: null });
+    let ssid;
+    try {
+      ssid = await NetworkInfo.getSSID();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      // Even if we don't get the SSID, we still want to show that a wifi
+      // network is connected.
+      this.setState({
+        wifi: ssid || "Wifi Network"
+      });
+    }
   };
 
   handleSyncPress = (peerId: string) => {
