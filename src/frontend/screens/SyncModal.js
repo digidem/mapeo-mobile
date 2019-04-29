@@ -9,17 +9,81 @@ import IconButton from "../sharedComponents/IconButton";
 import { CloseIcon } from "../sharedComponents/icons";
 import { syncJoin, syncLeave, syncGetPeers, syncStart } from "../api";
 import { withObservations } from "../context/ObservationsContext";
-import type { NavigationScreenProp } from "react-navigation";
 import type { ObservationsContext } from "../context/ObservationsContext";
 
 type HeaderProps = {
   onClose: () => void
 };
 
-const READY_TO_SYNC: "READY_TO_SYNC" = "READY_TO_SYNC";
-const SYNC_IN_PROGRESS: "SYNC_IN_PROGRESS" = "SYNC_IN_PROGRESS";
-const SYNC_ERROR: "SYNC_ERROR" = "SYNC_ERROR";
-const SYNC_SUCCESS: "SYNC_SUCCESS" = "SYNC_SUCCESS";
+type PeerStatus = {|
+  // Peer is ready to sync
+  READY: "READY",
+  // Synchronization is in progress
+  PROGRESS: "PROGRESS",
+  // An error occurred during sync
+  ERROR: "ERROR",
+  // Synchronization is complete
+  COMPLETE: "COMPLETE"
+|};
+
+type Peer = {|
+  // Unique identifier for the peer
+  id: string,
+  // User friendly peer name
+  name: string,
+  // See above
+  status: $Keys<PeerStatus>,
+  // Sync progress, between 0 to 1
+  progress?: number,
+  // The time of last completed sync in milliseconds since UNIX Epoch
+  lastCompleted?: number,
+  error?: string
+|};
+
+type ServerPeer = {
+  id: string,
+  name: string,
+  // Host address for peer
+  host: string,
+  // Port for peer
+  port: number,
+  state?:
+    | {|
+        topic: "replication-progress",
+        message: {|
+          db: {| sofar: number, total: number |},
+          media: {| sofar: number, total: number |}
+        |},
+        lastCompletedDate?: number
+      |}
+    | {|
+        topic: "replication-wifi-ready",
+        lastCompletedDate?: number
+      |}
+    | {|
+        topic: "replication-complete",
+        // The time of completed sync in milliseconds since UNIX Epoch
+        message: number,
+        lastCompletedDate?: number
+      |}
+    | {|
+        topic: "replication-error",
+        // Error message
+        message: string,
+        lastCompletedDate?: number
+      |}
+    | {|
+        topic: "replication-started",
+        lastCompletedDate?: number
+      |}
+};
+
+const peerStatus: PeerStatus = {
+  READY: "READY",
+  PROGRESS: "PROGRESS",
+  ERROR: "ERROR",
+  COMPLETE: "COMPLETE"
+};
 
 const SyncModalHeader = ({ onClose, variant }: HeaderProps) => (
   <View style={styles.header}>
@@ -51,74 +115,69 @@ const Progress = ({ progress }: { progress?: number }) =>
     />
   );
 
-const Target = ({
+const PeerView = ({
   id,
   name,
   status,
   progress,
-  lastCompletedDate,
+  lastCompleted,
   onSyncPress
 }: {
-  id: string,
-  name: string,
-  status: "READY_TO_SYNC" | "SYNC_IN_PROGRESS" | "SYNC_ERROR" | "SYNC_SUCCESS",
-  progress?: { sofar: number, total: number },
-  lastCompletedDate?: number,
+  ...$Exact<Peer>,
   onSyncPress: (id: string) => any
-}) => {
-  console.log(progress);
-  return (
-    <TouchableNativeFeedback onPress={() => onSyncPress(id)}>
-      <View style={styles.row}>
-        <View style={{ flexDirection: "column", flex: 1 }}>
-          <Text style={styles.sectionTitle}>{name}</Text>
-          {lastCompletedDate && (
-            <Text style={styles.rowValue}>
-              {new Date(lastCompletedDate).toLocaleString()}
-            </Text>
-          )}
-        </View>
-        {status === SYNC_IN_PROGRESS && (
-          <View
-            style={{
-              width: 80,
-              flex: 0,
-              backgroundColor: "lightblue",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            <Progress
-              progress={
-                progress && progress.total > 0
-                  ? progress.sofar / progress.total
-                  : undefined
-              }
-            />
-          </View>
+}) => (
+  <TouchableNativeFeedback onPress={() => onSyncPress(id)}>
+    <View style={styles.row}>
+      <View style={{ flexDirection: "column", flex: 1 }}>
+        <Text style={styles.sectionTitle}>{name}</Text>
+        {lastCompleted && (
+          <Text style={styles.rowValue}>
+            {new Date(lastCompleted).toLocaleString()}
+          </Text>
         )}
       </View>
-    </TouchableNativeFeedback>
-  );
-};
+      {status === peerStatus.PROGRESS && (
+        <View
+          style={{
+            width: 80,
+            flex: 0,
+            backgroundColor: "lightblue",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <Progress progress={progress} />
+        </View>
+      )}
+    </View>
+  </TouchableNativeFeedback>
+);
 
 type Props = {
-  navigation: NavigationScreenProp<{}>,
+  navigation: any,
   reload: $ElementType<ObservationsContext, "reload">
 };
 
 type State = {
-  peers: Array<any>,
-  error: boolean
+  serverPeers: Array<ServerPeer>,
+  // Map of peer ids to errors
+  syncErrors: Map<string, string>,
+  // Whether there was an error trying to load peer status
+  loadError?: boolean
 };
 
 class SyncModal extends React.Component<Props, State> {
-  state = { peers: [], error: false, lastUpdates: new Map() };
+  state = { serverPeers: [], syncErrors: new Map() };
+  _opened: number;
+  _timeoutIds: Map<string, TimeoutID> = new Map();
+
   constructor(props: Props) {
     super(props);
     // When the modal opens, start announcing this device as available for sync
     syncJoin();
+    this._opened = Date.now();
   }
+
   componentDidMount() {
     this.getPeerList();
     // We sidestep the http API here, and instead of polling the endpoint, we
@@ -126,47 +185,98 @@ class SyncModal extends React.Component<Props, State> {
     // request an updated peer list.
     nodejs.channel.addListener("peer-update", this.updatePeers);
   }
+
   componentWillUnmount() {
     nodejs.channel.removeListener("peer-update", this.updatePeers);
     // When the modal closes, stop announcing for sync
     syncLeave();
+    for (var timeoutId of this._timeoutIds.values()) {
+      clearTimeout(timeoutId);
+    }
     this.props.reload();
   }
+
   handleSyncPress = (peerId: string) => {
-    const peer = this.state.peers.find(peer => peer.id === peerId);
+    const peer = this.state.serverPeers.find(peer => peer.id === peerId);
     // Peer could have vanished in the moment the button was pressed
     if (peer) syncStart(peer);
   };
+
   async getPeerList() {
     try {
       const peers = await syncGetPeers();
       this.updatePeers(peers);
     } catch (error) {
       console.error(error);
-      this.setState({ error });
+      this.setState({ loadError: true });
     }
   }
-  updatePeers = (peers: Array<any> = []) => {
-    console.log(peers.map(peer => peer.state));
-    this.setState({ peers });
+
+  updatePeers = (serverPeers: Array<ServerPeer> = []) => {
+    let errors = this.state.syncErrors;
+    serverPeers.forEach(peer => {
+      if (peer.state && peer.state.topic === "replication-error") {
+        errors = new Map(this.state.syncErrors);
+        errors.set(peer.id, peer.state.message);
+      }
+    });
+    this.setState({ serverPeers, syncErrors: errors });
   };
+
+  /**
+   * State in Mapeo Core can loose the history of an error or completion of sync.
+   * In this sync modal, for the lifecycle of the component:
+   * 1. If replication has started or in progress, that overrides any state
+   *    (completion or error)
+   * 2. If there is an error, that remains in the state until the modal is closed
+   * 3. A peer remains "completed" another sync starts of the modal is closed
+   * 4. A peer is only in the "ready" state when first discovered
+   */
+  getDerivedPeerState() {
+    const { serverPeers, syncErrors } = this.state;
+    return serverPeers.map(serverPeer => {
+      let status = peerStatus.READY;
+      const state = serverPeer.state || {};
+      if (
+        state.topic === "replication-progress" ||
+        state.topic === "replication-started"
+      ) {
+        status = peerStatus.PROGRESS;
+      } else if (
+        syncErrors.has(serverPeer.id) ||
+        state.topic === "replication-error"
+      ) {
+        status = peerStatus.ERROR;
+      } else if (
+        (state.lastCompletedDate || 0) > this._opened ||
+        state.topic === "replication-complete"
+      ) {
+        status = peerStatus.COMPLETE;
+      }
+      return {
+        id: serverPeer.id,
+        name: serverPeer.name,
+        status: status,
+        lastCompleted: state.lastCompletedDate,
+        progress: getPeerProgress(serverPeer.state),
+        error: syncErrors.get(serverPeer.id)
+      };
+    });
+  }
+
   render() {
     const { navigation } = this.props;
-    const { peers } = this.state;
+    const peers = this.getDerivedPeerState();
     return (
       <View style={styles.container}>
         <SyncModalHeader onClose={() => navigation.pop()} />
         <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
           <View style={styles.infoArea}>
             {peers.map(peer => (
-              <Target
+              <PeerView
+                {...peer}
                 key={peer.id}
-                id={peer.id}
                 onSyncPress={this.handleSyncPress}
-                name={peer.name}
-                status={getPeerStatus(peer.state)}
-                progress={getPeerProgress(peer.state)}
-                lastCompletedDate={peer.state && peer.state.lastCompletedDate}
               />
             ))}
           </View>
@@ -178,34 +288,13 @@ class SyncModal extends React.Component<Props, State> {
 
 export default withObservations(["reload"])(SyncModal);
 
-type PeerState = {
-  topic: string,
-  message: any
-};
-
-function getPeerStatus(peerState?: PeerState = {}) {
-  switch (peerState.topic) {
-    case "replication-wifi-ready":
-      return READY_TO_SYNC;
-    case "replication-progress":
-    case "replication-started":
-      return SYNC_IN_PROGRESS;
-    case "replication-error":
-      return SYNC_ERROR;
-    case "replication-complete":
-      return SYNC_SUCCESS;
-    default:
-      return READY_TO_SYNC;
-  }
-}
-
 // We combine media and database items in progress. In order to show roughtly
 // accurate progress, this weighting is how much more progress a media item
 // counts vs. a database item
 const MEDIA_WEIGHTING = 50;
 function getPeerProgress(
-  peerState?: PeerState
-): { sofar: number, total: number } | void {
+  peerState?: $ElementType<ServerPeer, "state">
+): number | void {
   if (
     !peerState ||
     peerState.topic !== "replication-progress" ||
@@ -220,7 +309,7 @@ function getPeerProgress(
   const sofar =
     (peerState.message.db.sofar || 0) +
     (peerState.message.media.sofar || 0) * MEDIA_WEIGHTING;
-  return { total, sofar };
+  return total > 0 ? sofar / total : 0;
 }
 
 const styles = StyleSheet.create({
@@ -255,11 +344,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
     fontSize: 16
-  },
-  rowLabel: {
-    color: "white",
-    fontWeight: "700",
-    minWidth: "50%"
   },
   rowValue: {
     fontWeight: "400"
