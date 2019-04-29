@@ -7,34 +7,16 @@
  * in `./PeerList`.
  */
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
 import nodejs from "nodejs-mobile-react-native";
 import NetInfo from "@react-native-community/netinfo";
 import { NetworkInfo } from "react-native-network-info";
 import OpenSettings from "react-native-android-open-settings";
 
-import IconButton from "../../sharedComponents/IconButton";
-import { CloseIcon } from "../../sharedComponents/icons";
-import PeerList from "./PeerList";
+import SyncView from "./SyncView";
 import { syncJoin, syncLeave, syncGetPeers, syncStart } from "../../api";
 import { withObservations } from "../../context/ObservationsContext";
 import type { ObservationsContext } from "../../context/ObservationsContext";
 import type { NetInfoData } from "@react-native-community/netinfo";
-
-type HeaderProps = {
-  onClose: () => void
-};
-
-const SyncModalHeader = ({ onClose }: HeaderProps) => (
-  <View style={styles.header}>
-    <IconButton onPress={onClose}>
-      <CloseIcon color="white" />
-    </IconButton>
-    <Text numberOfLines={1} style={styles.title}>
-      Sync
-    </Text>
-  </View>
-);
 
 type PeerStatus = {|
   // Peer is ready to sync
@@ -143,6 +125,7 @@ class SyncModal extends React.Component<Props, State> {
     // Subscribe to NetInfo to know when the user connects/disconnects to wifi
     this._subscription = NetInfo.addEventListener(
       "connectionChange",
+      // $FlowFixMe
       this.handleConnectionChange
     );
   }
@@ -251,10 +234,13 @@ class SyncModal extends React.Component<Props, State> {
     const { navigation } = this.props;
     const peers = this.getDerivedPeerState();
     return (
-      <View style={styles.container}>
-        <SyncModalHeader onClose={() => navigation.pop()} />
-        <PeerList peers={peers} onSyncPress={this.handleSyncPress} />
-      </View>
+      <SyncView
+        peers={peers}
+        wifi={this.state.wifi}
+        onClosePress={() => navigation.pop()}
+        onWifiPress={this.handleWifiPress}
+        onSyncPress={this.handleSyncPress}
+      />
     );
   }
 }
@@ -284,26 +270,3 @@ function getPeerProgress(
     (peerState.message.media.sofar || 0) * MEDIA_WEIGHTING;
   return total > 0 ? sofar / total : 0;
 }
-
-const styles = StyleSheet.create({
-  header: {
-    flex: 0,
-    height: 60,
-    marginBottom: 20,
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  title: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 20,
-    flex: 1,
-    textAlign: "center",
-    marginRight: 60
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.85)",
-    flexDirection: "column"
-  }
-});
