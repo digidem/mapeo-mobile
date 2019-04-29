@@ -39,7 +39,7 @@ const PeerItem = ({
 }) => (
   <TouchableNativeFeedback onPress={() => onSyncPress(id)}>
     <View style={styles.row}>
-      <View style={{ flexDirection: "column", flex: 1 }}>
+      <View style={styles.itemInfo}>
         <Text style={styles.sectionTitle}>{name}</Text>
         {lastCompleted && (
           <Text style={styles.rowValue}>
@@ -48,15 +48,7 @@ const PeerItem = ({
         )}
       </View>
       {status === peerStatus.PROGRESS && (
-        <View
-          style={{
-            width: 80,
-            flex: 0,
-            backgroundColor: "lightblue",
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
+        <View style={styles.progressContainer}>
           <Progress progress={progress} />
         </View>
       )}
@@ -105,5 +97,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingLeft: 15,
     paddingRight: 15
+  },
+  itemInfo: { flexDirection: "column", flex: 1 },
+  progressContainer: {
+    width: 80,
+    flex: 0,
+    backgroundColor: "lightblue",
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
