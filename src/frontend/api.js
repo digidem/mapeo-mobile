@@ -4,7 +4,7 @@ import { PixelRatio } from "react-native";
 import ky from "ky";
 import nodejs from "nodejs-mobile-react-native";
 
-import type { Preset, Field } from "../context/PresetsContext";
+import type { Preset, Field } from "./context/PresetsContext";
 import type {
   Observation,
   ObservationValue
