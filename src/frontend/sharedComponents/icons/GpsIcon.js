@@ -32,7 +32,7 @@ const renderError = () => (
     />
   </View>
 );
-const renderProgress = (color: string) => <Progress size={22} color={color} />;
+const renderProgress = (color: string) => <Progress size={14} color={color} />;
 const renderGood = () => (
   <View
     style={{
