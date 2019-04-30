@@ -51,13 +51,16 @@ export function matchPreset(
   return presets.get(categoryId);
 }
 
-export function formatDate(dateString: string): string {
-  const date = new Date(dateString);
+export function formatDate(date: string | number | Date): string {
+  if (typeof date === "string" || typeof date === "number") {
+    date = new Date(date);
+  }
   const options = {
     weekday: "short",
     year: "numeric",
     month: "short",
     day: "numeric"
   };
+  // $FlowFixMe - flow doesn't know about this function yet.
   return date.toLocaleString(options);
 }

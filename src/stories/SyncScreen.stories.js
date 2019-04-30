@@ -21,7 +21,7 @@ const peers = [
     name: "Kashint",
     status: peerStatus.PROGRESS,
     progress: undefined,
-    lastCompleted: 1556574843306,
+    lastCompleted: Date.now(),
     error: undefined,
     deviceType: "desktop"
   },
@@ -30,7 +30,7 @@ const peers = [
     name: "Nunchuck",
     status: peerStatus.PROGRESS,
     progress: 0.2,
-    lastCompleted: 1556574843306,
+    lastCompleted: Date.now() - 60 * 60 * 1000,
     error: undefined,
     deviceType: "desktop"
   },
@@ -39,7 +39,7 @@ const peers = [
     name: "Kama",
     status: peerStatus.COMPLETE,
     progress: undefined,
-    lastCompleted: 1556574843306,
+    lastCompleted: Date.now() - 2 * 24 * 60 * 60 * 1000,
     error: undefined
   },
   {
@@ -57,7 +57,7 @@ storiesOf("SyncScreen", module)
   .add("No Wifi connection", () => (
     <SyncView
       peers={[]}
-      wifi={null}
+      ssid={null}
       onClosePress={action("close")}
       onSyncPress={action("sync")}
       onWifiPress={action("goto wifi settings")}
@@ -66,7 +66,7 @@ storiesOf("SyncScreen", module)
   .add("With Wifi, searching", () => (
     <SyncView
       peers={[]}
-      wifi="My Wifi Network"
+      ssid="My Wifi Network"
       onClosePress={action("close")}
       onSyncPress={action("sync")}
       onWifiPress={action("goto wifi settings")}
@@ -74,8 +74,10 @@ storiesOf("SyncScreen", module)
   ))
   .add("With Peers", () => (
     <SyncView
-      peers={peers.concat(peers)}
-      wifi="My Wifi Network"
+      peers={peers.concat(
+        peers.map(peer => ({ ...peer, id: peer.id + peer.id }))
+      )}
+      ssid="My Wifi Network"
       onClosePress={action("close")}
       onSyncPress={action("sync")}
       onWifiPress={action("goto wifi settings")}

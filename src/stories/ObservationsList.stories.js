@@ -14,9 +14,18 @@ import Fullscreen from "./Fullscreen";
 const maxListSize =
   Platform.OS === "web" ? 30 : Object.keys(observationsJson).length;
 
+observationsJson[0].created_at = new Date().toISOString();
+observationsJson[1].created_at = new Date(
+  Date.now() - 5 * 60 * 1000
+).toISOString();
+observationsJson[2].created_at = new Date(
+  Date.now() - 2 * 24 * 60 * 60 * 1000
+).toISOString();
+
 const observations = new Map(
   Object.entries(observationsJson).slice(0, maxListSize)
 );
+
 const presets = new Map(Object.entries(presetsJson.presets));
 const { storiesOf } = Storybook;
 

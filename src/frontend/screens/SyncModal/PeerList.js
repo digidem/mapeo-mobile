@@ -11,6 +11,7 @@ import {
   ErrorIcon
 } from "../../sharedComponents/icons";
 import Progress from "../../sharedComponents/icons/Progress";
+import DateDistance from "../../sharedComponents/DateDistance";
 
 type PeerStatus = {|
   // Peer is ready to sync
@@ -114,7 +115,7 @@ export const PeerItem = ({
       </Text>
       {lastCompleted && (
         <Text numberOfLines={1} style={styles.rowValue}>
-          {new Date(lastCompleted).toLocaleString()}
+          Synced: <DateDistance date={new Date(lastCompleted)} />
         </Text>
       )}
     </View>
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#2348B2"
   },
   peerIcon: {
-    paddingHorizontal: 20
+    paddingHorizontal: 15
   },
   itemInfo: { flexDirection: "column", flex: 1, marginRight: 10 },
   syncTouchable: {

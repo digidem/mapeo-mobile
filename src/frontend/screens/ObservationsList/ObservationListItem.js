@@ -4,12 +4,13 @@ import { StyleSheet, Text, View } from "react-native";
 import { TouchableHighlight } from "../../sharedComponents/Touchables";
 
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
+import DateDistance from "../../sharedComponents/DateDistance";
 import type { Style } from "../../types";
 
 type Props = {
   onPress: string => any,
-  title: string,
-  subtitle?: string,
+  name: string,
+  createdDate?: Date,
   imageSrc?: string,
   iconId?: string,
   style?: Style<typeof View>,
@@ -18,8 +19,8 @@ type Props = {
 
 const ObservationListItem = ({
   onPress = () => {},
-  title = "Observation",
-  subtitle,
+  name = "Observation",
+  createdDate,
   imageSrc,
   iconId,
   style,
@@ -32,8 +33,8 @@ const ObservationListItem = ({
   >
     <View style={[styles.container, style]}>
       <View style={styles.text}>
-        <Text style={styles.title}>{title}</Text>
-        <Text>{subtitle}</Text>
+        <Text style={styles.title}>{name}</Text>
+        {createdDate && <DateDistance date={createdDate} />}
       </View>
       <CategoryCircleIcon iconId={iconId} size="medium" />
     </View>

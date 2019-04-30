@@ -6,7 +6,7 @@ import IconButton from "../sharedComponents/IconButton";
 import { CloseIcon } from "../sharedComponents/icons";
 import LocationContext from "../context/LocationContext";
 import FormattedCoords from "../sharedComponents/FormattedCoords";
-
+import DateDistance from "../sharedComponents/DateDistance";
 import { getLocationStatus } from "../lib/utils";
 import type { LocationStatus } from "../lib/utils";
 import type { LocationContextType } from "../context/LocationContext";
@@ -48,7 +48,10 @@ const GpsModal = ({ navigation }: Props) => (
         />
         <View style={styles.infoArea}>
           <Text style={styles.sectionTitle}>Last Update</Text>
-          <Text style={styles.rowValue}>{getLastUpdateText(location)}</Text>
+          <DateDistance
+            style={styles.rowValue}
+            date={new Date(getLastUpdateText(location))}
+          />
           {location.position && (
             <>
               <Text style={styles.sectionTitle}>UTM Location</Text>

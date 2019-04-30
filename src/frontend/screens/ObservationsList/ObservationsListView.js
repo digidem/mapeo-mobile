@@ -4,7 +4,6 @@ import { View, FlatList, Dimensions, StyleSheet } from "react-native";
 import memoize from "memoize-one";
 
 import ObservationListItem from "./ObservationListItem";
-import { formatDate } from "../../lib/utils";
 import type {
   Observation,
   ObservationsMap
@@ -68,9 +67,9 @@ const ObservationsListView = ({
               key={id}
               id={id}
               style={styles.listItem}
-              title={name}
+              name={name}
               iconId={icon}
-              subtitle={formatDate(created_at)}
+              createdDate={created_at ? new Date(created_at) : undefined}
               onPress={onPressObservation}
             />
           );
