@@ -4,7 +4,7 @@ import { PixelRatio } from "react-native";
 import ky from "ky";
 import nodejs from "nodejs-mobile-react-native";
 
-import type { Preset, Field } from "./context/PresetsContext";
+import type { Preset, Field } from "../context/PresetsContext";
 import type {
   Observation,
   ObservationValue
@@ -14,7 +14,7 @@ import type { Photo } from "./context/DraftObservationContext";
 import type { Observation as ServerObservation } from "mapeo-schema";
 
 const BASE_URL = "http://127.0.0.1:9080/";
-const api = ky.extend({
+export const api = ky.extend({
   prefixUrl: BASE_URL,
   headers: {
     "cache-control": "no-cache",
@@ -85,6 +85,62 @@ export function createObservation(
     .post("observations", { json: valueForServer })
     .json()
     .then(serverObservation => convertFromServer(serverObservation));
+}
+
+export type ServerPeer = {
+  id: string,
+  name: string,
+  // Host address for peer
+  host: string,
+  // Port for peer
+  port: number,
+  state?:
+    | {|
+        topic: "replication-progress",
+        message: {|
+          db: {| sofar: number, total: number |},
+          media: {| sofar: number, total: number |}
+        |},
+        lastCompletedDate?: number
+      |}
+    | {|
+        topic: "replication-wifi-ready",
+        lastCompletedDate?: number
+      |}
+    | {|
+        topic: "replication-complete",
+        // The time of completed sync in milliseconds since UNIX Epoch
+        message: number,
+        lastCompletedDate?: number
+      |}
+    | {|
+        topic: "replication-error",
+        // Error message
+        message: string,
+        lastCompletedDate?: number
+      |}
+    | {|
+        topic: "replication-started",
+        lastCompletedDate?: number
+      |}
+};
+
+type PeerHandler = (peerList: Array<ServerPeer>) => any;
+type Subscription = { remove: () => void };
+
+/**
+ * Listens to the server for updates to the list of peers available for sync
+ * returns a remove() function to unscubribe
+ */
+export function addPeerListener(handler: PeerHandler): Subscription {
+  // We sidestep the http API here, and instead of polling the endpoint, we
+  // listen for an event from mapeo-core whenever the peers change, then
+  // request an updated peer list.
+  nodejs.channel.addListener("peer-update", handler);
+  syncGetPeers().then(handler);
+  return {
+    remove: () => nodejs.channel.removeListener("peer-update", this.updatePeers)
+  };
 }
 
 export function syncJoin() {

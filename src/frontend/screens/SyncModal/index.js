@@ -7,56 +7,18 @@
  * in `./PeerList`.
  */
 import React from "react";
-import nodejs from "nodejs-mobile-react-native";
 import NetInfo from "@react-native-community/netinfo";
 import { NetworkInfo } from "react-native-network-info";
 import OpenSettings from "react-native-android-open-settings";
 
 import SyncView from "./SyncView";
-import { syncJoin, syncLeave, syncGetPeers, syncStart } from "../../api";
+import { syncJoin, syncLeave, addPeerListener, syncStart } from "../../api";
 import { withObservations } from "../../context/ObservationsContext";
 import { peerStatus } from "./PeerList";
 import type { ObservationsContext } from "../../context/ObservationsContext";
 import type { NetInfoData } from "@react-native-community/netinfo";
 import type { Peer } from "./PeerList";
-
-type ServerPeer = {
-  id: string,
-  name: string,
-  // Host address for peer
-  host: string,
-  // Port for peer
-  port: number,
-  state?:
-    | {|
-        topic: "replication-progress",
-        message: {|
-          db: {| sofar: number, total: number |},
-          media: {| sofar: number, total: number |}
-        |},
-        lastCompletedDate?: number
-      |}
-    | {|
-        topic: "replication-wifi-ready",
-        lastCompletedDate?: number
-      |}
-    | {|
-        topic: "replication-complete",
-        // The time of completed sync in milliseconds since UNIX Epoch
-        message: number,
-        lastCompletedDate?: number
-      |}
-    | {|
-        topic: "replication-error",
-        // Error message
-        message: string,
-        lastCompletedDate?: number
-      |}
-    | {|
-        topic: "replication-started",
-        lastCompletedDate?: number
-      |}
-};
+import type { ServerPeer } from "../../api";
 
 type Props = {
   navigation: any,
@@ -76,38 +38,29 @@ type State = {
 class SyncModal extends React.Component<Props, State> {
   state = { serverPeers: [], syncErrors: new Map(), wifi: null };
   _opened: number;
-  _timeoutIds: Map<string, TimeoutID> = new Map();
-  _subscription: { remove: () => void };
-
-  constructor(props: Props) {
-    super(props);
-    // When the modal opens, start announcing this device as available for sync
-    syncJoin();
-  }
+  _subscriptions: Array<{ remove: () => void }> = [];
 
   componentDidMount() {
+    // When the modal opens, start announcing this device as available for sync
+    syncJoin();
     this._opened = Date.now();
-    this.getPeerList();
-    // We sidestep the http API here, and instead of polling the endpoint, we
-    // listen for an event from mapeo-core whenever the peers change, then
-    // request an updated peer list.
-    nodejs.channel.addListener("peer-update", this.updatePeers);
+    // Subscribe to peer updates
+    this._subscriptions.push(addPeerListener(this.updatePeers));
     // Subscribe to NetInfo to know when the user connects/disconnects to wifi
-    this._subscription = NetInfo.addEventListener(
-      "connectionChange",
-      // $FlowFixMe
-      this.handleConnectionChange
+    this._subscriptions.push(
+      NetInfo.addEventListener(
+        "connectionChange",
+        // $FlowFixMe
+        this.handleConnectionChange
+      )
     );
   }
 
   componentWillUnmount() {
-    nodejs.channel.removeListener("peer-update", this.updatePeers);
     // When the modal closes, stop announcing for sync
     syncLeave();
-    for (var timeoutId of this._timeoutIds.values()) {
-      clearTimeout(timeoutId);
-    }
-    if (this._subscription) this._subscription.remove();
+    // Unsubscribe all listeners
+    this._subscriptions.forEach(s => s.remove());
     this.props.reload();
   }
 
@@ -137,16 +90,6 @@ class SyncModal extends React.Component<Props, State> {
   handleWifiPress = () => {
     OpenSettings.wifiSettings();
   };
-
-  async getPeerList() {
-    try {
-      const peers = await syncGetPeers();
-      this.updatePeers(peers);
-    } catch (error) {
-      console.error(error);
-      this.setState({ loadError: true });
-    }
-  }
 
   updatePeers = (serverPeers: Array<ServerPeer> = []) => {
     let errors = this.state.syncErrors;
