@@ -13,7 +13,7 @@
     "kappa-osm": "^3.0.1",
     "level": "^4.0.0",
     "mapeo-default-settings": "^2.0.0",
-    "mapeo-server": "^13.2.0",
+    "mapeo-server": "^13.2.1",
     "mkdirp": "^0.5.1",
     "random-access-file": "^2.1.0",
     "safe-fs-blob-store": "^1.0.3"

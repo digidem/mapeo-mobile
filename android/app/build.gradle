@@ -172,6 +172,7 @@ android {
             // build with the default debug keystore
             productFlavors.qa.signingConfig signingConfigs.release
             productFlavors.app.signingConfig signingConfig
+            productFlavors.storybook.signingConfig signingConfig
             signingConfig null
             // Storybook and QA flavors share the same applicationId between
             // release and debug builds, but the main app flavor has a suffix
@@ -205,6 +206,9 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-android-open-settings')
+    implementation project(':react-native-network-info')
+    implementation project(':@react-native-community_netinfo')
     implementation project(':@react-native-community_async-storage')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-image-resizer')

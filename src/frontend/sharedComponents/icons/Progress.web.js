@@ -1,14 +1,15 @@
 import React from "react";
 import { View } from "react-native";
 
-const Progress = ({ size, color }) => (
+const Progress = ({ size = 30, color = "white" }) => (
   <View
     style={{
-      backgroundColor: "#00FF02",
+      borderColor: color,
+      borderWidth: 4,
       margin: 1.5,
-      borderRadius: 7,
-      width: 14,
-      height: 14
+      borderRadius: size / 2,
+      width: size,
+      height: size
     }}
   />
 );

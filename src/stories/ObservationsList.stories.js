@@ -7,6 +7,7 @@ import ObservationsListView from "../frontend/screens/ObservationsList/Observati
 import { matchPreset } from "../frontend/lib/utils";
 import observationsJson from "./test_observations.json";
 import presetsJson from "./test_presets.json";
+import Fullscreen from "./Fullscreen";
 
 // The web implementation of flatlist is inefficient and blocks browser
 // rendering, so we only use 30 list items for web.
@@ -19,10 +20,12 @@ const observations = new Map(
 const presets = new Map(Object.entries(presetsJson.presets));
 const { storiesOf } = Storybook;
 
-storiesOf("ObservationsList", module).add("default", () => (
-  <ObservationsListView
-    observations={observations}
-    getPreset={o => matchPreset(o, presets)}
-    onPressObservation={action("Press list item")}
-  />
-));
+storiesOf("ObservationsList", module)
+  .addDecorator(storyFn => <Fullscreen>{storyFn()}</Fullscreen>)
+  .add("default", () => (
+    <ObservationsListView
+      observations={observations}
+      getPreset={o => matchPreset(o, presets)}
+      onPressObservation={action("Press list item")}
+    />
+  ));

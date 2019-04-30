@@ -19,7 +19,7 @@
 
 const rnBridge = require("rn-bridge");
 const debug = require("debug");
-debug.enable("*");
+debug.enable("mapeo*");
 
 const ServerStatus = require("./status");
 const constants = require("./constants");
@@ -36,6 +36,7 @@ status.startHeartbeat();
 
 process.on("uncaughtException", function(err) {
   log(err.message);
+  console.trace(err);
   status.setState(constants.ERROR);
 });
 
