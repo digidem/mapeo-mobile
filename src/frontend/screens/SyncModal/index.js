@@ -32,11 +32,12 @@ type State = {
   // Whether there was an error trying to load peer status
   loadError?: boolean,
   // SSID of wifi network, if connected
-  wifi: null | string
+  ssid: null | string
 };
 
 class SyncModal extends React.Component<Props, State> {
-  state = { serverPeers: [], syncErrors: new Map(), wifi: null };
+  // Assume wifi is turned on at first (better UX)
+  state = { serverPeers: [], syncErrors: new Map(), ssid: null };
   _opened: number;
   _subscriptions: Array<{ remove: () => void }> = [];
 
@@ -65,8 +66,14 @@ class SyncModal extends React.Component<Props, State> {
   }
 
   handleConnectionChange = async (data: NetInfoData) => {
-    const hasWifiConnection = data.type === "wifi";
-    if (!hasWifiConnection) return this.setState({ wifi: null });
+    // NetInfoData does not actually tell us whether wifi is turned on, it just
+    // tells us what connection the phone is using for data. E.g. it could be
+    // connected to a wifi network but instead using 4g for data, in which case
+    // `data.type` will not be wifi. So instead we just use the event listener
+    // from NetInfo, and when the connection changes we look up the SSID to see
+    // whether the user is connected to a wifi network.
+    // TODO: We currently do not know whether wifi is turned off, we only know
+    // whether the user is connected to a wifi network or not.
     let ssid;
     try {
       ssid = await NetworkInfo.getSSID();
@@ -75,9 +82,7 @@ class SyncModal extends React.Component<Props, State> {
     } finally {
       // Even if we don't get the SSID, we still want to show that a wifi
       // network is connected.
-      this.setState({
-        wifi: ssid || "Wifi Network"
-      });
+      this.setState({ ssid });
     }
   };
 
@@ -149,7 +154,7 @@ class SyncModal extends React.Component<Props, State> {
     return (
       <SyncView
         peers={peers}
-        wifi={this.state.wifi}
+        ssid={this.state.ssid}
         onClosePress={() => navigation.pop()}
         onWifiPress={this.handleWifiPress}
         onSyncPress={this.handleSyncPress}

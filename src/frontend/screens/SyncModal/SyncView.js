@@ -43,9 +43,9 @@ const NoWifiBox = ({ onPress }) => (
           <WifiOffIcon size={50} />
         </View>
         <View style={styles.noWifiTextContainer}>
-          <Text style={styles.infoHeader}>Wi-Fi Off</Text>
+          <Text style={styles.infoHeader}>No Wi-Fi</Text>
           <Text style={styles.infoSubheader}>
-            Go to settings and turn on & connect
+            Go to settings and connect to a Wi-Fi network to sync
           </Text>
         </View>
       </View>
@@ -73,14 +73,14 @@ type Props = {
   onSyncPress: (peerId: string) => void,
   onWifiPress: () => void,
   peers: Array<Peer>,
-  wifi: null | string
+  ssid: null | string
 };
 
 const SyncView = ({
   onClosePress,
   onSyncPress,
   peers,
-  wifi,
+  ssid,
   onWifiPress
 }: Props) => (
   <ScrollView
@@ -88,9 +88,9 @@ const SyncView = ({
     contentContainerStyle={styles.scrollViewContent}
   >
     <Header onClosePress={onClosePress} />
-    {wifi ? (
+    {ssid ? (
       <>
-        <WifiBar onPress={onWifiPress} ssid={wifi} />
+        <WifiBar onPress={onWifiPress} ssid={ssid} />
         {peers.length ? (
           <PeerList peers={peers} onSyncPress={onSyncPress} />
         ) : (
