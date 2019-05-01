@@ -4,6 +4,7 @@ import ImageResizer from "react-native-image-resizer";
 import debug from "debug";
 import hoistStatics from "hoist-non-react-statics";
 import pick from "lodash/pick";
+import debounce from "lodash/debounce";
 import AsyncStorage from "@react-native-community/async-storage";
 
 import { getDisplayName } from "../lib/utils";
@@ -107,6 +108,7 @@ class DraftObservationProvider extends React.Component<
     newDraft: this.newDraft.bind(this)
   };
   pending = [];
+  save = debounce(this.save, 500, { leading: true });
 
   async componentDidMount() {
     try {
@@ -121,6 +123,10 @@ class DraftObservationProvider extends React.Component<
   }
 
   componentDidUpdate() {
+    this.save();
+  }
+
+  save() {
     const { photos, value } = this.state;
     try {
       AsyncStorage.setItem(STORE_KEY, JSON.stringify({ photos, value }));

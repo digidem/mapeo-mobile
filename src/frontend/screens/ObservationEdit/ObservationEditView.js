@@ -1,13 +1,22 @@
 // @flow
 import React from "react";
-import { ScrollView, View, Text, StyleSheet } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Keyboard,
+  KeyboardAvoidingView
+} from "react-native";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 
 import LocationField from "../../sharedComponents/LocationField";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
+import Field from "./Field";
 import { CameraIcon, CategoryCircleIcon } from "../../sharedComponents/icons";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
-import { VERY_LIGHT_BLUE } from "../../lib/styles";
+import { VERY_LIGHT_BLUE, LIGHT_GREY } from "../../lib/styles";
 import { withDraft } from "../../context/DraftObservationContext";
 
 import type { PresetWithFields } from "../../context/PresetsContext";
@@ -60,6 +69,24 @@ const AddPhotoButton = ({ onPress }) => (
   </TouchableNativeFeedback>
 );
 
+const DescriptionField = () => (
+  <Field fieldKey="notes">
+    {({ value, onChange }) => (
+      <TextInput
+        style={styles.textInput}
+        value={value}
+        onChangeText={onChange}
+        placeholder="I'm a placeholder"
+        placeholderTextColor="silver"
+        underlineColorAndroid="transparent"
+        onBlur={() => console.log("blur")}
+        multiline
+        autoFocus
+      />
+    )}
+  </Field>
+);
+
 type Props = {
   onPressCategory: () => any,
   onPressCamera: () => any,
@@ -79,7 +106,7 @@ export const ObservationEdit = ({
         {fieldProps => <LocationView {...fieldProps} />}
       </LocationField>
       <CategoryView preset={preset} onPress={onPressCategory} />
-      <View style={styles.descriptionContainer} />
+      <DescriptionField />
       <PhotosView />
     </ScrollView>
     <AddPhotoButton onPress={onPressCamera} />
@@ -160,5 +187,17 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: "bold",
     fontSize: 20
+  },
+  textInput: {
+    flex: 1,
+    fontSize: 20,
+    padding: 20,
+    paddingBottom: 30,
+    color: "black",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    textAlignVertical: "top",
+    backgroundColor: "white",
+    borderColor: LIGHT_GREY
   }
 });
