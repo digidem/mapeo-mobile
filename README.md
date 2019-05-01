@@ -27,7 +27,7 @@ APK file and [install manually](https://www.wikihow.com/Install-APK-Files-from-a
 Presets must be placed in this folder:
 
 ```txt
-/sdcard/Android/data/com.mapeo.debug/files/presets/default
+/sdcard/Android/data/com.mapeo/files/presets/default
 ```
 
 This folder (`default`) should contain these files directly in under this
@@ -47,7 +47,7 @@ icons/
 Offline maps must be placed in this folder:
 
 ```txt
-/sdcard/Android/data/com.mapeo.debug/files/styles/default
+/sdcard/Android/data/com.mapeo/files/styles/default
 ```
 
 This folder should contain these files derectly under this `default` folder:
