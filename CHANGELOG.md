@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.0.0-alpha.5](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2019-05-01)
+
+
+### Bug Fixes
+
+* **map:** Update react-native-mapbox to v7 pre-release ([39779dd](https://github.com/digidem/mapeo-mobile/commit/39779dd))
+* **ObservationView:** crash when viewing an observation with empty fields defined in preset ([9b69a28](https://github.com/digidem/mapeo-mobile/commit/9b69a28))
+
+
+### Features
+
+* **map:** Offline style falls back to online style ([0fe38e5](https://github.com/digidem/mapeo-mobile/commit/0fe38e5))
+* **map:** press on observation to open details ([ca2a6ad](https://github.com/digidem/mapeo-mobile/commit/ca2a6ad))
+
+
+
 # [1.0.0-alpha.4](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2019-05-01)
 
 
