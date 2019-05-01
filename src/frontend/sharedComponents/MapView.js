@@ -83,16 +83,19 @@ class ObservationMapLayer extends React.PureComponent<{
 
 type Props = {
   observations: ObservationsMap,
-  mapStyle?: MapStyle,
+  mapStyle?: string | MapStyle,
   onAddPress: () => void,
   onPressObservation: (observationId: string) => void
 };
 
-class MapView extends React.Component<Props> {
+class MapView extends React.Component<Props, { loadError: boolean }> {
   static defaultProps = {
     onAddPress: () => {},
-    onPressObservation: () => {}
+    onPressObservation: () => {},
+    mapStyle: "mapbox://styles/mapbox/outdoors-v9"
   };
+
+  state = {};
 
   constructor(props: Props) {
     super(props);
@@ -134,7 +137,7 @@ class MapView extends React.Component<Props> {
   };
 
   render() {
-    const { observations, onAddPress } = this.props;
+    const { observations, onAddPress, mapStyle } = this.props;
 
     return (
       <>
@@ -147,7 +150,10 @@ class MapView extends React.Component<Props> {
           rotateEnabled={false}
           onPress={this.handleObservationPress}
           compassEnabled={false}
-          styleURL="mapbox://styles/mapbox/outdoors-v9"
+          styleURL={
+            this.state.loadError ? MapView.defaultProps.mapStyle : mapStyle
+          }
+          onDidFailLoadingMap={e => this.setState({ loadError: true })}
         >
           <ObservationMapLayer
             onPress={this.handleObservationPress}

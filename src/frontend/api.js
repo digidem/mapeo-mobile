@@ -53,6 +53,10 @@ export function getMediaUrl(attachmentId: string, size: ImageSize): string {
   return `${BASE_URL}media/${size}/${attachmentId}`;
 }
 
+export function getMapStyleUrl(id: string): string {
+  return `${BASE_URL}styles/${id}/style.json`;
+}
+
 export function savePhoto({
   fullUri,
   thumbnailUri
