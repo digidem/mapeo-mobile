@@ -28,7 +28,14 @@ module.exports = async ({ config }) => {
       __dirname,
       "../__mocks__/nodejs-mobile-react-native.js"
     ),
-    "@babel/runtime": "@babel/runtime"
+    "@babel/runtime": "@babel/runtime",
+    "@react-native-community/async-storage":
+      "react-native-web/dist/exports/AsyncStorage",
+    "react-native-image-resizer": path.join(
+      __dirname,
+      "../__mocks__/react-native-image-resizer"
+    ),
+    "expo-location": path.join(__dirname, "../__mocks__/expo-location")
   };
 
   return config;
