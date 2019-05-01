@@ -31,7 +31,8 @@ class SceneComponent extends React.PureComponent<*> {
 
 function SceneMap<T: *>(
   scenes: { [key: string]: React.ComponentType<T> },
-  onAddPress: $ElementType<DraftContextType, "addPhoto">
+  onAddPress: $ElementType<DraftContextType, "addPhoto">,
+  navigation
 ) {
   // eslint-disable-next-line react/display-name
   return ({ route, jumpTo }: T) => (
@@ -41,6 +42,7 @@ function SceneMap<T: *>(
       route={route}
       jumpTo={jumpTo}
       onAddPress={onAddPress}
+      navigation={navigation}
     />
   );
 }
@@ -128,7 +130,8 @@ class Home extends React.Component<Props, State> {
               map: MapScreen,
               photo: CameraScreen
             },
-            this.handleAddPress
+            this.handleAddPress,
+            this.props.navigation
           )}
           renderTabBar={this.renderTabBar}
           onIndexChange={index => this.setState({ index })}

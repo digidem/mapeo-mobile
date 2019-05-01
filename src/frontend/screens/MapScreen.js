@@ -10,13 +10,16 @@ type Props = {
   onAddPress: () => void
 };
 
-const MapScreen = ({ onAddPress }: Props) => (
+const MapScreen = ({ onAddPress, navigation }: Props) => (
   <View style={{ flex: 1 }}>
     <ObservationsContext.Consumer>
       {({ observations }) => (
         <MapView
           observations={observations}
           onAddPress={onAddPress}
+          onPressObservation={(observationId: string) =>
+            navigation.navigate("Observation", { observationId })
+          }
           mapStyle={getMapStyleUrl("default")}
         />
       )}
