@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import MapboxGL from "@mapbox/react-native-mapbox-gl";
+import MapboxGL from "@react-native-mapbox/maps";
 
 import type { MapStyle } from "../types";
 import type { ObservationsMap } from "../context/ObservationsContext";
@@ -9,14 +9,14 @@ import debug from "debug";
 
 const log = debug("mapeo:MapView");
 
-const mapboxStyles = MapboxGL.StyleSheet.create({
+const mapboxStyles = {
   observation: {
     circleColor: "#F29D4B",
     circleRadius: 5,
     circleStrokeColor: "#fff",
     circleStrokeWidth: 2
   }
-});
+};
 
 type ObservationFeature = {
   type: "Feature",
@@ -115,11 +115,11 @@ class MapView extends React.Component<Props, { loadError: boolean }> {
       }
     }
   }) => {
-    log("handle obs press");
     const pressedFeature = e.nativeEvent && e.nativeEvent.payload;
     if (!pressedFeature || !pressedFeature.properties) return;
 
     const observationId = pressedFeature.properties.id;
+    log("handle obs press", observationId);
     const { observations, onPressObservation } = this.props;
     if (observations.get(observationId)) {
       onPressObservation(observationId);
@@ -155,6 +155,7 @@ class MapView extends React.Component<Props, { loadError: boolean }> {
           }
           onDidFailLoadingMap={e => this.setState({ loadError: true })}
         >
+          <MapboxGL.UserLocation showUserLocation={true} />
           <ObservationMapLayer
             onPress={this.handleObservationPress}
             observations={observations}
