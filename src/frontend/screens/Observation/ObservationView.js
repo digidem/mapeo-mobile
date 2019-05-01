@@ -67,7 +67,7 @@ const ObservationView = ({ observation, preset = {} }: ODVProps) => {
         )}
         {/* $FlowFixMe - not sure why flow is not getting this type */}
         {photos && <ThumbnailScrollView photos={photos} />}
-        {preset.fields && preset.fields.length && (
+        {preset.fields && preset.fields.length > 0 && (
           <View style={styles.section}>
             <View
               style={{
