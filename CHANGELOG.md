@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.0.0-alpha.4](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2019-05-01)
+
+
+### Bug Fixes
+
+* **Camera:** Don't disable shutter after first photo ([155bcf0](https://github.com/digidem/mapeo-mobile/commit/155bcf0))
+* **UI:** GPS spinner was too big ([afd27fa](https://github.com/digidem/mapeo-mobile/commit/afd27fa))
+* Camera shutted disabled after taking photo ([1fb5a3f](https://github.com/digidem/mapeo-mobile/commit/1fb5a3f))
+* crash on Android 6.0 on Moto G3 ([1b5f7ad](https://github.com/digidem/mapeo-mobile/commit/1b5f7ad))
+* use SSID for wifi connectivity ([46009bf](https://github.com/digidem/mapeo-mobile/commit/46009bf))
+
+
+### Features
+
+* **build:** create QA build with debugging turned on ([a7e3dad](https://github.com/digidem/mapeo-mobile/commit/a7e3dad))
+* **createObservation:** Confirmation before saving for weak or no GPS ([4af0524](https://github.com/digidem/mapeo-mobile/commit/4af0524))
+* **UI:** Different header title for create vs edit observation ([74d986c](https://github.com/digidem/mapeo-mobile/commit/74d986c))
+* Add relative dates ("2 minutes ago") ([50e9968](https://github.com/digidem/mapeo-mobile/commit/50e9968))
+* Add Sync ([#119](https://github.com/digidem/mapeo-mobile/issues/119)) ([a886b2e](https://github.com/digidem/mapeo-mobile/commit/a886b2e))
+* Add text entry to create observation (1st pass) ([ad4e848](https://github.com/digidem/mapeo-mobile/commit/ad4e848))
+* Basic offline map style functionality ([8dbb308](https://github.com/digidem/mapeo-mobile/commit/8dbb308))
+* format dates (english only for now) ([d998a60](https://github.com/digidem/mapeo-mobile/commit/d998a60))
+
+
+
 # [1.0.0-alpha.3](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2019-04-26)
 
 
