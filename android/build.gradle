@@ -6,7 +6,7 @@ buildscript {
         // Android 5.0 - requirement for expo unimodules
         minSdkVersion = 21
         compileSdkVersion = 28
-        targetSdkVersion = 23
+        targetSdkVersion = 27
         supportLibVersion = "28.0.0"
         kotlinVersion = "1.3.0" // For Gradle
     }

@@ -40,7 +40,7 @@
     "mapeo-schema": "^1.0.4",
     "material-ui": "^0.20.2",
     "memoize-one": "^5.0.0",
-    "nodejs-mobile-react-native": "^0.3.3",
+    "nodejs-mobile-react-native": "gmaclennan/nodejs-mobile-react-native#min-sdk-fix",
     "prop-types": "^15.7.2",
     "querystring": "^0.2.0",
     "react": "16.6.3",
