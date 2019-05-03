@@ -1,6 +1,7 @@
 // @flow strict
 import * as React from "react";
 import debug from "debug";
+import memoize from "memoize-one";
 
 import { getPresets, getFields } from "../api";
 import { matchPreset } from "../lib/utils";
@@ -89,6 +90,7 @@ class PresetsProvider extends React.Component<Props, PresetsContext> {
     getPreset: this.getPreset.bind(this),
     loading: true
   };
+  addFieldDefinitions = memoize(this.addFieldDefinitions);
 
   async componentDidMount() {
     try {
