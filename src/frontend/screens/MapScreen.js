@@ -2,11 +2,10 @@
 import * as React from "react";
 import { View } from "react-native";
 import MapboxGL from "@react-native-mapbox/maps";
-import ky from "ky";
 
 import MapView from "../sharedComponents/MapView";
 import ObservationsContext from "../context/ObservationsContext";
-import { getMapStyleUrl } from "../api";
+import { getMapStyleUrl, checkMapStyle } from "../api";
 
 type Props = {
   onAddPress: () => void
@@ -23,8 +22,8 @@ class MapStyleProvider extends React.Component<
   async componentDidMount() {
     try {
       const offlineStyleURL = getMapStyleUrl("default");
-      await ky(offlineStyleURL);
-      console.log("UpdatedStyleURL", offlineStyleURL);
+      // Check if the mapStyle exists on the server
+      await checkMapStyle("default");
       this.setState({ styleURL: offlineStyleURL });
     } catch (e) {
       // If we don't have a default offline style, don't do anything

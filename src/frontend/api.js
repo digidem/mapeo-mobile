@@ -57,6 +57,10 @@ export function getMapStyleUrl(id: string): string {
   return `${BASE_URL}styles/${id}/style.json`;
 }
 
+export function checkMapStyle(id: string): Promise<any> {
+  return api.get(`styles/${id}/style.json`);
+}
+
 export function savePhoto({
   fullUri,
   thumbnailUri
