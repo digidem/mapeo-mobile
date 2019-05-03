@@ -2,12 +2,14 @@
 import * as React from "react";
 import { View } from "react-native";
 import MapboxGL from "@react-native-mapbox/maps";
+import type { NavigationScreenConfigProps } from "react-navigation";
 
 import MapView from "../sharedComponents/MapView";
 import ObservationsContext from "../context/ObservationsContext";
 import { getMapStyleUrl, checkMapStyle } from "../api";
 
 type Props = {
+  ...$Exact<NavigationScreenConfigProps>,
   onAddPress: () => void
 };
 

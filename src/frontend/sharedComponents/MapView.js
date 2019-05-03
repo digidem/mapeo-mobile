@@ -2,7 +2,7 @@
 import React from "react";
 import MapboxGL from "@react-native-mapbox/maps";
 
-import type { MapStyle } from "../types";
+// import type { MapStyle } from "../types";
 import type { ObservationsMap } from "../context/ObservationsContext";
 import AddButton from "./AddButton";
 import debug from "debug";
@@ -84,8 +84,8 @@ class ObservationMapLayer extends React.PureComponent<{
 type Props = {
   observations: ObservationsMap,
   styleURL: string,
-  onAddPress: () => void,
-  onPressObservation: (observationId: string) => void
+  onAddPress: () => any,
+  onPressObservation: (observationId: string) => any
 };
 
 class MapView extends React.Component<Props> {
