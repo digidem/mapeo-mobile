@@ -4,8 +4,7 @@ import {
   createStackNavigator,
   createAppContainer,
   // $FlowFixMe
-  StackViewTransitionConfigs,
-  StackActions
+  StackViewTransitionConfigs
 } from "react-navigation";
 import Home from "./screens/Home";
 import ObservationList from "./screens/ObservationsList";
@@ -32,7 +31,7 @@ const EditHeaderLeft = ({ navigation }) => {
       parent &&
       parent.state.routeName === "NewObservation");
   return (
-    <IconButton onPress={() => navigation.pop()}>
+    <IconButton onPress={() => navigation.navigate("Home")}>
       {isClose ? <CloseIcon /> : <BackIcon />}
     </IconButton>
   );
@@ -64,34 +63,34 @@ const EditStack = createStackNavigator(
   }
 );
 
-const defaultGetStateForAction = EditStack.router.getStateForAction;
+// const defaultGetStateForAction = EditStack.router.getStateForAction;
 
-EditStack.router.getStateForAction = (action, state) => {
-  let newState = defaultGetStateForAction(action, state);
-  // This is a hack that pops the ObservationEdit screen to the top of the stack
-  // when in the NewObservation stack. This is so that after selecting a
-  // category then the back button cancels the new observation, and when you
-  // subsequently change the category, then the screen enters from the
-  // right-hand-side
-  if (
-    state &&
-    !state.isTransitioning &&
-    newState &&
-    newState.routeName === "NewObservation" &&
-    action &&
-    action.type === StackActions.COMPLETE_TRANSITION &&
-    newState.index === 1 &&
-    newState.routes &&
-    newState.routes[1].routeName === "ObservationEdit"
-  ) {
-    newState = {
-      ...newState,
-      index: 0,
-      routes: [newState.routes[1]]
-    };
-  }
-  return newState;
-};
+// EditStack.router.getStateForAction = (action, state) => {
+//   let newState = defaultGetStateForAction(action, state);
+//   // This is a hack that pops the ObservationEdit screen to the top of the stack
+//   // when in the NewObservation stack. This is so that after selecting a
+//   // category then the back button cancels the new observation, and when you
+//   // subsequently change the category, then the screen enters from the
+//   // right-hand-side
+//   if (
+//     state &&
+//     !state.isTransitioning &&
+//     newState &&
+//     newState.routeName === "NewObservation" &&
+//     action &&
+//     action.type === StackActions.COMPLETE_TRANSITION &&
+//     newState.index === 1 &&
+//     newState.routes &&
+//     newState.routes[1].routeName === "ObservationEdit"
+//   ) {
+//     newState = {
+//       ...newState,
+//       index: 0,
+//       routes: [newState.routes[1]]
+//     };
+//   }
+//   return newState;
+// };
 
 const MainStack = createStackNavigator(
   {
