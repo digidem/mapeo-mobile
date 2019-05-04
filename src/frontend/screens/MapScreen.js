@@ -6,6 +6,7 @@ import type { NavigationScreenConfigProps } from "react-navigation";
 
 import MapView from "../sharedComponents/MapView";
 import ObservationsContext from "../context/ObservationsContext";
+import LocationContext from "../context/LocationContext";
 import { getMapStyleUrl, checkMapStyle } from "../api";
 
 type Props = {
@@ -37,25 +38,37 @@ class MapStyleProvider extends React.Component<
   }
 }
 
-const MapScreen = ({ onAddPress, navigation }: Props) => (
-  <View style={{ flex: 1 }}>
-    <ObservationsContext.Consumer>
-      {({ observations }) => (
-        <MapStyleProvider>
-          {styleURL => (
-            <MapView
-              observations={observations}
-              onAddPress={onAddPress}
-              onPressObservation={(observationId: string) =>
-                navigation.navigate("Observation", { observationId })
-              }
-              styleURL={styleURL}
-            />
+class MapScreen extends React.Component<Props> {
+  handleObservationPress = (observationId: string) =>
+    this.props.navigation.navigate("Observation", { observationId });
+
+  render() {
+    const { onAddPress } = this.props;
+
+    return (
+      <View style={{ flex: 1 }}>
+        <ObservationsContext.Consumer>
+          {({ observations }) => (
+            <LocationContext.Consumer>
+              {location => (
+                <MapStyleProvider>
+                  {styleURL => (
+                    <MapView
+                      location={location}
+                      observations={observations}
+                      onAddPress={onAddPress}
+                      onPressObservation={this.handleObservationPress}
+                      styleURL={styleURL}
+                    />
+                  )}
+                </MapStyleProvider>
+              )}
+            </LocationContext.Consumer>
           )}
-        </MapStyleProvider>
-      )}
-    </ObservationsContext.Consumer>
-  </View>
-);
+        </ObservationsContext.Consumer>
+      </View>
+    );
+  }
+}
 
 export default MapScreen;

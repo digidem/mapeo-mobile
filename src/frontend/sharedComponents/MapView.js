@@ -1,11 +1,18 @@
 // @flow
 import React from "react";
+import { View, StyleSheet } from "react-native";
 import MapboxGL from "@react-native-mapbox/maps";
+import debug from "debug";
 
 // import type { MapStyle } from "../types";
-import type { ObservationsMap } from "../context/ObservationsContext";
 import AddButton from "./AddButton";
-import debug from "debug";
+import { LocationFollowingIcon, LocationNoFollowIcon } from "./icons";
+import IconButton from "./IconButton";
+import type {
+  LocationContextType,
+  PositionType
+} from "../context/LocationContext";
+import type { ObservationsMap } from "../context/ObservationsContext";
 
 const log = debug("mapeo:MapView");
 
@@ -84,15 +91,24 @@ class ObservationMapLayer extends React.PureComponent<{
 type Props = {
   observations: ObservationsMap,
   styleURL: string,
+  location: LocationContextType,
   onAddPress: () => any,
   onPressObservation: (observationId: string) => any
 };
 
-class MapView extends React.Component<Props> {
+type State = {
+  // True if the map is following user location
+  following: boolean
+};
+
+class MapView extends React.Component<Props, State> {
   static defaultProps = {
     onAddPress: () => {},
     onPressObservation: () => {}
   };
+  state = { following: true };
+  map: any;
+  initialPosition: void | null | PositionType;
 
   constructor(props: Props) {
     super(props);
@@ -101,9 +117,20 @@ class MapView extends React.Component<Props> {
     );
     MapboxGL.setTelemetryEnabled(false);
     log("accessToken set");
+    this.initialPosition =
+      props.location.position || props.location.savedPosition;
   }
 
-  map: any;
+  // We only use the location prop (which contains the app GPS location) for the
+  // first render of the map. After that location updates come from the native
+  // map view, so we don't want to re-render this component every time there is
+  // a GPS update
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
+    return (
+      shallowDiffers(this.props, nextProps, ["location"]) ||
+      shallowDiffers(this.state, nextState, ["location"])
+    );
+  }
 
   handleObservationPress = (e: {
     nativeEvent?: {
@@ -133,8 +160,24 @@ class MapView extends React.Component<Props> {
     this.map = c;
   };
 
+  handleRegionChange = (e: any) => {
+    // Any user interaction with the map switches follow mode to false
+    if (e.properties.isUserInteraction) this.setState({ following: false });
+  };
+
+  handleLocationPress = () => {
+    this.setState(state => ({ following: !state.following }));
+  };
+
   render() {
     const { observations, onAddPress, styleURL } = this.props;
+    const initialCoords = this.initialPosition
+      ? [
+          this.initialPosition.coords.longitude,
+          this.initialPosition.coords.latitude
+        ]
+      : [0, 0];
+    const initialZoom = this.initialPosition ? 8 : 0;
     return (
       <>
         <MapboxGL.MapView
@@ -148,17 +191,53 @@ class MapView extends React.Component<Props> {
           onPress={this.handleObservationPress}
           compassEnabled={false}
           styleURL={styleURL}
+          onRegionWillChange={this.handleRegionChange}
+          regionWillChangeDebounceTime={200}
         >
-          <MapboxGL.UserLocation showUserLocation={true} />
+          {!this.state.following && (
+            <MapboxGL.UserLocation showUserLocation={true} />
+          )}
+          <MapboxGL.Camera
+            centerCoordinate={initialCoords}
+            zoomLevel={initialZoom}
+            followUserLocation={this.state.following}
+            followZoomLevel={12}
+          />
           <ObservationMapLayer
             onPress={this.handleObservationPress}
             observations={observations}
           />
         </MapboxGL.MapView>
         <AddButton onPress={onAddPress} />
+        <View style={styles.locationButton}>
+          <IconButton onPress={this.handleLocationPress}>
+            {this.state.following ? (
+              <LocationFollowingIcon />
+            ) : (
+              <LocationNoFollowIcon />
+            )}
+          </IconButton>
+        </View>
       </>
     );
   }
 }
 
 export default MapView;
+
+// Shallow compare objects, but omitting certain keys from the comparison
+function shallowDiffers(a: any, b: any, omit: string[]) {
+  for (let i in a) if (!(i in b)) return true;
+  for (let i in b) {
+    if (a[i] !== b[i] && omit.indexOf(i) === -1) return true;
+  }
+  return false;
+}
+
+const styles = StyleSheet.create({
+  locationButton: {
+    position: "absolute",
+    right: 20,
+    bottom: 20
+  }
+});

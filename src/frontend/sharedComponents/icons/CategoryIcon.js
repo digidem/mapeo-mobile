@@ -1,30 +1,11 @@
 // @flow
 import * as React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image } from "react-native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
+import Circle from "./Circle";
 import { getIconUrl } from "../../api";
 import type { IconSize } from "../../types";
-
-type CircleProps = {
-  radius?: number,
-  children: React.Node
-};
-
-const Circle = ({ radius = 25, children }: CircleProps) => (
-  <View
-    style={[
-      styles.circle,
-      {
-        width: radius * 2,
-        height: radius * 2,
-        borderRadius: radius * 2
-      }
-    ]}
-  >
-    {children}
-  </View>
-);
 
 type IconProps = {
   size?: IconSize,
@@ -72,21 +53,3 @@ export const CategoryCircleIcon = ({
     <CategoryIcon {...props} />
   </Circle>
 );
-
-const styles = StyleSheet.create({
-  circle: {
-    width: 50,
-    height: 50,
-    backgroundColor: "white",
-    borderRadius: 50,
-    borderColor: "#EAEAEA",
-    borderWidth: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "black",
-    shadowRadius: 5,
-    shadowOpacity: 0.5,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3
-  }
-});

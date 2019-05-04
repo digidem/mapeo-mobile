@@ -5,6 +5,7 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { Image, Text } from "react-native";
 
+import Circle from "./Circle";
 import { RED, DARK_GREY, MANGO, MEDIUM_GREY } from "../../lib/styles";
 import type { Style } from "../../types";
 
@@ -158,4 +159,22 @@ export const ObservationListIcon = ({ size = 30, style }: ImageIconProps) => (
     source={require("../../images/observation-manager-icon.png")}
     style={[{ width: size, height: size }, style]}
   />
+);
+
+export const LocationNoFollowIcon = ({
+  size = 30,
+  color = MEDIUM_GREY
+}: FontIconProps) => (
+  <Circle radius={25}>
+    <MaterialIcon color={color} name="location-searching" size={size} />
+  </Circle>
+);
+
+export const LocationFollowingIcon = ({
+  size = 30,
+  color = "#4A90E2"
+}: FontIconProps) => (
+  <Circle radius={25}>
+    <MaterialIcon color={color} name="my-location" size={size} />
+  </Circle>
 );

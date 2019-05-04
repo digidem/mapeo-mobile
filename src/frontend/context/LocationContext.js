@@ -8,9 +8,9 @@ import { withPermissions, PERMISSIONS, RESULTS } from "./PermissionsContext";
 import type { PermissionResult, PermissionsType } from "./PermissionsContext";
 
 const log = debug("mapeo:Location");
-const STORE_KEY = "@MapeoPosition";
+const STORE_KEY = "@MapeoPosition@1";
 
-type PositionType = {
+export type PositionType = {
   // The timestamp of when the current position was obtained
   timestamp: number,
   // Whether the position is mocked or not
@@ -48,7 +48,7 @@ export type LocationContextType = {
   // Whether the user has granted permissions to use location to this app
   permission?: PermissionResult,
   // This is the previous known position from the last time the app was open
-  savedPosition?: PositionType,
+  savedPosition?: PositionType | null,
   // True if there is some kind of error getting the device location
   error: boolean
 };
@@ -113,7 +113,9 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
     this.updateStatus();
     try {
       const savedPosition = await AsyncStorage.getItem(STORE_KEY);
-      if (savedPosition != null && !this.state.position) {
+      if (savedPosition == null) {
+        this.setState({ savedPosition: null });
+      } else if (!this.state.position) {
         this.setState({ savedPosition: JSON.parse(savedPosition) });
       }
     } catch (e) {
@@ -181,7 +183,11 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
   };
 
   render() {
-    return <Provider value={this.state}>{this.props.children}</Provider>;
+    // Waiting until savedPosition has loaded before first render
+    // savedPosition will be null if it is loaded but there is no saved position
+    return this.state.savedPosition === undefined ? null : (
+      <Provider value={this.state}>{this.props.children}</Provider>
+    );
   }
 }
 
