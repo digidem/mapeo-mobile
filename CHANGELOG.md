@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.0.0-alpha.6](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2019-05-04)
+
+
+### Bug Fixes
+
+* **build:** build for older (Android v5 and v6) devices using patched nodejs-mobile ([f2c2794](https://github.com/digidem/mapeo-mobile/commit/f2c2794))
+* **build:** enable cleartext support, fix broken dev env ([dde646e](https://github.com/digidem/mapeo-mobile/commit/dde646e))
+* **create observation:** fix keyboard disappearing when observation edit screen appears ([7d142e8](https://github.com/digidem/mapeo-mobile/commit/7d142e8))
+* **edit observation:** avoid unnecessary re-renders ([3a8f228](https://github.com/digidem/mapeo-mobile/commit/3a8f228))
+* **map:** Fix custom style not showing ([bf55b1b](https://github.com/digidem/mapeo-mobile/commit/bf55b1b))
+
+
+### Features
+
+* **18n:** Translate strings to Spanish ([e1afb32](https://github.com/digidem/mapeo-mobile/commit/e1afb32))
+* **map:** Add location follow mode & zoom to location on first load ([8f7aeaf](https://github.com/digidem/mapeo-mobile/commit/8f7aeaf))
+* **photos:** delete local temp photos after save to server ([4aaf9b8](https://github.com/digidem/mapeo-mobile/commit/4aaf9b8))
+* **photos:** save preview sized photos in addition to thumbnails & originals ([ed643d9](https://github.com/digidem/mapeo-mobile/commit/ed643d9))
+
+
+
 # [1.0.0-alpha.5](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2019-05-01)
 
 
