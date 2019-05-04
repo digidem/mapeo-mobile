@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.0.0-alpha.7](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2019-05-04)
+
+
+### Bug Fixes
+
+* **build:** remove leftover detox pieces ([cf1315b](https://github.com/digidem/mapeo-mobile/commit/cf1315b))
+
+
+
 # [1.0.0-alpha.6](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2019-05-04)
 
 
