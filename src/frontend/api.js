@@ -3,6 +3,8 @@ import "core-js/es6/reflect";
 import { PixelRatio } from "react-native";
 import ky from "ky";
 import nodejs from "nodejs-mobile-react-native";
+import RNFS from "react-native-fs";
+import debug from "debug";
 
 import type { Preset, Field } from "./context/PresetsContext";
 import type {
@@ -13,6 +15,7 @@ import type { IconSize, ImageSize } from "./types";
 import type { Photo } from "./context/DraftObservationContext";
 import type { Observation as ServerObservation } from "mapeo-schema";
 
+const log = debug("mapeo-mobile:api");
 const BASE_URL = "http://127.0.0.1:9080/";
 export const api = ky.extend({
   prefixUrl: BASE_URL,
@@ -75,7 +78,16 @@ export function savePhoto({
     preview: previewUri.replace(/^file:\/\//, ""),
     thumbnail: thumbnailUri.replace(/^file:\/\//, "")
   };
-  return api.post("media", { json: data }).json();
+  const createPromise = api.post("media", { json: data }).json();
+  // After images have saved to the server we can delete the versions in local
+  // cache to avoid filling up space on the phone
+  const localFiles = Object.values(data);
+  createPromise
+    // $FlowFixMe
+    .then(_ => Promise.all(localFiles.map(path => RNFS.unlink(path))))
+    .then(() => log("Deleted temp photos on save", localFiles))
+    .catch(err => log("Error deleting local image file", err));
+  return createPromise;
 }
 
 export function updateObservation(
