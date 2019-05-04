@@ -41,16 +41,16 @@ class SaveButton extends React.PureComponent<Props, State> {
     if (!isNew) return this.doSave();
     if (draft.value.lat === undefined && draft.value.lon === undefined) {
       Alert.alert(
-        "No GPS Location",
-        "This observation does not have a location, you can keep waiting or save the observation without a location",
+        "Sin señal del GPS",
+        "Esta observación no tiene ubicación. Puedes seguir esperando el GPS, o guardarlo sin ubicación",
         [
           {
-            text: "Keep waiting",
+            text: "Seguir esperando",
             onPress: () => log("Cancelled save"),
             style: "cancel"
           },
           {
-            text: "Save anyway",
+            text: "Guardar",
             onPress: this.doSave,
             style: "default"
           }
@@ -63,16 +63,16 @@ class SaveButton extends React.PureComponent<Props, State> {
       draft.value.metadata.location.position.coords.accuracy > MINIMUM_ACCURACY
     ) {
       Alert.alert(
-        "Weak GPS Signal",
-        "The accuracy of the GPS location of this observation is not very good. You can keep waiting for better accuracy, or save anyway",
+        "Señal débil del GPS",
+        "La precisión del GPS está baja. Puedes seguir esperando que la precisión mejora, o guardar como es",
         [
           {
-            text: "Keep waiting",
+            text: "Seguir esperando",
             onPress: () => log("Cancelled save"),
             style: "cancel"
           },
           {
-            text: "Save anyway",
+            text: "Guardar",
             onPress: this.doSave,
             style: "default"
           }
@@ -108,8 +108,7 @@ class SaveButton extends React.PureComponent<Props, State> {
         )
       };
       await create(newObservationValue);
-      // $FlowFixMe
-      navigation.pop();
+      navigation.navigate("Home");
       draft.clear();
     } catch (e) {
       log("Error:\n", e);

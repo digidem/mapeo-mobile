@@ -8,7 +8,7 @@ import PresetsContext from "../../context/PresetsContext";
 
 class ObservationsList extends React.Component<NavigationScreenConfigProps> {
   static navigationOptions = {
-    title: "Observations"
+    title: "Observaciones"
   };
 
   navigateToObservation = (observationId: string) => {

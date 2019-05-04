@@ -47,7 +47,7 @@ class AddPhotoScreen extends React.PureComponent<Props> {
           style={styles.cancelButton}
           onPress={this.handleCancelPress}
         >
-          <Text style={styles.cancelButtonLabel}>Cancel</Text>
+          <Text style={styles.cancelButtonLabel}>Cancelar</Text>
         </TouchableNativeFeedback>
       </View>
     );

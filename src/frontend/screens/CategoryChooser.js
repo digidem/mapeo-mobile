@@ -109,7 +109,7 @@ class CategoryChooser extends React.Component<{
   draft: DraftObservationContext
 }> {
   static navigationOptions = {
-    title: "Choose Category"
+    title: "Eligir que cosa pasa"
   };
 
   handleSelectPreset = (preset: Preset) => {

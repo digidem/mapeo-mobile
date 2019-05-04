@@ -2,6 +2,7 @@
 import React from "react";
 import { Text, AppState } from "react-native";
 import distanceInWordsStrict from "date-fns/distance_in_words_strict";
+var esLocale = require("date-fns/locale/es");
 
 import { formatDate } from "../lib/utils";
 import type { Style } from "../types";
@@ -61,7 +62,11 @@ class DateDistance extends React.Component<Props> {
   render() {
     const { style, date, addSuffix } = this.props;
     this.addRefreshTimer();
-    return <Text style={style}>{distanceInWords(date, { addSuffix })}</Text>;
+    return (
+      <Text style={style}>
+        {distanceInWords(date, { addSuffix, locale: esLocale })}
+      </Text>
+    );
   }
 }
 

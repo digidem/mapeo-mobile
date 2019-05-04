@@ -19,7 +19,7 @@ const Header = ({ onClosePress }: HeaderProps) => (
       <CloseIcon color="white" />
     </IconButton>
     <Text numberOfLines={1} style={styles.title}>
-      Sync
+      Sincronizar
     </Text>
   </View>
 );
@@ -43,9 +43,9 @@ const NoWifiBox = ({ onPress }) => (
           <WifiOffIcon size={50} />
         </View>
         <View style={styles.noWifiTextContainer}>
-          <Text style={styles.infoHeader}>No Wi-Fi</Text>
+          <Text style={styles.infoHeader}>Sin Wi-Fi</Text>
           <Text style={styles.infoSubheader}>
-            Go to settings and connect to a Wi-Fi network to sync
+            Abrir la configuración y conectar a una red Wi-Fi para sincronizar
           </Text>
         </View>
       </View>
@@ -58,10 +58,10 @@ const SearchingBox = () => (
     <View style={styles.searchingBoxInner}>
       <DotIndicator />
       <View style={styles.searchingTextContainer}>
-        <Text style={styles.infoHeader}>Searching</Text>
+        <Text style={styles.infoHeader}>Buscando</Text>
         <Text style={styles.infoSubheader}>
-          Make sure devices are turned on and connected to the same Wi-Fi
-          network
+          Asegurar que los otros equipos están encendidos y conectados a la
+          misma red de Wi-Fi
         </Text>
       </View>
     </View>

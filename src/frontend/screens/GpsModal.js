@@ -22,7 +22,7 @@ const GpsModalHeader = ({ onClose, variant }: HeaderProps) => (
       <CloseIcon color="white" />
     </IconButton>
     <Text numberOfLines={1} style={styles.title}>
-      Current Position
+      Ubicación Actual del GPS
     </Text>
   </View>
 );
@@ -47,20 +47,20 @@ const GpsModal = ({ navigation }: Props) => (
           variant={getLocationStatus(location)}
         />
         <View style={styles.infoArea}>
-          <Text style={styles.sectionTitle}>Last Update</Text>
+          <Text style={styles.sectionTitle}>Ultima actualización</Text>
           <DateDistance
             style={styles.rowValue}
             date={new Date(getLastUpdateText(location))}
           />
           {location.position && (
             <>
-              <Text style={styles.sectionTitle}>UTM Location</Text>
+              <Text style={styles.sectionTitle}>Ubicación UTM</Text>
               <FormattedCoords
                 lon={location.position.coords.longitude}
                 lat={location.position.coords.latitude}
                 style={styles.rowValue}
               />
-              <Text style={styles.sectionTitle}>Position</Text>
+              <Text style={styles.sectionTitle}>Detalles</Text>
               {Object.entries(location.position.coords).map(([key, value]) => (
                 <GpsModalRow
                   key={key}
@@ -72,12 +72,12 @@ const GpsModal = ({ navigation }: Props) => (
           )}
           {location.provider && (
             <>
-              <Text style={styles.sectionTitle}>Provider</Text>
+              <Text style={styles.sectionTitle}>Sensores de ubicación</Text>
               {Object.entries(location.provider).map(([key, value]) => (
                 <GpsModalRow
                   key={key}
                   label={key}
-                  value={value ? "YES" : "NO"}
+                  value={value ? "SÍ" : "NO"}
                 />
               ))}
             </>

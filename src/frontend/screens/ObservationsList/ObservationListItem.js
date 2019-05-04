@@ -19,7 +19,7 @@ type Props = {
 
 const ObservationListItem = ({
   onPress = () => {},
-  name = "Observation",
+  name = "Observación",
   createdDate,
   imageSrc,
   iconId,

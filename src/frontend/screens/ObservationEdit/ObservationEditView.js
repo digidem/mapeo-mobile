@@ -1,14 +1,6 @@
 // @flow
 import React from "react";
-import {
-  ScrollView,
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Keyboard,
-  KeyboardAvoidingView
-} from "react-native";
+import { ScrollView, View, Text, StyleSheet, TextInput } from "react-native";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 
 import LocationField from "../../sharedComponents/LocationField";
@@ -47,13 +39,13 @@ const CategoryView = ({
     <View style={styles.categoryIcon}>
       <CategoryCircleIcon iconId={preset.icon} />
     </View>
-    <Text style={styles.categoryName}>{preset.name || "Observation"}</Text>
+    <Text style={styles.categoryName}>{preset.name || "Observación"}</Text>
     <TouchableNativeFeedback
       style={styles.categoryButton}
       background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, true)}
       onPress={onPress}
     >
-      <Text style={styles.categoryButtonText}>Change</Text>
+      <Text style={styles.categoryButtonText}>Cambiar</Text>
     </TouchableNativeFeedback>
   </View>
 );
@@ -65,7 +57,7 @@ const AddPhotoButton = ({ onPress }) => (
     <View style={styles.addPhotoIcon}>
       <CameraIcon />
     </View>
-    <Text style={styles.addPhotoLabel}>Add Photo</Text>
+    <Text style={styles.addPhotoLabel}>Agregar Foto</Text>
   </TouchableNativeFeedback>
 );
 
@@ -76,7 +68,7 @@ const DescriptionField = () => (
         style={styles.textInput}
         value={value}
         onChangeText={onChange}
-        placeholder="I'm a placeholder"
+        placeholder="¿Qué está pasando aquí?"
         placeholderTextColor="silver"
         underlineColorAndroid="transparent"
         onBlur={() => console.log("blur")}
@@ -162,10 +154,6 @@ const styles = StyleSheet.create({
   },
   categoryButtonText: {
     color: "blue"
-  },
-  descriptionContainer: {
-    minHeight: 200,
-    flex: 1
   },
   addPhotoButton: {
     flex: 0,

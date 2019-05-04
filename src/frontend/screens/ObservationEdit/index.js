@@ -9,7 +9,9 @@ import PresetsContext from "../../context/PresetsContext";
 
 class ObservationEdit extends React.Component<NavigationScreenConfigProps> {
   static navigationOptions = ({ navigation }: any) => ({
-    title: navigation.getParam("observationId") ? "Edit" : "Create Observation",
+    title: navigation.getParam("observationId")
+      ? "Editar"
+      : "Nueva Observación",
     headerRight: <SaveButton navigation={navigation} />
   });
 

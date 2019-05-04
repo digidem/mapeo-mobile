@@ -53,7 +53,7 @@ const SyncButton = ({ progress, onPress, status }) => {
   switch (status) {
     case peerStatus.READY:
       style = styles.syncButtonReady;
-      text = "Sync";
+      text = "Sinc.";
       icon = <SyncIcon />;
       break;
     case peerStatus.PROGRESS:
@@ -72,7 +72,7 @@ const SyncButton = ({ progress, onPress, status }) => {
       break;
     case peerStatus.COMPLETE:
       style = styles.syncButtonDone;
-      text = "Done";
+      text = "Completo";
       icon = <DoneIcon />;
   }
   return (
