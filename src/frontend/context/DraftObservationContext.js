@@ -33,7 +33,7 @@ export type Photo = {|
   // uri to a local preview image
   previewUri?: string,
   // uri to a local full-resolution image (this is uploaded to Mapeo server)
-  fullUri?: string,
+  originalUri?: string,
   // If an image is to be deleted
   deleted?: boolean,
   // If there was any kind of error on image capture
@@ -159,7 +159,7 @@ class DraftObservationProvider extends React.Component<
         .then(({ uri }) => {
           if (capturePromise.cancelled) throw new Error("Cancelled");
           log("captured image", uri);
-          photo.fullUri = uri;
+          photo.originalUri = uri;
           return ImageResizer.createResizedImage(
             uri,
             THUMBNAIL_SIZE,
@@ -277,5 +277,5 @@ function splice(arr: Array<*>, index: number, value: any) {
 // If we crash during photo capture and restore state from async storage, then,
 // unfortunately, any photos that did not finish capturing are lost :(
 function filterCapturedPhotos(photo: Photo) {
-  return photo.id || photo.fullUri;
+  return photo.id || photo.originalUri;
 }

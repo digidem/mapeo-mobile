@@ -62,17 +62,20 @@ export function checkMapStyle(id: string): Promise<any> {
 }
 
 export function savePhoto({
-  fullUri,
+  originalUri,
+  previewUri,
   thumbnailUri
 }: Photo): Promise<{| id: string |}> {
-  if (!fullUri || !thumbnailUri)
+  if (!originalUri || !previewUri || !thumbnailUri)
     return Promise.reject(
       new Error("Missing uri for full image or thumbnail to save to server")
     );
-  fullUri = fullUri.replace(/^file:\/\//, "");
-  thumbnailUri = thumbnailUri.replace(/^file:\/\//, "");
-  const url = `media?file=${fullUri}&thumbnail=${thumbnailUri}`;
-  return api.put(url).json();
+  const data = {
+    original: originalUri.replace(/^file:\/\//, ""),
+    preview: previewUri.replace(/^file:\/\//, ""),
+    thumbnail: thumbnailUri.replace(/^file:\/\//, "")
+  };
+  return api.post("media", { json: data }).json();
 }
 
 export function updateObservation(
