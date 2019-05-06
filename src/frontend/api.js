@@ -188,8 +188,8 @@ export function addPeerListener(handler: PeerHandler): Subscription {
   };
 }
 
-export function syncJoin() {
-  api.get("sync/join?name=Mapeo%20Mobile");
+export function syncJoin(name) {
+  api.get(`sync/join?name=${name}`)
 }
 
 export function syncLeave() {

@@ -11,6 +11,7 @@ import NetInfo from "@react-native-community/netinfo";
 import { NetworkInfo } from "react-native-network-info";
 import OpenSettings from "react-native-android-open-settings";
 import KeepAwake from "react-native-keep-awake";
+import crypto from "crypto";
 
 import SyncView from "./SyncView";
 import { syncJoin, syncLeave, addPeerListener, syncStart } from "../../api";
@@ -41,10 +42,17 @@ class SyncModal extends React.Component<Props, State> {
   state = { serverPeers: [], syncErrors: new Map(), ssid: null };
   _opened: number;
   _subscriptions: Array<{ remove: () => void }> = [];
+  _deviceName: string;
+
+  constructor (props) {
+    super(props)
+    // recreate this as little as possible
+    this._deviceName = this._deviceName || "Android " + crypto.randomBytes(2).toString('hex').slice(0, 3);
+  }
 
   componentDidMount() {
     // When the modal opens, start announcing this device as available for sync
-    syncJoin();
+    syncJoin(this._deviceName);
     this._opened = Date.now();
     // Subscribe to peer updates
     this._subscriptions.push(addPeerListener(this.updatePeers));
@@ -157,6 +165,7 @@ class SyncModal extends React.Component<Props, State> {
     const peers = this.getDerivedPeerState();
     return (
       <SyncView
+        deviceName={this._deviceName}
         peers={peers}
         ssid={this.state.ssid}
         onClosePress={() => navigation.pop()}
