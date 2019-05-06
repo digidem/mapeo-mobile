@@ -1,9 +1,6 @@
 const http = require("http");
 const path = require("path");
-const level = require("level");
-const kappa = require("kappa-core");
-const raf = require("random-access-file");
-const createOsmDb = require("kappa-osm");
+const createOsmDb = require("osm-p2p");
 const createMediaStore = require("safe-fs-blob-store");
 const createMapeoRouter = require("mapeo-server");
 const debug = require("debug");
@@ -15,17 +12,6 @@ const log = debug("mapeo-core:server");
 module.exports = createServer;
 
 function createServer({ privateStorage, sharedStorage }) {
-  const indexDb = level(path.join(privateStorage, "index"));
-  const coreDb = kappa(path.join(privateStorage, "db"), {
-    valueEncoding: "json"
-  });
-  function createStorage(name, cb) {
-    process.nextTick(
-      cb,
-      null,
-      raf(path.join(privateStorage, "index", "bkd", name))
-    );
-  }
   // create folders for presets & styles
   mkdirp.sync(path.join(sharedStorage, "presets/default"));
   mkdirp.sync(path.join(sharedStorage, "styles/default"));
@@ -35,11 +21,7 @@ function createServer({ privateStorage, sharedStorage }) {
   const fallbackPresetsDir = path.join(process.cwd(), "presets");
 
   // The main osm db for observations and map data
-  const osm = createOsmDb({
-    core: coreDb,
-    index: indexDb,
-    storage: createStorage
-  });
+  const osm = createOsmDb(path.join(privateStorage, "data"));
 
   // The media store for photos, video etc.
   const media = createMediaStore(path.join(privateStorage, "media"));

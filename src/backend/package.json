@@ -9,9 +9,7 @@
   "dependencies": {
     "bindings-noderify-nodejs-mobile": "^10.3.0",
     "debug": "^4.1.1",
-    "kappa-core": "^2.6.2",
-    "kappa-osm": "^3.0.1",
-    "level": "^4.0.0",
+    "osm-p2p": "^4.0.0",
     "mapeo-default-settings": "^2.0.0",
     "mapeo-server": "^15.0.0",
     "mkdirp": "^0.5.1",
