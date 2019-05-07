@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.0.0-alpha.8](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2019-05-07)
+
+
+### Bug Fixes
+
+* **category chooser:** Fix sorting of presets / categories to respect `sort` field in preset ([c0f707b](https://github.com/digidem/mapeo-mobile/commit/c0f707b))
+
+
+
 # [1.0.0-alpha.7](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2019-05-04)
 
 
