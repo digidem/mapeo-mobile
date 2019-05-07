@@ -33,13 +33,28 @@ const getPresetsList = memoize((presets: PresetsMap) =>
   Array.from(presets.values())
     .sort((a, b) => {
       if (typeof a.sort !== "undefined" && typeof b.sort !== "undefined") {
-        return a.sort - b.sort;
+        // If sort value is the same, then sort by name
+        if (a.sort === b.sort) return compareStrings(a.name, b.name);
+        // Lower sort numbers come before higher numbers
+        else return a.sort - b.sort;
+      } else if (typeof a.sort !== "undefined") {
+        // If a has a sort field but b doesn't, a comes first
+        return -1;
+      } else if (typeof b.sort !== "undefined") {
+        // if b has a sort field but a doesn't, b comes first
+        return 1;
       } else {
-        return (a.name || "").localeCompare(b.name);
+        // if neither have sort defined, compare by name
+        return compareStrings(a.name, b.name);
       }
     })
+    // Only show presets where the geometry property includes "point"
     .filter(p => p.geometry.includes("point"))
 );
+
+function compareStrings(a = "", b = "") {
+  return a.toLowerCase().localeCompare(b.toLowerCase());
+}
 
 const getItemLayout = (data, index) => ({
   length: ROW_HEIGHT,
