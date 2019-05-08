@@ -168,7 +168,7 @@ export default withObservations(["reload"])(SyncModal);
 // We combine media and database items in progress. In order to show roughtly
 // accurate progress, this weighting is how much more progress a media item
 // counts vs. a database item
-const MEDIA_WEIGHTING = 50;
+const MEDIA_WEIGHTING = 1;
 function getPeerProgress(
   peerState?: $ElementType<ServerPeer, "state">
 ): number | void {
