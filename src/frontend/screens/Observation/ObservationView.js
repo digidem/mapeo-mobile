@@ -29,8 +29,9 @@ type ODVProps = {
 
 const ObservationView = ({ observation, preset = {} }: ODVProps) => {
   const { lat, lon, attachments } = observation.value;
+  // Assume attachments without a type are photos
   const photos =
-    attachments && attachments.filter(a => a.type === "image/jpeg");
+    attachments && attachments.filter(a => !a.type || a.type === "image/jpeg");
   return (
     <ScrollView style={styles.container}>
       <>
