@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { View, FlatList, Dimensions, StyleSheet } from "react-native";
+import { View, Text, FlatList, Dimensions, StyleSheet } from "react-native";
 import memoize from "memoize-one";
 
 import ObservationListItem from "./ObservationListItem";
@@ -28,6 +28,8 @@ const getValuesMemoized = memoize(
 const keyExtractor = item => item.id.toString();
 
 type Props = {
+  loading: boolean,
+  error?: Error,
   // A map of observations, by id
   observations: ObservationsMap,
   // Called when the user presses a list item, called with observation id
@@ -41,6 +43,8 @@ type Props = {
  * Renders a list view of observations
  */
 const ObservationsListView = ({
+  loading,
+  error,
   observations,
   onPressObservation,
   getPreset
@@ -49,6 +53,26 @@ const ObservationsListView = ({
     (Dimensions.get("window").height - 65) / OBSERVATION_CELL_HEIGHT
   );
   const observationsArray = getValuesMemoized(observations);
+
+  if (loading) {
+    return (
+      <View style={styles.messageContainer}>
+        <Text>
+          Cargando... puede demorar varios minutors después de la primera
+          sincronización
+        </Text>
+      </View>
+    );
+  }
+  if (error) {
+    return (
+      <View style={styles.messageContainer}>
+        <Text>
+          Error a cargar observaciones, volver a abrir Mapeo para ver si corrige
+        </Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <FlatList
@@ -85,6 +109,12 @@ export default ObservationsListView;
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  messageContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20
   },
   listItem: {
     height: OBSERVATION_CELL_HEIGHT

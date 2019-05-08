@@ -19,10 +19,12 @@ class ObservationsList extends React.Component<NavigationScreenConfigProps> {
   render() {
     return (
       <ObservationsContext.Consumer>
-        {({ observations }) => (
+        {({ observations, loading, error }) => (
           <PresetsContext.Consumer>
             {({ getPreset }) => (
               <ObservationsListView
+                loading={loading}
+                error={error}
                 observations={observations}
                 onPressObservation={this.navigateToObservation}
                 getPreset={getPreset}

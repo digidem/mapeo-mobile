@@ -36,7 +36,7 @@
     "expo-camera": "^3.0.0",
     "expo-location": "^3.0.0",
     "hoist-non-react-statics": "^3.3.0",
-    "ky": "^0.10.0",
+    "ky": "github:sindresorhus/ky#e9c807b64c6414940b6c14b4e85c807f833dc0f2",
     "lodash": "^4.17.11",
     "mapeo-schema": "^1.0.4",
     "memoize-one": "^5.0.0",

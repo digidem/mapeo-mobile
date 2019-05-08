@@ -19,6 +19,9 @@ const log = debug("mapeo-mobile:api");
 const BASE_URL = "http://127.0.0.1:9081/";
 export const api = ky.extend({
   prefixUrl: BASE_URL,
+  // No timeout because indexing after first sync takes a long time, which mean
+  // requests to the server take a long time
+  timeout: false,
   headers: {
     "cache-control": "no-cache",
     pragma: "no-cache"
