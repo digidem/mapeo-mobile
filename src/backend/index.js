@@ -26,7 +26,7 @@ const constants = require("./constants");
 const createServer = require("./server");
 
 const log = debug("mapeo-core:index");
-const PORT = 9080;
+const PORT = 9081;
 const status = new ServerStatus();
 let paused = false;
 let storagePath;

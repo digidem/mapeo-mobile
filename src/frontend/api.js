@@ -16,7 +16,7 @@ import type { Photo } from "./context/DraftObservationContext";
 import type { Observation as ServerObservation } from "mapeo-schema";
 
 const log = debug("mapeo-mobile:api");
-const BASE_URL = "http://127.0.0.1:9080/";
+const BASE_URL = "http://127.0.0.1:9081/";
 export const api = ky.extend({
   prefixUrl: BASE_URL,
   headers: {
