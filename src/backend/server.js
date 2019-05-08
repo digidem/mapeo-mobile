@@ -9,6 +9,7 @@ const createMapeoRouter = require("mapeo-server");
 const debug = require("debug");
 const mkdirp = require("mkdirp");
 const rnBridge = require("rn-bridge");
+const throttle = require("lodash/throttle");
 
 const log = debug("mapeo-core:server");
 
@@ -72,11 +73,14 @@ function createServer({ privateStorage, sharedStorage }) {
 
   const origListen = server.listen;
   const origClose = server.close;
+  // Sending data over the bridge to RN is costly, and progress events fire
+  // frequently, so we throttle updates to once every 200ms
+  const throttledSendPeerUpdateToRN = throttle(sendPeerUpdateToRN, 200);
 
   server.listen = function listen(...args) {
     mapeoCore.sync.listen(() => {
-      mapeoCore.sync.on("peer", sendPeerUpdateToRN);
-      mapeoCore.sync.on("down", sendPeerUpdateToRN);
+      mapeoCore.sync.on("peer", throttledSendPeerUpdateToRN);
+      mapeoCore.sync.on("down", throttledSendPeerUpdateToRN);
       rnBridge.channel.on("sync-start", startSync);
       origListen.apply(server, args);
     });
@@ -95,22 +99,22 @@ function createServer({ privateStorage, sharedStorage }) {
     if (!target.host || !target.port) return;
     const sync = mapeoCore.sync.replicate(target, { deviceType: "mobile" });
     sync.on("error", onend);
-    sync.on("progress", sendPeerUpdateToRN);
+    sync.on("progress", throttledSendPeerUpdateToRN);
     sync.on("end", onend);
     sendPeerUpdateToRN();
 
     function onend(err) {
       if (err) log(err.message);
       sync.removeListener("error", onend);
-      sync.removeListener("progress", sendPeerUpdateToRN);
+      sync.removeListener("progress", throttledSendPeerUpdateToRN);
       sync.removeListener("end", onend);
       sendPeerUpdateToRN();
     }
   }
 
   server.close = function close(cb) {
-    mapeoCore.sync.removeListener("peer", sendPeerUpdateToRN);
-    mapeoCore.sync.removeListener("down", sendPeerUpdateToRN);
+    mapeoCore.sync.removeListener("peer", throttledSendPeerUpdateToRN);
+    mapeoCore.sync.removeListener("down", throttledSendPeerUpdateToRN);
     rnBridge.channel.removeListener("request-sync", startSync);
     onReplicationComplete(() => {
       mapeoCore.sync.destroy(() => origClose.call(server, cb));
