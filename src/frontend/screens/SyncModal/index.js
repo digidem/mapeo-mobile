@@ -186,5 +186,11 @@ function getPeerProgress(
   const sofar =
     (peerState.message.db.sofar || 0) +
     (peerState.message.media.sofar || 0) * MEDIA_WEIGHTING;
-  return total > 0 ? sofar / total : 0;
+  const progress = total > 0 ? sofar / total : 0;
+  // Round progress to 2-decimal places. PeerItem is memoized, so it will not
+  // update if progress does not change. Without rounding PeerItem updates
+  // unnecessarily on every progress change, when we are only showing the user a
+  // rounded percentage progress. Increase this to 3-decimal places if you want
+  // to show more detail to the user.
+  return Math.round(progress * 100) / 100;
 }
