@@ -122,11 +122,11 @@ function createServer({ privateStorage, sharedStorage }) {
   };
 
   function onReplicationComplete(cb) {
-    // Wait for up to 15 minutes for replication to complete
+    // Wait for up to 30 minutes for replication to complete
     const timeoutId = setTimeout(() => {
       mapeoCore.sync.removeListener("down", checkIfDone);
       cb();
-    }, 15 * 60 * 1000);
+    }, 30 * 60 * 1000);
 
     checkIfDone();
 
@@ -135,9 +135,11 @@ function createServer({ privateStorage, sharedStorage }) {
         .peers()
         .filter(
           peer =>
-            peer.topic === "replication-started" ||
-            peer.topic === "replication-progress"
+            peer.state &&
+            (peer.state.topic === "replication-started" ||
+              peer.state.topic === "replication-progress")
         );
+      log(currentlyReplicatingPeers.length + " peers still replicating");
       if (currentlyReplicatingPeers.length === 0) {
         clearTimeout(timeoutId);
         return cb();
