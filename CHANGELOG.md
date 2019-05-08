@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.0.0-alpha.9](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2019-05-08)
+
+
+### Bug Fixes
+
+* Change default port to avoid clash with previous version of mapeo mobile ([ba98a48](https://github.com/digidem/mapeo-mobile/commit/ba98a48))
+* **photos:** Fix photos not appearing on migrated observations ([17cedbd](https://github.com/digidem/mapeo-mobile/commit/17cedbd))
+* **sync:** Adjust progress accuracy by counting photo as same progress as db item ([f08419b](https://github.com/digidem/mapeo-mobile/commit/f08419b))
+* **sync:** Fix sync progress lock-up due to too many updates ([161e3c5](https://github.com/digidem/mapeo-mobile/commit/161e3c5))
+* **sync:** Fix sync stopping when the phone sleeps or app is in background ([b02c805](https://github.com/digidem/mapeo-mobile/commit/b02c805))
+* **sync:** Throttle sync updates to avoid sync screen grinding to a halt ([3adedfd](https://github.com/digidem/mapeo-mobile/commit/3adedfd))
+
+
+### Features
+
+* **sync:** Phone will not sleep while the sync screen is open ([c7fa73c](https://github.com/digidem/mapeo-mobile/commit/c7fa73c))
+* **UX:** Show loading indication when observations are loading (e.g. during initial index) ([f2824c7](https://github.com/digidem/mapeo-mobile/commit/f2824c7))
+
+
+
 # [1.0.0-alpha.8](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2019-05-07)
 
 
