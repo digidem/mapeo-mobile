@@ -10,6 +10,7 @@ import React from "react";
 import NetInfo from "@react-native-community/netinfo";
 import { NetworkInfo } from "react-native-network-info";
 import OpenSettings from "react-native-android-open-settings";
+import KeepAwake from "react-native-keep-awake";
 
 import SyncView from "./SyncView";
 import { syncJoin, syncLeave, addPeerListener, syncStart } from "../../api";
@@ -55,6 +56,8 @@ class SyncModal extends React.Component<Props, State> {
         this.handleConnectionChange
       )
     );
+    // Keep the screen awake whilst on this screen
+    KeepAwake.activate();
   }
 
   componentWillUnmount() {
@@ -63,6 +66,7 @@ class SyncModal extends React.Component<Props, State> {
     // Unsubscribe all listeners
     this._subscriptions.forEach(s => s.remove());
     this.props.reload();
+    KeepAwake.deactivate();
   }
 
   handleConnectionChange = async (data: NetInfoData) => {
