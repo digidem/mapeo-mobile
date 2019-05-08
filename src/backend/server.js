@@ -97,6 +97,7 @@ function createServer({ privateStorage, sharedStorage }) {
 
   function startSync(target = {}) {
     if (!target.host || !target.port) return;
+    const startTime = Date.now();
     const sync = mapeoCore.sync.replicate(target, { deviceType: "mobile" });
     sync.on("error", onend);
     sync.on("progress", throttledSendPeerUpdateToRN);
@@ -105,6 +106,8 @@ function createServer({ privateStorage, sharedStorage }) {
 
     function onend(err) {
       if (err) log(err.message);
+      const syncDurationSecs = ((Date.now() - startTime) / 1000).toFixed(2);
+      log("Sync completed in " + syncDurationSecs + " seconds");
       sync.removeListener("error", onend);
       sync.removeListener("progress", throttledSendPeerUpdateToRN);
       sync.removeListener("end", onend);
