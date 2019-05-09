@@ -14,7 +14,14 @@ import type { Observation } from "../../context/ObservationsContext";
 const FieldView = ({ label, answer }) => (
   <View style={{ marginLeft: 15 }}>
     <Text style={styles.fieldTitle}>{label}</Text>
-    <Text style={styles.fieldAnswer}>{answer || "Not entered"}</Text>
+    <Text
+      style={[
+        styles.fieldAnswer,
+        { color: answer === undefined ? "gray" : "black" }
+      ]}
+    >
+      {answer || "Sin respuesta"}
+    </Text>
   </View>
 );
 
