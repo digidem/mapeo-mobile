@@ -4,16 +4,12 @@ import { Text, Image, View, ScrollView, StyleSheet } from "react-native";
 
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
-import {
-  LocationIcon,
-  EditIcon,
-  CategoryIcon
-} from "../../sharedComponents/icons";
+import { EditIcon, CategoryIcon } from "../../sharedComponents/icons";
 import { formatDate } from "../../lib/utils";
 import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
 
-const InsetMapView = ({ style }) => <View style={[style, styles.insetMap]} />;
+// const InsetMapView = ({ style }) => <View style={[style, styles.insetMap]} />;
 
 const FieldView = ({ label, answer }) => (
   <View style={{ marginLeft: 15 }}>
@@ -51,7 +47,8 @@ const ObservationView = ({ observation, preset = {} }: ODVProps) => {
         <View style={styles.section}>
           <Text style={styles.textNotes}>{observation.value.tags.notes}</Text>
         </View>
-        {lat != null && lon != null && (
+        {/* Not including this until we have a map here
+        lat != null && lon != null && (
           <View style={styles.section}>
             <View
               style={{
@@ -65,7 +62,7 @@ const ObservationView = ({ observation, preset = {} }: ODVProps) => {
             </View>
             <InsetMapView style={{ height: 240 }} />
           </View>
-        )}
+        ) */}
         {/* $FlowFixMe - not sure why flow is not getting this type */}
         {photos && <ThumbnailScrollView photos={photos} />}
         {preset.fields && preset.fields.length > 0 && (
@@ -157,8 +154,5 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 14,
     fontWeight: "700"
-  },
-  insetMap: {
-    backgroundColor: "lightgray"
   }
 });

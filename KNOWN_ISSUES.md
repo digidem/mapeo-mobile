@@ -29,10 +29,6 @@
 
 - There is no way to delete an existing observation
 
-#### View Observation
-
-- There is a grey box where a map of the observation should be.
-
 #### Photos
 
 - You cannot press on the photos to see them fill the screen
