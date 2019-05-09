@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.0.0-alpha.10](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.9...v1.0.0-alpha.10) (2019-05-09)
+
+
+### Bug Fixes
+
+* **view observation:** Fix details icon so it doesn't look like edit icon ([98e0856](https://github.com/digidem/mapeo-mobile/commit/98e0856))
+* **view observation:** remove gray box where map should be ([218c812](https://github.com/digidem/mapeo-mobile/commit/218c812))
+* **view observation:** When a field does not have a label defined in the preset, use the key property as the label ([fa0b13f](https://github.com/digidem/mapeo-mobile/commit/fa0b13f))
+* **view observation:** when a field does not have an answer, show "sin respuesta" in gray ([5e98356](https://github.com/digidem/mapeo-mobile/commit/5e98356))
+
+
+### Features
+
+* **Edit Observation:** Add ability to edit existing observations ([5bd1987](https://github.com/digidem/mapeo-mobile/commit/5bd1987))
+
+
+
 # [1.0.0-alpha.9](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2019-05-08)
 
 
