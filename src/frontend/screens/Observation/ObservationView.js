@@ -80,8 +80,8 @@ const ObservationView = ({ observation, preset = {} }: ODVProps) => {
             <>
               {preset.fields.map(({ label, key }) => (
                 <FieldView
-                  key={label}
-                  label={label}
+                  key={key}
+                  label={label || key}
                   answer={observation.value.tags[key]}
                 />
               ))}
