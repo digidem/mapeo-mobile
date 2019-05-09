@@ -4,7 +4,7 @@ import { Text, Image, View, ScrollView, StyleSheet } from "react-native";
 
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
-import { EditIcon, CategoryIcon } from "../../sharedComponents/icons";
+import { DetailsIcon, CategoryIcon } from "../../sharedComponents/icons";
 import { formatDate } from "../../lib/utils";
 import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
@@ -74,8 +74,8 @@ const ObservationView = ({ observation, preset = {} }: ODVProps) => {
                 marginLeft: 15
               }}
             >
-              <EditIcon size={20} />
-              <Text style={styles.sectionText}>Details</Text>
+              <DetailsIcon size={20} />
+              <Text style={styles.sectionText}>Detalles</Text>
             </View>
             <>
               {preset.fields.map(({ label, key }) => (

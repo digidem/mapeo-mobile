@@ -80,6 +80,19 @@ export const EditIcon = ({
   <MaterialIcon color={color} style={style} name="edit" size={size} />
 );
 
+export const DetailsIcon = ({
+  size = 30,
+  color = DARK_GREY,
+  style
+}: FontIconProps) => (
+  <MaterialIcon
+    color={color}
+    style={style}
+    name="format-list-bulleted"
+    size={size}
+  />
+);
+
 export const DoneIcon = ({
   size = 30,
   color = "white",
