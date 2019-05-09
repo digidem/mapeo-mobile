@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.0.0-beta.0](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.10...v1.0.0-beta.0) (2019-05-09)
+
+
+### Bug Fixes
+
+* **camera:** Timeout with error if photo capture does not complete ([61f4926](https://github.com/digidem/mapeo-mobile/commit/61f4926))
+* **UI:** Show "ahorita" instead of "have 4 segundos" until 1 minute. ([a61ebcf](https://github.com/digidem/mapeo-mobile/commit/a61ebcf))
+
+
+
 # [1.0.0-alpha.10](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-alpha.9...v1.0.0-alpha.10) (2019-05-09)
 
 
