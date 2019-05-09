@@ -25,7 +25,7 @@ const log = debug("mapeo:DraftObservationContext");
  * cancellation of any edits. During photo capture a preview is available to
  * show in the UI while the full-res photo is saved.
  */
-export type Photo = {|
+export type Photo = {
   // id of the photo in the Mapeo database, only set if this is already saved
   id?: string,
   // uri to a local thumbnail image (this is uploaded to Mapeo server)
@@ -39,8 +39,8 @@ export type Photo = {|
   // If there was any kind of error on image capture
   error?: boolean,
   // If the photo is still being captured
-  capturing: boolean
-|};
+  capturing?: boolean
+};
 
 export type CapturePromise = Promise<{
   uri: string,
@@ -230,9 +230,12 @@ class DraftObservationProvider extends React.Component<
     // Signal any pending photo captures to cancel:
     this.pending.forEach(p => (p.cancelled = true));
     this.pending = [];
+    const photos = (value.attachments || [])
+      .filter(a => !a.type || a.type === "image/jpeg")
+      .map(a => ({ ...a }));
     this.setState(
       {
-        photos: [],
+        photos: photos,
         value: value
       },
       () => {

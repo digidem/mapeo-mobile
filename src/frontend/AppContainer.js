@@ -17,8 +17,8 @@ import SyncModal from "./screens/SyncModal";
 import IconButton from "./sharedComponents/IconButton";
 import { BackIcon, CloseIcon } from "./sharedComponents/icons";
 
-const HeaderLeft = ({ onPress }) => (
-  <IconButton onPress={onPress}>
+const HeaderLeft = ({ navigation }) => (
+  <IconButton onPress={() => navigation.pop()}>
     <BackIcon />
   </IconButton>
 );
@@ -26,10 +26,10 @@ const HeaderLeft = ({ onPress }) => (
 const EditHeaderLeft = ({ navigation }) => {
   const parent = navigation.dangerouslyGetParent();
   const isClose =
-    isTopOfStack(navigation) ||
-    (navigation.state.routeName === "ObservationEdit" &&
-      parent &&
-      parent.state.routeName === "NewObservation");
+    (isTopOfStack(navigation) ||
+      navigation.state.routeName === "ObservationEdit") &&
+    parent &&
+    parent.state.routeName === "NewObservation";
   return (
     <IconButton onPress={() => navigation.navigate("Home")}>
       {isClose ? <CloseIcon /> : <BackIcon />}
@@ -47,19 +47,39 @@ const defaultNavigationOptions = {
   }
 };
 
-const EditStack = createStackNavigator(
+const ObservationsStack = createStackNavigator(
   {
-    ObservationEdit: ObservationEdit,
     CategoryChooser: CategoryChooser,
-    AddPhoto: AddPhoto
+    AddPhoto: AddPhoto,
+    ObservationList: {
+      // $FlowFixMe
+      screen: ObservationList,
+      path: "observations"
+    },
+    Observation: {
+      screen: Observation,
+      path: "observations/:observationId"
+    },
+    ObservationEdit: {
+      screen: ObservationEdit,
+      path: "observations/:observationId/edit"
+    }
   },
   {
-    initialRouteName: "ObservationEdit",
+    initialRouteName: "ObservationList",
     transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS,
-    defaultNavigationOptions: ({ navigation }) => ({
-      ...defaultNavigationOptions,
-      headerLeft: <EditHeaderLeft navigation={navigation} />
-    })
+    defaultNavigationOptions: ({ navigation }) => {
+      const parent = navigation.dangerouslyGetParent();
+      const inNewStack = parent && parent.state.routeName === "NewObservation";
+      return {
+        ...defaultNavigationOptions,
+        headerLeft: inNewStack ? (
+          <EditHeaderLeft navigation={navigation} />
+        ) : (
+          <HeaderLeft navigation={navigation} />
+        )
+      };
+    }
   }
 );
 
@@ -95,22 +115,14 @@ const EditStack = createStackNavigator(
 const MainStack = createStackNavigator(
   {
     Home: Home,
-    ObservationList: {
-      // $FlowFixMe
-      screen: ObservationList,
+    Observations: {
+      screen: ObservationsStack,
       path: "observations"
-    },
-    Observation: {
-      screen: Observation,
-      path: "observations/:observationId"
-    },
-    ObservationEdit: {
-      screen: EditStack,
-      path: "observations/:observationId/edit"
     }
   },
   {
     initialRouteName: "Home",
+    headerMode: "none",
     transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS,
     defaultNavigationOptions
   }
@@ -119,7 +131,7 @@ const MainStack = createStackNavigator(
 const RootStack = createStackNavigator(
   {
     Main: MainStack,
-    NewObservation: EditStack,
+    NewObservation: ObservationsStack,
     GpsModal: GpsModal,
     SyncModal: SyncModal
   },

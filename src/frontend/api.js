@@ -95,9 +95,27 @@ export function savePhoto({
 
 export function updateObservation(
   id: string,
-  value: ObservationValue
+  value: ObservationValue,
+  options: {|
+    links: Array<string>,
+    userId?: $ElementType<ServerObservation, "userId">
+  |}
 ): Promise<Observation> {
-  return api.put(`observations/${id}`, { json: value }).json();
+  const valueForServer = {
+    ...value,
+    // work around for a quirk in the api right now, we should probably change
+    // this to accept a links array. An array is needed if you want to merge
+    // existing forks
+    version: options.links[0],
+    userId: options.userId,
+    type: "observation",
+    schemaVersion: 3,
+    id
+  };
+  return api
+    .put(`observations/${id}`, { json: valueForServer })
+    .json()
+    .then(serverObservation => convertFromServer(serverObservation));
 }
 
 export function createObservation(
@@ -105,7 +123,8 @@ export function createObservation(
 ): Promise<Observation> {
   const valueForServer = {
     ...value,
-    type: "observation"
+    type: "observation",
+    schemaVersion: 3
   };
   return api
     .post("observations", { json: valueForServer })

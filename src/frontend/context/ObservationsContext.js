@@ -5,7 +5,7 @@ import hoistStatics from "hoist-non-react-statics";
 import pick from "lodash/pick";
 
 import { getDisplayName } from "../lib/utils";
-import { getObservations, createObservation } from "../api";
+import { getObservations, createObservation, updateObservation } from "../api";
 
 import type { LocationContextType } from "./LocationContext";
 
@@ -116,7 +116,23 @@ class ObservationsProvider extends React.Component<Props, ObservationsContext> {
     });
   }
 
-  update() {}
+  update(id: string, value: ObservationValue) {
+    const existingObservation = this.state.observations.get(id);
+    if (!existingObservation) {
+      log("tried to update observation but can't find it in state");
+      return Promise.reject(new Error("Observation not found"));
+    }
+    return updateObservation(id, value, {
+      links: [existingObservation.version]
+    }).then(updatedObservation => {
+      this.setState(state => {
+        const cloned = new Map(this.state.observations);
+        log("Updated observation", updatedObservation);
+        cloned.set(id, updatedObservation);
+        return { observations: cloned };
+      });
+    });
+  }
 
   handleError(error: Error) {
     log(error);

@@ -27,7 +27,6 @@
 
 #### Edit Observation
 
-- There is no way to edit an existing observation
 - There is no way to delete an existing observation
 
 #### View Observation

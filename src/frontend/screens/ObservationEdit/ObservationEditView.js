@@ -94,9 +94,11 @@ export const ObservationEdit = ({
 }: Props) => (
   <View style={styles.container}>
     <ScrollView style={{ flex: 1 }}>
-      <LocationField locked={!isNew}>
-        {fieldProps => <LocationView {...fieldProps} />}
-      </LocationField>
+      {isNew && (
+        <LocationField locked={!isNew}>
+          {fieldProps => <LocationView {...fieldProps} />}
+        </LocationField>
+      )}
       <CategoryView preset={preset} onPress={onPressCategory} />
       <DescriptionField />
       <PhotosView />

@@ -6,6 +6,7 @@ import type { NavigationScreenConfigProps } from "react-navigation";
 import ObservationView from "./ObservationView";
 import CenteredView from "../../sharedComponents/CenteredView";
 import ObservationPreset from "../../context/ObservationPreset";
+import EditButton from "./EditButton";
 
 // TODO: Add a better message for the user.
 // In the future if we add deep-linking we could get here,
@@ -39,7 +40,8 @@ const Observation = ({ navigation }: NavigationScreenConfigProps) => (
 );
 
 Observation.navigationOptions = ({ navigation }) => ({
-  headerTitle: <ObservationTitle navigation={navigation} />
+  headerTitle: <ObservationTitle navigation={navigation} />,
+  headerRight: <EditButton navigation={navigation} />
 });
 
 export default Observation;

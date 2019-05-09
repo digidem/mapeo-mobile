@@ -18,7 +18,8 @@ import type { DraftObservationContext } from "../../context/DraftObservationCont
 type Props = {
   navigation: NavigationScreenProp<{}>,
   draft: DraftObservationContext,
-  create: $ElementType<ObservationsContext, "create">
+  create: $ElementType<ObservationsContext, "create">,
+  update: $ElementType<ObservationsContext, "update">
 };
 
 type State = {
@@ -84,11 +85,13 @@ class SaveButton extends React.PureComponent<Props, State> {
   };
 
   doSave = async () => {
-    const { navigation, create, draft } = this.props;
-    log("start save");
+    const { navigation, create, update, draft } = this.props;
+    const observationId = navigation.getParam("observationId");
+    log(
+      "Starting save of " + (observationId ? "updated" : "new") + " observation"
+    );
     this.setState({ saving: true });
     try {
-      log(Object.keys(draft));
       const photos = await draft.getPhotos();
       const toCreate = photos.filter(p => !p.id && !p.deleted && !p.error);
       // const toDelete = photos.filter(p => p.id && p.deleted);
@@ -107,8 +110,14 @@ class SaveButton extends React.PureComponent<Props, State> {
           savedAttachments.map(addMimeType)
         )
       };
-      await create(newObservationValue);
-      navigation.navigate("Home");
+      if (observationId) {
+        await update(observationId, newObservationValue);
+        // $FlowFixMe
+        navigation.pop();
+      } else {
+        await create(newObservationValue);
+        navigation.navigate("Home");
+      }
       draft.clear();
     } catch (e) {
       log("Error:\n", e);
@@ -127,7 +136,7 @@ class SaveButton extends React.PureComponent<Props, State> {
   }
 }
 
-export default withObservations(["create"])(withDraft()(SaveButton));
+export default withObservations(["create", "update"])(withDraft()(SaveButton));
 
 function addMimeType(attachment: { id: string }): ObservationAttachment {
   return {
