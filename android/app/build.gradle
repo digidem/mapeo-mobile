@@ -178,7 +178,7 @@ android {
             // release and debug builds, but the main app flavor has a suffix
             // for debug builds, so that when developing you can have the debug
             // version and the release version on your phone at the same time
-            productFlavors.app.applicationIdSuffix ".debug"
+            applicationIdSuffix ".debug"
         }
     }
     // applicationVariants are e.g. debug, release
