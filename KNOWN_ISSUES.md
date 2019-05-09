@@ -31,6 +31,8 @@
 
 #### Photos
 
+- Sometimes photos stop working (you will see a grey box then error). You may
+  need to restart the app for them to work again.
 - You cannot press on the photos to see them fill the screen
 - There is no way to delete / remove a photo from an observation
 - Photos taken in landscape appear rotated by 90°

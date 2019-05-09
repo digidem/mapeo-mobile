@@ -21,6 +21,18 @@ const captureOptions = {
   skipProcessing: false
 };
 
+// Little helper to timeout a promise
+function promiseTimeout(promise: Promise<any>, ms: number, msg?: string) {
+  let timeoutId: TimeoutID;
+  const timeout = new Promise((resolve, reject) => {
+    timeoutId = setTimeout(() => {
+      reject(new Error(msg || "Timeout after " + ms + "ms"));
+    }, ms);
+  });
+  promise.finally(() => clearTimeout(timeoutId));
+  return Promise.race([promise, timeout]);
+}
+
 type Props = {
   onAddPress: (e: any, capture: CapturePromise) => void,
   isFocused: boolean
@@ -54,7 +66,11 @@ class CameraView extends React.Component<Props, State> {
     const camera = this.cameraRef.current;
     if (!camera) return log("Camera view not ready");
     if (this.state.takingPicture) return log("Shutter pressed twice");
-    const capture = camera.takePictureAsync(captureOptions);
+    const capture = promiseTimeout(
+      camera.takePictureAsync(captureOptions),
+      15000,
+      "Error capturing photo"
+    );
     this.setState(
       {
         takingPicture: true
