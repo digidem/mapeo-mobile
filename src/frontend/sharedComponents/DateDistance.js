@@ -2,7 +2,7 @@
 import React from "react";
 import { Text, AppState } from "react-native";
 import distanceInWordsStrict from "date-fns/distance_in_words_strict";
-var esLocale = require("date-fns/locale/es");
+import esLocale from "date-fns/locale/es";
 
 import { formatDate } from "../lib/utils";
 import type { Style } from "../types";
@@ -52,11 +52,11 @@ class DateDistance extends React.Component<Props> {
   addRefreshTimer() {
     if (this._timeoutId) clearTimeout(this._timeoutId);
     const distance = Date.now() - this.props.date;
-    let refreshIn;
-    if (distance < oneMinute) refreshIn = oneSecond;
-    else if (distance < 5 * oneMinute) refreshIn = oneMinute / 2;
-    else return;
-    this._timeoutId = setTimeout(() => this.forceUpdate(), refreshIn);
+    // refresh distance every 30 seconds up to 15 minutes after observation was
+    // created, after that the user would need to navigate away and return in
+    // order to see the distance increment
+    if (distance > 15 * oneMinute) return;
+    this._timeoutId = setTimeout(() => this.forceUpdate(), oneMinute / 2);
   }
 
   render() {
@@ -64,7 +64,7 @@ class DateDistance extends React.Component<Props> {
     this.addRefreshTimer();
     return (
       <Text style={style}>
-        {distanceInWords(date, { addSuffix, locale: esLocale })}
+        {formatDateTime(date, { addSuffix, locale: esLocale })}
       </Text>
     );
   }
@@ -73,10 +73,12 @@ class DateDistance extends React.Component<Props> {
 // We use relative dates for anything within the last 7 days, and then absolute
 // dates for anything else.
 const USE_WORDS_WITHIN = 7 * 24 * 60 * 60 * 1000; // 7 days
-function distanceInWords(date, opts) {
+function formatDateTime(date, opts) {
   const now = Date.now();
   const diff = now - date;
-  if (diff <= USE_WORDS_WITHIN) {
+  if (diff < oneMinute) {
+    return "ahorita";
+  } else if (diff <= USE_WORDS_WITHIN) {
     return distanceInWordsStrict(now, date, opts);
   } else {
     return formatDate(date);
