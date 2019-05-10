@@ -24,13 +24,14 @@ const Header = ({ onClosePress }: HeaderProps) => (
   </View>
 );
 
-const WifiBar = ({ onPress, ssid }) => (
+const WifiBar = ({ onPress, ssid, deviceName }) => (
   <TouchableNativeFeedback onPress={onPress}>
     <View style={styles.wifiBar}>
       <WifiIcon />
       <Text style={styles.wifiBarText}>
         <Text style={styles.bold}>Wi-Fi:</Text> {ssid}
       </Text>
+      <Text style={styles.deviceName}>{deviceName}</Text>
     </View>
   </TouchableNativeFeedback>
 );
@@ -72,6 +73,7 @@ type Props = {
   onClosePress: () => void,
   onSyncPress: (peerId: string) => void,
   onWifiPress: () => void,
+  deviceName: string,
   peers: Array<Peer>,
   ssid: null | string
 };
@@ -81,6 +83,7 @@ const SyncView = ({
   onSyncPress,
   peers,
   ssid,
+  deviceName,
   onWifiPress
 }: Props) => (
   <ScrollView
@@ -90,7 +93,7 @@ const SyncView = ({
     <Header onClosePress={onClosePress} />
     {ssid ? (
       <>
-        <WifiBar onPress={onWifiPress} ssid={ssid} />
+        <WifiBar onPress={onWifiPress} ssid={ssid} deviceName={deviceName} />
         {peers.length ? (
           <PeerList peers={peers} onSyncPress={onSyncPress} />
         ) : (
@@ -185,6 +188,12 @@ const styles = StyleSheet.create({
   wifiBarText: {
     color: "white",
     paddingLeft: 10
+  },
+  deviceName: {
+    fontWeight: "bold",
+    textAlign: "right",
+    color: "white",
+    flex: 1
   },
   bold: {
     fontWeight: "700"
