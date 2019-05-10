@@ -147,6 +147,7 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
       if (!hasLocationPermission) return;
       clearTimeout(this._timeoutId);
       const provider = await Location.getProviderStatusAsync();
+      log("Provider status", provider);
       if (provider && provider.locationServicesEnabled && !this._watch) {
         this._watch = await Location.watchPositionAsync(
           positionOptions,
@@ -171,6 +172,7 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
   }
 
   onPosition = (position: PositionType) => {
+    log("Position update", position);
     // The user can turn off location services via the quick settings dropdown
     // (swiping down from the top of their phone screen) without moving away
     // from the app. In this case the location will just stop updating and we
