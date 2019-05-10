@@ -37,22 +37,22 @@ type State = {
   ssid: null | string
 };
 
+const deviceName: string =
+  "Android " +
+  crypto
+    .randomBytes(2)
+    .toString("hex")
+    .slice(0, 3);
+
 class SyncModal extends React.Component<Props, State> {
   // Assume wifi is turned on at first (better UX)
   state = { serverPeers: [], syncErrors: new Map(), ssid: null };
   _opened: number;
   _subscriptions: Array<{ remove: () => void }> = [];
-  _deviceName: string;
-
-  constructor (props) {
-    super(props)
-    // recreate this as little as possible
-    this._deviceName = this._deviceName || "Android " + crypto.randomBytes(2).toString('hex').slice(0, 3);
-  }
 
   componentDidMount() {
     // When the modal opens, start announcing this device as available for sync
-    syncJoin(this._deviceName);
+    syncJoin(deviceName);
     this._opened = Date.now();
     // Subscribe to peer updates
     this._subscriptions.push(addPeerListener(this.updatePeers));
@@ -165,7 +165,7 @@ class SyncModal extends React.Component<Props, State> {
     const peers = this.getDerivedPeerState();
     return (
       <SyncView
-        deviceName={this._deviceName}
+        deviceName={deviceName}
         peers={peers}
         ssid={this.state.ssid}
         onClosePress={() => navigation.pop()}

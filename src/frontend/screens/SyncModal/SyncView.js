@@ -72,6 +72,7 @@ type Props = {
   onClosePress: () => void,
   onSyncPress: (peerId: string) => void,
   onWifiPress: () => void,
+  deviceName: string,
   peers: Array<Peer>,
   ssid: null | string
 };
