@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.0.0-beta.2](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2019-05-10)
+
+
+### Bug Fixes
+
+* **category view:** fix category icons not appearing on devices with high-density displays ([97b9943](https://github.com/digidem/mapeo-mobile/commit/97b9943))
+
+
+### Features
+
+* **sync:** set device name with random string at the end ([#121](https://github.com/digidem/mapeo-mobile/issues/121)) ([3c005a9](https://github.com/digidem/mapeo-mobile/commit/3c005a9))
+
+
+
 # [1.0.0-beta.1](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-beta.0...v1.0.0-beta.1) (2019-05-09)
 
 

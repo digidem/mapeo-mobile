@@ -42,7 +42,7 @@
 - The progress indicator jumps backwards and forwards prior to
   completion (it does seem to sync eventually, even if sync progress is not
   reliable)
-- No way to change the device name (by default it is "Mapeo Mobile")
+- Device name is random (user cannot change it)
 
 #### I8n (translations)
 
