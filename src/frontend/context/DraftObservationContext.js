@@ -13,9 +13,9 @@ import type { ObservationValue } from "./ObservationsContext";
 // WARNING: This needs to change if we change the draft data structure
 const STORE_KEY = "@MapeoDraft@2";
 const THUMBNAIL_SIZE = 400;
-const THUMBNAIL_QUALITY = 50;
-const PREVIEW_SIZE = 2000;
-const PREVIEW_QUALITY = 50;
+const THUMBNAIL_QUALITY = 30;
+const PREVIEW_SIZE = 1200;
+const PREVIEW_QUALITY = 30;
 
 const log = debug("mapeo:DraftObservationContext");
 
@@ -173,7 +173,7 @@ class DraftObservationProvider extends React.Component<
           log("captured image", uri);
           photo.thumbnailUri = uri;
           return ImageResizer.createResizedImage(
-            uri,
+            photo.originalUri,
             PREVIEW_SIZE,
             PREVIEW_SIZE,
             "JPEG",
