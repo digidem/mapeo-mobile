@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 * **category view:** fix category icons not appearing on devices with high-density displays ([97b9943](https://github.com/digidem/mapeo-mobile/commit/97b9943))
 
+* Remove 64bit builds to fix Galaxy S7 issue with Android v7 (#122) ([c163efc](https://github.com/digidem/mapeo-mobile/commit/c163efc))
 
 ### Features
 
