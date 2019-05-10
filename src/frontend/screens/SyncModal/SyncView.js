@@ -29,8 +29,9 @@ const WifiBar = ({ onPress, ssid, deviceName }) => (
     <View style={styles.wifiBar}>
       <WifiIcon />
       <Text style={styles.wifiBarText}>
-        <Text style={styles.bold}>Wi-Fi:</Text> {ssid}, {deviceName}
+        <Text style={styles.bold}>Wi-Fi:</Text> {ssid}
       </Text>
+      <Text style={styles.deviceName}>{deviceName}</Text>
     </View>
   </TouchableNativeFeedback>
 );
@@ -187,6 +188,12 @@ const styles = StyleSheet.create({
   wifiBarText: {
     color: "white",
     paddingLeft: 10
+  },
+  deviceName: {
+    fontWeight: "bold",
+    textAlign: "right",
+    color: "white",
+    flex: 1
   },
   bold: {
     fontWeight: "700"
