@@ -11,7 +11,6 @@ import NetInfo from "@react-native-community/netinfo";
 import { NetworkInfo } from "react-native-network-info";
 import OpenSettings from "react-native-android-open-settings";
 import KeepAwake from "react-native-keep-awake";
-import crypto from "crypto";
 
 import SyncView from "./SyncView";
 import { syncJoin, syncLeave, addPeerListener, syncStart } from "../../api";
@@ -39,10 +38,10 @@ type State = {
 
 const deviceName: string =
   "Android " +
-  crypto
-    .randomBytes(2)
-    .toString("hex")
-    .slice(0, 3);
+  Math.floor(Math.random() * 1e9)
+    .toString(36)
+    .slice(0, 4)
+    .toUpperCase();
 
 class SyncModal extends React.Component<Props, State> {
   // Assume wifi is turned on at first (better UX)
