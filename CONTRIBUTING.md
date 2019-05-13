@@ -65,9 +65,36 @@ render in isolation.
 
 ## Full App Development
 
+### Pre-requisites
+
 In order to develop the full app you will need the Android SDK installed and
-r19b of NDK in order to build nodejs-mobile for Android. To start up the
-development version of the app on a device or in the emulator:
+[r19c of NDK](https://developer.android.com/ndk/guides/) in order to build
+nodejs-mobile for Android.
+
+You may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and cofigures requirements that might be missing, like the NDK and CMake to build the native code part of the project.
+
+You can also set the environment variable `ANDROID_NDK_HOME`, as in this example:
+
+```sh
+export ANDROID_NDK_HOME=/Users/username/Library/Android/sdk/ndk-bundle
+```
+
+### Testing Device
+
+To use a real device, you will need to [enable USB
+debugging](https://developer.android.com/studio/debug/dev-options) and connect
+the phone to your computer with a USB cable. Enter `adb devices` in the terminal
+to check that you can see the phone. You may need to unlock the phone screen and
+say that you trust your computer in order for adb to connect.
+
+You can also test Mapeo Mobile in an emulator. [Set up a virtual device in
+Android Studio](https://developer.android.com/studio/run/managing-avds). Choose
+`x86` as the `ABI`, since this will be much faster.
+
+### Starting the dev version of Mapeo Mobile
+
+Connect your phone with USB, or start up the emulator, then build and run the
+dev version of the app on your device:
 
 ```sh
 npm run android
@@ -75,7 +102,15 @@ npm run android
 
 You can configure the app to reload whenever you make a change: shake the device
 to bring up the developer menu, and select "Enable Live Reload". Whenever you
-change the code the app should reload.
+change the code the app should reload. Changes to any code in the `src/frontend`
+folder will appear immediately after a reload. If you change anything in
+`src/backend` you will need to re-run `npm run android` in order to see changes.
+If you are tired of shaking the phone you can enter `npm run dev-menu` from your
+computer.
+
+`npm run android` does two things: starts "Metro bundler" in one window, and
+then builds and installs the dev version of Mapeo on the connected device. To
+start Metro bundler on its own (e.g. if you already have the app installed), use `npm start`.
 
 ## Troubleshooting
 
@@ -106,6 +141,17 @@ watchers](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-
 
 ```sh
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
+
+### App does not reload or install
+
+Sometimes the connection through adb to the phone gets "stuck". Kill the adb
+server, restart it, and connect the metro bundler with these steps:
+
+```sh
+adb kill-server
+adb devices
+adb reverse tcp:8081 tcp:8081
 ```
 
 ### Missing debug.keystore
