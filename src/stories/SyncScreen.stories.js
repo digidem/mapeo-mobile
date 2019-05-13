@@ -57,6 +57,7 @@ storiesOf("SyncScreen", module)
   .add("No Wifi connection", () => (
     <SyncView
       peers={[]}
+      deviceName="My Android Device"
       ssid={null}
       onClosePress={action("close")}
       onSyncPress={action("sync")}
@@ -66,6 +67,7 @@ storiesOf("SyncScreen", module)
   .add("With Wifi, searching", () => (
     <SyncView
       peers={[]}
+      deviceName="My Android Device"
       ssid="My Wifi Network"
       onClosePress={action("close")}
       onSyncPress={action("sync")}
@@ -77,6 +79,7 @@ storiesOf("SyncScreen", module)
       peers={peers.concat(
         peers.map(peer => ({ ...peer, id: peer.id + peer.id }))
       )}
+      deviceName="My Android Device"
       ssid="My Wifi Network"
       onClosePress={action("close")}
       onSyncPress={action("sync")}
