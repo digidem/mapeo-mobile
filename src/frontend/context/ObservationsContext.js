@@ -5,7 +5,7 @@ import hoistStatics from "hoist-non-react-statics";
 import pick from "lodash/pick";
 
 import { getDisplayName } from "../lib/utils";
-import { getObservations, createObservation, updateObservation } from "../api";
+import api from "../api";
 
 import type { LocationContextType } from "./LocationContext";
 
@@ -95,7 +95,7 @@ class ObservationsProvider extends React.Component<Props, ObservationsContext> {
     log("Reload observations");
     this.setState({ loading: true });
     try {
-      const obsList = await getObservations();
+      const obsList = await api.getObservations();
       this.setState({
         observations: new Map(obsList.map(obs => [obs.id, obs])),
         loading: false
@@ -106,7 +106,7 @@ class ObservationsProvider extends React.Component<Props, ObservationsContext> {
   }
 
   create(value: ObservationValue) {
-    return createObservation(value).then(newObservation => {
+    return api.createObservation(value).then(newObservation => {
       this.setState(state => {
         const cloned = new Map(this.state.observations);
         log("Created new observation", newObservation);
@@ -122,16 +122,18 @@ class ObservationsProvider extends React.Component<Props, ObservationsContext> {
       log("tried to update observation but can't find it in state");
       return Promise.reject(new Error("Observation not found"));
     }
-    return updateObservation(id, value, {
-      links: [existingObservation.version]
-    }).then(updatedObservation => {
-      this.setState(state => {
-        const cloned = new Map(this.state.observations);
-        log("Updated observation", updatedObservation);
-        cloned.set(id, updatedObservation);
-        return { observations: cloned };
+    return api
+      .updateObservation(id, value, {
+        links: [existingObservation.version]
+      })
+      .then(updatedObservation => {
+        this.setState(state => {
+          const cloned = new Map(this.state.observations);
+          log("Updated observation", updatedObservation);
+          cloned.set(id, updatedObservation);
+          return { observations: cloned };
+        });
       });
-    });
   }
 
   handleError(error: Error) {

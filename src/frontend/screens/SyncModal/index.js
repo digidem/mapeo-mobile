@@ -13,7 +13,7 @@ import OpenSettings from "react-native-android-open-settings";
 import KeepAwake from "react-native-keep-awake";
 
 import SyncView from "./SyncView";
-import { syncJoin, syncLeave, addPeerListener, syncStart } from "../../api";
+import api from "../../api";
 import { withObservations } from "../../context/ObservationsContext";
 import { peerStatus } from "./PeerList";
 import type { ObservationsContext } from "../../context/ObservationsContext";
@@ -51,10 +51,10 @@ class SyncModal extends React.Component<Props, State> {
 
   componentDidMount() {
     // When the modal opens, start announcing this device as available for sync
-    syncJoin(deviceName);
+    api.syncJoin(deviceName);
     this._opened = Date.now();
     // Subscribe to peer updates
-    this._subscriptions.push(addPeerListener(this.updatePeers));
+    this._subscriptions.push(api.addPeerListener(this.updatePeers));
     // Subscribe to NetInfo to know when the user connects/disconnects to wifi
     this._subscriptions.push(
       NetInfo.addEventListener(
@@ -69,7 +69,7 @@ class SyncModal extends React.Component<Props, State> {
 
   componentWillUnmount() {
     // When the modal closes, stop announcing for sync
-    syncLeave();
+    api.syncLeave();
     // Unsubscribe all listeners
     this._subscriptions.forEach(s => s.remove());
     this.props.reload();
@@ -100,7 +100,7 @@ class SyncModal extends React.Component<Props, State> {
   handleSyncPress = (peerId: string) => {
     const peer = this.state.serverPeers.find(peer => peer.id === peerId);
     // Peer could have vanished in the moment the button was pressed
-    if (peer) syncStart(peer);
+    if (peer) api.syncStart(peer);
   };
 
   handleWifiPress = () => {

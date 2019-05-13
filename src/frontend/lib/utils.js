@@ -20,6 +20,22 @@ const GOOD_PRECISION = 10; // 10 meters
 
 export type LocationStatus = "searching" | "improving" | "good" | "error";
 
+// Little helper to timeout a promise
+export function promiseTimeout(
+  promise: Promise<any>,
+  ms: number,
+  msg?: string
+) {
+  let timeoutId: TimeoutID;
+  const timeout = new Promise((resolve, reject) => {
+    timeoutId = setTimeout(() => {
+      reject(new Error(msg || "Timeout after " + ms + "ms"));
+    }, ms);
+  });
+  promise.finally(() => clearTimeout(timeoutId));
+  return Promise.race([promise, timeout]);
+}
+
 export function getLocationStatus({
   position,
   provider,

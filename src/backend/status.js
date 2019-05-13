@@ -10,7 +10,7 @@ class ServerStatus {
     if (this.intervalId) return; // Don't have two heartbeats
     this.intervalId = setInterval(() => {
       rnBridge.channel.post("status", this.state);
-    }, 2000);
+    }, 1000);
   }
   pauseHeartbeat() {
     clearInterval(this.intervalId);

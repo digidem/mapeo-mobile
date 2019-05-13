@@ -9,6 +9,7 @@ import RNFS from "react-native-fs";
 
 import AddButton from "./AddButton";
 import withNavigationFocus from "../lib/withNavigationFocus";
+import { promiseTimeout } from "../lib/utils";
 import PermissionsContext, {
   PERMISSIONS,
   RESULTS
@@ -23,18 +24,6 @@ const captureOptions = {
   exif: true,
   skipProcessing: true
 };
-
-// Little helper to timeout a promise
-function promiseTimeout(promise: Promise<any>, ms: number, msg?: string) {
-  let timeoutId: TimeoutID;
-  const timeout = new Promise((resolve, reject) => {
-    timeoutId = setTimeout(() => {
-      reject(new Error(msg || "Timeout after " + ms + "ms"));
-    }, ms);
-  });
-  promise.finally(() => clearTimeout(timeoutId));
-  return Promise.race([promise, timeout]);
-}
 
 type Props = {
   // Called when the user takes a picture, with a promise that resolves to an

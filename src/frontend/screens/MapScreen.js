@@ -7,7 +7,7 @@ import type { NavigationScreenConfigProps } from "react-navigation";
 import MapView from "../sharedComponents/MapView";
 import ObservationsContext from "../context/ObservationsContext";
 import LocationContext from "../context/LocationContext";
-import { getMapStyleUrl, checkMapStyle } from "../api";
+import api from "../api";
 
 type Props = {
   ...$Exact<NavigationScreenConfigProps>,
@@ -25,9 +25,9 @@ class MapStyleProvider extends React.Component<
 
   async componentDidMount() {
     try {
-      const offlineStyleURL = getMapStyleUrl("default");
+      const offlineStyleURL = api.getMapStyleUrl("default");
       // Check if the mapStyle exists on the server
-      await checkMapStyle("default");
+      await api.getMapStyle("default");
       this.setState({ styleURL: offlineStyleURL });
     } catch (e) {
       // If we don't have a default offline style, don't do anything

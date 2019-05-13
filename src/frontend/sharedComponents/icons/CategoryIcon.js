@@ -4,7 +4,7 @@ import { Image } from "react-native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import Circle from "./Circle";
-import { getIconUrl } from "../../api";
+import api from "../../api";
 import type { IconSize } from "../../types";
 
 type IconProps = {
@@ -38,7 +38,7 @@ export class CategoryIcon extends React.PureComponent<IconProps, State> {
     return (
       <Image
         style={{ width: 35, height: 35 }}
-        source={{ uri: getIconUrl(iconId, size) }}
+        source={{ uri: api.getIconUrl(iconId, size) }}
         onError={this.handleError}
       />
     );

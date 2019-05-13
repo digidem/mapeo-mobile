@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import ShareMedia from "react-native-share";
 
-import { getMediaFileUri } from "../../api";
+import api from "../../api";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { DetailsIcon, CategoryIcon } from "../../sharedComponents/icons";
@@ -47,7 +47,9 @@ class ObservationView extends React.Component<ODVProps> {
     const msg = formatShareMessage({ observation, preset });
 
     if (value.attachments && value.attachments.length) {
-      const urls = value.attachments.map(a => getMediaFileUri(a.id, "preview"));
+      const urls = value.attachments.map(a =>
+        api.getMediaFileUri(a.id, "preview")
+      );
       const options = {
         urls: urls,
         message: msg,

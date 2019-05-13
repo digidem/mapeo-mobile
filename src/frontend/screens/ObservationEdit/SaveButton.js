@@ -7,7 +7,7 @@ import IconButton from "../../sharedComponents/IconButton";
 import { SaveIcon } from "../../sharedComponents/icons";
 import { withDraft } from "../../context/DraftObservationContext";
 import { withObservations } from "../../context/ObservationsContext";
-import { savePhoto } from "../../api";
+import api from "../../api";
 import type { NavigationScreenProp } from "react-navigation";
 import type {
   ObservationAttachment,
@@ -103,7 +103,7 @@ class SaveButton extends React.PureComponent<Props, State> {
         return !(attachmentInDraft && attachmentInDraft.deleted);
       });
 
-      const savedAttachments = await Promise.all(toCreate.map(savePhoto));
+      const savedAttachments = await Promise.all(toCreate.map(api.savePhoto));
       const newObservationValue = {
         ...draft.value,
         attachments: existingAttachments.concat(

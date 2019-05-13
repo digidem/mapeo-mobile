@@ -3,7 +3,7 @@ import * as React from "react";
 import debug from "debug";
 import memoize from "memoize-one";
 
-import { getPresets, getFields } from "../api";
+import api from "../api";
 import { matchPreset } from "../lib/utils";
 import type { ObservationValue } from "./ObservationsContext";
 
@@ -106,8 +106,8 @@ class PresetsProvider extends React.Component<Props, PresetsContext> {
   async componentDidMount() {
     try {
       const [presetsList, fieldsList] = await Promise.all([
-        getPresets(),
-        getFields()
+        api.getPresets(),
+        api.getFields()
       ]);
       this.setState({
         presets: new Map(presetsList.map(p => [p.id, p])),

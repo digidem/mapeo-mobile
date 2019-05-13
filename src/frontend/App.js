@@ -74,9 +74,6 @@ const App = () => (
         permissions before showing main app screen */}
     <PermissionsContext.Provider>
       <AppLoading>
-        {/* AppProvider must be after AppLoading because it makes requests to the
-            mapeo-core server. AppLoading only renders children once the server
-            is ready and listening */}
         <AppProvider>
           <AppContainer
             persistNavigationState={persistNavigationState}
