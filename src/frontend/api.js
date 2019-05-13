@@ -186,12 +186,12 @@ export function addPeerListener(handler: PeerHandler): Subscription {
   nodejs.channel.addListener("peer-update", handler);
   syncGetPeers().then(handler);
   return {
-    remove: () => nodejs.channel.removeListener("peer-update", this.updatePeers)
+    remove: () => nodejs.channel.removeListener("peer-update", handler)
   };
 }
 
-export function syncJoin(name) {
-  api.get(`sync/join?name=${name}`)
+export function syncJoin(name: string) {
+  api.get(`sync/join?name=${name}`);
 }
 
 export function syncLeave() {
