@@ -110,7 +110,102 @@ computer.
 
 `npm run android` does two things: starts "Metro bundler" in one window, and
 then builds and installs the dev version of Mapeo on the connected device. To
-start Metro bundler on its own (e.g. if you already have the app installed), use `npm start`.
+start Metro bundler on its own (e.g. if you already have the app installed), use
+`npm start`.
+
+## Release Variants
+
+We generate different variants of the app, each with a different Application ID,
+which means each release variant has a separate data folder, and release
+variants can be installed alongside each other.
+
+### Dev / Debug Variant
+
+During development the debug variant does not include bundled JS code from React
+Native, instead it is loaded dynamically from Metro Bundler on the connected
+computer. The debug variant has Application ID `com.mapeo.debug`. It has a
+yellow logo.
+
+### QA Variant
+
+Alpha and Beta releases include a QA (Quality Assurance) variant, which is for
+sharing internally for testing. We use a variant for this with a different
+Application ID (`com.mapeo.qa`) so that the Dd field team can test new releases
+alongside existing copies of the app on their phone. It has a red logo.
+
+### Release Variant
+
+This is the main variant of the app for our partners and the public. It has a
+dark blue logo and Application ID `com.mapeo`.
+
+## Releases & Builds
+
+Mapeo is built using the CI service
+[Bitrise](https://app.bitrise.io/app/288e6b3c3069b8e6). Every new commit
+triggers an APK build, which is uploaded to Amazon S3. Git tags trigger
+publishing of releases on Github and Google Play. Releases are managed using
+[`standard-version`](https://github.com/conventional-changelog/standard-version)
+with auto-generated changelogs based on commit messages that follow
+[Conventional Commits Specification](https://conventionalcommits.org/).
+
+### "Nightly" Internal Builds
+
+These are created for every commit pushed to Github. They are uploaded the the
+S3 bucket `mapeo-apks` for every commit. The filename of the apk is:
+
+```
+`date -u
++"%Y%m%d_%H%M%S"`_mapeo_qa_${GIT_COMMIT_SHA:0:7}_${BITRISE_BUILD_ID}.apk
+```
+
+These builds are available at http://mapeo-apks.ddem.us/?prefix=dev/
+
+### Alpha Releases
+
+To create an Alpha release:
+
+```sh
+npm run release:alpha
+git push --follow-tags origin master
+```
+
+Alpha releases are created for git tags which match the pattern `v*-alpha*`.
+They are uploaded to http://mapeo-apks.ddem.us/?prefix=qa/ and also published to
+Github as a pre-release. Only a QA variant is built for Alpha releases. Alpha is
+for internal testing and can be unstable.
+
+### Beta Releases
+
+To create a Beta release:
+
+```sh
+npm run release:beta
+git push --follow-tags origin master
+```
+
+Beta releases are created for git tags which match the pattern `v*-beta*`. Both
+QA and Release variants are built and published to
+http://mapeo-apks.ddem.us/?prefix=qa/ and
+http://mapeo-apks.ddem.us/?prefix=release/, and both are published to
+https://github.com/digidem/mapeo-mobile/releases. The filenames of APKs from
+beta releases published to Github as `Mapeo-QA-${GIT_TAG}.apk` and
+`Mapeo-${GIT_TAG}.apk`. Beta release variants are also uploaded to [Google
+Play](https://play.google.com/apps/publish/?account=7353212627880564314#AppDashboardPlace:p=com.mapeo&appid=4976023492261880835)
+where Robo tests are run on different real devices, and are automatically
+updated for any users who have signed up to the open beta track: https://play.google.com/apps/testing/com.mapeo
+
+### Production Release
+
+To create a Production release:
+
+```sh
+npm run release
+git push --follow-tags origin master
+```
+
+Production releases are created for git tags that match the pattern `v*.*.*`.
+They are uploaded to S3, Github Releases, and Google Play production track. No
+QA variant is created for production releases.
 
 ## Troubleshooting
 
