@@ -29,23 +29,10 @@ class SceneComponent extends React.PureComponent<*> {
   }
 }
 
-function SceneMap<T: *>(
-  scenes: { [key: string]: React.ComponentType<T> },
-  onAddPress: $ElementType<DraftContextType, "addPhoto">,
-  navigation
-) {
-  // eslint-disable-next-line react/display-name
-  return ({ route, jumpTo }: T) => (
-    <SceneComponent
-      key={route.key}
-      component={scenes[route.key]}
-      route={route}
-      jumpTo={jumpTo}
-      onAddPress={onAddPress}
-      navigation={navigation}
-    />
-  );
-}
+const scenes = {
+  map: MapScreen,
+  photo: CameraScreen
+};
 
 type Props = {
   ...$Exact<NavigationScreenConfigProps>,
@@ -65,8 +52,20 @@ class Home extends React.Component<Props, State> {
   state = {
     index: 0,
     routes: [
-      { key: "map", title: "Map", icon: "map" },
-      { key: "photo", title: "Photo", icon: "photo-camera" }
+      {
+        key: "map",
+        title: "Map",
+        icon: "map",
+        accessibilityLabel: "Map View",
+        testID: "mapViewTabButton"
+      },
+      {
+        key: "photo",
+        title: "Photo",
+        icon: "photo-camera",
+        accessibilityLabel: "Camera View",
+        testID: "cameraViewTabButton"
+      }
     ]
   };
 
@@ -98,6 +97,20 @@ class Home extends React.Component<Props, State> {
     );
   };
 
+  // Renders the contents of a tab. SceneComponent just wraps the component in
+  // PureComponent, and is probably unnecessary because the Map and CameraView
+  // components are optimised anyway.
+  renderScene = ({ route, jumpTo }) => (
+    <SceneComponent
+      key={route.key}
+      component={scenes[route.key]}
+      route={route}
+      jumpTo={jumpTo}
+      onAddPress={this.handleAddPress}
+      navigation={this.props.navigation}
+    />
+  );
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -125,14 +138,8 @@ class Home extends React.Component<Props, State> {
           swipeEnabled={this.state.index !== 0}
           tabBarPosition="bottom"
           navigationState={this.state}
-          renderScene={SceneMap(
-            {
-              map: MapScreen,
-              photo: CameraScreen
-            },
-            this.handleAddPress,
-            this.props.navigation
-          )}
+          removeClippedSubviews
+          renderScene={this.renderScene}
           renderTabBar={this.renderTabBar}
           onIndexChange={index => this.setState({ index })}
           initialLayout={{ width: Dimensions.get("window").width }}
