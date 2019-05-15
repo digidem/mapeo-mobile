@@ -86,7 +86,7 @@ project.ext.vectoricons = [
 ]
 
 apply from: "./react.gradle"
-apply from: '../../node_modules/@unimodules/core/build.gradle'
+apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 /**
@@ -205,6 +205,12 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
+
+    // Use Java 1.8
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -231,8 +237,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
-    api project(':expo-location')
-    api project(':expo-camera')
+    addUnimodulesDependencies()
 
     // Detox
     // androidTestImplementation(project(path: ":detox"))

@@ -1,4 +1,6 @@
 rootProject.name = 'mapeo'
+apply from: '../node_modules/react-native-unimodules/gradle.groovy'
+includeUnimodulesProjects()
 include ':react-native-keep-awake'
 project(':react-native-keep-awake').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-keep-awake/android')
 include ':react-native-android-open-settings'
@@ -22,8 +24,6 @@ project(':react-native-reanimated').projectDir = new File(rootProject.projectDir
 include ':react-native-gesture-handler'
 project(':react-native-gesture-handler').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-gesture-handler/android')
 
-apply from: '../node_modules/@unimodules/core/settings.gradle'
-useUnimodules.apply()
 
 include ':react-native-splash-screen'
 project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-splash-screen/android')
@@ -31,11 +31,7 @@ include ':nodejs-mobile-react-native'
 project(':nodejs-mobile-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/nodejs-mobile-react-native/android')
 // include ':detox'
 // project(':detox').projectDir = new File(rootProject.projectDir, '../node_modules/detox/android/detox')
-include ':expo-location'
-project(':expo-location').projectDir = new File(rootProject.projectDir, '../node_modules/expo-location/android')
 include ':mapbox-react-native-mapbox-gl'
 project(':mapbox-react-native-mapbox-gl').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-mapbox/maps/android/rctmgl')
-include ':expo-camera'
-project(':expo-camera').projectDir = new File(rootProject.projectDir, '../node_modules/expo-camera/android')
 
 include ':app'
