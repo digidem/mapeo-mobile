@@ -34,6 +34,7 @@
     "debug": "^4.1.1",
     "expo-camera": "^4.0.0",
     "expo-location": "^4.0.0",
+    "expo-sensors": "^4.0.0",
     "hoist-non-react-statics": "^3.3.0",
     "ky": "github:sindresorhus/ky#e9c807b64c6414940b6c14b4e85c807f833dc0f2",
     "lodash": "^4.17.11",

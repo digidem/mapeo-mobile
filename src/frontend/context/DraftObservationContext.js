@@ -158,7 +158,6 @@ class DraftObservationProvider extends React.Component<
       const capturePromise: any = capture
         .then(({ uri }) => {
           if (capturePromise.cancelled) throw new Error("Cancelled");
-          log("captured image", uri);
           photo.originalUri = uri;
           return ImageResizer.createResizedImage(
             uri,
@@ -170,7 +169,7 @@ class DraftObservationProvider extends React.Component<
         })
         .then(({ uri }) => {
           if (capturePromise.cancelled) throw new Error("Cancelled");
-          log("captured image", uri);
+          log("Generated thumbnail", uri);
           photo.thumbnailUri = uri;
           return ImageResizer.createResizedImage(
             photo.originalUri,
@@ -182,7 +181,7 @@ class DraftObservationProvider extends React.Component<
         })
         .then(({ uri }) => {
           if (capturePromise.cancelled) throw new Error("Cancelled");
-          log("resized image", uri);
+          log("Generated preview", uri);
           // Remove from pending
           this.pending = this.pending.filter(p => p !== capturePromise);
           photo.previewUri = uri;
@@ -196,7 +195,7 @@ class DraftObservationProvider extends React.Component<
           this.pending = this.pending.filter(p => p !== capturePromise);
           if (capturePromise.cancelled || err.message === "Cancelled")
             return log("Cancelled!");
-          log("Error capturing image:\n", err);
+          log("Error capturing image:", err);
           photo.error = true;
           this.setState(state => ({
             photos: splice(state.photos, index, photo)
