@@ -194,13 +194,12 @@ class MapView extends React.Component<Props, State> {
           onRegionWillChange={this.handleRegionChange}
           regionWillChangeDebounceTime={200}
         >
-          {!this.state.following && (
-            <MapboxGL.UserLocation showUserLocation={true} />
-          )}
+          <MapboxGL.UserLocation visible />
           <MapboxGL.Camera
             centerCoordinate={initialCoords}
             zoomLevel={initialZoom}
             followUserLocation={this.state.following}
+            followUserMode="normal"
             followZoomLevel={12}
           />
           <ObservationMapLayer
