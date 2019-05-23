@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.1.0-alpha.0](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-beta.3...v1.1.0-alpha.0) (2019-05-23)
+
+
+### Bug Fixes
+
+* **map:** "blue dot" user location should always show in the correct location now ([d167998](https://github.com/digidem/mapeo-mobile/commit/d167998))
+* **sync:** stop listening to peer updates when sync modal is closed ([48d0a05](https://github.com/digidem/mapeo-mobile/commit/48d0a05))
+
+
+### Features
+
+* **photo:** rotate photo based on device rotation ([1ee8815](https://github.com/digidem/mapeo-mobile/commit/1ee8815))
+
+
+
 # [1.0.0-beta.3](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2019-05-10)
 
 
