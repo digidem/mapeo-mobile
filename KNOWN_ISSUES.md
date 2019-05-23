@@ -6,10 +6,6 @@
 - If you open the app without an offline style, and then add a default offline
   style, the offline style may not appear until 5 minutes later on some phones
   (caching issues)
-- When switching between "follow mode" (when the map follows the user
-  location) and moving the map to a new location, the "blue dot" indicating the
-  users location can be in the wrong place (i.e. not in the actual location from
-  the GPS).
 
 #### New/Edit Observation
 
@@ -35,7 +31,6 @@
   need to restart the app for them to work again.
 - You cannot press on the photos to see them fill the screen
 - There is no way to delete / remove a photo from an observation
-- Photos taken in landscape appear rotated by 90°
 
 #### Sync
 
