@@ -72,14 +72,18 @@ class SaveButton extends React.PureComponent<Props, State> {
         "La precisión del GPS está baja. Puedes seguir esperando que la precisión mejora, o guardar como es",
         [
           {
-            text: "Seguir esperando",
-            onPress: () => log("Cancelled save"),
-            style: "cancel"
-          },
-          {
             text: "Guardar",
             onPress: this.doSave,
             style: "default"
+          },
+          {
+            text: 'Manually Enter Position',
+            onPress: () => this.props.navigation.navigate('ManualGpsScreen'),
+            style: 'cancel'
+          },
+          {
+            text: "Seguir esperando",
+            onPress: () => log("Cancelled save")
           }
         ]
       );
