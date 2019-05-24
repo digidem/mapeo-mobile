@@ -1,5 +1,5 @@
 // @flow
-import "core-js/es6/reflect";
+import "core-js/es/reflect";
 import { PixelRatio } from "react-native";
 import ky from "ky";
 import nodejs from "nodejs-mobile-react-native";
