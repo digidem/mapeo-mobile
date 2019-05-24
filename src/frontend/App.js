@@ -4,6 +4,7 @@ import * as React from "react";
 import debug from "debug";
 // import { useScreens } from "react-native-screens";
 import SplashScreen from "react-native-splash-screen";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import ErrorScreen from "./screens/UncaughtError";
 import AppLoading from "./AppLoading";
@@ -16,6 +17,18 @@ if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 // WARNING: This needs to change if we change the navigation structure
 const NAV_STORE_KEY = "@MapeoNavigation@3";
+
+const persistNavigationState = async navState => {
+  try {
+    await AsyncStorage.setItem(NAV_STORE_KEY, JSON.stringify(navState));
+  } catch (err) {
+    log("Error saving navigation state", err);
+  }
+};
+const loadNavigationState = async () => {
+  const jsonString = await AsyncStorage.getItem(NAV_STORE_KEY);
+  return JSON.parse(jsonString);
+};
 
 // Use native navigation screens, see: https://github.com/kmagiera/react-native-screens
 // useScreens();
@@ -65,7 +78,10 @@ const App = () => (
             mapeo-core server. AppLoading only renders children once the server
             is ready and listening */}
         <AppProvider>
-          <AppContainer persistenceKey={NAV_STORE_KEY} />
+          <AppContainer
+            persistNavigationState={persistNavigationState}
+            loadNavigationState={loadNavigationState}
+          />
         </AppProvider>
       </AppLoading>
     </PermissionsContext.Provider>
