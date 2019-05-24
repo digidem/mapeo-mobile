@@ -116,6 +116,7 @@ export const ObservationEdit = ({
         <CategoryView preset={preset} onPress={onPressCategory} />
         <DescriptionField />
         <PhotosView onPressPhoto={onPressPhoto} />
+        <DeleteButton />
       </ScrollView>
       <BottomSheet items={bottomSheetItems} />
     </View>

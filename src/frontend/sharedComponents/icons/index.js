@@ -23,6 +23,7 @@ type ImageIconProps = {
 export { default as GpsIcon } from "./GpsIcon";
 export { CategoryIcon, CategoryCircleIcon } from "./CategoryIcon";
 export { default as SaveIcon } from "./SaveIcon";
+export { default as DeleteIcon } from "./DeleteIcon";
 export { default as SyncIconCircle } from "./SyncIconCircle";
 
 export const AlertIcon = ({ size = 30, color = RED, style }: FontIconProps) => (
