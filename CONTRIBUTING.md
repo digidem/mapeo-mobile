@@ -27,6 +27,9 @@ through the storybook UI. What you see in the Storybook UI is defined by
 
 ### Storybook Web
 
+**_Storybook web is fragile, it currently requires some code modifications for
+everything to work correctly on web_**
+
 The easiest way to get started without setting up your machine for mobile
 development is to use Storybook web. It uses
 [`react-native-web`](https://github.com/necolas/react-native-web) interally in
@@ -53,15 +56,19 @@ run the app in storybook mode on a device:
 npm run android-storybook
 ```
 
+You can edit components and write new stories and see how components on-screen
+render in isolation.
+
 Optionally you can also start a server that will give you a web interface to
 control what you see on the mobile device:
 
 ```sh
+adb reverse tcp:7007 tcp:7007
 npm run storybook-native
 ```
 
-You can edit components and write new stories and see how components on-screen
-render in isolation.
+You will probably need to reload the storybook mobile app for the web app to be
+able to control the mobile app.
 
 ## Full App Development
 
