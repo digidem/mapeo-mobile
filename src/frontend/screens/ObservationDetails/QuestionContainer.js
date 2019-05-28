@@ -8,21 +8,43 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 
+import QuestionNavBar from "./QuestionNavBar";
+
 type Props = {
   children: React.Node,
-  // Question number
-  number: number
+  // Current question number
+  current: number,
+  // Total number of questions
+  total: number,
+  onPrev: () => any,
+  onNext: () => any
 };
 
-const QuestionContainer = ({ children, number }: Props) => (
-  <KeyboardAvoidingView behavior="padding" style={styles.container}>
+const QuestionContainer = ({
+  children,
+  current,
+  total,
+  onNext,
+  onPrev
+}: Props) => (
+  <KeyboardAvoidingView
+    behavior="padding"
+    style={styles.container}
+    keyboardVerticalOffset={25}
+  >
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
     >
-      <Text style={styles.questionNumber}>Cuestión {number}</Text>
+      <Text style={styles.questionNumber}>Cuestión {current}</Text>
       <View style={styles.questionContainer}>{children}</View>
     </ScrollView>
+    <QuestionNavBar
+      current={current}
+      total={total}
+      onNext={onNext}
+      onPrev={onPrev}
+    />
   </KeyboardAvoidingView>
 );
 

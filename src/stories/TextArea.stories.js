@@ -3,6 +3,7 @@ import { storiesOf } from "@storybook/react-native";
 import { action } from "@storybook/addon-actions";
 
 import TextArea from "../frontend/screens/ObservationDetails/TextArea";
+import QuestionContainer from "../frontend/screens/ObservationDetails/QuestionContainer";
 import Fullscreen from "./Fullscreen";
 import Header from "./Header";
 
@@ -28,7 +29,14 @@ storiesOf("TextArea", module)
   .addDecorator(storyFn => (
     <Fullscreen>
       <Header title="Detalles" onClosePress={action("close")} />
-      {storyFn()}
+      <QuestionContainer
+        current={2}
+        total={5}
+        onNext={action("next")}
+        onPrev={action("prev")}
+      >
+        {storyFn()}
+      </QuestionContainer>
     </Fullscreen>
   ))
   .add("Default", () => (
@@ -49,7 +57,6 @@ storiesOf("TextArea", module)
       {({ value, onChange }) => (
         <TextArea
           label="Give me a long answer?"
-          number={3}
           hint="¿Qué está pasando aquí?"
           value={value}
           onChange={onChange}

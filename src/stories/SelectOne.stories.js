@@ -3,6 +3,7 @@ import { storiesOf } from "@storybook/react-native";
 import { action } from "@storybook/addon-actions";
 
 import SelectOne from "../frontend/screens/ObservationDetails/SelectOne";
+import QuestionContainer from "../frontend/screens/ObservationDetails/QuestionContainer";
 import Fullscreen from "./Fullscreen";
 import Header from "./Header";
 
@@ -25,7 +26,14 @@ storiesOf("SelectOne", module)
   .addDecorator(storyFn => (
     <Fullscreen>
       <Header title="Detalles" onClosePress={action("close")} />
-      {storyFn()}
+      <QuestionContainer
+        current={2}
+        total={5}
+        onNext={action("next")}
+        onPrev={action("prev")}
+      >
+        {storyFn()}
+      </QuestionContainer>
     </Fullscreen>
   ))
   .add("Default", () => (
@@ -33,7 +41,6 @@ storiesOf("SelectOne", module)
       {({ value, onChange }) => (
         <SelectOne
           label="What is the scale of the spill?"
-          number={1}
           hint="Select one"
           options={[
             {

@@ -2,18 +2,15 @@
 import React from "react";
 import { View, StyleSheet, Text, TextInput } from "react-native";
 
-import QuestionContainer from "./QuestionContainer";
-
 type Props = {
-  number: number,
   value?: string,
   label: string,
   hint?: string,
   onChange: (value: string) => any
 };
 
-const TextArea = ({ number, value, label, hint, onChange }: Props) => (
-  <QuestionContainer number={number}>
+const TextArea = ({ value, label, hint, onChange }: Props) => (
+  <>
     <View style={styles.labelContainer}>
       <Text style={styles.label}>{label}</Text>
     </View>
@@ -28,7 +25,7 @@ const TextArea = ({ number, value, label, hint, onChange }: Props) => (
       scrollEnabled={false}
       textContentType="none"
     />
-  </QuestionContainer>
+  </>
 );
 
 export default TextArea;

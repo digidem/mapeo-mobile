@@ -3,12 +3,10 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import QuestionContainer from "./QuestionContainer";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import type { Style } from "../../types";
 
 type Props = {
-  number: number,
   value?: string | number,
   label: string,
   options: Array<{| value: string, label: string |}>,
@@ -35,15 +33,8 @@ const RadioItem = ({ checked, onPress, label, style }: RadioItemProps) => (
   </TouchableNativeFeedback>
 );
 
-const SelectOne = ({
-  number,
-  value,
-  label,
-  options,
-  hint,
-  onChange
-}: Props) => (
-  <QuestionContainer number={number}>
+const SelectOne = ({ value, label, options, hint, onChange }: Props) => (
+  <>
     <View style={styles.labelContainer}>
       <Text style={styles.label}>{label}</Text>
       <Text style={styles.hint}>{hint}</Text>
@@ -57,7 +48,7 @@ const SelectOne = ({
         style={[styles.radioContainer, index === 0 ? styles.noBorder : {}]}
       />
     ))}
-  </QuestionContainer>
+  </>
 );
 
 export default SelectOne;

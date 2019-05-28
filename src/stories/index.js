@@ -8,6 +8,7 @@ import "./ObservationsList.stories";
 import "./ObservationEdit.stories";
 import "./TextArea.stories";
 import "./SelectOne.stories";
+import "./QuestionNavBar.stories";
 import Welcome from "./Welcome";
 
 storiesOf("Welcome", module).add("to Storybook", () => (
