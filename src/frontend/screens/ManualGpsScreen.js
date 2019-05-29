@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import {toLatLon} from 'utm';
-import { View, Text, TextInput, TouchableHighlight,  StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableHighlight,  StyleSheet, ToastAndroid } from "react-native";
 import type { NavigationScreenConfigProps } from "react-navigation";
 import debug from 'debug';
 
@@ -46,17 +46,28 @@ class ManualGpsScreen extends React.Component<Props, State> {
     this.props.navigation.setParams({handleSavePress: this.onSave});
   }
 
-  onSave = () => {
+  toLatLon() {
     const {zoneNum, zoneLetter, easting, northing} = this.state;
-    const {latitude, longitude} = toLatLon(easting, northing, zoneNum, zoneLetter);
-    const {draft, navigation} = this.props;
-    draft.setValue({
-      lat: latitude,
-      lon: longitude,
-      tags: {...draft.value.tags}
-    });
-    // $FlowFixMe
-    navigation.pop();
+    try {
+      return toLatLon(easting, northing, zoneNum, zoneLetter);
+    } catch (err) {
+      ToastAndroid.showWithGravity(err.message, ToastAndroid.LONG, ToastAndroid.TOP);
+      return false;
+    }
+  }
+
+  onSave = () => {
+    const locationData = this.toLatLon();
+    if (locationData) {
+      const {draft, navigation} = this.props;
+      draft.setValue({
+        lat: locationData.latitude,
+        lon: locationData.longitude,
+        tags: {...draft.value.tags}
+      });
+      // $FlowFixMe
+      navigation.pop();
+    }
   }
 
   render() {
