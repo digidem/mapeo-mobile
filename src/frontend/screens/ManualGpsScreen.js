@@ -1,10 +1,17 @@
 // @flow
 import React from "react";
+import {toLatLon} from 'utm';
 import { View, Text, TextInput, TouchableHighlight,  StyleSheet } from "react-native";
 import type { NavigationScreenConfigProps } from "react-navigation";
+import debug from 'debug';
 
 import { withDraft } from "../context/DraftObservationContext";
 import type { DraftObservationContext } from "../context/DraftObservationContext";
+
+import IconButton from "../sharedComponents/IconButton";
+import { SaveIcon } from "../sharedComponents/icons";
+
+const log = debug('mapeo:manualGPS');
 
 type Props = {
   ...$Exact<NavigationScreenConfigProps>,
@@ -12,27 +19,41 @@ type Props = {
 };
 
 type State = {
-  longitude: string,
-  latitude: string
+  zoneNum: string,
+  zoneLetter: string,
+  easting: string,
+  northing: string
 }
 
 class ManualGpsScreen extends React.Component<Props, State> {
-  // handleCancelPress = (e: any) => {
-  //   // $FlowFixMe
-  //   this.props.navigation.pop();
-  // };
+  static navigationOptions = ({ navigation }: any) => ({
+    title: "Manual GPS",
+    headerRight: (
+      <IconButton onPress={navigation.getParam('handleSavePress')}>
+        <SaveIcon inprogress={false} />
+      </IconButton>
+    )
+  });
+
   state = {
-    longitude: '',
-    latitude: ''
+    zoneNum: '',
+    zoneLetter: '',
+    easting: '',
+    northing: '',
+  }
+
+  componentDidMount() {
+    this.props.navigation.setParams({handleSavePress: this.onSave});
   }
 
   onSave = () => {
-    const {longitude, latitude} = this.state;
+    const {zoneNum, zoneLetter, easting, northing} = this.state;
+    const {latitude, longitude} = toLatLon(easting, northing, zoneNum, zoneLetter);
     const {draft, navigation} = this.props;
     draft.setValue({
-      tags: {...draft.value.tags},
-      lon: parseFloat(longitude),
-      lat: parseFloat(latitude)
+      lat: latitude,
+      lon: longitude,
+      tags: {...draft.value.tags}
     });
     // $FlowFixMe
     navigation.pop();
@@ -41,32 +62,49 @@ class ManualGpsScreen extends React.Component<Props, State> {
   render() {
     return (
       <View>
-        <Text>Wrapped Manual GPS Entry</Text>
-        <Text>Longitude</Text>
+        <Text>Zone Number</Text>
         <TextInput
           placeholder="DDD"
           placeholderTextColor="silver"
           underlineColorAndroid="transparent"
           keyboardType="numeric"
           onChangeText={
-            longitude => this.setState({longitude})
+            zoneNum => this.setState({zoneNum})
           }
-          value={this.state.longitude.toString()}
+          value={this.state.zoneNum}
         />
-        <Text>Latitude</Text>
+        <Text>Zone Letter</Text>
+        <TextInput
+          placeholder="DDD"
+          placeholderTextColor="silver"
+          underlineColorAndroid="transparent"
+          onChangeText={
+            zoneLetter => this.setState({zoneLetter})
+          }
+          value={this.state.zoneLetter}
+        />
+        <Text>Easting</Text>
         <TextInput
           placeholder="DDD"
           placeholderTextColor="silver"
           underlineColorAndroid="transparent"
           keyboardType="numeric"
           onChangeText={
-            latitude => this.setState({latitude})
+            easting => this.setState({easting})
           }
-          value={this.state.latitude.toString()}
+          value={this.state.easting}
         />
-        <TouchableHighlight onPress={this.onSave}>
-          <Text>Save</Text>
-        </TouchableHighlight>
+        <Text>Northing</Text>
+        <TextInput
+          placeholder="DDD"
+          placeholderTextColor="silver"
+          underlineColorAndroid="transparent"
+          keyboardType="numeric"
+          onChangeText={
+            northing => this.setState({northing})
+          }
+          value={this.state.northing}
+        />
       </View>
     );
   }
