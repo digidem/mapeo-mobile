@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import { ScrollView, View, Text, StyleSheet, TextInput } from "react-native";
-import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
+import { withNavigationFocus } from "react-navigation";
 
 import LocationField from "../../sharedComponents/LocationField";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
@@ -51,7 +51,7 @@ const CategoryView = ({
 
 const PhotosView = withDraft(["photos"])(ThumbnailScrollView);
 
-const DescriptionField = () => (
+const DescriptionField = withNavigationFocus(({ isFocused }) => (
   <Field fieldKey="notes">
     {({ value, onChange }) => (
       <TextInput
@@ -61,15 +61,14 @@ const DescriptionField = () => (
         placeholder="¿Qué está pasando aquí?"
         placeholderTextColor="silver"
         underlineColorAndroid="transparent"
-        onBlur={() => console.log("blur")}
         multiline
-        autoFocus
+        autoFocus={isFocused && !value}
         scrollEnabled={false}
         textContentType="none"
       />
     )}
   </Field>
-);
+));
 
 type Props = {
   onPressCategory: () => any,
