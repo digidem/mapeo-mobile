@@ -2,14 +2,13 @@
 import React from "react";
 import { View, StyleSheet, Text, TextInput } from "react-native";
 
-type Props = {
-  value?: string,
-  label: string,
-  hint?: string,
-  onChange: (value: string) => any
-};
+import type { QuestionProps } from "./Question";
 
-const TextArea = ({ value, label, hint, onChange }: Props) => (
+const TextArea = ({
+  value,
+  field: { label, placeholder },
+  onChange
+}: QuestionProps) => (
   <>
     <View style={styles.labelContainer}>
       <Text style={styles.label}>{label}</Text>
@@ -18,7 +17,7 @@ const TextArea = ({ value, label, hint, onChange }: Props) => (
       value={value}
       onChangeText={onChange}
       style={styles.textInput}
-      placeholder={hint}
+      placeholder={placeholder}
       placeholderTextColor="silver"
       underlineColorAndroid="transparent"
       multiline
@@ -28,7 +27,7 @@ const TextArea = ({ value, label, hint, onChange }: Props) => (
   </>
 );
 
-export default TextArea;
+export default React.memo<QuestionProps>(TextArea);
 
 const styles = StyleSheet.create({
   labelContainer: {

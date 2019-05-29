@@ -24,8 +24,7 @@ class ObservationEdit extends React.Component<NavigationScreenConfigProps> {
   };
 
   handleDetailsPress = () => {
-    console.log("handleDetailsPress");
-    this.props.navigation.push("ObservationDetails", { question: 1 });
+    this.props.navigation.navigate("ObservationDetails", { question: 1 });
   };
 
   render() {

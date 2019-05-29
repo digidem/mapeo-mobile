@@ -5,61 +5,9 @@ import type { NavigationScreenConfigProps } from "react-navigation";
 
 import TextButton from "../../sharedComponents/TextButton";
 import QuestionContainer from "./QuestionContainer";
-import SelectOne from "./SelectOne";
-// import TextArea from "./TextArea";
+import Question from "./Question";
 import Field from "../ObservationEdit/Field";
 import DraftObservationPreset from "../../context/DraftObservationPreset";
-
-const fieldsFixture = [
-  {
-    id: "monitor_name",
-    key: "nombre",
-    type: "select-one",
-    label: "Nombre del monitor",
-    options: [
-      {
-        value: "aliya",
-        label: "Aliya Ryan"
-      },
-      {
-        value: "jen",
-        label: "Jen Castro"
-      },
-      {
-        value: "gregor",
-        label: "Gregor John MacLennan"
-      },
-      {
-        value: "emily",
-        label: "Emily Jacobi"
-      }
-    ]
-  },
-  {
-    id: "community",
-    key: "comunidad",
-    type: "select-one",
-    label: "Nombre de la comunidad",
-    options: [
-      {
-        value: "edinburgh",
-        label: "Edinburgo"
-      },
-      {
-        value: "vancouver",
-        label: "Vancouver"
-      },
-      {
-        value: "londres",
-        label: "Londres"
-      },
-      {
-        value: "oakland",
-        label: "Oakland"
-      }
-    ]
-  }
-];
 
 const DetailsTitle = ({ navigation }: any) => (
   <DraftObservationPreset>
@@ -117,18 +65,16 @@ class ObservationDetails extends React.Component<NavigationScreenConfigProps> {
       <DraftObservationPreset>
         {({ observationValue, preset }) => {
           const current: number = +navigation.getParam("question");
-          if (current > fieldsFixture.length) return navigation.popToTop();
-          const field = fieldsFixture[current - 1];
+          if (!preset || !preset.fields || current > preset.fields.length)
+            // $FlowFixMe
+            return navigation.pop(current);
+          const field = preset.fields[current - 1];
+          console.log(current, preset.fields);
           return (
             <Field fieldKey={field.key}>
               {({ value, onChange }) => (
                 <QuestionContainer current={current}>
-                  <SelectOne
-                    options={field.options}
-                    value={value}
-                    label={field.label}
-                    onChange={onChange}
-                  />
+                  <Question field={field} value={value} onChange={onChange} />
                 </QuestionContainer>
               )}
             </Field>

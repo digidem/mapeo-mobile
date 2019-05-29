@@ -22,20 +22,26 @@ export type Preset = {|
   searchable?: boolean
 |};
 
-export type Field = {|
+type BaseField = {|
   id: string,
   key: string,
-  type: "text" | "textarea" | "number" | "localized" | "check" | "combo",
   label: string,
   placeholder?: string,
-  options?:
-    | string[]
-    | Array<{|
-        value: any,
-        label: string
-      |}>,
   universal?: boolean
 |};
+
+export type TextField = {|
+  ...$Exact<BaseField>,
+  type: "text"
+|};
+
+export type SelectField = {|
+  ...$Exact<BaseField>,
+  type: "select_one",
+  options: Array<string | number | {| value: number | string, label: string |}>
+|};
+
+export type Field = TextField | SelectField;
 
 export type PresetWithFields = {|
   id: string,

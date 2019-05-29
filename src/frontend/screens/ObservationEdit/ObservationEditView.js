@@ -161,9 +161,6 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     flex: 1
   },
-  categoryButton: {
-    flex: 0
-  },
   textInput: {
     flex: 1,
     minHeight: 100,
