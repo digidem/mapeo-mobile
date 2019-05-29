@@ -5,10 +5,15 @@ import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 
 import LocationField from "../../sharedComponents/LocationField";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
+import BottomSheet from "./BottomSheet";
 import Field from "./Field";
-import { CameraIcon, CategoryCircleIcon } from "../../sharedComponents/icons";
+import {
+  CameraIcon,
+  DetailsIcon,
+  CategoryCircleIcon
+} from "../../sharedComponents/icons";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
-import { VERY_LIGHT_BLUE, LIGHT_GREY } from "../../lib/styles";
+import TextButton from "../../sharedComponents/TextButton";
 import { withDraft } from "../../context/DraftObservationContext";
 
 import type { PresetWithFields } from "../../context/PresetsContext";
@@ -40,26 +45,11 @@ const CategoryView = ({
       <CategoryCircleIcon iconId={preset.icon} />
     </View>
     <Text style={styles.categoryName}>{preset.name || "Observación"}</Text>
-    <TouchableNativeFeedback
-      style={styles.categoryButton}
-      background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, true)}
-      onPress={onPress}
-    >
-      <Text style={styles.categoryButtonText}>Cambiar</Text>
-    </TouchableNativeFeedback>
+    <TextButton onPress={onPress} title="Cambiar" />
   </View>
 );
 
 const PhotosView = withDraft(["photos"])(ThumbnailScrollView);
-
-const AddPhotoButton = ({ onPress }) => (
-  <TouchableNativeFeedback onPress={onPress} style={styles.addPhotoButton}>
-    <View style={styles.addPhotoIcon}>
-      <CameraIcon />
-    </View>
-    <Text style={styles.addPhotoLabel}>Agregar Foto</Text>
-  </TouchableNativeFeedback>
-);
 
 const DescriptionField = () => (
   <Field fieldKey="notes">
@@ -74,6 +64,8 @@ const DescriptionField = () => (
         onBlur={() => console.log("blur")}
         multiline
         autoFocus
+        scrollEnabled={false}
+        textContentType="none"
       />
     )}
   </Field>
@@ -82,6 +74,7 @@ const DescriptionField = () => (
 type Props = {
   onPressCategory: () => any,
   onPressCamera: () => any,
+  onPressDetails: () => any,
   isNew: boolean,
   preset?: PresetWithFields
 };
@@ -90,10 +83,14 @@ export const ObservationEdit = ({
   isNew,
   preset,
   onPressCategory,
-  onPressCamera
+  onPressCamera,
+  onPressDetails
 }: Props) => (
   <View style={styles.container}>
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollViewContent}
+    >
       {isNew && (
         <LocationField locked={!isNew}>
           {fieldProps => <LocationView {...fieldProps} />}
@@ -103,7 +100,20 @@ export const ObservationEdit = ({
       <DescriptionField />
       <PhotosView />
     </ScrollView>
-    <AddPhotoButton onPress={onPressCamera} />
+    <BottomSheet
+      items={[
+        {
+          icon: <CameraIcon />,
+          label: "Agregar Foto",
+          onPress: onPressCamera
+        },
+        {
+          icon: <DetailsIcon />,
+          label: "Llenar Detalles",
+          onPress: onPressDetails
+        }
+      ]}
+    />
   </View>
 );
 
@@ -112,6 +122,10 @@ export default React.memo<Props>(ObservationEdit);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column",
+    alignContent: "stretch"
+  },
+  scrollViewContent: {
     flexDirection: "column",
     alignContent: "stretch"
   },
@@ -149,45 +163,16 @@ const styles = StyleSheet.create({
     flex: 1
   },
   categoryButton: {
-    flex: 0,
-    padding: 10,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  categoryButtonText: {
-    color: "blue"
-  },
-  addPhotoButton: {
-    flex: 0,
-    alignSelf: "flex-end",
-    height: 60,
-    flexDirection: "row",
-    alignItems: "center",
-    borderTopWidth: 1,
-    borderTopColor: "#dddddd"
-  },
-  addPhotoIcon: {
-    flex: 0,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingLeft: 30,
-    paddingRight: 30
-  },
-  addPhotoLabel: {
-    flex: 1,
-    fontWeight: "bold",
-    fontSize: 20
+    flex: 0
   },
   textInput: {
     flex: 1,
+    minHeight: 100,
     fontSize: 20,
     padding: 20,
-    paddingBottom: 30,
     color: "black",
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    textAlignVertical: "top",
-    backgroundColor: "white",
-    borderColor: LIGHT_GREY
+    textAlignVertical: "top"
   }
 });

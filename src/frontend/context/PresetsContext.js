@@ -28,7 +28,12 @@ export type Field = {|
   type: "text" | "textarea" | "number" | "localized" | "check" | "combo",
   label: string,
   placeholder?: string,
-  options?: string[],
+  options?:
+    | string[]
+    | Array<{|
+        value: any,
+        label: string
+      |}>,
   universal?: boolean
 |};
 

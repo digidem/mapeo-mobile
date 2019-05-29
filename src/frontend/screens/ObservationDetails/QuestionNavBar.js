@@ -4,8 +4,9 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 
-const NavButton = ({ name }) => (
+const NavButton = ({ name, onPress }) => (
   <TouchableNativeFeedback
+    onPress={onPress}
     style={styles.iconCircle}
     background={TouchableNativeFeedback.Ripple("gray", true)}
   >
@@ -15,11 +16,11 @@ const NavButton = ({ name }) => (
 
 const QuestionNavBar = ({ current, total, onNext, onPrev }) => (
   <View style={styles.container}>
-    <NavButton name="arrow-back" />
+    <NavButton name="arrow-back" onPress={onPrev} />
     <Text numberOfLines={1} style={styles.text}>
       {current} of {total}
     </Text>
-    <NavButton name="arrow-forward" />
+    <NavButton name="arrow-forward" onPress={onNext} />
   </View>
 );
 
