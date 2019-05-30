@@ -2,6 +2,7 @@
 import * as React from "react";
 import { View } from "react-native";
 import MapboxGL from "@react-native-mapbox/maps";
+import { withNavigationFocus } from "react-navigation";
 import type { NavigationScreenConfigProps } from "react-navigation";
 
 import MapView from "../sharedComponents/MapView";
@@ -11,6 +12,7 @@ import { getMapStyleUrl, checkMapStyle } from "../api";
 
 type Props = {
   ...$Exact<NavigationScreenConfigProps>,
+  isFocused: boolean,
   onAddPress: () => void
 };
 
@@ -43,8 +45,8 @@ class MapScreen extends React.Component<Props> {
     this.props.navigation.navigate("Observation", { observationId });
 
   render() {
-    const { onAddPress } = this.props;
-
+    const { onAddPress, isFocused } = this.props;
+    if (!isFocused) return null;
     return (
       <View style={{ flex: 1 }}>
         <ObservationsContext.Consumer>
@@ -71,4 +73,4 @@ class MapScreen extends React.Component<Props> {
   }
 }
 
-export default MapScreen;
+export default withNavigationFocus(MapScreen);

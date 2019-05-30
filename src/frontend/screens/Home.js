@@ -70,7 +70,6 @@ class Home extends React.Component<Props, State> {
   };
 
   renderTabBar = (props: any) => (
-    // $FlowFixMe
     <TabBar
       {...props}
       style={{ backgroundColor: "white" }}
@@ -133,7 +132,6 @@ class Home extends React.Component<Props, State> {
             <ObservationListIcon />
           </IconButton>
         </View>
-        {/* $FlowFixMe */}
         <TabView
           swipeEnabled={this.state.index !== 0}
           tabBarPosition="bottom"
