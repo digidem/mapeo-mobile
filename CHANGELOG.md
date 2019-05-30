@@ -1,6 +1,23 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [1.1.0-alpha.1](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-alpha.0...v1.1.0-alpha.1) (2019-05-30)
+
+
+### Bug Fixes
+
+* **DX:** fix storybook startup script to it opens the app after install ([fa39efc](https://github.com/digidem/mapeo-mobile/commit/fa39efc))
+* **DX:** Fix storybook-native builds ([c37cbb0](https://github.com/digidem/mapeo-mobile/commit/c37cbb0))
+* Fix app returning to last screen after a force restart ([51828e6](https://github.com/digidem/mapeo-mobile/commit/51828e6))
+* Fix error when restarting app not at home screen ([c1abffc](https://github.com/digidem/mapeo-mobile/commit/c1abffc))
+
+
+### Features
+
+* Add additional details to an observation ([#125](https://github.com/digidem/mapeo-mobile/issues/125)) ([dc89f22](https://github.com/digidem/mapeo-mobile/commit/dc89f22))
+
+
 
 # [1.1.0-alpha.0](https://github.com/digidem/mapeo-mobile/compare/v1.0.0-beta.3...v1.1.0-alpha.0) (2019-05-23)
 
