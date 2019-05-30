@@ -13,10 +13,11 @@ export type QuestionProps = {
 };
 
 const Question = (props: QuestionProps) => {
-  const { field } = props;
-  if (field.type === "select_one" && Array.isArray(field.options))
-    return <SelectOne {...props} />;
-  else return <TextArea {...props} />;
+  // This is needed for Flow to understand the type refinement
+  const { field, ...other } = props;
+  if (field.type === "select_one" && Array.isArray(field.options)) {
+    return <SelectOne {...other} field={field} />;
+  } else return <TextArea {...props} />;
 };
 
 export default Question;
