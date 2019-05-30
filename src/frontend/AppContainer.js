@@ -11,6 +11,7 @@ import ObservationList from "./screens/ObservationsList";
 import Observation from "./screens/Observation";
 import ObservationEdit from "./screens/ObservationEdit";
 import AddPhoto from "./screens/AddPhoto";
+import ObservationDetails from "./screens/ObservationDetails";
 import CategoryChooser from "./screens/CategoryChooser";
 import GpsModal from "./screens/GpsModal";
 import SyncModal from "./screens/SyncModal";
@@ -63,7 +64,8 @@ const ObservationsStack = createStackNavigator(
     ObservationEdit: {
       screen: ObservationEdit,
       path: "observations/:observationId/edit"
-    }
+    },
+    ObservationDetails: ObservationDetails
   },
   {
     initialRouteName: "ObservationList",
