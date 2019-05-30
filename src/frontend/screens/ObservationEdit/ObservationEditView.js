@@ -84,37 +84,41 @@ export const ObservationEdit = ({
   onPressCategory,
   onPressCamera,
   onPressDetails
-}: Props) => (
-  <View style={styles.container}>
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.scrollViewContent}
-    >
-      {isNew && (
-        <LocationField locked={!isNew}>
-          {fieldProps => <LocationView {...fieldProps} />}
-        </LocationField>
-      )}
-      <CategoryView preset={preset} onPress={onPressCategory} />
-      <DescriptionField />
-      <PhotosView />
-    </ScrollView>
-    <BottomSheet
-      items={[
-        {
-          icon: <CameraIcon />,
-          label: "Agregar Foto",
-          onPress: onPressCamera
-        },
-        {
-          icon: <DetailsIcon />,
-          label: "Llenar Detalles",
-          onPress: onPressDetails
-        }
-      ]}
-    />
-  </View>
-);
+}: Props) => {
+  const bottomSheetItems = [
+    {
+      icon: <CameraIcon />,
+      label: "Agregar Foto",
+      onPress: onPressCamera
+    }
+  ];
+  if (preset && preset.fields && preset.fields.length) {
+    // Only show the option to add details if preset fields are defined.
+    bottomSheetItems.push({
+      icon: <DetailsIcon />,
+      label: "Llenar Detalles",
+      onPress: onPressDetails
+    });
+  }
+  return (
+    <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.scrollViewContent}
+      >
+        {isNew && (
+          <LocationField locked={!isNew}>
+            {fieldProps => <LocationView {...fieldProps} />}
+          </LocationField>
+        )}
+        <CategoryView preset={preset} onPress={onPressCategory} />
+        <DescriptionField />
+        <PhotosView />
+      </ScrollView>
+      <BottomSheet items={bottomSheetItems} />
+    </View>
+  );
+};
 
 export default React.memo<Props>(ObservationEdit);
 
