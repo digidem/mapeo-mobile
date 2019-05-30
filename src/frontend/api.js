@@ -61,6 +61,14 @@ export function getMediaUrl(attachmentId: string, size: ImageSize): string {
   return `${BASE_URL}media/${size}/${attachmentId}`;
 }
 
+export function getMediaFileUri(attachmentId: string, size: ImageSize): string {
+  const dir = RNFS.DocumentDirectoryPath;
+  return `file://${dir}/media/${size}/${attachmentId.slice(
+    0,
+    2
+  )}/${attachmentId}`;
+}
+
 export function getMapStyleUrl(id: string): string {
   return `${BASE_URL}styles/${id}/style.json`;
 }

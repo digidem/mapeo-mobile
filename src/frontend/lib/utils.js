@@ -1,4 +1,6 @@
 // @flow
+import { fromLatLon } from "utm";
+
 import type { LocationContextType } from "../context/LocationContext";
 import type { ObservationValue } from "../context/ObservationsContext";
 import type { Preset, PresetsMap } from "../context/PresetsContext";
@@ -63,4 +65,34 @@ export function formatDate(date: string | number | Date): string {
   };
   // $FlowFixMe - flow doesn't know about this function yet.
   return date.toLocaleString(options);
+}
+
+export function formatCoords({
+  lon,
+  lat,
+  format = "utm"
+}: {
+  lon: number,
+  lat: number,
+  format?: "utm"
+}): string {
+  let { easting, northing, zoneNum, zoneLetter } = fromLatLon(lat, lon);
+  easting = leftPad(easting.toFixed(), 6, "0");
+  northing = leftPad(northing.toFixed(), 6, "0");
+  return `UTM ${zoneNum}${zoneLetter} ${easting} ${northing}`;
+}
+
+function leftPad(str: string, len: number, char: string): string {
+  // doesn't need to pad
+  len = len - str.length;
+  if (len <= 0) return str;
+
+  var pad = "";
+  while (true) {
+    if (len & 1) pad += char;
+    len >>= 1;
+    if (len) char += char;
+    else break;
+  }
+  return pad + str;
 }
