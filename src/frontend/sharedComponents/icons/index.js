@@ -23,7 +23,6 @@ type ImageIconProps = {
 export { default as GpsIcon } from "./GpsIcon";
 export { CategoryIcon, CategoryCircleIcon } from "./CategoryIcon";
 export { default as SaveIcon } from "./SaveIcon";
-export { default as DeleteIcon } from "./DeleteIcon";
 export { default as SyncIconCircle } from "./SyncIconCircle";
 
 export const AlertIcon = ({ size = 30, color = RED, style }: FontIconProps) => (
@@ -58,6 +57,10 @@ export const LaptopIcon = ({
 
 export const BackIcon = ({ size = 30, color, style }: FontIconProps) => (
   <MaterialIcon name="arrow-back" color={color} style={style} size={size} />
+);
+
+export const DeleteIcon = ({ size = 30, color, style }: FontIconProps) => (
+  <MaterialIcon name="delete-forever" color={color} style={style} size={size} />
 );
 
 export const ErrorIcon = ({
