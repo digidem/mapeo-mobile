@@ -42,53 +42,39 @@ class SaveButton extends React.PureComponent<Props, State> {
 
   handleSavePress = async () => {
     const { navigation, draft } = this.props;
+    log('Draft value > ', draft.value);
     const isNew = navigation.getParam("observationId") === undefined;
     if (!isNew) return this.doSave();
-    if (draft.value.lat === undefined && draft.value.lon === undefined) {
+    const altOptions = [
+      {
+        text: "Guardar",
+        onPress: this.doSave,
+        style: "default"
+      },
+      {
+        text: 'Ingrese manualmente',
+        onPress: () => this.props.navigation.navigate('ManualGpsScreen'),
+        style: 'cancel'
+      },
+      {
+        text: "Seguir esperando",
+        onPress: () => log("Cancelled save")
+      }
+    ];
+    const hasLocationData = draft.value.metadata &&
+    draft.value.metadata.location &&
+    draft.value.metadata.location.position &&
+    draft.value.metadata.location.position.coords;
+    // $FlowFixMe
+    const gpsAccurate = hasLocationData &&  draft.value.metadata.location.position.coords.accuracy < 0;
+    if ((hasLocationData && draft.value.locationSetManually === true) || gpsAccurate) {
+      this.doSave();
+    } else {
       Alert.alert(
         "Sin señal del GPS",
         "Esta observación no tiene ubicación. Puedes seguir esperando el GPS, o guardarlo sin ubicación",
-        [
-          {
-            text: "Seguir esperando",
-            onPress: () => log("Cancelled save"),
-            style: "cancel"
-          },
-          {
-            text: "Guardar",
-            onPress: this.doSave,
-            style: "default"
-          }
-        ]
+        altOptions
       );
-    } else if (
-      draft.value.metadata &&
-      draft.value.metadata.location &&
-      draft.value.metadata.location.position &&
-      draft.value.metadata.location.position.coords.accuracy > MINIMUM_ACCURACY
-    ) {
-      Alert.alert(
-        "Señal débil del GPS",
-        "La precisión del GPS está baja. Puedes seguir esperando que la precisión mejora, o guardar como es",
-        [
-          {
-            text: "Guardar",
-            onPress: this.doSave,
-            style: "default"
-          },
-          {
-            text: 'Manually Enter Position',
-            onPress: () => this.props.navigation.navigate('ManualGpsScreen'),
-            style: 'cancel'
-          },
-          {
-            text: "Seguir esperando",
-            onPress: () => log("Cancelled save")
-          }
-        ]
-      );
-    } else {
-      this.doSave();
     }
   };
 

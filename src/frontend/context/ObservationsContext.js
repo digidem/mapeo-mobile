@@ -19,6 +19,7 @@ export type ObservationAttachment = {
 export type ObservationValue = {
   lat?: number | null,
   lon?: number | null,
+  locationSetManually?: boolean,
   metadata?: {
     location?: LocationContextType | void
   },

@@ -64,6 +64,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
       draft.setValue({
         lat: locationData.latitude,
         lon: locationData.longitude,
+        locationSetManually: true,
         tags: {...draft.value.tags}
       });
       // $FlowFixMe
@@ -97,7 +98,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
               placeholderTextColor="silver"
               underlineColorAndroid="transparent"
               onChangeText={
-                zoneLetter => this.setState({zoneLetter})
+                zoneLetter => this.setState({zoneLetter: zoneLetter.trim()})
               }
               style={styles.input}
               value={this.state.zoneLetter}
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 10,
     color: BLACK
   },
   inputLabel: {

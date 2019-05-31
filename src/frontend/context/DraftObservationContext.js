@@ -116,7 +116,7 @@ class DraftObservationProvider extends React.Component<
 > {
   state = {
     photos: [],
-    value: { tags: {} },
+    value: { tags: {}, locationSetManually: false },
     addPhoto: this.addPhoto.bind(this),
     getPhotos: this.getPhotos.bind(this),
     setValue: this.setValue.bind(this),
