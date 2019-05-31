@@ -1,5 +1,7 @@
 // @flow
 import { fromLatLon } from "utm";
+import format from "date-fns/format";
+import esLocale from "date-fns/locale/es";
 
 import type { LocationContextType } from "../context/LocationContext";
 import type { ObservationValue } from "../context/ObservationsContext";
@@ -57,14 +59,7 @@ export function formatDate(date: string | number | Date): string {
   if (typeof date === "string" || typeof date === "number") {
     date = new Date(date);
   }
-  const options = {
-    weekday: "short",
-    year: "numeric",
-    month: "short",
-    day: "numeric"
-  };
-  // $FlowFixMe - flow doesn't know about this function yet.
-  return date.toLocaleString(options);
+  return format(date, "D [de] MMMM [de] YYYY HH:mm", { locale: esLocale });
 }
 
 export function formatCoords({
