@@ -1,18 +1,15 @@
 // @flow
 import React from "react";
 import {toLatLon} from 'utm';
-import { View, Text, TextInput, TouchableHighlight,  StyleSheet, ToastAndroid } from "react-native";
+import { View, Text, TextInput,  StyleSheet, ToastAndroid } from "react-native";
 import {BLACK, LIGHT_GREY} from '../lib/styles';
 import type { NavigationScreenConfigProps } from "react-navigation";
-import debug from 'debug';
 
 import { withDraft } from "../context/DraftObservationContext";
 import type { DraftObservationContext } from "../context/DraftObservationContext";
 
 import IconButton from "../sharedComponents/IconButton";
-import { SaveIcon } from "../sharedComponents/icons";
-
-const log = debug('mapeo:manualGPS');
+import { BackIcon, SaveIcon } from "../sharedComponents/icons";
 
 type Props = {
   ...$Exact<NavigationScreenConfigProps>,
@@ -26,9 +23,16 @@ type State = {
   northing: string
 }
 
+const HeaderLeft = ({ navigation }) => (
+  <IconButton onPress={() => navigation.pop()}>
+    <BackIcon />
+  </IconButton>
+);
+
 class ManualGpsScreen extends React.Component<Props, State> {
   static navigationOptions = ({ navigation }: any) => ({
     title: "Manual GPS",
+    headerLeft: React.memo(HeaderLeft),
     headerRight: (
       <IconButton onPress={navigation.getParam('handleSavePress')}>
         <SaveIcon inprogress={false} />
