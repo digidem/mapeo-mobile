@@ -2,6 +2,7 @@
 import React from "react";
 import {toLatLon} from 'utm';
 import { View, Text, TextInput, TouchableHighlight,  StyleSheet, ToastAndroid } from "react-native";
+import {BLACK, LIGHT_GREY} from '../lib/styles';
 import type { NavigationScreenConfigProps } from "react-navigation";
 import debug from 'debug';
 
@@ -72,53 +73,113 @@ class ManualGpsScreen extends React.Component<Props, State> {
 
   render() {
     return (
-      <View>
-        <Text>Zone Number</Text>
-        <TextInput
-          placeholder="DDD"
-          placeholderTextColor="silver"
-          underlineColorAndroid="transparent"
-          keyboardType="numeric"
-          onChangeText={
-            zoneNum => this.setState({zoneNum})
-          }
-          value={this.state.zoneNum}
-        />
-        <Text>Zone Letter</Text>
-        <TextInput
-          placeholder="DDD"
-          placeholderTextColor="silver"
-          underlineColorAndroid="transparent"
-          onChangeText={
-            zoneLetter => this.setState({zoneLetter})
-          }
-          value={this.state.zoneLetter}
-        />
-        <Text>Easting</Text>
-        <TextInput
-          placeholder="DDD"
-          placeholderTextColor="silver"
-          underlineColorAndroid="transparent"
-          keyboardType="numeric"
-          onChangeText={
-            easting => this.setState({easting})
-          }
-          value={this.state.easting}
-        />
-        <Text>Northing</Text>
-        <TextInput
-          placeholder="DDD"
-          placeholderTextColor="silver"
-          underlineColorAndroid="transparent"
-          keyboardType="numeric"
-          onChangeText={
-            northing => this.setState({northing})
-          }
-          value={this.state.northing}
-        />
+      <View style={styles.container}>
+        <Text style={styles.header}>UTM Coordinates</Text>
+        <View style={styles.row}>
+          <View style={styles.column}>
+            <Text style={styles.inputLabel}> Zone Number</Text>
+            <TextInput
+              placeholder="DD"
+              placeholderTextColor="silver"
+              underlineColorAndroid="transparent"
+              keyboardType="numeric"
+              onChangeText={
+                zoneNum => this.setState({zoneNum})
+              }
+              value={this.state.zoneNum}
+              style={styles.input}
+            />
+          </View>
+          <View style={styles.column}>
+            <Text style={styles.inputLabel}>Zone Letter</Text>
+            <TextInput
+              placeholder="S"
+              placeholderTextColor="silver"
+              underlineColorAndroid="transparent"
+              onChangeText={
+                zoneLetter => this.setState({zoneLetter})
+              }
+              style={styles.input}
+              value={this.state.zoneLetter}
+            />
+          </View>
+        </View>
+        <View style={styles.row}>
+          <View style={styles.column}>
+            <Text style={styles.inputLabel}>Easting</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <TextInput
+                placeholder="DDDDDD"
+                placeholderTextColor="silver"
+                underlineColorAndroid="transparent"
+                keyboardType="numeric"
+                onChangeText={
+                  easting => this.setState({easting})
+                }
+                style={styles.input}
+                value={this.state.easting}
+              />
+              <Text style={styles.suffix}>m E</Text>
+            </View>
+          </View>
+          <View style={styles.column}>
+            <Text style={styles.inputLabel}>Northing</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <TextInput
+                placeholder="DDDDDDD"
+                placeholderTextColor="silver"
+                underlineColorAndroid="transparent"
+                keyboardType="numeric"
+                onChangeText={
+                  northing => this.setState({northing})
+                }
+                style={styles.input}
+                value={this.state.northing}
+              />
+              <Text style={styles.suffix}>m N</Text>
+            </View>
+          </View>
+        </View>
       </View>
     );
   }
 };
 
 export default withDraft()(ManualGpsScreen)
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20
+  },
+  header: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginTop: 10,
+    marginBottom: 20,
+    color: BLACK
+  },
+  inputLabel: {
+    fontWeight: 'bold',
+    color: BLACK
+  },
+  input: {
+    borderColor: LIGHT_GREY,
+    borderWidth: 1,
+    padding: 10,
+    fontSize: 20,
+    marginTop: 10
+  },
+  row: {
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 10
+  },
+  column: {
+    marginRight: 20
+  },
+  suffix: {
+    fontSize: 20,
+    marginLeft: 5,
+    paddingTop: 5
+  }
+});
