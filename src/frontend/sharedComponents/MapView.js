@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import MapboxGL from "@react-native-mapbox/maps";
+import MapboxGL from "@react-native-mapbox-gl/maps";
 import debug from "debug";
 
 // import type { MapStyle } from "../types";
