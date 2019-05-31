@@ -184,7 +184,6 @@ class MapView extends React.Component<Props, State> {
           style={{ flex: 1 }}
           ref={this.handleMapViewRef}
           maxZoomLevel={22}
-          surfaceView
           logoEnabled={false}
           pitchEnabled={false}
           rotateEnabled={false}
@@ -192,7 +191,6 @@ class MapView extends React.Component<Props, State> {
           compassEnabled={false}
           styleURL={styleURL}
           onRegionWillChange={this.handleRegionChange}
-          regionWillChangeDebounceTime={200}
         >
           <MapboxGL.UserLocation visible />
           <MapboxGL.Camera
