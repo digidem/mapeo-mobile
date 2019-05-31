@@ -15,8 +15,6 @@
   observation is cancelled.
 - There is no way to add the name of person using the
   phone to an observation
-- There is no way to add additional fields to an
-  observation.
 - There is no way to stop the location of a new observation updating from the
   GPS except from saving the observation (e.g. the user needs to stay in the
   same location until they save the observation for the first time)
@@ -41,7 +39,6 @@
 
 #### I8n (translations)
 
-- Full dates are in English
 - No English translation, only in Spanish
 
 #### Misc
