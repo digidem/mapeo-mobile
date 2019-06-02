@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import debug from "debug";
 
-import { getMediaUrl } from "../api";
+import api from "../api";
 import { LIGHT_GREY } from "../lib/styles";
 import { AlertIcon } from "./icons";
 import type { Photo } from "../context/DraftObservationContext";
@@ -50,7 +50,7 @@ export class Thumbnail extends React.PureComponent<
   render() {
     const { id, style, size } = this.props;
     const uri = id
-      ? getMediaUrl(id, "thumbnail")
+      ? api.getMediaUrl(id, "thumbnail")
       : this.props.thumbnailUri || undefined;
     const error = this.props.error || this.state.error;
     return (
