@@ -31,7 +31,8 @@ type State = {
  * the user so they know something is wrong.
  */
 class AppLoading extends React.Component<Props, State> {
-  timeoutId: TimeoutID | null;
+  _timeoutId: TimeoutID | null;
+  _subscription: { remove: () => any };
   state = {
     serverStatus: null
   };
@@ -45,12 +46,12 @@ class AppLoading extends React.Component<Props, State> {
       PERMISSIONS.READ_EXTERNAL_STORAGE,
       PERMISSIONS.WRITE_EXTERNAL_STORAGE
     ]);
-    this.timeoutId = setTimeout(() => {
+    this._timeoutId = setTimeout(() => {
       SplashScreen.hide();
-      this.timeoutId = null;
+      this._timeoutId = null;
       log("hiding splashscreen");
     }, 500);
-    this._sub = api.addServerStateListener(this.handleStatusChange);
+    this._subscription = api.addServerStateListener(this.handleStatusChange);
   }
 
   componentDidUpdate() {
@@ -61,9 +62,9 @@ class AppLoading extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    this._sub.remove();
-    if (!this.timeoutId) return;
-    clearTimeout(this.timeoutId);
+    this._subscription.remove();
+    if (!this._timeoutId) return;
+    clearTimeout(this._timeoutId);
     SplashScreen.hide();
   }
 
