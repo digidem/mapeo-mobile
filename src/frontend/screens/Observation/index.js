@@ -31,7 +31,16 @@ const Observation = ({ navigation }: NavigationScreenConfigProps) => (
   <ObservationPreset id={navigation.getParam("observationId")}>
     {({ observation, preset }) =>
       observation ? (
-        <ObservationView observation={observation} preset={preset} />
+        <ObservationView
+          observation={observation}
+          preset={preset}
+          onPressPhoto={photoIndex =>
+            navigation.navigate("PhotosModal", {
+              photoIndex: photoIndex,
+              observationId: navigation.getParam("observationId")
+            })
+          }
+        />
       ) : (
         <ObservationNotFound />
       )

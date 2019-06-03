@@ -27,6 +27,15 @@ class ObservationEdit extends React.Component<NavigationScreenConfigProps> {
     this.props.navigation.navigate("ObservationDetails", { question: 1 });
   };
 
+  handlePhotoPress = (photoIndex: number) => {
+    const { navigation } = this.props;
+    navigation.navigate("PhotosModal", {
+      photoIndex: photoIndex,
+      observationId: navigation.getParam("observationId"),
+      editing: true
+    });
+  };
+
   render() {
     const { navigation } = this.props;
     // It's important that the props are shallow-equal between renders.
@@ -47,6 +56,7 @@ class ObservationEdit extends React.Component<NavigationScreenConfigProps> {
                 onPressCategory={this.handleCategoryPress}
                 onPressCamera={this.handleCameraPress}
                 onPressDetails={this.handleDetailsPress}
+                onPressPhoto={this.handlePhotoPress}
                 preset={getPreset(value)}
               />
             )}

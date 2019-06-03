@@ -15,6 +15,7 @@ import ObservationDetails from "./screens/ObservationDetails";
 import CategoryChooser from "./screens/CategoryChooser";
 import GpsModal from "./screens/GpsModal";
 import SyncModal from "./screens/SyncModal";
+import PhotosModal from "./screens/PhotosModal";
 import IconButton from "./sharedComponents/IconButton";
 import { BackIcon, CloseIcon } from "./sharedComponents/icons";
 
@@ -135,7 +136,8 @@ const RootStack = createStackNavigator(
     Main: MainStack,
     NewObservation: ObservationsStack,
     GpsModal: GpsModal,
-    SyncModal: SyncModal
+    SyncModal: SyncModal,
+    PhotosModal: PhotosModal
   },
   {
     initialRouteName: "Main",

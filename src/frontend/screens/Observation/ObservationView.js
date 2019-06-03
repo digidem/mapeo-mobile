@@ -38,7 +38,8 @@ const FieldView = ({ label, answer }) => (
 
 type ODVProps = {
   observation: Observation,
-  preset?: PresetWithFields
+  preset?: PresetWithFields,
+  onPressPhoto: (photoIndex: number) => any
 };
 
 class ObservationView extends React.Component<ODVProps> {
@@ -61,7 +62,7 @@ class ObservationView extends React.Component<ODVProps> {
   };
 
   render() {
-    const { observation, preset } = this.props;
+    const { observation, preset, onPressPhoto } = this.props;
     const { lat, lon, attachments } = observation.value;
     // Currently only show photo attachments
     const photos = filterPhotosFromAttachments(attachments);
@@ -104,7 +105,9 @@ class ObservationView extends React.Component<ODVProps> {
             <InsetMapView style={{ height: 240 }} />
           </View>
         ) */}
-          {!!photos.length && <ThumbnailScrollView photos={photos} />}
+          {!!photos.length && (
+            <ThumbnailScrollView photos={photos} onPressPhoto={onPressPhoto} />
+          )}
           {preset && preset.fields && preset.fields.length > 0 && (
             <View style={styles.section}>
               <View

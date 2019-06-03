@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import debug from "debug";
 
+import { TouchableOpacity } from "../sharedComponents/Touchables";
 import api from "../api";
 import { LIGHT_GREY } from "../lib/styles";
 import { AlertIcon } from "./icons";
@@ -22,6 +23,7 @@ const log = debug("Thumbnail");
 
 type ThumbnailProps = {
   photo: Photo,
+  onPress: () => any,
   style?: Style<typeof View>,
   size?: number
 };
@@ -41,19 +43,20 @@ export class Thumbnail extends React.PureComponent<
   };
 
   render() {
-    const { photo, style, size } = this.props;
+    const { photo, style, size, onPress } = this.props;
     const uri =
       typeof photo.id === "string"
         ? api.getMediaUrl(photo.id, "thumbnail")
         : photo.thumbnailUri || undefined;
     const error = photo.error || this.state.error;
     return (
-      <View
+      <TouchableOpacity
         style={[
           styles.thumbnailContainer,
           { width: size, height: size },
           style
         ]}
+        onPress={onPress}
       >
         {photo.capturing && !error ? (
           <ActivityIndicator />
@@ -66,13 +69,14 @@ export class Thumbnail extends React.PureComponent<
             style={{ width: size, height: size }}
           />
         )}
-      </View>
+      </TouchableOpacity>
     );
   }
 }
 
 type Props = {
-  photos: Array<Photo>
+  photos: Array<Photo>,
+  onPressPhoto: (index: number) => any
 };
 
 class ThumbnailScrollView extends React.PureComponent<Props> {
@@ -90,7 +94,7 @@ class ThumbnailScrollView extends React.PureComponent<Props> {
     }
   }
   render() {
-    const { photos } = this.props;
+    const { photos, onPressPhoto } = this.props;
     if (photos.length === 0) return null;
     const windowWidth = Dimensions.get("window").width;
     // Get a thumbnail size so there is always 1/2 of a thumbnail off the right of
@@ -112,6 +116,7 @@ class ThumbnailScrollView extends React.PureComponent<Props> {
               photo={photo}
               style={styles.thumbnail}
               size={size}
+              onPress={() => onPressPhoto(photos.indexOf(photo))}
             />
           ))}
       </ScrollView>

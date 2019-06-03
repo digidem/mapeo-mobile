@@ -74,6 +74,7 @@ type Props = {
   onPressCategory: () => any,
   onPressCamera: () => any,
   onPressDetails: () => any,
+  onPressPhoto: (index: number) => any,
   isNew: boolean,
   preset?: PresetWithFields
 };
@@ -83,7 +84,8 @@ export const ObservationEdit = ({
   preset,
   onPressCategory,
   onPressCamera,
-  onPressDetails
+  onPressDetails,
+  onPressPhoto
 }: Props) => {
   const bottomSheetItems = [
     {
@@ -113,7 +115,7 @@ export const ObservationEdit = ({
         )}
         <CategoryView preset={preset} onPress={onPressCategory} />
         <DescriptionField />
-        <PhotosView />
+        <PhotosView onPressPhoto={onPressPhoto} />
       </ScrollView>
       <BottomSheet items={bottomSheetItems} />
     </View>
