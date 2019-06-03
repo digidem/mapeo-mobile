@@ -3,7 +3,7 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Camera } from "expo-camera";
 import debug from "debug";
-import { DeviceMotion } from "expo-sensors";
+import { Accelerometer } from "expo-sensors";
 import ImageResizer from "react-native-image-resizer";
 import RNFS from "react-native-fs";
 
@@ -53,12 +53,12 @@ class CameraView extends React.Component<Props, State> {
     this.cameraRef = React.createRef();
   }
 
-  componentDidMount() {
-    DeviceMotion.isAvailableAsync().then(motionAvailable => {
+  async componentDidMount() {
+    Accelerometer.isAvailableAsync().then(motionAvailable => {
       if (!motionAvailable) return;
-      DeviceMotion.setUpdateInterval(1000);
-      this.subscription = DeviceMotion.addListener(motion => {
-        this.acceleration = motion.accelerationIncludingGravity;
+      Accelerometer.setUpdateInterval(1000);
+      this.subscription = Accelerometer.addListener(acc => {
+        this.acceleration = acc;
       });
     });
   }
@@ -162,31 +162,33 @@ function rotatePhoto(acc: Acceleration) {
   };
 }
 
-const GRAVITY_AT_45_DEG = Math.sin(Math.PI / 4) * 9.81;
+const ACC_AT_45_DEG = Math.sin(Math.PI / 4);
 
 // Use the accelerometer to calculate the photo rotation, rotating as the user
 // would expect based on the angle of the screen.
-function getPhotoRotation({ x, y, z }: Acceleration) {
+function getPhotoRotation(acc?: Acceleration) {
+  if (!acc) return 0;
+  const { x, y, z } = acc;
   let rotation = 0;
-  if (z < -GRAVITY_AT_45_DEG || z > GRAVITY_AT_45_DEG) {
+  if (z < -ACC_AT_45_DEG || z > ACC_AT_45_DEG) {
     // camera is pointing up or down
     if (Math.abs(y) > Math.abs(x)) {
       // camera is vertical
-      if (y <= 0) rotation = 0;
-      else rotation = 180;
+      if (y <= 0) rotation = 180;
+      else rotation = 0;
     } else {
       // camera is horizontal
-      if (x >= 0) rotation = 90;
-      else rotation = -90;
+      if (x >= 0) rotation = -90;
+      else rotation = 90;
     }
-  } else if (x > -GRAVITY_AT_45_DEG && x < GRAVITY_AT_45_DEG) {
+  } else if (x > -ACC_AT_45_DEG && x < ACC_AT_45_DEG) {
     // camera is vertical
-    if (y <= 0) rotation = 0;
-    else rotation = 180;
+    if (y <= 0) rotation = 180;
+    else rotation = 0;
   } else {
     // camera is horizontal
-    if (x >= 0) rotation = 90;
-    else rotation = -90;
+    if (x >= 0) rotation = -90;
+    else rotation = 90;
   }
   return rotation;
 }
