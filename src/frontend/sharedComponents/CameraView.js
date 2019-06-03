@@ -152,12 +152,15 @@ function rotatePhoto(acc: Acceleration) {
       })
       .then(() => {
         log("Renamed captured photo");
+        RNFS.unlink(originalUri).then(() => log("Cleaned up un-rotated photo"));
         return { uri: resizedUri };
+      })
+      .catch(() => {
+        log("Error rotating photo, returning un-rotated photo");
+        // Some devices throw an error trying to rotate the photo, so worst-case
+        // we just don't rotate
+        return { uri: originalUri, rotate: rotation };
       });
-    // Cleanup the original image even if there is an error
-    resizePromise.finally(() => {
-      RNFS.unlink(originalUri).then(() => log("Cleaned up un-rotated photo"));
-    });
     return resizePromise;
   };
 }

@@ -60,7 +60,8 @@ export type Photo = SavedPhoto | DraftPhoto;
 export type CapturePromise = Promise<{
   uri: string,
   width: number,
-  height: number
+  height: number,
+  rotate?: number
 }>;
 
 export type DraftObservationContext = {|
@@ -168,10 +169,15 @@ class DraftObservationProvider extends React.Component<
       const index = this.state.photos.length - 1;
       // If the photo is still being captured
       const photo: DraftPhoto = { capturing: false };
+      let neededRotation;
       // If we clear the draft we need to track any pending promises and cancel
       // them before they setState
       const capturePromise: any = capture
-        .then(({ uri }) => {
+        .then(({ uri, rotate }) => {
+          // rotate will be defined if the original photo failed to rotate (this
+          // happens on low-memory devices) so we rotate the preview and
+          // thumbnail (rotating the smaller images seems to work ok).
+          neededRotation = rotate;
           if (capturePromise.cancelled) throw new Error("Cancelled");
           photo.originalUri = uri;
           return ImageResizer.createResizedImage(
@@ -179,7 +185,8 @@ class DraftObservationProvider extends React.Component<
             THUMBNAIL_SIZE,
             THUMBNAIL_SIZE,
             "JPEG",
-            THUMBNAIL_QUALITY
+            THUMBNAIL_QUALITY,
+            neededRotation
           );
         })
         .then(({ uri }) => {
@@ -191,7 +198,8 @@ class DraftObservationProvider extends React.Component<
             PREVIEW_SIZE,
             PREVIEW_SIZE,
             "JPEG",
-            PREVIEW_QUALITY
+            PREVIEW_QUALITY,
+            neededRotation
           );
         })
         .then(({ uri }) => {
