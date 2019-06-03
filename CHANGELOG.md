@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-alpha.3](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-alpha.2...v1.1.0-alpha.3) (2019-06-03)
+
+
+### Bug Fixes
+
+* **photos:** Attempt to fix accasional failure of photos by increasing memory for app ([bce7328](https://github.com/digidem/mapeo-mobile/commit/bce7328))
+* reduce background battery usage by ensuring GPS is turned off in background ([ec2de6e](https://github.com/digidem/mapeo-mobile/commit/ec2de6e))
+* **photos:** fix photo error on old devices due to not reading rotation of phone ([80f5943](https://github.com/digidem/mapeo-mobile/commit/80f5943))
+* **photos:** Fix photo errors due to out-of-memory on low-memory devices ([52f722d](https://github.com/digidem/mapeo-mobile/commit/52f722d))
+* **thumbnails:** fix thumbnail view ([04b4dd0](https://github.com/digidem/mapeo-mobile/commit/04b4dd0))
+
+
+### Features
+
+* Don't reload app when switching away & returning ([0974a83](https://github.com/digidem/mapeo-mobile/commit/0974a83))
+* **photos:** Add scaled photo view 🖼 🙌 ([ae09fd3](https://github.com/digidem/mapeo-mobile/commit/ae09fd3))
+* Reduce battery usage by removing animated GPS icon ([cb7853b](https://github.com/digidem/mapeo-mobile/commit/cb7853b))
+
+
+
 ## [1.1.0-alpha.2](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-alpha.1...v1.1.0-alpha.2) (2019-05-31)
 
 
