@@ -15,7 +15,7 @@ import { promiseTimeout } from "./lib/utils";
 import STATUS from "./../backend/constants";
 
 import type { IconSize, ImageSize } from "./types";
-import type { Photo } from "./context/DraftObservationContext";
+import type { DraftPhoto } from "./context/DraftObservationContext";
 import type { Observation as ServerObservation } from "mapeo-schema";
 
 export type ServerStatus = $Keys<typeof STATUS>;
@@ -221,7 +221,7 @@ export function Api({
       originalUri,
       previewUri,
       thumbnailUri
-    }: Photo): Promise<{| id: string |}> {
+    }: DraftPhoto): Promise<{| id: string |}> {
       if (!originalUri || !previewUri || !thumbnailUri)
         return Promise.reject(
           new Error("Missing uri for full image or thumbnail to save to server")

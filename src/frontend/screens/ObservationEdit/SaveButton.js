@@ -13,7 +13,11 @@ import type {
   ObservationAttachment,
   ObservationsContext
 } from "../../context/ObservationsContext";
-import type { DraftObservationContext } from "../../context/DraftObservationContext";
+import type {
+  DraftObservationContext,
+  Photo,
+  DraftPhoto
+} from "../../context/DraftObservationContext";
 
 type Props = {
   navigation: NavigationScreenProp<{}>,
@@ -92,14 +96,14 @@ class SaveButton extends React.PureComponent<Props, State> {
     );
     this.setState({ saving: true });
     try {
-      const photos = await draft.getPhotos();
-      const toCreate = photos.filter(p => !p.id && !p.deleted && !p.error);
+      const photos: Array<Photo> = await draft.getPhotos();
+      const toCreate = getPhotosToCreate(photos);
       // const toDelete = photos.filter(p => p.id && p.deleted);
 
       // A little bit hairy this one... we basically want to keep the original
       // attachments except those which have been marked deleted in the draft
       const existingAttachments = (draft.value.attachments || []).filter(a => {
-        const attachmentInDraft = photos.find(p => p.id === a.id);
+        const attachmentInDraft = photos.find(p => p.id && p.id === a.id);
         return !(attachmentInDraft && attachmentInDraft.deleted);
       });
 
@@ -143,6 +147,16 @@ function addMimeType(attachment: { id: string }): ObservationAttachment {
     ...attachment,
     type: "image/jpeg"
   };
+}
+
+// A draft observation has both existing photos (if this is an edit) and newly
+// added photos, some of which might be deleted by the user after being added,
+// and others which might have had an error. This function gets on the
+// non-error, non-deleted draft photos, e.g. the ones that need to be saved to
+// Mapeo Core
+function getPhotosToCreate(photos: Array<Photo>): Array<DraftPhoto> {
+  // $FlowFixMe - flow seems to have trouble with array filters and type refinement
+  return photos.filter(p => !p.id && !p.deleted && !p.error);
 }
 
 // const styles = StyleSheet.create({

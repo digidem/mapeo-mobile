@@ -8,7 +8,10 @@ import debounce from "lodash/debounce";
 import AsyncStorage from "@react-native-community/async-storage";
 
 import { getDisplayName } from "../lib/utils";
-import type { ObservationValue } from "./ObservationsContext";
+import type {
+  ObservationValue,
+  ObservationAttachment
+} from "./ObservationsContext";
 
 // WARNING: This needs to change if we change the draft data structure
 const STORE_KEY = "@MapeoDraft@2";
@@ -19,15 +22,21 @@ const PREVIEW_QUALITY = 30;
 
 const log = debug("mapeo:DraftObservationContext");
 
-/**
- * A Photo does not become an observation attachment until it is actually saved.
- * Only then are deleted attachments removed from disk, so that we can support
- * cancellation of any edits. During photo capture a preview is available to
- * show in the UI while the full-res photo is saved.
- */
-export type Photo = {
-  // id of the photo in the Mapeo database, only set if this is already saved
-  id?: string,
+// Photo from an existing observation that are already saved
+export type SavedPhoto = {|
+  // id of the photo in the Mapeo database
+  id: string,
+  type?: "image/jpeg",
+  // If an image is to be deleted
+  deleted?: boolean
+|};
+
+// Photo added to a draft observation, that has not yet been saved
+// It is added to the draft observation as soon as capturing starts, when it
+// does not yet have any image associated with it
+export type DraftPhoto = {|
+  // If the photo is still being captured
+  capturing: boolean,
   // uri to a local thumbnail image (this is uploaded to Mapeo server)
   thumbnailUri?: string,
   // uri to a local preview image
@@ -37,10 +46,16 @@ export type Photo = {
   // If an image is to be deleted
   deleted?: boolean,
   // If there was any kind of error on image capture
-  error?: boolean,
-  // If the photo is still being captured
-  capturing?: boolean
-};
+  error?: boolean
+|};
+
+/**
+ * A Photo does not become an observation attachment until it is actually saved.
+ * Only then are deleted attachments removed from disk, so that we can support
+ * cancellation of any edits. During photo capture a preview is available to
+ * show in the UI while the full-res photo is saved.
+ */
+export type Photo = SavedPhoto | DraftPhoto;
 
 export type CapturePromise = Promise<{
   uri: string,
@@ -49,7 +64,7 @@ export type CapturePromise = Promise<{
 }>;
 
 export type DraftObservationContext = {|
-  photos: Photo[],
+  photos: Array<Photo>,
   value: ObservationValue,
   /**
    * Adds a photo to the draft observation. The first argument is a promise
@@ -152,7 +167,7 @@ class DraftObservationProvider extends React.Component<
     function onSetState() {
       const index = this.state.photos.length - 1;
       // If the photo is still being captured
-      const photo: Photo = { capturing: false };
+      const photo: DraftPhoto = { capturing: false };
       // If we clear the draft we need to track any pending promises and cancel
       // them before they setState
       const capturePromise: any = capture
@@ -229,9 +244,7 @@ class DraftObservationProvider extends React.Component<
     // Signal any pending photo captures to cancel:
     this.pending.forEach(p => (p.cancelled = true));
     this.pending = [];
-    const photos = (value.attachments || [])
-      .filter(a => !a.type || a.type === "image/jpeg")
-      .map(a => ({ ...a }));
+    const photos = filterPhotosFromAttachments(value.attachments);
     this.setState(
       {
         photos: photos,
@@ -278,6 +291,25 @@ function splice(arr: Array<*>, index: number, value: any) {
 
 // If we crash during photo capture and restore state from async storage, then,
 // unfortunately, any photos that did not finish capturing are lost :(
-function filterCapturedPhotos(photo: Photo) {
-  return photo.id || photo.originalUri;
+function filterCapturedPhotos(photo: Photo): boolean {
+  if (typeof photo.id === "string") return true;
+  if (typeof photo.originalUri === "string") return true;
+  return false;
+}
+
+// Filter photos from an array of observation attachments (we could have videos
+// and other media types)
+export function filterPhotosFromAttachments(
+  attachments: Array<ObservationAttachment> = []
+): Array<Photo> {
+  return attachments.reduce((acc, att) => {
+    if (
+      att.type === "image/jpeg" ||
+      // This is needed for backwards compat, because early versions did not
+      // save a type
+      (att.type === undefined && /(\.jpg|\.jpeg)$/i.test(att.id))
+    )
+      acc.push({ id: att.id, type: att.type });
+    return acc;
+  }, []);
 }

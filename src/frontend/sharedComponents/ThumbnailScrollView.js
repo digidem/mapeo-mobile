@@ -14,24 +14,17 @@ import api from "../api";
 import { LIGHT_GREY } from "../lib/styles";
 import { AlertIcon } from "./icons";
 import type { Photo } from "../context/DraftObservationContext";
-import type { ObservationAttachment } from "../context/ObservationsContext";
 import type { Style } from "../types";
 
 const spacing = 10;
 const minSize = 150;
 const log = debug("Thumbnail");
 
-type ThumbnailProps =
-  | {
-      ...Photo,
-      style?: Style<typeof View>,
-      size?: number
-    }
-  | {
-      ...ObservationAttachment,
-      style?: Style<typeof View>,
-      size?: number
-    };
+type ThumbnailProps = {
+  photo: Photo,
+  style?: Style<typeof View>,
+  size?: number
+};
 
 export class Thumbnail extends React.PureComponent<
   ThumbnailProps,
@@ -48,11 +41,12 @@ export class Thumbnail extends React.PureComponent<
   };
 
   render() {
-    const { id, style, size } = this.props;
-    const uri = id
-      ? api.getMediaUrl(id, "thumbnail")
-      : this.props.thumbnailUri || undefined;
-    const error = this.props.error || this.state.error;
+    const { photo, style, size } = this.props;
+    const uri =
+      typeof photo.id === "string"
+        ? api.getMediaUrl(photo.id, "thumbnail")
+        : photo.thumbnailUri || undefined;
+    const error = photo.error || this.state.error;
     return (
       <View
         style={[
@@ -61,7 +55,7 @@ export class Thumbnail extends React.PureComponent<
           style
         ]}
       >
-        {this.props.capturing && !error ? (
+        {photo.capturing && !error ? (
           <ActivityIndicator />
         ) : error || typeof uri !== "string" ? (
           <AlertIcon />
@@ -78,7 +72,7 @@ export class Thumbnail extends React.PureComponent<
 }
 
 type Props = {
-  photos: Array<Photo | ObservationAttachment>
+  photos: Array<Photo>
 };
 
 class ThumbnailScrollView extends React.PureComponent<Props> {
@@ -111,12 +105,11 @@ class ThumbnailScrollView extends React.PureComponent<Props> {
         style={styles.photosContainer}
       >
         {photos
-          // $FlowFixMe
           .filter(photo => !photo.deleted)
           .map((photo, index) => (
             <Thumbnail
               key={index}
-              {...photo}
+              photo={photo}
               style={styles.thumbnail}
               size={size}
             />

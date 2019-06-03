@@ -16,6 +16,7 @@ import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { DetailsIcon, CategoryIcon } from "../../sharedComponents/icons";
 import { formatDate, formatCoords } from "../../lib/utils";
+import { filterPhotosFromAttachments } from "../../context/DraftObservationContext";
 import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
 
@@ -62,10 +63,8 @@ class ObservationView extends React.Component<ODVProps> {
   render() {
     const { observation, preset } = this.props;
     const { lat, lon, attachments } = observation.value;
-    // Assume attachments without a type are photos
-    const photos =
-      attachments &&
-      attachments.filter(a => !a.type || a.type === "image/jpeg");
+    // Currently only show photo attachments
+    const photos = filterPhotosFromAttachments(attachments);
     return (
       <ScrollView style={styles.container}>
         <>
@@ -105,8 +104,7 @@ class ObservationView extends React.Component<ODVProps> {
             <InsetMapView style={{ height: 240 }} />
           </View>
         ) */}
-          {/* $FlowFixMe - not sure why flow is not getting this type */}
-          {photos && <ThumbnailScrollView photos={photos} />}
+          {!!photos.length && <ThumbnailScrollView photos={photos} />}
           {preset && preset.fields && preset.fields.length > 0 && (
             <View style={styles.section}>
               <View
