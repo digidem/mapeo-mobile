@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import { AppState } from "react-native";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-community/async-storage";
 import debug from "debug";
@@ -52,6 +53,8 @@ export type LocationContextType = {
   // True if there is some kind of error getting the device location
   error: boolean
 };
+
+type AppStateType = "active" | "background" | "inactive";
 
 type Props = {
   children: React.Node,
@@ -111,6 +114,7 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
 
   async componentDidMount() {
     this.updateStatus();
+    AppState.addEventListener("change", this.handleAppStateChange);
     try {
       const savedPosition = await AsyncStorage.getItem(STORE_KEY);
       if (savedPosition == null) {
@@ -147,7 +151,7 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
       if (!hasLocationPermission) return;
       clearTimeout(this._timeoutId);
       const provider = await Location.getProviderStatusAsync();
-      log("Provider status", provider);
+      // log("Provider status", provider);
       if (provider && provider.locationServicesEnabled && !this._watch) {
         this._watch = await Location.watchPositionAsync(
           positionOptions,
@@ -166,6 +170,20 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
   };
 
   componentWillUnmount() {
+    this.stopWatchingLocation();
+    AppState.removeEventListener("change", this.handleAppStateChange);
+  }
+
+  handleAppStateChange = (nextAppState: AppStateType) => {
+    if (nextAppState === "active") {
+      this.updateStatus();
+    } else {
+      this.stopWatchingLocation();
+    }
+  };
+
+  stopWatchingLocation() {
+    log("Stopping GPS watch");
     if (this._watch) this._watch.remove();
     clearTimeout(this._timeoutId);
     this._watch = null;
