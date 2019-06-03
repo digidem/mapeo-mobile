@@ -3,7 +3,6 @@ import React from "react";
 import { View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-import Progress from "./Progress";
 import type { LocationStatus } from "../../lib/utils";
 
 const renderError = () => (
@@ -32,11 +31,11 @@ const renderError = () => (
     />
   </View>
 );
-const renderProgress = (color: string) => <Progress size={14} color={color} />;
-const renderGood = () => (
+
+const renderIcon = (color = "#00FF02") => (
   <View
     style={{
-      backgroundColor: "#00FF02",
+      backgroundColor: color,
       margin: 1.5,
       borderRadius: 7,
       width: 14,
@@ -52,12 +51,12 @@ const GpsIcon = ({ variant }: Props) => {
     case "error":
       return renderError();
     case "searching":
-      return renderProgress("#0166FF");
+      return renderIcon("#0166FF");
     case "improving":
-      return renderProgress("#00FF02");
+      return renderIcon("#00FF02");
     case "good":
     default:
-      return renderGood();
+      return renderIcon();
   }
 };
 
