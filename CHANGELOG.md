@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-alpha.4](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-alpha.3...v1.1.0-alpha.4) (2019-06-04)
+
+
+### Features
+
+* New home tab view: Home view remembers camera or map view when returning to it; should fix battery usage when in app is in background & speed up app ([8057481](https://github.com/digidem/mapeo-mobile/commit/8057481))
+
+
+
 ## [1.1.0-alpha.3](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-alpha.2...v1.1.0-alpha.3) (2019-06-03)
 
 
