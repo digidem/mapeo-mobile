@@ -1,19 +1,22 @@
 // @flow
 import React from "react";
-import { toLatLon } from "utm";
+import { toLatLon, fromLatLon } from "utm";
 import { View, Text, TextInput, StyleSheet, ToastAndroid } from "react-native";
 import { BLACK, LIGHT_GREY } from "../lib/styles";
 import type { NavigationScreenConfigProps } from "react-navigation";
 
 import { withDraft } from "../context/DraftObservationContext";
 import type { DraftObservationContext } from "../context/DraftObservationContext";
+import { withLocation } from "../context/LocationContext";
+import type { LocationContextType } from "../context/LocationContext";
 
 import IconButton from "../sharedComponents/IconButton";
 import { BackIcon, SaveIcon } from "../sharedComponents/icons";
 
 type Props = {
   ...$Exact<NavigationScreenConfigProps>,
-  draft: DraftObservationContext
+  draft: DraftObservationContext,
+  location: LocationContextType
 };
 
 type State = {
@@ -40,12 +43,24 @@ class ManualGpsScreen extends React.Component<Props, State> {
     )
   });
 
-  state = {
-    zoneNum: "",
-    zoneLetter: "",
-    easting: "",
-    northing: ""
-  };
+  constructor(props) {
+    super(props);
+    let zoneNum;
+    let zoneLetter;
+    const { location } = this.props;
+    if (location.savedPosition) {
+      const { latitude, longitude } = location.savedPosition.coords;
+      try {
+        ({ zoneNum, zoneLetter } = fromLatLon(latitude, longitude));
+      } catch (e) {}
+    }
+    this.state = {
+      zoneNum: zoneNum || "",
+      zoneLetter: zoneLetter || "",
+      easting: "",
+      northing: ""
+    };
+  }
 
   componentDidMount() {
     this.props.navigation.setParams({ handleSavePress: this.onSave });
@@ -148,7 +163,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
   }
 }
 
-export default withDraft()(ManualGpsScreen);
+export default withDraft()(withLocation(ManualGpsScreen));
 
 const styles = StyleSheet.create({
   container: {
