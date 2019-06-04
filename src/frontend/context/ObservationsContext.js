@@ -21,7 +21,8 @@ export type ObservationValue = {
   lon?: number | null,
   locationSetManually?: boolean,
   metadata?: {
-    location?: LocationContextType | void
+    location?: LocationContextType | void,
+    manualLocation?: boolean
   },
   refs?: Array<{ id: string }>,
   attachments?: Array<ObservationAttachment>,

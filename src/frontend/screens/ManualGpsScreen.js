@@ -87,7 +87,10 @@ class ManualGpsScreen extends React.Component<Props, State> {
       draft.setValue({
         lat: locationData.latitude,
         lon: locationData.longitude,
-        locationSetManually: true,
+        metadata: {
+          ...draft.value.metadata,
+          manualLocation: true
+        },
         tags: draft.value.tags
       });
       // $FlowFixMe

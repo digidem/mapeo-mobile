@@ -41,8 +41,11 @@ class SaveButton extends React.PureComponent<Props, State> {
   };
 
   handleSavePress = async () => {
-    const { navigation, draft } = this.props;
-    log("Draft value > ", draft.value);
+    const {
+      navigation,
+      draft: { value }
+    } = this.props;
+    log("Draft value > ", value);
     const isNew = navigation.getParam("observationId") === undefined;
     if (!isNew) return this.doSave();
     const altOptions = [
@@ -61,24 +64,29 @@ class SaveButton extends React.PureComponent<Props, State> {
         onPress: () => log("Cancelled save")
       }
     ];
-    const hasLocationData =
-      draft.value.metadata &&
-      draft.value.metadata.location &&
-      draft.value.metadata.location.position &&
-      draft.value.metadata.location.position.coords;
-    // $FlowFixMe
+    const hasLocation = value.lat !== undefined && value.lon !== undefined;
     const gpsAccurate =
-      hasLocationData &&
-      draft.value.metadata.location.position.coords.accuracy < 0;
-    if (
-      (hasLocationData && draft.value.locationSetManually === true) ||
-      gpsAccurate
-    ) {
+      value.metadata &&
+      value.metadata.location &&
+      value.metadata.location.position &&
+      value.metadata.location.position.coords.accuracy < MINIMUM_ACCURACY;
+    const locationSetManually = value.metadata && value.metadata.manualLocation;
+    if (hasLocation && (locationSetManually || gpsAccurate)) {
+      // Observation has a location, which is either from an accurate GPS
+      // reading, or is manually entered
       this.doSave();
-    } else {
+    } else if (!hasLocation) {
+      // Observation doesn't have a location
       Alert.alert(
         "Sin señal del GPS",
         "Esta observación no tiene ubicación. Puedes seguir esperando el GPS, o guardarlo sin ubicación",
+        altOptions
+      );
+    } else {
+      // Inaccurate GPS reading
+      Alert.alert(
+        "Señal débil del GPS",
+        "La precisión del GPS está baja. Puedes seguir esperando que la precisión mejora, o guardar como es",
         altOptions
       );
     }
