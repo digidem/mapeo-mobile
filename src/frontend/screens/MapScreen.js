@@ -2,17 +2,27 @@
 import * as React from "react";
 import { View } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
-import type { NavigationScreenConfigProps } from "react-navigation";
+import debug from "debug";
+import {
+  NavigationActions,
+  type NavigationScreenConfigProps
+} from "react-navigation";
 
 import MapView from "../sharedComponents/MapView";
+import HomeHeader from "../sharedComponents/HomeHeader";
 import ObservationsContext from "../context/ObservationsContext";
 import LocationContext from "../context/LocationContext";
+import {
+  withDraft,
+  type DraftObservationContext as DraftContextType
+} from "../context/DraftObservationContext";
 import api from "../api";
+
+const log = debug("mapeo:MapScreen");
 
 type Props = {
   ...$Exact<NavigationScreenConfigProps>,
-  isFocused: boolean,
-  onAddPress: () => void
+  newDraft: $ElementType<DraftContextType, "newDraft">
 };
 
 class MapStyleProvider extends React.Component<
@@ -43,8 +53,19 @@ class MapScreen extends React.Component<Props> {
   handleObservationPress = (observationId: string) =>
     this.props.navigation.navigate("Observation", { observationId });
 
+  handleAddPress = (e: any) => {
+    log("pressed add button");
+    const { newDraft, navigation } = this.props;
+    newDraft({ tags: {} });
+    navigation.navigate(
+      "NewObservation",
+      {},
+      NavigationActions.navigate({ routeName: "CategoryChooser" })
+    );
+  };
+
   render() {
-    const { onAddPress } = this.props;
+    const { navigation } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <ObservationsContext.Consumer>
@@ -56,7 +77,7 @@ class MapScreen extends React.Component<Props> {
                     <MapView
                       location={location}
                       observations={observations}
-                      onAddPress={onAddPress}
+                      onAddPress={this.handleAddPress}
                       onPressObservation={this.handleObservationPress}
                       styleURL={styleURL}
                     />
@@ -66,9 +87,10 @@ class MapScreen extends React.Component<Props> {
             </LocationContext.Consumer>
           )}
         </ObservationsContext.Consumer>
+        <HomeHeader navigation={navigation} />
       </View>
     );
   }
 }
 
-export default MapScreen;
+export default withDraft(["newDraft"])(MapScreen);

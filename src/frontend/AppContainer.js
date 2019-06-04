@@ -3,10 +3,12 @@ import React from "react";
 import {
   createStackNavigator,
   createAppContainer,
+  createBottomTabNavigator,
   // $FlowFixMe
   StackViewTransitionConfigs
 } from "react-navigation";
-import Home from "./screens/Home";
+import MapScreen from "./screens/MapScreen";
+import CameraScreen from "./screens/CameraScreen";
 import ObservationList from "./screens/ObservationsList";
 import Observation from "./screens/Observation";
 import ObservationEdit from "./screens/ObservationEdit";
@@ -17,6 +19,7 @@ import GpsModal from "./screens/GpsModal";
 import SyncModal from "./screens/SyncModal";
 import PhotosModal from "./screens/PhotosModal";
 import IconButton from "./sharedComponents/IconButton";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { BackIcon, CloseIcon } from "./sharedComponents/icons";
 
 const HeaderLeft = ({ navigation }) => (
@@ -114,6 +117,29 @@ const ObservationsStack = createStackNavigator(
 //   }
 //   return newState;
 // };
+
+const Home = createBottomTabNavigator(
+  {
+    Map: MapScreen,
+    Camera: CameraScreen
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      initialRouteName: "Map",
+      backBehavior: "initialRoute",
+      tabBarOptions: {
+        showLabel: false
+      },
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === "Map") iconName = "map";
+        else iconName = "photo-camera";
+        return <MaterialIcons name={iconName} size={30} color={tintColor} />;
+      }
+    })
+  }
+);
 
 const MainStack = createStackNavigator(
   {

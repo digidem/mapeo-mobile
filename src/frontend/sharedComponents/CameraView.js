@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Camera } from "expo-camera";
 import debug from "debug";
 import { Accelerometer } from "expo-sensors";
@@ -8,12 +8,7 @@ import ImageResizer from "react-native-image-resizer";
 import RNFS from "react-native-fs";
 
 import AddButton from "./AddButton";
-import withNavigationFocus from "../lib/withNavigationFocus";
 import { promiseTimeout } from "../lib/utils";
-import PermissionsContext, {
-  PERMISSIONS,
-  RESULTS
-} from "../context/PermissionsContext";
 import type { CapturePromise } from "../context/DraftObservationContext";
 
 const log = debug("CameraView");
@@ -28,11 +23,7 @@ const captureOptions = {
 type Props = {
   // Called when the user takes a picture, with a promise that resolves to an
   // object with the property `uri` for the captured (and rotated) photo.
-  onAddPress: (e: any, capture: CapturePromise) => void,
-  // When `isFocused` is false, the camera is unmounted. This needs to happen
-  // because otherwise the camera does not show when you navigate back to the
-  // camera screen.
-  isFocused: boolean
+  onAddPress: (e: any, capture: CapturePromise) => void
 };
 
 type State = {
@@ -46,6 +37,7 @@ class CameraView extends React.Component<Props, State> {
   cameraRef: { current: any };
   subscription: { remove: () => any };
   acceleration: Acceleration;
+  mounted: boolean;
   state = { takingPicture: false, showCamera: true };
 
   constructor(props: Props) {
@@ -53,7 +45,8 @@ class CameraView extends React.Component<Props, State> {
     this.cameraRef = React.createRef();
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.mounted = true;
     Accelerometer.isAvailableAsync().then(motionAvailable => {
       if (!motionAvailable) return;
       Accelerometer.setUpdateInterval(1000);
@@ -64,6 +57,7 @@ class CameraView extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
+    this.mounted = false;
     if (this.subscription) this.subscription.remove();
   }
 
@@ -91,6 +85,7 @@ class CameraView extends React.Component<Props, State> {
       }
     );
     capture.finally(() => {
+      if (!this.mounted) return;
       this.setState({ takingPicture: false });
     });
   };
@@ -98,35 +93,23 @@ class CameraView extends React.Component<Props, State> {
   render() {
     const { takingPicture } = this.state;
     return (
-      <PermissionsContext.Consumer>
-        {({ permissions }) => {
-          if (permissions[PERMISSIONS.CAMERA] !== RESULTS.GRANTED)
-            return <Text>No access to camera</Text>;
-          return (
-            <View style={styles.container}>
-              {this.props.isFocused && (
-                <>
-                  <Camera
-                    ref={this.cameraRef}
-                    style={{ flex: 1 }}
-                    type={Camera.Constants.Type.back}
-                    useCamera2Api={false}
-                  />
-                  <AddButton
-                    onPress={this.handleAddPress}
-                    style={{ opacity: takingPicture ? 0.5 : 1 }}
-                  />
-                </>
-              )}
-            </View>
-          );
-        }}
-      </PermissionsContext.Consumer>
+      <View style={styles.container}>
+        <Camera
+          ref={this.cameraRef}
+          style={{ flex: 1 }}
+          type={Camera.Constants.Type.back}
+          useCamera2Api={false}
+        />
+        <AddButton
+          onPress={this.handleAddPress}
+          style={{ opacity: takingPicture ? 0.5 : 1 }}
+        />
+      </View>
     );
   }
 }
 
-export default withNavigationFocus(CameraView);
+export default CameraView;
 
 // Rotate the photo to match device orientation
 function rotatePhoto(acc: Acceleration) {

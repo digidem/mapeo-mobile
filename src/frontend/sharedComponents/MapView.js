@@ -8,6 +8,7 @@ import debug from "debug";
 import AddButton from "./AddButton";
 import { LocationFollowingIcon, LocationNoFollowIcon } from "./icons";
 import IconButton from "./IconButton";
+import withNavigationFocus from "../lib/withNavigationFocus";
 import type {
   LocationContextType,
   PositionType
@@ -93,7 +94,8 @@ type Props = {
   styleURL: string,
   location: LocationContextType,
   onAddPress: () => any,
-  onPressObservation: (observationId: string) => any
+  onPressObservation: (observationId: string) => any,
+  isFocused: boolean
 };
 
 type State = {
@@ -170,7 +172,7 @@ class MapView extends React.Component<Props, State> {
   };
 
   render() {
-    const { observations, onAddPress, styleURL } = this.props;
+    const { observations, onAddPress, styleURL, isFocused } = this.props;
     const initialCoords = this.initialPosition
       ? [
           this.initialPosition.coords.longitude,
@@ -178,6 +180,7 @@ class MapView extends React.Component<Props, State> {
         ]
       : [0, 0];
     const initialZoom = this.initialPosition ? 8 : 0;
+    log("Map focused:", isFocused);
     return (
       <>
         <MapboxGL.MapView
@@ -192,14 +195,16 @@ class MapView extends React.Component<Props, State> {
           styleURL={styleURL}
           onRegionWillChange={this.handleRegionChange}
         >
-          <MapboxGL.UserLocation visible />
-          <MapboxGL.Camera
-            centerCoordinate={initialCoords}
-            zoomLevel={initialZoom}
-            followUserLocation={this.state.following}
-            followUserMode="normal"
-            followZoomLevel={12}
-          />
+          {isFocused && <MapboxGL.UserLocation visible />}
+          {isFocused && (
+            <MapboxGL.Camera
+              centerCoordinate={initialCoords}
+              zoomLevel={initialZoom}
+              followUserLocation={this.state.following}
+              followUserMode="normal"
+              followZoomLevel={12}
+            />
+          )}
           <ObservationMapLayer
             onPress={this.handleObservationPress}
             observations={observations}
@@ -220,7 +225,7 @@ class MapView extends React.Component<Props, State> {
   }
 }
 
-export default MapView;
+export default withNavigationFocus(MapView);
 
 // Shallow compare objects, but omitting certain keys from the comparison
 function shallowDiffers(a: any, b: any, omit: string[]) {

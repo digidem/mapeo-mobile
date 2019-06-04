@@ -35,6 +35,7 @@
     "react/prop-types": 0,
     "react-native/no-unused-styles": 2,
     "react-native/no-raw-text": 2,
+    "react/display-name": 0,
     "camelcase": 0
   },
   "settings": {
