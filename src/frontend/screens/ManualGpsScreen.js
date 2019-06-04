@@ -88,7 +88,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
         lat: locationData.latitude,
         lon: locationData.longitude,
         locationSetManually: true,
-        tags: { ...draft.value.tags }
+        tags: draft.value.tags
       });
       // $FlowFixMe
       navigation.pop();
