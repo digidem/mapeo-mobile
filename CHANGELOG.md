@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-alpha.5](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-alpha.4...v1.1.0-alpha.5) (2019-06-04)
+
+
+### Bug Fixes
+
+* Don't block interaction with the app whilst image resizes ([df9dfa1](https://github.com/digidem/mapeo-mobile/commit/df9dfa1))
+
+
+
 ## [1.1.0-alpha.4](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-alpha.3...v1.1.0-alpha.4) (2019-06-04)
 
 
