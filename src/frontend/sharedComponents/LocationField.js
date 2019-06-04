@@ -32,6 +32,8 @@ class LocationField extends React.Component<FieldProps> {
     const { value, setValue, location } = this.props;
     if (prevProps.location === location) return;
     if (!location.position) return;
+    const draftHasManualLocation =
+      value.metadata && value.metadata.manualLocation;
     const draftHasLocation =
       typeof value.lat !== "undefined" && typeof value.lon !== "undefined";
     const accuracyImproved =
@@ -40,7 +42,7 @@ class LocationField extends React.Component<FieldProps> {
       value.metadata.location.position &&
       location.position.coords.accuracy <
         value.metadata.location.position.coords.accuracy;
-    if (!draftHasLocation || accuracyImproved)
+    if (!draftHasManualLocation && (!draftHasLocation || accuracyImproved))
       return setValue({
         ...value,
         lon: location.position.coords.longitude,
