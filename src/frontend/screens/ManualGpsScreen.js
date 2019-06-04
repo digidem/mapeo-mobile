@@ -1,8 +1,8 @@
 // @flow
 import React from "react";
-import {toLatLon} from 'utm';
-import { View, Text, TextInput,  StyleSheet, ToastAndroid } from "react-native";
-import {BLACK, LIGHT_GREY} from '../lib/styles';
+import { toLatLon } from "utm";
+import { View, Text, TextInput, StyleSheet, ToastAndroid } from "react-native";
+import { BLACK, LIGHT_GREY } from "../lib/styles";
 import type { NavigationScreenConfigProps } from "react-navigation";
 
 import { withDraft } from "../context/DraftObservationContext";
@@ -21,7 +21,7 @@ type State = {
   zoneLetter: string,
   easting: string,
   northing: string
-}
+};
 
 const HeaderLeft = ({ navigation }) => (
   <IconButton onPress={() => navigation.pop()}>
@@ -34,29 +34,33 @@ class ManualGpsScreen extends React.Component<Props, State> {
     title: "Manual GPS",
     headerLeft: React.memo(HeaderLeft),
     headerRight: (
-      <IconButton onPress={navigation.getParam('handleSavePress')}>
+      <IconButton onPress={navigation.getParam("handleSavePress")}>
         <SaveIcon inprogress={false} />
       </IconButton>
     )
   });
 
   state = {
-    zoneNum: '',
-    zoneLetter: '',
-    easting: '',
-    northing: '',
-  }
+    zoneNum: "",
+    zoneLetter: "",
+    easting: "",
+    northing: ""
+  };
 
   componentDidMount() {
-    this.props.navigation.setParams({handleSavePress: this.onSave});
+    this.props.navigation.setParams({ handleSavePress: this.onSave });
   }
 
   toLatLon() {
-    const {zoneNum, zoneLetter, easting, northing} = this.state;
+    const { zoneNum, zoneLetter, easting, northing } = this.state;
     try {
       return toLatLon(easting, northing, zoneNum, zoneLetter);
     } catch (err) {
-      ToastAndroid.showWithGravity(err.message, ToastAndroid.LONG, ToastAndroid.TOP);
+      ToastAndroid.showWithGravity(
+        err.message,
+        ToastAndroid.LONG,
+        ToastAndroid.TOP
+      );
       return false;
     }
   }
@@ -64,17 +68,17 @@ class ManualGpsScreen extends React.Component<Props, State> {
   onSave = () => {
     const locationData = this.toLatLon();
     if (locationData) {
-      const {draft, navigation} = this.props;
+      const { draft, navigation } = this.props;
       draft.setValue({
         lat: locationData.latitude,
         lon: locationData.longitude,
         locationSetManually: true,
-        tags: {...draft.value.tags}
+        tags: { ...draft.value.tags }
       });
       // $FlowFixMe
       navigation.pop();
     }
-  }
+  };
 
   render() {
     return (
@@ -88,9 +92,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
               placeholderTextColor="silver"
               underlineColorAndroid="transparent"
               keyboardType="numeric"
-              onChangeText={
-                zoneNum => this.setState({zoneNum})
-              }
+              onChangeText={zoneNum => this.setState({ zoneNum })}
               value={this.state.zoneNum}
               style={styles.input}
             />
@@ -101,8 +103,8 @@ class ManualGpsScreen extends React.Component<Props, State> {
               placeholder="S"
               placeholderTextColor="silver"
               underlineColorAndroid="transparent"
-              onChangeText={
-                zoneLetter => this.setState({zoneLetter: zoneLetter.trim()})
+              onChangeText={zoneLetter =>
+                this.setState({ zoneLetter: zoneLetter.trim() })
               }
               style={styles.input}
               value={this.state.zoneLetter}
@@ -112,15 +114,13 @@ class ManualGpsScreen extends React.Component<Props, State> {
         <View style={styles.row}>
           <View style={styles.column}>
             <Text style={styles.inputLabel}>Easting</Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
               <TextInput
                 placeholder="DDDDDD"
                 placeholderTextColor="silver"
                 underlineColorAndroid="transparent"
                 keyboardType="numeric"
-                onChangeText={
-                  easting => this.setState({easting})
-                }
+                onChangeText={easting => this.setState({ easting })}
                 style={styles.input}
                 value={this.state.easting}
               />
@@ -129,15 +129,13 @@ class ManualGpsScreen extends React.Component<Props, State> {
           </View>
           <View style={styles.column}>
             <Text style={styles.inputLabel}>Northing</Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
               <TextInput
                 placeholder="DDDDDDD"
                 placeholderTextColor="silver"
                 underlineColorAndroid="transparent"
                 keyboardType="numeric"
-                onChangeText={
-                  northing => this.setState({northing})
-                }
+                onChangeText={northing => this.setState({ northing })}
                 style={styles.input}
                 value={this.state.northing}
               />
@@ -148,23 +146,23 @@ class ManualGpsScreen extends React.Component<Props, State> {
       </View>
     );
   }
-};
+}
 
-export default withDraft()(ManualGpsScreen)
+export default withDraft()(ManualGpsScreen);
 
 const styles = StyleSheet.create({
   container: {
     padding: 20
   },
   header: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 18,
     marginTop: 10,
     marginBottom: 10,
     color: BLACK
   },
   inputLabel: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: BLACK
   },
   input: {
@@ -175,7 +173,7 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 10,
     marginBottom: 10
   },

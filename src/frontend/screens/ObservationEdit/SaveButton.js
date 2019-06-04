@@ -42,7 +42,7 @@ class SaveButton extends React.PureComponent<Props, State> {
 
   handleSavePress = async () => {
     const { navigation, draft } = this.props;
-    log('Draft value > ', draft.value);
+    log("Draft value > ", draft.value);
     const isNew = navigation.getParam("observationId") === undefined;
     if (!isNew) return this.doSave();
     const altOptions = [
@@ -52,22 +52,28 @@ class SaveButton extends React.PureComponent<Props, State> {
         style: "default"
       },
       {
-        text: 'Ingrese manualmente',
-        onPress: () => this.props.navigation.navigate('ManualGpsScreen'),
-        style: 'cancel'
+        text: "Ingrese manualmente",
+        onPress: () => this.props.navigation.navigate("ManualGpsScreen"),
+        style: "cancel"
       },
       {
         text: "Seguir esperando",
         onPress: () => log("Cancelled save")
       }
     ];
-    const hasLocationData = draft.value.metadata &&
-    draft.value.metadata.location &&
-    draft.value.metadata.location.position &&
-    draft.value.metadata.location.position.coords;
+    const hasLocationData =
+      draft.value.metadata &&
+      draft.value.metadata.location &&
+      draft.value.metadata.location.position &&
+      draft.value.metadata.location.position.coords;
     // $FlowFixMe
-    const gpsAccurate = hasLocationData &&  draft.value.metadata.location.position.coords.accuracy < 0;
-    if ((hasLocationData && draft.value.locationSetManually === true) || gpsAccurate) {
+    const gpsAccurate =
+      hasLocationData &&
+      draft.value.metadata.location.position.coords.accuracy < 0;
+    if (
+      (hasLocationData && draft.value.locationSetManually === true) ||
+      gpsAccurate
+    ) {
       this.doSave();
     } else {
       Alert.alert(
