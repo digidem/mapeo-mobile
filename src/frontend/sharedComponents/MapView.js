@@ -108,7 +108,7 @@ class MapView extends React.Component<Props, State> {
     onAddPress: () => {},
     onPressObservation: () => {}
   };
-  state = { following: true };
+  currentZoom: number;
   map: any;
   initialPosition: void | null | PositionType;
 
@@ -121,16 +121,23 @@ class MapView extends React.Component<Props, State> {
     log("accessToken set");
     this.initialPosition =
       props.location.position || props.location.savedPosition;
+    this.state = {
+      following:
+        !!props.location.provider &&
+        props.location.provider.locationServicesEnabled
+    };
   }
 
   // We only use the location prop (which contains the app GPS location) for the
   // first render of the map. After that location updates come from the native
   // map view, so we don't want to re-render this component every time there is
-  // a GPS update
+  // a GPS update, only when the location provider status changes, which we use
+  // to render the map in follow-mode or not.
   shouldComponentUpdate(nextProps: Props, nextState: State) {
     return (
       shallowDiffers(this.props, nextProps, ["location"]) ||
-      shallowDiffers(this.state, nextState, ["location"])
+      shallowDiffers(this.state, nextState) ||
+      shallowDiffers(this.props.location.provider, nextProps.location.provider)
     );
   }
 
@@ -162,17 +169,34 @@ class MapView extends React.Component<Props, State> {
     this.map = c;
   };
 
-  handleRegionChange = (e: any) => {
+  handleRegionDidChange = (e: any) => {
+    if (!e.properties.isUserInteraction) return;
     // Any user interaction with the map switches follow mode to false
-    if (e.properties.isUserInteraction) this.setState({ following: false });
+    this.setState({ following: false });
+    this.currentZoom = e.properties.zoomLevel;
   };
 
+  getFollowZoomLevel() {
+    // If the user has zoomed the map, we keep to that zoom level when we switch
+    // to "follow mode"
+    return this.currentZoom || 12;
+  }
+
   handleLocationPress = () => {
+    const { location } = this.props;
+    if (!(location.provider && location.provider.locationServicesEnabled))
+      return;
     this.setState(state => ({ following: !state.following }));
   };
 
   render() {
-    const { observations, onAddPress, styleURL, isFocused } = this.props;
+    const {
+      observations,
+      onAddPress,
+      styleURL,
+      isFocused,
+      location
+    } = this.props;
     const initialCoords = this.initialPosition
       ? [
           this.initialPosition.coords.longitude,
@@ -180,7 +204,8 @@ class MapView extends React.Component<Props, State> {
         ]
       : [0, 0];
     const initialZoom = this.initialPosition ? 8 : 0;
-    log("Map focused:", isFocused);
+    const locationServicesEnabled =
+      location.provider && location.provider.locationServicesEnabled;
     return (
       <>
         <MapboxGL.MapView
@@ -193,16 +218,20 @@ class MapView extends React.Component<Props, State> {
           onPress={this.handleObservationPress}
           compassEnabled={false}
           styleURL={styleURL}
-          onRegionWillChange={this.handleRegionChange}
+          onRegionDidChange={this.handleRegionDidChange}
         >
-          {isFocused && <MapboxGL.UserLocation visible />}
+          {isFocused && locationServicesEnabled && (
+            <MapboxGL.UserLocation visible />
+          )}
           {isFocused && (
             <MapboxGL.Camera
               centerCoordinate={initialCoords}
               zoomLevel={initialZoom}
               followUserLocation={this.state.following}
               followUserMode="normal"
-              followZoomLevel={12}
+              followZoomLevel={this.getFollowZoomLevel()}
+              animationMode="flyTo"
+              triggerKey={this.state.following}
             />
           )}
           <ObservationMapLayer
@@ -228,7 +257,7 @@ class MapView extends React.Component<Props, State> {
 export default withNavigationFocus(MapView);
 
 // Shallow compare objects, but omitting certain keys from the comparison
-function shallowDiffers(a: any, b: any, omit: string[]) {
+function shallowDiffers(a: any, b: any, omit: string[] = []) {
   for (let i in a) if (!(i in b)) return true;
   for (let i in b) {
     if (a[i] !== b[i] && omit.indexOf(i) === -1) return true;
