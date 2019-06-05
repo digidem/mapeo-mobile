@@ -69,7 +69,12 @@ class ManualGpsScreen extends React.Component<Props, State> {
   toLatLon() {
     const { zoneNum, zoneLetter, easting, northing } = this.state;
     try {
-      return toLatLon(+easting, +northing, +zoneNum, zoneLetter);
+      return toLatLon(
+        parseNumber(easting),
+        parseNumber(northing),
+        parseNumber(zoneNum),
+        zoneLetter
+      );
     } catch (err) {
       ToastAndroid.showWithGravity(
         err.message,
@@ -110,7 +115,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
                 placeholder="DDDDDD"
                 placeholderTextColor="silver"
                 underlineColorAndroid="transparent"
-                keyboardType="numeric"
+                keyboardType="number-pad"
                 onChangeText={easting => this.setState({ easting })}
                 style={styles.input}
                 value={this.state.easting}
@@ -125,7 +130,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
                 placeholder="DDDDDDD"
                 placeholderTextColor="silver"
                 underlineColorAndroid="transparent"
-                keyboardType="numeric"
+                keyboardType="number-pad"
                 onChangeText={northing => this.setState({ northing })}
                 style={styles.input}
                 value={this.state.northing}
@@ -141,8 +146,9 @@ class ManualGpsScreen extends React.Component<Props, State> {
               placeholder="DD"
               placeholderTextColor="silver"
               underlineColorAndroid="transparent"
-              keyboardType="numeric"
+              keyboardType="number-pad"
               onChangeText={zoneNum => this.setState({ zoneNum })}
+              maxLength={2}
               value={this.state.zoneNum}
               style={styles.input}
             />
@@ -156,6 +162,8 @@ class ManualGpsScreen extends React.Component<Props, State> {
               onChangeText={zoneLetter =>
                 this.setState({ zoneLetter: zoneLetter.trim() })
               }
+              maxLength={1}
+              autoCapitalize="characters"
               style={styles.input}
               value={this.state.zoneLetter}
             />
@@ -167,6 +175,12 @@ class ManualGpsScreen extends React.Component<Props, State> {
 }
 
 export default withDraft()(withLocation(ManualGpsScreen));
+
+function parseNumber(str: string): number | void {
+  const num = Number.parseFloat(str);
+  if (Number.isNaN(num)) throw new Error("Coordenada no válido");
+  return Number.isNaN(num) ? undefined : num;
+}
 
 const styles = StyleSheet.create({
   container: {
