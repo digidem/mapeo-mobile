@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-alpha.6](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-alpha.5...v1.1.0-alpha.6) (2019-06-05)
+
+
+### Bug Fixes
+
+* **Details:** Fix back button closing new observation. Now returns to previous screen. ([e12321a](https://github.com/digidem/mapeo-mobile/commit/e12321a))
+* **Map:** Start map at last location if no GPS & don't zoom out when switching to follow location ([cbf10bb](https://github.com/digidem/mapeo-mobile/commit/cbf10bb))
+* Improve mapeo core start-up after reload during development ([266a7de](https://github.com/digidem/mapeo-mobile/commit/266a7de))
+* **UI:** Keep the splashscreen visible a bit longer whilst app loads ([eed5fe2](https://github.com/digidem/mapeo-mobile/commit/eed5fe2))
+
+
+### Features
+
+* **GPS:** Manual UTM coordinate entry ([#126](https://github.com/digidem/mapeo-mobile/issues/126)) ([cc96e0b](https://github.com/digidem/mapeo-mobile/commit/cc96e0b))
+* **New Observations:** Add confirmation before closing new observation ([66b49d5](https://github.com/digidem/mapeo-mobile/commit/66b49d5))
+
+
+
 ## [1.1.0-alpha.5](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-alpha.4...v1.1.0-alpha.5) (2019-06-04)
 
 
