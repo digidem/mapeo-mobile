@@ -104,33 +104,6 @@ class ManualGpsScreen extends React.Component<Props, State> {
         <Text style={styles.header}>UTM Coordinates</Text>
         <View style={styles.row}>
           <View style={styles.column}>
-            <Text style={styles.inputLabel}> Zone Number</Text>
-            <TextInput
-              placeholder="DD"
-              placeholderTextColor="silver"
-              underlineColorAndroid="transparent"
-              keyboardType="numeric"
-              onChangeText={zoneNum => this.setState({ zoneNum })}
-              value={this.state.zoneNum}
-              style={styles.input}
-            />
-          </View>
-          <View style={styles.column}>
-            <Text style={styles.inputLabel}>Zone Letter</Text>
-            <TextInput
-              placeholder="S"
-              placeholderTextColor="silver"
-              underlineColorAndroid="transparent"
-              onChangeText={zoneLetter =>
-                this.setState({ zoneLetter: zoneLetter.trim() })
-              }
-              style={styles.input}
-              value={this.state.zoneLetter}
-            />
-          </View>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.column}>
             <Text style={styles.inputLabel}>Easting</Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <TextInput
@@ -159,6 +132,33 @@ class ManualGpsScreen extends React.Component<Props, State> {
               />
               <Text style={styles.suffix}>m N</Text>
             </View>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <View style={styles.column}>
+            <Text style={styles.inputLabel}> Zone Number</Text>
+            <TextInput
+              placeholder="DD"
+              placeholderTextColor="silver"
+              underlineColorAndroid="transparent"
+              keyboardType="numeric"
+              onChangeText={zoneNum => this.setState({ zoneNum })}
+              value={this.state.zoneNum}
+              style={styles.input}
+            />
+          </View>
+          <View style={styles.column}>
+            <Text style={styles.inputLabel}>Zone Letter</Text>
+            <TextInput
+              placeholder="S"
+              placeholderTextColor="silver"
+              underlineColorAndroid="transparent"
+              onChangeText={zoneLetter =>
+                this.setState({ zoneLetter: zoneLetter.trim() })
+              }
+              style={styles.input}
+              value={this.state.zoneLetter}
+            />
           </View>
         </View>
       </View>
