@@ -111,6 +111,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
             <Text style={styles.inputLabel}>Este</Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <TextInput
+                autoFocus
                 placeholder="DDDDDD"
                 placeholderTextColor="silver"
                 underlineColorAndroid="transparent"
