@@ -55,7 +55,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
       } catch (e) {}
     }
     this.state = {
-      zoneNum: zoneNum || "",
+      zoneNum: zoneNum ? zoneNum + "" : "",
       zoneLetter: zoneLetter || "",
       easting: "",
       northing: ""
@@ -69,7 +69,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
   toLatLon() {
     const { zoneNum, zoneLetter, easting, northing } = this.state;
     try {
-      return toLatLon(easting, northing, zoneNum, zoneLetter);
+      return toLatLon(+easting, +northing, +zoneNum, zoneLetter);
     } catch (err) {
       ToastAndroid.showWithGravity(
         err.message,
