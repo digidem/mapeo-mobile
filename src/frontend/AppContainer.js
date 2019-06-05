@@ -18,6 +18,7 @@ import CategoryChooser from "./screens/CategoryChooser";
 import GpsModal from "./screens/GpsModal";
 import SyncModal from "./screens/SyncModal";
 import PhotosModal from "./screens/PhotosModal";
+import ManualGpsScreen from "./screens/ManualGpsScreen";
 import IconButton from "./sharedComponents/IconButton";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { BackIcon, CloseIcon } from "./sharedComponents/icons";
@@ -56,6 +57,7 @@ const ObservationsStack = createStackNavigator(
   {
     CategoryChooser: CategoryChooser,
     AddPhoto: AddPhoto,
+    ManualGpsScreen: ManualGpsScreen,
     ObservationList: {
       // $FlowFixMe
       screen: ObservationList,

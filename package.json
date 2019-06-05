@@ -98,6 +98,7 @@
     "flow-typed": "^2.5.1",
     "jest": "^24.1.0",
     "metro-react-native-babel-preset": "^0.53.1",
+    "prettier": "^1.17.1",
     "random-date-generator": "^1.0.2",
     "random-title": "^1.0.4",
     "react-art": "^16.8.2",

@@ -110,7 +110,9 @@ class PresetsProvider extends React.Component<Props, PresetsContext> {
         api.getFields()
       ]);
       this.setState({
-        presets: new Map(presetsList.map(p => [p.id, p])),
+        presets: new Map(
+          presetsList.filter(filterPointPreset).map(p => [p.id, p])
+        ),
         fields: new Map(fieldsList.map(p => [p.id, p])),
         loading: false
       });
@@ -152,4 +154,9 @@ export default {
 // It filters an array to remove any falsy values
 function filterFalsy<T>(arr: Array<T | void>): Array<T> {
   return arr.filter(Boolean);
+}
+
+// We only want to show presets that apply to geometry type "point"
+function filterPointPreset(preset: Preset) {
+  return preset.geometry && preset.geometry.includes("point");
 }
