@@ -57,7 +57,6 @@ const ObservationsStack = createStackNavigator(
   {
     CategoryChooser: CategoryChooser,
     AddPhoto: AddPhoto,
-    ManualGpsScreen: ManualGpsScreen,
     ObservationList: {
       // $FlowFixMe
       screen: ObservationList,
@@ -71,6 +70,7 @@ const ObservationsStack = createStackNavigator(
       screen: ObservationEdit,
       path: "observations/:observationId/edit"
     },
+    ManualGpsScreen: ManualGpsScreen,
     ObservationDetails: ObservationDetails
   },
   {
@@ -170,10 +170,7 @@ const RootStack = createStackNavigator(
   {
     initialRouteName: "Main",
     mode: "modal",
-    headerMode: "none",
-    defaultNavigationOptions: {
-      headerLeft: HeaderLeft
-    }
+    headerMode: "none"
   }
 );
 
