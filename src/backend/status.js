@@ -5,12 +5,16 @@ const constants = require("./constants");
 class ServerStatus {
   constructor() {
     this.setState(constants.STARTING);
+    rnBridge.channel.on("request-status", () => {
+      log("status request");
+      rnBridge.channel.post("status", this.state);
+    });
   }
   startHeartbeat() {
     if (this.intervalId) return; // Don't have two heartbeats
     this.intervalId = setInterval(() => {
       rnBridge.channel.post("status", this.state);
-    }, 1000);
+    }, 4000);
   }
   pauseHeartbeat() {
     clearInterval(this.intervalId);

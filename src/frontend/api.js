@@ -147,6 +147,8 @@ export function Api({
     // Start server, returns a promise that resolves when the server is ready
     // or rejects if there is an error starting the server
     startServer: function startServer(): Promise<void> {
+      // The server might already be started - request current status
+      nodejs.channel.post("request-status");
       // The server requires read & write permissions for external storage
       const serverStartPromise = PermissionsAndroid.requestMultiple([
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
