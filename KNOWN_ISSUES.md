@@ -6,10 +6,12 @@
 - If you open the app without an offline style, and then add a default offline
   style, the offline style may not appear until 5 minutes later on some phones
   (caching issues)
+- Map "my location" blue dot sometimes appears behind observations
+- Transparent circle around "my location" blue dot does not actually signify GPS
+  accuracy.
 
 #### New/Edit Observation
 
-- There is no way to add manual GPS coordinates
 - If you close the New/Edit observation screen or
   press the back button, there is no confirmation before the edit/new
   observation is cancelled.
@@ -18,6 +20,8 @@
 - There is no way to stop the location of a new observation updating from the
   GPS except from saving the observation (e.g. the user needs to stay in the
   same location until they save the observation for the first time)
+- Pressing the "locate me" button moves the map to your location without
+  animation (sudden jump)
 
 #### Edit Observation
 
@@ -27,7 +31,6 @@
 
 - Sometimes photos stop working (you will see a grey box then error). You may
   need to restart the app for them to work again.
-- You cannot press on the photos to see them fill the screen
 - There is no way to delete / remove a photo from an observation
 
 #### Sync
