@@ -2,6 +2,7 @@
 import * as React from "react";
 import { AppState } from "react-native";
 import * as Location from "expo-location";
+import hoistStatics from "hoist-non-react-statics";
 import AsyncStorage from "@react-native-community/async-storage";
 import debug from "debug";
 
@@ -228,7 +229,7 @@ export const withLocation = (WrappedComponent: any) => {
   WithLocation.displayName = `WithLocation(${getDisplayName(
     WrappedComponent
   )})`;
-  return WithLocation;
+  return hoistStatics(WithLocation, WrappedComponent);
 };
 
 export default {
