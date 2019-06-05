@@ -1,5 +1,6 @@
 // @flow
 import React from "react";
+import { Alert } from "react-native";
 import {
   createStackNavigator,
   createAppContainer,
@@ -29,21 +30,37 @@ const HeaderLeft = ({ navigation }) => (
   </IconButton>
 );
 
-const EditHeaderLeft = ({ navigation }) => {
-  const parent = navigation.dangerouslyGetParent();
-  const isClose =
-    (isTopOfStack(navigation) ||
-      navigation.state.routeName === "ObservationEdit") &&
-    parent &&
-    parent.state.routeName === "NewObservation";
-  return (
-    <IconButton
-      onPress={() => (isClose ? navigation.navigate("Home") : navigation.pop())}
-    >
-      {isClose ? <CloseIcon /> : <BackIcon />}
-    </IconButton>
-  );
-};
+class EditHeaderLeft extends React.Component<*> {
+  handleCloseRequest() {
+    const { navigation } = this.props;
+    Alert.alert("¿Quieres descartar observación?", undefined, [
+      {
+        text: "Descartar observación",
+        onPress: () => navigation.navigate("Home")
+      },
+      {
+        text: "Seguir editando",
+        onPress: () => {}
+      }
+    ]);
+  }
+  render() {
+    const { navigation } = this.props;
+    const parent = navigation.dangerouslyGetParent();
+    const isClose =
+      (isTopOfStack(navigation) ||
+        navigation.state.routeName === "ObservationEdit") &&
+      parent &&
+      parent.state.routeName === "NewObservation";
+    return (
+      <IconButton
+        onPress={() => (isClose ? this.handleCloseRequest() : navigation.pop())}
+      >
+        {isClose ? <CloseIcon /> : <BackIcon />}
+      </IconButton>
+    );
+  }
+}
 
 const defaultNavigationOptions = {
   headerStyle: {
