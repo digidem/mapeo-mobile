@@ -50,7 +50,7 @@ class AppLoading extends React.Component<Props, State> {
       SplashScreen.hide();
       this._timeoutId = null;
       log("hiding splashscreen");
-    }, 500);
+    }, 1000);
     this._subscription = api.addServerStateListener(this.handleStatusChange);
   }
 
