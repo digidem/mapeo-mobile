@@ -37,7 +37,9 @@ const EditHeaderLeft = ({ navigation }) => {
     parent &&
     parent.state.routeName === "NewObservation";
   return (
-    <IconButton onPress={() => navigation.navigate("Home")}>
+    <IconButton
+      onPress={() => (isClose ? navigation.navigate("Home") : navigation.pop())}
+    >
       {isClose ? <CloseIcon /> : <BackIcon />}
     </IconButton>
   );
