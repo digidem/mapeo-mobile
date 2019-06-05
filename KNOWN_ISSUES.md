@@ -9,23 +9,23 @@
 - Map "my location" blue dot sometimes appears behind observations
 - Transparent circle around "my location" blue dot does not actually signify GPS
   accuracy.
+- Pressing the "locate me" button moves the map to your location without
+  animation (sudden jump)
 
 #### New/Edit Observation
 
-- If you close the New/Edit observation screen or
-  press the back button, there is no confirmation before the edit/new
-  observation is cancelled.
 - There is no way to add the name of person using the
   phone to an observation
 - There is no way to stop the location of a new observation updating from the
   GPS except from saving the observation (e.g. the user needs to stay in the
   same location until they save the observation for the first time)
-- Pressing the "locate me" button moves the map to your location without
-  animation (sudden jump)
+- Confirmation does not show up when pressing the back button (only when
+  pressing the close icon)
 
 #### Edit Observation
 
 - There is no way to delete an existing observation
+- No confirmation shown when cancelling edit
 
 #### Photos
 
