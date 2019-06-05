@@ -20,14 +20,14 @@ import type { PresetWithFields } from "../../context/PresetsContext";
 
 const LocationView = ({ longitude, latitude, accuracy }) => (
   <View style={styles.locationContainer}>
-    {longitude === undefined ||
-    latitude === undefined ||
-    accuracy === undefined ? (
+    {longitude === undefined || latitude === undefined ? (
       <Text>Searching...</Text>
     ) : (
       <>
         <FormattedCoords lat={latitude} lon={longitude} />
-        <Text style={styles.accuracy}>{"±" + accuracy.toFixed(2) + "m"}</Text>
+        {accuracy && (
+          <Text style={styles.accuracy}>{"±" + accuracy.toFixed(2) + "m"}</Text>
+        )}
       </>
     )}
   </View>

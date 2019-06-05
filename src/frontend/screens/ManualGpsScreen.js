@@ -34,7 +34,7 @@ const HeaderLeft = ({ navigation }) => (
 
 class ManualGpsScreen extends React.Component<Props, State> {
   static navigationOptions = ({ navigation }: any) => ({
-    title: "Manual GPS",
+    title: "Coordenadas UTM",
     headerLeft: React.memo(HeaderLeft),
     headerRight: (
       <IconButton onPress={navigation.getParam("handleSavePress")}>
@@ -55,7 +55,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
       } catch (e) {}
     }
     this.state = {
-      zoneNum: zoneNum || "",
+      zoneNum: zoneNum ? zoneNum + "" : "",
       zoneLetter: zoneLetter || "",
       easting: "",
       northing: ""
@@ -69,7 +69,12 @@ class ManualGpsScreen extends React.Component<Props, State> {
   toLatLon() {
     const { zoneNum, zoneLetter, easting, northing } = this.state;
     try {
-      return toLatLon(easting, northing, zoneNum, zoneLetter);
+      return toLatLon(
+        parseNumber(easting),
+        parseNumber(northing),
+        parseNumber(zoneNum),
+        zoneLetter
+      );
     } catch (err) {
       ToastAndroid.showWithGravity(
         err.message,
@@ -101,22 +106,55 @@ class ManualGpsScreen extends React.Component<Props, State> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>UTM Coordinates</Text>
         <View style={styles.row}>
           <View style={styles.column}>
-            <Text style={styles.inputLabel}> Zone Number</Text>
+            <Text style={styles.inputLabel}>Este</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <TextInput
+                autoFocus
+                placeholder="DDDDDD"
+                placeholderTextColor="silver"
+                underlineColorAndroid="transparent"
+                keyboardType="number-pad"
+                onChangeText={easting => this.setState({ easting })}
+                style={styles.input}
+                value={this.state.easting}
+              />
+              <Text style={styles.suffix}>mE</Text>
+            </View>
+          </View>
+          <View style={styles.column}>
+            <Text style={styles.inputLabel}>Norte</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <TextInput
+                placeholder="DDDDDDD"
+                placeholderTextColor="silver"
+                underlineColorAndroid="transparent"
+                keyboardType="number-pad"
+                onChangeText={northing => this.setState({ northing })}
+                style={styles.input}
+                value={this.state.northing}
+              />
+              <Text style={styles.suffix}>mN</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <View style={styles.column}>
+            <Text style={styles.inputLabel}>Numero de Zona UTM</Text>
             <TextInput
               placeholder="DD"
               placeholderTextColor="silver"
               underlineColorAndroid="transparent"
-              keyboardType="numeric"
+              keyboardType="number-pad"
               onChangeText={zoneNum => this.setState({ zoneNum })}
+              maxLength={2}
               value={this.state.zoneNum}
               style={styles.input}
             />
           </View>
           <View style={styles.column}>
-            <Text style={styles.inputLabel}>Zone Letter</Text>
+            <Text style={styles.inputLabel}>Letra de Zona UTM</Text>
             <TextInput
               placeholder="S"
               placeholderTextColor="silver"
@@ -124,41 +162,11 @@ class ManualGpsScreen extends React.Component<Props, State> {
               onChangeText={zoneLetter =>
                 this.setState({ zoneLetter: zoneLetter.trim() })
               }
+              maxLength={1}
+              autoCapitalize="characters"
               style={styles.input}
               value={this.state.zoneLetter}
             />
-          </View>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.column}>
-            <Text style={styles.inputLabel}>Easting</Text>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <TextInput
-                placeholder="DDDDDD"
-                placeholderTextColor="silver"
-                underlineColorAndroid="transparent"
-                keyboardType="numeric"
-                onChangeText={easting => this.setState({ easting })}
-                style={styles.input}
-                value={this.state.easting}
-              />
-              <Text style={styles.suffix}>m E</Text>
-            </View>
-          </View>
-          <View style={styles.column}>
-            <Text style={styles.inputLabel}>Northing</Text>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <TextInput
-                placeholder="DDDDDDD"
-                placeholderTextColor="silver"
-                underlineColorAndroid="transparent"
-                keyboardType="numeric"
-                onChangeText={northing => this.setState({ northing })}
-                style={styles.input}
-                value={this.state.northing}
-              />
-              <Text style={styles.suffix}>m N</Text>
-            </View>
           </View>
         </View>
       </View>
@@ -168,16 +176,16 @@ class ManualGpsScreen extends React.Component<Props, State> {
 
 export default withDraft()(withLocation(ManualGpsScreen));
 
+function parseNumber(str: string): number | void {
+  const num = Number.parseFloat(str);
+  if (Number.isNaN(num)) throw new Error("Coordenada no válido");
+  return Number.isNaN(num) ? undefined : num;
+}
+
 const styles = StyleSheet.create({
   container: {
-    padding: 20
-  },
-  header: {
-    fontWeight: "bold",
-    fontSize: 18,
-    marginTop: 10,
-    marginBottom: 10,
-    color: BLACK
+    paddingVertical: 20,
+    paddingHorizontal: 10
   },
   inputLabel: {
     fontWeight: "bold",
@@ -192,11 +200,12 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    marginTop: 10,
     marginBottom: 10
   },
   column: {
-    marginRight: 20
+    flex: 1,
+    marginHorizontal: 10,
+    width: "50%"
   },
   suffix: {
     fontSize: 20,

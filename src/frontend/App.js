@@ -16,7 +16,7 @@ import AppProvider from "./context/AppProvider";
 if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 // WARNING: This needs to change if we change the navigation structure
-const NAV_STORE_KEY = "@MapeoNavigation@4";
+const NAV_STORE_KEY = "@MapeoNavigation@5";
 
 const persistNavigationState = async navState => {
   try {

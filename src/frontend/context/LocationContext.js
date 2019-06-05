@@ -2,6 +2,7 @@
 import * as React from "react";
 import { AppState } from "react-native";
 import * as Location from "expo-location";
+import hoistStatics from "hoist-non-react-statics";
 import AsyncStorage from "@react-native-community/async-storage";
 import debug from "debug";
 
@@ -162,12 +163,20 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
         this._watch = null;
         this._timeoutId = setTimeout(this.updateStatus, LOCATION_TIMEOUT);
       }
+      // If location services are disabled, clear the position stored in state,
+      // so that we don't create observations with a stale position.
+      if (!provider || !provider.locationServicesEnabled)
+        this.setState({ position: undefined });
       this.setState({ provider });
     } catch (err) {
-      log("Error reading position", err);
-      this.setState({ error: true });
+      this.handleError(err);
     }
   };
+
+  handleError(err) {
+    log("Error reading position", err);
+    this.setState({ error: true, position: undefined });
+  }
 
   componentWillUnmount() {
     this.stopWatchingLocation();
@@ -190,7 +199,6 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
   }
 
   onPosition = (position: PositionType) => {
-    log("Position update", position);
     // The user can turn off location services via the quick settings dropdown
     // (swiping down from the top of their phone screen) without moving away
     // from the app. In this case the location will just stop updating and we
@@ -203,6 +211,7 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
   };
 
   render() {
+    log("Position update", this.state);
     // Waiting until savedPosition has loaded before first render
     // savedPosition will be null if it is loaded but there is no saved position
     return this.state.savedPosition === undefined ? null : (
@@ -220,7 +229,7 @@ export const withLocation = (WrappedComponent: any) => {
   WithLocation.displayName = `WithLocation(${getDisplayName(
     WrappedComponent
   )})`;
-  return WithLocation;
+  return hoistStatics(WithLocation, WrappedComponent);
 };
 
 export default {

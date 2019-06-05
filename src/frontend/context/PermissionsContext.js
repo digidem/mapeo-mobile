@@ -3,6 +3,7 @@ import * as React from "react";
 import { PermissionsAndroid } from "react-native";
 import debug from "debug";
 import shallowequal from "shallowequal";
+import hoistStatics from "hoist-non-react-statics";
 
 import { getDisplayName } from "../lib/utils";
 
@@ -111,7 +112,7 @@ export const withPermissions = (WrappedComponent: any) => {
   WithPermissions.displayName = `WithPermissions(${getDisplayName(
     WrappedComponent
   )})`;
-  return WithPermissions;
+  return hoistStatics(WithPermissions, WrappedComponent);
 };
 
 export default {
