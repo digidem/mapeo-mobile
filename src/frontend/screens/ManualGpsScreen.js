@@ -34,7 +34,7 @@ const HeaderLeft = ({ navigation }) => (
 
 class ManualGpsScreen extends React.Component<Props, State> {
   static navigationOptions = ({ navigation }: any) => ({
-    title: "Manual GPS",
+    title: "Coordenadas UTM",
     headerLeft: React.memo(HeaderLeft),
     headerRight: (
       <IconButton onPress={navigation.getParam("handleSavePress")}>
@@ -106,10 +106,9 @@ class ManualGpsScreen extends React.Component<Props, State> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>UTM Coordinates</Text>
         <View style={styles.row}>
           <View style={styles.column}>
-            <Text style={styles.inputLabel}>Easting</Text>
+            <Text style={styles.inputLabel}>Este</Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <TextInput
                 placeholder="DDDDDD"
@@ -120,11 +119,11 @@ class ManualGpsScreen extends React.Component<Props, State> {
                 style={styles.input}
                 value={this.state.easting}
               />
-              <Text style={styles.suffix}>m E</Text>
+              <Text style={styles.suffix}>mE</Text>
             </View>
           </View>
           <View style={styles.column}>
-            <Text style={styles.inputLabel}>Northing</Text>
+            <Text style={styles.inputLabel}>Norte</Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <TextInput
                 placeholder="DDDDDDD"
@@ -135,13 +134,13 @@ class ManualGpsScreen extends React.Component<Props, State> {
                 style={styles.input}
                 value={this.state.northing}
               />
-              <Text style={styles.suffix}>m N</Text>
+              <Text style={styles.suffix}>mN</Text>
             </View>
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.column}>
-            <Text style={styles.inputLabel}> Zone Number</Text>
+            <Text style={styles.inputLabel}>Numero de Zona UTM</Text>
             <TextInput
               placeholder="DD"
               placeholderTextColor="silver"
@@ -154,7 +153,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
             />
           </View>
           <View style={styles.column}>
-            <Text style={styles.inputLabel}>Zone Letter</Text>
+            <Text style={styles.inputLabel}>Letra de Zona UTM</Text>
             <TextInput
               placeholder="S"
               placeholderTextColor="silver"
@@ -184,14 +183,8 @@ function parseNumber(str: string): number | void {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20
-  },
-  header: {
-    fontWeight: "bold",
-    fontSize: 18,
-    marginTop: 10,
-    marginBottom: 10,
-    color: BLACK
+    paddingVertical: 20,
+    paddingHorizontal: 10
   },
   inputLabel: {
     fontWeight: "bold",
@@ -206,11 +199,12 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    marginTop: 10,
     marginBottom: 10
   },
   column: {
-    marginRight: 20
+    flex: 1,
+    marginHorizontal: 10,
+    width: "50%"
   },
   suffix: {
     fontSize: 20,
