@@ -9,12 +9,14 @@ storybook server.
 ## Initial Install
 
 In order to start developing you will need git and node >=v8 installed on your
-computer. For many development tasks you will also need the Android SDK installed.
+computer. For many development tasks you will also need the Android SDK
+installed. Please use [yarn](https://yarnpkg.com/en/) to ensure that you get
+deterministic builds and use the `yarn.lock` file.
 
 ```sh
 git clone https://github.com/digidem/mapeo-mobile.git
 cd mapeo-mobile
-npm install
+yarn
 ```
 
 ## Storybook
@@ -23,52 +25,20 @@ npm install
 components in isolation. You can see how a component renders with different
 props as inputs, and changes you make to the code will update in realtime
 through the storybook UI. What you see in the Storybook UI is defined by
-"stories" which are in the [`src/stories`](src/stories) folder.
+"stories" which are in the [`src/stories`](src/stories) folder. You do not need
+the Android SDK in order to develop with storybook. You can also run the
+storybook app on an iOS (Apple) phone.
 
-### Storybook Web
-
-**_Storybook web is fragile, it currently requires some code modifications for
-everything to work correctly on web_**
-
-The easiest way to get started without setting up your machine for mobile
-development is to use Storybook web. It uses
-[`react-native-web`](https://github.com/necolas/react-native-web) interally in
-order to render react-native components in a browser. Note that layout and
-colors do not appear exactly the same in the browser, and you may need to add
-some additional styles to get things looking right. To start the storybook web
-server:
+To install and run the app in storybook mode on a device:
 
 ```sh
-npm run storybook-web
-```
-
-Your default browser should open with the Storybook interface. You can browse
-different stories, and as you edit a component you will see your changes update
-in real-time.
-
-### Storybook Native
-
-For a development environment that is closer to the actual app end-users will
-see you can run storybook on a device or in the Android emulator. To install and
-run the app in storybook mode on a device:
-
-```sh
-npm run android-storybook
+cd storybook
+yarn
+yarn start
 ```
 
 You can edit components and write new stories and see how components on-screen
 render in isolation.
-
-Optionally you can also start a server that will give you a web interface to
-control what you see on the mobile device:
-
-```sh
-adb reverse tcp:7007 tcp:7007
-npm run storybook-native
-```
-
-You will probably need to reload the storybook mobile app for the web app to be
-able to control the mobile app.
 
 ## Full App Development
 
@@ -104,21 +74,21 @@ Connect your phone with USB, or start up the emulator, then build and run the
 dev version of the app on your device:
 
 ```sh
-npm run android
+yarn android
 ```
 
 You can configure the app to reload whenever you make a change: shake the device
 to bring up the developer menu, and select "Enable Live Reload". Whenever you
 change the code the app should reload. Changes to any code in the `src/frontend`
 folder will appear immediately after a reload. If you change anything in
-`src/backend` you will need to re-run `npm run android` in order to see changes.
-If you are tired of shaking the phone you can enter `npm run dev-menu` from your
+`src/backend` you will need to re-run `yarn android` in order to see changes.
+If you are tired of shaking the phone you can enter `yarn dev-menu` from your
 computer.
 
-`npm run android` does two things: starts "Metro bundler" in one window, and
+`yarn android` does two things: starts "Metro bundler" in one window, and
 then builds and installs the dev version of Mapeo on the connected device. To
 start Metro bundler on its own (e.g. if you already have the app installed), use
-`npm start`.
+`yarn start`.
 
 ## Release Variants
 
@@ -172,7 +142,7 @@ These builds are available at http://mapeo-apks.ddem.us/?prefix=dev/
 To create an Alpha release:
 
 ```sh
-npm run release:alpha
+yarn release:alpha
 git push --follow-tags origin master
 ```
 
@@ -186,7 +156,7 @@ for internal testing and can be unstable.
 To create a Beta release:
 
 ```sh
-npm run release:beta
+yarn release:beta
 git push --follow-tags origin master
 ```
 
@@ -206,7 +176,7 @@ updated for any users who have signed up to the open beta track: https://play.go
 To create a Production release:
 
 ```sh
-npm run release
+yarn release
 git push --follow-tags origin master
 ```
 
@@ -218,8 +188,8 @@ QA variant is created for production releases.
 
 ### `error: bundling failed: ReferenceError: Module not registered in graph`
 
-If you see this error from the Metro Bundler it is most likely that you ran `npm install` and added modules when the Metro Bundler was already running (`npm start`). Try quitting with bundler with `Ctrl-C` and then re-starting it with
-`npm start`. If that doesn't work also try restarting with a new cache with `npm start --reset-cache`.
+If you see this error from the Metro Bundler it is most likely that you ran `yarn` and added modules when the Metro Bundler was already running (`yarn start`). Try quitting with bundler with `Ctrl-C` and then re-starting it with
+`yarn start`. If that doesn't work also try restarting with a new cache with `yarn start --reset-cache`.
 
 ### `ENOSPC` Error in gradle build
 
