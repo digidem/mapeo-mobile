@@ -40,38 +40,40 @@ storiesOf("SelectOne", module)
     <InputState>
       {({ value, onChange }) => (
         <SelectOne
-          label="What is the scale of the spill?"
-          hint="Select one"
-          options={[
-            {
-              value: 5,
-              label: "Under 5 meters"
-            },
-            {
-              value: 10,
-              label: "5–10 meters"
-            },
-            {
-              value: 20,
-              label: "10–20 meters"
-            },
-            {
-              value: 30,
-              label: "20–30 meters"
-            },
-            {
-              value: 40,
-              label: "30–40 meters"
-            },
-            {
-              value: 50,
-              label: "40–50 meters"
-            },
-            {
-              value: 60,
-              label: "Over 60 meters"
-            }
-          ]}
+          field={{
+            label: "What is the scale of the spill?",
+            hint: "Select one",
+            options: [
+              {
+                value: 5,
+                label: "Under 5 meters"
+              },
+              {
+                value: 10,
+                label: "5–10 meters"
+              },
+              {
+                value: 20,
+                label: "10–20 meters"
+              },
+              {
+                value: 30,
+                label: "20–30 meters"
+              },
+              {
+                value: 40,
+                label: "30–40 meters"
+              },
+              {
+                value: 50,
+                label: "40–50 meters"
+              },
+              {
+                value: 60,
+                label: "Over 60 meters"
+              }
+            ]
+          }}
           value={value}
           onChange={onChange}
         />

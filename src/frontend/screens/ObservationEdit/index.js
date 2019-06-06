@@ -58,6 +58,7 @@ class ObservationEdit extends React.Component<NavigationScreenConfigProps> {
                 onPressDetails={this.handleDetailsPress}
                 onPressPhoto={this.handlePhotoPress}
                 preset={getPreset(value)}
+                isFocused={navigation.isFocused()}
               />
             )}
           </PresetsContext.Consumer>

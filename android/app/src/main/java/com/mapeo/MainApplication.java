@@ -75,7 +75,7 @@ public class MainApplication extends Application implements ShareApplication, Re
 
     @Override
     protected String getJSMainModuleName() {
-      return BuildConfig.isStorybook ? "storybook-native/index" : "index";
+      return "index";
     }
   };
 

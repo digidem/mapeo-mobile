@@ -85,10 +85,6 @@ project.ext.vectoricons = [
     iconFontNames: [ 'MaterialIcons.ttf', 'Octicons.ttf', 'MaterialCommunityIcons.ttf', 'FontAwesome.ttf' ]
 ]
 
-apply from: "./react.gradle"
-apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
-apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
-
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -146,21 +142,9 @@ android {
             dimension "version"
             applicationIdSuffix ".qa"
             versionNameSuffix "-qa"
-            buildConfigField "boolean", "isStorybook", "false"
-        }
-        storybook {
-            dimension "version"
-            applicationIdSuffix ".storybook"
-            // We use this config field in MainApplication.java to set the
-            // bundle name for loading different code for the storybook version
-            buildConfigField "boolean", "isStorybook", "true"
-            // This sets a custom entry file for the storybook version of the
-            // app. This requires a custom react.gradle see `./react.gradle`
-            ext.entryFile = "storybook-native/index.js"
         }
         app {
             dimension "version"
-            buildConfigField "boolean", "isStorybook", "false"
         }
     }
     buildTypes {
@@ -174,9 +158,8 @@ android {
             // build with the default debug keystore
             productFlavors.qa.signingConfig signingConfigs.release
             productFlavors.app.signingConfig signingConfig
-            productFlavors.storybook.signingConfig signingConfig
             signingConfig null
-            // Storybook and QA flavors share the same applicationId between
+            // QA flavors share the same applicationId between
             // release and debug builds, but the main app flavor has a suffix
             // for debug builds, so that when developing you can have the debug
             // version and the release version on your phone at the same time
@@ -212,6 +195,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+
+apply from: "../../node_modules/react-native/react.gradle"
+apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
 
 dependencies {
     implementation project(':react-native-share')

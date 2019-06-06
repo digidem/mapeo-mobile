@@ -1,7 +1,6 @@
 // @flow
 import React from "react";
 import { ScrollView, View, Text, StyleSheet, TextInput } from "react-native";
-import { withNavigationFocus } from "react-navigation";
 
 import LocationField from "../../sharedComponents/LocationField";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
@@ -51,7 +50,7 @@ const CategoryView = ({
 
 const PhotosView = withDraft(["photos"])(ThumbnailScrollView);
 
-const DescriptionField = withNavigationFocus(({ isFocused }) => (
+const DescriptionField = ({ autofocus }) => (
   <Field fieldKey="notes">
     {({ value, onChange }) => (
       <TextInput
@@ -62,25 +61,27 @@ const DescriptionField = withNavigationFocus(({ isFocused }) => (
         placeholderTextColor="silver"
         underlineColorAndroid="transparent"
         multiline
-        autoFocus={isFocused && !value}
+        autoFocus={autofocus && !value}
         scrollEnabled={false}
         textContentType="none"
       />
     )}
   </Field>
-));
+);
 
-type Props = {
+type Props = {|
   onPressCategory: () => any,
   onPressCamera: () => any,
   onPressDetails: () => any,
   onPressPhoto: (index: number) => any,
   isNew: boolean,
-  preset?: PresetWithFields
-};
+  preset?: PresetWithFields,
+  isFocused: boolean
+|};
 
 export const ObservationEdit = ({
   isNew,
+  isFocused,
   preset,
   onPressCategory,
   onPressCamera,
@@ -114,7 +115,7 @@ export const ObservationEdit = ({
           </LocationField>
         )}
         <CategoryView preset={preset} onPress={onPressCategory} />
-        <DescriptionField />
+        <DescriptionField autofocus={isFocused} />
         <PhotosView onPressPhoto={onPressPhoto} />
       </ScrollView>
       <BottomSheet items={bottomSheetItems} />
