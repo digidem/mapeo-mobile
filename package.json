@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "android": "npm run build:backend && npm run android-no-backend-rebuild",
+    "android": "yarn build:backend && yarn android-no-backend-rebuild",
     "android-no-backend-rebuild": "react-native run-android --variant=appDebug --appIdSuffix=debug",
     "build:backend": "./scripts/build-backend.sh",
-    "build:release": "npm run build:backend && ./scripts/build-release-android.sh",
+    "build:release": "yarn build:backend && ./scripts/build-release-android.sh",
     "test": "jest",
     "lint": "eslint *.js \"src/**/*.js\"",
     "flow": "flow",
