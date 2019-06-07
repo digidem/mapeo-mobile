@@ -1,15 +1,8 @@
 // @flow
 import React from "react";
-import {
-  Text,
-  Image,
-  View,
-  ScrollView,
-  StyleSheet,
-  Button,
-  Share
-} from "react-native";
+import { Text, Image, View, ScrollView, StyleSheet, Share } from "react-native";
 import ShareMedia from "react-native-share";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import api from "../../api";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
@@ -17,10 +10,33 @@ import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { DetailsIcon, CategoryIcon } from "../../sharedComponents/icons";
 import { formatDate, formatCoords } from "../../lib/utils";
 import { filterPhotosFromAttachments } from "../../context/DraftObservationContext";
+import { RED, WHITE } from "../../lib/styles";
+import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
 
 // const InsetMapView = ({ style }) => <View style={[style, styles.insetMap]} />;
+
+type ButtonProps = {
+  onPress: () => any,
+  color: string,
+  iconName: "delete-forever" | "share",
+  title: string
+};
+
+const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
+  <TouchableOpacity onPress={onPress}>
+    <View style={[styles.button, { backgroundColor: color }]}>
+      <MaterialIcons
+        size={30}
+        name={iconName}
+        color={WHITE}
+        style={styles.buttonIcon}
+      />
+      <Text style={styles.buttonText}>{title}</Text>
+    </View>
+  </TouchableOpacity>
+);
 
 const FieldView = ({ label, answer }) => (
   <View style={{ marginLeft: 15 }}>
@@ -36,11 +52,12 @@ const FieldView = ({ label, answer }) => (
   </View>
 );
 
-type ODVProps = {
+type ODVProps = {|
   observation: Observation,
   preset?: PresetWithFields,
-  onPressPhoto: (photoIndex: number) => any
-};
+  onPressPhoto: (photoIndex: number) => any,
+  onPressDelete: () => any
+|};
 
 class ObservationView extends React.Component<ODVProps> {
   handleShare = () => {
@@ -62,7 +79,7 @@ class ObservationView extends React.Component<ODVProps> {
   };
 
   render() {
-    const { observation, preset, onPressPhoto } = this.props;
+    const { observation, preset, onPressPhoto, onPressDelete } = this.props;
     const { lat, lon, attachments } = observation.value;
     // Currently only show photo attachments
     const photos = filterPhotosFromAttachments(attachments);
@@ -131,7 +148,20 @@ class ObservationView extends React.Component<ODVProps> {
               </>
             </View>
           )}
-          <Button title="Compartir" onPress={this.handleShare} />
+          <View style={styles.buttonContainer}>
+            <Button
+              iconName="share"
+              title="Compartir"
+              color="#3366FF"
+              onPress={this.handleShare}
+            />
+            <Button
+              iconName="delete-forever"
+              title="Borrar"
+              color={RED}
+              onPress={onPressDelete}
+            />
+          </View>
         </>
       </ScrollView>
     );
@@ -229,5 +259,33 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 14,
     fontWeight: "700"
+  },
+  button: {
+    borderRadius: 30,
+    height: 50,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flex: 1,
+    paddingHorizontal: 15,
+    marginHorizontal: 20,
+    marginVertical: 10
+  },
+  buttonIcon: {
+    flex: 0,
+    paddingRight: 10
+  },
+  buttonText: {
+    flex: 1,
+    color: WHITE,
+    fontSize: 20,
+    fontWeight: "700",
+    textAlign: "center",
+    marginRight: 40
+  },
+  buttonContainer: {
+    paddingVertical: 10,
+    flex: 1,
+    flexDirection: "column"
   }
 });

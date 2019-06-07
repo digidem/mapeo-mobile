@@ -135,6 +135,9 @@ export function Api({
   function get(url: string) {
     return onReady().then(() => req.get(url).json());
   }
+  function del(url: string) {
+    return onReady().then(() => req.delete(url).json());
+  }
   function put(url: string, data: any) {
     return onReady().then(() => req.put(url, { json: data }).json());
   }
@@ -213,6 +216,16 @@ export function Api({
 
     getMapStyle: function getMapStyle(id: string): Promise<any> {
       return get(`styles/${id}/style.json`);
+    },
+
+    /**
+     * DELETE methods
+     */
+
+    deleteObservation: function deleteObservation(
+      id: string
+    ): Promise<{ deleted: boolean }> {
+      return del(`observations/${id}`);
     },
 
     /**

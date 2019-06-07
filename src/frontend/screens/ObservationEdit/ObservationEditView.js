@@ -14,7 +14,6 @@ import {
 } from "../../sharedComponents/icons";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import TextButton from "../../sharedComponents/TextButton";
-import DeleteButton from "./DeleteButton";
 import { withDraft } from "../../context/DraftObservationContext";
 
 import type { PresetWithFields } from "../../context/PresetsContext";
@@ -117,7 +116,6 @@ export const ObservationEdit = ({
         <CategoryView preset={preset} onPress={onPressCategory} />
         <DescriptionField />
         <PhotosView onPressPhoto={onPressPhoto} />
-        <DeleteButton />
       </ScrollView>
       <BottomSheet items={bottomSheetItems} />
     </View>
