@@ -198,7 +198,8 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    marginBottom: 10
+    marginBottom: 20,
+    alignItems: "flex-end"
   },
   column: {
     flex: 1,

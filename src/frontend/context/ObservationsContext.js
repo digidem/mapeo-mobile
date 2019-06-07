@@ -52,6 +52,8 @@ export type ObservationsContext = {
   loading: boolean,
   // Create a new observation, saving it to the server
   create: (value: ObservationValue) => Promise<Observation>,
+  // Delete an observation
+  delete: (id: string) => Promise<void>,
   // Update an existing observation
   update: (id: string, value: ObservationValue) => Promise<Observation>,
   // If there is an error loading or saving an observation this will contain the
@@ -64,6 +66,7 @@ const defaultContext = {
   reload: () => {},
   create: () => Promise.resolve(),
   update: () => Promise.resolve(),
+  delete: () => Promise.resolve(),
   loading: false
 };
 
@@ -86,6 +89,7 @@ class ObservationsProvider extends React.Component<Props, ObservationsContext> {
     reload: this.reload.bind(this),
     create: this.create.bind(this),
     update: this.update.bind(this),
+    delete: this.delete.bind(this),
     loading: false
   };
 
@@ -113,6 +117,17 @@ class ObservationsProvider extends React.Component<Props, ObservationsContext> {
         const cloned = new Map(this.state.observations);
         log("Created new observation", newObservation);
         cloned.set(newObservation.id, newObservation);
+        return { observations: cloned };
+      });
+    });
+  }
+
+  delete(id: string) {
+    return api.deleteObservation(id).then(() => {
+      this.setState(state => {
+        const cloned = new Map(this.state.observations);
+        log("Deleted observation:", id);
+        cloned.delete(id);
         return { observations: cloned };
       });
     });
