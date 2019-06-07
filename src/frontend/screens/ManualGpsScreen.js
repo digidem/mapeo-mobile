@@ -26,8 +26,8 @@ type State = {
   northing: string
 };
 
-const HeaderLeft = ({ navigation }) => (
-  <IconButton onPress={() => navigation.pop()}>
+const HeaderLeft = ({ onPress }) => (
+  <IconButton onPress={onPress}>
     <BackIcon />
   </IconButton>
 );
@@ -35,7 +35,7 @@ const HeaderLeft = ({ navigation }) => (
 class ManualGpsScreen extends React.Component<Props, State> {
   static navigationOptions = ({ navigation }: any) => ({
     title: "Coordenadas UTM",
-    headerLeft: React.memo(HeaderLeft),
+    headerLeft: HeaderLeft,
     headerRight: (
       <IconButton onPress={navigation.getParam("handleSavePress")}>
         <SaveIcon inprogress={false} />
@@ -108,11 +108,41 @@ class ManualGpsScreen extends React.Component<Props, State> {
       <View style={styles.container}>
         <View style={styles.row}>
           <View style={styles.column}>
+            <Text style={styles.inputLabel}>Numero de Zona</Text>
+            <TextInput
+              placeholder="DD"
+              placeholderTextColor="silver"
+              underlineColorAndroid="transparent"
+              keyboardType="number-pad"
+              onChangeText={zoneNum => this.setState({ zoneNum })}
+              maxLength={2}
+              value={this.state.zoneNum}
+              style={styles.input}
+            />
+          </View>
+          <View style={styles.column}>
+            <Text style={styles.inputLabel}>Letra de Zona</Text>
+            <TextInput
+              placeholder="S"
+              placeholderTextColor="silver"
+              underlineColorAndroid="transparent"
+              onChangeText={zoneLetter =>
+                this.setState({ zoneLetter: zoneLetter.trim() })
+              }
+              maxLength={1}
+              autoCapitalize="characters"
+              style={styles.input}
+              value={this.state.zoneLetter}
+            />
+          </View>
+        </View>
+        <View style={styles.row}>
+          <View style={styles.column}>
             <Text style={styles.inputLabel}>Este</Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <TextInput
                 autoFocus
-                placeholder="DDDDDD"
+                placeholder="XXXXXX"
                 placeholderTextColor="silver"
                 underlineColorAndroid="transparent"
                 keyboardType="number-pad"
@@ -127,7 +157,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
             <Text style={styles.inputLabel}>Norte</Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <TextInput
-                placeholder="DDDDDDD"
+                placeholder="XXXXXX"
                 placeholderTextColor="silver"
                 underlineColorAndroid="transparent"
                 keyboardType="number-pad"
@@ -137,36 +167,6 @@ class ManualGpsScreen extends React.Component<Props, State> {
               />
               <Text style={styles.suffix}>mN</Text>
             </View>
-          </View>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.column}>
-            <Text style={styles.inputLabel}>Numero de Zona UTM</Text>
-            <TextInput
-              placeholder="DD"
-              placeholderTextColor="silver"
-              underlineColorAndroid="transparent"
-              keyboardType="number-pad"
-              onChangeText={zoneNum => this.setState({ zoneNum })}
-              maxLength={2}
-              value={this.state.zoneNum}
-              style={styles.input}
-            />
-          </View>
-          <View style={styles.column}>
-            <Text style={styles.inputLabel}>Letra de Zona UTM</Text>
-            <TextInput
-              placeholder="S"
-              placeholderTextColor="silver"
-              underlineColorAndroid="transparent"
-              onChangeText={zoneLetter =>
-                this.setState({ zoneLetter: zoneLetter.trim() })
-              }
-              maxLength={1}
-              autoCapitalize="characters"
-              style={styles.input}
-              value={this.state.zoneLetter}
-            />
           </View>
         </View>
       </View>
@@ -200,7 +200,8 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    marginBottom: 10
+    marginBottom: 20,
+    alignItems: "flex-end"
   },
   column: {
     flex: 1,

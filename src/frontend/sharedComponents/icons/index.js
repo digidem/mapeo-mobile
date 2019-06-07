@@ -59,6 +59,10 @@ export const BackIcon = ({ size = 30, color, style }: FontIconProps) => (
   <MaterialIcon name="arrow-back" color={color} style={style} size={size} />
 );
 
+export const DeleteIcon = ({ size = 30, color, style }: FontIconProps) => (
+  <MaterialIcon name="delete-forever" color={color} style={style} size={size} />
+);
+
 export const ErrorIcon = ({
   size = 30,
   color = "#660000",
