@@ -1,16 +1,14 @@
 import React from "react";
-import { View, Platform, StatusBar } from "react-native";
+import { View, Platform } from "react-native";
 
 const sizeStyle =
-  Platform.OS === "web"
-    ? { width: "100vw", height: "100vh" }
-    : { paddingTop: StatusBar.currentHeight, flex: 1 };
+  Platform.OS === "web" ? { width: "100vw", height: "100vh" } : undefined;
 
 const FullScreen = ({ children, style }) =>
   Platform.OS === "web" ? (
     <View style={[style, sizeStyle]}>{children}</View>
   ) : (
-    <View style={sizeStyle}>{children}</View>
+    children
   );
 
 export default FullScreen;

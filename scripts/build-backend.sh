@@ -26,11 +26,11 @@ cp -r ./src/backend ./nodejs-assets
 mv ./nodejs-assets/backend ./nodejs-assets/nodejs-project
 
 echo "Installing dependencies..."
-cd ./nodejs-assets/nodejs-project && yarn && cd ../..
+cd ./nodejs-assets/nodejs-project && npm i && cd ../..
 
 echo -en "Minifying with noderify..."
 cd ./nodejs-assets/nodejs-project
-"$(yarn bin)/noderify" \
+"$(npm bin)/noderify" \
   --replace.bindings=bindings-noderify-nodejs-mobile \
   --filter=rn-bridge \
   --filter=original-fs \

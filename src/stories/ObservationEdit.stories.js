@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { action } from "@storybook/addon-actions";
@@ -19,10 +18,7 @@ storiesOf("ObservationEdit", module)
   ))
   .add("New Observation", () => (
     <ObservationEditView
-      isFocused
       isNew
-      onPressDetails={action("add details")}
-      onPressPhoto={action("press photo")}
       onPressCategory={action("choose category")}
       onPressCamera={action("open camera")}
     />

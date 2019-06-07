@@ -25,5 +25,5 @@ rm -rf node_modules/
   ./gradlew clean
   ./gradlew cleanBuildCache
 )
-yarn
-yarn start --reset-cache
+npm install
+npm start -- --reset-cache
