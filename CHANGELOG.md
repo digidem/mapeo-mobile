@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.0](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-alpha.6...v1.1.0-beta.0) (2019-06-07)
+
+
+### Bug Fixes
+
+* **Manual GPS:** Adjust labels, placeholders & formatting ([5301720](https://github.com/digidem/mapeo-mobile/commit/5301720))
+* **Manual GPS:** Fix back button crashing the app ([9a87a7e](https://github.com/digidem/mapeo-mobile/commit/9a87a7e))
+* **Manual GPS:** Put zone number & letter above coordinates ([e78a86f](https://github.com/digidem/mapeo-mobile/commit/e78a86f))
+* touchables for iOS ([3584f20](https://github.com/digidem/mapeo-mobile/commit/3584f20))
+
+
+### Features
+
+* **Design:** Add Expo storybook app for Android & iOS with no dev env ([74dd5f3](https://github.com/digidem/mapeo-mobile/commit/74dd5f3))
+* Delete observation button ([#124](https://github.com/digidem/mapeo-mobile/issues/124)) ([095ab41](https://github.com/digidem/mapeo-mobile/commit/095ab41))
+
+
+
 ## [1.1.0-alpha.6](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-alpha.5...v1.1.0-alpha.6) (2019-06-05)
 
 
