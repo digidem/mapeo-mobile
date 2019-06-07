@@ -108,9 +108,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
       <View style={styles.container}>
         <View style={styles.row}>
           <View style={styles.column}>
-            <Text style={styles.inputLabel}>
-              Numero de Zona UTM long long long
-            </Text>
+            <Text style={styles.inputLabel}>Numero de Zona</Text>
             <TextInput
               placeholder="DD"
               placeholderTextColor="silver"
@@ -123,7 +121,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
             />
           </View>
           <View style={styles.column}>
-            <Text style={styles.inputLabel}>Letra de Zona UTM</Text>
+            <Text style={styles.inputLabel}>Letra de Zona</Text>
             <TextInput
               placeholder="S"
               placeholderTextColor="silver"
@@ -144,7 +142,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <TextInput
                 autoFocus
-                placeholder="DDDDDD"
+                placeholder="XXXXXX"
                 placeholderTextColor="silver"
                 underlineColorAndroid="transparent"
                 keyboardType="number-pad"
@@ -159,7 +157,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
             <Text style={styles.inputLabel}>Norte</Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <TextInput
-                placeholder="DDDDDDD"
+                placeholder="XXXXXX"
                 placeholderTextColor="silver"
                 underlineColorAndroid="transparent"
                 keyboardType="number-pad"
@@ -202,7 +200,8 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    marginBottom: 10
+    marginBottom: 20,
+    alignItems: "flex-end"
   },
   column: {
     flex: 1,
