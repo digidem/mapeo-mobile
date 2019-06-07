@@ -26,8 +26,8 @@ type State = {
   northing: string
 };
 
-const HeaderLeft = ({ navigation }) => (
-  <IconButton onPress={() => navigation.pop()}>
+const HeaderLeft = ({ onPress }) => (
+  <IconButton onPress={onPress}>
     <BackIcon />
   </IconButton>
 );
@@ -35,7 +35,7 @@ const HeaderLeft = ({ navigation }) => (
 class ManualGpsScreen extends React.Component<Props, State> {
   static navigationOptions = ({ navigation }: any) => ({
     title: "Coordenadas UTM",
-    headerLeft: React.memo(HeaderLeft),
+    headerLeft: HeaderLeft,
     headerRight: (
       <IconButton onPress={navigation.getParam("handleSavePress")}>
         <SaveIcon inprogress={false} />
