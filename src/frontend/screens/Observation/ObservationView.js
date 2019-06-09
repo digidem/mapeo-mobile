@@ -10,12 +10,15 @@ import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { DetailsIcon, CategoryIcon } from "../../sharedComponents/icons";
 import { formatDate, formatCoords } from "../../lib/utils";
 import { filterPhotosFromAttachments } from "../../context/DraftObservationContext";
-import { RED, WHITE } from "../../lib/styles";
+import { BLACK, RED, WHITE, LIGHT_GREY } from "../../lib/styles";
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
+import debug from "debug";
 
 // const InsetMapView = ({ style }) => <View style={[style, styles.insetMap]} />;
+
+const log = debug("mapeo:ObservationView");
 
 type ButtonProps = {
   onPress: () => any,
@@ -56,7 +59,7 @@ type ODVProps = {|
   observation: Observation,
   preset?: PresetWithFields,
   onPressPhoto: (photoIndex: number) => any,
-  onPressDelete: () => any
+  onPressDelete: () => any,
 |};
 
 class ObservationView extends React.Component<ODVProps> {
@@ -80,19 +83,13 @@ class ObservationView extends React.Component<ODVProps> {
 
   render() {
     const { observation, preset, onPressPhoto, onPressDelete } = this.props;
+    log('Preset > ', preset);
     const { lat, lon, attachments } = observation.value;
     // Currently only show photo attachments
     const photos = filterPhotosFromAttachments(attachments);
     return (
       <ScrollView style={styles.container}>
         <>
-          <Image
-            source={require("../../images/category-pin.png")}
-            style={styles.categoryPin}
-          />
-          <View style={styles.categoryIconContainer}>
-            <CategoryIcon iconId={(preset || {}).icon} />
-          </View>
           {lat != null && lon != null && (
             <View style={{ flexDirection: "row", alignSelf: "center" }}>
               <FormattedCoords
@@ -102,7 +99,15 @@ class ObservationView extends React.Component<ODVProps> {
               />
             </View>
           )}
-          <Text style={styles.time}>{formatDate(observation.created_at)}</Text>
+          <View>
+            <Text style={styles.time}>{formatDate(observation.created_at)}</Text>
+          </View>
+          <View style={styles.categoryIconContainer}>
+            <CategoryIcon iconId={(preset || {}).icon} />
+            <Text numberOfLines={1}>
+              {preset ? preset.name : "Observation"}
+            </Text>
+          </View>
           <View style={styles.section}>
             <Text style={styles.textNotes}>{observation.value.tags.notes}</Text>
           </View>
@@ -202,15 +207,10 @@ function formatShareMessage({
 
 const styles = StyleSheet.create({
   categoryIconContainer: {
-    alignSelf: "center",
-    position: "absolute",
-    top: 25
-  },
-  categoryPin: {
-    alignSelf: "center",
-    width: 80,
-    height: 85,
-    marginTop: 5
+    // alignSelf: "center",
+    // position: "absolute",
+    paddingTop: 25,
+    flexDirection: 'row'
   },
   container: {
     backgroundColor: "white",
@@ -236,16 +236,16 @@ const styles = StyleSheet.create({
     marginTop: 15
   },
   textNotes: {
-    color: "black",
     fontSize: 18,
     fontWeight: "700",
-    margin: 20,
-    textAlign: "center"
+    margin: 20
   },
   time: {
-    color: "grey",
-    fontSize: 12,
-    fontWeight: "300",
+    color: BLACK,
+    backgroundColor: LIGHT_GREY,
+    fontSize: 14,
+    paddingVertical: 10,
+    // fontWeight: "300",
     textAlign: "center"
   },
   fieldAnswer: {
