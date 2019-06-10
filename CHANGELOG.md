@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.2](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.1...v1.1.0-beta.2) (2019-06-10)
+
+
+### Bug Fixes
+
+* Fix occasional crash during startup ([b43f87a](https://github.com/digidem/mapeo-mobile/commit/b43f87a))
+
+
+
 ## [1.1.0-beta.1](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.0...v1.1.0-beta.1) (2019-06-07)
 
 
