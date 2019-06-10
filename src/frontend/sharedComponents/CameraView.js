@@ -35,7 +35,7 @@ type Acceleration = { x: number, y: number, z: number };
 
 class CameraView extends React.Component<Props, State> {
   cameraRef: { current: any };
-  subscription: { remove: () => any };
+  subscription: { remove: () => any } | null;
   acceleration: Acceleration;
   mounted: boolean;
   state = { takingPicture: false, showCamera: true };
@@ -48,7 +48,7 @@ class CameraView extends React.Component<Props, State> {
   componentDidMount() {
     this.mounted = true;
     Accelerometer.isAvailableAsync().then(motionAvailable => {
-      if (!motionAvailable) return;
+      if (!motionAvailable || !this.mounted || this.subscription) return;
       Accelerometer.setUpdateInterval(1000);
       this.subscription = Accelerometer.addListener(acc => {
         this.acceleration = acc;
@@ -59,6 +59,7 @@ class CameraView extends React.Component<Props, State> {
   componentWillUnmount() {
     this.mounted = false;
     if (this.subscription) this.subscription.remove();
+    this.subscription = null;
   }
 
   handleAddPress = (e: any) => {
