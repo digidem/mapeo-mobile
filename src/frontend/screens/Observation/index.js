@@ -29,19 +29,8 @@ type Props = {
   delete: $PropertyType<ObservationsContext, "delete">
 };
 
-const ObservationTitle = ({ navigation }: NavigationScreenConfigProps) => (
-  <ObservationPreset id={navigation.getParam("observationId")}>
-    {({ observation, preset }) => (
-      <Text numberOfLines={1} style={styles.title}>
-        {preset ? preset.name : "Observation"}
-      </Text>
-    )}
-  </ObservationPreset>
-);
-
 class Observation extends React.Component<Props> {
   static navigationOptions = ({ navigation }: any) => ({
-    headerTitle: <ObservationTitle navigation={navigation} />,
     headerRight: <EditButton navigation={navigation} />
   });
 

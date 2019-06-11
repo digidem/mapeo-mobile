@@ -7,10 +7,10 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import api from "../../api";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
-import { DetailsIcon, CategoryIcon } from "../../sharedComponents/icons";
+import { CategoryIcon } from "../../sharedComponents/icons";
 import { formatDate, formatCoords } from "../../lib/utils";
 import { filterPhotosFromAttachments } from "../../context/DraftObservationContext";
-import { BLACK, RED, WHITE, LIGHT_GREY } from "../../lib/styles";
+import { BLACK, RED, WHITE, DARK_GREY, LIGHT_GREY } from "../../lib/styles";
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
@@ -23,17 +23,17 @@ const log = debug("mapeo:ObservationView");
 type ButtonProps = {
   onPress: () => any,
   color: string,
-  iconName: "delete-forever" | "share",
+  iconName: "delete" | "share",
   title: string
 };
 
 const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
-  <TouchableOpacity onPress={onPress}>
-    <View style={[styles.button, { backgroundColor: color }]}>
+  <TouchableOpacity onPress={onPress} style={{flex: 1}}>
+    <View style={styles.button}>
       <MaterialIcons
         size={30}
         name={iconName}
-        color={WHITE}
+        color={DARK_GREY}
         style={styles.buttonIcon}
       />
       <Text style={styles.buttonText}>{title}</Text>
@@ -102,15 +102,16 @@ class ObservationView extends React.Component<ODVProps> {
           <View>
             <Text style={styles.time}>{formatDate(observation.created_at)}</Text>
           </View>
-          <View style={styles.categoryIconContainer}>
-            <CategoryIcon iconId={(preset || {}).icon} />
-            <Text numberOfLines={1}>
-              {preset ? preset.name : "Observation"}
-            </Text>
-          </View>
           <View style={styles.section}>
-            <Text style={styles.textNotes}>{observation.value.tags.notes}</Text>
-          </View>
+            <View style={styles.categoryIconContainer}>
+              <CategoryIcon iconId={(preset || {}).icon} />
+              <Text style={styles.categoryLabel} numberOfLines={1}>
+                {preset ? preset.name : "Observacion"}
+              </Text>
+            </View>
+            <View style={{paddingVertical: 15}}>
+              <Text style={styles.textNotes}>{observation.value.tags.notes}</Text>
+            </View>
           {/* Not including this until we have a map here
         lat != null && lon != null && (
           <View style={styles.section}>
@@ -130,18 +131,9 @@ class ObservationView extends React.Component<ODVProps> {
           {!!photos.length && (
             <ThumbnailScrollView photos={photos} onPressPhoto={onPressPhoto} />
           )}
+          </View>
           {preset && preset.fields && preset.fields.length > 0 && (
-            <View style={styles.section}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginLeft: 15
-                }}
-              >
-                <DetailsIcon size={20} />
-                <Text style={styles.sectionText}>Detalles</Text>
-              </View>
+            <View style={[styles.section, styles.optionalSection]}>
               <>
                 {preset.fields.map(({ label, key }) => (
                   <FieldView
@@ -153,6 +145,7 @@ class ObservationView extends React.Component<ODVProps> {
               </>
             </View>
           )}
+          <View style={styles.divider}></View>
           <View style={styles.buttonContainer}>
             <Button
               iconName="share"
@@ -161,7 +154,7 @@ class ObservationView extends React.Component<ODVProps> {
               onPress={this.handleShare}
             />
             <Button
-              iconName="delete-forever"
+              iconName="delete"
               title="Borrar"
               color={RED}
               onPress={onPressDelete}
@@ -207,15 +200,23 @@ function formatShareMessage({
 
 const styles = StyleSheet.create({
   categoryIconContainer: {
-    // alignSelf: "center",
-    // position: "absolute",
-    paddingTop: 25,
+    alignItems: 'center',
     flexDirection: 'row'
+  },
+  categoryLabel: {
+    color: BLACK,
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginLeft: 10
   },
   container: {
     backgroundColor: "white",
     flex: 1,
     flexDirection: "column"
+  },
+  divider: {
+    backgroundColor: LIGHT_GREY,
+    paddingVertical: 15
   },
   positionText: {
     fontSize: 12,
@@ -223,29 +224,24 @@ const styles = StyleSheet.create({
     fontWeight: "700"
   },
   section: {
+    flex: 1,
+    marginHorizontal: 15,
+    paddingVertical: 15
+  },
+  optionalSection: {
     borderBottomColor: "lightgray",
     borderBottomWidth: 1,
-    flex: 1
-  },
-  sectionText: {
-    color: "black",
-    fontSize: 14,
-    fontWeight: "700",
-    marginBottom: 15,
-    marginLeft: 10,
-    marginTop: 15
   },
   textNotes: {
-    fontSize: 18,
-    fontWeight: "700",
-    margin: 20
+    fontSize: 22,
+    fontWeight: "100",
+    marginLeft: 10
   },
   time: {
     color: BLACK,
     backgroundColor: LIGHT_GREY,
     fontSize: 14,
     paddingVertical: 10,
-    // fontWeight: "300",
     textAlign: "center"
   },
   fieldAnswer: {
@@ -261,31 +257,18 @@ const styles = StyleSheet.create({
     fontWeight: "700"
   },
   button: {
-    borderRadius: 30,
-    height: 50,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flex: 1,
-    paddingHorizontal: 15,
-    marginHorizontal: 20,
-    marginVertical: 10
+    alignItems: 'center'
   },
   buttonIcon: {
-    flex: 0,
-    paddingRight: 10
   },
   buttonText: {
-    flex: 1,
-    color: WHITE,
-    fontSize: 20,
-    fontWeight: "700",
+    fontSize: 14,
     textAlign: "center",
-    marginRight: 40
+    marginTop: 5
   },
   buttonContainer: {
-    paddingVertical: 10,
-    flex: 1,
-    flexDirection: "column"
+    paddingVertical: 20,
+    flexDirection: "row",
+    justifyContent: 'space-around'
   }
 });
