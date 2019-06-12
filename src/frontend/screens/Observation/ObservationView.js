@@ -9,9 +9,17 @@ import api from "../../api";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
+import mapIcon from "../../images/category-pin.png";
 import { formatDate, formatCoords } from "../../lib/utils";
 import { filterPhotosFromAttachments } from "../../context/DraftObservationContext";
-import { BLACK, RED, WHITE, DARK_GREY, LIGHT_GREY, MEDIUM_GREY } from "../../lib/styles";
+import {
+  BLACK,
+  RED,
+  WHITE,
+  DARK_GREY,
+  LIGHT_GREY,
+  MEDIUM_GREY
+} from "../../lib/styles";
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
@@ -23,7 +31,43 @@ type ButtonProps = {
   title: string
 };
 
-const InsetMapView = ({lon, lat}) => (
+type MapProps = {
+  lon: number,
+  lat: number
+};
+
+const MapFeatures = ({ lat, lon }: MapProps) => {
+  const featureCollection = {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [lon, lat]
+        },
+        properties: {
+          id: Date.now()
+        }
+      }
+    ]
+  };
+  return (
+    <MapboxGL.ShapeSource
+      id={`observation-source`}
+      hitbox={{ width: 20, height: 20 }}
+      shape={featureCollection}
+    >
+      <MapboxGL.SymbolLayer
+        style={{
+          iconImage: mapIcon
+        }}
+      />
+    </MapboxGL.ShapeSource>
+  );
+};
+
+const InsetMapView = ({ lon, lat }: MapProps) => (
   <MapboxGL.MapView
     style={styles.map}
     zoomEnabled={false}
@@ -33,15 +77,13 @@ const InsetMapView = ({lon, lat}) => (
     compassEnabled={false}
     styleURL={MapboxGL.StyleURL.Satellite}
   >
-    <MapboxGL.Camera
-      centerCoordinate={[lon, lat]}
-      zoomLevel={15}
-    />
+    <MapboxGL.Camera centerCoordinate={[lon, lat]} zoomLevel={15} />
+    <MapFeatures lat={lat} lon={lon} />
   </MapboxGL.MapView>
-)
+);
 
 const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
-  <TouchableOpacity onPress={onPress} style={{flex: 1}}>
+  <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
     <View style={styles.button}>
       <MaterialIcons
         size={30}
@@ -54,7 +96,7 @@ const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
   </TouchableOpacity>
 );
 
-const FieldView = ({ label, answer, style}) => (
+const FieldView = ({ label, answer, style }) => (
   <View style={style}>
     <Text style={styles.fieldTitle}>{label}</Text>
     <Text
@@ -72,7 +114,7 @@ type ODVProps = {|
   observation: Observation,
   preset?: PresetWithFields,
   onPressPhoto: (photoIndex: number) => any,
-  onPressDelete: () => any,
+  onPressDelete: () => any
 |};
 
 class ObservationView extends React.Component<ODVProps> {
@@ -105,26 +147,37 @@ class ObservationView extends React.Component<ODVProps> {
           {lat !== null && lon !== null && (
             <View>
               <View style={styles.coords}>
-                <FormattedCoords lon={lon} lat={lat} style={styles.positionText} />
+                <FormattedCoords
+                  lon={lon}
+                  lat={lat}
+                  style={styles.positionText}
+                />
               </View>
               <InsetMapView lat={lat} lon={lon} />
             </View>
           )}
           <View>
-            <Text style={styles.time}>{formatDate(observation.created_at)}</Text>
+            <Text style={styles.time}>
+              {formatDate(observation.created_at)}
+            </Text>
           </View>
           <View style={styles.section}>
             <View style={styles.categoryIconContainer}>
-              <CategoryCircleIcon iconId={(preset || {}).icon} size='medium'/>
+              <CategoryCircleIcon iconId={(preset || {}).icon} size="medium" />
               <Text style={styles.categoryLabel} numberOfLines={1}>
                 {preset ? preset.name : "Observacion"}
               </Text>
             </View>
-            <View style={{paddingVertical: 15}}>
-              <Text style={styles.textNotes}>{observation.value.tags.notes}</Text>
+            <View style={{ paddingVertical: 15 }}>
+              <Text style={styles.textNotes}>
+                {observation.value.tags.notes}
+              </Text>
             </View>
             {!!photos.length && (
-              <ThumbnailScrollView photos={photos} onPressPhoto={onPressPhoto} />
+              <ThumbnailScrollView
+                photos={photos}
+                onPressPhoto={onPressPhoto}
+              />
             )}
           </View>
           {preset && preset.fields && preset.fields.length > 0 && (
@@ -196,12 +249,12 @@ function formatShareMessage({
 
 const styles = StyleSheet.create({
   categoryIconContainer: {
-    alignItems: 'center',
-    flexDirection: 'row'
+    alignItems: "center",
+    flexDirection: "row"
   },
   categoryLabel: {
     color: BLACK,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 20,
     marginLeft: 10
   },
@@ -215,9 +268,9 @@ const styles = StyleSheet.create({
   },
   coords: {
     zIndex: 10,
-    position: 'absolute',
-    alignSelf: 'center',
-    alignItems: 'center',
+    position: "absolute",
+    alignSelf: "center",
+    alignItems: "center",
     borderRadius: 15,
     right: 15,
     left: 15,
@@ -258,7 +311,7 @@ const styles = StyleSheet.create({
   },
   fieldAnswer: {
     fontSize: 20,
-    fontWeight: '100'
+    fontWeight: "100"
   },
   fieldTitle: {
     color: BLACK,
@@ -267,10 +320,9 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   button: {
-    alignItems: 'center'
+    alignItems: "center"
   },
-  buttonIcon: {
-  },
+  buttonIcon: {},
   buttonText: {
     fontSize: 14,
     textAlign: "center",
@@ -279,6 +331,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     paddingVertical: 20,
     flexDirection: "row",
-    justifyContent: 'space-around'
+    justifyContent: "space-around"
   }
 });
