@@ -89,6 +89,7 @@ public class MainApplication extends Application implements ShareApplication, Re
   @Override
   public void onCreate() {
     super.onCreate();
+    BugsnagReactNative.start(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
 }
