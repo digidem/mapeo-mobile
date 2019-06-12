@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
 import { Text, Image, View, ScrollView, StyleSheet, Share } from "react-native";
+import MapboxGL from "@react-native-mapbox-gl/maps";
 import ShareMedia from "react-native-share";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
@@ -15,14 +16,29 @@ import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
 
-// const InsetMapView = ({ style }) => <View style={[style, styles.insetMap]} />;
-
 type ButtonProps = {
   onPress: () => any,
   color: string,
   iconName: "delete" | "share",
   title: string
 };
+
+const InsetMapView = ({lon, lat}) => (
+  <MapboxGL.MapView
+    style={styles.map}
+    zoomEnabled={false}
+    logoEnabled={false}
+    pitchEnabled={false}
+    rotateEnabled={false}
+    compassEnabled={false}
+    styleURL={MapboxGL.StyleURL.Satellite}
+  >
+    <MapboxGL.Camera
+      centerCoordinate={[lon, lat]}
+      zoomLevel={15}
+    />
+  </MapboxGL.MapView>
+)
 
 const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
   <TouchableOpacity onPress={onPress} style={{flex: 1}}>
@@ -86,13 +102,12 @@ class ObservationView extends React.Component<ODVProps> {
     return (
       <ScrollView style={styles.container}>
         <>
-          {lat != null && lon != null && (
-            <View style={{ flexDirection: "row", alignSelf: "center" }}>
-              <FormattedCoords
-                lon={lon}
-                lat={lat}
-                style={styles.positionText}
-              />
+          {lat !== null && lon !== null && (
+            <View>
+              <View style={styles.coords}>
+                <FormattedCoords lon={lon} lat={lat} style={styles.positionText} />
+              </View>
+              <InsetMapView lat={lat} lon={lon} />
             </View>
           )}
           <View>
@@ -108,25 +123,9 @@ class ObservationView extends React.Component<ODVProps> {
             <View style={{paddingVertical: 15}}>
               <Text style={styles.textNotes}>{observation.value.tags.notes}</Text>
             </View>
-          {/* Not including this until we have a map here
-        lat != null && lon != null && (
-          <View style={styles.section}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginLeft: 15
-              }}
-            >
-              <LocationIcon size={20} />
-              <FormattedCoords lon={lon} lat={lat} style={styles.sectionText} />
-            </View>
-            <InsetMapView style={{ height: 240 }} />
-          </View>
-        ) */}
-          {!!photos.length && (
-            <ThumbnailScrollView photos={photos} onPressPhoto={onPressPhoto} />
-          )}
+            {!!photos.length && (
+              <ThumbnailScrollView photos={photos} onPressPhoto={onPressPhoto} />
+            )}
           </View>
           {preset && preset.fields && preset.fields.length > 0 && (
             <View>
@@ -210,6 +209,21 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
     flex: 1,
     flexDirection: "column"
+  },
+  map: {
+    height: 175
+  },
+  coords: {
+    zIndex: 10,
+    position: 'absolute',
+    alignSelf: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    right: 15,
+    left: 15,
+    bottom: 15,
+    paddingVertical: 10,
+    backgroundColor: WHITE
   },
   divider: {
     backgroundColor: LIGHT_GREY,
