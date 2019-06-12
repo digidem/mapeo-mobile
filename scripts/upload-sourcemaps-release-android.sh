@@ -21,11 +21,11 @@ react-native bundle \
   --sourcemap-output android-release.bundle.map
 
 # Upload source maps to Bugsnag, making sure to specify the correct app-version.
-bugsnag-sourcemaps upload \
-  --api-key "$BUGSNAG_API_KEY" \
-  --app-version "$ANDROID_VERSION_CODE" \
-  --minified-file android-release.bundle \
-  --source-map android-release.bundle.map \
-  --minified-url index.android.bundle \
-  --upload-sources \
-  --overwrite
+curl https://upload.bugsnag.com/react-native-source-map \
+  -F apiKey="$BUGSNAG_API_KEY" \
+  -F appVersionCode="$ANDROID_VERSION_CODE" \
+  -F dev=false \
+  -F platform=android \
+  -F sourceMap=@android-release.bundle.map \
+  -F bundle=@android-release.bundle \
+  -F projectRoot=$(pwd)
