@@ -214,7 +214,7 @@ android {
 }
 
 dependencies {
-    implementation project(':bugsnag-react-native')
+    implementation project(path: ':bugsnag-react-native', configuration: 'default')
     implementation "com.bugsnag:bugsnag-android-ndk:4.14.2"
     implementation project(':react-native-share')
     implementation project(':react-native-keep-awake')
