@@ -128,7 +128,6 @@ export default ThumbnailScrollView;
 
 const styles = StyleSheet.create({
   photosContainer: {
-    backgroundColor: "#dddddd",
     flex: 1,
     padding: 5
   },

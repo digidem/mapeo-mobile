@@ -7,18 +7,15 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import api from "../../api";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
-import { CategoryIcon } from "../../sharedComponents/icons";
+import { CategoryCircleIcon } from "../../sharedComponents/icons";
 import { formatDate, formatCoords } from "../../lib/utils";
 import { filterPhotosFromAttachments } from "../../context/DraftObservationContext";
-import { BLACK, RED, WHITE, DARK_GREY, LIGHT_GREY } from "../../lib/styles";
+import { BLACK, RED, WHITE, DARK_GREY, LIGHT_GREY, MEDIUM_GREY } from "../../lib/styles";
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
-import debug from "debug";
 
 // const InsetMapView = ({ style }) => <View style={[style, styles.insetMap]} />;
-
-const log = debug("mapeo:ObservationView");
 
 type ButtonProps = {
   onPress: () => any,
@@ -41,13 +38,13 @@ const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
   </TouchableOpacity>
 );
 
-const FieldView = ({ label, answer }) => (
-  <View style={{ marginLeft: 15 }}>
+const FieldView = ({ label, answer, style}) => (
+  <View style={style}>
     <Text style={styles.fieldTitle}>{label}</Text>
     <Text
       style={[
         styles.fieldAnswer,
-        { color: answer === undefined ? "gray" : "black" }
+        { color: answer === undefined ? MEDIUM_GREY : DARK_GREY }
       ]}
     >
       {answer || "Sin respuesta"}
@@ -83,7 +80,6 @@ class ObservationView extends React.Component<ODVProps> {
 
   render() {
     const { observation, preset, onPressPhoto, onPressDelete } = this.props;
-    log('Preset > ', preset);
     const { lat, lon, attachments } = observation.value;
     // Currently only show photo attachments
     const photos = filterPhotosFromAttachments(attachments);
@@ -104,7 +100,7 @@ class ObservationView extends React.Component<ODVProps> {
           </View>
           <View style={styles.section}>
             <View style={styles.categoryIconContainer}>
-              <CategoryIcon iconId={(preset || {}).icon} />
+              <CategoryCircleIcon iconId={(preset || {}).icon} size='medium'/>
               <Text style={styles.categoryLabel} numberOfLines={1}>
                 {preset ? preset.name : "Observacion"}
               </Text>
@@ -133,13 +129,14 @@ class ObservationView extends React.Component<ODVProps> {
           )}
           </View>
           {preset && preset.fields && preset.fields.length > 0 && (
-            <View style={[styles.section, styles.optionalSection]}>
+            <View>
               <>
                 {preset.fields.map(({ label, key }) => (
                   <FieldView
                     key={key}
                     label={label || key}
                     answer={observation.value.tags[key]}
+                    style={[styles.section, styles.optionalSection]}
                   />
                 ))}
               </>
@@ -210,7 +207,7 @@ const styles = StyleSheet.create({
     marginLeft: 10
   },
   container: {
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     flex: 1,
     flexDirection: "column"
   },
@@ -220,7 +217,7 @@ const styles = StyleSheet.create({
   },
   positionText: {
     fontSize: 12,
-    color: "black",
+    color: BLACK,
     fontWeight: "700"
   },
   section: {
@@ -229,11 +226,12 @@ const styles = StyleSheet.create({
     paddingVertical: 15
   },
   optionalSection: {
-    borderBottomColor: "lightgray",
-    borderBottomWidth: 1,
+    borderTopColor: LIGHT_GREY,
+    borderTopWidth: 1
   },
   textNotes: {
     fontSize: 22,
+    color: DARK_GREY,
     fontWeight: "100",
     marginLeft: 10
   },
@@ -245,16 +243,14 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   fieldAnswer: {
-    color: "black",
-    fontSize: 18,
-    fontWeight: "700",
-    marginTop: 7,
-    marginBottom: 15
+    fontSize: 20,
+    fontWeight: '100'
   },
   fieldTitle: {
-    color: "black",
+    color: BLACK,
     fontSize: 14,
-    fontWeight: "700"
+    fontWeight: "700",
+    marginBottom: 10
   },
   button: {
     alignItems: 'center'
