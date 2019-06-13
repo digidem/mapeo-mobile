@@ -59,6 +59,7 @@ const MapFeatures = ({ lat, lon }: MapProps) => {
       shape={featureCollection}
     >
       <MapboxGL.SymbolLayer
+        id="observation-symbol"
         style={{
           iconImage: mapIcon
         }}
