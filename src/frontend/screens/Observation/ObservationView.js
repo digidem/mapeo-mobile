@@ -9,7 +9,7 @@ import api from "../../api";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
-import mapIcon from "../../images/category-pin.png";
+import mapIcon from "../../images/mapeo-icon-transparent.png";
 import { formatDate, formatCoords } from "../../lib/utils";
 import { filterPhotosFromAttachments } from "../../context/DraftObservationContext";
 import {
@@ -54,14 +54,15 @@ const MapFeatures = ({ lat, lon }: MapProps) => {
   };
   return (
     <MapboxGL.ShapeSource
-      id={`observation-source`}
-      hitbox={{ width: 20, height: 20 }}
+      id="observation-source"
       shape={featureCollection}
     >
       <MapboxGL.SymbolLayer
         id="observation-symbol"
         style={{
-          iconImage: mapIcon
+          iconImage: mapIcon,
+          iconSize: 0.5,
+          iconOffset: [0, -15]
         }}
       />
     </MapboxGL.ShapeSource>
@@ -148,6 +149,7 @@ class ObservationView extends React.Component<ODVProps> {
           {lat !== null && lon !== null && (
             <View>
               <View style={styles.coords}>
+                <View style={styles.coordsPointer} />
                 <FormattedCoords
                   lon={lon}
                   lat={lat}
@@ -276,8 +278,20 @@ const styles = StyleSheet.create({
     right: 15,
     left: 15,
     bottom: 15,
-    paddingVertical: 10,
+    paddingTop: 0,
+    paddingBottom: 10,
     backgroundColor: WHITE
+  },
+  coordsPointer: {
+    width: 0,
+    height: 0,
+    borderLeftWidth: 10,
+    borderLeftColor: 'transparent',
+    borderRightWidth: 10,
+    borderRightColor: 'transparent',
+    borderBottomWidth: 10,
+    borderBottomColor: WHITE,
+    top: -10
   },
   divider: {
     backgroundColor: LIGHT_GREY,
