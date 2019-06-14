@@ -87,10 +87,17 @@ export function formatCoords({
   lat: number,
   format?: "utm"
 }): string {
-  let { easting, northing, zoneNum, zoneLetter } = fromLatLon(lat, lon);
-  easting = leftPad(easting.toFixed(), 6, "0");
-  northing = leftPad(northing.toFixed(), 6, "0");
-  return `UTM ${zoneNum}${zoneLetter} ${easting} ${northing}`;
+  try {
+    let { easting, northing, zoneNum, zoneLetter } = fromLatLon(lat, lon);
+    easting = leftPad(easting.toFixed(), 6, "0");
+    northing = leftPad(northing.toFixed(), 6, "0");
+    return `UTM ${zoneNum}${zoneLetter} ${easting} ${northing}`;
+  } catch (e) {
+    // Some coordinates (e.g. < 80S or 84N) cannot be formatted as UTM
+    return `${lat >= 0 ? "+" : ""}${lat.toFixed(6)}°, ${
+      lon >= 0 ? "+" : ""
+    }${lon.toFixed(6)}°`;
+  }
 }
 
 function leftPad(str: string, len: number, char: string): string {
