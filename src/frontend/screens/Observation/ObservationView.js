@@ -1,11 +1,12 @@
 // @flow
 import React from "react";
-import { Text, Image, View, ScrollView, StyleSheet, Share } from "react-native";
+import { Text, View, ScrollView, StyleSheet, Share } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ShareMedia from "react-native-share";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import api from "../../api";
+import MapStyleProvider from "../../sharedComponents/MapStyleProvider";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
@@ -53,10 +54,7 @@ const MapFeatures = ({ lat, lon }: MapProps) => {
     ]
   };
   return (
-    <MapboxGL.ShapeSource
-      id="observation-source"
-      shape={featureCollection}
-    >
+    <MapboxGL.ShapeSource id="observation-source" shape={featureCollection}>
       <MapboxGL.SymbolLayer
         id="observation-symbol"
         style={{
@@ -70,18 +68,22 @@ const MapFeatures = ({ lat, lon }: MapProps) => {
 };
 
 const InsetMapView = ({ lon, lat }: MapProps) => (
-  <MapboxGL.MapView
-    style={styles.map}
-    zoomEnabled={false}
-    logoEnabled={false}
-    pitchEnabled={false}
-    rotateEnabled={false}
-    compassEnabled={false}
-    styleURL={MapboxGL.StyleURL.Satellite}
-  >
-    <MapboxGL.Camera centerCoordinate={[lon, lat]} zoomLevel={15} />
-    <MapFeatures lat={lat} lon={lon} />
-  </MapboxGL.MapView>
+  <MapStyleProvider styleURL={MapboxGL.StyleURL.Satellite}>
+    {styleURL => (
+      <MapboxGL.MapView
+        style={styles.map}
+        zoomEnabled={false}
+        logoEnabled={false}
+        pitchEnabled={false}
+        rotateEnabled={false}
+        compassEnabled={false}
+        styleURL={styleURL}
+      >
+        <MapboxGL.Camera centerCoordinate={[lon, lat]} zoomLevel={15} />
+        <MapFeatures lat={lat} lon={lon} />
+      </MapboxGL.MapView>
+    )}
+  </MapStyleProvider>
 );
 
 const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
@@ -286,9 +288,9 @@ const styles = StyleSheet.create({
     width: 0,
     height: 0,
     borderLeftWidth: 10,
-    borderLeftColor: 'transparent',
+    borderLeftColor: "transparent",
     borderRightWidth: 10,
-    borderRightColor: 'transparent',
+    borderRightColor: "transparent",
     borderBottomWidth: 10,
     borderBottomColor: WHITE,
     top: -10
