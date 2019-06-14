@@ -131,6 +131,7 @@ class ManualGpsScreen extends React.Component<Props, State> {
   }
 
   onSave = () => {
+    throw new Error("Test GPS error");
     const locationData = this.toLatLon();
     if (locationData) {
       const { draft, navigation } = this.props;
