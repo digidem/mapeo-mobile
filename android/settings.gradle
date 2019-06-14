@@ -1,4 +1,6 @@
 rootProject.name = 'mapeo'
+include ':bugsnag-react-native'
+project(':bugsnag-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/bugsnag-react-native/android')
 include ':react-native-share'
 project(':react-native-share').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share/android')
 apply from: '../node_modules/react-native-unimodules/gradle.groovy'

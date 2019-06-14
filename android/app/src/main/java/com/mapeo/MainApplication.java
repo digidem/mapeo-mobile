@@ -3,6 +3,7 @@ package com.mapeo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.bugsnag.BugsnagReactNative;
 import cl.json.RNSharePackage;
 import cl.json.ShareApplication;
 import com.corbt.keepawake.KCKeepAwakePackage;
@@ -54,6 +55,7 @@ public class MainApplication extends Application implements ShareApplication, Re
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            BugsnagReactNative.getPackage(),
             new RNSharePackage(),
             new KCKeepAwakePackage(),
             new AndroidOpenSettingsPackage(),
@@ -87,6 +89,7 @@ public class MainApplication extends Application implements ShareApplication, Re
   @Override
   public void onCreate() {
     super.onCreate();
+    BugsnagReactNative.start(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
 }

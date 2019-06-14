@@ -11,6 +11,7 @@ import AppLoading from "./AppLoading";
 import AppContainer from "./AppContainer";
 import PermissionsContext from "./context/PermissionsContext";
 import AppProvider from "./context/AppProvider";
+import bugsnag from "./lib/logger";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -49,8 +50,7 @@ class ErrorBoundary extends React.Component<
     hasError: false
   };
 
-  static getDerivedStateFromError(error: Error) {
-    log(error);
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
@@ -58,8 +58,14 @@ class ErrorBoundary extends React.Component<
     // This is rendered outside AppLoading, so SpashScreen could still be
     // showing if error occurs in AppLoading before it's hidden
     SplashScreen.hide();
-    log("Uncaught error in component tree:", error);
-    log(info.componentStack);
+    bugsnag.notify(error, function(report) {
+      report.severity = "error";
+      report.metadata = {
+        react: {
+          componentStack: formatComponentStack(info.componentStack)
+        }
+      };
+    });
   }
 
   render() {
@@ -86,3 +92,12 @@ const App = () => (
 );
 
 export default App;
+
+const formatComponentStack = str => {
+  const lines = str.split(/\s*\n\s*/g);
+  let ret = "";
+  for (let line = 0, len = lines.length; line < len; line++) {
+    if (lines[line].length) ret += `${ret.length ? "\n" : ""}${lines[line]}`;
+  }
+  return ret;
+};

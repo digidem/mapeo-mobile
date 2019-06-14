@@ -174,6 +174,7 @@ class MapView extends React.Component<Props, State> {
     // Any user interaction with the map switches follow mode to false
     this.setState({ following: false });
     this.currentZoom = e.properties.zoomLevel;
+    console.log(e.properties);
   };
 
   getFollowZoomLevel() {
