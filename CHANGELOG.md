@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.3](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.2...v1.1.0-beta.3) (2019-06-14)
+
+
+### Bug Fixes
+
+* **Manual GPS:** Determine whether the user is using UTM zone letters for latitude bands or hemisphere ([9bac3e1](https://github.com/digidem/mapeo-mobile/commit/9bac3e1))
+* **Manual GPS:** Fix app crash when coords can't be formatted as UTM ([dd3c6bd](https://github.com/digidem/mapeo-mobile/commit/dd3c6bd))
+
+
+### Features
+
+* Add Bugsnag error reporting ([#136](https://github.com/digidem/mapeo-mobile/issues/136)) ([56b1135](https://github.com/digidem/mapeo-mobile/commit/56b1135))
+
+
+
 ## [1.1.0-beta.2](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.1...v1.1.0-beta.2) (2019-06-10)
 
 
