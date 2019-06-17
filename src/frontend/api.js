@@ -12,6 +12,7 @@ import type {
   ObservationValue
 } from "./context/ObservationsContext";
 import { promiseTimeout } from "./lib/utils";
+import bugsnag from "./lib/logger";
 import STATUS from "./../backend/constants";
 
 import type { IconSize, ImageSize } from "./types";
@@ -186,7 +187,13 @@ export function Api({
         serverStartPromise,
         SERVER_START_TIMEOUT,
         "Server start timeout"
-      );
+      ).catch(e => {
+        // We could get here when the timeout timer has not yet started and the
+        // server status is still "STARTING", so we update the status to an
+        // error
+        onStatusChange(status.ERROR);
+        bugsnag.notify(e);
+      });
     },
 
     addServerStateListener: function addServerStateListener(
