@@ -9,6 +9,7 @@ import RNFS from "react-native-fs";
 
 import AddButton from "./AddButton";
 import { promiseTimeout } from "../lib/utils";
+import bugsnag from "../lib/logger";
 import type { CapturePromise } from "../context/DraftObservationContext";
 
 const log = debug("CameraView");
@@ -85,6 +86,7 @@ class CameraView extends React.Component<Props, State> {
         setTimeout(this.props.onAddPress, 0, e, capture);
       }
     );
+    capture.catch(bugsnag.notify);
     capture.finally(() => {
       if (!this.mounted) return;
       this.setState({ takingPicture: false });
