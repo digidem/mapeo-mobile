@@ -65,8 +65,12 @@ export { STATUS as Constants };
 
 const log = debug("mapeo-mobile:api");
 const BASE_URL = "http://127.0.0.1:9081/";
+// Timeout between heartbeats from the server. If 10 seconds pass without a
+// heartbeat then we consider the server has errored
 const DEFAULT_TIMEOUT = 10000; // 10 seconds
-const SERVER_START_TIMEOUT = 10000;
+// Timeout for server start. If 20 seconds passes after server starts with no
+// heartbeat then we consider the server has errored
+const SERVER_START_TIMEOUT = 20000;
 
 const pixelRatio = PixelRatio.get();
 
