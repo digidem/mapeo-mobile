@@ -157,6 +157,9 @@ export function Api({
     startServer: function startServer(): Promise<void> {
       // The server might already be started - request current status
       nodejs.channel.post("request-status");
+      bugsnag.leaveBreadcrumb(
+        "Requesting storage permissions for server start"
+      );
       // The server requires read & write permissions for external storage
       const serverStartPromise = PermissionsAndroid.requestMultiple([
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
@@ -168,13 +171,13 @@ export function Api({
           );
           if (!permissionsGranted)
             throw new Error("Storage read and write permissions not granted");
-          log("REQUESTING NODE START");
+          bugsnag.leaveBreadcrumb("Requesting Mapeo Core start");
           nodejs.start("loader.js");
           // We know the node process has started as soon as we hear a status
           return new Promise(resolve => nodejs.channel.once("status", resolve));
         })
         .then(() => {
-          log("FIRST HEARTBEAT FROM NODE");
+          bugsnag.leaveBreadcrumb("First hearbeat from Mapeo Core");
           // Start monitoring for timeout
           restartTimeout();
           // As soon as we hear from the Node process, send the storagePath so
@@ -183,6 +186,9 @@ export function Api({
           // Resolve once the server reports status as "LISTENING"
           return onReady();
         });
+      serverStartPromise.then(() =>
+        bugsnag.leaveBreadcrumb("Mapeo Core server is ready")
+      );
       return promiseTimeout(
         serverStartPromise,
         SERVER_START_TIMEOUT,
