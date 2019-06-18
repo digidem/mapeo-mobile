@@ -4,10 +4,7 @@ import { Text, View, ScrollView, StyleSheet, Share } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ShareMedia from "react-native-share";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import {isNil} from 'lodash';
-
-import debug from "debug";
-const log = debug("mapeo:ObservationView");
+import isNil from 'lodash/isNil';
 
 import api from "../../api";
 import MapStyleProvider from "../../sharedComponents/MapStyleProvider";
