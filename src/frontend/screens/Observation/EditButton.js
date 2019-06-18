@@ -22,6 +22,7 @@ class EditButton extends React.PureComponent<Props> {
   handlePress = () => {
     const { navigation, observations, newDraft } = this.props;
     const observationId = navigation.getParam("observationId");
+    throw new Error("Test Error");
     if (typeof observationId !== "string") return;
     const obs = observations.get(observationId);
     if (!obs) return;
