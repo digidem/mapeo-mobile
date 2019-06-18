@@ -4,7 +4,10 @@ import { Text, View, ScrollView, StyleSheet, Share } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ShareMedia from "react-native-share";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import isNil from 'lodash';
+import {isNil} from 'lodash';
+
+import debug from "debug";
+const log = debug("mapeo:ObservationView");
 
 import api from "../../api";
 import MapStyleProvider from "../../sharedComponents/MapStyleProvider";
@@ -61,7 +64,7 @@ const MapFeatures = ({ lat, lon }: MapProps) => {
         style={{
           iconImage: mapIcon,
           iconSize: 0.5,
-          iconOffset: [0, -15]
+          iconAnchor: 'bottom'
         }}
       />
     </MapboxGL.ShapeSource>
@@ -75,6 +78,7 @@ const InsetMapView = ({ lon, lat }: MapProps) => (
         style={styles.map}
         zoomEnabled={false}
         logoEnabled={false}
+        scrollEnabled={false}
         pitchEnabled={false}
         rotateEnabled={false}
         compassEnabled={false}
