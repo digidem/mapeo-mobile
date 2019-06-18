@@ -65,6 +65,7 @@
     "react-native-vector-icons": "^6.3.0",
     "react-navigation": "^3.9.0",
     "react-navigation-transitions": "^1.0.10",
+    "semver": "^6.1.1",
     "shallowequal": "^1.1.0",
     "stacktrace-parser": "^0.1.4",
     "utm": "^1.1.1"
