@@ -16,7 +16,7 @@ import {
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import TextButton from "../../sharedComponents/TextButton";
 import { withDraft } from "../../context/DraftObservationContext";
-import { BLACK, LIGHT_GREY, VERY_LIGHT_BLUE } from "../../lib/styles";
+import { BLACK, LIGHT_GREY, LIGHT_BLUE } from "../../lib/styles";
 
 import type { PresetWithFields } from "../../context/PresetsContext";
 
@@ -28,11 +28,15 @@ const LocationView = ({ longitude, latitude, accuracy }) => (
       <>
         <MaterialIcons
           size={14}
-          name='location-on'
-          color='orange'
-          style={{marginRight: 5}}
+          name="location-on"
+          color="orange"
+          style={{ marginRight: 5 }}
         />
-        <FormattedCoords style={styles.locationText} lat={latitude} lon={longitude} />
+        <FormattedCoords
+          style={styles.locationText}
+          lat={latitude}
+          lon={longitude}
+        />
         {accuracy && (
           <Text style={styles.accuracy}>{"±" + accuracy.toFixed(2) + "m"}</Text>
         )}
@@ -53,7 +57,12 @@ const CategoryView = ({
       <CategoryCircleIcon iconId={preset.icon} />
     </View>
     <Text style={styles.categoryName}>{preset.name || "Observación"}</Text>
-    <TextButton style={styles.changeText} onPress={onPress} title="Cambiar" />
+    <TextButton
+      containerStyle={styles.changeButton}
+      textStyle={styles.changeButtonText}
+      onPress={onPress}
+      title="Cambiar"
+    />
   </View>
 );
 
@@ -153,7 +162,8 @@ const styles = StyleSheet.create({
     paddingBottom: 5
   },
   locationText: {
-    color: BLACK
+    color: BLACK,
+    fontWeight: "bold"
   },
   accuracy: {
     fontWeight: "bold"
@@ -165,8 +175,8 @@ const styles = StyleSheet.create({
     alignContent: "stretch",
     paddingLeft: 15,
     paddingRight: 15,
-    paddingTop: 10,
-    paddingBottom: 10
+    marginTop: 10,
+    marginBottom: 10
   },
   categoryIcon: {
     flex: 0
@@ -178,9 +188,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     flex: 1
   },
-  changeText: {
-    color: VERY_LIGHT_BLUE,
-    fontSize: 12
+  changeButton: {
+    padding: 0
+  },
+  changeButtonText: {
+    color: LIGHT_BLUE,
+    paddingTop: 5,
+    fontSize: 12,
+    fontWeight: "500"
   },
   textInput: {
     flex: 1,

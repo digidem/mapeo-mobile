@@ -15,18 +15,19 @@ TouchableNativeFeedback.propTypes = {
 
 type Props = {
   onPress: (SyntheticEvent<>) => any,
-  style?: Style<typeof View>,
+  containerStyle?: Style<typeof View>,
+  textStyle?: Style<typeof View>,
   title: string,
   testID?: string
 };
 
-const TextButton = ({ onPress, style, title, testID }: Props) => (
+const TextButton = ({ onPress, containerStyle, textStyle,  title, testID }: Props) => (
   <TouchableNativeFeedback
-    style={[styles.buttonContainer, style]}
+    style={[styles.buttonContainer, containerStyle]}
     background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, true)}
     onPress={onPress}
   >
-    <Text style={styles.buttonText}>{title.toUpperCase()}</Text>
+    <Text style={[styles.buttonText, textStyle]}>{title.toUpperCase()}</Text>
   </TouchableNativeFeedback>
 );
 
