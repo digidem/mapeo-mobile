@@ -12,6 +12,7 @@ import type {
   ObservationValue
 } from "./context/ObservationsContext";
 import { promiseTimeout } from "./lib/utils";
+import bugsnag from "./lib/logger";
 import STATUS from "./../backend/constants";
 
 import type { IconSize, ImageSize } from "./types";
@@ -65,8 +66,12 @@ export { STATUS as Constants };
 
 const log = debug("mapeo-mobile:api");
 const BASE_URL = "http://127.0.0.1:9081/";
+// Timeout between heartbeats from the server. If 10 seconds pass without a
+// heartbeat then we consider the server has errored
 const DEFAULT_TIMEOUT = 10000; // 10 seconds
-const SERVER_START_TIMEOUT = 10000;
+// Timeout for server start. If 20 seconds passes after server starts with no
+// heartbeat then we consider the server has errored
+const SERVER_START_TIMEOUT = 20000;
 
 const pixelRatio = PixelRatio.get();
 
@@ -152,6 +157,7 @@ export function Api({
     startServer: function startServer(): Promise<void> {
       // The server might already be started - request current status
       nodejs.channel.post("request-status");
+      bugsnag.leaveBreadcrumb("Starting Mapeo Core");
       // The server requires read & write permissions for external storage
       const serverStartPromise = PermissionsAndroid.requestMultiple([
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
@@ -163,13 +169,13 @@ export function Api({
           );
           if (!permissionsGranted)
             throw new Error("Storage read and write permissions not granted");
-          log("REQUESTING NODE START");
+          bugsnag.leaveBreadcrumb("Mapeo Core permissions");
           nodejs.start("loader.js");
           // We know the node process has started as soon as we hear a status
           return new Promise(resolve => nodejs.channel.once("status", resolve));
         })
         .then(() => {
-          log("FIRST HEARTBEAT FROM NODE");
+          bugsnag.leaveBreadcrumb("Mapeo Core started");
           // Start monitoring for timeout
           restartTimeout();
           // As soon as we hear from the Node process, send the storagePath so
@@ -178,11 +184,20 @@ export function Api({
           // Resolve once the server reports status as "LISTENING"
           return onReady();
         });
+      serverStartPromise.then(() =>
+        bugsnag.leaveBreadcrumb("Mapeo Core ready")
+      );
       return promiseTimeout(
         serverStartPromise,
         SERVER_START_TIMEOUT,
         "Server start timeout"
-      );
+      ).catch(e => {
+        // We could get here when the timeout timer has not yet started and the
+        // server status is still "STARTING", so we update the status to an
+        // error
+        onStatusChange(status.ERROR);
+        bugsnag.notify(e);
+      });
     },
 
     addServerStateListener: function addServerStateListener(

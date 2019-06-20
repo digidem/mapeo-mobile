@@ -68,50 +68,50 @@ class ManualGpsScreen extends React.Component<Props, State> {
 
   toLatLon() {
     const { zoneNum, zoneLetter, easting, northing } = this.state;
-    const parsedNorthing = parseNumber(northing);
-    let northern;
-    // There are two conventions for UTM. One uses a letter to refer to latitude
-    // bands from C to X, excluding "I" and "O". The other uses "N" or "S" to
-    // refer to the northern or southern hemisphere. If the user enters "N" or
-    // "S" we do not know which convention they are using, so we guess. We try
-    // to use the latitude band if we can, since it is better for catching
-    // errors in coordinate entry.
-    if (zoneLetter === "S") {
-      // "S" could refer to grid zone "S" (in the northern hemisphere) or it
-      // could mean "Southern" - conventions differ in different places
-      const startOfZoneS = 3544369.909548157;
-      const startOfZoneT = 4432069.057005376;
-      if (
-        parsedNorthing !== undefined &&
-        parsedNorthing >= startOfZoneS &&
-        parsedNorthing < startOfZoneT
-      ) {
-        // Indeterminate, this could be latitude band S, or it could mean
-        // southern hemisphere. The only place in the southern hemisphere that
-        // matches these coordinates is the very southern tip of Chile and
-        // Argentina, so assume that in this case zoneLetter "S" refers to
-        // latitude band "S", in the northern hemisphere.
-        // TODO: Check with the user what they mean, or use last known location
-      } else {
-        // The northing is not within the range of grid zone "S", so we assume
-        // the user meant "Southern" with the letter "S"
-        northern = false;
-      }
-    } else if (zoneLetter === "N") {
-      const startOfZoneN = 0;
-      const startOfZoneP = 885503.7592863895;
-      if (
-        parsedNorthing &&
-        parsedNorthing >= startOfZoneN &&
-        parsedNorthing < startOfZoneP
-      ) {
-        // Definitely in latitude band N, just use the band letter
-      } else {
-        // Outside latitude band "N", so the user probably means "Northern"
-        northern = true;
-      }
-    }
     try {
+      const parsedNorthing = parseNumber(northing);
+      let northern;
+      // There are two conventions for UTM. One uses a letter to refer to latitude
+      // bands from C to X, excluding "I" and "O". The other uses "N" or "S" to
+      // refer to the northern or southern hemisphere. If the user enters "N" or
+      // "S" we do not know which convention they are using, so we guess. We try
+      // to use the latitude band if we can, since it is better for catching
+      // errors in coordinate entry.
+      if (zoneLetter === "S") {
+        // "S" could refer to grid zone "S" (in the northern hemisphere) or it
+        // could mean "Southern" - conventions differ in different places
+        const startOfZoneS = 3544369.909548157;
+        const startOfZoneT = 4432069.057005376;
+        if (
+          parsedNorthing !== undefined &&
+          parsedNorthing >= startOfZoneS &&
+          parsedNorthing < startOfZoneT
+        ) {
+          // Indeterminate, this could be latitude band S, or it could mean
+          // southern hemisphere. The only place in the southern hemisphere that
+          // matches these coordinates is the very southern tip of Chile and
+          // Argentina, so assume that in this case zoneLetter "S" refers to
+          // latitude band "S", in the northern hemisphere.
+          // TODO: Check with the user what they mean, or use last known location
+        } else {
+          // The northing is not within the range of grid zone "S", so we assume
+          // the user meant "Southern" with the letter "S"
+          northern = false;
+        }
+      } else if (zoneLetter === "N") {
+        const startOfZoneN = 0;
+        const startOfZoneP = 885503.7592863895;
+        if (
+          parsedNorthing &&
+          parsedNorthing >= startOfZoneN &&
+          parsedNorthing < startOfZoneP
+        ) {
+          // Definitely in latitude band N, just use the band letter
+        } else {
+          // Outside latitude band "N", so the user probably means "Northern"
+          northern = true;
+        }
+      }
       return toLatLon(
         parseNumber(easting),
         parseNumber(northing),

@@ -8,6 +8,7 @@ import debounce from "lodash/debounce";
 import AsyncStorage from "@react-native-community/async-storage";
 
 import { getDisplayName } from "../lib/utils";
+import bugsnag from "../lib/logger";
 import type {
   ObservationValue,
   ObservationAttachment
@@ -191,7 +192,7 @@ class DraftObservationProvider extends React.Component<
         })
         .then(({ uri }) => {
           if (capturePromise.cancelled) throw new Error("Cancelled");
-          log("Generated thumbnail", uri);
+          bugsnag.leaveBreadcrumb("Generated thumbnail", { type: "process" });
           photo.thumbnailUri = uri;
           return ImageResizer.createResizedImage(
             photo.originalUri,
@@ -204,7 +205,7 @@ class DraftObservationProvider extends React.Component<
         })
         .then(({ uri }) => {
           if (capturePromise.cancelled) throw new Error("Cancelled");
-          log("Generated preview", uri);
+          bugsnag.leaveBreadcrumb("Generated preview", { type: "process" });
           // Remove from pending
           this.pending = this.pending.filter(p => p !== capturePromise);
           photo.previewUri = uri;
@@ -217,8 +218,10 @@ class DraftObservationProvider extends React.Component<
           // Remove from pending
           this.pending = this.pending.filter(p => p !== capturePromise);
           if (capturePromise.cancelled || err.message === "Cancelled")
-            return log("Cancelled!");
-          log("Error capturing image:", err);
+            return bugsnag.leaveBreadcrumb("Cancelled photo");
+          bugsnag.notify(err, report => {
+            report.severity = "error";
+          });
           photo.error = true;
           this.setState(state => ({
             photos: splice(state.photos, index, photo)

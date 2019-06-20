@@ -14,6 +14,7 @@ import KeepAwake from "react-native-keep-awake";
 
 import SyncView from "./SyncView";
 import api from "../../api";
+import bugsnag from "../../lib/logger";
 import { withObservations } from "../../context/ObservationsContext";
 import { peerStatus } from "./PeerList";
 import type { ObservationsContext } from "../../context/ObservationsContext";
@@ -89,7 +90,7 @@ class SyncModal extends React.Component<Props, State> {
     try {
       ssid = await NetworkInfo.getSSID();
     } catch (e) {
-      console.error(e);
+      bugsnag.notify(e);
     } finally {
       // Even if we don't get the SSID, we still want to show that a wifi
       // network is connected.
