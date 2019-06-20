@@ -129,7 +129,7 @@ function rotatePhoto(acc: Acceleration) {
       rotation
     )
       .then(({ uri }) => {
-        log("Rotated photo");
+        bugsnag.leaveBreadcrumb("Rotate photo", { type: "process" });
         // Image resizer uses `JPEG` as the extension, which gets passed through
         // to mapeo-core media store. Change to `jpg` to match legacy photos and
         // avoid issues on Windows (don't know if it recognizes `JPEG`)
@@ -137,12 +137,15 @@ function rotatePhoto(acc: Acceleration) {
         return RNFS.moveFile(uri, resizedUri);
       })
       .then(() => {
-        log("Renamed captured photo");
+        bugsnag.leaveBreadcrumb("Rename photo", { type: "process" });
         RNFS.unlink(originalUri).then(() => log("Cleaned up un-rotated photo"));
         return { uri: resizedUri };
       })
-      .catch(() => {
-        log("Error rotating photo, returning un-rotated photo");
+      .catch(e => {
+        bugsnag.notify(e, report => {
+          report.errorMessage = "Error rotating photo";
+          report.severity = "warning";
+        });
         // Some devices throw an error trying to rotate the photo, so worst-case
         // we just don't rotate
         return { uri: originalUri, rotate: rotation };
