@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.4](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.3...v1.1.0-beta.4) (2019-06-21)
+
+
+### Bug Fixes
+
+* Fix map zoom-out when switching back to map screen when not in follow-mode ([#147](https://github.com/digidem/mapeo-mobile/issues/147)) ([372c6fc](https://github.com/digidem/mapeo-mobile/commit/372c6fc))
+* Fix various crashes and add bugsnag reporting ([#148](https://github.com/digidem/mapeo-mobile/issues/148)) ([d8579a9](https://github.com/digidem/mapeo-mobile/commit/d8579a9)), closes [#134](https://github.com/digidem/mapeo-mobile/issues/134)
+* update unimodules, should fix some crashes seen in the wild ([b211ed2](https://github.com/digidem/mapeo-mobile/commit/b211ed2))
+* **build:** pin version of reanimated pending fix of https://github.com/kmagiera/react-native-reanimated/issues/315 ([31b0fc4](https://github.com/digidem/mapeo-mobile/commit/31b0fc4))
+
+
+
 ## [1.1.0-beta.3](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.2...v1.1.0-beta.3) (2019-06-14)
 
 
