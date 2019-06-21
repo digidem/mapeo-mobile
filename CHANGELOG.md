@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.5](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.4...v1.1.0-beta.5) (2019-06-21)
+
+
+### Bug Fixes
+
+* pin kappa-osm to v3.0.3 pending update to kappa-core@3 ([acb1284](https://github.com/digidem/mapeo-mobile/commit/acb1284))
+* typo causing server start crash ([ae22022](https://github.com/digidem/mapeo-mobile/commit/ae22022))
+
+
+
 ## [1.1.0-beta.4](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.3...v1.1.0-beta.4) (2019-06-21)
 
 
