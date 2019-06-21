@@ -9,6 +9,7 @@ config.releaseStage = __DEV__
   : prereleaseComponents
   ? prereleaseComponents[0]
   : "production";
+config.appVersion = version;
 const bugsnag = new Client(config);
 
 export default bugsnag;

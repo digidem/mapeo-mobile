@@ -6,10 +6,7 @@ if [ -z "$BUGSNAG_API_KEY" ]; then
   exit 1
 fi
 
-if [ -z "$ANDROID_VERSION_CODE" ]; then
-  echo "Missing env ANDROID_VERSION_CODE"
-  exit 1
-fi
+CURRENT_VERSION="$(npx -c 'echo "$npm_package_version"')"
 
 # Generate source maps using react-native bundler
 cd ..
@@ -23,7 +20,7 @@ react-native bundle \
 # Upload source maps to Bugsnag, making sure to specify the correct app-version.
 curl https://upload.bugsnag.com/react-native-source-map \
   -F apiKey="$BUGSNAG_API_KEY" \
-  -F appVersionCode="$ANDROID_VERSION_CODE" \
+  -F appVersion="$CURRENT_VERSION" \
   -F dev=false \
   -F platform=android \
   -F sourceMap=@android-release.bundle.map \

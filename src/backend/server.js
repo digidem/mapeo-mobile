@@ -10,6 +10,7 @@ const debug = require("debug");
 const mkdirp = require("mkdirp");
 const rnBridge = require("rn-bridge");
 const throttle = require("lodash/throttle");
+const { bugsnag } = require("./index");
 
 const log = debug("mapeo-core:server");
 
@@ -99,16 +100,26 @@ function createServer({ privateStorage, sharedStorage }) {
     if (!target.host || !target.port) return;
     const startTime = Date.now();
     const sync = mapeoCore.sync.replicate(target, { deviceType: "mobile" });
-    sync.on("error", onend);
+    sync.on("error", onerror);
     sync.on("progress", throttledSendPeerUpdateToRN);
     sync.on("end", onend);
     sendPeerUpdateToRN();
+
+    function onerror(err) {
+      bugsnag.notify(err, {
+        severity: "error",
+        context: "sync"
+      });
+      sync.removeListener("error", onerror);
+      sync.removeListener("progress", throttledSendPeerUpdateToRN);
+      sync.removeListener("end", onend);
+    }
 
     function onend(err) {
       if (err) log(err.message);
       const syncDurationSecs = ((Date.now() - startTime) / 1000).toFixed(2);
       log("Sync completed in " + syncDurationSecs + " seconds");
-      sync.removeListener("error", onend);
+      sync.removeListener("error", onerror);
       sync.removeListener("progress", throttledSendPeerUpdateToRN);
       sync.removeListener("end", onend);
       sendPeerUpdateToRN();

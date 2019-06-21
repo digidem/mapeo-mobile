@@ -24,6 +24,14 @@ debug.enable("mapeo*");
 const ServerStatus = require("./status");
 const constants = require("./constants");
 const createServer = require("./server");
+const createBugsnag = require("@bugsnag/js");
+const semver = require("semver");
+const { version } = require("../../package.json");
+
+const prereleaseComponents = semver.prerelease(version);
+const releaseStage = prereleaseComponents
+  ? prereleaseComponents[0]
+  : "production";
 
 const log = debug("mapeo-core:index");
 const PORT = 9081;
@@ -32,13 +40,18 @@ let paused = false;
 let storagePath;
 let server;
 
-status.startHeartbeat();
-
-process.on("uncaughtException", function(err) {
-  log(err.message);
-  console.trace(err);
-  status.setState(constants.ERROR);
+const bugsnag = createBugsnag({
+  apiKey: "572d472ea9d5a9199777b88ef268da4e",
+  releaseStage: releaseStage,
+  appVersion: version,
+  appType: "server",
+  onUncaughtException: () => status.setState(constants.ERROR),
+  onUnhandledRejection: () => status.setState(constants.ERROR)
 });
+
+module.exports.bugsnag = bugsnag;
+
+status.startHeartbeat();
 
 /**
  * We use a user folder on external storage for some data (custom map styles and
@@ -60,10 +73,17 @@ rnBridge.channel.on("storagePath", path => {
       log("closed server with storagePath", prevStoragePath);
     });
   storagePath = path;
-  server = createServer({
-    privateStorage: rnBridge.app.datadir(),
-    sharedStorage: storagePath
-  });
+  try {
+    server = createServer({
+      privateStorage: rnBridge.app.datadir(),
+      sharedStorage: storagePath
+    });
+  } catch (e) {
+    bugsnag.notify(e, {
+      severity: "error",
+      context: "createServer"
+    });
+  }
   if (!paused) startServer();
 });
 
