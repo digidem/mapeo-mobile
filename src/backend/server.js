@@ -10,7 +10,7 @@ const debug = require("debug");
 const mkdirp = require("mkdirp");
 const rnBridge = require("rn-bridge");
 const throttle = require("lodash/throttle");
-const { bugsnag } = require("./index");
+const main = require("./index");
 
 const log = debug("mapeo-core:server");
 
@@ -106,7 +106,7 @@ function createServer({ privateStorage, sharedStorage }) {
     sendPeerUpdateToRN();
 
     function onerror(err) {
-      bugsnag.notify(err, {
+      main.bugsnag.notify(err, {
         severity: "error",
         context: "sync"
       });

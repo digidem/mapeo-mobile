@@ -40,6 +40,10 @@ let paused = false;
 let storagePath;
 let server;
 
+// This is nastily circular: we need an instance of status for the constructor
+// of bugsnag (so that we can inform the front-end of errors) but then we need
+// the instance of bugsnag for other modules (which are required above, when
+// module.exports.bugsnag is still undefined)
 const bugsnag = createBugsnag({
   apiKey: "572d472ea9d5a9199777b88ef268da4e",
   releaseStage: releaseStage,
