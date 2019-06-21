@@ -195,7 +195,7 @@ export function Api({
         // We could get here when the timeout timer has not yet started and the
         // server status is still "STARTING", so we update the status to an
         // error
-        onStatusChange(status.ERROR);
+        onStatusChange(STATUS.ERROR);
         bugsnag.notify(e);
       });
     },
