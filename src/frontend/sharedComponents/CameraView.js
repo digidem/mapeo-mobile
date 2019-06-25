@@ -65,32 +65,43 @@ class CameraView extends React.Component<Props, State> {
 
   handleAddPress = (e: any) => {
     const camera = this.cameraRef.current;
-    if (!camera) return log("Camera view not ready");
-    if (this.state.takingPicture) return log("Shutter pressed twice");
-    log("Start photo capture");
-    const capture = promiseTimeout(
+    if (!camera)
+      return bugsnag.leaveBreadcrumb("Camera view not ready", {
+        type: "process"
+      });
+    if (this.state.takingPicture)
+      return bugsnag.leaveBreadcrumb("Shutter pressed twice", {
+        type: "process"
+      });
+    bugsnag.leaveBreadcrumb("Start photo capture", { type: "process" });
+
+    const initialCapture = promiseTimeout(
       camera.takePictureAsync(captureOptions),
       15000,
       "Error capturing photo"
-    ).then(data => {
-      log("Initial capture");
+    );
+    const capture = initialCapture.then(data => {
+      bugsnag.leaveBreadcrumb("Initial capture", { type: "process" });
       return rotatePhoto(this.acceleration)(data);
     });
-    this.setState(
-      {
-        takingPicture: true
-      },
-      () => {
-        // Slight weirdness with a expo-camera bug: if we navigate away straight
-        // away then the capture promise never resolves.
-        setTimeout(this.props.onAddPress, 0, e, capture);
-      }
-    );
+
+    // Wait until we have taken the image before navigating away (but rotation
+    // can continue in the background after navigation)
+    initialCapture
+      .then(() => {
+        if (!this.mounted) return;
+        this.props.onAddPress(e, capture);
+      })
+      .catch(bugsnag.notify);
+
     capture.catch(bugsnag.notify);
+
     capture.finally(() => {
       if (!this.mounted) return;
       this.setState({ takingPicture: false });
     });
+
+    this.setState({ takingPicture: true });
   };
 
   render() {
