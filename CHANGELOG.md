@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.7](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.6...v1.1.0-beta.7) (2019-06-25)
+
+
+### Bug Fixes
+
+* Attempt to fix camera errors by delaying navigation away from camera until photo is taken ([7bfc990](https://github.com/digidem/mapeo-mobile/commit/7bfc990))
+
+
+
 ## [1.1.0-beta.6](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.5...v1.1.0-beta.6) (2019-06-21)
 
 
