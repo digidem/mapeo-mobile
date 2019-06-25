@@ -278,10 +278,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "center",
     alignItems: "center",
+    flexWrap: 'wrap',
     borderRadius: 15,
-    right: 15,
-    left: 15,
     bottom: 15,
+    paddingRight: 10,
+    paddingLeft: 10,
     paddingTop: 0,
     paddingBottom: 10,
     backgroundColor: WHITE
