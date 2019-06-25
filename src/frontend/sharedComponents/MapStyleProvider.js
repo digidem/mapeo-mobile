@@ -3,21 +3,13 @@ import * as React from "react";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import api from "../api";
 
-type Props = {
-  children: (styleURL: string) => React.Node,
-  styleURL?: string
-}
-
-export default class MapStyleProvider extends React.Component<Props,
+export default class MapStyleProvider extends React.Component<
+  { children: (styleURL: string) => React.Node },
   { styleURL: string }
 > {
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-        styleURL: this.props.styleURL || MapboxGL.StyleURL.Outdoors
-    }
-  }
+  state = {
+    styleURL: MapboxGL.StyleURL.Outdoors
+  };
 
   async componentDidMount() {
     try {

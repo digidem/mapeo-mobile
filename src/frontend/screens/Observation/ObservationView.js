@@ -69,7 +69,7 @@ const MapFeatures = ({ lat, lon }: MapProps) => {
 };
 
 const InsetMapView = ({ lon, lat }: MapProps) => (
-  <MapStyleProvider styleURL={MapboxGL.StyleURL.Satellite}>
+  <MapStyleProvider>
     {styleURL => (
       <MapboxGL.MapView
         style={styles.map}
