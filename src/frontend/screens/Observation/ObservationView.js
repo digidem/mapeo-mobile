@@ -11,7 +11,7 @@ import MapStyleProvider from "../../sharedComponents/MapStyleProvider";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
-import mapIcon from "../../images/mapeo-icon-transparent.png";
+import mapIcon from "../../images/observation-icon.png";
 import { formatDate, formatCoords } from "../../lib/utils";
 import { filterPhotosFromAttachments } from "../../context/DraftObservationContext";
 import {
@@ -59,9 +59,7 @@ const MapFeatures = ({ lat, lon }: MapProps) => {
       <MapboxGL.SymbolLayer
         id="observation-symbol"
         style={{
-          iconImage: mapIcon,
-          iconSize: 0.5,
-          iconAnchor: 'bottom'
+          iconImage: mapIcon
         }}
       />
     </MapboxGL.ShapeSource>
