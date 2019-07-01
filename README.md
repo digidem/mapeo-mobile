@@ -74,6 +74,14 @@ PRs accepted.
 
 Small note: If editing the README, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
 
+## Supporters
+
+We are extremely grateful to companies that embrace open source and support
+Mapeo Mobile with services-in-kind:
+
+[![mapbox](logos/mapbox-logo-black.svg)](https://mapbox.com)
+[![bugsnag](logos/bugsnag_logo_navy.svg)](https://bugsnag.com)
+
 ## License
 
 GPLv3 © 2019 Digital Democracy
