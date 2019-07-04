@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import { View } from "react-native";
-import MapboxGL from "@react-native-mapbox-gl/maps";
+
 import debug from "debug";
 import {
   NavigationActions,
@@ -9,6 +9,7 @@ import {
 } from "react-navigation";
 
 import MapView from "../sharedComponents/MapView";
+import MapStyleProvider from "../sharedComponents/MapStyleProvider";
 import HomeHeader from "../sharedComponents/HomeHeader";
 import ObservationsContext from "../context/ObservationsContext";
 import LocationContext from "../context/LocationContext";
@@ -16,7 +17,7 @@ import {
   withDraft,
   type DraftObservationContext as DraftContextType
 } from "../context/DraftObservationContext";
-import api from "../api";
+
 
 const log = debug("mapeo:MapScreen");
 
@@ -24,30 +25,6 @@ type Props = {
   ...$Exact<NavigationScreenConfigProps>,
   newDraft: $ElementType<DraftContextType, "newDraft">
 };
-
-class MapStyleProvider extends React.Component<
-  { children: (styleURL: string) => React.Node },
-  { styleURL: string }
-> {
-  state = {
-    styleURL: MapboxGL.StyleURL.Outdoors
-  };
-
-  async componentDidMount() {
-    try {
-      const offlineStyleURL = api.getMapStyleUrl("default");
-      // Check if the mapStyle exists on the server
-      await api.getMapStyle("default");
-      this.setState({ styleURL: offlineStyleURL });
-    } catch (e) {
-      // If we don't have a default offline style, don't do anything
-    }
-  }
-
-  render() {
-    return this.props.children(this.state.styleURL);
-  }
-}
 
 class MapScreen extends React.Component<Props> {
   handleObservationPress = (observationId: string) =>

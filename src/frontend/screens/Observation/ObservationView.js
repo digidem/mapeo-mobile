@@ -1,36 +1,97 @@
 // @flow
 import React from "react";
-import { Text, Image, View, ScrollView, StyleSheet, Share } from "react-native";
+import { Text, View, ScrollView, StyleSheet, Share } from "react-native";
+import MapboxGL from "@react-native-mapbox-gl/maps";
 import ShareMedia from "react-native-share";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import api from "../../api";
+import MapStyleProvider from "../../sharedComponents/MapStyleProvider";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
-import { DetailsIcon, CategoryIcon } from "../../sharedComponents/icons";
+import { CategoryCircleIcon } from "../../sharedComponents/icons";
+import mapIcon from "../../images/observation-icon.png";
 import { formatDate, formatCoords } from "../../lib/utils";
 import { filterPhotosFromAttachments } from "../../context/DraftObservationContext";
-import { RED, WHITE } from "../../lib/styles";
+import {
+  BLACK,
+  RED,
+  WHITE,
+  DARK_GREY,
+  LIGHT_GREY,
+  MEDIUM_GREY
+} from "../../lib/styles";
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
 
-// const InsetMapView = ({ style }) => <View style={[style, styles.insetMap]} />;
-
 type ButtonProps = {
   onPress: () => any,
   color: string,
-  iconName: "delete-forever" | "share",
+  iconName: "delete" | "share",
   title: string
 };
 
+type MapProps = {
+  lon: number,
+  lat: number
+};
+
+const MapFeatures = ({ lat, lon }: MapProps) => {
+  const featureCollection = {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [lon, lat]
+        },
+        properties: {
+          id: Date.now()
+        }
+      }
+    ]
+  };
+  return (
+    <MapboxGL.ShapeSource id="observation-source" shape={featureCollection}>
+      <MapboxGL.SymbolLayer
+        id="observation-symbol"
+        style={{
+          iconImage: mapIcon
+        }}
+      />
+    </MapboxGL.ShapeSource>
+  );
+};
+
+const InsetMapView = ({ lon, lat }: MapProps) => (
+  <MapStyleProvider>
+    {styleURL => (
+      <MapboxGL.MapView
+        style={styles.map}
+        zoomEnabled={false}
+        logoEnabled={false}
+        scrollEnabled={false}
+        pitchEnabled={false}
+        rotateEnabled={false}
+        compassEnabled={false}
+        styleURL={styleURL}
+      >
+        <MapboxGL.Camera centerCoordinate={[lon, lat]} zoomLevel={15} />
+        <MapFeatures lat={lat} lon={lon} />
+      </MapboxGL.MapView>
+    )}
+  </MapStyleProvider>
+);
+
 const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
-  <TouchableOpacity onPress={onPress}>
-    <View style={[styles.button, { backgroundColor: color }]}>
+  <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
+    <View style={styles.button}>
       <MaterialIcons
         size={30}
         name={iconName}
-        color={WHITE}
+        color={DARK_GREY}
         style={styles.buttonIcon}
       />
       <Text style={styles.buttonText}>{title}</Text>
@@ -38,13 +99,13 @@ const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
   </TouchableOpacity>
 );
 
-const FieldView = ({ label, answer }) => (
-  <View style={{ marginLeft: 15 }}>
+const FieldView = ({ label, answer, style }) => (
+  <View style={style}>
     <Text style={styles.fieldTitle}>{label}</Text>
     <Text
       style={[
         styles.fieldAnswer,
-        { color: answer === undefined ? "gray" : "black" }
+        { color: answer === undefined ? MEDIUM_GREY : DARK_GREY }
       ]}
     >
       {answer || "Sin respuesta"}
@@ -86,68 +147,59 @@ class ObservationView extends React.Component<ODVProps> {
     return (
       <ScrollView style={styles.container}>
         <>
-          <Image
-            source={require("../../images/category-pin.png")}
-            style={styles.categoryPin}
-          />
-          <View style={styles.categoryIconContainer}>
-            <CategoryIcon iconId={(preset || {}).icon} />
-          </View>
+          {/* check lat and lon are not null or undefined */}
           {lat != null && lon != null && (
-            <View style={{ flexDirection: "row", alignSelf: "center" }}>
-              <FormattedCoords
-                lon={lon}
-                lat={lat}
-                style={styles.positionText}
-              />
-            </View>
-          )}
-          <Text style={styles.time}>{formatDate(observation.created_at)}</Text>
-          <View style={styles.section}>
-            <Text style={styles.textNotes}>{observation.value.tags.notes}</Text>
-          </View>
-          {/* Not including this until we have a map here
-        lat != null && lon != null && (
-          <View style={styles.section}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginLeft: 15
-              }}
-            >
-              <LocationIcon size={20} />
-              <FormattedCoords lon={lon} lat={lat} style={styles.sectionText} />
-            </View>
-            <InsetMapView style={{ height: 240 }} />
-          </View>
-        ) */}
-          {!!photos.length && (
-            <ThumbnailScrollView photos={photos} onPressPhoto={onPressPhoto} />
-          )}
-          {preset && preset.fields && preset.fields.length > 0 && (
-            <View style={styles.section}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginLeft: 15
-                }}
-              >
-                <DetailsIcon size={20} />
-                <Text style={styles.sectionText}>Detalles</Text>
+            <View>
+              <View style={styles.coords}>
+                <View style={styles.coordsPointer} />
+                <FormattedCoords
+                  lon={lon}
+                  lat={lat}
+                  style={styles.positionText}
+                />
               </View>
+              <InsetMapView lat={lat} lon={lon} />
+            </View>
+          )}
+          <View>
+            <Text style={styles.time}>
+              {formatDate(observation.created_at)}
+            </Text>
+          </View>
+          <View style={styles.section}>
+            <View style={styles.categoryIconContainer}>
+              <CategoryCircleIcon iconId={(preset || {}).icon} size="medium" />
+              <Text style={styles.categoryLabel} numberOfLines={1}>
+                {preset ? preset.name : "Observacion"}
+              </Text>
+            </View>
+            <View style={{ paddingVertical: 15 }}>
+              <Text style={styles.textNotes}>
+                {observation.value.tags.notes}
+              </Text>
+            </View>
+            {!!photos.length && (
+              <ThumbnailScrollView
+                photos={photos}
+                onPressPhoto={onPressPhoto}
+              />
+            )}
+          </View>
+          {preset && preset.fields && preset.fields.length > 0 && (
+            <View>
               <>
                 {preset.fields.map(({ label, key }) => (
                   <FieldView
                     key={key}
                     label={label || key}
                     answer={observation.value.tags[key]}
+                    style={[styles.section, styles.optionalSection]}
                   />
                 ))}
               </>
             </View>
           )}
+          <View style={styles.divider}></View>
           <View style={styles.buttonContainer}>
             <Button
               iconName="share"
@@ -156,7 +208,7 @@ class ObservationView extends React.Component<ODVProps> {
               onPress={this.handleShare}
             />
             <Button
-              iconName="delete-forever"
+              iconName="delete"
               title="Borrar"
               color={RED}
               onPress={onPressDelete}
@@ -202,90 +254,101 @@ function formatShareMessage({
 
 const styles = StyleSheet.create({
   categoryIconContainer: {
-    alignSelf: "center",
-    position: "absolute",
-    top: 25
+    alignItems: "center",
+    flexDirection: "row"
   },
-  categoryPin: {
-    alignSelf: "center",
-    width: 80,
-    height: 85,
-    marginTop: 5
+  categoryLabel: {
+    color: BLACK,
+    fontWeight: "bold",
+    fontSize: 20,
+    marginLeft: 10
   },
   container: {
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     flex: 1,
     flexDirection: "column"
+  },
+  map: {
+    height: 175
+  },
+  coords: {
+    zIndex: 10,
+    position: "absolute",
+    alignSelf: "center",
+    alignItems: "center",
+    flexWrap: "wrap",
+    borderRadius: 15,
+    bottom: 15,
+    paddingRight: 10,
+    paddingLeft: 10,
+    paddingTop: 0,
+    paddingBottom: 10,
+    backgroundColor: WHITE
+  },
+  coordsPointer: {
+    width: 0,
+    height: 0,
+    borderLeftWidth: 10,
+    borderLeftColor: "transparent",
+    borderRightWidth: 10,
+    borderRightColor: "transparent",
+    borderBottomWidth: 10,
+    borderBottomColor: WHITE,
+    top: -10
+  },
+  divider: {
+    backgroundColor: LIGHT_GREY,
+    paddingVertical: 15
   },
   positionText: {
     fontSize: 12,
-    color: "black",
+    color: BLACK,
     fontWeight: "700"
   },
   section: {
-    borderBottomColor: "lightgray",
-    borderBottomWidth: 1,
-    flex: 1
+    flex: 1,
+    marginHorizontal: 15,
+    paddingVertical: 15
   },
-  sectionText: {
-    color: "black",
-    fontSize: 14,
-    fontWeight: "700",
-    marginBottom: 15,
-    marginLeft: 10,
-    marginTop: 15
+  optionalSection: {
+    borderTopColor: LIGHT_GREY,
+    borderTopWidth: 1
   },
   textNotes: {
-    color: "black",
-    fontSize: 18,
-    fontWeight: "700",
-    margin: 20,
-    textAlign: "center"
+    fontSize: 22,
+    color: DARK_GREY,
+    fontWeight: "100",
+    marginLeft: 10
   },
   time: {
-    color: "grey",
-    fontSize: 12,
-    fontWeight: "300",
+    color: BLACK,
+    backgroundColor: LIGHT_GREY,
+    fontSize: 14,
+    paddingVertical: 10,
     textAlign: "center"
   },
   fieldAnswer: {
-    color: "black",
-    fontSize: 18,
-    fontWeight: "700",
-    marginTop: 7,
-    marginBottom: 15
+    fontSize: 20,
+    fontWeight: "100"
   },
   fieldTitle: {
-    color: "black",
+    color: BLACK,
     fontSize: 14,
-    fontWeight: "700"
+    fontWeight: "700",
+    marginBottom: 10
   },
   button: {
-    borderRadius: 30,
-    height: 50,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flex: 1,
-    paddingHorizontal: 15,
-    marginHorizontal: 20,
-    marginVertical: 10
+    alignItems: "center"
   },
-  buttonIcon: {
-    flex: 0,
-    paddingRight: 10
-  },
+  buttonIcon: {},
   buttonText: {
-    flex: 1,
-    color: WHITE,
-    fontSize: 20,
-    fontWeight: "700",
+    fontSize: 14,
     textAlign: "center",
-    marginRight: 40
+    marginTop: 5
   },
   buttonContainer: {
-    paddingVertical: 10,
-    flex: 1,
-    flexDirection: "column"
+    paddingVertical: 20,
+    flexDirection: "row",
+    justifyContent: "space-around"
   }
 });
