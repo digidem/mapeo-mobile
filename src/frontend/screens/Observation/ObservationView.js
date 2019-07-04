@@ -59,7 +59,9 @@ const MapFeatures = ({ lat, lon }: MapProps) => {
         id="observation-symbol"
         style={{
           iconImage: "observation",
-          iconSize: 0.4
+          iconSize: 0.4,
+          iconOffset: [0, 51],
+          iconAnchor: "bottom"
         }}
       />
     </MapboxGL.ShapeSource>
