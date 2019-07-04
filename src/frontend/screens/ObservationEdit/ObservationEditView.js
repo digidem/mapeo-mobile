@@ -2,6 +2,7 @@
 import React from "react";
 import { ScrollView, View, Text, StyleSheet, TextInput } from "react-native";
 import { withNavigationFocus } from "react-navigation";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import LocationField from "../../sharedComponents/LocationField";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
@@ -15,6 +16,7 @@ import {
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import TextButton from "../../sharedComponents/TextButton";
 import { withDraft } from "../../context/DraftObservationContext";
+import { BLACK, LIGHT_GREY, LIGHT_BLUE } from "../../lib/styles";
 
 import type { PresetWithFields } from "../../context/PresetsContext";
 
@@ -24,9 +26,19 @@ const LocationView = ({ longitude, latitude, accuracy }) => (
       <Text>Searching...</Text>
     ) : (
       <>
-        <FormattedCoords lat={latitude} lon={longitude} />
+        <MaterialIcons
+          size={14}
+          name="location-on"
+          color="orange"
+          style={{ marginRight: 5 }}
+        />
+        <FormattedCoords
+          style={styles.locationText}
+          lat={latitude}
+          lon={longitude}
+        />
         {accuracy && (
-          <Text style={styles.accuracy}>{"±" + accuracy.toFixed(2) + "m"}</Text>
+          <Text style={styles.accuracy}>{" ±" + accuracy.toFixed(2) + "m"}</Text>
         )}
       </>
     )}
@@ -45,7 +57,12 @@ const CategoryView = ({
       <CategoryCircleIcon iconId={preset.icon} />
     </View>
     <Text style={styles.categoryName}>{preset.name || "Observación"}</Text>
-    <TextButton onPress={onPress} title="Cambiar" />
+    <TextButton
+      containerStyle={styles.changeButton}
+      textStyle={styles.changeButtonText}
+      onPress={onPress}
+      title="Cambiar"
+    />
   </View>
 );
 
@@ -136,15 +153,17 @@ const styles = StyleSheet.create({
   },
   locationContainer: {
     flex: 0,
-    backgroundColor: "#dddddd",
+    backgroundColor: LIGHT_GREY,
     minHeight: 48,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingLeft: 15,
-    paddingRight: 15,
+    justifyContent: "center",
     paddingTop: 5,
     paddingBottom: 5
+  },
+  locationText: {
+    color: BLACK,
+    fontWeight: "bold"
   },
   accuracy: {
     fontWeight: "bold"
@@ -156,16 +175,27 @@ const styles = StyleSheet.create({
     alignContent: "stretch",
     paddingLeft: 15,
     paddingRight: 15,
-    paddingTop: 10,
-    paddingBottom: 10
+    marginTop: 10,
+    marginBottom: 10
   },
   categoryIcon: {
     flex: 0
   },
   categoryName: {
+    color: BLACK,
+    fontSize: 20,
+    marginLeft: 10,
     fontWeight: "bold",
-    marginLeft: 15,
     flex: 1
+  },
+  changeButton: {
+    padding: 0
+  },
+  changeButtonText: {
+    color: LIGHT_BLUE,
+    paddingTop: 5,
+    fontSize: 12,
+    fontWeight: "500"
   },
   textInput: {
     flex: 1,
