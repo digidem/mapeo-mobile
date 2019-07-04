@@ -38,7 +38,7 @@ const LocationView = ({ longitude, latitude, accuracy }) => (
           lon={longitude}
         />
         {accuracy && (
-          <Text style={styles.accuracy}>{"±" + accuracy.toFixed(2) + "m"}</Text>
+          <Text style={styles.accuracy}>{" ±" + accuracy.toFixed(2) + "m"}</Text>
         )}
       </>
     )}
