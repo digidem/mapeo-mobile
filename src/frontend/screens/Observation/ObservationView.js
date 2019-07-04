@@ -181,11 +181,14 @@ class ObservationView extends React.Component<ODVProps> {
                 {preset ? preset.name : "Observacion"}
               </Text>
             </View>
-            <View style={{ paddingVertical: 15 }}>
-              <Text style={styles.textNotes}>
-                {observation.value.tags.notes}
-              </Text>
-            </View>
+            {observation.value.tags.notes &&
+              observation.value.tags.notes.trim() && (
+                <View style={{ paddingTop: 15 }}>
+                  <Text style={styles.textNotes}>
+                    {observation.value.tags.notes}
+                  </Text>
+                </View>
+              )}
             {!!photos.length && (
               <ThumbnailScrollView
                 photos={photos}
