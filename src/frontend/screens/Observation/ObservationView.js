@@ -58,7 +58,10 @@ const MapFeatures = ({ lat, lon }: MapProps) => {
       <MapboxGL.SymbolLayer
         id="observation-symbol"
         style={{
-          iconImage: mapIcon
+          iconImage: "observation",
+          iconSize: 0.4,
+          iconOffset: [0, 51],
+          iconAnchor: "bottom"
         }}
       />
     </MapboxGL.ShapeSource>
@@ -78,6 +81,7 @@ const InsetMapView = ({ lon, lat }: MapProps) => (
         compassEnabled={false}
         styleURL={styleURL}
       >
+        <MapboxGL.Images images={{ observation: mapIcon }} />
         <MapboxGL.Camera
           centerCoordinate={[lon, lat]}
           zoomLevel={15}
