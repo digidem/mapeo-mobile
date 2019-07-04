@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.8](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.7...v1.1.0-beta.8) (2019-07-04)
+
+
+### Features
+
+* Add map and improve UX of observation view ([#131](https://github.com/digidem/mapeo-mobile/issues/131)) ([6299cde](https://github.com/digidem/mapeo-mobile/commit/6299cde))
+* update UX for new/edit observation ([#154](https://github.com/digidem/mapeo-mobile/issues/154)) ([c1392e9](https://github.com/digidem/mapeo-mobile/commit/c1392e9))
+
+
+
 ## [1.1.0-beta.7](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.6...v1.1.0-beta.7) (2019-06-25)
 
 
