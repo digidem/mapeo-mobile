@@ -4,7 +4,6 @@ import { Text, View, ScrollView, StyleSheet, Share } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ShareMedia from "react-native-share";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import isNil from 'lodash/isNil';
 
 import api from "../../api";
 import MapStyleProvider from "../../sharedComponents/MapStyleProvider";
@@ -148,7 +147,8 @@ class ObservationView extends React.Component<ODVProps> {
     return (
       <ScrollView style={styles.container}>
         <>
-          {!isNil(lat) && !isNil(lon) && (
+          {/* check lat and lon are not null or undefined */}
+          {lat != null && lon != null && (
             <View>
               <View style={styles.coords}>
                 <View style={styles.coordsPointer} />
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "center",
     alignItems: "center",
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
     borderRadius: 15,
     bottom: 15,
     paddingRight: 10,
