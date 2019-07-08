@@ -84,6 +84,11 @@ export function Api({
 }) {
   let status: ServerStatus = STATUS.STARTING;
   let timeoutId: TimeoutID;
+  // We append this to requests for presets and map styles, in order to override
+  // the local static server cache whenever the app is restarted. NB. sprite,
+  // font, and map tile requests might still be cached, only changes in the map
+  // style will be cache-busted.
+  const startupTime = Date.now();
 
   const req = ky.extend({
     prefixUrl: baseUrl,
@@ -214,13 +219,13 @@ export function Api({
      */
 
     getPresets: function getPresets(): Promise<Preset[]> {
-      return get("presets/default/presets.json").then(data =>
+      return get(`presets/default/presets.json?${startupTime}`).then(data =>
         mapToArray(data.presets)
       );
     },
 
     getFields: function getFields(): Promise<Field[]> {
-      return get("presets/default/presets.json").then(data =>
+      return get(`presets/default/presets.json?${startupTime}`).then(data =>
         mapToArray(data.fields)
       );
     },
@@ -392,7 +397,7 @@ export function Api({
 
     // Return the url to a map style
     getMapStyleUrl: function getMapStyleUrl(id: string): string {
-      return `${BASE_URL}styles/${id}/style.json`;
+      return `${BASE_URL}styles/${id}/style.json?${startupTime}`;
     }
   };
 
