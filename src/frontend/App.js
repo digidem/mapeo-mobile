@@ -2,7 +2,6 @@
 // @flow
 import * as React from "react";
 import debug from "debug";
-// import { useScreens } from "react-native-screens";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-community/async-storage";
 
@@ -30,9 +29,6 @@ const loadNavigationState = async () => {
   const jsonString = await AsyncStorage.getItem(NAV_STORE_KEY);
   return JSON.parse(jsonString);
 };
-
-// Use native navigation screens, see: https://github.com/kmagiera/react-native-screens
-// useScreens();
 
 /**
  * Catches Javascript errors anywhere in the child component tree, logs the

@@ -57,7 +57,6 @@
     "react-native-network-info": "github:pusherman/react-native-network-info#301c66e9bb8f4b7d65e8e0d29188d0b0dbbdb6c2",
     "react-native-progress": "^3.6.0",
     "react-native-reanimated": "1.0.1",
-    "react-native-screens": "^1.0.0-alpha.22",
     "react-native-share": "^1.2.1",
     "react-native-splash-screen": "^3.2.0",
     "react-native-tab-view": "^2.6.1",

@@ -13,7 +13,6 @@ import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
-import com.swmansion.rnscreens.RNScreensPackage;
 import com.rnfs.RNFSPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -64,7 +63,6 @@ public class MainApplication extends Application implements ShareApplication, Re
             new AsyncStoragePackage(),
             new LinearGradientPackage(),
             new ImageResizerPackage(),
-            new RNScreensPackage(),
             new RNFSPackage(),
             new ReanimatedPackage(),
           new RNGestureHandlerPackage(),
