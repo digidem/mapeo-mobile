@@ -63,8 +63,18 @@ tiles/
 ## Maintainers
 
 - [@gmaclennan](https://github.com/gmaclennan)
-- [@noffle](https://github.com/noffle)
 - [@karissa](https://github.com/karissa)
+- [@noffle](https://github.com/noffle)
+
+## Community
+
+Connect with the Mapeo community for support & to contribute!
+
+- [**Mailing List**](https://lists.riseup.net/www/info/mapeo-en) (English)
+- [**Mailing List**](https://lists.riseup.net/www/info/mapeo-es) (Spanish)
+- [**IRC**](https://kiwiirc.com/nextclient/irc.freenode.net/) (channel #ddem)
+- [**Slack**](http://slack.digital-democracy.org)
+
 
 ## Contributing
 
