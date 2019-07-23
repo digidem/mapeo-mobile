@@ -2,13 +2,18 @@
   "name": "mapeo-mobile",
   "version": "1.1.0-beta.8",
   "private": true,
+  "engines": {
+    "node": "^10.16.0",
+    "yarn": "^1.16.0",
+    "npm": "^100.0.0"
+  },
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "android": "npm run build:backend && npm run android-no-backend-rebuild",
+    "android": "yarn build:backend && yarn android-no-backend-rebuild",
     "android-no-backend-rebuild": "react-native run-android --variant=appDebug --appIdSuffix=debug",
     "android-storybook": "react-native run-android --variant=storybookDebug --appIdSuffix=storybook.debug",
     "build:backend": "./scripts/build-backend.sh",
-    "build:release": "npm run build:backend && ./scripts/build-release-android.sh",
+    "build:release": "yarn build:backend && ./scripts/build-release-android.sh",
     "build:storybook": "./node_modules/@storybook/react/bin/build.js -c ./storybook-web -s ./public -o ./build --no-dll",
     "test": "jest",
     "lint": "eslint *.js \"src/**/*.js\"",
