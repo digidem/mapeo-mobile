@@ -8,7 +8,6 @@ buildscript {
         compileSdkVersion = 28
         targetSdkVersion = 28
         supportLibVersion = "28.0.0"
-        kotlinVersion = "1.3.0" // For Gradle
     }
     repositories {
         google()
@@ -20,7 +19,6 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:3.4.1")
 
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion") // For Gradle
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

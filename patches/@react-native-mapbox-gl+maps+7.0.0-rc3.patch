@@ -1,0 +1,13 @@
+diff --git a/node_modules/@react-native-mapbox-gl/maps/android/rctmgl/build.gradle b/node_modules/@react-native-mapbox-gl/maps/android/rctmgl/build.gradle
+index 343b1d2..f09ea69 100644
+--- a/node_modules/@react-native-mapbox-gl/maps/android/rctmgl/build.gradle
++++ b/node_modules/@react-native-mapbox-gl/maps/android/rctmgl/build.gradle
+@@ -27,7 +27,7 @@ dependencies {
+     implementation fileTree(dir: 'libs', include: ['*.jar'])
+ 
+     // React Native
+-    compileOnly "com.facebook.react:react-native:+"
++    implementation "com.facebook.react:react-native:+"
+ 
+     // Mapbox SDK
+ 
