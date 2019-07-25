@@ -46,7 +46,7 @@ function mapObservationsToFeatures(
   obsMap: ObservationsMap
 ): ObservationFeature[] {
   const features = [];
-  for (let obs of obsMap.values()) {
+  for (const obs of obsMap.values()) {
     // Only include observations with a location in the map view
     if (
       typeof obs.value.lon === "number" &&
@@ -257,8 +257,8 @@ export default withNavigationFocus(MapView);
 
 // Shallow compare objects, but omitting certain keys from the comparison
 function shallowDiffers(a: any, b: any, omit: string[] = []) {
-  for (let i in a) if (!(i in b)) return true;
-  for (let i in b) {
+  for (const i in a) if (!(i in b)) return true;
+  for (const i in b) {
     if (a[i] !== b[i] && omit.indexOf(i) === -1) return true;
   }
   return false;
