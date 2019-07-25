@@ -52,7 +52,7 @@ export type LocationContextType = {
   // This is the previous known position from the last time the app was open
   savedPosition?: PositionType | null,
   // True if there is some kind of error getting the device location
-  error: boolean
+  error?: boolean
 };
 
 type AppStateType = "active" | "background" | "inactive";

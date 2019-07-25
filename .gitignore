@@ -60,3 +60,6 @@ package-lock.json
 /nodejs-assets
 # docz
 .docz
+
+# CocoaPods
+/ios/Pods/

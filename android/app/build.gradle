@@ -18,6 +18,9 @@ import com.android.build.OutputFile
  *   // the entry file for bundle generation
  *   entryFile: "index.android.js",
  *
+ *   // https://facebook.github.io/react-native/docs/performance#enable-the-ram-format
+ *   bundleCommand: "ram-bundle",
+ *
  *   // whether to bundle JS and assets in debug mode
  *   bundleInDebug: false,
  *
@@ -78,7 +81,8 @@ project.ext.react = [
     // We distribute the QA debug build for testing, so that we get debug logs.
     // This setting bundles the JS into the APK, so you don't need the metro
     // bundler running in order to run the Debug QA build
-    bundleInQaDebug: true
+    bundleInQaDebug: true,
+    enableHermes: false // clean and rebuild if changing
 ]
 
 project.ext.vectoricons = [
@@ -103,6 +107,27 @@ def enableSeparateBuildPerCPUArchitecture = false
  * Run Proguard to shrink the Java bytecode in release builds.
  */
 def enableProguardInReleaseBuilds = false
+
+/**
+ * The preferred build flavor of JavaScriptCore.
+ *
+ * For example, to use the international variant, you can use:
+ * `def jscFlavor = 'org.webkit:android-jsc-intl:+'`
+ *
+ * The international variant includes ICU i18n library and necessary data
+ * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
+ * give correct results when using with locales other than en-US.  Note that
+ * this variant is about 6MiB larger per architecture than default.
+ */
+def jscFlavor = 'org.webkit:android-jsc-intl:+'
+/**
+ * Whether to enable the Hermes VM.
+ *
+ * This should be set on project.ext.react and mirrored here.  If it is not set
+ * on project.ext.react, JavaScript will not be compiled to Hermes Bytecode
+ * and the benefits of using Hermes will therefore be sharply reduced.
+ */
+def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -131,6 +156,12 @@ android {
         }
     }
     signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
         release {
             if (project.hasProperty('MAPEO_MOBILE_RELEASE_STORE_FILE')) {
                 storeFile file(MAPEO_MOBILE_RELEASE_STORE_FILE)
@@ -170,12 +201,7 @@ android {
             signingConfig signingConfigs.release
         }
         debug {
-            // Sign the QA Debug build with the release key but regular debug
-            // build with the default debug keystore
-            productFlavors.qa.signingConfig signingConfigs.release
-            productFlavors.app.signingConfig signingConfig
-            productFlavors.storybook.signingConfig signingConfig
-            signingConfig null
+            signingConfig signingConfigs.debug
             // Storybook and QA flavors share the same applicationId between
             // release and debug builds, but the main app flavor has a suffix
             // for debug builds, so that when developing you can have the debug
@@ -187,7 +213,7 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
-            // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
+            // https://developer.android.com/studio/build/configure-apk-splits.html
             def versionCodes = ["armeabi-v7a":1, "x86":2]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
@@ -197,8 +223,14 @@ android {
         }
     }
 
-    // Fix for detox
     packagingOptions {
+        pickFirst '**/armeabi-v7a/libc++_shared.so'
+        pickFirst '**/x86/libc++_shared.so'
+        pickFirst '**/arm64-v8a/libc++_shared.so'
+        pickFirst '**/x86_64/libc++_shared.so'
+        pickFirst '**/x86/libjsc.so'
+        pickFirst '**/armeabi-v7a/libjsc.so'
+        // Fix for detox
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE'
@@ -214,33 +246,21 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':bugsnag-react-native', configuration: 'default')
     implementation "com.bugsnag:bugsnag-android-ndk:4.14.2"
-    implementation project(':react-native-share')
-    implementation project(':react-native-keep-awake')
-    implementation project(':react-native-android-open-settings')
-    implementation project(':react-native-network-info')
-    implementation project(':@react-native-community_netinfo')
-    implementation project(':@react-native-community_async-storage')
-    implementation project(':react-native-linear-gradient')
-    implementation project(':react-native-image-resizer')
-    implementation project(':react-native-fs')
-    implementation project(':react-native-reanimated')
-    implementation project(':react-native-gesture-handler')
-    implementation project(':react-native-splash-screen')
-    implementation project(':nodejs-mobile-react-native')
 
-    compile (project(':mapbox-react-native-mapbox-gl')) {
-        compile ('com.squareup.okhttp3:okhttp:3.6.0') {
-            force = true
-        }
-    }
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     addUnimodulesDependencies()
 
+    if (enableHermes) {
+        def hermesPath = "../../node_modules/hermesvm/android/";
+        debugImplementation files(hermesPath + "hermes-debug.aar")
+        releaseImplementation files(hermesPath + "hermes-release.aar")
+    } else {
+        implementation jscFlavor
+    }
     // Detox
     // androidTestImplementation(project(path: ":detox"))
     // androidTestImplementation 'junit:junit:4.12'
@@ -254,3 +274,6 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
