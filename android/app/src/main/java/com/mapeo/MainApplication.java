@@ -20,6 +20,7 @@ import org.unimodules.core.interfaces.SingletonModule;
 
 import com.mapbox.rctmgl.RCTMGLPackage;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends Application implements ShareApplication, ReactApplication {
@@ -45,6 +46,7 @@ public class MainApplication extends Application implements ShareApplication, Re
       List<ReactPackage> packages = new PackageList(this).getPackages();
       // Packages that cannot be autolinked yet can be added manually here, for example:
       // packages.add(new MyReactNativePackage());
+      packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
       return packages;
       // return Arrays.<ReactPackage>asList(
       //     new MainReactPackage(),

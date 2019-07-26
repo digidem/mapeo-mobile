@@ -37,7 +37,7 @@
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-    <provider android:name="android.support.v4.content.FileProvider" 
+    <provider android:name="androidx.core.content.FileProvider" 
       android:authorities="${applicationId}.provider" 
       android:grantUriPermissions="true" 
       android:exported="false">

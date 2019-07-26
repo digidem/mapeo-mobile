@@ -15,15 +15,25 @@ function onFailure() {
 
 # This does a deep-clean of cache files in react-native and gradle / Android
 # Use this if you are having issues with builds not working
-
+echo -en "Cleaning metro bundler cache\n"
 watchman watch-del-all
-rm -rf $TMPDIR/react-native-packager-cache-*
-rm -rf $TMPDIR/metro-bundler-cache-*
+rm -rf "$TMPDIR/react-native-packager-cache-*"
+rm -rf "$TMPDIR/metro-bundler-cache-*"
+echo -en "Remove node_modules\n"
 rm -rf node_modules/
+rm -rf src/backend/node_modules
+echo -en "Re-install node_modules\n"
+npm install
+echo -en "Cleaning gradle cache and stopping daemon"
 (
   cd android
   ./gradlew clean
   ./gradlew cleanBuildCache
+  ./gradlew --stop
 )
-npm install
+echo -en "Remove gradle temp folders\n"
+rm -rf android/.gradle
+rm -rf android/build
+
+echo -en "Restart metrobundler with clean cach\n"
 npm start -- --reset-cache
