@@ -4,8 +4,7 @@
   "private": true,
   "engines": {
     "node": "^10.16.0",
-    "yarn": "^1.17.3",
-    "npm": "^100.0.0"
+    "npm": "^6.9.0"
   },
   "scripts": {
     "start": "react-native start",
