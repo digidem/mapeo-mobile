@@ -89,7 +89,7 @@ project.ext.vectoricons = [
     iconFontNames: [ 'MaterialIcons.ttf', 'Octicons.ttf', 'MaterialCommunityIcons.ttf', 'FontAwesome.ttf' ]
 ]
 
-apply from: "./react.gradle"
+apply from: "../../node_modules/react-native/react.gradle"
 apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
@@ -173,6 +173,8 @@ android {
                 keyAlias MAPEO_MOBILE_RELEASE_KEY_ALIAS
                 keyPassword MAPEO_MOBILE_RELEASE_KEY_PASSWORD
             }
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
     flavorDimensions "version"
@@ -181,21 +183,9 @@ android {
             dimension "version"
             applicationIdSuffix ".qa"
             versionNameSuffix "-qa"
-            buildConfigField "boolean", "isStorybook", "false"
-        }
-        storybook {
-            dimension "version"
-            applicationIdSuffix ".storybook"
-            // We use this config field in MainApplication.java to set the
-            // bundle name for loading different code for the storybook version
-            buildConfigField "boolean", "isStorybook", "true"
-            // This sets a custom entry file for the storybook version of the
-            // app. This requires a custom react.gradle see `./react.gradle`
-            ext.entryFile = "storybook-native/index.js"
         }
         app {
             dimension "version"
-            buildConfigField "boolean", "isStorybook", "false"
         }
     }
     buildTypes {
