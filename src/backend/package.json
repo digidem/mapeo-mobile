@@ -2,6 +2,9 @@
   "name": "mapeo-mobile-node",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "^10.16.0"
+  },
   "description": "Mapeo Core running on nodejs-mobile",
   "main": "main.js",
   "author": "Digital Democracy",
