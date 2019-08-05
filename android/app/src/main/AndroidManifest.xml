@@ -2,7 +2,6 @@
   package="com.mapeo">
 
   <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
   <uses-permission android:name="android.permission.CAMERA" />
@@ -17,9 +16,9 @@
     android:roundIcon="@mipmap/ic_launcher_round" 
     android:allowBackup="false" 
     android:theme="@style/AppTheme">
-    <meta-data android:name="com.bugsnag.android.API_KEY"
+    <meta-data android:name="com.bugsnag.android.API_KEY" 
       android:value="572d472ea9d5a9199777b88ef268da4e"/>
-    <meta-data android:name="com.bugsnag.android.DETECT_NDK_CRASHES"
+    <meta-data android:name="com.bugsnag.android.DETECT_NDK_CRASHES" 
       android:value="true"/>
     <!-- android:launchMode="singleTask" fixes a bug where our React app would
          never unmount and instead kept remounting new instances -->
@@ -38,7 +37,7 @@
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-    <provider android:name="android.support.v4.content.FileProvider" 
+    <provider android:name="androidx.core.content.FileProvider" 
       android:authorities="${applicationId}.provider" 
       android:grantUriPermissions="true" 
       android:exported="false">

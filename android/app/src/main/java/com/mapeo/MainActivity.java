@@ -13,9 +13,7 @@ import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 public class MainActivity extends ReactFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (!BuildConfig.isStorybook) {
-            SplashScreen.show(this);  // react-native-splash-screen
-        }
+        SplashScreen.show(this);  // react-native-splash-screen
         super.onCreate(savedInstanceState);
     }
 

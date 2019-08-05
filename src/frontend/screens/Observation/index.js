@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { Text, Platform, StyleSheet, Alert } from "react-native";
+import { Text, Alert } from "react-native";
 import debug from "debug";
 import type { NavigationScreenConfigProps } from "react-navigation";
 
@@ -104,27 +104,3 @@ class Observation extends React.Component<Props> {
 }
 
 export default withObservations(["delete"])(Observation);
-
-const styles = StyleSheet.create({
-  title: {
-    ...Platform.select({
-      ios: {
-        fontSize: 17,
-        fontWeight: "600",
-        color: "rgba(0, 0, 0, .9)",
-        marginRight: 16
-      },
-      android: {
-        fontSize: 20,
-        fontWeight: "500",
-        color: "rgba(0, 0, 0, .9)",
-        marginRight: 16
-      },
-      default: {
-        fontSize: 18,
-        fontWeight: "400",
-        color: "#3c4043"
-      }
-    })
-  }
-});

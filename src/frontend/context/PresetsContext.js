@@ -1,4 +1,4 @@
-// @flow strict
+// @flow
 import * as React from "react";
 import debug from "debug";
 import memoize from "memoize-one";

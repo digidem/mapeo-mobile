@@ -418,6 +418,7 @@ function convertFromServer(obs: ServerObservation): Observation {
     userId,
     links,
     schemaVersion,
+    metadata,
     ...value
   } = obs;
   return {
@@ -429,6 +430,7 @@ function convertFromServer(obs: ServerObservation): Observation {
     userId,
     links,
     schemaVersion,
+    metadata,
     value: {
       ...value,
       tags: (value || {}).tags

@@ -40,30 +40,34 @@ mv _index.js index.js
 cd ../..
 echo -en " done.\n"
 
-echo -en "Create presets fallback folder"
+echo -en "Create presets fallback folder..."
 cd ./nodejs-assets/nodejs-project
 mkdir -p presets
 mv ./node_modules/mapeo-default-settings/build ./presets/default
 cd ../..
 echo -en " done.\n"
 
-echo "Keeping some node modules..."
-declare -a keepThese=("leveldown")
+echo -en "Keeping some node modules..."
+declare -a keepThese=("leveldown" ".bin" "node-gyp-build" "napi-macros")
 for x in "${keepThese[@]}"; do
   if [ -e "./nodejs-assets/nodejs-project/node_modules/$x" ]; then
     mv "./nodejs-assets/nodejs-project/node_modules/$x" "./nodejs-assets/$x"
   fi
 done
+echo -en " done.\n"
 
-echo -en "Removing node_modules folder"
+echo -en "Removing node_modules folder.\n"
 rm -rf ./nodejs-assets/nodejs-project/node_modules
 mkdir -p ./nodejs-assets/nodejs-project/node_modules
 
-echo "Putting node modules back..."
+echo -en "Putting node modules back..."
 for x in "${keepThese[@]}"; do
   if [ -e "./nodejs-assets/$x" ]; then
     mv "./nodejs-assets/$x" "./nodejs-assets/nodejs-project/node_modules/$x"
   fi
 done
+echo -en " done.\n"
 
+echo -en "Removing unused .bin aliases..."
+find "./nodejs-assets/nodejs-project/node_modules/.bin" ! -iname "node-gyp-build*" \( -type f -o -type l \) -exec rm -f {} +
 echo -en " done.\n"

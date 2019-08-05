@@ -1,26 +1,16 @@
 package com.mapeo;
 
 import android.app.Application;
+import android.util.Log;
 
+import com.facebook.react.PackageList;
+import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
+import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
 import com.bugsnag.BugsnagReactNative;
-import cl.json.RNSharePackage;
 import cl.json.ShareApplication;
-import com.corbt.keepawake.KCKeepAwakePackage;
-import com.levelasquez.androidopensettings.AndroidOpenSettingsPackage;
-import com.pusherman.networkinfo.RNNetworkInfoPackage;
-import com.reactnativecommunity.netinfo.NetInfoPackage;
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import fr.bamlab.rnimageresizer.ImageResizerPackage;
-import com.rnfs.RNFSPackage;
-import com.swmansion.reanimated.ReanimatedPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import com.janeasystems.rn_nodejs_mobile.RNNodeJsMobilePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
 import com.mapeo.generated.BasePackageList;
@@ -52,30 +42,36 @@ public class MainApplication extends Application implements ShareApplication, Re
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            BugsnagReactNative.getPackage(),
-            new RNSharePackage(),
-            new KCKeepAwakePackage(),
-            new AndroidOpenSettingsPackage(),
-            new RNNetworkInfoPackage(),
-            new NetInfoPackage(),
-            new AsyncStoragePackage(),
-            new LinearGradientPackage(),
-            new ImageResizerPackage(),
-            new RNFSPackage(),
-            new ReanimatedPackage(),
-          new RNGestureHandlerPackage(),
-          new SplashScreenReactPackage(),
-          new RNNodeJsMobilePackage(),
-          new RCTMGLPackage(),
-          new ModuleRegistryAdapter(mModuleRegistryProvider)
-      );
+      @SuppressWarnings("UnnecessaryLocalVariable")
+      List<ReactPackage> packages = new PackageList(this).getPackages();
+      // Packages that cannot be autolinked yet can be added manually here, for example:
+      // packages.add(new MyReactNativePackage());
+      packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
+      return packages;
+      // return Arrays.<ReactPackage>asList(
+      //     new MainReactPackage(),
+      //       BugsnagReactNative.getPackage(),
+      //       new RNSharePackage(),
+      //       new KCKeepAwakePackage(),
+      //       new AndroidOpenSettingsPackage(),
+      //       new RNNetworkInfoPackage(),
+      //       new NetInfoPackage(),
+      //       new AsyncStoragePackage(),
+      //       new LinearGradientPackage(),
+      //       new ImageResizerPackage(),
+      //       new RNFSPackage(),
+      //       new ReanimatedPackage(),
+      //     new RNGestureHandlerPackage(),
+      //     new SplashScreenReactPackage(),
+      //     new RNNodeJsMobilePackage(),
+      //     new RCTMGLPackage(),
+      //     new ModuleRegistryAdapter(mModuleRegistryProvider)
+      // );
     }
 
     @Override
     protected String getJSMainModuleName() {
-      return BuildConfig.isStorybook ? "storybook-native/index" : "index";
+      return "index";
     }
   };
 
