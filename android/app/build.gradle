@@ -173,8 +173,6 @@ android {
                 keyAlias MAPEO_MOBILE_RELEASE_KEY_ALIAS
                 keyPassword MAPEO_MOBILE_RELEASE_KEY_PASSWORD
             }
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
     flavorDimensions "version"
