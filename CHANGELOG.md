@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0-alpha.0](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.8...v1.2.0-alpha.0) (2019-08-05)
+
+
+### Bug Fixes
+
+* Remove react-native-screens (was breaking build) ([234cbe5](https://github.com/digidem/mapeo-mobile/commit/234cbe5))
+
+
+### Features
+
+* Upgrade to React Native v0.60.4 ([#183](https://github.com/digidem/mapeo-mobile/issues/183)) ([e2bf58b](https://github.com/digidem/mapeo-mobile/commit/e2bf58b))
+
+
+
 ## [1.1.0-beta.8](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.7...v1.1.0-beta.8) (2019-07-04)
 
 
