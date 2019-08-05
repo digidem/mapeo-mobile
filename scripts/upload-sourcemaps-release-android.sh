@@ -9,7 +9,6 @@ fi
 CURRENT_VERSION="$(npx -c 'echo "$npm_package_version"')"
 
 # Generate source maps using react-native bundler
-cd ..
 react-native bundle \
   --platform android \
   --dev false \
