@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, AppState } from "react-native";
 import { Camera } from "expo-camera";
 import debug from "debug";
 import { Accelerometer } from "expo-sensors";
@@ -21,6 +21,8 @@ const captureOptions = {
   skipProcessing: true
 };
 
+type AppStateType = "active" | "background" | "inactive";
+
 type Props = {
   // Called when the user takes a picture, with a promise that resolves to an
   // object with the property `uri` for the captured (and rotated) photo.
@@ -37,7 +39,7 @@ type Acceleration = { x: number, y: number, z: number };
 class CameraView extends React.Component<Props, State> {
   cameraRef: { current: any };
   subscription: { remove: () => any } | null;
-  acceleration: Acceleration;
+  acceleration: Acceleration | void;
   mounted: boolean;
   state = { takingPicture: false, showCamera: true };
 
@@ -48,8 +50,19 @@ class CameraView extends React.Component<Props, State> {
 
   componentDidMount() {
     this.mounted = true;
+    AppState.addEventListener("change", this.handleAppStateChange);
+    if (AppState.currentState === "active") this.watchAccelerometer();
+  }
+
+  watchAccelerometer() {
     Accelerometer.isAvailableAsync().then(motionAvailable => {
-      if (!motionAvailable || !this.mounted || this.subscription) return;
+      if (
+        !motionAvailable ||
+        !this.mounted ||
+        this.subscription ||
+        AppState.currentState !== "active"
+      )
+        return;
       Accelerometer.setUpdateInterval(1000);
       this.subscription = Accelerometer.addListener(acc => {
         this.acceleration = acc;
@@ -57,10 +70,19 @@ class CameraView extends React.Component<Props, State> {
     });
   }
 
-  componentWillUnmount() {
-    this.mounted = false;
+  unwatchAccelerometer() {
     if (this.subscription) this.subscription.remove();
     this.subscription = null;
+  }
+
+  handleAppStateChange = (nextAppState: AppStateType) => {
+    if (nextAppState === "active") this.watchAccelerometer();
+    else this.unwatchAccelerometer();
+  };
+
+  componentWillUnmount() {
+    this.mounted = false;
+    AppState.removeEventListener("change", this.handleAppStateChange);
   }
 
   handleAddPress = (e: any) => {
@@ -126,7 +148,7 @@ class CameraView extends React.Component<Props, State> {
 export default CameraView;
 
 // Rotate the photo to match device orientation
-function rotatePhoto(acc: Acceleration) {
+function rotatePhoto(acc?: Acceleration) {
   const rotation = getPhotoRotation(acc);
   return function({ uri, exif, width, height }) {
     const originalUri = uri;
