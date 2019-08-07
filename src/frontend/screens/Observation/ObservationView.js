@@ -78,7 +78,11 @@ const InsetMapView = ({ lon, lat }: MapProps) => (
         compassEnabled={false}
         styleURL={styleURL}
       >
-        <MapboxGL.Camera centerCoordinate={[lon, lat]} zoomLevel={15} />
+        <MapboxGL.Camera
+          centerCoordinate={[lon, lat]}
+          zoomLevel={15}
+          animationMode="moveTo"
+        />
         <MapFeatures lat={lat} lon={lon} />
       </MapboxGL.MapView>
     )}
