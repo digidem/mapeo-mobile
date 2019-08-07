@@ -8,7 +8,13 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug Fixes
 
 * Fix crashes from accelerometer subscription ([#189](https://github.com/digidem/mapeo-mobile/issues/189)) ([957db4d](https://github.com/digidem/mapeo-mobile/commit/957db4d))
-* override map style & preset cache so that changes appear after restarting the app ([#188](https://github.com/digidem/mapeo-mobile/issues/188)) ([c425d5d](https://github.com/digidem/mapeo-mobile/commit/c425d5d))
+* override map style & preset cache so that changes appear after restarting the
+  app ([#188](https://github.com/digidem/mapeo-mobile/issues/188))
+  ([c425d5d](https://github.com/digidem/mapeo-mobile/commit/c425d5d))
+* **map:** Don't animate inset observation map when it first renders
+  ([78d3471](https://github.com/digidem/mapeo-mobile/commit/78d3471))
+* **map:** Fix icon placement for inset map on observation view ([f9364bb](https://github.com/digidem/mapeo-mobile/commit/f9364bb))
+* **UI:** Don't leave a gap when observation description is empty ([578fa43](https://github.com/digidem/mapeo-mobile/commit/578fa43))
 
 
 
