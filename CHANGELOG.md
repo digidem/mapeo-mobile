@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0-alpha.1](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.0...v1.2.0-alpha.1) (2019-08-07)
+
+
+### Bug Fixes
+
+* Fix crashes from accelerometer subscription ([#189](https://github.com/digidem/mapeo-mobile/issues/189)) ([957db4d](https://github.com/digidem/mapeo-mobile/commit/957db4d))
+* override map style & preset cache so that changes appear after restarting the app ([#188](https://github.com/digidem/mapeo-mobile/issues/188)) ([c425d5d](https://github.com/digidem/mapeo-mobile/commit/c425d5d))
+
+
+
 ## [1.2.0-alpha.0](https://github.com/digidem/mapeo-mobile/compare/v1.1.0-beta.8...v1.2.0-alpha.0) (2019-08-05)
 
 
