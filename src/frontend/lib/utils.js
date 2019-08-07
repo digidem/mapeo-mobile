@@ -5,7 +5,12 @@ import esLocale from "date-fns/locale/es";
 
 import type { LocationContextType } from "../context/LocationContext";
 import type { ObservationValue } from "../context/ObservationsContext";
-import type { Preset, PresetsMap } from "../context/PresetsContext";
+import type {
+  Preset,
+  PresetsMap,
+  PresetWithFields,
+  FieldsMap
+} from "../context/PresetsContext";
 
 export function getDisplayName(WrappedComponent: any) {
   return WrappedComponent.displayName || WrappedComponent.name || "Component";
@@ -71,6 +76,20 @@ export function matchPreset(
   return presets.get(categoryId);
 }
 
+export function addFieldDefinitions(
+  preset: Preset,
+  fields: FieldsMap
+): PresetWithFields {
+  const fieldDefs = Array.isArray(preset.fields)
+    ? preset.fields.map(fieldId => fields.get(fieldId))
+    : [];
+  // $FlowFixMe - Need to figure out how to convert types like this
+  return {
+    ...preset,
+    fields: filterFalsy(fieldDefs)
+  };
+}
+
 export function formatDate(date: string | number | Date): string {
   if (typeof date === "string" || typeof date === "number") {
     date = new Date(date);
@@ -113,4 +132,10 @@ function leftPad(str: string, len: number, char: string): string {
     else break;
   }
   return pad + str;
+}
+
+// This is a helper function to force the type definition
+// It filters an array to remove any falsy values
+function filterFalsy<T>(arr: Array<T | void>): Array<T> {
+  return arr.filter(Boolean);
 }

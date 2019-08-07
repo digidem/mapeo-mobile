@@ -45,7 +45,7 @@
     "hoist-non-react-statics": "^3.3.0",
     "ky": "^0.11.1",
     "lodash": "^4.17.11",
-    "mapeo-schema": "^1.0.4",
+    "mapeo-schema": "^1.5.0",
     "memoize-one": "^5.0.0",
     "nodejs-mobile-react-native": "^0.4.3",
     "prop-types": "^15.7.2",

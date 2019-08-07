@@ -1,11 +1,9 @@
 // @flow
 import * as React from "react";
 import debug from "debug";
-import memoize from "memoize-one";
 
 import api from "../api";
-import { matchPreset } from "../lib/utils";
-import type { ObservationValue } from "./ObservationsContext";
+import type { UseState } from "../types";
 
 const log = debug("mapeo:PresetsContext");
 
@@ -59,102 +57,72 @@ export type PresetWithFields = {|
 export type PresetsMap = Map<string, Preset>;
 export type FieldsMap = Map<string, Field>;
 
-export type PresetsContext = {
+export type PresetsContextValue = {
   // A map of presets by preset id
   presets: PresetsMap,
-  // A map of all defined fields by field id
+  // A map of field definitions by id
   fields: FieldsMap,
-  // Look up the best matching preset for the given observation value. Returns
-  // the preset with fields expanded from ids to field objects
-  getPreset: (observation: ObservationValue) => PresetWithFields | void,
   // True if the presets are currently loading from Mapeo Core
   loading: boolean,
   // True if there is an error loading presets from Mapeo Core
-  error?: boolean
+  error: Error | null
 };
 
-const defaultContext = {
-  presets: new Map(),
-  fields: new Map(),
-  getPreset: () => {},
-  loading: false
-};
+export type PresetsContextType = UseState<PresetsContextValue>;
 
-const {
-  Provider,
-  Consumer: PresetsConsumer
-} = React.createContext<PresetsContext>(defaultContext);
+const defaultContext = [
+  {
+    presets: new Map(),
+    fields: new Map(),
+    loading: false,
+    error: null
+  },
+  () => {}
+];
+
+const PresetsContext = React.createContext<PresetsContextType>(defaultContext);
 
 type Props = {
   children: React.Node
 };
 
-/**
- * The PresetsProvider is responsible for loading the preset and field
- * definitions from Mapeo Core and provides a method for matching a preset to a
- * given observation.
- */
-class PresetsProvider extends React.Component<Props, PresetsContext> {
-  state = {
-    presets: new Map(),
-    fields: new Map(),
-    getPreset: this.getPreset.bind(this),
-    loading: true
-  };
-  addFieldDefinitions = memoize(this.addFieldDefinitions);
+export const PresetsProvider = ({ children }: Props) => {
+  const [state, setState] = React.useState(defaultContext[0]);
+  const contextValue = React.useMemo(() => [state, setState], [state]);
 
-  async componentDidMount() {
-    try {
-      const [presetsList, fieldsList] = await Promise.all([
-        api.getPresets(),
-        api.getFields()
-      ]);
-      this.setState({
-        presets: new Map(
-          presetsList.filter(filterPointPreset).map(p => [p.id, p])
-        ),
-        fields: new Map(fieldsList.map(p => [p.id, p])),
-        loading: false
+  // Load presets and fields from Mapeo Core on first mount of the app
+  React.useEffect(() => {
+    let didCancel = false;
+    Promise.all([api.getPresets(), api.getFields()])
+      .then(([presetsList, fieldsList]) => {
+        if (didCancel) return; // if component was unmounted, don't set state
+        setState({
+          presets: new Map(
+            presetsList.filter(filterPointPreset).map(p => [p.id, p])
+          ),
+          fields: new Map(fieldsList.map(p => [p.id, p])),
+          loading: false,
+          error: null
+        });
+      })
+      .catch(err => {
+        log("Error loading presets and fields", err);
+        if (didCancel) return; // if component was unmounted, don't set state
+        setState({ ...state, error: err, loading: false });
       });
-    } catch (err) {
-      log("Error loading presets and fields", err);
-      this.setState({ error: true, loading: false });
-    }
-  }
-
-  addFieldDefinitions(preset: Preset): PresetWithFields {
-    const { fields } = this.state;
-    const fieldDefs = Array.isArray(preset.fields)
-      ? preset.fields.map(fieldId => fields.get(fieldId))
-      : [];
-    // $FlowFixMe - Need to figure out how to convert types like this
-    return {
-      ...preset,
-      fields: filterFalsy(fieldDefs)
+    return () => {
+      didCancel = true;
     };
-  }
+  }, []);
 
-  getPreset(observationValue: ObservationValue): PresetWithFields | void {
-    const preset = matchPreset(observationValue, this.state.presets);
-    if (!preset) return;
-    return this.addFieldDefinitions(preset);
-  }
-
-  render() {
-    return <Provider value={this.state}>{this.props.children}</Provider>;
-  }
-}
-
-export default {
-  Provider: PresetsProvider,
-  Consumer: PresetsConsumer
+  return (
+    <PresetsContext.Provider value={contextValue}>
+      {children}
+    </PresetsContext.Provider>
+  );
 };
 
-// This is a helper function to force the type definition
-// It filters an array to remove any falsy values
-function filterFalsy<T>(arr: Array<T | void>): Array<T> {
-  return arr.filter(Boolean);
-}
+export default PresetsContext;
 
 // We only want to show presets that apply to geometry type "point"
 function filterPointPreset(preset: Preset) {

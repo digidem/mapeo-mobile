@@ -12,3 +12,4 @@ export type MapStyle = {
   minzoom: number,
   maxzoom: number
 };
+export type UseState<S> = [S, ((S => S) | S) => void];
