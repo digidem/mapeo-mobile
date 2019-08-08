@@ -1,5 +1,7 @@
 // @flow
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
+
+import api from "../api";
 import { matchPreset, addFieldDefinitions } from "../lib/utils";
 import ObservationsContext, {
   type ObservationValue
@@ -7,36 +9,70 @@ import ObservationsContext, {
 import PresetsContext, {
   type PresetWithFields
 } from "../context/PresetsContext";
+import type { Status } from "../types";
 
-type UseObservationPreset = {
-  observation?: ObservationValue,
-  preset?: PresetWithFields,
-  loading: boolean,
-  error: boolean
-};
+type UseObservation = [
+  {
+    observation?: ObservationValue,
+    preset?: PresetWithFields,
+    loadingStatus: Status,
+    deletingStatus?: Status
+  },
+  // Delete the observation
+  () => void
+];
 
-export default (observationId: string): UseObservationPreset => {
-  const [
-    { observations, loading: observationsLoading, error: observationsError }
-  ] = useContext(ObservationsContext);
-  const [
-    { presets, fields, loading: presetsLoading, error: presetsError }
-  ] = useContext(PresetsContext);
-
-  const loading = observationsLoading || presetsLoading;
-  const error = !!observationsError || !!presetsError;
+export default (observationId: string): UseObservation => {
+  const [{ observations, status: observationsStatus }, dispatch] = useContext(
+    ObservationsContext
+  );
+  const [{ presets, fields, status: presetsStatus }] = useContext(
+    PresetsContext
+  );
+  const [deletingStatus, setDeletingStatus] = useState();
+  const [deleteRequest, setDeleteRequest] = useState();
+  const loadingStatus = mergeLoadingStatus(observationsStatus, presetsStatus);
 
   const observation =
-    typeof observationId === "string" && observations.get(observationId);
-  if (!observation) return { loading, error };
+    typeof observationId === "string"
+      ? observations.get(observationId)
+      : undefined;
+  const preset = observation && matchPreset(observation.value, presets);
 
-  const preset = matchPreset(observation.value, presets);
-  if (!preset) return { loading, error, observation: observation.value };
+  useEffect(() => {
+    let didCancel = false;
+    // Can't delete it if we can't find it
+    if (!observation) return;
+    setDeleteRequest("loading");
+    api
+      .deleteObservation(observation.id)
+      .then(() => {
+        dispatch({ type: "delete", value: observation });
+        if (didCancel) return;
+        setDeletingStatus("success");
+      })
+      .catch(e => {
+        if (didCancel) return;
+        setDeletingStatus("error");
+      });
+    return () => {
+      didCancel = true;
+    };
+  }, [deleteRequest, observation, dispatch]);
 
-  return {
-    loading,
-    error,
-    observation: observation.value,
-    preset: addFieldDefinitions(preset, fields)
-  };
+  return [
+    {
+      deletingStatus,
+      loadingStatus,
+      observation: observation && observation.value,
+      preset: preset && addFieldDefinitions(preset, fields)
+    },
+    () => setDeleteRequest({})
+  ];
 };
+
+function mergeLoadingStatus(...statuses: Array<Status>): Status {
+  if (statuses.includes("error")) return "error";
+  else if (statuses.every(status => status === "success")) return "success";
+  else return "loading";
+}

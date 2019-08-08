@@ -3,7 +3,7 @@ import * as React from "react";
 import debug from "debug";
 import AsyncStorage from "@react-native-community/async-storage";
 
-import type { UseState } from "../types";
+import type { UseState, Status } from "../types";
 import type { ObservationValue } from "./ObservationsContext";
 
 // WARNING: This needs to change if we change the draft data structure
@@ -48,20 +48,24 @@ export type DraftPhoto = {|
  */
 export type Photo = SavedPhoto | DraftPhoto;
 
-export type DraftObservationContextValue = {|
+export type DraftObservationContextState = {|
   photos: Array<Photo>,
-  value: ObservationValue,
+  value: ObservationValue | null,
+  photoPromises: Array<
+    Promise<DraftPhoto> & { signal?: { didCancel: boolean } }
+  >,
   loading: boolean,
-  saving?: boolean,
-  error?: boolean
+  savingStatus?: Status,
+  observationId?: string
 |};
 
-export type DraftObservationContextType = UseState<DraftObservationContextValue>;
+export type DraftObservationContextType = UseState<DraftObservationContextState>;
 
-const defaultContext = [
+const defaultContext: DraftObservationContextType = [
   {
     photos: [],
-    value: { tags: {} },
+    value: null,
+    photoPromises: [],
     loading: true
   },
   () => {}
@@ -86,13 +90,17 @@ export const DraftObservationProvider = ({ children }: Props) => {
       .then(savedDraft => {
         if (savedDraft == null || didCancel) return;
         const { photos, value } = JSON.parse(savedDraft);
-        setState({
+        setState(state => ({
+          ...state,
           photos: photos.filter(filterCapturedPhotos),
           value,
           loading: false
-        });
+        }));
       })
-      .catch(e => log("Error reading draft from storage\n", e));
+      .catch(e => {
+        log("Error reading draft from storage", e);
+        setState(state => ({ ...state, loading: false }));
+      });
     return () => {
       didCancel = true;
     };

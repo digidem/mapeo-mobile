@@ -13,3 +13,4 @@ export type MapStyle = {
   maxzoom: number
 };
 export type UseState<S> = [S, ((S => S) | S) => void];
+export type Status = "loading" | "error" | "success";

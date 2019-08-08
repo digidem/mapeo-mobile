@@ -1,20 +1,25 @@
 // @flow
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import ImageResizer from "react-native-image-resizer";
 import debug from "debug";
 
-import { matchPreset, addFieldDefinitions } from "../lib/utils";
+import api from "../api";
+import {
+  matchPreset,
+  addFieldDefinitions,
+  filterPhotosFromAttachments
+} from "../lib/utils";
 import bugsnag from "../lib/logger";
+
 import PresetsContext, {
   type PresetWithFields
 } from "../context/PresetsContext";
-import type {
-  ObservationValue,
-  ObservationAttachment
+import ObservationsContext, {
+  type ObservationValue,
+  type ObservationAttachment
 } from "../context/ObservationsContext";
 import DraftObservationContext, {
-  type DraftObservationContextValue,
-  type Photo,
+  type DraftObservationContextState,
   type DraftPhoto
 } from "../context/DraftObservationContext";
 
@@ -25,6 +30,8 @@ const THUMBNAIL_QUALITY = 30;
 const PREVIEW_SIZE = 1200;
 const PREVIEW_QUALITY = 30;
 
+type Signal = { didCancel: boolean };
+
 export type CapturePromise = Promise<{
   uri: string,
   width: number,
@@ -32,179 +39,239 @@ export type CapturePromise = Promise<{
   rotate?: number
 }>;
 
-export type UseDraftObservation = {|
-  ...$Exact<DraftObservationContextValue>,
-  preset: PresetWithFields,
-  /**
-   * Adds a photo to the draft observation. The first argument is a promise
-   * which returns a uri to a local image file (in temp cache) and the image
-   * width and height.
-   */
-  addPhoto: (capture: CapturePromise) => void,
-  // Save a draft
-  saveDraft: () => void,
-  // Performs a shallow merge of the observation value, like setState
-  updateDraft: (value: ObservationValue) => void,
-  // Clear the current draft
-  clearDraft: () => void,
-  // Create a new draft observation
-  newDraft: (value: ObservationValue, capture?: CapturePromise) => void
-|};
+export type UseDraftObservation = [
+  {|
+    value: $ElementType<DraftObservationContextState, "value">,
+    photos: $ElementType<DraftObservationContextState, "photos">,
+    loading: $ElementType<DraftObservationContextState, "loading">,
+    savingStatus: $ElementType<DraftObservationContextState, "savingStatus">,
+    preset?: PresetWithFields
+  |},
+  {|
+    /**
+     * Adds a photo to the draft observation. The first argument is a promise
+     * which returns a uri to a local image file (in temp cache) and the image
+     * width and height.
+     */
+    addPhoto: (capture: CapturePromise) => Promise<void>,
+    // Save a draft
+    saveDraft: () => Promise<void>,
+    // Performs a shallow merge of the observation value, like setState
+    updateDraft: (value: ObservationValue) => void,
+    // Clear the current draft
+    clearDraft: () => void,
+    // Create a new draft observation
+    newDraft: (
+      id?: string,
+      value?: ObservationValue | null,
+      capture?: CapturePromise
+    ) => void
+  |}
+];
+
+type CancellablePromise<T> = Promise<T> & { signal?: { didCancel: boolean } };
 
 export default (): UseDraftObservation => {
-  const [state, setState] = useContext(DraftObservationContext);
+  const [draft, setDraft] = useContext(DraftObservationContext);
+  const [{ observations }, dispatch] = useContext(ObservationsContext);
   const [{ presets, fields }] = useContext(PresetsContext);
 
-  const pendingPhotos = useRef([]);
-
-  function addPhoto(capture: CapturePromise) {
+  async function addPhoto(capturePromise: CapturePromise) {
     // Keep a reference of the "in-progress" photo which we save to state, we
     // will use this later to swap it in state with the captured photo
     const capturingPhoto: DraftPhoto = { capturing: true };
-    const photo: DraftPhoto = { capturing: true };
 
-    setState(state => {
-      // Bail if capture is finished before we get here
-      if (!photo.capturing) return state;
-      // Update state to reflect photo in progress of being captured
-      return {
-        ...state,
-        photos: [...state.photos, capturingPhoto]
-      };
-    });
+    // Use signal to cancel processing by setting signal.didCancel = true
+    // Important because image resize/rotate is expensive
+    const signal = {};
+    const photoPromise: CancellablePromise<DraftPhoto> = processPhoto(
+      capturePromise,
+      signal
+    );
+    photoPromise.signal = signal;
 
-    let neededRotation: void | number;
-    // If we clear the draft we need to track any pending promises and cancel
-    // them before they setState
-    const capturePromise: any = capture
-      .then(({ uri, rotate }) => {
-        // rotate will be defined if the original photo failed to rotate (this
-        // happens on low-memory devices) so we rotate the preview and
-        // thumbnail (rotating the smaller images seems to work ok).
-        neededRotation = rotate;
-        if (capturePromise.cancelled) throw new Error("Cancelled");
-        photo.originalUri = uri;
-        return ImageResizer.createResizedImage(
-          uri,
-          THUMBNAIL_SIZE,
-          THUMBNAIL_SIZE,
-          "JPEG",
-          THUMBNAIL_QUALITY,
-          neededRotation
+    setDraft(draft => ({
+      ...draft,
+      photoPromises: [...draft.photoPromises, photoPromise],
+      photos: [...draft.photos, capturingPhoto]
+    }));
+
+    let photo;
+    try {
+      photo = await photoPromise;
+    } catch (err) {
+      photo = { capturing: false, error: true };
+      if (signal.didCancel || err.message === "Cancelled")
+        bugsnag.leaveBreadcrumb("Cancelled photo");
+      else bugsnag.notify(err, report => (report.severity = "error"));
+    } finally {
+      setDraft(draft => {
+        // Replace the capturing photo in state with the now captured photo
+        const updatedPhotosState = draft.photos.map(p =>
+          p === capturingPhoto ? photo : p
         );
-      })
-      .then(({ uri }) => {
-        if (capturePromise.cancelled) throw new Error("Cancelled");
-        bugsnag.leaveBreadcrumb("Generated thumbnail", { type: "process" });
-        photo.thumbnailUri = uri;
-        return ImageResizer.createResizedImage(
-          photo.originalUri,
-          PREVIEW_SIZE,
-          PREVIEW_SIZE,
-          "JPEG",
-          PREVIEW_QUALITY,
-          neededRotation
-        );
-      })
-      .then(({ uri }) => {
-        if (capturePromise.cancelled) throw new Error("Cancelled");
-        bugsnag.leaveBreadcrumb("Generated preview", { type: "process" });
-        // Remove from pending
-        pendingPhotos.current = pendingPhotos.current.filter(
-          p => p !== capturePromise
-        );
-        photo.previewUri = uri;
-        photo.capturing = false;
-        setState(state => {
-          // Replace the capturing photo in state with the now captured photo
-          const updatedPhotosState = state.photos.map(p =>
-            p === capturingPhoto ? photo : p
-          );
-          log("new photos state", updatedPhotosState);
-          return { ...state, photos: updatedPhotosState };
-        });
-      })
-      .catch(err => {
-        // Remove from pending
-        pendingPhotos.current = pendingPhotos.current.filter(
-          p => p !== capturePromise
-        );
-        if (capturePromise.cancelled || err.message === "Cancelled")
-          return bugsnag.leaveBreadcrumb("Cancelled photo");
-        bugsnag.notify(err, report => {
-          report.severity = "error";
-        });
-        photo.error = true;
-        photo.capturing = false;
-        setState(state => {
-          // Replace the capturing photo in state with the now captured photo
-          const updatedPhotosState = state.photos.map(p =>
-            p === capturingPhoto ? photo : p
-          );
-          log("new photos state", updatedPhotosState);
-          return { ...state, photos: updatedPhotosState };
-        });
+        log("new photos state", updatedPhotosState);
+        return { ...draft, photos: updatedPhotosState };
       });
-    pendingPhotos.current.push(capturePromise);
+    }
   }
 
   function updateDraft(value: ObservationValue) {
-    setState({
-      ...state,
+    setDraft(draft => ({
+      ...draft,
       // $FlowFixMe
       value: {
-        ...state.value,
+        ...draft.value,
         ...value
       }
-    });
+    }));
   }
 
-  function newDraft(value: ObservationValue, capture?: CapturePromise) {
+  function cancelPhotoProcessing() {
     // TODO: Cleanup photos and previews in temp storage here
     // Signal any pending photo captures to cancel:
-    pendingPhotos.current.forEach(p => (p.cancelled = true));
-    pendingPhotos.current = [];
-    const photos = filterPhotosFromAttachments(value.attachments);
-    setState({
-      ...state,
-      photos: photos,
-      value: value
-    });
+    draft.photoPromises.forEach(p => p.signal && (p.signal.didCancel = true));
+  }
+
+  function newDraft(
+    id?: string,
+    value?: ObservationValue | null = { tags: {} },
+    capture?: CapturePromise
+  ) {
+    cancelPhotoProcessing();
+    setDraft(draft => ({
+      ...draft,
+      photoPromises: [],
+      photos: value ? filterPhotosFromAttachments(value.attachments) : [],
+      value: value,
+      observationId: id
+    }));
     if (capture) addPhoto(capture);
   }
 
   function clearDraft() {
-    newDraft({ tags: {} });
+    newDraft(undefined, null);
   }
 
-  function saveDraft() {}
+  async function saveDraft() {
+    const draftValue = draft.value;
+    if (!draftValue) {
+      // Shouldn't get here
+      bugsnag.notify(
+        new Error("Tried to save null draft"),
+        report => (report.severity = "error")
+      );
+      setDraft(draft => ({ ...draft, savingStatus: "error" }));
+      return;
+    }
+    setDraft(draft => ({ ...draft, savingStatus: "loading" }));
+    try {
+      // Wait for all the photos to be ready
+      const newPhotos: Array<DraftPhoto | void> = await Promise.all(
+        // This ensures that this resolves to an array even if some photos fail
+        // to capture - they will be undefined in the array.
+        // https://twitter.com/jaffathecake/status/833668073475416064
+        draft.photoPromises.map(p => p.catch(() => {}))
+      );
+      const toCreate = getPhotosToCreate(newPhotos);
+      // const toDelete = draft.photos.filter(p => p.id && p.deleted);
 
-  const preset = matchPreset(state.value, presets);
+      // A little bit hairy this one... we basically want to keep the original
+      // attachments except those which have been marked deleted in the draft
+      const existingAttachments = (draftValue.attachments || []).filter(a => {
+        const attachmentInDraft = draft.photos.find(p => p.id && p.id === a.id);
+        return !(attachmentInDraft && attachmentInDraft.deleted);
+      });
 
-  return {
-    ...state,
-    preset: preset && addFieldDefinitions(preset, fields),
-    addPhoto,
-    updateDraft,
-    newDraft,
-    clearDraft,
-    saveDraft
-  };
+      const savedAttachments = await Promise.all(toCreate.map(api.savePhoto));
+      const newObservationValue = {
+        ...draftValue,
+        attachments: existingAttachments.concat(
+          savedAttachments.map(addMimeType)
+        )
+      };
+      const existingObservation =
+        draft.observationId !== undefined
+          ? observations.get(draft.observationId)
+          : undefined;
+      if (existingObservation) {
+        const updatedObservation = await api.updateObservation(
+          existingObservation.id,
+          newObservationValue,
+          { links: [existingObservation.version] }
+        );
+        dispatch({ type: "update", value: updatedObservation });
+      } else {
+        const newObservation = await api.createObservation(newObservationValue);
+        dispatch({ type: "create", value: newObservation });
+      }
+      setDraft(draft => ({ ...draft, savingStatus: "success" }));
+    } catch (e) {
+      bugsnag.notify(e, report => (report.severity = "error"));
+      setDraft(draft => ({ ...draft, savingStatus: "error" }));
+    }
+  }
+
+  const preset = draft.value ? matchPreset(draft.value, presets) : undefined;
+
+  return [
+    {
+      value: draft.value,
+      photos: draft.photos,
+      loading: draft.loading,
+      savingStatus: draft.savingStatus,
+      preset: preset && addFieldDefinitions(preset, fields)
+    },
+    { addPhoto, updateDraft, newDraft, clearDraft, saveDraft }
+  ];
 };
 
-// Filter photos from an array of observation attachments (we could have videos
-// and other media types)
-export function filterPhotosFromAttachments(
-  attachments: Array<ObservationAttachment> = []
-): Array<Photo> {
-  return attachments.reduce((acc, att) => {
-    if (
-      att.type === "image/jpeg" ||
-      // This is needed for backwards compat, because early versions did not
-      // save a type
-      (att.type === undefined && /(\.jpg|\.jpeg)$/i.test(att.id))
-    )
-      acc.push({ id: att.id, type: att.type });
-    return acc;
-  }, []);
+async function processPhoto(
+  capturePromise: CapturePromise,
+  { didCancel = false }: Signal
+): Promise<DraftPhoto> {
+  const photo: DraftPhoto = { capturing: false };
+  const { uri: originalUri, rotate } = await capturePromise;
+  if (didCancel) throw new Error("Cancelled");
+  bugsnag.leaveBreadcrumb("Captured photo", { type: "process" });
+  photo.originalUri = originalUri;
+  // rotate will be defined if the original photo failed to rotate (this
+  // happens on low-memory devices) so we rotate the preview and
+  // thumbnail (rotating the smaller images seems to work ok).
+  const { uri: thumbnailUri } = await ImageResizer.createResizedImage(
+    originalUri,
+    THUMBNAIL_SIZE,
+    THUMBNAIL_SIZE,
+    "JPEG",
+    THUMBNAIL_QUALITY,
+    rotate
+  );
+  if (didCancel) throw new Error("Cancelled");
+  bugsnag.leaveBreadcrumb("Generated thumbnail", { type: "process" });
+  photo.thumbnailUri = thumbnailUri;
+  const { uri: previewUri } = ImageResizer.createResizedImage(
+    originalUri,
+    PREVIEW_SIZE,
+    PREVIEW_SIZE,
+    "JPEG",
+    PREVIEW_QUALITY,
+    rotate
+  );
+  if (didCancel) throw new Error("Cancelled");
+  bugsnag.leaveBreadcrumb("Generated preview", { type: "process" });
+  photo.previewUri = previewUri;
+  return photo;
+}
+function addMimeType(attachment: { id: string }): ObservationAttachment {
+  return {
+    ...attachment,
+    type: "image/jpeg"
+  };
+}
+
+function getPhotosToCreate(
+  photos: Array<DraftPhoto | void>
+): Array<DraftPhoto> {
+  // $FlowFixMe - flow seems to have trouble with array filters and type refinement
+  return photos.filter(p => p !== undefined && !p.deleted);
 }

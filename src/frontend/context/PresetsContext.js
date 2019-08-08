@@ -3,7 +3,7 @@ import * as React from "react";
 import debug from "debug";
 
 import api from "../api";
-import type { UseState } from "../types";
+import type { UseState, Status } from "../types";
 
 const log = debug("mapeo:PresetsContext");
 
@@ -57,25 +57,21 @@ export type PresetWithFields = {|
 export type PresetsMap = Map<string, Preset>;
 export type FieldsMap = Map<string, Field>;
 
-export type PresetsContextValue = {
+export type State = {
   // A map of presets by preset id
   presets: PresetsMap,
   // A map of field definitions by id
   fields: FieldsMap,
-  // True if the presets are currently loading from Mapeo Core
-  loading: boolean,
-  // True if there is an error loading presets from Mapeo Core
-  error: Error | null
+  status: Status
 };
 
-export type PresetsContextType = UseState<PresetsContextValue>;
+export type PresetsContextType = UseState<State>;
 
 const defaultContext = [
   {
     presets: new Map(),
     fields: new Map(),
-    loading: false,
-    error: null
+    status: "loading"
   },
   () => {}
 ];
@@ -93,6 +89,7 @@ export const PresetsProvider = ({ children }: Props) => {
   // Load presets and fields from Mapeo Core on first mount of the app
   React.useEffect(() => {
     let didCancel = false;
+    setState({ ...state, status: "loading" });
     Promise.all([api.getPresets(), api.getFields()])
       .then(([presetsList, fieldsList]) => {
         if (didCancel) return; // if component was unmounted, don't set state
@@ -101,18 +98,19 @@ export const PresetsProvider = ({ children }: Props) => {
             presetsList.filter(filterPointPreset).map(p => [p.id, p])
           ),
           fields: new Map(fieldsList.map(p => [p.id, p])),
-          loading: false,
-          error: null
+          status: "success"
         });
       })
       .catch(err => {
         log("Error loading presets and fields", err);
         if (didCancel) return; // if component was unmounted, don't set state
-        setState({ ...state, error: err, loading: false });
+        setState({ ...state, status: "error" });
       });
     return () => {
       didCancel = true;
     };
+    // Disabled because we only ever want this to run on first load of the app
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

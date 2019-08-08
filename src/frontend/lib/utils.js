@@ -4,7 +4,11 @@ import format from "date-fns/format";
 import esLocale from "date-fns/locale/es";
 
 import type { LocationContextType } from "../context/LocationContext";
-import type { ObservationValue } from "../context/ObservationsContext";
+import type {
+  ObservationValue,
+  ObservationAttachment
+} from "../context/ObservationsContext";
+import type { Photo } from "../context/DraftObservationContext";
 import type {
   Preset,
   PresetsMap,
@@ -88,6 +92,23 @@ export function addFieldDefinitions(
     ...preset,
     fields: filterFalsy(fieldDefs)
   };
+}
+
+// Filter photos from an array of observation attachments (we could have videos
+// and other media types)
+export function filterPhotosFromAttachments(
+  attachments: Array<ObservationAttachment> = []
+): Array<Photo> {
+  return attachments.reduce((acc, att) => {
+    if (
+      att.type === "image/jpeg" ||
+      // This is needed for backwards compat, because early versions did not
+      // save a type
+      (att.type === undefined && /(\.jpg|\.jpeg)$/i.test(att.id))
+    )
+      acc.push({ id: att.id, type: att.type });
+    return acc;
+  }, []);
 }
 
 export function formatDate(date: string | number | Date): string {
