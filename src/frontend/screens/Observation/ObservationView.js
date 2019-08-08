@@ -11,8 +11,11 @@ import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
 import mapIcon from "../../images/observation-icon.png";
-import { formatDate, formatCoords } from "../../lib/utils";
-import { filterPhotosFromAttachments } from "../../context/DraftObservationContext";
+import {
+  formatDate,
+  formatCoords,
+  filterPhotosFromAttachments
+} from "../../lib/utils";
 import {
   BLACK,
   RED,

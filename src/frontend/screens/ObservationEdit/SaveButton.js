@@ -146,13 +146,6 @@ class SaveButton extends React.PureComponent<Props, State> {
 
 export default withObservations(["create", "update"])(withDraft()(SaveButton));
 
-function addMimeType(attachment: { id: string }): ObservationAttachment {
-  return {
-    ...attachment,
-    type: "image/jpeg"
-  };
-}
-
 // A draft observation has both existing photos (if this is an edit) and newly
 // added photos, some of which might be deleted by the user after being added,
 // and others which might have had an error. This function gets on the

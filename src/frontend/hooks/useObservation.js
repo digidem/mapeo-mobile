@@ -4,7 +4,7 @@ import { useContext, useState, useEffect } from "react";
 import api from "../api";
 import { matchPreset, addFieldDefinitions } from "../lib/utils";
 import ObservationsContext, {
-  type ObservationValue
+  type Observation
 } from "../context/ObservationsContext";
 import PresetsContext, {
   type PresetWithFields
@@ -13,7 +13,7 @@ import type { Status } from "../types";
 
 type UseObservation = [
   {
-    observation?: ObservationValue,
+    observation?: Observation,
     preset?: PresetWithFields,
     loadingStatus: Status,
     deletingStatus?: Status
@@ -22,7 +22,7 @@ type UseObservation = [
   () => void
 ];
 
-export default (observationId: string): UseObservation => {
+export default (observationId: mixed): UseObservation => {
   const [{ observations, status: observationsStatus }, dispatch] = useContext(
     ObservationsContext
   );
@@ -64,7 +64,7 @@ export default (observationId: string): UseObservation => {
     {
       deletingStatus,
       loadingStatus,
-      observation: observation && observation.value,
+      observation: observation,
       preset: preset && addFieldDefinitions(preset, fields)
     },
     () => setDeleteRequest({})
