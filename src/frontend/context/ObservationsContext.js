@@ -85,7 +85,8 @@ function reducer(state: State, action: Action): State {
     case "reload_success":
       return {
         ...state,
-        observations: new Map(action.value.map(obs => [obs.id, obs]))
+        observations: new Map(action.value.map(obs => [obs.id, obs])),
+        status: "success"
       };
     default:
       return state;
