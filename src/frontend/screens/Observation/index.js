@@ -31,7 +31,6 @@ const Observation = ({ navigation }: Props) => {
   ] = useObservation(observationId);
 
   function handlePressPhoto(photoIndex: number) {
-    const { navigation } = this.props;
     navigation.navigate("PhotosModal", {
       photoIndex: photoIndex,
       observationId: navigation.getParam("observationId")
@@ -66,7 +65,7 @@ const Observation = ({ navigation }: Props) => {
   );
 };
 
-Observation.navigationOptions = ({ navigation }: any) => ({
+Observation.navigationOptions = ({ navigation }: NavigationProp) => ({
   headerRight: <EditButton navigation={navigation} />
 });
 
