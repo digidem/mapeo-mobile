@@ -1,5 +1,5 @@
 // @flow
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useLayoutEffect } from "react";
 import {
   View,
   ActivityIndicator,
@@ -83,8 +83,12 @@ const ThumbnailScrollView = ({ onPressPhoto }: Props) => {
   const [{ photos }] = useDraftObservation();
   const scrollViewRef = useRef();
 
-  useEffect(() => {
-    scrollViewRef.current && scrollViewRef.current.scrollToEnd();
+  useLayoutEffect(() => {
+    // For some reason without the timeout this does not work.
+    const timeoutID = setTimeout(() => {
+      scrollViewRef.current && scrollViewRef.current.scrollToEnd();
+    }, 50);
+    return () => clearTimeout(timeoutID);
   }, [photos.length]);
 
   if (photos.length === 0) return null;
@@ -93,11 +97,13 @@ const ThumbnailScrollView = ({ onPressPhoto }: Props) => {
   // the screen.
   const size =
     windowWidth / (Math.round(0.6 + windowWidth / minSize) - 0.5) - spacing;
+
   return (
     <ScrollView
       ref={scrollViewRef}
       horizontal
-      showsHorizontalScrollIndicator={false}
+      showsHorizontalScrollIndicator={true}
+      contentInset={{ top: 5, right: 5, bottom: 5, left: 5 }}
       style={styles.photosContainer}
     >
       {photos
@@ -119,8 +125,7 @@ export default ThumbnailScrollView;
 
 const styles = StyleSheet.create({
   photosContainer: {
-    flex: 1,
-    padding: 5
+    flex: 1
   },
   thumbnail: {
     margin: 5
