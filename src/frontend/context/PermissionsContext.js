@@ -14,9 +14,7 @@ export type PermissionResult = "granted" | "denied" | "never_ask_again";
 type PermissionType =
   | "android.permission.CAMERA"
   | "android.permission.ACCESS_FINE_LOCATION"
-  | "android.permission.ACCESS_COARSE_LOCATION"
-  | "android.permission.READ_EXTERNAL_STORAGE"
-  | "android.permission.WRITE_EXTERNAL_STORAGE";
+  | "android.permission.ACCESS_COARSE_LOCATION";
 
 export type PermissionsType = {|
   [PermissionType]: PermissionResult
@@ -31,9 +29,7 @@ export const RESULTS: { [string]: PermissionResult } = {
 export const PERMISSIONS: { [string]: PermissionType } = {
   CAMERA: "android.permission.CAMERA",
   ACCESS_FINE_LOCATION: "android.permission.ACCESS_FINE_LOCATION",
-  ACCESS_COARSE_LOCATION: "android.permission.ACCESS_COARSE_LOCATION",
-  READ_EXTERNAL_STORAGE: "android.permission.READ_EXTERNAL_STORAGE",
-  WRITE_EXTERNAL_STORAGE: "android.permission.WRITE_EXTERNAL_STORAGE"
+  ACCESS_COARSE_LOCATION: "android.permission.ACCESS_COARSE_LOCATION"
 };
 
 type RequestPermissions = (type: PermissionType | PermissionType[]) => any;

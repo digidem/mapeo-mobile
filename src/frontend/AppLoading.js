@@ -42,9 +42,7 @@ class AppLoading extends React.Component<Props, State> {
     this.props.requestPermissions([
       PERMISSIONS.CAMERA,
       PERMISSIONS.ACCESS_COARSE_LOCATION,
-      PERMISSIONS.ACCESS_FINE_LOCATION,
-      PERMISSIONS.READ_EXTERNAL_STORAGE,
-      PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      PERMISSIONS.ACCESS_FINE_LOCATION
     ]);
     this._timeoutId = setTimeout(() => {
       SplashScreen.hide();
@@ -55,7 +53,7 @@ class AppLoading extends React.Component<Props, State> {
   }
 
   componentDidUpdate() {
-    if (this.hasStoragePermission() && this.state.serverStatus == null) {
+    if (this.state.serverStatus == null) {
       api.startServer();
       this.setState({ serverStatus: Constants.STARTING });
     }
@@ -66,15 +64,6 @@ class AppLoading extends React.Component<Props, State> {
     if (!this._timeoutId) return;
     clearTimeout(this._timeoutId);
     SplashScreen.hide();
-  }
-
-  hasStoragePermission() {
-    // $FlowFixMe - needs HOC type to be fixed
-    const { permissions } = this.props;
-    return (
-      permissions[PERMISSIONS.READ_EXTERNAL_STORAGE] === RESULTS.GRANTED &&
-      permissions[PERMISSIONS.WRITE_EXTERNAL_STORAGE] === RESULTS.GRANTED
-    );
   }
 
   handleStatusChange = (serverStatus: ServerStatus) => {

@@ -1,6 +1,6 @@
 // @flow
 import "core-js/es/reflect";
-import { PixelRatio, PermissionsAndroid } from "react-native";
+import { PixelRatio } from "react-native";
 import ky from "ky";
 import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
@@ -163,46 +163,39 @@ export function Api({
       // The server might already be started - request current status
       nodejs.channel.post("request-status");
       bugsnag.leaveBreadcrumb("Starting Mapeo Core");
-      // The server requires read & write permissions for external storage
-      const serverStartPromise = PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      ])
-        .then(results => {
-          const permissionsGranted = Object.values(results).every(
-            r => r === PermissionsAndroid.RESULTS.GRANTED
-          );
-          if (!permissionsGranted)
-            throw new Error("Storage read and write permissions not granted");
-          bugsnag.leaveBreadcrumb("Mapeo Core permissions");
-          nodejs.start("loader.js");
-          // We know the node process has started as soon as we hear a status
-          return new Promise(resolve => nodejs.channel.once("status", resolve));
-        })
-        .then(() => {
-          bugsnag.leaveBreadcrumb("Mapeo Core started");
-          // Start monitoring for timeout
-          restartTimeout();
-          // As soon as we hear from the Node process, send the storagePath so
-          // that the server can start
-          nodejs.channel.post("storagePath", RNFS.ExternalDirectoryPath);
-          // Resolve once the server reports status as "LISTENING"
-          return onReady();
-        });
+      nodejs.start("loader.js");
+      const serverStartPromise = new Promise(resolve =>
+        nodejs.channel.once("status", resolve)
+      ).then(() => {
+        bugsnag.leaveBreadcrumb("Mapeo Core started");
+        // Start monitoring for timeout
+        restartTimeout();
+        // As soon as we hear from the Node process, send the storagePath so
+        // that the server can start
+        nodejs.channel.post("storagePath", RNFS.ExternalDirectoryPath);
+        // Resolve once the server reports status as "LISTENING"
+        return onReady();
+      });
+
       serverStartPromise.then(() =>
         bugsnag.leaveBreadcrumb("Mapeo Core ready")
       );
-      return promiseTimeout(
+
+      const serverStartTimeoutPromise = promiseTimeout(
         serverStartPromise,
         SERVER_START_TIMEOUT,
         "Server start timeout"
-      ).catch(e => {
+      );
+
+      serverStartTimeoutPromise.catch(e => {
         // We could get here when the timeout timer has not yet started and the
         // server status is still "STARTING", so we update the status to an
         // error
         onStatusChange(STATUS.ERROR);
         bugsnag.notify(e);
       });
+
+      return serverStartTimeoutPromise;
     },
 
     addServerStateListener: function addServerStateListener(
