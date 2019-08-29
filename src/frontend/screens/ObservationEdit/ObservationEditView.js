@@ -19,9 +19,17 @@ import { BLACK, LIGHT_GREY, LIGHT_BLUE } from "../../lib/styles";
 
 import type { PresetWithFields } from "../../context/PresetsContext";
 
-const LocationView = ({ longitude, latitude, accuracy }) => (
+const LocationView = ({
+  longitude,
+  latitude,
+  accuracy
+}: {
+  longitude?: number | null,
+  latitude?: number | null,
+  accuracy?: number
+}) => (
   <View style={styles.locationContainer}>
-    {longitude === undefined || latitude === undefined ? (
+    {longitude == null || latitude == null ? (
       <Text>Searching...</Text>
     ) : (
       <>
@@ -36,7 +44,7 @@ const LocationView = ({ longitude, latitude, accuracy }) => (
           lat={latitude}
           lon={longitude}
         />
-        {accuracy && (
+        {accuracy === undefined ? null : (
           <Text style={styles.accuracy}>
             {" ±" + accuracy.toFixed(2) + "m"}
           </Text>
