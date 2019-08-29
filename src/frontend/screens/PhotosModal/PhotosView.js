@@ -72,7 +72,6 @@ type Props = {
 
 class PhotosView extends React.Component<Props> {
   render() {
-    console.log(this.props);
     const photo = this.props.photos[this.props.initialIndex];
     return (
       <View style={styles.container}>

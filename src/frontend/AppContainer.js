@@ -23,14 +23,19 @@ import ManualGpsScreen from "./screens/ManualGpsScreen";
 import IconButton from "./sharedComponents/IconButton";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { BackIcon, CloseIcon } from "./sharedComponents/icons";
+import type { NavigationProp } from "./types";
 
-const HeaderLeft = ({ navigation }) => (
+type Props = {
+  navigation: NavigationProp
+};
+
+const HeaderLeft = ({ navigation }: Props) => (
   <IconButton onPress={() => navigation.pop()}>
     <BackIcon />
   </IconButton>
 );
 
-class EditHeaderLeft extends React.Component<*> {
+class EditHeaderLeft extends React.Component<Props> {
   handleCloseRequest() {
     const { navigation } = this.props;
     Alert.alert("¿Quieres descartar observación?", undefined, [
@@ -51,6 +56,7 @@ class EditHeaderLeft extends React.Component<*> {
       (isTopOfStack(navigation) ||
         navigation.state.routeName === "ObservationEdit") &&
       parent &&
+      // $FlowFixMe
       parent.state.routeName === "NewObservation";
     return (
       <IconButton
@@ -74,10 +80,12 @@ const defaultNavigationOptions = {
 
 const ObservationsStack = createStackNavigator(
   {
+    // $FlowFixMe - flow definitions don't recognize static props on function components
     CategoryChooser: CategoryChooser,
+    // $FlowFixMe - flow definitions don't recognize static props on function components
     AddPhoto: AddPhoto,
     ObservationList: {
-      // $FlowFixMe
+      // $FlowFixMe - flow definitions don't recognize static props on function components
       screen: ObservationList,
       path: "observations"
     },
@@ -86,6 +94,7 @@ const ObservationsStack = createStackNavigator(
       path: "observations/:observationId"
     },
     ObservationEdit: {
+      // $FlowFixMe - flow definitions don't recognize static props on function components
       screen: ObservationEdit,
       path: "observations/:observationId/edit"
     },

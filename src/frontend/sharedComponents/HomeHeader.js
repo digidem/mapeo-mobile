@@ -2,35 +2,40 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import { useNavigation } from "react-navigation-hooks";
 
 import IconButton from "../sharedComponents/IconButton";
 import { ObservationListIcon, SyncIconCircle } from "../sharedComponents/icons";
 import GpsPill from "../sharedComponents/GpsPill";
 
-import type { NavigationScreenConfigProps } from "react-navigation";
-
-const HomeHeader = (props: NavigationScreenConfigProps) => (
-  <View style={styles.header}>
-    <LinearGradient style={styles.linearGradient} colors={["#0006", "#0000"]} />
-    <IconButton
-      style={styles.leftButton}
-      onPress={() => {
-        props.navigation.navigate("SyncModal");
-      }}
-    >
-      <SyncIconCircle />
-    </IconButton>
-    <GpsPill />
-    <IconButton
-      style={styles.rightButton}
-      onPress={() => {
-        props.navigation.navigate("ObservationList");
-      }}
-    >
-      <ObservationListIcon />
-    </IconButton>
-  </View>
-);
+const HomeHeader = () => {
+  const navigation = useNavigation();
+  return (
+    <View style={styles.header}>
+      <LinearGradient
+        style={styles.linearGradient}
+        colors={["#0006", "#0000"]}
+      />
+      <IconButton
+        style={styles.leftButton}
+        onPress={() => {
+          navigation.navigate("SyncModal");
+        }}
+      >
+        <SyncIconCircle />
+      </IconButton>
+      <GpsPill />
+      <IconButton
+        style={styles.rightButton}
+        onPress={() => {
+          navigation.navigate("ObservationList");
+        }}
+      >
+        <ObservationListIcon />
+      </IconButton>
+    </View>
+  );
+};
 
 export default HomeHeader;
 

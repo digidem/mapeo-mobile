@@ -3,18 +3,15 @@ import * as React from "react";
 import omit from "lodash/omit";
 
 import { withLocation } from "../context/LocationContext";
-import { withDraft } from "../context/DraftObservationContext";
-import type { DraftObservationContext as DraftObservationContextType } from "../context/DraftObservationContext";
+import useDraftObservation from "../hooks/useDraftObservation";
 import type { LocationContextType } from "../context/LocationContext";
 
-type FieldProps = {
+type Props = {
   children: ({
     longitude?: number | null,
     latitude?: number | null,
     accuracy?: number
   }) => React.Node,
-  value: $ElementType<DraftObservationContextType, "value">,
-  setValue: $ElementType<DraftObservationContextType, "setValue">,
   location: LocationContextType,
   locked: boolean
 };
@@ -27,11 +24,11 @@ type FieldProps = {
  * It needs a function as children, which will be called with the current
  * longitude, latitude and accuracy of the location on the observation
  */
-class LocationField extends React.Component<FieldProps> {
-  componentDidUpdate(prevProps: FieldProps) {
-    const { value, setValue, location } = this.props;
-    if (prevProps.location === location) return;
-    if (!location.position) return;
+const LocationField = ({ location, children }: Props) => {
+  const [{ value }, { updateDraft }] = useDraftObservation();
+
+  React.useEffect(() => {
+    if (!location.position || !value) return;
     const draftHasManualLocation =
       value.metadata && value.metadata.manualLocation;
     const draftHasLocation =
@@ -43,7 +40,7 @@ class LocationField extends React.Component<FieldProps> {
       location.position.coords.accuracy <
         value.metadata.location.position.coords.accuracy;
     if (!draftHasManualLocation && (!draftHasLocation || accuracyImproved))
-      return setValue({
+      return updateDraft({
         ...value,
         lon: location.position.coords.longitude,
         lat: location.position.coords.latitude,
@@ -52,20 +49,20 @@ class LocationField extends React.Component<FieldProps> {
           location: omit(location, "savedPosition")
         }
       });
-  }
-  render() {
-    const { value, children } = this.props;
-    return children({
-      longitude: value.lon,
-      latitude: value.lat,
-      accuracy:
-        value.metadata &&
-        value.metadata.location &&
-        value.metadata.location.position &&
-        value.metadata.location.position.coords.accuracy
-    });
-  }
-}
+  }, [location, updateDraft, value]);
+
+  if (!value) return null;
+
+  return children({
+    longitude: value.lon,
+    latitude: value.lat,
+    accuracy:
+      value.metadata &&
+      value.metadata.location &&
+      value.metadata.location.position &&
+      value.metadata.location.position.coords.accuracy
+  });
+};
 
 // Add props from DraftObservation and location to component
-export default withLocation(withDraft(["value", "setValue"])(LocationField));
+export default withLocation(LocationField);

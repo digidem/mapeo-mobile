@@ -5,11 +5,11 @@ import IconButton from "../../sharedComponents/IconButton";
 import useObservation from "../../hooks/useObservation";
 import useDraftObservation from "../../hooks/useDraftObservation";
 
-import type { NavigationScreenProp } from "react-navigation";
 import { EditIcon } from "../../sharedComponents/icons";
+import type { NavigationProp } from "../../types";
 
 type Props = {
-  navigation: NavigationScreenProp<{}>
+  navigation: NavigationProp
 };
 
 const EditButton = ({ navigation }: Props) => {

@@ -55,9 +55,9 @@ class SyncModal extends React.Component<Props, State> {
     // Subscribe to peer updates
     this._subscriptions.push(api.addPeerListener(this.updatePeers));
     // Subscribe to NetInfo to know when the user connects/disconnects to wifi
-    this._subscriptions.push(
-      NetInfo.addEventListener("connectionChange", this.handleConnectionChange)
-    );
+    this._subscriptions.push({
+      remove: NetInfo.addEventListener(this.handleConnectionChange)
+    });
     // Keep the screen awake whilst on this screen
     KeepAwake.activate();
   }

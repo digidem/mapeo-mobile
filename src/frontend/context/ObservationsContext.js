@@ -34,7 +34,7 @@ export type Observation = {
   value: ObservationValue
 };
 
-type ObservationsMap = Map<string, Observation>;
+export type ObservationsMap = Map<string, Observation>;
 
 type State = {
   // A map of all observations in memory, by id

@@ -1,12 +1,12 @@
 // @flow
 import React, { useCallback } from "react";
-import type { NavigationScreenConfigProps } from "react-navigation";
 
 import ObservationEditView from "./ObservationEditView";
 import SaveButton from "./SaveButton";
 import useDraftObservation from "../../hooks/useDraftObservation";
+import type { NavigationProp } from "../../types";
 
-const ObservationEdit = ({ navigation }: NavigationScreenConfigProps) => {
+const ObservationEdit = ({ navigation }: { navigation: NavigationProp }) => {
   const handleCategoryPress = useCallback(() => {
     navigation.navigate("CategoryChooser");
   }, [navigation]);
@@ -46,7 +46,9 @@ const ObservationEdit = ({ navigation }: NavigationScreenConfigProps) => {
 
 ObservationEdit.navigationOptions = ({
   navigation
-}: NavigationScreenConfigProps) => ({
+}: {
+  navigation: NavigationProp
+}) => ({
   title: navigation.getParam("observationId") ? "Editar" : "Nueva Observación",
   headerRight: <SaveButton navigation={navigation} />
 });

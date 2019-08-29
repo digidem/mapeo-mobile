@@ -1,12 +1,12 @@
 // @flow
 import React from "react";
 import { Text, Alert } from "react-native";
-import type { NavigationScreenConfigProps } from "react-navigation";
 
 import ObservationView from "./ObservationView";
 import CenteredView from "../../sharedComponents/CenteredView";
 import useObservation from "../../hooks/useObservation";
 import EditButton from "./EditButton";
+import type { NavigationProp } from "../../types";
 
 // TODO: Add a better message for the user.
 // In the future if we add deep-linking we could get here,
@@ -18,7 +18,7 @@ const ObservationNotFound = () => (
 );
 
 type Props = {
-  ...$Exact<NavigationScreenConfigProps>
+  navigation: NavigationProp
 };
 
 const Observation = ({ navigation }: Props) => {
@@ -46,7 +46,10 @@ const Observation = ({ navigation }: Props) => {
       },
       {
         text: "Si, Borrar",
-        onPress: () => deleteObservation()
+        onPress: () => {
+          deleteObservation();
+          navigation.pop();
+        }
       }
     ]);
   }

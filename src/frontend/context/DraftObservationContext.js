@@ -3,7 +3,7 @@ import * as React from "react";
 import debug from "debug";
 import AsyncStorage from "@react-native-community/async-storage";
 
-import type { UseState, Status } from "../types";
+import type { UseState } from "../types";
 import type { ObservationValue } from "./ObservationsContext";
 
 // WARNING: This needs to change if we change the draft data structure
@@ -55,7 +55,6 @@ export type DraftObservationContextState = {|
     Promise<DraftPhoto> & { signal?: { didCancel: boolean } }
   >,
   loading: boolean,
-  savingStatus?: Status,
   observationId?: string
 |};
 

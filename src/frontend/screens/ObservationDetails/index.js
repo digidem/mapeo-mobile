@@ -1,15 +1,19 @@
 // @flow
 import React from "react";
 import { Text, StyleSheet, Platform } from "react-native";
-import type { NavigationScreenConfigProps } from "react-navigation";
 
 import TextButton from "../../sharedComponents/TextButton";
 import QuestionContainer from "./QuestionContainer";
 import Question from "./Question";
 import Field from "../ObservationEdit/Field";
 import useDraftObservation from "../../hooks/useDraftObservation";
+import type { NavigationProp } from "../../types";
 
-const DetailsTitle = ({ navigation }: any) => {
+type Props = {
+  navigation: NavigationProp
+};
+
+const DetailsTitle = ({ navigation }: Props) => {
   const [{ preset = {} }] = useDraftObservation();
   return (
     <Text
@@ -21,7 +25,7 @@ const DetailsTitle = ({ navigation }: any) => {
   );
 };
 
-const DetailsHeaderRight = ({ navigation }: any) => {
+const DetailsHeaderRight = ({ navigation }: Props) => {
   const [{ preset = {} }] = useDraftObservation();
   const current = navigation.getParam("question");
   const isLastQuestion = current >= (preset.fields || []).length;
@@ -42,12 +46,11 @@ const DetailsHeaderRight = ({ navigation }: any) => {
   );
 };
 
-const ObservationDetails = ({ navigation }: NavigationScreenConfigProps) => {
+const ObservationDetails = ({ navigation }: Props) => {
   const [{ preset = {} }] = useDraftObservation();
 
   const current: number = +navigation.getParam("question");
   if (!preset || !preset.fields || current > preset.fields.length)
-    // $FlowFixMe
     return navigation.pop(current);
   const field = preset.fields[current - 1];
   return (

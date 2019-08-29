@@ -6,13 +6,17 @@ import debug from "debug";
 import IconButton from "../../sharedComponents/IconButton";
 import { SaveIcon } from "../../sharedComponents/icons";
 import useDraftObservation from "../../hooks/useDraftObservation";
-import type { NavigationScreenConfigProps } from "react-navigation";
 import type { ObservationValue } from "../../context/ObservationsContext";
+import type { NavigationProp } from "../../types";
 
 const MINIMUM_ACCURACY = 10;
 const log = debug("SaveButton");
 
-const SaveButton = ({ navigation }: NavigationScreenConfigProps) => {
+type Props = {
+  navigation: NavigationProp
+};
+
+const SaveButton = ({ navigation }: Props) => {
   const [{ value, savingStatus }, { saveDraft }] = useDraftObservation();
 
   const confirmationOptions = [
@@ -65,7 +69,6 @@ const SaveButton = ({ navigation }: NavigationScreenConfigProps) => {
     if (savingStatus !== "success") return;
     const observationId = navigation.getParam("observationId");
     if (observationId === "string") {
-      // $FlowFixMe
       navigation.pop();
     } else {
       navigation.navigate("Home");

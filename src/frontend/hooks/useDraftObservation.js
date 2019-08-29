@@ -1,5 +1,5 @@
 // @flow
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import ImageResizer from "react-native-image-resizer";
 import debug from "debug";
 
@@ -10,6 +10,7 @@ import {
   filterPhotosFromAttachments
 } from "../lib/utils";
 import bugsnag from "../lib/logger";
+import type { Status } from "../types";
 
 import PresetsContext, {
   type PresetWithFields
@@ -44,7 +45,7 @@ export type UseDraftObservation = [
     value: $ElementType<DraftObservationContextState, "value">,
     photos: $ElementType<DraftObservationContextState, "photos">,
     loading: $ElementType<DraftObservationContextState, "loading">,
-    savingStatus: $ElementType<DraftObservationContextState, "savingStatus">,
+    savingStatus: Status,
     preset?: PresetWithFields
   |},
   {|
@@ -75,6 +76,7 @@ export default (): UseDraftObservation => {
   const [draft, setDraft] = useContext(DraftObservationContext);
   const [{ observations }, dispatch] = useContext(ObservationsContext);
   const [{ presets, fields }] = useContext(PresetsContext);
+  const [savingStatus, setSavingStatus] = useState<Status>();
 
   async function addPhoto(capturePromise: CapturePromise) {
     // Keep a reference of the "in-progress" photo which we save to state, we
@@ -154,6 +156,8 @@ export default (): UseDraftObservation => {
   }
 
   async function saveDraft() {
+    log("saveDraft call");
+    setSavingStatus("loading");
     const draftValue = draft.value;
     if (!draftValue) {
       // Shouldn't get here
@@ -161,18 +165,22 @@ export default (): UseDraftObservation => {
         new Error("Tried to save null draft"),
         report => (report.severity = "error")
       );
-      setDraft(draft => ({ ...draft, savingStatus: "error" }));
+
       return;
     }
-    setDraft(draft => ({ ...draft, savingStatus: "loading" }));
     try {
       // Wait for all the photos to be ready
       const newPhotos: Array<DraftPhoto | void> = await Promise.all(
         // This ensures that this resolves to an array even if some photos fail
         // to capture - they will be undefined in the array.
         // https://twitter.com/jaffathecake/status/833668073475416064
-        draft.photoPromises.map(p => p.catch(() => {}))
+        draft.photoPromises.map(p =>
+          p.catch(e => {
+            log("photo capture error", e);
+          })
+        )
       );
+      log("new photos ready", newPhotos);
       const toCreate = getPhotosToCreate(newPhotos);
       // const toDelete = draft.photos.filter(p => p.id && p.deleted);
 
@@ -202,13 +210,15 @@ export default (): UseDraftObservation => {
         );
         dispatch({ type: "update", value: updatedObservation });
       } else {
+        log("create observation", newObservationValue);
         const newObservation = await api.createObservation(newObservationValue);
         dispatch({ type: "create", value: newObservation });
       }
-      setDraft(draft => ({ ...draft, savingStatus: "success" }));
+      setSavingStatus("success");
     } catch (e) {
+      log("save draft error", e);
       bugsnag.notify(e, report => (report.severity = "error"));
-      setDraft(draft => ({ ...draft, savingStatus: "error" }));
+      setSavingStatus("error");
     }
   }
 
@@ -219,7 +229,7 @@ export default (): UseDraftObservation => {
       value: draft.value,
       photos: draft.photos,
       loading: draft.loading,
-      savingStatus: draft.savingStatus,
+      savingStatus: savingStatus,
       preset: preset && addFieldDefinitions(preset, fields)
     },
     { addPhoto, updateDraft, newDraft, clearDraft, saveDraft }
@@ -233,6 +243,7 @@ async function processPhoto(
   const photo: DraftPhoto = { capturing: false };
   const { uri: originalUri, rotate } = await capturePromise;
   if (didCancel) throw new Error("Cancelled");
+  log("captured photo");
   bugsnag.leaveBreadcrumb("Captured photo", { type: "process" });
   photo.originalUri = originalUri;
   // rotate will be defined if the original photo failed to rotate (this
@@ -247,9 +258,10 @@ async function processPhoto(
     rotate
   );
   if (didCancel) throw new Error("Cancelled");
+  log("created thumbnail");
   bugsnag.leaveBreadcrumb("Generated thumbnail", { type: "process" });
   photo.thumbnailUri = thumbnailUri;
-  const { uri: previewUri } = ImageResizer.createResizedImage(
+  const { uri: previewUri } = await ImageResizer.createResizedImage(
     originalUri,
     PREVIEW_SIZE,
     PREVIEW_SIZE,
@@ -258,6 +270,7 @@ async function processPhoto(
     rotate
   );
   if (didCancel) throw new Error("Cancelled");
+  log("created preview");
   bugsnag.leaveBreadcrumb("Generated preview", { type: "process" });
   photo.previewUri = previewUri;
   return photo;

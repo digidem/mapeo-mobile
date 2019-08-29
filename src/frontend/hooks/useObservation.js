@@ -1,5 +1,5 @@
 // @flow
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useCallback } from "react";
 
 import api from "../api";
 import { matchPreset, addFieldDefinitions } from "../lib/utils";
@@ -30,7 +30,6 @@ export default (observationId: mixed): UseObservation => {
     PresetsContext
   );
   const [deletingStatus, setDeletingStatus] = useState();
-  const [deleteRequest, setDeleteRequest] = useState();
   const loadingStatus = mergeLoadingStatus(observationsStatus, presetsStatus);
 
   const observation =
@@ -39,26 +38,20 @@ export default (observationId: mixed): UseObservation => {
       : undefined;
   const preset = observation && matchPreset(observation.value, presets);
 
-  useEffect(() => {
-    let didCancel = false;
+  const deleteObservation = useCallback(() => {
     // Can't delete it if we can't find it
     if (!observation) return;
-    setDeleteRequest("loading");
+    setDeletingStatus("loading");
     api
       .deleteObservation(observation.id)
       .then(() => {
         dispatch({ type: "delete", value: observation });
-        if (didCancel) return;
         setDeletingStatus("success");
       })
       .catch(e => {
-        if (didCancel) return;
         setDeletingStatus("error");
       });
-    return () => {
-      didCancel = true;
-    };
-  }, [deleteRequest, observation, dispatch]);
+  }, [dispatch, observation]);
 
   return [
     {
@@ -67,7 +60,7 @@ export default (observationId: mixed): UseObservation => {
       observation: observation,
       preset: preset && addFieldDefinitions(preset, fields)
     },
-    () => setDeleteRequest({})
+    deleteObservation
   ];
 };
 
