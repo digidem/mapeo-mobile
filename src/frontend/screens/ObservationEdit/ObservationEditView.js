@@ -86,7 +86,7 @@ const DescriptionField = withNavigationFocus(({ isFocused }) => (
         placeholderTextColor="silver"
         underlineColorAndroid="transparent"
         multiline
-        autoFocus={isFocused && !value}
+        autoFocus={false}
         scrollEnabled={false}
         textContentType="none"
       />
