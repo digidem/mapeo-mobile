@@ -2,7 +2,6 @@
 import * as React from "react";
 import { AppState } from "react-native";
 import * as Location from "expo-location";
-import hoistStatics from "hoist-non-react-statics";
 import AsyncStorage from "@react-native-community/async-storage";
 import debug from "debug";
 
@@ -221,22 +220,6 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
   }
 }
 
-export const withLocation = (WrappedComponent: any) => {
-  const WithLocation = (props: any) => (
-    <LocationContext.Consumer>
-      {location => <WrappedComponent {...props} location={location} />}
-    </LocationContext.Consumer>
-  );
-  WithLocation.displayName = `WithLocation(${getDisplayName(
-    WrappedComponent
-  )})`;
-  return hoistStatics(WithLocation, WrappedComponent);
-};
-
 export default LocationContext;
 
 export const LocationProvider = withPermissions(_LocationProvider);
-
-function getDisplayName(WrappedComponent) {
-  return WrappedComponent.displayName || WrappedComponent.name || "Component";
-}

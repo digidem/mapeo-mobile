@@ -2,9 +2,8 @@
 import * as React from "react";
 import omit from "lodash/omit";
 
-import { withLocation } from "../context/LocationContext";
 import useDraftObservation from "../hooks/useDraftObservation";
-import type { LocationContextType } from "../context/LocationContext";
+import LocationContext from "../context/LocationContext";
 
 type Props = {
   children: ({
@@ -12,7 +11,6 @@ type Props = {
     latitude?: number | null,
     accuracy?: number
   }) => React.Node,
-  location: LocationContextType,
   locked: boolean
 };
 
@@ -24,8 +22,9 @@ type Props = {
  * It needs a function as children, which will be called with the current
  * longitude, latitude and accuracy of the location on the observation
  */
-const LocationField = ({ location, children }: Props) => {
+const LocationField = ({ children }: Props) => {
   const [{ value }, { updateDraft }] = useDraftObservation();
+  const location = React.useContext(LocationContext);
 
   React.useEffect(() => {
     if (!location.position || !value) return;
@@ -65,4 +64,4 @@ const LocationField = ({ location, children }: Props) => {
 };
 
 // Add props from DraftObservation and location to component
-export default withLocation(LocationField);
+export default LocationField;
