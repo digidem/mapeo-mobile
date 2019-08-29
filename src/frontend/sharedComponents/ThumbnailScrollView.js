@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import {
   View,
   ActivityIndicator,
@@ -14,6 +14,7 @@ import { TouchableOpacity } from "../sharedComponents/Touchables";
 import api from "../api";
 import { LIGHT_GREY } from "../lib/styles";
 import { AlertIcon } from "./icons";
+import useDraftObservation from "../hooks/useDraftObservation";
 import type { Photo } from "../context/DraftObservationContext";
 import type { Style } from "../types";
 
@@ -75,54 +76,44 @@ export class Thumbnail extends React.PureComponent<
 }
 
 type Props = {
-  photos: Array<Photo>,
   onPressPhoto: (index: number) => any
 };
 
-class ThumbnailScrollView extends React.PureComponent<Props> {
-  _scrollView: { current: any };
-  constructor(props: Props) {
-    super(props);
-    this._scrollView = React.createRef();
-  }
-  componentDidUpdate(prevProps: Props) {
-    if (
-      this.props.photos.length > prevProps.photos.length &&
-      this._scrollView.current
-    ) {
-      this._scrollView.current.scrollToEnd();
-    }
-  }
-  render() {
-    const { photos, onPressPhoto } = this.props;
-    if (photos.length === 0) return null;
-    const windowWidth = Dimensions.get("window").width;
-    // Get a thumbnail size so there is always 1/2 of a thumbnail off the right of
-    // the screen.
-    const size =
-      windowWidth / (Math.round(0.6 + windowWidth / minSize) - 0.5) - spacing;
-    return (
-      <ScrollView
-        ref={this._scrollView}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.photosContainer}
-      >
-        {photos
-          .filter(photo => !photo.deleted)
-          .map((photo, index) => (
-            <Thumbnail
-              key={index}
-              photo={photo}
-              style={styles.thumbnail}
-              size={size}
-              onPress={() => onPressPhoto(photos.indexOf(photo))}
-            />
-          ))}
-      </ScrollView>
-    );
-  }
-}
+const ThumbnailScrollView = ({ onPressPhoto }: Props) => {
+  const [{ photos }] = useDraftObservation();
+  const scrollViewRef = useRef();
+
+  useEffect(() => {
+    scrollViewRef.current && scrollViewRef.current.scrollToEnd();
+  }, [photos.length]);
+
+  if (photos.length === 0) return null;
+  const windowWidth = Dimensions.get("window").width;
+  // Get a thumbnail size so there is always 1/2 of a thumbnail off the right of
+  // the screen.
+  const size =
+    windowWidth / (Math.round(0.6 + windowWidth / minSize) - 0.5) - spacing;
+  return (
+    <ScrollView
+      ref={scrollViewRef}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      style={styles.photosContainer}
+    >
+      {photos
+        .filter(photo => !photo.deleted)
+        .map((photo, index) => (
+          <Thumbnail
+            key={index}
+            photo={photo}
+            style={styles.thumbnail}
+            size={size}
+            onPress={() => onPressPhoto(photos.indexOf(photo))}
+          />
+        ))}
+    </ScrollView>
+  );
+};
 
 export default ThumbnailScrollView;
 

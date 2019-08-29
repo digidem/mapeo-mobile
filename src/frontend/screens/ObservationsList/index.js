@@ -3,38 +3,27 @@ import React from "react";
 import type { NavigationScreenConfigProps } from "react-navigation";
 
 import ObservationsListView from "./ObservationsListView";
-import ObservationsContext from "../../context/ObservationsContext";
-import PresetsContext from "../../context/PresetsContext";
+import useAllObservations from "../../hooks/useAllObservations";
 
-class ObservationsList extends React.Component<NavigationScreenConfigProps> {
-  static navigationOptions = {
-    title: "Observaciones"
-  };
+const ObservationsList = ({ navigation }: NavigationScreenConfigProps) => {
+  const [{ observations, status }] = useAllObservations();
 
-  navigateToObservation = (observationId: string) => {
-    const { navigation } = this.props;
+  const navigateToObservation = (observationId: string) => {
     navigation.navigate("Observation", { observationId });
   };
 
-  render() {
-    return (
-      <ObservationsContext.Consumer>
-        {({ observations, loading, error }) => (
-          <PresetsContext.Consumer>
-            {({ getPreset }) => (
-              <ObservationsListView
-                loading={loading}
-                error={error}
-                observations={observations}
-                onPressObservation={this.navigateToObservation}
-                getPreset={getPreset}
-              />
-            )}
-          </PresetsContext.Consumer>
-        )}
-      </ObservationsContext.Consumer>
-    );
-  }
-}
+  return (
+    <ObservationsListView
+      loading={status === "loading"}
+      error={status === "error"}
+      observations={observations}
+      onPressObservation={navigateToObservation}
+    />
+  );
+};
+
+ObservationsList.navigationOptions = {
+  title: "Observaciones"
+};
 
 export default ObservationsList;

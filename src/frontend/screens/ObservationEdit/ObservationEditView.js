@@ -15,7 +15,6 @@ import {
 } from "../../sharedComponents/icons";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import TextButton from "../../sharedComponents/TextButton";
-import { withDraft } from "../../context/DraftObservationContext";
 import { BLACK, LIGHT_GREY, LIGHT_BLUE } from "../../lib/styles";
 
 import type { PresetWithFields } from "../../context/PresetsContext";
@@ -38,7 +37,9 @@ const LocationView = ({ longitude, latitude, accuracy }) => (
           lon={longitude}
         />
         {accuracy && (
-          <Text style={styles.accuracy}>{" ±" + accuracy.toFixed(2) + "m"}</Text>
+          <Text style={styles.accuracy}>
+            {" ±" + accuracy.toFixed(2) + "m"}
+          </Text>
         )}
       </>
     )}
@@ -65,8 +66,6 @@ const CategoryView = ({
     />
   </View>
 );
-
-const PhotosView = withDraft(["photos"])(ThumbnailScrollView);
 
 const DescriptionField = withNavigationFocus(({ isFocused }) => (
   <Field fieldKey="notes">
@@ -132,7 +131,7 @@ export const ObservationEdit = ({
         )}
         <CategoryView preset={preset} onPress={onPressCategory} />
         <DescriptionField />
-        <PhotosView onPressPhoto={onPressPhoto} />
+        <ThumbnailScrollView onPressPhoto={onPressPhoto} />
       </ScrollView>
       <BottomSheet items={bottomSheetItems} />
     </View>

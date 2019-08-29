@@ -1,45 +1,47 @@
 // @flow
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { TouchableHighlight } from "../../sharedComponents/Touchables";
 
+import { TouchableHighlight } from "../../sharedComponents/Touchables";
+import useObservation from "../../hooks/useObservation";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
 import DateDistance from "../../sharedComponents/DateDistance";
 import type { Style } from "../../types";
 
 type Props = {
   onPress: string => any,
-  name: string,
-  createdDate?: Date,
-  imageSrc?: string,
-  iconId?: string,
   style?: Style<typeof View>,
-  id: string
+  observationId: string
 };
 
 const ObservationListItem = ({
   onPress = () => {},
-  name = "Observación",
-  createdDate,
-  imageSrc,
-  iconId,
   style,
-  id
-}: Props) => (
-  <TouchableHighlight
-    onPress={() => onPress(id)}
-    testID={"ObservationListItem:" + id}
-    style={{ flex: 1, height: 80 }}
-  >
-    <View style={[styles.container, style]}>
-      <View style={styles.text}>
-        <Text style={styles.title}>{name}</Text>
-        {createdDate && <DateDistance date={createdDate} />}
+  observationId
+}: Props) => {
+  const [{ observation, preset }] = useObservation(observationId);
+  const name = preset ? preset.name : "Observación";
+  const iconId = preset && preset.icon;
+  const createdDate =
+    observation && observation.created_at
+      ? new Date(observation.created_at)
+      : undefined;
+  return (
+    <TouchableHighlight
+      onPress={() => onPress(observationId)}
+      testID={"ObservationListItem:" + observationId}
+      style={{ flex: 1, height: 80 }}
+    >
+      <View style={[styles.container, style]}>
+        <View style={styles.text}>
+          <Text style={styles.title}>{name}</Text>
+          {createdDate && <DateDistance date={createdDate} />}
+        </View>
+        <CategoryCircleIcon iconId={iconId} size="medium" />
       </View>
-      <CategoryCircleIcon iconId={iconId} size="medium" />
-    </View>
-  </TouchableHighlight>
-);
+    </TouchableHighlight>
+  );
+};
 
 export default React.memo<Props>(ObservationListItem);
 

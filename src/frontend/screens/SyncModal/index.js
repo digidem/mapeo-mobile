@@ -15,16 +15,14 @@ import KeepAwake from "react-native-keep-awake";
 import SyncView from "./SyncView";
 import api from "../../api";
 import bugsnag from "../../lib/logger";
-import { withObservations } from "../../context/ObservationsContext";
+import useAllObservations from "../../hooks/useAllObservations";
 import { peerStatus } from "./PeerList";
-import type { ObservationsContext } from "../../context/ObservationsContext";
-import type { NetInfoData } from "@react-native-community/netinfo";
 import type { Peer } from "./PeerList";
 import type { ServerPeer } from "../../api";
 
 type Props = {
   navigation: any,
-  reload: $ElementType<ObservationsContext, "reload">
+  reload: () => void
 };
 
 type State = {
@@ -57,13 +55,9 @@ class SyncModal extends React.Component<Props, State> {
     // Subscribe to peer updates
     this._subscriptions.push(api.addPeerListener(this.updatePeers));
     // Subscribe to NetInfo to know when the user connects/disconnects to wifi
-    this._subscriptions.push(
-      NetInfo.addEventListener(
-        "connectionChange",
-        // $FlowFixMe
-        this.handleConnectionChange
-      )
-    );
+    this._subscriptions.push({
+      remove: NetInfo.addEventListener(this.handleConnectionChange)
+    });
     // Keep the screen awake whilst on this screen
     KeepAwake.activate();
   }
@@ -77,7 +71,7 @@ class SyncModal extends React.Component<Props, State> {
     KeepAwake.deactivate();
   }
 
-  handleConnectionChange = async (data: NetInfoData) => {
+  handleConnectionChange = async (data: {}) => {
     // NetInfoData does not actually tell us whether wifi is turned on, it just
     // tells us what connection the phone is using for data. E.g. it could be
     // connected to a wifi network but instead using 4g for data, in which case
@@ -176,7 +170,12 @@ class SyncModal extends React.Component<Props, State> {
   }
 }
 
-export default withObservations(["reload"])(SyncModal);
+const WrappedSync = (props: { navigation: any }) => {
+  const [, reload] = useAllObservations();
+  return <SyncModal {...props} reload={reload} />;
+};
+
+export default WrappedSync;
 
 // We combine media and database items in progress. In order to show roughtly
 // accurate progress, this weighting is how much more progress a media item

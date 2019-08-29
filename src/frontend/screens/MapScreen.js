@@ -3,37 +3,33 @@ import * as React from "react";
 import { View } from "react-native";
 
 import debug from "debug";
-import {
-  NavigationActions,
-  type NavigationScreenConfigProps
-} from "react-navigation";
+import { NavigationActions } from "react-navigation";
 
 import MapView from "../sharedComponents/MapView";
 import MapStyleProvider from "../sharedComponents/MapStyleProvider";
 import HomeHeader from "../sharedComponents/HomeHeader";
-import ObservationsContext from "../context/ObservationsContext";
+import useDraftObservation from "../hooks/useDraftObservation";
+import useAllObservations from "../hooks/useAllObservations";
 import LocationContext from "../context/LocationContext";
-import {
-  withDraft,
-  type DraftObservationContext as DraftContextType
-} from "../context/DraftObservationContext";
-
+import type { NavigationProp } from "../types";
 
 const log = debug("mapeo:MapScreen");
 
 type Props = {
-  ...$Exact<NavigationScreenConfigProps>,
-  newDraft: $ElementType<DraftContextType, "newDraft">
+  navigation: NavigationProp
 };
 
-class MapScreen extends React.Component<Props> {
-  handleObservationPress = (observationId: string) =>
-    this.props.navigation.navigate("Observation", { observationId });
+const MapScreen = ({ navigation }: Props) => {
+  const [, { newDraft }] = useDraftObservation();
+  const [{ observations }] = useAllObservations();
+  const location = React.useContext(LocationContext);
 
-  handleAddPress = (e: any) => {
+  const handleObservationPress = (observationId: string) =>
+    navigation.navigate("Observation", { observationId });
+
+  const handleAddPress = (e: any) => {
     log("pressed add button");
-    const { newDraft, navigation } = this.props;
-    newDraft({ tags: {} });
+    newDraft(undefined, { tags: {} });
     navigation.navigate(
       "NewObservation",
       {},
@@ -41,33 +37,22 @@ class MapScreen extends React.Component<Props> {
     );
   };
 
-  render() {
-    const { navigation } = this.props;
-    return (
-      <View style={{ flex: 1 }}>
-        <ObservationsContext.Consumer>
-          {({ observations }) => (
-            <LocationContext.Consumer>
-              {location => (
-                <MapStyleProvider>
-                  {styleURL => (
-                    <MapView
-                      location={location}
-                      observations={observations}
-                      onAddPress={this.handleAddPress}
-                      onPressObservation={this.handleObservationPress}
-                      styleURL={styleURL}
-                    />
-                  )}
-                </MapStyleProvider>
-              )}
-            </LocationContext.Consumer>
-          )}
-        </ObservationsContext.Consumer>
-        <HomeHeader navigation={navigation} />
-      </View>
-    );
-  }
-}
+  return (
+    <View style={{ flex: 1 }}>
+      <MapStyleProvider>
+        {styleURL => (
+          <MapView
+            location={location}
+            observations={observations}
+            onAddPress={handleAddPress}
+            onPressObservation={handleObservationPress}
+            styleURL={styleURL}
+          />
+        )}
+      </MapStyleProvider>
+      <HomeHeader navigation={navigation} />
+    </View>
+  );
+};
 
-export default withDraft(["newDraft"])(MapScreen);
+export default MapScreen;

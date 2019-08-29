@@ -5,56 +5,49 @@ import { TouchableNativeFeedback } from "../sharedComponents/Touchables";
 import debug from "debug";
 
 import CameraView from "../sharedComponents/CameraView";
-import { withDraft } from "../context/DraftObservationContext";
+import useDraftObservation, {
+  type CapturePromise
+} from "../hooks/useDraftObservation";
 
-import type {
-  DraftObservationContext,
-  CapturePromise
-} from "../context/DraftObservationContext";
 import type { NavigationScreenConfigProps } from "react-navigation";
 
 const log = debug("AddPhotoScreen");
 
-type Props = {
-  ...$Exact<NavigationScreenConfigProps>,
-  addPhoto: $ElementType<DraftObservationContext, "addPhoto">
-};
+const AddPhotoScreen = ({ navigation }: NavigationScreenConfigProps) => {
+  const [, { addPhoto }] = useDraftObservation();
 
-class AddPhotoScreen extends React.PureComponent<Props> {
-  static navigationOptions = {
-    header: null
-  };
-
-  handleAddPress = (e: any, capture: CapturePromise) => {
+  // TODO: addPhoto changes every render, so we can't useCallback here
+  const handleAddPress = (e: any, capture: CapturePromise) => {
     log("pressed add button");
-    const { addPhoto, navigation } = this.props;
     addPhoto(capture);
     // $FlowFixMe
     navigation.pop();
   };
 
-  handleCancelPress = (e: any) => {
+  const handleCancelPress = (e: any) => {
     log("cancelled");
     // $FlowFixMe
-    this.props.navigation.pop();
+    navigation.pop();
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <CameraView onAddPress={this.handleAddPress} />
-        <TouchableNativeFeedback
-          style={styles.cancelButton}
-          onPress={this.handleCancelPress}
-        >
-          <Text style={styles.cancelButtonLabel}>Cancelar</Text>
-        </TouchableNativeFeedback>
-      </View>
-    );
-  }
-}
+  return (
+    <View style={styles.container}>
+      <CameraView onAddPress={handleAddPress} />
+      <TouchableNativeFeedback
+        style={styles.cancelButton}
+        onPress={handleCancelPress}
+      >
+        <Text style={styles.cancelButtonLabel}>Cancelar</Text>
+      </TouchableNativeFeedback>
+    </View>
+  );
+};
 
-export default withDraft(["addPhoto"])(AddPhotoScreen);
+AddPhotoScreen.navigationOptions = {
+  header: null
+};
+
+export default AddPhotoScreen;
 
 const styles = StyleSheet.create({
   container: {

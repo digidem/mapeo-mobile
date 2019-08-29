@@ -16,7 +16,8 @@
     "prettier",
     "standard",
     "react-native",
-    "jest"
+    "jest",
+    "react-hooks"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -37,7 +38,9 @@
     "react-native/no-raw-text": 2,
     "react/display-name": 0,
     "camelcase": 0,
-    "lines-between-class-members": 0
+    "lines-between-class-members": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "settings": {
     "react": {

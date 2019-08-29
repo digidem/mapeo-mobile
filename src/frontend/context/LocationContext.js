@@ -2,7 +2,6 @@
 import * as React from "react";
 import { AppState } from "react-native";
 import * as Location from "expo-location";
-import hoistStatics from "hoist-non-react-statics";
 import AsyncStorage from "@react-native-community/async-storage";
 import debug from "debug";
 
@@ -79,10 +78,9 @@ const positionOptions = {
 // so we need to check it.
 const LOCATION_TIMEOUT = 10000;
 
-const {
-  Provider,
-  Consumer: LocationConsumer
-} = React.createContext<LocationContextType>(defaultContext);
+const LocationContext = React.createContext<LocationContextType>(
+  defaultContext
+);
 
 /**
  * The LocationProvider provides details about the current device location based
@@ -93,7 +91,7 @@ const {
  * if we get not new readings for 10 seconds then we check to see whether the
  * user has turned off location.
  */
-class LocationProvider extends React.Component<Props, LocationContextType> {
+class _LocationProvider extends React.Component<Props, LocationContextType> {
   _watch: null | { remove: () => null };
   _timeoutId: TimeoutID;
 
@@ -211,32 +209,17 @@ class LocationProvider extends React.Component<Props, LocationContextType> {
   };
 
   render() {
-    log("Position update", this.state);
+    // log("Position update", this.state);
     // Waiting until savedPosition has loaded before first render
     // savedPosition will be null if it is loaded but there is no saved position
     return this.state.savedPosition === undefined ? null : (
-      <Provider value={this.state}>{this.props.children}</Provider>
+      <LocationContext.Provider value={this.state}>
+        {this.props.children}
+      </LocationContext.Provider>
     );
   }
 }
 
-export const withLocation = (WrappedComponent: any) => {
-  const WithLocation = (props: any) => (
-    <LocationConsumer>
-      {location => <WrappedComponent {...props} location={location} />}
-    </LocationConsumer>
-  );
-  WithLocation.displayName = `WithLocation(${getDisplayName(
-    WrappedComponent
-  )})`;
-  return hoistStatics(WithLocation, WrappedComponent);
-};
+export default LocationContext;
 
-export default {
-  Provider: withPermissions(LocationProvider),
-  Consumer: LocationConsumer
-};
-
-function getDisplayName(WrappedComponent) {
-  return WrappedComponent.displayName || WrappedComponent.name || "Component";
-}
+export const LocationProvider = withPermissions(_LocationProvider);

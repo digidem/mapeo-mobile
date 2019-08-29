@@ -1,15 +1,9 @@
 // @flow
 import * as React from "react";
-import debug from "debug";
-import hoistStatics from "hoist-non-react-statics";
-import pick from "lodash/pick";
 
-import { getDisplayName } from "../lib/utils";
 import api from "../api";
-
 import type { LocationContextType } from "./LocationContext";
-
-const log = debug("mapeo:ObservationsContext");
+import type { Status } from "../types";
 
 export type ObservationAttachment = {
   id: string,
@@ -19,7 +13,6 @@ export type ObservationAttachment = {
 export type ObservationValue = {
   lat?: number | null,
   lon?: number | null,
-  locationSetManually?: boolean,
   metadata?: {
     location?: LocationContextType | void,
     manualLocation?: boolean
@@ -43,147 +36,95 @@ export type Observation = {
 
 export type ObservationsMap = Map<string, Observation>;
 
-export type ObservationsContext = {
+type State = {
   // A map of all observations in memory, by id
   observations: ObservationsMap,
-  // Reload the observations from Mapeo Core
-  reload: () => any,
-  // True whilst loading from Mapeo Core
-  loading: boolean,
-  // Create a new observation, saving it to the server
-  create: (value: ObservationValue) => Promise<Observation>,
-  // Delete an observation
-  delete: (id: string) => Promise<void>,
-  // Update an existing observation
-  update: (id: string, value: ObservationValue) => Promise<Observation>,
-  // If there is an error loading or saving an observation this will contain the
-  // error object
-  error?: Error
+  // Status intial load / reload of observations from the server
+  status: Status,
+  // Set to a new object in order to force a reload
+  reload?: {}
 };
 
-const defaultContext = {
-  observations: new Map(),
-  reload: () => {},
-  create: () => Promise.resolve(),
-  update: () => Promise.resolve(),
-  delete: () => Promise.resolve(),
-  loading: false
-};
+type Action =
+  | {| type: "create" | "update" | "delete", value: Observation |}
+  | {| type: "reload" |}
+  | {| type: "reload_error", value: Error |}
+  | {| type: "reload_success", value: Observation[] |};
 
-const {
-  Provider,
-  Consumer: ObservationsConsumer
-} = React.createContext<ObservationsContext>(defaultContext);
+export type ObservationsContextType = [State, (action: Action) => void];
 
-type Props = {
-  children: React.Node
-};
-
-/**
- * The ObservationsProvider is responsible for loading observations from Mapeo
- * Core and provides methods for creating, updating and deleting observations.
- */
-class ObservationsProvider extends React.Component<Props, ObservationsContext> {
-  state = {
+const defaultContext = [
+  {
     observations: new Map(),
-    reload: this.reload.bind(this),
-    create: this.create.bind(this),
-    update: this.update.bind(this),
-    delete: this.delete.bind(this),
-    loading: false
-  };
+    status: "loading"
+  },
+  () => {}
+];
 
-  componentDidMount() {
-    this.reload();
-  }
+const ObservationsContext = React.createContext<ObservationsContextType>(
+  defaultContext
+);
 
-  async reload() {
-    log("Reload observations");
-    this.setState({ loading: true });
-    try {
-      const obsList = await api.getObservations();
-      this.setState({
-        observations: new Map(obsList.map(obs => [obs.id, obs])),
-        loading: false
-      });
-    } catch (e) {
-      this.handleError(e);
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case "update":
+    case "create": {
+      const cloned = new Map(state.observations);
+      cloned.set(action.value.id, action.value);
+      return { ...state, observations: cloned };
     }
-  }
-
-  create(value: ObservationValue) {
-    return api.createObservation(value).then(newObservation => {
-      this.setState(state => {
-        const cloned = new Map(this.state.observations);
-        log("Created new observation", newObservation);
-        cloned.set(newObservation.id, newObservation);
-        return { observations: cloned };
-      });
-    });
-  }
-
-  delete(id: string) {
-    return api.deleteObservation(id).then(() => {
-      this.setState(state => {
-        const cloned = new Map(this.state.observations);
-        log("Deleted observation:", id);
-        cloned.delete(id);
-        return { observations: cloned };
-      });
-    });
-  }
-
-  update(id: string, value: ObservationValue) {
-    const existingObservation = this.state.observations.get(id);
-    if (!existingObservation) {
-      log("tried to update observation but can't find it in state");
-      return Promise.reject(new Error("Observation not found"));
+    case "delete": {
+      const cloned = new Map(state.observations);
+      cloned.delete(action.value.id);
+      return { ...state, observations: cloned };
     }
-    return api
-      .updateObservation(id, value, {
-        links: [existingObservation.version]
-      })
-      .then(updatedObservation => {
-        this.setState(state => {
-          const cloned = new Map(this.state.observations);
-          log("Updated observation", updatedObservation);
-          cloned.set(id, updatedObservation);
-          return { observations: cloned };
-        });
-      });
-  }
-
-  handleError(error: Error) {
-    log(error);
-    this.setState({ error, loading: false });
-  }
-
-  render() {
-    return <Provider value={this.state}>{this.props.children}</Provider>;
+    case "reload":
+      return { ...state, reload: {}, status: "loading" };
+    case "reload_error":
+      return { ...state, status: "error" };
+    case "reload_success":
+      return {
+        ...state,
+        observations: new Map(action.value.map(obs => [obs.id, obs])),
+        status: "success"
+      };
+    default:
+      return state;
   }
 }
 
-// This HOC adds props from the observation context to the wrapped component. If
-// called with no arguments, all properties are passed, or you can pass an array
-// of prop names e.g. `["observations", "loading"] to only pass certain props.
-export const withObservations = (keys?: Array<$Keys<ObservationsContext>>) => (
-  WrappedComponent: any
-) => {
-  const WithObservations = (props: any) => (
-    <ObservationsConsumer>
-      {ctx => {
-        const addedProps = keys ? pick(ctx, keys) : ctx;
-        return <WrappedComponent {...props} {...addedProps} />;
-      }}
-    </ObservationsConsumer>
+export const ObservationsProvider = ({
+  children
+}: {
+  children: React.Node
+}) => {
+  const [state, dispatch] = React.useReducer(reducer, defaultContext[0]);
+  const contextValue = React.useMemo(() => [state, dispatch], [state]);
+
+  // This will load observations on first load and reload them every time the
+  // value of state.reload changes (dispatch({type: "reload"}) will do this)
+  React.useEffect(() => {
+    let didCancel = false;
+    api
+      .getObservations()
+      .then(obsList => {
+        if (didCancel) return;
+        dispatch({ type: "reload_success", value: obsList });
+      })
+      .catch(e => {
+        if (didCancel) return;
+        dispatch({ type: "reload_error", value: e });
+      });
+    return () => {
+      didCancel = true;
+    };
+  }, [state.reload]);
+
+  return (
+    <ObservationsContext.Provider value={contextValue}>
+      {children}
+    </ObservationsContext.Provider>
   );
-  WithObservations.displayName = `WithObservations(${getDisplayName(
-    WrappedComponent
-  )})`;
-  return hoistStatics(WithObservations, WrappedComponent);
 };
 
-export default {
-  Provider: ObservationsProvider,
-  Consumer: ObservationsConsumer
-};
+export default ObservationsContext;

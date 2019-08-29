@@ -1,17 +1,44 @@
 // @flow
 import React from "react";
 
-import ObservationPreset from "../../context/ObservationPreset";
-import DraftObservationContext, {
-  filterPhotosFromAttachments
-} from "../../context/DraftObservationContext";
+import { filterPhotosFromAttachments } from "../../lib/utils";
+import useObservation from "../../hooks/useObservation";
+import useDraftObservation from "../../hooks/useDraftObservation";
 import PhotosView from "./PhotosView";
 
 type Props = {
-  navigation: any
+  onClose: () => void,
+  photoIndex: number
 };
 
-const PhotosModal = ({ navigation }: Props) => {
+const DraftPhotosModal = ({ onClose, photoIndex }: Props) => {
+  const [{ value, photos }] = useDraftObservation();
+  if (!value || !photos) {
+    onClose();
+    return null;
+  }
+  return (
+    <PhotosView onClose={onClose} photos={photos} initialIndex={photoIndex} />
+  );
+};
+
+const ExistingPhotosModal = ({
+  onClose,
+  photoIndex,
+  observationId
+}: Props & { observationId: string }) => {
+  const [{ observation }] = useObservation(observationId);
+  if (!observation || !observation.value.attachments) {
+    onClose();
+    return null;
+  }
+  const photos = filterPhotosFromAttachments(observation.value.attachments);
+  return (
+    <PhotosView onClose={onClose} photos={photos} initialIndex={photoIndex} />
+  );
+};
+
+const PhotosModal = ({ navigation }: { navigation: any }) => {
   const observationId = navigation.getParam("observationId");
   const photoIndex = navigation.getParam("photoIndex");
   const isEditing = navigation.getParam("editing");
@@ -22,38 +49,15 @@ const PhotosModal = ({ navigation }: Props) => {
   // context, otherwise we use the observation context
   if (isEditing) {
     return (
-      <DraftObservationContext.Consumer>
-        {({ value, photos }) => {
-          if (!value) return navigation.pop();
-          if (!photos) return navigation.pop();
-          return (
-            <PhotosView
-              onClose={() => navigation.pop()}
-              photos={photos}
-              initialIndex={photoIndex}
-            />
-          );
-        }}
-      </DraftObservationContext.Consumer>
+      <DraftPhotosModal photoIndex={photoIndex} onClose={navigation.pop} />
     );
   } else {
     return (
-      <ObservationPreset id={observationId}>
-        {({ observation }) => {
-          if (!observation) return navigation.pop();
-          if (!observation.value.attachments) return navigation.pop();
-          const photos = filterPhotosFromAttachments(
-            observation.value.attachments
-          );
-          return (
-            <PhotosView
-              onClose={() => navigation.pop()}
-              photos={photos}
-              initialIndex={photoIndex}
-            />
-          );
-        }}
-      </ObservationPreset>
+      <ExistingPhotosModal
+        photoIndex={photoIndex}
+        observationId={observationId}
+        onClose={navigation.pop}
+      />
     );
   }
 };
