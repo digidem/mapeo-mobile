@@ -1,6 +1,5 @@
 /* eslint-env jest/globals */
 import ky from "ky";
-import { PermissionsAndroid } from "react-native";
 import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
 import { Api, Constants } from "./api";
@@ -10,15 +9,6 @@ import { Api, Constants } from "./api";
 jest.mock("ky");
 jest.mock("nodejs-mobile-react-native");
 jest.mock("react-native-fs");
-jest.mock("PermissionsAndroid");
-
-function mockStoragePerms(result) {
-  return () =>
-    Promise.resolve({
-      [PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE]: result,
-      [PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE]: result
-    });
-}
 
 describe("Server startup", () => {
   test("Initialization sets up nodejs status listener", () => {
@@ -27,7 +17,7 @@ describe("Server startup", () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  test("Start server with permissions granted", async () => {
+  test("Start server", async () => {
     expect.assertions(5);
     nodejs.start = jest.fn();
     // This mocks the initial heartbeat from the server
@@ -37,38 +27,14 @@ describe("Server startup", () => {
       handler(Constants.LISTENING)
     );
     nodejs.channel.post = jest.fn();
-    PermissionsAndroid.requestMultiple = jest.fn(
-      mockStoragePerms(PermissionsAndroid.RESULTS.GRANTED)
-    );
     const api = new Api({ baseUrl: "__URL__" });
     await expect(api.startServer()).resolves.toBeUndefined();
     expect(nodejs.start.mock.calls.length).toBe(1);
     expect(nodejs.start.mock.calls[0][0]).toBe("loader.js");
-    expect(nodejs.channel.post.mock.calls.length).toBe(1);
-    expect(nodejs.channel.post.mock.calls[0][1]).toBe(
+    expect(nodejs.channel.post.mock.calls.length).toBe(2);
+    expect(nodejs.channel.post.mock.calls[1][1]).toBe(
       RNFS.ExternalDirectoryPath
     );
-  });
-
-  test("Start server permissions not granted rejects without trying to start server", async () => {
-    expect.assertions(3);
-    nodejs.start = jest.fn();
-    // This mocks the initial heartbeat from the server
-    nodejs.channel.once = jest.fn((_, handler) => handler());
-    // This mocks the server to immediately be in "Listening" state
-    nodejs.channel.addListener = jest.fn((_, handler) =>
-      handler(Constants.LISTENING)
-    );
-    nodejs.channel.post = jest.fn();
-    PermissionsAndroid.requestMultiple = jest.fn(
-      mockStoragePerms(PermissionsAndroid.RESULTS.DENIED)
-    );
-    const api = new Api({ baseUrl: "__URL__" });
-    await expect(api.startServer()).rejects.toThrow(
-      "Storage read and write permissions not granted"
-    );
-    expect(nodejs.start.mock.calls.length).toBe(0);
-    expect(nodejs.channel.post.mock.calls.length).toBe(0);
   });
 
   test("Start server timeout", async () => {
@@ -78,15 +44,12 @@ describe("Server startup", () => {
     nodejs.channel.once = jest.fn();
     nodejs.channel.addListener = jest.fn();
     nodejs.channel.post = jest.fn();
-    PermissionsAndroid.requestMultiple = jest.fn(
-      mockStoragePerms(PermissionsAndroid.RESULTS.GRANTED)
-    );
     const api = new Api({ baseUrl: "__URL__" });
     process.nextTick(() => jest.runAllTimers());
     await expect(api.startServer()).rejects.toThrow("Server start timeout");
     expect(nodejs.start.mock.calls.length).toBe(1);
     expect(nodejs.start.mock.calls[0][0]).toBe("loader.js");
-    expect(nodejs.channel.post.mock.calls.length).toBe(0);
+    expect(nodejs.channel.post.mock.calls.length).toBe(1);
   });
 });
 
@@ -217,9 +180,6 @@ function startServer() {
   // This mocks the initial heartbeat from the server
   nodejs.channel.once = jest.fn((_, handler) => handler());
   nodejs.channel.post = jest.fn();
-  PermissionsAndroid.requestMultiple = jest.fn(
-    mockStoragePerms(PermissionsAndroid.RESULTS.GRANTED)
-  );
   nodejs.channel.addListener = jest.fn((_, handler) => {
     handler(Constants.LISTENING);
     serverStatus = handler;

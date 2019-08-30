@@ -63,10 +63,9 @@ status.startHeartbeat();
  * card. It is a shared folder that the user can access. The data folder
  * accessible through rnBridge.app.datadir() is not accessible by the user.
  *
- * The node process cannot request permission to read this folder and it does
- * not know the filepath. We need to wait for the React Native process to tell
- * us where the folder is. This code supports re-starting the server with a
- * different folder if necessary (we probably shouldn't do that)
+ * We need to wait for the React Native process to tell us where the folder is.
+ * This code supports re-starting the server with a different folder if
+ * necessary (we probably shouldn't do that)
  */
 rnBridge.channel.on("storagePath", path => {
   log("storagePath", path);
