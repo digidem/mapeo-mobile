@@ -1,0 +1,33 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
+    "storybook": "start-storybook -p 7007"
+  },
+  "dependencies": {
+    "expo": "^33.0.0",
+    "react": "16.8.3",
+    "react-dom": "^16.8.6",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
+    "react-native-web": "^0.11.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@emotion/core": "^10.0.10",
+    "@storybook/addon-actions": "^5.1.1",
+    "@storybook/addon-links": "^5.1.1",
+    "@storybook/addons": "^5.1.1",
+    "@storybook/react-native": "^5.1.1",
+    "@storybook/react-native-server": "^5.1.1",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-preset-expo": "^5.1.1",
+    "emotion-theming": "^10.0.10",
+    "glob-to-regexp": "^0.4.1"
+  },
+  "private": true
+}

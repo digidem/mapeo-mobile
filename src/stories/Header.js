@@ -6,7 +6,7 @@ import IconButton from "../frontend/sharedComponents/IconButton";
 
 type Props = {
   title: string,
-  onClosePress: () => any,
+  onClosePress: () => any
 };
 
 const Header = ({ title, onClosePress }: Props) => (
@@ -28,9 +28,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     flexDirection: "row",
+    elevation: 2,
+    zIndex: 10,
+    backgroundColor: "white",
+    position: "relative"
   },
   title: {
     fontSize: 20,
-    fontWeight: "700",
-  },
+    fontWeight: "700"
+  }
 });
