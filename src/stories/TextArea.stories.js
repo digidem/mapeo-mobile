@@ -43,9 +43,11 @@ storiesOf("TextArea", module)
     <InputState>
       {({ value, onChange }) => (
         <TextArea
-          label="What additional details would you like to add?"
+          field={{
+            label: "What additional details would you like to add?",
+            placeholder: "¿Qué está pasando aquí?"
+          }}
           number={3}
-          hint="¿Qué está pasando aquí?"
           value={value}
           onChange={onChange}
         />
@@ -56,8 +58,10 @@ storiesOf("TextArea", module)
     <InputState initialValue={lorem}>
       {({ value, onChange }) => (
         <TextArea
-          label="Give me a long answer?"
-          hint="¿Qué está pasando aquí?"
+          field={{
+            label: "Give me a long answer?",
+            placeholder: "¿Qué está pasando aquí?"
+          }}
           value={value}
           onChange={onChange}
         />

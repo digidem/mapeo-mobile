@@ -27,7 +27,11 @@ const styles = StyleSheet.create({
     height: 60,
     alignItems: "center",
     justifyContent: "flex-start",
-    flexDirection: "row"
+    flexDirection: "row",
+    elevation: 2,
+    zIndex: 10,
+    backgroundColor: "white",
+    position: "relative"
   },
   title: {
     fontSize: 20,
