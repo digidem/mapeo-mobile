@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0-alpha.2](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.1...v1.2.0-alpha.2) (2019-09-16)
+
+
+### Bug Fixes
+
+* **photos:** Scroll photo thumbnails to latest photo after taking a new photo ([10f2d82](https://github.com/digidem/mapeo-mobile/commit/10f2d82))
+* Don't show keyboard at first when creating a new observation ([988a4b5](https://github.com/digidem/mapeo-mobile/commit/988a4b5))
+
+
+### Features
+
+* Remove request for storage permissions ([#196](https://github.com/digidem/mapeo-mobile/issues/196)) ([0c3c787](https://github.com/digidem/mapeo-mobile/commit/0c3c787))
+* Swipe between multiple photos for an observation 🎉 ([#199](https://github.com/digidem/mapeo-mobile/issues/199)) ([9429c2d](https://github.com/digidem/mapeo-mobile/commit/9429c2d))
+* Add server route for accessing the device id (this is from updates to @mapeo/core and mapeo-server, there are no changes in this repo for this)
+
 ## [1.2.0-alpha.1](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.0...v1.2.0-alpha.1) (2019-08-07)
 
 

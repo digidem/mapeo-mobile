@@ -1,6 +1,6 @@
 {
   "name": "mapeo-mobile",
-  "version": "1.2.0-alpha.1",
+  "version": "1.2.0-alpha.2",
   "private": true,
   "engines": {
     "node": "^10.16.0"
