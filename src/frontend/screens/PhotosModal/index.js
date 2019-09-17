@@ -14,26 +14,36 @@ import type { NavigationProp } from "../../types";
 
 const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
   const observationId = navigation.getParam("observationId");
-  const isEditing = navigation.getParam("editing");
   const [index, setIndex] = useState(navigation.getParam("photoIndex") || 0);
   const [{ observation }] = useObservation(observationId);
   const [{ photos: draftPhotos }] = useDraftObservation();
-  console.log(observation && observation.value.attachments);
-  console.log(draftPhotos);
-  const routes = observation
-    ? filterPhotosFromAttachments(observation.value.attachments).map(
-        (savedPhoto, idx) => ({
-          key: idx,
-          uri: api.getMediaUrl(savedPhoto.id, "preview")
-        })
-      )
-    : draftPhotos.map((draftPhoto, idx) => ({
+
+  const routes = [];
+
+  if (observation) {
+    const savedPhotosRoutes = filterPhotosFromAttachments(
+      observation.value.attachments
+    ).map((savedPhoto, idx) => ({
+      key: savedPhoto.id,
+      uri: api.getMediaUrl(savedPhoto.id, "preview")
+    }));
+    Array.prototype.push.apply(routes, savedPhotosRoutes);
+  }
+  if (draftPhotos) {
+    const draftPhotosRoutes = draftPhotos
+      // $FlowFixMe
+      .filter(draftPhoto => !draftPhoto.id)
+      .map((draftPhoto, idx) => ({
         key: idx,
+        // $FlowFixMe
         uri: draftPhoto.previewUri,
+        // $FlowFixMe
         error: draftPhoto.error,
+        // $FlowFixMe
         capturing: draftPhoto.capturing
       }));
-  console.log(routes);
+    Array.prototype.push.apply(routes, draftPhotosRoutes);
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>

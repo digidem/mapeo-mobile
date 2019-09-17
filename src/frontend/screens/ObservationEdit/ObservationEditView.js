@@ -13,6 +13,7 @@ import {
   DetailsIcon,
   CategoryCircleIcon
 } from "../../sharedComponents/icons";
+import useDraftObservation from "../../hooks/useDraftObservation";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import TextButton from "../../sharedComponents/TextButton";
 import { BLACK, LIGHT_GREY, LIGHT_BLUE } from "../../lib/styles";
@@ -111,6 +112,7 @@ export const ObservationEdit = ({
   onPressDetails,
   onPressPhoto
 }: Props) => {
+  const [{ photos }] = useDraftObservation();
   const bottomSheetItems = [
     {
       icon: <CameraIcon />,
@@ -139,7 +141,7 @@ export const ObservationEdit = ({
         )}
         <CategoryView preset={preset} onPress={onPressCategory} />
         <DescriptionField />
-        <ThumbnailScrollView onPressPhoto={onPressPhoto} />
+        <ThumbnailScrollView onPressPhoto={onPressPhoto} photos={photos} />
       </ScrollView>
       <BottomSheet items={bottomSheetItems} />
     </View>

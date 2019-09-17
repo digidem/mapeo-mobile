@@ -194,7 +194,10 @@ class ObservationView extends React.Component<ODVProps> {
               )}
             {!!photos.length && (
               <ThumbnailScrollView
-                photos={photos}
+                photos={
+                  // $FlowFixMe
+                  photos
+                }
                 onPressPhoto={onPressPhoto}
               />
             )}

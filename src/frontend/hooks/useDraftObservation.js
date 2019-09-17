@@ -144,6 +144,7 @@ export default (): UseDraftObservation => {
     setDraft(draft => ({
       ...draft,
       photoPromises: [],
+      // $FlowFixMe
       photos: value ? filterPhotosFromAttachments(value.attachments) : [],
       value: value,
       observationId: id

@@ -49,7 +49,7 @@ export type DraftPhoto = {|
 export type Photo = SavedPhoto | DraftPhoto;
 
 export type DraftObservationContextState = {|
-  photos: Array<Photo>,
+  photos: Array<SavedPhoto | DraftPhoto>,
   value: ObservationValue | null,
   photoPromises: Array<
     Promise<DraftPhoto> & { signal?: { didCancel: boolean } }
@@ -88,11 +88,12 @@ export const DraftObservationProvider = ({ children }: Props) => {
     AsyncStorage.getItem(STORE_KEY)
       .then(savedDraft => {
         if (savedDraft == null || didCancel) return;
-        const { photos, value } = JSON.parse(savedDraft);
+        const { photos, value, observationId } = JSON.parse(savedDraft);
         setState(state => ({
           ...state,
           photos: photos.filter(filterCapturedPhotos),
           value,
+          observationId,
           loading: false
         }));
       })
@@ -107,12 +108,13 @@ export const DraftObservationProvider = ({ children }: Props) => {
 
   // Save draft to local storage on every update
   React.useEffect(() => {
-    const { photos, value } = state;
-    AsyncStorage.setItem(STORE_KEY, JSON.stringify({ photos, value })).catch(
-      e => {
-        log("Error writing to storage", e);
-      }
-    );
+    const { photos, value, observationId } = state;
+    AsyncStorage.setItem(
+      STORE_KEY,
+      JSON.stringify({ photos, value, observationId })
+    ).catch(e => {
+      log("Error writing to storage", e);
+    });
   });
 
   return (

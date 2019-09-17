@@ -8,7 +8,7 @@ import type {
   ObservationValue,
   ObservationAttachment
 } from "../context/ObservationsContext";
-import type { Photo } from "../context/DraftObservationContext";
+import type { SavedPhoto } from "../context/DraftObservationContext";
 import type {
   Preset,
   PresetsMap,
@@ -98,7 +98,7 @@ export function addFieldDefinitions(
 // and other media types)
 export function filterPhotosFromAttachments(
   attachments: Array<ObservationAttachment> = []
-): Array<Photo> {
+): Array<SavedPhoto> {
   return attachments.reduce((acc, att) => {
     if (
       att.type === "image/jpeg" ||

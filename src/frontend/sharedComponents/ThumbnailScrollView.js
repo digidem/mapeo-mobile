@@ -14,7 +14,6 @@ import { TouchableOpacity } from "../sharedComponents/Touchables";
 import api from "../api";
 import { LIGHT_GREY } from "../lib/styles";
 import { AlertIcon } from "./icons";
-import useDraftObservation from "../hooks/useDraftObservation";
 import type { Photo } from "../context/DraftObservationContext";
 import type { Style } from "../types";
 
@@ -48,8 +47,10 @@ export class Thumbnail extends React.PureComponent<
     const uri =
       typeof photo.id === "string"
         ? api.getMediaUrl(photo.id, "thumbnail")
-        : photo.thumbnailUri || undefined;
-    const error = photo.error || this.state.error;
+        : photo.thumbnailUri != null
+        ? photo.thumbnailUri
+        : undefined;
+    const error = photo.error != null ? photo.error : this.state.error;
     return (
       <TouchableOpacity
         style={[
@@ -59,7 +60,7 @@ export class Thumbnail extends React.PureComponent<
         ]}
         onPress={onPress}
       >
-        {photo.capturing && !error ? (
+        {photo.capturing === true && !error ? (
           <ActivityIndicator />
         ) : error || typeof uri !== "string" ? (
           <AlertIcon />
@@ -76,11 +77,11 @@ export class Thumbnail extends React.PureComponent<
 }
 
 type Props = {
-  onPressPhoto: (index: number) => any
+  onPressPhoto: (index: number) => any,
+  photos: Array<Photo>
 };
 
-const ThumbnailScrollView = ({ onPressPhoto }: Props) => {
-  const [{ photos }] = useDraftObservation();
+const ThumbnailScrollView = ({ onPressPhoto, photos }: Props) => {
   const scrollViewRef = useRef();
 
   useLayoutEffect(() => {
@@ -107,7 +108,7 @@ const ThumbnailScrollView = ({ onPressPhoto }: Props) => {
       style={styles.photosContainer}
     >
       {photos
-        .filter(photo => !photo.deleted)
+        .filter(photo => photo.deleted == null)
         .map((photo, index) => (
           <Thumbnail
             key={index}
