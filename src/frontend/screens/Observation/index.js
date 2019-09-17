@@ -65,7 +65,11 @@ const Observation = ({ navigation }: Props) => {
   );
 };
 
-Observation.navigationOptions = ({ navigation }: NavigationProp) => ({
+Observation.navigationOptions = ({
+  navigation
+}: {
+  navigation: NavigationProp
+}) => ({
   headerRight: <EditButton navigation={navigation} />
 });
 

@@ -90,11 +90,11 @@ const ObservationsStack = createStackNavigator(
       path: "observations"
     },
     Observation: {
+      // $FlowFixMe - flow definitions don't recognize static props on function components
       screen: Observation,
       path: "observations/:observationId"
     },
     ObservationEdit: {
-      // $FlowFixMe - flow definitions don't recognize static props on function components
       screen: ObservationEdit,
       path: "observations/:observationId/edit"
     },
