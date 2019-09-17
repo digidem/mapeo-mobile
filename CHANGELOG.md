@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0-alpha.3](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.2...v1.2.0-alpha.3) (2019-09-17)
+
+
+### Bug Fixes
+
+* Fix all kinds of bugs with editing observations and adding photos ([807d75e](https://github.com/digidem/mapeo-mobile/commit/807d75e))
+* reset navigation state ([0b9f77a](https://github.com/digidem/mapeo-mobile/commit/0b9f77a))
+
 ## [1.2.0-alpha.2](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.1...v1.2.0-alpha.2) (2019-09-16)
 
 
