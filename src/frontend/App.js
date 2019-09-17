@@ -16,7 +16,7 @@ import bugsnag from "./lib/logger";
 if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 // WARNING: This needs to change if we change the navigation structure
-const NAV_STORE_KEY = "@MapeoNavigation@5";
+const NAV_STORE_KEY = "@MapeoNavigation@6";
 
 const persistNavigationState = async navState => {
   try {
