@@ -149,7 +149,8 @@ class SyncModal extends React.Component<Props, State> {
         status: status,
         lastCompleted: state.lastCompletedDate,
         progress: getPeerProgress(serverPeer.state),
-        error: syncErrors.get(serverPeer.id)
+        error: syncErrors.get(serverPeer.id),
+        deviceType: serverPeer.deviceType
       };
     });
   }

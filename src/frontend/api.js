@@ -29,6 +29,8 @@ export type ServerPeer = {
   host: string,
   // Port for peer
   port: number,
+  // Whether device is desktop or mobile
+  deviceType: "desktop" | "mobile",
   state?:
     | {|
         topic: "replication-progress",
