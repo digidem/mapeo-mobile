@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0-alpha.4](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.3...v1.2.0-alpha.4) (2019-09-21)
+
+
+### Bug Fixes
+
+* Downgrade to kappa-core v3, fix failing sync ([5c26a48](https://github.com/digidem/mapeo-mobile/commit/5c26a48))
+* Show correct icon for desktops in sync ([6758ccb](https://github.com/digidem/mapeo-mobile/commit/6758ccb))
+
 ## [1.2.0-alpha.3](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.2...v1.2.0-alpha.3) (2019-09-17)
 
 
