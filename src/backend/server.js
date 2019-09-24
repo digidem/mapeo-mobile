@@ -11,12 +11,23 @@ const mkdirp = require("mkdirp");
 const rnBridge = require("rn-bridge");
 const throttle = require("lodash/throttle");
 const main = require("./index");
+const fs = require("fs-extra");
 
 const log = debug("mapeo-core:server");
 
 module.exports = createServer;
 
 function createServer({ privateStorage, sharedStorage }) {
+  try {
+    // Temporary measure: Copy private hypercore to shared storage
+    fs.copySync(
+      path.join(privateStorage, 'db/0'),
+      path.join(sharedStorage, 'db')
+    )
+  } catch (error) {
+    log(error)
+  }
+
   const indexDb = level(path.join(privateStorage, "index"));
   const coreDb = kappa(path.join(privateStorage, "db"), {
     valueEncoding: "json"

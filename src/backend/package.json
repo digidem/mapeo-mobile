@@ -13,6 +13,7 @@
     "@bugsnag/js": "^6.3.1",
     "bindings-noderify-nodejs-mobile": "^10.3.0",
     "debug": "^4.1.1",
+    "fs-extra": "^8.1.0",
     "kappa-core": "^3.0.2",
     "kappa-osm": "3.0.5",
     "level": "^5.0.1",
