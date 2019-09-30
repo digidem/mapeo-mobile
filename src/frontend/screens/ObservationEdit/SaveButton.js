@@ -26,7 +26,7 @@ const SaveButton = ({ navigation }: Props) => {
       style: "default"
     },
     {
-      text: "Ingrese manualmente",
+      text: "Ingresar manualmente",
       onPress: () => navigation.navigate("ManualGpsScreen"),
       style: "cancel"
     },
@@ -59,7 +59,7 @@ const SaveButton = ({ navigation }: Props) => {
       // Inaccurate GPS reading
       Alert.alert(
         "Señal débil del GPS",
-        "La precisión del GPS está baja. Puedes seguir esperando que la precisión mejora, o guardar como es",
+        "La precisión del GPS está baja. Puedes seguir esperando que la precisión mejore, o guardar como está",
         confirmationOptions
       );
     }
