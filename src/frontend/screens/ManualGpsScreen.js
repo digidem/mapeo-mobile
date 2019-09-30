@@ -83,7 +83,7 @@ const ManualGpsScreen = ({ navigation }: Props) => {
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.column}>
-          <Text style={styles.inputLabel}>Numero de Zona</Text>
+          <Text style={styles.inputLabel}>Número de Zona</Text>
           <TextInput
             placeholder="DD"
             placeholderTextColor="silver"
