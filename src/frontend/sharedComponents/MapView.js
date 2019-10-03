@@ -117,7 +117,6 @@ class MapView extends React.Component<Props, State> {
     MapboxGL.setAccessToken(
       "pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
     );
-    MapboxGL.setTelemetryEnabled(false);
     log("accessToken set");
     this.initialPosition =
       props.location.position || props.location.savedPosition;
