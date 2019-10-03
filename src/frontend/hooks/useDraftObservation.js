@@ -1,5 +1,5 @@
 // @flow
-import { useContext, useState } from "react";
+import { useContext, useState, useCallback } from "react";
 import ImageResizer from "react-native-image-resizer";
 import debug from "debug";
 
@@ -78,7 +78,7 @@ export default (): UseDraftObservation => {
   const [{ presets, fields }] = useContext(PresetsContext);
   const [savingStatus, setSavingStatus] = useState<Status>();
 
-  async function addPhoto(capturePromise: CapturePromise) {
+  const addPhoto = useCallback(async function addPhoto(capturePromise: CapturePromise) {
     // Keep a reference of the "in-progress" photo which we save to state, we
     // will use this later to swap it in state with the captured photo
     const capturingPhoto: DraftPhoto = { capturing: true };
@@ -116,7 +116,7 @@ export default (): UseDraftObservation => {
         return { ...draft, photos: updatedPhotosState };
       });
     }
-  }
+  }, [setDraft])
 
   function updateDraft(value: ObservationValue) {
     setDraft(draft => ({
@@ -129,17 +129,16 @@ export default (): UseDraftObservation => {
     }));
   }
 
-  function cancelPhotoProcessing() {
-    // TODO: Cleanup photos and previews in temp storage here
-    // Signal any pending photo captures to cancel:
-    draft.photoPromises.forEach(p => p.signal && (p.signal.didCancel = true));
-  }
-
-  function newDraft(
+  const newDraft = useCallback((
     id?: string,
     value?: ObservationValue | null = { tags: {} },
     capture?: CapturePromise
-  ) {
+  ) => {
+    function cancelPhotoProcessing() {
+      // TODO: Cleanup photos and previews in temp storage here
+      // Signal any pending photo captures to cancel:
+      draft.photoPromises.forEach(p => p.signal && (p.signal.didCancel = true));
+    }
     cancelPhotoProcessing();
     setDraft(draft => ({
       ...draft,
@@ -150,7 +149,7 @@ export default (): UseDraftObservation => {
       observationId: id
     }));
     if (capture) addPhoto(capture);
-  }
+  }, [addPhoto, draft.photoPromises, setDraft])
 
   function clearDraft() {
     newDraft(undefined, null);

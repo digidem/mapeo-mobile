@@ -25,10 +25,11 @@ const MapScreen = ({ navigation }: Props) => {
   const [{ observations }] = React.useContext(ObservationsContext)
   const location = React.useContext(LocationContext);
 
-  const handleObservationPress = (observationId: string) =>
-    navigation.navigate("Observation", { observationId });
+  const handleObservationPress = React.useCallback((observationId: string) =>
+    navigation.navigate("Observation", { observationId })
+  , [navigation]);
 
-  const handleAddPress = (e: any) => {
+  const handleAddPress = React.useCallback((e: any) => {
     log("pressed add button");
     newDraft(undefined, { tags: {} });
     navigation.navigate(
@@ -36,7 +37,7 @@ const MapScreen = ({ navigation }: Props) => {
       {},
       NavigationActions.navigate({ routeName: "CategoryChooser" })
     );
-  };
+  }, [navigation, newDraft]);
 
   return (
     <View style={{ flex: 1 }}>
