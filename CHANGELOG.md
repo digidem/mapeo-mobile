@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0-alpha.5](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.4...v1.2.0-alpha.5) (2019-10-03)
+
+
+### Bug Fixes
+
+* Don't crash when selecting an observation on the map ([68326a6](https://github.com/digidem/mapeo-mobile/commit/68326a6))
+* Don't disable mapbox telemetry ([05ab7d2](https://github.com/digidem/mapeo-mobile/commit/05ab7d2))
+* Fix Manual GPS dialog translations ([f2de933](https://github.com/digidem/mapeo-mobile/commit/f2de933))
+* Fix Manual GPS screen text ([7464812](https://github.com/digidem/mapeo-mobile/commit/7464812))
+* Fix map unexpectedly moving/zooming ([eebfa5a](https://github.com/digidem/mapeo-mobile/commit/eebfa5a))
+
 ## [1.2.0-alpha.4](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.3...v1.2.0-alpha.4) (2019-09-21)
 
 
