@@ -9,7 +9,7 @@ import MapView from "../sharedComponents/MapView";
 import MapStyleProvider from "../sharedComponents/MapStyleProvider";
 import HomeHeader from "../sharedComponents/HomeHeader";
 import useDraftObservation from "../hooks/useDraftObservation";
-import useAllObservations from "../hooks/useAllObservations";
+import ObservationsContext from "../context/ObservationsContext";
 import LocationContext from "../context/LocationContext";
 import type { NavigationProp } from "../types";
 
@@ -21,7 +21,8 @@ type Props = {
 
 const MapScreen = ({ navigation }: Props) => {
   const [, { newDraft }] = useDraftObservation();
-  const [{ observations }] = useAllObservations();
+
+  const [{ observations }] = React.useContext(ObservationsContext)
   const location = React.useContext(LocationContext);
 
   const handleObservationPress = (observationId: string) =>
