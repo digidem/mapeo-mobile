@@ -2,7 +2,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
-import debug from "debug";
 
 // import type { MapStyle } from "../types";
 import AddButton from "./AddButton";
@@ -14,8 +13,11 @@ import type {
   PositionType
 } from "../context/LocationContext";
 import type { ObservationsMap } from "../context/ObservationsContext";
+import bugsnag from "../lib/logger";
 
-const log = debug("mapeo:MapView");
+MapboxGL.setAccessToken(
+  "pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
+);
 
 const mapboxStyles = {
   observation: {
@@ -81,8 +83,7 @@ class ObservationMapLayer extends React.PureComponent<{
       <MapboxGL.ShapeSource
         onPress={onPress}
         id={`observations-source`}
-        shape={featureCollection}
-      >
+        shape={featureCollection}>
         <MapboxGL.CircleLayer id={`circles`} style={mapboxStyles.observation} />
       </MapboxGL.ShapeSource>
     );
@@ -100,7 +101,8 @@ type Props = {
 
 type State = {
   // True if the map is following user location
-  following: boolean
+  following: boolean,
+  hasFinishedLoadingStyle?: boolean
 };
 
 class MapView extends React.Component<Props, State> {
@@ -114,10 +116,6 @@ class MapView extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    MapboxGL.setAccessToken(
-      "pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
-    );
-    log("accessToken set");
     this.initialPosition =
       props.location.position || props.location.savedPosition;
     this.state = {
@@ -155,16 +153,14 @@ class MapView extends React.Component<Props, State> {
     if (!pressedFeature || !pressedFeature.properties) return;
 
     const observationId = pressedFeature.properties.id;
-    log("handle obs press", observationId);
+    bugsnag.leaveBreadcrumb("Press observation", { observationId });
     const { observations, onPressObservation } = this.props;
     if (observations.get(observationId)) {
       onPressObservation(observationId);
     } else {
-      log(
-        "Warning: pressed feature with id '" +
-          observationId +
-          "' but could not find matching observation"
-      );
+      bugsnag.notify(new Error("Could not find pressed observation"), {
+        observationId
+      });
     }
   };
 
@@ -177,6 +173,10 @@ class MapView extends React.Component<Props, State> {
     // Any user interaction with the map switches follow mode to false
     this.setState({ following: false });
     this.currentZoom = e.properties.zoomLevel;
+  };
+
+  handleDidFinishLoadingStyle = e => {
+    this.setState({ hasFinishedLoadingStyle: true });
   };
 
   getFollowZoomLevel() {
@@ -219,26 +219,48 @@ class MapView extends React.Component<Props, State> {
           pitchEnabled={false}
           rotateEnabled={false}
           onPress={this.handleObservationPress}
+          onDidFailLoadingMap={e =>
+            bugsnag.notify(e, {
+              severity: "error",
+              context: "onDidFailLoadingMap"
+            })
+          }
+          onDidFinishLoadingStyle={this.handleDidFinishLoadingStyle}
+          onDidFinishRenderingMap={() =>
+            bugsnag.leaveBreadcrumb("onDidFinishRenderingMap")
+          }
+          onDidFinishRenderingMapFully={() =>
+            bugsnag.leaveBreadcrumb("onDidFinishRenderingMapFully")
+          }
+          onWillStartLoadingMap={() =>
+            bugsnag.leaveBreadcrumb("onWillStartLoadingMap")
+          }
+          onDidFinishLoadingMap={() =>
+            bugsnag.leaveBreadcrumb("onDidFinishLoadingMap")
+          }
           compassEnabled={false}
           styleURL={styleURL}
-          onRegionDidChange={this.handleRegionDidChange}
-        >
-          {locationServicesEnabled && (
-            <MapboxGL.UserLocation visible={isFocused} />
+          onRegionDidChange={this.handleRegionDidChange}>
+          {this.state.hasFinishedLoadingStyle && (
+            <>
+              <MapboxGL.Camera
+                centerCoordinate={initialCoords}
+                zoomLevel={initialZoom}
+                followUserLocation={isFocused && this.state.following}
+                followUserMode="normal"
+                followZoomLevel={this.getFollowZoomLevel()}
+                animationMode="flyTo"
+                triggerKey={this.state.following}
+              />
+              {locationServicesEnabled && (
+                <MapboxGL.UserLocation visible={isFocused} />
+              )}
+              <ObservationMapLayer
+                onPress={this.handleObservationPress}
+                observations={observations}
+              />
+            </>
           )}
-          <MapboxGL.Camera
-            centerCoordinate={initialCoords}
-            zoomLevel={initialZoom}
-            followUserLocation={isFocused && this.state.following}
-            followUserMode="normal"
-            followZoomLevel={this.getFollowZoomLevel()}
-            animationMode="flyTo"
-            triggerKey={this.state.following}
-          />
-          <ObservationMapLayer
-            onPress={this.handleObservationPress}
-            observations={observations}
-          />
         </MapboxGL.MapView>
         <AddButton onPress={onAddPress} />
         <View style={styles.locationButton}>
