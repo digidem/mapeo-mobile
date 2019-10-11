@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0-alpha.6](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.5...v1.2.0-alpha.6) (2019-10-11)
+
+
+### Bug Fixes
+
+* Do not try to add map layers until style has loaded ([a398494](https://github.com/digidem/mapeo-mobile/commit/a398494))
+* Show loading while checking for online/offline style. Prefer offline style over online style. ([b3c9727](https://github.com/digidem/mapeo-mobile/commit/b3c9727))
+* Turn off telemetry on first load ([909e670](https://github.com/digidem/mapeo-mobile/commit/909e670))
+
 ## [1.2.0-alpha.5](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.4...v1.2.0-alpha.5) (2019-10-03)
 
 
