@@ -127,6 +127,10 @@ class MapView extends React.Component<Props, State> {
     };
   }
 
+  componentDidMount() {
+    MapboxGL.setTelemetryEnabled(false);
+  }
+
   // We only use the location prop (which contains the app GPS location) for the
   // first render of the map. After that location updates come from the native
   // map view, so we don't want to re-render this component every time there is
