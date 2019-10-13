@@ -28,7 +28,8 @@
     "storybook-web": "./node_modules/@storybook/react/bin/index.js -c ./storybook-web -s ./public -p 5005 --ci",
     "upload-sourcemaps:release:android": "./scripts/upload-sourcemaps-release-android.sh",
     "postinstall": "patch-package && jetify",
-    "jetify": "jetify"
+    "jetify": "jetify",
+    "extract-messages": "extract-messages --locales=es,en,pt --output messages --descriptions 'src/frontend/**/*.js'"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.5.0",
@@ -51,6 +52,7 @@
     "prop-types": "^15.7.2",
     "querystring": "^0.2.0",
     "react": "16.8.6",
+    "react-intl": "^3.3.2",
     "react-native": "^0.60.6",
     "react-native-android-open-settings": "^1.3.0",
     "react-native-fs": "^2.13.3",
@@ -79,6 +81,7 @@
   "devDependencies": {
     "@babel/core": "^7.5.0",
     "@babel/runtime": "^7.5.0",
+    "@digidem/extract-react-intl-messages": "^2.0.2",
     "@react-native-community/eslint-config": "^0.0.5",
     "@storybook/addon-actions": "^5.1.0-rc.0",
     "@storybook/addon-info": "^5.1.0-rc.0",
@@ -92,6 +95,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.5",
+    "babel-plugin-react-intl-auto": "^2.3.0",
     "babel-plugin-react-native-web": "^0.11.2",
     "buble": "^0.19.6",
     "conventional-changelog-cli": "^2.0.17",
