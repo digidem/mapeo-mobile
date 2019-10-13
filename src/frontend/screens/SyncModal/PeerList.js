@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { defineMessages, useIntl } from "react-intl";
 
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import {
@@ -12,6 +13,17 @@ import {
 } from "../../sharedComponents/icons";
 import Progress from "../../sharedComponents/icons/Progress";
 import DateDistance from "../../sharedComponents/DateDistance";
+
+const m = defineMessages({
+  // Button label for sync button
+  syncButton: "Sync",
+  // Button label when there is an error
+  errorButton: "Error",
+  // Button label when complete
+  completeButton: "Complete",
+  // Label for last sync datetime
+  syncLabel: "Synced:"
+});
 
 type PeerStatus = {|
   // Peer is ready to sync
@@ -47,13 +59,14 @@ export const peerStatus: PeerStatus = {
 };
 
 const SyncButton = ({ progress, onPress, status }) => {
+  const { formatMessage: t } = useIntl();
   let style;
   let text;
   let icon;
   switch (status) {
     case peerStatus.READY:
       style = styles.syncButtonReady;
-      text = "Sinc.";
+      text = t(m.syncButton);
       icon = <SyncIcon />;
       break;
     case peerStatus.PROGRESS:
@@ -67,20 +80,19 @@ const SyncButton = ({ progress, onPress, status }) => {
       break;
     case peerStatus.ERROR:
       style = styles.syncButtonError;
-      text = "Error";
+      text = t(m.errorButton);
       icon = <ErrorIcon color="red" />;
       break;
     case peerStatus.COMPLETE:
       style = styles.syncButtonDone;
-      text = "Completo";
+      text = t(m.completeButton);
       icon = <DoneIcon />;
   }
   return (
     <TouchableNativeFeedback
       style={styles.syncTouchable}
       onPress={onPress}
-      hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}
-    >
+      hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
       <View style={[styles.syncButtonBase, style]}>
         <View style={styles.iconContainer}>{icon}</View>
         <Text numberOfLines={1} style={styles.buttonText}>
@@ -102,30 +114,33 @@ export const PeerItem = ({
 }: {
   ...$Exact<Peer>,
   onSyncPress: (id: string) => any
-}) => (
-  <View style={styles.row}>
-    {deviceType === "desktop" ? (
-      <LaptopIcon style={styles.peerIcon} size={40} />
-    ) : (
-      <CellphoneIcon style={styles.peerIcon} size={40} />
-    )}
-    <View style={styles.itemInfo}>
-      <Text numberOfLines={1} style={styles.sectionTitle}>
-        {name}
-      </Text>
-      {lastCompleted && (
-        <Text numberOfLines={1} style={styles.rowValue}>
-          Synced: <DateDistance date={new Date(lastCompleted)} />
-        </Text>
+}) => {
+  const { formatMessage: t } = useIntl();
+  return (
+    <View style={styles.row}>
+      {deviceType === "desktop" ? (
+        <LaptopIcon style={styles.peerIcon} size={40} />
+      ) : (
+        <CellphoneIcon style={styles.peerIcon} size={40} />
       )}
+      <View style={styles.itemInfo}>
+        <Text numberOfLines={1} style={styles.sectionTitle}>
+          {name}
+        </Text>
+        {lastCompleted == null ? null : (
+          <Text numberOfLines={1} style={styles.rowValue}>
+            {t(m.syncLabel)} <DateDistance date={new Date(lastCompleted)} />
+          </Text>
+        )}
+      </View>
+      <SyncButton
+        status={status}
+        progress={progress}
+        onPress={() => onSyncPress(id)}
+      />
     </View>
-    <SyncButton
-      status={status}
-      progress={progress}
-      onPress={() => onSyncPress(id)}
-    />
-  </View>
-);
+  );
+};
 
 const PeerItemMemoized = React.memo(PeerItem);
 

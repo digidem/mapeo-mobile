@@ -1,9 +1,11 @@
 /* global __DEV__ */
 // @flow
 import * as React from "react";
+import { Text } from "react-native";
 import debug from "debug";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-community/async-storage";
+import { IntlProvider } from "react-intl";
 
 import ErrorScreen from "./screens/UncaughtError";
 import AppLoading from "./AppLoading";
@@ -74,16 +76,18 @@ const App = () => (
   <ErrorBoundary>
     {/* Permissions provider must be before AppLoading because it waits for
         permissions before showing main app screen */}
-    <PermissionsContext.Provider>
-      <AppLoading>
-        <AppProvider>
-          <AppContainer
-            persistNavigationState={persistNavigationState}
-            loadNavigationState={loadNavigationState}
-          />
-        </AppProvider>
-      </AppLoading>
-    </PermissionsContext.Provider>
+    <IntlProvider textComponent={Text}>
+      <PermissionsContext.Provider>
+        <AppLoading>
+          <AppProvider>
+            <AppContainer
+              persistNavigationState={persistNavigationState}
+              loadNavigationState={loadNavigationState}
+            />
+          </AppProvider>
+        </AppLoading>
+      </PermissionsContext.Provider>
+    </IntlProvider>
   </ErrorBoundary>
 );
 

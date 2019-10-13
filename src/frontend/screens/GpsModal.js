@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
+import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import IconButton from "../sharedComponents/IconButton";
 import { CloseIcon } from "../sharedComponents/icons";
@@ -16,14 +17,29 @@ type HeaderProps = {
   variant: LocationStatus
 };
 
+const m = defineMessages({
+  // Header for GPS screen
+  gpsHeader: "Current GPS Location",
+  // Section title for time of last GPS update
+  lastUpdate: "Last update",
+  // Section title for UTM coordinates
+  locationUTM: "Coordinates UTM",
+  // Section title for details about current position
+  details: "Details",
+  // "Yes" if a location sensor is active
+  yes: "Yes",
+  // "No" if a location sensor is active
+  no: "No",
+  // Heading for section about location sensor status
+  locationSensors: "Sensor Status"
+});
+
 const GpsModalHeader = ({ onClose, variant }: HeaderProps) => (
   <View style={styles.header}>
     <IconButton onPress={onClose}>
       <CloseIcon color="white" />
     </IconButton>
-    <Text numberOfLines={1} style={styles.title}>
-      Ubicación Actual del GPS
-    </Text>
+    <FormattedMessage {...m.gpsHeader} numberOfLines={1} style={styles.title} />
   </View>
 );
 
@@ -38,56 +54,59 @@ type Props = {
   navigation: any
 };
 
-const GpsModal = ({ navigation }: Props) => (
-  <LocationContext.Consumer>
-    {location => (
-      <ScrollView style={styles.container}>
-        <GpsModalHeader
-          onClose={() => navigation.pop()}
-          variant={getLocationStatus(location)}
-        />
-        <View style={styles.infoArea}>
-          <Text style={styles.sectionTitle}>Ultima actualización</Text>
-          <DateDistance
-            style={styles.rowValue}
-            date={new Date(getLastUpdateText(location))}
-          />
-          {location.position && (
-            <>
-              <Text style={styles.sectionTitle}>Ubicación UTM</Text>
-              <FormattedCoords
-                lon={location.position.coords.longitude}
-                lat={location.position.coords.latitude}
-                style={styles.rowValue}
-              />
-              <Text style={styles.sectionTitle}>Detalles</Text>
-              {Object.entries(location.position.coords).map(([key, value]) => (
-                <GpsModalRow
-                  key={key}
-                  label={key}
-                  value={typeof value === "number" ? value.toFixed(5) : ""}
-                />
-              ))}
-            </>
-          )}
-          {location.provider && (
-            <>
-              <Text style={styles.sectionTitle}>Sensores de ubicación</Text>
-              {Object.entries(location.provider).map(([key, value]) => (
-                <GpsModalRow
-                  key={key}
-                  label={key}
-                  value={value ? "SÍ" : "NO"}
-                />
-              ))}
-            </>
-          )}
-        </View>
-      </ScrollView>
-    )}
-  </LocationContext.Consumer>
-);
+const GpsModal = ({ navigation }: Props) => {
+  const location = React.useContext(LocationContext);
+  const { formatMessage: t } = useIntl();
 
+  return (
+    <ScrollView style={styles.container}>
+      <GpsModalHeader
+        onClose={() => navigation.pop()}
+        variant={getLocationStatus(location)}
+      />
+      <View style={styles.infoArea}>
+        <FormattedMessage {...m.lastUpdate} style={styles.sectionTitle} />
+        <DateDistance
+          style={styles.rowValue}
+          date={new Date(getLastUpdateText(location))}
+        />
+        {location.position && (
+          <>
+            <FormattedMessage {...m.locationUTM} style={styles.sectionTitle} />
+            <FormattedCoords
+              lon={location.position.coords.longitude}
+              lat={location.position.coords.latitude}
+              style={styles.rowValue}
+            />
+            <FormattedMessage {...m.details} style={styles.sectionTitle} />
+            {Object.entries(location.position.coords).map(([key, value]) => (
+              <GpsModalRow
+                key={key}
+                label={key}
+                value={typeof value === "number" ? value.toFixed(5) : ""}
+              />
+            ))}
+          </>
+        )}
+        {location.provider && (
+          <>
+            <FormattedMessage
+              {...m.locationSensors}
+              style={styles.sectionTitle}
+            />
+            {Object.entries(location.provider).map(([key, value]) => (
+              <GpsModalRow
+                key={key}
+                label={key}
+                value={value != null ? t(m.yes) : t(m.no)}
+              />
+            ))}
+          </>
+        )}
+      </View>
+    </ScrollView>
+  );
+};
 export default GpsModal;
 
 function getLastUpdateText(location: LocationContextType) {

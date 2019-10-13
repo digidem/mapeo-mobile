@@ -1,12 +1,18 @@
 // @flow
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { defineMessages, useIntl } from "react-intl";
 
 import { TouchableHighlight } from "../../sharedComponents/Touchables";
 import useObservation from "../../hooks/useObservation";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
 import DateDistance from "../../sharedComponents/DateDistance";
 import type { Style } from "../../types";
+
+const m = defineMessages({
+  // Default name for an observation that does not match a preset
+  defaultObservationName: "Observation"
+});
 
 type Props = {
   onPress: string => any,
@@ -19,8 +25,9 @@ const ObservationListItem = ({
   style,
   observationId
 }: Props) => {
+  const { formatMessage: t } = useIntl();
   const [{ observation, preset }] = useObservation(observationId);
-  const name = preset ? preset.name : "Observación";
+  const name = preset ? preset.name : t(m.defaultObservationName);
   const iconId = preset && preset.icon;
   const createdDate =
     observation && observation.created_at
@@ -30,8 +37,7 @@ const ObservationListItem = ({
     <TouchableHighlight
       onPress={() => onPress(observationId)}
       testID={"ObservationListItem:" + observationId}
-      style={{ flex: 1, height: 80 }}
-    >
+      style={{ flex: 1, height: 80 }}>
       <View style={[styles.container, style]}>
         <View style={styles.text}>
           <Text style={styles.title}>{name}</Text>

@@ -2,12 +2,30 @@
 import React from "react";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
+import { defineMessages, FormattedMessage } from "react-intl";
 
 import IconButton from "../../sharedComponents/IconButton";
 import { CloseIcon, WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
 import DotIndicator from "./DotIndicator";
 import PeerList from "./PeerList";
 import type { Peer } from "./PeerList";
+
+const m = defineMessages({
+  // Header of sync screen
+  syncHeader: "Synchronize",
+  // Label for wifi network name
+  wifi: "WiFi:",
+  // Title of message shown when no wifi network
+  noWifiTitle: "No WiFi",
+  // Description shown when no wifi network
+  noWifiDesc:
+    "Open your phone settins and connect to a WiFi network to synchronize",
+  // Title of message shown while looking for sync peers
+  searchingTitle: "Searching",
+  // Description shown whilst searcing for sync peers
+  searchingDesc:
+    "Ensure that other devices are turned on and connected to the same WiFi network"
+});
 
 type HeaderProps = {
   onClosePress: () => void
@@ -18,9 +36,11 @@ const Header = ({ onClosePress }: HeaderProps) => (
     <IconButton onPress={onClosePress}>
       <CloseIcon color="white" />
     </IconButton>
-    <Text numberOfLines={1} style={styles.title}>
-      Sincronizar
-    </Text>
+    <FormattedMessage
+      {...m.syncHeader}
+      numberOfLines={1}
+      style={styles.title}
+    />
   </View>
 );
 
@@ -28,8 +48,8 @@ const WifiBar = ({ onPress, ssid, deviceName }) => (
   <TouchableNativeFeedback onPress={onPress}>
     <View style={styles.wifiBar}>
       <WifiIcon />
-      <Text style={styles.wifiBarText}>
-        <Text style={styles.bold}>Wi-Fi:</Text> {ssid}
+      <Text style={styles.wifiBarText} numberOfLines={1}>
+        <FormattedMessage {...m.wifi} style={styles.bold} /> {ssid}
       </Text>
       <Text style={styles.deviceName}>{deviceName}</Text>
     </View>
@@ -44,10 +64,8 @@ const NoWifiBox = ({ onPress }) => (
           <WifiOffIcon size={50} />
         </View>
         <View style={styles.noWifiTextContainer}>
-          <Text style={styles.infoHeader}>Sin Wi-Fi</Text>
-          <Text style={styles.infoSubheader}>
-            Abrir la configuración y conectar a una red Wi-Fi para sincronizar
-          </Text>
+          <FormattedMessage {...m.noWifiTitle} style={styles.infoHeader} />
+          <FormattedMessage {...m.noWifiDesc} style={styles.infoSubheader} />
         </View>
       </View>
     </View>
@@ -59,11 +77,8 @@ const SearchingBox = () => (
     <View style={styles.searchingBoxInner}>
       <DotIndicator />
       <View style={styles.searchingTextContainer}>
-        <Text style={styles.infoHeader}>Buscando</Text>
-        <Text style={styles.infoSubheader}>
-          Asegurar que los otros equipos están encendidos y conectados a la
-          misma red de Wi-Fi
-        </Text>
+        <FormattedMessage {...m.searchingTitle} style={styles.infoHeader} />
+        <FormattedMessage {...m.searchingDesc} style={styles.infoSubheader} />
       </View>
     </View>
   </View>
@@ -88,8 +103,7 @@ const SyncView = ({
 }: Props) => (
   <ScrollView
     style={styles.container}
-    contentContainerStyle={styles.scrollViewContent}
-  >
+    contentContainerStyle={styles.scrollViewContent}>
     <Header onClosePress={onClosePress} />
     {ssid ? (
       <>

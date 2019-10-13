@@ -1,14 +1,24 @@
 // @flow
 import React, { useState, useContext } from "react";
 import utm from "utm";
-import { View, Text, TextInput, StyleSheet, ToastAndroid } from "react-native";
-import { BLACK, LIGHT_GREY } from "../lib/styles";
+import { View, TextInput, StyleSheet, ToastAndroid } from "react-native";
+import { defineMessages, FormattedMessage } from "react-intl";
 
+import { BLACK, LIGHT_GREY } from "../lib/styles";
 import useDraftObservation from "../hooks/useDraftObservation";
 import LocationContext from "../context/LocationContext";
 import type { NavigationProp } from "../types";
 import IconButton from "../sharedComponents/IconButton";
 import { BackIcon, SaveIcon } from "../sharedComponents/icons";
+
+const m = defineMessages({
+  zoneNumber: "Zone Number",
+  zoneLetter: "Zone Letter",
+  easting: "East",
+  eastingSuffix: "mE",
+  northing: "North",
+  northingSuffix: "mN"
+});
 
 type Props = {
   navigation: NavigationProp
@@ -83,7 +93,7 @@ const ManualGpsScreen = ({ navigation }: Props) => {
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.column}>
-          <Text style={styles.inputLabel}>Número de Zona</Text>
+          <FormattedMessage {...m.zoneNumber} style={styles.inputLabel} />
           <TextInput
             placeholder="DD"
             placeholderTextColor="silver"
@@ -96,7 +106,7 @@ const ManualGpsScreen = ({ navigation }: Props) => {
           />
         </View>
         <View style={styles.column}>
-          <Text style={styles.inputLabel}>Letra de Zona</Text>
+          <FormattedMessage {...m.zoneLetter} style={styles.inputLabel} />
           <TextInput
             placeholder="S"
             placeholderTextColor="silver"
@@ -113,7 +123,7 @@ const ManualGpsScreen = ({ navigation }: Props) => {
       </View>
       <View style={styles.row}>
         <View style={styles.column}>
-          <Text style={styles.inputLabel}>Este</Text>
+          <FormattedMessage {...m.easting} style={styles.inputLabel} />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <TextInput
               autoFocus
@@ -125,11 +135,11 @@ const ManualGpsScreen = ({ navigation }: Props) => {
               style={styles.input}
               value={easting}
             />
-            <Text style={styles.suffix}>mE</Text>
+            <FormattedMessage {...m.eastingSuffix} style={styles.suffix} />
           </View>
         </View>
         <View style={styles.column}>
-          <Text style={styles.inputLabel}>Norte</Text>
+          <FormattedMessage {...m.northing} style={styles.inputLabel} />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <TextInput
               placeholder="XXXXXX"
@@ -140,7 +150,7 @@ const ManualGpsScreen = ({ navigation }: Props) => {
               style={styles.input}
               value={northing}
             />
-            <Text style={styles.suffix}>mN</Text>
+            <FormattedMessage {...m.northingSuffix} style={styles.suffix} />
           </View>
         </View>
       </View>

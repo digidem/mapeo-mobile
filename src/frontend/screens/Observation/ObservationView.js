@@ -4,6 +4,7 @@ import { Text, View, ScrollView, StyleSheet, Share } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ShareMedia from "react-native-share";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { defineMessages, useIntl } from "react-intl";
 
 import api from "../../api";
 import MapStyleProvider from "../../sharedComponents/MapStyleProvider";
@@ -27,6 +28,15 @@ import {
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
+
+const m = defineMessages({
+  // Placeholder text for fields on an observation which are not answered
+  noAnswer: "No answer",
+  // Subject-line for shared observations
+  alertSubject: "Mapeo Alert",
+  // Footer for shared observations message
+  alertFooter: "Sent from Mapeo"
+});
 
 type ButtonProps = {
   onPress: () => any,
@@ -82,8 +92,7 @@ const InsetMapView = ({ lon, lat }: MapProps) => (
         pitchEnabled={false}
         rotateEnabled={false}
         compassEnabled={false}
-        styleURL={styleURL}
-      >
+        styleURL={styleURL}>
         <MapboxGL.Images images={{ observation: mapIcon }} />
         <MapboxGL.Camera
           centerCoordinate={[lon, lat]}
@@ -110,19 +119,21 @@ const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
   </TouchableOpacity>
 );
 
-const FieldView = ({ label, answer, style }) => (
-  <View style={style}>
-    <Text style={styles.fieldTitle}>{label}</Text>
-    <Text
-      style={[
-        styles.fieldAnswer,
-        { color: answer === undefined ? MEDIUM_GREY : DARK_GREY }
-      ]}
-    >
-      {answer || "Sin respuesta"}
-    </Text>
-  </View>
-);
+const FieldView = ({ label, answer, style }) => {
+  const { formatMessage: t } = useIntl();
+  return (
+    <View style={style}>
+      <Text style={styles.fieldTitle}>{label}</Text>
+      <Text
+        style={[
+          styles.fieldAnswer,
+          { color: answer === undefined ? MEDIUM_GREY : DARK_GREY }
+        ]}>
+        {answer || t(m.noAnswer)}
+      </Text>
+    </View>
+  );
+};
 
 type ODVProps = {|
   observation: Observation,
@@ -131,11 +142,24 @@ type ODVProps = {|
   onPressDelete: () => any
 |};
 
-class ObservationView extends React.Component<ODVProps> {
-  handleShare = () => {
-    const { observation, preset } = this.props;
+const ObservationView = ({
+  observation,
+  preset,
+  onPressPhoto,
+  onPressDelete
+}: ODVProps) => {
+  const { formatMessage: t } = useIntl();
+  const { lat, lon, attachments } = observation.value;
+  // Currently only show photo attachments
+  const photos = filterPhotosFromAttachments(attachments);
+
+  const handleShare = () => {
     const { value } = observation;
-    const msg = formatShareMessage({ observation, preset });
+    const msg = formatShareMessage({
+      observation,
+      preset,
+      footer: t(m.alertFooter)
+    });
 
     if (value.attachments && value.attachments.length) {
       const urls = value.attachments.map(a =>
@@ -144,107 +168,100 @@ class ObservationView extends React.Component<ODVProps> {
       const options = {
         urls: urls,
         message: msg,
-        subject: "Alerta de Mapeo"
+        subject: t(m.alertHeader)
       };
       ShareMedia.open(options);
     } else Share.share({ message: msg });
   };
 
-  render() {
-    const { observation, preset, onPressPhoto, onPressDelete } = this.props;
-    const { lat, lon, attachments } = observation.value;
-    // Currently only show photo attachments
-    const photos = filterPhotosFromAttachments(attachments);
-    return (
-      <ScrollView style={styles.container}>
-        <>
-          {/* check lat and lon are not null or undefined */}
-          {lat != null && lon != null && (
-            <View>
-              <View style={styles.coords}>
-                <View style={styles.coordsPointer} />
-                <FormattedCoords
-                  lon={lon}
-                  lat={lat}
-                  style={styles.positionText}
-                />
-              </View>
-              <InsetMapView lat={lat} lon={lon} />
-            </View>
-          )}
+  return (
+    <ScrollView style={styles.container}>
+      <>
+        {/* check lat and lon are not null or undefined */}
+        {lat != null && lon != null && (
           <View>
-            <Text style={styles.time}>
-              {formatDate(observation.created_at)}
+            <View style={styles.coords}>
+              <View style={styles.coordsPointer} />
+              <FormattedCoords
+                lon={lon}
+                lat={lat}
+                style={styles.positionText}
+              />
+            </View>
+            <InsetMapView lat={lat} lon={lon} />
+          </View>
+        )}
+        <View>
+          <Text style={styles.time}>{formatDate(observation.created_at)}</Text>
+        </View>
+        <View style={styles.section}>
+          <View style={styles.categoryIconContainer}>
+            <CategoryCircleIcon iconId={(preset || {}).icon} size="medium" />
+            <Text style={styles.categoryLabel} numberOfLines={1}>
+              {preset ? preset.name : "Observacion"}
             </Text>
           </View>
-          <View style={styles.section}>
-            <View style={styles.categoryIconContainer}>
-              <CategoryCircleIcon iconId={(preset || {}).icon} size="medium" />
-              <Text style={styles.categoryLabel} numberOfLines={1}>
-                {preset ? preset.name : "Observacion"}
+          {observation.value.tags.notes && observation.value.tags.notes.trim() && (
+            <View style={{ paddingTop: 15 }}>
+              <Text style={styles.textNotes}>
+                {observation.value.tags.notes}
               </Text>
             </View>
-            {observation.value.tags.notes &&
-              observation.value.tags.notes.trim() && (
-                <View style={{ paddingTop: 15 }}>
-                  <Text style={styles.textNotes}>
-                    {observation.value.tags.notes}
-                  </Text>
-                </View>
-              )}
-            {!!photos.length && (
-              <ThumbnailScrollView
-                photos={
-                  // $FlowFixMe
-                  photos
-                }
-                onPressPhoto={onPressPhoto}
-              />
-            )}
-          </View>
-          {preset && preset.fields && preset.fields.length > 0 && (
-            <View>
-              <>
-                {preset.fields.map(({ label, key }) => (
-                  <FieldView
-                    key={key}
-                    label={label || key}
-                    answer={observation.value.tags[key]}
-                    style={[styles.section, styles.optionalSection]}
-                  />
-                ))}
-              </>
-            </View>
           )}
-          <View style={styles.divider}></View>
-          <View style={styles.buttonContainer}>
-            <Button
-              iconName="share"
-              title="Compartir"
-              color="#3366FF"
-              onPress={this.handleShare}
+          {!!photos.length && (
+            <ThumbnailScrollView
+              photos={
+                // $FlowFixMe
+                photos
+              }
+              onPressPhoto={onPressPhoto}
             />
-            <Button
-              iconName="delete"
-              title="Borrar"
-              color={RED}
-              onPress={onPressDelete}
-            />
+          )}
+        </View>
+        {preset && preset.fields && preset.fields.length > 0 && (
+          <View>
+            <>
+              {preset.fields.map(({ label, key }) => (
+                <FieldView
+                  key={key}
+                  label={label || key}
+                  answer={observation.value.tags[key]}
+                  style={[styles.section, styles.optionalSection]}
+                />
+              ))}
+            </>
           </View>
-        </>
-      </ScrollView>
-    );
-  }
-}
+        )}
+        <View style={styles.divider}></View>
+        <View style={styles.buttonContainer}>
+          <Button
+            iconName="share"
+            title="Compartir"
+            color="#3366FF"
+            onPress={handleShare}
+          />
+          <Button
+            iconName="delete"
+            title="Borrar"
+            color={RED}
+            onPress={onPressDelete}
+          />
+        </View>
+      </>
+    </ScrollView>
+  );
+};
 
 export default ObservationView;
 
 function formatShareMessage({
   observation,
-  preset
+  preset,
+  footer
 }: {
   observation: Observation,
-  preset?: PresetWithFields
+  preset?: PresetWithFields,
+  footer: string
 }) {
   const { value } = observation;
   let msg = "";
@@ -265,7 +282,7 @@ function formatShareMessage({
         .join("\n") +
       "\n";
   }
-  msg += "\n— _Enviado desde MAPEO_ —";
+  msg += "\n— " + footer + " —";
   return msg;
 }
 
