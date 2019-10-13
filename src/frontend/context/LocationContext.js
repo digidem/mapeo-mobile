@@ -1,9 +1,10 @@
 // @flow
 import * as React from "react";
-import { AppState } from "react-native";
+import { AppState, DeviceEventEmitter } from "react-native";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-community/async-storage";
 import debug from "debug";
+import RNNmeaLibrary from "react-native-nmea-library";
 
 import { withPermissions, PERMISSIONS, RESULTS } from "./PermissionsContext";
 import type { PermissionResult, PermissionsType } from "./PermissionsContext";
@@ -124,6 +125,12 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
     } catch (e) {
       log("Error reading storage", e);
     }
+
+    RNNmeaLibrary.start();
+
+    DeviceEventEmitter.addListener("onNmeaReceive", event => {
+      log(event);
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -179,6 +186,7 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
   componentWillUnmount() {
     this.stopWatchingLocation();
     AppState.removeEventListener("change", this.handleAppStateChange);
+    RNNmeaLibrary.stop();
   }
 
   handleAppStateChange = (nextAppState: AppStateType) => {
