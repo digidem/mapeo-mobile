@@ -66,6 +66,7 @@
     "react-native-splash-screen": "^3.2.0",
     "react-native-tab-view": "^2.10.0",
     "react-native-unimodules": "^0.4.1",
+    "react-native-v8": ">=0.60.6-patch.0 <0.60.7",
     "react-native-vector-icons": "^6.3.0",
     "react-navigation": "^3.9.0",
     "react-navigation-hooks": "^1.0.1",

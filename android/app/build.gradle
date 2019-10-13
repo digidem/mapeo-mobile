@@ -119,7 +119,8 @@ def enableProguardInReleaseBuilds = false
  * give correct results when using with locales other than en-US.  Note that
  * this variant is about 6MiB larger per architecture than default.
  */
-def jscFlavor = 'org.webkit:android-jsc-intl:+'
+def jscFlavor = 'org.webkit:android-jsc:+'
+
 /**
  * Whether to enable the Hermes VM.
  *
@@ -228,6 +229,9 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
+        // Make sure libjsc.so does not packed in APK
+        // This is for react-native-v8
+        exclude "**/libjsc.so"
     }
 
     // Use Java 1.8
@@ -239,8 +243,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    // Add v8-android - prebuilt libv8.so into APK
+    implementation 'org.chromium:v8-android:+'
 
     addUnimodulesDependencies()
 
