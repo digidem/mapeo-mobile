@@ -5,6 +5,7 @@ import * as Location from "expo-location";
 import AsyncStorage from "@react-native-community/async-storage";
 import debug from "debug";
 import RNNmeaLibrary from "react-native-nmea-library";
+import GPS from "gps";
 
 import { withPermissions, PERMISSIONS, RESULTS } from "./PermissionsContext";
 import type { PermissionResult, PermissionsType } from "./PermissionsContext";
@@ -83,6 +84,8 @@ const LocationContext = React.createContext<LocationContextType>(
   defaultContext
 );
 
+const gps = new GPS();
+
 /**
  * The LocationProvider provides details about the current device location based
  * on sensors including GPS. It must be included in the component heirarchy
@@ -128,8 +131,13 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
 
     RNNmeaLibrary.start();
 
+    gps.on("data", function(data) {
+      log(data, gps.state);
+    });
+
     DeviceEventEmitter.addListener("onNmeaReceive", event => {
-      log(event);
+      if (!event || !event.message) return;
+      gps.updatePartial(event.message);
     });
   }
 
