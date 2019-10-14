@@ -53,7 +53,8 @@ export type LocationContextType = {
   // This is the previous known position from the last time the app was open
   savedPosition?: PositionType | null,
   // True if there is some kind of error getting the device location
-  error?: boolean
+  error?: boolean,
+  gps: any
 };
 
 type AppStateType = "active" | "background" | "inactive";
@@ -64,7 +65,8 @@ type Props = {
 };
 
 const defaultContext: LocationContextType = {
-  error: false
+  error: false,
+  gps: new GPS()
 };
 
 const positionOptions = {
@@ -84,8 +86,6 @@ const LocationContext = React.createContext<LocationContextType>(
   defaultContext
 );
 
-const gps = new GPS();
-
 /**
  * The LocationProvider provides details about the current device location based
  * on sensors including GPS. It must be included in the component heirarchy
@@ -99,6 +99,14 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
   _watch: null | { remove: () => null };
   _timeoutId: TimeoutID;
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      ...defaultContext,
+      gps: new GPS()
+    };
+  }
+
   // This React method is "bad" to use, but we use it for convenience - we
   // include the location permission state in the location context object
   static getDerivedStateFromProps(props, state) {
@@ -111,8 +119,6 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
       permission: props.permissions[PERMISSIONS.ACCESS_FINE_LOCATION]
     };
   }
-
-  state = defaultContext;
   _watch = null;
 
   async componentDidMount() {
@@ -131,13 +137,9 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
 
     RNNmeaLibrary.start();
 
-    gps.on("data", function(data) {
-      log(data, gps.state);
-    });
-
     DeviceEventEmitter.addListener("onNmeaReceive", event => {
       if (!event || !event.message) return;
-      gps.updatePartial(event.message);
+      this.state.gps.updatePartial(event.message);
     });
   }
 
