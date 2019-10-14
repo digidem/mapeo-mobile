@@ -13,7 +13,10 @@ import useDraftObservation, {
 import type { NavigationScreenConfigProps } from "react-navigation";
 
 const m = defineMessages({
-  cancel: "Cancel"
+  cancel: {
+    id: "screens.AddPhoto.cancel",
+    defaultMessage: "Cancel"
+  }
 });
 
 const log = debug("AddPhotoScreen");

@@ -11,20 +11,40 @@ import PeerList from "./PeerList";
 import type { Peer } from "./PeerList";
 
 const m = defineMessages({
-  // Header of sync screen
-  syncHeader: "Synchronize",
-  // Label for wifi network name
-  wifi: "WiFi:",
-  // Title of message shown when no wifi network
-  noWifiTitle: "No WiFi",
-  // Description shown when no wifi network
-  noWifiDesc:
-    "Open your phone settins and connect to a WiFi network to synchronize",
-  // Title of message shown while looking for sync peers
-  searchingTitle: "Searching",
-  // Description shown whilst searcing for sync peers
-  searchingDesc:
-    "Ensure that other devices are turned on and connected to the same WiFi network"
+  syncHeader: {
+    id: "screens.SyncModal.SyncView.syncHeader",
+    defaultMessage: "Synchronize",
+    description: "Header of sync screen"
+  },
+
+  wifi: {
+    id: "screens.SyncModal.SyncView.wifi",
+    defaultMessage: "WiFi:",
+    description: "Label for wifi network name"
+  },
+
+  noWifiTitle: {
+    id: "screens.SyncModal.SyncView.noWifiTitle",
+    defaultMessage: "No WiFi",
+    description: "Title of message shown when no wifi network"
+  },
+  noWifiDesc: {
+    id: "screens.SyncModal.SyncView.noWifiDesc",
+    description: "Description shown when no wifi network",
+    defaultMessage:
+      "Open your phone settins and connect to a WiFi network to synchronize"
+  },
+  searchingTitle: {
+    id: "screens.SyncModal.SyncView.searchingTitle",
+    defaultMessage: "Searching",
+    description: "Title of message shown while looking for sync peers"
+  },
+  searchingDesc: {
+    id: "screens.SyncModal.SyncView.searchingDesc",
+    description: "Description shown whilst searcing for sync peers",
+    defaultMessage:
+      "Ensure that other devices are turned on and connected to the same WiFi network"
+  }
 });
 
 type HeaderProps = {

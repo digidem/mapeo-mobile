@@ -21,16 +21,31 @@ import { BLACK, LIGHT_GREY, LIGHT_BLUE } from "../../lib/styles";
 import type { PresetWithFields } from "../../context/PresetsContext";
 
 const m = defineMessages({
-  // Shown in new observation screen whilst looking for GPS
-  searching: "Searching…",
-  // Button to change a category / preset
-  changePreset: "Change",
-  // Placeholder for description/notes field
-  descriptionPlaceholder: "What is happening here?",
-  // Button label for adding photo
-  photoButton: "Add Photo",
-  // Button label to add details
-  detailsButton: "Add Details"
+  searching: {
+    id: "screens.ObservationEdit.ObservationEditView.searching",
+    defaultMessage: "Searching…",
+    description: "Shown in new observation screen whilst looking for GPS"
+  },
+  changePreset: {
+    id: "screens.ObservationEdit.ObservationEditView.changePreset",
+    defaultMessage: "Change",
+    description: "Button to change a category / preset"
+  },
+  descriptionPlaceholder: {
+    id: "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder",
+    defaultMessage: "What is happening here?",
+    description: "Placeholder for description/notes field"
+  },
+  photoButton: {
+    id: "screens.ObservationEdit.ObservationEditView.photoButton",
+    defaultMessage: "Add Photo",
+    description: "Button label for adding photo"
+  },
+  detailsButton: {
+    id: "screens.ObservationEdit.ObservationEditView.detailsButton",
+    defaultMessage: "Add Details",
+    description: "Button label to add details"
+  }
 });
 
 const LocationView = ({

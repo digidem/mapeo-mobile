@@ -30,12 +30,22 @@ import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
 
 const m = defineMessages({
-  // Placeholder text for fields on an observation which are not answered
-  noAnswer: "No answer",
-  // Subject-line for shared observations
-  alertSubject: "Mapeo Alert",
-  // Footer for shared observations message
-  alertFooter: "Sent from Mapeo"
+  noAnswer: {
+    id: "screens.Observation.ObservationView.noAnswer",
+    defaultMessage: "No answer",
+    description:
+      "Placeholder text for fields on an observation which are not answered"
+  },
+  alertSubject: {
+    id: "screens.Observation.ObservationView.alertSubject",
+    defaultMessage: "Mapeo Alert",
+    description: "Subject-line for shared observations"
+  },
+  alertFooter: {
+    id: "screens.Observation.ObservationView.alertFooter",
+    defaultMessage: "Sent from Mapeo",
+    description: "Footer for shared observations message"
+  }
 });
 
 type ButtonProps = {

@@ -6,8 +6,11 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 
 const m = defineMessages({
-  // Indicates which question we are on and total questions
-  questionPage: "{current} of {total}"
+  questionPage: {
+    id: "screens.ObservationDetails.QuestionNavBar.questionPage",
+    defaultMessage: "{current} of {total}",
+    description: "Indicates which question we are on and total questions"
+  }
 });
 
 const NavButton = ({ name, onPress }) => (

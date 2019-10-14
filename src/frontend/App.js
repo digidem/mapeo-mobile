@@ -76,7 +76,7 @@ const App = () => (
   <ErrorBoundary>
     {/* Permissions provider must be before AppLoading because it waits for
         permissions before showing main app screen */}
-    <IntlProvider textComponent={Text}>
+    <IntlProvider textComponent={Text} locale="en">
       <PermissionsContext.Provider>
         <AppLoading>
           <AppProvider>

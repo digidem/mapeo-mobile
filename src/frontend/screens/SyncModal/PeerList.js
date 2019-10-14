@@ -15,14 +15,26 @@ import Progress from "../../sharedComponents/icons/Progress";
 import DateDistance from "../../sharedComponents/DateDistance";
 
 const m = defineMessages({
-  // Button label for sync button
-  syncButton: "Sync",
-  // Button label when there is an error
-  errorButton: "Error",
-  // Button label when complete
-  completeButton: "Complete",
-  // Label for last sync datetime
-  syncLabel: "Synced:"
+  syncButton: {
+    id: "screens.SyncModal.PeerList.syncButton",
+    defaultMessage: "Sync",
+    description: "Button label for sync button"
+  },
+  errorButton: {
+    id: "screens.SyncModal.PeerList.errorButton",
+    defaultMessage: "Error",
+    description: "Button label when there is an error"
+  },
+  completeButton: {
+    id: "screens.SyncModal.PeerList.completeButton",
+    defaultMessage: "Complete",
+    description: "Button label when complete"
+  },
+  syncLabel: {
+    id: "screens.SyncModal.PeerList.syncLabel",
+    defaultMessage: "Synced:",
+    description: "Label for last sync datetime"
+  }
 });
 
 type PeerStatus = {|

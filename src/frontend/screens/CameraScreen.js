@@ -17,8 +17,12 @@ import PermissionsContext, {
 } from "../context/PermissionsContext";
 
 const m = defineMessages({
-  // Error message shown when app does not have permissions to camera
-  noCameraAccess: "No access to camera"
+  noCameraAccess: {
+    id: "screens.CameraScreen.noCameraAccess",
+    defaultMessage: "No access to camera",
+    description:
+      "Error message shown when app does not have permissions to camera"
+  }
 });
 
 const log = debug("mapeo:CameraScreen");

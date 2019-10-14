@@ -18,20 +18,41 @@ type HeaderProps = {
 };
 
 const m = defineMessages({
-  // Header for GPS screen
-  gpsHeader: "Current GPS Location",
-  // Section title for time of last GPS update
-  lastUpdate: "Last update",
-  // Section title for UTM coordinates
-  locationUTM: "Coordinates UTM",
-  // Section title for details about current position
-  details: "Details",
-  // "Yes" if a location sensor is active
-  yes: "Yes",
-  // "No" if a location sensor is active
-  no: "No",
-  // Heading for section about location sensor status
-  locationSensors: "Sensor Status"
+  gpsHeader: {
+    id: "screens.GpsModal.gpsHeader",
+    defaultMessage: "Current GPS Location",
+    description: "Header for GPS screen"
+  },
+  lastUpdate: {
+    id: "screens.GpsModal.lastUpdate",
+    defaultMessage: "Last update",
+    description: "Section title for time of last GPS update"
+  },
+  locationUTM: {
+    id: "screens.GpsModal.locationUTM",
+    defaultMessage: "Coordinates UTM",
+    description: "Section title for UTM coordinates"
+  },
+  details: {
+    id: "screens.GpsModal.details",
+    defaultMessage: "Details",
+    description: "Section title for details about current position"
+  },
+  yes: {
+    id: "screens.GpsModal.yes",
+    defaultMessage: "Yes",
+    description: "if a location sensor is active yes/no"
+  },
+  no: {
+    id: "screens.GpsModal.no",
+    defaultMessage: "No",
+    description: "if a location sensor is active yes/no"
+  },
+  locationSensors: {
+    id: "screens.GpsModal.locationSensors",
+    defaultMessage: "Sensor Status",
+    description: "Heading for section about location sensor status"
+  }
 });
 
 const GpsModalHeader = ({ onClose, variant }: HeaderProps) => (

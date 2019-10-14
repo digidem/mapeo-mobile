@@ -10,8 +10,11 @@ import DateDistance from "../../sharedComponents/DateDistance";
 import type { Style } from "../../types";
 
 const m = defineMessages({
-  // Default name for an observation that does not match a preset
-  defaultObservationName: "Observation"
+  defaultObservationName: {
+    id: "screens.ObservationsList.ObservationListItem.defaultObservationName",
+    defaultMessage: "Observation",
+    description: "Default name for an observation that does not match a preset"
+  }
 });
 
 type Props = {

@@ -10,8 +10,14 @@ import { getLocationStatus } from "../lib/utils";
 import type { LocationStatus } from "../lib/utils";
 
 const m = defineMessages({
-  noGps: "No GPS",
-  searching: "Searching…"
+  noGps: {
+    id: "sharedComponents.GpsPill.noGps",
+    defaultMessage: "No GPS"
+  },
+  searching: {
+    id: "sharedComponents.GpsPill.searching",
+    defaultMessage: "Searching…"
+  }
 });
 
 const ERROR_COLOR = "#FF0000";
@@ -24,6 +30,7 @@ type Props = {
 
 export const GpsPill = React.memo<Props>(
   ({ onPress, variant, precision }: Props) => {
+    console.log(m.noGps);
     const isFocused = useIsFocused();
     const { formatMessage: t } = useIntl();
     let text: string;

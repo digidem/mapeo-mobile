@@ -12,12 +12,30 @@ import IconButton from "../sharedComponents/IconButton";
 import { BackIcon, SaveIcon } from "../sharedComponents/icons";
 
 const m = defineMessages({
-  zoneNumber: "Zone Number",
-  zoneLetter: "Zone Letter",
-  easting: "East",
-  eastingSuffix: "mE",
-  northing: "North",
-  northingSuffix: "mN"
+  zoneNumber: {
+    id: "screens.ManualGpsScreen.zoneNumber",
+    defaultMessage: "Zone Number"
+  },
+  zoneLetter: {
+    id: "screens.ManualGpsScreen.zoneLetter",
+    defaultMessage: "Zone Letter"
+  },
+  easting: {
+    id: "screens.ManualGpsScreen.easting",
+    defaultMessage: "East"
+  },
+  eastingSuffix: {
+    id: "screens.ManualGpsScreen.eastingSuffix",
+    defaultMessage: "mE"
+  },
+  northing: {
+    id: "screens.ManualGpsScreen.northing",
+    defaultMessage: "North"
+  },
+  northingSuffix: {
+    id: "screens.ManualGpsScreen.northingSuffix",
+    defaultMessage: "mN"
+  }
 });
 
 type Props = {
