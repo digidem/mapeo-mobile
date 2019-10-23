@@ -11,7 +11,8 @@
     "android-no-backend-rebuild": "react-native run-android --variant=appDebug --appIdSuffix=debug",
     "android-storybook": "react-native run-android --variant=storybookDebug --appIdSuffix=storybook.debug",
     "build:backend": "./scripts/build-backend.sh",
-    "build:release": "npm run build:backend && ./scripts/build-release-android.sh",
+    "build:translations": "node ./scripts/build-translations.js",
+    "build:release": "npm run build:translations && npm run build:backend && ./scripts/build-release-android.sh",
     "build:storybook": "./node_modules/@storybook/react/bin/build.js -c ./storybook-web -s ./public -o ./build --no-dll",
     "test": "jest",
     "lint": "eslint *.js \"src/**/*.js\"",
@@ -30,6 +31,11 @@
     "postinstall": "patch-package && jetify",
     "jetify": "jetify",
     "extract-messages": "extract-messages --locales=es,en,pt,fr --output messages --descriptions 'src/frontend/**/*.js'"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run extract-messages && pretty-quick --staged"
+    }
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.5.0",
@@ -113,18 +119,23 @@
     "eslint-plugin-standard": "^4.0.0",
     "flow-bin": "^0.98.0",
     "flow-typed": "^2.5.1",
+    "glob": "^7.1.5",
+    "husky": "^3.0.9",
     "jest": "^24.1.0",
     "jetifier": "^1.6.3",
     "metro-react-native-babel-preset": "^0.54.1",
+    "mkdirp": "^0.5.1",
     "patch-package": "^6.1.2",
     "postinstall-postinstall": "^2.0.0",
     "prettier": "^1.17.1",
+    "pretty-quick": "^2.0.0",
     "random-date-generator": "^1.0.2",
     "random-title": "^1.0.4",
     "react-art": "^16.8.2",
     "react-dom": "^16.8.6",
     "react-native-web": "^0.11.0",
     "react-test-renderer": "16.8.6",
+    "rimraf": "^3.0.0",
     "standard-version": "^6.0.1",
     "txtgen": "^2.2.2"
   },
