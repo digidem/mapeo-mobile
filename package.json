@@ -29,7 +29,7 @@
     "upload-sourcemaps:release:android": "./scripts/upload-sourcemaps-release-android.sh",
     "postinstall": "patch-package && jetify",
     "jetify": "jetify",
-    "extract-messages": "extract-messages --locales=es,en,pt --output messages --descriptions 'src/frontend/**/*.js'"
+    "extract-messages": "extract-messages --locales=es,en,pt,fr --output messages --descriptions 'src/frontend/**/*.js'"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.5.0",
