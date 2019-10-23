@@ -1,10 +1,13 @@
 /* global __DEV__ */
 // @flow
 import * as React from "react";
+import { Platform } from "react-native";
 import debug from "debug";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-community/async-storage";
 import { IntlProvider } from "react-intl";
+import { useAppState } from "react-native-hooks";
+import * as Localization from "expo-localization";
 
 import ErrorScreen from "./screens/UncaughtError";
 import AppLoading from "./AppLoading";
@@ -12,6 +15,7 @@ import AppContainer from "./AppContainer";
 import { PermissionsProvider } from "./context/PermissionsContext";
 import AppProvider from "./context/AppProvider";
 import bugsnag from "./lib/logger";
+import messages from "../../translations/messages.json";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -71,24 +75,40 @@ class ErrorBoundary extends React.Component<
   }
 }
 
-const App = () => (
-  <ErrorBoundary>
-    <IntlProvider locale="en">
-      {/* Permissions provider must be before AppLoading because it waits for
+const App = () => {
+  const [locale, setLocale] = React.useState(
+    (Localization.locale || "en").split("-")[0]
+  );
+  const appState = useAppState();
+
+  React.useEffect(() => {
+    // Localization only changes in Android (in iOS the app is restarted) and
+    // will only happen when the app comes back into the foreground
+    if (Platform.OS !== "android" || appState !== "active") return;
+    Localization.getLocalizationAsync()
+      .then(({ locale }) => setLocale((locale || "en").split("-")[0]))
+      .catch(() => {});
+  }, [appState]);
+
+  return (
+    <ErrorBoundary>
+      <IntlProvider locale={locale} messages={messages[locale]}>
+        {/* Permissions provider must be before AppLoading because it waits for
         permissions before showing main app screen */}
-      <PermissionsProvider>
-        <AppLoading>
-          <AppProvider>
-            <AppContainer
-              persistNavigationState={persistNavigationState}
-              loadNavigationState={loadNavigationState}
-            />
-          </AppProvider>
-        </AppLoading>
-      </PermissionsProvider>
-    </IntlProvider>
-  </ErrorBoundary>
-);
+        <PermissionsProvider>
+          <AppLoading>
+            <AppProvider>
+              <AppContainer
+                persistNavigationState={persistNavigationState}
+                loadNavigationState={loadNavigationState}
+              />
+            </AppProvider>
+          </AppLoading>
+        </PermissionsProvider>
+      </IntlProvider>
+    </ErrorBoundary>
+  );
+};
 
 export default App;
 
