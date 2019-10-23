@@ -45,6 +45,11 @@ const m = defineMessages({
     id: "screens.Observation.ObservationView.alertFooter",
     defaultMessage: "Sent from Mapeo",
     description: "Footer for shared observations message"
+  },
+  observation: {
+    id: "screens.Observation.ObservationView.observation",
+    defaultMessage: "Observation",
+    description: "Default name of observation with no matching preset"
   }
 });
 
@@ -178,7 +183,7 @@ const ObservationView = ({
       const options = {
         urls: urls,
         message: msg,
-        subject: t(m.alertHeader)
+        subject: t(m.alertSubject)
       };
       ShareMedia.open(options);
     } else Share.share({ message: msg });
@@ -208,7 +213,7 @@ const ObservationView = ({
           <View style={styles.categoryIconContainer}>
             <CategoryCircleIcon iconId={(preset || {}).icon} size="medium" />
             <Text style={styles.categoryLabel} numberOfLines={1}>
-              {preset ? preset.name : "Observacion"}
+              {preset ? preset.name : t(m.observation)}
             </Text>
           </View>
           {observation.value.tags.notes && observation.value.tags.notes.trim() && (

@@ -4,8 +4,8 @@ import { View, Text, StyleSheet, Easing } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 
 type Props = {
-  title: React.Node,
-  description: React.Node
+  // title: React.Node,
+  // description: React.Node
 };
 
 const Loading = ({ title, description }: Props) => (

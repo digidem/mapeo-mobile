@@ -1,10 +1,11 @@
 // @flow
 import React, { useState, useContext } from "react";
 import utm from "utm";
-import { View, TextInput, StyleSheet, ToastAndroid } from "react-native";
+import { View, TextInput, Text, StyleSheet, ToastAndroid } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
 
 import { BLACK, LIGHT_GREY } from "../lib/styles";
+import HeaderTitle from "../sharedComponents/HeaderTitle";
 import useDraftObservation from "../hooks/useDraftObservation";
 import LocationContext from "../context/LocationContext";
 import type { NavigationProp } from "../types";
@@ -35,6 +36,11 @@ const m = defineMessages({
   northingSuffix: {
     id: "screens.ManualGpsScreen.northingSuffix",
     defaultMessage: "mN"
+  },
+  title: {
+    id: "screens.ManualGpsScreen.title",
+    defaultMessage: "Enter coordinates",
+    description: "title of manual GPS screen"
   }
 });
 
@@ -111,7 +117,9 @@ const ManualGpsScreen = ({ navigation }: Props) => {
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.column}>
-          <FormattedMessage {...m.zoneNumber} style={styles.inputLabel} />
+          <Text style={styles.inputLabel}>
+            <FormattedMessage {...m.zoneNumber} />
+          </Text>
           <TextInput
             placeholder="DD"
             placeholderTextColor="silver"
@@ -124,7 +132,9 @@ const ManualGpsScreen = ({ navigation }: Props) => {
           />
         </View>
         <View style={styles.column}>
-          <FormattedMessage {...m.zoneLetter} style={styles.inputLabel} />
+          <Text style={styles.inputLabel}>
+            <FormattedMessage {...m.zoneLetter} />
+          </Text>
           <TextInput
             placeholder="S"
             placeholderTextColor="silver"
@@ -141,7 +151,9 @@ const ManualGpsScreen = ({ navigation }: Props) => {
       </View>
       <View style={styles.row}>
         <View style={styles.column}>
-          <FormattedMessage {...m.easting} style={styles.inputLabel} />
+          <Text style={styles.inputLabel}>
+            <FormattedMessage {...m.easting} />
+          </Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <TextInput
               autoFocus
@@ -153,11 +165,15 @@ const ManualGpsScreen = ({ navigation }: Props) => {
               style={styles.input}
               value={easting}
             />
-            <FormattedMessage {...m.eastingSuffix} style={styles.suffix} />
+            <Text style={styles.suffix}>
+              <FormattedMessage {...m.eastingSuffix} />
+            </Text>
           </View>
         </View>
         <View style={styles.column}>
-          <FormattedMessage {...m.northing} style={styles.inputLabel} />
+          <Text style={styles.inputLabel}>
+            <FormattedMessage {...m.northing} />
+          </Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <TextInput
               placeholder="XXXXXX"
@@ -168,7 +184,9 @@ const ManualGpsScreen = ({ navigation }: Props) => {
               style={styles.input}
               value={northing}
             />
-            <FormattedMessage {...m.northingSuffix} style={styles.suffix} />
+            <Text style={styles.suffix}>
+              <FormattedMessage {...m.northingSuffix} />
+            </Text>
           </View>
         </View>
       </View>
@@ -177,7 +195,11 @@ const ManualGpsScreen = ({ navigation }: Props) => {
 };
 
 ManualGpsScreen.navigationOptions = ({ navigation }: any) => ({
-  title: "Coordenadas UTM",
+  headerTitle: (
+    <HeaderTitle>
+      <FormattedMessage {...m.title} />
+    </HeaderTitle>
+  ),
   headerLeft: HeaderLeft,
   headerRight: (
     <IconButton onPress={navigation.getParam("handleSavePress")}>

@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import debug from "debug";
 import { NavigationActions } from "react-navigation";
 import { useFocusState, useNavigation } from "react-navigation-hooks";
@@ -31,6 +31,7 @@ const CameraScreen = () => {
   const focusState = useFocusState();
   const [, { newDraft }] = useDraftObservation();
   const navigation = useNavigation();
+  const { permissions } = React.useContext(PermissionsContext);
 
   const handleAddPress = React.useCallback(
     (e: any, capture: CapturePromise) => {
@@ -47,14 +48,13 @@ const CameraScreen = () => {
 
   return (
     <View style={styles.container}>
-      <PermissionsContext.Consumer>
-        {({ permissions }) => {
-          if (permissions[PERMISSIONS.CAMERA] !== RESULTS.GRANTED)
-            return <FormattedMessage {...m.noCameraAccess} />;
-          if (focusState.isBlurred || focusState.isFocusing) return null;
-          return <CameraView onAddPress={handleAddPress} />;
-        }}
-      </PermissionsContext.Consumer>
+      {permissions[PERMISSIONS.CAMERA] !== RESULTS.GRANTED ? (
+        <Text>
+          <FormattedMessage {...m.noCameraAccess} />
+        </Text>
+      ) : focusState.isBlurred || focusState.isFocusing ? null : (
+        <CameraView onAddPress={handleAddPress} />
+      )}
       <HomeHeader />
     </View>
   );

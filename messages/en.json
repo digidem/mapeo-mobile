@@ -1,10 +1,26 @@
 {
+  "AppContainer.EditHeader.discardCancel": {
+    "description": "Button on dialog to keep editing (cancelling close action)",
+    "message": "Continue editing"
+  },
+  "AppContainer.EditHeader.discardContent": {
+    "description": "Button on dialog to close without saving",
+    "message": "Discard without saving"
+  },
+  "AppContainer.EditHeader.discardTitle": {
+    "description": "Title of dialog that shows when closing an observation without saving",
+    "message": "Discard observation?"
+  },
   "screens.AddPhoto.cancel": {
     "message": "Cancel"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "No access to camera"
+  },
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "Choose what is happening"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -46,6 +62,10 @@
   "screens.ManualGpsScreen.northingSuffix": {
     "message": "mN"
   },
+  "screens.ManualGpsScreen.title": {
+    "description": "title of manual GPS screen",
+    "message": "Enter coordinates"
+  },
   "screens.ManualGpsScreen.zoneLetter": {
     "message": "Zone Letter"
   },
@@ -64,9 +84,45 @@
     "description": "Placeholder text for fields on an observation which are not answered",
     "message": "No answer"
   },
+  "screens.Observation.ObservationView.observation": {
+    "description": "Default name of observation with no matching preset",
+    "message": "Observation"
+  },
+  "screens.Observation.cancel": {
+    "description": "Button to cancel delete of observation",
+    "message": "Cancel"
+  },
+  "screens.Observation.confirm": {
+    "description": "Button to confirm delete of observation",
+    "message": "Yes, delete"
+  },
+  "screens.Observation.deleteTitle": {
+    "description": "Title of dialog asking confirmation to delete an observation",
+    "message": "Delete observation?"
+  },
+  "screens.Observation.notFound": {
+    "description": "Message shown when an observation is not found",
+    "message": "Observation not found"
+  },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
     "message": "{current} of {total}"
+  },
+  "screens.ObservationDetails.done": {
+    "description": "Button text when all questions are complete",
+    "message": "Done"
+  },
+  "screens.ObservationDetails.nextQuestion": {
+    "description": "Button text to navigate to next question",
+    "message": "Next"
+  },
+  "screens.ObservationDetails.title": {
+    "description": "Title of observation details screen showing question number and total",
+    "message": "Question {current} of {total}"
+  },
+  "screens.ObservationEdit.BottomSheet.addLabel": {
+    "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
+    "message": "Add…"
   },
   "screens.ObservationEdit.ObservationEditView.changePreset": {
     "description": "Button to change a category / preset",
@@ -80,6 +136,10 @@
     "description": "Button label to add details",
     "message": "Add Details"
   },
+  "screens.ObservationEdit.ObservationEditView.observation": {
+    "description": "Name of observation when no preset matches",
+    "message": "Observation"
+  },
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
     "message": "Add Photo"
@@ -88,9 +148,73 @@
     "description": "Shown in new observation screen whilst looking for GPS",
     "message": "Searching…"
   },
+  "screens.ObservationEdit.SaveButton.keepWaiting": {
+    "description": "Button to cancel save and continue waiting for GPS",
+    "message": "Continue waiting"
+  },
+  "screens.ObservationEdit.SaveButton.manualEntry": {
+    "description": "Button to manually enter GPS coordinates",
+    "message": "Manual Coords"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsDesc": {
+    "description": "Description in dialog when trying to save with no GPS coords",
+    "message": "This observation does not have a location. You can continue waiting for a GPS signal, save the observation without a location, or enter coordinates manually"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsTitle": {
+    "description": "Title of dialog when trying to save with no GPS coords",
+    "message": "No GPS signal"
+  },
+  "screens.ObservationEdit.SaveButton.saveAnyway": {
+    "description": "Button to save regardless of GPS state",
+    "message": "Save"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsDesc": {
+    "description": "Description in dialog when trying to save with low GPS accuracy.",
+    "message": "GPS accuracy is low. You can continue waiting for better accuracy, save the observation with low accuracy, or enter coordinates manually"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsTitle": {
+    "description": "Title of dialog when trying to save with low GPS accuracy.",
+    "message": "Weak GPS signal"
+  },
+  "screens.ObservationEdit.editTitle": {
+    "description": "screen title for edit observation screen",
+    "message": "Edit Observation"
+  },
+  "screens.ObservationEdit.newTitle": {
+    "description": "screen title for new observation screen",
+    "message": "New Observation"
+  },
+  "screens.ObservationList.observationListTitle": {
+    "description": "Title of screen with list of observations",
+    "message": "Observations"
+  },
   "screens.ObservationsList.ObservationListItem.defaultObservationName": {
     "description": "Default name for an observation that does not match a preset",
     "message": "Observation"
+  },
+  "screens.ObservationsList.error": {
+    "description": "message shown when there is an unexpected error when loading observations",
+    "message": "Error loading observations. Try quitting and restarting Mapeo."
+  },
+  "screens.ObservationsList.loading": {
+    "description": "message shown whilst observations are loading",
+    "message": "Loading… this can take a while after synchronizing with a new device"
+  },
+  "screens.ServerStatus.errorDesc": {
+    "description": "Description when there the Mapeo Core server crashes",
+    "message": "You can try force-restarting the app, but there may be something that needs fixing. Really sorry about this, making apps is hard."
+  },
+  "screens.ServerStatus.errorTitle": {
+    "description": "Title of message when there the Mapeo Core server crashes",
+    "message": "Oh dear, something is broken in the Mapeo database."
+  },
+  "screens.ServerStatus.timeoutDesc": {
+    "description": "Description when the server has not responded for 10 seconds",
+    "message": "If you continue to see this message you may need to force-restart Mapeo"
+  },
+  "screens.ServerStatus.timeoutTitle": {
+    "description": "Title of message when the server has not responded for 10 seconds",
+    "message": "Something is up with the Mapeo database"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
@@ -131,6 +255,14 @@
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
     "message": "WiFi:"
+  },
+  "screens.UncaughtError.errorDesc": {
+    "description": "Description when there is an uncaught message in the app",
+    "message": "Really sorry about this, something unexpected went wrong, and it's our fault not yours. Try restarting the app to see if that fixes things."
+  },
+  "screens.UncaughtError.errorTitle": {
+    "description": "Title of message when there is an uncaught message in the app",
+    "message": "Unexpected Error"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "No GPS"

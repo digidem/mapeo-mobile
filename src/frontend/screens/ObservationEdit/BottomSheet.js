@@ -1,8 +1,18 @@
 // @flow
 import * as React from "react";
 import { Keyboard, View, StyleSheet, Text } from "react-native";
+import { defineMessages, FormattedMessage } from "react-intl";
 
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
+
+const m = defineMessages({
+  addLabel: {
+    id: "screens.ObservationEdit.BottomSheet.addLabel",
+    defaultMessage: "Add…",
+    description:
+      "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)"
+  }
+});
 
 type Props = {
   items: Array<{|
@@ -31,7 +41,7 @@ const KeyboardAccessory = ({ onPress, icons }) => (
   <TouchableNativeFeedback onPress={onPress}>
     <View style={styles.accessoryContainer}>
       <Text numberOfLines={1} style={styles.accessoryLabel}>
-        Agregar…
+        <FormattedMessage {...m.addLabel} />
       </Text>
       <View style={styles.accessoryIconContainer}>
         {icons.map((icon, idx) => (
@@ -45,7 +55,7 @@ const KeyboardAccessory = ({ onPress, icons }) => (
 );
 
 class BottomSheet extends React.Component<Props, State> {
-  _subs: Array<*> = [];
+  _subs: Array<any> = [];
   state = {
     keyboardVisible: false
   };

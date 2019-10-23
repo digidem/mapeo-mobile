@@ -44,7 +44,9 @@ const AddPhotoScreen = ({ navigation }: NavigationScreenConfigProps) => {
       <TouchableNativeFeedback
         style={styles.cancelButton}
         onPress={handleCancelPress}>
-        <FormattedMessage {...m.cancel} style={styles.cancelButtonLabel} />
+        <Text style={styles.cancelButtonLabel}>
+          <FormattedMessage {...m.cancel} />
+        </Text>
       </TouchableNativeFeedback>
     </View>
   );

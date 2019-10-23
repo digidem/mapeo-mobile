@@ -45,6 +45,11 @@ const m = defineMessages({
     id: "screens.ObservationEdit.ObservationEditView.detailsButton",
     defaultMessage: "Add Details",
     description: "Button label to add details"
+  },
+  observation: {
+    id: "screens.ObservationEdit.ObservationEditView.observation",
+    defaultMessage: "Observation",
+    description: "Name of observation when no preset matches"
   }
 });
 
@@ -59,7 +64,9 @@ const LocationView = ({
 }) => (
   <View style={styles.locationContainer}>
     {longitude == null || latitude == null ? (
-      <FormattedMessage {...m.searching} />
+      <Text>
+        <FormattedMessage {...m.searching} />
+      </Text>
     ) : (
       <>
         <MaterialIcons
@@ -96,7 +103,7 @@ const CategoryView = ({
       <View style={styles.categoryIcon}>
         <CategoryCircleIcon iconId={preset.icon} />
       </View>
-      <Text style={styles.categoryName}>{preset.name || "Observación"}</Text>
+      <Text style={styles.categoryName}>{preset.name || t(m.observation)}</Text>
       <TextButton
         containerStyle={styles.changeButton}
         textStyle={styles.changeButtonText}
@@ -151,7 +158,7 @@ export const ObservationEdit = ({
   const bottomSheetItems = [
     {
       icon: <CameraIcon />,
-      label: t(m.cameraButton),
+      label: t(m.photoButton),
       onPress: onPressCamera
     }
   ];

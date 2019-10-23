@@ -1,10 +1,25 @@
 // @flow
 import React, { useCallback } from "react";
+import { defineMessages, FormattedMessage } from "react-intl";
 
 import ObservationEditView from "./ObservationEditView";
 import SaveButton from "./SaveButton";
+import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import useDraftObservation from "../../hooks/useDraftObservation";
 import type { NavigationProp } from "../../types";
+
+const m = defineMessages({
+  editTitle: {
+    id: "screens.ObservationEdit.editTitle",
+    defaultMessage: "Edit Observation",
+    description: "screen title for edit observation screen"
+  },
+  newTitle: {
+    id: "screens.ObservationEdit.newTitle",
+    defaultMessage: "New Observation",
+    description: "screen title for new observation screen"
+  }
+});
 
 const ObservationEdit = ({ navigation }: { navigation: NavigationProp }) => {
   const handleCategoryPress = useCallback(() => {
@@ -49,7 +64,15 @@ ObservationEdit.navigationOptions = ({
 }: {
   navigation: NavigationProp
 }) => ({
-  title: navigation.getParam("observationId") ? "Editar" : "Nueva Observación",
+  headerTitle: (
+    <HeaderTitle>
+      {navigation.getParam("observationId") ? (
+        <FormattedMessage {...m.editTitle} />
+      ) : (
+        <FormattedMessage {...m.newTitle} />
+      )}
+    </HeaderTitle>
+  ),
   headerRight: <SaveButton navigation={navigation} />
 });
 

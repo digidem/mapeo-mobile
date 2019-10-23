@@ -2,6 +2,7 @@
 import { fromLatLon } from "utm";
 import format from "date-fns/format";
 import esLocale from "date-fns/locale/es";
+import enLocale from "date-fns/locale/en";
 
 import type { LocationContextType } from "../context/LocationContext";
 import type {
@@ -115,7 +116,7 @@ export function formatDate(date: string | number | Date): string {
   if (typeof date === "string" || typeof date === "number") {
     date = new Date(date);
   }
-  return format(date, "D [de] MMMM [de] YYYY HH:mm", { locale: esLocale });
+  return format(date, "D MMMM YYYY HH:mm", { locale: enLocale });
 }
 
 export function formatCoords({

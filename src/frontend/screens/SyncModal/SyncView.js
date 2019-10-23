@@ -56,11 +56,9 @@ const Header = ({ onClosePress }: HeaderProps) => (
     <IconButton onPress={onClosePress}>
       <CloseIcon color="white" />
     </IconButton>
-    <FormattedMessage
-      {...m.syncHeader}
-      numberOfLines={1}
-      style={styles.title}
-    />
+    <Text numberOfLines={1} style={styles.title}>
+      <FormattedMessage {...m.syncHeader} />
+    </Text>
   </View>
 );
 
@@ -69,7 +67,10 @@ const WifiBar = ({ onPress, ssid, deviceName }) => (
     <View style={styles.wifiBar}>
       <WifiIcon />
       <Text style={styles.wifiBarText} numberOfLines={1}>
-        <FormattedMessage {...m.wifi} style={styles.bold} /> {ssid}
+        <Text style={styles.bold}>
+          <FormattedMessage {...m.wifi} />
+        </Text>{" "}
+        {ssid}
       </Text>
       <Text style={styles.deviceName}>{deviceName}</Text>
     </View>
@@ -84,8 +85,12 @@ const NoWifiBox = ({ onPress }) => (
           <WifiOffIcon size={50} />
         </View>
         <View style={styles.noWifiTextContainer}>
-          <FormattedMessage {...m.noWifiTitle} style={styles.infoHeader} />
-          <FormattedMessage {...m.noWifiDesc} style={styles.infoSubheader} />
+          <Text style={styles.infoHeader}>
+            <FormattedMessage {...m.noWifiTitle} />
+          </Text>
+          <Text style={styles.infoSubheader}>
+            <FormattedMessage {...m.noWifiDesc} />
+          </Text>
         </View>
       </View>
     </View>
@@ -97,8 +102,12 @@ const SearchingBox = () => (
     <View style={styles.searchingBoxInner}>
       <DotIndicator />
       <View style={styles.searchingTextContainer}>
-        <FormattedMessage {...m.searchingTitle} style={styles.infoHeader} />
-        <FormattedMessage {...m.searchingDesc} style={styles.infoSubheader} />
+        <Text style={styles.infoHeader}>
+          <FormattedMessage {...m.searchingTitle} />
+        </Text>
+        <Text style={styles.infoSubheader}>
+          <FormattedMessage {...m.searchingDesc} />
+        </Text>
       </View>
     </View>
   </View>

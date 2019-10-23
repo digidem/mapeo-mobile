@@ -25,12 +25,9 @@ const NavButton = ({ name, onPress }) => (
 const QuestionNavBar = ({ current, total, onNext, onPrev }) => (
   <View style={styles.container}>
     <NavButton name="arrow-back" onPress={onPrev} />
-    <FormattedMessage
-      {...m.questionPage}
-      values={{ current, total }}
-      numberOfLines={1}
-      style={styles.text}
-    />
+    <Text numberOfLines={1} style={styles.text}>
+      <FormattedMessage {...m.questionPage} values={{ current, total }} />
+    </Text>
     <NavButton name="arrow-forward" onPress={onNext} />
   </View>
 );

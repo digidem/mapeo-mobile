@@ -60,7 +60,9 @@ const GpsModalHeader = ({ onClose, variant }: HeaderProps) => (
     <IconButton onPress={onClose}>
       <CloseIcon color="white" />
     </IconButton>
-    <FormattedMessage {...m.gpsHeader} numberOfLines={1} style={styles.title} />
+    <Text numberOfLines={1} style={styles.title}>
+      <FormattedMessage {...m.gpsHeader} />
+    </Text>
   </View>
 );
 
@@ -86,20 +88,26 @@ const GpsModal = ({ navigation }: Props) => {
         variant={getLocationStatus(location)}
       />
       <View style={styles.infoArea}>
-        <FormattedMessage {...m.lastUpdate} style={styles.sectionTitle} />
+        <Text style={styles.sectionTitle}>
+          <FormattedMessage {...m.lastUpdate} />
+        </Text>
         <DateDistance
           style={styles.rowValue}
           date={new Date(getLastUpdateText(location))}
         />
         {location.position && (
           <>
-            <FormattedMessage {...m.locationUTM} style={styles.sectionTitle} />
+            <Text style={styles.sectionTitle}>
+              <FormattedMessage {...m.locationUTM} />
+            </Text>
             <FormattedCoords
               lon={location.position.coords.longitude}
               lat={location.position.coords.latitude}
               style={styles.rowValue}
             />
-            <FormattedMessage {...m.details} style={styles.sectionTitle} />
+            <Text style={styles.sectionTitle}>
+              <FormattedMessage {...m.details} />
+            </Text>
             {Object.entries(location.position.coords).map(([key, value]) => (
               <GpsModalRow
                 key={key}
@@ -111,10 +119,9 @@ const GpsModal = ({ navigation }: Props) => {
         )}
         {location.provider && (
           <>
-            <FormattedMessage
-              {...m.locationSensors}
-              style={styles.sectionTitle}
-            />
+            <Text style={styles.sectionTitle}>
+              <FormattedMessage {...m.locationSensors} />
+            </Text>
             {Object.entries(location.provider).map(([key, value]) => (
               <GpsModalRow
                 key={key}

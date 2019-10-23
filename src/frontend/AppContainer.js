@@ -8,6 +8,8 @@ import {
   // $FlowFixMe
   StackViewTransitionConfigs
 } from "react-navigation";
+import { defineMessages, useIntl } from "react-intl";
+
 import MapScreen from "./screens/MapScreen";
 import CameraScreen from "./screens/CameraScreen";
 import ObservationList from "./screens/ObservationsList";
@@ -25,6 +27,25 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { BackIcon, CloseIcon } from "./sharedComponents/icons";
 import type { NavigationProp } from "./types";
 
+const m = defineMessages({
+  discardTitle: {
+    id: "AppContainer.EditHeader.discardTitle",
+    defaultMessage: "Discard observation?",
+    description:
+      "Title of dialog that shows when closing an observation without saving"
+  },
+  discardConfirm: {
+    id: "AppContainer.EditHeader.discardContent",
+    defaultMessage: "Discard without saving",
+    description: "Button on dialog to close without saving"
+  },
+  discardCancel: {
+    id: "AppContainer.EditHeader.discardCancel",
+    defaultMessage: "Continue editing",
+    description: "Button on dialog to keep editing (cancelling close action)"
+  }
+});
+
 type Props = {
   navigation: NavigationProp
 };
@@ -35,38 +56,36 @@ const HeaderLeft = ({ navigation }: Props) => (
   </IconButton>
 );
 
-class EditHeaderLeft extends React.Component<Props> {
-  handleCloseRequest() {
-    const { navigation } = this.props;
-    Alert.alert("¿Quieres descartar observación?", undefined, [
+const EditHeaderLeft = ({ navigation }: Props) => {
+  const { formatMessage: t } = useIntl();
+  const parent = navigation.dangerouslyGetParent();
+  const isClose =
+    (isTopOfStack(navigation) ||
+      navigation.state.routeName === "ObservationEdit") &&
+    parent &&
+    // $FlowFixMe
+    parent.state.routeName === "NewObservation";
+
+  const handleCloseRequest = () => {
+    Alert.alert(t(m.discardTitle), undefined, [
       {
-        text: "Descartar observación",
+        text: t(m.discardConfirm),
         onPress: () => navigation.navigate("Home")
       },
       {
-        text: "Seguir editando",
+        text: t(m.discardCancel),
         onPress: () => {}
       }
     ]);
-  }
-  render() {
-    const { navigation } = this.props;
-    const parent = navigation.dangerouslyGetParent();
-    const isClose =
-      (isTopOfStack(navigation) ||
-        navigation.state.routeName === "ObservationEdit") &&
-      parent &&
-      // $FlowFixMe
-      parent.state.routeName === "NewObservation";
-    return (
-      <IconButton
-        onPress={() => (isClose ? this.handleCloseRequest() : navigation.pop())}
-      >
-        {isClose ? <CloseIcon /> : <BackIcon />}
-      </IconButton>
-    );
-  }
-}
+  };
+
+  return (
+    <IconButton
+      onPress={() => (isClose ? handleCloseRequest() : navigation.pop())}>
+      {isClose ? <CloseIcon /> : <BackIcon />}
+    </IconButton>
+  );
+};
 
 const defaultNavigationOptions = {
   headerStyle: {
