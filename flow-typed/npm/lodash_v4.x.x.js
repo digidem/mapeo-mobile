@@ -1,5 +1,6 @@
-// flow-typed signature: 96e97db746b98786dbff6de500b4b862
-// flow-typed version: 5fe02f287a/lodash_v4.x.x/flow_>=v0.63.x <=v0.103.x
+// flow-typed signature: 87df1eda75f7ee0bdeaa1bb9d77252bb
+// flow-typed version: 5fefb63264/lodash_v4.x.x/flow_>=v0.63.x <=v0.103.x
+
 
 declare module "lodash" {
   declare type Path = $ReadOnlyArray<string | number> | string | number;
@@ -450,7 +451,7 @@ declare module "lodash" {
     unzip<T>(array?: ?$ReadOnlyArray<T>): Array<T>;
     unzipWith<T>(array: ?Array<T>, iteratee?: ?Iteratee<T>): Array<T>;
     without<T>(array?: ?$ReadOnlyArray<T>, ...values?: Array<?T>): Array<T>;
-    xor<T>(...array: Array<Array<T>>): Array<T>;
+    xor<T>(...array: $ReadOnlyArray<$ReadOnlyArray<T>>): Array<T>;
     //Workaround until (...parameter: T, parameter2: U) works
     xorBy<T>(a1?: ?$ReadOnlyArray<T>, iteratee?: ?ValueOnlyIteratee<T>): Array<T>;
     xorBy<T>(
