@@ -1,15 +1,23 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { defineMessages, FormattedMessage } from "react-intl";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
+
+const m = defineMessages({
+  questionPage: {
+    id: "screens.ObservationDetails.QuestionNavBar.questionPage",
+    defaultMessage: "{current} of {total}",
+    description: "Indicates which question we are on and total questions"
+  }
+});
 
 const NavButton = ({ name, onPress }) => (
   <TouchableNativeFeedback
     onPress={onPress}
     style={styles.iconCircle}
-    background={TouchableNativeFeedback.Ripple("gray", true)}
-  >
+    background={TouchableNativeFeedback.Ripple("gray", true)}>
     <MaterialIcon name={name} size={30} />
   </TouchableNativeFeedback>
 );
@@ -18,7 +26,7 @@ const QuestionNavBar = ({ current, total, onNext, onPrev }) => (
   <View style={styles.container}>
     <NavButton name="arrow-back" onPress={onPrev} />
     <Text numberOfLines={1} style={styles.text}>
-      {current} of {total}
+      <FormattedMessage {...m.questionPage} values={{ current, total }} />
     </Text>
     <NavButton name="arrow-forward" onPress={onNext} />
   </View>

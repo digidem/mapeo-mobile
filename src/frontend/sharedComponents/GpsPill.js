@@ -1,33 +1,41 @@
 // @flow
-import React from "react";
+import * as React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { withNavigation, withNavigationFocus } from "react-navigation";
+import { defineMessages, useIntl } from "react-intl";
+import { useIsFocused, useNavigation } from "react-navigation-hooks";
 
 import LocationContext from "../context/LocationContext";
 import { GpsIcon } from "./icons";
 import { getLocationStatus } from "../lib/utils";
 import type { LocationStatus } from "../lib/utils";
 
+const m = defineMessages({
+  noGps: {
+    id: "sharedComponents.GpsPill.noGps",
+    defaultMessage: "No GPS"
+  },
+  searching: {
+    id: "sharedComponents.GpsPill.searching",
+    defaultMessage: "Searching…"
+  }
+});
+
 const ERROR_COLOR = "#FF0000";
 
 type Props = {
   onPress: null | (() => void),
   precision?: number,
-  variant: LocationStatus,
-  isFocused: boolean
+  variant: LocationStatus
 };
 
-type State = {
-  precision?: number
-};
-
-export class GpsPill extends React.PureComponent<Props, State> {
-  render() {
-    const { onPress, variant, precision, isFocused } = this.props;
+export const GpsPill = React.memo<Props>(
+  ({ onPress, variant, precision }: Props) => {
+    const isFocused = useIsFocused();
+    const { formatMessage: t } = useIntl();
     let text: string;
-    if (variant === "error") text = "No GPS";
+    if (variant === "error") text = t(m.noGps);
     else if (variant === "searching" || typeof precision === "undefined")
-      text = "Searching...";
+      text = t(m.searching);
     else text = `± ${precision} m`;
     return (
       <TouchableOpacity onPress={onPress}>
@@ -35,8 +43,7 @@ export class GpsPill extends React.PureComponent<Props, State> {
           style={[
             styles.container,
             variant === "error" ? styles.error : undefined
-          ]}
-        >
+          ]}>
           <View style={styles.icon}>
             {isFocused && <GpsIcon variant={variant} />}
           </View>
@@ -47,28 +54,30 @@ export class GpsPill extends React.PureComponent<Props, State> {
       </TouchableOpacity>
     );
   }
-}
-
-const ConnectedGpsPill = ({ navigation, isFocused }) => (
-  <LocationContext.Consumer>
-    {location => {
-      const locationStatus = getLocationStatus(location);
-      const precision = location.position && location.position.coords.accuracy;
-      return (
-        <GpsPill
-          onPress={() => navigation.navigate("GpsModal")}
-          precision={
-            typeof precision === "number" ? Math.round(precision) : undefined
-          }
-          variant={locationStatus}
-          isFocused={isFocused}
-        />
-      );
-    }}
-  </LocationContext.Consumer>
 );
 
-export default withNavigation(withNavigationFocus(ConnectedGpsPill));
+const ConnectedGpsPill = () => {
+  const navigation = useNavigation();
+  const location = React.useContext(LocationContext);
+  const locationStatus = getLocationStatus(location);
+  const precision = location.position && location.position.coords.accuracy;
+
+  const handlePress = React.useCallback(() => {
+    navigation.navigate("GpsModal");
+  }, [navigation]);
+
+  return (
+    <GpsPill
+      onPress={handlePress}
+      precision={
+        typeof precision === "number" ? Math.round(precision) : undefined
+      }
+      variant={locationStatus}
+    />
+  );
+};
+
+export default ConnectedGpsPill;
 
 const styles = StyleSheet.create({
   container: {

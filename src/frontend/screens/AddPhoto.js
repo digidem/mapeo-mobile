@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { TouchableNativeFeedback } from "../sharedComponents/Touchables";
 import debug from "debug";
+import { defineMessages, FormattedMessage } from "react-intl";
 
 import CameraView from "../sharedComponents/CameraView";
 import useDraftObservation, {
@@ -10,6 +11,13 @@ import useDraftObservation, {
 } from "../hooks/useDraftObservation";
 
 import type { NavigationScreenConfigProps } from "react-navigation";
+
+const m = defineMessages({
+  cancel: {
+    id: "screens.AddPhoto.cancel",
+    defaultMessage: "Cancel"
+  }
+});
 
 const log = debug("AddPhotoScreen");
 
@@ -35,9 +43,10 @@ const AddPhotoScreen = ({ navigation }: NavigationScreenConfigProps) => {
       <CameraView onAddPress={handleAddPress} />
       <TouchableNativeFeedback
         style={styles.cancelButton}
-        onPress={handleCancelPress}
-      >
-        <Text style={styles.cancelButtonLabel}>Cancelar</Text>
+        onPress={handleCancelPress}>
+        <Text style={styles.cancelButtonLabel}>
+          <FormattedMessage {...m.cancel} />
+        </Text>
       </TouchableNativeFeedback>
     </View>
   );

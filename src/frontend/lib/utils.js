@@ -1,7 +1,5 @@
 // @flow
 import { fromLatLon } from "utm";
-import format from "date-fns/format";
-import esLocale from "date-fns/locale/es";
 
 import type { LocationContextType } from "../context/LocationContext";
 import type {
@@ -109,13 +107,6 @@ export function filterPhotosFromAttachments(
       acc.push({ id: att.id, type: att.type });
     return acc;
   }, []);
-}
-
-export function formatDate(date: string | number | Date): string {
-  if (typeof date === "string" || typeof date === "number") {
-    date = new Date(date);
-  }
-  return format(date, "D [de] MMMM [de] YYYY HH:mm", { locale: esLocale });
 }
 
 export function formatCoords({

@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
 import { Text, StyleSheet, Platform } from "react-native";
+import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 
 import TextButton from "../../sharedComponents/TextButton";
 import QuestionContainer from "./QuestionContainer";
@@ -9,6 +10,25 @@ import Field from "../ObservationEdit/Field";
 import useDraftObservation from "../../hooks/useDraftObservation";
 import type { NavigationProp } from "../../types";
 
+const m = defineMessages({
+  nextQuestion: {
+    id: "screens.ObservationDetails.nextQuestion",
+    defaultMessage: "Next",
+    description: "Button text to navigate to next question"
+  },
+  done: {
+    id: "screens.ObservationDetails.done",
+    defaultMessage: "Done",
+    description: "Button text when all questions are complete"
+  },
+  title: {
+    id: "screens.ObservationDetails.title",
+    defaultMessage: "Question {current} of {total}",
+    description:
+      "Title of observation details screen showing question number and total"
+  }
+});
+
 type Props = {
   navigation: NavigationProp
 };
@@ -16,20 +36,24 @@ type Props = {
 const DetailsTitle = ({ navigation }: Props) => {
   const [{ preset = {} }] = useDraftObservation();
   return (
-    <Text
-      numberOfLines={1}
-      style={styles.title}
-    >{`Pregunta ${navigation.getParam("question")} de ${
-      (preset.fields || []).length
-    }`}</Text>
+    <Text numberOfLines={1} style={styles.title}>
+      <FormattedMessage
+        {...m.title}
+        values={{
+          current: navigation.getParam("question"),
+          total: (preset.fields || []).length
+        }}
+      />
+    </Text>
   );
 };
 
 const DetailsHeaderRight = ({ navigation }: Props) => {
+  const { formatMessage: t } = useIntl();
   const [{ preset = {} }] = useDraftObservation();
   const current = navigation.getParam("question");
   const isLastQuestion = current >= (preset.fields || []).length;
-  const buttonText = isLastQuestion ? "Listo" : "Sigue";
+  const buttonText = isLastQuestion ? t(m.done) : t(m.nextQuestion);
   const onPress = () =>
     isLastQuestion
       ? navigation.pop(current)

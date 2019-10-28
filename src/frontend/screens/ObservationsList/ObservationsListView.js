@@ -1,9 +1,26 @@
 // @flow
 import React, { useMemo } from "react";
 import { View, Text, FlatList, Dimensions, StyleSheet } from "react-native";
+import { defineMessages, FormattedMessage } from "react-intl";
 
 import ObservationListItem from "./ObservationListItem";
 import type { Observation } from "../../context/ObservationsContext";
+
+const m = defineMessages({
+  loading: {
+    id: "screens.ObservationsList.loading",
+    defaultMessage:
+      "Loading… this can take a while after synchronizing with a new device",
+    description: "message shown whilst observations are loading"
+  },
+  error: {
+    id: "screens.ObservationsList.error",
+    defaultMessage:
+      "Error loading observations. Try quitting and restarting Mapeo.",
+    description:
+      "message shown when there is an unexpected error when loading observations"
+  }
+});
 
 const OBSERVATION_CELL_HEIGHT = 80;
 
@@ -47,8 +64,7 @@ const ObservationsListView = ({
     return (
       <View style={styles.messageContainer}>
         <Text>
-          Cargando... puede demorar varios minutors después de la primera
-          sincronización
+          <FormattedMessage {...m.loading} />
         </Text>
       </View>
     );
@@ -57,7 +73,7 @@ const ObservationsListView = ({
     return (
       <View style={styles.messageContainer}>
         <Text>
-          Error a cargar observaciones, volver a abrir Mapeo para ver si corrige
+          <FormattedMessage {...m.error} />
         </Text>
       </View>
     );

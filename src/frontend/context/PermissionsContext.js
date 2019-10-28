@@ -56,10 +56,7 @@ const initialPermissions: PermissionsType = Object.values(PERMISSIONS).reduce(
   {}
 );
 
-const {
-  Provider,
-  Consumer: PermissionsConsumer
-} = React.createContext<PermissionsContextType>({
+const PermissionsContext = React.createContext<PermissionsContextType>({
   requestPermissions: () => {},
   permissions: initialPermissions
 });
@@ -68,7 +65,7 @@ const {
  * The PermissionsProvider is responsible for requesting app permissions and
  * stores the current status of the permissions granted by the user.
  */
-class PermissionsProvider extends React.Component<
+export class PermissionsProvider extends React.Component<
   Props,
   PermissionsContextType
 > {
@@ -93,17 +90,21 @@ class PermissionsProvider extends React.Component<
   }
 
   render() {
-    return <Provider value={this.state}>{this.props.children}</Provider>;
+    return (
+      <PermissionsContext.Provider value={this.state}>
+        {this.props.children}
+      </PermissionsContext.Provider>
+    );
   }
 }
 
 export const withPermissions = (WrappedComponent: any) => {
   const WithPermissions = (props: any) => (
-    <PermissionsConsumer>
+    <PermissionsContext.Consumer>
       {permissionsContext => (
         <WrappedComponent {...props} {...permissionsContext} />
       )}
-    </PermissionsConsumer>
+    </PermissionsContext.Consumer>
   );
   WithPermissions.displayName = `WithPermissions(${getDisplayName(
     WrappedComponent
@@ -111,7 +112,6 @@ export const withPermissions = (WrappedComponent: any) => {
   return hoistStatics(WithPermissions, WrappedComponent);
 };
 
-export default {
-  Provider: PermissionsProvider,
-  Consumer: PermissionsConsumer
-};
+export default PermissionsContext;
+
+export const PermissionsConsumer = PermissionsContext.Consumer;

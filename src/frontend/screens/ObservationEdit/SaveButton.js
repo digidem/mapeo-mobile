@@ -2,12 +2,54 @@
 import React, { useEffect } from "react";
 import { Alert } from "react-native";
 import debug from "debug";
+import { defineMessages, useIntl } from "react-intl";
 
 import IconButton from "../../sharedComponents/IconButton";
 import { SaveIcon } from "../../sharedComponents/icons";
 import useDraftObservation from "../../hooks/useDraftObservation";
 import type { ObservationValue } from "../../context/ObservationsContext";
 import type { NavigationProp } from "../../types";
+
+const m = defineMessages({
+  noGpsTitle: {
+    id: "screens.ObservationEdit.SaveButton.noGpsTitle",
+    defaultMessage: "No GPS signal",
+    description: "Title of dialog when trying to save with no GPS coords"
+  },
+  noGpsDesc: {
+    id: "screens.ObservationEdit.SaveButton.noGpsDesc",
+    defaultMessage:
+      "This observation does not have a location. You can continue waiting for a GPS signal, save the observation without a location, or enter coordinates manually",
+    description: "Description in dialog when trying to save with no GPS coords"
+  },
+  weakGpsTitle: {
+    id: "screens.ObservationEdit.SaveButton.weakGpsTitle",
+    defaultMessage: "Weak GPS signal",
+    description: "Title of dialog when trying to save with low GPS accuracy."
+  },
+  weakGpsDesc: {
+    id: "screens.ObservationEdit.SaveButton.weakGpsDesc",
+    defaultMessage:
+      "GPS accuracy is low. You can continue waiting for better accuracy, save the observation with low accuracy, or enter coordinates manually",
+    description:
+      "Description in dialog when trying to save with low GPS accuracy."
+  },
+  saveAnyway: {
+    id: "screens.ObservationEdit.SaveButton.saveAnyway",
+    defaultMessage: "Save",
+    description: "Button to save regardless of GPS state"
+  },
+  manualEntry: {
+    id: "screens.ObservationEdit.SaveButton.manualEntry",
+    defaultMessage: "Manual Coords",
+    description: "Button to manually enter GPS coordinates"
+  },
+  keepWaiting: {
+    id: "screens.ObservationEdit.SaveButton.keepWaiting",
+    defaultMessage: "Continue waiting",
+    description: "Button to cancel save and continue waiting for GPS"
+  }
+});
 
 const MINIMUM_ACCURACY = 10;
 const log = debug("SaveButton");
@@ -18,20 +60,21 @@ type Props = {
 
 const SaveButton = ({ navigation }: Props) => {
   const [{ value, savingStatus }, { saveDraft }] = useDraftObservation();
+  const { formatMessage: t } = useIntl();
 
   const confirmationOptions = [
     {
-      text: "Guardar",
+      text: t(m.saveAnyway),
       onPress: saveDraft,
       style: "default"
     },
     {
-      text: "Ingresar manualmente",
+      text: t(m.manualEntry),
       onPress: () => navigation.navigate("ManualGpsScreen"),
       style: "cancel"
     },
     {
-      text: "Seguir esperando",
+      text: t(m.keepWaiting),
       onPress: () => log("Cancelled save")
     }
   ];
@@ -50,18 +93,10 @@ const SaveButton = ({ navigation }: Props) => {
       saveDraft();
     } else if (!hasLocation) {
       // Observation doesn't have a location
-      Alert.alert(
-        "Sin señal del GPS",
-        "Esta observación no tiene ubicación. Puedes seguir esperando el GPS, o guardarlo sin ubicación",
-        confirmationOptions
-      );
+      Alert.alert(t(m.noGpsTitle), t(m.noGpsDesc), confirmationOptions);
     } else {
       // Inaccurate GPS reading
-      Alert.alert(
-        "Señal débil del GPS",
-        "La precisión del GPS está baja. Puedes seguir esperando que la precisión mejore, o guardar como está",
-        confirmationOptions
-      );
+      Alert.alert(t(m.weakGpsTitle), t(m.weakGpsDesc), confirmationOptions);
     }
   };
 

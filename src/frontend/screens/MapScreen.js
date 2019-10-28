@@ -48,9 +48,7 @@ const MapScreen = ({ navigation }: Props) => {
 
   let viewContent;
   if (loading || status === "loading") {
-    viewContent = (
-      <Loading title="Cargando…" description="Cargando mapa y observaciones" />
-    );
+    viewContent = <Loading />;
   } else if (error || status === "error") {
     viewContent = <Text>Error</Text>;
   } else {

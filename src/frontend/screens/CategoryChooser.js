@@ -8,13 +8,22 @@ import {
   FlatList,
   Text
 } from "react-native";
-// import debug from "debug";
+import { defineMessages, FormattedMessage } from "react-intl";
 
 import PresetsContext, { type Preset } from "../context/PresetsContext";
+import HeaderTitle from "../sharedComponents/HeaderTitle";
 import useDraftObservation from "../hooks/useDraftObservation";
 import { CategoryCircleIcon } from "../sharedComponents/icons";
 
 import type { NavigationProp } from "../types";
+
+const m = defineMessages({
+  categoryTitle: {
+    id: "screens.CategoryChooser.categoryTitle",
+    defaultMessage: "Choose what is happening",
+    description: "Title for category chooser screen"
+  }
+});
 
 const ROW_HEIGHT = 120;
 const MIN_COL_WIDTH = 100;
@@ -40,8 +49,7 @@ const Item = React.memo(
       style={styles.cellTouchable}
       onPress={() => onSelect(item)}
       activeOpacity={1}
-      underlayColor="#000033"
-    >
+      underlayColor="#000033">
       <View style={styles.cellContainer}>
         <CategoryCircleIcon iconId={item.icon} size="medium" />
         <Text numberOfLines={3} style={styles.categoryName}>
@@ -100,7 +108,11 @@ const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
 };
 
 CategoryChooser.navigationOptions = {
-  title: "Eligir que cosa pasa"
+  headerTitle: (
+    <HeaderTitle>
+      <FormattedMessage {...m.categoryTitle} />
+    </HeaderTitle>
+  )
 };
 
 export default CategoryChooser;

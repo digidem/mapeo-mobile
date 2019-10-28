@@ -64,3 +64,6 @@ package-lock.json
 
 # CocoaPods
 /ios/Pods/
+
+# Translation files
+/translations

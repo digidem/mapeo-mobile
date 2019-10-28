@@ -1,8 +1,8 @@
 // @flow
 import React from "react";
 import { ScrollView, View, Text, StyleSheet, TextInput } from "react-native";
-import { withNavigationFocus } from "react-navigation";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 
 import LocationField from "../../sharedComponents/LocationField";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
@@ -20,6 +20,39 @@ import { BLACK, LIGHT_GREY, LIGHT_BLUE } from "../../lib/styles";
 
 import type { PresetWithFields } from "../../context/PresetsContext";
 
+const m = defineMessages({
+  searching: {
+    id: "screens.ObservationEdit.ObservationEditView.searching",
+    defaultMessage: "Searching…",
+    description: "Shown in new observation screen whilst looking for GPS"
+  },
+  changePreset: {
+    id: "screens.ObservationEdit.ObservationEditView.changePreset",
+    defaultMessage: "Change",
+    description: "Button to change a category / preset"
+  },
+  descriptionPlaceholder: {
+    id: "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder",
+    defaultMessage: "What is happening here?",
+    description: "Placeholder for description/notes field"
+  },
+  photoButton: {
+    id: "screens.ObservationEdit.ObservationEditView.photoButton",
+    defaultMessage: "Add Photo",
+    description: "Button label for adding photo"
+  },
+  detailsButton: {
+    id: "screens.ObservationEdit.ObservationEditView.detailsButton",
+    defaultMessage: "Add Details",
+    description: "Button label to add details"
+  },
+  observation: {
+    id: "screens.ObservationEdit.ObservationEditView.observation",
+    defaultMessage: "Observation",
+    description: "Name of observation when no preset matches"
+  }
+});
+
 const LocationView = ({
   longitude,
   latitude,
@@ -31,7 +64,9 @@ const LocationView = ({
 }) => (
   <View style={styles.locationContainer}>
     {longitude == null || latitude == null ? (
-      <Text>Searching...</Text>
+      <Text>
+        <FormattedMessage {...m.searching} />
+      </Text>
     ) : (
       <>
         <MaterialIcons
@@ -61,39 +96,45 @@ const CategoryView = ({
 }: {
   preset?: PresetWithFields,
   onPress: () => void
-}) => (
-  <View style={styles.categoryContainer}>
-    <View style={styles.categoryIcon}>
-      <CategoryCircleIcon iconId={preset.icon} />
-    </View>
-    <Text style={styles.categoryName}>{preset.name || "Observación"}</Text>
-    <TextButton
-      containerStyle={styles.changeButton}
-      textStyle={styles.changeButtonText}
-      onPress={onPress}
-      title="Cambiar"
-    />
-  </View>
-);
-
-const DescriptionField = withNavigationFocus(({ isFocused }) => (
-  <Field fieldKey="notes">
-    {({ value, onChange }) => (
-      <TextInput
-        style={styles.textInput}
-        value={value}
-        onChangeText={onChange}
-        placeholder="¿Qué está pasando aquí?"
-        placeholderTextColor="silver"
-        underlineColorAndroid="transparent"
-        multiline
-        autoFocus={false}
-        scrollEnabled={false}
-        textContentType="none"
+}) => {
+  const { formatMessage: t } = useIntl();
+  return (
+    <View style={styles.categoryContainer}>
+      <View style={styles.categoryIcon}>
+        <CategoryCircleIcon iconId={preset.icon} />
+      </View>
+      <Text style={styles.categoryName}>{preset.name || t(m.observation)}</Text>
+      <TextButton
+        containerStyle={styles.changeButton}
+        textStyle={styles.changeButtonText}
+        onPress={onPress}
+        title={t(m.changePreset)}
       />
-    )}
-  </Field>
-));
+    </View>
+  );
+};
+
+const DescriptionField = () => {
+  const { formatMessage: t } = useIntl();
+  return (
+    <Field fieldKey="notes">
+      {({ value, onChange }) => (
+        <TextInput
+          style={styles.textInput}
+          value={value}
+          onChangeText={onChange}
+          placeholder={t(m.descriptionPlaceholder)}
+          placeholderTextColor="silver"
+          underlineColorAndroid="transparent"
+          multiline
+          autoFocus={false}
+          scrollEnabled={false}
+          textContentType="none"
+        />
+      )}
+    </Field>
+  );
+};
 
 type Props = {
   onPressCategory: () => any,
@@ -113,10 +154,11 @@ export const ObservationEdit = ({
   onPressPhoto
 }: Props) => {
   const [{ photos }] = useDraftObservation();
+  const { formatMessage: t } = useIntl();
   const bottomSheetItems = [
     {
       icon: <CameraIcon />,
-      label: "Agregar Foto",
+      label: t(m.photoButton),
       onPress: onPressCamera
     }
   ];
@@ -124,7 +166,7 @@ export const ObservationEdit = ({
     // Only show the option to add details if preset fields are defined.
     bottomSheetItems.push({
       icon: <DetailsIcon />,
-      label: "Llenar Detalles",
+      label: t(m.detailsButton),
       onPress: onPressDetails
     });
   }
@@ -132,8 +174,7 @@ export const ObservationEdit = ({
     <View style={styles.container}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.scrollViewContent}
-      >
+        contentContainerStyle={styles.scrollViewContent}>
         {isNew && (
           <LocationField locked={!isNew}>
             {fieldProps => <LocationView {...fieldProps} />}
