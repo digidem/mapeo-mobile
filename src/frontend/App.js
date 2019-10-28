@@ -75,6 +75,18 @@ class ErrorBoundary extends React.Component<
   }
 }
 
+const formats = {
+  date: {
+    long: {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    }
+  }
+};
+
 const App = () => {
   const [locale, setLocale] = React.useState(
     (Localization.locale || "en").split("-")[0]
@@ -92,7 +104,11 @@ const App = () => {
 
   return (
     <ErrorBoundary>
-      <IntlProvider locale={locale} messages={messages[locale]}>
+      <IntlProvider
+        locale={locale}
+        messages={messages[locale]}
+        formats={formats}
+        onError={e => console.warn(e)}>
         {/* Permissions provider must be before AppLoading because it waits for
         permissions before showing main app screen */}
         <PermissionsProvider>
