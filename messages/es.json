@@ -80,6 +80,10 @@
     "description": "Subject-line for shared observations",
     "message": "Alerta de Mapeo"
   },
+  "screens.Observation.ObservationView.delete": {
+    "description": "Button to delete an observation",
+    "message": "Borrar"
+  },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
     "message": "Sin respuesta"
@@ -87,6 +91,10 @@
   "screens.Observation.ObservationView.observation": {
     "description": "Default name of observation with no matching preset",
     "message": "Observación"
+  },
+  "screens.Observation.ObservationView.share": {
+    "description": "Button to share an observation",
+    "message": "Compartir"
   },
   "screens.Observation.cancel": {
     "description": "Button to cancel delete of observation",

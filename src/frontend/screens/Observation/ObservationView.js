@@ -50,6 +50,16 @@ const m = defineMessages({
     id: "screens.Observation.ObservationView.observation",
     defaultMessage: "Observation",
     description: "Default name of observation with no matching preset"
+  },
+  share: {
+    id: "screens.Observation.ObservationView.share",
+    defaultMessage: "Share",
+    description: "Button to share an observation"
+  },
+  delete: {
+    id: "screens.Observation.ObservationView.delete",
+    defaultMessage: "Delete",
+    description: "Button to delete an observation"
   }
 });
 
@@ -251,13 +261,13 @@ const ObservationView = ({
         <View style={styles.buttonContainer}>
           <Button
             iconName="share"
-            title="Compartir"
+            title={t(m.share)}
             color="#3366FF"
             onPress={handleShare}
           />
           <Button
             iconName="delete"
-            title="Borrar"
+            title={t(m.delete)}
             color={RED}
             onPress={onPressDelete}
           />
