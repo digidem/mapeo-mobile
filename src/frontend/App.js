@@ -88,9 +88,7 @@ const formats = {
 };
 
 const App = () => {
-  const [locale, setLocale] = React.useState(
-    (Localization.locale || "en").split("-")[0]
-  );
+  const [locale, setLocale] = React.useState(Localization.locale || "en");
   const appState = useAppState();
 
   React.useEffect(() => {
@@ -98,15 +96,21 @@ const App = () => {
     // will only happen when the app comes back into the foreground
     if (Platform.OS !== "android" || appState !== "active") return;
     Localization.getLocalizationAsync()
-      .then(({ locale }) => setLocale((locale || "en").split("-")[0]))
+      .then(({ locale }) => setLocale(locale || "en"))
       .catch(() => {});
   }, [appState]);
+
+  // Add fallbacks for non-regional locales
+  const localeMessages = {
+    ...messages[locale.split("-")[0]],
+    ...(messages[locale] || {})
+  };
 
   return (
     <ErrorBoundary>
       <IntlProvider
         locale={locale}
-        messages={messages[locale]}
+        messages={localeMessages}
         formats={formats}
         onError={e => console.warn(e)}>
         {/* Permissions provider must be before AppLoading because it waits for
