@@ -12,11 +12,7 @@ import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
 import mapIcon from "../../images/observation-icon.png";
-import {
-  formatDate,
-  formatCoords,
-  filterPhotosFromAttachments
-} from "../../lib/utils";
+import { formatCoords, filterPhotosFromAttachments } from "../../lib/utils";
 import {
   BLACK,
   RED,
@@ -173,7 +169,7 @@ const ObservationView = ({
   onPressPhoto,
   onPressDelete
 }: ODVProps) => {
-  const { formatMessage: t } = useIntl();
+  const { formatMessage: t, formatDate } = useIntl();
   const { lat, lon, attachments } = observation.value;
   // Currently only show photo attachments
   const photos = filterPhotosFromAttachments(attachments);
@@ -183,7 +179,8 @@ const ObservationView = ({
     const msg = formatShareMessage({
       observation,
       preset,
-      footer: t(m.alertFooter)
+      footer: t(m.alertFooter),
+      createdAt: formatDate(observation.created_at, { format: "long" })
     });
 
     if (value.attachments && value.attachments.length) {
@@ -217,7 +214,9 @@ const ObservationView = ({
           </View>
         )}
         <View>
-          <Text style={styles.time}>{formatDate(observation.created_at)}</Text>
+          <Text style={styles.time}>
+            {formatDate(observation.created_at, { format: "long" })}
+          </Text>
         </View>
         <View style={styles.section}>
           <View style={styles.categoryIconContainer}>
@@ -282,16 +281,18 @@ export default ObservationView;
 function formatShareMessage({
   observation,
   preset,
-  footer
+  footer,
+  createdAt
 }: {
   observation: Observation,
   preset?: PresetWithFields,
-  footer: string
+  footer: string,
+  createdAt: string
 }) {
   const { value } = observation;
   let msg = "";
   if (preset && preset.name) msg += "— *" + preset.name + "* —\n";
-  msg += formatDate(observation.created_at) + "\n";
+  msg += createdAt + "\n";
   if (value.lat != null && value.lon != null)
     msg += formatCoords({ lon: value.lon, lat: value.lat }) + "\n";
   if (value.tags.notes) msg += "\n" + value.tags.notes + "\n";
