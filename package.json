@@ -47,6 +47,7 @@
     "debug": "^4.1.1",
     "eslint-plugin-jest": "^22.6.4",
     "expo-camera": "^7.0.0",
+    "expo-localization": "^7.0.0",
     "expo-location": "^7.0.0",
     "expo-sensors": "^7.0.0",
     "hoist-non-react-statics": "^3.3.0",
