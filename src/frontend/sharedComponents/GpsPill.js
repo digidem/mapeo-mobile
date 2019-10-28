@@ -30,7 +30,6 @@ type Props = {
 
 export const GpsPill = React.memo<Props>(
   ({ onPress, variant, precision }: Props) => {
-    console.log(m.noGps);
     const isFocused = useIsFocused();
     const { formatMessage: t } = useIntl();
     let text: string;
