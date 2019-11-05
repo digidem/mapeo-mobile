@@ -18,6 +18,9 @@ import bugsnag from "../lib/logger";
 MapboxGL.setAccessToken(
   "pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
 );
+// Forces Mapbox to always be in connected state, rather than reading system
+// connectivity state
+MapboxGL.setConnected(true);
 
 const mapboxStyles = {
   observation: {
@@ -209,6 +212,7 @@ class MapView extends React.Component<Props, State> {
     const initialZoom = this.initialPosition ? 8 : 0;
     const locationServicesEnabled =
       location.provider && location.provider.locationServicesEnabled;
+
     return (
       <>
         <MapboxGL.MapView
