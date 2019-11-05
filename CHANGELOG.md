@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0-alpha.8](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.7...v1.2.0-alpha.8) (2019-11-05)
+
+### Bug Fixes
+
+- Allow publishing on Google Play Store by enabling 64-bit builds ([4cc4107](https://github.com/digidem/mapeo-mobile/commit/4cc41071622fc4cba9562a36bf4e79d9e698c6da))
+- Fix map not loading (black screen) when device is offline ([20038b7](https://github.com/digidem/mapeo-mobile/commit/20038b7ac474f5cc47a9ac9aa8e4bb1f07ea378b))
+
 ## [1.2.0-alpha.7](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.6...v1.2.0-alpha.7) (2019-10-28)
 
 ### Features
