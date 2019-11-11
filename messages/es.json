@@ -43,11 +43,11 @@
     "message": "Ubicación UTM"
   },
   "screens.GpsModal.no": {
-    "description": "\"No\" if a location sensor is active",
+    "description": "if a location sensor is active yes/no",
     "message": "No"
   },
   "screens.GpsModal.yes": {
-    "description": "\"Yes\" if a location sensor is active",
+    "description": "if a location sensor is active yes/no",
     "message": "Sí"
   },
   "screens.ManualGpsScreen.easting": {
