@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0-alpha.9](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.8...v1.2.0-alpha.9) (2019-11-12)
+
+### Features
+
+- Allow select_one options to be deselected ([#263](https://github.com/digidem/mapeo-mobile/issues/263)) ([d8757a8](https://github.com/digidem/mapeo-mobile/commit/d8757a8c03304180af2ff960f51012ddb5ee796b))
+- Corrections to strings & translations ([e0213ec](https://github.com/digidem/mapeo-mobile/commit/e0213ec5489fe8ce8d93b5f5669c7c3c3c854a0b))
+- Support select-multiple details questions ([#262](https://github.com/digidem/mapeo-mobile/issues/262)) ([87c98fb](https://github.com/digidem/mapeo-mobile/commit/87c98fbb0af5138d05f3c595eb26e405502c9be3))
+
 ## [1.2.0-alpha.8](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.7...v1.2.0-alpha.8) (2019-11-05)
 
 ### Bug Fixes
