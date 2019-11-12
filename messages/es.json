@@ -20,7 +20,7 @@
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
-    "message": "Eligir que cosa pasa"
+    "message": "Elegir que cosa pasa"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -32,7 +32,7 @@
   },
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
-    "message": "Ultima actualización"
+    "message": "Última actualización"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
