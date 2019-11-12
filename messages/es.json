@@ -16,7 +16,7 @@
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
-    "message": "Sin accesso al cámera"
+    "message": "Sin acceso al cámara"
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
@@ -43,11 +43,11 @@
     "message": "Ubicación UTM"
   },
   "screens.GpsModal.no": {
-    "description": "\"No\" if a location sensor is active",
+    "description": "if a location sensor is active yes/no",
     "message": "No"
   },
   "screens.GpsModal.yes": {
-    "description": "\"Yes\" if a location sensor is active",
+    "description": "if a location sensor is active yes/no",
     "message": "Sí"
   },
   "screens.ManualGpsScreen.easting": {
@@ -106,7 +106,7 @@
   },
   "screens.Observation.deleteTitle": {
     "description": "Title of dialog asking confirmation to delete an observation",
-    "message": "¿Queres borrar la observación?"
+    "message": "¿Quieres borrar la observación?"
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
@@ -202,15 +202,15 @@
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
-    "message": "Error a cargar observaciones, volver a abrir Mapeo para ver si corrige"
+    "message": "Error a cargar observaciones, volver a abrir Mapeo para ver si lo corrige."
   },
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
-    "message": "Cargando... puede demorar varios minutors después de la primera sincronización"
+    "message": "Cargando… esto puede tomar un tiempo después de sincronizar con un nuevo dispositivo"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
-    "message": "Disculpas, hay un problema con Mapeo. Puedes reiniciar Mapeo, pero si sigue este mensaje hay un problema inesperado y necesitas un actualización de Mapeo"
+    "message": "Disculpas, hay un problema con Mapeo. Puedes reiniciar Mapeo, pero si sigue este mensaje hay un problema inesperado y necesitas un actualización de Mapeo."
   },
   "screens.ServerStatus.errorTitle": {
     "description": "Title of message when there the Mapeo Core server crashes",
@@ -234,7 +234,7 @@
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
-    "message": "Sync."
+    "message": "Sync"
   },
   "screens.SyncModal.PeerList.syncLabel": {
     "description": "Label for last sync datetime",
@@ -242,7 +242,7 @@
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
-    "message": "Abrir la configuración y conectar a una red Wi-Fi para sincronizar"
+    "message": "Abrir la configuración y conectar a una red WiFi para sincronizar"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
@@ -250,7 +250,7 @@
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
-    "message": "Asegurar que los otros equipos están encendidos y conectados a la misma red de Wi-Fi"
+    "message": "Asegúrese de que otros dispositivos están encendidos y conectados a la misma red WiFi"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
