@@ -25,8 +25,7 @@ type RadioItemProps = {
 const RadioItem = ({ checked, onPress, label, style }: RadioItemProps) => (
   <TouchableNativeFeedback
     onPress={onPress}
-    background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
-  >
+    background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}>
     <View style={style}>
       <MaterialIcon
         name={checked ? "radio-button-checked" : "radio-button-unchecked"}
@@ -50,7 +49,7 @@ const SelectOne = ({
     {options.map(convertItem).map((item, index) => (
       <RadioItem
         key={item.value}
-        onPress={() => onChange(item.value)}
+        onPress={() => onChange(value === item.value ? null : item.value)}
         checked={item.value === value}
         label={item.label}
         style={[styles.radioContainer, index === 0 ? styles.noBorder : {}]}
