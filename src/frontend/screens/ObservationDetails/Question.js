@@ -2,6 +2,7 @@
 import React from "react";
 
 import SelectOne from "./SelectOne";
+import SelectMultiple from "./SelectMultiple";
 import TextArea from "./TextArea";
 
 import type { Field } from "../../context/PresetsContext";
@@ -17,6 +18,8 @@ const Question = (props: QuestionProps) => {
   const { field, ...other } = props;
   if (field.type === "select_one" && Array.isArray(field.options)) {
     return <SelectOne {...other} field={field} />;
+  } else if (field.type === "select_multiple" && Array.isArray(field.options)) {
+    return <SelectMultiple {...other} field={field} />;
   } else return <TextArea {...props} />;
 };
 

@@ -142,6 +142,8 @@ const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
 
 const FieldView = ({ label, answer, style }) => {
   const { formatMessage: t } = useIntl();
+  // Select multiple answers are an array, so we join them with commas
+  const formattedAnswer = Array.isArray(answer) ? answer.join(", ") : answer;
   return (
     <View style={style}>
       <Text style={styles.fieldTitle}>{label}</Text>
@@ -150,7 +152,7 @@ const FieldView = ({ label, answer, style }) => {
           styles.fieldAnswer,
           { color: answer === undefined ? MEDIUM_GREY : DARK_GREY }
         ]}>
-        {answer || t(m.noAnswer)}
+        {formattedAnswer || t(m.noAnswer)}
       </Text>
     </View>
   );
