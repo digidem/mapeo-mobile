@@ -11,15 +11,33 @@ const mkdirp = require("mkdirp");
 const rnBridge = require("rn-bridge");
 const throttle = require("lodash/throttle");
 const main = require("./index");
+const fs = require("fs");
 
 const log = debug("mapeo-core:server");
 
 module.exports = createServer;
 
 function createServer({ privateStorage, sharedStorage }) {
+  let projectKey;
+  try {
+    const metadata = JSON.parse(
+      fs.readFileSync(
+        path.join(sharedStorage, "presets/default/metadata.json"),
+        "utf8"
+      )
+    );
+    projectKey = metadata.projectKey;
+    if (projectKey)
+      log("Found projectKey starting with ", projectKey.slice(0, 4));
+    else log("No projectKey found, using default 'mapeo' key");
+  } catch (err) {
+    // An undefined projectKey is fine, the fallback is to sync with any other mapeo
+    log("No projectKey found, using default 'mapeo' key");
+  }
   const indexDb = level(path.join(privateStorage, "index"));
   const coreDb = kappa(path.join(privateStorage, "db"), {
-    valueEncoding: "json"
+    valueEncoding: "json",
+    encriptionKey: projectKey
   });
   function createStorage(name, cb) {
     process.nextTick(
