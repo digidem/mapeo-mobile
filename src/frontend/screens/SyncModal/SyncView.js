@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { View, ScrollView, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import { defineMessages, FormattedMessage } from "react-intl";
 
@@ -130,9 +130,7 @@ const SyncView = ({
   deviceName,
   onWifiPress
 }: Props) => (
-  <ScrollView
-    style={styles.container}
-    contentContainerStyle={styles.scrollViewContent}>
+  <View style={styles.root}>
     <Header onClosePress={onClosePress} />
     {ssid ? (
       <>
@@ -146,7 +144,7 @@ const SyncView = ({
     ) : (
       <NoWifiBox onPress={onWifiPress} />
     )}
-  </ScrollView>
+  </View>
 );
 
 export default SyncView;
@@ -168,12 +166,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginRight: 60
   },
-  container: {
+  root: {
     flex: 1,
-    backgroundColor: "#2348B2"
-  },
-  scrollViewContent: {
-    flex: 1,
+    backgroundColor: "#2348B2",
     flexDirection: "column",
     justifyContent: "flex-start"
   },

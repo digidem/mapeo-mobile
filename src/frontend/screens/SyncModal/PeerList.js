@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { defineMessages, useIntl } from "react-intl";
 
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
@@ -103,7 +103,7 @@ const SyncButton = ({ progress, onPress, status }) => {
   return (
     <TouchableNativeFeedback
       style={styles.syncTouchable}
-      onPress={onPress}
+      onPress={status === peerStatus.ERROR ? undefined : onPress}
       hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
       <View style={[styles.syncButtonBase, style]}>
         <View style={styles.iconContainer}>{icon}</View>
@@ -163,11 +163,11 @@ const PeerList = ({
   peers: Array<Peer>,
   onSyncPress: (id: string) => any
 }) => (
-  <View style={styles.container}>
+  <ScrollView style={styles.container}>
     {peers.map(peer => (
       <PeerItemMemoized {...peer} key={peer.id} onSyncPress={onSyncPress} />
     ))}
-  </View>
+  </ScrollView>
 );
 
 export default PeerList;
