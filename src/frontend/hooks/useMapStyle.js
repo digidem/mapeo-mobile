@@ -1,8 +1,11 @@
 // @flow
 import { useEffect, useState, useMemo } from "react";
 import MapboxGL from "@react-native-mapbox-gl/maps";
-import api from "../api";
 import ky from "ky";
+
+import api from "../api";
+import { normalizeStyleURL } from "../lib/mapbox";
+import config from "../../config.json";
 
 const fallbackStyleURL = MapboxGL.StyleURL.Outdoors;
 
@@ -16,7 +19,9 @@ export default function useMapstyleURL(styleId: string = "default") {
     let didCancel = false;
     // try offline first, if that fails then try online fallback url
     const getStylePromise = offlineFailed
-      ? ky.get(fallbackStyleURL).json()
+      ? ky
+          .get(normalizeStyleURL(fallbackStyleURL, config.mapboxAccessToken))
+          .json()
       : api.getMapStyle(styleId);
     const styleURL = offlineFailed
       ? fallbackStyleURL

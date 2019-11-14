@@ -14,10 +14,9 @@ import type {
 } from "../context/LocationContext";
 import type { ObservationsMap } from "../context/ObservationsContext";
 import bugsnag from "../lib/logger";
+import config from "../../config.json";
 
-MapboxGL.setAccessToken(
-  "pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
-);
+MapboxGL.setAccessToken(config.mapboxAccessToken);
 // Forces Mapbox to always be in connected state, rather than reading system
 // connectivity state
 MapboxGL.setConnected(true);

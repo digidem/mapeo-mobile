@@ -7,7 +7,6 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { defineMessages, useIntl } from "react-intl";
 
 import api from "../../api";
-import MapStyleProvider from "../../sharedComponents/MapStyleProvider";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
@@ -24,6 +23,8 @@ import {
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
+import useMapStyle from "../../hooks/useMapStyle";
+import Loading from "../../sharedComponents/Loading";
 
 const m = defineMessages({
   noAnswer: {
@@ -102,29 +103,30 @@ const MapFeatures = ({ lat, lon }: MapProps) => {
   );
 };
 
-const InsetMapView = ({ lon, lat }: MapProps) => (
-  <MapStyleProvider>
-    {styleURL => (
-      <MapboxGL.MapView
-        style={styles.map}
-        zoomEnabled={false}
-        logoEnabled={false}
-        scrollEnabled={false}
-        pitchEnabled={false}
-        rotateEnabled={false}
-        compassEnabled={false}
-        styleURL={styleURL}>
-        <MapboxGL.Images images={{ observation: mapIcon }} />
-        <MapboxGL.Camera
-          centerCoordinate={[lon, lat]}
-          zoomLevel={15}
-          animationMode="moveTo"
-        />
-        <MapFeatures lat={lat} lon={lon} />
-      </MapboxGL.MapView>
-    )}
-  </MapStyleProvider>
-);
+const InsetMapView = ({ lon, lat }: MapProps) => {
+  const [{ styleURL, loading, error }] = useMapStyle();
+  if (loading) return <Loading />;
+  if (error) return <Text>Map Error</Text>;
+  return (
+    <MapboxGL.MapView
+      style={styles.map}
+      zoomEnabled={false}
+      logoEnabled={false}
+      scrollEnabled={false}
+      pitchEnabled={false}
+      rotateEnabled={false}
+      compassEnabled={false}
+      styleURL={styleURL}>
+      <MapboxGL.Images images={{ observation: mapIcon }} />
+      <MapboxGL.Camera
+        centerCoordinate={[lon, lat]}
+        zoomLevel={15}
+        animationMode="moveTo"
+      />
+      <MapFeatures lat={lat} lon={lon} />
+    </MapboxGL.MapView>
+  );
+};
 
 const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
   <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
