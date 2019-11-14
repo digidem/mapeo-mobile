@@ -109,7 +109,15 @@ function createServer({ privateStorage, sharedStorage }) {
   function sendPeerUpdateToRN(peer) {
     const peers = mapeoCore.sync.peers().map(peer => {
       const { connection, ...rest } = peer;
-      return rest;
+      return {
+        ...rest,
+        channel: Buffer.isBuffer(rest.channel)
+          ? rest.channel.toString("hex")
+          : undefined,
+        swarmId: Buffer.isBuffer(rest.swarmId)
+          ? rest.swarmId.toString("hex")
+          : undefined
+      };
     });
     rnBridge.channel.post("peer-update", peers);
   }
