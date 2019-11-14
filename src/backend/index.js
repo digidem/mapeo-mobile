@@ -49,8 +49,14 @@ const bugsnag = createBugsnag({
   releaseStage: releaseStage,
   appVersion: version,
   appType: "server",
-  onUncaughtException: () => status.setState(constants.ERROR),
-  onUnhandledRejection: () => status.setState(constants.ERROR)
+  onUncaughtException: err => {
+    log("uncaughtException", err);
+    status.setState(constants.ERROR);
+  },
+  onUnhandledRejection: err => {
+    log("unhandledRejection", err);
+    status.setState(constants.ERROR);
+  }
 });
 
 module.exports.bugsnag = bugsnag;
@@ -82,6 +88,7 @@ rnBridge.channel.on("storagePath", path => {
       sharedStorage: storagePath
     });
   } catch (e) {
+    log("createServer error", e);
     bugsnag.notify(e, {
       severity: "error",
       context: "createServer"
