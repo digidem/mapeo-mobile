@@ -34,7 +34,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run extract-messages && pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "dependencies": {
