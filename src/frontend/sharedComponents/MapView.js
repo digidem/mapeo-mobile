@@ -252,25 +252,23 @@ class MapView extends React.Component<Props, State> {
             compassEnabled={false}
             styleURL={styleURL}
             onRegionDidChange={this.handleRegionDidChange}>
+            <MapboxGL.Camera
+              centerCoordinate={initialCoords}
+              zoomLevel={initialZoom}
+              followUserLocation={isFocused && this.state.following}
+              followUserMode="normal"
+              followZoomLevel={this.getFollowZoomLevel()}
+              animationMode="flyTo"
+              triggerKey={this.state.following}
+            />
+            {locationServicesEnabled && (
+              <MapboxGL.UserLocation visible={isFocused} />
+            )}
             {this.state.hasFinishedLoadingStyle && (
-              <>
-                <MapboxGL.Camera
-                  centerCoordinate={initialCoords}
-                  zoomLevel={initialZoom}
-                  followUserLocation={isFocused && this.state.following}
-                  followUserMode="normal"
-                  followZoomLevel={this.getFollowZoomLevel()}
-                  animationMode="flyTo"
-                  triggerKey={this.state.following}
-                />
-                {locationServicesEnabled && (
-                  <MapboxGL.UserLocation visible={isFocused} />
-                )}
-                <ObservationMapLayer
-                  onPress={this.handleObservationPress}
-                  observations={observations}
-                />
-              </>
+              <ObservationMapLayer
+                onPress={this.handleObservationPress}
+                observations={observations}
+              />
             )}
           </MapboxGL.MapView>
         )}
