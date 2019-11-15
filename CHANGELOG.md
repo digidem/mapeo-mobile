@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0-alpha.11](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.10...v1.2.0-alpha.11) (2019-11-15)
+
+### Bug Fixes
+
+- Fix observations and blue location dot not appearing on map ([b1d52ea](https://github.com/digidem/mapeo-mobile/commit/b1d52eae38d12d31117aa45149c7cbd7225365b6))
+- Show "Add+" button even if map does not load ([9c5d737](https://github.com/digidem/mapeo-mobile/commit/9c5d7372d17b7efef748d97a0874bf3ba8704af7))
+
 ## [1.2.0-alpha.10](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.9...v1.2.0-alpha.10) (2019-11-14)
 
 ### Bug Fixes
