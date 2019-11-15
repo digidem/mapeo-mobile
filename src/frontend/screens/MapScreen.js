@@ -47,25 +47,18 @@ const MapScreen = ({ navigation }: Props) => {
   );
 
   let viewContent;
-  if (loading || status === "loading") {
-    viewContent = <Loading />;
-  } else if (error || status === "error") {
-    viewContent = <Text>Error</Text>;
-  } else {
-    viewContent = (
+  if (status === "loading") return <Loading />;
+  if (status === "error") return <Text>Error</Text>;
+
+  return (
+    <View style={{ flex: 1 }}>
       <MapView
         location={location}
         observations={observations}
         onAddPress={handleAddPress}
         onPressObservation={handleObservationPress}
-        styleURL={styleURL}
+        styleURL={loading ? "loading" : error ? "error" : styleURL}
       />
-    );
-  }
-
-  return (
-    <View style={{ flex: 1 }}>
-      {viewContent}
       <HomeHeader navigation={navigation} />
     </View>
   );
