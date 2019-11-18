@@ -22,6 +22,27 @@ import type { Observation as ServerObservation } from "mapeo-schema";
 export type ServerStatus = $Keys<typeof STATUS>;
 export type Subscription = { remove: () => any };
 
+export type PeerError =
+  | {|
+      topic: "replication-error",
+      message: string,
+      lastCompletedDate?: number
+    |}
+  | {
+      topic: "replication-error",
+      message: string,
+      code: "ERR_VERSION_MISMATCH",
+      usVersion: string,
+      themVersion: string
+    }
+  | {
+      topic: "replication-error",
+      message: string,
+      code: "ERR_CLIENT_MISMATCH",
+      usClient: string,
+      themClient: string
+    };
+
 export type ServerPeer = {
   id: string,
   name: string,
@@ -50,12 +71,7 @@ export type ServerPeer = {
         message: number,
         lastCompletedDate?: number
       |}
-    | {|
-        topic: "replication-error",
-        // Error message
-        message: string,
-        lastCompletedDate?: number
-      |}
+    | PeerError
     | {|
         topic: "replication-started",
         lastCompletedDate?: number

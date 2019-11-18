@@ -43,6 +43,11 @@ export function promiseTimeout(
   return Promise.race([promise, timeout]);
 }
 
+export function parseVersionMajor(versionString = "") {
+  const major = Number.parseInt(versionString.split(".")[0]);
+  return isNaN(major) ? 0 : major;
+}
+
 export function getLocationStatus({
   position,
   provider,

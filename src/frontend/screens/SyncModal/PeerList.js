@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import * as React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { defineMessages, useIntl } from "react-intl";
 
@@ -13,6 +13,8 @@ import {
 } from "../../sharedComponents/icons";
 import Progress from "../../sharedComponents/icons/Progress";
 import DateDistance from "../../sharedComponents/DateDistance";
+import type { PeerError } from "../../api";
+import { parseVersionMajor } from "../../lib/utils";
 
 const m = defineMessages({
   syncButton: {
@@ -34,6 +36,24 @@ const m = defineMessages({
     id: "screens.SyncModal.PeerList.syncLabel",
     defaultMessage: "Synced:",
     description: "Label for last sync datetime"
+  },
+  errorTheyNeedUgrade: {
+    id: "screens.SyncModal.PeerList.errorTheyNeedUgrade",
+    defaultMessage: "Incompatible Mapeo",
+    description:
+      "Short message shown under device in sync screen when it is running an incompatible version of Mapeo"
+  },
+  errorWeNeedUgrade: {
+    id: "screens.SyncModal.PeerList.errorTheyNeedUgrade",
+    defaultMessage: "Incompatible Mapeo",
+    description:
+      "Short message shown under device in sync screen when it is running an incompatible version of Mapeo"
+  },
+  errorClientMismatch: {
+    id: "screens.SyncModal.PeerList.errorClientMismatch",
+    defaultMessage: "Not a Mapeo client",
+    description:
+      "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client"
   }
 });
 
@@ -59,7 +79,7 @@ export type Peer = {|
   progress?: number,
   // The time of last completed sync in milliseconds since UNIX Epoch
   lastCompleted?: number,
-  error?: string,
+  error?: PeerError,
   deviceType?: "mobile" | "desktop"
 |};
 
@@ -115,11 +135,18 @@ const SyncButton = ({ progress, onPress, status }) => {
   );
 };
 
+const PeerInfoText = ({ children }: { children: React.Node }) => (
+  <Text numberOfLines={1} style={styles.rowValue}>
+    {children}
+  </Text>
+);
+
 export const PeerItem = ({
   id,
   name,
   status,
   progress,
+  error,
   lastCompleted,
   onSyncPress,
   deviceType
@@ -128,6 +155,34 @@ export const PeerItem = ({
   onSyncPress: (id: string) => any
 }) => {
   const { formatMessage: t } = useIntl();
+
+  let peerInfo = null;
+  if (status === peerStatus.ERROR && error) {
+    if (
+      error.code === "ERR_VERSION_MISMATCH" &&
+      // $FlowFixMe
+      parseVersionMajor(error.themVersion) < parseVersionMajor(error.usVersion)
+    ) {
+      peerInfo = <PeerInfoText>{t(m.errorTheyNeedUgrade)}</PeerInfoText>;
+    } else if (
+      error.code === "ERR_VERSION_MISMATCH" &&
+      // $FlowFixMe
+      parseVersionMajor(error.themVersion) > parseVersionMajor(error.usVersion)
+    ) {
+      peerInfo = <PeerInfoText>{t(m.errorWeNeedUgrade)}</PeerInfoText>;
+    } else if (error.code === "ERR_CLIENT_MISMATCH") {
+      peerInfo = <PeerInfoText>{t(m.errorClientMismatch)}</PeerInfoText>;
+    } else {
+      peerInfo = <PeerInfoText>{error.message}</PeerInfoText>;
+    }
+  } else if (lastCompleted != null) {
+    peerInfo = (
+      <PeerInfoText>
+        {t(m.syncLabel) + " "}
+        <DateDistance date={new Date(lastCompleted)} />
+      </PeerInfoText>
+    );
+  }
   return (
     <View style={styles.row}>
       {deviceType === "desktop" ? (
@@ -139,11 +194,7 @@ export const PeerItem = ({
         <Text numberOfLines={1} style={styles.sectionTitle}>
           {name}
         </Text>
-        {lastCompleted == null ? null : (
-          <Text numberOfLines={1} style={styles.rowValue}>
-            {t(m.syncLabel)} <DateDistance date={new Date(lastCompleted)} />
-          </Text>
-        )}
+        {peerInfo}
       </View>
       <SyncButton
         status={status}
