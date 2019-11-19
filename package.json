@@ -38,6 +38,7 @@
     }
   },
   "dependencies": {
+    "@react-native-community/art": "1.0.2",
     "@react-native-community/async-storage": "^1.5.0",
     "@react-native-community/netinfo": "^4.1.3",
     "@react-native-mapbox-gl/maps": "github:gmaclennan/react-native-mapbox-gl#set-connected",
@@ -69,7 +70,7 @@
     "react-native-keep-awake": "^4.0.0",
     "react-native-linear-gradient": "^2.5.4",
     "react-native-network-info": "^5",
-    "react-native-progress": "^4.0.1",
+    "react-native-progress": "4.0.1",
     "react-native-reanimated": "^1.3.0",
     "react-native-share": "^2.0.0",
     "react-native-splash-screen": "^3.2.0",
