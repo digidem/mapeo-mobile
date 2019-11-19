@@ -18,6 +18,7 @@ import SyncView from "./SyncView";
 import api from "../../api";
 import bugsnag from "../../lib/logger";
 import useAllObservations from "../../hooks/useAllObservations";
+import useMetadata from "../../hooks/useMetadata";
 import { peerStatus } from "./PeerList";
 import { parseVersionMajor } from "../../lib/utils";
 import type { Peer } from "./PeerList";
@@ -72,6 +73,7 @@ const deviceName: string =
 const SyncModal = ({ navigation }: Props) => {
   const { formatMessage: t } = useIntl();
   const [, reload] = useAllObservations();
+  const { projectKey } = useMetadata();
   const [serverPeers, setServerPeers] = React.useState<ServerPeer[]>([]);
   const [syncErrors, setSyncErrors] = React.useState<Map<string, PeerError>>(
     new Map<string, PeerError>()
@@ -180,6 +182,7 @@ const SyncModal = ({ navigation }: Props) => {
       onClosePress={() => navigation.pop()}
       onWifiPress={handleWifiPress}
       onSyncPress={handleSyncPress}
+      projectKey={projectKey}
     />
   );
 };

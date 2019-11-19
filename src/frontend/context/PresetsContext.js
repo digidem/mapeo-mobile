@@ -62,6 +62,9 @@ export type State = {
   presets: PresetsMap,
   // A map of field definitions by id
   fields: FieldsMap,
+  metadata: {
+    projectKey?: string
+  },
   status: Status
 };
 
@@ -71,6 +74,7 @@ const defaultContext = [
   {
     presets: new Map(),
     fields: new Map(),
+    metadata: {},
     status: "loading"
   },
   () => {}
@@ -90,14 +94,15 @@ export const PresetsProvider = ({ children }: Props) => {
   React.useEffect(() => {
     let didCancel = false;
     setState({ ...state, status: "loading" });
-    Promise.all([api.getPresets(), api.getFields()])
-      .then(([presetsList, fieldsList]) => {
+    Promise.all([api.getPresets(), api.getFields(), api.getMetadata()])
+      .then(([presetsList, fieldsList, metadata]) => {
         if (didCancel) return; // if component was unmounted, don't set state
         setState({
           presets: new Map(
             presetsList.filter(filterPointPreset).map(p => [p.id, p])
           ),
           fields: new Map(fieldsList.map(p => [p.id, p])),
+          metadata: metadata,
           status: "success"
         });
       })

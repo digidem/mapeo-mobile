@@ -241,6 +241,12 @@ export function Api({
       );
     },
 
+    getMetadata: function getMetadata(): Promise<{ projectKey?: string }> {
+      return get(`presets/default/metadata.json?${startupTime}`).then(
+        data => data || {}
+      );
+    },
+
     getObservations: function getObservations(): Promise<Observation[]> {
       return get("observations").then(data => data.map(convertFromServer));
     },
@@ -349,12 +355,14 @@ export function Api({
 
     // Start listening for sync peers and advertise with `deviceName`
     syncJoin: function syncJoin(deviceName: string) {
-      req.get(`sync/join?name=${deviceName}`);
+      return onReady().then(() =>
+        nodejs.channel.post("sync-join", { deviceName })
+      );
     },
 
     // Stop listening for sync peers and stop advertising
     syncLeave: function syncLeave() {
-      req.get("sync/leave");
+      return onReady().then(() => nodejs.channel.post("sync-leave"));
     },
 
     // Get a list of discovered sync peers

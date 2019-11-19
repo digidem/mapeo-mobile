@@ -101,6 +101,8 @@ function createServer({ privateStorage, sharedStorage }) {
       mapeoCore.sync.on("peer", throttledSendPeerUpdateToRN);
       mapeoCore.sync.on("down", throttledSendPeerUpdateToRN);
       rnBridge.channel.on("sync-start", startSync);
+      rnBridge.channel.on("sync-join", joinSync);
+      rnBridge.channel.on("sync-leave", leaveSync);
       origListen.apply(server, args);
     });
   };
@@ -152,10 +154,37 @@ function createServer({ privateStorage, sharedStorage }) {
     }
   }
 
+  function joinSync({ deviceName } = {}) {
+    try {
+      if (deviceName) mapeoCore.sync.setName(deviceName);
+      log("Joining swarm", projectKey && projectKey.slice(0, 4));
+      mapeoCore.sync.join(projectKey);
+    } catch (e) {
+      main.bugsnag.notify(e, {
+        severity: "error",
+        context: "sync join"
+      });
+    }
+  }
+
+  function leaveSync() {
+    try {
+      log("Leaving swarm", projectKey && projectKey.slice(0, 4));
+      mapeoCore.sync.leave(projectKey);
+    } catch (e) {
+      main.bugsnag.notify(e, {
+        severity: "error",
+        context: "sync leave"
+      });
+    }
+  }
+
   server.close = function close(cb) {
     mapeoCore.sync.removeListener("peer", throttledSendPeerUpdateToRN);
     mapeoCore.sync.removeListener("down", throttledSendPeerUpdateToRN);
-    rnBridge.channel.removeListener("request-sync", startSync);
+    rnBridge.channel.removeListener("sync-start", startSync);
+    rnBridge.channel.removeListener("sync-join", joinSync);
+    rnBridge.channel.removeListener("sync-leave", leaveSync);
     onReplicationComplete(() => {
       mapeoCore.sync.destroy(() => origClose.call(server, cb));
     });

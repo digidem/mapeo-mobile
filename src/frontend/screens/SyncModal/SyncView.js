@@ -119,7 +119,8 @@ type Props = {
   onWifiPress: () => void,
   deviceName: string,
   peers: Array<Peer>,
-  ssid: null | string
+  ssid: null | string,
+  projectKey?: string
 };
 
 const SyncView = ({
@@ -128,7 +129,8 @@ const SyncView = ({
   peers,
   ssid,
   deviceName,
-  onWifiPress
+  onWifiPress,
+  projectKey
 }: Props) => (
   <View style={styles.root}>
     <Header onClosePress={onClosePress} />
@@ -144,12 +146,20 @@ const SyncView = ({
     ) : (
       <NoWifiBox onPress={onWifiPress} />
     )}
+    {projectKey && (
+      <Text style={styles.projectId}>{projectKey.slice(0, 5)}</Text>
+    )}
   </View>
 );
 
 export default SyncView;
 
 const styles = StyleSheet.create({
+  projectId: {
+    color: "white",
+    padding: 10,
+    textAlign: "center"
+  },
   header: {
     flexGrow: 0,
     flexShrink: 0,
