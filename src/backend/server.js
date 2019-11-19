@@ -37,7 +37,7 @@ function createServer({ privateStorage, sharedStorage }) {
   const indexDb = level(path.join(privateStorage, "index"));
   const coreDb = kappa(path.join(privateStorage, "db"), {
     valueEncoding: "json",
-    encriptionKey: projectKey
+    encryptionKey: projectKey
   });
   function createStorage(name, cb) {
     process.nextTick(
