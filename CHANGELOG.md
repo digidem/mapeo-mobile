@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.0](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.11...v2.0.0-alpha.0) (2019-11-19)
+
+### ⚠ BREAKING CHANGES
+
+- New sync protocol incompatible with Mapeo v1
+
+### Features
+
+- Add error messages for incompatible mapeo versions ([f41f7ba](https://github.com/digidem/mapeo-mobile/commit/f41f7bad303c263ca21ab7e8818f9c130579e70b))
+- Encrypt sync with projectKey ([6916360](https://github.com/digidem/mapeo-mobile/commit/69163607c826d2e11177eb2b2d5b8e8455c2e4e3))
+- Only sync with peers with matching projectKey ([39db7a6](https://github.com/digidem/mapeo-mobile/commit/39db7a6fb0c198819ab350e300729477c40ef0ff))
+
+### Bug Fixes
+
+- Enable sync screen to scroll when there are many sync peers ([4ee34f6](https://github.com/digidem/mapeo-mobile/commit/4ee34f6ceda1102b761a0dce5f98f4f02826b099))
+
+### chore
+
+- New sync protocol incompatible with Mapeo v1 ([dddcecc](https://github.com/digidem/mapeo-mobile/commit/dddcecc16a4acd8ff766d5bdb25bcacd4b14f0be))
+
 ## [1.2.0-alpha.11](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.10...v1.2.0-alpha.11) (2019-11-15)
 
 ### Bug Fixes
