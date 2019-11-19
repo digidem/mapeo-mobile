@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.6](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2019-11-19)
+
+### Bug Fixes
+
+- Pin react-native-community/art version to fix progress animation crashing app ([5e5c4f0](https://github.com/digidem/mapeo-mobile/commit/5e5c4f02ece8dd84763b7e3a8640212981ba4516))
+
 ## [2.0.0-alpha.5](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2019-11-19)
 
 ## [2.0.0-alpha.4](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.3...v2.0.0-alpha.4) (2019-11-19)
