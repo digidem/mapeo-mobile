@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.1](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2019-11-19)
+
+### Bug Fixes
+
+- Add ES translations for sync errors ([b445078](https://github.com/digidem/mapeo-mobile/commit/b44507827b0b04e5969fe6179050e9c88f51f4fd))
+
 ## [2.0.0-alpha.0](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.11...v2.0.0-alpha.0) (2019-11-19)
 
 ### ⚠ BREAKING CHANGES
