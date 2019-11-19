@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.3](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2019-11-19)
+
+### Bug Fixes
+
+- Don't log debug messages by default (console.log slows down react-native a lot) ([93045e8](https://github.com/digidem/mapeo-mobile/commit/93045e84653db2d9bed29c20aa7da41a609af5ac))
+- Reduce frequency of sync updates to every 500ms to increase performance ([308221b](https://github.com/digidem/mapeo-mobile/commit/308221b52857ed3e0edc62ea02e592cf7d396091))
+
 ## [2.0.0-alpha.2](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2019-11-19)
 
 ### Bug Fixes
