@@ -19,7 +19,7 @@
 
 const rnBridge = require("rn-bridge");
 const debug = require("debug");
-debug.enable("mapeo*");
+// debug.enable("mapeo*");
 
 const ServerStatus = require("./status");
 const constants = require("./constants");
