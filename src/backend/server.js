@@ -93,8 +93,8 @@ function createServer({ privateStorage, sharedStorage }) {
   const origListen = server.listen;
   const origClose = server.close;
   // Sending data over the bridge to RN is costly, and progress events fire
-  // frequently, so we throttle updates to once every 200ms
-  const throttledSendPeerUpdateToRN = throttle(sendPeerUpdateToRN, 200);
+  // frequently, so we throttle updates to once every 500ms
+  const throttledSendPeerUpdateToRN = throttle(sendPeerUpdateToRN, 500);
 
   server.listen = function listen(...args) {
     mapeoCore.sync.listen(() => {
