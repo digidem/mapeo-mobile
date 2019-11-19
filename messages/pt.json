@@ -232,6 +232,14 @@
     "description": "Button label when there is an error",
     "message": "Error"
   },
+  "screens.SyncModal.PeerList.errorClientMismatch": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
+    "message": ""
+  },
+  "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
+    "message": ""
+  },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
     "message": "Sync"
@@ -263,6 +271,26 @@
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
     "message": "WiFi:"
+  },
+  "screens.SyncModal.errorDialogOk": {
+    "description": "Button to dismiss error alert about incompatible sync protocol",
+    "message": ""
+  },
+  "screens.SyncModal.errorVersionThemBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": ""
+  },
+  "screens.SyncModal.errorVersionThemBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": ""
+  },
+  "screens.SyncModal.errorVersionUsBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
+    "message": ""
+  },
+  "screens.SyncModal.errorVersionUsBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
+    "message": ""
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",

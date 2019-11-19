@@ -146,12 +146,12 @@ const SyncModal = ({ navigation }: Props) => {
             ) {
               Alert.alert(
                 t(m.errorVersionThemBadTitle, { deviceName }),
-                t(m.errorVersionThemBadDesc)
+                t(m.errorVersionThemBadDesc, { deviceName })
               );
             } else {
               Alert.alert(
                 t(m.errorVersionUsBadTitle, { deviceName }),
-                t(m.errorVersionUsBadDesc)
+                t(m.errorVersionUsBadDesc, { deviceName })
               );
             }
           }
