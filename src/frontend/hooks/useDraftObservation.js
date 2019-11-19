@@ -78,82 +78,93 @@ export default (): UseDraftObservation => {
   const [{ presets, fields }] = useContext(PresetsContext);
   const [savingStatus, setSavingStatus] = useState<Status>();
 
-  const addPhoto = useCallback(async function addPhoto(capturePromise: CapturePromise) {
-    // Keep a reference of the "in-progress" photo which we save to state, we
-    // will use this later to swap it in state with the captured photo
-    const capturingPhoto: DraftPhoto = { capturing: true };
+  const addPhoto = useCallback(
+    async function addPhoto(capturePromise: CapturePromise) {
+      // Keep a reference of the "in-progress" photo which we save to state, we
+      // will use this later to swap it in state with the captured photo
+      const capturingPhoto: DraftPhoto = { capturing: true };
 
-    // Use signal to cancel processing by setting signal.didCancel = true
-    // Important because image resize/rotate is expensive
-    const signal = {};
-    const photoPromise: CancellablePromise<DraftPhoto> = processPhoto(
-      capturePromise,
-      signal
-    );
-    photoPromise.signal = signal;
+      // Use signal to cancel processing by setting signal.didCancel = true
+      // Important because image resize/rotate is expensive
+      const signal = {};
+      const photoPromise: CancellablePromise<DraftPhoto> = processPhoto(
+        capturePromise,
+        signal
+      );
+      photoPromise.signal = signal;
 
-    setDraft(draft => ({
-      ...draft,
-      photoPromises: [...draft.photoPromises, photoPromise],
-      photos: [...draft.photos, capturingPhoto]
-    }));
+      setDraft(draft => ({
+        ...draft,
+        photoPromises: [...draft.photoPromises, photoPromise],
+        photos: [...draft.photos, capturingPhoto]
+      }));
 
-    let photo;
-    try {
-      photo = await photoPromise;
-    } catch (err) {
-      photo = { capturing: false, error: true };
-      if (signal.didCancel || err.message === "Cancelled")
-        bugsnag.leaveBreadcrumb("Cancelled photo");
-      else bugsnag.notify(err, report => (report.severity = "error"));
-    } finally {
-      setDraft(draft => {
-        // Replace the capturing photo in state with the now captured photo
-        const updatedPhotosState = draft.photos.map(p =>
-          p === capturingPhoto ? photo : p
-        );
-        log("new photos state", updatedPhotosState);
-        return { ...draft, photos: updatedPhotosState };
-      });
-    }
-  }, [setDraft])
-
-  function updateDraft(value: ObservationValue) {
-    setDraft(draft => ({
-      ...draft,
-      // $FlowFixMe
-      value: {
-        ...draft.value,
-        ...value
+      let photo;
+      try {
+        photo = await photoPromise;
+      } catch (err) {
+        photo = { capturing: false, error: true };
+        if (signal.didCancel || err.message === "Cancelled")
+          bugsnag.leaveBreadcrumb("Cancelled photo");
+        else bugsnag.notify(err, report => (report.severity = "error"));
+      } finally {
+        setDraft(draft => {
+          // Replace the capturing photo in state with the now captured photo
+          const updatedPhotosState = draft.photos.map(p =>
+            p === capturingPhoto ? photo : p
+          );
+          log("new photos state", updatedPhotosState);
+          return { ...draft, photos: updatedPhotosState };
+        });
       }
-    }));
-  }
+    },
+    [setDraft]
+  );
 
-  const newDraft = useCallback((
-    id?: string,
-    value?: ObservationValue | null = { tags: {} },
-    capture?: CapturePromise
-  ) => {
-    function cancelPhotoProcessing() {
-      // TODO: Cleanup photos and previews in temp storage here
-      // Signal any pending photo captures to cancel:
-      draft.photoPromises.forEach(p => p.signal && (p.signal.didCancel = true));
-    }
-    cancelPhotoProcessing();
-    setDraft(draft => ({
-      ...draft,
-      photoPromises: [],
-      // $FlowFixMe
-      photos: value ? filterPhotosFromAttachments(value.attachments) : [],
-      value: value,
-      observationId: id
-    }));
-    if (capture) addPhoto(capture);
-  }, [addPhoto, draft.photoPromises, setDraft])
+  const updateDraft = useCallback(
+    (value: ObservationValue) => {
+      setDraft(draft => ({
+        ...draft,
+        // $FlowFixMe
+        value: {
+          ...draft.value,
+          ...value
+        }
+      }));
+    },
+    [setDraft]
+  );
 
-  function clearDraft() {
+  const newDraft = useCallback(
+    (
+      id?: string,
+      value?: ObservationValue | null = { tags: {} },
+      capture?: CapturePromise
+    ) => {
+      function cancelPhotoProcessing() {
+        // TODO: Cleanup photos and previews in temp storage here
+        // Signal any pending photo captures to cancel:
+        draft.photoPromises.forEach(
+          p => p.signal && (p.signal.didCancel = true)
+        );
+      }
+      cancelPhotoProcessing();
+      setDraft(draft => ({
+        ...draft,
+        photoPromises: [],
+        // $FlowFixMe
+        photos: value ? filterPhotosFromAttachments(value.attachments) : [],
+        value: value,
+        observationId: id
+      }));
+      if (capture) addPhoto(capture);
+    },
+    [addPhoto, draft.photoPromises, setDraft]
+  );
+
+  const clearDraft = useCallback(() => {
     newDraft(undefined, null);
-  }
+  }, [newDraft]);
 
   async function saveDraft() {
     log("saveDraft call");
