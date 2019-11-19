@@ -1,6 +1,6 @@
 // @flow
 import React, { useState, useContext } from "react";
-import utm from "utm";
+import { toLatLon as origToLatLon, fromLatLon } from "utm";
 import { View, TextInput, Text, StyleSheet, ToastAndroid } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
 
@@ -67,20 +67,22 @@ const ManualGpsScreen = ({ navigation }: Props) => {
   const [{ value }, { updateDraft }] = useDraftObservation();
 
   const [zoneNum, setZoneNum] = useState<string>(() => {
+    console.log("Setting initial state");
     if (!location.savedPosition) return "";
     try {
       const { latitude, longitude } = location.savedPosition.coords;
-      const { zoneNum } = utm.fromLatLon(latitude, longitude);
+      const { zoneNum } = fromLatLon(latitude, longitude);
       return zoneNum + "";
     } catch (e) {
       return "";
     }
   });
   const [zoneLetter, setZoneLetter] = useState<string>(() => {
+    console.log("Setting initial state");
     if (!location.savedPosition) return "";
     try {
       const { latitude, longitude } = location.savedPosition.coords;
-      const { zoneLetter } = utm.fromLatLon(latitude, longitude);
+      const { zoneLetter } = fromLatLon(latitude, longitude);
       return zoneLetter;
     } catch (e) {
       return "";
@@ -89,29 +91,41 @@ const ManualGpsScreen = ({ navigation }: Props) => {
   const [easting, setEasting] = useState<string>("");
   const [northing, setNorthing] = useState<string>("");
 
-  function handleSavePress() {
-    try {
-      const locationData = toLatLon({ zoneNum, zoneLetter, easting, northing });
-      updateDraft({
-        lat: locationData.latitude,
-        lon: locationData.longitude,
-        metadata: {
-          ...(value || {}).metadata,
-          manualLocation: true
-        },
-        tags: (value || {}).tags
-      });
-      navigation.pop();
-    } catch (err) {
-      ToastAndroid.showWithGravity(
-        err.message,
-        ToastAndroid.LONG,
-        ToastAndroid.TOP
-      );
+  React.useEffect(() => {
+    function handleSavePress() {
+      try {
+        const locationData = toLatLon({
+          zoneNum,
+          zoneLetter,
+          easting,
+          northing
+        });
+        updateDraft({
+          lat: locationData.latitude,
+          lon: locationData.longitude,
+          metadata: {
+            ...(value || {}).metadata,
+            manualLocation: true
+          },
+          tags: (value || {}).tags
+        });
+        navigation.pop();
+      } catch (err) {
+        ToastAndroid.showWithGravity(
+          err.message,
+          ToastAndroid.LONG,
+          ToastAndroid.TOP
+        );
+      }
     }
-  }
 
-  navigation.setParams({ handleSavePress });
+    navigation.setParams({ handleSavePress });
+    // The navigation prop changes on every render, so it causes in infinite
+    // loop here if included. Not including it might cause unexpected bugs, but
+    // the setParams() and pop() methods should be always the same. TODO: Fix
+    // this and make sure we're not going to cause a bug with this.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [easting, northing, value, updateDraft, zoneLetter, zoneNum]);
 
   return (
     <View style={styles.container}>
@@ -194,19 +208,21 @@ const ManualGpsScreen = ({ navigation }: Props) => {
   );
 };
 
-ManualGpsScreen.navigationOptions = ({ navigation }: any) => ({
-  headerTitle: (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-  headerLeft: HeaderLeft,
-  headerRight: (
-    <IconButton onPress={navigation.getParam("handleSavePress")}>
-      <SaveIcon inprogress={false} />
-    </IconButton>
-  )
-});
+ManualGpsScreen.navigationOptions = ({ navigation }: any) => {
+  return {
+    headerTitle: (
+      <HeaderTitle>
+        <FormattedMessage {...m.title} />
+      </HeaderTitle>
+    ),
+    headerLeft: HeaderLeft,
+    headerRight: (
+      <IconButton onPress={navigation.getParam("handleSavePress")}>
+        <SaveIcon inprogress={false} />
+      </IconButton>
+    )
+  };
+};
 
 export default ManualGpsScreen;
 
@@ -254,7 +270,7 @@ function toLatLon({ zoneNum, zoneLetter, easting, northing }: State) {
       northern = true;
     }
   }
-  return utm.toLatLon(
+  return origToLatLon(
     parseNumber(easting),
     parseNumber(northing),
     parseNumber(zoneNum),
