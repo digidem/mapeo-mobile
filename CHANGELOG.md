@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.4](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.3...v2.0.0-alpha.4) (2019-11-19)
+
+### Bug Fixes
+
+- Fix manual GPS entry crashes and errors ([d11e3fe](https://github.com/digidem/mapeo-mobile/commit/d11e3fe6c4099891aa12499f5cff9d76d2847966))
+
 ## [2.0.0-alpha.3](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2019-11-19)
 
 ### Bug Fixes
