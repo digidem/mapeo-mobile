@@ -54,13 +54,13 @@
     "message": "पुर्व"
   },
   "screens.ManualGpsScreen.eastingSuffix": {
-    "message": "म"
+    "message": "एम इ"
   },
   "screens.ManualGpsScreen.northing": {
     "message": "उत्तर"
   },
   "screens.ManualGpsScreen.northingSuffix": {
-    "message": "mN"
+    "message": "एम एन"
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
@@ -154,11 +154,11 @@
   },
   "screens.ObservationEdit.ObservationEditView.searching": {
     "description": "Shown in new observation screen whilst looking for GPS",
-    "message": "Searching…"
+    "message": "खाेजी जारी …"
   },
   "screens.ObservationEdit.SaveButton.keepWaiting": {
     "description": "Button to cancel save and continue waiting for GPS",
-    "message": "Continue waiting"
+    "message": "पर्खाइ निरन्तर"
   },
   "screens.ObservationEdit.SaveButton.manualEntry": {
     "description": "Button to manually enter GPS coordinates",
@@ -166,15 +166,15 @@
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
-    "message": "This observation does not have a location. You can continue waiting for a GPS signal, save the observation without a location, or enter coordinates manually"
+    "message": "याे अवलाेकनकाे लाेकेसन छैन । तपाइले GPS संकेत निरन्तर कुर्न सक्नु हुनेछ, अवलाेकनलाइ लाेकेसन बेगर संग्रह गर्न सक्नुहुन्छ, वा निर्देशलाइ अाफैले राख्नु"
   },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
-    "message": "No GPS signal"
+    "message": "GPS संकेत छैन"
   },
   "screens.ObservationEdit.SaveButton.saveAnyway": {
     "description": "Button to save regardless of GPS state",
-    "message": "Save"
+    "message": "संग्रह"
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
