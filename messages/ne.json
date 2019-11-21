@@ -178,19 +178,19 @@
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
-    "message": "GPS accuracy is low. You can continue waiting for better accuracy, save the observation with low accuracy, or enter coordinates manually"
+    "message": "GPS यथार्थता न्यून छ, दुरूस्त GPS काे लागि कुर्न सक्नु हुन्छ, न्यून GPS यथार्थतामा संग्रह गर्न सक्नु हुन्छ, वा अाफैले निर्देश गर्न सक्नुहुन्छ"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
-    "message": "Weak GPS signal"
+    "message": "कमजाेर GPS संकेत"
   },
   "screens.ObservationEdit.editTitle": {
     "description": "screen title for edit observation screen",
-    "message": "Edit Observation"
+    "message": "अवलाेकन सम्पादन"
   },
   "screens.ObservationEdit.newTitle": {
     "description": "screen title for new observation screen",
-    "message": "New Observation"
+    "message": "नया अवलाेकन"
   },
   "screens.ObservationList.observationListTitle": {
     "description": "Title of screen with list of observations",
