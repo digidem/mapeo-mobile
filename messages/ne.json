@@ -36,45 +36,45 @@
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
-    "message": "Sensor Status"
+    "message": "सेन्सरकाे अवस्था"
   },
   "screens.GpsModal.locationUTM": {
     "description": "Section title for UTM coordinates",
-    "message": "Coordinates UTM"
+    "message": "UTM निर्देश"
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
-    "message": "No"
+    "message": "हाेइन"
   },
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
-    "message": "Yes"
+    "message": "हाे"
   },
   "screens.ManualGpsScreen.easting": {
-    "message": "East"
+    "message": "पुर्व"
   },
   "screens.ManualGpsScreen.eastingSuffix": {
-    "message": "mE"
+    "message": "म"
   },
   "screens.ManualGpsScreen.northing": {
-    "message": "North"
+    "message": "उत्तर"
   },
   "screens.ManualGpsScreen.northingSuffix": {
     "message": "mN"
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
-    "message": "Enter coordinates"
+    "message": "निर्देश भित्र प्रवेश"
   },
   "screens.ManualGpsScreen.zoneLetter": {
-    "message": "Zone Letter"
+    "message": "क्षेत्र पत्र"
   },
   "screens.ManualGpsScreen.zoneNumber": {
     "message": "Zone Number"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
-    "message": "Sent from Mapeo"
+    "message": "Mapeo बाट पठाएकाे"
   },
   "screens.Observation.ObservationView.alertSubject": {
     "description": "Subject-line for shared observations",
