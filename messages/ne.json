@@ -1,38 +1,38 @@
 {
   "AppContainer.EditHeader.discardCancel": {
     "description": "Button on dialog to keep editing (cancelling close action)",
-    "message": "Continue editing"
+    "message": "निरन्तर सम्पादन"
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to close without saving",
-    "message": "Discard without saving"
+    "message": "संग्रह नगरी खारेज गर्नु"
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when closing an observation without saving",
-    "message": "Discard observation?"
+    "message": "अवलाेकन रद्द गर्ने?"
   },
   "screens.AddPhoto.cancel": {
-    "message": "Cancel"
+    "message": "रद्द"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
-    "message": "No access to camera"
+    "message": "क्यामाराकाे लागि पहुँच छैन"
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
-    "message": "Choose what is happening"
+    "message": "के भइ रहेकाे छ छान्नुहाेस"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
-    "message": "Details"
+    "message": "विवरण"
   },
   "screens.GpsModal.gpsHeader": {
     "description": "Header for GPS screen",
-    "message": "Current GPS Location"
+    "message": "हालकाे GPS ठेगाना"
   },
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
-    "message": "Last update"
+    "message": "पछिल्लाे अपडेट"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
