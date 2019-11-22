@@ -9,7 +9,7 @@
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when closing an observation without saving",
-    "message": "अवलाेकन रद्द गर्ने?"
+    "message": "अवलाेकन हटाउने?"
   },
   "screens.AddPhoto.cancel": {
     "message": "रद्द"
@@ -24,7 +24,7 @@
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
-    "message": "विवरण"
+    "message": "विवरणहरू"
   },
   "screens.GpsModal.gpsHeader": {
     "description": "Header for GPS screen",
@@ -54,13 +54,13 @@
     "message": "पुर्व"
   },
   "screens.ManualGpsScreen.eastingSuffix": {
-    "message": "एम इ"
+    "message": "mE"
   },
   "screens.ManualGpsScreen.northing": {
     "message": "उत्तर"
   },
   "screens.ManualGpsScreen.northingSuffix": {
-    "message": "एम एन"
+    "message": "mN"
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
@@ -250,32 +250,32 @@
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
-    "message": "Ensure that other devices are turned on and connected to the same WiFi network"
+    "message": "अरू उपकरणहरू सकृय भएकाे र उहि WiFi नेटवर्कमा जाेडिएकाे निश्चत गर्नुहाेस"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
-    "message": "Searching"
+    "message": "खाेजी जारी "
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
-    "message": "Synchronize"
+    "message": "सिंक्राेनाइज"
   },
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
-    "message": "WiFi:"
+    "message": "WiFi"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
-    "message": "Really sorry about this, something unexpected went wrong, and it's our fault not yours. Try restarting the app to see if that fixes things."
+    "message": "यसकाे लागि माफ गर्नुहाेस, केहि नसाेचेकाे गलत हुन गयाे, र याे तपाईकाे हाेइन हाम्राे गल्ति हाे । याे app शुरू गर्ने काेशिस गर्नु यदि अन्य कुरा ठीक भएमा"
   },
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
-    "message": "Unexpected Error"
+    "message": "नसाेचेकाे समस्या"
   },
   "sharedComponents.GpsPill.noGps": {
-    "message": "No GPS"
+    "message": "GPS छैन"
   },
   "sharedComponents.GpsPill.searching": {
-    "message": "Searching…"
+    "message": "खाेजी जारी …"
   }
 }
