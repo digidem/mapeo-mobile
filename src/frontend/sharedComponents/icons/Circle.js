@@ -19,8 +19,7 @@ const Circle = ({ radius = 25, style, children }: CircleProps) => (
         borderRadius: radius * 2
       },
       style
-    ]}
-  >
+    ]}>
     {children}
   </View>
 );
@@ -41,6 +40,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowOpacity: 0.5,
     shadowOffset: { width: 0, height: 2 },
-    elevation: 3
+    elevation: 3,
+    overflow: "hidden"
   }
 });

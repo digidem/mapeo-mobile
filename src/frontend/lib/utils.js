@@ -100,7 +100,7 @@ export function addFieldDefinitions(
 // Filter photos from an array of observation attachments (we could have videos
 // and other media types)
 export function filterPhotosFromAttachments(
-  attachments: Array<ObservationAttachment> = []
+  attachments?: Array<ObservationAttachment> = []
 ): Array<SavedPhoto> {
   return attachments.reduce((acc, att) => {
     if (
@@ -112,6 +112,12 @@ export function filterPhotosFromAttachments(
       acc.push({ id: att.id, type: att.type });
     return acc;
   }, []);
+}
+
+export function getLastPhotoAttachment(
+  attachments?: Array<ObservationAttachment> = []
+): SavedPhoto | void {
+  return filterPhotosFromAttachments(attachments).pop();
 }
 
 export function formatCoords({
