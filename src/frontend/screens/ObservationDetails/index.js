@@ -56,7 +56,7 @@ const DetailsHeaderRight = ({ navigation }: Props) => {
   const buttonText = isLastQuestion ? t(m.done) : t(m.nextQuestion);
   const onPress = () =>
     isLastQuestion
-      ? navigation.pop(current)
+      ? navigation.navigate("ObservationEdit")
       : navigation.push(navigation.state.routeName, {
           question: current + 1
         });
