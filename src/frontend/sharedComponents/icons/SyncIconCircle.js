@@ -9,15 +9,19 @@ type Props = {
   inprogress?: boolean
 };
 
+export const SyncIcon = ({ color = "white" }: { color?: string }) => (
+  <Icon
+    color={color}
+    name="bolt"
+    size={20}
+    style={{ transform: [{ rotate: "15deg" }] }}
+  />
+);
+
 const SyncIconCircle = ({ inprogress }: Props) => (
   <View style={[styles.outerCircle, { opacity: inprogress ? 0.5 : 1 }]}>
     <View style={styles.innerCircle}>
-      <Icon
-        color="white"
-        name="bolt"
-        size={20}
-        style={{ transform: [{ rotate: "15deg" }] }}
-      />
+      <SyncIcon />
     </View>
   </View>
 );

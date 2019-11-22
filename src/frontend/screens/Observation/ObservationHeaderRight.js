@@ -1,5 +1,6 @@
 // @flow
 import React from "react";
+import { View, StyleSheet } from "react-native";
 
 import IconButton from "../../sharedComponents/IconButton";
 import useObservation from "../../hooks/useObservation";
@@ -7,14 +8,17 @@ import useDraftObservation from "../../hooks/useDraftObservation";
 
 import { EditIcon } from "../../sharedComponents/icons";
 import type { NavigationProp } from "../../types";
+import useDeviceId from "../../hooks/useDeviceId";
+import { SyncIcon } from "../../sharedComponents/icons/SyncIconCircle";
 
 type Props = {
   navigation: NavigationProp
 };
 
-const EditButton = ({ navigation }: Props) => {
+const ObservationHeaderRight = ({ navigation }: Props) => {
   const observationId = navigation.getParam("observationId");
   const [{ observation }] = useObservation(observationId);
+  const deviceId = useDeviceId();
   const [, { newDraft }] = useDraftObservation();
 
   function handlePress() {
@@ -25,11 +29,26 @@ const EditButton = ({ navigation }: Props) => {
 
   // Don't render the button if observation doesn't exist
   if (!observation) return null;
-  return (
+  const isMine = observation.value.deviceId === deviceId;
+  return isMine ? (
     <IconButton onPress={handlePress}>
       <EditIcon />
     </IconButton>
+  ) : (
+    <View style={styles.syncIconContainer}>
+      <SyncIcon color="#3C69F6" />
+    </View>
   );
 };
 
-export default EditButton;
+export default ObservationHeaderRight;
+
+const styles = StyleSheet.create({
+  syncIconContainer: {
+    width: 60,
+    height: 60,
+    flex: 0,
+    justifyContent: "center",
+    alignItems: "center"
+  }
+});

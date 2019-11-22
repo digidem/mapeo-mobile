@@ -14,10 +14,6 @@ type IconProps = {
   iconId?: string
 };
 
-type State = {
-  error: boolean
-};
-
 const iconSizes = {
   small: 22,
   medium: 35,
@@ -30,21 +26,23 @@ const radii = {
   large: 35
 };
 
-const CategoryIcon = React.memo<IconProps>(({ size = "medium", iconId }) => {
-  const [error, setError] = React.useState(false);
-  const iconSize = iconSizes[size] || 35;
-  // Fallback to a default icon if we can't load the icon from mapeo-server
-  if (error || !iconId) {
-    return <MaterialIcon name="place" size={iconSize} />;
+export const CategoryIcon = React.memo<IconProps>(
+  ({ size = "medium", iconId }) => {
+    const [error, setError] = React.useState(false);
+    const iconSize = iconSizes[size] || 35;
+    // Fallback to a default icon if we can't load the icon from mapeo-server
+    if (error || !iconId) {
+      return <MaterialIcon name="place" size={iconSize} />;
+    }
+    return (
+      <Image
+        style={{ width: iconSize, height: iconSize }}
+        source={{ uri: api.getIconUrl(iconId, size) }}
+        onError={() => setError(true)}
+      />
+    );
   }
-  return (
-    <Image
-      style={{ width: iconSize, height: iconSize }}
-      source={{ uri: api.getIconUrl(iconId, size) }}
-      onError={() => setError(true)}
-    />
-  );
-});
+);
 
 export const CategoryCircleIcon = ({
   style,
