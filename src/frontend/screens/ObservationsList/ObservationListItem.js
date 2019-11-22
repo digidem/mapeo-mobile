@@ -12,6 +12,7 @@ import PhotoView from "../../sharedComponents/PhotoView";
 import api from "../../api";
 import type { Style } from "../../types";
 import type { SavedPhoto } from "../../context/DraftObservationContext";
+import useDeviceId from "../../hooks/useDeviceId";
 
 const m = defineMessages({
   defaultObservationName: {
@@ -57,6 +58,7 @@ const ObservationListItem = ({
   const { formatMessage: t } = useIntl();
   const [{ observation, preset }] = useObservation(observationId);
   const name = preset ? preset.name : t(m.defaultObservationName);
+  const deviceId = useDeviceId();
   const iconId = preset && preset.icon;
   const createdDate =
     observation && observation.created_at
@@ -65,13 +67,14 @@ const ObservationListItem = ({
   const photos = filterPhotosFromAttachments(
     observation && observation.value.attachments
   ).slice(0, 3);
-  console.log("PHOTO", observation && observation.value.attachments);
+  const isMine = observation && observation.value.deviceId === deviceId;
   return (
     <TouchableHighlight
       onPress={() => onPress(observationId)}
       testID={"ObservationListItem:" + observationId}
       style={{ flex: 1, height: 80 }}>
-      <View style={[styles.container, style]}>
+      <View
+        style={[styles.container, style, !isMine && styles.syncedObservation]}>
         <View style={styles.text}>
           <Text style={styles.title}>{name}</Text>
           {createdDate && <DateDistance date={createdDate} />}
@@ -107,6 +110,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     flex: 1,
     height: 80
+  },
+  syncedObservation: {
+    borderLeftWidth: 5,
+    borderLeftColor: "#3C69F6"
   },
   text: {
     flex: 1,

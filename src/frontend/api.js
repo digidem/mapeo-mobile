@@ -255,6 +255,10 @@ export function Api({
       return get(`styles/${id}/style.json`);
     },
 
+    getDeviceId: function getDeviceId(): Promise<string> {
+      return get(`device/id`);
+    },
+
     /**
      * DELETE methods
      */
