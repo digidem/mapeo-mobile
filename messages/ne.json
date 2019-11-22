@@ -70,7 +70,7 @@
     "message": "क्षेत्र पत्र"
   },
   "screens.ManualGpsScreen.zoneNumber": {
-    "message": "Zone Number"
+    "message": "जाेन नम्बर"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
@@ -162,7 +162,7 @@
   },
   "screens.ObservationEdit.SaveButton.manualEntry": {
     "description": "Button to manually enter GPS coordinates",
-    "message": "Manual Coords"
+    "message": "म्यानुअल काेर्डस्"
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
@@ -194,23 +194,23 @@
   },
   "screens.ObservationList.observationListTitle": {
     "description": "Title of screen with list of observations",
-    "message": "Observations"
+    "message": "अवलाेकनहरू"
   },
   "screens.ObservationsList.ObservationListItem.defaultObservationName": {
     "description": "Default name for an observation that does not match a preset",
-    "message": "Observation"
+    "message": "अवलाेकन"
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
-    "message": "Error loading observations. Try quitting and restarting Mapeo."
+    "message": "अवलाेकन लाेड गर्नमा समस्या । Mapeo बाट बाहिरिने र पुन शुरू गर्ने"
   },
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
-    "message": "Loading… this can take a while after synchronizing with a new device"
+    "message": "लाेड हुँदै... नयाँ उपकरणसँग सिंक्राेनाइज हुन केहि समय लाग्न सक्छ"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
-    "message": "You can try force-restarting the app, but there may be something that needs fixing. Really sorry about this, making apps is hard."
+    "message": "याे एपलाइ बलपूवर्क शुरू गर्न काेशिस सक्नुहुन्छ, तर त्यहाँ केहि मिलाउनु पर्ने हुन सक्दछ । यसकाे लागि माफ गर्नुहाेस, एप बनाउन गाह्राे छ"
   },
   "screens.ServerStatus.errorTitle": {
     "description": "Title of message when there the Mapeo Core server crashes",
