@@ -105,8 +105,18 @@ const MapFeatures = ({ lat, lon }: MapProps) => {
 
 const InsetMapView = ({ lon, lat }: MapProps) => {
   const [{ styleURL, loading, error }] = useMapStyle();
-  if (loading) return <Loading />;
-  if (error) return <Text>Map Error</Text>;
+  if (loading)
+    return (
+      <View style={styles.map}>
+        <Loading />
+      </View>
+    );
+  if (error)
+    return (
+      <View style={styles.map}>
+        <Text>Map Error</Text>
+      </View>
+    );
   return (
     <MapboxGL.MapView
       style={styles.map}
