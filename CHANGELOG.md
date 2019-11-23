@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.7](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2019-11-23)
+
+### Features
+
+- Add photo thumbnails to observation list view ([fe74274](https://github.com/digidem/mapeo-mobile/commit/fe74274c943d620b3c66c408b1ca570c734dbf98))
+- Don't allow edit of synced obs; show sync symbol on synced obs ([4a7a6c7](https://github.com/digidem/mapeo-mobile/commit/4a7a6c7efb96722288eb6415d582ac55c28f2e2b))
+- Identify synced observations with a blue bar in list view ([d4b394b](https://github.com/digidem/mapeo-mobile/commit/d4b394bf08988dd604c0b37a8b3a51bf4f07900e))
+- Show multiple photo thumbnails in observation list view ([b30b1b6](https://github.com/digidem/mapeo-mobile/commit/b30b1b6687f22314ccaaf315e2ed818ea055128f))
+
+### Bug Fixes
+
+- Don't collapse map in observation view when map does not load ([d077ece](https://github.com/digidem/mapeo-mobile/commit/d077ece680ba54f041e772e398584b0dfcc659cd))
+- Fix navigation at end of questions pressing "Done" ([30e6112](https://github.com/digidem/mapeo-mobile/commit/30e61129290885f1d0b0935c1439368cc3819f12))
+
 ## [2.0.0-alpha.6](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2019-11-19)
 
 ### Bug Fixes
