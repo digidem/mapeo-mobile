@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
     fontWeight: "700"
   },
   hint: {
-    fontSize: 12,
-    color: "#A9A9A9",
-    fontWeight: "700"
+    fontSize: 16,
+    color: "#666666",
+    fontWeight: "500"
   }
 });
