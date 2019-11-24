@@ -70,8 +70,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 20,
-    marginLeft: 20,
-    paddingRight: 20,
+    marginHorizontal: 20,
     borderTopWidth: 1,
     borderColor: "#F3F3F3"
   },
@@ -80,7 +79,9 @@ const styles = StyleSheet.create({
   },
   itemLabel: {
     fontSize: 18,
+    lineHeight: 24,
     marginLeft: 20,
+    flex: 1,
     color: "black",
     fontWeight: "700"
   }
