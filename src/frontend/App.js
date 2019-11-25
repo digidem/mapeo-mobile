@@ -107,12 +107,12 @@ const App = () => {
   };
 
   return (
-    <ErrorBoundary>
-      <IntlProvider
-        locale={locale}
-        messages={localeMessages}
-        formats={formats}
-        onError={e => console.warn(e)}>
+    <IntlProvider
+      locale={locale}
+      messages={localeMessages}
+      formats={formats}
+      onError={e => console.warn(e)}>
+      <ErrorBoundary>
         {/* Permissions provider must be before AppLoading because it waits for
         permissions before showing main app screen */}
         <PermissionsProvider>
@@ -125,8 +125,8 @@ const App = () => {
             </AppProvider>
           </AppLoading>
         </PermissionsProvider>
-      </IntlProvider>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </IntlProvider>
   );
 };
 

@@ -294,7 +294,7 @@
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
-    "message": "Disculpas, hay un error. No es tu culpa, hay un problema interno. Intentar a reiniciar Mapeo para ver si lo resuelve."
+    "message": "Disculpas, hay un error. No es tu culpa, hay un problema interno. Intenta reiniciar Mapeo para ver si lo resuelve."
   },
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
