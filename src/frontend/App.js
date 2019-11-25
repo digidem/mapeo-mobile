@@ -22,6 +22,7 @@ if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 // WARNING: This needs to change if we change the navigation structure
 const NAV_STORE_KEY = "@MapeoNavigation@6";
+const ERROR_STORE_KEY = "@MapeoError";
 
 const persistNavigationState = async navState => {
   try {
@@ -31,8 +32,19 @@ const persistNavigationState = async navState => {
   }
 };
 const loadNavigationState = async () => {
-  const jsonString = await AsyncStorage.getItem(NAV_STORE_KEY);
-  return JSON.parse(jsonString);
+  try {
+    const navState = JSON.parse(await AsyncStorage.getItem(NAV_STORE_KEY));
+    const didCrashLastOpen = JSON.parse(
+      await AsyncStorage.getItem(ERROR_STORE_KEY)
+    );
+    // Clear error saved state so that navigation persistence happens on next load
+    await AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(false));
+    // If the app crashed last time, don't restore nav state
+    log("DID CRASH?", didCrashLastOpen);
+    return didCrashLastOpen ? null : navState;
+  } catch (err) {
+    log("Error reading navigation and error state", err);
+  }
 };
 
 /**
@@ -67,6 +79,9 @@ class ErrorBoundary extends React.Component<
         }
       };
     });
+    // Record that we have an error so that when the app restarts we can
+    // react to the previous uncaught error
+    AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(true));
   }
 
   render() {
