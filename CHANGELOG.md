@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.8](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.7...v2.0.0-alpha.8) (2019-11-25)
+
+### Features
+
+- **TextField:** Show question hint under label instead of as placeholder ([a8c871e](https://github.com/digidem/mapeo-mobile/commit/a8c871e9b9848a9bcd1c70dca71c1506339f098e))
+
+### Bug Fixes
+
+- **ObservationDetails:** increase size and contrast of question hint text ([82ac384](https://github.com/digidem/mapeo-mobile/commit/82ac3847e5676bc426c341207359da831de92137))
+- Fix right-margin of select-one and select-multiple options & adjust line height ([a23e0f2](https://github.com/digidem/mapeo-mobile/commit/a23e0f2a2cbb99e51351b447dde5216af80ba010))
+
 ## [2.0.0-alpha.7](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2019-11-23)
 
 ### Features
