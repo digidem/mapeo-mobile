@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.9](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2019-11-25)
+
+### Features
+
+- Only allow deletion of your own observations ([21e90b8](https://github.com/digidem/mapeo-mobile/commit/21e90b80d666fa6f34b19f8ad6594e6ec8307c52))
+
+### Bug Fixes
+
+- **SyncModal:** Adjust "waiting for sync" to fill entire screen (for devices with large text settings) ([ea4d8df](https://github.com/digidem/mapeo-mobile/commit/ea4d8df8ec4b2e1106d45fb0dcc32197b14b2de4))
+- After an uncaught error, always restart at the map screen (don't try to return to screen from before crash) ([2ea1d15](https://github.com/digidem/mapeo-mobile/commit/2ea1d15fea164bd3df0a3ea6faff28007205d696))
+- Push share & delete buttons to bottom of screen ([6968258](https://github.com/digidem/mapeo-mobile/commit/696825816d51f9628088f3301228a791c7b986f4))
+- Show uncaught error message translated (was only in English before) ([7cc4313](https://github.com/digidem/mapeo-mobile/commit/7cc4313b81382bd6f69b9bad18d84c6db33a5e78))
+
 ## [2.0.0-alpha.8](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.7...v2.0.0-alpha.8) (2019-11-25)
 
 ### Features
