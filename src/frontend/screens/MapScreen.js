@@ -46,7 +46,6 @@ const MapScreen = ({ navigation }: Props) => {
     [navigation, newDraft]
   );
 
-  let viewContent;
   if (status === "loading") return <Loading />;
   if (status === "error") return <Text>Error</Text>;
 
