@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   searchingBoxInner: {
-    flex: 1,
+    marginTop: 20,
     flexDirection: "row",
     alignItems: "center"
   },
@@ -249,9 +249,10 @@ const styles = StyleSheet.create({
   searchingBox: {
     backgroundColor: "#2348B2",
     minHeight: 250,
+    flex: 1,
     paddingHorizontal: 30,
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "stretch"
   }
 });
