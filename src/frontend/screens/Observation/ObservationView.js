@@ -211,7 +211,9 @@ const ObservationView = ({
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.root}
+      contentContainerStyle={styles.scrollContent}>
       <>
         {/* check lat and lon are not null or undefined */}
         {lat != null && lon != null && (
@@ -232,7 +234,7 @@ const ObservationView = ({
             {formatDate(observation.created_at, { format: "long" })}
           </Text>
         </View>
-        <View style={styles.section}>
+        <View style={[styles.section, { flex: 1 }]}>
           <View style={styles.categoryIconContainer}>
             <CategoryCircleIcon iconId={(preset || {}).icon} size="medium" />
             <Text style={styles.categoryLabel} numberOfLines={1}>
@@ -337,11 +339,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 10
   },
-  container: {
+  root: {
     backgroundColor: WHITE,
     flex: 1,
     flexDirection: "column"
   },
+  scrollContent: { minHeight: "100%" },
   map: {
     height: 175
   },
