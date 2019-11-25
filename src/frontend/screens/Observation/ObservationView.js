@@ -25,6 +25,7 @@ import type { PresetWithFields } from "../../context/PresetsContext";
 import type { Observation } from "../../context/ObservationsContext";
 import useMapStyle from "../../hooks/useMapStyle";
 import Loading from "../../sharedComponents/Loading";
+import useDeviceId from "../../hooks/useDeviceId";
 
 const m = defineMessages({
   noAnswer: {
@@ -184,6 +185,8 @@ const ObservationView = ({
   onPressDelete
 }: ODVProps) => {
   const { formatMessage: t, formatDate } = useIntl();
+  const deviceId = useDeviceId();
+  const isMine = deviceId === observation.value.deviceId;
   const { lat, lon, attachments } = observation.value;
   // Currently only show photo attachments
   const photos = filterPhotosFromAttachments(attachments);
@@ -280,12 +283,14 @@ const ObservationView = ({
             color="#3366FF"
             onPress={handleShare}
           />
-          <Button
-            iconName="delete"
-            title={t(m.delete)}
-            color={RED}
-            onPress={onPressDelete}
-          />
+          {isMine && (
+            <Button
+              iconName="delete"
+              title={t(m.delete)}
+              color={RED}
+              onPress={onPressDelete}
+            />
+          )}
         </View>
       </>
     </ScrollView>
