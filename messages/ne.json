@@ -94,7 +94,7 @@
   },
   "screens.Observation.ObservationView.share": {
     "description": "Button to share an observation",
-    "message": "बाँड्ने"
+    "message": "साझा गरियो"
   },
   "screens.Observation.cancel": {
     "description": "Button to cancel delete of observation",
@@ -202,7 +202,7 @@
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
-    "message": "अवलाेकन लाेड गर्नमा समस्या । Mapeo बाट बाहिरिने र पुन शुरू गर्ने"
+    "message": "अवलाेकन लाेड गर्नमा समस्या । Mapeo बाट बाहिरिने र पुन शुरू गर्ने."
   },
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
