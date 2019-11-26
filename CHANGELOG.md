@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.0](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.9...v2.0.0-beta.0) (2019-11-26)
+
 ## [2.0.0-alpha.9](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2019-11-25)
 
 ### Features
