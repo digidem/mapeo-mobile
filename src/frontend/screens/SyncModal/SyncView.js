@@ -1,10 +1,12 @@
+/* eslint-disable react-native/no-raw-text */
 // @flow
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import IconButton from "../../sharedComponents/IconButton";
+import Button from "../../sharedComponents/Button";
 import { CloseIcon, WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
 import DotIndicator from "./DotIndicator";
 import PeerList from "./PeerList";
@@ -22,7 +24,6 @@ const m = defineMessages({
     defaultMessage: "WiFi:",
     description: "Label for wifi network name"
   },
-
   noWifiTitle: {
     id: "screens.SyncModal.SyncView.noWifiTitle",
     defaultMessage: "No WiFi",
@@ -34,6 +35,11 @@ const m = defineMessages({
     defaultMessage:
       "Open your phone settins and connect to a WiFi network to synchronize"
   },
+  settingsButton: {
+    id: "screens.SyncModal.SyncView.settingsButton",
+    description: "Button to open WiFi settings",
+    defaultMessage: "Open Settings"
+  },
   searchingTitle: {
     id: "screens.SyncModal.SyncView.searchingTitle",
     defaultMessage: "Searching",
@@ -44,6 +50,11 @@ const m = defineMessages({
     description: "Description shown whilst searcing for sync peers",
     defaultMessage:
       "Ensure that other devices are turned on and connected to the same WiFi network"
+  },
+  projectKey: {
+    id: "screens.SyncModal.SyncView.projectKey",
+    description: "First 5 characters of project key displayed on sync screen",
+    defaultMessage: "Project Key: {projectKey}"
   }
 });
 
@@ -77,25 +88,29 @@ const WifiBar = ({ onPress, ssid, deviceName }) => (
   </TouchableNativeFeedback>
 );
 
-const NoWifiBox = ({ onPress }) => (
-  <TouchableNativeFeedback onPress={onPress}>
+const NoWifiBox = ({ onPress }) => {
+  const { formatMessage: t } = useIntl();
+  return (
     <View style={styles.noWifiBox}>
-      <View style={styles.noWifiBoxInner}>
+      <View style={styles.noWifiIconContainer}>
         <View style={styles.noWifiIcon}>
-          <WifiOffIcon size={50} />
-        </View>
-        <View style={styles.noWifiTextContainer}>
-          <Text style={styles.infoHeader}>
-            <FormattedMessage {...m.noWifiTitle} />
-          </Text>
-          <Text style={styles.infoSubheader}>
-            <FormattedMessage {...m.noWifiDesc} />
-          </Text>
+          <WifiOffIcon size={150} color="#2347B2" style={{ top: 7 }} />
         </View>
       </View>
+      <View style={styles.noWifiTextContainer}>
+        <Text style={[styles.infoHeader, styles.noWifiText]}>
+          {t(m.noWifiTitle)}
+        </Text>
+        <Text style={[styles.infoSubheader, styles.noWifiText]}>
+          {t(m.noWifiDesc)}
+        </Text>
+      </View>
+      <View style={styles.settingsButton}>
+        <Button onPress={onPress}>{t(m.settingsButton)}</Button>
+      </View>
     </View>
-  </TouchableNativeFeedback>
-);
+  );
+};
 
 const SearchingBox = () => (
   <View style={styles.searchingBox}>
@@ -142,12 +157,17 @@ const SyncView = ({
         ) : (
           <SearchingBox />
         )}
+        {projectKey && (
+          <Text style={styles.projectId}>
+            <FormattedMessage
+              {...m.projectKey}
+              values={{ projectKey: projectKey.slice(0, 5) }}
+            />
+          </Text>
+        )}
       </>
     ) : (
       <NoWifiBox onPress={onWifiPress} />
-    )}
-    {projectKey && (
-      <Text style={styles.projectId}>{projectKey.slice(0, 5)}</Text>
     )}
   </View>
 );
@@ -163,8 +183,8 @@ const styles = StyleSheet.create({
     flex: 0
   },
   header: {
-    flexGrow: 0,
-    flexShrink: 0,
+    // flexGrow: 0,
+    // flexShrink: 0,
     height: 60,
     flexDirection: "row",
     alignItems: "center",
@@ -185,16 +205,16 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start"
   },
   noWifiBox: {
-    backgroundColor: "#AD145C",
-    minHeight: 300,
-    paddingHorizontal: 30,
+    backgroundColor: "#000034",
     flexDirection: "column",
-    justifyContent: "center"
+    justifyContent: "flex-start",
+    alignItems: "stretch",
+    flex: 1
   },
-  noWifiBoxInner: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center"
+  noWifiIconContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+    flex: 0
   },
   searchingBoxInner: {
     marginTop: 20,
@@ -202,10 +222,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   noWifiIcon: {
-    width: 120,
-    height: 120,
-    backgroundColor: "#93114E",
-    borderRadius: 60,
+    width: 250,
+    height: 250,
+    marginVertical: 50,
+    backgroundColor: "#19337F",
+    borderRadius: 125,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -217,11 +238,14 @@ const styles = StyleSheet.create({
   infoSubheader: {
     color: "white",
     fontWeight: "400",
-    fontSize: 20
+    fontSize: 18
   },
   noWifiTextContainer: {
-    maxWidth: "60%",
-    marginLeft: 20
+    flex: 0,
+    paddingHorizontal: 20
+  },
+  noWifiText: {
+    textAlign: "center"
   },
   searchingTextContainer: {
     maxWidth: "75%",
@@ -247,6 +271,13 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: "700"
+  },
+  settingsButton: {
+    flex: 1,
+    paddingVertical: 10,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center"
   },
   searchingBox: {
     backgroundColor: "#2348B2",
