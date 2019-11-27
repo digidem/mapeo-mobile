@@ -156,9 +156,11 @@ export default SyncView;
 
 const styles = StyleSheet.create({
   projectId: {
-    color: "white",
+    color: "#aaaaaa",
     padding: 10,
-    textAlign: "center"
+    textAlign: "center",
+    backgroundColor: "black",
+    flex: 0
   },
   header: {
     flexGrow: 0,
