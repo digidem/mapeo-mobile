@@ -256,6 +256,10 @@
     "description": "Title of message shown when no wifi network",
     "message": "No WiFi"
   },
+  "screens.SyncModal.SyncView.projectKey": {
+    "description": "First 5 characters of project key displayed on sync screen",
+    "message": "Project Key: {projectKey}"
+  },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
     "message": "Ensure that other devices are turned on and connected to the same WiFi network"
