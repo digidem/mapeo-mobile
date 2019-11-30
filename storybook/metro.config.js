@@ -41,6 +41,10 @@ module.exports = {
         __dirname,
         "node_modules/@expo/vector-icons"
       ),
+      "bugsnag-react-native": path.resolve(
+        __dirname,
+        "__mocks__/bugsnag-react-native.js"
+      ),
       "@storybook/react-native": path.resolve(
         __dirname,
         "node_modules/@storybook/react-native"

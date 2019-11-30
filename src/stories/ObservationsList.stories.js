@@ -22,9 +22,7 @@ observationsJson[2].created_at = new Date(
   Date.now() - 2 * 24 * 60 * 60 * 1000
 ).toISOString();
 
-const observations = new Map(
-  Object.entries(observationsJson).slice(0, maxListSize)
-);
+const observations = observationsJson.slice(0, maxListSize);
 
 const presets = new Map(Object.entries(presetsJson.presets));
 const { storiesOf } = Storybook;

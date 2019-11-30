@@ -8,6 +8,7 @@ module.exports = function(api) {
         {
           alias: {
             "react-native-fs": "./__mocks__/react-native-fs.js",
+            "bugsnag-react-native": "./__mocks__/bugsnag-react-native.js",
             "@react-native-community/async-storage":
               "./__mocks__/async-storage.js",
             "mapeo-mobile-stories": "../src/stories",
