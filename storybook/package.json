@@ -9,24 +9,24 @@
     "storybook": "start-storybook -p 7007"
   },
   "dependencies": {
-    "expo": "^33.0.0",
+    "expo": "^35.0.0",
     "react": "16.8.3",
-    "react-dom": "^16.8.6",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
-    "react-native-web": "^0.11.4"
+    "react-dom": "16.8.3",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
+    "react-native-web": "^0.11.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@emotion/core": "^10.0.10",
-    "@storybook/addon-actions": "^5.1.1",
-    "@storybook/addon-links": "^5.1.1",
-    "@storybook/addons": "^5.1.1",
-    "@storybook/react-native": "^5.1.1",
-    "@storybook/react-native-server": "^5.1.1",
+    "@babel/core": "^7.7.4",
+    "@emotion/core": "^10.0.22",
+    "@storybook/addon-actions": "^5.2.6",
+    "@storybook/addon-links": "^5.2.6",
+    "@storybook/addons": "^5.2.6",
+    "@storybook/react-native": "^5.2.6",
+    "@storybook/react-native-server": "^5.2.6",
     "babel-loader": "^8.0.6",
     "babel-plugin-module-resolver": "^3.2.0",
-    "babel-preset-expo": "^5.1.1",
-    "emotion-theming": "^10.0.10",
+    "babel-preset-expo": "^7.0.0",
+    "emotion-theming": "^10.0.19",
     "glob-to-regexp": "^0.4.1"
   },
   "private": true

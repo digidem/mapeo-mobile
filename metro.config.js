@@ -33,7 +33,12 @@ module.exports = {
     }),
   },
   resolver: {
-    blacklistRE: blacklist([/nodejs-assets\/.*/, /android\/.*/, /ios\/.*/]),
+    blacklistRE: blacklist([
+      /nodejs-assets\/.*/,
+      /android\/.*/,
+      /ios\/.*/,
+      /storybook\/.*/,
+    ]),
     sourceExts: customSourceExts.concat(defaultSourceExts),
   },
 };
