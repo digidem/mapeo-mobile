@@ -43,6 +43,8 @@ export type PeerError =
       themClient: string
     };
 
+let id = 0;
+
 export type ServerPeer = {
   id: string,
   name: string,
@@ -256,7 +258,17 @@ export function Api({
     },
 
     getDeviceId: function getDeviceId(): Promise<string> {
-      return get(`device/id`);
+      const start = Date.now();
+      const channelId = id++;
+      nodejs.channel.post("get-device-id", {
+        channelId
+      });
+      return new Promise((resolve, reject) => {
+        nodejs.channel.once("get-device-id-" + channelId, deviceId => {
+          console.log("DeviceId GET: " + (Date.now() - start) + "ms", deviceId);
+          resolve(deviceId);
+        });
+      });
     },
 
     /**

@@ -25,8 +25,7 @@ const ObservationsList = ({ navigation }: NavigationScreenConfigProps) => {
 
   return (
     <ObservationsListView
-      loading={status === "loading"}
-      error={status === "error"}
+      status={status}
       observations={observations}
       onPressObservation={navigateToObservation}
     />

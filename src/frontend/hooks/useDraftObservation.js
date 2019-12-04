@@ -76,7 +76,7 @@ export default (): UseDraftObservation => {
   const [draft, setDraft] = useContext(DraftObservationContext);
   const [{ observations }, dispatch] = useContext(ObservationsContext);
   const [{ presets, fields }] = useContext(PresetsContext);
-  const [savingStatus, setSavingStatus] = useState<Status>();
+  const [savingStatus, setSavingStatus] = useState<Status>("idle");
 
   const addPhoto = useCallback(
     async function addPhoto(capturePromise: CapturePromise) {

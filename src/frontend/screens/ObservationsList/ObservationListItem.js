@@ -12,7 +12,6 @@ import PhotoView from "../../sharedComponents/PhotoView";
 import api from "../../api";
 import type { Style } from "../../types";
 import type { SavedPhoto } from "../../context/DraftObservationContext";
-import useDeviceId from "../../hooks/useDeviceId";
 
 const m = defineMessages({
   defaultObservationName: {
@@ -25,6 +24,7 @@ const m = defineMessages({
 type Props = {
   onPress: string => any,
   style?: Style<typeof View>,
+  deviceId?: string,
   observationId: string
 };
 
@@ -53,12 +53,12 @@ const PhotoStack = ({ photos }: { photos: SavedPhoto[] }) => {
 const ObservationListItem = ({
   onPress = () => {},
   style,
-  observationId
+  observationId,
+  deviceId
 }: Props) => {
   const { formatMessage: t } = useIntl();
   const [{ observation, preset }] = useObservation(observationId);
   const name = preset ? preset.name : t(m.defaultObservationName);
-  const deviceId = useDeviceId();
   const iconId = preset && preset.icon;
   const createdDate =
     observation && observation.created_at
@@ -67,7 +67,10 @@ const ObservationListItem = ({
   const photos = filterPhotosFromAttachments(
     observation && observation.value.attachments
   ).slice(0, 3);
-  const isMine = observation && observation.value.deviceId === deviceId;
+  const isMine = deviceId
+    ? observation && observation.value.deviceId === deviceId
+    : // Set to true whilst deviceId is loading
+      true;
   return (
     <TouchableHighlight
       onPress={() => onPress(observationId)}
@@ -109,10 +112,11 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 20,
     flex: 1,
-    height: 80
+    height: 80,
+    borderLeftWidth: 5,
+    borderLeftColor: "transparent"
   },
   syncedObservation: {
-    borderLeftWidth: 5,
     borderLeftColor: "#3C69F6"
   },
   text: {

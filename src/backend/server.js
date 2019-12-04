@@ -103,9 +103,17 @@ function createServer({ privateStorage, sharedStorage }) {
       rnBridge.channel.on("sync-start", startSync);
       rnBridge.channel.on("sync-join", joinSync);
       rnBridge.channel.on("sync-leave", leaveSync);
+      rnBridge.channel.on("get-device-id", getDeviceId);
       origListen.apply(server, args);
     });
   };
+
+  function getDeviceId({ channelId } = {}) {
+    mapeoCore.getDeviceId(function(err, deviceId) {
+      if (err) console.error(err);
+      rnBridge.channel.post("get-device-id-" + channelId, deviceId);
+    });
+  }
 
   // Send message to frontend whenever there is an update to the peer list
   function sendPeerUpdateToRN(peer) {
