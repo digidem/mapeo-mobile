@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Platform } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 
 // import type { MapStyle } from "../types";
@@ -20,7 +20,9 @@ import Loading from "./Loading";
 MapboxGL.setAccessToken(config.mapboxAccessToken);
 // Forces Mapbox to always be in connected state, rather than reading system
 // connectivity state
-MapboxGL.setConnected(true);
+if (Platform.OS === "android") {
+  MapboxGL.setConnected(true);
+}
 
 const mapboxStyles = {
   observation: {
