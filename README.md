@@ -12,6 +12,7 @@ Mapeo Mobile is a mobile app (currently Android only) for offline mapping and mo
 - [Compatibility & Stability](#-Compatibility)
 - [Install](#install)
 - [Usage](#usage)
+- [Translations](#translations)
 - [Maintainers](#maintainers)
 - [Contributing](#contributing)
 - [License](#license)
@@ -72,6 +73,14 @@ tiles/
   my-offline-tiles.asar
   ...maybe more
 ```
+
+## Translations
+
+Mapeo is designed to be used in any language, but we rely on volunteers like you to help with translations. You can see current translation status on the [Crowdin project page](https://crowdin.com/project/mapeo-mobile).
+
+If you would like to add translations in your language, you can [sign up to Crowdin](https://crwd.in/mapeo-mobile) and being translating immediately.
+
+If you would like your language added to the translations list, [please request it](https://github.com/digidem/mapeo-mobile/issues/new).
 
 ## Maintainers
 
