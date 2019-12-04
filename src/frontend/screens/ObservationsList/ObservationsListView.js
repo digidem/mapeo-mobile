@@ -48,8 +48,7 @@ const ObservationsListView = ({
   loading,
   error,
   observations,
-  onPressObservation,
-  getPreset
+  onPressObservation
 }: Props) => {
   const rowsPerWindow = Math.ceil(
     (Dimensions.get("window").height - 65) / OBSERVATION_CELL_HEIGHT

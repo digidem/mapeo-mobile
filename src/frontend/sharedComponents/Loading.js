@@ -1,14 +1,14 @@
 // @flow
 import * as React from "react";
-import { View, Text, StyleSheet, Easing } from "react-native";
+import { View, StyleSheet, Easing } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 
-type Props = {
-  // title: React.Node,
-  // description: React.Node
-};
+// type Props = {
+//   title: React.Node,
+//   description: React.Node
+// };
 
-const Loading = ({ title, description }: Props) => (
+const Loading = () => (
   <View style={styles.root}>
     <DotIndicator
       count={3}
