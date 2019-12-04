@@ -1,6 +1,39 @@
 PODS:
   - boost-for-react-native (1.63.0)
+  - BugsnagReactNative (2.23.2):
+    - BugsnagReactNative/Core (= 2.23.2)
+    - React
+  - BugsnagReactNative/Core (2.23.2):
+    - React
+  - BVLinearGradient (2.5.6):
+    - React
   - DoubleConversion (1.1.6)
+  - EXAppLoaderProvider (8.0.0)
+  - EXCamera (8.0.0):
+    - UMBarCodeScannerInterface
+    - UMCore
+    - UMFaceDetectorInterface
+    - UMFileSystemInterface
+    - UMImageLoaderInterface
+    - UMPermissionsInterface
+  - EXConstants (8.0.0):
+    - UMConstantsInterface
+    - UMCore
+  - EXFileSystem (8.0.0):
+    - UMCore
+    - UMFileSystemInterface
+  - EXLocalization (8.0.0):
+    - UMCore
+  - EXLocation (8.0.0):
+    - UMCore
+    - UMPermissionsInterface
+    - UMTaskManagerInterface
+  - EXPermissions (8.0.0):
+    - UMCore
+    - UMPermissionsInterface
+  - EXSensors (8.0.0):
+    - UMCore
+    - UMSensorsInterface
   - FBLazyVector (0.61.5)
   - FBReactNativeSpec (0.61.5):
     - Folly (= 2018.10.22.00)
@@ -19,6 +52,8 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - nodejs-mobile-react-native (0.5.0):
+    - React
   - RCTRequired (0.61.5)
   - RCTTypeSafety (0.61.5):
     - FBLazyVector (= 0.61.5)
@@ -182,6 +217,18 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
+  - react-native-image-resizer (1.1.0):
+    - React
+  - react-native-keep-awake (4.0.0):
+    - React
+  - react-native-mapbox-gl (7.0.8):
+    - React
+  - react-native-netinfo (4.6.1):
+    - React
+  - react-native-network-info (5.2.1):
+    - React
+  - react-native-splash-screen (3.2.0):
+    - React
   - React-RCTActionSheet (0.61.5):
     - React-Core/RCTActionSheetHeaders (= 0.61.5)
   - React-RCTAnimation (0.61.5):
@@ -217,14 +264,54 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
+  - ReactNativeART (1.0.2):
+    - React
+  - RNCAsyncStorage (1.6.3):
+    - React
+  - RNFS (2.16.2):
+    - React
+  - RNGestureHandler (1.5.2):
+    - React
+  - RNReanimated (1.4.0):
+    - React
+  - RNShare (2.0.0):
+    - React
+  - RNVectorIcons (6.6.0):
+    - React
+  - UMBarCodeScannerInterface (5.0.0)
+  - UMCameraInterface (5.0.0)
+  - UMConstantsInterface (5.0.0)
+  - UMCore (5.0.0)
+  - UMFaceDetectorInterface (5.0.0)
+  - UMFileSystemInterface (5.0.0)
+  - UMFontInterface (5.0.0)
+  - UMImageLoaderInterface (5.0.0)
+  - UMPermissionsInterface (5.0.0)
+  - UMReactNativeAdapter (5.0.0):
+    - React-Core
+    - UMCore
+    - UMFontInterface
+  - UMSensorsInterface (5.0.0)
+  - UMTaskManagerInterface (5.0.0)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
+  - BugsnagReactNative (from `../node_modules/bugsnag-react-native`)
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - EXAppLoaderProvider (from `../node_modules/expo-app-loader-provider/ios`)
+  - EXCamera (from `../node_modules/expo-camera/ios`)
+  - EXConstants (from `../node_modules/expo-constants/ios`)
+  - EXFileSystem (from `../node_modules/expo-file-system/ios`)
+  - EXLocalization (from `../node_modules/expo-localization/ios`)
+  - EXLocation (from `../node_modules/expo-location/ios`)
+  - EXPermissions (from `../node_modules/expo-permissions/ios`)
+  - EXSensors (from `../node_modules/expo-sensors/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - nodejs-mobile-react-native (from `../node_modules/nodejs-mobile-react-native`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -236,6 +323,12 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
+  - react-native-keep-awake (from `../node_modules/react-native-keep-awake`)
+  - "react-native-mapbox-gl (from `../node_modules/@react-native-mapbox-gl/maps`)"
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-network-info (from `../node_modules/react-native-network-info`)
+  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -247,6 +340,25 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "ReactNativeART (from `../node_modules/@react-native-community/art`)"
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - RNFS (from `../node_modules/react-native-fs`)
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
+  - RNShare (from `../node_modules/react-native-share`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - UMBarCodeScannerInterface (from `../node_modules/unimodules-barcode-scanner-interface/ios`)
+  - UMCameraInterface (from `../node_modules/unimodules-camera-interface/ios`)
+  - UMConstantsInterface (from `../node_modules/unimodules-constants-interface/ios`)
+  - "UMCore (from `../node_modules/@unimodules/core/ios`)"
+  - UMFaceDetectorInterface (from `../node_modules/unimodules-face-detector-interface/ios`)
+  - UMFileSystemInterface (from `../node_modules/unimodules-file-system-interface/ios`)
+  - UMFontInterface (from `../node_modules/unimodules-font-interface/ios`)
+  - UMImageLoaderInterface (from `../node_modules/unimodules-image-loader-interface/ios`)
+  - UMPermissionsInterface (from `../node_modules/unimodules-permissions-interface/ios`)
+  - "UMReactNativeAdapter (from `../node_modules/@unimodules/react-native-adapter/ios`)"
+  - UMSensorsInterface (from `../node_modules/unimodules-sensors-interface/ios`)
+  - UMTaskManagerInterface (from `../node_modules/unimodules-task-manager-interface/ios`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -254,8 +366,36 @@ SPEC REPOS:
     - boost-for-react-native
 
 EXTERNAL SOURCES:
+  BugsnagReactNative:
+    :path: "../node_modules/bugsnag-react-native"
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  EXAppLoaderProvider:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/expo-app-loader-provider/ios"
+  EXCamera:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/expo-camera/ios"
+  EXConstants:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/expo-constants/ios"
+  EXFileSystem:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/expo-file-system/ios"
+  EXLocalization:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/expo-localization/ios"
+  EXLocation:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/expo-location/ios"
+  EXPermissions:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/expo-permissions/ios"
+  EXSensors:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/expo-sensors/ios"
   FBLazyVector:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
@@ -264,6 +404,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  nodejs-mobile-react-native:
+    :path: "../node_modules/nodejs-mobile-react-native"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -282,6 +424,18 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-image-resizer:
+    :path: "../node_modules/react-native-image-resizer"
+  react-native-keep-awake:
+    :path: "../node_modules/react-native-keep-awake"
+  react-native-mapbox-gl:
+    :path: "../node_modules/@react-native-mapbox-gl/maps"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
+  react-native-network-info:
+    :path: "../node_modules/react-native-network-info"
+  react-native-splash-screen:
+    :path: "../node_modules/react-native-splash-screen"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -302,16 +456,77 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  ReactNativeART:
+    :path: "../node_modules/@react-native-community/art"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
+  RNShare:
+    :path: "../node_modules/react-native-share"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
+  UMBarCodeScannerInterface:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/unimodules-barcode-scanner-interface/ios"
+  UMCameraInterface:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/unimodules-camera-interface/ios"
+  UMConstantsInterface:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/unimodules-constants-interface/ios"
+  UMCore:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/@unimodules/core/ios"
+  UMFaceDetectorInterface:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/unimodules-face-detector-interface/ios"
+  UMFileSystemInterface:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/unimodules-file-system-interface/ios"
+  UMFontInterface:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/unimodules-font-interface/ios"
+  UMImageLoaderInterface:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/unimodules-image-loader-interface/ios"
+  UMPermissionsInterface:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/unimodules-permissions-interface/ios"
+  UMReactNativeAdapter:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/@unimodules/react-native-adapter/ios"
+  UMSensorsInterface:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/unimodules-sensors-interface/ios"
+  UMTaskManagerInterface:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/unimodules-task-manager-interface/ios"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  BugsnagReactNative: 0a24a1dd2cac88862d67b938f809bec8274130a9
+  BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
+  EXAppLoaderProvider: f6aeb45ee81887811b34eee5c5f235a6111d58d0
+  EXCamera: fa231974a9451adf342e1861ee5b4c8316c53d23
+  EXConstants: e287774d0d32634ddaef614f2e488c550c6deefc
+  EXFileSystem: fa8ecad925ad984681910a2273930f7255a0a9b5
+  EXLocalization: 3dc1ec84a2a8aa2febcdf97f10c3fb5653e6de2c
+  EXLocation: e994c186f94340caf1a9ace96b3458a72472553c
+  EXPermissions: 3e58e0fbb2e9539ad1ef5617ff02c2356447421e
+  EXSensors: 3c761d7cbbde7b9403d599704319c1239c99cd3e
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
+  nodejs-mobile-react-native: 1bdef45fb27ac8416414042b45e3d35830dd2e3e
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
   React: b6a59ef847b2b40bb6e0180a97d0ca716969ac78
@@ -321,6 +536,12 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
+  react-native-image-resizer: 9dfb844937574db849fd18a56d8e6c607b0a31d8
+  react-native-keep-awake: eba3137546b10003361b37c761f6c429b59814ae
+  react-native-mapbox-gl: fcd88e2bf0ddea552b0209cc2770a5ac2b9c9910
+  react-native-netinfo: 16c6408c311572f17f9ffc3fa12614489307b6cf
+  react-native-network-info: d1290ffc0bd0709e11436f5b8d7f605dcc5c4530
+  react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -331,8 +552,27 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
+  ReactNativeART: 7e3afb07dda5d66b9c4a5233393d4349c41076ef
+  RNCAsyncStorage: 6b57de0f6cb0dcfd17521af1681fa39001d3efff
+  RNFS: 0d4191b1052bef9ce70deff00a5b4169c62bbd9b
+  RNGestureHandler: 946a7691e41df61e2c4b1884deab41a4cdc3afff
+  RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
+  RNShare: 8b171d4b43c1d886917fdd303bf7a4b87167b05c
+  RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
+  UMBarCodeScannerInterface: 550e7ffd7a789289260bde3d547be29407e75437
+  UMCameraInterface: 51e4568d64e77615557afaad9a3acdaad5d32d9f
+  UMConstantsInterface: 23d658b73efc2b8090519b32007c3de725339492
+  UMCore: 70ffbb181a04d87b029b0235873e59090690b7ab
+  UMFaceDetectorInterface: b29febb6c855acb2891d024bb8059f5a8feb37d0
+  UMFileSystemInterface: 31b0a8461d0c635940b70618f82524e321b55d7c
+  UMFontInterface: c82a5e8e17d1578f0b76745535a5f4dc43971970
+  UMImageLoaderInterface: bd64d84e5772165a13575f7ddd43b489f51e5694
+  UMPermissionsInterface: 907d0112f59b172550fe36174432024a4d5f0cd7
+  UMReactNativeAdapter: 7ec3c2da240e767df8257bc487251ae03447d1b0
+  UMSensorsInterface: 1b36739f5241fa88ba483be9520d0a30e4d6f84c
+  UMTaskManagerInterface: ee5b1ee1056eb338ff2d521ba79460d8cd0bae7d
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 2258f62cde52edcba3886ffe0e970ad2e6220d4c
+PODFILE CHECKSUM: cc0fe3784a75e65bdf96ed9211ec5dc98cdaac6e
 
 COCOAPODS: 1.8.4
