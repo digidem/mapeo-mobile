@@ -110,16 +110,16 @@ function createServer({ privateStorage, sharedStorage }) {
   // Send message to frontend whenever there is an update to the peer list
   function sendPeerUpdateToRN(peer) {
     const peers = mapeoCore.sync.peers().map(peer => {
-      const { connection, ...rest } = peer;
-      return {
-        ...rest,
+      const rest = Object.assign({}, peer);
+      delete rest.connection;
+      return Object.assign(rest, {
         channel: Buffer.isBuffer(rest.channel)
           ? rest.channel.toString("hex")
           : undefined,
         swarmId: Buffer.isBuffer(rest.swarmId)
           ? rest.swarmId.toString("hex")
           : undefined
-      };
+      });
     });
     rnBridge.channel.post("peer-update", peers);
   }
