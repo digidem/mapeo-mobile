@@ -9,6 +9,9 @@
   "main": "main.js",
   "author": "Digital Democracy",
   "license": "MIT",
+  "scripts": {
+    "postinstall": "patch-package"
+  },
   "dependencies": {
     "@bugsnag/js": "^6.3.1",
     "bindings-noderify-nodejs-mobile": "^10.3.0",
@@ -26,6 +29,7 @@
   },
   "devDependencies": {
     "node-gyp-build": "^4.1.0",
-    "noderify": "^4.1.0"
+    "noderify": "^4.1.0",
+    "patch-package": "^6.2.0"
   }
 }

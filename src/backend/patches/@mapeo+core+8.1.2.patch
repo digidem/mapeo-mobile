@@ -1,0 +1,13 @@
+diff --git a/node_modules/@mapeo/core/sync.js b/node_modules/@mapeo/core/sync.js
+index 9149cae..10fe101 100644
+--- a/node_modules/@mapeo/core/sync.js
++++ b/node_modules/@mapeo/core/sync.js
+@@ -47,7 +47,7 @@ const states = {
+ const multifeedErrorProps = ['code', 'usVersion', 'themVersion', 'usClient', 'themClient']
+ 
+ function PeerState (topic, message, other) {
+-  return { topic, message, ...other }
++  return Object.assign({ topic, message }, other)
+ }
+ 
+ class SyncState {
