@@ -22,11 +22,13 @@ else
   echo '1' >./nodejs-assets/BUILD_NATIVE_MODULES.txt
   echo "Set Build Native Modules on"
 fi
-cp -r ./src/backend ./nodejs-assets
-mv ./nodejs-assets/backend ./nodejs-assets/nodejs-project
 
 echo "Installing dependencies..."
-cd ./nodejs-assets/nodejs-project && npm i && cd ../..
+cd ./src/backend && npm i && cd ../..
+
+echo "Copying files to nodejs-assets"
+cp -r ./src/backend ./nodejs-assets
+mv ./nodejs-assets/backend ./nodejs-assets/nodejs-project
 
 # echo -en "Minifying with noderify..."
 # cd ./nodejs-assets/nodejs-project
@@ -47,6 +49,9 @@ mkdir -p presets
 mv ./node_modules/mapeo-default-settings/build ./presets/default
 cd ../..
 echo -en " done.\n"
+
+echo -en "Remove sodium-native to fix build error..."
+rm -rf ./nodejs-assets/nodejs-project/node_modules/sodium-native
 
 # echo -en "Keeping some node modules..."
 # declare -a keepThese=("leveldown" ".bin" "node-gyp-build" "napi-macros")
