@@ -97,7 +97,6 @@ const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
         getItemLayout={getItemLayout}
         windowSize={1}
         maxToRenderPerBatch={numColumns}
-        removeClippedSubviews
         style={{ width: Dimensions.get("window").width }}
         renderItem={renderItem}
         data={presetsList}
