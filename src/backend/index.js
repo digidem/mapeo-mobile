@@ -26,7 +26,8 @@ const constants = require("./constants");
 const createServer = require("./server");
 const createBugsnag = require("@bugsnag/js");
 const semver = require("semver");
-const { version } = require("../../package.json");
+// TODO: Use dynamic value from main package.json (so it works with ios)
+const version = "2.0.0-beta.0";
 
 const prereleaseComponents = semver.prerelease(version);
 const releaseStage = prereleaseComponents
