@@ -18,6 +18,7 @@ const log = debug("mapeo-core:server");
 module.exports = createServer;
 
 function createServer({ privateStorage, sharedStorage }) {
+  sharedStorage = sharedStorage || privateStorage;
   let projectKey;
   try {
     const metadata = JSON.parse(
@@ -52,7 +53,7 @@ function createServer({ privateStorage, sharedStorage }) {
 
   // Folder with default (built-in) presets to server when the user has not
   // added any presets
-  const fallbackPresetsDir = path.join(process.cwd(), "presets");
+  const fallbackPresetsDir = path.join(__dirname, "presets");
 
   // The main osm db for observations and map data
   const osm = createOsmDb({
