@@ -39,11 +39,7 @@ class AppLoading extends React.Component<Props, State> {
 
   componentDidMount() {
     // $FlowFixMe - needs HOC type to be fixed
-    this.props.requestPermissions([
-      PERMISSIONS.CAMERA,
-      PERMISSIONS.ACCESS_COARSE_LOCATION,
-      PERMISSIONS.ACCESS_FINE_LOCATION
-    ]);
+    this.props.requestPermissions([PERMISSIONS.CAMERA, PERMISSIONS.LOCATION]);
     this._timeoutId = setTimeout(() => {
       SplashScreen.hide();
       this._timeoutId = null;

@@ -98,13 +98,11 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
   // This React method is "bad" to use, but we use it for convenience - we
   // include the location permission state in the location context object
   static getDerivedStateFromProps(props, state) {
-    if (
-      props.permissions[PERMISSIONS.ACCESS_FINE_LOCATION] === state.permission
-    )
+    if (props.permissions[PERMISSIONS.LOCATION] === state.permission)
       return state;
     return {
       ...state,
-      permission: props.permissions[PERMISSIONS.ACCESS_FINE_LOCATION]
+      permission: props.permissions[PERMISSIONS.LOCATION]
     };
   }
 
@@ -130,8 +128,8 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
     const { permissions } = this.props;
     const { position } = this.state;
     const permissionHasChanged =
-      permissions[PERMISSIONS.ACCESS_FINE_LOCATION] !==
-      prevProps.permissions[PERMISSIONS.ACCESS_FINE_LOCATION];
+      permissions[PERMISSIONS.LOCATION] !==
+      prevProps.permissions[PERMISSIONS.LOCATION];
     if (permissionHasChanged) this.updateStatus();
     if (position !== prevState.position && position) {
       try {
@@ -145,8 +143,7 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
   updateStatus = async () => {
     try {
       const hasLocationPermission =
-        this.props.permissions[PERMISSIONS.ACCESS_FINE_LOCATION] ===
-        RESULTS.GRANTED;
+        this.props.permissions[PERMISSIONS.LOCATION] === RESULTS.GRANTED;
       if (!hasLocationPermission) return;
       clearTimeout(this._timeoutId);
       const provider = await Location.getProviderStatusAsync();

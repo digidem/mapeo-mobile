@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
-import { PermissionsAndroid } from "react-native";
+import { Permissions } from "react-native-unimodules";
 import debug from "debug";
-import shallowequal from "shallowequal";
 import hoistStatics from "hoist-non-react-statics";
 
 import { getDisplayName } from "../lib/utils";
@@ -11,10 +10,7 @@ const log = debug("mapeo:Permissions");
 
 export type PermissionResult = "granted" | "denied" | "never_ask_again";
 
-type PermissionType =
-  | "android.permission.CAMERA"
-  | "android.permission.ACCESS_FINE_LOCATION"
-  | "android.permission.ACCESS_COARSE_LOCATION";
+type PermissionType = typeof Permissions.CAMERA | typeof Permissions.LOCATION;
 
 export type PermissionsType = {|
   [PermissionType]: PermissionResult
@@ -27,9 +23,8 @@ export const RESULTS: { [string]: PermissionResult } = {
 };
 
 export const PERMISSIONS: { [string]: PermissionType } = {
-  CAMERA: "android.permission.CAMERA",
-  ACCESS_FINE_LOCATION: "android.permission.ACCESS_FINE_LOCATION",
-  ACCESS_COARSE_LOCATION: "android.permission.ACCESS_COARSE_LOCATION"
+  CAMERA: Permissions.CAMERA,
+  LOCATION: Permissions.LOCATION
 };
 
 type RequestPermissions = (type: PermissionType | PermissionType[]) => any;
@@ -76,17 +71,19 @@ export class PermissionsProvider extends React.Component<
 
   async requestPermissions(permissions: PermissionType | PermissionType[]) {
     if (!Array.isArray(permissions)) permissions = [permissions];
-    // $FlowFixMe
-    const status = await PermissionsAndroid.requestMultiple(permissions);
-    log("Permission status", status);
-    // Bail if nothing to update
-    if (shallowequal(this.state.permissions, status)) return;
-    this.setState({
-      permissions: {
-        ...this.state.permissions,
-        ...status
-      }
-    });
+    for (const permission of permissions) {
+      console.log("Requesting permission for:", permission);
+      const { status } = await Permissions.askAsync(permission);
+      log("Permission status", status);
+      // Bail if nothing to update
+      if (this.state.permissions[permission] === status) return;
+      this.setState({
+        permissions: {
+          ...this.state.permissions,
+          [permission]: status
+        }
+      });
+    }
   }
 
   render() {
