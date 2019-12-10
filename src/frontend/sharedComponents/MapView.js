@@ -255,8 +255,10 @@ class MapView extends React.Component<Props, State> {
             styleURL={styleURL}
             onRegionDidChange={this.handleRegionDidChange}>
             <MapboxGL.Camera
-              centerCoordinate={initialCoords}
-              zoomLevel={initialZoom}
+              defaultSettings={{
+                centerCoordinate: initialCoords,
+                zoomLevel: initialZoom
+              }}
               followUserLocation={isFocused && this.state.following}
               followUserMode="normal"
               followZoomLevel={this.getFollowZoomLevel()}
