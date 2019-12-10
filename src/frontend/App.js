@@ -1,7 +1,7 @@
 /* global __DEV__ */
 // @flow
 import * as React from "react";
-import { Platform } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import debug from "debug";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -133,6 +133,7 @@ const App = () => {
         <PermissionsProvider>
           <AppLoading>
             <AppProvider>
+              {Platform.OS === "ios" && <StatusBar hidden />}
               <AppContainer
                 persistNavigationState={persistNavigationState}
                 loadNavigationState={loadNavigationState}
