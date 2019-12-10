@@ -1,4 +1,5 @@
 // @flow
+import { Platform } from "react-native";
 import { fromLatLon } from "utm";
 
 import type { LocationContextType } from "../context/LocationContext";
@@ -61,8 +62,8 @@ export function getLocationStatus({
   const noPermission = permission && permission !== "granted";
   const positionStale =
     position && Date.now() - position.timestamp > STALE_TIMEOUT;
-  if (error || gpsUnavailable || locationServicesDisabled || noPermission)
-    return "error";
+  if (Platform.OS === "android" && gpsUnavailable) return "error";
+  if (error || locationServicesDisabled || noPermission) return "error";
   else if (positionStale) return "searching";
   else if (
     typeof precision === "number" &&
