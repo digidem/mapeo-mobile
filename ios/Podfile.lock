@@ -227,6 +227,8 @@ PODS:
     - React
   - react-native-network-info (5.2.1):
     - React
+  - react-native-safe-area-context (0.6.1):
+    - React
   - react-native-splash-screen (3.2.0):
     - React
   - React-RCTActionSheet (0.61.5):
@@ -328,6 +330,7 @@ DEPENDENCIES:
   - "react-native-mapbox-gl (from `../node_modules/@react-native-mapbox-gl/maps`)"
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-network-info (from `../node_modules/react-native-network-info`)
+  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -434,6 +437,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-network-info:
     :path: "../node_modules/react-native-network-info"
+  react-native-safe-area-context:
+    :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   React-RCTActionSheet:
@@ -541,6 +546,7 @@ SPEC CHECKSUMS:
   react-native-mapbox-gl: fcd88e2bf0ddea552b0209cc2770a5ac2b9c9910
   react-native-netinfo: 16c6408c311572f17f9ffc3fa12614489307b6cf
   react-native-network-info: d1290ffc0bd0709e11436f5b8d7f605dcc5c4530
+  react-native-safe-area-context: 66dcc0f2792b43479bffe0450dab8eac47d3fcee
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
