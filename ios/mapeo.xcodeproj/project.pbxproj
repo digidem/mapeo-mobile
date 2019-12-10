@@ -67,6 +67,7 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F0279FACBA5C6FF4E48E5E8C /* Pods-mapeo-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapeo-tvOS.release.xcconfig"; path = "Target Support Files/Pods-mapeo-tvOS/Pods-mapeo-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		F510F430239EB9A600F33CBF /* mapeo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mapeo.entitlements; path = mapeo/mapeo.entitlements; sourceTree = "<group>"; };
 		F518DE60239959C7004FD488 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		FCCE32129F349A53533763AF /* libPods-mapeo-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mapeo-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -127,6 +128,7 @@
 		13B07FAE1A68108700A75B9A /* mapeo */ = {
 			isa = PBXGroup;
 			children = (
+				F510F430239EB9A600F33CBF /* mapeo.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -752,6 +754,7 @@
 			baseConfigurationReference = 4CC8CFA6AC0256F348E730A3 /* Pods-mapeo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = mapeo/mapeo.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = V38QL3ZC3T;
@@ -774,6 +777,7 @@
 			baseConfigurationReference = 286498A51D98A5119EBFB8B1 /* Pods-mapeo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = mapeo/mapeo.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = V38QL3ZC3T;
 				INFOPLIST_FILE = mapeo/Info.plist;
