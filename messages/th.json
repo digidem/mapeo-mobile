@@ -44,11 +44,11 @@
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
-    "message": "No"
+    "message": "ไม่ใช่"
   },
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
-    "message": "Yes"
+    "message": "ใช่"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "East"
@@ -266,7 +266,7 @@
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
-    "message": "Searching"
+    "message": "กำลังค้นหา"
   },
   "screens.SyncModal.SyncView.settingsButton": {
     "description": "Button to open WiFi settings",
@@ -282,7 +282,7 @@
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
-    "message": "OK"
+    "message": "ตกลง"
   },
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
@@ -290,7 +290,7 @@
   },
   "screens.SyncModal.errorVersionThemBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} needs to upgrade Mapeo"
+    "message": "{deviceName} จำเป็นต้องอัพเกรด Mapeo"
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
@@ -298,7 +298,7 @@
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "You need to upgrade Mapeo"
+    "message": "คุณจำเป็นต้องอัพเกรด Mapeo"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
@@ -306,12 +306,12 @@
   },
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
-    "message": "Unexpected Error"
+    "message": "ผิดพลาดอย่างไม่คาดคิด"
   },
   "sharedComponents.GpsPill.noGps": {
-    "message": "No GPS"
+    "message": "ไม่มีสัญญาณ GPS"
   },
   "sharedComponents.GpsPill.searching": {
-    "message": "Searching…"
+    "message": "กำลัง​ค้น​หา..."
   }
 }
