@@ -1,18 +1,18 @@
 {
   "AppContainer.EditHeader.discardCancel": {
     "description": "Button on dialog to keep editing (cancelling close action)",
-    "message": "Continue editing"
+    "message": "ทำการแก้ไขต่อ"
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to close without saving",
-    "message": "Discard without saving"
+    "message": "ยกเลิกโดยไม่บันทึก"
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when closing an observation without saving",
-    "message": "Discard observation?"
+    "message": "ยืนยันการยกเลิก?"
   },
   "screens.AddPhoto.cancel": {
-    "message": "Cancel"
+    "message": "ยกเลิก"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -24,15 +24,15 @@
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
-    "message": "Details"
+    "message": "รายละเอียด"
   },
   "screens.GpsModal.gpsHeader": {
     "description": "Header for GPS screen",
-    "message": "Current GPS Location"
+    "message": "ตำแหน่ง GPS ปัจจุบัน"
   },
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
-    "message": "Last update"
+    "message": "ปรับปรุงล่าสุด"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
