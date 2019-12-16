@@ -230,7 +230,7 @@
   },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
-    "message": "Error"
+    "message": "ผิดพลาด"
   },
   "screens.SyncModal.PeerList.errorClientMismatch": {
     "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
@@ -242,11 +242,11 @@
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
-    "message": "Sync"
+    "message": "เชื่อมต่อข้อมูล"
   },
   "screens.SyncModal.PeerList.syncLabel": {
     "description": "Label for last sync datetime",
-    "message": "Synced:"
+    "message": "เชื่อมต่อข้อมูลแล้ว:"
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
