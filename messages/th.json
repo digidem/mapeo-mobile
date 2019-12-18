@@ -16,7 +16,7 @@
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
-    "message": "No access to camera"
+    "message": "ไม่สามารถเชื่อมต่อกล้องได้"
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
@@ -51,20 +51,20 @@
     "message": "ใช่"
   },
   "screens.ManualGpsScreen.easting": {
-    "message": "East"
+    "message": "ตะวันออก"
   },
   "screens.ManualGpsScreen.eastingSuffix": {
     "message": "mE"
   },
   "screens.ManualGpsScreen.northing": {
-    "message": "North"
+    "message": "เหนือ"
   },
   "screens.ManualGpsScreen.northingSuffix": {
     "message": "mN"
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
-    "message": "Enter coordinates"
+    "message": "ป้อนพิกัด"
   },
   "screens.ManualGpsScreen.zoneLetter": {
     "message": "Zone Letter"
@@ -74,7 +74,7 @@
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
-    "message": "Sent from Mapeo"
+    "message": "ส่งจาก Mapeo"
   },
   "screens.Observation.ObservationView.alertSubject": {
     "description": "Subject-line for shared observations",
@@ -82,31 +82,31 @@
   },
   "screens.Observation.ObservationView.delete": {
     "description": "Button to delete an observation",
-    "message": "Delete"
+    "message": "ลบ"
   },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
-    "message": "No answer"
+    "message": "ไม่มีการตอบรับ"
   },
   "screens.Observation.ObservationView.observation": {
     "description": "Default name of observation with no matching preset",
-    "message": "Observation"
+    "message": "ข้อสังเกต"
   },
   "screens.Observation.ObservationView.share": {
     "description": "Button to share an observation",
-    "message": "Share"
+    "message": "แชร์"
   },
   "screens.Observation.cancel": {
     "description": "Button to cancel delete of observation",
-    "message": "Cancel"
+    "message": "ยกเลิก"
   },
   "screens.Observation.confirm": {
     "description": "Button to confirm delete of observation",
-    "message": "Yes, delete"
+    "message": "ใช่ ลบได้"
   },
   "screens.Observation.deleteTitle": {
     "description": "Title of dialog asking confirmation to delete an observation",
-    "message": "Delete observation?"
+    "message": "ยืนยันให้ลบข้อสังเกตนี้หรือไม่?"
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
@@ -118,11 +118,11 @@
   },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
-    "message": "Done"
+    "message": "เสร็จสิ้น"
   },
   "screens.ObservationDetails.nextQuestion": {
     "description": "Button text to navigate to next question",
-    "message": "Next"
+    "message": "ถัดไป"
   },
   "screens.ObservationDetails.title": {
     "description": "Title of observation details screen showing question number and total",
@@ -130,19 +130,19 @@
   },
   "screens.ObservationEdit.BottomSheet.addLabel": {
     "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
-    "message": "Add…"
+    "message": "เพิ่มเติม..."
   },
   "screens.ObservationEdit.ObservationEditView.changePreset": {
     "description": "Button to change a category / preset",
-    "message": "Change"
+    "message": "แก้ไข"
   },
   "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
     "description": "Placeholder for description/notes field",
-    "message": "What is happening here?"
+    "message": "เกิดอะไรขึ้นที่นี่?"
   },
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
-    "message": "Add Details"
+    "message": "เพิ่มรายละเอียด"
   },
   "screens.ObservationEdit.ObservationEditView.observation": {
     "description": "Name of observation when no preset matches",
