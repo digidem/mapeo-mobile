@@ -302,7 +302,7 @@
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
-    "message": "Really sorry about this, something unexpected went wrong, and it's our fault not yours. Try restarting the app to see if that fixes things."
+    "message": "ขออภัย... ระบบขัดข้อง กรุณาทดลองปิดและเปิดแอพพลิเคชันใหม่เพื่อดูว่าระบบใช้ได้เป็นปกติหรือไม่"
   },
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
