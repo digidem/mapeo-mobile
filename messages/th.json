@@ -286,7 +286,7 @@
   },
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "The device you are trying to sync with needs to upgrade Mapeo to the latest version in order to sync with you."
+    "message": "อุปกรณ์ที่กำลังเชื่อมต่อจำเป็นต้องอัพเกรดให้เป็นเวอร์ชันล่าสุดก่อน"
   },
   "screens.SyncModal.errorVersionThemBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
@@ -294,7 +294,7 @@
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "The device you are trying to sync has a newer version of Mapeo. You need to upgrade Mapeo in order to sync with this device."
+    "message": "อุปกรณ์ที่กำลังเชื่อมต่อจำเป็นต้องติดตั้ง Mapeo เวอร์ชันใหม่ก่อน"
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
