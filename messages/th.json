@@ -36,7 +36,7 @@
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
-    "message": "Sensor Status"
+    "message": "สถานะเซ็นเซอร์"
   },
   "screens.GpsModal.locationUTM": {
     "description": "Section title for UTM coordinates",
@@ -67,10 +67,10 @@
     "message": "ป้อนพิกัด"
   },
   "screens.ManualGpsScreen.zoneLetter": {
-    "message": "Zone Letter"
+    "message": "โซนตัวอักษร"
   },
   "screens.ManualGpsScreen.zoneNumber": {
-    "message": "Zone Number"
+    "message": "โซนตัวเลข"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
@@ -126,7 +126,7 @@
   },
   "screens.ObservationDetails.title": {
     "description": "Title of observation details screen showing question number and total",
-    "message": "Question {current} of {total}"
+    "message": "คำถาม {current} ใน {total}"
   },
   "screens.ObservationEdit.BottomSheet.addLabel": {
     "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
@@ -158,7 +158,7 @@
   },
   "screens.ObservationEdit.SaveButton.keepWaiting": {
     "description": "Button to cancel save and continue waiting for GPS",
-    "message": "Continue waiting"
+    "message": "กำลังรอ"
   },
   "screens.ObservationEdit.SaveButton.manualEntry": {
     "description": "Button to manually enter GPS coordinates",
@@ -262,7 +262,7 @@
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
-    "message": "Ensure that other devices are turned on and connected to the same WiFi network"
+    "message": "ให้มั่นใจว่าอุปกรณ์เปิดอยู่และเชื่อมต่อภายใต้เครือข่าย WiFi เดียวกัน"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
