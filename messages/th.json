@@ -20,7 +20,7 @@
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
-    "message": "Choose what is happening"
+    "message": "เลือกสิ่งที่เกิดขึ้น"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -78,7 +78,7 @@
   },
   "screens.Observation.ObservationView.alertSubject": {
     "description": "Subject-line for shared observations",
-    "message": "Mapeo Alert"
+    "message": "แจ้งเตือนจาก Mapeo"
   },
   "screens.Observation.ObservationView.delete": {
     "description": "Button to delete an observation",
@@ -110,11 +110,11 @@
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
-    "message": "Observation not found"
+    "message": "ไม่พบข้อสังเกต"
   },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
-    "message": "{current} of {total}"
+    "message": "{current} ใน {total}"
   },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
@@ -146,15 +146,15 @@
   },
   "screens.ObservationEdit.ObservationEditView.observation": {
     "description": "Name of observation when no preset matches",
-    "message": "Observation"
+    "message": "ข้อสังเกต"
   },
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
-    "message": "Add Photo"
+    "message": "เพิ่มรูปภาพ"
   },
   "screens.ObservationEdit.ObservationEditView.searching": {
     "description": "Shown in new observation screen whilst looking for GPS",
-    "message": "Searching…"
+    "message": "กำลัง​ค้น​หา..."
   },
   "screens.ObservationEdit.SaveButton.keepWaiting": {
     "description": "Button to cancel save and continue waiting for GPS",
