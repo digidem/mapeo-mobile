@@ -40,7 +40,7 @@
   },
   "screens.GpsModal.locationUTM": {
     "description": "Section title for UTM coordinates",
-    "message": "Coordinates UTM"
+    "message": "พิกัด："
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
@@ -162,11 +162,11 @@
   },
   "screens.ObservationEdit.SaveButton.manualEntry": {
     "description": "Button to manually enter GPS coordinates",
-    "message": "Manual Coords"
+    "message": "ป้อนพิกัดด้วยตัวเอง"
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
-    "message": "This observation does not have a location. You can continue waiting for a GPS signal, save the observation without a location, or enter coordinates manually"
+    "message": "ข้อสังเกตนี้ไม่ปรากฎสถานที่ กรุณารอสัญญาณ GPS สักครู่ บันทึกข้อสังเกต โดยป้อนพิกัดด้วยตัวเอง "
   },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
@@ -178,7 +178,7 @@
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
-    "message": "GPS accuracy is low. You can continue waiting for better accuracy, save the observation with low accuracy, or enter coordinates manually"
+    "message": "ความแม่นยำของ GPS ต่ำ กรุณารอสักพักเพื่อความแม่นยำของสัญญาณ กรุณาบันทึกข้อสังเกต หรือป้อนพิกัดด้วยตัวเอง"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
@@ -202,7 +202,7 @@
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
-    "message": "Error loading observations. Try quitting and restarting Mapeo."
+    "message": "การแสดงผลไม่สำเร็จ ลองปิด-เปิด Mapeo อีกครั้ง"
   },
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
@@ -210,19 +210,19 @@
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
-    "message": "You can try force-restarting the app, but there may be something that needs fixing. Really sorry about this, making apps is hard."
+    "message": "ลองปิด-เปิดแอพฯ อีกครั้ง ขออภัยในความไม่สะดวก ทางเรากำลังปรับปรุงการทำงานของแอพฯ ให้ดียิ่งขึ้น"
   },
   "screens.ServerStatus.errorTitle": {
     "description": "Title of message when there the Mapeo Core server crashes",
-    "message": "Oh dear, something is broken in the Mapeo database."
+    "message": "ขออภัยในความไม่สะดวก การเชื่อมต่อฐานข้อมูล Mapeo ไม่เสถียร"
   },
   "screens.ServerStatus.timeoutDesc": {
     "description": "Description when the server has not responded for 10 seconds",
-    "message": "If you continue to see this message you may need to force-restart Mapeo"
+    "message": "ถ้าคุณได้รับข้อความนี้ กรุณาปิดและเปิด Mapeo อีกครั้ง"
   },
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
-    "message": "Something is up with the Mapeo database"
+    "message": "กำลังเชื่อมต่อกับฐานข้อมูล Mapeo"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
@@ -234,11 +234,11 @@
   },
   "screens.SyncModal.PeerList.errorClientMismatch": {
     "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
-    "message": "Not a Mapeo client"
+    "message": "ไม่พบเครื่องลูกข่าย Mapeo"
   },
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
-    "message": "Incompatible Mapeo"
+    "message": "ไม่รองรับการทำงานรวมกับ Mapeo"
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
@@ -250,7 +250,7 @@
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
-    "message": "Open your phone settins and connect to a WiFi network to synchronize"
+    "message": "เลือกการตั้งค่าในโทรศัพท์ของคุณเพื่อเชื่อมต่อเครือข่าย WiFi ​และโอนข้อมูล"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
@@ -258,7 +258,7 @@
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
-    "message": "Project Key: {projectKey}"
+    "message": "รหัสโครงการ: {projectKey}"
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
