@@ -44,7 +44,6 @@ export type UseDraftObservation = [
   {|
     value: $ElementType<DraftObservationContextState, "value">,
     photos: $ElementType<DraftObservationContextState, "photos">,
-    loading: $ElementType<DraftObservationContextState, "loading">,
     savingStatus: Status,
     preset?: PresetWithFields
   |},
@@ -239,7 +238,6 @@ export default (): UseDraftObservation => {
     {
       value: draft.value,
       photos: draft.photos,
-      loading: draft.loading,
       savingStatus: savingStatus,
       preset: preset && addFieldDefinitions(preset, fields)
     },
