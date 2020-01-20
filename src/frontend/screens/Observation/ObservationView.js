@@ -244,13 +244,14 @@ const ObservationView = ({
               {preset ? preset.name : t(m.observation)}
             </Text>
           </View>
-          {observation.value.tags.notes && observation.value.tags.notes.trim() && (
+          {observation.value.tags.notes &&
+          observation.value.tags.notes.trim() ? (
             <View style={{ paddingTop: 15 }}>
               <Text style={styles.textNotes}>
                 {observation.value.tags.notes}
               </Text>
             </View>
-          )}
+          ) : null}
           {!!photos.length && (
             <ThumbnailScrollView
               photos={
