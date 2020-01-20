@@ -2,8 +2,8 @@
 import React from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { HeaderBackButton } from "react-navigation";
-import { useNavigation } from "react-navigation-hooks";
-import { Alert } from "react-native";
+import { useNavigation, useFocusEffect } from "react-navigation-hooks";
+import { Alert, BackHandler } from "react-native";
 import isEqual from "lodash/isEqual";
 
 import { CloseIcon, BackIcon } from "./icons";
@@ -29,6 +29,18 @@ const m = defineMessages({
     description: "Button on dialog to keep editing (cancelling close action)"
   }
 });
+
+const useBackHandler = (backHandler: () => boolean) => {
+  useFocusEffect(
+    React.useCallback(() => {
+      const subscription = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backHandler
+      );
+      return () => subscription.remove();
+    }, [backHandler])
+  );
+};
 
 const HeaderCloseIcon = ({ tintColor }: { tintColor: string }) => (
   <CloseIcon color={tintColor} />
@@ -128,6 +140,16 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
     shouldConfirm,
     t
   ]);
+
+  // Listen to the Android back button
+  useBackHandler(
+    React.useCallback(() => {
+      handleCloseRequest();
+      // Return true to denote to BackHandler that we have handled the event
+      // See https://reactnavigation.org/docs/en/3.x/custom-android-back-button-handling.html
+      return true;
+    }, [handleCloseRequest])
+  );
 
   return (
     <HeaderBackButton
