@@ -1,0 +1,141 @@
+// @flow
+import React from "react";
+import { defineMessages, useIntl } from "react-intl";
+import { HeaderBackButton } from "react-navigation";
+import { useNavigation } from "react-navigation-hooks";
+import { Alert } from "react-native";
+import isEqual from "lodash/isEqual";
+
+import { CloseIcon, BackIcon } from "./icons";
+import useDraftObservation from "../hooks/useDraftObservation";
+import useObservation from "../hooks/useObservation";
+import { filterPhotosFromAttachments } from "../lib/utils";
+
+const m = defineMessages({
+  discardTitle: {
+    id: "AppContainer.EditHeader.discardTitle",
+    defaultMessage: "Discard observation?",
+    description:
+      "Title of dialog that shows when closing an observation without saving"
+  },
+  discardConfirm: {
+    id: "AppContainer.EditHeader.discardContent",
+    defaultMessage: "Discard without saving",
+    description: "Button on dialog to close without saving"
+  },
+  discardCancel: {
+    id: "AppContainer.EditHeader.discardCancel",
+    defaultMessage: "Continue editing",
+    description: "Button on dialog to keep editing (cancelling close action)"
+  }
+});
+
+const HeaderCloseIcon = ({ tintColor }: { tintColor: string }) => (
+  <CloseIcon color={tintColor} />
+);
+
+// We use a slightly larger back icon, to improve accessibility
+// TODO iOS: This should probably be a chevron not an arrow
+const HeaderBackIcon = ({ tintColor }: { tintColor: string }) => (
+  <BackIcon color={tintColor} />
+);
+
+/**
+ * WARNING: Hairy code which could probably be clearer!
+ *
+ * Currently our UX is different for new observations vs. editing an existing
+ * observation. For a new observation, the category chooser is shown first, but
+ * after the category is chosen, the user cannot return to it, but instead needs
+ * to use the "change category" button.
+ *
+ * This code will show the close icon in the header if any of these conditions
+ * are true:
+ *
+ * - It is a new observation and the user is on the "ObservationEdit" screen
+ * - It is a new observation and the user is on the first "CategoryChoose"
+ *   screen, but not when they are they are trying to later change the category
+ *   of a new observation
+ *
+ * The code will request a confirmation if any of these conditions are true:
+ *
+ * - Any of the conditions above (for showing a close icon)
+ * - The user is on the "ObservationEdit" screen for an existing observation
+ *   **and** the observation has been edited.
+ *
+ * Whether the observation has been edited is checked by deep-equal between the
+ * draft and the original observation
+ */
+const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
+  const { formatMessage: t } = useIntl();
+  const navigation = useNavigation();
+  const [draftObservation, { clearDraft }] = useDraftObservation();
+  const [{ observation: existingObservation }] = useObservation(
+    draftObservation.observationId
+  );
+  const isNew =
+    draftObservation.value &&
+    typeof draftObservation.observationId === "undefined";
+  const { routeName, key } = navigation.state;
+  const parent = navigation.dangerouslyGetParent();
+  const routes = parent && parent.state.routes;
+  const currentIndex = routes && routes.findIndex(route => route.key === key);
+  const prevRouteNameInStack =
+    routes && routes[currentIndex - 1] && routes[currentIndex - 1].routeName;
+
+  const shouldConfirm =
+    routeName === "ObservationEdit" ||
+    (isNew &&
+      routeName === "CategoryChooser" &&
+      prevRouteNameInStack === "Home");
+
+  const shouldCloseToHome = isNew && shouldConfirm;
+
+  const handleCloseRequest = React.useCallback(() => {
+    const isUntouched =
+      existingObservation &&
+      isEqual(existingObservation.value, draftObservation.value) &&
+      isEqual(
+        filterPhotosFromAttachments(existingObservation.value.attachments),
+        draftObservation.photos
+      );
+    if (!shouldConfirm || isUntouched) {
+      if (shouldConfirm) clearDraft();
+      navigation.goBack();
+      return;
+    }
+
+    Alert.alert(t(m.discardTitle), undefined, [
+      {
+        text: t(m.discardConfirm),
+        onPress: () => {
+          clearDraft();
+          if (shouldCloseToHome) navigation.navigate("Home");
+          else navigation.goBack();
+        }
+      },
+      {
+        text: t(m.discardCancel),
+        onPress: () => {}
+      }
+    ]);
+  }, [
+    clearDraft,
+    draftObservation.photos,
+    draftObservation.value,
+    existingObservation,
+    navigation,
+    shouldCloseToHome,
+    shouldConfirm,
+    t
+  ]);
+
+  return (
+    <HeaderBackButton
+      {...props}
+      onPress={handleCloseRequest}
+      backImage={shouldCloseToHome ? HeaderCloseIcon : HeaderBackIcon}
+    />
+  );
+};
+
+export default CustomHeaderLeft;

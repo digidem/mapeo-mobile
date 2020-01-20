@@ -3,7 +3,6 @@ import * as React from "react";
 import { View, Text } from "react-native";
 
 import debug from "debug";
-import { NavigationActions } from "react-navigation";
 
 import MapView from "../sharedComponents/MapView";
 import HomeHeader from "../sharedComponents/HomeHeader";
@@ -37,11 +36,7 @@ const MapScreen = ({ navigation }: Props) => {
     (e: any) => {
       log("pressed add button");
       newDraft(undefined, { tags: {} });
-      navigation.navigate(
-        "NewObservation",
-        {},
-        NavigationActions.navigate({ routeName: "CategoryChooser" })
-      );
+      navigation.navigate("CategoryChooser");
     },
     [navigation, newDraft]
   );

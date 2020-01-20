@@ -21,7 +21,7 @@ import messages from "../../translations/messages.json";
 if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 // WARNING: This needs to change if we change the navigation structure
-const NAV_STORE_KEY = "@MapeoNavigation@6";
+const NAV_STORE_KEY = "@MapeoNavigation@7";
 const ERROR_STORE_KEY = "@MapeoError";
 
 const persistNavigationState = async navState => {

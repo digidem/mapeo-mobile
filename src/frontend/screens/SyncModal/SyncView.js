@@ -5,20 +5,13 @@ import { View, Text, StyleSheet } from "react-native";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
-import IconButton from "../../sharedComponents/IconButton";
 import Button from "../../sharedComponents/Button";
-import { CloseIcon, WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
+import { WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
 import DotIndicator from "./DotIndicator";
 import PeerList from "./PeerList";
 import type { Peer } from "./PeerList";
 
 const m = defineMessages({
-  syncHeader: {
-    id: "screens.SyncModal.SyncView.syncHeader",
-    defaultMessage: "Synchronize",
-    description: "Header of sync screen"
-  },
-
   wifi: {
     id: "screens.SyncModal.SyncView.wifi",
     defaultMessage: "WiFi:",
@@ -57,21 +50,6 @@ const m = defineMessages({
     defaultMessage: "Project Key: {projectKey}"
   }
 });
-
-type HeaderProps = {
-  onClosePress: () => void
-};
-
-const Header = ({ onClosePress }: HeaderProps) => (
-  <View style={styles.header}>
-    <IconButton onPress={onClosePress}>
-      <CloseIcon color="white" />
-    </IconButton>
-    <Text numberOfLines={1} style={styles.title}>
-      <FormattedMessage {...m.syncHeader} />
-    </Text>
-  </View>
-);
 
 const WifiBar = ({ onPress, ssid, deviceName }) => (
   <TouchableNativeFeedback onPress={onPress}>
@@ -129,7 +107,6 @@ const SearchingBox = () => (
 );
 
 type Props = {
-  onClosePress: () => void,
   onSyncPress: (peerId: string) => void,
   onWifiPress: () => void,
   deviceName: string,
@@ -139,7 +116,6 @@ type Props = {
 };
 
 const SyncView = ({
-  onClosePress,
   onSyncPress,
   peers,
   ssid,
@@ -148,7 +124,6 @@ const SyncView = ({
   projectKey
 }: Props) => (
   <View style={styles.root}>
-    <Header onClosePress={onClosePress} />
     {ssid ? (
       <>
         <WifiBar onPress={onWifiPress} ssid={ssid} deviceName={deviceName} />
@@ -181,22 +156,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "black",
     flex: 0
-  },
-  header: {
-    // flexGrow: 0,
-    // flexShrink: 0,
-    height: 60,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#3366FF"
-  },
-  title: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 20,
-    flex: 1,
-    textAlign: "center",
-    marginRight: 60
   },
   root: {
     flex: 1,

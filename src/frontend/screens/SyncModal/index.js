@@ -12,7 +12,7 @@ import { Alert } from "react-native";
 import { NetworkInfo } from "react-native-network-info";
 import OpenSettings from "react-native-android-open-settings";
 import KeepAwake from "react-native-keep-awake";
-import { defineMessages, useIntl } from "react-intl";
+import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 
 import SyncView from "./SyncView";
 import api from "../../api";
@@ -21,6 +21,7 @@ import useAllObservations from "../../hooks/useAllObservations";
 import useMetadata from "../../hooks/useMetadata";
 import { peerStatus } from "./PeerList";
 import { parseVersionMajor } from "../../lib/utils";
+import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import type { Peer } from "./PeerList";
 import type { ServerPeer, PeerError } from "../../api";
 
@@ -60,6 +61,11 @@ const m = defineMessages({
     defaultMessage: "OK",
     description:
       "Button to dismiss error alert about incompatible sync protocol"
+  },
+  syncHeader: {
+    id: "screens.SyncModal.SyncView.syncHeader",
+    defaultMessage: "Synchronize",
+    description: "Header of sync screen"
   }
 });
 
@@ -185,6 +191,18 @@ const SyncModal = ({ navigation }: Props) => {
       projectKey={projectKey}
     />
   );
+};
+
+SyncModal.navigationOptions = {
+  headerTintColor: "white",
+  headerStyle: {
+    backgroundColor: "#2348B2"
+  },
+  headerTitle: (
+    <HeaderTitle style={{ color: "white" }}>
+      <FormattedMessage {...m.syncHeader} />
+    </HeaderTitle>
+  )
 };
 
 /**
