@@ -18,7 +18,7 @@ import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import TextButton from "../../sharedComponents/TextButton";
 import { BLACK, LIGHT_GREY, LIGHT_BLUE } from "../../lib/styles";
 
-import type { PresetWithFields } from "../../context/PresetsContext";
+import type { PresetWithFields } from "../../context/ConfigContext";
 
 const m = defineMessages({
   searching: {

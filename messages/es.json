@@ -224,6 +224,22 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Esperando contacto con el base de datos de Mapeo, si continúa este mensaje, reinicie a Mapeo"
   },
+  "screens.Settings.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "Configuración Actual"
+  },
+  "screens.Settings.projectKey": {
+    "description": "Label for project key",
+    "message": "Clave del proyecto"
+  },
+  "screens.Settings.title": {
+    "description": "Title of settings screen",
+    "message": "Preferencias"
+  },
+  "screens.Settings.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "Sin nombre"
+  },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
     "message": "Completo"

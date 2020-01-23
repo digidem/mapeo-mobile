@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-raw-text */
 // @flow
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
@@ -132,14 +131,17 @@ const SyncView = ({
         ) : (
           <SearchingBox />
         )}
-        {projectKey && (
-          <Text style={styles.projectId}>
-            <FormattedMessage
-              {...m.projectKey}
-              values={{ projectKey: projectKey.slice(0, 5) }}
-            />
-          </Text>
-        )}
+
+        <Text style={styles.projectId}>
+          <FormattedMessage
+            {...m.projectKey}
+            values={{
+              projectKey: projectKey
+                ? projectKey.slice(0, 5) + "**********"
+                : "MAPEO"
+            }}
+          />
+        </Text>
       </>
     ) : (
       <NoWifiBox onPress={onWifiPress} />

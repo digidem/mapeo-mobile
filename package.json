@@ -47,6 +47,7 @@
     "debug": "^4.1.1",
     "eslint-plugin-jest": "^22.6.4",
     "expo-camera": "^8.0.0",
+    "expo-document-picker": "^8.0.0",
     "expo-localization": "^8.0.0",
     "expo-location": "^8.0.0",
     "expo-sensors": "^8.0.0",
@@ -81,7 +82,7 @@
     "react-navigation": "^3.9.0",
     "react-navigation-hooks": "^1.0.1",
     "react-navigation-transitions": "^1.0.10",
-    "semver": "^6.1.1",
+    "semver": "^7.1.1",
     "shallowequal": "^1.1.0",
     "stacktrace-parser": "^0.1.4",
     "utm": "^1.1.1"

@@ -1,7 +1,7 @@
 /* global __DEV__ */
 // @flow
 import * as React from "react";
-import { Platform } from "react-native";
+import { Platform, YellowBox } from "react-native";
 import debug from "debug";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -16,6 +16,9 @@ import { PermissionsProvider } from "./context/PermissionsContext";
 import AppProvider from "./context/AppProvider";
 import bugsnag from "./lib/logger";
 import messages from "../../translations/messages.json";
+
+// Turn off warnings about require cycles
+YellowBox.ignoreWarnings(["Require cycle:"]);
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");

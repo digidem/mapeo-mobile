@@ -16,6 +16,7 @@ import ObservationDetails from "./screens/ObservationDetails";
 import CategoryChooser from "./screens/CategoryChooser";
 import GpsModal from "./screens/GpsModal";
 import SyncModal from "./screens/SyncModal";
+import Settings from "./screens/Settings";
 import PhotosModal from "./screens/PhotosModal";
 import ManualGpsScreen from "./screens/ManualGpsScreen";
 import CustomHeaderLeft from "./sharedComponents/CustomHeaderLeft";
@@ -55,6 +56,7 @@ const RootStack = createStackNavigator(
     Home: HomeTabs,
     GpsModal: GpsModal,
     SyncModal: SyncModal,
+    Settings: Settings,
     PhotosModal: PhotosModal,
     CategoryChooser: CategoryChooser,
     AddPhoto: AddPhoto,

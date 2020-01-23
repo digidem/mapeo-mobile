@@ -18,12 +18,16 @@ import SyncView from "./SyncView";
 import api from "../../api";
 import bugsnag from "../../lib/logger";
 import useAllObservations from "../../hooks/useAllObservations";
-import useMetadata from "../../hooks/useMetadata";
+import ConfigContext from "../../context/ConfigContext";
 import { peerStatus } from "./PeerList";
 import { parseVersionMajor } from "../../lib/utils";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import { SettingsIcon } from "../../sharedComponents/icons";
+import IconButton from "../../sharedComponents/IconButton";
+
 import type { Peer } from "./PeerList";
 import type { ServerPeer, PeerError } from "../../api";
+import { useNavigation } from "react-navigation-hooks";
 
 type Props = {
   navigation: any
@@ -79,7 +83,11 @@ const deviceName: string =
 const SyncModal = ({ navigation }: Props) => {
   const { formatMessage: t } = useIntl();
   const [, reload] = useAllObservations();
-  const { projectKey } = useMetadata();
+  const [
+    {
+      metadata: { projectKey }
+    }
+  ] = React.useContext(ConfigContext);
   const [serverPeers, setServerPeers] = React.useState<ServerPeer[]>([]);
   const [syncErrors, setSyncErrors] = React.useState<Map<string, PeerError>>(
     new Map<string, PeerError>()
@@ -193,6 +201,15 @@ const SyncModal = ({ navigation }: Props) => {
   );
 };
 
+const SettingsButton = () => {
+  const { navigate } = useNavigation();
+  return (
+    <IconButton onPress={() => navigate("Settings")}>
+      <SettingsIcon color="white" />
+    </IconButton>
+  );
+};
+
 SyncModal.navigationOptions = {
   headerTintColor: "white",
   headerStyle: {
@@ -202,7 +219,8 @@ SyncModal.navigationOptions = {
     <HeaderTitle style={{ color: "white" }}>
       <FormattedMessage {...m.syncHeader} />
     </HeaderTitle>
-  )
+  ),
+  headerRight: <SettingsButton />
 };
 
 /**

@@ -13,9 +13,7 @@ import {
 import bugsnag from "../lib/logger";
 import type { Status } from "../types";
 
-import PresetsContext, {
-  type PresetWithFields
-} from "../context/PresetsContext";
+import ConfigContext, { type PresetWithFields } from "../context/ConfigContext";
 import ObservationsContext, {
   type ObservationValue,
   type ObservationAttachment
@@ -76,7 +74,7 @@ type CancellablePromise<T> = Promise<T> & { signal?: { didCancel: boolean } };
 export default (): UseDraftObservation => {
   const [draft, setDraft] = useContext(DraftObservationContext);
   const [{ observations }, dispatch] = useContext(ObservationsContext);
-  const [{ presets, fields }] = useContext(PresetsContext);
+  const [{ presets, fields }] = useContext(ConfigContext);
   const [savingStatus, setSavingStatus] = useState<Status>();
 
   const addPhoto = useCallback(

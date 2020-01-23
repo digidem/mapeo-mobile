@@ -25,10 +25,10 @@ const ServerStatus = require("./status");
 const constants = require("./constants");
 const createServer = require("./server");
 const createBugsnag = require("@bugsnag/js");
-const semver = require("semver");
+const semverPrerelease = require("semver/functions/prerelease");
 const { version } = require("../../package.json");
 
-const prereleaseComponents = semver.prerelease(version);
+const prereleaseComponents = semverPrerelease(version);
 const releaseStage = prereleaseComponents
   ? prereleaseComponents[0]
   : "production";

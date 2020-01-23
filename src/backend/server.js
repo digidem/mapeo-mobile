@@ -12,6 +12,14 @@ const rnBridge = require("rn-bridge");
 const throttle = require("lodash/throttle");
 const main = require("./index");
 const fs = require("fs");
+const tar = require("tar-fs");
+const pump = require("pump");
+const tmp = require("tmp");
+const semverCoerce = require("semver/functions/coerce");
+const semverMajor = require("semver/functions/major");
+
+// Cleanup the temporary files even when an uncaught exception occurs
+tmp.setGracefulCleanup();
 
 const log = debug("mapeo-core:server");
 
@@ -19,12 +27,11 @@ module.exports = createServer;
 
 function createServer({ privateStorage, sharedStorage }) {
   let projectKey;
+  const defaultConfigPath = path.join(sharedStorage, "presets/default");
+
   try {
     const metadata = JSON.parse(
-      fs.readFileSync(
-        path.join(sharedStorage, "presets/default/metadata.json"),
-        "utf8"
-      )
+      fs.readFileSync(path.join(defaultConfigPath, "metadata.json"), "utf8")
     );
     projectKey = metadata.projectKey;
     if (projectKey)
@@ -47,7 +54,7 @@ function createServer({ privateStorage, sharedStorage }) {
     );
   }
   // create folders for presets & styles
-  mkdirp.sync(path.join(sharedStorage, "presets/default"));
+  mkdirp.sync(defaultConfigPath);
   mkdirp.sync(path.join(sharedStorage, "styles/default"));
 
   // Folder with default (built-in) presets to server when the user has not
@@ -103,9 +110,80 @@ function createServer({ privateStorage, sharedStorage }) {
       rnBridge.channel.on("sync-start", startSync);
       rnBridge.channel.on("sync-join", joinSync);
       rnBridge.channel.on("sync-leave", leaveSync);
+      rnBridge.channel.on("replace-config", replaceConfig);
       origListen.apply(server, args);
     });
   };
+
+  // Given a config tarball at `path`, replace the current config.
+  function replaceConfig({ id, path: pathToNewConfigTarball }) {
+    const cb = err => rnBridge.channel.post("replace-config-" + id, err);
+
+    tmp.dir(
+      {
+        unsafeCleanup: true,
+        // NB: os.tmp() is in private cache storage on Android, but currently
+        // the destination is in sharedStorage. We can't fs.rename() between
+        // these two storage areas, so we create our own temp dir in
+        // sharedStorage
+        dir: sharedStorage
+      },
+      (err, tmpDir, cleanup) => {
+        // 1 - extract to temp directory
+        if (err) {
+          log("Could not create tmp directory for config extract", err);
+          return cb(err);
+        }
+        log("Creating in temp import path: " + tmpDir);
+        var source = fs.createReadStream(pathToNewConfigTarball);
+        var dest = tar.extract(tmpDir, {
+          readable: true,
+          writable: true
+        });
+        pump(source, dest, onExtract);
+
+        // 2 - If extract worked, check version
+        function onExtract(err) {
+          // TODO: Better checking that presets are valid
+          if (err) {
+            log("Error extracting config tarball", err);
+            return cb(err);
+          }
+          fs.readFile(path.join(tmpDir, "VERSION"), "utf8", (err, version) => {
+            const parsedVersion = semverCoerce(version);
+            if (err || parsedVersion == null) {
+              log("Error reading VERSION file from imported config");
+              return cb(err || new Error("Unreadable config version"));
+            }
+            if (parsedVersion.major > 2 || parsedVersion.major < 2) {
+              log(
+                "Mapeo is not compatible with this config version (" +
+                  version +
+                  ")"
+              );
+              cb(new Error("Incompatible config version"));
+            }
+            log("Importing config version: " + version);
+            onVersionCheck();
+          });
+        }
+
+        // 3 - Presets look ok, replace current presets with these
+        function onVersionCheck() {
+          fs.rename(tmpDir, defaultConfigPath, err => {
+            if (err) {
+              log("Error replacing existing config with new config", err);
+              return cb(err);
+            }
+            // Manual cleanup of temp dir - tmp should cleanup on node exist, but
+            // just in case
+            cleanup();
+            cb();
+          });
+        }
+      }
+    );
+  }
 
   // Send message to frontend whenever there is an update to the peer list
   function sendPeerUpdateToRN(peer) {
@@ -185,6 +263,7 @@ function createServer({ privateStorage, sharedStorage }) {
     rnBridge.channel.removeListener("sync-start", startSync);
     rnBridge.channel.removeListener("sync-join", joinSync);
     rnBridge.channel.removeListener("sync-leave", leaveSync);
+    rnBridge.channel.removeListener("replace-config", replaceConfig);
     onReplicationComplete(() => {
       mapeoCore.sync.destroy(() => origClose.call(server, cb));
     });
