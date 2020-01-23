@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0-alpha.2](https://github.com/digidem/mapeo-mobile/compare/v2.1.0-alpha.1...v2.1.0-alpha.2) (2020-01-23)
+
+### Bug Fixes
+
+- Remove unused picker component (pending coordinate format setting) ([0e6514d](https://github.com/digidem/mapeo-mobile/commit/0e6514d5d9ba7b6d861ecc201ba44ab9968f199f))
+
 ## [2.1.0-alpha.1](https://github.com/digidem/mapeo-mobile/compare/v2.1.0-alpha.0...v2.1.0-alpha.1) (2020-01-23)
 
 ### Features
