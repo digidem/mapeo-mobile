@@ -224,6 +224,22 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "กำลังเชื่อมต่อกับฐานข้อมูล Mapeo"
   },
+  "screens.Settings.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "Current Configuration"
+  },
+  "screens.Settings.projectKey": {
+    "description": "Label for project key",
+    "message": "Project Key"
+  },
+  "screens.Settings.title": {
+    "description": "Title of settings screen",
+    "message": "Settings"
+  },
+  "screens.Settings.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "Un-named"
+  },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
     "message": "เสร็จสมบูรณ์"
