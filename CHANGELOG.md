@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0-alpha.1](https://github.com/digidem/mapeo-mobile/compare/v2.1.0-alpha.0...v2.1.0-alpha.1) (2020-01-23)
+
+### Features
+
+- 🎉 Import configuration files (.mapeosettings) from a new settings screen ([562b95a](https://github.com/digidem/mapeo-mobile/commit/562b95ac2cac4406e3ba9631ea59707d5e087565))
+
 ## [2.1.0-alpha.0](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.0...v2.1.0-alpha.0) (2020-01-20)
 
 ### Features
