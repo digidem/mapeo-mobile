@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import { Picker as OriginalPicker } from "@react-native-community/picker";
+// import { Picker as OriginalPicker } from "@react-native-community/picker";
 import HeaderTitle from "../sharedComponents/HeaderTitle";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import * as DocumentPicker from "expo-document-picker";
@@ -33,18 +33,18 @@ const m = defineMessages({
   }
 });
 
-const Picker = ({ label, children, ...props }) => (
-  <View style={styles.pickerWrapper}>
-    <Text style={styles.pickerLabel}>{label}</Text>
-    <View style={styles.picker}>
-      <OriginalPicker mode="dialog" {...props} prompt={label}>
-        {children}
-      </OriginalPicker>
-    </View>
-  </View>
-);
+// const Picker = ({ label, children, ...props }) => (
+//   <View style={styles.pickerWrapper}>
+//     <Text style={styles.pickerLabel}>{label}</Text>
+//     <View style={styles.picker}>
+//       <OriginalPicker mode="dialog" {...props} prompt={label}>
+//         {children}
+//       </OriginalPicker>
+//     </View>
+//   </View>
+// );
 
-Picker.Item = OriginalPicker.Item;
+// Picker.Item = OriginalPicker.Item;
 
 const Settings = () => {
   const { formatMessage: t } = useIntl();
@@ -114,20 +114,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 20
   },
-  pickerWrapper: {
-    marginBottom: 15
-  },
-  pickerLabel: {
-    marginBottom: 5,
-    marginLeft: 2
-  },
-  picker: {
-    borderWidth: 1,
-    borderColor: "#CCCCCC",
-    borderStyle: "solid",
-    borderRadius: 5,
-    paddingLeft: 10
-  },
+  // pickerWrapper: {
+  //   marginBottom: 15
+  // },
+  // pickerLabel: {
+  //   marginBottom: 5,
+  //   marginLeft: 2
+  // },
+  // picker: {
+  //   borderWidth: 1,
+  //   borderColor: "#CCCCCC",
+  //   borderStyle: "solid",
+  //   borderRadius: 5,
+  //   paddingLeft: 10
+  // },
   configInfo: {
     marginBottom: 20,
     position: "relative"
