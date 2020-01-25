@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0-alpha.3](https://github.com/digidem/mapeo-mobile/compare/v2.1.0-alpha.2...v2.1.0-alpha.3) (2020-01-25)
+
+### Bug Fixes
+
+- Fix config import failing when there is an existing config ([5dbe33e](https://github.com/digidem/mapeo-mobile/commit/5dbe33eca8a48a410d1a587ac95d147331444290))
+
 ## [2.1.0-alpha.2](https://github.com/digidem/mapeo-mobile/compare/v2.1.0-alpha.1...v2.1.0-alpha.2) (2020-01-23)
 
 ### Bug Fixes
