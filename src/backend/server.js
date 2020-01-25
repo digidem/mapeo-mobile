@@ -12,11 +12,11 @@ const rnBridge = require("rn-bridge");
 const throttle = require("lodash/throttle");
 const main = require("./index");
 const fs = require("fs");
+const rimraf = require("rimraf");
 const tar = require("tar-fs");
 const pump = require("pump");
 const tmp = require("tmp");
 const semverCoerce = require("semver/functions/coerce");
-const semverMajor = require("semver/functions/major");
 
 // Cleanup the temporary files even when an uncaught exception occurs
 tmp.setGracefulCleanup();
@@ -134,7 +134,6 @@ function createServer({ privateStorage, sharedStorage }) {
           log("Could not create tmp directory for config extract", err);
           return cb(err);
         }
-        log("Creating in temp import path: " + tmpDir);
         var source = fs.createReadStream(pathToNewConfigTarball);
         var dest = tar.extract(tmpDir, {
           readable: true,
@@ -170,15 +169,24 @@ function createServer({ privateStorage, sharedStorage }) {
 
         // 3 - Presets look ok, replace current presets with these
         function onVersionCheck() {
-          fs.rename(tmpDir, defaultConfigPath, err => {
+          // Need to rimraf() because fs.rename gives an error if the destination
+          // directory is not empty, despite what the nodejs docs say
+          // (https://github.com/nodejs/node/issues/21957)
+          rimraf(defaultConfigPath, err => {
             if (err) {
-              log("Error replacing existing config with new config", err);
+              log("Error trying to remove existing config", err);
               return cb(err);
             }
-            // Manual cleanup of temp dir - tmp should cleanup on node exist, but
-            // just in case
-            cleanup();
-            cb();
+            fs.rename(tmpDir, defaultConfigPath, err => {
+              if (err) {
+                log("Error replacing existing config with new config", err);
+                return cb(err);
+              }
+              // Manual cleanup of temp dir - tmp should cleanup on node exist, but
+              // just in case
+              cleanup();
+              cb();
+            });
           });
         }
       }

@@ -22,6 +22,7 @@
     "mkdirp": "^0.5.1",
     "pump": "^3.0.0",
     "random-access-file": "^2.1.0",
+    "rimraf": "^3.0.0",
     "safe-fs-blob-store": "^1.0.3",
     "semver": "^7.1.1",
     "tar-fs": "^2.0.0",
