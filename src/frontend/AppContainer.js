@@ -3,7 +3,8 @@ import React from "react";
 import {
   createStackNavigator,
   createAppContainer,
-  createBottomTabNavigator
+  createBottomTabNavigator,
+  createSwitchNavigator
 } from "react-navigation";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
@@ -23,6 +24,7 @@ import ManualGpsScreen from "./screens/ManualGpsScreen";
 import CustomHeaderLeft from "./sharedComponents/CustomHeaderLeft";
 import ProjectConfig from "./screens/Settings/ProjectConfig";
 import LanguageSettings from "./screens/Settings/LanguageSettings";
+import Intro from "./screens/Intro";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -51,7 +53,7 @@ const HomeTabs = createBottomTabNavigator(
   }
 );
 
-const RootStack = createStackNavigator(
+const AppStack = createStackNavigator(
   // $FlowFixMe - flow definitions don't recognize static props on function components
   {
     Home: HomeTabs,
@@ -85,6 +87,16 @@ const RootStack = createStackNavigator(
         marginHorizontal: 0
       }
     }
+  }
+);
+
+const RootStack = createSwitchNavigator(
+  {
+    Intro: Intro,
+    App: AppStack
+  },
+  {
+    initialRouteName: "Intro"
   }
 );
 
