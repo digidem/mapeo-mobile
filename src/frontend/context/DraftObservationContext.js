@@ -1,15 +1,13 @@
 // @flow
 import * as React from "react";
-import debug from "debug";
-import AsyncStorage from "@react-native-community/async-storage";
+
+import createPersistedState from "../hooks/usePersistedState";
 
 import type { UseState } from "../types";
 import type { ObservationValue } from "./ObservationsContext";
 
 // WARNING: This needs to change if we change the draft data structure
 const STORE_KEY = "@MapeoDraft@2";
-
-const log = debug("mapeo:DraftObservationContext");
 
 // save = debounce(this.save, 500, { leading: true });
 
@@ -57,6 +55,17 @@ export type DraftObservationContextState = {|
   observationId?: string
 |};
 
+const usePersistedState = createPersistedState(
+  STORE_KEY,
+  // Don't store photoPromises in persisted storage
+  // Filter out photos that didn't finish capturing (they are lost)
+  {
+    stringify: ({ photoPromises, photos, ...rest }) =>
+      JSON.stringify({ photos: photos.filter(filterCapturedPhotos), ...rest }),
+    parse: json => ({ photoPromises: [], ...JSON.parse(json) })
+  }
+);
+
 export type DraftObservationContextType = UseState<DraftObservationContextState>;
 
 const defaultContext: DraftObservationContextType = [
@@ -77,50 +86,19 @@ type Props = {
 };
 
 export const DraftObservationProvider = ({ children }: Props) => {
-  const [state, setState] = React.useState(defaultContext[0]);
-  const [loading, setLoading] = React.useState(true);
-  const contextValue = React.useMemo(() => [state, setState], [state]);
-
-  // When the app first mounts, load draft from storage
-  React.useEffect(() => {
-    let didCancel = false;
-    AsyncStorage.getItem(STORE_KEY)
-      .then(savedDraft => {
-        if (didCancel) return;
-        if (savedDraft == null) return setLoading(false);
-        const { photos, value, observationId } = JSON.parse(savedDraft);
-        setLoading(false);
-        setState({
-          photoPromises: [],
-          photos: photos.filter(filterCapturedPhotos),
-          value,
-          observationId
-        });
-      })
-      .catch(e => {
-        log("Error reading draft from storage", e);
-        setLoading(false);
-      });
-    return () => {
-      didCancel = true;
-    };
-  }, []);
-
-  // Save draft to local storage on every update
-  // TODO: Debounce this for perf when typing fast
-  React.useEffect(() => {
-    const { photos, value, observationId } = state;
-    AsyncStorage.setItem(
-      STORE_KEY,
-      JSON.stringify({ photos, value, observationId })
-    ).catch(e => {
-      log("Error writing to storage", e);
-    });
-  });
+  const [
+    state,
+    status,
+    setState
+  ] = usePersistedState<DraftObservationContextState>(defaultContext[0]);
+  const contextValue = React.useMemo(() => [state, setState], [
+    state,
+    setState
+  ]);
 
   return (
     <DraftObservationContext.Provider value={contextValue}>
-      {loading ? null : children}
+      {status === "loading" ? null : children}
     </DraftObservationContext.Provider>
   );
 };
