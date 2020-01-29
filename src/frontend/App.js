@@ -21,7 +21,7 @@ YellowBox.ignoreWarnings(["Require cycle:"]);
 if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 // WARNING: This needs to change if we change the navigation structure
-const NAV_STORE_KEY = "@MapeoNavigation@7";
+const NAV_STORE_KEY = "@MapeoNavigation@8";
 const ERROR_STORE_KEY = "@MapeoError";
 
 const persistNavigationState = async navState => {
@@ -32,6 +32,7 @@ const persistNavigationState = async navState => {
   }
 };
 const loadNavigationState = async () => {
+  return;
   try {
     const navState = JSON.parse(await AsyncStorage.getItem(NAV_STORE_KEY));
     const didCrashLastOpen = JSON.parse(
