@@ -31,8 +31,8 @@ export default function createPersistedState(
         .then(json => {
           if (didCancel) return;
           const value = json === null ? cachedInitialValue : parse(json);
-          setStatus("idle");
           setState(value);
+          setStatus("idle");
         })
         .catch(e => {
           log("Error reading value from storage", e);
