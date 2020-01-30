@@ -1,300 +1,300 @@
 {
   "AppContainer.EditHeader.discardCancel": {
     "description": "Button on dialog to keep editing (cancelling close action)",
-    "message": "Seguir editando"
+    "message": "निरन्तर सम्पादन"
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to close without saving",
-    "message": "Descartar observación"
+    "message": "संग्रह नगरी खारेज गर्नु"
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when closing an observation without saving",
-    "message": "¿Quieres descartar observación?"
+    "message": "अवलाेकन हटाउने?"
   },
   "screens.AddPhoto.cancel": {
-    "message": "Cancelar"
+    "message": "रद्द"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
-    "message": "Sin acceso al cámara"
+    "message": "क्यामाराकाे लागि पहुँच छैन"
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
-    "message": "Elegir que cosa pasa"
+    "message": "के भइ रहेकाे छ छान्नुहाेस"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
-    "message": "Detalles"
+    "message": "विवरणहरू"
   },
   "screens.GpsModal.gpsHeader": {
     "description": "Header for GPS screen",
-    "message": "Ubicación Actual del GPS"
+    "message": "हालकाे GPS ठेगाना"
   },
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
-    "message": "Última actualización"
+    "message": "पछिल्लाे अपडेट"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
-    "message": "Sensores de ubicación"
+    "message": "सेन्सरकाे अवस्था"
   },
   "screens.GpsModal.locationUTM": {
     "description": "Section title for UTM coordinates",
-    "message": "Ubicación UTM"
+    "message": "UTM निर्देश"
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
-    "message": "No"
+    "message": "हाेइन"
   },
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
-    "message": "Sí"
+    "message": "हाे"
   },
   "screens.ManualGpsScreen.easting": {
-    "message": "Este"
+    "message": "पुर्व"
   },
   "screens.ManualGpsScreen.eastingSuffix": {
     "message": "mE"
   },
   "screens.ManualGpsScreen.northing": {
-    "message": "Norte"
+    "message": "उत्तर"
   },
   "screens.ManualGpsScreen.northingSuffix": {
     "message": "mN"
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
-    "message": "Coordenadas"
+    "message": "निर्देश भित्र प्रवेश"
   },
   "screens.ManualGpsScreen.zoneLetter": {
-    "message": "Letra de Zona"
+    "message": "क्षेत्र पत्र"
   },
   "screens.ManualGpsScreen.zoneNumber": {
-    "message": "Número de Zona"
+    "message": "जाेन नम्बर"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
-    "message": "Enviado desde Mapeo"
+    "message": "Mapeo बाट पठाएकाे"
   },
   "screens.Observation.ObservationView.alertSubject": {
     "description": "Subject-line for shared observations",
-    "message": "Alerta de Mapeo"
+    "message": "Mapeo चेतावनी"
   },
   "screens.Observation.ObservationView.delete": {
     "description": "Button to delete an observation",
-    "message": "Borrar"
+    "message": "मेटाउने"
   },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
-    "message": "Sin respuesta"
+    "message": "उत्तर छैन"
   },
   "screens.Observation.ObservationView.observation": {
     "description": "Default name of observation with no matching preset",
-    "message": "Observación"
+    "message": "अवलाेकन"
   },
   "screens.Observation.ObservationView.share": {
     "description": "Button to share an observation",
-    "message": "Compartir"
+    "message": "साझा गरियो"
   },
   "screens.Observation.cancel": {
     "description": "Button to cancel delete of observation",
-    "message": "Cancelar"
+    "message": "रद्द"
   },
   "screens.Observation.confirm": {
     "description": "Button to confirm delete of observation",
-    "message": "Si, Borrar"
+    "message": "हुन्छ, मेट्नु"
   },
   "screens.Observation.deleteTitle": {
     "description": "Title of dialog asking confirmation to delete an observation",
-    "message": "¿Quieres borrar la observación?"
+    "message": "अवलाेकन हटाउने?"
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
-    "message": "Observación no encontrado"
+    "message": "अवलाेकन भेटिएन"
   },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
-    "message": "{current} de {total}"
+    "message": "{हाल} मा {जम्मा}"
   },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
-    "message": "Listo"
+    "message": "भयाे"
   },
   "screens.ObservationDetails.nextQuestion": {
     "description": "Button text to navigate to next question",
-    "message": "Sigue"
+    "message": "अर्काे"
   },
   "screens.ObservationDetails.title": {
     "description": "Title of observation details screen showing question number and total",
-    "message": "Pregunta {current} de {total}"
+    "message": "प्रश्न {हाल} मा {जम्मा}"
   },
   "screens.ObservationEdit.BottomSheet.addLabel": {
     "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
-    "message": "Agregar…"
+    "message": "थप…"
   },
   "screens.ObservationEdit.ObservationEditView.changePreset": {
     "description": "Button to change a category / preset",
-    "message": "Cambiar"
+    "message": "परिवर्तन"
   },
   "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
     "description": "Placeholder for description/notes field",
-    "message": "¿Qué está pasando aquí?"
+    "message": "यहाँ के भइ राखेकाे छ?"
   },
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
-    "message": "Llenar Detalles"
+    "message": "विवरण थप्नु"
   },
   "screens.ObservationEdit.ObservationEditView.observation": {
     "description": "Name of observation when no preset matches",
-    "message": "Observación"
+    "message": "अवलाेकन"
   },
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
-    "message": "Agregar Foto"
+    "message": "फाेटाे थप्नु"
   },
   "screens.ObservationEdit.ObservationEditView.searching": {
     "description": "Shown in new observation screen whilst looking for GPS",
-    "message": "Buscando…"
+    "message": "खाेजी जारी …"
   },
   "screens.ObservationEdit.SaveButton.keepWaiting": {
     "description": "Button to cancel save and continue waiting for GPS",
-    "message": "Seguir esperando"
+    "message": "पर्खाइ निरन्तर"
   },
   "screens.ObservationEdit.SaveButton.manualEntry": {
     "description": "Button to manually enter GPS coordinates",
-    "message": "Ingresar manualmente"
+    "message": "म्यानुअल काेर्डस्"
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
-    "message": "Esta observación no tiene ubicación. Puedes seguir esperando el GPS, o guardarlo sin ubicación"
+    "message": "याे अवलाेकनकाे लाेकेसन छैन । तपाइले GPS संकेत निरन्तर कुर्न सक्नु हुनेछ, अवलाेकनलाइ लाेकेसन बेगर संग्रह गर्न सक्नुहुन्छ, वा निर्देशलाइ अाफैले राख्नु"
   },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
-    "message": "Sin señal del GPS"
+    "message": "GPS संकेत छैन"
   },
   "screens.ObservationEdit.SaveButton.saveAnyway": {
     "description": "Button to save regardless of GPS state",
-    "message": "Guardar"
+    "message": "संग्रह"
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
-    "message": "La precisión del GPS está baja. Puedes seguir esperando que la precisión mejore, o guardar como está"
+    "message": "GPS यथार्थता न्यून छ, दुरूस्त GPS काे लागि कुर्न सक्नु हुन्छ, न्यून GPS यथार्थतामा संग्रह गर्न सक्नु हुन्छ, वा अाफैले निर्देश गर्न सक्नुहुन्छ"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
-    "message": "Señal débil del GPS"
+    "message": "कमजाेर GPS संकेत"
   },
   "screens.ObservationEdit.editTitle": {
     "description": "screen title for edit observation screen",
-    "message": "Editar"
+    "message": "अवलाेकन सम्पादन"
   },
   "screens.ObservationEdit.newTitle": {
     "description": "screen title for new observation screen",
-    "message": "Nueva Observación"
+    "message": "नया अवलाेकन"
   },
   "screens.ObservationList.observationListTitle": {
     "description": "Title of screen with list of observations",
-    "message": "Observaciones"
+    "message": "अवलाेकनहरू"
   },
   "screens.ObservationsList.ObservationListItem.defaultObservationName": {
     "description": "Default name for an observation that does not match a preset",
-    "message": "Observación"
+    "message": "अवलाेकन"
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
-    "message": "Error a cargar observaciones, volver a abrir Mapeo para ver si lo corrige."
+    "message": "अवलाेकन लाेड गर्नमा समस्या । Mapeo बाट बाहिरिने र पुन शुरू गर्ने."
   },
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
-    "message": "Cargando… esto puede tomar un tiempo después de sincronizar con un nuevo dispositivo"
+    "message": "लाेड हुँदै... नयाँ उपकरणसँग सिंक्राेनाइज हुन केहि समय लाग्न सक्छ"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
-    "message": "Disculpas, hay un problema con Mapeo. Puedes reiniciar Mapeo, pero si sigue este mensaje hay un problema inesperado y necesitas un actualización de Mapeo."
+    "message": "याे एपलाइ बलपूवर्क शुरू गर्न काेशिस सक्नुहुन्छ, तर त्यहाँ केहि मिलाउनु पर्ने हुन सक्दछ । यसकाे लागि माफ गर्नुहाेस, एप बनाउन गाह्राे छ"
   },
   "screens.ServerStatus.errorTitle": {
     "description": "Title of message when there the Mapeo Core server crashes",
-    "message": "Hay un problema con Mapeo"
+    "message": "ओह प्रिय, Mapeo डेटाबेसमा केहि समस्या भयाे जस्ताे छ।"
   },
   "screens.ServerStatus.timeoutDesc": {
     "description": "Description when the server has not responded for 10 seconds",
-    "message": "Algo pasa con el base de datos Mapeo"
+    "message": "यदि यहि सन्देश देखी रहनु भएमा Mapeo लाई बलपूर्वक शुरू गर्नु हाेला"
   },
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
-    "message": "Esperando contacto con el base de datos de Mapeo, si continúa este mensaje, reinicie a Mapeo"
+    "message": "Mapeo डाटावेसकाे साथ केहि छ"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
-    "message": "Configuración Actual"
+    "message": "Current Configuration"
   },
   "screens.Settings.projectKey": {
     "description": "Label for project key",
-    "message": "Clave del proyecto"
+    "message": "Project Key"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
-    "message": "Preferencias"
+    "message": "Settings"
   },
   "screens.Settings.unnamedConfig": {
     "description": "Config name when do name is defined",
-    "message": "Sin nombre"
+    "message": "Un-named"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
-    "message": "Completo"
+    "message": "सम्पन्न"
   },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
-    "message": "Error"
+    "message": "समस्या"
   },
   "screens.SyncModal.PeerList.errorClientMismatch": {
     "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
-    "message": "No es Mapeo"
+    "message": "Not a Mapeo client"
   },
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
-    "message": "Mapeo incompatible"
+    "message": "Incompatible Mapeo"
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
-    "message": "Sync"
+    "message": "समिकरण"
   },
   "screens.SyncModal.PeerList.syncLabel": {
     "description": "Label for last sync datetime",
-    "message": "Sincronizado:"
+    "message": "समिकरण"
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
-    "message": "Abrir la configuración y conectar a una red WiFi para sincronizar"
+    "message": "फाेनकाे सेटिङमा जानु र सिङ्क्राेनाइकाे लागि WiFi नेटवर्कमा जाेडिनु"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
-    "message": "Sin WiFi"
+    "message": "WiFi छैन"
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
-    "message": "Clave del proyecto: {projectKey}"
+    "message": "Project Key: {projectKey}"
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
-    "message": "Asegúrese de que otros dispositivos están encendidos y conectados a la misma red WiFi"
+    "message": "अरू उपकरणहरू सकृय भएकाे र उहि WiFi नेटवर्कमा जाेडिएकाे निश्चत गर्नुहाेस"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
-    "message": "Buscando"
+    "message": "खाेजी जारी "
   },
   "screens.SyncModal.SyncView.settingsButton": {
     "description": "Button to open WiFi settings",
-    "message": "Abrir configuración"
+    "message": "Open Settings"
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
-    "message": "Sincronizar"
+    "message": "सिंक्राेनाइज"
   },
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
-    "message": "WiFi:"
+    "message": "WiFi"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
@@ -302,32 +302,32 @@
   },
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "Este equipo necesita actualizar a su versión de Mapeo para poder sincronizar contigo."
+    "message": "The device you are trying to sync with needs to upgrade Mapeo to the latest version in order to sync with you."
   },
   "screens.SyncModal.errorVersionThemBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} necesita actualizar a Mapeo"
+    "message": "{deviceName} needs to upgrade Mapeo"
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "{deviceName} tiene una versión de Mapeo más nuevo. Necesitas actualizar a tu versión de Mapeo para poder sincronizar con {deviceName}."
+    "message": "The device you are trying to sync has a newer version of Mapeo. You need to upgrade Mapeo in order to sync with this device."
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "Necesitas actualizar a Mapeo"
+    "message": "You need to upgrade Mapeo"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
-    "message": "Disculpas, hay un error. No es tu culpa, hay un problema interno. Intenta reiniciar Mapeo para ver si lo resuelve."
+    "message": "यसकाे लागि माफ गर्नुहाेस, केहि नसाेचेकाे गलत हुन गयाे, र याे तपाईकाे हाेइन हाम्राे गल्ति हाे । याे app शुरू गर्ने काेशिस गर्नु यदि अन्य कुरा ठीक भएमा"
   },
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
-    "message": "Error inesperado"
+    "message": "नसाेचेकाे समस्या"
   },
   "sharedComponents.GpsPill.noGps": {
-    "message": "Sin GPS"
+    "message": "GPS छैन"
   },
   "sharedComponents.GpsPill.searching": {
-    "message": "Buscando…"
+    "message": "खाेजी जारी …"
   }
 }
