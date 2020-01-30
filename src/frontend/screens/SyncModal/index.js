@@ -8,32 +8,70 @@
  */
 import React from "react";
 import NetInfo from "@react-native-community/netinfo";
+import { Alert } from "react-native";
 import { NetworkInfo } from "react-native-network-info";
 import OpenSettings from "react-native-android-open-settings";
 import KeepAwake from "react-native-keep-awake";
+import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 
 import SyncView from "./SyncView";
 import api from "../../api";
 import bugsnag from "../../lib/logger";
 import useAllObservations from "../../hooks/useAllObservations";
+import ConfigContext from "../../context/ConfigContext";
 import { peerStatus } from "./PeerList";
+import { parseVersionMajor } from "../../lib/utils";
+import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import { SettingsIcon } from "../../sharedComponents/icons";
+import IconButton from "../../sharedComponents/IconButton";
+
 import type { Peer } from "./PeerList";
-import type { ServerPeer } from "../../api";
+import type { ServerPeer, PeerError } from "../../api";
+import { useNavigation } from "react-navigation-hooks";
 
 type Props = {
-  navigation: any,
-  reload: () => void
+  navigation: any
 };
 
-type State = {
-  serverPeers: Array<ServerPeer>,
-  // Map of peer ids to errors
-  syncErrors: Map<string, string>,
-  // Whether there was an error trying to load peer status
-  loadError?: boolean,
-  // SSID of wifi network, if connected
-  ssid: null | string
-};
+const m = defineMessages({
+  errorVersionThemBadTitle: {
+    id: "screens.SyncModal.errorVersionThemBadTitle",
+    defaultMessage: "{deviceName} needs to upgrade Mapeo",
+    description:
+      "Title of error alert when trying to sync with an incompatible older version of Mapeo"
+  },
+  errorVersionThemBadDesc: {
+    id: "screens.SyncModal.errorVersionThemBadDesc",
+    defaultMessage:
+      "The device you are trying to sync with needs to upgrade Mapeo to the latest version in order to sync with you.",
+    description:
+      "Content of error alert when trying to sync with an incompatible older version of Mapeo"
+  },
+  errorVersionUsBadTitle: {
+    id: "screens.SyncModal.errorVersionUsBadTitle",
+    defaultMessage: "You need to upgrade Mapeo",
+    description:
+      "Title of error alert when trying to sync with an incompatible newer version of Mapeo"
+  },
+  errorVersionUsBadDesc: {
+    id: "screens.SyncModal.errorVersionUsBadDesc",
+    defaultMessage:
+      "The device you are trying to sync has a newer version of Mapeo. You need to upgrade Mapeo in order to sync with this device.",
+    description:
+      "Content of error alert when trying to sync with an incompatible newer version of Mapeo"
+  },
+  errorDialogOk: {
+    id: "screens.SyncModal.errorDialogOk",
+    defaultMessage: "OK",
+    description:
+      "Button to dismiss error alert about incompatible sync protocol"
+  },
+  syncHeader: {
+    id: "screens.SyncModal.SyncView.syncHeader",
+    defaultMessage: "Synchronize",
+    description: "Header of sync screen"
+  }
+});
 
 const deviceName: string =
   "Android " +
@@ -42,141 +80,196 @@ const deviceName: string =
     .slice(0, 4)
     .toUpperCase();
 
-class SyncModal extends React.Component<Props, State> {
-  // Assume wifi is turned on at first (better UX)
-  state = { serverPeers: [], syncErrors: new Map(), ssid: null };
-  _opened: number;
-  _subscriptions: Array<{ remove: () => void }> = [];
+const SyncModal = ({ navigation }: Props) => {
+  const { formatMessage: t } = useIntl();
+  const [, reload] = useAllObservations();
+  const [
+    {
+      metadata: { projectKey }
+    }
+  ] = React.useContext(ConfigContext);
+  const [serverPeers, setServerPeers] = React.useState<ServerPeer[]>([]);
+  const [syncErrors, setSyncErrors] = React.useState<Map<string, PeerError>>(
+    new Map<string, PeerError>()
+  );
+  const [ssid, setSsid] = React.useState<null | string>(null);
+  const opened = React.useRef(Date.now());
 
-  componentDidMount() {
+  React.useEffect(() => {
+    const subscriptions = [];
+    const handleConnectionChange = async (data: {}) => {
+      // NetInfoData does not actually tell us whether wifi is turned on, it just
+      // tells us what connection the phone is using for data. E.g. it could be
+      // connected to a wifi network but instead using 4g for data, in which case
+      // `data.type` will not be wifi. So instead we just use the event listener
+      // from NetInfo, and when the connection changes we look up the SSID to see
+      // whether the user is connected to a wifi network.
+      // TODO: We currently do not know whether wifi is turned off, we only know
+      // whether the user is connected to a wifi network or not.
+      let ssid = null;
+      try {
+        ssid = await NetworkInfo.getSSID();
+      } catch (e) {
+        bugsnag.notify(e);
+      } finally {
+        // Even if we don't get the SSID, we still want to show that a wifi
+        // network is connected.
+        setSsid(ssid);
+      }
+    };
     // When the modal opens, start announcing this device as available for sync
     api.syncJoin(deviceName);
-    this._opened = Date.now();
     // Subscribe to peer updates
-    this._subscriptions.push(api.addPeerListener(this.updatePeers));
+    subscriptions.push(api.addPeerListener(setServerPeers));
     // Subscribe to NetInfo to know when the user connects/disconnects to wifi
-    this._subscriptions.push({
-      remove: NetInfo.addEventListener(this.handleConnectionChange)
+    subscriptions.push({
+      remove: NetInfo.addEventListener(handleConnectionChange)
     });
     // Keep the screen awake whilst on this screen
     KeepAwake.activate();
-  }
+    return () => {
+      // When the modal closes, stop announcing for sync
+      api.syncLeave();
+      // Unsubscribe all listeners
+      subscriptions.forEach(s => s.remove());
+      // Turn off keep screen awake
+      KeepAwake.deactivate();
+    };
+  }, []);
 
-  componentWillUnmount() {
-    // When the modal closes, stop announcing for sync
-    api.syncLeave();
-    // Unsubscribe all listeners
-    this._subscriptions.forEach(s => s.remove());
-    this.props.reload();
-    KeepAwake.deactivate();
-  }
+  React.useEffect(
+    () =>
+      function onUnmount() {
+        // Reload observations on unmount (since new ones might have synced)
+        reload();
+      },
+    [reload]
+  );
 
-  handleConnectionChange = async (data: {}) => {
-    // NetInfoData does not actually tell us whether wifi is turned on, it just
-    // tells us what connection the phone is using for data. E.g. it could be
-    // connected to a wifi network but instead using 4g for data, in which case
-    // `data.type` will not be wifi. So instead we just use the event listener
-    // from NetInfo, and when the connection changes we look up the SSID to see
-    // whether the user is connected to a wifi network.
-    // TODO: We currently do not know whether wifi is turned off, we only know
-    // whether the user is connected to a wifi network or not.
-    let ssid;
-    try {
-      ssid = await NetworkInfo.getSSID();
-    } catch (e) {
-      bugsnag.notify(e);
-    } finally {
-      // Even if we don't get the SSID, we still want to show that a wifi
-      // network is connected.
-      this.setState({ ssid });
-    }
-  };
+  React.useEffect(() => {
+    setSyncErrors(syncErrors => {
+      const newSyncErrors = new Map<string, PeerError>(syncErrors);
+      serverPeers.forEach(peer => {
+        const state = peer.state;
+        if (state && state.topic === "replication-error") {
+          const isNewError = !newSyncErrors.has(peer.id);
+          if (isNewError && state.code === "ERR_VERSION_MISMATCH") {
+            if (
+              parseVersionMajor(state.usVersion || "") >
+              parseVersionMajor(state.themVersion || "")
+            ) {
+              Alert.alert(
+                t(m.errorVersionThemBadTitle, { deviceName }),
+                t(m.errorVersionThemBadDesc, { deviceName })
+              );
+            } else {
+              Alert.alert(
+                t(m.errorVersionUsBadTitle, { deviceName }),
+                t(m.errorVersionUsBadDesc, { deviceName })
+              );
+            }
+          }
+          newSyncErrors.set(peer.id, state);
+        }
+      });
+      return newSyncErrors;
+    });
+  }, [serverPeers, t]);
 
-  handleSyncPress = (peerId: string) => {
-    const peer = this.state.serverPeers.find(peer => peer.id === peerId);
+  const handleSyncPress = (peerId: string) => {
+    const peer = serverPeers.find(peer => peer.id === peerId);
     // Peer could have vanished in the moment the button was pressed
     if (peer) api.syncStart(peer);
   };
 
-  handleWifiPress = () => {
+  const handleWifiPress = () => {
     OpenSettings.wifiSettings();
   };
 
-  updatePeers = (serverPeers: Array<ServerPeer> = []) => {
-    let errors = this.state.syncErrors;
-    serverPeers.forEach(peer => {
-      if (peer.state && peer.state.topic === "replication-error") {
-        errors = new Map(this.state.syncErrors);
-        errors.set(peer.id, peer.state.message);
-      }
-    });
-    this.setState({ serverPeers, syncErrors: errors });
-  };
+  const peers = getDerivedPeerState(serverPeers, syncErrors, opened.current);
 
-  /**
-   * State in Mapeo Core can loose the history of an error or completion of sync.
-   * In this sync modal, for the lifecycle of the component:
-   * 1. If replication has started or in progress, that overrides any state
-   *    (completion or error)
-   * 2. If there is an error, that remains in the state until the modal is closed
-   * 3. A peer remains "completed" another sync starts of the modal is closed
-   * 4. A peer is only in the "ready" state when first discovered
-   */
-  getDerivedPeerState(): Array<Peer> {
-    const { serverPeers, syncErrors } = this.state;
-    return serverPeers.map(serverPeer => {
-      let status = peerStatus.READY;
-      const state = serverPeer.state || {};
-      if (
-        state.topic === "replication-progress" ||
-        state.topic === "replication-started"
-      ) {
-        status = peerStatus.PROGRESS;
-      } else if (
-        syncErrors.has(serverPeer.id) ||
-        state.topic === "replication-error"
-      ) {
-        status = peerStatus.ERROR;
-      } else if (
-        (state.lastCompletedDate || 0) > this._opened ||
-        state.topic === "replication-complete"
-      ) {
-        status = peerStatus.COMPLETE;
-      }
-      return {
-        id: serverPeer.id,
-        name: serverPeer.name,
-        status: status,
-        lastCompleted: state.lastCompletedDate,
-        progress: getPeerProgress(serverPeer.state),
-        error: syncErrors.get(serverPeer.id),
-        deviceType: serverPeer.deviceType
-      };
-    });
-  }
-
-  render() {
-    const { navigation } = this.props;
-    const peers = this.getDerivedPeerState();
-    return (
-      <SyncView
-        deviceName={deviceName}
-        peers={peers}
-        ssid={this.state.ssid}
-        onClosePress={() => navigation.pop()}
-        onWifiPress={this.handleWifiPress}
-        onSyncPress={this.handleSyncPress}
-      />
-    );
-  }
-}
-
-const WrappedSync = (props: { navigation: any }) => {
-  const [, reload] = useAllObservations();
-  return <SyncModal {...props} reload={reload} />;
+  return (
+    <SyncView
+      deviceName={deviceName}
+      peers={peers}
+      ssid={ssid}
+      onClosePress={() => navigation.pop()}
+      onWifiPress={handleWifiPress}
+      onSyncPress={handleSyncPress}
+      projectKey={projectKey}
+    />
+  );
 };
 
-export default WrappedSync;
+const SettingsButton = () => {
+  const { navigate } = useNavigation();
+  return (
+    <IconButton onPress={() => navigate("Settings")}>
+      <SettingsIcon color="white" />
+    </IconButton>
+  );
+};
+
+SyncModal.navigationOptions = {
+  headerTintColor: "white",
+  headerStyle: {
+    backgroundColor: "#2348B2"
+  },
+  headerTitle: (
+    <HeaderTitle style={{ color: "white" }}>
+      <FormattedMessage {...m.syncHeader} />
+    </HeaderTitle>
+  ),
+  headerRight: <SettingsButton />
+};
+
+/**
+ * State in Mapeo Core can loose the history of an error or completion of sync.
+ * In this sync modal, for the lifecycle of the component:
+ * 1. If replication has started or in progress, that overrides any state
+ *    (completion or error)
+ * 2. If there is an error, that remains in the state until the modal is closed
+ * 3. A peer remains "completed" another sync starts of the modal is closed
+ * 4. A peer is only in the "ready" state when first discovered
+ */
+function getDerivedPeerState(
+  serverPeers: ServerPeer[],
+  syncErrors,
+  since: number
+): Array<Peer> {
+  return serverPeers.map(serverPeer => {
+    let status = peerStatus.READY;
+    const state = serverPeer.state || {};
+    if (
+      state.topic === "replication-progress" ||
+      state.topic === "replication-started"
+    ) {
+      status = peerStatus.PROGRESS;
+    } else if (
+      syncErrors.has(serverPeer.id) ||
+      state.topic === "replication-error"
+    ) {
+      status = peerStatus.ERROR;
+    } else if (
+      (state.lastCompletedDate || 0) > since ||
+      state.topic === "replication-complete"
+    ) {
+      status = peerStatus.COMPLETE;
+    }
+    return {
+      id: serverPeer.id,
+      name: serverPeer.name,
+      status: status,
+      // $FlowFixMe
+      lastCompleted: state.lastCompletedDate,
+      progress: getPeerProgress(serverPeer.state),
+      error: syncErrors.get(serverPeer.id),
+      deviceType: serverPeer.deviceType
+    };
+  });
+}
+
+export default SyncModal;
 
 // We combine media and database items in progress. In order to show roughtly
 // accurate progress, this weighting is how much more progress a media item

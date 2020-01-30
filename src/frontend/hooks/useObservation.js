@@ -6,9 +6,7 @@ import { matchPreset, addFieldDefinitions } from "../lib/utils";
 import ObservationsContext, {
   type Observation
 } from "../context/ObservationsContext";
-import PresetsContext, {
-  type PresetWithFields
-} from "../context/PresetsContext";
+import ConfigContext, { type PresetWithFields } from "../context/ConfigContext";
 import type { Status } from "../types";
 
 type UseObservation = [
@@ -27,7 +25,7 @@ export default (observationId: mixed): UseObservation => {
     ObservationsContext
   );
   const [{ presets, fields, status: presetsStatus }] = useContext(
-    PresetsContext
+    ConfigContext
   );
   const [deletingStatus, setDeletingStatus] = useState();
   const loadingStatus = mergeLoadingStatus(observationsStatus, presetsStatus);

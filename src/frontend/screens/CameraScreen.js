@@ -2,7 +2,6 @@
 import * as React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import debug from "debug";
-import { NavigationActions } from "react-navigation";
 import { useFocusState, useNavigation } from "react-navigation-hooks";
 import { defineMessages, FormattedMessage } from "react-intl";
 
@@ -37,11 +36,7 @@ const CameraScreen = () => {
     (e: any, capture: CapturePromise) => {
       log("pressed add button");
       newDraft(undefined, { tags: {} }, capture);
-      navigation.navigate(
-        "NewObservation",
-        {},
-        NavigationActions.navigate({ routeName: "CategoryChooser" })
-      );
+      navigation.navigate("CategoryChooser");
     },
     [newDraft, navigation]
   );

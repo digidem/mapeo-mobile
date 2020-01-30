@@ -2,6 +2,146 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0-alpha.3](https://github.com/digidem/mapeo-mobile/compare/v2.1.0-alpha.2...v2.1.0-alpha.3) (2020-01-25)
+
+### Bug Fixes
+
+- Fix config import failing when there is an existing config ([5dbe33e](https://github.com/digidem/mapeo-mobile/commit/5dbe33eca8a48a410d1a587ac95d147331444290))
+
+## [2.1.0-alpha.2](https://github.com/digidem/mapeo-mobile/compare/v2.1.0-alpha.1...v2.1.0-alpha.2) (2020-01-23)
+
+### Bug Fixes
+
+- Remove unused picker component (pending coordinate format setting) ([0e6514d](https://github.com/digidem/mapeo-mobile/commit/0e6514d5d9ba7b6d861ecc201ba44ab9968f199f))
+
+## [2.1.0-alpha.1](https://github.com/digidem/mapeo-mobile/compare/v2.1.0-alpha.0...v2.1.0-alpha.1) (2020-01-23)
+
+### Features
+
+- 🎉 Import configuration files (.mapeosettings) from a new settings screen ([562b95a](https://github.com/digidem/mapeo-mobile/commit/562b95ac2cac4406e3ba9631ea59707d5e087565))
+
+## [2.1.0-alpha.0](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.0...v2.1.0-alpha.0) (2020-01-20)
+
+### Features
+
+- Ask for confirmation when the user presses the back button when editing/creating an observation ([281553a](https://github.com/digidem/mapeo-mobile/commit/281553aab0df3674bbd46b1ab4b8564627924aab))
+- Update to latest React Native & Unimodules (better performance and bug fixes) ([4d0123b](https://github.com/digidem/mapeo-mobile/commit/4d0123b8e97304757d552c4a67717c70978ac154))
+- Use Android default animation for navigation (changes close icon on GPS and Sync screens) ([69d7b82](https://github.com/digidem/mapeo-mobile/commit/69d7b82dce7860c8e1d74ac0ceaea0d2a4f9762a))
+
+### Bug Fixes
+
+- Adjust projectKey styling and text ([c022422](https://github.com/digidem/mapeo-mobile/commit/c0224225c7ee03116d6ea7d5ae1a1dab5913838b))
+- **Sync:** Touch up styles of no wifi sync screen ([8362831](https://github.com/digidem/mapeo-mobile/commit/8362831fddc5a7f58bd8633bdc1f3c9f78ef5e18))
+- Don't render app until saved draft is loaded from storage ([f8d7a0b](https://github.com/digidem/mapeo-mobile/commit/f8d7a0b963e68bb987503c199d4db92609a23369))
+- Fix bug when a user edits an existing observation and is returned to the home screen (map) ([9751501](https://github.com/digidem/mapeo-mobile/commit/975150194033d38a203ce39cba9000b7956281ee))
+- Fix crash after deleting an observation's description ([330fdab](https://github.com/digidem/mapeo-mobile/commit/330fdab7f8ff701d13180113539cb06af7b86915))
+
+## [2.0.0-beta.0](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.9...v2.0.0-beta.0) (2019-11-26)
+
+## [2.0.0-alpha.9](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2019-11-25)
+
+### Features
+
+- Only allow deletion of your own observations ([21e90b8](https://github.com/digidem/mapeo-mobile/commit/21e90b80d666fa6f34b19f8ad6594e6ec8307c52))
+
+### Bug Fixes
+
+- **SyncModal:** Adjust "waiting for sync" to fill entire screen (for devices with large text settings) ([ea4d8df](https://github.com/digidem/mapeo-mobile/commit/ea4d8df8ec4b2e1106d45fb0dcc32197b14b2de4))
+- After an uncaught error, always restart at the map screen (don't try to return to screen from before crash) ([2ea1d15](https://github.com/digidem/mapeo-mobile/commit/2ea1d15fea164bd3df0a3ea6faff28007205d696))
+- Push share & delete buttons to bottom of screen ([6968258](https://github.com/digidem/mapeo-mobile/commit/696825816d51f9628088f3301228a791c7b986f4))
+- Show uncaught error message translated (was only in English before) ([7cc4313](https://github.com/digidem/mapeo-mobile/commit/7cc4313b81382bd6f69b9bad18d84c6db33a5e78))
+
+## [2.0.0-alpha.8](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.7...v2.0.0-alpha.8) (2019-11-25)
+
+### Features
+
+- **TextField:** Show question hint under label instead of as placeholder ([a8c871e](https://github.com/digidem/mapeo-mobile/commit/a8c871e9b9848a9bcd1c70dca71c1506339f098e))
+
+### Bug Fixes
+
+- **ObservationDetails:** increase size and contrast of question hint text ([82ac384](https://github.com/digidem/mapeo-mobile/commit/82ac3847e5676bc426c341207359da831de92137))
+- Fix right-margin of select-one and select-multiple options & adjust line height ([a23e0f2](https://github.com/digidem/mapeo-mobile/commit/a23e0f2a2cbb99e51351b447dde5216af80ba010))
+
+## [2.0.0-alpha.7](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2019-11-23)
+
+### Features
+
+- Add photo thumbnails to observation list view ([fe74274](https://github.com/digidem/mapeo-mobile/commit/fe74274c943d620b3c66c408b1ca570c734dbf98))
+- Don't allow edit of synced obs; show sync symbol on synced obs ([4a7a6c7](https://github.com/digidem/mapeo-mobile/commit/4a7a6c7efb96722288eb6415d582ac55c28f2e2b))
+- Identify synced observations with a blue bar in list view ([d4b394b](https://github.com/digidem/mapeo-mobile/commit/d4b394bf08988dd604c0b37a8b3a51bf4f07900e))
+- Show multiple photo thumbnails in observation list view ([b30b1b6](https://github.com/digidem/mapeo-mobile/commit/b30b1b6687f22314ccaaf315e2ed818ea055128f))
+
+### Bug Fixes
+
+- Don't collapse map in observation view when map does not load ([d077ece](https://github.com/digidem/mapeo-mobile/commit/d077ece680ba54f041e772e398584b0dfcc659cd))
+- Fix navigation at end of questions pressing "Done" ([30e6112](https://github.com/digidem/mapeo-mobile/commit/30e61129290885f1d0b0935c1439368cc3819f12))
+
+## [2.0.0-alpha.6](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2019-11-19)
+
+### Bug Fixes
+
+- Pin react-native-community/art version to fix progress animation crashing app ([5e5c4f0](https://github.com/digidem/mapeo-mobile/commit/5e5c4f02ece8dd84763b7e3a8640212981ba4516))
+
+## [2.0.0-alpha.5](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2019-11-19)
+
+## [2.0.0-alpha.4](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.3...v2.0.0-alpha.4) (2019-11-19)
+
+### Bug Fixes
+
+- Fix manual GPS entry crashes and errors ([d11e3fe](https://github.com/digidem/mapeo-mobile/commit/d11e3fe6c4099891aa12499f5cff9d76d2847966))
+
+## [2.0.0-alpha.3](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2019-11-19)
+
+### Bug Fixes
+
+- Don't log debug messages by default (console.log slows down react-native a lot) ([93045e8](https://github.com/digidem/mapeo-mobile/commit/93045e84653db2d9bed29c20aa7da41a609af5ac))
+- Reduce frequency of sync updates to every 500ms to increase performance ([308221b](https://github.com/digidem/mapeo-mobile/commit/308221b52857ed3e0edc62ea02e592cf7d396091))
+
+## [2.0.0-alpha.2](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2019-11-19)
+
+### Bug Fixes
+
+- Fix typo causing projectKey sync to fail ([105a76c](https://github.com/digidem/mapeo-mobile/commit/105a76c877c5dded0bd60508a91696112196e4ba))
+
+## [2.0.0-alpha.1](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2019-11-19)
+
+### Bug Fixes
+
+- Add ES translations for sync errors ([b445078](https://github.com/digidem/mapeo-mobile/commit/b44507827b0b04e5969fe6179050e9c88f51f4fd))
+
+## [2.0.0-alpha.0](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.11...v2.0.0-alpha.0) (2019-11-19)
+
+### ⚠ BREAKING CHANGES
+
+- New sync protocol incompatible with Mapeo v1
+
+### Features
+
+- Add error messages for incompatible mapeo versions ([f41f7ba](https://github.com/digidem/mapeo-mobile/commit/f41f7bad303c263ca21ab7e8818f9c130579e70b))
+- Encrypt sync with projectKey ([6916360](https://github.com/digidem/mapeo-mobile/commit/69163607c826d2e11177eb2b2d5b8e8455c2e4e3))
+- Only sync with peers with matching projectKey ([39db7a6](https://github.com/digidem/mapeo-mobile/commit/39db7a6fb0c198819ab350e300729477c40ef0ff))
+
+### Bug Fixes
+
+- Enable sync screen to scroll when there are many sync peers ([4ee34f6](https://github.com/digidem/mapeo-mobile/commit/4ee34f6ceda1102b761a0dce5f98f4f02826b099))
+
+### chore
+
+- New sync protocol incompatible with Mapeo v1 ([dddcecc](https://github.com/digidem/mapeo-mobile/commit/dddcecc16a4acd8ff766d5bdb25bcacd4b14f0be))
+
+## [1.2.0-alpha.11](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.10...v1.2.0-alpha.11) (2019-11-15)
+
+### Bug Fixes
+
+- Fix observations and blue location dot not appearing on map ([b1d52ea](https://github.com/digidem/mapeo-mobile/commit/b1d52eae38d12d31117aa45149c7cbd7225365b6))
+- Show "Add+" button even if map does not load ([9c5d737](https://github.com/digidem/mapeo-mobile/commit/9c5d7372d17b7efef748d97a0874bf3ba8704af7))
+
+## [1.2.0-alpha.10](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.9...v1.2.0-alpha.10) (2019-11-14)
+
+### Bug Fixes
+
+- Fix map error when no offline map style is present ([a87403b](https://github.com/digidem/mapeo-mobile/commit/a87403b586564ae023013be37d511df2871399c9))
+
 ## [1.2.0-alpha.9](https://github.com/digidem/mapeo-mobile/compare/v1.2.0-alpha.8...v1.2.0-alpha.9) (2019-11-12)
 
 ### Features

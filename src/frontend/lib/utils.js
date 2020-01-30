@@ -12,7 +12,7 @@ import type {
   PresetsMap,
   PresetWithFields,
   FieldsMap
-} from "../context/PresetsContext";
+} from "../context/ConfigContext";
 
 export function getDisplayName(WrappedComponent: any) {
   return WrappedComponent.displayName || WrappedComponent.name || "Component";
@@ -41,6 +41,11 @@ export function promiseTimeout(
   });
   promise.finally(() => clearTimeout(timeoutId));
   return Promise.race([promise, timeout]);
+}
+
+export function parseVersionMajor(versionString?: string = "") {
+  const major = Number.parseInt(versionString.split(".")[0]);
+  return isNaN(major) ? 0 : major;
 }
 
 export function getLocationStatus({
@@ -95,7 +100,7 @@ export function addFieldDefinitions(
 // Filter photos from an array of observation attachments (we could have videos
 // and other media types)
 export function filterPhotosFromAttachments(
-  attachments: Array<ObservationAttachment> = []
+  attachments?: Array<ObservationAttachment> = []
 ): Array<SavedPhoto> {
   return attachments.reduce((acc, att) => {
     if (
@@ -107,6 +112,12 @@ export function filterPhotosFromAttachments(
       acc.push({ id: att.id, type: att.type });
     return acc;
   }, []);
+}
+
+export function getLastPhotoAttachment(
+  attachments?: Array<ObservationAttachment> = []
+): SavedPhoto | void {
+  return filterPhotosFromAttachments(attachments).pop();
 }
 
 export function formatCoords({

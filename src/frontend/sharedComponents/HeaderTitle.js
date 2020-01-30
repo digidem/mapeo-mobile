@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Platform, StyleSheet, Text } from "react-native";
 
-const HeaderTitle = ({ children }) => (
-  <Text style={styles.title}>{children}</Text>
+const HeaderTitle = ({ children, style }) => (
+  <Text style={[styles.title, style]}>{children}</Text>
 );
 
 const styles = StyleSheet.create({
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "700",
         color: "rgba(0, 0, 0, .9)",
-        marginHorizontal: 8
+        marginRight: 8
       },
       default: {
         fontSize: 18,

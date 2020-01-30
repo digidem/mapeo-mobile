@@ -11,15 +11,40 @@ const mkdirp = require("mkdirp");
 const rnBridge = require("rn-bridge");
 const throttle = require("lodash/throttle");
 const main = require("./index");
+const fs = require("fs");
+const rimraf = require("rimraf");
+const tar = require("tar-fs");
+const pump = require("pump");
+const tmp = require("tmp");
+const semverCoerce = require("semver/functions/coerce");
+
+// Cleanup the temporary files even when an uncaught exception occurs
+tmp.setGracefulCleanup();
 
 const log = debug("mapeo-core:server");
 
 module.exports = createServer;
 
 function createServer({ privateStorage, sharedStorage }) {
+  let projectKey;
+  const defaultConfigPath = path.join(sharedStorage, "presets/default");
+
+  try {
+    const metadata = JSON.parse(
+      fs.readFileSync(path.join(defaultConfigPath, "metadata.json"), "utf8")
+    );
+    projectKey = metadata.projectKey;
+    if (projectKey)
+      log("Found projectKey starting with ", projectKey.slice(0, 4));
+    else log("No projectKey found, using default 'mapeo' key");
+  } catch (err) {
+    // An undefined projectKey is fine, the fallback is to sync with any other mapeo
+    log("No projectKey found, using default 'mapeo' key");
+  }
   const indexDb = level(path.join(privateStorage, "index"));
   const coreDb = kappa(path.join(privateStorage, "db"), {
-    valueEncoding: "json"
+    valueEncoding: "json",
+    encryptionKey: projectKey
   });
   function createStorage(name, cb) {
     process.nextTick(
@@ -29,7 +54,7 @@ function createServer({ privateStorage, sharedStorage }) {
     );
   }
   // create folders for presets & styles
-  mkdirp.sync(path.join(sharedStorage, "presets/default"));
+  mkdirp.sync(defaultConfigPath);
   mkdirp.sync(path.join(sharedStorage, "styles/default"));
 
   // Folder with default (built-in) presets to server when the user has not
@@ -75,23 +100,112 @@ function createServer({ privateStorage, sharedStorage }) {
   const origListen = server.listen;
   const origClose = server.close;
   // Sending data over the bridge to RN is costly, and progress events fire
-  // frequently, so we throttle updates to once every 200ms
-  const throttledSendPeerUpdateToRN = throttle(sendPeerUpdateToRN, 200);
+  // frequently, so we throttle updates to once every 500ms
+  const throttledSendPeerUpdateToRN = throttle(sendPeerUpdateToRN, 500);
 
   server.listen = function listen(...args) {
     mapeoCore.sync.listen(() => {
       mapeoCore.sync.on("peer", throttledSendPeerUpdateToRN);
       mapeoCore.sync.on("down", throttledSendPeerUpdateToRN);
       rnBridge.channel.on("sync-start", startSync);
+      rnBridge.channel.on("sync-join", joinSync);
+      rnBridge.channel.on("sync-leave", leaveSync);
+      rnBridge.channel.on("replace-config", replaceConfig);
       origListen.apply(server, args);
     });
   };
+
+  // Given a config tarball at `path`, replace the current config.
+  function replaceConfig({ id, path: pathToNewConfigTarball }) {
+    const cb = err => rnBridge.channel.post("replace-config-" + id, err);
+
+    tmp.dir(
+      {
+        unsafeCleanup: true,
+        // NB: os.tmp() is in private cache storage on Android, but currently
+        // the destination is in sharedStorage. We can't fs.rename() between
+        // these two storage areas, so we create our own temp dir in
+        // sharedStorage
+        dir: sharedStorage
+      },
+      (err, tmpDir, cleanup) => {
+        // 1 - extract to temp directory
+        if (err) {
+          log("Could not create tmp directory for config extract", err);
+          return cb(err);
+        }
+        var source = fs.createReadStream(pathToNewConfigTarball);
+        var dest = tar.extract(tmpDir, {
+          readable: true,
+          writable: true
+        });
+        pump(source, dest, onExtract);
+
+        // 2 - If extract worked, check version
+        function onExtract(err) {
+          // TODO: Better checking that presets are valid
+          if (err) {
+            log("Error extracting config tarball", err);
+            return cb(err);
+          }
+          fs.readFile(path.join(tmpDir, "VERSION"), "utf8", (err, version) => {
+            const parsedVersion = semverCoerce(version);
+            if (err || parsedVersion == null) {
+              log("Error reading VERSION file from imported config");
+              return cb(err || new Error("Unreadable config version"));
+            }
+            if (parsedVersion.major > 2 || parsedVersion.major < 2) {
+              log(
+                "Mapeo is not compatible with this config version (" +
+                  version +
+                  ")"
+              );
+              cb(new Error("Incompatible config version"));
+            }
+            log("Importing config version: " + version);
+            onVersionCheck();
+          });
+        }
+
+        // 3 - Presets look ok, replace current presets with these
+        function onVersionCheck() {
+          // Need to rimraf() because fs.rename gives an error if the destination
+          // directory is not empty, despite what the nodejs docs say
+          // (https://github.com/nodejs/node/issues/21957)
+          rimraf(defaultConfigPath, err => {
+            if (err) {
+              log("Error trying to remove existing config", err);
+              return cb(err);
+            }
+            fs.rename(tmpDir, defaultConfigPath, err => {
+              if (err) {
+                log("Error replacing existing config with new config", err);
+                return cb(err);
+              }
+              // Manual cleanup of temp dir - tmp should cleanup on node exist, but
+              // just in case
+              cleanup();
+              cb();
+            });
+          });
+        }
+      }
+    );
+  }
 
   // Send message to frontend whenever there is an update to the peer list
   function sendPeerUpdateToRN(peer) {
     const peers = mapeoCore.sync.peers().map(peer => {
       const { connection, ...rest } = peer;
-      return rest;
+      return {
+        ...rest,
+        channel: Buffer.isBuffer(rest.channel)
+          ? rest.channel.toString("hex")
+          : undefined,
+        swarmId: Buffer.isBuffer(rest.swarmId)
+          ? rest.swarmId.toString("hex")
+          : undefined
+      };
     });
     rnBridge.channel.post("peer-update", peers);
   }
@@ -126,10 +240,38 @@ function createServer({ privateStorage, sharedStorage }) {
     }
   }
 
+  function joinSync({ deviceName } = {}) {
+    try {
+      if (deviceName) mapeoCore.sync.setName(deviceName);
+      log("Joining swarm", projectKey && projectKey.slice(0, 4));
+      mapeoCore.sync.join(projectKey);
+    } catch (e) {
+      main.bugsnag.notify(e, {
+        severity: "error",
+        context: "sync join"
+      });
+    }
+  }
+
+  function leaveSync() {
+    try {
+      log("Leaving swarm", projectKey && projectKey.slice(0, 4));
+      mapeoCore.sync.leave(projectKey);
+    } catch (e) {
+      main.bugsnag.notify(e, {
+        severity: "error",
+        context: "sync leave"
+      });
+    }
+  }
+
   server.close = function close(cb) {
     mapeoCore.sync.removeListener("peer", throttledSendPeerUpdateToRN);
     mapeoCore.sync.removeListener("down", throttledSendPeerUpdateToRN);
-    rnBridge.channel.removeListener("request-sync", startSync);
+    rnBridge.channel.removeListener("sync-start", startSync);
+    rnBridge.channel.removeListener("sync-join", joinSync);
+    rnBridge.channel.removeListener("sync-leave", leaveSync);
+    rnBridge.channel.removeListener("replace-config", replaceConfig);
     onReplicationComplete(() => {
       mapeoCore.sync.destroy(() => origClose.call(server, cb));
     });

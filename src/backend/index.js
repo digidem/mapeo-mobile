@@ -19,16 +19,16 @@
 
 const rnBridge = require("rn-bridge");
 const debug = require("debug");
-debug.enable("mapeo*");
+debug.enable("*");
 
 const ServerStatus = require("./status");
 const constants = require("./constants");
 const createServer = require("./server");
 const createBugsnag = require("@bugsnag/js");
-const semver = require("semver");
+const semverPrerelease = require("semver/functions/prerelease");
 const { version } = require("../../package.json");
 
-const prereleaseComponents = semver.prerelease(version);
+const prereleaseComponents = semverPrerelease(version);
 const releaseStage = prereleaseComponents
   ? prereleaseComponents[0]
   : "production";
@@ -49,8 +49,14 @@ const bugsnag = createBugsnag({
   releaseStage: releaseStage,
   appVersion: version,
   appType: "server",
-  onUncaughtException: () => status.setState(constants.ERROR),
-  onUnhandledRejection: () => status.setState(constants.ERROR)
+  onUncaughtException: err => {
+    log("uncaughtException", err);
+    status.setState(constants.ERROR);
+  },
+  onUnhandledRejection: err => {
+    log("unhandledRejection", err);
+    status.setState(constants.ERROR);
+  }
 });
 
 module.exports.bugsnag = bugsnag;
@@ -82,6 +88,7 @@ rnBridge.channel.on("storagePath", path => {
       sharedStorage: storagePath
     });
   } catch (e) {
+    log("createServer error", e);
     bugsnag.notify(e, {
       severity: "error",
       context: "createServer"

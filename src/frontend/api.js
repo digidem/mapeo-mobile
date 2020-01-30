@@ -6,7 +6,7 @@ import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
 import debug from "debug";
 
-import type { Preset, Field } from "./context/PresetsContext";
+import type { Preset, Field, Metadata } from "./context/ConfigContext";
 import type {
   Observation,
   ObservationValue
@@ -21,6 +21,27 @@ import type { Observation as ServerObservation } from "mapeo-schema";
 
 export type ServerStatus = $Keys<typeof STATUS>;
 export type Subscription = { remove: () => any };
+
+export type PeerError =
+  | {|
+      topic: "replication-error",
+      message: string,
+      lastCompletedDate?: number
+    |}
+  | {
+      topic: "replication-error",
+      message: string,
+      code: "ERR_VERSION_MISMATCH",
+      usVersion: string,
+      themVersion: string
+    }
+  | {
+      topic: "replication-error",
+      message: string,
+      code: "ERR_CLIENT_MISMATCH",
+      usClient: string,
+      themClient: string
+    };
 
 export type ServerPeer = {
   id: string,
@@ -50,12 +71,7 @@ export type ServerPeer = {
         message: number,
         lastCompletedDate?: number
       |}
-    | {|
-        topic: "replication-error",
-        // Error message
-        message: string,
-        lastCompletedDate?: number
-      |}
+    | PeerError
     | {|
         topic: "replication-started",
         lastCompletedDate?: number
@@ -157,6 +173,9 @@ export function Api({
     return onReady().then(() => req.post(url, { json: data }).json());
   }
 
+  // Used to track RPC communication
+  let channelId = 0;
+
   // All public methods
   const api = {
     // Start server, returns a promise that resolves when the server is ready
@@ -225,12 +244,22 @@ export function Api({
       );
     },
 
+    getMetadata: function getMetadata(): Promise<Metadata> {
+      return get(`presets/default/metadata.json?${startupTime}`).then(
+        data => data || {}
+      );
+    },
+
     getObservations: function getObservations(): Promise<Observation[]> {
       return get("observations").then(data => data.map(convertFromServer));
     },
 
     getMapStyle: function getMapStyle(id: string): Promise<any> {
       return get(`styles/${id}/style.json`);
+    },
+
+    getDeviceId: function getDeviceId(): Promise<string> {
+      return get(`device/id`);
     },
 
     /**
@@ -257,9 +286,9 @@ export function Api({
           new Error("Missing uri for full image or thumbnail to save to server")
         );
       const data = {
-        original: originalUri.replace(/^file:\/\//, ""),
-        preview: previewUri.replace(/^file:\/\//, ""),
-        thumbnail: thumbnailUri.replace(/^file:\/\//, "")
+        original: convertFileUriToPosixPath(originalUri),
+        preview: convertFileUriToPosixPath(previewUri),
+        thumbnail: convertFileUriToPosixPath(thumbnailUri)
       };
       const createPromise = post("media", data);
       // After images have saved to the server we can delete the versions in
@@ -292,9 +321,11 @@ export function Api({
         schemaVersion: 3,
         id
       };
-      return put(`observations/${id}`, valueForServer).then(
-        (serverObservation: ServerObservation) =>
-          convertFromServer(serverObservation)
+      return put(
+        `observations/${id}`,
+        valueForServer
+      ).then((serverObservation: ServerObservation) =>
+        convertFromServer(serverObservation)
       );
     },
 
@@ -306,9 +337,35 @@ export function Api({
         type: "observation",
         schemaVersion: 3
       };
-      return post("observations", valueForServer).then(
-        (serverObservation: ServerObservation) =>
-          convertFromServer(serverObservation)
+      return post(
+        "observations",
+        valueForServer
+      ).then((serverObservation: ServerObservation) =>
+        convertFromServer(serverObservation)
+      );
+    },
+
+    // Replaces app config with .mapeosettings tar file at `path`
+    replaceConfig: function replaceConfig(fileUri: string): Promise<void> {
+      const path = convertFileUriToPosixPath(fileUri);
+      return onReady().then(
+        () =>
+          new Promise((resolve, reject) => {
+            const id = channelId++;
+            nodejs.channel.once("replace-config-" + id, done);
+            nodejs.channel.post("replace-config", { path, id });
+
+            const timeoutId = setTimeout(() => {
+              nodejs.channel.removeListener("replace-config-" + id, done);
+              done(new Error("Timeout when replacing config"));
+            }, 30 * 1000);
+
+            function done(err) {
+              clearTimeout(timeoutId);
+              if (err) reject(err);
+              else resolve();
+            }
+          })
       );
     },
 
@@ -333,12 +390,14 @@ export function Api({
 
     // Start listening for sync peers and advertise with `deviceName`
     syncJoin: function syncJoin(deviceName: string) {
-      req.get(`sync/join?name=${deviceName}`);
+      return onReady().then(() =>
+        nodejs.channel.post("sync-join", { deviceName })
+      );
     },
 
     // Stop listening for sync peers and stop advertising
     syncLeave: function syncLeave() {
-      req.get("sync/leave");
+      return onReady().then(() => nodejs.channel.post("sync-leave"));
     },
 
     // Get a list of discovered sync peers
@@ -436,4 +495,10 @@ function convertFromServer(obs: ServerObservation): Observation {
       tags: (value || {}).tags
     }
   };
+}
+
+function convertFileUriToPosixPath(fileUri) {
+  if (typeof fileUri !== "string")
+    throw new Error("Attempted to convert invalid file Uri:" + fileUri);
+  return fileUri.replace(/^file:\/\//, "");
 }

@@ -35,12 +35,12 @@
   "rules": {
     "react/prop-types": 0,
     "react-native/no-unused-styles": 2,
-    "react-native/no-raw-text": 2,
     "react/display-name": 0,
     "camelcase": 0,
     "lines-between-class-members": 0,
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "react-native/no-raw-text": ["error", { "skip": ["Button"] }]
   },
   "settings": {
     "react": {

@@ -5,10 +5,11 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import { VERY_LIGHT_BLUE } from "../../lib/styles";
+import QuestionLabel from "./QuestionLabel";
 
 import type { Style } from "../../types";
 import type { QuestionProps } from "./Question";
-import type { SelectField } from "../../context/PresetsContext";
+import type { SelectField } from "../../context/ConfigContext";
 
 type Props = {
   ...$Exact<QuestionProps>,
@@ -44,20 +45,15 @@ const SelectMultiple = ({
   const valueAsArray = toArray(value);
 
   const handleChange = itemValue => {
-    console.log("prev Value", valueAsArray);
     const updatedValue = valueAsArray.includes(itemValue)
       ? valueAsArray.filter(d => d !== itemValue)
       : [...valueAsArray, itemValue];
-    console.log("new Value", updatedValue);
     onChange(updatedValue);
   };
 
   return (
     <>
-      <View style={styles.labelContainer}>
-        <Text style={styles.label}>{label}</Text>
-        {placeholder && <Text style={styles.hint}>{placeholder}</Text>}
-      </View>
+      <QuestionLabel label={label} hint={placeholder} />
       {options.map(convertItem).map((item, index) => (
         <CheckItem
           key={item.value}
@@ -87,28 +83,11 @@ function convertItem(item): { value: number | string, label: string } {
 }
 
 const styles = StyleSheet.create({
-  labelContainer: {
-    flex: 0,
-    padding: 20,
-    borderBottomWidth: 2,
-    borderColor: "#F3F3F3"
-  },
-  label: {
-    fontSize: 20,
-    color: "black",
-    fontWeight: "700"
-  },
-  hint: {
-    fontSize: 12,
-    color: "#A9A9A9",
-    fontWeight: "700"
-  },
   radioContainer: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 20,
-    marginLeft: 20,
-    paddingRight: 20,
+    marginHorizontal: 20,
     borderTopWidth: 1,
     borderColor: "#F3F3F3"
   },
@@ -117,7 +96,9 @@ const styles = StyleSheet.create({
   },
   itemLabel: {
     fontSize: 18,
+    lineHeight: 24,
     marginLeft: 20,
+    flex: 1,
     color: "black",
     fontWeight: "700"
   }

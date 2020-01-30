@@ -54,7 +54,6 @@ export type DraftObservationContextState = {|
   photoPromises: Array<
     Promise<DraftPhoto> & { signal?: { didCancel: boolean } }
   >,
-  loading: boolean,
   observationId?: string
 |};
 
@@ -64,8 +63,7 @@ const defaultContext: DraftObservationContextType = [
   {
     photos: [],
     value: null,
-    photoPromises: [],
-    loading: true
+    photoPromises: []
   },
   () => {}
 ];
@@ -80,6 +78,7 @@ type Props = {
 
 export const DraftObservationProvider = ({ children }: Props) => {
   const [state, setState] = React.useState(defaultContext[0]);
+  const [loading, setLoading] = React.useState(true);
   const contextValue = React.useMemo(() => [state, setState], [state]);
 
   // When the app first mounts, load draft from storage
@@ -87,19 +86,20 @@ export const DraftObservationProvider = ({ children }: Props) => {
     let didCancel = false;
     AsyncStorage.getItem(STORE_KEY)
       .then(savedDraft => {
-        if (savedDraft == null || didCancel) return;
+        if (didCancel) return;
+        if (savedDraft == null) return setLoading(false);
         const { photos, value, observationId } = JSON.parse(savedDraft);
-        setState(state => ({
-          ...state,
+        setLoading(false);
+        setState({
+          photoPromises: [],
           photos: photos.filter(filterCapturedPhotos),
           value,
-          observationId,
-          loading: false
-        }));
+          observationId
+        });
       })
       .catch(e => {
         log("Error reading draft from storage", e);
-        setState(state => ({ ...state, loading: false }));
+        setLoading(false);
       });
     return () => {
       didCancel = true;
@@ -107,6 +107,7 @@ export const DraftObservationProvider = ({ children }: Props) => {
   }, []);
 
   // Save draft to local storage on every update
+  // TODO: Debounce this for perf when typing fast
   React.useEffect(() => {
     const { photos, value, observationId } = state;
     AsyncStorage.setItem(
@@ -119,7 +120,7 @@ export const DraftObservationProvider = ({ children }: Props) => {
 
   return (
     <DraftObservationContext.Provider value={contextValue}>
-      {children}
+      {loading ? null : children}
     </DraftObservationContext.Provider>
   );
 };

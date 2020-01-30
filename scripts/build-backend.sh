@@ -34,6 +34,7 @@ cd ./nodejs-assets/nodejs-project
   --replace.bindings=bindings-noderify-nodejs-mobile \
   --filter=rn-bridge \
   --filter=original-fs \
+  --filter=async_hooks \
   index.js >_index.js
 rm index.js
 mv _index.js index.js

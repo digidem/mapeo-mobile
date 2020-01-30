@@ -29,6 +29,15 @@ export const AlertIcon = ({ size = 30, color = RED, style }: FontIconProps) => (
   <MaterialCommunityIcon color={color} name="alert" size={size} style={style} />
 );
 
+export const SettingsIcon = ({ size = 30, color, style }: FontIconProps) => (
+  <MaterialCommunityIcon
+    color={color}
+    name="settings"
+    size={size}
+    style={style}
+  />
+);
+
 export const CellphoneIcon = ({
   size = 30,
   color = "white",

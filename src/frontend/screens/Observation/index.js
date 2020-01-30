@@ -6,7 +6,7 @@ import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 import ObservationView from "./ObservationView";
 import CenteredView from "../../sharedComponents/CenteredView";
 import useObservation from "../../hooks/useObservation";
-import EditButton from "./EditButton";
+import ObservationHeaderRight from "./ObservationHeaderRight";
 import type { NavigationProp } from "../../types";
 
 const m = defineMessages({
@@ -97,7 +97,7 @@ Observation.navigationOptions = ({
 }: {
   navigation: NavigationProp
 }) => ({
-  headerRight: <EditButton navigation={navigation} />
+  headerRight: <ObservationHeaderRight navigation={navigation} />
 });
 
 export default Observation;

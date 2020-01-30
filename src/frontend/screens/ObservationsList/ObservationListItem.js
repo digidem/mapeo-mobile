@@ -7,7 +7,12 @@ import { TouchableHighlight } from "../../sharedComponents/Touchables";
 import useObservation from "../../hooks/useObservation";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
 import DateDistance from "../../sharedComponents/DateDistance";
+import { filterPhotosFromAttachments } from "../../lib/utils";
+import PhotoView from "../../sharedComponents/PhotoView";
+import api from "../../api";
 import type { Style } from "../../types";
+import type { SavedPhoto } from "../../context/DraftObservationContext";
+import useDeviceId from "../../hooks/useDeviceId";
 
 const m = defineMessages({
   defaultObservationName: {
@@ -23,6 +28,28 @@ type Props = {
   observationId: string
 };
 
+const photoOverlap = 10;
+
+const PhotoStack = ({ photos }: { photos: SavedPhoto[] }) => {
+  return (
+    <View
+      style={{
+        width: 60 + (photos.length - 1) * photoOverlap,
+        height: 60,
+        backgroundColor: "aqua"
+      }}>
+      {photos.map((photo, idx) => (
+        <PhotoView
+          key={photo.id}
+          uri={api.getMediaUrl(photo.id, "thumbnail")}
+          style={[styles.photo, { left: idx * photoOverlap }]}
+          resizeMode="cover"
+        />
+      ))}
+    </View>
+  );
+};
+
 const ObservationListItem = ({
   onPress = () => {},
   style,
@@ -31,22 +58,39 @@ const ObservationListItem = ({
   const { formatMessage: t } = useIntl();
   const [{ observation, preset }] = useObservation(observationId);
   const name = preset ? preset.name : t(m.defaultObservationName);
+  const deviceId = useDeviceId();
   const iconId = preset && preset.icon;
   const createdDate =
     observation && observation.created_at
       ? new Date(observation.created_at)
       : undefined;
+  const photos = filterPhotosFromAttachments(
+    observation && observation.value.attachments
+  ).slice(0, 3);
+  const isMine = observation && observation.value.deviceId === deviceId;
   return (
     <TouchableHighlight
       onPress={() => onPress(observationId)}
       testID={"ObservationListItem:" + observationId}
       style={{ flex: 1, height: 80 }}>
-      <View style={[styles.container, style]}>
+      <View
+        style={[styles.container, style, !isMine && styles.syncedObservation]}>
         <View style={styles.text}>
           <Text style={styles.title}>{name}</Text>
           {createdDate && <DateDistance date={createdDate} />}
         </View>
-        <CategoryCircleIcon iconId={iconId} size="medium" />
+        {photos.length ? (
+          <View style={styles.photoContainer}>
+            <PhotoStack photos={photos} />
+            <CategoryCircleIcon
+              iconId={iconId}
+              size="small"
+              style={styles.smallIcon}
+            />
+          </View>
+        ) : (
+          <CategoryCircleIcon iconId={iconId} size="medium" />
+        )}
       </View>
     </TouchableHighlight>
   );
@@ -67,12 +111,31 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 80
   },
+  syncedObservation: {
+    borderLeftWidth: 5,
+    borderLeftColor: "#3C69F6"
+  },
   text: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "flex-start"
   },
-  title: { fontSize: 18, fontWeight: "700", color: "black" }
-  // media: { width: 60, height: 60, borderRadius: 7 }
+  title: { fontSize: 18, fontWeight: "700", color: "black" },
+  photoContainer: {
+    position: "relative",
+    marginRight: -5
+  },
+  photo: {
+    borderRadius: 5,
+    overflow: "hidden",
+    position: "absolute",
+    width: 60,
+    height: 60,
+    top: 0,
+    borderWidth: 1,
+    borderColor: "white",
+    borderStyle: "solid"
+  },
+  smallIcon: { position: "absolute", right: -3, bottom: -3 }
 });

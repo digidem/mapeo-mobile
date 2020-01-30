@@ -1,28 +1,21 @@
 // @flow
 import React from "react";
-import { View, ScrollView, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
-import IconButton from "../../sharedComponents/IconButton";
-import { CloseIcon, WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
+import Button from "../../sharedComponents/Button";
+import { WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
 import DotIndicator from "./DotIndicator";
 import PeerList from "./PeerList";
 import type { Peer } from "./PeerList";
 
 const m = defineMessages({
-  syncHeader: {
-    id: "screens.SyncModal.SyncView.syncHeader",
-    defaultMessage: "Synchronize",
-    description: "Header of sync screen"
-  },
-
   wifi: {
     id: "screens.SyncModal.SyncView.wifi",
     defaultMessage: "WiFi:",
     description: "Label for wifi network name"
   },
-
   noWifiTitle: {
     id: "screens.SyncModal.SyncView.noWifiTitle",
     defaultMessage: "No WiFi",
@@ -34,6 +27,11 @@ const m = defineMessages({
     defaultMessage:
       "Open your phone settins and connect to a WiFi network to synchronize"
   },
+  settingsButton: {
+    id: "screens.SyncModal.SyncView.settingsButton",
+    description: "Button to open WiFi settings",
+    defaultMessage: "Open Settings"
+  },
   searchingTitle: {
     id: "screens.SyncModal.SyncView.searchingTitle",
     defaultMessage: "Searching",
@@ -44,23 +42,13 @@ const m = defineMessages({
     description: "Description shown whilst searcing for sync peers",
     defaultMessage:
       "Ensure that other devices are turned on and connected to the same WiFi network"
+  },
+  projectKey: {
+    id: "screens.SyncModal.SyncView.projectKey",
+    description: "First 5 characters of project key displayed on sync screen",
+    defaultMessage: "Project Key: {projectKey}"
   }
 });
-
-type HeaderProps = {
-  onClosePress: () => void
-};
-
-const Header = ({ onClosePress }: HeaderProps) => (
-  <View style={styles.header}>
-    <IconButton onPress={onClosePress}>
-      <CloseIcon color="white" />
-    </IconButton>
-    <Text numberOfLines={1} style={styles.title}>
-      <FormattedMessage {...m.syncHeader} />
-    </Text>
-  </View>
-);
 
 const WifiBar = ({ onPress, ssid, deviceName }) => (
   <TouchableNativeFeedback onPress={onPress}>
@@ -77,25 +65,29 @@ const WifiBar = ({ onPress, ssid, deviceName }) => (
   </TouchableNativeFeedback>
 );
 
-const NoWifiBox = ({ onPress }) => (
-  <TouchableNativeFeedback onPress={onPress}>
+const NoWifiBox = ({ onPress }) => {
+  const { formatMessage: t } = useIntl();
+  return (
     <View style={styles.noWifiBox}>
-      <View style={styles.noWifiBoxInner}>
+      <View style={styles.noWifiIconContainer}>
         <View style={styles.noWifiIcon}>
-          <WifiOffIcon size={50} />
-        </View>
-        <View style={styles.noWifiTextContainer}>
-          <Text style={styles.infoHeader}>
-            <FormattedMessage {...m.noWifiTitle} />
-          </Text>
-          <Text style={styles.infoSubheader}>
-            <FormattedMessage {...m.noWifiDesc} />
-          </Text>
+          <WifiOffIcon size={150} color="#2347B2" style={{ top: 7 }} />
         </View>
       </View>
+      <View style={styles.noWifiTextContainer}>
+        <Text style={[styles.infoHeader, styles.noWifiText]}>
+          {t(m.noWifiTitle)}
+        </Text>
+        <Text style={[styles.infoSubheader, styles.noWifiText]}>
+          {t(m.noWifiDesc)}
+        </Text>
+      </View>
+      <View style={styles.settingsButton}>
+        <Button onPress={onPress}>{t(m.settingsButton)}</Button>
+      </View>
     </View>
-  </TouchableNativeFeedback>
-);
+  );
+};
 
 const SearchingBox = () => (
   <View style={styles.searchingBox}>
@@ -114,26 +106,23 @@ const SearchingBox = () => (
 );
 
 type Props = {
-  onClosePress: () => void,
   onSyncPress: (peerId: string) => void,
   onWifiPress: () => void,
   deviceName: string,
   peers: Array<Peer>,
-  ssid: null | string
+  ssid: null | string,
+  projectKey?: string
 };
 
 const SyncView = ({
-  onClosePress,
   onSyncPress,
   peers,
   ssid,
   deviceName,
-  onWifiPress
+  onWifiPress,
+  projectKey
 }: Props) => (
-  <ScrollView
-    style={styles.container}
-    contentContainerStyle={styles.scrollViewContent}>
-    <Header onClosePress={onClosePress} />
+  <View style={styles.root}>
     {ssid ? (
       <>
         <WifiBar onPress={onWifiPress} ssid={ssid} deviceName={deviceName} />
@@ -142,63 +131,63 @@ const SyncView = ({
         ) : (
           <SearchingBox />
         )}
+
+        <Text style={styles.projectId}>
+          <FormattedMessage
+            {...m.projectKey}
+            values={{
+              projectKey: projectKey
+                ? projectKey.slice(0, 5) + "**********"
+                : "MAPEO"
+            }}
+          />
+        </Text>
       </>
     ) : (
       <NoWifiBox onPress={onWifiPress} />
     )}
-  </ScrollView>
+  </View>
 );
 
 export default SyncView;
 
 const styles = StyleSheet.create({
-  header: {
-    flexGrow: 0,
-    flexShrink: 0,
-    height: 60,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#3366FF"
-  },
-  title: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 20,
-    flex: 1,
+  projectId: {
+    color: "#aaaaaa",
+    padding: 10,
     textAlign: "center",
-    marginRight: 60
+    backgroundColor: "black",
+    flex: 0
   },
-  container: {
+  root: {
     flex: 1,
-    backgroundColor: "#2348B2"
-  },
-  scrollViewContent: {
-    flex: 1,
+    backgroundColor: "#2348B2",
     flexDirection: "column",
     justifyContent: "flex-start"
   },
   noWifiBox: {
-    backgroundColor: "#AD145C",
-    minHeight: 300,
-    paddingHorizontal: 30,
+    backgroundColor: "#000034",
     flexDirection: "column",
-    justifyContent: "center"
+    justifyContent: "flex-start",
+    alignItems: "stretch",
+    flex: 1
   },
-  noWifiBoxInner: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center"
+  noWifiIconContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+    flex: 0
   },
   searchingBoxInner: {
-    flex: 1,
+    marginTop: 20,
     flexDirection: "row",
     alignItems: "center"
   },
   noWifiIcon: {
-    width: 120,
-    height: 120,
-    backgroundColor: "#93114E",
-    borderRadius: 60,
+    width: 250,
+    height: 250,
+    marginVertical: 50,
+    backgroundColor: "#19337F",
+    borderRadius: 125,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -210,11 +199,14 @@ const styles = StyleSheet.create({
   infoSubheader: {
     color: "white",
     fontWeight: "400",
-    fontSize: 20
+    fontSize: 18
   },
   noWifiTextContainer: {
-    maxWidth: "60%",
-    marginLeft: 20
+    flex: 0,
+    paddingHorizontal: 20
+  },
+  noWifiText: {
+    textAlign: "center"
   },
   searchingTextContainer: {
     maxWidth: "75%",
@@ -241,12 +233,20 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: "700"
   },
+  settingsButton: {
+    flex: 1,
+    paddingVertical: 10,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center"
+  },
   searchingBox: {
     backgroundColor: "#2348B2",
     minHeight: 250,
+    flex: 1,
     paddingHorizontal: 30,
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "stretch"
   }
 });

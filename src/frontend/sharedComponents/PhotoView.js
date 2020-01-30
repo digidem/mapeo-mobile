@@ -2,17 +2,25 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Image, ActivityIndicator } from "react-native";
 
-import { AlertIcon } from "../../sharedComponents/icons";
+import { AlertIcon } from "./icons";
+import type { Style } from "../types";
 
 type Props = {
   uri?: string,
-  variant: "photo" | "loading" | "error"
+  variant?: "photo" | "loading" | "error",
+  style?: Style<typeof View>,
+  resizeMode?: "cover" | "contain" | "stretch" | "center"
 };
 
-const PhotoView = ({ onClose, uri, variant = "photo" }: Props) => {
+const PhotoView = ({
+  uri,
+  variant = "photo",
+  resizeMode = "contain",
+  style
+}: Props) => {
   const [error, setError] = useState();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       {variant === "loading" ? (
         <ActivityIndicator />
       ) : variant === "error" || error || !uri ? (
@@ -23,7 +31,7 @@ const PhotoView = ({ onClose, uri, variant = "photo" }: Props) => {
           source={{ uri }}
           style={styles.image}
           resizeMethod="scale"
-          resizeMode="contain"
+          resizeMode={resizeMode}
         />
       )}
     </View>

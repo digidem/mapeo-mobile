@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 
 // import type { MapStyle } from "../types";
@@ -14,10 +14,10 @@ import type {
 } from "../context/LocationContext";
 import type { ObservationsMap } from "../context/ObservationsContext";
 import bugsnag from "../lib/logger";
+import config from "../../config.json";
+import Loading from "./Loading";
 
-MapboxGL.setAccessToken(
-  "pk.eyJ1IjoiZ21hY2xlbm5hbiIsImEiOiJSaWVtd2lRIn0.ASYMZE2HhwkAw4Vt7SavEg"
-);
+MapboxGL.setAccessToken(config.mapboxAccessToken);
 // Forces Mapbox to always be in connected state, rather than reading system
 // connectivity state
 MapboxGL.setConnected(true);
@@ -215,57 +215,63 @@ class MapView extends React.Component<Props, State> {
 
     return (
       <>
-        <MapboxGL.MapView
-          style={{ flex: 1 }}
-          ref={this.handleMapViewRef}
-          maxZoomLevel={22}
-          logoEnabled={false}
-          pitchEnabled={false}
-          rotateEnabled={false}
-          onPress={this.handleObservationPress}
-          onDidFailLoadingMap={e =>
-            bugsnag.notify(e, {
-              severity: "error",
-              context: "onDidFailLoadingMap"
-            })
-          }
-          onDidFinishLoadingStyle={this.handleDidFinishLoadingStyle}
-          onDidFinishRenderingMap={() =>
-            bugsnag.leaveBreadcrumb("onDidFinishRenderingMap")
-          }
-          onDidFinishRenderingMapFully={() =>
-            bugsnag.leaveBreadcrumb("onDidFinishRenderingMapFully")
-          }
-          onWillStartLoadingMap={() =>
-            bugsnag.leaveBreadcrumb("onWillStartLoadingMap")
-          }
-          onDidFinishLoadingMap={() =>
-            bugsnag.leaveBreadcrumb("onDidFinishLoadingMap")
-          }
-          compassEnabled={false}
-          styleURL={styleURL}
-          onRegionDidChange={this.handleRegionDidChange}>
-          {this.state.hasFinishedLoadingStyle && (
-            <>
-              <MapboxGL.Camera
-                centerCoordinate={initialCoords}
-                zoomLevel={initialZoom}
-                followUserLocation={isFocused && this.state.following}
-                followUserMode="normal"
-                followZoomLevel={this.getFollowZoomLevel()}
-                animationMode="flyTo"
-                triggerKey={this.state.following}
-              />
-              {locationServicesEnabled && (
-                <MapboxGL.UserLocation visible={isFocused} />
-              )}
+        {styleURL === "loading" ? (
+          <Loading />
+        ) : styleURL === "error" ? (
+          <View style={{ flex: 1 }}>
+            <Text>Error loading map</Text>
+          </View>
+        ) : (
+          <MapboxGL.MapView
+            style={{ flex: 1 }}
+            ref={this.handleMapViewRef}
+            maxZoomLevel={22}
+            logoEnabled={false}
+            pitchEnabled={false}
+            rotateEnabled={false}
+            onPress={this.handleObservationPress}
+            onDidFailLoadingMap={e =>
+              bugsnag.notify(e, {
+                severity: "error",
+                context: "onDidFailLoadingMap"
+              })
+            }
+            onDidFinishLoadingStyle={this.handleDidFinishLoadingStyle}
+            onDidFinishRenderingMap={() =>
+              bugsnag.leaveBreadcrumb("onDidFinishRenderingMap")
+            }
+            onDidFinishRenderingMapFully={() =>
+              bugsnag.leaveBreadcrumb("onDidFinishRenderingMapFully")
+            }
+            onWillStartLoadingMap={() =>
+              bugsnag.leaveBreadcrumb("onWillStartLoadingMap")
+            }
+            onDidFinishLoadingMap={() =>
+              bugsnag.leaveBreadcrumb("onDidFinishLoadingMap")
+            }
+            compassEnabled={false}
+            styleURL={styleURL}
+            onRegionDidChange={this.handleRegionDidChange}>
+            <MapboxGL.Camera
+              centerCoordinate={initialCoords}
+              zoomLevel={initialZoom}
+              followUserLocation={isFocused && this.state.following}
+              followUserMode="normal"
+              followZoomLevel={this.getFollowZoomLevel()}
+              animationMode="flyTo"
+              triggerKey={this.state.following}
+            />
+            {locationServicesEnabled && (
+              <MapboxGL.UserLocation visible={isFocused} />
+            )}
+            {this.state.hasFinishedLoadingStyle && (
               <ObservationMapLayer
                 onPress={this.handleObservationPress}
                 observations={observations}
               />
-            </>
-          )}
-        </MapboxGL.MapView>
+            )}
+          </MapboxGL.MapView>
+        )}
         <AddButton onPress={onAddPress} />
         <View style={styles.locationButton}>
           <IconButton onPress={this.handleLocationPress}>

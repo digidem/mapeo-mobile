@@ -3,19 +3,12 @@ import React from "react";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
-import IconButton from "../sharedComponents/IconButton";
-import { CloseIcon } from "../sharedComponents/icons";
 import LocationContext from "../context/LocationContext";
 import FormattedCoords from "../sharedComponents/FormattedCoords";
 import DateDistance from "../sharedComponents/DateDistance";
-import { getLocationStatus } from "../lib/utils";
-import type { LocationStatus } from "../lib/utils";
-import type { LocationContextType } from "../context/LocationContext";
+import HeaderTitle from "../sharedComponents/HeaderTitle";
 
-type HeaderProps = {
-  onClose: () => void,
-  variant: LocationStatus
-};
+import type { LocationContextType } from "../context/LocationContext";
 
 const m = defineMessages({
   gpsHeader: {
@@ -55,17 +48,6 @@ const m = defineMessages({
   }
 });
 
-const GpsModalHeader = ({ onClose, variant }: HeaderProps) => (
-  <View style={styles.header}>
-    <IconButton onPress={onClose}>
-      <CloseIcon color="white" />
-    </IconButton>
-    <Text numberOfLines={1} style={styles.title}>
-      <FormattedMessage {...m.gpsHeader} />
-    </Text>
-  </View>
-);
-
 const GpsModalRow = ({ label, value }: { label: string, value: string }) => (
   <View style={styles.row}>
     <Text style={styles.rowLabel}>{label}</Text>
@@ -83,10 +65,6 @@ const GpsModal = ({ navigation }: Props) => {
 
   return (
     <ScrollView style={styles.container}>
-      <GpsModalHeader
-        onClose={() => navigation.pop()}
-        variant={getLocationStatus(location)}
-      />
       <View style={styles.infoArea}>
         <Text style={styles.sectionTitle}>
           <FormattedMessage {...m.lastUpdate} />
@@ -135,6 +113,19 @@ const GpsModal = ({ navigation }: Props) => {
     </ScrollView>
   );
 };
+
+GpsModal.navigationOptions = {
+  headerTintColor: "white",
+  headerStyle: {
+    backgroundColor: "rgb(40,40,40)"
+  },
+  headerTitle: (
+    <HeaderTitle style={{ color: "white" }}>
+      <FormattedMessage {...m.gpsHeader} />
+    </HeaderTitle>
+  )
+};
+
 export default GpsModal;
 
 function getLastUpdateText(location: LocationContextType) {
@@ -147,24 +138,9 @@ function getLastUpdateText(location: LocationContextType) {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    flex: 1,
-    height: 60,
-    marginBottom: 20,
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  title: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 20,
-    flex: 1,
-    textAlign: "center",
-    marginRight: 60
-  },
   container: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.85)",
+    backgroundColor: "rgb(40,40,40)",
     flexDirection: "column"
   },
   row: {

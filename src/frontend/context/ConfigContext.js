@@ -3,9 +3,9 @@ import * as React from "react";
 import debug from "debug";
 
 import api from "../api";
-import type { UseState, Status } from "../types";
+import type { Status } from "../types";
 
-const log = debug("mapeo:PresetsContext");
+const log = debug("mapeo:ConfigContext");
 
 export type Preset = {|
   id: string,
@@ -57,70 +57,113 @@ export type PresetWithFields = {|
 export type PresetsMap = Map<string, Preset>;
 export type FieldsMap = Map<string, Field>;
 
+export type Metadata = {
+  projectKey?: string,
+  name?: string,
+  dataset_id?: string,
+  version?: string
+};
+
 export type State = {
   // A map of presets by preset id
   presets: PresetsMap,
   // A map of field definitions by id
   fields: FieldsMap,
+  metadata: Metadata,
   status: Status
 };
 
-export type PresetsContextType = UseState<State>;
-
-const defaultContext = [
-  {
-    presets: new Map(),
-    fields: new Map(),
-    status: "loading"
-  },
-  () => {}
+export type ConfigContextType = [
+  State,
+  { reload: () => any, replace: (fileUri: string) => any }
 ];
 
-const PresetsContext = React.createContext<PresetsContextType>(defaultContext);
+const defaultConfig = {
+  presets: new Map(),
+  fields: new Map(),
+  metadata: {}
+};
+
+const defaultContext: ConfigContextType = [
+  {
+    ...defaultConfig,
+    status: "idle"
+  },
+  {
+    reload: () => {},
+    replace: () => {}
+  }
+];
+
+const ConfigContext = React.createContext<ConfigContextType>(defaultContext);
 
 type Props = {
   children: React.Node
 };
 
-export const PresetsProvider = ({ children }: Props) => {
-  const [state, setState] = React.useState(defaultContext[0]);
-  const contextValue = React.useMemo(() => [state, setState], [state]);
+export const ConfigProvider = ({ children }: Props) => {
+  const [config, setConfig] = React.useState(defaultConfig);
+  const [status, setStatus] = React.useState<Status>("idle");
+  const [reloadToken, setReloadToken] = React.useState();
+
+  const reload = React.useCallback(() => setReloadToken({}), []);
+
+  const replace = React.useCallback(
+    fileUri => {
+      setStatus("loading");
+      api
+        .replaceConfig(fileUri)
+        .then(reload)
+        .catch(err => {
+          log("Error replacing presets", err);
+          setStatus("error");
+        });
+    },
+    [reload]
+  );
+
+  const contextValue = React.useMemo(
+    () => [
+      { ...config, status },
+      { reload, replace }
+    ],
+    [config, status, reload, replace]
+  );
 
   // Load presets and fields from Mapeo Core on first mount of the app
   React.useEffect(() => {
     let didCancel = false;
-    setState({ ...state, status: "loading" });
-    Promise.all([api.getPresets(), api.getFields()])
-      .then(([presetsList, fieldsList]) => {
+    setStatus("loading");
+    Promise.all([api.getPresets(), api.getFields(), api.getMetadata()])
+      .then(([presetsList, fieldsList, metadata]) => {
         if (didCancel) return; // if component was unmounted, don't set state
-        setState({
+        setConfig({
           presets: new Map(
             presetsList.filter(filterPointPreset).map(p => [p.id, p])
           ),
           fields: new Map(fieldsList.map(p => [p.id, p])),
-          status: "success"
+          metadata: metadata
         });
+        setStatus("success");
       })
       .catch(err => {
         log("Error loading presets and fields", err);
         if (didCancel) return; // if component was unmounted, don't set state
-        setState({ ...state, status: "error" });
+        setStatus("error");
       });
     return () => {
       didCancel = true;
     };
-    // Disabled because we only ever want this to run on first load of the app
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [reloadToken]);
 
   return (
-    <PresetsContext.Provider value={contextValue}>
+    <ConfigContext.Provider value={contextValue}>
       {children}
-    </PresetsContext.Provider>
+    </ConfigContext.Provider>
   );
 };
 
-export default PresetsContext;
+export default ConfigContext;
 
 // We only want to show presets that apply to geometry type "point"
 function filterPointPreset(preset: Preset) {

@@ -1,5 +1,5 @@
 // @flow
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useCallback } from "react";
 
 import ObservationsContext, {
   type Observation
@@ -28,11 +28,13 @@ export default (): UseAllObservations => {
     [state.observations]
   );
 
+  const reload = useCallback(() => dispatch({ type: "reload" }), [dispatch]);
+
   return [
     {
       observations: observationsArray,
       status: state.status
     },
-    () => dispatch({ type: "reload" })
+    reload
   ];
 };

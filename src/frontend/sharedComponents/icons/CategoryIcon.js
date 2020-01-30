@@ -1,55 +1,57 @@
 // @flow
 import * as React from "react";
-import { Image } from "react-native";
+import { Image, View } from "react-native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import Circle from "./Circle";
 import api from "../../api";
+import { type Style } from "../../types";
 import type { IconSize } from "../../types";
 
 type IconProps = {
   size?: IconSize,
+  style?: Style<typeof View>,
   iconId?: string
 };
 
-type State = {
-  error: boolean
+const iconSizes = {
+  small: 22,
+  medium: 35,
+  large: 50
 };
 
-export class CategoryIcon extends React.PureComponent<IconProps, State> {
-  static defaultProps = {
-    size: "medium"
-  };
+const radii = {
+  small: 15,
+  medium: 25,
+  large: 35
+};
 
-  state = {
-    error: false
-  };
-
-  handleError = () => {
-    this.setState({ error: true });
-  };
-
-  render() {
-    const { size, iconId } = this.props;
+export const CategoryIcon = React.memo<IconProps>(
+  ({ size = "medium", iconId }) => {
+    const [error, setError] = React.useState(false);
+    const iconSize = iconSizes[size] || 35;
     // Fallback to a default icon if we can't load the icon from mapeo-server
-    if (this.state.error || !iconId) {
-      return <MaterialIcon name="place" size={35} />;
+    if (error || !iconId) {
+      return <MaterialIcon name="place" size={iconSize} />;
     }
     return (
       <Image
-        style={{ width: 35, height: 35 }}
+        style={{ width: iconSize, height: iconSize }}
         source={{ uri: api.getIconUrl(iconId, size) }}
-        onError={this.handleError}
+        onError={() => setError(true)}
       />
     );
   }
-}
+);
 
 export const CategoryCircleIcon = ({
-  radius,
+  style,
+  size = "medium",
   ...props
-}: IconProps & { radius?: number }) => (
-  <Circle radius={radius}>
-    <CategoryIcon {...props} />
-  </Circle>
-);
+}: IconProps) => {
+  return (
+    <Circle radius={radii[size]} style={style}>
+      <CategoryIcon {...props} size={size} />
+    </Circle>
+  );
+};

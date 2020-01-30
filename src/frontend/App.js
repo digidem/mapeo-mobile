@@ -1,7 +1,7 @@
 /* global __DEV__ */
 // @flow
 import * as React from "react";
-import { Platform } from "react-native";
+import { Platform, YellowBox } from "react-native";
 import debug from "debug";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -17,11 +17,15 @@ import AppProvider from "./context/AppProvider";
 import bugsnag from "./lib/logger";
 import messages from "../../translations/messages.json";
 
+// Turn off warnings about require cycles
+YellowBox.ignoreWarnings(["Require cycle:"]);
+
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 // WARNING: This needs to change if we change the navigation structure
-const NAV_STORE_KEY = "@MapeoNavigation@6";
+const NAV_STORE_KEY = "@MapeoNavigation@7";
+const ERROR_STORE_KEY = "@MapeoError";
 
 const persistNavigationState = async navState => {
   try {
@@ -31,8 +35,19 @@ const persistNavigationState = async navState => {
   }
 };
 const loadNavigationState = async () => {
-  const jsonString = await AsyncStorage.getItem(NAV_STORE_KEY);
-  return JSON.parse(jsonString);
+  try {
+    const navState = JSON.parse(await AsyncStorage.getItem(NAV_STORE_KEY));
+    const didCrashLastOpen = JSON.parse(
+      await AsyncStorage.getItem(ERROR_STORE_KEY)
+    );
+    // Clear error saved state so that navigation persistence happens on next load
+    await AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(false));
+    // If the app crashed last time, don't restore nav state
+    log("DID CRASH?", didCrashLastOpen);
+    return didCrashLastOpen ? null : navState;
+  } catch (err) {
+    log("Error reading navigation and error state", err);
+  }
 };
 
 /**
@@ -67,6 +82,9 @@ class ErrorBoundary extends React.Component<
         }
       };
     });
+    // Record that we have an error so that when the app restarts we can
+    // react to the previous uncaught error
+    AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(true));
   }
 
   render() {
@@ -107,12 +125,12 @@ const App = () => {
   };
 
   return (
-    <ErrorBoundary>
-      <IntlProvider
-        locale={locale}
-        messages={localeMessages}
-        formats={formats}
-        onError={e => console.warn(e)}>
+    <IntlProvider
+      locale={locale}
+      messages={localeMessages}
+      formats={formats}
+      onError={e => console.warn(e)}>
+      <ErrorBoundary>
         {/* Permissions provider must be before AppLoading because it waits for
         permissions before showing main app screen */}
         <PermissionsProvider>
@@ -125,8 +143,8 @@ const App = () => {
             </AppProvider>
           </AppLoading>
         </PermissionsProvider>
-      </IntlProvider>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </IntlProvider>
   );
 };
 

@@ -7,7 +7,6 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { defineMessages, useIntl } from "react-intl";
 
 import api from "../../api";
-import MapStyleProvider from "../../sharedComponents/MapStyleProvider";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
@@ -22,8 +21,11 @@ import {
   MEDIUM_GREY
 } from "../../lib/styles";
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
-import type { PresetWithFields } from "../../context/PresetsContext";
+import type { PresetWithFields } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
+import useMapStyle from "../../hooks/useMapStyle";
+import Loading from "../../sharedComponents/Loading";
+import useDeviceId from "../../hooks/useDeviceId";
 
 const m = defineMessages({
   noAnswer: {
@@ -102,29 +104,40 @@ const MapFeatures = ({ lat, lon }: MapProps) => {
   );
 };
 
-const InsetMapView = ({ lon, lat }: MapProps) => (
-  <MapStyleProvider>
-    {styleURL => (
-      <MapboxGL.MapView
-        style={styles.map}
-        zoomEnabled={false}
-        logoEnabled={false}
-        scrollEnabled={false}
-        pitchEnabled={false}
-        rotateEnabled={false}
-        compassEnabled={false}
-        styleURL={styleURL}>
-        <MapboxGL.Images images={{ observation: mapIcon }} />
-        <MapboxGL.Camera
-          centerCoordinate={[lon, lat]}
-          zoomLevel={15}
-          animationMode="moveTo"
-        />
-        <MapFeatures lat={lat} lon={lon} />
-      </MapboxGL.MapView>
-    )}
-  </MapStyleProvider>
-);
+const InsetMapView = ({ lon, lat }: MapProps) => {
+  const [{ styleURL, loading, error }] = useMapStyle();
+  if (loading)
+    return (
+      <View style={styles.map}>
+        <Loading />
+      </View>
+    );
+  if (error)
+    return (
+      <View style={styles.map}>
+        <Text>Map Error</Text>
+      </View>
+    );
+  return (
+    <MapboxGL.MapView
+      style={styles.map}
+      zoomEnabled={false}
+      logoEnabled={false}
+      scrollEnabled={false}
+      pitchEnabled={false}
+      rotateEnabled={false}
+      compassEnabled={false}
+      styleURL={styleURL}>
+      <MapboxGL.Images images={{ observation: mapIcon }} />
+      <MapboxGL.Camera
+        centerCoordinate={[lon, lat]}
+        zoomLevel={15}
+        animationMode="moveTo"
+      />
+      <MapFeatures lat={lat} lon={lon} />
+    </MapboxGL.MapView>
+  );
+};
 
 const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
   <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
@@ -172,6 +185,8 @@ const ObservationView = ({
   onPressDelete
 }: ODVProps) => {
   const { formatMessage: t, formatDate } = useIntl();
+  const deviceId = useDeviceId();
+  const isMine = deviceId === observation.value.deviceId;
   const { lat, lon, attachments } = observation.value;
   // Currently only show photo attachments
   const photos = filterPhotosFromAttachments(attachments);
@@ -199,7 +214,9 @@ const ObservationView = ({
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.root}
+      contentContainerStyle={styles.scrollContent}>
       <>
         {/* check lat and lon are not null or undefined */}
         {lat != null && lon != null && (
@@ -220,20 +237,21 @@ const ObservationView = ({
             {formatDate(observation.created_at, { format: "long" })}
           </Text>
         </View>
-        <View style={styles.section}>
+        <View style={[styles.section, { flex: 1 }]}>
           <View style={styles.categoryIconContainer}>
             <CategoryCircleIcon iconId={(preset || {}).icon} size="medium" />
             <Text style={styles.categoryLabel} numberOfLines={1}>
               {preset ? preset.name : t(m.observation)}
             </Text>
           </View>
-          {observation.value.tags.notes && observation.value.tags.notes.trim() && (
+          {observation.value.tags.notes &&
+          observation.value.tags.notes.trim() ? (
             <View style={{ paddingTop: 15 }}>
               <Text style={styles.textNotes}>
                 {observation.value.tags.notes}
               </Text>
             </View>
-          )}
+          ) : null}
           {!!photos.length && (
             <ThumbnailScrollView
               photos={
@@ -266,12 +284,14 @@ const ObservationView = ({
             color="#3366FF"
             onPress={handleShare}
           />
-          <Button
-            iconName="delete"
-            title={t(m.delete)}
-            color={RED}
-            onPress={onPressDelete}
-          />
+          {isMine && (
+            <Button
+              iconName="delete"
+              title={t(m.delete)}
+              color={RED}
+              onPress={onPressDelete}
+            />
+          )}
         </View>
       </>
     </ScrollView>
@@ -325,11 +345,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 10
   },
-  container: {
+  root: {
     backgroundColor: WHITE,
     flex: 1,
     flexDirection: "column"
   },
+  scrollContent: { minHeight: "100%" },
   map: {
     height: 175
   },
