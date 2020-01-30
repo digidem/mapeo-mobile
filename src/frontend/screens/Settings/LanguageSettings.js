@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { StyleSheet, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { FormattedMessage, defineMessages } from "react-intl";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
@@ -18,13 +18,16 @@ const m = defineMessages({
 const LanguageSettings = () => {
   const [locale, setLocale] = React.useContext(IntlContext);
 
-  const options = supportedLanguages.map(({ locale, nativeName }) => ({
-    value: locale,
-    label: nativeName
-  }));
+  const options = supportedLanguages.map(
+    ({ locale, nativeName, englishName }) => ({
+      value: locale,
+      label: nativeName,
+      hint: englishName
+    })
+  );
 
   return (
-    <ScrollView contentContainerStyle={styles.root}>
+    <ScrollView>
       <SelectOne
         value={locale}
         options={options}
@@ -43,9 +46,3 @@ LanguageSettings.navigationOptions = {
 };
 
 export default LanguageSettings;
-
-const styles = StyleSheet.create({
-  root: {
-    paddingVertical: 8
-  }
-});
