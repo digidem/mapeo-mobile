@@ -2,19 +2,19 @@
 import React from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 // import { Picker as OriginalPicker } from "@react-native-community/picker";
-import HeaderTitle from "../sharedComponents/HeaderTitle";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import * as DocumentPicker from "expo-document-picker";
 
-import Button from "../sharedComponents/Button";
-import ConfigContext from "../context/ConfigContext";
-import type { Status } from "../types";
+import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import Button from "../../sharedComponents/Button";
+import ConfigContext from "../../context/ConfigContext";
+import type { Status } from "../../types";
 
 const m = defineMessages({
-  settingsTitle: {
-    id: "screens.Settings.title",
-    defaultMessage: "Settings",
-    description: "Title of settings screen"
+  configTitle: {
+    id: "screens.ProjectConfig.title",
+    defaultMessage: "Project Configuration",
+    description: "Title of project configuration screen"
   },
   currentConfig: {
     id: "screens.Settings.currentConfig",
@@ -46,7 +46,7 @@ const m = defineMessages({
 
 // Picker.Item = OriginalPicker.Item;
 
-const Settings = () => {
+const ProjectConfig = () => {
   const { formatMessage: t } = useIntl();
   const [status, setStatus] = React.useState<Status>("idle");
   const [config, { replace: replaceConfig }] = React.useContext(ConfigContext);
@@ -98,15 +98,15 @@ const Settings = () => {
   );
 };
 
-Settings.navigationOptions = {
+ProjectConfig.navigationOptions = {
   headerTitle: (
     <HeaderTitle>
-      <FormattedMessage {...m.settingsTitle} />
+      <FormattedMessage {...m.configTitle} />
     </HeaderTitle>
   )
 };
 
-export default Settings;
+export default ProjectConfig;
 
 const styles = StyleSheet.create({
   root: {
