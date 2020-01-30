@@ -22,6 +22,7 @@ import PhotosModal from "./screens/PhotosModal";
 import ManualGpsScreen from "./screens/ManualGpsScreen";
 import CustomHeaderLeft from "./sharedComponents/CustomHeaderLeft";
 import ProjectConfig from "./screens/Settings/ProjectConfig";
+import LanguageSettings from "./screens/Settings/LanguageSettings";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -58,6 +59,7 @@ const RootStack = createStackNavigator(
     SyncModal: SyncModal,
     Settings: Settings,
     ProjectConfig: ProjectConfig,
+    LanguageSettings,
     PhotosModal: PhotosModal,
     CategoryChooser: CategoryChooser,
     AddPhoto: AddPhoto,

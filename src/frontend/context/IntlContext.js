@@ -39,7 +39,7 @@ export const supportedLanguages: SupportedLanguages = Object.keys(messages)
 
 const usePersistedState = createPersistedState(STORE_KEY);
 
-type IntlContextType = [string, () => void];
+type IntlContextType = [string, (locale: string) => void];
 
 const IntlContext = React.createContext<IntlContextType>(["en", () => {}]);
 
