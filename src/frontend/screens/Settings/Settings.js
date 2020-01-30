@@ -19,12 +19,12 @@ const m = defineMessages({
     description: "Title of settings screen"
   },
   language: {
-    id: "screens.Settings.languageSettings",
+    id: "screens.Settings.language",
     defaultMessage: "Language",
     description: "Primary text for language settings"
   },
   languageDesc: {
-    id: "screens.Settings.languageSettings",
+    id: "screens.Settings.languageDesc",
     defaultMessage: "Display language for App",
     description: "Secondary text for language settings"
   },
