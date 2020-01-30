@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import { FormattedMessage, defineMessages } from "react-intl";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
@@ -24,13 +24,13 @@ const LanguageSettings = () => {
   }));
 
   return (
-    <View style={styles.root}>
+    <ScrollView contentContainerStyle={styles.root}>
       <SelectOne
         value={locale}
         options={options}
         onChange={selectedLocale => setLocale(selectedLocale)}
       />
-    </View>
+    </ScrollView>
   );
 };
 
