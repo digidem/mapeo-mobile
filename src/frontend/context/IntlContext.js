@@ -35,7 +35,10 @@ export const supportedLanguages: SupportedLanguages = Object.keys(messages)
   .map(locale => ({
     locale,
     ...languages[locale]
-  }));
+  }))
+  .sort((a, b) => {
+    return a.englishName.localeCompare(b.englishName);
+  });
 
 const usePersistedState = createPersistedState(STORE_KEY);
 
