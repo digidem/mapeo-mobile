@@ -19,7 +19,7 @@ type Props = {|
 |};
 
 const SelectOne = ({ value, options, onChange }: Props) => (
-  <List>
+  <List dense>
     {options.map((item, index) => (
       <ListItem
         key={item.value}

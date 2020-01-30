@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import { VERY_LIGHT_BLUE } from "../../lib/styles";
+import ListContext from "./ListContext";
 
 const styles = StyleSheet.create({
   /* Styles applied to the (normally root) `component` element. May be wrapped by a `container`. */
@@ -20,6 +21,11 @@ const styles = StyleSheet.create({
   /* Styles applied to the `component` element if `alignItems="flex-start"`. */
   alignItemsFlexStart: {
     alignItems: "flex-start"
+  },
+  /* Styles applied to the `component` element if dense. */
+  dense: {
+    paddingTop: 4,
+    paddingBottom: 4
   },
   /* Styles applied to the inner `component` element if `divider={true}`. */
   divider: {
@@ -45,9 +51,19 @@ const ListItem = ({
   divider = false,
   ...other
 }) => {
+  const context = React.useContext(ListContext);
+  const childContext = React.useMemo(
+    () => ({
+      dense: dense || context.dense || false,
+      alignItems
+    }),
+    [dense, context.dense, alignItems]
+  );
+
   const componentProps = {
     style: [
       styles.root,
+      childContext.dense && styles.dense,
       !disableGutters && styles.gutters,
       divider && styles.divider,
       button && styles.button,
@@ -59,11 +75,13 @@ const ListItem = ({
   };
 
   return (
-    <TouchableNativeFeedback
-      {...componentProps}
-      background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}>
-      {children}
-    </TouchableNativeFeedback>
+    <ListContext.Provider value={childContext}>
+      <TouchableNativeFeedback
+        {...componentProps}
+        background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}>
+        {children}
+      </TouchableNativeFeedback>
+    </ListContext.Provider>
   );
 };
 
