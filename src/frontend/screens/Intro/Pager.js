@@ -2,7 +2,12 @@
 import * as React from "react";
 import { View, Text, Dimensions, BackHandler, StyleSheet } from "react-native";
 import { TabView } from "react-native-tab-view";
-import { useValues, clamp, between } from "react-native-redash";
+import {
+  useValues,
+  clamp,
+  between,
+  interpolateColor
+} from "react-native-redash";
 import LottieView from "lottie-react-native";
 import Animated, { Easing, Clock, Value } from "react-native-reanimated";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
@@ -146,7 +151,7 @@ const IntroScreen = React.memo(
       <View
         style={{
           flex: 1,
-          backgroundColor,
+          // backgroundColor,
           paddingBottom: 100
         }}>
         <View
@@ -375,6 +380,10 @@ export default function Pager({
     );
     return () => subscription.remove();
   }, []);
+  const backgroundColor = interpolateColor(position, {
+    inputRange: screens.map((_, i) => i),
+    outputRange: screens.map(({ backgroundColor }) => backgroundColor)
+  });
 
   const renderScene = React.useCallback(
     ({ route, position }) => (
@@ -390,7 +399,7 @@ export default function Pager({
   );
 
   return (
-    <>
+    <Animated.View style={{ backgroundColor, flex: 1 }}>
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -407,6 +416,6 @@ export default function Pager({
         onPressComplete={onPressComplete}
         routes={routes}
       />
-    </>
+    </Animated.View>
   );
 }
