@@ -84,8 +84,9 @@ const IntroScreen = React.memo(
       animationProgress,
       clampedPosition,
       appearProgress,
-      translateY
-    ] = useValues([0, 1, 1, 0, 0, 0, 0, 0], []);
+      translateY,
+      opacity
+    ] = useValues([0, 1, 1, 0, 0, 0, 0, 0, 0], []);
 
     useCode(
       () => [
@@ -114,15 +115,24 @@ const IntroScreen = React.memo(
         set(
           appearProgress,
           withTransitionRight(or(focussed, blurring), {
-            duration: 300,
-            easing: Easing.bezier(0.0, 0.0, 0.2, 1)
+            duration: 300
+          })
+        ),
+        set(
+          opacity,
+          interpolate(appearProgress, {
+            inputRange: [0.5, 1],
+            outputRange: [0.0, 0.9],
+            extrapolate: Extrapolate.CLAMP,
+            easing: Easing.linear
           })
         ),
         set(
           translateY,
           interpolate(appearProgress, {
             inputRange: [0, 1],
-            outputRange: [100, 0]
+            outputRange: [75, 0],
+            easing: Easing.bezier(0.0, 0.0, 0.2, 1)
           })
         )
       ],
@@ -152,7 +162,7 @@ const IntroScreen = React.memo(
           style={{
             padding: 10,
             flex: 0,
-            opacity: appearProgress,
+            opacity: opacity,
             transform: [{ translateY }]
           }}>
           <Text
