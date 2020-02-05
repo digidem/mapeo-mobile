@@ -5,6 +5,7 @@ import {
   createAppContainer,
   createBottomTabNavigator
 } from "react-navigation";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import MapScreen from "./screens/MapScreen";
 import CameraScreen from "./screens/CameraScreen";
@@ -20,8 +21,8 @@ import Settings from "./screens/Settings";
 import PhotosModal from "./screens/PhotosModal";
 import ManualGpsScreen from "./screens/ManualGpsScreen";
 import CustomHeaderLeft from "./sharedComponents/CustomHeaderLeft";
-
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import ProjectConfig from "./screens/Settings/ProjectConfig";
+import LanguageSettings from "./screens/Settings/LanguageSettings";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -57,6 +58,8 @@ const RootStack = createStackNavigator(
     GpsModal: GpsModal,
     SyncModal: SyncModal,
     Settings: Settings,
+    ProjectConfig: ProjectConfig,
+    LanguageSettings,
     PhotosModal: PhotosModal,
     CategoryChooser: CategoryChooser,
     AddPhoto: AddPhoto,

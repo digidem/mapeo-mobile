@@ -22,12 +22,9 @@ import ConfigContext from "../../context/ConfigContext";
 import { peerStatus } from "./PeerList";
 import { parseVersionMajor } from "../../lib/utils";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import { SettingsIcon } from "../../sharedComponents/icons";
-import IconButton from "../../sharedComponents/IconButton";
 
 import type { Peer } from "./PeerList";
 import type { ServerPeer, PeerError } from "../../api";
-import { useNavigation } from "react-navigation-hooks";
 
 type Props = {
   navigation: any
@@ -201,15 +198,6 @@ const SyncModal = ({ navigation }: Props) => {
   );
 };
 
-const SettingsButton = () => {
-  const { navigate } = useNavigation();
-  return (
-    <IconButton onPress={() => navigate("Settings")}>
-      <SettingsIcon color="white" />
-    </IconButton>
-  );
-};
-
 SyncModal.navigationOptions = {
   headerTintColor: "white",
   headerStyle: {
@@ -219,8 +207,7 @@ SyncModal.navigationOptions = {
     <HeaderTitle style={{ color: "white" }}>
       <FormattedMessage {...m.syncHeader} />
     </HeaderTitle>
-  ),
-  headerRight: <SettingsButton />
+  )
 };
 
 /**
