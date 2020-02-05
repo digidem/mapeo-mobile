@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0-alpha.4](https://github.com/digidem/mapeo-mobile/compare/v2.1.0-alpha.3...v2.1.0-alpha.4) (2020-02-05)
+
+### Features
+
+- Add settings screen to change language (independent of device language) ([#302](https://github.com/digidem/mapeo-mobile/issues/302)) ([f3d487b](https://github.com/digidem/mapeo-mobile/commit/f3d487bfcc77a77ec538ab31488b9e8e8c69f548))
+
+### Bug Fixes
+
+- Fix crash when presets have empty placeholder field ([06887d0](https://github.com/digidem/mapeo-mobile/commit/06887d02941cb506439940f1f729cb8250065e15))
+
 ## [2.1.0-alpha.3](https://github.com/digidem/mapeo-mobile/compare/v2.1.0-alpha.2...v2.1.0-alpha.3) (2020-01-25)
 
 ### Bug Fixes
