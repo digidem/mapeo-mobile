@@ -50,6 +50,10 @@
     "description": "if a location sensor is active yes/no",
     "message": "Ya"
   },
+  "screens.LanguageSettings.title": {
+    "description": "Title language settings screen",
+    "message": "Language"
+  },
   "screens.ManualGpsScreen.easting": {
     "message": "Timur"
   },
@@ -208,6 +212,10 @@
     "description": "message shown whilst observations are loading",
     "message": "Loading… this can take a while after synchronizing with a new device"
   },
+  "screens.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "Project Configuration"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "You can try force-restarting the app, but there may be something that needs fixing. Really sorry about this, making apps is hard."
@@ -227,6 +235,22 @@
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "Current Configuration"
+  },
+  "screens.Settings.language": {
+    "description": "Primary text for language settings",
+    "message": "Language"
+  },
+  "screens.Settings.languageDesc": {
+    "description": "Secondary text for language settings",
+    "message": "Display language for App"
+  },
+  "screens.Settings.projectConfig": {
+    "description": "Primary text for project config settings",
+    "message": "Project Configuration"
+  },
+  "screens.Settings.projectConfigDesc": {
+    "description": "Secondary text for project config settings",
+    "message": "Categories, icons and questions"
   },
   "screens.Settings.projectKey": {
     "description": "Label for project key",

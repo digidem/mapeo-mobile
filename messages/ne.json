@@ -50,6 +50,10 @@
     "description": "if a location sensor is active yes/no",
     "message": "हाे"
   },
+  "screens.LanguageSettings.title": {
+    "description": "Title language settings screen",
+    "message": "Language"
+  },
   "screens.ManualGpsScreen.easting": {
     "message": "पुर्व"
   },
@@ -208,6 +212,10 @@
     "description": "message shown whilst observations are loading",
     "message": "लाेड हुँदै... नयाँ उपकरणसँग सिंक्राेनाइज हुन केहि समय लाग्न सक्छ"
   },
+  "screens.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "Project Configuration"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "याे एपलाइ बलपूवर्क शुरू गर्न काेशिस सक्नुहुन्छ, तर त्यहाँ केहि मिलाउनु पर्ने हुन सक्दछ । यसकाे लागि माफ गर्नुहाेस, एप बनाउन गाह्राे छ"
@@ -227,6 +235,22 @@
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "Current Configuration"
+  },
+  "screens.Settings.language": {
+    "description": "Primary text for language settings",
+    "message": "Language"
+  },
+  "screens.Settings.languageDesc": {
+    "description": "Secondary text for language settings",
+    "message": "Display language for App"
+  },
+  "screens.Settings.projectConfig": {
+    "description": "Primary text for project config settings",
+    "message": "Project Configuration"
+  },
+  "screens.Settings.projectConfigDesc": {
+    "description": "Secondary text for project config settings",
+    "message": "Categories, icons and questions"
   },
   "screens.Settings.projectKey": {
     "description": "Label for project key",

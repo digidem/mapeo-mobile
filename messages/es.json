@@ -52,7 +52,7 @@
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
-    "message": ""
+    "message": "Language"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "Este"
@@ -214,7 +214,7 @@
   },
   "screens.ProjectConfig.title": {
     "description": "Title of project configuration screen",
-    "message": ""
+    "message": "Project Configuration"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
@@ -238,19 +238,19 @@
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
-    "message": ""
+    "message": "Language"
   },
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
-    "message": ""
+    "message": "Display language for App"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
-    "message": ""
+    "message": "Configuración Actual"
   },
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
-    "message": ""
+    "message": "Categories, icons and questions"
   },
   "screens.Settings.projectKey": {
     "description": "Label for project key",
