@@ -91,7 +91,7 @@ const IntroScreen = React.memo(
       appearProgress,
       translateY,
       opacity
-    ] = useValues([0, 1, 1, 0, 0, 0, 0, 0, 0], []);
+    ] = useValues([1, 0, 0, 0, 0, 0, 0, 0, 0], []);
 
     useCode(
       () => [
@@ -207,6 +207,11 @@ const TabBar = React.memo(
       outputRange: [0, (dotSpacing + dotSize) * (routes.length - 1)],
       extrapolate: Extrapolate.CLAMP
     });
+    const buttonScale = interpolate(position, {
+      inputRange: [routes.length - 1, routes.length],
+      outputRange: [1, 3],
+      extrapolateLeft: Extrapolate.CLAMP
+    });
     const isLast = index === routes.length - 1;
 
     return (
@@ -278,30 +283,32 @@ const TabBar = React.memo(
           />
         </View>
 
-        <TouchableNativeFeedback
-          style={{
-            width: 48,
-            height: 48,
-            backgroundColor: "rgba(255,255,255,0.8)",
-            borderRadius: 24,
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-          background={TouchableNativeFeedback.Ripple(undefined, true)}
-          onPress={() => {
-            if (!isLast) jumpTo(index + 1);
-            else onPressComplete();
-          }}>
-          {isLast ? (
-            <Octicon name="check" color="rgba(0,0,0,0.8)" size={26} />
-          ) : (
-            <MaterialIcon
-              name={"navigate-next"}
-              size={36}
-              color="rgba(0,0,0,0.8)"
-            />
-          )}
-        </TouchableNativeFeedback>
+        <Animated.View style={{ transform: [{ scale: buttonScale }] }}>
+          <TouchableNativeFeedback
+            style={{
+              width: 48,
+              height: 48,
+              backgroundColor: "rgba(255,255,255,0.8)",
+              borderRadius: 24,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+            background={TouchableNativeFeedback.Ripple(undefined, true)}
+            onPress={() => {
+              if (!isLast) jumpTo(index + 1);
+              else onPressComplete();
+            }}>
+            {isLast ? (
+              <Octicon name="check" color="rgba(0,0,0,0.8)" size={26} />
+            ) : (
+              <MaterialIcon
+                name={"navigate-next"}
+                size={36}
+                color="rgba(0,0,0,0.8)"
+              />
+            )}
+          </TouchableNativeFeedback>
+        </Animated.View>
       </View>
     );
   }
