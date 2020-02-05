@@ -10,7 +10,7 @@ type Props = {|
 const QuestionLabel = ({ label, hint }: Props) => (
   <View style={styles.labelContainer}>
     <Text style={styles.label}>{label}</Text>
-    {hint && <Text style={styles.hint}>{hint}</Text>}
+    {hint ? <Text style={styles.hint}>{hint}</Text> : null}
   </View>
 );
 
