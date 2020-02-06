@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.1](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.0...v2.0.0-beta.1) (2020-02-06)
+
+### Bug Fixes
+
+- Adjust projectKey styling and text ([def66e6](https://github.com/digidem/mapeo-mobile/commit/def66e608648c89e99566a5ac9f233eace9cd94b))
+- **Sync:** Touch up styles of no wifi sync screen ([fc1e375](https://github.com/digidem/mapeo-mobile/commit/fc1e375b6270eceb466ef84fcf08399c21053d2a))
+- Fix crash after deleting an observation's description ([71563e0](https://github.com/digidem/mapeo-mobile/commit/71563e06a911bf3bf922ef33d69b89b65f6f27f2))
+- Fix crash when presets have empty placeholder field ([cab5771](https://github.com/digidem/mapeo-mobile/commit/cab5771bc36158b5d46a9f3074f309a449c1e1e5))
+
 ## [2.0.0-beta.0](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.9...v2.0.0-beta.0) (2019-11-26)
 
 ## [2.0.0-alpha.9](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2019-11-25)
