@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.3](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2020-02-06)
+
+### Features
+
+- Update to latest React Native & Unimodules (better performance and bug fixes) ([bfc37fd](https://github.com/digidem/mapeo-mobile/commit/bfc37fdf43bbf6173bf475f59ebd7d53b363e5d2))
+
 ## [2.0.0-beta.2](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2020-02-06)
 
 ### Bug Fixes
