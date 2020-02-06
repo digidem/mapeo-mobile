@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.2](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2020-02-06)
+
+### Bug Fixes
+
+- add missing react-native-screens dep ([52fcbe0](https://github.com/digidem/mapeo-mobile/commit/52fcbe0ad2c8a8d1efd046f8e75963e6c52bc3e2))
+
 ## [2.0.0-beta.1](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.0...v2.0.0-beta.1) (2020-02-06)
 
 ### Bug Fixes
