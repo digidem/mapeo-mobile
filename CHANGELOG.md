@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.4](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2020-02-07)
+
+### Bug Fixes
+
+- Fix flickering of devices on sync screen ([38ff478](https://github.com/digidem/mapeo-mobile/commit/38ff47823353e6dd7aae50a3335893bb95e5c9cc))
+
 ## [2.0.0-beta.3](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2020-02-06)
 
 ### Features
