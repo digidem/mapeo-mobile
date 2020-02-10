@@ -26,7 +26,9 @@ cp -r ./src/backend ./nodejs-assets
 mv ./nodejs-assets/backend ./nodejs-assets/nodejs-project
 
 echo "Installing dependencies..."
-cd ./nodejs-assets/nodejs-project && npm ci && cd ../..
+# npm ls: the ```|| true``` is needed because npm ls will sometimes exit with
+# error code 1 (without negative effects) which could stop the build process
+cd ./nodejs-assets/nodejs-project && npm ci && npm ls || true && cd ../..
 
 echo -en "Minifying with noderify..."
 cd ./nodejs-assets/nodejs-project
