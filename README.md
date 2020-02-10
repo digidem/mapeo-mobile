@@ -85,7 +85,7 @@ If you would like your language added to the translations list, [please request 
 ## Maintainers
 
 - [@gmaclennan](https://github.com/gmaclennan)
-- [@karissa](https://github.com/karissa)
+- [@okdistribute](https://github.com/okdistribute)
 - [@noffle](https://github.com/noffle)
 
 ## Community
