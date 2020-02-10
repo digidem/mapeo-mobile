@@ -31,17 +31,14 @@ jobs:
       - name: Install NDK
         run: |
           export ANDROID_NDK_VERSION='19b'
-          export ANDROID_NDK_HOME=$ANDROID_HOME/sdk/ndk-bundle
-          curl -fsSo ndk-bundle.zip https://dl.google.com/android/repository/android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
-          unzip -q ndk-bundle.zip -d $ANDROID_HOME/sdk/ndk-bundle
+          export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
+          curl -fsSo android-ndk-r${ANDROID_NDK_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
+          unzip -q android-ndk-r${ANDROID_NDK_VERSION}.zip
+          rm -rf $ANDROID_NDK_HOME
+          mv android-ndk-r${ANDROID_NDK_VERSION} $ANDROID_NDK_HOME
           ls -al $ANDROID_HOME/sdk/ndk-bundle
       - name: Download Android Emulator Image
         run: |
-          echo "Installing emulator build 6110076"
-          curl -fsSo emulator.zip https://dl.google.com/android/repository/emulator-darwin-6110076.zip
-          rm -rf $ANDROID_HOME/sdk/emulator
-          unzip -q emulator.zip -d $ANDROID_HOME/sdk
-          rm -f emulator.zip
           echo "SDK versions:"
           $ANDROID_HOME/tools/bin/sdkmanager --list
           echo "Downloading emulator image"
