@@ -47,7 +47,7 @@ jobs:
           $ANDROID_HOME/emulator/emulator -accel-check
       - name: Install node_modules
         run: |
-          npm install
+          npm ci
       - name: Build backend
         run: |
           npm run build:backend
