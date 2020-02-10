@@ -35,8 +35,6 @@ jobs:
           rm -rf $ANDROID_HOME/sdk/emulator
           unzip -q emulator.zip -d $ANDROID_HOME/sdk
           rm -f emulator.zip
-          echo "SDK versions:"
-          $ANDROID_HOME/tools/bin/sdkmanager --list
           echo "Downloading emulator image"
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-28;google_apis;x86" > /dev/null
           echo "Creating emulator avd"
