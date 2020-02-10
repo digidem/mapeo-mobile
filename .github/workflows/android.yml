@@ -23,24 +23,28 @@ jobs:
           fetch-depth: 1
       - name: Node
         uses: actions/setup-node@v1
-      # - name: Use specific Java version for sdkmanager to work
-      #   uses: joschi/setup-jdk@v1
-      #   with:
-      #     java-version: "openjdk8"
-      #     architecture: "x64"
-      # - name: Download Android Emulator Image
-      #   run: |
-      #     $ANDROID_HOME/tools/bin/sdkmanager --update | grep -v = || true
-      #     echo "Updated to latest SDK:"
-      #     $ANDROID_HOME/tools/bin/sdkmanager --list
-      #     echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-28;google_apis;x86"
-      #     echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;google_apis;x86'
-      #     echo "\nEmulator AVDs:"
-      #     $ANDROID_HOME/emulator/emulator -list-avds
-      #     echo "Emulator version:"
-      #     $ANDROID_HOME/emulator/emulator @emu -version
-      #     echo "Hardware acceleration:"
-      #     $ANDROID_HOME/emulator/emulator -accel-check
+      - name: Use specific Java version for sdkmanager to work
+        uses: joschi/setup-jdk@v1
+        with:
+          java-version: "openjdk8"
+          architecture: "x64"
+      - name: Download Android Emulator Image
+        run: |
+          echo "Installing emulator build 6110076"
+          curl -fosS emulator.zip https://dl.google.com/android/repository/emulator-darwin-6110076.zip
+          rm -rf $ANDROID_HOME/sdk/emulator
+          unzip -q emulator.zip -d $ANDROID_HOME/sdk
+          rm -f emulator.zip
+          echo "SDK versions:"
+          $ANDROID_HOME/tools/bin/sdkmanager --list
+          echo "Downloading emulator image"
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-28;google_apis;x86" > /dev/null
+          echo "Creating emulator avd"
+          echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;google_apis;x86'
+          echo "Emulator version:"
+          $ANDROID_HOME/emulator/emulator @emu -version
+          echo "Hardware acceleration:"
+          $ANDROID_HOME/emulator/emulator -accel-check
       - name: Install node_modules
         run: |
           npm install
@@ -53,10 +57,14 @@ jobs:
       - name: Build for detox
         run: |
           npm run build-detox-android
-      - name: Run tests in emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 28
-          emulator-build: 6110076
-          script: |
-            npm start & npm run test-detox-android
+      - name: Android Emulator
+        timeout-minutes: 10
+        continue-on-error: true
+        run: |
+          echo "Starting emulator"
+          nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window -gpu swiftshader_indirect -no-boot-anim &
+          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+          $ANDROID_HOME/platform-tools/adb devices
+          echo "Emulator started"
+      - name: Android Detox
+        run: npm start & npm run test-detox-android
