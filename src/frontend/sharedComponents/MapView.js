@@ -4,7 +4,6 @@ import { View, StyleSheet, Text } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 
 // import type { MapStyle } from "../types";
-import AddButton from "./AddButton";
 import { LocationFollowingIcon, LocationNoFollowIcon } from "./icons";
 import IconButton from "./IconButton";
 import withNavigationFocus from "../lib/withNavigationFocus";
@@ -97,7 +96,6 @@ type Props = {
   observations: ObservationsMap,
   styleURL: string,
   location: LocationContextType,
-  onAddPress: () => any,
   onPressObservation: (observationId: string) => any,
   isFocused: boolean
 };
@@ -196,13 +194,7 @@ class MapView extends React.Component<Props, State> {
   };
 
   render() {
-    const {
-      observations,
-      onAddPress,
-      styleURL,
-      isFocused,
-      location
-    } = this.props;
+    const { observations, styleURL, isFocused, location } = this.props;
     const initialCoords = this.initialPosition
       ? [
           this.initialPosition.coords.longitude,
@@ -272,7 +264,6 @@ class MapView extends React.Component<Props, State> {
             )}
           </MapboxGL.MapView>
         )}
-        <AddButton onPress={onAddPress} />
         <View style={styles.locationButton}>
           <IconButton onPress={this.handleLocationPress}>
             {this.state.following ? (
