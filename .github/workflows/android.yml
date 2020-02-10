@@ -36,7 +36,8 @@ jobs:
           unzip -q -o android-ndk-r${ANDROID_NDK_VERSION}.zip
           rm -rf $ANDROID_NDK_HOME
           mv android-ndk-r${ANDROID_NDK_VERSION} $ANDROID_NDK_HOME
-          ls -al $ANDROID_HOME/sdk/ndk-bundle
+          ls -al $ANDROID_NDK_HOME
+          cat $ANDROID_NDK_HOME/source.properties
       - name: Download Android Emulator Image
         run: |
           echo "SDK versions:"
