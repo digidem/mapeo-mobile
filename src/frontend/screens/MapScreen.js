@@ -55,7 +55,7 @@ const MapScreen = ({ navigation }: Props) => {
           styleURL={loading ? "loading" : error ? "error" : styleURL}
         />
       )}
-      <AddButton onPress={handleAddPress} />
+      <AddButton testID="addButtonMap" onPress={handleAddPress} />
     </View>
   );
 };

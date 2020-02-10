@@ -155,19 +155,25 @@
     "test-runner": "jest",
     "configurations": {
       "android.emu.debug": {
-        "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
-        "build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
+        "binaryPath": "android/app/build/outputs/apk/app/debug/app-app-debug.apk",
+        "build": "cd android && ./gradlew app:assembleDebug app:assembleAndroidTest -DtestBuildType=debug && cd ..",
         "type": "android.emulator",
         "device": {
-          "avdName": "Nexus_5X_API_26"
+          "avdName": "Nexus_6_API_28"
         }
       },
+      "android.emu.device": {
+        "binaryPath": "android/app/build/outputs/apk/app/debug/app-app-debug.apk",
+        "build": "cd android && ./gradlew app:assembleDebug app:assembleAndroidTest -DtestBuildType=debug && cd ..",
+        "type": "android.attached",
+        "device": {}
+      },
       "android.emu.release": {
-        "binaryPath": "android/app/build/outputs/apk/release/app-release.apk",
-        "build": "cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..",
+        "binaryPath": "android/app/build/outputs/apk/app/release/app-app-release.apk",
+        "build": "cd android && ./gradlew app:assembleRelease app:assembleAndroidTest -DtestBuildType=release && cd ..",
         "type": "android.emulator",
         "device": {
-          "avdName": "Nexus_5X_API_26"
+          "avdName": "Nexus_6_API_28"
         }
       },
       "ios.sim.debug": {
