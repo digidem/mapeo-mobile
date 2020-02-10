@@ -26,6 +26,7 @@ import CustomHeaderLeft from "./sharedComponents/CustomHeaderLeft";
 import ProjectConfig from "./screens/Settings/ProjectConfig";
 import LanguageSettings from "./screens/Settings/LanguageSettings";
 import IntroStack from "./screens/Intro";
+import HomeHeader from "./sharedComponents/HomeHeader";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -35,7 +36,7 @@ const HomeTabs = createBottomTabNavigator(
   // $FlowFixMe
   {
     navigationOptions: () => ({
-      header: null
+      header: () => <HomeHeader />
     }),
     defaultNavigationOptions: ({ navigation }) => ({
       initialRouteName: "Map",
