@@ -31,7 +31,7 @@ jobs:
       - name: Download Android Emulator Image
         run: |
           echo "Installing emulator build 6110076"
-          curl -fosS emulator.zip https://dl.google.com/android/repository/emulator-darwin-6110076.zip
+          curl -fsSo emulator.zip https://dl.google.com/android/repository/emulator-darwin-6110076.zip
           rm -rf $ANDROID_HOME/sdk/emulator
           unzip -q emulator.zip -d $ANDROID_HOME/sdk
           rm -f emulator.zip
