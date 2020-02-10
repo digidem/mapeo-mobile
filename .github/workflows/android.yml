@@ -1,0 +1,49 @@
+name: Android
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Node
+        uses: actions/setup-node@v1
+      # - name: Use specific Java version for sdkmanager to work
+      #   uses: joschi/setup-jdk@v1
+      #   with:
+      #     java-version: "openjdk8"
+      #     architecture: "x64"
+      # - name: Download Android Emulator Image
+      #   run: |
+      #     $ANDROID_HOME/tools/bin/sdkmanager --update | grep -v = || true
+      #     echo "Updated to latest SDK:"
+      #     $ANDROID_HOME/tools/bin/sdkmanager --list
+      #     echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-28;google_apis;x86"
+      #     echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;google_apis;x86'
+      #     echo "\nEmulator AVDs:"
+      #     $ANDROID_HOME/emulator/emulator -list-avds
+      #     echo "Emulator version:"
+      #     $ANDROID_HOME/emulator/emulator @emu -version
+      #     echo "Hardware acceleration:"
+      #     $ANDROID_HOME/emulator/emulator -accel-check
+      - name: Install node_modules
+        run: |
+          npm install
+      - name: Build backend
+        run: |
+          npm run build:backend
+      - name: Build translations
+        run: |
+          npm run build:translations
+      - name: Build for detox
+        run: |
+          npm run build-detox-android
+      - name: Run tests in emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 28
+          emulator-build: 6110076
+          script: |
+            npm start & npm run test-detox-android
