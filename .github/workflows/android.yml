@@ -80,6 +80,7 @@ jobs:
         run: npm start & npm run test-detox-android -- --record-videos all --record-logs all
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
+        if: always()
         with:
           name: test-videos
           path: artifacts
