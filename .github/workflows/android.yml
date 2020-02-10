@@ -4,6 +4,10 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
       - name: Cache npm files
         uses: actions/cache@v1
         with:
@@ -17,10 +21,6 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
-      - name: Checkout
-        uses: actions/checkout@v1
-        with:
-          fetch-depth: 1
       - name: Node
         uses: actions/setup-node@v1
       - name: Use specific Java version for sdkmanager to work
