@@ -30,7 +30,7 @@ jobs:
           architecture: "x64"
       - name: Install NDK
         run: |
-          export ANDROID_NDK_VERSION='19b'
+          export ANDROID_NDK_VERSION='20b'
           export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
           curl -fsSo android-ndk-r${ANDROID_NDK_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
           unzip -q -o android-ndk-r${ANDROID_NDK_VERSION}.zip
