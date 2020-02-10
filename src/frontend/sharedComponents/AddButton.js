@@ -2,9 +2,9 @@ import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "../sharedComponents/Touchables";
 
-const AddButton = ({ onPress, style }) => (
+const AddButton = ({ style, ...props }) => (
   <View style={[styles.container, style]}>
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity {...props}>
       <Image
         source={require("../images/add-button.png")}
         style={styles.button}
