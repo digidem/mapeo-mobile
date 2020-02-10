@@ -55,6 +55,7 @@ jobs:
           cat $HOME/.android/avd/emu.avd/config.ini
       - name: Install node_modules
         run: |
+          mkdir -p nodejs-assets
           npm ci
       - name: Build backend
         run: |
