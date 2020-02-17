@@ -21,19 +21,19 @@ import org.unimodules.core.interfaces.SingletonModule;
 
 import com.mapbox.rctmgl.RCTMGLPackage;
 
+import com.mapeo.AppInfoPackage;
+
 import java.util.Arrays;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class MainApplication extends Application implements ShareApplication, ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
-    new BasePackageList().getPackageList(),
-    null
-  );
+      new BasePackageList().getPackageList(), Arrays.<SingletonModule>asList());
 
   @Override
   public String getFileProviderAuthority() {
-      return BuildConfig.APPLICATION_ID + ".provider";
+    return BuildConfig.APPLICATION_ID + ".provider";
   }
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
