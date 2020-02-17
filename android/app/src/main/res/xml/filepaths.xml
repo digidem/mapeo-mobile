@@ -2,4 +2,6 @@
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
   <files-path name="media" 
     path="media/" />
+  <files-path name="installer" 
+    path="installer/" />
 </paths>
