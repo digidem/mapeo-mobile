@@ -21,6 +21,7 @@ import org.unimodules.core.interfaces.SingletonModule;
 import com.mapbox.rctmgl.RCTMGLPackage;
 
 import com.mapeo.AppInfoPackage;
+import com.mapeo.ApkInstallerPackage;
 
 import java.util.Arrays;
 import java.lang.reflect.InvocationTargetException;
@@ -50,6 +51,7 @@ public class MainApplication extends Application implements ShareApplication, Re
       // packages.add(new MyReactNativePackage());
       packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
       packages.add(new AppInfoPackage());
+      packages.add(new ApkInstallerPackage());
       return packages;
     }
 
