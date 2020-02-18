@@ -7,7 +7,6 @@ import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
-import com.facebook.react.ReactInstanceManager;
 import com.bugsnag.BugsnagReactNative;
 import cl.json.ShareApplication;
 import com.facebook.react.ReactNativeHost;
@@ -22,6 +21,7 @@ import org.unimodules.core.interfaces.SingletonModule;
 import com.mapbox.rctmgl.RCTMGLPackage;
 
 import com.mapeo.AppInfoPackage;
+import com.mapeo.ApkInstallerPackage;
 
 import java.util.Arrays;
 import java.lang.reflect.InvocationTargetException;
@@ -46,16 +46,12 @@ public class MainApplication extends Application implements ShareApplication, Re
     protected List<ReactPackage> getPackages() {
       @SuppressWarnings("UnnecessaryLocalVariable")
       List<ReactPackage> packages = new PackageList(this).getPackages();
-
-      // Packages that cannot be autolinked yet can be added manually here, for example:
+      // Packages that cannot be autolinked yet can be added manually here, for
+      // example:
       // packages.add(new MyReactNativePackage());
-
-      // Add unimodules
-      List<ReactPackage> unimodules = Arrays.<ReactPackage>asList(
-        new ModuleRegistryAdapter(mModuleRegistryProvider)
-      );
-      packages.addAll(unimodules);
-
+      packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
+      packages.add(new AppInfoPackage());
+      packages.add(new ApkInstallerPackage());
       return packages;
     }
 
@@ -75,37 +71,5 @@ public class MainApplication extends Application implements ShareApplication, Re
     super.onCreate();
     BugsnagReactNative.start(this);
     SoLoader.init(this, /* native exopackage */ false);
-    initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-  }
-
-  /**
-   * Loads Flipper in React Native templates. Call this in the onCreate method with something like
-   * initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-   *
-   * @param context
-   * @param reactInstanceManager
-   */
-  private static void initializeFlipper(
-      Context context, ReactInstanceManager reactInstanceManager) {
-    if (BuildConfig.DEBUG) {
-      try {
-        /*
-         We use reflection here to pick up the class that initializes Flipper,
-        since Flipper library is not available in release mode
-        */
-        Class<?> aClass = Class.forName("com.rndiffapp.ReactNativeFlipper");
-        aClass
-            .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
-            .invoke(null, context, reactInstanceManager);
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-      } catch (NoSuchMethodException e) {
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        e.printStackTrace();
-      } catch (InvocationTargetException e) {
-        e.printStackTrace();
-      }
-    }
   }
 }

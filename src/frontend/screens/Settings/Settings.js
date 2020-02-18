@@ -7,6 +7,7 @@ import RNFS from "react-native-fs";
 import Share from "react-native-share";
 import DeviceInfo from "react-native-device-info";
 
+import ApkInstaller from "../../lib/ApkInstaller";
 import AppInfo from "../../lib/AppInfo";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import {
@@ -62,6 +63,16 @@ const m = defineMessages({
     id: "screens.Settings.appShareDesc",
     defaultMessage: "Install or update Mapeo on another phone",
     description: "Secondary text for sharing the mapeo APK installer"
+  },
+  appInstall: {
+    id: "screens.Settings.appInstall",
+    defaultMessage: "Install APK",
+    description: "Primary text for Mapeo APK test"
+  },
+  appInstallDesc: {
+    id: "screens.Settings.appInstallDesc",
+    defaultMessage: "Test APK install (re-installs app)",
+    description: "Secondary text for Mapeo APK test"
   }
 });
 
@@ -94,6 +105,33 @@ const Settings = () => {
       console.error("Error sharing APK", e);
     } finally {
       await RNFS.unlink(tmpDir);
+      setStatus("idle");
+    }
+  }, []);
+
+  const installApk = React.useCallback(async () => {
+    const tmpDir = RNFS.DocumentDirectoryPath + "/installer";
+    const apkName = `Mapeo-v${APP_VERSION}.apk`;
+    const tmpApkPath = `${tmpDir}/${apkName}`;
+    setStatus("loading");
+    try {
+      await RNFS.mkdir(tmpDir);
+      await RNFS.copyFile(AppInfo.sourceDir, tmpApkPath);
+      if (!didNavigateAway.current) {
+        await ApkInstaller.install(tmpApkPath);
+      }
+    } catch (e) {
+      if (e.code !== "E_INSTALL_CANCELLED") {
+        console.error("Error installing APK", e);
+      }
+    } finally {
+      // Need to cleanup on app startup, because the app will reach here as soon
+      // as install launches, so if we cleanup the file will not exist when the
+      // installer tries to install it. We cannot get the result of the install
+      // activity because we launch it as a new task:
+      // https://developer.android.com/reference/android/content/Intent.html#FLAG_ACTIVITY_NEW_TASK
+      // If we don't launch it as a new task, the install will fail as the app
+      // itself updates and quits the child install activity
       setStatus("idle");
     }
   }, []);
@@ -142,6 +180,20 @@ const Settings = () => {
         <ListItemText
           primary={<FormattedMessage {...m.appShare} />}
           secondary={<FormattedMessage {...m.appShareDesc} />}></ListItemText>
+      </ListItem>
+      <ListItem onPress={shareApk}>
+        <ListItemIcon iconName="get-app" />
+        <ListItemText
+          primary={<FormattedMessage {...m.appShare} />}
+          secondary={<FormattedMessage {...m.appShareDesc} />}></ListItemText>
+      </ListItem>
+      <ListItem onPress={installApk}>
+        <ListItemIcon iconName="update" />
+        <ListItemText
+          primary={<FormattedMessage {...m.appInstall} />}
+          secondary={
+            <FormattedMessage {...m.appInstallDesc} />
+          }></ListItemText>
       </ListItem>
     </List>
   );
