@@ -153,9 +153,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        ndk {
-            abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
-        }
+
         // Detox integration
         // testBuildType System.getProperty('testBuildType', 'debug')  //this will later be used to control the test apk build type
         // missingDimensionStrategy "minReactNative", "minReactNative46" //read note
@@ -201,6 +199,9 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+            ndk {
+                abiFilters "armeabi-v7a", "arm64-v8a"
+            }
         }
         debug {
             signingConfig signingConfigs.debug
@@ -209,6 +210,9 @@ android {
             // for debug builds, so that when developing you can have the debug
             // version and the release version on your phone at the same time
             applicationIdSuffix ".debug"
+            ndk {
+                abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+            }
         }
     }
     // applicationVariants are e.g. debug, release
