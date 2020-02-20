@@ -212,6 +212,15 @@ android {
                 abiFilters "x86", "x86_64"
             }
         }
+        universal {
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+            matchingFallbacks = ['release']
+            ndk {
+                abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+            }
+        }
         debug {
             signingConfig signingConfigs.debug
             // Storybook and QA flavors share the same applicationId between
