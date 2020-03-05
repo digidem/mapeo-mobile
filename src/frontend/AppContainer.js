@@ -7,6 +7,7 @@ import {
   createSwitchNavigator
 } from "react-navigation";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import BuildConfig from "react-native-build-config";
 
 import MapScreen from "./screens/MapScreen";
 import CameraScreen from "./screens/CameraScreen";
@@ -101,4 +102,6 @@ const RootStack = createSwitchNavigator(
 );
 
 // $FlowFixMe
-export default createAppContainer(RootStack);
+export default createAppContainer(
+  BuildConfig.FLAVOR === "icca" ? RootStack : AppStack
+);
