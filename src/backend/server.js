@@ -25,22 +25,39 @@ const log = debug("mapeo-core:server");
 
 module.exports = createServer;
 
-function createServer({ privateStorage, sharedStorage }) {
+function createServer({ privateStorage, sharedStorage, flavor }) {
   let projectKey;
   const defaultConfigPath = path.join(sharedStorage, "presets/default");
+
+  // Folder with default (built-in) presets to server when the user has not
+  // added any presets
+  const fallbackPresetsDir = path.join(
+    process.cwd(),
+    flavor === "icca" ? "presets-icca" : "presets"
+  );
 
   try {
     const metadata = JSON.parse(
       fs.readFileSync(path.join(defaultConfigPath, "metadata.json"), "utf8")
     );
     projectKey = metadata.projectKey;
-    if (projectKey)
-      log("Found projectKey starting with ", projectKey.slice(0, 4));
-    else log("No projectKey found, using default 'mapeo' key");
   } catch (err) {
-    // An undefined projectKey is fine, the fallback is to sync with any other mapeo
-    log("No projectKey found, using default 'mapeo' key");
+    // if there was an error reading the user presets, try reading a projectKey
+    // from the fallback presets
+    try {
+      const metadata = JSON.parse(
+        fs.readFileSync(
+          path.join(fallbackPresetsDir, "default", "metadata.json"),
+          "utf8"
+        )
+      );
+      projectKey = metadata.projectKey;
+    } catch (e) {}
   }
+  if (projectKey)
+    log("Found projectKey starting with ", projectKey.slice(0, 4));
+  else log("No projectKey found, using default 'mapeo' key");
+
   const indexDb = level(path.join(privateStorage, "index"));
   const coreDb = kappa(path.join(privateStorage, "db"), {
     valueEncoding: "json",
@@ -56,10 +73,6 @@ function createServer({ privateStorage, sharedStorage }) {
   // create folders for presets & styles
   mkdirp.sync(defaultConfigPath);
   mkdirp.sync(path.join(sharedStorage, "styles/default"));
-
-  // Folder with default (built-in) presets to server when the user has not
-  // added any presets
-  const fallbackPresetsDir = path.join(process.cwd(), "presets");
 
   // The main osm db for observations and map data
   const osm = createOsmDb({

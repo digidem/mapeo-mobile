@@ -38,6 +38,7 @@ const PORT = 9081;
 const status = new ServerStatus();
 let paused = false;
 let storagePath;
+let flavor;
 let server;
 
 // This is nastily circular: we need an instance of status for the constructor
@@ -73,19 +74,25 @@ status.startHeartbeat();
  * This code supports re-starting the server with a different folder if
  * necessary (we probably shouldn't do that)
  */
-rnBridge.channel.on("storagePath", path => {
-  log("storagePath", path);
-  if (path === storagePath) return;
+rnBridge.channel.on("config", config => {
+  log("storagePath", config.storagePath);
+  log("flavor", config.flavor);
+  if (config.storagePath === storagePath && config.flavor === flavor) return;
   const prevStoragePath = storagePath;
+  const prevFlavor = flavor;
   if (server)
     server.close(() => {
-      log("closed server with storagePath", prevStoragePath);
+      log(`closed server with:
+  storagePath: ${prevStoragePath}
+  flavor: ${prevFlavor}`);
     });
-  storagePath = path;
+  storagePath = config.storagePath;
+  flavor = config.flavor;
   try {
     server = createServer({
       privateStorage: rnBridge.app.datadir(),
-      sharedStorage: storagePath
+      sharedStorage: storagePath,
+      flavor: flavor
     });
   } catch (e) {
     log("createServer error", e);
