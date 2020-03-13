@@ -93,6 +93,10 @@ apply from: "../../node_modules/react-native/react.gradle"
 apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
+// Add bugsnag plugin for source map and symbol uploads
+apply plugin: 'com.android.application'
+apply plugin: 'com.bugsnag.android.gradle'
+
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -129,6 +133,11 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  * and the benefits of using Hermes will therefore be sharply reduced.
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
+
+bugsnag {
+    ndk true
+    sharedObjectPath "app/build/jni/libs"
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
