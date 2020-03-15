@@ -238,6 +238,15 @@ android {
             }
         }
     }
+
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        // For QA variants, we only build universal apk
+        if (names.contains("qa") && variant.buildType.name != "universal" && variant.buildType.name != "debug") {
+            setIgnore(true)
+        }
+    }
+
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
