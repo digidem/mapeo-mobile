@@ -210,6 +210,12 @@ android {
             keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS") ?: project.env.get("MAPEO_KEYSTORE_ALIAS")
             keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD") ?: project.env.get("MAPEO_PRIVATE_KEY_PASSWORD")
         }
+        qa {
+            storeFile file("mapeo-qa-key.keystore")
+            storePassword "mapeo-mobile"
+            keyAlias "qa-release"
+            keyPassword "mapeo-mobile"
+        }
     }
     flavorDimensions "version"
     productFlavors {
@@ -217,26 +223,23 @@ android {
             dimension "version"
             applicationIdSuffix ".qa"
             versionNameSuffix "-qa"
+            signingConfig signingConfigs.qa
         }
         app {
             dimension "version"
+            signingConfig signingConfigs.release
         }
     }
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            // All build types apart from debug use the release signing info
-            signingConfig signingConfigs.release
             ndk {
                 abiFilters "armeabi-v7a", "arm64-v8a"
             }
         }
         intel {
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            // All build types apart from debug use the release signing info
-            signingConfig signingConfigs.release
+            initWith release
             // For depedencies, fallback to using this build type name
             matchingFallbacks = ['release']
             ndk {
@@ -244,10 +247,7 @@ android {
             }
         }
         universal {
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            // All build types apart from debug use the release signing info
-            signingConfig signingConfigs.release
+            initWith release
             // For depedencies, fallback to using this build type name
             matchingFallbacks = ['release']
             ndk {
@@ -255,12 +255,12 @@ android {
             }
         }
         debug {
-            signingConfig signingConfigs.debug
-            // Storybook and QA flavors share the same applicationId between
-            // release and debug builds, but the main app flavor has a suffix
-            // for debug builds, so that when developing you can have the debug
-            // version and the release version on your phone at the same time
-            applicationIdSuffix ".debug"
+            signingConfig null
+            // The QA flavor shares the same applicationId between release and
+            // debug builds, but the main app flavor has a suffix for debug
+            // builds, so that when developing you can have the debug version
+            // and the release version on your phone at the same time
+            productFlavors.app.applicationIdSuffix ".debug"
             ndk {
                 abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
             }
@@ -277,6 +277,16 @@ android {
 
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
+        def flavorName = variant.getFlavorName()
+        def buildTypeName = variant.buildType.name
+        // For QA, we sign the release and debug build types with the same key,
+        // so that we can install the debug build over the release and keep the
+        // same data. For other variants we use a special debug key
+        if (flavorName != "qa" && buildTypeName == "debug") {
+            variant.mergedFlavor.setSigningConfig(signingConfigs.debug)
+        }
+        println "Mergedflavor: '${variant.name}' signingConfig: '${variant.signingConfig.name}' ready: ${variant.signingReady}"
+
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // https://developer.android.com/studio/build/configure-apk-splits.html

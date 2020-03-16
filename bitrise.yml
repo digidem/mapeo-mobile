@@ -4,8 +4,6 @@ project_type: react-native
 app:
   envs:
     - PROJECT_LOCATION: android
-      opts:
-        is_expand: false
     - MODULE: app
       opts:
         is_expand: false
@@ -26,6 +24,10 @@ workflows:
     description: Deploy for internal dev testing
     before_run:
       - primary-x86
+    envs:
+      - GRADLE_TASKS: assembleQa
+        opts:
+          is_expand: false
     steps:
       - script@1.1.6:
           title: Rename APKs
@@ -44,12 +46,7 @@ workflows:
                 \ mv \"$path\" \"$new_path\"\n  new_paths+=(\"$new_path\")\ndone\n\n#
                 Join the path_list array into a string separated by |\nIFS=\\| eval 'NEW_APK_PATH_LIST=\"${new_paths[*]}\"'\n\n#
                 Save the variable to the env so it is accessible in other build steps\nenvman
-                add --key BITRISE_APK_PATH_LIST --value \"$NEW_APK_PATH_LIST\"\nenvman
-                add --key QA_DEBUG_APK_PATH $(echo -n \"${NEW_APK_PATH_LIST//|/$'\\n'}\"
-                | grep mapeo_QA_debug)\nenvman add --key QA_UNIVERSAL_APK_PATH $(echo
-                -n \"${NEW_APK_PATH_LIST//|/$'\\n'}\" | grep mapeo_QA_universal)\nenvman
-                add --key UNIVERSAL_APK_PATH $(echo -n \"${NEW_APK_PATH_LIST//|/$'\\n'}\"
-                | grep mapeo_universal)\n"
+                add --key BITRISE_APK_PATH_LIST --value \"$NEW_APK_PATH_LIST\"\n"
       - deploy-to-bitrise-io@1.9.6: {}
     meta:
       bitrise.io: null
@@ -132,7 +129,8 @@ workflows:
             - npm_version: ""
             - command: ci
       - file-downloader@1.0.1:
-          title: Download keystore
+          run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
+          title: Download Release keystore
           inputs:
             - destination: $PROJECT_LOCATION/app/mapeo-release-key.keystore
             - source: $BITRISEIO_ANDROID_KEYSTORE_URL
@@ -233,7 +231,7 @@ workflows:
                 *unaligned.apk
                 *Test*.apk
                 mapeo-debug*.apk
-            - gradle_task: assembleQa assembleAppRelease assembleAppIntel assembleAppUniversal
+            - gradle_task: $GRADLE_TASKS
     meta:
       bitrise.io: null
       stack: linux-docker-android
