@@ -134,6 +134,36 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
+
+def loadDotEnv() {
+    def envFile = ".env"
+
+    def env = [:]
+    println("Reading env from: $envFile")
+
+    File f = new File("$project.rootDir/../$envFile");
+    if (!f.exists()) {
+        f = new File("$envFile");
+    }
+
+    if (f.exists()) {
+        f.eachLine { line ->
+            def matcher = (line =~ /^\s*(?:export\s+|)([\w\d\.\-_]+)\s*=\s*['"]?(.*?)?['"]?\s*$/)
+            if (matcher.getCount() == 1 && matcher[0].size() == 3) {
+                env.put(matcher[0][1], matcher[0][2].replace('"', '\\"'))
+            }
+        }
+    } else {
+        println("**************************")
+        println("*** Missing .env file ****")
+        println("**************************")
+    }
+
+    project.ext.set("env", env)
+}
+
+loadDotEnv()
+
 bugsnag {
     ndk true
     sharedObjectPath "app/build/jni/libs"
@@ -175,12 +205,10 @@ android {
             keyPassword 'android'
         }
         release {
-            if (project.hasProperty('MAPEO_MOBILE_RELEASE_STORE_FILE')) {
-                storeFile file(MAPEO_MOBILE_RELEASE_STORE_FILE)
-                storePassword MAPEO_MOBILE_RELEASE_STORE_PASSWORD
-                keyAlias MAPEO_MOBILE_RELEASE_KEY_ALIAS
-                keyPassword MAPEO_MOBILE_RELEASE_KEY_PASSWORD
-            }
+            storeFile file("mapeo-release-key.keystore")
+            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: project.env.get("MAPEO_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS") ?: project.env.get("MAPEO_KEYSTORE_ALIAS")
+            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD") ?: project.env.get("MAPEO_PRIVATE_KEY_PASSWORD")
         }
     }
     flavorDimensions "version"

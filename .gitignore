@@ -66,3 +66,6 @@ buck-out/
 
 # Translation files
 /translations
+
+# Private env variables
+.env
