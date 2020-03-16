@@ -172,8 +172,8 @@ workflows:
       - amazon-s3-uploader@1.0.1:
           title: Upload QA variant
           inputs:
-            - aws_access_key: AKIAI3YE5LI2YZO662VA
-            - aws_secret_key: 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
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
             - path_in_bucket: qa
             - file_path: $BITRISE_APK_PATH
@@ -240,8 +240,8 @@ workflows:
       - amazon-s3-uploader@1.0.1:
           title: Upload QA variant
           inputs:
-            - aws_access_key: AKIAI3YE5LI2YZO662VA
-            - aws_secret_key: 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
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
             - path_in_bucket: qa
             - file_path: $BITRISE_APK_PATH
@@ -306,16 +306,16 @@ workflows:
       - amazon-s3-uploader@1.0.1:
           title: Upload QA variant
           inputs:
-            - aws_access_key: AKIAI3YE5LI2YZO662VA
-            - aws_secret_key: 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
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
             - path_in_bucket: qa
             - file_path: $QA_RELEASE_APK_PATH
       - amazon-s3-uploader@1.0.1:
           title: Upload Release variant
           inputs:
-            - aws_access_key: AKIAI3YE5LI2YZO662VA
-            - aws_secret_key: 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
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
             - path_in_bucket: release
             - file_path: $RELEASE_APK_PATH
@@ -392,8 +392,8 @@ workflows:
       - amazon-s3-uploader@1.0.1:
           title: Upload QA release build
           inputs:
-            - aws_access_key: AKIAI3YE5LI2YZO662VA
-            - aws_secret_key: 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
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
             - path_in_bucket: dev
             - file_path: $QA_RELEASE_APK_PATH
@@ -431,24 +431,24 @@ workflows:
       - amazon-s3-uploader@1.0.1:
           title: Upload QA universal build
           inputs:
-            - aws_access_key: AKIAI3YE5LI2YZO662VA
-            - aws_secret_key: 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
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
             - file_path: $QA_UNIVERSAL_APK_PATH
             - path_in_bucket: internal-testing
       - amazon-s3-uploader@1.0.1:
           title: Upload QA debug build
           inputs:
-            - aws_access_key: AKIAI3YE5LI2YZO662VA
-            - aws_secret_key: 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
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
             - file_path: $QA_DEBUG_APK_PATH
             - path_in_bucket: internal-testing
       - amazon-s3-uploader@1.0.1:
           title: Upload universal build
           inputs:
-            - aws_access_key: AKIAI3YE5LI2YZO662VA
-            - aws_secret_key: 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
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
             - file_path: $UNIVERSAL_APK_PATH
             - path_in_bucket: internal-testing
@@ -481,8 +481,8 @@ workflows:
             - deploy_path: $BITRISE_APK_PATH
       - amazon-s3-uploader@1.0.1:
           inputs:
-            - aws_access_key: AKIAI3YE5LI2YZO662VA
-            - aws_secret_key: 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
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
             - path_in_bucket: release
             - file_path: $BITRISE_APK_PATH
