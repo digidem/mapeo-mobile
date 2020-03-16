@@ -1,0 +1,1017 @@
+format_version: "4"
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: react-native
+app:
+  envs:
+    - PROJECT_LOCATION: android
+      opts:
+        is_expand: false
+    - MODULE: app
+      opts:
+        is_expand: false
+    - VARIANT: ""
+      opts:
+        is_expand: false
+    - BITRISE_PROJECT_PATH: ios/mapeo.xcodeproj
+      opts:
+        is_expand: false
+    - BITRISE_SCHEME: mapeo
+      opts:
+        is_expand: false
+    - BITRISE_EXPORT_METHOD: ad-hoc
+      opts:
+        is_expand: false
+    - ANDROID_EMULATOR_NAME: testEmulator
+      opts:
+        is_expand: false
+trigger_map:
+  - push_branch: apk-size-reduction
+    workflow: deploy-internal-x86
+  - push_branch: detox
+    workflow: noop
+  - push_branch: "*"
+    workflow: deploy-internal
+  - tag: v*-alpha*
+    workflow: deploy-alpha
+  - tag: v*-beta*
+    workflow: deploy-beta
+  - tag: v*.*.*
+    workflow: deploy-release
+workflows:
+  _createEmulator:
+    description:
+      Creates an emulator for testing and caches it for faster testing
+      in the future
+    steps:
+      - script@1.1.5:
+          title: Check if emulator was cached
+          inputs:
+            - content: |-
+                #!/bin/bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                if [ ! -f "$HOME/.android/avd/$ANDROID_EMULATOR_NAME.ini" ]; then
+                  envman add --key ANDROID_EMULATOR_EXISTS --value "false"
+                fi
+      - script@1.1.5:
+          title: Create emulator
+          inputs:
+            - content:
+                "#!/usr/bin/env bash\n# fail if any commands fails\nset -e\n# debug
+                log\nset -x\n\ncd $ANDROID_HOME/emulator\n\necho no | avdmanager create
+                avd -n $ANDROID_EMULATOR_NAME -k \"system-images;android-26;google_apis;x86\"
+                --force\n\nemulator -no-window -no-audio -verbose -gpu swiftshader_indirect
+                @$ANDROID_EMULATOR_NAME \n\necho \"Waiting emulator is ready...\"\n\nadb
+                wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do
+                sleep 1; done; input keyevent 82'\n\necho \"Emulator is ready!\"\n\necho
+                \"Shutting down emulator...\"\n\nsleep 10\nadb emu kill\n\necho \"Emulator
+                is shutdown and ready to cache\""
+    meta:
+      bitrise.io: null
+      stack: linux-docker-android
+  Emulator:
+    steps:
+      - set-env-var@0.9.1:
+          inputs:
+            - destination_keys: DISPLAY
+            - value: :99.0
+      - script@1.1.5:
+          title: sdkmanager
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+
+                #yes | sdkmanager --licenses
+                #sdkmanager --update | grep -v = || true
+                #yes | sdkmanager \
+                #  "platform-tools" \
+                #  "emulator" \
+                #  "system-images;android-28;default;x86" \
+                #  "platforms;android-28" \
+                #  "build-tools;28.0.3" | grep -v = || true
+
+                #sdkmanager --list
+      - script@1.1.5:
+          title: Update to canary emulator
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                cd $ANDROID_HOME
+
+                rm -rf $ANDROID_HOME/emulator
+
+                wget -q https://dl.google.com/android/repository/emulator-linux-5329922.zip
+                unzip -q emulator-linux-5329922.zip
+
+                ls -al $ANDROID_HOME/emulator
+      - script@1.1.5:
+          inputs:
+            - content:
+                "#!/usr/bin/env bash\n# fail if any commands fails \nset -e\n#
+                debug log\nset -x\n\ncd $ANDROID_HOME/emulator\n\necho no | avdmanager
+                create avd -n $ANDROID_EMULATOR_NAME -k \"system-images;android-28;google_apis;x86\"
+                --force\n\n./emulator-headless -no-window -gpu swiftshader_indirect -no-audio
+                -no-boot-anim -camera-back none @testEmulator > /dev/null 2>&1 &\n\n#echo
+                \"Waiting emulator is ready...\"\n\n#adb wait-for-device shell 'while
+                [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent
+                82'\n\n#echo \"Emulator is ready!\""
+      - remote-script-runner@2.0.1:
+          inputs:
+            - script_url: https://raw.githubusercontent.com/travis-ci/travis-cookbooks/master/community-cookbooks/android-sdk/files/default/android-wait-for-emulator
+      - script@1.1.5:
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                adb devices
+    meta:
+      bitrise.io: null
+      stack: linux-docker-android
+  deploy-alpha:
+    description: Deploy for QA testing
+    before_run:
+      - primary
+    steps:
+      - script@1.1.6:
+          title: Rename APK
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                NEW_QA_APK_PATH="${BITRISE_DEPLOY_DIR}/Mapeo-QA-${BITRISE_GIT_TAG}.apk"
+                NEW_RELEASE_APK_PATH="${BITRISE_DEPLOY_DIR}/Mapeo-${BITRISE_GIT_TAG}.apk"
+
+                mv "$QA_RELEASE_APK_PATH" "$NEW_QA_APK_PATH"
+                mv "$RELEASE_APK_PATH" "$NEW_RELEASE_APK_PATH"
+
+                envman add --key BITRISE_APK_PATH --value "$NEW_RELEASE_APK_PATH"
+                envman add --key QA_RELEASE_APK_PATH --value "$NEW_QA_APK_PATH"
+                envman add --key RELEASE_APK_PATH --value "$NEW_RELEASE_APK_PATH"
+      - deploy-to-bitrise-io@1.9.5: {}
+      - amazon-s3-uploader@1.0.1:
+          title: Upload QA variant
+          inputs:
+            - aws_access_key: AKIAI3YE5LI2YZO662VA
+            - aws_secret_key: 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
+            - bucket_name: mapeo-apks
+            - path_in_bucket: qa
+            - file_path: $BITRISE_APK_PATH
+      - script@1.1.6:
+          title: Generate release description
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                RELEASE_DESCRIPTION=$(printf "$(npm run --silent release-notes | tail -n +3)\n\n### [Known Issues](KNOWN_ISSUES.md)\n")
+                envman add --key RELEASE_DESCRIPTION --value "$RELEASE_DESCRIPTION"
+      - github-release@0.11.0:
+          inputs:
+            - username: $GITHUB_USERNAME
+            - name: $BITRISE_GIT_TAG
+            - pre_release: "yes"
+            - draft: "no"
+            - files_to_upload: |-
+                $RELEASE_APK_PATH
+                $QA_RELEASE_APK_PATH
+            - body: $RELEASE_DESCRIPTION
+            - api_token: $GITHUB_TOKEN
+      - google-play-deploy@3.0.1:
+          inputs:
+            - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
+            - track: internal
+            - app_path: $BITRISE_APK_PATH
+            - package_name: com.mapeo.qa
+    meta:
+      bitrise.io: null
+      stack: linux-docker-android
+  deploy-alpha-x86:
+    description: Deploy for QA testing
+    before_run:
+      - primary
+    steps:
+      - script@1.1.6:
+          title: Rename APK
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                NEW_QA_APK_PATH="${BITRISE_DEPLOY_DIR}/Mapeo-QA-${BITRISE_GIT_TAG}.apk"
+                NEW_RELEASE_APK_PATH="${BITRISE_DEPLOY_DIR}/Mapeo-${BITRISE_GIT_TAG}.apk"
+                NEW_INTEL_APK_PATH="${BITRISE_DEPLOY_DIR}/Mapeo-X86-${BITRISE_GIT_TAG}.apk"
+
+                mv "$QA_RELEASE_APK_PATH" "$NEW_QA_APK_PATH"
+                mv "$RELEASE_APK_PATH" "$NEW_RELEASE_APK_PATH"
+                mv "$INTEL_APK_PATH" "$NEW_INTEL_APK_PATH"
+
+                envman add --key BITRISE_APK_PATH --value "$NEW_RELEASE_APK_PATH"
+                envman add --key QA_RELEASE_APK_PATH --value "$NEW_QA_APK_PATH"
+                envman add --key RELEASE_APK_PATH --value "$NEW_RELEASE_APK_PATH"
+                envman add --key INTEL_APK_PATH --value "$NEW_INTEL_APK_PATH"
+      - deploy-to-bitrise-io@1.9.5: {}
+      - amazon-s3-uploader@1.0.1:
+          title: Upload QA variant
+          inputs:
+            - aws_access_key: AKIAI3YE5LI2YZO662VA
+            - aws_secret_key: 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
+            - bucket_name: mapeo-apks
+            - path_in_bucket: qa
+            - file_path: $BITRISE_APK_PATH
+      - script@1.1.6:
+          title: Generate release description
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                RELEASE_DESCRIPTION=$(printf "$(npm run --silent release-notes | tail -n +3)\n\n### [Known Issues](KNOWN_ISSUES.md)\n")
+                envman add --key RELEASE_DESCRIPTION --value "$RELEASE_DESCRIPTION"
+      - github-release@0.11.0:
+          inputs:
+            - username: $GITHUB_USERNAME
+            - name: $BITRISE_GIT_TAG
+            - pre_release: "yes"
+            - draft: "no"
+            - files_to_upload: |-
+                $RELEASE_APK_PATH
+                $QA_RELEASE_APK_PATH
+                $INTEL_APK_PATH
+            - body: $RELEASE_DESCRIPTION
+            - api_token: $GITHUB_TOKEN
+      - google-play-deploy@3.0.1:
+          inputs:
+            - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
+            - track: internal
+            - app_path: $BITRISE_APK_PATH
+            - package_name: com.mapeo.qa
+    meta:
+      bitrise.io: null
+      stack: linux-docker-android
+  deploy-beta:
+    description: Deploy for QA testing
+    before_run:
+      - primary
+    steps:
+      - script@1.1.6:
+          title: Rename APK
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                NEW_QA_APK_PATH="${BITRISE_DEPLOY_DIR}/Mapeo-QA-${BITRISE_GIT_TAG}.apk"
+                NEW_RELEASE_APK_PATH="${BITRISE_DEPLOY_DIR}/Mapeo-${BITRISE_GIT_TAG}.apk"
+
+                mv "$QA_RELEASE_APK_PATH" "$NEW_QA_APK_PATH"
+                mv "$RELEASE_APK_PATH" "$NEW_RELEASE_APK_PATH"
+
+                envman add --key BITRISE_APK_PATH --value "$NEW_RELEASE_APK_PATH"
+                envman add --key QA_RELEASE_APK_PATH --value "$NEW_QA_APK_PATH"
+                envman add --key RELEASE_APK_PATH --value "$NEW_RELEASE_APK_PATH"
+      - deploy-to-bitrise-io@1.9.5: {}
+      - amazon-s3-uploader@1.0.1:
+          title: Upload QA variant
+          inputs:
+            - aws_access_key: AKIAI3YE5LI2YZO662VA
+            - aws_secret_key: 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
+            - bucket_name: mapeo-apks
+            - path_in_bucket: qa
+            - file_path: $QA_RELEASE_APK_PATH
+      - amazon-s3-uploader@1.0.1:
+          title: Upload Release variant
+          inputs:
+            - aws_access_key: AKIAI3YE5LI2YZO662VA
+            - aws_secret_key: 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
+            - bucket_name: mapeo-apks
+            - path_in_bucket: release
+            - file_path: $RELEASE_APK_PATH
+      - script@1.1.6:
+          title: Generate release description
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                RELEASE_DESCRIPTION=$(printf "$(npm run --silent release-notes | tail -n +3)\n\n### [Known Issues](KNOWN_ISSUES.md)\n")
+                envman add --key RELEASE_DESCRIPTION --value "$RELEASE_DESCRIPTION"
+      - github-release@0.11.0:
+          inputs:
+            - username: $GITHUB_USERNAME
+            - name: $BITRISE_GIT_TAG
+            - pre_release: "yes"
+            - draft: "no"
+            - files_to_upload: |-
+                $RELEASE_APK_PATH
+                $QA_RELEASE_APK_PATH
+            - body: $RELEASE_DESCRIPTION
+            - api_token: $GITHUB_TOKEN
+      - google-play-deploy@3.0.1:
+          title: Google Play QA beta
+          inputs:
+            - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
+            - track: internal
+            - apk_path: $QA_RELEASE_APK_PATH
+            - app_path: $QA_RELEASE_APK_PATH
+            - package_name: com.mapeo.qa
+      - google-play-deploy@3.0.1:
+          title: Google Play Release beta
+          inputs:
+            - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
+            - track: beta
+            - apk_path: $RELEASE_APK_PATH
+            - app_path: $RELEASE_APK_PATH
+            - package_name: com.mapeo
+    meta:
+      bitrise.io: null
+      stack: linux-docker-android
+  deploy-internal:
+    description: Deploy for internal dev testing
+    before_run:
+      - primary
+    steps:
+      - script@1.1.6:
+          title: Rename APK
+          inputs:
+            - content: |
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                # Name development APK as {Date and time}_mapeo_{7 chars of git commit sha}_{build slug on bitrise}.apk
+                NEW_QA_APK_PATH="${BITRISE_DEPLOY_DIR}/`date -u +"%Y%m%d_%H%M%S"`_mapeo_qa_release_${BITRISE_GIT_COMMIT:0:7}_${BITRISE_BUILD_SLUG}.apk"
+                NEW_QA_DEBUG_APK_PATH="${BITRISE_DEPLOY_DIR}/`date -u +"%Y%m%d_%H%M%S"`_mapeo_qa_debug_${BITRISE_GIT_COMMIT:0:7}_${BITRISE_BUILD_SLUG}.apk"
+                NEW_RELEASE_APK_PATH="${BITRISE_DEPLOY_DIR}/`date -u +"%Y%m%d_%H%M%S"`_mapeo_release_${BITRISE_GIT_COMMIT:0:7}_${BITRISE_BUILD_SLUG}.apk"
+
+                mv "$QA_DEBUG_APK_PATH" "$NEW_QA_DEBUG_APK_PATH"
+                mv "$QA_RELEASE_APK_PATH" "$NEW_QA_APK_PATH"
+                mv "$RELEASE_APK_PATH" "$NEW_RELEASE_APK_PATH"
+
+                envman add --key QA_DEBUG_APK_PATH --value "$NEW_QA_DEBUG_APK_PATH"
+                envman add --key QA_RELEASE_APK_PATH --value "$NEW_QA_APK_PATH"
+                envman add --key RELEASE_APK_PATH --value "$NEW_RELEASE_APK_PATH"
+      - deploy-to-bitrise-io@1.9.5: {}
+      - amazon-s3-uploader@1.0.1:
+          title: Upload QA release build
+          inputs:
+            - aws_access_key: AKIAI3YE5LI2YZO662VA
+            - aws_secret_key: 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
+            - bucket_name: mapeo-apks
+            - path_in_bucket: dev
+            - file_path: $QA_RELEASE_APK_PATH
+    meta:
+      bitrise.io: null
+      stack: linux-docker-android
+  deploy-internal-x86:
+    description: Deploy for internal dev testing
+    before_run:
+      - primary-x86
+    steps:
+      - script@1.1.6:
+          title: Rename APKs
+          inputs:
+            - content:
+                "#!/usr/bin/env bash\n\n# Renames the apks with the current datetime
+                and a \n# reference the git commit and the bitrise build slug\n\nset -eEu
+                -o pipefail\nshopt -s extdebug\n\n# Split the path_list variable by |
+                into an array\nIFS='|' read -r -a paths <<< \"$BITRISE_APK_PATH_LIST\"\nnew_paths=()\ndatestring=$(date
+                -u +\"%Y%m%d_%H%M%S\")\n\nfor path in \"${paths[@]}\"\ndo\n  # Just the
+                path portion\n  dir=\"${path%/*}\"\n  # Just the filename portion\n  file=\"${path##*/}\"\n
+                \ # Replace hyphens in filename with underscores\n  file=\"${file//-/_}\"\n
+                \ # Remove version name and extension from filename\n  basename=\"${file%_${ANDROID_VERSION_NAME}.apk}\"\n
+                \ # Construct path with new filesname\n  new_path=\"${dir}/${datestring}_${basename}_${BITRISE_GIT_COMMIT:0:7}_${BITRISE_BUILD_SLUG}.apk\"\n
+                \ mv \"$path\" \"$new_path\"\n  new_paths+=(\"$new_path\")\ndone\n\n#
+                Join the path_list array into a string separated by |\nIFS=\\| eval 'NEW_APK_PATH_LIST=\"${new_paths[*]}\"'\n\n#
+                Save the variable to the env so it is accessible in other build steps\nenvman
+                add --key BITRISE_APK_PATH_LIST --value \"$NEW_APK_PATH_LIST\"\nenvman
+                add --key QA_DEBUG_APK_PATH $(echo -n \"${NEW_APK_PATH_LIST//|/$'\\n'}\"
+                | grep mapeo_QA_debug)\nenvman add --key QA_UNIVERSAL_APK_PATH $(echo
+                -n \"${NEW_APK_PATH_LIST//|/$'\\n'}\" | grep mapeo_QA_universal)\nenvman
+                add --key UNIVERSAL_APK_PATH $(echo -n \"${NEW_APK_PATH_LIST//|/$'\\n'}\"
+                | grep mapeo_universal)\n"
+      - deploy-to-bitrise-io@1.9.6: {}
+      - amazon-s3-uploader@1.0.1:
+          title: Upload QA universal build
+          inputs:
+            - aws_access_key: AKIAI3YE5LI2YZO662VA
+            - aws_secret_key: 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
+            - bucket_name: mapeo-apks
+            - file_path: $QA_UNIVERSAL_APK_PATH
+            - path_in_bucket: internal-testing
+      - amazon-s3-uploader@1.0.1:
+          title: Upload QA debug build
+          inputs:
+            - aws_access_key: AKIAI3YE5LI2YZO662VA
+            - aws_secret_key: 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
+            - bucket_name: mapeo-apks
+            - file_path: $QA_DEBUG_APK_PATH
+            - path_in_bucket: internal-testing
+      - amazon-s3-uploader@1.0.1:
+          title: Upload universal build
+          inputs:
+            - aws_access_key: AKIAI3YE5LI2YZO662VA
+            - aws_secret_key: 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
+            - bucket_name: mapeo-apks
+            - file_path: $UNIVERSAL_APK_PATH
+            - path_in_bucket: internal-testing
+    meta:
+      bitrise.io: null
+      stack: linux-docker-android
+  deploy-release:
+    description: Deploy for QA testing
+    before_run:
+      - primary
+    steps:
+      - script@1.1.6:
+          title: Rename APK
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                NEW_APK_PATH="${BITRISE_DEPLOY_DIR}/Mapeo-${BITRISE_GIT_TAG}.apk"
+
+                mv "$RELEASE_APK_PATH" "$NEW_APK_PATH"
+
+                envman add --key BITRISE_APK_PATH --value "$NEW_APK_PATH"
+                envman add --key RELEASE_APK_PATH --value "$NEW_APK_PATH"
+      - deploy-to-bitrise-io@1.9.5:
+          inputs:
+            - deploy_path: $BITRISE_APK_PATH
+      - amazon-s3-uploader@1.0.1:
+          inputs:
+            - aws_access_key: AKIAI3YE5LI2YZO662VA
+            - aws_secret_key: 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
+            - bucket_name: mapeo-apks
+            - path_in_bucket: release
+            - file_path: $BITRISE_APK_PATH
+      - script@1.1.6:
+          title: Generate release description
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                RELEASE_DESCRIPTION=$(printf "$(npm run --silent release-notes | tail -n +3)\n\n### [Known Issues](KNOWN_ISSUES.md)\n")
+                envman add --key RELEASE_DESCRIPTION --value "$RELEASE_DESCRIPTION"
+      - github-release@0.11.0:
+          inputs:
+            - username: $GITHUB_USERNAME
+            - name: $BITRISE_GIT_TAG
+            - draft: "no"
+            - files_to_upload: $BITRISE_APK_PATH
+            - body: $RELEASE_DESCRIPTION
+            - api_token: $GITHUB_TOKEN
+      - google-play-deploy@3.0.1:
+          inputs:
+            - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
+            - track: production
+            - apk_path: $RELEASE_APK_PATH
+            - app_path: $RELEASE_APK_PATH
+            - package_name: com.mapeo
+    meta:
+      bitrise.io: null
+      stack: linux-docker-android
+  detox:
+    description: Build & test Android
+    steps:
+      - activate-ssh-key@4.0.3:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@4.0.14: {}
+      - cache-pull@2.0.1: {}
+      - npm@1.0.1:
+          title: npm install
+          inputs:
+            - npm_version: ^6.0.0
+            - command: install
+      - file-downloader@1.0.1:
+          title: Download keystore
+          inputs:
+            - destination: $PROJECT_LOCATION/app/my-release-key.keystore
+            - source: $BITRISEIO_ANDROID_KEYSTORE_URL
+      - script@1.1.5:
+          title: Install latest NDK
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                # set env vars
+                export ANDROID_NDK_VERSION='19b'
+
+                # ------------------------------------------------------
+                # --- Android NDK
+
+                # clean up if a previous version is already installed
+                rm -rf "$ANDROID_NDK_HOME"
+
+                # download
+                cd $TMPDIR
+                wget -q https://dl.google.com/android/repository/android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
+
+                # uncompress
+                unzip -qo android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
+
+                # move to its final location
+                mv ./android-ndk-r${ANDROID_NDK_VERSION} ${ANDROID_NDK_HOME}
+
+                cd ${ANDROID_NDK_HOME}
+
+
+                # add to PATH
+                export PATH=${PATH}:${ANDROID_NDK_HOME}
+                # expose for subsequent steps
+                envman add --key PATH --value "$PATH"
+      - script@1.1.5:
+          title: Update SDK components
+          inputs:
+            - content: |
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                echo '### User Sources for Android SDK Manager' > $HOME/.android/repositories.cfg
+                yes | sdkmanager --licenses
+                sdkmanager --update | grep -v = || true
+
+                echo "Updated to latest SDK:"
+
+                sdkmanager --list
+      - script@1.1.5:
+          title: Install Canary emulator
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                export EMULATOR_BUILD=5329922
+
+                cd $ANDROID_HOME
+
+                echo "Installing latest Canary of android emulator"
+
+                rm -rf $ANDROID_HOME/emulator
+
+                wget -q https://dl.google.com/android/repository/emulator-linux-${EMULATOR_BUILD}.zip
+                unzip -q emulator-linux-${EMULATOR_BUILD}.zip
+
+                ls -al $ANDROID_HOME/emulator
+      - script-runner@0.9.3:
+          title: Build nodejs-mobile project
+          inputs:
+            - file_path: ./scripts/build-backend.sh
+      - script@1.1.5:
+          title: Detox build release
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                $(npm bin)/detox build -c android.emu.release
+      - cache-push@2.0.5:
+          inputs:
+            - cache_paths: |-
+                $BITRISE_CACHE_DIR
+                $HOME/.gradle/caches/
+                $HOME/.gradle/wrapper/
+                $HOME/.android/build-cache
+                $HOME/.npm
+            - ignore_check_on_paths: |-
+                $HOME/.gradle/caches/*.lock
+                $HOME/.gradle/caches/*/plugin-resolution/
+      - script@1.1.5:
+          title: Create & start AVD
+          inputs:
+            - content:
+                "#!/usr/bin/env bash\n# fail if any commands fails\nset -e\n# debug
+                log\nset -x\n\n#!/usr/bin/env bash\n# fail if any commands fails \nset
+                -e\n# debug log\nset -x\n\ncd $ANDROID_HOME/emulator\n\necho no | avdmanager
+                create avd -n $ANDROID_EMULATOR_NAME -k \"system-images;android-28;google_apis;x86\"
+                --force -d \"Nexus 5X\"\n\n./emulator-headless -no-window -gpu host -no-audio
+                -no-boot-anim -camera-back none @testEmulator &> $BITRISE_DEPLOY_DIR/emulator.log
+                &\n\nsleep 2\n\n#echo \"Waiting emulator is ready...\"\n\n#adb wait-for-device
+                shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;
+                input keyevent 82'\n\n#echo \"Emulator is ready!\"\n"
+      - remote-script-runner@2.0.1:
+          inputs:
+            - script_url: https://raw.githubusercontent.com/travis-ci/travis-cookbooks/master/community-cookbooks/android-sdk/files/default/android-wait-for-emulator
+      - script@1.1.5:
+          title: Detox test release
+          inputs:
+            - content: |
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                adb devices
+
+                # adb logcat &> $BITRISE_DEPLOY_DIR/logcat.log &
+
+                # { echo "avd name"; sleep 1; } | telnet localhost 5554 > $BITRISE_DEPLOY_DIR/telnet.log
+
+                $(npm bin)/detox test -c android.emu.release -l trace --headless
+      - deploy-to-bitrise-io@1.3.19: {}
+    meta:
+      bitrise.io: null
+      stack: osx-vs4mac-stable
+  noop: {}
+  primary:
+    description: Build & test Android
+    steps:
+      - activate-ssh-key@4.0.5:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@4.0.18: {}
+      - nvm@1.2.2:
+          inputs:
+            - node_version: "10"
+      - npm@1.1.3:
+          title: Update npm version to latest
+          inputs:
+            - command: update -g npm
+      - script@1.1.6:
+          title: inotify fix
+          inputs:
+            - content: |
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf
+
+                sysctl -p
+      - cache-pull@2.1.4: {}
+      - npm@1.1.3:
+          title: npm install
+          inputs:
+            - command: install
+      - file-downloader@1.0.1:
+          title: Download keystore
+          inputs:
+            - destination: $PROJECT_LOCATION/app/my-release-key.keystore
+            - source: $BITRISEIO_ANDROID_KEYSTORE_URL
+      - script@1.1.6:
+          title: Install latest NDK
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                # set env vars
+                export ANDROID_NDK_VERSION='19b'
+                export ANDROID_NDK_HOME='/opt/android-ndk'
+                # expose for subsequent steps
+                envman add --key ANDROID_NDK_HOME --value "$ANDROID_NDK_HOME"
+
+
+                # ------------------------------------------------------
+                # --- Android NDK
+
+                # clean up if a previous version is already installed
+                rm -rf "$ANDROID_NDK_HOME"
+
+                # download
+                mkdir /opt/android-ndk-tmp
+                cd /opt/android-ndk-tmp
+                wget -q https://dl.google.com/android/repository/android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
+
+                # uncompress
+                unzip -q android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
+
+                # move to its final location
+                mv ./android-ndk-r${ANDROID_NDK_VERSION} ${ANDROID_NDK_HOME}
+
+                # remove temp dir
+                cd ${ANDROID_NDK_HOME}
+                rm -rf /opt/android-ndk-tmp
+
+
+                # add to PATH
+                export PATH=${PATH}:${ANDROID_NDK_HOME}
+                # expose for subsequent steps
+                envman add --key PATH --value "$PATH"
+      - script@1.1.6:
+          title: Update SDK components
+          inputs:
+            - content: |
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                echo '### User Sources for Android SDK Manager' > $HOME/.android/repositories.cfg
+                yes | sdkmanager --licenses
+                sdkmanager --update | grep -v = || true
+
+                echo "Updated to latest SDK:"
+
+                sdkmanager --list
+      - script-runner@0.9.3:
+          title: Build nodejs backend
+          inputs:
+            - file_path: scripts/build-backend.sh
+      - npm@1.1.3:
+          title: Build translations
+          inputs:
+            - command: run build:translations
+      - script@1.1.6:
+          title: Set version name
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                VERSION_NAME=`node -p "require('./package.json').version"`
+                envman add --key VERSION_NAME --value "$VERSION_NAME"
+      - change-android-versioncode-and-versionname@1.2.3:
+          inputs:
+            - build_gradle_path: $PROJECT_LOCATION/app/build.gradle
+            - new_version_name: $VERSION_NAME.$BITRISE_BUILD_NUMBER
+      - change-workdir@1.0.2:
+          title: cd to android
+          is_always_run: true
+          inputs:
+            - is_create_path: "false"
+            - path: $PROJECT_LOCATION
+      - gradle-runner@1.9.3:
+          inputs:
+            - gradlew_path: ./gradlew
+            - gradle_task: assembleQa assembleAppRelease
+      - change-workdir@1.0.2:
+          title: cd to root
+          inputs:
+            - is_create_path: "false"
+            - path: $BITRISE_SOURCE_DIR
+      - script@1.1.6:
+          title: Upload sourcemaps to bugsnag
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                react-native bundle \
+                  --platform android \
+                  --dev false \
+                  --entry-file index.js \
+                  --bundle-output android-release.bundle \
+                  --sourcemap-output android-release.bundle.map
+
+                curl --http1.1 https://upload.bugsnag.com/react-native-source-map \
+                  -F apiKey=$BUGSNAG_API_KEY \
+                  -F appVersion=2.0.0-beta.5 \
+                  -F dev=false \
+                  -F platform=android \
+                  -F sourceMap=@android-release.bundle.map \
+                  -F bundle=@android-release.bundle \
+                  -F projectRoot=`pwd`
+      - cache-push:
+          inputs:
+            - cache_paths: |-
+                $BITRISE_CACHE_DIR
+                $HOME/.gradle/caches/
+                $HOME/.gradle/wrapper/
+                $HOME/.android/build-cache
+            - fingerprint_method: file-mod-time
+            - compress_archive: "true"
+            - ignore_check_on_paths: |-
+                $HOME/.gradle/caches/*.lock
+                $HOME/.gradle/caches/*/plugin-resolution/
+      - script@1.1.6:
+          title: Set APK paths
+          inputs:
+            - is_debug: "yes"
+            - content: |
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                QA_DEBUG_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep qa-debug)
+                QA_RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep qa-release)
+                RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep app-release)
+
+                envman add --key QA_DEBUG_APK_PATH --value "$QA_DEBUG_APK_PATH"
+                envman add --key QA_RELEASE_APK_PATH --value "$QA_RELEASE_APK_PATH"
+                envman add --key RELEASE_APK_PATH --value "$RELEASE_APK_PATH"
+    meta:
+      bitrise.io: null
+      stack: linux-docker-android
+  primary-x86:
+    description: Build & test Android
+    steps:
+      - activate-ssh-key@4.0.5:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@4.0.18: {}
+      - nvm@1.2.2:
+          inputs:
+            - node_version: ""
+      - npm@1.1.3:
+          title: Update npm
+          inputs:
+            - command: install -g --force npm@^6.13
+      - script@1.1.6:
+          title: inotify fix
+          inputs:
+            - content: |
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf
+
+                sysctl -p
+      - cache-pull@2.1.4: {}
+      - npm@1.1.3:
+          title: npm ci
+          inputs:
+            - npm_version: ""
+            - command: ci
+      - file-downloader@1.0.1:
+          title: Download keystore
+          inputs:
+            - destination: $PROJECT_LOCATION/app/my-release-key.keystore
+            - source: $BITRISEIO_ANDROID_KEYSTORE_URL
+      - script@1.1.6:
+          title: Install latest NDK
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                # set env vars
+                export ANDROID_NDK_VERSION='19b'
+                export ANDROID_NDK_HOME='/opt/android-ndk'
+                # expose for subsequent steps
+                envman add --key ANDROID_NDK_HOME --value "$ANDROID_NDK_HOME"
+
+
+                # ------------------------------------------------------
+                # --- Android NDK
+
+                # clean up if a previous version is already installed
+                rm -rf "$ANDROID_NDK_HOME"
+
+                # download
+                mkdir /opt/android-ndk-tmp
+                cd /opt/android-ndk-tmp
+                wget -q https://dl.google.com/android/repository/android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
+
+                # uncompress
+                unzip -q android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
+
+                # move to its final location
+                mv ./android-ndk-r${ANDROID_NDK_VERSION} ${ANDROID_NDK_HOME}
+
+                # remove temp dir
+                cd ${ANDROID_NDK_HOME}
+                rm -rf /opt/android-ndk-tmp
+
+
+                # add to PATH
+                export PATH=${PATH}:${ANDROID_NDK_HOME}
+                # expose for subsequent steps
+                envman add --key PATH --value "$PATH"
+      - script@1.1.6:
+          title: Update SDK components
+          inputs:
+            - content: |
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                echo '### User Sources for Android SDK Manager' > $HOME/.android/repositories.cfg
+                yes | sdkmanager --licenses
+                sdkmanager --update | grep -v = || true
+
+                echo "Updated to latest SDK:"
+
+                sdkmanager --list
+      - script-runner@0.9.3:
+          title: Build nodejs backend
+          inputs:
+            - file_path: scripts/build-backend.sh
+      - npm@1.1.3:
+          title: Build translations
+          inputs:
+            - npm_version: ""
+            - command: run build:translations
+      - script@1.1.6:
+          title: Set version name
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                VERSION_NAME=`node -p "require('./package.json').version"`
+                envman add --key VERSION_NAME --value "$VERSION_NAME"
+      - change-android-versioncode-and-versionname@1.2.3:
+          inputs:
+            - build_gradle_path: $PROJECT_LOCATION/app/build.gradle
+            - new_version_name: $VERSION_NAME.$BITRISE_BUILD_NUMBER
+      - change-workdir@1.0.2:
+          is_always_run: true
+          inputs:
+            - is_create_path: "false"
+            - path: $PROJECT_LOCATION
+      - gradle-runner@1.9.3:
+          inputs:
+            - gradlew_path: ./gradlew
+            - app_file_exclude_filter: |-
+                *unaligned.apk
+                *Test*.apk
+                mapeo-debug*.apk
+            - gradle_task: assembleQa assembleAppRelease assembleAppIntel assembleAppUniversal
+      - cache-push:
+          inputs:
+            - cache_paths: |-
+                $BITRISE_CACHE_DIR
+                $HOME/.gradle/caches/
+                $HOME/.gradle/wrapper/
+                $HOME/.android/build-cache
+            - fingerprint_method: file-mod-time
+            - compress_archive: "true"
+            - ignore_check_on_paths: |-
+                $HOME/.gradle/caches/*.lock
+                $HOME/.gradle/caches/*/plugin-resolution/
+    meta:
+      bitrise.io: null
+      stack: linux-docker-android
