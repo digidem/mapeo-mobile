@@ -25,7 +25,7 @@ workflows:
     before_run:
       - primary
     envs:
-      - GRADLE_TASKS: assembleQaUniversal assembleAppUniversal
+      - GRADLE_TASKS: assembleQaUniversal assembleAppUniversal assembleIccaUniversal
         opts:
           is_expand: false
     steps:
