@@ -20,6 +20,35 @@ app:
       opts:
         is_expand: false
 workflows:
+  deploy-beta:
+    description: Deploy beta versions for testing
+    before_run:
+      - primary-x86
+    envs:
+      - GRADLE_TASKS: assembleQaUniversal assembleAppUniversal
+        opts:
+          is_expand: false
+    steps:
+      - deploy-to-bitrise-io@1.9.5: {}
+      - amazon-s3-uploader@1.0.1:
+          title: Upload QA variant
+          inputs:
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
+            - bucket_name: mapeo-apks
+            - path_in_bucket: beta-testing/qa
+            - file_path: ${BITRISE_DEPLOY_DIR}/mapeo-qa-universal-${ANDROID_VERSION_NAME}-qa.apk
+      - amazon-s3-uploader@1.0.1:
+          title: Upload Release variant
+          inputs:
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
+            - bucket_name: mapeo-apks
+            - path_in_bucket: beta-testing/default
+            - file_path: ${BITRISE_DEPLOY_DIR}/mapeo-universal-${ANDROID_VERSION_NAME}.apk
+    meta:
+      bitrise.io: null
+      stack: linux-docker-android
   deploy-internal-x86:
     description: Deploy for internal dev testing
     before_run:
@@ -58,9 +87,14 @@ workflows:
     description: Deploy for QA testing
     before_run:
       - primary-x86
+    envs:
+      - GRADLE_TASKS: assembleApp bundleAppUniversal -x assembleAppDebug
+        opts:
+          is_expand: false
     steps:
+      - deploy-to-bitrise-io@1.9.6: {}
       - script@1.1.6:
-          title: Rename APK
+          title: Set APK path variables
           inputs:
             - content: |-
                 #!/usr/bin/env bash
@@ -69,22 +103,37 @@ workflows:
                 # debug log
                 set -x
 
-                NEW_APK_PATH="${BITRISE_DEPLOY_DIR}/Mapeo-${BITRISE_GIT_TAG}.apk"
+                RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-v)
+                INTEL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-intel)
+                UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-universal)
 
-                mv "$RELEASE_APK_PATH" "$NEW_APK_PATH"
-
-                envman add --key BITRISE_APK_PATH --value "$NEW_APK_PATH"
-                envman add --key RELEASE_APK_PATH --value "$NEW_APK_PATH"
-      - deploy-to-bitrise-io@1.9.5:
-          inputs:
-            - deploy_path: $BITRISE_APK_PATH
+                envman --key RELEASE_APK_PATH --value "$RELEASE_APK_PATH"
+                envman --key INTEL_APK_PATH --value "$INTEL_APK_PATH"
+                envman --key UNIVERSAL_APK_PATH --value "$UNIVERSAL_APK_PATH"
       - amazon-s3-uploader@1.0.1:
+          title: Upload APK for Arm
           inputs:
-            - aws_access_key: AKIAI3YE5LI2YZO662VA
-            - aws_secret_key: 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
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
-            - path_in_bucket: release
-            - file_path: $BITRISE_APK_PATH
+            - path_in_bucket: beta-testing/qa
+            - file_path: $RELEASE_APK_PATH
+      - amazon-s3-uploader@1.0.1:
+          title: Upload APK for x86
+          inputs:
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
+            - bucket_name: mapeo-apks
+            - path_in_bucket: beta-testing/default
+            - file_path: $INTEL_APK_PATH
+      - amazon-s3-uploader@1.0.1:
+          title: Upload universal (all ABIs) APK
+          inputs:
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
+            - bucket_name: mapeo-apks
+            - path_in_bucket: beta-testing/default
+            - file_path: $UNIVERSAL_APK_PATH
       - script@1.1.6:
           title: Generate release description
           inputs:
@@ -102,15 +151,17 @@ workflows:
             - username: $GITHUB_USERNAME
             - name: $BITRISE_GIT_TAG
             - draft: "no"
-            - files_to_upload: $BITRISE_APK_PATH
+            - files_to_upload: |-
+                $RELEASE_APK_PATH
+                $INTEL_APK_PATH
             - body: $RELEASE_DESCRIPTION
             - api_token: $GITHUB_TOKEN
-      - google-play-deploy@3.0.1:
+      - google-play-deploy@3.0.2:
           inputs:
             - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
-            - track: production
+            - track: beta
             - apk_path: $RELEASE_APK_PATH
-            - app_path: $RELEASE_APK_PATH
+            - app_path: ${BITRISE_SOURCE_DIR}/app.aab
             - package_name: com.mapeo
     meta:
       bitrise.io: null
