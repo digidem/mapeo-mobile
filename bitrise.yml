@@ -23,7 +23,7 @@ workflows:
   deploy-beta:
     description: Deploy beta versions for testing
     before_run:
-      - primary-x86
+      - primary
     envs:
       - GRADLE_TASKS: assembleQaUniversal assembleAppUniversal
         opts:
@@ -49,10 +49,10 @@ workflows:
     meta:
       bitrise.io: null
       stack: linux-docker-android
-  deploy-internal-x86:
+  deploy-internal:
     description: Deploy for internal dev testing
     before_run:
-      - primary-x86
+      - primary
     envs:
       - GRADLE_TASKS: assembleQa
         opts:
@@ -86,7 +86,7 @@ workflows:
   deploy-release:
     description: Deploy for QA testing
     before_run:
-      - primary-x86
+      - primary
     envs:
       - GRADLE_TASKS: assembleApp bundleAppUniversal -x assembleAppDebug
         opts:
@@ -167,7 +167,7 @@ workflows:
       bitrise.io: null
       stack: linux-docker-android
   noop: {}
-  primary-x86:
+  primary:
     description: Build Android apk & aab
     steps:
       - nvm@1.2.2:
