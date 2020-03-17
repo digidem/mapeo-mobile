@@ -41,10 +41,13 @@ workflows:
                 \"${paths[@]}\"\ndo\n  # Just the path portion\n  dir=\"${path%/*}\"\n
                 \ # Just the filename portion\n  file=\"${path##*/}\"\n  # Replace hyphens
                 in filename with underscores\n  file=\"${file//-/_}\"\n  # Remove version
-                name and extension from filename\n  basename=\"${file%_${ANDROID_VERSION_NAME}.apk}\"\n
-                \ # Construct path with new filesname\n  new_path=\"${dir}/${datestring}_${basename}_PR#${BITRISE_PULL_REQUEST}_${BITRISE_BUILD_SLUG}.apk\"\n
-                \ mv \"$path\" \"$new_path\"\n  new_paths+=(\"$new_path\")\ndone\n\n#
-                Join the path_list array into a string separated by |\nIFS=\\| eval 'NEW_APK_PATH_LIST=\"${new_paths[*]}\"'\n\n#
+                name and extension from filename\n  basename=\"${file%_${ANDROID_VERSION_NAME}_qa.apk}\"\n
+                \ # Construct path with new filesname\n  new_path=\"${dir}/${datestring}_${basename}\"\n
+                \ if [ -z \"${BITRISE_PULL_REQUEST}\" ]; then\n    new_path+=\"_PR#${BITRISE_PULL_REQUEST}\"\n
+                \ fi\n  if [ -z \"${BITRISE_GIT_COMMIT}\" ]; then\n    new_path+=\"_${BITRISE_GIT_COMMIT}\"\n
+                \ fi\n  new_path+=\"_${BITRISE_BUILD_SLUG}.apk\"\n  mv \"$path\" \"$new_path\"\n
+                \ new_paths+=(\"$new_path\")\ndone\n\n# Join the path_list array into
+                a string separated by |\nIFS=\\| eval 'NEW_APK_PATH_LIST=\"${new_paths[*]}\"'\n\n#
                 Save the variable to the env so it is accessible in other build steps\nenvman
                 add --key BITRISE_APK_PATH_LIST --value \"$NEW_APK_PATH_LIST\"\n"
       - deploy-to-bitrise-io@1.9.6: {}
@@ -129,8 +132,8 @@ workflows:
             - npm_version: ""
             - command: ci
       - file-downloader@1.0.1:
-          run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
           title: Download Release keystore
+          run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
           inputs:
             - destination: $PROJECT_LOCATION/app/mapeo-release-key.keystore
             - source: $BITRISEIO_ANDROID_KEYSTORE_URL
