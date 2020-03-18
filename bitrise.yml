@@ -131,6 +131,8 @@ workflows:
                 # debug log
                 set -x
 
+                echo "SOURCE_DIR = ${BITRISE_SOURCE_DIR}"
+
                 RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-v)
                 INTEL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-intel)
                 UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-universal)
