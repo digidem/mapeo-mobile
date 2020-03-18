@@ -29,6 +29,23 @@ workflows:
         opts:
           is_expand: false
     steps:
+      - script@1.1.6:
+          title: Set APK path variables
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-universal)
+                QA_UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-QA-universal)
+                ICCA_UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-ICCA-universal)
+
+                envman add --key UNIVERSAL_APK_PATH --value "$UNIVERSAL_APK_PATH"
+                envman add --key QA_UNIVERSAL_APK_PATH --value "$QA_UNIVERSAL_APK_PATH"
+                envman add --key ICCA_UNIVERSAL_APK_PATH --value "$ICCA_UNIVERSAL_APK_PATH"
       - deploy-to-bitrise-io@1.9.5: {}
       - amazon-s3-uploader@1.0.1:
           title: Upload QA variant
@@ -38,7 +55,7 @@ workflows:
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
             - path_in_bucket: beta-testing/v${VERSION_NAME}
-            - file_path: ${BITRISE_DEPLOY_DIR}/mapeo-QA-universal-v${ANDROID_VERSION_NAME}-qa.apk
+            - file_path: $QA_UNIVERSAL_APK_PATH
       - amazon-s3-uploader@1.0.1:
           title: Upload Release variant
           is_skippable: true
@@ -47,7 +64,7 @@ workflows:
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
             - path_in_bucket: beta-testing/v${VERSION_NAME}
-            - file_path: ${BITRISE_DEPLOY_DIR}/mapeo-universal-v${ANDROID_VERSION_NAME}.apk
+            - file_path: $UNIVERSAL_APK_PATH
       - amazon-s3-uploader@1.0.1:
           title: Upload ICCA variant
           is_skippable: true
@@ -56,7 +73,7 @@ workflows:
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
             - path_in_bucket: beta-testing/v${VERSION_NAME}
-            - file_path: ${BITRISE_DEPLOY_DIR}/mapeo-ICCA-v${ANDROID_VERSION_NAME}.apk
+            - file_path: $ICCA_UNIVERSAL_APK_PATH
     meta:
       bitrise.io: null
       stack: linux-docker-android
@@ -119,10 +136,10 @@ workflows:
                 UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-universal)
                 ICCA_RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-ICCA)
 
-                envman --key RELEASE_APK_PATH --value "$RELEASE_APK_PATH"
-                envman --key INTEL_APK_PATH --value "$INTEL_APK_PATH"
-                envman --key UNIVERSAL_APK_PATH --value "$UNIVERSAL_APK_PATH"
-                envman --key ICCA_RELEASE_APK_PATH --value "$ICCA_RELEASE_APK_PATH"
+                envman add --key RELEASE_APK_PATH --value "$RELEASE_APK_PATH"
+                envman add --key INTEL_APK_PATH --value "$INTEL_APK_PATH"
+                envman add --key UNIVERSAL_APK_PATH --value "$UNIVERSAL_APK_PATH"
+                envman add --key ICCA_RELEASE_APK_PATH --value "$ICCA_RELEASE_APK_PATH"
       - amazon-s3-uploader@1.0.1:
           title: Upload APK for Arm
           inputs:
