@@ -37,7 +37,7 @@ workflows:
             - aws_access_key: $AWS_ACCESS_KEY_ID
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
-            - path_in_bucket: beta-testing/qa
+            - path_in_bucket: beta-testing/v${VERSION_NAME}
             - file_path: ${BITRISE_DEPLOY_DIR}/mapeo-QA-universal-v${ANDROID_VERSION_NAME}-qa.apk
       - amazon-s3-uploader@1.0.1:
           is_skippable: true
@@ -46,8 +46,17 @@ workflows:
             - aws_access_key: $AWS_ACCESS_KEY_ID
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
-            - path_in_bucket: beta-testing/default
+            - path_in_bucket: beta-testing/v${VERSION_NAME}
             - file_path: ${BITRISE_DEPLOY_DIR}/mapeo-universal-v${ANDROID_VERSION_NAME}.apk
+      - amazon-s3-uploader@1.0.1:
+          is_skippable: true
+          title: Upload ICCA variant
+          inputs:
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
+            - bucket_name: mapeo-apks
+            - path_in_bucket: beta-testing/v${VERSION_NAME}
+            - file_path: ${BITRISE_DEPLOY_DIR}/mapeo-ICCA-v${ANDROID_VERSION_NAME}.apk
     meta:
       bitrise.io: null
       stack: linux-docker-android
@@ -86,11 +95,11 @@ workflows:
       bitrise.io: null
       stack: linux-docker-android
   deploy-release:
-    description: Deploy for QA testing
+    description: Deploy release builds
     before_run:
       - primary
     envs:
-      - GRADLE_TASKS: assembleApp bundleAppUniversal -x assembleAppDebug
+      - GRADLE_TASKS: assembleApp assembleIccaRelease bundleAppUniversal -x assembleAppDebug
         opts:
           is_expand: false
     steps:
@@ -108,10 +117,12 @@ workflows:
                 RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-v)
                 INTEL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-intel)
                 UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-universal)
+                ICCA_RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-ICCA)
 
                 envman --key RELEASE_APK_PATH --value "$RELEASE_APK_PATH"
                 envman --key INTEL_APK_PATH --value "$INTEL_APK_PATH"
                 envman --key UNIVERSAL_APK_PATH --value "$UNIVERSAL_APK_PATH"
+                envman --key ICCA_RELEASE_APK_PATH --value "$ICCA_RELEASE_APK_PATH"
       - amazon-s3-uploader@1.0.1:
           is_skippable: true
           title: Upload APK for Arm
@@ -119,7 +130,7 @@ workflows:
             - aws_access_key: $AWS_ACCESS_KEY_ID
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
-            - path_in_bucket: beta-testing/qa
+            - path_in_bucket: release/${VERSION_NAME}
             - file_path: $RELEASE_APK_PATH
       - amazon-s3-uploader@1.0.1:
           is_skippable: true
@@ -128,7 +139,7 @@ workflows:
             - aws_access_key: $AWS_ACCESS_KEY_ID
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
-            - path_in_bucket: beta-testing/default
+            - path_in_bucket: release/${VERSION_NAME}
             - file_path: $INTEL_APK_PATH
       - amazon-s3-uploader@1.0.1:
           is_skippable: true
@@ -137,8 +148,17 @@ workflows:
             - aws_access_key: $AWS_ACCESS_KEY_ID
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
-            - path_in_bucket: beta-testing/default
+            - path_in_bucket: release/${VERSION_NAME}
             - file_path: $UNIVERSAL_APK_PATH
+      - amazon-s3-uploader@1.0.1:
+          is_skippable: true
+          title: Upload APK for ICCA (Arm)
+          inputs:
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
+            - bucket_name: mapeo-apks
+            - path_in_bucket: release-ICCA/${VERSION_NAME}
+            - file_path: $ICCA_RELEASE_APK_PATH
       - script@1.1.6:
           title: Generate release description
           inputs:
