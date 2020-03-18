@@ -136,7 +136,7 @@ workflows:
                 RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-v)
                 INTEL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-intel)
                 UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-universal)
-                ICCA_RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-ICCA)
+                ICCA_RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-ICCA-v)
 
                 envman add --key RELEASE_APK_PATH --value "$RELEASE_APK_PATH"
                 envman add --key INTEL_APK_PATH --value "$INTEL_APK_PATH"
@@ -151,6 +151,7 @@ workflows:
             - path_in_bucket: release/${VERSION_NAME}
             - file_path: $RELEASE_APK_PATH
       - script@1.1.6:
+          title: Update download URL for release
           inputs:
             - content: |-
                 #!/usr/bin/env bash
@@ -159,7 +160,7 @@ workflows:
                 # debug log
                 set -x
 
-                node ./scripts/gh-pages-redirect.js /icca/latest https://mapeo-apks.s3.amazonaws.com/release/${VERSION_NAME}/${RELEASE_APK_PATH##*/}
+                node ./scripts/gh-pages-redirect.js /latest https://mapeo-apks.s3.amazonaws.com/release/${VERSION_NAME}/${RELEASE_APK_PATH##*/}
       - amazon-s3-uploader@1.0.1:
           title: Upload APK for x86
           inputs:
@@ -184,10 +185,17 @@ workflows:
             - bucket_name: mapeo-apks
             - path_in_bucket: release-ICCA/${VERSION_NAME}
             - file_path: $ICCA_RELEASE_APK_PATH
-      - script-runner@0.9.3:
-          title: Update download URL for ICCA release
+      - script@1.1.6:
+          title: Update download URL for ICCA
           inputs:
-            - file_path: scripts/gh-pages-redirect.js /icca/latest https://mapeo-apks.s3.amazonaws.com/release/${VERSION_NAME}/${ICCA_RELEASE_APK_PATH##*/}
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                node ./scripts/gh-pages-redirect.js /icca/latest https://mapeo-apks.s3.amazonaws.com/release/${VERSION_NAME}/${ICCA_RELEASE_APK_PATH##*/}
       - script@1.1.6:
           title: Generate release description
           inputs:
