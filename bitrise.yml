@@ -336,6 +336,10 @@ workflows:
                 *Test*.apk
                 mapeo-debug*.apk
             - gradle_task: $GRADLE_TASKS
+      - change-workdir@1.0.2:
+          inputs:
+            - is_create_path: "false"
+            - path: ..
     meta:
       bitrise.io: null
       stack: linux-docker-android
