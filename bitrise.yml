@@ -209,7 +209,7 @@ workflows:
             - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
             - track: beta
             - apk_path: $RELEASE_APK_PATH
-            - app_path: ${BITRISE_SOURCE_DIR}/app.aab
+            - app_path: ${BITRISE_DEPLOY_DIR}/app.aab
             - package_name: com.mapeo
     meta:
       bitrise.io: null
