@@ -233,6 +233,7 @@ android {
             dimension "version"
             applicationIdSuffix ".icca"
             versionNameSuffix "-icca"
+            signingConfig signingConfigs.release
         }
     }
     buildTypes {
