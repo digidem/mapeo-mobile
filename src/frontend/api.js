@@ -5,6 +5,7 @@ import ky from "ky";
 import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
 import debug from "debug";
+import BuildConfig from "react-native-build-config";
 
 import type { Preset, Field, Metadata } from "./context/ConfigContext";
 import type {
@@ -191,9 +192,12 @@ export function Api({
         bugsnag.leaveBreadcrumb("Mapeo Core started");
         // Start monitoring for timeout
         restartTimeout();
-        // As soon as we hear from the Node process, send the storagePath so
-        // that the server can start
-        nodejs.channel.post("storagePath", RNFS.ExternalDirectoryPath);
+        // As soon as we hear from the Node process, send the storagePath and
+        // other config that the server requires
+        nodejs.channel.post("config", {
+          storagePath: RNFS.ExternalDirectoryPath,
+          flavor: BuildConfig.FLAVOR
+        });
         // Resolve once the server reports status as "LISTENING"
         return onReady();
       });

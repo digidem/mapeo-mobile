@@ -1,0 +1,83 @@
+diff --git a/node_modules/lottie-react-native/src/js/LottieView.js b/node_modules/lottie-react-native/src/js/LottieView.js
+index 371d5d6..8360805 100644
+--- a/node_modules/lottie-react-native/src/js/LottieView.js
++++ b/node_modules/lottie-react-native/src/js/LottieView.js
+@@ -8,6 +8,12 @@ import {
+   StyleSheet,
+   ViewPropTypes,
+ } from 'react-native';
++let Reanimated;
++try {
++  Reanimated = require('react-native-reanimated').default;
++} catch (e) {
++  // react-native-reanimated isn't installed, we'll fallback on React.Animated
++}
+ import SafeModule from 'react-native-safe-modules';
+ import PropTypes from 'prop-types';
+
+@@ -16,6 +22,9 @@ const NativeLottieView = SafeModule.component({
+   mockComponent: View,
+ });
+ const AnimatedNativeLottieView = Animated.createAnimatedComponent(NativeLottieView);
++const ReanimatedNativeLottieView = Reanimated
++  ? Reanimated.createAnimatedComponent(NativeLottieView)
++  : undefined;
+
+ const LottieViewManager = SafeModule.module({
+   moduleName: 'LottieAnimationView',
+@@ -167,20 +176,32 @@ class LottieView extends React.Component {
+
+     const speed =
+       this.props.duration && sourceJson && this.props.source.fr
+-        ? Math.round(this.props.source.op / this.props.source.fr * 1000 / this.props.duration)
++        ? Math.round(((this.props.source.op / this.props.source.fr) * 1000) / this.props.duration)
+         : this.props.speed;
+
+     return (
+       <View style={[aspectRatioStyle, sizeStyle, style]}>
+-        <AnimatedNativeLottieView
+-          ref={this.refRoot}
+-          {...rest}
+-          speed={speed}
+-          style={[aspectRatioStyle, sizeStyle || { width: '100%', height: '100%' }, style]}
+-          sourceName={sourceName}
+-          sourceJson={sourceJson}
+-          onAnimationFinish={this.onAnimationFinish}
+-        />
++        {Reanimated && this.props.progress instanceof Reanimated.Node ? (
++          <ReanimatedNativeLottieView
++            ref={this.refRoot}
++            {...rest}
++            speed={speed}
++            style={[aspectRatioStyle, sizeStyle || { width: '100%', height: '100%' }, style]}
++            sourceName={sourceName}
++            sourceJson={sourceJson}
++            onAnimationFinish={this.onAnimationFinish}
++          />
++        ) : (
++          <AnimatedNativeLottieView
++            ref={this.refRoot}
++            {...rest}
++            speed={speed}
++            style={[aspectRatioStyle, sizeStyle || { width: '100%', height: '100%' }, style]}
++            sourceName={sourceName}
++            sourceJson={sourceJson}
++            onAnimationFinish={this.onAnimationFinish}
++          />
++        )}
+       </View>
+     );
+   }
+diff --git a/node_modules/lottie-react-native/src/js/index.d.ts b/node_modules/lottie-react-native/src/js/index.d.ts
+index 1d1a175..2f571a3 100644
+--- a/node_modules/lottie-react-native/src/js/index.d.ts
++++ b/node_modules/lottie-react-native/src/js/index.d.ts
+@@ -39,7 +39,7 @@ declare module "lottie-react-native" {
+      * animation will correspondingly update to the frame at that progress value. This
+      * prop is not required if you are using the imperative API.
+      */
+-    progress?: number | Animated.Value;
++    progress?: number | Animated.Value | any;
+
+     /**
+      * The speed the animation will progress. This only affects the imperative API. The
