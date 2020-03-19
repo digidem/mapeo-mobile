@@ -223,7 +223,7 @@ android {
         qa {
             dimension "version"
             applicationIdSuffix ".qa"
-            versionNameSuffix "-qa"
+            versionNameSuffix "-QA"
             signingConfig signingConfigs.qa
         }
         app {
@@ -233,7 +233,7 @@ android {
         icca {
             dimension "version"
             applicationIdSuffix ".icca"
-            versionNameSuffix "-icca"
+            versionNameSuffix "-ICCA"
             signingConfig signingConfigs.release
         }
     }
@@ -303,14 +303,11 @@ android {
         variant.outputs.all {
             def flavor = variant.productFlavors[0].name
             def buildType = variant.variantData.variantConfiguration.buildType.name
-            def baseName = "mapeo"
-            if (flavor != "app") {
-                baseName = baseName + "-" + flavor.toUpperCase()
-            }
+            def baseName = "mapeo-v${versionName}"
             if (buildType != "release") {
                 baseName = baseName + "-${buildType}"
             }
-            outputFileName = "${baseName}-v${versionName}.apk"
+            outputFileName = "${baseName}.apk"
         }
     }
 

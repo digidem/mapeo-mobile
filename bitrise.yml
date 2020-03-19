@@ -39,9 +39,9 @@ workflows:
                 # debug log
                 set -x
 
-                UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-universal)
-                QA_UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-QA-universal)
-                ICCA_UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-ICCA-universal)
+                UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*[0-9]-universal\.apk)
+                QA_UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*QA-universal\.apk)
+                ICCA_UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*ICCA-universal\.apk)
 
                 envman add --key UNIVERSAL_APK_PATH --value "$UNIVERSAL_APK_PATH"
                 envman add --key QA_UNIVERSAL_APK_PATH --value "$QA_UNIVERSAL_APK_PATH"
@@ -94,17 +94,16 @@ workflows:
                 and a \n# reference the git commit and the bitrise build slug\n\nset -eE
                 -o pipefail\nshopt -s extdebug\n\n# Split the path_list variable by |
                 into an array\nIFS='|' read -r -a paths <<< \"$BITRISE_APK_PATH_LIST\"\nnew_paths=()\ndatestring=$(date
-                -u +\"%Y%m%d_%H%M%S\")\n\necho \"${BITRISE_GIT_COMMIT}\"\n\nfor path in
-                \"${paths[@]}\"\ndo\n  # Just the path portion\n  dir=\"${path%/*}\"\n
-                \ # Just the filename portion\n  file=\"${path##*/}\"\n  # Replace hyphens
-                in filename with underscores\n  file=\"${file//-/_}\"\n  # Remove version
-                name and extension from filename\n  basename=\"${file%_${ANDROID_VERSION_NAME}_qa.apk}\"\n
-                \ # Construct path with new filesname\n  new_path=\"${dir}/${datestring}_${basename}\"\n
-                \ if [ -z \"${BITRISE_PULL_REQUEST}\" ]; then\n    new_path+=\"_PR#${BITRISE_PULL_REQUEST}\"\n
-                \ fi\n  if [ -z \"${BITRISE_GIT_COMMIT}\" ]; then\n    new_path+=\"_${BITRISE_GIT_COMMIT}\"\n
-                \ fi\n  new_path+=\"_${BITRISE_BUILD_SLUG}.apk\"\n  mv \"$path\" \"$new_path\"\n
-                \ new_paths+=(\"$new_path\")\ndone\n\n# Join the path_list array into
-                a string separated by |\nIFS=\\| eval 'NEW_APK_PATH_LIST=\"${new_paths[*]}\"'\n\n#
+                -u +\"%Y%m%d_%H%M%S\")\n\nfor path in \"${paths[@]}\"\ndo\n  # Just the
+                path portion\n  dir=\"${path%/*}\"\n  # Just the filename portion\n  file=\"${path##*/}\"\n
+                \ # build type (debug or universal) and extension\n  postfix=\"${file##*QA-}\"\n
+                \ buildtype=\"${postfix%.apk*}\"\n  # Construct path with new filesname\n
+                \ new_path=\"${dir}/${datestring}_mapeo_${buildtype}\"\n  if [ -n \"${BITRISE_PULL_REQUEST}\"
+                ]; then\n    new_path+=\"_PR#${BITRISE_PULL_REQUEST}\"\n  fi\n  if [ -n
+                \"${BITRISE_GIT_COMMIT}\" ]; then\n    new_path+=\"_${BITRISE_GIT_COMMIT:0:7}\"\n
+                \ fi\n  new_path+=\".apk\"\n  mv \"$path\" \"$new_path\"\n  echo \"Moved
+                ${path} --> ${new_path}\"\n  new_paths+=(\"$new_path\")\ndone\n\n# Join
+                the path_list array into a string separated by |\nIFS=\\| eval 'NEW_APK_PATH_LIST=\"${new_paths[*]}\"'\n\n#
                 Save the variable to the env so it is accessible in other build steps\nenvman
                 add --key BITRISE_APK_PATH_LIST --value \"$NEW_APK_PATH_LIST\"\n"
       - deploy-to-bitrise-io@1.9.6: {}
@@ -133,13 +132,11 @@ workflows:
 
                 echo "SOURCE_DIR = ${BITRISE_SOURCE_DIR}"
 
-                RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-v)
-                INTEL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-intel)
-                UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-universal)
-                ICCA_RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-ICCA-v)
+                RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*[0-9]\.apk)
+                UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*[0-9]-universal\.apk)
+                ICCA_RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*ICCA\.apk)
 
                 envman add --key RELEASE_APK_PATH --value "$RELEASE_APK_PATH"
-                envman add --key INTEL_APK_PATH --value "$INTEL_APK_PATH"
                 envman add --key UNIVERSAL_APK_PATH --value "$UNIVERSAL_APK_PATH"
                 envman add --key ICCA_RELEASE_APK_PATH --value "$ICCA_RELEASE_APK_PATH"
       - amazon-s3-uploader@1.0.1:
@@ -162,14 +159,6 @@ workflows:
 
                 node ./scripts/gh-pages-redirect.js /latest https://mapeo-apks.s3.amazonaws.com/release/${VERSION_NAME}/${RELEASE_APK_PATH##*/}
       - amazon-s3-uploader@1.0.1:
-          title: Upload APK for x86
-          inputs:
-            - aws_access_key: $AWS_ACCESS_KEY_ID
-            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
-            - bucket_name: mapeo-apks
-            - path_in_bucket: release/${VERSION_NAME}
-            - file_path: $INTEL_APK_PATH
-      - amazon-s3-uploader@1.0.1:
           title: Upload universal (all ABIs) APK
           inputs:
             - aws_access_key: $AWS_ACCESS_KEY_ID
@@ -183,7 +172,7 @@ workflows:
             - aws_access_key: $AWS_ACCESS_KEY_ID
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
-            - path_in_bucket: release-ICCA/${VERSION_NAME}
+            - path_in_bucket: release-ICCA
             - file_path: $ICCA_RELEASE_APK_PATH
       - script@1.1.6:
           title: Update download URL for ICCA
@@ -195,7 +184,7 @@ workflows:
                 # debug log
                 set -x
 
-                node ./scripts/gh-pages-redirect.js /icca/latest https://mapeo-apks.s3.amazonaws.com/release/${VERSION_NAME}/${ICCA_RELEASE_APK_PATH##*/}
+                node ./scripts/gh-pages-redirect.js /icca/latest https://mapeo-apks.s3.amazonaws.com/release-ICCA/${ICCA_RELEASE_APK_PATH##*/}
       - script@1.1.6:
           title: Generate release description
           inputs:
@@ -213,9 +202,7 @@ workflows:
             - username: $GITHUB_USERNAME
             - name: $BITRISE_GIT_TAG
             - draft: "no"
-            - files_to_upload: |-
-                $RELEASE_APK_PATH
-                $INTEL_APK_PATH
+            - files_to_upload: $RELEASE_APK_PATH
             - body: $RELEASE_DESCRIPTION
             - api_token: $GITHUB_TOKEN
       - google-play-deploy@3.0.2:
