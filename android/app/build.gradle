@@ -82,7 +82,6 @@ project.ext.react = [
     // This setting bundles the JS into the APK, so you don't need the metro
     // bundler running in order to run the Debug QA build
     bundleInQaDebug: true,
-    bundleInIntel: true,
     bundleInUniversal: true,
     enableHermes: false // clean and rebuild if changing
 ]
@@ -244,14 +243,6 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             ndk {
                 abiFilters "armeabi-v7a", "arm64-v8a"
-            }
-        }
-        intel {
-            initWith release
-            // For depedencies, fallback to using this build type name
-            matchingFallbacks = ['release']
-            ndk {
-                abiFilters "x86", "x86_64"
             }
         }
         universal {
