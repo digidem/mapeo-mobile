@@ -130,6 +130,7 @@ rnBridge.app.on("resume", () => {
 
 function startServer(cb) {
   if (!server) return;
+  log("starting server");
   server.listen(PORT, () => status.setState(constants.LISTENING));
 }
 

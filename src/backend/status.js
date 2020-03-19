@@ -6,7 +6,7 @@ class ServerStatus {
   constructor() {
     this.setState(constants.STARTING);
     rnBridge.channel.on("request-status", () => {
-      log("status request");
+      log("status request -> " + this.state);
       rnBridge.channel.post("status", this.state);
     });
   }
@@ -25,9 +25,9 @@ class ServerStatus {
   }
   setState(nextState) {
     if (nextState === this.state) return;
+    log("state changed", nextState);
     // Once we have an uncaught error, don't try to pretend it's gone away
     if (this.state === constants.ERROR) return;
-    log("state changed", nextState);
     this.state = nextState;
     rnBridge.channel.post("status", nextState);
   }
