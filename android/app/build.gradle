@@ -82,6 +82,8 @@ project.ext.react = [
     // This setting bundles the JS into the APK, so you don't need the metro
     // bundler running in order to run the Debug QA build
     bundleInQaDebug: true,
+    bundleInIntel: true,
+    bundleInUniversal: true,
     enableHermes: false // clean and rebuild if changing
 ]
 
