@@ -37,7 +37,7 @@ var filename = path.replace(/^\//, "").replace(/\/$/, "") + "/index.html";
 
 var data = `<!DOCTYPE html>
 <meta charset="utf-8">
-<title>Redirecting to latest release</title>
+<title>Download Mapeo for Android</title>
 <meta http-equiv="refresh" content="0; URL=${destUrl}">
 <link rel="canonical" href="${destUrl}">
 `;
