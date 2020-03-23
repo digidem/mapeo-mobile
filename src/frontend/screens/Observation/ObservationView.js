@@ -207,7 +207,8 @@ const ObservationView = ({
       const options = {
         urls: urls,
         message: msg,
-        subject: t(m.alertSubject)
+        subject: t(m.alertSubject),
+        failOnCancel: false
       };
       ShareMedia.open(options);
     } else Share.share({ message: msg });
