@@ -3,7 +3,7 @@ import * as React from "react";
 import { Platform } from "react-native";
 import { IntlProvider as IntlProviderOrig } from "react-intl";
 import * as Localization from "expo-localization";
-import { useAppState } from "react-native-hooks";
+import { useAppState } from "@react-native-community/hooks";
 
 import createPersistedState from "../hooks/usePersistedState";
 import messages from "../../../translations/messages.json";

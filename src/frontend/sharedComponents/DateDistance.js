@@ -2,7 +2,7 @@
 import React from "react";
 import { Text } from "react-native";
 import { FormattedRelativeTime, FormattedDate } from "react-intl";
-import { useAppState } from "react-native-hooks";
+import { useAppState } from "@react-native-community/hooks";
 
 import type { Style } from "../types";
 
