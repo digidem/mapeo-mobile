@@ -496,7 +496,7 @@ function convertFromServer(obs: ServerObservation): Observation {
     metadata,
     value: {
       ...value,
-      tags: (value || {}).tags
+      tags: (value || {}).tags || {}
     }
   };
 }

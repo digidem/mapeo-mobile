@@ -32,7 +32,6 @@ const persistNavigationState = async navState => {
   }
 };
 const loadNavigationState = async () => {
-  return;
   try {
     const navState = JSON.parse(await AsyncStorage.getItem(NAV_STORE_KEY));
     const didCrashLastOpen = JSON.parse(

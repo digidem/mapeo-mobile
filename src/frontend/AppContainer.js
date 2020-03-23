@@ -58,16 +58,25 @@ const AppStack = createStackNavigator(
   // $FlowFixMe - flow definitions don't recognize static props on function components
   {
     Home: HomeTabs,
+    // $FlowFixMe
     GpsModal: GpsModal,
+    // $FlowFixMe
     SyncModal: SyncModal,
     Settings: Settings,
+    // $FlowFixMe
     ProjectConfig: ProjectConfig,
+    // $FlowFixMe
     LanguageSettings,
     PhotosModal: PhotosModal,
+    // $FlowFixMe
     CategoryChooser: CategoryChooser,
+    // $FlowFixMe
     AddPhoto: AddPhoto,
+    // $FlowFixMe
     ObservationList: ObservationList,
+    // $FlowFixMe
     Observation: Observation,
+    // $FlowFixMe
     ObservationEdit: ObservationEdit,
     ManualGpsScreen: ManualGpsScreen,
     ObservationDetails: ObservationDetails
