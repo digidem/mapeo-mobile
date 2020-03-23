@@ -9,7 +9,7 @@
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when closing an observation without saving",
-    "message": "¿Quieres descartar observación?"
+    "message": "¿Quieres descartar la observación?"
   },
   "screens.AddPhoto.cancel": {
     "message": "Cancelar"
@@ -20,7 +20,7 @@
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
-    "message": "Elegir que cosa pasa"
+    "message": "Elegir qué está pasando"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -28,7 +28,7 @@
   },
   "screens.GpsModal.gpsHeader": {
     "description": "Header for GPS screen",
-    "message": "Ubicación Actual del GPS"
+    "message": "Ubicación actual del GPS"
   },
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
@@ -36,11 +36,11 @@
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
-    "message": "Sensores de ubicación"
+    "message": "Estatus de sensores"
   },
   "screens.GpsModal.locationUTM": {
     "description": "Section title for UTM coordinates",
-    "message": "Ubicación UTM"
+    "message": "Coordenadas UTM"
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
@@ -48,7 +48,7 @@
   },
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
-    "message": "Sí"
+    "message": "Si"
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
@@ -68,13 +68,13 @@
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
-    "message": "Coordenadas"
+    "message": "Ingresar coordenadas"
   },
   "screens.ManualGpsScreen.zoneLetter": {
-    "message": "Letra de Zona"
+    "message": "Letra de zona"
   },
   "screens.ManualGpsScreen.zoneNumber": {
-    "message": "Número de Zona"
+    "message": "Número de zona"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
@@ -106,7 +106,7 @@
   },
   "screens.Observation.confirm": {
     "description": "Button to confirm delete of observation",
-    "message": "Si, Borrar"
+    "message": "Si, borrar"
   },
   "screens.Observation.deleteTitle": {
     "description": "Title of dialog asking confirmation to delete an observation",
@@ -114,7 +114,7 @@
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
-    "message": "Observación no encontrado"
+    "message": "Observación no encontrada"
   },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
@@ -126,7 +126,7 @@
   },
   "screens.ObservationDetails.nextQuestion": {
     "description": "Button text to navigate to next question",
-    "message": "Sigue"
+    "message": "Siguiente"
   },
   "screens.ObservationDetails.title": {
     "description": "Title of observation details screen showing question number and total",
@@ -146,7 +146,7 @@
   },
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
-    "message": "Llenar Detalles"
+    "message": "Agregar detalles"
   },
   "screens.ObservationEdit.ObservationEditView.observation": {
     "description": "Name of observation when no preset matches",
@@ -154,7 +154,7 @@
   },
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
-    "message": "Agregar Foto"
+    "message": "Agregar foto"
   },
   "screens.ObservationEdit.ObservationEditView.searching": {
     "description": "Shown in new observation screen whilst looking for GPS",
@@ -170,7 +170,7 @@
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
-    "message": "Esta observación no tiene ubicación. Puedes seguir esperando el GPS, o guardarlo sin ubicación"
+    "message": "Esta observación no tiene ubicación. Puedes seguir esperando el GPS, o guardarlo sin ubicación o ingresar las coordenadas manualmente"
   },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
@@ -182,7 +182,7 @@
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
-    "message": "La precisión del GPS está baja. Puedes seguir esperando que la precisión mejore, o guardar como está"
+    "message": "La precisión del GPS está baja. Puedes seguir esperando que la precisión mejore, o guardar como está o ingresar las coordenadas manualmente"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
@@ -190,11 +190,11 @@
   },
   "screens.ObservationEdit.editTitle": {
     "description": "screen title for edit observation screen",
-    "message": "Editar"
+    "message": "Editar observación"
   },
   "screens.ObservationEdit.newTitle": {
     "description": "screen title for new observation screen",
-    "message": "Nueva Observación"
+    "message": "Observación nueva"
   },
   "screens.ObservationList.observationListTitle": {
     "description": "Title of screen with list of observations",
