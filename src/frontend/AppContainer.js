@@ -67,6 +67,7 @@ const AppStack = createStackNavigator(
     ProjectConfig: ProjectConfig,
     // $FlowFixMe
     LanguageSettings,
+    // $FlowFixMe
     PhotosModal: PhotosModal,
     // $FlowFixMe
     CategoryChooser: CategoryChooser,
