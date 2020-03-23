@@ -101,7 +101,7 @@ export function Api({
   baseUrl: string,
   timeout?: number
 }) {
-  let status: ServerStatus = STATUS.STARTING;
+  let status: ServerStatus = STATUS.IDLE;
   let timeoutId: TimeoutID;
   // We append this to requests for presets and map styles, in order to override
   // the local static server cache whenever the app is restarted. NB. sprite,

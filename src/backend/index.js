@@ -36,7 +36,6 @@ const releaseStage = prereleaseComponents
 const log = debug("mapeo-core:index");
 const PORT = 9081;
 const status = new ServerStatus();
-let paused = false;
 let storagePath;
 let flavor;
 let server;
@@ -101,7 +100,14 @@ rnBridge.channel.on("config", config => {
       context: "createServer"
     });
   }
-  if (!paused) startServer();
+  server.on("error", e => {
+    log("createServer error", e);
+    bugsnag.notify(e, {
+      severity: "error",
+      context: "createServer"
+    });
+  });
+  startServer();
 });
 
 /**
@@ -110,7 +116,6 @@ rnBridge.channel.on("config", config => {
  * process when it sees it is doing things in the background
  */
 rnBridge.app.on("pause", pauseLock => {
-  paused = true;
   status.pauseHeartbeat();
   stopServer(() => pauseLock.release());
 });
@@ -121,24 +126,40 @@ rnBridge.app.on("resume", () => {
   // but no pause event. We don't need to start the server if it's already
   // listening (because it wasn't paused)
   // https://github.com/janeasystems/nodejs-mobile/issues/177
-  if (!paused) return;
-  paused = false;
-  status.setState(constants.STARTING);
   status.startHeartbeat();
   startServer();
 });
 
-function startServer(cb) {
+const noop = () => {};
+
+function startServer() {
   if (!server) return;
-  log("starting server");
-  server.listen(PORT, () => status.setState(constants.LISTENING));
+  const state = status.getState();
+  if (state === constants.CLOSING) {
+    server.on("close", () => startServer());
+  } else if (state === constants.IDLE || state === constants.CLOSED) {
+    log("starting server");
+    status.setState(constants.STARTING);
+    server.listen(PORT, () => {
+      status.setState(constants.LISTENING);
+    });
+  } else {
+    log("tried to start server but state was: " + state);
+  }
 }
 
-function stopServer(cb) {
-  if (!server) return;
-  status.setState(constants.CLOSING);
-  server.close(() => {
-    status.setState(constants.CLOSED);
-    cb();
-  });
+function stopServer(cb = noop) {
+  if (!server) return process.nextTick(cb);
+  const state = status.getState();
+  if (state === constants.STARTING) {
+    server.on("listening", () => stopServer(cb));
+  } else if (state !== constants.IDLE) {
+    status.setState(constants.CLOSING);
+    server.close(() => {
+      status.setState(constants.CLOSED);
+      cb();
+    });
+  } else {
+    process.nextTick(cb);
+  }
 }

@@ -4,7 +4,7 @@ const constants = require("./constants");
 
 class ServerStatus {
   constructor() {
-    this.setState(constants.STARTING);
+    this.setState(constants.IDLE);
     rnBridge.channel.on("request-status", () => {
       log("status request -> " + this.state);
       rnBridge.channel.post("status", this.state);
