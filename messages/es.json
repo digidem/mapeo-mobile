@@ -238,31 +238,31 @@
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
-    "message": "Escoger idioma"
+    "message": "Idioma"
   },
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
-    "message": "Display language for App"
+    "message": "Idioma para la aplicación"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
-    "message": "Project Configuration"
+    "message": "Configuración del Proyecto"
   },
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
-    "message": "Categories, icons and questions"
+    "message": "Categorías, iconos y preguntas"
   },
   "screens.Settings.projectKey": {
     "description": "Label for project key",
-    "message": "Project Key"
+    "message": "Clave del proyecto"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
-    "message": "Settings"
+    "message": "Preferencias"
   },
   "screens.Settings.unnamedConfig": {
     "description": "Config name when do name is defined",
-    "message": "Un-named"
+    "message": "Sin nombre"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
@@ -274,11 +274,11 @@
   },
   "screens.SyncModal.PeerList.errorClientMismatch": {
     "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
-    "message": "Not a Mapeo client"
+    "message": "No es un cliente de Mapeo"
   },
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
-    "message": "Incompatible Mapeo"
+    "message": "Mapeo incompatible"
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
@@ -298,7 +298,7 @@
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
-    "message": "Project Key: {projectKey}"
+    "message": "Clave del proyecto: {projectKey}"
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
@@ -310,7 +310,7 @@
   },
   "screens.SyncModal.SyncView.settingsButton": {
     "description": "Button to open WiFi settings",
-    "message": "Open Settings"
+    "message": "Abrir Ajustes"
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
@@ -326,19 +326,19 @@
   },
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "The device you are trying to sync with needs to upgrade Mapeo to the latest version in order to sync with you."
+    "message": "El dispositivo con el que intentas sincronizar necesita actualizar Mapeo a la última versión para sincronizar contigo."
   },
   "screens.SyncModal.errorVersionThemBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} needs to upgrade Mapeo"
+    "message": "{deviceName} necesita actualizar a Mapeo"
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "The device you are trying to sync has a newer version of Mapeo. You need to upgrade Mapeo in order to sync with this device."
+    "message": "El dispositivo que estás intentando sincronizar tiene una versión más reciente de Mapeo. Necesitas actualizar Mapeo para sincronizar con este dispositivo."
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "You need to upgrade Mapeo"
+    "message": "Necesitas actualizar a Mapeo"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
