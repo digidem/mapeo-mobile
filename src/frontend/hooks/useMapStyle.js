@@ -2,11 +2,13 @@
 import { useEffect, useState, useMemo } from "react";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ky from "ky";
+import debug from "debug";
 
 import api from "../api";
 import { normalizeStyleURL } from "../lib/mapbox";
 import config from "../../config.json";
 
+const log = debug("mapeo-mobile:useMapStyle");
 const fallbackStyleURL = MapboxGL.StyleURL.Outdoors;
 
 export default function useMapstyleURL(styleId: string = "default") {
@@ -34,16 +36,16 @@ export default function useMapstyleURL(styleId: string = "default") {
     // app
     getStylePromise
       .then(() => {
-        console.log("That was useMapStyle", didCancel);
         if (didCancel) return;
+        log("Using style URL: " + styleURL);
         setStyleURL(styleURL);
         setLoading(false);
         setError(false);
       })
       .catch(err => {
-        console.log("Style load error", styleURL, err);
         if (didCancel) return;
         if (!offlineFailed) {
+          log("No offline style available");
           setOfflineFailed(true);
           return;
         }

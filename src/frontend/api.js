@@ -21,6 +21,12 @@ import type { DraftPhoto } from "./context/DraftObservationContext";
 import type { Observation as ServerObservation } from "mapeo-schema";
 
 export type ServerStatus = $Keys<typeof STATUS>;
+
+export type ServerStatusMessage = {|
+  value: ServerStatus,
+  error?: string,
+  context?: string
+|};
 export type Subscription = { remove: () => any };
 
 export type PeerError =
@@ -123,20 +129,31 @@ export function Api({
   const pending: Array<{ resolve: () => any, reject: Error => any }> = [];
   let listeners: Array<(status: ServerStatus) => any> = [];
 
-  nodejs.channel.addListener("status", onStatusChange);
+  nodejs.channel.addListener("status", onStatus);
 
-  function onStatusChange(newStatus: ServerStatus) {
-    status = newStatus;
+  function onStatus({ value, error }: ServerStatusMessage) {
+    if (status !== value) {
+      bugsnag.leaveBreadcrumb("Server status change", { status: value });
+      if (value === STATUS.ERROR) {
+        bugsnag.notify(new Error(error || "Unknown Server Error"));
+      }
+    }
+    status = value;
     if (status === STATUS.LISTENING) {
       while (pending.length) pending.shift().resolve();
     } else if (status === STATUS.ERROR) {
-      while (pending.length) pending.shift().reject(new Error("Server Error"));
+      while (pending.length)
+        pending.shift().reject(new Error(error || "Unknown server Error"));
     } else if (status === STATUS.TIMEOUT) {
       while (pending.length)
         pending.shift().reject(new Error("Server Timeout"));
     }
     listeners.forEach(handler => handler(status));
-    if (status === STATUS.LISTENING || status === STATUS.STARTING) {
+    if (
+      status === STATUS.LISTENING ||
+      status === STATUS.STARTING ||
+      status === STATUS.IDLE
+    ) {
       restartTimeout();
     } else {
       clearTimeout(timeoutId);
@@ -145,7 +162,7 @@ export function Api({
 
   function restartTimeout() {
     if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => onStatusChange(STATUS.TIMEOUT), timeout);
+    timeoutId = setTimeout(() => onStatus({ value: STATUS.TIMEOUT }), timeout);
   }
 
   // Returns a promise that resolves when the server is ready to accept a
@@ -216,7 +233,7 @@ export function Api({
         // We could get here when the timeout timer has not yet started and the
         // server status is still "STARTING", so we update the status to an
         // error
-        onStatusChange(STATUS.ERROR);
+        onStatus({ value: STATUS.ERROR });
         bugsnag.notify(e);
       });
 

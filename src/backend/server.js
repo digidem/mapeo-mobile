@@ -28,6 +28,7 @@ module.exports = createServer;
 function createServer({ privateStorage, sharedStorage, flavor }) {
   let projectKey;
   const defaultConfigPath = path.join(sharedStorage, "presets/default");
+  log("Creating server", { flavor });
 
   // Folder with default (built-in) presets to server when the user has not
   // added any presets
@@ -54,10 +55,11 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
       projectKey = metadata.projectKey;
     } catch (e) {}
   }
-  if (projectKey)
+  if (projectKey) {
     log("Found projectKey starting with ", projectKey.slice(0, 4));
-  else log("No projectKey found, using default 'mapeo' key");
-
+  } else {
+    log("No projectKey found, using default 'mapeo' key");
+  }
   const indexDb = level(path.join(privateStorage, "index"));
   const coreDb = kappa(path.join(privateStorage, "db"), {
     valueEncoding: "json",

@@ -49,13 +49,13 @@ const bugsnag = createBugsnag({
   releaseStage: releaseStage,
   appVersion: version,
   appType: "server",
-  onUncaughtException: err => {
-    log("uncaughtException", err);
-    status.setState(constants.ERROR);
+  onUncaughtException: error => {
+    log("uncaughtException", error);
+    status && status.setState(constants.ERROR, { error });
   },
-  onUnhandledRejection: err => {
-    log("unhandledRejection", err);
-    status.setState(constants.ERROR);
+  onUnhandledRejection: error => {
+    log("unhandledRejection", error);
+    status && status.setState(constants.ERROR, { error });
   }
 });
 
@@ -80,7 +80,7 @@ rnBridge.channel.on("config", config => {
   const prevStoragePath = storagePath;
   const prevFlavor = flavor;
   if (server)
-    server.close(() => {
+    stopServer(() => {
       log(`closed server with:
   storagePath: ${prevStoragePath}
   flavor: ${prevFlavor}`);
@@ -93,19 +93,11 @@ rnBridge.channel.on("config", config => {
       sharedStorage: storagePath,
       flavor: flavor
     });
-  } catch (e) {
-    log("createServer error", e);
-    bugsnag.notify(e, {
-      severity: "error",
-      context: "createServer"
-    });
+  } catch (error) {
+    status.setState(constants.ERROR, { error, context: "createServer" });
   }
-  server.on("error", e => {
-    log("createServer error", e);
-    bugsnag.notify(e, {
-      severity: "error",
-      context: "createServer"
-    });
+  server.on("error", error => {
+    status.setState(constants.ERROR, { error });
   });
   startServer();
 });
@@ -116,12 +108,14 @@ rnBridge.channel.on("config", config => {
  * process when it sees it is doing things in the background
  */
 rnBridge.app.on("pause", pauseLock => {
+  log("App went into background");
   status.pauseHeartbeat();
   stopServer(() => pauseLock.release());
 });
 
 // Start things up again when app is back in foreground
 rnBridge.app.on("resume", () => {
+  log("App went into foreground");
   // When the RN app requests permissions from the user it causes a resume event
   // but no pause event. We don't need to start the server if it's already
   // listening (because it wasn't paused)
@@ -136,9 +130,9 @@ function startServer() {
   if (!server) return;
   const state = status.getState();
   if (state === constants.CLOSING) {
+    log("Server was closing when it tried to start");
     server.on("close", () => startServer());
   } else if (state === constants.IDLE || state === constants.CLOSED) {
-    log("starting server");
     status.setState(constants.STARTING);
     server.listen(PORT, () => {
       status.setState(constants.LISTENING);
@@ -152,6 +146,7 @@ function stopServer(cb = noop) {
   if (!server) return process.nextTick(cb);
   const state = status.getState();
   if (state === constants.STARTING) {
+    log("Server was starting when it tried to close");
     server.on("listening", () => stopServer(cb));
   } else if (state !== constants.IDLE) {
     status.setState(constants.CLOSING);

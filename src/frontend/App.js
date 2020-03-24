@@ -40,10 +40,16 @@ const loadNavigationState = async () => {
     // Clear error saved state so that navigation persistence happens on next load
     await AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(false));
     // If the app crashed last time, don't restore nav state
-    log("DID CRASH?", didCrashLastOpen);
-    return didCrashLastOpen ? null : navState;
-  } catch (err) {
-    log("Error reading navigation and error state", err);
+    if (didCrashLastOpen) {
+      bugsnag.leaveBreadcrumb("Crash on last open");
+      log("Crashed on last open, skipping load of navigation state");
+      return null;
+    } else {
+      return navState;
+    }
+  } catch (error) {
+    bugsnag.leaveBreadcrumb("Error loading nav state", { error });
+    log("Error reading navigation and error state", error);
   }
 };
 
