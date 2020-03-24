@@ -262,7 +262,7 @@ class MapView extends React.Component<Props, State> {
               triggerKey={this.state.following}
             />
             {locationServicesEnabled && (
-              <MapboxGL.UserLocation visible={isFocused} />
+              <MapboxGL.UserLocation visible={isFocused} minDisplacement={15} />
             )}
             {this.state.hasFinishedLoadingStyle && (
               <ObservationMapLayer
