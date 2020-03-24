@@ -2,8 +2,9 @@
 import React, { useMemo } from "react";
 import { View, Text, FlatList, Dimensions, StyleSheet } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
-
+import { useNavigation } from "react-navigation-hooks";
 import ObservationListItem from "./ObservationListItem";
+import ObservationEmptyView from "./ObservationsEmptyView";
 import type { Observation } from "../../context/ObservationsContext";
 
 const m = defineMessages({
@@ -50,6 +51,7 @@ const ObservationsListView = ({
   observations,
   onPressObservation
 }: Props) => {
+  const navigation = useNavigation();
   const rowsPerWindow = Math.ceil(
     (Dimensions.get("window").height - 65) / OBSERVATION_CELL_HEIGHT
   );
@@ -58,7 +60,11 @@ const ObservationsListView = ({
     () => observations.sort((a, b) => (a.created_at < b.created_at ? 1 : -1)),
     [observations]
   );
-
+  if (!observations.length) {
+    return (
+      <ObservationEmptyView onPressBack={() => navigation.navigate("Map")} />
+    );
+  }
   if (loading) {
     return (
       <View style={styles.messageContainer}>
@@ -77,6 +83,7 @@ const ObservationsListView = ({
       </View>
     );
   }
+
   return (
     <View style={styles.container}>
       <FlatList
