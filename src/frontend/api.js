@@ -276,7 +276,7 @@ export function Api({
     },
 
     getMapStyle: function getMapStyle(id: string): Promise<any> {
-      return get(`styles/${id}/style.json`);
+      return get(`styles/${id}/style.json?${startupTime}`);
     },
 
     getDeviceId: function getDeviceId(): Promise<string> {
