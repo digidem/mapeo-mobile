@@ -204,6 +204,18 @@
     "description": "Default name for an observation that does not match a preset",
     "message": "ข้อสังเกต"
   },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "Go To Map"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
+    "description": "Description of observation list view when the user has not yet recorded observations",
+    "message": "Start from map or camera view to record your first observation."
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
+    "description": "Title of observation list view when the user has not yet recorded observations",
+    "message": "Add Observations"
+  },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
     "message": "การแสดงผลไม่สำเร็จ ลองปิด-เปิด Mapeo อีกครั้ง"
