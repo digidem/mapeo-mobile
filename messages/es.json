@@ -226,15 +226,15 @@
   },
   "screens.ServerStatus.timeoutDesc": {
     "description": "Description when the server has not responded for 10 seconds",
-    "message": "Algo pasa con el base de datos Mapeo"
+    "message": "Si sigues viendo este mensaje, quizá tengas que reiniciar Mapeo"
   },
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
-    "message": "Esperando contacto con el base de datos de Mapeo, si continúa este mensaje, reinicie a Mapeo"
+    "message": "Algo está pasando con la base de datos Mapeo"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
-    "message": "Configuración Actual"
+    "message": "Configuración actual"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -246,11 +246,11 @@
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
-    "message": "Configuración Actual"
+    "message": "Configuración del proyecto"
   },
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
-    "message": "Categorías, iconos y preguntas"
+    "message": "Categorías, íconos y preguntas"
   },
   "screens.Settings.projectKey": {
     "description": "Label for project key",
@@ -258,7 +258,7 @@
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
-    "message": "Preferencias"
+    "message": "Configuración"
   },
   "screens.Settings.unnamedConfig": {
     "description": "Config name when do name is defined",
@@ -326,23 +326,23 @@
   },
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "Este equipo necesita actualizar a su versión de Mapeo para poder sincronizar contigo."
+    "message": "El equipo con el que quieres sincronizar debe actualizar su versión de Mapeo para poder sincronizar contigo."
   },
   "screens.SyncModal.errorVersionThemBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} necesita actualizar a Mapeo"
+    "message": "{deviceName} necesita actualizar Mapeo"
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "{deviceName} tiene una versión de Mapeo más nuevo. Necesitas actualizar a tu versión de Mapeo para poder sincronizar con {deviceName}."
+    "message": "{deviceName} tiene una versión de Mapeo más nuevo. Tienes que actualizar tu versión de Mapeo para poder sincronizar con {deviceName}."
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "Necesitas actualizar a Mapeo"
+    "message": "Necesitas actualizar tu versión de Mapeo"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
-    "message": "Disculpas, hay un error. No es tu culpa, hay un problema interno. Intenta reiniciar Mapeo para ver si lo resuelve."
+    "message": "Disculpas, hay un error inesperado. No es tu culpa, hay un problema interno. Intenta reiniciar Mapeo para ver si se resuelve."
   },
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
