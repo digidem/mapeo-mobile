@@ -312,6 +312,9 @@ android {
     }
 
     packagingOptions {
+        // Fix gradle build warnings (NDK does not support mips any more)
+        doNotStrip '*/mips/*.so'
+        doNotStrip '*/mips64/*.so'
         // Fix for detox
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/NOTICE'
