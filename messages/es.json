@@ -206,15 +206,15 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
-    "message": "Go To Map"
+    "message": "Ir al mapa"
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "Start from map or camera view to record your first observation."
+    "message": "Comience desde la vista de mapa o cámara para grabar su primera observación."
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
-    "message": "Add Observations"
+    "message": "Añadir observaciones"
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
