@@ -181,7 +181,7 @@ workflows:
             - aws_access_key: $AWS_ACCESS_KEY_ID
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
-            - path_in_bucket: release/${VERSION_NAME}
+            - path_in_bucket: release/v${VERSION_NAME}
             - file_path: $RELEASE_APK_PATH
       - script@1.1.6:
           title: Update download URL for release
@@ -200,7 +200,7 @@ workflows:
             - aws_access_key: $AWS_ACCESS_KEY_ID
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
-            - path_in_bucket: release/${VERSION_NAME}
+            - path_in_bucket: release/v${VERSION_NAME}
             - file_path: $UNIVERSAL_APK_PATH
       - amazon-s3-uploader@1.0.1:
           title: Upload APK for ICCA (Arm)
