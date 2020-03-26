@@ -343,9 +343,9 @@ workflows:
             - npm_version: ""
             - command: run build:translations
       - script@1.1.6:
-          title: Set version name
+          title: Set version name & code
           inputs:
-            - content: |-
+            - content: |
                 #!/usr/bin/env bash
                 # fail if any commands fails
                 set -e
@@ -353,11 +353,8 @@ workflows:
                 set -x
 
                 VERSION_NAME=`node -p "require('./package.json').version"`
-                envman add --key VERSION_NAME --value "$VERSION_NAME"
-      - change-android-versioncode-and-versionname@1.2.3:
-          inputs:
-            - build_gradle_path: $PROJECT_LOCATION/app/build.gradle
-            - new_version_name: $VERSION_NAME.$BITRISE_BUILD_NUMBER
+                envman add --key ANDROID_VERSION_NAME --value "${VERSION_NAME}.${BITRISE_BUILD_NUMBER}"
+                envman add --key ANDROID_VERSION_CODE --value $BITRISE_BUILD_NUMBER
       - change-workdir@1.0.2:
           is_always_run: true
           inputs:

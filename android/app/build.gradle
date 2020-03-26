@@ -170,6 +170,7 @@ def getenv(key) {
 loadDotEnv()
 
 File releaseKeystore = file("mapeo-release-key.keystore")
+def myVersionCode = (getenv("ANDROID_VERSION_CODE") ?: 1) as int
 
 bugsnag {
     ndk true
@@ -188,7 +189,7 @@ android {
         applicationId "com.mapeo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode getenv("ANDROID_VERSION_CODE") ?: 1
+        versionCode myVersionCode
         versionName getenv("ANDROID_VERSION_NAME") ?: "0.0.0"
         archivesBaseName = "mapeo"
 
