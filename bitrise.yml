@@ -25,7 +25,7 @@ workflows:
     before_run:
       - primary
     envs:
-      - GRADLE_TASKS: assembleQaUniversal assembleAppUniversal assembleIccaUniversal
+      - GRADLE_TASKS: assembleQaDebug assembleAppUniversal assembleIccaUniversal
         opts:
           is_expand: false
     steps:
@@ -58,11 +58,11 @@ workflows:
                 set -x
 
                 UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*[0-9]-universal\.apk)
-                QA_UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*QA-universal\.apk)
+                QA_DEBUG_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*QA-debug\.apk)
                 ICCA_UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*ICCA-universal\.apk)
 
                 envman add --key UNIVERSAL_APK_PATH --value "$UNIVERSAL_APK_PATH"
-                envman add --key QA_UNIVERSAL_APK_PATH --value "$QA_UNIVERSAL_APK_PATH"
+                envman add --key QA_DEBUG_APK_PATH --value "$QA_DEBUG_APK_PATH"
                 envman add --key ICCA_UNIVERSAL_APK_PATH --value "$ICCA_UNIVERSAL_APK_PATH"
       - deploy-to-bitrise-io@1.9.5: {}
       - amazon-s3-uploader@1.0.1:
@@ -73,7 +73,7 @@ workflows:
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
             - bucket_name: mapeo-apks
             - path_in_bucket: beta-testing/v${VERSION_NAME}
-            - file_path: $QA_UNIVERSAL_APK_PATH
+            - file_path: $QA_DEBUG_APK_PATH
       - amazon-s3-uploader@1.0.1:
           title: Upload Release variant
           is_skippable: true
