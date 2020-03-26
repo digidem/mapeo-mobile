@@ -163,7 +163,13 @@ def loadDotEnv() {
     project.ext.set("env", env)
 }
 
+def getenv(key) {
+    return System.getenv(key) ?: project.env.get(key)
+}
+
 loadDotEnv()
+
+File releaseKeystore = file("mapeo-release-key.keystore")
 
 bugsnag {
     ndk true
@@ -182,12 +188,9 @@ android {
         applicationId "com.mapeo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName System.getenv("ANDROID_VERSION_NAME") ?: "0.0.0"
+        versionCode getenv("ANDROID_VERSION_CODE") ?: 1
+        versionName getenv("ANDROID_VERSION_NAME") ?: "0.0.0"
         archivesBaseName = "mapeo"
-        if (System.getenv("ANDROID_VERSION_NAME")) {
-            archivesBaseName = archivesBaseName + "-${defaultConfig.versionName}"
-        }
 
         // Detox integration
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
@@ -209,10 +212,18 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file("mapeo-release-key.keystore")
-            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: project.env.get("MAPEO_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS") ?: project.env.get("MAPEO_KEYSTORE_ALIAS")
-            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD") ?: project.env.get("MAPEO_PRIVATE_KEY_PASSWORD")
+            // Fallback to debug signing keystore if release keystore does not exist
+            if (releaseKeystore.exists()) {
+                storeFile releaseKeystore
+                storePassword getenv("MAPEO_KEYSTORE_PASSWORD")
+                keyAlias getenv("MAPEO_KEYSTORE_ALIAS")
+                keyPassword getenv("MAPEO_PRIVATE_KEY_PASSWORD")
+            } else {
+                storeFile file('debug.keystore')
+                storePassword 'android'
+                keyAlias 'androiddebugkey'
+                keyPassword 'android'
+            }
         }
     }
     flavorDimensions "version"
