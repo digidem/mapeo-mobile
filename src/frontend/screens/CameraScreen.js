@@ -6,7 +6,6 @@ import { useFocusState, useNavigation } from "react-navigation-hooks";
 import { defineMessages, FormattedMessage } from "react-intl";
 
 import CameraView from "../sharedComponents/CameraView";
-import HomeHeader from "../sharedComponents/HomeHeader";
 import useDraftObservation, {
   type CapturePromise
 } from "../hooks/useDraftObservation";
@@ -50,7 +49,6 @@ const CameraScreen = () => {
       ) : focusState.isBlurred || focusState.isFocusing ? null : (
         <CameraView onAddPress={handleAddPress} />
       )}
-      <HomeHeader />
     </View>
   );
 };

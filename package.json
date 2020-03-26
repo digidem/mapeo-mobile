@@ -30,7 +30,9 @@
     "upload-sourcemaps:release:android": "./scripts/upload-sourcemaps-release-android.sh",
     "postinstall": "patch-package && jetify",
     "jetify": "jetify",
-    "extract-messages": "extract-messages --locales=en --output messages --descriptions 'src/frontend/**/*.js'"
+    "extract-messages": "extract-messages --locales=en --output messages --descriptions 'src/frontend/**/*.js'",
+    "build-detox-android": "detox build -c android.emu.release",
+    "test-detox-android": "detox test -c android.emu.release"
   },
   "husky": {
     "hooks": {
@@ -59,6 +61,7 @@
     "mapeo-schema": "^1.8.0",
     "nodejs-mobile-react-native": "^0.5.0",
     "path": "^0.12.7",
+    "patch-package": "^6.1.2",
     "prop-types": "^15.7.2",
     "react": "16.9.0",
     "react-intl": "^4.2.2",
@@ -108,6 +111,7 @@
     "babel-plugin-react-intl-auto": "^3.1.1",
     "babel-plugin-react-native-web": "^0.12.2",
     "conventional-changelog-cli": "^2.0.17",
+    "detox": "^16.0.1",
     "eslint": "^6.5.1",
     "eslint-config-prettier": "^6.0.0",
     "eslint-config-standard": "^14.1.1",
@@ -129,7 +133,6 @@
     "jetifier": "^1.6.3",
     "metro-react-native-babel-preset": "^0.59.0",
     "mkdirp": "^1.0.3",
-    "patch-package": "^6.2.1",
     "prettier": "^1.17.1",
     "pretty-quick": "^2.0.0",
     "random-date-generator": "^1.0.2",
@@ -154,16 +157,26 @@
     "test-runner": "jest",
     "configurations": {
       "android.emu.debug": {
-        "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
-        "build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
+        "binaryPath": "android/app/build/outputs/apk/app/debug/mapeo-app-debug.apk",
+        "build": "cd android && ./gradlew app:assembleDebug app:assembleAndroidTest -DtestBuildType=debug && cd ..",
         "type": "android.emulator",
-        "name": "testEmulator"
+        "device": {
+          "avdName": "emu"
+        }
+      },
+      "android.device.debug": {
+        "binaryPath": "android/app/build/outputs/apk/app/debug/mapeo-app-debug.apk",
+        "build": "cd android && ./gradlew app:assembleDebug app:assembleAndroidTest -DtestBuildType=debug && cd ..",
+        "type": "android.attached",
+        "device": {}
       },
       "android.emu.release": {
-        "binaryPath": "android/app/build/outputs/apk/release/app-release.apk",
-        "build": "cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..",
+        "binaryPath": "android/app/build/outputs/apk/app/universal/mapeo-app-universal.apk",
+        "build": "cd android && ./gradlew app:assembleUniversal app:assembleAndroidTest -DtestBuildType=universal && cd ..",
         "type": "android.emulator",
-        "name": "testEmulator"
+        "device": {
+          "avdName": "emu"
+        }
       },
       "ios.sim.debug": {
         "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/mapeo.app",

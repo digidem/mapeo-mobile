@@ -163,7 +163,14 @@ def loadDotEnv() {
     project.ext.set("env", env)
 }
 
+def getenv(key) {
+    return System.getenv(key) ?: project.env.get(key)
+}
+
 loadDotEnv()
+
+File releaseKeystore = file("mapeo-release-key.keystore")
+def myVersionCode = (getenv("ANDROID_VERSION_CODE") ?: 1) as int
 
 bugsnag {
     ndk true
@@ -182,13 +189,13 @@ android {
         applicationId "com.mapeo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode myVersionCode
+        versionName getenv("ANDROID_VERSION_NAME") ?: "0.0.0"
+        archivesBaseName = "mapeo"
 
         // Detox integration
-        // testBuildType System.getProperty('testBuildType', 'debug')  //this will later be used to control the test apk build type
-        // missingDimensionStrategy "minReactNative", "minReactNative46" //read note
-        // testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     splits {
         abi {
@@ -206,16 +213,18 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file("mapeo-release-key.keystore")
-            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: project.env.get("MAPEO_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS") ?: project.env.get("MAPEO_KEYSTORE_ALIAS")
-            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD") ?: project.env.get("MAPEO_PRIVATE_KEY_PASSWORD")
-        }
-        qa {
-            storeFile file("mapeo-qa-key.keystore")
-            storePassword "mapeo-mobile"
-            keyAlias "qa-release"
-            keyPassword "mapeo-mobile"
+            // Fallback to debug signing keystore if release keystore does not exist
+            if (releaseKeystore.exists()) {
+                storeFile releaseKeystore
+                storePassword getenv("MAPEO_KEYSTORE_PASSWORD")
+                keyAlias getenv("MAPEO_KEYSTORE_ALIAS")
+                keyPassword getenv("MAPEO_PRIVATE_KEY_PASSWORD")
+            } else {
+                storeFile file('debug.keystore')
+                storePassword 'android'
+                keyAlias 'androiddebugkey'
+                keyPassword 'android'
+            }
         }
     }
     flavorDimensions "version"
@@ -224,23 +233,21 @@ android {
             dimension "version"
             applicationIdSuffix ".qa"
             versionNameSuffix "-QA"
-            signingConfig signingConfigs.qa
         }
         app {
             dimension "version"
-            signingConfig signingConfigs.release
         }
         icca {
             dimension "version"
             applicationIdSuffix ".icca"
             versionNameSuffix "-ICCA"
-            signingConfig signingConfigs.release
         }
     }
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
             ndk {
                 abiFilters "armeabi-v7a", "arm64-v8a"
             }
@@ -255,7 +262,7 @@ android {
         }
         debug {
             // We need to set this to null so that we can override it for variants
-            signingConfig null
+            signingConfig signingConfigs.debug
             ndk {
                 abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
             }
@@ -264,32 +271,14 @@ android {
 
     variantFilter { variant ->
         def names = variant.flavors*.name
-        // For QA variants, we only build universal apk
-        if (names.contains("qa") && variant.buildType.name != "universal" && variant.buildType.name != "debug") {
+        // For QA variants, we only build debug apk
+        if (names.contains("qa") && variant.buildType.name != "debug") {
             setIgnore(true)
         }
     }
 
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
-        def flavorName = variant.getFlavorName()
-        def buildTypeName = variant.buildType.name
-        if (flavorName != "qa" && buildTypeName == "debug") {
-            // For QA, we sign the release and debug build types with the same
-            // key, so that we can install the debug build over the release and
-            // keep the same data. For other variants we use a special debug key
-            variant.mergedFlavor.setSigningConfig(signingConfigs.debug)
-            // The QA flavor shares the same applicationId between release and
-            // debug builds, but the main app flavor has a suffix for debug
-            // builds, so that when developing you can have the debug version
-            // and the release version on your phone at the same time, but when
-            // testing with QA you can switch to the debug version to debug an
-            // error
-            variant.mergedFlavor.setApplicationIdSuffix(".debug")
-        }
-        // def applicationId = [variant.mergedFlavor.applicationId, variant.buildType.applicationIdSuffix].findAll().join()
-        println "Mergedflavor: '${variant.name}'\n  signingConfig: '${variant.signingConfig.name}'\n  signingReady: ${variant.signingReady}"
-
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // https://developer.android.com/studio/build/configure-apk-splits.html
@@ -299,15 +288,6 @@ android {
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
-        }
-        variant.outputs.all {
-            def flavor = variant.productFlavors[0].name
-            def buildType = variant.variantData.variantConfiguration.buildType.name
-            def baseName = "mapeo-v${versionName}"
-            if (buildType != "release") {
-                baseName = baseName + "-${buildType}"
-            }
-            outputFileName = "${baseName}.apk"
         }
     }
 
@@ -359,10 +339,7 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
 
     // Detox
-    // androidTestImplementation(project(path: ":detox"))
-    // androidTestImplementation 'junit:junit:4.12'
-    // androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    // androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation('com.wix:detox:+')
 }
 
 // Run this once to be able to run the application with BUCK

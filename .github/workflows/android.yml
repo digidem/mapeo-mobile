@@ -1,0 +1,85 @@
+name: Android
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # - name: Cache npm files
+      #   uses: actions/cache@v1
+      #   with:
+      #     path: ~/.npm
+      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-node-
+      # - name: Cache Gradle files
+      #   uses: actions/cache@v1
+      #   with:
+      #     path: ~/.gradle/caches
+      #     key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+      #     restore-keys: ${{ runner.os }}-gradle-
+      - name: Node
+        uses: actions/setup-node@v1
+      - name: Use specific Java version for sdkmanager to work
+        uses: joschi/setup-jdk@v1
+        with:
+          java-version: "openjdk8"
+          architecture: "x64"
+      # - name: Install NDK
+      #   run: |
+      #     export ANDROID_NDK_VERSION='20b'
+      #     export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
+      #     curl -fsSo android-ndk-r${ANDROID_NDK_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
+      #     unzip -q -o android-ndk-r${ANDROID_NDK_VERSION}.zip
+      #     rm -rf $ANDROID_NDK_HOME
+      #     mv android-ndk-r${ANDROID_NDK_VERSION} $ANDROID_NDK_HOME
+      #     ls -al $ANDROID_NDK_HOME
+      #     cat $ANDROID_NDK_HOME/source.properties
+      - name: Download Android Emulator Image
+        run: |
+          sdkmanager --update | grep -v = || true
+          echo "SDK versions:"
+          $ANDROID_HOME/tools/bin/sdkmanager --list
+          echo "Downloading emulator image"
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-28;default;x86" > /dev/null
+          echo "Creating emulator avd"
+          echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;default;x86'
+          echo "Emulator version:"
+          $ANDROID_HOME/emulator/emulator @emu -version
+          echo "Hardware acceleration:"
+          $ANDROID_HOME/emulator/emulator -accel-check
+          kextstat | grep intel
+          echo "\nEmulator config"
+          cat $HOME/.android/avd/emu.avd/config.ini
+      - name: Install node_modules
+        run: |
+          mkdir -p nodejs-assets
+          npm ci
+      - name: Build backend
+        run: |
+          npm run build:backend
+      - name: Build translations
+        run: |
+          npm run build:translations
+      - name: Build for detox
+        run: |
+          npm run build-detox-android
+      - name: Android Emulator
+        timeout-minutes: 10
+        continue-on-error: true
+        run: |
+          echo "Starting emulator"
+          mkdir -p artifacts
+          nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window -gpu swiftshader_indirect -no-boot-anim &> ./artifacts/emulator.log &
+          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+          $ANDROID_HOME/platform-tools/adb devices
+          echo "Emulator started"
+      - name: Android Detox
+        run: npm start & npm run test-detox-android -- --record-videos all --record-logs all
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: test-videos
+          path: artifacts
