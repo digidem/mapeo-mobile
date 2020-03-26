@@ -263,6 +263,7 @@ android {
         debug {
             // We need to set this to null so that we can override it for variants
             signingConfig signingConfigs.debug
+            applicationIdSuffix ".debug"
             ndk {
                 abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
             }
