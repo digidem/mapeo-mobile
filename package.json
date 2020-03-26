@@ -31,8 +31,8 @@
     "postinstall": "patch-package && jetify",
     "jetify": "jetify",
     "extract-messages": "extract-messages --locales=en --output messages --descriptions 'src/frontend/**/*.js'",
-    "build-detox-android": "detox build -c android.emu.debug",
-    "test-detox-android": "detox test -c android.emu.debug"
+    "build-detox-android": "detox build -c android.emu.release",
+    "test-detox-android": "detox test -c android.emu.release"
   },
   "husky": {
     "hooks": {
@@ -164,7 +164,7 @@
           "avdName": "emu"
         }
       },
-      "android.emu.device": {
+      "android.device.debug": {
         "binaryPath": "android/app/build/outputs/apk/app/debug/mapeo-app-debug.apk",
         "build": "cd android && ./gradlew app:assembleDebug app:assembleAndroidTest -DtestBuildType=debug && cd ..",
         "type": "android.attached",
