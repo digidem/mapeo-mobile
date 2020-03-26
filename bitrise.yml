@@ -147,7 +147,7 @@ workflows:
                 path in \"${paths[@]}\"\ndo\n  # Just the path portion\n  dir=\"${path%/*}\"\n
                 \ # Just the filename\n  filename=\"${path##*/}\"\n  # Add version name\n
                 \ filename=\"${filename/mapeo-/mapeo-v$ANDROID_VERSION_NAME-}\"\n  # Uppercase
-                flavor or remove\n  filename=\"${filename/-qa-/-QA-}\"\n  filename=\"${filename/-icca-universal/-ICCA}\"\n
+                flavor or remove\n  filename=\"${filename/-qa-/-QA-}\"\n  filename=\"${filename/-icca-release/-ICCA}\"\n
                 \ filename=\"${filename/-app-release/}\"\n  filename=\"${filename/-app-/-}\"\n
                 \ # Construct path with new filename\n  new_path=\"${dir}/${filename}\"\n
                 \ mv \"$path\" \"$new_path\"\n  echo \"Moved ${path} --> ${new_path}\"\n
