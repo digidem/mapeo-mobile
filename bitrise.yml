@@ -353,6 +353,8 @@ workflows:
                 set -x
 
                 VERSION_NAME=`node -p "require('./package.json').version"`
+
+                envman add --key VERSION_NAME --value $VERSION_NAME
                 envman add --key ANDROID_VERSION_NAME --value "${VERSION_NAME}.${BITRISE_BUILD_NUMBER}"
                 envman add --key ANDROID_VERSION_CODE --value $BITRISE_BUILD_NUMBER
       - change-workdir@1.0.2:
