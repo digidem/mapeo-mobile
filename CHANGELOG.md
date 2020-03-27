@@ -115,6 +115,39 @@ All notable changes to this project will be documented in this file. See [standa
 - Fix bug when a user edits an existing observation and is returned to the home screen (map) ([9751501](https://github.com/digidem/mapeo-mobile/commit/975150194033d38a203ce39cba9000b7956281ee))
 - Fix crash after deleting an observation's description ([330fdab](https://github.com/digidem/mapeo-mobile/commit/330fdab7f8ff701d13180113539cb06af7b86915))
 
+## [2.0.0-beta.5](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.4...v2.0.0-beta.5) (2020-02-18)
+
+### Bug Fixes
+
+- add package-lock.json files for front and backend ([97282ef](https://github.com/digidem/mapeo-mobile/commit/97282ef8a6884dc63b8b840ab2d85d33738c49ce))
+
+## [2.0.0-beta.4](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2020-02-07)
+
+### Bug Fixes
+
+- Fix flickering of devices on sync screen ([38ff478](https://github.com/digidem/mapeo-mobile/commit/38ff47823353e6dd7aae50a3335893bb95e5c9cc))
+
+## [2.0.0-beta.3](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2020-02-06)
+
+### Features
+
+- Update to latest React Native & Unimodules (better performance and bug fixes) ([bfc37fd](https://github.com/digidem/mapeo-mobile/commit/bfc37fdf43bbf6173bf475f59ebd7d53b363e5d2))
+
+## [2.0.0-beta.2](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2020-02-06)
+
+### Bug Fixes
+
+- add missing react-native-screens dep ([52fcbe0](https://github.com/digidem/mapeo-mobile/commit/52fcbe0ad2c8a8d1efd046f8e75963e6c52bc3e2))
+
+## [2.0.0-beta.1](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.0...v2.0.0-beta.1) (2020-02-06)
+
+### Bug Fixes
+
+- Adjust projectKey styling and text ([def66e6](https://github.com/digidem/mapeo-mobile/commit/def66e608648c89e99566a5ac9f233eace9cd94b))
+- **Sync:** Touch up styles of no wifi sync screen ([fc1e375](https://github.com/digidem/mapeo-mobile/commit/fc1e375b6270eceb466ef84fcf08399c21053d2a))
+- Fix crash after deleting an observation's description ([71563e0](https://github.com/digidem/mapeo-mobile/commit/71563e06a911bf3bf922ef33d69b89b65f6f27f2))
+- Fix crash when presets have empty placeholder field ([cab5771](https://github.com/digidem/mapeo-mobile/commit/cab5771bc36158b5d46a9f3074f309a449c1e1e5))
+
 ## [2.0.0-beta.0](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.9...v2.0.0-beta.0) (2019-11-26)
 
 ## [2.0.0-alpha.9](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2019-11-25)
