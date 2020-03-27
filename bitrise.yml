@@ -20,7 +20,7 @@ app:
       opts:
         is_expand: false
 workflows:
-  deploy-beta:
+  deploy-release-candidate:
     description: Deploy beta versions for testing
     before_run:
       - primary
@@ -357,9 +357,9 @@ workflows:
                 if [ "$BITRISE_GIT_BRANCH" == "deploy" ]; then
                     # This is a push to deploy event
                     ANDROID_VERSION_NAME="${VERSION_NAME}.${BITRISE_BUILD_NUMBER}"
-                elif [ "$BITRISEIO_GIT_BRANCH_DEST" == "deploy" ]; then
-                    # This is a PR to deploy, so we build a beta
-                    ANDROID_VERSION_NAME="${VERSION_NAME}-beta.${BITRISE_BUILD_NUMBER}"
+                elif [ "${BITRISE_GIT_BRANCH%/*}" == "release" ]; then
+                    # This is a push to a branch matching `release/*`, so we build a release candidate
+                    ANDROID_VERSION_NAME="${VERSION_NAME}-RC.${BITRISE_BUILD_NUMBER}"
                 else
                     # This is an internal build
                     ANDROID_VERSION_NAME="${VERSION_NAME}-internal.${BITRISE_BUILD_NUMBER}"
