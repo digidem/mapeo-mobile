@@ -1,6 +1,6 @@
 {
   "name": "mapeo-mobile",
-  "version": "2.1.0-beta.0",
+  "version": "2.1.0",
   "private": true,
   "engines": {
     "node": "^10.16.0"
@@ -22,8 +22,7 @@
     "dev-menu": "adb shell input keyevent 82",
     "prettier": "prettier --write \"src/**/*.js\"",
     "release": "standard-version",
-    "release:alpha": "standard-version --prerelease alpha",
-    "release:beta": "standard-version --prerelease beta",
+    "release:update": "standard-version --skip bump",
     "release-notes": "conventional-changelog -r 2 -p angular",
     "storybook-native": "./node_modules/@storybook/react-native-server/bin/index.js -p 7007 -c ./storybook-native",
     "storybook-web": "./node_modules/@storybook/react/bin/index.js -c ./storybook-web -s ./public -p 5005 --ci",
@@ -154,6 +153,12 @@
       "/node_modules/",
       "/e2e/"
     ]
+  },
+  "standard-version": {
+    "skip": {
+      "tag": true
+    },
+    "releaseCommitMessageFormat": "chore(release): Prepare release {{currentTag}}"
   },
   "detox": {
     "test-runner": "jest",
