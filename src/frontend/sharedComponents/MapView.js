@@ -249,6 +249,7 @@ class MapView extends React.Component<Props, State> {
           </View>
         ) : (
           <MapboxGL.MapView
+            testID="mapboxMapView"
             style={{ flex: 1 }}
             ref={this.handleMapViewRef}
             maxZoomLevel={22}
