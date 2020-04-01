@@ -1,7 +1,14 @@
 // @flow
 import React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
-import { View, ScrollView, Text, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  StyleSheet,
+  Dimensions,
+  StatusBar
+} from "react-native";
 
 import LocationContext from "../../context/LocationContext";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
@@ -66,6 +73,13 @@ const GpsModal = ({ navigation }: Props) => {
 
   return (
     <ScrollView style={styles.container}>
+      <StatusBar
+        hidden
+        animated
+        translucent
+        showHideTransition="fade"
+        backgroundColor="transparent"
+      />
       <View style={{ alignItems: "center" }}>
         <Scanner diameter={Dimensions.get("window").width - 20} />
       </View>
@@ -106,14 +120,11 @@ const GpsModal = ({ navigation }: Props) => {
 
 GpsModal.navigationOptions = {
   headerTintColor: "white",
+  headerTransparent: true,
   headerStyle: {
-    backgroundColor: "rgb(40,40,40)"
+    backgroundColor: "transparent"
   },
-  headerTitle: (
-    <HeaderTitle style={{ color: "white" }}>
-      <FormattedMessage {...m.gpsHeader} />
-    </HeaderTitle>
-  )
+  headerTitle: null
 };
 
 export default GpsModal;
@@ -129,7 +140,10 @@ function getLastUpdateText(location: LocationContextType) {
 
 const styles = StyleSheet.create({
   container: {
+    // ...StyleSheet.absoluteFill,
+    // height: Dimensions.get("window").height,
     flex: 1,
+    paddingTop: 6,
     backgroundColor: "rgb(40,40,40)",
     flexDirection: "column"
   },
