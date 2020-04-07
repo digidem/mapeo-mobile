@@ -1,0 +1,93 @@
+diff --git a/node_modules/gps/gps.js b/node_modules/gps/gps.js
+index ad9cdbe..0968543 100644
+--- a/node_modules/gps/gps.js
++++ b/node_modules/gps/gps.js
+@@ -12,7 +12,15 @@
+ 
+   var D2R = Math.PI / 180;
+ 
+-  var collectSats = [];
++  var collectSats = new Map()
++  var supportedSystems = new Set()
++  var collectSystems = new Set()
++
++  function eqSet(as, bs) {
++    if (as.size !== bs.size) return false;
++    for (var a of as) if (!bs.has(a)) return false;
++    return true;
++  }
+ 
+   function updateState(state, data) {
+ 
+@@ -49,16 +57,30 @@
+     // 1. update every sat and mark as updated.
+     // 2. If last msg, delete all unmarked sats & reset mark
+     if (data['type'] === 'GSV') {
++      const { systemId, satellites } = data
++      // Check before set for perf
++      if (!supportedSystems.has(systemId)) {
++        supportedSystems.add(systemId)
++      }
++      if (!collectSystems.has(systemId)) {
++        collectSystems.add(systemId)
++      }
+ 
+-      var sats = data['satellites'];
+-      for (var i = 0; i < sats.length; i++) {
+-        collectSats.push(sats[i]);
++      for (const sat of satellites) {
++        collectSats.set(systemId + sat.prn, {
++          ...sat,
++          systemId,
++          // Galileo satellites use the same PRNs as GPS, so we prefix them with "E"
++          prn: systemId === "GA" ? "E" + sat.prn : sat.prn
++        })
+       }
+ 
+-      // Reset stats
+-      if (data['msgNumber'] === data['msgsTotal']) {
+-        state['satsVisible'] = collectSats;
+-        collectSats = [];
++      // Wait until we've collected all satellites from all supported
++      // constellations (GPS, GLONAS, Galileo etc)
++      if (data.msgNumber === data.msgsTotal && eqSet(supportedSystems, collectSystems)) {
++        state.satsVisible = Array.from(collectSats.values())
++        collectSats = new Map()
++        collectSystems = new Set()
+       }
+     }
+   }
+@@ -490,7 +512,6 @@
+     },
+     // satellites in view
+     'GSV': function(str, gsv) {
+-
+       if (gsv.length % 4 % 3 === 0) {
+         throw new Error('Invalid GSV length: ' + str);
+       }
+@@ -512,6 +533,8 @@
+        */
+ 
+       var sats = [];
++      // The first two characters of the NMEA code refer to the constellation
++      var systemId = str.slice(1, 3)
+ 
+       for (var i = 4; i < gsv.length - 3; i += 4) {
+ 
+@@ -529,7 +552,7 @@
+           'elevation': parseNumber(gsv[i + 1]),
+           'azimuth': parseNumber(gsv[i + 2]),
+           'snr': snr,
+-          'status': prn !== null ? (snr !== null ? 'tracking' : 'in view') : null
++          'status': prn !== null ? (snr !== null ? 'tracking' : 'in view') : null,
+         });
+       }
+ 
+@@ -538,6 +561,7 @@
+         'msgsTotal': parseNumber(gsv[1]),
+         //'satsInView'  : parseNumber(gsv[3]), // Can be obtained by satellites.length
+         'satellites': sats,
++        'systemId': systemId,
+         'signalId': gsv.length % 4 === 2 ? parseNumber(gsv[gsv.length - 2]) : null // NMEA 4.10 addition
+       };
+     },

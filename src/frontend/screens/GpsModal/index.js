@@ -1,14 +1,22 @@
 // @flow
 import React from "react";
-import { View, ScrollView, Text, StyleSheet } from "react-native";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
+import {
+  View,
+  ScrollView,
+  Text,
+  StyleSheet,
+  Dimensions,
+  StatusBar
+} from "react-native";
 
-import LocationContext from "../context/LocationContext";
-import FormattedCoords from "../sharedComponents/FormattedCoords";
-import DateDistance from "../sharedComponents/DateDistance";
-import HeaderTitle from "../sharedComponents/HeaderTitle";
+import LocationContext from "../../context/LocationContext";
+import FormattedCoords from "../../sharedComponents/FormattedCoords";
+import DateDistance from "../../sharedComponents/DateDistance";
+import HeaderTitle from "../../sharedComponents/HeaderTitle";
 
-import type { LocationContextType } from "../context/LocationContext";
+import type { LocationContextType } from "../../context/LocationContext";
+import Scanner from "./Scanner";
 
 const m = defineMessages({
   gpsHeader: {
@@ -65,34 +73,30 @@ const GpsModal = ({ navigation }: Props) => {
 
   return (
     <ScrollView style={styles.container}>
+      <StatusBar
+        hidden
+        animated
+        translucent
+        showHideTransition="fade"
+        backgroundColor="transparent"
+      />
+      <View style={{ alignItems: "center" }}>
+        <Scanner diameter={Dimensions.get("window").width - 20} />
+      </View>
       <View style={styles.infoArea}>
-        <Text style={styles.sectionTitle}>
-          <FormattedMessage {...m.lastUpdate} />
-        </Text>
+        <Text style={styles.sectionTitle}>Ultima actualización</Text>
         <DateDistance
           style={styles.rowValue}
           date={new Date(getLastUpdateText(location))}
         />
         {location.position && (
           <>
-            <Text style={styles.sectionTitle}>
-              <FormattedMessage {...m.locationUTM} />
-            </Text>
+            <Text style={styles.sectionTitle}>Ubicación UTM</Text>
             <FormattedCoords
               lon={location.position.coords.longitude}
               lat={location.position.coords.latitude}
               style={styles.rowValue}
             />
-            <Text style={styles.sectionTitle}>
-              <FormattedMessage {...m.details} />
-            </Text>
-            {Object.entries(location.position.coords).map(([key, value]) => (
-              <GpsModalRow
-                key={key}
-                label={key}
-                value={typeof value === "number" ? value.toFixed(5) : ""}
-              />
-            ))}
           </>
         )}
         {location.provider && (
@@ -116,14 +120,11 @@ const GpsModal = ({ navigation }: Props) => {
 
 GpsModal.navigationOptions = {
   headerTintColor: "white",
+  headerTransparent: true,
   headerStyle: {
-    backgroundColor: "rgb(40,40,40)"
+    backgroundColor: "transparent"
   },
-  headerTitle: (
-    <HeaderTitle style={{ color: "white" }}>
-      <FormattedMessage {...m.gpsHeader} />
-    </HeaderTitle>
-  )
+  headerTitle: null
 };
 
 export default GpsModal;
@@ -139,7 +140,10 @@ function getLastUpdateText(location: LocationContextType) {
 
 const styles = StyleSheet.create({
   container: {
+    // ...StyleSheet.absoluteFill,
+    // height: Dimensions.get("window").height,
     flex: 1,
+    paddingTop: 6,
     backgroundColor: "rgb(40,40,40)",
     flexDirection: "column"
   },

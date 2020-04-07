@@ -1,9 +1,11 @@
 // @flow
 import * as React from "react";
-import { AppState } from "react-native";
+import { AppState, DeviceEventEmitter } from "react-native";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-community/async-storage";
 import debug from "debug";
+import RNNmeaLibrary from "react-native-nmea-library";
+import GPS from "gps";
 
 import { withPermissions, PERMISSIONS, RESULTS } from "./PermissionsContext";
 import type { PermissionResult, PermissionsType } from "./PermissionsContext";
@@ -51,7 +53,8 @@ export type LocationContextType = {
   // This is the previous known position from the last time the app was open
   savedPosition?: PositionType | null,
   // True if there is some kind of error getting the device location
-  error?: boolean
+  error?: boolean,
+  gps: any
 };
 
 type AppStateType = "active" | "background" | "inactive";
@@ -62,7 +65,8 @@ type Props = {
 };
 
 const defaultContext: LocationContextType = {
-  error: false
+  error: false,
+  gps: new GPS()
 };
 
 const positionOptions = {
@@ -95,6 +99,14 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
   _watch: null | { remove: () => null };
   _timeoutId: TimeoutID;
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      ...defaultContext,
+      gps: new GPS()
+    };
+  }
+
   // This React method is "bad" to use, but we use it for convenience - we
   // include the location permission state in the location context object
   static getDerivedStateFromProps(props, state) {
@@ -107,8 +119,6 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
       permission: props.permissions[PERMISSIONS.ACCESS_FINE_LOCATION]
     };
   }
-
-  state = defaultContext;
   _watch = null;
 
   async componentDidMount() {
@@ -124,6 +134,13 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
     } catch (e) {
       log("Error reading storage", e);
     }
+
+    RNNmeaLibrary.start();
+
+    DeviceEventEmitter.addListener("onNmeaReceive", event => {
+      if (!event || !event.message) return;
+      this.state.gps.updatePartial(event.message);
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -179,6 +196,7 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
   componentWillUnmount() {
     this.stopWatchingLocation();
     AppState.removeEventListener("change", this.handleAppStateChange);
+    RNNmeaLibrary.stop();
   }
 
   handleAppStateChange = (nextAppState: AppStateType) => {
