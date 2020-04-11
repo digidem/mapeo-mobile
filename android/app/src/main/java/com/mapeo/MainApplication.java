@@ -28,7 +28,7 @@ import java.util.List;
 public class MainApplication extends Application implements ShareApplication, ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
     new BasePackageList().getPackageList(),
-    Arrays.<SingletonModule>asList()
+    null
   );
 
   @Override
@@ -46,29 +46,17 @@ public class MainApplication extends Application implements ShareApplication, Re
     protected List<ReactPackage> getPackages() {
       @SuppressWarnings("UnnecessaryLocalVariable")
       List<ReactPackage> packages = new PackageList(this).getPackages();
+
       // Packages that cannot be autolinked yet can be added manually here, for example:
       // packages.add(new MyReactNativePackage());
-      packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
+
+      // Add unimodules
+      List<ReactPackage> unimodules = Arrays.<ReactPackage>asList(
+        new ModuleRegistryAdapter(mModuleRegistryProvider)
+      );
+      packages.addAll(unimodules);
+
       return packages;
-      // return Arrays.<ReactPackage>asList(
-      //     new MainReactPackage(),
-      //       BugsnagReactNative.getPackage(),
-      //       new RNSharePackage(),
-      //       new KCKeepAwakePackage(),
-      //       new AndroidOpenSettingsPackage(),
-      //       new RNNetworkInfoPackage(),
-      //       new NetInfoPackage(),
-      //       new AsyncStoragePackage(),
-      //       new LinearGradientPackage(),
-      //       new ImageResizerPackage(),
-      //       new RNFSPackage(),
-      //       new ReanimatedPackage(),
-      //     new RNGestureHandlerPackage(),
-      //     new SplashScreenReactPackage(),
-      //     new RNNodeJsMobilePackage(),
-      //     new RCTMGLPackage(),
-      //     new ModuleRegistryAdapter(mModuleRegistryProvider)
-      // );
     }
 
     @Override
