@@ -1,11 +1,8 @@
 // @flow
 import React from "react";
-import {
-  createStackNavigator,
-  createAppContainer,
-  createBottomTabNavigator,
-  createSwitchNavigator
-} from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createStackNavigator } from "react-navigation-stack";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import BuildConfig from "react-native-build-config";
 
