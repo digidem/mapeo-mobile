@@ -210,13 +210,13 @@ const ManualGpsScreen = ({ navigation }: Props) => {
 
 ManualGpsScreen.navigationOptions = ({ navigation }: any) => {
   return {
-    headerTitle: (
+    headerTitle: () => (
       <HeaderTitle>
         <FormattedMessage {...m.title} />
       </HeaderTitle>
     ),
     headerLeft: HeaderLeft,
-    headerRight: (
+    headerRight: () => (
       <IconButton onPress={navigation.getParam("handleSavePress")}>
         <SaveIcon inprogress={false} />
       </IconButton>

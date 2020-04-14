@@ -108,7 +108,7 @@ const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
 };
 
 CategoryChooser.navigationOptions = {
-  headerTitle: (
+  headerTitle: () => (
     <HeaderTitle>
       <FormattedMessage {...m.categoryTitle} />
     </HeaderTitle>

@@ -33,7 +33,8 @@ const HomeTabs = createBottomTabNavigator(
   // $FlowFixMe
   {
     navigationOptions: () => ({
-      header: () => <HomeHeader />
+      header: props => <HomeHeader {...props} />,
+      headerTransparent: true
     }),
     defaultNavigationOptions: ({ navigation }) => ({
       initialRouteName: "Map",
@@ -91,9 +92,12 @@ const AppStack = createStackNavigator(
       },
       // We use a slightly larger back icon, to improve accessibility
       // TODO iOS: This should probably be a chevron not an arrow
-      headerLeft: CustomHeaderLeft,
+      headerLeft: props => <CustomHeaderLeft {...props} />,
       headerTitleStyle: {
         marginHorizontal: 0
+      },
+      cardStyle: {
+        backgroundColor: "#ffffff"
       }
     }
   }

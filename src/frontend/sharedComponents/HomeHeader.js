@@ -2,14 +2,13 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { useNavigation } from "react-navigation-hooks";
+import type { NavigationProp } from "../types";
 
 import IconButton from "../sharedComponents/IconButton";
 import { ObservationListIcon, SyncIconCircle } from "../sharedComponents/icons";
 import GpsPill from "../sharedComponents/GpsPill";
 
-const HomeHeader = () => {
-  const navigation = useNavigation();
+const HomeHeader = ({ navigation }: { navigation: NavigationProp }) => {
   return (
     <View style={styles.header}>
       <LinearGradient
@@ -20,17 +19,19 @@ const HomeHeader = () => {
         style={styles.leftButton}
         onPress={() => {
           navigation.navigate("SyncModal");
-        }}
-      >
+        }}>
         <SyncIconCircle />
       </IconButton>
-      <GpsPill />
+      <GpsPill
+        onPress={() => {
+          navigation.navigate("GpsModal");
+        }}
+      />
       <IconButton
         style={styles.rightButton}
         onPress={() => {
           navigation.navigate("ObservationList");
-        }}
-      >
+        }}>
         <ObservationListIcon />
       </IconButton>
     </View>
@@ -41,7 +42,6 @@ export default HomeHeader;
 
 const styles = StyleSheet.create({
   header: {
-    position: "absolute",
     zIndex: 100,
     top: 0,
     right: 0,

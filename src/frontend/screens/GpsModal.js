@@ -119,7 +119,7 @@ GpsModal.navigationOptions = {
   headerStyle: {
     backgroundColor: "rgb(40,40,40)"
   },
-  headerTitle: (
+  headerTitle: () => (
     <HeaderTitle style={{ color: "white" }}>
       <FormattedMessage {...m.gpsHeader} />
     </HeaderTitle>

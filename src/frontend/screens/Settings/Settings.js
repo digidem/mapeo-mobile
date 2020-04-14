@@ -63,7 +63,7 @@ const Settings = () => {
 };
 
 Settings.navigationOptions = {
-  headerTitle: (
+  headerTitle: () => (
     <HeaderTitle>
       <FormattedMessage {...m.settingsTitle} />
     </HeaderTitle>

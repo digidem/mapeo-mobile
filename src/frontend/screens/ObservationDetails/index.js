@@ -89,8 +89,8 @@ const ObservationDetails = ({ navigation }: Props) => {
 };
 
 ObservationDetails.navigationOptions = ({ navigation }: any) => ({
-  headerTitle: <DetailsTitle navigation={navigation} />,
-  headerRight: <DetailsHeaderRight navigation={navigation} />
+  headerTitle: () => <DetailsTitle navigation={navigation} />,
+  headerRight: () => <DetailsHeaderRight navigation={navigation} />
 });
 
 export default ObservationDetails;
