@@ -97,7 +97,7 @@ Observation.navigationOptions = ({
 }: {
   navigation: NavigationProp
 }) => ({
-  headerRight: <ObservationHeaderRight navigation={navigation} />
+  headerRight: () => <ObservationHeaderRight navigation={navigation} />
 });
 
 export default Observation;

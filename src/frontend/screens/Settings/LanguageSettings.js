@@ -38,7 +38,7 @@ const LanguageSettings = () => {
 };
 
 LanguageSettings.navigationOptions = {
-  headerTitle: (
+  headerTitle: () => (
     <HeaderTitle>
       <FormattedMessage {...m.title} />
     </HeaderTitle>

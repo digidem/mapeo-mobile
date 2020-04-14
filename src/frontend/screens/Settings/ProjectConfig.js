@@ -99,7 +99,7 @@ const ProjectConfig = () => {
 };
 
 ProjectConfig.navigationOptions = {
-  headerTitle: (
+  headerTitle: () => (
     <HeaderTitle>
       <FormattedMessage {...m.configTitle} />
     </HeaderTitle>

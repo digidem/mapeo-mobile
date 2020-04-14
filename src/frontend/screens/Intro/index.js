@@ -1,20 +1,12 @@
 // @flow
 import React from "react";
-import {
-  type NavigationScreenProp,
-  createStackNavigator
-} from "react-navigation";
+import { type NavigationScreenProp } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import { StatusBar } from "react-native";
 import { IntroPager, IntroInfo } from "@digidem/wcmc-mapeo-mobile-intro";
-import { useNavigationParam } from "react-navigation-hooks";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import CustomHeaderLeft from "../../sharedComponents/CustomHeaderLeft";
-
-const InfoHeaderTitle = () => {
-  const title = useNavigationParam("introInfoTitle");
-  return <HeaderTitle>{title}</HeaderTitle>;
-};
 
 type InfoNavigationState = {|
   params: {|
@@ -38,9 +30,10 @@ const Info = ({
   );
 };
 
-Info.navigationOptions = {
-  headerTitle: InfoHeaderTitle
-};
+Info.navigationOptions = ({ navigation }) => ({
+  title: navigation.getParam("introInfoTitle", "Info"),
+  headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>
+});
 
 const Intro = ({
   navigation
@@ -71,7 +64,7 @@ const Intro = ({
 };
 
 Intro.navigationOptions = {
-  header: null
+  headerShown: false
 };
 
 export default createStackNavigator(

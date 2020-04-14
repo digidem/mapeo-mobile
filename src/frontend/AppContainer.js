@@ -1,11 +1,8 @@
 // @flow
 import React from "react";
-import {
-  createStackNavigator,
-  createAppContainer,
-  createBottomTabNavigator,
-  createSwitchNavigator
-} from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createStackNavigator } from "react-navigation-stack";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import BuildConfig from "react-native-build-config";
 
@@ -36,7 +33,8 @@ const HomeTabs = createBottomTabNavigator(
   // $FlowFixMe
   {
     navigationOptions: () => ({
-      header: () => <HomeHeader />
+      header: props => <HomeHeader {...props} />,
+      headerTransparent: true
     }),
     defaultNavigationOptions: ({ navigation }) => ({
       initialRouteName: "Map",
@@ -94,9 +92,12 @@ const AppStack = createStackNavigator(
       },
       // We use a slightly larger back icon, to improve accessibility
       // TODO iOS: This should probably be a chevron not an arrow
-      headerLeft: CustomHeaderLeft,
+      headerLeft: props => <CustomHeaderLeft {...props} />,
       headerTitleStyle: {
         marginHorizontal: 0
+      },
+      cardStyle: {
+        backgroundColor: "#ffffff"
       }
     }
   }

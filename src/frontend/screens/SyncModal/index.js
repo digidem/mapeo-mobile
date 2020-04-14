@@ -203,7 +203,7 @@ SyncModal.navigationOptions = {
   headerStyle: {
     backgroundColor: "#2348B2"
   },
-  headerTitle: (
+  headerTitle: () => (
     <HeaderTitle style={{ color: "white" }}>
       <FormattedMessage {...m.syncHeader} />
     </HeaderTitle>
