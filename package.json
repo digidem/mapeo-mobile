@@ -39,7 +39,7 @@
     }
   },
   "dependencies": {
-    "@digidem/wcmc-mapeo-mobile-intro": "^1.0.1",
+    "@digidem/wcmc-mapeo-mobile-intro": "^1.0.2",
     "@react-native-community/art": "^1.2.0",
     "@react-native-community/async-storage": "^1.9.0",
     "@react-native-community/hooks": "^2.4.8",
@@ -60,7 +60,7 @@
     "hoist-non-react-statics": "^3.3.0",
     "ky": "^0.19.0",
     "lodash": "^4.17.11",
-    "mapeo-schema": "^1.8.0",
+    "mapeo-schema": "^1.9.0",
     "nodejs-mobile-react-native": "^0.5.0",
     "patch-package": "^6.2.2",
     "path": "^0.12.7",
