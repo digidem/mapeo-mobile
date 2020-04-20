@@ -100,7 +100,7 @@ workflows:
     before_run:
       - primary
     envs:
-      - GRADLE_TASKS: assembleQaDebug
+      - GRADLE_TASKS: assembleQaDebug assembleIccaRelease
         opts:
           is_expand: false
     steps:
