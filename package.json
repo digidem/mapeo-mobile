@@ -40,7 +40,7 @@
     }
   },
   "dependencies": {
-    "@digidem/wcmc-mapeo-mobile-intro": "^1.0.2",
+    "@digidem/wcmc-mapeo-mobile-intro": "^1.0.3",
     "@react-native-community/art": "^1.2.0",
     "@react-native-community/async-storage": "^1.9.0",
     "@react-native-community/hooks": "^2.4.8",
