@@ -80,6 +80,9 @@ export default createStackNavigator(
       headerLeft: props => <CustomHeaderLeft {...props} />,
       headerTitleStyle: {
         marginHorizontal: 0
+      },
+      cardStyle: {
+        backgroundColor: "#ffffff"
       }
     }
   }
