@@ -77,7 +77,7 @@ export default createStackNavigator(
       headerStyle: {
         height: 60
       },
-      headerLeft: CustomHeaderLeft,
+      headerLeft: props => <CustomHeaderLeft {...props} />,
       headerTitleStyle: {
         marginHorizontal: 0
       }
