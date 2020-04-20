@@ -10,6 +10,7 @@
     "android": "npm run build:backend && npm run android-no-backend-rebuild",
     "android-no-backend-rebuild": "react-native run-android --variant=appDebug --appIdSuffix=debug",
     "android-storybook": "react-native run-android --variant=storybookDebug --appIdSuffix=storybook.debug",
+    "android-icca": "react-native run-android --variant=iccaDebug --appIdSuffix=debug",
     "build:backend": "./scripts/build-backend.sh",
     "build:translations": "node ./scripts/build-translations.js",
     "build:release": "npm run build:translations && npm run build:backend && ./scripts/build-release-android.sh",
