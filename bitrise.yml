@@ -362,7 +362,7 @@ workflows:
                     ANDROID_VERSION_NAME="${VERSION_NAME}-RC.${BITRISE_BUILD_NUMBER}"
                 else
                     # This is an internal build
-                    ANDROID_VERSION_NAME="${VERSION_NAME}-internal.${BITRISE_BUILD_NUMBER}"
+                    ANDROID_VERSION_NAME="Internal.${BITRISE_BUILD_NUMBER}"
                 fi
 
                 envman add --key VERSION_NAME --value $VERSION_NAME
