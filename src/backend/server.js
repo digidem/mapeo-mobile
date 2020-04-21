@@ -170,7 +170,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
               log("Error reading VERSION file from imported config");
               return cb(err || new Error("Unreadable config version"));
             }
-            if (parsedVersion.major > 2 || parsedVersion.major < 2) {
+            if (parsedVersion.major > 3 || parsedVersion.major < 2) {
               log(
                 "Mapeo is not compatible with this config version (" +
                   version +
