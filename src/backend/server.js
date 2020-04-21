@@ -132,7 +132,8 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
 
   // Given a config tarball at `path`, replace the current config.
   function replaceConfig({ id, path: pathToNewConfigTarball }) {
-    const cb = err => rnBridge.channel.post("replace-config-" + id, err);
+    const cb = err =>
+      rnBridge.channel.post("replace-config-" + id, err && err.message);
 
     tmp.dir(
       {
