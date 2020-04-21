@@ -3,7 +3,7 @@ const path = require("path");
 const level = require("level");
 const kappa = require("kappa-core");
 const raf = require("random-access-file");
-const createOsmDb = require("kappa-osm");
+const createOsmDbOrig = require("kappa-osm");
 const createMediaStore = require("safe-fs-blob-store");
 const createMapeoRouter = require("mapeo-server");
 const debug = require("debug");
@@ -26,7 +26,6 @@ const log = debug("mapeo-core:server");
 module.exports = createServer;
 
 function createServer({ privateStorage, sharedStorage, flavor }) {
-  let projectKey;
   const defaultConfigPath = path.join(sharedStorage, "presets/default");
   log("Creating server", { flavor });
 
@@ -37,63 +36,33 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     flavor === "icca" ? "presets-icca" : "presets"
   );
 
-  try {
-    const metadata = JSON.parse(
-      fs.readFileSync(path.join(defaultConfigPath, "metadata.json"), "utf8")
-    );
-    projectKey = metadata.projectKey;
-  } catch (err) {
-    // if there was an error reading the user presets, try reading a projectKey
-    // from the fallback presets
-    try {
-      const metadata = JSON.parse(
-        fs.readFileSync(
-          path.join(fallbackPresetsDir, "default", "metadata.json"),
-          "utf8"
-        )
-      );
-      projectKey = metadata.projectKey;
-    } catch (e) {}
-  }
-  if (projectKey) {
-    log("Found projectKey starting with ", projectKey.slice(0, 4));
-  } else {
-    log("No projectKey found, using default 'mapeo' key");
-  }
-  const indexDb = level(path.join(privateStorage, "index"));
-  const coreDb = kappa(path.join(privateStorage, "db"), {
-    valueEncoding: "json",
-    encryptionKey: projectKey
-  });
-  function createStorage(name, cb) {
-    process.nextTick(
-      cb,
-      null,
-      raf(path.join(privateStorage, "index", "bkd", name))
-    );
-  }
   // create folders for presets & styles
   mkdirp.sync(defaultConfigPath);
   mkdirp.sync(path.join(sharedStorage, "styles/default"));
 
+  let projectKey = readProjectKey({
+    defaultConfigPath,
+    fallbackPresetsDir
+  });
+
   // The main osm db for observations and map data
-  const osm = createOsmDb({
-    core: coreDb,
-    index: indexDb,
-    storage: createStorage
+  let { osm, close: closeOsm } = createOsmDb({
+    feedsDir: path.join(privateStorage, "db"),
+    indexDir: path.join(privateStorage, "index"),
+    encryptionKey: projectKey
   });
 
   // The media store for photos, video etc.
   const media = createMediaStore(path.join(privateStorage, "media"));
 
   // Handles all other routes for Mapeo
-  const mapeoRouter = createMapeoRouter(osm, media, {
+  let mapeoRouter = createMapeoRouter(osm, media, {
     staticRoot: sharedStorage,
     writeFormat: "osm-p2p-syncfile",
     fallbackPresetsDir: fallbackPresetsDir,
     deviceType: "mobile"
   });
-  const mapeoCore = mapeoRouter.api.core;
+  let mapeoCore = mapeoRouter.api.core;
 
   const server = http.createServer(function requestListener(req, res) {
     log(req.method + ": " + req.url);
@@ -201,12 +170,42 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
               // Manual cleanup of temp dir - tmp should cleanup on node exist, but
               // just in case
               cleanup();
-              cb();
+              onChangeConfig();
             });
           });
         }
       }
     );
+
+    function onChangeConfig() {
+      // After changing the config the projectKey can change, so we need to
+      // create a new instance of kappa-osm
+      closeOsm(() => {
+        projectKey = readProjectKey({
+          defaultConfigPath,
+          fallbackPresetsDir
+        });
+
+        const newDb = createOsmDb({
+          feedsDir: path.join(privateStorage, "db"),
+          indexDir: path.join(privateStorage, "index"),
+          encryptionKey: projectKey
+        });
+
+        osm = newDb.osm;
+        closeOsm = newDb.close;
+
+        mapeoRouter = createMapeoRouter(osm, media, {
+          staticRoot: sharedStorage,
+          writeFormat: "osm-p2p-syncfile",
+          fallbackPresetsDir: fallbackPresetsDir,
+          deviceType: "mobile"
+        });
+        mapeoCore = mapeoRouter.api.core;
+
+        cb();
+      });
+    }
   }
 
   // Send message to frontend whenever there is an update to the peer list
@@ -320,5 +319,113 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     }
   }
 
+  /**
+   * Create an kappa-osm database instance
+   *
+   * @param {object} options
+   * @param {string} options.indexDir Folder for storing leveldb and spatial indexes
+   * @param {string} options.feedsDir Folder for storing hypercore feeds
+   * @param {string} options.encryptionKey Encryption key for multifeed
+   * @returns {object} An object with properties `osm` (an instance of kappa-osm)
+   * and `close` (gracefully close all storage and callback)
+   */
+  function createOsmDb({ indexDir, feedsDir, encryptionKey }) {
+    const storages = [];
+
+    const indexDb = level(indexDir);
+    indexDb.on("error", err => {
+      main.bugsnag.notify(err, {
+        severity: "error",
+        context: "core"
+      });
+    });
+
+    const coreDb = kappa(createHypercoreStorage, {
+      valueEncoding: "json",
+      encryptionKey
+    });
+
+    // The main osm db for observations and map data
+    const osm = createOsmDbOrig({
+      core: coreDb,
+      index: indexDb,
+      storage: createBkdStorage
+    });
+
+    // To close cleanly we need to wait until replication has completed, destroy
+    // the discovery swarm, and close all the random-access-storage instances
+    // and the leveldb instance
+    const close = function close(cb) {
+      let pending = storages.length + 1;
+      onReplicationComplete(() => {
+        mapeoCore.sync.destroy(() => {
+          storages.forEach(storage => {
+            storage.close(done);
+          });
+          indexDb.close(done);
+        });
+      });
+      function done() {
+        if (--pending) return;
+        log("Closed all storage for kappa-osm");
+        cb();
+      }
+    };
+
+    return { osm, close };
+
+    function createHypercoreStorage(name) {
+      const storage = raf(path.join(feedsDir, name));
+      storages.push(storage);
+      return storage;
+    }
+
+    function createBkdStorage(name, cb) {
+      process.nextTick(() => {
+        const storage = raf(path.join(indexDir, "bkd", name));
+        storages.push(storage);
+        cb(null, storage);
+      });
+    }
+  }
+
   return server;
+}
+
+/**
+ * Read a projectKey from the metadata.json in the default config path, with a
+ * fallback to the project key in the default settings if the user has not added
+ * any custom presets
+ *
+ * @param {object} options
+ * @param {string} options.defaultConfigPath
+ * @param {string} options.fallbackPresetsDir
+ * @returns {string} projectKey
+ */
+function readProjectKey({ defaultConfigPath, fallbackPresetsDir }) {
+  let projectKey;
+  try {
+    const metadata = JSON.parse(
+      fs.readFileSync(path.join(defaultConfigPath, "metadata.json"), "utf8")
+    );
+    projectKey = metadata.projectKey;
+  } catch (err) {
+    // if there was an error reading the user presets, try reading a projectKey
+    // from the fallback presets
+    try {
+      const metadata = JSON.parse(
+        fs.readFileSync(
+          path.join(fallbackPresetsDir, "default", "metadata.json"),
+          "utf8"
+        )
+      );
+      projectKey = metadata.projectKey;
+    } catch (e) {}
+  }
+  if (projectKey) {
+    log("Found projectKey starting with ", projectKey.slice(0, 4));
+  } else {
+    log("No projectKey found, using default 'mapeo' key");
+  }
+  return projectKey;
 }
