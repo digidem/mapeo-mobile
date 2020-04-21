@@ -176,7 +176,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
                   version +
                   ")"
               );
-              cb(new Error("Incompatible config version"));
+              return cb(new Error("Incompatible config version"));
             }
             log("Importing config version: " + version);
             onVersionCheck();
