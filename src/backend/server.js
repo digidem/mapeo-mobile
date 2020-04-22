@@ -358,7 +358,15 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     const close = function close(cb) {
       let pending = storages.length + 1;
       onReplicationComplete(() => {
-        mapeoCore.sync.destroy(() => {
+        // TODO: mapeoCore.close() does not close the underlying hyperlogs or
+        // stop indexing in @mapeo/core v8.1.3. This was added in v9 which we
+        // are not yet using. When we switch to v9 we can remove the extra
+        // cleanup of hypercores and the sync pause here.
+        mapeoCore.close(() => {
+          mapeoCore.osm.core.pause(() => {
+            // This calls multifeed.close() which closes the hypercore feeds
+            mapeoCore.osm.core._logs.close(done);
+          });
           storages.forEach(storage => {
             storage.close(done);
           });
