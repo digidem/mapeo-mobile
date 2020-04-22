@@ -191,9 +191,13 @@ class MapView extends React.Component<Props, State> {
     if (observations.get(observationId)) {
       onPressObservation(observationId);
     } else {
-      bugsnag.notify(new Error("Could not find pressed observation"), {
-        observationId
-      });
+      bugsnag.notify(
+        new Error("Could not find pressed observation"),
+        report => {
+          report.severity = "warning";
+          report.context = "Could not find obs ID: " + observationId;
+        }
+      );
     }
   };
 
@@ -259,9 +263,9 @@ class MapView extends React.Component<Props, State> {
             attributionPosition={{ right: 8, bottom: 8 }}
             onPress={this.handleObservationPress}
             onDidFailLoadingMap={e =>
-              bugsnag.notify(e, {
-                severity: "error",
-                context: "onDidFailLoadingMap"
+              bugsnag.notify(e, report => {
+                report.severity = "error";
+                report.context = "onDidFailLoadingMap";
               })
             }
             onDidFinishLoadingStyle={this.handleDidFinishLoadingStyle}
