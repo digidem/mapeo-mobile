@@ -32,7 +32,6 @@ import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
 import useMapStyle from "../../hooks/useMapStyle";
-import Loading from "../../sharedComponents/Loading";
 import useDeviceId from "../../hooks/useDeviceId";
 
 const m = defineMessages({
@@ -82,36 +81,31 @@ type MapProps = {
 };
 
 const InsetMapView = ({ lon, lat }: MapProps) => {
-  const [{ styleURL, loading, error }] = useMapStyle();
-  if (loading)
-    return (
-      <View style={styles.map}>
-        <Loading />
-      </View>
-    );
-  if (error)
-    return (
+  const [{ styleURL, error }] = useMapStyle();
+
+  return React.useMemo(() => {
+    return error ? (
       <View style={styles.map}>
         <Text>Map Error</Text>
       </View>
+    ) : (
+      <MapboxGL.MapView
+        style={styles.map}
+        zoomEnabled={false}
+        logoEnabled={false}
+        scrollEnabled={false}
+        pitchEnabled={false}
+        rotateEnabled={false}
+        compassEnabled={false}
+        styleURL={styleURL}>
+        <MapboxGL.Camera
+          centerCoordinate={[lon, lat]}
+          zoomLevel={15}
+          animationMode="moveTo"
+        />
+      </MapboxGL.MapView>
     );
-  return (
-    <MapboxGL.MapView
-      style={styles.map}
-      zoomEnabled={false}
-      logoEnabled={false}
-      scrollEnabled={false}
-      pitchEnabled={false}
-      rotateEnabled={false}
-      compassEnabled={false}
-      styleURL={styleURL}>
-      <MapboxGL.Camera
-        centerCoordinate={[lon, lat]}
-        zoomLevel={15}
-        animationMode="moveTo"
-      />
-    </MapboxGL.MapView>
-  );
+  }, [error, styleURL, lon, lat]);
 };
 
 const Button = ({ onPress, color, iconName, title }: ButtonProps) => (

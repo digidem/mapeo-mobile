@@ -10,11 +10,12 @@ import config from "../../config.json";
 
 const log = debug("mapeo-mobile:useMapStyle");
 const fallbackStyleURL = MapboxGL.StyleURL.Outdoors;
+let cachedStyleURL;
 
 export default function useMapstyleURL(styleId: string = "default") {
   const [loading, setLoading] = useState(true);
-  const [styleURL, setStyleURL] = useState();
-  const [error, setError] = useState();
+  const [styleURL, setStyleURL] = useState(cachedStyleURL);
+  const [error, setError] = useState(null);
   const [offlineFailed, setOfflineFailed] = useState(false);
 
   useEffect(() => {
@@ -38,9 +39,10 @@ export default function useMapstyleURL(styleId: string = "default") {
       .then(() => {
         if (didCancel) return;
         log("Using style URL: " + styleURL);
+        cachedStyleURL = styleURL;
         setStyleURL(styleURL);
         setLoading(false);
-        setError(false);
+        setError(null);
       })
       .catch(err => {
         if (didCancel) return;
