@@ -260,6 +260,7 @@ class MapView extends React.Component<Props, State> {
             logoEnabled={false}
             pitchEnabled={false}
             rotateEnabled={false}
+            surfaceView={true}
             attributionPosition={{ right: 8, bottom: 8 }}
             onPress={this.handleObservationPress}
             onDidFailLoadingMap={e =>
