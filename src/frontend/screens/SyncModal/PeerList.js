@@ -92,6 +92,14 @@ export const peerStatus: PeerStatus = {
 
 const SyncButton = ({ progress, onPress, status }) => {
   const { formatMessage: t } = useIntl();
+  const [pressed, setPressed] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!pressed) return;
+    if (status === peerStatus.READY) return;
+    setPressed(false);
+  }, [pressed, status]);
+
   let style;
   let text;
   let icon;
@@ -100,15 +108,6 @@ const SyncButton = ({ progress, onPress, status }) => {
       style = styles.syncButtonReady;
       text = t(m.syncButton);
       icon = <SyncIcon />;
-      break;
-    case peerStatus.PROGRESS:
-      style = styles.syncButtonProgress;
-      text = ((progress || 0) * 100).toFixed(0) + "%";
-      icon = (
-        <View style={styles.progressBackground}>
-          <Progress progress={progress} size={25} color="white" />
-        </View>
-      );
       break;
     case peerStatus.ERROR:
       style = styles.syncButtonError;
@@ -120,10 +119,33 @@ const SyncButton = ({ progress, onPress, status }) => {
       text = t(m.completeButton);
       icon = <DoneIcon />;
   }
+
+  if (pressed || status === peerStatus.PROGRESS) {
+    style = styles.syncButtonProgress;
+    text = ((progress || 0) * 100).toFixed(0) + "%";
+    icon = (
+      <View style={styles.progressBackground}>
+        <Progress progress={progress} size={25} color="white" />
+      </View>
+    );
+  }
+
+  const handlePress = () => {
+    // It takes a while for the server to respond with an updated peer state,
+    // but we want to show an immediate change in the UI when the user presses
+    // the button
+    setPressed(true);
+    onPress();
+  };
+
   return (
     <TouchableNativeFeedback
       style={styles.syncTouchable}
-      onPress={status === peerStatus.ERROR ? undefined : onPress}
+      onPress={
+        status === (peerStatus.ERROR || peerStatus.PROGRESS)
+          ? undefined
+          : handlePress
+      }
       hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
       <View style={[styles.syncButtonBase, style]}>
         <View style={styles.iconContainer}>{icon}</View>
