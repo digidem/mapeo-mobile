@@ -1,6 +1,14 @@
 // @flow
 import React from "react";
-import { Text, View, ScrollView, StyleSheet, Share } from "react-native";
+import {
+  Text,
+  View,
+  ScrollView,
+  StyleSheet,
+  Share,
+  Image,
+  Dimensions
+} from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ShareMedia from "react-native-share";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -73,37 +81,6 @@ type MapProps = {
   lat: number
 };
 
-const MapFeatures = ({ lat, lon }: MapProps) => {
-  const featureCollection = {
-    type: "FeatureCollection",
-    features: [
-      {
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [lon, lat]
-        },
-        properties: {
-          id: Date.now()
-        }
-      }
-    ]
-  };
-  return (
-    <MapboxGL.ShapeSource id="observation-source" shape={featureCollection}>
-      <MapboxGL.SymbolLayer
-        id="observation-symbol"
-        style={{
-          iconImage: "observation",
-          iconSize: 0.4,
-          iconOffset: [0, 51],
-          iconAnchor: "bottom"
-        }}
-      />
-    </MapboxGL.ShapeSource>
-  );
-};
-
 const InsetMapView = ({ lon, lat }: MapProps) => {
   const [{ styleURL, loading, error }] = useMapStyle();
   if (loading)
@@ -128,13 +105,11 @@ const InsetMapView = ({ lon, lat }: MapProps) => {
       rotateEnabled={false}
       compassEnabled={false}
       styleURL={styleURL}>
-      <MapboxGL.Images images={{ observation: mapIcon }} />
       <MapboxGL.Camera
         centerCoordinate={[lon, lat]}
         zoomLevel={15}
         animationMode="moveTo"
       />
-      <MapFeatures lat={lat} lon={lon} />
     </MapboxGL.MapView>
   );
 };
@@ -222,6 +197,7 @@ const ObservationView = ({
         {/* check lat and lon are not null or undefined */}
         {lat != null && lon != null && (
           <View>
+            <Image style={styles.mapIcon} source={mapIcon} />
             <View style={styles.coords}>
               <View style={styles.coordsPointer} />
               <FormattedCoords
@@ -335,6 +311,9 @@ function formatShareMessage({
   return msg;
 }
 
+const MAP_HEIGHT = 175;
+const ICON_OFFSET = { x: 22, y: 21 };
+
 const styles = StyleSheet.create({
   categoryIconContainer: {
     alignItems: "center",
@@ -353,7 +332,15 @@ const styles = StyleSheet.create({
   },
   scrollContent: { minHeight: "100%" },
   map: {
-    height: 175
+    height: MAP_HEIGHT
+  },
+  mapIcon: {
+    position: "absolute",
+    zIndex: 11,
+    width: 44,
+    height: 75,
+    left: Dimensions.get("screen").width / 2 - ICON_OFFSET.x,
+    bottom: MAP_HEIGHT / 2 - ICON_OFFSET.y
   },
   coords: {
     zIndex: 10,
