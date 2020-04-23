@@ -77,6 +77,10 @@ const deviceName: string =
     .slice(0, 4)
     .toUpperCase();
 
+// Used to track the order that peers appear, so that new peers do not appear
+// above existing peers and cause the display to jump around and flicker
+const firstSeen = new Map<string, number>();
+
 const SyncModal = ({ navigation }: Props) => {
   const { formatMessage: t } = useIntl();
   const [, reload] = useAllObservations();
@@ -149,7 +153,7 @@ const SyncModal = ({ navigation }: Props) => {
       serverPeers.forEach(peer => {
         const state = peer.state;
         if (state && state.topic === "replication-error") {
-          const isNewError = !newSyncErrors.has(peer.id);
+          const isNewError = !newSyncErrors.has(peer.name);
           if (isNewError && state.code === "ERR_VERSION_MISMATCH") {
             if (
               parseVersionMajor(state.usVersion || "") >
@@ -166,7 +170,7 @@ const SyncModal = ({ navigation }: Props) => {
               );
             }
           }
-          newSyncErrors.set(peer.id, state);
+          newSyncErrors.set(peer.name, state);
         }
       });
       return newSyncErrors;
@@ -224,7 +228,8 @@ function getDerivedPeerState(
   syncErrors,
   since: number
 ): Array<Peer> {
-  return serverPeers.map(serverPeer => {
+  const peers = new Map<string, Peer>();
+  serverPeers.forEach(serverPeer => {
     let status = peerStatus.READY;
     const state = serverPeer.state || {};
     if (
@@ -243,16 +248,48 @@ function getDerivedPeerState(
     ) {
       status = peerStatus.COMPLETE;
     }
-    return {
+    // For each peer id, keep track of when it first appears
+    if (!firstSeen.has(serverPeer.id)) {
+      firstSeen.set(serverPeer.id, Date.now());
+    }
+    const peer = {
       id: serverPeer.id,
       name: serverPeer.name,
       status: status,
       // $FlowFixMe
       lastCompleted: state.lastCompletedDate,
       progress: getPeerProgress(serverPeer.state),
-      error: syncErrors.get(serverPeer.id),
+      error: syncErrors.get(serverPeer.name),
       deviceType: serverPeer.deviceType
     };
+    const existingPeer = peers.get(peer.name);
+    // Skip any new peers with the same name as an existing peer unless they are
+    // more recent (e.g. the existing peer was a connection that errored and the
+    // peer has re-appeared with a new id)
+    if (
+      existingPeer &&
+      (firstSeen.get(existingPeer.id) || 0) > (firstSeen.get(peer.id) || 0)
+    )
+      return;
+    peers.set(peer.name, peer);
+  });
+  // Sort peers first by the order they were first seen, then by name, to get a
+  // stable sort so the order does not change (because the ordering coming from
+  // the server is not guaranteed to be stable)
+  return Array.from(peers.values()).sort((a, b) => {
+    const aFirstSeen = firstSeen.get(a.id) || 0;
+    const bFirstSeen = firstSeen.get(b.id) || 0;
+    if (aFirstSeen === bFirstSeen) {
+      if (a.name < b.name) {
+        return -1;
+      } else if (a.name > b.name) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } else {
+      return aFirstSeen - bFirstSeen;
+    }
   });
 }
 
