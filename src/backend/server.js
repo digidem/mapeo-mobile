@@ -122,7 +122,9 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
         var source = fs.createReadStream(pathToNewConfigTarball);
         var dest = tar.extract(tmpDir, {
           readable: true,
-          writable: true
+          writable: true,
+          // Samsung devices throw EPERM error if you try to set utime
+          utimes: false
         });
         pump(source, dest, onExtract);
 
