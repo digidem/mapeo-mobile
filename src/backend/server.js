@@ -342,7 +342,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
       });
     });
 
-    const coreDb = kappa(createHypercoreStorage, {
+    const coreDb = kappa(feedsDir, {
       valueEncoding: "json",
       encryptionKey
     });
@@ -383,12 +383,6 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     };
 
     return { osm, close };
-
-    function createHypercoreStorage(name) {
-      const storage = raf(path.join(feedsDir, name));
-      storages.push(storage);
-      return storage;
-    }
 
     function createBkdStorage(name, cb) {
       process.nextTick(() => {
