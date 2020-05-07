@@ -358,7 +358,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     // the discovery swarm, and close all the random-access-storage instances
     // and the leveldb instance
     const close = function close(cb) {
-      let pending = storages.length + 1;
+      let pending = storages.length + 2;
       onReplicationComplete(() => {
         // TODO: mapeoCore.close() does not close the underlying hyperlogs or
         // stop indexing in @mapeo/core v8.1.3. This was added in v9 which we
