@@ -122,7 +122,7 @@
   },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
-    "message": "Done"
+    "message": "Concluido"
   },
   "screens.ObservationDetails.nextQuestion": {
     "description": "Button text to navigate to next question",
