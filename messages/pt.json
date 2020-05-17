@@ -1,7 +1,7 @@
 {
   "AppContainer.EditHeader.discardCancel": {
     "description": "Button on dialog to keep editing (cancelling close action)",
-    "message": "Continue editing"
+    "message": "Continuar editando"
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to close without saving",
@@ -12,27 +12,27 @@
     "message": "Discard observation?"
   },
   "screens.AddPhoto.cancel": {
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
-    "message": "No access to camera"
+    "message": "Sem acesso à câmera"
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
-    "message": "Choose what is happening"
+    "message": "Escolha o que está acontecendo"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
-    "message": "Details"
+    "message": "Detalhes"
   },
   "screens.GpsModal.gpsHeader": {
     "description": "Header for GPS screen",
-    "message": "Current GPS Location"
+    "message": "Localização GPS atual"
   },
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
-    "message": "Last update"
+    "message": "Última atualização"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
@@ -40,19 +40,19 @@
   },
   "screens.GpsModal.locationUTM": {
     "description": "Section title for UTM coordinates",
-    "message": "Coordinates UTM"
+    "message": "Coordenadas UTM"
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
-    "message": "No"
+    "message": "Não"
   },
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
-    "message": "Yes"
+    "message": "Sim"
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
-    "message": "Language"
+    "message": "Idioma"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "East"
@@ -68,7 +68,7 @@
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
-    "message": "Enter coordinates"
+    "message": "Inserir coordenadas"
   },
   "screens.ManualGpsScreen.zoneLetter": {
     "message": "Zone Letter"
@@ -82,7 +82,7 @@
   },
   "screens.Observation.ObservationView.alertSubject": {
     "description": "Subject-line for shared observations",
-    "message": "Mapeo Alert"
+    "message": "Alerta Mapeo"
   },
   "screens.Observation.ObservationView.delete": {
     "description": "Button to delete an observation",
@@ -90,27 +90,27 @@
   },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
-    "message": "No answer"
+    "message": "Sem resposta"
   },
   "screens.Observation.ObservationView.observation": {
     "description": "Default name of observation with no matching preset",
-    "message": "Observation"
+    "message": "Observação"
   },
   "screens.Observation.ObservationView.share": {
     "description": "Button to share an observation",
-    "message": "Share"
+    "message": "Compartilhar"
   },
   "screens.Observation.cancel": {
     "description": "Button to cancel delete of observation",
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "screens.Observation.confirm": {
     "description": "Button to confirm delete of observation",
-    "message": "Yes, delete"
+    "message": "Sim, excluir"
   },
   "screens.Observation.deleteTitle": {
     "description": "Title of dialog asking confirmation to delete an observation",
-    "message": "Delete observation?"
+    "message": "Excluir observação?"
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
