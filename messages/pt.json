@@ -114,11 +114,11 @@
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
-    "message": "Observation not found"
+    "message": "Observação não encontrada"
   },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
-    "message": "{current} of {total}"
+    "message": "{current} de {total}"
   },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
@@ -126,15 +126,15 @@
   },
   "screens.ObservationDetails.nextQuestion": {
     "description": "Button text to navigate to next question",
-    "message": "Next"
+    "message": "Próximo"
   },
   "screens.ObservationDetails.title": {
     "description": "Title of observation details screen showing question number and total",
-    "message": "Question {current} of {total}"
+    "message": "Pergunta {current} de {total}"
   },
   "screens.ObservationEdit.BottomSheet.addLabel": {
     "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
-    "message": "Add…"
+    "message": "Adicionar…"
   },
   "screens.ObservationEdit.ObservationEditView.changePreset": {
     "description": "Button to change a category / preset",
@@ -142,55 +142,55 @@
   },
   "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
     "description": "Placeholder for description/notes field",
-    "message": "What is happening here?"
+    "message": "O que está acontecendo aqui?"
   },
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
-    "message": "Add Details"
+    "message": "Adicionar detalhes"
   },
   "screens.ObservationEdit.ObservationEditView.observation": {
     "description": "Name of observation when no preset matches",
-    "message": "Observation"
+    "message": "Observação"
   },
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
-    "message": "Add Photo"
+    "message": "Adicionar foto"
   },
   "screens.ObservationEdit.ObservationEditView.searching": {
     "description": "Shown in new observation screen whilst looking for GPS",
-    "message": "Searching…"
+    "message": "Procurando…"
   },
   "screens.ObservationEdit.SaveButton.keepWaiting": {
     "description": "Button to cancel save and continue waiting for GPS",
-    "message": "Continue waiting"
+    "message": "Continuar aguardando"
   },
   "screens.ObservationEdit.SaveButton.manualEntry": {
     "description": "Button to manually enter GPS coordinates",
-    "message": "Manual Coords"
+    "message": "Inserir manualmente"
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
-    "message": "This observation does not have a location. You can continue waiting for a GPS signal, save the observation without a location, or enter coordinates manually"
+    "message": "Esta observação não tem localização. Você pode continuar esperando um sinal GPS, salvar a observação sem localização, ou inserir coordenadas manualmente"
   },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
-    "message": "No GPS signal"
+    "message": "Sem sinal GPS"
   },
   "screens.ObservationEdit.SaveButton.saveAnyway": {
     "description": "Button to save regardless of GPS state",
-    "message": "Save"
+    "message": "Salvar"
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
-    "message": "GPS accuracy is low. You can continue waiting for better accuracy, save the observation with low accuracy, or enter coordinates manually"
+    "message": "A precisão do GPS está baixa. Você pode continuar esperando uma maior precisão, salvar a observação com baixa precisão, ou inserir coordenadas manualmente"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
-    "message": "Weak GPS signal"
+    "message": "Sinal GPS fraco"
   },
   "screens.ObservationEdit.editTitle": {
     "description": "screen title for edit observation screen",
-    "message": "Edit Observation"
+    "message": "Editar observação"
   },
   "screens.ObservationEdit.newTitle": {
     "description": "screen title for new observation screen",
@@ -342,28 +342,28 @@
   },
   "screens.SyncModal.errorVersionThemBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} needs to upgrade Mapeo"
+    "message": "{deviceName} precisa atualizar o Mapeo"
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "The device you are trying to sync has a newer version of Mapeo. You need to upgrade Mapeo in order to sync with this device."
+    "message": "{deviceName} tem uma versão mais nova do Mapeo. Você tem que actualizar sua versão do Mapeo para poder sincronizar com {deviceName}."
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "You need to upgrade Mapeo"
+    "message": "Você precisa atualizar sua versão do Mapeo"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
-    "message": "Really sorry about this, something unexpected went wrong, and it's our fault not yours. Try restarting the app to see if that fixes things."
+    "message": "Lamentamos muito - algo inesperado deu errado e a culpa é nossa, não é sua. Tente reiniciar o aplicativo para ver se corrige o problema."
   },
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
-    "message": "Unexpected Error"
+    "message": "Erro inesperado"
   },
   "sharedComponents.GpsPill.noGps": {
-    "message": "No GPS"
+    "message": "Sem GPS"
   },
   "sharedComponents.GpsPill.searching": {
-    "message": "Searching…"
+    "message": "Procurando…"
   }
 }
