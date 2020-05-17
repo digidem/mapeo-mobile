@@ -5,11 +5,11 @@
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to close without saving",
-    "message": "Discard without saving"
+    "message": "Excluir observação"
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when closing an observation without saving",
-    "message": "Discard observation?"
+    "message": "Excluir observação?"
   },
   "screens.AddPhoto.cancel": {
     "message": "Cancelar"
@@ -36,7 +36,7 @@
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
-    "message": "Sensor Status"
+    "message": "Status dos sensores"
   },
   "screens.GpsModal.locationUTM": {
     "description": "Section title for UTM coordinates",
@@ -55,13 +55,13 @@
     "message": "Idioma"
   },
   "screens.ManualGpsScreen.easting": {
-    "message": "East"
+    "message": "Leste"
   },
   "screens.ManualGpsScreen.eastingSuffix": {
     "message": "mE"
   },
   "screens.ManualGpsScreen.northing": {
-    "message": "North"
+    "message": "Norte"
   },
   "screens.ManualGpsScreen.northingSuffix": {
     "message": "mN"
@@ -71,14 +71,14 @@
     "message": "Inserir coordenadas"
   },
   "screens.ManualGpsScreen.zoneLetter": {
-    "message": "Zone Letter"
+    "message": "Letra da zona"
   },
   "screens.ManualGpsScreen.zoneNumber": {
-    "message": "Zone Number"
+    "message": "Número do fuso"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
-    "message": "Sent from Mapeo"
+    "message": "Enviado do Mapeo"
   },
   "screens.Observation.ObservationView.alertSubject": {
     "description": "Subject-line for shared observations",
@@ -86,7 +86,7 @@
   },
   "screens.Observation.ObservationView.delete": {
     "description": "Button to delete an observation",
-    "message": "Delete"
+    "message": "Excluir"
   },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
@@ -138,7 +138,7 @@
   },
   "screens.ObservationEdit.ObservationEditView.changePreset": {
     "description": "Button to change a category / preset",
-    "message": "Change"
+    "message": "Mudar"
   },
   "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
     "description": "Placeholder for description/notes field",
