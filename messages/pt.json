@@ -5,7 +5,7 @@
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to close without saving",
-    "message": "Excluir observação"
+    "message": "Excluir sem salvar"
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when closing an observation without saving",
@@ -182,7 +182,7 @@
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
-    "message": "A precisão do GPS está baixa. Você pode continuar esperando uma maior precisão, salvar a observação com baixa precisão, ou inserir coordenadas manualmente"
+    "message": "A precisão do GPS está baixa. Você pode continuar esperando uma melhor precisão, salvar a observação com baixa precisão ou inserir coordenadas manualmente"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
@@ -222,7 +222,7 @@
   },
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
-    "message": "Carregando... pode demorar um pouco depois da sincronização com um novo dispositivo"
+    "message": "Carregando... pode demorar um pouco após a sincronização com um novo dispositivo"
   },
   "screens.ProjectConfig.title": {
     "description": "Title of project configuration screen",
