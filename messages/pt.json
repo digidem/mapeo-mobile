@@ -226,7 +226,7 @@
   },
   "screens.ProjectConfig.title": {
     "description": "Title of project configuration screen",
-    "message": "Configuração do projeto"
+    "message": "Configuração de projeto"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
@@ -242,47 +242,47 @@
   },
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
-    "message": "Something is up with the Mapeo database"
+    "message": "Algo está acontecendo com o banco de dados do Mapeo"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
-    "message": "Current Configuration"
+    "message": "Configuração atual"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
-    "message": "Language"
+    "message": "Idioma"
   },
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
-    "message": "Display language for App"
+    "message": "Idioma de exibição do aplicativo"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
-    "message": "Project Configuration"
+    "message": "Configuração de projeto"
   },
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
-    "message": "Categories, icons and questions"
+    "message": "Categorias, ícones e perguntas"
   },
   "screens.Settings.projectKey": {
     "description": "Label for project key",
-    "message": "Project Key"
+    "message": "Chave do projeto"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
-    "message": "Settings"
+    "message": "Configurações"
   },
   "screens.Settings.unnamedConfig": {
     "description": "Config name when do name is defined",
-    "message": "Un-named"
+    "message": "Sem nome"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
-    "message": "Complete"
+    "message": "Completo"
   },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
-    "message": "Error"
+    "message": "Erro"
   },
   "screens.SyncModal.PeerList.errorClientMismatch": {
     "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
@@ -290,47 +290,47 @@
   },
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
-    "message": "Incompatible Mapeo"
+    "message": "Incompatível com o Mapeo"
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
-    "message": "Sync"
+    "message": "Sincronizar"
   },
   "screens.SyncModal.PeerList.syncLabel": {
     "description": "Label for last sync datetime",
-    "message": "Synced:"
+    "message": "Sincronizado:"
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
-    "message": "Open your phone settins and connect to a WiFi network to synchronize"
+    "message": "Abra as configurações do seu dispositivo e conecte-se a uma rede Wi-Fi para sincronizar"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
-    "message": "No WiFi"
+    "message": "Sem Wi-Fi"
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
-    "message": "Project Key: {projectKey}"
+    "message": "Chave do Projeto: {projectKey}"
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
-    "message": "Ensure that other devices are turned on and connected to the same WiFi network"
+    "message": "Tenha certeza que os outros dispositivos estão ligados e conectados à mesma rede de Wi-Fi"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
-    "message": "Searching"
+    "message": "Procurando"
   },
   "screens.SyncModal.SyncView.settingsButton": {
     "description": "Button to open WiFi settings",
-    "message": "Open Settings"
+    "message": "Abrir configurações"
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
-    "message": "Synchronize"
+    "message": "Sincronizar"
   },
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
-    "message": "WiFi:"
+    "message": "Wi-Fi:"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
