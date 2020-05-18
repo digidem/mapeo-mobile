@@ -214,11 +214,11 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
-    "message": "Add Observations"
+    "message": "Adicionar observações"
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
-    "message": "Error loading observations. Try quitting and restarting Mapeo."
+    "message": "Erro ao carregar observações. Tente sair e reiniciar o Mapeo."
   },
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
