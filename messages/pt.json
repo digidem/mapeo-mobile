@@ -226,11 +226,11 @@
   },
   "screens.ProjectConfig.title": {
     "description": "Title of project configuration screen",
-    "message": "Configuração de projeto"
+    "message": "Configuração do projeto"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
-    "message": "Você pode tentar reiniciar o aplicativo à força, mas pode haver algo que precise ser corrigido. Sinto muito por isso, criar aplicativos é difícil."
+    "message": "Você pode tentar reiniciar o aplicativo à força, mas pode haver algo que precise ser corrigido. Sentimos muito por isso. Criar aplicativos é difícil."
   },
   "screens.ServerStatus.errorTitle": {
     "description": "Title of message when there the Mapeo Core server crashes",
@@ -242,7 +242,7 @@
   },
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
-    "message": "Algo está acontecendo com o banco de dados do Mapeo"
+    "message": "Algo está acontecendo com a base de dados do Mapeo"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
@@ -258,7 +258,7 @@
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
-    "message": "Configuração de projeto"
+    "message": "Configuração do projeto"
   },
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
@@ -278,7 +278,7 @@
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
-    "message": "Completo"
+    "message": "Concluído"
   },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
@@ -290,7 +290,7 @@
   },
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
-    "message": "Incompatível com o Mapeo"
+    "message": "Versão incompatível do Mapeo"
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
@@ -310,11 +310,11 @@
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
-    "message": "Chave do Projeto: {projectKey}"
+    "message": "Chave do projeto: {projectKey}"
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
-    "message": "Tenha certeza que os outros dispositivos estão ligados e conectados à mesma rede de Wi-Fi"
+    "message": "Verifique que os outros dispositivos estão ligados e conectados à mesma rede Wi-Fi"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
