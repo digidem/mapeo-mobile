@@ -194,19 +194,19 @@
   },
   "screens.ObservationEdit.newTitle": {
     "description": "screen title for new observation screen",
-    "message": "New Observation"
+    "message": "Nova observação"
   },
   "screens.ObservationList.observationListTitle": {
     "description": "Title of screen with list of observations",
-    "message": "Observations"
+    "message": "Observações"
   },
   "screens.ObservationsList.ObservationListItem.defaultObservationName": {
     "description": "Default name for an observation that does not match a preset",
-    "message": "Observation"
+    "message": "Observação"
   },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
-    "message": "Go To Map"
+    "message": "Ir para o mapa"
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
