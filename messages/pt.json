@@ -222,23 +222,23 @@
   },
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
-    "message": "Loading… this can take a while after synchronizing with a new device"
+    "message": "Carregando... pode demorar um pouco depois da sincronização com um novo dispositivo"
   },
   "screens.ProjectConfig.title": {
     "description": "Title of project configuration screen",
-    "message": "Project Configuration"
+    "message": "Configuração do projeto"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
-    "message": "You can try force-restarting the app, but there may be something that needs fixing. Really sorry about this, making apps is hard."
+    "message": "Você pode tentar reiniciar o aplicativo à força, mas pode haver algo que precise ser corrigido. Sinto muito por isso, criar aplicativos é difícil."
   },
   "screens.ServerStatus.errorTitle": {
     "description": "Title of message when there the Mapeo Core server crashes",
-    "message": "Oh dear, something is broken in the Mapeo database."
+    "message": "Que pena, algo está quebrado no banco de dados do Mapeo."
   },
   "screens.ServerStatus.timeoutDesc": {
     "description": "Description when the server has not responded for 10 seconds",
-    "message": "If you continue to see this message you may need to force-restart Mapeo"
+    "message": "Se essa mensagem persistir pode ser necessário forçar o reinício do Mapeo"
   },
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
