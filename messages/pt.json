@@ -210,7 +210,7 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "Comece a criar a sua primeira observação com uma tela de mapa ou câmera."
+    "message": "Comece na tela de mapa ou da câmera para criar sua primeira observação."
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
@@ -314,7 +314,7 @@
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
-    "message": "Verifique que os outros dispositivos estão ligados e conectados à mesma rede Wi-Fi"
+    "message": "Verifique se os outros dispositivos estão ligados e conectados à mesma rede Wi-Fi"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
