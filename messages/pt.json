@@ -78,7 +78,7 @@
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
-    "message": "Enviado do Mapeo"
+    "message": "Enviado pelo Mapeo"
   },
   "screens.Observation.ObservationView.alertSubject": {
     "description": "Subject-line for shared observations",
@@ -210,7 +210,7 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "Iniciar com mapa ou câmera para criar sua primeira observação."
+    "message": "Comece a criar a sua primeira observação com uma tela de mapa ou câmera."
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
