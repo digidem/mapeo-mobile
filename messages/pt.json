@@ -210,7 +210,7 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "Comece na tela de mapa ou da câmera para criar sua primeira observação."
+    "message": "Comece pela tela de mapa ou da câmera para criar sua primeira observação."
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
