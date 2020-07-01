@@ -13,6 +13,7 @@ import { NetworkInfo } from "react-native-network-info";
 import OpenSettings from "react-native-android-open-settings";
 import KeepAwake from "react-native-keep-awake";
 import { defineMessages, useIntl, FormattedMessage } from "react-intl";
+import { getUniqueId } from "react-native-device-info";
 
 import SyncView from "./SyncView";
 import api from "../../api";
@@ -72,8 +73,7 @@ const m = defineMessages({
 
 const deviceName: string =
   "Android " +
-  Math.floor(Math.random() * 1e9)
-    .toString(36)
+  getUniqueId()
     .slice(0, 4)
     .toUpperCase();
 
@@ -203,7 +203,7 @@ SyncModal.navigationOptions = {
   headerStyle: {
     backgroundColor: "#2348B2"
   },
-  headerTitle: (
+  headerTitle: () => (
     <HeaderTitle style={{ color: "white" }}>
       <FormattedMessage {...m.syncHeader} />
     </HeaderTitle>

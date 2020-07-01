@@ -249,12 +249,14 @@ class MapView extends React.Component<Props, State> {
           </View>
         ) : (
           <MapboxGL.MapView
+            testID="mapboxMapView"
             style={{ flex: 1 }}
             ref={this.handleMapViewRef}
             maxZoomLevel={22}
             logoEnabled={false}
             pitchEnabled={false}
             rotateEnabled={false}
+            attributionPosition={{ right: 8, bottom: 8 }}
             onPress={this.handleObservationPress}
             onDidFailLoadingMap={e =>
               bugsnag.notify(e, {

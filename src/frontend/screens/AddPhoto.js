@@ -53,7 +53,7 @@ const AddPhotoScreen = ({ navigation }: NavigationScreenConfigProps) => {
 };
 
 AddPhotoScreen.navigationOptions = {
-  header: null
+  headerShown: false
 };
 
 export default AddPhotoScreen;

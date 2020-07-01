@@ -2,7 +2,7 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { defineMessages, useIntl } from "react-intl";
-import { useIsFocused, useNavigation } from "react-navigation-hooks";
+import { useIsFocused } from "react-navigation-hooks";
 
 import LocationContext from "../context/LocationContext";
 import { GpsIcon } from "./icons";
@@ -56,19 +56,14 @@ export const GpsPill = React.memo<Props>(
   }
 );
 
-const ConnectedGpsPill = () => {
-  const navigation = useNavigation();
+const ConnectedGpsPill = ({ onPress }: { onPress: null | (() => void) }) => {
   const location = React.useContext(LocationContext);
   const locationStatus = getLocationStatus(location);
   const precision = location.position && location.position.coords.accuracy;
 
-  const handlePress = React.useCallback(() => {
-    navigation.navigate("GpsModal");
-  }, [navigation]);
-
   return (
     <GpsPill
-      onPress={handlePress}
+      onPress={onPress}
       precision={
         typeof precision === "number" ? Math.round(precision) : undefined
       }

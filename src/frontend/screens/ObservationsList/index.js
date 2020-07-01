@@ -46,12 +46,12 @@ const SettingsButton = () => {
 };
 
 ObservationsList.navigationOptions = {
-  headerTitle: (
+  headerTitle: () => (
     <HeaderTitle>
       <FormattedMessage {...m.observationListTitle} />
     </HeaderTitle>
   ),
-  headerRight: <SettingsButton />
+  headerRight: () => <SettingsButton />
 };
 
 export default ObservationsList;

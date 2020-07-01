@@ -69,7 +69,7 @@ ObservationEdit.navigationOptions = ({
 }: {
   navigation: NavigationProp
 }) => ({
-  headerTitle: (
+  headerTitle: () => (
     <HeaderTitle>
       {navigation.getParam("observationId") ? (
         <FormattedMessage {...m.editTitle} />
@@ -78,7 +78,7 @@ ObservationEdit.navigationOptions = ({
       )}
     </HeaderTitle>
   ),
-  headerRight: <SaveButton navigation={navigation} />
+  headerRight: () => <SaveButton navigation={navigation} />
 });
 
 export default ObservationEdit;

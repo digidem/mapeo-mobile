@@ -15,11 +15,11 @@ buildscript {
         google()
         jcenter()
         maven { url("$rootDir/../node_modules/react-native/android") }
-        maven { url("https://jitpack.io") }
+        maven { url("https://www.jitpack.io") }
         maven { url("https://maven.google.com") }
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.4.2")
+        classpath("com.android.tools.build:gradle:3.5.2")
         // Bugsnag plugin for uploading source maps and symbols to bugsnag
         classpath 'com.bugsnag:bugsnag-android-gradle-plugin:4.+'
         // Used by Detox
@@ -48,7 +48,7 @@ allprojects {
         }
         google()
         jcenter()
-        maven { url 'https://jitpack.io' }
+        maven { url 'https://www.jitpack.io' }
         maven {
             // All of Detox' artifacts are provided via the npm module
             url "$rootDir/../node_modules/detox/Detox-android"
