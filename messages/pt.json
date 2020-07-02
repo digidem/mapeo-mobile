@@ -5,7 +5,7 @@
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to close without saving",
-    "message": "Excluir sem salvar"
+    "message": "Excluir observação"
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when closing an observation without saving",
@@ -206,11 +206,11 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
-    "message": "Ir para o mapa"
+    "message": "Ir para mapa"
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "Comece na tela de mapa ou da câmera para criar sua primeira observação."
+    "message": "Comece pela tela de mapa ou da câmera para criar sua primeira observação."
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
@@ -234,15 +234,27 @@
   },
   "screens.ServerStatus.errorTitle": {
     "description": "Title of message when there the Mapeo Core server crashes",
-    "message": "Que pena, algo está quebrado no banco de dados do Mapeo."
+    "message": "Que pena, algo está quebrado na base de dados do Mapeo."
   },
   "screens.ServerStatus.timeoutDesc": {
     "description": "Description when the server has not responded for 10 seconds",
-    "message": "Se essa mensagem persistir pode ser necessário forçar o reinício do Mapeo"
+    "message": "Se essa mensagem persistir, pode ser necessário forçar o reinício do Mapeo"
   },
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Algo está acontecendo com a base de dados do Mapeo"
+  },
+  "screens.Settings.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "There was an error trying to import this config file"
+  },
+  "screens.Settings.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "OK"
+  },
+  "screens.Settings.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Import Error"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
@@ -314,7 +326,7 @@
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
-    "message": "Verifique se os outros dispositivos estão ligados e conectados à mesma rede Wi-Fi"
+    "message": "Verifique que os outros dispositivos estão ligados e conectados à mesma rede Wi-Fi"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
@@ -346,7 +358,7 @@
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "{deviceName} tem uma versão mais nova do Mapeo. Você tem que actualizar sua versão do Mapeo para poder sincronizar com {deviceName}."
+    "message": "{deviceName} tem uma versão mais nova do Mapeo. Você tem que atualizar sua versão do Mapeo para poder sincronizar com {deviceName}."
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
