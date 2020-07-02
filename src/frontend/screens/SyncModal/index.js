@@ -112,8 +112,8 @@ const SyncModal = ({ navigation }: Props) => {
     OpenSettings.wifiSettings();
   };
 
-  const errorPeer = peers.filter((p) => p.error)
-  if (errorPeer.state.isNewError && errorPeer.state.code === "ERR_VERSION_MISMATCH") {
+  const errorPeer = peers.find((p) => p.error)
+  if (errorPeer && errorPeer.error.isNewError && errorPeer.error.code === "ERR_VERSION_MISMATCH") {
     Alert.alert(
       errorPeer.state.errorMsg,
       errorPeer.state.errorDesc

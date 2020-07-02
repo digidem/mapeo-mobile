@@ -167,6 +167,7 @@ export const PeerItem = ({
   id,
   name,
   status,
+  connected,
   progress,
   error,
   lastCompleted,

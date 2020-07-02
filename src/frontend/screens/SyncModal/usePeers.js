@@ -30,15 +30,11 @@ const m = defineMessages({
 })
 
 module.exports = function usePeers (api, listen, deviceName) {
-  const { formatMessage: t } = useIntl()
-  const lastClosed = useRef(Date.now())
-  const [serverPeers, setServerPeers] = React.useState<ServerPeer[]>([]);
-  const [syncErrors, setSyncErrors] = React.useState<Map<string, PeerError>>(
-    new Map<string, PeerError>()
-  );
-  const [syncRequests, setSyncRequests] = React.useState<Map<string, boolean>>(
-    new Map<string, SyncRequest>()
-  );
+  const { formatMessage: t } = useIntl();
+  const lastClosed = useRef(Date.now());
+  const [serverPeers, setServerPeers] = React.useState([]);
+  const [syncErrors, setSyncErrors] = React.useState(new Map());
+  const [syncRequests, setSyncRequests] = React.useState(new Map());
 
 
   // Keep a ref of the last time this view was closed (used to maintain peer
@@ -60,9 +56,10 @@ module.exports = function usePeers (api, listen, deviceName) {
         // NB: use callback version of setState because the new error state
         // depends on the previous error state
         setSyncErrors(syncErrors => {
-          const newErrors = new Map<string, PeerError>(syncErrors);
+          const newErrors = new Map(syncErrors);
           updatedServerPeers.forEach(peer => {
             if (peer.state && peer.state.topic === 'replication-error') {
+              console.log(peer.state)
               peer.state.isNewError = !syncErrors.has(peer.id)
               newErrors.set(peer.id, peer.state)
             }
@@ -72,7 +69,7 @@ module.exports = function usePeers (api, listen, deviceName) {
         // Argh, this is hacky. This is making up for us not being able to rely
         // on server state for rendering the UI
         setSyncRequests(syncRequests => {
-          const newSyncRequests = new Map<string, boolean>(syncRequests);
+          const newSyncRequests = new Map(syncRequests);
 
           updatedServerPeers.forEach(peer => {
             if (!peer.state) return
@@ -123,7 +120,7 @@ module.exports = function usePeers (api, listen, deviceName) {
         // if the two devices are already up to sync. We store the request state
         // so the user can see the UI update when they click the button
         setSyncRequests(syncRequests => {
-          const newSyncRequests = new Map<string, boolean>(syncRequests);
+          const newSyncRequests = new Map(syncRequests);
           newSyncRequests.set(peerId, true)
           return newSyncRequests
         })
@@ -228,13 +225,14 @@ function getPeerProgress (peerState) {
   // unnecessarily on every progress change, when we are only showing the user a
   // rounded percentage progress. Increase this to 3-decimal places if you want
   // to show more detail to the user.
-  return {
-    percent: Math.round(progress * 100) / 100,
+  return Math.round(progress * 100) / 100
+  /*
     mediaSofar: peerState.message.media.sofar || 0,
     mediaTotal: peerState.message.media.total || 0,
     dbSofar: peerState.message.db.sofar || 0,
     dbTotal: peerState.message.db.total || 0
   }
+  */
 }
 
 export function parseVersionMajor (versionString = '') {
