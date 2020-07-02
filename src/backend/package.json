@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "@bugsnag/js": "^6.3.1",
+    "@mapeo/core": "^8.2.4",
     "bindings-noderify-nodejs-mobile": "^10.3.0",
     "debug": "^4.1.1",
     "discovery-swarm": "6.0.0",
