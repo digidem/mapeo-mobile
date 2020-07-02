@@ -12,7 +12,7 @@ import { Alert } from "react-native";
 import { NetworkInfo } from "react-native-network-info";
 import OpenSettings from "react-native-android-open-settings";
 import KeepAwake from "react-native-keep-awake";
-import { defineMessages, useIntl, FormattedMessage } from "react-intl";
+import { defineMessages, FormattedMessage } from "react-intl";
 import { getUniqueId } from "react-native-device-info";
 
 import SyncView from "./SyncView";
@@ -23,40 +23,11 @@ import ConfigContext from "../../context/ConfigContext";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import usePeers from './usePeers';
 
-import type { Peer } from "./PeerList";
-import type { ServerPeer, PeerError } from "../../api";
-
 type Props = {
   navigation: any
 };
 
 const m = defineMessages({
-  errorVersionThemBadTitle: {
-    id: "screens.SyncModal.errorVersionThemBadTitle",
-    defaultMessage: "{deviceName} needs to upgrade Mapeo",
-    description:
-      "Title of error alert when trying to sync with an incompatible older version of Mapeo"
-  },
-  errorVersionThemBadDesc: {
-    id: "screens.SyncModal.errorVersionThemBadDesc",
-    defaultMessage:
-      "The device you are trying to sync with needs to upgrade Mapeo to the latest version in order to sync with you.",
-    description:
-      "Content of error alert when trying to sync with an incompatible older version of Mapeo"
-  },
-  errorVersionUsBadTitle: {
-    id: "screens.SyncModal.errorVersionUsBadTitle",
-    defaultMessage: "You need to upgrade Mapeo",
-    description:
-      "Title of error alert when trying to sync with an incompatible newer version of Mapeo"
-  },
-  errorVersionUsBadDesc: {
-    id: "screens.SyncModal.errorVersionUsBadDesc",
-    defaultMessage:
-      "The device you are trying to sync has a newer version of Mapeo. You need to upgrade Mapeo in order to sync with this device.",
-    description:
-      "Content of error alert when trying to sync with an incompatible newer version of Mapeo"
-  },
   errorDialogOk: {
     id: "screens.SyncModal.errorDialogOk",
     defaultMessage: "OK",
@@ -77,7 +48,6 @@ const deviceName: string =
     .toUpperCase();
 
 const SyncModal = ({ navigation }: Props) => {
-  const { formatMessage: t } = useIntl();
   const [, reload] = useAllObservations();
   const [
     {
@@ -141,6 +111,15 @@ const SyncModal = ({ navigation }: Props) => {
   const handleWifiPress = () => {
     OpenSettings.wifiSettings();
   };
+
+  const errorPeer = peers.filter((p) => p.error)
+  if (errorPeer.state.isNewError && errorPeer.state.code === "ERR_VERSION_MISMATCH") {
+    Alert.alert(
+      errorPeer.state.errorMsg,
+      errorPeer.state.errorDesc
+    );
+  }
+
 
   return (
     <SyncView

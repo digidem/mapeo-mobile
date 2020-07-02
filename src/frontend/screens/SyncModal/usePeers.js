@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
-import { defineMessages, useIntl, FormattedMessage } from "react-intl";
-import { peerStatus } from "./PeerList";
+import { defineMessages, useIntl, FormattedMessage } from 'react-intl';
+import { peerStatus } from './PeerList';
 import path from 'path'
+
+import type { Peer } from "./PeerList";
+import type { ServerPeer, PeerError } from "../../api";
 
 const m = defineMessages({
   openSyncFileDialog: 'Select a database to syncronize',
@@ -9,18 +12,37 @@ const m = defineMessages({
   // Error message when trying to sync with an incompatible older version of Mapeo
   errorMsgVersionThemBad: '{deviceName} needs to upgrade Mapeo',
   // Error messagewhen trying to sync with an incompatible newer version of Mapeo
+  errorVersionThemBadDesc: {
+    id: 'screens.SyncModal.errorVersionThemBadDesc',
+    defaultMessage:
+      'The device you are trying to sync with needs to upgrade Mapeo to the latest version in order to sync with you.',
+    description:
+      'Content of error alert when trying to sync with an incompatible older version of Mapeo'
+  },
+  errorVersionUsBadDesc: {
+    id: 'screens.SyncModal.errorVersionUsBadDesc',
+    defaultMessage:
+      'The device you are trying to sync has a newer version of Mapeo. You need to upgrade Mapeo in order to sync with this device.',
+    description:
+      'Content of error alert when trying to sync with an incompatible newer version of Mapeo'
+  },
   errorMsgVersionUsBad: 'You need to upgrade Mapeo to sync with {deviceName}'
 })
 
 module.exports = function usePeers (api, listen, deviceName) {
-  const { formatMessage } = useIntl()
+  const { formatMessage: t } = useIntl()
   const lastClosed = useRef(Date.now())
-  const [serverPeers, setServerPeers] = useState([])
-  const [syncErrors, setSyncErrors] = useState(new Map())
-  const [syncRequests, setSyncRequests] = useState(new Map())
+  const [serverPeers, setServerPeers] = React.useState<ServerPeer[]>([]);
+  const [syncErrors, setSyncErrors] = React.useState<Map<string, PeerError>>(
+    new Map<string, PeerError>()
+  );
+  const [syncRequests, setSyncRequests] = React.useState<Map<string, boolean>>(
+    new Map<string, SyncRequest>()
+  );
+
 
   // Keep a ref of the last time this view was closed (used to maintain peer
-  // "completed" state in the UI)
+  // 'completed' state in the UI)
   useEffect(
     () => {
       if (!listen) lastClosed.current = Date.now()
@@ -38,9 +60,10 @@ module.exports = function usePeers (api, listen, deviceName) {
         // NB: use callback version of setState because the new error state
         // depends on the previous error state
         setSyncErrors(syncErrors => {
-          const newErrors = new Map(syncErrors)
+          const newErrors = new Map<string, PeerError>(syncErrors);
           updatedServerPeers.forEach(peer => {
             if (peer.state && peer.state.topic === 'replication-error') {
+              peer.state.isNewError = !syncErrors.has(peer.id)
               newErrors.set(peer.id, peer.state)
             }
           })
@@ -49,7 +72,8 @@ module.exports = function usePeers (api, listen, deviceName) {
         // Argh, this is hacky. This is making up for us not being able to rely
         // on server state for rendering the UI
         setSyncRequests(syncRequests => {
-          const newSyncRequests = new Map(syncRequests)
+          const newSyncRequests = new Map<string, boolean>(syncRequests);
+
           updatedServerPeers.forEach(peer => {
             if (!peer.state) return
             if (
@@ -74,7 +98,7 @@ module.exports = function usePeers (api, listen, deviceName) {
         if (peerListener) peerListener.remove()
       }
     },
-    [listen]
+    [api, listen, deviceName]
   )
 
   const peers = useMemo(
@@ -84,9 +108,9 @@ module.exports = function usePeers (api, listen, deviceName) {
         serverPeers,
         syncErrors,
         since: lastClosed.current,
-        formatMessage
+        t
       }),
-    [serverPeers, syncErrors, syncRequests, formatMessage]
+    [serverPeers, syncErrors, syncRequests, t]
   )
 
   const syncPeer = useCallback(
@@ -99,14 +123,14 @@ module.exports = function usePeers (api, listen, deviceName) {
         // if the two devices are already up to sync. We store the request state
         // so the user can see the UI update when they click the button
         setSyncRequests(syncRequests => {
-          const newSyncRequests = new Map(syncRequests)
+          const newSyncRequests = new Map<string, boolean>(syncRequests);
           newSyncRequests.set(peerId, true)
           return newSyncRequests
         })
         api.syncStart(peer)
       }
     },
-    [serverPeers]
+    [api, serverPeers]
   )
 
   return [peers, syncPeer]
@@ -122,11 +146,10 @@ function getPeersStatus ({
   syncErrors,
   syncRequests,
   since,
-  formatMessage
+  t
 }) {
   return serverPeers.map(serverPeer => {
     let status = peerStatus.READY
-    let errorMsg
     let complete
     const state = serverPeer.state || {}
     const name = serverPeer.filename
@@ -155,14 +178,14 @@ function getPeersStatus ({
           parseVersionMajor(state.usVersion || '') >
           parseVersionMajor(state.themVersion || '')
         ) {
-          errorMsg = formatMessage(m.errorMsgVersionThemBad, {
-            deviceName: name
-          })
+          state.errorMsg = t(m.errorMsgVersionThemBad, { deviceName: name })
+          state.errorDesc = t(m.errorVersionThemBadDesc, { deviceName: name })
         } else {
-          errorMsg = formatMessage(m.errorMsgVersionUsBad, { deviceName: name })
+          state.errorMsg = t(m.errorMsgVersionUsBad, { deviceName: name })
+          state.errorDesc = t(m.errorVersionUsBadDesc, { deviceName: name })
         }
       } else if (error) {
-        errorMsg = error.message || 'Error'
+        state.errorMsg = error.message || 'Error'
       }
     }
     return {
@@ -172,7 +195,7 @@ function getPeersStatus ({
       started: serverPeer.started,
       connected: serverPeer.connected,
       lastCompleted: complete || state.lastCompletedDate,
-      errorMsg: errorMsg,
+      error: state.errorMsg ? state : null,
       progress: getPeerProgress(serverPeer.state),
       deviceType: serverPeer.filename ? 'file' : serverPeer.deviceType
     }
