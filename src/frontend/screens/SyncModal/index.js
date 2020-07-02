@@ -20,9 +20,8 @@ import api from "../../api";
 import bugsnag from "../../lib/logger";
 import useAllObservations from "../../hooks/useAllObservations";
 import ConfigContext from "../../context/ConfigContext";
-import { peerStatus } from "./PeerList";
-import { parseVersionMajor } from "../../lib/utils";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import usePeers from './usePeers';
 
 import type { Peer } from "./PeerList";
 import type { ServerPeer, PeerError } from "../../api";
@@ -85,12 +84,10 @@ const SyncModal = ({ navigation }: Props) => {
       metadata: { projectKey }
     }
   ] = React.useContext(ConfigContext);
-  const [serverPeers, setServerPeers] = React.useState<ServerPeer[]>([]);
-  const [syncErrors, setSyncErrors] = React.useState<Map<string, PeerError>>(
-    new Map<string, PeerError>()
-  );
+
+  const [listen, setListening] = React.useState<boolean>(false);
+  const [peers, syncPeer] = usePeers(api, listen, deviceName);
   const [ssid, setSsid] = React.useState<null | string>(null);
-  const opened = React.useRef(Date.now());
 
   React.useEffect(() => {
     const subscriptions = [];
@@ -115,9 +112,7 @@ const SyncModal = ({ navigation }: Props) => {
       }
     };
     // When the modal opens, start announcing this device as available for sync
-    api.syncJoin(deviceName);
-    // Subscribe to peer updates
-    subscriptions.push(api.addPeerListener(setServerPeers));
+    setListening(true)
     // Subscribe to NetInfo to know when the user connects/disconnects to wifi
     subscriptions.push({
       remove: NetInfo.addEventListener(handleConnectionChange)
@@ -126,7 +121,7 @@ const SyncModal = ({ navigation }: Props) => {
     KeepAwake.activate();
     return () => {
       // When the modal closes, stop announcing for sync
-      api.syncLeave();
+      setListening(false)
       // Unsubscribe all listeners
       subscriptions.forEach(s => s.remove());
       // Turn off keep screen awake
@@ -143,47 +138,9 @@ const SyncModal = ({ navigation }: Props) => {
     [reload]
   );
 
-  React.useEffect(() => {
-    setSyncErrors(syncErrors => {
-      const newSyncErrors = new Map<string, PeerError>(syncErrors);
-      serverPeers.forEach(peer => {
-        const state = peer.state;
-        if (state && state.topic === "replication-error") {
-          const isNewError = !newSyncErrors.has(peer.id);
-          if (isNewError && state.code === "ERR_VERSION_MISMATCH") {
-            if (
-              parseVersionMajor(state.usVersion || "") >
-              parseVersionMajor(state.themVersion || "")
-            ) {
-              Alert.alert(
-                t(m.errorVersionThemBadTitle, { deviceName }),
-                t(m.errorVersionThemBadDesc, { deviceName })
-              );
-            } else {
-              Alert.alert(
-                t(m.errorVersionUsBadTitle, { deviceName }),
-                t(m.errorVersionUsBadDesc, { deviceName })
-              );
-            }
-          }
-          newSyncErrors.set(peer.id, state);
-        }
-      });
-      return newSyncErrors;
-    });
-  }, [serverPeers, t]);
-
-  const handleSyncPress = (peerId: string) => {
-    const peer = serverPeers.find(peer => peer.id === peerId);
-    // Peer could have vanished in the moment the button was pressed
-    if (peer) api.syncStart(peer);
-  };
-
   const handleWifiPress = () => {
     OpenSettings.wifiSettings();
   };
-
-  const peers = getDerivedPeerState(serverPeers, syncErrors, opened.current);
 
   return (
     <SyncView
@@ -192,7 +149,7 @@ const SyncModal = ({ navigation }: Props) => {
       ssid={ssid}
       onClosePress={() => navigation.pop()}
       onWifiPress={handleWifiPress}
-      onSyncPress={handleSyncPress}
+      onSyncPress={syncPeer}
       projectKey={projectKey}
     />
   );
@@ -210,80 +167,5 @@ SyncModal.navigationOptions = {
   )
 };
 
-/**
- * State in Mapeo Core can loose the history of an error or completion of sync.
- * In this sync modal, for the lifecycle of the component:
- * 1. If replication has started or in progress, that overrides any state
- *    (completion or error)
- * 2. If there is an error, that remains in the state until the modal is closed
- * 3. A peer remains "completed" another sync starts of the modal is closed
- * 4. A peer is only in the "ready" state when first discovered
- */
-function getDerivedPeerState(
-  serverPeers: ServerPeer[],
-  syncErrors,
-  since: number
-): Array<Peer> {
-  return serverPeers.map(serverPeer => {
-    let status = peerStatus.READY;
-    const state = serverPeer.state || {};
-    if (
-      state.topic === "replication-progress" ||
-      state.topic === "replication-started"
-    ) {
-      status = peerStatus.PROGRESS;
-    } else if (
-      syncErrors.has(serverPeer.id) ||
-      state.topic === "replication-error"
-    ) {
-      status = peerStatus.ERROR;
-    } else if (
-      (state.lastCompletedDate || 0) > since ||
-      state.topic === "replication-complete"
-    ) {
-      status = peerStatus.COMPLETE;
-    }
-    return {
-      id: serverPeer.id,
-      name: serverPeer.name,
-      status: status,
-      // $FlowFixMe
-      lastCompleted: state.lastCompletedDate,
-      progress: getPeerProgress(serverPeer.state),
-      error: syncErrors.get(serverPeer.id),
-      deviceType: serverPeer.deviceType
-    };
-  });
-}
-
 export default SyncModal;
 
-// We combine media and database items in progress. In order to show roughtly
-// accurate progress, this weighting is how much more progress a media item
-// counts vs. a database item
-const MEDIA_WEIGHTING = 1;
-function getPeerProgress(
-  peerState?: $ElementType<ServerPeer, "state">
-): number | void {
-  if (
-    !peerState ||
-    peerState.topic !== "replication-progress" ||
-    !peerState.message ||
-    !peerState.message.db ||
-    !peerState.message.media
-  )
-    return;
-  const total =
-    (peerState.message.db.total || 0) +
-    (peerState.message.media.total || 0) * MEDIA_WEIGHTING;
-  const sofar =
-    (peerState.message.db.sofar || 0) +
-    (peerState.message.media.sofar || 0) * MEDIA_WEIGHTING;
-  const progress = total > 0 ? sofar / total : 0;
-  // Round progress to 2-decimal places. PeerItem is memoized, so it will not
-  // update if progress does not change. Without rounding PeerItem updates
-  // unnecessarily on every progress change, when we are only showing the user a
-  // rounded percentage progress. Increase this to 3-decimal places if you want
-  // to show more detail to the user.
-  return Math.round(progress * 100) / 100;
-}
