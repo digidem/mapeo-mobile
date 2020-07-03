@@ -32,6 +32,16 @@ const m = defineMessages({
     defaultMessage: "Complete",
     description: "Button label when complete"
   },
+  disconnectedButton: {
+    id: "screens.SyncModal.PeerList.disconnectedButton",
+    defaultMessage: "Disconnected",
+    description: "Button label when disconnected"
+  },
+  finishingButton: {
+    id: "screens.SyncModal.PeerList.finishingButton",
+    defaultMessage: "Finishing",
+    description: "Button label when finishing sync but don't have correct progress"
+  },
   syncLabel: {
     id: "screens.SyncModal.PeerList.syncLabel",
     defaultMessage: "Synced:",
@@ -90,7 +100,7 @@ export const peerStatus: PeerStatus = {
   COMPLETE: "COMPLETE"
 };
 
-const SyncButton = ({ progress, onPress, status }) => {
+const SyncButton = ({ progress, onPress, status, connected }) => {
   const { formatMessage: t } = useIntl();
   const [pressed, setPressed] = React.useState(false);
 
@@ -107,22 +117,29 @@ const SyncButton = ({ progress, onPress, status }) => {
     case peerStatus.READY:
       style = styles.syncButtonReady;
       text = t(m.syncButton);
-      icon = <SyncIcon />;
+      icon = <SyncIcon />
+      break;
+    case peerStatus.COMPLETE:
+      style = connected ? styles.syncButtonDone : styles.syncButtonDisconnected;
+      text = t(m.completeButton);
+      icon = <DoneIcon />;
       break;
     case peerStatus.ERROR:
       style = styles.syncButtonError;
       text = t(m.errorButton);
       icon = <ErrorIcon color="red" />;
-      break;
-    case peerStatus.COMPLETE:
-      style = styles.syncButtonDone;
-      text = t(m.completeButton);
-      icon = <DoneIcon />;
+  }
+
+  if (!connected && status !== peerStatus.COMPLETE) {
+    style = styles.syncButtonDisconnected;
+    text = t(m.disconnectedButton)
+    icon = <ErrorIcon color="grey" />
   }
 
   if (pressed || status === peerStatus.PROGRESS) {
     style = styles.syncButtonProgress;
-    text = ((progress || 0) * 100).toFixed(0) + "%";
+    text = progress === 1 ? t(m.finishingButton)
+      : ((progress || 0) * 100).toFixed(0) + "%";
     icon = (
       <View style={styles.progressBackground}>
         <Progress progress={progress} size={25} color="white" />
@@ -142,7 +159,7 @@ const SyncButton = ({ progress, onPress, status }) => {
     <TouchableNativeFeedback
       style={styles.syncTouchable}
       onPress={
-        status === (peerStatus.ERROR || peerStatus.PROGRESS)
+        !connected || status === peerStatus.PROGRESS
           ? undefined
           : handlePress
       }
@@ -220,6 +237,7 @@ export const PeerItem = ({
         {peerInfo}
       </View>
       <SyncButton
+        connected={connected}
         status={status}
         progress={progress}
         onPress={() => onSyncPress(id)}
@@ -301,6 +319,11 @@ const styles = StyleSheet.create({
   syncButtonError: {
     borderWidth: 1,
     borderColor: "red",
+    backgroundColor: "#2348B2"
+  },
+  syncButtonDisconnected: {
+    borderWidth: 1,
+    borderColor: "transparent",
     backgroundColor: "#2348B2"
   },
   iconContainer: {
