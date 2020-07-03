@@ -87,9 +87,47 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
   // frequently, so we throttle updates to once every 500ms
   const throttledSendPeerUpdateToRN = throttle(sendPeerUpdateToRN, 500);
 
+  function onNewPeer (peer) {
+    throttledSendPeerUpdateToRN(peer)
+    if (!peer.sync) {
+      return log('Could not monitor peer, missing sync property')
+    }
+    peer.sync.once('sync-start', () => {
+      syncWatch(peer.sync)
+    })
+  }
+
+  function syncWatch (sync) {
+    const startTime = Date.now();
+    sync.on("error", onerror);
+    sync.on("progress", throttledSendPeerUpdateToRN);
+    sync.on("end", onend);
+    sendPeerUpdateToRN();
+
+    function onerror(err) {
+      main.bugsnag.notify(err, {
+        severity: "error",
+        context: "sync"
+      });
+      sync.removeListener("error", onerror);
+      sync.removeListener("progress", throttledSendPeerUpdateToRN);
+      sync.removeListener("end", onend);
+    }
+
+    function onend(err) {
+      if (err) log(err.message);
+      const syncDurationSecs = ((Date.now() - startTime) / 1000).toFixed(2);
+      log("Sync completed in " + syncDurationSecs + " seconds");
+      sync.removeListener("error", onerror);
+      sync.removeListener("progress", throttledSendPeerUpdateToRN);
+      sync.removeListener("end", onend);
+      sendPeerUpdateToRN();
+    }
+  }
+
   server.listen = function listen(...args) {
     mapeoCore.sync.listen(() => {
-      mapeoCore.sync.on("peer", throttledSendPeerUpdateToRN);
+      mapeoCore.sync.on("peer", onNewPeer);
       mapeoCore.sync.on("down", throttledSendPeerUpdateToRN);
       rnBridge.channel.on("sync-start", startSync);
       rnBridge.channel.on("sync-join", joinSync);
@@ -229,32 +267,8 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
 
   function startSync(target = {}) {
     if (!target.host || !target.port) return;
-    const startTime = Date.now();
     const sync = mapeoCore.sync.replicate(target, { deviceType: "mobile" });
-    sync.on("error", onerror);
-    sync.on("progress", throttledSendPeerUpdateToRN);
-    sync.on("end", onend);
-    sendPeerUpdateToRN();
-
-    function onerror(err) {
-      main.bugsnag.notify(err, {
-        severity: "error",
-        context: "sync"
-      });
-      sync.removeListener("error", onerror);
-      sync.removeListener("progress", throttledSendPeerUpdateToRN);
-      sync.removeListener("end", onend);
-    }
-
-    function onend(err) {
-      if (err) log(err.message);
-      const syncDurationSecs = ((Date.now() - startTime) / 1000).toFixed(2);
-      log("Sync completed in " + syncDurationSecs + " seconds");
-      sync.removeListener("error", onerror);
-      sync.removeListener("progress", throttledSendPeerUpdateToRN);
-      sync.removeListener("end", onend);
-      sendPeerUpdateToRN();
-    }
+    syncWatch(sync)
   }
 
   function joinSync({ deviceName } = {}) {
@@ -283,7 +297,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
   }
 
   server.close = function close(cb) {
-    mapeoCore.sync.removeListener("peer", throttledSendPeerUpdateToRN);
+    mapeoCore.sync.removeListener("peer", onNewPeer);
     mapeoCore.sync.removeListener("down", throttledSendPeerUpdateToRN);
     rnBridge.channel.removeListener("sync-start", startSync);
     rnBridge.channel.removeListener("sync-join", joinSync);
