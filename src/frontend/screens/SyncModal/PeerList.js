@@ -39,7 +39,7 @@ const m = defineMessages({
   },
   finishingButton: {
     id: "screens.SyncModal.PeerList.finishingButton",
-    defaultMessage: "Finishing",
+    defaultMessage: "...",
     description: "Button label when finishing sync but don't have correct progress"
   },
   syncLabel: {

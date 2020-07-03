@@ -2,7 +2,7 @@ import React from "react";
 import { Circle, CircleSnail } from "react-native-progress";
 
 const Progress = ({ size, color, progress }) =>
-  progress !== undefined ? (
+  progress !== undefined && progress < 1 ? (
     <Circle
       size={size}
       progress={progress}
