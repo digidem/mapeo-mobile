@@ -56,7 +56,7 @@ const SyncModal = ({ navigation }: Props) => {
   ] = React.useContext(ConfigContext);
 
   const [listen, setListening] = React.useState<boolean>(false);
-  const [peers, syncPeer] = usePeers(api, listen, deviceName);
+  const [peers, syncPeer, syncGetPeers] = usePeers(api, listen, deviceName);
   const [ssid, setSsid] = React.useState<null | string>(null);
 
   React.useEffect(() => {
@@ -79,6 +79,10 @@ const SyncModal = ({ navigation }: Props) => {
         // Even if we don't get the SSID, we still want to show that a wifi
         // network is connected.
         setSsid(ssid);
+        // On connection change, ensure we have the latest peer info from
+        // backend.
+        syncGetPeers()
+        setListening(true)
       }
     };
     // When the modal opens, start announcing this device as available for sync

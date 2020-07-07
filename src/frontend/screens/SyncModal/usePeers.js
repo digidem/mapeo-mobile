@@ -29,6 +29,8 @@ const m = defineMessages({
   errorMsgVersionUsBad: 'You need to upgrade Mapeo to sync with {deviceName}'
 })
 
+const IGNORED_ERROR_CODES = ['ECONNABORTED']
+
 module.exports = function usePeers (api, listen, deviceName) {
   const { formatMessage: t } = useIntl();
   const lastClosed = useRef(Date.now());
@@ -51,39 +53,6 @@ module.exports = function usePeers (api, listen, deviceName) {
       // Only start listening if `listen` is true
       if (!listen) return
 
-      const updatePeers = (updatedServerPeers = []) => {
-        setServerPeers(updatedServerPeers)
-        // NB: use callback version of setState because the new error state
-        // depends on the previous error state
-        setSyncErrors(syncErrors => {
-          const newErrors = new Map(syncErrors);
-          updatedServerPeers.forEach(peer => {
-            if (peer.state && peer.state.topic === 'replication-error') {
-              console.log(peer.state)
-              peer.state.isNewError = !syncErrors.has(peer.id)
-              newErrors.set(peer.id, peer.state)
-            }
-          })
-          return newErrors
-        })
-        // Argh, this is hacky. This is making up for us not being able to rely
-        // on server state for rendering the UI
-        setSyncRequests(syncRequests => {
-          const newSyncRequests = new Map(syncRequests);
-
-          updatedServerPeers.forEach(peer => {
-            if (!peer.state) return
-            if (
-              (peer.state.topic === 'replication-error' ||
-              peer.state.topic === 'replication-complete') && !peer.connected
-            ) {
-              newSyncRequests.delete(peer.id)
-            }
-          })
-          return newSyncRequests
-        })
-      }
-
       // Whenever the sync view becomes focused, announce for sync and start
       // listening for updates to peer status
       api.syncJoin(deviceName)
@@ -97,6 +66,40 @@ module.exports = function usePeers (api, listen, deviceName) {
     },
     [api, listen, deviceName]
   )
+
+  const updatePeers = (updatedServerPeers = []) => {
+    setServerPeers(updatedServerPeers)
+    // NB: use callback version of setState because the new error state
+    // depends on the previous error state
+    setSyncErrors(syncErrors => {
+      const newErrors = new Map(syncErrors);
+      updatedServerPeers.forEach(peer => {
+        if (peer.state && peer.state.topic === 'replication-error') {
+          peer.state.isNewError = !syncErrors.has(peer.id)
+          if (IGNORED_ERROR_CODES.indexOf(peer.state.code) === -1) {
+            newErrors.set(peer.id, peer.state)
+          }
+        }
+      })
+      return newErrors
+    })
+    // Argh, this is hacky. This is making up for us not being able to rely
+    // on server state for rendering the UI
+    setSyncRequests(syncRequests => {
+      const newSyncRequests = new Map(syncRequests);
+
+      updatedServerPeers.forEach(peer => {
+        if (!peer.state) return
+        if (
+          (peer.state.topic === 'replication-error' ||
+            peer.state.topic === 'replication-complete') && !peer.connected
+        ) {
+          newSyncRequests.delete(peer.id)
+        }
+      })
+      return newSyncRequests
+    })
+  }
 
   const peers = useMemo(
     () =>
@@ -130,7 +133,11 @@ module.exports = function usePeers (api, listen, deviceName) {
     [api, serverPeers]
   )
 
-  return [peers, syncPeer]
+  function syncGetPeers () {
+    api.syncGetPeers().then(updatePeers)
+  }
+
+  return [peers, syncPeer, syncGetPeers]
 }
 
 /**
