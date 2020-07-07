@@ -172,8 +172,7 @@ function getPeersStatus ({
       status = peerStatus.COMPLETE
       complete = state.message
     } else if (
-      syncErrors.has(serverPeer.id) ||
-      state.topic === 'replication-error'
+      syncErrors.has(serverPeer.id)
     ) {
       status = peerStatus.ERROR
       const error = syncErrors.get(serverPeer.id)
