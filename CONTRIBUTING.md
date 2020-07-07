@@ -120,6 +120,26 @@ then builds and installs the dev version of Mapeo on the connected device. To
 start Metro bundler on its own (e.g. if you already have the app installed), use
 `npm start`.
 
+### Running end-to-end tests
+
+Mapeo uses [Detox](https://github.com/wix/Detox) to run end-to-end tests. If Metro bundler is already running (via `npm start` or `npm run android`), stop it first with `Ctrl-C`, then restart it:
+
+```sh
+RN_SRC_EXT=e2e.js npm start
+```
+
+Then, build a debug test version of the app:
+
+```sh
+RN_SRC_EXT=e2e.js detox build -c android.device.debug
+```
+
+Now, to run the tests on a device or a running emulator, replace `DEVICE_ID` in the line below with the output of `adb devices`:
+
+```sh
+RN_SRC_EXT=e2e.js detox test -c  android.device.debug -n DEVICE_ID -r
+```
+
 ## Release Variants
 
 We generate different variants of the app, each with a different Application ID,
