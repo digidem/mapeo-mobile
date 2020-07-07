@@ -38,7 +38,7 @@ export const GpsPill = React.memo<Props>(
       text = t(m.searching);
     else text = `± ${precision} m`;
     return (
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onPress} testID="gpsPillButton">
         <View
           style={[
             styles.container,

@@ -121,7 +121,7 @@
     "babel-plugin-react-intl-auto": "^3.3.0",
     "babel-plugin-react-native-web": "^0.12.2",
     "conventional-changelog-cli": "^2.0.34",
-    "detox": "^16.2.0",
+    "detox": "^16.9.2",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
@@ -185,7 +185,7 @@
         "binaryPath": "android/app/build/outputs/apk/app/debug/mapeo-app-debug.apk",
         "build": "cd android && ./gradlew app:assembleDebug app:assembleAndroidTest -DtestBuildType=debug && cd ..",
         "type": "android.attached",
-        "device": {}
+        "device": "android.attached"
       },
       "android.emu.release": {
         "binaryPath": "android/app/build/outputs/apk/app/universal/mapeo-app-universal.apk",

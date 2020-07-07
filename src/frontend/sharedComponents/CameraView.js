@@ -111,10 +111,12 @@ const CameraView = ({ onAddPress }: Props) => {
         type={cameraType}
         useCamera2Api={false}
         onMountError={bugsnag.notify}
+        testID="camera"
       />
       <AddButton
         onPress={handleAddPress}
         style={{ opacity: capturing ? 0.5 : 1 }}
+        testID="addButtonCamera"
       />
     </View>
   );
