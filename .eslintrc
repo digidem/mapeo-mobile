@@ -17,7 +17,8 @@
     "standard",
     "react-native",
     "jest",
-    "react-hooks"
+    "react-hooks",
+    "detox"
   ],
   "parser": "babel-eslint",
   "parserOptions": {

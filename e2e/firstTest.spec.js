@@ -1,3 +1,5 @@
+/* eslint-env detox/detox, jest/globals */
+
 describe("Mapeo", () => {
   beforeEach(async () => {
     await device.reloadReactNative();
