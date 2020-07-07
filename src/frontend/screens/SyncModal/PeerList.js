@@ -133,7 +133,7 @@ const SyncButton = ({ progress, onPress, status, connected }) => {
   if (!connected && status !== peerStatus.COMPLETE) {
     style = styles.syncButtonDisconnected;
     text = t(m.disconnectedButton)
-    icon = <ErrorIcon color="grey" />
+    icon = <ErrorIcon color="yellow" />
   }
 
   if (pressed || status === peerStatus.PROGRESS) {
