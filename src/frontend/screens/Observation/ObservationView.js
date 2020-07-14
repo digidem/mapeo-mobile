@@ -159,14 +159,16 @@ const ObservationView = ({
   const { lat, lon, attachments } = observation.value;
   // Currently only show photo attachments
   const photos = filterPhotosFromAttachments(attachments);
+  const createdAt = formatDate(observation.created_at, { format: "long" })
 
   const handleShare = () => {
     const { value } = observation;
     const msg = formatShareMessage({
       observation,
       preset,
+      header: t(m.alertSubject),
       footer: t(m.alertFooter),
-      createdAt: formatDate(observation.created_at, { format: "long" })
+      createdAt
     });
 
     if (value.attachments && value.attachments.length) {
@@ -176,7 +178,7 @@ const ObservationView = ({
       const options = {
         urls: urls,
         message: msg,
-        subject: t(m.alertSubject),
+        subject: `${t(m.alertSubject)} _*${preset.name}*_ ${createdAt}`,
         failOnCancel: false
       };
       ShareMedia.open(options);
@@ -274,6 +276,7 @@ export default ObservationView;
 function formatShareMessage({
   observation,
   preset,
+  header,
   footer,
   createdAt
 }: {
@@ -283,26 +286,22 @@ function formatShareMessage({
   createdAt: string
 }) {
   const { value } = observation;
-  let msg = "";
-  if (preset && preset.name) msg += "— *" + preset.name + "* —\n";
-  msg += createdAt + "\n";
-  if (value.lat != null && value.lon != null)
-    msg += formatCoords({ lon: value.lon, lat: value.lat }) + "\n";
-  if (value.tags.notes) msg += "\n" + value.tags.notes + "\n";
+
+  const coords = formatCoords({ lon: value.lon, lat: value.lat })
   const completedFields =
     preset &&
     preset.fields &&
     preset.fields.filter(f => typeof value.tags[f.key] !== "undefined");
-  if (completedFields && completedFields.length) {
-    msg +=
-      "\n" +
-      completedFields
-        .map(f => "_" + f.label + ":_\n" + value.tags[f.key])
-        .join("\n") +
-      "\n";
-  }
-  msg += "\n— " + footer + " —";
-  return msg;
+
+  return `${header} — _*${preset.name}*_
+${createdAt}
+${coords}
+${value.tags.notes && '\n' + value.tags.notes + '\n'}
+${completedFields && completedFields.length ? completedFields.map((f) => {
+  return `*${f.label}*:
+_${value.tags[f.key]}_\n`
+}): '\n'}
+— ${footer} —`
 }
 
 const MAP_HEIGHT = 175;
