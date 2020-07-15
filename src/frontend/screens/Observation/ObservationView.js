@@ -29,7 +29,7 @@ import {
   MEDIUM_GREY
 } from "../../lib/styles";
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
-import type { PresetWithFields, Field } from "../../context/ConfigContext";
+import type { PresetWithFields, Field, SelectField } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
 import useMapStyle from "../../hooks/useMapStyle";
 import useDeviceId from "../../hooks/useDeviceId";
@@ -296,15 +296,25 @@ function formatShareMessage({
      coords = formatCoords({ lon: value.lon, lat: value.lat })
   }
 
-  const completedFields = fields.filter(f => typeof value.tags[f.key] !== "undefined");
+  function formatFieldValue (field: Field) {
+    var fieldValue = value.tags[field.key]
+    if (field.type === 'select_multiple') {
+      return `_${fieldValue.map((s) => s.trim()).join('_\n_')}_`
+    } else {
+      return `_${fieldValue.trim()}_`
+    }
+  }
+
+  const completedFields = fields
+    .filter(f => typeof value.tags[f.key] !== "undefined")
+    .map(f => ({ label: f.label, value: formatFieldValue(f)}))
 
   return `${header}
 ${createdAt}
 ${coords}
 ${value.tags.notes ? '\n' + value.tags.notes + '\n' : '\n'}
 ${completedFields.length > 0 ? completedFields.map((f) => {
-  return `*${f.label}*:
-_${value.tags[f.key]}_\n`
+  return `*${f.label}*:\n${f.value}\n`
 }).join('\n'): '\n'}
 — ${footer} —`
 }
