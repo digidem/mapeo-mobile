@@ -29,7 +29,7 @@ import {
   MEDIUM_GREY
 } from "../../lib/styles";
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
-import type { PresetWithFields, Field, SelectField } from "../../context/ConfigContext";
+import type { PresetWithFields, Field } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
 import useMapStyle from "../../hooks/useMapStyle";
 import useDeviceId from "../../hooks/useDeviceId";

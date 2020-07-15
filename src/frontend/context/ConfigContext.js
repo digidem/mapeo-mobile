@@ -36,7 +36,7 @@ export type TextField = {|
 
 export type SelectField = {|
   ...$Exact<BaseField>,
-  type: "select_one",
+  type: "select_one" | "select_multiple",
   options: Array<string | number | {| value: number | string, label: string |}>
 |};
 
