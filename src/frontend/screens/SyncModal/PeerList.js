@@ -90,7 +90,8 @@ export type Peer = {|
   // The time of last completed sync in milliseconds since UNIX Epoch
   lastCompleted?: number,
   error?: PeerError,
-  deviceType?: "mobile" | "desktop"
+  deviceType?: "mobile" | "desktop",
+  connected: boolean
 |};
 
 export const peerStatus: PeerStatus = {

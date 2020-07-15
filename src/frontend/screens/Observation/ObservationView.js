@@ -29,7 +29,7 @@ import {
   MEDIUM_GREY
 } from "../../lib/styles";
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
-import type { PresetWithFields } from "../../context/ConfigContext";
+import type { PresetWithFields, Field } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
 import useMapStyle from "../../hooks/useMapStyle";
 import useDeviceId from "../../hooks/useDeviceId";
@@ -160,13 +160,16 @@ const ObservationView = ({
   // Currently only show photo attachments
   const photos = filterPhotosFromAttachments(attachments);
   const createdAt = formatDate(observation.created_at, { format: "long" })
+  const name = preset && preset.name ||  t(m.observation)
+  const fields = preset && preset.fields || []
+  const icon = preset && preset.icon || undefined
 
   const handleShare = () => {
     const { value } = observation;
     const msg = formatShareMessage({
       observation,
-      preset,
-      header: t(m.alertSubject),
+      fields,
+      header: `${t(m.alertSubject)} — _*${name}*_`,
       footer: t(m.alertFooter),
       createdAt
     });
@@ -178,7 +181,7 @@ const ObservationView = ({
       const options = {
         urls: urls,
         message: msg,
-        subject: `${t(m.alertSubject)} _*${preset.name}*_ ${createdAt}`,
+        subject: `${t(m.alertSubject)} _*${name}*_ ${createdAt}`,
         failOnCancel: false
       };
       ShareMedia.open(options);
@@ -212,9 +215,9 @@ const ObservationView = ({
         </View>
         <View style={[styles.section, { flex: 1 }]}>
           <View style={styles.categoryIconContainer}>
-            <CategoryCircleIcon iconId={(preset || {}).icon} size="medium" />
+            <CategoryCircleIcon iconId={icon} size="medium" />
             <Text style={styles.categoryLabel} numberOfLines={1}>
-              {preset ? preset.name : t(m.observation)}
+              {name}
             </Text>
           </View>
           {observation.value.tags.notes &&
@@ -235,10 +238,10 @@ const ObservationView = ({
             />
           )}
         </View>
-        {preset && preset.fields && preset.fields.length > 0 && (
+        {fields && fields.length > 0 && (
           <View>
             <>
-              {preset.fields.map(({ label, key }) => (
+              {fields.map(({ label, key }) => (
                 <FieldView
                   key={key}
                   label={label || key}
@@ -275,32 +278,34 @@ export default ObservationView;
 
 function formatShareMessage({
   observation,
-  preset,
+  fields,
   header,
   footer,
   createdAt
 }: {
   observation: Observation,
-  preset?: PresetWithFields,
+  fields: Field[],
+  header: string,
   footer: string,
   createdAt: string
 }) {
   const { value } = observation;
 
-  const coords = formatCoords({ lon: value.lon, lat: value.lat })
-  const completedFields =
-    preset &&
-    preset.fields &&
-    preset.fields.filter(f => typeof value.tags[f.key] !== "undefined");
+  let coords = ''
+  if (typeof value.lat === 'number' && typeof value.lon === 'number') {
+     coords = formatCoords({ lon: value.lon, lat: value.lat })
+  }
 
-  return `${header} — _*${preset.name}*_
+  const completedFields = fields.filter(f => typeof value.tags[f.key] !== "undefined");
+
+  return `${header}
 ${createdAt}
 ${coords}
-${value.tags.notes && '\n' + value.tags.notes + '\n'}
-${completedFields && completedFields.length ? completedFields.map((f) => {
+${value.tags.notes ? '\n' + value.tags.notes + '\n' : '\n'}
+${completedFields.length > 0 ? completedFields.map((f) => {
   return `*${f.label}*:
 _${value.tags[f.key]}_\n`
-}): '\n'}
+}).join('\n'): '\n'}
 — ${footer} —`
 }
 

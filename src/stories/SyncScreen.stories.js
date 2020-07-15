@@ -14,7 +14,8 @@ const peers = [
     status: peerStatus.READY,
     progress: undefined,
     lastCompleted: undefined,
-    error: undefined
+    error: undefined,
+    connected: true
   },
   {
     id: "10",
@@ -23,7 +24,8 @@ const peers = [
     progress: undefined,
     lastCompleted: Date.now(),
     error: undefined,
-    deviceType: "desktop"
+    deviceType: "desktop",
+    connected: true
   },
   {
     id: "1",
@@ -32,7 +34,8 @@ const peers = [
     progress: 0.2,
     lastCompleted: Date.now() - 60 * 60 * 1000,
     error: undefined,
-    deviceType: "desktop"
+    deviceType: "desktop",
+    connected: true
   },
   {
     id: "2",
@@ -40,7 +43,8 @@ const peers = [
     status: peerStatus.COMPLETE,
     progress: undefined,
     lastCompleted: Date.now() - 2 * 24 * 60 * 60 * 1000,
-    error: undefined
+    error: undefined,
+    connected: true
   },
   {
     id: "3",
@@ -48,7 +52,8 @@ const peers = [
     status: peerStatus.ERROR,
     progress: undefined,
     lastCompleted: undefined,
-    error: undefined
+    error: undefined,
+    connected: false
   }
 ];
 
