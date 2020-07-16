@@ -210,11 +210,11 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "Start from map or camera view to record your first observation."
+    "message": "เริ่มจากมุมมองแผนที่หรือกล้องเพื่อบันทึก..."
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
-    "message": "Add Observations"
+    "message": "เพิ่มการสังเกต"
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
@@ -226,7 +226,7 @@
   },
   "screens.ProjectConfig.title": {
     "description": "Title of project configuration screen",
-    "message": "Project Configuration"
+    "message": "การกำหนดค่าโครงการ"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
@@ -246,23 +246,23 @@
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
-    "message": "Current Configuration"
+    "message": "การกำหนดค่าปัจจุบัน"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
-    "message": "Language"
+    "message": "ภาษา"
   },
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
-    "message": "Display language for App"
+    "message": "แสดงภาษาสำหรับแอป"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
-    "message": "Project Configuration"
+    "message": "การกำหนดค่าโครงการ"
   },
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
-    "message": "Categories, icons and questions"
+    "message": "หมวดหมู่, ไอคอน และคำถาม"
   },
   "screens.Settings.projectKey": {
     "description": "Label for project key",
@@ -270,7 +270,7 @@
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
-    "message": "Settings"
+    "message": "การตั้งค่า"
   },
   "screens.Settings.unnamedConfig": {
     "description": "Config name when do name is defined",
