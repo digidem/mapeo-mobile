@@ -40,7 +40,7 @@
   },
   "screens.GpsModal.locationUTM": {
     "description": "Section title for UTM coordinates",
-    "message": "พิกัด："
+    "message": "ระบบพิกัด UTM"
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
@@ -71,10 +71,10 @@
     "message": "ป้อนพิกัด"
   },
   "screens.ManualGpsScreen.zoneLetter": {
-    "message": "โซนตัวอักษร"
+    "message": "ตัวอักษรโซน"
   },
   "screens.ManualGpsScreen.zoneNumber": {
-    "message": "โซนตัวเลข"
+    "message": "หมายเลขโซน"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
@@ -94,11 +94,11 @@
   },
   "screens.Observation.ObservationView.observation": {
     "description": "Default name of observation with no matching preset",
-    "message": "ข้อสังเกต"
+    "message": "การสังเกต"
   },
   "screens.Observation.ObservationView.share": {
     "description": "Button to share an observation",
-    "message": "แชร์"
+    "message": "แบ่งปัน"
   },
   "screens.Observation.cancel": {
     "description": "Button to cancel delete of observation",
@@ -110,11 +110,11 @@
   },
   "screens.Observation.deleteTitle": {
     "description": "Title of dialog asking confirmation to delete an observation",
-    "message": "ยืนยันให้ลบข้อสังเกตนี้หรือไม่?"
+    "message": "ยืนยันให้ลบการสังเกตนี้หรือไม่?"
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
-    "message": "ไม่พบข้อสังเกต"
+    "message": "ไม่พบการสังเกต"
   },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
@@ -190,19 +190,19 @@
   },
   "screens.ObservationEdit.editTitle": {
     "description": "screen title for edit observation screen",
-    "message": "แก้ไขข้อสังเกต"
+    "message": "แก้ไขการสังเกต"
   },
   "screens.ObservationEdit.newTitle": {
     "description": "screen title for new observation screen",
-    "message": "ข้อสังเกตใหม่"
+    "message": "การสังเกตใหม่"
   },
   "screens.ObservationList.observationListTitle": {
     "description": "Title of screen with list of observations",
-    "message": "ข้อสังเกตต่าง ๆ "
+    "message": "การสังเกตต่าง ๆ "
   },
   "screens.ObservationsList.ObservationListItem.defaultObservationName": {
     "description": "Default name for an observation that does not match a preset",
-    "message": "ข้อสังเกต"
+    "message": "การสังเกต"
   },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
@@ -210,7 +210,7 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "เริ่มจากมุมมองแผนที่หรือกล้องเพื่อบันทึก..."
+    "message": "เริ่มจากมุมมองแผนที่หรือกล้องเพื่อเริ่มบันทึกการสังเกตแรก"
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
@@ -230,7 +230,7 @@
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
-    "message": "ลองปิด-เปิดแอพฯ อีกครั้ง ขออภัยในความไม่สะดวก ทางเรากำลังปรับปรุงการทำงานของแอพฯ ให้ดียิ่งขึ้น"
+    "message": "ลองปิด-เปิดแอปฯ อีกครั้ง ขออภัยในความไม่สะดวก ทางเรากำลังปรับปรุงการทำงานของแอปฯ ให้ดียิ่งขึ้น"
   },
   "screens.ServerStatus.errorTitle": {
     "description": "Title of message when there the Mapeo Core server crashes",
@@ -266,7 +266,7 @@
   },
   "screens.Settings.projectKey": {
     "description": "Label for project key",
-    "message": "Project Key"
+    "message": "รหัสโครงการ"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
@@ -354,7 +354,7 @@
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
-    "message": "ขออภัย... ระบบขัดข้อง กรุณาทดลองปิดและเปิดแอพพลิเคชันใหม่เพื่อดูว่าระบบใช้ได้เป็นปกติหรือไม่"
+    "message": "ขออภัย... ระบบขัดข้อง กรุณาทดลองปิดและเปิดแอปพลิเคชันใหม่เพื่อดูว่าระบบใช้ได้เป็นปกติหรือไม่"
   },
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
