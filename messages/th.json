@@ -20,7 +20,7 @@
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
-    "message": "เลือกสิ่งที่เกิดขึ้น"
+    "message": "เลือกหมวดหมู่การสังเกต"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -274,7 +274,7 @@
   },
   "screens.Settings.unnamedConfig": {
     "description": "Config name when do name is defined",
-    "message": "Un-named"
+    "message": "ไม่มีชื่อ"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
