@@ -29,7 +29,7 @@ const m = defineMessages({
   errorMsgVersionUsBad: 'You need to upgrade Mapeo to sync with {deviceName}'
 })
 
-const IGNORED_ERROR_CODES = ['ECONNABORTED']
+const IGNORED_ERROR_CODES = ['ECONNABORTED', 'ERR_MISSING_DATA']
 
 module.exports = function usePeers (api, listen, deviceName) {
   const { formatMessage: t } = useIntl();
@@ -79,6 +79,8 @@ module.exports = function usePeers (api, listen, deviceName) {
           if (IGNORED_ERROR_CODES.indexOf(peer.state.code) === -1) {
             newErrors.set(peer.id, peer.state)
           }
+        } else {
+          newErrors.delete(peer.id)
         }
       })
       return newErrors
