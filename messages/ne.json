@@ -52,7 +52,7 @@
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
-    "message": "Language"
+    "message": "भाषा"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "पुर्व"
@@ -206,7 +206,7 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
-    "message": "Go To Map"
+    "message": "नक्सामा जानु हाेला"
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
