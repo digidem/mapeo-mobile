@@ -20,7 +20,7 @@
     "lodash": "^4.17.11",
     "mapeo-config-icca": "^1.2.1",
     "mapeo-default-settings": "^2.1.0",
-    "mapeo-server": "^17.0.5",
+    "mapeo-server": "^17.0.6",
     "mkdirp": "^1.0.3",
     "pump": "^3.0.0",
     "random-access-file": "^2.1.0",
