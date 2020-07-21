@@ -109,6 +109,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
         severity: "error",
         context: "sync"
       });
+      sendPeerUpdateToRN();
       sync.removeListener("error", onerror);
       sync.removeListener("progress", throttledSendPeerUpdateToRN);
       sync.removeListener("end", onend);
