@@ -52,7 +52,7 @@
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
-    "message": "Language"
+    "message": "भाषा"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "पुर्व"
@@ -206,15 +206,15 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
-    "message": "Go To Map"
+    "message": "नक्सामा जानु हाेला"
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "Start from map or camera view to record your first observation."
+    "message": "पहिलो अवलोकन रेकर्ड गर्न नक्सा वा क्यामेरा दृश्यबाट सुरू गर्नु."
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
-    "message": "Add Observations"
+    "message": "अवलोकन थप्नुहोस"
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
@@ -246,15 +246,15 @@
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
-    "message": "Current Configuration"
+    "message": "हालकाे व्यवस्था"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
-    "message": "Language"
+    "message": "भाषा"
   },
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
-    "message": "Display language for App"
+    "message": "एपकाे लागि देखिने भाषा"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -262,11 +262,11 @@
   },
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
-    "message": "Categories, icons and questions"
+    "message": "श्रेणीहरू, आइकनहरू र प्रश्नहरू"
   },
   "screens.Settings.projectKey": {
     "description": "Label for project key",
-    "message": "Project Key"
+    "message": "प्रडक्ट कि"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
@@ -274,7 +274,7 @@
   },
   "screens.Settings.unnamedConfig": {
     "description": "Config name when do name is defined",
-    "message": "Un-named"
+    "message": "नाम नभएकाे"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
