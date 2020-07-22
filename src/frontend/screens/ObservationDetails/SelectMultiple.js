@@ -9,7 +9,7 @@ import QuestionLabel from "./QuestionLabel";
 
 import type { Style } from "../../types";
 import type { QuestionProps } from "./Question";
-import type { SelectField } from "../../context/PresetsContext";
+import type { SelectField } from "../../context/ConfigContext";
 
 type Props = {
   ...$Exact<QuestionProps>,

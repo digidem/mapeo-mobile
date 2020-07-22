@@ -5,8 +5,9 @@ import ky from "ky";
 import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
 import debug from "debug";
+import BuildConfig from "react-native-build-config";
 
-import type { Preset, Field } from "./context/PresetsContext";
+import type { Preset, Field, Metadata } from "./context/ConfigContext";
 import type {
   Observation,
   ObservationValue
@@ -20,6 +21,12 @@ import type { DraftPhoto } from "./context/DraftObservationContext";
 import type { Observation as ServerObservation } from "mapeo-schema";
 
 export type ServerStatus = $Keys<typeof STATUS>;
+
+export type ServerStatusMessage = {|
+  value: ServerStatus,
+  error?: string,
+  context?: string
+|};
 export type Subscription = { remove: () => any };
 
 export type PeerError =
@@ -100,7 +107,7 @@ export function Api({
   baseUrl: string,
   timeout?: number
 }) {
-  let status: ServerStatus = STATUS.STARTING;
+  let status: ServerStatus = STATUS.IDLE;
   let timeoutId: TimeoutID;
   // We append this to requests for presets and map styles, in order to override
   // the local static server cache whenever the app is restarted. NB. sprite,
@@ -122,20 +129,31 @@ export function Api({
   const pending: Array<{ resolve: () => any, reject: Error => any }> = [];
   let listeners: Array<(status: ServerStatus) => any> = [];
 
-  nodejs.channel.addListener("status", onStatusChange);
+  nodejs.channel.addListener("status", onStatus);
 
-  function onStatusChange(newStatus: ServerStatus) {
-    status = newStatus;
+  function onStatus({ value, error }: ServerStatusMessage) {
+    if (status !== value) {
+      bugsnag.leaveBreadcrumb("Server status change", { status: value });
+      if (value === STATUS.ERROR) {
+        bugsnag.notify(new Error(error || "Unknown Server Error"));
+      }
+    }
+    status = value;
     if (status === STATUS.LISTENING) {
       while (pending.length) pending.shift().resolve();
     } else if (status === STATUS.ERROR) {
-      while (pending.length) pending.shift().reject(new Error("Server Error"));
+      while (pending.length)
+        pending.shift().reject(new Error(error || "Unknown server Error"));
     } else if (status === STATUS.TIMEOUT) {
       while (pending.length)
         pending.shift().reject(new Error("Server Timeout"));
     }
     listeners.forEach(handler => handler(status));
-    if (status === STATUS.LISTENING || status === STATUS.STARTING) {
+    if (
+      status === STATUS.LISTENING ||
+      status === STATUS.STARTING ||
+      status === STATUS.IDLE
+    ) {
       restartTimeout();
     } else {
       clearTimeout(timeoutId);
@@ -144,7 +162,7 @@ export function Api({
 
   function restartTimeout() {
     if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => onStatusChange(STATUS.TIMEOUT), timeout);
+    timeoutId = setTimeout(() => onStatus({ value: STATUS.TIMEOUT }), timeout);
   }
 
   // Returns a promise that resolves when the server is ready to accept a
@@ -173,6 +191,9 @@ export function Api({
     return onReady().then(() => req.post(url, { json: data }).json());
   }
 
+  // Used to track RPC communication
+  let channelId = 0;
+
   // All public methods
   const api = {
     // Start server, returns a promise that resolves when the server is ready
@@ -188,9 +209,12 @@ export function Api({
         bugsnag.leaveBreadcrumb("Mapeo Core started");
         // Start monitoring for timeout
         restartTimeout();
-        // As soon as we hear from the Node process, send the storagePath so
-        // that the server can start
-        nodejs.channel.post("storagePath", RNFS.ExternalDirectoryPath);
+        // As soon as we hear from the Node process, send the storagePath and
+        // other config that the server requires
+        nodejs.channel.post("config", {
+          storagePath: RNFS.ExternalDirectoryPath,
+          flavor: BuildConfig.FLAVOR
+        });
         // Resolve once the server reports status as "LISTENING"
         return onReady();
       });
@@ -209,7 +233,7 @@ export function Api({
         // We could get here when the timeout timer has not yet started and the
         // server status is still "STARTING", so we update the status to an
         // error
-        onStatusChange(STATUS.ERROR);
+        onStatus({ value: STATUS.ERROR });
         bugsnag.notify(e);
       });
 
@@ -230,19 +254,19 @@ export function Api({
      */
 
     getPresets: function getPresets(): Promise<Preset[]> {
-      return get(`presets/default/presets.json?${startupTime}`).then(data =>
+      return get(`presets/default/presets.json?${Date.now()}`).then(data =>
         mapToArray(data.presets)
       );
     },
 
     getFields: function getFields(): Promise<Field[]> {
-      return get(`presets/default/presets.json?${startupTime}`).then(data =>
+      return get(`presets/default/presets.json?${Date.now()}`).then(data =>
         mapToArray(data.fields)
       );
     },
 
-    getMetadata: function getMetadata(): Promise<{ projectKey?: string }> {
-      return get(`presets/default/metadata.json?${startupTime}`).then(
+    getMetadata: function getMetadata(): Promise<Metadata> {
+      return get(`presets/default/metadata.json?${Date.now()}`).then(
         data => data || {}
       );
     },
@@ -252,7 +276,7 @@ export function Api({
     },
 
     getMapStyle: function getMapStyle(id: string): Promise<any> {
-      return get(`styles/${id}/style.json`);
+      return get(`styles/${id}/style.json?${startupTime}`);
     },
 
     getDeviceId: function getDeviceId(): Promise<string> {
@@ -283,9 +307,9 @@ export function Api({
           new Error("Missing uri for full image or thumbnail to save to server")
         );
       const data = {
-        original: originalUri.replace(/^file:\/\//, ""),
-        preview: previewUri.replace(/^file:\/\//, ""),
-        thumbnail: thumbnailUri.replace(/^file:\/\//, "")
+        original: convertFileUriToPosixPath(originalUri),
+        preview: convertFileUriToPosixPath(previewUri),
+        thumbnail: convertFileUriToPosixPath(thumbnailUri)
       };
       const createPromise = post("media", data);
       // After images have saved to the server we can delete the versions in
@@ -318,9 +342,11 @@ export function Api({
         schemaVersion: 3,
         id
       };
-      return put(`observations/${id}`, valueForServer).then(
-        (serverObservation: ServerObservation) =>
-          convertFromServer(serverObservation)
+      return put(
+        `observations/${id}`,
+        valueForServer
+      ).then((serverObservation: ServerObservation) =>
+        convertFromServer(serverObservation)
       );
     },
 
@@ -332,9 +358,35 @@ export function Api({
         type: "observation",
         schemaVersion: 3
       };
-      return post("observations", valueForServer).then(
-        (serverObservation: ServerObservation) =>
-          convertFromServer(serverObservation)
+      return post(
+        "observations",
+        valueForServer
+      ).then((serverObservation: ServerObservation) =>
+        convertFromServer(serverObservation)
+      );
+    },
+
+    // Replaces app config with .mapeosettings tar file at `path`
+    replaceConfig: function replaceConfig(fileUri: string): Promise<void> {
+      const path = convertFileUriToPosixPath(fileUri);
+      return onReady().then(
+        () =>
+          new Promise((resolve, reject) => {
+            const id = channelId++;
+            nodejs.channel.once("replace-config-" + id, done);
+            nodejs.channel.post("replace-config", { path, id });
+
+            const timeoutId = setTimeout(() => {
+              nodejs.channel.removeListener("replace-config-" + id, done);
+              done(new Error("Timeout when replacing config"));
+            }, 30 * 1000);
+
+            function done(err) {
+              clearTimeout(timeoutId);
+              if (err) reject(err);
+              else resolve();
+            }
+          })
       );
     },
 
@@ -461,7 +513,13 @@ function convertFromServer(obs: ServerObservation): Observation {
     metadata,
     value: {
       ...value,
-      tags: (value || {}).tags
+      tags: (value || {}).tags || {}
     }
   };
+}
+
+function convertFileUriToPosixPath(fileUri) {
+  if (typeof fileUri !== "string")
+    throw new Error("Attempted to convert invalid file Uri:" + fileUri);
+  return fileUri.replace(/^file:\/\//, "");
 }

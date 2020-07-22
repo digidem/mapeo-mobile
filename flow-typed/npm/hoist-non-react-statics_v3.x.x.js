@@ -1,7 +1,7 @@
-// flow-typed signature: 3010d1e44b78eedb9cf85c4f9af67238
-// flow-typed version: a9e75cb9a5/hoist-non-react-statics_v3.x.x/flow_>=v0.84.x <=v0.102.x
+// flow-typed signature: 9be425af031565c31993be5727451126
+// flow-typed version: /hoist-non-react-statics_v3.x.x/flow_>=v0.103.x
 
-declare module 'hoist-non-react-statics' {
+declare module "hoist-non-react-statics" {
   /**
    * Inspired by DefinitelyTyped/types/hoist-non-react-statics/index.d.ts
    *
@@ -67,8 +67,8 @@ declare module 'hoist-non-react-statics' {
   };
 
   declare type $HoistedStatics<S, C> = $Call<
-    & (empty => $Diff<S, REACT_STATICS>)
-    & (any => $Diff<S, $ObjMap<C, any> & REACT_STATICS>),
+    (empty => $Diff<S, REACT_STATICS>) &
+      (any => $Diff<S, $ObjMap<C, any> & REACT_STATICS>),
     C
   >;
 
@@ -77,7 +77,12 @@ declare module 'hoist-non-react-statics' {
     T - target component statics
     S - source component statics
   */
-  declare function hoistNonReactStatics<TP, T, S, C: { [key: string]: true, ... }>(
+  declare function hoistNonReactStatics<
+    TP,
+    T,
+    S,
+    C: { [key: string]: true, ... }
+  >(
     TargetComponent: React$ComponentType<TP> & T,
     SourceComponent: React$ComponentType<any> & S,
     customStatics?: C

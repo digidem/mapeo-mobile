@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { View, StyleSheet, AppState } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Camera } from "expo-camera";
 import debug from "debug";
 import { Accelerometer } from "expo-sensors";
@@ -11,6 +11,7 @@ import AddButton from "./AddButton";
 import { promiseTimeout } from "../lib/utils";
 import bugsnag from "../lib/logger";
 import type { CapturePromise } from "../hooks/useDraftObservation";
+import useIsMounted from "../hooks/useIsMounted";
 
 const log = debug("CameraView");
 
@@ -21,7 +22,7 @@ const captureOptions = {
   skipProcessing: true
 };
 
-type AppStateType = "active" | "background" | "inactive";
+type CameraType = "front" | "back";
 
 type Props = {
   // Called when the user takes a picture, with a promise that resolves to an
@@ -29,121 +30,95 @@ type Props = {
   onAddPress: (e: any, capture: CapturePromise) => void
 };
 
-type State = {
-  takingPicture: boolean,
-  showCamera: boolean
-};
-
 type Acceleration = { x: number, y: number, z: number };
 
-class CameraView extends React.Component<Props, State> {
-  cameraRef: { current: any };
-  subscription: { remove: () => any } | null;
-  acceleration: Acceleration | void;
-  mounted: boolean;
-  state = { takingPicture: false, showCamera: true };
+const CameraView = ({ onAddPress }: Props) => {
+  const ref = React.useRef();
+  const acceleration = React.useRef();
+  const isMounted = useIsMounted();
+  const [capturing, setCapturing] = React.useState(false);
+  const [cameraType] = React.useState<?CameraType>("back");
 
-  constructor(props: Props) {
-    super(props);
-    this.cameraRef = React.createRef();
-  }
+  React.useEffect(() => {
+    let isCancelled = false;
+    let subscription;
 
-  componentDidMount() {
-    this.mounted = true;
-    AppState.addEventListener("change", this.handleAppStateChange);
-    if (AppState.currentState === "active") this.watchAccelerometer();
-  }
+    (async () => {
+      try {
+        const motionAvailable = await Accelerometer.isAvailableAsync();
+        if (!motionAvailable || isCancelled) return;
+        await Accelerometer.setUpdateInterval(300);
+        if (isCancelled) return;
+        subscription = Accelerometer.addListener(acc => {
+          acceleration.current = acc;
+        });
+      } catch (err) {
+        bugsnag.notify(err);
+      }
+    })();
 
-  watchAccelerometer() {
-    Accelerometer.isAvailableAsync().then(motionAvailable => {
-      if (
-        !motionAvailable ||
-        !this.mounted ||
-        this.subscription ||
-        AppState.currentState !== "active"
-      )
-        return;
-      Accelerometer.setUpdateInterval(1000);
-      this.subscription = Accelerometer.addListener(acc => {
-        this.acceleration = acc;
+    return () => {
+      isCancelled = true;
+      if (subscription) subscription.remove();
+    };
+  }, []);
+
+  const handleAddPress = React.useCallback(
+    (e: any) => {
+      const camera = ref.current;
+      // We need to record this at the moment the button was pressed
+      const currentAcc = acceleration.current;
+      if (!camera)
+        return bugsnag.leaveBreadcrumb("Camera view not ready", {
+          type: "process"
+        });
+      if (capturing)
+        return bugsnag.leaveBreadcrumb("Shutter pressed twice", {
+          type: "process"
+        });
+      bugsnag.leaveBreadcrumb("Start photo capture", { type: "process" });
+
+      const initialCapture = promiseTimeout(
+        camera.takePictureAsync(captureOptions),
+        15000,
+        "Error capturing photo"
+      );
+      const capture = initialCapture.then(data => {
+        bugsnag.leaveBreadcrumb("Initial capture", { type: "process" });
+        return rotatePhoto(currentAcc)(data);
       });
-    });
-  }
 
-  unwatchAccelerometer() {
-    if (this.subscription) this.subscription.remove();
-    this.subscription = null;
-  }
+      // Wait until we have taken the image before navigating away (but rotation
+      // can continue in the background after navigation)
+      initialCapture.then(() => onAddPress(e, capture)).catch(bugsnag.notify);
 
-  handleAppStateChange = (nextAppState: AppStateType) => {
-    if (nextAppState === "active") this.watchAccelerometer();
-    else this.unwatchAccelerometer();
-  };
+      capture.catch(bugsnag.notify);
 
-  componentWillUnmount() {
-    this.mounted = false;
-    AppState.removeEventListener("change", this.handleAppStateChange);
-  }
-
-  handleAddPress = (e: any) => {
-    const camera = this.cameraRef.current;
-    if (!camera)
-      return bugsnag.leaveBreadcrumb("Camera view not ready", {
-        type: "process"
+      capture.finally(() => {
+        if (isMounted()) setCapturing(false);
       });
-    if (this.state.takingPicture)
-      return bugsnag.leaveBreadcrumb("Shutter pressed twice", {
-        type: "process"
-      });
-    bugsnag.leaveBreadcrumb("Start photo capture", { type: "process" });
 
-    const initialCapture = promiseTimeout(
-      camera.takePictureAsync(captureOptions),
-      15000,
-      "Error capturing photo"
-    );
-    const capture = initialCapture.then(data => {
-      bugsnag.leaveBreadcrumb("Initial capture", { type: "process" });
-      return rotatePhoto(this.acceleration)(data);
-    });
+      setCapturing(true);
+    },
+    [capturing, onAddPress, isMounted]
+  );
 
-    // Wait until we have taken the image before navigating away (but rotation
-    // can continue in the background after navigation)
-    initialCapture
-      .then(() => {
-        if (!this.mounted) return;
-        this.props.onAddPress(e, capture);
-      })
-      .catch(bugsnag.notify);
-
-    capture.catch(bugsnag.notify);
-
-    capture.finally(() => {
-      if (!this.mounted) return;
-      this.setState({ takingPicture: false });
-    });
-
-    this.setState({ takingPicture: true });
-  };
-
-  render() {
-    const { takingPicture } = this.state;
-    return (
-      <View style={styles.container}>
-        <Camera
-          ref={this.cameraRef}
-          style={{ flex: 1 }}
-          type={Camera.Constants.Type.back}
-          useCamera2Api={false}
-        />
-        <AddButton
-          onPress={this.handleAddPress}
-          style={{ opacity: takingPicture ? 0.5 : 1 }}
-        />
-      </View>
-    );
-  }
-}
+  return (
+    <View style={styles.container}>
+      <Camera
+        ref={ref}
+        style={{ flex: 1 }}
+        type={cameraType}
+        useCamera2Api={false}
+        onMountError={bugsnag.notify}
+      />
+      <AddButton
+        onPress={handleAddPress}
+        style={{ opacity: capturing ? 0.5 : 1 }}
+      />
+    </View>
+  );
+};
 
 export default CameraView;
 

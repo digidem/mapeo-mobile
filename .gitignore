@@ -41,6 +41,8 @@ buck-out/
 \.buckd/
 *.keystore
 !debug.keystore
+# NB: QA releases are insecure because signing key is public - use for testing only
+!mapeo-qa-key.keystore
 
 # fastlane
 #
@@ -66,3 +68,7 @@ buck-out/
 
 # Translation files
 /translations
+
+# Private env variables
+.env
+.bitrise.secrets.yml

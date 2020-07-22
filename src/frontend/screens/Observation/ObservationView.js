@@ -1,6 +1,14 @@
 // @flow
 import React from "react";
-import { Text, View, ScrollView, StyleSheet, Share } from "react-native";
+import {
+  Text,
+  View,
+  ScrollView,
+  StyleSheet,
+  Share,
+  Image,
+  Dimensions
+} from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ShareMedia from "react-native-share";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -21,10 +29,9 @@ import {
   MEDIUM_GREY
 } from "../../lib/styles";
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
-import type { PresetWithFields } from "../../context/PresetsContext";
+import type { PresetWithFields, Field } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
 import useMapStyle from "../../hooks/useMapStyle";
-import Loading from "../../sharedComponents/Loading";
 import useDeviceId from "../../hooks/useDeviceId";
 
 const m = defineMessages({
@@ -73,70 +80,32 @@ type MapProps = {
   lat: number
 };
 
-const MapFeatures = ({ lat, lon }: MapProps) => {
-  const featureCollection = {
-    type: "FeatureCollection",
-    features: [
-      {
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [lon, lat]
-        },
-        properties: {
-          id: Date.now()
-        }
-      }
-    ]
-  };
-  return (
-    <MapboxGL.ShapeSource id="observation-source" shape={featureCollection}>
-      <MapboxGL.SymbolLayer
-        id="observation-symbol"
-        style={{
-          iconImage: "observation",
-          iconSize: 0.4,
-          iconOffset: [0, 51],
-          iconAnchor: "bottom"
-        }}
-      />
-    </MapboxGL.ShapeSource>
-  );
-};
-
 const InsetMapView = ({ lon, lat }: MapProps) => {
-  const [{ styleURL, loading, error }] = useMapStyle();
-  if (loading)
-    return (
-      <View style={styles.map}>
-        <Loading />
-      </View>
-    );
-  if (error)
-    return (
+  const [{ styleURL, error }] = useMapStyle();
+
+  return React.useMemo(() => {
+    return error ? (
       <View style={styles.map}>
         <Text>Map Error</Text>
       </View>
+    ) : (
+      <MapboxGL.MapView
+        style={styles.map}
+        zoomEnabled={false}
+        logoEnabled={false}
+        scrollEnabled={false}
+        pitchEnabled={false}
+        rotateEnabled={false}
+        compassEnabled={false}
+        styleURL={styleURL}>
+        <MapboxGL.Camera
+          centerCoordinate={[lon, lat]}
+          zoomLevel={15}
+          animationMode="moveTo"
+        />
+      </MapboxGL.MapView>
     );
-  return (
-    <MapboxGL.MapView
-      style={styles.map}
-      zoomEnabled={false}
-      logoEnabled={false}
-      scrollEnabled={false}
-      pitchEnabled={false}
-      rotateEnabled={false}
-      compassEnabled={false}
-      styleURL={styleURL}>
-      <MapboxGL.Images images={{ observation: mapIcon }} />
-      <MapboxGL.Camera
-        centerCoordinate={[lon, lat]}
-        zoomLevel={15}
-        animationMode="moveTo"
-      />
-      <MapFeatures lat={lat} lon={lon} />
-    </MapboxGL.MapView>
-  );
+  }, [error, styleURL, lon, lat]);
 };
 
 const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
@@ -190,14 +159,19 @@ const ObservationView = ({
   const { lat, lon, attachments } = observation.value;
   // Currently only show photo attachments
   const photos = filterPhotosFromAttachments(attachments);
+  const createdAt = formatDate(observation.created_at, { format: "long" })
+  const name = preset && preset.name ||  t(m.observation)
+  const fields = preset && preset.fields || []
+  const icon = preset && preset.icon || undefined
 
   const handleShare = () => {
     const { value } = observation;
     const msg = formatShareMessage({
       observation,
-      preset,
+      fields,
+      header: `${t(m.alertSubject)} — _*${name}*_`,
       footer: t(m.alertFooter),
-      createdAt: formatDate(observation.created_at, { format: "long" })
+      createdAt
     });
 
     if (value.attachments && value.attachments.length) {
@@ -207,7 +181,8 @@ const ObservationView = ({
       const options = {
         urls: urls,
         message: msg,
-        subject: t(m.alertSubject)
+        subject: `${t(m.alertSubject)} _*${name}*_ ${createdAt}`,
+        failOnCancel: false
       };
       ShareMedia.open(options);
     } else Share.share({ message: msg });
@@ -221,6 +196,7 @@ const ObservationView = ({
         {/* check lat and lon are not null or undefined */}
         {lat != null && lon != null && (
           <View>
+            <Image style={styles.mapIcon} source={mapIcon} />
             <View style={styles.coords}>
               <View style={styles.coordsPointer} />
               <FormattedCoords
@@ -239,9 +215,9 @@ const ObservationView = ({
         </View>
         <View style={[styles.section, { flex: 1 }]}>
           <View style={styles.categoryIconContainer}>
-            <CategoryCircleIcon iconId={(preset || {}).icon} size="medium" />
+            <CategoryCircleIcon iconId={icon} size="medium" />
             <Text style={styles.categoryLabel} numberOfLines={1}>
-              {preset ? preset.name : t(m.observation)}
+              {name}
             </Text>
           </View>
           {observation.value.tags.notes &&
@@ -262,10 +238,10 @@ const ObservationView = ({
             />
           )}
         </View>
-        {preset && preset.fields && preset.fields.length > 0 && (
+        {fields && fields.length > 0 && (
           <View>
             <>
-              {preset.fields.map(({ label, key }) => (
+              {fields.map(({ label, key }) => (
                 <FieldView
                   key={key}
                   label={label || key}
@@ -302,37 +278,49 @@ export default ObservationView;
 
 function formatShareMessage({
   observation,
-  preset,
+  fields,
+  header,
   footer,
   createdAt
 }: {
   observation: Observation,
-  preset?: PresetWithFields,
+  fields: Field[],
+  header: string,
   footer: string,
   createdAt: string
 }) {
   const { value } = observation;
-  let msg = "";
-  if (preset && preset.name) msg += "— *" + preset.name + "* —\n";
-  msg += createdAt + "\n";
-  if (value.lat != null && value.lon != null)
-    msg += formatCoords({ lon: value.lon, lat: value.lat }) + "\n";
-  if (value.tags.notes) msg += "\n" + value.tags.notes + "\n";
-  const completedFields =
-    preset &&
-    preset.fields &&
-    preset.fields.filter(f => typeof value.tags[f.key] !== "undefined");
-  if (completedFields && completedFields.length) {
-    msg +=
-      "\n" +
-      completedFields
-        .map(f => "_" + f.label + ":_\n" + value.tags[f.key])
-        .join("\n") +
-      "\n";
+
+  let coords = ''
+  if (typeof value.lat === 'number' && typeof value.lon === 'number') {
+     coords = formatCoords({ lon: value.lon, lat: value.lat })
   }
-  msg += "\n— " + footer + " —";
-  return msg;
+
+  function formatFieldValue (field: Field) {
+    var fieldValue = value.tags[field.key]
+    if (field.type === 'select_multiple') {
+      return `_${fieldValue.map((s) => s.trim()).join('_\n_')}_`
+    } else {
+      return `_${fieldValue.trim()}_`
+    }
+  }
+
+  const completedFields = fields
+    .filter(f => typeof value.tags[f.key] !== "undefined")
+    .map(f => ({ label: f.label, value: formatFieldValue(f)}))
+
+  return `${header}
+${createdAt}
+${coords}
+${value.tags.notes ? '\n' + value.tags.notes + '\n' : '\n'}
+${completedFields.length > 0 ? completedFields.map((f) => {
+  return `*${f.label}*:\n${f.value}\n`
+}).join('\n'): '\n'}
+— ${footer} —`
 }
+
+const MAP_HEIGHT = 175;
+const ICON_OFFSET = { x: 22, y: 21 };
 
 const styles = StyleSheet.create({
   categoryIconContainer: {
@@ -352,7 +340,15 @@ const styles = StyleSheet.create({
   },
   scrollContent: { minHeight: "100%" },
   map: {
-    height: 175
+    height: MAP_HEIGHT
+  },
+  mapIcon: {
+    position: "absolute",
+    zIndex: 11,
+    width: 44,
+    height: 75,
+    left: Dimensions.get("screen").width / 2 - ICON_OFFSET.x,
+    bottom: MAP_HEIGHT / 2 - ICON_OFFSET.y
   },
   coords: {
     zIndex: 10,

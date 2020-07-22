@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { LocationProvider } from "./LocationContext";
 import { ObservationsProvider } from "./ObservationsContext";
-import { PresetsProvider } from "./PresetsContext";
+import { ConfigProvider } from "./ConfigContext";
 import { DraftObservationProvider } from "./DraftObservationContext";
 
 // This is a convenience wrapper for providing all App contexts to the tree,
@@ -11,9 +11,9 @@ import { DraftObservationProvider } from "./DraftObservationContext";
 const AppProvider = ({ children }: { children: React.Node }) => (
   <LocationProvider>
     <ObservationsProvider>
-      <PresetsProvider>
+      <ConfigProvider>
         <DraftObservationProvider>{children}</DraftObservationProvider>
-      </PresetsProvider>
+      </ConfigProvider>
     </ObservationsProvider>
   </LocationProvider>
 );

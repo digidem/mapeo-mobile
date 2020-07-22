@@ -3,15 +3,14 @@ import * as React from "react";
 import { View, Text } from "react-native";
 
 import debug from "debug";
-import { NavigationActions } from "react-navigation";
 
 import MapView from "../sharedComponents/MapView";
-import HomeHeader from "../sharedComponents/HomeHeader";
 import Loading from "../sharedComponents/Loading";
 import useDraftObservation from "../hooks/useDraftObservation";
 import useMapStyle from "../hooks/useMapStyle";
 import ObservationsContext from "../context/ObservationsContext";
 import LocationContext from "../context/LocationContext";
+import AddButton from "../sharedComponents/AddButton";
 import type { NavigationProp } from "../types";
 
 const log = debug("mapeo:MapScreen");
@@ -37,28 +36,26 @@ const MapScreen = ({ navigation }: Props) => {
     (e: any) => {
       log("pressed add button");
       newDraft(undefined, { tags: {} });
-      navigation.navigate(
-        "NewObservation",
-        {},
-        NavigationActions.navigate({ routeName: "CategoryChooser" })
-      );
+      navigation.navigate("CategoryChooser");
     },
     [navigation, newDraft]
   );
 
-  if (status === "loading") return <Loading />;
-  if (status === "error") return <Text>Error</Text>;
-
   return (
     <View style={{ flex: 1 }}>
-      <MapView
-        location={location}
-        observations={observations}
-        onAddPress={handleAddPress}
-        onPressObservation={handleObservationPress}
-        styleURL={loading ? "loading" : error ? "error" : styleURL}
-      />
-      <HomeHeader navigation={navigation} />
+      {status === "loading" ? (
+        <Loading />
+      ) : status === "error" ? (
+        <Text>Error</Text>
+      ) : (
+        <MapView
+          location={location}
+          observations={observations}
+          onPressObservation={handleObservationPress}
+          styleURL={loading ? "loading" : error ? "error" : styleURL}
+        />
+      )}
+      <AddButton testID="addButtonMap" onPress={handleAddPress} />
     </View>
   );
 };

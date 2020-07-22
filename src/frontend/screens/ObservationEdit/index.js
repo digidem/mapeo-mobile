@@ -23,7 +23,12 @@ const m = defineMessages({
 
 const ObservationEdit = ({ navigation }: { navigation: NavigationProp }) => {
   const handleCategoryPress = useCallback(() => {
-    navigation.navigate("CategoryChooser");
+    navigation.navigate({
+      routeName: "CategoryChooser",
+      // Set a key here so we don't navigate back in the stack when creating a
+      // new observation (which starts with the category chooser screen)
+      key: "fromObservationEdit"
+    });
   }, [navigation]);
 
   const handleCameraPress = useCallback(() => {

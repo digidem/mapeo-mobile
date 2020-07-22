@@ -72,6 +72,10 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
   );
 };
 
+PhotosModal.navigationOptions = {
+  header: null
+};
+
 export default PhotosModal;
 
 const styles = StyleSheet.create({

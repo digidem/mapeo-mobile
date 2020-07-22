@@ -50,6 +50,10 @@
     "description": "if a location sensor is active yes/no",
     "message": "Yes"
   },
+  "screens.LanguageSettings.title": {
+    "description": "Title language settings screen",
+    "message": "Language"
+  },
   "screens.ManualGpsScreen.easting": {
     "message": "East"
   },
@@ -200,6 +204,18 @@
     "description": "Default name for an observation that does not match a preset",
     "message": "Observation"
   },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "Go To Map"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
+    "description": "Description of observation list view when the user has not yet recorded observations",
+    "message": "Start from map or camera view to record your first observation."
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
+    "description": "Title of observation list view when the user has not yet recorded observations",
+    "message": "Add Observations"
+  },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
     "message": "Error loading observations. Try quitting and restarting Mapeo."
@@ -207,6 +223,10 @@
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
     "message": "Loading… this can take a while after synchronizing with a new device"
+  },
+  "screens.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "Project Configuration"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
@@ -224,6 +244,50 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Something is up with the Mapeo database"
   },
+  "screens.Settings.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "There was an error trying to import this config file"
+  },
+  "screens.Settings.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "OK"
+  },
+  "screens.Settings.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Import Error"
+  },
+  "screens.Settings.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "Current Configuration"
+  },
+  "screens.Settings.language": {
+    "description": "Primary text for language settings",
+    "message": "Language"
+  },
+  "screens.Settings.languageDesc": {
+    "description": "Secondary text for language settings",
+    "message": "Display language for App"
+  },
+  "screens.Settings.projectConfig": {
+    "description": "Primary text for project config settings",
+    "message": "Project Configuration"
+  },
+  "screens.Settings.projectConfigDesc": {
+    "description": "Secondary text for project config settings",
+    "message": "Categories, icons and questions"
+  },
+  "screens.Settings.projectKey": {
+    "description": "Label for project key",
+    "message": "Project Key"
+  },
+  "screens.Settings.title": {
+    "description": "Title of settings screen",
+    "message": "Settings"
+  },
+  "screens.Settings.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "Un-named"
+  },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
     "message": "Complete"
@@ -234,11 +298,11 @@
   },
   "screens.SyncModal.PeerList.errorClientMismatch": {
     "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
-    "message": ""
+    "message": "Not a Mapeo client"
   },
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
-    "message": ""
+    "message": "Incompatible Mapeo"
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
@@ -258,7 +322,7 @@
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
-    "message": ""
+    "message": "Project Key: {projectKey}"
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
@@ -270,7 +334,7 @@
   },
   "screens.SyncModal.SyncView.settingsButton": {
     "description": "Button to open WiFi settings",
-    "message": ""
+    "message": "Open Settings"
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
@@ -282,23 +346,23 @@
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
-    "message": ""
+    "message": "OK"
   },
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": ""
+    "message": "The device you are trying to sync with needs to upgrade Mapeo to the latest version in order to sync with you."
   },
   "screens.SyncModal.errorVersionThemBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": ""
+    "message": "{deviceName} needs to upgrade Mapeo"
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": ""
+    "message": "The device you are trying to sync has a newer version of Mapeo. You need to upgrade Mapeo in order to sync with this device."
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": ""
+    "message": "You need to upgrade Mapeo"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",

@@ -26,7 +26,7 @@ cp -r ./src/backend ./nodejs-assets
 mv ./nodejs-assets/backend ./nodejs-assets/nodejs-project
 
 echo "Installing dependencies..."
-cd ./nodejs-assets/nodejs-project && npm i && cd ../..
+cd ./nodejs-assets/nodejs-project && npm ci && cd ../..
 
 echo -en "Minifying with noderify..."
 cd ./nodejs-assets/nodejs-project
@@ -41,10 +41,12 @@ mv _index.js index.js
 cd ../..
 echo -en " done.\n"
 
-echo -en "Create presets fallback folder..."
+echo -en "Create presets fallback folders..."
 cd ./nodejs-assets/nodejs-project
 mkdir -p presets
-mv ./node_modules/mapeo-default-settings/build ./presets/default
+mkdir -p presets-icca
+mv ./node_modules/mapeo-default-settings/dist ./presets/default
+mv ./node_modules/mapeo-config-icca/dist ./presets-icca/default
 cd ../..
 echo -en " done.\n"
 

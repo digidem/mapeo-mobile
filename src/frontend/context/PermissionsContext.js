@@ -76,7 +76,6 @@ export class PermissionsProvider extends React.Component<
 
   async requestPermissions(permissions: PermissionType | PermissionType[]) {
     if (!Array.isArray(permissions)) permissions = [permissions];
-    // $FlowFixMe
     const status = await PermissionsAndroid.requestMultiple(permissions);
     log("Permission status", status);
     // Bail if nothing to update

@@ -2,6 +2,7 @@
 
 /*::
 type ConstantsType = {|
+  IDLE: "IDLE",
   STARTING: "STARTING",
   LISTENING: "LISTENING",
   CLOSING: "CLOSING",
@@ -12,6 +13,7 @@ type ConstantsType = {|
 */
 
 const Constants /*: ConstantsType */ = {
+  IDLE: "IDLE",
   STARTING: "STARTING",
   LISTENING: "LISTENING",
   CLOSING: "CLOSING",

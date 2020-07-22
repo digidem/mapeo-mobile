@@ -9,7 +9,7 @@
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when closing an observation without saving",
-    "message": "¿Quieres descartar observación?"
+    "message": "¿Quieres descartar la observación?"
   },
   "screens.AddPhoto.cancel": {
     "message": "Cancelar"
@@ -20,7 +20,7 @@
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
-    "message": "Elegir que cosa pasa"
+    "message": "Elegir qué está pasando"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -28,7 +28,7 @@
   },
   "screens.GpsModal.gpsHeader": {
     "description": "Header for GPS screen",
-    "message": "Ubicación Actual del GPS"
+    "message": "Ubicación actual del GPS"
   },
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
@@ -36,11 +36,11 @@
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
-    "message": "Sensores de ubicación"
+    "message": "Estatus de sensores"
   },
   "screens.GpsModal.locationUTM": {
     "description": "Section title for UTM coordinates",
-    "message": "Ubicación UTM"
+    "message": "Coordenadas UTM"
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
@@ -48,7 +48,11 @@
   },
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
-    "message": "Sí"
+    "message": "Si"
+  },
+  "screens.LanguageSettings.title": {
+    "description": "Title language settings screen",
+    "message": "Escoger idioma"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "Este"
@@ -64,13 +68,13 @@
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
-    "message": "Coordenadas"
+    "message": "Ingresar coordenadas"
   },
   "screens.ManualGpsScreen.zoneLetter": {
-    "message": "Letra de Zona"
+    "message": "Letra de zona"
   },
   "screens.ManualGpsScreen.zoneNumber": {
-    "message": "Número de Zona"
+    "message": "Número de zona"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
@@ -102,7 +106,7 @@
   },
   "screens.Observation.confirm": {
     "description": "Button to confirm delete of observation",
-    "message": "Si, Borrar"
+    "message": "Si, borrar"
   },
   "screens.Observation.deleteTitle": {
     "description": "Title of dialog asking confirmation to delete an observation",
@@ -110,7 +114,7 @@
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
-    "message": "Observación no encontrado"
+    "message": "Observación no encontrada"
   },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
@@ -122,7 +126,7 @@
   },
   "screens.ObservationDetails.nextQuestion": {
     "description": "Button text to navigate to next question",
-    "message": "Sigue"
+    "message": "Siguiente"
   },
   "screens.ObservationDetails.title": {
     "description": "Title of observation details screen showing question number and total",
@@ -142,7 +146,7 @@
   },
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
-    "message": "Llenar Detalle"
+    "message": "Agregar detalles"
   },
   "screens.ObservationEdit.ObservationEditView.observation": {
     "description": "Name of observation when no preset matches",
@@ -150,7 +154,7 @@
   },
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
-    "message": "Agregar Foto"
+    "message": "Agregar foto"
   },
   "screens.ObservationEdit.ObservationEditView.searching": {
     "description": "Shown in new observation screen whilst looking for GPS",
@@ -166,7 +170,7 @@
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
-    "message": "Esta observación no tiene ubicación. Puedes seguir esperando el GPS, o guardarlo sin ubicación"
+    "message": "Esta observación no tiene ubicación. Puedes seguir esperando el GPS, o guardarlo sin ubicación o ingresar las coordenadas manualmente"
   },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
@@ -178,7 +182,7 @@
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
-    "message": "La precisión del GPS está baja. Puedes seguir esperando que la precisión mejore, o guardar como está"
+    "message": "La precisión del GPS está baja. Puedes seguir esperando que la precisión mejore, o guardar como está o ingresar las coordenadas manualmente"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
@@ -186,11 +190,11 @@
   },
   "screens.ObservationEdit.editTitle": {
     "description": "screen title for edit observation screen",
-    "message": "Editar"
+    "message": "Editar observación"
   },
   "screens.ObservationEdit.newTitle": {
     "description": "screen title for new observation screen",
-    "message": "Nueva Observación"
+    "message": "Observación nueva"
   },
   "screens.ObservationList.observationListTitle": {
     "description": "Title of screen with list of observations",
@@ -200,6 +204,18 @@
     "description": "Default name for an observation that does not match a preset",
     "message": "Observación"
   },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "Ir al mapa"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
+    "description": "Description of observation list view when the user has not yet recorded observations",
+    "message": "Comience desde la vista de mapa o cámara para grabar su primera observación."
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
+    "description": "Title of observation list view when the user has not yet recorded observations",
+    "message": "Añadir observaciones"
+  },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
     "message": "Error a cargar observaciones, volver a abrir Mapeo para ver si lo corrige."
@@ -207,6 +223,10 @@
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
     "message": "Cargando… esto puede tomar un tiempo después de sincronizar con un nuevo dispositivo"
+  },
+  "screens.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "Configuración del Proyecto"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
@@ -218,11 +238,55 @@
   },
   "screens.ServerStatus.timeoutDesc": {
     "description": "Description when the server has not responded for 10 seconds",
-    "message": "Algo pasa con el base de datos Mapeo"
+    "message": "Si sigues viendo este mensaje, quizá tengas que reiniciar Mapeo"
   },
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
-    "message": "Esperando contacto con el base de datos de Mapeo, si continúa este mensaje, reinicie a Mapeo"
+    "message": "Algo está pasando con la base de datos Mapeo"
+  },
+  "screens.Settings.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "There was an error trying to import this config file"
+  },
+  "screens.Settings.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "OK"
+  },
+  "screens.Settings.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Import Error"
+  },
+  "screens.Settings.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "Configuración actual"
+  },
+  "screens.Settings.language": {
+    "description": "Primary text for language settings",
+    "message": "Idioma"
+  },
+  "screens.Settings.languageDesc": {
+    "description": "Secondary text for language settings",
+    "message": "Idioma para la aplicación"
+  },
+  "screens.Settings.projectConfig": {
+    "description": "Primary text for project config settings",
+    "message": "Configuración del proyecto"
+  },
+  "screens.Settings.projectConfigDesc": {
+    "description": "Secondary text for project config settings",
+    "message": "Categorías, íconos y preguntas"
+  },
+  "screens.Settings.projectKey": {
+    "description": "Label for project key",
+    "message": "Clave del proyecto"
+  },
+  "screens.Settings.title": {
+    "description": "Title of settings screen",
+    "message": "Configuración"
+  },
+  "screens.Settings.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "Sin nombre"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
@@ -286,23 +350,23 @@
   },
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "Este equipo necesita actualizar a su versión de Mapeo para poder sincronizar contigo."
+    "message": "El equipo con el que quieres sincronizar debe actualizar su versión de Mapeo para poder sincronizar contigo."
   },
   "screens.SyncModal.errorVersionThemBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} necesita actualizar a Mapeo"
+    "message": "{deviceName} necesita actualizar Mapeo"
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "{deviceName} tiene una versión de Mapeo más nuevo. Necesitas actualizar a tu versión de Mapeo para poder sincronizar con {deviceName}."
+    "message": "{deviceName} tiene una versión de Mapeo más nuevo. Tienes que actualizar tu versión de Mapeo para poder sincronizar con {deviceName}."
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "Necesitas actualizar a Mapeo"
+    "message": "Necesitas actualizar tu versión de Mapeo"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
-    "message": "Disculpas, hay un error. No es tu culpa, hay un problema interno. Intenta reiniciar Mapeo para ver si lo resuelve."
+    "message": "Disculpas, hay un error inesperado. No es tu culpa, hay un problema interno. Intenta reiniciar Mapeo para ver si se resuelve."
   },
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
