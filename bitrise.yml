@@ -166,33 +166,13 @@ workflows:
             - files_to_upload: $RELEASE_APK_PATH
             - body: $RELEASE_DESCRIPTION
             - api_token: $GITHUB_TOKEN
-      - script@1.1.6:
-          title: Set version name & code
+      - google-play-deploy@3.0.2:
           inputs:
-            - content: |
-                #!/usr/bin/env bash
-                # fail if any commands fails
-                set -e
-                # debug log
-                set -x
-
-                VERSION_NAME=`node -p "require('./package.json').version"`
-
-                if [[ "$BITRISE_GIT_BRANCH" == "deploy" || -n "$BITRISE_GIT_TAG" ]]; then
-                    # This is a push to deploy event or a tag event
-                    # Pushing a tag to Github for some reason triggers this workflow with $BITRISE_GIT_BRANCH set to master
-                    ANDROID_VERSION_NAME="${VERSION_NAME}.${BITRISE_BUILD_NUMBER}"
-                elif [ "${BITRISE_GIT_BRANCH%/*}" == "release" ]; then
-                    # This is a push to a branch matching `release/*`, so we build a release candidate
-                    ANDROID_VERSION_NAME="${VERSION_NAME}-RC.${BITRISE_BUILD_NUMBER}"
-                else
-                    # This is an internal build
-                    ANDROID_VERSION_NAME="${VERSION_NAME}-internal.${BITRISE_BUILD_NUMBER}"
-                fi
-
-                envman add --key VERSION_NAME --value $VERSION_NAME
-                envman add --key ANDROID_VERSION_NAME --value $ANDROID_VERSION_NAME
-                envman add --key ANDROID_VERSION_CODE --value $BITRISE_BUILD_NUMBER
+            - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
+            - track: beta
+            - apk_path: $RELEASE_APK_PATH
+            - app_path: $BITRISE_AAB_PATH
+            - package_name: com.mapeo
     meta:
       bitrise.io: null
       stack: linux-docker-android
