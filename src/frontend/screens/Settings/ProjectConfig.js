@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, Alert } from "react-native";
 // import { Picker as OriginalPicker } from "@react-native-community/picker";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import * as DocumentPicker from "expo-document-picker";
@@ -30,6 +30,24 @@ const m = defineMessages({
     id: "screens.Settings.unnamedConfig",
     defaultMessage: "Un-named",
     description: "Config name when do name is defined"
+  },
+  configErrorTitle: {
+    id: "screens.Settings.configErrorTitle",
+    defaultMessage: "Import Error",
+    description:
+      "Title of error dialog when there is an error importing a config file"
+  },
+  configErrorDescription: {
+    id: "screens.Settings.configErrorDescription",
+    defaultMessage: "There was an error trying to import this config file",
+    description:
+      "Description of error dialog when there is an error importing a config file"
+  },
+  configErrorOkButton: {
+    id: "screens.Settings.configErrorOkButton",
+    defaultMessage: "OK",
+    description:
+      "Button to dismiss error dialog when there is an error importing a config file"
   }
 });
 
@@ -50,6 +68,14 @@ const ProjectConfig = () => {
   const { formatMessage: t } = useIntl();
   const [status, setStatus] = React.useState<Status>("idle");
   const [config, { replace: replaceConfig }] = React.useContext(ConfigContext);
+  const didError = config.status === "error";
+
+  React.useEffect(() => {
+    if (!didError) return;
+    Alert.alert(t(m.configErrorTitle), t(m.configErrorDescription), [
+      { text: t(m.configErrorOkButton) }
+    ]);
+  }, [didError, t]);
 
   const handleImportPress = React.useCallback(async () => {
     setStatus("loading");

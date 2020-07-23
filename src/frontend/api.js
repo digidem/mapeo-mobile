@@ -254,19 +254,19 @@ export function Api({
      */
 
     getPresets: function getPresets(): Promise<Preset[]> {
-      return get(`presets/default/presets.json?${startupTime}`).then(data =>
+      return get(`presets/default/presets.json?${Date.now()}`).then(data =>
         mapToArray(data.presets)
       );
     },
 
     getFields: function getFields(): Promise<Field[]> {
-      return get(`presets/default/presets.json?${startupTime}`).then(data =>
+      return get(`presets/default/presets.json?${Date.now()}`).then(data =>
         mapToArray(data.fields)
       );
     },
 
     getMetadata: function getMetadata(): Promise<Metadata> {
-      return get(`presets/default/metadata.json?${startupTime}`).then(
+      return get(`presets/default/metadata.json?${Date.now()}`).then(
         data => data || {}
       );
     },

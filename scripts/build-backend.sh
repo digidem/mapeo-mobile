@@ -45,7 +45,7 @@ echo -en "Create presets fallback folders..."
 cd ./nodejs-assets/nodejs-project
 mkdir -p presets
 mkdir -p presets-icca
-mv ./node_modules/mapeo-default-settings/build ./presets/default
+mv ./node_modules/mapeo-default-settings/dist ./presets/default
 mv ./node_modules/mapeo-config-icca/dist ./presets-icca/default
 cd ../..
 echo -en " done.\n"

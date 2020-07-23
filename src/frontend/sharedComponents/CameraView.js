@@ -66,6 +66,8 @@ const CameraView = ({ onAddPress }: Props) => {
   const handleAddPress = React.useCallback(
     (e: any) => {
       const camera = ref.current;
+      // We need to record this at the moment the button was pressed
+      const currentAcc = acceleration.current;
       if (!camera)
         return bugsnag.leaveBreadcrumb("Camera view not ready", {
           type: "process"
@@ -83,7 +85,7 @@ const CameraView = ({ onAddPress }: Props) => {
       );
       const capture = initialCapture.then(data => {
         bugsnag.leaveBreadcrumb("Initial capture", { type: "process" });
-        return rotatePhoto(acceleration.current)(data);
+        return rotatePhoto(currentAcc)(data);
       });
 
       // Wait until we have taken the image before navigating away (but rotation

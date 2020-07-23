@@ -1,6 +1,6 @@
 {
   "name": "mapeo-mobile",
-  "version": "2.1.0",
+  "version": "5.0.0",
   "private": true,
   "engines": {
     "node": "^10.16.0"
@@ -46,8 +46,8 @@
     "@react-native-community/hooks": "^2.4.8",
     "@react-native-community/masked-view": "^0.1.8",
     "@react-native-community/netinfo": "^5.7.0",
-    "@react-native-mapbox-gl/maps": "^8.0.0-rc5",
     "bugsnag-react-native": "^2.23.7",
+    "@react-native-mapbox-gl/maps": "^8.0.0",
     "cheap-ruler": "^2.5.1",
     "core-js": "^3.6.5",
     "debug": "^4.1.1",

@@ -3,6 +3,7 @@ import * as React from "react";
 import debug from "debug";
 
 import api from "../api";
+import bugsnag from "../lib/logger";
 import type { Status } from "../types";
 
 const log = debug("mapeo:ConfigContext");
@@ -35,7 +36,7 @@ export type TextField = {|
 
 export type SelectField = {|
   ...$Exact<BaseField>,
-  type: "select_one",
+  type: "select_one" | "select_multiple",
   options: Array<string | number | {| value: number | string, label: string |}>
 |};
 
@@ -147,6 +148,7 @@ export const ConfigProvider = ({ children }: Props) => {
         setStatus("success");
       })
       .catch(err => {
+        bugsnag.notify(err, report => (report.severity = "error"));
         log("Error loading presets and fields", err);
         if (didCancel) return; // if component was unmounted, don't set state
         setStatus("error");

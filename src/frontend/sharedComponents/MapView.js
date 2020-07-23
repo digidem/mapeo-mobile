@@ -137,7 +137,11 @@ class MapView extends React.Component<Props, State> {
       following:
         !!props.location.provider &&
         props.location.provider.locationServicesEnabled,
-      zoom: 12,
+      zoom:
+        props.location.provider &&
+        props.location.provider.locationServicesEnabled
+          ? 12
+          : 0.1,
       coords: getCoords(props.location)
     };
 
@@ -148,11 +152,12 @@ class MapView extends React.Component<Props, State> {
     MapboxGL.setTelemetryEnabled(false);
   }
 
-  // We only use the location prop (which contains the app GPS location) for the
-  // first render of the map. After that location updates come from the native
-  // map view, so we don't want to re-render this component every time there is
-  // a GPS update, only when the location provider status changes, which we use
-  // to render the map in follow-mode or not.
+  // Instead of using <MapboxGL.Camera> for following user location (because it
+  // causes CPU usage to rise to 150% because it frequently re-renders the map)
+  // we update the coordinates of the map every time the location changes by
+  // more than MIN_DISPLACEMENT meters. When the coords update,
+  // <MapboxGL.Camera> (in non-follow-mode) will animate a transition to the new
+  // location
   shouldComponentUpdate(nextProps: Props, nextState: State) {
     // Don't update the map at all if the map is not the active screen
     if (!nextProps.isFocused) return false;
@@ -191,9 +196,13 @@ class MapView extends React.Component<Props, State> {
     if (observations.get(observationId)) {
       onPressObservation(observationId);
     } else {
-      bugsnag.notify(new Error("Could not find pressed observation"), {
-        observationId
-      });
+      bugsnag.notify(
+        new Error("Could not find pressed observation"),
+        report => {
+          report.severity = "warning";
+          report.context = "Could not find obs ID: " + observationId;
+        }
+      );
     }
   };
 
@@ -203,7 +212,6 @@ class MapView extends React.Component<Props, State> {
 
   handleRegionWillChange = (e: any) => {
     if (!e.properties.isUserInteraction || !this.state.following) return;
-    // Any user interaction with the map switches follow mode to false
     this.setState({ following: false });
   };
 
@@ -230,6 +238,7 @@ class MapView extends React.Component<Props, State> {
   handleLocationPress = () => {
     const { location } = this.props;
     if (!(location.provider && location.provider.locationServicesEnabled))
+      // TODO: Show alert for the user here so they know why it does not work
       return;
     this.setState(state => ({ following: !state.following }));
   };
@@ -256,12 +265,13 @@ class MapView extends React.Component<Props, State> {
             logoEnabled={false}
             pitchEnabled={false}
             rotateEnabled={false}
+            surfaceView={true}
             attributionPosition={{ right: 8, bottom: 8 }}
             onPress={this.handleObservationPress}
             onDidFailLoadingMap={e =>
-              bugsnag.notify(e, {
-                severity: "error",
-                context: "onDidFailLoadingMap"
+              bugsnag.notify(e, report => {
+                report.severity = "error";
+                report.context = "onDidFailLoadingMap";
               })
             }
             onDidFinishLoadingStyle={this.handleDidFinishLoadingStyle}
@@ -282,30 +292,33 @@ class MapView extends React.Component<Props, State> {
             onRegionWillChange={this.handleRegionWillChange}
             onRegionIsChanging={this.handleRegionIsChanging}
             onRegionDidChange={this.handleRegionDidChange}>
-            {following && (
-              <MapboxGL.Camera
-                defaultSettings={{
-                  centerCoordinate: this.coordsRef || coords || [0, 0],
-                  zoomLevel: this.zoomRef || zoom
-                }}
-                animationDuration={1000}
-                centerCoordinate={getCoords(location)}
-                zoomLevel={
-                  (this.zoomRef || zoom) < 12 ? 12 : this.zoomRef || zoom
-                }
-                animationMode="flyTo"
+            <MapboxGL.Camera
+              defaultSettings={{
+                centerCoordinate: this.coordsRef || coords || [0, 0],
+                zoomLevel: this.zoomRef || zoom || 12
+              }}
+              centerCoordinate={following ? getCoords(location) : undefined}
+              zoomLevel={
+                !following
+                  ? undefined
+                  : (this.zoomRef || zoom) < 12
+                  ? 12
+                  : this.zoomRef || zoom
+              }
+              animationDuration={1000}
+              animationMode="flyTo"
+              followUserLocation={false}
+            />
+            {this.state.hasFinishedLoadingStyle && (
+              <ObservationMapLayer
+                onPress={this.handleObservationPress}
+                observations={observations}
               />
             )}
             {locationServicesEnabled && (
               <MapboxGL.UserLocation
                 visible={isFocused}
                 minDisplacement={MIN_DISPLACEMENT}
-              />
-            )}
-            {this.state.hasFinishedLoadingStyle && (
-              <ObservationMapLayer
-                onPress={this.handleObservationPress}
-                observations={observations}
               />
             )}
           </MapboxGL.MapView>
