@@ -166,7 +166,7 @@
   },
   "screens.ObservationEdit.SaveButton.manualEntry": {
     "description": "Button to manually enter GPS coordinates",
-    "message": "Manual Coords"
+    "message": "បញ្ចូលលេខនិយាមកាដោយដៃ"
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
