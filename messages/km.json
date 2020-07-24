@@ -114,7 +114,7 @@
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
-    "message": "ការអង្កេតពុំអាចរកបាន"
+    "message": "ការសង្កេតពុំអាចរកបាន"
   },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
@@ -182,7 +182,7 @@
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
-    "message": "ភាពត្រឹមត្រូវនៃប្រព័ន្ធ GPS គឺទាប។ អ្នកអាចបន្តរង់ចាំភាពត្រឹមត្រូវដែលប្រសើរជាងមុន រក្សាទុកការសង្កេតដោយភាពត្រឹមត្រូវទាបឬបញ្ចូលលេខនិយាមកាដោយដៃ"
+    "message": "សុក្រឹត្យភាពនៃប្រព័ន្ធ GPS គឺទាប។ អ្នកអាចបន្តរង់ចាំនូវសុក្រឹត្យភាពដែលប្រសើរជាងមុន រក្សាទុកការសង្កេតដោយសុក្រឹត្យភាពទាបឬបញ្ចូលលេខនិយាមកាដោយដៃ"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
@@ -358,7 +358,7 @@
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "The device you are trying to sync has a newer version of Mapeo. You need to upgrade Mapeo in order to sync with this device."
+    "message": "ឧបករណ៍ដែលអ្នកកំពុងព្យាយាមធ្វើសមកាលកម្មមានកំណែថ្មីរបស់ Mapeo។ ដូចនេះអ្នកត្រូវដំឡើង Mapeo កំណែថ្មីដើម្បីធ្វើសមកាលកម្មជាមួយឧបករណ៍នេះបាន។"
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
