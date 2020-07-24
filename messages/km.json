@@ -12,50 +12,50 @@
     "message": "បោះបង់ការសង្កេត?"
   },
   "screens.AddPhoto.cancel": {
-    "message": "Cancel"
+    "message": "បោះបង់"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
-    "message": "No access to camera"
+    "message": "មិនអាចចូលប្រើកាមេរ៉ា"
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
-    "message": "Choose what is happening"
+    "message": "ជ្រើសរើសអ្វីដែលកំពុងកើតឡើង"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
-    "message": "Details"
+    "message": "ព័ត៌មានលម្អិត"
   },
   "screens.GpsModal.gpsHeader": {
     "description": "Header for GPS screen",
-    "message": "Current GPS Location"
+    "message": "ទីតាំង GPS បច្ចុប្បន្ន"
   },
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
-    "message": "Last update"
+    "message": "ការធ្វើបច្ចុប្បន្នភាពចុងក្រោយ"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
-    "message": "Sensor Status"
+    "message": "ស្ថានភាពឧបករណ៍ចាប់សញ្ញា"
   },
   "screens.GpsModal.locationUTM": {
     "description": "Section title for UTM coordinates",
-    "message": "Coordinates UTM"
+    "message": "និយាមកា UTM"
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
-    "message": "No"
+    "message": "ទេ"
   },
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
-    "message": "Yes"
+    "message": "បាទ/ចាស"
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
-    "message": "Language"
+    "message": "ភាសា"
   },
   "screens.ManualGpsScreen.easting": {
-    "message": "East"
+    "message": "ខាងកើត"
   },
   "screens.ManualGpsScreen.eastingSuffix": {
     "message": "mE"
@@ -122,11 +122,11 @@
   },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
-    "message": "Done"
+    "message": "រួចរាល់"
   },
   "screens.ObservationDetails.nextQuestion": {
     "description": "Button text to navigate to next question",
-    "message": "Next"
+    "message": "បន្ទាប់"
   },
   "screens.ObservationDetails.title": {
     "description": "Title of observation details screen showing question number and total",
@@ -134,15 +134,15 @@
   },
   "screens.ObservationEdit.BottomSheet.addLabel": {
     "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
-    "message": "Add…"
+    "message": "បន្ថែម…"
   },
   "screens.ObservationEdit.ObservationEditView.changePreset": {
     "description": "Button to change a category / preset",
-    "message": "Change"
+    "message": "ផ្លាស់ប្តូរ"
   },
   "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
     "description": "Placeholder for description/notes field",
-    "message": "What is happening here?"
+    "message": "តើមានអ្វីកំពុងកើតឡើងនៅទីនេះ?"
   },
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
@@ -154,11 +154,11 @@
   },
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
-    "message": "Add Photo"
+    "message": "បន្ថែមរូបថត"
   },
   "screens.ObservationEdit.ObservationEditView.searching": {
     "description": "Shown in new observation screen whilst looking for GPS",
-    "message": "Searching…"
+    "message": "កំពុងស្វែងរក…"
   },
   "screens.ObservationEdit.SaveButton.keepWaiting": {
     "description": "Button to cancel save and continue waiting for GPS",
@@ -178,7 +178,7 @@
   },
   "screens.ObservationEdit.SaveButton.saveAnyway": {
     "description": "Button to save regardless of GPS state",
-    "message": "Save"
+    "message": "រក្សាទុក"
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
@@ -206,7 +206,7 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
-    "message": "Go To Map"
+    "message": "ចូលទៅផែនទី"
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
@@ -250,7 +250,7 @@
   },
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
-    "message": "OK"
+    "message": "យល់ព្រម"
   },
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
