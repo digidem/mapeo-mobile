@@ -1,15 +1,15 @@
 {
   "AppContainer.EditHeader.discardCancel": {
     "description": "Button on dialog to keep editing (cancelling close action)",
-    "message": "Continue editing"
+    "message": "បន្តកែសម្រួល"
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to close without saving",
-    "message": "Discard without saving"
+    "message": "បោះបង់ចោលដោយមិនរក្សាទុក"
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when closing an observation without saving",
-    "message": "Discard observation?"
+    "message": "បោះបង់ការសង្កេត?"
   },
   "screens.AddPhoto.cancel": {
     "message": "Cancel"
