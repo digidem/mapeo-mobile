@@ -5,7 +5,7 @@
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to close without saving",
-    "message": "បោះបង់ចោលដោយមិនរក្សាទុក"
+    "message": "បោះបង់ដោយមិនរក្សាទុក"
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when closing an observation without saving",
@@ -16,7 +16,7 @@
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
-    "message": "មិនអាចចូលប្រើកាមេរ៉ា"
+    "message": "មិនអាចចូលប្រើម៉ាស៊ីនថត"
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
@@ -71,10 +71,10 @@
     "message": "បញ្ចូលលេខនិយាមកា"
   },
   "screens.ManualGpsScreen.zoneLetter": {
-    "message": "Zone Letter"
+    "message": "អក្សរតំបន់"
   },
   "screens.ManualGpsScreen.zoneNumber": {
-    "message": "Zone Number"
+    "message": "លេខតំបន់"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
@@ -118,7 +118,7 @@
   },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
-    "message": "{current} of {total}"
+    "message": "{current} នៃ {total}"
   },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
@@ -130,7 +130,7 @@
   },
   "screens.ObservationDetails.title": {
     "description": "Title of observation details screen showing question number and total",
-    "message": "Question {current} of {total}"
+    "message": "សំណួរ {current} នៃ {total}"
   },
   "screens.ObservationEdit.BottomSheet.addLabel": {
     "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
@@ -170,11 +170,11 @@
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
-    "message": "ការសង្កេតនេះមិនមានទីតាំងទេ។ អ្នកអាចបន្តរង់ចាំសញ្ញា GPS រក្សាទុកការសង្កេតដោយគ្មានទីតាំងឬបញ្ចូលលេខនិយាមកាដោយដៃ"
+    "message": "ការសង្កេតនេះមិនមានទីតាំងទេ។ អ្នកអាចបន្តរង់ចាំសញ្ញាGPS រក្សាទុកការសង្កេតដោយគ្មានទីតាំង ឬបញ្ចូលលេខនិយាមកាដោយដៃ"
   },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
-    "message": "គ្មានសញ្ញា GPS ទេ"
+    "message": "គ្មានសញ្ញាGPS ទេ"
   },
   "screens.ObservationEdit.SaveButton.saveAnyway": {
     "description": "Button to save regardless of GPS state",
@@ -218,11 +218,11 @@
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
-    "message": "Error loading observations. Try quitting and restarting Mapeo."
+    "message": "មានបញ្ហាពេលកំពុងធ្វើការ។ សូមសាកល្បងចាកចេញសិន ហើយសឹមចាប់ផ្តើម Mapeo ជាថ្មីឡើងវិញ ។"
   },
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
-    "message": "Loading… this can take a while after synchronizing with a new device"
+    "message": "កំពុងធ្វើការ ... វាត្រូវការពេលមួយរយៈ បន្ទាប់ពីធ្វើសមកាលកម្មជាមួយឧបករណ៍ថ្មីរួចរាល់"
   },
   "screens.ProjectConfig.title": {
     "description": "Title of project configuration screen",
@@ -314,7 +314,7 @@
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
-    "message": "សូមចូលទៅកាន់កន្លែងកែសម្រួលដំណើរការទូរស័ព្ទ និងធ្វើការភ្ជាប់ Wifi ដើម្បីធ្វើសមាលកម្ម"
+    "message": "សូមចូលទៅកាន់កន្លែងកែសម្រួលដំណើរការទូរស័ព្ទ និងធ្វើការភ្ជាប់ Wifi ដើម្បីធ្វើសមកាលកម្ម"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
