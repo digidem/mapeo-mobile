@@ -226,7 +226,7 @@
   },
   "screens.ProjectConfig.title": {
     "description": "Title of project configuration screen",
-    "message": "Project Configuration"
+    "message": "ការកំណត់រចនាសម្ព័ន្ធនៃគម្រោង"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
@@ -242,7 +242,7 @@
   },
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
-    "message": "Something is up with the Mapeo database"
+    "message": "វាមានភាពត្រូវគ្នាជាមួយនឹងមូលដ្ឋានទិន្នន័យរបស់ Mapeo"
   },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
@@ -258,7 +258,7 @@
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
-    "message": "Current Configuration"
+    "message": "ការកំណត់រចនាសម្ព័ន្ធថ្មីៗនេះ"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -270,7 +270,7 @@
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
-    "message": "Project Configuration"
+    "message": "ការកំណត់រចនាសម្ព័ន្ធនៃគម្រោង"
   },
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
@@ -298,23 +298,23 @@
   },
   "screens.SyncModal.PeerList.errorClientMismatch": {
     "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
-    "message": "Not a Mapeo client"
+    "message": "មិនមែនជាអតិថិជនរបស់ Mapeo ទេ"
   },
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
-    "message": "Incompatible Mapeo"
+    "message": "មិនត្រូវគ្នានឹង Mapeo"
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
-    "message": "Sync"
+    "message": "សមកាលកម្ម"
   },
   "screens.SyncModal.PeerList.syncLabel": {
     "description": "Label for last sync datetime",
-    "message": "Synced:"
+    "message": "ត្រូវបានធ្វើសមកាលកម្មរួចរាល់៖"
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
-    "message": "Open your phone settins and connect to a WiFi network to synchronize"
+    "message": "សូមចូលទៅកាន់កន្លែងកែសម្រួលដំណើរការទូរស័ព្ទ និងធ្វើការភ្ជាប់ Wifi ដើម្បីធ្វើសមាលកម្ម"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
@@ -338,7 +338,7 @@
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
-    "message": "Synchronize"
+    "message": "ធ្វើសមកាលកម្ម"
   },
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
@@ -350,15 +350,15 @@
   },
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "The device you are trying to sync with needs to upgrade Mapeo to the latest version in order to sync with you."
+    "message": "ឧបករណ៍ដែលអ្នកកំពុងព្យាយាមធ្វើសមកាលកម្មត្រូវធ្វើវិសិដ្ឋកម្ម Mapeo កំណែថ្មីជាងគេបំផុតដើម្បីធ្វើសមកាលកម្មជាមួយអ្នកបាន។"
   },
   "screens.SyncModal.errorVersionThemBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} needs to upgrade Mapeo"
+    "message": "{ឈ្មោះឧបករណ៍} ត្រូវការធ្វើវិសិដ្ឋកម្មកំណែថ្មីរបស់ Mapeo"
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "ឧបករណ៍ដែលអ្នកកំពុងព្យាយាមធ្វើសមកាលកម្មមានកំណែថ្មីរបស់ Mapeo។ ដូចនេះអ្នកត្រូវដំឡើង Mapeo កំណែថ្មីដើម្បីធ្វើសមកាលកម្មជាមួយឧបករណ៍នេះបាន។"
+    "message": "ឧបករណ៍ដែលអ្នកកំពុងព្យាយាមធ្វើសមកាលកម្មមានកំណែថ្មីរបស់ Mapeo។ ដូចនេះអ្នកត្រូវធ្វើវិសិដ្ឋកម្ម Mapeo កំណែថ្មីដើម្បីធ្វើសមកាលកម្មជាមួយឧបករណ៍នេះបាន។"
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
