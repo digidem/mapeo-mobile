@@ -170,7 +170,7 @@
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
-    "message": "This observation does not have a location. You can continue waiting for a GPS signal, save the observation without a location, or enter coordinates manually"
+    "message": "ការសង្កេតនេះមិនមានទីតាំងទេ។ អ្នកអាចបន្តរង់ចាំសញ្ញា GPS រក្សាទុកការសង្កេតដោយគ្មានទីតាំងឬបញ្ចូលលេខនិយាមកាដោយដៃ"
   },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
@@ -182,7 +182,7 @@
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
-    "message": "GPS accuracy is low. You can continue waiting for better accuracy, save the observation with low accuracy, or enter coordinates manually"
+    "message": "ភាពត្រឹមត្រូវនៃប្រព័ន្ធ GPS គឺទាប។ អ្នកអាចបន្តរង់ចាំភាពត្រឹមត្រូវដែលប្រសើរជាងមុន រក្សាទុកការសង្កេតដោយភាពត្រឹមត្រូវទាបឬបញ្ចូលលេខនិយាមកាដោយដៃ"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
@@ -266,7 +266,7 @@
   },
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
-    "message": "Display language for App"
+    "message": "បង្ហាញភាសាសម្រាប់កម្មវិធី"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -326,7 +326,7 @@
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
-    "message": "Ensure that other devices are turned on and connected to the same WiFi network"
+    "message": "ធានាថាឧបករណ៍ផ្សេងទៀតត្រូវបានបើក និងភ្ជាប់ទៅបណ្តាញWiFiតែមួយ"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
