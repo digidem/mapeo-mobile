@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.1](https://github.com/digidem/mapeo-mobile/compare/v5.0.0...v5.0.1) (2020-07-23)
+
+### Bug Fixes
+
+- Disable dev mode in Google Play app bundle ([bc7b1e7](https://github.com/digidem/mapeo-mobile/commit/bc7b1e79a1e888da6ef6e81ee02eae33f444ac91))
+
 ## [5.0.0](https://github.com/digidem/mapeo-mobile/compare/v2.0.0-beta.5...v5.0.0) (2020-07-21)
 
 ### Features

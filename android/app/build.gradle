@@ -86,7 +86,9 @@ project.ext.react = [
     enableHermes: false, // clean and rebuild if changing
     // Disable dev logging in the Universal build (only disabled in release
     // build type by default)
-    devDisabledInUniversal: true
+    devDisabledInAppUniversal: true,
+    devDisabledInQaUniversal: true,
+    devDisabledInIccaUniversal: true
 ]
 
 project.ext.vectoricons = [
