@@ -1,7 +1,7 @@
-// flow-typed signature: 1b667230b360dec24ddf8776480f4725
-// flow-typed version: c6154227d1/react-native-unimodules_v0.x.x/flow_>=v0.69.0 <=v0.103.x
+// flow-typed signature: 495375b917340c57fa3b501dfacab2ab
+// flow-typed version: c6154227d1/react-native-unimodules_v0.x.x/flow_>=v0.104.x
 
-declare module 'react-native-unimodules/@@expo-asset' {
+declare module "react-native-unimodules/@@expo-asset" {
   declare export type AssetMetadata = {|
     hash: string,
     name: string,
@@ -13,7 +13,7 @@ declare module 'react-native-unimodules/@@expo-asset' {
     height?: number,
     uri?: string,
     fileHashes?: Array<string>,
-    fileUris?: Array<string>,
+    fileUris?: Array<string>
   |};
 
   declare export type AssetDescriptor = {|
@@ -23,7 +23,7 @@ declare module 'react-native-unimodules/@@expo-asset' {
 
     hash?: ?string,
     width?: ?number,
-    height?: ?number,
+    height?: ?number
   |};
 
   declare export class Asset {
@@ -49,10 +49,10 @@ declare module 'react-native-unimodules/@@expo-asset' {
   }
 }
 
-declare module 'react-native-unimodules/@@expo-constants' {
-  declare export type AppOwnership = 'standalone' | 'expo' | 'guest';
+declare module "react-native-unimodules/@@expo-constants" {
+  declare export type AppOwnership = "standalone" | "expo" | "guest";
 
-  declare export type UserInterfaceIdiom = 'handset' | 'tablet' | 'unsupported';
+  declare export type UserInterfaceIdiom = "handset" | "tablet" | "unsupported";
 
   declare export type IOSManifest = {
     buildNumber: string,
@@ -60,13 +60,12 @@ declare module 'react-native-unimodules/@@expo-constants' {
     model: string,
     userInterfaceIdiom: UserInterfaceIdiom,
     systemVersion: string,
+    ...
   };
 
-  declare export type AndroidManifest = {
-    versionCode: number,
-  };
+  declare export type AndroidManifest = { versionCode: number, ... };
 
-  declare export type WebManifest = {};
+  declare export type WebManifest = { ... };
 
   declare export type AppManifest = {
     name?: string,
@@ -80,10 +79,9 @@ declare module 'react-native-unimodules/@@expo-constants' {
     notification?: {
       icon?: string,
       color?: string,
+      ...
     },
-    loading?: {
-      icon?: string,
-    },
+    loading?: { icon?: string, ... },
     entryPoint?: string,
     packagerOpts?: {
       hostType?: string,
@@ -93,28 +91,27 @@ declare module 'react-native-unimodules/@@expo-constants' {
       urlType?: string,
       urlRandomness?: string,
       lanType?: string,
+      ...
     },
     xde?: boolean,
-    developer?: {
-      tool?: string,
-    },
+    developer?: { tool?: string, ... },
     bundleUrl: string,
     debuggerHost?: string,
     mainModuleName?: string,
     logUrl?: string,
+    ...
   };
 
   declare export type PlatformManifest = {
     ios?: IOSManifest,
     android?: AndroidManifest,
     web?: WebManifest,
-    detach?: {
-      scheme?: string,
-    },
+    detach?: { scheme?: string, ... },
     logUrl?: string,
     scheme?: string,
     hostUri?: string,
     developer?: string,
+    ...
   };
 
   declare export type NativeConstants = {
@@ -138,31 +135,29 @@ declare module 'react-native-unimodules/@@expo-constants' {
     manifest: AppManifest,
     platform?: PlatformManifest,
     getWebViewUserAgentAsync: () => Promise<string | null>,
+    ...
   };
 
   declare export default {
     deviceId?: string,
     linkingUrl?: string,
+    ...
   } & NativeConstants;
 }
 
-declare module 'react-native-unimodules/@@expo-file-system' {
+declare module "react-native-unimodules/@@expo-file-system" {
   // Types
   declare export type DownloadOptions = {|
     md5?: boolean,
     cache?: boolean,
-    headers?: {
-      [name: string]: string,
-    },
+    headers?: { [name: string]: string, ... }
   |};
 
   declare export type DownloadResult = {|
     uri: string,
     status: number,
-    headers: {
-      [name: string]: string,
-    },
-    md5?: string,
+    headers: { [name: string]: string, ... },
+    md5?: string
   |};
 
   declare export type DownloadProgressCallback = (
@@ -171,14 +166,14 @@ declare module 'react-native-unimodules/@@expo-file-system' {
 
   declare export type DownloadProgressData = {|
     totalBytesWritten: number,
-    totalBytesExpectedToWrite: number,
+    totalBytesExpectedToWrite: number
   |};
 
   declare export type DownloadPauseState = {|
     url: string,
     fileUri: string,
     options: DownloadOptions,
-    resumeData?: string,
+    resumeData?: string
   |};
 
   declare export type FileInfo =
@@ -188,7 +183,7 @@ declare module 'react-native-unimodules/@@expo-file-system' {
         size: number,
         isDirectory: boolean,
         modificationTime: number,
-        md5?: string,
+        md5?: string
       |}
     | {|
         exists: false,
@@ -196,29 +191,29 @@ declare module 'react-native-unimodules/@@expo-file-system' {
         size: void,
         isDirectory: false,
         modificationTime: void,
-        md5: void,
+        md5: void
       |};
 
-  declare export type EncodingType = 'utf8' | 'base64';
+  declare export type EncodingType = "utf8" | "base64";
 
   declare export type GetInfoOptions = {|
     md5?: boolean,
-    cache?: boolean,
+    cache?: boolean
   |};
 
   declare export type ReadingOptions = {|
     encoding?: EncodingType,
     position?: number,
-    length?: number,
+    length?: number
   |};
 
   declare export type WritingOptions = {|
-    encoding?: EncodingType,
+    encoding?: EncodingType
   |};
 
   declare export type FromToDescriptor = {|
     from: string,
-    to: string,
+    to: string
   |};
 
   // Variables
@@ -249,7 +244,7 @@ declare module 'react-native-unimodules/@@expo-file-system' {
   declare export function deleteAsync(
     fileUri: string,
     options?: {|
-      idempotent?: boolean,
+      idempotent?: boolean
     |}
   ): Promise<void>;
 
@@ -260,7 +255,7 @@ declare module 'react-native-unimodules/@@expo-file-system' {
   declare export function makeDirectoryAsync(
     fileUri: string,
     options?: {|
-      intermediates?: boolean,
+      intermediates?: boolean
     |}
   ): Promise<void>;
 
@@ -297,55 +292,55 @@ declare module 'react-native-unimodules/@@expo-file-system' {
   }
 }
 
-declare module 'react-native-unimodules/@@expo-permissions' {
+declare module "react-native-unimodules/@@expo-permissions" {
   declare export type PermissionResponse = $ReadOnly<{|
     status: PermissionStatus,
     expires: PermissionExpiration,
-    permissions: PermissionMap,
+    permissions: PermissionMap
   |}>;
 
   declare export type PermissionMap = $ReadOnly<{|
-    [permissionType: PermissionType]: PermissionInfo,
+    [permissionType: PermissionType]: PermissionInfo
   |}>;
 
   declare export type PermissionInfo = $ReadOnly<{|
     status: PermissionStatus,
     expires: PermissionExpiration,
     ios?: PermissionDetailsLocationIOS,
-    android?: PermissionDetailsLocationAndroid,
+    android?: PermissionDetailsLocationAndroid
   |}>;
 
-  declare export type PermissionStatus = 'undetermined' | 'granted' | 'denied';
+  declare export type PermissionStatus = "undetermined" | "granted" | "denied";
 
-  declare export type PermissionExpiration = 'never' | number;
+  declare export type PermissionExpiration = "never" | number;
 
   declare export type PermissionDetailsLocationIOS = $ReadOnly<{|
-    scope: 'whenInUse' | 'always',
+    scope: "whenInUse" | "always"
   |}>;
 
   declare export type PermissionDetailsLocationAndroid = $ReadOnly<{|
-    scope: 'fine' | 'coarse' | 'none',
+    scope: "fine" | "coarse" | "none"
   |}>;
 
-  declare export var CAMERA: 'camera';
+  declare export var CAMERA: "camera";
 
-  declare export var CAMERA_ROLL: 'cameraRoll';
+  declare export var CAMERA_ROLL: "cameraRoll";
 
-  declare export var AUDIO_RECORDING: 'audioRecording';
+  declare export var AUDIO_RECORDING: "audioRecording";
 
-  declare export var LOCATION: 'location';
+  declare export var LOCATION: "location";
 
-  declare export var USER_FACING_NOTIFICATIONS: 'userFacingNotifications';
+  declare export var USER_FACING_NOTIFICATIONS: "userFacingNotifications";
 
-  declare export var NOTIFICATIONS: 'notifications';
+  declare export var NOTIFICATIONS: "notifications";
 
-  declare export var CONTACTS: 'contacts';
+  declare export var CONTACTS: "contacts";
 
-  declare export var CALENDAR: 'calendar';
+  declare export var CALENDAR: "calendar";
 
-  declare export var REMINDERS: 'reminders';
+  declare export var REMINDERS: "reminders";
 
-  declare export var SYSTEM_BRIGHTNESS: 'systemBrightness';
+  declare export var SYSTEM_BRIGHTNESS: "systemBrightness";
 
   declare export type PermissionType =
     | typeof CAMERA
@@ -368,18 +363,16 @@ declare module 'react-native-unimodules/@@expo-permissions' {
   ): Promise<PermissionResponse>;
 }
 
-declare module 'react-native-unimodules' {
-  declare export { Asset } from 'react-native-unimodules/@@expo-asset';
+declare module "react-native-unimodules" {
+  declare export { Asset } from "react-native-unimodules/@@expo-asset";
 
-  declare export {
-    default as Constants,
-  } from 'react-native-unimodules/@@expo-constants';
+  declare export { default as Constants } from "react-native-unimodules/@@expo-constants";
 
   declare export var FileSystem: $Exports<
-    'react-native-unimodules/@@expo-file-system'
+    "react-native-unimodules/@@expo-file-system"
   >;
 
   declare export var Permissions: $Exports<
-    'react-native-unimodules/@@expo-permissions'
+    "react-native-unimodules/@@expo-permissions"
   >;
 }

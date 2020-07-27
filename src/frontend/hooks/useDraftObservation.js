@@ -2,6 +2,7 @@
 import { useContext, useState, useCallback } from "react";
 import ImageResizer from "react-native-image-resizer";
 import debug from "debug";
+import isEqual from "lodash/isEqual";
 
 import api from "../api";
 import {
@@ -12,9 +13,7 @@ import {
 import bugsnag from "../lib/logger";
 import type { Status } from "../types";
 
-import PresetsContext, {
-  type PresetWithFields
-} from "../context/PresetsContext";
+import ConfigContext, { type PresetWithFields } from "../context/ConfigContext";
 import ObservationsContext, {
   type ObservationValue,
   type ObservationAttachment
@@ -44,7 +43,7 @@ export type UseDraftObservation = [
   {|
     value: $ElementType<DraftObservationContextState, "value">,
     photos: $ElementType<DraftObservationContextState, "photos">,
-    loading: $ElementType<DraftObservationContextState, "loading">,
+    observationId: $ElementType<DraftObservationContextState, "observationId">,
     savingStatus: Status,
     preset?: PresetWithFields
   |},
@@ -75,7 +74,7 @@ type CancellablePromise<T> = Promise<T> & { signal?: { didCancel: boolean } };
 export default (): UseDraftObservation => {
   const [draft, setDraft] = useContext(DraftObservationContext);
   const [{ observations }, dispatch] = useContext(ObservationsContext);
-  const [{ presets, fields }] = useContext(PresetsContext);
+  const [{ presets, fields }] = useContext(ConfigContext);
   const [savingStatus, setSavingStatus] = useState<Status>();
 
   const addPhoto = useCallback(
@@ -135,39 +134,59 @@ export default (): UseDraftObservation => {
     [setDraft]
   );
 
+  const cancelPhotoProcessing = useCallback(() => {
+    // TODO: Cleanup photos and previews in temp storage here
+    // Signal any pending photo captures to cancel:
+    draft.photoPromises.forEach(p => p.signal && (p.signal.didCancel = true));
+  }, [draft.photoPromises]);
+
   const newDraft = useCallback(
     (
       id?: string,
       value?: ObservationValue | null = { tags: {} },
       capture?: CapturePromise
     ) => {
-      function cancelPhotoProcessing() {
-        // TODO: Cleanup photos and previews in temp storage here
-        // Signal any pending photo captures to cancel:
-        draft.photoPromises.forEach(
-          p => p.signal && (p.signal.didCancel = true)
-        );
-      }
       cancelPhotoProcessing();
-      setDraft(draft => ({
-        ...draft,
+      setDraft({
         photoPromises: [],
         // $FlowFixMe
         photos: value ? filterPhotosFromAttachments(value.attachments) : [],
         value: value,
         observationId: id
-      }));
+      });
+
       if (capture) addPhoto(capture);
     },
-    [addPhoto, draft.photoPromises, setDraft]
+    [addPhoto, cancelPhotoProcessing, setDraft]
   );
 
   const clearDraft = useCallback(() => {
-    newDraft(undefined, null);
-  }, [newDraft]);
+    cancelPhotoProcessing();
+    setDraft({
+      photoPromises: [],
+      photos: [],
+      value: null
+    });
+  }, [cancelPhotoProcessing, setDraft]);
 
   async function saveDraft() {
     log("saveDraft call");
+    const existingObservation =
+      draft.observationId !== undefined
+        ? observations.get(draft.observationId)
+        : undefined;
+    const isUntouched =
+      existingObservation &&
+      isEqual(existingObservation.value, draft.value) &&
+      isEqual(
+        filterPhotosFromAttachments(existingObservation.value.attachments),
+        draft.photos
+      );
+    if (isUntouched) {
+      // If draft isn't dirty, no need to save
+      setSavingStatus("success");
+      return;
+    }
     setSavingStatus("loading");
     const draftValue = draft.value;
     if (!draftValue) {
@@ -209,10 +228,6 @@ export default (): UseDraftObservation => {
           savedAttachments.map(addMimeType)
         )
       };
-      const existingObservation =
-        draft.observationId !== undefined
-          ? observations.get(draft.observationId)
-          : undefined;
       if (existingObservation) {
         const updatedObservation = await api.updateObservation(
           existingObservation.id,
@@ -239,7 +254,7 @@ export default (): UseDraftObservation => {
     {
       value: draft.value,
       photos: draft.photos,
-      loading: draft.loading,
+      observationId: draft.observationId,
       savingStatus: savingStatus,
       preset: preset && addFieldDefinitions(preset, fields)
     },

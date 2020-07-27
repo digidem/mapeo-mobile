@@ -1,12 +1,15 @@
 // @flow
 import React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
+import { useNavigation } from "react-navigation-hooks";
 
 import type { NavigationScreenConfigProps } from "react-navigation";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import ObservationsListView from "./ObservationsListView";
 import useAllObservations from "../../hooks/useAllObservations";
+import { SettingsIcon } from "../../sharedComponents/icons";
+import IconButton from "../../sharedComponents/IconButton";
 
 const m = defineMessages({
   observationListTitle: {
@@ -33,12 +36,22 @@ const ObservationsList = ({ navigation }: NavigationScreenConfigProps) => {
   );
 };
 
+const SettingsButton = () => {
+  const { navigate } = useNavigation();
+  return (
+    <IconButton onPress={() => navigate("Settings")}>
+      <SettingsIcon color="rgba(0, 0, 0, 0.54)" />
+    </IconButton>
+  );
+};
+
 ObservationsList.navigationOptions = {
   headerTitle: (
     <HeaderTitle>
       <FormattedMessage {...m.observationListTitle} />
     </HeaderTitle>
-  )
+  ),
+  headerRight: <SettingsButton />
 };
 
 export default ObservationsList;

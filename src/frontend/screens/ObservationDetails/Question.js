@@ -5,7 +5,7 @@ import SelectOne from "./SelectOne";
 import SelectMultiple from "./SelectMultiple";
 import TextArea from "./TextArea";
 
-import type { Field } from "../../context/PresetsContext";
+import type { Field } from "../../context/ConfigContext";
 
 export type QuestionProps = {
   field: Field,

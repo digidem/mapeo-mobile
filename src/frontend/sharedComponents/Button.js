@@ -21,7 +21,8 @@ type Props = {
   color?: "dark" | "light",
   style?: Style<typeof View>,
   fullWidth?: boolean,
-  testID?: string
+  testID?: string,
+  disabled?: boolean
 };
 
 const Button = ({
@@ -30,10 +31,17 @@ const Button = ({
   color = "dark",
   style,
   children,
-  fullWidth = false
+  fullWidth = false,
+  disabled = false
 }: Props) => {
   const buttonStyle = styles["button" + capitalize(variant)];
-  const textStyle = styles["text" + capitalize(variant) + capitalize(color)];
+  const textStyle =
+    styles[
+      "text" +
+        capitalize(variant) +
+        capitalize(color) +
+        (disabled ? "Disabled" : "")
+    ];
   return (
     <View
       style={[
@@ -43,9 +51,10 @@ const Button = ({
         style
       ]}>
       <TouchableNativeFeedback
+        disabled={disabled}
         style={styles.touchable}
         background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
-        onPress={onPress}>
+        onPress={disabled ? undefined : onPress}>
         {typeof children === "string" ? (
           <Text style={[styles.textBase, textStyle]}>
             {children.toUpperCase()}
@@ -94,5 +103,14 @@ const styles = StyleSheet.create({
   },
   textOutlinedLight: {
     color: "#0066FF"
+  },
+  textOutlinedDark: {
+    color: "#0066FF"
+  },
+  textOutlinedLightDisabled: {
+    color: "#666666"
+  },
+  textOutlinedDarkDisabled: {
+    color: "#999999"
   }
 });

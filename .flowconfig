@@ -15,15 +15,32 @@ node_modules/warning/.*
 ; Flow doesn't support platforms
 .*/Libraries/Utilities/LoadingView.js
 
-[untyped]
-.*/node_modules/@react-native-community/cli/.*/.*
-
 ; Ignore module-deps test
 .*/node_modules/module-deps/test/.*
 
 ; Ignore node backend stuff
 src/backend/.*
 nodejs-assets/.*
+
+.*/node_modules/react-native/Libraries/Animated/src/AnimatedImplementation.js
+
+[untyped]
+.*/node_modules/@react-native-community/cli/.*/.*
+.*/node_modules/react-native/Libraries/Lists/VirtualizedList.js
+.*/node_modules/react-native/Libraries/Lists/ViewabilityHelper.js
+.*/node_modules/react-native-share/index.js
+.*/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js
+.*/node_modules/react-native/Libraries/Components/Touchable/Touchable.js
+.*/node_modules/react-native/Libraries/Lists/FlatList.js
+.*/node_modules/react-native/Libraries/YellowBox/UI/YellowBoxInspectorSourceMapStatus.js
+.*/node_modules/react-native/Libraries/Utilities/registerGeneratedViewConfig.js
+.*/node_modules/react-native/Libraries/ReactNative/PaperUIManager.js
+.*/node_modules/react-native/Libraries/PermissionsAndroid/PermissionsAndroid.js
+.*/node_modules/react-native/Libraries/Modal/Modal.js
+.*/node_modules/react-native/Libraries/Animated/src/nodes/AnimatedInterpolation.js
+.*/node_modules/react-native/Libraries/Animated/src/AnimatedMock.js
+.*/node_modules/react-native/Libraries/Animated/src/Animated.js
+.*/node_modules/react-native-fs/FS.common.js
 
 [include]
 
@@ -64,7 +81,6 @@ untyped-type-import=warn
 nonstrict-import=warn
 deprecated-type=warn
 unsafe-getters-setters=warn
-inexact-spread=warn
 unnecessary-invariant=warn
 signature-verification-failure=warn
 deprecated-utility=error
@@ -79,4 +95,4 @@ untyped-import
 untyped-type-import
 
 [version]
-^0.105.0
+^0.121.0

@@ -12,7 +12,7 @@ import type {
   PresetsMap,
   PresetWithFields,
   FieldsMap
-} from "../context/PresetsContext";
+} from "../context/ConfigContext";
 
 export function getDisplayName(WrappedComponent: any) {
   return WrappedComponent.displayName || WrappedComponent.name || "Component";

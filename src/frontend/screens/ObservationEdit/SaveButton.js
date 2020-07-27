@@ -103,7 +103,7 @@ const SaveButton = ({ navigation }: Props) => {
   useEffect(() => {
     if (savingStatus !== "success") return;
     const observationId = navigation.getParam("observationId");
-    if (observationId === "string") {
+    if (typeof observationId === "string") {
       navigation.pop();
     } else {
       navigation.navigate("Home");

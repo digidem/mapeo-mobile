@@ -9,11 +9,25 @@ Mapeo Mobile is a mobile app (currently Android only) for offline mapping and mo
 
 ## Table of Contents
 
+- [Compatibility & Stability](#-Compatibility)
 - [Install](#install)
 - [Usage](#usage)
+- [Translations](#translations)
 - [Maintainers](#maintainers)
 - [Contributing](#contributing)
 - [License](#license)
+
+## ⚠ Compatibility & Stability
+
+**Mapeo Mobile v2 is unable to sync with Mapeo Mobile v1**, due to a change in the way synchronization works. You will need to update all devices to v2 or higher in order to continue syncing.
+
+Due to this sync change, **Mapeo Mobile v2 is also unable to sync with Mapeo Desktop v4 or v3**. You will need to update Mapeo Desktop to v5 or higher in order to continue syncing.
+
+Mapeo Mobile is currently in Beta. This means that there might be frequent changes to the user interface and there may be changes that break the ability to sync with older versions unless every device updates. We understand that this is an inconvenience if many users are offline and unable to update more easily, and when the sync protocol is more stable we will move Mapeo out of beta and work on a way of updating offline clients offline during sync.
+
+Mapeo Mobile is already being used in the field with dozens of local community partners and is stable and reliable enough for real-world usage, and we work hard to ensure that no data is lost during updates.
+
+You will also see Alpha releases on the releases page. These should be regarded as unstable and likely to crash / not work. We use the Alpha releases for internal testing and once it is stable enough we release it as a Beta. If you don't mind things breaking we really welcome others being able to test the latest Alpha and sending us feedback about any bugs you find.
 
 ## Install
 
@@ -60,10 +74,18 @@ tiles/
   ...maybe more
 ```
 
+## Translations
+
+Mapeo is designed to be used in any language, but we rely on volunteers like you to help with translations. You can see current translation status on the [Crowdin project page](https://crowdin.com/project/mapeo-mobile).
+
+If you would like to add translations in your language, you can [sign up to Crowdin](https://crwd.in/mapeo-mobile) and being translating immediately.
+
+If you would like your language added to the translations list, [please request it](https://github.com/digidem/mapeo-mobile/issues/new).
+
 ## Maintainers
 
 - [@gmaclennan](https://github.com/gmaclennan)
-- [@karissa](https://github.com/karissa)
+- [@okdistribute](https://github.com/okdistribute)
 - [@noffle](https://github.com/noffle)
 
 ## Community
@@ -74,7 +96,6 @@ Connect with the Mapeo community for support & to contribute!
 - [**Mailing List**](https://lists.riseup.net/www/info/mapeo-es) (Spanish)
 - [**IRC**](https://kiwiirc.com/nextclient/irc.freenode.net/) (channel #ddem)
 - [**Slack**](http://slack.digital-democracy.org)
-
 
 ## Contributing
 

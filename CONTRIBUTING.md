@@ -32,7 +32,7 @@ everything to work correctly on web_**
 
 The easiest way to get started without setting up your machine for mobile
 development is to use Storybook web. It uses
-[`react-native-web`](https://github.com/necolas/react-native-web) interally in
+[`react-native-web`](https://github.com/necolas/react-native-web) internally in
 order to render react-native components in a browser. Note that layout and
 colors do not appear exactly the same in the browser, and you may need to add
 some additional styles to get things looking right. To start the storybook web

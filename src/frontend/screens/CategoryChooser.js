@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
 
-import PresetsContext, { type Preset } from "../context/PresetsContext";
+import ConfigContext, { type Preset } from "../context/ConfigContext";
 import HeaderTitle from "../sharedComponents/HeaderTitle";
 import useDraftObservation from "../hooks/useDraftObservation";
 import { CategoryCircleIcon } from "../sharedComponents/icons";
@@ -61,7 +61,7 @@ const Item = React.memo(
 );
 
 const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
-  const [{ presets }] = useContext(PresetsContext);
+  const [{ presets }] = useContext(ConfigContext);
   const [{ value: draftValue }, { updateDraft }] = useDraftObservation();
 
   const presetsList = Array.from(presets.values())
