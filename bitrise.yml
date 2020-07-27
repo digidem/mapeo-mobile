@@ -20,81 +20,6 @@ app:
       opts:
         is_expand: false
 workflows:
-  deploy-release-candidate:
-    description: Deploy beta versions for testing
-    before_run:
-      - primary
-    envs:
-      - GRADLE_TASKS: assembleQaDebug assembleAppUniversal assembleIccaUniversal
-        opts:
-          is_expand: false
-    steps:
-      - script@1.1.6:
-          title: Rename APKs
-          inputs:
-            - content:
-                "#!/usr/bin/env bash\n\n# Renames the apks with the current datetime
-                and a \n# reference the git commit and the bitrise build slug\n\nset -eE
-                -o pipefail\nshopt -s extdebug\n\n# Split the path_list variable by |
-                into an array\nIFS='|' read -r -a paths <<< \"$BITRISE_APK_PATH_LIST\"\nnew_paths=()\n\nfor
-                path in \"${paths[@]}\"\ndo\n  # Just the path portion\n  dir=\"${path%/*}\"\n
-                \ # Just the filename\n  filename=\"${path##*/}\"\n  # Add version name\n
-                \ filename=\"${filename/mapeo-/mapeo-v$ANDROID_VERSION_NAME-}\"\n  # Uppercase
-                flavor or remove\n  filename=\"${filename/-qa-/-QA-}\"\n  filename=\"${filename/-icca-/-ICCA-}\"\n
-                \ filename=\"${filename/-app-/-}\"\n  # Construct path with new filename\n
-                \ new_path=\"${dir}/${filename}\"\n  mv \"$path\" \"$new_path\"\n  echo
-                \"Moved ${path} --> ${new_path}\"\n  new_paths+=(\"$new_path\")\ndone\n\n#
-                Join the path_list array into a string separated by |\nIFS=\\| eval 'NEW_APK_PATH_LIST=\"${new_paths[*]}\"'\n\n#
-                Save the variable to the env so it is accessible in other build steps\nenvman
-                add --key BITRISE_APK_PATH_LIST --value \"$NEW_APK_PATH_LIST\"\n"
-      - script@1.1.6:
-          title: Set APK path variables
-          inputs:
-            - content: |-
-                #!/usr/bin/env bash
-                # fail if any commands fails
-                set -e
-                # debug log
-                set -x
-
-                UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*[0-9]-universal\.apk)
-                QA_DEBUG_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*QA-debug\.apk)
-                ICCA_UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*ICCA-universal\.apk)
-
-                envman add --key UNIVERSAL_APK_PATH --value "$UNIVERSAL_APK_PATH"
-                envman add --key QA_DEBUG_APK_PATH --value "$QA_DEBUG_APK_PATH"
-                envman add --key ICCA_UNIVERSAL_APK_PATH --value "$ICCA_UNIVERSAL_APK_PATH"
-      - deploy-to-bitrise-io@1.9.5: {}
-      - amazon-s3-uploader@1.0.1:
-          title: Upload QA variant
-          is_skippable: true
-          inputs:
-            - aws_access_key: $AWS_ACCESS_KEY_ID
-            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
-            - bucket_name: mapeo-apks
-            - path_in_bucket: beta-testing/v${VERSION_NAME}
-            - file_path: $QA_DEBUG_APK_PATH
-      - amazon-s3-uploader@1.0.1:
-          title: Upload Release variant
-          is_skippable: true
-          inputs:
-            - aws_access_key: $AWS_ACCESS_KEY_ID
-            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
-            - bucket_name: mapeo-apks
-            - path_in_bucket: beta-testing/v${VERSION_NAME}
-            - file_path: $UNIVERSAL_APK_PATH
-      - amazon-s3-uploader@1.0.1:
-          title: Upload ICCA variant
-          is_skippable: true
-          inputs:
-            - aws_access_key: $AWS_ACCESS_KEY_ID
-            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
-            - bucket_name: mapeo-apks
-            - path_in_bucket: beta-testing/v${VERSION_NAME}
-            - file_path: $ICCA_UNIVERSAL_APK_PATH
-    meta:
-      bitrise.io: null
-      stack: linux-docker-android
   deploy-internal:
     description: Deploy for internal dev testing
     before_run:
@@ -246,8 +171,83 @@ workflows:
             - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
             - track: beta
             - apk_path: $RELEASE_APK_PATH
-            - app_path: ${BITRISE_DEPLOY_DIR}/app.aab
+            - app_path: $BITRISE_AAB_PATH
             - package_name: com.mapeo
+    meta:
+      bitrise.io: null
+      stack: linux-docker-android
+  deploy-release-candidate:
+    description: Deploy beta versions for testing
+    before_run:
+      - primary
+    envs:
+      - GRADLE_TASKS: assembleQaDebug assembleAppUniversal assembleIccaUniversal
+        opts:
+          is_expand: false
+    steps:
+      - script@1.1.6:
+          title: Rename APKs
+          inputs:
+            - content:
+                "#!/usr/bin/env bash\n\n# Renames the apks with the current datetime
+                and a \n# reference the git commit and the bitrise build slug\n\nset -eE
+                -o pipefail\nshopt -s extdebug\n\n# Split the path_list variable by |
+                into an array\nIFS='|' read -r -a paths <<< \"$BITRISE_APK_PATH_LIST\"\nnew_paths=()\n\nfor
+                path in \"${paths[@]}\"\ndo\n  # Just the path portion\n  dir=\"${path%/*}\"\n
+                \ # Just the filename\n  filename=\"${path##*/}\"\n  # Add version name\n
+                \ filename=\"${filename/mapeo-/mapeo-v$ANDROID_VERSION_NAME-}\"\n  # Uppercase
+                flavor or remove\n  filename=\"${filename/-qa-/-QA-}\"\n  filename=\"${filename/-icca-/-ICCA-}\"\n
+                \ filename=\"${filename/-app-/-}\"\n  # Construct path with new filename\n
+                \ new_path=\"${dir}/${filename}\"\n  mv \"$path\" \"$new_path\"\n  echo
+                \"Moved ${path} --> ${new_path}\"\n  new_paths+=(\"$new_path\")\ndone\n\n#
+                Join the path_list array into a string separated by |\nIFS=\\| eval 'NEW_APK_PATH_LIST=\"${new_paths[*]}\"'\n\n#
+                Save the variable to the env so it is accessible in other build steps\nenvman
+                add --key BITRISE_APK_PATH_LIST --value \"$NEW_APK_PATH_LIST\"\n"
+      - script@1.1.6:
+          title: Set APK path variables
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*[0-9]-universal\.apk)
+                QA_DEBUG_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*QA-debug\.apk)
+                ICCA_UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*ICCA-universal\.apk)
+
+                envman add --key UNIVERSAL_APK_PATH --value "$UNIVERSAL_APK_PATH"
+                envman add --key QA_DEBUG_APK_PATH --value "$QA_DEBUG_APK_PATH"
+                envman add --key ICCA_UNIVERSAL_APK_PATH --value "$ICCA_UNIVERSAL_APK_PATH"
+      - deploy-to-bitrise-io@1.9.5: {}
+      - amazon-s3-uploader@1.0.1:
+          title: Upload QA variant
+          is_skippable: true
+          inputs:
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
+            - bucket_name: mapeo-apks
+            - path_in_bucket: beta-testing/v${VERSION_NAME}
+            - file_path: $QA_DEBUG_APK_PATH
+      - amazon-s3-uploader@1.0.1:
+          title: Upload Release variant
+          is_skippable: true
+          inputs:
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
+            - bucket_name: mapeo-apks
+            - path_in_bucket: beta-testing/v${VERSION_NAME}
+            - file_path: $UNIVERSAL_APK_PATH
+      - amazon-s3-uploader@1.0.1:
+          title: Upload ICCA variant
+          is_skippable: true
+          inputs:
+            - aws_access_key: $AWS_ACCESS_KEY_ID
+            - aws_secret_key: $AWS_SECRET_ACCESS_KEY
+            - bucket_name: mapeo-apks
+            - path_in_bucket: beta-testing/v${VERSION_NAME}
+            - file_path: $ICCA_UNIVERSAL_APK_PATH
     meta:
       bitrise.io: null
       stack: linux-docker-android
@@ -354,8 +354,9 @@ workflows:
 
                 VERSION_NAME=`node -p "require('./package.json').version"`
 
-                if [ "$BITRISE_GIT_BRANCH" == "deploy" ]; then
-                    # This is a push to deploy event
+                if [[ "$BITRISE_GIT_BRANCH" == "deploy" || -n "$BITRISE_GIT_TAG" ]]; then
+                    # This is a push to deploy event or a tag event
+                    # Pushing a tag to Github for some reason triggers this workflow with $BITRISE_GIT_BRANCH set to master
                     ANDROID_VERSION_NAME="${VERSION_NAME}.${BITRISE_BUILD_NUMBER}"
                 elif [ "${BITRISE_GIT_BRANCH%/*}" == "release" ]; then
                     # This is a push to a branch matching `release/*`, so we build a release candidate
