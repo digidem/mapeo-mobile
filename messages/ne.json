@@ -358,7 +358,7 @@
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "The device you are trying to sync has a newer version of Mapeo. You need to upgrade Mapeo in order to sync with this device."
+    "message": "याे तपाईंले sync गर्न लागेकाे साधनमा नया भर्सनकाे Mapeo छ। याेसंग sync गर्न अर्काे साधनमा पनि Map upgrade गर्नु पर्ने छ"
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
