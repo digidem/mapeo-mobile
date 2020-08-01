@@ -298,7 +298,7 @@
   },
   "screens.SyncModal.PeerList.errorClientMismatch": {
     "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
-    "message": "Not a Mapeo client"
+    "message": "Mapeo प्रयाेग कर्ता हाेइन"
   },
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
@@ -362,7 +362,7 @@
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "You need to upgrade Mapeo"
+    "message": "Mapeo upgrade गर्नु पर्छ"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
