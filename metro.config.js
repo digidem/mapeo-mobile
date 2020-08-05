@@ -5,6 +5,10 @@
  * @format
  */
 const blacklist = require("metro-config/src/defaults/blacklist");
+const defaultSourceExts = require("metro-config/src/defaults/defaults")
+  .sourceExts;
+
+console.log("METRO", process.env.RN_SRC_EXT);
 
 module.exports = {
   transformer: {
@@ -16,6 +20,9 @@ module.exports = {
     })
   },
   resolver: {
-    blacklistRE: blacklist([/nodejs-assets\/.*/, /android\/.*/, /ios\/.*/])
+    blacklistRE: blacklist([/nodejs-assets\/.*/, /android\/.*/, /ios\/.*/]),
+    sourceExts: process.env.RN_SRC_EXT
+      ? process.env.RN_SRC_EXT.split(",").concat(defaultSourceExts)
+      : defaultSourceExts
   }
 };
