@@ -185,6 +185,7 @@ bugsnag {
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+    ndkVersion rootProject.ext.ndkVersion
 
     dexOptions {
         javaMaxHeapSize "4g"

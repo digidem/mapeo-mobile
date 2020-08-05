@@ -284,7 +284,7 @@ workflows:
                 set -x
 
                 # set env vars
-                export ANDROID_NDK_VERSION='19b'
+                export ANDROID_NDK_VERSION='21d'
                 export ANDROID_NDK_HOME='/opt/android-ndk'
                 # expose for subsequent steps
                 envman add --key ANDROID_NDK_HOME --value "$ANDROID_NDK_HOME"
