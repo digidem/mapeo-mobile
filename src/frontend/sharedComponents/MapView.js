@@ -3,7 +3,7 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ScaleBar from "react-native-scale-bar";
-import cheapRuler from "cheap-ruler";
+import CheapRuler from "cheap-ruler";
 
 // import type { MapStyle } from "../types";
 import { LocationFollowingIcon, LocationNoFollowIcon } from "./icons";
@@ -145,7 +145,7 @@ class MapView extends React.Component<Props, State> {
       coords: getCoords(props.location)
     };
 
-    this.ruler = cheapRuler(getCoords(props.location)[1], "meters");
+    this.ruler = new CheapRuler(getCoords(props.location)[1], "meters");
   }
 
   componentDidMount() {

@@ -30,12 +30,7 @@ export const AlertIcon = ({ size = 30, color = RED, style }: FontIconProps) => (
 );
 
 export const SettingsIcon = ({ size = 30, color, style }: FontIconProps) => (
-  <MaterialCommunityIcon
-    color={color}
-    name="settings"
-    size={size}
-    style={style}
-  />
+  <MaterialIcon color={color} name="settings" size={size} style={style} />
 );
 
 export const CellphoneIcon = ({
