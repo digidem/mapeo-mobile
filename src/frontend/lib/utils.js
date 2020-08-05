@@ -4,14 +4,14 @@ import { fromLatLon } from "utm";
 import type { LocationContextType } from "../context/LocationContext";
 import type {
   ObservationValue,
-  ObservationAttachment
+  ObservationAttachment,
 } from "../context/ObservationsContext";
 import type { SavedPhoto } from "../context/DraftObservationContext";
 import type {
   Preset,
   PresetsMap,
   PresetWithFields,
-  FieldsMap
+  FieldsMap,
 } from "../context/ConfigContext";
 
 export function getDisplayName(WrappedComponent: any) {
@@ -52,7 +52,7 @@ export function getLocationStatus({
   position,
   provider,
   permission,
-  error
+  error,
 }: LocationContextType): LocationStatus {
   const precision = position && position.coords.accuracy;
   const gpsUnavailable = provider && !provider.gpsAvailable;
@@ -93,7 +93,7 @@ export function addFieldDefinitions(
   // $FlowFixMe - Need to figure out how to convert types like this
   return {
     ...preset,
-    fields: filterFalsy(fieldDefs)
+    fields: filterFalsy(fieldDefs),
   };
 }
 
@@ -123,11 +123,11 @@ export function getLastPhotoAttachment(
 export function formatCoords({
   lon,
   lat,
-  format = "utm"
+  format = "utm",
 }: {
   lon: number,
   lat: number,
-  format?: "utm"
+  format?: "utm",
 }): string {
   try {
     let { easting, northing, zoneNum, zoneLetter } = fromLatLon(lat, lon);

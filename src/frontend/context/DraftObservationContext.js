@@ -17,7 +17,7 @@ export type SavedPhoto = {|
   id: string,
   type?: "image/jpeg",
   // If an image is to be deleted
-  deleted?: boolean
+  deleted?: boolean,
 |};
 
 // Photo added to a draft observation, that has not yet been saved
@@ -35,7 +35,7 @@ export type DraftPhoto = {|
   // If an image is to be deleted
   deleted?: boolean,
   // If there was any kind of error on image capture
-  error?: boolean
+  error?: boolean,
 |};
 
 /**
@@ -52,7 +52,7 @@ export type DraftObservationContextState = {|
   photoPromises: Array<
     Promise<DraftPhoto> & { signal?: { didCancel: boolean } }
   >,
-  observationId?: string
+  observationId?: string,
 |};
 
 const usePersistedState = createPersistedState(
@@ -62,7 +62,7 @@ const usePersistedState = createPersistedState(
   {
     stringify: ({ photoPromises, photos, ...rest }) =>
       JSON.stringify({ photos: photos.filter(filterCapturedPhotos), ...rest }),
-    parse: json => ({ photoPromises: [], ...JSON.parse(json) })
+    parse: json => ({ photoPromises: [], ...JSON.parse(json) }),
   }
 );
 
@@ -72,9 +72,9 @@ const defaultContext: DraftObservationContextType = [
   {
     photos: [],
     value: null,
-    photoPromises: []
+    photoPromises: [],
   },
-  () => {}
+  () => {},
 ];
 
 const DraftObservationContext = React.createContext<DraftObservationContextType>(
@@ -82,18 +82,18 @@ const DraftObservationContext = React.createContext<DraftObservationContextType>
 );
 
 type Props = {
-  children: React.Node
+  children: React.Node,
 };
 
 export const DraftObservationProvider = ({ children }: Props) => {
   const [
     state,
     status,
-    setState
+    setState,
   ] = usePersistedState<DraftObservationContextState>(defaultContext[0]);
   const contextValue = React.useMemo(() => [state, setState], [
     state,
-    setState
+    setState,
   ]);
 
   return (

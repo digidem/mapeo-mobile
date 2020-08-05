@@ -16,18 +16,18 @@ const m = defineMessages({
     id: "AppContainer.EditHeader.discardTitle",
     defaultMessage: "Discard observation?",
     description:
-      "Title of dialog that shows when closing an observation without saving"
+      "Title of dialog that shows when closing an observation without saving",
   },
   discardConfirm: {
     id: "AppContainer.EditHeader.discardContent",
     defaultMessage: "Discard without saving",
-    description: "Button on dialog to close without saving"
+    description: "Button on dialog to close without saving",
   },
   discardCancel: {
     id: "AppContainer.EditHeader.discardCancel",
     defaultMessage: "Continue editing",
-    description: "Button on dialog to keep editing (cancelling close action)"
-  }
+    description: "Button on dialog to keep editing (cancelling close action)",
+  },
 });
 
 const useBackHandler = (backHandler: () => boolean) => {
@@ -123,12 +123,12 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
           clearDraft();
           if (shouldCloseToHome) navigation.navigate("Home");
           else navigation.goBack();
-        }
+        },
       },
       {
         text: t(m.discardCancel),
-        onPress: () => {}
-      }
+        onPress: () => {},
+      },
     ]);
   }, [
     clearDraft,
@@ -138,7 +138,7 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
     navigation,
     shouldCloseToHome,
     shouldConfirm,
-    t
+    t,
   ]);
 
   // Listen to the Android back button

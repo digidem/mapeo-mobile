@@ -49,7 +49,7 @@ List.propTypes = {
   /**
    * The content of the subheader, normally `ListSubheader`.
    */
-  subheader: PropTypes.node
+  subheader: PropTypes.node,
 };
 
 export default List;
@@ -62,15 +62,15 @@ export const styles = StyleSheet.create({
     alignItems: "stretch",
     justifyContent: "flex-start",
     margin: 0,
-    padding: 0
+    padding: 0,
   },
   /* Styles applied to the root element if `disablePadding={false}`. */
   padding: {
     paddingTop: 8,
-    paddingBottom: 8
+    paddingBottom: 8,
   },
   /* Styles applied to the root element if a `subheader` is provided. */
   subheader: {
-    paddingTop: 0
-  }
+    paddingTop: 0,
+  },
 });

@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: "center"
-  }
+    alignSelf: "center",
+  },
   // title: {
   //   color: "white",
   //   fontWeight: "700",

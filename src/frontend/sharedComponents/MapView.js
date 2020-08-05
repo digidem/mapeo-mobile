@@ -25,17 +25,17 @@ const mapboxStyles = {
     circleColor: "#F29D4B",
     circleRadius: 5,
     circleStrokeColor: "#fff",
-    circleStrokeWidth: 2
-  }
+    circleStrokeWidth: 2,
+  },
 };
 
 type ObservationFeature = {
   type: "Feature",
   geometry: {
     type: "Point",
-    coordinates: [number, number] | [number, number, number]
+    coordinates: [number, number] | [number, number, number],
   },
-  properties: {| id: string |}
+  properties: {| id: string |},
 };
 
 /**
@@ -59,11 +59,11 @@ function mapObservationsToFeatures(
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [obs.value.lon, obs.value.lat]
+          coordinates: [obs.value.lon, obs.value.lat],
         },
         properties: {
-          id: obs.id
-        }
+          id: obs.id,
+        },
       });
     }
   }
@@ -77,13 +77,13 @@ const MIN_DISPLACEMENT = 15;
 
 class ObservationMapLayer extends React.PureComponent<{
   onPress: Function,
-  observations: ObservationsMap
+  observations: ObservationsMap,
 }> {
   render() {
     const { onPress, observations } = this.props;
     const featureCollection = {
       type: "FeatureCollection",
-      features: mapObservationsToFeatures(observations)
+      features: mapObservationsToFeatures(observations),
     };
     return (
       <MapboxGL.ShapeSource
@@ -102,7 +102,7 @@ type Props = {
   styleURL: string,
   location: LocationContextType,
   onPressObservation: (observationId: string) => any,
-  isFocused: boolean
+  isFocused: boolean,
 };
 
 type State = {
@@ -111,7 +111,7 @@ type State = {
   hasFinishedLoadingStyle?: boolean,
   zoom: number,
   // lon, lat
-  coords: [number, number]
+  coords: [number, number],
 };
 
 type Coords = [number, number];
@@ -124,7 +124,7 @@ function getCoords(location: LocationContextType): [number, number] {
 class MapView extends React.Component<Props, State> {
   static defaultProps = {
     onAddPress: () => {},
-    onPressObservation: () => {}
+    onPressObservation: () => {},
   };
   map: any;
   coordsRef: Coords;
@@ -143,7 +143,7 @@ class MapView extends React.Component<Props, State> {
         props.location.provider.locationServicesEnabled
           ? 12
           : 0.1,
-      coords: getCoords(props.location)
+      coords: getCoords(props.location),
     };
 
     this.ruler = new CheapRuler(getCoords(props.location)[1], "meters");
@@ -184,9 +184,9 @@ class MapView extends React.Component<Props, State> {
   handleObservationPress = (e: {
     nativeEvent?: {
       payload?: {
-        properties?: { id: string }
-      }
-    }
+        properties?: { id: string },
+      },
+    },
   }) => {
     const pressedFeature = e.nativeEvent && e.nativeEvent.payload;
     if (!pressedFeature || !pressedFeature.properties) return;
@@ -228,7 +228,7 @@ class MapView extends React.Component<Props, State> {
       return;
     this.setState({
       zoom: e.properties.zoomLevel,
-      coords: e.geometry.coordinates
+      coords: e.geometry.coordinates,
     });
   };
 
@@ -297,7 +297,7 @@ class MapView extends React.Component<Props, State> {
             <MapboxGL.Camera
               defaultSettings={{
                 centerCoordinate: this.coordsRef || coords || [0, 0],
-                zoomLevel: this.zoomRef || zoom || 12
+                zoomLevel: this.zoomRef || zoom || 12,
               }}
               centerCoordinate={following ? getCoords(location) : undefined}
               zoomLevel={
@@ -359,6 +359,6 @@ const styles = StyleSheet.create({
   locationButton: {
     position: "absolute",
     right: 20,
-    bottom: 20
-  }
+    bottom: 20,
+  },
 });

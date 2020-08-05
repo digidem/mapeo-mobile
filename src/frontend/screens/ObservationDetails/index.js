@@ -14,23 +14,23 @@ const m = defineMessages({
   nextQuestion: {
     id: "screens.ObservationDetails.nextQuestion",
     defaultMessage: "Next",
-    description: "Button text to navigate to next question"
+    description: "Button text to navigate to next question",
   },
   done: {
     id: "screens.ObservationDetails.done",
     defaultMessage: "Done",
-    description: "Button text when all questions are complete"
+    description: "Button text when all questions are complete",
   },
   title: {
     id: "screens.ObservationDetails.title",
     defaultMessage: "Question {current} of {total}",
     description:
-      "Title of observation details screen showing question number and total"
-  }
+      "Title of observation details screen showing question number and total",
+  },
 });
 
 type Props = {
-  navigation: NavigationProp
+  navigation: NavigationProp,
 };
 
 const DetailsTitle = ({ navigation }: Props) => {
@@ -41,7 +41,7 @@ const DetailsTitle = ({ navigation }: Props) => {
         {...m.title}
         values={{
           current: navigation.getParam("question"),
-          total: (preset.fields || []).length
+          total: (preset.fields || []).length,
         }}
       />
     </Text>
@@ -58,7 +58,7 @@ const DetailsHeaderRight = ({ navigation }: Props) => {
     isLastQuestion
       ? navigation.navigate("ObservationEdit")
       : navigation.push(navigation.state.routeName, {
-          question: current + 1
+          question: current + 1,
         });
 
   return (
@@ -90,7 +90,7 @@ const ObservationDetails = ({ navigation }: Props) => {
 
 ObservationDetails.navigationOptions = ({ navigation }: any) => ({
   headerTitle: () => <DetailsTitle navigation={navigation} />,
-  headerRight: () => <DetailsHeaderRight navigation={navigation} />
+  headerRight: () => <DetailsHeaderRight navigation={navigation} />,
 });
 
 export default ObservationDetails;
@@ -102,23 +102,23 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: "600",
         color: "rgba(0, 0, 0, .9)",
-        marginRight: 16
+        marginRight: 16,
       },
       android: {
         fontSize: 20,
         fontWeight: "500",
         color: "rgba(0, 0, 0, .9)",
-        marginRight: 16
+        marginRight: 16,
       },
       default: {
         fontSize: 18,
         fontWeight: "400",
-        color: "#3c4043"
-      }
-    })
+        color: "#3c4043",
+      },
+    }),
   },
   headerButton: {
     paddingHorizontal: 20,
-    height: 60
-  }
+    height: 60,
+  },
 });

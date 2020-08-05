@@ -5,7 +5,7 @@ import useDraftObservation from "../../hooks/useDraftObservation";
 
 type Props = {
   fieldKey: string,
-  children: ({ value: any, onChange: (fieldValue: any) => any }) => React.Node
+  children: ({ value: any, onChange: (fieldValue: any) => any }) => React.Node,
 };
 
 const Field = ({ fieldKey, children }: Props) => {
@@ -16,8 +16,8 @@ const Field = ({ fieldKey, children }: Props) => {
     updateDraft({
       tags: {
         ...tags,
-        [fieldKey]: fieldValue
-      }
+        [fieldKey]: fieldValue,
+      },
     });
   return children({ value, onChange });
 };

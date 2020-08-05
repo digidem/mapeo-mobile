@@ -28,19 +28,19 @@ import HomeHeader from "./sharedComponents/HomeHeader";
 const HomeTabs = createBottomTabNavigator(
   {
     Map: MapScreen,
-    Camera: CameraScreen
+    Camera: CameraScreen,
   },
   // $FlowFixMe
   {
     navigationOptions: () => ({
       header: props => <HomeHeader {...props} />,
-      headerTransparent: true
+      headerTransparent: true,
     }),
     defaultNavigationOptions: ({ navigation }) => ({
       initialRouteName: "Map",
       backBehavior: "initialRoute",
       tabBarOptions: {
-        showLabel: false
+        showLabel: false,
       },
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state;
@@ -48,8 +48,8 @@ const HomeTabs = createBottomTabNavigator(
         if (routeName === "Map") iconName = "map";
         else iconName = "photo-camera";
         return <MaterialIcons name={iconName} size={30} color={tintColor} />;
-      }
-    })
+      },
+    }),
   }
 );
 
@@ -79,7 +79,7 @@ const AppStack = createStackNavigator(
     // $FlowFixMe
     ObservationEdit: ObservationEdit,
     ManualGpsScreen: ManualGpsScreen,
-    ObservationDetails: ObservationDetails
+    ObservationDetails: ObservationDetails,
   },
   {
     initialRouteName: "Home",
@@ -88,28 +88,28 @@ const AppStack = createStackNavigator(
     headerMode: "screen",
     defaultNavigationOptions: {
       headerStyle: {
-        height: 60
+        height: 60,
       },
       // We use a slightly larger back icon, to improve accessibility
       // TODO iOS: This should probably be a chevron not an arrow
       headerLeft: props => <CustomHeaderLeft {...props} />,
       headerTitleStyle: {
-        marginHorizontal: 0
+        marginHorizontal: 0,
       },
       cardStyle: {
-        backgroundColor: "#ffffff"
-      }
-    }
+        backgroundColor: "#ffffff",
+      },
+    },
   }
 );
 
 const RootStack = createSwitchNavigator(
   {
     Intro: IntroStack,
-    App: AppStack
+    App: AppStack,
   },
   {
-    initialRouteName: "Intro"
+    initialRouteName: "Intro",
   }
 );
 

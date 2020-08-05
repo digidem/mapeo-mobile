@@ -8,9 +8,9 @@ export default function CenterView({ children }) {
 }
 
 CenterView.defaultProps = {
-  children: null
+  children: null,
 };
 
 CenterView.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };

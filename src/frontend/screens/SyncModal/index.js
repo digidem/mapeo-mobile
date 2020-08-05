@@ -23,7 +23,7 @@ import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import usePeers from "./usePeers";
 
 type Props = {
-  navigation: any
+  navigation: any,
 };
 
 const m = defineMessages({
@@ -31,13 +31,13 @@ const m = defineMessages({
     id: "screens.SyncModal.errorDialogOk",
     defaultMessage: "OK",
     description:
-      "Button to dismiss error alert about incompatible sync protocol"
+      "Button to dismiss error alert about incompatible sync protocol",
   },
   syncHeader: {
     id: "screens.SyncModal.SyncView.syncHeader",
     defaultMessage: "Synchronize",
-    description: "Header of sync screen"
-  }
+    description: "Header of sync screen",
+  },
 });
 
 const deviceName: string = "Android " + getUniqueId().slice(0, 4).toUpperCase();
@@ -46,8 +46,8 @@ const SyncModal = ({ navigation }: Props) => {
   const [, reload] = useAllObservations();
   const [
     {
-      metadata: { projectKey }
-    }
+      metadata: { projectKey },
+    },
   ] = React.useContext(ConfigContext);
 
   const [listen, setListening] = React.useState<boolean>(false);
@@ -84,7 +84,7 @@ const SyncModal = ({ navigation }: Props) => {
     setListening(true);
     // Subscribe to NetInfo to know when the user connects/disconnects to wifi
     subscriptions.push({
-      remove: NetInfo.addEventListener(handleConnectionChange)
+      remove: NetInfo.addEventListener(handleConnectionChange),
     });
     // Keep the screen awake whilst on this screen
     KeepAwake.activate();
@@ -136,13 +136,13 @@ const SyncModal = ({ navigation }: Props) => {
 SyncModal.navigationOptions = {
   headerTintColor: "white",
   headerStyle: {
-    backgroundColor: "#2348B2"
+    backgroundColor: "#2348B2",
   },
   headerTitle: () => (
     <HeaderTitle style={{ color: "white" }}>
       <FormattedMessage {...m.syncHeader} />
     </HeaderTitle>
-  )
+  ),
 };
 
 export default SyncModal;

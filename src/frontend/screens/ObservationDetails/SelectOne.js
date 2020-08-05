@@ -13,14 +13,14 @@ import type { SelectField } from "../../context/ConfigContext";
 
 type Props = {
   ...$Exact<QuestionProps>,
-  field: SelectField
+  field: SelectField,
 };
 
 type RadioItemProps = {
   checked: boolean,
   onPress: () => any,
   label: string,
-  style: Style<typeof View>
+  style: Style<typeof View>,
 };
 
 const RadioItem = ({ checked, onPress, label, style }: RadioItemProps) => (
@@ -41,7 +41,7 @@ const RadioItem = ({ checked, onPress, label, style }: RadioItemProps) => (
 const SelectOne = ({
   value,
   field: { placeholder, label, options },
-  onChange
+  onChange,
 }: Props) => (
   <>
     <QuestionLabel label={label} hint={placeholder} />
@@ -73,10 +73,10 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     marginHorizontal: 20,
     borderTopWidth: 1,
-    borderColor: "#F3F3F3"
+    borderColor: "#F3F3F3",
   },
   noBorder: {
-    borderTopWidth: 0
+    borderTopWidth: 0,
   },
   itemLabel: {
     fontSize: 18,
@@ -84,6 +84,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     flex: 1,
     color: "black",
-    fontWeight: "700"
-  }
+    fontWeight: "700",
+  },
 });

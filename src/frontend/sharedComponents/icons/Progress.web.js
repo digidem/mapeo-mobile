@@ -9,7 +9,7 @@ const Progress = ({ size = 30, color = "white" }) => (
       margin: 1.5,
       borderRadius: size / 2,
       width: size,
-      height: size
+      height: size,
     }}
   />
 );

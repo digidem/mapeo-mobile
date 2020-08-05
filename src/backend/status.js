@@ -40,7 +40,7 @@ class ServerStatus {
     rnBridge.channel.post("status", {
       value: nextState,
       error: error && error.message,
-      context
+      context,
     });
   }
 }

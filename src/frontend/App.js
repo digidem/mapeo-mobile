@@ -59,14 +59,14 @@ const loadNavigationState = async () => {
  */
 class ErrorBoundary extends React.Component<
   {
-    children: React.Node
+    children: React.Node,
   },
   {
-    hasError: boolean
+    hasError: boolean,
   }
 > {
   state = {
-    hasError: false
+    hasError: false,
   };
 
   static getDerivedStateFromError() {
@@ -81,8 +81,8 @@ class ErrorBoundary extends React.Component<
       report.severity = "error";
       report.metadata = {
         react: {
-          componentStack: formatComponentStack(info.componentStack)
-        }
+          componentStack: formatComponentStack(info.componentStack),
+        },
       };
     });
     // Record that we have an error so that when the app restarts we can

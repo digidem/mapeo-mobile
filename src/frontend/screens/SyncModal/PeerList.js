@@ -9,7 +9,7 @@ import {
   LaptopIcon,
   SyncIcon,
   DoneIcon,
-  ErrorIcon
+  ErrorIcon,
 } from "../../sharedComponents/icons";
 import Progress from "../../sharedComponents/icons/Progress";
 import DateDistance from "../../sharedComponents/DateDistance";
@@ -20,52 +20,52 @@ const m = defineMessages({
   syncButton: {
     id: "screens.SyncModal.PeerList.syncButton",
     defaultMessage: "Sync",
-    description: "Button label for sync button"
+    description: "Button label for sync button",
   },
   errorButton: {
     id: "screens.SyncModal.PeerList.errorButton",
     defaultMessage: "Error",
-    description: "Button label when there is an error"
+    description: "Button label when there is an error",
   },
   completeButton: {
     id: "screens.SyncModal.PeerList.completeButton",
     defaultMessage: "Complete",
-    description: "Button label when complete"
+    description: "Button label when complete",
   },
   disconnectedButton: {
     id: "screens.SyncModal.PeerList.disconnectedButton",
     defaultMessage: "Disconnected",
-    description: "Button label when disconnected"
+    description: "Button label when disconnected",
   },
   finishingButton: {
     id: "screens.SyncModal.PeerList.finishingButton",
     defaultMessage: "...",
     description:
-      "Button label when finishing sync but don't have correct progress"
+      "Button label when finishing sync but don't have correct progress",
   },
   syncLabel: {
     id: "screens.SyncModal.PeerList.syncLabel",
     defaultMessage: "Synced:",
-    description: "Label for last sync datetime"
+    description: "Label for last sync datetime",
   },
   errorTheyNeedUgrade: {
     id: "screens.SyncModal.PeerList.errorTheyNeedUgrade",
     defaultMessage: "Incompatible Mapeo",
     description:
-      "Short message shown under device in sync screen when it is running an incompatible version of Mapeo"
+      "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
   },
   errorWeNeedUgrade: {
     id: "screens.SyncModal.PeerList.errorTheyNeedUgrade",
     defaultMessage: "Incompatible Mapeo",
     description:
-      "Short message shown under device in sync screen when it is running an incompatible version of Mapeo"
+      "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
   },
   errorClientMismatch: {
     id: "screens.SyncModal.PeerList.errorClientMismatch",
     defaultMessage: "Not a Mapeo client",
     description:
-      "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client"
-  }
+      "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
+  },
 });
 
 type PeerStatus = {|
@@ -76,7 +76,7 @@ type PeerStatus = {|
   // An error occurred during sync
   ERROR: "ERROR",
   // Synchronization is complete
-  COMPLETE: "COMPLETE"
+  COMPLETE: "COMPLETE",
 |};
 
 export type Peer = {|
@@ -92,14 +92,14 @@ export type Peer = {|
   lastCompleted?: number,
   error?: PeerError,
   deviceType?: "mobile" | "desktop",
-  connected: boolean
+  connected: boolean,
 |};
 
 export const peerStatus: PeerStatus = {
   READY: "READY",
   PROGRESS: "PROGRESS",
   ERROR: "ERROR",
-  COMPLETE: "COMPLETE"
+  COMPLETE: "COMPLETE",
 };
 
 const SyncButton = ({ progress, onPress, status, connected }) => {
@@ -192,10 +192,10 @@ export const PeerItem = ({
   error,
   lastCompleted,
   onSyncPress,
-  deviceType
+  deviceType,
 }: {
   ...$Exact<Peer>,
-  onSyncPress: (id: string) => any
+  onSyncPress: (id: string) => any,
 }) => {
   const { formatMessage: t } = useIntl();
 
@@ -253,10 +253,10 @@ const PeerItemMemoized = React.memo(PeerItem);
 
 const PeerList = ({
   peers,
-  onSyncPress
+  onSyncPress,
 }: {
   peers: Array<Peer>,
-  onSyncPress: (id: string) => any
+  onSyncPress: (id: string) => any,
 }) => (
   <ScrollView style={styles.container}>
     {peers.map(peer => (
@@ -275,27 +275,27 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     paddingRight: 15,
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   sectionTitle: {
     fontWeight: "700",
     color: "white",
-    fontSize: 22
+    fontSize: 22,
   },
   rowValue: {
     fontWeight: "400",
     color: "white",
-    marginTop: 5
+    marginTop: 5,
   },
   container: {
-    backgroundColor: "#2348B2"
+    backgroundColor: "#2348B2",
   },
   peerIcon: {
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   itemInfo: { flexDirection: "column", flex: 1, marginRight: 10 },
   syncTouchable: {
-    borderRadius: 10
+    borderRadius: 10,
   },
   syncButtonBase: {
     width: 100,
@@ -304,43 +304,43 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    paddingHorizontal: 6
+    paddingHorizontal: 6,
   },
   syncButtonReady: {
     borderWidth: 1,
     borderColor: "white",
-    backgroundColor: "#2348B2"
+    backgroundColor: "#2348B2",
   },
   syncButtonProgress: {
     borderWidth: 0,
-    backgroundColor: "#3366FF"
+    backgroundColor: "#3366FF",
   },
   syncButtonDone: {
     borderWidth: 0,
-    backgroundColor: "#19337F"
+    backgroundColor: "#19337F",
   },
   syncButtonError: {
     borderWidth: 1,
     borderColor: "red",
-    backgroundColor: "#2348B2"
+    backgroundColor: "#2348B2",
   },
   syncButtonDisconnected: {
     borderWidth: 1,
     borderColor: "transparent",
-    backgroundColor: "#2348B2"
+    backgroundColor: "#2348B2",
   },
   iconContainer: {
     width: 30,
     height: 30,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   buttonText: {
     flex: 1,
     color: "white",
     fontWeight: "500",
     fontSize: 16,
-    textAlign: "center"
+    textAlign: "center",
   },
   progressBackground: {
     width: 30,
@@ -348,6 +348,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: "#264CBF",
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });

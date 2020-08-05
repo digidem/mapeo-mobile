@@ -42,14 +42,14 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
 
   let projectKey = readProjectKey({
     defaultConfigPath,
-    fallbackPresetsDir
+    fallbackPresetsDir,
   });
 
   // The main osm db for observations and map data
   let { osm, close: closeOsm } = createOsmDb({
     feedsDir: path.join(privateStorage, "db"),
     indexDir: path.join(privateStorage, "index"),
-    encryptionKey: projectKey
+    encryptionKey: projectKey,
   });
 
   // The media store for photos, video etc.
@@ -60,7 +60,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     staticRoot: sharedStorage,
     writeFormat: "osm-p2p-syncfile",
     fallbackPresetsDir: fallbackPresetsDir,
-    deviceType: "mobile"
+    deviceType: "mobile",
   });
   let mapeoCore = mapeoRouter.api.core;
 
@@ -74,7 +74,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
       res.statusCode = 404;
       const error = {
         code: 404,
-        message: "NotFound"
+        message: "NotFound",
       };
       res.setHeader("Content-Type", "application/json");
       res.end(JSON.stringify(error));
@@ -107,7 +107,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     function onerror(err) {
       main.bugsnag.notify(err, {
         severity: "error",
-        context: "sync"
+        context: "sync",
       });
       sendPeerUpdateToRN();
       sync.removeListener("error", onerror);
@@ -150,7 +150,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
         // the destination is in sharedStorage. We can't fs.rename() between
         // these two storage areas, so we create our own temp dir in
         // sharedStorage
-        dir: sharedStorage
+        dir: sharedStorage,
       },
       (err, tmpDir, cleanup) => {
         // 1 - extract to temp directory
@@ -163,7 +163,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
           readable: true,
           writable: true,
           // Samsung devices throw EPERM error if you try to set utime
-          utimes: false
+          utimes: false,
         });
         pump(source, dest, onExtract);
 
@@ -224,13 +224,13 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
       closeOsm(() => {
         projectKey = readProjectKey({
           defaultConfigPath,
-          fallbackPresetsDir
+          fallbackPresetsDir,
         });
 
         const newDb = createOsmDb({
           feedsDir: path.join(privateStorage, "db"),
           indexDir: path.join(privateStorage, "index"),
-          encryptionKey: projectKey
+          encryptionKey: projectKey,
         });
 
         osm = newDb.osm;
@@ -240,7 +240,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
           staticRoot: sharedStorage,
           writeFormat: "osm-p2p-syncfile",
           fallbackPresetsDir: fallbackPresetsDir,
-          deviceType: "mobile"
+          deviceType: "mobile",
         });
         mapeoCore = mapeoRouter.api.core;
 
@@ -260,7 +260,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
           : undefined,
         swarmId: Buffer.isBuffer(rest.swarmId)
           ? rest.swarmId.toString("hex")
-          : undefined
+          : undefined,
       };
     });
     rnBridge.channel.post("peer-update", peers);
@@ -280,7 +280,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     } catch (e) {
       main.bugsnag.notify(e, {
         severity: "error",
-        context: "sync join"
+        context: "sync join",
       });
     }
   }
@@ -292,7 +292,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     } catch (e) {
       main.bugsnag.notify(e, {
         severity: "error",
-        context: "sync leave"
+        context: "sync leave",
       });
     }
   }
@@ -353,20 +353,20 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     indexDb.on("error", err => {
       main.bugsnag.notify(err, {
         severity: "error",
-        context: "core"
+        context: "core",
       });
     });
 
     const coreDb = kappa(feedsDir, {
       valueEncoding: "json",
-      encryptionKey
+      encryptionKey,
     });
 
     // The main osm db for observations and map data
     const osm = createOsmDbOrig({
       core: coreDb,
       index: indexDb,
-      storage: createBkdStorage
+      storage: createBkdStorage,
     });
 
     // To close cleanly we need to wait until replication has completed, destroy

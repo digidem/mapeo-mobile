@@ -25,7 +25,7 @@ export default function withFocus(Component) {
         isNavigationFocused: props.navigation
           ? props.navigation.isFocused()
           : false,
-        isAppActive: AppState.currentState === "active"
+        isAppActive: AppState.currentState === "active",
       };
     }
 
@@ -37,14 +37,14 @@ export default function withFocus(Component) {
         ),
         navigation.addListener("didBlur", () =>
           this.setState({ isNavigationFocused: false })
-        )
+        ),
       ];
       AppState.addEventListener("change", this.handleAppStateChange);
     }
 
     handleAppStateChange = nextAppState => {
       this.setState({
-        isAppActive: nextAppState === "active"
+        isAppActive: nextAppState === "active",
       });
     };
 

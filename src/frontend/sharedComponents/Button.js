@@ -11,7 +11,7 @@ import type { Style } from "../types";
 // Fix warning pending https://github.com/kmagiera/react-native-gesture-handler/pull/561/files
 TouchableNativeFeedback.propTypes = {
   ...TouchableNativeFeedback.propTypes,
-  background: PropTypes.object
+  background: PropTypes.object,
 };
 
 type Props = {
@@ -22,7 +22,7 @@ type Props = {
   style?: Style<typeof View>,
   fullWidth?: boolean,
   testID?: string,
-  disabled?: boolean
+  disabled?: boolean,
 };
 
 const Button = ({
@@ -32,7 +32,7 @@ const Button = ({
   style,
   children,
   fullWidth = false,
-  disabled = false
+  disabled = false,
 }: Props) => {
   const buttonStyle = styles["button" + capitalize(variant)];
   const textStyle =
@@ -48,7 +48,7 @@ const Button = ({
         styles.buttonBase,
         buttonStyle,
         fullWidth && styles.fullWidth,
-        style
+        style,
       ]}
     >
       <TouchableNativeFeedback
@@ -79,40 +79,40 @@ const styles = StyleSheet.create({
   buttonBase: {
     borderRadius: 6,
     alignSelf: "center",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   fullWidth: {
-    width: "100%"
+    width: "100%",
   },
   buttonContained: {
-    backgroundColor: "#0066FF"
+    backgroundColor: "#0066FF",
   },
   buttonOutlined: {
     borderColor: "#EEEEEE",
-    borderWidth: 1.5
+    borderWidth: 1.5,
   },
   touchable: {
     paddingVertical: 15,
     paddingHorizontal: 30,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   textBase: {
     fontWeight: "700",
     letterSpacing: 0.5,
     fontSize: 16,
-    color: "#FFFFFF"
+    color: "#FFFFFF",
   },
   textOutlinedLight: {
-    color: "#0066FF"
+    color: "#0066FF",
   },
   textOutlinedDark: {
-    color: "#0066FF"
+    color: "#0066FF",
   },
   textOutlinedLightDisabled: {
-    color: "#666666"
+    color: "#666666",
   },
   textOutlinedDarkDisabled: {
-    color: "#999999"
-  }
+    color: "#999999",
+  },
 });

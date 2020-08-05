@@ -4,7 +4,7 @@ import { useContext, useState, useCallback } from "react";
 import api from "../api";
 import { matchPreset, addFieldDefinitions } from "../lib/utils";
 import ObservationsContext, {
-  type Observation
+  type Observation,
 } from "../context/ObservationsContext";
 import ConfigContext, { type PresetWithFields } from "../context/ConfigContext";
 import type { Status } from "../types";
@@ -14,7 +14,7 @@ type UseObservation = [
     observation?: Observation,
     preset?: PresetWithFields,
     loadingStatus: Status,
-    deletingStatus?: Status
+    deletingStatus?: Status,
   },
   // Delete the observation
   () => void
@@ -56,9 +56,9 @@ export default (observationId: mixed): UseObservation => {
       deletingStatus,
       loadingStatus,
       observation: observation,
-      preset: preset && addFieldDefinitions(preset, fields)
+      preset: preset && addFieldDefinitions(preset, fields),
     },
-    deleteObservation
+    deleteObservation,
   ];
 };
 

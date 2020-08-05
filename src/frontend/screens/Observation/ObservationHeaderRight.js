@@ -12,7 +12,7 @@ import useDeviceId from "../../hooks/useDeviceId";
 import { SyncIcon } from "../../sharedComponents/icons/SyncIconCircle";
 
 type Props = {
-  navigation: NavigationProp
+  navigation: NavigationProp,
 };
 
 const ObservationHeaderRight = ({ navigation }: Props) => {
@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
     height: 60,
     flex: 0,
     justifyContent: "center",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });

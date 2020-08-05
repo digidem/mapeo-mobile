@@ -5,7 +5,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemIcon
+  ListItemIcon,
 } from "../../sharedComponents/List";
 
 type Props = {|
@@ -14,8 +14,8 @@ type Props = {|
   options: Array<{|
     value: any,
     label: string,
-    hint?: string
-  |}>
+    hint?: string,
+  |}>,
 |};
 
 const SelectOne = ({ value, options, onChange }: Props) => (

@@ -12,7 +12,7 @@ const renderError = () => (
       height: 22,
       justifyContent: "center",
       alignItems: "center",
-      marginLeft: -2
+      marginLeft: -2,
     }}
   >
     <View
@@ -20,7 +20,7 @@ const renderError = () => (
         backgroundColor: "white",
         width: 15,
         height: 15,
-        borderRadius: 7
+        borderRadius: 7,
       }}
     />
     <Icon
@@ -39,7 +39,7 @@ const renderIcon = (color = "#00FF02") => (
       margin: 1.5,
       borderRadius: 7,
       width: 14,
-      height: 14
+      height: 14,
     }}
   />
 );

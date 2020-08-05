@@ -7,7 +7,7 @@ import { defineMessages, FormattedMessage } from "react-intl";
 
 import CameraView from "../sharedComponents/CameraView";
 import useDraftObservation, {
-  type CapturePromise
+  type CapturePromise,
 } from "../hooks/useDraftObservation";
 
 import type { NavigationScreenConfigProps } from "react-navigation";
@@ -15,8 +15,8 @@ import type { NavigationScreenConfigProps } from "react-navigation";
 const m = defineMessages({
   cancel: {
     id: "screens.AddPhoto.cancel",
-    defaultMessage: "Cancel"
-  }
+    defaultMessage: "Cancel",
+  },
 });
 
 const log = debug("AddPhotoScreen");
@@ -54,7 +54,7 @@ const AddPhotoScreen = ({ navigation }: NavigationScreenConfigProps) => {
 };
 
 AddPhotoScreen.navigationOptions = {
-  headerShown: false
+  headerShown: false,
 };
 
 export default AddPhotoScreen;
@@ -62,7 +62,7 @@ export default AddPhotoScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
   },
   cancelButton: {
     flex: 0,
@@ -70,11 +70,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    backgroundColor: "red"
+    backgroundColor: "red",
   },
   cancelButtonLabel: {
     color: "white",
     fontSize: 20,
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
 });

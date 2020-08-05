@@ -18,7 +18,7 @@ export type Preset = {|
   name: string,
   sort?: number,
   matchScore?: number,
-  searchable?: boolean
+  searchable?: boolean,
 |};
 
 type BaseField = {|
@@ -26,18 +26,18 @@ type BaseField = {|
   key: string,
   label: string,
   placeholder?: string,
-  universal?: boolean
+  universal?: boolean,
 |};
 
 export type TextField = {|
   ...$Exact<BaseField>,
-  type: "text"
+  type: "text",
 |};
 
 export type SelectField = {|
   ...$Exact<BaseField>,
   type: "select_one" | "select_multiple",
-  options: Array<string | number | {| value: number | string, label: string |}>
+  options: Array<string | number | {| value: number | string, label: string |}>,
 |};
 
 export type Field = TextField | SelectField;
@@ -52,7 +52,7 @@ export type PresetWithFields = {|
   name: string,
   sort?: number,
   matchScore?: number,
-  searchable?: boolean
+  searchable?: boolean,
 |};
 
 export type PresetsMap = Map<string, Preset>;
@@ -62,7 +62,7 @@ export type Metadata = {
   projectKey?: string,
   name?: string,
   dataset_id?: string,
-  version?: string
+  version?: string,
 };
 
 export type State = {
@@ -71,7 +71,7 @@ export type State = {
   // A map of field definitions by id
   fields: FieldsMap,
   metadata: Metadata,
-  status: Status
+  status: Status,
 };
 
 export type ConfigContextType = [
@@ -82,24 +82,24 @@ export type ConfigContextType = [
 const defaultConfig = {
   presets: new Map(),
   fields: new Map(),
-  metadata: {}
+  metadata: {},
 };
 
 const defaultContext: ConfigContextType = [
   {
     ...defaultConfig,
-    status: "idle"
+    status: "idle",
   },
   {
     reload: () => {},
-    replace: () => {}
-  }
+    replace: () => {},
+  },
 ];
 
 const ConfigContext = React.createContext<ConfigContextType>(defaultContext);
 
 type Props = {
-  children: React.Node
+  children: React.Node,
 };
 
 export const ConfigProvider = ({ children }: Props) => {
@@ -126,7 +126,7 @@ export const ConfigProvider = ({ children }: Props) => {
   const contextValue = React.useMemo(
     () => [
       { ...config, status },
-      { reload, replace }
+      { reload, replace },
     ],
     [config, status, reload, replace]
   );
@@ -143,7 +143,7 @@ export const ConfigProvider = ({ children }: Props) => {
             presetsList.filter(filterPointPreset).map(p => [p.id, p])
           ),
           fields: new Map(fieldsList.map(p => [p.id, p])),
-          metadata: metadata
+          metadata: metadata,
         });
         setStatus("success");
       })

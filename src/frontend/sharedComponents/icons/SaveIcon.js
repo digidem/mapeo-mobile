@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/Octicons";
 import { DARK_MANGO, MANGO } from "../../lib/styles";
 
 type Props = {
-  inprogress?: boolean
+  inprogress?: boolean,
 };
 
 const SaveIcon = ({ inprogress }: Props) => (
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     backgroundColor: DARK_MANGO,
     borderRadius: 50,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   innerCircle: {
     backgroundColor: MANGO,
@@ -34,6 +34,6 @@ const styles = StyleSheet.create({
     width: 25,
     borderRadius: 50,
     justifyContent: "center",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });

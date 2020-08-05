@@ -11,19 +11,19 @@ import type { IconSize } from "../../types";
 type IconProps = {
   size?: IconSize,
   style?: Style<typeof View>,
-  iconId?: string
+  iconId?: string,
 };
 
 const iconSizes = {
   small: 22,
   medium: 35,
-  large: 50
+  large: 50,
 };
 
 const radii = {
   small: 15,
   medium: 25,
-  large: 35
+  large: 35,
 };
 
 export const CategoryIcon = React.memo<IconProps>(

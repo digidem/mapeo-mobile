@@ -63,6 +63,6 @@ export default function useMapstyleURL(styleId: string = "default") {
   return useMemo(() => [{ loading, styleURL, error }], [
     loading,
     styleURL,
-    error
+    error,
   ]);
 }

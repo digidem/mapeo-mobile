@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Share,
   Image,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ShareMedia from "react-native-share";
@@ -26,7 +26,7 @@ import {
   WHITE,
   DARK_GREY,
   LIGHT_GREY,
-  MEDIUM_GREY
+  MEDIUM_GREY,
 } from "../../lib/styles";
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields, Field } from "../../context/ConfigContext";
@@ -39,45 +39,45 @@ const m = defineMessages({
     id: "screens.Observation.ObservationView.noAnswer",
     defaultMessage: "No answer",
     description:
-      "Placeholder text for fields on an observation which are not answered"
+      "Placeholder text for fields on an observation which are not answered",
   },
   alertSubject: {
     id: "screens.Observation.ObservationView.alertSubject",
     defaultMessage: "Mapeo Alert",
-    description: "Subject-line for shared observations"
+    description: "Subject-line for shared observations",
   },
   alertFooter: {
     id: "screens.Observation.ObservationView.alertFooter",
     defaultMessage: "Sent from Mapeo",
-    description: "Footer for shared observations message"
+    description: "Footer for shared observations message",
   },
   observation: {
     id: "screens.Observation.ObservationView.observation",
     defaultMessage: "Observation",
-    description: "Default name of observation with no matching preset"
+    description: "Default name of observation with no matching preset",
   },
   share: {
     id: "screens.Observation.ObservationView.share",
     defaultMessage: "Share",
-    description: "Button to share an observation"
+    description: "Button to share an observation",
   },
   delete: {
     id: "screens.Observation.ObservationView.delete",
     defaultMessage: "Delete",
-    description: "Button to delete an observation"
-  }
+    description: "Button to delete an observation",
+  },
 });
 
 type ButtonProps = {
   onPress: () => any,
   color: string,
   iconName: "delete" | "share",
-  title: string
+  title: string,
 };
 
 type MapProps = {
   lon: number,
-  lat: number
+  lat: number,
 };
 
 const InsetMapView = ({ lon, lat }: MapProps) => {
@@ -133,7 +133,7 @@ const FieldView = ({ label, answer, style }) => {
       <Text
         style={[
           styles.fieldAnswer,
-          { color: answer === undefined ? MEDIUM_GREY : DARK_GREY }
+          { color: answer === undefined ? MEDIUM_GREY : DARK_GREY },
         ]}
       >
         {formattedAnswer || t(m.noAnswer)}
@@ -146,14 +146,14 @@ type ODVProps = {|
   observation: Observation,
   preset?: PresetWithFields,
   onPressPhoto: (photoIndex: number) => any,
-  onPressDelete: () => any
+  onPressDelete: () => any,
 |};
 
 const ObservationView = ({
   observation,
   preset,
   onPressPhoto,
-  onPressDelete
+  onPressDelete,
 }: ODVProps) => {
   const { formatMessage: t, formatDate } = useIntl();
   const deviceId = useDeviceId();
@@ -173,7 +173,7 @@ const ObservationView = ({
       fields,
       header: `${t(m.alertSubject)} — _*${name}*_`,
       footer: t(m.alertFooter),
-      createdAt
+      createdAt,
     });
 
     if (value.attachments && value.attachments.length) {
@@ -184,7 +184,7 @@ const ObservationView = ({
         urls: urls,
         message: msg,
         subject: `${t(m.alertSubject)} _*${name}*_ ${createdAt}`,
-        failOnCancel: false
+        failOnCancel: false,
       };
       ShareMedia.open(options);
     } else Share.share({ message: msg });
@@ -284,13 +284,13 @@ function formatShareMessage({
   fields,
   header,
   footer,
-  createdAt
+  createdAt,
 }: {
   observation: Observation,
   fields: Field[],
   header: string,
   footer: string,
-  createdAt: string
+  createdAt: string,
 }) {
   const { value } = observation;
 
@@ -334,22 +334,22 @@ const ICON_OFFSET = { x: 22, y: 21 };
 const styles = StyleSheet.create({
   categoryIconContainer: {
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   categoryLabel: {
     color: BLACK,
     fontWeight: "bold",
     fontSize: 20,
-    marginLeft: 10
+    marginLeft: 10,
   },
   root: {
     backgroundColor: WHITE,
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
   },
   scrollContent: { minHeight: "100%" },
   map: {
-    height: MAP_HEIGHT
+    height: MAP_HEIGHT,
   },
   mapIcon: {
     position: "absolute",
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 75,
     left: Dimensions.get("screen").width / 2 - ICON_OFFSET.x,
-    bottom: MAP_HEIGHT / 2 - ICON_OFFSET.y
+    bottom: MAP_HEIGHT / 2 - ICON_OFFSET.y,
   },
   coords: {
     zIndex: 10,
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingTop: 0,
     paddingBottom: 10,
-    backgroundColor: WHITE
+    backgroundColor: WHITE,
   },
   coordsPointer: {
     width: 0,
@@ -382,61 +382,61 @@ const styles = StyleSheet.create({
     borderRightColor: "transparent",
     borderBottomWidth: 10,
     borderBottomColor: WHITE,
-    top: -10
+    top: -10,
   },
   divider: {
     backgroundColor: LIGHT_GREY,
-    paddingVertical: 15
+    paddingVertical: 15,
   },
   positionText: {
     fontSize: 12,
     color: BLACK,
-    fontWeight: "700"
+    fontWeight: "700",
   },
   section: {
     flex: 1,
     marginHorizontal: 15,
-    paddingVertical: 15
+    paddingVertical: 15,
   },
   optionalSection: {
     borderTopColor: LIGHT_GREY,
-    borderTopWidth: 1
+    borderTopWidth: 1,
   },
   textNotes: {
     fontSize: 22,
     color: DARK_GREY,
     fontWeight: "100",
-    marginLeft: 10
+    marginLeft: 10,
   },
   time: {
     color: BLACK,
     backgroundColor: LIGHT_GREY,
     fontSize: 14,
     paddingVertical: 10,
-    textAlign: "center"
+    textAlign: "center",
   },
   fieldAnswer: {
     fontSize: 20,
-    fontWeight: "100"
+    fontWeight: "100",
   },
   fieldTitle: {
     color: BLACK,
     fontSize: 14,
     fontWeight: "700",
-    marginBottom: 10
+    marginBottom: 10,
   },
   button: {
-    alignItems: "center"
+    alignItems: "center",
   },
   buttonIcon: {},
   buttonText: {
     fontSize: 14,
     textAlign: "center",
-    marginTop: 5
+    marginTop: 5,
   },
   buttonContainer: {
     paddingVertical: 20,
     flexDirection: "row",
-    justifyContent: "space-around"
-  }
+    justifyContent: "space-around",
+  },
 });

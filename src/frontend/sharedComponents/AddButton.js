@@ -20,10 +20,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 10,
     bottom: 25,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   button: {
     width: 125,
-    height: 125
-  }
+    height: 125,
+  },
 });

@@ -8,8 +8,8 @@ export const styles = StyleSheet.create({
   root: {
     minWidth: 56,
     flexShrink: 0,
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });
 
 /**
@@ -28,7 +28,7 @@ ListItemIcon.propTypes = {
    * The content of the component, normally `Icon`, `SvgIcon`,
    * or a `@material-ui/icons` SVG icon element.
    */
-  iconName: PropTypes.string.isRequired
+  iconName: PropTypes.string.isRequired,
 };
 
 export default ListItemIcon;

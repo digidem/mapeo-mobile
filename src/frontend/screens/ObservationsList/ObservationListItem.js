@@ -18,14 +18,14 @@ const m = defineMessages({
   defaultObservationName: {
     id: "screens.ObservationsList.ObservationListItem.defaultObservationName",
     defaultMessage: "Observation",
-    description: "Default name for an observation that does not match a preset"
-  }
+    description: "Default name for an observation that does not match a preset",
+  },
 });
 
 type Props = {
   onPress: string => any,
   style?: Style<typeof View>,
-  observationId: string
+  observationId: string,
 };
 
 const photoOverlap = 10;
@@ -36,7 +36,7 @@ const PhotoStack = ({ photos }: { photos: SavedPhoto[] }) => {
       style={{
         width: 60 + (photos.length - 1) * photoOverlap,
         height: 60,
-        backgroundColor: "aqua"
+        backgroundColor: "aqua",
       }}
     >
       {photos.map((photo, idx) => (
@@ -54,7 +54,7 @@ const PhotoStack = ({ photos }: { photos: SavedPhoto[] }) => {
 const ObservationListItem = ({
   onPress = () => {},
   style,
-  observationId
+  observationId,
 }: Props) => {
   const { formatMessage: t } = useIntl();
   const [{ observation, preset }] = useObservation(observationId);
@@ -112,22 +112,22 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 20,
     flex: 1,
-    height: 80
+    height: 80,
   },
   syncedObservation: {
     borderLeftWidth: 5,
-    borderLeftColor: "#3C69F6"
+    borderLeftColor: "#3C69F6",
   },
   text: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "flex-start"
+    alignItems: "flex-start",
   },
   title: { fontSize: 18, fontWeight: "700", color: "black" },
   photoContainer: {
     position: "relative",
-    marginRight: -5
+    marginRight: -5,
   },
   photo: {
     borderRadius: 5,
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     top: 0,
     borderWidth: 1,
     borderColor: "white",
-    borderStyle: "solid"
+    borderStyle: "solid",
   },
-  smallIcon: { position: "absolute", right: -3, bottom: -3 }
+  smallIcon: { position: "absolute", right: -3, bottom: -3 },
 });

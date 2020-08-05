@@ -4,7 +4,7 @@
 const config = {
   API_URL: "https://api.mapbox.com",
   REQUIRE_ACCESS_TOKEN: true,
-  ACCESS_TOKEN: null
+  ACCESS_TOKEN: null,
 };
 
 const help = "See https://www.mapbox.com/api-documentation/#access-tokens";
@@ -111,7 +111,7 @@ function parseUrl(url) {
     protocol: parts[1],
     authority: parts[2],
     path: parts[3] || "/",
-    params: parts[4] ? parts[4].split("&") : []
+    params: parts[4] ? parts[4].split("&") : [],
   };
 }
 

@@ -19,7 +19,7 @@ const captureQuality = 75;
 const captureOptions = {
   base64: false,
   exif: true,
-  skipProcessing: true
+  skipProcessing: true,
 };
 
 type CameraType = "front" | "back";
@@ -27,7 +27,7 @@ type CameraType = "front" | "back";
 type Props = {
   // Called when the user takes a picture, with a promise that resolves to an
   // object with the property `uri` for the captured (and rotated) photo.
-  onAddPress: (e: any, capture: CapturePromise) => void
+  onAddPress: (e: any, capture: CapturePromise) => void,
 };
 
 type Acceleration = { x: number, y: number, z: number };
@@ -70,11 +70,11 @@ const CameraView = ({ onAddPress }: Props) => {
       const currentAcc = acceleration.current;
       if (!camera)
         return bugsnag.leaveBreadcrumb("Camera view not ready", {
-          type: "process"
+          type: "process",
         });
       if (capturing)
         return bugsnag.leaveBreadcrumb("Shutter pressed twice", {
-          type: "process"
+          type: "process",
         });
       bugsnag.leaveBreadcrumb("Start photo capture", { type: "process" });
 
@@ -196,6 +196,6 @@ function getPhotoRotation(acc?: Acceleration) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black"
-  }
+    backgroundColor: "black",
+  },
 });

@@ -14,48 +14,48 @@ const m = defineMessages({
   noGpsTitle: {
     id: "screens.ObservationEdit.SaveButton.noGpsTitle",
     defaultMessage: "No GPS signal",
-    description: "Title of dialog when trying to save with no GPS coords"
+    description: "Title of dialog when trying to save with no GPS coords",
   },
   noGpsDesc: {
     id: "screens.ObservationEdit.SaveButton.noGpsDesc",
     defaultMessage:
       "This observation does not have a location. You can continue waiting for a GPS signal, save the observation without a location, or enter coordinates manually",
-    description: "Description in dialog when trying to save with no GPS coords"
+    description: "Description in dialog when trying to save with no GPS coords",
   },
   weakGpsTitle: {
     id: "screens.ObservationEdit.SaveButton.weakGpsTitle",
     defaultMessage: "Weak GPS signal",
-    description: "Title of dialog when trying to save with low GPS accuracy."
+    description: "Title of dialog when trying to save with low GPS accuracy.",
   },
   weakGpsDesc: {
     id: "screens.ObservationEdit.SaveButton.weakGpsDesc",
     defaultMessage:
       "GPS accuracy is low. You can continue waiting for better accuracy, save the observation with low accuracy, or enter coordinates manually",
     description:
-      "Description in dialog when trying to save with low GPS accuracy."
+      "Description in dialog when trying to save with low GPS accuracy.",
   },
   saveAnyway: {
     id: "screens.ObservationEdit.SaveButton.saveAnyway",
     defaultMessage: "Save",
-    description: "Button to save regardless of GPS state"
+    description: "Button to save regardless of GPS state",
   },
   manualEntry: {
     id: "screens.ObservationEdit.SaveButton.manualEntry",
     defaultMessage: "Manual Coords",
-    description: "Button to manually enter GPS coordinates"
+    description: "Button to manually enter GPS coordinates",
   },
   keepWaiting: {
     id: "screens.ObservationEdit.SaveButton.keepWaiting",
     defaultMessage: "Continue waiting",
-    description: "Button to cancel save and continue waiting for GPS"
-  }
+    description: "Button to cancel save and continue waiting for GPS",
+  },
 });
 
 const MINIMUM_ACCURACY = 10;
 const log = debug("SaveButton");
 
 type Props = {
-  navigation: NavigationProp
+  navigation: NavigationProp,
 };
 
 const SaveButton = ({ navigation }: Props) => {
@@ -66,17 +66,17 @@ const SaveButton = ({ navigation }: Props) => {
     {
       text: t(m.saveAnyway),
       onPress: saveDraft,
-      style: "default"
+      style: "default",
     },
     {
       text: t(m.manualEntry),
       onPress: () => navigation.navigate("ManualGpsScreen"),
-      style: "cancel"
+      style: "cancel",
     },
     {
       text: t(m.keepWaiting),
-      onPress: () => log("Cancelled save")
-    }
+      onPress: () => log("Cancelled save"),
+    },
   ];
 
   const handleSavePress = () => {

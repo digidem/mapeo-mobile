@@ -15,16 +15,16 @@ const m = defineMessages({
     defaultMessage:
       "The device you are trying to sync with needs to upgrade Mapeo to the latest version in order to sync with you.",
     description:
-      "Content of error alert when trying to sync with an incompatible older version of Mapeo"
+      "Content of error alert when trying to sync with an incompatible older version of Mapeo",
   },
   errorVersionUsBadDesc: {
     id: "screens.SyncModal.errorVersionUsBadDesc",
     defaultMessage:
       "The device you are trying to sync has a newer version of Mapeo. You need to upgrade Mapeo in order to sync with this device.",
     description:
-      "Content of error alert when trying to sync with an incompatible newer version of Mapeo"
+      "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
   },
-  errorMsgVersionUsBad: "You need to upgrade Mapeo to sync with {deviceName}"
+  errorMsgVersionUsBad: "You need to upgrade Mapeo to sync with {deviceName}",
 });
 
 const IGNORED_ERROR_CODES = ["ECONNABORTED", "ERR_MISSING_DATA"];
@@ -102,7 +102,7 @@ export default function usePeers(listen, deviceName) {
         serverPeers,
         syncErrors,
         since: lastClosed.current,
-        t
+        t,
       }),
     [serverPeers, syncErrors, syncRequests, t]
   );
@@ -144,7 +144,7 @@ function getPeersStatus({
   syncErrors,
   syncRequests,
   since,
-  t
+  t,
 }) {
   return serverPeers.map(serverPeer => {
     let status = peerStatus.READY;
@@ -177,7 +177,7 @@ function getPeersStatus({
         ) {
           state.errorMsg = t(m.errorMsgVersionThemBad, { deviceName: name });
           state.errorDesc = t(m.errorVersionThemBadDesc, {
-            deviceName: name
+            deviceName: name,
           });
         } else {
           state.errorMsg = t(m.errorMsgVersionUsBad, { deviceName: name });
@@ -196,7 +196,7 @@ function getPeersStatus({
       lastCompleted: complete || state.lastCompletedDate,
       error: state.errorMsg ? state : null,
       progress: getPeerProgress(serverPeer.state),
-      deviceType: serverPeer.filename ? "file" : serverPeer.deviceType
+      deviceType: serverPeer.filename ? "file" : serverPeer.deviceType,
     };
   });
 }

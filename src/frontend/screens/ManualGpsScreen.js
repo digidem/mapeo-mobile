@@ -15,44 +15,44 @@ import { BackIcon, SaveIcon } from "../sharedComponents/icons";
 const m = defineMessages({
   zoneNumber: {
     id: "screens.ManualGpsScreen.zoneNumber",
-    defaultMessage: "Zone Number"
+    defaultMessage: "Zone Number",
   },
   zoneLetter: {
     id: "screens.ManualGpsScreen.zoneLetter",
-    defaultMessage: "Zone Letter"
+    defaultMessage: "Zone Letter",
   },
   easting: {
     id: "screens.ManualGpsScreen.easting",
-    defaultMessage: "East"
+    defaultMessage: "East",
   },
   eastingSuffix: {
     id: "screens.ManualGpsScreen.eastingSuffix",
-    defaultMessage: "mE"
+    defaultMessage: "mE",
   },
   northing: {
     id: "screens.ManualGpsScreen.northing",
-    defaultMessage: "North"
+    defaultMessage: "North",
   },
   northingSuffix: {
     id: "screens.ManualGpsScreen.northingSuffix",
-    defaultMessage: "mN"
+    defaultMessage: "mN",
   },
   title: {
     id: "screens.ManualGpsScreen.title",
     defaultMessage: "Enter coordinates",
-    description: "title of manual GPS screen"
-  }
+    description: "title of manual GPS screen",
+  },
 });
 
 type Props = {
-  navigation: NavigationProp
+  navigation: NavigationProp,
 };
 
 type State = {
   zoneNum: string,
   zoneLetter: string,
   easting: string,
-  northing: string
+  northing: string,
 };
 
 const HeaderLeft = ({ onPress }) => (
@@ -98,16 +98,16 @@ const ManualGpsScreen = ({ navigation }: Props) => {
           zoneNum,
           zoneLetter,
           easting,
-          northing
+          northing,
         });
         updateDraft({
           lat: locationData.latitude,
           lon: locationData.longitude,
           metadata: {
             ...(value || {}).metadata,
-            manualLocation: true
+            manualLocation: true,
           },
-          tags: (value || {}).tags
+          tags: (value || {}).tags,
         });
         navigation.pop();
       } catch (err) {
@@ -220,7 +220,7 @@ ManualGpsScreen.navigationOptions = ({ navigation }: any) => {
       <IconButton onPress={navigation.getParam("handleSavePress")}>
         <SaveIcon inprogress={false} />
       </IconButton>
-    )
+    ),
   };
 };
 
@@ -289,32 +289,32 @@ function parseNumber(str: string): number | void {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 20,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   inputLabel: {
     fontWeight: "bold",
-    color: BLACK
+    color: BLACK,
   },
   input: {
     borderColor: LIGHT_GREY,
     borderWidth: 1,
     padding: 10,
     fontSize: 20,
-    marginTop: 10
+    marginTop: 10,
   },
   row: {
     flexDirection: "row",
     marginBottom: 20,
-    alignItems: "flex-end"
+    alignItems: "flex-end",
   },
   column: {
     flex: 1,
     marginHorizontal: 10,
-    width: "50%"
+    width: "50%",
   },
   suffix: {
     fontSize: 20,
     marginLeft: 5,
-    paddingTop: 5
-  }
+    paddingTop: 5,
+  },
 });
