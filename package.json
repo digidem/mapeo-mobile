@@ -61,7 +61,7 @@
     "ky": "^0.23.0",
     "lodash": "^4.17.19",
     "mapeo-schema": "^1.10.1",
-    "nodejs-mobile-react-native": "^0.5.0",
+    "nodejs-mobile-react-native": "^0.6.1",
     "patch-package": "^6.2.2",
     "path": "^0.12.7",
     "prop-types": "^15.7.2",
