@@ -1,16 +1,8 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-  useCallback
-} from "react";
-import { defineMessages, useIntl, FormattedMessage } from "react-intl";
+import React, { useEffect, useRef, useMemo, useCallback } from "react";
+import { defineMessages, useIntl } from "react-intl";
 import { peerStatus } from "./PeerList";
 import path from "path";
-
-import type { Peer } from "./PeerList";
-import type { ServerPeer, PeerError } from "../../api";
+import api from "../../api";
 
 const m = defineMessages({
   openSyncFileDialog: "Select a database to syncronize",
@@ -37,7 +29,7 @@ const m = defineMessages({
 
 const IGNORED_ERROR_CODES = ["ECONNABORTED", "ERR_MISSING_DATA"];
 
-module.exports = function usePeers(api, listen, deviceName) {
+export default function usePeers(listen, deviceName) {
   const { formatMessage: t } = useIntl();
   const lastClosed = useRef(Date.now());
   const [serverPeers, setServerPeers] = React.useState([]);
@@ -64,7 +56,7 @@ module.exports = function usePeers(api, listen, deviceName) {
       api.syncLeave();
       if (peerListener) peerListener.remove();
     };
-  }, [api, listen, deviceName]);
+  }, [listen, deviceName]);
 
   const updatePeers = (updatedServerPeers = []) => {
     setServerPeers(updatedServerPeers);
@@ -132,15 +124,15 @@ module.exports = function usePeers(api, listen, deviceName) {
         api.syncStart(peer);
       }
     },
-    [api, serverPeers]
+    [serverPeers]
   );
 
-  function syncGetPeers() {
+  const syncGetPeers = useCallback(() => {
     api.syncGetPeers().then(updatePeers);
-  }
+  }, []);
 
   return [peers, syncPeer, syncGetPeers];
-};
+}
 
 /**
  * The peer status from Mapeo Core does not 'remember' the completion of a sync.
@@ -159,7 +151,7 @@ function getPeersStatus({
     let complete;
     const state = serverPeer.state || {};
     const name = serverPeer.filename
-      ? path.basename(serverPeer.name)
+      ? path.basename(serverPeer.filename)
       : serverPeer.name;
     if (
       state.topic === "replication-progress" ||
@@ -168,7 +160,9 @@ function getPeersStatus({
     ) {
       status = peerStatus.PROGRESS;
     } else if (
-      (state.lastCompletedDate || 0) > since ||
+      (typeof state.lastCompletedDate === "number"
+        ? state.lastCompletedDate
+        : 0) > since ||
       state.topic === "replication-complete"
     ) {
       status = peerStatus.COMPLETE;
@@ -178,11 +172,13 @@ function getPeersStatus({
       const error = syncErrors.get(serverPeer.id);
       if (error && error.code === "ERR_VERSION_MISMATCH") {
         if (
-          parseVersionMajor(state.usVersion || "") >
-          parseVersionMajor(state.themVersion || "")
+          parseVersionMajor(error.usVersion || "") >
+          parseVersionMajor(error.themVersion || "")
         ) {
           state.errorMsg = t(m.errorMsgVersionThemBad, { deviceName: name });
-          state.errorDesc = t(m.errorVersionThemBadDesc, { deviceName: name });
+          state.errorDesc = t(m.errorVersionThemBadDesc, {
+            deviceName: name
+          });
         } else {
           state.errorMsg = t(m.errorMsgVersionUsBad, { deviceName: name });
           state.errorDesc = t(m.errorVersionUsBadDesc, { deviceName: name });

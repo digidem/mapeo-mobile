@@ -16,7 +16,6 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import { getUniqueId } from "react-native-device-info";
 
 import SyncView from "./SyncView";
-import api from "../../api";
 import bugsnag from "../../lib/logger";
 import useAllObservations from "../../hooks/useAllObservations";
 import ConfigContext from "../../context/ConfigContext";
@@ -56,7 +55,7 @@ const SyncModal = ({ navigation }: Props) => {
   ] = React.useContext(ConfigContext);
 
   const [listen, setListening] = React.useState<boolean>(false);
-  const [peers, syncPeer, syncGetPeers] = usePeers(api, listen, deviceName);
+  const [peers, syncPeer, syncGetPeers] = usePeers(listen, deviceName);
   const [ssid, setSsid] = React.useState<null | string>(null);
 
   React.useEffect(() => {
@@ -101,7 +100,7 @@ const SyncModal = ({ navigation }: Props) => {
       // Turn off keep screen awake
       KeepAwake.deactivate();
     };
-  }, []);
+  }, [syncGetPeers]);
 
   React.useEffect(
     () =>

@@ -59,6 +59,7 @@ export type ServerPeer = {
   port: number,
   // Whether device is desktop or mobile
   deviceType: "desktop" | "mobile",
+  connected: boolean,
   state?:
     | {|
         topic: "replication-progress",
