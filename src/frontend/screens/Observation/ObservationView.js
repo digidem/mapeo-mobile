@@ -97,7 +97,8 @@ const InsetMapView = ({ lon, lat }: MapProps) => {
         pitchEnabled={false}
         rotateEnabled={false}
         compassEnabled={false}
-        styleURL={styleURL}>
+        styleURL={styleURL}
+      >
         <MapboxGL.Camera
           centerCoordinate={[lon, lat]}
           zoomLevel={15}
@@ -133,7 +134,8 @@ const FieldView = ({ label, answer, style }) => {
         style={[
           styles.fieldAnswer,
           { color: answer === undefined ? MEDIUM_GREY : DARK_GREY }
-        ]}>
+        ]}
+      >
         {formattedAnswer || t(m.noAnswer)}
       </Text>
     </View>
@@ -191,7 +193,8 @@ const ObservationView = ({
   return (
     <ScrollView
       style={styles.root}
-      contentContainerStyle={styles.scrollContent}>
+      contentContainerStyle={styles.scrollContent}
+    >
       <>
         {/* check lat and lon are not null or undefined */}
         {lat != null && lon != null && (

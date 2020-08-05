@@ -19,7 +19,8 @@ const HomeHeader = ({ navigation }: { navigation: NavigationProp }) => {
         style={styles.leftButton}
         onPress={() => {
           navigation.navigate("SyncModal");
-        }}>
+        }}
+      >
         <SyncIconCircle />
       </IconButton>
       <GpsPill
@@ -31,7 +32,8 @@ const HomeHeader = ({ navigation }: { navigation: NavigationProp }) => {
         style={styles.rightButton}
         onPress={() => {
           navigation.navigate("ObservationList");
-        }}>
+        }}
+      >
         <ObservationListIcon />
       </IconButton>
     </View>

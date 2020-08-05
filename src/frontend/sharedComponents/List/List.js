@@ -17,7 +17,8 @@ const List = ({
     <ListContext.Provider value={context}>
       <View
         style={[styles.root, !disablePadding && styles.padding, style]}
-        {...other}>
+        {...other}
+      >
         {subheader && <Text style={styles.subheader}>{subheader}</Text>}
         {children}
       </View>

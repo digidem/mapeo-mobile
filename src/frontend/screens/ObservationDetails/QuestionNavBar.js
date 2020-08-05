@@ -17,7 +17,8 @@ const NavButton = ({ name, onPress }) => (
   <TouchableNativeFeedback
     onPress={onPress}
     style={styles.iconCircle}
-    background={TouchableNativeFeedback.Ripple("gray", true)}>
+    background={TouchableNativeFeedback.Ripple("gray", true)}
+  >
     <MaterialIcon name={name} size={30} />
   </TouchableNativeFeedback>
 );

@@ -87,7 +87,8 @@ export const IntlProvider = ({ children }: { children: React.Node }) => {
       locale={locale}
       messages={localeMessages}
       formats={formats}
-      onError={onError}>
+      onError={onError}
+    >
       <IntlContext.Provider value={contextValue}>
         {children}
       </IntlContext.Provider>

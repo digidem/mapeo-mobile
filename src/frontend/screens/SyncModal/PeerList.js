@@ -165,7 +165,8 @@ const SyncButton = ({ progress, onPress, status, connected }) => {
       onPress={
         !connected || status === peerStatus.PROGRESS ? undefined : handlePress
       }
-      hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
+      hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}
+    >
       <View style={[styles.syncButtonBase, style]}>
         <View style={styles.iconContainer}>{icon}</View>
         <Text numberOfLines={1} style={styles.buttonText}>

@@ -19,7 +19,8 @@ const Circle = ({ radius = 25, style, children }: CircleProps) => (
         borderRadius: radius * 2
       },
       style
-    ]}>
+    ]}
+  >
     {children}
   </View>
 );

@@ -26,7 +26,8 @@ type RadioItemProps = {
 const RadioItem = ({ checked, onPress, label, style }: RadioItemProps) => (
   <TouchableNativeFeedback
     onPress={onPress}
-    background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}>
+    background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
+  >
     <View style={style}>
       <MaterialIcon
         name={checked ? "radio-button-checked" : "radio-button-unchecked"}

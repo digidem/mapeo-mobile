@@ -23,7 +23,8 @@ const SelectOne = ({ value, options, onChange }: Props) => (
     {options.map((item, index) => (
       <ListItem
         key={item.value}
-        onPress={() => onChange(value === item.value ? null : item.value)}>
+        onPress={() => onChange(value === item.value ? null : item.value)}
+      >
         <ListItemIcon
           iconName={
             item.value === value

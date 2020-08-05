@@ -174,7 +174,8 @@ export const ObservationEdit = ({
     <View style={styles.container}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.scrollViewContent}>
+        contentContainerStyle={styles.scrollViewContent}
+      >
         {isNew && (
           <LocationField locked={!isNew}>
             {fieldProps => <LocationView {...fieldProps} />}

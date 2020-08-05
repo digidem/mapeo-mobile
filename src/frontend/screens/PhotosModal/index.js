@@ -50,7 +50,8 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
         <IconButton
           onPress={() => {
             navigation.pop();
-          }}>
+          }}
+        >
           <CloseIcon color="white" />
         </IconButton>
       </View>

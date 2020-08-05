@@ -125,7 +125,7 @@ export default CameraView;
 // Rotate the photo to match device orientation
 function rotatePhoto(acc?: Acceleration) {
   const rotation = getPhotoRotation(acc);
-  return function({ uri, exif, width, height }) {
+  return function ({ uri, exif, width, height }) {
     const originalUri = uri;
     let resizedUri;
     const resizePromise = ImageResizer.createResizedImage(

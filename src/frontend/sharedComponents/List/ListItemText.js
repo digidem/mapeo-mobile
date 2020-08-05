@@ -44,7 +44,8 @@ const ListItemText = ({
         inset && styles.inset,
         primary && secondary ? styles.multiline : undefined
       ]}
-      {...other}>
+      {...other}
+    >
       <Text style={styles.primary}>{primary}</Text>
       {secondary && <Text style={styles.secondary}>{secondary}</Text>}
     </View>

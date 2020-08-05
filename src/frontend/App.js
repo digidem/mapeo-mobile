@@ -77,7 +77,7 @@ class ErrorBoundary extends React.Component<
     // This is rendered outside AppLoading, so SpashScreen could still be
     // showing if error occurs in AppLoading before it's hidden
     SplashScreen.hide();
-    bugsnag.notify(error, function(report) {
+    bugsnag.notify(error, function (report) {
       report.severity = "error";
       report.metadata = {
         react: {

@@ -48,15 +48,15 @@ const Settings = () => {
         <ListItemIcon iconName="language" />
         <ListItemText
           primary={<FormattedMessage {...m.language} />}
-          secondary={<FormattedMessage {...m.languageDesc} />}></ListItemText>
+          secondary={<FormattedMessage {...m.languageDesc} />}
+        ></ListItemText>
       </ListItem>
       <ListItem onPress={() => navigate("ProjectConfig")}>
         <ListItemIcon iconName="assignment" />
         <ListItemText
           primary={<FormattedMessage {...m.projectConfig} />}
-          secondary={
-            <FormattedMessage {...m.projectConfigDesc} />
-          }></ListItemText>
+          secondary={<FormattedMessage {...m.projectConfigDesc} />}
+        ></ListItemText>
       </ListItem>
     </List>
   );

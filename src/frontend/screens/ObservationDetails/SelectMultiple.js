@@ -26,7 +26,8 @@ type CheckItemProps = {
 const CheckItem = ({ checked, onPress, label, style }: CheckItemProps) => (
   <TouchableNativeFeedback
     onPress={onPress}
-    background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}>
+    background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
+  >
     <View style={style}>
       <MaterialIcon
         name={checked ? "check-box" : "check-box-outline-blank"}

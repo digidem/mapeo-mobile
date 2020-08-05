@@ -78,7 +78,8 @@ const ListItem = ({
     <ListContext.Provider value={childContext}>
       <TouchableNativeFeedback
         {...componentProps}
-        background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}>
+        background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
+      >
         {children}
       </TouchableNativeFeedback>
     </ListContext.Provider>

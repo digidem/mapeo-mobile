@@ -117,7 +117,8 @@ const ProjectConfig = () => {
       <Button
         disabled={status === "loading" || config.status === "loading"}
         variant="outlined"
-        onPress={handleImportPress}>
+        onPress={handleImportPress}
+      >
         Import config
       </Button>
     </View>

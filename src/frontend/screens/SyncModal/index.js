@@ -40,11 +40,7 @@ const m = defineMessages({
   }
 });
 
-const deviceName: string =
-  "Android " +
-  getUniqueId()
-    .slice(0, 4)
-    .toUpperCase();
+const deviceName: string = "Android " + getUniqueId().slice(0, 4).toUpperCase();
 
 const SyncModal = ({ navigation }: Props) => {
   const [, reload] = useAllObservations();

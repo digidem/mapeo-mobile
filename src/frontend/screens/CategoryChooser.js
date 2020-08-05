@@ -49,7 +49,8 @@ const Item = React.memo(
       style={styles.cellTouchable}
       onPress={() => onSelect(item)}
       activeOpacity={1}
-      underlayColor="#000033">
+      underlayColor="#000033"
+    >
       <View style={styles.cellContainer}>
         <CategoryCircleIcon iconId={item.icon} size="medium" />
         <Text numberOfLines={3} style={styles.categoryName}>

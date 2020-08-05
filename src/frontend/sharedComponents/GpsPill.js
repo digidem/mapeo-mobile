@@ -43,7 +43,8 @@ export const GpsPill = React.memo<Props>(
           style={[
             styles.container,
             variant === "error" ? styles.error : undefined
-          ]}>
+          ]}
+        >
           <View style={styles.icon}>
             {isFocused && <GpsIcon variant={variant} />}
           </View>

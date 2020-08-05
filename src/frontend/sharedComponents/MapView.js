@@ -89,7 +89,8 @@ class ObservationMapLayer extends React.PureComponent<{
       <MapboxGL.ShapeSource
         onPress={onPress}
         id={`observations-source`}
-        shape={featureCollection}>
+        shape={featureCollection}
+      >
         <MapboxGL.CircleLayer id={`circles`} style={mapboxStyles.observation} />
       </MapboxGL.ShapeSource>
     );
@@ -291,7 +292,8 @@ class MapView extends React.Component<Props, State> {
             styleURL={styleURL}
             onRegionWillChange={this.handleRegionWillChange}
             onRegionIsChanging={this.handleRegionIsChanging}
-            onRegionDidChange={this.handleRegionDidChange}>
+            onRegionDidChange={this.handleRegionDidChange}
+          >
             <MapboxGL.Camera
               defaultSettings={{
                 centerCoordinate: this.coordsRef || coords || [0, 0],

@@ -43,7 +43,8 @@ const AddPhotoScreen = ({ navigation }: NavigationScreenConfigProps) => {
       <CameraView onAddPress={handleAddPress} />
       <TouchableNativeFeedback
         style={styles.cancelButton}
-        onPress={handleCancelPress}>
+        onPress={handleCancelPress}
+      >
         <Text style={styles.cancelButtonLabel}>
           <FormattedMessage {...m.cancel} />
         </Text>

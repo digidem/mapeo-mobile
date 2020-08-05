@@ -21,7 +21,13 @@ type Props = {
   testID?: string
 };
 
-const TextButton = ({ onPress, containerStyle, textStyle,  title, testID }: Props) => (
+const TextButton = ({
+  onPress,
+  containerStyle,
+  textStyle,
+  title,
+  testID
+}: Props) => (
   <TouchableNativeFeedback
     style={[styles.buttonContainer, containerStyle]}
     background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, true)}

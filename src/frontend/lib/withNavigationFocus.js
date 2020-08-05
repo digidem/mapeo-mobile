@@ -14,8 +14,9 @@ import { withNavigation } from "react-navigation";
  */
 export default function withFocus(Component) {
   class ComponentWithFocus extends React.Component {
-    static displayName = `withFocus(${Component.displayName ||
-      Component.name})`;
+    static displayName = `withFocus(${
+      Component.displayName || Component.name
+    })`;
 
     constructor(props) {
       super(props);

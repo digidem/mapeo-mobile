@@ -37,7 +37,8 @@ const PhotoStack = ({ photos }: { photos: SavedPhoto[] }) => {
         width: 60 + (photos.length - 1) * photoOverlap,
         height: 60,
         backgroundColor: "aqua"
-      }}>
+      }}
+    >
       {photos.map((photo, idx) => (
         <PhotoView
           key={photo.id}
@@ -72,9 +73,11 @@ const ObservationListItem = ({
     <TouchableHighlight
       onPress={() => onPress(observationId)}
       testID={"ObservationListItem:" + observationId}
-      style={{ flex: 1, height: 80 }}>
+      style={{ flex: 1, height: 80 }}
+    >
       <View
-        style={[styles.container, style, !isMine && styles.syncedObservation]}>
+        style={[styles.container, style, !isMine && styles.syncedObservation]}
+      >
         <View style={styles.text}>
           <Text style={styles.title}>{name}</Text>
           {createdDate && <DateDistance date={createdDate} />}
