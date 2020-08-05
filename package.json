@@ -81,7 +81,7 @@
     "react-native-network-info": "^5",
     "react-native-progress": "^4.1.2",
     "react-native-reanimated": "^1.10.1",
-    "react-native-safe-area-context": "^0.7.3",
+    "react-native-safe-area-context": "^3.1.1",
     "react-native-scale-bar": "^1.0.6",
     "react-native-screens": "^2.10.1",
     "react-native-share": "^3.7.0",
