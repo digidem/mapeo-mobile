@@ -145,6 +145,22 @@ alongside existing copies of the app on their phone. It has a red logo.
 This is the main variant of the app for our partners and the public. It has a
 dark blue logo and Application ID `com.mapeo`.
 
+### Mapeo for ICCAs Variant
+
+This is a special variant created for the WCMC-UNEP for using Mapeo to map ICCAs. To build the Mapeo for ICCAs Variant, run:
+
+```sh
+npm run build:release-icca
+```
+
+To develop with the debug build of Mapeo for ICCAs:
+
+```sh
+npm run start-icca
+# In another tab
+npm run android-icca
+```
+
 ## Releases & Builds
 
 Mapeo is built using the CI service

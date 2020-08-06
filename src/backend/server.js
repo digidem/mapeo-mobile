@@ -27,14 +27,11 @@ module.exports = createServer;
 
 function createServer({ privateStorage, sharedStorage, flavor }) {
   const defaultConfigPath = path.join(sharedStorage, "presets/default");
-  log("Creating server", { flavor });
+  log("Creating server");
 
   // Folder with default (built-in) presets to server when the user has not
   // added any presets
-  const fallbackPresetsDir = path.join(
-    process.cwd(),
-    flavor === "icca" ? "presets-icca" : "presets"
-  );
+  const fallbackPresetsDir = path.join(privateStorage, "nodejs-assets/presets");
 
   // create folders for presets & styles
   mkdirp.sync(defaultConfigPath);
