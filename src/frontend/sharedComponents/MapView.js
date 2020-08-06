@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ScaleBar from "react-native-scale-bar";
 import CheapRuler from "cheap-ruler";
@@ -14,6 +14,14 @@ import type { ObservationsMap } from "../context/ObservationsContext";
 import bugsnag from "../lib/logger";
 import config from "../../config.json";
 import Loading from "./Loading";
+
+import riversSource from "mapeo-offline-map/dist/rivers.json";
+import boundariesSource from "mapeo-offline-map/dist/boundaries.json";
+import lakesSource from "mapeo-offline-map/dist/lakes.json";
+import landSource from "mapeo-offline-map/dist/land.json";
+import graticuleSource from "mapeo-offline-map/dist/graticule.json";
+
+const emptyStyleUri = "asset://offline-style.json";
 
 MapboxGL.setAccessToken(config.mapboxAccessToken);
 // Forces Mapbox to always be in connected state, rather than reading system
@@ -74,6 +82,16 @@ function mapObservationsToFeatures(
 // lots of map renders when the user is standing still, which uses up battery
 // life)
 const MIN_DISPLACEMENT = 15;
+
+const OfflineLayers = React.memo(() => (
+  <>
+    <MapboxGL.ShapeSource id={`rivers-source`} shape={riversSource} />
+    <MapboxGL.ShapeSource id={`boundaries-source`} shape={boundariesSource} />
+    <MapboxGL.ShapeSource id={`lakes-source`} shape={lakesSource} />
+    <MapboxGL.ShapeSource id={`land-source`} shape={landSource} />
+    <MapboxGL.ShapeSource id={`graticule-source`} shape={graticuleSource} />
+  </>
+));
 
 class ObservationMapLayer extends React.PureComponent<{
   onPress: Function,
@@ -141,7 +159,7 @@ class MapView extends React.Component<Props, State> {
       zoom:
         props.location.provider &&
         props.location.provider.locationServicesEnabled
-          ? 12
+          ? 4
           : 0.1,
       coords: getCoords(props.location),
     };
@@ -217,11 +235,13 @@ class MapView extends React.Component<Props, State> {
   };
 
   handleRegionIsChanging = (e: any) => {
+    if (!e.properties.isUserInteraction) return;
     this.coordsRef = e.geometry.coordinates;
     this.zoomRef = e.properties.zoomLevel;
   };
 
   handleRegionDidChange = (e: any) => {
+    if (!e.properties.isUserInteraction) return;
     const { coords, zoom } = this.state;
     const distanceMoved = this.ruler.distance(coords, e.geometry.coordinates);
     if (zoom === e.properties.zoomLevel && distanceMoved < MIN_DISPLACEMENT)
@@ -237,11 +257,31 @@ class MapView extends React.Component<Props, State> {
   };
 
   handleLocationPress = () => {
-    const { location } = this.props;
+    const { location, styleURL } = this.props;
     if (!(location.provider && location.provider.locationServicesEnabled))
       // TODO: Show alert for the user here so they know why it does not work
       return;
-    this.setState(state => ({ following: !state.following }));
+    // Sorry about this mess - when the user is interacting with the map we
+    // don't setState, because it would be too slow, so we use this.zoomRef to
+    // track the current map zoom. This means both this.zoomRef and setState
+    // need to be called to update the zoom of the map. This should be fixed
+    // with a better approach, because it can lead to bugs. For now, this code
+    // just ensures that the map zooms in when the user clicks the "locate me"
+    // button.
+    this.setState(state => {
+      const newZoom = (this.zoomRef =
+        styleURL === "error"
+          ? this.zoomRef < 4
+            ? 4
+            : this.zoomRef
+          : this.zoomRef < 12
+          ? 12
+          : this.zoomRef);
+      return {
+        following: !state.following,
+        zoom: newZoom,
+      };
+    });
   };
 
   render() {
@@ -253,10 +293,6 @@ class MapView extends React.Component<Props, State> {
       <>
         {styleURL === "loading" ? (
           <Loading />
-        ) : styleURL === "error" ? (
-          <View style={{ flex: 1 }}>
-            <Text>Error loading map</Text>
-          </View>
         ) : (
           <MapboxGL.MapView
             testID="mapboxMapView"
@@ -270,7 +306,7 @@ class MapView extends React.Component<Props, State> {
             attributionPosition={{ right: 8, bottom: 8 }}
             onPress={this.handleObservationPress}
             onDidFailLoadingMap={e =>
-              bugsnag.notify(e, report => {
+              bugsnag.notify(new Error("Failed to load map"), report => {
                 report.severity = "error";
                 report.context = "onDidFailLoadingMap";
               })
@@ -279,9 +315,15 @@ class MapView extends React.Component<Props, State> {
             onDidFinishRenderingMap={() =>
               bugsnag.leaveBreadcrumb("onDidFinishRenderingMap")
             }
-            onDidFinishRenderingMapFully={() =>
-              bugsnag.leaveBreadcrumb("onDidFinishRenderingMapFully")
-            }
+            onDidFinishRenderingMapFully={() => {
+              if (styleURL !== "error") {
+                // For the default offline map (that does not contain much
+                // detail) we stay at zoom 4, but if we do load a style then we
+                // zoom in to zoom 12 once the map loads
+                this.setState({ zoom: 12 });
+              }
+              bugsnag.leaveBreadcrumb("onDidFinishRenderingMapFully");
+            }}
             onWillStartLoadingMap={() =>
               bugsnag.leaveBreadcrumb("onWillStartLoadingMap")
             }
@@ -289,7 +331,7 @@ class MapView extends React.Component<Props, State> {
               bugsnag.leaveBreadcrumb("onDidFinishLoadingMap")
             }
             compassEnabled={false}
-            styleURL={styleURL}
+            styleURL={styleURL === "error" ? emptyStyleUri : styleURL}
             onRegionWillChange={this.handleRegionWillChange}
             onRegionIsChanging={this.handleRegionIsChanging}
             onRegionDidChange={this.handleRegionDidChange}
@@ -300,13 +342,7 @@ class MapView extends React.Component<Props, State> {
                 zoomLevel: this.zoomRef || zoom || 12,
               }}
               centerCoordinate={following ? getCoords(location) : undefined}
-              zoomLevel={
-                !following
-                  ? undefined
-                  : (this.zoomRef || zoom) < 12
-                  ? 12
-                  : this.zoomRef || zoom
-              }
+              zoomLevel={!following ? undefined : this.zoomRef || zoom}
               animationDuration={1000}
               animationMode="flyTo"
               followUserLocation={false}
@@ -317,6 +353,7 @@ class MapView extends React.Component<Props, State> {
                 observations={observations}
               />
             )}
+            {styleURL === "error" && <OfflineLayers />}
             {locationServicesEnabled && (
               <MapboxGL.UserLocation
                 visible={isFocused}

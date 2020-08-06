@@ -9,7 +9,7 @@ import { normalizeStyleURL } from "../lib/mapbox";
 import config from "../../config.json";
 
 const log = debug("mapeo-mobile:useMapStyle");
-const fallbackStyleURL = MapboxGL.StyleURL.Outdoors;
+const fallbackStyleURL = MapboxGL.StyleURL.Outdoors + "?" + Date.now();
 let cachedStyleURL;
 
 export default function useMapstyleURL(styleId: string = "default") {
