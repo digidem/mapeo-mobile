@@ -13,13 +13,18 @@ import MapboxGL from "@react-native-mapbox-gl/maps";
 import ShareMedia from "react-native-share";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { defineMessages, useIntl } from "react-intl";
+import reactToString from "react-to-string";
 
 import api from "../../api";
 import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
 import mapIcon from "../../images/observation-icon.png";
-import { formatCoords, filterPhotosFromAttachments } from "../../lib/utils";
+import {
+  formatCoords,
+  filterPhotosFromAttachments,
+  getProp,
+} from "../../lib/utils";
 import {
   BLACK,
   RED,
@@ -33,16 +38,13 @@ import type { PresetWithFields, Field } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
 import useMapStyle from "../../hooks/useMapStyle";
 import useDeviceId from "../../hooks/useDeviceId";
+import FormattedFieldProp from "../../sharedComponents/FormattedFieldProp";
 import Loading from "../../sharedComponents/Loading";
 import OfflineMapLayers from "../../sharedComponents/OfflineMapLayers";
+import FormattedFieldValue from "../../sharedComponents/FormattedFieldValue";
+import FormattedPresetName from "../../sharedComponents/FormattedPresetName";
 
 const m = defineMessages({
-  noAnswer: {
-    id: "screens.Observation.ObservationView.noAnswer",
-    defaultMessage: "No answer",
-    description:
-      "Placeholder text for fields on an observation which are not answered",
-  },
   alertSubject: {
     id: "screens.Observation.ObservationView.alertSubject",
     defaultMessage: "Mapeo Alert",
@@ -52,11 +54,6 @@ const m = defineMessages({
     id: "screens.Observation.ObservationView.alertFooter",
     defaultMessage: "Sent from Mapeo",
     description: "Footer for shared observations message",
-  },
-  observation: {
-    id: "screens.Observation.ObservationView.observation",
-    defaultMessage: "Observation",
-    description: "Default name of observation with no matching preset",
   },
   share: {
     id: "screens.Observation.ObservationView.share",
@@ -124,25 +121,6 @@ const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
   </TouchableOpacity>
 );
 
-const FieldView = ({ label, answer, style }) => {
-  const { formatMessage: t } = useIntl();
-  // Select multiple answers are an array, so we join them with commas
-  const formattedAnswer = Array.isArray(answer) ? answer.join(", ") : answer;
-  return (
-    <View style={style}>
-      <Text style={styles.fieldTitle}>{label}</Text>
-      <Text
-        style={[
-          styles.fieldAnswer,
-          { color: answer === undefined ? MEDIUM_GREY : DARK_GREY },
-        ]}
-      >
-        {formattedAnswer || t(m.noAnswer)}
-      </Text>
-    </View>
-  );
-};
-
 type ODVProps = {|
   observation: Observation,
   preset?: PresetWithFields,
@@ -163,16 +141,17 @@ const ObservationView = ({
   // Currently only show photo attachments
   const photos = filterPhotosFromAttachments(attachments);
   const createdAt = formatDate(observation.created_at, { format: "long" });
-  const name = (preset && preset.name) || t(m.observation);
+
   const fields = (preset && preset.fields) || [];
   const icon = (preset && preset.icon) || undefined;
 
   const handleShare = () => {
     const { value } = observation;
+    const presetName = reactToString(<FormattedPresetName preset={preset} />);
     const msg = formatShareMessage({
       observation,
       fields,
-      header: `${t(m.alertSubject)} — _*${name}*_`,
+      header: `${t(m.alertSubject)} — _*${presetName}*_`,
       footer: t(m.alertFooter),
       createdAt,
     });
@@ -184,7 +163,7 @@ const ObservationView = ({
       const options = {
         urls: urls,
         message: msg,
-        subject: `${t(m.alertSubject)} _*${name}*_ ${createdAt}`,
+        subject: `${t(m.alertSubject)} _*${presetName}*_ ${createdAt}`,
         failOnCancel: false,
       };
       ShareMedia.open(options);
@@ -221,7 +200,7 @@ const ObservationView = ({
           <View style={styles.categoryIconContainer}>
             <CategoryCircleIcon iconId={icon} size="medium" />
             <Text style={styles.categoryLabel} numberOfLines={1}>
-              {name}
+              <FormattedPresetName preset={preset} />
             </Text>
           </View>
           {observation.value.tags.notes &&
@@ -244,16 +223,27 @@ const ObservationView = ({
         </View>
         {fields && fields.length > 0 && (
           <View>
-            <>
-              {fields.map(({ label, key }) => (
-                <FieldView
-                  key={key}
-                  label={label || key}
-                  answer={observation.value.tags[key]}
+            {fields.map((field, idx) => {
+              const value = getProp(observation.value.tags, field.key);
+              return (
+                <View
+                  key={idx}
                   style={[styles.section, styles.optionalSection]}
-                />
-              ))}
-            </>
+                >
+                  <Text style={styles.fieldTitle}>
+                    <FormattedFieldProp field={field} propName="label" />
+                  </Text>
+                  <Text
+                    style={[
+                      styles.fieldAnswer,
+                      { color: value === undefined ? MEDIUM_GREY : DARK_GREY },
+                    ]}
+                  >
+                    <FormattedFieldValue value={value} field={field} />
+                  </Text>
+                </View>
+              );
+            })}
           </View>
         )}
         <View style={styles.divider}></View>
@@ -301,7 +291,8 @@ function formatShareMessage({
   }
 
   function formatFieldValue(field: Field) {
-    var fieldValue = value.tags[field.key];
+    const fieldKey = Array.isArray(field.key) ? field.key[0] : field.key;
+    var fieldValue = value.tags[fieldKey];
     if (field.type === "select_multiple") {
       return `_${fieldValue.map(s => s.trim()).join("_\n_")}_`;
     } else {
@@ -309,9 +300,13 @@ function formatShareMessage({
     }
   }
 
-  const completedFields = fields
-    .filter(f => typeof value.tags[f.key] !== "undefined")
-    .map(f => ({ label: f.label, value: formatFieldValue(f) }));
+  const completedFields = fields.reduce((acc, f) => {
+    const fieldKey = Array.isArray(f.key) ? f.key[0] : f.key;
+    if (typeof value.tags[fieldKey] !== "undefined") {
+      acc.push({ label: f.label || fieldKey, value: formatFieldValue(f) });
+    }
+    return acc;
+  }, []);
 
   return `${header}
 ${createdAt}

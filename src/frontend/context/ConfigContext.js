@@ -1,7 +1,12 @@
 // @flow
 import * as React from "react";
 import debug from "debug";
-
+import { IntlProvider, useIntl } from "react-intl";
+import type {
+  TextField,
+  SelectOneField,
+  SelectMultipleField,
+} from "mapeo-schema";
 import api from "../api";
 import bugsnag from "../lib/logger";
 import type { Status } from "../types";
@@ -21,26 +26,13 @@ export type Preset = {|
   searchable?: boolean,
 |};
 
-type BaseField = {|
-  id: string,
-  key: string,
-  label: string,
-  placeholder?: string,
-  universal?: boolean,
-|};
+export type {
+  TextField,
+  SelectOneField,
+  SelectMultipleField,
+} from "mapeo-schema";
 
-export type TextField = {|
-  ...$Exact<BaseField>,
-  type: "text",
-|};
-
-export type SelectField = {|
-  ...$Exact<BaseField>,
-  type: "select_one" | "select_multiple",
-  options: Array<string | number | {| value: number | string, label: string |}>,
-|};
-
-export type Field = TextField | SelectField;
+export type Field = TextField | SelectOneField | SelectMultipleField;
 
 export type PresetWithFields = {|
   id: string,
@@ -65,12 +57,17 @@ export type Metadata = {
   version?: string,
 };
 
+export type Messages = {
+  [id: string]: string,
+};
+
 export type State = {
   // A map of presets by preset id
   presets: PresetsMap,
   // A map of field definitions by id
   fields: FieldsMap,
   metadata: Metadata,
+  messages: Messages,
   status: Status,
 };
 
@@ -83,6 +80,7 @@ const defaultConfig = {
   presets: new Map(),
   fields: new Map(),
   metadata: {},
+  messages: {},
 };
 
 const defaultContext: ConfigContextType = [
@@ -106,6 +104,7 @@ export const ConfigProvider = ({ children }: Props) => {
   const [config, setConfig] = React.useState(defaultConfig);
   const [status, setStatus] = React.useState<Status>("idle");
   const [reloadToken, setReloadToken] = React.useState();
+  const intl = useIntl();
 
   const reload = React.useCallback(() => setReloadToken({}), []);
 
@@ -135,8 +134,13 @@ export const ConfigProvider = ({ children }: Props) => {
   React.useEffect(() => {
     let didCancel = false;
     setStatus("loading");
-    Promise.all([api.getPresets(), api.getFields(), api.getMetadata()])
-      .then(([presetsList, fieldsList, metadata]) => {
+    Promise.all([
+      api.getPresets(),
+      api.getFields(),
+      api.getMetadata(),
+      api.getConfigMessages(intl.locale),
+    ])
+      .then(([presetsList, fieldsList, metadata, messages]) => {
         if (didCancel) return; // if component was unmounted, don't set state
         setConfig({
           presets: new Map(
@@ -144,6 +148,7 @@ export const ConfigProvider = ({ children }: Props) => {
           ),
           fields: new Map(fieldsList.map(p => [p.id, p])),
           metadata: metadata,
+          messages: messages,
         });
         setStatus("success");
       })
@@ -156,12 +161,28 @@ export const ConfigProvider = ({ children }: Props) => {
     return () => {
       didCancel = true;
     };
-  }, [reloadToken]);
+  }, [reloadToken, intl.locale]);
+
+  const mergedMessages = React.useMemo(
+    () => ({
+      ...intl.messages,
+      ...config.messages,
+    }),
+    [config.messages, intl]
+  );
 
   return (
-    <ConfigContext.Provider value={contextValue}>
-      {children}
-    </ConfigContext.Provider>
+    <IntlProvider
+      key={intl.locale}
+      locale={intl.locale}
+      messages={mergedMessages}
+      formats={intl.formats}
+      onError={intl.onError}
+    >
+      <ConfigContext.Provider value={contextValue}>
+        {children}
+      </ConfigContext.Provider>
+    </IntlProvider>
   );
 };
 

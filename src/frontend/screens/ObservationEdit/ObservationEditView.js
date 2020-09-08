@@ -18,7 +18,8 @@ import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import TextButton from "../../sharedComponents/TextButton";
 import { BLACK, LIGHT_GREY, LIGHT_BLUE } from "../../lib/styles";
 
-import type { PresetWithFields } from "../../context/ConfigContext";
+import type { PresetWithFields, TextField } from "../../context/ConfigContext";
+import FormattedPresetName from "../../sharedComponents/FormattedPresetName";
 
 const m = defineMessages({
   searching: {
@@ -45,11 +46,6 @@ const m = defineMessages({
     id: "screens.ObservationEdit.ObservationEditView.detailsButton",
     defaultMessage: "Add Details",
     description: "Button label to add details",
-  },
-  observation: {
-    id: "screens.ObservationEdit.ObservationEditView.observation",
-    defaultMessage: "Observation",
-    description: "Name of observation when no preset matches",
   },
 });
 
@@ -103,7 +99,9 @@ const CategoryView = ({
       <View style={styles.categoryIcon}>
         <CategoryCircleIcon iconId={preset.icon} />
       </View>
-      <Text style={styles.categoryName}>{preset.name || t(m.observation)}</Text>
+      <Text style={styles.categoryName}>
+        <FormattedPresetName preset={preset} />
+      </Text>
       <TextButton
         containerStyle={styles.changeButton}
         textStyle={styles.changeButtonText}
@@ -114,10 +112,17 @@ const CategoryView = ({
   );
 };
 
+const notesField: TextField = {
+  id: "notes",
+  type: "text",
+  multiline: true,
+  key: "notes",
+};
+
 const DescriptionField = () => {
   const { formatMessage: t } = useIntl();
   return (
-    <Field fieldKey="notes">
+    <Field field={notesField}>
       {({ value, onChange }) => (
         <TextInput
           style={styles.textInput}

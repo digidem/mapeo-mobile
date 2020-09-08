@@ -1,18 +1,24 @@
 // @flow
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import type { Field } from "../../context/ConfigContext";
+import FormattedFieldProp from "../../sharedComponents/FormattedFieldProp";
 
 type Props = {|
-  label: string,
-  hint?: string,
+  field: Field,
 |};
 
-const QuestionLabel = ({ label, hint }: Props) => (
-  <View style={styles.labelContainer}>
-    <Text style={styles.label}>{label}</Text>
-    {hint ? <Text style={styles.hint}>{hint}</Text> : null}
-  </View>
-);
+const QuestionLabel = ({ field }: Props) => {
+  const hint = <FormattedFieldProp field={field} propName="placeholder" />;
+  return (
+    <View style={styles.labelContainer}>
+      <Text style={styles.label}>
+        <FormattedFieldProp field={field} propName="label" />
+      </Text>
+      {hint ? <Text style={styles.hint}>{hint}</Text> : null}
+    </View>
+  );
+};
 
 export default QuestionLabel;
 
