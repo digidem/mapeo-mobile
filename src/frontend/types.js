@@ -1,5 +1,4 @@
 // @flow
-import * as React from "react";
 import type {
   NavigationScreenProp,
   NavigationRoute,
@@ -7,10 +6,15 @@ import type {
   NavigationAction,
 } from "react-navigation";
 
+export type {
+  ViewStyleProp,
+  TextStyleProp,
+  ImageStyleProp,
+} from "react-native/Libraries/StyleSheet/StyleSheet";
+
 export type IconSize = "small" | "medium" | "large";
 export type ImageSize = "thumbnail" | "preview" | "original";
-// Pass through a react-native element to get valid styles e.g. Style<typeof Text>
-export type Style<T> = $PropertyType<React.ElementProps<T>, "style">;
+
 export type MapStyle = {
   id: string,
   name: string,

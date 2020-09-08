@@ -15,7 +15,7 @@ import api from "../api";
 import { LIGHT_GREY } from "../lib/styles";
 import { AlertIcon } from "./icons";
 import type { Photo } from "../context/DraftObservationContext";
-import type { Style } from "../types";
+import type { ViewStyleProp } from "../types";
 
 const spacing = 10;
 const minSize = 150;
@@ -24,7 +24,7 @@ const log = debug("Thumbnail");
 type ThumbnailProps = {
   photo: Photo,
   onPress: () => any,
-  style?: Style<typeof View>,
+  style?: ViewStyleProp,
   size?: number,
 };
 

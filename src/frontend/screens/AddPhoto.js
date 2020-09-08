@@ -7,7 +7,7 @@ import { defineMessages, FormattedMessage } from "react-intl";
 
 import CameraView from "../sharedComponents/CameraView";
 import useDraftObservation, {
-  type CapturePromise,
+  type CapturedPictureMM,
 } from "../hooks/useDraftObservation";
 
 import type { NavigationScreenConfigProps } from "react-navigation";
@@ -25,7 +25,7 @@ const AddPhotoScreen = ({ navigation }: NavigationScreenConfigProps) => {
   const [, { addPhoto }] = useDraftObservation();
 
   // TODO: addPhoto changes every render, so we can't useCallback here
-  const handleAddPress = (e: any, capture: CapturePromise) => {
+  const handleAddPress = (e: any, capture: Promise<CapturedPictureMM>) => {
     log("pressed add button");
     addPhoto(capture);
     // $FlowFixMe

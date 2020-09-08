@@ -1,12 +1,12 @@
 // @flow
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import type { Style } from "../../types";
+import type { ViewStyleProp } from "../../types";
 
 type CircleProps = {
   radius?: number,
   children: React.Node,
-  style?: Style<typeof View>,
+  style?: ViewStyleProp,
 };
 
 const Circle = ({ radius = 25, style, children }: CircleProps) => (

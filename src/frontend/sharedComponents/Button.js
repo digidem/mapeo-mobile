@@ -6,7 +6,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { TouchableNativeFeedback } from "../sharedComponents/Touchables";
 
 import { VERY_LIGHT_BLUE } from "../lib/styles";
-import type { Style } from "../types";
+import type { ViewStyleProp } from "../types";
 
 // Fix warning pending https://github.com/kmagiera/react-native-gesture-handler/pull/561/files
 TouchableNativeFeedback.propTypes = {
@@ -19,7 +19,7 @@ type Props = {
   children: string | React.Node,
   variant?: "contained" | "outlined" | "text",
   color?: "dark" | "light",
-  style?: Style<typeof View>,
+  style?: ViewStyleProp,
   fullWidth?: boolean,
   testID?: string,
   disabled?: boolean,

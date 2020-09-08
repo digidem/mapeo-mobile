@@ -76,6 +76,7 @@ export class PermissionsProvider extends React.Component<
 
   async requestPermissions(permissions: PermissionType | PermissionType[]) {
     if (!Array.isArray(permissions)) permissions = [permissions];
+    // $FlowFixMe see https://github.com/facebook/react-native/blob/4409642811c787052e0baeb92e2679a96002c1e3/Libraries/PermissionsAndroid/NativePermissionsAndroid.js#L16
     const status = await PermissionsAndroid.requestMultiple(permissions);
     log("Permission status", status);
     // Bail if nothing to update
@@ -83,6 +84,7 @@ export class PermissionsProvider extends React.Component<
     this.setState({
       permissions: {
         ...this.state.permissions,
+        // $FlowFixMe - not sure what to do about this, it's correct, flow just can't track it
         ...status,
       },
     });

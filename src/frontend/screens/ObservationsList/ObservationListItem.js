@@ -10,7 +10,7 @@ import DateDistance from "../../sharedComponents/DateDistance";
 import { filterPhotosFromAttachments } from "../../lib/utils";
 import PhotoView from "../../sharedComponents/PhotoView";
 import api from "../../api";
-import type { Style } from "../../types";
+import type { ViewStyleProp } from "../../types";
 import type { SavedPhoto } from "../../context/DraftObservationContext";
 import useDeviceId from "../../hooks/useDeviceId";
 
@@ -24,7 +24,7 @@ const m = defineMessages({
 
 type Props = {
   onPress: string => any,
-  style?: Style<typeof View>,
+  style?: ViewStyleProp,
   observationId: string,
 };
 

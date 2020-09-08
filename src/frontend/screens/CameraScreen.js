@@ -7,7 +7,7 @@ import { defineMessages, FormattedMessage } from "react-intl";
 
 import CameraView from "../sharedComponents/CameraView";
 import useDraftObservation, {
-  type CapturePromise,
+  type CapturedPictureMM,
 } from "../hooks/useDraftObservation";
 import PermissionsContext, {
   PERMISSIONS,
@@ -32,7 +32,7 @@ const CameraScreen = () => {
   const { permissions } = React.useContext(PermissionsContext);
 
   const handleAddPress = React.useCallback(
-    (e: any, capture: CapturePromise) => {
+    (e: any, capture: Promise<CapturedPictureMM>) => {
       log("pressed add button");
       newDraft(undefined, { tags: {} }, capture);
       navigation.navigate("CategoryChooser");

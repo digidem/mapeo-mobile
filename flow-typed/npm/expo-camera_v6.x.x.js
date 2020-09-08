@@ -1,7 +1,7 @@
-// flow-typed signature: b3e02ba8d391ce3c3287a200a4212e52
-// flow-typed version: c6154227d1/expo-camera_v5.x.x/flow_>=v0.69.0 <=v0.103.x
+// flow-typed signature: f25d42b3a8985ec5c5fec1b5f0ed588f
+// flow-typed version: 75b56c3a87/expo-camera_v6.x.x/flow_>=v0.69.0
 
-declare module 'expo-camera/build/ExponentCameraManage' {
+declare module "expo-camera/build/ExponentCameraManage" {
   declare opaque type Front: number;
   declare opaque type Back: number;
   declare export type TypeToFacingMode = {| +front: Front, +back: Back |};
@@ -38,11 +38,11 @@ declare module 'expo-camera/build/ExponentCameraManage' {
   declare opaque type VQ$2160: number;
   declare opaque type VQ$4x3: number;
   declare export type VideoQuality = {|
-    +'480p': VQ$480,
-    +'720p': VQ$720,
-    +'1080p': VQ$1080,
-    +'2160p': VQ$2160,
-    +'4:3': VQ$4x3,
+    +"480p": VQ$480,
+    +"720p": VQ$720,
+    +"1080p": VQ$1080,
+    +"2160p": VQ$2160,
+    +"4:3": VQ$4x3,
   |};
 
   declare opaque type WB$auto: number;
@@ -61,7 +61,7 @@ declare module 'expo-camera/build/ExponentCameraManage' {
   |};
 }
 
-declare module 'expo-camera' {
+declare module "expo-camera" {
   import type {
     TypeToFacingMode,
     FlashMode,
@@ -69,7 +69,7 @@ declare module 'expo-camera' {
     VideoStabilization,
     WhiteBalance,
     VideoQuality,
-  } from 'expo-camera/build/ExponentCameraManage';
+  } from "expo-camera/build/ExponentCameraManage";
 
   declare export var Constants: {
     Type: TypeToFacingMode,

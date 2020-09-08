@@ -7,7 +7,7 @@ import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import { VERY_LIGHT_BLUE } from "../../lib/styles";
 import QuestionLabel from "./QuestionLabel";
 
-import type { Style } from "../../types";
+import type { ViewStyleProp } from "../../types";
 import type { QuestionProps } from "./Question";
 import type { SelectField } from "../../context/ConfigContext";
 
@@ -20,7 +20,7 @@ type RadioItemProps = {
   checked: boolean,
   onPress: () => any,
   label: string,
-  style: Style<typeof View>,
+  style: ViewStyleProp,
 };
 
 const RadioItem = ({ checked, onPress, label, style }: RadioItemProps) => (
