@@ -125,7 +125,7 @@ const ObservationView = ({
   onPressDelete,
 }: ODVProps) => {
   const intl = useIntl();
-  const { formatMessage: t, formatDate } = intl;
+  const { formatMessage: t } = intl;
   const deviceId = useDeviceId();
   const isMine = deviceId === observation.value.deviceId;
   const { lat, lon, attachments } = observation.value;

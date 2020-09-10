@@ -33,12 +33,17 @@ export const FormattedCoords = ({ lat, lon }: { lat: number, lon: number }) => {
   return <>{formatCoords({ lon, lat })}</>;
 };
 
+// Render the translated value of a translatable Field property (one of
+// `label`, `placeholder` or `helperText`). `label` will always render
+// something: if it is undefined or an empty string, then it will use the field
+// key as the label. `placeholder` and `helperText` will render to null if they
+// are not defined.
 export const FormattedFieldProp = ({
   field,
   propName,
 }: {
   field: Field,
-  propName: "label" | "placeholder",
+  propName: "label" | "placeholder" | "helperText",
 }) => {
   const { formatMessage: t } = useIntl();
   const fieldKey = Array.isArray(field.key) ? field.key[0] : field.key;
@@ -55,6 +60,14 @@ export const FormattedFieldProp = ({
   return <>{value}</>;
 };
 
+// Render a field value as a string. If the value is an array, convert to string
+// and join with `, `. If the field is a select_one or select_multiple field,
+// then use `field.option.label` to display the value, if a label is defined.
+// Translate the field value if a translation is defined.
+//
+// TODO: Consider an API like
+// https://formatjs.io/docs/react-intl/components#formatteddateparts to enable
+// formatting of individual items in an array value.
 export const FormattedFieldValue = ({
   value,
   field,
@@ -80,6 +93,8 @@ export const FormattedFieldValue = ({
   return <>{formattedValue || t(m.noAnswer)}</>;
 };
 
+// Format the created_at date of an observation as either a datetime, or a
+// relative datetime (e.g. "3 minutes ago")
 export const FormattedObservationDate = ({
   observation,
   variant,
@@ -98,6 +113,8 @@ export const FormattedObservationDate = ({
   }
 };
 
+// Format the translated preset name, with a fallback to "Observation" if no
+// preset is defined
 export const FormattedPresetName = ({
   preset,
 }: {|
@@ -111,6 +128,8 @@ export const FormattedPresetName = ({
   return <>{name}</>;
 };
 
+// TODO: Better hangling of boolean and null values (we don't create these
+// anywhere yet)
 function getValueLabel(
   value: null | boolean | number | string,
   field: Field

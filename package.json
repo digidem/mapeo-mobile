@@ -66,7 +66,7 @@
     "ky": "^0.23.0",
     "lodash": "^4.17.19",
     "mapeo-offline-map": "^2.0.0",
-    "mapeo-schema": "^2.0.1",
+    "mapeo-schema": "^2.0.2",
     "nodejs-mobile-react-native": "^0.6.1",
     "patch-package": "^6.2.2",
     "path": "^0.12.7",
