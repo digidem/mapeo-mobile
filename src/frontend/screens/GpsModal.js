@@ -4,7 +4,7 @@ import { View, ScrollView, Text, StyleSheet } from "react-native";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import LocationContext from "../context/LocationContext";
-import FormattedCoords from "../sharedComponents/FormattedCoords";
+import { FormattedCoords } from "../sharedComponents/FormattedData";
 import DateDistance from "../sharedComponents/DateDistance";
 import HeaderTitle from "../sharedComponents/HeaderTitle";
 

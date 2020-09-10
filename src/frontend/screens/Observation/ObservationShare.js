@@ -5,10 +5,13 @@ import { renderToStaticMarkup } from "react-dom/server";
 import TurndownService from "turndown-rn";
 import { defineMessages, useIntl, RawIntlProvider } from "react-intl";
 
-import FormattedFieldProp from "../../sharedComponents/FormattedFieldProp";
-import FormattedFieldValue from "../../sharedComponents/FormattedFieldValue";
-import FormattedPresetName from "../../sharedComponents/FormattedPresetName";
-import FormattedCoords from "../../sharedComponents/FormattedCoords";
+import {
+  FormattedFieldProp,
+  FormattedFieldValue,
+  FormattedPresetName,
+  FormattedCoords,
+  FormattedObservationDate,
+} from "../../sharedComponents/FormattedData";
 import { getProp } from "../../lib/utils";
 import type { PresetWithFields } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
@@ -32,7 +35,7 @@ type ShareMessageProps = {
 };
 
 export const ShareSubject = ({ observation, preset }: ShareMessageProps) => {
-  const { formatMessage: t, formatDate } = useIntl();
+  const { formatMessage: t } = useIntl();
   return (
     <>
       {t(m.alertSubject) + " — "}
@@ -41,13 +44,14 @@ export const ShareSubject = ({ observation, preset }: ShareMessageProps) => {
           <FormattedPresetName preset={preset} />
         </b>
       </i>
-      {" — " + formatDate(observation.created_at, { format: "long" })}
+      {" — "}
+      <FormattedObservationDate observation={observation} variant="long" />
     </>
   );
 };
 
 export const ShareMessage = ({ observation, preset }: ShareMessageProps) => {
-  const { formatMessage: t, formatDate } = useIntl();
+  const { formatMessage: t } = useIntl();
   const { value } = observation;
   const { lon, lat } = value;
 
@@ -74,7 +78,7 @@ export const ShareMessage = ({ observation, preset }: ShareMessageProps) => {
       <p>
         {title}
         <br />
-        {formatDate(observation.created_at, { format: "long" })}
+        <FormattedObservationDate observation={observation} variant="long" />
         <br />
         {lon != null && lat != null ? (
           <FormattedCoords lat={lat} lon={lon} />

@@ -2,7 +2,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import type { Field } from "../../context/ConfigContext";
-import FormattedFieldProp from "../../sharedComponents/FormattedFieldProp";
+import { FormattedFieldProp } from "../../sharedComponents/FormattedData";
 
 type Props = {|
   field: Field,

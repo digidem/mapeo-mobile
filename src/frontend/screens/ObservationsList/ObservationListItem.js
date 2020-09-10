@@ -1,27 +1,20 @@
 // @flow
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { defineMessages, useIntl } from "react-intl";
 
 import { TouchableHighlight } from "../../sharedComponents/Touchables";
 import useObservation from "../../hooks/useObservation";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
-import DateDistance from "../../sharedComponents/DateDistance";
 import { filterPhotosFromAttachments } from "../../lib/utils";
 import PhotoView from "../../sharedComponents/PhotoView";
 import api from "../../api";
 import type { ViewStyleProp } from "../../types";
 import type { SavedPhoto } from "../../context/DraftObservationContext";
 import useDeviceId from "../../hooks/useDeviceId";
-import FormattedPresetName from "../../sharedComponents/FormattedPresetName";
-
-const m = defineMessages({
-  defaultObservationName: {
-    id: "screens.ObservationsList.ObservationListItem.defaultObservationName",
-    defaultMessage: "Observation",
-    description: "Default name for an observation that does not match a preset",
-  },
-});
+import {
+  FormattedPresetName,
+  FormattedObservationDate,
+} from "../../sharedComponents/FormattedData";
 
 type Props = {
   onPress: string => any,
@@ -57,14 +50,11 @@ const ObservationListItem = ({
   style,
   observationId,
 }: Props) => {
-  const { formatMessage: t } = useIntl();
   const [{ observation, preset }] = useObservation(observationId);
   const deviceId = useDeviceId();
   const iconId = preset && preset.icon;
-  const createdDate =
-    observation && observation.created_at
-      ? new Date(observation.created_at)
-      : undefined;
+  if (!observation) return null; // Should never get here!
+
   const photos = filterPhotosFromAttachments(
     observation && observation.value.attachments
   ).slice(0, 3);
@@ -82,7 +72,12 @@ const ObservationListItem = ({
           <Text style={styles.title}>
             <FormattedPresetName preset={preset} />
           </Text>
-          {createdDate && <DateDistance date={createdDate} />}
+          <Text>
+            <FormattedObservationDate
+              observation={observation}
+              variant="relative"
+            />
+          </Text>
         </View>
         {photos.length ? (
           <View style={styles.photoContainer}>

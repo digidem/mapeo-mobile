@@ -16,7 +16,6 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { defineMessages, useIntl } from "react-intl";
 
 import api from "../../api";
-import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
 import mapIcon from "../../images/observation-icon.png";
@@ -34,12 +33,16 @@ import type { PresetWithFields } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
 import useMapStyle from "../../hooks/useMapStyle";
 import useDeviceId from "../../hooks/useDeviceId";
-import FormattedFieldProp from "../../sharedComponents/FormattedFieldProp";
 import Loading from "../../sharedComponents/Loading";
 import OfflineMapLayers from "../../sharedComponents/OfflineMapLayers";
-import FormattedFieldValue from "../../sharedComponents/FormattedFieldValue";
-import FormattedPresetName from "../../sharedComponents/FormattedPresetName";
 import { ShareMessage, ShareSubject, renderToString } from "./ObservationShare";
+import {
+  FormattedCoords,
+  FormattedFieldValue,
+  FormattedPresetName,
+  FormattedFieldProp,
+  FormattedObservationDate,
+} from "../../sharedComponents/FormattedData";
 
 const m = defineMessages({
   share: {
@@ -178,7 +181,10 @@ const ObservationView = ({
         )}
         <View>
           <Text style={styles.time}>
-            {formatDate(observation.created_at, { format: "long" })}
+            <FormattedObservationDate
+              observation={observation}
+              variant="long"
+            />
           </Text>
         </View>
         <View style={[styles.section, { flex: 1 }]}>

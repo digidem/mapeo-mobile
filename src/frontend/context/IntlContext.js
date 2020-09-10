@@ -12,7 +12,7 @@ import languages from "../languages.json";
 // WARNING: This needs to change if we change the type of locale
 const STORE_KEY = "@MapeoLocale@1";
 
-const formats = {
+export const formats = {
   date: {
     long: {
       day: "numeric",

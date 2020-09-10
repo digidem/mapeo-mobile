@@ -5,7 +5,6 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 
 import LocationField from "../../sharedComponents/LocationField";
-import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import BottomSheet from "./BottomSheet";
 import Field from "./Field";
 import {
@@ -19,7 +18,10 @@ import TextButton from "../../sharedComponents/TextButton";
 import { BLACK, LIGHT_GREY, LIGHT_BLUE } from "../../lib/styles";
 
 import type { PresetWithFields, TextField } from "../../context/ConfigContext";
-import FormattedPresetName from "../../sharedComponents/FormattedPresetName";
+import {
+  FormattedPresetName,
+  FormattedCoords,
+} from "../../sharedComponents/FormattedData";
 
 const m = defineMessages({
   searching: {
