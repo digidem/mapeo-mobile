@@ -282,7 +282,7 @@
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
-    "message": "Configuración"
+    "message": "Ajustes"
   },
   "screens.Settings.unnamedConfig": {
     "description": "Config name when do name is defined",
@@ -334,7 +334,7 @@
   },
   "screens.SyncModal.SyncView.settingsButton": {
     "description": "Button to open WiFi settings",
-    "message": "Abrir configuración"
+    "message": "Abrir ajustes"
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
