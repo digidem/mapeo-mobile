@@ -13,6 +13,7 @@ import api from "../../api";
 import type { ViewStyleProp } from "../../types";
 import type { SavedPhoto } from "../../context/DraftObservationContext";
 import useDeviceId from "../../hooks/useDeviceId";
+import FormattedPresetName from "../../sharedComponents/FormattedPresetName";
 
 const m = defineMessages({
   defaultObservationName: {
@@ -58,7 +59,6 @@ const ObservationListItem = ({
 }: Props) => {
   const { formatMessage: t } = useIntl();
   const [{ observation, preset }] = useObservation(observationId);
-  const name = preset ? preset.name : t(m.defaultObservationName);
   const deviceId = useDeviceId();
   const iconId = preset && preset.icon;
   const createdDate =
@@ -79,7 +79,9 @@ const ObservationListItem = ({
         style={[styles.container, style, !isMine && styles.syncedObservation]}
       >
         <View style={styles.text}>
-          <Text style={styles.title}>{name}</Text>
+          <Text style={styles.title}>
+            <FormattedPresetName preset={preset} />
+          </Text>
           {createdDate && <DateDistance date={createdDate} />}
         </View>
         {photos.length ? (
