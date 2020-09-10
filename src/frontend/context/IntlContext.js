@@ -99,7 +99,7 @@ export const IntlProvider = ({ children }: { children: React.Node }) => {
 export default IntlContext;
 
 function onError(e) {
-  console.warn(e);
+  console.log(e);
 }
 
 // Device locale can be regional e.g. `en-US` but we might only have

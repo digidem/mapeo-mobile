@@ -62,6 +62,7 @@
     "expo-sensors": "^9.0.1",
     "flat": "^5.0.2",
     "hoist-non-react-statics": "^3.3.0",
+    "jsdom-jscore-rn": "^0.1.8",
     "ky": "^0.23.0",
     "lodash": "^4.17.19",
     "mapeo-offline-map": "^2.0.0",
@@ -101,6 +102,7 @@
     "react-to-string": "^0.1.1",
     "semver": "^7.3.2",
     "shallowequal": "^1.1.0",
+    "turndown-rn": "^6.1.0",
     "use-memo-one": "^1.1.1",
     "utm": "^1.1.1"
   },

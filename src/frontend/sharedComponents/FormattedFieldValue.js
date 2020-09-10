@@ -25,15 +25,15 @@ const FormattedFieldValue = ({ value, field }: Props) => {
   // Select multiple answers are an array, so we join them with commas
   const formattedValue = (Array.isArray(value) ? value : [value])
     // Filter any undefined values or empty strings (an empty string can come
-    // from a user deleting an answer)
+    // from a user deleting an answer) TODO: Values that are just spaces
     .filter(value => typeof value !== "undefined" && value !== "")
     .map(value =>
       t({
         id: `fields.${field.id}.options.${JSON.stringify(value)}`,
         defaultMessage: getValueLabel(value, field),
-      })
+      }).trim()
     )
-    .join(",");
+    .join(", ");
   // This will return a noAnswer string if formattedValue is undefined or an
   // empty string
   return <>{formattedValue || t(m.noAnswer)}</>;

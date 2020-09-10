@@ -71,11 +71,9 @@ const LocationView = ({
           color="orange"
           style={{ marginRight: 5 }}
         />
-        <FormattedCoords
-          style={styles.locationText}
-          lat={latitude}
-          lon={longitude}
-        />
+        <Text style={styles.locationText}>
+          <FormattedCoords lat={latitude} lon={longitude} />
+        </Text>
         {accuracy === undefined ? null : (
           <Text style={styles.accuracy}>
             {" ±" + accuracy.toFixed(2) + "m"}

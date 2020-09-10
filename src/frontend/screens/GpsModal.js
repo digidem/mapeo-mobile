@@ -78,11 +78,12 @@ const GpsModal = ({ navigation }: Props) => {
             <Text style={styles.sectionTitle}>
               <FormattedMessage {...m.locationUTM} />
             </Text>
-            <FormattedCoords
-              lon={location.position.coords.longitude}
-              lat={location.position.coords.latitude}
-              style={styles.rowValue}
-            />
+            <Text style={styles.rowValue}>
+              <FormattedCoords
+                lon={location.position.coords.longitude}
+                lat={location.position.coords.latitude}
+              />
+            </Text>
             <Text style={styles.sectionTitle}>
               <FormattedMessage {...m.details} />
             </Text>
