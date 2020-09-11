@@ -246,7 +246,7 @@
   },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
-    "message": "There was an error trying to import this config file"
+    "message": "Hubo un error al intentar importar este archivo de configuración"
   },
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
@@ -254,7 +254,7 @@
   },
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Import Error"
+    "message": "Error al importar"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
@@ -314,7 +314,7 @@
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
-    "message": "Abrir la configuración y conectar a una red WiFi para sincronizar"
+    "message": "Abre la configuración de tu teléfono y conéctate a una red WiFi para sincronizar"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
@@ -334,7 +334,7 @@
   },
   "screens.SyncModal.SyncView.settingsButton": {
     "description": "Button to open WiFi settings",
-    "message": "Abrir configuración"
+    "message": "Abrir Ajustes"
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
