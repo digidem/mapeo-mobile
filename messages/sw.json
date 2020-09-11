@@ -1,260 +1,248 @@
 {
   "AppContainer.EditHeader.discardCancel": {
     "description": "Button on dialog to keep editing (cancelling close action)",
-    "message": "បន្តកែសម្រួល"
+    "message": "Continue editing"
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to close without saving",
-    "message": "បោះបង់ដោយមិនរក្សាទុក"
+    "message": "Discard without saving"
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when closing an observation without saving",
-    "message": "បោះបង់ការសង្កេត?"
+    "message": "Discard observation?"
   },
   "screens.AddPhoto.cancel": {
-    "message": "បោះបង់"
+    "message": "Cancel"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
-    "message": "មិនអាចចូលប្រើម៉ាស៊ីនថត"
+    "message": "No access to camera"
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
-    "message": "ជ្រើសរើសអ្វីដែលកំពុងកើតឡើង"
+    "message": "Choose what is happening"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
-    "message": "ព័ត៌មានលម្អិត"
+    "message": "Details"
   },
   "screens.GpsModal.gpsHeader": {
     "description": "Header for GPS screen",
-    "message": "ទីតាំង GPS បច្ចុប្បន្ន"
+    "message": "Current GPS Location"
   },
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
-    "message": "ការធ្វើបច្ចុប្បន្នភាពចុងក្រោយ"
+    "message": "Last update"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
-    "message": "ស្ថានភាពឧបករណ៍ចាប់សញ្ញា"
+    "message": "Sensor Status"
   },
   "screens.GpsModal.locationUTM": {
     "description": "Section title for UTM coordinates",
-    "message": "និយាមកា UTM"
+    "message": "Coordinates UTM"
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
-    "message": "ទេ"
+    "message": "No"
   },
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
-    "message": "បាទ/ចាស"
+    "message": "Yes"
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
-    "message": "ភាសា"
+    "message": "Language"
   },
   "screens.ManualGpsScreen.easting": {
-    "message": "ខាងកើត"
+    "message": "East"
   },
   "screens.ManualGpsScreen.eastingSuffix": {
     "message": "mE"
   },
   "screens.ManualGpsScreen.northing": {
-    "message": "ខាងជើង"
+    "message": "North"
   },
   "screens.ManualGpsScreen.northingSuffix": {
     "message": "mN"
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
-    "message": "បញ្ចូលលេខនិយាមកា"
+    "message": "Enter coordinates"
   },
   "screens.ManualGpsScreen.zoneLetter": {
-    "message": "អក្សរតំបន់"
+    "message": "Zone Letter"
   },
   "screens.ManualGpsScreen.zoneNumber": {
-    "message": "លេខតំបន់"
+    "message": "Zone Number"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
-    "message": "ផ្ញើមកពី Mapeo"
+    "message": "Sent from Mapeo"
   },
   "screens.Observation.ObservationView.alertSubject": {
     "description": "Subject-line for shared observations",
-    "message": "កម្មវិធីជូនដំណឹង Mapeo"
+    "message": "Mapeo Alert"
   },
   "screens.Observation.ObservationView.delete": {
     "description": "Button to delete an observation",
-    "message": "លុប"
+    "message": "Delete"
   },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
-    "message": "គ្មាន​ចម្លើយ"
+    "message": "No answer"
   },
   "screens.Observation.ObservationView.observation": {
     "description": "Default name of observation with no matching preset",
-    "message": "ការសង្កេត"
+    "message": "Observation"
   },
   "screens.Observation.ObservationView.share": {
     "description": "Button to share an observation",
-    "message": "ចែករំលែក"
+    "message": "Share"
   },
   "screens.Observation.cancel": {
     "description": "Button to cancel delete of observation",
-    "message": "បោះបង់"
+    "message": "Cancel"
   },
   "screens.Observation.confirm": {
     "description": "Button to confirm delete of observation",
-    "message": "បាទ/ចាស លុបចោល"
+    "message": "Yes, delete"
   },
   "screens.Observation.deleteTitle": {
     "description": "Title of dialog asking confirmation to delete an observation",
-    "message": "លុបការសង្កេត?"
+    "message": "Delete observation?"
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
-    "message": "ការសង្កេតពុំអាចរកបាន"
+    "message": "Observation not found"
   },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
-    "message": "{current} នៃ {total}"
+    "message": "{current} of {total}"
   },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
-    "message": "រួចរាល់"
+    "message": "Done"
   },
   "screens.ObservationDetails.nextQuestion": {
     "description": "Button text to navigate to next question",
-    "message": "បន្ទាប់"
+    "message": "Next"
   },
   "screens.ObservationDetails.title": {
     "description": "Title of observation details screen showing question number and total",
-    "message": "សំណួរ {current} នៃ {total}"
+    "message": "Question {current} of {total}"
   },
   "screens.ObservationEdit.BottomSheet.addLabel": {
     "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
-    "message": "បន្ថែម…"
+    "message": "Add…"
   },
   "screens.ObservationEdit.ObservationEditView.changePreset": {
     "description": "Button to change a category / preset",
-    "message": "ផ្លាស់ប្តូរ"
+    "message": "Change"
   },
   "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
     "description": "Placeholder for description/notes field",
-    "message": "តើមានអ្វីកំពុងកើតឡើងនៅទីនេះ?"
+    "message": "What is happening here?"
   },
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
-    "message": "បន្ថែមព័ត៌មានលម្អិត"
+    "message": "Add Details"
   },
   "screens.ObservationEdit.ObservationEditView.observation": {
     "description": "Name of observation when no preset matches",
-    "message": "ការសង្កេត"
+    "message": "Observation"
   },
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
-    "message": "បន្ថែមរូបថត"
+    "message": "Add Photo"
   },
   "screens.ObservationEdit.ObservationEditView.searching": {
     "description": "Shown in new observation screen whilst looking for GPS",
-    "message": "កំពុងស្វែងរក…"
+    "message": "Searching…"
   },
   "screens.ObservationEdit.SaveButton.keepWaiting": {
     "description": "Button to cancel save and continue waiting for GPS",
-    "message": "បន្តរង់ចាំ"
+    "message": "Continue waiting"
   },
   "screens.ObservationEdit.SaveButton.manualEntry": {
     "description": "Button to manually enter GPS coordinates",
-    "message": "បញ្ចូលលេខនិយាមកាដោយដៃ"
+    "message": "Manual Coords"
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
-    "message": "ការសង្កេតនេះមិនមានទីតាំងទេ។ អ្នកអាចបន្តរង់ចាំសញ្ញាGPS រក្សាទុកការសង្កេតដោយគ្មានទីតាំង ឬបញ្ចូលលេខនិយាមកាដោយដៃ"
+    "message": "This observation does not have a location. You can continue waiting for a GPS signal, save the observation without a location, or enter coordinates manually"
   },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
-    "message": "គ្មានសញ្ញាGPS ទេ"
+    "message": "No GPS signal"
   },
   "screens.ObservationEdit.SaveButton.saveAnyway": {
     "description": "Button to save regardless of GPS state",
-    "message": "រក្សាទុក"
+    "message": "Save"
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
-    "message": "សុក្រឹត្យភាពនៃប្រព័ន្ធ GPS គឺទាប។ អ្នកអាចបន្តរង់ចាំនូវសុក្រឹត្យភាពដែលប្រសើរជាងមុន រក្សាទុកការសង្កេតដោយសុក្រឹត្យភាពទាបឬបញ្ចូលលេខនិយាមកាដោយដៃ"
+    "message": "GPS accuracy is low. You can continue waiting for better accuracy, save the observation with low accuracy, or enter coordinates manually"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
-    "message": "សញ្ញា GPS ខ្សោយ"
+    "message": "Weak GPS signal"
   },
   "screens.ObservationEdit.editTitle": {
     "description": "screen title for edit observation screen",
-    "message": "កែសម្រួលការសង្កេត"
+    "message": "Edit Observation"
   },
   "screens.ObservationEdit.newTitle": {
     "description": "screen title for new observation screen",
-    "message": "ការសង្កេតថ្មី"
+    "message": "New Observation"
   },
   "screens.ObservationList.observationListTitle": {
     "description": "Title of screen with list of observations",
-    "message": "ការសង្កេត"
+    "message": "Observations"
   },
   "screens.ObservationsList.ObservationListItem.defaultObservationName": {
     "description": "Default name for an observation that does not match a preset",
-    "message": "ការសង្កេត"
+    "message": "Observation"
   },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
-    "message": "ចូលទៅផែនទី"
+    "message": "Go To Map"
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "ចាប់ផ្តើមពីទិដ្ឋភាពផែនទីឬកាមេរ៉ាដើម្បីកត់ត្រាការសង្កេតដំបូងរបស់អ្នក។"
+    "message": "Start from map or camera view to record your first observation."
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
-    "message": "បន្ថែមការសង្កេត"
+    "message": "Add Observations"
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
-    "message": "មានបញ្ហាពេលកំពុងធ្វើការ។ សូមសាកល្បងចាកចេញសិន ហើយសឹមចាប់ផ្តើម Mapeo ជាថ្មីឡើងវិញ ។"
+    "message": "Error loading observations. Try quitting and restarting Mapeo."
   },
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
-    "message": "កំពុងធ្វើការ ... វាត្រូវការពេលមួយរយៈ បន្ទាប់ពីធ្វើសមកាលកម្មជាមួយឧបករណ៍ថ្មីរួចរាល់"
+    "message": "Loading… this can take a while after synchronizing with a new device"
   },
   "screens.ProjectConfig.title": {
     "description": "Title of project configuration screen",
-    "message": "ការកំណត់រចនាសម្ព័ន្ធនៃគម្រោង"
+    "message": "Project Configuration"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
-    "message": "អ្នកអាចព្យាយាមបង្ខំឱ្យដំណើរការកម្មវិធីសារជាថ្មីឡើងវិញ ប៉ុន្តែវាអាចមានអ្វីមួយដែលត្រូវការជួសជុល។ ពិតជាសោកស្តាយចំពោះបញ្ហានេះការបង្កើតកម្មវិធីគឺពិបាកណាស់។"
+    "message": "You can try force-restarting the app, but there may be something that needs fixing. Really sorry about this, making apps is hard."
   },
   "screens.ServerStatus.errorTitle": {
     "description": "Title of message when there the Mapeo Core server crashes",
-    "message": "អូ សម្លាញ់, អ្វីមួយត្រូវបានខូចនៅក្នុងមូលដ្ឋានទិន្នន័យ Mapeo ។"
+    "message": "Oh dear, something is broken in the Mapeo database."
   },
   "screens.ServerStatus.timeoutDesc": {
     "description": "Description when the server has not responded for 10 seconds",
-    "message": "ប្រសិនបើអ្នកបន្តឃើញសារនេះអ្នកប្រហែលជាត្រូវបង្ខំចិត្តចាប់ផ្តើមMapeoសារជាថ្មីឡើងវិញ"
+    "message": "If you continue to see this message you may need to force-restart Mapeo"
   },
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
-    "message": "វាមានភាពត្រូវគ្នាជាមួយនឹងមូលដ្ឋានទិន្នន័យរបស់ Mapeo"
-  },
-  "screens.Settings.configErrorDescription": {
-    "description": "Description of error dialog when there is an error importing a config file",
-    "message": "There was an error trying to import this config file"
-  },
-  "screens.Settings.configErrorOkButton": {
-    "description": "Button to dismiss error dialog when there is an error importing a config file",
-    "message": "យល់ព្រម"
-  },
-  "screens.Settings.configErrorTitle": {
-    "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Import Error"
+    "message": "Something is up with the Mapeo database"
   },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
@@ -270,23 +258,23 @@
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
-    "message": "ការកំណត់រចនាសម្ព័ន្ធថ្មីៗនេះ"
+    "message": "Current Configuration"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
-    "message": "ភាសា"
+    "message": "Language"
   },
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
-    "message": "បង្ហាញភាសាសម្រាប់កម្មវិធី"
+    "message": "Display language for App"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
-    "message": "ការកំណត់រចនាសម្ព័ន្ធនៃគម្រោង"
+    "message": "Project Configuration"
   },
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
-    "message": "ប្រភេទ, រូបតំណាង និងសំណួរ"
+    "message": "Categories, icons and questions"
   },
   "screens.Settings.projectKey": {
     "description": "Label for project key",
@@ -294,43 +282,43 @@
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
-    "message": "ការកំណត់"
+    "message": "Settings"
   },
   "screens.Settings.unnamedConfig": {
     "description": "Config name when do name is defined",
-    "message": "គ្មានឈ្មោះ"
+    "message": "Un-named"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
-    "message": "បញ្ចប់"
+    "message": "Complete"
   },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
-    "message": "កំហុសឆ្គង"
+    "message": "Error"
   },
   "screens.SyncModal.PeerList.errorClientMismatch": {
     "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
-    "message": "មិនមែនជាអតិថិជនរបស់ Mapeo ទេ"
+    "message": "Not a Mapeo client"
   },
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
-    "message": "មិនត្រូវគ្នានឹង Mapeo"
+    "message": "Incompatible Mapeo"
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
-    "message": "សមកាលកម្ម"
+    "message": "Sync"
   },
   "screens.SyncModal.PeerList.syncLabel": {
     "description": "Label for last sync datetime",
-    "message": "ត្រូវបានធ្វើសមកាលកម្មរួចរាល់៖"
+    "message": "Synced:"
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
-    "message": "សូមចូលទៅកាន់កន្លែងកែសម្រួលដំណើរការទូរស័ព្ទ និងធ្វើការភ្ជាប់ Wifi ដើម្បីធ្វើសមកាលកម្ម"
+    "message": "Open your phone settins and connect to a WiFi network to synchronize"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
-    "message": "គ្មានប្រព័ន្ធ WiFi"
+    "message": "No WiFi"
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
@@ -338,56 +326,56 @@
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
-    "message": "ធានាថាឧបករណ៍ផ្សេងទៀតត្រូវបានបើក និងភ្ជាប់ទៅបណ្តាញWiFiតែមួយ"
+    "message": "Ensure that other devices are turned on and connected to the same WiFi network"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
-    "message": "ស្វែងរក"
+    "message": "Searching"
   },
   "screens.SyncModal.SyncView.settingsButton": {
     "description": "Button to open WiFi settings",
-    "message": "បង្ហាញការកំណត់"
+    "message": "Open Settings"
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
-    "message": "ធ្វើសមកាលកម្ម"
+    "message": "Synchronize"
   },
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
-    "message": "ប្រព័ន្ធ WiFi:"
+    "message": "WiFi:"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
-    "message": "យល់ព្រម"
+    "message": "OK"
   },
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "ឧបករណ៍ដែលអ្នកកំពុងព្យាយាមធ្វើសមកាលកម្មត្រូវធ្វើវិសិដ្ឋកម្ម Mapeo កំណែថ្មីជាងគេបំផុតដើម្បីធ្វើសមកាលកម្មជាមួយអ្នកបាន។"
+    "message": "The device you are trying to sync with needs to upgrade Mapeo to the latest version in order to sync with you."
   },
   "screens.SyncModal.errorVersionThemBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "{ឈ្មោះឧបករណ៍} ត្រូវការធ្វើវិសិដ្ឋកម្មកំណែថ្មីរបស់ Mapeo"
+    "message": "{deviceName} needs to upgrade Mapeo"
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "ឧបករណ៍ដែលអ្នកកំពុងព្យាយាមធ្វើសមកាលកម្មមានកំណែថ្មីរបស់ Mapeo។ ដូចនេះអ្នកត្រូវធ្វើវិសិដ្ឋកម្ម Mapeo កំណែថ្មីដើម្បីធ្វើសមកាលកម្មជាមួយឧបករណ៍នេះបាន។"
+    "message": "The device you are trying to sync has a newer version of Mapeo. You need to upgrade Mapeo in order to sync with this device."
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "អ្នកត្រូវធ្វើឱ្យប្រសើរឡើងនូវ Mapeo"
+    "message": "You need to upgrade Mapeo"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
-    "message": "ពិតជាសោកស្តាយចំពោះបញ្ហានេះ កំហុងឆ្គងបានកើតឡើងដែលមិននឹកស្មានដល់ ហើយវាជាកំហុសរបស់យើងមិនមែនជាកំហុសរបស់អ្នកទេ។ សូមព្យាយាមចាប់ផ្តើមកម្មវិធីឡើងវិញដើម្បីដឹងថាតើវាអាចជួសជុលបញ្ហាបាន។"
+    "message": "Really sorry about this, something unexpected went wrong, and it's our fault not yours. Try restarting the app to see if that fixes things."
   },
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
-    "message": "កំហុសឆ្គងដែលមិនបានរំពឹងទុក"
+    "message": "Unexpected Error"
   },
   "sharedComponents.GpsPill.noGps": {
-    "message": "គ្មានGPS"
+    "message": "No GPS"
   },
   "sharedComponents.GpsPill.searching": {
-    "message": "កំពុងស្វែងរក…"
+    "message": "Searching…"
   }
 }
