@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { DARK_MANGO, MANGO } from "../../lib/styles";
 
 type Props = {
-  inprogress?: boolean
+  inprogress?: boolean,
 };
 
 export const SyncIcon = ({ color = "white" }: { color?: string }) => (
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     backgroundColor: DARK_MANGO,
     borderRadius: 50,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   innerCircle: {
     backgroundColor: MANGO,
@@ -43,6 +43,6 @@ const styles = StyleSheet.create({
     width: 30,
     borderRadius: 50,
     justifyContent: "center",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });

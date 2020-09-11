@@ -16,7 +16,7 @@ import type { NavigationProp } from "../types";
 const log = debug("mapeo:MapScreen");
 
 type Props = {
-  navigation: NavigationProp
+  navigation: NavigationProp,
 };
 
 const MapScreen = ({ navigation }: Props) => {

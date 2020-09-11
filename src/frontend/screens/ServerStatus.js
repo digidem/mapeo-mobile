@@ -10,30 +10,30 @@ const m = defineMessages({
     id: "screens.ServerStatus.timeoutTitle",
     defaultMessage: "Something is up with the Mapeo database",
     description:
-      "Title of message when the server has not responded for 10 seconds"
+      "Title of message when the server has not responded for 10 seconds",
   },
   timeoutDesc: {
     id: "screens.ServerStatus.timeoutDesc",
     defaultMessage:
       "If you continue to see this message you may need to force-restart Mapeo",
-    description: "Description when the server has not responded for 10 seconds"
+    description: "Description when the server has not responded for 10 seconds",
   },
   errorTitle: {
     id: "screens.ServerStatus.errorTitle",
     defaultMessage: "Oh dear, something is broken in the Mapeo database.",
-    description: "Title of message when there the Mapeo Core server crashes"
+    description: "Title of message when there the Mapeo Core server crashes",
   },
   errorDesc: {
     id: "screens.ServerStatus.errorDesc",
     defaultMessage:
       "You can try force-restarting the app, but there may be something that needs fixing. Really sorry about this, making apps is hard.",
-    description: "Description when there the Mapeo Core server crashes"
-  }
+    description: "Description when there the Mapeo Core server crashes",
+  },
 });
 
 type Props = {
   /** Server status */
-  variant: "waiting" | "timeout" | "error"
+  variant: "waiting" | "timeout" | "error",
 };
 
 /**
@@ -78,11 +78,11 @@ const styles = StyleSheet.create({
   notice: {
     fontSize: 20,
     textAlign: "center",
-    margin: 20
+    margin: 20,
   },
   description: {
     textAlign: "center",
     color: "#333333",
-    margin: 20
-  }
+    margin: 20,
+  },
 });

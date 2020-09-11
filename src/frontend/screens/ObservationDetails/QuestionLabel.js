@@ -4,7 +4,7 @@ import { View, StyleSheet, Text } from "react-native";
 
 type Props = {|
   label: string,
-  hint?: string
+  hint?: string,
 |};
 
 const QuestionLabel = ({ label, hint }: Props) => (
@@ -21,16 +21,16 @@ const styles = StyleSheet.create({
     flex: 0,
     padding: 20,
     borderBottomWidth: 2,
-    borderColor: "#F3F3F3"
+    borderColor: "#F3F3F3",
   },
   label: {
     fontSize: 20,
     color: "black",
-    fontWeight: "700"
+    fontWeight: "700",
   },
   hint: {
     fontSize: 16,
     color: "#666666",
-    fontWeight: "500"
-  }
+    fontWeight: "500",
+  },
 });

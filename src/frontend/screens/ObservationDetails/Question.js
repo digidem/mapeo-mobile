@@ -10,7 +10,7 @@ import type { Field } from "../../context/ConfigContext";
 export type QuestionProps = {
   field: Field,
   value: any,
-  onChange: (value: any) => any
+  onChange: (value: any) => any,
 };
 
 const Question = (props: QuestionProps) => {

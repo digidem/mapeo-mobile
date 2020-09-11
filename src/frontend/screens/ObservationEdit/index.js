@@ -12,13 +12,13 @@ const m = defineMessages({
   editTitle: {
     id: "screens.ObservationEdit.editTitle",
     defaultMessage: "Edit Observation",
-    description: "screen title for edit observation screen"
+    description: "screen title for edit observation screen",
   },
   newTitle: {
     id: "screens.ObservationEdit.newTitle",
     defaultMessage: "New Observation",
-    description: "screen title for new observation screen"
-  }
+    description: "screen title for new observation screen",
+  },
 });
 
 const ObservationEdit = ({ navigation }: { navigation: NavigationProp }) => {
@@ -27,7 +27,7 @@ const ObservationEdit = ({ navigation }: { navigation: NavigationProp }) => {
       routeName: "CategoryChooser",
       // Set a key here so we don't navigate back in the stack when creating a
       // new observation (which starts with the category chooser screen)
-      key: "fromObservationEdit"
+      key: "fromObservationEdit",
     });
   }, [navigation]);
 
@@ -44,7 +44,7 @@ const ObservationEdit = ({ navigation }: { navigation: NavigationProp }) => {
       navigation.navigate("PhotosModal", {
         photoIndex: photoIndex,
         observationId: navigation.getParam("observationId"),
-        editing: true
+        editing: true,
       });
     },
     [navigation]
@@ -65,9 +65,9 @@ const ObservationEdit = ({ navigation }: { navigation: NavigationProp }) => {
 };
 
 ObservationEdit.navigationOptions = ({
-  navigation
+  navigation,
 }: {
-  navigation: NavigationProp
+  navigation: NavigationProp,
 }) => ({
   headerTitle: () => (
     <HeaderTitle>
@@ -78,7 +78,7 @@ ObservationEdit.navigationOptions = ({
       )}
     </HeaderTitle>
   ),
-  headerRight: () => <SaveButton navigation={navigation} />
+  headerRight: () => <SaveButton navigation={navigation} />,
 });
 
 export default ObservationEdit;

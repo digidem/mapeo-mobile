@@ -10,20 +10,20 @@ const m = defineMessages({
     id: "screens.ObservationEdit.BottomSheet.addLabel",
     defaultMessage: "Add…",
     description:
-      "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)"
-  }
+      "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
+  },
 });
 
 type Props = {
   items: Array<{|
     icon: React.Node,
     label: string,
-    onPress: () => any
-  |}>
+    onPress: () => any,
+  |}>,
 };
 
 type State = {
-  keyboardVisible: boolean
+  keyboardVisible: boolean,
 };
 
 const ItemButton = ({ onPress, icon, label }) => (
@@ -57,7 +57,7 @@ const KeyboardAccessory = ({ onPress, icons }) => (
 class BottomSheet extends React.Component<Props, State> {
   _subs: Array<any> = [];
   state = {
-    keyboardVisible: false
+    keyboardVisible: false,
   };
 
   componentDidMount() {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     width: "100%",
     flexDirection: "column",
-    alignContent: "flex-end"
+    alignContent: "flex-end",
   },
   itemContainer: {
     flex: 0,
@@ -115,19 +115,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderTopWidth: 1,
-    borderTopColor: "#dddddd"
+    borderTopColor: "#dddddd",
   },
   itemIcon: {
     flex: 0,
     alignItems: "center",
     justifyContent: "center",
     paddingLeft: 30,
-    paddingRight: 30
+    paddingRight: 30,
   },
   itemLabel: {
     flex: 1,
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: 20,
   },
   accessoryContainer: {
     flex: 0,
@@ -137,20 +137,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     borderTopWidth: 1,
-    borderTopColor: "#dddddd"
+    borderTopColor: "#dddddd",
   },
   accessoryIconContainer: {
-    flexDirection: "row"
+    flexDirection: "row",
   },
   accessoryIcon: {
     flex: 0,
     alignItems: "center",
     justifyContent: "center",
-    paddingLeft: 10
+    paddingLeft: 10,
   },
   accessoryLabel: {
     flex: 1,
     fontWeight: "bold",
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
 });

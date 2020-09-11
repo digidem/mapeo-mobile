@@ -13,20 +13,21 @@ import type { SelectField } from "../../context/ConfigContext";
 
 type Props = {
   ...$Exact<QuestionProps>,
-  field: SelectField
+  field: SelectField,
 };
 
 type CheckItemProps = {
   checked: boolean,
   onPress: () => any,
   label: string,
-  style: Style<typeof View>
+  style: Style<typeof View>,
 };
 
 const CheckItem = ({ checked, onPress, label, style }: CheckItemProps) => (
   <TouchableNativeFeedback
     onPress={onPress}
-    background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}>
+    background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
+  >
     <View style={style}>
       <MaterialIcon
         name={checked ? "check-box" : "check-box-outline-blank"}
@@ -40,7 +41,7 @@ const CheckItem = ({ checked, onPress, label, style }: CheckItemProps) => (
 const SelectMultiple = ({
   value,
   field: { placeholder, label, options },
-  onChange
+  onChange,
 }: Props) => {
   const valueAsArray = toArray(value);
 
@@ -89,10 +90,10 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     marginHorizontal: 20,
     borderTopWidth: 1,
-    borderColor: "#F3F3F3"
+    borderColor: "#F3F3F3",
   },
   noBorder: {
-    borderTopWidth: 0
+    borderTopWidth: 0,
   },
   itemLabel: {
     fontSize: 18,
@@ -100,6 +101,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     flex: 1,
     color: "black",
-    fontWeight: "700"
-  }
+    fontWeight: "700",
+  },
 });

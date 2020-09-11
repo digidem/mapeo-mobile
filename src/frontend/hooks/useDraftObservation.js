@@ -8,7 +8,7 @@ import api from "../api";
 import {
   matchPreset,
   addFieldDefinitions,
-  filterPhotosFromAttachments
+  filterPhotosFromAttachments,
 } from "../lib/utils";
 import bugsnag from "../lib/logger";
 import type { Status } from "../types";
@@ -16,11 +16,11 @@ import type { Status } from "../types";
 import ConfigContext, { type PresetWithFields } from "../context/ConfigContext";
 import ObservationsContext, {
   type ObservationValue,
-  type ObservationAttachment
+  type ObservationAttachment,
 } from "../context/ObservationsContext";
 import DraftObservationContext, {
   type DraftObservationContextState,
-  type DraftPhoto
+  type DraftPhoto,
 } from "../context/DraftObservationContext";
 
 const log = debug("mapeo:useDraftObservation");
@@ -36,7 +36,7 @@ export type CapturePromise = Promise<{
   uri: string,
   width: number,
   height: number,
-  rotate?: number
+  rotate?: number,
 }>;
 
 export type UseDraftObservation = [
@@ -45,7 +45,7 @@ export type UseDraftObservation = [
     photos: $ElementType<DraftObservationContextState, "photos">,
     observationId: $ElementType<DraftObservationContextState, "observationId">,
     savingStatus: Status,
-    preset?: PresetWithFields
+    preset?: PresetWithFields,
   |},
   {|
     /**
@@ -65,7 +65,7 @@ export type UseDraftObservation = [
       id?: string,
       value?: ObservationValue | null,
       capture?: CapturePromise
-    ) => void
+    ) => void,
   |}
 ];
 
@@ -95,7 +95,7 @@ export default (): UseDraftObservation => {
       setDraft(draft => ({
         ...draft,
         photoPromises: [...draft.photoPromises, photoPromise],
-        photos: [...draft.photos, capturingPhoto]
+        photos: [...draft.photos, capturingPhoto],
       }));
 
       let photo;
@@ -127,8 +127,8 @@ export default (): UseDraftObservation => {
         // $FlowFixMe
         value: {
           ...draft.value,
-          ...value
-        }
+          ...value,
+        },
       }));
     },
     [setDraft]
@@ -152,7 +152,7 @@ export default (): UseDraftObservation => {
         // $FlowFixMe
         photos: value ? filterPhotosFromAttachments(value.attachments) : [],
         value: value,
-        observationId: id
+        observationId: id,
       });
 
       if (capture) addPhoto(capture);
@@ -165,7 +165,7 @@ export default (): UseDraftObservation => {
     setDraft({
       photoPromises: [],
       photos: [],
-      value: null
+      value: null,
     });
   }, [cancelPhotoProcessing, setDraft]);
 
@@ -226,7 +226,7 @@ export default (): UseDraftObservation => {
         ...draftValue,
         attachments: existingAttachments.concat(
           savedAttachments.map(addMimeType)
-        )
+        ),
       };
       if (existingObservation) {
         const updatedObservation = await api.updateObservation(
@@ -256,9 +256,9 @@ export default (): UseDraftObservation => {
       photos: draft.photos,
       observationId: draft.observationId,
       savingStatus: savingStatus,
-      preset: preset && addFieldDefinitions(preset, fields)
+      preset: preset && addFieldDefinitions(preset, fields),
     },
-    { addPhoto, updateDraft, newDraft, clearDraft, saveDraft }
+    { addPhoto, updateDraft, newDraft, clearDraft, saveDraft },
   ];
 };
 
@@ -304,7 +304,7 @@ async function processPhoto(
 function addMimeType(attachment: { id: string }): ObservationAttachment {
   return {
     ...attachment,
-    type: "image/jpeg"
+    type: "image/jpeg",
   };
 }
 

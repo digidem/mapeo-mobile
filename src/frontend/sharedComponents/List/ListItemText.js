@@ -7,27 +7,27 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     marginTop: 4,
-    marginBottom: 4
+    marginBottom: 4,
   },
   /* Styles applied to the `Typography` components if primary and secondary are set. */
   multiline: {
     marginTop: 6,
-    marginBottom: 6
+    marginBottom: 6,
   },
   /* Styles applied to the root element if `inset={true}`. */
   inset: {
-    paddingLeft: 56
+    paddingLeft: 56,
   },
   primary: {
     fontSize: 16,
     lineHeight: 1.5 * 16,
-    color: "rgba(0, 0, 0, 0.87)"
+    color: "rgba(0, 0, 0, 0.87)",
   },
   secondary: {
     fontSize: 14,
     lineHeight: 1.43 * 14,
-    color: "rgba(0, 0, 0, 0.54)"
-  }
+    color: "rgba(0, 0, 0, 0.54)",
+  },
 });
 
 const ListItemText = ({
@@ -42,9 +42,10 @@ const ListItemText = ({
       style={[
         styles.root,
         inset && styles.inset,
-        primary && secondary ? styles.multiline : undefined
+        primary && secondary ? styles.multiline : undefined,
       ]}
-      {...other}>
+      {...other}
+    >
       <Text style={styles.primary}>{primary}</Text>
       {secondary && <Text style={styles.secondary}>{secondary}</Text>}
     </View>
@@ -64,7 +65,7 @@ ListItemText.propTypes = {
   /**
    * The secondary content element.
    */
-  secondary: PropTypes.node
+  secondary: PropTypes.node,
 };
 
 export default ListItemText;

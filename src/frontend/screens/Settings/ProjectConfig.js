@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, Alert } from "react-native";
 // import { Picker as OriginalPicker } from "@react-native-community/picker";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import * as DocumentPicker from "expo-document-picker";
@@ -14,23 +14,41 @@ const m = defineMessages({
   configTitle: {
     id: "screens.ProjectConfig.title",
     defaultMessage: "Project Configuration",
-    description: "Title of project configuration screen"
+    description: "Title of project configuration screen",
   },
   currentConfig: {
     id: "screens.Settings.currentConfig",
     defaultMessage: "Current Configuration",
-    description: "Label for name & version of current configuration"
+    description: "Label for name & version of current configuration",
   },
   projectKey: {
     id: "screens.Settings.projectKey",
     defaultMessage: "Project Key",
-    description: "Label for project key"
+    description: "Label for project key",
   },
   unnamedConfig: {
     id: "screens.Settings.unnamedConfig",
     defaultMessage: "Un-named",
-    description: "Config name when do name is defined"
-  }
+    description: "Config name when do name is defined",
+  },
+  configErrorTitle: {
+    id: "screens.Settings.configErrorTitle",
+    defaultMessage: "Import Error",
+    description:
+      "Title of error dialog when there is an error importing a config file",
+  },
+  configErrorDescription: {
+    id: "screens.Settings.configErrorDescription",
+    defaultMessage: "There was an error trying to import this config file",
+    description:
+      "Description of error dialog when there is an error importing a config file",
+  },
+  configErrorOkButton: {
+    id: "screens.Settings.configErrorOkButton",
+    defaultMessage: "OK",
+    description:
+      "Button to dismiss error dialog when there is an error importing a config file",
+  },
 });
 
 // const Picker = ({ label, children, ...props }) => (
@@ -50,6 +68,14 @@ const ProjectConfig = () => {
   const { formatMessage: t } = useIntl();
   const [status, setStatus] = React.useState<Status>("idle");
   const [config, { replace: replaceConfig }] = React.useContext(ConfigContext);
+  const didError = config.status === "error";
+
+  React.useEffect(() => {
+    if (!didError) return;
+    Alert.alert(t(m.configErrorTitle), t(m.configErrorDescription), [
+      { text: t(m.configErrorOkButton) },
+    ]);
+  }, [didError, t]);
 
   const handleImportPress = React.useCallback(async () => {
     setStatus("loading");
@@ -91,7 +117,8 @@ const ProjectConfig = () => {
       <Button
         disabled={status === "loading" || config.status === "loading"}
         variant="outlined"
-        onPress={handleImportPress}>
+        onPress={handleImportPress}
+      >
         Import config
       </Button>
     </View>
@@ -103,7 +130,7 @@ ProjectConfig.navigationOptions = {
     <HeaderTitle>
       <FormattedMessage {...m.configTitle} />
     </HeaderTitle>
-  )
+  ),
 };
 
 export default ProjectConfig;
@@ -112,7 +139,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     paddingHorizontal: 15,
-    paddingVertical: 20
+    paddingVertical: 20,
   },
   // pickerWrapper: {
   //   marginBottom: 15
@@ -130,25 +157,25 @@ const styles = StyleSheet.create({
   // },
   configInfo: {
     marginBottom: 20,
-    position: "relative"
+    position: "relative",
   },
   centerText: {
-    textAlign: "center"
+    textAlign: "center",
   },
   configName: {
     fontWeight: "bold",
     color: "#444444",
     fontSize: 20,
-    marginBottom: 10
+    marginBottom: 10,
   },
   configVersion: {
-    fontWeight: "normal"
+    fontWeight: "normal",
   },
   projectKey: {
     fontSize: 16,
     color: "#444444",
     fontFamily: "monospace",
-    marginTop: 2
+    marginTop: 2,
   },
   loadingContainer: {
     position: "absolute",
@@ -157,6 +184,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: "rgba(255,255,255,0.9)",
     justifyContent: "center",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });

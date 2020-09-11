@@ -7,7 +7,7 @@ import type { Status } from "../types";
 
 export type ObservationAttachment = {
   id: string,
-  type?: string
+  type?: string,
 };
 
 export type ObservationValue = {
@@ -16,11 +16,11 @@ export type ObservationValue = {
   deviceId?: string,
   metadata?: {
     location?: LocationContextType | void,
-    manualLocation?: boolean
+    manualLocation?: boolean,
   },
   refs?: Array<{ id: string }>,
   attachments?: Array<ObservationAttachment>,
-  tags: { [string]: any }
+  tags: { [string]: any },
 };
 
 export type Observation = {
@@ -32,7 +32,7 @@ export type Observation = {
   type: "observation",
   links?: string[],
   schemaVersion: 4,
-  value: ObservationValue
+  value: ObservationValue,
 };
 
 export type ObservationsMap = Map<string, Observation>;
@@ -43,7 +43,7 @@ type State = {
   // Status intial load / reload of observations from the server
   status: Status,
   // Set to a new object in order to force a reload
-  reload?: {}
+  reload?: {},
 };
 
 type Action =
@@ -57,9 +57,9 @@ export type ObservationsContextType = [State, (action: Action) => void];
 const defaultContext = [
   {
     observations: new Map(),
-    status: "loading"
+    status: "loading",
   },
-  () => {}
+  () => {},
 ];
 
 const ObservationsContext = React.createContext<ObservationsContextType>(
@@ -87,7 +87,7 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         observations: new Map(action.value.map(obs => [obs.id, obs])),
-        status: "success"
+        status: "success",
       };
     default:
       return state;
@@ -95,9 +95,9 @@ function reducer(state: State, action: Action): State {
 }
 
 export const ObservationsProvider = ({
-  children
+  children,
 }: {
-  children: React.Node
+  children: React.Node,
 }) => {
   const [state, dispatch] = React.useReducer(reducer, defaultContext[0]);
   const contextValue = React.useMemo(() => [state, dispatch], [state]);

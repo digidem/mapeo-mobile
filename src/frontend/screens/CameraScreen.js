@@ -7,11 +7,11 @@ import { defineMessages, FormattedMessage } from "react-intl";
 
 import CameraView from "../sharedComponents/CameraView";
 import useDraftObservation, {
-  type CapturePromise
+  type CapturePromise,
 } from "../hooks/useDraftObservation";
 import PermissionsContext, {
   PERMISSIONS,
-  RESULTS
+  RESULTS,
 } from "../context/PermissionsContext";
 
 const m = defineMessages({
@@ -19,8 +19,8 @@ const m = defineMessages({
     id: "screens.CameraScreen.noCameraAccess",
     defaultMessage: "No access to camera",
     description:
-      "Error message shown when app does not have permissions to camera"
-  }
+      "Error message shown when app does not have permissions to camera",
+  },
 });
 
 const log = debug("mapeo:CameraScreen");
@@ -58,6 +58,6 @@ export default CameraScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black"
-  }
+    backgroundColor: "black",
+  },
 });

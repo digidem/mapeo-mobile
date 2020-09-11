@@ -13,23 +13,23 @@ const m = defineMessages({
   notFound: {
     id: "screens.Observation.notFound",
     defaultMessage: "Observation not found",
-    description: "Message shown when an observation is not found"
+    description: "Message shown when an observation is not found",
   },
   deleteTitle: {
     id: "screens.Observation.deleteTitle",
     defaultMessage: "Delete observation?",
-    description: "Title of dialog asking confirmation to delete an observation"
+    description: "Title of dialog asking confirmation to delete an observation",
   },
   cancel: {
     id: "screens.Observation.cancel",
     defaultMessage: "Cancel",
-    description: "Button to cancel delete of observation"
+    description: "Button to cancel delete of observation",
   },
   confirm: {
     id: "screens.Observation.confirm",
     defaultMessage: "Yes, delete",
-    description: "Button to confirm delete of observation"
-  }
+    description: "Button to confirm delete of observation",
+  },
 });
 
 // TODO: Add a better message for the user.
@@ -44,7 +44,7 @@ const ObservationNotFound = () => (
 );
 
 type Props = {
-  navigation: NavigationProp
+  navigation: NavigationProp,
 };
 
 const Observation = ({ navigation }: Props) => {
@@ -54,13 +54,13 @@ const Observation = ({ navigation }: Props) => {
   const [
     // TODO: handle loadingStatus and deletingStatus state
     { observation, preset },
-    deleteObservation
+    deleteObservation,
   ] = useObservation(observationId);
 
   function handlePressPhoto(photoIndex: number) {
     navigation.navigate("PhotosModal", {
       photoIndex: photoIndex,
-      observationId: navigation.getParam("observationId")
+      observationId: navigation.getParam("observationId"),
     });
   }
 
@@ -68,15 +68,15 @@ const Observation = ({ navigation }: Props) => {
     Alert.alert(t(m.deleteTitle), undefined, [
       {
         text: t(m.cancel),
-        onPress: () => {}
+        onPress: () => {},
       },
       {
         text: t(m.confirm),
         onPress: () => {
           deleteObservation();
           navigation.pop();
-        }
-      }
+        },
+      },
     ]);
   }
 
@@ -93,11 +93,11 @@ const Observation = ({ navigation }: Props) => {
 };
 
 Observation.navigationOptions = ({
-  navigation
+  navigation,
 }: {
-  navigation: NavigationProp
+  navigation: NavigationProp,
 }) => ({
-  headerRight: () => <ObservationHeaderRight navigation={navigation} />
+  headerRight: () => <ObservationHeaderRight navigation={navigation} />,
 });
 
 export default Observation;

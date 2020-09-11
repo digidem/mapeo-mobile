@@ -17,19 +17,19 @@ type PermissionType =
   | "android.permission.ACCESS_COARSE_LOCATION";
 
 export type PermissionsType = {|
-  [PermissionType]: PermissionResult
+  [PermissionType]: PermissionResult,
 |};
 
 export const RESULTS: { [string]: PermissionResult } = {
   GRANTED: "granted",
   DENIED: "denied",
-  NEVER_ASK_AGAIN: "never_ask_again"
+  NEVER_ASK_AGAIN: "never_ask_again",
 };
 
 export const PERMISSIONS: { [string]: PermissionType } = {
   CAMERA: "android.permission.CAMERA",
   ACCESS_FINE_LOCATION: "android.permission.ACCESS_FINE_LOCATION",
-  ACCESS_COARSE_LOCATION: "android.permission.ACCESS_COARSE_LOCATION"
+  ACCESS_COARSE_LOCATION: "android.permission.ACCESS_COARSE_LOCATION",
 };
 
 type RequestPermissions = (type: PermissionType | PermissionType[]) => any;
@@ -39,11 +39,11 @@ type PermissionsContextType = {|
   requestPermissions: RequestPermissions,
   // An object map of permissions and the current status, which can be "granted"
   // | "denied" | "never_ask_again"
-  permissions: PermissionsType
+  permissions: PermissionsType,
 |};
 
 type Props = {
-  children: React.Node
+  children: React.Node,
 };
 
 // $FlowFixMe
@@ -58,7 +58,7 @@ const initialPermissions: PermissionsType = Object.values(PERMISSIONS).reduce(
 
 const PermissionsContext = React.createContext<PermissionsContextType>({
   requestPermissions: () => {},
-  permissions: initialPermissions
+  permissions: initialPermissions,
 });
 
 /**
@@ -71,7 +71,7 @@ export class PermissionsProvider extends React.Component<
 > {
   state = {
     requestPermissions: this.requestPermissions.bind(this),
-    permissions: initialPermissions
+    permissions: initialPermissions,
   };
 
   async requestPermissions(permissions: PermissionType | PermissionType[]) {
@@ -83,8 +83,8 @@ export class PermissionsProvider extends React.Component<
     this.setState({
       permissions: {
         ...this.state.permissions,
-        ...status
-      }
+        ...status,
+      },
     });
   }
 

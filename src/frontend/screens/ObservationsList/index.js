@@ -15,8 +15,8 @@ const m = defineMessages({
   observationListTitle: {
     id: "screens.ObservationList.observationListTitle",
     defaultMessage: "Observations",
-    description: "Title of screen with list of observations"
-  }
+    description: "Title of screen with list of observations",
+  },
 });
 
 const ObservationsList = ({ navigation }: NavigationScreenConfigProps) => {
@@ -51,7 +51,7 @@ ObservationsList.navigationOptions = {
       <FormattedMessage {...m.observationListTitle} />
     </HeaderTitle>
   ),
-  headerRight: () => <SettingsButton />
+  headerRight: () => <SettingsButton />,
 };
 
 export default ObservationsList;

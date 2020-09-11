@@ -5,12 +5,11 @@ import ky from "ky";
 import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
 import debug from "debug";
-import BuildConfig from "react-native-build-config";
 
 import type { Preset, Field, Metadata } from "./context/ConfigContext";
 import type {
   Observation,
-  ObservationValue
+  ObservationValue,
 } from "./context/ObservationsContext";
 import { promiseTimeout } from "./lib/utils";
 import bugsnag from "./lib/logger";
@@ -25,7 +24,7 @@ export type ServerStatus = $Keys<typeof STATUS>;
 export type ServerStatusMessage = {|
   value: ServerStatus,
   error?: string,
-  context?: string
+  context?: string,
 |};
 export type Subscription = { remove: () => any };
 
@@ -33,21 +32,21 @@ export type PeerError =
   | {|
       topic: "replication-error",
       message: string,
-      lastCompletedDate?: number
+      lastCompletedDate?: number,
     |}
   | {
       topic: "replication-error",
       message: string,
       code: "ERR_VERSION_MISMATCH",
       usVersion: string,
-      themVersion: string
+      themVersion: string,
     }
   | {
       topic: "replication-error",
       message: string,
       code: "ERR_CLIENT_MISMATCH",
       usClient: string,
-      themClient: string
+      themClient: string,
     };
 
 export type ServerPeer = {
@@ -59,30 +58,31 @@ export type ServerPeer = {
   port: number,
   // Whether device is desktop or mobile
   deviceType: "desktop" | "mobile",
+  connected: boolean,
   state?:
     | {|
         topic: "replication-progress",
         message: {|
           db: {| sofar: number, total: number |},
-          media: {| sofar: number, total: number |}
+          media: {| sofar: number, total: number |},
         |},
-        lastCompletedDate?: number
+        lastCompletedDate?: number,
       |}
     | {|
         topic: "replication-wifi-ready",
-        lastCompletedDate?: number
+        lastCompletedDate?: number,
       |}
     | {|
         topic: "replication-complete",
         // The time of completed sync in milliseconds since UNIX Epoch
         message: number,
-        lastCompletedDate?: number
+        lastCompletedDate?: number,
       |}
     | PeerError
     | {|
         topic: "replication-started",
-        lastCompletedDate?: number
-      |}
+        lastCompletedDate?: number,
+      |},
 };
 
 type PeerHandler = (peerList: Array<ServerPeer>) => any;
@@ -102,10 +102,10 @@ const pixelRatio = PixelRatio.get();
 
 export function Api({
   baseUrl,
-  timeout = DEFAULT_TIMEOUT
+  timeout = DEFAULT_TIMEOUT,
 }: {
   baseUrl: string,
-  timeout?: number
+  timeout?: number,
 }) {
   let status: ServerStatus = STATUS.IDLE;
   let timeoutId: TimeoutID;
@@ -122,8 +122,8 @@ export function Api({
     timeout: false,
     headers: {
       "cache-control": "no-cache",
-      pragma: "no-cache"
-    }
+      pragma: "no-cache",
+    },
   });
 
   const pending: Array<{ resolve: () => any, reject: Error => any }> = [];
@@ -213,7 +213,6 @@ export function Api({
         // other config that the server requires
         nodejs.channel.post("config", {
           storagePath: RNFS.ExternalDirectoryPath,
-          flavor: BuildConfig.FLAVOR
         });
         // Resolve once the server reports status as "LISTENING"
         return onReady();
@@ -245,7 +244,7 @@ export function Api({
     ): Subscription {
       listeners.push(handler);
       return {
-        remove: () => (listeners = listeners.filter(h => h !== handler))
+        remove: () => (listeners = listeners.filter(h => h !== handler)),
       };
     },
 
@@ -254,19 +253,19 @@ export function Api({
      */
 
     getPresets: function getPresets(): Promise<Preset[]> {
-      return get(`presets/default/presets.json?${startupTime}`).then(data =>
+      return get(`presets/default/presets.json?${Date.now()}`).then(data =>
         mapToArray(data.presets)
       );
     },
 
     getFields: function getFields(): Promise<Field[]> {
-      return get(`presets/default/presets.json?${startupTime}`).then(data =>
+      return get(`presets/default/presets.json?${Date.now()}`).then(data =>
         mapToArray(data.fields)
       );
     },
 
     getMetadata: function getMetadata(): Promise<Metadata> {
-      return get(`presets/default/metadata.json?${startupTime}`).then(
+      return get(`presets/default/metadata.json?${Date.now()}`).then(
         data => data || {}
       );
     },
@@ -300,7 +299,7 @@ export function Api({
     savePhoto: function savePhoto({
       originalUri,
       previewUri,
-      thumbnailUri
+      thumbnailUri,
     }: DraftPhoto): Promise<{| id: string |}> {
       if (!originalUri || !previewUri || !thumbnailUri)
         return Promise.reject(
@@ -309,7 +308,7 @@ export function Api({
       const data = {
         original: convertFileUriToPosixPath(originalUri),
         preview: convertFileUriToPosixPath(previewUri),
-        thumbnail: convertFileUriToPosixPath(thumbnailUri)
+        thumbnail: convertFileUriToPosixPath(thumbnailUri),
       };
       const createPromise = post("media", data);
       // After images have saved to the server we can delete the versions in
@@ -328,7 +327,7 @@ export function Api({
       value: ObservationValue,
       options: {|
         links: Array<string>,
-        userId?: $ElementType<ServerObservation, "userId">
+        userId?: $ElementType<ServerObservation, "userId">,
       |}
     ): Promise<Observation> {
       const valueForServer = {
@@ -340,7 +339,7 @@ export function Api({
         userId: options.userId,
         type: "observation",
         schemaVersion: 3,
-        id
+        id,
       };
       return put(
         `observations/${id}`,
@@ -356,7 +355,7 @@ export function Api({
       const valueForServer = {
         ...value,
         type: "observation",
-        schemaVersion: 3
+        schemaVersion: 3,
       };
       return post(
         "observations",
@@ -405,7 +404,7 @@ export function Api({
       nodejs.channel.addListener("peer-update", handler);
       api.syncGetPeers().then(handler);
       return {
-        remove: () => nodejs.channel.removeListener("peer-update", handler)
+        remove: () => nodejs.channel.removeListener("peer-update", handler),
       };
     },
 
@@ -473,7 +472,7 @@ export function Api({
     // Return the url to a map style
     getMapStyleUrl: function getMapStyleUrl(id: string): string {
       return `${BASE_URL}styles/${id}/style.json?${startupTime}`;
-    }
+    },
   };
 
   return api;
@@ -484,7 +483,7 @@ export default Api({ baseUrl: BASE_URL });
 function mapToArray<T>(map: { [string]: T }): Array<T> {
   return Object.keys(map).map(id => ({
     ...map[id],
-    id: id
+    id: id,
   }));
 }
 
@@ -513,8 +512,8 @@ function convertFromServer(obs: ServerObservation): Observation {
     metadata,
     value: {
       ...value,
-      tags: (value || {}).tags || {}
-    }
+      tags: (value || {}).tags || {},
+    },
   };
 }
 

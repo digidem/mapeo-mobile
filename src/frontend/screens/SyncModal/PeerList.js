@@ -9,7 +9,7 @@ import {
   LaptopIcon,
   SyncIcon,
   DoneIcon,
-  ErrorIcon
+  ErrorIcon,
 } from "../../sharedComponents/icons";
 import Progress from "../../sharedComponents/icons/Progress";
 import DateDistance from "../../sharedComponents/DateDistance";
@@ -20,41 +20,52 @@ const m = defineMessages({
   syncButton: {
     id: "screens.SyncModal.PeerList.syncButton",
     defaultMessage: "Sync",
-    description: "Button label for sync button"
+    description: "Button label for sync button",
   },
   errorButton: {
     id: "screens.SyncModal.PeerList.errorButton",
     defaultMessage: "Error",
-    description: "Button label when there is an error"
+    description: "Button label when there is an error",
   },
   completeButton: {
     id: "screens.SyncModal.PeerList.completeButton",
     defaultMessage: "Complete",
-    description: "Button label when complete"
+    description: "Button label when complete",
+  },
+  disconnectedButton: {
+    id: "screens.SyncModal.PeerList.disconnectedButton",
+    defaultMessage: "Disconnected",
+    description: "Button label when disconnected",
+  },
+  finishingButton: {
+    id: "screens.SyncModal.PeerList.finishingButton",
+    defaultMessage: "...",
+    description:
+      "Button label when finishing sync but don't have correct progress",
   },
   syncLabel: {
     id: "screens.SyncModal.PeerList.syncLabel",
     defaultMessage: "Synced:",
-    description: "Label for last sync datetime"
+    description: "Label for last sync datetime",
   },
   errorTheyNeedUgrade: {
     id: "screens.SyncModal.PeerList.errorTheyNeedUgrade",
     defaultMessage: "Incompatible Mapeo",
     description:
-      "Short message shown under device in sync screen when it is running an incompatible version of Mapeo"
+      "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
   },
   errorWeNeedUgrade: {
     id: "screens.SyncModal.PeerList.errorTheyNeedUgrade",
     defaultMessage: "Incompatible Mapeo",
     description:
-      "Short message shown under device in sync screen when it is running an incompatible version of Mapeo"
+      "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
   },
   errorClientMismatch: {
     id: "screens.SyncModal.PeerList.errorClientMismatch",
     defaultMessage: "Not a Mapeo client",
     description:
-      "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client"
-  }
+      "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
+  },
 });
 
 type PeerStatus = {|
@@ -65,7 +76,7 @@ type PeerStatus = {|
   // An error occurred during sync
   ERROR: "ERROR",
   // Synchronization is complete
-  COMPLETE: "COMPLETE"
+  COMPLETE: "COMPLETE",
 |};
 
 export type Peer = {|
@@ -80,18 +91,27 @@ export type Peer = {|
   // The time of last completed sync in milliseconds since UNIX Epoch
   lastCompleted?: number,
   error?: PeerError,
-  deviceType?: "mobile" | "desktop"
+  deviceType?: "mobile" | "desktop",
+  connected: boolean,
 |};
 
 export const peerStatus: PeerStatus = {
   READY: "READY",
   PROGRESS: "PROGRESS",
   ERROR: "ERROR",
-  COMPLETE: "COMPLETE"
+  COMPLETE: "COMPLETE",
 };
 
-const SyncButton = ({ progress, onPress, status }) => {
+const SyncButton = ({ progress, onPress, status, connected }) => {
   const { formatMessage: t } = useIntl();
+  const [pressed, setPressed] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!pressed) return;
+    if (status === peerStatus.READY) return;
+    setPressed(false);
+  }, [pressed, status]);
+
   let style;
   let text;
   let icon;
@@ -101,30 +121,52 @@ const SyncButton = ({ progress, onPress, status }) => {
       text = t(m.syncButton);
       icon = <SyncIcon />;
       break;
-    case peerStatus.PROGRESS:
-      style = styles.syncButtonProgress;
-      text = ((progress || 0) * 100).toFixed(0) + "%";
-      icon = (
-        <View style={styles.progressBackground}>
-          <Progress progress={progress} size={25} color="white" />
-        </View>
-      );
+    case peerStatus.COMPLETE:
+      style = connected ? styles.syncButtonDone : styles.syncButtonDisconnected;
+      text = t(m.completeButton);
+      icon = <DoneIcon />;
       break;
     case peerStatus.ERROR:
       style = styles.syncButtonError;
       text = t(m.errorButton);
       icon = <ErrorIcon color="red" />;
-      break;
-    case peerStatus.COMPLETE:
-      style = styles.syncButtonDone;
-      text = t(m.completeButton);
-      icon = <DoneIcon />;
   }
+
+  if (!connected && status !== peerStatus.COMPLETE) {
+    style = styles.syncButtonDisconnected;
+    text = t(m.disconnectedButton);
+    icon = <ErrorIcon color="yellow" />;
+  }
+
+  if (pressed || status === peerStatus.PROGRESS) {
+    style = styles.syncButtonProgress;
+    text =
+      progress === 1
+        ? t(m.finishingButton)
+        : ((progress || 0) * 100).toFixed(0) + "%";
+    icon = (
+      <View style={styles.progressBackground}>
+        <Progress progress={progress} size={25} color="white" />
+      </View>
+    );
+  }
+
+  const handlePress = () => {
+    // It takes a while for the server to respond with an updated peer state,
+    // but we want to show an immediate change in the UI when the user presses
+    // the button
+    setPressed(true);
+    onPress();
+  };
+
   return (
     <TouchableNativeFeedback
       style={styles.syncTouchable}
-      onPress={status === peerStatus.ERROR ? undefined : onPress}
-      hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}>
+      onPress={
+        !connected || status === peerStatus.PROGRESS ? undefined : handlePress
+      }
+      hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}
+    >
       <View style={[styles.syncButtonBase, style]}>
         <View style={styles.iconContainer}>{icon}</View>
         <Text numberOfLines={1} style={styles.buttonText}>
@@ -145,14 +187,15 @@ export const PeerItem = ({
   id,
   name,
   status,
+  connected,
   progress,
   error,
   lastCompleted,
   onSyncPress,
-  deviceType
+  deviceType,
 }: {
   ...$Exact<Peer>,
-  onSyncPress: (id: string) => any
+  onSyncPress: (id: string) => any,
 }) => {
   const { formatMessage: t } = useIntl();
 
@@ -197,6 +240,7 @@ export const PeerItem = ({
         {peerInfo}
       </View>
       <SyncButton
+        connected={connected}
         status={status}
         progress={progress}
         onPress={() => onSyncPress(id)}
@@ -209,10 +253,10 @@ const PeerItemMemoized = React.memo(PeerItem);
 
 const PeerList = ({
   peers,
-  onSyncPress
+  onSyncPress,
 }: {
   peers: Array<Peer>,
-  onSyncPress: (id: string) => any
+  onSyncPress: (id: string) => any,
 }) => (
   <ScrollView style={styles.container}>
     {peers.map(peer => (
@@ -231,27 +275,27 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     paddingRight: 15,
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   sectionTitle: {
     fontWeight: "700",
     color: "white",
-    fontSize: 22
+    fontSize: 22,
   },
   rowValue: {
     fontWeight: "400",
     color: "white",
-    marginTop: 5
+    marginTop: 5,
   },
   container: {
-    backgroundColor: "#2348B2"
+    backgroundColor: "#2348B2",
   },
   peerIcon: {
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   itemInfo: { flexDirection: "column", flex: 1, marginRight: 10 },
   syncTouchable: {
-    borderRadius: 10
+    borderRadius: 10,
   },
   syncButtonBase: {
     width: 100,
@@ -260,38 +304,43 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    paddingHorizontal: 6
+    paddingHorizontal: 6,
   },
   syncButtonReady: {
     borderWidth: 1,
     borderColor: "white",
-    backgroundColor: "#2348B2"
+    backgroundColor: "#2348B2",
   },
   syncButtonProgress: {
     borderWidth: 0,
-    backgroundColor: "#3366FF"
+    backgroundColor: "#3366FF",
   },
   syncButtonDone: {
     borderWidth: 0,
-    backgroundColor: "#19337F"
+    backgroundColor: "#19337F",
   },
   syncButtonError: {
     borderWidth: 1,
     borderColor: "red",
-    backgroundColor: "#2348B2"
+    backgroundColor: "#2348B2",
+  },
+  syncButtonDisconnected: {
+    borderWidth: 1,
+    borderColor: "transparent",
+    backgroundColor: "#2348B2",
   },
   iconContainer: {
     width: 30,
     height: 30,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   buttonText: {
     flex: 1,
     color: "white",
     fontWeight: "500",
     fontSize: 16,
-    textAlign: "center"
+    textAlign: "center",
   },
   progressBackground: {
     width: 30,
@@ -299,6 +348,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: "#264CBF",
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });

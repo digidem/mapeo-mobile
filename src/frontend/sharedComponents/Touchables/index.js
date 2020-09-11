@@ -2,5 +2,5 @@ export {
   Touchable,
   TouchableHighlight,
   TouchableNativeFeedback,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native-gesture-handler";

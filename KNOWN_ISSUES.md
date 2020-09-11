@@ -2,15 +2,19 @@
 
 #### Map
 
-- Sometimes existing observations do not appear on the map
+- If there is no offline style and the device is offline, an empty white screen shows [#379](https://github.com/digidem/mapeo-mobile/issues/379)
 - If you open the app without an offline style, and then add a default offline
   style, the offline style may not appear until 5 minutes later on some phones
   (caching issues)
-- Map "my location" blue dot sometimes appears behind observations
+- Map "my location" blue dot sometimes appears behind observations [#432](https://github.com/digidem/mapeo-mobile/issues/432)
 - Transparent circle around "my location" blue dot does not actually signify GPS
-  accuracy.
-- Pressing the "locate me" button moves the map to your location without
-  animation (sudden jump)
+  accuracy. [#433](https://github.com/digidem/mapeo-mobile/issues/433)
+- GPS pill in header somtimes does not update correctly (it shows "no gps" when there is, in fact, GPS) [#378](https://github.com/digidem/mapeo-mobile/issues/378)
+
+#### Observation view
+
+- There is no explanation of what the blue "lightning bolt" means or why you cannot edit an observation [#382](https://github.com/digidem/mapeo-mobile/issues/382)
+- Sharing an observation does not work consistently when sharing with different apps [#380](https://github.com/digidem/mapeo-mobile/issues/380)
 
 #### New/Edit Observation
 
@@ -19,19 +23,13 @@
 - There is no way to stop the location of a new observation updating from the
   GPS except from saving the observation (e.g. the user needs to stay in the
   same location until they save the observation for the first time)
-- Confirmation does not show up when pressing the back button (only when
-  pressing the close icon)
-
-#### Edit Observation
-
-- There is no way to delete an existing observation
-- No confirmation shown when cancelling edit
+- In the "Details" questions, there is no way to exit without clicking through every question to the end [#383](https://github.com/digidem/mapeo-mobile/issues/383)
+- Cancelling an edit should show "discard edits" not "discard observation" [#381](https://github.com/digidem/mapeo-mobile/issues/381)
 
 #### Photos
 
-- Sometimes photos stop working (you will see a grey box then error). You may
-  need to restart the app for them to work again.
-- There is no way to delete / remove a photo from an observation
+- Sometimes photos will not rotate on a device with low memory [#353](https://github.com/digidem/mapeo-mobile/issues/353)
+- There is no way to delete / remove a photo from an observation [#384](https://github.com/digidem/mapeo-mobile/issues/384)
 
 #### Sync
 
@@ -40,12 +38,6 @@
   reliable)
 - Device name is random (user cannot change it)
 
-#### I8n (translations)
-
-- No English translation, only in Spanish
-
 #### Misc
 
-- It is not possible to have different versions of Mapeo open on the
-  phone at the same time. You need to force-quit other versions before opening
-  another
+- Switching quickly between two different installations of Mapeo on the same phone can cause an error. [#434](https://github.com/digidem/mapeo-mobile/issues/434)

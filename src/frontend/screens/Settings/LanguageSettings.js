@@ -11,8 +11,8 @@ const m = defineMessages({
   title: {
     id: "screens.LanguageSettings.title",
     defaultMessage: "Language",
-    description: "Title language settings screen"
-  }
+    description: "Title language settings screen",
+  },
 });
 
 const LanguageSettings = () => {
@@ -22,7 +22,7 @@ const LanguageSettings = () => {
     ({ locale, nativeName, englishName }) => ({
       value: locale,
       label: nativeName,
-      hint: englishName
+      hint: englishName,
     })
   );
 
@@ -42,7 +42,7 @@ LanguageSettings.navigationOptions = {
     <HeaderTitle>
       <FormattedMessage {...m.title} />
     </HeaderTitle>
-  )
+  ),
 };
 
 export default LanguageSettings;

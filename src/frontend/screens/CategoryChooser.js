@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Dimensions,
   FlatList,
-  Text
+  Text,
 } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
 
@@ -21,8 +21,8 @@ const m = defineMessages({
   categoryTitle: {
     id: "screens.CategoryChooser.categoryTitle",
     defaultMessage: "Choose what is happening",
-    description: "Title for category chooser screen"
-  }
+    description: "Title for category chooser screen",
+  },
 });
 
 const ROW_HEIGHT = 120;
@@ -32,7 +32,7 @@ const MIN_COL_WIDTH = 100;
 const getItemLayout = (data, index) => ({
   length: ROW_HEIGHT,
   offset: ROW_HEIGHT * index,
-  index
+  index,
 });
 
 const keyExtractor = item => item.id;
@@ -40,16 +40,17 @@ const keyExtractor = item => item.id;
 const Item = React.memo(
   ({
     item,
-    onSelect
+    onSelect,
   }: {
     item: Preset,
-    onSelect: (preset: Preset) => void
+    onSelect: (preset: Preset) => void,
   }) => (
     <TouchableHighlight
       style={styles.cellTouchable}
       onPress={() => onSelect(item)}
       activeOpacity={1}
-      underlayColor="#000033">
+      underlayColor="#000033"
+    >
       <View style={styles.cellContainer}>
         <CategoryCircleIcon iconId={item.icon} size="medium" />
         <Text numberOfLines={3} style={styles.categoryName}>
@@ -74,8 +75,8 @@ const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
     updateDraft({
       tags: {
         ...(draftValue || {}).tags,
-        categoryId: preset.id
-      }
+        categoryId: preset.id,
+      },
     });
     navigation.navigate("ObservationEdit");
   };
@@ -112,7 +113,7 @@ CategoryChooser.navigationOptions = {
     <HeaderTitle>
       <FormattedMessage {...m.categoryTitle} />
     </HeaderTitle>
-  )
+  ),
 };
 
 export default CategoryChooser;
@@ -143,13 +144,13 @@ function compareStrings(a = "", b = "") {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 5,
-    flex: 1
+    flex: 1,
   },
   cellTouchable: {
     flex: 1,
     height: ROW_HEIGHT,
     marginBottom: 5,
-    borderRadius: 10
+    borderRadius: 10,
   },
   cellContainer: {
     flex: 1,
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "transparent",
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   categoryName: {
     color: "black",
@@ -167,6 +168,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 5,
     paddingLeft: 5,
-    paddingRight: 5
-  }
+    paddingRight: 5,
+  },
 });

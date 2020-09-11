@@ -12,15 +12,15 @@ const m = defineMessages({
     id: "screens.ObservationsList.loading",
     defaultMessage:
       "Loading… this can take a while after synchronizing with a new device",
-    description: "message shown whilst observations are loading"
+    description: "message shown whilst observations are loading",
   },
   error: {
     id: "screens.ObservationsList.error",
     defaultMessage:
       "Error loading observations. Try quitting and restarting Mapeo.",
     description:
-      "message shown when there is an unexpected error when loading observations"
-  }
+      "message shown when there is an unexpected error when loading observations",
+  },
 });
 
 const OBSERVATION_CELL_HEIGHT = 80;
@@ -28,7 +28,7 @@ const OBSERVATION_CELL_HEIGHT = 80;
 const getItemLayout = (data, index) => ({
   length: OBSERVATION_CELL_HEIGHT,
   offset: OBSERVATION_CELL_HEIGHT * index,
-  index
+  index,
 });
 
 const keyExtractor = item => item.id.toString();
@@ -39,7 +39,7 @@ type Props = {
   // Array of observations
   observations: Observation[],
   // Called when the user presses a list item, called with observation id
-  onPressObservation: (id: string) => any
+  onPressObservation: (id: string) => any,
 };
 
 /**
@@ -49,7 +49,7 @@ const ObservationsListView = ({
   loading,
   error,
   observations,
-  onPressObservation
+  onPressObservation,
 }: Props) => {
   const navigation = useNavigation();
   const rowsPerWindow = Math.ceil(
@@ -114,20 +114,20 @@ export default ObservationsListView;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   messageContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   listItem: {
-    height: OBSERVATION_CELL_HEIGHT
+    height: OBSERVATION_CELL_HEIGHT,
   },
   scrollViewContent: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "flex-start"
-  }
+    justifyContent: "flex-start",
+  },
 });

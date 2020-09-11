@@ -19,7 +19,7 @@ const captureQuality = 75;
 const captureOptions = {
   base64: false,
   exif: true,
-  skipProcessing: true
+  skipProcessing: true,
 };
 
 type CameraType = "front" | "back";
@@ -27,7 +27,7 @@ type CameraType = "front" | "back";
 type Props = {
   // Called when the user takes a picture, with a promise that resolves to an
   // object with the property `uri` for the captured (and rotated) photo.
-  onAddPress: (e: any, capture: CapturePromise) => void
+  onAddPress: (e: any, capture: CapturePromise) => void,
 };
 
 type Acceleration = { x: number, y: number, z: number };
@@ -66,13 +66,15 @@ const CameraView = ({ onAddPress }: Props) => {
   const handleAddPress = React.useCallback(
     (e: any) => {
       const camera = ref.current;
+      // We need to record this at the moment the button was pressed
+      const currentAcc = acceleration.current;
       if (!camera)
         return bugsnag.leaveBreadcrumb("Camera view not ready", {
-          type: "process"
+          type: "process",
         });
       if (capturing)
         return bugsnag.leaveBreadcrumb("Shutter pressed twice", {
-          type: "process"
+          type: "process",
         });
       bugsnag.leaveBreadcrumb("Start photo capture", { type: "process" });
 
@@ -83,7 +85,7 @@ const CameraView = ({ onAddPress }: Props) => {
       );
       const capture = initialCapture.then(data => {
         bugsnag.leaveBreadcrumb("Initial capture", { type: "process" });
-        return rotatePhoto(acceleration.current)(data);
+        return rotatePhoto(currentAcc)(data);
       });
 
       // Wait until we have taken the image before navigating away (but rotation
@@ -123,7 +125,7 @@ export default CameraView;
 // Rotate the photo to match device orientation
 function rotatePhoto(acc?: Acceleration) {
   const rotation = getPhotoRotation(acc);
-  return function({ uri, exif, width, height }) {
+  return function ({ uri, exif, width, height }) {
     const originalUri = uri;
     let resizedUri;
     const resizePromise = ImageResizer.createResizedImage(
@@ -194,6 +196,6 @@ function getPhotoRotation(acc?: Acceleration) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black"
-  }
+    backgroundColor: "black",
+  },
 });

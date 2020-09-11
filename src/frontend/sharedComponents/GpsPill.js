@@ -12,12 +12,12 @@ import type { LocationStatus } from "../lib/utils";
 const m = defineMessages({
   noGps: {
     id: "sharedComponents.GpsPill.noGps",
-    defaultMessage: "No GPS"
+    defaultMessage: "No GPS",
   },
   searching: {
     id: "sharedComponents.GpsPill.searching",
-    defaultMessage: "Searching…"
-  }
+    defaultMessage: "Searching…",
+  },
 });
 
 const ERROR_COLOR = "#FF0000";
@@ -25,7 +25,7 @@ const ERROR_COLOR = "#FF0000";
 type Props = {
   onPress: null | (() => void),
   precision?: number,
-  variant: LocationStatus
+  variant: LocationStatus,
 };
 
 export const GpsPill = React.memo<Props>(
@@ -42,8 +42,9 @@ export const GpsPill = React.memo<Props>(
         <View
           style={[
             styles.container,
-            variant === "error" ? styles.error : undefined
-          ]}>
+            variant === "error" ? styles.error : undefined,
+          ]}
+        >
           <View style={styles.icon}>
             {isFocused && <GpsIcon variant={variant} />}
           </View>
@@ -88,16 +89,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   error: {
-    backgroundColor: ERROR_COLOR
+    backgroundColor: ERROR_COLOR,
   },
   text: {
-    color: "white"
+    color: "white",
   },
   icon: {
     position: "absolute",
-    left: 6
-  }
+    left: 6,
+  },
 });

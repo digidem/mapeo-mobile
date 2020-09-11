@@ -9,9 +9,9 @@ type Props = {
   children: ({
     longitude?: number | null,
     latitude?: number | null,
-    accuracy?: number
+    accuracy?: number,
   }) => React.Node,
-  locked: boolean
+  locked: boolean,
 };
 
 /**
@@ -45,8 +45,8 @@ const LocationField = ({ children }: Props) => {
         lat: location.position.coords.latitude,
         metadata: {
           ...value.metadata,
-          location: omit(location, "savedPosition")
-        }
+          location: omit(location, "savedPosition"),
+        },
       });
   }, [location, updateDraft, value]);
 
@@ -59,7 +59,7 @@ const LocationField = ({ children }: Props) => {
       value.metadata &&
       value.metadata.location &&
       value.metadata.location.position &&
-      value.metadata.location.position.coords.accuracy
+      value.metadata.location.position.coords.accuracy,
   });
 };
 

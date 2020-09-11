@@ -8,7 +8,7 @@ import type { Style } from "../types";
 
 type Props = {
   date: Date,
-  style?: Style<typeof Text>
+  style?: Style<typeof Text>,
 };
 
 // We use relative dates for anything within the last 7 days, and then absolute

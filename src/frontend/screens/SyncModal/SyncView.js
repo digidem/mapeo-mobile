@@ -14,40 +14,40 @@ const m = defineMessages({
   wifi: {
     id: "screens.SyncModal.SyncView.wifi",
     defaultMessage: "WiFi:",
-    description: "Label for wifi network name"
+    description: "Label for wifi network name",
   },
   noWifiTitle: {
     id: "screens.SyncModal.SyncView.noWifiTitle",
     defaultMessage: "No WiFi",
-    description: "Title of message shown when no wifi network"
+    description: "Title of message shown when no wifi network",
   },
   noWifiDesc: {
     id: "screens.SyncModal.SyncView.noWifiDesc",
     description: "Description shown when no wifi network",
     defaultMessage:
-      "Open your phone settins and connect to a WiFi network to synchronize"
+      "Open your phone settins and connect to a WiFi network to synchronize",
   },
   settingsButton: {
     id: "screens.SyncModal.SyncView.settingsButton",
     description: "Button to open WiFi settings",
-    defaultMessage: "Open Settings"
+    defaultMessage: "Open Settings",
   },
   searchingTitle: {
     id: "screens.SyncModal.SyncView.searchingTitle",
     defaultMessage: "Searching",
-    description: "Title of message shown while looking for sync peers"
+    description: "Title of message shown while looking for sync peers",
   },
   searchingDesc: {
     id: "screens.SyncModal.SyncView.searchingDesc",
     description: "Description shown whilst searcing for sync peers",
     defaultMessage:
-      "Ensure that other devices are turned on and connected to the same WiFi network"
+      "Ensure that other devices are turned on and connected to the same WiFi network",
   },
   projectKey: {
     id: "screens.SyncModal.SyncView.projectKey",
     description: "First 5 characters of project key displayed on sync screen",
-    defaultMessage: "Project Key: {projectKey}"
-  }
+    defaultMessage: "Project Key: {projectKey}",
+  },
 });
 
 const WifiBar = ({ onPress, ssid, deviceName }) => (
@@ -111,7 +111,7 @@ type Props = {
   deviceName: string,
   peers: Array<Peer>,
   ssid: null | string,
-  projectKey?: string
+  projectKey?: string,
 };
 
 const SyncView = ({
@@ -120,7 +120,7 @@ const SyncView = ({
   ssid,
   deviceName,
   onWifiPress,
-  projectKey
+  projectKey,
 }: Props) => (
   <View style={styles.root}>
     {ssid ? (
@@ -138,7 +138,7 @@ const SyncView = ({
             values={{
               projectKey: projectKey
                 ? projectKey.slice(0, 5) + "**********"
-                : "MAPEO"
+                : "MAPEO",
             }}
           />
         </Text>
@@ -157,30 +157,30 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: "center",
     backgroundColor: "black",
-    flex: 0
+    flex: 0,
   },
   root: {
     flex: 1,
     backgroundColor: "#2348B2",
     flexDirection: "column",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
   },
   noWifiBox: {
     backgroundColor: "#000034",
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "stretch",
-    flex: 1
+    flex: 1,
   },
   noWifiIconContainer: {
     flexDirection: "column",
     alignItems: "center",
-    flex: 0
+    flex: 0,
   },
   searchingBoxInner: {
     marginTop: 20,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   noWifiIcon: {
     width: 250,
@@ -189,28 +189,28 @@ const styles = StyleSheet.create({
     backgroundColor: "#19337F",
     borderRadius: 125,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   infoHeader: {
     color: "white",
     fontWeight: "700",
-    fontSize: 24
+    fontSize: 24,
   },
   infoSubheader: {
     color: "white",
     fontWeight: "400",
-    fontSize: 18
+    fontSize: 18,
   },
   noWifiTextContainer: {
     flex: 0,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   noWifiText: {
-    textAlign: "center"
+    textAlign: "center",
   },
   searchingTextContainer: {
     maxWidth: "75%",
-    marginLeft: 30
+    marginLeft: 30,
   },
   wifiBar: {
     backgroundColor: "#19337F",
@@ -218,27 +218,27 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   wifiBarText: {
     color: "white",
-    paddingLeft: 10
+    paddingLeft: 10,
   },
   deviceName: {
     fontWeight: "bold",
     textAlign: "right",
     color: "white",
-    flex: 1
+    flex: 1,
   },
   bold: {
-    fontWeight: "700"
+    fontWeight: "700",
   },
   settingsButton: {
     flex: 1,
     paddingVertical: 10,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   searchingBox: {
     backgroundColor: "#2348B2",
@@ -247,6 +247,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     flexDirection: "column",
     justifyContent: "flex-start",
-    alignItems: "stretch"
-  }
+    alignItems: "stretch",
+  },
 });

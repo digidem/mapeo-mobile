@@ -11,13 +11,13 @@ class InputState extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.initialValue
+      value: props.initialValue,
     };
   }
   render() {
     return this.props.children({
       value: this.state.value,
-      onChange: value => this.setState({ value })
+      onChange: value => this.setState({ value }),
     });
   }
 }
@@ -45,32 +45,32 @@ storiesOf("SelectOne", module)
           options={[
             {
               value: 5,
-              label: "Under 5 meters"
+              label: "Under 5 meters",
             },
             {
               value: 10,
-              label: "5–10 meters"
+              label: "5–10 meters",
             },
             {
               value: 20,
-              label: "10–20 meters"
+              label: "10–20 meters",
             },
             {
               value: 30,
-              label: "20–30 meters"
+              label: "20–30 meters",
             },
             {
               value: 40,
-              label: "30–40 meters"
+              label: "30–40 meters",
             },
             {
               value: 50,
-              label: "40–50 meters"
+              label: "40–50 meters",
             },
             {
               value: 60,
-              label: "Over 60 meters"
-            }
+              label: "Over 60 meters",
+            },
           ]}
           value={value}
           onChange={onChange}

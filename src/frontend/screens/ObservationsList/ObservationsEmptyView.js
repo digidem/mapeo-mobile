@@ -14,25 +14,25 @@ const m = defineMessages({
     id: "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle",
     description:
       "Title of observation list view when the user has not yet recorded observations",
-    defaultMessage: "Add Observations"
+    defaultMessage: "Add Observations",
   },
   noObservationsDesc: {
     id: "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc",
     description:
       "Description of observation list view when the user has not yet recorded observations",
     defaultMessage:
-      "Start from map or camera view to record your first observation."
+      "Start from map or camera view to record your first observation.",
   },
   backButton: {
     id: "screens.ObservationsList.ObservationsEmptyView.backButton",
     description:
       "Back button on observation list screen when no observations are yet recorded",
-    defaultMessage: "Go To Map"
-  }
+    defaultMessage: "Go To Map",
+  },
 });
 
 type Props = {
-  onPressBack: () => any
+  onPressBack: () => any,
 };
 
 const ObservationEmptyView = ({ onPressBack }: Props) => {
@@ -68,12 +68,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-evenly",
     alignItems: "stretch",
-    flex: 1
+    flex: 1,
   },
   iconContainer: {
     flexDirection: "column",
     alignItems: "center",
-    flex: 0
+    flex: 0,
   },
   iconCircle: {
     width: width - 125,
@@ -81,29 +81,29 @@ const styles = StyleSheet.create({
     backgroundColor: "#CCE0FF",
     borderRadius: (width - 125) / 2,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   infoHeader: {
     fontWeight: "700",
-    fontSize: 24
+    fontSize: 24,
   },
   infoSubheader: {
     fontWeight: "400",
-    fontSize: 18
+    fontSize: 18,
   },
   textContainer: {
     flex: 0,
     justifyContent: "center",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   text: {
     textAlign: "center",
-    color: "#888888"
+    color: "#888888",
   },
   backButton: {
     flex: 0,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });

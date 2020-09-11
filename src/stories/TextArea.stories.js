@@ -11,13 +11,13 @@ class InputState extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.initialValue
+      value: props.initialValue,
     };
   }
   render() {
     return this.props.children({
       value: this.state.value,
-      onChange: value => this.setState({ value })
+      onChange: value => this.setState({ value }),
     });
   }
 }

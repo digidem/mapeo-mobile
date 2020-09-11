@@ -10,14 +10,14 @@ import type { Style } from "../types";
 // Fix warning pending https://github.com/kmagiera/react-native-gesture-handler/pull/561/files
 TouchableNativeFeedback.propTypes = {
   ...TouchableNativeFeedback.propTypes,
-  background: PropTypes.object
+  background: PropTypes.object,
 };
 
 type Props = {
   onPress: (SyntheticEvent<>) => any,
   style?: Style<typeof View>,
   children: React.Node,
-  testID?: string
+  testID?: string,
 };
 
 const IconButton = ({ onPress, style, children, testID }: Props) => (
@@ -38,6 +38,6 @@ const styles = StyleSheet.create({
     height: 60,
     flex: 0,
     justifyContent: "center",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });

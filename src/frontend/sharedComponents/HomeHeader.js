@@ -19,7 +19,8 @@ const HomeHeader = ({ navigation }: { navigation: NavigationProp }) => {
         style={styles.leftButton}
         onPress={() => {
           navigation.navigate("SyncModal");
-        }}>
+        }}
+      >
         <SyncIconCircle />
       </IconButton>
       <GpsPill
@@ -31,7 +32,8 @@ const HomeHeader = ({ navigation }: { navigation: NavigationProp }) => {
         style={styles.rightButton}
         onPress={() => {
           navigation.navigate("ObservationList");
-        }}>
+        }}
+      >
         <ObservationListIcon />
       </IconButton>
     </View>
@@ -50,12 +52,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   rightButton: {},
   leftButton: {
     width: 60,
-    height: 60
+    height: 60,
   },
   linearGradient: {
     height: 60,
@@ -63,6 +65,6 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     left: 0,
-    backgroundColor: "transparent"
-  }
+    backgroundColor: "transparent",
+  },
 });

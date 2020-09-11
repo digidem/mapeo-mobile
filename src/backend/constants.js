@@ -19,7 +19,7 @@ const Constants /*: ConstantsType */ = {
   CLOSING: "CLOSING",
   CLOSED: "CLOSED",
   ERROR: "ERROR",
-  TIMEOUT: "TIMEOUT"
+  TIMEOUT: "TIMEOUT",
 };
 
 module.exports = Constants;

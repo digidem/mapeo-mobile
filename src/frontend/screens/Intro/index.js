@@ -11,14 +11,14 @@ import CustomHeaderLeft from "../../sharedComponents/CustomHeaderLeft";
 type InfoNavigationState = {|
   params: {|
     introInfoText: string,
-    introInfoTitle: string
-  |}
+    introInfoTitle: string,
+  |},
 |};
 
 const Info = ({
-  navigation
+  navigation,
 }: {
-  navigation: NavigationScreenProp<InfoNavigationState>
+  navigation: NavigationScreenProp<InfoNavigationState>,
 }) => {
   const text = navigation.getParam("introInfoText");
 
@@ -32,19 +32,19 @@ const Info = ({
 
 Info.navigationOptions = ({ navigation }) => ({
   title: navigation.getParam("introInfoTitle", "Info"),
-  headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>
+  headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,
 });
 
 const Intro = ({
-  navigation
+  navigation,
 }: {
-  navigation: NavigationScreenProp<InfoNavigationState>
+  navigation: NavigationScreenProp<InfoNavigationState>,
 }) => {
   const handleShowInfo = React.useCallback(
     ({ title, text }) => {
       navigation.navigate("Info", {
         introInfoTitle: title,
-        introInfoText: text
+        introInfoText: text,
       });
     },
     [navigation]
@@ -64,26 +64,26 @@ const Intro = ({
 };
 
 Intro.navigationOptions = {
-  headerShown: false
+  headerShown: false,
 };
 
 export default createStackNavigator(
   {
     Intro,
-    Info
+    Info,
   },
   {
     defaultNavigationOptions: {
       headerStyle: {
-        height: 60
+        height: 60,
       },
       headerLeft: props => <CustomHeaderLeft {...props} />,
       headerTitleStyle: {
-        marginHorizontal: 0
+        marginHorizontal: 0,
       },
       cardStyle: {
-        backgroundColor: "#ffffff"
-      }
-    }
+        backgroundColor: "#ffffff",
+      },
+    },
   }
 );

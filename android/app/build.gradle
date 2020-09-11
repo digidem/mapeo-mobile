@@ -83,7 +83,12 @@ project.ext.react = [
     // bundler running in order to run the Debug QA build
     bundleInQaDebug: true,
     bundleInUniversal: true,
-    enableHermes: false // clean and rebuild if changing
+    enableHermes: false, // clean and rebuild if changing
+    // Disable dev logging in the Universal build (only disabled in release
+    // build type by default)
+    devDisabledInAppUniversal: true,
+    devDisabledInQaUniversal: true,
+    devDisabledInIccaUniversal: true
 ]
 
 project.ext.vectoricons = [
@@ -180,6 +185,7 @@ bugsnag {
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+    ndkVersion rootProject.ext.ndkVersion
 
     dexOptions {
         javaMaxHeapSize "4g"

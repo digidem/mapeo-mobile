@@ -12,12 +12,12 @@ import type { Style } from "../../types";
 type FontIconProps = {
   size?: number,
   color?: string,
-  style?: Style<typeof Text>
+  style?: Style<typeof Text>,
 };
 
 type ImageIconProps = {
   size?: number,
-  style?: Style<typeof Image>
+  style?: Style<typeof Image>,
 };
 
 export { default as GpsIcon } from "./GpsIcon";
@@ -30,18 +30,13 @@ export const AlertIcon = ({ size = 30, color = RED, style }: FontIconProps) => (
 );
 
 export const SettingsIcon = ({ size = 30, color, style }: FontIconProps) => (
-  <MaterialCommunityIcon
-    color={color}
-    name="settings"
-    size={size}
-    style={style}
-  />
+  <MaterialIcon color={color} name="settings" size={size} style={style} />
 );
 
 export const CellphoneIcon = ({
   size = 30,
   color = "white",
-  style
+  style,
 }: FontIconProps) => (
   <MaterialCommunityIcon
     color={color}
@@ -54,7 +49,7 @@ export const CellphoneIcon = ({
 export const LaptopIcon = ({
   size = 30,
   color = "white",
-  style
+  style,
 }: FontIconProps) => (
   <MaterialCommunityIcon
     color={color}
@@ -75,7 +70,7 @@ export const DeleteIcon = ({ size = 30, color, style }: FontIconProps) => (
 export const ErrorIcon = ({
   size = 30,
   color = "#660000",
-  style
+  style,
 }: FontIconProps) => (
   <MaterialIcon
     name="error"
@@ -88,7 +83,7 @@ export const ErrorIcon = ({
 export const EditIcon = ({
   size = 30,
   color = DARK_GREY,
-  style
+  style,
 }: FontIconProps) => (
   <MaterialIcon color={color} style={style} name="edit" size={size} />
 );
@@ -96,7 +91,7 @@ export const EditIcon = ({
 export const DetailsIcon = ({
   size = 30,
   color = DARK_GREY,
-  style
+  style,
 }: FontIconProps) => (
   <MaterialIcon
     color={color}
@@ -109,7 +104,7 @@ export const DetailsIcon = ({
 export const DoneIcon = ({
   size = 30,
   color = "white",
-  style
+  style,
 }: FontIconProps) => (
   <MaterialIcon color={color} style={style} name="check" size={size} />
 );
@@ -117,7 +112,7 @@ export const DoneIcon = ({
 export const LocationIcon = ({
   size = 30,
   color = MANGO,
-  style
+  style,
 }: FontIconProps) => (
   <MaterialIcon color={color} style={style} name="my-location" size={size} />
 );
@@ -125,7 +120,7 @@ export const LocationIcon = ({
 export const WifiOffIcon = ({
   size = 30,
   color = "#490827",
-  style
+  style,
 }: FontIconProps) => (
   <MaterialIcon
     color={color}
@@ -138,14 +133,14 @@ export const WifiOffIcon = ({
 export const WifiIcon = ({
   size = 30,
   color = "white",
-  style
+  style,
 }: FontIconProps) => (
   <MaterialIcon color={color} style={style} name="wifi" size={size} />
 );
 export const SyncIcon = ({
   size = 30,
   color = "white",
-  style
+  style,
 }: FontIconProps) => (
   <FontAwesomeIcon
     color="white"
@@ -162,7 +157,7 @@ export const CloseIcon = ({ size = 30, color, style }: FontIconProps) => (
 export const CameraIcon = ({
   size = 30,
   color = MEDIUM_GREY,
-  style
+  style,
 }: FontIconProps) => (
   <MaterialIcon color={color} style={style} name="photo-camera" size={size} />
 );
@@ -170,7 +165,7 @@ export const CameraIcon = ({
 export const UserIcon = ({
   size = 30,
   color = "lightgray",
-  style
+  style,
 }: FontIconProps) => (
   <FontAwesomeIcon
     color={color}
@@ -189,7 +184,7 @@ export const ObservationListIcon = ({ size = 30, style }: ImageIconProps) => (
 
 export const LocationNoFollowIcon = ({
   size = 30,
-  color = MEDIUM_GREY
+  color = MEDIUM_GREY,
 }: FontIconProps) => (
   <Circle radius={25}>
     <MaterialIcon color={color} name="location-searching" size={size} />
@@ -198,7 +193,7 @@ export const LocationNoFollowIcon = ({
 
 export const LocationFollowingIcon = ({
   size = 30,
-  color = "#4A90E2"
+  color = "#4A90E2",
 }: FontIconProps) => (
   <Circle radius={25}>
     <MaterialIcon color={color} name="my-location" size={size} />

@@ -14,8 +14,9 @@ import { withNavigation } from "react-navigation";
  */
 export default function withFocus(Component) {
   class ComponentWithFocus extends React.Component {
-    static displayName = `withFocus(${Component.displayName ||
-      Component.name})`;
+    static displayName = `withFocus(${
+      Component.displayName || Component.name
+    })`;
 
     constructor(props) {
       super(props);
@@ -24,7 +25,7 @@ export default function withFocus(Component) {
         isNavigationFocused: props.navigation
           ? props.navigation.isFocused()
           : false,
-        isAppActive: AppState.currentState === "active"
+        isAppActive: AppState.currentState === "active",
       };
     }
 
@@ -36,14 +37,14 @@ export default function withFocus(Component) {
         ),
         navigation.addListener("didBlur", () =>
           this.setState({ isNavigationFocused: false })
-        )
+        ),
       ];
       AppState.addEventListener("change", this.handleAppStateChange);
     }
 
     handleAppStateChange = nextAppState => {
       this.setState({
-        isAppActive: nextAppState === "active"
+        isAppActive: nextAppState === "active",
       });
     };
 

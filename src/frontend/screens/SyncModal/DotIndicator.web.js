@@ -16,12 +16,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: 50
+    width: 50,
   },
   dot: {
     width: 10,
     borderRadius: 5,
     height: 10,
-    backgroundColor: "white"
-  }
+    backgroundColor: "white",
+  },
 });

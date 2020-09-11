@@ -42,11 +42,18 @@ cd ../..
 echo -en " done.\n"
 
 echo -en "Create presets fallback folders..."
+ANDROID_SRC_DIR="$(pwd)/android/app/src"
 cd ./nodejs-assets/nodejs-project
-mkdir -p presets
-mkdir -p presets-icca
-mv ./node_modules/mapeo-default-settings/build ./presets/default
-mv ./node_modules/mapeo-config-icca/dist ./presets-icca/default
+# We use a patched version of nodejs-mobile-react-native that extracts files in
+# the assets/nodejs-assets folder, so that they are accessible to Node. Here we
+# copy default presets into assets folders by variant, so that the icca variant
+# has its own custom presets shipped with the app.
+rm -rf "${ANDROID_SRC_DIR}/main/assets/nodejs-assets/presets"
+rm -rf "${ANDROID_SRC_DIR}/icca/assets/nodejs-assets/presets"
+mkdir -p "${ANDROID_SRC_DIR}/main/assets/nodejs-assets/presets"
+mkdir -p "${ANDROID_SRC_DIR}/icca/assets/nodejs-assets/presets"
+mv ./node_modules/mapeo-default-settings/dist "${ANDROID_SRC_DIR}/main/assets/nodejs-assets/presets/default"
+mv ./node_modules/mapeo-config-icca/dist "${ANDROID_SRC_DIR}/icca/assets/nodejs-assets/presets/default"
 cd ../..
 echo -en " done.\n"
 

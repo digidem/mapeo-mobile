@@ -9,14 +9,14 @@ type Props = {
   uri?: string,
   variant?: "photo" | "loading" | "error",
   style?: Style<typeof View>,
-  resizeMode?: "cover" | "contain" | "stretch" | "center"
+  resizeMode?: "cover" | "contain" | "stretch" | "center",
 };
 
 const PhotoView = ({
   uri,
   variant = "photo",
   resizeMode = "contain",
-  style
+  style,
 }: Props) => {
   const [error, setError] = useState();
   return (
@@ -44,12 +44,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   image: {
     flex: 1,
     width: "100%",
     height: "100%",
-    backgroundColor: "black"
-  }
+    backgroundColor: "black",
+  },
 });

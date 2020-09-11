@@ -14,38 +14,38 @@ const m = defineMessages({
   gpsHeader: {
     id: "screens.GpsModal.gpsHeader",
     defaultMessage: "Current GPS Location",
-    description: "Header for GPS screen"
+    description: "Header for GPS screen",
   },
   lastUpdate: {
     id: "screens.GpsModal.lastUpdate",
     defaultMessage: "Last update",
-    description: "Section title for time of last GPS update"
+    description: "Section title for time of last GPS update",
   },
   locationUTM: {
     id: "screens.GpsModal.locationUTM",
     defaultMessage: "Coordinates UTM",
-    description: "Section title for UTM coordinates"
+    description: "Section title for UTM coordinates",
   },
   details: {
     id: "screens.GpsModal.details",
     defaultMessage: "Details",
-    description: "Section title for details about current position"
+    description: "Section title for details about current position",
   },
   yes: {
     id: "screens.GpsModal.yes",
     defaultMessage: "Yes",
-    description: "if a location sensor is active yes/no"
+    description: "if a location sensor is active yes/no",
   },
   no: {
     id: "screens.GpsModal.no",
     defaultMessage: "No",
-    description: "if a location sensor is active yes/no"
+    description: "if a location sensor is active yes/no",
   },
   locationSensors: {
     id: "screens.GpsModal.locationSensors",
     defaultMessage: "Sensor Status",
-    description: "Heading for section about location sensor status"
-  }
+    description: "Heading for section about location sensor status",
+  },
 });
 
 const GpsModalRow = ({ label, value }: { label: string, value: string }) => (
@@ -56,7 +56,7 @@ const GpsModalRow = ({ label, value }: { label: string, value: string }) => (
 );
 
 type Props = {
-  navigation: any
+  navigation: any,
 };
 
 const GpsModal = ({ navigation }: Props) => {
@@ -117,13 +117,13 @@ const GpsModal = ({ navigation }: Props) => {
 GpsModal.navigationOptions = {
   headerTintColor: "white",
   headerStyle: {
-    backgroundColor: "rgb(40,40,40)"
+    backgroundColor: "rgb(40,40,40)",
   },
   headerTitle: () => (
     <HeaderTitle style={{ color: "white" }}>
       <FormattedMessage {...m.gpsHeader} />
     </HeaderTitle>
-  )
+  ),
 };
 
 export default GpsModal;
@@ -141,29 +141,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "rgb(40,40,40)",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   row: {
-    flexDirection: "row"
+    flexDirection: "row",
   },
   sectionTitle: {
     color: "white",
     fontWeight: "700",
     marginTop: 10,
     marginBottom: 5,
-    fontSize: 16
+    fontSize: 16,
   },
   rowLabel: {
     color: "white",
     fontWeight: "700",
-    minWidth: "50%"
+    minWidth: "50%",
   },
   rowValue: {
     color: "white",
-    fontWeight: "400"
+    fontWeight: "400",
   },
   infoArea: {
     paddingLeft: 15,
-    paddingRight: 15
-  }
+    paddingRight: 15,
+  },
 });

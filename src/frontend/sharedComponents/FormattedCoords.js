@@ -8,7 +8,7 @@ import type { Style } from "../types";
 type Props = {
   lat: number,
   lon: number,
-  style?: Style<typeof Text>
+  style?: Style<typeof Text>,
 };
 
 // This is a placeholder. Once we add coordinate format settings, this will read

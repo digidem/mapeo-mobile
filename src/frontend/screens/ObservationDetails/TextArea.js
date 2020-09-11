@@ -8,7 +8,7 @@ import type { QuestionProps } from "./Question";
 const TextArea = ({
   value,
   field: { label, placeholder },
-  onChange
+  onChange,
 }: QuestionProps) => (
   <>
     <QuestionLabel label={label} hint={placeholder} />
@@ -36,6 +36,6 @@ const styles = StyleSheet.create({
     color: "black",
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    textAlignVertical: "top"
-  }
+    textAlignVertical: "top",
+  },
 });
