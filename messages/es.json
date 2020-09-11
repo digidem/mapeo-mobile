@@ -282,7 +282,7 @@
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
-    "message": "Configuración"
+    "message": "Ajustes"
   },
   "screens.Settings.unnamedConfig": {
     "description": "Config name when do name is defined",
