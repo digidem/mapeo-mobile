@@ -33,6 +33,8 @@ import type { PresetWithFields, Field } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
 import useMapStyle from "../../hooks/useMapStyle";
 import useDeviceId from "../../hooks/useDeviceId";
+import Loading from "../../sharedComponents/Loading";
+import OfflineMapLayers from "../../sharedComponents/OfflineMapLayers";
 
 const m = defineMessages({
   noAnswer: {
@@ -80,34 +82,33 @@ type MapProps = {
   lat: number,
 };
 
-const InsetMapView = ({ lon, lat }: MapProps) => {
-  const [{ styleURL, error }] = useMapStyle();
+const InsetMapView = React.memo<MapProps>(({ lon, lat }: MapProps) => {
+  const { styleURL, styleType } = useMapStyle();
 
-  return React.useMemo(() => {
-    return error ? (
-      <View style={styles.map}>
-        <Text>Map Error</Text>
-      </View>
-    ) : (
-      <MapboxGL.MapView
-        style={styles.map}
-        zoomEnabled={false}
-        logoEnabled={false}
-        scrollEnabled={false}
-        pitchEnabled={false}
-        rotateEnabled={false}
-        compassEnabled={false}
-        styleURL={styleURL}
-      >
-        <MapboxGL.Camera
-          centerCoordinate={[lon, lat]}
-          zoomLevel={15}
-          animationMode="moveTo"
-        />
-      </MapboxGL.MapView>
-    );
-  }, [error, styleURL, lon, lat]);
-};
+  return styleURL === undefined || styleType === "loading" ? (
+    <View style={styles.map}>
+      <Loading />
+    </View>
+  ) : (
+    <MapboxGL.MapView
+      style={styles.map}
+      zoomEnabled={false}
+      logoEnabled={false}
+      scrollEnabled={false}
+      pitchEnabled={false}
+      rotateEnabled={false}
+      compassEnabled={false}
+      styleURL={styleURL}
+    >
+      <MapboxGL.Camera
+        centerCoordinate={[lon, lat]}
+        zoomLevel={styleType === "fallback" ? 5 : 12}
+        animationMode="moveTo"
+      />
+      {styleType === "fallback" ? <OfflineMapLayers /> : null}
+    </MapboxGL.MapView>
+  );
+});
 
 const Button = ({ onPress, color, iconName, title }: ButtonProps) => (
   <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
