@@ -3,21 +3,21 @@ import React from "react";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import { Image, Text } from "react-native";
+import { Image } from "react-native";
 
 import Circle from "./Circle";
 import { RED, DARK_GREY, MANGO, MEDIUM_GREY } from "../../lib/styles";
-import type { Style } from "../../types";
+import type { TextStyleProp, ImageStyleProp } from "../../types";
 
 type FontIconProps = {
   size?: number,
   color?: string,
-  style?: Style<typeof Text>,
+  style?: TextStyleProp,
 };
 
 type ImageIconProps = {
   size?: number,
-  style?: Style<typeof Image>,
+  style?: ImageStyleProp,
 };
 
 export { default as GpsIcon } from "./GpsIcon";

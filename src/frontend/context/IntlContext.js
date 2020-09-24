@@ -12,7 +12,7 @@ import languages from "../languages.json";
 // WARNING: This needs to change if we change the type of locale
 const STORE_KEY = "@MapeoLocale@1";
 
-const formats = {
+export const formats = {
   date: {
     long: {
       day: "numeric",
@@ -99,7 +99,7 @@ export const IntlProvider = ({ children }: { children: React.Node }) => {
 export default IntlContext;
 
 function onError(e) {
-  console.warn(e);
+  console.log(e);
 }
 
 // Device locale can be regional e.g. `en-US` but we might only have

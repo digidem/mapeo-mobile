@@ -9,12 +9,12 @@ import { ObservationListIcon, SyncIconCircle } from "../sharedComponents/icons";
 import GpsPill from "../sharedComponents/GpsPill";
 
 const HomeHeader = ({ navigation }: { navigation: NavigationProp }) => {
+  const gradient = ( // $FlowFixMe - https://github.com/react-native-community/react-native-linear-gradient/issues/385
+    <LinearGradient style={styles.linearGradient} colors={["#0006", "#0000"]} />
+  );
   return (
     <View style={styles.header}>
-      <LinearGradient
-        style={styles.linearGradient}
-        colors={["#0006", "#0000"]}
-      />
+      {gradient}
       <IconButton
         style={styles.leftButton}
         onPress={() => {

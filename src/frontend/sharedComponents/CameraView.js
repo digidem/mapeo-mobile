@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Camera } from "expo-camera";
+import { Camera, type CapturedPicture } from "expo-camera";
 import debug from "debug";
 import { Accelerometer } from "expo-sensors";
 import ImageResizer from "react-native-image-resizer";
@@ -10,7 +10,7 @@ import RNFS from "react-native-fs";
 import AddButton from "./AddButton";
 import { promiseTimeout } from "../lib/utils";
 import bugsnag from "../lib/logger";
-import type { CapturePromise } from "../hooks/useDraftObservation";
+import type { CapturedPictureMM } from "../hooks/useDraftObservation";
 import useIsMounted from "../hooks/useIsMounted";
 
 const log = debug("CameraView");
@@ -22,12 +22,14 @@ const captureOptions = {
   skipProcessing: true,
 };
 
-type CameraType = "front" | "back";
+type CameraType =
+  | typeof Camera.Constants.Type.front
+  | typeof Camera.Constants.Type.back;
 
 type Props = {
   // Called when the user takes a picture, with a promise that resolves to an
   // object with the property `uri` for the captured (and rotated) photo.
-  onAddPress: (e: any, capture: CapturePromise) => void,
+  onAddPress: (e: any, capture: Promise<CapturedPictureMM>) => void,
 };
 
 type Acceleration = { x: number, y: number, z: number };
@@ -37,7 +39,7 @@ const CameraView = ({ onAddPress }: Props) => {
   const acceleration = React.useRef();
   const isMounted = useIsMounted();
   const [capturing, setCapturing] = React.useState(false);
-  const [cameraType] = React.useState<?CameraType>("back");
+  const [cameraType] = React.useState<CameraType>(Camera.Constants.Type.back);
 
   React.useEffect(() => {
     let isCancelled = false;
@@ -127,7 +129,7 @@ export default CameraView;
 // Rotate the photo to match device orientation
 function rotatePhoto(acc?: Acceleration) {
   const rotation = getPhotoRotation(acc);
-  return function ({ uri, exif, width, height }) {
+  return function ({ uri, exif, width, height }: CapturedPicture) {
     const originalUri = uri;
     let resizedUri;
     const resizePromise = ImageResizer.createResizedImage(
