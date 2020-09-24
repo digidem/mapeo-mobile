@@ -5,8 +5,14 @@ import ky from "ky";
 import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
 import debug from "debug";
+import flatten from "flat";
 
-import type { Preset, Field, Metadata } from "./context/ConfigContext";
+import type {
+  Preset,
+  Field,
+  Metadata,
+  Messages,
+} from "./context/ConfigContext";
 import type {
   Observation,
   ObservationValue,
@@ -267,6 +273,18 @@ export function Api({
     getMetadata: function getMetadata(): Promise<Metadata> {
       return get(`presets/default/metadata.json?${Date.now()}`).then(
         data => data || {}
+      );
+    },
+
+    getConfigMessages: function getConfigMessages(
+      locale: string = "en"
+    ): Promise<Messages> {
+      return get(`presets/default/translations.json?${Date.now()}`).then(
+        data => {
+          const messages = data && data[locale];
+          if (!messages) return {};
+          return flatten(messages);
+        }
       );
     },
 

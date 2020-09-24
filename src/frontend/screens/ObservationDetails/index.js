@@ -78,7 +78,7 @@ const ObservationDetails = ({ navigation }: Props) => {
     return navigation.pop(current);
   const field = preset.fields[current - 1];
   return (
-    <Field fieldKey={field.key}>
+    <Field field={field}>
       {({ value, onChange }) => (
         <QuestionContainer current={current}>
           <Question field={field} value={value} onChange={onChange} />

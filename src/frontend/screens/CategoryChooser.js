@@ -54,7 +54,10 @@ const Item = React.memo(
       <View style={styles.cellContainer}>
         <CategoryCircleIcon iconId={item.icon} size="medium" />
         <Text numberOfLines={3} style={styles.categoryName}>
-          {item.name}
+          <FormattedMessage
+            id={`presets.${item.id}.name`}
+            defaultMessage={item.name}
+          />
         </Text>
       </View>
     </TouchableHighlight>

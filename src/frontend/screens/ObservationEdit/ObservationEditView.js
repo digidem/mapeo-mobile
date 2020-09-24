@@ -5,7 +5,6 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 
 import LocationField from "../../sharedComponents/LocationField";
-import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import BottomSheet from "./BottomSheet";
 import Field from "./Field";
 import {
@@ -18,7 +17,11 @@ import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import TextButton from "../../sharedComponents/TextButton";
 import { BLACK, LIGHT_GREY, LIGHT_BLUE } from "../../lib/styles";
 
-import type { PresetWithFields } from "../../context/ConfigContext";
+import type { PresetWithFields, TextField } from "../../context/ConfigContext";
+import {
+  FormattedPresetName,
+  FormattedCoords,
+} from "../../sharedComponents/FormattedData";
 
 const m = defineMessages({
   searching: {
@@ -46,11 +49,6 @@ const m = defineMessages({
     defaultMessage: "Add Details",
     description: "Button label to add details",
   },
-  observation: {
-    id: "screens.ObservationEdit.ObservationEditView.observation",
-    defaultMessage: "Observation",
-    description: "Name of observation when no preset matches",
-  },
 });
 
 const LocationView = ({
@@ -75,11 +73,9 @@ const LocationView = ({
           color="orange"
           style={{ marginRight: 5 }}
         />
-        <FormattedCoords
-          style={styles.locationText}
-          lat={latitude}
-          lon={longitude}
-        />
+        <Text style={styles.locationText}>
+          <FormattedCoords lat={latitude} lon={longitude} />
+        </Text>
         {accuracy === undefined ? null : (
           <Text style={styles.accuracy}>
             {" ±" + accuracy.toFixed(2) + "m"}
@@ -103,7 +99,9 @@ const CategoryView = ({
       <View style={styles.categoryIcon}>
         <CategoryCircleIcon iconId={preset.icon} />
       </View>
-      <Text style={styles.categoryName}>{preset.name || t(m.observation)}</Text>
+      <Text style={styles.categoryName}>
+        <FormattedPresetName preset={preset} />
+      </Text>
       <TextButton
         containerStyle={styles.changeButton}
         textStyle={styles.changeButtonText}
@@ -114,10 +112,17 @@ const CategoryView = ({
   );
 };
 
+const notesField: TextField = {
+  id: "notes",
+  type: "text",
+  multiline: true,
+  key: "notes",
+};
+
 const DescriptionField = () => {
   const { formatMessage: t } = useIntl();
   return (
-    <Field fieldKey="notes">
+    <Field field={notesField}>
       {({ value, onChange }) => (
         <TextInput
           style={styles.textInput}
