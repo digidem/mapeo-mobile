@@ -14,14 +14,12 @@ const actionMethods = [
   "replaceText",
   "clearText",
   "tapReturnKey",
-  "tapBackSpace"
+  "tapBackSpace",
 ];
 
 // Wait for an element to be visible. Returns a promise with same methods as element
 const waitForVisible = (el, timeout = 5000) => {
-  const waitForPromise = waitFor(el)
-    .toBeVisible()
-    .withTimeout(timeout);
+  const waitForPromise = waitFor(el).toBeVisible().withTimeout(timeout);
   for (const actionName of actionMethods) {
     waitForPromise[actionName] = async (...args) => {
       return el[actionName].apply(el, args);
@@ -105,7 +103,9 @@ describe("Mapeo", () => {
       await expect(byText("Choose what is happening")).toBeVisible();
     });
 
-    test("Tapping add from camera screen shows 'choose what is happening' screen", async () => {
+    // expo-camera does not work in an emulator see
+    // https://github.com/expo/expo/issues/5529
+    test.skip("Tapping add from camera screen shows 'choose what is happening' screen", async () => {
       await switchToCameraTab();
       await tapCameraAddButton();
       // Need to wait for this screen because the camera shutter button is async
