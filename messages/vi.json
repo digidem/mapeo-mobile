@@ -116,6 +116,10 @@
     "description": "Message shown when an observation is not found",
     "message": "Không tìm thấy quan sát"
   },
+  "screens.Observation.title": {
+    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
+    "message": "Observation"
+  },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
     "message": "{current} của {total}"
@@ -147,10 +151,6 @@
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
     "message": "Thêm chi tiết"
-  },
-  "screens.ObservationEdit.ObservationEditView.observation": {
-    "description": "Name of observation when no preset matches",
-    "message": "Quan sát"
   },
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
@@ -199,10 +199,6 @@
   "screens.ObservationList.observationListTitle": {
     "description": "Title of screen with list of observations",
     "message": "Các quan sát"
-  },
-  "screens.ObservationsList.ObservationListItem.defaultObservationName": {
-    "description": "Default name for an observation that does not match a preset",
-    "message": "Quan sát"
   },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
@@ -292,6 +288,10 @@
     "description": "Button label when complete",
     "message": "Hoàn thành"
   },
+  "screens.SyncModal.PeerList.disconnectedButton": {
+    "description": "Button label when disconnected",
+    "message": "Disconnected"
+  },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
     "message": "Lỗi"
@@ -303,6 +303,10 @@
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
     "message": "Không tương thích với Mapeo"
+  },
+  "screens.SyncModal.PeerList.finishingButton": {
+    "description": "Button label when finishing sync but don't have correct progress",
+    "message": "..."
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
@@ -361,8 +365,8 @@
     "message": "Thiết bị mà bạn đang muốn đồng bộ với đang có phiên bản Mapeo mới hơn. Bạn cần nâng cấp phiên bản Mapeo của mình để có thể đồng bộ với thiết bị này."
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
-    "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "Bạn cần nâng cấp phiên bản Mapeo"
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "You need to upgrade Mapeo to sync with {deviceName}"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
