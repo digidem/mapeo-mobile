@@ -5,10 +5,13 @@ import path from "path";
 import api from "../../api";
 
 const m = defineMessages({
-  openSyncFileDialog: "Select a database to syncronize",
-  createSyncFileDialog: "Create a new database to syncronize",
   // Error message when trying to sync with an incompatible older version of Mapeo
-  errorMsgVersionThemBad: "{deviceName} needs to upgrade Mapeo",
+  errorMsgVersionThemBad: {
+    id: "screens.SyncModal.errorVersionThemBadTitle",
+    defaultMessage: "{deviceName} needs to upgrade Mapeo",
+    description:
+      "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+  },
   // Error messagewhen trying to sync with an incompatible newer version of Mapeo
   errorVersionThemBadDesc: {
     id: "screens.SyncModal.errorVersionThemBadDesc",
@@ -24,7 +27,12 @@ const m = defineMessages({
     description:
       "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
   },
-  errorMsgVersionUsBad: "You need to upgrade Mapeo to sync with {deviceName}",
+  errorMsgVersionUsBad: {
+    id: "screens.SyncModal.errorVersionUsBadTitle",
+    defaultMessage: "You need to upgrade Mapeo to sync with {deviceName}",
+    description:
+      "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+  },
 });
 
 const IGNORED_ERROR_CODES = ["ECONNABORTED", "ERR_MISSING_DATA"];
