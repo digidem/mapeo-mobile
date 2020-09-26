@@ -118,7 +118,7 @@
   },
   "screens.Observation.title": {
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
-    "message": "Observation"
+    "message": "Observação"
   },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
@@ -290,7 +290,7 @@
   },
   "screens.SyncModal.PeerList.disconnectedButton": {
     "description": "Button label when disconnected",
-    "message": "Disconnected"
+    "message": "Desconectado"
   },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
@@ -366,7 +366,7 @@
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "You need to upgrade Mapeo to sync with {deviceName}"
+    "message": "Você precisa atualizar o Mapeo para sincronizar com {deviceName}"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
