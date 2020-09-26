@@ -38,6 +38,16 @@ const m = defineMessages({
     defaultMessage: "Categories, icons and questions",
     description: "Secondary text for project config settings",
   },
+  aboutMapeo: {
+    id: "screens.Settings.aboutMapeo",
+    defaultMessage: "About Mapeo",
+    description: "Primary text for 'About Mapeo' link (version info)",
+  },
+  aboutMapeoDesc: {
+    id: "screens.Settings.aboutMapeoDesc",
+    defaultMessage: "Version and build number",
+    description: "Description of the 'About Mapeo' page",
+  },
 });
 
 const Settings = () => {
@@ -46,7 +56,8 @@ const Settings = () => {
     <List testID="settingsList">
       <ListItem
         onPress={() => navigate("LanguageSettings")}
-        testID="settingsLanguageButton">
+        testID="settingsLanguageButton"
+      >
         <ListItemIcon iconName="language" />
         <ListItemText
           primary={<FormattedMessage {...m.language} />}
@@ -55,11 +66,22 @@ const Settings = () => {
       </ListItem>
       <ListItem
         onPress={() => navigate("ProjectConfig")}
-        testID="settingsProjectConfigButton">
+        testID="settingsProjectConfigButton"
+      >
         <ListItemIcon iconName="assignment" />
         <ListItemText
           primary={<FormattedMessage {...m.projectConfig} />}
           secondary={<FormattedMessage {...m.projectConfigDesc} />}
+        ></ListItemText>
+      </ListItem>
+      <ListItem
+        onPress={() => navigate("AboutMapeo")}
+        testID="settingsAboutButton"
+      >
+        <ListItemIcon iconName="info-outline" />
+        <ListItemText
+          primary={<FormattedMessage {...m.aboutMapeo} />}
+          secondary={<FormattedMessage {...m.aboutMapeoDesc} />}
         ></ListItemText>
       </ListItem>
     </List>
