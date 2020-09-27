@@ -290,7 +290,7 @@
   },
   "screens.SyncModal.PeerList.disconnectedButton": {
     "description": "Button label when disconnected",
-    "message": "Disconnected"
+    "message": "ขาดการเชื่อมต่อ"
   },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
