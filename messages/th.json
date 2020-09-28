@@ -17,7 +17,7 @@
   },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
-    "message": "Android version"
+    "message": "เวอร์ชันของแอนดรอยด์"
   },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type",
