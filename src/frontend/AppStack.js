@@ -19,6 +19,7 @@ import PhotosModal from "./screens/PhotosModal";
 import ManualGpsScreen from "./screens/ManualGpsScreen";
 import CustomHeaderLeft from "./sharedComponents/CustomHeaderLeft";
 import ProjectConfig from "./screens/Settings/ProjectConfig";
+import AboutMapeo from "./screens/Settings/AboutMapeo";
 import LanguageSettings from "./screens/Settings/LanguageSettings";
 import HomeHeader from "./sharedComponents/HomeHeader";
 
@@ -62,6 +63,8 @@ const AppStack = createStackNavigator(
     Settings: Settings,
     // $FlowFixMe
     ProjectConfig: ProjectConfig,
+    // $FlowFixMe
+    AboutMapeo,
     // $FlowFixMe
     LanguageSettings,
     // $FlowFixMe
