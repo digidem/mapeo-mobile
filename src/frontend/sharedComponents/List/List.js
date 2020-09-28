@@ -11,7 +11,6 @@ const List = ({
   dense = false,
   ...other
 }) => {
-  console.log("isDense (List)", dense);
   const context = React.useMemo(() => ({ dense }), [dense]);
   return (
     <ListContext.Provider value={context}>

@@ -23,6 +23,7 @@ const SelectOne = ({ value, options, onChange }: Props) => (
     {options.map((item, index) => (
       <ListItem
         key={item.value}
+        testID={`${item.value}LanguageButton`}
         onPress={() => onChange(value === item.value ? null : item.value)}
       >
         <ListItemIcon

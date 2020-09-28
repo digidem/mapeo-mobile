@@ -43,15 +43,19 @@ const m = defineMessages({
 const Settings = () => {
   const { navigate } = useNavigation();
   return (
-    <List>
-      <ListItem onPress={() => navigate("LanguageSettings")}>
+    <List testID="settingsList">
+      <ListItem
+        onPress={() => navigate("LanguageSettings")}
+        testID="settingsLanguageButton">
         <ListItemIcon iconName="language" />
         <ListItemText
           primary={<FormattedMessage {...m.language} />}
           secondary={<FormattedMessage {...m.languageDesc} />}
         ></ListItemText>
       </ListItem>
-      <ListItem onPress={() => navigate("ProjectConfig")}>
+      <ListItem
+        onPress={() => navigate("ProjectConfig")}
+        testID="settingsProjectConfigButton">
         <ListItemIcon iconName="assignment" />
         <ListItemText
           primary={<FormattedMessage {...m.projectConfig} />}

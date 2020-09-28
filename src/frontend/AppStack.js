@@ -46,6 +46,7 @@ const HomeTabs = createBottomTabNavigator(
         else iconName = "photo-camera";
         return <MaterialIcons name={iconName} size={30} color={tintColor} />;
       },
+      tabBarTestID: "tabBarButton" + navigation.state.routeName,
     }),
   }
 );

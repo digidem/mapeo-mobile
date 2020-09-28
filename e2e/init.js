@@ -1,3 +1,6 @@
+/* eslint-env jest/globals */
+/* eslint jest/no-jasmine-globals: 0 */
+
 const detox = require("detox");
 const config = require("../package.json").detox;
 const adapter = require("detox/runners/jest/adapter");

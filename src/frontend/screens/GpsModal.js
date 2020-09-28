@@ -64,7 +64,7 @@ const GpsModal = ({ navigation }: Props) => {
   const { formatMessage: t } = useIntl();
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} testID="gpsScreenScrollView">
       <View style={styles.infoArea}>
         <Text style={styles.sectionTitle}>
           <FormattedMessage {...m.lastUpdate} />

@@ -39,7 +39,7 @@ const ObservationsList = ({ navigation }: NavigationScreenConfigProps) => {
 const SettingsButton = () => {
   const { navigate } = useNavigation();
   return (
-    <IconButton onPress={() => navigate("Settings")}>
+    <IconButton onPress={() => navigate("Settings")} testID="settingsButton">
       <SettingsIcon color="rgba(0, 0, 0, 0.54)" />
     </IconButton>
   );

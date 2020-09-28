@@ -33,6 +33,7 @@ const HomeHeader = ({ navigation }: { navigation: NavigationProp }) => {
         onPress={() => {
           navigation.navigate("ObservationList");
         }}
+        testID="observationListButton"
       >
         <ObservationListIcon />
       </IconButton>
