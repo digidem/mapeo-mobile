@@ -135,6 +135,7 @@ const DescriptionField = () => {
           autoFocus={false}
           scrollEnabled={false}
           textContentType="none"
+          testID="observationDescriptionField"
         />
       )}
     </Field>

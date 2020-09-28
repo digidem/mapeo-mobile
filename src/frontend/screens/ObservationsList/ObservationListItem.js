@@ -20,6 +20,7 @@ type Props = {
   onPress: string => any,
   style?: ViewStyleProp,
   observationId: string,
+  testID: string,
 };
 
 const photoOverlap = 10;
@@ -49,6 +50,7 @@ const ObservationListItem = ({
   onPress = () => {},
   style,
   observationId,
+  testID,
 }: Props) => {
   const [{ observation, preset }] = useObservation(observationId);
   const deviceId = useDeviceId();
@@ -62,7 +64,7 @@ const ObservationListItem = ({
   return (
     <TouchableHighlight
       onPress={() => onPress(observationId)}
-      testID={"ObservationListItem:" + observationId}
+      testID={testID}
       style={{ flex: 1, height: 80 }}
     >
       <View

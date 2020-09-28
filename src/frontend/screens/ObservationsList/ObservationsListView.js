@@ -85,7 +85,7 @@ const ObservationsListView = ({
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="observationsListView">
       <FlatList
         initialNumToRender={rowsPerWindow}
         getItemLayout={getItemLayout}
@@ -94,10 +94,11 @@ const ObservationsListView = ({
         scrollViewContent={styles.scrollViewContent}
         windowSize={3}
         removeClippedSubviews
-        renderItem={({ item }) => {
+        renderItem={({ item, index }) => {
           return (
             <ObservationListItem
               key={item.id}
+              testID={`observationListItem:${index}`}
               observationId={item.id}
               style={styles.listItem}
               onPress={onPressObservation}

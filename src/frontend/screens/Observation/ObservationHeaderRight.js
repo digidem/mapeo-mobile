@@ -31,7 +31,7 @@ const ObservationHeaderRight = ({ navigation }: Props) => {
   if (!observation) return null;
   const isMine = observation.value.deviceId === deviceId;
   return isMine ? (
-    <IconButton onPress={handlePress}>
+    <IconButton onPress={handlePress} testID="editButton">
       <EditIcon />
     </IconButton>
   ) : (
