@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import PropTypes from "prop-types";
 
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
@@ -49,7 +49,7 @@ const ListItem = ({
   disabled = false,
   disableGutters = false,
   divider = false,
-  ...other
+  ...otherProps
 }) => {
   const context = React.useContext(ListContext);
   const childContext = React.useMemo(
@@ -60,27 +60,24 @@ const ListItem = ({
     [dense, context.dense, alignItems]
   );
 
-  const componentProps = {
-    style: [
-      styles.root,
-      childContext.dense && styles.dense,
-      !disableGutters && styles.gutters,
-      divider && styles.divider,
-      button && styles.button,
-      alignItems === "flex-start" && styles.alignItemsFlexStart,
-      style,
-    ],
-    disabled,
-    ...other,
-  };
+  const componentStyle = [
+    styles.root,
+    childContext.dense && styles.dense,
+    !disableGutters && styles.gutters,
+    divider && styles.divider,
+    button && styles.button,
+    alignItems === "flex-start" && styles.alignItemsFlexStart,
+    style,
+  ];
 
   return (
     <ListContext.Provider value={childContext}>
       <TouchableNativeFeedback
-        {...componentProps}
+        disabled={disabled}
+        {...otherProps}
         background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
       >
-        {children}
+        <View style={componentStyle}>{children}</View>
       </TouchableNativeFeedback>
     </ListContext.Provider>
   );

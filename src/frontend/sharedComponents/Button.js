@@ -53,17 +53,18 @@ const Button = ({
     >
       <TouchableNativeFeedback
         disabled={disabled}
-        style={styles.touchable}
         background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
         onPress={disabled ? undefined : onPress}
       >
-        {typeof children === "string" ? (
-          <Text style={[styles.textBase, textStyle]}>
-            {children.toUpperCase()}
-          </Text>
-        ) : (
-          children
-        )}
+        <View style={styles.touchable}>
+          {typeof children === "string" ? (
+            <Text style={[styles.textBase, textStyle]}>
+              {children.toUpperCase()}
+            </Text>
+          ) : (
+            children
+          )}
+        </View>
       </TouchableNativeFeedback>
     </View>
   );

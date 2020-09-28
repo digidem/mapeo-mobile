@@ -4,11 +4,7 @@ const { byId, byText } = require("./matcher");
 
 // Make it easier to change where the settings screen is later
 const navigateToSettings = async () => {
-  // Argh! Syncing actions in tests is hard! Tests are flakey without this.
-  // Retry without this if changing to react-navigation v5
-  sleep(500);
   await byId("observationListButton").tap();
-  sleep(500);
   await byId("settingsButton").tap();
 };
 
@@ -90,7 +86,3 @@ describe("Mapeo", () => {
     });
   });
 });
-
-function sleep(milliseconds) {
-  return new Promise(resolve => setTimeout(resolve, milliseconds));
-}
