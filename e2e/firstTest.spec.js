@@ -2,30 +2,10 @@
 
 const { byId, byText } = require("./matcher");
 
-const actionMethods = [
-  "tap",
-  "multiTap",
-  "longPress",
-  "swipe",
-  "pinch",
-  "scroll",
-  "scrollTo",
-  "typeText",
-  "replaceText",
-  "clearText",
-  "tapReturnKey",
-  "tapBackSpace",
-];
-
-// Wait for an element to be visible. Returns a promise with same methods as element
-const waitForVisible = (el, timeout = 5000) => {
-  const waitForPromise = waitFor(el).toBeVisible().withTimeout(timeout);
-  for (const actionName of actionMethods) {
-    waitForPromise[actionName] = async (...args) => {
-      return el[actionName].apply(el, args);
-    };
-  }
-  return waitForPromise;
+// Make it easier to change where the settings screen is later
+const navigateToSettings = async () => {
+  await byId("observationListButton").tap();
+  await byId("settingsButton").tap();
 };
 
 describe("Mapeo", () => {
@@ -48,14 +28,12 @@ describe("Mapeo", () => {
 
   describe("Settings", () => {
     test("Clicking observation list then settings icon shows settings screen", async () => {
-      await byId("observationListButton").tap();
-      await byId("settingsButton").tap();
+      await navigateToSettings();
       await expect(byId("settingsList")).toBeVisible();
     });
 
     test("Changing language in settings changes app language", async () => {
-      await byId("observationListButton").tap();
-      await byId("settingsButton").tap();
+      await navigateToSettings();
       await byId("settingsLanguageButton").tap();
       await waitFor(byId("esLanguageButton"))
         .toBeVisible()
@@ -87,7 +65,7 @@ describe("Mapeo", () => {
       await byId("addButtonCamera").tap();
       // Need to wait for this screen because the camera shutter button is async
       // and does not switch screens until the photo is taken
-      await waitForVisible(byText("Choose what is happening"), 10000);
+      // await waitForVisible(byText("Choose what is happening"), 10000);
       await expect(byText("Choose what is happening")).toBeVisible();
     });
   });
