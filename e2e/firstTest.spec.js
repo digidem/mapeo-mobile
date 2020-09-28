@@ -6,9 +6,9 @@ const { byId, byText } = require("./matcher");
 const navigateToSettings = async () => {
   // Argh! Syncing actions in tests is hard! Tests are flakey without this.
   // Retry without this if changing to react-navigation v5
-  sleep(1);
+  sleep(500);
   await byId("observationListButton").tap();
-  sleep(1);
+  sleep(500);
   await byId("settingsButton").tap();
 };
 
@@ -61,6 +61,12 @@ describe("Mapeo", () => {
     test("Clicking observation list then settings icon shows settings screen", async () => {
       await navigateToSettings();
       await expect(byId("settingsList")).toBeVisible();
+    });
+
+    test("About Mapeo in Settings shows version number", async () => {
+      await navigateToSettings();
+      await byId("settingsAboutButton").tap();
+      await expect(byText("Mapeo version")).toBeVisible();
     });
 
     // NOTE: This should be the last test within "Settings"
