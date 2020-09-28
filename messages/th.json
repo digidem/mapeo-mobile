@@ -11,6 +11,34 @@
     "description": "Title of dialog that shows when closing an observation without saving",
     "message": "ยืนยันการยกเลิก?"
   },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "Android build number"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "Android version"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type",
+    "message": "Mapeo type"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "Mapeo version"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "Phone model"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "About Mapeo"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "Unknown"
+  },
   "screens.AddPhoto.cancel": {
     "message": "ยกเลิก"
   },
@@ -239,6 +267,14 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "กำลังเชื่อมต่อกับฐานข้อมูล Mapeo"
+  },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "About Mapeo"
+  },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "Version and build number"
   },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
