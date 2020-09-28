@@ -13,11 +13,11 @@
   },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
-    "message": "Android build number"
+    "message": "Número de compilação Android"
   },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
-    "message": "Android version"
+    "message": "Versão do Android"
   },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type",
@@ -25,19 +25,19 @@
   },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
-    "message": "Mapeo version"
+    "message": "Versão do Mapeo"
   },
   "screens.AboutMapeo.phoneModel": {
     "description": "Label for phone model",
-    "message": "Phone model"
+    "message": "Modelo do telefone"
   },
   "screens.AboutMapeo.title": {
     "description": "Title of 'About Mapeo' screen",
-    "message": "About Mapeo"
+    "message": "Sobre Mapeo"
   },
   "screens.AboutMapeo.unknownValue": {
     "description": "Shown when a device info (e.g. version number) is unknown",
-    "message": "Unknown"
+    "message": "Desconhecido"
   },
   "screens.AddPhoto.cancel": {
     "message": "Cancelar"
@@ -270,11 +270,11 @@
   },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
-    "message": "About Mapeo"
+    "message": "Sobre Mapeo"
   },
   "screens.Settings.aboutMapeoDesc": {
     "description": "Description of the 'About Mapeo' page",
-    "message": "Version and build number"
+    "message": "Versão e número de compilação"
   },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
