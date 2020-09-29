@@ -15,13 +15,22 @@ const m = defineMessages({
   discardTitle: {
     id: "AppContainer.EditHeader.discardTitle",
     defaultMessage: "Discard observation?",
-    description:
-      "Title of dialog that shows when closing an observation without saving",
+    description: "Title of dialog that shows when cancelling a new observation",
   },
   discardConfirm: {
     id: "AppContainer.EditHeader.discardContent",
     defaultMessage: "Discard without saving",
-    description: "Button on dialog to close without saving",
+    description: "Button on dialog to cancel a new observation",
+  },
+  discardChangesTitle: {
+    id: "AppContainer.EditHeader.discardChangesTitle",
+    defaultMessage: "Discard changes?",
+    description: "Title of dialog that shows when cancelling observation edits",
+  },
+  discardChangesConfirm: {
+    id: "AppContainer.EditHeader.discardChangesContent",
+    defaultMessage: "Discard changes",
+    description: "Button on dialog to cancel observation edits",
   },
   discardCancel: {
     id: "AppContainer.EditHeader.discardCancel",
@@ -100,8 +109,6 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
       routeName === "CategoryChooser" &&
       prevRouteNameInStack === "Home");
 
-  const shouldCloseToHome = isNew && shouldConfirm;
-
   const handleCloseRequest = React.useCallback(() => {
     const isUntouched =
       existingObservation &&
@@ -116,27 +123,36 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
       return;
     }
 
-    Alert.alert(t(m.discardTitle), undefined, [
-      {
-        text: t(m.discardConfirm),
-        onPress: () => {
-          clearDraft();
-          if (shouldCloseToHome) navigation.navigate("Home");
-          else navigation.goBack();
+    if (isNew) {
+      Alert.alert(t(m.discardTitle), undefined, [
+        {
+          text: t(m.discardConfirm),
+          onPress: () => {
+            clearDraft();
+            navigation.navigate("Home");
+          },
         },
-      },
-      {
-        text: t(m.discardCancel),
-        onPress: () => {},
-      },
-    ]);
+        { text: t(m.discardCancel), onPress: () => {} },
+      ]);
+    } else {
+      Alert.alert(t(m.discardChangesTitle), undefined, [
+        {
+          text: t(m.discardChangesConfirm),
+          onPress: () => {
+            clearDraft();
+            navigation.goBack();
+          },
+        },
+        { text: t(m.discardCancel), onPress: () => {} },
+      ]);
+    }
   }, [
     clearDraft,
     draftObservation.photos,
     draftObservation.value,
     existingObservation,
+    isNew,
     navigation,
-    shouldCloseToHome,
     shouldConfirm,
     t,
   ]);
@@ -155,7 +171,7 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
     <HeaderBackButton
       {...props}
       onPress={handleCloseRequest}
-      backImage={shouldCloseToHome ? HeaderCloseIcon : HeaderBackIcon}
+      backImage={isNew && shouldConfirm ? HeaderCloseIcon : HeaderBackIcon}
     />
   );
 };

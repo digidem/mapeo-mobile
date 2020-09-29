@@ -27,11 +27,6 @@ describe("Mapeo", () => {
   });
 
   describe("Create observation", () => {
-    test("Tapping add from map screen shows 'choose what is happening' screen", async () => {
-      await byId("addButtonMap").tap();
-      await expect(byText("Choose what is happening")).toBeVisible();
-    });
-
     // expo-camera does not work in an emulator see
     // https://github.com/expo/expo/issues/5529
     test.skip("Tapping add from camera screen shows 'choose what is happening' screen", async () => {
@@ -41,6 +36,42 @@ describe("Mapeo", () => {
       // and does not switch screens until the photo is taken
       // await waitForVisible(byText("Choose what is happening"), 10000);
       await expect(byText("Choose what is happening")).toBeVisible();
+    });
+
+    test("Clicking back button after add shows confirmation alert and discards observation", async () => {
+      await byId("addButtonMap").tap();
+      await device.pressBack();
+      await expect(byText("Discard observation?")).toBeVisible();
+      await byText("DISCARD WITHOUT SAVING").tap();
+      await byId("observationListButton").tap();
+      await expect(byId("observationsEmptyView")).toExist();
+    });
+
+    test("Can create observation", async () => {
+      await byId("addButtonMap").tap();
+      await byId("animalCategoryButton").tap();
+      await byId("saveButton").tap();
+      await byText("SAVE").tap();
+      await byId("observationListButton").tap();
+      await expect(byId("observationListItem:0")).toExist();
+    });
+
+    // NOTE: This test relies on the observation created by the previous test
+    test("Clicking back button after edit shows confirmation alert and discards edits", async () => {
+      await byId("observationListButton").tap();
+      await byId("observationListItem:0").tap();
+      await byId("editButton").tap();
+      await byId("observationDescriptionField").typeText("Test description");
+      // Closes keyboard
+      await device.pressBack();
+      // Cancels edit
+      await device.pressBack();
+      // Checks this says "Discard changes" not "Discard observation", which
+      // happens when cancelling a new observation
+      await expect(byText("Discard changes?")).toBeVisible();
+      await expect(byText("DISCARD CHANGES")).toBeVisible();
+      // Delete and re-install to remove added observation
+      await device.launchApp({ delete: true });
     });
   });
 
@@ -52,7 +83,6 @@ describe("Mapeo", () => {
     });
   });
 
-  // NOTE: This should be last, because of the restart after language change
   describe("Settings", () => {
     test("Clicking observation list then settings icon shows settings screen", async () => {
       await navigateToSettings();
@@ -65,7 +95,7 @@ describe("Mapeo", () => {
       await expect(byText("Mapeo version")).toBeVisible();
     });
 
-    // NOTE: This should be the last test within "Settings"
+    // NOTE: This test needs to be last
     test("Changing language in settings changes app language", async () => {
       await navigateToSettings();
       await byId("settingsLanguageButton").tap();
@@ -80,9 +110,9 @@ describe("Mapeo", () => {
       // language stays on the same screen
       await byId("observationListButton").tap();
       await expect(byText("Observaciones")).toBeVisible();
-      // Delete and re-install the app after changing language, so that it
-      // resets to the default language
-      await device.launchApp({ delete: true });
+      // This was failing in Github actions for some reason, so this test needs
+      // to be last (since everything will be in Spanish from now on)
+      // await device.launchApp({ delete: true });
     });
   });
 });

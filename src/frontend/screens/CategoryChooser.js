@@ -53,6 +53,7 @@ const Item = React.memo(
       onPress={() => onSelect(item)}
       activeOpacity={1}
       underlayColor="#000033"
+      testID={`${item.id}CategoryButton`}
     >
       <View style={styles.cellContainer}>
         <CategoryCircleIcon iconId={item.icon} size="medium" />
