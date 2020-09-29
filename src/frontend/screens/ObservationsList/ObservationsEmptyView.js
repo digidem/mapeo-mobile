@@ -38,7 +38,7 @@ type Props = {
 const ObservationEmptyView = ({ onPressBack }: Props) => {
   const { formatMessage: t } = useIntl();
   return (
-    <View style={styles.root}>
+    <View style={styles.root} testID="observationsEmptyView">
       <View style={styles.iconContainer}>
         <View style={styles.iconCircle}>
           <ObservationListIcon size={150} />

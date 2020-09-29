@@ -4,7 +4,7 @@ import { View, ScrollView, Text, StyleSheet } from "react-native";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import LocationContext from "../context/LocationContext";
-import FormattedCoords from "../sharedComponents/FormattedCoords";
+import { FormattedCoords } from "../sharedComponents/FormattedData";
 import DateDistance from "../sharedComponents/DateDistance";
 import HeaderTitle from "../sharedComponents/HeaderTitle";
 
@@ -64,7 +64,7 @@ const GpsModal = ({ navigation }: Props) => {
   const { formatMessage: t } = useIntl();
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} testID="gpsScreenScrollView">
       <View style={styles.infoArea}>
         <Text style={styles.sectionTitle}>
           <FormattedMessage {...m.lastUpdate} />
@@ -78,11 +78,12 @@ const GpsModal = ({ navigation }: Props) => {
             <Text style={styles.sectionTitle}>
               <FormattedMessage {...m.locationUTM} />
             </Text>
-            <FormattedCoords
-              lon={location.position.coords.longitude}
-              lat={location.position.coords.latitude}
-              style={styles.rowValue}
-            />
+            <Text style={styles.rowValue}>
+              <FormattedCoords
+                lon={location.position.coords.longitude}
+                lat={location.position.coords.latitude}
+              />
+            </Text>
             <Text style={styles.sectionTitle}>
               <FormattedMessage {...m.details} />
             </Text>

@@ -25,6 +25,9 @@ const m = defineMessages({
   },
 });
 
+// Used to skip static message extraction for messages without a static ID
+const DynFormattedMessage = FormattedMessage;
+
 const ROW_HEIGHT = 120;
 const MIN_COL_WIDTH = 100;
 // const log = debug("CategoriesView");
@@ -50,11 +53,15 @@ const Item = React.memo(
       onPress={() => onSelect(item)}
       activeOpacity={1}
       underlayColor="#000033"
+      testID={`${item.id}CategoryButton`}
     >
       <View style={styles.cellContainer}>
         <CategoryCircleIcon iconId={item.icon} size="medium" />
         <Text numberOfLines={3} style={styles.categoryName}>
-          {item.name}
+          <DynFormattedMessage
+            id={`presets.${item.id}.name`}
+            defaultMessage={item.name}
+          />
         </Text>
       </View>
     </TouchableHighlight>

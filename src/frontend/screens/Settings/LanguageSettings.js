@@ -27,7 +27,7 @@ const LanguageSettings = () => {
   );
 
   return (
-    <ScrollView>
+    <ScrollView testID="languageScrollView">
       <SelectOne
         value={locale}
         options={options}

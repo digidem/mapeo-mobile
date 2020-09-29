@@ -4,11 +4,11 @@ import { Text } from "react-native";
 import { FormattedRelativeTime, FormattedDate } from "react-intl";
 import { useAppState } from "@react-native-community/hooks";
 
-import type { Style } from "../types";
+import type { TextStyleProp } from "../types";
 
 type Props = {
   date: Date,
-  style?: Style<typeof Text>,
+  style?: TextStyleProp,
 };
 
 // We use relative dates for anything within the last 7 days, and then absolute

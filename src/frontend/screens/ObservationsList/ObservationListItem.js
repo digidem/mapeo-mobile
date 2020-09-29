@@ -1,31 +1,26 @@
 // @flow
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { defineMessages, useIntl } from "react-intl";
 
 import { TouchableHighlight } from "../../sharedComponents/Touchables";
 import useObservation from "../../hooks/useObservation";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
-import DateDistance from "../../sharedComponents/DateDistance";
 import { filterPhotosFromAttachments } from "../../lib/utils";
 import PhotoView from "../../sharedComponents/PhotoView";
 import api from "../../api";
-import type { Style } from "../../types";
+import type { ViewStyleProp } from "../../types";
 import type { SavedPhoto } from "../../context/DraftObservationContext";
 import useDeviceId from "../../hooks/useDeviceId";
-
-const m = defineMessages({
-  defaultObservationName: {
-    id: "screens.ObservationsList.ObservationListItem.defaultObservationName",
-    defaultMessage: "Observation",
-    description: "Default name for an observation that does not match a preset",
-  },
-});
+import {
+  FormattedPresetName,
+  FormattedObservationDate,
+} from "../../sharedComponents/FormattedData";
 
 type Props = {
   onPress: string => any,
-  style?: Style<typeof View>,
+  style?: ViewStyleProp,
   observationId: string,
+  testID: string,
 };
 
 const photoOverlap = 10;
@@ -55,16 +50,13 @@ const ObservationListItem = ({
   onPress = () => {},
   style,
   observationId,
+  testID,
 }: Props) => {
-  const { formatMessage: t } = useIntl();
   const [{ observation, preset }] = useObservation(observationId);
-  const name = preset ? preset.name : t(m.defaultObservationName);
   const deviceId = useDeviceId();
   const iconId = preset && preset.icon;
-  const createdDate =
-    observation && observation.created_at
-      ? new Date(observation.created_at)
-      : undefined;
+  if (!observation) return null; // Should never get here!
+
   const photos = filterPhotosFromAttachments(
     observation && observation.value.attachments
   ).slice(0, 3);
@@ -72,15 +64,22 @@ const ObservationListItem = ({
   return (
     <TouchableHighlight
       onPress={() => onPress(observationId)}
-      testID={"ObservationListItem:" + observationId}
+      testID={testID}
       style={{ flex: 1, height: 80 }}
     >
       <View
         style={[styles.container, style, !isMine && styles.syncedObservation]}
       >
         <View style={styles.text}>
-          <Text style={styles.title}>{name}</Text>
-          {createdDate && <DateDistance date={createdDate} />}
+          <Text style={styles.title}>
+            <FormattedPresetName preset={preset} />
+          </Text>
+          <Text>
+            <FormattedObservationDate
+              observation={observation}
+              variant="relative"
+            />
+          </Text>
         </View>
         {photos.length ? (
           <View style={styles.photoContainer}>

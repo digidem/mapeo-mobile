@@ -17,7 +17,8 @@
     "standard",
     "react-native",
     "jest",
-    "react-hooks"
+    "react-hooks",
+    "detox"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -40,7 +41,8 @@
     "lines-between-class-members": 0,
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "react-native/no-raw-text": ["error", { "skip": ["Button"] }]
+    "react-native/no-raw-text": ["error", { "skip": ["Button"] }],
+    "jest/no-disabled-tests": 0
   },
   "settings": {
     "react": {

@@ -111,7 +111,7 @@ const SaveButton = ({ navigation }: Props) => {
   }, [savingStatus, navigation]);
 
   return (
-    <IconButton onPress={handleSavePress}>
+    <IconButton onPress={handleSavePress} testID="saveButton">
       <SaveIcon inprogress={savingStatus === "loading"} />
     </IconButton>
   );

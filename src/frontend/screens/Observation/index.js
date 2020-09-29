@@ -8,6 +8,7 @@ import CenteredView from "../../sharedComponents/CenteredView";
 import useObservation from "../../hooks/useObservation";
 import ObservationHeaderRight from "./ObservationHeaderRight";
 import type { NavigationProp } from "../../types";
+import HeaderTitle from "../../sharedComponents/HeaderTitle";
 
 const m = defineMessages({
   notFound: {
@@ -29,6 +30,12 @@ const m = defineMessages({
     id: "screens.Observation.confirm",
     defaultMessage: "Yes, delete",
     description: "Button to confirm delete of observation",
+  },
+  title: {
+    id: "screens.Observation.title",
+    defaultMessage: "Observation",
+    description:
+      "Title of observation screen showing (non-editable) view of observation with map and answered questions",
   },
 });
 
@@ -97,6 +104,11 @@ Observation.navigationOptions = ({
 }: {
   navigation: NavigationProp,
 }) => ({
+  headerTitle: () => (
+    <HeaderTitle>
+      <FormattedMessage {...m.title} />
+    </HeaderTitle>
+  ),
   headerRight: () => <ObservationHeaderRight navigation={navigation} />,
 });
 

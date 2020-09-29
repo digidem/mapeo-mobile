@@ -1,11 +1,11 @@
 // @flow
 import * as React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { TouchableNativeFeedback } from "../sharedComponents/Touchables";
 
 import { VERY_LIGHT_BLUE } from "../lib/styles";
-import type { Style } from "../types";
+import type { ViewStyleProp } from "../types";
 
 // Fix warning pending https://github.com/kmagiera/react-native-gesture-handler/pull/561/files
 TouchableNativeFeedback.propTypes = {
@@ -15,8 +15,8 @@ TouchableNativeFeedback.propTypes = {
 
 type Props = {
   onPress: (SyntheticEvent<>) => any,
-  containerStyle?: Style<typeof View>,
-  textStyle?: Style<typeof View>,
+  containerStyle?: ViewStyleProp,
+  textStyle?: ViewStyleProp,
   title: string,
   testID?: string,
 };

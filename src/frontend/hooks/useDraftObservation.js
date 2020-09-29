@@ -32,12 +32,10 @@ const PREVIEW_QUALITY = 30;
 
 type Signal = { didCancel: boolean };
 
-export type CapturePromise = Promise<{
+export type CapturedPictureMM = {
   uri: string,
-  width: number,
-  height: number,
   rotate?: number,
-}>;
+};
 
 export type UseDraftObservation = [
   {|
@@ -53,7 +51,7 @@ export type UseDraftObservation = [
      * which returns a uri to a local image file (in temp cache) and the image
      * width and height.
      */
-    addPhoto: (capture: CapturePromise) => Promise<void>,
+    addPhoto: (capture: Promise<CapturedPictureMM>) => Promise<void>,
     // Save a draft
     saveDraft: () => Promise<void>,
     // Performs a shallow merge of the observation value, like setState
@@ -64,7 +62,7 @@ export type UseDraftObservation = [
     newDraft: (
       id?: string,
       value?: ObservationValue | null,
-      capture?: CapturePromise
+      capture?: Promise<CapturedPictureMM>
     ) => void,
   |}
 ];
@@ -78,7 +76,7 @@ export default (): UseDraftObservation => {
   const [savingStatus, setSavingStatus] = useState<Status>();
 
   const addPhoto = useCallback(
-    async function addPhoto(capturePromise: CapturePromise) {
+    async function addPhoto(capturePromise: Promise<CapturedPictureMM>) {
       // Keep a reference of the "in-progress" photo which we save to state, we
       // will use this later to swap it in state with the captured photo
       const capturingPhoto: DraftPhoto = { capturing: true };
@@ -144,7 +142,7 @@ export default (): UseDraftObservation => {
     (
       id?: string,
       value?: ObservationValue | null = { tags: {} },
-      capture?: CapturePromise
+      capture?: Promise<CapturedPictureMM>
     ) => {
       cancelPhotoProcessing();
       setDraft({
@@ -263,7 +261,7 @@ export default (): UseDraftObservation => {
 };
 
 async function processPhoto(
-  capturePromise: CapturePromise,
+  capturePromise: Promise<CapturedPictureMM>,
   { didCancel = false }: Signal
 ): Promise<DraftPhoto> {
   const photo: DraftPhoto = { capturing: false };
