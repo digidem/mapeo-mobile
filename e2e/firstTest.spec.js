@@ -95,6 +95,7 @@ describe("Mapeo", () => {
       await expect(byText("Mapeo version")).toBeVisible();
     });
 
+    // NOTE: This test needs to be last
     test("Changing language in settings changes app language", async () => {
       await navigateToSettings();
       await byId("settingsLanguageButton").tap();
@@ -109,9 +110,9 @@ describe("Mapeo", () => {
       // language stays on the same screen
       await byId("observationListButton").tap();
       await expect(byText("Observaciones")).toBeVisible();
-      // Delete and re-install the app after changing language, so that it
-      // resets to the default language
-      await device.launchApp({ delete: true });
+      // This was failing in Github actions for some reason, so this test needs
+      // to be last (since everything will be in Spanish from now on)
+      // await device.launchApp({ delete: true });
     });
   });
 });
