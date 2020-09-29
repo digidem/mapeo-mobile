@@ -3,12 +3,20 @@
     "description": "Button on dialog to keep editing (cancelling close action)",
     "message": "ทำการแก้ไขต่อ"
   },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "Discard changes"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "Discard changes?"
+  },
   "AppContainer.EditHeader.discardContent": {
-    "description": "Button on dialog to close without saving",
+    "description": "Button on dialog to cancel a new observation",
     "message": "ยกเลิกโดยไม่บันทึก"
   },
   "AppContainer.EditHeader.discardTitle": {
-    "description": "Title of dialog that shows when closing an observation without saving",
+    "description": "Title of dialog that shows when cancelling a new observation",
     "message": "ยืนยันการยกเลิก?"
   },
   "screens.AboutMapeo.androidBuild": {
