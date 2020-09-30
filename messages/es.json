@@ -3,13 +3,49 @@
     "description": "Button on dialog to keep editing (cancelling close action)",
     "message": "Seguir editando"
   },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "Descartar cambios"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "¿Descartar cambios?"
+  },
   "AppContainer.EditHeader.discardContent": {
-    "description": "Button on dialog to close without saving",
+    "description": "Button on dialog to cancel a new observation",
     "message": "Descartar observación"
   },
   "AppContainer.EditHeader.discardTitle": {
-    "description": "Title of dialog that shows when closing an observation without saving",
+    "description": "Title of dialog that shows when cancelling a new observation",
     "message": "¿Quieres descartar la observación?"
+  },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "Número de compilación de Android"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "Versión de Android"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type",
+    "message": "Tipo de Mapeo"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "Versión de Mapeo"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "Modelo de teléfono"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "Acerca de Mapeo"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "Desconocido"
   },
   "screens.AddPhoto.cancel": {
     "message": "Cancelar"
@@ -116,6 +152,10 @@
     "description": "Message shown when an observation is not found",
     "message": "Observación no encontrada"
   },
+  "screens.Observation.title": {
+    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
+    "message": "Observación"
+  },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
     "message": "{current} de {total}"
@@ -147,10 +187,6 @@
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
     "message": "Agregar detalles"
-  },
-  "screens.ObservationEdit.ObservationEditView.observation": {
-    "description": "Name of observation when no preset matches",
-    "message": "Observación"
   },
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
@@ -200,10 +236,6 @@
     "description": "Title of screen with list of observations",
     "message": "Observaciones"
   },
-  "screens.ObservationsList.ObservationListItem.defaultObservationName": {
-    "description": "Default name for an observation that does not match a preset",
-    "message": "Observación"
-  },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
     "message": "Ir al mapa"
@@ -243,6 +275,14 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Algo está pasando con la base de datos Mapeo"
+  },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "Acerca de Mapeo"
+  },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "Versión y número de compilación"
   },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
@@ -292,6 +332,10 @@
     "description": "Button label when complete",
     "message": "Completo"
   },
+  "screens.SyncModal.PeerList.disconnectedButton": {
+    "description": "Button label when disconnected",
+    "message": "Desconectado"
+  },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
     "message": "Error"
@@ -303,6 +347,10 @@
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
     "message": "Mapeo incompatible"
+  },
+  "screens.SyncModal.PeerList.finishingButton": {
+    "description": "Button label when finishing sync but don't have correct progress",
+    "message": "..."
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
@@ -361,8 +409,8 @@
     "message": "{deviceName} tiene una versión de Mapeo más nuevo. Tienes que actualizar tu versión de Mapeo para poder sincronizar con {deviceName}."
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
-    "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "Necesitas actualizar tu versión de Mapeo"
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "Necesitas actualizar Mapeo para sincronizar con {deviceName}"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",

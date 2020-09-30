@@ -3,13 +3,49 @@
     "description": "Button on dialog to keep editing (cancelling close action)",
     "message": "បន្តកែសម្រួល"
   },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "Discard changes"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "Discard changes?"
+  },
   "AppContainer.EditHeader.discardContent": {
-    "description": "Button on dialog to close without saving",
+    "description": "Button on dialog to cancel a new observation",
     "message": "បោះបង់ដោយមិនរក្សាទុក"
   },
   "AppContainer.EditHeader.discardTitle": {
-    "description": "Title of dialog that shows when closing an observation without saving",
+    "description": "Title of dialog that shows when cancelling a new observation",
     "message": "បោះបង់ការសង្កេត?"
+  },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "Android build number"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "Android version"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type",
+    "message": "Mapeo type"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "Mapeo version"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "Phone model"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "About Mapeo"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "Unknown"
   },
   "screens.AddPhoto.cancel": {
     "message": "បោះបង់"
@@ -116,6 +152,10 @@
     "description": "Message shown when an observation is not found",
     "message": "ការសង្កេតពុំអាចរកបាន"
   },
+  "screens.Observation.title": {
+    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
+    "message": "Observation"
+  },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
     "message": "{current} នៃ {total}"
@@ -147,10 +187,6 @@
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
     "message": "បន្ថែមព័ត៌មានលម្អិត"
-  },
-  "screens.ObservationEdit.ObservationEditView.observation": {
-    "description": "Name of observation when no preset matches",
-    "message": "ការសង្កេត"
   },
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
@@ -200,10 +236,6 @@
     "description": "Title of screen with list of observations",
     "message": "ការសង្កេត"
   },
-  "screens.ObservationsList.ObservationListItem.defaultObservationName": {
-    "description": "Default name for an observation that does not match a preset",
-    "message": "ការសង្កេត"
-  },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
     "message": "ចូលទៅផែនទី"
@@ -244,6 +276,14 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "វាមានភាពត្រូវគ្នាជាមួយនឹងមូលដ្ឋានទិន្នន័យរបស់ Mapeo"
   },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "About Mapeo"
+  },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "Version and build number"
+  },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "There was an error trying to import this config file"
@@ -251,18 +291,6 @@
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
     "message": "យល់ព្រម"
-  },
-  "screens.Settings.configErrorTitle": {
-    "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Import Error"
-  },
-  "screens.Settings.configErrorDescription": {
-    "description": "Description of error dialog when there is an error importing a config file",
-    "message": "There was an error trying to import this config file"
-  },
-  "screens.Settings.configErrorOkButton": {
-    "description": "Button to dismiss error dialog when there is an error importing a config file",
-    "message": "OK"
   },
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
@@ -304,6 +332,10 @@
     "description": "Button label when complete",
     "message": "បញ្ចប់"
   },
+  "screens.SyncModal.PeerList.disconnectedButton": {
+    "description": "Button label when disconnected",
+    "message": "Disconnected"
+  },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
     "message": "កំហុសឆ្គង"
@@ -315,6 +347,10 @@
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
     "message": "មិនត្រូវគ្នានឹង Mapeo"
+  },
+  "screens.SyncModal.PeerList.finishingButton": {
+    "description": "Button label when finishing sync but don't have correct progress",
+    "message": "..."
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
@@ -373,8 +409,8 @@
     "message": "ឧបករណ៍ដែលអ្នកកំពុងព្យាយាមធ្វើសមកាលកម្មមានកំណែថ្មីរបស់ Mapeo។ ដូចនេះអ្នកត្រូវធ្វើវិសិដ្ឋកម្ម Mapeo កំណែថ្មីដើម្បីធ្វើសមកាលកម្មជាមួយឧបករណ៍នេះបាន។"
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
-    "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "អ្នកត្រូវធ្វើឱ្យប្រសើរឡើងនូវ Mapeo"
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "You need to upgrade Mapeo to sync with {deviceName}"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
