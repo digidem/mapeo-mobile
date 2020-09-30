@@ -5,11 +5,11 @@
   },
   "AppContainer.EditHeader.discardChangesContent": {
     "description": "Button on dialog to cancel observation edits",
-    "message": "Discard changes"
+    "message": "ยกเลิกการเปลี่ยนแปลง"
   },
   "AppContainer.EditHeader.discardChangesTitle": {
     "description": "Title of dialog that shows when cancelling observation edits",
-    "message": "Discard changes?"
+    "message": "ยกเลิกการเปลี่ยนแปลงหรือไม่?"
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to cancel a new observation",
