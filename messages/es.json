@@ -37,7 +37,7 @@
   },
   "screens.AboutMapeo.phoneModel": {
     "description": "Label for phone model",
-    "message": "Modelo de teléfono"
+    "message": "Modelo del teléfono"
   },
   "screens.AboutMapeo.title": {
     "description": "Title of 'About Mapeo' screen",
