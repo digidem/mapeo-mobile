@@ -21,31 +21,31 @@
   },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
-    "message": "Android build number"
+    "message": "លេខកំណែបង្កើតអេនដ្រយ"
   },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
-    "message": "Android version"
+    "message": "កំណែអេនដ្រយ"
   },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type",
-    "message": "Mapeo type"
+    "message": "ប្រភេទមែមភីអូ"
   },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
-    "message": "Mapeo version"
+    "message": "កំណែមែមភីអូ"
   },
   "screens.AboutMapeo.phoneModel": {
     "description": "Label for phone model",
-    "message": "Phone model"
+    "message": "ម៉ូដែលទូរសព្វ"
   },
   "screens.AboutMapeo.title": {
     "description": "Title of 'About Mapeo' screen",
-    "message": "About Mapeo"
+    "message": "អំពីមែបភីអូ"
   },
   "screens.AboutMapeo.unknownValue": {
     "description": "Shown when a device info (e.g. version number) is unknown",
-    "message": "Unknown"
+    "message": "មិនដឹង"
   },
   "screens.AddPhoto.cancel": {
     "message": "បោះបង់"
@@ -94,13 +94,13 @@
     "message": "ខាងកើត"
   },
   "screens.ManualGpsScreen.eastingSuffix": {
-    "message": "mE"
+    "message": "ម៉ែតខាងកើត"
   },
   "screens.ManualGpsScreen.northing": {
     "message": "ខាងជើង"
   },
   "screens.ManualGpsScreen.northingSuffix": {
-    "message": "mN"
+    "message": "ម៉ែតខាងជើង"
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
@@ -154,7 +154,7 @@
   },
   "screens.Observation.title": {
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
-    "message": "Observation"
+    "message": "ការតាមដាន"
   },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
@@ -278,15 +278,15 @@
   },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
-    "message": "About Mapeo"
+    "message": "អំពីមែបភីអូ"
   },
   "screens.Settings.aboutMapeoDesc": {
     "description": "Description of the 'About Mapeo' page",
-    "message": "Version and build number"
+    "message": "លេខសេរ៊ីនិងកំណែរ"
   },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
-    "message": "There was an error trying to import this config file"
+    "message": "មិនបានមានបញ្ហាក្នុងការព្យាយាមទាញចូលឯកសារខិនហ្វិក"
   },
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
@@ -294,7 +294,7 @@
   },
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Import Error"
+    "message": "ការទាញចូលមានបញ្ហា"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
@@ -318,7 +318,7 @@
   },
   "screens.Settings.projectKey": {
     "description": "Label for project key",
-    "message": "Project Key"
+    "message": "សោគម្រោង"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
@@ -334,7 +334,7 @@
   },
   "screens.SyncModal.PeerList.disconnectedButton": {
     "description": "Button label when disconnected",
-    "message": "Disconnected"
+    "message": "បាន​ផ្ដាច់"
   },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
@@ -370,7 +370,7 @@
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
-    "message": "Project Key: {projectKey}"
+    "message": "សោគម្រោង៖{projectKey}"
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
@@ -410,7 +410,7 @@
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "You need to upgrade Mapeo to sync with {deviceName}"
+    "message": "អ្នកត្រូវការតម្លើងកំណែមែបភីអូដើម្បីភ្ជាប់ជាមួយ{deviceName}"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
