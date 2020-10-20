@@ -118,7 +118,7 @@ workflows:
                 # debug log
                 set -x
 
-                node ./scripts/gh-pages-redirect.js /latest https://mapeo-apks.s3.amazonaws.com/release/${VERSION_NAME}/${RELEASE_APK_PATH##*/}
+                node ./scripts/gh-pages-redirect.js /latest https://mapeo-apks.s3.amazonaws.com/release/v${VERSION_NAME}/${RELEASE_APK_PATH##*/}
       - amazon-s3-uploader@1.0.1:
           title: Upload universal (all ABIs) APK
           inputs:
