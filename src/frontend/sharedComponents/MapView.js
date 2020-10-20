@@ -1,9 +1,9 @@
 // @flow
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ScaleBar from "react-native-scale-bar";
-import cheapRuler from "cheap-ruler";
+import CheapRuler from "cheap-ruler";
 
 // import type { MapStyle } from "../types";
 import { LocationFollowingIcon, LocationNoFollowIcon } from "./icons";
@@ -11,9 +11,19 @@ import IconButton from "./IconButton";
 import withNavigationFocus from "../lib/withNavigationFocus";
 import type { LocationContextType } from "../context/LocationContext";
 import type { ObservationsMap } from "../context/ObservationsContext";
+import type { MapStyleType } from "../hooks/useMapStyle";
 import bugsnag from "../lib/logger";
 import config from "../../config.json";
 import Loading from "./Loading";
+import OfflineMapLayers from "./OfflineMapLayers";
+
+// This is the default zoom used when the map first loads, and also the zoom
+// that the map will zoom to if the user clicks the "Locate" button and the
+// current zoom is < 12.
+const DEFAULT_ZOOM = 12;
+// The fallback map style does not include much detail, so at zoom 12 it looks
+// empty. If the fallback map is used, then we use zoom 4 as the default zoom.
+const DEFAULT_ZOOM_FALLBACK_MAP = 4;
 
 MapboxGL.setAccessToken(config.mapboxAccessToken);
 // Forces Mapbox to always be in connected state, rather than reading system
@@ -25,17 +35,17 @@ const mapboxStyles = {
     circleColor: "#F29D4B",
     circleRadius: 5,
     circleStrokeColor: "#fff",
-    circleStrokeWidth: 2
-  }
+    circleStrokeWidth: 2,
+  },
 };
 
 type ObservationFeature = {
   type: "Feature",
   geometry: {
     type: "Point",
-    coordinates: [number, number] | [number, number, number]
+    coordinates: [number, number] | [number, number, number],
   },
-  properties: {| id: string |}
+  properties: {| id: string |},
 };
 
 /**
@@ -59,11 +69,11 @@ function mapObservationsToFeatures(
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [obs.value.lon, obs.value.lat]
+          coordinates: [obs.value.lon, obs.value.lat],
         },
         properties: {
-          id: obs.id
-        }
+          id: obs.id,
+        },
       });
     }
   }
@@ -77,19 +87,20 @@ const MIN_DISPLACEMENT = 15;
 
 class ObservationMapLayer extends React.PureComponent<{
   onPress: Function,
-  observations: ObservationsMap
+  observations: ObservationsMap,
 }> {
   render() {
     const { onPress, observations } = this.props;
     const featureCollection = {
       type: "FeatureCollection",
-      features: mapObservationsToFeatures(observations)
+      features: mapObservationsToFeatures(observations),
     };
     return (
       <MapboxGL.ShapeSource
         onPress={onPress}
         id={`observations-source`}
-        shape={featureCollection}>
+        shape={featureCollection}
+      >
         <MapboxGL.CircleLayer id={`circles`} style={mapboxStyles.observation} />
       </MapboxGL.ShapeSource>
     );
@@ -98,10 +109,11 @@ class ObservationMapLayer extends React.PureComponent<{
 
 type Props = {
   observations: ObservationsMap,
-  styleURL: string,
+  styleURL: string | void,
+  styleType: MapStyleType,
   location: LocationContextType,
   onPressObservation: (observationId: string) => any,
-  isFocused: boolean
+  isFocused: boolean,
 };
 
 type State = {
@@ -110,7 +122,7 @@ type State = {
   hasFinishedLoadingStyle?: boolean,
   zoom: number,
   // lon, lat
-  coords: [number, number]
+  coords: [number, number],
 };
 
 type Coords = [number, number];
@@ -123,7 +135,7 @@ function getCoords(location: LocationContextType): [number, number] {
 class MapView extends React.Component<Props, State> {
   static defaultProps = {
     onAddPress: () => {},
-    onPressObservation: () => {}
+    onPressObservation: () => {},
   };
   map: any;
   coordsRef: Coords;
@@ -140,12 +152,13 @@ class MapView extends React.Component<Props, State> {
       zoom:
         props.location.provider &&
         props.location.provider.locationServicesEnabled
-          ? 12
+          ? DEFAULT_ZOOM_FALLBACK_MAP
           : 0.1,
-      coords: getCoords(props.location)
+      coords: getCoords(props.location),
     };
+    this.zoomRef = this.state.zoom;
 
-    this.ruler = cheapRuler(getCoords(props.location)[1], "meters");
+    this.ruler = new CheapRuler(getCoords(props.location)[1], "meters");
   }
 
   componentDidMount() {
@@ -183,9 +196,9 @@ class MapView extends React.Component<Props, State> {
   handleObservationPress = (e: {
     nativeEvent?: {
       payload?: {
-        properties?: { id: string }
-      }
-    }
+        properties?: { id: string },
+      },
+    },
   }) => {
     const pressedFeature = e.nativeEvent && e.nativeEvent.payload;
     if (!pressedFeature || !pressedFeature.properties) return;
@@ -216,18 +229,20 @@ class MapView extends React.Component<Props, State> {
   };
 
   handleRegionIsChanging = (e: any) => {
+    if (!e.properties.isUserInteraction) return;
     this.coordsRef = e.geometry.coordinates;
     this.zoomRef = e.properties.zoomLevel;
   };
 
   handleRegionDidChange = (e: any) => {
+    if (!e.properties.isUserInteraction) return;
     const { coords, zoom } = this.state;
     const distanceMoved = this.ruler.distance(coords, e.geometry.coordinates);
     if (zoom === e.properties.zoomLevel && distanceMoved < MIN_DISPLACEMENT)
       return;
     this.setState({
       zoom: e.properties.zoomLevel,
-      coords: e.geometry.coordinates
+      coords: e.geometry.coordinates,
     });
   };
 
@@ -236,26 +251,45 @@ class MapView extends React.Component<Props, State> {
   };
 
   handleLocationPress = () => {
-    const { location } = this.props;
+    const { location, styleType } = this.props;
     if (!(location.provider && location.provider.locationServicesEnabled))
       // TODO: Show alert for the user here so they know why it does not work
       return;
-    this.setState(state => ({ following: !state.following }));
+    // Sorry about this mess - when the user is interacting with the map we
+    // don't setState, because it would be too slow, so we use this.zoomRef to
+    // track the current map zoom. This means both this.zoomRef and setState
+    // need to be called to update the zoom of the map. This should be fixed
+    // with a better approach, because it can lead to bugs. For now, this code
+    // just ensures that the map zooms in when the user clicks the "locate me"
+    // button.
+    const currentZoom = this.zoomRef;
+    this.setState(state => {
+      const newZoom = (this.zoomRef =
+        styleType === "fallback"
+          ? Math.max(currentZoom, DEFAULT_ZOOM_FALLBACK_MAP)
+          : Math.max(currentZoom, DEFAULT_ZOOM));
+      return {
+        following: !state.following,
+        zoom: newZoom,
+      };
+    });
   };
 
   render() {
-    const { observations, styleURL, isFocused, location } = this.props;
+    const {
+      observations,
+      styleURL,
+      styleType,
+      isFocused,
+      location,
+    } = this.props;
     const { zoom, coords, following } = this.state;
     const locationServicesEnabled =
       location.provider && location.provider.locationServicesEnabled;
     return (
       <>
-        {styleURL === "loading" ? (
+        {styleURL === undefined || styleType === "loading" ? (
           <Loading />
-        ) : styleURL === "error" ? (
-          <View style={{ flex: 1 }}>
-            <Text>Error loading map</Text>
-          </View>
         ) : (
           <MapboxGL.MapView
             testID="mapboxMapView"
@@ -269,7 +303,7 @@ class MapView extends React.Component<Props, State> {
             attributionPosition={{ right: 8, bottom: 8 }}
             onPress={this.handleObservationPress}
             onDidFailLoadingMap={e =>
-              bugsnag.notify(e, report => {
+              bugsnag.notify(new Error("Failed to load map"), report => {
                 report.severity = "error";
                 report.context = "onDidFailLoadingMap";
               })
@@ -278,9 +312,16 @@ class MapView extends React.Component<Props, State> {
             onDidFinishRenderingMap={() =>
               bugsnag.leaveBreadcrumb("onDidFinishRenderingMap")
             }
-            onDidFinishRenderingMapFully={() =>
-              bugsnag.leaveBreadcrumb("onDidFinishRenderingMapFully")
-            }
+            onDidFinishRenderingMapFully={() => {
+              if (styleType !== "fallback") {
+                // For the fallback offline map (that does not contain much
+                // detail) we stay at zoom 4, but if we do load a style then we
+                // zoom in to zoom 12 once the map loads
+                this.zoomRef = DEFAULT_ZOOM;
+                this.setState({ zoom: DEFAULT_ZOOM });
+              }
+              bugsnag.leaveBreadcrumb("onDidFinishRenderingMapFully");
+            }}
             onWillStartLoadingMap={() =>
               bugsnag.leaveBreadcrumb("onWillStartLoadingMap")
             }
@@ -291,20 +332,15 @@ class MapView extends React.Component<Props, State> {
             styleURL={styleURL}
             onRegionWillChange={this.handleRegionWillChange}
             onRegionIsChanging={this.handleRegionIsChanging}
-            onRegionDidChange={this.handleRegionDidChange}>
+            onRegionDidChange={this.handleRegionDidChange}
+          >
             <MapboxGL.Camera
               defaultSettings={{
                 centerCoordinate: this.coordsRef || coords || [0, 0],
-                zoomLevel: this.zoomRef || zoom || 12
+                zoomLevel: this.zoomRef || zoom || DEFAULT_ZOOM,
               }}
               centerCoordinate={following ? getCoords(location) : undefined}
-              zoomLevel={
-                !following
-                  ? undefined
-                  : (this.zoomRef || zoom) < 12
-                  ? 12
-                  : this.zoomRef || zoom
-              }
+              zoomLevel={!following ? undefined : this.zoomRef || zoom}
               animationDuration={1000}
               animationMode="flyTo"
               followUserLocation={false}
@@ -315,12 +351,13 @@ class MapView extends React.Component<Props, State> {
                 observations={observations}
               />
             )}
-            {locationServicesEnabled && (
+            {styleType === "fallback" ? <OfflineMapLayers /> : null}
+            {locationServicesEnabled ? (
               <MapboxGL.UserLocation
                 visible={isFocused}
                 minDisplacement={MIN_DISPLACEMENT}
               />
-            )}
+            ) : null}
           </MapboxGL.MapView>
         )}
         <ScaleBar
@@ -357,6 +394,6 @@ const styles = StyleSheet.create({
   locationButton: {
     position: "absolute",
     right: 20,
-    bottom: 20
-  }
+    bottom: 20,
+  },
 });

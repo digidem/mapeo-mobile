@@ -13,6 +13,7 @@ import { PermissionsProvider } from "./context/PermissionsContext";
 import { IntlProvider } from "./context/IntlContext";
 import AppProvider from "./context/AppProvider";
 import bugsnag from "./lib/logger";
+import IS_E2E from "./lib/is-e2e";
 
 // Turn off warnings about require cycles
 YellowBox.ignoreWarnings(["Require cycle:"]);
@@ -24,34 +25,38 @@ const log = debug("mapeo:App");
 const NAV_STORE_KEY = "@MapeoNavigation@8";
 const ERROR_STORE_KEY = "@MapeoError";
 
-const persistNavigationState = async navState => {
-  try {
-    await AsyncStorage.setItem(NAV_STORE_KEY, JSON.stringify(navState));
-  } catch (err) {
-    log("Error saving navigation state", err);
-  }
-};
-const loadNavigationState = async () => {
-  try {
-    const navState = JSON.parse(await AsyncStorage.getItem(NAV_STORE_KEY));
-    const didCrashLastOpen = JSON.parse(
-      await AsyncStorage.getItem(ERROR_STORE_KEY)
-    );
-    // Clear error saved state so that navigation persistence happens on next load
-    await AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(false));
-    // If the app crashed last time, don't restore nav state
-    if (didCrashLastOpen) {
-      bugsnag.leaveBreadcrumb("Crash on last open");
-      log("Crashed on last open, skipping load of navigation state");
-      return null;
-    } else {
-      return navState;
-    }
-  } catch (error) {
-    bugsnag.leaveBreadcrumb("Error loading nav state", { error });
-    log("Error reading navigation and error state", error);
-  }
-};
+const persistNavigationState = IS_E2E
+  ? undefined
+  : async navState => {
+      try {
+        await AsyncStorage.setItem(NAV_STORE_KEY, JSON.stringify(navState));
+      } catch (err) {
+        log("Error saving navigation state", err);
+      }
+    };
+const loadNavigationState = IS_E2E
+  ? undefined
+  : async () => {
+      try {
+        const navState = JSON.parse(await AsyncStorage.getItem(NAV_STORE_KEY));
+        const didCrashLastOpen = JSON.parse(
+          await AsyncStorage.getItem(ERROR_STORE_KEY)
+        );
+        // Clear error saved state so that navigation persistence happens on next load
+        await AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(false));
+        // If the app crashed last time, don't restore nav state
+        if (didCrashLastOpen) {
+          bugsnag.leaveBreadcrumb("Crash on last open");
+          log("Crashed on last open, skipping load of navigation state");
+          return null;
+        } else {
+          return navState;
+        }
+      } catch (error) {
+        bugsnag.leaveBreadcrumb("Error loading nav state", { error });
+        log("Error reading navigation and error state", error);
+      }
+    };
 
 /**
  * Catches Javascript errors anywhere in the child component tree, logs the
@@ -59,14 +64,14 @@ const loadNavigationState = async () => {
  */
 class ErrorBoundary extends React.Component<
   {
-    children: React.Node
+    children: React.Node,
   },
   {
-    hasError: boolean
+    hasError: boolean,
   }
 > {
   state = {
-    hasError: false
+    hasError: false,
   };
 
   static getDerivedStateFromError() {
@@ -77,12 +82,12 @@ class ErrorBoundary extends React.Component<
     // This is rendered outside AppLoading, so SpashScreen could still be
     // showing if error occurs in AppLoading before it's hidden
     SplashScreen.hide();
-    bugsnag.notify(error, function(report) {
+    bugsnag.notify(error, function (report) {
       report.severity = "error";
       report.metadata = {
         react: {
-          componentStack: formatComponentStack(info.componentStack)
-        }
+          componentStack: formatComponentStack(info.componentStack),
+        },
       };
     });
     // Record that we have an error so that when the app restarts we can

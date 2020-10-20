@@ -37,7 +37,6 @@ const log = debug("mapeo-core:index");
 const PORT = 9081;
 const status = new ServerStatus();
 let storagePath;
-let flavor;
 let server;
 
 // This is nastily circular: we need an instance of status for the constructor
@@ -56,7 +55,7 @@ const bugsnag = createBugsnag({
   onUnhandledRejection: error => {
     log("unhandledRejection", error);
     status && status.setState(constants.ERROR, { error });
-  }
+  },
 });
 
 module.exports.bugsnag = bugsnag;
@@ -75,23 +74,18 @@ status.startHeartbeat();
  */
 rnBridge.channel.on("config", config => {
   log("storagePath", config.storagePath);
-  log("flavor", config.flavor);
-  if (config.storagePath === storagePath && config.flavor === flavor) return;
+  if (config.storagePath === storagePath) return;
   const prevStoragePath = storagePath;
-  const prevFlavor = flavor;
   if (server)
     stopServer(() => {
       log(`closed server with:
-  storagePath: ${prevStoragePath}
-  flavor: ${prevFlavor}`);
+  storagePath: ${prevStoragePath}`);
     });
   storagePath = config.storagePath;
-  flavor = config.flavor;
   try {
     server = createServer({
       privateStorage: rnBridge.app.datadir(),
       sharedStorage: storagePath,
-      flavor: flavor
     });
   } catch (error) {
     status.setState(constants.ERROR, { error, context: "createServer" });

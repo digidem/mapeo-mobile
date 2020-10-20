@@ -9,15 +9,16 @@ const m = defineMessages({
   questionPage: {
     id: "screens.ObservationDetails.QuestionNavBar.questionPage",
     defaultMessage: "{current} of {total}",
-    description: "Indicates which question we are on and total questions"
-  }
+    description: "Indicates which question we are on and total questions",
+  },
 });
 
 const NavButton = ({ name, onPress }) => (
   <TouchableNativeFeedback
     onPress={onPress}
     style={styles.iconCircle}
-    background={TouchableNativeFeedback.Ripple("gray", true)}>
+    background={TouchableNativeFeedback.Ripple("gray", true)}
+  >
     <MaterialIcon name={name} size={30} />
   </TouchableNativeFeedback>
 );
@@ -44,10 +45,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12.5,
     backgroundColor: "white",
     elevation: 5,
-    zIndex: 1
+    zIndex: 1,
   },
   text: {
-    fontSize: 16
+    fontSize: 16,
   },
   iconCircle: {
     width: 45,
@@ -56,6 +57,6 @@ const styles = StyleSheet.create({
     borderWidth: 2.5,
     borderColor: "#ECEFF0",
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });

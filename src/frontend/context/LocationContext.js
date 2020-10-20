@@ -23,8 +23,8 @@ export type PositionType = {
     longitude: number,
     speed: number,
     latitude: number,
-    accuracy: number
-  }
+    accuracy: number,
+  },
 };
 
 type ProviderType = {
@@ -38,7 +38,7 @@ type ProviderType = {
   // off when the device is in airplane mode)
   locationServicesEnabled: boolean,
   // Whether the device can lookup location based on cell phone towers
-  networkAvailable: boolean
+  networkAvailable: boolean,
 };
 
 export type LocationContextType = {
@@ -51,18 +51,18 @@ export type LocationContextType = {
   // This is the previous known position from the last time the app was open
   savedPosition?: PositionType | null,
   // True if there is some kind of error getting the device location
-  error?: boolean
+  error?: boolean,
 };
 
 type AppStateType = "active" | "background" | "inactive";
 
 type Props = {
   children: React.Node,
-  permissions: PermissionsType
+  permissions: PermissionsType,
 };
 
 const defaultContext: LocationContextType = {
-  error: false
+  error: false,
 };
 
 const positionOptions = {
@@ -71,7 +71,7 @@ const positionOptions = {
   accuracy: Location.Accuracy.BestForNavigation,
   // This is the interval between location updates. We should get a new GPS
   // reading every 2000ms.
-  timeInterval: 2000
+  timeInterval: 2000,
 };
 
 // Timeout between location updates --> means location was probably turned off
@@ -104,7 +104,7 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
       return state;
     return {
       ...state,
-      permission: props.permissions[PERMISSIONS.ACCESS_FINE_LOCATION]
+      permission: props.permissions[PERMISSIONS.ACCESS_FINE_LOCATION],
     };
   }
 

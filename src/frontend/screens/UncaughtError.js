@@ -9,14 +9,15 @@ const m = defineMessages({
   errorTitle: {
     id: "screens.UncaughtError.errorTitle",
     defaultMessage: "Unexpected Error",
-    description: "Title of message when there is an uncaught message in the app"
+    description:
+      "Title of message when there is an uncaught message in the app",
   },
   errorDesc: {
     id: "screens.UncaughtError.errorDesc",
     defaultMessage:
       "Really sorry about this, something unexpected went wrong, and it's our fault not yours. Try restarting the app to see if that fixes things.",
-    description: "Description when there is an uncaught message in the app"
-  }
+    description: "Description when there is an uncaught message in the app",
+  },
 });
 
 /**
@@ -39,11 +40,11 @@ const styles = StyleSheet.create({
   notice: {
     fontSize: 20,
     textAlign: "center",
-    margin: 20
+    margin: 20,
   },
   description: {
     textAlign: "center",
     color: "#333333",
-    margin: 20
-  }
+    margin: 20,
+  },
 });

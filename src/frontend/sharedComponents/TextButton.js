@@ -1,27 +1,33 @@
 // @flow
 import * as React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { TouchableNativeFeedback } from "../sharedComponents/Touchables";
 
 import { VERY_LIGHT_BLUE } from "../lib/styles";
-import type { Style } from "../types";
+import type { ViewStyleProp } from "../types";
 
 // Fix warning pending https://github.com/kmagiera/react-native-gesture-handler/pull/561/files
 TouchableNativeFeedback.propTypes = {
   ...TouchableNativeFeedback.propTypes,
-  background: PropTypes.object
+  background: PropTypes.object,
 };
 
 type Props = {
   onPress: (SyntheticEvent<>) => any,
-  containerStyle?: Style<typeof View>,
-  textStyle?: Style<typeof View>,
+  containerStyle?: ViewStyleProp,
+  textStyle?: ViewStyleProp,
   title: string,
-  testID?: string
+  testID?: string,
 };
 
-const TextButton = ({ onPress, containerStyle, textStyle,  title, testID }: Props) => (
+const TextButton = ({
+  onPress,
+  containerStyle,
+  textStyle,
+  title,
+  testID,
+}: Props) => (
   <TouchableNativeFeedback
     style={[styles.buttonContainer, containerStyle]}
     background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, true)}
@@ -37,10 +43,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     padding: 20,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   buttonText: {
     color: "blue",
-    fontWeight: "700"
-  }
+    fontWeight: "700",
+  },
 });

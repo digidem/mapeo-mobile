@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.1.0](https://github.com/digidem/mapeo-mobile/compare/v5.0.3-rebase...v5.1.0) (2020-09-30)
+
+### Features
+
+- Add "About Mapeo" page in settings screen with app version ([#471](https://github.com/digidem/mapeo-mobile/issues/471)) ([77602d1](https://github.com/digidem/mapeo-mobile/commit/77602d1d18adb912c44ee0df356c04383064c049))
+- Add minimal offline map so that points still show if no custom map ([#448](https://github.com/digidem/mapeo-mobile/issues/448)) ([f7c32b2](https://github.com/digidem/mapeo-mobile/commit/f7c32b207815cfaeadd57798d4a418f91a201478))
+- Add translations (es, vi, th) ([#435](https://github.com/digidem/mapeo-mobile/issues/435)) ([dcd9cb4](https://github.com/digidem/mapeo-mobile/commit/dcd9cb49c45bb07c635435709359c8bd1a8c7194)), closes [#457](https://github.com/digidem/mapeo-mobile/issues/457)
+- Brazilian Portuguese translations ([#394](https://github.com/digidem/mapeo-mobile/issues/394)) ([d1f7f65](https://github.com/digidem/mapeo-mobile/commit/d1f7f652d45f3456a38568c8d462c7fb4b7bcb80))
+- Device name (shown on sync screen) remains the same across app restarts ([#369](https://github.com/digidem/mapeo-mobile/issues/369)) ([f6dbfa4](https://github.com/digidem/mapeo-mobile/commit/f6dbfa43423c3d8a9963bc0a1eef56bbc9d560c0))
+- Do not ship Mapeo for ICCAs assets with Mapeo (keeps the APK size of the main Mapeo release down) ([#447](https://github.com/digidem/mapeo-mobile/issues/447)) ([c7df1fd](https://github.com/digidem/mapeo-mobile/commit/c7df1fd798a5587d6444cde9127752e1b238fddc))
+- Translate observation categories & details ([#458](https://github.com/digidem/mapeo-mobile/issues/458)) ([044a8a0](https://github.com/digidem/mapeo-mobile/commit/044a8a0ed5c2a66cdfe7c7b70e459a44f58ad549))
+- Update ICCA intro screens and presets ([#377](https://github.com/digidem/mapeo-mobile/issues/377)) ([54fda5f](https://github.com/digidem/mapeo-mobile/commit/54fda5f138650f99ebc30641c349fa0a55e48ba8))
+
+### Bug Fixes
+
+- Show "discard edits" not "discard observation" when cancelling edit ([028df97](https://github.com/digidem/mapeo-mobile/commit/028df9768d4588929d5ff60785410af337f096df)), closes [#381](https://github.com/digidem/mapeo-mobile/issues/381)
+- Update Thai and Nepali translations ([be8dc75](https://github.com/digidem/mapeo-mobile/commit/be8dc750b91c3a67fcaa61d3f5c90ea4c8580c42))
+
 ## [5.0.3](https://github.com/digidem/mapeo-mobile/compare/v5.0.2...v5.0.3) (2020-07-24)
 
 ### Bug Fixes

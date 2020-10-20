@@ -12,29 +12,29 @@ import languages from "../languages.json";
 // WARNING: This needs to change if we change the type of locale
 const STORE_KEY = "@MapeoLocale@1";
 
-const formats = {
+export const formats = {
   date: {
     long: {
       day: "numeric",
       month: "short",
       year: "numeric",
       hour: "2-digit",
-      minute: "2-digit"
-    }
-  }
+      minute: "2-digit",
+    },
+  },
 };
 
 type SupportedLanguages = Array<{|
   locale: string,
   nativeName: string,
-  englishName: string
+  englishName: string,
 |}>;
 
 export const supportedLanguages: SupportedLanguages = Object.keys(messages)
   .filter(locale => languages[locale])
   .map(locale => ({
     locale,
-    ...languages[locale]
+    ...languages[locale],
   }))
   .sort((a, b) => {
     return a.englishName.localeCompare(b.englishName);
@@ -73,12 +73,12 @@ export const IntlProvider = ({ children }: { children: React.Node }) => {
   // Add fallbacks for non-regional locales (e.g. "en" for "en-GB")
   const localeMessages = {
     ...messages[locale.split("-")[0]],
-    ...(messages[locale] || {})
+    ...(messages[locale] || {}),
   };
 
   const contextValue = React.useMemo(() => [locale, setLocale], [
     locale,
-    setLocale
+    setLocale,
   ]);
 
   return persistStatus === "loading" ? null : (
@@ -87,7 +87,8 @@ export const IntlProvider = ({ children }: { children: React.Node }) => {
       locale={locale}
       messages={localeMessages}
       formats={formats}
-      onError={onError}>
+      onError={onError}
+    >
       <IntlContext.Provider value={contextValue}>
         {children}
       </IntlContext.Provider>
@@ -98,7 +99,7 @@ export const IntlProvider = ({ children }: { children: React.Node }) => {
 export default IntlContext;
 
 function onError(e) {
-  console.warn(e);
+  console.log(e);
 }
 
 // Device locale can be regional e.g. `en-US` but we might only have

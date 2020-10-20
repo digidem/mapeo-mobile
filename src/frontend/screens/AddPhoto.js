@@ -7,7 +7,7 @@ import { defineMessages, FormattedMessage } from "react-intl";
 
 import CameraView from "../sharedComponents/CameraView";
 import useDraftObservation, {
-  type CapturePromise
+  type CapturedPictureMM,
 } from "../hooks/useDraftObservation";
 
 import type { NavigationScreenConfigProps } from "react-navigation";
@@ -15,8 +15,8 @@ import type { NavigationScreenConfigProps } from "react-navigation";
 const m = defineMessages({
   cancel: {
     id: "screens.AddPhoto.cancel",
-    defaultMessage: "Cancel"
-  }
+    defaultMessage: "Cancel",
+  },
 });
 
 const log = debug("AddPhotoScreen");
@@ -25,7 +25,7 @@ const AddPhotoScreen = ({ navigation }: NavigationScreenConfigProps) => {
   const [, { addPhoto }] = useDraftObservation();
 
   // TODO: addPhoto changes every render, so we can't useCallback here
-  const handleAddPress = (e: any, capture: CapturePromise) => {
+  const handleAddPress = (e: any, capture: Promise<CapturedPictureMM>) => {
     log("pressed add button");
     addPhoto(capture);
     // $FlowFixMe
@@ -43,7 +43,8 @@ const AddPhotoScreen = ({ navigation }: NavigationScreenConfigProps) => {
       <CameraView onAddPress={handleAddPress} />
       <TouchableNativeFeedback
         style={styles.cancelButton}
-        onPress={handleCancelPress}>
+        onPress={handleCancelPress}
+      >
         <Text style={styles.cancelButtonLabel}>
           <FormattedMessage {...m.cancel} />
         </Text>
@@ -53,7 +54,7 @@ const AddPhotoScreen = ({ navigation }: NavigationScreenConfigProps) => {
 };
 
 AddPhotoScreen.navigationOptions = {
-  header: null
+  headerShown: false,
 };
 
 export default AddPhotoScreen;
@@ -61,7 +62,7 @@ export default AddPhotoScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
   },
   cancelButton: {
     flex: 0,
@@ -69,11 +70,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    backgroundColor: "red"
+    backgroundColor: "red",
   },
   cancelButtonLabel: {
     color: "white",
     fontSize: 20,
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
 });

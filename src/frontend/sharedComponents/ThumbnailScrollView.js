@@ -6,7 +6,7 @@ import {
   Image,
   Dimensions,
   ScrollView,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import debug from "debug";
 
@@ -15,7 +15,7 @@ import api from "../api";
 import { LIGHT_GREY } from "../lib/styles";
 import { AlertIcon } from "./icons";
 import type { Photo } from "../context/DraftObservationContext";
-import type { Style } from "../types";
+import type { ViewStyleProp } from "../types";
 
 const spacing = 10;
 const minSize = 150;
@@ -24,8 +24,8 @@ const log = debug("Thumbnail");
 type ThumbnailProps = {
   photo: Photo,
   onPress: () => any,
-  style?: Style<typeof View>,
-  size?: number
+  style?: ViewStyleProp,
+  size?: number,
 };
 
 export class Thumbnail extends React.PureComponent<
@@ -34,7 +34,7 @@ export class Thumbnail extends React.PureComponent<
 > {
   state = { error: false };
   static defaultProps = {
-    size: 100
+    size: 100,
   };
 
   handleImageError = (e: any) => {
@@ -56,7 +56,7 @@ export class Thumbnail extends React.PureComponent<
         style={[
           styles.thumbnailContainer,
           { width: size, height: size },
-          style
+          style,
         ]}
         onPress={onPress}
       >
@@ -78,7 +78,7 @@ export class Thumbnail extends React.PureComponent<
 
 type Props = {
   onPressPhoto: (index: number) => any,
-  photos: Array<Photo>
+  photos: Array<Photo>,
 };
 
 const ThumbnailScrollView = ({ onPressPhoto, photos }: Props) => {
@@ -126,16 +126,16 @@ export default ThumbnailScrollView;
 
 const styles = StyleSheet.create({
   photosContainer: {
-    flex: 1
+    flex: 1,
   },
   thumbnail: {
-    margin: 5
+    margin: 5,
   },
   thumbnailContainer: {
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: LIGHT_GREY,
-    overflow: "hidden"
-  }
+    overflow: "hidden",
+  },
 });

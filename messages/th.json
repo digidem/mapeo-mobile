@@ -3,13 +3,49 @@
     "description": "Button on dialog to keep editing (cancelling close action)",
     "message": "ทำการแก้ไขต่อ"
   },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "ยกเลิกการเปลี่ยนแปลง"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "ยกเลิกการเปลี่ยนแปลงหรือไม่?"
+  },
   "AppContainer.EditHeader.discardContent": {
-    "description": "Button on dialog to close without saving",
+    "description": "Button on dialog to cancel a new observation",
     "message": "ยกเลิกโดยไม่บันทึก"
   },
   "AppContainer.EditHeader.discardTitle": {
-    "description": "Title of dialog that shows when closing an observation without saving",
+    "description": "Title of dialog that shows when cancelling a new observation",
     "message": "ยืนยันการยกเลิก?"
+  },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "รหัส Build Number บน Android"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "เวอร์ชันของแอนดรอยด์"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type",
+    "message": "ประเภทของ Mapeo"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "เวอร์ชันของ Mapeo"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "รุ่นของโทรศัพท์"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "เกี่ยวกับ Mapeo"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "ไม่มีข้อมูล"
   },
   "screens.AddPhoto.cancel": {
     "message": "ยกเลิก"
@@ -116,6 +152,10 @@
     "description": "Message shown when an observation is not found",
     "message": "ไม่พบการสังเกต"
   },
+  "screens.Observation.title": {
+    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
+    "message": "การสังเกต"
+  },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
     "message": "{current} ใน {total}"
@@ -147,10 +187,6 @@
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
     "message": "เพิ่มรายละเอียด"
-  },
-  "screens.ObservationEdit.ObservationEditView.observation": {
-    "description": "Name of observation when no preset matches",
-    "message": "ข้อสังเกต"
   },
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
@@ -200,10 +236,6 @@
     "description": "Title of screen with list of observations",
     "message": "การสังเกตต่าง ๆ "
   },
-  "screens.ObservationsList.ObservationListItem.defaultObservationName": {
-    "description": "Default name for an observation that does not match a preset",
-    "message": "การสังเกต"
-  },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
     "message": "เปิดแผนที่"
@@ -244,9 +276,17 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "กำลังเชื่อมต่อกับฐานข้อมูล Mapeo"
   },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "เกี่ยวกับ Mapeo"
+  },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "เวอร์ชันและรหัส Build Number"
+  },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
-    "message": "There was an error trying to import this config file"
+    "message": "เกิดข้อผิดพลาดระหว่างการนำเข้าไฟล์การตั้งค่า"
   },
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
@@ -254,7 +294,7 @@
   },
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Import Error"
+    "message": "ข้อผิดพลาดในการนำเข้า"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
@@ -292,6 +332,10 @@
     "description": "Button label when complete",
     "message": "เสร็จสมบูรณ์"
   },
+  "screens.SyncModal.PeerList.disconnectedButton": {
+    "description": "Button label when disconnected",
+    "message": "ขาดการเชื่อมต่อ"
+  },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
     "message": "ผิดพลาด"
@@ -303,6 +347,10 @@
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
     "message": "ไม่รองรับการทำงานรวมกับ Mapeo"
+  },
+  "screens.SyncModal.PeerList.finishingButton": {
+    "description": "Button label when finishing sync but don't have correct progress",
+    "message": "..."
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
@@ -361,8 +409,8 @@
     "message": "อุปกรณ์ที่กำลังเชื่อมต่อจำเป็นต้องติดตั้ง Mapeo เวอร์ชันใหม่ก่อน"
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
-    "description": "Title of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "คุณจำเป็นต้องอัพเกรด Mapeo"
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "กรุณาอัพเกรด Mapeo เพื่อเชื่อมต่อกับ {deviceName}"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",

@@ -1,29 +1,29 @@
 // @flow
 import * as React from "react";
-import { Image, View } from "react-native";
+import { Image } from "react-native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import Circle from "./Circle";
 import api from "../../api";
-import { type Style } from "../../types";
+import { type ViewStyleProp } from "../../types";
 import type { IconSize } from "../../types";
 
 type IconProps = {
   size?: IconSize,
-  style?: Style<typeof View>,
-  iconId?: string
+  style?: ViewStyleProp,
+  iconId?: string,
 };
 
 const iconSizes = {
   small: 22,
   medium: 35,
-  large: 50
+  large: 50,
 };
 
 const radii = {
   small: 15,
   medium: 25,
-  large: 35
+  large: 35,
 };
 
 export const CategoryIcon = React.memo<IconProps>(

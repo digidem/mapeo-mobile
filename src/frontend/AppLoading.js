@@ -5,21 +5,17 @@ import debug from "debug";
 
 import api, { Constants } from "./api";
 import ServerStatusScreen from "./screens/ServerStatus";
-import {
-  withPermissions,
-  PERMISSIONS,
-  RESULTS
-} from "./context/PermissionsContext";
+import { withPermissions, PERMISSIONS } from "./context/PermissionsContext";
 import type { ServerStatus } from "./api";
 
 const log = debug("mapeo:AppLoading");
 
 type Props = {
-  children: React.Node
+  children: React.Node,
 };
 
 type State = {
-  serverStatus: ServerStatus | null
+  serverStatus: ServerStatus | null,
 };
 
 /**
@@ -34,7 +30,7 @@ class AppLoading extends React.Component<Props, State> {
   _timeoutId: TimeoutID | null;
   _subscription: { remove: () => any };
   state = {
-    serverStatus: null
+    serverStatus: null,
   };
 
   componentDidMount() {
@@ -42,7 +38,7 @@ class AppLoading extends React.Component<Props, State> {
     this.props.requestPermissions([
       PERMISSIONS.CAMERA,
       PERMISSIONS.ACCESS_COARSE_LOCATION,
-      PERMISSIONS.ACCESS_FINE_LOCATION
+      PERMISSIONS.ACCESS_FINE_LOCATION,
     ]);
     this._timeoutId = setTimeout(() => {
       SplashScreen.hide();

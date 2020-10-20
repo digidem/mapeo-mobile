@@ -5,62 +5,60 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 
 import LocationField from "../../sharedComponents/LocationField";
-import FormattedCoords from "../../sharedComponents/FormattedCoords";
 import BottomSheet from "./BottomSheet";
 import Field from "./Field";
 import {
   CameraIcon,
   DetailsIcon,
-  CategoryCircleIcon
+  CategoryCircleIcon,
 } from "../../sharedComponents/icons";
 import useDraftObservation from "../../hooks/useDraftObservation";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import TextButton from "../../sharedComponents/TextButton";
 import { BLACK, LIGHT_GREY, LIGHT_BLUE } from "../../lib/styles";
 
-import type { PresetWithFields } from "../../context/ConfigContext";
+import type { PresetWithFields, TextField } from "../../context/ConfigContext";
+import {
+  FormattedPresetName,
+  FormattedCoords,
+} from "../../sharedComponents/FormattedData";
 
 const m = defineMessages({
   searching: {
     id: "screens.ObservationEdit.ObservationEditView.searching",
     defaultMessage: "Searching…",
-    description: "Shown in new observation screen whilst looking for GPS"
+    description: "Shown in new observation screen whilst looking for GPS",
   },
   changePreset: {
     id: "screens.ObservationEdit.ObservationEditView.changePreset",
     defaultMessage: "Change",
-    description: "Button to change a category / preset"
+    description: "Button to change a category / preset",
   },
   descriptionPlaceholder: {
     id: "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder",
     defaultMessage: "What is happening here?",
-    description: "Placeholder for description/notes field"
+    description: "Placeholder for description/notes field",
   },
   photoButton: {
     id: "screens.ObservationEdit.ObservationEditView.photoButton",
     defaultMessage: "Add Photo",
-    description: "Button label for adding photo"
+    description: "Button label for adding photo",
   },
   detailsButton: {
     id: "screens.ObservationEdit.ObservationEditView.detailsButton",
     defaultMessage: "Add Details",
-    description: "Button label to add details"
+    description: "Button label to add details",
   },
-  observation: {
-    id: "screens.ObservationEdit.ObservationEditView.observation",
-    defaultMessage: "Observation",
-    description: "Name of observation when no preset matches"
-  }
 });
 
 const LocationView = ({
   longitude,
   latitude,
-  accuracy
+  accuracy,
 }: {
   longitude?: number | null,
   latitude?: number | null,
-  accuracy?: number
+  accuracy?: number,
 }) => (
   <View style={styles.locationContainer}>
     {longitude == null || latitude == null ? (
@@ -75,11 +73,9 @@ const LocationView = ({
           color="orange"
           style={{ marginRight: 5 }}
         />
-        <FormattedCoords
-          style={styles.locationText}
-          lat={latitude}
-          lon={longitude}
-        />
+        <Text style={styles.locationText}>
+          <FormattedCoords lat={latitude} lon={longitude} />
+        </Text>
         {accuracy === undefined ? null : (
           <Text style={styles.accuracy}>
             {" ±" + accuracy.toFixed(2) + "m"}
@@ -92,10 +88,10 @@ const LocationView = ({
 
 const CategoryView = ({
   preset = {},
-  onPress
+  onPress,
 }: {
   preset?: PresetWithFields,
-  onPress: () => void
+  onPress: () => void,
 }) => {
   const { formatMessage: t } = useIntl();
   return (
@@ -103,7 +99,9 @@ const CategoryView = ({
       <View style={styles.categoryIcon}>
         <CategoryCircleIcon iconId={preset.icon} />
       </View>
-      <Text style={styles.categoryName}>{preset.name || t(m.observation)}</Text>
+      <Text style={styles.categoryName}>
+        <FormattedPresetName preset={preset} />
+      </Text>
       <TextButton
         containerStyle={styles.changeButton}
         textStyle={styles.changeButtonText}
@@ -114,10 +112,17 @@ const CategoryView = ({
   );
 };
 
+const notesField: TextField = {
+  id: "notes",
+  type: "text",
+  multiline: true,
+  key: "notes",
+};
+
 const DescriptionField = () => {
   const { formatMessage: t } = useIntl();
   return (
-    <Field fieldKey="notes">
+    <Field field={notesField}>
       {({ value, onChange }) => (
         <TextInput
           style={styles.textInput}
@@ -130,6 +135,7 @@ const DescriptionField = () => {
           autoFocus={false}
           scrollEnabled={false}
           textContentType="none"
+          testID="observationDescriptionField"
         />
       )}
     </Field>
@@ -142,7 +148,7 @@ type Props = {
   onPressDetails: () => any,
   onPressPhoto: (index: number) => any,
   isNew: boolean,
-  preset?: PresetWithFields
+  preset?: PresetWithFields,
 };
 
 export const ObservationEdit = ({
@@ -151,7 +157,7 @@ export const ObservationEdit = ({
   onPressCategory,
   onPressCamera,
   onPressDetails,
-  onPressPhoto
+  onPressPhoto,
 }: Props) => {
   const [{ photos }] = useDraftObservation();
   const { formatMessage: t } = useIntl();
@@ -159,22 +165,23 @@ export const ObservationEdit = ({
     {
       icon: <CameraIcon />,
       label: t(m.photoButton),
-      onPress: onPressCamera
-    }
+      onPress: onPressCamera,
+    },
   ];
   if (preset && preset.fields && preset.fields.length) {
     // Only show the option to add details if preset fields are defined.
     bottomSheetItems.push({
       icon: <DetailsIcon />,
       label: t(m.detailsButton),
-      onPress: onPressDetails
+      onPress: onPressDetails,
     });
   }
   return (
     <View style={styles.container}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.scrollViewContent}>
+        contentContainerStyle={styles.scrollViewContent}
+      >
         {isNew && (
           <LocationField locked={!isNew}>
             {fieldProps => <LocationView {...fieldProps} />}
@@ -195,11 +202,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    alignContent: "stretch"
+    alignContent: "stretch",
   },
   scrollViewContent: {
     flexDirection: "column",
-    alignContent: "stretch"
+    alignContent: "stretch",
   },
   locationContainer: {
     flex: 0,
@@ -209,14 +216,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingTop: 5,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   locationText: {
     color: BLACK,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   accuracy: {
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   categoryContainer: {
     flex: 0,
@@ -226,26 +233,26 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   categoryIcon: {
-    flex: 0
+    flex: 0,
   },
   categoryName: {
     color: BLACK,
     fontSize: 20,
     marginLeft: 10,
     fontWeight: "bold",
-    flex: 1
+    flex: 1,
   },
   changeButton: {
-    padding: 0
+    padding: 0,
   },
   changeButtonText: {
     color: LIGHT_BLUE,
     paddingTop: 5,
     fontSize: 12,
-    fontWeight: "500"
+    fontWeight: "500",
   },
   textInput: {
     flex: 1,
@@ -255,6 +262,6 @@ const styles = StyleSheet.create({
     color: "black",
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    textAlignVertical: "top"
-  }
+    textAlignVertical: "top",
+  },
 });

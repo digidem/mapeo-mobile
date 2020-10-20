@@ -1,17 +1,18 @@
 // @flow
 import { fromLatLon } from "utm";
+import type { SelectOptions, LabeledSelectOption, Key } from "mapeo-schema";
 
 import type { LocationContextType } from "../context/LocationContext";
 import type {
   ObservationValue,
-  ObservationAttachment
+  ObservationAttachment,
 } from "../context/ObservationsContext";
 import type { SavedPhoto } from "../context/DraftObservationContext";
 import type {
   Preset,
   PresetsMap,
   PresetWithFields,
-  FieldsMap
+  FieldsMap,
 } from "../context/ConfigContext";
 
 export function getDisplayName(WrappedComponent: any) {
@@ -28,11 +29,11 @@ const GOOD_PRECISION = 10; // 10 meters
 export type LocationStatus = "searching" | "improving" | "good" | "error";
 
 // Little helper to timeout a promise
-export function promiseTimeout(
-  promise: Promise<any>,
+export function promiseTimeout<T>(
+  promise: Promise<T>,
   ms: number,
   msg?: string
-) {
+): Promise<T> {
   let timeoutId: TimeoutID;
   const timeout = new Promise((resolve, reject) => {
     timeoutId = setTimeout(() => {
@@ -52,7 +53,7 @@ export function getLocationStatus({
   position,
   provider,
   permission,
-  error
+  error,
 }: LocationContextType): LocationStatus {
   const precision = position && position.coords.accuracy;
   const gpsUnavailable = provider && !provider.gpsAvailable;
@@ -93,7 +94,7 @@ export function addFieldDefinitions(
   // $FlowFixMe - Need to figure out how to convert types like this
   return {
     ...preset,
-    fields: filterFalsy(fieldDefs)
+    fields: filterFalsy(fieldDefs),
   };
 }
 
@@ -123,11 +124,11 @@ export function getLastPhotoAttachment(
 export function formatCoords({
   lon,
   lat,
-  format = "utm"
+  format = "utm",
 }: {
   lon: number,
   lat: number,
-  format?: "utm"
+  format?: "utm",
 }): string {
   try {
     let { easting, northing, zoneNum, zoneLetter } = fromLatLon(lat, lon);
@@ -140,6 +141,35 @@ export function formatCoords({
       lon >= 0 ? "+" : ""
     }${lon.toFixed(6)}°`;
   }
+}
+
+export function getProp(tags: any, fieldKey: Key, defaultValue: any) {
+  // TODO: support deeply nested tags.
+  const shallowKey = Array.isArray(fieldKey) ? fieldKey[0] : fieldKey;
+  const tagValue = tags[shallowKey];
+  return typeof tagValue === "undefined" ? defaultValue : tagValue;
+}
+
+/**
+ * Convert a select option which could either be a string or an object with
+ * label and value props, to an object with label and value props TODO: Show
+ * meaningful translated values for null and boolean, but these types are not
+ * used widely in presets yet
+ */
+export function convertSelectOptionsToLabeled(
+  options: SelectOptions
+): LabeledSelectOption[] {
+  return options.map(option => {
+    if (option === null) {
+      return { label: "NULL", value: option };
+    } else if (typeof option === "boolean") {
+      return { label: option ? "TRUE" : "FALSE", value: option };
+    } else if (typeof option === "string" || typeof option === "number") {
+      return { label: option + "", value: option };
+    } else {
+      return option;
+    }
+  });
 }
 
 function leftPad(str: string, len: number, char: string): string {

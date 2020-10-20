@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import PropTypes from "prop-types";
 
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
@@ -16,28 +16,28 @@ const styles = StyleSheet.create({
     width: "100%",
     textAlign: "left",
     paddingTop: 8,
-    paddingBottom: 8
+    paddingBottom: 8,
   },
   /* Styles applied to the `component` element if `alignItems="flex-start"`. */
   alignItemsFlexStart: {
-    alignItems: "flex-start"
+    alignItems: "flex-start",
   },
   /* Styles applied to the `component` element if dense. */
   dense: {
     paddingTop: 4,
-    paddingBottom: 4
+    paddingBottom: 4,
   },
   /* Styles applied to the inner `component` element if `divider={true}`. */
   divider: {
     borderBottomWidth: 1,
     borderStyle: "solid",
-    borderBottomColor: "rgba(0, 0, 0, 0.12)"
+    borderBottomColor: "rgba(0, 0, 0, 0.12)",
   },
   /* Styles applied to the inner `component` element if `disableGutters={false}`. */
   gutters: {
     paddingLeft: 16,
-    paddingRight: 16
-  }
+    paddingRight: 16,
+  },
 });
 
 const ListItem = ({
@@ -49,37 +49,35 @@ const ListItem = ({
   disabled = false,
   disableGutters = false,
   divider = false,
-  ...other
+  ...otherProps
 }) => {
   const context = React.useContext(ListContext);
   const childContext = React.useMemo(
     () => ({
       dense: dense || context.dense || false,
-      alignItems
+      alignItems,
     }),
     [dense, context.dense, alignItems]
   );
 
-  const componentProps = {
-    style: [
-      styles.root,
-      childContext.dense && styles.dense,
-      !disableGutters && styles.gutters,
-      divider && styles.divider,
-      button && styles.button,
-      alignItems === "flex-start" && styles.alignItemsFlexStart,
-      style
-    ],
-    disabled,
-    ...other
-  };
+  const componentStyle = [
+    styles.root,
+    childContext.dense && styles.dense,
+    !disableGutters && styles.gutters,
+    divider && styles.divider,
+    button && styles.button,
+    alignItems === "flex-start" && styles.alignItemsFlexStart,
+    style,
+  ];
 
   return (
     <ListContext.Provider value={childContext}>
       <TouchableNativeFeedback
-        {...componentProps}
-        background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}>
-        {children}
+        disabled={disabled}
+        {...otherProps}
+        background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
+      >
+        <View style={componentStyle}>{children}</View>
       </TouchableNativeFeedback>
     </ListContext.Provider>
   );
@@ -116,7 +114,7 @@ ListItem.propTypes = {
   /**
    * If `true`, a 1px light border is added to the bottom of the list item.
    */
-  divider: PropTypes.bool
+  divider: PropTypes.bool,
 };
 
 export default ListItem;

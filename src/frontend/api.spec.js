@@ -127,8 +127,8 @@ describe("Server get requests", () => {
         data.presets = {};
         data.fields = {};
         return data;
-      })
-    }))
+      }),
+    })),
   }));
 
   ["getObservations", "getPresets", "getFields", "getMapStyle"].forEach(
@@ -191,7 +191,7 @@ function startServer() {
       api,
       subscription,
       serverStatus,
-      stateListener
+      stateListener,
     };
   });
 }

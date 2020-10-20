@@ -5,13 +5,9 @@ import QuestionLabel from "./QuestionLabel";
 
 import type { QuestionProps } from "./Question";
 
-const TextArea = ({
-  value,
-  field: { label, placeholder },
-  onChange
-}: QuestionProps) => (
+const TextArea = ({ value, field, onChange }: QuestionProps) => (
   <>
-    <QuestionLabel label={label} hint={placeholder} />
+    <QuestionLabel field={field} />
     <TextInput
       value={value}
       onChangeText={onChange}
@@ -36,6 +32,6 @@ const styles = StyleSheet.create({
     color: "black",
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    textAlignVertical: "top"
-  }
+    textAlignVertical: "top",
+  },
 });

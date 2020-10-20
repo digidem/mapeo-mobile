@@ -8,7 +8,7 @@ const log = debug("mapeo:DraftObservationContext");
 type Status = "idle" | "loading";
 type Opts = {
   stringify: any => string,
-  parse: string => any
+  parse: string => any,
 };
 
 export default function createPersistedState(

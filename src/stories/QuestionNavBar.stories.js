@@ -22,5 +22,5 @@ const screenStyle = {
   backgroundColor: "#F6F6F6",
   flexDirection: "column",
   justifyContent: "center",
-  flex: 1
+  flex: 1,
 };

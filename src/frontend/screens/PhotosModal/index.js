@@ -25,7 +25,7 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
       observation.value.attachments
     ).map((savedPhoto, idx) => ({
       key: savedPhoto.id,
-      uri: api.getMediaUrl(savedPhoto.id, "preview")
+      uri: api.getMediaUrl(savedPhoto.id, "preview"),
     }));
     Array.prototype.push.apply(routes, savedPhotosRoutes);
   }
@@ -40,7 +40,7 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
         // $FlowFixMe
         error: draftPhoto.error,
         // $FlowFixMe
-        capturing: draftPhoto.capturing
+        capturing: draftPhoto.capturing,
       }));
     Array.prototype.push.apply(routes, draftPhotosRoutes);
   }
@@ -50,7 +50,8 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
         <IconButton
           onPress={() => {
             navigation.pop();
-          }}>
+          }}
+        >
           <CloseIcon color="white" />
         </IconButton>
       </View>
@@ -73,7 +74,7 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
 };
 
 PhotosModal.navigationOptions = {
-  header: null
+  headerShown: false,
 };
 
 export default PhotosModal;
@@ -81,7 +82,7 @@ export default PhotosModal;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black"
+    backgroundColor: "black",
   },
   header: {
     position: "absolute",
@@ -89,6 +90,6 @@ const styles = StyleSheet.create({
     height: 60,
     marginBottom: 20,
     flexDirection: "row",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });

@@ -15,7 +15,7 @@ const peers = [
     progress: undefined,
     lastCompleted: undefined,
     error: undefined,
-    connected: true
+    connected: true,
   },
   {
     id: "10",
@@ -25,7 +25,7 @@ const peers = [
     lastCompleted: Date.now(),
     error: undefined,
     deviceType: "desktop",
-    connected: true
+    connected: true,
   },
   {
     id: "1",
@@ -35,7 +35,7 @@ const peers = [
     lastCompleted: Date.now() - 60 * 60 * 1000,
     error: undefined,
     deviceType: "desktop",
-    connected: true
+    connected: true,
   },
   {
     id: "2",
@@ -44,7 +44,7 @@ const peers = [
     progress: undefined,
     lastCompleted: Date.now() - 2 * 24 * 60 * 60 * 1000,
     error: undefined,
-    connected: true
+    connected: true,
   },
   {
     id: "3",
@@ -53,8 +53,8 @@ const peers = [
     progress: undefined,
     lastCompleted: undefined,
     error: undefined,
-    connected: false
-  }
+    connected: false,
+  },
 ];
 
 storiesOf("SyncScreen", module)

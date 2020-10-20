@@ -18,6 +18,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    padding: 20
-  }
+    padding: 20,
+  },
 });

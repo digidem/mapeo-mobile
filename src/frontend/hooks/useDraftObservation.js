@@ -8,7 +8,7 @@ import api from "../api";
 import {
   matchPreset,
   addFieldDefinitions,
-  filterPhotosFromAttachments
+  filterPhotosFromAttachments,
 } from "../lib/utils";
 import bugsnag from "../lib/logger";
 import type { Status } from "../types";
@@ -16,11 +16,11 @@ import type { Status } from "../types";
 import ConfigContext, { type PresetWithFields } from "../context/ConfigContext";
 import ObservationsContext, {
   type ObservationValue,
-  type ObservationAttachment
+  type ObservationAttachment,
 } from "../context/ObservationsContext";
 import DraftObservationContext, {
   type DraftObservationContextState,
-  type DraftPhoto
+  type DraftPhoto,
 } from "../context/DraftObservationContext";
 
 const log = debug("mapeo:useDraftObservation");
@@ -32,12 +32,10 @@ const PREVIEW_QUALITY = 30;
 
 type Signal = { didCancel: boolean };
 
-export type CapturePromise = Promise<{
+export type CapturedPictureMM = {
   uri: string,
-  width: number,
-  height: number,
-  rotate?: number
-}>;
+  rotate?: number,
+};
 
 export type UseDraftObservation = [
   {|
@@ -45,7 +43,7 @@ export type UseDraftObservation = [
     photos: $ElementType<DraftObservationContextState, "photos">,
     observationId: $ElementType<DraftObservationContextState, "observationId">,
     savingStatus: Status,
-    preset?: PresetWithFields
+    preset?: PresetWithFields,
   |},
   {|
     /**
@@ -53,7 +51,7 @@ export type UseDraftObservation = [
      * which returns a uri to a local image file (in temp cache) and the image
      * width and height.
      */
-    addPhoto: (capture: CapturePromise) => Promise<void>,
+    addPhoto: (capture: Promise<CapturedPictureMM>) => Promise<void>,
     // Save a draft
     saveDraft: () => Promise<void>,
     // Performs a shallow merge of the observation value, like setState
@@ -64,8 +62,8 @@ export type UseDraftObservation = [
     newDraft: (
       id?: string,
       value?: ObservationValue | null,
-      capture?: CapturePromise
-    ) => void
+      capture?: Promise<CapturedPictureMM>
+    ) => void,
   |}
 ];
 
@@ -78,7 +76,7 @@ export default (): UseDraftObservation => {
   const [savingStatus, setSavingStatus] = useState<Status>();
 
   const addPhoto = useCallback(
-    async function addPhoto(capturePromise: CapturePromise) {
+    async function addPhoto(capturePromise: Promise<CapturedPictureMM>) {
       // Keep a reference of the "in-progress" photo which we save to state, we
       // will use this later to swap it in state with the captured photo
       const capturingPhoto: DraftPhoto = { capturing: true };
@@ -95,7 +93,7 @@ export default (): UseDraftObservation => {
       setDraft(draft => ({
         ...draft,
         photoPromises: [...draft.photoPromises, photoPromise],
-        photos: [...draft.photos, capturingPhoto]
+        photos: [...draft.photos, capturingPhoto],
       }));
 
       let photo;
@@ -127,8 +125,8 @@ export default (): UseDraftObservation => {
         // $FlowFixMe
         value: {
           ...draft.value,
-          ...value
-        }
+          ...value,
+        },
       }));
     },
     [setDraft]
@@ -144,7 +142,7 @@ export default (): UseDraftObservation => {
     (
       id?: string,
       value?: ObservationValue | null = { tags: {} },
-      capture?: CapturePromise
+      capture?: Promise<CapturedPictureMM>
     ) => {
       cancelPhotoProcessing();
       setDraft({
@@ -152,7 +150,7 @@ export default (): UseDraftObservation => {
         // $FlowFixMe
         photos: value ? filterPhotosFromAttachments(value.attachments) : [],
         value: value,
-        observationId: id
+        observationId: id,
       });
 
       if (capture) addPhoto(capture);
@@ -165,7 +163,7 @@ export default (): UseDraftObservation => {
     setDraft({
       photoPromises: [],
       photos: [],
-      value: null
+      value: null,
     });
   }, [cancelPhotoProcessing, setDraft]);
 
@@ -226,7 +224,7 @@ export default (): UseDraftObservation => {
         ...draftValue,
         attachments: existingAttachments.concat(
           savedAttachments.map(addMimeType)
-        )
+        ),
       };
       if (existingObservation) {
         const updatedObservation = await api.updateObservation(
@@ -256,14 +254,14 @@ export default (): UseDraftObservation => {
       photos: draft.photos,
       observationId: draft.observationId,
       savingStatus: savingStatus,
-      preset: preset && addFieldDefinitions(preset, fields)
+      preset: preset && addFieldDefinitions(preset, fields),
     },
-    { addPhoto, updateDraft, newDraft, clearDraft, saveDraft }
+    { addPhoto, updateDraft, newDraft, clearDraft, saveDraft },
   ];
 };
 
 async function processPhoto(
-  capturePromise: CapturePromise,
+  capturePromise: Promise<CapturedPictureMM>,
   { didCancel = false }: Signal
 ): Promise<DraftPhoto> {
   const photo: DraftPhoto = { capturing: false };
@@ -304,7 +302,7 @@ async function processPhoto(
 function addMimeType(attachment: { id: string }): ObservationAttachment {
   return {
     ...attachment,
-    type: "image/jpeg"
+    type: "image/jpeg",
   };
 }
 

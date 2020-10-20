@@ -1,22 +1,26 @@
 // @flow
-import * as React from "react";
 import type {
   NavigationScreenProp,
   NavigationRoute,
   NavigationNavigateAction,
-  NavigationAction
+  NavigationAction,
 } from "react-navigation";
+
+export type {
+  ViewStyleProp,
+  TextStyleProp,
+  ImageStyleProp,
+} from "react-native/Libraries/StyleSheet/StyleSheet";
 
 export type IconSize = "small" | "medium" | "large";
 export type ImageSize = "thumbnail" | "preview" | "original";
-// Pass through a react-native element to get valid styles e.g. Style<typeof Text>
-export type Style<T> = $PropertyType<React.ElementProps<T>, "style">;
+
 export type MapStyle = {
   id: string,
   name: string,
   bounds: number[],
   minzoom: number,
-  maxzoom: number
+  maxzoom: number,
 };
 export type UseState<S> = [S, ((S => S) | S) => void];
 export type Status = "idle" | "loading" | "error" | "success" | void;
@@ -26,7 +30,7 @@ type NavigationParams = {|
   question: number,
   photoIndex?: number,
   editing?: boolean,
-  handleSavePress?: () => any
+  handleSavePress?: () => any,
 |};
 
 type StackNavigatorProps = {|
@@ -43,15 +47,15 @@ type StackNavigatorProps = {|
     action?: NavigationNavigateAction
   ) => boolean,
   reset: (actions: NavigationAction[], index: number) => boolean,
-  dismiss: () => boolean
+  dismiss: () => boolean,
 |};
 
 type NavigationState = {|
   ...NavigationRoute,
-  params: NavigationParams
+  params: NavigationParams,
 |};
 
 export type NavigationProp = {|
   ...$Exact<NavigationScreenProp<NavigationState>>,
-  ...StackNavigatorProps
+  ...StackNavigatorProps,
 |};

@@ -1,32 +1,24 @@
 // @flow
 import React from "react";
-import {
-  type NavigationScreenProp,
-  createStackNavigator
-} from "react-navigation";
+import { type NavigationScreenProp } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import { StatusBar } from "react-native";
 import { IntroPager, IntroInfo } from "@digidem/wcmc-mapeo-mobile-intro";
-import { useNavigationParam } from "react-navigation-hooks";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import CustomHeaderLeft from "../../sharedComponents/CustomHeaderLeft";
 
-const InfoHeaderTitle = () => {
-  const title = useNavigationParam("introInfoTitle");
-  return <HeaderTitle>{title}</HeaderTitle>;
-};
-
 type InfoNavigationState = {|
   params: {|
     introInfoText: string,
-    introInfoTitle: string
-  |}
+    introInfoTitle: string,
+  |},
 |};
 
 const Info = ({
-  navigation
+  navigation,
 }: {
-  navigation: NavigationScreenProp<InfoNavigationState>
+  navigation: NavigationScreenProp<InfoNavigationState>,
 }) => {
   const text = navigation.getParam("introInfoText");
 
@@ -38,20 +30,21 @@ const Info = ({
   );
 };
 
-Info.navigationOptions = {
-  headerTitle: InfoHeaderTitle
-};
+Info.navigationOptions = ({ navigation }) => ({
+  title: navigation.getParam("introInfoTitle", "Info"),
+  headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,
+});
 
 const Intro = ({
-  navigation
+  navigation,
 }: {
-  navigation: NavigationScreenProp<InfoNavigationState>
+  navigation: NavigationScreenProp<InfoNavigationState>,
 }) => {
   const handleShowInfo = React.useCallback(
     ({ title, text }) => {
       navigation.navigate("Info", {
         introInfoTitle: title,
-        introInfoText: text
+        introInfoText: text,
       });
     },
     [navigation]
@@ -71,23 +64,26 @@ const Intro = ({
 };
 
 Intro.navigationOptions = {
-  header: null
+  headerShown: false,
 };
 
 export default createStackNavigator(
   {
     Intro,
-    Info
+    Info,
   },
   {
     defaultNavigationOptions: {
       headerStyle: {
-        height: 60
+        height: 60,
       },
-      headerLeft: CustomHeaderLeft,
+      headerLeft: props => <CustomHeaderLeft {...props} />,
       headerTitleStyle: {
-        marginHorizontal: 0
-      }
-    }
+        marginHorizontal: 0,
+      },
+      cardStyle: {
+        backgroundColor: "#ffffff",
+      },
+    },
   }
 );

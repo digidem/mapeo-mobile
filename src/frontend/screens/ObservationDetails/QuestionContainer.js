@@ -3,7 +3,7 @@ import * as React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 
 type Props = {
-  children: React.Node
+  children: React.Node,
 };
 
 const QuestionContainer = ({ children }: Props) => (
@@ -14,6 +14,6 @@ export default QuestionContainer;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });

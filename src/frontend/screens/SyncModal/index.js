@@ -16,15 +16,14 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import { getUniqueId } from "react-native-device-info";
 
 import SyncView from "./SyncView";
-import api from "../../api";
 import bugsnag from "../../lib/logger";
 import useAllObservations from "../../hooks/useAllObservations";
 import ConfigContext from "../../context/ConfigContext";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import usePeers from './usePeers';
+import usePeers from "./usePeers";
 
 type Props = {
-  navigation: any
+  navigation: any,
 };
 
 const m = defineMessages({
@@ -32,31 +31,27 @@ const m = defineMessages({
     id: "screens.SyncModal.errorDialogOk",
     defaultMessage: "OK",
     description:
-      "Button to dismiss error alert about incompatible sync protocol"
+      "Button to dismiss error alert about incompatible sync protocol",
   },
   syncHeader: {
     id: "screens.SyncModal.SyncView.syncHeader",
     defaultMessage: "Synchronize",
-    description: "Header of sync screen"
-  }
+    description: "Header of sync screen",
+  },
 });
 
-const deviceName: string =
-  "Android " +
-  getUniqueId()
-    .slice(0, 4)
-    .toUpperCase();
+const deviceName: string = "Android " + getUniqueId().slice(0, 4).toUpperCase();
 
 const SyncModal = ({ navigation }: Props) => {
   const [, reload] = useAllObservations();
   const [
     {
-      metadata: { projectKey }
-    }
+      metadata: { projectKey },
+    },
   ] = React.useContext(ConfigContext);
 
   const [listen, setListening] = React.useState<boolean>(false);
-  const [peers, syncPeer, syncGetPeers] = usePeers(api, listen, deviceName);
+  const [peers, syncPeer, syncGetPeers] = usePeers(listen, deviceName);
   const [ssid, setSsid] = React.useState<null | string>(null);
 
   React.useEffect(() => {
@@ -81,27 +76,27 @@ const SyncModal = ({ navigation }: Props) => {
         setSsid(ssid);
         // On connection change, ensure we have the latest peer info from
         // backend.
-        syncGetPeers()
-        setListening(true)
+        syncGetPeers();
+        setListening(true);
       }
     };
     // When the modal opens, start announcing this device as available for sync
-    setListening(true)
+    setListening(true);
     // Subscribe to NetInfo to know when the user connects/disconnects to wifi
     subscriptions.push({
-      remove: NetInfo.addEventListener(handleConnectionChange)
+      remove: NetInfo.addEventListener(handleConnectionChange),
     });
     // Keep the screen awake whilst on this screen
     KeepAwake.activate();
     return () => {
       // When the modal closes, stop announcing for sync
-      setListening(false)
+      setListening(false);
       // Unsubscribe all listeners
       subscriptions.forEach(s => s.remove());
       // Turn off keep screen awake
       KeepAwake.deactivate();
     };
-  }, []);
+  }, [syncGetPeers]);
 
   React.useEffect(
     () =>
@@ -116,14 +111,14 @@ const SyncModal = ({ navigation }: Props) => {
     OpenSettings.wifiSettings();
   };
 
-  const errorPeer = peers.find((p) => p.error)
-  if (errorPeer && errorPeer.error.isNewError && errorPeer.error.code === "ERR_VERSION_MISMATCH") {
-    Alert.alert(
-      errorPeer.state.errorMsg,
-      errorPeer.state.errorDesc
-    );
+  const errorPeer = peers.find(p => p.error);
+  if (
+    errorPeer &&
+    errorPeer.error.isNewError &&
+    errorPeer.error.code === "ERR_VERSION_MISMATCH"
+  ) {
+    Alert.alert(errorPeer.state.errorMsg, errorPeer.state.errorDesc);
   }
-
 
   return (
     <SyncView
@@ -141,14 +136,13 @@ const SyncModal = ({ navigation }: Props) => {
 SyncModal.navigationOptions = {
   headerTintColor: "white",
   headerStyle: {
-    backgroundColor: "#2348B2"
+    backgroundColor: "#2348B2",
   },
-  headerTitle: (
+  headerTitle: () => (
     <HeaderTitle style={{ color: "white" }}>
       <FormattedMessage {...m.syncHeader} />
     </HeaderTitle>
-  )
+  ),
 };
 
 export default SyncModal;
-

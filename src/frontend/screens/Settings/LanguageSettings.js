@@ -11,8 +11,8 @@ const m = defineMessages({
   title: {
     id: "screens.LanguageSettings.title",
     defaultMessage: "Language",
-    description: "Title language settings screen"
-  }
+    description: "Title language settings screen",
+  },
 });
 
 const LanguageSettings = () => {
@@ -22,12 +22,12 @@ const LanguageSettings = () => {
     ({ locale, nativeName, englishName }) => ({
       value: locale,
       label: nativeName,
-      hint: englishName
+      hint: englishName,
     })
   );
 
   return (
-    <ScrollView>
+    <ScrollView testID="languageScrollView">
       <SelectOne
         value={locale}
         options={options}
@@ -38,11 +38,11 @@ const LanguageSettings = () => {
 };
 
 LanguageSettings.navigationOptions = {
-  headerTitle: (
+  headerTitle: () => (
     <HeaderTitle>
       <FormattedMessage {...m.title} />
     </HeaderTitle>
-  )
+  ),
 };
 
 export default LanguageSettings;

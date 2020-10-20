@@ -1,6 +1,3 @@
 {
-  "singleQuote": false,
-  "semi": true,
-  "jsxBracketSameLine": true,
-  "trailingComma": "none"
+  "arrowParens": "avoid"
 }

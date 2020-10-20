@@ -2,7 +2,7 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { defineMessages, useIntl } from "react-intl";
-import { useIsFocused, useNavigation } from "react-navigation-hooks";
+import { useIsFocused } from "react-navigation-hooks";
 
 import LocationContext from "../context/LocationContext";
 import { GpsIcon } from "./icons";
@@ -12,12 +12,12 @@ import type { LocationStatus } from "../lib/utils";
 const m = defineMessages({
   noGps: {
     id: "sharedComponents.GpsPill.noGps",
-    defaultMessage: "No GPS"
+    defaultMessage: "No GPS",
   },
   searching: {
     id: "sharedComponents.GpsPill.searching",
-    defaultMessage: "Searching…"
-  }
+    defaultMessage: "Searching…",
+  },
 });
 
 const ERROR_COLOR = "#FF0000";
@@ -25,7 +25,7 @@ const ERROR_COLOR = "#FF0000";
 type Props = {
   onPress: null | (() => void),
   precision?: number,
-  variant: LocationStatus
+  variant: LocationStatus,
 };
 
 export const GpsPill = React.memo<Props>(
@@ -38,12 +38,13 @@ export const GpsPill = React.memo<Props>(
       text = t(m.searching);
     else text = `± ${precision} m`;
     return (
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onPress} testID="gpsPillButton">
         <View
           style={[
             styles.container,
-            variant === "error" ? styles.error : undefined
-          ]}>
+            variant === "error" ? styles.error : undefined,
+          ]}
+        >
           <View style={styles.icon}>
             {isFocused && <GpsIcon variant={variant} />}
           </View>
@@ -56,19 +57,14 @@ export const GpsPill = React.memo<Props>(
   }
 );
 
-const ConnectedGpsPill = () => {
-  const navigation = useNavigation();
+const ConnectedGpsPill = ({ onPress }: { onPress: null | (() => void) }) => {
   const location = React.useContext(LocationContext);
   const locationStatus = getLocationStatus(location);
   const precision = location.position && location.position.coords.accuracy;
 
-  const handlePress = React.useCallback(() => {
-    navigation.navigate("GpsModal");
-  }, [navigation]);
-
   return (
     <GpsPill
-      onPress={handlePress}
+      onPress={onPress}
       precision={
         typeof precision === "number" ? Math.round(precision) : undefined
       }
@@ -93,16 +89,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   error: {
-    backgroundColor: ERROR_COLOR
+    backgroundColor: ERROR_COLOR,
   },
   text: {
-    color: "white"
+    color: "white",
   },
   icon: {
     position: "absolute",
-    left: 6
-  }
+    left: 6,
+  },
 });

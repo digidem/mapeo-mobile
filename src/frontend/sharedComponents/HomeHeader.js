@@ -2,20 +2,19 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { useNavigation } from "react-navigation-hooks";
+import type { NavigationProp } from "../types";
 
 import IconButton from "../sharedComponents/IconButton";
 import { ObservationListIcon, SyncIconCircle } from "../sharedComponents/icons";
 import GpsPill from "../sharedComponents/GpsPill";
 
-const HomeHeader = () => {
-  const navigation = useNavigation();
+const HomeHeader = ({ navigation }: { navigation: NavigationProp }) => {
+  const gradient = ( // $FlowFixMe - https://github.com/react-native-community/react-native-linear-gradient/issues/385
+    <LinearGradient style={styles.linearGradient} colors={["#0006", "#0000"]} />
+  );
   return (
     <View style={styles.header}>
-      <LinearGradient
-        style={styles.linearGradient}
-        colors={["#0006", "#0000"]}
-      />
+      {gradient}
       <IconButton
         style={styles.leftButton}
         onPress={() => {
@@ -24,12 +23,17 @@ const HomeHeader = () => {
       >
         <SyncIconCircle />
       </IconButton>
-      <GpsPill />
+      <GpsPill
+        onPress={() => {
+          navigation.navigate("GpsModal");
+        }}
+      />
       <IconButton
         style={styles.rightButton}
         onPress={() => {
           navigation.navigate("ObservationList");
         }}
+        testID="observationListButton"
       >
         <ObservationListIcon />
       </IconButton>
@@ -41,7 +45,6 @@ export default HomeHeader;
 
 const styles = StyleSheet.create({
   header: {
-    position: "absolute",
     zIndex: 100,
     top: 0,
     right: 0,
@@ -50,12 +53,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   rightButton: {},
   leftButton: {
     width: 60,
-    height: 60
+    height: 60,
   },
   linearGradient: {
     height: 60,
@@ -63,6 +66,6 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     left: 0,
-    backgroundColor: "transparent"
-  }
+    backgroundColor: "transparent",
+  },
 });

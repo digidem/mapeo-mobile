@@ -16,12 +16,12 @@ import type { NavigationProp } from "../types";
 const log = debug("mapeo:MapScreen");
 
 type Props = {
-  navigation: NavigationProp
+  navigation: NavigationProp,
 };
 
 const MapScreen = ({ navigation }: Props) => {
   const [, { newDraft }] = useDraftObservation();
-  const [{ styleURL, loading, error }] = useMapStyle();
+  const { styleURL, styleType } = useMapStyle();
 
   const [{ observations, status }] = React.useContext(ObservationsContext);
   const location = React.useContext(LocationContext);
@@ -52,7 +52,8 @@ const MapScreen = ({ navigation }: Props) => {
           location={location}
           observations={observations}
           onPressObservation={handleObservationPress}
-          styleURL={loading ? "loading" : error ? "error" : styleURL}
+          styleURL={styleURL}
+          styleType={styleType}
         />
       )}
       <AddButton testID="addButtonMap" onPress={handleAddPress} />

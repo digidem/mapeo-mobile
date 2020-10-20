@@ -15,8 +15,8 @@ const m = defineMessages({
   observationListTitle: {
     id: "screens.ObservationList.observationListTitle",
     defaultMessage: "Observations",
-    description: "Title of screen with list of observations"
-  }
+    description: "Title of screen with list of observations",
+  },
 });
 
 const ObservationsList = ({ navigation }: NavigationScreenConfigProps) => {
@@ -39,19 +39,19 @@ const ObservationsList = ({ navigation }: NavigationScreenConfigProps) => {
 const SettingsButton = () => {
   const { navigate } = useNavigation();
   return (
-    <IconButton onPress={() => navigate("Settings")}>
+    <IconButton onPress={() => navigate("Settings")} testID="settingsButton">
       <SettingsIcon color="rgba(0, 0, 0, 0.54)" />
     </IconButton>
   );
 };
 
 ObservationsList.navigationOptions = {
-  headerTitle: (
+  headerTitle: () => (
     <HeaderTitle>
       <FormattedMessage {...m.observationListTitle} />
     </HeaderTitle>
   ),
-  headerRight: <SettingsButton />
+  headerRight: () => <SettingsButton />,
 };
 
 export default ObservationsList;

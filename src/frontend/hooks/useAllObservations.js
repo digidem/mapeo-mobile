@@ -2,14 +2,14 @@
 import { useContext, useMemo, useCallback } from "react";
 
 import ObservationsContext, {
-  type Observation
+  type Observation,
 } from "../context/ObservationsContext";
 import type { Status } from "../types";
 type UseAllObservations = [
   {
     // Array of observations
     observations: Observation[],
-    status: Status
+    status: Status,
   },
   // reload observations from Mapeo Core
   () => void
@@ -33,8 +33,8 @@ export default (): UseAllObservations => {
   return [
     {
       observations: observationsArray,
-      status: state.status
+      status: state.status,
     },
-    reload
+    reload,
   ];
 };
