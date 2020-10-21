@@ -18,6 +18,11 @@ const m = defineMessages({
     id: "sharedComponents.GpsPill.searching",
     defaultMessage: "Searching…",
   },
+  openGps: {
+    id: "sharedComponents.GpsPill.openGpsAccessibilityLabel",
+    defaultMessage: "Open GPS screen",
+    description: "Accessibility label for button to open GPS screen",
+  },
 });
 
 const ERROR_COLOR = "#FF0000";
@@ -38,7 +43,12 @@ export const GpsPill = React.memo<Props>(
       text = t(m.searching);
     else text = `± ${precision} m`;
     return (
-      <TouchableOpacity onPress={onPress} testID="gpsPillButton">
+      <TouchableOpacity
+        accessible={true}
+        accessibilityLabel={t(m.openGps)}
+        onPress={onPress}
+        testID="gpsPillButton"
+      >
         <View
           style={[
             styles.container,
