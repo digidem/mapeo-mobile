@@ -50,6 +50,10 @@
   "screens.AddPhoto.cancel": {
     "message": "Cancel"
   },
+  "screens.CameraScreen.createObservationAccessibilityLabel": {
+    "description": "Accessibility label for screen readers for \"Create Observation\" button on camera screen",
+    "message": "Create Observation with photo"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "No access to camera"
@@ -111,6 +115,10 @@
   },
   "screens.ManualGpsScreen.zoneNumber": {
     "message": "Zone Number"
+  },
+  "screens.MapScreen.createObservationAccessibilityLabel": {
+    "description": "Accessibility label for screen readers for \"Create Observation\" button on map screen",
+    "message": "Create Observation"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
@@ -423,7 +431,27 @@
   "sharedComponents.GpsPill.noGps": {
     "message": "No GPS"
   },
+  "sharedComponents.GpsPill.openGpsAccessibilityLabel": {
+    "description": "Accessibility label for button to open GPS screen",
+    "message": "Open GPS screen"
+  },
   "sharedComponents.GpsPill.searching": {
     "message": "Searching…"
+  },
+  "sharedComponents.HomeHeader.openObservationListAccessibilityLabel": {
+    "description": "Accessibility label for button to open Observation list screen",
+    "message": "View Observations"
+  },
+  "sharedComponents.HomeHeader.openSyncAccessibilityLabel": {
+    "description": "Accessibility label for button to open sync screen",
+    "message": "Open sync screen"
+  },
+  "sharedComponents.ThumbnailScrollView.photoAccessibilityHint": {
+    "description": "Accessibility hint for screen readers for clicking a photo thumbnail from observation view",
+    "message": "Tap to view full-size photograph"
+  },
+  "sharedComponents.ThumbnailScrollView.photoAccessibilityLabel": {
+    "description": "Accessibility label for screen readers for a photo thumbnail in the view of an observation",
+    "message": "A photograph"
   }
 }
