@@ -6,6 +6,7 @@ import debug from "debug";
 import { Accelerometer } from "expo-sensors";
 import ImageResizer from "react-native-image-resizer";
 import RNFS from "react-native-fs";
+import { defineMessages, useIntl } from "react-intl";
 
 import AddButton from "./AddButton";
 import { promiseTimeout } from "../lib/utils";
@@ -14,6 +15,15 @@ import type { CapturedPictureMM } from "../hooks/useDraftObservation";
 import useIsMounted from "../hooks/useIsMounted";
 
 const log = debug("CameraView");
+
+const msgs = defineMessages({
+  createObservation: {
+    id: "screens.CameraScreen.createObservationAccessibilityLabel",
+    defaultMessage: "Create Observation with photo",
+    description:
+      'Accessibility label for screen readers for "Create Observation" button on camera screen',
+  },
+});
 
 const captureQuality = 75;
 const captureOptions = {
@@ -35,6 +45,7 @@ type Props = {
 type Acceleration = { x: number, y: number, z: number };
 
 const CameraView = ({ onAddPress }: Props) => {
+  const { formatMessage } = useIntl();
   const ref = React.useRef();
   const acceleration = React.useRef();
   const isMounted = useIsMounted();
@@ -117,6 +128,8 @@ const CameraView = ({ onAddPress }: Props) => {
       />
       <AddButton
         onPress={handleAddPress}
+        accessible={true}
+        accessibilityLabel={formatMessage(msgs.createObservation)}
         style={{ opacity: capturing ? 0.5 : 1 }}
         testID="addButtonCamera"
       />
