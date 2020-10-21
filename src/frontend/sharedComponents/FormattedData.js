@@ -33,6 +33,8 @@ export const FormattedCoords = ({ lat, lon }: { lat: number, lon: number }) => {
   return <>{formatCoords({ lon, lat })}</>;
 };
 
+type FieldPropName = "label" | "placeholder" | "helperText";
+
 // Render the translated value of a translatable Field property (one of
 // `label`, `placeholder` or `helperText`). `label` will always render
 // something: if it is undefined or an empty string, then it will use the field
@@ -43,11 +45,22 @@ export const FormattedFieldProp = ({
   propName,
 }: {
   field: Field,
-  propName: "label" | "placeholder" | "helperText",
+  propName: FieldPropName,
 }) => {
-  const { formatMessage: t } = useIntl();
+  const intl = useIntl();
+  const value = formatFieldProp(field, propName, intl);
+  if (!value) return null;
+  return <>{value}</>;
+};
+
+export function formatFieldProp(
+  field: Field,
+  propName: FieldPropName,
+  intl: any
+) {
+  const { formatMessage: t } = intl;
   const fieldKey = Array.isArray(field.key) ? field.key[0] : field.key;
-  const value = field[propName]
+  return field[propName]
     ? t({
         id: `fields.${field.id}.${propName}`,
         defaultMessage: field[propName],
@@ -56,9 +69,7 @@ export const FormattedFieldProp = ({
     propName === "label"
     ? fieldKey
     : undefined;
-  if (!value) return null;
-  return <>{value}</>;
-};
+}
 
 // Render a field value as a string. If the value is an array, convert to string
 // and join with `, `. If the field is a select_one or select_multiple field,
@@ -75,7 +86,14 @@ export const FormattedFieldValue = ({
   value: any,
   field: Field,
 |}) => {
-  const { formatMessage: t } = useIntl();
+  const intl = useIntl();
+  const formattedValue = formatFieldValue(field, value, intl);
+
+  return <>{formattedValue}</>;
+};
+
+export function formatFieldValue(field: Field, value: any, intl: any) {
+  const { formatMessage: t } = intl;
   // Select multiple answers are an array, so we join them with commas
   const formattedValue = (Array.isArray(value) ? value : [value])
     // Filter any undefined values or empty strings (an empty string can come
@@ -90,8 +108,8 @@ export const FormattedFieldValue = ({
     .join(", ");
   // This will return a noAnswer string if formattedValue is undefined or an
   // empty string
-  return <>{formattedValue || t(m.noAnswer)}</>;
-};
+  return formattedValue || t(m.noAnswer);
+}
 
 // Format the created_at date of an observation as either a datetime, or a
 // relative datetime (e.g. "3 minutes ago")
@@ -120,13 +138,21 @@ export const FormattedPresetName = ({
 }: {|
   preset: Preset | PresetWithFields | void,
 |}) => {
-  const { formatMessage: t } = useIntl();
-  const name = preset
-    ? t({ id: `presets.${preset.id}.name`, defaultMessage: preset.name })
-    : t(m.observation);
+  const intl = useIntl();
+  const name = formatPresetName(preset, intl);
 
   return <>{name}</>;
 };
+
+export function formatPresetName(
+  preset: Preset | PresetWithFields | void,
+  intl: any
+) {
+  const { formatMessage: t } = intl;
+  return preset
+    ? t({ id: `presets.${preset.id}.name`, defaultMessage: preset.name })
+    : t(m.observation);
+}
 
 // TODO: Better hangling of boolean and null values (we don't create these
 // anywhere yet)
