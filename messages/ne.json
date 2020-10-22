@@ -3,14 +3,6 @@
     "description": "Button on dialog to keep editing (cancelling close action)",
     "message": "निरन्तर सम्पादन"
   },
-  "AppContainer.EditHeader.discardChangesContent": {
-    "description": "Button on dialog to cancel observation edits",
-    "message": "Discard changes"
-  },
-  "AppContainer.EditHeader.discardChangesTitle": {
-    "description": "Title of dialog that shows when cancelling observation edits",
-    "message": "Discard changes?"
-  },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to cancel a new observation",
     "message": "संग्रह नगरी खारेज गर्नु"
@@ -18,34 +10,6 @@
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when cancelling a new observation",
     "message": "अवलाेकन हटाउने?"
-  },
-  "screens.AboutMapeo.androidBuild": {
-    "description": "Label for Android build number",
-    "message": "Android build number"
-  },
-  "screens.AboutMapeo.androidVersion": {
-    "description": "Label for Android version",
-    "message": "Android version"
-  },
-  "screens.AboutMapeo.mapeoType": {
-    "description": "Label for Mapeo type",
-    "message": "Mapeo type"
-  },
-  "screens.AboutMapeo.mapeoVersion": {
-    "description": "Label for Mapeo version",
-    "message": "Mapeo version"
-  },
-  "screens.AboutMapeo.phoneModel": {
-    "description": "Label for phone model",
-    "message": "Phone model"
-  },
-  "screens.AboutMapeo.title": {
-    "description": "Title of 'About Mapeo' screen",
-    "message": "About Mapeo"
-  },
-  "screens.AboutMapeo.unknownValue": {
-    "description": "Shown when a device info (e.g. version number) is unknown",
-    "message": "Unknown"
   },
   "screens.AddPhoto.cancel": {
     "message": "रद्द"
@@ -152,10 +116,6 @@
     "description": "Message shown when an observation is not found",
     "message": "अवलाेकन भेटिएन"
   },
-  "screens.Observation.title": {
-    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
-    "message": "Observation"
-  },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
     "message": "{हाल} मा {जम्मा}"
@@ -256,10 +216,6 @@
     "description": "message shown whilst observations are loading",
     "message": "लाेड हुँदै... नयाँ उपकरणसँग सिंक्राेनाइज हुन केहि समय लाग्न सक्छ"
   },
-  "screens.ProjectConfig.title": {
-    "description": "Title of project configuration screen",
-    "message": "Project Configuration"
-  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "याे एपलाइ बलपूवर्क शुरू गर्न काेशिस सक्नुहुन्छ, तर त्यहाँ केहि मिलाउनु पर्ने हुन सक्दछ । यसकाे लागि माफ गर्नुहाेस, एप बनाउन गाह्राे छ"
@@ -276,25 +232,9 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Mapeo डाटावेसकाे साथ केहि छ"
   },
-  "screens.Settings.aboutMapeo": {
-    "description": "Primary text for 'About Mapeo' link (version info)",
-    "message": "About Mapeo"
-  },
-  "screens.Settings.aboutMapeoDesc": {
-    "description": "Description of the 'About Mapeo' page",
-    "message": "Version and build number"
-  },
-  "screens.Settings.configErrorDescription": {
-    "description": "Description of error dialog when there is an error importing a config file",
-    "message": "There was an error trying to import this config file"
-  },
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
     "message": "ठिक छ"
-  },
-  "screens.Settings.configErrorTitle": {
-    "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Import Error"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
@@ -307,10 +247,6 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "एपकाे लागि देखिने भाषा"
-  },
-  "screens.Settings.projectConfig": {
-    "description": "Primary text for project config settings",
-    "message": "Project Configuration"
   },
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
@@ -332,10 +268,6 @@
     "description": "Button label when complete",
     "message": "सम्पन्न"
   },
-  "screens.SyncModal.PeerList.disconnectedButton": {
-    "description": "Button label when disconnected",
-    "message": "Disconnected"
-  },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
     "message": "समस्या"
@@ -347,10 +279,6 @@
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
     "message": "Mapeo मा मिल्दैन"
-  },
-  "screens.SyncModal.PeerList.finishingButton": {
-    "description": "Button label when finishing sync but don't have correct progress",
-    "message": "..."
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
@@ -407,10 +335,6 @@
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
     "message": "याे तपाईंले sync गर्न लागेकाे साधनमा नया भर्सनकाे Mapeo छ। याेसंग sync गर्न अर्काे साधनमा पनि Map upgrade गर्नु पर्ने छ"
-  },
-  "screens.SyncModal.errorVersionUsBadTitle": {
-    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "You need to upgrade Mapeo to sync with {deviceName}"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
