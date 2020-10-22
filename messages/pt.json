@@ -3,14 +3,6 @@
     "description": "Button on dialog to keep editing (cancelling close action)",
     "message": "Continuar editando"
   },
-  "AppContainer.EditHeader.discardChangesContent": {
-    "description": "Button on dialog to cancel observation edits",
-    "message": "Discard changes"
-  },
-  "AppContainer.EditHeader.discardChangesTitle": {
-    "description": "Title of dialog that shows when cancelling observation edits",
-    "message": "Discard changes?"
-  },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to cancel a new observation",
     "message": "Excluir observação"
@@ -26,10 +18,6 @@
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
     "message": "Versão do Android"
-  },
-  "screens.AboutMapeo.mapeoType": {
-    "description": "Label for Mapeo type",
-    "message": "Mapeo type"
   },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
@@ -284,17 +272,9 @@
     "description": "Description of the 'About Mapeo' page",
     "message": "Versão e número de compilação"
   },
-  "screens.Settings.configErrorDescription": {
-    "description": "Description of error dialog when there is an error importing a config file",
-    "message": "There was an error trying to import this config file"
-  },
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
     "message": "OK"
-  },
-  "screens.Settings.configErrorTitle": {
-    "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Import Error"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
