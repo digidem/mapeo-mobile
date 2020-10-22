@@ -93,21 +93,12 @@
   "screens.ManualGpsScreen.easting": {
     "message": "Osten"
   },
-  "screens.ManualGpsScreen.eastingSuffix": {
-    "message": "mE"
-  },
   "screens.ManualGpsScreen.northing": {
     "message": "Norden"
-  },
-  "screens.ManualGpsScreen.northingSuffix": {
-    "message": "mN"
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "Koordinaten eingeben"
-  },
-  "screens.ManualGpsScreen.zoneLetter": {
-    "message": "Zone Letter"
   },
   "screens.ManualGpsScreen.zoneNumber": {
     "message": "Zonennummer"
