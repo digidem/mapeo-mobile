@@ -19,34 +19,6 @@
     "description": "Title of dialog that shows when cancelling a new observation",
     "message": "Hủy bỏ quan sát?"
   },
-  "screens.AboutMapeo.androidBuild": {
-    "description": "Label for Android build number",
-    "message": "Android build number"
-  },
-  "screens.AboutMapeo.androidVersion": {
-    "description": "Label for Android version",
-    "message": "Android version"
-  },
-  "screens.AboutMapeo.mapeoType": {
-    "description": "Label for Mapeo type",
-    "message": "Mapeo type"
-  },
-  "screens.AboutMapeo.mapeoVersion": {
-    "description": "Label for Mapeo version",
-    "message": "Mapeo version"
-  },
-  "screens.AboutMapeo.phoneModel": {
-    "description": "Label for phone model",
-    "message": "Phone model"
-  },
-  "screens.AboutMapeo.title": {
-    "description": "Title of 'About Mapeo' screen",
-    "message": "About Mapeo"
-  },
-  "screens.AboutMapeo.unknownValue": {
-    "description": "Shown when a device info (e.g. version number) is unknown",
-    "message": "Unknown"
-  },
   "screens.AddPhoto.cancel": {
     "message": "Hủy"
   },
@@ -236,18 +208,6 @@
     "description": "Title of screen with list of observations",
     "message": "Các quan sát"
   },
-  "screens.ObservationsList.ObservationsEmptyView.backButton": {
-    "description": "Back button on observation list screen when no observations are yet recorded",
-    "message": "Go To Map"
-  },
-  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
-    "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "Start from map or camera view to record your first observation."
-  },
-  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
-    "description": "Title of observation list view when the user has not yet recorded observations",
-    "message": "Add Observations"
-  },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
     "message": "Lỗi tải các quan sát. Hãy thử rời bỏ và khởi động lại Mapeo."
@@ -276,25 +236,9 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Có gì đó không ổn với dữ liệu Mapeo"
   },
-  "screens.Settings.aboutMapeo": {
-    "description": "Primary text for 'About Mapeo' link (version info)",
-    "message": "About Mapeo"
-  },
-  "screens.Settings.aboutMapeoDesc": {
-    "description": "Description of the 'About Mapeo' page",
-    "message": "Version and build number"
-  },
-  "screens.Settings.configErrorDescription": {
-    "description": "Description of error dialog when there is an error importing a config file",
-    "message": "There was an error trying to import this config file"
-  },
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
     "message": "OK"
-  },
-  "screens.Settings.configErrorTitle": {
-    "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Import Error"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
