@@ -3,80 +3,12 @@
     "description": "Button on dialog to keep editing (cancelling close action)",
     "message": "Lanjutkan menyunting"
   },
-  "AppContainer.EditHeader.discardChangesContent": {
-    "description": "Button on dialog to cancel observation edits",
-    "message": "Discard changes"
-  },
-  "AppContainer.EditHeader.discardChangesTitle": {
-    "description": "Title of dialog that shows when cancelling observation edits",
-    "message": "Discard changes?"
-  },
-  "AppContainer.EditHeader.discardContent": {
-    "description": "Button on dialog to cancel a new observation",
-    "message": "Discard without saving"
-  },
-  "AppContainer.EditHeader.discardTitle": {
-    "description": "Title of dialog that shows when cancelling a new observation",
-    "message": "Discard observation?"
-  },
-  "screens.AboutMapeo.androidBuild": {
-    "description": "Label for Android build number",
-    "message": "Android build number"
-  },
-  "screens.AboutMapeo.androidVersion": {
-    "description": "Label for Android version",
-    "message": "Android version"
-  },
-  "screens.AboutMapeo.mapeoType": {
-    "description": "Label for Mapeo type",
-    "message": "Mapeo type"
-  },
-  "screens.AboutMapeo.mapeoVersion": {
-    "description": "Label for Mapeo version",
-    "message": "Mapeo version"
-  },
-  "screens.AboutMapeo.phoneModel": {
-    "description": "Label for phone model",
-    "message": "Phone model"
-  },
-  "screens.AboutMapeo.title": {
-    "description": "Title of 'About Mapeo' screen",
-    "message": "About Mapeo"
-  },
-  "screens.AboutMapeo.unknownValue": {
-    "description": "Shown when a device info (e.g. version number) is unknown",
-    "message": "Unknown"
-  },
   "screens.AddPhoto.cancel": {
     "message": "Batal"
-  },
-  "screens.CameraScreen.noCameraAccess": {
-    "description": "Error message shown when app does not have permissions to camera",
-    "message": "No access to camera"
-  },
-  "screens.CategoryChooser.categoryTitle": {
-    "description": "Title for category chooser screen",
-    "message": "Choose what is happening"
-  },
-  "screens.GpsModal.details": {
-    "description": "Section title for details about current position",
-    "message": "Details"
-  },
-  "screens.GpsModal.gpsHeader": {
-    "description": "Header for GPS screen",
-    "message": "Current GPS Location"
   },
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
     "message": "Pembaharuan terakhir"
-  },
-  "screens.GpsModal.locationSensors": {
-    "description": "Heading for section about location sensor status",
-    "message": "Sensor Status"
-  },
-  "screens.GpsModal.locationUTM": {
-    "description": "Section title for UTM coordinates",
-    "message": "Coordinates UTM"
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
@@ -85,10 +17,6 @@
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
     "message": "Ya"
-  },
-  "screens.LanguageSettings.title": {
-    "description": "Title language settings screen",
-    "message": "Language"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "Timur"
@@ -105,20 +33,6 @@
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "Masukkan koordinat"
-  },
-  "screens.ManualGpsScreen.zoneLetter": {
-    "message": "Zone Letter"
-  },
-  "screens.ManualGpsScreen.zoneNumber": {
-    "message": "Zone Number"
-  },
-  "screens.Observation.ObservationView.alertFooter": {
-    "description": "Footer for shared observations message",
-    "message": "Sent from Mapeo"
-  },
-  "screens.Observation.ObservationView.alertSubject": {
-    "description": "Subject-line for shared observations",
-    "message": "Mapeo Alert"
   },
   "screens.Observation.ObservationView.delete": {
     "description": "Button to delete an observation",
@@ -148,14 +62,6 @@
     "description": "Title of dialog asking confirmation to delete an observation",
     "message": "Menghapus pengamatan?"
   },
-  "screens.Observation.notFound": {
-    "description": "Message shown when an observation is not found",
-    "message": "Observation not found"
-  },
-  "screens.Observation.title": {
-    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
-    "message": "Observation"
-  },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
     "message": "{current} dari {total}\n "
@@ -180,10 +86,6 @@
     "description": "Button to change a category / preset",
     "message": "Ubah"
   },
-  "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
-    "description": "Placeholder for description/notes field",
-    "message": "What is happening here?"
-  },
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
     "message": "Tambahkan Rincian"
@@ -200,14 +102,6 @@
     "description": "Button to cancel save and continue waiting for GPS",
     "message": "Terus menunggu"
   },
-  "screens.ObservationEdit.SaveButton.manualEntry": {
-    "description": "Button to manually enter GPS coordinates",
-    "message": "Manual Coords"
-  },
-  "screens.ObservationEdit.SaveButton.noGpsDesc": {
-    "description": "Description in dialog when trying to save with no GPS coords",
-    "message": "This observation does not have a location. You can continue waiting for a GPS signal, save the observation without a location, or enter coordinates manually"
-  },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
     "message": "Tidak ada sinyal GPS"
@@ -215,10 +109,6 @@
   "screens.ObservationEdit.SaveButton.saveAnyway": {
     "description": "Button to save regardless of GPS state",
     "message": "Simpan"
-  },
-  "screens.ObservationEdit.SaveButton.weakGpsDesc": {
-    "description": "Description in dialog when trying to save with low GPS accuracy.",
-    "message": "GPS accuracy is low. You can continue waiting for better accuracy, save the observation with low accuracy, or enter coordinates manually"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
@@ -236,153 +126,21 @@
     "description": "Title of screen with list of observations",
     "message": "Pengamatan"
   },
-  "screens.ObservationsList.ObservationsEmptyView.backButton": {
-    "description": "Back button on observation list screen when no observations are yet recorded",
-    "message": "Go To Map"
-  },
-  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
-    "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "Start from map or camera view to record your first observation."
-  },
-  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
-    "description": "Title of observation list view when the user has not yet recorded observations",
-    "message": "Add Observations"
-  },
-  "screens.ObservationsList.error": {
-    "description": "message shown when there is an unexpected error when loading observations",
-    "message": "Error loading observations. Try quitting and restarting Mapeo."
-  },
-  "screens.ObservationsList.loading": {
-    "description": "message shown whilst observations are loading",
-    "message": "Loading… this can take a while after synchronizing with a new device"
-  },
-  "screens.ProjectConfig.title": {
-    "description": "Title of project configuration screen",
-    "message": "Project Configuration"
-  },
-  "screens.ServerStatus.errorDesc": {
-    "description": "Description when there the Mapeo Core server crashes",
-    "message": "You can try force-restarting the app, but there may be something that needs fixing. Really sorry about this, making apps is hard."
-  },
-  "screens.ServerStatus.errorTitle": {
-    "description": "Title of message when there the Mapeo Core server crashes",
-    "message": "Oh dear, something is broken in the Mapeo database."
-  },
-  "screens.ServerStatus.timeoutDesc": {
-    "description": "Description when the server has not responded for 10 seconds",
-    "message": "If you continue to see this message you may need to force-restart Mapeo"
-  },
-  "screens.ServerStatus.timeoutTitle": {
-    "description": "Title of message when the server has not responded for 10 seconds",
-    "message": "Something is up with the Mapeo database"
-  },
-  "screens.Settings.aboutMapeo": {
-    "description": "Primary text for 'About Mapeo' link (version info)",
-    "message": "About Mapeo"
-  },
-  "screens.Settings.aboutMapeoDesc": {
-    "description": "Description of the 'About Mapeo' page",
-    "message": "Version and build number"
-  },
-  "screens.Settings.configErrorDescription": {
-    "description": "Description of error dialog when there is an error importing a config file",
-    "message": "There was an error trying to import this config file"
-  },
-  "screens.Settings.configErrorOkButton": {
-    "description": "Button to dismiss error dialog when there is an error importing a config file",
-    "message": "OK"
-  },
-  "screens.Settings.configErrorTitle": {
-    "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Import Error"
-  },
-  "screens.Settings.currentConfig": {
-    "description": "Label for name & version of current configuration",
-    "message": "Current Configuration"
-  },
-  "screens.Settings.language": {
-    "description": "Primary text for language settings",
-    "message": "Language"
-  },
-  "screens.Settings.languageDesc": {
-    "description": "Secondary text for language settings",
-    "message": "Display language for App"
-  },
-  "screens.Settings.projectConfig": {
-    "description": "Primary text for project config settings",
-    "message": "Project Configuration"
-  },
-  "screens.Settings.projectConfigDesc": {
-    "description": "Secondary text for project config settings",
-    "message": "Categories, icons and questions"
-  },
-  "screens.Settings.projectKey": {
-    "description": "Label for project key",
-    "message": "Project Key"
-  },
-  "screens.Settings.title": {
-    "description": "Title of settings screen",
-    "message": "Settings"
-  },
-  "screens.Settings.unnamedConfig": {
-    "description": "Config name when do name is defined",
-    "message": "Un-named"
-  },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
     "message": "Selesai"
-  },
-  "screens.SyncModal.PeerList.disconnectedButton": {
-    "description": "Button label when disconnected",
-    "message": "Disconnected"
   },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
     "message": "Galat"
   },
-  "screens.SyncModal.PeerList.errorClientMismatch": {
-    "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
-    "message": "Not a Mapeo client"
-  },
-  "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
-    "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
-    "message": "Incompatible Mapeo"
-  },
-  "screens.SyncModal.PeerList.finishingButton": {
-    "description": "Button label when finishing sync but don't have correct progress",
-    "message": "..."
-  },
-  "screens.SyncModal.PeerList.syncButton": {
-    "description": "Button label for sync button",
-    "message": "Sync"
-  },
   "screens.SyncModal.PeerList.syncLabel": {
     "description": "Label for last sync datetime",
     "message": "Disinkornkan:"
   },
-  "screens.SyncModal.SyncView.noWifiDesc": {
-    "description": "Description shown when no wifi network",
-    "message": "Open your phone settins and connect to a WiFi network to synchronize"
-  },
-  "screens.SyncModal.SyncView.noWifiTitle": {
-    "description": "Title of message shown when no wifi network",
-    "message": "No WiFi"
-  },
-  "screens.SyncModal.SyncView.projectKey": {
-    "description": "First 5 characters of project key displayed on sync screen",
-    "message": "Project Key: {projectKey}"
-  },
-  "screens.SyncModal.SyncView.searchingDesc": {
-    "description": "Description shown whilst searcing for sync peers",
-    "message": "Ensure that other devices are turned on and connected to the same WiFi network"
-  },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
     "message": "Mencari"
-  },
-  "screens.SyncModal.SyncView.settingsButton": {
-    "description": "Button to open WiFi settings",
-    "message": "Open Settings"
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
@@ -391,37 +149,6 @@
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
     "message": "WiFi:"
-  },
-  "screens.SyncModal.errorDialogOk": {
-    "description": "Button to dismiss error alert about incompatible sync protocol",
-    "message": "OK"
-  },
-  "screens.SyncModal.errorVersionThemBadDesc": {
-    "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "The device you are trying to sync with needs to upgrade Mapeo to the latest version in order to sync with you."
-  },
-  "screens.SyncModal.errorVersionThemBadTitle": {
-    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} needs to upgrade Mapeo"
-  },
-  "screens.SyncModal.errorVersionUsBadDesc": {
-    "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "The device you are trying to sync has a newer version of Mapeo. You need to upgrade Mapeo in order to sync with this device."
-  },
-  "screens.SyncModal.errorVersionUsBadTitle": {
-    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "You need to upgrade Mapeo to sync with {deviceName}"
-  },
-  "screens.UncaughtError.errorDesc": {
-    "description": "Description when there is an uncaught message in the app",
-    "message": "Really sorry about this, something unexpected went wrong, and it's our fault not yours. Try restarting the app to see if that fixes things."
-  },
-  "screens.UncaughtError.errorTitle": {
-    "description": "Title of message when there is an uncaught message in the app",
-    "message": "Unexpected Error"
-  },
-  "sharedComponents.GpsPill.noGps": {
-    "message": "No GPS"
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Mencari…"
