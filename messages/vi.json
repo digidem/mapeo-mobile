@@ -23,6 +23,10 @@
     "description": "Label for Android build number",
     "message": "Android GD2I"
   },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "Phiên bản Android"
+  },
   "screens.AddPhoto.cancel": {
     "message": "Hủy"
   },
