@@ -68,7 +68,7 @@
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
-    "message": "Ngôn ngữ"
+    "message": "Language"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "Hướng Đông"
