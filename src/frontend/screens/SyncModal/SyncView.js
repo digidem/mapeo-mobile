@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Text from "../../sharedComponents/Text";
@@ -46,7 +45,33 @@ const m = defineMessages({
     description: "First 5 characters of project key displayed on sync screen",
     defaultMessage: "Project Key: {projectKey}",
   },
+  connectMapeoWeb: {
+    id: "screens.SyncModal.SyncView.connectMapeoWeb",
+    description: "Button to connect to Mapeo-Web",
+    defaultMessage: "Connect to Mapeo Web",
+  },
 });
+
+const WifiBar = ({ onPress, ssid, deviceName }) => (
+  <TouchableNativeFeedback onPress={onPress}>
+    <View style={styles.wifiBar}>
+      <WifiIcon />
+      <Text style={styles.wifiBarText} numberOfLines={1}>
+        <Text style={styles.bold}>
+          <FormattedMessage {...m.wifi} />
+        </Text>{" "}
+        {ssid}
+      </Text>
+      <Text style={styles.deviceName}>{deviceName}</Text>
+    </View>
+  </TouchableNativeFeedback>
+);
+
+const CloudSyncBar = ({ onPress }) => {
+  <TouchableNativeFeedback onPress={onPress}>
+    <Text>{"Sync with Mapeo-Web"}</Text>
+  </TouchableNativeFeedback>;
+};
 
 const NoWifiBox = ({ onPress }) => {
   const { formatMessage: t } = useIntl();
@@ -104,6 +129,8 @@ const SyncView = ({
   deviceName,
   onWifiPress,
   projectKey,
+  canSyncConnect,
+  onSyncConnectPress,
 }: Props) => {
   const experiments = useSettingsValue("experiments");
   const isSyncing = React.useMemo(
@@ -121,6 +148,8 @@ const SyncView = ({
           ) : (
             <SearchingBox />
           )}
+
+          {canSyncConnect ? <CloudSyncBar onPress={onSyncConnectPress} /> : null}
 
           <Text style={styles.projectId}>
             <FormattedMessage

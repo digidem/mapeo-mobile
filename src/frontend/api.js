@@ -555,6 +555,11 @@ export function Api({
       return onReady().then(() => nodejs.channel.post("sync-start", target));
     },
 
+    // Connect to a mapeo-web instance from a URL
+    syncConnect: function (target: { url: string }) {
+      return onReady().then(() => nodejs.channel.post("sync-connect", target));
+    },
+
     /**
      * HELPER synchronous methods
      */

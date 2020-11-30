@@ -50,7 +50,7 @@ const SyncModal = ({ navigation }: Props) => {
   ] = React.useContext(ConfigContext);
 
   const { ssid } = useWifiStatus();
-  const [peers, syncPeer, syncGetPeers] = usePeers(!!ssid, deviceName);
+  const [peers, syncPeer, syncGetPeers, canSyncConnect, syncConnect] = usePeers(!!ssid, deviceName);
 
   // Keep device awake on this screen
   React.useEffect(() => {
@@ -86,6 +86,10 @@ const SyncModal = ({ navigation }: Props) => {
     Alert.alert(errorPeer.state.errorMsg, errorPeer.state.errorDesc);
   }
 
+  const handleSyncConnectPress = () => {
+    syncConnect();
+  };
+
   return (
     <SyncView
       deviceName={deviceName}
@@ -95,6 +99,8 @@ const SyncModal = ({ navigation }: Props) => {
       onWifiPress={handleWifiPress}
       onSyncPress={syncPeer}
       projectKey={projectKey}
+      canSyncConnect={canSyncConnect}
+      onSyncConnectPress={handleSyncConnectPress}
     />
   );
 };

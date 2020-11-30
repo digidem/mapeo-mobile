@@ -43,6 +43,7 @@ export default function usePeers(listen, deviceName) {
   const [serverPeers, setServerPeers] = React.useState([]);
   const [syncErrors, setSyncErrors] = React.useState(new Map());
   const [syncRequests, setSyncRequests] = React.useState(new Map());
+  const [canSyncConnect, setcanSyncConnect] = React.useState(null);
 
   // Keep a ref of the last time this view was closed (used to maintain peer
   // 'completed' state in the UI)
@@ -65,6 +66,12 @@ export default function usePeers(listen, deviceName) {
       if (peerListener) peerListener.remove();
     };
   }, [listen, deviceName]);
+
+  useEffect(() => {
+    api.getMetadata().then(({ syncServer }) => {
+      setcanSyncConnect(syncServer || null);
+    });
+  });
 
   const updatePeers = (updatedServerPeers = []) => {
     setServerPeers(updatedServerPeers);
@@ -139,7 +146,18 @@ export default function usePeers(listen, deviceName) {
     api.syncGetPeers().then(updatePeers);
   }, []);
 
-  return [peers, syncPeer, syncGetPeers];
+  const syncConnect = useCallback(
+    gotURL => {
+      let url = gotURL;
+      if (!url) {
+        url = canSyncConnect;
+      }
+      api.syncConnect({ url });
+    },
+    [canSyncConnect]
+  );
+
+  return [peers, syncPeer, syncGetPeers, canSyncConnect, syncConnect];
 }
 
 /**
