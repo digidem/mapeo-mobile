@@ -31,7 +31,7 @@
     "tmp": "^0.1.0"
   },
   "devDependencies": {
-    "node-gyp-build": "^4.2.1",
+    "node-gyp-build": "^4.2.3",
     "noderify": "^5.0.0"
   }
 }
