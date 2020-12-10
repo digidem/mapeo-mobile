@@ -67,11 +67,11 @@ const WifiBar = ({ onPress, ssid, deviceName }) => (
   </TouchableNativeFeedback>
 );
 
-const CloudSyncBar = ({ onPress }) => {
+const CloudSyncBox = ({ onPress }) => (
   <TouchableNativeFeedback onPress={onPress}>
     <Text>{"Sync with Mapeo-Web"}</Text>
-  </TouchableNativeFeedback>;
-};
+  </TouchableNativeFeedback>
+);
 
 const NoWifiBox = ({ onPress }) => {
   const { formatMessage: t } = useIntl();
@@ -149,7 +149,7 @@ const SyncView = ({
             <SearchingBox />
           )}
 
-          {canSyncConnect ? <CloudSyncBar onPress={onSyncConnectPress} /> : null}
+        {canSyncConnect ? <CloudSyncBox onPress={onSyncConnectPress} /> : null}
 
           <Text style={styles.projectId}>
             <FormattedMessage
