@@ -3,6 +3,14 @@
     "description": "Button on dialog to keep editing (cancelling close action)",
     "message": "Continuar editando"
   },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "Descartar alterações"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "Descartar alterações?"
+  },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to cancel a new observation",
     "message": "Excluir observação"
