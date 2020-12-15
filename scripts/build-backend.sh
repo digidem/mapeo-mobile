@@ -80,7 +80,7 @@ cd ../..
 echo -en " done.\n"
 
 echo -en "Keeping some node modules..."
-declare -a keepThese=("leveldown" ".bin" "node-gyp-build" "napi-macros")
+declare -a keepThese=("leveldown" ".bin" "node-gyp-build" "napi-macros" "utf-8-validate" "bufferutil")
 for x in "${keepThese[@]}"; do
   if [ -e "./nodejs-assets/backend/node_modules/$x" ]; then
     mv "./nodejs-assets/backend/node_modules/$x" "./nodejs-assets/nodejs-project/node_modules/$x"
