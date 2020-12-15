@@ -67,11 +67,27 @@ const WifiBar = ({ onPress, ssid, deviceName }) => (
   </TouchableNativeFeedback>
 );
 
-const CloudSyncBox = ({ onPress }) => (
-  <TouchableNativeFeedback onPress={onPress}>
-    <Text>{"Sync with Mapeo-Web"}</Text>
-  </TouchableNativeFeedback>
-);
+const CloudSyncBox = ({
+  onSyncConnectPress,
+  onSyncPress,
+  canSyncConnect,
+  cloudPeer,
+}) =>
+  cloudPeer ? (
+    cloudPeer.status !== "complete" ? (
+      <PeerItem {...cloudPeer} onSyncPress={onSyncPress} />
+    ) : (
+      <PeerItem {...cloudPeer} connected={true} onClick={onSyncConnectPress} />
+    )
+  ) : canSyncConnect ? (
+    <PeerItem
+      name="Mapeo Cloud Sync"
+      deviceType="cloud"
+      status="ready"
+      conneced
+      onClick={onSyncConnectPress}
+    />
+  ) : null;
 
 const NoWifiBox = ({ onPress }) => {
   const { formatMessage: t } = useIntl();
@@ -116,10 +132,13 @@ const SearchingBox = () => (
 type Props = {
   onSyncPress: (peerId: string) => void,
   onWifiPress: () => void,
+  onSyncConnectPress: () => void,
   deviceName: string,
   peers: Array<Peer>,
+  cloudPeer: null | Peer,
   ssid: null | string,
   projectKey?: string,
+  canSyncConnect: boolean,
 };
 
 const SyncView = ({
@@ -143,6 +162,14 @@ const SyncView = ({
         <>
           <WifiBar onPress={onWifiPress} ssid={ssid} deviceName={deviceName} />
           {experiments.p2pUpgrade ? <UpgradeBar isSyncing={isSyncing} /> : null}
+
+          <CloudSyncBox
+            canSyncConnect={canSyncConnect}
+            onSyncConnectPress={onSyncConnectPress}
+            onSyncPress={onSyncPress}
+            cloudPeer={cloudPeer}
+          />
+
           {peers.length ? (
             <PeerList peers={peers} onSyncPress={onSyncPress} />
           ) : (

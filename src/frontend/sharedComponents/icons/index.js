@@ -59,6 +59,14 @@ export const LaptopIcon = ({
   />
 );
 
+export const CloudIcon = ({
+  size = 30,
+  color = "white",
+  style,
+}: FontIconProps) => (
+  <MaterialCommunityIcon color={color} name="cloud" size={size} style={style} />
+);
+
 export const BackIcon = ({ size = 30, color, style }: FontIconProps) => (
   <MaterialIcon name="arrow-back" color={color} style={style} size={size} />
 );

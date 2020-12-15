@@ -52,7 +52,11 @@ const SyncModal = ({ navigation }: Props) => {
   const { ssid } = useWifiStatus();
   const [peers, syncPeer, syncGetPeers, canSyncConnect, syncConnect] = usePeers(!!ssid, deviceName);
 
-  // Keep device awake on this screen
+  const cloudPeer = peers.find(({ deviceType }) => deviceType === "cloud");
+  const nonCloudPeers = peers.filter(
+    ({ deviceType }) => deviceType !== "cloud"
+  );
+
   React.useEffect(() => {
     KeepAwake.activate();
     return () => KeepAwake.deactivate();
@@ -93,7 +97,8 @@ const SyncModal = ({ navigation }: Props) => {
   return (
     <SyncView
       deviceName={deviceName}
-      peers={peers}
+      peers={nonCloudPeers}
+      cloudPeer={cloudPeer}
       ssid={ssid}
       onClosePress={() => navigation.pop()}
       onWifiPress={handleWifiPress}
