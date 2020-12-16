@@ -8,7 +8,7 @@ import { WifiOffIcon } from "../../sharedComponents/icons";
 import WifiBar from "../../sharedComponents/WifiBar";
 
 import DotIndicator from "./DotIndicator";
-import PeerList, { peerStatus, type Peer } from "./PeerList";
+import PeerList, { PeerItem, peerStatus, type Peer } from "./PeerList";
 import UpgradeBar from "./UpgradeBar";
 import useSettingsValue from "../../hooks/useSettingsValue";
 
@@ -81,10 +81,10 @@ const CloudSyncBox = ({
     )
   ) : canSyncConnect ? (
     <PeerItem
-      name="Mapeo Cloud Sync"
+      name="Mapeo Cloud"
       deviceType="cloud"
-      status="ready"
-      conneced
+      status={peerStatus.READY}
+      connected={true}
       onClick={onSyncConnectPress}
     />
   ) : null;
