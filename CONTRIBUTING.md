@@ -75,7 +75,7 @@ able to control the mobile app.
 ### Pre-requisites
 
 In order to develop the full app you will need the Android SDK installed and
-[r19c of NDK](https://developer.android.com/ndk/guides/) in order to build
+specifically [21.3.6528147 of the NDK](https://developer.android.com/ndk/guides/) in order to build
 nodejs-mobile for Android.
 
 You may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and cofigures requirements that might be missing, like the NDK and CMake to build the native code part of the project.
