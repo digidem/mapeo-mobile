@@ -6,6 +6,8 @@ import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
 import debug from "debug";
 import flatten from "flat";
+import DeviceInfo from "react-native-device-info";
+import AppInfo from "./lib/AppInfo";
 
 import type {
   Preset,
@@ -137,6 +139,20 @@ export function Api({
 
   nodejs.channel.addListener("status", onStatus);
 
+  nodejs.channel.addListener("copy-apk", async () => {
+    log("+++ 5");
+    const APP_VERSION = DeviceInfo.getVersion();
+    const tmpDir = RNFS.DocumentDirectoryPath + "/installer";
+    const apkName = "mapeo.apk";
+    const tmpApkPath = `${tmpDir}/${apkName}`;
+    await RNFS.mkdir(tmpDir);
+    log("+++ 6");
+    await RNFS.copyFile(AppInfo.sourceDir, tmpApkPath);
+    log("+++ 7");
+    // await RNFS.unlink(tmpDir);
+    nodejs.channel.post("apk-ready", tmpApkPath, APP_VERSION);
+  });
+
   function onStatus({ value, error }: ServerStatusMessage) {
     if (status !== value) {
       bugsnag.leaveBreadcrumb("Server status change", { status: value });
@@ -145,6 +161,7 @@ export function Api({
       }
     }
     status = value;
+
     if (status === STATUS.LISTENING) {
       while (pending.length) pending.shift().resolve();
     } else if (status === STATUS.ERROR) {

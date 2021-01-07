@@ -17,6 +17,7 @@ const tar = require("tar-fs");
 const pump = require("pump");
 const tmp = require("tmp");
 const semverCoerce = require("semver/functions/coerce");
+const upgradeServer = require("./upgrade-server");
 
 // Cleanup the temporary files even when an uncaught exception occurs
 tmp.setGracefulCleanup();
@@ -61,10 +62,22 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
   });
   let mapeoCore = mapeoRouter.api.core;
 
+  const upgradeOpts = {};
+  const upgradeHandler = upgradeServer(upgradeOpts);
+
   const server = http.createServer(function requestListener(req, res) {
     log(req.method + ": " + req.url);
     // Check if the route is handled by Mapeo Server
     var match = mapeoRouter.handle(req, res);
+
+    // Check against the upgrade server (prefixed by /upgrade)
+    if (!match && (match = req.url.match(/^\/upgrade\/(.*)/))) {
+      const newUrl = "/" + match[1];
+      req.url = newUrl;
+      if (!upgradeHandler(req, res)) {
+        match = null;
+      }
+    }
 
     // If not and headers are not yet sent, send a 404 error
     if (!match && !res.headersSent) {
@@ -131,9 +144,23 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
       rnBridge.channel.on("sync-join", joinSync);
       rnBridge.channel.on("sync-leave", leaveSync);
       rnBridge.channel.on("replace-config", replaceConfig);
+      log("++++ 1");
+      rnBridge.channel.once("apk-ready", apkReady);
+      rnBridge.channel.post("copy-apk");
       origListen.apply(server, args);
     });
   };
+
+  const apkMetadata = {};
+  function apkReady(apkPath, version) {
+    log("++++ 2", apkPath, version);
+    try {
+      upgradeHandler.setApkInfo(apkPath, version);
+    } catch (e) {
+      // TODO: something
+      log("setApkInfo ERR:", e);
+    }
+  }
 
   // Given a config tarball at `path`, replace the current config.
   function replaceConfig({ id, path: pathToNewConfigTarball }) {
