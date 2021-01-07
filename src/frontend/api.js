@@ -15,6 +15,9 @@ import type {
   Metadata,
   Messages,
 } from "./context/ConfigContext";
+
+import { version as APP_VERSION } from "../../package.json";
+
 import type {
   Observation,
   ObservationValue,
@@ -141,7 +144,6 @@ export function Api({
 
   nodejs.channel.addListener("copy-apk", async () => {
     log("+++ 5");
-    const APP_VERSION = DeviceInfo.getVersion();
     const tmpDir = RNFS.DocumentDirectoryPath + "/installer";
     const apkName = "mapeo.apk";
     const tmpApkPath = `${tmpDir}/${apkName}`;

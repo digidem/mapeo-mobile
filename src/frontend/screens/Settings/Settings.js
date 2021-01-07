@@ -5,7 +5,7 @@ import { FormattedMessage, defineMessages } from "react-intl";
 import { useNavigation, useFocusEffect } from "react-navigation-hooks";
 import RNFS from "react-native-fs";
 import Share from "react-native-share";
-import DeviceInfo from "react-native-device-info";
+import { version as APP_VERSION } from "../../../../package.json";
 
 import ApkInstaller from "../../lib/ApkInstaller";
 import AppInfo from "../../lib/AppInfo";
@@ -75,8 +75,6 @@ const m = defineMessages({
     description: "Secondary text for Mapeo APK test"
   }
 });
-
-const APP_VERSION = DeviceInfo.getVersion();
 
 const Settings = () => {
   const { navigate } = useNavigation();
@@ -194,6 +192,12 @@ const Settings = () => {
           secondary={
             <FormattedMessage {...m.appInstallDesc} />
           }></ListItemText>
+      </ListItem>
+      <ListItem>
+        <ListItemIcon iconName="info" />
+        <ListItemText
+          primary="Mapeo Version"
+          secondary={`${APP_VERSION}`}></ListItemText>
       </ListItem>
     </List>
   );
