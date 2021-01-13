@@ -45,11 +45,6 @@ const m = defineMessages({
     description: "First 5 characters of project key displayed on sync screen",
     defaultMessage: "Project Key: {projectKey}",
   },
-  connectMapeoWeb: {
-    id: "screens.SyncModal.SyncView.connectMapeoWeb",
-    description: "Button to connect to Mapeo-Web",
-    defaultMessage: "Connect to Mapeo Web",
-  },
 });
 
 const WifiBar = ({ onPress, ssid, deviceName }) => (
@@ -68,9 +63,9 @@ const WifiBar = ({ onPress, ssid, deviceName }) => (
 );
 
 const CloudSyncBox = ({
-  onSyncConnectPress,
+  onConnectCloudPress,
   onSyncPress,
-  canSyncConnect,
+  canConnectCloud,
   cloudPeer,
 }) =>
   cloudPeer ? (
@@ -81,16 +76,16 @@ const CloudSyncBox = ({
         {...cloudPeer}
         status={peerStatus.READY}
         connected={true}
-        onSyncPress={onSyncConnectPress}
+        onSyncPress={onConnectCloudPress}
       />
     )
-  ) : canSyncConnect ? (
+  ) : canConnectCloud ? (
     <PeerItem
       name="Mapeo Cloud"
       deviceType="cloud"
       status={peerStatus.READY}
       connected={true}
-      onSyncPress={onSyncConnectPress}
+      onSyncPress={onConnectCloudPress}
     />
   ) : null;
 
@@ -137,13 +132,13 @@ const SearchingBox = () => (
 type Props = {
   onSyncPress: (peerId: string) => void,
   onWifiPress: () => void,
-  onSyncConnectPress: () => void,
+  onConnectCloudPress: () => void,
   deviceName: string,
   peers: Array<Peer>,
   cloudPeer: null | Peer,
   ssid: null | string,
   projectKey?: string,
-  canSyncConnect: boolean,
+  canConnectCloud: boolean,
 };
 
 const SyncView = ({
@@ -155,6 +150,9 @@ const SyncView = ({
   projectKey,
   canSyncConnect,
   onSyncConnectPress,
+  canConnectCloud,
+  onConnectCloudPress,
+  cloudPeer
 }: Props) => {
   const experiments = useSettingsValue("experiments");
   const isSyncing = React.useMemo(
@@ -169,8 +167,8 @@ const SyncView = ({
           {experiments.p2pUpgrade ? <UpgradeBar isSyncing={isSyncing} /> : null}
 
           <CloudSyncBox
-            canSyncConnect={canSyncConnect}
-            onSyncConnectPress={onSyncConnectPress}
+            canConnectCloud={canConnectCloud}
+            onConnectCloudPress={onConnectCloudPress}
             onSyncPress={onSyncPress}
             cloudPeer={cloudPeer}
           />
