@@ -13,14 +13,6 @@ const pump = require("pump");
     id: String
   }
 }
-
-# on init
-1. copy apk at boot time (via 'copy-apk' ipc + report-back ipc) to stable location/filename
-2. get metadata /w result caching on report-back ipc
-
-# on request
-3. stream apk data on GET /static/:id
-
 */
 
 // opts?: {
