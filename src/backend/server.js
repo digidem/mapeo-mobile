@@ -17,7 +17,8 @@ const tar = require("tar-fs");
 const pump = require("pump");
 const tmp = require("tmp");
 const semverCoerce = require("semver/functions/coerce");
-const upgradeServer = require("./upgrade-server");
+const UpgradeServer = require("./upgrade-server");
+const UpgradeStorage = require("./upgrade-storage");
 
 // Cleanup the temporary files even when an uncaught exception occurs
 tmp.setGracefulCleanup();
@@ -62,8 +63,10 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
   });
   let mapeoCore = mapeoRouter.api.core;
 
-  const upgradeOpts = {};
-  const upgradeHandler = upgradeServer(upgradeOpts);
+  // const upgradePath = path.join(privateStorage, "upgrades");
+  // mkdirp.sync(upgradePath);
+  // const upgradeStorage = new UpgradeStorage(upgradePath);
+  // const upgradeServer = new UpgradeServer(upgradeStorage);
 
   const server = http.createServer(function requestListener(req, res) {
     log(req.method + ": " + req.url);
@@ -71,13 +74,13 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     var match = mapeoRouter.handle(req, res);
 
     // Check against the upgrade server (prefixed by /upgrade)
-    if (!match && (match = req.url.match(/^\/upgrade\/(.*)/))) {
-      const newUrl = "/" + match[1];
-      req.url = newUrl;
-      if (!upgradeHandler(req, res)) {
-        match = null;
-      }
-    }
+    // if (!match && (match = req.url.match(/^\/upgrade\/(.*)/))) {
+    //   const newUrl = "/" + match[1];
+    //   req.url = newUrl;
+    //   if (!upgradeServer.handleHttpRequest(req, res)) {
+    //     match = null;
+    //   }
+    // }
 
     // If not and headers are not yet sent, send a 404 error
     if (!match && !res.headersSent) {
@@ -151,15 +154,12 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     });
   };
 
-  const apkMetadata = {};
   function apkReady(apkPath, version) {
     log("++++ 2", apkPath, version);
-    try {
-      upgradeHandler.setApkInfo(apkPath, version);
-    } catch (e) {
-      // TODO: something
-      log("setApkInfo ERR:", e);
-    }
+    // upgradeStorage.setApkInfo(apkPath, version, err => {
+    //   // TODO: how to handle this?
+    //   if (err) log("setApkInfo ERR:", err);
+    // });
   }
 
   // Given a config tarball at `path`, replace the current config.

@@ -34,6 +34,7 @@
   "devDependencies": {
     "collect-stream": "^1.2.1",
     "eslint": "^7.18.0",
+    "getport": "^0.1.0",
     "node-gyp-build": "^4.1.0",
     "noderify": "^4.1.0",
     "tape": "^5.1.1",
