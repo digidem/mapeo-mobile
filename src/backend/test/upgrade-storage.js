@@ -19,24 +19,21 @@ test("set an apk + read it", t => {
 
   const dir = tmp.dirSync().name;
   const storage = new Storage(dir);
+  const apkPath = path.join(__dirname, "static", "fake.apk");
 
-  storage.setApkInfo(
-    path.join(__dirname, "static", "fake.apk"),
-    "1.2.3",
-    err => {
+  storage.setApkInfo(apkPath, "1.2.3", err => {
+    t.error(err);
+    storage.getAvailableUpgrades((err, options) => {
       t.error(err);
-      storage.getAvailableUpgrades((err, options) => {
-        t.error(err);
-        t.equals(options.length, 1);
-        t.deepEquals(options[0], expected);
+      t.equals(options.length, 1);
+      t.deepEquals(options[0], expected);
 
-        collect(storage.createReadStream(options[0].hash), (err, data) => {
-          t.error(err);
-          t.equals("fake data\n", data.toString());
-        });
+      collect(storage.createReadStream(options[0].hash), (err, data) => {
+        t.error(err);
+        t.equals("fake data\n", data.toString());
       });
-    }
-  );
+    });
+  });
 });
 
 test("write + clear an upgrade", t => {
