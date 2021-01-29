@@ -13,7 +13,7 @@ test("set an apk + read it", t => {
     version: "1.2.3",
     hashType: "sha256",
     platform: "android",
-    arch: "arm64-v8a",
+    arch: ["arm64-v8a"],
     id: "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041"
   };
 
@@ -45,7 +45,7 @@ test("write + clear an upgrade", t => {
     version: "3.0.0",
     hashType: "sha256",
     platform: "android",
-    arch: "arm64-v8a",
+    arch: ["arm64-v8a"],
     id: "810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50"
   };
 

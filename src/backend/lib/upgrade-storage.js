@@ -42,7 +42,7 @@ class Storage {
           version,
           hashType: "sha256",
           platform: "android",
-          arch: "arm64-v8a",
+          arch: ["arm64-v8a"],
           id: hash.toString("hex")
         };
         cb();
@@ -94,7 +94,7 @@ class Storage {
             version,
             hashType: "sha256",
             platform: "android",
-            arch: "arm64-v8a",
+            arch: ["arm64-v8a"],
             id: hash
           };
           cb(null, option);
