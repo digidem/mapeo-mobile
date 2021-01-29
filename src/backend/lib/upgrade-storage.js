@@ -55,10 +55,13 @@ class Storage {
     const results = [];
     if (this.currentApk) {
       const currentApk = Object.assign({}, this.currentApk);
+      delete currentApk.filename;
       results.push(currentApk);
     }
     this.downloadedApks.forEach(option => {
-      results.push(Object.assign({}, option));
+      const opt = Object.assign({}, option);
+      delete opt.filename;
+      results.push(opt);
     });
     process.nextTick(cb, null, results);
   }
