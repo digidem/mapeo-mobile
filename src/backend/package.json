@@ -10,7 +10,8 @@
   "author": "Digital Democracy",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint *.js \"lib/*.js\" \"test/*.js\""
+    "lint": "eslint *.js \"lib/*.js\" \"test/*.js\"",
+    "test": "tape \"test/*.js\""
   },
   "dependencies": {
     "@bugsnag/js": "^6.3.1",
