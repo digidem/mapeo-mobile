@@ -23,9 +23,14 @@ function startServer(cb) {
       }
     });
     function cleanup() {
-      rimraf.sync(dir);
+      web.close(() => {
+        server.drain(() => {
+          rimraf.sync(dir);
+        });
+      });
     }
     web.listen(port, "localhost", () => {
+      server.share();
       cb(null, web, port, server, storage, cleanup);
     });
   });
@@ -38,7 +43,7 @@ test("can start + make request against server", t => {
     t.error(err);
     http.get({ hostname: "localhost", port, path: "/should-404" }, res => {
       t.equals(res.statusCode, 404);
-      web.close();
+      cleanup();
     });
   });
 });
@@ -55,7 +60,7 @@ test("route: empty GET /list result", t => {
         try {
           const data = JSON.parse(buf.toString());
           t.deepEquals(data, []);
-          web.close();
+          cleanup();
         } catch (err) {
           t.error(err);
         }
@@ -93,7 +98,7 @@ test("route: GET /list APK result", t => {
             try {
               const data = JSON.parse(buf.toString());
               t.deepEquals(data, expected);
-              web.close();
+              cleanup();
             } catch (err) {
               t.error(err);
             }
@@ -113,7 +118,7 @@ test("route: empty GET /content/X result", t => {
       { hostname: "localhost", port, path: "/content/bad-hash" },
       res => {
         t.equals(res.statusCode, 404);
-        web.close();
+        cleanup();
       }
     );
   });
@@ -130,23 +135,31 @@ test("route: APK GET /content/X result", t => {
 
   startServer((err, web, port, server, storage, cleanup) => {
     t.error(err);
-    storage.setApkInfo(
-      path.join(__dirname, "static", "fake.apk"),
-      "1.0.0",
-      err => {
-        t.error(err);
-        http.get(
-          { hostname: "localhost", port, path: `/content/${expectedHash}` },
-          res => {
-            t.equals(res.statusCode, 200);
-            collect(res, (err, buf) => {
-              t.error(err);
-              t.ok(buf.equals(expectedData), "data matches");
-              web.close();
-            });
-          }
-        );
-      }
-    );
+    const apkPath = path.join(__dirname, "static", "fake.apk");
+    storage.setApkInfo(apkPath, "1.0.0", err => {
+      t.error(err);
+      const opts = {
+        hostname: "localhost",
+        port,
+        path: `/content/${expectedHash}`
+      };
+      http.get(opts, res => {
+        t.equals(res.statusCode, 200);
+        collect(res, (err, buf) => {
+          t.error(err);
+          t.ok(buf.equals(expectedData), "data matches");
+          cleanup();
+        });
+      });
+    });
   });
 });
+
+/* edge cases:
+ *
+ * [ ] making an http request before 'share' is called
+ * [ ] making an http request while 'share' is still starting up
+ * [ ] making an http request while server is draining
+ * [ ] calling 'drain' while multiple uploads are in progress still
+ *
+ */
