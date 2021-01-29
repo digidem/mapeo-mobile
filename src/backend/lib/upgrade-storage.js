@@ -103,6 +103,18 @@ class Storage {
     }
   }
 
+  // String -> ReadableStream?
+  createReadStream(hash) {
+    if (this.currentApk && hash === this.currentApk.hash) {
+      return fs.createReadStream(this.currentApk.filename);
+    }
+    const option = this.downloadedApks.filter(o => o.hash === hash)[0];
+    if (option) {
+      return fs.createReadStream(option.filename);
+    }
+    return null;
+  }
+
   // Callback<Void> -> Void
   clearOldApks(cb) {
     rimraf(this.androidDownloadDir, err => {
