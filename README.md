@@ -58,6 +58,15 @@ icons/
 
 ### Offline Maps
 
+Use [mapbox-style-downloader](https://github.com/digidem/mapbox-style-downloader) to download styles, tiles, glyphs, and sprites for offline use.
+
+To create an asar file from the tiles:
+
+```sh
+npm install -g asar
+asar pack /path/to/my/tiles my-offline-tiles.asar
+```
+
 Offline maps must be placed in this folder:
 
 ```txt
