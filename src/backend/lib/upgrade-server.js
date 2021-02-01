@@ -84,7 +84,7 @@ class UpgradeServer extends EventEmitter {
       this.on("upload-complete", oncomplete);
       function oncomplete() {
         if (this.uploads.length === 0) {
-          this.removeEventListener("upload", oncomplete);
+          this.removeListener("upload", oncomplete);
           this.drain(cb);
         }
       }
@@ -197,7 +197,5 @@ class UpgradeServer extends EventEmitter {
     return true;
   }
 }
-
-function noop() {}
 
 module.exports = UpgradeServer;

@@ -8,6 +8,7 @@ const http = require("http");
 const getport = require("getport");
 const collect = require("collect-stream");
 const rimraf = require("rimraf");
+const net = require("net");
 
 function startServer(cb) {
   getport((err, port) => {
@@ -30,7 +31,6 @@ function startServer(cb) {
       });
     }
     web.listen(port, "localhost", () => {
-      server.share();
       cb(null, web, port, server, storage, cleanup);
     });
   });
@@ -41,6 +41,7 @@ test("can start + make request against server", t => {
 
   startServer((err, web, port, server, storage, cleanup) => {
     t.error(err);
+    server.share();
     http.get({ hostname: "localhost", port, path: "/should-404" }, res => {
       t.equals(res.statusCode, 404);
       cleanup();
@@ -53,6 +54,7 @@ test("route: empty GET /list result", t => {
 
   startServer((err, web, port, server, storage, cleanup) => {
     t.error(err);
+    server.share();
     http.get({ hostname: "localhost", port, path: "/list" }, res => {
       t.equals(res.statusCode, 200);
       collect(res, (err, buf) => {
@@ -86,6 +88,7 @@ test("route: GET /list APK result", t => {
 
   startServer((err, web, port, server, storage, cleanup) => {
     t.error(err);
+    server.share();
     storage.setApkInfo(
       path.join(__dirname, "static", "fake.apk"),
       "1.0.0",
@@ -114,6 +117,7 @@ test("route: empty GET /content/X result", t => {
 
   startServer((err, web, port, server, storage, cleanup) => {
     t.error(err);
+    server.share();
     http.get(
       { hostname: "localhost", port, path: "/content/bad-hash" },
       res => {
@@ -135,6 +139,7 @@ test("route: APK GET /content/X result", t => {
 
   startServer((err, web, port, server, storage, cleanup) => {
     t.error(err);
+    server.share();
     const apkPath = path.join(__dirname, "static", "fake.apk");
     storage.setApkInfo(apkPath, "1.0.0", err => {
       t.error(err);
@@ -155,11 +160,67 @@ test("route: APK GET /content/X result", t => {
   });
 });
 
-/* edge cases:
- *
- * [ ] making an http request before 'share' is called
- * [ ] making an http request while 'share' is still starting up
- * [ ] making an http request while server is draining
- * [ ] calling 'drain' while multiple uploads are in progress still
- *
- */
+test("make an http request before 'share' is called", t => {
+  t.plan(4);
+
+  startServer((err, web, port, server, storage, cleanup) => {
+    t.error(err);
+    http.get({ hostname: "localhost", port, path: "/list" }, res => {
+      t.equals(res.statusCode, 503);
+      collect(res, (err, buf) => {
+        t.error(err);
+        t.equals(buf.toString(), '"service unavailable"');
+        cleanup();
+      });
+    });
+  });
+});
+
+test("make an http request while draining", t => {
+  t.plan(7);
+
+  const expectedHash =
+    "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041";
+
+  startServer((err, web, port, server, storage, cleanup) => {
+    t.error(err);
+    server.share();
+    const apkPath = path.join(__dirname, "static", "fake.apk");
+    storage.setApkInfo(apkPath, "1.0.0", err => {
+      t.error(err);
+
+      const socket = makeDanglingHttpGet(port, `/content/${expectedHash}`);
+      collect(socket, (err, buf) => {
+        t.error(err);
+        t.ok(/fake data/.test(buf.toString()));
+        cleanup();
+      });
+
+      setTimeout(() => {
+        server.drain();
+
+        const opts = {
+          hostname: "localhost",
+          port,
+          path: `/content/${expectedHash}`
+        };
+        http.get(opts, res => {
+          collect(res, (err, buf) => {
+            t.error(err);
+            t.equals(res.statusCode, 503);
+            t.equals(buf.toString(), '"service unavailable"');
+            socket.end();
+            cleanup();
+          });
+        });
+      }, 100);
+    });
+  });
+});
+
+function makeDanglingHttpGet(port, route) {
+  const socket = net.connect({ host: "0.0.0.0", port });
+  socket.write(`GET ${route} HTTP 1.1\n\n`);
+  socket.resume();
+  return socket;
+}
