@@ -100,7 +100,19 @@ Android Studio](https://developer.android.com/studio/run/managing-avds). Choose
 
 ### Starting the dev version of Mapeo Mobile
 
-Connect your phone with USB, or start up the emulator, then build and run the
+Build translations with:
+
+```sh
+npm run build:translations
+```
+
+Connect your phone with USB, or start up the emulator. Then start the Javascript bundler:
+
+```sh
+npm start
+```
+
+On another terminal window build and run the
 dev version of the app on your device:
 
 ```sh
