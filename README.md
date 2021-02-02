@@ -90,6 +90,8 @@ Offline maps must be placed in this folder:
 /sdcard/Android/data/com.mapeo/files/styles/default
 ```
 
+> ⚠ with different mapeo releases `com.mapeo` changes, ex.: `com.mapeo.debug`
+
 From the computer `adb push` can be used. Make sure you have [adb](https://adbinstaller.com/) installed. Use like so:
 
 ```sh
