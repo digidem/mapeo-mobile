@@ -72,7 +72,7 @@ Use `mapbox-style-downloader` to download styles, tiles, glyphs, and sprites for
 
 ```sh
 mapbox-style download mapbox://styles/mapbox/streets-v9 \
-  -a \
+  --asar \
   --token='MAPBOX_API_TOKEN' \
   -o styledir \
   -z 8 \
