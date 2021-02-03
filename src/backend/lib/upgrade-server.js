@@ -15,12 +15,13 @@ const State = {
 };
 
 class UpgradeServer extends EventEmitter {
-  constructor(storage) {
+  constructor(storage, port) {
     super();
     this.storage = storage;
     this.stateLock = new RWLock();
     this.setState(State.Idle);
     this.error = null;
+    this.port = port;
 
     // In-progress uploads
     this.uploads = [];
@@ -45,20 +46,16 @@ class UpgradeServer extends EventEmitter {
 
       if (this.state !== State.Idle) return done();
 
-      getport((err, port) => {
+      const opts = {
+        server: [],
+        ttl: 60, // seconds
+        loopback: false
+      };
+      this.discovery = discovery(opts);
+      this.discovery.announce(DISCOVERY_KEY, this.port, err => {
         if (err) return done(err);
-        const opts = {
-          server: [],
-          ttl: 60, // seconds
-          loopback: false
-        };
-        this.discovery = discovery(opts);
-        this.discovery.announce(DISCOVERY_KEY, port, err => {
-          if (err) return done(err);
-          this.port = port;
-          this.setState(State.Sharing);
-          done();
-        });
+        this.setState(State.Sharing);
+        done();
       });
     });
   }
