@@ -119,7 +119,7 @@ const ProjectConfig = () => {
         variant="outlined"
         onPress={handleImportPress}
       >
-        Import config
+        <FormattedMessage {...m.importConfig} />
       </Button>
     </View>
   );
