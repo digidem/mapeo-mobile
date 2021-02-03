@@ -1,6 +1,5 @@
 const pump = require("pump");
 const discovery = require("dns-discovery");
-const getport = require("getport");
 const EventEmitter = require("events").EventEmitter;
 const RWLock = require("rwlock");
 const through = require("through2");
@@ -120,16 +119,10 @@ class UpgradeServer extends EventEmitter {
         return release();
       }
 
-      this.storage.getAvailableUpgrades((err, options) => {
-        if (err) {
-          res.statusCode = 500;
-          res.end(err.toString());
-        } else {
-          res.statusCode = 200;
-          res.end(JSON.stringify(options));
-        }
-        return release();
-      });
+      const options = this.storage.getAvailableUpgrades();
+      res.statusCode = 200;
+      res.end(JSON.stringify(options));
+      return release();
     });
 
     return true;
@@ -147,47 +140,40 @@ class UpgradeServer extends EventEmitter {
         return release();
       }
 
-      this.storage.getAvailableUpgrades((err, options) => {
-        if (err) {
-          res.statusCode = 500;
-          res.end(err.toString());
-          return release();
-        }
-
-        const hash = m[1];
-        const option = options.filter(o => o.hash === hash)[0];
-        if (!option) {
-          res.statusCode = 404;
-          res.end('"no such upgrade"');
-          return release();
-        }
-
-        const rs = this.storage.createReadStream(hash);
-        if (!rs) {
-          res.statusCode = 500;
-          res.end('"could not read upgrade data"');
-          return release();
-        }
-
-        const upload = {
-          sofar: 0,
-          total: option.size
-        };
-        this.uploads.push(upload);
-
-        const tracker = through((chunk, enc, next) => {
-          if (chunk) upload.sofar += chunk.length;
-          next(null, chunk);
-        });
-
-        res.statusCode = 200;
-        pump(rs, tracker, res, () => {
-          this.uploads = this.uploads.filter(u => u !== upload);
-          this.emit("upload-complete", upload);
-        });
-
+      const options = this.storage.getAvailableUpgrades();
+      const hash = m[1];
+      const option = options.filter(o => o.hash === hash)[0];
+      if (!option) {
+        res.statusCode = 404;
+        res.end('"no such upgrade"');
         return release();
+      }
+
+      const rs = this.storage.createReadStream(hash);
+      if (!rs) {
+        res.statusCode = 500;
+        res.end('"could not read upgrade data"');
+        return release();
+      }
+
+      const upload = {
+        sofar: 0,
+        total: option.size
+      };
+      this.uploads.push(upload);
+
+      const tracker = through((chunk, enc, next) => {
+        if (chunk) upload.sofar += chunk.length;
+        next(null, chunk);
       });
+
+      res.statusCode = 200;
+      pump(rs, tracker, res, () => {
+        this.uploads = this.uploads.filter(u => u !== upload);
+        this.emit("upload-complete", upload);
+      });
+
+      return release();
     });
 
     return true;
