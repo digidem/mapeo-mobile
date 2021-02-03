@@ -4,8 +4,7 @@ const getport = require("getport");
 const EventEmitter = require("events").EventEmitter;
 const RWLock = require("rwlock");
 const through = require("through2");
-
-const DISCOVERY_KEY = "mapeo-upgrade";
+const DISCOVERY_KEY = require("./constants").DISCOVERY_KEY;
 
 // Enum
 const State = {
