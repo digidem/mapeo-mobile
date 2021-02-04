@@ -75,7 +75,7 @@ able to control the mobile app.
 ### Pre-requisites
 
 In order to develop the full app you will need the Android SDK installed and
-[r19c of NDK](https://developer.android.com/ndk/guides/) in order to build
+specifically [21.3.6528147 of the NDK](https://developer.android.com/ndk/guides/) in order to build
 nodejs-mobile for Android.
 
 You may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and cofigures requirements that might be missing, like the NDK and CMake to build the native code part of the project.
@@ -100,7 +100,19 @@ Android Studio](https://developer.android.com/studio/run/managing-avds). Choose
 
 ### Starting the dev version of Mapeo Mobile
 
-Connect your phone with USB, or start up the emulator, then build and run the
+Build translations with:
+
+```sh
+npm run build:translations
+```
+
+Connect your phone with USB, or start up the emulator. Then start the Javascript bundler:
+
+```sh
+npm start
+```
+
+In another terminal window build and run the
 dev version of the app on your device:
 
 ```sh
@@ -116,9 +128,9 @@ If you are tired of shaking the phone you can enter `npm run dev-menu` from your
 computer.
 
 `npm run android` does two things: starts "Metro bundler" in one window, and
-then builds and installs the dev version of Mapeo on the connected device. To
-start Metro bundler on its own (e.g. if you already have the app installed), use
-`npm start`.
+then builds and installs the dev version of Mapeo on the connected device.
+That might not work on all machines, so in order to start the Metro bundler on
+its own (e.g. if you already have the app installed), use `npm start`.
 
 ### Running end-to-end tests
 

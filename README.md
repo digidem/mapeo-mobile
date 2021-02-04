@@ -58,13 +58,47 @@ icons/
 
 ### Offline Maps
 
+First find out the bouding box of the map area that will be downloaded using the [boundingbox online tool](https://boundingbox.klokantech.com). Use the `CSV` Copy & Paste option to display the coordinates in the correct format.
+
+Then install [mapbox-style-downloader](https://www.npmjs.com/package/mapbox-style-downloader):
+
+```sh
+npm i -g mapbox-style-downloader
+```
+
+Get a [Mapbox API token](https://account.mapbox.com/access-tokens/) and select a [Mapbox style](https://docs.mapbox.com/api/maps/styles/).
+
+Use `mapbox-style-downloader` to download styles, tiles, glyphs, and sprites for offline use:
+
+```sh
+mapbox-style download mapbox://styles/mapbox/streets-v9 \
+  --asar \
+  --token='MAPBOX_API_TOKEN' \
+  -o styledir \
+  -z 8 \
+  -Z 13 \
+  -b '-60.1364 1.5626 -58.0627 3.475'
+```
+
+Check that everything was downloaded correctly with `mapbox-style serve` inside the `styledir` directory.
+
+Connect phone to computer or move the files to a SD card or USB drive (an adapter will be needed).
+
 Offline maps must be placed in this folder:
 
 ```txt
 /sdcard/Android/data/com.mapeo/files/styles/default
 ```
 
-This folder should contain these files derectly under this `default` folder:
+> ⚠ with different mapeo releases `com.mapeo` changes, ex.: `com.mapeo.debug`
+
+From the computer `adb push` can be used. Make sure you have [adb](https://adbinstaller.com/) installed. Use like so:
+
+```sh
+adb push /path/to/styledir/* /sdcard/Android/data/com.mapeo/files/styles/default
+```
+
+This folder should contain these files directly under this `default` folder:
 
 ```txt
 style.json
