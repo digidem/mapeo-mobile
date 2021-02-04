@@ -49,6 +49,11 @@ const m = defineMessages({
     description:
       "Button to dismiss error dialog when there is an error importing a config file",
   },
+  importConfig: {
+    id: "screens.Settings.importConfig",
+    defaultMessage: "Import Config",
+    description: "Button to import Mapeo config file",
+  },
 });
 
 // const Picker = ({ label, children, ...props }) => (
@@ -119,7 +124,7 @@ const ProjectConfig = () => {
         variant="outlined"
         onPress={handleImportPress}
       >
-        Import config
+        <FormattedMessage {...m.importConfig} />
       </Button>
     </View>
   );
