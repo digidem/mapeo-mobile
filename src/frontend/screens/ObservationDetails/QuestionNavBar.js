@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import Text from "../../sharedComponents/Text";
 import { defineMessages, FormattedMessage } from "react-intl";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 

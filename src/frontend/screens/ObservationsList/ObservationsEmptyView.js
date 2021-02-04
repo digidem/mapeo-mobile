@@ -1,7 +1,8 @@
 /* eslint-disable react-native/no-raw-text */
 // @flow
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
+import Text from "../../sharedComponents/Text";
 import { defineMessages, useIntl } from "react-intl";
 import { ObservationListIcon } from "../../sharedComponents/icons";
 
