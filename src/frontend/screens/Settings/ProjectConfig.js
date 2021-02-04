@@ -52,8 +52,8 @@ const m = defineMessages({
   importConfig: {
     id: "screens.Settings.importConfig",
     defaultMessage: "Import Config",
-    description: "Button to import Mapeo config file"
-  }
+    description: "Button to import Mapeo config file",
+  },
 });
 
 // const Picker = ({ label, children, ...props }) => (
