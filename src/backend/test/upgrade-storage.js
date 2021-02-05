@@ -57,7 +57,7 @@ test("write + clear an older upgrade", t => {
     platform: "android"
   });
 
-  const ws = storage.createApkWritableStream("foo.apk", "3.0.0", err => {
+  const ws = storage.createApkWriteStream("foo.apk", "3.0.0", err => {
     t.error(err);
     storage.getAvailableUpgrades((err, options) => {
       t.error(err);
@@ -105,7 +105,7 @@ test("write + ensure a newer upgrade isn't wiped", t => {
     platform: "android"
   });
 
-  const ws = storage.createApkWritableStream("foo.apk", "3.0.0", err => {
+  const ws = storage.createApkWriteStream("foo.apk", "3.0.0", err => {
     t.error(err);
     storage.getAvailableUpgrades((err, options) => {
       t.error(err);

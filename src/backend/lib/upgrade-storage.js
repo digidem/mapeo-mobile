@@ -71,7 +71,8 @@ class Storage {
   }
 
   // String, String, Callback<Void> -> WritableStream
-  createApkWritableStream(filename, version, cb) {
+  createApkWriteStream(filename, version, cb) {
+    cb = cb || function() {};
     const filepath = path.join(this.dir, filename);
 
     const ws = fs.createWriteStream(filepath);
