@@ -3,7 +3,6 @@ const mkdirp = require("mkdirp");
 const fs = require("fs");
 const crypto = require("crypto");
 const rimraf = require("rimraf");
-const RWLock = require("rwlock");
 const through = require("through2");
 const readonly = require("read-only-stream");
 const pump = require("pump");

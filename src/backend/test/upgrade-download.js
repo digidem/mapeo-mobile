@@ -9,7 +9,6 @@ const http = require("http");
 const getport = require("getport");
 const collect = require("collect-stream");
 const rimraf = require("rimraf");
-const net = require("net");
 
 function startServer(cb) {
   getport((err, port) => {
@@ -38,7 +37,7 @@ function startServer(cb) {
 }
 
 test("can find a compatible upgrade candidate", t => {
-  t.plan(4);
+  t.plan(5);
 
   startServer((err, web, port, server, storage, cleanup) => {
     t.error(err);
@@ -61,6 +60,7 @@ test("can find a compatible upgrade candidate", t => {
       path.join(__dirname, "static", "fake.apk"),
       "1.0.0",
       err => {
+        t.error(err);
         server.share();
 
         const download = new UpgradeDownload(storage);

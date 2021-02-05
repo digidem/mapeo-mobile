@@ -104,6 +104,7 @@ class Search extends EventEmitter {
       http
         .get({ hostname: host, port, path: "/list" }, res => {
           collect(res, (err, buf) => {
+            if (err) return release();
             try {
               const data = JSON.parse(buf.toString());
               data.forEach(upgrade => {
@@ -122,7 +123,7 @@ class Search extends EventEmitter {
             }
           });
         })
-        .once("error", err => {
+        .once("error", _ => {
           // XXX: ignore error + peer
           release();
         });

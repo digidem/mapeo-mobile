@@ -1,6 +1,5 @@
 const pump = require("pump");
 const discovery = require("dns-discovery");
-const getport = require("getport");
 const EventEmitter = require("events").EventEmitter;
 const RWLock = require("rwlock");
 const through = require("through2");
