@@ -8,8 +8,7 @@ const through = require("through2");
 const readonly = require("read-only-stream");
 const pump = require("pump");
 const semver = require("semver");
-
-const UPGRADE_FILENAME = "upgrades.json";
+const LocalUpgradeInfo = require("./local-upgrade-info");
 
 /* type Callback<T> = (Error?, T?) => Void */
 
@@ -30,10 +29,11 @@ class Storage {
     if (!storageDir) throw new Error("required argument: storageDir");
     if (typeof storageDir !== "string")
       throw new Error("storageDir must be type string");
+
     this.currentApk = null;
-    this.dir = storageDir;
     this.localUpgrades = new LocalUpgradeInfo(storageDir);
 
+    this.dir = storageDir;
     mkdirp.sync(this.dir);
 
     opts = opts || {};
@@ -136,101 +136,6 @@ class Storage {
     if (upgrade.platform !== this.targetPlatform) return null;
     if (!semver.valid(upgrade.version)) return null;
     return semver.gt(upgrade.version, this.version);
-  }
-}
-
-class LocalUpgradeInfo {
-  constructor(storageDir) {
-    this.storageDir = storageDir;
-    this.lock = new RWLock();
-  }
-
-  get(cb) {
-    this.lock.readLock(release => {
-      function done(err, res) {
-        release();
-        cb(err, res ? res.upgrades : null);
-      }
-
-      fs.readFile(
-        path.join(this.storageDir, UPGRADE_FILENAME),
-        "utf8",
-        (err, buf) => {
-          if (err && err.code === "ENOENT") {
-            return done(null, { upgrades: [] });
-          }
-          if (err) return done(err);
-          try {
-            const data = JSON.parse(buf.toString());
-            done(null, data);
-          } catch (err) {
-            done(err);
-          }
-        }
-      );
-    });
-  }
-
-  // Add an UpgradeOption to upgrade.json's 'upgrades' list
-  add(info, cb) {
-    this.lock.writeLock(release => {
-      function done(err, res) {
-        release();
-        cb(err, res);
-      }
-
-      const filepath = path.join(this.storageDir, UPGRADE_FILENAME);
-
-      function write(data) {
-        data.upgrades.push(info);
-        const json = JSON.stringify(data, null, 2);
-        fs.writeFile(filepath, json, "utf8", done);
-      }
-
-      fs.readFile(filepath, "utf8", (err, buf) => {
-        if (err && err.code === "ENOENT") {
-          return write({ upgrades: [] });
-        }
-        if (err) return done(err);
-        try {
-          const data = JSON.parse(buf.toString());
-          write(data);
-        } catch (err) {
-          done(err);
-        }
-      });
-    });
-  }
-
-  // Replace the entirety of upgrade.json's 'upgrades' list
-  set(info, cb) {
-    this.lock.writeLock(release => {
-      function done(err, res) {
-        release();
-        cb(err, res);
-      }
-
-      const filepath = path.join(this.storageDir, UPGRADE_FILENAME);
-
-      function write(data) {
-        data.upgrades = info;
-        const json = JSON.stringify(data, null, 2);
-        fs.writeFile(filepath, json, "utf8", done);
-      }
-
-      fs.readFile(filepath, "utf8", (err, buf) => {
-        if (err && err.code === "ENOENT") {
-          return write({ upgrades: [] });
-        }
-        if (err) return done(err);
-        try {
-          const data = JSON.parse(buf.toString());
-          write(data);
-        } catch (err) {
-          done(err);
-        }
-      });
-    });
   }
 }
 
