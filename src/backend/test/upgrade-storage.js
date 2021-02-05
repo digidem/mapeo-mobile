@@ -5,7 +5,7 @@ const collect = require("collect-stream");
 const Storage = require("../lib/upgrade-storage");
 
 test("set an apk + read it", t => {
-  t.plan(5);
+  t.plan(6);
 
   const expected = {
     hash: "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041",
@@ -23,19 +23,21 @@ test("set an apk + read it", t => {
 
   storage.setApkInfo(apkPath, "1.2.3", err => {
     t.error(err);
-    const options = storage.getAvailableUpgrades();
-    t.equals(options.length, 1);
-    t.deepEquals(options[0], expected);
-
-    collect(storage.createReadStream(options[0].hash), (err, data) => {
+    storage.getAvailableUpgrades((err, options) => {
       t.error(err);
-      t.equals("fake data\n", data.toString());
+      t.equals(options.length, 1);
+      t.deepEquals(options[0], expected);
+
+      collect(storage.createReadStream(options[0].hash), (err, data) => {
+        t.error(err);
+        t.equals("fake data\n", data.toString());
+      });
     });
   });
 });
 
 test("write + clear an upgrade", t => {
-  t.plan(7);
+  t.plan(9);
 
   const expected = {
     hash: "810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50",
@@ -52,18 +54,22 @@ test("write + clear an upgrade", t => {
 
   const ws = storage.createApkWritableStream("foo.apk", "3.0.0", err => {
     t.error(err);
-    const options = storage.getAvailableUpgrades();
-    t.equals(options.length, 1);
-    t.deepEquals(options[0], expected);
-
-    collect(storage.createReadStream(options[0].hash), (err, data) => {
+    storage.getAvailableUpgrades((err, options) => {
       t.error(err);
-      t.equals("testdata", data.toString());
+      t.equals(options.length, 1);
+      t.deepEquals(options[0], expected);
 
-      storage.clearOldApks(err => {
+      collect(storage.createReadStream(options[0].hash), (err, data) => {
         t.error(err);
-        const options = storage.getAvailableUpgrades();
-        t.equals(options.length, 0);
+        t.equals("testdata", data.toString());
+
+        storage.clearOldApks(err => {
+          t.error(err);
+          storage.getAvailableUpgrades((err, options) => {
+            t.error(err);
+            t.equals(options.length, 0);
+          });
+        });
       });
     });
   });

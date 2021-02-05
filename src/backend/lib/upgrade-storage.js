@@ -38,8 +38,8 @@ class Storage {
     });
   }
 
-  // Void -> [UpgradeOption]
-  getAvailableUpgrades() {
+  // Callback<[UpgradeOption]> -> Void
+  getAvailableUpgrades(cb) {
     const results = [];
     if (this.currentApk) {
       const currentApk = Object.assign({}, this.currentApk);
@@ -51,7 +51,7 @@ class Storage {
       delete opt.filename;
       results.push(opt);
     });
-    return results;
+    process.nextTick(cb, null, results);
   }
 
   // String, String, Callback<Void> -> WritableStream
