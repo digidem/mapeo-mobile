@@ -3,6 +3,13 @@ const mkdirp = require("mkdirp");
 const fs = require("fs");
 const crypto = require("crypto");
 const rimraf = require("rimraf");
+const RWLock = require("rwlock");
+const through = require("through2");
+const readonly = require("read-only-stream");
+const pump = require("pump");
+const semver = require("semver");
+
+const UPGRADE_FILENAME = "upgrades.json";
 
 /* type Callback<T> = (Error?, T?) => Void */
 
@@ -19,17 +26,23 @@ const rimraf = require("rimraf");
 
 class Storage {
   // String -> Void
-  constructor(storageDir) {
+  constructor(storageDir, opts) {
     if (!storageDir) throw new Error("required argument: storageDir");
     if (typeof storageDir !== "string")
       throw new Error("storageDir must be type string");
     this.currentApk = null;
-    this.downloadedApks = [];
     this.dir = storageDir;
-    this.androidDownloadDir = path.join(this.dir, "android");
-    mkdirp.sync(this.androidDownloadDir);
+    this.localUpgrades = new LocalUpgradeInfo(storageDir);
+
+    mkdirp.sync(this.dir);
+
+    opts = opts || {};
+    this.targetPlatform = opts.platform || "android";
+    this.targetArch = opts.arch || "arm64-v8a";
+    this.version = opts.version || "0.0.0";
   }
 
+  // String, String, Callback<Void> -> Void
   setApkInfo(apkPath, version, cb) {
     apkToUpgradeOption(apkPath, version, (err, info) => {
       if (err) return cb(err);
@@ -46,47 +59,177 @@ class Storage {
       delete currentApk.filename;
       results.push(currentApk);
     }
-    this.downloadedApks.forEach(option => {
-      const opt = Object.assign({}, option);
-      delete opt.filename;
-      results.push(opt);
+    this.localUpgrades.get((err, options) => {
+      if (err) return cb(err);
+      options.forEach(option => {
+        const opt = Object.assign({}, option);
+        delete opt.filename; // XXX: needed still?
+        results.push(opt);
+      });
+      cb(null, results);
     });
-    process.nextTick(cb, null, results);
   }
 
   // String, String, Callback<Void> -> WritableStream
   createApkWritableStream(filename, version, cb) {
-    const filepath = path.join(this.androidDownloadDir, filename);
+    const filepath = path.join(this.dir, filename);
 
     const ws = fs.createWriteStream(filepath);
     ws.once("error", cb);
     ws.once("finish", () => {
       apkToUpgradeOption(filepath, version, (err, option) => {
         if (err) return cb(err);
-        this.downloadedApks.push(option);
-        cb(null, option);
+        this.localUpgrades.add(option, err => {
+          if (err) cb(err);
+          else cb(null, option);
+        });
       });
     });
     return ws;
   }
 
-  // String -> ReadableStream?
+  // String -> ReadableStream
   createReadStream(hash) {
     if (this.currentApk && hash === this.currentApk.hash) {
       return fs.createReadStream(this.currentApk.filename);
     }
-    const option = this.downloadedApks.filter(o => o.hash === hash)[0];
-    if (option) {
-      return fs.createReadStream(option.filename);
-    }
-    return null;
+    const t = through();
+    this.localUpgrades.get((err, options) => {
+      if (err) return t.emit("error", err);
+      const option = options.filter(o => o.hash === hash)[0];
+      if (option) {
+        const rs = fs.createReadStream(option.filename);
+        pump(rs, t);
+      } else {
+        t.emit("error", new Error(`no such upgrade option with hash ${hash}`));
+      }
+    });
+    return readonly(t);
   }
 
   // Callback<Void> -> Void
   clearOldApks(cb) {
-    rimraf(this.androidDownloadDir, err => {
-      this.downloadedApks = [];
-      cb(err);
+    this.localUpgrades.get((err, options) => {
+      if (err) return cb(err);
+      const toDelete = options.filter(
+        option => !this.isNewerThanCurrentApk(option)
+      );
+      const toKeep = options.filter(option =>
+        this.isNewerThanCurrentApk(option)
+      );
+      foreachAsync(
+        toDelete,
+        (option, cb) => {
+          rimraf(option.filename, cb);
+        },
+        _ => {
+          // XXX: not handling errors from failed deletions (yet)
+          this.localUpgrades.set(toKeep, cb);
+        }
+      );
+    });
+  }
+
+  // UpgradeOption -> Bool
+  isNewerThanCurrentApk(upgrade) {
+    if (upgrade.arch.indexOf(this.targetArch) === -1) return null;
+    if (upgrade.platform !== this.targetPlatform) return null;
+    if (!semver.valid(upgrade.version)) return null;
+    return semver.gt(upgrade.version, this.version);
+  }
+}
+
+class LocalUpgradeInfo {
+  constructor(storageDir) {
+    this.storageDir = storageDir;
+    this.lock = new RWLock();
+  }
+
+  get(cb) {
+    this.lock.readLock(release => {
+      function done(err, res) {
+        release();
+        cb(err, res ? res.upgrades : null);
+      }
+
+      fs.readFile(
+        path.join(this.storageDir, UPGRADE_FILENAME),
+        "utf8",
+        (err, buf) => {
+          if (err && err.code === "ENOENT") {
+            return done(null, { upgrades: [] });
+          }
+          if (err) return done(err);
+          try {
+            const data = JSON.parse(buf.toString());
+            done(null, data);
+          } catch (err) {
+            done(err);
+          }
+        }
+      );
+    });
+  }
+
+  // Add an UpgradeOption to upgrade.json's 'upgrades' list
+  add(info, cb) {
+    this.lock.writeLock(release => {
+      function done(err, res) {
+        release();
+        cb(err, res);
+      }
+
+      const filepath = path.join(this.storageDir, UPGRADE_FILENAME);
+
+      function write(data) {
+        data.upgrades.push(info);
+        const json = JSON.stringify(data, null, 2);
+        fs.writeFile(filepath, json, "utf8", done);
+      }
+
+      fs.readFile(filepath, "utf8", (err, buf) => {
+        if (err && err.code === "ENOENT") {
+          return write({ upgrades: [] });
+        }
+        if (err) return done(err);
+        try {
+          const data = JSON.parse(buf.toString());
+          write(data);
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+  }
+
+  // Replace the entirety of upgrade.json's 'upgrades' list
+  set(info, cb) {
+    this.lock.writeLock(release => {
+      function done(err, res) {
+        release();
+        cb(err, res);
+      }
+
+      const filepath = path.join(this.storageDir, UPGRADE_FILENAME);
+
+      function write(data) {
+        data.upgrades = info;
+        const json = JSON.stringify(data, null, 2);
+        fs.writeFile(filepath, json, "utf8", done);
+      }
+
+      fs.readFile(filepath, "utf8", (err, buf) => {
+        if (err && err.code === "ENOENT") {
+          return write({ upgrades: [] });
+        }
+        if (err) return done(err);
+        try {
+          const data = JSON.parse(buf.toString());
+          write(data);
+        } catch (err) {
+          done(err);
+        }
+      });
     });
   }
 }
@@ -121,6 +264,16 @@ function apkToUpgradeOption(filepath, version, cb) {
       cb(null, option);
     });
   });
+}
+
+function foreachAsync(list, fn, cb) {
+  (function next(i) {
+    if (i >= list.length) return cb();
+    fn(list[0], err => {
+      if (err) return cb(err);
+      next(i + 1);
+    });
+  })(0);
 }
 
 module.exports = Storage;
