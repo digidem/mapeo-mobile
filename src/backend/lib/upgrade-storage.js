@@ -31,22 +31,10 @@ class Storage {
   }
 
   setApkInfo(apkPath, version, cb) {
-    hashFile(apkPath, (err, hash) => {
+    apkToUpgradeOption(apkPath, version, (err, info) => {
       if (err) return cb(err);
-      fs.stat(apkPath, (err, info) => {
-        if (err) return cb(err);
-        this.currentApk = {
-          filename: apkPath,
-          hash: hash.toString("hex"),
-          size: info.size,
-          version,
-          hashType: "sha256",
-          platform: "android",
-          arch: ["arm64-v8a"],
-          id: hash.toString("hex")
-        };
-        cb();
-      });
+      this.currentApk = info;
+      cb();
     });
   }
 
@@ -80,27 +68,6 @@ class Storage {
       });
     });
     return ws;
-
-    function apkToUpgradeOption(filepath, version, cb) {
-      hashFile(filepath, (err, buf) => {
-        if (err) return cb(err);
-        const hash = buf.toString("hex");
-        fs.stat(filepath, (err, info) => {
-          if (err) return cb(err);
-          const option = {
-            filename: filepath,
-            hash,
-            size: info.size,
-            version,
-            hashType: "sha256",
-            platform: "android",
-            arch: ["arm64-v8a"],
-            id: hash
-          };
-          cb(null, option);
-        });
-      });
-    }
   }
 
   // String -> ReadableStream?
@@ -133,6 +100,27 @@ function hashFile(filename, cb) {
   } catch (err) {
     process.nextTick(cb, err);
   }
+}
+
+function apkToUpgradeOption(filepath, version, cb) {
+  hashFile(filepath, (err, buf) => {
+    if (err) return cb(err);
+    const hash = buf.toString("hex");
+    fs.stat(filepath, (err, info) => {
+      if (err) return cb(err);
+      const option = {
+        filename: filepath,
+        hash,
+        size: info.size,
+        version,
+        hashType: "sha256",
+        platform: "android",
+        arch: ["arm64-v8a"],
+        id: hash
+      };
+      cb(null, option);
+    });
+  });
 }
 
 module.exports = Storage;
