@@ -111,7 +111,7 @@ test("will not find an incompatible upgrade candidate", t => {
 });
 
 test("can find + download an upgrade", t => {
-  t.plan(8);
+  t.plan(10);
 
   const expectedHash =
     "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041";
@@ -140,9 +140,15 @@ test("can find + download an upgrade", t => {
         const option = state.search.context.upgrades[0];
 
         let done = false;
+        let lastProgress = null;
         download.on("state", state => {
           if (done) return;
+          if (state.download.state === 2) {
+            lastProgress = state.download.context;
+          }
           if (state.download.state === 3) {
+            t.equals(lastProgress.sofar, 10);
+            t.equals(lastProgress.total, 10);
             t.equals(
               state.download.context.filename,
               expectedHash,

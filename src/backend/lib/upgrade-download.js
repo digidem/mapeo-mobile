@@ -5,6 +5,7 @@ const EventEmitter = require("events").EventEmitter;
 const dns = require("dns-discovery");
 const RWLock = require("rwlock");
 const pump = require("pump");
+const through = require("through2");
 const DISCOVERY_KEY = require("./constants").DISCOVERY_KEY;
 
 // Enum
@@ -180,6 +181,12 @@ class Download extends EventEmitter {
     const url = `/content/${option.id}`;
     http.get({ hostname: option.host, port: option.port, path: url }, res => {
       const filename = option.hash;
+      let sofar = 0;
+      const progress = through((chunk, enc, next) => {
+        sofar += chunk.length;
+        this.setState(DownloadState.Downloading, { sofar, total: option.size });
+        next(null, chunk);
+      });
       const ws = this.storage.createApkWriteStream(
         filename,
         option.version,
@@ -188,7 +195,7 @@ class Download extends EventEmitter {
           else this.setState(DownloadState.Downloaded, { filename });
         }
       );
-      pump(res, ws);
+      pump(res, progress, ws);
     });
   }
 }
