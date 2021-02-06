@@ -68,7 +68,6 @@ test("can find a compatible upgrade candidate", t => {
         t.error(err);
         server.share();
 
-        const download = new UpgradeDownload(storage2);
         download.search.start();
         download.on("state", state => {
           if (state.search.state !== 2) return;

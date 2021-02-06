@@ -6,6 +6,7 @@ const dns = require("dns-discovery");
 const RWLock = require("rwlock");
 const pump = require("pump");
 const through = require("through2");
+
 const DISCOVERY_KEY = require("./constants").DISCOVERY_KEY;
 
 // Enum
@@ -30,9 +31,8 @@ const CheckState = {
   Error: 3
 };
 
-// TODO: needs to check storage to see if the last time the app was run there
-// was a download made + ready + its >= this version
-
+// Manager object responsible for coordinating the Search, Download, and Check
+// subcomponents.
 class UpgradeDownloader extends EventEmitter {
   // UpgradeStorage -> Void
   constructor(storage, opts) {
@@ -79,6 +79,9 @@ class UpgradeDownloader extends EventEmitter {
   }
 }
 
+// Responsible for searching for other Mapeo peers on the local network,
+// querying them for available upgrades, and recording the ones that are newer
+// than the current APK version.
 class Search extends EventEmitter {
   constructor({ version, platform, arch }) {
     super();
@@ -174,6 +177,8 @@ class Search extends EventEmitter {
   }
 }
 
+// Responsible for downloading a given UpgradeOption and tracking its download
+// progress.
 class Download extends EventEmitter {
   constructor(storage) {
     super();
@@ -214,6 +219,8 @@ class Download extends EventEmitter {
   }
 }
 
+// Responsible for checking local storage to see if a newer compatible upgrade
+// is available on disk.
 class Check extends EventEmitter {
   constructor(storage) {
     super();
