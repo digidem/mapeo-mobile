@@ -24,7 +24,7 @@ const DownloadState = {
 };
 
 // Enum
-const UpgradeAvailabilityState = {
+const CheckState = {
   NotAvailable: 1,
   Available: 2,
   Error: 3
@@ -61,7 +61,21 @@ class UpgradeDownloader extends EventEmitter {
       // XXX: no need to make a deep copy, since it's going to be serialized
       // over the RN bridge anyways
       this.emit("state", this.state);
+
+      // Check for a new version once the download has finished
+      if (state === DownloadState.Downloaded) {
+        this.check.check();
+      }
     });
+    this.check.on("state", (state, context) => {
+      this.state.check = { state, context };
+      // XXX: no need to make a deep copy, since it's going to be serialized
+      // over the RN bridge anyways
+      this.emit("state", this.state);
+    });
+
+    // Check for a new version on init
+    this.check.check();
   }
 }
 
@@ -192,7 +206,7 @@ class Download extends EventEmitter {
         option.version,
         err => {
           if (err) this.setState(DownloadState.Error, err);
-          else this.setState(DownloadState.Downloaded, { filename });
+          else this.setState(DownloadState.Downloaded, null);
         }
       );
       pump(res, progress, ws);
@@ -201,13 +215,29 @@ class Download extends EventEmitter {
 }
 
 class Check extends EventEmitter {
-  constructor() {
+  constructor(storage) {
     super();
-    this.state = UpgradeAvailabilityState.NotAvailable;
+    this.state = CheckState.NotAvailable;
     this.context = null;
+    this.storage = storage;
   }
 
-  check() {}
+  setState(state, context) {
+    this.state = state;
+    this.context = context;
+    this.emit("state", state, context);
+  }
+
+  check() {
+    if (this.state !== CheckState.NotAvailable) return;
+
+    this.storage.getAvailableUpgrades((err, options) => {
+      if (err) return this.setState(CheckState.Error, err);
+      if (options.length > 0) {
+        this.setState(CheckState.Available, { filename: options[0].hash });
+      }
+    });
+  }
 }
 
 module.exports = UpgradeDownloader;

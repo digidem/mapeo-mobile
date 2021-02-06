@@ -39,6 +39,11 @@ function startServer(cb) {
 test("can find a compatible upgrade candidate", t => {
   t.plan(5);
 
+  // Client
+  const dir2 = tmp.dirSync().name;
+  const storage2 = new UpgradeStorage(dir2);
+  const download = new UpgradeDownload(storage2, { version: "0.0.0" });
+
   startServer((err, web, port, server, storage, cleanup) => {
     t.error(err);
 
@@ -63,9 +68,10 @@ test("can find a compatible upgrade candidate", t => {
         t.error(err);
         server.share();
 
-        const download = new UpgradeDownload(storage);
+        const download = new UpgradeDownload(storage2);
         download.search.start();
-        download.once("state", state => {
+        download.on("state", state => {
+          if (state.search.state !== 2) return;
           delete state.search.context.upgrades[0].host;
           t.equals(state.search.state, 2);
           t.deepEquals(state.search.context.upgrades, expected);
@@ -110,8 +116,8 @@ test("will not find an incompatible upgrade candidate", t => {
   });
 });
 
-test("can find + download an upgrade", t => {
-  t.plan(10);
+test("can find + download + check an upgrade", t => {
+  t.plan(11);
 
   const expectedHash =
     "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041";
@@ -134,14 +140,28 @@ test("can find + download an upgrade", t => {
     storage.setApkInfo(apkPath, "1.0.0", err => {
       t.error(err, "apk info set ok");
 
-      download.search.start();
-      download.once("state", state => {
-        t.equals(state.search.context.upgrades.length, 1, "upgrade found ok");
-        const option = state.search.context.upgrades[0];
+      awaitFoundUpgrade(() => {
+        awaitDownloaded(() => {
+          awaitChecked();
+        });
+      });
 
+      function awaitFoundUpgrade(cb) {
+        download.search.start();
+        download.once("state", state => {
+          t.equals(state.search.context.upgrades.length, 1, "upgrade found ok");
+          const option = state.search.context.upgrades[0];
+          download.download.download(option);
+          cb();
+        });
+      }
+
+      function awaitDownloaded(cb) {
         let done = false;
         let lastProgress = null;
-        download.on("state", state => {
+        download.on("state", onState);
+
+        function onState(state) {
           if (done) return;
           if (state.download.state === 2) {
             lastProgress = state.download.context;
@@ -149,29 +169,32 @@ test("can find + download an upgrade", t => {
           if (state.download.state === 3) {
             t.equals(lastProgress.sofar, 10);
             t.equals(lastProgress.total, 10);
-            t.equals(
-              state.download.context.filename,
-              expectedHash,
-              "upgrade downloaded ok"
-            );
             done = true;
-
-            storage2.getAvailableUpgrades((err, options) => {
-              t.error(err, "got local upgrade options ok");
-              t.equals(options.length, 1);
-
-              const rs = storage2.createReadStream(options[0].hash);
-              collect(rs, (err, buf) => {
-                t.error(err);
-                t.ok(buf.equals(expectedData), "data matches");
-                download.search.stop();
-                cleanup();
-              });
-            });
+            download.removeListener("state", onState);
+            cb();
           }
+        }
+      }
+
+      function awaitChecked() {
+        download.once("state", state => {
+          t.equals(state.check.state, 2);
+          t.equals(state.check.context.filename, expectedHash);
+
+          storage2.getAvailableUpgrades((err, options) => {
+            t.error(err, "got local upgrade options ok");
+            t.equals(options.length, 1);
+
+            const rs = storage2.createReadStream(state.check.context.filename);
+            collect(rs, (err, buf) => {
+              t.error(err);
+              t.ok(buf.equals(expectedData), "data matches");
+              download.search.stop();
+              cleanup();
+            });
+          });
         });
-        download.download.download(option);
-      });
+      }
     });
   });
 });
