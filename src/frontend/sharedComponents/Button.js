@@ -57,13 +57,16 @@ const Button = ({
         onPress={disabled ? undefined : onPress}
       >
         <View style={styles.touchable}>
-          {typeof children === "string" ? (
-            <Text style={[styles.textBase, textStyle]}>
-              {children.toUpperCase()}
-            </Text>
-          ) : (
-            children
-          )}
+          {
+            typeof children === "string" ? (
+              <Text style={[styles.textBase, textStyle]}>
+                {children.toUpperCase()}
+              </Text>
+            ) : (
+              children
+            )
+            // TODO: Handle <FormattedMessage> as children (wrapping in <Text>)
+          }
         </View>
       </TouchableNativeFeedback>
     </View>
