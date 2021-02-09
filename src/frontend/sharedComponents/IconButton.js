@@ -18,13 +18,24 @@ type Props = {
   style?: ViewStyleProp,
   children: React.Node,
   testID?: string,
+  accessibilityLabel?: string,
+  accessible?: boolean,
 };
 
-const IconButton = ({ onPress, style, children, testID }: Props) => (
+const IconButton = ({
+  onPress,
+  style,
+  children,
+  testID,
+  accessibilityLabel,
+  accessible,
+}: Props) => (
   <TouchableNativeFeedback
     testID={testID}
     onPress={onPress}
     background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, true)}
+    accessible={accessible}
+    accessibilityLabel={accessibilityLabel}
   >
     <View style={[styles.container, style]}>{children}</View>
   </TouchableNativeFeedback>

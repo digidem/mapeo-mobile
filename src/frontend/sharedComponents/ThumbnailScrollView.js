@@ -1,13 +1,13 @@
 // @flow
 import React, { useRef, useLayoutEffect } from "react";
 import {
-  View,
   ActivityIndicator,
   Image,
   Dimensions,
   ScrollView,
   StyleSheet,
 } from "react-native";
+import { defineMessages, useIntl } from "react-intl";
 import debug from "debug";
 
 import { TouchableOpacity } from "../sharedComponents/Touchables";
@@ -16,6 +16,21 @@ import { LIGHT_GREY } from "../lib/styles";
 import { AlertIcon } from "./icons";
 import type { Photo } from "../context/DraftObservationContext";
 import type { ViewStyleProp } from "../types";
+
+const msgs = defineMessages({
+  photoAccessibilityLabel: {
+    id: "sharedComponents.ThumbnailScrollView.photoAccessibilityLabel",
+    defaultMessage: "A photograph",
+    description:
+      "Accessibility label for screen readers for a photo thumbnail in the view of an observation",
+  },
+  photoAccessibilityHint: {
+    id: "sharedComponents.ThumbnailScrollView.photoAccessibilityHint",
+    defaultMessage: "Tap to view full-size photograph",
+    description:
+      "Accessibility hint for screen readers for clicking a photo thumbnail from observation view",
+  },
+});
 
 const spacing = 10;
 const minSize = 150;
@@ -28,29 +43,21 @@ type ThumbnailProps = {
   size?: number,
 };
 
-export class Thumbnail extends React.PureComponent<
-  ThumbnailProps,
-  { error: boolean }
-> {
-  state = { error: false };
-  static defaultProps = {
-    size: 100,
-  };
-
-  handleImageError = (e: any) => {
-    log("Error loading image:\n", e.nativeEvent && e.nativeEvent.error);
-    this.setState({ error: true });
-  };
-
-  render() {
-    const { photo, style, size, onPress } = this.props;
+const Thumbnail = React.memo<ThumbnailProps>(
+  ({ photo, style, size = 100, onPress }) => {
+    const { formatMessage } = useIntl();
+    const [loadError, setLoadError] = React.useState();
+    const handleImageError = (e: any) => {
+      log("Error loading image:\n", e.nativeEvent && e.nativeEvent.error);
+      setLoadError(true);
+    };
     const uri =
       typeof photo.id === "string"
         ? api.getMediaUrl(photo.id, "thumbnail")
         : photo.thumbnailUri != null
         ? photo.thumbnailUri
         : undefined;
-    const error = photo.error != null ? photo.error : this.state.error;
+    const error = photo.error != null ? photo.error : loadError;
     return (
       <TouchableOpacity
         style={[
@@ -58,6 +65,9 @@ export class Thumbnail extends React.PureComponent<
           { width: size, height: size },
           style,
         ]}
+        accessible={true}
+        accessibilityLabel={formatMessage(msgs.photoAccessibilityLabel)}
+        accessibilityHint={formatMessage(msgs.photoAccessibilityHint)}
         onPress={onPress}
       >
         {photo.capturing === true && !error ? (
@@ -66,7 +76,7 @@ export class Thumbnail extends React.PureComponent<
           <AlertIcon />
         ) : (
           <Image
-            onError={this.handleImageError}
+            onError={handleImageError}
             source={{ uri }}
             style={{ width: size, height: size }}
           />
@@ -74,7 +84,7 @@ export class Thumbnail extends React.PureComponent<
       </TouchableOpacity>
     );
   }
-}
+);
 
 type Props = {
   onPressPhoto: (index: number) => any,
