@@ -123,7 +123,9 @@ class Search extends EventEmitter {
     });
   }
 
-  onPeer(name, { host, port }) {
+  onPeer(app, { host, port }) {
+    if (app !== DISCOVERY_KEY) return;
+
     this.stateLock.readLock(release => {
       if (this.state !== SearchState.Searching) return release();
 
