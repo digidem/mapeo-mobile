@@ -19,6 +19,14 @@
     "description": "Title of dialog that shows when cancelling a new observation",
     "message": "Hủy bỏ quan sát?"
   },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "Android GD2I"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "Phiên bản Android"
+  },
   "screens.AddPhoto.cancel": {
     "message": "Hủy"
   },
@@ -60,7 +68,7 @@
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
-    "message": "Ngôn ngữ"
+    "message": "Language"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "Hướng Đông"
