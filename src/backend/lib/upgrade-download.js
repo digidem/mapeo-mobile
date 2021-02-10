@@ -13,7 +13,7 @@ const DISCOVERY_KEY = require("./constants").DISCOVERY_KEY;
 const SearchState = {
   Idle: 1,
   Searching: 2,
-  Error: 3
+  Error: 3,
 };
 
 // Enum
@@ -21,14 +21,14 @@ const DownloadState = {
   Idle: 1,
   Downloading: 2,
   Downloaded: 3,
-  Error: 4
+  Error: 4,
 };
 
 // Enum
 const CheckState = {
   NotAvailable: 1,
   Available: 2,
-  Error: 3
+  Error: 3,
 };
 
 // Manager object responsible for coordinating the Search, Download, and Check
@@ -46,7 +46,7 @@ class UpgradeDownloader extends EventEmitter {
 
     this.state = {
       search: { state: this.search.state, context: this.search.context },
-      download: { state: this.download.state, context: this.download.context }
+      download: { state: this.download.state, context: this.download.context },
       // TODO: check
     };
 
@@ -77,6 +77,14 @@ class UpgradeDownloader extends EventEmitter {
     // Check for a new version on init
     this.check.check();
   }
+
+  start() {
+    this.search.start();
+  }
+
+  stop() {
+    this.search.stop();
+  }
 }
 
 // Responsible for searching for other Mapeo peers on the local network,
@@ -102,13 +110,13 @@ class Search extends EventEmitter {
       this.discovery = dns({
         server: [],
         ttl: 60, // seconds
-        loopback: false
+        loopback: false,
       });
       this.discovery.lookup(DISCOVERY_KEY);
       this.discovery.on("peer", this.onPeer.bind(this));
 
       this.setState(SearchState.Searching, {
-        upgrades: []
+        upgrades: [],
       });
 
       release();
@@ -198,24 +206,31 @@ class Download extends EventEmitter {
     this.setState(DownloadState.Downloading, { sofar: 0, total: option.size });
 
     const url = `/content/${option.id}`;
-    http.get({ hostname: option.host, port: option.port, path: url }, res => {
-      const filename = option.hash;
-      let sofar = 0;
-      const progress = through((chunk, enc, next) => {
-        sofar += chunk.length;
-        this.setState(DownloadState.Downloading, { sofar, total: option.size });
-        next(null, chunk);
+    http
+      .get({ hostname: option.host, port: option.port, path: url }, res => {
+        const filename = option.hash;
+        let sofar = 0;
+        const progress = through((chunk, enc, next) => {
+          sofar += chunk.length;
+          this.setState(DownloadState.Downloading, {
+            sofar,
+            total: option.size,
+          });
+          next(null, chunk);
+        });
+        const ws = this.storage.createApkWriteStream(
+          filename,
+          option.version,
+          err => {
+            if (err) this.setState(DownloadState.Error, err);
+            else this.setState(DownloadState.Downloaded, null);
+          }
+        );
+        pump(res, progress, ws);
+      })
+      .once("error", _ => {
+        // TODO: handle err
       });
-      const ws = this.storage.createApkWriteStream(
-        filename,
-        option.version,
-        err => {
-          if (err) this.setState(DownloadState.Error, err);
-          else this.setState(DownloadState.Downloaded, null);
-        }
-      );
-      pump(res, progress, ws);
-    });
   }
 }
 

@@ -16,6 +16,7 @@
   "dependencies": {
     "@bugsnag/js": "^6.3.1",
     "bindings-noderify-nodejs-mobile": "^10.3.0",
+    "clone": "^2.1.2",
     "debug": "^4.1.1",
     "dns-discovery": "^6.2.3",
     "kappa-core": "^4.0.1",
