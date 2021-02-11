@@ -27,21 +27,14 @@ jobs:
         with:
           java-version: "openjdk8"
           architecture: "x64"
-      # - name: Install NDK
-      #   run: |
-      #     export ANDROID_NDK_VERSION='20b'
-      #     export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
-      #     curl -fsSo android-ndk-r${ANDROID_NDK_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
-      #     unzip -q -o android-ndk-r${ANDROID_NDK_VERSION}.zip
-      #     rm -rf $ANDROID_NDK_HOME
-      #     mv android-ndk-r${ANDROID_NDK_VERSION} $ANDROID_NDK_HOME
-      #     ls -al $ANDROID_NDK_HOME
-      #     cat $ANDROID_NDK_HOME/source.properties
+      - name: Update sdkmanager
+        run: sdkmanager --update | grep -v = || true
+      - name: Install correct NDK
+        run: sdkmanager --install "ndk;${ANDROID_NDK_VERSION}"
+        env:
+          ANDROID_NDK_VERSION: "21.3.6528147"
       - name: Download Android Emulator Image
         run: |
-          sdkmanager --update | grep -v = || true
-          echo "SDK versions:"
-          $ANDROID_HOME/tools/bin/sdkmanager --list
           echo "Downloading emulator image"
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-28;default;x86" > /dev/null
           echo "Creating emulator avd"
@@ -53,6 +46,8 @@ jobs:
           kextstat | grep intel
           echo "\nEmulator config"
           cat $HOME/.android/avd/emu.avd/config.ini
+      - name: List SDK versions
+        run: $ANDROID_HOME/tools/bin/sdkmanager --list
       - name: Install node_modules
         run: |
           mkdir -p nodejs-assets
