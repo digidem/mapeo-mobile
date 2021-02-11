@@ -116,8 +116,6 @@ test("integration: can find + download + check an upgrade", t => {
     manager.setApkInfo(apkPath, "1.0.0", err => {
       t.error(err, "apk info set ok");
 
-      let option;
-
       awaitFoundUpgrade(() => {
         awaitDownloaded(() => {
           awaitChecked(() => {
@@ -139,7 +137,6 @@ test("integration: can find + download + check an upgrade", t => {
             delete check.host;
             delete check.port;
             t.deepEquals(check, expectedOption);
-            option = search.context.upgrades[0];
             ev2.removeListener("p2p-upgrade::state", onState);
             cb();
           }
