@@ -17,7 +17,7 @@ function startServer(cb) {
     const dir = tmp.dirSync().name;
     const storage = new UpgradeStorage(dir);
     const server = new UpgradeServer(storage, port);
-    const web = http.createServer(function(req, res) {
+    const web = http.createServer(function (req, res) {
       if (!server.handleHttpRequest(req, res)) {
         res.statusCode = 404;
         res.end();
@@ -57,8 +57,8 @@ test("can find a compatible upgrade candidate", t => {
         arch: ["arm64-v8a"],
         size: 10,
         id: "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041",
-        port
-      }
+        port,
+      },
     ];
 
     storage.setApkInfo(
@@ -68,14 +68,14 @@ test("can find a compatible upgrade candidate", t => {
         t.error(err);
         server.share();
 
-        download.search.start();
+        download.start();
         download.on("state", state => {
           if (state.search.state !== 2) return;
           delete state.search.context.upgrades[0].host;
           t.equals(state.search.state, 2);
           t.deepEquals(state.search.context.upgrades, expected);
 
-          download.search.stop();
+          download.stop();
           download.once("state", state => {
             t.equals(state.search.state, 1);
             cleanup();
@@ -100,14 +100,14 @@ test("will not find an incompatible upgrade candidate", t => {
         t.error(err);
 
         const download = new UpgradeDownload(storage, { version: "2.0.0" });
-        download.search.start();
+        download.start();
 
         // HACK: Timeout after 250ms of searching
         setTimeout(() => {
           t.equals(download.state.search.state, 2);
           t.deepEquals(download.state.search.context.upgrades, []);
 
-          download.search.stop();
+          download.stop();
           cleanup();
         }, 250);
       }
@@ -146,11 +146,11 @@ test("can find + download + check an upgrade", t => {
       });
 
       function awaitFoundUpgrade(cb) {
-        download.search.start();
+        download.start();
         download.once("state", state => {
           t.equals(state.search.context.upgrades.length, 1, "upgrade found ok");
           const option = state.search.context.upgrades[0];
-          download.download.download(option);
+          download.download(option);
           cb();
         });
       }
@@ -188,7 +188,7 @@ test("can find + download + check an upgrade", t => {
             collect(rs, (err, buf) => {
               t.error(err);
               t.ok(buf.equals(expectedData), "data matches");
-              download.search.stop();
+              download.stop();
               cleanup();
             });
           });

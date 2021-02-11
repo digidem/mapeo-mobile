@@ -39,24 +39,27 @@ class UpgradeDownloader extends EventEmitter {
     super();
     opts = opts || {};
 
-    this.search = new Search(opts);
-    this.check = new Check(storage);
-    this.download = new Download(storage);
-    this.storage = storage;
+    this._search = new Search(opts);
+    this._check = new Check(storage);
+    this._download = new Download(storage);
+    this._storage = storage;
 
     this.state = {
-      search: { state: this.search.state, context: this.search.context },
-      download: { state: this.download.state, context: this.download.context },
+      search: { state: this._search.state, context: this._search.context },
+      download: {
+        state: this._download.state,
+        context: this._download.context,
+      },
       // TODO: check
     };
 
-    this.search.on("state", (state, context) => {
+    this._search.on("state", (state, context) => {
       this.state.search = { state, context };
       // XXX: no need to make a deep copy, since it's going to be serialized
       // over the RN bridge anyways
       this.emit("state", this.state);
     });
-    this.download.on("state", (state, context) => {
+    this._download.on("state", (state, context) => {
       this.state.download = { state, context };
       // XXX: no need to make a deep copy, since it's going to be serialized
       // over the RN bridge anyways
@@ -64,10 +67,10 @@ class UpgradeDownloader extends EventEmitter {
 
       // Check for a new version once the download has finished
       if (state === DownloadState.Downloaded) {
-        this.check.check();
+        this._check.check();
       }
     });
-    this.check.on("state", (state, context) => {
+    this._check.on("state", (state, context) => {
       this.state.check = { state, context };
       // XXX: no need to make a deep copy, since it's going to be serialized
       // over the RN bridge anyways
@@ -75,15 +78,19 @@ class UpgradeDownloader extends EventEmitter {
     });
 
     // Check for a new version on init
-    this.check.check();
+    this._check.check();
   }
 
   start() {
-    this.search.start();
+    this._search.start();
   }
 
   stop() {
-    this.search.stop();
+    this._search.stop();
+  }
+
+  download(option) {
+    this._download.download(option);
   }
 }
 
