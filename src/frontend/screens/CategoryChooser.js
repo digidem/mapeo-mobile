@@ -101,8 +101,8 @@ const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
     );
     updateDraft({
       tags: {
+        ...draftTags,
         ...selectedPreset.tags,
-        ...(draftTags || (draftValue || {}).tags),
         categoryId: selectedPreset.id,
       },
     });
