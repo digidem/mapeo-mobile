@@ -151,8 +151,6 @@ test("integration: can find + download + check an upgrade", t => {
         let lastProgress = null;
         ev2.on("p2p-upgrade::state", onState);
 
-        manager2.downloader.download.download(option);
-
         function onState(state) {
           if (done) return;
           if (state.downloader.download.state === 2) {
