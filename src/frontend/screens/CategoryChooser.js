@@ -77,14 +77,49 @@ const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
     .sort(presetCompare)
     // Only show presets where the geometry property includes "point"
     .filter(p => p.geometry.includes("point"));
-
-  const handleSelectPreset = (preset: Preset) => {
-    updateDraft({
-      tags: {
-        ...(draftValue || {}).tags,
-        categoryId: preset.id,
-      },
-    });
+  const handleSelectPreset = (selectedPreset: Preset) => {
+    if (draftValue && Object.keys(draftValue.tags).length > 0) {
+      // We're updating an observation
+      // Tags from current preset
+      const currentDraftTags = draftValue.tags;
+      // Tags from previous preset
+      const prevPresetTags =
+        (Object.fromEntries(presets)[currentDraftTags.categoryId] || {}).tags ||
+        {};
+      // Create object with new tags only
+      const draftTags = Object.keys(currentDraftTags).reduce(
+        (previous, current) => {
+          // Check if tag belongs to previous preset
+          const tagIsFromPrevPreset =
+            typeof currentDraftTags[current] !== "undefined" &&
+            currentDraftTags[current] === prevPresetTags[current];
+          // If belongs to previous preset, ignore it
+          if (tagIsFromPrevPreset) return;
+          // Else, include in new object
+          return {
+            ...previous,
+            [current]: currentDraftTags[current],
+          };
+        },
+        {}
+      );
+      updateDraft({
+        tags: {
+          ...selectedPreset.tags,
+          ...draftTags,
+          categoryId: selectedPreset.id,
+        },
+      });
+    } else {
+      // Creating a new observation
+      updateDraft({
+        tags: {
+          ...selectedPreset.tags,
+          ...(draftValue || {}).tags,
+          categoryId: selectedPreset.id,
+        },
+      });
+    }
     navigation.navigate("ObservationEdit");
   };
 
