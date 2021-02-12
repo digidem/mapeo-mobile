@@ -46,13 +46,22 @@ const SyncModal = ({ navigation }: Props) => {
   const [, reload] = useAllObservations();
   const [
     {
-      metadata: { projectKey },
+      metadata: { projectKey, syncServer },
     },
   ] = React.useContext(ConfigContext);
 
   const [listen, setListening] = React.useState<boolean>(false);
-  const [peers, syncPeer, syncGetPeers] = usePeers(listen, deviceName);
+  const [peers, syncPeer, syncGetPeers, connectCloud] = usePeers(
+    listen,
+    deviceName
+  );
   const [ssid, setSsid] = React.useState<null | string>(null);
+
+  const canConnectCloud = syncServer;
+  const cloudPeer = peers.find(({ deviceType }) => deviceType === "cloud");
+  const nonCloudPeers = peers.filter(
+    ({ deviceType }) => deviceType !== "cloud"
+  );
 
   React.useEffect(() => {
     const subscriptions = [];
@@ -120,15 +129,22 @@ const SyncModal = ({ navigation }: Props) => {
     Alert.alert(errorPeer.state.errorMsg, errorPeer.state.errorDesc);
   }
 
+  const handleConnectCloudPress = () => {
+    connectCloud(syncServer);
+  };
+
   return (
     <SyncView
       deviceName={deviceName}
-      peers={peers}
+      peers={nonCloudPeers}
+      cloudPeer={cloudPeer}
       ssid={ssid}
       onClosePress={() => navigation.pop()}
       onWifiPress={handleWifiPress}
       onSyncPress={syncPeer}
       projectKey={projectKey}
+      canConnectCloud={canConnectCloud}
+      onConnectCloudPress={handleConnectCloudPress}
     />
   );
 };

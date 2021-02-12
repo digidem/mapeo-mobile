@@ -8,6 +8,7 @@ import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import {
   CellphoneIcon,
   LaptopIcon,
+  CloudIcon,
   SyncIcon,
   DoneIcon,
   ErrorIcon,
@@ -231,6 +232,8 @@ export const PeerItem = ({
     <View style={styles.row}>
       {deviceType === "desktop" ? (
         <LaptopIcon style={styles.peerIcon} size={40} />
+      ) : deviceType === "cloud" ? (
+        <CloudIcon style={styles.peerIcon} size={40} />
       ) : (
         <CellphoneIcon style={styles.peerIcon} size={40} />
       )}

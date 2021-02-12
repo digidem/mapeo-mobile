@@ -130,10 +130,17 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
       rnBridge.channel.on("sync-start", startSync);
       rnBridge.channel.on("sync-join", joinSync);
       rnBridge.channel.on("sync-leave", leaveSync);
+      rnBridge.channel.on("sync-connect-cloud", connectCloud);
       rnBridge.channel.on("replace-config", replaceConfig);
       origListen.apply(server, args);
     });
   };
+
+  function connectCloud({ url }) {
+    if (!projectKey)
+      return console.warn("Must have project key to do sync to mapeo-web");
+    mapeoCore.sync.connectWebsocket(url, projectKey);
+  }
 
   // Given a config tarball at `path`, replace the current config.
   function replaceConfig({ id, path: pathToNewConfigTarball }) {
@@ -300,6 +307,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     rnBridge.channel.removeListener("sync-start", startSync);
     rnBridge.channel.removeListener("sync-join", joinSync);
     rnBridge.channel.removeListener("sync-leave", leaveSync);
+    rnBridge.channel.removeListener("sync-connect", connectCloud);
     rnBridge.channel.removeListener("replace-config", replaceConfig);
     onReplicationComplete(() => {
       mapeoCore.sync.destroy(() => origClose.call(server, cb));

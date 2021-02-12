@@ -8,7 +8,7 @@ import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import Button from "../../sharedComponents/Button";
 import { WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
 import DotIndicator from "./DotIndicator";
-import PeerList from "./PeerList";
+import PeerList, { PeerItem, peerStatus } from "./PeerList";
 import type { Peer } from "./PeerList";
 
 const m = defineMessages({
@@ -66,6 +66,33 @@ const WifiBar = ({ onPress, ssid, deviceName }) => (
   </TouchableNativeFeedback>
 );
 
+const CloudSyncBox = ({
+  onConnectCloudPress,
+  onSyncPress,
+  canConnectCloud,
+  cloudPeer,
+}) =>
+  cloudPeer ? (
+    cloudPeer.status !== peerStatus.COMPLETE ? (
+      <PeerItem {...cloudPeer} onSyncPress={onSyncPress} />
+    ) : (
+      <PeerItem
+        {...cloudPeer}
+        status={peerStatus.READY}
+        connected={true}
+        onSyncPress={onConnectCloudPress}
+      />
+    )
+  ) : canConnectCloud ? (
+    <PeerItem
+      name="Mapeo Cloud"
+      deviceType="cloud"
+      status={peerStatus.READY}
+      connected={true}
+      onSyncPress={onConnectCloudPress}
+    />
+  ) : null;
+
 const NoWifiBox = ({ onPress }) => {
   const { formatMessage: t } = useIntl();
   return (
@@ -109,10 +136,13 @@ const SearchingBox = () => (
 type Props = {
   onSyncPress: (peerId: string) => void,
   onWifiPress: () => void,
+  onConnectCloudPress: () => void,
   deviceName: string,
   peers: Array<Peer>,
+  cloudPeer: null | Peer,
   ssid: null | string,
   projectKey?: string,
+  canConnectCloud: boolean,
 };
 
 const SyncView = ({
@@ -122,11 +152,22 @@ const SyncView = ({
   deviceName,
   onWifiPress,
   projectKey,
+  canConnectCloud,
+  onConnectCloudPress,
+  cloudPeer,
 }: Props) => (
   <View style={styles.root}>
     {ssid ? (
       <>
         <WifiBar onPress={onWifiPress} ssid={ssid} deviceName={deviceName} />
+
+        <CloudSyncBox
+          canConnectCloud={canConnectCloud}
+          onConnectCloudPress={onConnectCloudPress}
+          onSyncPress={onSyncPress}
+          cloudPeer={cloudPeer}
+        />
+
         {peers.length ? (
           <PeerList peers={peers} onSyncPress={onSyncPress} />
         ) : (

@@ -139,7 +139,11 @@ export default function usePeers(listen, deviceName) {
     api.syncGetPeers().then(updatePeers);
   }, []);
 
-  return [peers, syncPeer, syncGetPeers];
+  const connectCloud = url => {
+    api.connectCloud({ url });
+  };
+
+  return [peers, syncPeer, syncGetPeers, connectCloud];
 }
 
 /**
