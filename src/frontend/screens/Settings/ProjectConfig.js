@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
-import { View, Text, StyleSheet, ActivityIndicator, Alert } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
+import Text from "../../sharedComponents/Text";
 // import { Picker as OriginalPicker } from "@react-native-community/picker";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import * as DocumentPicker from "expo-document-picker";

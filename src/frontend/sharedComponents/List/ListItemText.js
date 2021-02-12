@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import Text from "../Text";
 import PropTypes from "prop-types";
 
 const styles = StyleSheet.create({

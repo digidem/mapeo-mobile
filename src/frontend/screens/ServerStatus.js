@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
-import { Text, ActivityIndicator, StyleSheet } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
+import Text from "../sharedComponents/Text";
 import { defineMessages, FormattedMessage } from "react-intl";
 
 import CenteredView from "../sharedComponents/CenteredView";

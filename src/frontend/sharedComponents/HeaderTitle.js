@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Platform, StyleSheet, Text } from "react-native";
+import { Platform, StyleSheet } from "react-native";
+import Text from "./Text";
 
 const HeaderTitle = ({ children, style }) => (
   <Text style={[styles.title, style]}>{children}</Text>

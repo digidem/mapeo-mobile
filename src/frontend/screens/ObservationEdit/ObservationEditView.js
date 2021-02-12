@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
-import { ScrollView, View, Text, StyleSheet, TextInput } from "react-native";
+import { ScrollView, View, StyleSheet, TextInput } from "react-native";
+import Text from "../../sharedComponents/Text";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 

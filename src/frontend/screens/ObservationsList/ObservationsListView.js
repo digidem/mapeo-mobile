@@ -1,6 +1,7 @@
 // @flow
 import React, { useMemo } from "react";
-import { View, Text, FlatList, Dimensions, StyleSheet } from "react-native";
+import { View, FlatList, Dimensions, StyleSheet } from "react-native";
+import Text from "../../sharedComponents/Text";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { useNavigation } from "react-navigation-hooks";
 import ObservationListItem from "./ObservationListItem";

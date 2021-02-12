@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import Text from "../../sharedComponents/Text";
 
 import { TouchableHighlight } from "../../sharedComponents/Touchables";
 import useObservation from "../../hooks/useObservation";
