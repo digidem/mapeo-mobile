@@ -35,11 +35,10 @@ const CheckState = {
 // subcomponents.
 class UpgradeDownloader extends EventEmitter {
   // UpgradeStorage -> Void
-  constructor(storage, opts) {
+  constructor(storage) {
     super();
-    opts = opts || {};
 
-    this._search = new Search(opts);
+    this._search = new Search(storage);
     this._check = new Check(storage);
     this._download = new Download(storage);
     this._storage = storage;
@@ -98,16 +97,14 @@ class UpgradeDownloader extends EventEmitter {
 // querying them for available upgrades, and recording the ones that are newer
 // than the current APK version.
 class Search extends EventEmitter {
-  constructor({ version, platform, arch }) {
+  constructor(storage) {
     super();
 
+    this.storage = storage;
     this.state = SearchState.Idle;
     this.context = null;
     this.discovery = null;
     this.stateLock = new RWLock();
-    this.targetPlatform = platform || "android";
-    this.targetArch = arch || "arm64-v8a";
-    this.version = version || "0.0.0";
   }
 
   start() {
@@ -185,10 +182,11 @@ class Search extends EventEmitter {
 
   // UpgradeOption -> Bool
   isUpgradeCandidate(upgrade) {
-    if (upgrade.arch.indexOf(this.targetArch) === -1) return false;
-    if (upgrade.platform !== this.targetPlatform) return false;
+    if (upgrade.arch.indexOf(this.storage.getLocalArch()) === -1) return false;
+    if (upgrade.platform !== this.storage.getLocalPlatform()) return false;
     if (!semver.valid(upgrade.version)) return false;
-    if (!semver.gt(upgrade.version, this.version)) return false;
+    if (!semver.gt(upgrade.version, this.storage.getLocalVersion()))
+      return false;
     if (this.context.upgrades.some(u => u.hash === upgrade.hash)) return false;
     return true;
   }

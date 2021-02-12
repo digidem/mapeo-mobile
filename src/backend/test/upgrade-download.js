@@ -10,12 +10,16 @@ const getport = require("getport");
 const collect = require("collect-stream");
 const rimraf = require("rimraf");
 
-function startServer(cb) {
+function startServer(opts, cb) {
+  if (typeof opts === "function") {
+    cb = opts;
+    opts = {};
+  }
   getport((err, port) => {
     if (err) return cb(err);
 
     const dir = tmp.dirSync().name;
-    const storage = new UpgradeStorage(dir);
+    const storage = new UpgradeStorage(dir, opts);
     const server = new UpgradeServer(storage, port);
     const web = http.createServer(function (req, res) {
       if (!server.handleHttpRequest(req, res)) {
@@ -41,8 +45,8 @@ test("can find a compatible upgrade candidate", t => {
 
   // Client
   const dir2 = tmp.dirSync().name;
-  const storage2 = new UpgradeStorage(dir2);
-  const download = new UpgradeDownload(storage2, { version: "0.0.0" });
+  const storage2 = new UpgradeStorage(dir2, { version: "0.0.0" });
+  const download = new UpgradeDownload(storage2);
 
   startServer((err, web, port, server, storage, cleanup) => {
     t.error(err);
@@ -89,30 +93,33 @@ test("can find a compatible upgrade candidate", t => {
 test("will not find an incompatible upgrade candidate", t => {
   t.plan(4);
 
-  startServer((err, web, port, server, storage, cleanup) => {
-    t.error(err);
-    server.share();
+  startServer(
+    { version: "2.0.0" },
+    (err, web, port, server, storage, cleanup) => {
+      t.error(err);
+      server.share();
 
-    storage.setApkInfo(
-      path.join(__dirname, "static", "fake.apk"),
-      "0.5.0",
-      err => {
-        t.error(err);
+      storage.setApkInfo(
+        path.join(__dirname, "static", "fake.apk"),
+        "0.5.0",
+        err => {
+          t.error(err);
 
-        const download = new UpgradeDownload(storage, { version: "2.0.0" });
-        download.start();
+          const download = new UpgradeDownload(storage);
+          download.start();
 
-        // HACK: Timeout after 250ms of searching
-        setTimeout(() => {
-          t.equals(download.state.search.state, 2);
-          t.deepEquals(download.state.search.context.upgrades, []);
+          // HACK: Timeout after 250ms of searching
+          setTimeout(() => {
+            t.equals(download.state.search.state, 2);
+            t.deepEquals(download.state.search.context.upgrades, []);
 
-          download.stop();
-          cleanup();
-        }, 250);
-      }
-    );
-  });
+            download.stop();
+            cleanup();
+          }, 250);
+        }
+      );
+    }
+  );
 });
 
 test("can find + download + check an upgrade", t => {
@@ -127,7 +134,7 @@ test("can find + download + check an upgrade", t => {
   // Client
   const dir2 = tmp.dirSync().name;
   const storage2 = new UpgradeStorage(dir2);
-  const download = new UpgradeDownload(storage2, { version: "0.0.0" });
+  const download = new UpgradeDownload(storage2);
 
   // Server
   startServer((err, web, port, server, storage, cleanup) => {

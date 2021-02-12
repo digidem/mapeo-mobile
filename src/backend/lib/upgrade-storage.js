@@ -41,6 +41,18 @@ class Storage {
     this.version = opts.version || "0.0.0";
   }
 
+  getLocalPlatform() {
+    return this.targetPlatform;
+  }
+
+  getLocalArch() {
+    return this.targetArch;
+  }
+
+  getLocalVersion() {
+    return this.version;
+  }
+
   // String, String, Callback<Void> -> Void
   setApkInfo(apkPath, version, cb) {
     apkToUpgradeOption(apkPath, version, (err, info) => {
@@ -71,7 +83,7 @@ class Storage {
 
   // String, String, Callback<Void> -> WritableStream
   createApkWriteStream(filename, version, cb) {
-    cb = cb || function() {};
+    cb = cb || function () {};
     const filepath = path.join(this.dir, filename);
 
     const ws = fs.createWriteStream(filepath);
@@ -164,7 +176,7 @@ function apkToUpgradeOption(filepath, version, cb) {
         hashType: "sha256",
         platform: "android",
         arch: ["arm64-v8a"],
-        id: hash
+        id: hash,
       };
       cb(null, option);
     });
