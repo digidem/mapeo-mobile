@@ -10,7 +10,7 @@ const State = {
   Idle: 1,
   Sharing: 2,
   Draining: 3,
-  Error: 4
+  Error: 4,
 };
 
 class UpgradeServer extends EventEmitter {
@@ -48,7 +48,7 @@ class UpgradeServer extends EventEmitter {
       const opts = {
         server: [],
         ttl: 60, // seconds
-        loopback: false
+        loopback: false,
       };
       this.discovery = discovery(opts);
       this.discovery.announce(DISCOVERY_KEY, this.port, err => {
@@ -76,11 +76,11 @@ class UpgradeServer extends EventEmitter {
 
       // wait for all uploads to finish
       release();
-      this.on("upload-complete", oncomplete);
+      this.on("upload-complete", oncomplete.bind(this));
       function oncomplete() {
         if (this.uploads.length === 0) {
           this.removeListener("upload", oncomplete);
-          this.drain(cb);
+          stop.call(this);
         }
       }
 
@@ -170,7 +170,7 @@ class UpgradeServer extends EventEmitter {
 
         const upload = {
           sofar: 0,
-          total: option.size
+          total: option.size,
         };
         this.uploads.push(upload);
 
