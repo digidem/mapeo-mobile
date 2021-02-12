@@ -71,18 +71,39 @@ const Item = React.memo(
 const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
   const [{ presets }] = useContext(ConfigContext);
   const [{ value: draftValue }, { updateDraft }] = useDraftObservation();
-
   const presetsList = Array.from(presets.values())
     // Sort presets by sort property and then by name, then filter only point presets
     .sort(presetCompare)
     // Only show presets where the geometry property includes "point"
     .filter(p => p.geometry.includes("point"));
-
-  const handleSelectPreset = (preset: Preset) => {
+  const handleSelectPreset = (selectedPreset: Preset) => {
+    // Tags from current preset
+    const currentDraftTags = (draftValue || {}).tags || {};
+    // Tags from previous preset
+    const prevPresetTags =
+      (presets.get(currentDraftTags.categoryId) || {}).tags || {};
+    // Create object with new tags only
+    const draftTags = Object.keys(currentDraftTags).reduce(
+      (previous, current) => {
+        // Check if tag belongs to previous preset
+        const tagIsFromPrevPreset =
+          typeof currentDraftTags[current] !== "undefined" &&
+          currentDraftTags[current] === prevPresetTags[current];
+        // If belongs to previous preset, ignore it
+        if (tagIsFromPrevPreset) return previous;
+        // Else, include in new object
+        return {
+          ...previous,
+          [current]: currentDraftTags[current],
+        };
+      },
+      {}
+    );
     updateDraft({
       tags: {
-        ...(draftValue || {}).tags,
-        categoryId: preset.id,
+        ...draftTags,
+        ...selectedPreset.tags,
+        categoryId: selectedPreset.id,
       },
     });
     navigation.navigate("ObservationEdit");
