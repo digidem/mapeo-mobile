@@ -71,6 +71,7 @@ jobs:
       - name: Build for detox
         run: |
           export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$ANDROID_NDK_VERSION
+          export ANDROID_NDK_ROOT=$ANDROID_NDK_HOME
           npm run build-detox-android
       - name: Android Emulator
         timeout-minutes: 10
