@@ -32,7 +32,12 @@ jobs:
       - name: Update sdkmanager
         run: sdkmanager --update | grep -v = || true
       - name: Install correct NDK
-        run: echo "y" | ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;${ANDROID_NDK_VERSION}" --sdk_root=${ANDROID_SDK_ROOT}
+        run: |
+          # Delete other NDK versions, because CMake seems tried to use them
+          rm -rf ${ANDROID_HOME}/ndk-bundle
+          rm -rf ${ANDROID_HOME}/ndk/*
+          # Install supported version of NDK
+          echo "y" | ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;${ANDROID_NDK_VERSION}" --sdk_root=${ANDROID_SDK_ROOT}
       - name: Check Env
         run: |
           ls -al ${ANDROID_HOME}/ndk
