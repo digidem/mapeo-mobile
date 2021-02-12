@@ -288,8 +288,6 @@ workflows:
                 echo '### User Sources for Android SDK Manager' > $HOME/.android/repositories.cfg
                 yes | sdkmanager --licenses
                 sdkmanager --update | grep -v = || true
-                ls -al $ANDROID_HOME
-                ls -al $ANDROID_HOME/ndk
                 # Remove NDK r22 (can cause builds to fail)
                 rm -rf $ANDROID_HOME/ndk/22*
                 sdkmanager --install "ndk;${ANDROID_NDK_VERSION}"
