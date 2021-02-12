@@ -39,36 +39,26 @@ function startServer(cb) {
 
     const dir = tmp.dirSync().name;
     const { manager, ev, server } = makeUpgradeManager(dir, port);
-    const web = http.createServer(function (req, res) {
-      if (!server.handleHttpRequest(req, res)) {
-        res.statusCode = 404;
-        res.end();
-      }
-    });
     function cleanup() {
-      web.close(() => {
-        ev.on("p2p-upgrade::state", (state, ctx) => {
-          if (
-            state.server.state === 1 &&
-            state.downloader.search.state === 1 &&
-            state.downloader.download.state === 1
-          ) {
-            rimraf.sync(dir);
-          }
-        });
-        ev.emit("p2p-upgrade::stop-services");
+      ev.on("p2p-upgrade::state", (state, ctx) => {
+        if (
+          state.server.state === 1 &&
+          state.downloader.search.state === 1 &&
+          state.downloader.download.state === 1
+        ) {
+          rimraf.sync(dir);
+        }
       });
+      ev.emit("p2p-upgrade::stop-services");
     }
-    web.listen(port, "0.0.0.0", () => {
-      cb(null, web, port, manager, ev, cleanup);
-    });
+    cb(null, port, manager, ev, cleanup);
   });
 }
 
 test("integration: empty GET /list result", t => {
   t.plan(4);
 
-  startServer((err, web, port, manager, ev, cleanup) => {
+  startServer((err, port, manager, ev, cleanup) => {
     t.error(err);
     ev.emit("p2p-upgrade::start-services");
     http.get({ hostname: "localhost", port, path: "/list" }, res => {
@@ -110,7 +100,7 @@ test("integration: can find + download + check an upgrade", t => {
   const { manager: manager2, ev: ev2 } = makeUpgradeManager(dir2, 0);
 
   // Peer 1
-  startServer((err, web, port, manager, ev, cleanup) => {
+  startServer((err, port, manager, ev, cleanup) => {
     t.error(err, "server started ok");
     const apkPath = path.join(__dirname, "static", "fake.apk");
     manager.setApkInfo(apkPath, "1.0.0", err => {

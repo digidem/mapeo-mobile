@@ -9,6 +9,8 @@ const getport = require("getport");
 const collect = require("collect-stream");
 const rimraf = require("rimraf");
 const net = require("net");
+const pump = require("pump");
+const through = require("through2");
 
 function startServer(cb) {
   getport((err, port) => {
@@ -16,30 +18,20 @@ function startServer(cb) {
 
     const dir = tmp.dirSync().name;
     const storage = new UpgradeStorage(dir);
-    const server = new UpgradeServer(storage);
-    const web = http.createServer(function(req, res) {
-      if (!server.handleHttpRequest(req, res)) {
-        res.statusCode = 404;
-        res.end();
-      }
-    });
+    const server = new UpgradeServer(storage, port);
     function cleanup() {
-      web.close(() => {
-        server.drain(() => {
-          rimraf.sync(dir);
-        });
+      server.drain(() => {
+        rimraf.sync(dir);
       });
     }
-    web.listen(port, "localhost", () => {
-      cb(null, web, port, server, storage, cleanup);
-    });
+    cb(null, port, server, storage, cleanup);
   });
 }
 
 test("can start + make request against server", t => {
   t.plan(2);
 
-  startServer((err, web, port, server, storage, cleanup) => {
+  startServer((err, port, server, storage, cleanup) => {
     t.error(err);
     server.share();
     http.get({ hostname: "localhost", port, path: "/should-404" }, res => {
@@ -52,7 +44,7 @@ test("can start + make request against server", t => {
 test("route: empty GET /list result", t => {
   t.plan(4);
 
-  startServer((err, web, port, server, storage, cleanup) => {
+  startServer((err, port, server, storage, cleanup) => {
     t.error(err);
     server.share();
     http.get({ hostname: "localhost", port, path: "/list" }, res => {
@@ -82,11 +74,11 @@ test("route: GET /list APK result", t => {
       platform: "android",
       arch: ["arm64-v8a"],
       size: 10,
-      id: "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041"
-    }
+      id: "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041",
+    },
   ];
 
-  startServer((err, web, port, server, storage, cleanup) => {
+  startServer((err, port, server, storage, cleanup) => {
     t.error(err);
     server.share();
     storage.setApkInfo(
@@ -115,7 +107,7 @@ test("route: GET /list APK result", t => {
 test("route: empty GET /content/X result", t => {
   t.plan(2);
 
-  startServer((err, web, port, server, storage, cleanup) => {
+  startServer((err, port, server, storage, cleanup) => {
     t.error(err);
     server.share();
     http.get(
@@ -137,7 +129,7 @@ test("route: APK GET /content/X result", t => {
     path.join(__dirname, "static", "fake.apk")
   );
 
-  startServer((err, web, port, server, storage, cleanup) => {
+  startServer((err, port, server, storage, cleanup) => {
     t.error(err);
     server.share();
     const apkPath = path.join(__dirname, "static", "fake.apk");
@@ -146,7 +138,7 @@ test("route: APK GET /content/X result", t => {
       const opts = {
         hostname: "localhost",
         port,
-        path: `/content/${expectedHash}`
+        path: `/content/${expectedHash}`,
       };
       http.get(opts, res => {
         t.equals(res.statusCode, 200);
@@ -161,40 +153,37 @@ test("route: APK GET /content/X result", t => {
 });
 
 test("make an http request before 'share' is called", t => {
-  t.plan(4);
+  t.plan(3);
 
-  startServer((err, web, port, server, storage, cleanup) => {
+  startServer((err, port, server, storage, cleanup) => {
     t.error(err);
-    http.get({ hostname: "localhost", port, path: "/list" }, res => {
-      t.equals(res.statusCode, 503);
-      collect(res, (err, buf) => {
-        t.error(err);
-        t.equals(buf.toString(), '"service unavailable"');
+    http
+      .get({ hostname: "localhost", port, path: "/list" }, res => {
+        t.fail("unexpected GET success");
+      })
+      .once("error", err => {
+        t.ok(err, "error ok");
+        t.equals(err.code, "ECONNREFUSED");
         cleanup();
       });
-    });
   });
 });
 
 test("make an http request while draining", t => {
-  t.plan(7);
+  t.plan(5);
 
+  const apkPath = tmp.fileSync().name;
+  fs.writeFileSync(apkPath, Buffer.alloc(15000000).fill(127));
   const expectedHash =
-    "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041";
+    "864338384f218b0b7b24b0db0d5f9fc7904c953f1b9dcdc8376648499d8dc943";
 
-  startServer((err, web, port, server, storage, cleanup) => {
+  startServer((err, port, server, storage, cleanup) => {
     t.error(err);
     server.share();
-    const apkPath = path.join(__dirname, "static", "fake.apk");
     storage.setApkInfo(apkPath, "1.0.0", err => {
       t.error(err);
 
       const socket = makeDanglingHttpGet(port, `/content/${expectedHash}`);
-      collect(socket, (err, buf) => {
-        t.error(err);
-        t.ok(/fake data/.test(buf.toString()));
-        cleanup();
-      });
 
       setTimeout(() => {
         server.drain();
@@ -202,15 +191,20 @@ test("make an http request while draining", t => {
         const opts = {
           hostname: "localhost",
           port,
-          path: `/content/${expectedHash}`
+          path: `/content/${expectedHash}`,
         };
         http.get(opts, res => {
           collect(res, (err, buf) => {
             t.error(err);
             t.equals(res.statusCode, 503);
             t.equals(buf.toString(), '"service unavailable"');
+
+            socket.once("close", () => {
+              rimraf.sync(apkPath);
+              cleanup();
+            });
+            socket.unclog();
             socket.end();
-            cleanup();
           });
         });
       }, 100);
@@ -221,6 +215,23 @@ test("make an http request while draining", t => {
 function makeDanglingHttpGet(port, route) {
   const socket = net.connect({ host: "0.0.0.0", port });
   socket.write(`GET ${route} HTTP 1.1\n\n`);
-  socket.resume();
+
+  let clogged = true;
+  let nextFn;
+  socket.accumBytes = 0;
+  socket.unclog = function () {
+    clogged = false;
+    nextFn();
+  };
+
+  pump(
+    socket,
+    through((chunk, enc, next) => {
+      socket.accumBytes += chunk.length;
+      if (clogged) nextFn = next;
+      else next();
+    })
+  );
+
   return socket;
 }

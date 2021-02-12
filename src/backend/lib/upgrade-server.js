@@ -3,6 +3,7 @@ const discovery = require("dns-discovery");
 const EventEmitter = require("events").EventEmitter;
 const RWLock = require("rwlock");
 const through = require("through2");
+const http = require("http");
 const DISCOVERY_KEY = require("./constants").DISCOVERY_KEY;
 
 // Enum
@@ -21,6 +22,12 @@ class UpgradeServer extends EventEmitter {
     this.setState(State.Idle);
     this.error = null;
     this.port = port;
+    this.server = http.createServer((req, res) => {
+      if (!this.handleHttpRequest(req, res)) {
+        res.statusCode = 404;
+        res.end();
+      }
+    });
 
     // In-progress uploads
     this.uploads = [];
@@ -51,10 +58,12 @@ class UpgradeServer extends EventEmitter {
         loopback: false,
       };
       this.discovery = discovery(opts);
-      this.discovery.announce(DISCOVERY_KEY, this.port, err => {
-        if (err) return done(err);
-        this.setState(State.Sharing);
-        done();
+      this.server.listen(this.port, "0.0.0.0", () => {
+        this.discovery.announce(DISCOVERY_KEY, this.port, err => {
+          if (err) return done(err);
+          this.setState(State.Sharing);
+          done();
+        });
       });
     });
   }
@@ -89,9 +98,11 @@ class UpgradeServer extends EventEmitter {
         this.discovery.unannounce(DISCOVERY_KEY, this.port, _ => {
           this.discovery.destroy(err => {
             if (err) return done(err);
-            this.discovery = null;
-            this.setState(State.Idle);
-            done();
+            this.server.close(() => {
+              this.discovery = null;
+              this.setState(State.Idle);
+              done();
+            });
           });
         });
       }
