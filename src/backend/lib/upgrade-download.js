@@ -120,6 +120,7 @@ class Search extends EventEmitter {
       this.discovery.on("peer", this.onPeer.bind(this));
 
       this.setState(SearchState.Searching, {
+        startTime: Date.now(),
         upgrades: [],
       });
 
