@@ -30,11 +30,14 @@ cd ./nodejs-assets/nodejs-project && npm ci && cd ../..
 
 echo -en "Minifying with noderify..."
 cd ./nodejs-assets/nodejs-project
+# https://github.com/digidem/mapeo-mobile/issues/521
 "$(npm bin)/noderify" \
   --replace.bindings=bindings-noderify-nodejs-mobile \
   --filter=rn-bridge \
   --filter=original-fs \
   --filter=async_hooks \
+  --filter=utf-8-validate \
+  --filter=bufferutil \
   index.js >_index.js
 rm index.js
 mv _index.js index.js
