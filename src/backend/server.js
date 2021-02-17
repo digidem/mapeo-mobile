@@ -17,8 +17,6 @@ const tar = require("tar-fs");
 const pump = require("pump");
 const tmp = require("tmp");
 const semverCoerce = require("semver/functions/coerce");
-const UpgradeServer = require("./upgrade-server");
-const UpgradeStorage = require("./upgrade-storage");
 
 // Cleanup the temporary files even when an uncaught exception occurs
 tmp.setGracefulCleanup();
@@ -63,24 +61,36 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
   });
   let mapeoCore = mapeoRouter.api.core;
 
-  // const upgradePath = path.join(privateStorage, "upgrades");
-  // mkdirp.sync(upgradePath);
-  // const upgradeStorage = new UpgradeStorage(upgradePath);
-  // const upgradeServer = new UpgradeServer(upgradeStorage);
+  const upgradePath = path.join(privateStorage, "upgrades");
+  mkdirp.sync(upgradePath);
+  // TODO: how to get apk's current version? would it work to assign this var once apkReady fires?
+  let upgradeManager;
+  getport((err, port) => {
+    if (err) {
+      main.bugsnag.notify(err, {
+        severity: "error",
+        context: "p2p-upgrade",
+      });
+      log("error setting up upgrade manager: " + err.toString());
+      return;
+    }
+    function emitFn() {}
+    function listenFn() {}
+    function removeFn() {}
+    upgradeManager = new UpgradeManager(
+      upgradePath,
+      port,
+      currentVersion,
+      emitFn,
+      listenFn,
+      removeFn
+    );
+  });
 
   const server = http.createServer(function requestListener(req, res) {
     log(req.method + ": " + req.url);
     // Check if the route is handled by Mapeo Server
     var match = mapeoRouter.handle(req, res);
-
-    // Check against the upgrade server (prefixed by /upgrade)
-    // if (!match && (match = req.url.match(/^\/upgrade\/(.*)/))) {
-    //   const newUrl = "/" + match[1];
-    //   req.url = newUrl;
-    //   if (!upgradeServer.handleHttpRequest(req, res)) {
-    //     match = null;
-    //   }
-    // }
 
     // If not and headers are not yet sent, send a 404 error
     if (!match && !res.headersSent) {
@@ -147,7 +157,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
       rnBridge.channel.on("sync-join", joinSync);
       rnBridge.channel.on("sync-leave", leaveSync);
       rnBridge.channel.on("replace-config", replaceConfig);
-      log("++++ 1");
+      log("++++ 1 backend listening");
       rnBridge.channel.once("apk-ready", apkReady);
       rnBridge.channel.post("copy-apk");
       origListen.apply(server, args);
@@ -156,10 +166,50 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
 
   function apkReady(apkPath, version) {
     log("++++ 2", apkPath, version);
-    // upgradeStorage.setApkInfo(apkPath, version, err => {
-    //   // TODO: how to handle this?
-    //   if (err) log("setApkInfo ERR:", err);
-    // });
+    if (!upgradeManager) {
+      createUpgradeManager(version, err => {
+        if (err) return onError("createUpgradeManager", err);
+        log("++++ 3 created upgrade manager");
+        upgradeManager.setApkInfo(apkPath, version, err => {
+          if (err) return onError("setApkInfo", err);
+          log("++++ 4 set apk info");
+          rnBridge.channel.once("p2p-upgrades-ready", () => {
+            rnBridge.channel.post("p2p-upgrades-ready");
+            // Now we know the frontend is definitely ready!
+            log("++++ 5 frontend told us they are ready");
+          });
+          rnBridge.channel.post("p2p-upgrades-ready");
+        });
+      });
+    }
+  }
+
+  function onError(prefix, err) {
+    if (!err) return;
+    main.bugsnag.notify(err, {
+      severity: "error",
+      context: prefix,
+    });
+    log(`error(${prefix}): ' + ${err.toString()}`);
+  }
+
+  function createUpgradeManager(version, cb) {
+    getport((err, port) => {
+      if (err) return cb(err);
+
+      const emitFn = rnBridge.channel.post.bind(rnBridge.channel);
+      const listenFn = rnBridge.channel.on.bind(rnBridge.channel);
+      const removeFn = rnBridge.channel.removeListener.bind(rnBridge.channel);
+      upgradeManager = new UpgradeManager(
+        upgradePath,
+        port,
+        currentVersion,
+        emitFn,
+        listenFn,
+        removeFn
+      );
+      cb();
+    });
   }
 
   // Given a config tarball at `path`, replace the current config.
