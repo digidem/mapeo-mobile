@@ -6,7 +6,7 @@ const semver = require("semver");
 
 class UpgradeManager {
   constructor(dir, port, currentVersion, emitFn, listenFn, removeFn) {
-    this.storage = new UpgradeStorage(dir);
+    this.storage = new UpgradeStorage(dir, { version: currentVersion });
     this.server = new UpgradeServer(this.storage, port);
     this.downloader = new UpgradeDownload(this.storage, {
       version: currentVersion,

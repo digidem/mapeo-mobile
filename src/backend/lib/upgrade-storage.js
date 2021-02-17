@@ -54,6 +54,8 @@ class Storage {
   }
 
   // String, String, Callback<Void> -> Void
+  // TODO: factor out the 'version' parameter and use 'this.version' instead,
+  // since we already have it.
   setApkInfo(apkPath, version, cb) {
     apkToUpgradeOption(apkPath, version, (err, info) => {
       if (err) return cb(err);
