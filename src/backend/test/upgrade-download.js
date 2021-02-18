@@ -5,7 +5,6 @@ const UpgradeStorage = require("../lib/upgrade-storage");
 const UpgradeServer = require("../lib/upgrade-server");
 const UpgradeDownload = require("../lib/upgrade-download");
 const fs = require("fs");
-const http = require("http");
 const getport = require("getport");
 const collect = require("collect-stream");
 const rimraf = require("rimraf");

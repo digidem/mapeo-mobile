@@ -38,7 +38,7 @@ function startServer(cb) {
     if (err) return cb(err);
 
     const dir = tmp.dirSync().name;
-    const { manager, ev, server } = makeUpgradeManager(dir, port);
+    const { manager, ev } = makeUpgradeManager(dir, port);
     function cleanup() {
       ev.on("p2p-upgrade::state", (state, ctx) => {
         if (
