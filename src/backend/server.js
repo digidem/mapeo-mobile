@@ -17,6 +17,8 @@ const tar = require("tar-fs");
 const pump = require("pump");
 const tmp = require("tmp");
 const semverCoerce = require("semver/functions/coerce");
+const UpgradeManager = require("./lib/upgrade-manager");
+const getport = require("getport");
 
 // Cleanup the temporary files even when an uncaught exception occurs
 tmp.setGracefulCleanup();
@@ -65,27 +67,6 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
   mkdirp.sync(upgradePath);
   // TODO: how to get apk's current version? would it work to assign this var once apkReady fires?
   let upgradeManager;
-  getport((err, port) => {
-    if (err) {
-      main.bugsnag.notify(err, {
-        severity: "error",
-        context: "p2p-upgrade",
-      });
-      log("error setting up upgrade manager: " + err.toString());
-      return;
-    }
-    function emitFn() {}
-    function listenFn() {}
-    function removeFn() {}
-    upgradeManager = new UpgradeManager(
-      upgradePath,
-      port,
-      currentVersion,
-      emitFn,
-      listenFn,
-      removeFn
-    );
-  });
 
   const server = http.createServer(function requestListener(req, res) {
     log(req.method + ": " + req.url);
@@ -203,7 +184,7 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
       upgradeManager = new UpgradeManager(
         upgradePath,
         port,
-        currentVersion,
+        version,
         emitFn,
         listenFn,
         removeFn
