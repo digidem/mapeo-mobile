@@ -1,1 +1,14 @@
-{}
+{
+  "AppContainer.EditHeader.discardCancel": {
+    "description": "Button on dialog to keep editing (cancelling close action)",
+    "message": "Doorgaan met bewerken"
+  },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "Wijzigingen niet opslaan"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "Wijzigingen annuleren?"
+  }
+}
