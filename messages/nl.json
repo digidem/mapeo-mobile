@@ -29,7 +29,7 @@
   },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type",
-    "message": "Soort van Mapeo"
+    "message": "Soort Mapeo versie"
   },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
