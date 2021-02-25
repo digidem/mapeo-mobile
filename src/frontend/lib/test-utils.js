@@ -1,13 +1,13 @@
 import { render } from "@testing-library/react-native";
 import { IntlProvider } from "react-intl";
 import { PermissionsProvider } from "../context/PermissionsContext";
-import { ObservationsProvider } from "../context/ObservationsContext";
-import { ConfigProvider } from "../context/ConfigContext";
+import { ObservationsProvider } from "../context/__mocks__/ObservationsContext";
+import { ConfigProvider } from "../context/__mocks__/ConfigContext";
 import { DraftObservationProvider } from "../context/DraftObservationContext";
-import AppLoading from "../AppLoading";
-import AppContainer from "./AppContainer";
+import AppLoading from "../__mocks__/AppLoading";
+import AppContainer from "../AppContainer";
 // import { persistNavigationState, loadNavigationState } from "../App";
-import messages from "../../../translations/messages.json";
+import messages from "../../../../translations/messages.json";
 
 const App = () => (
   <IntlProvider messages={messages} locale="en" defaultLocale="en">
