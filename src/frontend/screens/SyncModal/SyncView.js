@@ -9,6 +9,11 @@ import { WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
 import DotIndicator from "./DotIndicator";
 import PeerList from "./PeerList";
 import type { Peer } from "./PeerList";
+import { UpgradeState } from "./index";
+import Progress from "../../sharedComponents/icons/Progress";
+import { DoneIcon, ErrorIcon } from "../../sharedComponents/icons";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import { MaterialIndicator } from "react-native-indicators";
 
 const m = defineMessages({
   wifi: {
@@ -49,6 +54,203 @@ const m = defineMessages({
     defaultMessage: "Project Key: {projectKey}",
   },
 });
+
+const UpgradeBar = ({ upgradeState, upgradeContext }) => (
+  <TouchableNativeFeedback>
+    <View style={styles.upgradeBar}>
+      {(() => {
+        switch (upgradeState) {
+          case UpgradeState.Searching:
+            return (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flex: 1,
+                }}
+              >
+                <Text style={styles.upgradeBarText} numberOfLines={1}>
+                  {"Checking for app updates"}
+                </Text>
+                <DotIndicator style="flex:1" size={7} />
+              </View>
+            );
+            break;
+          case UpgradeState.WaitingForSync:
+            return (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flex: 1,
+                }}
+              >
+                <View style={{ flex: 4 }}>
+                  <Text style={styles.upgradeBarText} numberOfLines={2}>
+                    {"Update available; waiting for sync to finish"}
+                  </Text>
+                </View>
+                <View style={{ flex: 2 }}></View>
+                <DotIndicator style={{ flex: 1 }} size={7} />
+              </View>
+            );
+            break;
+          case UpgradeState.Downloading:
+            return (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flex: 1,
+                }}
+              >
+                <Text style={styles.upgradeBarText} numberOfLines={1}>
+                  {"Downloading updates"}
+                </Text>
+                <View style={{ flex: 0.6 }}>
+                  <Progress
+                    progress={upgradeContext}
+                    size={25}
+                    color="#3568f5"
+                  />
+                </View>
+              </View>
+            );
+            break;
+          case UpgradeState.Error:
+            return (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flex: 1,
+                }}
+              >
+                <View style={{ flex: 4, flexDirection: "column" }}>
+                  <Text style={styles.upgradeBarText} numberOfLines={1}>
+                    {"Unable to update"}
+                  </Text>
+                  <Text
+                    style={styles.upgradeBarTextSecondary}
+                    numberOfLines={1}
+                  >
+                    {upgradeContext}
+                  </Text>
+                </View>
+                <View style={{ flex: 0.5, justifyContent: "center" }}>
+                  <ErrorIcon color="red" />
+                </View>
+              </View>
+            );
+            break;
+          case UpgradeState.PermissionError:
+            return (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flex: 1,
+                }}
+              >
+                <View style={{ flex: 8, flexDirection: "column" }}>
+                  <Text style={styles.upgradeBarText} numberOfLines={1}>
+                    {"Unable to update"}
+                  </Text>
+                  <Text
+                    style={styles.upgradeBarTextSecondary}
+                    numberOfLines={1}
+                  >
+                    {upgradeContext}
+                  </Text>
+                </View>
+                <View style={{ flex: 5, justifyContent: "center" }}>
+                  <TextButton title={"Open Settings"} />
+                </View>
+              </View>
+            );
+            break;
+          case UpgradeState.NoUpdatesFound:
+            return (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flex: 1,
+                }}
+              >
+                <View style={{ flex: 4, flexDirection: "column" }}>
+                  <Text style={styles.upgradeBarText} numberOfLines={1}>
+                    {"No updates found"}
+                  </Text>
+                </View>
+                <View style={{ flex: 0.5, justifyContent: "center" }}>
+                  <DoneIcon color="#00FF00" />
+                </View>
+              </View>
+            );
+            break;
+          case UpgradeState.ReadyToUpgrade:
+            return (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flex: 1,
+                }}
+              >
+                <View style={{ flex: 6, flexDirection: "column" }}>
+                  <Text style={styles.upgradeBarText} numberOfLines={2}>
+                    {"A new version of Mapeo is available"}
+                  </Text>
+                </View>
+                <View style={{ flex: 2 }} />
+                <View style={{ flex: 5, justifyContent: "center" }}>
+                  <TextButton title={"Install Update"} />
+                </View>
+              </View>
+            );
+            break;
+          case UpgradeState.Draining:
+            return (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flex: 1,
+                }}
+              >
+                <View style={{ flex: 6 }}>
+                  <Text style={styles.upgradeBarText} numberOfLines={2}>
+                    {"Sharing app updates with other devices"}
+                  </Text>
+                </View>
+                <View style={{ flex: 3 }} />
+                <View style={{ flex: 1.5 }}>
+                  <MaterialIndicator
+                    animationDuration={8000}
+                    size={35}
+                    color="#3568f5"
+                  />
+                </View>
+              </View>
+            );
+            break;
+          default:
+            return (
+              <Text style={styles.upgradeBarText} numberOfLines={1}>
+                {"unimplemented state"}
+              </Text>
+            );
+            break;
+        }
+      })()}
+    </View>
+  </TouchableNativeFeedback>
+);
+
+const TextButton = ({ onPress, title }) => (
+  <Text style={styles.textButton}>{title}</Text>
+);
 
 const WifiBar = ({ onPress, ssid, deviceName }) => (
   <TouchableNativeFeedback onPress={onPress}>
@@ -114,6 +316,7 @@ type Props = {
   projectKey?: string,
 };
 
+// TODO: only show the upgradebar at the top if no ssid if there is a local upgrade ready
 const SyncView = ({
   onSyncPress,
   peers,
@@ -121,11 +324,17 @@ const SyncView = ({
   deviceName,
   onWifiPress,
   projectKey,
+  upgradeState,
+  upgradeContext,
 }: Props) => (
   <View style={styles.root}>
     {ssid ? (
       <>
         <WifiBar onPress={onWifiPress} ssid={ssid} deviceName={deviceName} />
+        <UpgradeBar
+          upgradeState={upgradeState}
+          upgradeContext={upgradeContext}
+        />
         {peers.length ? (
           <PeerList peers={peers} onSyncPress={onSyncPress} />
         ) : (
@@ -211,6 +420,39 @@ const styles = StyleSheet.create({
   searchingTextContainer: {
     maxWidth: "75%",
     marginLeft: 30,
+  },
+  upgradeBar: {
+    backgroundColor: "#000034",
+    height: 84,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingHorizontal: 15,
+  },
+  upgradeBarText: {
+    color: "white",
+    fontWeight: "bold",
+    paddingLeft: 10,
+    fontSize: 18,
+  },
+  upgradeBarTextSecondary: {
+    color: "white",
+    paddingLeft: 10,
+    fontStyle: "italic",
+    fontSize: 16,
+  },
+  textButton: {
+    fontWeight: "bold",
+    fontSize: 18,
+    padding: 10,
+    paddingTop: 12,
+    paddingBottom: 12,
+    textAlign: "center",
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 7,
+    color: "white",
   },
   wifiBar: {
     backgroundColor: "#19337F",

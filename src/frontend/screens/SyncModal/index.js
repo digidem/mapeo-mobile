@@ -14,6 +14,7 @@ import OpenSettings from "react-native-android-open-settings";
 import KeepAwake from "react-native-keep-awake";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { getUniqueId } from "react-native-device-info";
+import rnBridge from "nodejs-mobile-react-native";
 
 import SyncView from "./SyncView";
 import bugsnag from "../../lib/logger";
@@ -22,8 +23,22 @@ import ConfigContext from "../../context/ConfigContext";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import usePeers from "./usePeers";
 
+import debug from "debug";
+const log = debug("mapeo-mobile:SyncModal:index");
+
 type Props = {
   navigation: any,
+};
+
+export const UpgradeState = {
+  Searching: 0,
+  Downloading: 1,
+  GenericError: 2,
+  PermissionError: 3,
+  ReadyToUpgrade: 4,
+  NoUpdatesFound: 5,
+  WaitingForSync: 6,
+  Draining: 7,
 };
 
 const m = defineMessages({
@@ -53,6 +68,37 @@ const SyncModal = ({ navigation }: Props) => {
   const [listen, setListening] = React.useState<boolean>(false);
   const [peers, syncPeer, syncGetPeers] = usePeers(listen, deviceName);
   const [ssid, setSsid] = React.useState<null | string>(null);
+  const [upgradeState, setUpgradeState] = React.useState<string>("init");
+  const [upgradeContext, setUpgradeContext] = React.useState<any>(0);
+
+  React.useEffect(() => {
+    log("startup", upgradeState);
+    rnBridge.channel.addListener("p2p-upgrades-backend-ready", onReady);
+    rnBridge.channel.post("p2p-upgrades-frontend-ready");
+    function onReady() {
+      rnBridge.channel.removeListener("p2p-upgrades-backend-ready", onReady);
+      log("backend says they are ready!");
+      rnBridge.channel.post("p2p-upgrades-frontend-ready");
+      rnBridge.channel.addListener("p2p-upgrade::state", state => {
+        log(state.downloader);
+        if (state.downloader.search.context) {
+          const str = `${JSON.stringify(
+            state.downloader.search.context.upgrades
+          )}`;
+          const rState = getReactStateFromUpgradeState(state);
+          const rCtx = getReactContextFromUpgradeState(state);
+          setUpgradeState(rState);
+          setUpgradeContext(rCtx);
+        }
+      });
+      rnBridge.channel.post("p2p-upgrade::get-state");
+      rnBridge.channel.post("p2p-upgrade::start-services");
+    }
+    return () => {
+      log("cleanup!");
+      rnBridge.channel.post("p2p-upgrade::stop-services");
+    };
+  }, []);
 
   React.useEffect(() => {
     const subscriptions = [];
@@ -129,6 +175,8 @@ const SyncModal = ({ navigation }: Props) => {
       onWifiPress={handleWifiPress}
       onSyncPress={syncPeer}
       projectKey={projectKey}
+      upgradeState={upgradeState}
+      upgradeContext={upgradeContext}
     />
   );
 };
@@ -144,5 +192,17 @@ SyncModal.navigationOptions = {
     </HeaderTitle>
   ),
 };
+
+// TODO: need to inject sync state also!
+// Object -> string
+function getReactStateFromUpgradeState(state) {
+  return UpgradeState.Draining;
+}
+
+// TODO: need to inject sync state also!
+// Object -> string
+function getReactContextFromUpgradeState(state) {
+  return 0;
+}
 
 export default SyncModal;
