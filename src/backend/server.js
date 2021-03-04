@@ -154,12 +154,12 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
         upgradeManager.setApkInfo(apkPath, version, err => {
           if (err) return onError("setApkInfo", err);
           log("++++ 4 set apk info");
-          rnBridge.channel.once("p2p-upgrades-ready", () => {
-            rnBridge.channel.post("p2p-upgrades-ready");
+          rnBridge.channel.on("p2p-upgrades-frontend-ready", () => {
+            rnBridge.channel.post("p2p-upgrades-backend-ready");
             // Now we know the frontend is definitely ready!
             log("++++ 5 frontend told us they are ready");
           });
-          rnBridge.channel.post("p2p-upgrades-ready");
+          rnBridge.channel.post("p2p-upgrades-backend-ready");
         });
       });
     }
