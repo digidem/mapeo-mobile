@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const RWLock = require("rwlock");
+
 const UPGRADE_INFO_FILENAME = require("./constants").UPGRADE_INFO_FILENAME;
 
 class LocalUpgradeInfo {

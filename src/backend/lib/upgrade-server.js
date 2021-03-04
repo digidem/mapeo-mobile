@@ -20,7 +20,7 @@ class UpgradeServer extends EventEmitter {
     this.storage = storage;
     this.stateLock = new RWLock();
     this.setState(State.Idle);
-    this.error = null;
+    this.context = null;
     this.port = port;
     this.server = http.createServer((req, res) => {
       if (!this.handleHttpRequest(req, res)) {
@@ -34,10 +34,10 @@ class UpgradeServer extends EventEmitter {
   }
 
   // XXX: public; also no concurrency guards!
-  setState(to, err) {
+  setState(to, context) {
     this.state = to;
-    if (err) this.error = err;
-    this.emit("state", to);
+    this.context = context;
+    this.emit("state", to, this.context);
   }
 
   // Callback<Void> -> Void
@@ -61,7 +61,7 @@ class UpgradeServer extends EventEmitter {
       this.server.listen(this.port, "0.0.0.0", () => {
         this.discovery.announce(DISCOVERY_KEY, this.port, err => {
           if (err) return done(err);
-          this.setState(State.Sharing);
+          this.setState(State.Sharing, this.uploads);
           done();
         });
       });
@@ -80,7 +80,7 @@ class UpgradeServer extends EventEmitter {
 
       if (this.state !== State.Sharing) return done();
 
-      this.setState(State.Draining);
+      this.setState(State.Draining, this.uploads);
       if (this.uploads.length === 0) return stop.bind(this)();
 
       // wait for all uploads to finish
@@ -187,12 +187,14 @@ class UpgradeServer extends EventEmitter {
 
         const tracker = through((chunk, enc, next) => {
           if (chunk) upload.sofar += chunk.length;
+          this.setState(this.state, this.uploads);
           next(null, chunk);
         });
 
         res.statusCode = 200;
         pump(rs, tracker, res, () => {
           this.uploads = this.uploads.filter(u => u !== upload);
+          this.setState(this.state, this.uploads);
           this.emit("upload-complete", upload);
         });
 
