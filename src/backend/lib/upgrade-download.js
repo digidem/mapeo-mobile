@@ -7,29 +7,7 @@ const RWLock = require("rwlock");
 const pump = require("pump");
 const through = require("through2");
 
-const DISCOVERY_KEY = require("./constants").DISCOVERY_KEY;
-
-// Enum
-const SearchState = {
-  Idle: 1,
-  Searching: 2,
-  Error: 3,
-};
-
-// Enum
-const DownloadState = {
-  Idle: 1,
-  Downloading: 2,
-  Downloaded: 3,
-  Error: 4,
-};
-
-// Enum
-const CheckState = {
-  NotAvailable: 1,
-  Available: 2,
-  Error: 3,
-};
+const { DISCOVERY_KEY, UpgradeState } = require("./constants");
 
 // Manager object responsible for coordinating the Search, Download, and Check
 // subcomponents.
@@ -65,7 +43,7 @@ class UpgradeDownloader extends EventEmitter {
       this.emit("state", this.state);
 
       // Check for a new version once the download has finished
-      if (state === DownloadState.Downloaded) {
+      if (state === UpgradeState.Download.Downloaded) {
         this._check.check();
       }
     });
@@ -101,7 +79,7 @@ class Search extends EventEmitter {
     super();
 
     this.storage = storage;
-    this.state = SearchState.Idle;
+    this.state = UpgradeState.Search.Idle;
     this.context = null;
     this.discovery = null;
     this.stateLock = new RWLock();
@@ -109,7 +87,7 @@ class Search extends EventEmitter {
 
   start() {
     this.stateLock.writeLock(release => {
-      if (this.state !== SearchState.Idle) return release();
+      if (this.state !== UpgradeState.Search.Idle) return release();
 
       this.discovery = dns({
         server: [],
@@ -119,7 +97,7 @@ class Search extends EventEmitter {
       this.discovery.lookup(DISCOVERY_KEY);
       this.discovery.on("peer", this.onPeer.bind(this));
 
-      this.setState(SearchState.Searching, {
+      this.setState(UpgradeState.Search.Searching, {
         startTime: Date.now(),
         upgrades: [],
       });
@@ -132,7 +110,7 @@ class Search extends EventEmitter {
     if (app !== DISCOVERY_KEY) return;
 
     this.stateLock.readLock(release => {
-      if (this.state !== SearchState.Searching) return release();
+      if (this.state !== UpgradeState.Search.Searching) return release();
 
       http
         .get({ hostname: host, port, path: "/list" }, res => {
@@ -165,11 +143,11 @@ class Search extends EventEmitter {
 
   stop() {
     this.stateLock.writeLock(release => {
-      if (this.state !== SearchState.Searching) return release();
+      if (this.state !== UpgradeState.Search.Searching) return release();
 
       this.discovery.destroy(err => {
-        if (err) this.setState(SearchState.Error, err);
-        else this.setState(SearchState.Idle, null);
+        if (err) this.setState(UpgradeState.Search.Error, err);
+        else this.setState(UpgradeState.Search.Idle, null);
         release();
       });
     });
@@ -198,7 +176,7 @@ class Search extends EventEmitter {
 class Download extends EventEmitter {
   constructor(storage) {
     super();
-    this.state = DownloadState.Idle;
+    this.state = UpgradeState.Download.Idle;
     this.context = null;
     this.storage = storage;
   }
@@ -210,8 +188,11 @@ class Download extends EventEmitter {
   }
 
   download(option) {
-    if (this.state !== DownloadState.Idle) return;
-    this.setState(DownloadState.Downloading, { sofar: 0, total: option.size });
+    if (this.state !== UpgradeState.Download.Idle) return;
+    this.setState(UpgradeState.Download.Downloading, {
+      sofar: 0,
+      total: option.size,
+    });
 
     const url = `/content/${option.id}`;
     http
@@ -220,7 +201,7 @@ class Download extends EventEmitter {
         let sofar = 0;
         const progress = through((chunk, enc, next) => {
           sofar += chunk.length;
-          this.setState(DownloadState.Downloading, {
+          this.setState(UpgradeState.Download.Downloading, {
             sofar,
             total: option.size,
           });
@@ -230,8 +211,8 @@ class Download extends EventEmitter {
           filename,
           option.version,
           err => {
-            if (err) this.setState(DownloadState.Error, err);
-            else this.setState(DownloadState.Downloaded, null);
+            if (err) this.setState(UpgradeState.Download.Error, err);
+            else this.setState(UpgradeState.Download.Downloaded, null);
           }
         );
         pump(res, progress, ws);
@@ -247,7 +228,7 @@ class Download extends EventEmitter {
 class Check extends EventEmitter {
   constructor(storage) {
     super();
-    this.state = CheckState.NotAvailable;
+    this.state = UpgradeState.Check.NotAvailable;
     this.context = null;
     this.storage = storage;
   }
@@ -259,12 +240,14 @@ class Check extends EventEmitter {
   }
 
   check() {
-    if (this.state !== CheckState.NotAvailable) return;
+    if (this.state !== UpgradeState.Check.NotAvailable) return;
 
     this.storage.getAvailableUpgrades((err, options) => {
-      if (err) return this.setState(CheckState.Error, err);
+      if (err) return this.setState(UpgradeState.Check.Error, err);
       if (options.length > 0) {
-        this.setState(CheckState.Available, { filename: options[0].hash });
+        this.setState(UpgradeState.Check.Available, {
+          filename: options[0].hash,
+        });
       }
     });
   }

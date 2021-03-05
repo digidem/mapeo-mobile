@@ -4,22 +4,14 @@ const EventEmitter = require("events").EventEmitter;
 const RWLock = require("rwlock");
 const through = require("through2");
 const http = require("http");
-const DISCOVERY_KEY = require("./constants").DISCOVERY_KEY;
-
-// Enum
-const State = {
-  Idle: 1,
-  Sharing: 2,
-  Draining: 3,
-  Error: 4,
-};
+const { DISCOVERY_KEY, UpgradeState } = require("./constants");
 
 class UpgradeServer extends EventEmitter {
   constructor(storage, port) {
     super();
     this.storage = storage;
     this.stateLock = new RWLock();
-    this.setState(State.Idle);
+    this.setState(UpgradeState.Server.Idle);
     this.context = null;
     this.port = port;
     this.server = http.createServer((req, res) => {
@@ -45,12 +37,12 @@ class UpgradeServer extends EventEmitter {
     this.stateLock.writeLock(release => {
       const self = this;
       function done(err) {
-        if (err) self.setState(State.Error, err);
+        if (err) self.setState(UpgradeState.Server.Error, err);
         release();
         if (cb) cb(err);
       }
 
-      if (this.state !== State.Idle) return done();
+      if (this.state !== UpgradeState.Server.Idle) return done();
 
       const opts = {
         server: [],
@@ -61,7 +53,7 @@ class UpgradeServer extends EventEmitter {
       this.server.listen(this.port, "0.0.0.0", () => {
         this.discovery.announce(DISCOVERY_KEY, this.port, err => {
           if (err) return done(err);
-          this.setState(State.Sharing, this.uploads);
+          this.setState(UpgradeState.Server.Sharing, this.uploads);
           done();
         });
       });
@@ -73,14 +65,14 @@ class UpgradeServer extends EventEmitter {
     this.stateLock.writeLock(release => {
       const self = this;
       function done(err) {
-        if (err) self.setState(State.Error, err);
+        if (err) self.setState(UpgradeState.Server.Error, err);
         release();
         if (cb) cb(err);
       }
 
-      if (this.state !== State.Sharing) return done();
+      if (this.state !== UpgradeState.Server.Sharing) return done();
 
-      this.setState(State.Draining, this.uploads);
+      this.setState(UpgradeState.Server.Draining, this.uploads);
       if (this.uploads.length === 0) return stop.bind(this)();
 
       // wait for all uploads to finish
@@ -100,7 +92,7 @@ class UpgradeServer extends EventEmitter {
             if (err) return done(err);
             this.server.close(() => {
               this.discovery = null;
-              this.setState(State.Idle);
+              this.setState(UpgradeState.Server.Idle);
               done();
             });
           });
@@ -124,7 +116,7 @@ class UpgradeServer extends EventEmitter {
     if (req.method !== "GET" || req.url !== "/list") return false;
 
     this.stateLock.readLock(release => {
-      if (this.state !== State.Sharing) {
+      if (this.state !== UpgradeState.Server.Sharing) {
         res.statusCode = 503;
         res.end('"service unavailable"');
         return release();
@@ -151,7 +143,7 @@ class UpgradeServer extends EventEmitter {
     if (req.method !== "GET" || !m) return false;
 
     this.stateLock.readLock(release => {
-      if (this.state !== State.Sharing) {
+      if (this.state !== UpgradeState.Server.Sharing) {
         res.statusCode = 503;
         res.end('"service unavailable"');
         return release();
