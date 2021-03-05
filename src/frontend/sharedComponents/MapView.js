@@ -356,6 +356,7 @@ class MapView extends React.Component<Props, State> {
               <MapboxGL.UserLocation
                 visible={isFocused}
                 minDisplacement={MIN_DISPLACEMENT}
+                showsUserHeadingIndicator={true}
               />
             ) : null}
           </MapboxGL.MapView>
