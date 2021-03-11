@@ -1,1 +1,14 @@
-{}
+{
+  "screens.GpsModal.no": {
+    "description": "if a location sensor is active yes/no",
+    "message": "No"
+  },
+  "screens.GpsModal.yes": {
+    "description": "if a location sensor is active yes/no",
+    "message": "Ai"
+  },
+  "screens.LanguageSettings.title": {
+    "description": "Title language settings screen",
+    "message": "Tongo"
+  }
+}
