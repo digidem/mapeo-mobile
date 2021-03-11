@@ -35,6 +35,10 @@
     "description": "Button to share an observation",
     "message": "Prati"
   },
+  "screens.ObservationDetails.QuestionNavBar.questionPage": {
+    "description": "Indicates which question we are on and total questions",
+    "message": "{current} fu {total}"
+  },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
     "message": "Klari"
@@ -54,5 +58,87 @@
   "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
     "description": "Placeholder for description/notes field",
     "message": "San psa djaso?"
+  },
+  "screens.ObservationEdit.ObservationEditView.searching": {
+    "description": "Shown in new observation screen whilst looking for GPS",
+    "message": "Suku…"
+  },
+  "screens.ObservationEdit.SaveButton.keepWaiting": {
+    "description": "Button to cancel save and continue waiting for GPS",
+    "message": "Tan wakti"
+  },
+  "screens.ObservationEdit.SaveButton.saveAnyway": {
+    "description": "Button to save regardless of GPS state",
+    "message": "Kibri"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsTitle": {
+    "description": "Title of dialog when trying to save with low GPS accuracy.",
+    "message": "Swaki GPS signaal"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "Go Na Karta"
+  },
+  "screens.ServerStatus.timeoutTitle": {
+    "description": "Title of message when the server has not responded for 10 seconds",
+    "message": "Kande a database fu Mapeo abi wan probleem"
+  },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "Abra Mapeo"
+  },
+  "screens.Settings.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "Abung"
+  },
+  "screens.Settings.language": {
+    "description": "Primary text for language settings",
+    "message": "Tongo"
+  },
+  "screens.Settings.languageDesc": {
+    "description": "Secondary text for language settings",
+    "message": "Sori tongo fu a App"
+  },
+  "screens.Settings.projectKey": {
+    "description": "Label for project key",
+    "message": "Sroto fu a Project"
+  },
+  "screens.SyncModal.PeerList.completeButton": {
+    "description": "Button label when complete",
+    "message": "Klari"
+  },
+  "screens.SyncModal.PeerList.errorButton": {
+    "description": "Button label when there is an error",
+    "message": "Fout"
+  },
+  "screens.SyncModal.SyncView.noWifiTitle": {
+    "description": "Title of message shown when no wifi network",
+    "message": "No WiFi"
+  },
+  "screens.SyncModal.SyncView.projectKey": {
+    "description": "First 5 characters of project key displayed on sync screen",
+    "message": "Project Sroto: {projectKey}"
+  },
+  "screens.SyncModal.SyncView.searchingTitle": {
+    "description": "Title of message shown while looking for sync peers",
+    "message": "Suku"
+  },
+  "screens.SyncModal.SyncView.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi:"
+  },
+  "screens.SyncModal.errorDialogOk": {
+    "description": "Button to dismiss error alert about incompatible sync protocol",
+    "message": "Abung"
+  },
+  "screens.UncaughtError.errorTitle": {
+    "description": "Title of message when there is an uncaught message in the app",
+    "message": "Onferwakti Fout"
+  },
+  "sharedComponents.GpsPill.noGps": {
+    "message": "No GPS"
+  },
+  "sharedComponents.GpsPill.searching": {
+    "message": "Suku…"
   }
 }
