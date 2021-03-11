@@ -1,4 +1,12 @@
 {
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "Abra Mapeo"
+  },
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "Piki san psa djaso"
+  },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
     "message": "No"
@@ -10,5 +18,41 @@
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "Tongo"
+  },
+  "screens.ManualGpsScreen.easting": {
+    "message": "Oostsei"
+  },
+  "screens.ManualGpsScreen.eastingSuffix": {
+    "message": "mE"
+  },
+  "screens.ManualGpsScreen.northing": {
+    "message": "Noordsei"
+  },
+  "screens.ManualGpsScreen.northingSuffix": {
+    "message": "mN"
+  },
+  "screens.Observation.ObservationView.share": {
+    "description": "Button to share an observation",
+    "message": "Prati"
+  },
+  "screens.ObservationDetails.done": {
+    "description": "Button text when all questions are complete",
+    "message": "Klari"
+  },
+  "screens.ObservationDetails.nextQuestion": {
+    "description": "Button text to navigate to next question",
+    "message": "Trawan"
+  },
+  "screens.ObservationDetails.title": {
+    "description": "Title of observation details screen showing question number and total",
+    "message": "Aksi {current} fu {total}"
+  },
+  "screens.ObservationEdit.ObservationEditView.changePreset": {
+    "description": "Button to change a category / preset",
+    "message": "Kenki"
+  },
+  "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
+    "description": "Placeholder for description/notes field",
+    "message": "San psa djaso?"
   }
 }
