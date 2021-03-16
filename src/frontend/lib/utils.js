@@ -121,15 +121,27 @@ export function getLastPhotoAttachment(
   return filterPhotosFromAttachments(attachments).pop();
 }
 
-export function formatCoords({
-  lon,
-  lat,
-  format = "utm",
-}: {
-  lon: number,
-  lat: number,
-  format?: "utm",
-}): string {
+// Coordinates conversions
+function toDegreesMinutesAndSeconds(coordinate) {
+  var absolute = Math.abs(coordinate);
+  var degrees = Math.floor(absolute);
+  var minutesNotTruncated = (absolute - degrees) * 60;
+  var minutes = Math.floor(minutesNotTruncated);
+  var seconds = Math.floor((minutesNotTruncated - minutes) * 60);
+
+  return `${degrees} ${minutes} ${seconds}`;
+}
+
+function convertToDMS(lat, lon) {
+  var latitude = toDegreesMinutesAndSeconds(lat);
+  var latitudeCardinal = lat >= 0 ? "N" : "S";
+
+  var longitude = toDegreesMinutesAndSeconds(lon);
+  var longitudeCardinal = lon >= 0 ? "E" : "W";
+  return `${latitude} ${latitudeCardinal} ${longitude} ${longitudeCardinal}`;
+}
+
+function convertToUTM(lat, lon) {
   try {
     let { easting, northing, zoneNum, zoneLetter } = fromLatLon(lat, lon);
     easting = leftPad(easting.toFixed(), 6, "0");
@@ -140,6 +152,45 @@ export function formatCoords({
     return `${lat >= 0 ? "+" : ""}${lat.toFixed(6)}°, ${
       lon >= 0 ? "+" : ""
     }${lon.toFixed(6)}°`;
+  }
+}
+
+function convertDMSToDD(degrees, minutes, seconds, direction) {
+  let dd = Number(degrees) + Number(minutes) / 60 + Number(seconds) / (60 * 60);
+  if (direction === "S" || direction === "W") {
+    dd = dd * -1;
+  } // Don't do anything for N or E
+  return dd;
+}
+
+function convertToDD(lat, lon) {
+  const [latD, latM, latS, latDi, lonD, lonM, lonS, lonDi] = convertToDMS(
+    lat,
+    lon
+  ).split(" ");
+  const latDD = convertDMSToDD(latD, latM, latS, latDi);
+  const lonDD = convertDMSToDD(lonD, lonM, lonS, lonDi);
+  return `${latDD} ${lonDD}`;
+}
+
+export function formatCoords({
+  lon,
+  lat,
+  format = "utm",
+}: {
+  lon: number,
+  lat: number,
+  format?: "utm",
+}): string {
+  switch (format) {
+    case "utm":
+      return convertToUTM(lat, lon);
+    case "dms":
+      return convertToDMS(lat, lon);
+    case "dd":
+      return convertToDD(lat, lon);
+    default:
+      return convertToUTM(lat, lon);
   }
 }
 

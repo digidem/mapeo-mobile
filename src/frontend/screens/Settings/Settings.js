@@ -48,6 +48,16 @@ const m = defineMessages({
     defaultMessage: "Version and build number",
     description: "Description of the 'About Mapeo' page",
   },
+  coordinateSystem: {
+    id: "screens.Settings.coordinateSystem",
+    defaultMessage: "Coordinate System",
+    description: "Settings for coordinate systems",
+  },
+  coordinateSystemDesc: {
+    id: "screens.Settings.coordinateSystemDesc",
+    defaultMessage: "UTM, Lat/Long, DMS, DD",
+    description: "Description of the 'Coordinate System' page",
+  },
 });
 
 const Settings = () => {
@@ -82,6 +92,16 @@ const Settings = () => {
         <ListItemText
           primary={<FormattedMessage {...m.aboutMapeo} />}
           secondary={<FormattedMessage {...m.aboutMapeoDesc} />}
+        ></ListItemText>
+      </ListItem>
+      <ListItem
+        onPress={() => navigate("CoordinateSystem")}
+        testID="settingsCoodinatesButton"
+      >
+        <ListItemIcon iconName="explore" />
+        <ListItemText
+          primary={<FormattedMessage {...m.coordinateSystem} />}
+          secondary={<FormattedMessage {...m.coordinateSystemDesc} />}
         ></ListItemText>
       </ListItem>
     </List>

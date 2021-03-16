@@ -58,6 +58,26 @@
     "description": "Title for category chooser screen",
     "message": "Choose what is happening"
   },
+  "screens.CoordinateSystem.dd": {
+    "description": "Decimal Degrees coordinate system",
+    "message": "Decimal Degrees (DD)"
+  },
+  "screens.CoordinateSystem.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate system",
+    "message": "Degrees/Minutes/Seconds (DMS)"
+  },
+  "screens.CoordinateSystem.latlong": {
+    "description": "Latitude and Longitude coordinate system",
+    "message": "Latitude and Longitude"
+  },
+  "screens.CoordinateSystem.title": {
+    "description": "Title coordinate system screen",
+    "message": "Coordinate System"
+  },
+  "screens.CoordinateSystem.utm": {
+    "description": "Universal Transverse Mercator coordinate system",
+    "message": "Universal Transverse Mercator (UTM)"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Details"
@@ -295,6 +315,14 @@
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "Import Error"
+  },
+  "screens.Settings.coordinateSystem": {
+    "description": "Settings for coordinate systems",
+    "message": "Coordinate System"
+  },
+  "screens.Settings.coordinateSystemDesc": {
+    "description": "Description of the 'Coordinate System' page",
+    "message": "UTM, Lat/Long, DMS"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
