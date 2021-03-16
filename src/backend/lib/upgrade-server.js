@@ -122,7 +122,7 @@ class UpgradeServer extends EventEmitter {
         return release();
       }
 
-      this.storage.getAvailableUpgrades((err, options) => {
+      getAvailableUpgrades(this.storage, (err, options) => {
         if (err) {
           res.statusCode = 500;
           res.end(err.toString());
@@ -149,7 +149,7 @@ class UpgradeServer extends EventEmitter {
         return release();
       }
 
-      this.storage.getAvailableUpgrades((err, options) => {
+      getAvailableUpgrades(this.storage, (err, options) => {
         if (err) {
           res.statusCode = 500;
           res.end(err.toString());
@@ -196,6 +196,17 @@ class UpgradeServer extends EventEmitter {
 
     return true;
   }
+}
+
+function getAvailableUpgrades(storage, cb) {
+  storage.getAvailableUpgrades((err, options) => {
+    if (err) return cb(err);
+    options.forEach(o => {
+      delete o.filename;
+      return o;
+    });
+    cb(null, options);
+  });
 }
 
 module.exports = UpgradeServer;

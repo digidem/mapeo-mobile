@@ -8,6 +8,8 @@ const readonly = require("read-only-stream");
 const pump = require("pump");
 const semver = require("semver");
 const LocalUpgradeInfo = require("./local-upgrade-info");
+const debug = require("debug");
+const log = debug("p2p-upgrades:storage");
 
 /* type Callback<T> = (Error?, T?) => Void */
 
@@ -57,7 +59,7 @@ class Storage {
   // TODO: factor out the 'version' parameter and use 'this.version' instead,
   // since we already have it.
   setApkInfo(apkPath, version, cb) {
-    apkToUpgradeOption(apkPath, version, (err, info) => {
+    this.apkToUpgradeOption(apkPath, version, (err, info) => {
       if (err) return cb(err);
       this.currentApk = info;
       cb();
@@ -69,14 +71,12 @@ class Storage {
     const results = [];
     if (this.currentApk) {
       const currentApk = Object.assign({}, this.currentApk);
-      delete currentApk.filename;
       results.push(currentApk);
     }
     this.localUpgrades.get((err, options) => {
       if (err) return cb(err);
       options.forEach(option => {
         const opt = Object.assign({}, option);
-        delete opt.filename; // XXX: needed still?
         results.push(opt);
       });
       cb(null, results);
@@ -87,11 +87,12 @@ class Storage {
   createApkWriteStream(filename, version, cb) {
     cb = cb || function () {};
     const filepath = path.join(this.dir, filename);
+    log("writing apk to", filepath);
 
     const ws = fs.createWriteStream(filepath);
     ws.once("error", cb);
     ws.once("finish", () => {
-      apkToUpgradeOption(filepath, version, (err, option) => {
+      this.apkToUpgradeOption(filepath, version, (err, option) => {
         if (err) return cb(err);
         this.localUpgrades.add(option, err => {
           if (err) cb(err);
@@ -151,6 +152,27 @@ class Storage {
     if (!semver.valid(upgrade.version)) return null;
     return semver.gt(upgrade.version, this.version);
   }
+
+  apkToUpgradeOption(filepath, version, cb) {
+    hashFile(filepath, (err, buf) => {
+      if (err) return cb(err);
+      const hash = buf.toString("hex");
+      fs.stat(filepath, (err, info) => {
+        if (err) return cb(err);
+        const option = {
+          filename: filepath,
+          hash,
+          size: info.size,
+          version,
+          hashType: "sha256",
+          platform: "android",
+          arch: ["arm64-v8a"],
+          id: hash,
+        };
+        cb(null, option);
+      });
+    });
+  }
 }
 
 // String, Callback<Buffer> -> Void
@@ -162,27 +184,6 @@ function hashFile(filename, cb) {
   } catch (err) {
     process.nextTick(cb, err);
   }
-}
-
-function apkToUpgradeOption(filepath, version, cb) {
-  hashFile(filepath, (err, buf) => {
-    if (err) return cb(err);
-    const hash = buf.toString("hex");
-    fs.stat(filepath, (err, info) => {
-      if (err) return cb(err);
-      const option = {
-        filename: filepath,
-        hash,
-        size: info.size,
-        version,
-        hashType: "sha256",
-        platform: "android",
-        arch: ["arm64-v8a"],
-        id: hash,
-      };
-      cb(null, option);
-    });
-  });
 }
 
 function foreachAsync(list, fn, cb) {
