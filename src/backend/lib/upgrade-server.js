@@ -6,13 +6,23 @@ const through = require("through2");
 const http = require("http");
 const { DISCOVERY_KEY, UpgradeState } = require("./constants");
 
+/*
+type Uploads = [UploadInfo]
+
+type UploadInfo = {
+  sofar: Number,
+  total: Number
+}
+*/
+
 class UpgradeServer extends EventEmitter {
   constructor(storage, port) {
     super();
     this.storage = storage;
     this.stateLock = new RWLock();
-    this.setState(UpgradeState.Server.Idle);
+    this.state = null;
     this.context = null;
+    this.setState(UpgradeState.Server.Idle, null);
     this.port = port;
     this.server = http.createServer((req, res) => {
       if (!this.handleHttpRequest(req, res)) {
@@ -29,7 +39,7 @@ class UpgradeServer extends EventEmitter {
   setState(to, context) {
     this.state = to;
     this.context = context;
-    this.emit("state", to, this.context);
+    this.emit("state", this.state, this.context);
   }
 
   // Callback<Void> -> Void
@@ -92,7 +102,7 @@ class UpgradeServer extends EventEmitter {
             if (err) return done(err);
             this.server.close(() => {
               this.discovery = null;
-              this.setState(UpgradeState.Server.Idle);
+              this.setState(UpgradeState.Server.Idle, null);
               done();
             });
           });
@@ -176,6 +186,7 @@ class UpgradeServer extends EventEmitter {
           total: option.size,
         };
         this.uploads.push(upload);
+        this.setState(this.state, this.uploads);
 
         const tracker = through((chunk, enc, next) => {
           if (chunk) upload.sofar += chunk.length;
