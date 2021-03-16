@@ -86,6 +86,7 @@ rnBridge.channel.on("config", config => {
     server = createServer({
       privateStorage: rnBridge.app.datadir(),
       sharedStorage: storagePath,
+      upgradeStorage: config.upgradeStoragePath,
     });
   } catch (error) {
     status.setState(constants.ERROR, { error, context: "createServer" });

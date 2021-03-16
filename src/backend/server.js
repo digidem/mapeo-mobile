@@ -27,7 +27,12 @@ const log = debug("mapeo-core:server");
 
 module.exports = createServer;
 
-function createServer({ privateStorage, sharedStorage, flavor }) {
+function createServer({
+  privateStorage,
+  sharedStorage,
+  upgradeStorage,
+  flavor,
+}) {
   const defaultConfigPath = path.join(sharedStorage, "presets/default");
   log("Creating server");
 
@@ -63,9 +68,8 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
   });
   let mapeoCore = mapeoRouter.api.core;
 
-  const upgradePath = path.join(privateStorage, "upgrades");
+  const upgradePath = path.join(upgradeStorage, "upgrades");
   mkdirp.sync(upgradePath);
-  // TODO: how to get apk's current version? would it work to assign this var once apkReady fires?
   let upgradeManager;
 
   const server = http.createServer(function requestListener(req, res) {

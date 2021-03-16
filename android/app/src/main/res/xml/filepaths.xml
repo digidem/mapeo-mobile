@@ -4,4 +4,6 @@
     path="media/" />
   <files-path name="installer" 
     path="installer/" />
+  <files-path name="upgrades"
+    path="upgrades/" />
 </paths>

@@ -143,8 +143,8 @@ export function Api({
   nodejs.channel.addListener("status", onStatus);
 
   nodejs.channel.addListener("copy-apk", async () => {
-    log("+++ 5");
     const tmpDir = RNFS.DocumentDirectoryPath + "/installer";
+    log("+++ 5", tmpDir);
     const apkName = "mapeo.apk";
     const tmpApkPath = `${tmpDir}/${apkName}`;
     await RNFS.mkdir(tmpDir);
@@ -238,6 +238,7 @@ export function Api({
         // other config that the server requires
         nodejs.channel.post("config", {
           storagePath: RNFS.ExternalDirectoryPath,
+          upgradeStoragePath: RNFS.DocumentDirectoryPath,
         });
         // Resolve once the server reports status as "LISTENING"
         return onReady();
