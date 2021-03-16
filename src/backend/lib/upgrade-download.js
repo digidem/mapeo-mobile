@@ -6,6 +6,9 @@ const dns = require("dns-discovery");
 const RWLock = require("rwlock");
 const pump = require("pump");
 const through = require("through2");
+const debug = require("debug");
+const log = debug("upgrade-download");
+const clone = require("clone");
 
 const { DISCOVERY_KEY, UpgradeState } = require("./constants");
 
@@ -121,10 +124,13 @@ class Search extends EventEmitter {
               data.forEach(upgrade => {
                 // See if this upgrade is compatible
                 if (this.isUpgradeCandidate(upgrade)) {
-                  this.context.upgrades.push(
-                    Object.assign({}, upgrade, { host, port })
-                  );
-                  this.emit("state", this.state, this.context);
+                  const newContext = clone(this.context);
+                  const newUpgrade = Object.assign(upgrade, { host, port });
+                  newContext.upgrades.push(newUpgrade);
+                  log("upgrade added", newUpgrade);
+                  this.setState(UpgradeState.Search.Searching, newContext);
+                } else {
+                  log("dismissed candidate", upgrade);
                 }
               });
             } catch (err) {
