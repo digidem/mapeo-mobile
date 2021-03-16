@@ -256,7 +256,7 @@ class Check extends EventEmitter {
       if (err) return this.setState(UpgradeState.Check.Error, err);
       if (options.length > 0) {
         this.setState(UpgradeState.Check.Available, {
-          filename: options[0].hash,
+          filename: options[0].filename,
         });
       }
     });
