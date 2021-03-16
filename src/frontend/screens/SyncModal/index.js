@@ -22,6 +22,9 @@ import useAllObservations from "../../hooks/useAllObservations";
 import ConfigContext from "../../context/ConfigContext";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import usePeers from "./usePeers";
+import { peerStatus } from "./PeerList";
+import { UpgradeState as BackendUpgradeState } from "../../../backend/lib/constants";
+import ApkInstaller from "../../lib/ApkInstaller";
 
 import debug from "debug";
 const log = debug("mapeo-mobile:SyncModal:index");
@@ -39,6 +42,7 @@ export const UpgradeState = {
   NoUpdatesFound: 5,
   WaitingForSync: 6,
   Draining: 7,
+  Unknown: 8,
 };
 
 const m = defineMessages({
@@ -68,34 +72,55 @@ const SyncModal = ({ navigation }: Props) => {
   const [listen, setListening] = React.useState<boolean>(false);
   const [peers, syncPeer, syncGetPeers] = usePeers(listen, deviceName);
   const [ssid, setSsid] = React.useState<null | string>(null);
-  const [upgradeState, setUpgradeState] = React.useState<string>("init");
-  const [upgradeContext, setUpgradeContext] = React.useState<any>(0);
+  const [upgradeInfo, setUpgradeInfo] = React.useState({});
 
+  // P2P Upgrades effect. (Interfaces with Node process for state & control.)
   React.useEffect(() => {
-    log("startup", upgradeState);
+    log("startup", upgradeInfo);
     rnBridge.channel.addListener("p2p-upgrades-backend-ready", onReady);
     rnBridge.channel.post("p2p-upgrades-frontend-ready");
+    setUpgradeInfo({ state: UpgradeState.Searching });
+
+    let lastState, iv;
+
+    function onState(state) {
+      log("GOT BACKEND STATE", JSON.stringify(state));
+      const rState = getReactStateFromUpgradeState(state, peers);
+      const rCtx = getReactContextFromUpgradeState(state, peers);
+      setUpgradeInfo({ state: rState, context: rCtx });
+      lastState = state;
+    }
+
+    function onError(err) {
+      log("BACKEND STATE ERROR", err.message);
+      setUpgradeInfo({
+        state: UpgradeState.GenericError,
+        context: err.message,
+      });
+    }
+
     function onReady() {
       rnBridge.channel.removeListener("p2p-upgrades-backend-ready", onReady);
       log("backend says they are ready!");
       rnBridge.channel.post("p2p-upgrades-frontend-ready");
-      rnBridge.channel.addListener("p2p-upgrade::state", state => {
-        log(state.downloader);
-        if (state.downloader.search.context) {
-          const str = `${JSON.stringify(
-            state.downloader.search.context.upgrades
-          )}`;
-          const rState = getReactStateFromUpgradeState(state);
-          const rCtx = getReactContextFromUpgradeState(state);
-          setUpgradeState(rState);
-          setUpgradeContext(rCtx);
-        }
-      });
+
+      rnBridge.channel.addListener("p2p-upgrade::error", onError);
+      rnBridge.channel.addListener("p2p-upgrade::state", onState);
+      iv = setInterval(() => {
+        const rState = getReactStateFromUpgradeState(lastState, peers);
+        const rCtx = getReactContextFromUpgradeState(lastState, peers);
+        setUpgradeInfo({ state: rState, context: rCtx });
+      }, 3000);
+
       rnBridge.channel.post("p2p-upgrade::get-state");
       rnBridge.channel.post("p2p-upgrade::start-services");
     }
+
     return () => {
       log("cleanup!");
+      if (iv) clearInterval(iv);
+      rnBridge.channel.removeListener("p2p-upgrade::state", onState);
+      rnBridge.channel.removeListener("p2p-upgrade::error", onError);
       rnBridge.channel.post("p2p-upgrade::stop-services");
     };
   }, []);
@@ -174,11 +199,25 @@ const SyncModal = ({ navigation }: Props) => {
       onClosePress={() => navigation.pop()}
       onWifiPress={handleWifiPress}
       onSyncPress={syncPeer}
+      onInstallPress={onInstallPress}
       projectKey={projectKey}
-      upgradeState={upgradeState}
-      upgradeContext={upgradeContext}
+      upgradeInfo={upgradeInfo}
     />
   );
+
+  function onInstallPress() {
+    if (upgradeInfo.state !== UpgradeState.ReadyToUpgrade) {
+      log("### UPGRADE: not in ready state");
+      return;
+    }
+    ApkInstaller.install(upgradeInfo.context.filename)
+      .then(() => {
+        log("### UPGRADE: install ok!");
+      })
+      .catch(err => {
+        log("### UPGRADE: apk install failed", err);
+      });
+  }
 };
 
 SyncModal.navigationOptions = {
@@ -193,16 +232,124 @@ SyncModal.navigationOptions = {
   ),
 };
 
-// TODO: need to inject sync state also!
-// Object -> string
-function getReactStateFromUpgradeState(state) {
-  return UpgradeState.Draining;
+// Object -> UpgradeState
+function getReactStateFromUpgradeState(state, peers) {
+  // Error present in ANY subsystem.
+  if (
+    state.server.state === BackendUpgradeState.Server.Error ||
+    state.downloader.search.state === BackendUpgradeState.Search.Error ||
+    state.downloader.download.state === BackendUpgradeState.Download.Error ||
+    state.downloader.check.state === BackendUpgradeState.Check.Error
+  ) {
+    return UpgradeState.GenericError;
+  }
+
+  // Upgrade available + waiting for syncs to finish.
+  if (
+    state.downloader.check.state === BackendUpgradeState.Check.Available &&
+    peers.some(p => p.status === peerStatus.PROGRESS)
+  ) {
+    return UpgradeState.WaitingForSync;
+  }
+
+  // Upgrade available + not waiting for syncs to finish.
+  if (state.downloader.check.state === BackendUpgradeState.Check.Available) {
+    return UpgradeState.ReadyToUpgrade;
+  }
+
+  // Upgrade is downloading.
+  if (
+    state.downloader.download.state === BackendUpgradeState.Download.Downloading
+  ) {
+    return UpgradeState.Downloading;
+  }
+
+  // Subsystem has been searching for upgrades for < 14 seconds.
+  if (
+    state.downloader.search.state === BackendUpgradeState.Search.Searching &&
+    Date.now() - state.downloader.search.context.startTime < 14 * 1000
+  ) {
+    return UpgradeState.Searching;
+  }
+
+  // Subsystem is still uploading an upgrade to other peers.
+  if (
+    (state.server.state === BackendUpgradeState.Server.Sharing ||
+      state.server.state === BackendUpgradeState.Server.Draining) &&
+    state.server.context.length > 0
+  ) {
+    return UpgradeState.Draining;
+  }
+
+  // Subsystem has been searching for upgrades for > 14 seconds.
+  if (state.downloader.search.state === BackendUpgradeState.Search.Searching) {
+    return UpgradeState.NoUpdatesFound;
+  }
+
+  return UpgradeState.Unknown;
 }
 
-// TODO: need to inject sync state also!
-// Object -> string
-function getReactContextFromUpgradeState(state) {
-  return 0;
+// Object -> any
+function getReactContextFromUpgradeState(state, peers) {
+  // Error present in ANY subsystem.
+  if (state.server.state === BackendUpgradeState.Server.Error) {
+    return state.server.context.message;
+  }
+  if (state.downloader.search.state === BackendUpgradeState.Search.Error) {
+    return state.downloader.search.context.message;
+  }
+  if (state.downloader.download.state === BackendUpgradeState.Download.Error) {
+    return state.downloader.download.context.message;
+  }
+  if (state.downloader.check.state === BackendUpgradeState.Check.Error) {
+    return state.downloader.check.context.message;
+  }
+
+  // Upgrade available + waiting for syncs to finish.
+  if (
+    state.downloader.check.state === BackendUpgradeState.Check.Available &&
+    peers.some(p => p.status === peerStatus.PROGRESS)
+  ) {
+    return null;
+  }
+
+  // Upgrade available + not waiting for syncs to finish.
+  if (state.downloader.check.state === BackendUpgradeState.Check.Available) {
+    return state.downloader.check.context;
+  }
+
+  // Upgrade is downloading.
+  if (
+    state.downloader.download.state === BackendUpgradeState.Download.Downloading
+  ) {
+    const progress = state.downloader.download.context;
+    log("$$$ 1", state.downloader.download);
+    return { progress: progress.sofar / progress.total };
+  }
+
+  // Subsystem has been searching for upgrades for < 14 seconds.
+  if (
+    state.downloader.search.state === BackendUpgradeState.Search.Searching &&
+    Date.now() - state.downloader.search.context.startTime < 14 * 1000
+  ) {
+    return null;
+  }
+
+  // Subsystem is still uploading an upgrade to other peers.
+  if (
+    (state.server.state === BackendUpgradeState.Server.Sharing ||
+      state.server.state === BackendUpgradeState.Server.Draining) &&
+    state.server.context.length > 0
+  ) {
+    return null;
+  }
+
+  // Subsystem has been searching for upgrades for > 14 seconds.
+  if (state.downloader.search.state === BackendUpgradeState.Search.Searching) {
+    return null;
+  }
+
+  return null;
 }
 
 export default SyncModal;

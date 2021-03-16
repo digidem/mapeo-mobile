@@ -55,11 +55,11 @@ const m = defineMessages({
   },
 });
 
-const UpgradeBar = ({ upgradeState, upgradeContext }) => (
+const UpgradeBar = ({ upgradeInfo, onInstallPress }) => (
   <TouchableNativeFeedback>
     <View style={styles.upgradeBar}>
       {(() => {
-        switch (upgradeState) {
+        switch (upgradeInfo.state) {
           case UpgradeState.Searching:
             return (
               <View
@@ -72,7 +72,8 @@ const UpgradeBar = ({ upgradeState, upgradeContext }) => (
                 <Text style={styles.upgradeBarText} numberOfLines={1}>
                   {"Checking for app updates"}
                 </Text>
-                <DotIndicator style="flex:1" size={7} />
+                <View style={{ flex: 1 }}></View>
+                <DotIndicator style={{ flex: 1 }} size={7} />
               </View>
             );
             break;
@@ -101,23 +102,23 @@ const UpgradeBar = ({ upgradeState, upgradeContext }) => (
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  flex: 1,
                 }}
               >
-                <Text style={styles.upgradeBarText} numberOfLines={1}>
-                  {"Downloading updates"}
-                </Text>
-                <View style={{ flex: 0.6 }}>
-                  <Progress
-                    progress={upgradeContext}
-                    size={25}
-                    color="#3568f5"
-                  />
+                <View style={{ flex: 2 }}>
+                  <Text style={styles.upgradeBarText} numberOfLines={1}>
+                    {"Downloading updates"}
+                  </Text>
                 </View>
+                <View style={{ flex: 1 }}></View>
+                <Progress
+                  progress={upgradeInfo.context.progress}
+                  size={25}
+                  color="#3568f5"
+                />
               </View>
             );
             break;
-          case UpgradeState.Error:
+          case UpgradeState.GenericError:
             return (
               <View
                 style={{
@@ -134,7 +135,7 @@ const UpgradeBar = ({ upgradeState, upgradeContext }) => (
                     style={styles.upgradeBarTextSecondary}
                     numberOfLines={1}
                   >
-                    {upgradeContext}
+                    {upgradeInfo.context}
                   </Text>
                 </View>
                 <View style={{ flex: 0.5, justifyContent: "center" }}>
@@ -160,7 +161,7 @@ const UpgradeBar = ({ upgradeState, upgradeContext }) => (
                     style={styles.upgradeBarTextSecondary}
                     numberOfLines={1}
                   >
-                    {upgradeContext}
+                    {upgradeInfo.context}
                   </Text>
                 </View>
                 <View style={{ flex: 5, justifyContent: "center" }}>
@@ -180,7 +181,7 @@ const UpgradeBar = ({ upgradeState, upgradeContext }) => (
               >
                 <View style={{ flex: 4, flexDirection: "column" }}>
                   <Text style={styles.upgradeBarText} numberOfLines={1}>
-                    {"No updates found"}
+                    {"No app updates found"}
                   </Text>
                 </View>
                 <View style={{ flex: 0.5, justifyContent: "center" }}>
@@ -205,7 +206,12 @@ const UpgradeBar = ({ upgradeState, upgradeContext }) => (
                 </View>
                 <View style={{ flex: 2 }} />
                 <View style={{ flex: 5, justifyContent: "center" }}>
-                  <TextButton title={"Install Update"} />
+                  <TouchableNativeFeedback onPress={onInstallPress}>
+                    <TextButton
+                      title={"Install Update"}
+                      onPress={onInstallPress}
+                    />
+                  </TouchableNativeFeedback>
                 </View>
               </View>
             );
@@ -316,25 +322,21 @@ type Props = {
   projectKey?: string,
 };
 
-// TODO: only show the upgradebar at the top if no ssid if there is a local upgrade ready
 const SyncView = ({
   onSyncPress,
+  onInstallPress,
   peers,
   ssid,
   deviceName,
   onWifiPress,
   projectKey,
-  upgradeState,
-  upgradeContext,
+  upgradeInfo,
 }: Props) => (
   <View style={styles.root}>
     {ssid ? (
       <>
         <WifiBar onPress={onWifiPress} ssid={ssid} deviceName={deviceName} />
-        <UpgradeBar
-          upgradeState={upgradeState}
-          upgradeContext={upgradeContext}
-        />
+        <UpgradeBar upgradeInfo={upgradeInfo} onInstallPress={onInstallPress} />
         {peers.length ? (
           <PeerList peers={peers} onSyncPress={onSyncPress} />
         ) : (
