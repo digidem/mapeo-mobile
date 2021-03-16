@@ -30,19 +30,18 @@ class UpgradeDownloader extends EventEmitter {
         state: this._download.state,
         context: this._download.context,
       },
-      // TODO: check
+      check: { state: this._check.state, context: this._check.context },
     };
 
+    // Track the state of subcomponents (search, download, check)
     this._search.on("state", (state, context) => {
+      // XXX: no need to make a deep copy, since it's going to be cloned in the
+      // upgrade manager
       this.state.search = { state, context };
-      // XXX: no need to make a deep copy, since it's going to be serialized
-      // over the RN bridge anyways
       this.emit("state", this.state);
     });
     this._download.on("state", (state, context) => {
       this.state.download = { state, context };
-      // XXX: no need to make a deep copy, since it's going to be serialized
-      // over the RN bridge anyways
       this.emit("state", this.state);
 
       // Check for a new version once the download has finished
@@ -52,8 +51,6 @@ class UpgradeDownloader extends EventEmitter {
     });
     this._check.on("state", (state, context) => {
       this.state.check = { state, context };
-      // XXX: no need to make a deep copy, since it's going to be serialized
-      // over the RN bridge anyways
       this.emit("state", this.state);
     });
 
@@ -82,8 +79,9 @@ class Search extends EventEmitter {
     super();
 
     this.storage = storage;
-    this.state = UpgradeState.Search.Idle;
+    this.state = null;
     this.context = null;
+    this.setState(UpgradeState.Search.Idle, null);
     this.discovery = null;
     this.stateLock = new RWLock();
   }
@@ -110,7 +108,9 @@ class Search extends EventEmitter {
   }
 
   onPeer(app, { host, port }) {
+    if (this.state !== UpgradeState.Search.Searching) return; // shouldn't happen
     if (app !== DISCOVERY_KEY) return;
+    log("found upgrade peer", app, host, port);
 
     this.stateLock.readLock(release => {
       if (this.state !== UpgradeState.Search.Searching) return release();
@@ -182,8 +182,9 @@ class Search extends EventEmitter {
 class Download extends EventEmitter {
   constructor(storage) {
     super();
-    this.state = UpgradeState.Download.Idle;
+    this.state = null;
     this.context = null;
+    this.setState(UpgradeState.Download.Idle, null);
     this.storage = storage;
   }
 
@@ -221,10 +222,12 @@ class Download extends EventEmitter {
             else this.setState(UpgradeState.Download.Downloaded, null);
           }
         );
-        pump(res, progress, ws);
+        pump(res, progress, ws, err => {
+          this.setState(UpgradeState.Download.Idle, null);
+        });
       })
-      .once("error", _ => {
-        // TODO: handle err
+      .once("error", err => {
+        this.setState(UpgradeState.Download.Idle, null);
       });
   }
 }
@@ -234,8 +237,9 @@ class Download extends EventEmitter {
 class Check extends EventEmitter {
   constructor(storage) {
     super();
-    this.state = UpgradeState.Check.NotAvailable;
+    this.state = null;
     this.context = null;
+    this.setState(UpgradeState.Check.NotAvailable, null);
     this.storage = storage;
   }
 
