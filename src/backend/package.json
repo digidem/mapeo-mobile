@@ -35,7 +35,8 @@
     "safe-fs-blob-store": "^1.0.3",
     "semver": "^7.3.4",
     "tar-fs": "^2.1.1",
-    "through2": "^4.0.2"
+    "through2": "^4.0.2",
+    "valid-schema": "^1.2.3"
   },
   "devDependencies": {
     "collect-stream": "^1.2.1",
