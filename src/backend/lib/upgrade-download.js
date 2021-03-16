@@ -254,12 +254,23 @@ class Check extends EventEmitter {
 
     this.storage.getAvailableUpgrades((err, options) => {
       if (err) return this.setState(UpgradeState.Check.Error, err);
+      options = options.filter(o => this.isUpgradeCandidate(o));
       if (options.length > 0) {
         this.setState(UpgradeState.Check.Available, {
           filename: options[0].filename,
         });
       }
     });
+  }
+
+  // UpgradeOption -> Bool
+  isUpgradeCandidate(upgrade) {
+    if (upgrade.arch.indexOf(this.storage.getLocalArch()) === -1) return false;
+    if (upgrade.platform !== this.storage.getLocalPlatform()) return false;
+    if (!semver.valid(upgrade.version)) return false;
+    if (!semver.gt(upgrade.version, this.storage.getLocalVersion()))
+      return false;
+    return true;
   }
 }
 
