@@ -1,8 +1,11 @@
-const UpgradeStorage = require("../lib/upgrade-storage");
-const UpgradeServer = require("../lib/upgrade-server");
-const UpgradeDownload = require("../lib/upgrade-download");
+const UpgradeStorage = require("./upgrade-storage");
+const UpgradeServer = require("./upgrade-server");
+const UpgradeDownload = require("./upgrade-download");
 const clone = require("clone");
 const semver = require("semver");
+const debug = require("debug");
+const log = debug("mapeo-core:server");
+const validate = require("./validate-upgrade-state");
 
 class UpgradeManager {
   constructor(dir, port, currentVersion, emitFn, listenFn, removeFn) {
@@ -20,10 +23,12 @@ class UpgradeManager {
 
     // Event interface
     this.addListener("p2p-upgrade::get-state", () => {
+      log("got get-state");
       this.emitState();
     });
 
     this.addListener("p2p-upgrade::start-services", () => {
+      log("got start-services");
       this.server.share();
       this.downloader.start();
 
@@ -39,6 +44,7 @@ class UpgradeManager {
     });
 
     this.addListener("p2p-upgrade::stop-services", () => {
+      log("got stop-services");
       this.server.drain();
       this.downloader.stop();
 
@@ -49,8 +55,21 @@ class UpgradeManager {
 
     // State aggregation
     this.state = {
-      server: this.server.state,
-      downloader: this.downloader.state,
+      server: { state: this.server.state, context: this.server.context },
+      downloader: {
+        search: {
+          state: this.downloader._search.state,
+          context: this.downloader._search.context,
+        },
+        download: {
+          state: this.downloader._download.state,
+          context: this.downloader._download.context,
+        },
+        check: {
+          state: this.downloader._check.state,
+          context: this.downloader._check.context,
+        },
+      },
     };
     this.server.on("state", (state, context) => {
       this.state.server = { state, context };
@@ -62,8 +81,40 @@ class UpgradeManager {
     });
   }
 
+  // Ensures that any Error instances are converted into objects that serialize
+  // properly over the RN Bridge. Mutates state.
+  sanitizeState() {
+    if (this.state.server.context instanceof Error) {
+      this.state.server.context = {
+        message: this.state.server.context.message,
+      };
+    }
+    if (this.state.downloader.search.context instanceof Error) {
+      this.state.downloader.search.context = {
+        message: this.state.downloader.search.context.message,
+      };
+    }
+    if (this.state.downloader.download.context instanceof Error) {
+      this.state.downloader.download.context = {
+        message: this.state.downloader.download.context.message,
+      };
+    }
+    if (this.state.downloader.check.context instanceof Error) {
+      this.state.downloader.check.context = {
+        message: this.state.downloader.check.context.message,
+      };
+    }
+  }
+
   emitState() {
-    this.emit("p2p-upgrade::state", clone(this.state));
+    const result = validate(this.state);
+    if (result) {
+      const msg = result.join(",");
+      this.emit("p2p-upgrade::error", { message: msg });
+    } else {
+      this.sanitizeState();
+      this.emit("p2p-upgrade::state", this.state);
+    }
   }
 
   setApkInfo(apkPath, version, cb) {
