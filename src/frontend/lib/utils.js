@@ -183,6 +183,8 @@ export function formatCoords({
   format?: "utm",
 }): string {
   switch (format) {
+    case "latlon":
+      return `${lat} ${lon}`;
     case "utm":
       return convertToUTM(lat, lon);
     case "dms":
