@@ -66,7 +66,7 @@
     "description": "Degrees/Minutes/Seconds coordinate system",
     "message": "Degrees/Minutes/Seconds (DMS)"
   },
-  "screens.CoordinateSystem.latlong": {
+  "screens.CoordinateSystem.latlon": {
     "description": "Latitude and Longitude coordinate system",
     "message": "Latitude and Longitude"
   },
@@ -89,6 +89,18 @@
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
     "message": "Last update"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "Coordinates Decimal Degrees"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "Coordinates DMS"
+  },
+  "screens.GpsModal.locationLatLon": {
+    "description": "Section title for latitude and longitude coordinates",
+    "message": "Coordinates Latitude and Longitude"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
@@ -322,7 +334,7 @@
   },
   "screens.Settings.coordinateSystemDesc": {
     "description": "Description of the 'Coordinate System' page",
-    "message": "UTM, Lat/Long, DMS"
+    "message": "UTM, Lat/Long, DMS, DD"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",

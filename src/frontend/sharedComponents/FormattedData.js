@@ -29,8 +29,16 @@ const m = defineMessages({
 // pattern of the other components in this file (which take a Field, Observation
 // or Preset as a prop) because it is also used in contexts other than
 // observation coords, e.g. for displaying current GPS coords.
-export const FormattedCoords = ({ lat, lon }: { lat: number, lon: number }) => {
-  return <>{formatCoords({ lon, lat })}</>;
+export const FormattedCoords = ({
+  lat,
+  lon,
+  format,
+}: {
+  lat: number,
+  lon: number,
+  format: string,
+}) => {
+  return <>{formatCoords({ lon, lat, format })}</>;
 };
 
 // Render the translated value of a translatable Field property (one of

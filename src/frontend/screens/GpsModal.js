@@ -5,6 +5,8 @@ import Text from "../sharedComponents/Text";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import LocationContext from "../context/LocationContext";
+import useCoodinateSystem from "../hooks/useCoordinateSystem";
+
 import { FormattedCoords } from "../sharedComponents/FormattedData";
 import DateDistance from "../sharedComponents/DateDistance";
 import HeaderTitle from "../sharedComponents/HeaderTitle";
@@ -26,6 +28,21 @@ const m = defineMessages({
     id: "screens.GpsModal.locationUTM",
     defaultMessage: "Coordinates UTM",
     description: "Section title for UTM coordinates",
+  },
+  locationLatLon: {
+    id: "screens.GpsModal.locationLatLon",
+    defaultMessage: "Coordinates Latitude and Longitude",
+    description: "Section title for latitude and longitude coordinates",
+  },
+  locationDMS: {
+    id: "screens.GpsModal.locationDMS",
+    defaultMessage: "Coordinates DMS",
+    description: "Section title for DMS coordinates",
+  },
+  locationDD: {
+    id: "screens.GpsModal.locationDD",
+    defaultMessage: "Coordinates Decimal Degrees",
+    description: "Section title for DD coordinates",
   },
   details: {
     id: "screens.GpsModal.details",
@@ -63,6 +80,21 @@ type Props = {
 const GpsModal = ({ navigation }: Props) => {
   const location = React.useContext(LocationContext);
   const { formatMessage: t } = useIntl();
+  const [system] = useCoodinateSystem();
+  const coordinateMessage = () => {
+    switch (system) {
+      case "latlon":
+        return <FormattedMessage {...m.locationLatLon} />;
+      case "utm":
+        return <FormattedMessage {...m.locationUTM} />;
+      case "dms":
+        return <FormattedMessage {...m.locationDMS} />;
+      case "dd":
+        return <FormattedMessage {...m.locationDD} />;
+      default:
+        return <FormattedMessage {...m.locationUTM} />;
+    }
+  };
 
   return (
     <ScrollView style={styles.container} testID="gpsScreenScrollView">
@@ -76,13 +108,12 @@ const GpsModal = ({ navigation }: Props) => {
         />
         {location.position && (
           <>
-            <Text style={styles.sectionTitle}>
-              <FormattedMessage {...m.locationUTM} />
-            </Text>
+            <Text style={styles.sectionTitle}>{coordinateMessage()}</Text>
             <Text style={styles.rowValue}>
               <FormattedCoords
                 lon={location.position.coords.longitude}
                 lat={location.position.coords.latitude}
+                format={system}
               />
             </Text>
             <Text style={styles.sectionTitle}>

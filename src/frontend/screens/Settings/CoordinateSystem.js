@@ -17,8 +17,8 @@ const m = defineMessages({
     defaultMessage: "Coordinate System",
     description: "Title coordinate system screen",
   },
-  latlong: {
-    id: "screens.CoordinateSystem.latlong",
+  latlon: {
+    id: "screens.CoordinateSystem.latlon",
     defaultMessage: "Latitude and Longitude",
     description: "Latitude and Longitude coordinate system",
   },
@@ -48,8 +48,8 @@ const CoordinateSystem = () => {
     const { latitude = 0, longitude = 0 } = location.position.coords;
     const options = [
       {
-        value: "latlong",
-        label: intl.formatMessage({ ...m.latlong }),
+        value: "latlon",
+        label: intl.formatMessage({ ...m.latlon }),
         hint: `${latitude} ${longitude}`,
       },
       {
