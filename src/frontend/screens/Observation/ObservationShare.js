@@ -15,6 +15,7 @@ import {
 import { getProp } from "../../lib/utils";
 import type { PresetWithFields } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
+import useCoodinateSystem from "../../hooks/useCoordinateSystem";
 
 const m = defineMessages({
   alertSubject: {
@@ -52,6 +53,7 @@ export const ShareSubject = ({ observation, preset }: ShareMessageProps) => {
 
 export const ShareMessage = ({ observation, preset }: ShareMessageProps) => {
   const { formatMessage: t } = useIntl();
+  const [system] = useCoodinateSystem();
   const { value } = observation;
   const { lon, lat } = value;
 
@@ -81,7 +83,7 @@ export const ShareMessage = ({ observation, preset }: ShareMessageProps) => {
         <FormattedObservationDate observation={observation} variant="long" />
         <br />
         {lon != null && lat != null ? (
-          <FormattedCoords lat={lat} lon={lon} />
+          <FormattedCoords format={system} lat={lat} lon={lon} />
         ) : null}
       </p>
       {value.tags.notes ? <p>{value.tags.notes}</p> : null}

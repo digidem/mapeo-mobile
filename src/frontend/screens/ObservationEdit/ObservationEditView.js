@@ -55,10 +55,12 @@ const m = defineMessages({
 const LocationView = ({
   longitude,
   latitude,
+  system,
   accuracy,
 }: {
   longitude?: number | null,
   latitude?: number | null,
+  system?: string,
   accuracy?: number,
 }) => (
   <View style={styles.locationContainer}>
@@ -75,7 +77,7 @@ const LocationView = ({
           style={{ marginRight: 5 }}
         />
         <Text style={styles.locationText}>
-          <FormattedCoords lat={latitude} lon={longitude} />
+          <FormattedCoords format={system} lat={latitude} lon={longitude} />
         </Text>
         {accuracy === undefined ? null : (
           <Text style={styles.accuracy}>

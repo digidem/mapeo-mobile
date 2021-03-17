@@ -3,6 +3,7 @@ import * as React from "react";
 import omit from "lodash/omit";
 
 import useDraftObservation from "../hooks/useDraftObservation";
+import useCoodinateSystem from "../hooks/useCoordinateSystem";
 import LocationContext from "../context/LocationContext";
 
 type Props = {
@@ -25,6 +26,7 @@ type Props = {
 const LocationField = ({ children }: Props) => {
   const [{ value }, { updateDraft }] = useDraftObservation();
   const location = React.useContext(LocationContext);
+  const [system] = useCoodinateSystem();
 
   React.useEffect(() => {
     if (!location.position || !value) return;
@@ -55,6 +57,7 @@ const LocationField = ({ children }: Props) => {
   return children({
     longitude: value.lon,
     latitude: value.lat,
+    system,
     accuracy:
       value.metadata &&
       value.metadata.location &&
