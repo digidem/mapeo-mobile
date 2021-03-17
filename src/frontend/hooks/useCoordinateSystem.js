@@ -8,10 +8,12 @@ export default () => {
   const [value, setLocalValue] = React.useState(defaultValue);
   const [isLoading, setIsLoading] = React.useState(true);
   const setValue = async value => {
-    setIsLoading(true);
-    await AsyncStorage.setItem(STORE_KEY, value);
-    setLocalValue(value);
-    setIsLoading(false);
+    if (value) {
+      setIsLoading(true);
+      await AsyncStorage.setItem(STORE_KEY, value);
+      setLocalValue(value);
+      setIsLoading(false);
+    }
   };
   React.useEffect(() => {
     const getValue = async () => {
