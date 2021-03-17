@@ -5,11 +5,11 @@
   },
   "AppContainer.EditHeader.discardChangesContent": {
     "description": "Button on dialog to cancel observation edits",
-    "message": "លះបង់​ការកែ"
+    "message": "លះបង់​ការកែប្រែ"
   },
   "AppContainer.EditHeader.discardChangesTitle": {
     "description": "Title of dialog that shows when cancelling observation edits",
-    "message": "តើ​អ្នក​ចង់​រក្សា​ទុក​មុន​ពេល​ចេញ?"
+    "message": "តើ​អ្នក​ចង់​រក្សា​ទុក​មុន​ពេល​ចាកចេញទេ?"
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to cancel a new observation",
@@ -299,6 +299,10 @@
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "ការកំណត់រចនាសម្ព័ន្ធថ្មីៗនេះ"
+  },
+  "screens.Settings.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "នាំចូលការកំណត់រចនាសម្ព័ន្ធ"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
