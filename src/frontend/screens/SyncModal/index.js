@@ -85,9 +85,8 @@ const SyncModal = ({ navigation }: Props) => {
 
     function onState(state) {
       log("GOT BACKEND STATE", JSON.stringify(state));
-      const rState = getReactStateFromUpgradeState(state, peers);
-      const rCtx = getReactContextFromUpgradeState(state, peers);
-      setUpgradeInfo({ state: rState, context: rCtx });
+      const rState = getFrontendStateFromUpgradeState(state, peers);
+      setUpgradeInfo(rState);
       lastState = state;
     }
 
@@ -107,10 +106,9 @@ const SyncModal = ({ navigation }: Props) => {
       rnBridge.channel.addListener("p2p-upgrade::error", onError);
       rnBridge.channel.addListener("p2p-upgrade::state", onState);
       iv = setInterval(() => {
-        const rState = getReactStateFromUpgradeState(lastState, peers);
-        const rCtx = getReactContextFromUpgradeState(lastState, peers);
-        setUpgradeInfo({ state: rState, context: rCtx });
-      }, 3000);
+        const rState = getFrontendStateFromUpgradeState(lastState, peers);
+        setUpgradeInfo(rState);
+      }, 500);
 
       rnBridge.channel.post("p2p-upgrade::get-state");
       rnBridge.channel.post("p2p-upgrade::start-services");
@@ -232,77 +230,39 @@ SyncModal.navigationOptions = {
   ),
 };
 
-// Object -> UpgradeState
-function getReactStateFromUpgradeState(state, peers) {
-  // Error present in ANY subsystem.
-  if (
-    state.server.state === BackendUpgradeState.Server.Error ||
-    state.downloader.search.state === BackendUpgradeState.Search.Error ||
-    state.downloader.download.state === BackendUpgradeState.Download.Error ||
-    state.downloader.check.state === BackendUpgradeState.Check.Error
-  ) {
-    return UpgradeState.GenericError;
-  }
-
-  // Upgrade available + waiting for syncs to finish.
-  if (
-    state.downloader.check.state === BackendUpgradeState.Check.Available &&
-    peers.some(p => p.status === peerStatus.PROGRESS)
-  ) {
-    return UpgradeState.WaitingForSync;
-  }
-
-  // Upgrade available + not waiting for syncs to finish.
-  if (state.downloader.check.state === BackendUpgradeState.Check.Available) {
-    return UpgradeState.ReadyToUpgrade;
-  }
-
-  // Upgrade is downloading.
-  if (
-    state.downloader.download.state === BackendUpgradeState.Download.Downloading
-  ) {
-    return UpgradeState.Downloading;
-  }
-
-  // Subsystem has been searching for upgrades for < 14 seconds.
-  if (
-    state.downloader.search.state === BackendUpgradeState.Search.Searching &&
-    Date.now() - state.downloader.search.context.startTime < 14 * 1000
-  ) {
-    return UpgradeState.Searching;
-  }
-
-  // Subsystem is still uploading an upgrade to other peers.
-  if (
-    (state.server.state === BackendUpgradeState.Server.Sharing ||
-      state.server.state === BackendUpgradeState.Server.Draining) &&
-    state.server.context.length > 0
-  ) {
-    return UpgradeState.Draining;
-  }
-
-  // Subsystem has been searching for upgrades for > 14 seconds.
-  if (state.downloader.search.state === BackendUpgradeState.Search.Searching) {
-    return UpgradeState.NoUpdatesFound;
-  }
-
-  return UpgradeState.Unknown;
-}
-
-// Object -> any
-function getReactContextFromUpgradeState(state, peers) {
+function getFrontendStateFromUpgradeState(state, peers) {
   // Error present in ANY subsystem.
   if (state.server.state === BackendUpgradeState.Server.Error) {
-    return state.server.context.message;
+    return {
+      state: UpgradeState.GenericError,
+      context: state.server.context.message,
+    };
   }
   if (state.downloader.search.state === BackendUpgradeState.Search.Error) {
-    return state.downloader.search.context.message;
+    return {
+      state: UpgradeState.GenericError,
+      context: state.downloader.search.context.message,
+    };
   }
   if (state.downloader.download.state === BackendUpgradeState.Download.Error) {
-    return state.downloader.download.context.message;
+    return {
+      state: UpgradeState.GenericError,
+      context: state.downloader.download.context.message,
+    };
   }
   if (state.downloader.check.state === BackendUpgradeState.Check.Error) {
-    return state.downloader.check.context.message;
+    return {
+      state: UpgradeState.GenericError,
+      context: state.downloader.check.context.message,
+    };
+  }
+
+  // Edge case I've (kira) seen once that shouldn't happen.
+  if (state.downloader.search.state === BackendUpgradeState.Search.Idle) {
+    return {
+      state: UpgradeState.GenericError,
+      context: "Search did not initialize correctly.",
+    };
   }
 
   // Upgrade available + waiting for syncs to finish.
@@ -310,12 +270,15 @@ function getReactContextFromUpgradeState(state, peers) {
     state.downloader.check.state === BackendUpgradeState.Check.Available &&
     peers.some(p => p.status === peerStatus.PROGRESS)
   ) {
-    return null;
+    return { state: UpgradeState.WaitingForSync, context: null };
   }
 
   // Upgrade available + not waiting for syncs to finish.
   if (state.downloader.check.state === BackendUpgradeState.Check.Available) {
-    return state.downloader.check.context;
+    return {
+      state: UpgradeState.ReadyToUpgrade,
+      context: state.downloader.check.context,
+    };
   }
 
   // Upgrade is downloading.
@@ -323,8 +286,10 @@ function getReactContextFromUpgradeState(state, peers) {
     state.downloader.download.state === BackendUpgradeState.Download.Downloading
   ) {
     const progress = state.downloader.download.context;
-    log("$$$ 1", state.downloader.download);
-    return { progress: progress.sofar / progress.total };
+    return {
+      state: UpgradeState.Downloading,
+      context: { progress: progress.sofar / progress.total },
+    };
   }
 
   // Subsystem has been searching for upgrades for < 14 seconds.
@@ -332,7 +297,7 @@ function getReactContextFromUpgradeState(state, peers) {
     state.downloader.search.state === BackendUpgradeState.Search.Searching &&
     Date.now() - state.downloader.search.context.startTime < 14 * 1000
   ) {
-    return null;
+    return { state: UpgradeState.Searching, context: null };
   }
 
   // Subsystem is still uploading an upgrade to other peers.
@@ -341,15 +306,15 @@ function getReactContextFromUpgradeState(state, peers) {
       state.server.state === BackendUpgradeState.Server.Draining) &&
     state.server.context.length > 0
   ) {
-    return null;
+    return { state: UpgradeState.Draining, context: null };
   }
 
   // Subsystem has been searching for upgrades for > 14 seconds.
   if (state.downloader.search.state === BackendUpgradeState.Search.Searching) {
-    return null;
+    return { state: UpgradeState.NoUpdatesFound, context: null };
   }
 
-  return null;
+  return { state: UpgradeState.Unknown, context: null };
 }
 
 export default SyncModal;
