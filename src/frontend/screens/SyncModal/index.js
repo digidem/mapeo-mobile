@@ -73,21 +73,35 @@ const SyncModal = ({ navigation }: Props) => {
   const [peers, syncPeer, syncGetPeers] = usePeers(listen, deviceName);
   const [ssid, setSsid] = React.useState<null | string>(null);
   const [upgradeInfo, setUpgradeInfo] = React.useState({});
+  const [backendState, setBackendState] = React.useState({});
 
-  // P2P Upgrades effect. (Interfaces with Node process for state & control.)
+  // HACK(kira): I wanted the backend state tracking effect to be able to also
+  // trigger a re-render on an interval, which is what this state is for. I'm
+  // sure there's a nicer way to accomplish this.
+  const [fakeTrigger, setFakeTrigger] = React.useState(0);
+
+  // P2P Upgrades effects
+  //----------------------------------------------------------------------
+  // Backend State + Peers => Frontend render effect
+  React.useEffect(() => {
+    if (!backendState.server) return;
+    const rState = getFrontendStateFromUpgradeState(backendState, peers);
+    setUpgradeInfo(rState);
+  }, [peers, backendState, fakeTrigger]);
+
+  // Backend state tracking effect. Interfaces with Node process for state &
+  // control.
   React.useEffect(() => {
     log("startup", upgradeInfo);
     rnBridge.channel.addListener("p2p-upgrades-backend-ready", onReady);
     rnBridge.channel.post("p2p-upgrades-frontend-ready");
     setUpgradeInfo({ state: UpgradeState.Searching });
 
-    let lastState, iv;
+    let iv;
 
     function onState(state) {
       log("GOT BACKEND STATE", JSON.stringify(state));
-      const rState = getFrontendStateFromUpgradeState(state, peers);
-      setUpgradeInfo(rState);
-      lastState = state;
+      setBackendState(state);
     }
 
     function onError(err) {
@@ -106,9 +120,8 @@ const SyncModal = ({ navigation }: Props) => {
       rnBridge.channel.addListener("p2p-upgrade::error", onError);
       rnBridge.channel.addListener("p2p-upgrade::state", onState);
       iv = setInterval(() => {
-        const rState = getFrontendStateFromUpgradeState(lastState, peers);
-        setUpgradeInfo(rState);
-      }, 500);
+        setFakeTrigger(Math.random());
+      }, 3000);
 
       rnBridge.channel.post("p2p-upgrade::get-state");
       rnBridge.channel.post("p2p-upgrade::start-services");
@@ -122,6 +135,7 @@ const SyncModal = ({ navigation }: Props) => {
       rnBridge.channel.post("p2p-upgrade::stop-services");
     };
   }, []);
+  //----------------------------------------------------------------------
 
   React.useEffect(() => {
     const subscriptions = [];
