@@ -136,6 +136,31 @@ test("write + ensure a newer upgrade isn't wiped", t => {
   ws.end("testdata");
 });
 
+test("a partial download does not appear as an upgrade option", t => {
+  t.plan(4);
+
+  const dir = tmp.dirSync().name;
+  const storage = new Storage(dir, {
+    version: "4.0.0",
+    arch: "arm64-v8a",
+    platform: "android",
+  });
+
+  const ws = storage.createApkWriteStream("foo.apk", "3.0.0", err => {
+    t.ok(err instanceof Error);
+    t.notOk(fs.existsSync(path.join(dir, "foo.apk")));
+    storage.getAvailableUpgrades((err, options) => {
+      t.error(err);
+      t.equals(options.length, 0);
+    });
+  });
+
+  ws.write(Buffer.alloc(10_000_000));
+  setTimeout(() => {
+    ws.emit("error", new Error("write error?"));
+  }, 100);
+});
+
 // Wipes the 'filename' property.
 function scrub(options) {
   options.forEach(o => delete o.filename);
