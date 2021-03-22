@@ -159,7 +159,7 @@ test("integration: can find + download + check an upgrade", t => {
         function onState(state) {
           if (state.downloader.check.state === 2) {
             t.equals(
-              state.downloader.check.context.filename,
+              path.basename(state.downloader.check.context.filename),
               expectedHash,
               "hash ok"
             );
@@ -170,7 +170,7 @@ test("integration: can find + download + check an upgrade", t => {
               t.equals(options.length, 1);
 
               const rs = manager2.storage.createReadStream(
-                state.downloader.check.context.filename
+                path.basename(state.downloader.check.context.filename)
               );
               collect(rs, (err, buf) => {
                 t.error(err);

@@ -15,7 +15,7 @@ test("set an apk + read it", t => {
     hashType: "sha256",
     platform: "android",
     arch: ["arm64-v8a"],
-    id: "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041"
+    id: "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041",
   };
 
   const dir = tmp.dirSync().name;
@@ -27,6 +27,7 @@ test("set an apk + read it", t => {
     storage.getAvailableUpgrades((err, options) => {
       t.error(err);
       t.equals(options.length, 1);
+      scrub(options);
       t.deepEquals(options[0], expected);
 
       collect(storage.createReadStream(options[0].hash), (err, data) => {
@@ -47,20 +48,21 @@ test("write + clear an older upgrade", t => {
     hashType: "sha256",
     platform: "android",
     arch: ["arm64-v8a"],
-    id: "810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50"
+    id: "810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50",
   };
 
   const dir = tmp.dirSync().name;
   const storage = new Storage(dir, {
     version: "4.0.0",
     arch: "arm64-v8a",
-    platform: "android"
+    platform: "android",
   });
 
   const ws = storage.createApkWriteStream("foo.apk", "3.0.0", err => {
     t.error(err);
     storage.getAvailableUpgrades((err, options) => {
       t.error(err);
+      scrub(options);
       t.equals(options.length, 1);
       t.deepEquals(options[0], expected);
 
@@ -95,20 +97,21 @@ test("write + ensure a newer upgrade isn't wiped", t => {
     hashType: "sha256",
     platform: "android",
     arch: ["arm64-v8a"],
-    id: "810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50"
+    id: "810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50",
   };
 
   const dir = tmp.dirSync().name;
   const storage = new Storage(dir, {
     version: "1.0.0",
     arch: "arm64-v8a",
-    platform: "android"
+    platform: "android",
   });
 
   const ws = storage.createApkWriteStream("foo.apk", "3.0.0", err => {
     t.error(err);
     storage.getAvailableUpgrades((err, options) => {
       t.error(err);
+      scrub(options);
       t.equals(options.length, 1);
       t.deepEquals(options[0], expected);
 
@@ -132,3 +135,8 @@ test("write + ensure a newer upgrade isn't wiped", t => {
   });
   ws.end("testdata");
 });
+
+// Wipes the 'filename' property.
+function scrub(options) {
+  options.forEach(o => delete o.filename);
+}

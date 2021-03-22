@@ -172,13 +172,14 @@ test("can find + download + check an upgrade", t => {
       function awaitChecked() {
         download.once("state", state => {
           t.equals(state.check.state, 2);
-          t.equals(state.check.context.filename, expectedHash);
+          t.equals(path.basename(state.check.context.filename), expectedHash);
 
           storage2.getAvailableUpgrades((err, options) => {
             t.error(err, "got local upgrade options ok");
+            scrub(options);
             t.equals(options.length, 1);
 
-            const rs = storage2.createReadStream(state.check.context.filename);
+            const rs = storage2.createReadStream(options[0].hash);
             collect(rs, (err, buf) => {
               t.error(err);
               t.ok(buf.equals(expectedData), "data matches");
@@ -191,3 +192,92 @@ test("can find + download + check an upgrade", t => {
     });
   });
 });
+
+test("REGRESSION: a local upgrade equal to app version is not shown", t => {
+  t.plan(11);
+
+  const expectedHash =
+    "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041";
+  const expectedData = fs.readFileSync(
+    path.join(__dirname, "static", "fake.apk")
+  );
+
+  // Client
+  const dir2 = tmp.dirSync().name;
+  const storage2 = new UpgradeStorage(dir2);
+  const download = new UpgradeDownload(storage2);
+
+  // Server
+  startServer((err, port, server, storage, cleanup) => {
+    t.error(err, "server started ok");
+
+    server.share();
+
+    const apkPath = path.join(__dirname, "static", "fake.apk");
+    storage.setApkInfo(apkPath, "1.0.0", err => {
+      t.error(err, "apk info set ok");
+
+      awaitFoundUpgrade(() => {
+        awaitDownloaded(() => {
+          awaitChecked();
+        });
+      });
+
+      function awaitFoundUpgrade(cb) {
+        download.start();
+        download.once("state", state => {
+          t.equals(state.search.context.upgrades.length, 1, "upgrade found ok");
+          const option = state.search.context.upgrades[0];
+          download.download(option);
+          cb();
+        });
+      }
+
+      function awaitDownloaded(cb) {
+        let done = false;
+        let lastProgress = null;
+        download.on("state", onState);
+
+        function onState(state) {
+          if (done) return;
+          if (state.download.state === 2) {
+            lastProgress = state.download.context;
+          }
+          if (state.download.state === 3) {
+            t.equals(lastProgress.sofar, 10);
+            t.equals(lastProgress.total, 10);
+            done = true;
+            download.removeListener("state", onState);
+            cb();
+          }
+        }
+      }
+
+      function awaitChecked() {
+        download.once("state", state => {
+          t.equals(state.check.state, 2);
+          t.equals(path.basename(state.check.context.filename), expectedHash);
+
+          storage2.getAvailableUpgrades((err, options) => {
+            t.error(err, "got local upgrade options ok");
+            scrub(options);
+            t.equals(options.length, 1);
+
+            const rs = storage2.createReadStream(options[0].hash);
+            collect(rs, (err, buf) => {
+              t.error(err);
+              t.ok(buf.equals(expectedData), "data matches");
+              download.stop();
+              cleanup();
+            });
+          });
+        });
+      }
+    });
+  });
+});
+
+// Wipes the 'filename' property.
+function scrub(options) {
+  options.forEach(o => delete o.filename);
+}

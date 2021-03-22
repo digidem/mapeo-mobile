@@ -193,20 +193,24 @@ test("make an http request while draining", t => {
           port,
           path: `/content/${expectedHash}`,
         };
-        http.get(opts, res => {
-          collect(res, (err, buf) => {
-            t.error(err);
-            t.equals(res.statusCode, 503);
-            t.equals(buf.toString(), '"service unavailable"');
+        http
+          .get(opts, res => {
+            collect(res, (err, buf) => {
+              t.error(err);
+              t.equals(res.statusCode, 503);
+              t.equals(buf.toString(), '"service unavailable"');
 
-            socket.once("close", () => {
-              rimraf.sync(apkPath);
-              cleanup();
+              socket.once("close", () => {
+                rimraf.sync(apkPath);
+                cleanup();
+              });
+              socket.unclog();
+              socket.end();
             });
-            socket.unclog();
-            socket.end();
+          })
+          .once("error", err => {
+            t.error(err, "should not happen");
           });
-        });
       }, 100);
     });
   });
@@ -214,7 +218,7 @@ test("make an http request while draining", t => {
 
 function makeDanglingHttpGet(port, route) {
   const socket = net.connect({ host: "0.0.0.0", port });
-  socket.write(`GET ${route} HTTP 1.1\n\n`);
+  socket.write(`GET ${route} HTTP/1.1\n\n`);
 
   let clogged = true;
   let nextFn;
