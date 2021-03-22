@@ -58,32 +58,37 @@ test("write + clear an older upgrade", t => {
     platform: "android",
   });
 
-  const ws = storage.createApkWriteStream("foo.apk", "3.0.0", err => {
-    t.error(err);
-    storage.getAvailableUpgrades((err, options) => {
+  const ws = storage.createApkWriteStream(
+    "foo.apk",
+    "3.0.0",
+    expected.hash,
+    err => {
       t.error(err);
-      scrub(options);
-      t.equals(options.length, 1);
-      t.deepEquals(options[0], expected);
-
-      collect(storage.createReadStream(options[0].hash), (err, data) => {
+      storage.getAvailableUpgrades((err, options) => {
         t.error(err);
-        t.equals("testdata", data.toString());
+        scrub(options);
+        t.equals(options.length, 1);
+        t.deepEquals(options[0], expected);
 
-        storage.clearOldApks(err => {
+        collect(storage.createReadStream(options[0].hash), (err, data) => {
           t.error(err);
-          fs.stat(path.join(dir, "foo.apk"), (err, stat) => {
-            t.ok(!!err);
-            t.equals(err.code, "ENOENT");
-            storage.getAvailableUpgrades((err, options) => {
-              t.error(err);
-              t.equals(options.length, 0);
+          t.equals("testdata", data.toString());
+
+          storage.clearOldApks(err => {
+            t.error(err);
+            fs.stat(path.join(dir, "foo.apk"), (err, stat) => {
+              t.ok(!!err);
+              t.equals(err.code, "ENOENT");
+              storage.getAvailableUpgrades((err, options) => {
+                t.error(err);
+                t.equals(options.length, 0);
+              });
             });
           });
         });
       });
-    });
-  });
+    }
+  );
   ws.end("testdata");
 });
 
@@ -107,36 +112,41 @@ test("write + ensure a newer upgrade isn't wiped", t => {
     platform: "android",
   });
 
-  const ws = storage.createApkWriteStream("foo.apk", "3.0.0", err => {
-    t.error(err);
-    storage.getAvailableUpgrades((err, options) => {
+  const ws = storage.createApkWriteStream(
+    "foo.apk",
+    "3.0.0",
+    expected.hash,
+    err => {
       t.error(err);
-      scrub(options);
-      t.equals(options.length, 1);
-      t.deepEquals(options[0], expected);
-
-      collect(storage.createReadStream(options[0].hash), (err, data) => {
+      storage.getAvailableUpgrades((err, options) => {
         t.error(err);
-        t.equals("testdata", data.toString());
+        scrub(options);
+        t.equals(options.length, 1);
+        t.deepEquals(options[0], expected);
 
-        storage.clearOldApks(err => {
+        collect(storage.createReadStream(options[0].hash), (err, data) => {
           t.error(err);
-          fs.stat(path.join(dir, "foo.apk"), (err, stat) => {
+          t.equals("testdata", data.toString());
+
+          storage.clearOldApks(err => {
             t.error(err);
-            t.ok(!!stat);
-            storage.getAvailableUpgrades((err, options) => {
+            fs.stat(path.join(dir, "foo.apk"), (err, stat) => {
               t.error(err);
-              t.equals(options.length, 1);
+              t.ok(!!stat);
+              storage.getAvailableUpgrades((err, options) => {
+                t.error(err);
+                t.equals(options.length, 1);
+              });
             });
           });
         });
       });
-    });
-  });
+    }
+  );
   ws.end("testdata");
 });
 
-test("a partial download does not appear as an upgrade option", t => {
+test("a failed write does not appear as an upgrade option", t => {
   t.plan(4);
 
   const dir = tmp.dirSync().name;
@@ -146,7 +156,7 @@ test("a partial download does not appear as an upgrade option", t => {
     platform: "android",
   });
 
-  const ws = storage.createApkWriteStream("foo.apk", "3.0.0", err => {
+  const ws = storage.createApkWriteStream("foo.apk", "3.0.0", "???", err => {
     t.ok(err instanceof Error);
     t.notOk(fs.existsSync(path.join(dir, "foo.apk")));
     storage.getAvailableUpgrades((err, options) => {
@@ -159,6 +169,33 @@ test("a partial download does not appear as an upgrade option", t => {
   setTimeout(() => {
     ws.emit("error", new Error("write error?"));
   }, 100);
+});
+
+test("a successful write with the wrong hash does not appear as an upgrade option", t => {
+  t.plan(4);
+
+  const dir = tmp.dirSync().name;
+  const storage = new Storage(dir, {
+    version: "4.0.0",
+    arch: "arm64-v8a",
+    platform: "android",
+  });
+
+  const ws = storage.createApkWriteStream(
+    "foo.apk",
+    "3.0.0",
+    "fakehash",
+    err => {
+      t.ok(err instanceof Error);
+      t.notOk(fs.existsSync(path.join(dir, "foo.apk")));
+      storage.getAvailableUpgrades((err, options) => {
+        t.error(err);
+        t.equals(options.length, 0);
+      });
+    }
+  );
+
+  ws.end("testdata");
 });
 
 // Wipes the 'filename' property.

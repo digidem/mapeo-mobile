@@ -217,6 +217,7 @@ class Download extends EventEmitter {
         const ws = this.storage.createApkWriteStream(
           filename,
           option.version,
+          option.hash,
           err => {
             if (err) this.setState(UpgradeState.Download.Error, err);
             else this.setState(UpgradeState.Download.Downloaded, null);

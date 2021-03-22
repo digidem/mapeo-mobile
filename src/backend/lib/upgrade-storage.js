@@ -84,19 +84,43 @@ class Storage {
   }
 
   // String, String, Callback<Void> -> WritableStream
-  createApkWriteStream(filename, version, cb) {
+  createApkWriteStream(filename, version, hash, cb) {
     cb = cb || function () {};
+    if (typeof hash === "string") hash = Buffer.from(hash, "hex");
     const filepath = path.join(this.dir, filename);
     log("writing apk to", filepath);
 
     const ws = fs.createWriteStream(filepath);
-    ws.once("error", cb);
+    ws.once("error", err => {
+      rimraf(filepath, err2 => {
+        if (err2) cb(err2);
+        else cb(err);
+      });
+    });
     ws.once("finish", () => {
-      this.apkToUpgradeOption(filepath, version, (err, option) => {
+      // Check hash.
+      hashFile(filepath, (err, ourHash) => {
         if (err) return cb(err);
-        this.localUpgrades.add(option, err => {
-          if (err) cb(err);
-          else cb(null, option);
+        if (!hash.equals(ourHash)) {
+          rimraf(filepath, err2 => {
+            if (err2) return cb(err2);
+            cb(
+              new Error(
+                `hashes did not match (theirs=${hash.toString(
+                  "hex"
+                )} ours=${ourHash.toString("hex")})`
+              )
+            );
+          });
+          return;
+        }
+
+        this.apkToUpgradeOption(filepath, version, (err, option) => {
+          if (err) return cb(err);
+          this.localUpgrades.add(option, err => {
+            if (err) cb(err);
+            else cb(null, option);
+          });
         });
       });
     });
