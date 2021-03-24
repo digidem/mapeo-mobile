@@ -32,18 +32,13 @@ const m = defineMessages({
     defaultMessage: "Universal Transverse Mercator (UTM)",
     description: "Universal Transverse Mercator coordinate system",
   },
-  dd: {
-    id: "screens.CoordinateSystem.dd",
-    defaultMessage: "Decimal Degrees (DD)",
-    description: "Decimal Degrees coordinate system",
-  },
 });
 
 const CoordinateSystem = () => {
   const intl = useIntl();
   const location = React.useContext(LocationContext);
   const [system, setSystem] = useCoodinateSystem();
-  if (!location) return <Loading />;
+  if (!location || !location.position) return <Loading />;
   else {
     const { latitude = 0, longitude = 0 } = location.position.coords;
     const options = [
@@ -69,7 +64,7 @@ const CoordinateSystem = () => {
           lat: latitude,
           format: "utm",
         }),
-      }
+      },
     ];
 
     return (

@@ -19,13 +19,10 @@ export default () => {
     const getValue = async () => {
       try {
         setIsLoading(true);
-
         const value = await AsyncStorage.getItem(STORE_KEY);
-
         if (value === null) {
           return setValue(defaultValue);
         }
-
         if (value !== null) {
           setLocalValue(value);
         }
