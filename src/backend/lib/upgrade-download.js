@@ -222,11 +222,11 @@ class Download extends EventEmitter {
             else this.setState(UpgradeState.Download.Downloaded, null);
           }
         );
-        pump(res, progress, ws, err => {
+        pump(res, progress, ws, _ => {
           this.setState(UpgradeState.Download.Idle, null);
         });
       })
-      .once("error", err => {
+      .once("error", _ => {
         this.setState(UpgradeState.Download.Idle, null);
       });
   }

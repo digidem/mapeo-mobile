@@ -1,9 +1,7 @@
 const UpgradeStorage = require("./upgrade-storage");
 const UpgradeServer = require("./upgrade-server");
 const UpgradeDownload = require("./upgrade-download");
-const clone = require("clone");
 const semver = require("semver");
-const debug = require("debug");
 const log = require("debug")("p2p-upgrades:manager");
 const validate = require("./validate-upgrade-state");
 

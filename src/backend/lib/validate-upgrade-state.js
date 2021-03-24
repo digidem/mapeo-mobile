@@ -12,7 +12,7 @@ module.exports = (function () {
   let checkState;
 
   function validateState(s) {
-    let isValid = roughSchema(s);
+    const isValid = roughSchema(s);
     if (isValid) return isValid;
 
     serverState = s.server.state;
