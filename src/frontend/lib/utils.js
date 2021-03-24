@@ -123,21 +123,24 @@ export function getLastPhotoAttachment(
 
 // Coordinates conversions
 function toDegreesMinutesAndSeconds(coordinate) {
-  var absolute = Math.abs(coordinate);
-  var degrees = Math.floor(absolute);
-  var minutesNotTruncated = (absolute - degrees) * 60;
-  var minutes = Math.floor(minutesNotTruncated);
-  var seconds = Math.floor((minutesNotTruncated - minutes) * 60);
-
-  return `${degrees}° ${minutes}' ${seconds}"`;
+  const absolute = Math.abs(coordinate);
+  const degrees = Math.floor(absolute);
+  const minutesNotTruncated = (absolute - degrees) * 60;
+  const minutes = Math.floor(minutesNotTruncated);
+  const seconds = (minutesNotTruncated - minutes) * 60;
+  const decimals = 3;
+  const formattedSeconds = Number(
+    Math.round(seconds + "e" + decimals) + "e-" + decimals
+  );
+  return `${degrees}° ${minutes}' ${formattedSeconds}"`;
 }
 
 function convertToDMS(lat, lon) {
-  var latitude = toDegreesMinutesAndSeconds(lat);
-  var latitudeCardinal = lat >= 0 ? "N" : "S";
+  const latitude = toDegreesMinutesAndSeconds(lat);
+  const latitudeCardinal = lat >= 0 ? "N" : "S";
 
-  var longitude = toDegreesMinutesAndSeconds(lon);
-  var longitudeCardinal = lon >= 0 ? "E" : "W";
+  const longitude = toDegreesMinutesAndSeconds(lon);
+  const longitudeCardinal = lon >= 0 ? "E" : "W";
   return `${latitude} ${latitudeCardinal} ${longitude} ${longitudeCardinal}`;
 }
 
