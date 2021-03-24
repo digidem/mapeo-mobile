@@ -21,12 +21,12 @@ class UpgradeManager {
 
     // Event interface
     this.addListener("p2p-upgrade::get-state", () => {
-      log("got get-state");
+      log("got request for state");
       this.emitState();
     });
 
     this.addListener("p2p-upgrade::start-services", () => {
-      log("got start-services");
+      log("got request to start services");
       this.server.share();
       this.downloader.start();
 
@@ -42,7 +42,7 @@ class UpgradeManager {
     });
 
     this.addListener("p2p-upgrade::stop-services", () => {
-      log("got stop-services");
+      log("got request to stop services");
       this.server.drain();
       this.downloader.stop();
 
@@ -116,15 +116,18 @@ class UpgradeManager {
   }
 
   setApkInfo(apkPath, version, cb) {
+    log("setApkInfo", apkPath, version);
     this.storage.setApkInfo(apkPath, version, cb);
   }
 
   onCheckForUpgrades() {
+    log("checking for upgrade options..");
     if (this.upgradeSearchTimeout) {
       // Pick the newest upgrade, if available
       this.upgradeOptions.sort(semver.compare);
 
       if (!this.upgradeOptions.length) {
+        log("..none found");
         this.upgradeSearchTimeout = setTimeout(
           this.onCheckForUpgrades.bind(this),
           7000
@@ -134,6 +137,7 @@ class UpgradeManager {
 
       // Download
       const target = this.upgradeOptions[this.upgradeOptions.length - 1];
+      log("..found an upgrade & starting download:", target);
       this.downloader.download(target);
       this.upgradeSearchTimeout = null;
     }

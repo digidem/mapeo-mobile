@@ -37,8 +37,11 @@ class Storage {
     this.tmpdir = path.join(storageDir, "tmp");
 
     // Wipe the contents of 'tmpdir' on init + re-create.
+    log("wiping temporary files..");
     rimraf.sync(this.tmpdir);
+    log("..done. recreating temp directory..");
     mkdirp.sync(this.tmpdir);
+    log("..done");
 
     opts = opts || {};
     this.targetPlatform = opts.platform || "android";
@@ -62,6 +65,7 @@ class Storage {
   // TODO: factor out the 'version' parameter and use 'this.version' instead,
   // since we already have it.
   setApkInfo(apkPath, version, cb) {
+    log("setApkInfo", apkPath, version);
     this.apkToUpgradeOption(apkPath, version, (err, info) => {
       if (err) return cb(err);
       this.currentApk = info;
@@ -71,6 +75,7 @@ class Storage {
 
   // Callback<[UpgradeOption]> -> Void
   getAvailableUpgrades(cb) {
+    log("getAvailableUpgrades");
     const results = [];
     if (this.currentApk) {
       const currentApk = Object.assign({}, this.currentApk);
@@ -82,6 +87,7 @@ class Storage {
         const opt = Object.assign({}, option);
         results.push(opt);
       });
+      log("getAvailableUpgrades results:", results);
       cb(null, results);
     });
   }
@@ -92,10 +98,12 @@ class Storage {
     if (typeof hash === "string") hash = Buffer.from(hash, "hex");
     const tmpFilepath = path.join(this.tmpdir, filename);
     const finalFilepath = path.join(this.tmpdir, filename);
-    log("writing apk to", tmpFilepath);
+    const reqId = Math.floor(Math.random() * 1000000).toString(16);
+    log(reqId, "createApkWriteStream", tmpFilepath, version, hash);
 
     const ws = fs.createWriteStream(tmpFilepath);
     ws.once("error", err => {
+      log(reqId, "createApkWriteStream: pipeline failed:", err);
       rimraf(tmpFilepath, err2 => {
         if (err2) cb(err2);
         else cb(err);
@@ -104,10 +112,20 @@ class Storage {
     ws.once("finish", () => {
       // Check hash.
       hashFile(tmpFilepath, (err, ourHash) => {
-        if (err) return cb(err);
+        if (err) {
+          log(reqId, "createApkWriteStream: hash compute failure:", err);
+          return cb(err);
+        }
+        log(reqId, "createApkWriteStream: new file hashed ok");
 
         // Delete the file if the hash does not match.
         if (!hash.equals(ourHash)) {
+          log(
+            reqId,
+            `createApkWriteStream: hashes don't match (theirs=${hash.toString(
+              "hex"
+            )}, ours=${ourHash.toString("hex")})`
+          );
           rimraf(tmpFilepath, err2 => {
             if (err2) return cb(err2);
             cb(
@@ -120,17 +138,30 @@ class Storage {
           });
           return;
         }
+        log(reqId, "createApkWriteStream: hashes match");
 
         // Move the file to the main upgrade directory.
         fs.rename(tmpFilepath, finalFilepath, err => {
-          if (err) return cb(err);
+          if (err) {
+            log(reqId, "failed to move file from tmpdir to upgrades dir:", err);
+            return cb(err);
+          }
+          log(
+            reqId,
+            "createApkWriteStream: moved file from tmpdir to upgrades dir ok"
+          );
 
           // Write the downloaded upgrade to the manifest.
           this.apkToUpgradeOption(finalFilepath, version, (err, option) => {
             if (err) return cb(err);
             this.localUpgrades.add(option, err => {
-              if (err) cb(err);
-              else cb(null, option);
+              if (err) {
+                log(reqId, "failed to write new upgrade to manifest");
+                cb(err);
+              } else {
+                log(reqId, "wrote new upgrade to manifest ok");
+                cb(null, option);
+              }
             });
           });
         });
@@ -141,7 +172,10 @@ class Storage {
 
   // String -> ReadableStream
   createReadStream(hash) {
+    const reqId = Math.floor(Math.random() * 1000000).toString(16);
+    log(reqId, "createReadStream");
     if (this.currentApk && hash === this.currentApk.hash) {
+      log(reqId, "createReadStream: serving our local APK");
       return fs.createReadStream(this.currentApk.filename);
     }
     const t = through();
@@ -149,9 +183,11 @@ class Storage {
       if (err) return t.emit("error", err);
       const option = options.filter(o => o.hash === hash)[0];
       if (option) {
+        log(reqId, "createReadStream: serving downloaded upgrade", hash);
         const rs = fs.createReadStream(option.filename);
         pump(rs, t);
       } else {
+        log(reqId, "createReadStream: asked for hash we don't have:", hash);
         t.emit("error", new Error(`no such upgrade option with hash ${hash}`));
       }
     });

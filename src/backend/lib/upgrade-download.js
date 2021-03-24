@@ -6,7 +6,9 @@ const dns = require("dns-discovery");
 const RWLock = require("rwlock");
 const pump = require("pump");
 const through = require("through2");
-const log = require("debug")("p2p-upgrades:download");
+const searchLog = require("debug")("p2p-upgrades:search");
+const downloadLog = require("debug")("p2p-upgrades:download");
+const checkLog = require("debug")("p2p-upgrades:check");
 const clone = require("clone");
 
 const { DISCOVERY_KEY, UpgradeState } = require("./constants");
@@ -97,6 +99,7 @@ class Search extends EventEmitter {
       this.discovery.lookup(DISCOVERY_KEY);
       this.discovery.on("peer", this.onPeer.bind(this));
 
+      searchLog("beginning search");
       this.setState(UpgradeState.Search.Searching, {
         startTime: Date.now(),
         upgrades: [],
@@ -109,11 +112,12 @@ class Search extends EventEmitter {
   onPeer(app, { host, port }) {
     if (this.state !== UpgradeState.Search.Searching) return; // shouldn't happen
     if (app !== DISCOVERY_KEY) return;
-    log("found upgrade peer", app, host, port);
+    searchLog("found potential upgrade peer", host, port);
 
     this.stateLock.readLock(release => {
       if (this.state !== UpgradeState.Search.Searching) return release();
 
+      searchLog("querying peer", host, port);
       http
         .get({ hostname: host, port, path: "/list" }, res => {
           collect(res, (err, buf) => {
@@ -126,33 +130,39 @@ class Search extends EventEmitter {
                   const newContext = clone(this.context);
                   const newUpgrade = Object.assign(upgrade, { host, port });
                   newContext.upgrades.push(newUpgrade);
-                  log("upgrade added", newUpgrade);
+                  searchLog("new upgrade candidate found", newUpgrade);
                   this.setState(UpgradeState.Search.Searching, newContext);
                 } else {
-                  log("dismissed candidate", upgrade);
+                  searchLog("skipped upgrade candidate", upgrade);
                 }
               });
             } catch (err) {
-              // XXX: ignore error + peer
+              searchLog("JSON parse error:", err);
             } finally {
               release();
             }
           });
         })
-        .once("error", _ => {
-          // XXX: ignore error + peer
+        .once("error", err => {
+          searchLog("HTTP error:", err);
           release();
         });
     });
   }
 
   stop() {
+    searchLog("stopping..");
     this.stateLock.writeLock(release => {
       if (this.state !== UpgradeState.Search.Searching) return release();
 
       this.discovery.destroy(err => {
-        if (err) this.setState(UpgradeState.Search.Error, err);
-        else this.setState(UpgradeState.Search.Idle, null);
+        if (err) {
+          this.setState(UpgradeState.Search.Error, err);
+          searchLog("..stopped, with error:", err);
+        } else {
+          this.setState(UpgradeState.Search.Idle, null);
+          searchLog("..stopped");
+        }
         release();
       });
     });
@@ -199,6 +209,7 @@ class Download extends EventEmitter {
       sofar: 0,
       total: option.size,
     });
+    downloadLog("starting download of upgrade", option);
 
     const url = `/content/${option.id}`;
     http
@@ -222,11 +233,15 @@ class Download extends EventEmitter {
             else this.setState(UpgradeState.Download.Downloaded, null);
           }
         );
-        pump(res, progress, ws, _ => {
+        downloadLog("starting download of upgrade", option);
+        pump(res, progress, ws, err => {
+          if (err) downloadLog("download pipeline error", err);
+          else downloadLog("download pipeline ended ok");
           this.setState(UpgradeState.Download.Idle, null);
         });
       })
-      .once("error", _ => {
+      .once("error", err => {
+        downloadLog("http error", err);
         this.setState(UpgradeState.Download.Idle, null);
       });
   }
@@ -252,13 +267,17 @@ class Check extends EventEmitter {
   check() {
     if (this.state !== UpgradeState.Check.NotAvailable) return;
 
+    checkLog("checking for an upgrade..");
     this.storage.getAvailableUpgrades((err, options) => {
       if (err) return this.setState(UpgradeState.Check.Error, err);
       options = options.filter(o => this.isUpgradeCandidate(o));
       if (options.length > 0) {
+        checkLog("..found a viable upgrade", options[0]);
         this.setState(UpgradeState.Check.Available, {
           filename: options[0].filename,
         });
+      } else {
+        checkLog("..didn't find a viable upgrade");
       }
     });
   }
