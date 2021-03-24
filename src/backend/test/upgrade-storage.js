@@ -4,6 +4,7 @@ const test = require("tape");
 const collect = require("collect-stream");
 const Storage = require("../lib/upgrade-storage");
 const fs = require("fs");
+const mkdirp = require("mkdirp");
 
 test("set an apk + read it", t => {
   t.plan(6);
@@ -130,9 +131,9 @@ test("write + ensure a newer upgrade isn't wiped", t => {
 
           storage.clearOldApks(err => {
             t.error(err);
-            fs.stat(path.join(dir, "foo.apk"), (err, stat) => {
-              t.error(err);
-              t.ok(!!stat);
+            fs.access(path.join(dir, "foo.apk"), err => {
+              t.ok(err instanceof Error);
+              t.ok(err.code === "ENOENT");
               storage.getAvailableUpgrades((err, options) => {
                 t.error(err);
                 t.equals(options.length, 1);
@@ -196,6 +197,28 @@ test("a successful write with the wrong hash does not appear as an upgrade optio
   );
 
   ws.end("testdata");
+});
+
+test("leftover files in the upgrade temp dir get wiped on init", t => {
+  t.plan(2);
+
+  const dir = tmp.dirSync().name;
+  mkdirp.sync(path.join(dir, "tmp"));
+  const filepath = path.join(dir, "tmp", "somefile");
+
+  try {
+    fs.writeFileSync(filepath, Buffer.alloc(16));
+  } catch (err) {
+    t.error(err);
+  }
+  t.ok(fs.existsSync(filepath), "file created ok");
+
+  const storage = new Storage(dir, {
+    version: "4.0.0",
+    arch: "arm64-v8a",
+    platform: "android",
+  });
+  t.notOk(fs.existsSync(filepath), "file does not exist");
 });
 
 // Wipes the 'filename' property.

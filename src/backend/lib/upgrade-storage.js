@@ -35,7 +35,11 @@ class Storage {
     this.localUpgrades = new LocalUpgradeInfo(storageDir);
 
     this.dir = storageDir;
-    mkdirp.sync(this.dir);
+    this.tmpdir = path.join(storageDir, "tmp");
+
+    // Wipe the contents of 'tmpdir' on init + re-create.
+    rimraf.sync(this.tmpdir);
+    mkdirp.sync(this.tmpdir);
 
     opts = opts || {};
     this.targetPlatform = opts.platform || "android";
@@ -87,22 +91,25 @@ class Storage {
   createApkWriteStream(filename, version, hash, cb) {
     cb = cb || function () {};
     if (typeof hash === "string") hash = Buffer.from(hash, "hex");
-    const filepath = path.join(this.dir, filename);
-    log("writing apk to", filepath);
+    const tmpFilepath = path.join(this.tmpdir, filename);
+    const finalFilepath = path.join(this.tmpdir, filename);
+    log("writing apk to", tmpFilepath);
 
-    const ws = fs.createWriteStream(filepath);
+    const ws = fs.createWriteStream(tmpFilepath);
     ws.once("error", err => {
-      rimraf(filepath, err2 => {
+      rimraf(tmpFilepath, err2 => {
         if (err2) cb(err2);
         else cb(err);
       });
     });
     ws.once("finish", () => {
       // Check hash.
-      hashFile(filepath, (err, ourHash) => {
+      hashFile(tmpFilepath, (err, ourHash) => {
         if (err) return cb(err);
+
+        // Delete the file if the hash does not match.
         if (!hash.equals(ourHash)) {
-          rimraf(filepath, err2 => {
+          rimraf(tmpFilepath, err2 => {
             if (err2) return cb(err2);
             cb(
               new Error(
@@ -115,11 +122,17 @@ class Storage {
           return;
         }
 
-        this.apkToUpgradeOption(filepath, version, (err, option) => {
+        // Move the file to the main upgrade directory.
+        fs.rename(tmpFilepath, finalFilepath, err => {
           if (err) return cb(err);
-          this.localUpgrades.add(option, err => {
-            if (err) cb(err);
-            else cb(null, option);
+
+          // Write the downloaded upgrade to the manifest.
+          this.apkToUpgradeOption(finalFilepath, version, (err, option) => {
+            if (err) return cb(err);
+            this.localUpgrades.add(option, err => {
+              if (err) cb(err);
+              else cb(null, option);
+            });
           });
         });
       });
