@@ -4,7 +4,7 @@ const UpgradeDownload = require("./upgrade-download");
 const clone = require("clone");
 const semver = require("semver");
 const debug = require("debug");
-const log = debug("mapeo-core:server");
+const log = require("debug")("p2p-upgrades:manager");
 const validate = require("./validate-upgrade-state");
 
 class UpgradeManager {

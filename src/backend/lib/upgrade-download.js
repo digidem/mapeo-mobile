@@ -6,8 +6,7 @@ const dns = require("dns-discovery");
 const RWLock = require("rwlock");
 const pump = require("pump");
 const through = require("through2");
-const debug = require("debug");
-const log = debug("upgrade-download");
+const log = require("debug")("p2p-upgrades:download");
 const clone = require("clone");
 
 const { DISCOVERY_KEY, UpgradeState } = require("./constants");

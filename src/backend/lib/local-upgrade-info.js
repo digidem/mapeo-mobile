@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const RWLock = require("rwlock");
+const log = require("debug")("p2p-upgrades:local-upgrade-info");
 
 const UPGRADE_INFO_FILENAME = require("./constants").UPGRADE_INFO_FILENAME;
 

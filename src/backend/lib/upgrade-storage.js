@@ -8,8 +8,7 @@ const readonly = require("read-only-stream");
 const pump = require("pump");
 const semver = require("semver");
 const LocalUpgradeInfo = require("./local-upgrade-info");
-const debug = require("debug");
-const log = debug("p2p-upgrades:storage");
+const log = require("debug")("p2p-upgrades:storage");
 
 /* type Callback<T> = (Error?, T?) => Void */
 

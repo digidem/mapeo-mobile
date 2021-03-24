@@ -5,6 +5,7 @@ const RWLock = require("rwlock");
 const through = require("through2");
 const http = require("http");
 const { DISCOVERY_KEY, UpgradeState } = require("./constants");
+const log = require("debug")("p2p-upgrades:server");
 
 /*
 type Uploads = [UploadInfo]
