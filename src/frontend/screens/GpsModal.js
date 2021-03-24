@@ -89,8 +89,6 @@ const GpsModal = ({ navigation }: Props) => {
         return <FormattedMessage {...m.locationUTM} />;
       case "dms":
         return <FormattedMessage {...m.locationDMS} />;
-      case "dd":
-        return <FormattedMessage {...m.locationDD} />;
       default:
         return <FormattedMessage {...m.locationUTM} />;
     }

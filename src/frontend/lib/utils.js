@@ -189,8 +189,6 @@ export function formatCoords({
       return convertToUTM(lat, lon);
     case "dms":
       return convertToDMS(lat, lon);
-    case "dd":
-      return convertToDD(lat, lon);
     default:
       return convertToUTM(lat, lon);
   }

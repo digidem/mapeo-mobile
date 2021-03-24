@@ -55,7 +55,7 @@ const m = defineMessages({
   },
   coordinateSystemDesc: {
     id: "screens.Settings.coordinateSystemDesc",
-    defaultMessage: "UTM, Lat/Long, DMS, DD",
+    defaultMessage: "UTM, Lat/Long, DMS",
     description: "Description of the 'Coordinate System' page",
   },
 });

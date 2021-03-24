@@ -69,16 +69,7 @@ const CoordinateSystem = () => {
           lat: latitude,
           format: "utm",
         }),
-      },
-      {
-        value: "dd",
-        label: intl.formatMessage({ ...m.dd }),
-        hint: formatCoords({
-          lon: longitude,
-          lat: latitude,
-          format: "dd",
-        }),
-      },
+      }
     ];
 
     return (

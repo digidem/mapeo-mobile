@@ -58,10 +58,6 @@
     "description": "Title for category chooser screen",
     "message": "Choose what is happening"
   },
-  "screens.CoordinateSystem.dd": {
-    "description": "Decimal Degrees coordinate system",
-    "message": "Decimal Degrees (DD)"
-  },
   "screens.CoordinateSystem.dms": {
     "description": "Degrees/Minutes/Seconds coordinate system",
     "message": "Degrees/Minutes/Seconds (DMS)"
@@ -334,7 +330,7 @@
   },
   "screens.Settings.coordinateSystemDesc": {
     "description": "Description of the 'Coordinate System' page",
-    "message": "UTM, Lat/Long, DMS, DD"
+    "message": "UTM, Lat/Long, DMS"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
