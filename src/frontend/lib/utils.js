@@ -155,22 +155,15 @@ function convertToUTM(lat, lon) {
   }
 }
 
-function convertDMSToDD(degrees, minutes, seconds, direction) {
-  let dd = Number(degrees) + Number(minutes) / 60 + Number(seconds) / (60 * 60);
-  if (direction === "S" || direction === "W") {
-    dd = dd * -1;
-  } // Don't do anything for N or E
-  return dd;
-}
-
-function convertToDD(lat, lon) {
-  const [latD, latM, latS, latDi, lonD, lonM, lonS, lonDi] = convertToDMS(
-    lat,
-    lon
-  ).split(" ");
-  const latDD = convertDMSToDD(latD, latM, latS, latDi);
-  const lonDD = convertDMSToDD(lonD, lonM, lonS, lonDi);
-  return `${latDD} ${lonDD}`;
+function formatLatLong(lat, lon) {
+  const decimals = 6;
+  const formattedLat = Number(
+    Math.round(lat + "e" + decimals) + "e-" + decimals
+  );
+  const formattedLon = Number(
+    Math.round(lon + "e" + decimals) + "e-" + decimals
+  );
+  return `${formattedLat} ${formattedLon}`;
 }
 
 export function formatCoords({
@@ -184,7 +177,7 @@ export function formatCoords({
 }): string {
   switch (format) {
     case "latlon":
-      return `${lat} ${lon}`;
+      return formatLatLong(lat, lon);
     case "utm":
       return convertToUTM(lat, lon);
     case "dms":
