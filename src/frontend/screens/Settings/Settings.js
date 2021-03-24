@@ -85,16 +85,6 @@ const Settings = () => {
         ></ListItemText>
       </ListItem>
       <ListItem
-        onPress={() => navigate("AboutMapeo")}
-        testID="settingsAboutButton"
-      >
-        <ListItemIcon iconName="info-outline" />
-        <ListItemText
-          primary={<FormattedMessage {...m.aboutMapeo} />}
-          secondary={<FormattedMessage {...m.aboutMapeoDesc} />}
-        ></ListItemText>
-      </ListItem>
-      <ListItem
         onPress={() => navigate("CoordinateSystem")}
         testID="settingsCoodinatesButton"
       >
@@ -102,6 +92,16 @@ const Settings = () => {
         <ListItemText
           primary={<FormattedMessage {...m.coordinateSystem} />}
           secondary={<FormattedMessage {...m.coordinateSystemDesc} />}
+        ></ListItemText>
+      </ListItem>
+      <ListItem
+        onPress={() => navigate("AboutMapeo")}
+        testID="settingsAboutButton"
+      >
+        <ListItemIcon iconName="info-outline" />
+        <ListItemText
+          primary={<FormattedMessage {...m.aboutMapeo} />}
+          secondary={<FormattedMessage {...m.aboutMapeoDesc} />}
         ></ListItemText>
       </ListItem>
     </List>
