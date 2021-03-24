@@ -39,6 +39,10 @@
     "description": "Title of 'About Mapeo' screen",
     "message": "Giới thiệu về Mapeo"
   },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "Không xác định"
+  },
   "screens.AddPhoto.cancel": {
     "message": "Hủy"
   },
@@ -228,6 +232,18 @@
     "description": "Title of screen with list of observations",
     "message": "Các quan sát"
   },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "Đến Bản đồ"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
+    "description": "Description of observation list view when the user has not yet recorded observations",
+    "message": "Bắt đầu từ chế độ xem bản đồ hoặc máy ảnh để ghi lại quan sát đầu tiên của bạn."
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
+    "description": "Title of observation list view when the user has not yet recorded observations",
+    "message": "Thêm Quan sát"
+  },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
     "message": "Lỗi tải các quan sát. Hãy thử rời bỏ và khởi động lại Mapeo."
@@ -256,9 +272,21 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Có gì đó không ổn với dữ liệu Mapeo"
   },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "Giới thiệu về Mapeo"
+  },
+  "screens.Settings.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "Đã xảy ra lỗi khi nhập tệp cấu hình này"
+  },
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
     "message": "OK"
+  },
+  "screens.Settings.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Lỗi nhập dữ liệu"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
