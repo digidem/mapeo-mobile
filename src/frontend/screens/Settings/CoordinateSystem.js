@@ -19,7 +19,7 @@ const m = defineMessages({
   },
   dd: {
     id: "screens.CoordinateSystem.dd",
-    defaultMessage: "Decimal Degrees",
+    defaultMessage: "Decimal Degrees (DD)",
     description: "Decimal Degrees coordinate system",
   },
   dms: {
