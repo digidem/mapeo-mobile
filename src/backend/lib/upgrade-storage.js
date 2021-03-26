@@ -97,7 +97,7 @@ class Storage {
     cb = cb || function () {};
     if (typeof hash === "string") hash = Buffer.from(hash, "hex");
     const tmpFilepath = path.join(this.tmpdir, filename);
-    const finalFilepath = path.join(this.tmpdir, filename);
+    const finalFilepath = path.join(this.dir, filename);
     const reqId = Math.floor(Math.random() * 1000000).toString(16);
     log(reqId, "createApkWriteStream", tmpFilepath, version, hash);
 
