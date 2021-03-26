@@ -83,8 +83,8 @@ const GpsModal = ({ navigation }: Props) => {
   const [system] = useCoodinateSystem();
   const coordinateMessage = () => {
     switch (system) {
-      case "latlon":
-        return <FormattedMessage {...m.locationLatLon} />;
+      case "dd":
+        return <FormattedMessage {...m.locationDD} />;
       case "utm":
         return <FormattedMessage {...m.locationUTM} />;
       case "dms":

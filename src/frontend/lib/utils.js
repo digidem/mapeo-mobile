@@ -166,7 +166,7 @@ function formatDD({ lat, lon }) {
   const formattedLon = Number(
     Math.round(lon + "e" + decimals) + "e-" + decimals
   );
-  return `${formattedLat} ${formattedLon}`;
+  return `lat ${formattedLat} lon ${formattedLon}`;
 }
 
 export function formatCoords({
