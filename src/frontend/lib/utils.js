@@ -135,7 +135,7 @@ function toDegreesMinutesAndSeconds(coordinate) {
   return `${degrees}° ${minutes}' ${formattedSeconds}"`;
 }
 
-function convertToDMS(lat, lon) {
+function convertToDMS({ lat, lon }) {
   const latitude = toDegreesMinutesAndSeconds(lat);
   const latitudeCardinal = lat >= 0 ? "N" : "S";
 
@@ -144,7 +144,7 @@ function convertToDMS(lat, lon) {
   return `${latitude} ${latitudeCardinal} ${longitude} ${longitudeCardinal}`;
 }
 
-function convertToUTM(lat, lon) {
+function convertToUTM({ lat, lon }) {
   try {
     let { easting, northing, zoneNum, zoneLetter } = fromLatLon(lat, lon);
     easting = leftPad(easting.toFixed(), 6, "0");
@@ -158,7 +158,7 @@ function convertToUTM(lat, lon) {
   }
 }
 
-function formatLatLong(lat, lon) {
+function formatDD({ lat, lon }) {
   const decimals = 6;
   const formattedLat = Number(
     Math.round(lat + "e" + decimals) + "e-" + decimals
@@ -176,17 +176,17 @@ export function formatCoords({
 }: {
   lon: number,
   lat: number,
-  format?: "utm",
+  format?: "utm" | "dd" | "dms",
 }): string {
   switch (format) {
-    case "latlon":
-      return formatLatLong(lat, lon);
+    case "dd":
+      return formatDD({ lat, lon });
     case "utm":
-      return convertToUTM(lat, lon);
+      return convertToUTM({ lat, lon });
     case "dms":
-      return convertToDMS(lat, lon);
+      return convertToDMS({ lat, lon });
     default:
-      return convertToUTM(lat, lon);
+      return convertToUTM({ lat, lon });
   }
 }
 
