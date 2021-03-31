@@ -33,6 +33,7 @@ class UpgradeServer extends EventEmitter {
         res.end();
       }
     });
+    this.announceInterval = null;
 
     // In-progress uploads
     this.uploads = [];
@@ -63,20 +64,16 @@ class UpgradeServer extends EventEmitter {
       log("starting discovery..");
       const opts = {
         server: [],
-        ttl: 60, // seconds
         loopback: false,
       };
       this.discovery = discovery(opts);
       this.server.listen(this.port, "0.0.0.0", () => {
-        this.discovery.announce(DISCOVERY_KEY, this.port, err => {
-          if (err) {
-            log("..discovery startup failed", err);
-            return done(err);
-          }
-          log("..discovery started");
-          this.setState(UpgradeState.Server.Sharing, this.uploads);
-          done();
-        });
+        log("announcing on", DISCOVERY_KEY);
+        this.announceInterval = setInterval(() => {
+          this.discovery.announce(DISCOVERY_KEY, this.port);
+        }, 2000);
+        this.setState(UpgradeState.Server.Sharing, this.uploads);
+        done();
       });
     });
   }
@@ -120,6 +117,10 @@ class UpgradeServer extends EventEmitter {
 
       function stop() {
         log("drain: stopping..");
+
+        clearInterval(this.announceInterval);
+        this.announceInterval = null;
+
         // XXX: 'unannounce' seems to always return an error here; ignoring.
         this.discovery.unannounce(DISCOVERY_KEY, this.port, _ => {
           log("drain: ..discovery unannounced");

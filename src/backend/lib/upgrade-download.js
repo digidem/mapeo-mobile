@@ -93,7 +93,6 @@ class Search extends EventEmitter {
 
       this.discovery = dns({
         server: [],
-        ttl: 60, // seconds
         loopback: false,
       });
       this.discovery.lookup(DISCOVERY_KEY);
