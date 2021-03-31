@@ -24,20 +24,20 @@ module.exports = (function () {
 
   const roughSchema = validate({
     server: {
-      state: Enum(1, 2, 3, 4),
+      state: Enum("IDLE", "SHARING", "DRAINING", "ERROR"),
       context: Any,
     },
     downloader: {
       search: {
-        state: Enum(1, 2, 3),
+        state: Enum("IDLE", "SEARCHING", "ERROR"),
         context: Any,
       },
       download: {
-        state: Enum(1, 2, 3, 4),
+        state: Enum("IDLE", "DOWNLOADING", "DOWNLOADED", "ERROR"),
         context: Any,
       },
       check: {
-        state: Enum(1, 2, 3),
+        state: Enum("NOT_AVAILABLE", "AVAILABLE", "ERROR"),
         context: Any,
       },
     },
@@ -45,7 +45,7 @@ module.exports = (function () {
 
   const fullSchema = validate({
     server: {
-      state: Enum(1, 2, 3, 4),
+      state: Enum("IDLE", "SHARING", "DRAINING", "ERROR"),
       context: c => {
         switch (serverState) {
           case UpgradeState.Server.Idle:
@@ -63,7 +63,7 @@ module.exports = (function () {
     },
     downloader: {
       search: {
-        state: Enum(1, 2, 3),
+        state: Enum("IDLE", "SEARCHING", "ERROR"),
         context: c => {
           switch (searchState) {
             case UpgradeState.Search.Idle:
@@ -78,7 +78,7 @@ module.exports = (function () {
         },
       },
       download: {
-        state: Enum(1, 2, 3, 4),
+        state: Enum("IDLE", "DOWNLOADING", "DOWNLOADED", "ERROR"),
         context: c => {
           switch (downloadState) {
             case UpgradeState.Download.Idle:
@@ -95,7 +95,7 @@ module.exports = (function () {
         },
       },
       check: {
-        state: Enum(1, 2, 3),
+        state: Enum("NOT_AVAILABLE", "AVAILABLE", "ERROR"),
         context: c => {
           switch (checkState) {
             case UpgradeState.Check.NotAvailable:

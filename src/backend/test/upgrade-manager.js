@@ -121,7 +121,10 @@ test("integration: can find + download + check an upgrade", t => {
         ev2.on("p2p-upgrade::state", onState);
         function onState(state) {
           const search = state.downloader.search;
-          if (search.state === 2 && search.context.upgrades.length > 0) {
+          if (
+            search.state === "SEARCHING" &&
+            search.context.upgrades.length > 0
+          ) {
             t.equals(search.context.upgrades.length, 1, "upgrade found ok");
             const check = clone(search.context.upgrades[0]);
             delete check.host;
@@ -140,10 +143,10 @@ test("integration: can find + download + check an upgrade", t => {
 
         function onState(state) {
           if (done) return;
-          if (state.downloader.download.state === 2) {
+          if (state.downloader.download.state === "DOWNLOADING") {
             lastProgress = state.downloader.download.context;
           }
-          if (state.downloader.download.state === 3) {
+          if (state.downloader.download.state === "DOWNLOADED") {
             t.equals(lastProgress.sofar, 10);
             t.equals(lastProgress.total, 10);
             done = true;
@@ -157,7 +160,7 @@ test("integration: can find + download + check an upgrade", t => {
         ev2.on("p2p-upgrade::state", onState);
 
         function onState(state) {
-          if (state.downloader.check.state === 2) {
+          if (state.downloader.check.state === "AVAILABLE") {
             t.equals(
               path.basename(state.downloader.check.context.filename),
               expectedHash,

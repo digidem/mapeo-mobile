@@ -64,14 +64,14 @@ test("can find a compatible upgrade candidate", t => {
 
         download.start();
         download.on("state", state => {
-          if (state.search.state !== 2) return;
+          if (state.search.state !== "SEARCHING") return;
           delete state.search.context.upgrades[0].host;
-          t.equals(state.search.state, 2);
+          t.equals(state.search.state, "SEARCHING");
           t.deepEquals(state.search.context.upgrades, expected);
 
           download.stop();
           download.once("state", state => {
-            t.equals(state.search.state, 1);
+            t.equals(state.search.state, "IDLE");
             cleanup();
           });
         });
@@ -98,7 +98,7 @@ test("will not find an incompatible upgrade candidate", t => {
 
         // HACK: Timeout after 250ms of searching
         setTimeout(() => {
-          t.equals(download.state.search.state, 2);
+          t.equals(download.state.search.state, "SEARCHING");
           t.deepEquals(download.state.search.context.upgrades, []);
 
           download.stop();
@@ -156,10 +156,10 @@ test("can find + download + check an upgrade", t => {
 
         function onState(state) {
           if (done) return;
-          if (state.download.state === 2) {
+          if (state.download.state === "DOWNLOADING") {
             lastProgress = state.download.context;
           }
-          if (state.download.state === 3) {
+          if (state.download.state === "DOWNLOADED") {
             t.equals(lastProgress.sofar, 10);
             t.equals(lastProgress.total, 10);
             done = true;
@@ -171,7 +171,7 @@ test("can find + download + check an upgrade", t => {
 
       function awaitChecked() {
         download.once("state", state => {
-          t.equals(state.check.state, 2);
+          t.equals(state.check.state, "AVAILABLE");
           t.equals(path.basename(state.check.context.filename), expectedHash);
 
           storage2.getAvailableUpgrades((err, options) => {
@@ -240,10 +240,10 @@ test("REGRESSION: a local upgrade equal to app version is not shown", t => {
 
         function onState(state) {
           if (done) return;
-          if (state.download.state === 2) {
+          if (state.download.state === "DOWNLOADING") {
             lastProgress = state.download.context;
           }
-          if (state.download.state === 3) {
+          if (state.download.state === "DOWNLOADED") {
             t.equals(lastProgress.sofar, 10);
             t.equals(lastProgress.total, 10);
             done = true;
@@ -255,7 +255,7 @@ test("REGRESSION: a local upgrade equal to app version is not shown", t => {
 
       function awaitChecked() {
         download.once("state", state => {
-          t.equals(state.check.state, 2);
+          t.equals(state.check.state, "AVAILABLE");
           t.equals(path.basename(state.check.context.filename), expectedHash);
 
           storage2.getAvailableUpgrades((err, options) => {

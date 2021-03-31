@@ -3,29 +3,29 @@ const UPGRADE_INFO_FILENAME = "upgrades.json";
 
 const UpgradeState = {
   Search: {
-    Idle: 1,
-    Searching: 2,
-    Error: 3,
+    Idle: "IDLE",
+    Searching: "SEARCHING",
+    Error: "ERROR",
   },
 
   Download: {
-    Idle: 1,
-    Downloading: 2,
-    Downloaded: 3,
-    Error: 4,
+    Idle: "IDLE",
+    Downloading: "DOWNLOADING",
+    Downloaded: "DOWNLOADED",
+    Error: "ERROR",
   },
 
   Check: {
-    NotAvailable: 1,
-    Available: 2,
-    Error: 3,
+    NotAvailable: "NOT_AVAILABLE",
+    Available: "AVAILABLE",
+    Error: "ERROR",
   },
 
   Server: {
-    Idle: 1,
-    Sharing: 2,
-    Draining: 3,
-    Error: 4,
+    Idle: "IDLE",
+    Sharing: "SHARING",
+    Draining: "DRAINING",
+    Error: "ERROR",
   },
 };
 

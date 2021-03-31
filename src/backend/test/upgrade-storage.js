@@ -94,7 +94,7 @@ test("write + clear an older upgrade", t => {
 });
 
 test("write + ensure a newer upgrade isn't wiped", t => {
-  t.plan(11);
+  t.plan(10);
 
   const expected = {
     hash: "810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50",
@@ -132,8 +132,7 @@ test("write + ensure a newer upgrade isn't wiped", t => {
           storage.clearOldApks(err => {
             t.error(err);
             fs.access(path.join(dir, "foo.apk"), err => {
-              t.ok(err instanceof Error);
-              t.ok(err.code === "ENOENT");
+              t.error(err);
               storage.getAvailableUpgrades((err, options) => {
                 t.error(err);
                 t.equals(options.length, 1);
@@ -166,7 +165,7 @@ test("a failed write does not appear as an upgrade option", t => {
     });
   });
 
-  ws.write(Buffer.alloc(10_000_000));
+  ws.write(Buffer.alloc(10000000));
   setTimeout(() => {
     ws.emit("error", new Error("write error?"));
   }, 100);
