@@ -284,6 +284,22 @@
     "description": "Description of the 'About Mapeo' page",
     "message": "Version and build number"
   },
+  "screens.Settings.appInstall": {
+    "description": "Primary text for Mapeo APK test",
+    "message": "Install APK"
+  },
+  "screens.Settings.appInstallDesc": {
+    "description": "Secondary text for Mapeo APK test",
+    "message": "Test APK install (re-installs app)"
+  },
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "Share Mapeo Installer"
+  },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "Install or update Mapeo on another phone"
+  },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "There was an error trying to import this config file"
@@ -363,6 +379,10 @@
   "screens.SyncModal.PeerList.syncLabel": {
     "description": "Label for last sync datetime",
     "message": "Synced:"
+  },
+  "screens.SyncModal.SyncView.checkingUpdates": {
+    "description": "Label in upgrade bar when checking for updates",
+    "message": "Checking for app updates"
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",

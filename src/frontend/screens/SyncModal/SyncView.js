@@ -53,6 +53,11 @@ const m = defineMessages({
     description: "First 5 characters of project key displayed on sync screen",
     defaultMessage: "Project Key: {projectKey}",
   },
+  checkingUpdates: {
+    id: "screens.SyncModal.SyncView.checkingUpdates",
+    description: "Label in upgrade bar when checking for updates",
+    defaultMessage: "Checking for app updates",
+  },
 });
 
 const UpgradeBar = ({ upgradeInfo, onInstallPress }) => (
@@ -70,7 +75,7 @@ const UpgradeBar = ({ upgradeInfo, onInstallPress }) => (
                 }}
               >
                 <Text style={styles.upgradeBarText} numberOfLines={1}>
-                  {"Checking for app updates"}
+                  <FormattedMessage {...m.checkingUpdates} />
                 </Text>
                 <View style={{ flex: 1 }}></View>
                 <DotIndicator style={{ flex: 1 }} size={7} />
