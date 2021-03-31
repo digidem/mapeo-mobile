@@ -1,7 +1,15 @@
 {
+  "AppContainer.EditHeader.discardCancel": {
+    "description": "Button on dialog to keep editing (cancelling close action)",
+    "message": "Go doro"
+  },
   "screens.AboutMapeo.title": {
     "description": "Title of 'About Mapeo' screen",
     "message": "Abra Mapeo"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "No sabi"
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
