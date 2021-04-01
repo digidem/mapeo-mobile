@@ -30,10 +30,10 @@ import {
 } from "../../lib/styles";
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/ConfigContext";
+import SettingsContext from "../../context/SettingsContext";
 import type { Observation } from "../../context/ObservationsContext";
 import useMapStyle from "../../hooks/useMapStyle";
 import useDeviceId from "../../hooks/useDeviceId";
-import useCoodinateSystem from "../../hooks/useCoordinateSystem";
 import Loading from "../../sharedComponents/Loading";
 import OfflineMapLayers from "../../sharedComponents/OfflineMapLayers";
 import { ShareMessage, ShareSubject, renderToString } from "./ObservationShare";
@@ -126,7 +126,9 @@ const ObservationView = ({
   onPressDelete,
 }: ODVProps) => {
   const intl = useIntl();
-  const [system] = useCoodinateSystem();
+  const {
+    settings: { coordinateSystem },
+  } = React.useContext(SettingsContext);
   const { formatMessage: t } = intl;
   const deviceId = useDeviceId();
   const isMine = deviceId === observation.value.deviceId;
@@ -175,7 +177,11 @@ const ObservationView = ({
             <View style={styles.coords}>
               <View style={styles.coordsPointer} />
               <Text style={styles.positionText}>
-                <FormattedCoords format={system} lon={lon} lat={lat} />
+                <FormattedCoords
+                  format={coordinateSystem}
+                  lon={lon}
+                  lat={lat}
+                />
               </Text>
             </View>
             <InsetMapView lat={lat} lon={lon} />

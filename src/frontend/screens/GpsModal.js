@@ -5,7 +5,7 @@ import Text from "../sharedComponents/Text";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import LocationContext from "../context/LocationContext";
-import useCoodinateSystem from "../hooks/useCoordinateSystem";
+import SettingsContext from "../context/SettingsContext";
 
 import { FormattedCoords } from "../sharedComponents/FormattedData";
 import DateDistance from "../sharedComponents/DateDistance";
@@ -79,10 +79,12 @@ type Props = {
 
 const GpsModal = ({ navigation }: Props) => {
   const location = React.useContext(LocationContext);
+  const {
+    settings: { coordinateSystem },
+  } = React.useContext(SettingsContext);
   const { formatMessage: t } = useIntl();
-  const [system] = useCoodinateSystem();
   const coordinateMessage = () => {
-    switch (system) {
+    switch (coordinateSystem) {
       case "dd":
         return <FormattedMessage {...m.locationDD} />;
       case "utm":
@@ -111,7 +113,7 @@ const GpsModal = ({ navigation }: Props) => {
               <FormattedCoords
                 lon={location.position.coords.longitude}
                 lat={location.position.coords.latitude}
-                format={system}
+                format={coordinateSystem}
               />
             </Text>
             <Text style={styles.sectionTitle}>

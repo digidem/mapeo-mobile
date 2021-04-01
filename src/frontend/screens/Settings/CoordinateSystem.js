@@ -2,9 +2,9 @@
 import React from "react";
 import { ScrollView } from "react-native";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
-
-import useCoodinateSystem from "../../hooks/useCoordinateSystem";
 import LocationContext from "../../context/LocationContext";
+import SettingsContext from "../../context/SettingsContext";
+
 import { formatCoords } from "../../lib/utils";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
@@ -37,7 +37,12 @@ const m = defineMessages({
 const CoordinateSystem = () => {
   const intl = useIntl();
   const location = React.useContext(LocationContext);
-  const [system, setSystem] = useCoodinateSystem();
+  const { settings, dispatch } = React.useContext(SettingsContext);
+  const setSystem = React.useCallback(
+    value => dispatch({ type: "set_coordinate_system", value }),
+    [dispatch]
+  );
+  const system = settings.coordinateSystem;
   if (!location || !location.position) return <Loading />;
   else {
     const { latitude = 0, longitude = 0 } = location.position.coords;
