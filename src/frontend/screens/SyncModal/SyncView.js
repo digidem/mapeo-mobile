@@ -12,7 +12,6 @@ import type { Peer } from "./PeerList";
 import { UpgradeState } from "./index";
 import Progress from "../../sharedComponents/icons/Progress";
 import { DoneIcon, ErrorIcon } from "../../sharedComponents/icons";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { MaterialIndicator } from "react-native-indicators";
 
 const m = defineMessages({
