@@ -5,13 +5,17 @@ import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import Button from "../../sharedComponents/Button";
-import { WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
+import {
+  WifiOffIcon,
+  WifiIcon,
+  DoneIcon,
+  ErrorIcon,
+} from "../../sharedComponents/icons";
 import DotIndicator from "./DotIndicator";
 import PeerList from "./PeerList";
 import type { Peer } from "./PeerList";
 import { UpgradeState } from "./index";
 import Progress from "../../sharedComponents/icons/Progress";
-import { DoneIcon, ErrorIcon } from "../../sharedComponents/icons";
 import { MaterialIndicator } from "react-native-indicators";
 
 const m = defineMessages({
