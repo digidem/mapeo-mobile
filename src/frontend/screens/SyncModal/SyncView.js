@@ -140,7 +140,6 @@ const UpgradeBar = ({ upgradeInfo, onInstallPress }) => {
                   <DotIndicator style={{ flex: 1 }} size={7} />
                 </View>
               );
-              break;
             case UpgradeState.WaitingForSync:
               return (
                 <View
@@ -159,7 +158,6 @@ const UpgradeBar = ({ upgradeInfo, onInstallPress }) => {
                   <DotIndicator style={{ flex: 1 }} size={7} />
                 </View>
               );
-              break;
             case UpgradeState.Downloading:
               return (
                 <View
@@ -181,7 +179,6 @@ const UpgradeBar = ({ upgradeInfo, onInstallPress }) => {
                   />
                 </View>
               );
-              break;
             case UpgradeState.GenericError:
               return (
                 <View
@@ -207,7 +204,6 @@ const UpgradeBar = ({ upgradeInfo, onInstallPress }) => {
                   </View>
                 </View>
               );
-              break;
             case UpgradeState.PermissionError:
               return (
                 <View
@@ -233,7 +229,6 @@ const UpgradeBar = ({ upgradeInfo, onInstallPress }) => {
                   </View>
                 </View>
               );
-              break;
             case UpgradeState.NoUpdatesFound:
               return (
                 <View
@@ -253,7 +248,6 @@ const UpgradeBar = ({ upgradeInfo, onInstallPress }) => {
                   </View>
                 </View>
               );
-              break;
             case UpgradeState.ReadyToUpgrade:
               return (
                 <View
@@ -279,7 +273,6 @@ const UpgradeBar = ({ upgradeInfo, onInstallPress }) => {
                   </View>
                 </View>
               );
-              break;
             case UpgradeState.Draining:
               return (
                 <View
@@ -304,14 +297,12 @@ const UpgradeBar = ({ upgradeInfo, onInstallPress }) => {
                   </View>
                 </View>
               );
-              break;
             default:
               return (
                 <Text style={styles.upgradeBarText} numberOfLines={1}>
                   <FormattedMessage {...m.updateUnkownState} />
                 </Text>
               );
-              break;
           }
         })()}
       </View>
