@@ -58,206 +58,263 @@ const m = defineMessages({
     description: "Label in upgrade bar when checking for updates",
     defaultMessage: "Checking for app updates",
   },
+  updateAwaitingSync: {
+    id: "screens.SyncModal.SyncView.updateAwaitingSync",
+    description: "Label in upgrade bar when waiting for sync to complete",
+    defaultMessage: "Update available; waiting for sync to finish",
+  },
+  updateDownloading: {
+    id: "screens.SyncModal.SyncView.updateDownloading",
+    description: "Label in upgrade bar when downloading an update",
+    defaultMessage: "Downloading updates",
+  },
+  updateGenericError: {
+    id: "screens.SyncModal.SyncView.updateGenericError",
+    description:
+      "Label in upgrade bar when there is an error getting an update",
+    defaultMessage: "Unable to update",
+  },
+  updatePermissionError: {
+    id: "screens.SyncModal.SyncView.updatePermissionError",
+    description:
+      "Label in upgrade bar when there is permissions error getting an update",
+    defaultMessage: "Unable to update",
+  },
+  noUpdates: {
+    id: "screens.SyncModal.SyncView.noUpdates",
+    description: "Label in upgrade bar when no updates are found",
+    defaultMessage: "No app updates found",
+  },
+  updateReady: {
+    id: "screens.SyncModal.SyncView.updateReady",
+    description: "Label in upgrade bar when an update is available",
+    defaultMessage: "A new version of Mapeo is available",
+  },
+  sharingUpdate: {
+    id: "screens.SyncModal.SyncView.sharingUpdate",
+    description: "Label in upgrade bar when sharing an update with others",
+    defaultMessage: "Sharing app updates with other devices",
+  },
+  updateUnknownState: {
+    id: "screens.SyncModal.SyncView.updateUnknownState",
+    description:
+      "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    defaultMessage: "Unimplemented state",
+  },
+  installUpdateButton: {
+    id: "screens.SyncModal.SyncView.installUpdateButton",
+    description: "Label for button to install an update",
+    defaultMessage: "Install Update",
+  },
+  openSettingsButton: {
+    id: "screens.SyncModal.SyncView.openSettingsButton",
+    description:
+      "Label for button to open settings to fix update permissions error",
+    defaultMessage: "Open Settings",
+  },
 });
 
-const UpgradeBar = ({ upgradeInfo, onInstallPress }) => (
-  <TouchableNativeFeedback>
-    <View style={styles.upgradeBar}>
-      {(() => {
-        switch (upgradeInfo.state) {
-          case UpgradeState.Searching:
-            return (
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flex: 1,
-                }}
-              >
-                <Text style={styles.upgradeBarText} numberOfLines={1}>
-                  <FormattedMessage {...m.checkingUpdates} />
-                </Text>
-                <View style={{ flex: 1 }}></View>
-                <DotIndicator style={{ flex: 1 }} size={7} />
-              </View>
-            );
-            break;
-          case UpgradeState.WaitingForSync:
-            return (
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flex: 1,
-                }}
-              >
-                <View style={{ flex: 4 }}>
-                  <Text style={styles.upgradeBarText} numberOfLines={2}>
-                    {"Update available; waiting for sync to finish"}
-                  </Text>
-                </View>
-                <View style={{ flex: 2 }}></View>
-                <DotIndicator style={{ flex: 1 }} size={7} />
-              </View>
-            );
-            break;
-          case UpgradeState.Downloading:
-            return (
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                }}
-              >
-                <View style={{ flex: 2 }}>
+const UpgradeBar = ({ upgradeInfo, onInstallPress }) => {
+  const { formatMessage: t } = useIntl();
+  return (
+    <TouchableNativeFeedback>
+      <View style={styles.upgradeBar}>
+        {(() => {
+          switch (upgradeInfo.state) {
+            case UpgradeState.Searching:
+              return (
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flex: 1,
+                  }}
+                >
                   <Text style={styles.upgradeBarText} numberOfLines={1}>
-                    {"Downloading updates"}
+                    <FormattedMessage {...m.checkingUpdates} />
                   </Text>
+                  <View style={{ flex: 1 }}></View>
+                  <DotIndicator style={{ flex: 1 }} size={7} />
                 </View>
-                <View style={{ flex: 1 }}></View>
-                <Progress
-                  progress={upgradeInfo.context.progress}
-                  size={25}
-                  color="#3568f5"
-                />
-              </View>
-            );
-            break;
-          case UpgradeState.GenericError:
-            return (
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flex: 1,
-                }}
-              >
-                <View style={{ flex: 4, flexDirection: "column" }}>
-                  <Text style={styles.upgradeBarText} numberOfLines={1}>
-                    {"Unable to update"}
-                  </Text>
-                  <Text
-                    style={styles.upgradeBarTextSecondary}
-                    numberOfLines={1}
-                  >
-                    {upgradeInfo.context}
-                  </Text>
+              );
+              break;
+            case UpgradeState.WaitingForSync:
+              return (
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flex: 1,
+                  }}
+                >
+                  <View style={{ flex: 4 }}>
+                    <Text style={styles.upgradeBarText} numberOfLines={2}>
+                      <FormattedMessage {...m.updateAwaitingSync} />
+                    </Text>
+                  </View>
+                  <View style={{ flex: 2 }}></View>
+                  <DotIndicator style={{ flex: 1 }} size={7} />
                 </View>
-                <View style={{ flex: 0.5, justifyContent: "center" }}>
-                  <ErrorIcon color="red" />
-                </View>
-              </View>
-            );
-            break;
-          case UpgradeState.PermissionError:
-            return (
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flex: 1,
-                }}
-              >
-                <View style={{ flex: 8, flexDirection: "column" }}>
-                  <Text style={styles.upgradeBarText} numberOfLines={1}>
-                    {"Unable to update"}
-                  </Text>
-                  <Text
-                    style={styles.upgradeBarTextSecondary}
-                    numberOfLines={1}
-                  >
-                    {upgradeInfo.context}
-                  </Text>
-                </View>
-                <View style={{ flex: 5, justifyContent: "center" }}>
-                  <TextButton title={"Open Settings"} />
-                </View>
-              </View>
-            );
-            break;
-          case UpgradeState.NoUpdatesFound:
-            return (
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flex: 1,
-                }}
-              >
-                <View style={{ flex: 4, flexDirection: "column" }}>
-                  <Text style={styles.upgradeBarText} numberOfLines={1}>
-                    {"No app updates found"}
-                  </Text>
-                </View>
-                <View style={{ flex: 0.5, justifyContent: "center" }}>
-                  <DoneIcon color="#00FF00" />
-                </View>
-              </View>
-            );
-            break;
-          case UpgradeState.ReadyToUpgrade:
-            return (
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flex: 1,
-                }}
-              >
-                <View style={{ flex: 6, flexDirection: "column" }}>
-                  <Text style={styles.upgradeBarText} numberOfLines={2}>
-                    {"A new version of Mapeo is available"}
-                  </Text>
-                </View>
-                <View style={{ flex: 2 }} />
-                <View style={{ flex: 5, justifyContent: "center" }}>
-                  <TouchableNativeFeedback onPress={onInstallPress}>
-                    <TextButton
-                      title={"Install Update"}
-                      onPress={onInstallPress}
-                    />
-                  </TouchableNativeFeedback>
-                </View>
-              </View>
-            );
-            break;
-          case UpgradeState.Draining:
-            return (
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flex: 1,
-                }}
-              >
-                <View style={{ flex: 6 }}>
-                  <Text style={styles.upgradeBarText} numberOfLines={2}>
-                    {"Sharing app updates with other devices"}
-                  </Text>
-                </View>
-                <View style={{ flex: 3 }} />
-                <View style={{ flex: 1.5 }}>
-                  <MaterialIndicator
-                    animationDuration={8000}
-                    size={35}
+              );
+              break;
+            case UpgradeState.Downloading:
+              return (
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <View style={{ flex: 2 }}>
+                    <Text style={styles.upgradeBarText} numberOfLines={1}>
+                      <FormattedMessage {...m.updateDownloading} />
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1 }}></View>
+                  <Progress
+                    progress={upgradeInfo.context.progress}
+                    size={25}
                     color="#3568f5"
                   />
                 </View>
-              </View>
-            );
-            break;
-          default:
-            return (
-              <Text style={styles.upgradeBarText} numberOfLines={1}>
-                {"unimplemented state"}
-              </Text>
-            );
-            break;
-        }
-      })()}
-    </View>
-  </TouchableNativeFeedback>
-);
+              );
+              break;
+            case UpgradeState.GenericError:
+              return (
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flex: 1,
+                  }}
+                >
+                  <View style={{ flex: 4, flexDirection: "column" }}>
+                    <Text style={styles.upgradeBarText} numberOfLines={1}>
+                      <FormattedMessage {...m.updateGenericError} />
+                    </Text>
+                    <Text
+                      style={styles.upgradeBarTextSecondary}
+                      numberOfLines={1}
+                    >
+                      {upgradeInfo.context}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 0.5, justifyContent: "center" }}>
+                    <ErrorIcon color="red" />
+                  </View>
+                </View>
+              );
+              break;
+            case UpgradeState.PermissionError:
+              return (
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flex: 1,
+                  }}
+                >
+                  <View style={{ flex: 8, flexDirection: "column" }}>
+                    <Text style={styles.upgradeBarText} numberOfLines={1}>
+                      <FormattedMessage {...m.updatePermissionError} />
+                    </Text>
+                    <Text
+                      style={styles.upgradeBarTextSecondary}
+                      numberOfLines={1}
+                    >
+                      {upgradeInfo.context}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 5, justifyContent: "center" }}>
+                    <TextButton title={t(m.openSettingsButton)} />
+                  </View>
+                </View>
+              );
+              break;
+            case UpgradeState.NoUpdatesFound:
+              return (
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flex: 1,
+                  }}
+                >
+                  <View style={{ flex: 4, flexDirection: "column" }}>
+                    <Text style={styles.upgradeBarText} numberOfLines={1}>
+                      <FormattedMessage {...m.noUpdates} />
+                    </Text>
+                  </View>
+                  <View style={{ flex: 0.5, justifyContent: "center" }}>
+                    <DoneIcon color="#00FF00" />
+                  </View>
+                </View>
+              );
+              break;
+            case UpgradeState.ReadyToUpgrade:
+              return (
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flex: 1,
+                  }}
+                >
+                  <View style={{ flex: 6, flexDirection: "column" }}>
+                    <Text style={styles.upgradeBarText} numberOfLines={2}>
+                      <FormattedMessage {...m.updateReady} />
+                    </Text>
+                  </View>
+                  <View style={{ flex: 2 }} />
+                  <View style={{ flex: 5, justifyContent: "center" }}>
+                    <TouchableNativeFeedback onPress={onInstallPress}>
+                      <TextButton
+                        title={t(m.installUpdateButton)}
+                        onPress={onInstallPress}
+                      />
+                    </TouchableNativeFeedback>
+                  </View>
+                </View>
+              );
+              break;
+            case UpgradeState.Draining:
+              return (
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flex: 1,
+                  }}
+                >
+                  <View style={{ flex: 6 }}>
+                    <Text style={styles.upgradeBarText} numberOfLines={2}>
+                      <FormattedMessage {...m.sharingUpdate} />
+                    </Text>
+                  </View>
+                  <View style={{ flex: 3 }} />
+                  <View style={{ flex: 1.5 }}>
+                    <MaterialIndicator
+                      animationDuration={8000}
+                      size={35}
+                      color="#3568f5"
+                    />
+                  </View>
+                </View>
+              );
+              break;
+            default:
+              return (
+                <Text style={styles.upgradeBarText} numberOfLines={1}>
+                  <FormattedMessage {...m.updateUnkownState} />
+                </Text>
+              );
+              break;
+          }
+        })()}
+      </View>
+    </TouchableNativeFeedback>
+  );
+};
 
 const TextButton = ({ onPress, title }) => (
   <Text style={styles.textButton}>{title}</Text>
