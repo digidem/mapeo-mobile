@@ -19,7 +19,7 @@
     "level": "^5.0.1",
     "lodash": "^4.17.20",
     "mapeo-config-icca": "^1.4.0",
-    "mapeo-default-settings": "^3.2.0",
+    "mapeo-default-settings": "^3.4.0",
     "mapeo-server": "^17.0.6",
     "mkdirp": "^1.0.3",
     "pump": "^3.0.0",
