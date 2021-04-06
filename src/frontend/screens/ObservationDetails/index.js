@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
-import { Text, StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform } from "react-native";
+import Text from "../../sharedComponents/Text";
 import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 
 import TextButton from "../../sharedComponents/TextButton";
