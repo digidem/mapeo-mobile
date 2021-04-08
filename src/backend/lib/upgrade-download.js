@@ -124,16 +124,28 @@ class Search extends EventEmitter {
             try {
               const data = JSON.parse(buf.toString());
               data.forEach(upgrade => {
-                // See if this upgrade is compatible
-                if (this.isUpgradeCandidate(upgrade)) {
-                  const newContext = clone(this.context);
-                  const newUpgrade = Object.assign(upgrade, { host, port });
-                  newContext.upgrades.push(newUpgrade);
-                  searchLog("new upgrade candidate found", newUpgrade);
-                  this.setState(UpgradeState.Search.Searching, newContext);
-                } else {
+                if (!this.isUpgradeCandidate(upgrade)) {
                   searchLog("skipped upgrade candidate", upgrade);
+                  return;
                 }
+
+                // See if this upgrade is the same version as one we already
+                // have. If so, replace it. This handles the case of a peer
+                // crashing and then coming back online, so that this peer
+                // won't hold onto a stale entry & ignore a newer one.
+                const filtered = this.context.upgrades.filter(u => {
+                  if (u.hash === upgrade.hash) return false;
+                  return true;
+                });
+
+                const newUpgrades = filtered;
+                const newUpgrade = Object.assign(upgrade, { host, port });
+                newUpgrades.push(newUpgrade);
+                searchLog("new upgrade candidate found", newUpgrade);
+                const newContext = Object.assign(this.context, {
+                  upgrades: newUpgrades,
+                });
+                this.setState(UpgradeState.Search.Searching, newContext);
               });
             } catch (err) {
               searchLog("JSON parse error:", err);
@@ -178,9 +190,8 @@ class Search extends EventEmitter {
     if (upgrade.arch.indexOf(this.storage.getLocalArch()) === -1) return false;
     if (upgrade.platform !== this.storage.getLocalPlatform()) return false;
     if (!semver.valid(upgrade.version)) return false;
-    if (!semver.gt(upgrade.version, this.storage.getLocalVersion()))
+    if (semver.lt(upgrade.version, this.storage.getLocalVersion()))
       return false;
-    if (this.context.upgrades.some(u => u.hash === upgrade.hash)) return false;
     return true;
   }
 }

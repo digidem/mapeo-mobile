@@ -9,6 +9,11 @@ const getport = require("getport");
 const collect = require("collect-stream");
 const rimraf = require("rimraf");
 
+// Wipes the 'filename' property.
+function scrub(options) {
+  options.forEach(o => delete o.filename);
+}
+
 function startServer(opts, cb) {
   if (typeof opts === "function") {
     cb = opts;
@@ -21,9 +26,10 @@ function startServer(opts, cb) {
     const dir = tmp.dirSync().name;
     const storage = new UpgradeStorage(dir, opts);
     const server = new UpgradeServer(storage, port);
-    function cleanup() {
+    function cleanup(cb) {
       server.drain(() => {
         rimraf.sync(dir);
+        if (cb) cb();
       });
     }
     cb(null, port, server, storage, cleanup);
@@ -277,7 +283,59 @@ test("REGRESSION: a local upgrade equal to app version is not shown", t => {
   });
 });
 
-// Wipes the 'filename' property.
-function scrub(options) {
-  options.forEach(o => delete o.filename);
-}
+test("candidate replaced if peer with an upgrade goes down + another appears", t => {
+  t.plan(11);
+
+  // Peer 1
+  startServer((err, port, server, storage, cleanup) => {
+    t.error(err, "server 1 started ok");
+
+    // Peer 2
+    const dir2 = tmp.dirSync().name;
+    const storage2 = new UpgradeStorage(dir2);
+    const download2 = new UpgradeDownload(storage2);
+
+    server.share();
+
+    const apkPath = path.join(__dirname, "static", "fake.apk");
+    storage.setApkInfo(apkPath, "10.0.0", err => {
+      t.error(err, "apk info set ok");
+
+      // End Peer 2 once found, then restart it
+      awaitFoundUpgrade((err, option) => {
+        t.error(err, "found upgrade candidate ok");
+        cleanup(() => {
+          startServer((err, port, server, storage, cleanup) => {
+            t.error(err, "server 2 started ok");
+            storage.setApkInfo(apkPath, "10.0.0", err => {
+              t.error(err, "apk info set ok");
+              server.share();
+              const ix = setTimeout(() => {
+                t.fail("unable to find new upgrade candidate");
+                cleanup();
+                download2.stop();
+              }, 3000);
+              awaitFoundUpgrade((err, option2) => {
+                clearTimeout(ix);
+                t.error(err, "found 2nd upgrade candidate ok");
+                t.equals(option.version, option2.version, "versions match ok");
+                cleanup();
+                download2.stop();
+              });
+            });
+          });
+        });
+      });
+
+      function awaitFoundUpgrade(cb) {
+        download2.start();
+        download2.once("state", state => {
+          t.equals(state.search.state, "SEARCHING");
+          t.equals(state.search.context.upgrades.length, 1, "upgrade found ok");
+          const option = state.search.context.upgrades[0];
+          cb(null, option);
+        });
+      }
+    });
+  });
+});
