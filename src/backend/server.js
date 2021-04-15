@@ -30,7 +30,6 @@ module.exports = createServer;
 function createServer({
   privateStorage,
   sharedStorage,
-  flavor,
 }) {
   const defaultConfigPath = path.join(sharedStorage, "presets/default");
   log("Creating server");
