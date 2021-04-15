@@ -14,10 +14,6 @@ import java.util.HashMap;
 public class AppInfoModule extends ReactContextBaseJavaModule {
   private static ReactApplicationContext reactContext;
 
-  static final String MODULE_NAME = "AppInfo";
-
-  private static final String sourceDir = "sourceDir";
-
   AppInfoModule(ReactApplicationContext context) {
     super(context);
     reactContext = context;
@@ -25,14 +21,15 @@ public class AppInfoModule extends ReactContextBaseJavaModule {
 
   @Override
   public String getName() {
-    return MODULE_NAME;
+    return "AppInfo";
   }
 
   @Override
   public Map<String, Object> getConstants() {
     final Map<String, Object> constants = new HashMap<>();
     ApplicationInfo ai = getReactApplicationContext().getApplicationInfo();
-    constants.put(sourceDir, ai.sourceDir);
+    constants.put("sourceDir", ai.sourceDir);
+    constants.put("minSdkVersion", ai.minSdkVersion);
     return constants;
   }
 }
