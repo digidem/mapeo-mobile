@@ -27,13 +27,7 @@ const log = debug("mapeo-core:server");
 
 module.exports = createServer;
 
-function createServer({
-  privateStorage,
-  sharedStorage,
-  apkPath,
-  apkVersion,
-  flavor,
-}) {
+function createServer({ privateStorage, sharedStorage, apkPath, apkVersion }) {
   const defaultConfigPath = path.join(sharedStorage, "presets/default");
   log("Creating server");
 
