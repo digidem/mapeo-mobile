@@ -30,7 +30,6 @@ module.exports = createServer;
 function createServer({
   privateStorage,
   sharedStorage,
-  upgradeStorage,
   flavor,
 }) {
   const defaultConfigPath = path.join(sharedStorage, "presets/default");
@@ -68,7 +67,7 @@ function createServer({
   });
   let mapeoCore = mapeoRouter.api.core;
 
-  const upgradePath = path.join(upgradeStorage, "upgrades");
+  const upgradePath = path.join(privateStorage, "upgrades");
   mkdirp.sync(upgradePath);
   let upgradeManager;
 

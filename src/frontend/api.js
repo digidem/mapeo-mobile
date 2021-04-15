@@ -238,7 +238,6 @@ export function Api({
         // other config that the server requires
         nodejs.channel.post("config", {
           storagePath: RNFS.ExternalDirectoryPath,
-          upgradeStoragePath: RNFS.DocumentDirectoryPath,
         });
         // Resolve once the server reports status as "LISTENING"
         return onReady();
