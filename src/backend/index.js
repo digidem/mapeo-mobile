@@ -67,6 +67,9 @@ status.startHeartbeat();
  * card. It is a shared folder that the user can access. The data folder
  * accessible through rnBridge.app.datadir() is not accessible by the user.
  *
+ * Other config data such as the path to the APK file is only available in the
+ * React Native process, so we pass that to the backend here
+ *
  * We need to wait for the React Native process to tell us where the folder is.
  */
 rnBridge.channel.once("config", config => {
@@ -84,6 +87,7 @@ rnBridge.channel.once("config", config => {
       apkPath: config.apkPath,
       apkVersion: config.apkVersion,
       sharedStorage: config.storagePath,
+      ...config,
     });
   } catch (error) {
     status.setState(constants.ERROR, { error, context: "createServer" });

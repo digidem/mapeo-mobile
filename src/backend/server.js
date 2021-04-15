@@ -27,7 +27,15 @@ const log = debug("mapeo-core:server");
 
 module.exports = createServer;
 
-function createServer({ privateStorage, sharedStorage, apkPath, apkVersion }) {
+function createServer({
+  privateStorage,
+  sharedStorage,
+  apkPath,
+  minSdkVersion,
+  version,
+  buildNumber,
+  bundleId,
+}) {
   const defaultConfigPath = path.join(sharedStorage, "presets/default");
   log("Creating server");
 
@@ -172,6 +180,7 @@ function createServer({ privateStorage, sharedStorage, apkPath, apkVersion }) {
       const emitFn = rnBridge.channel.post.bind(rnBridge.channel);
       const listenFn = rnBridge.channel.on.bind(rnBridge.channel);
       const removeFn = rnBridge.channel.removeListener.bind(rnBridge.channel);
+      // TODO: Pass apkPath, version, buildNumber, minSdkVersion, bundleId
       const manager = new UpgradeManager(
         upgradePath,
         port,
