@@ -123,17 +123,25 @@ class Search extends EventEmitter {
             if (err) return release();
             try {
               const data = JSON.parse(buf.toString());
-              data.forEach(upgrade => {
-                // See if this upgrade is compatible
-                if (this.isUpgradeCandidate(upgrade)) {
-                  const newContext = clone(this.context);
-                  const newUpgrade = Object.assign(upgrade, { host, port });
-                  newContext.upgrades.push(newUpgrade);
-                  searchLog("new upgrade candidate found", newUpgrade);
-                  this.setState(UpgradeState.Search.Searching, newContext);
-                } else {
-                  searchLog("skipped upgrade candidate", upgrade);
-                }
+
+              this.storage.getAvailableUpgrades((err, upgrades) => {
+                if (err) return release();
+
+                data.forEach(upgrade => {
+                  // Skip upgrade if we've already downloaded it.
+                  if (upgrades.some(u => u.hash === upgrade.hash)) return;
+
+                  // See if this upgrade is compatible
+                  if (this.isUpgradeCandidate(upgrade)) {
+                    const newContext = clone(this.context);
+                    const newUpgrade = Object.assign(upgrade, { host, port });
+                    newContext.upgrades.push(newUpgrade);
+                    searchLog("new upgrade candidate found", newUpgrade);
+                    this.setState(UpgradeState.Search.Searching, newContext);
+                  } else {
+                    searchLog("skipped upgrade candidate", upgrade);
+                  }
+                });
               });
             } catch (err) {
               searchLog("JSON parse error:", err);
