@@ -21,7 +21,7 @@ import CustomHeaderLeft from "./sharedComponents/CustomHeaderLeft";
 import ProjectConfig from "./screens/Settings/ProjectConfig";
 import AboutMapeo from "./screens/Settings/AboutMapeo";
 import LanguageSettings from "./screens/Settings/LanguageSettings";
-import CoordinateSystem from "./screens/Settings/CoordinateSystem";
+import CoordinateFormat from "./screens/Settings/CoordinateFormat";
 import HomeHeader from "./sharedComponents/HomeHeader";
 
 const HomeTabs = createBottomTabNavigator(
@@ -69,7 +69,7 @@ const AppStack = createStackNavigator(
     // $FlowFixMe
     LanguageSettings,
     // $FlowFixMe
-    CoordinateSystem,
+    CoordinateFormat,
     // $FlowFixMe
     PhotosModal: PhotosModal,
     // $FlowFixMe

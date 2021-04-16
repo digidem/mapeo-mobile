@@ -62,7 +62,7 @@ const LocationView = ({
   latitude?: number | null,
   accuracy?: number,
 }) => {
-  const system = useSettingsValue("coordinateSystem");
+  const format = useSettingsValue("coordinateFormat");
   return (
     <View style={styles.locationContainer}>
       {longitude == null || latitude == null ? (
@@ -78,7 +78,7 @@ const LocationView = ({
             style={{ marginRight: 5 }}
           />
           <Text style={styles.locationText}>
-            <FormattedCoords format={system} lat={latitude} lon={longitude} />
+            <FormattedCoords format={format} lat={latitude} lon={longitude} />
           </Text>
           {accuracy === undefined ? null : (
             <Text style={styles.accuracy}>

@@ -6,10 +6,10 @@ import createPersistedState from "../hooks/usePersistedState";
 // because it will reset everybody's settings back to the defaults = bad :(
 const STORE_KEY = "@MapeoSettings@1";
 
-export type CoordinateSystem = "utm" | "dd" | "dms";
+export type CoordinateFormat = "utm" | "dd" | "dms";
 
 export type SettingsState = {
-  coordinateSystem: CoordinateSystem,
+  coordinateFormat: CoordinateFormat,
 };
 
 type SettingsContextType = [
@@ -18,7 +18,7 @@ type SettingsContextType = [
 ];
 
 const DEFAULT_SETTINGS = {
-  coordinateSystem: "utm",
+  coordinateFormat: "utm",
 };
 
 const SettingsContext = React.createContext<SettingsContextType>([

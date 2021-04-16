@@ -12,24 +12,24 @@ import SelectOne from "./SelectOne";
 
 const m = defineMessages({
   title: {
-    id: "screens.CoordinateSystem.title",
-    defaultMessage: "Coordinate System",
-    description: "Title coordinate system screen",
+    id: "screens.CoordinateFormat.title",
+    defaultMessage: "Coordinate Format",
+    description: "Title coordinate format screen",
   },
   dd: {
-    id: "screens.CoordinateSystem.dd",
+    id: "screens.CoordinateFormat.dd",
     defaultMessage: "Decimal Degrees (DD)",
-    description: "Decimal Degrees coordinate system",
+    description: "Decimal Degrees coordinate format",
   },
   dms: {
-    id: "screens.CoordinateSystem.dms",
+    id: "screens.CoordinateFormat.dms",
     defaultMessage: "Degrees/Minutes/Seconds (DMS)",
-    description: "Degrees/Minutes/Seconds coordinate system",
+    description: "Degrees/Minutes/Seconds coordinate format",
   },
   utm: {
-    id: "screens.CoordinateSystem.utm",
+    id: "screens.CoordinateFormat.utm",
     defaultMessage: "Universal Transverse Mercator (UTM)",
-    description: "Universal Transverse Mercator coordinate system",
+    description: "Universal Transverse Mercator coordinate format",
   },
 });
 
@@ -37,10 +37,10 @@ const m = defineMessages({
 // user location if available
 const EXAMPLE_LOCATION = { longitude: -72.312023, latitude: -10.38787 };
 
-const CoordinateSystem = () => {
+const CoordinateFormat = () => {
   const intl = useIntl();
   const location = React.useContext(LocationContext);
-  const [{ coordinateSystem }, setSettings] = React.useContext(SettingsContext);
+  const [{ coordinateFormat }, setSettings] = React.useContext(SettingsContext);
 
   const { latitude: lat, longitude: lon } =
     (location.position && location.position.coords) || EXAMPLE_LOCATION;
@@ -52,17 +52,17 @@ const CoordinateSystem = () => {
   }));
 
   return (
-    <ScrollView testID="languageScrollView">
+    <ScrollView testID="coordinateFormatScrollView">
       <SelectOne
-        value={coordinateSystem}
+        value={coordinateFormat}
         options={options}
-        onChange={format => setSettings("coordinateSystem", format)}
+        onChange={format => setSettings("coordinateFormat", format)}
       />
     </ScrollView>
   );
 };
 
-CoordinateSystem.navigationOptions = {
+CoordinateFormat.navigationOptions = {
   headerTitle: () => (
     <HeaderTitle>
       <FormattedMessage {...m.title} />
@@ -70,4 +70,4 @@ CoordinateSystem.navigationOptions = {
   ),
 };
 
-export default CoordinateSystem;
+export default CoordinateFormat;

@@ -126,7 +126,7 @@ const ObservationView = ({
   onPressDelete,
 }: ODVProps) => {
   const intl = useIntl();
-  const coordinateSystem = useSettingsValue("coordinateSystem");
+  const coordinateFormat = useSettingsValue("coordinateFormat");
   const { formatMessage: t } = intl;
   const deviceId = useDeviceId();
   const isMine = deviceId === observation.value.deviceId;
@@ -176,7 +176,7 @@ const ObservationView = ({
               <View style={styles.coordsPointer} />
               <Text style={styles.positionText}>
                 <FormattedCoords
-                  format={coordinateSystem}
+                  format={coordinateFormat}
                   lon={lon}
                   lat={lat}
                 />

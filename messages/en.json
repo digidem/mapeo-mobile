@@ -58,20 +58,20 @@
     "description": "Title for category chooser screen",
     "message": "Choose what is happening"
   },
-  "screens.CoordinateSystem.dd": {
-    "description": "Decimal Degrees coordinate system",
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
     "message": "Decimal Degrees (DD)"
   },
-  "screens.CoordinateSystem.dms": {
-    "description": "Degrees/Minutes/Seconds coordinate system",
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
     "message": "Degrees/Minutes/Seconds (DMS)"
   },
-  "screens.CoordinateSystem.title": {
-    "description": "Title coordinate system screen",
-    "message": "Coordinate System"
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "Coordinate Format"
   },
-  "screens.CoordinateSystem.utm": {
-    "description": "Universal Transverse Mercator coordinate system",
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
     "message": "Universal Transverse Mercator (UTM)"
   },
   "screens.GpsModal.details": {
@@ -93,10 +93,6 @@
   "screens.GpsModal.locationDMS": {
     "description": "Section title for DMS coordinates",
     "message": "Coordinates DMS"
-  },
-  "screens.GpsModal.locationLatLon": {
-    "description": "Section title for latitude and longitude coordinates",
-    "message": "Coordinates Latitude and Longitude"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
@@ -324,13 +320,13 @@
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "Import Error"
   },
-  "screens.Settings.coordinateSystem": {
-    "description": "Settings for coordinate systems",
-    "message": "Coordinate System"
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "Coordinate Format"
   },
-  "screens.Settings.coordinateSystemDesc": {
-    "description": "Description of the 'Coordinate System' page",
-    "message": "DD, UTM, DMS"
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "Choose how coordinates are displayed"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",

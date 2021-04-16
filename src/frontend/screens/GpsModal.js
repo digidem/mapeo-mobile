@@ -77,7 +77,7 @@ const GpsModal = ({ navigation }: Props) => {
   // This is necessary for Flow type checking (if we use location.position in a
   // conditional it does not know if something else can change it)
   const { position, provider } = location;
-  const coordinateSystem = useSettingsValue("coordinateSystem");
+  const coordinateFormat = useSettingsValue("coordinateFormat");
   const { formatMessage: t } = useIntl();
 
   return (
@@ -93,13 +93,13 @@ const GpsModal = ({ navigation }: Props) => {
         {position && (
           <>
             <Text style={styles.sectionTitle}>
-              <FormattedMessage {...m[coordinateSystem]} />
+              <FormattedMessage {...m[coordinateFormat]} />
             </Text>
             <Text style={styles.rowValue}>
               <FormattedCoords
                 lon={position.coords.longitude}
                 lat={position.coords.latitude}
-                format={coordinateSystem}
+                format={coordinateFormat}
               />
             </Text>
             <Text style={styles.sectionTitle}>

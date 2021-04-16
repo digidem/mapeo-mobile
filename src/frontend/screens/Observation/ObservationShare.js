@@ -53,7 +53,7 @@ export const ShareSubject = ({ observation, preset }: ShareMessageProps) => {
 
 export const ShareMessage = ({ observation, preset }: ShareMessageProps) => {
   const { formatMessage: t } = useIntl();
-  const coordinateSystem = useSettingsValue("coordinateSystem");
+  const coordinateFormat = useSettingsValue("coordinateFormat");
 
   const { value } = observation;
   const { lon, lat } = value;
@@ -84,7 +84,7 @@ export const ShareMessage = ({ observation, preset }: ShareMessageProps) => {
         <FormattedObservationDate observation={observation} variant="long" />
         <br />
         {lon != null && lat != null ? (
-          <FormattedCoords format={coordinateSystem} lat={lat} lon={lon} />
+          <FormattedCoords format={coordinateFormat} lat={lat} lon={lon} />
         ) : null}
       </p>
       {value.tags.notes ? <p>{value.tags.notes}</p> : null}
