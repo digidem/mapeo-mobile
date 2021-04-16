@@ -1,82 +1,51 @@
 // @flow
 import * as React from "react";
-import AsyncStorage from "@react-native-community/async-storage";
+import createPersistedState from "../hooks/usePersistedState";
 
-const STORE_KEY = "@MapeoSettings@36";
+// Increment if the shape of settings changes, but try to avoid doing this
+// because it will reset everybody's settings back to the defaults = bad :(
+const STORE_KEY = "@MapeoSettings@1";
 
-export type SettingsContextType = {
-  coordinateSystem?: string,
+export type CoordinateSystem = "utm" | "dd" | "dms";
+
+export type SettingsState = {
+  coordinateSystem: CoordinateSystem,
 };
 
-const initialState = {
+type SettingsContextType = [
+  SettingsState,
+  (key: $Keys<SettingsState>, value: any) => void
+];
+
+const DEFAULT_SETTINGS = {
   coordinateSystem: "utm",
 };
 
-const defaultContext = [initialState, () => {}];
-const SettingsContext = React.createContext(defaultContext);
+const SettingsContext = React.createContext<SettingsContextType>([
+  DEFAULT_SETTINGS,
+  () => {},
+]);
 
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case "set": {
-      return action.value;
-    }
-    case "set_coordinate_system": {
-      try {
-        return { ...state, coordinateSystem: action.value };
-      } catch {
-        return state;
-      }
-    }
-    default:
-      return state;
-  }
-}
-
-const getData = async dispatch => {
-  try {
-    // AsyncStorage.clear()
-    const state = await AsyncStorage.getItem(STORE_KEY);
-    if (state) {
-      const parsedState = JSON.parse(state);
-      dispatch({ type: "set", value: parsedState });
-      return parsedState;
-    } else return initialState;
-  } catch (e) {
-    console.log("Failed to fetch the data from storage");
-    return initialState;
-  }
-};
-
-const saveData = async value => {
-  try {
-    const stringified = JSON.stringify(value);
-    await AsyncStorage.setItem(STORE_KEY, stringified);
-    return value;
-  } catch (e) {
-    console.log("Failed to save the data to the storage");
-  }
-};
+const usePersistedState = createPersistedState(STORE_KEY);
 
 export const SettingsProvider = ({ children }: { children: React.Node }) => {
-  const didMountRef = React.useRef(false);
-  const [state, dispatch] = React.useReducer(reducer, defaultContext[0]);
-  const contextValue = React.useMemo(() => [state, dispatch], [
+  const [state, status, setState] = usePersistedState<SettingsState>(
+    DEFAULT_SETTINGS
+  );
+
+  const setSettings = React.useCallback(
+    (key, value) => setState({ ...state, [key]: value }),
+    [setState, state]
+  );
+
+  const contextValue = React.useMemo(() => [state, setSettings], [
     state,
-    dispatch,
+    setSettings,
   ]);
-  React.useEffect(() => {
-    if (didMountRef.current) {
-      saveData(contextValue[0]);
-    } else {
-      didMountRef.current = true;
-      getData(dispatch);
-    }
-  }, [contextValue]);
+
   return (
-    <SettingsContext.Provider
-      value={{ settings: contextValue[0], dispatch: contextValue[1] }}
-    >
-      {children}
+    <SettingsContext.Provider value={contextValue}>
+      {status === "loading" ? null : children}
     </SettingsContext.Provider>
   );
 };

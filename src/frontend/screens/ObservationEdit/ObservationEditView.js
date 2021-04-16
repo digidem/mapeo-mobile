@@ -14,6 +14,7 @@ import {
   CategoryCircleIcon,
 } from "../../sharedComponents/icons";
 import useDraftObservation from "../../hooks/useDraftObservation";
+import useSettingsValue from "../../hooks/useSettingsValue";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import TextButton from "../../sharedComponents/TextButton";
 import { BLACK, LIGHT_GREY, LIGHT_BLUE } from "../../lib/styles";
@@ -55,39 +56,40 @@ const m = defineMessages({
 const LocationView = ({
   longitude,
   latitude,
-  system,
   accuracy,
 }: {
   longitude?: number | null,
   latitude?: number | null,
-  system?: string,
   accuracy?: number,
-}) => (
-  <View style={styles.locationContainer}>
-    {longitude == null || latitude == null ? (
-      <Text>
-        <FormattedMessage {...m.searching} />
-      </Text>
-    ) : (
-      <>
-        <MaterialIcons
-          size={14}
-          name="location-on"
-          color="orange"
-          style={{ marginRight: 5 }}
-        />
-        <Text style={styles.locationText}>
-          <FormattedCoords format={system} lat={latitude} lon={longitude} />
+}) => {
+  const system = useSettingsValue("coordinateSystem");
+  return (
+    <View style={styles.locationContainer}>
+      {longitude == null || latitude == null ? (
+        <Text>
+          <FormattedMessage {...m.searching} />
         </Text>
-        {accuracy === undefined ? null : (
-          <Text style={styles.accuracy}>
-            {" ±" + accuracy.toFixed(2) + "m"}
+      ) : (
+        <>
+          <MaterialIcons
+            size={14}
+            name="location-on"
+            color="orange"
+            style={{ marginRight: 5 }}
+          />
+          <Text style={styles.locationText}>
+            <FormattedCoords format={system} lat={latitude} lon={longitude} />
           </Text>
-        )}
-      </>
-    )}
-  </View>
-);
+          {accuracy === undefined ? null : (
+            <Text style={styles.accuracy}>
+              {" ±" + accuracy.toFixed(2) + "m"}
+            </Text>
+          )}
+        </>
+      )}
+    </View>
+  );
+};
 
 const CategoryView = ({
   preset = {},

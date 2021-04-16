@@ -4,7 +4,6 @@ import omit from "lodash/omit";
 
 import useDraftObservation from "../hooks/useDraftObservation";
 import LocationContext from "../context/LocationContext";
-import SettingsContext from "../context/SettingsContext";
 
 type Props = {
   children: ({
@@ -26,9 +25,7 @@ type Props = {
 const LocationField = ({ children }: Props) => {
   const [{ value }, { updateDraft }] = useDraftObservation();
   const location = React.useContext(LocationContext);
-  const {
-    settings: { coordinateSystem },
-  } = React.useContext(SettingsContext);
+
   React.useEffect(() => {
     if (!location.position || !value) return;
     const draftHasManualLocation =
@@ -58,7 +55,6 @@ const LocationField = ({ children }: Props) => {
   return children({
     longitude: value.lon,
     latitude: value.lat,
-    system: coordinateSystem,
     accuracy:
       value.metadata &&
       value.metadata.location &&

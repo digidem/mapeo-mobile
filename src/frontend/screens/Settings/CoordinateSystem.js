@@ -8,7 +8,6 @@ import SettingsContext from "../../context/SettingsContext";
 import { formatCoords } from "../../lib/utils";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import Loading from "../../sharedComponents/Loading";
 import SelectOne from "./SelectOne";
 
 const m = defineMessages({
@@ -34,54 +33,33 @@ const m = defineMessages({
   },
 });
 
+// Default location used to show how coordinates will be formatted. Uses current
+// user location if available
+const EXAMPLE_LOCATION = { longitude: -72.312023, latitude: -10.38787 };
+
 const CoordinateSystem = () => {
   const intl = useIntl();
   const location = React.useContext(LocationContext);
-  const { settings, dispatch } = React.useContext(SettingsContext);
-  const setSystem = React.useCallback(
-    value => dispatch({ type: "set_coordinate_system", value }),
-    [dispatch]
-  );
-  const system = settings.coordinateSystem;
-  if (!location || !location.position) return <Loading />;
-  else {
-    const { latitude = 0, longitude = 0 } = location.position.coords;
-    const options = [
-      {
-        value: "dd",
-        label: intl.formatMessage({ ...m.dd }),
-        hint: formatCoords({
-          lon: longitude,
-          lat: latitude,
-          format: "dd",
-        }),
-      },
-      {
-        value: "dms",
-        label: intl.formatMessage({ ...m.dms }),
-        hint: formatCoords({
-          lon: longitude,
-          lat: latitude,
-          format: "dms",
-        }),
-      },
-      {
-        value: "utm",
-        label: intl.formatMessage({ ...m.utm }),
-        hint: formatCoords({
-          lon: longitude,
-          lat: latitude,
-          format: "utm",
-        }),
-      },
-    ];
+  const [{ coordinateSystem }, setSettings] = React.useContext(SettingsContext);
 
-    return (
-      <ScrollView testID="languageScrollView">
-        <SelectOne value={system} options={options} onChange={setSystem} />
-      </ScrollView>
-    );
-  }
+  const { latitude: lat, longitude: lon } =
+    (location.position && location.position.coords) || EXAMPLE_LOCATION;
+
+  const options = ["dd", "dms", "utm"].map(format => ({
+    value: format,
+    label: intl.formatMessage(m[format]),
+    hint: formatCoords({ lon, lat, format }),
+  }));
+
+  return (
+    <ScrollView testID="languageScrollView">
+      <SelectOne
+        value={coordinateSystem}
+        options={options}
+        onChange={format => setSettings("coordinateSystem", format)}
+      />
+    </ScrollView>
+  );
 };
 
 CoordinateSystem.navigationOptions = {

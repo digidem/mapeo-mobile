@@ -5,7 +5,7 @@ import Text from "../sharedComponents/Text";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import LocationContext from "../context/LocationContext";
-import SettingsContext from "../context/SettingsContext";
+import useSettingsValue from "../hooks/useSettingsValue";
 
 import { FormattedCoords } from "../sharedComponents/FormattedData";
 import DateDistance from "../sharedComponents/DateDistance";
@@ -24,7 +24,7 @@ const m = defineMessages({
     defaultMessage: "Last update",
     description: "Section title for time of last GPS update",
   },
-  locationUTM: {
+  utm: {
     id: "screens.GpsModal.locationUTM",
     defaultMessage: "Coordinates UTM",
     description: "Section title for UTM coordinates",
@@ -34,12 +34,12 @@ const m = defineMessages({
     defaultMessage: "Coordinates Latitude and Longitude",
     description: "Section title for latitude and longitude coordinates",
   },
-  locationDMS: {
+  dms: {
     id: "screens.GpsModal.locationDMS",
     defaultMessage: "Coordinates DMS",
     description: "Section title for DMS coordinates",
   },
-  locationDD: {
+  dd: {
     id: "screens.GpsModal.locationDD",
     defaultMessage: "Coordinates Decimal Degrees",
     description: "Section title for DD coordinates",
@@ -79,22 +79,11 @@ type Props = {
 
 const GpsModal = ({ navigation }: Props) => {
   const location = React.useContext(LocationContext);
-  const {
-    settings: { coordinateSystem },
-  } = React.useContext(SettingsContext);
+  // This is necessary for Flow type checking (if we use location.position in a
+  // conditional it does not know if something else can change it)
+  const { position, provider } = location;
+  const coordinateSystem = useSettingsValue("coordinateSystem");
   const { formatMessage: t } = useIntl();
-  const coordinateMessage = () => {
-    switch (coordinateSystem) {
-      case "dd":
-        return <FormattedMessage {...m.locationDD} />;
-      case "utm":
-        return <FormattedMessage {...m.locationUTM} />;
-      case "dms":
-        return <FormattedMessage {...m.locationDMS} />;
-      default:
-        return <FormattedMessage {...m.locationUTM} />;
-    }
-  };
 
   return (
     <ScrollView style={styles.container} testID="gpsScreenScrollView">
@@ -106,20 +95,22 @@ const GpsModal = ({ navigation }: Props) => {
           style={styles.rowValue}
           date={new Date(getLastUpdateText(location))}
         />
-        {location.position && (
+        {position && (
           <>
-            <Text style={styles.sectionTitle}>{coordinateMessage()}</Text>
+            <Text style={styles.sectionTitle}>
+              <FormattedMessage {...m[coordinateSystem]} />
+            </Text>
             <Text style={styles.rowValue}>
               <FormattedCoords
-                lon={location.position.coords.longitude}
-                lat={location.position.coords.latitude}
+                lon={position.coords.longitude}
+                lat={position.coords.latitude}
                 format={coordinateSystem}
               />
             </Text>
             <Text style={styles.sectionTitle}>
               <FormattedMessage {...m.details} />
             </Text>
-            {Object.entries(location.position.coords).map(([key, value]) => (
+            {Object.entries(position.coords).map(([key, value]) => (
               <GpsModalRow
                 key={key}
                 label={key}
@@ -128,12 +119,12 @@ const GpsModal = ({ navigation }: Props) => {
             ))}
           </>
         )}
-        {location.provider && (
+        {provider && (
           <>
             <Text style={styles.sectionTitle}>
               <FormattedMessage {...m.locationSensors} />
             </Text>
-            {Object.entries(location.provider).map(([key, value]) => (
+            {Object.entries(provider).map(([key, value]) => (
               <GpsModalRow
                 key={key}
                 label={key}

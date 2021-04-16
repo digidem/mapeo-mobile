@@ -30,10 +30,10 @@ import {
 } from "../../lib/styles";
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/ConfigContext";
-import SettingsContext from "../../context/SettingsContext";
 import type { Observation } from "../../context/ObservationsContext";
 import useMapStyle from "../../hooks/useMapStyle";
 import useDeviceId from "../../hooks/useDeviceId";
+import useSettingsValue from "../../hooks/useSettingsValue";
 import Loading from "../../sharedComponents/Loading";
 import OfflineMapLayers from "../../sharedComponents/OfflineMapLayers";
 import { ShareMessage, ShareSubject, renderToString } from "./ObservationShare";
@@ -126,9 +126,7 @@ const ObservationView = ({
   onPressDelete,
 }: ODVProps) => {
   const intl = useIntl();
-  const {
-    settings: { coordinateSystem },
-  } = React.useContext(SettingsContext);
+  const coordinateSystem = useSettingsValue("coordinateSystem");
   const { formatMessage: t } = intl;
   const deviceId = useDeviceId();
   const isMine = deviceId === observation.value.deviceId;

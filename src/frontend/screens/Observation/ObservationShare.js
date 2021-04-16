@@ -15,7 +15,7 @@ import {
 import { getProp } from "../../lib/utils";
 import type { PresetWithFields } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
-import SettingsContext from "../../context/SettingsContext";
+import useSettingsValue from "../../hooks/useSettingsValue";
 
 const m = defineMessages({
   alertSubject: {
@@ -53,9 +53,7 @@ export const ShareSubject = ({ observation, preset }: ShareMessageProps) => {
 
 export const ShareMessage = ({ observation, preset }: ShareMessageProps) => {
   const { formatMessage: t } = useIntl();
-  const {
-    settings: { coordinateSystem },
-  } = React.useContext(SettingsContext);
+  const coordinateSystem = useSettingsValue("coordinateSystem");
 
   const { value } = observation;
   const { lon, lat } = value;
