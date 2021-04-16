@@ -300,6 +300,10 @@
     "description": "Label for name & version of current configuration",
     "message": "การกำหนดค่าปัจจุบัน"
   },
+  "screens.Settings.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "นำเข้าไฟล์โครงสร้าง"
+  },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
     "message": "ภาษา"
