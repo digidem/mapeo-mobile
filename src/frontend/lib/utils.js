@@ -128,11 +128,7 @@ function toDegreesMinutesAndSeconds(coordinate) {
   const minutesNotTruncated = (absolute - degrees) * 60;
   const minutes = Math.floor(minutesNotTruncated);
   const seconds = (minutesNotTruncated - minutes) * 60;
-  const decimals = 3;
-  const formattedSeconds = Number(
-    Math.round(seconds + "e" + decimals) + "e-" + decimals
-  );
-  return `${degrees}° ${minutes}' ${formattedSeconds}"`;
+  return `${degrees}° ${minutes}' ${seconds.toFixed(3)}"`;
 }
 
 function convertToDMS({ lat, lon }) {
@@ -159,14 +155,7 @@ function convertToUTM({ lat, lon }) {
 }
 
 function formatDD({ lat, lon }) {
-  const decimals = 6;
-  const formattedLat = Number(
-    Math.round(lat + "e" + decimals) + "e-" + decimals
-  );
-  const formattedLon = Number(
-    Math.round(lon + "e" + decimals) + "e-" + decimals
-  );
-  return `lat ${formattedLat} lon ${formattedLon}`;
+  return `Lat ${lat.toFixed(6)} Lon ${lon.toFixed(6)}`;
 }
 
 export function formatCoords({
