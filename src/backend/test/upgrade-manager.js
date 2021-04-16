@@ -7,27 +7,17 @@ const http = require("http");
 const getport = require("getport");
 const collect = require("collect-stream");
 const rimraf = require("rimraf");
-const EventEmitter = require("events").EventEmitter;
 const clone = require("clone");
 
 function makeUpgradeManager(dir, port) {
-  const ev = new EventEmitter();
-  const fns = {
-    emit: ev.emit.bind(ev),
-    listen: ev.on.bind(ev),
-    remove: ev.removeListener.bind(ev),
-  };
-  const manager = new UpgradeManager(
+  const opts = {
     dir,
     port,
-    "0.0.0",
-    fns.emit,
-    fns.listen,
-    fns.remove
-  );
+    currentVersion: "0.0.0",
+  };
+  const manager = new UpgradeManager(opts);
   return {
     manager,
-    ev,
     // XXX: temp hack until UpgradeServer runs its own http server
     server: manager.server,
   };
@@ -38,9 +28,9 @@ function startServer(cb) {
     if (err) return cb(err);
 
     const dir = tmp.dirSync().name;
-    const { manager, ev } = makeUpgradeManager(dir, port);
+    const { manager } = makeUpgradeManager(dir, port);
     function cleanup() {
-      ev.on("p2p-upgrade::state", (state, ctx) => {
+      manager.on("state", (state, ctx) => {
         if (
           state.server.state === 1 &&
           state.downloader.search.state === 1 &&
@@ -49,18 +39,18 @@ function startServer(cb) {
           rimraf.sync(dir);
         }
       });
-      ev.emit("p2p-upgrade::stop-services");
+      manager.stopServices();
     }
-    cb(null, port, manager, ev, cleanup);
+    cb(null, port, manager, cleanup);
   });
 }
 
 test("integration: empty GET /list result", t => {
   t.plan(4);
 
-  startServer((err, port, manager, ev, cleanup) => {
+  startServer((err, port, manager, cleanup) => {
     t.error(err);
-    ev.emit("p2p-upgrade::start-services");
+    manager.startServices();
     http.get({ hostname: "localhost", port, path: "/list" }, res => {
       t.equals(res.statusCode, 200);
       collect(res, (err, buf) => {
@@ -97,28 +87,26 @@ test("integration: can find + download + check an upgrade", t => {
 
   // Peer 2
   const dir2 = tmp.dirSync().name;
-  const { manager: manager2, ev: ev2 } = makeUpgradeManager(dir2, 0);
+  const { manager: manager2 } = makeUpgradeManager(dir2, 0);
 
   // Peer 1
-  startServer((err, port, manager, ev, cleanup) => {
+  startServer((err, port, manager, cleanup) => {
     t.error(err, "server started ok");
     const apkPath = path.join(__dirname, "static", "fake.apk");
     manager.setApkInfo(apkPath, "1.0.0", err => {
       t.error(err, "apk info set ok");
-
       awaitFoundUpgrade(() => {
         awaitDownloaded(() => {
           awaitChecked(() => {
-            ev2.emit("p2p-upgrade::stop-services");
+            manager2.stopServices();
             cleanup();
           });
         });
       });
-      ev.emit("p2p-upgrade::start-services");
-      ev2.emit("p2p-upgrade::start-services");
-
+      manager.startServices();
+      manager2.startServices();
       function awaitFoundUpgrade(cb) {
-        ev2.on("p2p-upgrade::state", onState);
+        manager2.on("state", onState);
         function onState(state) {
           const search = state.downloader.search;
           if (
@@ -130,7 +118,7 @@ test("integration: can find + download + check an upgrade", t => {
             delete check.host;
             delete check.port;
             t.deepEquals(check, expectedOption);
-            ev2.removeListener("p2p-upgrade::state", onState);
+            manager2.removeListener("state", onState);
             cb();
           }
         }
@@ -139,8 +127,7 @@ test("integration: can find + download + check an upgrade", t => {
       function awaitDownloaded(cb) {
         let done = false;
         let lastProgress = null;
-        ev2.on("p2p-upgrade::state", onState);
-
+        manager2.on("state", onState);
         function onState(state) {
           if (done) return;
           if (state.downloader.download.state === "DOWNLOADING") {
@@ -150,14 +137,14 @@ test("integration: can find + download + check an upgrade", t => {
             t.equals(lastProgress.sofar, 10);
             t.equals(lastProgress.total, 10);
             done = true;
-            ev2.removeListener("p2p-upgrade::state", onState);
+            manager2.removeListener("state", onState);
             cb();
           }
         }
       }
 
       function awaitChecked(cb) {
-        ev2.on("p2p-upgrade::state", onState);
+        manager2.on("state", onState);
 
         function onState(state) {
           if (state.downloader.check.state === "AVAILABLE") {
@@ -166,7 +153,7 @@ test("integration: can find + download + check an upgrade", t => {
               expectedHash,
               "hash ok"
             );
-            ev2.removeListener("p2p-upgrade::state", onState);
+            manager2.removeListener("state", onState);
 
             manager2.storage.getAvailableUpgrades((err, options) => {
               t.error(err, "got local upgrade options ok");
