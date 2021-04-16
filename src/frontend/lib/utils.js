@@ -137,7 +137,7 @@ function convertToDMS({ lat, lon }) {
 
   const longitude = toDegreesMinutesAndSeconds(lon);
   const longitudeCardinal = lon >= 0 ? "E" : "W";
-  return `${latitude} ${latitudeCardinal} ${longitude} ${longitudeCardinal}`;
+  return `${latitude} ${latitudeCardinal}, ${longitude} ${longitudeCardinal}`;
 }
 
 function convertToUTM({ lat, lon }) {
