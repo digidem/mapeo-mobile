@@ -29,11 +29,6 @@ const m = defineMessages({
     defaultMessage: "Coordinates UTM",
     description: "Section title for UTM coordinates",
   },
-  locationLatLon: {
-    id: "screens.GpsModal.locationLatLon",
-    defaultMessage: "Coordinates Latitude and Longitude",
-    description: "Section title for latitude and longitude coordinates",
-  },
   dms: {
     id: "screens.GpsModal.locationDMS",
     defaultMessage: "Coordinates DMS",
