@@ -7,6 +7,7 @@ import DateDistance from "./DateDistance";
 import { type Observation } from "../context/ObservationsContext";
 import { formats } from "../context/IntlContext";
 import type { Field, Preset, PresetWithFields } from "../context/ConfigContext";
+import { type CoordinateFormat } from "../context/SettingsContext";
 
 const m = defineMessages({
   noAnswer: {
@@ -36,7 +37,7 @@ export const FormattedCoords = ({
 }: {
   lat: number,
   lon: number,
-  format: string,
+  format: CoordinateFormat,
 }) => {
   return <>{formatCoords({ lon, lat, format })}</>;
 };
