@@ -131,6 +131,8 @@ function toDegreesMinutesAndSeconds(coordinate) {
   return `${degrees}° ${minutes}' ${seconds.toFixed(3)}"`;
 }
 
+// Style from National Geographic style guide
+// https://sites.google.com/a/ngs.org/ngs-style-manual/home/L/latitude-and-longitude
 function convertToDMS({ lat, lon }) {
   const latitude = toDegreesMinutesAndSeconds(lat);
   const latitudeCardinal = lat >= 0 ? "N" : "S";
@@ -154,8 +156,14 @@ function convertToUTM({ lat, lon }) {
   }
 }
 
+// Style from National Geographic style guide
+// https://sites.google.com/a/ngs.org/ngs-style-manual/home/L/latitude-and-longitude
 function formatDD({ lat, lon }) {
-  return `Lat ${lat.toFixed(6)} Lon ${lon.toFixed(6)}`;
+  const formattedLat = Math.abs(lat).toFixed(6);
+  const formattedLon = Math.abs(lon).toFixed(6);
+  const latCardinal = lat >= 0 ? "N" : "S";
+  const lonCardinal = lon >= 0 ? "E" : "W";
+  return `${formattedLat}° ${latCardinal}, ${formattedLon}° ${lonCardinal}`;
 }
 
 export function formatCoords({
