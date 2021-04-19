@@ -48,6 +48,16 @@ const m = defineMessages({
     defaultMessage: "Version and build number",
     description: "Description of the 'About Mapeo' page",
   },
+  coordinateFormat: {
+    id: "screens.Settings.coordinateFormat",
+    defaultMessage: "Coordinate Format",
+    description: "Settings for coordinate format",
+  },
+  coordinateFormatDesc: {
+    id: "screens.Settings.coordinateFormatDesc",
+    defaultMessage: "Choose how coordinates are displayed",
+    description: "Description of the 'Coordinate Format' page",
+  },
 });
 
 const Settings = () => {
@@ -72,6 +82,16 @@ const Settings = () => {
         <ListItemText
           primary={<FormattedMessage {...m.projectConfig} />}
           secondary={<FormattedMessage {...m.projectConfigDesc} />}
+        ></ListItemText>
+      </ListItem>
+      <ListItem
+        onPress={() => navigate("CoordinateFormat")}
+        testID="settingsCoodinatesButton"
+      >
+        <ListItemIcon iconName="explore" />
+        <ListItemText
+          primary={<FormattedMessage {...m.coordinateFormat} />}
+          secondary={<FormattedMessage {...m.coordinateFormatDesc} />}
         ></ListItemText>
       </ListItem>
       <ListItem
