@@ -1,292 +1,292 @@
 {
   "AppContainer.EditHeader.discardCancel": {
     "description": "Button on dialog to keep editing (cancelling close action)",
-    "message": "Tiếp tục chỉnh sửa"
+    "message": "Doorgaan met bewerken"
   },
   "AppContainer.EditHeader.discardChangesContent": {
     "description": "Button on dialog to cancel observation edits",
-    "message": "Hủy bỏ thay đổi"
+    "message": "Wijzigingen niet opslaan"
   },
   "AppContainer.EditHeader.discardChangesTitle": {
     "description": "Title of dialog that shows when cancelling observation edits",
-    "message": "Hủy bỏ thay đổi?"
+    "message": "Wijzigingen annuleren?"
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to cancel a new observation",
-    "message": "Hủy bỏ, không lưu lại"
+    "message": "Annuleren zonder op te slaan"
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when cancelling a new observation",
-    "message": "Hủy bỏ quan sát?"
+    "message": "Waarneming annuleren?"
   },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
-    "message": "Android GD2I"
+    "message": "Android buildnummer"
   },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
-    "message": "Phiên bản Android"
+    "message": "Android versie"
   },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type",
-    "message": "Loại Mapeo"
+    "message": "Soort Mapeo versie"
   },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
-    "message": "Phiên bản Mapeo"
+    "message": "Mapeo versie"
   },
   "screens.AboutMapeo.phoneModel": {
     "description": "Label for phone model",
-    "message": "Dòng điện thoại"
+    "message": "Telefoon model"
   },
   "screens.AboutMapeo.title": {
     "description": "Title of 'About Mapeo' screen",
-    "message": "Giới thiệu về Mapeo"
+    "message": "Over Mapeo"
   },
   "screens.AboutMapeo.unknownValue": {
     "description": "Shown when a device info (e.g. version number) is unknown",
-    "message": "Không xác định"
+    "message": "Onbekend"
   },
   "screens.AddPhoto.cancel": {
-    "message": "Hủy"
+    "message": "Annuleren"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
-    "message": "Không có quyền truy cập tới máy ảnh"
+    "message": "Geen toegang tot de camera"
   },
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
-    "message": "Chọn những gì đang diễn ra"
+    "message": "Kies wat er gebeurt"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
-    "message": "Chi tiết"
+    "message": "Details"
   },
   "screens.GpsModal.gpsHeader": {
     "description": "Header for GPS screen",
-    "message": "Vị trí GPS hiện tại"
+    "message": "Huidige GPS locatie"
   },
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
-    "message": "Lần cập nhật gần nhất"
+    "message": "Laatste update"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
-    "message": "Trạng thái cảm biến"
+    "message": "Status van de sensor"
   },
   "screens.GpsModal.locationUTM": {
     "description": "Section title for UTM coordinates",
-    "message": "Tọa độ UTM"
+    "message": "UTM coördinaten"
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
-    "message": "Không"
+    "message": "Nee"
   },
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
-    "message": "Có"
+    "message": "Ja"
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
-    "message": "Language"
+    "message": "Taal"
   },
   "screens.ManualGpsScreen.easting": {
-    "message": "Hướng Đông"
+    "message": "Oost"
   },
   "screens.ManualGpsScreen.eastingSuffix": {
     "message": "mE"
   },
   "screens.ManualGpsScreen.northing": {
-    "message": "Hướng Bắc"
+    "message": "Noord"
   },
   "screens.ManualGpsScreen.northingSuffix": {
     "message": "mN"
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
-    "message": "Nhập tọa độ"
+    "message": "Coördinaten invoeren"
   },
   "screens.ManualGpsScreen.zoneLetter": {
-    "message": "Zone Letter"
+    "message": "Zone letter"
   },
   "screens.ManualGpsScreen.zoneNumber": {
-    "message": "Zone Number"
+    "message": "Zone nummer"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
-    "message": "Được gửi từ Mapeo"
+    "message": "Verzonden vanuit Mapeo"
   },
   "screens.Observation.ObservationView.alertSubject": {
     "description": "Subject-line for shared observations",
-    "message": "Cảnh báo từ Mapeo"
+    "message": "Mapeo Alert"
   },
   "screens.Observation.ObservationView.delete": {
     "description": "Button to delete an observation",
-    "message": "Xóa"
+    "message": "Verwijderen"
   },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
-    "message": "Không trả lời"
+    "message": "Geen antwoord"
   },
   "screens.Observation.ObservationView.observation": {
     "description": "Default name of observation with no matching preset",
-    "message": "Quan sát"
+    "message": "Waarneming"
   },
   "screens.Observation.ObservationView.share": {
     "description": "Button to share an observation",
-    "message": "Chia sẻ"
+    "message": "Delen"
   },
   "screens.Observation.cancel": {
     "description": "Button to cancel delete of observation",
-    "message": "Hủy"
+    "message": "Annuleren"
   },
   "screens.Observation.confirm": {
     "description": "Button to confirm delete of observation",
-    "message": "Có, xóa"
+    "message": "Ja, annuleren"
   },
   "screens.Observation.deleteTitle": {
     "description": "Title of dialog asking confirmation to delete an observation",
-    "message": "Xóa quan sát?"
+    "message": "Waarneming annuleren?"
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
-    "message": "Không tìm thấy quan sát"
+    "message": "Waarneming niet gevonden"
   },
   "screens.Observation.title": {
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
-    "message": "Quan sát"
+    "message": "Waarneming"
   },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
-    "message": "{current} của {total}"
+    "message": "{current} van {total}"
   },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
-    "message": "Hoàn thành"
+    "message": "Voltooid"
   },
   "screens.ObservationDetails.nextQuestion": {
     "description": "Button text to navigate to next question",
-    "message": "Tiếp theo"
+    "message": "Volgende"
   },
   "screens.ObservationDetails.title": {
     "description": "Title of observation details screen showing question number and total",
-    "message": "Câu hỏi {current} của {total}"
+    "message": "Vraag {current} van {total}"
   },
   "screens.ObservationEdit.BottomSheet.addLabel": {
     "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
-    "message": "Thêm vào…"
+    "message": "Toevoegen…"
   },
   "screens.ObservationEdit.ObservationEditView.changePreset": {
     "description": "Button to change a category / preset",
-    "message": "Thay đổi"
+    "message": "Wijzigen"
   },
   "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
     "description": "Placeholder for description/notes field",
-    "message": "Có điều gì đang diễn ra ở đây?"
+    "message": "Wat gebeurt er hier?"
   },
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
-    "message": "Thêm chi tiết"
+    "message": "Details toevoegen"
   },
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
-    "message": "Thêm ảnh"
+    "message": "Foto toevoegen"
   },
   "screens.ObservationEdit.ObservationEditView.searching": {
     "description": "Shown in new observation screen whilst looking for GPS",
-    "message": "Tìm kiếm…"
+    "message": "Zoeken…"
   },
   "screens.ObservationEdit.SaveButton.keepWaiting": {
     "description": "Button to cancel save and continue waiting for GPS",
-    "message": "Tiếp tục chờ"
+    "message": "Blijven wachten"
   },
   "screens.ObservationEdit.SaveButton.manualEntry": {
     "description": "Button to manually enter GPS coordinates",
-    "message": "Tọa độ thủ công"
+    "message": "Handmatige Coördinaten"
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
-    "message": "Quan sát này không có vị trí. Bạn có thể tiếp tục chờ tín hiệu GPS, lưu quan sát mà không có vị trí, hoặc nhập tọa độ thủ công"
+    "message": "Deze waarneming heeft geen locatie. Je kunt doorgaan met wachten op een GPS signaal, de waarneming opslaan zonder een locatie, of coördinaten handmatig invoeren"
   },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
-    "message": "Không có tín hiệu GPS"
+    "message": "Geen GPS signaal"
   },
   "screens.ObservationEdit.SaveButton.saveAnyway": {
     "description": "Button to save regardless of GPS state",
-    "message": "Lưu"
+    "message": "Opslaan"
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
-    "message": "Độ chính xác của GPS thấp. Bạn có thể tiếp tục đợi để có độ chính xác cao hơn, lưu quan sát với độ chính xác thấp, hoặc nhập tọa độ thủ công"
+    "message": "GPS nauwkeurigheid is laag. Je kunt blijven wachten op betere nauwkeurigheid, de waarneming opslaan met lage nauwkeurigheid, of handmatig coördinaten invoeren"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
-    "message": "Tín hiệu GPS yếu"
+    "message": "Zwak GPS signaal"
   },
   "screens.ObservationEdit.editTitle": {
     "description": "screen title for edit observation screen",
-    "message": "Chỉnh sửa quan sát"
+    "message": "Waarneming wijzigen"
   },
   "screens.ObservationEdit.newTitle": {
     "description": "screen title for new observation screen",
-    "message": "Quan sát mới"
+    "message": "Nieuwe waarneming"
   },
   "screens.ObservationList.observationListTitle": {
     "description": "Title of screen with list of observations",
-    "message": "Các quan sát"
+    "message": "Waarnemingen"
   },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
-    "message": "Đến Bản đồ"
+    "message": "Ga naar de kaart"
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "Bắt đầu từ chế độ xem bản đồ hoặc máy ảnh để ghi lại quan sát đầu tiên của bạn."
+    "message": "Begin van de kaart- of cameraweergave om je eerste waarneming op te nemen."
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
-    "message": "Thêm Quan sát"
+    "message": "Waarnemingen toevoegen"
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
-    "message": "Lỗi tải các quan sát. Hãy thử rời bỏ và khởi động lại Mapeo."
+    "message": "Er is iets fout gegaan bij het laden van waarnemingen. Probeer Mapeo te sluiten en opnieuw te starten."
   },
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
-    "message": "Đang tải... việc này có thể càn một chút thời gian sau khi đồng bộ hóa với thiết bị mới"
+    "message": "Laden… dit kan even duren na het synchroniseren met een nieuw apparaat"
   },
   "screens.ProjectConfig.title": {
     "description": "Title of project configuration screen",
-    "message": "Cấu hình Dự án"
+    "message": "Project configuratie"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
-    "message": "Bạn có thể thử buộc khởi động lại ứng dụng, nhưng có một số lỗi cần phải được khắc phục. Rất xin lỗi về điều này, việc tạo nên ứng dụng thật là khó."
+    "message": "Je kunt proberen de app gedwongen opnieuw op te starten, maar er is misschien iets dat moet worden opgelost. Het spijt ons echt; het maken van apps is moeilijk."
   },
   "screens.ServerStatus.errorTitle": {
     "description": "Title of message when there the Mapeo Core server crashes",
-    "message": "Ôi không, có gì đó bị hỏng trong dữ liệu Mapeo."
+    "message": "Oh jee, er is iets beschadigd in de Mapeo database."
   },
   "screens.ServerStatus.timeoutDesc": {
     "description": "Description when the server has not responded for 10 seconds",
-    "message": "Nếu bạn tiếp tục nhìn thấy thông báo này bạn sẽ cần phải buộc khởi động lại Mapeo"
+    "message": "Als je dit bericht blijft zien, moet Mapeo misschien geforceerd herstarten"
   },
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
-    "message": "Có gì đó không ổn với dữ liệu Mapeo"
+    "message": "Er is iets mis met de Mapeo database"
   },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
-    "message": "Giới thiệu về Mapeo"
+    "message": "Over Mapeo"
   },
   "screens.Settings.aboutMapeoDesc": {
     "description": "Description of the 'About Mapeo' page",
-    "message": "Phiên bản và số hiệu bản tạo"
+    "message": "Versie en build nummer"
   },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
-    "message": "Đã xảy ra lỗi khi nhập tệp cấu hình này"
+    "message": "Er is een fout opgetreden bij het importeren van deze configuratie file"
   },
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
@@ -294,63 +294,63 @@
   },
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Lỗi nhập"
+    "message": "Importeerfout"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
-    "message": "Cấu hình hiện tại"
+    "message": "Huidige configuratie"
   },
   "screens.Settings.importConfig": {
     "description": "Button to import Mapeo config file",
-    "message": "Nhập cấu hình"
+    "message": "Configuratie importeren"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
-    "message": "Ngôn ngữ"
+    "message": "Taal"
   },
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
-    "message": "Ngôn ngữ hiển thị cho ứng dụng"
+    "message": "Schermtaal voor het app"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
-    "message": "Cấu hình dự án"
+    "message": "Project configuratie"
   },
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
-    "message": "Các thể loại, biểu tượng và câu hỏi"
+    "message": "Categorieën, pictogrammen en vragen"
   },
   "screens.Settings.projectKey": {
     "description": "Label for project key",
-    "message": "Project Key"
+    "message": "Projectsleutel"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
-    "message": "Cài đặt"
+    "message": "Instellingen"
   },
   "screens.Settings.unnamedConfig": {
     "description": "Config name when do name is defined",
-    "message": "Chưa có tên"
+    "message": "Naamloos"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
-    "message": "Hoàn thành"
+    "message": "Voltooid"
   },
   "screens.SyncModal.PeerList.disconnectedButton": {
     "description": "Button label when disconnected",
-    "message": "Ngừng kết nối"
+    "message": "Verbinding verbroken"
   },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
-    "message": "Lỗi"
+    "message": "Fout"
   },
   "screens.SyncModal.PeerList.errorClientMismatch": {
     "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
-    "message": "Không phải khách hàng Mapeo"
+    "message": "Niet een Mapeo client"
   },
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
-    "message": "Không tương thích với Mapeo"
+    "message": "Onverenigbare Mapeo"
   },
   "screens.SyncModal.PeerList.finishingButton": {
     "description": "Button label when finishing sync but don't have correct progress",
@@ -358,39 +358,39 @@
   },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
-    "message": "Đồng bộ"
+    "message": "Sync"
   },
   "screens.SyncModal.PeerList.syncLabel": {
     "description": "Label for last sync datetime",
-    "message": "Đã đồng bộ xong:"
+    "message": "Gesynchroniseerd:"
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
-    "message": "Mở cài đặt điện thoại của bạn và kết nối với Wifi để đồng bộ"
+    "message": "Open je telefoon instellingen en verbind met een WiFi netwerk om te synchroniseren"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
-    "message": "Không có Wifi"
+    "message": "Geen WiFi"
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
-    "message": "Project Key: {projectKey}"
+    "message": "Projectsleutel: {projectKey}"
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
-    "message": "Đảm bảo rằng các thiết bị khác được bật lên và kết nối với cùng mạng Wifi"
+    "message": "Zorg ervoor dat andere apparaten ingeschakeld zijn en verbonden zijn met hetzelfde WiFi netwerk"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
-    "message": "Đang tìm kiếm"
+    "message": "Zoeken"
   },
   "screens.SyncModal.SyncView.settingsButton": {
     "description": "Button to open WiFi settings",
-    "message": "Mở cài đặt"
+    "message": "Instellingen openen"
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
-    "message": "Đồng bộ"
+    "message": "Synchroniseren"
   },
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
@@ -402,32 +402,32 @@
   },
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "Thiết bị mà bạn đang muốn đồng bộ cần được nâng cấp lên phiên bản Mapeo mới nhất để có thể đồng bộ với bạn."
+    "message": "Het apparaat waarmee je probeert te synchroniseren, moet Mapeo upgraden naar de nieuwste versie om met je te kunnen synchroniseren."
   },
   "screens.SyncModal.errorVersionThemBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "{deviceName} cần nâng cấp Mapeo"
+    "message": "{deviceName} moet Mapeo upgraden"
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "Thiết bị mà bạn đang muốn đồng bộ với đang có phiên bản Mapeo mới hơn. Bạn cần nâng cấp phiên bản Mapeo của mình để có thể đồng bộ với thiết bị này."
+    "message": "Het apparaat waarmee je probeert te synchroniseren heeft een nieuwere versie van Mapeo. Je moet Mapeo upgraden om met dit apparaat te kunnen synchroniseren."
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "Bạn cần phải nâng cấp phiên bản Mapeo để đồng bộ với"
+    "message": "Je moet Mapeo upgraden om te kunnen synchroniseren met {deviceName}"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
-    "message": "Rất xin lỗi về điều này, đã có lỗi ở đâu đó, đây là lỗi thuộc về chúng tôi không phải bạn. Hãy thử khởi động lại ứng dụng để xem lỗi đã được khắc phục chưa."
+    "message": "Het spijt me echt, maar er is iets onverwachts misgegaan, en het is onze schuld en niet de jouwe. Probeer de app opnieuw te starten om te zien of dat het probleem oplost."
   },
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
-    "message": "Lỗi bất thường"
+    "message": "Onverwachte fout"
   },
   "sharedComponents.GpsPill.noGps": {
-    "message": "Không có GPS"
+    "message": "Geen GPS"
   },
   "sharedComponents.GpsPill.searching": {
-    "message": "Đang tìm kiếm…"
+    "message": "Zoeken…"
   }
 }

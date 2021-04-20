@@ -3,6 +3,14 @@
     "description": "Button on dialog to keep editing (cancelling close action)",
     "message": "Continuar editando"
   },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "Descartar alterações"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "Descartar alterações?"
+  },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to cancel a new observation",
     "message": "Excluir observação"
@@ -18,6 +26,10 @@
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
     "message": "Versão do Android"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type",
+    "message": "Tipo de Mapeo"
   },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
@@ -272,13 +284,25 @@
     "description": "Description of the 'About Mapeo' page",
     "message": "Versão e número de compilação"
   },
+  "screens.Settings.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "Houve um erro ao tentar importar este arquivo de configuração"
+  },
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
     "message": "OK"
   },
+  "screens.Settings.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Erro ao importar"
+  },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "Configuração atual"
+  },
+  "screens.Settings.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "Importar configuração"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -302,7 +326,7 @@
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
-    "message": "Configurações"
+    "message": "Ajustes"
   },
   "screens.Settings.unnamedConfig": {
     "description": "Config name when do name is defined",
@@ -362,7 +386,7 @@
   },
   "screens.SyncModal.SyncView.settingsButton": {
     "description": "Button to open WiFi settings",
-    "message": "Abrir configurações"
+    "message": "Abrir ajustes"
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",

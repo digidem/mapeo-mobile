@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
+import Text from "../Text";
 import PropTypes from "prop-types";
 import ListContext from "./ListContext";
 

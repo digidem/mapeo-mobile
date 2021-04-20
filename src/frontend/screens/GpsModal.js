@@ -1,9 +1,12 @@
 // @flow
 import React from "react";
-import { View, ScrollView, Text, StyleSheet } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
+import Text from "../sharedComponents/Text";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import LocationContext from "../context/LocationContext";
+import useSettingsValue from "../hooks/useSettingsValue";
+
 import { FormattedCoords } from "../sharedComponents/FormattedData";
 import DateDistance from "../sharedComponents/DateDistance";
 import HeaderTitle from "../sharedComponents/HeaderTitle";
@@ -21,10 +24,20 @@ const m = defineMessages({
     defaultMessage: "Last update",
     description: "Section title for time of last GPS update",
   },
-  locationUTM: {
+  utm: {
     id: "screens.GpsModal.locationUTM",
     defaultMessage: "Coordinates UTM",
     description: "Section title for UTM coordinates",
+  },
+  dms: {
+    id: "screens.GpsModal.locationDMS",
+    defaultMessage: "Coordinates DMS",
+    description: "Section title for DMS coordinates",
+  },
+  dd: {
+    id: "screens.GpsModal.locationDD",
+    defaultMessage: "Coordinates Decimal Degrees",
+    description: "Section title for DD coordinates",
   },
   details: {
     id: "screens.GpsModal.details",
@@ -61,6 +74,10 @@ type Props = {
 
 const GpsModal = ({ navigation }: Props) => {
   const location = React.useContext(LocationContext);
+  // This is necessary for Flow type checking (if we use location.position in a
+  // conditional it does not know if something else can change it)
+  const { position, provider } = location;
+  const coordinateFormat = useSettingsValue("coordinateFormat");
   const { formatMessage: t } = useIntl();
 
   return (
@@ -73,21 +90,22 @@ const GpsModal = ({ navigation }: Props) => {
           style={styles.rowValue}
           date={new Date(getLastUpdateText(location))}
         />
-        {location.position && (
+        {position && (
           <>
             <Text style={styles.sectionTitle}>
-              <FormattedMessage {...m.locationUTM} />
+              <FormattedMessage {...m[coordinateFormat]} />
             </Text>
             <Text style={styles.rowValue}>
               <FormattedCoords
-                lon={location.position.coords.longitude}
-                lat={location.position.coords.latitude}
+                lon={position.coords.longitude}
+                lat={position.coords.latitude}
+                format={coordinateFormat}
               />
             </Text>
             <Text style={styles.sectionTitle}>
               <FormattedMessage {...m.details} />
             </Text>
-            {Object.entries(location.position.coords).map(([key, value]) => (
+            {Object.entries(position.coords).map(([key, value]) => (
               <GpsModalRow
                 key={key}
                 label={key}
@@ -96,12 +114,12 @@ const GpsModal = ({ navigation }: Props) => {
             ))}
           </>
         )}
-        {location.provider && (
+        {provider && (
           <>
             <Text style={styles.sectionTitle}>
               <FormattedMessage {...m.locationSensors} />
             </Text>
-            {Object.entries(location.provider).map(([key, value]) => (
+            {Object.entries(provider).map(([key, value]) => (
               <GpsModalRow
                 key={key}
                 label={key}

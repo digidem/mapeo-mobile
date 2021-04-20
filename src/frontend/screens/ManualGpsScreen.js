@@ -1,7 +1,8 @@
 // @flow
 import React, { useState, useContext } from "react";
 import { toLatLon as origToLatLon, fromLatLon } from "utm";
-import { View, TextInput, Text, StyleSheet, ToastAndroid } from "react-native";
+import { View, TextInput, StyleSheet, ToastAndroid } from "react-native";
+import Text from "../sharedComponents/Text";
 import { defineMessages, FormattedMessage } from "react-intl";
 
 import { BLACK, LIGHT_GREY } from "../lib/styles";

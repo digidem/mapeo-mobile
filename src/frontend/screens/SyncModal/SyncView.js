@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import Text from "../../sharedComponents/Text";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 

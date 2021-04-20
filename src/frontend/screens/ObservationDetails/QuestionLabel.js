@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
+import Text from "../../sharedComponents/Text";
 import type { Field } from "../../context/ConfigContext";
 import { FormattedFieldProp } from "../../sharedComponents/FormattedData";
 

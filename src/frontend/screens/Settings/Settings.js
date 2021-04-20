@@ -57,23 +57,33 @@ const m = defineMessages({
   appShare: {
     id: "screens.Settings.appShare",
     defaultMessage: "Share Mapeo Installer",
-    description: "Primary text for sharing the mapeo APK installer"
+    description: "Primary text for sharing the mapeo APK installer",
   },
   appShareDesc: {
     id: "screens.Settings.appShareDesc",
     defaultMessage: "Install or update Mapeo on another phone",
-    description: "Secondary text for sharing the mapeo APK installer"
+    description: "Secondary text for sharing the mapeo APK installer",
   },
   appInstall: {
     id: "screens.Settings.appInstall",
     defaultMessage: "Install APK",
-    description: "Primary text for Mapeo APK test"
+    description: "Primary text for Mapeo APK test",
   },
   appInstallDesc: {
     id: "screens.Settings.appInstallDesc",
     defaultMessage: "Test APK install (re-installs app)",
-    description: "Secondary text for Mapeo APK test"
-  }
+    description: "Secondary text for Mapeo APK test",
+  },
+  coordinateFormat: {
+    id: "screens.Settings.coordinateFormat",
+    defaultMessage: "Coordinate Format",
+    description: "Settings for coordinate format",
+  },
+  coordinateFormatDesc: {
+    id: "screens.Settings.coordinateFormatDesc",
+    defaultMessage: "Choose how coordinates are displayed",
+    description: "Description of the 'Coordinate Format' page",
+  },
 });
 
 const Settings = () => {
@@ -96,7 +106,7 @@ const Settings = () => {
         await Share.open({
           url: "file://" + tmpApkPath,
           type: "application/vnd.android.package-archive",
-          failOnCancel: false
+          failOnCancel: false,
         });
       }
     } catch (e) {
@@ -164,6 +174,16 @@ const Settings = () => {
         ></ListItemText>
       </ListItem>
       <ListItem
+        onPress={() => navigate("CoordinateFormat")}
+        testID="settingsCoodinatesButton"
+      >
+        <ListItemIcon iconName="explore" />
+        <ListItemText
+          primary={<FormattedMessage {...m.coordinateFormat} />}
+          secondary={<FormattedMessage {...m.coordinateFormatDesc} />}
+        ></ListItemText>
+      </ListItem>
+      <ListItem
         onPress={() => navigate("AboutMapeo")}
         testID="settingsAboutButton"
       >
@@ -177,27 +197,29 @@ const Settings = () => {
         <ListItemIcon iconName="get-app" />
         <ListItemText
           primary={<FormattedMessage {...m.appShare} />}
-          secondary={<FormattedMessage {...m.appShareDesc} />}></ListItemText>
+          secondary={<FormattedMessage {...m.appShareDesc} />}
+        ></ListItemText>
       </ListItem>
       <ListItem onPress={shareApk}>
         <ListItemIcon iconName="get-app" />
         <ListItemText
           primary={<FormattedMessage {...m.appShare} />}
-          secondary={<FormattedMessage {...m.appShareDesc} />}></ListItemText>
+          secondary={<FormattedMessage {...m.appShareDesc} />}
+        ></ListItemText>
       </ListItem>
       <ListItem onPress={installApk}>
         <ListItemIcon iconName="update" />
         <ListItemText
           primary={<FormattedMessage {...m.appInstall} />}
-          secondary={
-            <FormattedMessage {...m.appInstallDesc} />
-          }></ListItemText>
+          secondary={<FormattedMessage {...m.appInstallDesc} />}
+        ></ListItemText>
       </ListItem>
       <ListItem>
         <ListItemIcon iconName="info" />
         <ListItemText
           primary="Mapeo Version"
-          secondary={`${APP_VERSION}`}></ListItemText>
+          secondary={`${APP_VERSION}`}
+        ></ListItemText>
       </ListItem>
     </List>
   );
