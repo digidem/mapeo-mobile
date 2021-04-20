@@ -13,6 +13,7 @@ mkdirp.sync(dir);
 console.log("tempdir:", dir);
 
 const apkPath =
+  process.argv[3] ||
   "../../android/app/build/outputs/apk/app/debug/mapeo-app-debug.apk";
 const version = process.argv[2] || "5.0.0";
 
