@@ -58,6 +58,22 @@
     "description": "Title for category chooser screen",
     "message": "เลือกหมวดหมู่การสังเกต"
   },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "องศาทศนิยม (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "องศา ลิปดา ฟิลิปดา (DMS)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "รูปแบบพิกัด"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "ระบบพิกัดกริดแบบยูทีเอ็ม (Universal Transverse Mercator - UTM)"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "รายละเอียด"
@@ -69,6 +85,14 @@
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
     "message": "ปรับปรุงล่าสุด"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "ระบบพิกัดองศาทศนิยม (Decimal Degrees - DD)"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "ระบบพิกัดองศา ลิปดา ฟิลิปดา (DMS)"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
@@ -295,6 +319,14 @@
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "ข้อผิดพลาดในการนำเข้า"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "รูปแบบพิกัด"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "เลือกรูปแบบแสดงพิกัด"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
