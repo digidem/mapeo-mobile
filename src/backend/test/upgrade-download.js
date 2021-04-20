@@ -21,9 +21,10 @@ function startServer(opts, cb) {
     const dir = tmp.dirSync().name;
     const storage = new UpgradeStorage(dir, opts);
     const server = new UpgradeServer(storage, port);
-    function cleanup() {
+    function cleanup(cb) {
       server.drain(() => {
         rimraf.sync(dir);
+        if (cb) cb();
       });
     }
     cb(null, port, server, storage, cleanup);
@@ -59,19 +60,20 @@ test("can find a compatible upgrade candidate", t => {
       path.join(__dirname, "static", "fake.apk"),
       "1.0.0",
       err => {
-        t.error(err);
+        t.error(err, "set apk info ok");
         server.share();
 
         download.start();
         download.on("state", state => {
           if (state.search.state !== "SEARCHING") return;
           delete state.search.context.upgrades[0].host;
-          t.equals(state.search.state, "SEARCHING");
-          t.deepEquals(state.search.context.upgrades, expected);
+          t.equals(state.search.state, "SEARCHING", "searching state ok");
+          scrub(state.search.context.upgrades);
+          t.deepEquals(state.search.context.upgrades, expected, "upgrade ok");
 
           download.stop();
           download.once("state", state => {
-            t.equals(state.search.state, "IDLE");
+            t.equals(state.search.state, "IDLE", "idle state ok");
             cleanup();
           });
         });
@@ -271,6 +273,77 @@ test("REGRESSION: a local upgrade equal to app version is not shown", t => {
               cleanup();
             });
           });
+        });
+      }
+    });
+  });
+});
+
+test("candidate replaced if peer with an upgrade goes down + another appears", t => {
+  t.plan(14);
+
+  // Peer 1
+  startServer((err, port, server, storage, cleanup) => {
+    t.error(err, "server 1 started ok");
+
+    // Peer 2
+    const dir2 = tmp.dirSync().name;
+    const storage2 = new UpgradeStorage(dir2);
+    const download2 = new UpgradeDownload(storage2);
+
+    server.share();
+
+    const apkPath = path.join(__dirname, "static", "fake.apk");
+    const apkPath2 = path.join(__dirname, "static", "fake2.apk");
+    storage.setApkInfo(apkPath, "10.0.0", err => {
+      t.error(err, "apk info set ok");
+
+      // End Peer 2 once found, then restart it
+      awaitFoundUpgrade((err, options) => {
+        t.error(err, "found upgrade candidate ok");
+        t.equals(options.length, 1, "1 upgrade found ok");
+        t.equals(
+          options[0].hash,
+          "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041",
+          "upgrade hash matches ok"
+        );
+        cleanup(() => {
+          t.pass("cleaned up old server ok");
+          startServer((err, port, server, storage, cleanup) => {
+            t.error(err, "server 2 started ok");
+            storage.setApkInfo(apkPath2, "10.0.0", err => {
+              t.error(err, "apk info set ok");
+              server.share();
+              const ix = setTimeout(() => {
+                t.fail("unable to find new upgrade candidate");
+                cleanup();
+                download2.stop();
+              }, 3000);
+              awaitFoundUpgrade((err, options2) => {
+                clearTimeout(ix);
+                t.error(err, "found 2nd upgrade candidate ok");
+                t.equals(options2.length, 2);
+                t.equals(
+                  options2[1].hash,
+                  "3209efeebdbaa5b3faab4df9312d03831092ce71b497235953b7252e78651111"
+                );
+                t.equals(
+                  options2[0].hash,
+                  "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041"
+                );
+                cleanup();
+                download2.stop();
+              });
+            });
+          });
+        });
+      });
+
+      function awaitFoundUpgrade(cb) {
+        download2.start();
+        download2.once("state", state => {
+          t.equals(state.search.state, "SEARCHING");
+          cb(null, state.search.context.upgrades);
         });
       }
     });

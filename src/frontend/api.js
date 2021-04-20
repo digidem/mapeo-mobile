@@ -142,19 +142,6 @@ export function Api({
 
   nodejs.channel.addListener("status", onStatus);
 
-  nodejs.channel.addListener("copy-apk", async () => {
-    const tmpDir = RNFS.DocumentDirectoryPath + "/installer";
-    log("+++ 5", tmpDir);
-    const apkName = "mapeo.apk";
-    const tmpApkPath = `${tmpDir}/${apkName}`;
-    await RNFS.mkdir(tmpDir);
-    log("+++ 6");
-    await RNFS.copyFile(AppInfo.sourceDir, tmpApkPath);
-    log("+++ 7");
-    // await RNFS.unlink(tmpDir);
-    nodejs.channel.post("apk-ready", tmpApkPath, APP_VERSION);
-  });
-
   function onStatus({ value, error }: ServerStatusMessage) {
     if (status !== value) {
       bugsnag.leaveBreadcrumb("Server status change", { status: value });
@@ -239,6 +226,8 @@ export function Api({
         nodejs.channel.post("config", {
           storagePath: RNFS.ExternalDirectoryPath,
           upgradeStoragePath: RNFS.DocumentDirectoryPath,
+          apkPath: AppInfo.sourceDir,
+          apkVersion: APP_VERSION,
         });
         // Resolve once the server reports status as "LISTENING"
         return onReady();

@@ -30,7 +30,8 @@ module.exports = createServer;
 function createServer({
   privateStorage,
   sharedStorage,
-  upgradeStorage,
+  apkPath,
+  apkVersion,
   flavor,
 }) {
   const defaultConfigPath = path.join(sharedStorage, "presets/default");
@@ -68,9 +69,23 @@ function createServer({
   });
   let mapeoCore = mapeoRouter.api.core;
 
-  const upgradePath = path.join(upgradeStorage, "upgrades");
+  // Set up the p2p upgrades subsystem.
+  const upgradePath = path.join(privateStorage, "upgrades");
   mkdirp.sync(upgradePath);
-  let upgradeManager;
+  createUpgradeManager(apkVersion, (err, manager) => {
+    if (err) return onError("createUpgradeManager", err);
+    log("++++ 3 created upgrade manager");
+    manager.setApkInfo(apkPath, apkVersion, err => {
+      if (err) return onError("setApkInfo", err);
+      log("++++ 4 set apk info");
+      rnBridge.channel.on("p2p-upgrades-frontend-ready", () => {
+        rnBridge.channel.post("p2p-upgrades-backend-ready");
+        // Now we know the frontend is definitely ready!
+        log("++++ 5 frontend told us they are ready");
+      });
+      rnBridge.channel.post("p2p-upgrades-backend-ready");
+    });
+  });
 
   const server = http.createServer(function requestListener(req, res) {
     log(req.method + ": " + req.url);
@@ -143,31 +158,9 @@ function createServer({
       rnBridge.channel.on("sync-leave", leaveSync);
       rnBridge.channel.on("replace-config", replaceConfig);
       log("++++ 1 backend listening");
-      rnBridge.channel.once("apk-ready", apkReady);
-      rnBridge.channel.post("copy-apk");
       origListen.apply(server, args);
     });
   };
-
-  function apkReady(apkPath, version) {
-    log("++++ 2", apkPath, version);
-    if (!upgradeManager) {
-      createUpgradeManager(version, err => {
-        if (err) return onError("createUpgradeManager", err);
-        log("++++ 3 created upgrade manager");
-        upgradeManager.setApkInfo(apkPath, version, err => {
-          if (err) return onError("setApkInfo", err);
-          log("++++ 4 set apk info");
-          rnBridge.channel.on("p2p-upgrades-frontend-ready", () => {
-            rnBridge.channel.post("p2p-upgrades-backend-ready");
-            // Now we know the frontend is definitely ready!
-            log("++++ 5 frontend told us they are ready");
-          });
-          rnBridge.channel.post("p2p-upgrades-backend-ready");
-        });
-      });
-    }
-  }
 
   function onError(prefix, err) {
     if (!err) return;
@@ -185,7 +178,7 @@ function createServer({
       const emitFn = rnBridge.channel.post.bind(rnBridge.channel);
       const listenFn = rnBridge.channel.on.bind(rnBridge.channel);
       const removeFn = rnBridge.channel.removeListener.bind(rnBridge.channel);
-      upgradeManager = new UpgradeManager(
+      const manager = new UpgradeManager(
         upgradePath,
         port,
         version,
@@ -193,7 +186,7 @@ function createServer({
         listenFn,
         removeFn
       );
-      cb();
+      cb(null, manager);
     });
   }
 
