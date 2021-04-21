@@ -32,22 +32,46 @@ workflows:
       - script@1.1.6:
           title: Rename APKs
           inputs:
-            - content:
-                "#!/usr/bin/env bash\n\n# Renames the apks with the current datetime
-                and a \n# reference the git commit and the bitrise build slug\n\nset -eE
-                -o pipefail\nshopt -s extdebug\n\n# Split the path_list variable by |
-                into an array\nIFS='|' read -r -a paths <<< \"$BITRISE_APK_PATH_LIST\"\nnew_paths=()\ndatestring=$(date
-                -u +\"%Y%m%d_%H%M%S\")\n\nfor path in \"${paths[@]}\"\ndo\n  # Just the
-                path portion\n  dir=\"${path%/*}\"\n  # Just the filename without extensions\n
-                \ basename=\"${path##*/}\"\n  basename=\"${basename%.apk*}\"\n  # Construct
-                path with new filename\n  new_path=\"${dir}/${datestring}-${basename}\"\n
-                \ if [ -n \"${BITRISE_PULL_REQUEST}\" ]; then\n    new_path+=\"_PR#${BITRISE_PULL_REQUEST}\"\n
-                \ fi\n  if [ -n \"${BITRISE_GIT_COMMIT}\" ]; then\n    new_path+=\"_${BITRISE_GIT_COMMIT:0:7}\"\n
-                \ fi\n  new_path+=\".apk\"\n  mv \"$path\" \"$new_path\"\n  echo \"Moved
-                ${path} --> ${new_path}\"\n  new_paths+=(\"$new_path\")\ndone\n\n# Join
-                the path_list array into a string separated by |\nIFS=\\| eval 'NEW_APK_PATH_LIST=\"${new_paths[*]}\"'\n\n#
-                Save the variable to the env so it is accessible in other build steps\nenvman
-                add --key BITRISE_APK_PATH_LIST --value \"$NEW_APK_PATH_LIST\"\n"
+            - content: |
+                #!/usr/bin/env bash
+
+                # Renames the apks with the current datetime and a
+                # reference the git commit and the bitrise build slug
+
+                set -eE -o pipefail
+                shopt -s extdebug
+
+                # Split the path_list variable by | into an array
+                IFS='|' read -r -a paths <<< "$BITRISE_APK_PATH_LIST"
+                new_paths=()
+                datestring=$(date -u +"%Y%m%d_%H%M%S")""
+
+                for path in "${paths[@]}"
+                do
+                  # Just the path portion
+                  dir="${path%/*}"
+                  # Just the filename without extensions
+                  basename="${path##*/}"
+                  basename="${basename%.apk*}"
+                  # Construct path with new filename
+                  new_path="${dir}/${datestring}-${basename}"
+                  if [ -n "${BITRISE_PULL_REQUEST}" ]; then
+                    new_path+="_PR#${BITRISE_PULL_REQUEST}"
+                  fi
+                  if [ -n "${BITRISE_GIT_COMMIT}" ]; then
+                    new_path+="_${BITRISE_GIT_COMMIT:0:7}"
+                  fi
+                  new_path+=".apk"
+                  mv "$path" "$new_path"
+                  echo "Moved ${path} --> ${new_path}"
+                  new_paths+=("$new_path")
+                done
+
+                # Join the path_list array into a string separated by |
+                IFS='|' eval 'NEW_APK_PATH_LIST="${new_paths[*]}"'
+
+                # Save the variable to the env so it is accessible in other build steps
+                envman add --key BITRISE_APK_PATH_LIST --value "$NEW_APK_PATH_LIST"
       - deploy-to-bitrise-io@1.9.6: {}
     meta:
       bitrise.io: null
@@ -64,27 +88,49 @@ workflows:
       - script@1.1.6:
           title: Rename APKs
           inputs:
-            - content:
-                "#!/usr/bin/env bash\n\n# Renames the apks with the current datetime
-                and a \n# reference the git commit and the bitrise build slug\n\nset -eE
-                -o pipefail\nshopt -s extdebug\n\n# Split the path_list variable by |
-                into an array\nIFS='|' read -r -a paths <<< \"$BITRISE_APK_PATH_LIST\"\nnew_paths=()\n\nfor
-                path in \"${paths[@]}\"\ndo\n  # Just the path portion\n  dir=\"${path%/*}\"\n
-                \ # Just the filename\n  filename=\"${path##*/}\"\n  # Add version name\n
-                \ filename=\"${filename/mapeo-/mapeo-v$ANDROID_VERSION_NAME-}\"\n  # Uppercase
-                flavor or remove\n  filename=\"${filename/-qa-/-QA-}\"\n  filename=\"${filename/-icca-release/-ICCA}\"\n
-                \ filename=\"${filename/-app-release/}\"\n  filename=\"${filename/-app-/-}\"\n
-                \ # Construct path with new filename\n  new_path=\"${dir}/${filename}\"\n
-                \ mv \"$path\" \"$new_path\"\n  echo \"Moved ${path} --> ${new_path}\"\n
-                \ new_paths+=(\"$new_path\")\ndone\n\n# Join the path_list array into
-                a string separated by |\nIFS=\\| eval 'NEW_APK_PATH_LIST=\"${new_paths[*]}\"'\n\n#
-                Save the variable to the env so it is accessible in other build steps\nenvman
-                add --key BITRISE_APK_PATH_LIST --value \"$NEW_APK_PATH_LIST\"\n"
+            - content: |
+                #!/usr/bin/env bash
+
+                # Renames the apks with the current datetime and a
+                # reference the git commit and the bitrise build slug
+
+                set -eE -o pipefail
+                shopt -s extdebug
+
+                # Split the path_list variable by | into an array
+                IFS='|' read -r -a paths <<< "$BITRISE_APK_PATH_LIST"
+                new_paths=()
+
+                for path in "${paths[@]}"
+                do
+                  # Just the path portion
+                  dir="${path%/*}"
+                  # Just the filename
+                  filename="${path##*/}"
+                  # Add version name
+                  filename="${filename/mapeo-/mapeo-v$ANDROID_VERSION_NAME-}"
+                  # Uppercase flavor or remove
+                  filename="${filename/-qa-/-QA-}"
+                  filename="${filename/-icca-release/-ICCA}"
+                  filename="${filename/-app-release/}"
+                  filename="${filename/-app-/-}"
+                  # Construct path with new filename
+                  new_path="${dir}/${filename}"
+                  mv "$path" "$new_path"
+                  echo "Moved ${path} --> ${new_path}"
+                  new_paths+=("$new_path")
+                done
+
+                # Join the path_list array into a string separated by | char
+                IFS='|' eval 'NEW_APK_PATH_LIST="${new_paths[*]}"'
+
+                # Save the variable to the env so it is accessible in other build steps
+                envman add --key BITRISE_APK_PATH_LIST --value "$NEW_APK_PATH_LIST"
       - deploy-to-bitrise-io@1.9.6: {}
       - script@1.1.6:
           title: Set APK path variables
           inputs:
-            - content: |-
+            - content: |
                 #!/usr/bin/env bash
                 # fail if any commands fails
                 set -e
@@ -188,25 +234,47 @@ workflows:
       - script@1.1.6:
           title: Rename APKs
           inputs:
-            - content:
-                "#!/usr/bin/env bash\n\n# Renames the apks with the current datetime
-                and a \n# reference the git commit and the bitrise build slug\n\nset -eE
-                -o pipefail\nshopt -s extdebug\n\n# Split the path_list variable by |
-                into an array\nIFS='|' read -r -a paths <<< \"$BITRISE_APK_PATH_LIST\"\nnew_paths=()\n\nfor
-                path in \"${paths[@]}\"\ndo\n  # Just the path portion\n  dir=\"${path%/*}\"\n
-                \ # Just the filename\n  filename=\"${path##*/}\"\n  # Add version name\n
-                \ filename=\"${filename/mapeo-/mapeo-v$ANDROID_VERSION_NAME-}\"\n  # Uppercase
-                flavor or remove\n  filename=\"${filename/-qa-/-QA-}\"\n  filename=\"${filename/-icca-/-ICCA-}\"\n
-                \ filename=\"${filename/-app-/-}\"\n  # Construct path with new filename\n
-                \ new_path=\"${dir}/${filename}\"\n  mv \"$path\" \"$new_path\"\n  echo
-                \"Moved ${path} --> ${new_path}\"\n  new_paths+=(\"$new_path\")\ndone\n\n#
-                Join the path_list array into a string separated by |\nIFS=\\| eval 'NEW_APK_PATH_LIST=\"${new_paths[*]}\"'\n\n#
-                Save the variable to the env so it is accessible in other build steps\nenvman
-                add --key BITRISE_APK_PATH_LIST --value \"$NEW_APK_PATH_LIST\"\n"
+            - content: |
+                #!/usr/bin/env bash
+
+                # Renames the apks with the current datetime and a
+                # reference the git commit and the bitrise build slug
+
+                set -eE -o pipefail
+                shopt -s extdebug
+
+                # Split the path_list variable by | into an array
+                IFS='|' read -r -a paths <<< "$BITRISE_APK_PATH_LIST"
+                new_paths=()
+
+                for path in "${paths[@]}"
+                do
+                  # Just the path portion
+                  dir="${path%/*}"
+                  # Just the filename
+                  filename="${path##*/}"
+                  # Add version name
+                  filename="${filename/mapeo-/mapeo-v$ANDROID_VERSION_NAME-}"
+                  # Uppercase flavor or remove
+                  filename="${filename/-qa-/-QA-}"
+                  filename="${filename/-icca-/-ICCA-}"
+                  filename="${filename/-app-/-}"
+                  # Construct path with new filename
+                  new_path="${dir}/${filename}"
+                  mv "$path" "$new_path"
+                  echo "Moved ${path} --> ${new_path}"
+                  new_paths+=("$new_path")
+                done
+
+                # Join the path_list array into a string separated by |
+                IFS=\\| eval 'NEW_APK_PATH_LIST="${new_paths[*]}"'
+
+                # Save the variable to the env so it is accessible in other build steps
+                envman add --key BITRISE_APK_PATH_LIST --value "$NEW_APK_PATH_LIST"
       - script@1.1.6:
           title: Set APK path variables
           inputs:
-            - content: |-
+            - content: |
                 #!/usr/bin/env bash
                 # fail if any commands fails
                 set -e
