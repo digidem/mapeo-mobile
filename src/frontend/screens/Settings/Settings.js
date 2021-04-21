@@ -84,6 +84,16 @@ const m = defineMessages({
     defaultMessage: "Choose how coordinates are displayed",
     description: "Description of the 'Coordinate Format' page",
   },
+  experiments: {
+    id: "screens.Settings.experiments",
+    defaultMessage: "Experiments",
+    description: "Experimental features",
+  },
+  experimentsDesc: {
+    id: "screens.Settings.experimentsDesc",
+    defaultMessage: "Turn on experimental new features",
+    description: "Description of the 'Experiment' page",
+  },
 });
 
 const Settings = () => {
