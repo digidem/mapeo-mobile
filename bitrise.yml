@@ -387,13 +387,24 @@ workflows:
                 if [[ "$BITRISE_GIT_BRANCH" == "deploy" || -n "$BITRISE_GIT_TAG" ]]; then
                     # This is a push to deploy event or a tag event
                     # Pushing a tag to Github for some reason triggers this workflow with $BITRISE_GIT_BRANCH set to master
-                    ANDROID_VERSION_NAME="${VERSION_NAME}.${BITRISE_BUILD_NUMBER}"
+                    ANDROID_VERSION_NAME="${VERSION_NAME}"
                 elif [ "${BITRISE_GIT_BRANCH%/*}" == "release" ]; then
                     # This is a push to a branch matching `release/*`, so we build a release candidate
-                    ANDROID_VERSION_NAME="${VERSION_NAME}-RC.${BITRISE_BUILD_NUMBER}"
+                    ANDROID_VERSION_NAME="${VERSION_NAME}-RC"
+                    if [ -n "${BITRISE_GIT_COMMIT}" ]; then
+                        ANDROID_VERSION_NAME+="+${BITRISE_GIT_COMMIT:0:7}"
+                    fi
                 else
                     # This is an internal build
-                    ANDROID_VERSION_NAME="Internal.${BITRISE_BUILD_NUMBER}"
+                    ANDROID_VERSION_NAME="${VERSION_NAME}"
+                    if [ -n "${BITRISE_PULL_REQUEST}" ]; then
+                        ANDROID_VERSION_NAME+="-PR${BITRISE_PULL_REQUEST}"
+                    else
+                        ANDROID_VERSION_NAME+="-internal"
+                    fi
+                    if [ -n "${BITRISE_GIT_COMMIT}" ]; then
+                        ANDROID_VERSION_NAME+="+${BITRISE_GIT_COMMIT:0:7}"
+                    fi
                 fi
 
                 envman add --key VERSION_NAME --value $VERSION_NAME
