@@ -17,10 +17,16 @@ const m = defineMessages({
     defaultMessage: "Mapeo version",
     description: "Label for Mapeo version",
   },
+  mapeoBuild: {
+    id: "screens.AboutMapeo.mapeoBuild",
+    defaultMessage: "Mapeo build",
+    description: "Label for Mapeo build number",
+  },
   mapeoType: {
     id: "screens.AboutMapeo.mapeoType",
-    defaultMessage: "Mapeo type",
-    description: "Label for Mapeo type",
+    defaultMessage: "Mapeo variant",
+    description:
+      "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
   },
   androidVersion: {
     id: "screens.AboutMapeo.androidVersion",
@@ -78,7 +84,8 @@ const DeviceInfoListItem = ({
 const AboutMapeo = () => {
   return (
     <List>
-      <DeviceInfoListItem label="Mapeo version" deviceProp="readableVersion" />
+      <DeviceInfoListItem label="Mapeo version" deviceProp="version" />
+      <DeviceInfoListItem label="Mapeo build" deviceProp="buildNumber" />
       <DeviceInfoListItem label="Mapeo type" deviceProp="bundleId" />
       <DeviceInfoListItem label="Android version" deviceProp="systemVersion" />
       <DeviceInfoListItem label="Android build" deviceProp="buildId" />
