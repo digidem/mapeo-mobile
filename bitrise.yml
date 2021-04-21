@@ -254,7 +254,7 @@ workflows:
                   # Just the filename
                   filename="${path##*/}"
                   # Add version name
-                  filename="${filename/mapeo-/mapeo-v$ANDROID_VERSION_NAME-}"
+                  filename="${filename/mapeo-/mapeo-v$ANDROID_VERSION_NAME.$BITRISE_BUILD_NUMBER-}"
                   # Uppercase flavor or remove
                   filename="${filename/-qa-/-QA-}"
                   filename="${filename/-icca-/-ICCA-}"
