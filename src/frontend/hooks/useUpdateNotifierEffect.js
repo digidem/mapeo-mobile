@@ -68,12 +68,15 @@ export default function useUpdateNotifierEffect() {
     const previousVersionInfo = savedVersionInfo[savedVersionInfo.length - 1];
     const versionHasChanged =
       previousVersionInfo && previousVersionInfo[0] !== currentVersion;
-    if (!versionHasChanged) return;
 
-    setSavedVersionInfo([
-      ...savedVersionInfo,
-      [currentVersion, currentInstallTime],
-    ]);
+    if (versionHasChanged || typeof previousVersionInfo === "undefined") {
+      setSavedVersionInfo([
+        ...savedVersionInfo,
+        [currentVersion, currentInstallTime],
+      ]);
+    }
+
+    if (!versionHasChanged) return;
 
     Alert.alert(
       formatMessage(m.dialogTitle),
