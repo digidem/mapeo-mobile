@@ -13,7 +13,7 @@ const m = defineMessages({
   dialogTitle: {
     id: "hooks.updateNotifier.dialogTitle",
     description: "Title of dialog shown to the user when Mapeo is updated",
-    defaultMessage: "Mapeo Updated",
+    defaultMessage: "Mapeo Updated \u2705",
   },
   dialogMessage: {
     id: "hooks.updateNotifier.dialogMessage",
