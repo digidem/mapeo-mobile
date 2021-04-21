@@ -238,7 +238,6 @@ android {
         qa {
             dimension "version"
             applicationIdSuffix ".qa"
-            versionNameSuffix "-QA"
         }
         app {
             dimension "version"
@@ -246,7 +245,6 @@ android {
         icca {
             dimension "version"
             applicationIdSuffix ".icca"
-            versionNameSuffix "-ICCA"
         }
     }
     buildTypes {
