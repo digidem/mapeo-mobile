@@ -196,7 +196,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode myVersionCode
-        versionName getenv("ANDROID_VERSION_NAME") ?: "0.0.0"
+        versionName getenv("ANDROID_VERSION_NAME") ?: getenv("npm_package_version") ?: "0.0.0"
         archivesBaseName = "mapeo"
 
         // Detox integration
