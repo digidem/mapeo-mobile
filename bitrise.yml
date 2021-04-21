@@ -56,7 +56,7 @@ workflows:
                   # Construct path with new filename
                   new_path="${dir}/${datestring}-${basename}"
                   if [ -n "${BITRISE_PULL_REQUEST}" ]; then
-                    new_path+="_PR#${BITRISE_PULL_REQUEST}"
+                    new_path+="_PR${BITRISE_PULL_REQUEST}"
                   fi
                   if [ -n "${BITRISE_GIT_COMMIT}" ]; then
                     new_path+="_${BITRISE_GIT_COMMIT:0:7}"
