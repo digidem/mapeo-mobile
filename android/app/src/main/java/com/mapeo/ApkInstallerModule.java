@@ -6,12 +6,6 @@ import android.net.Uri;
 import android.os.Build;
 import androidx.core.content.FileProvider;
 
-import android.util.Base64;
-import android.util.Log;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.Promise;
@@ -20,8 +14,6 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
 import java.io.File;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 // Largely borrowed from https://github.com/nodece/react-native-apk-installer-n
 // Added ability to return promise if install cancelled as described in
@@ -67,23 +59,6 @@ public class ApkInstallerModule extends ReactContextBaseJavaModule {
     return "ApkInstaller";
   }
 
-  private void getSignatures(PackageInfo pi) {
-    MessageDigest md;
-    try {
-      md = MessageDigest.getInstance("SHA");
-      for (Signature signature : pi.signatures) {
-        md.update(signature.toByteArray());
-        final String hashedSignature = new String(Base64.encode(md.digest(), Base64.DEFAULT));
-        Log.w("ReactNative", hashedSignature);
-      }
-
-      Log.w("ReactNative", pi.packageName);
-
-    } catch(NoSuchAlgorithmException x) {
-      Log.w("ReactNative", "no such alg");
-    }
-  }
-
   @ReactMethod
   public void install(String filePath, final Promise promise) {
     Activity currentActivity = getCurrentActivity();
@@ -95,11 +70,6 @@ public class ApkInstallerModule extends ReactContextBaseJavaModule {
 
     // Store the promise to resolve/reject when installer activity completes
     mPickerPromise = promise;
-
-    try {
-      getSignatures(reactContext.getPackageManager().getPackageArchiveInfo(filePath, PackageManager.GET_SIGNATURES));
-      getSignatures(reactContext.getPackageManager().getPackageInfo(reactContext.getPackageName(), PackageManager.GET_SIGNATURES));
-    } catch (PackageManager.NameNotFoundException e) {}
 
     Intent intent = new Intent();
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
