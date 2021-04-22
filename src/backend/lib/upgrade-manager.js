@@ -1,3 +1,9 @@
+// DEFINITIONS of errors, for the context of this diff
+//
+// Fatal: upgrade feature won't work anymore
+// Warning: worth showing a dialog to inform the user
+// Ignorable: not even worth telling the user able
+
 const UpgradeStorage = require("./upgrade-storage");
 const UpgradeServer = require("./upgrade-server");
 const UpgradeDownload = require("./upgrade-download");
@@ -108,6 +114,8 @@ class UpgradeManager {
     const result = validate(this.state);
     if (result) {
       const msg = result.join(",");
+      // Validation error: this indicates an internal error that should never happen.
+      // If it does: definitely a fatal error.
       this.emit("p2p-upgrade::error", { message: msg });
     } else {
       this.sanitizeState();

@@ -83,6 +83,7 @@ class UpgradeServer extends EventEmitter {
     this.stateLock.writeLock(release => {
       const self = this;
       function done(err) {
+        // Ignorable. this only fires if discovery.destroy() errors, which is fine
         if (err) self.setState(UpgradeState.Server.Error, err);
         release();
         if (cb) cb(err);

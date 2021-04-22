@@ -164,6 +164,7 @@ class Search extends EventEmitter {
 
       this.discovery.destroy(err => {
         if (err) {
+          // Ignorable error
           this.setState(UpgradeState.Search.Error, err);
           searchLog("..stopped, with error:", err);
         } else {
@@ -236,6 +237,11 @@ class Download extends EventEmitter {
           option.version,
           option.hash,
           err => {
+            // Warning: worth showing a dialog box
+            // THOUGHT: it would be nice if there was a way for this component to, like, reset itself?
+            //   some options:
+            //     1. set to state Error, like we do here, then, after a timeout, set to Idle again
+            //     2. expose a 'reset()' function that the frontend can manually call that resets the entire upgrade system
             if (err) this.setState(UpgradeState.Download.Error, err);
             else this.setState(UpgradeState.Download.Downloaded, null);
           }
@@ -276,6 +282,8 @@ class Check extends EventEmitter {
 
     checkLog("checking for an upgrade..");
     this.storage.getAvailableUpgrades((err, options) => {
+      // Seriously fatal error, if upgrade storage ever becomes corrupted
+      // in the future this might warrant a way for the frontend to purge storage to reset it?
       if (err) return this.setState(UpgradeState.Check.Error, err);
       options = options.filter(o => this.isUpgradeCandidate(o));
       if (options.length > 0) {
