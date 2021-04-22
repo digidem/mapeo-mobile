@@ -36,7 +36,6 @@ const releaseStage = prereleaseComponents
 const log = debug("mapeo-core:index");
 const PORT = 9081;
 const status = new ServerStatus();
-let storagePath;
 let server;
 
 // This is nastily circular: we need an instance of status for the constructor
@@ -68,26 +67,24 @@ status.startHeartbeat();
  * card. It is a shared folder that the user can access. The data folder
  * accessible through rnBridge.app.datadir() is not accessible by the user.
  *
+ * Other config data such as the path to the APK file is only available in the
+ * React Native process, so we pass that to the backend here
+ *
  * We need to wait for the React Native process to tell us where the folder is.
- * This code supports re-starting the server with a different folder if
- * necessary (we probably shouldn't do that)
  */
-rnBridge.channel.on("config", config => {
-  log("storagePath", config.storagePath);
-  if (config.storagePath === storagePath) return;
-  const prevStoragePath = storagePath;
-  if (server)
-    stopServer(() => {
-      log(`closed server with:
-  storagePath: ${prevStoragePath}`);
-    });
-  storagePath = config.storagePath;
+rnBridge.channel.once("config", config => {
+  log("config", config);
+  if (server) {
+    const error = new Error(
+      "Server already existed when config event was received"
+    );
+    status.setState(constants.ERROR, { error, context: "config" });
+    return;
+  }
   try {
     server = createServer({
       privateStorage: rnBridge.app.datadir(),
-      sharedStorage: storagePath,
-      apkPath: config.apkPath,
-      apkVersion: config.apkVersion,
+      ...config,
     });
   } catch (error) {
     status.setState(constants.ERROR, { error, context: "createServer" });
@@ -123,7 +120,11 @@ rnBridge.app.on("resume", () => {
 const noop = () => {};
 
 function startServer() {
-  if (!server) return;
+  if (!server) {
+    const error = new Error("Tried to start server before config was received");
+    status.setState(constants.ERROR, { error, context: "createServer" });
+    return;
+  }
   const state = status.getState();
   if (state === constants.CLOSING) {
     log("Server was closing when it tried to start");

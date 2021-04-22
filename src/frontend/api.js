@@ -224,10 +224,12 @@ export function Api({
         // As soon as we hear from the Node process, send the storagePath and
         // other config that the server requires
         nodejs.channel.post("config", {
-          storagePath: RNFS.ExternalDirectoryPath,
-          upgradeStoragePath: RNFS.DocumentDirectoryPath,
+          sharedStorage: RNFS.ExternalDirectoryPath,
           apkPath: AppInfo.sourceDir,
-          apkVersion: APP_VERSION,
+          minSdkVersion: AppInfo.minSdkVersion,
+          version: DeviceInfo.getVersion(),
+          buildNumber: DeviceInfo.getBuildNumber(),
+          bundleId: DeviceInfo.getBundleId(),
         });
         // Resolve once the server reports status as "LISTENING"
         return onReady();
