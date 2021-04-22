@@ -54,6 +54,22 @@
     "description": "Title for category chooser screen",
     "message": "Chọn những gì đang diễn ra"
   },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "Độ thập phân (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "Độ/Phút/Giây (DMS)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "Định dạng tọa độ"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "Hệ tọa độ vuông góc (UTM)"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Chi tiết"
@@ -65,6 +81,14 @@
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
     "message": "Lần cập nhật gần nhất"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "Tọa độ Độ thập phân"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "Tọa độ DMS"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
@@ -291,6 +315,14 @@
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "Lỗi nhập"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "Định dạng tọa độ"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "Chọn cách hiển thị tọa độ"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
