@@ -127,6 +127,7 @@
     "babel-plugin-react-intl-auto": "^3.3.0",
     "babel-plugin-react-native-web": "^0.12.2",
     "conventional-changelog-cli": "^2.0.34",
+    "delay": "^5.0.0",
     "detox": "^17.4.10",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",

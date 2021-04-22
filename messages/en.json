@@ -39,9 +39,13 @@
     "description": "Label for Android version",
     "message": "Android version"
   },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Mapeo build"
+  },
   "screens.AboutMapeo.mapeoType": {
-    "description": "Label for Mapeo type",
-    "message": "Mapeo type"
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Mapeo variant"
   },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",

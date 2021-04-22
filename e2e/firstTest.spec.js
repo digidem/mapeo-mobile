@@ -1,6 +1,7 @@
 /* eslint-env detox/detox, jest/globals */
 
 const { byId, byText } = require("./matcher");
+const delay = require("delay");
 
 // Make it easier to change where the settings screen is later
 const navigateToSettings = async () => {
@@ -62,6 +63,8 @@ describe("Mapeo", () => {
       await byId("observationListItem:0").tap();
       await byId("editButton").tap();
       await byId("observationDescriptionField").typeText("Test description");
+      // This test fails intermittently without a delay here
+      await delay(200);
       // Closes keyboard
       await device.pressBack();
       // Cancels edit
