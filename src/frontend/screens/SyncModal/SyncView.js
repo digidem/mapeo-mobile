@@ -393,7 +393,12 @@ const SyncView = ({
     {ssid ? (
       <>
         <WifiBar onPress={onWifiPress} ssid={ssid} deviceName={deviceName} />
-        <UpgradeBar upgradeInfo={upgradeInfo} onInstallPress={onInstallPress} />
+        {upgradeInfo && (
+          <UpgradeBar
+            upgradeInfo={upgradeInfo}
+            onInstallPress={onInstallPress}
+          />
+        )}
         {peers.length ? (
           <PeerList peers={peers} onSyncPress={onSyncPress} />
         ) : (

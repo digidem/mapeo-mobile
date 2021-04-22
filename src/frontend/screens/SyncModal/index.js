@@ -25,6 +25,7 @@ import usePeers from "./usePeers";
 import { peerStatus } from "./PeerList";
 import { UpgradeState as BackendUpgradeState } from "../../../backend/lib/constants";
 import ApkInstaller from "../../lib/ApkInstaller";
+import SettingsContext from "../../context/SettingsContext";
 
 import debug from "debug";
 const log = debug("mapeo-mobile:SyncModal:index");
@@ -63,6 +64,8 @@ const deviceName: string = "Android " + getUniqueId().slice(0, 4).toUpperCase();
 
 const SyncModal = ({ navigation }: Props) => {
   const [, reload] = useAllObservations();
+  const [{ experimentalP2pUpgrade }] = React.useContext(SettingsContext);
+
   const [
     {
       metadata: { projectKey },
@@ -81,10 +84,10 @@ const SyncModal = ({ navigation }: Props) => {
   const [fakeTrigger, setFakeTrigger] = React.useState(0);
 
   // P2P Upgrades effects
-  //----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // Backend State + Peers => Frontend render effect
   React.useEffect(() => {
-    if (!backendState.server) return;
+    if (!backendState.server || !experimentalP2pUpgrade) return;
     const rState = getFrontendStateFromUpgradeState(backendState, peers);
     setUpgradeInfo(rState);
   }, [peers, backendState, fakeTrigger]);
@@ -92,13 +95,7 @@ const SyncModal = ({ navigation }: Props) => {
   // Backend state tracking effect. Interfaces with Node process for state &
   // control.
   React.useEffect(() => {
-    log("startup", upgradeInfo);
-    rnBridge.channel.addListener("p2p-upgrades-backend-ready", onReady);
-    rnBridge.channel.post("p2p-upgrades-frontend-ready");
-    setUpgradeInfo({ state: UpgradeState.Searching });
-
     let iv;
-
     function onState(state) {
       log("GOT BACKEND STATE", JSON.stringify(state));
       setBackendState(state);
@@ -126,16 +123,25 @@ const SyncModal = ({ navigation }: Props) => {
       rnBridge.channel.post("p2p-upgrade::get-state");
       rnBridge.channel.post("p2p-upgrade::start-services");
     }
+    if (!experimentalP2pUpgrade) setUpgradeInfo(null);
+    else {
+      log("startup", upgradeInfo);
+      rnBridge.channel.addListener("p2p-upgrades-backend-ready", onReady);
+      rnBridge.channel.post("p2p-upgrades-frontend-ready");
+      setUpgradeInfo({ state: UpgradeState.Searching });
+    }
 
     return () => {
-      log("cleanup!");
-      if (iv) clearInterval(iv);
-      rnBridge.channel.removeListener("p2p-upgrade::state", onState);
-      rnBridge.channel.removeListener("p2p-upgrade::error", onError);
-      rnBridge.channel.post("p2p-upgrade::stop-services");
+      if (experimentalP2pUpgrade) {
+        log("cleanup!");
+        if (iv) clearInterval(iv);
+        rnBridge.channel.removeListener("p2p-upgrade::state", onState);
+        rnBridge.channel.removeListener("p2p-upgrade::error", onError);
+        rnBridge.channel.post("p2p-upgrade::stop-services");
+      }
     };
   }, []);
-  //----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
 
   React.useEffect(() => {
     const subscriptions = [];
