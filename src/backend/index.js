@@ -84,9 +84,6 @@ rnBridge.channel.once("config", config => {
   try {
     server = createServer({
       privateStorage: rnBridge.app.datadir(),
-      apkPath: config.apkPath,
-      apkVersion: config.apkVersion,
-      sharedStorage: config.storagePath,
       ...config,
     });
   } catch (error) {
