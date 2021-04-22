@@ -150,10 +150,10 @@ const Settings = () => {
         ></ListItemText>
       </ListItem>
       <ListItem
-        onPress={() => navigate("Experimental")}
+        onPress={() => navigate("Experiments")}
         testID="settingsExperimentButton"
       >
-        <ListItemIcon iconName="info" />
+        <ListItemIcon iconName="flag" />
         <ListItemText
           primary={<FormattedMessage {...m.experiments} />}
           secondary={<FormattedMessage {...m.experimentsDesc} />}

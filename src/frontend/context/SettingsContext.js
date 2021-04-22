@@ -7,9 +7,11 @@ import createPersistedState from "../hooks/usePersistedState";
 const STORE_KEY = "@MapeoSettings@1";
 
 export type CoordinateFormat = "utm" | "dd" | "dms";
+export type ExperimentalP2pUpgrade = Boolean;
 
 export type SettingsState = {
   coordinateFormat: CoordinateFormat,
+  experimentalP2pUpgrade: ExperimentalP2pUpgrade,
 };
 
 type SettingsContextType = [
@@ -19,6 +21,7 @@ type SettingsContextType = [
 
 const DEFAULT_SETTINGS = {
   coordinateFormat: "utm",
+  experimentalP2pUpgrade: false,
 };
 
 const SettingsContext = React.createContext<SettingsContextType>([
