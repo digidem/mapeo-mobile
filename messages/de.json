@@ -27,10 +27,6 @@
     "description": "Label for Android version",
     "message": "Android Version"
   },
-  "screens.AboutMapeo.mapeoType": {
-    "description": "Label for Mapeo type",
-    "message": "Mapeo-Typ"
-  },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
     "message": "Mapeo Version"
