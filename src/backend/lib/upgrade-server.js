@@ -50,10 +50,9 @@ class UpgradeServer extends EventEmitter {
   share(cb) {
     this.stateLock.writeLock(release => {
       const self = this;
-      function done(err) {
-        if (err) self.setState(UpgradeState.Server.Error, err);
+      function done() {
         release();
-        if (cb) cb(err);
+        if (cb) cb();
       }
 
       if (this.state !== UpgradeState.Server.Idle) {
