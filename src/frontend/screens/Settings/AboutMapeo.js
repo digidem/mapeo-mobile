@@ -82,14 +82,18 @@ const DeviceInfoListItem = ({
 };
 
 const AboutMapeo = () => {
+  const { formatMessage: t } = useIntl();
   return (
     <List>
-      <DeviceInfoListItem label="Mapeo version" deviceProp="version" />
-      <DeviceInfoListItem label="Mapeo build" deviceProp="buildNumber" />
-      <DeviceInfoListItem label="Mapeo type" deviceProp="bundleId" />
-      <DeviceInfoListItem label="Android version" deviceProp="systemVersion" />
-      <DeviceInfoListItem label="Android build" deviceProp="buildId" />
-      <DeviceInfoListItem label="Phone model" deviceProp="model" />
+      <DeviceInfoListItem label={t(m.mapeoVersion)} deviceProp="version" />
+      <DeviceInfoListItem label={t(m.mapeoBuild)} deviceProp="buildNumber" />
+      <DeviceInfoListItem label={t(m.mapeoType)} deviceProp="bundleId" />
+      <DeviceInfoListItem
+        label={t(m.androidVersion)}
+        deviceProp="systemVersion"
+      />
+      <DeviceInfoListItem label={t(m.androidBuild)} deviceProp="buildId" />
+      <DeviceInfoListItem label={t(m.phoneModel)} deviceProp="model" />
     </List>
   );
 };
