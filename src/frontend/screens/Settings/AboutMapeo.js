@@ -1,10 +1,10 @@
 // @flow
 import React from "react";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
-import DeviceInfo from "react-native-device-info";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { List, ListItem, ListItemText } from "../../sharedComponents/List";
+import useDeviceInfo from "../../hooks/useDeviceInfo";
 
 const m = defineMessages({
   aboutMapeoTitle: {
@@ -50,22 +50,6 @@ const m = defineMessages({
   },
 });
 
-// Quick custom hook to
-function useDeviceInfo(prop) {
-  const { formatMessage } = useIntl();
-  const methodName = "get" + prop.replace(/^[a-z]/, m => m.toUpperCase());
-  const result = React.useMemo(() => DeviceInfo[methodName](), [methodName]);
-  const [value, setValue] = React.useState(
-    // result type is "object" if it's a Promise
-    typeof result === "object" ? "…" : result
-  );
-  React.useEffect(() => {
-    if (typeof result !== "object") return;
-    result.then(setValue).catch(e => setValue(formatMessage(m.unknown)));
-  }, [formatMessage, result]);
-  return value;
-}
-
 const DeviceInfoListItem = ({
   label,
   deviceProp,
@@ -73,10 +57,17 @@ const DeviceInfoListItem = ({
   label: string,
   deviceProp: string,
 }) => {
-  const value = useDeviceInfo(deviceProp);
+  const { formatMessage } = useIntl();
+  const { value, state } = useDeviceInfo(deviceProp);
+  const displayValue =
+    state === "loading"
+      ? "…"
+      : state === "ready"
+      ? value
+      : formatMessage(m.unknown);
   return (
     <ListItem>
-      <ListItemText primary={label} secondary={value}></ListItemText>
+      <ListItemText primary={label} secondary={displayValue}></ListItemText>
     </ListItem>
   );
 };
