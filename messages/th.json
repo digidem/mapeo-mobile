@@ -27,6 +27,14 @@
     "description": "Label for Android version",
     "message": "เวอร์ชันของแอนดรอยด์"
   },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Mapeo build"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "การแปร Mapeo"
+  },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
     "message": "เวอร์ชันของ Mapeo"
