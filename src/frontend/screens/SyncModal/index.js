@@ -90,7 +90,7 @@ const SyncModal = ({ navigation }: Props) => {
     if (!backendState.server || !experimentalP2pUpgrade) return;
     const rState = getFrontendStateFromUpgradeState(backendState, peers);
     setUpgradeInfo(rState);
-  }, [peers, backendState, fakeTrigger]);
+  }, [peers, backendState, fakeTrigger, experimentalP2pUpgrade]);
 
   // Backend state tracking effect. Interfaces with Node process for state &
   // control.
@@ -140,7 +140,7 @@ const SyncModal = ({ navigation }: Props) => {
         rnBridge.channel.post("p2p-upgrade::stop-services");
       }
     };
-  }, []);
+  }, [experimentalP2pUpgrade]);
   // ----------------------------------------------------------------------
 
   React.useEffect(() => {
