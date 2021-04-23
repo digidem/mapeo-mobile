@@ -19,6 +19,14 @@
     "description": "Title of dialog that shows when cancelling a new observation",
     "message": "ยืนยันการยกเลิก?"
   },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "ระบบได้อัปเดต Mapeo จากเวอร์ชัน {previousVersion} เป็นเวอร์ชัน {currentVersion} เมื่อ {updateDateTime}"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "ตกลง"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "รหัส Build Number บน Android"
