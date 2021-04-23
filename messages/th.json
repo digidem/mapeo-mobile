@@ -27,6 +27,10 @@
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
     "message": "ตกลง"
   },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "อัปเดต Mapeo แล้ว"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "รหัส Build Number บน Android"
