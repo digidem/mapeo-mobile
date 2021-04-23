@@ -2,13 +2,8 @@
 import React from "react";
 // import { Picker as OriginalPicker } from "@react-native-community/picker";
 import { FormattedMessage, defineMessages } from "react-intl";
-import { useNavigation, useFocusEffect } from "react-navigation-hooks";
-import RNFS from "react-native-fs";
-import Share from "react-native-share";
-import { version as APP_VERSION } from "../../../../package.json";
+import { useNavigation } from "react-navigation-hooks";
 
-import ApkInstaller from "../../lib/ApkInstaller";
-import AppInfo from "../../lib/AppInfo";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import {
   List,
@@ -16,7 +11,6 @@ import {
   ListItemText,
   ListItemIcon,
 } from "../../sharedComponents/List";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
 
 const m = defineMessages({
   settingsTitle: {
@@ -98,14 +92,6 @@ const m = defineMessages({
 
 const Settings = () => {
   const { navigate } = useNavigation();
-  const didNavigateAway = React.useRef(false);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      didNavigateAway.current = false;
-      return () => (didNavigateAway.current = true);
-    }, [])
-  );
 
   return (
     <List testID="settingsList">
