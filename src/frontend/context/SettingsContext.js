@@ -7,7 +7,7 @@ import createPersistedState from "../hooks/usePersistedState";
 const STORE_KEY = "@MapeoSettings@1";
 
 export type CoordinateFormat = "utm" | "dd" | "dms";
-export type ExperimentalP2pUpgrade = Boolean;
+export type ExperimentalP2pUpgrade = boolean;
 
 export type SettingsState = {
   coordinateFormat: CoordinateFormat,
