@@ -26,7 +26,7 @@ const Experiments = () => {
   const [{ experiments }, setSettings] = React.useContext(SettingsContext);
 
   return (
-    <List testID="settingsList">
+    <List testID="experimentsList">
       <ListItem
         onPress={() =>
           setSettings("experiments", {
@@ -34,7 +34,7 @@ const Experiments = () => {
             p2pUpgrade: !experiments.p2pUpgrade,
           })
         }
-        testID="settingsLanguageButton"
+        testID="p2pUpgradeExperimentButton"
       >
         <ListItemIcon
           iconName={
