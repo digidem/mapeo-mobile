@@ -80,12 +80,6 @@ function createServer({
     manager.setApkInfo(apkPath, apkVersion, err => {
       if (err) return onError("setApkInfo", err);
       log("++++ 4 set apk info");
-      rnBridge.channel.on("p2p-upgrades-frontend-ready", () => {
-        rnBridge.channel.post("p2p-upgrades-backend-ready");
-        // Now we know the frontend is definitely ready!
-        log("++++ 5 frontend told us they are ready");
-      });
-      rnBridge.channel.post("p2p-upgrades-backend-ready");
     });
   });
 
