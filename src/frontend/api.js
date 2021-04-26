@@ -98,6 +98,31 @@ export type ServerPeer = {
 
 type PeerHandler = (peerList: Array<ServerPeer>) => any;
 
+type UpgradeState = {
+  server: {
+    state: "IDLE" | "SHARING" | "DRAINING" | "ERROR",
+    context: any,
+  },
+  downloader: {
+    search: {
+      state: "IDLE" | "SEARCHING" | "ERROR",
+      context: any,
+    },
+    download: {
+      state: "IDLE" | "DOWNLOADING" | "DOWNLOADED" | "ERROR",
+      context: any,
+    },
+    check: {
+      state: "NOT_AVAILABLE" | "AVAILABLE" | "ERROR",
+      context: any,
+    },
+  },
+};
+
+type UpgradeError = {
+  message: string,
+};
+
 export { STATUS as Constants };
 
 const log = debug("mapeo-mobile:api");
@@ -416,6 +441,41 @@ export function Api({
             }
           })
       );
+    },
+
+    /**
+     * P2P Upgrade methods
+     */
+
+    // Listen for updates to p2p upgrade state
+    addP2pUpgradeStateListener: function addP2pUpgradeStateListener(
+      handler: (state: UpgradeState) => void
+    ): Subscription {
+      nodejs.channel.addListener("p2p-upgrade::state", handler);
+      // Poke backend to send a state event
+      nodejs.channel.post("p2p-upgrade::get-state");
+      return {
+        remove: () =>
+          nodejs.channel.removeListener("p2p-upgrade::state", handler),
+      };
+    },
+
+    addP2pUpgradeErrorListener: function addP2pUpgradeErrorListener(
+      handler: (state: UpgradeError) => void
+    ): Subscription {
+      nodejs.channel.addListener("p2p-upgrade::error", handler);
+      return {
+        remove: () =>
+          nodejs.channel.removeListener("p2p-upgrade::error", handler),
+      };
+    },
+
+    startP2pUpgradeServices: function startP2pUpgradeServices() {
+      nodejs.channel.post("p2p-upgrade::start-services");
+    },
+
+    stopP2pUpgradeServices: function stopP2pUpgradeServices() {
+      nodejs.channel.post("p2p-upgrade::stop-services");
     },
 
     /**
