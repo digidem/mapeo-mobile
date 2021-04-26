@@ -32,7 +32,7 @@ function createServer({
   sharedStorage,
   apkPath,
   minSdkVersion,
-  version,
+  version: apkVersion,
   buildNumber,
   bundleId,
 }) {
