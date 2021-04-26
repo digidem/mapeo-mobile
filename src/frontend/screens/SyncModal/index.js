@@ -64,7 +64,7 @@ const deviceName: string = "Android " + getUniqueId().slice(0, 4).toUpperCase();
 
 const SyncModal = ({ navigation }: Props) => {
   const [, reload] = useAllObservations();
-  const [{ experimentalP2pUpgrade }] = React.useContext(SettingsContext);
+  const [{ experiments: p2pUpgrade }] = React.useContext(SettingsContext);
 
   const [
     {
@@ -87,10 +87,10 @@ const SyncModal = ({ navigation }: Props) => {
   // ----------------------------------------------------------------------
   // Backend State + Peers => Frontend render effect
   React.useEffect(() => {
-    if (!backendState.server || !experimentalP2pUpgrade) return;
+    if (!backendState.server || !p2pUpgrade) return;
     const rState = getFrontendStateFromUpgradeState(backendState, peers);
     setUpgradeInfo(rState);
-  }, [peers, backendState, fakeTrigger, experimentalP2pUpgrade]);
+  }, [peers, backendState, fakeTrigger, p2pUpgrade]);
 
   // Backend state tracking effect. Interfaces with Node process for state &
   // control.
@@ -123,7 +123,7 @@ const SyncModal = ({ navigation }: Props) => {
       rnBridge.channel.post("p2p-upgrade::get-state");
       rnBridge.channel.post("p2p-upgrade::start-services");
     }
-    if (!experimentalP2pUpgrade) setUpgradeInfo(null);
+    if (!p2pUpgrade) setUpgradeInfo(null);
     else {
       log("startup", upgradeInfo);
       rnBridge.channel.addListener("p2p-upgrades-backend-ready", onReady);
@@ -132,7 +132,7 @@ const SyncModal = ({ navigation }: Props) => {
     }
 
     return () => {
-      if (experimentalP2pUpgrade) {
+      if (p2pUpgrade) {
         log("cleanup!");
         if (iv) clearInterval(iv);
         rnBridge.channel.removeListener("p2p-upgrade::state", onState);
@@ -140,7 +140,7 @@ const SyncModal = ({ navigation }: Props) => {
         rnBridge.channel.post("p2p-upgrade::stop-services");
       }
     };
-  }, [experimentalP2pUpgrade]);
+  }, [p2pUpgrade]);
   // ----------------------------------------------------------------------
 
   React.useEffect(() => {

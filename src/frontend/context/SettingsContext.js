@@ -11,7 +11,9 @@ export type ExperimentalP2pUpgrade = boolean;
 
 export type SettingsState = {
   coordinateFormat: CoordinateFormat,
-  experimentalP2pUpgrade: ExperimentalP2pUpgrade,
+  experiments: {
+    p2pUpgrade: boolean,
+  },
 };
 
 type SettingsContextType = [
@@ -21,7 +23,9 @@ type SettingsContextType = [
 
 const DEFAULT_SETTINGS = {
   coordinateFormat: "utm",
-  experimentalP2pUpgrade: false,
+  experiments: {
+    p2pUpgrade: false,
+  },
 };
 
 const SettingsContext = React.createContext<SettingsContextType>([
@@ -37,6 +41,7 @@ export const SettingsProvider = ({ children }: { children: React.Node }) => {
   );
 
   const setSettings = React.useCallback(
+    // $FlowFixMe This is not broken, Flow is just wrong: https://medium.com/flow-type/spreads-common-errors-fixes-9701012e9d58 #timetoswitchtoTS
     (key, value) => setState({ ...state, [key]: value }),
     [setState, state]
   );

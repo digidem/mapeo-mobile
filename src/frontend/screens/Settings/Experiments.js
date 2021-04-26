@@ -23,21 +23,22 @@ const m = defineMessages({
 });
 
 const Experiments = () => {
-  const [{ experimentalP2pUpgrade }, setSettings] = React.useContext(
-    SettingsContext
-  );
+  const [{ experiments }, setSettings] = React.useContext(SettingsContext);
 
   return (
     <List testID="settingsList">
       <ListItem
         onPress={() =>
-          setSettings("experimentalP2pUpgrade", !experimentalP2pUpgrade)
+          setSettings("experiments", {
+            ...experiments,
+            p2pUpgrade: !experiments.p2pUpgrade,
+          })
         }
         testID="settingsLanguageButton"
       >
         <ListItemIcon
           iconName={
-            experimentalP2pUpgrade ? "check-box" : "check-box-outline-blank"
+            experiments.p2pUpgrade ? "check-box" : "check-box-outline-blank"
           }
         />
         <ListItemText
