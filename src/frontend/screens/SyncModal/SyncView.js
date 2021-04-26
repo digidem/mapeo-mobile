@@ -11,6 +11,7 @@ import DotIndicator from "./DotIndicator";
 import PeerList from "./PeerList";
 import type { Peer } from "./PeerList";
 import UpgradeBar from "./UpgradeBar";
+import useSettingsValue from "../../hooks/useSettingsValue";
 
 const m = defineMessages({
   wifi: {
@@ -118,46 +119,42 @@ type Props = {
 
 const SyncView = ({
   onSyncPress,
-  onInstallPress,
   peers,
   ssid,
   deviceName,
   onWifiPress,
   projectKey,
-  upgradeInfo,
-}: Props) => (
-  <View style={styles.root}>
-    {ssid ? (
-      <>
-        <WifiBar onPress={onWifiPress} ssid={ssid} deviceName={deviceName} />
-        {upgradeInfo && (
-          <UpgradeBar
-            upgradeInfo={upgradeInfo}
-            onInstallPress={onInstallPress}
-          />
-        )}
-        {peers.length ? (
-          <PeerList peers={peers} onSyncPress={onSyncPress} />
-        ) : (
-          <SearchingBox />
-        )}
+}: Props) => {
+  const experiments = useSettingsValue("experiments");
+  return (
+    <View style={styles.root}>
+      {ssid ? (
+        <>
+          <WifiBar onPress={onWifiPress} ssid={ssid} deviceName={deviceName} />
+          {experiments.p2pUpgrade ? <UpgradeBar peers={peers} /> : null}
+          {peers.length ? (
+            <PeerList peers={peers} onSyncPress={onSyncPress} />
+          ) : (
+            <SearchingBox />
+          )}
 
-        <Text style={styles.projectId}>
-          <FormattedMessage
-            {...m.projectKey}
-            values={{
-              projectKey: projectKey
-                ? projectKey.slice(0, 5) + "**********"
-                : "MAPEO",
-            }}
-          />
-        </Text>
-      </>
-    ) : (
-      <NoWifiBox onPress={onWifiPress} />
-    )}
-  </View>
-);
+          <Text style={styles.projectId}>
+            <FormattedMessage
+              {...m.projectKey}
+              values={{
+                projectKey: projectKey
+                  ? projectKey.slice(0, 5) + "**********"
+                  : "MAPEO",
+              }}
+            />
+          </Text>
+        </>
+      ) : (
+        <NoWifiBox onPress={onWifiPress} />
+      )}
+    </View>
+  );
+};
 
 export default SyncView;
 
