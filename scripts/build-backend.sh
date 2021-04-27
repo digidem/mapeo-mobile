@@ -23,13 +23,12 @@ else
   echo "Set Build Native Modules on"
 fi
 cp -r ./src/backend ./nodejs-assets
-mv ./nodejs-assets/backend ./nodejs-assets/nodejs-project
+mkdir -p ./nodejs-assets/nodejs-project/node_modules
 
 echo "Installing dependencies..."
-cd ./nodejs-assets/nodejs-project && npm ci && cd ../..
+cd ./nodejs-assets/backend && npm ci
 
 echo -en "Minifying with noderify..."
-cd ./nodejs-assets/nodejs-project
 # https://github.com/digidem/mapeo-mobile/issues/521
 "$(npm bin)/noderify" \
   --replace.bindings=bindings-noderify-nodejs-mobile \
@@ -38,15 +37,22 @@ cd ./nodejs-assets/nodejs-project
   --filter=async_hooks \
   --filter=utf-8-validate \
   --filter=bufferutil \
-  index.js >_index.js
-rm index.js
-mv _index.js index.js
+  index.js > ../nodejs-project/index.js
 cd ../..
+echo -en " done.\n"
+
+echo -en "Keeping whitelisted files..."
+declare -a keepThese=("package.json" "loader.js")
+for x in "${keepThese[@]}"; do
+  if [ -e "./nodejs-assets/backend/$x" ]; then
+    mv "./nodejs-assets/backend/$x" "./nodejs-assets/nodejs-project/$x"
+  fi
+done
 echo -en " done.\n"
 
 echo -en "Create presets fallback folders..."
 ANDROID_SRC_DIR="$(pwd)/android/app/src"
-cd ./nodejs-assets/nodejs-project
+cd ./nodejs-assets/backend
 # We use a patched version of nodejs-mobile-react-native that extracts files in
 # the assets/nodejs-assets folder, so that they are accessible to Node. Here we
 # copy default presets into assets folders by variant, so that the icca variant
@@ -63,24 +69,16 @@ echo -en " done.\n"
 echo -en "Keeping some node modules..."
 declare -a keepThese=("leveldown" ".bin" "node-gyp-build" "napi-macros")
 for x in "${keepThese[@]}"; do
-  if [ -e "./nodejs-assets/nodejs-project/node_modules/$x" ]; then
-    mv "./nodejs-assets/nodejs-project/node_modules/$x" "./nodejs-assets/$x"
-  fi
-done
-echo -en " done.\n"
-
-echo -en "Removing node_modules folder.\n"
-rm -rf ./nodejs-assets/nodejs-project/node_modules
-mkdir -p ./nodejs-assets/nodejs-project/node_modules
-
-echo -en "Putting node modules back..."
-for x in "${keepThese[@]}"; do
-  if [ -e "./nodejs-assets/$x" ]; then
-    mv "./nodejs-assets/$x" "./nodejs-assets/nodejs-project/node_modules/$x"
+  if [ -e "./nodejs-assets/backend/node_modules/$x" ]; then
+    mv "./nodejs-assets/backend/node_modules/$x" "./nodejs-assets/nodejs-project/node_modules/$x"
   fi
 done
 echo -en " done.\n"
 
 echo -en "Removing unused .bin aliases..."
 find "./nodejs-assets/nodejs-project/node_modules/.bin" ! -iname "node-gyp-build*" \( -type f -o -type l \) -exec rm -f {} +
+echo -en " done.\n"
+
+echo -en "Cleanup..."
+rm -rf ./nodejs-assets/backend
 echo -en " done.\n"
