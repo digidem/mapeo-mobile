@@ -48,6 +48,7 @@ class UpgradeDownloader extends EventEmitter {
       // Check for a new version once the download has finished
       if (state === UpgradeState.Download.Downloaded) {
         this._check.check();
+        this._download.reset();
       }
     });
     this._check.on("state", (state, context) => {
@@ -210,8 +211,14 @@ class Download extends EventEmitter {
     this.emit("state", state, context);
   }
 
+  reset() {
+    if (this.state !== UpgradeState.Download.Downloaded) return;
+    this.setState(UpgradeState.Download.Idle);
+  }
+
   download(option) {
-    if (this.state !== UpgradeState.Download.Idle) return;
+    if (this.state !== UpgradeState.Download.Idle) return false;
+
     this.setState(UpgradeState.Download.Downloading, {
       sofar: 0,
       total: option.size,
@@ -251,6 +258,8 @@ class Download extends EventEmitter {
         downloadLog("http error", err);
         this.setState(UpgradeState.Download.Idle, null);
       });
+
+    return true;
   }
 }
 

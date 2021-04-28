@@ -122,25 +122,28 @@ class UpgradeManager {
   }
 
   onCheckForUpgrades() {
+    if (!this.upgradeSearchTimeout) return;
+
+    // Reset timer.
+    this.upgradeSearchTimeout = setTimeout(
+      this.onCheckForUpgrades.bind(this),
+      7000
+    );
+
+    // Pick the newest upgrade, if available
     log("checking for upgrade options..");
-    if (this.upgradeSearchTimeout) {
-      // Pick the newest upgrade, if available
-      this.upgradeOptions.sort(upgradeCmp);
+    this.upgradeOptions.sort(upgradeCmp);
 
-      if (!this.upgradeOptions.length) {
-        log("..none found");
-        this.upgradeSearchTimeout = setTimeout(
-          this.onCheckForUpgrades.bind(this),
-          7000
-        );
-        return;
-      }
+    if (!this.upgradeOptions.length) {
+      log("..none found");
+      return;
+    }
 
-      // Download
-      const target = this.upgradeOptions[this.upgradeOptions.length - 1];
+    // Download
+    const target = this.upgradeOptions[this.upgradeOptions.length - 1];
+    const res = this.downloader.download(target);
+    if (res) {
       log("..found an upgrade & starting download:", target);
-      this.downloader.download(target);
-      this.upgradeSearchTimeout = null;
     }
   }
 }
