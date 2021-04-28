@@ -2,13 +2,8 @@
 import React from "react";
 // import { Picker as OriginalPicker } from "@react-native-community/picker";
 import { FormattedMessage, defineMessages } from "react-intl";
-import { useNavigation, useFocusEffect } from "react-navigation-hooks";
-import RNFS from "react-native-fs";
-import Share from "react-native-share";
-import { version as APP_VERSION } from "../../../../package.json";
+import { useNavigation } from "react-navigation-hooks";
 
-import ApkInstaller from "../../lib/ApkInstaller";
-import AppInfo from "../../lib/AppInfo";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import {
   List,
@@ -16,7 +11,6 @@ import {
   ListItemText,
   ListItemIcon,
 } from "../../sharedComponents/List";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
 
 const m = defineMessages({
   settingsTitle: {
@@ -84,72 +78,20 @@ const m = defineMessages({
     defaultMessage: "Choose how coordinates are displayed",
     description: "Description of the 'Coordinate Format' page",
   },
+  experiments: {
+    id: "screens.Settings.experiments",
+    defaultMessage: "Experiments",
+    description: "Experimental features",
+  },
+  experimentsDesc: {
+    id: "screens.Settings.experimentsDesc",
+    defaultMessage: "Turn on experimental new features",
+    description: "Description of the 'Experiment' page",
+  },
 });
 
 const Settings = () => {
   const { navigate } = useNavigation();
-  const [status, setStatus] = React.useState("idle");
-  const didNavigateAway = React.useRef(false);
-
-  const shareApk = React.useCallback(async () => {
-    const tmpDir = RNFS.DocumentDirectoryPath + "/installer";
-    const apkName = `Mapeo-v${APP_VERSION}.apk`;
-    const tmpApkPath = `${tmpDir}/${apkName}`;
-    setStatus("loading");
-    try {
-      // The apk cannot be shared with other apps from the sourceDir folder, so
-      // we need to create a copy in a place that can be shared. We delete the
-      // copy afterwards
-      await RNFS.mkdir(tmpDir);
-      await RNFS.copyFile(AppInfo.sourceDir, tmpApkPath);
-      if (!didNavigateAway.current) {
-        await Share.open({
-          url: "file://" + tmpApkPath,
-          type: "application/vnd.android.package-archive",
-          failOnCancel: false,
-        });
-      }
-    } catch (e) {
-      console.error("Error sharing APK", e);
-    } finally {
-      await RNFS.unlink(tmpDir);
-      setStatus("idle");
-    }
-  }, []);
-
-  const installApk = React.useCallback(async () => {
-    const tmpDir = RNFS.DocumentDirectoryPath + "/installer";
-    const apkName = `Mapeo-v${APP_VERSION}.apk`;
-    const tmpApkPath = `${tmpDir}/${apkName}`;
-    setStatus("loading");
-    try {
-      await RNFS.mkdir(tmpDir);
-      await RNFS.copyFile(AppInfo.sourceDir, tmpApkPath);
-      if (!didNavigateAway.current) {
-        await ApkInstaller.install(tmpApkPath);
-      }
-    } catch (e) {
-      if (e.code !== "E_INSTALL_CANCELLED") {
-        console.error("Error installing APK", e);
-      }
-    } finally {
-      // Need to cleanup on app startup, because the app will reach here as soon
-      // as install launches, so if we cleanup the file will not exist when the
-      // installer tries to install it. We cannot get the result of the install
-      // activity because we launch it as a new task:
-      // https://developer.android.com/reference/android/content/Intent.html#FLAG_ACTIVITY_NEW_TASK
-      // If we don't launch it as a new task, the install will fail as the app
-      // itself updates and quits the child install activity
-      setStatus("idle");
-    }
-  }, []);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      didNavigateAway.current = false;
-      return () => (didNavigateAway.current = true);
-    }, [])
-  );
 
   return (
     <List testID="settingsList">
@@ -193,32 +135,14 @@ const Settings = () => {
           secondary={<FormattedMessage {...m.aboutMapeoDesc} />}
         ></ListItemText>
       </ListItem>
-      <ListItem onPress={shareApk}>
-        <ListItemIcon iconName="get-app" />
+      <ListItem
+        onPress={() => navigate("Experiments")}
+        testID="settingsExperimentButton"
+      >
+        <ListItemIcon iconName="flag" />
         <ListItemText
-          primary={<FormattedMessage {...m.appShare} />}
-          secondary={<FormattedMessage {...m.appShareDesc} />}
-        ></ListItemText>
-      </ListItem>
-      <ListItem onPress={shareApk}>
-        <ListItemIcon iconName="get-app" />
-        <ListItemText
-          primary={<FormattedMessage {...m.appShare} />}
-          secondary={<FormattedMessage {...m.appShareDesc} />}
-        ></ListItemText>
-      </ListItem>
-      <ListItem onPress={installApk}>
-        <ListItemIcon iconName="update" />
-        <ListItemText
-          primary={<FormattedMessage {...m.appInstall} />}
-          secondary={<FormattedMessage {...m.appInstallDesc} />}
-        ></ListItemText>
-      </ListItem>
-      <ListItem>
-        <ListItemIcon iconName="info" />
-        <ListItemText
-          primary="Mapeo Version"
-          secondary={`${APP_VERSION}`}
+          primary={<FormattedMessage {...m.experiments} />}
+          secondary={<FormattedMessage {...m.experimentsDesc} />}
         ></ListItemText>
       </ListItem>
     </List>

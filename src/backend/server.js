@@ -31,7 +31,6 @@ function createServer({
   privateStorage,
   sharedStorage,
   apkPath,
-  minSdkVersion,
   version: apkVersion,
   buildNumber,
   bundleId,
@@ -180,7 +179,7 @@ function createServer({
       const emitFn = rnBridge.channel.post.bind(rnBridge.channel);
       const listenFn = rnBridge.channel.on.bind(rnBridge.channel);
       const removeFn = rnBridge.channel.removeListener.bind(rnBridge.channel);
-      // TODO: Pass apkPath, version, buildNumber, minSdkVersion, bundleId
+      // TODO: Pass apkPath, version, buildNumber, bundleId
       const manager = new UpgradeManager(
         upgradePath,
         port,

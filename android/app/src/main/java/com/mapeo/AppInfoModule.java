@@ -29,7 +29,6 @@ public class AppInfoModule extends ReactContextBaseJavaModule {
     final Map<String, Object> constants = new HashMap<>();
     ApplicationInfo ai = getReactApplicationContext().getApplicationInfo();
     constants.put("sourceDir", ai.sourceDir);
-    constants.put("minSdkVersion", ai.minSdkVersion);
     return constants;
   }
 }
