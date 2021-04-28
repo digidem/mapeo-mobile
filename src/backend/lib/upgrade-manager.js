@@ -124,7 +124,7 @@ class UpgradeManager {
     log("checking for upgrade options..");
     if (this.upgradeSearchTimeout) {
       // Pick the newest upgrade, if available
-      this.upgradeOptions.sort(semver.compare);
+      this.upgradeOptions.sort(upgradeCmp);
 
       if (!this.upgradeOptions.length) {
         log("..none found");
@@ -142,6 +142,12 @@ class UpgradeManager {
       this.upgradeSearchTimeout = null;
     }
   }
+}
+
+function upgradeCmp(a, b) {
+  const av = a.version;
+  const bv = b.version;
+  return semver.compare(av, bv);
 }
 
 module.exports = UpgradeManager;
