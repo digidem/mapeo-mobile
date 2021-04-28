@@ -133,7 +133,7 @@ const SyncModal = ({ navigation }: Props) => {
 
     return () => {
       if (p2pUpgrade) {
-        log("CLEANUP!");
+        log("cleanup!");
         if (iv) clearInterval(iv);
         rnBridge.channel.removeListener("p2p-upgrade::state", onState);
         rnBridge.channel.removeListener("p2p-upgrade::error", onError);

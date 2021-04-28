@@ -4,7 +4,7 @@ import createPersistedState from "../hooks/usePersistedState";
 
 // Increment if the shape of settings changes, but try to avoid doing this
 // because it will reset everybody's settings back to the defaults = bad :(
-const STORE_KEY = "@MapeoSettings@2";
+const STORE_KEY = "@MapeoSettings@1";
 
 export type CoordinateFormat = "utm" | "dd" | "dms";
 export type ExperimentalP2pUpgrade = boolean;
