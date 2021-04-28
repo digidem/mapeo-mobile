@@ -74,10 +74,10 @@ function createServer({
   // Set up the p2p upgrades subsystem.
   const upgradePath = path.join(privateStorage, "upgrades");
   mkdirp.sync(upgradePath);
-  createUpgradeManager(apkVersion, (err, manager) => {
+  createUpgradeManager(version, (err, manager) => {
     if (err) return onError("createUpgradeManager", err);
     log("++++ 3 created upgrade manager");
-    manager.setApkInfo(apkPath, apkVersion, err => {
+    manager.setApkInfo(apkPath, version, err => {
       if (err) return onError("setApkInfo", err);
       log("++++ 4 set apk info");
       rnBridge.channel.on("p2p-upgrades-frontend-ready", () => {
