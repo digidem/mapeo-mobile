@@ -34,11 +34,6 @@ class UpgradeManager {
         this.onCheckForUpgrades.bind(this),
         7000
       );
-      this.downloader.on("state", state => {
-        if (state.search.context && state.search.context.upgrades) {
-          this.upgradeOptions = state.search.context.upgrades;
-        }
-      });
     });
 
     this.addListener("p2p-upgrade::stop-services", () => {
@@ -48,6 +43,12 @@ class UpgradeManager {
 
       if (this.upgradeSearchTimeout) {
         clearTimeout(this.upgradeSearchTimeout);
+      }
+    });
+
+    this.downloader.on("state", state => {
+      if (state.search.context && state.search.context.upgrades) {
+        this.upgradeOptions = state.search.context.upgrades;
       }
     });
 
