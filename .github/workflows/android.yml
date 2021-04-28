@@ -1,7 +1,22 @@
 name: Android
 on: [pull_request]
 jobs:
-  build:
+  backend-tests:
+    name: backend tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Node
+        uses: actions/setup-node@v1
+      - name: Npm Install
+        run: |
+          npm ci
+          cd src/backend
+          npm ci
+      - name: Backend Tests
+        run: npm test
+  e2e-tests:
     name: e2e tests
     runs-on: macos-latest
     steps:
@@ -63,11 +78,6 @@ jobs:
       - name: Build backend
         run: |
           npm run build:backend
-      - name: Backend tests
-        run: |
-          cd ./src/backend
-          npm ci
-          npm test
       - name: Build translations
         run: |
           npm run build:translations
