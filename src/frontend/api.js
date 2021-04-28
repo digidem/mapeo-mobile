@@ -226,7 +226,6 @@ export function Api({
         nodejs.channel.post("config", {
           sharedStorage: RNFS.ExternalDirectoryPath,
           apkPath: AppInfo.sourceDir,
-          minSdkVersion: AppInfo.minSdkVersion,
           version: DeviceInfo.getVersion(),
           buildNumber: DeviceInfo.getBuildNumber(),
           bundleId: DeviceInfo.getBundleId(),
