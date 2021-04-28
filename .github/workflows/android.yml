@@ -63,6 +63,11 @@ jobs:
       - name: Build backend
         run: |
           npm run build:backend
+      - name: Backend tests
+        run: |
+          cd ./src/backend
+          npm ci
+          npm test
       - name: Build translations
         run: |
           npm run build:translations
