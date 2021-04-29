@@ -23,7 +23,7 @@ jobs:
       - name: Node
         uses: actions/setup-node@v1
       - name: Use specific Java version for sdkmanager to work
-        uses: joschi/setup-jdk@v1
+        uses: joschi/setup-jdk@v2
         with:
           java-version: "openjdk8"
           architecture: "x64"
@@ -37,6 +37,9 @@ jobs:
       #     mv android-ndk-r${ANDROID_NDK_VERSION} $ANDROID_NDK_HOME
       #     ls -al $ANDROID_NDK_HOME
       #     cat $ANDROID_NDK_HOME/source.properties
+      - name: Delete newer NDK version
+        run: |
+          rm -rf $ANDROID_HOME/ndk/22*
       - name: Download Android Emulator Image
         run: |
           sdkmanager --update | grep -v = || true

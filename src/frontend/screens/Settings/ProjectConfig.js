@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
-import { View, Text, StyleSheet, ActivityIndicator, Alert } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
+import Text from "../../sharedComponents/Text";
 // import { Picker as OriginalPicker } from "@react-native-community/picker";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import * as DocumentPicker from "expo-document-picker";
@@ -48,6 +49,11 @@ const m = defineMessages({
     defaultMessage: "OK",
     description:
       "Button to dismiss error dialog when there is an error importing a config file",
+  },
+  importConfig: {
+    id: "screens.Settings.importConfig",
+    defaultMessage: "Import Config",
+    description: "Button to import Mapeo config file",
   },
 });
 
@@ -119,7 +125,7 @@ const ProjectConfig = () => {
         variant="outlined"
         onPress={handleImportPress}
       >
-        Import config
+        {t(m.importConfig) /* Button component expects string children */}
       </Button>
     </View>
   );

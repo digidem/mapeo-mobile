@@ -300,6 +300,10 @@
     "description": "Label for name & version of current configuration",
     "message": "Current Configuration"
   },
+  "screens.Settings.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "Import Config"
+  },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
     "message": "Language"

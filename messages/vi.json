@@ -21,31 +21,31 @@
   },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
-    "message": "Android build number"
+    "message": "Android GD2I"
   },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
-    "message": "Android version"
+    "message": "Phiên bản Android"
   },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type",
-    "message": "Mapeo type"
+    "message": "Loại Mapeo"
   },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
-    "message": "Mapeo version"
+    "message": "Phiên bản Mapeo"
   },
   "screens.AboutMapeo.phoneModel": {
     "description": "Label for phone model",
-    "message": "Phone model"
+    "message": "Dòng điện thoại"
   },
   "screens.AboutMapeo.title": {
     "description": "Title of 'About Mapeo' screen",
-    "message": "About Mapeo"
+    "message": "Giới thiệu về Mapeo"
   },
   "screens.AboutMapeo.unknownValue": {
     "description": "Shown when a device info (e.g. version number) is unknown",
-    "message": "Unknown"
+    "message": "Không xác định"
   },
   "screens.AddPhoto.cancel": {
     "message": "Hủy"
@@ -88,7 +88,7 @@
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
-    "message": "Ngôn ngữ"
+    "message": "Language"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "Hướng Đông"
@@ -238,15 +238,15 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
-    "message": "Go To Map"
+    "message": "Đến Bản đồ"
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "Start from map or camera view to record your first observation."
+    "message": "Bắt đầu từ chế độ xem bản đồ hoặc máy ảnh để ghi lại quan sát đầu tiên của bạn."
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
-    "message": "Add Observations"
+    "message": "Thêm Quan sát"
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
@@ -278,15 +278,15 @@
   },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
-    "message": "About Mapeo"
+    "message": "Giới thiệu về Mapeo"
   },
   "screens.Settings.aboutMapeoDesc": {
     "description": "Description of the 'About Mapeo' page",
-    "message": "Version and build number"
+    "message": "Phiên bản và số hiệu bản tạo"
   },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
-    "message": "There was an error trying to import this config file"
+    "message": "Đã xảy ra lỗi khi nhập tệp cấu hình này"
   },
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
@@ -294,11 +294,15 @@
   },
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Import Error"
+    "message": "Lỗi nhập"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "Cấu hình hiện tại"
+  },
+  "screens.Settings.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "Nhập cấu hình"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",

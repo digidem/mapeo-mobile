@@ -118,7 +118,7 @@ workflows:
                 # debug log
                 set -x
 
-                node ./scripts/gh-pages-redirect.js /latest https://mapeo-apks.s3.amazonaws.com/release/${VERSION_NAME}/${RELEASE_APK_PATH##*/}
+                node ./scripts/gh-pages-redirect.js /latest https://mapeo-apks.s3.amazonaws.com/release/v${VERSION_NAME}/${RELEASE_APK_PATH##*/}
       - amazon-s3-uploader@1.0.1:
           title: Upload universal (all ABIs) APK
           inputs:
@@ -283,11 +283,13 @@ workflows:
                 # debug log
                 set -x
 
-                ANDROID_NDK_VERSION='21.3.6528147'
+                ANDROID_NDK_VERSION='21.4.7075529'
 
                 echo '### User Sources for Android SDK Manager' > $HOME/.android/repositories.cfg
                 yes | sdkmanager --licenses
                 sdkmanager --update | grep -v = || true
+                # Remove NDK r22 (can cause builds to fail)
+                rm -rf $ANDROID_HOME/ndk/22*
                 sdkmanager --install "ndk;${ANDROID_NDK_VERSION}"
 
                 echo "Updated to latest SDK:"

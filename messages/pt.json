@@ -5,11 +5,11 @@
   },
   "AppContainer.EditHeader.discardChangesContent": {
     "description": "Button on dialog to cancel observation edits",
-    "message": "Discard changes"
+    "message": "Descartar alterações"
   },
   "AppContainer.EditHeader.discardChangesTitle": {
     "description": "Title of dialog that shows when cancelling observation edits",
-    "message": "Discard changes?"
+    "message": "Descartar alterações?"
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to cancel a new observation",
@@ -29,7 +29,7 @@
   },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type",
-    "message": "Mapeo type"
+    "message": "Tipo de Mapeo"
   },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
@@ -286,7 +286,7 @@
   },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
-    "message": "There was an error trying to import this config file"
+    "message": "Houve um erro ao tentar importar este arquivo de configuração"
   },
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
@@ -294,11 +294,15 @@
   },
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Import Error"
+    "message": "Erro ao importar"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "Configuração atual"
+  },
+  "screens.Settings.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "Importar configuração"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -322,7 +326,7 @@
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
-    "message": "Configurações"
+    "message": "Ajustes"
   },
   "screens.Settings.unnamedConfig": {
     "description": "Config name when do name is defined",
@@ -382,7 +386,7 @@
   },
   "screens.SyncModal.SyncView.settingsButton": {
     "description": "Button to open WiFi settings",
-    "message": "Abrir configurações"
+    "message": "Abrir ajustes"
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
