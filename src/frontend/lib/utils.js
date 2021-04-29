@@ -121,15 +121,28 @@ export function getLastPhotoAttachment(
   return filterPhotosFromAttachments(attachments).pop();
 }
 
-export function formatCoords({
-  lon,
-  lat,
-  format = "utm",
-}: {
-  lon: number,
-  lat: number,
-  format?: "utm",
-}): string {
+// Coordinates conversions
+function toDegreesMinutesAndSeconds(coordinate) {
+  const absolute = Math.abs(coordinate);
+  const degrees = Math.floor(absolute);
+  const minutesNotTruncated = (absolute - degrees) * 60;
+  const minutes = Math.floor(minutesNotTruncated);
+  const seconds = (minutesNotTruncated - minutes) * 60;
+  return `${degrees}° ${minutes}' ${seconds.toFixed(3)}"`;
+}
+
+// Style from National Geographic style guide
+// https://sites.google.com/a/ngs.org/ngs-style-manual/home/L/latitude-and-longitude
+function convertToDMS({ lat, lon }) {
+  const latitude = toDegreesMinutesAndSeconds(lat);
+  const latitudeCardinal = lat >= 0 ? "N" : "S";
+
+  const longitude = toDegreesMinutesAndSeconds(lon);
+  const longitudeCardinal = lon >= 0 ? "E" : "W";
+  return `${latitude} ${latitudeCardinal}, ${longitude} ${longitudeCardinal}`;
+}
+
+function convertToUTM({ lat, lon }) {
   try {
     let { easting, northing, zoneNum, zoneLetter } = fromLatLon(lat, lon);
     easting = leftPad(easting.toFixed(), 6, "0");
@@ -140,6 +153,37 @@ export function formatCoords({
     return `${lat >= 0 ? "+" : ""}${lat.toFixed(6)}°, ${
       lon >= 0 ? "+" : ""
     }${lon.toFixed(6)}°`;
+  }
+}
+
+// Style from National Geographic style guide
+// https://sites.google.com/a/ngs.org/ngs-style-manual/home/L/latitude-and-longitude
+function formatDD({ lat, lon }) {
+  const formattedLat = Math.abs(lat).toFixed(6);
+  const formattedLon = Math.abs(lon).toFixed(6);
+  const latCardinal = lat >= 0 ? "N" : "S";
+  const lonCardinal = lon >= 0 ? "E" : "W";
+  return `${formattedLat}° ${latCardinal}, ${formattedLon}° ${lonCardinal}`;
+}
+
+export function formatCoords({
+  lon,
+  lat,
+  format = "utm",
+}: {
+  lon: number,
+  lat: number,
+  format?: "utm" | "dd" | "dms",
+}): string {
+  switch (format) {
+    case "dd":
+      return formatDD({ lat, lon });
+    case "utm":
+      return convertToUTM({ lat, lon });
+    case "dms":
+      return convertToDMS({ lat, lon });
+    default:
+      return convertToUTM({ lat, lon });
   }
 }
 
