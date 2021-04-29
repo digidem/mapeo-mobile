@@ -293,14 +293,6 @@ function getFrontendStateFromUpgradeState(state, peers) {
     return { state: UpgradeState.WaitingForSync, context: null };
   }
 
-  // Upgrade available + not waiting for syncs to finish.
-  if (state.downloader.check.state === BackendUpgradeState.Check.Available) {
-    return {
-      state: UpgradeState.ReadyToUpgrade,
-      context: state.downloader.check.context,
-    };
-  }
-
   // Upgrade is downloading.
   if (
     state.downloader.download.state === BackendUpgradeState.Download.Downloading
@@ -309,6 +301,14 @@ function getFrontendStateFromUpgradeState(state, peers) {
     return {
       state: UpgradeState.Downloading,
       context: { progress: progress.sofar / progress.total },
+    };
+  }
+
+  // Upgrade available + not waiting for syncs to finish.
+  if (state.downloader.check.state === BackendUpgradeState.Check.Available) {
+    return {
+      state: UpgradeState.ReadyToUpgrade,
+      context: state.downloader.check.context,
     };
   }
 
