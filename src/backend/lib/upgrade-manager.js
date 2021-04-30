@@ -47,8 +47,10 @@ class UpgradeManager {
     });
 
     this.downloader.on("state", state => {
-      if (state.search.context && state.search.context.upgrades) {
+      if (state.search.state === "SEARCHING") {
         this.upgradeOptions = state.search.context.upgrades;
+      } else if (state.search.state === "Idle") {
+        this.upgradeOptions = [];
       }
     });
 

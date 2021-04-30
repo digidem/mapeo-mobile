@@ -49,6 +49,7 @@ class UpgradeDownloader extends EventEmitter {
       if (state === UpgradeState.Download.Downloaded) {
         this._check.check();
         this._download.reset();
+        this._search.reset();
       }
     });
     this._check.on("state", (state, context) => {
@@ -180,6 +181,12 @@ class Search extends EventEmitter {
     this.state = state;
     this.context = context;
     this.emit("state", state, context);
+  }
+
+  reset() {
+    if (this.state !== UpgradeState.Search.Searching) return;
+    this.stop();
+    this.start();
   }
 
   // UpgradeOption -> Bool
