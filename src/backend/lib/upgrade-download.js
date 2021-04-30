@@ -262,7 +262,6 @@ class Download extends EventEmitter {
       })
       .once("error", err => {
         downloadLog("http error", err);
-        this.setState(UpgradeState.Download.Idle, null);
       });
 
     return true;
