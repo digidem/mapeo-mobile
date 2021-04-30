@@ -220,7 +220,7 @@ class Download extends EventEmitter {
 
   reset() {
     if (this.state !== UpgradeState.Download.Downloaded) return;
-    this.setState(UpgradeState.Download.Idle);
+    this.setState(UpgradeState.Download.Idle, null);
   }
 
   download(option) {
@@ -258,7 +258,6 @@ class Download extends EventEmitter {
         pump(res, progress, ws, err => {
           if (err) downloadLog("download pipeline error", err);
           else downloadLog("download pipeline ended ok");
-          this.setState(UpgradeState.Download.Idle, null);
         });
       })
       .once("error", err => {
