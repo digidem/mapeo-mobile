@@ -19,6 +19,18 @@
     "description": "Title of dialog that shows when cancelling a new observation",
     "message": "Waarneming annuleren?"
   },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo is bijgewerkt van versie {previousVersion} naar {currentVersion} op {updateDateTime}"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "OK"
+  },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo bijgewerkt"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Android buildnummer"
@@ -26,6 +38,14 @@
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
     "message": "Android versie"
+  },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Mapeo versie"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Mapeo variant"
   },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
@@ -54,6 +74,22 @@
     "description": "Title for category chooser screen",
     "message": "Kies wat er gebeurt"
   },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "Decimale graden (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "Graden/Minuten/Seconden (DMS)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "Andere coördinaatformats"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "Universele Transverse Mercator (UTM)"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Details"
@@ -65,6 +101,14 @@
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
     "message": "Laatste update"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "Coördinaten Decimale Graden"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "DMS coördinaten"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
@@ -138,7 +182,7 @@
   },
   "screens.Observation.confirm": {
     "description": "Button to confirm delete of observation",
-    "message": "Ja, annuleren"
+    "message": "Ja, verwijderen"
   },
   "screens.Observation.deleteTitle": {
     "description": "Title of dialog asking confirmation to delete an observation",
@@ -291,6 +335,14 @@
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "Importeerfout"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "Coördinaat formaat"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "Kies hoe coördinaten worden weergegeven"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
