@@ -246,7 +246,7 @@
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
-    "message": "Deze waarneming heeft geen locatie. Je kunt doorgaan met wachten op een GPS signaal, de waarneming opslaan zonder een locatie, of coördinaten handmatig invoeren"
+    "message": "Deze waarneming heeft geen locatie. U kunt doorgaan met wachten op een GPS signaal, de waarneming opslaan zonder een locatie, of de coördinaten handmatig invoeren"
   },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
