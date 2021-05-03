@@ -162,8 +162,8 @@ test("can find + download + check an upgrade", t => {
             lastProgress = state.download.context;
           }
           if (state.download.state === "DOWNLOADED") {
-            t.equals(lastProgress.sofar, 10);
-            t.equals(lastProgress.total, 10);
+            t.equals(lastProgress.sofar, 10, "final sofar progress ok");
+            t.equals(lastProgress.total, 10, "final total progress ok");
             done = true;
             download.removeListener("state", onState);
             cb();
@@ -172,19 +172,26 @@ test("can find + download + check an upgrade", t => {
       }
 
       function awaitChecked() {
-        download.once("state", state => {
-          t.equals(state.check.state, "AVAILABLE");
-          t.equals(path.basename(state.check.context.filename), expectedHash);
+        let done = false;
+        download.on("state", state => {
+          if (done || state.check.state !== "AVAILABLE") return;
+          done = true;
+          t.equals(state.check.state, "AVAILABLE", "check state is AVAILABLE");
+          t.equals(
+            path.basename(state.check.context.filename),
+            expectedHash,
+            "hash is ok"
+          );
 
           storage2.getAvailableUpgrades((err, options) => {
             t.error(err, "got local upgrade options ok");
             scrub(options);
-            t.equals(options.length, 1);
+            t.equals(options.length, 1, "# of upgrades is ok");
 
             const rs = storage2.createReadStream(options[0].hash);
             collect(rs, (err, buf) => {
-              t.error(err);
-              t.ok(buf.equals(expectedData), "data matches");
+              t.error(err, "streamed upgrade data ok");
+              t.ok(buf.equals(expectedData), "data matches ok");
               download.stop();
               cleanup();
             });
@@ -256,7 +263,10 @@ test("REGRESSION: a local upgrade equal to app version is not shown", t => {
       }
 
       function awaitChecked() {
-        download.once("state", state => {
+        let done = false;
+        download.on("state", state => {
+          if (done || state.check.state !== "AVAILABLE") return;
+          done = true;
           t.equals(state.check.state, "AVAILABLE");
           t.equals(path.basename(state.check.context.filename), expectedHash);
 
