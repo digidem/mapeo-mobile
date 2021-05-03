@@ -310,7 +310,7 @@
   },
   "screens.ServerStatus.timeoutDesc": {
     "description": "Description when the server has not responded for 10 seconds",
-    "message": "Als je dit bericht blijft zien, moet Mapeo misschien geforceerd herstarten"
+    "message": "Als je dit bericht blijft zien, moet Mapeo misschien gedwongen worden om te herstarten"
   },
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
