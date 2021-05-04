@@ -282,7 +282,7 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "Begin van de kaart- of cameraweergave om de eerste waarneming op te nemen."
+    "message": "Begin van de kaart- of camera weergave om de eerste waarneming op te nemen."
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
@@ -294,7 +294,7 @@
   },
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
-    "message": "Laden… dit kan even duren na het synchroniseren met een nieuw apparaat"
+    "message": "Beizg te laden… dit kan even duren na het synchroniseren met een nieuw apparaat"
   },
   "screens.ProjectConfig.title": {
     "description": "Title of project configuration screen",
@@ -334,7 +334,7 @@
   },
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Importeerfout"
+    "message": "Fout bij importeren"
   },
   "screens.Settings.coordinateFormat": {
     "description": "Settings for coordinate format",
@@ -394,7 +394,7 @@
   },
   "screens.SyncModal.PeerList.errorClientMismatch": {
     "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
-    "message": "Niet een Mapeo client"
+    "message": "Geen Mapeo client"
   },
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
