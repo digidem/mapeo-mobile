@@ -5,7 +5,7 @@
   },
   "AppContainer.EditHeader.discardChangesContent": {
     "description": "Button on dialog to cancel observation edits",
-    "message": "Wijzigingen niet opslaan"
+    "message": "Wijzigingen annuleren"
   },
   "AppContainer.EditHeader.discardChangesTitle": {
     "description": "Title of dialog that shows when cancelling observation edits",
@@ -21,7 +21,7 @@
   },
   "hooks.updateNotifier.dialogMessage": {
     "description": "Message shown in dialog shown to the user when Mapeo is updated",
-    "message": "Mapeo is bijgewerkt van versie {previousVersion} naar {currentVersion} op {updateDateTime}"
+    "message": "Mapeo is succesvol bijgewerkt van versie {previousVersion} naar {currentVersion} op {updateDateTime}"
   },
   "hooks.updateNotifier.dialogOK": {
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
@@ -33,7 +33,7 @@
   },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
-    "message": "Android buildnummer"
+    "message": "Android build nummer"
   },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
@@ -84,11 +84,11 @@
   },
   "screens.CoordinateFormat.title": {
     "description": "Title coordinate format screen",
-    "message": "Andere coördinaatformats"
+    "message": "Coördinaat formaat"
   },
   "screens.CoordinateFormat.utm": {
     "description": "Universal Transverse Mercator coordinate format",
-    "message": "Universele Transverse Mercator (UTM)"
+    "message": "Universal Transverse Mercator (UTM)"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -186,7 +186,7 @@
   },
   "screens.Observation.deleteTitle": {
     "description": "Title of dialog asking confirmation to delete an observation",
-    "message": "Waarneming annuleren?"
+    "message": "Waarneming verwijderen?"
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
@@ -234,7 +234,7 @@
   },
   "screens.ObservationEdit.ObservationEditView.searching": {
     "description": "Shown in new observation screen whilst looking for GPS",
-    "message": "Zoeken…"
+    "message": "Bezig te zoeken…"
   },
   "screens.ObservationEdit.SaveButton.keepWaiting": {
     "description": "Button to cancel save and continue waiting for GPS",
