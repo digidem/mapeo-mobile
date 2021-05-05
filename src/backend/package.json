@@ -5,6 +5,9 @@
   "engines": {
     "node": "^10.16.0"
   },
+  "scripts": {
+    "type": "tsc"
+  },
   "description": "Mapeo Core running on nodejs-mobile",
   "main": "main.js",
   "author": "Digital Democracy",
@@ -32,6 +35,7 @@
   },
   "devDependencies": {
     "node-gyp-build": "^4.2.1",
-    "noderify": "^5.0.0"
+    "noderify": "^5.0.0",
+    "typescript": "^4.2.4"
   }
 }
