@@ -33,7 +33,7 @@ module.exports = (function () {
         context: Any,
       },
       download: {
-        state: Enum("IDLE", "DOWNLOADING", "DOWNLOADED", "ERROR"),
+        state: Enum("IDLE", "DOWNLOADING", "ERROR"),
         context: Any,
       },
       check: {
@@ -78,15 +78,13 @@ module.exports = (function () {
         },
       },
       download: {
-        state: Enum("IDLE", "DOWNLOADING", "DOWNLOADED", "ERROR"),
+        state: Enum("IDLE", "DOWNLOADING", "ERROR"),
         context: c => {
           switch (downloadState) {
             case UpgradeState.Download.Idle:
               return c === null ? undefined : "context must be null";
             case UpgradeState.Download.Downloading:
               return downloadInfo({ c });
-            case UpgradeState.Download.Downloaded:
-              return c === null ? undefined : "context must be null";
             case UpgradeState.Download.Error:
               return "object" === typeof c && c.message
                 ? undefined

@@ -11,7 +11,6 @@ const UpgradeState = {
   Download: {
     Idle: "IDLE",
     Downloading: "DOWNLOADING",
-    Downloaded: "DOWNLOADED",
     Error: "ERROR",
   },
 

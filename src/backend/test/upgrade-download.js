@@ -143,6 +143,7 @@ test("can find + download + check an upgrade", t => {
 
       function awaitFoundUpgrade(cb) {
         download.start();
+
         download.once("state", state => {
           t.equals(state.search.context.upgrades.length, 1, "upgrade found ok");
           const option = state.search.context.upgrades[0];
@@ -161,7 +162,7 @@ test("can find + download + check an upgrade", t => {
           if (state.download.state === "DOWNLOADING") {
             lastProgress = state.download.context;
           }
-          if (state.download.state === "DOWNLOADED") {
+          if (state.download.state === "IDLE") {
             t.equals(lastProgress.sofar, 10, "final sofar progress ok");
             t.equals(lastProgress.total, 10, "final total progress ok");
             done = true;
@@ -252,7 +253,7 @@ test("REGRESSION: a local upgrade equal to app version is not shown", t => {
           if (state.download.state === "DOWNLOADING") {
             lastProgress = state.download.context;
           }
-          if (state.download.state === "DOWNLOADED") {
+          if (state.download.state === "IDLE") {
             t.equals(lastProgress.sofar, 10);
             t.equals(lastProgress.total, 10);
             done = true;
@@ -332,14 +333,16 @@ test("candidate replaced if peer with an upgrade goes down + another appears", t
               awaitFoundUpgrade((err, options2) => {
                 clearTimeout(ix);
                 t.error(err, "found 2nd upgrade candidate ok");
-                t.equals(options2.length, 2);
+                t.equals(options2.length, 2, "# of upgrades ok");
                 t.equals(
                   options2[1].hash,
-                  "3209efeebdbaa5b3faab4df9312d03831092ce71b497235953b7252e78651111"
+                  "3209efeebdbaa5b3faab4df9312d03831092ce71b497235953b7252e78651111",
+                  "hash 1 ok"
                 );
                 t.equals(
                   options2[0].hash,
-                  "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041"
+                  "78ad74cecb99d1023206bf2f7d9b11b28767fbb9369daa0afa5e4d062c7ce041",
+                  "hash 2 ok"
                 );
                 cleanup();
                 download2.stop();
