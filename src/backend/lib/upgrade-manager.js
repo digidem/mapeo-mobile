@@ -4,6 +4,7 @@ const UpgradeDownload = require("./upgrade-download");
 const semver = require("semver");
 const log = require("debug")("p2p-upgrades:manager");
 const validate = require("./validate-upgrade-state");
+const { UpgradeState } = require("./constants");
 
 class UpgradeManager {
   constructor(dir, port, currentVersion, emitFn, listenFn, removeFn) {
@@ -123,7 +124,10 @@ class UpgradeManager {
     this.storage.setApkInfo(apkPath, version, cb);
   }
 
+  // Checks whether there is an upgrade candidate newer than anything we have
+  // in storage, to be downloaded.
   onCheckForUpgrades() {
+    // The timer was stopped externally; do nothing.
     if (!this.upgradeSearchTimeout) return;
 
     // Reset timer.
@@ -132,21 +136,47 @@ class UpgradeManager {
       7000
     );
 
-    // Pick the newest upgrade, if available
-    log("checking for upgrade options..");
-    this.upgradeOptions.sort(upgradeCmp);
-
-    if (!this.upgradeOptions.length) {
-      log("..none found");
+    // The search component isn't in search mode; do nothing.
+    if (this.state.downloader.search.state !== UpgradeState.Search.Searching) {
       return;
     }
 
-    // Download
-    const target = this.upgradeOptions[this.upgradeOptions.length - 1];
-    const res = this.downloader.download(target);
-    if (res) {
-      log("..found an upgrade & starting download:", target);
+    // The download component is already downloading; do nothing.
+    if (
+      this.state.downloader.download.state === UpgradeState.Download.Downloading
+    ) {
+      return;
     }
+
+    // Compare available upgrade candidates on the network to what is already
+    // in our storage.
+    log("checking for network upgrade options..");
+    this.storage.getAvailableUpgrades((err, storageCandidates) => {
+      if (err) return;
+
+      // Filter out network upgrades older than on-storage upgrades. Sort so
+      // the latest is first.
+      const networkCandidates = this.state.downloader.search.context.upgrades;
+      const downloadCandidates = networkCandidates
+        .filter(nc => {
+          return storageCandidates.every(sc =>
+            semver.gt(nc.version, sc.version)
+          );
+        })
+        .sort(upgradeCmp)
+        .reverse();
+
+      if (downloadCandidates.length) {
+        // Download.
+        const target = downloadCandidates[0];
+        const res = this.downloader.download(target);
+        if (res) {
+          log("..found an upgrade & starting download:", target);
+        } else {
+          log("..none found");
+        }
+      }
+    });
   }
 }
 
