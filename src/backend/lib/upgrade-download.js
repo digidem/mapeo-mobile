@@ -275,12 +275,13 @@ class Check extends EventEmitter {
   }
 
   check() {
-    if (this.state !== UpgradeState.Check.NotAvailable) return;
-
     checkLog("checking for an upgrade..");
     this.storage.getAvailableUpgrades((err, options) => {
       if (err) return this.setState(UpgradeState.Check.Error, err);
-      options = options.filter(o => this.isUpgradeCandidate(o));
+      options = options
+        .filter(o => this.isUpgradeCandidate(o))
+        .sort(upgradeCmp)
+        .reverse();
       if (options.length > 0) {
         checkLog("..found a viable upgrade", options[0]);
         this.setState(UpgradeState.Check.Available, {
@@ -301,6 +302,12 @@ class Check extends EventEmitter {
       return false;
     return true;
   }
+}
+
+function upgradeCmp(a, b) {
+  const av = a.version;
+  const bv = b.version;
+  return semver.compare(av, bv);
 }
 
 module.exports = UpgradeDownloader;
