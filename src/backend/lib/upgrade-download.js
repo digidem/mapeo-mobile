@@ -48,7 +48,6 @@ class UpgradeDownloader extends EventEmitter {
       // Check for a new version if the downloader gets set back to Idle.
       if (state === UpgradeState.Download.Idle) {
         this._check.check();
-        this._search.reset();
       }
     });
     this._check.on("state", (state, context) => {
@@ -184,12 +183,6 @@ class Search extends EventEmitter {
 
   // Resets the state 'context' of this component, wiping all accumulated
   // upgrade candidates.
-  reset() {
-    if (this.state !== UpgradeState.Search.Searching) return;
-    this.stop();
-    this.start();
-  }
-
   // UpgradeOption -> Bool
   isUpgradeCandidate(upgrade) {
     if (upgrade.arch.indexOf(this.storage.getLocalArch()) === -1) return false;
@@ -217,10 +210,6 @@ class Download extends EventEmitter {
     this.state = state;
     this.context = context;
     this.emit("state", state, context);
-  }
-
-  reset() {
-    this.setState(UpgradeState.Download.Idle, null);
   }
 
   download(option) {
