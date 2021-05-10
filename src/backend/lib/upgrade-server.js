@@ -6,6 +6,7 @@ const through = require("through2");
 const http = require("http");
 const { DISCOVERY_KEY, UpgradeState } = require("./constants");
 const log = require("debug")("p2p-upgrades:server");
+const progressStream = require("progress-stream");
 
 /*
 type Uploads = [UploadInfo]
@@ -230,10 +231,13 @@ class UpgradeServer extends EventEmitter {
         this.uploads.push(upload);
         this.setState(this.state, this.uploads);
 
-        const tracker = through((chunk, enc, next) => {
-          if (chunk) upload.sofar += chunk.length;
+        const tracker = progressStream({
+          length: option.size,
+          time: 100, // ms between each progress event
+        });
+        tracker.on("progress", ({ transferred }) => {
+          upload.sofar = transferred;
           this.setState(this.state, this.uploads);
-          next(null, chunk);
         });
 
         log(reqId, "piping file data to client for hash:", hash);

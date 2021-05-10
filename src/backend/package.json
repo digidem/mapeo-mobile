@@ -27,6 +27,7 @@
     "mapeo-default-settings": "^3.4.0",
     "mapeo-server": "^17.1.0",
     "mkdirp": "^1.0.4",
+    "progress-stream": "^2.0.0",
     "pump": "^3.0.0",
     "random-access-file": "^2.1.5",
     "read-only-stream": "^2.0.0",
