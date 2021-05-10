@@ -277,28 +277,12 @@ function getFrontendStateFromUpgradeState(state, peers) {
     };
   }
 
-  // Edge case I've (kira) seen once that shouldn't happen.
-  if (state.downloader.search.state === BackendUpgradeState.Search.Idle) {
-    return {
-      state: UpgradeState.GenericError,
-      context: "Search did not initialize correctly.",
-    };
-  }
-
   // Upgrade available + waiting for syncs to finish.
   if (
     state.downloader.check.state === BackendUpgradeState.Check.Available &&
     peers.some(p => p.status === peerStatus.PROGRESS)
   ) {
     return { state: UpgradeState.WaitingForSync, context: null };
-  }
-
-  // Upgrade available + not waiting for syncs to finish.
-  if (state.downloader.check.state === BackendUpgradeState.Check.Available) {
-    return {
-      state: UpgradeState.ReadyToUpgrade,
-      context: state.downloader.check.context,
-    };
   }
 
   // Upgrade is downloading.
@@ -312,10 +296,19 @@ function getFrontendStateFromUpgradeState(state, peers) {
     };
   }
 
+  // Upgrade available + not waiting for syncs to finish.
+  if (state.downloader.check.state === BackendUpgradeState.Check.Available) {
+    return {
+      state: UpgradeState.ReadyToUpgrade,
+      context: state.downloader.check.context,
+    };
+  }
+
   // Subsystem has been searching for upgrades for < 14 seconds.
   if (
-    state.downloader.search.state === BackendUpgradeState.Search.Searching &&
-    Date.now() - state.downloader.search.context.startTime < 14 * 1000
+    state.downloader.search.state === BackendUpgradeState.Search.Idle ||
+    (state.downloader.search.state === BackendUpgradeState.Search.Searching &&
+      Date.now() - state.downloader.search.context.startTime < 14 * 1000)
   ) {
     return { state: UpgradeState.Searching, context: null };
   }
