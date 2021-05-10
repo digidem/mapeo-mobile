@@ -10,6 +10,7 @@ const searchLog = require("debug")("p2p-upgrades:search");
 const downloadLog = require("debug")("p2p-upgrades:download");
 const checkLog = require("debug")("p2p-upgrades:check");
 const clone = require("clone");
+const progressStream = require("progress-stream");
 
 const { DISCOVERY_KEY, UpgradeState } = require("./constants");
 
@@ -226,13 +227,12 @@ class Download extends EventEmitter {
       .get({ hostname: option.host, port: option.port, path: url }, res => {
         const filename = option.hash;
         let sofar = 0;
-        const progress = through((chunk, enc, next) => {
-          sofar += chunk.length;
-          this.setState(UpgradeState.Download.Downloading, {
-            sofar,
-            total: option.size,
-          });
-          next(null, chunk);
+        const progress = progressStream({
+          length: option.size,
+          time: 100, // ms between each progress event
+        });
+        progress.on("progress", ({ transferred: sofar, length: total }) => {
+          this.setState(UpgradeState.Download.Downloading, { sofar, total });
         });
         const ws = this.storage.createApkWriteStream(
           filename,
