@@ -2,7 +2,6 @@ const pump = require("pump");
 const discovery = require("dns-discovery");
 const EventEmitter = require("events").EventEmitter;
 const RWLock = require("rwlock");
-const through = require("through2");
 const http = require("http");
 const { DISCOVERY_KEY, UpgradeState } = require("./constants");
 const log = require("debug")("p2p-upgrades:server");
@@ -50,7 +49,6 @@ class UpgradeServer extends EventEmitter {
   // Callback<Void> -> Void
   share(cb) {
     this.stateLock.writeLock(release => {
-      const self = this;
       function done() {
         release();
         if (cb) cb();

@@ -5,7 +5,6 @@ const EventEmitter = require("events").EventEmitter;
 const dns = require("dns-discovery");
 const RWLock = require("rwlock");
 const pump = require("pump");
-const through = require("through2");
 const searchLog = require("debug")("p2p-upgrades:search");
 const downloadLog = require("debug")("p2p-upgrades:download");
 const checkLog = require("debug")("p2p-upgrades:check");
@@ -226,7 +225,6 @@ class Download extends EventEmitter {
     http
       .get({ hostname: option.host, port: option.port, path: url }, res => {
         const filename = option.hash;
-        let sofar = 0;
         const progress = progressStream({
           length: option.size,
           time: 100, // ms between each progress event
