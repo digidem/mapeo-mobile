@@ -1,9 +1,8 @@
 const pump = require("pump");
-const discovery = require("dns-discovery");
 const EventEmitter = require("events").EventEmitter;
 const RWLock = require("rwlock");
 const http = require("http");
-const { DISCOVERY_KEY, UpgradeState } = require("./constants");
+const { UpgradeState } = require("./constants");
 const log = require("debug")("p2p-upgrades:server");
 const progressStream = require("progress-stream");
 
@@ -20,9 +19,10 @@ type UploadInfo = {
 const PROGRESS_THROTTLE = 400; // milliseconds
 
 class UpgradeServer extends EventEmitter {
-  constructor(storage, port) {
+  constructor({ storage, port, discovery }) {
     super();
     this.storage = storage;
+    this.discovery = discovery;
     this.stateLock = new RWLock();
     this.state = null;
     this.context = null;
@@ -62,17 +62,8 @@ class UpgradeServer extends EventEmitter {
         return done();
       }
 
-      log("starting discovery..");
-      const opts = {
-        server: [],
-        loopback: false,
-      };
-      this.discovery = discovery(opts);
       this.server.listen(this.port, "0.0.0.0", () => {
-        log("announcing on", DISCOVERY_KEY);
-        this.announceInterval = setInterval(() => {
-          this.discovery.announce(DISCOVERY_KEY, this.port);
-        }, 2000);
+        log("Upgrade server listening on: " + this.port);
         this.setState(UpgradeState.Server.Sharing, this.uploads);
         done();
       });
@@ -118,26 +109,10 @@ class UpgradeServer extends EventEmitter {
 
       function stop() {
         log("drain: stopping..");
-
-        clearInterval(this.announceInterval);
-        this.announceInterval = null;
-
-        // XXX: 'unannounce' seems to always return an error here; ignoring.
-        this.discovery.unannounce(DISCOVERY_KEY, this.port, _ => {
-          log("drain: ..discovery unannounced");
-          this.discovery.destroy(err => {
-            if (err) {
-              log("drain: ..discovery destroy failed:", err);
-              return done(err);
-            }
-            log("drain: ..discovery destroyed");
-            this.server.close(() => {
-              log("drain: ..server closed -- all stopped");
-              this.discovery = null;
-              this.setState(UpgradeState.Server.Idle, null);
-              done();
-            });
-          });
+        this.server.close(() => {
+          log("drain: ..server closed -- all stopped");
+          this.setState(UpgradeState.Server.Idle, null);
+          done();
         });
       }
     });

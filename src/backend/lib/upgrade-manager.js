@@ -2,19 +2,33 @@ const UpgradeStorage = require("./upgrade-storage");
 const UpgradeServer = require("./upgrade-server");
 const UpgradeDownload = require("./upgrade-download");
 const semver = require("semver");
+const dns = require("dns-discovery");
 const log = require("debug")("p2p-upgrades:manager");
 const validate = require("./validate-upgrade-state");
 const { EventEmitter } = require("events");
-const { UpgradeState } = require("./constants");
+const { UpgradeState, DISCOVERY_KEY } = require("./constants");
 
 class UpgradeManager extends EventEmitter {
   constructor({ dir, port, currentVersion }) {
     super();
-    this.storage = new UpgradeStorage(dir, { version: currentVersion });
-    this.server = new UpgradeServer(this.storage, port);
-    this.downloader = new UpgradeDownload(this.storage, {
+    this.storage = new UpgradeStorage(dir, {
       version: currentVersion,
     });
+    this.discovery = dns({
+      server: [],
+      loopback: false,
+    });
+    this.server = new UpgradeServer({
+      storage: this.storage,
+      discovery: this.discovery,
+      port,
+    });
+    this.downloader = new UpgradeDownload({
+      storage: this.storage,
+      discovery: this.discovery,
+      version: currentVersion,
+    });
+    this.port = port;
 
     this.upgradeSearchTimeout = null;
     this.upgradeOptions = [];
@@ -84,6 +98,10 @@ class UpgradeManager extends EventEmitter {
     log("got request to start services");
     this.server.share();
     this.downloader.start();
+    log("start discovery on", DISCOVERY_KEY);
+    // this.announceInterval = setInterval(() => {
+    this.discovery.announce(DISCOVERY_KEY, this.port);
+    // }, 2000);
 
     this.upgradeSearchTimeout = setTimeout(
       this.onCheckForUpgrades.bind(this),
@@ -100,6 +118,14 @@ class UpgradeManager extends EventEmitter {
     log("got request to stop services");
     this.server.drain();
     this.downloader.stop();
+    // if (this.announceInterval) {
+    //   clearInterval(this.announceInterval);
+    // }
+
+    // unannounce() always returns an error
+    this.discovery.unannounce(DISCOVERY_KEY, this.port, () => {
+      log("stopped discovery on", DISCOVERY_KEY);
+    });
 
     if (this.upgradeSearchTimeout) {
       clearTimeout(this.upgradeSearchTimeout);

@@ -2,7 +2,6 @@ const semver = require("semver");
 const http = require("http");
 const collect = require("collect-stream");
 const EventEmitter = require("events").EventEmitter;
-const dns = require("dns-discovery");
 const RWLock = require("rwlock");
 const pump = require("pump");
 const searchLog = require("debug")("p2p-upgrades:search");
@@ -20,10 +19,10 @@ const PROGRESS_THROTTLE = 400; // milliseconds
 // subcomponents.
 class UpgradeDownloader extends EventEmitter {
   // UpgradeStorage -> Void
-  constructor(storage) {
+  constructor({ storage, discovery }) {
     super();
 
-    this._search = new Search(storage);
+    this._search = new Search({ storage, discovery });
     this._check = new Check(storage);
     this._download = new Download(storage);
     this._storage = storage;
@@ -79,35 +78,29 @@ class UpgradeDownloader extends EventEmitter {
 // querying them for available upgrades, and recording the ones that are newer
 // than the current APK version.
 class Search extends EventEmitter {
-  constructor(storage) {
+  constructor({ storage, discovery }) {
     super();
 
     this.storage = storage;
     this.state = null;
     this.context = null;
     this.setState(UpgradeState.Search.Idle, null);
-    this.discovery = null;
+    this.discovery = discovery;
+    // Bind onPeer, so we can add and remove it as an event listener
+    this.onPeer = this.onPeer.bind(this);
     this.stateLock = new RWLock();
   }
 
   start() {
-    this.stateLock.writeLock(release => {
-      if (this.state !== UpgradeState.Search.Idle) return release();
+    if (this.state !== UpgradeState.Search.Idle) return;
+    // discovery.lookup() is called with discovery.announce(), so we'll let
+    // UpgradeManager handle this.
+    this.discovery.on("peer", this.onPeer);
 
-      this.discovery = dns({
-        server: [],
-        loopback: false,
-      });
-      this.discovery.lookup(DISCOVERY_KEY);
-      this.discovery.on("peer", this.onPeer.bind(this));
-
-      searchLog("beginning search");
-      this.setState(UpgradeState.Search.Searching, {
-        startTime: Date.now(),
-        upgrades: [],
-      });
-
-      release();
+    searchLog("Listening for peers with upgrades");
+    this.setState(UpgradeState.Search.Searching, {
+      startTime: Date.now(),
+      upgrades: [],
     });
   }
 
@@ -161,21 +154,10 @@ class Search extends EventEmitter {
   }
 
   stop() {
-    searchLog("stopping..");
-    this.stateLock.writeLock(release => {
-      if (this.state !== UpgradeState.Search.Searching) return release();
-
-      this.discovery.destroy(err => {
-        if (err) {
-          this.setState(UpgradeState.Search.Error, err);
-          searchLog("..stopped, with error:", err);
-        } else {
-          this.setState(UpgradeState.Search.Idle, null);
-          searchLog("..stopped");
-        }
-        release();
-      });
-    });
+    searchLog("No longer listening for peers with upgrades");
+    // dns-discovery does not seem to have an "unlookup" method
+    this.discovery.off("peer", this.onPeer);
+    this.setState(UpgradeState.Search.Idle, null);
   }
 
   setState(state, context) {
