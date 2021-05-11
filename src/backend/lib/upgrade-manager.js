@@ -4,48 +4,20 @@ const UpgradeDownload = require("./upgrade-download");
 const semver = require("semver");
 const log = require("debug")("p2p-upgrades:manager");
 const validate = require("./validate-upgrade-state");
+const { EventEmitter } = require("events");
 const { UpgradeState } = require("./constants");
 
-class UpgradeManager {
-  constructor(dir, port, currentVersion, emitFn, listenFn, removeFn) {
+class UpgradeManager extends EventEmitter {
+  constructor({ dir, port, currentVersion }) {
+    super();
     this.storage = new UpgradeStorage(dir, { version: currentVersion });
     this.server = new UpgradeServer(this.storage, port);
     this.downloader = new UpgradeDownload(this.storage, {
       version: currentVersion,
     });
-    this.emit = emitFn;
-    this.addListener = listenFn;
-    this.removeListener = removeFn;
 
     this.upgradeSearchTimeout = null;
     this.upgradeOptions = [];
-
-    // Event interface
-    this.addListener("p2p-upgrade::get-state", () => {
-      log("got request for state");
-      this.emitState();
-    });
-
-    this.addListener("p2p-upgrade::start-services", () => {
-      log("got request to start services");
-      this.server.share();
-      this.downloader.start();
-
-      this.upgradeSearchTimeout = setTimeout(
-        this.onCheckForUpgrades.bind(this),
-        7000
-      );
-    });
-
-    this.addListener("p2p-upgrade::stop-services", () => {
-      log("got request to stop services");
-      this.server.drain();
-      this.downloader.stop();
-
-      if (this.upgradeSearchTimeout) {
-        clearTimeout(this.upgradeSearchTimeout);
-      }
-    });
 
     this.downloader.on("state", state => {
       if (state.search.state === "SEARCHING") {
@@ -108,14 +80,45 @@ class UpgradeManager {
     }
   }
 
+  startServices() {
+    log("got request to start services");
+    this.server.share();
+    this.downloader.start();
+
+    this.upgradeSearchTimeout = setTimeout(
+      this.onCheckForUpgrades.bind(this),
+      7000
+    );
+    this.downloader.on("state", state => {
+      if (state.search.context && state.search.context.upgrades) {
+        this.upgradeOptions = state.search.context.upgrades;
+      }
+    });
+  }
+
+  stopServices() {
+    log("got request to stop services");
+    this.server.drain();
+    this.downloader.stop();
+
+    if (this.upgradeSearchTimeout) {
+      clearTimeout(this.upgradeSearchTimeout);
+    }
+  }
+
+  getState() {
+    log("got request for state");
+    this.emitState();
+  }
+
   emitState() {
     const result = validate(this.state);
     if (result) {
       const msg = result.join(",");
-      this.emit("p2p-upgrade::error", { message: msg });
+      this.emit("error", { message: msg });
     } else {
       this.sanitizeState();
-      this.emit("p2p-upgrade::state", this.state);
+      this.emit("state", this.state);
     }
   }
 
