@@ -17,7 +17,7 @@ type UploadInfo = {
 */
 
 // How frequently to emit progress events (in ms)
-const PROGRESS_THROTTLE = 400; // milliseconds
+const PROGRESS_THROTTLE_MS = 400; // milliseconds
 
 class UpgradeServer extends EventEmitter {
   constructor(storage, port) {
@@ -234,7 +234,7 @@ class UpgradeServer extends EventEmitter {
 
         const tracker = progressStream({
           length: option.size,
-          time: PROGRESS_THROTTLE, // ms between each progress event
+          time: PROGRESS_THROTTLE_MS, // ms between each progress event
         });
         tracker.on("progress", ({ transferred }) => {
           upload.sofar = transferred;

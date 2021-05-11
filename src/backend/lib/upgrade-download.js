@@ -14,7 +14,7 @@ const progressStream = require("progress-stream");
 const { DISCOVERY_KEY, UpgradeState } = require("./constants");
 
 // How frequently to emit progress events (in ms)
-const PROGRESS_THROTTLE = 400; // milliseconds
+const PROGRESS_THROTTLE_MS = 400; // milliseconds
 
 // Manager object responsible for coordinating the Search, Download, and Check
 // subcomponents.
@@ -230,7 +230,7 @@ class Download extends EventEmitter {
         const filename = option.hash;
         const progress = progressStream({
           length: option.size,
-          time: PROGRESS_THROTTLE, // ms between each progress event
+          time: PROGRESS_THROTTLE_MS, // ms between each progress event
         });
         progress.on("progress", ({ transferred: sofar, length: total }) => {
           this.setState(UpgradeState.Download.Downloading, { sofar, total });
