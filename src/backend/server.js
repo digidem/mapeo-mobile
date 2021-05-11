@@ -73,6 +73,7 @@ function createServer({
   // Set up the p2p upgrades subsystem.
   const upgradePath = path.join(privateStorage, "upgrades");
   mkdirp.sync(upgradePath);
+
   createUpgradeManager(apkVersion, (err, manager) => {
     if (err) return onError("createUpgradeManager", err);
     log("++++ 3 created upgrade manager");
@@ -175,19 +176,25 @@ function createServer({
   function createUpgradeManager(version, cb) {
     getport((err, port) => {
       if (err) return cb(err);
-
-      const emitFn = rnBridge.channel.post.bind(rnBridge.channel);
-      const listenFn = rnBridge.channel.on.bind(rnBridge.channel);
-      const removeFn = rnBridge.channel.removeListener.bind(rnBridge.channel);
       // TODO: Pass apkPath, version, buildNumber, bundleId
-      const manager = new UpgradeManager(
-        upgradePath,
+      const manager = new UpgradeManager({
+        dir: upgradePath,
         port,
-        version,
-        emitFn,
-        listenFn,
-        removeFn
+        currentVersion: version,
+      });
+      manager.on("state", state =>
+        rnBridge.channel.post("p2p-upgrade::state", state)
       );
+      manager.on("error", error =>
+        rnBridge.channel.post("p2p-upgrade::error", error)
+      );
+      rnBridge.channel.on("p2p-upgrade::start-services", () =>
+        manager.startServices()
+      );
+      rnBridge.channel.on("p2p-upgrade::stop-services", () =>
+        manager.stopServices()
+      );
+      rnBridge.channel.on("p2p-upgrade::get-state", () => manager.getState());
       cb(null, manager);
     });
   }
