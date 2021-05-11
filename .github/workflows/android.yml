@@ -15,7 +15,9 @@ jobs:
           cd src/backend
           npm ci
       - name: Backend Tests
-        run: npm test
+        run: |
+          cd src/backend
+          npm test
   e2e-tests:
     name: e2e tests
     runs-on: macos-latest

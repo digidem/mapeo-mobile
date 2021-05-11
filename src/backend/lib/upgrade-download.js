@@ -45,8 +45,8 @@ class UpgradeDownloader extends EventEmitter {
       this.state.download = { state, context };
       this.emit("state", this.state);
 
-      // Check for a new version once the download has finished
-      if (state === UpgradeState.Download.Downloaded) {
+      // Check for a new version if the downloader gets set back to Idle.
+      if (state === UpgradeState.Download.Idle) {
         this._check.check();
       }
     });
@@ -181,6 +181,8 @@ class Search extends EventEmitter {
     this.emit("state", state, context);
   }
 
+  // Resets the state 'context' of this component, wiping all accumulated
+  // upgrade candidates.
   // UpgradeOption -> Bool
   isUpgradeCandidate(upgrade) {
     if (upgrade.arch.indexOf(this.storage.getLocalArch()) === -1) return false;
@@ -211,7 +213,8 @@ class Download extends EventEmitter {
   }
 
   download(option) {
-    if (this.state !== UpgradeState.Download.Idle) return;
+    if (this.state !== UpgradeState.Download.Idle) return false;
+
     this.setState(UpgradeState.Download.Downloading, {
       sofar: 0,
       total: option.size,
@@ -237,20 +240,20 @@ class Download extends EventEmitter {
           option.hash,
           err => {
             if (err) this.setState(UpgradeState.Download.Error, err);
-            else this.setState(UpgradeState.Download.Downloaded, null);
+            else this.setState(UpgradeState.Download.Idle, null);
           }
         );
         downloadLog("starting download of upgrade", option);
         pump(res, progress, ws, err => {
           if (err) downloadLog("download pipeline error", err);
           else downloadLog("download pipeline ended ok");
-          this.setState(UpgradeState.Download.Idle, null);
         });
       })
       .once("error", err => {
         downloadLog("http error", err);
-        this.setState(UpgradeState.Download.Idle, null);
       });
+
+    return true;
   }
 }
 
@@ -272,12 +275,13 @@ class Check extends EventEmitter {
   }
 
   check() {
-    if (this.state !== UpgradeState.Check.NotAvailable) return;
-
     checkLog("checking for an upgrade..");
     this.storage.getAvailableUpgrades((err, options) => {
       if (err) return this.setState(UpgradeState.Check.Error, err);
-      options = options.filter(o => this.isUpgradeCandidate(o));
+      options = options
+        .filter(o => this.isUpgradeCandidate(o))
+        .sort(upgradeCmp)
+        .reverse();
       if (options.length > 0) {
         checkLog("..found a viable upgrade", options[0]);
         this.setState(UpgradeState.Check.Available, {
@@ -298,6 +302,12 @@ class Check extends EventEmitter {
       return false;
     return true;
   }
+}
+
+function upgradeCmp(a, b) {
+  const av = a.version;
+  const bv = b.version;
+  return semver.compare(av, bv);
 }
 
 module.exports = UpgradeDownloader;

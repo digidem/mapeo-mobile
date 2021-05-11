@@ -133,7 +133,7 @@ test("integration: can find + download + check an upgrade", t => {
           if (state.downloader.download.state === "DOWNLOADING") {
             lastProgress = state.downloader.download.context;
           }
-          if (state.downloader.download.state === "DOWNLOADED") {
+          if (state.downloader.download.state === "IDLE") {
             t.equals(lastProgress.sofar, 10);
             t.equals(lastProgress.total, 10);
             done = true;

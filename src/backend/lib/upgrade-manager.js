@@ -5,6 +5,7 @@ const semver = require("semver");
 const log = require("debug")("p2p-upgrades:manager");
 const validate = require("./validate-upgrade-state");
 const { EventEmitter } = require("events");
+const { UpgradeState } = require("./constants");
 
 class UpgradeManager extends EventEmitter {
   constructor({ dir, port, currentVersion }) {
@@ -17,6 +18,14 @@ class UpgradeManager extends EventEmitter {
 
     this.upgradeSearchTimeout = null;
     this.upgradeOptions = [];
+
+    this.downloader.on("state", state => {
+      if (state.search.state === "SEARCHING") {
+        this.upgradeOptions = state.search.context.upgrades;
+      } else if (state.search.state === "Idle") {
+        this.upgradeOptions = [];
+      }
+    });
 
     // State aggregation
     this.state = {
@@ -118,28 +127,66 @@ class UpgradeManager extends EventEmitter {
     this.storage.setApkInfo(apkPath, version, cb);
   }
 
+  // Checks whether there is an upgrade candidate newer than anything we have
+  // in storage, to be downloaded.
   onCheckForUpgrades() {
-    log("checking for upgrade options..");
-    if (this.upgradeSearchTimeout) {
-      // Pick the newest upgrade, if available
-      this.upgradeOptions.sort(semver.compare);
+    // The timer was stopped externally; do nothing.
+    if (!this.upgradeSearchTimeout) return;
 
-      if (!this.upgradeOptions.length) {
-        log("..none found");
-        this.upgradeSearchTimeout = setTimeout(
-          this.onCheckForUpgrades.bind(this),
-          7000
-        );
-        return;
-      }
+    // Reset timer.
+    this.upgradeSearchTimeout = setTimeout(
+      this.onCheckForUpgrades.bind(this),
+      7000
+    );
 
-      // Download
-      const target = this.upgradeOptions[this.upgradeOptions.length - 1];
-      log("..found an upgrade & starting download:", target);
-      this.downloader.download(target);
-      this.upgradeSearchTimeout = null;
+    // The search component isn't in search mode; do nothing.
+    if (this.state.downloader.search.state !== UpgradeState.Search.Searching) {
+      return;
     }
+
+    // The download component is already downloading; do nothing.
+    if (
+      this.state.downloader.download.state === UpgradeState.Download.Downloading
+    ) {
+      return;
+    }
+
+    // Compare available upgrade candidates on the network to what is already
+    // in our storage.
+    log("checking for network upgrade options..");
+    this.storage.getAvailableUpgrades((err, storageCandidates) => {
+      if (err) return;
+
+      // Filter out network upgrades older than on-storage upgrades. Sort so
+      // the latest is first.
+      const networkCandidates = this.state.downloader.search.context.upgrades;
+      const downloadCandidates = networkCandidates
+        .filter(nc => {
+          return storageCandidates.every(sc =>
+            semver.gt(nc.version, sc.version)
+          );
+        })
+        .sort(upgradeCmp)
+        .reverse();
+
+      if (downloadCandidates.length) {
+        // Download.
+        const target = downloadCandidates[0];
+        const res = this.downloader.download(target);
+        if (res) {
+          log("..found an upgrade & starting download:", target);
+        } else {
+          log("..none found");
+        }
+      }
+    });
   }
+}
+
+function upgradeCmp(a, b) {
+  const av = a.version;
+  const bv = b.version;
+  return semver.compare(av, bv);
 }
 
 module.exports = UpgradeManager;
