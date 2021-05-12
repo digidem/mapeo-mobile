@@ -184,8 +184,6 @@ class Search extends EventEmitter {
     this.emit("state", state, context);
   }
 
-  // Resets the state 'context' of this component, wiping all accumulated
-  // upgrade candidates.
   // UpgradeOption -> Bool
   isUpgradeCandidate(upgrade) {
     if (upgrade.arch.indexOf(this.storage.getLocalArch()) === -1) return false;
