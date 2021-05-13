@@ -17,6 +17,8 @@ const tar = require("tar-fs");
 const pump = require("pump");
 const tmp = require("tmp");
 const semverCoerce = require("semver/functions/coerce");
+const UpgradeManager = require("./lib/upgrade-manager");
+const getport = require("getport");
 
 // Cleanup the temporary files even when an uncaught exception occurs
 tmp.setGracefulCleanup();
@@ -25,7 +27,14 @@ const log = debug("mapeo-core:server");
 
 module.exports = createServer;
 
-function createServer({ privateStorage, sharedStorage, flavor }) {
+function createServer({
+  privateStorage,
+  sharedStorage,
+  apkPath,
+  version: apkVersion,
+  buildNumber,
+  bundleId,
+}) {
   const defaultConfigPath = path.join(sharedStorage, "presets/default");
   log("Creating server");
 
@@ -60,6 +69,25 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     deviceType: "mobile",
   });
   let mapeoCore = mapeoRouter.api.core;
+
+  // Set up the p2p upgrades subsystem.
+  const upgradePath = path.join(privateStorage, "upgrades");
+  mkdirp.sync(upgradePath);
+
+  createUpgradeManager(apkVersion, (err, manager) => {
+    if (err) return onError("createUpgradeManager", err);
+    log("++++ 3 created upgrade manager");
+    manager.setApkInfo(apkPath, apkVersion, err => {
+      if (err) return onError("setApkInfo", err);
+      log("++++ 4 set apk info");
+      rnBridge.channel.on("p2p-upgrades-frontend-ready", () => {
+        rnBridge.channel.post("p2p-upgrades-backend-ready");
+        // Now we know the frontend is definitely ready!
+        log("++++ 5 frontend told us they are ready");
+      });
+      rnBridge.channel.post("p2p-upgrades-backend-ready");
+    });
+  });
 
   const server = http.createServer(function requestListener(req, res) {
     log(req.method + ": " + req.url);
@@ -131,9 +159,45 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
       rnBridge.channel.on("sync-join", joinSync);
       rnBridge.channel.on("sync-leave", leaveSync);
       rnBridge.channel.on("replace-config", replaceConfig);
+      log("++++ 1 backend listening");
       origListen.apply(server, args);
     });
   };
+
+  function onError(prefix, err) {
+    if (!err) return;
+    main.bugsnag.notify(err, {
+      severity: "error",
+      context: prefix,
+    });
+    log(`error(${prefix}): ' + ${err.toString()}`);
+  }
+
+  function createUpgradeManager(version, cb) {
+    getport((err, port) => {
+      if (err) return cb(err);
+      // TODO: Pass apkPath, version, buildNumber, bundleId
+      const manager = new UpgradeManager({
+        dir: upgradePath,
+        port,
+        currentVersion: version,
+      });
+      manager.on("state", state =>
+        rnBridge.channel.post("p2p-upgrade::state", state)
+      );
+      manager.on("error", error =>
+        rnBridge.channel.post("p2p-upgrade::error", error)
+      );
+      rnBridge.channel.on("p2p-upgrade::start-services", () =>
+        manager.startServices()
+      );
+      rnBridge.channel.on("p2p-upgrade::stop-services", () =>
+        manager.stopServices()
+      );
+      rnBridge.channel.on("p2p-upgrade::get-state", () => manager.getState());
+      cb(null, manager);
+    });
+  }
 
   // Given a config tarball at `path`, replace the current config.
   function replaceConfig({ id, path: pathToNewConfigTarball }) {

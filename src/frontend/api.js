@@ -6,6 +6,8 @@ import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
 import debug from "debug";
 import flatten from "flat";
+import DeviceInfo from "react-native-device-info";
+import AppInfo from "./lib/AppInfo";
 
 import type {
   Preset,
@@ -13,6 +15,9 @@ import type {
   Metadata,
   Messages,
 } from "./context/ConfigContext";
+
+import { version as APP_VERSION } from "../../package.json";
+
 import type {
   Observation,
   ObservationValue,
@@ -145,6 +150,7 @@ export function Api({
       }
     }
     status = value;
+
     if (status === STATUS.LISTENING) {
       while (pending.length) pending.shift().resolve();
     } else if (status === STATUS.ERROR) {
@@ -218,7 +224,11 @@ export function Api({
         // As soon as we hear from the Node process, send the storagePath and
         // other config that the server requires
         nodejs.channel.post("config", {
-          storagePath: RNFS.ExternalDirectoryPath,
+          sharedStorage: RNFS.ExternalDirectoryPath,
+          apkPath: AppInfo.sourceDir,
+          version: DeviceInfo.getVersion(),
+          buildNumber: DeviceInfo.getBuildNumber(),
+          bundleId: DeviceInfo.getBundleId(),
         });
         // Resolve once the server reports status as "LISTENING"
         return onReady();

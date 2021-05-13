@@ -21,19 +21,20 @@ import org.unimodules.core.interfaces.SingletonModule;
 
 import com.mapbox.rctmgl.RCTMGLPackage;
 
+import com.mapeo.AppInfoPackage;
+import com.mapeo.ApkInstallerPackage;
+
 import java.util.Arrays;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class MainApplication extends Application implements ShareApplication, ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
-    new BasePackageList().getPackageList(),
-    null
-  );
+      new BasePackageList().getPackageList(), Arrays.<SingletonModule>asList());
 
   @Override
   public String getFileProviderAuthority() {
-      return BuildConfig.APPLICATION_ID + ".provider";
+    return BuildConfig.APPLICATION_ID + ".provider";
   }
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -46,16 +47,12 @@ public class MainApplication extends Application implements ShareApplication, Re
     protected List<ReactPackage> getPackages() {
       @SuppressWarnings("UnnecessaryLocalVariable")
       List<ReactPackage> packages = new PackageList(this).getPackages();
-
-      // Packages that cannot be autolinked yet can be added manually here, for example:
+      // Packages that cannot be autolinked yet can be added manually here, for
+      // example:
       // packages.add(new MyReactNativePackage());
-
-      // Add unimodules
-      List<ReactPackage> unimodules = Arrays.<ReactPackage>asList(
-        new ModuleRegistryAdapter(mModuleRegistryProvider)
-      );
-      packages.addAll(unimodules);
-
+      packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
+      packages.add(new AppInfoPackage());
+      packages.add(new ApkInstallerPackage());
       return packages;
     }
 
@@ -79,7 +76,8 @@ public class MainApplication extends Application implements ShareApplication, Re
   }
 
   /**
-   * Loads Flipper in React Native templates. Call this in the onCreate method with something like
+   * Loads Flipper in React Native templates. Call this in the onCreate method
+   * with something like
    * initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
    *
    * @param context
@@ -107,5 +105,6 @@ public class MainApplication extends Application implements ShareApplication, Re
         e.printStackTrace();
       }
     }
+
   }
 }
