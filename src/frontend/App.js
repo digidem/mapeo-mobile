@@ -14,6 +14,7 @@ import { IntlProvider } from "./context/IntlContext";
 import AppProvider from "./context/AppProvider";
 import bugsnag from "./lib/logger";
 import IS_E2E from "./lib/is-e2e";
+import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
 
 // Turn off warnings about require cycles
 YellowBox.ignoreWarnings(["Require cycle:"]);
@@ -101,6 +102,11 @@ class ErrorBoundary extends React.Component<
   }
 }
 
+const UpdateNotifier = () => {
+  useUpdateNotifierEffect();
+  return null;
+};
+
 /* IntlProvider needs to be first so that error messages are translated */
 const App = () => (
   <IntlProvider>
@@ -114,6 +120,7 @@ const App = () => (
               persistNavigationState={persistNavigationState}
               loadNavigationState={loadNavigationState}
             />
+            <UpdateNotifier />
           </AppProvider>
         </AppLoading>
       </PermissionsProvider>

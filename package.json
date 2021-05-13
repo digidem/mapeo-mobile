@@ -1,6 +1,6 @@
 {
   "name": "mapeo-mobile",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "private": true,
   "engines": {
     "node": "^10.16.0"
@@ -67,6 +67,7 @@
     "mapeo-offline-map": "^2.0.0",
     "mapeo-schema": "^2.0.2",
     "nodejs-mobile-react-native": "^0.6.1",
+    "p-is-promise": "^4.0.0",
     "patch-package": "^6.2.2",
     "path": "^0.12.7",
     "prop-types": "^15.7.2",
@@ -126,6 +127,7 @@
     "babel-plugin-react-intl-auto": "^3.3.0",
     "babel-plugin-react-native-web": "^0.12.2",
     "conventional-changelog-cli": "^2.0.34",
+    "delay": "^5.0.0",
     "detox": "^17.4.10",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",
