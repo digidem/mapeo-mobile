@@ -7,6 +7,7 @@ const through = require("through2");
 const readonly = require("read-only-stream");
 const pump = require("pump");
 const semver = require("semver");
+const RWLock = require("rwlock");
 const LocalUpgradeInfo = require("./local-upgrade-info");
 const log = require("debug")("p2p-upgrades:storage");
 
@@ -42,11 +43,42 @@ class Storage {
     log("..done. recreating temp directory..");
     mkdirp.sync(this.tmpdir);
     log("..done");
-
+    this.lock = new RWLock();
+    log("deleting old apks");
+    this.lock.writeLock(release => {
+      function done(err) {
+        if (err) throw new Error(err);
+        log("..done deleting old apks");
+        release();
+      }
+      this.init(done);
+    });
     opts = opts || {};
     this.targetPlatform = opts.platform || "android";
     this.targetArch = opts.arch || "arm64-v8a";
     this.version = opts.version || "0.0.0";
+  }
+
+  init(cb) {
+    // TODO: async version of the mkdir/rimraf stuff we already have
+    this.localUpgrades.get((err, options) => {
+      if (err) return cb(err);
+      const toDelete = options.filter(
+        option => !this.isNewerThanCurrentApk(option)
+      );
+      const toKeep = options.filter(option =>
+        this.isNewerThanCurrentApk(option)
+      );
+      foreachAsync(
+        toDelete,
+        (option, cb) => {
+          rimraf(option.filename, cb);
+        },
+        _ => {
+          this.localUpgrades.set(toKeep, cb);
+        }
+      );
+    });
   }
 
   getLocalPlatform() {
@@ -65,36 +97,50 @@ class Storage {
   // TODO: factor out the 'version' parameter and use 'this.version' instead,
   // since we already have it.
   setApkInfo(apkPath, version, cb) {
-    log("setApkInfo", apkPath, version);
-    this.apkToUpgradeOption(apkPath, version, (err, info) => {
-      if (err) return cb(err);
-      this.currentApk = info;
-      cb();
+    this.lock.writeLock(release => {
+      function done(err) {
+        release();
+        cb(err);
+      }
+      log("setApkInfo", apkPath, version);
+      this.apkToUpgradeOption(apkPath, version, (err, info) => {
+        if (err) return done(err);
+        this.currentApk = info;
+        done();
+      });
     });
   }
 
   // Callback<[UpgradeOption]> -> Void
   getAvailableUpgrades(cb) {
-    log("getAvailableUpgrades");
-    const results = [];
-    if (this.currentApk) {
-      const currentApk = Object.assign({}, this.currentApk);
-      results.push(currentApk);
-    }
-    this.localUpgrades.get((err, options) => {
-      if (err) return cb(err);
-      options.forEach(option => {
-        const opt = Object.assign({}, option);
-        results.push(opt);
+    this.lock.readLock(release => {
+      function done(err, res) {
+        release();
+        cb(err, res);
+      }
+      log("getAvailableUpgrades");
+      const results = [];
+      if (this.currentApk) {
+        const currentApk = Object.assign({}, this.currentApk);
+        results.push(currentApk);
+      }
+      this.localUpgrades.get((err, options) => {
+        if (err) return done(err);
+        options.forEach(option => {
+          const opt = Object.assign({}, option);
+          results.push(opt);
+        });
+        log("getAvailableUpgrades results:", results);
+        done(null, results);
       });
-      log("getAvailableUpgrades results:", results);
-      cb(null, results);
     });
   }
 
   // String, String, Callback<Void> -> WritableStream
   createApkWriteStream(filename, version, hash, cb) {
+    // Why doesn't accept locks?
     cb = cb || function () {};
+
     if (typeof hash === "string") hash = Buffer.from(hash, "hex");
     const tmpFilepath = path.join(this.tmpdir, filename);
     const finalFilepath = path.join(this.dir, filename);
@@ -196,24 +242,30 @@ class Storage {
 
   // Callback<Void> -> Void
   clearOldApks(cb) {
-    this.localUpgrades.get((err, options) => {
-      if (err) return cb(err);
-      const toDelete = options.filter(
-        option => !this.isNewerThanCurrentApk(option)
-      );
-      const toKeep = options.filter(option =>
-        this.isNewerThanCurrentApk(option)
-      );
-      foreachAsync(
-        toDelete,
-        (option, cb) => {
-          rimraf(option.filename, cb);
-        },
-        _ => {
-          // XXX: not handling errors from failed deletions (yet)
-          this.localUpgrades.set(toKeep, cb);
-        }
-      );
+    this.lock.writeLock(release => {
+      function done(e) {
+        release();
+        cb(e);
+      }
+      this.localUpgrades.get((err, options) => {
+        if (err) return done(err);
+        const toDelete = options.filter(
+          option => !this.isNewerThanCurrentApk(option)
+        );
+        const toKeep = options.filter(option =>
+          this.isNewerThanCurrentApk(option)
+        );
+        foreachAsync(
+          toDelete,
+          (option, done) => {
+            rimraf(option.filename, done);
+          },
+          _ => {
+            // XXX: not handling errors from failed deletions (yet)
+            this.localUpgrades.set(toKeep, done);
+          }
+        );
+      });
     });
   }
 
