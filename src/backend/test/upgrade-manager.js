@@ -1,3 +1,4 @@
+// @ts-check
 const path = require("path");
 const tmp = require("tmp");
 const test = require("tape");
@@ -9,11 +10,12 @@ const collect = require("collect-stream");
 const rimraf = require("rimraf");
 const clone = require("clone");
 
-function makeUpgradeManager(dir, port) {
+function makeUpgradeManager(dir, port, bundleId) {
   const opts = {
     dir,
     port,
     currentVersion: "0.0.0",
+    bundleId: bundleId || "com.mapeo.debug",
   };
   const manager = new UpgradeManager(opts);
   return {
@@ -168,6 +170,50 @@ test("integration: can find + download + check an upgrade", t => {
                 cb();
               });
             });
+          }
+        }
+      }
+    });
+  });
+});
+
+test("cannot find a peer with a different bundleId", t => {
+  t.plan(3);
+
+  // Peer 2
+  const dir2 = tmp.dirSync().name;
+  const { manager: manager2 } = makeUpgradeManager(dir2, 0, "com.mapeo.qa");
+
+  // Peer 1
+  startServer((err, port, manager, cleanup) => {
+    t.error(err, "server started ok");
+    const apkPath = path.join(__dirname, "static", "fake.apk");
+    manager.setApkInfo(apkPath, "1.0.0", err => {
+      t.error(err, "apk info set ok");
+      awaitFoundUpgrade(() => {
+        t.fail("found upgrade but shouldn't have");
+        manager2.stopServices();
+        cleanup();
+      });
+      setTimeout(() => {
+        manager2.stopServices();
+        cleanup();
+        t.pass("unable to locate other peer");
+      }, 3000);
+
+      manager.startServices();
+      manager2.startServices();
+
+      function awaitFoundUpgrade(cb) {
+        manager2.on("state", onState);
+        function onState(state) {
+          const search = state.downloader.search;
+          if (
+            search.state === "SEARCHING" &&
+            search.context.upgrades.length > 0
+          ) {
+            manager2.removeListener("state", onState);
+            cb();
           }
         }
       }

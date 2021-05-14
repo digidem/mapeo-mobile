@@ -1,3 +1,4 @@
+// @ts-check
 const semver = require("semver");
 const http = require("http");
 const collect = require("collect-stream");
@@ -10,8 +11,9 @@ const downloadLog = require("debug")("p2p-upgrades:download");
 const checkLog = require("debug")("p2p-upgrades:check");
 const clone = require("clone");
 const progressStream = require("progress-stream");
-
-const { DISCOVERY_KEY, UpgradeState } = require("./constants");
+const UpgradeStorage = require("./upgrade-storage");
+const { getDiscoveryKey } = require("./util");
+const { UpgradeState } = require("./constants");
 
 // How frequently to emit progress events (in ms)
 const PROGRESS_THROTTLE_MS = 400; // milliseconds
@@ -19,7 +21,10 @@ const PROGRESS_THROTTLE_MS = 400; // milliseconds
 // Manager object responsible for coordinating the Search, Download, and Check
 // subcomponents.
 class UpgradeDownloader extends EventEmitter {
-  // UpgradeStorage -> Void
+  /**
+   * @constructor
+   * @param {UpgradeStorage} storage
+   */
   constructor(storage) {
     super();
 
@@ -71,7 +76,7 @@ class UpgradeDownloader extends EventEmitter {
   }
 
   download(option) {
-    this._download.download(option);
+    return this._download.download(option);
   }
 }
 
@@ -98,7 +103,7 @@ class Search extends EventEmitter {
         server: [],
         loopback: false,
       });
-      this.discovery.lookup(DISCOVERY_KEY);
+      this.discovery.lookup(getDiscoveryKey(this.storage.getLocalBundleId()));
       this.discovery.on("peer", this.onPeer.bind(this));
 
       searchLog("beginning search");
@@ -113,7 +118,7 @@ class Search extends EventEmitter {
 
   onPeer(app, { host, port }) {
     if (this.state !== UpgradeState.Search.Searching) return; // shouldn't happen
-    if (app !== DISCOVERY_KEY) return;
+    if (app !== getDiscoveryKey(this.storage.getLocalBundleId())) return;
     searchLog("found potential upgrade peer", host, port);
 
     this.stateLock.readLock(release => {

@@ -1,3 +1,4 @@
+// @ts-check
 const path = require("path");
 const mkdirp = require("mkdirp");
 const fs = require("fs");
@@ -24,7 +25,16 @@ const log = require("debug")("p2p-upgrades:storage");
 } */
 
 class Storage {
-  // String -> Void
+  /**
+   * @constructor
+   * @param {string} storageDir
+   * @param {{
+   *   platform?: string | null,
+   *   arch?: string | null,
+   *   version?: string | null,
+   *   bundleId?: string | null,
+   * }} opts
+   */
   constructor(storageDir, opts) {
     if (!storageDir) throw new Error("required argument: storageDir");
     if (typeof storageDir !== "string")
@@ -43,10 +53,14 @@ class Storage {
     mkdirp.sync(this.tmpdir);
     log("..done");
 
-    opts = opts || {};
     this.targetPlatform = opts.platform || "android";
     this.targetArch = opts.arch || "arm64-v8a";
     this.version = opts.version || "0.0.0";
+    this.bundleId = opts.bundleId || "com.mapeo.debug";
+  }
+
+  getLocalBundleId() {
+    return this.bundleId;
   }
 
   getLocalPlatform() {

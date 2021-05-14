@@ -1,3 +1,4 @@
+// @ts-check
 const path = require("path");
 const tmp = require("tmp");
 const test = require("tape");
@@ -122,7 +123,7 @@ test("can find + download + check an upgrade", t => {
 
   // Client
   const dir2 = tmp.dirSync().name;
-  const storage2 = new UpgradeStorage(dir2);
+  const storage2 = new UpgradeStorage(dir2, {});
   const download = new UpgradeDownload(storage2);
 
   // Server
@@ -214,7 +215,7 @@ test("REGRESSION: a local upgrade equal to app version is not shown", t => {
 
   // Client
   const dir2 = tmp.dirSync().name;
-  const storage2 = new UpgradeStorage(dir2);
+  const storage2 = new UpgradeStorage(dir2, {});
   const download = new UpgradeDownload(storage2);
 
   // Server
@@ -299,7 +300,7 @@ test("candidate replaced if peer with an upgrade goes down + another appears", t
 
     // Peer 2
     const dir2 = tmp.dirSync().name;
-    const storage2 = new UpgradeStorage(dir2);
+    const storage2 = new UpgradeStorage(dir2, {});
     const download2 = new UpgradeDownload(storage2);
 
     server.share();

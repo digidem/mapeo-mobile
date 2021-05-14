@@ -1,3 +1,4 @@
+// @ts-check
 const UpgradeStorage = require("./upgrade-storage");
 const UpgradeServer = require("./upgrade-server");
 const UpgradeDownload = require("./upgrade-download");
@@ -8,13 +9,26 @@ const { EventEmitter } = require("events");
 const { UpgradeState } = require("./constants");
 
 class UpgradeManager extends EventEmitter {
-  constructor({ dir, port, currentVersion }) {
+  /**
+   * @constructor
+   * @param {{
+   *   dir: string,
+   *   port: number,
+   *   currentVersion: string,
+   *   bundleId: string
+   * }} opts
+   */
+  constructor({ dir, port, currentVersion, bundleId }) {
     super();
-    this.storage = new UpgradeStorage(dir, { version: currentVersion });
-    this.server = new UpgradeServer(this.storage, port);
-    this.downloader = new UpgradeDownload(this.storage, {
+    this.storage = new UpgradeStorage(dir, {
       version: currentVersion,
+      bundleId,
+      arch: null,
+      platform: null,
     });
+
+    this.server = new UpgradeServer(this.storage, port);
+    this.downloader = new UpgradeDownload(this.storage);
 
     this.upgradeSearchTimeout = null;
     this.upgradeOptions = [];

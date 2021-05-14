@@ -1,3 +1,4 @@
+// @ts-check
 const path = require("path");
 const tmp = require("tmp");
 const test = require("tape");
@@ -20,7 +21,7 @@ test("set an apk + read it", t => {
   };
 
   const dir = tmp.dirSync().name;
-  const storage = new Storage(dir);
+  const storage = new Storage(dir, {});
   const apkPath = path.join(__dirname, "static", "fake.apk");
 
   storage.setApkInfo(apkPath, "1.2.3", err => {
@@ -79,6 +80,7 @@ test("write + clear an older upgrade", t => {
             t.error(err);
             fs.stat(path.join(dir, "foo.apk"), (err, stat) => {
               t.ok(!!err);
+              // @ts-ignore
               t.equals(err.code, "ENOENT");
               storage.getAvailableUpgrades((err, options) => {
                 t.error(err);

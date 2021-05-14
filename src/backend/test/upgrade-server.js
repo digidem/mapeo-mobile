@@ -1,3 +1,4 @@
+// @ts-check
 const path = require("path");
 const tmp = require("tmp");
 const test = require("tape");
@@ -17,7 +18,7 @@ function startServer(cb) {
     if (err) return cb(err);
 
     const dir = tmp.dirSync().name;
-    const storage = new UpgradeStorage(dir);
+    const storage = new UpgradeStorage(dir, {});
     const server = new UpgradeServer(storage, port);
     function cleanup() {
       server.drain(() => {
@@ -163,6 +164,7 @@ test("make an http request before 'share' is called", t => {
       })
       .once("error", err => {
         t.ok(err, "error ok");
+        // @ts-ignore
         t.equals(err.code, "ECONNREFUSED");
         cleanup();
       });
@@ -204,6 +206,7 @@ test("make an http request while draining", t => {
                 rimraf.sync(apkPath);
                 cleanup();
               });
+              // @ts-ignore
               socket.unclog();
               socket.end();
             });
@@ -222,7 +225,8 @@ function makeDanglingHttpGet(port, route) {
 
   let clogged = true;
   let nextFn;
-  socket.accumBytes = 0;
+
+  // @ts-ignore
   socket.unclog = function () {
     clogged = false;
     nextFn();
@@ -231,7 +235,6 @@ function makeDanglingHttpGet(port, route) {
   pump(
     socket,
     through((chunk, enc, next) => {
-      socket.accumBytes += chunk.length;
       if (clogged) nextFn = next;
       else next();
     })

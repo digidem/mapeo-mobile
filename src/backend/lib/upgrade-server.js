@@ -1,11 +1,14 @@
+// @ts-check
 const pump = require("pump");
 const discovery = require("dns-discovery");
 const EventEmitter = require("events").EventEmitter;
 const RWLock = require("rwlock");
 const http = require("http");
-const { DISCOVERY_KEY, UpgradeState } = require("./constants");
+const { UpgradeState } = require("./constants");
+const { getDiscoveryKey } = require("./util");
 const log = require("debug")("p2p-upgrades:server");
 const progressStream = require("progress-stream");
+const UpgradeStorage = require("./upgrade-storage");
 
 /*
 type Uploads = [UploadInfo]
@@ -20,6 +23,11 @@ type UploadInfo = {
 const PROGRESS_THROTTLE_MS = 400; // milliseconds
 
 class UpgradeServer extends EventEmitter {
+  /**
+   * @constructor
+   * @param {UpgradeStorage} storage
+   * @param {number} port
+   */
   constructor(storage, port) {
     super();
     this.storage = storage;
@@ -69,9 +77,10 @@ class UpgradeServer extends EventEmitter {
       };
       this.discovery = discovery(opts);
       this.server.listen(this.port, "0.0.0.0", () => {
-        log("announcing on", DISCOVERY_KEY);
+        const discoveryKey = getDiscoveryKey(this.storage.getLocalBundleId());
+        log("announcing on", discoveryKey);
         this.announceInterval = setInterval(() => {
-          this.discovery.announce(DISCOVERY_KEY, this.port);
+          this.discovery.announce(discoveryKey, this.port);
         }, 2000);
         this.setState(UpgradeState.Server.Sharing, this.uploads);
         done();
@@ -97,7 +106,7 @@ class UpgradeServer extends EventEmitter {
       this.setState(UpgradeState.Server.Draining, this.uploads);
       if (this.uploads.length === 0) {
         log("drain: no current uploads; stopping immediately");
-        return stop.bind(this)();
+        return stop();
       }
 
       // wait for all uploads to finish
@@ -108,7 +117,7 @@ class UpgradeServer extends EventEmitter {
         if (this.uploads.length === 0) {
           log("drain: no uploads left; stopping now");
           this.removeListener("upload", oncomplete);
-          stop.call(this);
+          stop();
         } else {
           log(
             `drain: still waiting for ${this.uploads.length} uploads to finish`
@@ -119,26 +128,32 @@ class UpgradeServer extends EventEmitter {
       function stop() {
         log("drain: stopping..");
 
-        clearInterval(this.announceInterval);
-        this.announceInterval = null;
+        if (self.announceInterval) {
+          clearInterval(self.announceInterval);
+          self.announceInterval = null;
+        }
 
         // XXX: 'unannounce' seems to always return an error here; ignoring.
-        this.discovery.unannounce(DISCOVERY_KEY, this.port, _ => {
-          log("drain: ..discovery unannounced");
-          this.discovery.destroy(err => {
-            if (err) {
-              log("drain: ..discovery destroy failed:", err);
-              return done(err);
-            }
-            log("drain: ..discovery destroyed");
-            this.server.close(() => {
-              log("drain: ..server closed -- all stopped");
-              this.discovery = null;
-              this.setState(UpgradeState.Server.Idle, null);
-              done();
+        self.discovery.unannounce(
+          getDiscoveryKey(self.storage.getLocalBundleId()),
+          self.port,
+          _ => {
+            log("drain: ..discovery unannounced");
+            self.discovery.destroy(err => {
+              if (err) {
+                log("drain: ..discovery destroy failed:", err);
+                return done(err);
+              }
+              log("drain: ..discovery destroyed");
+              self.server.close(() => {
+                log("drain: ..server closed -- all stopped");
+                self.discovery = null;
+                self.setState(UpgradeState.Server.Idle, null);
+                done();
+              });
             });
-          });
-        });
+          }
+        );
       }
     });
   }

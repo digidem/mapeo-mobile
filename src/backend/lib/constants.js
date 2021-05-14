@@ -1,4 +1,3 @@
-const DISCOVERY_KEY = "mapeo-upgrade";
 const UPGRADE_INFO_FILENAME = "upgrades.json";
 
 const UpgradeState = {
@@ -29,7 +28,6 @@ const UpgradeState = {
 };
 
 module.exports = {
-  DISCOVERY_KEY,
   UPGRADE_INFO_FILENAME,
   UpgradeState,
 };
