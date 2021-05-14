@@ -4,6 +4,7 @@
     "lib": ["es2020"],
     "resolveJsonModule": true,
     "moduleResolution": "node",
+    "strictNullChecks": true,
     "allowJs": true,
     "checkJs": false,
     "noEmit": true,
