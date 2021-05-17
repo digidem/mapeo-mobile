@@ -18,7 +18,7 @@ const fsPromises = fs.promises;
 tmp.setGracefulCleanup();
 
 const validApksFolder = path.join(__dirname, "./fixtures/valid-apks");
-const invalidApksFolder = path.join(__dirname, "./fixtures/invalid-apks");
+// const invalidApksFolder = path.join(__dirname, "./fixtures/invalid-apks");
 
 /**
  * @param {string[]} filepaths List of files to copy into temp directory
@@ -144,7 +144,8 @@ test("Older APKs are deleted after initialization", async t => {
 
   t.equal(installers.length, 1, "Only one installer now");
   t.equal(
-    installers[0].hash === FAKE_APK_INFO_V2.hash,
+    installers[0].hash,
+    FAKE_APK_INFO_V2.hash,
     "The only installer is own APK"
   );
   t.deepEqual(
@@ -156,7 +157,7 @@ test("Older APKs are deleted after initialization", async t => {
   await cleanup();
 });
 
-test.only("createWriteStream() --> new APK appears as an available installer", async t => {
+test("createWriteStream() --> new APK appears as an available installer", async t => {
   const { storage, cleanup, storageDir } = await setupStorage(
     [],
     FAKE_APK_INFO_MIN
@@ -208,6 +209,7 @@ test.only("createWriteStream() --> new APK appears as an available installer", a
     "File is available from list()"
   );
   t.ok(
+    // @ts-ignore
     installersFromEvent2.map(i => i.hash).includes(expected.hash),
     "File is available from list()"
   );
