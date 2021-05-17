@@ -7,6 +7,5 @@
   "platform": "android",
   "arch": ["armeabi-v7a", "arm64-v8a", "x86", "x86_64"],
   "size": 2098858,
-  "minSdkVersion": 21,
-  "filepath": "/Users/gregor/Dev/DdDev/mapeo-mobile/src/backend/test/fixtures/com.example.test_minSdk21_VN1.0.0_VC1.apk"
+  "minSdkVersion": 21
 }
