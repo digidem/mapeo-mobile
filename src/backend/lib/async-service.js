@@ -1,5 +1,5 @@
 const { TypedEmitter } = require("tiny-typed-emitter");
-const pDefer = require("p-defer").default;
+const pDefer = require("p-defer");
 
 /** @typedef {import('./types').AsyncServiceStateDefault } AsyncServiceStateDefault */
 

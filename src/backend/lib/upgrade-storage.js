@@ -63,9 +63,9 @@ class Storage extends AsyncService {
     await rimraf(this._tmpdir);
     await mkdirp(this._tmpdir);
     await mkdirp(this._storageDir);
-    const apkFiles = (await fs.promises.readdir(this._storageDir)).filter(
-      file => path.extname(file) === ".apk"
-    );
+    const apkFiles = (await fs.promises.readdir(this._storageDir))
+      .filter(file => path.extname(file) === ".apk")
+      .map(file => path.join(this._storageDir, file));
     const storedInstallerInts = await Promise.all(
       apkFiles.map(file => getInstallerInfo(file))
     );
@@ -146,7 +146,7 @@ class Storage extends AsyncService {
   createWriteStream({ hash: expectedHash }) {
     const tmpFilepath = path.join(
       this._tmpdir,
-      crypto.randomBytes(8).toString("hex")
+      crypto.randomBytes(8).toString("hex") + ".apk"
     );
     return beforeAfterStream({
       createStream: async () => {
@@ -159,12 +159,12 @@ class Storage extends AsyncService {
           // that's ok because this is UpgradeStorage updating its state
           const installer = await getInstallerInfo(tmpFilepath);
           if (!installer) {
-            // We couldn't read the info about this installer, so delete it
-            return fs.promises.unlink(tmpFilepath);
+            // We couldn't read the info about this installer
+            throw new Error("Could not parse APK");
           }
           if (installer.hash !== expectedHash) {
             // Hashes did not match, download was broken or incorrectly advertised
-            return fs.promises.unlink(tmpFilepath);
+            throw new Error("Invalid hash");
           }
           installer.filepath = path.join(
             this._storageDir,
