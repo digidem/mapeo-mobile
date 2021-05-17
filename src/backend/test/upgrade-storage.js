@@ -220,6 +220,53 @@ test("leftover files in the upgrade temp dir get wiped on init", t => {
   t.notOk(fs.existsSync(filepath), "file does not exist");
 });
 
+test("old binaries get deleted on startup", t => {
+  t.plan(6);
+
+  const expected = {
+    hash: "810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50",
+    size: 8,
+    version: "4.0.0",
+    hashType: "sha256",
+    platform: "android",
+    arch: ["arm64-v8a"],
+    id: "810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50",
+  };
+
+  const storageOptions = {
+    version: "4.0.0",
+    arch: "arm64-v8a",
+    platform: "android",
+  };
+  const dir = tmp.dirSync().name;
+  const storage = new Storage(dir, storageOptions);
+
+  const ws = storage.createApkWriteStream(
+    "foo.apk",
+    "4.0.0",
+    expected.hash,
+    err => {
+      t.error(err);
+      storage.getAvailableUpgrades((err, options) => {
+        t.error(err);
+        scrub(options);
+        t.equals(options.length, 1);
+        t.deepEquals(options[0], expected);
+        const newStorage = new Storage(dir, storageOptions);
+        fs.stat(path.join(dir, "foo.apk"), (err, stat) => {
+          t.ok(!!err);
+          t.equals(err.code, "ENOENT");
+          newStorage.getAvailableUpgrades((err, options) => {
+            t.error(err);
+            t.equals(options.length, 0);
+          });
+        });
+      });
+    }
+  );
+  ws.end("testdata");
+});
+
 // Wipes the 'filename' property.
 function scrub(options) {
   options.forEach(o => delete o.filename);
