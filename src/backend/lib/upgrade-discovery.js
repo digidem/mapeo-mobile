@@ -141,7 +141,6 @@ class UpgradeDiscovery extends AsyncService {
    */
   async _onPeer(app, { host, port }) {
     if (app && app !== this._discoveryKey) return;
-    /** @type  */
     let installers;
     try {
       const listUrl = `http://${host}:${port}/installers`;

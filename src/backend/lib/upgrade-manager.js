@@ -13,13 +13,13 @@ const log = require("debug")("p2p-upgrades:manager");
 
 const getPort = require("get-port");
 
-/** @typedef {import('./types').UploaderState} UploaderState */
+/** @typedef {import('./types').UpgradeState} UpgradeState */
 /** @typedef {import('./types').InstallerExt} InstallerExt */
 /** @typedef {import('./types').InstallerInt} InstallerInt */
 /** @typedef {import('./types').TransferProgress} TransferProgress */
 /**
  * @typedef {Object} Events
- * @property {(state: UploaderState) => void} state
+ * @property {(state: UpgradeState) => void} state
  * @property {(error?: Error) => void} error
  */
 
@@ -73,7 +73,7 @@ const EMIT_THROTTLE = 400; // milliseconds
  * @extends {AsyncService<Events>}
  */
 class UpgradeManager extends AsyncService {
-  /** @type {UploaderState} */
+  /** @type {UpgradeState} */
   #state = {
     value: "stopped",
     downloads: [],
@@ -220,7 +220,7 @@ class UpgradeManager extends AsyncService {
   /**
    * Get current state of UpgradeManager
    *
-   * @returns {UploaderState}
+   * @returns {UpgradeState}
    */
   getState() {
     return {
@@ -237,7 +237,7 @@ class UpgradeManager extends AsyncService {
    * Set state of UpgradeManager, **merges with current state**. If you pass
    * state with value: "error" you _must_ also pass an error property
    *
-   * @param {Partial<Exclude<UploaderState, { value: "error", error: Error }>> | { value: "error", error: Error }} statePartial
+   * @param {Partial<Exclude<UpgradeState, { value: "error", error: Error }>> | { value: "error", error: Error }} statePartial
    */
   setState(statePartial) {
     this.#state = { ...this.#state, ...statePartial };

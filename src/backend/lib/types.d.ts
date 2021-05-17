@@ -56,7 +56,7 @@ export type AsyncServiceStateDefault =
       value: "error";
       error: Error;
     };
-export type UploaderState = AsyncServiceStateDefault & {
+export type UpgradeState = AsyncServiceStateDefault & {
   uploads: TransferProgress[];
   downloads: TransferProgress[];
   availableUpgrade?: InstallerInt;
