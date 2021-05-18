@@ -62,7 +62,7 @@ test("Discovery finds peer and emits available installers", async t => {
   await Promise.all([discovery1.cleanup(), discovery2.cleanup()]);
 });
 
-test.only("If peer goes offline, installers become no longer available", async t => {
+test("If peer goes offline, installers become no longer available", async t => {
   const testApkFilenames1 = ["com.example.test_minSdk21_VN1.0.0_VC1.apk"];
   const testApkFilenames2 = ["com.example.test_minSdk21_VN1.1.0_VC1.apk"];
   const discovery1 = await startDiscovery(
