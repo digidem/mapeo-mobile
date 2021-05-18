@@ -44,6 +44,13 @@ class UpgradeDiscovery extends AsyncService {
    * @type {Map<string, { installer: InstallerExt, timeoutId: NodeJS.Timeout}>}
    */
   #availableInstallers = new Map();
+  /**
+   * Track in-progress requests to GET /installers to avoid calling multiple
+   * times when the first is in progress
+   *
+   * @type {Set<string>}
+   */
+  #inProgressRequests = new Set();
 
   /**
    *Creates an instance of UpgradeServer.
@@ -140,10 +147,14 @@ class UpgradeDiscovery extends AsyncService {
    * @param {number} peer.port The port the peer is listening on
    */
   async _onPeer(app, { host, port }) {
-    if (app && app !== this._discoveryKey) return;
+    if (app !== this._discoveryKey) return;
+    const listUrl = `http://${host}:${port}/installers`;
+    // If we are currently querying this peer, bail
+    if (this.#inProgressRequests.has(listUrl)) return;
+    this.#inProgressRequests.add(listUrl);
+
     let installers;
     try {
-      const listUrl = `http://${host}:${port}/installers`;
       // Secure parse of JSON to avoid prototype pollution
       installers = await got(listUrl, {
         parseJson: text => secureJson.parse(text),
@@ -153,11 +164,13 @@ class UpgradeDiscovery extends AsyncService {
     } catch (e) {
       // If we get an error trying to connect to a peer, then remove any
       // installers from that host from our list of available installers
+      // TODO: Emit an error here, mainly for testing
       for (const { installer } of this.#availableInstallers.values()) {
         if (installer.url.startsWith(`http://${host}:${port}`)) {
           this.#availableInstallers.delete(installer.hash);
         }
       }
+      this.#inProgressRequests.delete(listUrl);
       return;
     }
     for (const installer of installers) {
@@ -175,6 +188,7 @@ class UpgradeDiscovery extends AsyncService {
         }, TTL),
       });
     }
+    this.#inProgressRequests.delete(listUrl);
     this._throttledEmitInstallers();
   }
 }
