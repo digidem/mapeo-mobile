@@ -15,7 +15,7 @@ const LOOKUP_INTERVAL = 2000; // milliseconds
 // they are considered offline and forgotten
 const TTL = 4000;
 // How frequently to emit changes to the installers available to download
-const EMIT_THROTTLE = 1000;
+const EMIT_THROTTLE = 5000;
 
 /** @typedef {import('fastify')} Fastify */
 /** @typedef {import('./types').TransferProgress} Download */
@@ -51,6 +51,8 @@ class UpgradeDiscovery extends AsyncService {
    * @type {Set<string>}
    */
   #inProgressRequests = new Set();
+  /** @type {ReturnType<import('dns-discovery')>} */
+  #discovery;
 
   /**
    *Creates an instance of UpgradeServer.
@@ -65,21 +67,24 @@ class UpgradeDiscovery extends AsyncService {
     /** @private */
     this._discoveryKey = discoveryKey;
     /** @private */
-    this._discovery = createDiscovery({
-      server: [],
-      loopback: false,
-    });
-    /** @private */
     this._onPeer = this._onPeer.bind(this);
     /** @private */
-    this._throttledEmitInstallers = throttle(() => {
-      this.emit(
-        "installers",
-        Array.from(this.#availableInstallers.values()).map(
-          value => value.installer
-        )
-      );
-    }, EMIT_THROTTLE);
+    this._throttledEmitInstallers = throttle(
+      () => {
+        // TODO: This could emit up to {EMIT_THROTTLE} milliseconds after the
+        // service has stopped, is this desirable behaviour?
+        // if (this.getState().value !== 'started') return // fix for this
+        // For now going to call flush() on this when stopping
+        this.emit(
+          "installers",
+          Array.from(this.#availableInstallers.values()).map(
+            value => value.installer
+          )
+        );
+      },
+      EMIT_THROTTLE,
+      { leading: false, trailing: true }
+    );
   }
 
   /**
@@ -114,12 +119,16 @@ class UpgradeDiscovery extends AsyncService {
    */
   async _start(port) {
     this.#port = port;
-    this._discovery.announce(this._discoveryKey, port);
-    this._discovery.on("peer", this._onPeer);
+    this.#discovery = createDiscovery({
+      server: [],
+      loopback: false,
+    });
+    this.#discovery.announce(this._discoveryKey, port);
+    this.#discovery.on("peer", this._onPeer);
     this._discoveryInterval = setInterval(() => {
       // Announce only needs to happen once, but lookup needs to happen on an
       // interval so we can check whether peers are still available
-      this._discovery.lookup(this._discoveryKey);
+      this.#discovery.lookup(this._discoveryKey);
     }, LOOKUP_INTERVAL);
   }
 
@@ -131,12 +140,16 @@ class UpgradeDiscovery extends AsyncService {
   async _stop() {
     return new Promise(resolve => {
       this._discoveryInterval && clearInterval(this._discoveryInterval);
-      this._discovery.off("peer", this._onPeer);
+      this.#discovery.off("peer", this._onPeer);
+      // Flush throttled installer emit
+      this._throttledEmitInstallers.flush();
       // NB: Due to a bug in dns-discovery, the callback is always called with
       // an error, but we can safely ignore it
-      this._discovery.unannounce(this._discoveryKey, this.#port, () =>
-        resolve()
-      );
+      this.#discovery.unannounce(this._discoveryKey, this.#port, () => {
+        this.#discovery.destroy(() => {
+          resolve();
+        });
+      });
     });
   }
 
@@ -162,6 +175,7 @@ class UpgradeDiscovery extends AsyncService {
       // Validate response
       if (!isInstallerList(installers)) throw isInstallerList.errors;
     } catch (e) {
+      log("ERROR", e);
       // If we get an error trying to connect to a peer, then remove any
       // installers from that host from our list of available installers
       // TODO: Emit an error here, mainly for testing

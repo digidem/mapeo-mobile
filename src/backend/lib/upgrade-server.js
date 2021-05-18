@@ -90,14 +90,7 @@ class UpgradeServer extends AsyncService {
    * @param {import('./types').Reply<{ Reply: import('./types').InstallerExt[] }>} reply
    */
   async _listInstallersRoute(request, reply) {
-    const addressInfo = this._fastify.server.address();
-    if (!addressInfo || typeof addressInfo === "string") {
-      // Shouldn't get here - this is null when server is closed, string when
-      // listening on a socket. Replying 404 shouldn't do anything.
-      reply.statusCode = 404;
-      return reply.callNotFound();
-    }
-    const urlBase = `${request.protocol}://${addressInfo.address}:${addressInfo.port}${request.routerPath}`;
+    const urlBase = `${request.protocol}://${request.hostname}${request.routerPath}`;
     const installers = (await this._storage.list()).map(installer => {
       const { filepath, ...rest } = installer;
       return { ...rest, url: urlBase + "/" + installer.hash };
@@ -106,13 +99,13 @@ class UpgradeServer extends AsyncService {
   }
 
   /**
-   * Start the server on the specified port.
+   * Start the server on the specified port. Listen on all interfaces.
    *
    * @param {number} port
    * @returns {Promise<void>} Resolves when server is started
    */
   async _start(port) {
-    await this._fastify.listen(port);
+    await this._fastify.listen(port, "0.0.0.0");
   }
 
   /**

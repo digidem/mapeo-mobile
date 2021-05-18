@@ -12,7 +12,7 @@ const hasha = require("hasha");
 const { promisify } = require("util");
 const pipeline = promisify(stream.pipeline);
 const fakeApkInfo = require("./fixtures/fake-apk-info");
-const { readJson, hashCmp } = require("./helpers.js");
+const { readJson, hashCmp, setupStorage } = require("./helpers.js");
 const fsPromises = fs.promises;
 
 /** @typedef {import('../lib/types').InstallerInt} InstallerInt */
@@ -21,36 +21,6 @@ tmp.setGracefulCleanup();
 
 const validApksFolder = path.join(__dirname, "./fixtures/valid-apks");
 const invalidApksFolder = path.join(__dirname, "./fixtures/invalid-apks");
-
-/**
- * @param {string[]} filepaths List of files to copy into temp directory
- * @param {InstallerInt} currentApkInfo
- */
-async function setupStorage(filepaths, currentApkInfo) {
-  const tmpDir = await tmp.dir({ unsafeCleanup: true });
-  const expected = [];
-  for (const filepath of filepaths) {
-    const dstFilepath = path.join(tmpDir.path, path.basename(filepath));
-    await fsPromises.copyFile(filepath, dstFilepath);
-    expected.push({
-      // Just an empty object if readJson throws - sorry for ugly syntax
-      ...(await readJson(
-        filepath.replace(/\.apk$/, ".expected.json")
-      ).catch(() => ({}))),
-      filepath: dstFilepath,
-    });
-  }
-  expected.push(currentApkInfo);
-  return {
-    expected,
-    storage: new Storage({
-      storageDir: tmpDir.path,
-      currentApkInfo,
-    }),
-    cleanup: tmpDir.cleanup,
-    storageDir: tmpDir.path,
-  };
-}
 
 test("emits list of installers on startup", async t => {
   const testApkFilenames = ["com.example.test_minSdk21_VN1.0.0_VC1.apk"];

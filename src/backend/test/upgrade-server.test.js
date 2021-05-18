@@ -17,27 +17,27 @@ const got = require("got").default;
 /** @typedef {import('../lib/types').InstallerInt} InstallerInt */
 
 /** @param {InstallerInt} currentApkInfo */
-async function startServer(currentApkInfo) {
+async function startServer(currentApkInfo, start = false) {
   const tmpDir = await tmp.dir({ unsafeCleanup: true });
   const storage = new UpgradeStorage({
     storageDir: tmpDir.path,
     currentApkInfo,
   });
   const server = new UpgradeServer({ storage });
-  await server.start(await getPort());
-
+  if (start) {
+    await server.start(await getPort());
+  }
   // @ts-ignore - access private _fastify field for testing
   const app = server._fastify;
 
-  const inject = app.inject.bind(server);
+  const inject = app.inject.bind(app);
   const cleanup = async () => {
     await server.stop();
     await tmpDir.cleanup();
   };
-  const {
-    address,
-    port,
-  } = /** @type {import('net').AddressInfo} */ (app.server.address());
+  const { address, port } = /** @type {import('net').AddressInfo} */ (start
+    ? app.server.address()
+    : { address: "localhost", port: 80 });
   const baseUrl = `http://${address}:${port}`;
   return { inject, cleanup, baseUrl, storage };
 }

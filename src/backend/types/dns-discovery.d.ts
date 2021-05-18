@@ -24,6 +24,7 @@ declare module "dns-discovery" {
   interface DiscoveryConstructor {
     (options?: DiscoveryOptions): Discovery;
     new (options?: DiscoveryOptions): Discovery;
+    Discovery: Discovery;
   }
 
   var discovery: DiscoveryConstructor;
