@@ -67,7 +67,8 @@ class Storage extends AsyncService {
       .filter(file => path.extname(file) === ".apk")
       .map(file => path.join(this._storageDir, file));
     const storedInstallerInts = await Promise.all(
-      apkFiles.map(file => getInstallerInfo(file))
+      // Catch errors trying to read the apk file and ignore it
+      apkFiles.map(file => getInstallerInfo(file).catch(() => {}))
     );
     /** @type {string[]} */
     const forDeletion = [];

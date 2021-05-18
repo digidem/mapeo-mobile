@@ -8,6 +8,7 @@ const fs = require("fs");
 const mkdirp = require("mkdirp");
 const { once } = require("events");
 const stream = require("stream");
+const hasha = require("hasha");
 const { promisify } = require("util");
 const pipeline = promisify(stream.pipeline);
 const fakeApkInfo = require("./fixtures/fake-apk-info");
@@ -19,7 +20,7 @@ const fsPromises = fs.promises;
 tmp.setGracefulCleanup();
 
 const validApksFolder = path.join(__dirname, "./fixtures/valid-apks");
-// const invalidApksFolder = path.join(__dirname, "./fixtures/invalid-apks");
+const invalidApksFolder = path.join(__dirname, "./fixtures/invalid-apks");
 
 /**
  * @param {string[]} filepaths List of files to copy into temp directory
@@ -32,7 +33,10 @@ async function setupStorage(filepaths, currentApkInfo) {
     const dstFilepath = path.join(tmpDir.path, path.basename(filepath));
     await fsPromises.copyFile(filepath, dstFilepath);
     expected.push({
-      ...(await readJson(filepath.replace(/\.apk$/, ".expected.json"))),
+      // Just an empty object if readJson throws - sorry for ugly syntax
+      ...(await readJson(
+        filepath.replace(/\.apk$/, ".expected.json")
+      ).catch(() => ({}))),
       filepath: dstFilepath,
     });
   }
@@ -259,4 +263,64 @@ test("leftover files in the upgrade temp dir get wiped on init", async t => {
   await storage.started();
 
   t.notOk(fs.existsSync(filepath), "file does not exist");
+});
+
+test("Invalid APKs that somehow get into storage are ignored", async t => {
+  // TODO: More invalid APK fixtures?
+  const invalidApkFilepaths = (await fsPromises.readdir(invalidApksFolder))
+    .filter(file => file.endsWith(".apk"))
+    .map(file => path.join(invalidApksFolder, file));
+
+  const { storage, cleanup } = await setupStorage(
+    invalidApkFilepaths,
+    fakeApkInfo.v0_0_1
+  );
+
+  t.deepEqual(
+    await storage.list(),
+    [fakeApkInfo.v0_0_1],
+    "Starts with only current apk"
+  );
+
+  await cleanup();
+});
+
+test("Trying to write an invalid APK throws an error (and doesn't leave any files around)", async t => {
+  const invalidApkFilepaths = (await fsPromises.readdir(invalidApksFolder))
+    .filter(file => file.endsWith(".apk"))
+    .map(file => path.join(invalidApksFolder, file));
+
+  const { storage, cleanup, storageDir } = await setupStorage(
+    [],
+    fakeApkInfo.v0_0_1
+  );
+
+  for (const filepath of invalidApkFilepaths) {
+    const hash = await hasha.fromFile(filepath, { algorithm: "sha256" });
+    const ws = storage.createWriteStream({ hash });
+    try {
+      await pipeline(fs.createReadStream(filepath), ws);
+    } catch (e) {
+      t.ok(e instanceof Error, "throws an error");
+    }
+  }
+
+  t.deepEqual(
+    await storage.list(),
+    [fakeApkInfo.v0_0_1],
+    "Still lists only current APK"
+  );
+
+  t.deepEqual(
+    await fsPromises.readdir(storageDir),
+    ["tmp"],
+    "no files left behind"
+  );
+  t.deepEqual(
+    await fsPromises.readdir(path.join(storageDir, "tmp")),
+    [],
+    "no files left behind"
+  );
+
+  await cleanup();
 });
