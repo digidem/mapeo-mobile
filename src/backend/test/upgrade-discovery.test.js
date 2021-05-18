@@ -62,6 +62,41 @@ test("Discovery finds peer and emits available installers", async t => {
   await Promise.all([discovery1.cleanup(), discovery2.cleanup()]);
 });
 
+test.only("If peer goes offline, installers become no longer available", async t => {
+  const testApkFilenames1 = ["com.example.test_minSdk21_VN1.0.0_VC1.apk"];
+  const testApkFilenames2 = ["com.example.test_minSdk21_VN1.1.0_VC1.apk"];
+  const discovery1 = await startDiscovery(
+    testApkFilenames1,
+    fakeApkInfo.v0_0_1
+  );
+  const discovery2 = await startDiscovery(
+    testApkFilenames2,
+    fakeApkInfo.v0_0_1
+  );
+  const installersPromise1st = once(discovery1.discovery, "installers");
+
+  await discovery1.start();
+  await discovery2.start();
+
+  t.deepEqual(
+    (await installersPromise1st)[0].map(normalizeUrl),
+    discovery2.expected.map(normalizeUrl),
+    "Installers are available when discovery2 is started"
+  );
+
+  const installersPromise2nd = once(discovery1.discovery, "installers");
+
+  await discovery2.discovery.stop();
+
+  t.deepEqual(
+    (await installersPromise2nd)[0].map(normalizeUrl),
+    [],
+    "Installers are no longer available after discovery2 has stopped"
+  );
+
+  await Promise.all([discovery1.cleanup(), discovery2.cleanup()]);
+});
+
 // @ts-ignore
 function normalizeUrl({ filepath, ...other }) {
   return {
