@@ -1,0 +1,12 @@
+{
+  "hash": "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+  "hashType": "sha256",
+  "versionName": "1.1.0",
+  "versionCode": 1,
+  "applicationId": "com.example.test",
+  "platform": "android",
+  "arch": ["armeabi-v7a", "arm64-v8a", "x86", "x86_64"],
+  "size": 2098858,
+  "minSdkVersion": 21,
+  "filepath": "/Users/gregor/Dev/DdDev/mapeo-mobile/src/backend/test/fixtures/com.example.test_minSdk21_VN1.0.0_VC1.apk"
+}

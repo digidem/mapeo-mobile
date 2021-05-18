@@ -2,6 +2,9 @@
   "compilerOptions": {
     "target": "es2019",
     "lib": ["es2020"],
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "allowJs": true,
@@ -9,6 +12,6 @@
     "noEmit": true,
     "typeRoots": ["types", "node_modules/@types"]
   },
-  "include": ["**/*.js"],
+  "include": ["**/*"],
   "exclude": ["node_modules"]
 }

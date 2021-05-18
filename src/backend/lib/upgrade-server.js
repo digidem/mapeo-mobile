@@ -1,276 +1,119 @@
-const pump = require("pump");
-const discovery = require("dns-discovery");
-const EventEmitter = require("events").EventEmitter;
-const RWLock = require("rwlock");
-const http = require("http");
-const { DISCOVERY_KEY, UpgradeState } = require("./constants");
-const log = require("debug")("p2p-upgrades:server");
+// @ts-check
+
+const { fastify: createFastify } = require("fastify");
 const progressStream = require("progress-stream");
+const { NotFound: NotFoundError } = require("http-errors");
+const { InstallerListSchema } = require("./schema");
+const pump = require("pump");
+const throttle = require("lodash/throttle");
+const AsyncService = require("./async-service");
 
-/*
-type Uploads = [UploadInfo]
-
-type UploadInfo = {
-  sofar: Number,
-  total: Number
-}
-*/
+/** @typedef {import('fastify')} Fastify */
+/** @typedef {import('./types').TransferProgress} Upload */
+/**
+ * @typedef {Object} Events
+ * @property {(uploads: Upload[]) => void} uploads
+ * @property {(error?: Error) => void} error
+ */
 
 // How frequently to emit progress events (in ms)
-const PROGRESS_THROTTLE_MS = 400; // milliseconds
+const EMIT_THROTTLE = 400; // milliseconds
 
-class UpgradeServer extends EventEmitter {
-  constructor(storage, port) {
+/**
+ * @extends {AsyncService<Events, [number]>}
+ */
+class UpgradeServer extends AsyncService {
+  /**
+   * @param {object} options
+   * @param {InstanceType<typeof import('./upgrade-storage')>} options.storage
+   */
+  constructor({ storage }) {
     super();
-    this.storage = storage;
-    this.stateLock = new RWLock();
-    this.state = null;
-    this.context = null;
-    this.setState(UpgradeState.Server.Idle, null);
-    this.port = port;
-    this.server = http.createServer((req, res) => {
-      log("got http request", req.url, req.headers.host);
-      if (!this.handleHttpRequest(req, res)) {
-        log("invalid route", req.url);
-        res.statusCode = 404;
-        res.end();
-      }
-    });
-    this.announceInterval = null;
+    /** @private */
+    this._storage = storage;
+    /**
+     * @private
+     * @type {Set<Upload>}
+     */
+    this._uploads = new Set();
 
-    // In-progress uploads
-    this.uploads = [];
+    // TODO: Only turn on logger in dev mode, since this has a perf overhead
+    // in react native
+    /** @private */
+    this._fastify = createFastify({ logger: true });
+
+    this._fastify.get(
+      "/installers",
+      { schema: { response: { 200: InstallerListSchema } } },
+      this._listInstallersRoute.bind(this)
+    );
+    this._fastify.get("/installers/:id", this._getInstallerRoute.bind(this));
+
+    // Even though each progress stream is throttled, if there are multiple
+    // uploads at the same time, we still want to throttle the combination of
+    // all progress events
+    this.throttledEmitUploads = throttle(() => {
+      this.emit("uploads", Array.from(this._uploads));
+    }, EMIT_THROTTLE);
   }
 
-  // XXX: public; also no concurrency guards!
-  setState(to, context) {
-    this.state = to;
-    this.context = context;
-    this.emit("state", this.state, this.context);
-  }
+  /**
+   * @private
+   * @param {import('./types').Request<{ Params: { id: string }}>} request
+   * @param {import('fastify').FastifyReply} reply
+   */
+  async _getInstallerRoute(request, reply) {
+    const installer = await this._storage.get(request.params.id);
+    if (!installer) return reply.send(new NotFoundError());
 
-  // Callback<Void> -> Void
-  share(cb) {
-    this.stateLock.writeLock(release => {
-      function done() {
-        release();
-        if (cb) cb();
-      }
+    /** @type {Upload} */
+    const upload = { id: installer.hash, sofar: 0, total: installer.size };
 
-      if (this.state !== UpgradeState.Server.Idle) {
-        log("tried to share() when not in idle state");
-        return done();
-      }
-
-      log("starting discovery..");
-      const opts = {
-        server: [],
-        loopback: false,
-      };
-      this.discovery = discovery(opts);
-      this.server.listen(this.port, "0.0.0.0", () => {
-        log("announcing on", DISCOVERY_KEY);
-        this.announceInterval = setInterval(() => {
-          this.discovery.announce(DISCOVERY_KEY, this.port);
-        }, 2000);
-        this.setState(UpgradeState.Server.Sharing, this.uploads);
-        done();
-      });
-    });
-  }
-
-  // Callback<Void> -> Void
-  drain(cb) {
-    this.stateLock.writeLock(release => {
-      const self = this;
-      function done(err) {
-        if (err) self.setState(UpgradeState.Server.Error, err);
-        release();
-        if (cb) cb(err);
-      }
-
-      if (this.state !== UpgradeState.Server.Sharing) {
-        log("tried to drain() when not in share state");
-        return done();
-      }
-
-      this.setState(UpgradeState.Server.Draining, this.uploads);
-      if (this.uploads.length === 0) {
-        log("drain: no current uploads; stopping immediately");
-        return stop.bind(this)();
-      }
-
-      // wait for all uploads to finish
-      log(`drain: waiting for ${this.uploads.length} uploads to finish`);
-      release();
-      this.on("upload-complete", oncomplete.bind(this));
-      function oncomplete() {
-        if (this.uploads.length === 0) {
-          log("drain: no uploads left; stopping now");
-          this.removeListener("upload", oncomplete);
-          stop.call(this);
-        } else {
-          log(
-            `drain: still waiting for ${this.uploads.length} uploads to finish`
-          );
-        }
-      }
-
-      function stop() {
-        log("drain: stopping..");
-
-        clearInterval(this.announceInterval);
-        this.announceInterval = null;
-
-        // XXX: 'unannounce' seems to always return an error here; ignoring.
-        this.discovery.unannounce(DISCOVERY_KEY, this.port, _ => {
-          log("drain: ..discovery unannounced");
-          this.discovery.destroy(err => {
-            if (err) {
-              log("drain: ..discovery destroy failed:", err);
-              return done(err);
-            }
-            log("drain: ..discovery destroyed");
-            this.server.close(() => {
-              log("drain: ..server closed -- all stopped");
-              this.discovery = null;
-              this.setState(UpgradeState.Server.Idle, null);
-              done();
-            });
-          });
-        });
-      }
-    });
-  }
-
-  // HttpRequest, HttpResponse -> Bool
-  handleHttpRequest(req, res) {
-    if (!this.handleListRequest(req, res)) {
-      if (!this.handleGetContentRequest(req, res)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  // HttpRequest, HttpResponse -> Void
-  handleListRequest(req, res) {
-    if (req.method !== "GET" || req.url !== "/list") return false;
-    const reqId = Math.floor(Math.random() * 1000000).toString(16);
-    log(reqId, "received /list request");
-
-    this.stateLock.readLock(release => {
-      if (this.state !== UpgradeState.Server.Sharing) {
-        log(reqId, "unable to service request");
-        res.statusCode = 503;
-        res.end('"service unavailable"');
-        return release();
-      }
-
-      getAvailableUpgrades(this.storage, (err, options) => {
-        if (err) {
-          log(reqId, "failed to get available upgrades from storage");
-          res.statusCode = 500;
-          res.end(err.toString());
-        } else {
-          log(reqId, "served request ok");
-          res.statusCode = 200;
-          res.end(JSON.stringify(options));
-        }
-        return release();
-      });
+    const readStream = this._storage.createReadStream(request.params.id);
+    const progress = progressStream({ length: installer.size }, progress => {
+      upload.sofar = progress.transferred;
+      this.throttledEmitUploads();
     });
 
-    return true;
+    await reply.send(pump(readStream, progress));
+    // Reply is now finished
+    this._uploads.delete(upload);
+    this.throttledEmitUploads();
   }
 
-  // HttpRequest, HttpResponse -> Void
-  handleGetContentRequest(req, res) {
-    const m = req.url.match(/\/content\/(.*)$/);
-    if (req.method !== "GET" || !m) return false;
-
-    const reqId = Math.floor(Math.random() * 1000000).toString(16);
-    log(reqId, "received /content request");
-
-    this.stateLock.readLock(release => {
-      if (this.state !== UpgradeState.Server.Sharing) {
-        log(reqId, "unable to service request");
-        res.statusCode = 503;
-        res.end('"service unavailable"');
-        return release();
-      }
-
-      getAvailableUpgrades(this.storage, (err, options) => {
-        if (err) {
-          log(reqId, "failed to get available upgrades from storage");
-          res.statusCode = 500;
-          res.end(err.toString());
-          return release();
-        }
-
-        const hash = m[1];
-        const option = options.filter(o => o.hash === hash)[0];
-        if (!option) {
-          log(reqId, "request for non-existant upgrade:", hash);
-          res.statusCode = 404;
-          res.end('"no such upgrade"');
-          return release();
-        }
-
-        const rs = this.storage.createReadStream(hash);
-        if (!rs) {
-          log(reqId, "internal failure to read upgrade data:", hash);
-          res.statusCode = 500;
-          res.end('"could not read upgrade data"');
-          return release();
-        }
-
-        const upload = {
-          sofar: 0,
-          total: option.size,
-        };
-        this.uploads.push(upload);
-        this.setState(this.state, this.uploads);
-
-        const tracker = progressStream({
-          length: option.size,
-          time: PROGRESS_THROTTLE_MS, // ms between each progress event
-        });
-        tracker.on("progress", ({ transferred }) => {
-          upload.sofar = transferred;
-          this.setState(this.state, this.uploads);
-        });
-
-        log(reqId, "piping file data to client for hash:", hash);
-        res.statusCode = 200;
-        pump(rs, tracker, res, err => {
-          this.uploads = this.uploads.filter(u => u !== upload);
-          this.setState(this.state, this.uploads);
-          if (err) {
-            log(reqId, "upload for", hash, "failed:", err);
-          } else {
-            log(reqId, "upload for", hash, "complete");
-          }
-          this.emit("upload-complete", upload);
-        });
-
-        return release();
-      });
+  /**
+   * @private
+   * @param {import('fastify').FastifyRequest} request
+   * @param {import('./types').Reply<{ Reply: import('./types').InstallerExt[] }>} reply
+   */
+  async _listInstallersRoute(request, reply) {
+    const urlBase = `${request.protocol}://${request.hostname}${request.routerPath}`;
+    const installers = (await this._storage.list()).map(installer => {
+      const { filepath, ...rest } = installer;
+      return { ...rest, url: urlBase + "/" + installer.hash };
     });
-
-    return true;
+    reply.send(installers);
   }
-}
 
-function getAvailableUpgrades(storage, cb) {
-  storage.getAvailableUpgrades((err, options) => {
-    if (err) return cb(err);
-    options.forEach(o => {
-      delete o.filename;
-      return o;
-    });
-    cb(null, options);
-  });
+  /**
+   * Start the server on the specified port.
+   *
+   * @param {number} port
+   * @returns {Promise<void>} Resolves when server is started
+   */
+  async _start(port) {
+    await this._fastify.listen(port);
+  }
+
+  /**
+   * Stop the server from accepting new connections. Will resolve when all
+   * active connections are closed
+   *
+   * @returns {Promise<void>}
+   */
+  async _stop() {
+    await this._fastify.close();
+  }
 }
 
 module.exports = UpgradeServer;
