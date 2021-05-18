@@ -62,7 +62,10 @@ function installerCompare(a, b) {
  */
 function isUpgradeCandidate({ deviceInfo, installer, currentApkInfo }) {
   // TODO: 64 bit devices can run 32 bit APKs
-  if (!installer.arch.includes(deviceInfo.arch)) return false;
+  const isSupportedAbi = !!installer.arch.find(arch =>
+    deviceInfo.supportedAbis.includes(arch)
+  );
+  if (!isSupportedAbi) return false;
   if (installer.minSdkVersion > deviceInfo.sdkVersion) return false;
   if (installer.applicationId !== currentApkInfo.applicationId) return false;
   if (installer.platform !== "android") return false;
