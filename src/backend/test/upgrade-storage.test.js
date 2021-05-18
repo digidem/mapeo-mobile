@@ -10,7 +10,8 @@ const { once } = require("events");
 const stream = require("stream");
 const { promisify } = require("util");
 const pipeline = promisify(stream.pipeline);
-
+const fakeApkInfo = require("./fixtures/fake-apk-info");
+const { readJson, hashCmp } = require("./helpers.js");
 const fsPromises = fs.promises;
 
 /** @typedef {import('../lib/types').InstallerInt} InstallerInt */
@@ -47,34 +48,6 @@ async function setupStorage(filepaths, currentApkInfo) {
   };
 }
 
-/** @type {InstallerInt} */
-const FAKE_APK_INFO_MIN = {
-  hash: "810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50",
-  size: 8,
-  versionName: "0.0.1",
-  minSdkVersion: 1,
-  applicationId: "com.example",
-  versionCode: 1,
-  hashType: "sha256",
-  platform: "android",
-  arch: ["arm64-v8a"],
-  filepath: "non-existent.apk",
-};
-
-/** @type {InstallerInt} */
-const FAKE_APK_INFO_V2 = {
-  hash: "810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50",
-  size: 8,
-  versionName: "2.0.0",
-  minSdkVersion: 1,
-  applicationId: "com.example",
-  versionCode: 1,
-  hashType: "sha256",
-  platform: "android",
-  arch: ["arm64-v8a"],
-  filepath: "non-existent.apk",
-};
-
 test("emits list of installers on startup", async t => {
   const testApkFilenames = ["com.example.test_minSdk21_VN1.0.0_VC1.apk"];
   const filepaths = testApkFilenames.map(filename =>
@@ -82,7 +55,7 @@ test("emits list of installers on startup", async t => {
   );
   const { storage, expected, cleanup } = await setupStorage(
     filepaths,
-    FAKE_APK_INFO_MIN
+    fakeApkInfo.v0_0_1
   );
 
   const [installers] = await once(storage, "installers");
@@ -99,7 +72,7 @@ test("list() returns info about installers in storage and the current APK", asyn
   );
   const { storage, expected, cleanup } = await setupStorage(
     filepaths,
-    FAKE_APK_INFO_MIN
+    fakeApkInfo.v0_0_1
   );
 
   const installers = await storage.list();
@@ -110,17 +83,17 @@ test("list() returns info about installers in storage and the current APK", asyn
 });
 
 test("get() returns info about installers referenced by hash", async t => {
-  const { storage, cleanup } = await setupStorage([], FAKE_APK_INFO_MIN);
+  const { storage, cleanup } = await setupStorage([], fakeApkInfo.v0_0_1);
 
-  const installer = await storage.get(FAKE_APK_INFO_MIN.hash);
+  const installer = await storage.get(fakeApkInfo.v0_0_1.hash);
 
-  t.deepEqual(installer, FAKE_APK_INFO_MIN);
+  t.deepEqual(installer, fakeApkInfo.v0_0_1);
 
   await cleanup();
 });
 
 test("get() returns undefined if no APK with given hash exists", async t => {
-  const { storage, cleanup } = await setupStorage([], FAKE_APK_INFO_MIN);
+  const { storage, cleanup } = await setupStorage([], fakeApkInfo.v0_0_1);
 
   const installer = await storage.get("non-existent-hash");
 
@@ -137,7 +110,7 @@ test("Older APKs are deleted after initialization", async t => {
   );
   const { storage, storageDir, cleanup } = await setupStorage(
     filepaths,
-    FAKE_APK_INFO_V2
+    fakeApkInfo.v2_0_0
   );
 
   const installers = await storage.list();
@@ -145,7 +118,7 @@ test("Older APKs are deleted after initialization", async t => {
   t.equal(installers.length, 1, "Only one installer now");
   t.equal(
     installers[0].hash,
-    FAKE_APK_INFO_V2.hash,
+    fakeApkInfo.v2_0_0.hash,
     "The only installer is own APK"
   );
   t.deepEqual(
@@ -160,7 +133,7 @@ test("Older APKs are deleted after initialization", async t => {
 test("createWriteStream() --> new APK appears as an available installer", async t => {
   const { storage, cleanup, storageDir } = await setupStorage(
     [],
-    FAKE_APK_INFO_MIN
+    fakeApkInfo.v0_0_1
   );
 
   // Check both list() and "installers" event
@@ -171,12 +144,12 @@ test("createWriteStream() --> new APK appears as an available installer", async 
 
   t.deepEqual(
     installersFromList,
-    [FAKE_APK_INFO_MIN],
+    [fakeApkInfo.v0_0_1],
     "Starts with only current apk"
   );
   t.deepEqual(
     installersFromEvent,
-    [FAKE_APK_INFO_MIN],
+    [fakeApkInfo.v0_0_1],
     "Starts with only current apk"
   );
 
@@ -218,11 +191,11 @@ test("createWriteStream() --> new APK appears as an available installer", async 
 });
 
 test("A failed write does not appear as an upgrade option", async t => {
-  const { storage, cleanup } = await setupStorage([], FAKE_APK_INFO_MIN);
+  const { storage, cleanup } = await setupStorage([], fakeApkInfo.v0_0_1);
 
   t.deepEqual(
     await storage.list(),
-    [FAKE_APK_INFO_MIN],
+    [fakeApkInfo.v0_0_1],
     "Starts with only current apk"
   );
 
@@ -235,7 +208,7 @@ test("A failed write does not appear as an upgrade option", async t => {
 
   t.deepEqual(
     await storage.list(),
-    [FAKE_APK_INFO_MIN],
+    [fakeApkInfo.v0_0_1],
     "Still lists only current APK"
   );
 
@@ -243,11 +216,11 @@ test("A failed write does not appear as an upgrade option", async t => {
 });
 
 test("createWriteStream() --> invalid hash = installer does not appear as option", async t => {
-  const { storage, cleanup } = await setupStorage([], FAKE_APK_INFO_MIN);
+  const { storage, cleanup } = await setupStorage([], fakeApkInfo.v0_0_1);
 
   t.deepEqual(
     await storage.list(),
-    [FAKE_APK_INFO_MIN],
+    [fakeApkInfo.v0_0_1],
     "Starts with only current apk"
   );
 
@@ -264,7 +237,7 @@ test("createWriteStream() --> invalid hash = installer does not appear as option
 
   t.deepEqual(
     await storage.list(),
-    [FAKE_APK_INFO_MIN],
+    [fakeApkInfo.v0_0_1],
     "Installer with invalid hash does not appear as an option"
   );
 
@@ -281,30 +254,9 @@ test("leftover files in the upgrade temp dir get wiped on init", async t => {
 
   const storage = new Storage({
     storageDir,
-    currentApkInfo: FAKE_APK_INFO_MIN,
+    currentApkInfo: fakeApkInfo.v0_0_1,
   });
   await storage.started();
 
   t.notOk(fs.existsSync(filepath), "file does not exist");
 });
-
-/**
- * @param {string} filepath
- * @returns {Promise<any>}
- */
-async function readJson(filepath) {
-  return JSON.parse(await fsPromises.readFile(filepath, "utf-8"));
-}
-
-/**
- * Helper to deterministically sort installers by hash
- *
- * @param {InstallerInt} a
- * @param {InstallerInt} b
- * @returns -1 | 0 | 1
- */
-function hashCmp(a, b) {
-  if (a.hash < b.hash) return -1;
-  if (a.hash > b.hash) return 1;
-  return 0;
-}

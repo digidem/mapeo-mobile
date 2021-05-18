@@ -2,7 +2,6 @@
 
 const { fastify: createFastify } = require("fastify");
 const progressStream = require("progress-stream");
-const { NotFound: NotFoundError } = require("http-errors");
 const { InstallerListSchema } = require("./schema");
 const pump = require("pump");
 const throttle = require("lodash/throttle");
@@ -26,8 +25,9 @@ class UpgradeServer extends AsyncService {
   /**
    * @param {object} options
    * @param {InstanceType<typeof import('./upgrade-storage')>} options.storage
+   * @param {import('fastify').FastifyServerOptions['logger']} [options.logger]
    */
-  constructor({ storage }) {
+  constructor({ storage, logger }) {
     super();
     /** @private */
     this._storage = storage;
@@ -40,7 +40,7 @@ class UpgradeServer extends AsyncService {
     // TODO: Only turn on logger in dev mode, since this has a perf overhead
     // in react native
     /** @private */
-    this._fastify = createFastify({ logger: true });
+    this._fastify = createFastify({ logger });
 
     this._fastify.get(
       "/installers",
@@ -64,7 +64,10 @@ class UpgradeServer extends AsyncService {
    */
   async _getInstallerRoute(request, reply) {
     const installer = await this._storage.get(request.params.id);
-    if (!installer) return reply.send(new NotFoundError());
+    if (!installer) {
+      reply.statusCode = 404;
+      return reply.callNotFound();
+    }
 
     /** @type {Upload} */
     const upload = { id: installer.hash, sofar: 0, total: installer.size };
@@ -87,7 +90,14 @@ class UpgradeServer extends AsyncService {
    * @param {import('./types').Reply<{ Reply: import('./types').InstallerExt[] }>} reply
    */
   async _listInstallersRoute(request, reply) {
-    const urlBase = `${request.protocol}://${request.hostname}${request.routerPath}`;
+    const addressInfo = this._fastify.server.address();
+    if (!addressInfo || typeof addressInfo === "string") {
+      // Shouldn't get here - this is null when server is closed, string when
+      // listening on a socket. Replying 404 shouldn't do anything.
+      reply.statusCode = 404;
+      return reply.callNotFound();
+    }
+    const urlBase = `${request.protocol}://${addressInfo.address}:${addressInfo.port}${request.routerPath}`;
     const installers = (await this._storage.list()).map(installer => {
       const { filepath, ...rest } = installer;
       return { ...rest, url: urlBase + "/" + installer.hash };

@@ -7,7 +7,7 @@
   },
   "scripts": {
     "lint": "eslint *.js \"lib/*.js\" \"test/*.js\"",
-    "test": "tape \"test/**/*.js\""
+    "test": "tape \"test/**/*.test.js\""
   },
   "description": "Mapeo Core running on nodejs-mobile",
   "main": "main.js",
@@ -28,7 +28,6 @@
     "get-port": "^5.1.1",
     "got": "^11.8.2",
     "hasha": "^5.2.2",
-    "http-errors": "^1.8.0",
     "kappa-core": "^4.0.1",
     "kappa-osm": "^3.1.1",
     "level": "^5.0.1",
@@ -54,7 +53,6 @@
   "devDependencies": {
     "@types/debug": "^4.1.5",
     "@types/duplexify": "^3.6.0",
-    "@types/http-errors": "^1.8.0",
     "@types/lodash": "^4.14.169",
     "@types/mkdirp": "^1.0.1",
     "@types/node": "^12.20.13",

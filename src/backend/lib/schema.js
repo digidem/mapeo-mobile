@@ -8,7 +8,7 @@ const ajv = addFormats(new Ajv(), ["uri", "regex"])
   .addKeyword("kind")
   .addKeyword("modifier");
 
-export const InstallerExtSchema = Type.Object({
+const InstallerExtSchema = Type.Object({
   hash: Type.RegEx(/^[0-9a-fA-F]+$/, { minLength: 64, maxLength: 64 }),
   hashType: Type.Literal("sha256"),
   versionName: Type.String(),
@@ -35,7 +35,13 @@ export const InstallerExtSchema = Type.Object({
   url: Type.String({ format: "uri" }),
 });
 
-export const InstallerListSchema = Type.Array(InstallerExtSchema);
+const InstallerListSchema = Type.Array(InstallerExtSchema);
 
 /** @type {import('ajv').ValidateFunction<import('@sinclair/typebox').Static<typeof InstallerListSchema>>} */
-export const isInstallerList = ajv.compile(InstallerListSchema);
+const isInstallerList = ajv.compile(InstallerListSchema);
+
+module.exports = {
+  InstallerExtSchema,
+  InstallerListSchema,
+  isInstallerList,
+};
