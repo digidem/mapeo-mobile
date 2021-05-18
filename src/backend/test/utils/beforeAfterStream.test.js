@@ -2,6 +2,8 @@
 const { beforeAfterStream } = require("../../lib/utils");
 const test = require("tape");
 const stream = require("stream");
+// const { promisify } = require("util");
+// const finished = promisify(stream.finished);
 
 // WriteableStream keeps chunks written to it for testing
 function collectStream() {
@@ -15,7 +17,7 @@ function collectStream() {
 }
 
 test("beforeAfterStream: run order is correct", t => {
-  t.plan(3);
+  t.plan(4);
   const testChunks = ["hello", "world", "goodbye"];
   const events = [];
   const outerStream = beforeAfterStream({
@@ -48,22 +50,18 @@ test("beforeAfterStream: run order is correct", t => {
     events.push("outerStreamFinish");
     t.deepEqual(
       events,
-      [
-        "innerStreamFinish",
-        "finalizeFunctionDone",
-        "outerStreamEnd",
-        "outerStreamFinish",
-      ],
+      ["innerStreamFinish", "finalizeFunctionDone", "outerStreamFinish"],
       "Order is correct: inner stream finishes; finalize function executes; outer stream finishes"
     );
   });
+
   (async () => {
     outerStream.write(testChunks[0]);
     outerStream.write(testChunks[1]);
     await new Promise(res => setTimeout(res, 100));
     outerStream.write(testChunks[2]);
     outerStream.end(e => {
-      events.push("outerStreamEnd");
+      t.error(e, "Ended without error");
     });
   })();
 });
@@ -124,16 +122,14 @@ test("beforeAfterStream: if createStream throws, the stream will emit error (cre
     t.equal(e, testError, "emits error thrown from createStream()");
   });
 
+  stream.finished(outerStream, e => {
+    t.equal(e, testError, "finishes with error");
+  });
+
   setTimeout(() => {
     outerStream.write("hello");
     outerStream.write("world");
-    outerStream.end(e => {
-      t.equal(
-        e.code,
-        "ERR_STREAM_DESTROYED",
-        "Attempt to call end() returns ERR_STREAM_DESTROYED"
-      );
-    });
+    outerStream.end();
   }, 100);
 });
 
@@ -150,16 +146,13 @@ test("beforeAfterStream: if createStream throws, the stream will emit error (wri
   outerStream.on("error", e => {
     t.equal(e, testError, "emits error thrown from createStream()");
   });
+  stream.finished(outerStream, e => {
+    t.equal(e, testError, "finishes with error");
+  });
   outerStream.write("hello");
   outerStream.write("world");
   setTimeout(() => {
-    outerStream.end(e => {
-      t.equal(
-        e.code,
-        "ERR_STREAM_DESTROYED",
-        "Attempt to call end() returns ERR_STREAM_DESTROYED"
-      );
-    });
+    outerStream.end();
   }, 100);
 });
 
@@ -179,11 +172,12 @@ test("beforeAfterStream: if finalize throws, the stream will end with error", t 
   outerStream.on("error", e => {
     t.equal(e, testError, "emits error thrown from finalize()");
   });
+  stream.finished(outerStream, e => {
+    t.equal(e, testError, "finishes with error");
+  });
   outerStream.write("hello");
   outerStream.write("world");
   setTimeout(() => {
-    outerStream.end(e => {
-      t.equal(e, testError, "ends with error thrown from finalize()");
-    });
+    outerStream.end();
   }, 200);
 });
