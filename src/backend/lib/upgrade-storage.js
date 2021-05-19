@@ -57,7 +57,7 @@ class Storage extends AsyncService {
 
   /**
    * Initialize storage, runs on initialization of class, other methods can
-   * await this.read() and will always run after this init
+   * await this.started() and will only run after this initialization
    */
   async _start() {
     await rimraf(this._tmpdir);
