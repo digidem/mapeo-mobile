@@ -5,6 +5,7 @@ const tmp = require("tmp-promise");
 const Storage = require("../lib/upgrade-storage");
 
 /** @typedef {import('../lib/types').InstallerInt} InstallerInt */
+/** @typedef {import('../lib/types').InstallerExt} InstallerExt */
 
 module.exports = {
   readJson,
@@ -23,8 +24,8 @@ async function readJson(filepath) {
 /**
  * Helper to deterministically sort installers by hash
  *
- * @param {InstallerInt} a
- * @param {InstallerInt} b
+ * @param {InstallerInt | InstallerExt} a
+ * @param {InstallerInt | InstallerExt} b
  * @returns -1 | 0 | 1
  */
 function hashCmp(a, b) {

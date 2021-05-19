@@ -9,13 +9,9 @@ const throttle = require("lodash/throttle");
 const stream = require("stream");
 const log = require("debug")("p2p-upgrades:discovery");
 
-// How frequently to query other peers for available upgrades
-const LOOKUP_INTERVAL = 2000; // milliseconds
 // TTL for discovered peers, if they are not seen for more than this period then
 // they are considered offline and forgotten
 const TTL = 4000;
-// How frequently to emit changes to the installers available to download
-const EMIT_THROTTLE = 5000;
 
 /** @typedef {import('fastify')} Fastify */
 /** @typedef {import('./types').TransferProgress} Download */
@@ -55,17 +51,22 @@ class UpgradeDiscovery extends AsyncService {
   #discovery;
 
   /**
-   *Creates an instance of UpgradeServer.
+   *Creates an instance of UpgradeDiscovery.
    * @param {object} options
-   * @param {InstanceType<typeof import('./upgrade-storage')>} options.storage Instance of UpgradeStorage
    * @param {string} options.discoveryKey discovery key for lookups
+   * @param {number} [options.installerEmitThrottle=5000] number of ms to wait between emitting a list of available installers - mainly used for testing,
+   * @param {number} [options.lookupInterval=2000] How frequently (in ms) to query other peers for available upgrades - mainly for testing
    */
-  constructor({ storage, discoveryKey }) {
+  constructor({
+    discoveryKey,
+    installerEmitThrottle = 5000,
+    lookupInterval = 2000,
+  }) {
     super();
     /** @private */
-    this._storage = storage;
-    /** @private */
     this._discoveryKey = discoveryKey;
+    /** @private */
+    this._lookupInterval = lookupInterval;
     /** @private */
     this._onPeer = this._onPeer.bind(this);
     /** @private */
@@ -82,7 +83,7 @@ class UpgradeDiscovery extends AsyncService {
           )
         );
       },
-      EMIT_THROTTLE,
+      installerEmitThrottle,
       { leading: false, trailing: true }
     );
   }
@@ -93,7 +94,7 @@ class UpgradeDiscovery extends AsyncService {
    * @param {string} hash
    * @returns {import('stream').Readable}
    */
-  createReadSteam(hash) {
+  createReadStream(hash) {
     const installer = this.#availableInstallers.get(hash);
     if (installer) {
       const stream = got.stream(installer.installer.url);
@@ -103,6 +104,7 @@ class UpgradeDiscovery extends AsyncService {
         // available
         clearTimeout(installer.timeoutId);
         this.#availableInstallers.delete(hash);
+        this._throttledEmitInstallers();
       });
       return stream;
     }
@@ -129,7 +131,7 @@ class UpgradeDiscovery extends AsyncService {
       // Announce only needs to happen once, but lookup needs to happen on an
       // interval so we can check whether peers are still available
       this.#discovery.lookup(this._discoveryKey);
-    }, LOOKUP_INTERVAL);
+    }, this._lookupInterval);
   }
 
   /**
@@ -165,7 +167,6 @@ class UpgradeDiscovery extends AsyncService {
     // If we are currently querying this peer, bail
     if (this.#inProgressRequests.has(listUrl)) return;
     this.#inProgressRequests.add(listUrl);
-
     let installers;
     try {
       // Secure parse of JSON to avoid prototype pollution

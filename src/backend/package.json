@@ -65,6 +65,7 @@
     "clone": "^2.1.2",
     "collect-stream": "^1.2.1",
     "eslint": "^7.20.0",
+    "get-stream": "^6.0.1",
     "getport": "^0.1.0",
     "node-gyp-build": "^4.2.3",
     "noderify": "^5.0.0",

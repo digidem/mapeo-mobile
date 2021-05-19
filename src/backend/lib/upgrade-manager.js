@@ -100,7 +100,6 @@ class UpgradeManager extends AsyncService {
     this._server = new UpgradeServer({ storage: this._storage });
     /** @private */
     this._discovery = new UpgradeDiscovery({
-      storage: this._storage,
       discoveryKey: currentApkInfo.applicationId,
     });
 
@@ -190,7 +189,7 @@ class UpgradeManager extends AsyncService {
         total: upgradeCandidate.size,
       };
 
-      const rs = this._discovery.createReadSteam(candidateHash);
+      const rs = this._discovery.createReadStream(candidateHash);
       const progress = progressStream(
         { length: upgradeCandidate.size },
         progress => {
