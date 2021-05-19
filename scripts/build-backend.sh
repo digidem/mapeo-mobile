@@ -37,6 +37,7 @@ echo -en "Minifying with noderify..."
   --filter=async_hooks \
   --filter=utf-8-validate \
   --filter=bufferutil \
+  --filter=worker_threads \
   index.js > ../nodejs-project/index.js
 cd ../..
 echo -en " done.\n"
