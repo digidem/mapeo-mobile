@@ -30,6 +30,9 @@ cd ./nodejs-assets/backend && npm ci
 
 echo -en "Minifying with noderify..."
 # https://github.com/digidem/mapeo-mobile/issues/521
+# noderify does not realize that worker_threads and http2 are built-in node modules
+# pino-pretty is conditionally required by fastify, but we don't need it
+# memcpy is a sub-dependency of the APK parser, but it is optional
 "$(npm bin)/noderify" \
   --replace.bindings=bindings-noderify-nodejs-mobile \
   --filter=rn-bridge \
@@ -38,6 +41,9 @@ echo -en "Minifying with noderify..."
   --filter=utf-8-validate \
   --filter=bufferutil \
   --filter=worker_threads \
+  --filter=http2 \
+  --filter=pino-pretty \
+  --filter=memcpy \
   index.js > ../nodejs-project/index.js
 cd ../..
 echo -en " done.\n"
