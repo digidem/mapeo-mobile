@@ -73,6 +73,7 @@ function isUpgradeCandidate({ deviceInfo, installer, currentApkInfo }) {
   if (installer.platform !== "android") return false;
   if (installer.versionCode < currentApkInfo.versionCode) return false;
   if (!semver.valid(installer.versionName)) return false;
+  if (installerCompare(installer, currentApkInfo) < 1) return false;
   // TODO: Check for internal and release candidate builds e.g. a release
   // candidate is only an upgrade candidate if the current apk is a release
   // candidate
