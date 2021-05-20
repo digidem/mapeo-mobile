@@ -98,7 +98,7 @@ class UpgradeDiscovery extends AsyncService {
     const installer = this.#availableInstallers.get(hash);
     if (installer) {
       const stream = got.stream(installer.installer.url);
-      stream.on("error", e => {
+      stream.once("error", e => {
         log("Download error", e);
         // Remove from available installers - probably errored because no longer
         // available
