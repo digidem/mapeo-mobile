@@ -1,30 +1,42 @@
 const test = require("tape");
 const { isUpgradeCandidate } = require("../../lib/utils");
-const fakeApkInfo = require("../fixtures/fake-apk-info");
+const fs = require("fs");
+const path = require("path");
 
-test("1.0.0 should update to 1.0.1 and 1.2.0 but not to 1.0.0-RC", t => {
-  t.plan(3);
-  const deviceInfo = {
-    supportedAbis: fakeApkInfo.v1_0_0.arch,
-    sdkVersion: 1,
-  };
-  const currentApkInfo = fakeApkInfo.v1_0_0;
-  const res101 = isUpgradeCandidate({
-    deviceInfo: deviceInfo,
-    currentApkInfo: currentApkInfo,
-    installer: fakeApkInfo.v1_0_1,
-  });
-  t.ok(res101);
-  const res120 = isUpgradeCandidate({
-    deviceInfo: deviceInfo,
-    currentApkInfo: currentApkInfo,
-    installer: fakeApkInfo.v1_2_0,
-  });
-  t.ok(res120);
-  const res100RC = isUpgradeCandidate({
-    deviceInfo: deviceInfo,
-    currentApkInfo: currentApkInfo,
-    installer: fakeApkInfo.v1_0_0_RC,
-  });
-  t.false(res100RC);
+const validUpgradeCandidates = path.join(__dirname, "valid-upgrade-candidates");
+const inValidUpgradeCandidates = path.join(
+  __dirname,
+  "invalid-upgrade-candidates"
+);
+
+test("isUpgradeCandidate: valid upgrade candidates", t => {
+  const candidates = fs.readdirSync(validUpgradeCandidates);
+  t.plan(candidates.length);
+  for (const candidate of candidates) {
+    const config = fs.readFileSync(
+      path.join(validUpgradeCandidates, candidate)
+    );
+    const json = JSON.parse(config);
+    const res = isUpgradeCandidate(json);
+    t.ok(
+      res,
+      `${candidate}: ${json.installer.versionName} is valid upgrade for ${json.currentApkInfo.versionName}`
+    );
+  }
+});
+
+test("isUpgradeCandidate: invalid upgrade candidates; ", t => {
+  const candidates = fs.readdirSync(inValidUpgradeCandidates);
+  t.plan(candidates.length);
+  for (const candidate of candidates) {
+    const config = fs.readFileSync(
+      path.join(inValidUpgradeCandidates, candidate)
+    );
+    const json = JSON.parse(config);
+    const res = isUpgradeCandidate(json);
+    t.false(
+      res,
+      `: ${json.installer.versionName} is invalid upgrade for ${json.currentApkInfo.versionName}`
+    );
+  }
 });
