@@ -131,16 +131,18 @@ class AsyncService extends TypedEmitter {
         // Will still resolve once has started
         return this.#started.promise;
       case "error":
-        this.#started.reject(this.getState().error);
-        return this.#started.promise;
+        return Promise.reject(this.getState().error);
       case "stopping":
         // Wait until stopped before continuing
         await this.#stopped.promise;
         break;
       case "stopped":
         break;
-      default:
-        return this.#started.reject(new Error("Should not happen"));
+      default: {
+        const error = new Error("Should not happen");
+        this.setState({ value: "error", error });
+        return this.#started.reject(error);
+      }
     }
     // We've begun starting, so stopping promise needs to be unresolved until
     // we stop again
@@ -169,16 +171,18 @@ class AsyncService extends TypedEmitter {
         // Resolve once stopped
         return this.#stopped.promise;
       case "error":
-        this.#stopped.reject(this.getState().error);
-        return this.#stopped.promise;
+        return Promise.reject(this.getState().error);
       case "starting":
         // Wait until started until stopping
         await this.#started.promise;
         break;
       case "started":
         break;
-      default:
-        return this.#stopped.reject(new Error("Should not happen"));
+      default: {
+        const error = new Error("Should not happen");
+        this.setState({ value: "error", error });
+        return this.#stopped.reject(error);
+      }
     }
     // We've begun stopping, so starting promise needs to be unresolved until
     // we start again

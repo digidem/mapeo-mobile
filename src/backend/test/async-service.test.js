@@ -111,6 +111,7 @@ test('Calling `start()` or `stop()` when the service is in "error" state will th
   service.setState({ value: "error", error: new Error("TestError") });
   try {
     await service.start();
+    t.fail("should not reach here");
   } catch (e) {
     t.equal(
       e.message,
@@ -120,12 +121,50 @@ test('Calling `start()` or `stop()` when the service is in "error" state will th
   }
   try {
     await service.stop();
+    t.fail("should not reach here");
   } catch (e) {
     t.equal(
       e.message,
       "TestError",
       "stop() throws with error from error state"
     );
+  }
+  t.equal(startCount, 0, "Service never started");
+});
+
+test('Multiple calls to `start()` or `stop()` when the service is in "error" state will throw the same error', async t => {
+  let startCount = 0;
+  const service = new TestService({
+    async _start() {
+      await new Promise(res => setTimeout(res, 100));
+      startCount++;
+    },
+  });
+  service.setState({ value: "error", error: new Error("TestError") });
+
+  for (let i = 0; i < 10; i++) {
+    try {
+      await service.start();
+      t.fail("should not reach here");
+    } catch (e) {
+      t.equal(
+        e.message,
+        "TestError",
+        "start() throws with error from error state"
+      );
+    }
+  }
+  for (let i = 0; i < 10; i++) {
+    try {
+      await service.stop();
+      t.fail("Should not reach here");
+    } catch (e) {
+      t.equal(
+        e.message,
+        "TestError",
+        "stop() throws with error from error state"
+      );
+    }
   }
   t.equal(startCount, 0, "Service never started");
 });
