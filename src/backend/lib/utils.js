@@ -61,6 +61,8 @@ function installerCompare(a, b) {
  * @returns {boolean}
  */
 function isUpgradeCandidate({ deviceInfo, installer, currentApkInfo }) {
+  // Filter out the current APK
+  if (installer.hash === currentApkInfo.hash) return false;
   // TODO: 64 bit devices can run 32 bit APKs
   const isSupportedAbi = !!installer.arch.find(arch =>
     deviceInfo.supportedAbis.includes(arch)
