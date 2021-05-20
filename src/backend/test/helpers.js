@@ -11,6 +11,7 @@ module.exports = {
   readJson,
   hashCmp,
   setupStorage,
+  setupTmpStorageFolder,
 };
 
 /**
@@ -39,6 +40,30 @@ function hashCmp(a, b) {
  * @param {InstallerInt} currentApkInfo
  */
 async function setupStorage(filepaths, currentApkInfo) {
+  const { expected, cleanup, storageDir } = await setupTmpStorageFolder(
+    filepaths,
+    currentApkInfo
+  );
+  return {
+    expected,
+    storage: new Storage({ storageDir, currentApkInfo }),
+    cleanup,
+    storageDir,
+  };
+}
+
+/**
+ * Create a temp folder and copy filepaths into it. Assumes files have extension
+ * `.apk` and they have corresponding `.expected.json` files, which are the
+ * expected installer info for the APK
+ *
+ * Returns an array of expected installerInfo for the folder, including the
+ * currentApkInfo (which is not copied into the temp folder)
+ *
+ * @param {string[]} filepaths List of files to copy into temp directory
+ * @param {InstallerInt} currentApkInfo
+ */
+async function setupTmpStorageFolder(filepaths, currentApkInfo) {
   const tmpDir = await tmp.dir({ unsafeCleanup: true });
   const expected = [];
   for (const filepath of filepaths) {
@@ -53,13 +78,5 @@ async function setupStorage(filepaths, currentApkInfo) {
     });
   }
   expected.push(currentApkInfo);
-  return {
-    expected,
-    storage: new Storage({
-      storageDir: tmpDir.path,
-      currentApkInfo,
-    }),
-    cleanup: tmpDir.cleanup,
-    storageDir: tmpDir.path,
-  };
+  return { expected, cleanup: tmpDir.cleanup, storageDir: tmpDir.path };
 }
