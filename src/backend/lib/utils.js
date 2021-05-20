@@ -206,7 +206,7 @@ function beforeAfterStream({ createStream, finalize }) {
   createStream()
     .then(str => {
       wrappedStream = str;
-      wrappedStream.on("error", e => {
+      wrappedStream.once("error", e => {
         // If this error comes from ws.destroy(), don't re-emit it, because ws
         // will already have emitted an error event for destroy
         // @ts-ignore
@@ -231,7 +231,8 @@ function beforeAfterStream({ createStream, finalize }) {
         }
         cb();
       } catch (e) {
-        cb(e);
+        // Don't bubble up destroy errors a second time
+        cb(e.__fromDestroy ? null : e);
       }
     },
     async final(cb) {
@@ -241,22 +242,24 @@ function beforeAfterStream({ createStream, finalize }) {
         await finalize(wrappedStream);
         cb();
       } catch (e) {
-        cb(e);
+        // Don't bubble up destroy errors a second time
+        cb(e.__fromDestroy ? null : e);
       }
     },
-    destroy(e, cb) {
-      if (wrappedStream) {
-        let wrappedError;
-        // This error from destroy() must not be re-emitted on the outer stream
-        // (because destroy will automatically emit an error), so we add a
-        // hidden property so we can catch it
-        if (e) {
-          wrappedError = copyError(e);
-          // @ts-ignore
-          wrappedError.__fromDestroy = true;
-        }
-        wrappedStream.destroy(wrappedError);
+    async destroy(e, cb) {
+      // If destroy() happens before wrapped stream is created, we still expect
+      // the wrapped stream to be destroyed, so we wait for it
+      if (!wrappedStream) wrappedStream = await deferred.promise;
+      let wrappedError;
+      // This error from destroy() must not be re-emitted on the outer stream
+      // (because destroy will automatically emit an error), so we add a
+      // hidden property so we can catch it
+      if (e) {
+        wrappedError = copyError(e);
+        // @ts-ignore
+        wrappedError.__fromDestroy = true;
       }
+      wrappedStream.destroy(wrappedError);
       cb(e);
     },
   });

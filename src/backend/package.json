@@ -51,6 +51,7 @@
     "write-only-stream": "^1.1.0"
   },
   "devDependencies": {
+    "@types/concat-stream": "^1.6.0",
     "@types/debug": "^4.1.5",
     "@types/duplexify": "^3.6.0",
     "@types/lodash": "^4.14.169",
@@ -64,6 +65,7 @@
     "@types/through2": "^2.0.36",
     "clone": "^2.1.2",
     "collect-stream": "^1.2.1",
+    "concat-stream": "^2.0.0",
     "eslint": "^7.20.0",
     "get-stream": "^6.0.1",
     "getport": "^0.1.0",

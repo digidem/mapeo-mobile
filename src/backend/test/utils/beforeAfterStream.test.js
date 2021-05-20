@@ -2,8 +2,9 @@
 const { beforeAfterStream } = require("../../lib/utils");
 const test = require("tape");
 const stream = require("stream");
-// const { promisify } = require("util");
-// const finished = promisify(stream.finished);
+const net = require("net");
+const concat = require("concat-stream");
+const through = require("through2");
 
 // WriteableStream keeps chunks written to it for testing
 function collectStream() {
@@ -180,4 +181,241 @@ test("beforeAfterStream: if finalize throws, the stream will end with error", t 
   setTimeout(() => {
     outerStream.end();
   }, 200);
+});
+
+// Tests from https://github.com/mafintosh/duplexify/blob/master/test.js
+
+var HELLO_WORLD = Buffer.from("hello world");
+
+test("passthrough", function (t) {
+  t.plan(2);
+
+  var pt = new stream.PassThrough();
+  var ws = beforeAfterStream({
+    async createStream() {
+      return pt;
+    },
+    async finalize() {},
+  });
+
+  ws.end("hello world");
+  ws.on("finish", function () {
+    t.ok(true, "should finish");
+  });
+  pt.pipe(
+    concat(function (data) {
+      t.same(data.toString(), "hello world", "same in as out");
+    })
+  );
+});
+
+test("passthrough + double end", function (t) {
+  t.plan(2);
+
+  var pt = through();
+  var ws = beforeAfterStream({
+    async createStream() {
+      return pt;
+    },
+    async finalize() {},
+  });
+
+  ws.end("hello world");
+  ws.end();
+
+  ws.on("finish", function () {
+    t.ok(true, "should finish");
+  });
+  pt.pipe(
+    concat(function (data) {
+      t.same(data.toString(), "hello world", "same in as out");
+    })
+  );
+});
+
+test("async passthrough + end", function (t) {
+  t.plan(2);
+
+  var pt = through.obj({ highWaterMark: 1 }, function (data, enc, cb) {
+    setTimeout(function () {
+      cb(null, data);
+    }, 100);
+  });
+
+  var ws = beforeAfterStream({
+    async createStream() {
+      return pt;
+    },
+    async finalize() {},
+  });
+
+  ws.write("hello ");
+  ws.write("world");
+  ws.end();
+
+  ws.on("finish", function () {
+    t.ok(true, "should finish");
+  });
+  pt.pipe(
+    concat(function (data) {
+      t.same(data.toString(), "hello world", "same in as out");
+    })
+  );
+});
+
+test("async", function (t) {
+  var pt = through();
+
+  var ws = beforeAfterStream({
+    async createStream() {
+      await new Promise(res => setTimeout(res, 50));
+      return pt;
+    },
+    async finalize() {},
+  });
+
+  pt.pipe(
+    concat(function (data) {
+      t.same(data.toString(), "i was async", "same in as out");
+      t.end();
+    })
+  );
+
+  ws.write("i");
+  ws.write(" was ");
+  ws.end("async");
+});
+
+test("destroy", function (t) {
+  t.plan(2);
+
+  var pt = new stream.Transform({
+    transform(chunk, encoding, cb) {
+      cb(null, chunk);
+    },
+    destroy() {
+      t.ok(true, "write destroyed");
+    },
+  });
+
+  var ws = beforeAfterStream({
+    async createStream() {
+      return pt;
+    },
+    async finalize() {},
+  });
+
+  ws.on("close", function () {
+    t.ok(true, "close emitted");
+  });
+
+  ws.destroy();
+  ws.destroy(); // should only work once
+});
+
+test("bubble write errors", function (t) {
+  t.plan(1);
+
+  var pt = through();
+  var ws = beforeAfterStream({
+    async createStream() {
+      return pt;
+    },
+    async finalize() {},
+  });
+
+  ws.on("error", function (err) {
+    t.same(err.message, "write-error", "received write error");
+  });
+
+  ws.on("close", function () {
+    // TODO: Should the outer stream close if the wrapped stream emits an error?
+    // Or just forward the error?
+    // t.ok(true, "close emitted");
+  });
+
+  setTimeout(() => {
+    // Duplexify emits this synchronously, but we need to wait for the stream to
+    // be created first
+    pt.emit("error", new Error("write-error"));
+  }, 0);
+});
+
+test("bubble errors from write()", function (t) {
+  t.plan(1);
+
+  // var errored = false;
+
+  var ws = beforeAfterStream({
+    async createStream() {
+      return new stream.Writable({
+        write: function (chunk, enc, next) {
+          next(new Error("write-error"));
+        },
+      });
+    },
+    async finalize() {},
+  });
+
+  ws.on("error", function (err) {
+    // errored = true;
+    t.same(err.message, "write-error", "received write error");
+  });
+  ws.on("close", function () {
+    // Same as above, should outer stream close on wrapped stream error?
+    // t.pass("close emitted");
+    // t.ok(errored, "error was emitted before close");
+  });
+  ws.end("123");
+});
+
+test("destroy while waiting for drain", function (t) {
+  t.plan(1);
+
+  // var errored = false;
+  var ws = beforeAfterStream({
+    async createStream() {
+      return new stream.Writable({
+        highWaterMark: 0,
+        write: function () {},
+      });
+    },
+    async finalize() {},
+  });
+
+  ws.on("error", function (err) {
+    // errored = true;
+    t.same(err.message, "destroy-error", "received destroy error");
+  });
+  ws.on("close", function () {
+    // t.pass("close emitted");
+    // t.ok(errored, "error was emitted before close");
+  });
+  ws.write("123");
+  ws.destroy(new Error("destroy-error"));
+});
+
+test("works with node native streams (net)", function (t) {
+  t.plan(1);
+
+  var server = net.createServer(function (socket) {
+    socket.once("data", function (chunk) {
+      t.same(chunk, HELLO_WORLD);
+      server.close();
+      socket.end();
+      t.end();
+    });
+  });
+
+  server.listen(0, function () {
+    var socket = net.connect(server.address().port);
+    var ws = beforeAfterStream({
+      async createStream() {
+        return socket;
+      },
+      async finalize() {},
+    });
+
+    ws.write(HELLO_WORLD);
+  });
 });
