@@ -149,7 +149,7 @@ class UpgradeManager extends AsyncService {
    * @private
    * @param {InstallerExt[]} downloadableInstallers
    */
-  _onDownloadableInstallers(downloadableInstallers) {
+  async _onDownloadableInstallers(downloadableInstallers) {
     try {
       const upgradeCandidate = getUpgradeCandidate({
         deviceInfo: this._deviceInfo,
@@ -175,6 +175,10 @@ class UpgradeManager extends AsyncService {
       for (const { installerInfo } of this.#downloads.values()) {
         if (installerCompare(upgradeCandidate, installerInfo) < 1) return;
       }
+      const currentInstallers = await this._storage.list();
+      // If we this upgrade candidate is already in storage, we can ignore it
+      if (currentInstallers.find(installer => installer.hash === candidateHash))
+        return;
       // If there are any in progress downoads, cancel them
       for (const { stream } of this.#downloads.values()) {
         stream.destroy();
