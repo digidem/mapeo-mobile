@@ -23,9 +23,6 @@ const getPort = require("get-port");
  * @property {(error?: Error) => void} error
  */
 
-// Throttle state events (in ms)
-const EMIT_THROTTLE = 400; // milliseconds
-
 /**
  * Manage p2p upgrades. Start with `start()` and stop with `stop()`. It will
  * find an available port and start announcing the upgrades available locally
@@ -87,8 +84,14 @@ class UpgradeManager extends AsyncService {
    * @param {string} options.storageDir Path to folder to store installers
    * @param {InstallerInt} options.currentApkInfo info about the currently installed APK
    * @param {import('./types').DeviceInfo} options.deviceInfo Arch and SDK version of current device
+   * @param {number} [options.stateEmitThrottle=400] ms throttle for state events. Used for testing
    */
-  constructor({ storageDir, currentApkInfo, deviceInfo }) {
+  constructor({
+    storageDir,
+    currentApkInfo,
+    deviceInfo,
+    stateEmitThrottle = 400,
+  }) {
     super();
     /** @private */
     this._currentApkInfo = currentApkInfo;
@@ -120,7 +123,7 @@ class UpgradeManager extends AsyncService {
     });
     this.throttledEmitState = throttle(() => {
       this.emit("state", this.getState());
-    }, EMIT_THROTTLE);
+    }, stateEmitThrottle);
   }
 
   /**
