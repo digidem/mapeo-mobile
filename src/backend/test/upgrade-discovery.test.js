@@ -1,3 +1,4 @@
+/* eslint-disable promise/param-names */
 // @ts-check
 const test = require("tape");
 const path = require("path");
@@ -25,12 +26,12 @@ const validApksFolder = path.join(__dirname, "./fixtures/valid-apks");
 /**
  * @param {string[]} apkFilenames List of filenames to copy into temp directory
  * @param {import("../lib/types").InstallerInt} currentApkInfo
- * @param {{ throttle?: number, lookupInterval?: number }} [options]
+ * @param {{ throttle?: number, lookupInterval?: number, discoveryKey?: string }} [options]
  */
 async function createDiscovery(
   apkFilenames,
   currentApkInfo,
-  { throttle, lookupInterval } = {}
+  { throttle, lookupInterval, discoveryKey = "com.mapeo" } = {}
 ) {
   const filepaths = apkFilenames.map(filename =>
     path.join(validApksFolder, filename)
@@ -40,7 +41,7 @@ async function createDiscovery(
     currentApkInfo
   );
   const discovery = new Discovery({
-    discoveryKey: "com.mapeo",
+    discoveryKey: discoveryKey,
     installerEmitThrottle: throttle,
     lookupInterval,
   });
@@ -79,6 +80,36 @@ test("Discovery finds peer and emits available installers", async t => {
     (await installersPromise)[0].map(normalizeUrl).sort(hashCmp),
     discovery2.expected.map(normalizeUrl).sort(hashCmp)
   );
+
+  await Promise.all([discovery1.cleanup(), discovery2.cleanup()]);
+});
+
+test("Discovery with different discoveryKey does not find each other", async t => {
+  const testApkFilenames1 = ["com.example.test_minSdk21_VN1.0.0_VC1.apk"];
+  const throttle = 1000;
+  const discovery1 = await createDiscovery(
+    testApkFilenames1,
+    fakeApkInfo.v0_0_1,
+    { discoveryKey: "com.example1", throttle }
+  );
+  const discovery2 = await createDiscovery([], fakeApkInfo.v0_0_1, {
+    discoveryKey: "com.example2",
+    throttle,
+  });
+  discovery1.discovery.on("installers", () => {
+    t.fail(
+      "Should not get an installers event, because no peers should be found"
+    );
+  });
+
+  await discovery1.start();
+  await discovery2.start();
+
+  // Need to wait for longer than throttle to make sure we give the installers
+  // event a chance to fire
+  await new Promise(res => setTimeout(res, throttle + 1000));
+
+  t.pass("Have waited for long enough, and no installers found");
 
   await Promise.all([discovery1.cleanup(), discovery2.cleanup()]);
 });
