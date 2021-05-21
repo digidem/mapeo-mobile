@@ -16,7 +16,7 @@ const AsyncService = require("./async-service");
  */
 
 // How frequently to emit progress events (in ms)
-const EMIT_THROTTLE = 400; // milliseconds
+const EMIT_THROTTLE_MS = 400; // milliseconds
 
 /**
  * @extends {AsyncService<Events, [number]>}
@@ -54,7 +54,7 @@ class UpgradeServer extends AsyncService {
     // all progress events
     this.throttledEmitUploads = throttle(() => {
       this.emit("uploads", Array.from(this._uploads));
-    }, EMIT_THROTTLE);
+    }, EMIT_THROTTLE_MS);
   }
 
   /**
