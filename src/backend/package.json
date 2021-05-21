@@ -47,8 +47,7 @@
     "tar-fs": "^2.1.1",
     "tiny-typed-emitter": "^2.0.3",
     "utils-copy-error": "^1.0.1",
-    "valid-schema": "^1.2.3",
-    "write-only-stream": "^1.1.0"
+    "valid-schema": "^1.2.3"
   },
   "devDependencies": {
     "@types/concat-stream": "^1.6.0",
