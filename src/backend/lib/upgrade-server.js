@@ -30,6 +30,13 @@ const serverLogger = process.env.DEBUG
  */
 class UpgradeServer extends AsyncService {
   #port = 0;
+  #storage;
+  /** @type {Set<Upload>} */
+  #uploads;
+  /** @type {import('fastify').FastifyInstance} */
+  #fastify;
+  /** @type {import('lodash').DebouncedFunc<void>} */
+  #throttledEmitUploads;
   /**
    * @param {object} options
    * @param {InstanceType<typeof import('./upgrade-storage')>} options.storage
@@ -37,35 +44,29 @@ class UpgradeServer extends AsyncService {
    */
   constructor({ storage, logger = serverLogger }) {
     super();
-    /** @private */
-    this._storage = storage;
-    /**
-     * @private
-     * @type {Set<Upload>}
-     */
-    this._uploads = new Set();
+    this.#storage = storage;
+    this.#uploads = new Set();
 
     // TODO: Only turn on logger in dev mode, since this has a perf overhead
     // in react native
-    /** @private */
-    this._fastify = createFastify({ logger });
+    this.#fastify = createFastify({ logger });
 
-    this._fastify.get(
+    this.#fastify.get(
       "/installers",
       { schema: { response: { 200: InstallerListSchema } } },
       this._listInstallersRoute.bind(this)
     );
-    this._fastify.get("/installers/:id", this._getInstallerRoute.bind(this));
+    this.#fastify.get("/installers/:id", this._getInstallerRoute.bind(this));
 
     // Even though each progress stream is throttled, if there are multiple
     // uploads at the same time, we still want to throttle the combination of
     // all progress events
-    this.throttledEmitUploads = throttle(() => {
-      this.emit("uploads", Array.from(this._uploads));
+    this.#throttledEmitUploads = throttle(() => {
+      this.emit("uploads", Array.from(this.#uploads));
       // Avoid generating string for log unless in debug mode
       if (process.env.DEBUG) {
-        if (!this._uploads.size) return log(`${this.#port}: 0 active uploads`);
-        const progressString = Array.from(this._uploads)
+        if (!this.#uploads.size) return log(`${this.#port}: 0 active uploads`);
+        const progressString = Array.from(this.#uploads)
           .map(
             ({ sofar, total, id }) =>
               `${id.slice(0, 7)}:${Math.round(sofar / total)}%`
@@ -73,7 +74,7 @@ class UpgradeServer extends AsyncService {
           .join(" ");
         log(
           `${this.#port}: ${
-            this._uploads.size
+            this.#uploads.size
           } active uploads: ${progressString}`
         );
       }
@@ -86,7 +87,7 @@ class UpgradeServer extends AsyncService {
    * @param {import('fastify').FastifyReply} reply
    */
   async _getInstallerRoute(request, reply) {
-    const installer = await this._storage.get(request.params.id);
+    const installer = await this.#storage.get(request.params.id);
     if (!installer) {
       reply.statusCode = 404;
       return reply.callNotFound();
@@ -96,10 +97,10 @@ class UpgradeServer extends AsyncService {
     /** @type {Upload} */
     const upload = { id: installer.hash, sofar: 0, total: installer.size };
 
-    const readStream = this._storage.createReadStream(request.params.id);
+    const readStream = this.#storage.createReadStream(request.params.id);
     const progress = progressStream({ length: installer.size }, progress => {
       upload.sofar = progress.transferred;
-      this.throttledEmitUploads();
+      this.#throttledEmitUploads();
     });
 
     await reply.send(
@@ -114,8 +115,8 @@ class UpgradeServer extends AsyncService {
       })
     );
     // Reply is now finished
-    this._uploads.delete(upload);
-    this.throttledEmitUploads();
+    this.#uploads.delete(upload);
+    this.#throttledEmitUploads();
   }
 
   /**
@@ -125,7 +126,7 @@ class UpgradeServer extends AsyncService {
    */
   async _listInstallersRoute(request, reply) {
     const urlBase = `${request.protocol}://${request.hostname}${request.routerPath}`;
-    const installers = (await this._storage.list()).map(installer => {
+    const installers = (await this.#storage.list()).map(installer => {
       const { filepath, ...rest } = installer;
       return { ...rest, url: urlBase + "/" + installer.hash };
     });
@@ -138,6 +139,15 @@ class UpgradeServer extends AsyncService {
   }
 
   /**
+   * Return fastify instance - only for testing
+   *
+   * @private
+   */
+  getFastify() {
+    return this.#fastify;
+  }
+
+  /**
    * Start the server on the specified port. Listen on all interfaces.
    *
    * @param {number} port
@@ -146,7 +156,7 @@ class UpgradeServer extends AsyncService {
   async _start(port) {
     this.#port = port;
     log(`${this.#port}: starting`);
-    await this._fastify.listen(this.#port, "0.0.0.0");
+    await this.#fastify.listen(this.#port, "0.0.0.0");
     log(`${this.#port}: started`);
   }
 
@@ -158,7 +168,7 @@ class UpgradeServer extends AsyncService {
    */
   async _stop() {
     log(`${this.#port}: stopping`);
-    await this._fastify.close();
+    await this.#fastify.close();
     log(`${this.#port}: stopped`);
   }
 }

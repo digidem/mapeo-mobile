@@ -33,6 +33,12 @@ const PEER_TTL_MS = 4000;
  */
 class UpgradeDiscovery extends AsyncService {
   #port = 0;
+  #discoveryKey;
+  #lookupInterval;
+  /** @type {NodeJS.Timeout} */
+  #discoveryInterval;
+  /** @type {import('lodash').DebouncedFunc<void>} */
+  #throttledEmitInstallers;
   /**
    * Store installers by hash, replacing any existing one with most recently
    * seen. In the future maybe store references to copies on different peers?
@@ -64,14 +70,12 @@ class UpgradeDiscovery extends AsyncService {
     lookupInterval = 2000,
   }) {
     super();
-    /** @private */
-    this._discoveryKey = discoveryKey;
-    /** @private */
-    this._lookupInterval = lookupInterval;
+    this.#discoveryKey = discoveryKey;
+    this.#lookupInterval = lookupInterval;
+    // Private instance methods (vs. fields) are not supported in Node v12
     /** @private */
     this._onPeer = this._onPeer.bind(this);
-    /** @private */
-    this._throttledEmitInstallers = throttle(
+    this.#throttledEmitInstallers = throttle(
       () => {
         // Flushed when the service stops (so will not emit after stop)
         this.emit(
@@ -110,7 +114,7 @@ class UpgradeDiscovery extends AsyncService {
         // available
         clearTimeout(installer.timeoutId);
         this.#availableInstallers.delete(hash);
-        this._throttledEmitInstallers();
+        this.#throttledEmitInstallers();
       });
       stream.finished(downloadStream, e => {
         if (!e) log(`${this.#port}: Download complete: ${hash.slice(0, 7)}`);
@@ -136,13 +140,13 @@ class UpgradeDiscovery extends AsyncService {
       server: [],
       loopback: false,
     });
-    this.#discovery.announce(this._discoveryKey, port);
+    this.#discovery.announce(this.#discoveryKey, port);
     this.#discovery.on("peer", this._onPeer);
-    this._discoveryInterval = setInterval(() => {
+    this.#discoveryInterval = setInterval(() => {
       // Announce only needs to happen once, but lookup needs to happen on an
       // interval so we can check whether peers are still available
-      this.#discovery.lookup(this._discoveryKey);
-    }, this._lookupInterval);
+      this.#discovery.lookup(this.#discoveryKey);
+    }, this.#lookupInterval);
     log(`${this.#port}: started`);
   }
 
@@ -154,13 +158,13 @@ class UpgradeDiscovery extends AsyncService {
   async _stop() {
     log(`${this.#port}: stopping`);
     return new Promise(resolve => {
-      this._discoveryInterval && clearInterval(this._discoveryInterval);
+      this.#discoveryInterval && clearInterval(this.#discoveryInterval);
       this.#discovery.off("peer", this._onPeer);
       // Flush throttled installer emit
-      this._throttledEmitInstallers.flush();
+      this.#throttledEmitInstallers.flush();
       // NB: Due to a bug in dns-discovery, the callback is always called with
       // an error, but we can safely ignore it
-      this.#discovery.unannounce(this._discoveryKey, this.#port, () => {
+      this.#discovery.unannounce(this.#discoveryKey, this.#port, () => {
         this.#discovery.destroy(() => {
           log(`${this.#port}: stopped`);
           resolve();
@@ -170,13 +174,14 @@ class UpgradeDiscovery extends AsyncService {
   }
 
   /**
+   * @private
    * @param {string} app The app name the peer was discovered for.
    * @param {object} peer
    * @param {string} peer.host The address of the peer
    * @param {number} peer.port The port the peer is listening on
    */
   async _onPeer(app, { host, port }) {
-    if (app !== this._discoveryKey) return;
+    if (app !== this.#discoveryKey) return;
     const listUrl = `http://${host}:${port}/installers`;
     // If we are currently querying this peer, bail
     if (this.#inProgressRequests.has(listUrl)) return;
@@ -231,12 +236,12 @@ class UpgradeDiscovery extends AsyncService {
             )} from ${host}:${port}`
           );
           this.#availableInstallers.delete(hash);
-          this._throttledEmitInstallers();
+          this.#throttledEmitInstallers();
         }, PEER_TTL_MS),
       });
     }
     this.#inProgressRequests.delete(listUrl);
-    this._throttledEmitInstallers();
+    this.#throttledEmitInstallers();
   }
 }
 

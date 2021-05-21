@@ -32,6 +32,11 @@ const log = require("debug")("p2p-upgrades:storage");
  * @extends {AsyncService<Events>}
  */
 class Storage extends AsyncService {
+  /** @type {Map<string, InstallerInt>} */
+  #installers;
+  #storageDir;
+  #tmpdir;
+  #currentApkInfo;
   /**
    * @param {object} options
    * @param {string} options.storageDir Path to storage folder for upgrade APKs
@@ -39,18 +44,10 @@ class Storage extends AsyncService {
    */
   constructor({ storageDir, currentApkInfo }) {
     super();
-
-    /**
-     * @private
-     * @type {Map<string, InstallerInt>}
-     */
-    this._installers = new Map();
-    /** @private */
-    this._storageDir = storageDir;
-    /** @private */
-    this._tmpdir = path.join(storageDir, "tmp");
-    /** @private */
-    this._currentApkInfo = currentApkInfo;
+    this.#installers = new Map();
+    this.#storageDir = storageDir;
+    this.#tmpdir = path.join(storageDir, "tmp");
+    this.#currentApkInfo = currentApkInfo;
 
     // Start on initialization, emit an error if initialization fails
     this.start().catch(e => {
@@ -63,12 +60,12 @@ class Storage extends AsyncService {
    * await this.started() and will only run after this initialization
    */
   async _start() {
-    await rimraf(this._tmpdir);
-    await mkdirp(this._tmpdir);
-    await mkdirp(this._storageDir);
-    const apkFiles = (await fs.promises.readdir(this._storageDir))
+    await rimraf(this.#tmpdir);
+    await mkdirp(this.#tmpdir);
+    await mkdirp(this.#storageDir);
+    const apkFiles = (await fs.promises.readdir(this.#storageDir))
       .filter(file => path.extname(file) === ".apk")
-      .map(file => path.join(this._storageDir, file));
+      .map(file => path.join(this.#storageDir, file));
     const storedInstallerInts = await Promise.all(
       // Catch errors trying to read the apk file and ignore it
       apkFiles.map(file => getInstallerInfo(file).catch(() => {}))
@@ -79,14 +76,14 @@ class Storage extends AsyncService {
     for (const installer of storedInstallerInts) {
       if (!installer) continue;
       // Mark any upgrade < current installed APK for deletion
-      if (installerCompare(installer, this._currentApkInfo) === -1) {
+      if (installerCompare(installer, this.#currentApkInfo) === -1) {
         forDeletion.add(installer);
       } else {
-        this._installers.set(installer.hash, installer);
+        this.#installers.set(installer.hash, installer);
       }
     }
 
-    this._installers.set(this._currentApkInfo.hash, this._currentApkInfo);
+    this.#installers.set(this.#currentApkInfo.hash, this.#currentApkInfo);
 
     if (forDeletion.size) {
       log(
@@ -98,7 +95,7 @@ class Storage extends AsyncService {
     await Promise.all(
       [...forDeletion].map(installer => fs.promises.unlink(installer.filepath))
     );
-    const installerArray = Array.from(this._installers.values());
+    const installerArray = Array.from(this.#installers.values());
     this.emit("installers", installerArray);
     log(
       "Initialized storage with installers:",
@@ -117,7 +114,7 @@ class Storage extends AsyncService {
    */
   async list() {
     await this.started();
-    return Array.from(this._installers.values());
+    return Array.from(this.#installers.values());
   }
 
   /**
@@ -128,7 +125,7 @@ class Storage extends AsyncService {
    */
   async get(hash) {
     await this.started();
-    return this._installers.get(hash);
+    return this.#installers.get(hash);
   }
 
   /**
@@ -144,7 +141,7 @@ class Storage extends AsyncService {
 
     this.started()
       .then(() => {
-        const upgrade = this._installers.get(hash);
+        const upgrade = this.#installers.get(hash);
         if (!upgrade) return str.destroy(new Error("NotFound"));
         log(`Read started: ${hash.slice(0, 7)}`);
         str.setReadable(fs.createReadStream(upgrade.filepath));
@@ -172,7 +169,7 @@ class Storage extends AsyncService {
    */
   createWriteStream({ hash: expectedHash }) {
     const tmpFilepath = path.join(
-      this._tmpdir,
+      this.#tmpdir,
       crypto.randomBytes(8).toString("hex") + ".apk"
     );
     return beforeAfterStream({
@@ -195,13 +192,13 @@ class Storage extends AsyncService {
             throw new Error("Invalid hash");
           }
           installer.filepath = path.join(
-            this._storageDir,
+            this.#storageDir,
             installer.hash + ".apk"
           );
           await fs.promises.rename(tmpFilepath, installer.filepath);
-          this._installers.set(installer.hash, installer);
+          this.#installers.set(installer.hash, installer);
           log(`Write complete: ${stringifyInstaller(installer)}`);
-          this.emit("installers", Array.from(this._installers.values()));
+          this.emit("installers", Array.from(this.#installers.values()));
         } catch (e) {
           log("WriteStream Error:", e);
           // Cleanup if necessary

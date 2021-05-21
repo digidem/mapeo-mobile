@@ -27,8 +27,8 @@ async function startServer(currentApkInfo, start = false) {
   if (start) {
     await server.start(await getPort());
   }
-  // @ts-ignore - access private _fastify field for testing
-  const app = server._fastify;
+  // @ts-ignore - this is private so we get the TS warning
+  const app = server.getFastify();
 
   const inject = app.inject.bind(app);
   const cleanup = async () => {

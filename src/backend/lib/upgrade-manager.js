@@ -75,6 +75,13 @@ const getPort = require("get-port");
 class UpgradeManager extends AsyncService {
   // Used for logging
   #port = 0;
+  #currentApkInfo;
+  #deviceInfo;
+  #storage;
+  #discovery;
+  #server;
+  /** @type {import('lodash').DebouncedFunc<void>} */
+  #throttledEmitState;
   /** @type {UpgradeState} */
   #state = {
     value: "stopped",
@@ -98,35 +105,32 @@ class UpgradeManager extends AsyncService {
     stateEmitThrottle = 400,
   }) {
     super();
+    this.#currentApkInfo = currentApkInfo;
+    this.#deviceInfo = deviceInfo;
+    this.#storage = new UpgradeStorage({ storageDir, currentApkInfo });
     /** @private */
-    this._currentApkInfo = currentApkInfo;
+    this.#server = new UpgradeServer({ storage: this.#storage });
     /** @private */
-    this._deviceInfo = deviceInfo;
-    /** @private */
-    this._storage = new UpgradeStorage({ storageDir, currentApkInfo });
-    /** @private */
-    this._server = new UpgradeServer({ storage: this._storage });
-    /** @private */
-    this._discovery = new UpgradeDiscovery({
+    this.#discovery = new UpgradeDiscovery({
       discoveryKey: currentApkInfo.applicationId,
     });
 
-    this._server.on("uploads", uploads => {
+    this.#server.on("uploads", uploads => {
       this.setState({ uploads });
     });
-    this._server.on("error", error => {
+    this.#server.on("error", error => {
       this.emit("error", error);
     });
-    this._storage.on("error", error => {
+    this.#storage.on("error", error => {
       this.setState({ value: "error", error });
     });
-    this._storage.on("installers", async installers => {
+    this.#storage.on("installers", async installers => {
       this._onStoredInstallers(installers);
     });
-    this._discovery.on("installers", async installers => {
+    this.#discovery.on("installers", async installers => {
       this._onDownloadableInstallers(installers);
     });
-    this.throttledEmitState = throttle(() => {
+    this.#throttledEmitState = throttle(() => {
       this.emit("state", this.getState());
     }, stateEmitThrottle);
   }
@@ -145,8 +149,8 @@ class UpgradeManager extends AsyncService {
       storedInstallers.map(i => stringifyInstaller(i))
     );
     const upgradeCandidate = getBestUpgradeCandidate({
-      deviceInfo: this._deviceInfo,
-      currentApkInfo: this._currentApkInfo,
+      deviceInfo: this.#deviceInfo,
+      currentApkInfo: this.#currentApkInfo,
       installers: storedInstallers,
     });
     if (!upgradeCandidate) {
@@ -171,8 +175,8 @@ class UpgradeManager extends AsyncService {
   async _onDownloadableInstallers(downloadableInstallers) {
     try {
       const upgradeCandidate = getBestUpgradeCandidate({
-        deviceInfo: this._deviceInfo,
-        currentApkInfo: this._currentApkInfo,
+        deviceInfo: this.#deviceInfo,
+        currentApkInfo: this.#currentApkInfo,
         installers: downloadableInstallers,
       });
       // If none of the downloadable installers are an upgrade candidate, ignore
@@ -220,7 +224,7 @@ class UpgradeManager extends AsyncService {
           return;
         }
       }
-      const currentInstallers = await this._storage.list();
+      const currentInstallers = await this.#storage.list();
       // If we this upgrade candidate is already in storage, we can ignore it
       if (
         currentInstallers.find(installer => installer.hash === candidateHash)
@@ -251,17 +255,17 @@ class UpgradeManager extends AsyncService {
         total: upgradeCandidate.size,
       };
 
-      const rs = this._discovery.createReadStream(candidateHash);
+      const rs = this.#discovery.createReadStream(candidateHash);
       const progress = progressStream(
         { length: upgradeCandidate.size },
         progress => {
           // Warning: we mutate the download object to avoid recreating an
           // object on every progress event, and also re-setting this.#downloads
           download.sofar = progress.transferred;
-          this.throttledEmitState();
+          this.#throttledEmitState();
         }
       );
-      const ws = this._storage.createWriteStream({ hash: candidateHash });
+      const ws = this.#storage.createWriteStream({ hash: candidateHash });
 
       log(`${this.#port}: Start download:`, candidateHash.slice(0, 7));
       stream.pipeline(rs, progress, ws, e => {
@@ -310,7 +314,7 @@ class UpgradeManager extends AsyncService {
    */
   setState(statePartial) {
     this.#state = { ...this.#state, ...statePartial };
-    this.throttledEmitState();
+    this.#throttledEmitState();
   }
 
   /**
@@ -326,8 +330,8 @@ class UpgradeManager extends AsyncService {
     this.#port = await getPort();
     log(`${this.#port}: starting`);
     await Promise.all([
-      this._discovery.start(this.#port),
-      this._server.start(this.#port),
+      this.#discovery.start(this.#port),
+      this.#server.start(this.#port),
     ]);
     log(`${this.#port}: started`);
   }
@@ -339,7 +343,8 @@ class UpgradeManager extends AsyncService {
    */
   async _stop() {
     log(`${this.#port}: stopping`);
-    await Promise.all([this._discovery.stop(), this._server.stop()]);
+    await Promise.all([this.#discovery.stop(), this.#server.stop()]);
+    this.#throttledEmitState.flush();
     log(`${this.#port}: stopped`);
   }
 }
