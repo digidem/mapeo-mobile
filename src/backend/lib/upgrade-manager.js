@@ -182,7 +182,7 @@ class UpgradeManager extends AsyncService {
       // If we this upgrade candidate is already in storage, we can ignore it
       if (currentInstallers.find(installer => installer.hash === candidateHash))
         return;
-      // If there are any in progress downoads, cancel them
+      // If there are any in progress downloads, cancel them
       for (const { stream } of this.#downloads.values()) {
         stream.destroy();
       }
