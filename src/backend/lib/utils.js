@@ -25,15 +25,34 @@ module.exports = {
 };
 
 /**
+ * Check if PR is the same
+ *
+ * @param {string} a
+ * @param {string} b
+ * @returns {-1 | 0 | 1}
+ */
+function checkSamePR(a, b) {
+  const aPR = semver.parse(a).prerelease[0];
+  const bPR = semver.parse(b).prerelease[0];
+  if (aPR && bPR) {
+    if (aPR.startsWith("PR") && bPR.startsWith("PR")) {
+      if (aPR === bPR) return 1;
+      else return -1;
+    }
+  }
+  return 0;
+}
+
+/**
  * Check if version name is {sha7}
  *
  * @param {string} versionName
  * @returns {boolean}
  */
 function checkVersionName(versionName) {
-  const split = versionName.split("+");
-  if (split.length > 1) return split[1].length === 7;
-  else return true;
+  const splitHash = versionName.split("+");
+  if (splitHash.length > 1) return splitHash[1].length === 7;
+  return true;
 }
 
 /**
@@ -59,6 +78,10 @@ function installerCompare(a, b) {
   );
   if (!checkVersionName(a.versionName)) return -1;
   if (!checkVersionName(b.versionName)) return -1;
+  // Check if is PR and is the same
+  const prCompare = checkSamePR(a.versionName, b.versionName);
+  log("PR Compare", prCompare);
+  if (prCompare !== 0) return prCompare;
   // Important to validate semver before here, otherwise this will throw
   const semverCompare = semver.compare(a.versionName, b.versionName);
   log("semverCompare", semverCompare);
