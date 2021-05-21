@@ -10,6 +10,7 @@ const pDefer = require("p-defer");
 const copyError = require("utils-copy-error");
 const ApkParser = require("app-info-parser/src/apk");
 const ZipFs = require("@gmaclennan/zip-fs");
+const log = require("debug")("p2p-upgrades:utils");
 
 /** @typedef {import('./types').InstallerInt} InstallerInt */
 /** @typedef {import('./types').InstallerExt} InstallerExt */
@@ -34,12 +35,15 @@ module.exports = {
 function installerCompare(a, b) {
   const aIsValidSemver = semver.valid(a.versionName);
   const bIsValidSemver = semver.valid(b.versionName);
+  log("aIsValidSemver & bIsValidSemver", aIsValidSemver, bIsValidSemver);
   if (!aIsValidSemver && !bIsValidSemver) return 0;
   if (!aIsValidSemver) return -1;
   if (!bIsValidSemver) return 1;
   // Important to validate semver before here, otherwise this will throw
   const semverCompare = semver.compare(a.versionName, b.versionName);
+  log("semverCompare", semverCompare);
   if (semverCompare !== 0) return semverCompare;
+  log("a.versionCode & b.versionCode", a.versionCode, b.versionCode);
   if (a.versionCode < b.versionCode) return -1;
   if (a.versionCode > b.versionCode) return 1;
   return 0;
@@ -69,11 +73,35 @@ function isUpgradeCandidate({ deviceInfo, installer, currentApkInfo }) {
     deviceInfo.supportedAbis.includes(arch)
   );
   if (!isSupportedAbi) return false;
+  log(
+    "installer.minSdkVersion > deviceInfo.sdkVersion",
+    installer.minSdkVersion > deviceInfo.sdkVersion
+  );
   if (installer.minSdkVersion > deviceInfo.sdkVersion) return false;
+  log(
+    "installer.applicationId !== currentApkInfo.applicationId",
+    installer.applicationId !== currentApkInfo.applicationId
+  );
   if (installer.applicationId !== currentApkInfo.applicationId) return false;
+  log(
+    `isUpgradeCandidate ~ installer.platform !== "android"`,
+    installer.platform !== "android"
+  );
   if (installer.platform !== "android") return false;
+  log(
+    "installer.versionCode < currentApkInfo.versionCode",
+    installer.versionCode < currentApkInfo.versionCode
+  );
   if (installer.versionCode < currentApkInfo.versionCode) return false;
+  log(
+    "semver.valid(installer.versionName)",
+    semver.valid(installer.versionName)
+  );
   if (!semver.valid(installer.versionName)) return false;
+  log(
+    "installerCompare(installer, currentApkInfo) < 1",
+    installerCompare(installer, currentApkInfo) < 1
+  );
   if (installerCompare(installer, currentApkInfo) < 1) return false;
   // TODO: Check for internal and release candidate builds e.g. a release
   // candidate is only an upgrade candidate if the current apk is a release
