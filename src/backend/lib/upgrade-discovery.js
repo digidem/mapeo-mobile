@@ -11,7 +11,7 @@ const log = require("debug")("p2p-upgrades:discovery");
 
 // TTL for discovered peers, if they are not seen for more than this period then
 // they are considered offline and forgotten
-const TTL = 4000;
+const PEER_TTL_MS = 4000;
 
 /** @typedef {import('fastify')} Fastify */
 /** @typedef {import('./types').TransferProgress} Download */
