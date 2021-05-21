@@ -4,7 +4,7 @@ const UpgradeStorage = require("./upgrade-storage");
 const UpgradeServer = require("./upgrade-server");
 const UpgradeDiscovery = require("./upgrade-discovery");
 const AsyncService = require("./async-service");
-const { getUpgradeCandidate, installerCompare } = require("./utils");
+const { getBestUpgradeCandidate, installerCompare } = require("./utils");
 const stream = require("stream");
 const progressStream = require("progress-stream");
 const throttle = require("lodash/throttle");
@@ -135,7 +135,7 @@ class UpgradeManager extends AsyncService {
    * @param {InstallerInt[]} storedInstallers
    */
   _onStoredInstallers(storedInstallers) {
-    const upgradeCandidate = getUpgradeCandidate({
+    const upgradeCandidate = getBestUpgradeCandidate({
       deviceInfo: this._deviceInfo,
       currentApkInfo: this._currentApkInfo,
       installers: storedInstallers,
@@ -154,7 +154,7 @@ class UpgradeManager extends AsyncService {
    */
   async _onDownloadableInstallers(downloadableInstallers) {
     try {
-      const upgradeCandidate = getUpgradeCandidate({
+      const upgradeCandidate = getBestUpgradeCandidate({
         deviceInfo: this._deviceInfo,
         currentApkInfo: this._currentApkInfo,
         installers: downloadableInstallers,

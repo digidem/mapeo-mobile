@@ -17,7 +17,7 @@ const ZipFs = require("@gmaclennan/zip-fs");
 module.exports = {
   installerCompare,
   isUpgradeCandidate,
-  getUpgradeCandidate,
+  getBestUpgradeCandidate,
   getInstallerInfo,
   beforeAfterStream,
 };
@@ -91,7 +91,7 @@ function isUpgradeCandidate({ deviceInfo, installer, currentApkInfo }) {
  * @param {InstallerInt} options.currentApkInfo
  * @returns {T}
  */
-function getUpgradeCandidate({ deviceInfo, installers, currentApkInfo }) {
+function getBestUpgradeCandidate({ deviceInfo, installers, currentApkInfo }) {
   const upgradeCandidates = installers.filter(installer =>
     isUpgradeCandidate({
       installer,
