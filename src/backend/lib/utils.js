@@ -25,6 +25,18 @@ module.exports = {
 };
 
 /**
+ * Check if version name is {sha7}
+ *
+ * @param {string} versionName
+ * @returns {boolean}
+ */
+function checkVersionName(versionName) {
+  const split = versionName.split("+");
+  if (split.length > 1) return split[1].length === 7;
+  else return true;
+}
+
+/**
  * Compare two installer options, returns -1 if a is less than b, 0 if same, 1
  * if a is greater than b
  *
@@ -39,6 +51,14 @@ function installerCompare(a, b) {
   if (!aIsValidSemver && !bIsValidSemver) return 0;
   if (!aIsValidSemver) return -1;
   if (!bIsValidSemver) return 1;
+  // Check if semver commit is using {sha7}
+  log(
+    "checkVersionName",
+    checkVersionName(a.versionName),
+    checkVersionName(b.versionName)
+  );
+  if (!checkVersionName(a.versionName)) return -1;
+  if (!checkVersionName(b.versionName)) return -1;
   // Important to validate semver before here, otherwise this will throw
   const semverCompare = semver.compare(a.versionName, b.versionName);
   log("semverCompare", semverCompare);
@@ -68,6 +88,8 @@ function installerCompare(a, b) {
 function isUpgradeCandidate({ deviceInfo, installer, currentApkInfo }) {
   // Filter out the current APK
   if (installer.hash === currentApkInfo.hash) return false;
+  // Check for 0 or less APK size
+  if (installer.size <= 0) return false;
   // TODO: 64 bit devices can run 32 bit APKs
   const isSupportedAbi = installer.arch.some(arch =>
     deviceInfo.supportedAbis.includes(arch)
