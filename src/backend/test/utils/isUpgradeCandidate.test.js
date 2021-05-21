@@ -11,7 +11,7 @@ const inValidUpgradeCandidates = path.join(
 
 test("isUpgradeCandidate: valid upgrade candidates", t => {
   const candidates = fs.readdirSync(validUpgradeCandidates);
-  t.plan(candidates.length);
+  t.plan(candidates.length * 2);
   for (const candidate of candidates) {
     const config = fs.readFileSync(
       path.join(validUpgradeCandidates, candidate)
@@ -21,6 +21,15 @@ test("isUpgradeCandidate: valid upgrade candidates", t => {
     t.ok(
       res,
       `${candidate}: ${json.installer.versionName} is valid upgrade for ${json.currentApkInfo.versionName}`
+    );
+    const swap = isUpgradeCandidate({
+      ...json,
+      currentApkInfo: json.installer,
+      installer: json.currentApkInfo,
+    });
+    t.false(
+      swap,
+      `${candidate} inverse: ${json.currentApkInfo.versionName} is invalid upgrade for ${json.installer.versionName}`
     );
   }
 });
