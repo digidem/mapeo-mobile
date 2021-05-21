@@ -1,9 +1,9 @@
 {
   "currentApkInfo": {
-    "hash": "810ff2fb252a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50",
+    "hash": "810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50",
     "size": 8,
-    "versionName": "1.1.0-RC+9a6731e",
-    "minSdkVersion": 1,
+    "versionName": "1.0.0",
+    "minSdkVersion": 24,
     "applicationId": "com.example",
     "versionCode": 1,
     "hashType": "sha256",
@@ -19,7 +19,7 @@
     "hash": "810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50",
     "size": 8,
     "versionName": "1.2.0",
-    "minSdkVersion": 1,
+    "minSdkVersion": 23,
     "applicationId": "com.example",
     "versionCode": 1,
     "hashType": "sha256",

@@ -36,7 +36,7 @@ test("isUpgradeCandidate: invalid upgrade candidates; ", t => {
     const res = isUpgradeCandidate(json);
     t.false(
       res,
-      `: ${json.installer.versionName} is invalid upgrade for ${json.currentApkInfo.versionName}`
+      `${candidate}: ${json.installer.versionName} is invalid upgrade for ${json.currentApkInfo.versionName}`
     );
   }
 });
