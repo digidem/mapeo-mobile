@@ -4,28 +4,29 @@ const test = require("tape");
 const UpgradeManager = require("../lib/upgrade-manager");
 const { setupTmpStorageFolder, readJson } = require("./helpers");
 const omit = require("lodash/omit");
+const scenarios = require("./fixtures/manager-scenarios");
 
 /** @typedef {import('../lib/types').InstallerInt} InstallerInt */
 /** @typedef {import("../lib/types").DeviceInfo} DeviceInfo */
-
-/** @type {DeviceInfo} */
-const fakeDeviceInfo = {
-  supportedAbis: ["armeabi-v7a", "arm64-v8a"],
-  sdkVersion: 21,
-};
 
 const validApksFolder = path.join(__dirname, "./fixtures/valid-apks");
 
 /**
  * @param {object} opts
  * @param {string[]} opts.apkFiles List of files (from validApksFolder) to copy into temp directory
- * @param {InstallerInt} opts.currentApkInfo
+ * @param {string} opts.currentApk File in validApksFolder to use as current Apk
  * @param {DeviceInfo} opts.deviceInfo
  */
-async function makeUpgradeManager({ apkFiles, currentApkInfo, deviceInfo }) {
+async function makeUpgradeManager({ apkFiles, currentApk, deviceInfo }) {
   const filepaths = apkFiles.map(filename =>
     path.join(validApksFolder, filename)
   );
+  const currentApkInfo = {
+    ...(await readJson(
+      path.join(validApksFolder, currentApk.replace(/\.apk$/, ".expected.json"))
+    )),
+    filepath: path.join(validApksFolder, currentApk),
+  };
   const { storageDir, expected, cleanup } = await setupTmpStorageFolder(
     filepaths,
     currentApkInfo
@@ -45,62 +46,66 @@ async function makeUpgradeManager({ apkFiles, currentApkInfo, deviceInfo }) {
   };
 }
 
-test("Upgrade Manager finds & downloads an upgrade from another device", async t => {
-  const v100Filepath = path.join(
-    validApksFolder,
-    "com.example.test_SDK21_VN1.0.0_VC1.apk"
-  );
-  const v110Filepath = path.join(
-    validApksFolder,
-    "com.example.test_SDK21_VN1.1.0_VC1.apk"
-  );
-  const v100ApkInfo = await readJson(
-    v100Filepath.replace(/\.apk$/, ".expected.json")
-  );
-  v100ApkInfo.filepath = v100Filepath;
-  const v110ApkInfo = await readJson(
-    v110Filepath.replace(/\.apk$/, ".expected.json")
-  );
-  v110ApkInfo.filepath = v110Filepath;
+test("Upgrade Manager scenarios", async t => {
+  // This will run each scenario for 10 seconds and check the eventual state of
+  // each manager instance. Sorry the code is a bit messy - this was a bit
+  // rushed, but the logic here should not be too important, the actual thing we
+  // are testing are the scenarios in `fixtures/manager-scenarios.js`
+  for (const scenario of scenarios) {
+    t.test(scenario.description, async st => {
+      const expectedEventualStates = await Promise.all(
+        scenario.eventualStates.map(async s => {
+          const installerInfo =
+            typeof s.availableUpgrade === "string"
+              ? await readJson(path.join(validApksFolder, s.availableUpgrade))
+              : s.availableUpgrade;
+          return { ...s, availableUpgrade: installerInfo };
+        })
+      );
 
-  const manager1 = await makeUpgradeManager({
-    apkFiles: [],
-    deviceInfo: fakeDeviceInfo,
-    // manager1 is running the newer version v1.1.0
-    currentApkInfo: v110ApkInfo,
-  });
-  const manager2 = await makeUpgradeManager({
-    apkFiles: [],
-    deviceInfo: fakeDeviceInfo,
-    // manager2 is running older version v1.0.0
-    currentApkInfo: v100ApkInfo,
-  });
+      const managerMakePromises = scenario.managers.map(m =>
+        makeUpgradeManager({
+          apkFiles: m.storedInstallers,
+          deviceInfo: m.deviceInfo,
+          currentApk: m.currentApk,
+        })
+      );
+      const managers = await Promise.all(managerMakePromises);
 
-  const testPromise = new Promise((resolve, reject) => {
-    let resolved = false;
-    manager2.manager.on("state", state => {
-      if (state.availableUpgrade) {
-        if (resolved) return;
-        resolved = true;
-        resolve(state.availableUpgrade);
-      }
+      // Promises to resolve once "final" state is reached
+      const statePromises = managers.map(
+        ({ manager }) =>
+          new Promise(resolve => {
+            /** @type {import('../lib/types').UpgradeState | void} */
+            let eventualState;
+            manager.on("state", state => {
+              eventualState = state;
+            });
+            // Allow 10 seconds to find and download an available upgrade
+            setTimeout(() => resolve(eventualState), 10000);
+          })
+      );
+
+      // Start up all the managers in the scenario
+      await Promise.all(managers.map(m => m.manager.start()));
+
+      const eventualStates = await Promise.all(statePromises);
+      // Remove filepaths
+      const normalizedEventualStates = eventualStates.map(state => ({
+        ...state,
+        availableUpgrade:
+          state.availableUpgrade && omit(state.availableUpgrade, "filepath"),
+      }));
+
+      st.equal(
+        managers.length,
+        eventualStates.length,
+        "Scenario passes sanity check!"
+      );
+
+      st.deepEqual(normalizedEventualStates, expectedEventualStates);
+
+      await Promise.all(managers.map(m => m.manager.stop()));
     });
-    // Allow 10 seconds to find and download an available upgrade
-    setTimeout(reject, 10000);
-  });
-
-  await Promise.all([manager1.manager.start(), manager2.manager.start()]);
-
-  try {
-    const availableUpgrade = await testPromise;
-    t.deepEqual(
-      omit(availableUpgrade, "filepath"),
-      omit(v110ApkInfo, "filepath"),
-      "Expected upgrade from manager1 is available on manager2"
-    );
-  } catch (e) {
-    t.fail("Timed out before the upgrade became available");
   }
-
-  await Promise.all([manager1.cleanup(), manager2.cleanup()]);
 });
