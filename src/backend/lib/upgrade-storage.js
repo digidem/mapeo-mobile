@@ -8,11 +8,14 @@ const crypto = require("crypto");
 const duplexify = require("duplexify");
 const rimraf = util.promisify(require("rimraf"));
 const AsyncService = require("./async-service");
+const stream = require("stream");
 const {
   installerCompare,
   getInstallerInfo,
   beforeAfterStream,
+  stringifyInstaller,
 } = require("./utils");
+const log = require("debug")("p2p-upgrades:storage");
 
 /** @typedef {import('./types').InstallerInt} InstallerInt */
 
@@ -70,14 +73,14 @@ class Storage extends AsyncService {
       // Catch errors trying to read the apk file and ignore it
       apkFiles.map(file => getInstallerInfo(file).catch(() => {}))
     );
-    /** @type {string[]} */
-    const forDeletion = [];
+    /** @type {Set<InstallerInt>} */
+    const forDeletion = new Set();
 
     for (const installer of storedInstallerInts) {
       if (!installer) continue;
       // Mark any upgrade < current installed APK for deletion
       if (installerCompare(installer, this._currentApkInfo) === -1) {
-        forDeletion.push(installer.filepath);
+        forDeletion.add(installer);
       } else {
         this._installers.set(installer.hash, installer);
       }
@@ -85,8 +88,22 @@ class Storage extends AsyncService {
 
     this._installers.set(this._currentApkInfo.hash, this._currentApkInfo);
 
-    await Promise.all(forDeletion.map(file => fs.promises.unlink(file)));
-    this.emit("installers", Array.from(this._installers.values()));
+    if (forDeletion.size) {
+      log(
+        "Deleting old installers:",
+        [...forDeletion].map(i => stringifyInstaller(i))
+      );
+    }
+
+    await Promise.all(
+      [...forDeletion].map(installer => fs.promises.unlink(installer.filepath))
+    );
+    const installerArray = Array.from(this._installers.values());
+    this.emit("installers", installerArray);
+    log(
+      "Initialized storage with installers:",
+      installerArray.map(i => stringifyInstaller(i))
+    );
   }
 
   async _stop() {
@@ -129,11 +146,20 @@ class Storage extends AsyncService {
       .then(() => {
         const upgrade = this._installers.get(hash);
         if (!upgrade) return str.destroy(new Error("NotFound"));
+        log(`Read started: ${hash.slice(0, 7)}`);
         str.setReadable(fs.createReadStream(upgrade.filepath));
       })
       .catch(e => {
         str.destroy(e);
       });
+
+    stream.finished(str, e => {
+      if (e) {
+        log(`Read error for ${hash.slice(0, 7)}: `, e);
+      } else {
+        log(`Read finished: ${hash.slice(0, 7)}`);
+      }
+    });
 
     return str;
   }
@@ -151,6 +177,7 @@ class Storage extends AsyncService {
     );
     return beforeAfterStream({
       createStream: async () => {
+        log(`Write started: ${expectedHash.slice(0, 7)}`);
         await this.started();
         return fs.createWriteStream(tmpFilepath);
       },
@@ -173,8 +200,10 @@ class Storage extends AsyncService {
           );
           await fs.promises.rename(tmpFilepath, installer.filepath);
           this._installers.set(installer.hash, installer);
+          log(`Write complete: ${stringifyInstaller(installer)}`);
           this.emit("installers", Array.from(this._installers.values()));
         } catch (e) {
+          log("WriteStream Error:", e);
           // Cleanup if necessary
           try {
             fsStream.destroy(e);

@@ -7,6 +7,7 @@ const secureJson = require("secure-json-parse");
 const { isInstallerList } = require("./schema");
 const throttle = require("lodash/throttle");
 const stream = require("stream");
+const { stringifyInstaller } = require("./utils");
 const log = require("debug")("p2p-upgrades:discovery");
 
 // TTL for discovered peers, if they are not seen for more than this period then
@@ -31,7 +32,7 @@ const PEER_TTL_MS = 4000;
  * @extends {AsyncService<Events, [number]>}
  */
 class UpgradeDiscovery extends AsyncService {
-  #port = 3000;
+  #port = 0;
   /**
    * Store installers by hash, replacing any existing one with most recently
    * seen. In the future maybe store references to copies on different peers?
@@ -72,10 +73,7 @@ class UpgradeDiscovery extends AsyncService {
     /** @private */
     this._throttledEmitInstallers = throttle(
       () => {
-        // TODO: This could emit up to {EMIT_THROTTLE} milliseconds after the
-        // service has stopped, is this desirable behaviour?
-        // if (this.getState().value !== 'started') return // fix for this
-        // For now going to call flush() on this when stopping
+        // Flushed when the service stops (so will not emit after stop)
         this.emit(
           "installers",
           Array.from(this.#availableInstallers.values()).map(
@@ -97,18 +95,30 @@ class UpgradeDiscovery extends AsyncService {
   createReadStream(hash) {
     const installer = this.#availableInstallers.get(hash);
     if (installer) {
-      const stream = got.stream(installer.installer.url);
-      stream.once("error", e => {
-        log("Download error", e);
+      log(
+        `${this.#port}: Starting download: ${stringifyInstaller(
+          installer.installer
+        )} from ${
+          // @ts-ignore
+          new URL(installer.installer.url).host
+        }`
+      );
+      const downloadStream = got.stream(installer.installer.url);
+      downloadStream.once("error", e => {
+        log(`${this.#port}: Download error for ${hash.slice(0, 7)}:`, e);
         // Remove from available installers - probably errored because no longer
         // available
         clearTimeout(installer.timeoutId);
         this.#availableInstallers.delete(hash);
         this._throttledEmitInstallers();
       });
-      return stream;
+      stream.finished(downloadStream, e => {
+        if (!e) log(`${this.#port}: Download complete: ${hash.slice(0, 7)}`);
+      });
+      return downloadStream;
     }
     // If an installer matching this has is no longer tracked as "available", return a fake stream that instantly errors
+    log(`${this.#port}: Installer not available ${hash.slice(0, 7)}`);
     const brokenStream = new stream.Readable({ read() {} });
     process.nextTick(() => brokenStream.emit("error", new Error("NotFound")));
     return brokenStream;
@@ -121,6 +131,7 @@ class UpgradeDiscovery extends AsyncService {
    */
   async _start(port) {
     this.#port = port;
+    log(`${this.#port}: starting`);
     this.#discovery = createDiscovery({
       server: [],
       loopback: false,
@@ -132,6 +143,7 @@ class UpgradeDiscovery extends AsyncService {
       // interval so we can check whether peers are still available
       this.#discovery.lookup(this._discoveryKey);
     }, this._lookupInterval);
+    log(`${this.#port}: started`);
   }
 
   /**
@@ -140,6 +152,7 @@ class UpgradeDiscovery extends AsyncService {
    * @returns {Promise<void>}
    */
   async _stop() {
+    log(`${this.#port}: stopping`);
     return new Promise(resolve => {
       this._discoveryInterval && clearInterval(this._discoveryInterval);
       this.#discovery.off("peer", this._onPeer);
@@ -149,6 +162,7 @@ class UpgradeDiscovery extends AsyncService {
       // an error, but we can safely ignore it
       this.#discovery.unannounce(this._discoveryKey, this.#port, () => {
         this.#discovery.destroy(() => {
+          log(`${this.#port}: stopped`);
           resolve();
         });
       });
@@ -169,6 +183,7 @@ class UpgradeDiscovery extends AsyncService {
     this.#inProgressRequests.add(listUrl);
     let installers;
     try {
+      log(`${this.#port}: Querying peer ${host}:${port}`);
       // Secure parse of JSON to avoid prototype pollution
       installers = await got(listUrl, {
         parseJson: text => secureJson.parse(text),
@@ -176,12 +191,19 @@ class UpgradeDiscovery extends AsyncService {
       // Validate response
       if (!isInstallerList(installers)) throw isInstallerList.errors;
     } catch (e) {
-      log("ERROR", e);
+      log(`${this.#port}: Error querying peer ${host}:${port}`, e);
       // If we get an error trying to connect to a peer, then remove any
       // installers from that host from our list of available installers
       // TODO: Emit an error here, mainly for testing
       for (const { installer } of this.#availableInstallers.values()) {
         if (installer.url.startsWith(`http://${host}:${port}`)) {
+          log(
+            `${
+              this.#port
+            }: removing from available from ${host}:${port}: ${stringifyInstaller(
+              installer
+            )}`
+          );
           this.#availableInstallers.delete(installer.hash);
         }
       }
@@ -195,12 +217,22 @@ class UpgradeDiscovery extends AsyncService {
         clearTimeout(existing.timeoutId);
         this.#availableInstallers.delete(hash);
       }
+      log(
+        `${this.#port}: ${host}:${port} available: ${stringifyInstaller(
+          installer
+        )}`
+      );
       this.#availableInstallers.set(hash, {
         installer,
         timeoutId: setTimeout(() => {
+          log(
+            `${this.#port}: TTL for ${stringifyInstaller(
+              installer
+            )} from ${host}:${port}`
+          );
           this.#availableInstallers.delete(hash);
           this._throttledEmitInstallers();
-        }, TTL),
+        }, PEER_TTL_MS),
       });
     }
     this.#inProgressRequests.delete(listUrl);

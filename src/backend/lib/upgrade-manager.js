@@ -4,11 +4,14 @@ const UpgradeStorage = require("./upgrade-storage");
 const UpgradeServer = require("./upgrade-server");
 const UpgradeDiscovery = require("./upgrade-discovery");
 const AsyncService = require("./async-service");
-const { getBestUpgradeCandidate, installerCompare } = require("./utils");
+const {
+  getBestUpgradeCandidate,
+  installerCompare,
+  stringifyInstaller,
+} = require("./utils");
 const stream = require("stream");
 const progressStream = require("progress-stream");
 const throttle = require("lodash/throttle");
-
 const log = require("debug")("p2p-upgrades:manager");
 
 const getPort = require("get-port");
@@ -70,6 +73,8 @@ const getPort = require("get-port");
  * @extends {AsyncService<Events>}
  */
 class UpgradeManager extends AsyncService {
+  // Used for logging
+  #port = 0;
   /** @type {UpgradeState} */
   #state = {
     value: "stopped",
@@ -135,12 +140,23 @@ class UpgradeManager extends AsyncService {
    * @param {InstallerInt[]} storedInstallers
    */
   _onStoredInstallers(storedInstallers) {
+    log(
+      `${this.#port}: Updated stored installers:`,
+      storedInstallers.map(i => stringifyInstaller(i))
+    );
     const upgradeCandidate = getBestUpgradeCandidate({
       deviceInfo: this._deviceInfo,
       currentApkInfo: this._currentApkInfo,
       installers: storedInstallers,
     });
-    if (!upgradeCandidate) return;
+    if (!upgradeCandidate) {
+      log(`${this.#port}: No upgrade candidate in storage`);
+      return;
+    }
+    log(
+      `${this.#port}: Available upgrade:`,
+      stringifyInstaller(upgradeCandidate)
+    );
     this.setState({ availableUpgrade: upgradeCandidate });
   }
 
@@ -161,6 +177,10 @@ class UpgradeManager extends AsyncService {
       });
       // If none of the downloadable installers are an upgrade candidate, ignore
       if (!upgradeCandidate) return;
+      log(
+        `${this.#port}: Found available upgrade candidate`,
+        stringifyInstaller(upgradeCandidate)
+      );
       const { hash: candidateHash } = upgradeCandidate;
       const { availableUpgrade } = this.getState();
       // If we have an availableUpgrade in storage already, and this
@@ -168,22 +188,57 @@ class UpgradeManager extends AsyncService {
       if (
         availableUpgrade &&
         installerCompare(upgradeCandidate, availableUpgrade) < 1
-      )
+      ) {
+        log(
+          `${this.#port}: Upgrade candidate ${candidateHash.slice(
+            0,
+            7
+          )} is already downloaded`
+        );
         return;
+      }
       // If we are already in the process of downloading an installer with this
       // same hash, ignore this one
-      if (this.#downloads.has(candidateHash)) return;
+      if (this.#downloads.has(candidateHash)) {
+        log(
+          `${this.#port}: Upgrade candidate ${candidateHash.slice(
+            0,
+            7
+          )} is downloading`
+        );
+        return;
+      }
       // If we are already downloading an installer with a higher version number
       // than this one, ignore this one
       for (const { installerInfo } of this.#downloads.values()) {
-        if (installerCompare(upgradeCandidate, installerInfo) < 1) return;
+        if (installerCompare(upgradeCandidate, installerInfo) < 1) {
+          log(
+            `${this.#port}: Already downloading ${stringifyInstaller(
+              installerInfo
+            )} which is newer than ${candidateHash.slice(0, 7)}`
+          );
+          return;
+        }
       }
       const currentInstallers = await this._storage.list();
       // If we this upgrade candidate is already in storage, we can ignore it
-      if (currentInstallers.find(installer => installer.hash === candidateHash))
+      if (
+        currentInstallers.find(installer => installer.hash === candidateHash)
+      ) {
+        log(
+          `${this.#port}: Upgrade candidate ${candidateHash.slice(
+            0,
+            7
+          )} is already downloaded`
+        );
         return;
+      }
       // If there are any in progress downloads, cancel them
-      for (const { stream } of this.#downloads.values()) {
+      for (const { stream, installerInfo } of this.#downloads.values()) {
+        log(
+          `${this.#port}: cancelling download of`,
+          stringifyInstaller(installerInfo)
+        );
         stream.destroy();
       }
       // Now we've cancelled the downloads, clear them from our map
@@ -208,7 +263,15 @@ class UpgradeManager extends AsyncService {
       );
       const ws = this._storage.createWriteStream({ hash: candidateHash });
 
+      log(`${this.#port}: Start download:`, candidateHash.slice(0, 7));
       stream.pipeline(rs, progress, ws, e => {
+        if (e)
+          log(
+            `${this.#port}: Error downloading ${candidateHash.slice(0, 7)}`,
+            e
+          );
+        else
+          log(`${this.#port}: Download complete ${candidateHash.slice(0, 7)}`);
         this.#downloads.delete(candidateHash);
       });
 
@@ -218,7 +281,7 @@ class UpgradeManager extends AsyncService {
         installerInfo: upgradeCandidate,
       });
     } catch (e) {
-      log("Uncaught error processing available downloads", e);
+      log(`${this.#port}: Uncaught error processing available downloads`, e);
       this.setState({ value: "error", error: e });
     }
   }
@@ -260,10 +323,13 @@ class UpgradeManager extends AsyncService {
    * @returns {Promise<void>} Resolves when started
    */
   async _start() {
-    log("got request to start services");
-    const port = await getPort();
-    await Promise.all([this._discovery.start(port), this._server.start(port)]);
-    log("Started services");
+    this.#port = await getPort();
+    log(`${this.#port}: starting`);
+    await Promise.all([
+      this._discovery.start(this.#port),
+      this._server.start(this.#port),
+    ]);
+    log(`${this.#port}: started`);
   }
 
   /**
@@ -272,9 +338,9 @@ class UpgradeManager extends AsyncService {
    * @returns {Promise<void>} Resolves when stopped
    */
   async _stop() {
-    log("got request to stop services");
+    log(`${this.#port}: stopping`);
     await Promise.all([this._discovery.stop(), this._server.stop()]);
-    log("Stopped services");
+    log(`${this.#port}: stopped`);
   }
 }
 

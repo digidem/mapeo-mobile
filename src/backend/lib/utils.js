@@ -20,6 +20,7 @@ module.exports = {
   getBestUpgradeCandidate,
   getInstallerInfo,
   beforeAfterStream,
+  stringifyInstaller,
 };
 
 /**
@@ -268,4 +269,31 @@ function beforeAfterStream({ createStream, finalize }) {
   });
 
   return ws;
+}
+
+const shortAbiNames = {
+  "armeabi-v7a": "arm7",
+  "arm64-v8a": "arm64",
+  x86: "x86",
+  x86_64: "x64",
+};
+
+/**
+ * Stringify relevant data about an installer for logging, to make logs easier
+ * to read (avoiding large objects)
+ *
+ * @param {InstallerExt | InstallerInt} installer
+ * @returns {string}
+ */
+function stringifyInstaller({
+  applicationId,
+  minSdkVersion,
+  versionName,
+  versionCode,
+  arch,
+  hash,
+}) {
+  return `${applicationId}_SDK${minSdkVersion}_VN${versionName}_VC${versionCode}_${arch
+    .map(a => shortAbiNames[a])
+    .join(",")}_${hash.slice(0, 7)}`;
 }
