@@ -274,7 +274,6 @@ class UpgradeManager extends AsyncService {
   async _stop() {
     log("got request to stop services");
     await Promise.all([this._discovery.stop(), this._server.stop()]);
-    this.setState({ value: "stopping" });
     log("Stopped services");
   }
 }
