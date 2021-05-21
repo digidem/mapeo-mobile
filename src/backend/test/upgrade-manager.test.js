@@ -48,11 +48,11 @@ async function makeUpgradeManager({ apkFiles, currentApkInfo, deviceInfo }) {
 test("Upgrade Manager finds & downloads an upgrade from another device", async t => {
   const v100Filepath = path.join(
     validApksFolder,
-    "com.example.test_minSdk21_VN1.0.0_VC1.apk"
+    "com.example.test_SDK21_VN1.0.0_VC1.apk"
   );
   const v110Filepath = path.join(
     validApksFolder,
-    "com.example.test_minSdk21_VN1.1.0_VC1.apk"
+    "com.example.test_SDK21_VN1.1.0_VC1.apk"
   );
   const v100ApkInfo = await readJson(
     v100Filepath.replace(/\.apk$/, ".expected.json")
