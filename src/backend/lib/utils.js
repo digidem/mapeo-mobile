@@ -29,18 +29,18 @@ module.exports = {
  *
  * @param {string} a
  * @param {string} b
- * @returns {-1 | 0 | 1}
+ * @returns {boolean}
  */
 function checkSamePR(a, b) {
   const aPR = semver.parse(a).prerelease[0];
   const bPR = semver.parse(b).prerelease[0];
   if (aPR && bPR) {
     if (aPR.startsWith("PR") && bPR.startsWith("PR")) {
-      if (aPR === bPR) return 1;
-      else return -1;
+      if (aPR === bPR) return true;
+      else return false;
     }
   }
-  return 0;
+  return true;
 }
 
 /**
@@ -81,7 +81,7 @@ function installerCompare(a, b) {
   // Check if is PR and is the same
   const prCompare = checkSamePR(a.versionName, b.versionName);
   log("PR Compare", prCompare);
-  if (prCompare !== 0) return prCompare;
+  if (!prCompare) return 0;
   // Important to validate semver before here, otherwise this will throw
   const semverCompare = semver.compare(a.versionName, b.versionName);
   log("semverCompare", semverCompare);
