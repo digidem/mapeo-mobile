@@ -14,6 +14,8 @@ const { readJson, hashCmp } = require("./helpers.js");
 const fsPromises = fs.promises;
 const got = require("got").default;
 
+tmp.setGracefulCleanup();
+
 /** @typedef {import('../lib/types').InstallerInt} InstallerInt */
 
 /** @param {InstallerInt} currentApkInfo */

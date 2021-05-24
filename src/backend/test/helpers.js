@@ -7,6 +7,8 @@ const UpgradeManager = require("../lib/upgrade-manager");
 const isMatch = require("lodash/isMatch");
 const log = require("debug")("p2p-upgrades:testHelpers");
 
+tmp.setGracefulCleanup();
+
 /** @typedef {import('../lib/types').InstallerInt} InstallerInt */
 /** @typedef {import('../lib/types').InstallerExt} InstallerExt */
 /** @typedef {import('../lib/types').DeviceInfo} DeviceInfo */

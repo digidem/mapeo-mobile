@@ -219,7 +219,7 @@ test("createWriteStream() --> invalid hash = installer does not appear as option
 });
 
 test("leftover files in the upgrade temp dir get wiped on init", async t => {
-  const { path: storageDir } = await tmp.dir();
+  const { path: storageDir, cleanup } = await tmp.dir({ unsafeCleanup: true });
   await mkdirp(path.join(storageDir, "tmp"));
   const filepath = path.join(storageDir, "tmp", "somefile");
   await fsPromises.writeFile(filepath, Buffer.alloc(16));
@@ -233,6 +233,7 @@ test("leftover files in the upgrade temp dir get wiped on init", async t => {
   await storage.started();
 
   t.notOk(fs.existsSync(filepath), "file does not exist");
+  await cleanup();
 });
 
 test("Invalid APKs that somehow get into storage are ignored", async t => {
