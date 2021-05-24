@@ -13,12 +13,16 @@ tmp.setGracefulCleanup();
 /** @typedef {import('../lib/types').InstallerExt} InstallerExt */
 /** @typedef {import('../lib/types').DeviceInfo} DeviceInfo */
 /** @typedef {import('../lib/types').DevicePlan} DevicePlan */
+
+const validApksFolder = path.join(__dirname, "./fixtures/valid-apks");
+
 module.exports = {
   readJson,
   hashCmp,
   setupStorage,
   setupTmpStorageFolder,
   playDevicePlan,
+  validApksFolder,
 };
 
 /**
@@ -87,8 +91,6 @@ async function setupTmpStorageFolder(filepaths, currentApkInfo) {
   expected.push(currentApkInfo);
   return { expected, cleanup: tmpDir.cleanup, storageDir: tmpDir.path };
 }
-
-const validApksFolder = path.join(__dirname, "./fixtures/valid-apks");
 
 /**
  * Create an UpgradeManager instance and create a temporary dir for storageDir,

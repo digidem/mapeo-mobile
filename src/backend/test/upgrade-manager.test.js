@@ -1,6 +1,8 @@
 // @ts-check
 const test = require("tape");
-const { playDevicePlan } = require("./helpers");
+const path = require("path");
+const { playDevicePlan, validApksFolder } = require("./helpers");
+const hasha = require("hasha");
 
 /** @typedef {import('../lib/types').InstallerInt} InstallerInt */
 /** @typedef {import("../lib/types").DevicePlan} DevicePlan */
@@ -11,7 +13,7 @@ const defaultDeviceInfo = {
   sdkVersion: 21,
 };
 
-test("One device updates another", async t => {
+test.only("One device updates another", async t => {
   /** @type {DevicePlan} */
   const device1Plan = {
     label: "device1",
@@ -53,6 +55,29 @@ test("One device updates another", async t => {
           // Uploads should never be uploading
           uploads: [{}],
         },
+      },
+      async manager => {
+        const state = manager.getState();
+        if (!state.availableUpgrade) throw new Error("Should not happen");
+        const upgrade = state.availableUpgrade;
+        const reportedHash = upgrade.hash;
+        const actualHash = await hasha.fromFile(upgrade.filepath, {
+          algorithm: "sha256",
+        });
+        const expectedHash = await hasha.fromFile(
+          path.join(validApksFolder, device2Plan.config.currentApk),
+          { algorithm: "sha256" }
+        );
+        t.equal(
+          reportedHash,
+          expectedHash,
+          "Downloaded reported expected hash"
+        );
+        t.equal(
+          actualHash,
+          expectedHash,
+          "Downloaded file matches expected hash"
+        );
       },
     ],
   };
