@@ -20,11 +20,7 @@ const getPort = require("get-port");
 /** @typedef {import('./types').InstallerExt} InstallerExt */
 /** @typedef {import('./types').InstallerInt} InstallerInt */
 /** @typedef {import('./types').TransferProgress} TransferProgress */
-/**
- * @typedef {Object} Events
- * @property {(state: UpgradeState) => void} state
- * @property {(error?: Error) => void} error
- */
+/** @typedef {import('./types').ManagerEvents} Events */
 
 /**
  * Manage p2p upgrades. Start with `start()` and stop with `stop()`. It will
@@ -276,7 +272,11 @@ class UpgradeManager extends AsyncService {
           );
         else
           log(`${this.#port}: Download complete ${candidateHash.slice(0, 7)}`);
+        this.#throttledEmitState();
+        // Force emit before download is removed
+        this.#throttledEmitState.flush();
         this.#downloads.delete(candidateHash);
+        this.#throttledEmitState();
       });
 
       this.#downloads.set(candidateHash, {
@@ -284,6 +284,8 @@ class UpgradeManager extends AsyncService {
         progress: download,
         installerInfo: upgradeCandidate,
       });
+      this.#throttledEmitState();
+      this.#throttledEmitState.flush();
     } catch (e) {
       log(`${this.#port}: Uncaught error processing available downloads`, e);
       this.setState({ value: "error", error: e });

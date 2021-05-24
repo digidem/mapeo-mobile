@@ -96,6 +96,10 @@ class UpgradeServer extends AsyncService {
 
     /** @type {Upload} */
     const upload = { id: installer.hash, sofar: 0, total: installer.size };
+    this.#uploads.add(upload);
+    this.#throttledEmitUploads();
+    // Ensure that we always emit an event when upload starts
+    this.#throttledEmitUploads.flush();
 
     const readStream = this.#storage.createReadStream(request.params.id);
     const progress = progressStream({ length: installer.size }, progress => {
@@ -114,6 +118,9 @@ class UpgradeServer extends AsyncService {
           log(`${this.#port}: Uploaded complete ${installer.hash.slice(0, 7)}`);
       })
     );
+    this.#throttledEmitUploads();
+    // Always emit event with upload complete
+    this.#throttledEmitUploads.flush();
     // Reply is now finished
     this.#uploads.delete(upload);
     this.#throttledEmitUploads();

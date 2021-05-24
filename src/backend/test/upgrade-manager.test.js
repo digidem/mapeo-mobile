@@ -1,111 +1,362 @@
 // @ts-check
-const path = require("path");
 const test = require("tape");
-const UpgradeManager = require("../lib/upgrade-manager");
-const { setupTmpStorageFolder, readJson } = require("./helpers");
-const omit = require("lodash/omit");
-const scenarios = require("./fixtures/manager-scenarios");
+const { playDevicePlan } = require("./helpers");
 
 /** @typedef {import('../lib/types').InstallerInt} InstallerInt */
-/** @typedef {import("../lib/types").DeviceInfo} DeviceInfo */
+/** @typedef {import("../lib/types").DevicePlan} DevicePlan */
 
-const validApksFolder = path.join(__dirname, "./fixtures/valid-apks");
+/** @type {import('../lib/types').DeviceInfo} */
+const defaultDeviceInfo = {
+  supportedAbis: ["armeabi-v7a", "arm64-v8a"],
+  sdkVersion: 21,
+};
 
-/**
- * @param {object} opts
- * @param {string[]} opts.apkFiles List of files (from validApksFolder) to copy into temp directory
- * @param {string} opts.currentApk File in validApksFolder to use as current Apk
- * @param {DeviceInfo} opts.deviceInfo
- */
-async function makeUpgradeManager({ apkFiles, currentApk, deviceInfo }) {
-  const filepaths = apkFiles.map(filename =>
-    path.join(validApksFolder, filename)
-  );
-  const currentApkInfo = {
-    ...(await readJson(
-      path.join(validApksFolder, currentApk.replace(/\.apk$/, ".expected.json"))
-    )),
-    filepath: path.join(validApksFolder, currentApk),
-  };
-  const { storageDir, expected, cleanup } = await setupTmpStorageFolder(
-    filepaths,
-    currentApkInfo
-  );
-  const manager = new UpgradeManager({
-    storageDir,
-    currentApkInfo,
-    deviceInfo,
-  });
-  return {
-    manager,
-    expected,
-    async cleanup() {
-      await manager.stop();
-      await cleanup();
+test("One device updates another", async t => {
+  /** @type {DevicePlan} */
+  const device1Plan = {
+    label: "device1",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
     },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      {
+        message: "download of update started",
+        eventName: "state",
+        waitFor: {
+          downloads: [
+            {
+              id:
+                // Expected hash of update on device2
+                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+            },
+          ],
+        },
+        never: {
+          // Uploads should never be uploading
+          uploads: [{}],
+        },
+      },
+      {
+        message: "update is downloaded and available",
+        eventName: "state",
+        waitFor: {
+          downloads: [],
+          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC1.expected.json",
+        },
+        never: {
+          // Uploads should never be uploading
+          uploads: [{}],
+        },
+      },
+    ],
   };
-}
 
-test("Upgrade Manager scenarios", async t => {
-  // This will run each scenario for 10 seconds and check the eventual state of
-  // each manager instance. Sorry the code is a bit messy - this was a bit
-  // rushed, but the logic here should not be too important, the actual thing we
-  // are testing are the scenarios in `fixtures/manager-scenarios.js`
-  for (const scenario of scenarios) {
-    t.test(scenario.description, async st => {
-      const expectedEventualStates = await Promise.all(
-        scenario.eventualStates.map(async s => {
-          const installerInfo =
-            typeof s.availableUpgrade === "string"
-              ? await readJson(path.join(validApksFolder, s.availableUpgrade))
-              : s.availableUpgrade;
-          return { ...s, availableUpgrade: installerInfo };
-        })
-      );
+  /** @type {DevicePlan} */
+  const device2Plan = {
+    label: "device2",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.1.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      {
+        message: "current apk from device is uploading",
+        eventName: "state",
+        waitFor: {
+          uploads: [
+            {
+              id:
+                // Hash of the currentApk on this device
+                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+            },
+          ],
+        },
+      },
+      {
+        message: "upload is complete",
+        eventName: "state",
+        waitFor: {
+          uploads: [],
+        },
+      },
+    ],
+  };
 
-      const managerMakePromises = scenario.managers.map(m =>
-        makeUpgradeManager({
-          apkFiles: m.storedInstallers,
-          deviceInfo: m.deviceInfo,
-          currentApk: m.currentApk,
-        })
-      );
-      const managers = await Promise.all(managerMakePromises);
+  const cleanUpFunctions = await Promise.all([
+    playDevicePlan(t, device1Plan),
+    playDevicePlan(t, device2Plan),
+  ]);
 
-      // Promises to resolve once "final" state is reached
-      const statePromises = managers.map(
-        ({ manager }) =>
-          new Promise(resolve => {
-            /** @type {import('../lib/types').UpgradeState | void} */
-            let eventualState;
-            manager.on("state", state => {
-              eventualState = state;
-            });
-            // Allow 10 seconds to find and download an available upgrade
-            setTimeout(() => resolve(eventualState), 10000);
-          })
-      );
+  t.pass("Scenario complete without error");
 
-      // Start up all the managers in the scenario
-      await Promise.all(managers.map(m => m.manager.start()));
+  await Promise.all(cleanUpFunctions.map(f => f()));
+});
 
-      const eventualStates = await Promise.all(statePromises);
-      // Remove filepaths
-      const normalizedEventualStates = eventualStates.map(state => ({
-        ...state,
-        availableUpgrade:
-          state.availableUpgrade && omit(state.availableUpgrade, "filepath"),
-      }));
+test("One device updates multiple other devices", async t => {
+  /** @type {DevicePlan} */
+  const deviceWithNewerMapeoPlan = {
+    label: "v1.1.0",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.1.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      {
+        message: "current apk from device is uploading",
+        eventName: "state",
+        waitFor: {
+          // Expect at least one upload - no guarantee all uploads will happen
+          // at the same time
+          uploads: [{}],
+        },
+      },
+      {
+        message: "upload is complete",
+        eventName: "state",
+        waitFor: {
+          uploads: [],
+        },
+      },
+    ],
+  };
 
-      st.equal(
-        managers.length,
-        eventualStates.length,
-        "Scenario passes sanity check!"
-      );
+  /** @type {DevicePlan} */
+  const deviceWithOlderMapeoPlan = {
+    label: "replaced in map below",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      {
+        message: "download of update started",
+        eventName: "state",
+        waitFor: {
+          downloads: [
+            {
+              id:
+                // Expected hash of update on newer device
+                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+            },
+          ],
+        },
+        never: {
+          // Uploads should never be uploading
+          uploads: [{}],
+        },
+      },
+      {
+        message: "update is downloaded and available",
+        eventName: "state",
+        waitFor: {
+          downloads: [],
+          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC1.expected.json",
+        },
+        never: {
+          // Uploads should never be uploading
+          uploads: [{}],
+        },
+      },
+    ],
+  };
 
-      st.deepEqual(normalizedEventualStates, expectedEventualStates);
+  const olderDevicePlans = new Array(5)
+    .fill(deviceWithOlderMapeoPlan)
+    .map((p, i) => ({ ...p, label: "device" + i }));
 
-      await Promise.all(managers.map(m => m.manager.stop()));
-    });
-  }
+  const cleanUpFunctions = await Promise.all([
+    playDevicePlan(t, deviceWithNewerMapeoPlan),
+    ...olderDevicePlans.map(p => playDevicePlan(t, p)),
+  ]);
+
+  t.pass("Scenario complete without error");
+
+  await Promise.all(cleanUpFunctions.map(f => f()));
+});
+
+test("Update is passed from device to device", async t => {
+  // This device starts with the newer APK
+  /** @type {DevicePlan} */
+  const device1Plan = {
+    label: "device1",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.1.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      {
+        message: "upload started",
+        eventName: "state",
+        waitFor: {
+          uploads: [{}],
+        },
+      },
+      {
+        message: "upload complete",
+        eventName: "state",
+        waitFor: {
+          uploads: [],
+        },
+      },
+    ],
+  };
+
+  // Device starts with older APK, downloads newer one, then uploads newer APK
+  // to other device when it comes online
+  /** @type {DevicePlan} */
+  const device2Plan = {
+    label: "device2",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      {
+        message: "download of update started",
+        eventName: "state",
+        waitFor: {
+          downloads: [
+            {
+              id:
+                // Expected hash of update on newer device
+                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+            },
+          ],
+        },
+        never: {
+          // Uploads should never be uploading
+          uploads: [{}],
+        },
+      },
+      {
+        message: "update is downloaded and available",
+        eventName: "state",
+        waitFor: {
+          downloads: [],
+          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC1.expected.json",
+        },
+        never: {
+          // Uploads should never be uploading
+          uploads: [{}],
+        },
+      },
+
+      {
+        message: "upload of update started",
+        eventName: "state",
+        waitFor: {
+          uploads: [
+            {
+              id:
+                // Expected hash of update on newer device
+                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+            },
+          ],
+        },
+      },
+      {
+        message: "upload complete",
+        eventName: "state",
+        waitFor: {
+          uploads: [],
+        },
+      },
+    ],
+  };
+
+  // Device comes online after device1 goes offline, and downloads from device2
+  /** @type {DevicePlan} */
+  const device3Plan = {
+    label: "device3",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      {
+        message: "download of update started",
+        eventName: "state",
+        waitFor: {
+          downloads: [
+            {
+              id:
+                // Expected hash of update on newer device
+                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+            },
+          ],
+        },
+        never: {
+          // Uploads should never be uploading
+          uploads: [{}],
+        },
+      },
+      {
+        message: "update is downloaded and available",
+        eventName: "state",
+        waitFor: {
+          downloads: [],
+          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC1.expected.json",
+        },
+        never: {
+          // Uploads should never be uploading
+          uploads: [{}],
+        },
+      },
+    ],
+  };
+
+  const device1Promise = playDevicePlan(t, device1Plan);
+  const device2Promise = playDevicePlan(t, device2Plan);
+
+  // Stop and cleanup device 1
+  const cleanup1 = await device1Promise;
+  await cleanup1();
+
+  t.pass("device1 is stopped");
+
+  // Now play device3 plan and wait for device2 plan to finish
+  const cleanUpFunctions = await Promise.all([
+    device2Promise,
+    playDevicePlan(t, device3Plan),
+  ]);
+
+  t.pass("Scenario complete without error");
+
+  await Promise.all(cleanUpFunctions.map(f => f()));
 });
