@@ -44,18 +44,6 @@ function checkSamePR(a, b) {
 }
 
 /**
- * Check if version name is {sha7}
- *
- * @param {string} versionName
- * @returns {boolean}
- */
-function checkVersionName(versionName) {
-  const splitHash = versionName.split("+");
-  if (splitHash.length > 1) return splitHash[1].length === 7;
-  return true;
-}
-
-/**
  * Compare two installer options, returns -1 if a is less than b, 0 if same, 1
  * if a is greater than b
  *
@@ -70,18 +58,6 @@ function installerCompare(a, b) {
   if (!aIsValidSemver && !bIsValidSemver) return 0;
   if (!aIsValidSemver) return -1;
   if (!bIsValidSemver) return 1;
-  // Check if semver commit is using {sha7}
-  log(
-    "checkVersionName",
-    checkVersionName(a.versionName),
-    checkVersionName(b.versionName)
-  );
-  if (!checkVersionName(a.versionName)) return -1;
-  if (!checkVersionName(b.versionName)) return -1;
-  // Check if is PR and is the same
-  const prCompare = checkSamePR(a.versionName, b.versionName);
-  log("PR Compare", prCompare);
-  if (!prCompare) return 0;
   // Important to validate semver before here, otherwise this will throw
   const semverCompare = semver.compare(a.versionName, b.versionName);
   log("semverCompare", semverCompare);
