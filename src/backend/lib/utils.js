@@ -32,12 +32,16 @@ module.exports = {
  * @returns {boolean}
  */
 function checkSamePR(a, b) {
-  const aPR = semver.parse(a).prerelease[0];
-  const bPR = semver.parse(b).prerelease[0];
-  if (aPR && bPR) {
-    if (aPR.startsWith("PR") && bPR.startsWith("PR")) {
-      if (aPR === bPR) return true;
-      else return false;
+  const validA = semver.valid(a);
+  const validB = semver.valid(b);
+  if (validA && validB) {
+    const aPR = semver.parse(validA).prerelease[0];
+    const bPR = semver.parse(validB).prerelease[0];
+    if (aPR && bPR) {
+      if (aPR.startsWith("PR") && bPR.startsWith("PR")) {
+        if (aPR === bPR) return true;
+        else return false;
+      }
     }
   }
   return true;
@@ -54,16 +58,22 @@ function checkSamePR(a, b) {
 function installerCompare(a, b) {
   const aIsValidSemver = semver.valid(a.versionName);
   const bIsValidSemver = semver.valid(b.versionName);
-  log("aIsValidSemver & bIsValidSemver", aIsValidSemver, bIsValidSemver);
   if (!aIsValidSemver && !bIsValidSemver) return 0;
-  if (!aIsValidSemver) return -1;
+  if (!aIsValidSemver) {
+    log(`installer rejected: ${aIsValidSemver} is invalid semver`);
+    return -1;
+  }
   if (!bIsValidSemver) return 1;
   // Important to validate semver before here, otherwise this will throw
   const semverCompare = semver.compare(a.versionName, b.versionName);
-  log("semverCompare", semverCompare);
-  if (semverCompare !== 0) return semverCompare;
-  log("a.versionCode & b.versionCode", a.versionCode, b.versionCode);
-  if (a.versionCode < b.versionCode) return -1;
+  if (semverCompare !== 0) {
+    log("semverCompare:", semverCompare);
+    return semverCompare;
+  }
+  if (a.versionCode < b.versionCode) {
+    log(`installer rejected: ${a.versionCode} < ${b.versionCode}`);
+    return -1;
+  }
   if (a.versionCode > b.versionCode) return 1;
   return 0;
 }
@@ -94,36 +104,54 @@ function isUpgradeCandidate({ deviceInfo, installer, currentApkInfo }) {
     deviceInfo.supportedAbis.includes(arch)
   );
   if (!isSupportedAbi) return false;
-  log(
-    "installer.minSdkVersion > deviceInfo.sdkVersion",
-    installer.minSdkVersion > deviceInfo.sdkVersion
+  if (installer.minSdkVersion > deviceInfo.sdkVersion) {
+    log(
+      `installer rejected: minSdkVersion ${installer.minSdkVersion} is not supported by this device`
+    );
+    return false;
+  }
+  if (installer.applicationId !== currentApkInfo.applicationId) {
+    log(
+      `installer rejected: application id ${installer.applicationId} doesn't match ${currentApkInfo.applicationId}`
+    );
+    return false;
+  }
+  if (installer.platform !== "android") {
+    log(`installer rejected: platform isn't Android`);
+    return false;
+  }
+  if (installer.versionCode < currentApkInfo.versionCode) {
+    log(
+      `installer rejected: installer version code ${installer.versionCode} is lower then current: ${currentApkInfo.versionCode} `
+    );
+    return false;
+  }
+
+  if (!semver.valid(installer.versionName)) {
+    log(
+      `installer rejected: semver ${installer.versionName} is invalid:`,
+      semver.valid(installer.versionName)
+    );
+    return false;
+  }
+  // Check if is PR and is the same
+  const prCompare = checkSamePR(
+    installer.versionName,
+    currentApkInfo.versionName
   );
-  if (installer.minSdkVersion > deviceInfo.sdkVersion) return false;
-  log(
-    "installer.applicationId !== currentApkInfo.applicationId",
-    installer.applicationId !== currentApkInfo.applicationId
-  );
-  if (installer.applicationId !== currentApkInfo.applicationId) return false;
-  log(
-    `isUpgradeCandidate ~ installer.platform !== "android"`,
-    installer.platform !== "android"
-  );
-  if (installer.platform !== "android") return false;
-  log(
-    "installer.versionCode < currentApkInfo.versionCode",
-    installer.versionCode < currentApkInfo.versionCode
-  );
-  if (installer.versionCode < currentApkInfo.versionCode) return false;
-  log(
-    "semver.valid(installer.versionName)",
-    semver.valid(installer.versionName)
-  );
-  if (!semver.valid(installer.versionName)) return false;
-  log(
-    "installerCompare(installer, currentApkInfo) < 1",
-    installerCompare(installer, currentApkInfo) < 1
-  );
-  if (installerCompare(installer, currentApkInfo) < 1) return false;
+  if (!prCompare) {
+    log(
+      `installer rejected: PR ${installer.versionName} not compatible with ${currentApkInfo.versionName}`
+    );
+    return false;
+  }
+  if (installerCompare(installer, currentApkInfo) < 1) {
+    log(
+      "installer rejected: comparisson between installer and current apk failed:",
+      installerCompare(installer, currentApkInfo)
+    );
+    return false;
+  }
   // TODO: Check for internal and release candidate builds e.g. a release
   // candidate is only an upgrade candidate if the current apk is a release
   // candidate
