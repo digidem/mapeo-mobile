@@ -25,23 +25,35 @@ module.exports = {
 };
 
 /**
- * Check if PR is the same
+ * Check if pre-release is valid
  *
  * @param {string} a
  * @param {string} b
  * @returns {boolean}
  */
-function checkSamePR(a, b) {
+function isValidPreRelease(a, b) {
   const validA = semver.valid(a);
   const validB = semver.valid(b);
-  if (validA && validB) {
-    const aPR = semver.parse(validA).prerelease[0];
-    const bPR = semver.parse(validB).prerelease[0];
-    if (aPR && bPR) {
-      if (aPR.startsWith("PR") && bPR.startsWith("PR")) {
-        if (aPR === bPR) return true;
-        else return false;
-      }
+  if (!validA || !validB) return false;
+  const validAPR = semver.parse(validA);
+  const validBPR = semver.parse(validB);
+  if (!validAPR || !validBPR) return false;
+  const APR = validAPR.prerelease[0];
+  const BPR = validBPR.prerelease[0];
+  if (!APR || !BPR) return true;
+  if (typeof APR !== "string" || typeof BPR !== "string") return false;
+  if (APR.startsWith("PR") && BPR.startsWith("PR")) {
+    if (APR === BPR) return true;
+    else {
+      log(`installer rejected: PR ${APR} is different to ${BPR}`);
+      return false;
+    }
+  }
+  if (APR.startsWith("RC") && BPR.startsWith("RC")) {
+    if (a.split("-")[0] === b.split("-")[0]) return true;
+    else {
+      log(`installer rejected: RC ${a} has different versioning then ${b}`);
+      return false;
     }
   }
   return true;
@@ -135,13 +147,13 @@ function isUpgradeCandidate({ deviceInfo, installer, currentApkInfo }) {
     return false;
   }
   // Check if is PR and is the same
-  const prCompare = checkSamePR(
+  const preReleaseCheck = isValidPreRelease(
     installer.versionName,
     currentApkInfo.versionName
   );
-  if (!prCompare) {
+  if (!preReleaseCheck) {
     log(
-      `installer rejected: PR ${installer.versionName} not compatible with ${currentApkInfo.versionName}`
+      `installer rejected: Pre-release ${installer.versionName} not compatible with ${currentApkInfo.versionName}`
     );
     return false;
   }
