@@ -189,7 +189,7 @@ class Storage extends AsyncService {
           }
           if (installer.hash !== expectedHash) {
             // Hashes did not match, download was broken or incorrectly advertised
-            throw new Error("Invalid hash");
+            throw new Error("Actual hash does not match expected hash");
           }
           installer.filepath = path.join(
             this.#storageDir,
