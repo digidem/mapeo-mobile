@@ -13,7 +13,7 @@ const defaultDeviceInfo = {
   sdkVersion: 21,
 };
 
-test.only("One device updates another", async t => {
+test("One device updates another", async t => {
   /** @type {DevicePlan} */
   const device1Plan = {
     label: "device1",
