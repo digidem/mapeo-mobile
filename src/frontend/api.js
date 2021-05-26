@@ -8,6 +8,7 @@ import debug from "debug";
 import flatten from "flat";
 import DeviceInfo from "react-native-device-info";
 import AppInfo from "./lib/AppInfo";
+import { deserializeError } from "serialize-error";
 
 import type {
   Preset,
@@ -97,6 +98,47 @@ export type ServerPeer = {
 };
 
 type PeerHandler = (peerList: Array<ServerPeer>) => any;
+
+// These types are manually copied from `backend/lib/types.d.ts`. This is far
+// from ideal and is a workaround until we can convert the entire codebase to
+// Typescript - right now frontend uses Flow.
+
+type AvailableUpgrade = {
+  hash: string,
+  hashType: "sha256",
+  versionName: string,
+  versionCode: number,
+  applicationId: string,
+  minSdkVersion: number,
+  // Backend code guarantees that this will be "android"
+  platform: "android",
+  arch: Array<"x86" | "x86_64" | "armeabi-v7a" | "arm64-v8a">,
+  size: number,
+  filepath: string,
+};
+
+export type TransferProgress = {
+  /** id (hash) of the file being transferred */
+  id: string,
+  /** bytes transferred so far */
+  sofar: number,
+  /** total number of bytes to transfer */
+  total: number,
+};
+
+type UpgradeStateBase = {
+  uploads: TransferProgress[],
+  downloads: TransferProgress[],
+  availableUpgrade?: AvailableUpgrade,
+};
+type UpgradeStateNoError = UpgradeStateBase & {
+  value: "starting" | "started" | "stopping" | "stopped",
+};
+type UpgradeStateError = UpgradeStateBase & {
+  value: "error",
+  error: Error,
+};
+export type UpgradeState = UpgradeStateNoError | UpgradeStateError;
 
 export { STATUS as Constants };
 
@@ -217,7 +259,7 @@ export function Api({
       nodejs.start("loader.js");
       const serverStartPromise = new Promise(resolve =>
         nodejs.channel.once("status", resolve)
-      ).then(() => {
+      ).then(async () => {
         bugsnag.leaveBreadcrumb("Mapeo Core started");
         // Start monitoring for timeout
         restartTimeout();
@@ -225,10 +267,12 @@ export function Api({
         // other config that the server requires
         nodejs.channel.post("config", {
           sharedStorage: RNFS.ExternalDirectoryPath,
-          apkPath: AppInfo.sourceDir,
-          version: DeviceInfo.getVersion(),
-          buildNumber: DeviceInfo.getBuildNumber(),
-          bundleId: DeviceInfo.getBundleId(),
+          privateCacheStorage: RNFS.CachesDirectoryPath,
+          apkFilepath: AppInfo.sourceDir,
+          deviceInfo: {
+            sdkVersion: await DeviceInfo.getApiLevel(),
+            supportedAbis: await DeviceInfo.supportedAbis(),
+          },
         });
         // Resolve once the server reports status as "LISTENING"
         return onReady();
@@ -415,6 +459,49 @@ export function Api({
             }
           })
       );
+    },
+
+    /**
+     * P2P Upgrade methods
+     */
+    // Listen for updates to p2p upgrade state
+    addP2pUpgradeStateListener: function addP2pUpgradeStateListener(
+      handler: (state: UpgradeState) => void
+    ): Subscription {
+      nodejs.channel.addListener("p2p-upgrade::state", onState);
+      // Poke backend to send a state event
+      nodejs.channel.post("p2p-upgrade::get-state");
+      // Deserialize error
+      function onState(stateSerializedError) {
+        handler({
+          ...stateSerializedError,
+          error:
+            stateSerializedError.error &&
+            deserializeError(stateSerializedError.error),
+        });
+      }
+      return {
+        remove: () =>
+          nodejs.channel.removeListener("p2p-upgrade::state", onState),
+      };
+    },
+    addP2pUpgradeErrorListener: function addP2pUpgradeErrorListener(
+      handler: (error: Error) => void
+    ): Subscription {
+      nodejs.channel.addListener("p2p-upgrade::error", handler);
+      function onError(serializedError) {
+        handler(deserializeError(serializedError));
+      }
+      return {
+        remove: () =>
+          nodejs.channel.removeListener("p2p-upgrade::error", onError),
+      };
+    },
+    startP2pUpgradeServices: function startP2pUpgradeServices() {
+      nodejs.channel.post("p2p-upgrade::start-services");
+    },
+    stopP2pUpgradeServices: function stopP2pUpgradeServices() {
+      nodejs.channel.post("p2p-upgrade::stop-services");
     },
 
     /**

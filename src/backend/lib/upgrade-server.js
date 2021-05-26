@@ -8,6 +8,7 @@ const { stringifyInstaller } = require("./utils");
 const throttle = require("lodash/throttle");
 const AsyncService = require("./async-service");
 const log = require("debug")("p2p-upgrades:server");
+const { promisify } = require("util");
 
 /** @typedef {import('fastify')} Fastify */
 /** @typedef {import('./types').TransferProgress} Upload */
@@ -21,9 +22,9 @@ const log = require("debug")("p2p-upgrades:server");
 const EMIT_THROTTLE_MS = 400; // milliseconds
 
 // Only use logger in development when debugging
-const serverLogger = process.env.DEBUG
-  ? require("pino")({ prettyPrint: { singleLine: true } })
-  : false;
+// const serverLogger = process.env.DEBUG
+//   ? require("pino")({ prettyPrint: { singleLine: true } })
+//   : false;
 
 /**
  * @extends {AsyncService<Events, [number]>}
@@ -33,6 +34,7 @@ class UpgradeServer extends AsyncService {
   #storage;
   /** @type {Set<Upload>} */
   #uploads;
+  #fastifyStarted = false;
   /** @type {import('fastify').FastifyInstance} */
   #fastify;
   /** @type {import('lodash').DebouncedFunc<void>} */
@@ -40,16 +42,15 @@ class UpgradeServer extends AsyncService {
   /**
    * @param {object} options
    * @param {InstanceType<typeof import('./upgrade-storage')>} options.storage
-   * @param {import('fastify').FastifyServerOptions['logger']} [options.logger]
+   * @param {import('fastify').FastifyServerOptions['logger']} [options.logger] (ignored for now due to bug with nodejs-mobile)
    */
-  constructor({ storage, logger = serverLogger }) {
+  constructor({ storage, logger }) {
     super();
     this.#storage = storage;
     this.#uploads = new Set();
 
-    // TODO: Only turn on logger in dev mode, since this has a perf overhead
-    // in react native
-    this.#fastify = createFastify({ logger });
+    // TODO: pino logger was crashing nodejs-mobile (tries to spawn process)
+    this.#fastify = createFastify({ logger: false });
 
     this.#fastify.get(
       "/installers",
@@ -163,7 +164,15 @@ class UpgradeServer extends AsyncService {
   async _start(port) {
     this.#port = port;
     log(`${this.#port}: starting`);
-    await this.#fastify.listen(this.#port, "0.0.0.0");
+    if (!this.#fastifyStarted) {
+      log("first start, initializing fastify");
+      await this.#fastify.listen(this.#port, "0.0.0.0");
+      this.#fastifyStarted = true;
+    } else {
+      log("second start, listening");
+      const { server } = this.#fastify;
+      await promisify(server.listen.bind(server))(this.#port, "0.0.0.0");
+    }
     log(`${this.#port}: started`);
   }
 
@@ -175,7 +184,8 @@ class UpgradeServer extends AsyncService {
    */
   async _stop() {
     log(`${this.#port}: stopping`);
-    await this.#fastify.close();
+    const { server } = this.#fastify;
+    await promisify(server.close.bind(server))();
     log(`${this.#port}: stopped`);
   }
 }

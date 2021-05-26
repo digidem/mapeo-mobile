@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   textOutlinedLight: {
-    color: "#0066FF",
+    color: "#FFFFFF",
   },
   textOutlinedDark: {
     color: "#0066FF",

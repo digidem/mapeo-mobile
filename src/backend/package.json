@@ -7,7 +7,8 @@
   },
   "scripts": {
     "lint": "eslint *.js \"lib/*.js\" \"test/*.js\"",
-    "test": "tape \"test/**/*.test.js\""
+    "test": "tape \"test/**/*.test.js\"",
+    "postinstall": "patch-package"
   },
   "description": "Mapeo Core running on nodejs-mobile",
   "main": "main.js",
@@ -44,6 +45,7 @@
     "safe-fs-blob-store": "^1.0.3",
     "secure-json-parse": "^2.4.0",
     "semver": "^7.3.4",
+    "serialize-error": "^8.1.0",
     "tar-fs": "^2.1.1",
     "tiny-typed-emitter": "^2.0.3",
     "utils-copy-error": "^1.0.1",
@@ -71,6 +73,7 @@
     "getport": "^0.1.0",
     "node-gyp-build": "^4.2.3",
     "noderify": "^5.0.0",
+    "patch-package": "^6.4.7",
     "pino-pretty": "^4.8.0",
     "tape": "^5.1.1",
     "through2": "^4.0.2",

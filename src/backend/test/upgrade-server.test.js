@@ -41,7 +41,7 @@ async function startServer(currentApkInfo, start = false) {
     ? app.server.address()
     : { address: "localhost", port: 80 });
   const baseUrl = `http://${address}:${port}`;
-  return { inject, cleanup, baseUrl, storage };
+  return { inject, cleanup, baseUrl, storage, server };
 }
 
 test("route: GET /installers returns only current APK by default", async t => {
@@ -138,7 +138,12 @@ test("route: apk download GET /content/X", async t => {
 });
 
 test("make an http request after stopped", async t => {
-  const { cleanup, baseUrl } = await startServer(fakeApkInfo.v0_0_1);
+  const { cleanup, baseUrl } = await startServer(fakeApkInfo.v0_0_1, true);
+
+  // Check the server is actually running first
+  await got(`${baseUrl}/installers`);
+  t.pass("Initial request ran without error");
+
   await cleanup();
 
   try {
@@ -150,7 +155,12 @@ test("make an http request after stopped", async t => {
 });
 
 test("make an http request while stopping", async t => {
-  const { cleanup, baseUrl } = await startServer(fakeApkInfo.v0_0_1);
+  const { cleanup, baseUrl } = await startServer(fakeApkInfo.v0_0_1, true);
+
+  // Check the server is actually running first
+  await got(`${baseUrl}/installers`);
+  t.pass("Initial request ran without error");
+
   // Don't await, so got() happens before this finishes
   cleanup();
 
@@ -160,4 +170,35 @@ test("make an http request while stopping", async t => {
     t.true(e instanceof Error);
     t.equal(e.code, "ECONNREFUSED");
   }
+});
+
+test("Server can be re-started after stop", async t => {
+  const { cleanup, baseUrl, server } = await startServer(
+    fakeApkInfo.v0_0_1,
+    true
+  );
+
+  // Check the server is actually running first
+  await got(`${baseUrl}/installers`);
+  t.pass("Initial request ran without error");
+
+  await server.stop();
+
+  try {
+    // Server is stopped, this should throw
+    await got(`${baseUrl}/installers`);
+  } catch (e) {
+    t.true(e instanceof Error);
+    t.equal(e.code, "ECONNREFUSED");
+  }
+
+  // Start server again
+  const port = await getPort();
+  await server.start(port);
+
+  // Check server is running again
+  await got(`http://localhost:${port}/installers`);
+  t.pass("Request after restart ran without error");
+
+  await cleanup();
 });
