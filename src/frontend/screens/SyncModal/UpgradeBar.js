@@ -176,6 +176,9 @@ const Uploading = ({ progress }: { progress: number }) => (
 const UpgradeError = () => (
   <UpgradeBarContainer>
     <UpgradeBarText primary={<FormattedMessage {...m.updateGenericError} />} />
+    <View style={{ flex: 0, padding: 10 }}>
+      <ErrorIcon style={{ position: "relative" }} />
+    </View>
   </UpgradeBarContainer>
 );
 
