@@ -110,21 +110,23 @@ class UpgradeServer extends AsyncService {
 
     await reply.send(
       pump(readStream, progress, e => {
-        if (e)
+        if (e) {
           log(
             `${this.#port}: Error uploading ${installer.hash.slice(0, 7)}`,
             e
           );
-        else
+        } else {
           log(`${this.#port}: Uploaded complete ${installer.hash.slice(0, 7)}`);
+        }
+        this.#throttledEmitUploads();
+        // Always emit event with upload complete
+        this.#throttledEmitUploads.flush();
+        // Reply is now finished
+        this.#uploads.delete(upload);
+        this.#throttledEmitUploads();
+        this.#throttledEmitUploads.flush();
       })
     );
-    this.#throttledEmitUploads();
-    // Always emit event with upload complete
-    this.#throttledEmitUploads.flush();
-    // Reply is now finished
-    this.#uploads.delete(upload);
-    this.#throttledEmitUploads();
   }
 
   /**
