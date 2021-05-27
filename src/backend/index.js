@@ -19,7 +19,7 @@
 
 const rnBridge = require("rn-bridge");
 const debug = require("debug");
-debug.enable("*");
+debug.enable("p2p*");
 
 const ServerStatus = require("./status");
 const constants = require("./constants");
@@ -88,7 +88,10 @@ rnBridge.channel.once("config", async config => {
       privateCacheStorage,
       deviceInfo,
       apkFilepath,
+      isDev,
     } = config;
+    // Don't debug log in production
+    if (isDev) debug.enable("*");
     const currentApkInfo = await getInstallerInfo(apkFilepath);
     server = createServer({
       privateStorage: rnBridge.app.datadir(),

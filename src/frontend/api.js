@@ -17,8 +17,6 @@ import type {
   Messages,
 } from "./context/ConfigContext";
 
-import { version as APP_VERSION } from "../../package.json";
-
 import type {
   Observation,
   ObservationValue,
@@ -273,6 +271,7 @@ export function Api({
             sdkVersion: await DeviceInfo.getApiLevel(),
             supportedAbis: await DeviceInfo.supportedAbis(),
           },
+          isDev: __DEV__,
         });
         // Resolve once the server reports status as "LISTENING"
         return onReady();
