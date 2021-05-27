@@ -240,11 +240,12 @@ export default UpgradeBar;
 const styles = StyleSheet.create({
   upgradeBar: {
     backgroundColor: "#000034",
-    height: 84,
+    minHeight: 84,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 15,
+    paddingVertical: 10,
   },
   upgradeBarText: {
     color: "white",
