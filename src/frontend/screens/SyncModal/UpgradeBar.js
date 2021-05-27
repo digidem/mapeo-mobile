@@ -211,7 +211,7 @@ const UpgradeBar = ({ isSyncing }: { isSyncing: boolean }) => {
 
   if (state === "error") {
     return <UpgradeError />;
-  } else if (availableUpgrade) {
+  } else if (availableUpgrade && !downloads.length && !uploads.length) {
     if (isSyncing) return <AwaitingSync />;
     return <AvailableUpdate onPress={onInstallPress} />;
   } else if (downloads.length) {
