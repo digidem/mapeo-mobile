@@ -13,6 +13,11 @@ function onFailure() {
   exit 1
 }
 
+# Ensure we start in the right place
+dir0="$( cd "$( dirname "$0" )" && pwd )"
+repo_root="$(dirname "$dir0")"
+cd "$repo_root"
+
 echo "Setting up..."
 mkdir -p ./nodejs-assets
 rm -rf ./nodejs-assets/nodejs-project
