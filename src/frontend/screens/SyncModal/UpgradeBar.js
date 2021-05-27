@@ -1,13 +1,11 @@
 // @flow
 import * as React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
-import { MaterialIndicator } from "react-native-indicators";
 import { View, StyleSheet, Alert } from "react-native";
 import { useAppState } from "@react-native-community/hooks";
 
 import Text from "../../sharedComponents/Text";
-import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
-import { DoneIcon, ErrorIcon } from "../../sharedComponents/icons";
+import { ErrorIcon } from "../../sharedComponents/icons";
 import Progress from "../../sharedComponents/icons/Progress";
 import DotIndicator from "./DotIndicator";
 import api, { type UpgradeState, type TransferProgress } from "../../api";
