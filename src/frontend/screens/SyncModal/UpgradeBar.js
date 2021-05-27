@@ -2,7 +2,7 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { MaterialIndicator } from "react-native-indicators";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { useAppState } from "@react-native-community/hooks";
 
 import Text from "../../sharedComponents/Text";
@@ -112,10 +112,6 @@ function useUpgradeState(): UpgradeState {
   return upgradeState;
 }
 
-const TextButton = ({ title }) => (
-  <Text style={styles.textButton}>{title}</Text>
-);
-
 const UpgradeBarContainer = ({ children }: { children: React.Node }) => (
   <View style={styles.upgradeBar}>{children}</View>
 );
@@ -144,14 +140,17 @@ const AwaitingSync = () => (
   </UpgradeBarContainer>
 );
 
-const UpdateAvailable = ({ onPress }) => (
-  <UpgradeBarContainer>
-    <UpgradeBarText primary={<FormattedMessage {...m.updateReady} />} />
-    <Button variant="outlined" color="light" onPress={onPress}>
-      Update
-    </Button>
-  </UpgradeBarContainer>
-);
+const AvailableUpdate = ({ onPress }: { onPress: () => void }) => {
+  const { formatMessage: t } = useIntl();
+  return (
+    <UpgradeBarContainer>
+      <UpgradeBarText primary={<FormattedMessage {...m.updateReady} />} />
+      <Button variant="outlined" color="light" onPress={onPress}>
+        {t(m.installUpdateButton)}
+      </Button>
+    </UpgradeBarContainer>
+  );
+};
 
 const Searching = () => (
   <UpgradeBarContainer>
@@ -180,12 +179,6 @@ const UpgradeError = () => (
   </UpgradeBarContainer>
 );
 
-const AvailableUpdate = () => (
-  <UpgradeBarContainer>
-    <UpgradeBarText primary={<FormattedMessage {...m.updateReady} />} />
-  </UpgradeBarContainer>
-);
-
 const initialUpgradeState = {
   value: "stopped",
   downloads: [],
@@ -193,7 +186,6 @@ const initialUpgradeState = {
 };
 
 const UpgradeBar = ({ isSyncing }: { isSyncing: boolean }) => {
-  const { formatMessage: t } = useIntl();
   const {
     value: state,
     downloads,
@@ -213,7 +205,7 @@ const UpgradeBar = ({ isSyncing }: { isSyncing: boolean }) => {
         log("### UPGRADE: install ok!");
       })
       .catch(err => {
-        log("### UPGRADE: apk install failed", err);
+        Alert.alert("Install Error", err.message, [{ text: "OK" }]);
       });
   }
 
@@ -221,7 +213,7 @@ const UpgradeBar = ({ isSyncing }: { isSyncing: boolean }) => {
     return <UpgradeError />;
   } else if (availableUpgrade) {
     if (isSyncing) return <AwaitingSync />;
-    return <UpdateAvailable onPress={onInstallPress} />;
+    return <AvailableUpdate onPress={onInstallPress} />;
   } else if (downloads.length) {
     const progress = calculateProgress(downloads);
     return <Downloading progress={progress} />;
@@ -266,18 +258,5 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontStyle: "italic",
     fontSize: 16,
-  },
-  textButton: {
-    fontWeight: "bold",
-    fontSize: 18,
-    padding: 10,
-    paddingTop: 12,
-    paddingBottom: 12,
-    textAlign: "center",
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "white",
-    borderRadius: 7,
-    color: "white",
   },
 });
