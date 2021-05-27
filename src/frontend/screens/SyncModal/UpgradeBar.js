@@ -69,7 +69,7 @@ const m = defineMessages({
   installUpdateButton: {
     id: "screens.SyncModal.SyncView.installUpdateButton",
     description: "Label for button to install an update",
-    defaultMessage: "Install Update",
+    defaultMessage: "Install",
   },
   openSettingsButton: {
     id: "screens.SyncModal.SyncView.openSettingsButton",
