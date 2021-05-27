@@ -145,7 +145,7 @@ const AvailableUpdate = ({ onPress }: { onPress: () => void }) => {
   return (
     <UpgradeBarContainer>
       <UpgradeBarText primary={<FormattedMessage {...m.updateReady} />} />
-      <Button variant="outlined" color="light" onPress={onPress}>
+      <Button variant="outlined" color="light" size="small" onPress={onPress}>
         {t(m.installUpdateButton)}
       </Button>
     </UpgradeBarContainer>
