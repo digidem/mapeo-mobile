@@ -4,6 +4,7 @@ import { View, StyleSheet } from "react-native";
 import Text from "../../sharedComponents/Text";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
+import DeviceInfo from "react-native-device-info";
 
 import Button from "../../sharedComponents/Button";
 import { WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
@@ -55,14 +56,19 @@ const m = defineMessages({
 const WifiBar = ({ onPress, ssid, deviceName }) => (
   <TouchableNativeFeedback onPress={onPress}>
     <View style={styles.wifiBar}>
-      <WifiIcon />
-      <Text style={styles.wifiBarText} numberOfLines={1}>
-        <Text style={styles.bold}>
-          <FormattedMessage {...m.wifi} />
-        </Text>{" "}
-        {ssid}
-      </Text>
-      <Text style={styles.deviceName}>{deviceName}</Text>
+      <View style={styles.wifiInfo}>
+        <WifiIcon />
+        <Text style={styles.wifiBarText} numberOfLines={1}>
+          <Text style={styles.bold}>
+            <FormattedMessage {...m.wifi} />
+          </Text>{" "}
+          {ssid}
+        </Text>
+      </View>
+      <View>
+        <Text style={styles.deviceName}>{deviceName}</Text>
+        <Text style={styles.version}>v{DeviceInfo.getVersion()}</Text>
+      </View>
     </View>
   </TouchableNativeFeedback>
 );
@@ -227,7 +233,7 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     paddingHorizontal: 15,
   },
   wifiBarText: {
@@ -238,10 +244,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "right",
     color: "white",
-    flex: 1,
+    flex: 0,
+  },
+  version: {
+    fontWeight: "500",
+    color: "white",
   },
   bold: {
     fontWeight: "700",
+    color: "white",
   },
   settingsButton: {
     flex: 1,
@@ -258,5 +269,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "stretch",
+  },
+  wifiInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
 });
