@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   },
   upgradeBarText: {
     color: "white",
-    fontWeight: "bold",
+    fontWeight: "normal",
     paddingLeft: 10,
     fontSize: 18,
     lineHeight: 25,
