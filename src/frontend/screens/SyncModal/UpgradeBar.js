@@ -5,7 +5,7 @@ import { View, StyleSheet, Alert } from "react-native";
 import { useAppState } from "@react-native-community/hooks";
 
 import Text from "../../sharedComponents/Text";
-import { ErrorIcon } from "../../sharedComponents/icons";
+import { ErrorIcon, DoneIcon } from "../../sharedComponents/icons";
 import Progress from "../../sharedComponents/icons/Progress";
 import DotIndicator from "./DotIndicator";
 import api, { type UpgradeState, type TransferProgress } from "../../api";
@@ -47,6 +47,15 @@ const m = defineMessages({
     id: "screens.SyncModal.SyncView.noUpdates",
     description: "Label in upgrade bar when no updates are found",
     defaultMessage: "No app updates found",
+  },
+  noUpdatesDetails: {
+    id: "screens.SyncModal.SyncView.noUpdatesDetails",
+    description:
+      "A second line of text describing how many devices have been checked for updates",
+    defaultMessage: `Checked {count, plural,
+      one {# device}
+      other {# devices}
+    }`,
   },
   updateReady: {
     id: "screens.SyncModal.SyncView.updateReady",
@@ -180,10 +189,32 @@ const UpgradeError = () => (
   </UpgradeBarContainer>
 );
 
+const NoUpdatesFound = ({
+  checkedPeers,
+}: {
+  checkedPeers: $PropertyType<UpgradeState, "checkedPeers">,
+}) => (
+  <UpgradeBarContainer>
+    <UpgradeBarText
+      primary={<FormattedMessage {...m.noUpdates} />}
+      secondary={
+        <FormattedMessage
+          {...m.noUpdatesDetails}
+          values={{ count: checkedPeers.length }}
+        />
+      }
+    />
+    <View style={{ flex: 0, padding: 10 }}>
+      <DoneIcon color="#00FF00" />
+    </View>
+  </UpgradeBarContainer>
+);
+
 const initialUpgradeState = {
   value: "stopped",
   downloads: [],
   uploads: [],
+  checkedPeers: [],
 };
 
 const UpgradeBar = ({ isSyncing }: { isSyncing: boolean }) => {
@@ -191,6 +222,7 @@ const UpgradeBar = ({ isSyncing }: { isSyncing: boolean }) => {
     value: state,
     downloads,
     uploads,
+    checkedPeers,
     availableUpgrade,
   } = useUpgradeState();
 
@@ -212,15 +244,21 @@ const UpgradeBar = ({ isSyncing }: { isSyncing: boolean }) => {
 
   if (state === "error") {
     return <UpgradeError />;
-  } else if (availableUpgrade && !downloads.length && !uploads.length) {
-    if (isSyncing) return <AwaitingSync />;
-    return <AvailableUpdate onPress={onInstallPress} />;
   } else if (downloads.length) {
     const progress = calculateProgress(downloads);
     return <Downloading progress={progress} />;
   } else if (uploads.length) {
     const progress = calculateProgress(uploads);
     return <Uploading progress={progress} />;
+  } else if (availableUpgrade) {
+    // We only show the user the install button once:
+    // 1. All uploads have finished
+    // 2. All downloads have finished
+    // 3. Syncing of Mapeo data to other peers is complete
+    if (isSyncing) return <AwaitingSync />;
+    return <AvailableUpdate onPress={onInstallPress} />;
+  } else if (checkedPeers.length) {
+    return <NoUpdatesFound checkedPeers={checkedPeers} />;
   } else {
     return <Searching />;
   }

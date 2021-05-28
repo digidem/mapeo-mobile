@@ -127,6 +127,7 @@ export type TransferProgress = {
 type UpgradeStateBase = {
   uploads: TransferProgress[],
   downloads: TransferProgress[],
+  checkedPeers: string[],
   availableUpgrade?: AvailableUpgrade,
 };
 type UpgradeStateNoError = UpgradeStateBase & {

@@ -61,6 +61,7 @@ export type AsyncServiceStateDefault =
 export type UpgradeState = AsyncServiceStateDefault & {
   uploads: TransferProgress[];
   downloads: TransferProgress[];
+  checkedPeers: string[];
   availableUpgrade?: InstallerInt;
 };
 

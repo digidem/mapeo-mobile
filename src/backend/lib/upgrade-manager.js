@@ -83,6 +83,7 @@ class UpgradeManager extends AsyncService {
     value: "stopped",
     downloads: [],
     uploads: [],
+    checkedPeers: [],
     availableUpgrade: undefined,
   };
   /** @type {Map<string, { progress: TransferProgress, stream: import('stream').Readable, installerInfo: InstallerExt }>} */
@@ -125,6 +126,9 @@ class UpgradeManager extends AsyncService {
     });
     this.#discovery.on("installers", async installers => {
       this._onDownloadableInstallers(installers);
+    });
+    this.#discovery.on("checked", checkedPeers => {
+      this.setState({ checkedPeers });
     });
     this.#throttledEmitState = throttle(() => {
       this.emit("state", this.getState());
