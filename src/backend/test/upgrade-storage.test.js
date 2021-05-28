@@ -176,6 +176,7 @@ test("A failed write does not appear as an upgrade option", async t => {
   const ws = storage.createWriteStream({ hash: "anything" });
   try {
     await pipeline(fs.createReadStream("non-existent-file.apk"), ws);
+    t.fail("Should have thrown");
   } catch (e) {
     t.ok(e instanceof Error, "throws an error");
   }
@@ -205,6 +206,7 @@ test("createWriteStream() --> invalid hash = installer does not appear as option
   const ws = storage.createWriteStream({ hash: "invalid-hash" });
   try {
     await pipeline(fs.createReadStream(testApkFilepath), ws);
+    t.fail("Should have thrown");
   } catch (e) {
     t.ok(e instanceof Error, "writeStream throws");
   }
@@ -271,6 +273,7 @@ test("Trying to write an invalid APK throws an error (and doesn't leave any file
     const ws = storage.createWriteStream({ hash });
     try {
       await pipeline(fs.createReadStream(filepath), ws);
+      t.fail("Should have thrown");
     } catch (e) {
       t.ok(e instanceof Error, "throws an error");
     }
