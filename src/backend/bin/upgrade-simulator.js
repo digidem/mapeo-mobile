@@ -6,6 +6,11 @@ const UpgradeManager = require("../lib/upgrade-manager");
 const { getInstallerInfo } = require("../lib/utils");
 
 const log = debug("p2p-upgrades:simulator");
+// Why this? Because I got tired of typing `DEBUG=p2p*` whenever I run the
+// upgrade-simulator, and can't see a reason for running this without this
+// debugging info turned on, but also I wanted to have the possibility of doing
+// `DEBUG=* node ./bin/upgrade-simulator.js` to also get the dns-discovery debug
+// messages
 if (!process.env.DEBUG) debug.enable("p2p*");
 
 tmp.setGracefulCleanup();
