@@ -469,7 +469,9 @@ export function Api({
     ): Subscription {
       nodejs.channel.addListener("p2p-upgrade::state", onState);
       // Poke backend to send a state event
-      nodejs.channel.post("p2p-upgrade::get-state");
+      onReady()
+        .then(() => nodejs.channel.post("p2p-upgrade::get-state"))
+        .catch(() => {});
       // Deserialize error
       function onState(stateSerializedError) {
         handler({
@@ -497,7 +499,9 @@ export function Api({
       };
     },
     startP2pUpgradeServices: function startP2pUpgradeServices() {
-      nodejs.channel.post("p2p-upgrade::start-services");
+      onReady()
+        .then(() => nodejs.channel.post("p2p-upgrade::start-services"))
+        .catch(() => {});
     },
     stopP2pUpgradeServices: function stopP2pUpgradeServices() {
       nodejs.channel.post("p2p-upgrade::stop-services");
