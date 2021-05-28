@@ -2,6 +2,7 @@ const { getInstallerInfo } = require("../../lib/utils");
 const test = require("tape");
 const path = require("path");
 const { promises: fs } = require("fs");
+const { readJson } = require("../helpers");
 
 test("getInstallerInfo: read valid APKs", async t => {
   const validApksFolder = path.join(__dirname, "../fixtures/valid-apks");
@@ -35,7 +36,3 @@ test("getInstallerInfo: invalid APKs", async t => {
     });
   }
 });
-
-async function readJson(filepath) {
-  return JSON.parse(await fs.readFile(filepath));
-}
