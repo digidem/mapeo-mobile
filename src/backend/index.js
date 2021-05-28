@@ -19,7 +19,6 @@
 
 const rnBridge = require("rn-bridge");
 const debug = require("debug");
-debug.enable("p2p*");
 
 const ServerStatus = require("./status");
 const constants = require("./constants");
