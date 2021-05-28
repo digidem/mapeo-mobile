@@ -37,6 +37,7 @@
     "mapeo-default-settings": "^3.4.0",
     "mapeo-server": "^17.1.0",
     "mkdirp": "^1.0.4",
+    "network-address": "^1.1.2",
     "p-defer": "^3.0.0",
     "progress-stream": "^2.0.0",
     "pump": "^3.0.0",

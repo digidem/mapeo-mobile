@@ -6,6 +6,7 @@ const createDiscovery = require("dns-discovery");
 const secureJson = require("secure-json-parse");
 const { isInstallerList } = require("./schema");
 const throttle = require("lodash/throttle");
+const network = require("network-address");
 const stream = require("stream");
 const { stringifyInstaller } = require("./utils");
 const log = require("debug")("p2p-upgrades:discovery");
@@ -182,6 +183,10 @@ class UpgradeDiscovery extends AsyncService {
    */
   async _onPeer(app, { host, port }) {
     if (app !== this.#discoveryKey) return;
+    // There is a bug in dns-discovery where the query for known peers is
+    // responded to by the same peer that sends the query, which results in
+    // self-lookup. This should filter out itself from the peers.
+    if (host === network() && port === this.#port) return;
     const listUrl = `http://${host}:${port}/installers`;
     // If we are currently querying this peer, bail
     if (this.#inProgressRequests.has(listUrl)) return;
