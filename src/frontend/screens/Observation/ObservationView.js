@@ -45,6 +45,8 @@ import {
   FormattedObservationDate,
 } from "../../sharedComponents/FormattedData";
 
+const AGROFORESTRY = "agroforest";
+
 const m = defineMessages({
   share: {
     id: "screens.Observation.ObservationView.share",
@@ -136,7 +138,19 @@ const ObservationView = ({
 
   const fields = (preset && preset.fields) || [];
   const icon = (preset && preset.icon) || undefined;
-
+  const isAgroforest =
+    observation.value.tags && observation.value.tags.type === AGROFORESTRY;
+  const agroForestTags = Object.entries(observation.value.tags).reduce(
+    (prev, curr) => {
+      const [key, value] = curr;
+      if (key === "type" || key === "categoryId") return prev;
+      const matches = fields.filter(field => field.key === key);
+      if (matches.length > 0) return prev;
+      const newObj = Object.assign(prev, { [key]: value });
+      return newObj;
+    },
+    {}
+  );
   const handleShare = () => {
     const msg = renderToString(
       <ShareMessage observation={observation} preset={preset} />,
@@ -179,7 +193,22 @@ const ObservationView = ({
                 />
               </Text>
             </View>
-            <InsetMapView lat={lat} lon={lon} />
+            {!isAgroforest && <InsetMapView lat={lat} lon={lon} />}
+          </View>
+        )}
+        {isAgroforest && (
+          <View>
+            {Object.entries(agroForestTags).map(([key, value], index) => (
+              <Text
+                key={index}
+                style={[
+                  styles.tag,
+                  { backgroundColor: index % 2 === 0 ? MEDIUM_GREY : BLACK },
+                ]}
+              >
+                {key}: {value}
+              </Text>
+            ))}
           </View>
         )}
         <View>
@@ -347,6 +376,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingVertical: 10,
     textAlign: "center",
+  },
+  tag: {
+    color: LIGHT_GREY,
+    backgroundColor: BLACK,
+    fontSize: 14,
+    paddingVertical: 10,
+    paddingLeft: 15,
+    textAlign: "left",
+    textTransform: "capitalize",
   },
   fieldAnswer: {
     fontSize: 20,
