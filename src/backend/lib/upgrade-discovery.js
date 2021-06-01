@@ -10,6 +10,20 @@ const network = require("network-address");
 const stream = require("stream");
 const { stringifyInstaller } = require("./utils");
 const log = require("debug")("p2p-upgrades:discovery");
+const Agent = require("agentkeepalive");
+
+// We poll other peers for available installers every `lookupInterval=2000ms`.
+// By using keep-alive we re-use the same connection, which uses fewer resources
+const keepaliveAgent = new Agent({
+  // Keep sockets around in a pool to be used by other requests in the future.
+  keepAlive: true,
+  // The initial delay for TCP Keep-Alive packets.
+  keepAliveMsecs: 1000,
+  // Sets the free socket to timeout after freeSocketTimeout milliseconds of inactivity on the free socket.
+  freeSocketTimeout: 5000,
+  // Sets the working socket to timeout after timeout milliseconds of inactivity on the working socket.
+  timeout: 10000,
+});
 
 // TTL for discovered peers, if they are not seen for more than this period then
 // they are considered offline and forgotten
@@ -116,7 +130,9 @@ class UpgradeDiscovery extends AsyncService {
           new URL(installer.installer.url).host
         }`
       );
-      const downloadStream = got.stream(installer.installer.url);
+      const downloadStream = got.stream(installer.installer.url, {
+        agent: { http: keepaliveAgent },
+      });
       downloadStream.once("error", e => {
         log(`${this.#port}: Download error for ${hash.slice(0, 7)}:`, e);
         // Remove from available installers - probably errored because no longer
@@ -207,6 +223,7 @@ class UpgradeDiscovery extends AsyncService {
       log(`${this.#port}: Querying peer ${host}:${port}`);
       // Secure parse of JSON to avoid prototype pollution
       installers = await got(listUrl, {
+        agent: { http: keepaliveAgent },
         parseJson: text => secureJson.parse(text),
       }).json();
       // Validate response

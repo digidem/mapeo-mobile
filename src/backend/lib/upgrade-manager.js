@@ -136,6 +136,13 @@ class UpgradeManager extends AsyncService {
   }
 
   /**
+   * Return an instance of the Node HTTP server. Used for tests.
+   */
+  get httpServer() {
+    return this.#server.httpServer;
+  }
+
+  /**
    * Called whenever the list of installers in local storage changes. If there
    * is an upgrade candidate in storage, then this will emit state with that
    * upgrade candidate

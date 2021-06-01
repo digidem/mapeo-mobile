@@ -20,6 +20,7 @@ const { promisify } = require("util");
 
 // How frequently to emit progress events (in ms)
 const EMIT_THROTTLE_MS = 400; // milliseconds
+// Timeout to wait for active downloads to complete
 
 // Only use logger in development when debugging
 // const serverLogger = process.env.DEBUG
@@ -52,6 +53,9 @@ class UpgradeServer extends AsyncService {
     // TODO: pino logger was crashing nodejs-mobile (tries to spawn process)
     this.#fastify = createFastify({ logger: false });
 
+    // Don't accept new connections when closing/closed
+    this.#fastify.addHook("onRequest", this._onRequestHook.bind(this));
+
     this.#fastify.get(
       "/installers",
       { schema: { response: { 200: InstallerListSchema } } },
@@ -80,6 +84,37 @@ class UpgradeServer extends AsyncService {
         );
       }
     }, EMIT_THROTTLE_MS);
+  }
+
+  /**
+   * Return an instance of the Node HTTP server. Used for tests.
+   */
+  get httpServer() {
+    return this.#fastify.server;
+  }
+
+  /**
+   * This is necessary because a keep-alive connection from another device will
+   * prevent this server from closing. This hook ensures that if this server is
+   * in the "stopping", "stopped" or "error" states, then it responds with the
+   * "Connection: close" header, which tells the keep-alive client to stop. It
+   * also responds with a 503 "Service unavailable" error.
+   *
+   * @private
+   * @param {import('fastify').FastifyRequest} request
+   * @param {import('fastify').FastifyReply} reply
+   */
+  async _onRequestHook(request, reply) {
+    const state = this.getState().value;
+    if (state === "starting" || state === "started") return;
+
+    if (request.raw.httpVersionMajor !== 2) {
+      reply.raw.once("finish", () => request.raw.destroy());
+      reply.header("Connection", "close");
+    }
+
+    reply.code(503);
+    throw new Error("Service Unavailable");
   }
 
   /**

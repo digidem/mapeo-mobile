@@ -18,6 +18,7 @@
     "@bugsnag/js": "^6.3.1",
     "@gmaclennan/zip-fs": "^1.2.0",
     "@sinclair/typebox": "^0.16.5",
+    "agentkeepalive": "^4.1.4",
     "ajv": "^8.3.0",
     "ajv-formats": "^2.1.0",
     "app-info-parser": "^1.1.0",
