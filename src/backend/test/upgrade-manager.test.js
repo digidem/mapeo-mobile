@@ -543,7 +543,7 @@ test("Device is able to close when being polled with keep-alive", async t => {
   await cleanup();
 });
 
-test.only("Closing a device whilst sharing an update waits for upload to complete", async t => {
+test("Closing a device whilst sharing an update waits for upload to complete", async t => {
   /** @type {DevicePlan} */
   const device1Plan = {
     label: "device1",
@@ -585,13 +585,7 @@ test.only("Closing a device whilst sharing an update waits for upload to complet
         message: "current apk from device is uploading",
         eventName: "state",
         waitFor: {
-          uploads: [
-            {
-              id:
-                // Hash of the currentApk on this device
-                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
-            },
-          ],
+          uploads: [{}],
         },
       },
       async manager => {
@@ -614,6 +608,93 @@ test.only("Closing a device whilst sharing an update waits for upload to complet
         eventName: "state",
         waitFor: {
           value: "stopped",
+        },
+      },
+    ],
+  };
+
+  const cleanUpFunctions = await Promise.all([
+    playDevicePlan(t, device1Plan),
+    playDevicePlan(t, device2Plan),
+  ]);
+
+  t.pass("Scenario complete without error");
+
+  await Promise.all(cleanUpFunctions.map(f => f()));
+});
+
+test.only("Broken connection during download does not crash server", async t => {
+  /** @type {import('net').Socket} */
+  let activeSocket;
+
+  /** @type {DevicePlan} */
+  const device1Plan = {
+    label: "device1",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      {
+        message: "download started",
+        eventName: "state",
+        waitFor: {
+          downloads: [{}],
+        },
+      },
+      {
+        message: "download cancelled",
+        eventName: "state",
+        waitFor: {
+          downloads: [],
+          availableUpgrade: undefined,
+        },
+      },
+    ],
+  };
+
+  /** @type {DevicePlan} */
+  const device2Plan = {
+    label: "device2",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.1.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      async manager => {
+        manager.httpServer.on("connection", socket => {
+          activeSocket = socket;
+        });
+      },
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+
+      {
+        message: "upload started",
+        eventName: "state",
+        waitFor: {
+          uploads: [{}],
+        },
+      },
+      async manager => {
+        activeSocket.destroy();
+      },
+      {
+        message: "upload cancelled",
+        eventName: "state",
+        waitFor: {
+          uploads: [],
+        },
+        never: {
+          uploads: [{}],
         },
       },
     ],
