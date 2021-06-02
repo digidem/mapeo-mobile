@@ -132,7 +132,7 @@ function isUpgradeCandidate({ deviceInfo, installer, currentApkInfo }) {
     log(`installer rejected: platform isn't Android`);
     return false;
   }
-  if (installer.versionCode < currentApkInfo.versionCode) {
+  if (installer.versionCode <= currentApkInfo.versionCode) {
     log(
       `installer rejected: installer version code ${installer.versionCode} is lower then current: ${currentApkInfo.versionCode} `
     );
