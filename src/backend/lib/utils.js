@@ -10,12 +10,20 @@ const pDefer = require("p-defer");
 const copyError = require("utils-copy-error");
 const ApkParser = require("app-info-parser/src/apk");
 const ZipFs = require("@gmaclennan/zip-fs");
+const log = require("debug")("p2p-upgrades:utils");
 
 /** @typedef {import('./types').InstallerInt} InstallerInt */
 /** @typedef {import('./types').InstallerExt} InstallerExt */
 
 module.exports = {
-  installerCompare,
+  installerCompare: {
+    compare: installerCompare,
+    rCompare: installerRCompare,
+    gt: installerGt,
+    lt: installerLt,
+    gte: installerGte,
+    lte: installerLte,
+  },
   isUpgradeCandidate,
   getBestUpgradeCandidate,
   getInstallerInfo,
@@ -23,9 +31,11 @@ module.exports = {
   stringifyInstaller,
 };
 
+// TODO: Implement installerCompare.lt .gt etc. functions for clearer code
+
 /**
  * Compare two installer options, returns -1 if a is less than b, 0 if same, 1
- * if a is greater than b
+ * if a is greater than b. Will array.sort() in ascending order
  *
  * @param {InstallerInt | InstallerExt} a
  * @param {InstallerInt | InstallerExt} b
@@ -43,6 +53,67 @@ function installerCompare(a, b) {
   if (a.versionCode < b.versionCode) return -1;
   if (a.versionCode > b.versionCode) return 1;
   return 0;
+}
+
+/**
+ * Reverse compare two installer options, returns 1 if a is less than b, 0 if
+ * same, -1 if a is greater than b. Will array.sort() in descending order
+ *
+ * @param {InstallerInt | InstallerExt} a
+ * @param {InstallerInt | InstallerExt} b
+ * @returns {-1 | 0 | 1}
+ */
+function installerRCompare(a, b) {
+  const cmp = installerCompare(a, b);
+  return cmp === 1 ? -1 : cmp === -1 ? 1 : 0;
+}
+
+/**
+ * Returns true if a > b
+ *
+ * @param {InstallerInt | InstallerExt} a
+ * @param {InstallerInt | InstallerExt} b
+ * @returns {boolean}
+ */
+function installerGt(a, b) {
+  const cmp = installerCompare(a, b);
+  return cmp === 1;
+}
+
+/**
+ * Returns true if a >= b
+ *
+ * @param {InstallerInt | InstallerExt} a
+ * @param {InstallerInt | InstallerExt} b
+ * @returns {boolean}
+ */
+function installerGte(a, b) {
+  const cmp = installerCompare(a, b);
+  return cmp > -1;
+}
+
+/**
+ * Returns true if a < b
+ *
+ * @param {InstallerInt | InstallerExt} a
+ * @param {InstallerInt | InstallerExt} b
+ * @returns {boolean}
+ */
+function installerLt(a, b) {
+  const cmp = installerCompare(a, b);
+  return cmp === -1;
+}
+
+/**
+ * Returns true if a <= b
+ *
+ * @param {InstallerInt | InstallerExt} a
+ * @param {InstallerInt | InstallerExt} b
+ * @returns {boolean}
+ */
+function installerLte(a, b) {
+  const cmp = installerCompare(a, b);
+  return cmp < 1;
 }
 
 /**
@@ -64,20 +135,77 @@ function installerCompare(a, b) {
 function isUpgradeCandidate({ deviceInfo, installer, currentApkInfo }) {
   // Filter out the current APK
   if (installer.hash === currentApkInfo.hash) return false;
+  // Check for 0 or less APK size
+  if (installer.size <= 0) return false;
   // TODO: 64 bit devices can run 32 bit APKs
   const isSupportedAbi = installer.arch.some(arch =>
     deviceInfo.supportedAbis.includes(arch)
   );
   if (!isSupportedAbi) return false;
-  if (installer.minSdkVersion > deviceInfo.sdkVersion) return false;
-  if (installer.applicationId !== currentApkInfo.applicationId) return false;
-  if (installer.platform !== "android") return false;
-  if (installer.versionCode < currentApkInfo.versionCode) return false;
-  if (!semver.valid(installer.versionName)) return false;
-  if (installerCompare(installer, currentApkInfo) < 1) return false;
-  // TODO: Check for internal and release candidate builds e.g. a release
-  // candidate is only an upgrade candidate if the current apk is a release
-  // candidate
+  if (installer.minSdkVersion > deviceInfo.sdkVersion) {
+    log(
+      `installer rejected: minSdkVersion ${installer.minSdkVersion} is not supported by this device`
+    );
+    return false;
+  }
+  if (installer.applicationId !== currentApkInfo.applicationId) {
+    log(
+      `installer rejected: application id ${installer.applicationId} doesn't match ${currentApkInfo.applicationId}`
+    );
+    return false;
+  }
+  if (installer.platform !== "android") {
+    log(`installer rejected: platform isn't Android`);
+    return false;
+  }
+  if (installer.versionCode <= currentApkInfo.versionCode) {
+    log(
+      `installer rejected: installer version code ${installer.versionCode} is lower then current: ${currentApkInfo.versionCode} `
+    );
+    return false;
+  }
+
+  const installerSemver = semver.parse(installer.versionName);
+  const apkSemver = semver.parse(currentApkInfo.versionName);
+
+  if (!installerSemver) {
+    log(
+      "installer rejected: installer version code %s is invalid semver",
+      installer.versionName
+    );
+    return false;
+  }
+  if (!apkSemver) {
+    log(
+      "Cannot upgrade due to non-semver current APK version %s",
+      currentApkInfo.versionName
+    );
+    return false;
+  }
+
+  // Don't upgrade prerelease versions
+  if (installerSemver.prerelease.length) {
+    log("installer rejected: is a prerelease %s", installer.versionName);
+    return false;
+  }
+  if (apkSemver.prerelease.length) {
+    log(
+      "Current APK is a pre-release %s, ignoring update",
+      currentApkInfo.versionName
+    );
+    return false;
+  }
+
+  if (semver.lt(installer.versionName, currentApkInfo.versionName)) {
+    log(
+      "installer rejected: version %s is less-than current version %s",
+      installer.versionName,
+      currentApkInfo.versionName
+    );
+    return false;
+  }
+  // The version name can be the same, but versionCode (build number) must be
+  // greater
   return true;
 }
 
@@ -100,7 +228,7 @@ function getBestUpgradeCandidate({ deviceInfo, installers, currentApkInfo }) {
       deviceInfo,
     })
   );
-  return upgradeCandidates.sort(installerCompare).reverse()[0];
+  return upgradeCandidates.sort(installerRCompare)[0];
 }
 
 /**

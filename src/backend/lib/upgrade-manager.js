@@ -189,10 +189,11 @@ class UpgradeManager extends AsyncService {
       const { hash: candidateHash } = upgradeCandidate;
       const { availableUpgrade } = this.getState();
       // If we have an availableUpgrade in storage already, and this
-      // upgradeCandidate is not any newer, ignore it
+      // upgradeCandidate a version less than or equal to the availableUpgrade,
+      // ignore it
       if (
         availableUpgrade &&
-        installerCompare(upgradeCandidate, availableUpgrade) < 1
+        installerCompare.lte(upgradeCandidate, availableUpgrade)
       ) {
         log(
           `${this.#port}: Upgrade candidate ${candidateHash.slice(
@@ -216,7 +217,7 @@ class UpgradeManager extends AsyncService {
       // If we are already downloading an installer with a higher version number
       // than this one, ignore this one
       for (const { installerInfo } of this.#downloads.values()) {
-        if (installerCompare(upgradeCandidate, installerInfo) < 1) {
+        if (installerCompare.lte(upgradeCandidate, installerInfo)) {
           log(
             `${this.#port}: Already downloading ${stringifyInstaller(
               installerInfo

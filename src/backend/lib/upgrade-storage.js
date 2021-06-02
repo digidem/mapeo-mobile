@@ -76,7 +76,7 @@ class Storage extends AsyncService {
     for (const installer of storedInstallerInts) {
       if (!installer) continue;
       // Mark any upgrade < current installed APK for deletion
-      if (installerCompare(installer, this.#currentApkInfo) === -1) {
+      if (installerCompare.lt(installer, this.#currentApkInfo)) {
         forDeletion.add(installer);
       } else {
         this.#installers.set(installer.hash, installer);
