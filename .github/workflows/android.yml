@@ -12,13 +12,13 @@ jobs:
         with:
           node-version: "12.16.3"
       - name: Npm Install
+        env:
+          DEBUG: "*"
         run: |
           npm ci
           cd src/backend
           npm ci
       - name: Backend Tests
-        env:
-          DEBUG: "*"
         run: |
           cd src/backend
           npm test
