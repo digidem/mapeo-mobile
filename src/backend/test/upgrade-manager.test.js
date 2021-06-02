@@ -623,7 +623,7 @@ test("Closing a device whilst sharing an update waits for upload to complete", a
   await Promise.all(cleanUpFunctions.map(f => f()));
 });
 
-test.only("Broken connection during download does not crash server", async t => {
+test("Broken connection during download does not crash server", async t => {
   /** @type {import('net').Socket} */
   let activeSocket;
 
@@ -708,4 +708,50 @@ test.only("Broken connection during download does not crash server", async t => 
   t.pass("Scenario complete without error");
 
   await Promise.all(cleanUpFunctions.map(f => f()));
+});
+
+test("Lifecycle events: 'starting', 'started', 'stopping', 'stopped'", async t => {
+  /** @type {DevicePlan} */
+  const device1Plan = {
+    label: "device1",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: false,
+    },
+    steps: [
+      async manager => {
+        // Start on next tick so the "starting" state event happens after we
+        // start listening for it
+        process.nextTick(() => {
+          manager.start();
+        });
+      },
+      {
+        eventName: "state",
+        waitFor: { value: "starting" },
+      },
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      async manager => {
+        process.nextTick(() => {
+          manager.stop();
+        });
+      },
+      {
+        eventName: "state",
+        waitFor: { value: "stopping" },
+      },
+      {
+        eventName: "state",
+        waitFor: { value: "stopped" },
+      },
+    ],
+  };
+
+  const cleanup = await playDevicePlan(t, device1Plan);
+  t.pass("Scenario complete without error");
+  await cleanup();
 });

@@ -1,7 +1,15 @@
+// @ts-check
 const { TypedEmitter } = require("tiny-typed-emitter");
-const pDefer = require("p-defer");
 
-/** @typedef {import('./types').AsyncServiceStateDefault } AsyncServiceStateDefault */
+/** @typedef {import('./types').AsyncServiceState } AsyncServiceState */
+
+/**
+ * @typedef {Object} InternalEvents
+ * @property {() => void} started
+ * @property {() => void} stopped
+ * @property {(error: Error) => void} error
+ * @property {(state: AsyncServiceState) => void} state
+ */
 
 /**
  * A helper class for managing a service that has asynchronous "start" and
@@ -25,10 +33,7 @@ const pDefer = require("p-defer");
  *
  * Logic for calling `stop()` follows the inverse of `start()`.
  *
- * The default `setState()` and `getState()` methods can be overridden to
- * augment state with additional context, or to emit events when `setState()` is
- * called. Custom state must extend the default state `AsyncServiceStateDefault`
- * (see `./types.d.ts`).
+ *
  *
  * To wait for the service to be in the "started" state from other methods, use
  * `await this.started()`. Note that if the services is "stopping" or "stopped"
@@ -38,32 +43,60 @@ const pDefer = require("p-defer");
 class AsyncService extends TypedEmitter {
   // These are private instance fields, just a precauttion against accidentally
   // overriding these in a class that extends this class.
-  /** @type {AsyncServiceStateDefault} */
+  /** @type {AsyncServiceState} */
   #state = { value: "stopped" };
-  /** @type {import('p-defer').DeferredPromise<void> */
-  #started = pDefer();
-  // We initialize in "stopped" state, so "#stopped" promise is initialized as resolved
-  /** @type {import('p-defer').DeferredPromise<void> } */
-  #stopped = {
-    promise: Promise.resolve(),
-    resolve: () => {},
-    reject: () => {},
-  };
+  /** @type {TypedEmitter<InternalEvents>} */
+  #emitter = new TypedEmitter();
 
-  /** @param {AsyncServiceStateDefault} newState */
-  setState(newState) {
-    this.#state = newState;
-  }
-
-  /** @returns {AsyncServiceStateDefault} */
+  /**
+   * @protected
+   * @returns {AsyncServiceState}
+   */
   getState() {
     return this.#state;
   }
 
   /**
+   * @private
+   * @param {AsyncServiceState} state
+   */
+  _setState(state) {
+    this.#state = state;
+    if (state.value === "started") this.#emitter.emit("started");
+    else if (state.value === "stopped") this.#emitter.emit("stopped");
+    else if (state.value === "error") this.#emitter.emit("error", state.error);
+    this.#emitter.emit("state", state);
+  }
+
+  /**
+   * Attach a listener to changes of state.
+   *
+   * Author's note: This is written this way, rather than `this.emit()`, so that
+   * subclasses can define their own events, so the events here remain an
+   * implementation detail and are not exposed outside this class. It reduces
+   * the public API of this helper class
+   *
+   * @protected
+   * @param {(state: AsyncServiceState) => void} fn state listener function
+   */
+  addStateListener(fn) {
+    this.#emitter.on("state", fn);
+  }
+
+  /**
+   * Remove a listener to changes of state.
+   *
+   * @protected
+   * @param {(state: AsyncServiceState) => void} fn state listener function
+   */
+  removeStateListener(fn) {
+    this.#emitter.off("state", fn);
+  }
+
+  /**
    * To be overridden by implementing class
    *
-   * @param {any[]} [args]
+   * @param {any[]} args
    */
   async _start(...args) {}
   /**
@@ -83,13 +116,28 @@ class AsyncService extends TypedEmitter {
    *
    * Note: If the service is in "stopping" or "stopped" state this will queue
    * until the next time the service starts. If this is not desirable behaviour,
-   * check this.getState().value first
+   * check this.#state.value first
    *
    * @readonly
    * @returns {Promise<void>}
    */
   async started() {
-    return this.#started.promise;
+    if (this.#state.value === "started") return;
+    if (this.#state.value === "error") throw this.#state.error;
+    const emitter = this.#emitter;
+    return new Promise((resolve, reject) => {
+      emitter.once("started", onStarted);
+      emitter.once("error", onError);
+      function onStarted() {
+        emitter.off("error", onError);
+        resolve();
+      }
+      /** @param {Error} err */
+      function onError(err) {
+        emitter.off("started", onStarted);
+        reject(err);
+      }
+    });
   }
 
   /**
@@ -105,13 +153,28 @@ class AsyncService extends TypedEmitter {
    *
    * Note: If the service is in "starting" or "started" state this will queue
    * until the next time the service stops. If this is not desirable behaviour,
-   * check this.getState().value first
+   * check this.#state.value first
    *
    * @readonly
    * @returns {Promise<void>}
    */
   async stopped() {
-    return this.#started.promise;
+    if (this.#state.value === "stopped") return;
+    if (this.#state.value === "error") throw this.#state.error;
+    const emitter = this.#emitter;
+    return new Promise((resolve, reject) => {
+      emitter.once("stopped", onStopped);
+      emitter.once("error", onError);
+      function onStopped() {
+        emitter.off("error", onError);
+        resolve();
+      }
+      /** @param {Error} err */
+      function onError(err) {
+        emitter.off("stopped", onStopped);
+        reject(err);
+      }
+    });
   }
 
   /**
@@ -121,82 +184,69 @@ class AsyncService extends TypedEmitter {
    * starting and will not call _stop() more than once
    *
    * @readonly
-   * @param {any[]} [args]
+   * @param {any[]} args
    * @returns {Promise<void>} Resolves when service is started
    */
   async start(...args) {
-    switch (this.getState().value) {
+    switch (this.#state.value) {
       case "starting":
+        await this.started();
+        // Avoid race condition if another function is queued up
+        return this.start(...args);
       case "started":
-        // Will still resolve once has started
-        return this.#started.promise;
+        return;
       case "error":
-        return Promise.reject(this.getState().error);
+        return Promise.reject(this.#state.error);
       case "stopping":
         // Wait until stopped before continuing
-        await this.#stopped.promise;
-        break;
+        await this.stopped();
+        // Avoid race condition if another function is queued up
+        return this.start(...args);
       case "stopped":
-        break;
-      default: {
-        const error = new Error("Should not happen");
-        this.setState({ value: "error", error });
-        return this.#started.reject(error);
-      }
+      default:
+      // Continue
     }
-    // We've begun starting, so stopping promise needs to be unresolved until
-    // we stop again
-    this.#stopped = pDefer();
     try {
-      this.setState({ value: "starting" });
+      this._setState({ value: "starting" });
       await this._start.apply(this, args);
-      this.setState({ value: "started" });
-      this.#started.resolve();
+      this._setState({ value: "started" });
     } catch (e) {
-      this.setState({ value: "error", error: e });
-      this.#started.reject(e);
+      this._setState({ value: "error", error: e });
+      throw e;
     }
-    return this.#started.promise;
   }
 
   /**
    * Stop the service.
    *
+   * @readonly
    * @returns {Promise<void>}
    */
   async stop() {
-    switch (this.getState().value) {
+    switch (this.#state.value) {
       case "stopping":
+        await this.stopped();
+        return this.stop();
       case "stopped":
-        // Resolve once stopped
-        return this.#stopped.promise;
+        return;
       case "error":
-        return Promise.reject(this.getState().error);
+        return Promise.reject(this.#state.error);
       case "starting":
         // Wait until started until stopping
-        await this.#started.promise;
-        break;
+        await this.started();
+        return this.stop();
       case "started":
-        break;
-      default: {
-        const error = new Error("Should not happen");
-        this.setState({ value: "error", error });
-        return this.#stopped.reject(error);
-      }
+      default:
+      // Continue
     }
-    // We've begun stopping, so starting promise needs to be unresolved until
-    // we start again
-    this.#started = pDefer();
     try {
-      this.setState({ value: "stopping" });
+      this._setState({ value: "stopping" });
       await this._stop();
-      this.setState({ value: "stopped" });
-      this.#stopped.resolve();
+      this._setState({ value: "stopped" });
     } catch (e) {
-      this.setState({ value: "error", error: e });
-      this.#stopped.reject(e);
+      this._setState({ value: "error", error: e });
+      throw e;
     }
-    return this.#stopped.promise;
   }
 }
 

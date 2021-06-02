@@ -50,7 +50,7 @@ export type AsyncServiceStateValue =
   | "stopping"
   | "error";
 
-export type AsyncServiceStateDefault =
+export type AsyncServiceState =
   | {
       value: Exclude<AsyncServiceStateValue, "error">;
     }
@@ -58,12 +58,15 @@ export type AsyncServiceStateDefault =
       value: "error";
       error: Error;
     };
-export type UpgradeState = AsyncServiceStateDefault & {
+export type UpgradeStateInternal = {
+  error?: Error;
   uploads: TransferProgress[];
   downloads: TransferProgress[];
   checkedPeers: string[];
   availableUpgrade?: InstallerInt;
 };
+
+export type UpgradeState = AsyncServiceState & UpgradeStateInternal;
 
 interface ManagerEvents {
   state: (state: UpgradeState) => void;
@@ -78,9 +81,7 @@ interface ManagerOptions {
 
 type TestUpgradeState =
   | UpgradeState
-  | (AsyncServiceStateDefault & {
-      uploads: TransferProgress[];
-      downloads: TransferProgress[];
+  | (UpgradeState & {
       availableUpgrade?: string;
     });
 
