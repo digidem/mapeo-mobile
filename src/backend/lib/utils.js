@@ -25,43 +25,8 @@ module.exports = {
 };
 
 /**
- * Check if pre-release is valid
- *
- * @param {string} a
- * @param {string} b
- * @returns {boolean}
- */
-function isValidPreRelease(a, b) {
-  const validA = semver.valid(a);
-  const validB = semver.valid(b);
-  if (!validA || !validB) return false;
-  const validAPR = semver.parse(validA);
-  const validBPR = semver.parse(validB);
-  if (!validAPR || !validBPR) return false;
-  const APR = validAPR.prerelease[0];
-  const BPR = validBPR.prerelease[0];
-  if (!APR || !BPR) return true;
-  if (typeof APR !== "string" || typeof BPR !== "string") return false;
-  if (APR.startsWith("PR") && BPR.startsWith("PR")) {
-    if (APR === BPR) return true;
-    else {
-      log(`installer rejected: PR ${APR} is different to ${BPR}`);
-      return false;
-    }
-  }
-  if (APR.startsWith("RC") && BPR.startsWith("RC")) {
-    if (a.split("-")[0] === b.split("-")[0]) return true;
-    else {
-      log(`installer rejected: RC ${a} has different versioning then ${b}`);
-      return false;
-    }
-  }
-  return true;
-}
-
-/**
- * Compare two installer options, returns -1 if a is less than b, 0 if same, 1
- * if a is greater than b
+ * Compare two installer options, returns 1 if a is less than b, 0 if same, -1
+ * if a is greater than b. Will array.sort() in descending order
  *
  * @param {InstallerInt | InstallerExt} a
  * @param {InstallerInt | InstallerExt} b
@@ -71,22 +36,13 @@ function installerCompare(a, b) {
   const aIsValidSemver = semver.valid(a.versionName);
   const bIsValidSemver = semver.valid(b.versionName);
   if (!aIsValidSemver && !bIsValidSemver) return 0;
-  if (!aIsValidSemver) {
-    log(`installer rejected: ${aIsValidSemver} is invalid semver`);
-    return -1;
-  }
-  if (!bIsValidSemver) return 1;
+  if (!aIsValidSemver) return 1;
+  if (!bIsValidSemver) return -1;
   // Important to validate semver before here, otherwise this will throw
-  const semverCompare = semver.compare(a.versionName, b.versionName);
-  if (semverCompare !== 0) {
-    log("semverCompare:", semverCompare);
-    return semverCompare;
-  }
-  if (a.versionCode < b.versionCode) {
-    log(`installer rejected: ${a.versionCode} < ${b.versionCode}`);
-    return -1;
-  }
-  if (a.versionCode > b.versionCode) return 1;
+  const semverCompare = semver.rcompare(a.versionName, b.versionName);
+  if (semverCompare !== 0) return semverCompare;
+  if (a.versionCode < b.versionCode) return 1;
+  if (a.versionCode > b.versionCode) return -1;
   return 0;
 }
 
@@ -139,34 +95,47 @@ function isUpgradeCandidate({ deviceInfo, installer, currentApkInfo }) {
     return false;
   }
 
-  if (!semver.valid(installer.versionName)) {
+  const installerSemver = semver.parse(installer.versionName);
+  const apkSemver = semver.parse(currentApkInfo.versionName);
+
+  if (!installerSemver) {
     log(
-      `installer rejected: semver ${installer.versionName} is invalid:`,
-      semver.valid(installer.versionName)
+      "installer rejected: installer version code %s is invalid semver",
+      installer.versionName
     );
     return false;
   }
-  // Check if is PR and is the same
-  const preReleaseCheck = isValidPreRelease(
-    installer.versionName,
-    currentApkInfo.versionName
-  );
-  if (!preReleaseCheck) {
+  if (!apkSemver) {
     log(
-      `installer rejected: Pre-release ${installer.versionName} not compatible with ${currentApkInfo.versionName}`
+      "Cannot upgrade due to non-semver current APK version %s",
+      currentApkInfo.versionName
     );
     return false;
   }
-  if (installerCompare(installer, currentApkInfo) < 1) {
+
+  // Don't upgrade prerelease versions
+  if (installerSemver.prerelease.length) {
+    log("installer rejected: is a prerelease %s", installer.versionName);
+    return false;
+  }
+  if (apkSemver.prerelease.length) {
     log(
-      "installer rejected: comparisson between installer and current apk failed:",
-      installerCompare(installer, currentApkInfo)
+      "Current APK is a pre-release %s, ignoring update",
+      currentApkInfo.versionName
     );
     return false;
   }
-  // TODO: Check for internal and release candidate builds e.g. a release
-  // candidate is only an upgrade candidate if the current apk is a release
-  // candidate
+
+  if (semver.lt(installer.versionName, currentApkInfo.versionName)) {
+    log(
+      "installer rejected: version %s is less-than current version %s",
+      installer.versionName,
+      currentApkInfo.versionName
+    );
+    return false;
+  }
+  // The version name can be the same, but versionCode (build number) must be
+  // greater
   return true;
 }
 
@@ -189,7 +158,7 @@ function getBestUpgradeCandidate({ deviceInfo, installers, currentApkInfo }) {
       deviceInfo,
     })
   );
-  return upgradeCandidates.sort(installerCompare).reverse()[0];
+  return upgradeCandidates.sort(installerCompare)[0];
 }
 
 /**
