@@ -224,7 +224,7 @@ test("One device updates multiple other devices", async t => {
   await Promise.all(cleanUpFunctions.map(f => f()));
 });
 
-test("Update is passed from device to device", async t => {
+test.only("Update is passed from device to device", async t => {
   // This device starts with the newer APK
   /** @type {DevicePlan} */
   const device1Plan = {

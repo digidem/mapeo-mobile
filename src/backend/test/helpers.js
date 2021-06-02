@@ -198,6 +198,7 @@ async function playDevicePlan(
   { label, config: { autoStart = false, ...managerOptions }, steps }
 ) {
   const { manager, cleanup } = await createManager(managerOptions);
+  manager.on("state", state => log("STATE: %o", state));
   // Don't await start here - device plan implementer can choose to do that
   if (autoStart) manager.start();
   for (const step of steps) {
