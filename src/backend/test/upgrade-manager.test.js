@@ -598,16 +598,11 @@ test("Closing a device whilst sharing an update waits for upload to complete", a
         },
       },
       {
-        message: "upload is complete",
-        eventName: "state",
-        waitFor: {
-          uploads: [],
-        },
-      },
-      {
+        message: "stopped and upload complete",
         eventName: "state",
         waitFor: {
           value: "stopped",
+          uploads: [],
         },
       },
     ],
@@ -684,7 +679,7 @@ test("Broken connection during download does not crash server", async t => {
           uploads: [{}],
         },
       },
-      async manager => {
+      async () => {
         activeSocket.destroy();
       },
       {
@@ -692,9 +687,6 @@ test("Broken connection during download does not crash server", async t => {
         eventName: "state",
         waitFor: {
           uploads: [],
-        },
-        never: {
-          uploads: [{}],
         },
       },
     ],
