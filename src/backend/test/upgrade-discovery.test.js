@@ -61,8 +61,8 @@ async function createDiscovery(
 }
 
 test("Discovery finds peer and emits available installers", async t => {
-  const testApkFilenames1 = ["com.example.test_SDK21_VN1.0.0_VC10.apk"];
-  const testApkFilenames2 = ["com.example.test_SDK21_VN1.1.0_VC20.apk"];
+  const testApkFilenames1 = ["com.example.test_SDK21_VN1.0.0_VC1.apk"];
+  const testApkFilenames2 = ["com.example.test_SDK21_VN1.1.0_VC1.apk"];
   const discovery1 = await createDiscovery(
     testApkFilenames1,
     fakeApkInfo.v0_0_1
@@ -85,7 +85,7 @@ test("Discovery finds peer and emits available installers", async t => {
 });
 
 test("Discovery with different discoveryKey does not find each other", async t => {
-  const testApkFilenames1 = ["com.example.test_SDK21_VN1.0.0_VC10.apk"];
+  const testApkFilenames1 = ["com.example.test_SDK21_VN1.0.0_VC1.apk"];
   const throttle = 1000;
   const discovery1 = await createDiscovery(
     testApkFilenames1,
@@ -115,8 +115,8 @@ test("Discovery with different discoveryKey does not find each other", async t =
 });
 
 test("If peer goes offline, installers become no longer available", async t => {
-  const testApkFilenames1 = ["com.example.test_SDK21_VN1.0.0_VC10.apk"];
-  const testApkFilenames2 = ["com.example.test_SDK21_VN1.1.0_VC20.apk"];
+  const testApkFilenames1 = ["com.example.test_SDK21_VN1.0.0_VC1.apk"];
+  const testApkFilenames2 = ["com.example.test_SDK21_VN1.1.0_VC1.apk"];
   const discovery1 = await createDiscovery(
     testApkFilenames1,
     fakeApkInfo.v0_0_1
@@ -151,10 +151,10 @@ test("If peer goes offline, installers become no longer available", async t => {
 
 test("Discovery will find all installers from multiple peers", async t => {
   const testApkFilenames1 = [
-    "com.example.test_SDK21_VN1.0.0_VC10.apk",
-    "com.example.test_SDK21_VN1.1.0_VC20.apk",
+    "com.example.test_SDK21_VN1.0.0_VC1.apk",
+    "com.example.test_SDK21_VN1.1.0_VC1.apk",
   ];
-  const testApkFilenames2 = ["com.example.test_SDK21_VN1.0.0_VC11.apk"];
+  const testApkFilenames2 = ["com.example.test_SDK21_VN1.0.0_VC2.apk"];
 
   const discovery1 = await createDiscovery(
     testApkFilenames1,
@@ -208,7 +208,7 @@ test("Discovery will find all installers from multiple peers", async t => {
 });
 
 test("Discovery.createReadStream() works for available installer", async t => {
-  const testApkFilename = "com.example.test_SDK21_VN1.0.0_VC10.apk";
+  const testApkFilename = "com.example.test_SDK21_VN1.0.0_VC1.apk";
   const testApkFilepath = path.join(validApksFolder, testApkFilename);
   const testApkHash = await hasha.fromFile(testApkFilepath, {
     algorithm: "sha256",

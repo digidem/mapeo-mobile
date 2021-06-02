@@ -23,7 +23,7 @@ const v2_0_0 = {
   versionName: "2.0.0",
   minSdkVersion: 1,
   applicationId: "com.example.test",
-  versionCode: 100,
+  versionCode: 1,
   hashType: "sha256",
   platform: "android",
   arch: ["arm64-v8a"],
