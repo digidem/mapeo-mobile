@@ -16,7 +16,14 @@ const log = require("debug")("p2p-upgrades:utils");
 /** @typedef {import('./types').InstallerExt} InstallerExt */
 
 module.exports = {
-  installerCompare,
+  installerCompare: {
+    compare: installerCompare,
+    rCompare: installerRCompare,
+    gt: installerGt,
+    lt: installerLt,
+    gte: installerGte,
+    lte: installerLte,
+  },
   isUpgradeCandidate,
   getBestUpgradeCandidate,
   getInstallerInfo,
@@ -24,9 +31,11 @@ module.exports = {
   stringifyInstaller,
 };
 
+// TODO: Implement installerCompare.lt .gt etc. functions for clearer code
+
 /**
- * Compare two installer options, returns 1 if a is less than b, 0 if same, -1
- * if a is greater than b. Will array.sort() in descending order
+ * Compare two installer options, returns -1 if a is less than b, 0 if same, 1
+ * if a is greater than b. Will array.sort() in ascending order
  *
  * @param {InstallerInt | InstallerExt} a
  * @param {InstallerInt | InstallerExt} b
@@ -36,14 +45,75 @@ function installerCompare(a, b) {
   const aIsValidSemver = semver.valid(a.versionName);
   const bIsValidSemver = semver.valid(b.versionName);
   if (!aIsValidSemver && !bIsValidSemver) return 0;
-  if (!aIsValidSemver) return 1;
-  if (!bIsValidSemver) return -1;
+  if (!aIsValidSemver) return -1;
+  if (!bIsValidSemver) return 1;
   // Important to validate semver before here, otherwise this will throw
-  const semverCompare = semver.rcompare(a.versionName, b.versionName);
+  const semverCompare = semver.compare(a.versionName, b.versionName);
   if (semverCompare !== 0) return semverCompare;
-  if (a.versionCode < b.versionCode) return 1;
-  if (a.versionCode > b.versionCode) return -1;
+  if (a.versionCode < b.versionCode) return -1;
+  if (a.versionCode > b.versionCode) return 1;
   return 0;
+}
+
+/**
+ * Reverse compare two installer options, returns 1 if a is less than b, 0 if
+ * same, -1 if a is greater than b. Will array.sort() in descending order
+ *
+ * @param {InstallerInt | InstallerExt} a
+ * @param {InstallerInt | InstallerExt} b
+ * @returns {-1 | 0 | 1}
+ */
+function installerRCompare(a, b) {
+  const cmp = installerCompare(a, b);
+  return cmp === 1 ? -1 : cmp === -1 ? 1 : 0;
+}
+
+/**
+ * Returns true if a > b
+ *
+ * @param {InstallerInt | InstallerExt} a
+ * @param {InstallerInt | InstallerExt} b
+ * @returns {boolean}
+ */
+function installerGt(a, b) {
+  const cmp = installerCompare(a, b);
+  return cmp === 1;
+}
+
+/**
+ * Returns true if a >= b
+ *
+ * @param {InstallerInt | InstallerExt} a
+ * @param {InstallerInt | InstallerExt} b
+ * @returns {boolean}
+ */
+function installerGte(a, b) {
+  const cmp = installerCompare(a, b);
+  return cmp > -1;
+}
+
+/**
+ * Returns true if a < b
+ *
+ * @param {InstallerInt | InstallerExt} a
+ * @param {InstallerInt | InstallerExt} b
+ * @returns {boolean}
+ */
+function installerLt(a, b) {
+  const cmp = installerCompare(a, b);
+  return cmp === -1;
+}
+
+/**
+ * Returns true if a <= b
+ *
+ * @param {InstallerInt | InstallerExt} a
+ * @param {InstallerInt | InstallerExt} b
+ * @returns {boolean}
+ */
+function installerLte(a, b) {
+  const cmp = installerCompare(a, b);
+  return cmp < 1;
 }
 
 /**
@@ -158,7 +228,7 @@ function getBestUpgradeCandidate({ deviceInfo, installers, currentApkInfo }) {
       deviceInfo,
     })
   );
-  return upgradeCandidates.sort(installerCompare)[0];
+  return upgradeCandidates.sort(installerRCompare)[0];
 }
 
 /**
