@@ -22,7 +22,7 @@ test("One device updates another", async t => {
   const device1Plan = {
     label: "device1",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC10.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: true,
     },
@@ -39,7 +39,7 @@ test("One device updates another", async t => {
             {
               id:
                 // Expected hash of update on device2
-                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+                "d2a861546b53054bf21e2dc384792d6347eec765354761f6c3326cf6cc09eef4",
             },
           ],
         },
@@ -53,7 +53,7 @@ test("One device updates another", async t => {
         eventName: "state",
         waitFor: {
           downloads: [],
-          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC1.expected.json",
+          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC20.expected.json",
         },
         never: {
           // Uploads should never be uploading
@@ -90,7 +90,7 @@ test("One device updates another", async t => {
   const device2Plan = {
     label: "device2",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.1.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.1.0_VC20.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: true,
     },
@@ -107,7 +107,7 @@ test("One device updates another", async t => {
             {
               id:
                 // Hash of the currentApk on this device
-                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+                "d2a861546b53054bf21e2dc384792d6347eec765354761f6c3326cf6cc09eef4",
             },
           ],
         },
@@ -137,7 +137,7 @@ test("One device updates multiple other devices", async t => {
   const deviceWithNewerMapeoPlan = {
     label: "v1.1.0",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.1.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.1.0_VC20.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: true,
     },
@@ -169,7 +169,7 @@ test("One device updates multiple other devices", async t => {
   const deviceWithOlderMapeoPlan = {
     label: "replaced in map below",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC10.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: true,
     },
@@ -186,7 +186,7 @@ test("One device updates multiple other devices", async t => {
             {
               id:
                 // Expected hash of update on newer device
-                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+                "d2a861546b53054bf21e2dc384792d6347eec765354761f6c3326cf6cc09eef4",
             },
           ],
         },
@@ -200,7 +200,7 @@ test("One device updates multiple other devices", async t => {
         eventName: "state",
         waitFor: {
           downloads: [],
-          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC1.expected.json",
+          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC20.expected.json",
         },
         never: {
           // Uploads should never be uploading
@@ -230,7 +230,7 @@ test("Update is passed from device to device", async t => {
   const device1Plan = {
     label: "device1",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.1.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.1.0_VC20.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: true,
     },
@@ -262,7 +262,7 @@ test("Update is passed from device to device", async t => {
   const device2Plan = {
     label: "device2",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC10.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: true,
     },
@@ -279,7 +279,7 @@ test("Update is passed from device to device", async t => {
             {
               id:
                 // Expected hash of update on newer device
-                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+                "d2a861546b53054bf21e2dc384792d6347eec765354761f6c3326cf6cc09eef4",
             },
           ],
         },
@@ -293,7 +293,7 @@ test("Update is passed from device to device", async t => {
         eventName: "state",
         waitFor: {
           downloads: [],
-          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC1.expected.json",
+          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC20.expected.json",
         },
         never: {
           // Uploads should never be uploading
@@ -309,7 +309,7 @@ test("Update is passed from device to device", async t => {
             {
               id:
                 // Expected hash of update on newer device
-                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+                "d2a861546b53054bf21e2dc384792d6347eec765354761f6c3326cf6cc09eef4",
             },
           ],
         },
@@ -329,7 +329,7 @@ test("Update is passed from device to device", async t => {
   const device3Plan = {
     label: "device3",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC10.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: true,
     },
@@ -346,7 +346,7 @@ test("Update is passed from device to device", async t => {
             {
               id:
                 // Expected hash of update on newer device
-                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+                "d2a861546b53054bf21e2dc384792d6347eec765354761f6c3326cf6cc09eef4",
             },
           ],
         },
@@ -360,7 +360,7 @@ test("Update is passed from device to device", async t => {
         eventName: "state",
         waitFor: {
           downloads: [],
-          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC1.expected.json",
+          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC20.expected.json",
         },
         never: {
           // Uploads should never be uploading
@@ -396,7 +396,7 @@ test("Checking another device for updates re-uses the same connection (keep-aliv
   const device1Plan = {
     label: "device1",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC10.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: true,
     },
@@ -410,7 +410,7 @@ test("Checking another device for updates re-uses the same connection (keep-aliv
         eventName: "state",
         waitFor: {
           downloads: [],
-          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC1.expected.json",
+          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC20.expected.json",
         },
         never: {
           // Uploads should never be uploading
@@ -424,7 +424,7 @@ test("Checking another device for updates re-uses the same connection (keep-aliv
   const device2Plan = {
     label: "device2",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.1.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.1.0_VC20.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: false,
     },
@@ -449,7 +449,7 @@ test("Checking another device for updates re-uses the same connection (keep-aliv
             {
               id:
                 // Hash of the currentApk on this device
-                "550f1eec073f07dad4c507ff339a48be895a450110874e8f3b87d572e6368307",
+                "d2a861546b53054bf21e2dc384792d6347eec765354761f6c3326cf6cc09eef4",
             },
           ],
         },
@@ -492,7 +492,7 @@ test("Device is able to close when being polled with keep-alive", async t => {
   const device1Plan = {
     label: "device1",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC10.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: true,
     },
@@ -548,7 +548,7 @@ test("Closing a device whilst sharing an update waits for upload to complete", a
   const device1Plan = {
     label: "device1",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC10.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: true,
     },
@@ -562,7 +562,7 @@ test("Closing a device whilst sharing an update waits for upload to complete", a
         eventName: "state",
         waitFor: {
           downloads: [],
-          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC1.expected.json",
+          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC20.expected.json",
         },
       },
     ],
@@ -572,7 +572,7 @@ test("Closing a device whilst sharing an update waits for upload to complete", a
   const device2Plan = {
     label: "device2",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.1.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.1.0_VC20.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: true,
     },
@@ -626,7 +626,7 @@ test("Broken connection during download does not crash server", async t => {
   const device1Plan = {
     label: "device1",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC10.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: true,
     },
@@ -657,7 +657,7 @@ test("Broken connection during download does not crash server", async t => {
   const device2Plan = {
     label: "device2",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.1.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.1.0_VC20.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: true,
     },
@@ -707,7 +707,7 @@ test("Lifecycle events: 'starting', 'started', 'stopping', 'stopped'", async t =
   const device1Plan = {
     label: "device1",
     config: {
-      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC10.apk",
       deviceInfo: defaultDeviceInfo,
       autoStart: false,
     },

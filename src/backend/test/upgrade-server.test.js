@@ -66,7 +66,7 @@ test("route: GET /installers includes APK added to storage", async t => {
 
   const apkFilepath = path.join(
     __dirname,
-    "./fixtures/valid-apks/com.example.test_SDK21_VN1.0.0_VC1.apk"
+    "./fixtures/valid-apks/com.example.test_SDK21_VN1.0.0_VC10.apk"
   );
   const { filepath: _2, ...expected2 } = await readJson(
     apkFilepath.replace(/\.apk/, ".expected.json")
@@ -107,7 +107,7 @@ test("route: apk download GET /content/X", async t => {
 
   const apkFilepath = path.join(
     __dirname,
-    "./fixtures/valid-apks/com.example.test_SDK21_VN1.0.0_VC1.apk"
+    "./fixtures/valid-apks/com.example.test_SDK21_VN1.0.0_VC10.apk"
   );
   const apkInfo = await readJson(
     apkFilepath.replace(/\.apk/, ".expected.json")

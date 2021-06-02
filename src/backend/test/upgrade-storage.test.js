@@ -23,7 +23,7 @@ const validApksFolder = path.join(__dirname, "./fixtures/valid-apks");
 const invalidApksFolder = path.join(__dirname, "./fixtures/invalid-apks");
 
 test("emits list of installers on startup", async t => {
-  const testApkFilenames = ["com.example.test_SDK21_VN1.0.0_VC1.apk"];
+  const testApkFilenames = ["com.example.test_SDK21_VN1.0.0_VC10.apk"];
   const filepaths = testApkFilenames.map(filename =>
     path.join(validApksFolder, filename)
   );
@@ -40,7 +40,7 @@ test("emits list of installers on startup", async t => {
 });
 
 test("list() returns info about installers in storage and the current APK", async t => {
-  const testApkFilenames = ["com.example.test_SDK21_VN1.0.0_VC1.apk"];
+  const testApkFilenames = ["com.example.test_SDK21_VN1.0.0_VC10.apk"];
   const filepaths = testApkFilenames.map(filename =>
     path.join(validApksFolder, filename)
   );
@@ -78,7 +78,7 @@ test("get() returns undefined if no APK with given hash exists", async t => {
 
 test("Older APKs are deleted after initialization", async t => {
   // Start with only older APKs
-  const testApkFilenames = ["com.example.test_SDK21_VN1.0.0_VC1.apk"];
+  const testApkFilenames = ["com.example.test_SDK21_VN1.0.0_VC10.apk"];
   const filepaths = testApkFilenames.map(filename =>
     path.join(validApksFolder, filename)
   );
@@ -129,7 +129,7 @@ test("createWriteStream() --> new APK appears as an available installer", async 
 
   const testApkFilepath = path.join(
     validApksFolder,
-    "com.example.test_SDK21_VN1.0.0_VC1.apk"
+    "com.example.test_SDK21_VN1.0.0_VC10.apk"
   );
   const expected = await readJson(
     testApkFilepath.replace(/\.apk/, ".expected.json")
@@ -201,7 +201,7 @@ test("createWriteStream() --> invalid hash = installer does not appear as option
 
   const testApkFilepath = path.join(
     validApksFolder,
-    "com.example.test_SDK21_VN1.0.0_VC1.apk"
+    "com.example.test_SDK21_VN1.0.0_VC10.apk"
   );
   const ws = storage.createWriteStream({ hash: "invalid-hash" });
   try {
