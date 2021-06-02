@@ -17,6 +17,8 @@ const log = require("debug")("p2p-upgrades:manager");
 const getPort = require("get-port");
 
 /** @typedef {import('./types').UpgradeState} UpgradeState */
+/** @typedef {import('./types').UpgradeStateInternal} UpgradeStateInternal */
+/** @typedef {import('./types').AsyncServiceState} AsyncServiceState */
 /** @typedef {import('./types').InstallerExt} InstallerExt */
 /** @typedef {import('./types').InstallerInt} InstallerInt */
 /** @typedef {import('./types').TransferProgress} TransferProgress */
@@ -78,11 +80,11 @@ class UpgradeManager extends AsyncService {
   #server;
   /** @type {import('lodash').DebouncedFunc<void>} */
   #throttledEmitState;
-  /** @type {UpgradeState} */
+  /** @type {UpgradeStateInternal} */
   #state = {
-    value: "stopped",
     downloads: [],
     uploads: [],
+    checkedPeers: [],
     availableUpgrade: undefined,
   };
   /** @type {Map<string, { progress: TransferProgress, stream: import('stream').Readable, installerInfo: InstallerExt }>} */
@@ -118,7 +120,7 @@ class UpgradeManager extends AsyncService {
       this.emit("error", error);
     });
     this.#storage.on("error", error => {
-      this.setState({ value: "error", error });
+      this.setState({ error });
     });
     this.#storage.on("installers", async installers => {
       this._onStoredInstallers(installers);
@@ -126,9 +128,25 @@ class UpgradeManager extends AsyncService {
     this.#discovery.on("installers", async installers => {
       this._onDownloadableInstallers(installers);
     });
+    this.#discovery.on("checked", checkedPeers => {
+      this.setState({ checkedPeers });
+    });
+    super.addStateListener(() => {
+      this.#throttledEmitState();
+      this.#throttledEmitState.flush();
+    });
     this.#throttledEmitState = throttle(() => {
+      const state = this.getState();
+      log("State: %o", state);
       this.emit("state", this.getState());
     }, stateEmitThrottle);
+  }
+
+  /**
+   * Return an instance of the Node HTTP server. Used for tests.
+   */
+  get httpServer() {
+    return this.#server.httpServer;
   }
 
   /**
@@ -288,7 +306,7 @@ class UpgradeManager extends AsyncService {
       this.#throttledEmitState.flush();
     } catch (e) {
       log(`${this.#port}: Uncaught error processing available downloads`, e);
-      this.setState({ value: "error", error: e });
+      this.setState({ error: e });
     }
   }
 
@@ -298,7 +316,8 @@ class UpgradeManager extends AsyncService {
    * @returns {UpgradeState}
    */
   getState() {
-    return {
+    const mergedState = {
+      ...super.getState(),
       ...this.#state,
       // Don't like this too much, but for now is better than duplicating
       // downloads on state
@@ -306,13 +325,17 @@ class UpgradeManager extends AsyncService {
         download => download.progress
       ),
     };
+    if (this.#state.error) {
+      mergedState.value = "error";
+    }
+    return mergedState;
   }
 
   /**
    * Set state of UpgradeManager, **merges with current state**. If you pass
    * state with value: "error" you _must_ also pass an error property
    *
-   * @param {Partial<Exclude<UpgradeState, { value: "error", error: Error }>> | { value: "error", error: Error }} statePartial
+   * @param {Partial<UpgradeStateInternal>} statePartial
    */
   setState(statePartial) {
     this.#state = { ...this.#state, ...statePartial };
@@ -329,8 +352,8 @@ class UpgradeManager extends AsyncService {
    * @returns {Promise<void>} Resolves when started
    */
   async _start() {
-    this.#port = await getPort();
     log(`${this.#port}: starting`);
+    this.#port = await getPort();
     await Promise.all([
       this.#discovery.start(this.#port),
       this.#server.start(this.#port),

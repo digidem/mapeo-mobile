@@ -8,6 +8,7 @@ const { stringifyInstaller } = require("./utils");
 const throttle = require("lodash/throttle");
 const AsyncService = require("./async-service");
 const log = require("debug")("p2p-upgrades:server");
+const { promisify } = require("util");
 
 /** @typedef {import('fastify')} Fastify */
 /** @typedef {import('./types').TransferProgress} Upload */
@@ -19,11 +20,12 @@ const log = require("debug")("p2p-upgrades:server");
 
 // How frequently to emit progress events (in ms)
 const EMIT_THROTTLE_MS = 400; // milliseconds
+// Timeout to wait for active downloads to complete
 
 // Only use logger in development when debugging
-const serverLogger = process.env.DEBUG
-  ? require("pino")({ prettyPrint: { singleLine: true } })
-  : false;
+// const serverLogger = process.env.DEBUG
+//   ? require("pino")({ prettyPrint: { singleLine: true } })
+//   : false;
 
 /**
  * @extends {AsyncService<Events, [number]>}
@@ -33,6 +35,7 @@ class UpgradeServer extends AsyncService {
   #storage;
   /** @type {Set<Upload>} */
   #uploads;
+  #fastifyStarted = false;
   /** @type {import('fastify').FastifyInstance} */
   #fastify;
   /** @type {import('lodash').DebouncedFunc<void>} */
@@ -40,16 +43,18 @@ class UpgradeServer extends AsyncService {
   /**
    * @param {object} options
    * @param {InstanceType<typeof import('./upgrade-storage')>} options.storage
-   * @param {import('fastify').FastifyServerOptions['logger']} [options.logger]
+   * @param {import('fastify').FastifyServerOptions['logger']} [options.logger] (ignored for now due to bug with nodejs-mobile)
    */
-  constructor({ storage, logger = serverLogger }) {
+  constructor({ storage, logger }) {
     super();
     this.#storage = storage;
     this.#uploads = new Set();
 
-    // TODO: Only turn on logger in dev mode, since this has a perf overhead
-    // in react native
-    this.#fastify = createFastify({ logger });
+    // TODO: pino logger was crashing nodejs-mobile (tries to spawn process)
+    this.#fastify = createFastify({ logger: false });
+
+    // Don't accept new connections when closing/closed
+    this.#fastify.addHook("onRequest", this._onRequestHook.bind(this));
 
     this.#fastify.get(
       "/installers",
@@ -82,6 +87,37 @@ class UpgradeServer extends AsyncService {
   }
 
   /**
+   * Return an instance of the Node HTTP server. Used for tests.
+   */
+  get httpServer() {
+    return this.#fastify.server;
+  }
+
+  /**
+   * This is necessary because a keep-alive connection from another device will
+   * prevent this server from closing. This hook ensures that if this server is
+   * in the "stopping", "stopped" or "error" states, then it responds with the
+   * "Connection: close" header, which tells the keep-alive client to stop. It
+   * also responds with a 503 "Service unavailable" error.
+   *
+   * @private
+   * @param {import('fastify').FastifyRequest} request
+   * @param {import('fastify').FastifyReply} reply
+   */
+  async _onRequestHook(request, reply) {
+    const state = this.getState().value;
+    if (state === "starting" || state === "started") return;
+
+    if (request.raw.httpVersionMajor !== 2) {
+      reply.raw.once("finish", () => request.raw.destroy());
+      reply.header("Connection", "close");
+    }
+
+    reply.code(503);
+    throw new Error("Service Unavailable");
+  }
+
+  /**
    * @private
    * @param {import('./types').Request<{ Params: { id: string }}>} request
    * @param {import('fastify').FastifyReply} reply
@@ -109,21 +145,23 @@ class UpgradeServer extends AsyncService {
 
     await reply.send(
       pump(readStream, progress, e => {
-        if (e)
+        if (e) {
           log(
             `${this.#port}: Error uploading ${installer.hash.slice(0, 7)}`,
             e
           );
-        else
+        } else {
           log(`${this.#port}: Uploaded complete ${installer.hash.slice(0, 7)}`);
+        }
+        this.#throttledEmitUploads();
+        // Always emit event with upload complete
+        this.#throttledEmitUploads.flush();
+        // Reply is now finished
+        this.#uploads.delete(upload);
+        this.#throttledEmitUploads();
+        this.#throttledEmitUploads.flush();
       })
     );
-    this.#throttledEmitUploads();
-    // Always emit event with upload complete
-    this.#throttledEmitUploads.flush();
-    // Reply is now finished
-    this.#uploads.delete(upload);
-    this.#throttledEmitUploads();
   }
 
   /**
@@ -163,7 +201,15 @@ class UpgradeServer extends AsyncService {
   async _start(port) {
     this.#port = port;
     log(`${this.#port}: starting`);
-    await this.#fastify.listen(this.#port, "0.0.0.0");
+    if (!this.#fastifyStarted) {
+      log("first start, initializing fastify");
+      await this.#fastify.listen(this.#port, "0.0.0.0");
+      this.#fastifyStarted = true;
+    } else {
+      log("second start, listening");
+      const { server } = this.#fastify;
+      await promisify(server.listen.bind(server))(this.#port, "0.0.0.0");
+    }
     log(`${this.#port}: started`);
   }
 
@@ -175,7 +221,8 @@ class UpgradeServer extends AsyncService {
    */
   async _stop() {
     log(`${this.#port}: stopping`);
-    await this.#fastify.close();
+    const { server } = this.#fastify;
+    await promisify(server.close.bind(server))();
     log(`${this.#port}: stopped`);
   }
 }

@@ -3,7 +3,7 @@ import {
   ListenerSignature,
   DefaultListener,
 } from "tiny-typed-emitter";
-import { AsyncServiceStateDefault } from "./types";
+import { AsyncServiceState } from "./types";
 
 // This is done this way in a d.ts file with the same name as `async-service.js`
 // since it is not possible to declare a class with Generics in JSDoc, so by
@@ -11,11 +11,16 @@ import { AsyncServiceStateDefault } from "./types";
 // is imported/required
 declare abstract class AsyncService<
   Events extends ListenerSignature<Events> = DefaultListener,
-  StartArgs extends Array<any> = [],
-  State extends AsyncServiceStateDefault = AsyncServiceStateDefault
+  StartArgs extends Array<any> = []
 > extends TypedEmitter<Events> {
-  getState(): State;
-  setState(newState: State): void;
+  private _setState();
+  protected getState(): AsyncServiceState;
+  protected addStateListener(
+    fn: (state: AsyncServiceState) => void
+  ): () => void;
+  protected removeStateListener(
+    fn: (state: AsyncServiceState) => void
+  ): () => void;
   start(...args: StartArgs): Promise<void>;
   stop(): Promise<void>;
   started(): Promise<void>;

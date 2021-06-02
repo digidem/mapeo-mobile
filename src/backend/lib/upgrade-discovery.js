@@ -6,9 +6,24 @@ const createDiscovery = require("dns-discovery");
 const secureJson = require("secure-json-parse");
 const { isInstallerList } = require("./schema");
 const throttle = require("lodash/throttle");
+const network = require("network-address");
 const stream = require("stream");
 const { stringifyInstaller } = require("./utils");
 const log = require("debug")("p2p-upgrades:discovery");
+const Agent = require("agentkeepalive");
+
+// We poll other peers for available installers every `lookupInterval=2000ms`.
+// By using keep-alive we re-use the same connection, which uses fewer resources
+const keepaliveAgent = new Agent({
+  // Keep sockets around in a pool to be used by other requests in the future.
+  keepAlive: true,
+  // The initial delay for TCP Keep-Alive packets.
+  keepAliveMsecs: 1000,
+  // Sets the free socket to timeout after freeSocketTimeout milliseconds of inactivity on the free socket.
+  freeSocketTimeout: 5000,
+  // Sets the working socket to timeout after timeout milliseconds of inactivity on the working socket.
+  timeout: 10000,
+});
 
 // TTL for discovered peers, if they are not seen for more than this period then
 // they are considered offline and forgotten
@@ -20,6 +35,7 @@ const PEER_TTL_MS = 4000;
 /**
  * @typedef {Object} Events
  * @property {(installers: InstallerExt[]) => void} installers
+ * @property {(checkedPeers: string[]) => void} checked
  * @property {(error?: Error) => void} error
  */
 
@@ -47,6 +63,13 @@ class UpgradeDiscovery extends AsyncService {
    * @type {Map<string, { installer: InstallerExt, timeoutId: NodeJS.Timeout}>}
    */
   #availableInstallers = new Map();
+  /**
+   * List of peers that have been checked for updates. Peers are identified by
+   * `host:port`.
+   *
+   * @type {Set<string>}
+   */
+  #checkedPeers = new Set();
   /**
    * Track in-progress requests to GET /installers to avoid calling multiple
    * times when the first is in progress
@@ -107,7 +130,9 @@ class UpgradeDiscovery extends AsyncService {
           new URL(installer.installer.url).host
         }`
       );
-      const downloadStream = got.stream(installer.installer.url);
+      const downloadStream = got.stream(installer.installer.url, {
+        agent: { http: keepaliveAgent },
+      });
       downloadStream.once("error", e => {
         log(`${this.#port}: Download error for ${hash.slice(0, 7)}:`, e);
         // Remove from available installers - probably errored because no longer
@@ -160,6 +185,9 @@ class UpgradeDiscovery extends AsyncService {
     return new Promise(resolve => {
       this.#discoveryInterval && clearInterval(this.#discoveryInterval);
       this.#discovery.off("peer", this._onPeer);
+      // Clear list of checked peers. We don't clear this.#availableInstallers
+      // because the TTL will ensure that they are removed
+      this.#checkedPeers.clear();
       // Flush throttled installer emit
       this.#throttledEmitInstallers.flush();
       // NB: Due to a bug in dns-discovery, the callback is always called with
@@ -182,6 +210,10 @@ class UpgradeDiscovery extends AsyncService {
    */
   async _onPeer(app, { host, port }) {
     if (app !== this.#discoveryKey) return;
+    // There is a bug in dns-discovery where the query for known peers is
+    // responded to by the same peer that sends the query, which results in
+    // self-lookup. This should filter out itself from the peers.
+    if (host === network() && port === this.#port) return;
     const listUrl = `http://${host}:${port}/installers`;
     // If we are currently querying this peer, bail
     if (this.#inProgressRequests.has(listUrl)) return;
@@ -191,6 +223,7 @@ class UpgradeDiscovery extends AsyncService {
       log(`${this.#port}: Querying peer ${host}:${port}`);
       // Secure parse of JSON to avoid prototype pollution
       installers = await got(listUrl, {
+        agent: { http: keepaliveAgent },
         parseJson: text => secureJson.parse(text),
       }).json();
       // Validate response
@@ -239,6 +272,11 @@ class UpgradeDiscovery extends AsyncService {
           this.#throttledEmitInstallers();
         }, PEER_TTL_MS),
       });
+    }
+    const peerId = `${host}:${port}`;
+    if (!this.#checkedPeers.has(peerId)) {
+      this.#checkedPeers.add(peerId);
+      this.emit("checked", [...this.#checkedPeers]);
     }
     this.#inProgressRequests.delete(listUrl);
     this.#throttledEmitInstallers();

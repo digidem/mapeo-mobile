@@ -24,6 +24,7 @@ type Props = {
   fullWidth?: boolean,
   testID?: string,
   disabled?: boolean,
+  size?: "small" | "medium",
 };
 
 const Button = ({
@@ -34,6 +35,7 @@ const Button = ({
   children,
   fullWidth = false,
   disabled = false,
+  size = "medium",
 }: Props) => {
   const buttonStyle = styles["button" + capitalize(variant)];
   const textStyle =
@@ -43,6 +45,7 @@ const Button = ({
         capitalize(color) +
         (disabled ? "Disabled" : "")
     ];
+  const touchableStyle = styles["touchable" + capitalize(size)];
   return (
     <View
       style={[
@@ -57,7 +60,7 @@ const Button = ({
         background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
         onPress={disabled ? undefined : onPress}
       >
-        <View style={styles.touchable}>
+        <View style={touchableStyle}>
           {
             typeof children === "string" ? (
               <Text style={[styles.textBase, textStyle]}>
@@ -96,9 +99,15 @@ const styles = StyleSheet.create({
     borderColor: "#EEEEEE",
     borderWidth: 1.5,
   },
-  touchable: {
+  touchableMedium: {
     paddingVertical: 15,
     paddingHorizontal: 30,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  touchableSmall: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -109,7 +118,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   textOutlinedLight: {
-    color: "#0066FF",
+    color: "#FFFFFF",
   },
   textOutlinedDark: {
     color: "#0066FF",

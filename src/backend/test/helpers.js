@@ -160,7 +160,7 @@ async function onceEventResult(
 
     /** @param {T} value */
     function checkValue(value) {
-      log(`${name}:`, value);
+      log(`${name}: %o`, value);
       if (never && isMatch(value, never)) {
         return onError(
           new Error(
