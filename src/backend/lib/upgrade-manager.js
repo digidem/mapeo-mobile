@@ -11,10 +11,11 @@ const {
 } = require("./utils");
 const stream = require("stream");
 const progressStream = require("progress-stream");
-const throttle = require("lodash/throttle");
 const log = require("debug")("p2p-upgrades:manager");
 
 const getPort = require("get-port");
+// How frequently to emit download progress events
+const DOWNLOAD_PROGRESS_THROTTLE_MS = 400;
 
 /** @typedef {import('./types').UpgradeState} UpgradeState */
 /** @typedef {import('./types').UpgradeStateInternal} UpgradeStateInternal */
@@ -78,8 +79,6 @@ class UpgradeManager extends AsyncService {
   #storage;
   #discovery;
   #server;
-  /** @type {import('lodash').DebouncedFunc<void>} */
-  #throttledEmitState;
   /** @type {UpgradeStateInternal} */
   #state = {
     downloads: [],
@@ -94,14 +93,8 @@ class UpgradeManager extends AsyncService {
    * @param {string} options.storageDir Path to folder to store installers
    * @param {InstallerInt} options.currentApkInfo info about the currently installed APK
    * @param {import('./types').DeviceInfo} options.deviceInfo Arch and SDK version of current device
-   * @param {number} [options.stateEmitThrottle=400] ms throttle for state events. Used for testing
    */
-  constructor({
-    storageDir,
-    currentApkInfo,
-    deviceInfo,
-    stateEmitThrottle = 400,
-  }) {
+  constructor({ storageDir, currentApkInfo, deviceInfo }) {
     super();
     this.#currentApkInfo = currentApkInfo;
     this.#deviceInfo = deviceInfo;
@@ -132,14 +125,8 @@ class UpgradeManager extends AsyncService {
       this.setState({ checkedPeers });
     });
     super.addStateListener(() => {
-      this.#throttledEmitState();
-      this.#throttledEmitState.flush();
-    });
-    this.#throttledEmitState = throttle(() => {
-      const state = this.getState();
-      log("State: %o", state);
       this.emit("state", this.getState());
-    }, stateEmitThrottle);
+    });
   }
 
   /**
@@ -271,12 +258,12 @@ class UpgradeManager extends AsyncService {
 
       const rs = this.#discovery.createReadStream(candidateHash);
       const progress = progressStream(
-        { length: upgradeCandidate.size },
+        { length: upgradeCandidate.size, time: DOWNLOAD_PROGRESS_THROTTLE_MS },
         progress => {
           // Warning: we mutate the download object to avoid recreating an
           // object on every progress event, and also re-setting this.#downloads
           download.sofar = progress.transferred;
-          this.#throttledEmitState();
+          this.emit("state", this.getState());
         }
       );
       const ws = this.#storage.createWriteStream({ hash: candidateHash });
@@ -290,11 +277,9 @@ class UpgradeManager extends AsyncService {
           );
         else
           log(`${this.#port}: Download complete ${candidateHash.slice(0, 7)}`);
-        this.#throttledEmitState();
-        // Force emit before download is removed
-        this.#throttledEmitState.flush();
+        this.emit("state", this.getState());
         this.#downloads.delete(candidateHash);
-        this.#throttledEmitState();
+        this.emit("state", this.getState());
       });
 
       this.#downloads.set(candidateHash, {
@@ -302,8 +287,7 @@ class UpgradeManager extends AsyncService {
         progress: download,
         installerInfo: upgradeCandidate,
       });
-      this.#throttledEmitState();
-      this.#throttledEmitState.flush();
+      this.emit("state", this.getState());
     } catch (e) {
       log(`${this.#port}: Uncaught error processing available downloads`, e);
       this.setState({ error: e });
@@ -339,7 +323,7 @@ class UpgradeManager extends AsyncService {
    */
   setState(statePartial) {
     this.#state = { ...this.#state, ...statePartial };
-    this.#throttledEmitState();
+    this.emit("state", this.getState());
   }
 
   /**
@@ -369,7 +353,6 @@ class UpgradeManager extends AsyncService {
   async _stop() {
     log(`${this.#port}: stopping`);
     await Promise.all([this.#discovery.stop(), this.#server.stop()]);
-    this.#throttledEmitState.flush();
     log(`${this.#port}: stopped`);
   }
 }
