@@ -3,10 +3,13 @@ const { isUpgradeCandidate } = require("../../lib/utils");
 const fs = require("fs");
 const path = require("path");
 
-const validUpgradeCandidates = path.join(__dirname, "valid-upgrade-candidates");
+const validUpgradeCandidates = path.join(
+  __dirname,
+  "../fixtures/valid-upgrade-candidates"
+);
 const inValidUpgradeCandidates = path.join(
   __dirname,
-  "invalid-upgrade-candidates"
+  "../fixtures/invalid-upgrade-candidates"
 );
 
 test("isUpgradeCandidate: valid upgrade candidates", t => {
