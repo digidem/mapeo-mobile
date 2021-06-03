@@ -161,7 +161,7 @@ async function onceEventResult(
     /** @param {T} value */
     function checkValue(value) {
       log(`${name}: %o`, value);
-      if (never && isMatch(value, never)) {
+      if (never && compareValue(value, never)) {
         return onError(
           new Error(
             `${name}: Event '${eventName}' emitted value ${JSON.stringify(
@@ -170,7 +170,7 @@ async function onceEventResult(
           )
         );
       }
-      if (always && !isMatch(value, always)) {
+      if (always && !compareValue(value, always)) {
         return onError(
           new Error(
             `${name}: Event '${eventName}' emitted value ${JSON.stringify(
@@ -179,12 +179,25 @@ async function onceEventResult(
           )
         );
       }
-      if (!isMatch(value, expectedValue)) return;
+      if (!compareValue(value, expectedValue)) return;
       clearTimeout(timeoutId);
       emitter.off(eventName, checkValue);
       resolve();
     }
   });
+}
+
+/**
+ * @param {object} value
+ * @param {((value: object) => boolean) | object} expected
+ * @returns {boolean}
+ */
+function compareValue(value, expected) {
+  if (typeof expected === "function") {
+    return expected(value);
+  } else {
+    return isMatch(value, expected);
+  }
 }
 
 /**
@@ -198,6 +211,7 @@ async function playDevicePlan(
   { label, config: { autoStart = false, ...managerOptions }, steps }
 ) {
   const { manager, cleanup } = await createManager(managerOptions);
+  manager.on("state", state => log("%s: state %o", label, state));
   // Don't await start here - device plan implementer can choose to do that
   if (autoStart) manager.start();
   for (const step of steps) {
@@ -211,7 +225,7 @@ async function playDevicePlan(
       for (const key of ["waitFor", "always", "never"]) {
         // @ts-ignore
         const value = step[key];
-        if (value) {
+        if (value && typeof value !== "function") {
           // @ts-ignore
           normalizedStep[key] = { ...value };
         }

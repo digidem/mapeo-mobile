@@ -747,3 +747,94 @@ test("Lifecycle events: 'starting', 'started', 'stopping', 'stopped'", async t =
   t.pass("Scenario complete without error");
   await cleanup();
 });
+
+test.only("'checkedPeers' is updated after (but not before) download starts", async t => {
+  /** @type {DevicePlan} */
+  const device1Plan = {
+    label: "device1",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      {
+        message: "download of update started",
+        eventName: "state",
+        waitFor: {
+          downloads: [{}],
+        },
+        never: state => {
+          // should never be uploading
+          if (state.uploads.length) return true;
+          // checkedPeers should never be >0 until after download has started
+          if (state.checkedPeers.length) return true;
+          return false;
+        },
+      },
+      {
+        message: "checked peers is updated",
+        eventName: "state",
+        waitFor: state => {
+          if (state.checkedPeers.length === 1) return true;
+          return false;
+        },
+      },
+      {
+        message: "update is downloaded and available",
+        eventName: "state",
+        waitFor: {
+          downloads: [],
+          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC10.expected.json",
+        },
+        never: {
+          // Uploads should never be uploading
+          uploads: [{}],
+        },
+      },
+    ],
+  };
+
+  /** @type {DevicePlan} */
+  const device2Plan = {
+    label: "device2",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.1.0_VC10.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      {
+        message: "current apk from device is uploading",
+        eventName: "state",
+        waitFor: {
+          uploads: [{}],
+        },
+      },
+      {
+        message: "upload is complete",
+        eventName: "state",
+        waitFor: {
+          uploads: [],
+        },
+      },
+    ],
+  };
+
+  const cleanUpFunctions = await Promise.all([
+    playDevicePlan(t, device1Plan),
+    playDevicePlan(t, device2Plan),
+  ]);
+
+  t.pass("Scenario complete without error");
+
+  await Promise.all(cleanUpFunctions.map(f => f()));
+});

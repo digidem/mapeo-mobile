@@ -91,13 +91,19 @@ interface ScenarioStepEvent {
   /** Name of event to listen for */
   eventName: "state";
   /** Expected value from event, will wait until timeout for this value */
-  waitFor: PartialDeep<TestUpgradeState>;
+  waitFor:
+    | PartialDeep<TestUpgradeState>
+    | ((value: TestUpgradeState) => boolean);
   /** Time in milliseconds to wait for `waitFor` */
   timeout?: number;
   /** Whilst waiting for `waitFor`, we should never match this */
-  never?: PartialDeep<TestUpgradeState>;
+  never?:
+    | PartialDeep<TestUpgradeState>
+    | ((value: TestUpgradeState) => boolean);
   /** Whilst waiting for `waitFor`, we should always match this */
-  always?: PartialDeep<TestUpgradeState>;
+  always?:
+    | PartialDeep<TestUpgradeState>
+    | ((value: TestUpgradeState) => boolean);
 }
 
 interface ScenarioStepFunction {
