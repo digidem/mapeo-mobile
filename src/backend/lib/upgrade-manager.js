@@ -11,7 +11,19 @@ const {
 } = require("./utils");
 const stream = require("stream");
 const progressStream = require("progress-stream");
-const log = require("debug")("p2p-upgrades:manager");
+const debug = require("debug");
+const log = debug("p2p-upgrades:manager");
+
+// Custom log formatter to print shortened hex hash using %h
+debug.formatters.h = v => {
+  return typeof v === "string" ? v.slice(0, 7) : v;
+};
+// Custom log formatter to print installer info as a single string using %i
+debug.formatters.i = v => {
+  return Array.isArray(v)
+    ? v.map(v => stringifyInstaller(v)).join(", ")
+    : stringifyInstaller(v);
+};
 
 const getPort = require("get-port");
 // How frequently to emit download progress events
@@ -146,7 +158,8 @@ class UpgradeManager extends AsyncService {
    */
   _onStoredInstallers(storedInstallers) {
     log(
-      `${this.#port}: Updated stored installers:`,
+      "%d: Updated stored installers: %i",
+      this.#port,
       storedInstallers.map(i => stringifyInstaller(i))
     );
     const upgradeCandidate = getBestUpgradeCandidate({
@@ -155,13 +168,10 @@ class UpgradeManager extends AsyncService {
       installers: storedInstallers,
     });
     if (!upgradeCandidate) {
-      log(`${this.#port}: No upgrade candidate in storage`);
+      log("%d: No upgrade candidate in storage", this.#port);
       return;
     }
-    log(
-      `${this.#port}: Available upgrade:`,
-      stringifyInstaller(upgradeCandidate)
-    );
+    log("%d: Available upgrade: %i", this.#port, upgradeCandidate);
     this.setState({ availableUpgrade: upgradeCandidate });
   }
 
@@ -183,8 +193,9 @@ class UpgradeManager extends AsyncService {
       // If none of the downloadable installers are an upgrade candidate, ignore
       if (!upgradeCandidate) return;
       log(
-        `${this.#port}: Found available upgrade candidate`,
-        stringifyInstaller(upgradeCandidate)
+        "%d: Found available upgrade candidate %i",
+        this.#port,
+        upgradeCandidate
       );
       const { hash: candidateHash } = upgradeCandidate;
       const { availableUpgrade } = this.getState();
@@ -196,10 +207,9 @@ class UpgradeManager extends AsyncService {
         installerCompare.lte(upgradeCandidate, availableUpgrade)
       ) {
         log(
-          `${this.#port}: Upgrade candidate ${candidateHash.slice(
-            0,
-            7
-          )} is already downloaded`
+          "%d: Upgrade candidate %h is already downloaded",
+          this.#port,
+          candidateHash
         );
         return;
       }
@@ -207,10 +217,9 @@ class UpgradeManager extends AsyncService {
       // same hash, ignore this one
       if (this.#downloads.has(candidateHash)) {
         log(
-          `${this.#port}: Upgrade candidate ${candidateHash.slice(
-            0,
-            7
-          )} is downloading`
+          "%d: Upgrade candidate %h is downloading",
+          this.#port,
+          candidateHash
         );
         return;
       }
@@ -219,9 +228,10 @@ class UpgradeManager extends AsyncService {
       for (const { installerInfo } of this.#downloads.values()) {
         if (installerCompare.lte(upgradeCandidate, installerInfo)) {
           log(
-            `${this.#port}: Already downloading ${stringifyInstaller(
-              installerInfo
-            )} which is newer than ${candidateHash.slice(0, 7)}`
+            "%d: Already downloading %i which is newer than %h",
+            this.#port,
+            installerInfo,
+            candidateHash
           );
           return;
         }
@@ -232,19 +242,15 @@ class UpgradeManager extends AsyncService {
         currentInstallers.find(installer => installer.hash === candidateHash)
       ) {
         log(
-          `${this.#port}: Upgrade candidate ${candidateHash.slice(
-            0,
-            7
-          )} is already downloaded`
+          "%d: Upgrade candidate %h is already downloaded",
+          this.#port,
+          candidateHash
         );
         return;
       }
       // If there are any in progress downloads, cancel them
       for (const { stream, installerInfo } of this.#downloads.values()) {
-        log(
-          `${this.#port}: cancelling download of`,
-          stringifyInstaller(installerInfo)
-        );
+        log("%d: cancelling download of %i", this.#port, installerInfo);
         stream.destroy();
       }
       // Now we've cancelled the downloads, clear them from our map
@@ -269,15 +275,10 @@ class UpgradeManager extends AsyncService {
       );
       const ws = this.#storage.createWriteStream({ hash: candidateHash });
 
-      log(`${this.#port}: Start download:`, candidateHash.slice(0, 7));
+      log("%d: Start download %h", this.#port, candidateHash);
       stream.pipeline(rs, progress, ws, e => {
-        if (e)
-          log(
-            `${this.#port}: Error downloading ${candidateHash.slice(0, 7)}`,
-            e
-          );
-        else
-          log(`${this.#port}: Download complete ${candidateHash.slice(0, 7)}`);
+        if (e) log("%d: Error downloading %h", this.#port, candidateHash);
+        else log("%d: Download complete %h", this.#port, candidateHash);
         this.emit("state", this.getState());
         this.#downloads.delete(candidateHash);
         this.emit("state", this.getState());
@@ -290,7 +291,7 @@ class UpgradeManager extends AsyncService {
       });
       this.emit("state", this.getState());
     } catch (e) {
-      log(`${this.#port}: Uncaught error processing available downloads`, e);
+      log("%d: Uncaught error processing available downloads", this.#port, e);
       this.setState({ error: e });
     }
   }
@@ -337,13 +338,13 @@ class UpgradeManager extends AsyncService {
    * @returns {Promise<void>} Resolves when started
    */
   async _start() {
-    log(`${this.#port}: starting`);
+    log("%d: starting", this.#port);
     this.#port = await getPort();
     await Promise.all([
       this.#discovery.start(this.#port),
       this.#server.start(this.#port),
     ]);
-    log(`${this.#port}: started`);
+    log("%d: started", this.#port);
   }
 
   /**
@@ -352,9 +353,9 @@ class UpgradeManager extends AsyncService {
    * @returns {Promise<void>} Resolves when stopped
    */
   async _stop() {
-    log(`${this.#port}: stopping`);
+    log("%d: stopping", this.#port);
     await Promise.all([this.#discovery.stop(), this.#server.stop()]);
-    log(`${this.#port}: stopped`);
+    log("%d: stopped", this.#port);
   }
 }
 
