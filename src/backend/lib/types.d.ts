@@ -87,7 +87,7 @@ type TestUpgradeState =
       availableUpgrade?: string;
     });
 
-interface ScenarioStepEvent {
+export interface ScenarioStepEvent {
   /** Message passed to t.pass() */
   message?: string;
   /** Name of event to listen for */

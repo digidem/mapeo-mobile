@@ -13,6 +13,7 @@ tmp.setGracefulCleanup();
 /** @typedef {import('../lib/types').InstallerExt} InstallerExt */
 /** @typedef {import('../lib/types').DeviceInfo} DeviceInfo */
 /** @typedef {import('../lib/types').DevicePlan} DevicePlan */
+/** @typedef {import('../lib/types').ScenarioStepEvent} ScenarioStepEvent */
 
 const validApksFolder = path.join(__dirname, "./fixtures/valid-apks");
 
@@ -124,15 +125,14 @@ async function createManager({ apkFiles = [], currentApk, deviceInfo }) {
  * properties on `expectedValue` when comparing the value returned by the event
  * emitter.
  *
- * @template {object} T
  * @param {import('tiny-typed-emitter').TypedEmitter} emitter
- * @param {string} eventName Name of event to await
- * @param {T} expectedValue Promise will resolve once the emitted event partially matches this expected value
+ * @param {"state"} eventName Name of event to await - only supports "state" right now
+ * @param {ScenarioStepEvent["waitFor"]} expectedValue Promise will resolve once the emitted event partially matches this expected value or if if expected value is a function, will resolve when the function returns true
  * @param {object} [options]
  * @param {number} [options.timeout=10000] After timeout, if `expectedValue` has not been emitted, the promise will timeout
  * @param {string} [options.name=""]
- * @param {import('type-fest').PartialDeep<T>} [options.always] Every event emitted whilst waiting for `expectedValue` should match this value
- * @param {import('type-fest').PartialDeep<T>} [options.never] If any event emitted whilst waiting for `expectedValue`, promise will throw
+ * @param {ScenarioStepEvent["always"]} [options.always] Every event emitted whilst waiting for `expectedValue` should match this value, or if this value is a function, every call to this function should return true
+ * @param {ScenarioStepEvent["never"]} [options.never] If any event emitted whilst waiting for `expectedValue`, promise will throw, or if this value is a function, every call to this function should return false
  * @returns {Promise<void>}
  */
 async function onceEventResult(
@@ -158,7 +158,7 @@ async function onceEventResult(
       reject(error);
     }
 
-    /** @param {T} value */
+    /** @param {import("../lib/types").UpgradeState} value */
     function checkValue(value) {
       log(`${name}: %o`, value);
       if (never && compareValue(value, never)) {
