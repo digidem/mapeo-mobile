@@ -43,18 +43,15 @@ test("One device updates another", async t => {
             },
           ],
         },
-        never: {
-          // Uploads should never be uploading
-          uploads: [{}],
-        },
+        never: state => state.uploads.length > 0,
       },
       {
         message: "update is downloaded and available",
         eventName: "state",
-        waitFor: {
-          downloads: [],
-          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC10.expected.json",
-        },
+        waitFor: state =>
+          state.downloads.length === 0 &&
+          state.availableUpgrade !== undefined &&
+          state.availableUpgrade.versionName === "1.1.0",
         never: {
           // Uploads should never be uploading
           uploads: [{}],
@@ -115,9 +112,7 @@ test("One device updates another", async t => {
       {
         message: "upload is complete",
         eventName: "state",
-        waitFor: {
-          uploads: [],
-        },
+        waitFor: state => state.uploads.length === 0,
       },
     ],
   };
@@ -158,9 +153,7 @@ test("One device updates multiple other devices", async t => {
       {
         message: "upload is complete",
         eventName: "state",
-        waitFor: {
-          uploads: [],
-        },
+        waitFor: state => state.uploads.length === 0,
       },
     ],
   };
@@ -198,10 +191,10 @@ test("One device updates multiple other devices", async t => {
       {
         message: "update is downloaded and available",
         eventName: "state",
-        waitFor: {
-          downloads: [],
-          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC10.expected.json",
-        },
+        waitFor: state =>
+          state.downloads.length === 0 &&
+          state.availableUpgrade !== undefined &&
+          state.availableUpgrade.versionName === "1.1.0",
         never: {
           // Uploads should never be uploading
           uploads: [{}],
@@ -249,9 +242,7 @@ test("Update is passed from device to device", async t => {
       {
         message: "upload complete",
         eventName: "state",
-        waitFor: {
-          uploads: [],
-        },
+        waitFor: state => state.uploads.length === 0,
       },
     ],
   };
@@ -291,10 +282,10 @@ test("Update is passed from device to device", async t => {
       {
         message: "update is downloaded and available",
         eventName: "state",
-        waitFor: {
-          downloads: [],
-          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC10.expected.json",
-        },
+        waitFor: state =>
+          state.downloads.length === 0 &&
+          state.availableUpgrade !== undefined &&
+          state.availableUpgrade.versionName === "1.1.0",
         never: {
           // Uploads should never be uploading
           uploads: [{}],
@@ -317,9 +308,7 @@ test("Update is passed from device to device", async t => {
       {
         message: "upload complete",
         eventName: "state",
-        waitFor: {
-          uploads: [],
-        },
+        waitFor: state => state.uploads.length === 0,
       },
     ],
   };
@@ -358,10 +347,10 @@ test("Update is passed from device to device", async t => {
       {
         message: "update is downloaded and available",
         eventName: "state",
-        waitFor: {
-          downloads: [],
-          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC10.expected.json",
-        },
+        waitFor: state =>
+          state.downloads.length === 0 &&
+          state.availableUpgrade !== undefined &&
+          state.availableUpgrade.versionName === "1.1.0",
         never: {
           // Uploads should never be uploading
           uploads: [{}],
@@ -408,10 +397,10 @@ test("Checking another device for updates re-uses the same connection (keep-aliv
       {
         message: "update is downloaded and available",
         eventName: "state",
-        waitFor: {
-          downloads: [],
-          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC10.expected.json",
-        },
+        waitFor: state =>
+          state.downloads.length === 0 &&
+          state.availableUpgrade !== undefined &&
+          state.availableUpgrade.versionName === "1.1.0",
         never: {
           // Uploads should never be uploading
           uploads: [{}],
@@ -457,9 +446,7 @@ test("Checking another device for updates re-uses the same connection (keep-aliv
       {
         message: "upload is complete",
         eventName: "state",
-        waitFor: {
-          uploads: [],
-        },
+        waitFor: state => state.uploads.length === 0,
       },
     ],
   };
@@ -560,10 +547,10 @@ test("Closing a device whilst sharing an update waits for upload to complete", a
       {
         message: "update is downloaded and available",
         eventName: "state",
-        waitFor: {
-          downloads: [],
-          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC10.expected.json",
-        },
+        waitFor: state =>
+          state.downloads.length === 0 &&
+          state.availableUpgrade !== undefined &&
+          state.availableUpgrade.versionName === "1.1.0",
       },
     ],
   };
@@ -600,10 +587,8 @@ test("Closing a device whilst sharing an update waits for upload to complete", a
       {
         message: "stopped and upload complete",
         eventName: "state",
-        waitFor: {
-          value: "stopped",
-          uploads: [],
-        },
+        waitFor: state =>
+          state.value === "stopped" && state.uploads.length === 0,
       },
     ],
   };
@@ -645,10 +630,9 @@ test("Broken connection during download does not crash server", async t => {
       {
         message: "download cancelled",
         eventName: "state",
-        waitFor: {
-          downloads: [],
-          availableUpgrade: undefined,
-        },
+        waitFor: state =>
+          state.downloads.length === 0 &&
+          typeof state.availableUpgrade === "undefined",
       },
     ],
   };
@@ -685,9 +669,7 @@ test("Broken connection during download does not crash server", async t => {
       {
         message: "upload cancelled",
         eventName: "state",
-        waitFor: {
-          uploads: [],
-        },
+        waitFor: state => state.uploads.length === 0,
       },
     ],
   };
@@ -787,10 +769,10 @@ test("'checkedPeers' is updated after (but not before) download starts", async t
       {
         message: "update is downloaded and available",
         eventName: "state",
-        waitFor: {
-          downloads: [],
-          availableUpgrade: "com.example.test_SDK21_VN1.1.0_VC10.expected.json",
-        },
+        waitFor: state =>
+          state.downloads.length === 0 &&
+          state.availableUpgrade !== undefined &&
+          state.availableUpgrade.versionName === "1.1.0",
         never: {
           // Uploads should never be uploading
           uploads: [{}],
