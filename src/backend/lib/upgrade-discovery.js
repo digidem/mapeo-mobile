@@ -35,7 +35,6 @@ const PEER_TTL_MS = 4000;
 /**
  * @typedef {Object} Events
  * @property {(installers: InstallerExt[]) => void} installers
- * @property {(checkedPeers: string[]) => void} checked
  * @property {(error?: Error) => void} error
  */
 
@@ -63,13 +62,6 @@ class UpgradeDiscovery extends AsyncService {
    * @type {Map<string, { installer: InstallerExt, timeoutId: NodeJS.Timeout}>}
    */
   #availableInstallers = new Map();
-  /**
-   * List of peers that have been checked for updates. Peers are identified by
-   * `host:port`.
-   *
-   * @type {Set<string>}
-   */
-  #checkedPeers = new Set();
   /**
    * Track in-progress requests to GET /installers to avoid calling multiple
    * times when the first is in progress
@@ -185,9 +177,6 @@ class UpgradeDiscovery extends AsyncService {
     return new Promise(resolve => {
       this.#discoveryInterval && clearInterval(this.#discoveryInterval);
       this.#discovery.off("peer", this._onPeer);
-      // Clear list of checked peers. We don't clear this.#availableInstallers
-      // because the TTL will ensure that they are removed
-      this.#checkedPeers.clear();
       // Flush throttled installer emit
       this.#throttledEmitInstallers.flush();
       // NB: Due to a bug in dns-discovery, the callback is always called with
@@ -272,11 +261,6 @@ class UpgradeDiscovery extends AsyncService {
           this.#throttledEmitInstallers();
         }, PEER_TTL_MS),
       });
-    }
-    const peerId = `${host}:${port}`;
-    if (!this.#checkedPeers.has(peerId)) {
-      this.#checkedPeers.add(peerId);
-      this.emit("checked", [...this.#checkedPeers]);
     }
     this.#inProgressRequests.delete(listUrl);
     this.#throttledEmitInstallers();

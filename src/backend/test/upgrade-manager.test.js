@@ -748,7 +748,7 @@ test("Lifecycle events: 'starting', 'started', 'stopping', 'stopped'", async t =
   await cleanup();
 });
 
-test.only("'checkedPeers' is updated after (but not before) download starts", async t => {
+test("'checkedPeers' is updated after (but not before) download starts", async t => {
   /** @type {DevicePlan} */
   const device1Plan = {
     label: "device1",
@@ -820,10 +820,10 @@ test.only("'checkedPeers' is updated after (but not before) download starts", as
         },
       },
       {
-        message: "upload is complete",
+        message: "upload is complete, checked peers = 1",
         eventName: "state",
-        waitFor: {
-          uploads: [],
+        waitFor: state => {
+          return state.uploads.length === 0 && state.checkedPeers.length === 1;
         },
       },
     ],

@@ -91,13 +91,18 @@ class UpgradeManager extends AsyncService {
   #storage;
   #discovery;
   #server;
+  // Note: Not sure what the best practice is maintaining a replica of state
+  // here: UpgradeServer keeps a list of active uploads, but whenever it updates
+  // we copy that value into this class's state. A better solution might be to
+  // call upgradeServer.list() as part of getState(), but that might be too
+  // obscure for maintainers.
   /** @type {UpgradeStateInternal} */
   #state = {
-    downloads: [],
     uploads: [],
-    checkedPeers: [],
     availableUpgrade: undefined,
   };
+  /** @type {Set<string>} */
+  #checkedPeers = new Set();
   /** @type {Map<string, { progress: TransferProgress, stream: import('stream').Readable, installerInfo: InstallerExt }>} */
   #downloads = new Map();
   /**
@@ -131,10 +136,24 @@ class UpgradeManager extends AsyncService {
       this._onStoredInstallers(installers);
     });
     this.#discovery.on("installers", async installers => {
-      this._onDownloadableInstallers(installers);
-    });
-    this.#discovery.on("checked", checkedPeers => {
-      this.setState({ checkedPeers });
+      await this._onDownloadableInstallers(installers);
+      // After checking (and potentially starting to download) available
+      // installers, update the list of peers that have been checked for
+      // upgrades
+      const prevCheckedPeersCount = this.#checkedPeers.size;
+      for (const { url } of installers) {
+        try {
+          const { host } = new URL(url);
+          if (!this.#checkedPeers.has(host)) {
+            this.#checkedPeers.add(host);
+          }
+        } catch (e) {
+          // invalid url, ignore
+        }
+      }
+      if (this.#checkedPeers.size > prevCheckedPeersCount) {
+        this.emit("state", this.getState());
+      }
     });
     super.addStateListener(() => {
       this.emit("state", this.getState());
@@ -157,11 +176,7 @@ class UpgradeManager extends AsyncService {
    * @param {InstallerInt[]} storedInstallers
    */
   _onStoredInstallers(storedInstallers) {
-    log(
-      "%d: Updated stored installers: %i",
-      this.#port,
-      storedInstallers.map(i => stringifyInstaller(i))
-    );
+    log("%d: Updated stored installers: %i", this.#port, storedInstallers);
     const upgradeCandidate = getBestUpgradeCandidate({
       deviceInfo: this.#deviceInfo,
       currentApkInfo: this.#currentApkInfo,
@@ -310,6 +325,7 @@ class UpgradeManager extends AsyncService {
       downloads: Array.from(this.#downloads.values()).map(
         download => download.progress
       ),
+      checkedPeers: Array.from(this.#checkedPeers),
     };
     if (this.#state.error) {
       mergedState.value = "error";

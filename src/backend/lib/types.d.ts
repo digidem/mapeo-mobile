@@ -61,12 +61,14 @@ export type AsyncServiceState =
 export type UpgradeStateInternal = {
   error?: Error;
   uploads: TransferProgress[];
-  downloads: TransferProgress[];
-  checkedPeers: string[];
   availableUpgrade?: InstallerInt;
 };
 
-export type UpgradeState = AsyncServiceState & UpgradeStateInternal;
+export type UpgradeState = AsyncServiceState &
+  UpgradeStateInternal & {
+    downloads: TransferProgress[];
+    checkedPeers: string[];
+  };
 
 interface ManagerEvents {
   state: (state: UpgradeState) => void;
