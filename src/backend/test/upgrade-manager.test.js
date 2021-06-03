@@ -838,3 +838,74 @@ test("'checkedPeers' is updated after (but not before) download starts", async t
 
   await Promise.all(cleanUpFunctions.map(f => f()));
 });
+
+test("'checkedPeers' is reset after stop and start", async t => {
+  /** @type {DevicePlan} */
+  const device1Plan = {
+    label: "device1",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      {
+        message: "checked peers = 1",
+        eventName: "state",
+        waitFor: state => state.checkedPeers.length === 1,
+      },
+      async manager => {
+        manager.stop();
+      },
+      {
+        message: "after stop, checkedPeers = 0",
+        eventName: "state",
+        waitFor: state =>
+          state.value === "stopped" && state.checkedPeers.length === 0,
+      },
+      async manager => {
+        manager.start();
+      },
+      {
+        message: "after starting again, checkedPeers = 0",
+        eventName: "state",
+        waitFor: state =>
+          state.value === "started" && state.checkedPeers.length === 0,
+      },
+    ],
+  };
+
+  /** @type {DevicePlan} */
+  const device2Plan = {
+    label: "device2",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      {
+        message: "checked peers = 1",
+        eventName: "state",
+        waitFor: state => state.checkedPeers.length === 1,
+      },
+    ],
+  };
+
+  const cleanUpFunctions = await Promise.all([
+    playDevicePlan(t, device1Plan),
+    playDevicePlan(t, device2Plan),
+  ]);
+
+  t.pass("Scenario complete without error");
+
+  await Promise.all(cleanUpFunctions.map(f => f()));
+});
