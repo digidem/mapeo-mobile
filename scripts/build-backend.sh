@@ -21,6 +21,7 @@ cd "$repo_root"
 echo "Setting up..."
 mkdir -p ./nodejs-assets
 rm -rf ./nodejs-assets/nodejs-project
+rm -rf ./nodejs-assets/backend
 if [ -f ./nodejs-assets/BUILD_NATIVE_MODULES.txt ]; then
   echo "Build Native Modules on"
 else
