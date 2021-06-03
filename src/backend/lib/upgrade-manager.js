@@ -371,6 +371,7 @@ class UpgradeManager extends AsyncService {
   async _stop() {
     log("%d: stopping", this.#port);
     await Promise.all([this.#discovery.stop(), this.#server.stop()]);
+    this.#checkedPeers.clear();
     log("%d: stopped", this.#port);
   }
 }
