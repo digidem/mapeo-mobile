@@ -1,10 +1,10 @@
 // @flow
 import React from "react";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
-import DeviceInfo from "react-native-device-info";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { List, ListItem, ListItemText } from "../../sharedComponents/List";
+import useDeviceInfo from "../../hooks/useDeviceInfo";
 
 const m = defineMessages({
   aboutMapeoTitle: {
@@ -17,10 +17,16 @@ const m = defineMessages({
     defaultMessage: "Mapeo version",
     description: "Label for Mapeo version",
   },
+  mapeoBuild: {
+    id: "screens.AboutMapeo.mapeoBuild",
+    defaultMessage: "Mapeo build",
+    description: "Label for Mapeo build number",
+  },
   mapeoType: {
     id: "screens.AboutMapeo.mapeoType",
-    defaultMessage: "Mapeo type",
-    description: "Label for Mapeo type",
+    defaultMessage: "Mapeo variant",
+    description:
+      "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
   },
   androidVersion: {
     id: "screens.AboutMapeo.androidVersion",
@@ -44,22 +50,6 @@ const m = defineMessages({
   },
 });
 
-// Quick custom hook to
-function useDeviceInfo(prop) {
-  const { formatMessage } = useIntl();
-  const methodName = "get" + prop.replace(/^[a-z]/, m => m.toUpperCase());
-  const result = React.useMemo(() => DeviceInfo[methodName](), [methodName]);
-  const [value, setValue] = React.useState(
-    // result type is "object" if it's a Promise
-    typeof result === "object" ? "…" : result
-  );
-  React.useEffect(() => {
-    if (typeof result !== "object") return;
-    result.then(setValue).catch(e => setValue(formatMessage(m.unknown)));
-  }, [formatMessage, result]);
-  return value;
-}
-
 const DeviceInfoListItem = ({
   label,
   deviceProp,
@@ -67,22 +57,34 @@ const DeviceInfoListItem = ({
   label: string,
   deviceProp: string,
 }) => {
-  const value = useDeviceInfo(deviceProp);
+  const { formatMessage } = useIntl();
+  const { value, state } = useDeviceInfo(deviceProp);
+  const displayValue =
+    state === "loading"
+      ? "…"
+      : state === "ready"
+      ? value
+      : formatMessage(m.unknown);
   return (
     <ListItem>
-      <ListItemText primary={label} secondary={value}></ListItemText>
+      <ListItemText primary={label} secondary={displayValue}></ListItemText>
     </ListItem>
   );
 };
 
 const AboutMapeo = () => {
+  const { formatMessage: t } = useIntl();
   return (
     <List>
-      <DeviceInfoListItem label="Mapeo version" deviceProp="readableVersion" />
-      <DeviceInfoListItem label="Mapeo type" deviceProp="bundleId" />
-      <DeviceInfoListItem label="Android version" deviceProp="systemVersion" />
-      <DeviceInfoListItem label="Android build" deviceProp="buildId" />
-      <DeviceInfoListItem label="Phone model" deviceProp="model" />
+      <DeviceInfoListItem label={t(m.mapeoVersion)} deviceProp="version" />
+      <DeviceInfoListItem label={t(m.mapeoBuild)} deviceProp="buildNumber" />
+      <DeviceInfoListItem label={t(m.mapeoType)} deviceProp="bundleId" />
+      <DeviceInfoListItem
+        label={t(m.androidVersion)}
+        deviceProp="systemVersion"
+      />
+      <DeviceInfoListItem label={t(m.androidBuild)} deviceProp="buildId" />
+      <DeviceInfoListItem label={t(m.phoneModel)} deviceProp="model" />
     </List>
   );
 };

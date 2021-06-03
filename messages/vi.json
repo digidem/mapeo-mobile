@@ -27,6 +27,30 @@
     "description": "Label for Android version",
     "message": "Phiên bản Android"
   },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Mapeo - số phiên bản"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Mapeo - loại phiên bản"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "Phiên bản Mapeo"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "Dòng điện thoại"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "Giới thiệu về Mapeo"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "Không xác định"
+  },
   "screens.AddPhoto.cancel": {
     "message": "Hủy"
   },
@@ -37,6 +61,22 @@
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
     "message": "Chọn những gì đang diễn ra"
+  },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "Độ thập phân (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "Độ/Phút/Giây (DMS)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "Định dạng tọa độ"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "Hệ tọa độ vuông góc (UTM)"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -49,6 +89,14 @@
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
     "message": "Lần cập nhật gần nhất"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "Tọa độ Độ thập phân"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "Tọa độ DMS"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
@@ -216,6 +264,18 @@
     "description": "Title of screen with list of observations",
     "message": "Các quan sát"
   },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "Đến Bản đồ"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
+    "description": "Description of observation list view when the user has not yet recorded observations",
+    "message": "Bắt đầu từ chế độ xem bản đồ hoặc máy ảnh để ghi lại quan sát đầu tiên của bạn."
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
+    "description": "Title of observation list view when the user has not yet recorded observations",
+    "message": "Thêm Quan sát"
+  },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
     "message": "Lỗi tải các quan sát. Hãy thử rời bỏ và khởi động lại Mapeo."
@@ -244,13 +304,41 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Có gì đó không ổn với dữ liệu Mapeo"
   },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "Giới thiệu về Mapeo"
+  },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "Phiên bản và số hiệu bản tạo"
+  },
+  "screens.Settings.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "Đã xảy ra lỗi khi nhập tệp cấu hình này"
+  },
   "screens.Settings.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
     "message": "OK"
   },
+  "screens.Settings.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Lỗi nhập"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "Định dạng tọa độ"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "Chọn cách hiển thị tọa độ"
+  },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "Cấu hình hiện tại"
+  },
+  "screens.Settings.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "Nhập cấu hình"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",

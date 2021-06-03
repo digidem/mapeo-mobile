@@ -33,6 +33,7 @@ import type { PresetWithFields } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
 import useMapStyle from "../../hooks/useMapStyle";
 import useDeviceId from "../../hooks/useDeviceId";
+import useSettingsValue from "../../hooks/useSettingsValue";
 import Loading from "../../sharedComponents/Loading";
 import OfflineMapLayers from "../../sharedComponents/OfflineMapLayers";
 import { ShareMessage, ShareSubject, renderToString } from "./ObservationShare";
@@ -125,6 +126,7 @@ const ObservationView = ({
   onPressDelete,
 }: ODVProps) => {
   const intl = useIntl();
+  const coordinateFormat = useSettingsValue("coordinateFormat");
   const { formatMessage: t } = intl;
   const deviceId = useDeviceId();
   const isMine = deviceId === observation.value.deviceId;
@@ -173,7 +175,11 @@ const ObservationView = ({
             <View style={styles.coords}>
               <View style={styles.coordsPointer} />
               <Text style={styles.positionText}>
-                <FormattedCoords lon={lon} lat={lat} />
+                <FormattedCoords
+                  format={coordinateFormat}
+                  lon={lon}
+                  lat={lat}
+                />
               </Text>
             </View>
             <InsetMapView lat={lat} lon={lon} />

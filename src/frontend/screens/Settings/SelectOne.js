@@ -24,7 +24,7 @@ const SelectOne = ({ value, options, onChange }: Props) => (
       <ListItem
         key={item.value}
         testID={`${item.value}LanguageButton`}
-        onPress={() => onChange(value === item.value ? null : item.value)}
+        onPress={() => value !== item.value && onChange(item.value)}
       >
         <ListItemIcon
           iconName={
