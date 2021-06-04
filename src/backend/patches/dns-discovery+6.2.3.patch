@@ -1,0 +1,22 @@
+diff --git a/node_modules/dns-discovery/index.js b/node_modules/dns-discovery/index.js
+index 3e1390b..757c0ce 100644
+--- a/node_modules/dns-discovery/index.js
++++ b/node_modules/dns-discovery/index.js
+@@ -181,7 +181,7 @@ DNSDiscovery.prototype._onanswer = function (answer, port, host, socket) {
+   var domain = parseDomain(answer.name)
+   var id = parseId(answer.name, domain)
+   if (!id) {
+-    debug('Invalid ID in answer, discarding', { name: answer.name, domain: domain, host: host, port: port })
++    debug('Invalid ID in answer, discarding %o', { name: answer.name, domain: domain, host: host, port: port })
+     return
+   }
+ 
+@@ -293,7 +293,7 @@ DNSDiscovery.prototype._onquestion = function (query, port, host, answers, multi
+ 
+   var id = parseId(query.name, domain)
+   if (!id) {
+-    debug('Invalid ID in question, discarding', { name: query.name, domain: domain, host: host, port: port })
++    debug('Invalid ID in question, discarding %o', { name: query.name, domain: domain, host: host, port: port })
+     return
+   }
+ 

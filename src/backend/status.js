@@ -33,7 +33,7 @@ class ServerStatus {
     if (this.state === constants.ERROR) return;
     if (nextState === constants.ERROR) {
       error = error || new Error("Unknown server error");
-      log(error.message);
+      log(context, error.message);
       main.bugsnag.notify(error, { context });
     }
     this.state = nextState;

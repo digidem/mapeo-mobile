@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-  <files-path name="media" 
+  <files-path name="media"
     path="media/" />
+  <cache-path name="upgrades"
+    path="upgrades/" />
 </paths>

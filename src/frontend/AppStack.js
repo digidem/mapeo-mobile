@@ -22,6 +22,7 @@ import ProjectConfig from "./screens/Settings/ProjectConfig";
 import AboutMapeo from "./screens/Settings/AboutMapeo";
 import LanguageSettings from "./screens/Settings/LanguageSettings";
 import CoordinateFormat from "./screens/Settings/CoordinateFormat";
+import Experiments from "./screens/Settings/Experiments";
 import HomeHeader from "./sharedComponents/HomeHeader";
 
 const HomeTabs = createBottomTabNavigator(
@@ -70,6 +71,8 @@ const AppStack = createStackNavigator(
     LanguageSettings,
     // $FlowFixMe
     CoordinateFormat,
+    // $FlowFixMe
+    Experiments,
     // $FlowFixMe
     PhotosModal: PhotosModal,
     // $FlowFixMe

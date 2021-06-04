@@ -176,6 +176,9 @@ loadDotEnv()
 
 File releaseKeystore = file("mapeo-release-key.keystore")
 def myVersionCode = (getenv("ANDROID_VERSION_CODE") ?: 1) as int
+def myVersionName = getenv("ANDROID_VERSION_NAME") ?: getenv("npm_package_version") ?: "0.0.0"
+println("Version name")
+println(myVersionName)
 
 bugsnag {
     ndk true
@@ -196,7 +199,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode myVersionCode
-        versionName getenv("ANDROID_VERSION_NAME") ?: getenv("npm_package_version") ?: "0.0.0"
+        versionName myVersionName
         archivesBaseName = "mapeo"
 
         // Detox integration
@@ -276,8 +279,8 @@ android {
 
     variantFilter { variant ->
         def names = variant.flavors*.name
-        // For QA variants, we only build debug apk
-        if (names.contains("qa") && variant.buildType.name != "debug") {
+        // For QA variants, skip universal build
+        if (names.contains("qa") && variant.buildType.name == "universal") {
             setIgnore(true)
         }
     }

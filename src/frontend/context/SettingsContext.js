@@ -4,12 +4,16 @@ import createPersistedState from "../hooks/usePersistedState";
 
 // Increment if the shape of settings changes, but try to avoid doing this
 // because it will reset everybody's settings back to the defaults = bad :(
-const STORE_KEY = "@MapeoSettings@1";
+const STORE_KEY = "@MapeoSettings@2";
 
 export type CoordinateFormat = "utm" | "dd" | "dms";
+export type ExperimentalP2pUpgrade = boolean;
 
 export type SettingsState = {
   coordinateFormat: CoordinateFormat,
+  experiments: {
+    p2pUpgrade: boolean,
+  },
 };
 
 type SettingsContextType = [
@@ -19,6 +23,9 @@ type SettingsContextType = [
 
 const DEFAULT_SETTINGS = {
   coordinateFormat: "utm",
+  experiments: {
+    p2pUpgrade: false,
+  },
 };
 
 const SettingsContext = React.createContext<SettingsContextType>([
@@ -34,6 +41,7 @@ export const SettingsProvider = ({ children }: { children: React.Node }) => {
   );
 
   const setSettings = React.useCallback(
+    // $FlowFixMe This is not broken, Flow is just wrong: https://medium.com/flow-type/spreads-common-errors-fixes-9701012e9d58 #timetoswitchtoTS
     (key, value) => setState({ ...state, [key]: value }),
     [setState, state]
   );
