@@ -28,8 +28,8 @@ build_apk () {
 "${dir0}/build-backend.sh"
 
 # Build a QA Release APK with version name and version code
-build_apk 5.3.0 2000
-build_apk 5.4.0 2010
-build_apk 6.0.0 2020
+build_apk 5.3.0 2030
+build_apk 5.4.0 2040
+build_apk 6.0.0 2050
 
 echo "Test APKs generated in ${apk_dir}"
