@@ -940,3 +940,98 @@ test("'checkedPeers' is reset after stop and start", async t => {
 
   await Promise.all(cleanUpFunctions.map(f => f()));
 });
+
+test("'checkedPeers' does not increment after second device stops and starts", async t => {
+  const deferred = pDefer();
+
+  /** @type {DevicePlan} */
+  const device1Plan = {
+    label: "device1",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    // This peer starts, waits until device2 checks it, then stops and restarts
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      async manager => {
+        // Wait for this device to be checked before stopping
+        await deferred.promise;
+        manager.stop();
+      },
+      {
+        eventName: "state",
+        waitFor: { value: "stopped" },
+      },
+      async manager => {
+        manager.start();
+      },
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+    ],
+  };
+
+  /** @type {DevicePlan} */
+  const device2Plan = {
+    label: "device2",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+      {
+        message: "checkedPeer = 1",
+        eventName: "state",
+        waitFor: state => state.checkedPeers.length === 1,
+      },
+      async manager => {
+        // Let device1 know we have checked it
+        deferred.resolve();
+        return new Promise((resolve, reject) => {
+          let atLeastOneStateEvent = false;
+          manager.on("state", onState);
+          function onState(state) {
+            atLeastOneStateEvent = true;
+            if (state.checkedPeers.length > 1) {
+              clearTimeout(timeoutId);
+              manager.off("state", onState);
+              reject(new Error("Checked peers was > 1"));
+            }
+          }
+          // Wait 10 seconds for device1 to stop and start, and during that time
+          // checkedPeers should never be > 1
+          const timeoutId = setTimeout(() => {
+            manager.off("state", onState);
+            if (!atLeastOneStateEvent) {
+              reject(
+                new Error(
+                  "Did not receive state event, so can't know if this passed"
+                )
+              );
+            } else resolve();
+          }, 10000);
+        });
+      },
+    ],
+  };
+
+  const cleanUpFunctions = await Promise.all([
+    playDevicePlan(t, device1Plan),
+    playDevicePlan(t, device2Plan),
+  ]);
+
+  t.pass("Scenario complete without error");
+
+  await Promise.all(cleanUpFunctions.map(f => f()));
+});
