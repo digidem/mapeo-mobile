@@ -394,6 +394,61 @@ test("Checking another device for updates re-uses the same connection (keep-aliv
         eventName: "state",
         waitFor: { value: "started" },
       },
+    ],
+  };
+
+  /** @type {DevicePlan} */
+  const device2Plan = {
+    label: "device2",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: false,
+    },
+    steps: [
+      async manager => {
+        // Count each connection to the server (from device1). We wait 10
+        // seconds at the end of this test to allow for device1 to make several
+        // requests to `/installers`, so we can check they are using the same
+        // single connection
+        manager.httpServer.on("connection", () => connectionCount++);
+        return manager.start();
+      },
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
+    ],
+  };
+
+  const cleanUpFunctions = await Promise.all([
+    playDevicePlan(t, device1Plan),
+    playDevicePlan(t, device2Plan),
+  ]);
+
+  t.pass("Waiting 10 seconds polling of `/installers`");
+  await new Promise(res => setTimeout(res, 10000));
+
+  t.equal(connectionCount, 1, "All requests re-used same connection");
+
+  await Promise.all(cleanUpFunctions.map(f => f()));
+});
+
+test("Downloading uses a new connection, not the same connection as polling for updates (keep-alive)", async t => {
+  let connectionCount = 0;
+  /** @type {DevicePlan} */
+  const device1Plan = {
+    label: "device1",
+    config: {
+      currentApk: "com.example.test_SDK21_VN1.0.0_VC1.apk",
+      deviceInfo: defaultDeviceInfo,
+      autoStart: true,
+    },
+    steps: [
+      {
+        eventName: "state",
+        waitFor: { value: "started" },
+      },
       {
         message: "update is downloaded and available",
         eventName: "state",
@@ -434,13 +489,7 @@ test("Checking another device for updates re-uses the same connection (keep-aliv
         message: "current apk from device is uploading",
         eventName: "state",
         waitFor: {
-          uploads: [
-            {
-              id:
-                // Hash of the currentApk on this device
-                "421f4bb2353b5b18a8d1c2b9d067ad6c51ce4774bd3e281c7812f5064f00a3f5",
-            },
-          ],
+          uploads: [{}],
         },
       },
       {
@@ -459,7 +508,7 @@ test("Checking another device for updates re-uses the same connection (keep-aliv
   t.pass("Waiting 10 seconds polling of `/installers`");
   await new Promise(res => setTimeout(res, 10000));
 
-  t.equal(connectionCount, 1, "All requests re-used same connection");
+  t.equal(connectionCount, 2, "Second connection used for download");
 
   await Promise.all(cleanUpFunctions.map(f => f()));
 });

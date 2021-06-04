@@ -122,9 +122,7 @@ class UpgradeDiscovery extends AsyncService {
           new URL(installer.installer.url).host
         }`
       );
-      const downloadStream = got.stream(installer.installer.url, {
-        agent: { http: keepaliveAgent },
-      });
+      const downloadStream = got.stream(installer.installer.url);
       downloadStream.once("error", e => {
         log(`${this.#port}: Download error for ${hash.slice(0, 7)}:`, e);
         // Remove from available installers - probably errored because no longer
