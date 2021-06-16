@@ -75,7 +75,7 @@ able to control the mobile app.
 ### Pre-requisites
 
 In order to develop the full app you will need the Android SDK installed and
-specifically [21.3.6528147 of the NDK](https://developer.android.com/ndk/guides/) in order to build
+specifically [21.4.7075529 of the NDK](https://developer.android.com/ndk/guides/) in order to build
 nodejs-mobile for Android.
 
 You may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and cofigures requirements that might be missing, like the NDK and CMake to build the native code part of the project.
@@ -266,7 +266,7 @@ QA variant is created for production releases.
 
 By default (since [e861e6a](https://github.com/digidem/mapeo-mobile/commit/e861e6a248cdd613cb9a33b9633cc8773c67c6cc)), if you build or run Mapeo via an npm script (e.g. `npm run android`), Mapeo will use the `version` field of `package.json` as the Android [version name](https://developer.android.com/reference/android/content/pm/PackageInfo#versionName). This value is shown to the user in the "About Mapeo" screen, is used for evaluating updates, and is shown in the Android System Settings as the version of the app. To override this version name, or to define the version name when building Mapeo directly via Gradle (e.g. `cd android && ./gradlew assembleAppRelease`), you may set the environment variable `ANDROID_VERSION_NAME` e.g. `ANDROID_VERSION_NAME=5.4.0-RC.56 ./gradlew assembleAppRelease`. This may be useful for testing version logic, or for building a "special" version such as a Release Candidate or internal testing build (see https://github.com/digidem/mapeo-mobile/blob/develop/bitrise.yml#L376-L412 for how our CI sets this value).
 
-The Android [versionCode](https://developer.android.com/reference/android/R.styleable#AndroidManifest_versionCode) [defaults to `1`](https://github.com/digidem/mapeo-mobile/blob/develop/android/app/build.gradle#L178). You may override this by setting the `ANDROID_VERSION_CODE` environment variable. Android will only let you install a new version of the app over an existing version if the Version Code is equal to or greater than the installed app. In our CI we use the CI build count as the version code, which ensures that each subsequent release of Mapeo has a higher version code. 
+The Android [versionCode](https://developer.android.com/reference/android/R.styleable#AndroidManifest_versionCode) [defaults to `1`](https://github.com/digidem/mapeo-mobile/blob/develop/android/app/build.gradle#L178). You may override this by setting the `ANDROID_VERSION_CODE` environment variable. Android will only let you install a new version of the app over an existing version if the Version Code is equal to or greater than the installed app. In our CI we use the CI build count as the version code, which ensures that each subsequent release of Mapeo has a higher version code.
 
 ## Troubleshooting
 
