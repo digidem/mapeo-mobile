@@ -28,7 +28,7 @@ const m = defineMessages({
     id: "screens.SyncModal.SyncView.noWifiDesc",
     description: "Description shown when no wifi network",
     defaultMessage:
-      "Open your phone settins and connect to a WiFi network to synchronize",
+      "Open your phone settings and connect to a WiFi network to synchronize",
   },
   settingsButton: {
     id: "screens.SyncModal.SyncView.settingsButton",
