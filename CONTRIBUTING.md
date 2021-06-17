@@ -9,7 +9,8 @@ storybook server.
 ## Initial Install
 
 In order to start developing you will need git and node >=v10 installed on your
-computer. For many development tasks you will also need the Android SDK installed.
+computer (node v14 does not seem to be working at this time, you can use [nvm](https://github.com/nvm-sh/nvm) to rollback
+your node version). For many development tasks you will also need the Android SDK installed.
 
 ```sh
 git clone https://github.com/digidem/mapeo-mobile.git
@@ -72,7 +73,7 @@ able to control the mobile app.
 
 ## Full App Development
 
-### Pre-requisites
+### <span id="preReq">Pre-requisites</span>
 
 In order to develop the full app you will need the Android SDK installed and
 specifically [21.4.7075529 of the NDK](https://developer.android.com/ndk/guides/) in order to build
@@ -85,6 +86,8 @@ You can also set the environment variable `ANDROID_NDK_HOME`, as in this example
 ```sh
 export ANDROID_NDK_HOME=/Users/username/Library/Android/sdk/ndk-bundle
 ```
+
+Mapeo Mobile does NOT work with Android OS version 11 (as of June 2020, version 11 is still in beta release)
 
 ### Testing Device
 
@@ -269,6 +272,31 @@ By default (since [e861e6a](https://github.com/digidem/mapeo-mobile/commit/e861e
 The Android [versionCode](https://developer.android.com/reference/android/R.styleable#AndroidManifest_versionCode) [defaults to `1`](https://github.com/digidem/mapeo-mobile/blob/develop/android/app/build.gradle#L178). You may override this by setting the `ANDROID_VERSION_CODE` environment variable. Android will only let you install a new version of the app over an existing version if the Version Code is equal to or greater than the installed app. In our CI we use the CI build count as the version code, which ensures that each subsequent release of Mapeo has a higher version code.
 
 ## Troubleshooting
+
+### General Troubleshooting
+
+You can access the Android Debug Bridge (adb) directly in the terminal.
+
+adb commands:
+
+- `adb devices` to see all emulators running.
+- `adb -s {emulator name} logcat '*:E'` to see error and log outputs of the emulator in the terminal.
+
+### Errors to look for in the terminal while using ADB logcat
+
+`NODEJS-MOBILE: terminating with uncaught exception of type std::bad_cast: std::bad_cast` this is related to your NDK version. Make sure that you only have one version of the NDK installed on your device. Refer to [Prerequisites](#preReq)
+
+### <span id="abdRestart">`Blank Screen/Stuck on Splash Screen`</span>
+
+This is most likely due to a severed connection between metro (the react-native bundler) and the emulator. You can manually try to reset it in the terminal. Run the following commands:
+
+- `adb devices` copy the emulator name that you are using
+- `adb -s {emulator name} kill-server`
+- `adb -s {emulator name} reverse tcp:8081 tcp:8081`
+
+### `App shows a warning at the bottom of the screen "unable to connect to dev server"`
+
+Follow the instructions for [Blank Screen/Stuck on Splash Screen](#abdRestart)
 
 ### `error: bundling failed: ReferenceError: Module not registered in graph`
 
