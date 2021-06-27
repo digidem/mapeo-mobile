@@ -39,6 +39,10 @@
     "description": "Label for Mapeo build number",
     "message": "Mapeo ビルド"
   },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Mapeoのタイプ"
+  },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
     "message": "Mapeo バージョン"
@@ -54,6 +58,9 @@
   "screens.AboutMapeo.unknownValue": {
     "description": "Shown when a device info (e.g. version number) is unknown",
     "message": "不明"
+  },
+  "screens.AddPhoto.cancel": {
+    "message": "取消"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -103,9 +110,29 @@
     "description": "Section title for UTM coordinates",
     "message": "UTM座標"
   },
+  "screens.GpsModal.no": {
+    "description": "if a location sensor is active yes/no",
+    "message": "いいえ"
+  },
+  "screens.GpsModal.yes": {
+    "description": "if a location sensor is active yes/no",
+    "message": "はい"
+  },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "言語"
+  },
+  "screens.ManualGpsScreen.easting": {
+    "message": "East"
+  },
+  "screens.ManualGpsScreen.eastingSuffix": {
+    "message": "mE"
+  },
+  "screens.ManualGpsScreen.northing": {
+    "message": "North"
+  },
+  "screens.ManualGpsScreen.northingSuffix": {
+    "message": "mN"
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
@@ -136,6 +163,66 @@
   "screens.Observation.confirm": {
     "description": "Button to confirm delete of observation",
     "message": "はい、削除します"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsTitle": {
+    "description": "Title of dialog when trying to save with no GPS coords",
+    "message": "GPS信号がありません"
+  },
+  "screens.ObservationEdit.SaveButton.saveAnyway": {
+    "description": "Button to save regardless of GPS state",
+    "message": "保存"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsDesc": {
+    "description": "Description in dialog when trying to save with low GPS accuracy.",
+    "message": "GPSの精度が低くなっています。精度改善を待つか、低い精度で観察を保存するか、手動で座標を入力することができます。"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsTitle": {
+    "description": "Title of dialog when trying to save with low GPS accuracy.",
+    "message": "GPS信号が弱い"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "マップに移動"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
+    "description": "Description of observation list view when the user has not yet recorded observations",
+    "message": "最初の観察記録を記録するには、マップまたはカメラビューから開始します。"
+  },
+  "screens.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "プロジェクトの設定"
+  },
+  "screens.ServerStatus.errorDesc": {
+    "description": "Description when there the Mapeo Core server crashes",
+    "message": "アプリを強制的に再起動できますが、修正が必要かもしれません。本当に申し訳ありません、アプリを作るのは難しいです。"
+  },
+  "screens.ServerStatus.errorTitle": {
+    "description": "Title of message when there the Mapeo Core server crashes",
+    "message": "おっと、Mapeoのデータベースが壊れています。"
+  },
+  "screens.ServerStatus.timeoutDesc": {
+    "description": "Description when the server has not responded for 10 seconds",
+    "message": "このメッセージが表示され続ける場合は、Mapeoを強制的に再起動する必要があります。"
+  },
+  "screens.ServerStatus.timeoutTitle": {
+    "description": "Title of message when the server has not responded for 10 seconds",
+    "message": "Mapeoデータベースに問題があります"
+  },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "Mapeoについて"
+  },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "バージョンとビルド番号"
+  },
+  "screens.Settings.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "この設定ファイルのインポート中にエラーが発生しました"
+  },
+  "screens.Settings.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "OK"
   },
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
@@ -173,6 +260,22 @@
     "description": "Button label when complete",
     "message": "完了"
   },
+  "screens.SyncModal.PeerList.disconnectedButton": {
+    "description": "Button label when disconnected",
+    "message": "切断済み"
+  },
+  "screens.SyncModal.PeerList.errorButton": {
+    "description": "Button label when there is an error",
+    "message": "エラー"
+  },
+  "screens.SyncModal.PeerList.errorClientMismatch": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
+    "message": "Mapeoクライアントでない"
+  },
+  "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
+    "message": "互換性のない Mapeo"
+  },
   "screens.SyncModal.PeerList.syncButton": {
     "description": "Button label for sync button",
     "message": "同期"
@@ -181,9 +284,17 @@
     "description": "Label for last sync datetime",
     "message": "同期済み:"
   },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "端末の設定を開き、WiFiネットワークに接続して同期します"
+  },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
     "message": "W-Fiなし"
+  },
+  "screens.SyncModal.SyncView.searchingDesc": {
+    "description": "Description shown whilst searcing for sync peers",
+    "message": "他のデバイスがオンになっており、同じWiFiネットワークに接続されていることを確認してください"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
