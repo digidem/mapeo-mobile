@@ -5,6 +5,9 @@
   "engines": {
     "node": "^10.16.0"
   },
+  "jest": {
+    "preset": "react-native"
+  },
   "scripts": {
     "start": "react-native start",
     "start-icca": "RN_SRC_EXT=icca.js react-native start",
@@ -107,8 +110,6 @@
     "utm": "^1.1.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.1",
-    "@babel/runtime": "^7.11.2",
     "@digidem/extract-react-intl-messages": "^2.0.2",
     "@react-native-community/cli": "^4.12.0",
     "@react-native-community/eslint-config": "^2.0.0",
@@ -121,6 +122,10 @@
     "@storybook/react-native": "^5.3.19",
     "@storybook/react-native-server": "^5.3.19",
     "@turf/random": "^6.0.2",
+    "@types/jest": "^26.0.23",
+    "@types/react": "^17.0.11",
+    "@types/react-native": "^0.64.10",
+    "@types/react-test-renderer": "^17.0.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.3.0",
     "babel-loader": "^8.1.0",
@@ -161,7 +166,8 @@
     "react-test-renderer": "^16.13.1",
     "rimraf": "^3.0.0",
     "standard-version": "^8.0.2",
-    "txtgen": "^2.2.7"
+    "txtgen": "^2.2.7",
+    "typescript": "^4.3.4"
   },
   "jest": {
     "preset": "react-native",
