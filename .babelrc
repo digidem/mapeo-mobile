@@ -1,3 +1,12 @@
 {
-  presets: ["module:metro-react-native-babel-preset"]
+  "presets": ["module:metro-react-native-babel-preset"],
+  "env": {
+    "test": {
+      "presets": ["@babel/preset-env", "flow"]
+    }
+  },
+  "plugins": ["transform-class-properties"],
+  "transformIgnorePatterns":[
+    "node_modules/(?!(react-native)/)"
+  ]
 }

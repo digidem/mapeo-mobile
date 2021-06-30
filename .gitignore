@@ -81,3 +81,8 @@ buck-out/
 # This is created by the npm postinstall script
 # Mapbox needs to be able to load this from an asset: URI
 /android/app/src/*/assets/offline-style.json
+
+# Testing Cache
+/.jest/cache
+
+/coverage/*

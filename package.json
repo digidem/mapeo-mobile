@@ -5,9 +5,6 @@
   "engines": {
     "node": "^10.16.0"
   },
-  "jest": {
-    "preset": "react-native"
-  },
   "scripts": {
     "start": "react-native start",
     "start-icca": "RN_SRC_EXT=icca.js react-native start",
@@ -52,6 +49,7 @@
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^5.9.5",
     "@react-native-mapbox-gl/maps": "^8.0.0",
+    "babel-plugin-module-resolver": "^4.1.0",
     "bugsnag-react-native": "^2.23.10",
     "cheap-ruler": "^3.0.1",
     "core-js": "^3.6.5",
@@ -110,6 +108,9 @@
     "utm": "^1.1.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-flow": "^7.14.5",
     "@digidem/extract-react-intl-messages": "^2.0.2",
     "@react-native-community/cli": "^4.12.0",
     "@react-native-community/eslint-config": "^2.0.0",
@@ -121,16 +122,19 @@
     "@storybook/react": "^5.3.19",
     "@storybook/react-native": "^5.3.19",
     "@storybook/react-native-server": "^5.3.19",
+    "@testing-library/react-native": "^7.2.0",
     "@turf/random": "^6.0.2",
     "@types/jest": "^26.0.23",
     "@types/react": "^17.0.11",
     "@types/react-native": "^0.64.10",
     "@types/react-test-renderer": "^17.0.1",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^25.3.0",
+    "babel-jest": "^25.5.1",
     "babel-loader": "^8.1.0",
     "babel-plugin-react-intl-auto": "^3.3.0",
     "babel-plugin-react-native-web": "^0.12.2",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-imports": "^2.0.0",
     "conventional-changelog-cli": "^2.0.34",
     "delay": "^5.0.0",
     "detox": "^17.4.10",
@@ -171,13 +175,27 @@
   },
   "jest": {
     "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ],
+    "testMatch": [
+      "**/?(*.)+(test).jsx"
+    ],
+    "transform": {
+      "node_modules/variables/.+\\.(j|t)sx?$": "babel-jest"
+    },
     "transformIgnorePatterns": [
-      "node_modules/(?!(react-native|@react-native-community|react-native-splash-screen|ky|react-native-fs)/)"
+      "node_modules/(?!variables/.*)"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/e2e/"
-    ]
+      "\\.snap$",
+      "<rootDir>/node_modules/"
+    ],
+    "cacheDirectory": ".jest/cache"
   },
   "standard-version": {
     "skip": {
