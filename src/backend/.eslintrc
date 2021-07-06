@@ -1,48 +1,18 @@
 {
   "root": true,
-  "extends": [
-    "standard",
-    "plugin:flowtype/recommended",
-    "plugin:react/recommended",
-    "prettier",
-    "prettier/flowtype",
-    "prettier/react",
-    "prettier/standard"
-  ],
-  "plugins": [
-    "flowtype",
-    "react",
-    "prettier",
-    "standard",
-    "react-native",
-    "react-hooks",
-    "detox"
-  ],
+  "extends": ["standard", "prettier", "prettier/standard"],
+  "plugins": ["prettier", "standard"],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    "sourceType": "module"
   },
   "env": {
-    "es6": true,
-    "react-native/react-native": true
+    "es6": true
   },
   "rules": {
-    "react/prop-types": 0,
-    "react-native/no-unused-styles": 2,
-    "react/display-name": 0,
     "camelcase": 0,
-    "lines-between-class-members": 0,
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    "react-native/no-raw-text": ["error", { "skip": ["Button"] }]
+    "lines-between-class-members": 0
   },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  }
+  "ignorePatterns": ["*.ts"]
 }

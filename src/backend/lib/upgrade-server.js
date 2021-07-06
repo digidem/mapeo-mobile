@@ -1,276 +1,230 @@
-const pump = require("pump");
-const discovery = require("dns-discovery");
-const EventEmitter = require("events").EventEmitter;
-const RWLock = require("rwlock");
-const http = require("http");
-const { DISCOVERY_KEY, UpgradeState } = require("./constants");
-const log = require("debug")("p2p-upgrades:server");
+// @ts-check
+
+const { fastify: createFastify } = require("fastify");
 const progressStream = require("progress-stream");
+const { InstallerListSchema } = require("./schema");
+const pump = require("pump");
+const { stringifyInstaller } = require("./utils");
+const throttle = require("lodash/throttle");
+const AsyncService = require("./async-service");
+const log = require("debug")("p2p-upgrades:server");
+const { promisify } = require("util");
 
-/*
-type Uploads = [UploadInfo]
-
-type UploadInfo = {
-  sofar: Number,
-  total: Number
-}
-*/
+/** @typedef {import('fastify')} Fastify */
+/** @typedef {import('./types').TransferProgress} Upload */
+/**
+ * @typedef {Object} Events
+ * @property {(uploads: Upload[]) => void} uploads
+ * @property {(error?: Error) => void} error
+ */
 
 // How frequently to emit progress events (in ms)
-const PROGRESS_THROTTLE_MS = 400; // milliseconds
+const EMIT_THROTTLE_MS = 400; // milliseconds
+// Timeout to wait for active downloads to complete
 
-class UpgradeServer extends EventEmitter {
-  constructor(storage, port) {
+// Only use logger in development when debugging
+// const serverLogger = process.env.DEBUG
+//   ? require("pino")({ prettyPrint: { singleLine: true } })
+//   : false;
+
+/**
+ * @extends {AsyncService<Events, [number]>}
+ */
+class UpgradeServer extends AsyncService {
+  #port = 0;
+  #storage;
+  /** @type {Set<Upload>} */
+  #uploads;
+  #fastifyStarted = false;
+  /** @type {import('fastify').FastifyInstance} */
+  #fastify;
+  /** @type {import('lodash').DebouncedFunc<void>} */
+  #throttledEmitUploads;
+  /**
+   * @param {object} options
+   * @param {InstanceType<typeof import('./upgrade-storage')>} options.storage
+   * @param {import('fastify').FastifyServerOptions['logger']} [options.logger] (ignored for now due to bug with nodejs-mobile)
+   */
+  constructor({ storage, logger }) {
     super();
-    this.storage = storage;
-    this.stateLock = new RWLock();
-    this.state = null;
-    this.context = null;
-    this.setState(UpgradeState.Server.Idle, null);
-    this.port = port;
-    this.server = http.createServer((req, res) => {
-      log("got http request", req.url, req.headers.host);
-      if (!this.handleHttpRequest(req, res)) {
-        log("invalid route", req.url);
-        res.statusCode = 404;
-        res.end();
-      }
-    });
-    this.announceInterval = null;
+    this.#storage = storage;
+    this.#uploads = new Set();
 
-    // In-progress uploads
-    this.uploads = [];
+    // TODO: pino logger was crashing nodejs-mobile (tries to spawn process)
+    this.#fastify = createFastify({ logger: false });
+
+    // Don't accept new connections when closing/closed
+    this.#fastify.addHook("onRequest", this._onRequestHook.bind(this));
+
+    this.#fastify.get(
+      "/installers",
+      { schema: { response: { 200: InstallerListSchema } } },
+      this._listInstallersRoute.bind(this)
+    );
+    this.#fastify.get("/installers/:id", this._getInstallerRoute.bind(this));
+
+    // Even though each progress stream is throttled, if there are multiple
+    // uploads at the same time, we still want to throttle the combination of
+    // all progress events
+    this.#throttledEmitUploads = throttle(() => {
+      this.emit("uploads", Array.from(this.#uploads));
+      // Avoid generating string for log unless in debug mode
+      if (process.env.DEBUG) {
+        if (!this.#uploads.size) return log(`${this.#port}: 0 active uploads`);
+        const progressString = Array.from(this.#uploads)
+          .map(
+            ({ sofar, total, id }) =>
+              `${id.slice(0, 7)}:${Math.round(sofar / total)}%`
+          )
+          .join(" ");
+        log(
+          `${this.#port}: ${
+            this.#uploads.size
+          } active uploads: ${progressString}`
+        );
+      }
+    }, EMIT_THROTTLE_MS);
   }
 
-  // XXX: public; also no concurrency guards!
-  setState(to, context) {
-    this.state = to;
-    this.context = context;
-    this.emit("state", this.state, this.context);
+  /**
+   * Return an instance of the Node HTTP server. Used for tests.
+   */
+  get httpServer() {
+    return this.#fastify.server;
   }
 
-  // Callback<Void> -> Void
-  share(cb) {
-    this.stateLock.writeLock(release => {
-      function done() {
-        release();
-        if (cb) cb();
-      }
+  /**
+   * This is necessary because a keep-alive connection from another device will
+   * prevent this server from closing. This hook ensures that if this server is
+   * in the "stopping", "stopped" or "error" states, then it responds with the
+   * "Connection: close" header, which tells the keep-alive client to stop. It
+   * also responds with a 503 "Service unavailable" error.
+   *
+   * @private
+   * @param {import('fastify').FastifyRequest} request
+   * @param {import('fastify').FastifyReply} reply
+   */
+  async _onRequestHook(request, reply) {
+    const state = this.getState().value;
+    if (state === "starting" || state === "started") return;
 
-      if (this.state !== UpgradeState.Server.Idle) {
-        log("tried to share() when not in idle state");
-        return done();
-      }
-
-      log("starting discovery..");
-      const opts = {
-        server: [],
-        loopback: false,
-      };
-      this.discovery = discovery(opts);
-      this.server.listen(this.port, "0.0.0.0", () => {
-        log("announcing on", DISCOVERY_KEY);
-        this.announceInterval = setInterval(() => {
-          this.discovery.announce(DISCOVERY_KEY, this.port);
-        }, 2000);
-        this.setState(UpgradeState.Server.Sharing, this.uploads);
-        done();
-      });
-    });
-  }
-
-  // Callback<Void> -> Void
-  drain(cb) {
-    this.stateLock.writeLock(release => {
-      const self = this;
-      function done(err) {
-        if (err) self.setState(UpgradeState.Server.Error, err);
-        release();
-        if (cb) cb(err);
-      }
-
-      if (this.state !== UpgradeState.Server.Sharing) {
-        log("tried to drain() when not in share state");
-        return done();
-      }
-
-      this.setState(UpgradeState.Server.Draining, this.uploads);
-      if (this.uploads.length === 0) {
-        log("drain: no current uploads; stopping immediately");
-        return stop.bind(this)();
-      }
-
-      // wait for all uploads to finish
-      log(`drain: waiting for ${this.uploads.length} uploads to finish`);
-      release();
-      this.on("upload-complete", oncomplete.bind(this));
-      function oncomplete() {
-        if (this.uploads.length === 0) {
-          log("drain: no uploads left; stopping now");
-          this.removeListener("upload", oncomplete);
-          stop.call(this);
-        } else {
-          log(
-            `drain: still waiting for ${this.uploads.length} uploads to finish`
-          );
-        }
-      }
-
-      function stop() {
-        log("drain: stopping..");
-
-        clearInterval(this.announceInterval);
-        this.announceInterval = null;
-
-        // XXX: 'unannounce' seems to always return an error here; ignoring.
-        this.discovery.unannounce(DISCOVERY_KEY, this.port, _ => {
-          log("drain: ..discovery unannounced");
-          this.discovery.destroy(err => {
-            if (err) {
-              log("drain: ..discovery destroy failed:", err);
-              return done(err);
-            }
-            log("drain: ..discovery destroyed");
-            this.server.close(() => {
-              log("drain: ..server closed -- all stopped");
-              this.discovery = null;
-              this.setState(UpgradeState.Server.Idle, null);
-              done();
-            });
-          });
-        });
-      }
-    });
-  }
-
-  // HttpRequest, HttpResponse -> Bool
-  handleHttpRequest(req, res) {
-    if (!this.handleListRequest(req, res)) {
-      if (!this.handleGetContentRequest(req, res)) {
-        return false;
-      }
+    if (request.raw.httpVersionMajor !== 2) {
+      reply.raw.once("finish", () => request.raw.destroy());
+      reply.header("Connection", "close");
     }
-    return true;
+
+    reply.code(503);
+    throw new Error("Service Unavailable");
   }
 
-  // HttpRequest, HttpResponse -> Void
-  handleListRequest(req, res) {
-    if (req.method !== "GET" || req.url !== "/list") return false;
-    const reqId = Math.floor(Math.random() * 1000000).toString(16);
-    log(reqId, "received /list request");
+  /**
+   * @private
+   * @param {import('./types').Request<{ Params: { id: string }}>} request
+   * @param {import('fastify').FastifyReply} reply
+   */
+  async _getInstallerRoute(request, reply) {
+    const installer = await this.#storage.get(request.params.id);
+    if (!installer) {
+      reply.statusCode = 404;
+      return reply.callNotFound();
+    }
+    log(`${this.#port}: Upload started: ${stringifyInstaller(installer)}`);
 
-    this.stateLock.readLock(release => {
-      if (this.state !== UpgradeState.Server.Sharing) {
-        log(reqId, "unable to service request");
-        res.statusCode = 503;
-        res.end('"service unavailable"');
-        return release();
-      }
+    /** @type {Upload} */
+    const upload = { id: installer.hash, sofar: 0, total: installer.size };
+    this.#uploads.add(upload);
+    this.#throttledEmitUploads();
+    // Ensure that we always emit an event when upload starts
+    this.#throttledEmitUploads.flush();
 
-      getAvailableUpgrades(this.storage, (err, options) => {
-        if (err) {
-          log(reqId, "failed to get available upgrades from storage");
-          res.statusCode = 500;
-          res.end(err.toString());
+    const readStream = this.#storage.createReadStream(request.params.id);
+    const progress = progressStream({ length: installer.size }, progress => {
+      upload.sofar = progress.transferred;
+      this.#throttledEmitUploads();
+    });
+
+    await reply.send(
+      pump(readStream, progress, e => {
+        if (e) {
+          log(
+            `${this.#port}: Error uploading ${installer.hash.slice(0, 7)}`,
+            e
+          );
         } else {
-          log(reqId, "served request ok");
-          res.statusCode = 200;
-          res.end(JSON.stringify(options));
+          log(`${this.#port}: Uploaded complete ${installer.hash.slice(0, 7)}`);
         }
-        return release();
-      });
-    });
-
-    return true;
+        this.#throttledEmitUploads();
+        // Always emit event with upload complete
+        this.#throttledEmitUploads.flush();
+        // Reply is now finished
+        this.#uploads.delete(upload);
+        this.#throttledEmitUploads();
+        this.#throttledEmitUploads.flush();
+      })
+    );
   }
 
-  // HttpRequest, HttpResponse -> Void
-  handleGetContentRequest(req, res) {
-    const m = req.url.match(/\/content\/(.*)$/);
-    if (req.method !== "GET" || !m) return false;
-
-    const reqId = Math.floor(Math.random() * 1000000).toString(16);
-    log(reqId, "received /content request");
-
-    this.stateLock.readLock(release => {
-      if (this.state !== UpgradeState.Server.Sharing) {
-        log(reqId, "unable to service request");
-        res.statusCode = 503;
-        res.end('"service unavailable"');
-        return release();
-      }
-
-      getAvailableUpgrades(this.storage, (err, options) => {
-        if (err) {
-          log(reqId, "failed to get available upgrades from storage");
-          res.statusCode = 500;
-          res.end(err.toString());
-          return release();
-        }
-
-        const hash = m[1];
-        const option = options.filter(o => o.hash === hash)[0];
-        if (!option) {
-          log(reqId, "request for non-existant upgrade:", hash);
-          res.statusCode = 404;
-          res.end('"no such upgrade"');
-          return release();
-        }
-
-        const rs = this.storage.createReadStream(hash);
-        if (!rs) {
-          log(reqId, "internal failure to read upgrade data:", hash);
-          res.statusCode = 500;
-          res.end('"could not read upgrade data"');
-          return release();
-        }
-
-        const upload = {
-          sofar: 0,
-          total: option.size,
-        };
-        this.uploads.push(upload);
-        this.setState(this.state, this.uploads);
-
-        const tracker = progressStream({
-          length: option.size,
-          time: PROGRESS_THROTTLE_MS, // ms between each progress event
-        });
-        tracker.on("progress", ({ transferred }) => {
-          upload.sofar = transferred;
-          this.setState(this.state, this.uploads);
-        });
-
-        log(reqId, "piping file data to client for hash:", hash);
-        res.statusCode = 200;
-        pump(rs, tracker, res, err => {
-          this.uploads = this.uploads.filter(u => u !== upload);
-          this.setState(this.state, this.uploads);
-          if (err) {
-            log(reqId, "upload for", hash, "failed:", err);
-          } else {
-            log(reqId, "upload for", hash, "complete");
-          }
-          this.emit("upload-complete", upload);
-        });
-
-        return release();
-      });
+  /**
+   * @private
+   * @param {import('fastify').FastifyRequest} request
+   * @param {import('./types').Reply<{ Reply: import('./types').InstallerExt[] }>} reply
+   */
+  async _listInstallersRoute(request, reply) {
+    const urlBase = `${request.protocol}://${request.hostname}${request.routerPath}`;
+    const installers = (await this.#storage.list()).map(installer => {
+      const { filepath, ...rest } = installer;
+      return { ...rest, url: urlBase + "/" + installer.hash };
     });
-
-    return true;
+    log(
+      `List installers: ${installers
+        .map(i => stringifyInstaller(i))
+        .join(" \n")}`
+    );
+    reply.send(installers);
   }
-}
 
-function getAvailableUpgrades(storage, cb) {
-  storage.getAvailableUpgrades((err, options) => {
-    if (err) return cb(err);
-    options.forEach(o => {
-      delete o.filename;
-      return o;
-    });
-    cb(null, options);
-  });
+  /**
+   * Return fastify instance - only for testing
+   *
+   * @private
+   */
+  getFastify() {
+    return this.#fastify;
+  }
+
+  /**
+   * Start the server on the specified port. Listen on all interfaces.
+   *
+   * @param {number} port
+   * @returns {Promise<void>} Resolves when server is started
+   */
+  async _start(port) {
+    this.#port = port;
+    log(`${this.#port}: starting`);
+    if (!this.#fastifyStarted) {
+      log("first start, initializing fastify");
+      await this.#fastify.listen(this.#port, "0.0.0.0");
+      this.#fastifyStarted = true;
+    } else {
+      log("second start, listening");
+      const { server } = this.#fastify;
+      await promisify(server.listen.bind(server))(this.#port, "0.0.0.0");
+    }
+    log(`${this.#port}: started`);
+  }
+
+  /**
+   * Stop the server from accepting new connections. Will resolve when all
+   * active connections are closed
+   *
+   * @returns {Promise<void>}
+   */
+  async _stop() {
+    log(`${this.#port}: stopping`);
+    const { server } = this.#fastify;
+    await promisify(server.close.bind(server))();
+    log(`${this.#port}: stopped`);
+  }
 }
 
 module.exports = UpgradeServer;

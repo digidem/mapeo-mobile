@@ -13,9 +13,15 @@ function onFailure() {
   exit 1
 }
 
+# Ensure we start in the right place
+dir0="$( cd "$( dirname "$0" )" && pwd )"
+repo_root="$(dirname "$dir0")"
+cd "$repo_root"
+
 echo "Setting up..."
 mkdir -p ./nodejs-assets
 rm -rf ./nodejs-assets/nodejs-project
+rm -rf ./nodejs-assets/backend
 if [ -f ./nodejs-assets/BUILD_NATIVE_MODULES.txt ]; then
   echo "Build Native Modules on"
 else
@@ -30,6 +36,9 @@ cd ./nodejs-assets/backend && npm ci
 
 echo -en "Minifying with noderify..."
 # https://github.com/digidem/mapeo-mobile/issues/521
+# noderify does not realize that worker_threads and http2 are built-in node modules
+# pino-pretty is conditionally required by fastify, but we don't need it
+# memcpy is a sub-dependency of the APK parser, but it is optional
 "$(npm bin)/noderify" \
   --replace.bindings=bindings-noderify-nodejs-mobile \
   --filter=rn-bridge \
@@ -37,6 +46,10 @@ echo -en "Minifying with noderify..."
   --filter=async_hooks \
   --filter=utf-8-validate \
   --filter=bufferutil \
+  --filter=worker_threads \
+  --filter=http2 \
+  --filter=pino-pretty \
+  --filter=memcpy \
   index.js > ../nodejs-project/index.js
 cd ../..
 echo -en " done.\n"
@@ -73,6 +86,11 @@ for x in "${keepThese[@]}"; do
     mv "./nodejs-assets/backend/node_modules/$x" "./nodejs-assets/nodejs-project/node_modules/$x"
   fi
 done
+# The hasha worker thread is not bundled by noderify, so we need to manually include it
+if [ -e "./nodejs-assets/backend/node_modules/hasha/thread.js" ]; then
+  mkdir -p "./nodejs-assets/nodejs-project/node_modules/hasha"
+  cp "./nodejs-assets/backend/node_modules/hasha/thread.js" "./nodejs-assets/nodejs-project/node_modules/hasha/thread.js"
+fi
 echo -en " done.\n"
 
 echo -en "Removing unused .bin aliases..."

@@ -19,11 +19,11 @@
 
 const rnBridge = require("rn-bridge");
 const debug = require("debug");
-debug.enable("*");
 
 const ServerStatus = require("./status");
 const constants = require("./constants");
 const createServer = require("./server");
+const { getInstallerInfo } = require("./lib/utils");
 const createBugsnag = require("@bugsnag/js");
 const semverPrerelease = require("semver/functions/prerelease");
 const { version } = require("../../package.json");
@@ -72,7 +72,7 @@ status.startHeartbeat();
  *
  * We need to wait for the React Native process to tell us where the folder is.
  */
-rnBridge.channel.once("config", config => {
+rnBridge.channel.once("config", async config => {
   log("config", config);
   if (server) {
     const error = new Error(
@@ -82,17 +82,31 @@ rnBridge.channel.once("config", config => {
     return;
   }
   try {
+    const {
+      sharedStorage,
+      privateCacheStorage,
+      deviceInfo,
+      apkFilepath,
+      isDev,
+    } = config;
+    // Don't debug log in production
+    if (isDev) debug.enable("*");
+    const currentApkInfo = await getInstallerInfo(apkFilepath);
     server = createServer({
       privateStorage: rnBridge.app.datadir(),
-      ...config,
+      sharedStorage,
+      privateCacheStorage,
+      deviceInfo,
+      currentApkInfo,
     });
+    server.on("error", error => {
+      status.setState(constants.ERROR, { error });
+    });
+    startServer();
   } catch (error) {
+    console.log(error.stack);
     status.setState(constants.ERROR, { error, context: "createServer" });
   }
-  server.on("error", error => {
-    status.setState(constants.ERROR, { error });
-  });
-  startServer();
 });
 
 /**
