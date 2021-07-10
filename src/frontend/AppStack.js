@@ -24,6 +24,7 @@ import LanguageSettings from "./screens/Settings/LanguageSettings";
 import CoordinateFormat from "./screens/Settings/CoordinateFormat";
 import Experiments from "./screens/Settings/Experiments";
 import HomeHeader from "./sharedComponents/HomeHeader";
+import { JoinProjectScreen } from "./screens/JoinProject";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -87,6 +88,7 @@ const AppStack = createStackNavigator(
     ObservationEdit: ObservationEdit,
     ManualGpsScreen: ManualGpsScreen,
     ObservationDetails: ObservationDetails,
+    JoinProjectScreen: JoinProjectScreen,
   },
   {
     initialRouteName: "Home",
