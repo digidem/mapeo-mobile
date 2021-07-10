@@ -13,6 +13,7 @@ import ObservationsContext from "../context/ObservationsContext";
 import LocationContext from "../context/LocationContext";
 import AddButton from "../sharedComponents/AddButton";
 import type { NavigationProp } from "../types";
+import { JoinProjectScreen } from "./JoinProject";
 
 const log = debug("mapeo:MapScreen");
 
@@ -49,13 +50,7 @@ const MapScreen = ({ navigation }: Props) => {
       ) : status === "error" ? (
         <Text>Error</Text>
       ) : (
-        <MapView
-          location={location}
-          observations={observations}
-          onPressObservation={handleObservationPress}
-          styleURL={styleURL}
-          styleType={styleType}
-        />
+        <JoinProjectScreen />
       )}
       <AddButton testID="addButtonMap" onPress={handleAddPress} />
     </View>
@@ -63,3 +58,13 @@ const MapScreen = ({ navigation }: Props) => {
 };
 
 export default MapScreen;
+
+{
+  /* <MapView
+          location={location}
+          observations={observations}
+          onPressObservation={handleObservationPress}
+          styleURL={styleURL}
+          styleType={styleType}
+        /> */
+}
