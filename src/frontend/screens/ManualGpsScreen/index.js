@@ -10,7 +10,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import Text from "../../sharedComponents/Text";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 
 import useSettingsValue from "../../hooks/useSettingsValue";
 import createPersistedState from "../../hooks/usePersistedState";
@@ -51,12 +51,6 @@ const m = defineMessages({
   },
 });
 
-const ENTRY_FORMAT_OPTIONS = [
-  { label: m.decimalDegrees.defaultMessage, value: "dd" },
-  { label: m.degreesMinutesSeconds.defaultMessage, value: "dms" },
-  { label: m.universalTransverseMercator.defaultMessage, value: "utm" },
-];
-
 const usePersistedState = createPersistedState("manualCoordinateEntryFormat");
 
 type Props = {
@@ -64,6 +58,14 @@ type Props = {
 };
 
 const ManualGpsScreen = ({ navigation }: Props) => {
+  const { formatMessage } = useIntl();
+
+  const ENTRY_FORMAT_OPTIONS = [
+    { label: formatMessage(m.decimalDegrees), value: "dd" },
+    { label: formatMessage(m.degreesMinutesSeconds), value: "dms" },
+    { label: formatMessage(m.universalTransverseMercator), value: "utm" },
+  ];
+
   const location = React.useContext(LocationContext);
   const coordinateFormat = useSettingsValue("coordinateFormat");
 

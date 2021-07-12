@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 
 import Text from "../../sharedComponents/Text";
 import Select from "../../sharedComponents/Select";
@@ -46,29 +46,31 @@ const m = defineMessages({
   },
 });
 
-const DIRECTION_OPTIONS_NORTH_SOUTH = [
-  {
-    value: "N",
-    label: m.north.defaultMessage,
-  },
-  {
-    value: "S",
-    label: m.south.defaultMessage,
-  },
-];
-
-const DIRECTION_OPTIONS_EAST_WEST = [
-  {
-    value: "E",
-    label: m.east.defaultMessage,
-  },
-  {
-    value: "W",
-    label: m.west.defaultMessage,
-  },
-];
-
 const DdForm = ({ location, onValueUpdate }: FormProps) => {
+  const { formatMessage } = useIntl();
+
+  const DIRECTION_OPTIONS_NORTH_SOUTH = [
+    {
+      value: "N",
+      label: formatMessage(m.north),
+    },
+    {
+      value: "S",
+      label: formatMessage(m.south),
+    },
+  ];
+
+  const DIRECTION_OPTIONS_EAST_WEST = [
+    {
+      value: "E",
+      label: formatMessage(m.east),
+    },
+    {
+      value: "W",
+      label: formatMessage(m.west),
+    },
+  ];
+
   const [latidudeDegrees, setLatitudeDegrees] = React.useState<string>(() => {
     if (!location.savedPosition) return "";
 

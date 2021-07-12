@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { FormattedMessage, defineMessages } from "react-intl";
 
 import Text from "../../../sharedComponents/Text";
 import Select from "../../../sharedComponents/Select";
