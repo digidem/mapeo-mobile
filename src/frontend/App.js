@@ -15,6 +15,7 @@ import AppProvider from "./context/AppProvider";
 import bugsnag from "./lib/logger";
 import IS_E2E from "./lib/is-e2e";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
+import { JoinProjectScreen } from "./screens/JoinProject";
 
 // Turn off warnings about require cycles
 YellowBox.ignoreWarnings(["Require cycle:"]);
@@ -120,6 +121,7 @@ const App = () => (
               persistNavigationState={persistNavigationState}
               loadNavigationState={loadNavigationState}
             />
+
             <UpdateNotifier />
           </AppProvider>
         </AppLoading>

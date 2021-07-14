@@ -38,7 +38,7 @@ const MapScreen = ({ navigation }: Props) => {
     (e: any) => {
       log("pressed add button");
       newDraft(undefined, { tags: {} });
-      navigation.navigate("CategoryChooser");
+      navigation.navigate("JoinProjectScreen");
     },
     [navigation, newDraft]
   );
@@ -50,7 +50,13 @@ const MapScreen = ({ navigation }: Props) => {
       ) : status === "error" ? (
         <Text>Error</Text>
       ) : (
-        <JoinProjectScreen />
+        <MapView
+          location={location}
+          observations={observations}
+          onPressObservation={handleObservationPress}
+          styleURL={styleURL}
+          styleType={styleType}
+        />
       )}
       <AddButton testID="addButtonMap" onPress={handleAddPress} />
     </View>
@@ -58,13 +64,3 @@ const MapScreen = ({ navigation }: Props) => {
 };
 
 export default MapScreen;
-
-{
-  /* <MapView
-          location={location}
-          observations={observations}
-          onPressObservation={handleObservationPress}
-          styleURL={styleURL}
-          styleType={styleType}
-        /> */
-}
