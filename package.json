@@ -170,23 +170,6 @@
     "ts-jest": "^27.0.3",
     "txtgen": "^2.2.7"
   },
-  "jest": {
-    "preset": "react-native",
-    "setupFilesAfterEnv": [
-      "@testing-library/jest-native/extend-expect"
-    ],
-    "transform": {
-      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
-    },
-    "transformIgnorePatterns": [
-      "/node_modules/(?!(react-native|@react-native(-community)?|react-native-splash-screen|ky|react-native-fs)/)"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/e2e/",
-      "/src/backend/"
-    ]
-  },
   "standard-version": {
     "skip": {
       "tag": true

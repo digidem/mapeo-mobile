@@ -1,11 +1,13 @@
+/* eslint-env jest/globals */
+
 import STATUS from "./../../backend/constants";
 
-const mockedApis = [
-  "getPresets",
-  "getFields",
-  "getMetadata",
-  "getConfigMessages",
-];
+// const mockedApis = [
+//   "getPresets",
+//   "getFields",
+//   "getMetadata",
+//   "getConfigMessages",
+// ];
 
 // mockedApis.forEach(api => {
 //   module.exports[api] = {
@@ -14,12 +16,6 @@ const mockedApis = [
 // });
 
 export { STATUS as Constants };
-
-export type ServerStatusMessage = {|
-  value: ServerStatus,
-  error?: string,
-  context?: string,
-|};
 
 export default {
   getPresets: () => {
@@ -34,4 +30,5 @@ export default {
   getConfigMessages: () => {
     return jest.fn(() => Promise.resolve());
   },
+  getObservations: jest.fn(() => Promise.resolve([])),
 };
