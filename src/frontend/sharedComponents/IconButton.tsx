@@ -1,29 +1,23 @@
-// @flow
 import * as React from "react";
-import PropTypes from "prop-types";
-import { StyleSheet, View } from "react-native";
-import { TouchableNativeFeedback } from "../sharedComponents/Touchables";
+import { GestureResponderEvent, StyleSheet, View } from "react-native";
+import { TouchableNativeFeedback } from "./Touchables";
 
 import { VERY_LIGHT_BLUE } from "../lib/styles";
 import type { ViewStyleProp } from "../types";
 
-// Fix warning pending https://github.com/kmagiera/react-native-gesture-handler/pull/561/files
-TouchableNativeFeedback.propTypes = {
-  ...TouchableNativeFeedback.propTypes,
-  background: PropTypes.object,
-};
-
 type Props = {
-  onPress: (SyntheticEvent<>) => any,
-  style?: ViewStyleProp,
-  children: React.Node,
-  testID?: string,
+  children: React.ReactNode;
+  onPress: (event: GestureResponderEvent) => void;
+  style?: ViewStyleProp;
+  testID?: string;
 };
 
-const IconButton = ({ onPress, style, children, testID }: Props) => (
+const IconButton = ({ children, onPress, style, testID }: Props) => (
   <TouchableNativeFeedback
     testID={testID}
     onPress={onPress}
+    // TODO: There's some typing issue with react-native-gesture-handler here. Using the definition from react native works fine
+    // @ts-expect-error
     background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, true)}
   >
     <View style={[styles.container, style]}>{children}</View>
