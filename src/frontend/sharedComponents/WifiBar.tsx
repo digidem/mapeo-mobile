@@ -1,6 +1,7 @@
 import * as React from "react";
 import { StyleSheet, TouchableNativeFeedback, View } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
+import DeviceInfo from "react-native-device-info";
 
 import { WifiIcon } from "./icons";
 import Text from "./Text";
@@ -29,7 +30,10 @@ const WifiBar = ({ deviceName, onPress, ssid }: Props) => (
         </Text>{" "}
         {ssid}
       </Text>
-      <Text style={styles.deviceName}>{deviceName}</Text>
+      <View>
+        <Text style={styles.deviceName}>{deviceName}</Text>
+        <Text style={styles.version}>v{DeviceInfo.getVersion()}</Text>
+      </View>
     </View>
   </TouchableNativeFeedback>
 );
@@ -43,6 +47,10 @@ const styles = StyleSheet.create({
     textAlign: "right",
     color: "white",
     flex: 1,
+  },
+  version: {
+    fontWeight: "500",
+    color: "white",
   },
   wifiBar: {
     backgroundColor: "#19337F",

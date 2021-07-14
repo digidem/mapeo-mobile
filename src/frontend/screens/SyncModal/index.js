@@ -18,6 +18,7 @@ import { getUniqueId } from "react-native-device-info";
 import SyncView from "./SyncView";
 import bugsnag from "../../lib/logger";
 import useAllObservations from "../../hooks/useAllObservations";
+import useWifiStatus from "../../hooks/useWifiStatus";
 import ConfigContext from "../../context/ConfigContext";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import usePeers from "./usePeers";
@@ -51,53 +52,14 @@ const SyncModal = ({ navigation }: Props) => {
     },
   ] = React.useContext(ConfigContext);
 
-  const [listen, setListening] = React.useState<boolean>(false);
+  const [listen, setListening] = React.useState(false);
   const [peers, syncPeer, syncGetPeers] = usePeers(listen, deviceName);
-  const [ssid, setSsid] = React.useState<null | string>(null);
-
-  React.useEffect(() => {
-    const subscriptions = [];
-    const handleConnectionChange = async (data: {}) => {
-      // NetInfoData does not actually tell us whether wifi is turned on, it just
-      // tells us what connection the phone is using for data. E.g. it could be
-      // connected to a wifi network but instead using 4g for data, in which case
-      // `data.type` will not be wifi. So instead we just use the event listener
-      // from NetInfo, and when the connection changes we look up the SSID to see
-      // whether the user is connected to a wifi network.
-      // TODO: We currently do not know whether wifi is turned off, we only know
-      // whether the user is connected to a wifi network or not.
-      let ssid = null;
-      try {
-        ssid = await NetworkInfo.getSSID();
-      } catch (e) {
-        bugsnag.notify(e);
-      } finally {
-        // Even if we don't get the SSID, we still want to show that a wifi
-        // network is connected.
-        setSsid(ssid);
-        // On connection change, ensure we have the latest peer info from
-        // backend.
-        syncGetPeers();
-        setListening(true);
-      }
-    };
-    // When the modal opens, start announcing this device as available for sync
-    setListening(true);
-    // Subscribe to NetInfo to know when the user connects/disconnects to wifi
-    subscriptions.push({
-      remove: NetInfo.addEventListener(handleConnectionChange),
-    });
-    // Keep the screen awake whilst on this screen
-    KeepAwake.activate();
-    return () => {
-      // When the modal closes, stop announcing for sync
-      setListening(false);
-      // Unsubscribe all listeners
-      subscriptions.forEach(s => s.remove());
-      // Turn off keep screen awake
-      KeepAwake.deactivate();
-    };
-  }, [syncGetPeers]);
+  const { ssid } = useWifiStatus({
+    keepAwake: true,
+    // On connection change, ensure we have the latest peer info from backend.
+    onConnectionChange: syncGetPeers,
+    setListening,
+  });
 
   React.useEffect(
     () =>
