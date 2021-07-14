@@ -121,6 +121,8 @@
     "@storybook/react": "^5.3.19",
     "@storybook/react-native": "^5.3.19",
     "@storybook/react-native-server": "^5.3.19",
+    "@testing-library/jest-native": "^3.4.3",
+    "@testing-library/react-native": "^7.2.0",
     "@turf/random": "^6.0.2",
     "@types/jest": "^26.0.24",
     "@types/react-native": "^0.63.52",
@@ -170,12 +172,22 @@
   },
   "jest": {
     "preset": "react-native",
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
+    ],
+    "moduleNameMapper": {
+      "ky": "ky/umd"
+    },
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+    },
     "transformIgnorePatterns": [
-      "node_modules/(?!(react-native|@react-native-community|react-native-splash-screen|ky|react-native-fs)/)"
+      "/node_modules/(?!(react-native|@react-native(-community)?|react-native-splash-screen|ky|react-native-fs)/)"
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/e2e/"
+      "/e2e/",
+      "/src/backend/"
     ]
   },
   "standard-version": {
