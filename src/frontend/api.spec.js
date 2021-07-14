@@ -24,7 +24,7 @@ describe("Server startup", () => {
     nodejs.channel.once = jest.fn((_, handler) => handler());
     // This mocks the server to immediately be in "Listening" state
     nodejs.channel.addListener = jest.fn((_, handler) =>
-      handler(Constants.LISTENING)
+      handler({ value: Constants.LISTENING })
     );
     nodejs.channel.post = jest.fn();
     const api = new Api({ baseUrl: "__URL__" });
@@ -32,9 +32,9 @@ describe("Server startup", () => {
     expect(nodejs.start.mock.calls.length).toBe(1);
     expect(nodejs.start.mock.calls[0][0]).toBe("loader.js");
     expect(nodejs.channel.post.mock.calls.length).toBe(2);
-    expect(nodejs.channel.post.mock.calls[1][1]).toBe(
-      RNFS.ExternalDirectoryPath
-    );
+    expect(nodejs.channel.post.mock.calls[1][1]).toStrictEqual({
+      storagePath: RNFS.ExternalDirectoryPath,
+    });
   });
 
   test("Start server timeout", async () => {
@@ -79,7 +79,7 @@ describe("Server status", () => {
   });
   test("After timeout, if server starts listening, timeout starts again", () => {
     jest.advanceTimersByTime(10001);
-    serverStatus(Constants.LISTENING);
+    serverStatus({ value: Constants.LISTENING });
     jest.advanceTimersByTime(10001);
     expect(stateListener).toHaveBeenCalledTimes(3);
     expect(stateListener).toHaveBeenNthCalledWith(1, Constants.TIMEOUT);
@@ -88,7 +88,7 @@ describe("Server status", () => {
   });
   test("After timeout, if server is starting, timeout starts again", () => {
     jest.advanceTimersByTime(10001);
-    serverStatus(Constants.STARTING);
+    serverStatus({ value: Constants.STARTING });
     jest.advanceTimersByTime(10001);
     expect(stateListener).toHaveBeenCalledTimes(3);
     expect(stateListener).toHaveBeenNthCalledWith(1, Constants.TIMEOUT);
@@ -96,15 +96,15 @@ describe("Server status", () => {
     expect(stateListener).toHaveBeenNthCalledWith(3, Constants.TIMEOUT);
   });
   test("After error, timeout will not happen", () => {
-    serverStatus(Constants.ERROR);
+    serverStatus({ value: Constants.ERROR });
     jest.advanceTimersByTime(10001);
     expect(stateListener).toHaveBeenCalledTimes(1);
     expect(stateListener).toHaveBeenNthCalledWith(1, Constants.ERROR);
   });
   test("After server close, timeout will not happen until it restarts", () => {
-    serverStatus(Constants.CLOSED);
+    serverStatus({ value: Constants.CLOSED });
     jest.runAllTimers();
-    serverStatus(Constants.LISTENING);
+    serverStatus({ value: Constants.LISTENING });
     jest.runAllTimers();
     expect(stateListener).toHaveBeenCalledTimes(3);
     expect(stateListener).toHaveBeenNthCalledWith(1, Constants.CLOSED);
@@ -113,7 +113,7 @@ describe("Server status", () => {
   });
   test("Unsubscribe works", () => {
     subscription.remove();
-    serverStatus(Constants.LISTENING);
+    serverStatus({ value: Constants.LISTENING });
     expect(stateListener).toHaveBeenCalledTimes(0);
   });
 });
@@ -142,21 +142,21 @@ describe("Server get requests", () => {
         const { api, serverStatus } = await startServer();
         jest.useRealTimers();
         let pending = true;
-        serverStatus(Constants.STARTING);
+        serverStatus({ value: Constants.STARTING });
         expect.assertions(2);
         const getPromise = api[method]().finally(() => {
           pending = false;
         });
         setTimeout(() => {
           expect(pending).toBe(true);
-          serverStatus(Constants.LISTENING);
+          serverStatus({ value: Constants.LISTENING });
         }, 200);
         return expect(getPromise).resolves.toEqual([]);
       });
       test(method + " rejects if server timeout", async () => {
         const { api, serverStatus } = await startServer();
         jest.useFakeTimers();
-        serverStatus(Constants.STARTING);
+        serverStatus({ value: Constants.STARTING });
         const getPromise = api[method]();
         jest.runAllTimers();
         expect.assertions(1);
@@ -164,7 +164,7 @@ describe("Server get requests", () => {
       });
       test(method + " rejects if server error", async () => {
         const { api, serverStatus } = await startServer();
-        serverStatus(Constants.ERROR);
+        serverStatus({ value: Constants.ERROR });
         const getPromise = api[method]();
         expect.assertions(1);
         return expect(getPromise).rejects.toThrow("Server Error");
@@ -181,7 +181,7 @@ function startServer() {
   nodejs.channel.once = jest.fn((_, handler) => handler());
   nodejs.channel.post = jest.fn();
   nodejs.channel.addListener = jest.fn((_, handler) => {
-    handler(Constants.LISTENING);
+    handler({ value: Constants.LISTENING });
     serverStatus = handler;
   });
   const api = new Api({ baseUrl: "__URL__" });
