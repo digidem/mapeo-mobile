@@ -1,10 +1,7 @@
-// @flow
 import * as React from "react";
-import { fromLatLon } from "utm";
 import {
   View,
   ScrollView,
-  TextInput,
   StyleSheet,
   ToastAndroid,
   KeyboardAvoidingView,
@@ -12,17 +9,18 @@ import {
 import Text from "../../sharedComponents/Text";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 
+import { StackScreenComponent } from "../../sharedTypes";
 import useSettingsValue from "../../hooks/useSettingsValue";
 import createPersistedState from "../../hooks/usePersistedState";
-import { BLACK, LIGHT_GREY } from "../../lib/styles";
+import { BLACK } from "../../lib/styles";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import useDraftObservation from "../../hooks/useDraftObservation";
 import LocationContext from "../../context/LocationContext";
-import type { NavigationProp } from "../../types";
 import IconButton from "../../sharedComponents/IconButton";
 import { BackIcon, SaveIcon } from "../../sharedComponents/icons";
 import Select from "../../sharedComponents/Select";
 
+import { ConvertedCoordinateData } from "./shared";
 import DdForm from "./DdForm";
 import DmsForm from "./DmsForm";
 import UtmForm from "./UtmForm";
@@ -53,17 +51,13 @@ const m = defineMessages({
 
 const usePersistedState = createPersistedState("manualCoordinateEntryFormat");
 
-type Props = {
-  navigation: NavigationProp,
-};
-
-const ManualGpsScreen = ({ navigation }: Props) => {
-  const { formatMessage } = useIntl();
+const ManualGpsScreen: StackScreenComponent = ({ navigation }) => {
+  const { formatMessage: t } = useIntl();
 
   const ENTRY_FORMAT_OPTIONS = [
-    { label: formatMessage(m.decimalDegrees), value: "dd" },
-    { label: formatMessage(m.degreesMinutesSeconds), value: "dms" },
-    { label: formatMessage(m.universalTransverseMercator), value: "utm" },
+    { label: t(m.decimalDegrees), value: "dd" },
+    { label: t(m.degreesMinutesSeconds), value: "dms" },
+    { label: t(m.universalTransverseMercator), value: "utm" },
   ];
 
   const location = React.useContext(LocationContext);
@@ -77,10 +71,9 @@ const ManualGpsScreen = ({ navigation }: Props) => {
 
   const [{ value }, { updateDraft }] = useDraftObservation();
 
-  const [convertedData, setConvertedData] = React.useState<{|
-    error?: Error,
-    coords?: {| lat?: number | null, lon?: number | null |},
-  |}>(() => ({
+  const [convertedData, setConvertedData] = React.useState<
+    ConvertedCoordinateData
+  >(() => ({
     coords: value ? { lat: value.lat, lon: value.lon } : undefined,
   }));
 
@@ -151,25 +144,29 @@ const ManualGpsScreen = ({ navigation }: Props) => {
   );
 };
 
-ManualGpsScreen.navigationOptions = ({ navigation }: any) => {
-  return {
-    headerTitle: () => (
-      <HeaderTitle>
-        <FormattedMessage {...m.title} />
-      </HeaderTitle>
-    ),
-    headerLeft: ({ onPress }) => (
+ManualGpsScreen.navigationOptions = ({ navigation }) => ({
+  headerTitle: () => (
+    <HeaderTitle>
+      <FormattedMessage {...m.title} />
+    </HeaderTitle>
+  ),
+  headerLeft: ({ onPress }) =>
+    onPress && (
       <IconButton onPress={onPress}>
         <BackIcon />
       </IconButton>
     ),
-    headerRight: () => (
-      <IconButton onPress={navigation.getParam("handleSavePress")}>
-        <SaveIcon inprogress={false} />
-      </IconButton>
-    ),
-  };
-};
+  headerRight: () => {
+    const onPress = navigation.getParam("handleSavePress");
+    return (
+      onPress && (
+        <IconButton onPress={onPress}>
+          <SaveIcon inprogress={false} />
+        </IconButton>
+      )
+    );
+  },
+});
 
 export default ManualGpsScreen;
 

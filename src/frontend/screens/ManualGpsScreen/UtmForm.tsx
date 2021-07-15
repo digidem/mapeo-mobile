@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import { toLatLon as origToLatLon, fromLatLon } from "utm";
 import { View, TextInput, StyleSheet } from "react-native";
@@ -6,8 +5,7 @@ import { defineMessages, FormattedMessage } from "react-intl";
 
 import Text from "../../sharedComponents/Text";
 import { BLACK, LIGHT_GREY } from "../../lib/styles";
-import type { LocationContextType } from "../../context/LocationContext";
-import { type FormProps, parseNumber } from "./shared";
+import { FormProps, parseNumber } from "./shared";
 
 const m = defineMessages({
   zoneNumber: {
@@ -173,14 +171,14 @@ function toLatLon({
   northing,
   zoneLetter,
   zoneNum,
-}: {|
-  easting: string,
-  northing: string,
-  zoneLetter: string,
-  zoneNum: string,
-|}) {
+}: {
+  easting: string;
+  northing: string;
+  zoneLetter: string;
+  zoneNum: string;
+}) {
   const parsedNorthing = parseNumber(northing);
-  let northern;
+  let northern: boolean | undefined;
   // There are two conventions for UTM. One uses a letter to refer to latitude
   // bands from C to X, excluding "I" and "O". The other uses "N" or "S" to
   // refer to the northern or southern hemisphere. If the user enters "N" or
@@ -222,14 +220,28 @@ function toLatLon({
       northern = true;
     }
   }
-  return origToLatLon(
-    parseNumber(easting),
-    parseNumber(northing),
-    parseNumber(zoneNum),
-    // If northern defined, then don't use the zoneLetter.
-    northern !== undefined ? undefined : zoneLetter,
-    northern
-  );
+
+  const numericEasting = parseNumber(easting) as number;
+  const numericNorthing = parseNumber(northing) as number;
+  const numericZoneNum = parseNumber(zoneNum) as number;
+
+  // If northern defined, then don't use the zoneLetter.
+  if (northern !== undefined) {
+    return origToLatLon(
+      numericEasting,
+      numericNorthing,
+      numericZoneNum,
+      undefined,
+      northern
+    );
+  } else {
+    return origToLatLon(
+      numericEasting,
+      numericNorthing,
+      numericZoneNum,
+      zoneLetter
+    );
+  }
 }
 
 const styles = StyleSheet.create({

@@ -1,14 +1,23 @@
-// @flow
 import * as React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 
-import Text from "../../../sharedComponents/Text";
-import Select from "../../../sharedComponents/Select";
-import { BLACK, LIGHT_GREY } from "../../../lib/styles";
 import { convertDmsToDd, toDegreesMinutesAndSeconds } from "../../../lib/utils";
-import { type FormProps, getInitialCardinality, parseNumber } from "../shared";
+import {
+  CoordinateField,
+  FormProps,
+  getInitialCardinality,
+  parseNumber,
+} from "../shared";
 import DmsInputGroup from "./DmsInputGroup";
+
+export type DmsData = {
+  degrees: string;
+  minutes: string;
+  seconds: string;
+};
+
+export type DmsUnit = keyof DmsData;
 
 const m = defineMessages({
   invalidCoordinates: {
@@ -41,36 +50,28 @@ const m = defineMessages({
   },
 });
 
-export type DmsData = {|
-  degrees: string,
-  minutes: string,
-  seconds: string,
-|};
-
-export type DmsUnit = $Keys<DmsData>;
-
 const DmsForm = ({ location, onValueUpdate }: FormProps) => {
-  const { formatMessage } = useIntl();
+  const { formatMessage: t } = useIntl();
 
   const DIRECTION_OPTIONS_NORTH_SOUTH = [
     {
       value: "N",
-      label: formatMessage(m.north),
+      label: t(m.north),
     },
     {
       value: "S",
-      label: formatMessage(m.south),
+      label: t(m.south),
     },
   ];
 
   const DIRECTION_OPTIONS_EAST_WEST = [
     {
       value: "E",
-      label: formatMessage(m.east),
+      label: t(m.east),
     },
     {
       value: "W",
-      label: formatMessage(m.west),
+      label: t(m.west),
     },
   ];
 
@@ -120,37 +121,15 @@ const DmsForm = ({ location, onValueUpdate }: FormProps) => {
     getInitialCardinality("lon", location)
   );
 
-  const updateCoordinate = (field: "lat" | "lon") => (
+  const updateCoordinate = (field: CoordinateField) => (
     unit: DmsUnit,
     value: string
   ) => {
     const update = field === "lat" ? setLatitude : setLongitude;
-
-    // Ideally would use computed property syntax to avoid this but Flow is being annoying
-    update(previous => {
-      switch (unit) {
-        case "degrees":
-          return {
-            ...previous,
-            degrees: value,
-          };
-        case "minutes":
-          return {
-            ...previous,
-            minutes: value,
-          };
-        case "seconds":
-          return {
-            ...previous,
-            seconds: value,
-          };
-        default:
-          return previous;
-      }
-    });
+    update(previous => ({ ...previous, [unit]: value }));
   };
 
-  const updateCardinality = (field: "lat" | "lon") => (value: string) =>
+  const updateCardinality = (field: CoordinateField) => (value: string) =>
     field === "lat" ? setLatCardinality(value) : setLonCardinality(value);
 
   React.useEffect(() => {
@@ -159,8 +138,8 @@ const DmsForm = ({ location, onValueUpdate }: FormProps) => {
         dmsValuesAreValid("lat", latitude) &&
         dmsValuesAreValid("lon", longitude)
       ) {
-        const parsedDmsLat = getParsedDmsValues("lat", latitude);
-        const parsedDmsLon = getParsedDmsValues("lon", longitude);
+        const parsedDmsLat = getParsedDmsValues(latitude);
+        const parsedDmsLon = getParsedDmsValues(longitude);
 
         if (parsedDmsLat && parsedDmsLon) {
           onValueUpdate({
@@ -207,10 +186,7 @@ const DmsForm = ({ location, onValueUpdate }: FormProps) => {
   );
 };
 
-function getParsedDmsValues(
-  field: "lat" | "lon",
-  { degrees, minutes, seconds }: DmsData
-) {
+function getParsedDmsValues({ degrees, minutes, seconds }: DmsData) {
   const degreesParsed = parseNumber(degrees);
   const minutesParsed = parseNumber(minutes);
   const secondsParsed = parseNumber(seconds);
@@ -228,8 +204,8 @@ function getParsedDmsValues(
   }
 }
 
-function dmsValuesAreValid(field: "lat" | "lon", coordinate: DmsData) {
-  const parsedDms = getParsedDmsValues(field, coordinate);
+function dmsValuesAreValid(field: CoordinateField, coordinate: DmsData) {
+  const parsedDms = getParsedDmsValues(coordinate);
 
   if (parsedDms) {
     const { degrees, minutes, seconds } = parsedDms;
