@@ -126,6 +126,7 @@
     "@turf/random": "^6.0.2",
     "@types/jest": "^26.0.24",
     "@types/react-native": "^0.63.52",
+    "@types/react-navigation": "^3.4.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.3.0",
     "babel-loader": "^8.1.0",
