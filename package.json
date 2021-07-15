@@ -121,7 +121,7 @@
     "@storybook/react-native": "^5.3.19",
     "@storybook/react-native-server": "^5.3.19",
     "@turf/random": "^6.0.2",
-    "@types/react-native": "^0.64.12",
+    "@types/react-native": "^0.63.52",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.3.0",
     "babel-loader": "^8.1.0",
