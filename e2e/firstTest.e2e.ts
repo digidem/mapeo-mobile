@@ -1,7 +1,8 @@
 /* eslint-env detox/detox, jest/globals */
 
-const { byId, byText } = require("./matcher");
-const delay = require("delay");
+import { byId, byText } from "./matcher";
+import { expect } from "detox";
+import delay from "delay";
 
 // Make it easier to change where the settings screen is later
 const navigateToSettings = async () => {
