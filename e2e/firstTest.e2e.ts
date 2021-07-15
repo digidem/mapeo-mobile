@@ -79,7 +79,7 @@ describe("Mapeo", () => {
       await expect(byText("DISCARD CHANGES")).toBeVisible();
       await byText("DISCARD CHANGES").tap();
       // Delete and re-install to remove added observation
-      await device.launchApp({ delete: true });
+      // await device.launchApp({ delete: true });
     });
   });
 
