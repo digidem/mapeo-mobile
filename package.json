@@ -141,6 +141,7 @@
     "@types/react-native-keep-awake": "^2.0.3",
     "@types/react-native-vector-icons": "^6.4.8",
     "@types/react-test-renderer": "^17.0.1",
+    "@types/utm": "^1.1.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.3.0",
     "babel-loader": "^8.1.0",
