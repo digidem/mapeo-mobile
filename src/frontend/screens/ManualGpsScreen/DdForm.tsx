@@ -1,14 +1,19 @@
-// @flow
 import * as React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import {
+  NativeSyntheticEvent,
+  StyleSheet,
+  TextInput,
+  TextInputEndEditingEventData,
+  View,
+} from "react-native";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 
 import Text from "../../sharedComponents/Text";
 import Select from "../../sharedComponents/Select";
 import { BLACK, LIGHT_GREY } from "../../lib/styles";
 import {
-  type FormProps,
   POSITIVE_DECIMAL_REGEX,
+  FormProps,
   getInitialCardinality,
   parseNumber,
 } from "./shared";
@@ -47,27 +52,27 @@ const m = defineMessages({
 });
 
 const DdForm = ({ location, onValueUpdate }: FormProps) => {
-  const { formatMessage } = useIntl();
+  const { formatMessage: t } = useIntl();
 
   const DIRECTION_OPTIONS_NORTH_SOUTH = [
     {
       value: "N",
-      label: formatMessage(m.north),
+      label: t(m.north),
     },
     {
       value: "S",
-      label: formatMessage(m.south),
+      label: t(m.south),
     },
   ];
 
   const DIRECTION_OPTIONS_EAST_WEST = [
     {
       value: "E",
-      label: formatMessage(m.east),
+      label: t(m.east),
     },
     {
       value: "W",
-      label: formatMessage(m.west),
+      label: t(m.west),
     },
   ];
 
@@ -147,7 +152,7 @@ const DdForm = ({ location, onValueUpdate }: FormProps) => {
 
   const formatInputValue = (setState: (v: string) => void) => ({
     nativeEvent: { text },
-  }) => {
+  }: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
     const parsed = Number.parseFloat(text);
     if (!isNaN(parsed)) {
       // Do we want to enforce precision here?
@@ -178,7 +183,7 @@ const DdForm = ({ location, onValueUpdate }: FormProps) => {
           <Select
             containerStyles={styles.select}
             mode="dropdown"
-            onChange={value => setSelectedLatCardinality(value)}
+            onChange={setSelectedLatCardinality}
             options={DIRECTION_OPTIONS_NORTH_SOUTH}
             selectedValue={selectedLatCardinality}
           />
@@ -205,7 +210,7 @@ const DdForm = ({ location, onValueUpdate }: FormProps) => {
           <Select
             containerStyles={styles.select}
             mode="dropdown"
-            onChange={value => setSelectedLonCardinality(value)}
+            onChange={setSelectedLonCardinality}
             options={DIRECTION_OPTIONS_EAST_WEST}
             selectedValue={selectedLonCardinality}
           />

@@ -1,13 +1,18 @@
-// @flow
 import * as React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import {
+  NativeSyntheticEvent,
+  StyleSheet,
+  TextInput,
+  TextInputEndEditingEventData,
+  View,
+} from "react-native";
 import { FormattedMessage, defineMessages } from "react-intl";
 
 import Text from "../../../sharedComponents/Text";
 import Select from "../../../sharedComponents/Select";
 import { BLACK, LIGHT_GREY } from "../../../lib/styles";
 import { INTEGER_REGEX, parseNumber } from "../shared";
-import type { DmsData, DmsUnit } from "./index";
+import { DmsData, DmsUnit } from "./index";
 
 const m = defineMessages({
   degrees: {
@@ -28,14 +33,14 @@ const m = defineMessages({
   },
 });
 
-type Props = {|
-  cardinalityOptions: {| label: string, value: string |}[],
-  coordinate: DmsData,
-  label: React.Node,
-  selectedCardinality: string,
-  updateCardinality: (value: string) => void,
-  updateCoordinate: (unit: DmsUnit, value: string) => void,
-|};
+interface Props {
+  cardinalityOptions: { label: string; value: string }[];
+  coordinate: DmsData;
+  label: React.ReactNode;
+  selectedCardinality: string;
+  updateCardinality: (value: string) => void;
+  updateCoordinate: (unit: DmsUnit, value: string) => void;
+}
 
 const DmsInputGroup = ({
   cardinalityOptions,
@@ -63,14 +68,9 @@ const DmsInputGroup = ({
     [updateCoordinate]
   );
 
-  const updateCardinalityCallback = React.useCallback(
-    (value: string | number) => {
-      updateCardinality(value.toString());
-    },
-    [updateCardinality]
-  );
-
-  const formatInputValue = (unit: DmsUnit) => ({ nativeEvent: { text } }) => {
+  const formatInputValue = (unit: DmsUnit) => ({
+    nativeEvent: { text },
+  }: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
     const formatted = parseNumber(text);
     if (formatted !== undefined) {
       updateCoordinateCallback(unit)(formatted.toString());
@@ -142,8 +142,9 @@ const DmsInputGroup = ({
           <FormattedMessage {...m.direction} />:
         </Text>
         <Select
+          mode="dropdown"
           containerStyles={{ width: 150, marginHorizontal: 20 }}
-          onChange={updateCardinalityCallback}
+          onChange={updateCardinality}
           options={cardinalityOptions}
           selectedValue={selectedCardinality}
         />

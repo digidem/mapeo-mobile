@@ -1,15 +1,16 @@
-// @flow
-import { StyleSheet } from "react-native";
 import type { LocationContextType } from "../../context/LocationContext";
-import { BLACK, LIGHT_GREY } from "../../lib/styles";
 
-export type FormProps = {|
-  location: LocationContextType,
-  onValueUpdate: (convertedCoordinates: {|
-    error?: Error,
-    coords?: {| lat?: number | null, lon?: number | null |},
-  |}) => void,
-|};
+export type CoordinateField = "lat" | "lon";
+
+export type ConvertedCoordinateData = {
+  error?: Error;
+  coords?: { lat?: number | null; lon?: number | null };
+};
+
+export type FormProps = {
+  location: LocationContextType;
+  onValueUpdate: (convertedCoordinates: ConvertedCoordinateData) => void;
+};
 
 // https://stackoverflow.com/a/39399503
 export const POSITIVE_DECIMAL_REGEX = /^(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/;
@@ -22,7 +23,7 @@ export function parseNumber(str: string): number | void {
 }
 
 export function getInitialCardinality(
-  field: "lat" | "lon",
+  field: CoordinateField,
   location: LocationContextType
 ) {
   if (field === "lat") {
