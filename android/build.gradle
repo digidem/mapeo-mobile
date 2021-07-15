@@ -14,7 +14,7 @@ buildscript {
     }
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url("$rootDir/../node_modules/react-native/android") }
         maven { url("https://www.jitpack.io") }
         maven { url("https://maven.google.com") }
@@ -48,7 +48,7 @@ allprojects {
             url("$rootDir/../node_modules/expo-camera/android/maven")
         }
         google()
-        jcenter()
+        mavenCentral()
         maven { url 'https://www.jitpack.io' }
         maven {
             // All of Detox' artifacts are provided via the npm module
