@@ -7,11 +7,8 @@
  * in `./PeerList`.
  */
 import React from "react";
-import NetInfo from "@react-native-community/netinfo";
 import { Alert } from "react-native";
-import { NetworkInfo } from "react-native-network-info";
 import OpenSettings from "react-native-android-open-settings";
-import KeepAwake from "react-native-keep-awake";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { getUniqueId } from "react-native-device-info";
 
