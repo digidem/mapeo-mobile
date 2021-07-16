@@ -19,7 +19,16 @@ const modulesToTransform = [
 module.exports = {
   preset: "react-native",
   setupFilesAfterEnv: ["@testing-library/jest-native/extend-expect"],
-  testPathIgnorePatterns: ["/node_modules/", "/e2e/", "/src/backend/"],
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "/e2e/",
+    "/src/backend/",
+    "/nodejs-assets/",
+    // Because we compile the backend and include in the app, package.json and
+    // others will be in the android and ios folders and cause Jest to complain
+    "/android/",
+    "/ios/",
+  ],
   transformIgnorePatterns: [
     `/node_modules/(?!(${modulesToTransform.join("|")})/)`,
   ],
