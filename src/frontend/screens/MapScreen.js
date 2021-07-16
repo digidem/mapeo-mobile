@@ -38,7 +38,7 @@ const MapScreen = ({ navigation }: Props) => {
     (e: any) => {
       log("pressed add button");
       newDraft(undefined, { tags: {} });
-      navigation.navigate("JoinProjectScreen");
+      navigation.navigate("CategoryChooser");
     },
     [navigation, newDraft]
   );
