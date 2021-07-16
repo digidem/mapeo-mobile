@@ -1,8 +1,15 @@
 import * as React from "react";
 import { Platform, StyleSheet } from "react-native";
+
+import { TextStyleProp } from "../sharedTypes";
 import Text from "./Text";
 
-const HeaderTitle = ({ children, style }) => (
+interface Props {
+  children: React.ReactNode;
+  style?: TextStyleProp;
+}
+
+const HeaderTitle = ({ children, style }: Props) => (
   <Text style={[styles.title, style]}>{children}</Text>
 );
 

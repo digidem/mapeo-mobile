@@ -78,7 +78,7 @@ const positionOptions = {
 // so we need to check it.
 const LOCATION_TIMEOUT = 10000;
 
-const LocationContext = React.createContext<LocationContextType>(
+const LocationContext: React.Context<LocationContextType> = React.createContext<LocationContextType>(
   defaultContext
 );
 

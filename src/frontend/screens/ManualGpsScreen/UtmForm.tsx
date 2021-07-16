@@ -1,17 +1,11 @@
-// @flow
-import React, { useState, useContext } from "react";
+import * as React from "react";
 import { toLatLon as origToLatLon, fromLatLon } from "utm";
-import { View, TextInput, StyleSheet, ToastAndroid } from "react-native";
-import Text from "../sharedComponents/Text";
+import { View, TextInput, StyleSheet } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
 
-import { BLACK, LIGHT_GREY } from "../lib/styles";
-import HeaderTitle from "../sharedComponents/HeaderTitle";
-import useDraftObservation from "../hooks/useDraftObservation";
-import LocationContext from "../context/LocationContext";
-import type { NavigationProp } from "../types";
-import IconButton from "../sharedComponents/IconButton";
-import { BackIcon, SaveIcon } from "../sharedComponents/icons";
+import Text from "../../sharedComponents/Text";
+import { BLACK, LIGHT_GREY } from "../../lib/styles";
+import { FormProps, parseNumber } from "./shared";
 
 const m = defineMessages({
   zoneNumber: {
@@ -38,98 +32,86 @@ const m = defineMessages({
     id: "screens.ManualGpsScreen.northingSuffix",
     defaultMessage: "mN",
   },
-  title: {
-    id: "screens.ManualGpsScreen.title",
-    defaultMessage: "Enter coordinates",
-    description: "title of manual GPS screen",
-  },
 });
 
-type Props = {
-  navigation: NavigationProp,
-};
-
-type State = {
-  zoneNum: string,
-  zoneLetter: string,
-  easting: string,
-  northing: string,
-};
-
-const HeaderLeft = ({ onPress }) => (
-  <IconButton onPress={onPress}>
-    <BackIcon />
-  </IconButton>
-);
-
-const ManualGpsScreen = ({ navigation }: Props) => {
-  const location = useContext(LocationContext);
-  // TODO: Read current coordinates from draft
-  const [{ value }, { updateDraft }] = useDraftObservation();
-
-  const [zoneNum, setZoneNum] = useState<string>(() => {
-    console.log("Setting initial state");
-    if (!location.savedPosition) return "";
-    try {
-      const { latitude, longitude } = location.savedPosition.coords;
-      const { zoneNum } = fromLatLon(latitude, longitude);
-      return zoneNum + "";
-    } catch (e) {
+const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
+  const [zoneNum, setZoneNum] = React.useState(() => {
+    if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
+      try {
+        const { zoneNum } = fromLatLon(coords.lat, coords.lon);
+        return zoneNum + "";
+      } catch (e) {
+        return "";
+      }
+    } else {
       return "";
     }
   });
-  const [zoneLetter, setZoneLetter] = useState<string>(() => {
-    console.log("Setting initial state");
-    if (!location.savedPosition) return "";
-    try {
-      const { latitude, longitude } = location.savedPosition.coords;
-      const { zoneLetter } = fromLatLon(latitude, longitude);
-      return zoneLetter;
-    } catch (e) {
+
+  const [zoneLetter, setZoneLetter] = React.useState<string>(() => {
+    if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
+      try {
+        const { zoneLetter } = fromLatLon(coords.lat, coords.lon);
+        return zoneLetter;
+      } catch (e) {
+        return "";
+      }
+    } else {
       return "";
     }
   });
-  const [easting, setEasting] = useState<string>("");
-  const [northing, setNorthing] = useState<string>("");
+
+  const [easting, setEasting] = React.useState(() => {
+    if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
+      try {
+        const { easting } = fromLatLon(coords.lat, coords.lon);
+        // TODO: Is it okay to round this to 3 decimal places?
+        return easting.toFixed(3);
+      } catch (e) {
+        return "";
+      }
+    } else {
+      return "";
+    }
+  });
+  const [northing, setNorthing] = React.useState(() => {
+    if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
+      try {
+        const { northing } = fromLatLon(coords.lat, coords.lon);
+        // TODO: Is it okay to round this to 3 decimal places?
+        return northing.toFixed(3);
+      } catch (e) {
+        return "";
+      }
+    } else {
+      return "";
+    }
+  });
 
   React.useEffect(() => {
-    function handleSavePress() {
-      try {
-        const locationData = toLatLon({
-          zoneNum,
-          zoneLetter,
-          easting,
-          northing,
-        });
-        updateDraft({
-          lat: locationData.latitude,
-          lon: locationData.longitude,
-          metadata: {
-            ...(value || {}).metadata,
-            manualLocation: true,
-          },
-          tags: (value || {}).tags,
-        });
-        navigation.pop();
-      } catch (err) {
-        ToastAndroid.showWithGravity(
-          err.message,
-          ToastAndroid.LONG,
-          ToastAndroid.TOP
-        );
-      }
-    }
+    try {
+      const { latitude, longitude } = toLatLon({
+        zoneNum,
+        zoneLetter,
+        easting,
+        northing,
+      });
 
-    navigation.setParams({ handleSavePress });
-    // The navigation prop changes on every render, so it causes in infinite
-    // loop here if included. Not including it might cause unexpected bugs, but
-    // the setParams() and pop() methods should be always the same. TODO: Fix
-    // this and make sure we're not going to cause a bug with this.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [easting, northing, value, updateDraft, zoneLetter, zoneNum]);
+      onValueUpdate({
+        coords: {
+          lat: latitude,
+          lon: longitude,
+        },
+      });
+    } catch (err) {
+      onValueUpdate({
+        error: err,
+      });
+    }
+  }, [easting, northing, zoneLetter, zoneNum, onValueUpdate]);
 
   return (
-    <View style={styles.container}>
+    <View>
       <View style={styles.row}>
         <View style={styles.column}>
           <Text style={styles.inputLabel}>
@@ -171,7 +153,6 @@ const ManualGpsScreen = ({ navigation }: Props) => {
           </Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <TextInput
-              autoFocus
               placeholder="XXXXXX"
               placeholderTextColor="silver"
               underlineColorAndroid="transparent"
@@ -209,27 +190,21 @@ const ManualGpsScreen = ({ navigation }: Props) => {
   );
 };
 
-ManualGpsScreen.navigationOptions = ({ navigation }: any) => {
-  return {
-    headerTitle: () => (
-      <HeaderTitle>
-        <FormattedMessage {...m.title} />
-      </HeaderTitle>
-    ),
-    headerLeft: HeaderLeft,
-    headerRight: () => (
-      <IconButton onPress={navigation.getParam("handleSavePress")}>
-        <SaveIcon inprogress={false} />
-      </IconButton>
-    ),
-  };
-};
+export default UtmForm;
 
-export default ManualGpsScreen;
-
-function toLatLon({ zoneNum, zoneLetter, easting, northing }: State) {
+function toLatLon({
+  easting,
+  northing,
+  zoneLetter,
+  zoneNum,
+}: {
+  easting: string;
+  northing: string;
+  zoneLetter: string;
+  zoneNum: string;
+}) {
   const parsedNorthing = parseNumber(northing);
-  let northern;
+  let northern: boolean | undefined;
   // There are two conventions for UTM. One uses a letter to refer to latitude
   // bands from C to X, excluding "I" and "O". The other uses "N" or "S" to
   // refer to the northern or southern hemisphere. If the user enters "N" or
@@ -271,27 +246,31 @@ function toLatLon({ zoneNum, zoneLetter, easting, northing }: State) {
       northern = true;
     }
   }
-  return origToLatLon(
-    parseNumber(easting),
-    parseNumber(northing),
-    parseNumber(zoneNum),
-    // If northern defined, then don't use the zoneLetter.
-    northern !== undefined ? undefined : zoneLetter,
-    northern
-  );
-}
 
-function parseNumber(str: string): number | void {
-  const num = Number.parseFloat(str);
-  if (Number.isNaN(num)) throw new Error("Coordenada no válido");
-  return Number.isNaN(num) ? undefined : num;
+  const numericEasting = parseNumber(easting) as number;
+  const numericNorthing = parseNumber(northing) as number;
+  const numericZoneNum = parseNumber(zoneNum) as number;
+
+  // If northern defined, then don't use the zoneLetter.
+  if (northern !== undefined) {
+    return origToLatLon(
+      numericEasting,
+      numericNorthing,
+      numericZoneNum,
+      undefined,
+      northern
+    );
+  } else {
+    return origToLatLon(
+      numericEasting,
+      numericNorthing,
+      numericZoneNum,
+      zoneLetter
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingVertical: 20,
-    paddingHorizontal: 10,
-  },
   inputLabel: {
     fontWeight: "bold",
     color: BLACK,
