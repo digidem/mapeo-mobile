@@ -129,6 +129,7 @@
     "@types/react-native": "^0.63.52",
     "@types/react-navigation": "^3.4.0",
     "@types/react-test-renderer": "^17.0.1",
+    "@types/debug": "^4.1.6",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.3.0",
     "babel-loader": "^8.1.0",
