@@ -1,10 +1,8 @@
 import React from "react";
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
-import { NavigationContainer } from "@react-navigation/native";
-import { fireEvent, render } from "@testing-library/react-native";
-import AppStack from "../../AppStack";
+
+import { fireEvent, render as other } from "@testing-library/react-native";
 import Settings, { ProjectConfig } from "../Settings";
-import renderer from "react-test-renderer";
+import { render } from "../../lib/test-utils";
 import { IntlProvider } from "react-intl";
 
 jest.mock("../../api");
@@ -16,9 +14,9 @@ jest.mock("react-navigation-hooks", () => ({
   ),
 }));
 
-const createComponentWithIntl = (children, props = { locale: "en" }) => {
-  return render(<IntlProvider {...props}>{children}</IntlProvider>);
-};
+// const createComponentWithIntl = (children, props = { locale: "en" }) => {
+//   return render(<IntlProvider {...props}>{children}</IntlProvider>);
+// };
 
 // const MockedNavigator = ( children, params ) => {
 // const Navigator = createAppContainer(
@@ -32,7 +30,7 @@ const createComponentWithIntl = (children, props = { locale: "en" }) => {
 // };
 
 test("Settings Page will navigate", () => {
-  const settingWithIntl = createComponentWithIntl(<Settings />);
+  const settingWithIntl = render(<Settings />);
   const label = settingWithIntl.getByTestId("settingsProjectConfigButton");
   expect(label).toBeTruthy();
 });
