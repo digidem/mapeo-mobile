@@ -33,7 +33,7 @@ jest.mock("react-navigation-hooks", () => ({
 // };
 
 test("Settings Page will navigate", () => {
-  const { getByTestId } = render(<Settings />);
-  fireEvent(getByTestId("settingsProjectConfigButton"), "press");
+  const { getByText } = render(<Settings />);
+  fireEvent(getByText("Project Configuration"), "press");
   expect(mockNavigate).toHaveBeenCalledWith("ProjectConfig");
 });

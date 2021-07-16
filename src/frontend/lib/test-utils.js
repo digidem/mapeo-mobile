@@ -2,6 +2,7 @@
 /* eslint-env jest/globals */
 
 import React from "react";
+import { Text } from "react-native";
 import { render } from "@testing-library/react-native";
 import { IntlProvider } from "react-intl";
 import { PermissionsProvider } from "../context/PermissionsContext";
@@ -49,7 +50,20 @@ const customRender = (
   } = {}
 ) =>
   render(
-    <IntlProvider messages={messages} locale="en" defaultLocale="en">
+    <IntlProvider
+      messages={messages}
+      textComponent={
+        // This is not ideal. By default IntlProvider uses <Fragment> and this
+        // is what we use in the real app, but react-native-testing-library is
+        // unable to read Text in a fragment. It may be fixed by
+        // https://github.com/callstack/react-native-testing-library/pull/554. I
+        // think the only consequence is the visual styling of text might be
+        // slightly differnent in the tests.
+        Text
+      }
+      locale="en"
+      defaultLocale="en"
+    >
       <PermissionsProvider>
         <ObservationsContext.Provider value={observationsContext}>
           <ConfigContext.Provider value={configContext}>
