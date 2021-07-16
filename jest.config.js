@@ -12,6 +12,8 @@ const modulesToTransform = [
   "react-navigation-stack",
   "react-native-vector-icons",
   "@react-native-mapbox-gl",
+  "expo-document-picker",
+  "@unimodules",
 ];
 
 module.exports = {
