@@ -1,17 +1,20 @@
+/* eslint-env jest/globals */
 import React from "react";
 
 import { fireEvent, render as other } from "@testing-library/react-native";
-import Settings, { ProjectConfig } from "../Settings";
+import Settings from "../Settings";
 import { render } from "../../lib/test-utils";
-import { IntlProvider } from "react-intl";
 
 jest.mock("../../api");
 
+const mockNavigate = jest.fn();
+
+beforeEach(() => {
+  mockNavigate.mockReset();
+});
+
 jest.mock("react-navigation-hooks", () => ({
-  useNavigation: () => jest.fn(),
-  useNavigationParam: jest.fn(
-    jest.requireActual("react-navigation-hooks").useNavigationParam
-  ),
+  useNavigation: () => ({ navigate: mockNavigate }),
 }));
 
 // const createComponentWithIntl = (children, props = { locale: "en" }) => {
@@ -30,7 +33,7 @@ jest.mock("react-navigation-hooks", () => ({
 // };
 
 test("Settings Page will navigate", () => {
-  const settingWithIntl = render(<Settings />);
-  const label = settingWithIntl.getByTestId("settingsProjectConfigButton");
-  expect(label).toBeTruthy();
+  const { getByTestId } = render(<Settings />);
+  fireEvent(getByTestId("settingsProjectConfigButton"), "press");
+  expect(mockNavigate).toHaveBeenCalledWith("ProjectConfig");
 });
