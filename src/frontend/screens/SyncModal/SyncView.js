@@ -7,16 +7,13 @@ import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import Button from "../../sharedComponents/Button";
 import { WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
+import WifiBar from "../../sharedComponents/WifiBar";
+
 import DotIndicator from "./DotIndicator";
 import PeerList from "./PeerList";
 import type { Peer } from "./PeerList";
 
 const m = defineMessages({
-  wifi: {
-    id: "screens.SyncModal.SyncView.wifi",
-    defaultMessage: "WiFi:",
-    description: "Label for wifi network name",
-  },
   noWifiTitle: {
     id: "screens.SyncModal.SyncView.noWifiTitle",
     defaultMessage: "No WiFi",
@@ -50,21 +47,6 @@ const m = defineMessages({
     defaultMessage: "Project Key: {projectKey}",
   },
 });
-
-const WifiBar = ({ onPress, ssid, deviceName }) => (
-  <TouchableNativeFeedback onPress={onPress}>
-    <View style={styles.wifiBar}>
-      <WifiIcon />
-      <Text style={styles.wifiBarText} numberOfLines={1}>
-        <Text style={styles.bold}>
-          <FormattedMessage {...m.wifi} />
-        </Text>{" "}
-        {ssid}
-      </Text>
-      <Text style={styles.deviceName}>{deviceName}</Text>
-    </View>
-  </TouchableNativeFeedback>
-);
 
 const NoWifiBox = ({ onPress }) => {
   const { formatMessage: t } = useIntl();
@@ -212,27 +194,6 @@ const styles = StyleSheet.create({
   searchingTextContainer: {
     maxWidth: "75%",
     marginLeft: 30,
-  },
-  wifiBar: {
-    backgroundColor: "#19337F",
-    height: 50,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    paddingHorizontal: 15,
-  },
-  wifiBarText: {
-    color: "white",
-    paddingLeft: 10,
-  },
-  deviceName: {
-    fontWeight: "bold",
-    textAlign: "right",
-    color: "white",
-    flex: 1,
-  },
-  bold: {
-    fontWeight: "700",
   },
   settingsButton: {
     flex: 1,
