@@ -50,7 +50,7 @@ const m = defineMessages({
   },
 });
 
-const DmsForm = ({ location, onValueUpdate }: FormProps) => {
+const DmsForm = ({ coords, onValueUpdate }: FormProps) => {
   const { formatMessage: t } = useIntl();
 
   const DIRECTION_OPTIONS_NORTH_SOUTH = [
@@ -76,17 +76,17 @@ const DmsForm = ({ location, onValueUpdate }: FormProps) => {
   ];
 
   const [latitude, setLatitude] = React.useState<DmsData>(() => {
-    if (!location.savedPosition)
+    if (typeof coords?.lat !== "number") {
       return {
         degrees: "",
         minutes: "",
         seconds: "",
       };
+    }
 
-    const { latitude } = location.savedPosition.coords;
     const {
       raw: { degrees, minutes, seconds },
-    } = toDegreesMinutesAndSeconds(latitude);
+    } = toDegreesMinutesAndSeconds(coords.lat);
 
     return {
       degrees: degrees.toString(),
@@ -95,17 +95,17 @@ const DmsForm = ({ location, onValueUpdate }: FormProps) => {
     };
   });
   const [longitude, setLongitude] = React.useState<DmsData>(() => {
-    if (!location.savedPosition)
+    if (typeof coords?.lon !== "number") {
       return {
         degrees: "",
         minutes: "",
         seconds: "",
       };
+    }
 
-    const { longitude } = location.savedPosition.coords;
     const {
       raw: { degrees, minutes, seconds },
-    } = toDegreesMinutesAndSeconds(longitude);
+    } = toDegreesMinutesAndSeconds(coords.lon);
 
     return {
       degrees: degrees.toString(),
@@ -115,10 +115,10 @@ const DmsForm = ({ location, onValueUpdate }: FormProps) => {
   });
 
   const [latCardinality, setLatCardinality] = React.useState(
-    getInitialCardinality("lat", location)
+    getInitialCardinality("lat", coords)
   );
   const [lonCardinality, setLonCardinality] = React.useState(
-    getInitialCardinality("lon", location)
+    getInitialCardinality("lon", coords)
   );
 
   const updateCoordinate = (field: CoordinateField) => (
