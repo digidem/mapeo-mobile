@@ -76,7 +76,7 @@ const DdForm = ({ location, onValueUpdate }: FormProps) => {
     },
   ];
 
-  const [latidudeDegrees, setLatitudeDegrees] = React.useState<string>(() => {
+  const [latitudeDegrees, setLatitudeDegrees] = React.useState<string>(() => {
     if (!location.savedPosition) return "";
 
     const { latitude } = location.savedPosition.coords;
@@ -96,7 +96,7 @@ const DdForm = ({ location, onValueUpdate }: FormProps) => {
     getInitialCardinality("lon", location)
   );
 
-  const parsedLat = parseNumber(latidudeDegrees);
+  const parsedLat = parseNumber(latitudeDegrees);
   const parsedLon = parseNumber(longitudeDegrees);
 
   const signedLat =
@@ -174,7 +174,7 @@ const DdForm = ({ location, onValueUpdate }: FormProps) => {
             keyboardType="decimal-pad"
             onEndEditing={formatInputValue(setLatitudeDegrees)}
             onChangeText={validateOnChange(setLatitudeDegrees)}
-            value={latidudeDegrees}
+            value={latitudeDegrees}
             style={styles.input}
             maxLength={MAX_COORDINATE_INPUT_LENGTH}
           />
