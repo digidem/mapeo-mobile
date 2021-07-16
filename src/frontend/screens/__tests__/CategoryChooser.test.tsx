@@ -1,7 +1,7 @@
 /* eslint-env jest/globals */
 
 import React from "react";
-import { render } from "@testing-library/react-native";
+import { render } from "../../lib/test-utils";
 import CategoryChooser from "../CategoryChooser";
 
 // CategoryChooser uses useDraftObservation which uses the api module
