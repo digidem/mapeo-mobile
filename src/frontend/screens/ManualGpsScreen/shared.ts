@@ -1,14 +1,14 @@
-import type { LocationContextType } from "../../context/LocationContext";
-
 export type CoordinateField = "lat" | "lon";
 
+type Coordinates = { lat?: number | null; lon?: number | null };
+
 export type ConvertedCoordinateData = {
+  coords?: Coordinates;
   error?: Error;
-  coords?: { lat?: number | null; lon?: number | null };
 };
 
 export type FormProps = {
-  location: LocationContextType;
+  coords?: Coordinates;
   onValueUpdate: (convertedCoordinates: ConvertedCoordinateData) => void;
 };
 
@@ -24,17 +24,13 @@ export function parseNumber(str: string): number | void {
 
 export function getInitialCardinality(
   field: CoordinateField,
-  location: LocationContextType
+  coords?: Coordinates
 ) {
   if (field === "lat") {
-    if (!location.savedPosition) return "N";
-
-    const { latitude } = location.savedPosition.coords;
-    return latitude >= 0 ? "N" : "S";
+    if (typeof coords?.lat !== "number") return "N";
+    return coords.lat >= 0 ? "N" : "S";
   } else {
-    if (!location.savedPosition) return "E";
-
-    const { longitude } = location.savedPosition.coords;
-    return longitude >= 0 ? "E" : "W";
+    if (typeof coords?.lon !== "number") return "E";
+    return coords.lon >= 0 ? "E" : "W";
   }
 }

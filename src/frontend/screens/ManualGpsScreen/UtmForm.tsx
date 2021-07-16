@@ -34,33 +34,59 @@ const m = defineMessages({
   },
 });
 
-const UtmForm = ({ location, onValueUpdate }: FormProps) => {
-  const [zoneNum, setZoneNum] = React.useState<string>(() => {
-    if (!location.savedPosition) return "";
-    try {
-      const { latitude, longitude } = location.savedPosition.coords;
-      const { zoneNum } = fromLatLon(latitude, longitude);
-      return zoneNum + "";
-    } catch (e) {
+const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
+  const [zoneNum, setZoneNum] = React.useState(() => {
+    if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
+      try {
+        const { zoneNum } = fromLatLon(coords.lat, coords.lon);
+        return zoneNum + "";
+      } catch (e) {
+        return "";
+      }
+    } else {
       return "";
     }
   });
 
   const [zoneLetter, setZoneLetter] = React.useState<string>(() => {
-    if (!location.savedPosition) return "";
-    try {
-      const { latitude, longitude } = location.savedPosition.coords;
-      const { zoneLetter } = fromLatLon(latitude, longitude);
-
-      return zoneLetter;
-    } catch (e) {
+    if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
+      try {
+        const { zoneLetter } = fromLatLon(coords.lat, coords.lon);
+        return zoneLetter;
+      } catch (e) {
+        return "";
+      }
+    } else {
       return "";
     }
   });
 
-  // TODO: Get initial values from saved position
-  const [easting, setEasting] = React.useState<string>("");
-  const [northing, setNorthing] = React.useState<string>("");
+  const [easting, setEasting] = React.useState(() => {
+    if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
+      try {
+        const { easting } = fromLatLon(coords.lat, coords.lon);
+        // TODO: Is it okay to round this to 3 decimal places?
+        return easting.toFixed(3);
+      } catch (e) {
+        return "";
+      }
+    } else {
+      return "";
+    }
+  });
+  const [northing, setNorthing] = React.useState(() => {
+    if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
+      try {
+        const { northing } = fromLatLon(coords.lat, coords.lon);
+        // TODO: Is it okay to round this to 3 decimal places?
+        return northing.toFixed(3);
+      } catch (e) {
+        return "";
+      }
+    } else {
+      return "";
+    }
+  });
 
   React.useEffect(() => {
     try {

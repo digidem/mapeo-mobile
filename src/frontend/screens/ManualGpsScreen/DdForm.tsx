@@ -51,7 +51,7 @@ const m = defineMessages({
   },
 });
 
-const DdForm = ({ location, onValueUpdate }: FormProps) => {
+const DdForm = ({ coords, onValueUpdate }: FormProps) => {
   const { formatMessage: t } = useIntl();
 
   const DIRECTION_OPTIONS_NORTH_SOUTH = [
@@ -76,24 +76,18 @@ const DdForm = ({ location, onValueUpdate }: FormProps) => {
     },
   ];
 
-  const [latitudeDegrees, setLatitudeDegrees] = React.useState<string>(() => {
-    if (!location.savedPosition) return "";
-
-    const { latitude } = location.savedPosition.coords;
-    return Math.abs(latitude).toString();
-  });
-  const [longitudeDegrees, setLongitudeDegrees] = React.useState<string>(() => {
-    if (!location.savedPosition) return "";
-
-    const { longitude } = location.savedPosition.coords;
-    return Math.abs(longitude).toString();
-  });
+  const [latitudeDegrees, setLatitudeDegrees] = React.useState<string>(() =>
+    typeof coords?.lat === "number" ? Math.abs(coords.lat).toString() : ""
+  );
+  const [longitudeDegrees, setLongitudeDegrees] = React.useState<string>(
+    typeof coords?.lon === "number" ? Math.abs(coords.lon).toString() : ""
+  );
 
   const [selectedLatCardinality, setSelectedLatCardinality] = React.useState(
-    getInitialCardinality("lat", location)
+    getInitialCardinality("lat", coords)
   );
   const [selectedLonCardinality, setSelectedLonCardinality] = React.useState(
-    getInitialCardinality("lon", location)
+    getInitialCardinality("lon", coords)
   );
 
   const parsedLat = parseNumber(latitudeDegrees);
@@ -123,7 +117,7 @@ const DdForm = ({ location, onValueUpdate }: FormProps) => {
           },
         });
       } else {
-        throw new Error(m.invalidCoordinates.defaultMessage);
+        throw new Error(t(m.invalidCoordinates));
       }
     } catch (err) {
       onValueUpdate({
