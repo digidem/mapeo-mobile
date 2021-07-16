@@ -4,7 +4,7 @@ import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
 import { Api, Constants } from "./api";
 
-require("debug").enable("*");
+// require("debug").enable("*");
 
 jest.mock("ky");
 jest.mock("nodejs-mobile-react-native");
