@@ -38,7 +38,7 @@ describe("Server startup", () => {
   });
 
   test("Start server timeout", async () => {
-    jest.useFakeTimers();
+    jest.useFakeTimers("legacy");
     expect.assertions(4);
     nodejs.start = jest.fn();
     nodejs.channel.once = jest.fn();
@@ -59,7 +59,7 @@ describe("Server status", () => {
   let stateListener;
 
   beforeEach(() => {
-    jest.useFakeTimers();
+    jest.useFakeTimers("legacy");
     return startServer().then(spys => {
       subscription = spys.subscription;
       serverStatus = spys.serverStatus;
@@ -155,7 +155,7 @@ describe("Server get requests", () => {
       });
       test(method + " rejects if server timeout", async () => {
         const { api, serverStatus } = await startServer();
-        jest.useFakeTimers();
+        jest.useFakeTimers("legacy");
         serverStatus({ value: Constants.STARTING });
         const getPromise = api[method]();
         jest.runAllTimers();
