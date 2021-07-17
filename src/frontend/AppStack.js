@@ -24,7 +24,7 @@ import LanguageSettings from "./screens/Settings/LanguageSettings";
 import CoordinateFormat from "./screens/Settings/CoordinateFormat";
 import Experiments from "./screens/Settings/Experiments";
 import HomeHeader from "./sharedComponents/HomeHeader";
-import { JoinProjectScreen } from "./screens/JoinProject";
+import { JoinProjectScreen } from "./screens/JoinProjectSplash";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -91,7 +91,7 @@ const AppStack = createStackNavigator(
     JoinProjectScreen: JoinProjectScreen,
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "JoinProjectScreen",
     // TODO iOS: Dynamically set transition mode to modal for modals
     mode: "card",
     headerMode: "screen",

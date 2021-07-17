@@ -7,7 +7,7 @@ import { IntroPager, IntroInfo } from "@digidem/wcmc-mapeo-mobile-intro";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import CustomHeaderLeft from "../../sharedComponents/CustomHeaderLeft";
-import { JoinProjectScreen } from "../JoinProject";
+import { JoinProjectScreen } from "../JoinProjectSplash";
 
 type InfoNavigationState = {|
   params: {|
