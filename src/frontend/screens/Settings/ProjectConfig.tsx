@@ -1,6 +1,11 @@
-// @flow
 import React from "react";
-import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  Alert,
+  Text as RNText,
+} from "react-native";
 import Text from "../../sharedComponents/Text";
 // import { Picker as OriginalPicker } from "@react-native-community/picker";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
@@ -10,6 +15,7 @@ import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import Button from "../../sharedComponents/Button";
 import ConfigContext from "../../context/ConfigContext";
 import type { Status } from "../../types";
+import { useNavigation } from "react-navigation-hooks";
 
 const m = defineMessages({
   configTitle: {
@@ -55,6 +61,11 @@ const m = defineMessages({
     defaultMessage: "Import Config",
     description: "Button to import Mapeo config file",
   },
+  leaveProject: {
+    id: "screens.Settings.leaveProject",
+    defaultMessage: "Leave Project",
+    description: "Button to start sequence of leaving and unsyncing a project",
+  },
 });
 
 // const Picker = ({ label, children, ...props }) => (
@@ -75,6 +86,7 @@ const ProjectConfig = () => {
   const [status, setStatus] = React.useState<Status>("idle");
   const [config, { replace: replaceConfig }] = React.useContext(ConfigContext);
   const didError = config.status === "error";
+  const nav = useNavigation();
 
   React.useEffect(() => {
     if (!didError) return;
@@ -126,6 +138,16 @@ const ProjectConfig = () => {
         onPress={handleImportPress}
       >
         {t(m.importConfig) /* Button component expects string children */}
+      </Button>
+      <Button
+        style={{ marginTop: 15 }}
+        onPress={() => {
+          nav.navigate("LeaveProjectScreen");
+        }}
+      >
+        <RNText style={{ fontSize: 18, color: "#ffffff", fontWeight: "bold" }}>
+          <FormattedMessage {...m.leaveProject} />
+        </RNText>
       </Button>
     </View>
   );
