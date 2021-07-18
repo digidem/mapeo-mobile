@@ -7,11 +7,22 @@ import ConfigContext from "../../context/ConfigContext";
 import { useMemo } from "react";
 import Button from "../../sharedComponents/Button";
 import { useNavigation } from "react-navigation-hooks";
+import {
+  NavigationStackOptions,
+  NavigationStackScreenComponent,
+} from "react-navigation-stack";
+import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import ObservationHeaderRight from "../Observation/ObservationHeaderRight";
+import AppStack from "../../AppStack";
 
 const m = defineMessage({
   leaveProjectTitle: {
     id: "screens.LeaveProject.LeaveProject.leaveProjectTitle",
     defaultMessage: "Leave Project{projectName}?",
+  },
+  headerTitle: {
+    id: "screens.LeaveProject.LeaveProject.headerTitle",
+    defaultMessage: "Leave Project",
   },
   willDelete: {
     id: "screens.LeaveProject.LeaveProject.willDelete",
@@ -20,8 +31,7 @@ const m = defineMessage({
   },
   agreeToDelete: {
     id: "screens.LeaveProject.LeaveProject.agreeToDelete",
-    defaultMessage:
-      "I understand I will be deleting all data from {projectName} from my device",
+    defaultMessage: "I understand I will be deleting all data from my device.",
   },
   leaveButton: {
     id: "screens.LeaveProject.LeaveProject.leaveButton",
@@ -42,7 +52,15 @@ const m = defineMessage({
   },
 });
 
-export const LeaveProjectScreen = () => {
+const navOptions: NavigationStackOptions = {
+  headerTitle: () => (
+    <HeaderTitle>
+      <FormattedMessage {...m.headerTitle} />
+    </HeaderTitle>
+  ),
+};
+
+export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
   const [confirmDelete, setConfirmDelete] = React.useState(false);
   const [pristine, setPristine] = useState(true);
   const [config] = useContext(ConfigContext);
@@ -99,10 +117,7 @@ export const LeaveProjectScreen = () => {
             onValueChange={() => setConfirmDelete(!confirmDelete)}
           />
           <Text>
-            <FormattedMessage
-              {...m.agreeToDelete}
-              values={{ projectName: name }}
-            />
+            <FormattedMessage {...m.agreeToDelete} />
           </Text>
         </View>
         {!pristine && !confirmDelete && (
@@ -123,7 +138,7 @@ export const LeaveProjectScreen = () => {
         </Button>
         <Button
           onPress={() => {
-            return;
+            nav.goBack();
           }}
           style={{ margin: 15 }}
           variant="outlined"
@@ -136,6 +151,8 @@ export const LeaveProjectScreen = () => {
     </View>
   );
 };
+
+LeaveProjectScreen.navigationOptions = { ...navOptions };
 
 const styles = StyleSheet.create({
   screenContainer: {

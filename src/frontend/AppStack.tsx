@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
@@ -92,6 +91,7 @@ const AppStack = createStackNavigator(
     ObservationDetails: ObservationDetails,
     LeaveProjectScreen: LeaveProjectScreen,
     LeaveProjectProgress: LeaveProjectProgress,
+    LeaveProjectCompleted: LeaveProjectCompleted,
   },
   {
     initialRouteName: "Home",
