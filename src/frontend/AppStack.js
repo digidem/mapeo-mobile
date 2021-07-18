@@ -23,6 +23,7 @@ import AboutMapeo from "./screens/Settings/AboutMapeo";
 import LanguageSettings from "./screens/Settings/LanguageSettings";
 import CoordinateFormat from "./screens/Settings/CoordinateFormat";
 import HomeHeader from "./sharedComponents/HomeHeader";
+import { AlreadyOnProj } from "./screens/AlreadyOnProject";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -84,9 +85,10 @@ const AppStack = createStackNavigator(
     ObservationEdit: ObservationEdit,
     ManualGpsScreen: ManualGpsScreen,
     ObservationDetails: ObservationDetails,
+    AlreadyOnProj: AlreadyOnProj,
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "AlreadyOnProj",
     // TODO iOS: Dynamically set transition mode to modal for modals
     mode: "card",
     headerMode: "screen",
