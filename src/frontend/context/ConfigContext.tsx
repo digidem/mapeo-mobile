@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import debug from "debug";
 import { IntlProvider, useIntl } from "react-intl";
