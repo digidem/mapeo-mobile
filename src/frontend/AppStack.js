@@ -24,6 +24,9 @@ import LanguageSettings from "./screens/Settings/LanguageSettings";
 import CoordinateFormat from "./screens/Settings/CoordinateFormat";
 import Experiments from "./screens/Settings/Experiments";
 import HomeHeader from "./sharedComponents/HomeHeader";
+import { LeaveProjectScreen } from "./screens/LeaveProject/LeaveProject";
+import { LeaveProjectProgress } from "./screens/LeaveProject/LeaveProjectProgess";
+import { LeaveProjectCompleted } from "./screens/LeaveProject/LeaveProjectCompleted";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -87,6 +90,8 @@ const AppStack = createStackNavigator(
     ObservationEdit: ObservationEdit,
     ManualGpsScreen: ManualGpsScreen,
     ObservationDetails: ObservationDetails,
+    LeaveProjectScreen: LeaveProjectScreen,
+    LeaveProjectProgress: LeaveProjectProgress,
   },
   {
     initialRouteName: "Home",
