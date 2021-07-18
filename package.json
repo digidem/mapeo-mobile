@@ -124,6 +124,7 @@
     "@testing-library/jest-native": "^3.4.3",
     "@testing-library/react-native": "^7.2.0",
     "@turf/random": "^6.0.2",
+    "@types/debug": "^4.1.6",
     "@types/jest": "^26.0.24",
     "@types/react-native": "^0.63.52",
     "@types/react-navigation": "^3.4.0",
