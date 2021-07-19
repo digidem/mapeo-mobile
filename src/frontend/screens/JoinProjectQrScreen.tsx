@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages } from "react-intl";
 import QRCode from "react-native-qrcode-svg";
@@ -35,10 +36,10 @@ const m = defineMessages({
 });
 
 const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
+  const navigation = useNavigation();
   const { ssid } = useWifiStatus();
 
-  const deviceName: string =
-    "Android " + getUniqueId().slice(0, 4).toUpperCase();
+  const deviceName = "Android " + getUniqueId().slice(0, 4).toUpperCase();
 
   return (
     <View style={styles.pageContainer}>
@@ -64,9 +65,7 @@ const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
         </View>
         <Button
           variant="text"
-          onPress={() =>
-            Alert.alert("Work in progress", "Feature not implemented yet")
-          }
+          onPress={() => navigation.navigate("SendJoinRequest")}
         >
           <Text style={styles.sendJoinRequest}>
             <FormattedMessage {...m.sendJoinRequest} />
