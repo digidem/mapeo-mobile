@@ -1,9 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import Button from "../../sharedComponents/Button";
+import Button from "../sharedComponents/Button";
 import { useNavigation } from "react-navigation-hooks";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { HeaderTitle } from "react-navigation-stack";
+import {
+  HeaderTitle,
+  NavigationStackOptions,
+  NavigationStackScreenComponent,
+} from "react-navigation-stack";
 
 const m = defineMessages({
   joinProject: {
@@ -16,13 +20,17 @@ const m = defineMessages({
   },
 });
 
-export const JoinProjectScreen = () => {
+const navOptions: NavigationStackOptions = {
+  headerShown: false,
+};
+
+export const CreateOrJoinScreen: NavigationStackScreenComponent = () => {
   const { navigate } = useNavigation();
 
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require("../../images/icon_mapeo_pin.png")} />
+        <Image source={require("../images/icon_mapeo_pin.png")} />
       </View>
 
       <Text style={styles.title}>Mapeo</Text>
@@ -51,13 +59,7 @@ export const JoinProjectScreen = () => {
 };
 
 //TODO research typesafe option
-JoinProjectScreen.navigationOptions = {
-  headerTintColor: "white",
-  headerStyle: {
-    backgroundColor: "#ffffff",
-  },
-  headerTitle: () => <HeaderTitle style={{ color: "white" }}>{""}</HeaderTitle>,
-};
+CreateOrJoinScreen.navigationOptions = navOptions;
 
 const styles = StyleSheet.create({
   title: {
@@ -80,7 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   buttonText: {
-    fontSize: 15,
+    fontSize: 18,
     color: "#FFFFFF",
     fontWeight: "bold",
   },
