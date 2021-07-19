@@ -15,7 +15,6 @@ import AppProvider from "./context/AppProvider";
 import bugsnag from "./lib/logger";
 import IS_E2E from "./lib/is-e2e";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
-import { JoinProjectScreen } from "./screens/JoinProjectSplash";
 
 // Turn off warnings about require cycles
 YellowBox.ignoreWarnings(["Require cycle:"]);
