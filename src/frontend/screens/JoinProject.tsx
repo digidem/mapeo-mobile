@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { FormattedMessage, defineMessages } from "react-intl";
 import QRCode from "react-native-qrcode-svg";
 import { getUniqueId } from "react-native-device-info";
@@ -12,6 +12,7 @@ import HeaderTitle from "../sharedComponents/HeaderTitle";
 import IconButton from "../sharedComponents/IconButton";
 import Text from "../sharedComponents/Text";
 import WifiBar from "../sharedComponents/WifiBar";
+import { useNavigation } from "react-navigation-hooks";
 
 const m = defineMessages({
   title: {
@@ -33,15 +34,14 @@ const m = defineMessages({
 });
 
 const JoinProject = () => {
+  const navigation = useNavigation();
   const { ssid } = useWifiStatus();
 
-  const deviceName: string =
-    "Android " + getUniqueId().slice(0, 4).toUpperCase();
+  const deviceName = "Android " + getUniqueId().slice(0, 4).toUpperCase();
 
   return (
     <View style={styles.pageContainer}>
-      {/* TODO: Probably want to do something smarter here if no ssid is detected */}
-      {ssid && <WifiBar deviceName={deviceName} ssid={ssid} />}
+      <WifiBar deviceName={deviceName} ssid={ssid} />
       <View style={styles.container}>
         <View>
           <View style={styles.qrCodeContainer}>
@@ -58,9 +58,7 @@ const JoinProject = () => {
         </View>
         <Button
           variant="text"
-          onPress={() =>
-            Alert.alert("Work in progress", "Feature not implemented yet")
-          }
+          onPress={() => navigation.navigate("SendJoinRequest")}
         >
           <Text style={styles.sendJoinRequest}>
             <FormattedMessage {...m.sendJoinRequest} />
