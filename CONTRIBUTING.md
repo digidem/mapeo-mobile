@@ -284,7 +284,7 @@ adb commands:
 
 ### Errors to look for in the terminal while using ADB logcat
 
-`NODEJS-MOBILE: terminating with uncaught exception of type std::bad_cast: std::bad_cast` this is related to your NDK version. Make sure that you only have one version of the NDK installed on your device. Refer to [Prerequisites](#preReq)
+`NODEJS-MOBILE: terminating with uncaught exception of type std::bad_cast: std::bad_cast` this is related to your NDK version. Make sure that you only have one version of the NDK installed on your device. Refer to [Prerequisites](#pre-requisites)
 
 ### <span id="abdRestart">`Blank Screen/Stuck on Splash Screen`</span>
 
