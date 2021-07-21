@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "jsx": "react-native",
+    "lib": ["es2017"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "target": "esnext",
+    "types": ["node", "jest", "detox"]
+  },
+  "exclude": ["node_modules", ".babelrc", "metro.config.js", "jest.config.js"],
+  "include": ["src/frontend/**/*", "e2e/**/*"]
+}
