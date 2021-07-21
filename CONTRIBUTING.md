@@ -296,7 +296,7 @@ This is most likely due to a severed connection between metro (the react-native 
 
 ### `App shows a warning at the bottom of the screen "unable to connect to dev server"`
 
-Follow the instructions for [Blank Screen/Stuck on Splash Screen](#abdRestart)
+Follow the instructions for [Blank Screen/Stuck on Splash Screen](#blank-screenstuck-on-splash-screen)
 
 ### `error: bundling failed: ReferenceError: Module not registered in graph`
 
