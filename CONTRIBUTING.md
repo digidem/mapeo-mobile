@@ -286,7 +286,7 @@ adb commands:
 
 `NODEJS-MOBILE: terminating with uncaught exception of type std::bad_cast: std::bad_cast` this is related to your NDK version. Make sure that you only have one version of the NDK installed on your device. Refer to [Prerequisites](#pre-requisites)
 
-### <span id="abdRestart">`Blank Screen/Stuck on Splash Screen`</span>
+### Blank Screen/Stuck on Splash Screen
 
 This is most likely due to a severed connection between metro (the react-native bundler) and the emulator. You can manually try to reset it in the terminal. Run the following commands:
 
