@@ -290,8 +290,8 @@ adb commands:
 
 This is most likely due to a severed connection between metro (the react-native bundler) and the emulator. You can manually try to reset it in the terminal. Run the following commands:
 
+- `adb kill-server`
 - `adb devices` copy the emulator name that you are using
-- `adb -s {emulator name} kill-server`
 - `adb -s {emulator name} reverse tcp:8081 tcp:8081`
 
 ### `App shows a warning at the bottom of the screen "unable to connect to dev server"`
