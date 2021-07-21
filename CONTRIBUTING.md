@@ -73,7 +73,7 @@ able to control the mobile app.
 
 ## Full App Development
 
-### <span id="preReq">Pre-requisites</span>
+### Pre-requisites
 
 In order to develop the full app you will need the Android SDK installed and
 specifically [21.4.7075529 of the NDK](https://developer.android.com/ndk/guides/) in order to build
