@@ -75,12 +75,12 @@ jobs:
         run: |
           echo "Starting emulator"
           mkdir -p artifacts
-          nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window -gpu swiftshader_indirect -camera-back emulated -no-boot-anim -verbose -debug all &> ./artifacts/emulator.log &
+          nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window -gpu swiftshader_indirect -camera-back emulated -no-boot-anim &
           $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
           $ANDROID_HOME/platform-tools/adb devices
           echo "Emulator started"
       - name: Android Detox
-        run: npm start & npm run test-detox-android -- --record-videos all --record-logs all
+        run: npm start & npm run test-detox-android -- -l verbose --headless --record-videos all --record-logs all
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         if: always()

@@ -1,7 +1,8 @@
 /* eslint-env detox/detox, jest/globals */
 
-const { byId, byText } = require("./matcher");
-const delay = require("delay");
+import { byId, byText } from "./matcher";
+import { expect } from "detox";
+import delay from "delay";
 
 // Make it easier to change where the settings screen is later
 const navigateToSettings = async () => {
@@ -61,6 +62,9 @@ describe("Mapeo", () => {
     test("Clicking back button after edit shows confirmation alert and discards edits", async () => {
       await byId("observationListButton").tap();
       await byId("observationListItem:0").tap();
+      // There is a delay before the edit button appears as the backend checks
+      // if the observation is created by the user so that editing is enabled
+      await waitFor(byId("editButton")).toBeVisible().withTimeout(2000);
       await byId("editButton").tap();
       await byId("observationDescriptionField").typeText("Test description");
       // This test fails intermittently without a delay here
@@ -73,8 +77,9 @@ describe("Mapeo", () => {
       // happens when cancelling a new observation
       await expect(byText("Discard changes?")).toBeVisible();
       await expect(byText("DISCARD CHANGES")).toBeVisible();
+      await byText("DISCARD CHANGES").tap();
       // Delete and re-install to remove added observation
-      await device.launchApp({ delete: true });
+      // await device.launchApp({ delete: true });
     });
   });
 

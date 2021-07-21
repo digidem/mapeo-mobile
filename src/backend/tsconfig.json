@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "lib": ["es2020"],
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
+    "typeRoots": ["types", "node_modules/@types"]
+  },
+  "include": ["**/*.js"],
+  "exclude": ["node_modules"]
+}
