@@ -1,9 +1,11 @@
 import * as React from "react";
-import { StyleSheet, TouchableNativeFeedback, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
 import DeviceInfo from "react-native-device-info";
 
-import { WifiIcon } from "./icons";
+import { TouchableNativeFeedback } from "./Touchables";
+
+import { WifiIcon, WifiOffIcon } from "./icons";
 import Text from "./Text";
 
 const m = defineMessages({
@@ -12,28 +14,34 @@ const m = defineMessages({
     defaultMessage: "WiFi:",
     description: "Label for wifi network name",
   },
+  noWifi: {
+    id: "sharedComponents.WifiBar.wifi",
+    defaultMessage: "No Internet",
+  },
 });
 
 interface Props {
   deviceName: string;
   onPress?: () => void;
-  ssid?: string;
+  ssid?: string | null;
 }
 
 const WifiBar = ({ deviceName, onPress, ssid }: Props) => (
   <TouchableNativeFeedback onPress={onPress}>
     <View style={styles.wifiBar}>
-      <WifiIcon />
+      {ssid ? <WifiIcon /> : <WifiOffIcon color="white" />}
       <Text style={styles.wifiBarText} numberOfLines={1}>
         <Text style={styles.bold}>
-          <FormattedMessage {...m.wifi} />
-        </Text>{" "}
-        {ssid}
+          <FormattedMessage {...(ssid ? m.wifi : m.noWifi)} />
+        </Text>
+        {ssid && ` ${ssid}`}
       </Text>
-      <View>
-        <Text style={styles.deviceName}>{deviceName}</Text>
-        <Text style={styles.version}>v{DeviceInfo.getVersion()}</Text>
-      </View>
+      {ssid && (
+        <View>
+          <Text style={styles.deviceName}>{deviceName}</Text>
+          <Text style={styles.version}>v{DeviceInfo.getVersion()}</Text>
+        </View>
+      )}
     </View>
   </TouchableNativeFeedback>
 );
