@@ -84,9 +84,9 @@ const DmsForm = ({ coords, onValueUpdate }: FormProps) => {
       };
     }
 
-    const {
-      raw: { degrees, minutes, seconds },
-    } = toDegreesMinutesAndSeconds(coords.lat);
+    const { degrees, minutes, seconds } = toDegreesMinutesAndSeconds(
+      coords.lat
+    );
 
     return {
       degrees: degrees.toString(),
@@ -103,9 +103,9 @@ const DmsForm = ({ coords, onValueUpdate }: FormProps) => {
       };
     }
 
-    const {
-      raw: { degrees, minutes, seconds },
-    } = toDegreesMinutesAndSeconds(coords.lon);
+    const { degrees, minutes, seconds } = toDegreesMinutesAndSeconds(
+      coords.lon
+    );
 
     return {
       degrees: degrees.toString(),

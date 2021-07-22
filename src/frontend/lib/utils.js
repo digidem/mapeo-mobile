@@ -130,12 +130,9 @@ export function toDegreesMinutesAndSeconds(coordinate: number) {
   const minutes = Math.floor(minutesNotTruncated);
   const seconds = (minutesNotTruncated - minutes) * 60;
   return {
-    raw: {
-      degrees,
-      minutes,
-      seconds: Number.parseFloat(seconds.toFixed(3)),
-    },
-    formatted: `${degrees}° ${minutes}' ${seconds.toFixed(3)}"`,
+    degrees,
+    minutes,
+    seconds,
   };
 }
 
@@ -148,18 +145,16 @@ export function convertDmsToDd({
   minutes: number,
   seconds: number,
 |}) {
-  return Number.parseFloat(
-    (degrees + minutes / 60 + seconds / 3600).toFixed(6)
-  );
+  return degrees + minutes / 60 + seconds / 3600;
 }
 
 // Style from National Geographic style guide
 // https://sites.google.com/a/ngs.org/ngs-style-manual/home/L/latitude-and-longitude
 function convertToDMS({ lat, lon }) {
-  const latitude = toDegreesMinutesAndSeconds(lat).formatted;
+  const latitude = formatDms(toDegreesMinutesAndSeconds(lat));
   const latitudeCardinal = lat >= 0 ? "N" : "S";
 
-  const longitude = toDegreesMinutesAndSeconds(lon).formatted;
+  const longitude = formatDms(toDegreesMinutesAndSeconds(lon));
   const longitudeCardinal = lon >= 0 ? "E" : "W";
   return `${latitude} ${latitudeCardinal}, ${longitude} ${longitudeCardinal}`;
 }
@@ -186,6 +181,10 @@ function formatDD({ lat, lon }) {
   const latCardinal = lat >= 0 ? "N" : "S";
   const lonCardinal = lon >= 0 ? "E" : "W";
   return `${formattedLat}° ${latCardinal}, ${formattedLon}° ${lonCardinal}`;
+}
+
+function formatDms({ degrees, minutes, seconds }) {
+  return `${degrees}° ${minutes}' ${seconds.toFixed(3)}"`;
 }
 
 export function formatCoords({

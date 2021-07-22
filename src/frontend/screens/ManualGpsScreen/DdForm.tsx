@@ -150,7 +150,7 @@ const DdForm = ({ coords, onValueUpdate }: FormProps) => {
     const parsed = Number.parseFloat(text);
     if (!isNaN(parsed)) {
       // Do we want to enforce precision here?
-      setState(parsed.toFixed(6));
+      setState(parsed.toString());
     }
   };
 
