@@ -83,7 +83,7 @@ function mapObservationsToFeatures(
 // Min distance in meters the user moves before the map will re-render (saves
 // lots of map renders when the user is standing still, which uses up battery
 // life)
-const MIN_DISPLACEMENT = 15;
+const MIN_DISPLACEMENT = 1;
 
 class ObservationMapLayer extends React.PureComponent<{
   onPress: Function,
