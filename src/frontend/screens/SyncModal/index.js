@@ -50,12 +50,8 @@ const SyncModal = ({ navigation }: Props) => {
     },
   ] = React.useContext(ConfigContext);
 
-  const [listen, setListening] = React.useState(false);
-
   const { ssid } = useWifiStatus();
-
-  // TODO: can we use `ssid` instead of `listen` here? Are they distinct?
-  const [peers, syncPeer, syncGetPeers] = usePeers(listen, deviceName);
+  const [peers, syncPeer, syncGetPeers] = usePeers(!!ssid, deviceName);
 
   // Keep device awake on this screen
   React.useEffect(() => {
@@ -65,17 +61,8 @@ const SyncModal = ({ navigation }: Props) => {
 
   React.useEffect(() => {
     if (ssid) {
-      setListening(true);
       syncGetPeers();
-    } else {
-      // TODO: do we want to stop listening when there's no ssid?
-      setListening(false);
     }
-
-    // TODO: Does this belong in the cleanup, the effect body, or both?
-    return () => {
-      if (!ssid) setListening(false);
-    };
   }, [ssid, syncGetPeers]);
 
   React.useEffect(
