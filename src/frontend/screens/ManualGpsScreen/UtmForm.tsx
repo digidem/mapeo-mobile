@@ -65,8 +65,7 @@ const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
     if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
       try {
         const { easting } = fromLatLon(coords.lat, coords.lon);
-        // TODO: Is it okay to round this to 3 decimal places?
-        return easting.toFixed(3);
+        return easting.toString();
       } catch (e) {
         return "";
       }
@@ -78,8 +77,7 @@ const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
     if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
       try {
         const { northing } = fromLatLon(coords.lat, coords.lon);
-        // TODO: Is it okay to round this to 3 decimal places?
-        return northing.toFixed(3);
+        return northing.toString();
       } catch (e) {
         return "";
       }
@@ -91,10 +89,10 @@ const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
   React.useEffect(() => {
     try {
       const { latitude, longitude } = toLatLon({
-        zoneNum,
-        zoneLetter,
         easting,
         northing,
+        zoneLetter,
+        zoneNum,
       });
 
       onValueUpdate({
@@ -276,6 +274,7 @@ const styles = StyleSheet.create({
     color: BLACK,
   },
   input: {
+    flex: 1,
     borderColor: LIGHT_GREY,
     borderWidth: 1,
     padding: 10,
