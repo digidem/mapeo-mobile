@@ -120,7 +120,7 @@ const DmsInputGroup = ({
             <View style={styles.inputContainer}>
               <TextInput
                 keyboardType="decimal-pad"
-                maxLength={6}
+                maxLength={8}
                 onChangeText={updateCoordinateCallback("seconds")}
                 onEndEditing={formatInputValue("seconds")}
                 placeholder="0.00"

@@ -91,7 +91,7 @@ const DmsForm = ({ coords, onValueUpdate }: FormProps) => {
     return {
       degrees: degrees.toString(),
       minutes: minutes.toString(),
-      seconds: seconds.toString(),
+      seconds: seconds.toFixed(3),
     };
   });
   const [longitude, setLongitude] = React.useState<DmsData>(() => {
@@ -110,7 +110,7 @@ const DmsForm = ({ coords, onValueUpdate }: FormProps) => {
     return {
       degrees: degrees.toString(),
       minutes: minutes.toString(),
-      seconds: seconds.toString(),
+      seconds: seconds.toFixed(3),
     };
   });
 
@@ -154,7 +154,7 @@ const DmsForm = ({ coords, onValueUpdate }: FormProps) => {
           });
         }
       } else {
-        throw new Error(m.invalidCoordinates.defaultMessage);
+        throw new Error(t(m.invalidCoordinates));
       }
     } catch (err) {
       onValueUpdate({
