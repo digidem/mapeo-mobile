@@ -19,7 +19,7 @@ export const INTEGER_REGEX = /^[0-9]\d*$/;
 
 export function parseNumber(str: string): number | void {
   const num = Number.parseFloat(str);
-  return isNaN(num) ? undefined : num;
+  return Number.isNaN(num) ? undefined : num;
 }
 
 export function getInitialCardinality(

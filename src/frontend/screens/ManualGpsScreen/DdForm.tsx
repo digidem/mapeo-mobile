@@ -77,10 +77,14 @@ const DdForm = ({ coords, onValueUpdate }: FormProps) => {
   ];
 
   const [latitudeDegrees, setLatitudeDegrees] = React.useState<string>(() =>
-    typeof coords?.lat === "number" ? Math.abs(coords.lat).toString() : ""
+    typeof coords?.lat === "number" && !Number.isNaN(coords.lat)
+      ? Math.abs(coords.lat).toString()
+      : ""
   );
   const [longitudeDegrees, setLongitudeDegrees] = React.useState<string>(
-    typeof coords?.lon === "number" ? Math.abs(coords.lon).toString() : ""
+    typeof coords?.lon === "number" && !Number.isNaN(coords.lon)
+      ? Math.abs(coords.lon).toString()
+      : ""
   );
 
   const [selectedLatCardinality, setSelectedLatCardinality] = React.useState(
@@ -148,8 +152,7 @@ const DdForm = ({ coords, onValueUpdate }: FormProps) => {
     nativeEvent: { text },
   }: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
     const parsed = Number.parseFloat(text);
-    if (!isNaN(parsed)) {
-      // Do we want to enforce precision here?
+    if (!Number.isNaN(parsed)) {
       setState(parsed.toString());
     }
   };
