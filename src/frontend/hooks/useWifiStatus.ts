@@ -1,24 +1,13 @@
 import * as React from "react";
-import NetInfo, { NetInfoSubscription } from "@react-native-community/netinfo";
-import KeepAwake from "react-native-keep-awake";
+import NetInfo from "@react-native-community/netinfo";
 import { NetworkInfo } from "react-native-network-info";
 
 import bugsnag from "../lib/logger";
 
-const useWifiStatus = ({
-  keepAwake,
-  onConnectionChange,
-  setListening,
-}: {
-  keepAwake?: boolean;
-  onConnectionChange?: () => void;
-  setListening?: (value: boolean) => void;
-} = {}) => {
+const useWifiStatus = () => {
   const [ssid, setSsid] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    const subscriptions: { remove: NetInfoSubscription }[] = [];
-
     const handleConnectionChange = async () => {
       // NetInfoData does not actually tell us whether wifi is turned on, it just
       // tells us what connection the phone is using for data. E.g. it could be
@@ -37,45 +26,14 @@ const useWifiStatus = ({
         // Even if we don't get the SSID, we still want to show that a wifi
         // network is connected.
         setSsid(ssid);
-
-        if (onConnectionChange) {
-          onConnectionChange();
-        }
-
-        if (setListening) {
-          setListening(true);
-        }
       }
     };
-
-    if (setListening) {
-      setListening(true);
-    }
 
     // Subscribe to NetInfo to know when the user connects/disconnects to wifi
-    subscriptions.push({
-      remove: NetInfo.addEventListener(handleConnectionChange),
-    });
+    const unsubscribe = NetInfo.addEventListener(handleConnectionChange);
 
-    if (keepAwake) {
-      // Keep the screen awake whilst on this screen
-      KeepAwake.activate();
-    }
-
-    return () => {
-      if (setListening) {
-        setListening(false);
-      }
-
-      // Unsubscribe all listeners
-      subscriptions.forEach(s => s.remove());
-
-      if (keepAwake) {
-        // Turn off keep screen awake
-        KeepAwake.deactivate();
-      }
-    };
-  }, [keepAwake, onConnectionChange, setListening]);
+    return unsubscribe;
+  }, []);
 
   return { ssid };
 };
