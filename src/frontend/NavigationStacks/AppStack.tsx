@@ -1,8 +1,9 @@
 import React from "react";
-import { createBottomTabNavigator } from "react-navigation-tabs";
+import { BottomTabBar, createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
+import useProjectInviteListener from "../hooks/useProjectInviteListener";
 import MapScreen from "../screens/MapScreen";
 import CameraScreen from "../screens/CameraScreen";
 import ObservationList from "../screens/ObservationsList";
@@ -22,6 +23,7 @@ import AboutMapeo from "../screens/Settings/AboutMapeo";
 import LanguageSettings from "../screens/Settings/LanguageSettings";
 import CoordinateFormat from "../screens/Settings/CoordinateFormat";
 import HomeHeader from "../sharedComponents/HomeHeader";
+import ProjectInviteModal from "../screens/ProjectInviteModal";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -29,6 +31,10 @@ const HomeTabs = createBottomTabNavigator(
     Camera: CameraScreen,
   },
   {
+    tabBarComponent: props => {
+      useProjectInviteListener(props.navigation);
+      return <BottomTabBar {...props} />;
+    },
     navigationOptions: () => ({
       header: (props: any) => <HomeHeader {...props} />,
       headerTransparent: true,
@@ -51,7 +57,7 @@ const HomeTabs = createBottomTabNavigator(
   }
 );
 
-const AppStack = createStackNavigator(
+export const AppStack = createStackNavigator(
   {
     Home: HomeTabs,
     GpsModal: GpsModal,
@@ -91,5 +97,3 @@ const AppStack = createStackNavigator(
     },
   }
 );
-
-export default AppStack;
