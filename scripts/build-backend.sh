@@ -76,6 +76,7 @@ for x in "${keepThese[@]}"; do
     mv "./nodejs-assets/$x" "./nodejs-assets/nodejs-project/node_modules/$x"
   fi
 done
+rm -rf ./nodejs-assets/nodejs-project/node_modules/leveldown/prebuilds
 echo -en " done.\n"
 
 echo -en "Removing unused .bin aliases..."
