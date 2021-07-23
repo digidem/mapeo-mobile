@@ -48,6 +48,26 @@ const m = defineMessages({
     defaultMessage: "Version and build number",
     description: "Description of the 'About Mapeo' page",
   },
+  appShare: {
+    id: "screens.Settings.appShare",
+    defaultMessage: "Share Mapeo Installer",
+    description: "Primary text for sharing the mapeo APK installer",
+  },
+  appShareDesc: {
+    id: "screens.Settings.appShareDesc",
+    defaultMessage: "Install or update Mapeo on another phone",
+    description: "Secondary text for sharing the mapeo APK installer",
+  },
+  appInstall: {
+    id: "screens.Settings.appInstall",
+    defaultMessage: "Install APK",
+    description: "Primary text for Mapeo APK test",
+  },
+  appInstallDesc: {
+    id: "screens.Settings.appInstallDesc",
+    defaultMessage: "Test APK install (re-installs app)",
+    description: "Secondary text for Mapeo APK test",
+  },
   coordinateFormat: {
     id: "screens.Settings.coordinateFormat",
     defaultMessage: "Coordinate Format",
@@ -58,10 +78,21 @@ const m = defineMessages({
     defaultMessage: "Choose how coordinates are displayed",
     description: "Description of the 'Coordinate Format' page",
   },
+  experiments: {
+    id: "screens.Settings.experiments",
+    defaultMessage: "Experiments",
+    description: "Experimental features",
+  },
+  experimentsDesc: {
+    id: "screens.Settings.experimentsDesc",
+    defaultMessage: "Turn on experimental new features",
+    description: "Description of the 'Experiment' page",
+  },
 });
 
 const Settings = () => {
   const { navigate } = useNavigation();
+
   return (
     <List testID="settingsList">
       <ListItem
@@ -102,6 +133,16 @@ const Settings = () => {
         <ListItemText
           primary={<FormattedMessage {...m.aboutMapeo} />}
           secondary={<FormattedMessage {...m.aboutMapeoDesc} />}
+        ></ListItemText>
+      </ListItem>
+      <ListItem
+        onPress={() => navigate("Experiments")}
+        testID="settingsExperimentButton"
+      >
+        <ListItemIcon iconName="flag" />
+        <ListItemText
+          primary={<FormattedMessage {...m.experiments} />}
+          secondary={<FormattedMessage {...m.experimentsDesc} />}
         ></ListItemText>
       </ListItem>
     </List>

@@ -1,0 +1,30 @@
+{
+  "currentApkInfo": {
+    "hash": "810ff2fb252a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50",
+    "size": 8,
+    "versionName": "1.0.0-PR572+4667afc",
+    "minSdkVersion": 1,
+    "applicationId": "com.example",
+    "versionCode": 1,
+    "hashType": "sha256",
+    "platform": "android",
+    "arch": ["arm64-v8a"],
+    "filepath": "non-existent.apk"
+  },
+  "deviceInfo": {
+    "supportedAbis": ["arm64-v8a"],
+    "sdkVersion": 1
+  },
+  "installer": {
+    "hash": "d492649122fa78127e64b78053794cef538a5711fedf7af763e4fd56ce773c70",
+    "size": 8,
+    "versionName": "1.1.0",
+    "minSdkVersion": 1,
+    "applicationId": "com.example",
+    "versionCode": 2,
+    "hashType": "sha256",
+    "platform": "android",
+    "arch": ["arm64-v8a"],
+    "filepath": "non-existent.apk"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "hash": "421f4bb2353b5b18a8d1c2b9d067ad6c51ce4774bd3e281c7812f5064f00a3f5",
+  "hashType": "sha256",
+  "versionName": "1.1.0",
+  "versionCode": 10,
+  "applicationId": "com.example.test",
+  "platform": "android",
+  "arch": ["armeabi-v7a", "arm64-v8a", "x86", "x86_64"],
+  "size": 2767168,
+  "minSdkVersion": 21
+}

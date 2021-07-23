@@ -17,6 +17,8 @@ const tar = require("tar-fs");
 const pump = require("pump");
 const tmp = require("tmp");
 const semverCoerce = require("semver/functions/coerce");
+const UpgradeManager = require("./lib/upgrade-manager");
+const { serializeError } = require("serialize-error");
 
 // Cleanup the temporary files even when an uncaught exception occurs
 tmp.setGracefulCleanup();
@@ -25,16 +27,36 @@ const log = debug("mapeo-core:server");
 
 module.exports = createServer;
 
-function createServer({ privateStorage, sharedStorage, flavor }) {
-  const defaultConfigPath = path.join(sharedStorage, "presets/default");
+/**
+ * @param {object} options
+ * @param {string} privateStorage Path to app-specific internal file storage
+ *   folder (see https://developer.android.com/training/data-storage/app-specific).
+ *   This folder cannot be accessed by other apps or the user via a computer connection.
+ * @param {string} sharedStorage Path to app-specific external file storage folder
+ * @param {string} privateCacheStorage Path to app-specific internal cache storage folder
+ * @param {import('./lib/types').DeviceInfo} deviceInfo sdkVersion and supportedAbis for current device
+ * @param {import('./lib/types').InstallerInt} currentApkInfo info about the currently running APK (see ./lib/types for documentation)
+ */
+function createServer({
+  privateStorage,
+  sharedStorage,
+  privateCacheStorage,
+  deviceInfo,
+  currentApkInfo,
+}) {
   log("Creating server");
-
+  // Folder the user copies custom config into. TODO: This is now handled within
+  // the app settings screen, so this could move into privateStorage
+  const defaultConfigPath = path.join(sharedStorage, "presets/default");
+  // Set up the p2p upgrades subsystem.
+  const upgradeStoragePath = path.join(privateCacheStorage, "upgrades");
   // Folder with default (built-in) presets to server when the user has not
   // added any presets
   const fallbackPresetsDir = path.join(privateStorage, "nodejs-assets/presets");
 
   // create folders for presets & styles
   mkdirp.sync(defaultConfigPath);
+  mkdirp.sync(upgradeStoragePath);
   mkdirp.sync(path.join(sharedStorage, "styles/default"));
 
   let projectKey = readProjectKey({
@@ -60,6 +82,8 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     deviceType: "mobile",
   });
   let mapeoCore = mapeoRouter.api.core;
+
+  createUpgradeManager();
 
   const server = http.createServer(function requestListener(req, res) {
     log(req.method + ": " + req.url);
@@ -131,9 +155,60 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
       rnBridge.channel.on("sync-join", joinSync);
       rnBridge.channel.on("sync-leave", leaveSync);
       rnBridge.channel.on("replace-config", replaceConfig);
+      log("++++ 1 backend listening");
       origListen.apply(server, args);
     });
   };
+
+  function onError(prefix, err) {
+    if (!err) return;
+    main.bugsnag.notify(err, {
+      severity: "error",
+      context: prefix,
+    });
+    log(`error(${prefix}): ' + ${err.toString()}`);
+  }
+
+  function createUpgradeManager() {
+    // TODO: What is the effect of leaving these event handlers attached when
+    // the app is in the background? Ideally we would clean up event handlers
+    // each time the app goes to the background and re-attach them when back in
+    // foreground.
+    const manager = new UpgradeManager({
+      storageDir: upgradeStoragePath,
+      currentApkInfo,
+      deviceInfo,
+    });
+    manager.on("state", onState);
+    manager.on("error", err => {
+      onError("p2p-upgrade", err);
+      const serializedError = serializeError(err);
+      rnBridge.channel.post("p2p-upgrade::error", serializedError);
+    });
+    rnBridge.channel.on("p2p-upgrade::start-services", () => {
+      log("Request to start upgrade manager");
+      manager.start().catch(err => onError("p2p-start", err));
+    });
+    rnBridge.channel.on("p2p-upgrade::stop-services", () => {
+      log("Request to stop upgrade manager");
+      manager.stop().catch(err => onError("p2p-stop", err));
+    });
+    rnBridge.channel.on("p2p-upgrade::get-state", () => {
+      // Don't particularly like this way of doing things, eventually we will
+      // set up and RPC for calling these methods directly
+      const state = manager.getState();
+      onState(state);
+    });
+
+    function onState(state) {
+      // Serialize error object so it can be transferred over ipc
+      const serializedErrorState = {
+        ...state,
+        error: serializeError(state.error),
+      };
+      rnBridge.channel.post("p2p-upgrade::state", serializedErrorState);
+    }
+  }
 
   // Given a config tarball at `path`, replace the current config.
   function replaceConfig({ id, path: pathToNewConfigTarball }) {

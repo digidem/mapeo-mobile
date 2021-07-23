@@ -422,6 +422,7 @@ workflows:
                 *unaligned.apk
                 *Test*.apk
                 mapeo-debug*.apk
+                fake.apk
             - gradle_task: $GRADLE_TASKS
       - change-workdir@1.0.2:
           inputs:

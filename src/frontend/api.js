@@ -6,6 +6,9 @@ import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
 import debug from "debug";
 import flatten from "flat";
+import DeviceInfo from "react-native-device-info";
+import AppInfo from "./lib/AppInfo";
+import { deserializeError } from "serialize-error";
 
 import type {
   Preset,
@@ -13,6 +16,7 @@ import type {
   Metadata,
   Messages,
 } from "./context/ConfigContext";
+
 import type {
   Observation,
   ObservationValue,
@@ -93,6 +97,48 @@ export type ServerPeer = {
 
 type PeerHandler = (peerList: Array<ServerPeer>) => any;
 
+// These types are manually copied from `backend/lib/types.d.ts`. This is far
+// from ideal and is a workaround until we can convert the entire codebase to
+// Typescript - right now frontend uses Flow.
+
+type AvailableUpgrade = {
+  hash: string,
+  hashType: "sha256",
+  versionName: string,
+  versionCode: number,
+  applicationId: string,
+  minSdkVersion: number,
+  // Backend code guarantees that this will be "android"
+  platform: "android",
+  arch: Array<"x86" | "x86_64" | "armeabi-v7a" | "arm64-v8a">,
+  size: number,
+  filepath: string,
+};
+
+export type TransferProgress = {
+  /** id (hash) of the file being transferred */
+  id: string,
+  /** bytes transferred so far */
+  sofar: number,
+  /** total number of bytes to transfer */
+  total: number,
+};
+
+type UpgradeStateBase = {
+  uploads: TransferProgress[],
+  downloads: TransferProgress[],
+  checkedPeers: string[],
+  availableUpgrade?: AvailableUpgrade,
+};
+type UpgradeStateNoError = UpgradeStateBase & {
+  value: "starting" | "started" | "stopping" | "stopped",
+};
+type UpgradeStateError = UpgradeStateBase & {
+  value: "error",
+  error: Error,
+};
+export type UpgradeState = UpgradeStateNoError | UpgradeStateError;
+
 export { STATUS as Constants };
 
 const log = debug("mapeo-mobile:api");
@@ -100,9 +146,11 @@ const BASE_URL = "http://127.0.0.1:9081/";
 // Timeout between heartbeats from the server. If 10 seconds pass without a
 // heartbeat then we consider the server has errored
 const DEFAULT_TIMEOUT = 10000; // 10 seconds
-// Timeout for server start. If 20 seconds passes after server starts with no
+// Timeout for server start. If 30 seconds passes after server starts with no
 // heartbeat then we consider the server has errored
-const SERVER_START_TIMEOUT = 20000;
+// This is high because in e2e testing and on very low-power devices it seems
+// like startup can take a long time. TODO: Investigate slowness.
+const SERVER_START_TIMEOUT = 30000;
 
 const pixelRatio = PixelRatio.get();
 
@@ -145,6 +193,7 @@ export function Api({
       }
     }
     status = value;
+
     if (status === STATUS.LISTENING) {
       while (pending.length) pending.shift().resolve();
     } else if (status === STATUS.ERROR) {
@@ -211,14 +260,21 @@ export function Api({
       nodejs.start("loader.js");
       const serverStartPromise = new Promise(resolve =>
         nodejs.channel.once("status", resolve)
-      ).then(() => {
+      ).then(async () => {
         bugsnag.leaveBreadcrumb("Mapeo Core started");
         // Start monitoring for timeout
         restartTimeout();
         // As soon as we hear from the Node process, send the storagePath and
         // other config that the server requires
         nodejs.channel.post("config", {
-          storagePath: RNFS.ExternalDirectoryPath,
+          sharedStorage: RNFS.ExternalDirectoryPath,
+          privateCacheStorage: RNFS.CachesDirectoryPath,
+          apkFilepath: AppInfo.sourceDir,
+          deviceInfo: {
+            sdkVersion: await DeviceInfo.getApiLevel(),
+            supportedAbis: await DeviceInfo.supportedAbis(),
+          },
+          isDev: __DEV__,
         });
         // Resolve once the server reports status as "LISTENING"
         return onReady();
@@ -405,6 +461,53 @@ export function Api({
             }
           })
       );
+    },
+
+    /**
+     * P2P Upgrade methods
+     */
+    // Listen for updates to p2p upgrade state
+    addP2pUpgradeStateListener: function addP2pUpgradeStateListener(
+      handler: (state: UpgradeState) => void
+    ): Subscription {
+      nodejs.channel.addListener("p2p-upgrade::state", onState);
+      // Poke backend to send a state event
+      onReady()
+        .then(() => nodejs.channel.post("p2p-upgrade::get-state"))
+        .catch(() => {});
+      // Deserialize error
+      function onState(stateSerializedError) {
+        handler({
+          ...stateSerializedError,
+          error:
+            stateSerializedError.error &&
+            deserializeError(stateSerializedError.error),
+        });
+      }
+      return {
+        remove: () =>
+          nodejs.channel.removeListener("p2p-upgrade::state", onState),
+      };
+    },
+    addP2pUpgradeErrorListener: function addP2pUpgradeErrorListener(
+      handler: (error: Error) => void
+    ): Subscription {
+      nodejs.channel.addListener("p2p-upgrade::error", handler);
+      function onError(serializedError) {
+        handler(deserializeError(serializedError));
+      }
+      return {
+        remove: () =>
+          nodejs.channel.removeListener("p2p-upgrade::error", onError),
+      };
+    },
+    startP2pUpgradeServices: function startP2pUpgradeServices() {
+      onReady()
+        .then(() => nodejs.channel.post("p2p-upgrade::start-services"))
+        .catch(() => {});
+    },
+    stopP2pUpgradeServices: function stopP2pUpgradeServices() {
+      nodejs.channel.post("p2p-upgrade::stop-services");
     },
 
     /**

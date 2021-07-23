@@ -39,10 +39,9 @@ module.exports = {
     },
     "android.debug": {
       type: "android.apk",
-      binaryPath:
-        "android/app/build/outputs/apk/app/universal/mapeo-app-universal-debug.apk",
+      binaryPath: "android/app/build/outputs/apk/app/debug/mapeo-app-debug.apk",
       build:
-        "cd android && ./gradlew app:assembleUniversal app:assembleAndroidTest -DtestBuildType=universalDebug && cd ..",
+        "cd android && ./gradlew app:assembleDebug app:assembleAndroidTest -DtestBuildType=debug && cd ..",
     },
     "ios.release": {
       type: "ios.app",
