@@ -56,7 +56,7 @@ const SyncModal = ({ navigation }: Props) => {
   // Keep device awake on this screen
   React.useEffect(() => {
     KeepAwake.activate();
-    return KeepAwake.deactivate;
+    return () => KeepAwake.deactivate();
   }, []);
 
   React.useEffect(() => {
