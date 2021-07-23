@@ -146,9 +146,11 @@ const BASE_URL = "http://127.0.0.1:9081/";
 // Timeout between heartbeats from the server. If 10 seconds pass without a
 // heartbeat then we consider the server has errored
 const DEFAULT_TIMEOUT = 10000; // 10 seconds
-// Timeout for server start. If 20 seconds passes after server starts with no
+// Timeout for server start. If 30 seconds passes after server starts with no
 // heartbeat then we consider the server has errored
-const SERVER_START_TIMEOUT = 20000;
+// This is high because in e2e testing and on very low-power devices it seems
+// like startup can take a long time. TODO: Investigate slowness.
+const SERVER_START_TIMEOUT = 30000;
 
 const pixelRatio = PixelRatio.get();
 
