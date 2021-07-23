@@ -91,6 +91,7 @@ if [ -e "./nodejs-assets/backend/node_modules/hasha/thread.js" ]; then
   mkdir -p "./nodejs-assets/nodejs-project/node_modules/hasha"
   cp "./nodejs-assets/backend/node_modules/hasha/thread.js" "./nodejs-assets/nodejs-project/node_modules/hasha/thread.js"
 fi
+rm -rf ./nodejs-assets/nodejs-project/node_modules/leveldown/prebuilds
 echo -en " done.\n"
 
 echo -en "Removing unused .bin aliases..."
