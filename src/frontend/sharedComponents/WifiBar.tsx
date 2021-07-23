@@ -29,13 +29,15 @@ interface Props {
 const WifiBar = ({ deviceName, onPress, ssid }: Props) => (
   <TouchableNativeFeedback onPress={onPress}>
     <View style={styles.wifiBar}>
-      {ssid ? <WifiIcon /> : <WifiOffIcon color="white" />}
-      <Text style={styles.wifiBarText} numberOfLines={1}>
-        <Text style={styles.bold}>
-          <FormattedMessage {...(ssid ? m.wifi : m.noWifi)} />
+      <View style={styles.wifiInfo}>
+        {ssid ? <WifiIcon /> : <WifiOffIcon color="white" />}
+        <Text style={styles.wifiBarText} numberOfLines={1}>
+          <Text style={styles.bold}>
+            <FormattedMessage {...(ssid ? m.wifi : m.noWifi)} />
+          </Text>
+          {ssid && ` ${ssid}`}
         </Text>
-        {ssid && ` ${ssid}`}
-      </Text>
+      </View>
       {ssid && (
         <View>
           <Text style={styles.deviceName}>{deviceName}</Text>
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "right",
     color: "white",
-    flex: 1,
+    flex: 0,
   },
   version: {
     fontWeight: "500",
@@ -65,12 +67,17 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     paddingHorizontal: 15,
   },
   wifiBarText: {
     color: "white",
     paddingLeft: 10,
+  },
+  wifiInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
 });
 
