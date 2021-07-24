@@ -3,11 +3,18 @@ import { View, Text, StyleSheet } from "react-native";
 import { Bar } from "react-native-progress";
 import { defineMessage, defineMessages, FormattedMessage } from "react-intl";
 import ConfigContext from "../../context/ConfigContext";
+import {
+  NavigationStackOptions,
+  NavigationStackScreenComponent,
+} from "react-navigation-stack";
+import { useState } from "react";
+import { Value } from "react-native-reanimated";
+import { useNavigation } from "react-navigation-hooks";
 
 const m = defineMessages({
   leaveProjectTitle: {
     id: "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle",
-    defaultMessage: "Leave Project{projectName}?",
+    defaultMessage: "Leaving Project {projectName}",
   },
   progressMessage: {
     id: "screens.LeaveProject.LeaveProjectProgress.progressMessage",
@@ -15,16 +22,21 @@ const m = defineMessages({
   },
 });
 
-export const LeaveProjectProgress = () => {
-  const [config] = useContext(ConfigContext);
+const navOptions: NavigationStackOptions = {
+  headerShown: false,
+};
 
-  const name = useMemo(() => {
-    if (!!config.metadata.name) {
-      return "";
-    } else {
-      return " " + config.metadata.name;
-    }
-  }, [config]);
+export const LeaveProjectProgress: NavigationStackScreenComponent = () => {
+  const [config] = useContext(ConfigContext);
+  const { navigate } = useNavigation();
+  //To do => When Delete API has been created
+  const [progress, setProgress] = useState(0);
+
+  setTimeout(() => {
+    navigate("LeaveProjectCompleted");
+  }, 3000);
+
+  const name = config.metadata.name || "";
 
   return (
     <View style={styles.screenContainer}>
@@ -36,18 +48,18 @@ export const LeaveProjectProgress = () => {
       </Text>
 
       <Text style={styles.progressMessage}>
-        <FormattedMessage {...m.progressMessage} />
+        <FormattedMessage
+          {...m.progressMessage}
+          values={{ projectName: name }}
+        />
       </Text>
 
-      <Bar
-        style={[{ marginTop: 30 }]}
-        progress={0.5}
-        height={20}
-        width={null}
-      />
+      <Bar style={[{ marginTop: 30 }]} {...progress} height={20} width={null} />
     </View>
   );
 };
+
+LeaveProjectProgress.navigationOptions = navOptions;
 
 const styles = StyleSheet.create({
   screenContainer: {

@@ -77,13 +77,7 @@ export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
     nav.navigate("LeaveProjectProgress");
   }
 
-  const name = useMemo(() => {
-    if (!!config.metadata.name) {
-      return "";
-    } else {
-      return " " + config.metadata.name;
-    }
-  }, [config]);
+  const name = config.metadata.name ? " " + config.metadata.name : "";
 
   return (
     <View style={styles.screenContainer}>
@@ -152,7 +146,7 @@ export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
   );
 };
 
-LeaveProjectScreen.navigationOptions = { ...navOptions };
+LeaveProjectScreen.navigationOptions = navOptions;
 
 const styles = StyleSheet.create({
   screenContainer: {

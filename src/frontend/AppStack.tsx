@@ -94,7 +94,7 @@ const AppStack = createStackNavigator(
     LeaveProjectCompleted: LeaveProjectCompleted,
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "LeaveProjectScreen",
     // TODO iOS: Dynamically set transition mode to modal for modals
     mode: "card",
     headerMode: "screen",
