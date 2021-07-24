@@ -288,6 +288,14 @@
     "description": "Secondary text for Mapeo APK test",
     "message": "Testar instalação APK (reinstala o aplicativo)"
   },
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "Compartilhar o instalador do Mapeo"
+  },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "Instalar ou atualizar o Mapeo em outro telefone"
+  },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "Houve um erro ao tentar importar este arquivo de configuração"
@@ -416,6 +424,10 @@
     "description": "Header of sync screen",
     "message": "Sincronizar"
   },
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "Atualização disponível; aguardando sincronização terminar"
+  },
   "screens.SyncModal.SyncView.updateDownloading": {
     "description": "Label in upgrade bar when downloading an update",
     "message": "Baixando atualizações"
@@ -427,6 +439,14 @@
   "screens.SyncModal.SyncView.updatePermissionError": {
     "description": "Label in upgrade bar when there is permissions error getting an update",
     "message": "Não foi possível atualizar"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Uma nova versão do Mapeo está disponível"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "Estado não implementado"
   },
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
