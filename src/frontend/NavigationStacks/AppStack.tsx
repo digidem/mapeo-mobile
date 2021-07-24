@@ -4,27 +4,25 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-import MapScreen from "./screens/MapScreen";
-import CameraScreen from "./screens/CameraScreen";
-import ObservationList from "./screens/ObservationsList";
-import Observation from "./screens/Observation";
-import ObservationEdit from "./screens/ObservationEdit";
-import AddPhoto from "./screens/AddPhoto";
-import ObservationDetails from "./screens/ObservationDetails";
-import CategoryChooser from "./screens/CategoryChooser";
-import GpsModal from "./screens/GpsModal";
-import SyncModal from "./screens/SyncModal";
-import Settings from "./screens/Settings";
-import PhotosModal from "./screens/PhotosModal";
-import ManualGpsScreen from "./screens/ManualGpsScreen";
-import CustomHeaderLeft from "./sharedComponents/CustomHeaderLeft";
-import ProjectConfig from "./screens/Settings/ProjectConfig";
-import AboutMapeo from "./screens/Settings/AboutMapeo";
-import LanguageSettings from "./screens/Settings/LanguageSettings";
-import CoordinateFormat from "./screens/Settings/CoordinateFormat";
-import Experiments from "./screens/Settings/Experiments";
-import HomeHeader from "./sharedComponents/HomeHeader";
-import { CreateOrJoinScreen } from "./screens/CreateOrJoinScreen";
+import MapScreen from "../screens/MapScreen";
+import CameraScreen from "../screens/CameraScreen";
+import ObservationList from "../screens/ObservationsList";
+import Observation from "../screens/Observation";
+import ObservationEdit from "../screens/ObservationEdit";
+import AddPhoto from "../screens/AddPhoto";
+import ObservationDetails from "../screens/ObservationDetails";
+import CategoryChooser from "../screens/CategoryChooser";
+import GpsModal from "../screens/GpsModal";
+import SyncModal from "../screens/SyncModal";
+import Settings from "../screens/Settings";
+import PhotosModal from "../screens/PhotosModal";
+import ManualGpsScreen from "../screens/ManualGpsScreen";
+import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
+import ProjectConfig from "../screens/Settings/ProjectConfig";
+import AboutMapeo from "../screens/Settings/AboutMapeo";
+import LanguageSettings from "../screens/Settings/LanguageSettings";
+import CoordinateFormat from "../screens/Settings/CoordinateFormat";
+import HomeHeader from "../sharedComponents/HomeHeader";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -34,7 +32,7 @@ const HomeTabs = createBottomTabNavigator(
   // $FlowFixMe
   {
     navigationOptions: () => ({
-      header: props => <HomeHeader {...props} />,
+      header: (props: any) => <HomeHeader {...props} />,
       headerTransparent: true,
     }),
     defaultNavigationOptions: ({ navigation }) => ({
@@ -73,8 +71,6 @@ const AppStack = createStackNavigator(
     // $FlowFixMe
     CoordinateFormat,
     // $FlowFixMe
-    Experiments,
-    // $FlowFixMe
     PhotosModal: PhotosModal,
     // $FlowFixMe
     CategoryChooser: CategoryChooser,
@@ -88,10 +84,9 @@ const AppStack = createStackNavigator(
     ObservationEdit: ObservationEdit,
     ManualGpsScreen: ManualGpsScreen,
     ObservationDetails: ObservationDetails,
-    CreateOrJoinScreen: CreateOrJoinScreen,
   },
   {
-    initialRouteName: "CreateOrJoinScreen",
+    initialRouteName: "Home",
     // TODO iOS: Dynamically set transition mode to modal for modals
     mode: "card",
     headerMode: "screen",
