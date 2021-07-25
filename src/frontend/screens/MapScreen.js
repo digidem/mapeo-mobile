@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { View } from "react-native";
+import { View, Platform, Linking } from "react-native";
 import Text from "../sharedComponents/Text";
 
 import debug from "debug";
@@ -13,6 +13,7 @@ import ObservationsContext from "../context/ObservationsContext";
 import LocationContext from "../context/LocationContext";
 import AddButton from "../sharedComponents/AddButton";
 import type { NavigationProp } from "../types";
+import { deepLinkSetUp, deepLinkTakeDown } from "../DeepLink";
 
 const log = debug("mapeo:MapScreen");
 
@@ -41,6 +42,14 @@ const MapScreen = ({ navigation }: Props) => {
     },
     [navigation, newDraft]
   );
+
+  React.useEffect(() => {
+    deepLinkSetUp(navigation.navigate);
+
+    return () => {
+      deepLinkTakeDown(navigation.navigate);
+    };
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
