@@ -15,6 +15,7 @@ import HeaderTitle from "../sharedComponents/HeaderTitle";
 import IconButton from "../sharedComponents/IconButton";
 import Text from "../sharedComponents/Text";
 import WifiBar from "../sharedComponents/WifiBar";
+import useProjectInviteListener from "../hooks/useProjectInviteListener";
 
 const m = defineMessages({
   title: {
@@ -36,6 +37,8 @@ const m = defineMessages({
 });
 
 const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
+  useProjectInviteListener();
+
   const navigation = useNavigation();
   const { ssid } = useWifiStatus();
 
