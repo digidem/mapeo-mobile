@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import debug from "debug";
 import { IntlProvider, useIntl } from "react-intl";
@@ -13,67 +12,67 @@ import type { Status } from "../types";
 
 const log = debug("mapeo:ConfigContext");
 
-export type Preset = {|
-  id: string,
-  icon?: string,
-  fields?: string[],
-  geometry: Array<"point" | "area" | "line" | "vertex" | "relation">,
-  terms?: string[],
-  tags: { [string]: any },
-  name: string,
-  sort?: number,
-  matchScore?: number,
-  searchable?: boolean,
-|};
+export type Preset = {
+  id: string;
+  icon?: string;
+  fields?: string[];
+  geometry: Array<"point" | "area" | "line" | "vertex" | "relation">;
+  terms?: string[];
+  tags: { [x: string]: any };
+  name: string;
+  sort?: number;
+  matchScore?: number;
+  searchable?: boolean;
+};
 
 export type {
   TextField,
   SelectOneField,
-  SelectMultipleField,
+  SelectMultipleField, //@ts-ignore
 } from "mapeo-schema";
 
 export type Field = TextField | SelectOneField | SelectMultipleField;
 
-export type PresetWithFields = {|
-  id: string,
-  icon?: string,
-  fields: Field[],
-  geometry: Array<"point" | "area" | "line" | "vertex" | "relation">,
-  terms?: string[],
-  tags: { [string]: any },
-  name: string,
-  sort?: number,
-  matchScore?: number,
-  searchable?: boolean,
-|};
+export type PresetWithFields = {
+  id: string;
+  icon?: string;
+  fields: Field[];
+  geometry: Array<"point" | "area" | "line" | "vertex" | "relation">;
+  terms?: string[];
+  tags: { [x: string]: any };
+  name: string;
+  sort?: number;
+  matchScore?: number;
+  searchable?: boolean;
+};
 
 export type PresetsMap = Map<string, Preset>;
 export type FieldsMap = Map<string, Field>;
 
 export type Metadata = {
-  projectKey?: string,
-  name?: string,
-  dataset_id?: string,
-  version?: string,
+  projectKey?: string;
+  name?: string;
+  dataset_id?: string;
+  version?: string;
 };
 
 export type Messages = {
-  [id: string]: string,
+  [id: string]: string;
 };
 
 export type State = {
   // A map of presets by preset id
-  presets: PresetsMap,
+  presets: PresetsMap;
   // A map of field definitions by id
-  fields: FieldsMap,
-  metadata: Metadata,
-  messages: Messages,
-  status: Status,
+  fields: FieldsMap;
+  metadata: Metadata;
+  messages: Messages;
+  status: Status;
 };
 
 export type ConfigContextType = [
   State,
-  { reload: () => any, replace: (fileUri: string) => any }
+  { reload: () => void; replace: (fileUri: string) => void }
 ];
 
 const defaultConfig = {
@@ -97,7 +96,7 @@ const defaultContext: ConfigContextType = [
 const ConfigContext = React.createContext<ConfigContextType>(defaultContext);
 
 type Props = {
-  children: React.Node,
+  children: React.ReactNode;
 };
 
 export const ConfigProvider = ({ children }: Props) => {
@@ -122,7 +121,7 @@ export const ConfigProvider = ({ children }: Props) => {
     [reload]
   );
 
-  const contextValue = React.useMemo(
+  const contextValue: ConfigContextType = React.useMemo(
     () => [
       { ...config, status },
       { reload, replace },
@@ -153,7 +152,9 @@ export const ConfigProvider = ({ children }: Props) => {
         setStatus("success");
       })
       .catch(err => {
-        bugsnag.notify(err, report => (report.severity = "error"));
+        bugsnag.notify(err, report => {
+          report.severity = "error";
+        });
         log("Error loading presets and fields", err);
         if (didCancel) return; // if component was unmounted, don't set state
         setStatus("error");
