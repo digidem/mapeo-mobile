@@ -23,7 +23,7 @@ YellowBox.ignoreWarnings(["Require cycle:"]);
 if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 // WARNING: This needs to change if we change the navigation structure
-const NAV_STORE_KEY = "@MapeoNavigation@8";
+const NAV_STORE_KEY = "@MapeoNavigation@9";
 const ERROR_STORE_KEY = "@MapeoError";
 
 const persistNavigationState = IS_E2E
