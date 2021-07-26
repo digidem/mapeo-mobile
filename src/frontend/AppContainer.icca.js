@@ -1,5 +1,5 @@
 // @flow
-import AppStack from "./AppStack";
+import AppStack from "./NavigationStacks/AppStack";
 import IntroStack from "./screens/Intro";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 

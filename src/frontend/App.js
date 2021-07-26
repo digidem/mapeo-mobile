@@ -120,6 +120,7 @@ const App = () => (
               persistNavigationState={persistNavigationState}
               loadNavigationState={loadNavigationState}
             />
+
             <UpdateNotifier />
           </AppProvider>
         </AppLoading>
