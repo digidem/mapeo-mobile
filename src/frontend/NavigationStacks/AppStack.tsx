@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
@@ -29,7 +28,6 @@ const HomeTabs = createBottomTabNavigator(
     Map: MapScreen,
     Camera: CameraScreen,
   },
-  // $FlowFixMe
   {
     navigationOptions: () => ({
       header: (props: any) => <HomeHeader {...props} />,
@@ -54,33 +52,20 @@ const HomeTabs = createBottomTabNavigator(
 );
 
 const AppStack = createStackNavigator(
-  // $FlowFixMe - flow definitions don't recognize static props on function components
   {
     Home: HomeTabs,
-    // $FlowFixMe
     GpsModal: GpsModal,
-    // $FlowFixMe
     SyncModal: SyncModal,
     Settings: Settings,
-    // $FlowFixMe
     ProjectConfig: ProjectConfig,
-    // $FlowFixMe
     AboutMapeo,
-    // $FlowFixMe
     LanguageSettings,
-    // $FlowFixMe
     CoordinateFormat,
-    // $FlowFixMe
     PhotosModal: PhotosModal,
-    // $FlowFixMe
     CategoryChooser: CategoryChooser,
-    // $FlowFixMe
     AddPhoto: AddPhoto,
-    // $FlowFixMe
     ObservationList: ObservationList,
-    // $FlowFixMe
     Observation: Observation,
-    // $FlowFixMe
     ObservationEdit: ObservationEdit,
     ManualGpsScreen: ManualGpsScreen,
     ObservationDetails: ObservationDetails,

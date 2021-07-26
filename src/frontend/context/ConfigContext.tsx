@@ -25,8 +25,11 @@ export type Preset = {
   searchable?: boolean;
 };
 
-export type { TextField, SelectOneField, SelectMultipleField } from //@ts-ignore
-"mapeo-schema";
+export type {
+  TextField,
+  SelectOneField,
+  SelectMultipleField, //@ts-ignore
+} from "mapeo-schema";
 
 export type Field = TextField | SelectOneField | SelectMultipleField;
 
@@ -69,7 +72,7 @@ export type State = {
 
 export type ConfigContextType = [
   State,
-  { reload: () => any; replace: (fileUri: string) => any }
+  { reload: () => void; replace: (fileUri: string) => void }
 ];
 
 const defaultConfig = {
