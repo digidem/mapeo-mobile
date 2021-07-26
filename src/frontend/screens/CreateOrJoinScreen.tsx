@@ -4,7 +4,6 @@ import Button from "../sharedComponents/Button";
 import { useNavigation } from "react-navigation-hooks";
 import { defineMessages, FormattedMessage } from "react-intl";
 import {
-  HeaderTitle,
   NavigationStackOptions,
   NavigationStackScreenComponent,
 } from "react-navigation-stack";
@@ -37,7 +36,7 @@ export const CreateOrJoinScreen: NavigationStackScreenComponent = () => {
       <Button
         style={styles.button}
         onPress={() => {
-          navigate("settings");
+          navigate("JoinProjectQr");
         }}
       >
         <Text style={styles.buttonText}>
