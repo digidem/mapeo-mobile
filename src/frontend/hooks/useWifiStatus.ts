@@ -32,7 +32,7 @@ const useWifiStatus = () => {
     // Subscribe to NetInfo to know when the user connects/disconnects to wifi
     const unsubscribe = NetInfo.addEventListener(handleConnectionChange);
 
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
   return { ssid };
