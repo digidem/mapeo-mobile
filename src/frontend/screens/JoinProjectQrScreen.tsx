@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Alert, StyleSheet, View } from "react-native";
+import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages } from "react-intl";
 import QRCode from "react-native-qrcode-svg";
 import { getUniqueId } from "react-native-device-info";
@@ -16,24 +17,24 @@ import WifiBar from "../sharedComponents/WifiBar";
 
 const m = defineMessages({
   title: {
-    id: "screens.JoinProject.title",
+    id: "screens.JoinProjectQrScreen.title",
     defaultMessage: "Join a Project",
   },
   instructionsTitle: {
-    id: "screens.JoinProject.instructionsTitle",
+    id: "screens.JoinProjectQrScreen.instructionsTitle",
     defaultMessage: "Instructions",
   },
   instructionsDescription: {
-    id: "screens.JoinProject.instructionsDescription",
+    id: "screens.JoinProjectQrScreen.instructionsDescription",
     defaultMessage: "Show this QR code to your Project Admin",
   },
   sendJoinRequest: {
-    id: "screens.JoinProject.sendJoinRequest",
+    id: "screens.JoinProjectQrScreen.sendJoinRequest",
     defaultMessage: "Send Join Request instead",
   },
 });
 
-const JoinProject = () => {
+const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
   const { ssid } = useWifiStatus();
 
   const deviceName: string =
@@ -49,6 +50,7 @@ const JoinProject = () => {
       <View style={styles.container}>
         <View>
           <View style={styles.qrCodeContainer}>
+            {/* TODO: use an actual value for this */}
             <QRCode value="https://digital-democracy.org" size={250} />
           </View>
           <View style={styles.instructionsContainer}>
@@ -75,17 +77,18 @@ const JoinProject = () => {
   );
 };
 
-JoinProject.navigationOptions = () => ({
+JoinProjectQrScreen.navigationOptions = () => ({
   headerTitle: () => (
     <HeaderTitle style={{ color: WHITE }}>
       <FormattedMessage {...m.title} />
     </HeaderTitle>
   ),
-  headerLeft: ({ onPress }: { onPress: () => void }) => (
-    <IconButton onPress={onPress}>
-      <BackIcon color={WHITE} />
-    </IconButton>
-  ),
+  headerLeft: ({ onPress }) =>
+    onPress && (
+      <IconButton onPress={onPress}>
+        <BackIcon color={WHITE} />
+      </IconButton>
+    ),
   headerStyle: {
     backgroundColor: MEDIUM_BLUE,
   },
@@ -126,4 +129,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default JoinProject;
+export default JoinProjectQrScreen;

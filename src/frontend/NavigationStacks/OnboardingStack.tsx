@@ -1,11 +1,13 @@
 import React from "react";
 import { createStackNavigator } from "react-navigation-stack";
 import { CreateOrJoinScreen } from "../screens/CreateOrJoinScreen";
+import JoinProjectQrScreen from "../screens/JoinProjectQrScreen";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
 
 export const OnboardingStack = createStackNavigator(
   {
     CreateOrJoinScreen: CreateOrJoinScreen,
+    JoinProjectQr: JoinProjectQrScreen,
   },
   {
     initialRouteName: "CreateOrJoinScreen",
