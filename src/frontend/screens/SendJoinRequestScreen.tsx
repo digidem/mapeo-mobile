@@ -41,10 +41,9 @@ const SendJoinRequestScreen: NavigationStackScreenComponent = () => {
   const deviceName = "Android " + getUniqueId().slice(0, 4).toUpperCase();
 
   // TOOD: Need to properly generate
-  const generateVerificationCode = () => "12345";
+  const verificationCode = Math.random().toString().slice(-5);
 
-  // TODO: Need to properly generate a deeplink
-  const shareLink = "https://digital-democracy.org";
+  const shareLink = `mapeo://projInvite/${verificationCode}`;
 
   return (
     <View style={styles.pageContainer}>
@@ -54,9 +53,7 @@ const SendJoinRequestScreen: NavigationStackScreenComponent = () => {
           <Text style={styles.verificationCodeTitle}>
             <FormattedMessage {...m.verificationCode} />
           </Text>
-          <Text style={styles.verificationCode}>
-            {generateVerificationCode()}
-          </Text>
+          <Text style={styles.verificationCode}>{verificationCode}</Text>
           <Text style={styles.instructions}>
             <FormattedMessage {...m.instructions} />
           </Text>
