@@ -134,7 +134,6 @@
     "@types/react-native": "^0.63.2",
     "@types/react-native-vector-icons": "^6.4.8",
     "@types/react-native-keep-awake": "^2.0.3",
-    "@types/react-navigation": "^3.4.0",
     "@types/react-test-renderer": "^17.0.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.3.0",
