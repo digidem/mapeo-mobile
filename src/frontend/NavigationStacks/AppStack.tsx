@@ -32,7 +32,7 @@ const HomeTabs = createBottomTabNavigator(
   },
   {
     tabBarComponent: props => {
-      useProjectInviteListener(props.navigation);
+      useProjectInviteListener();
       return <BottomTabBar {...props} />;
     },
     navigationOptions: () => ({

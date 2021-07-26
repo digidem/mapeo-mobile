@@ -15,7 +15,7 @@ const MainStack = createSwitchNavigator(
   }
 );
 
-const WithModalsStack = createStackNavigator(
+export const WithModalsStack = createStackNavigator(
   {
     Main: MainStack,
     ProjectInviteModal,
@@ -26,5 +26,3 @@ const WithModalsStack = createStackNavigator(
     headerMode: "none",
   }
 );
-
-export default WithModalsStack;

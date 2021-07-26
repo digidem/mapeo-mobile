@@ -1,14 +1,9 @@
 import * as React from "react";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState,
-} from "react-navigation";
+import { useNavigation } from "react-navigation-hooks";
 import ProjectInviteContext from "../context/ProjectInviteContext";
 
-export default function useProjectInviteListener<
-  N extends NavigationScreenProp<NavigationState, NavigationParams>
->(navigation: N) {
+export default function useProjectInviteListener() {
+  const navigation = useNavigation();
   const { invite } = React.useContext(ProjectInviteContext);
 
   React.useEffect(() => {
