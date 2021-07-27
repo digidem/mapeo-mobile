@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@digidem/wcmc-mapeo-mobile-intro": "^1.0.3",
+    "@gorhom/bottom-sheet": "^2.3.0",
     "@react-native-community/art": "^1.2.0",
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/hooks": "^2.6.0",
@@ -78,7 +79,7 @@
     "react-native-build-config": "^0.3.2",
     "react-native-device-info": "^5.6.3",
     "react-native-fs": "^2.16.6",
-    "react-native-gesture-handler": "^1.8.0",
+    "react-native-gesture-handler": "^1.10.3",
     "react-native-image-resizer": "^1.2.3",
     "react-native-indicators": "^0.17.0",
     "react-native-keep-awake": "^4.0.0",
