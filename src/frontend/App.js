@@ -6,6 +6,7 @@ import debug from "debug";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-community/async-storage";
 
+import { URI_PREFIX } from "./constants";
 import ErrorScreen from "./screens/UncaughtError";
 import AppLoading from "./AppLoading";
 import AppContainer from "./AppContainer";
@@ -117,10 +118,10 @@ const App = () => (
         <AppLoading>
           <AppProvider>
             <AppContainer
+              uriPrefix={URI_PREFIX}
               persistNavigationState={persistNavigationState}
               loadNavigationState={loadNavigationState}
             />
-
             <UpdateNotifier />
           </AppProvider>
         </AppLoading>
