@@ -104,7 +104,9 @@ export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
         <View style={styles.checkContainer}>
           <CheckBox
             value={confirmDelete}
-            onValueChange={() => setConfirmDelete(!confirmDelete)}
+            onValueChange={() =>
+              setConfirmDelete(confirmDelete => !confirmDelete)
+            }
           />
           <Text>
             <FormattedMessage {...m.agreeToDelete} />
