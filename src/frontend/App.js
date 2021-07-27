@@ -6,6 +6,7 @@ import debug from "debug";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-community/async-storage";
 
+import { URI_PREFIX } from "./constants";
 import ErrorScreen from "./screens/UncaughtError";
 import AppLoading from "./AppLoading";
 import AppContainer from "./AppContainer";
@@ -25,8 +26,6 @@ const log = debug("mapeo:App");
 // WARNING: This needs to change if we change the navigation structure
 const NAV_STORE_KEY = "@MapeoNavigation@10";
 const ERROR_STORE_KEY = "@MapeoError";
-
-const DEEPLINK_URI_PREFIX = "mapeo://";
 
 const persistNavigationState = IS_E2E
   ? undefined
@@ -119,7 +118,7 @@ const App = () => (
         <AppLoading>
           <AppProvider>
             <AppContainer
-              uriPrefix={DEEPLINK_URI_PREFIX}
+              uriPrefix={URI_PREFIX}
               persistNavigationState={persistNavigationState}
               loadNavigationState={loadNavigationState}
             />
