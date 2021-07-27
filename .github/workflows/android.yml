@@ -1,7 +1,14 @@
 name: Android
-on: [pull_request]
+on:
+  pull_request:
+    # By default, a workflow only runs when a pull_request 's activity type is
+    # opened , synchronize , or reopened. Adding ready_for_review here ensures
+    # that CI runs when a PR is marked as not a draft, since we skip CI when a
+    # PR is draft
+    types: [opened, synchronize, reopened, ready_for_review]
 jobs:
   backend-tests:
+    if: github.event.pull_request.draft == false
     name: backend tests
     runs-on: ubuntu-latest
     steps:
@@ -21,6 +28,7 @@ jobs:
           cd src/backend
           npm test
   e2e-tests:
+    if: github.event.pull_request.draft == false
     name: e2e tests
     runs-on: macos-latest
     steps:
