@@ -46,7 +46,8 @@ const SendJoinRequestScreen: NavigationStackScreenComponent = () => {
   // TOOD: Need to properly generate
   const verificationCode = Math.random().toString().slice(-5);
 
-  const shareLink = `mapeo://projInvite/${verificationCode}`;
+  // TODO: Decide on a URL structure for this deep link
+  const shareLink = `mapeo://main/onboarding?code=${verificationCode}`;
 
   return (
     <View style={styles.pageContainer}>

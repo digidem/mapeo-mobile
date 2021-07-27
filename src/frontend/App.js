@@ -26,6 +26,8 @@ const log = debug("mapeo:App");
 const NAV_STORE_KEY = "@MapeoNavigation@10";
 const ERROR_STORE_KEY = "@MapeoError";
 
+const DEEPLINK_URI_PREFIX = "mapeo://";
+
 const persistNavigationState = IS_E2E
   ? undefined
   : async navState => {
@@ -117,10 +119,10 @@ const App = () => (
         <AppLoading>
           <AppProvider>
             <AppContainer
+              uriPrefix={DEEPLINK_URI_PREFIX}
               persistNavigationState={persistNavigationState}
               loadNavigationState={loadNavigationState}
             />
-
             <UpdateNotifier />
           </AppProvider>
         </AppLoading>
