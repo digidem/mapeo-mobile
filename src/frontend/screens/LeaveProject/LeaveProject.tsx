@@ -58,7 +58,7 @@ const navOptions: NavigationStackOptions = {
 
 export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
   const [confirmDelete, setConfirmDelete] = React.useState(false);
-  const [pristine, setPristine] = useState(true);
+  const [untouched, setUntouched] = useState(true);
   const [config] = useContext(ConfigContext);
 
   const nav = useNavigation();
@@ -66,7 +66,7 @@ export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
   function getObservationData() {}
 
   function leaveProject() {
-    if (pristine) setPristine(false);
+    if (untouched) setUntouched(false);
 
     if (!confirmDelete) return;
 
@@ -110,7 +110,7 @@ export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
             <FormattedMessage {...m.agreeToDelete} />
           </Text>
         </View>
-        {!pristine && !confirmDelete && (
+        {!untouched && !confirmDelete && (
           <Text style={styles.confirmMessage}>
             <FormattedMessage {...m.confirmDelete} />
           </Text>
