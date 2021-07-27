@@ -1,6 +1,11 @@
 /* eslint-disable react-native/no-unused-styles */
 import * as React from "react";
-import { GestureResponderEvent, StyleSheet, View } from "react-native";
+import {
+  GestureResponderEvent,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 
 import { VERY_LIGHT_BLUE } from "../lib/styles";
 import type { ViewStyleProp } from "../types";
@@ -10,29 +15,60 @@ import { TouchableNativeFeedback } from "./Touchables";
 
 type ColorScheme = "dark" | "light";
 type Variant = "contained" | "outlined" | "text";
+type Size = "medium" | "large";
+
+interface SharedTouchableProps {
+  disabled?: boolean | null;
+  onPress: (event: GestureResponderEvent) => void;
+}
 
 interface Props {
+  TouchableComponent?: React.ComponentType<Partial<SharedTouchableProps>>;
   children: React.ReactNode;
   color?: ColorScheme;
   disabled?: boolean;
   fullWidth?: boolean;
   onPress: (event: GestureResponderEvent) => void;
+  size?: Size;
   style?: ViewStyleProp;
   testID?: string;
   variant?: Variant;
 }
 
 const Button = ({
+  TouchableComponent,
   children,
   color = "dark",
   disabled = false,
   fullWidth = false,
   onPress,
+  size = "medium",
   style,
   variant = "contained",
 }: Props) => {
   const buttonStyle = getButtonStyle(variant);
   const textStyle = getTextStyle({ color, variant, disabled });
+  const touchableStyle = getTouchableStyle(size);
+
+  const sharedTouchableProps = {
+    disabled,
+    onPress: disabled ? undefined : onPress,
+  };
+
+  const buttonContent = (
+    <View style={touchableStyle as ViewStyle}>
+      {
+        typeof children === "string" ? (
+          <Text style={[styles.textBase, textStyle]}>
+            {children.toUpperCase()}
+          </Text>
+        ) : (
+          children
+        )
+        // TODO: Handle <FormattedMessage> as children (wrapping in <Text>)
+      }
+    </View>
+  );
 
   return (
     <View
@@ -43,26 +79,19 @@ const Button = ({
         style,
       ]}
     >
-      <TouchableNativeFeedback
-        disabled={disabled}
-        // TODO: There's some typing issue with react-native-gesture-handler here. Using the definition from react native works fine
-        // @ts-expect-error
-        background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
-        onPress={disabled ? undefined : onPress}
-      >
-        <View style={styles.touchable}>
-          {
-            typeof children === "string" ? (
-              <Text style={[styles.textBase, textStyle]}>
-                {children.toUpperCase()}
-              </Text>
-            ) : (
-              children
-            )
-            // TODO: Handle <FormattedMessage> as children (wrapping in <Text>)
-          }
-        </View>
-      </TouchableNativeFeedback>
+      {TouchableComponent ? (
+        <TouchableComponent {...sharedTouchableProps}>
+          {buttonContent}
+        </TouchableComponent>
+      ) : (
+        <TouchableNativeFeedback
+          {...sharedTouchableProps}
+          //@ts-ignore
+          background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
+        >
+          {buttonContent}
+        </TouchableNativeFeedback>
+      )}
     </View>
   );
 };
@@ -98,6 +127,10 @@ function getTextStyle({
   }
 }
 
+function getTouchableStyle(size: Size) {
+  return styles[("touchable" + capitalize(size)) as keyof typeof styles];
+}
+
 const styles = StyleSheet.create({
   buttonBase: {
     borderRadius: 6,
@@ -114,9 +147,15 @@ const styles = StyleSheet.create({
     borderColor: "#EEEEEE",
     borderWidth: 1.5,
   },
-  touchable: {
+  touchableMedium: {
     paddingVertical: 15,
     paddingHorizontal: 30,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  touchableSmall: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -127,7 +166,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   textOutlinedLight: {
-    color: "#0066FF",
+    color: "#FFFFFF",
   },
   textOutlinedDark: {
     color: "#0066FF",

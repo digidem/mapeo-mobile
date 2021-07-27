@@ -72,7 +72,7 @@ export type State = {
 
 export type ConfigContextType = [
   State,
-  { reload: () => any; replace: (fileUri: string) => any }
+  { reload: () => void; replace: (fileUri: string) => void }
 ];
 
 const defaultConfig = {
