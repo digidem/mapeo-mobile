@@ -23,7 +23,9 @@ import AboutMapeo from "../screens/Settings/AboutMapeo";
 import LanguageSettings from "../screens/Settings/LanguageSettings";
 import CoordinateFormat from "../screens/Settings/CoordinateFormat";
 import HomeHeader from "../sharedComponents/HomeHeader";
-import ProjectInviteModal from "../screens/ProjectInviteModal";
+import { LeaveProjectScreen } from "../screens/LeaveProject/LeaveProject";
+import { LeaveProjectProgress } from "../screens/LeaveProject/LeaveProjectProgess";
+import { LeaveProjectCompleted } from "../screens/LeaveProject/LeaveProjectCompleted";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -75,6 +77,9 @@ export const AppStack = createStackNavigator(
     ObservationEdit: ObservationEdit,
     ManualGpsScreen: ManualGpsScreen,
     ObservationDetails: ObservationDetails,
+    LeaveProjectScreen: LeaveProjectScreen,
+    LeaveProjectProgress: LeaveProjectProgress,
+    LeaveProjectCompleted: LeaveProjectCompleted,
   },
   {
     initialRouteName: "Home",
