@@ -16,6 +16,7 @@ import IconButton from "../sharedComponents/IconButton";
 import WifiBar from "../sharedComponents/WifiBar";
 import Text from "../sharedComponents/Text";
 import useProjectInviteListener from "../hooks/useProjectInviteListener";
+import { URI_PREFIX } from "../constants";
 
 const m = defineMessages({
   title: {
@@ -46,7 +47,8 @@ const SendJoinRequestScreen: NavigationStackScreenComponent = () => {
   // TOOD: Need to properly generate
   const verificationCode = Math.random().toString().slice(-5);
 
-  const shareLink = `mapeo://projInvite/${verificationCode}`;
+  // TODO: Decide on a URL structure for this deep link
+  const shareLink = `${URI_PREFIX}main/onboarding?code=${verificationCode}`;
 
   return (
     <View style={styles.pageContainer}>

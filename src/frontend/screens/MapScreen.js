@@ -13,7 +13,6 @@ import ObservationsContext from "../context/ObservationsContext";
 import LocationContext from "../context/LocationContext";
 import AddButton from "../sharedComponents/AddButton";
 import type { NavigationProp } from "../types";
-import { useDeepLink } from "../hooks/useDeepLink";
 
 const log = debug("mapeo:MapScreen");
 
@@ -27,8 +26,6 @@ const MapScreen = ({ navigation }: Props) => {
 
   const [{ observations, status }] = React.useContext(ObservationsContext);
   const location = React.useContext(LocationContext);
-
-  useDeepLink();
 
   const handleObservationPress = React.useCallback(
     (observationId: string) =>
