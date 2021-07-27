@@ -26,6 +26,7 @@ import HomeHeader from "../sharedComponents/HomeHeader";
 import { LeaveProjectScreen } from "../screens/LeaveProject/LeaveProject";
 import { LeaveProjectProgress } from "../screens/LeaveProject/LeaveProjectProgess";
 import { LeaveProjectCompleted } from "../screens/LeaveProject/LeaveProjectCompleted";
+import { AlreadyOnProj } from "../screens/AlreadyOnProject";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -80,6 +81,7 @@ export const AppStack = createStackNavigator(
     LeaveProjectScreen: LeaveProjectScreen,
     LeaveProjectProgress: LeaveProjectProgress,
     LeaveProjectCompleted: LeaveProjectCompleted,
+    AlreadyOnProj: AlreadyOnProj,
   },
   {
     initialRouteName: "Home",
