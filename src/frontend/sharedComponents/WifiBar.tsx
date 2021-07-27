@@ -2,6 +2,7 @@ import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
 import DeviceInfo from "react-native-device-info";
+import OpenSettings from "react-native-android-open-settings";
 
 import { TouchableNativeFeedback } from "./Touchables";
 
@@ -26,7 +27,11 @@ interface Props {
   ssid?: string | null;
 }
 
-const WifiBar = ({ deviceName, onPress, ssid }: Props) => (
+const WifiBar = ({
+  deviceName,
+  onPress = () => OpenSettings.wifiSettings(),
+  ssid,
+}: Props) => (
   <TouchableNativeFeedback onPress={onPress}>
     <View style={styles.wifiBar}>
       <View style={styles.wifiInfo}>
