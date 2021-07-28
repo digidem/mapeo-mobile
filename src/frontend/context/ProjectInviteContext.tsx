@@ -11,7 +11,8 @@ export interface ProjectInvite {
 const ProjectInviteContext = React.createContext<{
   invite?: ProjectInvite;
   removeInvite: (inviteId: string) => void;
-}>({ removeInvite: () => null });
+  addInvite: () => void;
+}>({ removeInvite: () => null, addInvite: () => null });
 
 export const ProjectInviteProvider = ({
   children,
@@ -27,11 +28,21 @@ export const ProjectInviteProvider = ({
       previous.filter(invite => invite.project.id !== projectId)
     );
 
+  const addInvite = React.useCallback(() => {
+    setInvites([
+      {
+        project: { id: "test-id", name: "DD Project" },
+        role: "Project Participant",
+      },
+    ]);
+  }, []);
+
   return (
     <ProjectInviteContext.Provider
       value={{
         invite: invites[0],
         removeInvite,
+        addInvite,
       }}
     >
       {children}

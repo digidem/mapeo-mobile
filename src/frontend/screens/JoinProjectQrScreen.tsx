@@ -16,6 +16,7 @@ import IconButton from "../sharedComponents/IconButton";
 import Text from "../sharedComponents/Text";
 import WifiBar from "../sharedComponents/WifiBar";
 import useProjectInviteListener from "../hooks/useProjectInviteListener";
+import ProjectInviteContext from "../context/ProjectInviteContext";
 
 const m = defineMessages({
   title: {
@@ -38,6 +39,8 @@ const m = defineMessages({
 
 const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
   useProjectInviteListener();
+
+  const { addInvite } = React.useContext(ProjectInviteContext);
 
   const navigation = useNavigation();
   const { ssid } = useWifiStatus();
@@ -65,6 +68,9 @@ const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
               <FormattedMessage {...m.instructionsDescription} />
             </Text>
           </View>
+          <Button variant="outlined" onPress={() => addInvite()}>
+            <Text style={[]}>QA only: Open Project Invite Modal</Text>
+          </Button>
         </View>
         <Button
           variant="text"
