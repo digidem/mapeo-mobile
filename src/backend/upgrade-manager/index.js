@@ -355,7 +355,10 @@ class UpgradeManager extends AsyncService {
    */
   async _start() {
     log("%d: starting", this.#port);
-    this.#port = await getPort();
+    // When the upgrade server restarts (e.g. after app goes into background and
+    // returns to the foreground), then prefer the same port. `this.#port`
+    // starts as 0, which we don't want to use.
+    this.#port = await getPort({ port: this.#port || undefined });
     await Promise.all([
       this.#discovery.start(this.#port),
       this.#server.start(this.#port),
