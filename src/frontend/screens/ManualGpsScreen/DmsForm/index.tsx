@@ -10,6 +10,13 @@ import {
   parseNumber,
 } from "../shared";
 import DmsInputGroup from "./DmsInputGroup";
+import LocationContext from "../../../context/LocationContext";
+
+const INITIAL_UNIT_VALUES = {
+  degrees: "",
+  minutes: "",
+  seconds: "",
+};
 
 export type DmsData = {
   degrees: string;
@@ -58,7 +65,7 @@ const m = defineMessages({
   },
 });
 
-const DmsForm = ({ coords, onValueUpdate }: FormProps) => {
+const DmsForm = ({ onValueUpdate }: FormProps) => {
   const { formatMessage: t } = useIntl();
 
   const DIRECTION_OPTIONS_NORTH_SOUTH = [
@@ -83,50 +90,24 @@ const DmsForm = ({ coords, onValueUpdate }: FormProps) => {
     },
   ];
 
-  const [latitude, setLatitude] = React.useState<DmsData>(() => {
-    if (typeof coords?.lat !== "number") {
-      return {
-        degrees: "",
-        minutes: "",
-        seconds: "",
-      };
-    }
+  const [latitude, setLatitude] = React.useState<DmsData>(INITIAL_UNIT_VALUES);
+  const [longitude, setLongitude] = React.useState<DmsData>(
+    INITIAL_UNIT_VALUES
+  );
 
-    const { degrees, minutes, seconds } = toDegreesMinutesAndSeconds(
-      coords.lat
-    );
-
-    return {
-      degrees: degrees.toString(),
-      minutes: minutes.toString(),
-      seconds: seconds.toFixed(3),
-    };
-  });
-  const [longitude, setLongitude] = React.useState<DmsData>(() => {
-    if (typeof coords?.lon !== "number") {
-      return {
-        degrees: "",
-        minutes: "",
-        seconds: "",
-      };
-    }
-
-    const { degrees, minutes, seconds } = toDegreesMinutesAndSeconds(
-      coords.lon
-    );
-
-    return {
-      degrees: degrees.toString(),
-      minutes: minutes.toString(),
-      seconds: seconds.toFixed(3),
-    };
-  });
+  const location = React.useContext(LocationContext);
+  const lastSavedPositionCoordinates = !!location?.savedPosition
+    ? {
+        lat: location.savedPosition.coords.latitude,
+        lon: location.savedPosition.coords.longitude,
+      }
+    : undefined;
 
   const [latCardinality, setLatCardinality] = React.useState(
-    getInitialCardinality("lat", coords)
+    getInitialCardinality("lat", lastSavedPositionCoordinates)
   );
   const [lonCardinality, setLonCardinality] = React.useState(
-    getInitialCardinality("lon", coords)
+    getInitialCardinality("lon", lastSavedPositionCoordinates)
   );
 
   const updateCoordinate = (field: CoordinateField) => (

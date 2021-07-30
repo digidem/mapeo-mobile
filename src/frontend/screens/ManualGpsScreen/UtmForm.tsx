@@ -6,6 +6,7 @@ import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import Text from "../../sharedComponents/Text";
 import { BLACK, LIGHT_GREY } from "../../lib/styles";
 import { FormProps, parseNumber } from "./shared";
+import LocationContext from "../../context/LocationContext";
 
 const m = defineMessages({
   zoneNumber: {
@@ -34,13 +35,27 @@ const m = defineMessages({
   },
 });
 
-const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
+const UtmForm = ({ onValueUpdate }: FormProps) => {
   const { formatMessage: t } = useIntl();
 
+  const location = React.useContext(LocationContext);
+  const lastSavedPositionCoordinates = !!location?.savedPosition
+    ? {
+        lat: location.savedPosition.coords.latitude,
+        lon: location.savedPosition.coords.longitude,
+      }
+    : undefined;
+
   const [zoneNum, setZoneNum] = React.useState(() => {
-    if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
+    if (
+      typeof lastSavedPositionCoordinates?.lat === "number" &&
+      typeof lastSavedPositionCoordinates?.lon === "number"
+    ) {
       try {
-        const { zoneNum } = fromLatLon(coords.lat, coords.lon);
+        const { zoneNum } = fromLatLon(
+          lastSavedPositionCoordinates.lat,
+          lastSavedPositionCoordinates.lon
+        );
         return zoneNum + "";
       } catch (e) {
         return "";
@@ -51,9 +66,15 @@ const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
   });
 
   const [zoneLetter, setZoneLetter] = React.useState<string>(() => {
-    if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
+    if (
+      typeof lastSavedPositionCoordinates?.lat === "number" &&
+      typeof lastSavedPositionCoordinates?.lon === "number"
+    ) {
       try {
-        const { zoneLetter } = fromLatLon(coords.lat, coords.lon);
+        const { zoneLetter } = fromLatLon(
+          lastSavedPositionCoordinates.lat,
+          lastSavedPositionCoordinates.lon
+        );
         return zoneLetter;
       } catch (e) {
         return "";
@@ -63,30 +84,8 @@ const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
     }
   });
 
-  const [easting, setEasting] = React.useState(() => {
-    if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
-      try {
-        const { easting } = fromLatLon(coords.lat, coords.lon);
-        return easting.toString();
-      } catch (e) {
-        return "";
-      }
-    } else {
-      return "";
-    }
-  });
-  const [northing, setNorthing] = React.useState(() => {
-    if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
-      try {
-        const { northing } = fromLatLon(coords.lat, coords.lon);
-        return northing.toString();
-      } catch (e) {
-        return "";
-      }
-    } else {
-      return "";
-    }
-  });
+  const [easting, setEasting] = React.useState("");
+  const [northing, setNorthing] = React.useState("");
 
   React.useEffect(() => {
     try {

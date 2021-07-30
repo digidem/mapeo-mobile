@@ -73,14 +73,7 @@ const ManualGpsScreen: StackScreenComponent = ({ navigation }) => {
 
   const [convertedData, setConvertedData] = React.useState<
     ConvertedCoordinateData
-  >(() => ({
-    coords: value
-      ? { lat: value.lat, lon: value.lon }
-      : {
-          lat: location?.position?.coords.latitude,
-          lon: location?.position?.coords.longitude,
-        },
-  }));
+  >({});
 
   React.useEffect(() => {
     function handleSavePress() {
@@ -139,20 +132,11 @@ const ManualGpsScreen: StackScreenComponent = ({ navigation }) => {
 
             <View style={styles.formContainer}>
               {entryCoordinateFormat === "dd" ? (
-                <DdForm
-                  coords={convertedData.coords}
-                  onValueUpdate={setConvertedData}
-                />
+                <DdForm onValueUpdate={setConvertedData} />
               ) : entryCoordinateFormat === "dms" ? (
-                <DmsForm
-                  coords={convertedData.coords}
-                  onValueUpdate={setConvertedData}
-                />
+                <DmsForm onValueUpdate={setConvertedData} />
               ) : (
-                <UtmForm
-                  coords={convertedData.coords}
-                  onValueUpdate={setConvertedData}
-                />
+                <UtmForm onValueUpdate={setConvertedData} />
               )}
             </View>
           </View>

@@ -8,7 +8,6 @@ export type ConvertedCoordinateData = {
 };
 
 export type FormProps = {
-  coords?: Coordinates;
   onValueUpdate: (convertedCoordinates: ConvertedCoordinateData) => void;
 };
 

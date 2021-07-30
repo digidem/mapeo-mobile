@@ -17,6 +17,7 @@ import {
   getInitialCardinality,
   parseNumber,
 } from "./shared";
+import LocationContext from "../../context/LocationContext";
 
 const MAX_COORDINATE_INPUT_LENGTH = 11;
 
@@ -67,7 +68,7 @@ const m = defineMessages({
   },
 });
 
-const DdForm = ({ coords, onValueUpdate }: FormProps) => {
+const DdForm = ({ onValueUpdate }: FormProps) => {
   const { formatMessage: t } = useIntl();
 
   const DIRECTION_OPTIONS_NORTH_SOUTH = [
@@ -92,22 +93,22 @@ const DdForm = ({ coords, onValueUpdate }: FormProps) => {
     },
   ];
 
-  const [latitudeDegrees, setLatitudeDegrees] = React.useState<string>(() =>
-    typeof coords?.lat === "number" && !Number.isNaN(coords.lat)
-      ? Math.abs(coords.lat).toString()
-      : ""
-  );
-  const [longitudeDegrees, setLongitudeDegrees] = React.useState<string>(
-    typeof coords?.lon === "number" && !Number.isNaN(coords.lon)
-      ? Math.abs(coords.lon).toString()
-      : ""
-  );
+  const location = React.useContext(LocationContext);
+  const lastSavedPositionCoordinates = !!location?.savedPosition
+    ? {
+        lat: location.savedPosition.coords.latitude,
+        lon: location.savedPosition.coords.longitude,
+      }
+    : undefined;
+
+  const [latitudeDegrees, setLatitudeDegrees] = React.useState<string>("");
+  const [longitudeDegrees, setLongitudeDegrees] = React.useState<string>("");
 
   const [selectedLatCardinality, setSelectedLatCardinality] = React.useState(
-    getInitialCardinality("lat", coords)
+    getInitialCardinality("lat", lastSavedPositionCoordinates)
   );
   const [selectedLonCardinality, setSelectedLonCardinality] = React.useState(
-    getInitialCardinality("lon", coords)
+    getInitialCardinality("lon", lastSavedPositionCoordinates)
   );
 
   const parsedLat = parseNumber(latitudeDegrees);
