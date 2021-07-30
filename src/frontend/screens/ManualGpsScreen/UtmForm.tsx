@@ -1,7 +1,7 @@
 import * as React from "react";
 import { toLatLon as origToLatLon, fromLatLon } from "utm";
 import { View, TextInput, StyleSheet } from "react-native";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import Text from "../../sharedComponents/Text";
 import { BLACK, LIGHT_GREY } from "../../lib/styles";
@@ -35,6 +35,8 @@ const m = defineMessages({
 });
 
 const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
+  const { formatMessage: t } = useIntl();
+
   const [zoneNum, setZoneNum] = React.useState(() => {
     if (typeof coords?.lat === "number" && typeof coords?.lon === "number") {
       try {
@@ -116,6 +118,7 @@ const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
             <FormattedMessage {...m.zoneNumber} />
           </Text>
           <TextInput
+            accessibilityLabel={t(m.zoneNumber)}
             placeholder="DD"
             placeholderTextColor="silver"
             underlineColorAndroid="transparent"
@@ -131,6 +134,7 @@ const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
             <FormattedMessage {...m.zoneLetter} />
           </Text>
           <TextInput
+            accessibilityLabel={t(m.zoneLetter)}
             placeholder="S"
             placeholderTextColor="silver"
             underlineColorAndroid="transparent"
@@ -151,6 +155,7 @@ const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
           </Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <TextInput
+              accessibilityLabel={t(m.easting)}
               placeholder="XXXXXX"
               placeholderTextColor="silver"
               underlineColorAndroid="transparent"
@@ -170,6 +175,7 @@ const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
           </Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <TextInput
+              accessibilityLabel={t(m.northing)}
               placeholder="XXXXXX"
               placeholderTextColor="silver"
               underlineColorAndroid="transparent"
@@ -189,6 +195,7 @@ const UtmForm = ({ coords, onValueUpdate }: FormProps) => {
 };
 
 export default UtmForm;
+export { m as messages };
 
 function toLatLon({
   easting,

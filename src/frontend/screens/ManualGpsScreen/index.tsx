@@ -9,7 +9,6 @@ import {
 import Text from "../../sharedComponents/Text";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 
-import { StackScreenComponent } from "../../sharedTypes";
 import useSettingsValue from "../../hooks/useSettingsValue";
 import createPersistedState from "../../hooks/usePersistedState";
 import { BLACK } from "../../lib/styles";
@@ -19,6 +18,7 @@ import LocationContext from "../../context/LocationContext";
 import IconButton from "../../sharedComponents/IconButton";
 import { BackIcon, SaveIcon } from "../../sharedComponents/icons";
 import Select from "../../sharedComponents/Select";
+import { StackScreenComponent } from "../../sharedTypes";
 
 import { ConvertedCoordinateData } from "./shared";
 import DdForm from "./DdForm";
@@ -129,9 +129,9 @@ const ManualGpsScreen: StackScreenComponent = ({ navigation }) => {
           </Text>
           <Select
             containerStyles={styles.selectContainer}
-            selectedValue={entryCoordinateFormat}
             onChange={setEntryCoordinateFormat}
             options={ENTRY_FORMAT_OPTIONS}
+            selectedValue={entryCoordinateFormat}
           />
         </View>
 

@@ -48,6 +48,14 @@ const m = defineMessages({
     id: "screens.ManualGpsScreen.DmsForm.west",
     defaultMessage: "West",
   },
+  selectLatCardinality: {
+    id: "screens.ManualGpsScreen.DmsForm.selectLatCardinality",
+    defaultMessage: "Select latitude cardinality",
+  },
+  selectLonCardinality: {
+    id: "screens.ManualGpsScreen.DdForm.selectLonCardinality",
+    defaultMessage: "Select longitude cardinality",
+  },
 });
 
 const DmsForm = ({ coords, onValueUpdate }: FormProps) => {
@@ -168,8 +176,11 @@ const DmsForm = ({ coords, onValueUpdate }: FormProps) => {
       <DmsInputGroup
         cardinalityOptions={DIRECTION_OPTIONS_NORTH_SOUTH}
         coordinate={latitude}
+        inputAccessibilityLabelPrefix={t(m.latitude)}
         label={<FormattedMessage {...m.latitude} />}
+        selectCardinaltiyAccessibilityLabel={t(m.selectLatCardinality)}
         selectedCardinality={latCardinality}
+        selectTestID="DmsInputGroup-lat-select"
         updateCardinality={updateCardinality("lat")}
         updateCoordinate={updateCoordinate("lat")}
       />
@@ -177,8 +188,11 @@ const DmsForm = ({ coords, onValueUpdate }: FormProps) => {
       <DmsInputGroup
         cardinalityOptions={DIRECTION_OPTIONS_EAST_WEST}
         coordinate={longitude}
+        inputAccessibilityLabelPrefix={t(m.longitude)}
         label={<FormattedMessage {...m.longitude} />}
+        selectCardinaltiyAccessibilityLabel={t(m.selectLonCardinality)}
         selectedCardinality={lonCardinality}
+        selectTestID="DmsInputGroup-lon-select"
         updateCardinality={updateCardinality("lon")}
         updateCoordinate={updateCoordinate("lon")}
       />
@@ -219,3 +233,4 @@ function dmsValuesAreValid(field: CoordinateField, coordinate: DmsData) {
 }
 
 export default DmsForm;
+export { m as messages };

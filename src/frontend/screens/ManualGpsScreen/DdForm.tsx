@@ -49,6 +49,22 @@ const m = defineMessages({
     id: "screens.ManualGpsScreen.DdForm.west",
     defaultMessage: "West",
   },
+  latInputLabel: {
+    id: "screens.ManualGpsScreen.DdForm.latInputLabel",
+    defaultMessage: "Latitude value",
+  },
+  lonInputLabel: {
+    id: "screens.ManualGpsScreen.DdForm.lonInputLabel",
+    defaultMessage: "Longitude value",
+  },
+  selectLatCardinality: {
+    id: "screens.ManualGpsScreen.DdForm.selectLatCardinality",
+    defaultMessage: "Select latitude cardinality",
+  },
+  selectLonCardinality: {
+    id: "screens.ManualGpsScreen.DdForm.selectLonCardinality",
+    defaultMessage: "Select longitude cardinality",
+  },
 });
 
 const DdForm = ({ coords, onValueUpdate }: FormProps) => {
@@ -165,24 +181,27 @@ const DdForm = ({ coords, onValueUpdate }: FormProps) => {
             <FormattedMessage {...m.latitude} />
           </Text>
           <TextInput
+            accessibilityLabel={t(m.latInputLabel)}
+            keyboardType="decimal-pad"
+            maxLength={MAX_COORDINATE_INPUT_LENGTH}
+            onChangeText={validateOnChange(setLatitudeDegrees)}
+            onEndEditing={formatInputValue(setLatitudeDegrees)}
             placeholder="0.00"
             placeholderTextColor="silver"
-            underlineColorAndroid="transparent"
-            keyboardType="decimal-pad"
-            onEndEditing={formatInputValue(setLatitudeDegrees)}
-            onChangeText={validateOnChange(setLatitudeDegrees)}
-            value={latitudeDegrees}
             style={styles.input}
-            maxLength={MAX_COORDINATE_INPUT_LENGTH}
+            underlineColorAndroid="transparent"
+            value={latitudeDegrees}
           />
         </View>
         <View style={styles.column}>
           <Select
             containerStyles={styles.select}
+            label={t(m.selectLatCardinality)}
             mode="dropdown"
             onChange={setSelectedLatCardinality}
             options={DIRECTION_OPTIONS_NORTH_SOUTH}
             selectedValue={selectedLatCardinality}
+            testID="DdForm-lat-select"
           />
         </View>
       </View>
@@ -192,24 +211,27 @@ const DdForm = ({ coords, onValueUpdate }: FormProps) => {
             <FormattedMessage {...m.longitude} />
           </Text>
           <TextInput
+            accessibilityLabel={t(m.lonInputLabel)}
+            keyboardType="decimal-pad"
+            maxLength={MAX_COORDINATE_INPUT_LENGTH}
+            onChangeText={validateOnChange(setLongitudeDegrees)}
+            onEndEditing={formatInputValue(setLongitudeDegrees)}
             placeholder="0.00"
             placeholderTextColor="silver"
-            underlineColorAndroid="transparent"
-            keyboardType="decimal-pad"
-            onEndEditing={formatInputValue(setLongitudeDegrees)}
-            onChangeText={validateOnChange(setLongitudeDegrees)}
             style={styles.input}
+            underlineColorAndroid="transparent"
             value={longitudeDegrees}
-            maxLength={MAX_COORDINATE_INPUT_LENGTH}
           />
         </View>
         <View style={styles.column}>
           <Select
             containerStyles={styles.select}
+            label={t(m.selectLonCardinality)}
             mode="dropdown"
             onChange={setSelectedLonCardinality}
             options={DIRECTION_OPTIONS_EAST_WEST}
             selectedValue={selectedLonCardinality}
+            testID="DdForm-lon-select"
           />
         </View>
       </View>
@@ -218,6 +240,7 @@ const DdForm = ({ coords, onValueUpdate }: FormProps) => {
 };
 
 export default DdForm;
+export { m as messages };
 
 const styles = StyleSheet.create({
   inputLabel: {

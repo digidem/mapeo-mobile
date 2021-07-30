@@ -12,25 +12,31 @@ type Option<Value> = {
 
 type Props<Value> = {
   containerStyles?: ViewStyleProp;
+  label?: string;
   mode?: "dialog" | "dropdown";
   onChange: (value: Value, index: number) => void;
   options: Option<Value>[];
   selectedValue: Value;
+  testID?: string;
 };
 
 const Select = <Value extends string | number>({
   containerStyles,
+  label,
   mode,
   onChange,
   options,
   selectedValue,
+  testID,
 }: Props<Value>) => (
   <View style={[styles.container, containerStyles]}>
     <Picker
-      selectedValue={selectedValue}
-      onValueChange={onChange}
-      style={styles.picker}
+      accessibilityLabel={label}
       mode={mode}
+      onValueChange={onChange}
+      selectedValue={selectedValue}
+      style={styles.picker}
+      testID={testID}
     >
       {options.map(option => (
         <Picker.Item key={option.value} {...option} />

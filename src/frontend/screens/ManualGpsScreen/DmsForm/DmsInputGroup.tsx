@@ -6,7 +6,7 @@ import {
   TextInputEndEditingEventData,
   View,
 } from "react-native";
-import { FormattedMessage, defineMessages } from "react-intl";
+import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 
 import Text from "../../../sharedComponents/Text";
 import Select from "../../../sharedComponents/Select";
@@ -27,6 +27,18 @@ const m = defineMessages({
     id: "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds",
     defaultMessage: "Seconds",
   },
+  degreesInputLabel: {
+    id: "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel",
+    defaultMessage: "{field} degrees input",
+  },
+  minutesInputLabel: {
+    id: "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel",
+    defaultMessage: "{field} minutes input",
+  },
+  secondsInputLabel: {
+    id: "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel",
+    defaultMessage: "{field} seconds input",
+  },
   direction: {
     id: "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction",
     defaultMessage: "Direction",
@@ -36,8 +48,11 @@ const m = defineMessages({
 interface Props {
   cardinalityOptions: { label: string; value: string }[];
   coordinate: DmsData;
+  inputAccessibilityLabelPrefix: string;
   label: React.ReactNode;
   selectedCardinality: string;
+  selectCardinaltiyAccessibilityLabel: string;
+  selectTestID: string;
   updateCardinality: (value: string) => void;
   updateCoordinate: (unit: DmsUnit, value: string) => void;
 }
@@ -45,11 +60,16 @@ interface Props {
 const DmsInputGroup = ({
   cardinalityOptions,
   coordinate,
+  inputAccessibilityLabelPrefix,
   label,
   selectedCardinality,
+  selectCardinaltiyAccessibilityLabel,
+  selectTestID,
   updateCardinality,
   updateCoordinate,
 }: Props) => {
+  const { formatMessage: t } = useIntl();
+
   const updateCoordinateCallback = React.useCallback(
     (unit: DmsUnit) => (value: string) => {
       if (value.length === 0) {
@@ -57,7 +77,7 @@ const DmsInputGroup = ({
         return;
       }
 
-      if (unit === "seconds") {
+      if (unit === "seconds" && !value.includes("-")) {
         updateCoordinate(unit, value);
       } else {
         if (INTEGER_REGEX.test(value)) {
@@ -85,6 +105,9 @@ const DmsInputGroup = ({
           <View style={styles.inputsContainer}>
             <View style={styles.inputContainer}>
               <TextInput
+                accessibilityLabel={t(m.degreesInputLabel, {
+                  field: inputAccessibilityLabelPrefix,
+                })}
                 keyboardType="number-pad"
                 maxLength={3}
                 onChangeText={updateCoordinateCallback("degrees")}
@@ -102,6 +125,9 @@ const DmsInputGroup = ({
             <Text style={styles.suffix}>{"°"}</Text>
             <View style={styles.inputContainer}>
               <TextInput
+                accessibilityLabel={t(m.minutesInputLabel, {
+                  field: inputAccessibilityLabelPrefix,
+                })}
                 keyboardType="number-pad"
                 maxLength={2}
                 onChangeText={updateCoordinateCallback("minutes")}
@@ -119,6 +145,9 @@ const DmsInputGroup = ({
             <Text style={styles.suffix}>{"'"}</Text>
             <View style={styles.inputContainer}>
               <TextInput
+                accessibilityLabel={t(m.secondsInputLabel, {
+                  field: inputAccessibilityLabelPrefix,
+                })}
                 keyboardType="decimal-pad"
                 maxLength={8}
                 onChangeText={updateCoordinateCallback("seconds")}
@@ -142,11 +171,13 @@ const DmsInputGroup = ({
           <FormattedMessage {...m.direction} />:
         </Text>
         <Select
-          mode="dropdown"
           containerStyles={{ width: 150, marginHorizontal: 20 }}
+          label={selectCardinaltiyAccessibilityLabel}
+          mode="dropdown"
           onChange={updateCardinality}
           options={cardinalityOptions}
           selectedValue={selectedCardinality}
+          testID={selectTestID}
         />
       </View>
     </View>
@@ -154,6 +185,7 @@ const DmsInputGroup = ({
 };
 
 export default DmsInputGroup;
+export { m as messages };
 
 const styles = StyleSheet.create({
   groupContainer: {
