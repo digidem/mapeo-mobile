@@ -121,40 +121,44 @@ const ManualGpsScreen: StackScreenComponent = ({ navigation }) => {
   }
 
   return (
-    <KeyboardAvoidingView behavior="height">
-      <ScrollView style={styles.container}>
-        <View style={styles.formatSelect}>
-          <Text style={styles.inputLabel}>
-            <FormattedMessage {...m.coordinateFormat} />
-          </Text>
-          <Select
-            containerStyles={styles.selectContainer}
-            onChange={setEntryCoordinateFormat}
-            options={ENTRY_FORMAT_OPTIONS}
-            selectedValue={entryCoordinateFormat}
-          />
-        </View>
+    <View>
+      <KeyboardAvoidingView behavior="height" keyboardVerticalOffset={50}>
+        <ScrollView>
+          <View style={styles.contentContainer}>
+            <View style={styles.formatSelect}>
+              <Text style={styles.inputLabel}>
+                <FormattedMessage {...m.coordinateFormat} />
+              </Text>
+              <Select
+                containerStyles={styles.selectContainer}
+                onChange={setEntryCoordinateFormat}
+                options={ENTRY_FORMAT_OPTIONS}
+                selectedValue={entryCoordinateFormat}
+              />
+            </View>
 
-        <View style={styles.formContainer}>
-          {entryCoordinateFormat === "dd" ? (
-            <DdForm
-              coords={convertedData.coords}
-              onValueUpdate={setConvertedData}
-            />
-          ) : entryCoordinateFormat === "dms" ? (
-            <DmsForm
-              coords={convertedData.coords}
-              onValueUpdate={setConvertedData}
-            />
-          ) : (
-            <UtmForm
-              coords={convertedData.coords}
-              onValueUpdate={setConvertedData}
-            />
-          )}
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+            <View style={styles.formContainer}>
+              {entryCoordinateFormat === "dd" ? (
+                <DdForm
+                  coords={convertedData.coords}
+                  onValueUpdate={setConvertedData}
+                />
+              ) : entryCoordinateFormat === "dms" ? (
+                <DmsForm
+                  coords={convertedData.coords}
+                  onValueUpdate={setConvertedData}
+                />
+              ) : (
+                <UtmForm
+                  coords={convertedData.coords}
+                  onValueUpdate={setConvertedData}
+                />
+              )}
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 
@@ -185,7 +189,8 @@ ManualGpsScreen.navigationOptions = ({ navigation }) => ({
 export default ManualGpsScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  contentContainer: {
+    flex: 1,
     paddingVertical: 20,
     paddingHorizontal: 10,
   },
