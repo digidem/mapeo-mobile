@@ -8,10 +8,10 @@ const got = require("got").default;
 const Agent = require("agentkeepalive");
 const pDefer = require("p-defer");
 
-/** @typedef {import('../lib/types').InstallerInt} InstallerInt */
-/** @typedef {import("../lib/types").DevicePlan} DevicePlan */
+/** @typedef {import('../upgrade-manager/types').InstallerInt} InstallerInt */
+/** @typedef {import("../upgrade-manager/types").DevicePlan} DevicePlan */
 
-/** @type {import('../lib/types').DeviceInfo} */
+/** @type {import('../upgrade-manager/types').DeviceInfo} */
 const defaultDeviceInfo = {
   supportedAbis: ["armeabi-v7a", "arm64-v8a"],
   sdkVersion: 21,

@@ -1,7 +1,7 @@
 // @ts-check
 const fakeApks = require("./fake-apk-info");
 
-/** @typedef {import('../../lib/types').InstallerInt} InstallerInt */
+/** @typedef {import('../../upgrade-manager/types').InstallerInt} InstallerInt */
 
 /**
  * @typedef {object} TestFixtureCompare

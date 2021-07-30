@@ -10,7 +10,7 @@ import {
   RawRequestDefaultExpression,
 } from "fastify";
 import { PartialDeep } from "type-fest";
-import UpgradeManager from "./upgrade-manager";
+import UpgradeManager from ".";
 
 // External installer type, in server responses
 export type InstallerExt = Static<typeof InstallerExtSchema>;

@@ -17,7 +17,7 @@ const tar = require("tar-fs");
 const pump = require("pump");
 const tmp = require("tmp");
 const semverCoerce = require("semver/functions/coerce");
-const UpgradeManager = require("./lib/upgrade-manager");
+const UpgradeManager = require("./upgrade-manager");
 const { serializeError } = require("serialize-error");
 
 // Cleanup the temporary files even when an uncaught exception occurs
@@ -34,8 +34,8 @@ module.exports = createServer;
  *   This folder cannot be accessed by other apps or the user via a computer connection.
  * @param {string} sharedStorage Path to app-specific external file storage folder
  * @param {string} privateCacheStorage Path to app-specific internal cache storage folder
- * @param {import('./lib/types').DeviceInfo} deviceInfo sdkVersion and supportedAbis for current device
- * @param {import('./lib/types').InstallerInt} currentApkInfo info about the currently running APK (see ./lib/types for documentation)
+ * @param {import('./upgrade-manager/types').DeviceInfo} deviceInfo sdkVersion and supportedAbis for current device
+ * @param {import('./upgrade-manager/types').InstallerInt} currentApkInfo info about the currently running APK (see ./lib/types for documentation)
  */
 function createServer({
   privateStorage,
