@@ -3,8 +3,8 @@
 const path = require("path");
 const tmp = require("tmp-promise");
 const test = require("tape");
-const UpgradeStorage = require("../lib/upgrade-storage");
-const UpgradeServer = require("../lib/upgrade-server");
+const UpgradeStorage = require("../upgrade-manager/upgrade-storage");
+const UpgradeServer = require("../upgrade-manager/upgrade-server");
 const fs = require("fs");
 const { promisify } = require("util");
 const stream = require("stream");
@@ -16,7 +16,7 @@ const got = require("got").default;
 
 tmp.setGracefulCleanup();
 
-/** @typedef {import('../lib/types').InstallerInt} InstallerInt */
+/** @typedef {import('../upgrade-manager/types').InstallerInt} InstallerInt */
 
 /** @param {InstallerInt} currentApkInfo */
 async function startServer(currentApkInfo) {

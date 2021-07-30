@@ -17,7 +17,7 @@ const tar = require("tar-fs");
 const pump = require("pump");
 const tmp = require("tmp");
 const semverCoerce = require("semver/functions/coerce");
-const UpgradeManager = require("./lib/upgrade-manager");
+const UpgradeManager = require("./upgrade-manager");
 const { serializeError } = require("serialize-error");
 
 // Cleanup the temporary files even when an uncaught exception occurs
@@ -34,8 +34,8 @@ module.exports = createServer;
  *   This folder cannot be accessed by other apps or the user via a computer connection.
  * @param {string} sharedStorage Path to app-specific external file storage folder
  * @param {string} privateCacheStorage Path to app-specific internal cache storage folder
- * @param {import('./lib/types').DeviceInfo} deviceInfo sdkVersion and supportedAbis for current device
- * @param {import('./lib/types').InstallerInt} currentApkInfo info about the currently running APK (see ./lib/types for documentation)
+ * @param {import('./upgrade-manager/types').DeviceInfo} deviceInfo sdkVersion and supportedAbis for current device
+ * @param {import('./upgrade-manager/types').InstallerInt} currentApkInfo info about the currently running APK (see ./lib/types for documentation)
  */
 function createServer({
   privateStorage,
@@ -174,32 +174,57 @@ function createServer({
     // the app is in the background? Ideally we would clean up event handlers
     // each time the app goes to the background and re-attach them when back in
     // foreground.
-    const manager = new UpgradeManager({
-      storageDir: upgradeStoragePath,
-      currentApkInfo,
-      deviceInfo,
-    });
-    manager.on("state", onState);
-    manager.on("error", err => {
-      onError("p2p-upgrade", err);
-      const serializedError = serializeError(err);
-      rnBridge.channel.post("p2p-upgrade::error", serializedError);
-    });
-    rnBridge.channel.on("p2p-upgrade::start-services", () => {
-      log("Request to start upgrade manager");
-      manager.start().catch(err => onError("p2p-start", err));
-    });
-    rnBridge.channel.on("p2p-upgrade::stop-services", () => {
-      log("Request to stop upgrade manager");
-      manager.stop().catch(err => onError("p2p-stop", err));
-    });
-    rnBridge.channel.on("p2p-upgrade::get-state", () => {
-      // Don't particularly like this way of doing things, eventually we will
-      // set up and RPC for calling these methods directly
-      const state = manager.getState();
-      onState(state);
-    });
 
+    try {
+      const manager = new UpgradeManager({
+        storageDir: upgradeStoragePath,
+        currentApkInfo,
+        deviceInfo,
+      });
+      manager.on("state", onState);
+      manager.on("error", err => {
+        onError("p2p-upgrade", err);
+        const serializedError = serializeError(err);
+        rnBridge.channel.post("p2p-upgrade::error", serializedError);
+      });
+      rnBridge.channel.on("p2p-upgrade::start-services", () => {
+        log("Request to start upgrade manager");
+        manager.start().catch(err => onError("p2p-start", err));
+      });
+      rnBridge.channel.on("p2p-upgrade::stop-services", () => {
+        log("Request to stop upgrade manager");
+        manager.stop().catch(err => onError("p2p-stop", err));
+      });
+      rnBridge.channel.on("p2p-upgrade::get-state", () => {
+        // Don't particularly like this way of doing things, eventually we will
+        // set up and RPC for calling these methods directly
+        const state = manager.getState();
+        onState(state);
+      });
+    } catch (err) {
+      main.bugsnag.notify(err, {
+        severity: "error",
+        context: "p2p-upgrade",
+      });
+      log(`error initializing p2p-upgrade: ${err.toString()}`);
+
+      rnBridge.channel.on("p2p-upgrade::get-state", () => {
+        // If UpgradeManager fails to initialize, we always report the state as
+        // the error, and ignore all the other IPC messages
+
+        /** @type {import("./upgrade-manager/types").UpgradeState} */
+        const state = {
+          value: "error",
+          error: err,
+          uploads: [],
+          downloads: [],
+          checkedPeers: [],
+        };
+        onState(state);
+      });
+    }
+
+    /** @param {import("./upgrade-manager/types").UpgradeState} state */
     function onState(state) {
       // Serialize error object so it can be transferred over ipc
       const serializedErrorState = {

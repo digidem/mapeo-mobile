@@ -1,5 +1,5 @@
 /* eslint-disable promise/param-names */
-const { beforeAfterStream } = require("../../lib/utils");
+const { beforeAfterStream } = require("../../upgrade-manager/utils");
 const test = require("tape");
 const stream = require("stream");
 const net = require("net");

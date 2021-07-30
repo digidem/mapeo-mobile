@@ -7,8 +7,8 @@ const { once } = require("events");
 const hasha = require("hasha");
 const { promises: fsPromises } = require("fs");
 const { setupStorage, hashCmp } = require("./helpers.js");
-const Discovery = require("../lib/upgrade-discovery");
-const Server = require("../lib/upgrade-server");
+const Discovery = require("../upgrade-manager/upgrade-discovery");
+const Server = require("../upgrade-manager/upgrade-server");
 const fakeApkInfo = require("./fixtures/fake-apk-info");
 const _ = require("lodash");
 const getStream = require("get-stream");
@@ -25,7 +25,7 @@ const validApksFolder = path.join(__dirname, "./fixtures/valid-apks");
 
 /**
  * @param {string[]} apkFilenames List of filenames to copy into temp directory
- * @param {import("../lib/types").InstallerInt} currentApkInfo
+ * @param {import("../upgrade-manager/types").InstallerInt} currentApkInfo
  * @param {{ throttle?: number, lookupInterval?: number, discoveryKey?: string }} [options]
  */
 async function createDiscovery(
@@ -290,7 +290,7 @@ test("Failed createReadStream() will remove installer from available list", asyn
 // protocol and host. For the actual data, it strips the protocol and host.
 // @ts-ignore
 function normalizeUrl({ filepath, ...other }) {
-  return /** @type {import('../lib/types').InstallerExt} */ ({
+  return /** @type {import('../upgrade-manager/types').InstallerExt} */ ({
     ...other,
     url: other.url
       ? other.url.replace(/^http:\/\/[^/]*/, "")

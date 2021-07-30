@@ -1,6 +1,6 @@
 // @ts-check
 
-/** @typedef {import('../../lib/types').InstallerInt} InstallerInt */
+/** @typedef {import('../../upgrade-manager/types').InstallerInt} InstallerInt */
 
 /** @type {InstallerInt} */
 const v0_0_1 = {

@@ -3,7 +3,7 @@
 const path = require("path");
 const tmp = require("tmp-promise");
 const test = require("tape");
-const Storage = require("../lib/upgrade-storage");
+const Storage = require("../upgrade-manager/upgrade-storage");
 const fs = require("fs");
 const mkdirp = require("mkdirp");
 const { once } = require("events");
@@ -15,7 +15,7 @@ const fakeApkInfo = require("./fixtures/fake-apk-info");
 const { readJson, hashCmp, setupStorage } = require("./helpers.js");
 const fsPromises = fs.promises;
 
-/** @typedef {import('../lib/types').InstallerInt} InstallerInt */
+/** @typedef {import('../upgrade-manager/types').InstallerInt} InstallerInt */
 
 tmp.setGracefulCleanup();
 
