@@ -1,14 +1,25 @@
-import * as React from "react";
-import { useNavigation } from "react-navigation-hooks";
-import ProjectInviteContext from "../context/ProjectInviteContext";
+import { useEffect, useRef } from "react";
 
-export default function useProjectInviteListener() {
-  const navigation = useNavigation();
-  const { invite } = React.useContext(ProjectInviteContext);
+// Gregor TODO: Add method to API for (un)subscribing to project invites
+const subscribeToProjectInvites = (callback: (inviteKey: string) => void) => {
+  const intervalId = setInterval(() => callback("abc123"), 3000);
+  return () => clearInterval(intervalId);
+};
 
-  React.useEffect(() => {
-    if (invite) {
-      navigation.navigate("ProjectInviteModal");
-    }
-  }, [invite, navigation]);
+export default function useProjectInviteListener(
+  onInviteReceived: (inviteKey: string) => void
+) {
+  const callbackRef = useRef(onInviteReceived);
+
+  useEffect(() => {
+    callbackRef.current = onInviteReceived;
+  }, [onInviteReceived]);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToProjectInvites(key => {
+      callbackRef.current(key);
+    });
+
+    return () => unsubscribe();
+  }, []);
 }
