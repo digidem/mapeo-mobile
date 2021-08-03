@@ -16,9 +16,8 @@ export default function useProjectInviteListener(
   }, [onInviteReceived]);
 
   useEffect(() => {
-    const unsubscribe = subscribeToProjectInvites(key => {
-      callbackRef.current(key);
-    });
+    const handleInvite = (key: string) => callbackRef.current(key);
+    const unsubscribe = subscribeToProjectInvites(handleInvite);
 
     return () => unsubscribe();
   }, []);
