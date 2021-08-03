@@ -15,7 +15,6 @@ import Button from "../sharedComponents/Button";
 import IconButton from "../sharedComponents/IconButton";
 import WifiBar from "../sharedComponents/WifiBar";
 import Text from "../sharedComponents/Text";
-import useProjectInviteListener from "../hooks/useProjectInviteListener";
 import { URI_PREFIX } from "../constants";
 
 const m = defineMessages({
@@ -38,8 +37,6 @@ const m = defineMessages({
 });
 
 const SendJoinRequestScreen: NavigationStackScreenComponent = () => {
-  useProjectInviteListener();
-
   const { ssid } = useWifiStatus();
 
   const deviceName = "Android " + getUniqueId().slice(0, 4).toUpperCase();
