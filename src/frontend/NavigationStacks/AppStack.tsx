@@ -1,9 +1,8 @@
 import React from "react";
-import { BottomTabBar, createBottomTabNavigator } from "react-navigation-tabs";
+import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-import useProjectInviteListener from "../hooks/useProjectInviteListener";
 import MapScreen from "../screens/MapScreen";
 import CameraScreen from "../screens/CameraScreen";
 import ObservationList from "../screens/ObservationsList";
@@ -34,10 +33,6 @@ const HomeTabs = createBottomTabNavigator(
     Camera: CameraScreen,
   },
   {
-    tabBarComponent: props => {
-      useProjectInviteListener();
-      return <BottomTabBar {...props} />;
-    },
     navigationOptions: () => ({
       header: (props: any) => <HomeHeader {...props} />,
       headerTransparent: true,
