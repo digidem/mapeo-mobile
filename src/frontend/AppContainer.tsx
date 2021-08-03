@@ -12,8 +12,8 @@ import { URI_PREFIX } from "./constants";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
 import IS_E2E from "./lib/is-e2e";
 import bugsnag from "./lib/logger";
-import { WithModalsStack } from "./NavigationStacks/WithModalsStack";
 import { AppStack } from "./NavigationStacks/AppStack";
+import { WithModalsStack } from "./NavigationStacks/WithModalsStack";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
