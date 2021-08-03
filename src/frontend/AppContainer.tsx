@@ -12,13 +12,16 @@ import { URI_PREFIX } from "./constants";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
 import IS_E2E from "./lib/is-e2e";
 import bugsnag from "./lib/logger";
+import { AppStack } from "./NavigationStacks/AppStack";
 import { WithModalsStack } from "./NavigationStacks/WithModalsStack";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 // WARNING: This needs to change if we change the navigation structure
-const NAV_STORE_KEY = "@MapeoNavigation@9";
+const NAV_STORE_KEY = `@MapeoNavigation@${
+  process.env.FEATURE_ONBOARDING === "true" ? 9 : 8
+}`;
 const ERROR_STORE_KEY = "@MapeoError";
 
 const EDITING_SCREEN_NAMES = [
@@ -83,7 +86,9 @@ const getRouteName = (navState?: NavigationState): string | null => {
 const inviteModalDisabledOnRoute = (routeName: string) =>
   EDITING_SCREEN_NAMES.includes(routeName);
 
-const AppContainer = createAppContainer(WithModalsStack);
+const AppContainer = createAppContainer(
+  process.env.FEATURE_ONBOARDING === "true" ? WithModalsStack : AppStack
+);
 
 const AppContainerWrapper = () => {
   const navRef = React.useRef<NavigationContainerComponent>();
