@@ -9,6 +9,7 @@ import {
 import AsyncStorage from "@react-native-community/async-storage";
 
 import { URI_PREFIX } from "./constants";
+import SettingsContext from "./context/SettingsContext";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
 import IS_E2E from "./lib/is-e2e";
 import bugsnag from "./lib/logger";
@@ -18,10 +19,10 @@ import { WithModalsStack } from "./NavigationStacks/WithModalsStack";
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
+
 // WARNING: This needs to change if we change the navigation structure
-const NAV_STORE_KEY = `@MapeoNavigation@${
-  process.env.FEATURE_ONBOARDING === "true" ? 9 : 8
-}`;
+const getNavStoreKey = (includeOnboarding: boolean) =>
+  `@MapeoNavigation@${includeOnboarding ? 9 : 8}`;
 const ERROR_STORE_KEY = "@MapeoError";
 
 const EDITING_SCREEN_NAMES = [
@@ -33,41 +34,44 @@ const EDITING_SCREEN_NAMES = [
   "ObservationEdit",
 ];
 
-const persistNavigationState = IS_E2E
-  ? undefined
-  : async (navState: NavigationState) => {
-      try {
-        await AsyncStorage.setItem(NAV_STORE_KEY, JSON.stringify(navState));
-      } catch (err) {
-        log("Error saving navigation state", err);
-      }
-    };
+const createNavigationStatePersister = (includeOnboarding: boolean) => async (
+  navState: NavigationState
+) => {
+  try {
+    await AsyncStorage.setItem(
+      getNavStoreKey(includeOnboarding),
+      JSON.stringify(navState)
+    );
+  } catch (err) {
+    log("Error saving navigation state", err);
+  }
+};
 
-const loadNavigationState = IS_E2E
-  ? undefined
-  : async () => {
-      try {
-        const navState = JSON.parse(
-          (await AsyncStorage.getItem(NAV_STORE_KEY)) as string
-        );
-        const didCrashLastOpen = JSON.parse(
-          (await AsyncStorage.getItem(ERROR_STORE_KEY)) as string
-        );
-        // Clear error saved state so that navigation persistence happens on next load
-        await AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(false));
-        // If the app crashed last time, don't restore nav state
-        if (didCrashLastOpen) {
-          bugsnag.leaveBreadcrumb("Crash on last open");
-          log("Crashed on last open, skipping load of navigation state");
-          return null;
-        } else {
-          return navState;
-        }
-      } catch (error) {
-        bugsnag.leaveBreadcrumb("Error loading nav state", { error });
-        log("Error reading navigation and error state", error);
-      }
-    };
+const createNavigationStateLoader = (
+  includeOnboarding: boolean
+) => async () => {
+  try {
+    const navState = JSON.parse(
+      (await AsyncStorage.getItem(getNavStoreKey(includeOnboarding))) as string
+    );
+    const didCrashLastOpen = JSON.parse(
+      (await AsyncStorage.getItem(ERROR_STORE_KEY)) as string
+    );
+    // Clear error saved state so that navigation persistence happens on next load
+    await AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(false));
+    // If the app crashed last time, don't restore nav state
+    if (didCrashLastOpen) {
+      bugsnag.leaveBreadcrumb("Crash on last open");
+      log("Crashed on last open, skipping load of navigation state");
+      return null;
+    } else {
+      return navState;
+    }
+  } catch (error) {
+    bugsnag.leaveBreadcrumb("Error loading nav state", { error });
+    log("Error reading navigation and error state", error);
+  }
+};
 
 const getRouteName = (navState?: NavigationState): string | null => {
   if (!navState) {
@@ -86,14 +90,11 @@ const getRouteName = (navState?: NavigationState): string | null => {
 const inviteModalDisabledOnRoute = (routeName: string) =>
   EDITING_SCREEN_NAMES.includes(routeName);
 
-const AppContainer = createAppContainer(
-  process.env.FEATURE_ONBOARDING === "true" ? WithModalsStack : AppStack
-);
-
 const AppContainerWrapper = () => {
   const navRef = React.useRef<NavigationContainerComponent>();
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
+  const [{ experiments }] = React.useContext(SettingsContext);
 
   const onNavStateChange = (
     previousState: NavigationState,
@@ -118,6 +119,30 @@ const AppContainerWrapper = () => {
     }
   }, []);
 
+  const { loadNavigationState, persistNavigationState } = React.useMemo(
+    () =>
+      IS_E2E
+        ? {}
+        : {
+            loadNavigationState: createNavigationStateLoader(
+              experiments.onboarding
+            ),
+            persistNavigationState: createNavigationStatePersister(
+              experiments.onboarding
+            ),
+          },
+    [experiments.onboarding]
+  );
+
+  const AppContainer = React.useMemo(
+    () =>
+      createAppContainer(experiments.onboarding ? WithModalsStack : AppStack),
+    [experiments.onboarding]
+  );
+
+  /**
+   * TODO: Uncomment when project invites are supported
+   */
   //   useProjectInviteListener(invite => {
   //     if (inviteModalEnabled) {
   //       openInviteModal(invite);

@@ -1,14 +1,14 @@
-// @flow
-import React from "react";
+import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-community/async-storage";
 import debug from "debug";
 
 const log = debug("mapeo:DraftObservationContext");
 
 type Status = "idle" | "loading";
+
 type Opts = {
-  stringify: any => string,
-  parse: string => any,
+  stringify?: (value: any) => string;
+  parse?: (value: string) => any;
 };
 
 export default function createPersistedState(
@@ -17,15 +17,13 @@ export default function createPersistedState(
 ) {
   if (typeof key !== "string") throw new Error("Key must be a string");
 
-  return function usePersistedState<S>(
-    initialValue: S
-  ): [S, Status, ((S => S) | S) => void] {
-    const [state, setState] = React.useState<S>(initialValue);
-    const [cachedInitialValue] = React.useState<S>(initialValue);
-    const [status, setStatus] = React.useState<Status>("loading");
+  return function usePersistedState<S>(initialValue: S) {
+    const [state, setState] = useState<S>(initialValue);
+    const [cachedInitialValue] = useState<S>(initialValue);
+    const [status, setStatus] = useState<Status>("loading");
 
     // When the app first mounts, load draft from storage
-    React.useEffect(() => {
+    useEffect(() => {
       let didCancel = false;
       AsyncStorage.getItem(key)
         .then(json => {
@@ -47,12 +45,12 @@ export default function createPersistedState(
     // Save draft to local storage on every update
     // TODO: Debounce this for perf when updates are fast
     // We ignore saving state - no need to render anything for that
-    React.useEffect(() => {
+    useEffect(() => {
       AsyncStorage.setItem(key, stringify(state)).catch(e => {
         log("Error writing to storage", e);
       });
     });
 
-    return [state, status, setState];
+    return [state, status, setState] as const;
   };
 }
