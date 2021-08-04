@@ -2,28 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [5.2.0](https://github.com/digidem/mapeo-mobile/compare/v5.1.0...v5.2.0) (2021-04-06)
-
-
-### Features
-
-* Add Dutch translations ([5b66715](https://github.com/digidem/mapeo-mobile/commit/5b66715d62001211665873737fd87dc4094bce6f))
-* Add French translations ([bc28822](https://github.com/digidem/mapeo-mobile/commit/bc288225f6ec82f4a6a1185e3991d1eca7aab3d0))
-* Add Sranan Tongo translations ([3b88b99](https://github.com/digidem/mapeo-mobile/commit/3b88b9976087b55039cfd730d0dbad337a24f427))
-* Updated default config with translations ([923b6a0](https://github.com/digidem/mapeo-mobile/commit/923b6a0cb83134039e2687efdfd85e1f1badf940))
-* Updated translations (vi, es, po) ([#498](https://github.com/digidem/mapeo-mobile/issues/498)) ([5873ce2](https://github.com/digidem/mapeo-mobile/commit/5873ce29cedc45b1d8e76efe467c53fae9dbdc6d))
-
+## [5.2.1](https://github.com/digidem/mapeo-mobile/compare/v5.2.0...v5.2.1) (2021-08-04)
 
 ### Bug Fixes
 
-* Fix cutoff of text on OnePlus6T phone [#502](https://github.com/digidem/mapeo-mobile/issues/502) ([#511](https://github.com/digidem/mapeo-mobile/issues/511)) ([a386c96](https://github.com/digidem/mapeo-mobile/commit/a386c96d207b0a77dae7142a63172d14a351fb2a)), closes [/github.com/facebook/react-native/issues/15114#issuecomment-335797756](https://github.com/digidem//github.com/facebook/react-native/issues/15114/issues/issuecomment-335797756)
-* Fix import config button crash ([#512](https://github.com/digidem/mapeo-mobile/issues/512)) ([6093c3e](https://github.com/digidem/mapeo-mobile/commit/6093c3ec0f77f4246835f99bca777ba0750d7f7b))
-* Fix Portuguese (Brazilian) translations ([178fb12](https://github.com/digidem/mapeo-mobile/commit/178fb1291fe9e93e585e4de44b09a6dfc9c5b3a9))
-* Localize "Import Config" button ([#510](https://github.com/digidem/mapeo-mobile/issues/510)) ([53c5655](https://github.com/digidem/mapeo-mobile/commit/53c5655bf934b272d3fa6e5e6f3407ebd9fd70c1))
-* Show "discard edits" not "discard observation" when cancelling edit ([#472](https://github.com/digidem/mapeo-mobile/issues/472)) ([211d855](https://github.com/digidem/mapeo-mobile/commit/211d855afd7ff5361bba55860f775c6a4e7ef3c9)), closes [#381](https://github.com/digidem/mapeo-mobile/issues/381)
-* Update Thai and Nepali translations ([be8dc75](https://github.com/digidem/mapeo-mobile/commit/be8dc750b91c3a67fcaa61d3f5c90ea4c8580c42))
-* Update Thai, Khmer & Vietnamese translations ([f54c5d8](https://github.com/digidem/mapeo-mobile/commit/f54c5d8d3d21a765e6c03e8d2eb5e853880560b0))
-* Write preset tags to observations ([#514](https://github.com/digidem/mapeo-mobile/issues/514)) ([ab5e3b8](https://github.com/digidem/mapeo-mobile/commit/ab5e3b82f23619264a03c761af86441dfc3b2f13))
+- Fix Portuguese translations for default config ([aeb3d60](https://github.com/digidem/mapeo-mobile/pull/677/commits/aeb3d60b2eb9671362135d198c1d792b8faa44d2))
+
+## [5.2.0](https://github.com/digidem/mapeo-mobile/compare/v5.1.0...v5.2.0) (2021-04-06)
+
+### Features
+
+- Add Dutch translations ([5b66715](https://github.com/digidem/mapeo-mobile/commit/5b66715d62001211665873737fd87dc4094bce6f))
+- Add French translations ([bc28822](https://github.com/digidem/mapeo-mobile/commit/bc288225f6ec82f4a6a1185e3991d1eca7aab3d0))
+- Add Sranan Tongo translations ([3b88b99](https://github.com/digidem/mapeo-mobile/commit/3b88b9976087b55039cfd730d0dbad337a24f427))
+- Updated default config with translations ([923b6a0](https://github.com/digidem/mapeo-mobile/commit/923b6a0cb83134039e2687efdfd85e1f1badf940))
+- Updated translations (vi, es, po) ([#498](https://github.com/digidem/mapeo-mobile/issues/498)) ([5873ce2](https://github.com/digidem/mapeo-mobile/commit/5873ce29cedc45b1d8e76efe467c53fae9dbdc6d))
+
+### Bug Fixes
+
+- Fix cutoff of text on OnePlus6T phone [#502](https://github.com/digidem/mapeo-mobile/issues/502) ([#511](https://github.com/digidem/mapeo-mobile/issues/511)) ([a386c96](https://github.com/digidem/mapeo-mobile/commit/a386c96d207b0a77dae7142a63172d14a351fb2a)), closes [/github.com/facebook/react-native/issues/15114#issuecomment-335797756](https://github.com/digidem//github.com/facebook/react-native/issues/15114/issues/issuecomment-335797756)
+- Fix import config button crash ([#512](https://github.com/digidem/mapeo-mobile/issues/512)) ([6093c3e](https://github.com/digidem/mapeo-mobile/commit/6093c3ec0f77f4246835f99bca777ba0750d7f7b))
+- Fix Portuguese (Brazilian) translations ([178fb12](https://github.com/digidem/mapeo-mobile/commit/178fb1291fe9e93e585e4de44b09a6dfc9c5b3a9))
+- Localize "Import Config" button ([#510](https://github.com/digidem/mapeo-mobile/issues/510)) ([53c5655](https://github.com/digidem/mapeo-mobile/commit/53c5655bf934b272d3fa6e5e6f3407ebd9fd70c1))
+- Show "discard edits" not "discard observation" when cancelling edit ([#472](https://github.com/digidem/mapeo-mobile/issues/472)) ([211d855](https://github.com/digidem/mapeo-mobile/commit/211d855afd7ff5361bba55860f775c6a4e7ef3c9)), closes [#381](https://github.com/digidem/mapeo-mobile/issues/381)
+- Update Thai and Nepali translations ([be8dc75](https://github.com/digidem/mapeo-mobile/commit/be8dc750b91c3a67fcaa61d3f5c90ea4c8580c42))
+- Update Thai, Khmer & Vietnamese translations ([f54c5d8](https://github.com/digidem/mapeo-mobile/commit/f54c5d8d3d21a765e6c03e8d2eb5e853880560b0))
+- Write preset tags to observations ([#514](https://github.com/digidem/mapeo-mobile/issues/514)) ([ab5e3b8](https://github.com/digidem/mapeo-mobile/commit/ab5e3b82f23619264a03c761af86441dfc3b2f13))
 
 ## [5.1.0](https://github.com/digidem/mapeo-mobile/compare/v5.0.3-rebase...v5.1.0) (2020-09-30)
 
