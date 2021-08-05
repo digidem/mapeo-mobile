@@ -4,17 +4,14 @@ import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages } from "react-intl";
 import QRCode from "react-native-qrcode-svg";
-import { getUniqueId } from "react-native-device-info";
-import OpenSettings from "react-native-android-open-settings";
 
-import useWifiStatus from "../hooks/useWifiStatus";
-import { MEDIUM_BLUE, WHITE } from "../lib/styles";
-import { BackIcon } from "../sharedComponents/icons";
-import Button from "../sharedComponents/Button";
-import HeaderTitle from "../sharedComponents/HeaderTitle";
-import IconButton from "../sharedComponents/IconButton";
-import Text from "../sharedComponents/Text";
-import WifiBar from "../sharedComponents/WifiBar";
+import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
+import { BackIcon } from "../../sharedComponents/icons";
+import Button from "../../sharedComponents/Button";
+import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import IconButton from "../../sharedComponents/IconButton";
+import Text from "../../sharedComponents/Text";
+import { WithWifiBar } from "./WithWifiBar";
 
 const m = defineMessages({
   title: {
@@ -35,19 +32,11 @@ const m = defineMessages({
   },
 });
 
-const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
+export const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
   const navigation = useNavigation();
-  const { ssid } = useWifiStatus();
-
-  const deviceName = "Android " + getUniqueId().slice(0, 4).toUpperCase();
 
   return (
-    <View style={styles.pageContainer}>
-      <WifiBar
-        deviceName={deviceName}
-        ssid={ssid}
-        onPress={() => OpenSettings.wifiSettings()}
-      />
+    <WithWifiBar>
       <View style={styles.container}>
         <View>
           <View style={styles.qrCodeContainer}>
@@ -72,7 +61,7 @@ const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
           </Text>
         </Button>
       </View>
-    </View>
+    </WithWifiBar>
   );
 };
 
@@ -94,9 +83,6 @@ JoinProjectQrScreen.navigationOptions = () => ({
 });
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    flex: 1,
-  },
   container: {
     alignItems: "center",
     justifyContent: "space-between",
@@ -127,5 +113,3 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
 });
-
-export default JoinProjectQrScreen;

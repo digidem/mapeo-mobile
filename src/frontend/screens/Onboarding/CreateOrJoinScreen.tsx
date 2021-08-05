@@ -1,12 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import Button from "../sharedComponents/Button";
 import { useNavigation } from "react-navigation-hooks";
 import { defineMessages, FormattedMessage } from "react-intl";
 import {
   NavigationStackOptions,
   NavigationStackScreenComponent,
 } from "react-navigation-stack";
+
+import Button from "../../sharedComponents/Button";
 
 const m = defineMessages({
   joinProject: {
@@ -29,7 +30,7 @@ export const CreateOrJoinScreen: NavigationStackScreenComponent = () => {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require("../images/icon_mapeo_pin.png")} />
+        <Image source={require("../../images/icon_mapeo_pin.png")} />
       </View>
 
       <Text style={styles.title}>Mapeo</Text>
