@@ -15,19 +15,19 @@ import { WithWifiBar } from "./WithWifiBar";
 
 const m = defineMessages({
   title: {
-    id: "screens.JoinProjectQrScreen.title",
+    id: "screens.Onboarding.JoinProjectQrScreen.title",
     defaultMessage: "Join a Project",
   },
   instructionsTitle: {
-    id: "screens.JoinProjectQrScreen.instructionsTitle",
+    id: "screens.Onboarding.JoinProjectQrScreen.instructionsTitle",
     defaultMessage: "Instructions",
   },
   instructionsDescription: {
-    id: "screens.JoinProjectQrScreen.instructionsDescription",
+    id: "screens.Onboarding.JoinProjectQrScreen.instructionsDescription",
     defaultMessage: "Show this QR code to your Project Admin",
   },
   sendJoinRequest: {
-    id: "screens.JoinProjectQrScreen.sendJoinRequest",
+    id: "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest",
     defaultMessage: "Send Join Request instead",
   },
 });

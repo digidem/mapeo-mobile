@@ -17,19 +17,19 @@ import { WithWifiBar } from "./WithWifiBar";
 
 const m = defineMessages({
   title: {
-    id: "screens.SendJoinRequest.title",
+    id: "screens.Onboarding.SendJoinRequestScreen.title",
     defaultMessage: "Send Join Request",
   },
   verificationCode: {
-    id: "screens.SendJoinRequest.verificationCode",
+    id: "screens.Onboarding.SendJoinRequestScreen.verificationCode",
     defaultMessage: "Verification Code",
   },
   instructions: {
-    id: "screens.SendJoinRequest.instructions",
+    id: "screens.Onboarding.SendJoinRequestScreen.instructions",
     defaultMessage: "Share this code with the Project Coordinator",
   },
   share: {
-    id: "screens.SendJoinRequest.share",
+    id: "screens.Onboarding.SendJoinRequestScreen.share",
     defaultMessage: "Share",
   },
 });
