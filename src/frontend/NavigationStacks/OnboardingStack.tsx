@@ -1,8 +1,10 @@
 import React from "react";
 import { createStackNavigator } from "react-navigation-stack";
-import { CreateOrJoinScreen } from "../screens/CreateOrJoinScreen";
-import JoinProjectQrScreen from "../screens/JoinProjectQrScreen";
-import SendJoinRequestScreen from "../screens/SendJoinRequestScreen";
+import {
+  CreateOrJoinScreen,
+  JoinProjectQrScreen,
+  SendJoinRequestScreen,
+} from "../screens/Onboarding/";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
 
 export const OnboardingStack = createStackNavigator(

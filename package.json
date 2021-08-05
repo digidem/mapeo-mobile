@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "react-native start",
-    "start-otf": "FEATURE_ONBOARDING=true npm start",
+    "start-otf": "FEATURE_ONBOARDING=true npm start -- --reset-cache",
     "start-icca": "RN_SRC_EXT=icca.js react-native start",
     "android": "npm run build:backend && npm run android-no-backend-rebuild",
     "android-no-backend-rebuild": "react-native run-android --variant=appDebug --appIdSuffix=debug",

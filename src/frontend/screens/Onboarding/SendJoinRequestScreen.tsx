@@ -1,21 +1,19 @@
 import * as React from "react";
 import { Share, StyleSheet, View } from "react-native";
 import { FormattedMessage, defineMessages } from "react-intl";
-import { getUniqueId } from "react-native-device-info";
 import {
   NavigationStackScreenComponent,
   TransitionPresets,
 } from "react-navigation-stack";
 
-import useWifiStatus from "../hooks/useWifiStatus";
-import { MEDIUM_BLUE, WHITE } from "../lib/styles";
-import HeaderTitle from "../sharedComponents/HeaderTitle";
-import { BackIcon } from "../sharedComponents/icons";
-import Button from "../sharedComponents/Button";
-import IconButton from "../sharedComponents/IconButton";
-import WifiBar from "../sharedComponents/WifiBar";
-import Text from "../sharedComponents/Text";
-import { URI_PREFIX } from "../constants";
+import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
+import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import { BackIcon } from "../../sharedComponents/icons";
+import Button from "../../sharedComponents/Button";
+import IconButton from "../../sharedComponents/IconButton";
+import Text from "../../sharedComponents/Text";
+import { URI_PREFIX } from "../../constants";
+import { WithWifiBar } from "./WithWifiBar";
 
 const m = defineMessages({
   title: {
@@ -36,11 +34,7 @@ const m = defineMessages({
   },
 });
 
-const SendJoinRequestScreen: NavigationStackScreenComponent = () => {
-  const { ssid } = useWifiStatus();
-
-  const deviceName = "Android " + getUniqueId().slice(0, 4).toUpperCase();
-
+export const SendJoinRequestScreen: NavigationStackScreenComponent = () => {
   // TOOD: Need to properly generate
   const verificationCode = Math.random().toString().slice(-5);
 
@@ -48,8 +42,7 @@ const SendJoinRequestScreen: NavigationStackScreenComponent = () => {
   const shareLink = `${URI_PREFIX}main/onboarding?code=${verificationCode}`;
 
   return (
-    <View style={styles.pageContainer}>
-      <WifiBar deviceName={deviceName} ssid={ssid} />
+    <WithWifiBar>
       <View style={styles.container}>
         <View>
           <Text style={styles.verificationCodeTitle}>
@@ -68,7 +61,7 @@ const SendJoinRequestScreen: NavigationStackScreenComponent = () => {
           </Text>
         </Button>
       </View>
-    </View>
+    </WithWifiBar>
   );
 };
 
@@ -91,9 +84,6 @@ SendJoinRequestScreen.navigationOptions = () => ({
 });
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    flex: 1,
-  },
   container: {
     alignItems: "center",
     justifyContent: "space-between",
@@ -119,5 +109,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
 });
-
-export default SendJoinRequestScreen;
