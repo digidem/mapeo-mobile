@@ -11,11 +11,11 @@ import Button from "../../sharedComponents/Button";
 
 const m = defineMessages({
   joinProject: {
-    id: "screens.JoinProjectSplash.joinProject",
+    id: "screens.Onboarding.CreateOrJoinProjectScreen.joinProject",
     defaultMessage: "Join a Project",
   },
   createProject: {
-    id: "screens.JoinProjectSplash.createProject",
+    id: "screens.Onboarding.CreateOrJoinProjectScreen.createProject",
     defaultMessage: "Create a Project",
   },
 });
