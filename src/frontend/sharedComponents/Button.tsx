@@ -59,9 +59,7 @@ const Button = ({
     <View style={touchableStyle as ViewStyle}>
       {
         typeof children === "string" ? (
-          <Text style={[styles.textBase, textStyle]}>
-            {children.toUpperCase()}
-          </Text>
+          <Text style={[styles.textBase, textStyle]}>{children}</Text>
         ) : (
           children
         )
