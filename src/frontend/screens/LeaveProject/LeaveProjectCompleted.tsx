@@ -7,6 +7,7 @@ import {
   NavigationStackScreenComponent,
 } from "react-navigation-stack";
 import { useNavigation } from "react-navigation-hooks";
+import { ILeaveSharedProp } from ".";
 
 const m = defineMessages({
   projectDeleted: {
@@ -27,7 +28,11 @@ const navOption: NavigationStackOptions = {
   headerShown: false,
 };
 
-export const LeaveProjectCompleted: NavigationStackScreenComponent = () => {
+export const LeaveProjectCompleted = ({
+  screenStateHook,
+}: ILeaveSharedProp) => {
+  const [screen, setScreen] = screenStateHook;
+
   const nav = useNavigation();
 
   return (
@@ -55,8 +60,6 @@ export const LeaveProjectCompleted: NavigationStackScreenComponent = () => {
     </View>
   );
 };
-
-LeaveProjectCompleted.navigationOptions = navOption;
 
 const styles = StyleSheet.create({
   screenContainer: {

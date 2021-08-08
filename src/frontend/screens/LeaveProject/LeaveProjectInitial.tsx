@@ -10,6 +10,7 @@ import {
   NavigationStackScreenComponent,
 } from "react-navigation-stack";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import { ILeaveSharedProp } from ".";
 
 const m = defineMessage({
   leaveProjectTitle: {
@@ -56,7 +57,8 @@ const navOptions: NavigationStackOptions = {
   ),
 };
 
-export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
+export const LeaveProjectInitial = ({ screenStateHook }: ILeaveSharedProp) => {
+  const [screen, setScreen] = screenStateHook;
   const [confirmDelete, setConfirmDelete] = React.useState(false);
   const [untouched, setUntouched] = useState(true);
   const [config] = useContext(ConfigContext);
@@ -69,8 +71,7 @@ export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
     if (untouched) setUntouched(false);
 
     if (!confirmDelete) return;
-
-    nav.navigate("LeaveProjectProgress");
+    setScreen(screen + 1);
   }
 
   const name = config.metadata.name ? " " + config.metadata.name : "";
@@ -143,8 +144,6 @@ export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
     </View>
   );
 };
-
-LeaveProjectScreen.navigationOptions = navOptions;
 
 const styles = StyleSheet.create({
   screenContainer: {
