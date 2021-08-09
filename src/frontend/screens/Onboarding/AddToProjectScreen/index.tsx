@@ -26,6 +26,7 @@ export const AddToProjectScreen: NavigationStackScreenComponent = () => {
   const [step, setStep] = React.useState<Step>("scan");
   const [foundDeviceId, setFoundDeviceId] = React.useState<string>();
 
+  // TODO: Get the actual project name here
   const projectName = "BarFoo";
 
   const getRenderedStep = () => {
@@ -79,7 +80,8 @@ AddToProjectScreen.navigationOptions = () => ({
   animationEnabled: false,
   headerTitle: () => (
     <HeaderTitle style={{ color: WHITE }}>
-      <FormattedMessage {...m.title} values={{ projectName: "Test" }} />
+      {/* TODO: Get the actual project name here */}
+      <FormattedMessage {...m.title} values={{ projectName: "BarFoo" }} />
     </HeaderTitle>
   ),
   headerLeft: ({ onPress }) =>

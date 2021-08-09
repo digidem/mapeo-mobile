@@ -47,7 +47,7 @@ export const CreateOrJoinScreen: NavigationStackScreenComponent = () => {
       <Button
         style={styles.button}
         onPress={() => {
-          navigate("AddToProject");
+          navigate("settings");
         }}
       >
         <Text style={styles.buttonText}>

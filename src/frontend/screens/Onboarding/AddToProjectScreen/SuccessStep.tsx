@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
 import Text from "../../../sharedComponents/Text";
 import Button from "../../../sharedComponents/Button";
@@ -26,31 +26,28 @@ interface Props {
   projectName: string;
 }
 
-export const SuccessStep = ({ deviceId, goNext, projectName }: Props) => {
-  return (
-    <View style={styles.container}>
-      <View>
-        <Text style={[styles.title, styles.centeredText]}>
-          <FormattedMessage {...m.title} />
-        </Text>
-        <Text style={[styles.description, styles.centeredText]}>
-          <FormattedMessage
-            {...m.description}
-            values={{ deviceId, projectName }}
-          />
-        </Text>
-      </View>
-      <Button onPress={goNext}>
-        <Text style={[styles.buttonText, { color: WHITE }]}>
-          <FormattedMessage {...m.goToSync} />
-        </Text>
-      </Button>
+export const SuccessStep = ({ deviceId, goNext, projectName }: Props) => (
+  <View style={styles.container}>
+    <View>
+      <Text style={[styles.title, styles.centeredText]}>
+        <FormattedMessage {...m.title} />
+      </Text>
+      <Text style={[styles.description, styles.centeredText]}>
+        <FormattedMessage
+          {...m.description}
+          values={{ deviceId, projectName }}
+        />
+      </Text>
     </View>
-  );
-};
+    <Button onPress={goNext}>
+      <Text style={[styles.buttonText, { color: WHITE }]}>
+        <FormattedMessage {...m.goToSync} />
+      </Text>
+    </Button>
+  </View>
+);
 
 const styles = StyleSheet.create({
-  // AddToProjectScreen
   container: {
     flex: 1,
     justifyContent: "space-between",

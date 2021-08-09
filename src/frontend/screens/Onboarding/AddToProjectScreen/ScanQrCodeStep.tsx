@@ -153,8 +153,6 @@ const styles = StyleSheet.create({
     opacity: 0.4,
     backgroundColor: WHITE,
   },
-
-  // Shared
   title: {
     fontSize: 24,
     fontWeight: "bold",
