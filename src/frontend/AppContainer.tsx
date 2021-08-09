@@ -1,19 +1,26 @@
 import * as React from "react";
 import debug from "debug";
-import {
-  createAppContainer,
-  NavigationActions,
-  NavigationContainerComponent,
-  NavigationState,
-} from "react-navigation";
+// import {
+//   createAppContainer,
+//   NavigationActions,
+//   NavigationContainerComponent,
+//   NavigationState,
+// } from "react-navigation";
 import AsyncStorage from "@react-native-community/async-storage";
 
 import { URI_PREFIX } from "./constants";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
 import IS_E2E from "./lib/is-e2e";
 import bugsnag from "./lib/logger";
-import { AppStack } from "./NavigationStacks/AppStack";
+import { AppStack, AppStackNavTypes } from "./NavigationStacks/AppStack";
 import { WithModalsStack } from "./NavigationStacks/WithModalsStack";
+import {
+  NavigationContainer,
+  NavigationContainerRef,
+  NavigationState,
+} from "@react-navigation/native";
+import { Linking } from "react-native";
+import { useEffect } from "react";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -35,7 +42,7 @@ const EDITING_SCREEN_NAMES = [
 
 const persistNavigationState = IS_E2E
   ? undefined
-  : async (navState: NavigationState) => {
+  : async (navState: NavigationState | undefined) => {
       try {
         await AsyncStorage.setItem(NAV_STORE_KEY, JSON.stringify(navState));
       } catch (err) {
@@ -43,31 +50,19 @@ const persistNavigationState = IS_E2E
       }
     };
 
-const loadNavigationState = IS_E2E
-  ? undefined
-  : async () => {
-      try {
-        const navState = JSON.parse(
-          (await AsyncStorage.getItem(NAV_STORE_KEY)) as string
-        );
-        const didCrashLastOpen = JSON.parse(
-          (await AsyncStorage.getItem(ERROR_STORE_KEY)) as string
-        );
-        // Clear error saved state so that navigation persistence happens on next load
-        await AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(false));
-        // If the app crashed last time, don't restore nav state
-        if (didCrashLastOpen) {
-          bugsnag.leaveBreadcrumb("Crash on last open");
-          log("Crashed on last open, skipping load of navigation state");
-          return null;
-        } else {
-          return navState;
-        }
-      } catch (error) {
-        bugsnag.leaveBreadcrumb("Error loading nav state", { error });
-        log("Error reading navigation and error state", error);
-      }
-    };
+async function checkForPreviousCrash(): Promise<boolean> {
+  const didCrashLastOpen = JSON.parse(
+    (await AsyncStorage.getItem(ERROR_STORE_KEY)) as string
+  );
+  // Clear error saved state so that navigation persistence happens on next load
+  await AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(false));
+
+  if (didCrashLastOpen) {
+    bugsnag.leaveBreadcrumb("Crash on last open");
+    log("Crashed on last open, skipping load of navigation state");
+    return true;
+  } else return false;
+}
 
 const getRouteName = (navState?: NavigationState): string | null => {
   if (!navState) {
@@ -76,45 +71,62 @@ const getRouteName = (navState?: NavigationState): string | null => {
 
   const route = navState.routes[navState.index];
 
-  if (route?.routes) {
-    return getRouteName(route);
-  }
-
-  return route.routeName;
+  return route.name;
 };
 
 const inviteModalDisabledOnRoute = (routeName: string) =>
   EDITING_SCREEN_NAMES.includes(routeName);
 
-const AppContainer = createAppContainer(
-  process.env.FEATURE_ONBOARDING === "true" ? WithModalsStack : AppStack
-);
-
 const AppContainerWrapper = () => {
-  const navRef = React.useRef<NavigationContainerComponent>();
+  const navRef = React.useRef<NavigationContainerRef<AppStackNavTypes>>();
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
+  const [isReady, setIsReady] = React.useState(false);
+  const [initialState, setInitialState] = React.useState<
+    NavigationState | undefined
+  >(undefined);
 
-  const onNavStateChange = (
-    previousState: NavigationState,
-    currentState: NavigationState
-  ) => {
-    const previousRouteName = getRouteName(previousState);
-    const currentRouteName = getRouteName(currentState);
+  async function restoreState() {
+    //Will not restore state in e2e testing
+    if (IS_E2E) return;
 
-    if (previousRouteName !== currentRouteName && currentRouteName) {
-      setInviteModalEnabled(!inviteModalDisabledOnRoute(currentRouteName));
+    const initialUrl = await Linking.getInitialURL();
+
+    //Will not restore state if deeplinking
+    if (!!initialUrl) return;
+
+    if (await checkForPreviousCrash()) return;
+
+    const savedStateString = (await AsyncStorage.getItem(
+      NAV_STORE_KEY
+    )) as string;
+    const state = JSON.parse(savedStateString) || undefined;
+
+    if (!!state) {
+      setInitialState(state);
     }
-  };
+  }
+
+  useEffect(() => {
+    restoreState();
+  }, []);
+  // const onNavStateChange = (
+  //   state: NavigationState|undefined) => {
+  //   const previousRouteName = getRouteName(previousState);
+  //   const currentRouteName = getRouteName(currentState);
+
+  //   if (previousRouteName !== currentRouteName && currentRouteName) {
+  //     setInviteModalEnabled(!inviteModalDisabledOnRoute(currentRouteName));
+  //   }
+  // };
 
   const openInviteModal = React.useCallback((key: string) => {
-    if (navRef.current) {
-      navRef.current.dispatch(
-        NavigationActions.navigate({
-          routeName: "ProjectInviteModal",
-          params: { invite: key },
-        })
-      );
+    if (!navRef) {
+      // navRef.navigate({
+      //     routeName: "ProjectInviteModal",
+      //     params: { invite: key },
+      //   })
+      // );
     }
   }, []);
 
@@ -134,17 +146,17 @@ const AppContainerWrapper = () => {
   }, [inviteModalEnabled, queuedInvite, openInviteModal]);
 
   return (
-    <AppContainer
-      loadNavigationState={loadNavigationState}
-      onNavigationStateChange={onNavStateChange}
-      persistNavigationState={persistNavigationState}
-      ref={nav => {
-        if (nav) {
-          navRef.current = nav;
-        }
-      }}
-      uriPrefix={URI_PREFIX}
-    />
+    <NavigationContainer
+      initialState={initialState}
+      onStateChange={persistNavigationState}
+    >
+      {process.env.FEATURE_ONBOARDING === "true" ? (
+        //TO DO, replace first one
+        <AppStack />
+      ) : (
+        <AppStack />
+      )}
+    </NavigationContainer>
   );
 };
 

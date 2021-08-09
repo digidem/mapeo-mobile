@@ -1,10 +1,5 @@
 import React from "react";
-import { createBottomTabNavigator } from "react-navigation-tabs";
-import { createStackNavigator } from "react-navigation-stack";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-
-import MapScreen from "../screens/MapScreen";
-import CameraScreen from "../screens/CameraScreen";
+import { createStackNavigator } from "@react-navigation/stack";
 import ObservationList from "../screens/ObservationsList";
 import Observation from "../screens/Observation";
 import ObservationEdit from "../screens/ObservationEdit";
@@ -26,76 +21,74 @@ import { LeaveProjectScreen } from "../screens/LeaveProject/LeaveProject";
 import { LeaveProjectProgress } from "../screens/LeaveProject/LeaveProjectProgess";
 import { LeaveProjectCompleted } from "../screens/LeaveProject/LeaveProjectCompleted";
 import { AlreadyOnProj } from "../screens/AlreadyOnProject";
+import HomeTabComponent from "./HomeTabs";
 
-const HomeTabs = createBottomTabNavigator(
-  {
-    Map: MapScreen,
-    Camera: CameraScreen,
-  },
-  {
-    navigationOptions: () => ({
-      header: (props: any) => <HomeHeader {...props} />,
-      headerTransparent: true,
-    }),
-    defaultNavigationOptions: ({ navigation }) => ({
-      initialRouteName: "Map",
-      backBehavior: "initialRoute",
-      tabBarOptions: {
-        showLabel: false,
-      },
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if (routeName === "Map") iconName = "map";
-        else iconName = "photo-camera";
-        return <MaterialIcons name={iconName} size={30} color={tintColor} />;
-      },
-      tabBarTestID: "tabBarButton" + navigation.state.routeName,
-    }),
-  }
-);
+type AppStackNavTypes = {
+  Home: undefined;
+  GpsModal: undefined;
+  SyncModal: undefined;
+  Settings: undefined;
+  ProjectConfig: undefined;
+  AboutMapeo: undefined;
+  LanguageSettings: undefined;
+  CoordinateFormat: undefined;
+  PhotosModal: undefined;
+  CategoryChooser: undefined;
+  AddPhoto: undefined;
+  ObservationList: undefined;
+  Observation: undefined;
+  ObservationEdit: undefined;
+  ManualGpsScreen: undefined;
+  ObservationDetails: undefined;
+  LeaveProjectScreen: undefined;
+  LeaveProjectProgress: undefined;
+  LeaveProjectCompleted: undefined;
+  AlreadyOnProj: undefined;
+};
 
-export const AppStack = createStackNavigator(
-  {
-    Home: HomeTabs,
-    GpsModal: GpsModal,
-    SyncModal: SyncModal,
-    Settings: Settings,
-    ProjectConfig: ProjectConfig,
-    AboutMapeo,
-    LanguageSettings,
-    CoordinateFormat,
-    PhotosModal: PhotosModal,
-    CategoryChooser: CategoryChooser,
-    AddPhoto: AddPhoto,
-    ObservationList: ObservationList,
-    Observation: Observation,
-    ObservationEdit: ObservationEdit,
-    ManualGpsScreen: ManualGpsScreen,
-    ObservationDetails: ObservationDetails,
-    LeaveProjectScreen: LeaveProjectScreen,
-    LeaveProjectProgress: LeaveProjectProgress,
-    LeaveProjectCompleted: LeaveProjectCompleted,
-    AlreadyOnProj: AlreadyOnProj,
-  },
-  {
-    initialRouteName: "Home",
-    // TODO iOS: Dynamically set transition mode to modal for modals
-    mode: "card",
-    headerMode: "screen",
-    defaultNavigationOptions: {
-      headerStyle: {
-        height: 60,
-      },
-      // We use a slightly larger back icon, to improve accessibility
-      // TODO iOS: This should probably be a chevron not an arrow
-      headerLeft: props => <CustomHeaderLeft {...props} />,
-      headerTitleStyle: {
-        marginHorizontal: 0,
-      },
-      cardStyle: {
-        backgroundColor: "#ffffff",
-      },
-    },
-  }
-);
+const Stack = createStackNavigator<AppStackNavTypes>();
+
+export const AppStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={({ route }) => ({
+        presentation: "card",
+        headerMode: "screen",
+        // We use a slightly larger back icon, to improve accessibility
+        // TODO iOS: This should probably be a chevron not an arrow
+        headerStyle: { height: 60 },
+        headerLeft: props => <CustomHeaderLeft {...props} />,
+        headerTitleStyle: { marginHorizontal: 0 },
+        cardStyle: { backgroundColor: "#ffffff" },
+      })}
+    >
+      <Stack.Screen name="Home" component={HomeTabComponent} />
+      <Stack.Screen name="GpsModal" component={GpsModal} />
+      <Stack.Screen name="SyncModal" component={SyncModal} />
+      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="ProjectConfig" component={ProjectConfig} />
+      <Stack.Screen name="AboutMapeo" component={AboutMapeo} />
+      <Stack.Screen name="LanguageSettings" component={LanguageSettings} />
+      <Stack.Screen name="CoordinateFormat" component={CoordinateFormat} />
+      <Stack.Screen name="PhotosModal" component={PhotosModal} />
+      <Stack.Screen name="CategoryChooser" component={CategoryChooser} />
+      <Stack.Screen name="AddPhoto" component={AddPhoto} />
+      <Stack.Screen name="ObservationList" component={ObservationList} />
+      <Stack.Screen name="Observation" component={Observation} />
+      <Stack.Screen name="ObservationEdit" component={ObservationEdit} />
+      <Stack.Screen name="ManualGpsScreen" component={ManualGpsScreen} />
+      <Stack.Screen name="ObservationDetails" component={ObservationDetails} />
+      <Stack.Screen name="LeaveProjectScreen" component={LeaveProjectScreen} />
+      <Stack.Screen
+        name="LeaveProjectProgress"
+        component={LeaveProjectProgress}
+      />
+      <Stack.Screen
+        name="LeaveProjectCompleted"
+        component={LeaveProjectCompleted}
+      />
+      <Stack.Screen name="AlreadyOnProj" component={AlreadyOnProj} />
+    </Stack.Navigator>
+  );
+};

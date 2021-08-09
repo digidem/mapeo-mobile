@@ -4,7 +4,7 @@ import * as React from "react";
 import { LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-community/async-storage";
-
+import { NavigationContainer } from "@react-navigation/native";
 import { URI_PREFIX } from "./constants";
 import ErrorScreen from "./screens/UncaughtError";
 import AppLoading from "./AppLoading";
@@ -16,7 +16,7 @@ import bugsnag from "./lib/logger";
 import IS_E2E from "./lib/is-e2e";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
 import { LeaveProjectScreen } from "./screens/LeaveProject/LeaveProject";
-
+import "react-native-gesture-handler";
 // Turn off warnings about require cycles
 LogBox.ignoreLogs(["Require cycle:"]);
 
