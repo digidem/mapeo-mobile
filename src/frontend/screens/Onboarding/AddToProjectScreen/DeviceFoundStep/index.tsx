@@ -4,7 +4,7 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import {
-  DARK_GREY,
+  MEDIUM_GREY,
   MAGENTA,
   MAPEO_BLUE,
   MEDIUM_BLUE,
@@ -84,7 +84,7 @@ export const DeviceFoundStep = ({ deviceId, goBack, goNext }: Props) => {
         <MaterialIcon
           name={selected ? "radio-button-checked" : "radio-button-unchecked"}
           size={24}
-          color={showError ? MAGENTA : selected ? MEDIUM_BLUE : DARK_GREY}
+          color={showError ? MAGENTA : selected ? MEDIUM_BLUE : MEDIUM_GREY}
         />
       </Animated.View>
     );
@@ -151,13 +151,16 @@ export const DeviceFoundStep = ({ deviceId, goBack, goNext }: Props) => {
       </View>
       <View style={styles.buttonsContainer}>
         <Button variant="outlined" onPress={goBack} style={[styles.button]}>
-          <Text style={[styles.buttonText, styles.bold, { color: MAPEO_BLUE }]}>
+          <Text
+            numberOfLines={1}
+            style={[styles.buttonText, { color: MAPEO_BLUE }]}
+          >
             <FormattedMessage {...m.cancel} />
           </Text>
         </Button>
         <View style={styles.spacer} />
         <Button onPress={onSubmit} style={styles.button}>
-          <Text style={[styles.buttonText, styles.bold, { color: WHITE }]}>
+          <Text numberOfLines={1} style={[styles.buttonText, { color: WHITE }]}>
             <FormattedMessage {...m.inviteDevice} />
           </Text>
         </Button>
@@ -211,6 +214,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   spacer: {
-    width: 20,
+    width: 18,
   },
 });
