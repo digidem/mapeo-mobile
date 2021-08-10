@@ -6,7 +6,6 @@ import {
   JoinProjectQrScreen,
   SendJoinRequestScreen,
 } from "../screens/Onboarding/";
-import {} from "../screens/Onboarding/AddToProjectScreen";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
 
 export const OnboardingStack = createStackNavigator(
