@@ -78,7 +78,6 @@ export const AddToProjectScreen: NavigationStackScreenComponent = () => {
 };
 
 AddToProjectScreen.navigationOptions = () => ({
-  animationEnabled: false,
   // TODO: Get the project name and add it to the title here
   headerTitle: () => (
     <HeaderTitle style={{ color: WHITE }}>

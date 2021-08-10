@@ -1,7 +1,8 @@
 import * as React from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
-import { Camera, CameraMountError } from "expo-camera";
+import { NavigationEvents } from "react-navigation";
 import { FormattedMessage, defineMessages } from "react-intl";
+import { Camera, CameraMountError } from "expo-camera";
 import { BarCodeScanner, BarCodeScannerResult } from "expo-barcode-scanner";
 
 import bugsnag from "../../../lib/logger";
@@ -42,6 +43,7 @@ interface Props {
 }
 
 export const ScanQrCodeStep = ({ goNext }: Props) => {
+  const [screenLoaded, setScreenLoaded] = React.useState(false);
   const [cameraReady, setCameraReady] = React.useState(false);
   const [scanDisabled, setScanDisabled] = React.useState(false);
   const [data, setData] = React.useState<string>();
@@ -64,6 +66,13 @@ export const ScanQrCodeStep = ({ goNext }: Props) => {
 
   return (
     <View style={styles.container}>
+      <NavigationEvents
+        onDidFocus={() => {
+          if (!screenLoaded) {
+            setScreenLoaded(true);
+          }
+        }}
+      />
       <View
         style={[
           styles.scannerContainer,
@@ -75,30 +84,32 @@ export const ScanQrCodeStep = ({ goNext }: Props) => {
       >
         {!cameraReady && <Loading />}
 
-        <Camera
-          barCodeScannerSettings={{
-            barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
-          }}
-          onBarCodeScanned={
-            cameraReady && !scanDisabled ? onScanned : undefined
-          }
-          onCameraReady={() => setCameraReady(true)}
-          onMountError={reportMountError}
-          style={[
-            styles.camera,
-            {
-              display: cameraReady ? undefined : "none",
-            },
-          ]}
-          type={Camera.Constants.Type.back}
-          useCamera2Api={false}
-        >
-          {!!data && (
-            <View style={styles.processingContainer}>
-              <Loading />
-            </View>
-          )}
-        </Camera>
+        {screenLoaded && (
+          <Camera
+            barCodeScannerSettings={{
+              barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+            }}
+            onBarCodeScanned={
+              cameraReady && !scanDisabled ? onScanned : undefined
+            }
+            onCameraReady={() => setCameraReady(true)}
+            onMountError={reportMountError}
+            style={[
+              styles.camera,
+              {
+                display: cameraReady ? undefined : "none",
+              },
+            ]}
+            type={Camera.Constants.Type.back}
+            useCamera2Api={false}
+          >
+            {!!data && (
+              <View style={styles.processingContainer}>
+                <Loading />
+              </View>
+            )}
+          </Camera>
+        )}
       </View>
 
       <View>
