@@ -64,6 +64,11 @@ const m = defineMessages({
     defaultMessage: "Leave Project",
     description: "Button to leave current project",
   },
+  addPerson: {
+    id: "screens.Settings.addPerson",
+    defaultMessage: "Add Person",
+    description: "Button to add person to project",
+  },
 });
 
 const ProjectConfig = () => {
@@ -113,7 +118,7 @@ const ProjectConfig = () => {
           {projectKeySlice ? projectKeySlice + "**********" : "MAPEO"}
         </Text>
 
-        {configName && (
+        {!!configName && (
           <React.Fragment>
             <Text style={[styles.centerText, { marginTop: 10 }]}>
               <FormattedMessage {...m.name} />
@@ -134,29 +139,56 @@ const ProjectConfig = () => {
         disabled={status === "loading" || config.status === "loading"}
         variant="contained"
         onPress={handleImportPress}
-        style={{ marginBottom: 10, marginTop: 40 }}
+        style={[{ marginTop: 40 }, styles.button]}
       >
         {t(m.importConfig) /* Button component expects string children */}
       </Button>
-      <Button
-        disabled={status === "loading" || config.status === "loading"}
-        variant="outlined"
-        onPress={() => navigate("LeaveProjectScreen")}
-      >
-        <View style={styles.LeaveBttn}>
-          <MaterialIcons name="exit-to-app" color="#0066ff" size={18} />
-          <Text
-            style={{
-              color: "#0066ff",
-              fontWeight: "bold",
-              marginLeft: 5,
-              fontSize: 16,
-            }}
+      {process.env.FEATURE_ONBOARDING === "true" && (
+        <React.Fragment>
+          {/* We need to work out permission before we figure out what this button does */}
+          <Button
+            style={styles.button}
+            disabled={status === "loading" || config.status === "loading"}
+            variant="outlined"
+            onPress={() => {}}
           >
-            <FormattedMessage {...m.leaveProject} />
-          </Text>
-        </View>
-      </Button>
+            <View style={styles.LeaveBttn}>
+              <MaterialIcons name="person-add" color="#0066ff" size={18} />
+              <Text
+                style={{
+                  color: "#0066ff",
+                  fontWeight: "bold",
+                  marginLeft: 5,
+                  fontSize: 16,
+                }}
+              >
+                <FormattedMessage {...m.addPerson} />
+              </Text>
+            </View>
+          </Button>
+
+          <Button
+            style={styles.button}
+            disabled={status === "loading" || config.status === "loading"}
+            variant="outlined"
+            onPress={() => navigate("LeaveProjectScreen")}
+          >
+            <View style={styles.LeaveBttn}>
+              <MaterialIcons name="exit-to-app" color="#0066ff" size={18} />
+              <Text
+                style={{
+                  color: "#0066ff",
+                  fontWeight: "bold",
+                  marginLeft: 5,
+                  fontSize: 16,
+                }}
+              >
+                <FormattedMessage {...m.leaveProject} />
+              </Text>
+            </View>
+          </Button>
+        </React.Fragment>
+      )}
     </View>
   );
 };
@@ -212,5 +244,8 @@ const styles = StyleSheet.create({
     color: "#0066ff",
     flexDirection: "row",
     alignItems: "center",
+  },
+  button: {
+    margin: 5,
   },
 });
