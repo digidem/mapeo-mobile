@@ -118,7 +118,7 @@ export const ScanQrCodeStep = ({ goNext }: Props) => {
             <Text style={[styles.title, styles.centeredText]}>
               <FormattedMessage {...m.title} />
             </Text>
-            <Text style={[styles.description]}>
+            <Text style={[styles.description, styles.centeredText]}>
               <FormattedMessage {...m.instructionsDescription} />
             </Text>
           </View>
@@ -130,7 +130,7 @@ export const ScanQrCodeStep = ({ goNext }: Props) => {
           >
             <FormattedMessage {...m.havingTroubleTitle} />
           </Text>
-          <Text style={[styles.description]}>
+          <Text style={[styles.description, styles.centeredText]}>
             <FormattedMessage {...m.havingTroubleDescription} />
           </Text>
         </View>
