@@ -3,7 +3,7 @@ import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import Text from "../sharedComponents/Text";
 import debug from "debug";
-import { useNavigation, useIsFocused } from "react-navigation-hooks";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { defineMessages, FormattedMessage } from "react-intl";
 
 import CameraView from "../sharedComponents/CameraView";

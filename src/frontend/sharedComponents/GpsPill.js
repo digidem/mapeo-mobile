@@ -3,7 +3,7 @@ import * as React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import Text from "./Text";
 import { defineMessages, useIntl } from "react-intl";
-import { useIsFocused } from "react-navigation-hooks";
+import { useIsFocused } from "@react-navigation/native";
 
 import LocationContext from "../context/LocationContext";
 import { GpsIcon } from "./icons";

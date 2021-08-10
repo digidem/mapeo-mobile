@@ -8,7 +8,7 @@ import {
   NavigationStackScreenComponent,
 } from "react-navigation-stack";
 import { useState } from "react";
-import { useNavigation } from "react-navigation-hooks";
+import { useNavigation } from "@react-navigation/native";
 
 const m = defineMessages({
   leaveProjectTitle: {

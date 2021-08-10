@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import { View, FlatList, Dimensions, StyleSheet } from "react-native";
 import Text from "../../sharedComponents/Text";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { useNavigation } from "react-navigation-hooks";
+import { useNavigation } from "@react-navigation/native";
 import ObservationListItem from "./ObservationListItem";
 import ObservationEmptyView from "./ObservationsEmptyView";
 import type { Observation } from "../../context/ObservationsContext";

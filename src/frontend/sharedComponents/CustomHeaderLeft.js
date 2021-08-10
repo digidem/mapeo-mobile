@@ -1,8 +1,11 @@
 // @flow
 import React from "react";
 import { defineMessages, useIntl } from "react-intl";
-import { HeaderBackButton } from "react-navigation-stack";
-import { useNavigation, useFocusEffect } from "react-navigation-hooks";
+import {
+  useNavigation,
+  useFocusEffect,
+  HeaderBackButton,
+} from "@react-navigation/native";
 import { Alert, BackHandler } from "react-native";
 import isEqual from "lodash/isEqual";
 

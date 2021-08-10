@@ -2,7 +2,7 @@
 import React from "react";
 // import { Picker as OriginalPicker } from "@react-native-community/picker";
 import { FormattedMessage, defineMessages } from "react-intl";
-import { useNavigation } from "react-navigation-hooks";
+import { useNavigation } from "@react-navigation/native";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import {

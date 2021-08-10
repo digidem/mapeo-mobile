@@ -23,7 +23,7 @@ import { LeaveProjectCompleted } from "../screens/LeaveProject/LeaveProjectCompl
 import { AlreadyOnProj } from "../screens/AlreadyOnProject";
 import HomeTabComponent from "./HomeTabs";
 
-type AppStackNavTypes = {
+export type AppStackNavTypes = {
   Home: undefined;
   GpsModal: undefined;
   SyncModal: undefined;

@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import ConfigContext from "../../context/ConfigContext";
 import Button from "../../sharedComponents/Button";
-import { useNavigation } from "react-navigation-hooks";
+import { useNavigation } from "@react-navigation/native";
 import {
   NavigationStackOptions,
   NavigationStackScreenComponent,

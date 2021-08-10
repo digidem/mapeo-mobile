@@ -6,7 +6,7 @@ import {
   NavigationStackOptions,
   NavigationStackScreenComponent,
 } from "react-navigation-stack";
-import { useNavigation } from "react-navigation-hooks";
+import { useNavigation } from "@react-navigation/native";
 
 const m = defineMessages({
   projectDeleted: {

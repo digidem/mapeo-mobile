@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { useNavigation } from "react-navigation-hooks";
+import { useNavigation } from "@react-navigation/native";
 
 import type { NavigationScreenConfigProps } from "react-navigation";
 

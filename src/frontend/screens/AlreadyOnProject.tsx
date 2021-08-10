@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useContext } from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { Image, View, Text, StyleSheet } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
+import { useNavigation } from "@react-navigation/native";
 import {
   NavigationStackOptions,
   NavigationStackScreenComponent,

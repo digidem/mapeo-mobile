@@ -16,7 +16,7 @@ import bugsnag from "./lib/logger";
 import IS_E2E from "./lib/is-e2e";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
 import { LeaveProjectScreen } from "./screens/LeaveProject/LeaveProject";
-import "react-native-gesture-handler";
+
 // Turn off warnings about require cycles
 LogBox.ignoreLogs(["Require cycle:"]);
 
