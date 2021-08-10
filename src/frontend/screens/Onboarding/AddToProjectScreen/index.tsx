@@ -1,6 +1,7 @@
 import * as React from "react";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { View, StyleSheet } from "react-native";
+import { NavigationEvents } from "react-navigation";
+import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages } from "react-intl";
 
 import ConfigContext from "../../../context/ConfigContext";
@@ -24,6 +25,7 @@ const m = defineMessages({
 });
 
 export const AddToProjectScreen: NavigationStackScreenComponent = () => {
+  const [screenLoaded, setScreenLoaded] = React.useState(false);
   const [step, setStep] = React.useState<Step>("scan");
   const [foundDeviceId, setFoundDeviceId] = React.useState<string>();
   const [config] = React.useContext(ConfigContext);
@@ -37,6 +39,7 @@ export const AddToProjectScreen: NavigationStackScreenComponent = () => {
               setFoundDeviceId(data);
               setStep("found");
             }}
+            screenLoaded={screenLoaded}
           />
         );
       case "found":
@@ -72,6 +75,13 @@ export const AddToProjectScreen: NavigationStackScreenComponent = () => {
 
   return (
     <WithWifiBar>
+      <NavigationEvents
+        onDidFocus={() => {
+          if (!screenLoaded) {
+            setScreenLoaded(true);
+          }
+        }}
+      />
       <View style={styles.container}>{getRenderedStep()}</View>
     </WithWifiBar>
   );

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
-import { NavigationEvents } from "react-navigation";
 import { FormattedMessage, defineMessages } from "react-intl";
 import { Camera, CameraMountError } from "expo-camera";
 import { BarCodeScanner, BarCodeScannerResult } from "expo-barcode-scanner";
@@ -40,10 +39,10 @@ const m = defineMessages({
 
 interface Props {
   goNext: (data: string) => void;
+  screenLoaded: boolean;
 }
 
-export const ScanQrCodeStep = ({ goNext }: Props) => {
-  const [screenLoaded, setScreenLoaded] = React.useState(false);
+export const ScanQrCodeStep = ({ goNext, screenLoaded }: Props) => {
   const [cameraReady, setCameraReady] = React.useState(false);
   const [scanDisabled, setScanDisabled] = React.useState(false);
   const [data, setData] = React.useState<string>();
@@ -66,13 +65,6 @@ export const ScanQrCodeStep = ({ goNext }: Props) => {
 
   return (
     <View style={styles.container}>
-      <NavigationEvents
-        onDidFocus={() => {
-          if (!screenLoaded) {
-            setScreenLoaded(true);
-          }
-        }}
-      />
       <View
         style={[
           styles.scannerContainer,
