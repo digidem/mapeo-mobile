@@ -1,9 +1,9 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
-import Text from "../../../sharedComponents/Text";
-import Button from "../../../sharedComponents/Button";
-import { WHITE } from "../../../lib/styles";
+import Text from "../../sharedComponents/Text";
+import Button from "../../sharedComponents/Button";
+import { WHITE } from "../../lib/styles";
 
 const m = defineMessages({
   title: {

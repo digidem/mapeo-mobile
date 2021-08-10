@@ -4,10 +4,10 @@ import { FormattedMessage, defineMessages } from "react-intl";
 import { Camera, CameraMountError } from "expo-camera";
 import { BarCodeScanner, BarCodeScannerResult } from "expo-barcode-scanner";
 
-import bugsnag from "../../../lib/logger";
-import { BLACK, WHITE } from "../../../lib/styles";
-import Loading from "../../../sharedComponents/Loading";
-import Text from "../../../sharedComponents/Text";
+import bugsnag from "../../lib/logger";
+import { BLACK, WHITE } from "../../lib/styles";
+import Loading from "../../sharedComponents/Loading";
+import Text from "../../sharedComponents/Text";
 
 const MAX_SCANNER_HEIGHT = 350;
 

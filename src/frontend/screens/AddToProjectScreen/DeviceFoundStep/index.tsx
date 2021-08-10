@@ -9,9 +9,9 @@ import {
   MAPEO_BLUE,
   MEDIUM_BLUE,
   WHITE,
-} from "../../../../lib/styles";
-import Button from "../../../../sharedComponents/Button";
-import Text from "../../../../sharedComponents/Text";
+} from "../../../lib/styles";
+import Button from "../../../sharedComponents/Button";
+import Text from "../../../sharedComponents/Text";
 import { OptionRow } from "./OptionRow";
 
 type Role = "participant" | "coordinator";

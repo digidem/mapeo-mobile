@@ -4,12 +4,12 @@ import { NavigationEvents } from "react-navigation";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages } from "react-intl";
 
-import ConfigContext from "../../../context/ConfigContext";
-import { MEDIUM_BLUE, WHITE } from "../../../lib/styles";
-import HeaderTitle from "../../../sharedComponents/HeaderTitle";
-import { BackIcon } from "../../../sharedComponents/icons";
-import IconButton from "../../../sharedComponents/IconButton";
-import { WithWifiBar } from "../WithWifiBar";
+import ConfigContext from "../../context/ConfigContext";
+import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
+import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import { BackIcon } from "../../sharedComponents/icons";
+import IconButton from "../../sharedComponents/IconButton";
+import { WithWifiBar } from "../Onboarding/WithWifiBar";
 
 import { ScanQrCodeStep } from "./ScanQrCodeStep";
 import { DeviceFoundStep } from "./DeviceFoundStep";

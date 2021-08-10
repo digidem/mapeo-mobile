@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
-import { TouchableNativeFeedback } from "../../../../sharedComponents/Touchables";
-import { VERY_LIGHT_BLUE } from "../../../../lib/styles";
+import { TouchableNativeFeedback } from "../../../sharedComponents/Touchables";
+import { VERY_LIGHT_BLUE } from "../../../lib/styles";
 
 interface Props extends React.PropsWithChildren<{}> {
   onPress: () => void;
