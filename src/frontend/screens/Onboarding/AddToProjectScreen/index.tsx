@@ -3,6 +3,7 @@ import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { View, StyleSheet } from "react-native";
 import { FormattedMessage, defineMessages } from "react-intl";
 
+import ConfigContext from "../../../context/ConfigContext";
 import { MEDIUM_BLUE, WHITE } from "../../../lib/styles";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import { BackIcon } from "../../../sharedComponents/icons";
@@ -16,18 +17,16 @@ import { SuccessStep } from "./SuccessStep";
 type Step = "scan" | "found" | "success";
 
 const m = defineMessages({
-  title: {
-    id: "screens.Onboarding.AddToProjectScreen.title",
-    defaultMessage: "Add to {projectName}",
+  titleGeneric: {
+    id: "screens.Onboarding.AddToProjectScreen.titleGeneric",
+    defaultMessage: "Add to Project",
   },
 });
 
 export const AddToProjectScreen: NavigationStackScreenComponent = () => {
   const [step, setStep] = React.useState<Step>("scan");
   const [foundDeviceId, setFoundDeviceId] = React.useState<string>();
-
-  // TODO: Get the actual project name here
-  const projectName = "BarFoo";
+  const [config] = React.useContext(ConfigContext);
 
   const getRenderedStep = () => {
     switch (step) {
@@ -55,14 +54,16 @@ export const AddToProjectScreen: NavigationStackScreenComponent = () => {
         );
       case "success":
         return (
-          !!foundDeviceId && (
+          !!foundDeviceId &&
+          !!config.metadata.name && (
             <SuccessStep
               goNext={() => {
                 setFoundDeviceId(undefined);
+                // TODO: Need to go to a sync screen instead
                 setStep("scan");
               }}
               deviceId={foundDeviceId}
-              projectName={projectName}
+              projectName={config.metadata.name}
             />
           )
         );
@@ -78,10 +79,10 @@ export const AddToProjectScreen: NavigationStackScreenComponent = () => {
 
 AddToProjectScreen.navigationOptions = () => ({
   animationEnabled: false,
+  // TODO: Get the project name and add it to the title here
   headerTitle: () => (
     <HeaderTitle style={{ color: WHITE }}>
-      {/* TODO: Get the actual project name here */}
-      <FormattedMessage {...m.title} values={{ projectName: "BarFoo" }} />
+      <FormattedMessage {...m.titleGeneric} />
     </HeaderTitle>
   ),
   headerLeft: ({ onPress }) =>
