@@ -85,7 +85,7 @@ export const AppStack = createStackNavigator(
     JoinProjectQr: JoinProjectQrScreen,
   },
   {
-    initialRouteName: "UnableToLeave",
+    initialRouteName: "Home",
     // TODO iOS: Dynamically set transition mode to modal for modals
     mode: "card",
     headerMode: "screen",
