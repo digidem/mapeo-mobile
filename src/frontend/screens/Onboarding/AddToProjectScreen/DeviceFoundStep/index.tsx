@@ -1,16 +1,20 @@
 import * as React from "react";
 import { Animated, View, StyleSheet } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
-import CheckBox from "@react-native-community/checkbox";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import Button from "../../../sharedComponents/Button";
-import Text from "../../../sharedComponents/Text";
-import { TouchableWithoutFeedback } from "../../../sharedComponents/Touchables";
-import { MAGENTA, MAPEO_BLUE, MEDIUM_BLUE, WHITE } from "../../../lib/styles";
+import {
+  DARK_GREY,
+  MAGENTA,
+  MAPEO_BLUE,
+  MEDIUM_BLUE,
+  WHITE,
+} from "../../../../lib/styles";
+import Button from "../../../../sharedComponents/Button";
+import Text from "../../../../sharedComponents/Text";
+import { OptionRow } from "./OptionRow";
 
 type Role = "participant" | "coordinator";
-
-const AnimatedCheckBox = Animated.createAnimatedComponent(CheckBox);
 
 const m = defineMessages({
   title: {
@@ -58,13 +62,14 @@ export const DeviceFoundStep = ({ deviceId, goBack, goNext }: Props) => {
   const [showError, setShowError] = React.useState(false);
   const pulseAnimationValue = React.useRef(new Animated.Value(0)).current;
 
-  const animatedCheckBoxStyles = React.useMemo(
+  const animatedRadioStyles = React.useMemo(
     () => ({
+      margin: 4,
       transform: [
         {
           scale: pulseAnimationValue.interpolate({
             inputRange: [0, 0.5, 1],
-            outputRange: [1.2, 1.5, 1.2],
+            outputRange: [1, 1.2, 1],
           }),
         },
       ],
@@ -72,19 +77,20 @@ export const DeviceFoundStep = ({ deviceId, goBack, goNext }: Props) => {
     []
   );
 
-  const createRoleOption = (role: Role) => (
-    <AnimatedCheckBox
-      onValueChange={createOptionHandler(role)}
-      style={animatedCheckBoxStyles}
-      tintColors={{ false: showError ? MAGENTA : undefined, true: MEDIUM_BLUE }}
-      value={selectedRole === role}
-    />
-  );
+  const createAnimatedRadio = (role: Role) => {
+    const selected = selectedRole === role;
+    return (
+      <Animated.View style={animatedRadioStyles}>
+        <MaterialIcon
+          name={selected ? "radio-button-checked" : "radio-button-unchecked"}
+          size={24}
+          color={showError ? MAGENTA : selected ? MEDIUM_BLUE : DARK_GREY}
+        />
+      </Animated.View>
+    );
+  };
 
-  const createOptionHandler = (role: Role) => (selected: boolean) =>
-    setSelectedRole(selected ? role : undefined);
-
-  const createTextPressHandler = (role: Role) => () =>
+  const createPressHandler = (role: Role) => () =>
     setSelectedRole(previous => (previous === role ? undefined : role));
 
   const onSubmit = () => {
@@ -113,33 +119,27 @@ export const DeviceFoundStep = ({ deviceId, goBack, goNext }: Props) => {
           <FormattedMessage {...m.title} values={{ deviceId }} />
         </Text>
         <View style={styles.form}>
-          <View style={styles.optionContainer}>
-            {createRoleOption("participant")}
-            <View style={styles.pressableTextContainer}>
-              <TouchableWithoutFeedback
-                onPress={createTextPressHandler("participant")}
-              >
-                <Text style={[styles.checkboxOptionTitle, styles.bold]}>
-                  <FormattedMessage {...m.participantOptionTitle} />
-                </Text>
-              </TouchableWithoutFeedback>
+          <OptionRow onPress={createPressHandler("participant")}>
+            <View style={styles.optionContentContainer}>
+              {createAnimatedRadio("participant")}
+              <Text style={[styles.checkboxOptionTitle, styles.bold]}>
+                <FormattedMessage {...m.participantOptionTitle} />
+              </Text>
             </View>
-          </View>
-          <View style={styles.optionContainer}>
-            {createRoleOption("coordinator")}
-            <View style={styles.pressableTextContainer}>
-              <TouchableWithoutFeedback
-                onPress={createTextPressHandler("coordinator")}
-              >
+          </OptionRow>
+          <OptionRow onPress={createPressHandler("coordinator")}>
+            <View style={styles.optionContentContainer}>
+              {createAnimatedRadio("coordinator")}
+              <View>
                 <Text style={[styles.checkboxOptionTitle, styles.bold]}>
                   <FormattedMessage {...m.coordinatorOptionTitle} />
                 </Text>
                 <Text style={styles.checkboxOptionDescription}>
                   <FormattedMessage {...m.coordinatorOptionDescription} />
                 </Text>
-              </TouchableWithoutFeedback>
+              </View>
             </View>
-          </View>
+          </OptionRow>
           {showError && (
             <View style={styles.errorContainer}>
               <Text style={[styles.errorText, styles.bold]}>
@@ -175,15 +175,7 @@ const styles = StyleSheet.create({
   form: {
     marginVertical: 20,
   },
-  optionContainer: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    marginBottom: 16,
-  },
-  pressableTextContainer: {
-    flex: 1,
-    paddingLeft: 8,
-  },
+  optionContentContainer: { flexDirection: "row" },
   title: {
     fontSize: 40,
     fontWeight: "bold",
@@ -196,7 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   errorContainer: {
-    paddingLeft: 40,
+    paddingLeft: 32,
   },
   errorText: {
     color: MAGENTA,
