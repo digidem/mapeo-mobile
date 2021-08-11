@@ -39,7 +39,7 @@ export const SuccessStep = ({ deviceId, goNext, projectName }: Props) => (
         />
       </Text>
     </View>
-    <Button onPress={goNext}>
+    <Button fullWidth onPress={goNext}>
       <Text style={[styles.buttonText, { color: WHITE }]}>
         <FormattedMessage {...m.goToSync} />
       </Text>
@@ -66,6 +66,5 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: "bold",
   },
 });
