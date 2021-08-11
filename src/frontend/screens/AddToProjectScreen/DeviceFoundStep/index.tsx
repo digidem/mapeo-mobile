@@ -149,18 +149,19 @@ export const DeviceFoundStep = ({ deviceId, goBack, goNext }: Props) => {
           )}
         </View>
       </View>
-      <View style={styles.buttonsContainer}>
-        <Button variant="outlined" onPress={goBack} style={[styles.button]}>
-          <Text
-            numberOfLines={1}
-            style={[styles.buttonText, { color: MAPEO_BLUE }]}
-          >
+      <View>
+        <Button
+          fullWidth
+          onPress={goBack}
+          style={{ marginBottom: 12 }}
+          variant="outlined"
+        >
+          <Text style={[styles.buttonText, { color: MAPEO_BLUE }]}>
             <FormattedMessage {...m.cancel} />
           </Text>
         </Button>
-        <View style={styles.spacer} />
-        <Button onPress={onSubmit} style={styles.button}>
-          <Text numberOfLines={1} style={[styles.buttonText, { color: WHITE }]}>
+        <Button fullWidth onPress={onSubmit}>
+          <Text style={[styles.buttonText, { color: WHITE }]}>
             <FormattedMessage {...m.inviteDevice} />
           </Text>
         </Button>
@@ -200,20 +201,10 @@ const styles = StyleSheet.create({
   centeredText: {
     textAlign: "center",
   },
-  buttonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  button: {
-    flex: 1,
-  },
   buttonText: {
     fontSize: 16,
   },
   bold: {
     fontWeight: "bold",
-  },
-  spacer: {
-    width: 18,
   },
 });
