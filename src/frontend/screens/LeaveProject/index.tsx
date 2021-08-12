@@ -30,7 +30,7 @@ export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
   const [screen, setScreen] = useState(initial);
 
   function nextScreenState() {
-    setScreen(screen => screen + 1);
+    setScreen(previousScreen => previousScreen + 1);
   }
 
   if (screen === initial) {
