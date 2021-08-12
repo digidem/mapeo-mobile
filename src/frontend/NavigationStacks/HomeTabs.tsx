@@ -1,9 +1,10 @@
+import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+
 import MapScreen from "../screens/MapScreen";
 import CameraScreen from "../screens/CameraScreen";
-import React from "react";
 import HomeHeader from "../sharedComponents/HomeHeader";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 type HomeTabsNavTypes = {
   Map: undefined;
@@ -16,14 +17,14 @@ const HomeTabComponent = () => {
   return (
     <HomeTabs.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color }) => {
+        tabBarIcon: ({ color }) => {
           let iconName;
           if (route.name === "Map") iconName = "map";
           else iconName = "photo-camera";
           return <MaterialIcons name={iconName} size={30} color={color} />;
         },
         tabBarShowLabel: false,
-        header: props => <HomeHeader {...props} />,
+        header: () => <HomeHeader />,
         headerTransparent: true,
         tabBarTestID: "tabBarButton" + route.name,
       })}

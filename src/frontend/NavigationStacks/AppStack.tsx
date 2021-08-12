@@ -60,6 +60,7 @@ export const AppStack = () => {
         headerStyle: { height: 60 },
         headerLeft: props => <CustomHeaderLeft {...props} />,
         headerTitleStyle: { marginHorizontal: 0 },
+        headerShown: route.name !== "Home",
         cardStyle: { backgroundColor: "#ffffff" },
       })}
     >
