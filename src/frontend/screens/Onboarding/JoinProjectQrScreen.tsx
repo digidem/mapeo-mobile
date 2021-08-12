@@ -1,8 +1,9 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
+import { StackActions, NavigationActions } from "react-navigation";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
-import { FormattedMessage, defineMessages } from "react-intl";
+import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import QRCode from "react-native-qrcode-svg";
 
 import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
@@ -26,14 +27,41 @@ const m = defineMessages({
     id: "screens.Onboarding.JoinProjectQrScreen.instructionsDescription",
     defaultMessage: "Show this QR code to your Project Admin",
   },
+  instructionDescriptionAsAdmin: {
+    id: "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin",
+    defaultMessage: "Have the Project Participant scan this invite code.",
+  },
   sendJoinRequest: {
     id: "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest",
     defaultMessage: "Send Join Request instead",
   },
+  cancel: {
+    id: "screens.Onboarding.JoinProjectQrScreen.cancel",
+    defaultMessage: "Cancel",
+  },
 });
 
+//Cancels the QR code screen and resets the navigation stack so the
+//user CANNOT hit the back button to go back to this screen
+const resetAction = StackActions.reset({
+  index: 0, // <-- currect active route from actions array
+  actions: [NavigationActions.navigate({ routeName: "Home" })],
+});
+
+/* 
+  This screen is being used for 2 use cases:
+  1. Project Joiner asking to be invited to project
+  2. Project Admin adding user to project
+
+  IsAdmin:boolean Flag is passed (through navigation) if the 
+  user is in an admin
+*/
 export const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
   const navigation = useNavigation();
+  const { formatMessage: t } = useIntl();
+
+  const isAdmin: boolean =
+    JSON.stringify(navigation.getParam("isAdmin", false)) === "true";
 
   return (
     <WithWifiBar>
@@ -48,18 +76,34 @@ export const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
               <FormattedMessage {...m.instructionsTitle} />
             </Text>
             <Text style={styles.instructionsDescription}>
-              <FormattedMessage {...m.instructionsDescription} />
+              {isAdmin ? (
+                <FormattedMessage {...m.instructionDescriptionAsAdmin} />
+              ) : (
+                <FormattedMessage {...m.instructionsDescription} />
+              )}
             </Text>
           </View>
         </View>
-        <Button
-          variant="text"
-          onPress={() => navigation.navigate("SendJoinRequest")}
-        >
-          <Text style={styles.sendJoinRequest}>
-            <FormattedMessage {...m.sendJoinRequest} />
-          </Text>
-        </Button>
+
+        {isAdmin ? (
+          //Admin cancel Button
+          <Button
+            variant="outlined"
+            onPress={() => navigation.dispatch(resetAction)}
+          >
+            {t(m.cancel)}
+          </Button>
+        ) : (
+          // Project Joiner Request
+          <Button
+            variant="text"
+            onPress={() => navigation.navigate("SendJoinRequest")}
+          >
+            <Text style={styles.sendJoinRequest}>
+              <FormattedMessage {...m.sendJoinRequest} />
+            </Text>
+          </Button>
+        )}
       </View>
     </WithWifiBar>
   );
@@ -103,6 +147,7 @@ const styles = StyleSheet.create({
   },
   instructionsDescription: {
     fontSize: 16,
+    textAlign: "center",
   },
   joinRequestContainer: {
     alignItems: "center",
