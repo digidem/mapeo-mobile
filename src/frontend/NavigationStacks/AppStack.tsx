@@ -22,16 +22,11 @@ import AboutMapeo from "../screens/Settings/AboutMapeo";
 import LanguageSettings from "../screens/Settings/LanguageSettings";
 import CoordinateFormat from "../screens/Settings/CoordinateFormat";
 import HomeHeader from "../sharedComponents/HomeHeader";
-import { LeaveProjectInitial } from "../screens/LeaveProject/LeaveProjectInitial";
-import { LeaveProjectProgress } from "../screens/LeaveProject/LeaveProjectProgess";
-import { LeaveProjectCompleted } from "../screens/LeaveProject/LeaveProjectCompleted";
-
-
-import UnableToLinkScreen from "../screens/UnableToLink";
+import { AlreadyOnProj } from "../screens/AlreadyOnProject";
+import { LeaveProjectScreen } from "../screens/LeaveProject";
+import { AddToProjectScreen } from "../screens/AddToProjectScreen";
+import {UnableToLinkScreen} from "../screens/UnableToLink";
 import { JoinProjectQrScreen } from "../screens/Onboarding";
-import AlreadyOnProj from "../screens/AlreadyOnProject";
-import LeaveProjectScreen from "../screens/LeaveProject";
-import { AddToProjectScreen } from "../screens/AddToProjectScreen"
 const HomeTabs = createBottomTabNavigator(
   {
     Map: MapScreen,

@@ -7,7 +7,6 @@ import { LeaveProjectCompleted } from "./LeaveProjectCompleted";
 import { LeaveProjectInitial } from "./LeaveProjectInitial";
 import { LeaveProjectProgress } from "./LeaveProjectProgess";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import { WHITE } from "../../lib/styles";
 
 const m = defineMessages({
   headerTitle: {
@@ -26,7 +25,7 @@ export interface LeaveProjSharedProp {
   next: () => void;
 }
 
-const LeaveProjectScreen: NavigationStackScreenComponent = () => {
+export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
   const { initial, progress } = ScreenStates;
   const [screen, setScreen] = useState(initial);
 
@@ -47,10 +46,8 @@ const LeaveProjectScreen: NavigationStackScreenComponent = () => {
 
 LeaveProjectScreen.navigationOptions = {
   headerTitle: () => (
-    <HeaderTitle style={{ color: WHITE }}>
+    <HeaderTitle style={{}}>
       <FormattedMessage {...m.headerTitle} />
     </HeaderTitle>
   ),
 };
-
-export default LeaveProjectScreen;

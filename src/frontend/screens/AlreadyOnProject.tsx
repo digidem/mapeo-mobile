@@ -45,7 +45,7 @@ const navSettings: NavigationStackOptions = {
   headerShown: false,
 };
 
-const AlreadyOnProj: NavigationStackScreenComponent = () => {
+export const AlreadyOnProj: NavigationStackScreenComponent = () => {
   const [config] = useContext(ConfigContext);
   const { formatMessage: t } = useIntl();
   const nav = useNavigation();
@@ -99,8 +99,6 @@ const AlreadyOnProj: NavigationStackScreenComponent = () => {
 };
 
 AlreadyOnProj.navigationOptions = navSettings;
-
-export default AlreadyOnProj;
 
 const styles = StyleSheet.create({
   screenContainer: {
