@@ -5,11 +5,7 @@ import CheckBox from "@react-native-community/checkbox";
 import ConfigContext from "../../context/ConfigContext";
 import Button from "../../sharedComponents/Button";
 import { useNavigation } from "react-navigation-hooks";
-import {
-  NavigationStackOptions,
-  NavigationStackScreenComponent,
-} from "react-navigation-stack";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import { LeaveProjSharedProp } from ".";
 
 const m = defineMessage({
   leaveProjectTitle: {
@@ -48,15 +44,7 @@ const m = defineMessage({
   },
 });
 
-const navOptions: NavigationStackOptions = {
-  headerTitle: () => (
-    <HeaderTitle style={{ color: "#ffffff" }}>
-      <FormattedMessage {...m.headerTitle} />
-    </HeaderTitle>
-  ),
-};
-
-export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
+export const LeaveProjectInitial = ({ next }: LeaveProjSharedProp) => {
   const [confirmDelete, setConfirmDelete] = React.useState(false);
   const [untouched, setUntouched] = useState(true);
   const [config] = useContext(ConfigContext);
@@ -70,7 +58,7 @@ export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
 
     if (!confirmDelete) return;
 
-    nav.navigate("LeaveProjectProgress");
+    next();
   }
 
   const name = config.metadata.name ? " " + config.metadata.name : "";
@@ -143,8 +131,6 @@ export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
     </View>
   );
 };
-
-LeaveProjectScreen.navigationOptions = navOptions;
 
 const styles = StyleSheet.create({
   screenContainer: {

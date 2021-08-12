@@ -43,7 +43,7 @@ const m = defineMessages({
   },
 });
 
-const UnableToLinkScreen: NavigationStackScreenComponent = () => {
+export const UnableToLinkScreen: NavigationStackScreenComponent = () => {
   const { ssid } = useWifiStatus();
   const { formatMessage: t } = useIntl();
   const { navigate } = useNavigation();
@@ -129,4 +129,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UnableToLinkScreen;

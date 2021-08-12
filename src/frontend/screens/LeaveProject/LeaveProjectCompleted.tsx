@@ -2,10 +2,6 @@ import React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { View, Text, StyleSheet, Image } from "react-native";
 import Button from "../../sharedComponents/Button";
-import {
-  NavigationStackOptions,
-  NavigationStackScreenComponent,
-} from "react-navigation-stack";
 import { useNavigation } from "react-navigation-hooks";
 
 const m = defineMessages({
@@ -23,11 +19,7 @@ const m = defineMessages({
   },
 });
 
-const navOption: NavigationStackOptions = {
-  headerShown: false,
-};
-
-export const LeaveProjectCompleted: NavigationStackScreenComponent = () => {
+export const LeaveProjectCompleted = () => {
   const nav = useNavigation();
 
   return (
@@ -55,8 +47,6 @@ export const LeaveProjectCompleted: NavigationStackScreenComponent = () => {
     </View>
   );
 };
-
-LeaveProjectCompleted.navigationOptions = navOption;
 
 const styles = StyleSheet.create({
   screenContainer: {
