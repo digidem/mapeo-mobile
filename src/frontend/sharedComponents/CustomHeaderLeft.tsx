@@ -4,8 +4,10 @@ import { defineMessages, useIntl } from "react-intl";
 import {
   useNavigation,
   useFocusEffect,
-  HeaderBackButton,
+  useNavigationState,
 } from "@react-navigation/native";
+import { HeaderBackButton } from "@react-navigation/elements";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Alert, BackHandler } from "react-native";
 import isEqual from "lodash/isEqual";
 
@@ -13,6 +15,7 @@ import { CloseIcon, BackIcon } from "./icons";
 import useDraftObservation from "../hooks/useDraftObservation";
 import useObservation from "../hooks/useObservation";
 import { filterPhotosFromAttachments } from "../lib/utils";
+import { AppStackNavTypes } from "../NavigationStacks/AppStack";
 
 const m = defineMessages({
   discardTitle: {
@@ -89,28 +92,30 @@ const HeaderBackIcon = ({ tintColor }: { tintColor: string }) => (
  * Whether the observation has been edited is checked by deep-equal between the
  * draft and the original observation
  */
+
 const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
   const { formatMessage: t } = useIntl();
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<AppStackNavTypes>>();
+
   const [draftObservation, { clearDraft }] = useDraftObservation();
   const [{ observation: existingObservation }] = useObservation(
     draftObservation.observationId
   );
+
   const isNew =
     draftObservation.value &&
     typeof draftObservation.observationId === "undefined";
-  const { routeName, key } = navigation.state;
-  const parent = navigation.dangerouslyGetParent();
-  const routes = parent && parent.state.routes;
-  const currentIndex = routes && routes.findIndex(route => route.key === key);
-  const prevRouteNameInStack =
-    routes && routes[currentIndex - 1] && routes[currentIndex - 1].routeName;
 
-  const shouldConfirm =
-    routeName === "ObservationEdit" ||
-    (isNew &&
-      routeName === "CategoryChooser" &&
-      prevRouteNameInStack === "Home");
+  const shouldConfirm = useNavigationState(state => {
+    const currentRouteName = state.routes[state.index].name;
+    const previousRouteName = state.routes[state.index - 1]?.name;
+    return (
+      currentRouteName === "ObservationEdit" ||
+      (isNew &&
+        currentRouteName === "CategoryChooser" &&
+        previousRouteName === "Home")
+    );
+  });
 
   const handleCloseRequest = React.useCallback(() => {
     const isUntouched =
@@ -120,11 +125,14 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
         filterPhotosFromAttachments(existingObservation.value.attachments),
         draftObservation.photos
       );
+
     if (!shouldConfirm || isUntouched) {
       if (shouldConfirm) clearDraft();
       navigation.goBack();
       return;
     }
+
+    const alertCancelOption = { text: t(m.discardCancel), onPress: () => {} };
 
     if (isNew) {
       Alert.alert(t(m.discardTitle), undefined, [
@@ -135,7 +143,7 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
             navigation.navigate("Home");
           },
         },
-        { text: t(m.discardCancel), onPress: () => {} },
+        alertCancelOption,
       ]);
     } else {
       Alert.alert(t(m.discardChangesTitle), undefined, [
@@ -146,7 +154,7 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
             navigation.goBack();
           },
         },
-        { text: t(m.discardCancel), onPress: () => {} },
+        alertCancelOption,
       ]);
     }
   }, [
