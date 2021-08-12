@@ -15,7 +15,7 @@ import AppProvider from "./context/AppProvider";
 import bugsnag from "./lib/logger";
 import IS_E2E from "./lib/is-e2e";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
-import { LeaveProjectScreen } from "./screens/LeaveProject/LeaveProject";
+import { LeaveProjectInitial } from "./screens/LeaveProject/LeaveProjectInitial";
 
 // Turn off warnings about require cycles
 LogBox.ignoreLogs(["Require cycle:"]);
