@@ -76,11 +76,10 @@ export const AlreadyOnProj: NavigationStackScreenComponent = () => {
         <FormattedMessage {...m.leaveInstructions} />
       </Text>
 
-      {/* To Do => navigate to leave project flow when merged with that branch */}
       <Button
         style={[styles.buttons, { backgroundColor: "#FF0000", marginTop: 30 }]}
         onPress={() => {
-          return;
+          nav.navigate("LeaveProjectScreen");
         }}
       >
         {t(m.leaveButton)}

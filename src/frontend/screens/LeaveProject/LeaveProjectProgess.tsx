@@ -3,12 +3,9 @@ import { View, Text, StyleSheet } from "react-native";
 import { Bar } from "react-native-progress";
 import { defineMessages, FormattedMessage } from "react-intl";
 import ConfigContext from "../../context/ConfigContext";
-import {
-  NavigationStackOptions,
-  NavigationStackScreenComponent,
-} from "react-navigation-stack";
+import { NavigationStackOptions } from "react-navigation-stack";
 import { useState } from "react";
-import { useNavigation } from "react-navigation-hooks";
+import { LeaveProjSharedProp } from ".";
 
 const m = defineMessages({
   leaveProjectTitle: {
@@ -25,15 +22,14 @@ const navOptions: NavigationStackOptions = {
   headerShown: false,
 };
 
-export const LeaveProjectProgress: NavigationStackScreenComponent = () => {
+export const LeaveProjectProgress = ({ next }: LeaveProjSharedProp) => {
   const [config] = useContext(ConfigContext);
-  const { navigate } = useNavigation();
+
   //To do => When Delete API has been created
   const [progress, setProgress] = useState(0);
-
   setTimeout(() => {
-    navigate("LeaveProjectCompleted");
-  }, 3000);
+    next();
+  }, 2000);
 
   const name = config.metadata.name || "";
 
@@ -57,8 +53,6 @@ export const LeaveProjectProgress: NavigationStackScreenComponent = () => {
     </View>
   );
 };
-
-LeaveProjectProgress.navigationOptions = navOptions;
 
 const styles = StyleSheet.create({
   screenContainer: {

@@ -1,15 +1,14 @@
-// @flow
 import React from "react";
 import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
 import Text from "../../sharedComponents/Text";
-// import { Picker as OriginalPicker } from "@react-native-community/picker";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import * as DocumentPicker from "expo-document-picker";
-
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import Button from "../../sharedComponents/Button";
 import ConfigContext from "../../context/ConfigContext";
 import type { Status } from "../../types";
+import { useNavigation } from "react-navigation-hooks";
 
 const m = defineMessages({
   configTitle: {
@@ -55,26 +54,30 @@ const m = defineMessages({
     defaultMessage: "Import Config",
     description: "Button to import Mapeo config file",
   },
+  name: {
+    id: "screens.Settings.name",
+    defaultMessage: "Project Name:",
+    description: "Button to import Mapeo config file",
+  },
+  leaveProject: {
+    id: "screens.Settings.leaveProject",
+    defaultMessage: "Leave Project",
+    description: "Button to leave current project",
+  },
+  addPerson: {
+    id: "screens.Settings.addPerson",
+    defaultMessage: "Add Person",
+    description: "Button to add person to project",
+  },
 });
-
-// const Picker = ({ label, children, ...props }) => (
-//   <View style={styles.pickerWrapper}>
-//     <Text style={styles.pickerLabel}>{label}</Text>
-//     <View style={styles.picker}>
-//       <OriginalPicker mode="dialog" {...props} prompt={label}>
-//         {children}
-//       </OriginalPicker>
-//     </View>
-//   </View>
-// );
-
-// Picker.Item = OriginalPicker.Item;
 
 const ProjectConfig = () => {
   const { formatMessage: t } = useIntl();
   const [status, setStatus] = React.useState<Status>("idle");
   const [config, { replace: replaceConfig }] = React.useContext(ConfigContext);
   const didError = config.status === "error";
+
+  const { navigate } = useNavigation();
 
   React.useEffect(() => {
     if (!didError) return;
@@ -114,26 +117,85 @@ const ProjectConfig = () => {
         <Text style={[styles.centerText, styles.projectKey]}>
           {projectKeySlice ? projectKeySlice + "**********" : "MAPEO"}
         </Text>
+
+        {!!configName && (
+          <React.Fragment>
+            <Text style={[styles.centerText, { marginTop: 10 }]}>
+              <FormattedMessage {...m.name} />
+            </Text>
+            <Text style={[styles.centerText, styles.projectKey]}>
+              {configName}
+            </Text>
+          </React.Fragment>
+        )}
         {(status === "loading" || config.status === "loading") && (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" />
           </View>
         )}
       </View>
+
       <Button
         disabled={status === "loading" || config.status === "loading"}
-        variant="outlined"
+        variant="contained"
         onPress={handleImportPress}
+        style={[{ marginTop: 40 }, styles.button]}
       >
         {t(m.importConfig) /* Button component expects string children */}
       </Button>
+      {process.env.FEATURE_ONBOARDING === "true" && (
+        <React.Fragment>
+          {/* We need to work out permission before we figure out what this button does */}
+          <Button
+            style={styles.button}
+            disabled={status === "loading" || config.status === "loading"}
+            variant="outlined"
+            onPress={() => {}}
+          >
+            <View style={styles.leaveBttn}>
+              <MaterialIcons name="person-add" color="#0066ff" size={18} />
+              <Text
+                style={{
+                  color: "#0066ff",
+                  fontWeight: "bold",
+                  marginLeft: 5,
+                  fontSize: 16,
+                }}
+              >
+                <FormattedMessage {...m.addPerson} />
+              </Text>
+            </View>
+          </Button>
+
+          <Button
+            style={styles.button}
+            disabled={status === "loading" || config.status === "loading"}
+            variant="outlined"
+            onPress={() => navigate("LeaveProjectScreen")}
+          >
+            <View style={styles.leaveBttn}>
+              <MaterialIcons name="exit-to-app" color="#0066ff" size={18} />
+              <Text
+                style={{
+                  color: "#0066ff",
+                  fontWeight: "bold",
+                  marginLeft: 5,
+                  fontSize: 16,
+                }}
+              >
+                <FormattedMessage {...m.leaveProject} />
+              </Text>
+            </View>
+          </Button>
+        </React.Fragment>
+      )}
     </View>
   );
 };
 
 ProjectConfig.navigationOptions = {
   headerTitle: () => (
-    <HeaderTitle>
+    <HeaderTitle style={{}}>
       <FormattedMessage {...m.configTitle} />
     </HeaderTitle>
   ),
@@ -147,20 +209,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 20,
   },
-  // pickerWrapper: {
-  //   marginBottom: 15
-  // },
-  // pickerLabel: {
-  //   marginBottom: 5,
-  //   marginLeft: 2
-  // },
-  // picker: {
-  //   borderWidth: 1,
-  //   borderColor: "#CCCCCC",
-  //   borderStyle: "solid",
-  //   borderRadius: 5,
-  //   paddingLeft: 10
-  // },
   configInfo: {
     marginBottom: 20,
     position: "relative",
@@ -191,5 +239,13 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.9)",
     justifyContent: "center",
     alignItems: "center",
+  },
+  leaveBttn: {
+    color: "#0066ff",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  button: {
+    margin: 5,
   },
 });
