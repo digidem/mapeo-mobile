@@ -27,7 +27,7 @@ import { LeaveProjectProgress } from "../screens/LeaveProject/LeaveProjectProges
 import { LeaveProjectCompleted } from "../screens/LeaveProject/LeaveProjectCompleted";
 import { AlreadyOnProj } from "../screens/AlreadyOnProject";
 import { AddToProjectScreen } from "../screens/AddToProjectScreen";
-import UnableToLeaveScreen from "../screens/UnableToLink";
+import UnableToLinkScreen from "../screens/UnableToLink";
 import { JoinProjectQrScreen } from "../screens/Onboarding";
 
 const HomeTabs = createBottomTabNavigator(
@@ -81,7 +81,7 @@ export const AppStack = createStackNavigator(
     LeaveProjectCompleted: LeaveProjectCompleted,
     AlreadyOnProj: AlreadyOnProj,
     AddToProject: AddToProjectScreen,
-    UnableToLeave: UnableToLeaveScreen,
+    UnableToLink: UnableToLinkScreen,
     JoinProjectQr: JoinProjectQrScreen,
   },
   {

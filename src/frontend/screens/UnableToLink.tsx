@@ -43,7 +43,7 @@ const m = defineMessages({
   },
 });
 
-const UnableToLeaveScreen: NavigationStackScreenComponent = () => {
+const UnableToLinkScreen: NavigationStackScreenComponent = () => {
   const { ssid } = useWifiStatus();
   const { formatMessage: t } = useIntl();
   const { navigate } = useNavigation();
@@ -99,7 +99,7 @@ const UnableToLeaveScreen: NavigationStackScreenComponent = () => {
   );
 };
 
-UnableToLeaveScreen.navigationOptions = () => ({
+UnableToLinkScreen.navigationOptions = () => ({
   headerTitle: () => (
     <HeaderTitle style={{}}>
       <FormattedMessage {...m.bannerTitle} />
@@ -129,4 +129,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UnableToLeaveScreen;
+export default UnableToLinkScreen;
