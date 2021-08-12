@@ -1,15 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import {
-  NavigationStackProp,
-  NavigationStackScreenComponent,
-  NavigationStackScreenProps,
-} from "react-navigation-stack";
+import { NavigationStackScreenComponent } from "react-navigation-stack";
+
 import { LeaveProjectCompleted } from "./LeaveProjectCompleted";
 import { LeaveProjectInitial } from "./LeaveProjectInitial";
 import { LeaveProjectProgress } from "./LeaveProjectProgess";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import { WHITE } from "../../lib/styles";
 
 const m = defineMessages({
   headerTitle: {
@@ -24,30 +22,35 @@ enum ScreenStates {
   completed,
 }
 
-export interface ILeaveSharedProp {
-  screenStateHook: [
-    ScreenStates,
-    React.Dispatch<React.SetStateAction<ScreenStates>>
-  ];
+export interface LeaveProjSharedProp {
+  next: () => void;
 }
 
-const LeaveProjectScreen: NavigationStackScreenComponent = ({
-  navigation,
-  screenProps,
-  theme,
-}: NavigationStackScreenProps) => {
-  const { initial, progress, completed } = ScreenStates;
+const LeaveProjectScreen: NavigationStackScreenComponent = () => {
+  const { initial, progress } = ScreenStates;
   const [screen, setScreen] = useState(initial);
 
+  function nextScreenState() {
+    setScreen(screen => screen + 1);
+  }
+
   if (screen === initial) {
-    return <LeaveProjectInitial screenStateHook={[screen, setScreen]} />;
+    return <LeaveProjectInitial next={nextScreenState} />;
   }
 
   if (screen === progress) {
-    return <LeaveProjectProgress screenStateHook={[screen, setScreen]} />;
+    return <LeaveProjectProgress next={nextScreenState} />;
   }
 
-  return <LeaveProjectCompleted screenStateHook={[screen, setScreen]} />;
+  return <LeaveProjectCompleted />;
+};
+
+LeaveProjectScreen.navigationOptions = {
+  headerTitle: () => (
+    <HeaderTitle style={{ color: WHITE }}>
+      <FormattedMessage {...m.headerTitle} />
+    </HeaderTitle>
+  ),
 };
 
 export default LeaveProjectScreen;

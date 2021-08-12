@@ -5,7 +5,7 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import ConfigContext from "../../context/ConfigContext";
 import { NavigationStackOptions } from "react-navigation-stack";
 import { useState } from "react";
-import { ILeaveSharedProp } from ".";
+import { LeaveProjSharedProp } from ".";
 
 const m = defineMessages({
   leaveProjectTitle: {
@@ -22,15 +22,14 @@ const navOptions: NavigationStackOptions = {
   headerShown: false,
 };
 
-export const LeaveProjectProgress = ({ screenStateHook }: ILeaveSharedProp) => {
-  const [screen, setScreen] = screenStateHook;
+export const LeaveProjectProgress = ({ next }: LeaveProjSharedProp) => {
   const [config] = useContext(ConfigContext);
+
   //To do => When Delete API has been created
   const [progress, setProgress] = useState(0);
-
   setTimeout(() => {
-    setScreen(screen + 1);
-  }, 3000);
+    next();
+  }, 2000);
 
   const name = config.metadata.name || "";
 

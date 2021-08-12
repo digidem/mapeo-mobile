@@ -124,7 +124,7 @@ const ProjectConfig = () => {
               <FormattedMessage {...m.name} />
             </Text>
             <Text style={[styles.centerText, styles.projectKey]}>
-              {configName || ""}
+              {configName}
             </Text>
           </React.Fragment>
         )}
@@ -152,7 +152,7 @@ const ProjectConfig = () => {
             variant="outlined"
             onPress={() => {}}
           >
-            <View style={styles.LeaveBttn}>
+            <View style={styles.leaveBttn}>
               <MaterialIcons name="person-add" color="#0066ff" size={18} />
               <Text
                 style={{
@@ -173,7 +173,7 @@ const ProjectConfig = () => {
             variant="outlined"
             onPress={() => navigate("LeaveProjectScreen")}
           >
-            <View style={styles.LeaveBttn}>
+            <View style={styles.leaveBttn}>
               <MaterialIcons name="exit-to-app" color="#0066ff" size={18} />
               <Text
                 style={{
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  LeaveBttn: {
+  leaveBttn: {
     color: "#0066ff",
     flexDirection: "row",
     alignItems: "center",

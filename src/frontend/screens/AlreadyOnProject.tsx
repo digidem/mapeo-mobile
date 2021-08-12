@@ -45,7 +45,7 @@ const navSettings: NavigationStackOptions = {
   headerShown: false,
 };
 
-export const AlreadyOnProj: NavigationStackScreenComponent = () => {
+const AlreadyOnProj: NavigationStackScreenComponent = () => {
   const [config] = useContext(ConfigContext);
   const { formatMessage: t } = useIntl();
   const nav = useNavigation();
@@ -76,11 +76,10 @@ export const AlreadyOnProj: NavigationStackScreenComponent = () => {
         <FormattedMessage {...m.leaveInstructions} />
       </Text>
 
-      {/* To Do => navigate to leave project flow when merged with that branch */}
       <Button
         style={[styles.buttons, { backgroundColor: "#FF0000", marginTop: 30 }]}
         onPress={() => {
-          return;
+          nav.navigate("LeaveProjectScreen");
         }}
       >
         {t(m.leaveButton)}
@@ -100,6 +99,8 @@ export const AlreadyOnProj: NavigationStackScreenComponent = () => {
 };
 
 AlreadyOnProj.navigationOptions = navSettings;
+
+export default AlreadyOnProj;
 
 const styles = StyleSheet.create({
   screenContainer: {

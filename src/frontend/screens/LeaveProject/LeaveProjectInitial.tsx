@@ -5,12 +5,7 @@ import CheckBox from "@react-native-community/checkbox";
 import ConfigContext from "../../context/ConfigContext";
 import Button from "../../sharedComponents/Button";
 import { useNavigation } from "react-navigation-hooks";
-import {
-  NavigationStackOptions,
-  NavigationStackScreenComponent,
-} from "react-navigation-stack";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import { ILeaveSharedProp } from ".";
+import { LeaveProjSharedProp } from ".";
 
 const m = defineMessage({
   leaveProjectTitle: {
@@ -49,16 +44,7 @@ const m = defineMessage({
   },
 });
 
-const navOptions: NavigationStackOptions = {
-  headerTitle: () => (
-    <HeaderTitle style={{ color: "#ffffff" }}>
-      <FormattedMessage {...m.headerTitle} />
-    </HeaderTitle>
-  ),
-};
-
-export const LeaveProjectInitial = ({ screenStateHook }: ILeaveSharedProp) => {
-  const [screen, setScreen] = screenStateHook;
+export const LeaveProjectInitial = ({ next }: LeaveProjSharedProp) => {
   const [confirmDelete, setConfirmDelete] = React.useState(false);
   const [untouched, setUntouched] = useState(true);
   const [config] = useContext(ConfigContext);
@@ -71,7 +57,8 @@ export const LeaveProjectInitial = ({ screenStateHook }: ILeaveSharedProp) => {
     if (untouched) setUntouched(false);
 
     if (!confirmDelete) return;
-    setScreen(screen + 1);
+
+    next();
   }
 
   const name = config.metadata.name ? " " + config.metadata.name : "";

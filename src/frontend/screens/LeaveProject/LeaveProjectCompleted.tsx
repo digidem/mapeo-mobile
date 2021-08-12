@@ -2,12 +2,7 @@ import React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { View, Text, StyleSheet, Image } from "react-native";
 import Button from "../../sharedComponents/Button";
-import {
-  NavigationStackOptions,
-  NavigationStackScreenComponent,
-} from "react-navigation-stack";
 import { useNavigation } from "react-navigation-hooks";
-import { ILeaveSharedProp } from ".";
 
 const m = defineMessages({
   projectDeleted: {
@@ -24,15 +19,7 @@ const m = defineMessages({
   },
 });
 
-const navOption: NavigationStackOptions = {
-  headerShown: false,
-};
-
-export const LeaveProjectCompleted = ({
-  screenStateHook,
-}: ILeaveSharedProp) => {
-  const [screen, setScreen] = screenStateHook;
-
+export const LeaveProjectCompleted = () => {
   const nav = useNavigation();
 
   return (
