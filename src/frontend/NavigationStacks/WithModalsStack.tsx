@@ -11,7 +11,7 @@ const MainStack = createSwitchNavigator(
     Onboarding: OnboardingStack,
   },
   {
-    initialRouteName: "App",
+    initialRouteName: "Onboarding",
   }
 );
 

@@ -5,6 +5,7 @@ import {
   JoinProjectQrScreen,
   SendJoinRequestScreen,
 } from "../screens/Onboarding/";
+import { SyncOnboardingScreen } from "../screens/Onboarding/Sync";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
 
 export const OnboardingStack = createStackNavigator(
@@ -12,9 +13,10 @@ export const OnboardingStack = createStackNavigator(
     CreateOrJoinScreen: CreateOrJoinScreen,
     JoinProjectQr: JoinProjectQrScreen,
     SendJoinRequest: SendJoinRequestScreen,
+    Sync: SyncOnboardingScreen,
   },
   {
-    initialRouteName: "CreateOrJoinScreen",
+    initialRouteName: "Sync",
     // TODO iOS: Dynamically set transition mode to modal for modals
     mode: "card",
     headerMode: "screen",
