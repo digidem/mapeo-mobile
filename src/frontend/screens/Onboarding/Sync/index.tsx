@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { defineMessages, useIntl, FormattedMessage } from "react-intl";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Button as Bttn } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
@@ -28,38 +28,39 @@ const m = defineMessages({
   },
 });
 
-export const SyncOnboardingScreen: NavigationStackScreenComponent = ({
-  navigation,
-}) => {
+export const SyncOnboardingScreen: NavigationStackScreenComponent = ({}) => {
   //For UI testing purposes
   const [obsCompleted, setObsCompleted] = useState(1);
   const total = 30;
 
-  // useEffect(()=>
-  // {
-  //     const timer = setTimeout(()=>{setObsCompleted(prev => prev+1)}, 100)
-  //     if(obsCompleted === total) return(clearTimeout(timer))
-  // }, [obsCompleted])
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setObsCompleted(prev => prev + 1);
+    }, 100);
+    if (obsCompleted === total) return clearTimeout(timer);
+  }, [obsCompleted]);
 
   //Start of real component
   const { syncing, completed } = SyncScreenStates;
   const [screenState, setScreenState] = useState(syncing);
   const { formatMessage: t } = useIntl();
+  const { navigate } = useNavigation();
 
   const progress = obsCompleted / total;
 
   const completedTextNode = useMemo(() => {
-    return completedMessage(total, total);
+    return progressMessage(total, total);
   }, [total]);
 
   if (progress === 1) {
-    // const completedTimer = setTimeout(()=>{
-    //     clearTimeout(completedTimer)
-    //     if(screenState !== completed)setScreenState(completed)
-    // }, 1000)
+    const completedTimer = setTimeout(() => {
+      clearTimeout(completedTimer);
+      if (screenState !== completed) setScreenState(completed);
+    }, 1000);
   }
 
-  function completedMessage(completed: number, totalObs: number) {
+  //completed message as a JSX component
+  function progressMessage(completed: number, totalObs: number) {
     return (
       <Text style={[styles.text, styles.subText]}>
         <FormattedMessage
@@ -72,20 +73,24 @@ export const SyncOnboardingScreen: NavigationStackScreenComponent = ({
 
   return (
     <View style={styles.screenContainer}>
-      {/*             
-            { screenState === syncing &&
-                <SyncLoading textNode={completedMessage(obsCompleted, total)} progress={progress} />
-            }
+      {screenState === syncing && (
+        <SyncLoading
+          textNode={progressMessage(obsCompleted, total)}
+          progress={progress}
+        />
+      )}
 
-            { screenState === completed &&
-                <SyncOnboardingComplete textNode={completedTextNode} />
-            }
-             */}
+      {screenState === completed && (
+        <SyncOnboardingComplete textNode={completedTextNode} />
+      )}
+
       <Button
-        color="light"
         onPress={() => {
-          setObsCompleted(prev => prev + 1);
+          navigate("App");
         }}
+        variant="outlined"
+        color="light"
+        disabled={screenState === syncing}
       >
         {t(m.startMapping)}
       </Button>
