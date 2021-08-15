@@ -16,7 +16,7 @@ export const OnboardingStack = createStackNavigator(
     Sync: SyncOnboardingScreen,
   },
   {
-    initialRouteName: "Sync",
+    initialRouteName: "CreateOrJoinScreen",
     // TODO iOS: Dynamically set transition mode to modal for modals
     mode: "card",
     headerMode: "screen",
