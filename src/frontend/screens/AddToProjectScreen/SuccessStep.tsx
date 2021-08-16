@@ -7,15 +7,15 @@ import { WHITE } from "../../lib/styles";
 
 const m = defineMessages({
   title: {
-    id: "screens.Onboarding.AddToProjectScreen.SuccessStep.title",
+    id: "screens.AddToProjectScreen.SuccessStep.title",
     defaultMessage: "Success!",
   },
   description: {
-    id: "screens.Onboarding.AddToProjectScreen.SuccessStep.description",
+    id: "screens.AddToProjectScreen.SuccessStep.description",
     defaultMessage: "{deviceId} has been added to {projectName}",
   },
   goToSync: {
-    id: "screens.Onboarding.AddToProjectScreen.SuccessStep.goToSync",
+    id: "screens.AddToProjectScreen.SuccessStep.goToSync",
     defaultMessage: "Go To Sync",
   },
 });
