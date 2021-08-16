@@ -492,6 +492,14 @@
     "description": "Label in upgrade bar when there is permissions error getting an update",
     "message": "ไม่สามารถอัปเดตได้"
   },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Mapeo มีเวอร์ชั่นใหม่พร้อมให้ดาวน์โหลดแล้ว"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "สถานะที่ยังไม่ได้ดำเนินการ"
+  },
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
     "message": "WiFi:"
