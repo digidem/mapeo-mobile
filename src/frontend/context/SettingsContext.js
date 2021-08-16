@@ -1,10 +1,13 @@
 // @flow
 import * as React from "react";
 import createPersistedState from "../hooks/usePersistedState";
+import merge from "lodash/merge";
 
 // Increment if the shape of settings changes, but try to avoid doing this
-// because it will reset everybody's settings back to the defaults = bad :(
-const STORE_KEY = "@MapeoSettings@2";
+// because it will reset everybody's settings back to the defaults = bad :( It is
+// not necessary to increment this if only adding new properties to the settings
+// state, because we merge the default values into the persisted state.
+const STORE_KEY = "@MapeoSettings@1";
 
 export type CoordinateFormat = "utm" | "dd" | "dms";
 export type ExperimentalP2pUpgrade = boolean;
@@ -46,10 +49,12 @@ export const SettingsProvider = ({ children }: { children: React.Node }) => {
     [setState, state]
   );
 
-  const contextValue = React.useMemo(() => [state, setSettings], [
-    state,
-    setSettings,
-  ]);
+  const contextValue: SettingsContextType = React.useMemo(() => {
+    // If we add any new properties to the settings state, they will be
+    // undefined in a users' persisted state, so we merge in the defaults
+    const mergedState = merge({}, state, DEFAULT_SETTINGS);
+    return [mergedState, setSettings];
+  }, [state, setSettings]);
 
   return (
     <SettingsContext.Provider value={contextValue}>
