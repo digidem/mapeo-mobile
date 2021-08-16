@@ -476,6 +476,22 @@
     "description": "Header of sync screen",
     "message": "เชื่อมโยงข้อมูลให้ตรงกัน"
   },
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "มีรายการอัปเดต รอการเชื่อมโยงให้เสร็จสิ้น"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "กำลังดาวน์โหลดการอัปเดต"
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "ไม่สามารถอัปเดตได้"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "ไม่สามารถอัปเดตได้"
+  },
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
     "message": "WiFi:"
