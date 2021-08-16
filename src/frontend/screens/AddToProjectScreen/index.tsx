@@ -13,12 +13,11 @@ import IconButton from "../../sharedComponents/IconButton";
 // TODO: Make this a shared component instead?
 import { WithWifiBar } from "../Onboarding/WithWifiBar";
 
-import { ConnectStep } from "./ConnectStep";
 import { DeviceFoundStep } from "./DeviceFoundStep";
 import { ScanQrCodeStep } from "./ScanQrCodeStep";
 import { SuccessStep } from "./SuccessStep";
 
-type Step = "scan" | "found" | "connect" | "success";
+type Step = "scan" | "found" | "success";
 
 const m = defineMessages({
   titleGeneric: {
@@ -42,16 +41,18 @@ export const AddToProjectScreen: NavigationStackScreenComponent = () => {
   const [foundDeviceId, setFoundDeviceId] = React.useState<string>();
   const [config] = React.useContext(ConfigContext);
 
-  const sendInvite = async (deviceId: string) => {
-    try {
-      setStep("connect");
-      await sendInviteToDevice(deviceId);
-      setStep("success");
-    } catch (err) {
-      // TODO: provide some messaging about failure state
-      setStep("found");
-    }
-  };
+  const sendInvite = async (deviceId: string) =>
+    navigation.navigate("ConnectingToDevice", {
+      task: async () => {
+        try {
+          await sendInviteToDevice(deviceId);
+          navigation.navigate("AddToProject");
+          setStep("success");
+        } catch (err) {
+          navigation.navigate("AddToProject");
+        }
+      },
+    });
 
   const getRenderedStep = () => {
     switch (step) {
@@ -78,8 +79,6 @@ export const AddToProjectScreen: NavigationStackScreenComponent = () => {
             />
           )
         );
-      case "connect":
-        return <ConnectStep />;
       case "success":
         return (
           !!foundDeviceId &&

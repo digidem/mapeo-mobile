@@ -25,8 +25,10 @@ import HomeHeader from "../sharedComponents/HomeHeader";
 import { AlreadyOnProj } from "../screens/AlreadyOnProject";
 import { LeaveProjectScreen } from "../screens/LeaveProject";
 import { AddToProjectScreen } from "../screens/AddToProjectScreen";
-import {UnableToLinkScreen} from "../screens/UnableToLink";
+import { UnableToLinkScreen } from "../screens/UnableToLink";
 import { JoinProjectQrScreen } from "../screens/Onboarding";
+import { ConnectingToDeviceScreen } from "../screens/ConnectingToDeviceScreen";
+
 const HomeTabs = createBottomTabNavigator(
   {
     Map: MapScreen,
@@ -78,6 +80,7 @@ export const AppStack = createStackNavigator(
     AddToProject: AddToProjectScreen,
     UnableToLink: UnableToLinkScreen,
     JoinProjectQr: JoinProjectQrScreen,
+    ConnectingToDevice: ConnectingToDeviceScreen,
   },
   {
     initialRouteName: "Home",
