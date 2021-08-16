@@ -18,35 +18,32 @@ type Role = "participant" | "coordinator";
 
 const m = defineMessages({
   title: {
-    id: "screens.Onboarding.AddToProjectScreen.DeviceFoundStep.title",
+    id: "screens.AddToProjectScreen.DeviceFoundStep.title",
     defaultMessage: "Device {deviceId} Found",
   },
   participantOptionTitle: {
-    id:
-      "screens.Onboarding.AddToProjectScreen.DeviceFoundStep.participantOptionTitle",
+    id: "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle",
     defaultMessage: "This device is a Participant",
   },
   coordinatorOptionTitle: {
-    id:
-      "screens.Onboarding.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle",
+    id: "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle",
     defaultMessage: "This device is a Coordinator",
   },
   coordinatorOptionDescription: {
     id:
-      "screens.Onboarding.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription",
+      "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription",
     defaultMessage: "Coordinators can add and remove devices from projects",
   },
   selectValidationError: {
-    id:
-      "screens.Onboarding.AddToProjectScreen.DeviceFoundStep.selectValidationError",
+    id: "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError",
     defaultMessage: "Select a role for the device",
   },
   cancel: {
-    id: "screens.Onboarding.AddToProjectScreen.DeviceFoundStep.cancel",
+    id: "screens.AddToProjectScreen.DeviceFoundStep.cancel",
     defaultMessage: "Cancel",
   },
   inviteDevice: {
-    id: "screens.Onboarding.AddToProjectScreen.inviteDevice",
+    id: "screens.AddToProjectScreen.inviteDevice",
     defaultMessage: "Invite Device",
   },
 });

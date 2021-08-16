@@ -1,6 +1,7 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import { NavigationEvents } from "react-navigation";
+import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages } from "react-intl";
 
@@ -9,26 +10,48 @@ import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { BackIcon } from "../../sharedComponents/icons";
 import IconButton from "../../sharedComponents/IconButton";
+// TODO: Make this a shared component instead?
 import { WithWifiBar } from "../Onboarding/WithWifiBar";
 
-import { ScanQrCodeStep } from "./ScanQrCodeStep";
+import { ConnectStep } from "./ConnectStep";
 import { DeviceFoundStep } from "./DeviceFoundStep";
+import { ScanQrCodeStep } from "./ScanQrCodeStep";
 import { SuccessStep } from "./SuccessStep";
 
-type Step = "scan" | "found" | "success";
+type Step = "scan" | "found" | "connect" | "success";
 
 const m = defineMessages({
   titleGeneric: {
-    id: "screens.Onboarding.AddToProjectScreen.titleGeneric",
+    id: "screens.AddToProjectScreen.titleGeneric",
     defaultMessage: "Add to Project",
   },
 });
 
+// TODO: This will make some API call and wait for a response from the invited device
+// Resolve if accepted, reject if declined?
+const sendInviteToDevice = (deviceId: string) =>
+  new Promise((res, rej) => {
+    setTimeout(res, 2000);
+  });
+
 export const AddToProjectScreen: NavigationStackScreenComponent = () => {
+  const navigation = useNavigation();
+
   const [screenLoaded, setScreenLoaded] = React.useState(false);
   const [step, setStep] = React.useState<Step>("scan");
   const [foundDeviceId, setFoundDeviceId] = React.useState<string>();
   const [config] = React.useContext(ConfigContext);
+
+  const sendInvite = async (deviceId: string) => {
+    try {
+      setStep("connect");
+      await sendInviteToDevice(deviceId);
+      setStep("success");
+    } catch (err) {
+      // TODO: provide some messaging about failure state
+      setStep("found");
+    }
+  };
 
   const getRenderedStep = () => {
     switch (step) {
@@ -47,7 +70,7 @@ export const AddToProjectScreen: NavigationStackScreenComponent = () => {
           !!foundDeviceId && (
             <DeviceFoundStep
               deviceId={foundDeviceId}
-              goNext={() => setStep("success")}
+              goNext={() => sendInvite(foundDeviceId)}
               goBack={() => {
                 setFoundDeviceId(undefined);
                 setStep("scan");
@@ -55,6 +78,8 @@ export const AddToProjectScreen: NavigationStackScreenComponent = () => {
             />
           )
         );
+      case "connect":
+        return <ConnectStep />;
       case "success":
         return (
           !!foundDeviceId &&
@@ -63,7 +88,7 @@ export const AddToProjectScreen: NavigationStackScreenComponent = () => {
               goNext={() => {
                 setFoundDeviceId(undefined);
                 // TODO: Need to go to a sync screen instead
-                setStep("scan");
+                navigation.navigate("Home");
               }}
               deviceId={foundDeviceId}
               projectName={config.metadata.name}

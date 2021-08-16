@@ -17,22 +17,19 @@ const reportMountError = (error: CameraMountError) => {
 
 const m = defineMessages({
   title: {
-    id:
-      "screens.Onboarding.AddToProjectScreen.ScanQrCodeStep.instructionsTitle",
+    id: "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle",
     defaultMessage: "Instructions",
   },
   instructionsDescription: {
-    id:
-      "screens.Onboarding.AddToProjectScreen.ScanQrCodeStep.instructionsDescription",
+    id: "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription",
     defaultMessage: "Scan device to add person to project",
   },
   havingTroubleTitle: {
-    id: "screens.Onboarding.AddToProjectScreen.ScanQrCodeStep.havingTrouble",
+    id: "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble",
     defaultMessage: "Having trouble?",
   },
   havingTroubleDescription: {
-    id:
-      "screens.Onboarding.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription",
+    id: "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription",
     defaultMessage: "Ask community Mapper to send join request",
   },
 });
