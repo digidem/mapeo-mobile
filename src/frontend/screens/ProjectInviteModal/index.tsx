@@ -127,16 +127,6 @@ const ProjectInviteModal: NavigationStackScreenComponent = ({ navigation }) => {
 
   const acceptInvite = () => {
     navigation.navigate("Sync");
-    // Alert.alert(
-    //   "Work in progress",
-    //   "This feature has not been implemented yet",
-    //   [
-    //     {
-    //       text: "Ok",
-    //       onPress: () => closeModal(),
-    //     },
-    //   ]
-    // );
   };
 
   React.useEffect(() => {

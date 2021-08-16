@@ -1,7 +1,6 @@
 import React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { StyleSheet } from "react-native";
-import { Image, View, Text } from "react-native";
+import { Image, View, Text, StyleSheet } from "react-native";
 import { WHITE } from "../../../lib/styles";
 
 const m = defineMessages({

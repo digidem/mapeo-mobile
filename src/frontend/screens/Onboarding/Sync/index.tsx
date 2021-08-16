@@ -1,12 +1,8 @@
-import React, { useMemo } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import { defineMessages, useIntl, FormattedMessage } from "react-intl";
-import { StyleSheet, View, Text, Button as Bttn } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
+import { StyleSheet, View, Text } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
-import { StackNavigationProp } from "react-navigation-stack/lib/typescript/src/vendor/types";
 import { MEDIUM_BLUE, WHITE } from "../../../lib/styles";
 import Button from "../../../sharedComponents/Button";
 import { SyncOnboardingComplete } from "./Complete";

@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import api from "../../../api";
+import React from "react";
 import { Bar } from "react-native-progress";
 import { View, Text, StyleSheet } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { useMemo } from "react";
 import { DARK_BLUE, MEDIUM_BLUE, WHITE } from "../../../lib/styles";
 
 const m = defineMessages({
@@ -28,10 +26,6 @@ export const SyncLoading = ({ textNode, progress }: SyncLoadingProps) => {
       <Text style={[styles.text, styles.title]}>
         <FormattedMessage {...m.syncing} />
       </Text>
-
-      {/* <Text style={[styles.text, styles.subText]}>
-                <FormattedMessage {...m.numComplete} values={{num:completedObservations, total:totalObservations}}/>
-            </Text> */}
 
       {textNode}
 
