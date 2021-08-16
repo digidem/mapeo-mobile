@@ -23,7 +23,7 @@ import type {
 } from "./context/ObservationsContext";
 import { promiseTimeout } from "./lib/utils";
 import bugsnag from "./lib/logger";
-import STATUS from "./../backend/constants";
+import STATUS from "../backend/constants";
 
 import type { IconSize, ImageSize } from "./types";
 import type { DraftPhoto } from "./context/DraftObservationContext";
