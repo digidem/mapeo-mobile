@@ -13,7 +13,6 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import { getUniqueId } from "react-native-device-info";
 
 import SyncView from "./SyncView";
-import bugsnag from "../../lib/logger";
 import useAllObservations from "../../hooks/useAllObservations";
 import useWifiStatus from "../../hooks/useWifiStatus";
 import ConfigContext from "../../context/ConfigContext";

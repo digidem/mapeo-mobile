@@ -1,11 +1,9 @@
-/* global __DEV__ */
 // @flow
 import * as React from "react";
 import { LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-community/async-storage";
 
-import { URI_PREFIX } from "./constants";
 import ErrorScreen from "./screens/UncaughtError";
 import AppLoading from "./AppLoading";
 import AppContainer from "./AppContainer";
@@ -13,9 +11,7 @@ import { PermissionsProvider } from "./context/PermissionsContext";
 import { IntlProvider } from "./context/IntlContext";
 import AppProvider from "./context/AppProvider";
 import bugsnag from "./lib/logger";
-import IS_E2E from "./lib/is-e2e";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
-import { LeaveProjectScreen } from "./screens/LeaveProject/LeaveProject";
 
 // Turn off warnings about require cycles
 LogBox.ignoreLogs(["Require cycle:"]);

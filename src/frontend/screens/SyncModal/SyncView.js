@@ -2,12 +2,10 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Text from "../../sharedComponents/Text";
-import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
-import DeviceInfo from "react-native-device-info";
 
 import Button from "../../sharedComponents/Button";
-import { WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
+import { WifiOffIcon } from "../../sharedComponents/icons";
 import WifiBar from "../../sharedComponents/WifiBar";
 
 import DotIndicator from "./DotIndicator";
@@ -220,10 +218,5 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "stretch",
-  },
-  wifiInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
   },
 });
