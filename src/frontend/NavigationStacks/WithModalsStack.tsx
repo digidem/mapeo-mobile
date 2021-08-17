@@ -18,7 +18,10 @@ const MainStack = createSwitchNavigator(
 export const WithModalsStack = createStackNavigator(
   {
     Main: MainStack,
-    ProjectInviteModal,
+    ProjectInviteModal: {
+      screen: ProjectInviteModal,
+      path: "ProjectInviteModal/:invite",
+    },
   },
   {
     initialRouteName: "Main",
