@@ -8,7 +8,7 @@ import {
 } from "react-navigation";
 import AsyncStorage from "@react-native-community/async-storage";
 
-import { URI_PREFIX } from "./constants";
+import { URI_PREFIX, ERROR_STORE_KEY } from "./constants";
 import SettingsContext from "./context/SettingsContext";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
 import IS_E2E from "./lib/is-e2e";
@@ -23,7 +23,6 @@ const log = debug("mapeo:App");
 // WARNING: This needs to change if we change the navigation structure
 const getNavStoreKey = (includeOnboarding: boolean) =>
   `@MapeoNavigation@${includeOnboarding ? 9 : 8}`;
-const ERROR_STORE_KEY = "@MapeoError";
 
 const EDITING_SCREEN_NAMES = [
   "AddPhoto",

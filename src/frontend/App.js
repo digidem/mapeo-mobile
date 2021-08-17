@@ -12,6 +12,7 @@ import { IntlProvider } from "./context/IntlContext";
 import AppProvider from "./context/AppProvider";
 import bugsnag from "./lib/logger";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
+import { ERROR_STORE_KEY } from "./constants";
 
 // Turn off warnings about require cycles
 LogBox.ignoreLogs(["Require cycle:"]);
