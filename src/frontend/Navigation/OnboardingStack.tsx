@@ -1,13 +1,16 @@
 import React from "react";
+import { createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+import ProjectInviteModal from "../screens/ProjectInviteModal";
+import { AppStack } from "./AppStack";
 import {
   CreateOrJoinScreen,
   JoinProjectQrScreen,
   SendJoinRequestScreen,
-} from "../screens/Onboarding/";
+} from "../screens/Onboarding";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
 
-export const OnboardingStack = createStackNavigator(
+const CreateOrJoinStack = createStackNavigator(
   {
     CreateOrJoinScreen: CreateOrJoinScreen,
     JoinProjectQr: JoinProjectQrScreen,
@@ -32,5 +35,27 @@ export const OnboardingStack = createStackNavigator(
         backgroundColor: "#ffffff",
       },
     },
+  }
+);
+
+const MainStack = createSwitchNavigator(
+  {
+    App: AppStack,
+    CreateOrJoinStack: CreateOrJoinStack,
+  },
+  {
+    initialRouteName: "App",
+  }
+);
+
+export const OnboardingStack = createStackNavigator(
+  {
+    Main: MainStack,
+    ProjectInviteModal,
+  },
+  {
+    initialRouteName: "Main",
+    mode: "modal",
+    headerMode: "none",
   }
 );

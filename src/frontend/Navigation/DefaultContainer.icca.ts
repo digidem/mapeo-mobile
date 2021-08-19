@@ -1,6 +1,5 @@
-// @flow
-import AppStack from "./NavigationStacks/AppStack";
-import IntroStack from "./screens/Intro";
+import { AppStack } from "./AppStack";
+import IntroStack from "../screens/Intro";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 
 const RootStack = createSwitchNavigator(
@@ -13,5 +12,4 @@ const RootStack = createSwitchNavigator(
   }
 );
 
-// $FlowFixMe
 export default createAppContainer(RootStack);

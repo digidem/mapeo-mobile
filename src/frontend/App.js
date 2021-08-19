@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 import ErrorScreen from "./screens/UncaughtError";
 import AppLoading from "./AppLoading";
-import AppContainer from "./AppContainer";
+import AppContainerWrapper from "./AppContainerWrapper";
 import { PermissionsProvider } from "./context/PermissionsContext";
 import { IntlProvider } from "./context/IntlContext";
 import AppProvider from "./context/AppProvider";
@@ -74,7 +74,7 @@ const App = () => (
       <PermissionsProvider>
         <AppLoading>
           <AppProvider>
-            <AppContainer />
+            <AppContainerWrapper />
             <UpdateNotifier />
           </AppProvider>
         </AppLoading>
