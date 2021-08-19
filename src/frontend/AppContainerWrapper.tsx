@@ -8,10 +8,9 @@ import {
 } from "react-navigation";
 import AsyncStorage from "@react-native-community/async-storage";
 
-import { URI_PREFIX, ERROR_STORE_KEY } from "./constants";
+import { URI_PREFIX, ERROR_STORE_KEY, IS_E2E } from "./constants";
 import SettingsContext from "./context/SettingsContext";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
-import IS_E2E from "./lib/is-e2e";
 import bugsnag from "./lib/logger";
 import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
