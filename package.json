@@ -17,6 +17,8 @@
     "build:release": "npm run build:translations && npm run build:backend && ./scripts/build-release-android.sh",
     "build:release-icca": "npm run build:translations && npm run build:backend && RN_SRC_EXT=icca.js ./scripts/build-release-android.sh",
     "build:storybook": "./node_modules/@storybook/react/bin/build.js -c ./storybook-web -s ./public -o ./build --no-dll",
+    "deps:android:install": "cd android && ./gradlew dependencies && ./gradlew app:dependencies",
+    "deps:android:update": "cd android && ./gradlew dependencies --write-locks && ./gradlew app:dependencies --write-locks",
     "test": "jest",
     "lint": "eslint *.js \"src/**/*.js\"",
     "flow": "flow",

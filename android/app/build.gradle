@@ -185,6 +185,11 @@ bugsnag {
     sharedObjectPath "app/build/jni/libs"
 }
 
+// https://docs.gradle.org/current/userguide/dependency_locking.html
+dependencyLocking {
+    lockAllConfigurations()
+}
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion

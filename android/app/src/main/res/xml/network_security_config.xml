@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Android Emulator default IP -->
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <!-- Genymotion default IP -->
+        <domain includeSubdomains="true">10.0.3.2</domain>
+        <!-- Just-in-case: Mapeo Core listens on 127.0.0.1 not localhost -->
+        <domain includeSubdomains="true">127.0.0.1</domain>
+        <domain includeSubdomains="true">localhost</domain>
+    </domain-config>
+</network-security-config>

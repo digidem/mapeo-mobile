@@ -271,6 +271,16 @@ By default (since [e861e6a](https://github.com/digidem/mapeo-mobile/commit/e861e
 
 The Android [versionCode](https://developer.android.com/reference/android/R.styleable#AndroidManifest_versionCode) [defaults to `1`](https://github.com/digidem/mapeo-mobile/blob/develop/android/app/build.gradle#L178). You may override this by setting the `ANDROID_VERSION_CODE` environment variable. Android will only let you install a new version of the app over an existing version if the Version Code is equal to or greater than the installed app. In our CI we use the CI build count as the version code, which ensures that each subsequent release of Mapeo has a higher version code.
 
+## Maintenance
+
+### Updating dependencies
+
+Gradle dependencies are [locked](https://docs.gradle.org/4.8.1/userguide/dependency_locking.html) to make builds reproducible. If you update any Native dependencies, including React Native itself, then you should update the lock files via:
+
+```sh
+npm run deps:android:update
+```
+
 ## Troubleshooting
 
 ### General Troubleshooting
