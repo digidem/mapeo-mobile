@@ -93,9 +93,18 @@ jobs:
       - name: Build translations
         run: |
           npm run build:translations
+      - name: nodejs-mobile build cache
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: android/build/nodejs-native-assets
+          key: ${{ runner.os }}-nodejs-mobile-${{ hashFiles('src/backend/package-lock.json') }}
       - name: Build for detox
-        run: |
-          npm run build-detox-android
+        run: npm run build-detox-android
+        env:
+          # If we have cached the nodejs-native-assets, then we do not need
+          # to build native modules, so we set this to "0"
+          NODEJS_MOBILE_BUILD_NATIVE_MODULES: ${{ steps.cache.outputs.cache-hit == 'true' && '0' || '1' }}
       - name: Android Emulator
         timeout-minutes: 10
         continue-on-error: true

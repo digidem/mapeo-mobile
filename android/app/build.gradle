@@ -185,6 +185,18 @@ bugsnag {
     sharedObjectPath "app/build/jni/libs"
 }
 
+String shouldRebuildNativeModules = System.getenv('NODEJS_MOBILE_BUILD_NATIVE_MODULES');
+
+// This is from the nodejs-mobile build.gradle, but it is only set if
+// NODEJS_MOBILE_BUILD_NATIVE_MODULES is "1". When we cache the native modules
+// build files we set NODEJS_MOBILE_BUILD_NATIVE_MODULES to "0", but we still
+// want to include this folder in the build
+if ("0".equals(shouldRebuildNativeModules)) {
+    // We are not rebuilding native modules, but we still want to include the
+    // cached native module build files in the build
+    project.android.sourceSets.main.assets.srcDirs+="${rootProject.buildDir}/nodejs-native-assets/"
+}
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
