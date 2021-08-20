@@ -2,7 +2,7 @@ import * as React from "react";
 import { View } from "react-native";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 
-import { convertDmsToDd, toDegreesMinutesAndSeconds } from "../../../lib/utils";
+import { convertDmsToDd } from "../../../lib/utils";
 import {
   CoordinateField,
   FormProps,

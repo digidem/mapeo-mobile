@@ -14,7 +14,6 @@ import createPersistedState from "../../hooks/usePersistedState";
 import { BLACK } from "../../lib/styles";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import useDraftObservation from "../../hooks/useDraftObservation";
-import LocationContext from "../../context/LocationContext";
 import IconButton from "../../sharedComponents/IconButton";
 import { BackIcon, SaveIcon } from "../../sharedComponents/icons";
 import Select from "../../sharedComponents/Select";
@@ -60,7 +59,6 @@ const ManualGpsScreen: StackScreenComponent = ({ navigation }) => {
     { label: t(m.universalTransverseMercator), value: "utm" },
   ];
 
-  const location = React.useContext(LocationContext);
   const coordinateFormat = useSettingsValue("coordinateFormat");
 
   const [
