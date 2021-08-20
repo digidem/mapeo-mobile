@@ -113,30 +113,34 @@ const ManualGpsScreen: StackScreenComponent = ({ navigation }) => {
 
   return (
     <View>
-      <KeyboardAvoidingView behavior="height" keyboardVerticalOffset={50}>
-        <ScrollView>
-          <View style={styles.contentContainer}>
-            <View style={styles.formatSelect}>
-              <Text style={styles.inputLabel}>
-                <FormattedMessage {...m.coordinateFormat} />
-              </Text>
-              <Select
-                containerStyles={styles.selectContainer}
-                onChange={setEntryCoordinateFormat}
-                options={ENTRY_FORMAT_OPTIONS}
-                selectedValue={entryCoordinateFormat}
-              />
-            </View>
+      {/* Set `behavior` to "padding" when iOS is supported */}
+      <KeyboardAvoidingView>
+        <ScrollView
+          contentContainerStyle={{
+            paddingHorizontal: 10,
+            paddingVertical: 20,
+          }}
+        >
+          <View style={styles.formatSelect}>
+            <Text style={styles.inputLabel}>
+              <FormattedMessage {...m.coordinateFormat} />
+            </Text>
+            <Select
+              containerStyles={styles.selectContainer}
+              onChange={setEntryCoordinateFormat}
+              options={ENTRY_FORMAT_OPTIONS}
+              selectedValue={entryCoordinateFormat}
+            />
+          </View>
 
-            <View style={styles.formContainer}>
-              {entryCoordinateFormat === "dd" ? (
-                <DdForm onValueUpdate={setConvertedData} />
-              ) : entryCoordinateFormat === "dms" ? (
-                <DmsForm onValueUpdate={setConvertedData} />
-              ) : (
-                <UtmForm onValueUpdate={setConvertedData} />
-              )}
-            </View>
+          <View style={styles.formContainer}>
+            {entryCoordinateFormat === "dd" ? (
+              <DdForm onValueUpdate={setConvertedData} />
+            ) : entryCoordinateFormat === "dms" ? (
+              <DmsForm onValueUpdate={setConvertedData} />
+            ) : (
+              <UtmForm onValueUpdate={setConvertedData} />
+            )}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -171,11 +175,6 @@ ManualGpsScreen.navigationOptions = ({ navigation }) => ({
 export default ManualGpsScreen;
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    paddingVertical: 20,
-    paddingHorizontal: 10,
-  },
   selectContainer: {
     marginVertical: 10,
   },
