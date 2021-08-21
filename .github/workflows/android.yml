@@ -69,11 +69,11 @@ jobs:
           rm -rf $ANDROID_HOME/ndk/22*
       - name: Download Android Emulator Image
         run: |
-          sdkmanager --update | grep -v = || true
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --update | grep -v = || true
           echo "SDK versions:"
-          $ANDROID_HOME/tools/bin/sdkmanager --list
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --list
           echo "Downloading emulator image"
-          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-28;default;x86" > /dev/null
+          echo "y" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --install "system-images;android-28;default;x86" > /dev/null
           echo "Creating emulator avd"
           echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;default;x86'
           echo "Emulator version:"
