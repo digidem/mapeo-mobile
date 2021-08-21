@@ -74,15 +74,15 @@ jobs:
           $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --list
           echo "Downloading emulator image"
           echo "y" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --install "system-images;android-28;default;x86" > /dev/null
-          echo "Creating emulator avd"
-          echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;default;x86'
-          echo "Emulator version:"
-          $ANDROID_HOME/emulator/emulator @emu -version
-          echo "Hardware acceleration:"
-          $ANDROID_HOME/emulator/emulator -accel-check
-          kextstat | grep intel
-          echo "\nEmulator config"
-          cat $HOME/.android/avd/emu.avd/config.ini
+          # echo "Creating emulator avd"
+          # echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;default;x86'
+          # echo "Emulator version:"
+          # $ANDROID_HOME/emulator/emulator @emu -version
+          # echo "Hardware acceleration:"
+          # $ANDROID_HOME/emulator/emulator -accel-check
+          # kextstat | grep intel
+          # echo "\nEmulator config"
+          # cat $HOME/.android/avd/emu.avd/config.ini
       - name: Install node_modules
         run: |
           mkdir -p nodejs-assets
