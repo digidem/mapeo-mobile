@@ -90,6 +90,13 @@ jobs:
           kextstat | grep intel
           echo "\nEmulator config"
           cat $HOME/.android/avd/emu.avd/config.ini
+      - name: npm cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: Install node_modules
         run: |
           mkdir -p nodejs-assets
@@ -100,13 +107,6 @@ jobs:
       - name: Build translations
         run: |
           npm run build:translations
-      - name: npm cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
       - name: Build for detox
         run: |
           npm run build-detox-android
