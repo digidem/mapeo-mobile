@@ -35,7 +35,7 @@ module.exports = {
       binaryPath:
         "android/app/build/outputs/apk/app/universal/mapeo-app-universal.apk",
       build:
-        "cd android && ./gradlew app:assembleUniversal app:assembleAndroidTest -DtestBuildType=universal && cd ..",
+        "cd android && ./gradlew --scan --no-daemon app:assembleUniversal app:assembleAndroidTest -DtestBuildType=universal && cd ..",
     },
     "android.debug": {
       type: "android.apk",
