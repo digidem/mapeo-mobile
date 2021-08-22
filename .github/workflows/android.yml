@@ -89,8 +89,61 @@ jobs:
     name: e2e tests
     runs-on: macos-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
           name: outputs-apk
           path: android/app/build/outputs/apk
-      - run: ls -R android/app/build/outputs/apk
+      - name: Cache npm files
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Node
+        uses: actions/setup-node@v1
+      - name: Use specific Java version for sdkmanager to work
+        uses: joschi/setup-jdk@v2
+        with:
+          java-version: "openjdk8"
+          architecture: "x64"
+      - name: Download Android Emulator Image
+        run: |
+          sdkmanager --update | grep -v = || true
+          echo "SDK versions:"
+          $ANDROID_HOME/tools/bin/sdkmanager --list
+          echo "Downloading emulator image"
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-28;default;x86" > /dev/null
+          echo "Creating emulator avd"
+          echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;default;x86'
+          echo "Emulator version:"
+          $ANDROID_HOME/emulator/emulator @emu -version
+          echo "Hardware acceleration:"
+          $ANDROID_HOME/emulator/emulator -accel-check
+          kextstat | grep intel
+          echo "\nEmulator config"
+          cat $HOME/.android/avd/emu.avd/config.ini
+      - name: Install node_modules
+        run: |
+          mkdir -p nodejs-assets
+          npm ci
+      - name: Android Emulator
+        timeout-minutes: 10
+        continue-on-error: true
+        run: |
+          echo "Starting emulator"
+          mkdir -p artifacts
+          nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window -gpu swiftshader_indirect -camera-back emulated -no-boot-anim &
+          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+          $ANDROID_HOME/platform-tools/adb devices
+          echo "Emulator started"
+      - name: Android Detox
+        run: npm start & npm run test-detox-android -- -l verbose --headless --record-videos all --record-logs all
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: test-videos
+          path: artifacts
