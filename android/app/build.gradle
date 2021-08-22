@@ -185,6 +185,13 @@ bugsnag {
     sharedObjectPath "app/build/jni/libs"
 }
 
+if (hasProperty('buildScan')) {
+    buildScan {
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+    }
+}
+
 String shouldRebuildNativeModules = System.getenv('NODEJS_MOBILE_BUILD_NATIVE_MODULES');
 
 // This is from the nodejs-mobile build.gradle, but it is only set if
