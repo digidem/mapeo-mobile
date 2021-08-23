@@ -8,7 +8,7 @@ connected_check_task:
     JAVA_TOOL_OPTIONS: -Xmx6g
     GRADLE_OPTS: -Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gradle.jvmargs=-Dfile.encoding=UTF-8 -Dkotlin.incremental=false -Dkotlin.compiler.execution.strategy=in-process
   container:
-    image: cirrusci/android-sdk:29
+    image: digidem/docker-android
     kvm: true
     cpu: 8
     memory: 24G
