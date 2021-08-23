@@ -1,3 +1,9 @@
+/**
+ * Only reachable if the `onboarding` experiment is enabled
+ * by doing either of the following:
+ *   - Set `FEATURE_ONBOARDING=true` when running/building
+ *   - Manually change the context value in `SettingsContext.tsx`
+ */
 import React from "react";
 import { View, Text, StyleSheet, Image, Alert } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
