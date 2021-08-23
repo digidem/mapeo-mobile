@@ -1,3 +1,9 @@
+/**
+ * Only reachable if the `onboarding` experiment is enabled
+ * by doing either of the following:
+ *   - Set `FEATURE_ONBOARDING=true` when running/building
+ *   - Manually change the context value in `SettingsContext.tsx`
+ */
 import React, { useMemo, useEffect, useState } from "react";
 import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 import { StyleSheet, View, Text } from "react-native";
