@@ -125,17 +125,19 @@ jobs:
           kextstat | grep intel
           echo "\nEmulator config"
           cat $HOME/.android/avd/emu.avd/config.ini
-      - name: Install node_modules
-        run: |
-          mkdir -p nodejs-assets
-          npm ci
-      - name: Android Emulator
-        timeout-minutes: 10
-        continue-on-error: true
+      - name: Start Android Emulator
         run: |
           echo "Starting emulator"
           mkdir -p artifacts
           nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window -gpu swiftshader_indirect -camera-back emulated -no-boot-anim &
+      - name: Install node_modules
+        run: |
+          mkdir -p nodejs-assets
+          npm ci
+      - name: Wait for Android Emulator
+        timeout-minutes: 10
+        continue-on-error: true
+        run: |
           $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
           $ANDROID_HOME/platform-tools/adb devices
           echo "Emulator started"
