@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Alert } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { defineMessages, FormattedMessage } from "react-intl";
 import {
@@ -47,7 +47,16 @@ export const CreateOrJoinScreen: NavigationStackScreenComponent = () => {
       <Button
         style={styles.button}
         onPress={() => {
-          navigate("settings");
+          Alert.alert(
+            "Work in progress",
+            "This feature has not been implemented yet",
+            [
+              {
+                text: "Ok",
+                onPress: () => {},
+              },
+            ]
+          );
         }}
       >
         <Text style={styles.buttonText}>

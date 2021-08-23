@@ -8,13 +8,12 @@ import {
 } from "react-navigation";
 import AsyncStorage from "@react-native-community/async-storage";
 
-import { URI_PREFIX, ERROR_STORE_KEY } from "./constants";
+import { URI_PREFIX, ERROR_STORE_KEY, IS_E2E } from "./constants";
 import SettingsContext from "./context/SettingsContext";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
-import IS_E2E from "./lib/is-e2e";
 import bugsnag from "./lib/logger";
-import { AppStack } from "./NavigationStacks/AppStack";
-import { WithModalsStack } from "./NavigationStacks/WithModalsStack";
+import DefaultContainer from "./Navigation/DefaultContainer";
+import OnboardingContainer from "./Navigation/OnboardingContainer";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -133,11 +132,9 @@ const AppContainerWrapper = () => {
     [experiments.onboarding]
   );
 
-  const AppContainer = React.useMemo(
-    () =>
-      createAppContainer(experiments.onboarding ? WithModalsStack : AppStack),
-    [experiments.onboarding]
-  );
+  const AppContainer = experiments.onboarding
+    ? OnboardingContainer
+    : DefaultContainer;
 
   /**
    * TODO: Uncomment when project invites are supported
