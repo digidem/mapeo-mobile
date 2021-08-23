@@ -27,26 +27,13 @@ jobs:
         run: |
           cd src/backend
           npm test
-  e2e-tests:
+  e2e-build:
     if: github.event.pull_request.draft == false
-    name: e2e tests
-    runs-on: macos-latest
+    name: e2e build
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # - name: Cache npm files
-      #   uses: actions/cache@v1
-      #   with:
-      #     path: ~/.npm
-      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-node-
-      # - name: Cache Gradle files
-      #   uses: actions/cache@v1
-      #   with:
-      #     path: ~/.gradle/caches
-      #     key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
-      #     restore-keys: ${{ runner.os }}-gradle-
       - name: Node
         uses: actions/setup-node@v1
       - name: Use specific Java version for sdkmanager to work
@@ -54,19 +41,52 @@ jobs:
         with:
           java-version: "openjdk8"
           architecture: "x64"
-      # - name: Install NDK
-      #   run: |
-      #     export ANDROID_NDK_VERSION='20b'
-      #     export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
-      #     curl -fsSo android-ndk-r${ANDROID_NDK_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${ANDROID_NDK_VERSION}-linux-x86_64.zip
-      #     unzip -q -o android-ndk-r${ANDROID_NDK_VERSION}.zip
-      #     rm -rf $ANDROID_NDK_HOME
-      #     mv android-ndk-r${ANDROID_NDK_VERSION} $ANDROID_NDK_HOME
-      #     ls -al $ANDROID_NDK_HOME
-      #     cat $ANDROID_NDK_HOME/source.properties
+      # Our build will otherwise use NDK 22, which does not work.
       - name: Delete newer NDK version
+        run: rm -rf $ANDROID_HOME/ndk/22*
+      - name: Install node_modules
         run: |
-          rm -rf $ANDROID_HOME/ndk/22*
+          mkdir -p nodejs-assets
+          npm ci
+      - name: Build backend
+        run: |
+          npm run build:backend
+      - name: Build translations
+        run: |
+          npm run build:translations
+      - name: Build for detox
+        run: |
+          npm run build-detox-android
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: outputs-apk
+          path: android/app/build/outputs/apk
+  e2e-tests:
+    needs: e2e-build
+    name: e2e tests
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: outputs-apk
+          path: android/app/build/outputs/apk
+      - name: Cache npm files
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Node
+        uses: actions/setup-node@v1
+      - name: Use specific Java version for sdkmanager to work
+        uses: joschi/setup-jdk@v2
+        with:
+          java-version: "openjdk8"
+          architecture: "x64"
       - name: Download Android Emulator Image
         run: |
           sdkmanager --update | grep -v = || true
@@ -87,15 +107,6 @@ jobs:
         run: |
           mkdir -p nodejs-assets
           npm ci
-      - name: Build backend
-        run: |
-          npm run build:backend
-      - name: Build translations
-        run: |
-          npm run build:translations
-      - name: Build for detox
-        run: |
-          npm run build-detox-android
       - name: Android Emulator
         timeout-minutes: 10
         continue-on-error: true
