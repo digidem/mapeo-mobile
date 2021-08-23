@@ -1,7 +1,6 @@
 import * as React from "react";
 import debug from "debug";
 import {
-  createAppContainer,
   NavigationActions,
   NavigationContainerComponent,
   NavigationState,
