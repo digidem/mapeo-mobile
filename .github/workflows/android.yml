@@ -114,6 +114,8 @@ jobs:
           sdkmanager --update | grep -v = || true
           echo "SDK versions:"
           $ANDROID_HOME/tools/bin/sdkmanager --list
+          echo "Install latest emulator"
+          $ANDROID_HOME/tools/bin/sdkmanager --install emulator > /dev/null
           echo "Downloading emulator image"
           echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-28;default;x86_64" > /dev/null
           echo "Creating emulator avd"
