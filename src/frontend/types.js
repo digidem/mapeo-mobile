@@ -25,21 +25,12 @@ export type MapStyle = {
 export type UseState<S> = [S, ((S => S) | S) => void];
 export type Status = "idle" | "loading" | "error" | "success" | void;
 
-type ProjectInviteDetails = {|
-  project: {|
-    id: string,
-    name: string,
-  |},
-  role: string,
-|};
-
 type NavigationParams = {|
   observationId?: string,
   question: number,
   photoIndex?: number,
   editing?: boolean,
   handleSavePress?: () => any,
-  invite?: ProjectInviteDetails,
 |};
 
 type StackNavigatorProps = {|
