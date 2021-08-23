@@ -43,7 +43,7 @@ const HomeTabs = createBottomTabNavigator(
       tabBarOptions: {
         showLabel: false,
       },
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      tabBarIcon: ({ tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
         if (routeName === "Map") iconName = "map";

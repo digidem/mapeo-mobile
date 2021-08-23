@@ -1,6 +1,6 @@
-import { OnboardingStack } from "./OnboardingStack";
-import IntroStack from "../screens/Intro";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import IntroStack from "../screens/Intro";
+import { OnboardingStack } from "./OnboardingStack";
 
 const RootStack = createSwitchNavigator(
   {
