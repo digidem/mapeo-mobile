@@ -135,7 +135,8 @@ jobs:
       - name: Install node_modules
         run: |
           mkdir -p nodejs-assets
-          npm ci
+          # We are only running detox here, so we don't need the postinstall scripts to run
+          npm ci --ignore-scripts
       - name: Wait for Android Emulator
         timeout-minutes: 10
         continue-on-error: true
