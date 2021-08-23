@@ -2,4 +2,5 @@
 
 beforeAll(async () => {
   await device.launchApp();
+  await device.setURLBlacklist([".*api.mapbox.com.*"]);
 });
