@@ -142,7 +142,7 @@ jobs:
           $ANDROID_HOME/platform-tools/adb devices
           echo "Emulator started"
       - name: Android Detox
-        run: npm start & npm run test-detox-android -- -l verbose --headless --record-videos all --record-logs all
+        run: npm start & npm run test-detox-android -- --headless --record-videos all --record-logs all
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         if: always()
