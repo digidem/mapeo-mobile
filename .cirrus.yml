@@ -1,6 +1,6 @@
 connected_check_task:
   name: Run Android e2e tests
-  only_if: $CIRRUS_BRANCH == "deploy" || CIRRUS_PR != ""
+  only_if: $CIRRUS_BRANCH == "deploy" || $CIRRUS_PR != ""
   env:
     API_LEVEL: 28
     TARGET: default
