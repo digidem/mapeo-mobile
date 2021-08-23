@@ -31,6 +31,8 @@ module.exports = {
         inlineRequires: false,
       },
     }),
+    minifierPath: "metro-minify-esbuild",
+    minifierConfig: {},
   },
   resolver: {
     blacklistRE: blacklist([/nodejs-assets\/.*/, /android\/.*/, /ios\/.*/]),
