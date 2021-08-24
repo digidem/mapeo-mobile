@@ -1,21 +1,32 @@
 import * as React from "react";
-import { BackHandler } from "react-native";
+import { BackHandler, View } from "react-native";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
 
-import Backdrop from "./Backdrop";
+import { Backdrop } from "./Backdrop";
 
-const SNAP_POINTS = [400];
+const DEFAULT_SNAP_POINTS = [400];
 
 interface Props extends React.PropsWithChildren<{}> {
+  hideDragHandle?: boolean;
   onHardwareBackPress?: () => void;
   onDismiss: () => void;
+  snapPoints?: (string | number)[];
 }
 
-const BottomSheet = React.forwardRef<BottomSheetModal, Props>(
-  ({ children, onHardwareBackPress, onDismiss }, ref) => {
+export const BottomSheet = React.forwardRef<BottomSheetModal, Props>(
+  (
+    {
+      children,
+      hideDragHandle = false,
+      onHardwareBackPress,
+      onDismiss,
+      snapPoints = DEFAULT_SNAP_POINTS,
+    },
+    ref
+  ) => {
     React.useEffect(() => {
       const onBack = () => {
         if (onHardwareBackPress) {
@@ -35,15 +46,24 @@ const BottomSheet = React.forwardRef<BottomSheetModal, Props>(
         <BottomSheetModal
           index={0}
           ref={ref}
-          snapPoints={SNAP_POINTS}
+          snapPoints={snapPoints}
           backdropComponent={Backdrop}
           onDismiss={onDismiss}
+          handleComponent={hideDragHandle ? () => null : undefined}
         >
-          {children}
+          <View
+            style={{
+              flex: 1,
+              paddingHorizontal: 20,
+              paddingTop: hideDragHandle ? 30 : 10,
+            }}
+          >
+            {children}
+          </View>
         </BottomSheetModal>
       </BottomSheetModalProvider>
     );
   }
 );
 
-export default BottomSheet;
+export { Content as BottomSheetContent } from "./Content";

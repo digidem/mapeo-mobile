@@ -5,18 +5,20 @@
  *   - Manually change the context value in `SettingsContext.tsx`
  */
 import * as React from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
-import { FormattedMessage, defineMessages, useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
-import { MAPEO_BLUE, WHITE } from "../../lib/styles";
-import BottomSheet from "../../sharedComponents/BottomSheet";
-import Text from "../../sharedComponents/Text";
-import { DoneIcon } from "../../sharedComponents/icons";
-import Circle from "../../sharedComponents/icons/Circle";
-import Loading from "../../sharedComponents/Loading";
-import ModalActionButtons from "./ModalActionButtons";
+import { MAPEO_BLUE, WHITE } from "../lib/styles";
+import {
+  BottomSheet,
+  BottomSheetContent,
+} from "../sharedComponents/BottomSheet";
+import Text from "../sharedComponents/Text";
+import { DoneIcon } from "../sharedComponents/icons";
+import Circle from "../sharedComponents/icons/Circle";
+import Loading from "../sharedComponents/Loading";
 
 interface ProjectInviteDetails {
   project: {
@@ -57,7 +59,7 @@ const m = defineMessages({
   },
   joinAndSync: {
     id: "screens.ProjectInviteModal.joinAndSync",
-    defaultMessage: "Join And Sync",
+    defaultMessage: "Join and Sync",
   },
   close: {
     id: "screens.ProjectInviteModal.close",
@@ -94,12 +96,14 @@ const getProjectInviteDetails = async (
   });
 };
 
-const ProjectInviteModal: NavigationStackScreenComponent = ({ navigation }) => {
+export const ProjectInviteModal: NavigationStackScreenComponent<{
+  invite?: string;
+}> = ({ navigation }) => {
   const { formatMessage: t } = useIntl();
   const mountedRef = React.useRef(true);
   const sheetRef = React.useRef<BottomSheetModal>(null);
 
-  const inviteKey: string | null = navigation.getParam("invite");
+  const inviteKey = navigation.getParam("invite");
 
   const [status, setStatus] = React.useState<
     LoadingStatus | ErrorStatus | SuccessStatus
@@ -153,77 +157,67 @@ const ProjectInviteModal: NavigationStackScreenComponent = ({ navigation }) => {
 
   return (
     <BottomSheet
+      hideDragHandle
       ref={sheetRef}
-      onDismiss={() => {
-        navigation.setParams({ invite: null });
-        navigation.goBack();
-      }}
+      onDismiss={navigation.goBack}
       // We intentionally don't want to dismiss this modal with a back press
       onHardwareBackPress={() => {}}
     >
       {status.type === "loading" ? (
         <Loading />
       ) : status.type === "error" ? (
-        <View style={styles.contentContainer}>
-          <View style={styles.errorContainer}>
-            <Text style={styles.title}>{status.info.error.message}</Text>
-          </View>
-          <ModalActionButtons
-            primary={{
+        <BottomSheetContent
+          buttonConfigs={[
+            {
+              variation: "outlined",
+              onPress: closeModal,
+              text: t(m.close),
+            },
+            {
+              variation: "filled",
               onPress: () => {
                 if (inviteKey) {
                   fetchInviteDetails(inviteKey);
                 }
               },
-              text: <FormattedMessage {...m.tryAgain} />,
-            }}
-            secondary={{
-              onPress: closeModal,
-              text: <FormattedMessage {...m.close} />,
-            }}
-          />
-        </View>
+              text: t(m.tryAgain),
+            },
+          ]}
+          title={status.info.error.message}
+        />
       ) : (
-        <View style={styles.contentContainer}>
-          <View style={styles.centeredContent}>
-            <Circle radius={32} style={styles.checkmarkCircle}>
+        <BottomSheetContent
+          icon={
+            <Circle radius={40} style={styles.checkmarkCircle}>
               <DoneIcon color={WHITE} size={40} />
             </Circle>
-            <Text style={[styles.title, styles.bold]}>
-              <FormattedMessage
-                {...m.title}
-                values={{ projectName: status.info.inviteDetails.project.name }}
-              />
-            </Text>
-            <Text style={styles.description}>
-              <FormattedMessage
-                {...m.inviteMessage}
-                values={{
-                  projectName: (
-                    <Text style={styles.bold}>
-                      {status.info.inviteDetails.project.name}
-                    </Text>
-                  ),
-                  role: (
-                    <Text style={styles.bold}>
-                      {status.info.inviteDetails.role}
-                    </Text>
-                  ),
-                }}
-              />
-            </Text>
-          </View>
-          <ModalActionButtons
-            primary={{
-              onPress: acceptInvite,
-              text: <FormattedMessage {...m.joinAndSync} />,
-            }}
-            secondary={{
+          }
+          description={t(m.inviteMessage, {
+            projectName: (
+              <Text style={styles.bold}>
+                {status.info.inviteDetails.project.name}
+              </Text>
+            ),
+            role: (
+              <Text style={styles.bold}>{status.info.inviteDetails.role}</Text>
+            ),
+          })}
+          title={t(m.title, {
+            projectName: status.info.inviteDetails.project.name,
+          })}
+          buttonConfigs={[
+            {
+              text: t(m.declineInvite),
+              variation: "outlined",
               onPress: closeModal,
-              text: <FormattedMessage {...m.declineInvite} />,
-            }}
-          />
-        </View>
+            },
+            {
+              text: t(m.joinAndSync),
+              variation: "filled",
+              onPress: acceptInvite,
+            },
+          ]}
+        />
       )}
     </BottomSheet>
   );
@@ -235,36 +229,10 @@ ProjectInviteModal.navigationOptions = () => ({
 });
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    justifyContent: "space-between",
-    padding: 24,
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  centeredContent: {
-    alignItems: "center",
-    paddingVertical: 12,
-  },
   checkmarkCircle: {
     backgroundColor: MAPEO_BLUE,
     elevation: 0,
     flexDirection: "row",
   },
-  title: {
-    textAlign: "center",
-    fontSize: 24,
-    marginVertical: 24,
-  },
-  description: {
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 4,
-    lineHeight: 24,
-  },
   bold: { fontWeight: "700" },
 });
-
-export default ProjectInviteModal;

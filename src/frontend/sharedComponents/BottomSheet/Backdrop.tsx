@@ -4,7 +4,10 @@ import { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
 
 import { BLACK } from "../../lib/styles";
 
-const Backdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
+export const Backdrop = ({
+  animatedIndex,
+  style,
+}: BottomSheetBackdropProps) => {
   const animatedOpacity = React.useMemo(
     () =>
       interpolate(animatedIndex, {
@@ -28,5 +31,3 @@ const Backdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
 
   return <Animated.View style={containerStyle} />;
 };
-
-export default Backdrop;
