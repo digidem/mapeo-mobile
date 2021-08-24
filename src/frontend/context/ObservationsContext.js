@@ -31,7 +31,7 @@ export type Observation = {
   userId?: string,
   type: "observation",
   links?: string[],
-  schemaVersion: 4,
+  schemaVersion: number,
   value: ObservationValue,
 };
 

@@ -102,7 +102,7 @@ type Props = {
 export const ConfigProvider = ({ children }: Props) => {
   const [config, setConfig] = React.useState(defaultConfig);
   const [status, setStatus] = React.useState<Status>("idle");
-  const [reloadToken, setReloadToken] = React.useState();
+  const [reloadToken, setReloadToken] = React.useState<{}>();
   const intl = useIntl();
 
   const reload = React.useCallback(() => setReloadToken({}), []);
