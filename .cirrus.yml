@@ -40,6 +40,7 @@ connected_check_task:
     ! ls -al ~/.android/avd
     mkdir -p artifacts
     npm run test-detox-android -- --record-videos all --record-logs all
+    ls -al artifacts
   always:
     test_artifacts:
-      path: "artifacts/*"
+      path: "artifacts/**/*"
