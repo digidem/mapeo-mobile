@@ -20,14 +20,12 @@ connected_check_task:
   build_translations_script: npm run build:translations
   build_detox_script: npm run build-detox-android
   create_device_script: |
-    echo no | avdmanager create avd --force --name emu --abi "${TARGET}/${ARCH}" --device "Nexus 6" --package "system-images;android-${API_LEVEL};${TARGET};${ARCH}"
+    echo no | avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;default;x86_64'
     echo "Emulator version:"
     $ANDROID_HOME/emulator/emulator @emu -version
     $ANDROID_HOME/emulator/emulator -list-avds
     echo "Hardware acceleration:"
     $ANDROID_HOME/emulator/emulator -accel-check
-    echo "\nEmulator config"
-    cat $HOME/.android/avd/emu.avd/config.ini
   start_emulator_background_script: $ANDROID_HOME/emulator/emulator -avd emu -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back emulated
   wait_for_emulator_script: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
   disable_animations_script: |
