@@ -283,17 +283,21 @@ export function Api({
   }
 
   // Request convenience methods that wait for the server to be ready
-  function get(url: string) {
-    return onReady().then(() => req.get(url).json());
+  async function get(url: string) {
+    await onReady();
+    return await req.get(url).json();
   }
-  function del(url: string) {
-    return onReady().then(() => req.delete(url).json());
+  async function del(url: string) {
+    await onReady();
+    return await req.delete(url).json();
   }
-  function put(url: string, data: any) {
-    return onReady().then(() => req.put(url, { json: data }).json());
+  async function put(url: string, data: any) {
+    await onReady();
+    return await req.put(url, { json: data }).json();
   }
-  function post(url: string, data: any) {
-    return onReady().then(() => req.post(url, { json: data }).json());
+  async function post(url: string, data: any) {
+    await onReady();
+    return await req.post(url, { json: data }).json();
   }
 
   // Used to track RPC communication
@@ -363,39 +367,38 @@ export function Api({
     /**
      * GET async methods
      */
-    getPresets: () => {
-      return get(`presets/default/presets.json?${Date.now()}`).then(data =>
-        // TODO
-        mapToArray((data as { presets: { [key: string]: Preset } }).presets)
-      );
-    },
-    getFields: () => {
-      return get(`presets/default/presets.json?${Date.now()}`).then(data =>
-        // TODO
-        mapToArray((data as { fields: { [key: string]: Field } }).fields)
-      );
-    },
-
-    getMetadata: () => {
-      return get(`presets/default/metadata.json?${Date.now()}`).then(
-        data => (data || {}) as Metadata
-      );
-    },
-
-    getConfigMessages: (locale = "en") => {
-      return get(`presets/default/translations.json?${Date.now()}`).then(
-        data => {
-          // TODO
-          const messages = data && data[locale];
-          if (!messages) return {};
-          return flatten(messages);
-        }
-      );
-    },
-
-    getObservations: () => {
+    getPresets: async () => {
       // TODO
-      return get("observations").then(data => data.map(convertFromServer));
+      const data = (await get(
+        `presets/default/presets.json?${Date.now()}`
+      )) as { presets: { [key: string]: Preset } };
+      return mapToArray(data.presets);
+    },
+    getFields: async () => {
+      // TODO
+      const data = (await get(
+        `presets/default/presets.json?${Date.now()}`
+      )) as { fields: { [key: string]: Field } };
+      return mapToArray(data.fields);
+    },
+
+    getMetadata: async () => {
+      const data = await get(`presets/default/metadata.json?${Date.now()}`);
+      return (data || {}) as Metadata;
+    },
+
+    getConfigMessages: async (locale = "en") => {
+      const data = await get(`presets/default/translations.json?${Date.now()}`);
+      // TODO
+      const messages = data && data[locale];
+      if (!messages) return {};
+      return flatten(messages);
+    },
+
+    getObservations: async () => {
+      // TODO
+      const data = (await get("observations")) as ServerObservation[];
+      return data.map(convertFromServer);
     },
 
     getMapStyle: (id: string) => {
@@ -442,7 +445,7 @@ export function Api({
       return createPromise;
     },
 
-    updateObservation: (id, value, options) => {
+    updateObservation: async (id, value, options) => {
       const valueForServer = {
         ...value,
         // work around for a quirk in the api right now, we should probably change
@@ -454,47 +457,51 @@ export function Api({
         schemaVersion: 3,
         id,
       };
-      return put(`observations/${id}`, valueForServer).then(serverObservation =>
-        convertFromServer(serverObservation as ServerObservation)
-      );
+      // TODO
+      const serverObservation = (await put(
+        `observations/${id}`,
+        valueForServer
+      )) as ServerObservation;
+      return convertFromServer(serverObservation);
     },
 
-    createObservation: value => {
+    createObservation: async value => {
       const valueForServer = {
         ...value,
         type: "observation",
         schemaVersion: 3,
       };
-      return post("observations", valueForServer).then(serverObservation =>
-        convertFromServer(serverObservation as ServerObservation)
-      );
+      // TODO
+      const serverObservation = (await post(
+        "observations",
+        valueForServer
+      )) as ServerObservation;
+      return convertFromServer(serverObservation);
     },
 
     // Replaces app config with .mapeosettings tar file at `path`
-    replaceConfig: fileUri => {
+    replaceConfig: async fileUri => {
       const path = convertFileUriToPosixPath(fileUri);
-      return onReady().then(
-        () =>
-          new Promise((resolve, reject) => {
-            const id = channelId++;
-            // TODO: channel is supposed to extend RN's EventEmitter
-            // https://code.janeasystems.com/nodejs-mobile/react-native/bridge
-            // @ts-ignore
-            nodejs.channel.once("replace-config-" + id, done);
-            nodejs.channel.post("replace-config", { path, id });
+      await onReady();
+      return await new Promise((resolve, reject) => {
+        const id = channelId++;
+        // TODO: channel is supposed to extend RN's EventEmitter
+        // https://code.janeasystems.com/nodejs-mobile/react-native/bridge
+        // @ts-ignore
+        nodejs.channel.once("replace-config-" + id, done);
+        nodejs.channel.post("replace-config", { path, id });
 
-            const timeoutId = setTimeout(() => {
-              nodejs.channel.removeListener("replace-config-" + id, done);
-              done(new Error("Timeout when replacing config"));
-            }, 30 * 1000);
+        const timeoutId = setTimeout(() => {
+          nodejs.channel.removeListener("replace-config-" + id, done);
+          done(new Error("Timeout when replacing config"));
+        }, 30 * 1000);
 
-            function done(err: Error) {
-              clearTimeout(timeoutId);
-              if (err) reject(err);
-              else resolve();
-            }
-          })
-      );
+        function done(err_1: Error) {
+          clearTimeout(timeoutId);
+          if (err_1) reject(err_1);
+          else resolve();
+        }
+      });
     },
 
     /**
@@ -531,10 +538,13 @@ export function Api({
           nodejs.channel.removeListener("p2p-upgrade::error", onError),
       };
     },
-    startP2pUpgradeServices: () => {
-      onReady()
-        .then(() => nodejs.channel.post("p2p-upgrade::start-services"))
-        .catch(() => {});
+    startP2pUpgradeServices: async () => {
+      try {
+        await onReady();
+        nodejs.channel.post("p2p-upgrade::start-services");
+      } catch {
+        // noop
+      }
     },
     stopP2pUpgradeServices: () => {
       nodejs.channel.post("p2p-upgrade::stop-services");
@@ -558,27 +568,27 @@ export function Api({
     },
 
     // Start listening for sync peers and advertise with `deviceName`
-    syncJoin: deviceName => {
-      return onReady().then(() =>
-        nodejs.channel.post("sync-join", { deviceName })
-      );
+    syncJoin: async deviceName => {
+      await onReady();
+      return nodejs.channel.post("sync-join", { deviceName });
     },
 
     // Stop listening for sync peers and stop advertising
-    syncLeave: () => {
-      return onReady().then(() => nodejs.channel.post("sync-leave"));
+    syncLeave: async () => {
+      await onReady();
+      return nodejs.channel.post("sync-leave");
     },
 
     // Get a list of discovered sync peers
-    syncGetPeers: () => {
-      return get("sync/peers").then(
-        data => data && (data as { message: any }).message
-      );
+    syncGetPeers: async () => {
+      const data = await get("sync/peers");
+      return data && (data as { message: any }).message;
     },
 
     // Start sync with a peer
-    syncStart: target => {
-      return onReady().then(() => nodejs.channel.post("sync-start", target));
+    syncStart: async target => {
+      await onReady();
+      return nodejs.channel.post("sync-start", target);
     },
 
     /**
