@@ -43,7 +43,7 @@ task:
   grade_cache:
     folder: ~/.gradle/caches
   build_detox_script: npm run build-detox-android
-  outputs_apk_artifact:
+  outputs_apk_artifacts:
     path: android/app/build/outputs/apk/**/*
   disable_animations_script: |
     adb shell settings put global window_animation_scale 0.0
