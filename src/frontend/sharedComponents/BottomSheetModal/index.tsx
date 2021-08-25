@@ -20,6 +20,49 @@ export const useBottomSheetRef = () => {
   return sheetRef;
 };
 
+const useBackPressHandler = (onHardwareBackPress?: () => void) => {
+  React.useEffect(() => {
+    const onBack = () => {
+      if (onHardwareBackPress) {
+        onHardwareBackPress();
+      }
+
+      // We don't allow the back press to navigate/dismiss this modal by default
+      return true;
+    };
+
+    BackHandler.addEventListener("hardwareBackPress", onBack);
+
+    return () => BackHandler.removeEventListener("hardwareBackPress", onBack);
+  }, [onHardwareBackPress]);
+};
+
+const useSnapPointsCalculator = () => {
+  const [sheetHeight, setSheetHeight] = React.useState(0);
+
+  const { height: windowHeight } = useWindowDimensions();
+
+  const snapPoints = React.useMemo(() => [sheetHeight], [sheetHeight]);
+
+  const updateSheetHeight = React.useCallback(
+    ({
+      nativeEvent: {
+        layout: { height },
+      },
+    }) => {
+      const newSheetHeight = Math.max(
+        Math.min(windowHeight * 0.75, height),
+        MIN_SHEET_HEIGHT
+      );
+
+      setSheetHeight(newSheetHeight);
+    },
+    [windowHeight]
+  );
+
+  return { snapPoints, updateSheetHeight };
+};
+
 interface Props extends React.PropsWithChildren<{}> {
   onDismiss: () => void;
   onHardwareBackPress?: () => void;
@@ -28,42 +71,9 @@ interface Props extends React.PropsWithChildren<{}> {
 
 export const BottomSheetModal = React.forwardRef<RNBottomSheetModal, Props>(
   ({ children, onDismiss, onHardwareBackPress }, ref) => {
-    const [sheetHeight, setSheetHeight] = React.useState(0);
+    useBackPressHandler(onHardwareBackPress);
 
-    const { height: windowHeight } = useWindowDimensions();
-
-    const snapPoints = React.useMemo(() => [sheetHeight], [sheetHeight]);
-
-    const updateSheetHeight = React.useCallback(
-      ({
-        nativeEvent: {
-          layout: { height },
-        },
-      }) => {
-        const newSheetHeight = Math.max(
-          Math.min(windowHeight * 0.75, height),
-          MIN_SHEET_HEIGHT
-        );
-
-        setSheetHeight(newSheetHeight);
-      },
-      [windowHeight]
-    );
-
-    React.useEffect(() => {
-      const onBack = () => {
-        if (onHardwareBackPress) {
-          onHardwareBackPress();
-        }
-
-        // We don't allow the back press to navigate/dismiss this modal by default
-        return true;
-      };
-
-      BackHandler.addEventListener("hardwareBackPress", onBack);
-
-      return () => BackHandler.removeEventListener("hardwareBackPress", onBack);
-    }, [onHardwareBackPress]);
+    const { snapPoints, updateSheetHeight } = useSnapPointsCalculator();
 
     return (
       <BottomSheetModalProvider>
