@@ -50,7 +50,7 @@ task:
   grade_cache:
     folder: ~/.gradle/caches
   build_detox_script: npm run build-detox-android
-  wait_for_emulator_script: android-wait-for-emulator
+  wait_for_emulator_script: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
   disable_animations_script: |
     adb shell settings put global window_animation_scale 0.0
     adb shell settings put global transition_animation_scale 0.0
