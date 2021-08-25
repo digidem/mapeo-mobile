@@ -23,7 +23,6 @@ task:
     echo "Hardware acceleration:"
     $ANDROID_HOME/emulator/emulator -accel-check
   start_emulator_background_script: $ANDROID_HOME/emulator/emulator -avd emu -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back emulated
-  wait_for_emulator_script: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
   node_modules_cache:
     folder: node_modules
     reupload_on_changes: false # since there is a fingerprint script
@@ -45,6 +44,7 @@ task:
   build_detox_script: npm run build-detox-android
   outputs_apk_artifacts:
     path: android/app/build/outputs/apk/**/*
+  wait_for_emulator_script: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
   disable_animations_script: |
     adb shell settings put global window_animation_scale 0.0
     adb shell settings put global transition_animation_scale 0.0
