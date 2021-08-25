@@ -1,5 +1,4 @@
-task:
-  name: Android Build
+android_build_task:
   only_if: $CIRRUS_BRANCH == "deploy" || $CIRRUS_PR != ""
   env:
     JAVA_TOOL_OPTIONS: -Xmx6g
@@ -13,16 +12,8 @@ task:
     NODEJS_MOBILE_BUILD_NATIVE_MODULES: "0"
   container:
     image: digidem/docker-android
-    kvm: true
-    cpu: 4
-    memory: 8G
-  create_device_script: |
-    echo no | avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;default;x86_64'
-    echo "Emulator version:"
-    $ANDROID_HOME/emulator/emulator @emu -version
-    echo "Hardware acceleration:"
-    $ANDROID_HOME/emulator/emulator -accel-check
-  start_emulator_background_script: $ANDROID_HOME/emulator/emulator -avd emu -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back emulated
+    cpu: 8
+    memory: 24G
   node_modules_cache:
     folder: node_modules
     reupload_on_changes: false # since there is a fingerprint script
@@ -42,20 +33,47 @@ task:
   grade_cache:
     folder: ~/.gradle/caches
   build_detox_script: npm run build-detox-android
-  outputs_apk_artifacts:
-    path: android/app/build/outputs/apk/**/*
-  wait_for_emulator_script: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
-  disable_animations_script: |
-    adb shell settings put global window_animation_scale 0.0
-    adb shell settings put global transition_animation_scale 0.0
-    adb shell settings put global animator_duration_scale 0.0
-  e2e_tests_script: npm run test-detox-android -- --record-videos all --record-logs all
   cleanup_before_cache_script:
     - rm -rf ~/.gradle/caches/6.2/
     - rm -rf ~/.gradle/caches/transforms-1
     - rm -rf ~/.gradle/caches/journal-1
     - rm -rf ~/.gradle/caches/jars-3/*/buildSrc.jar
     - find ~/.gradle/caches/ -name "*.lock" -type f -delete
+  outputs_apk_artifacts:
+    path: android/app/build/outputs/apk/**/*
+android_test_task:
+  depends_on: android_build
+  container:
+    image: digidem/docker-android
+    kvm: true
+    cpu: 4
+    memory: 16G
+  download_outputs_script: |
+    wget -q https://api.cirrus-ci.com/v1/artifact/build/${CIRRUS_BUILD_ID}/outputs_apk.zip -O /tmp/outputs_apk.zip
+    unzip /tmp/outputs_apk.zip
+    ls -al android/app/build/outputs/apk/**/*
+  create_device_script: |
+    echo no | avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;default;x86_64'
+    echo "Emulator version:"
+    $ANDROID_HOME/emulator/emulator @emu -version
+    echo "Hardware acceleration:"
+    $ANDROID_HOME/emulator/emulator -accel-check
+  start_emulator_background_script: $ANDROID_HOME/emulator/emulator -avd emu -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back emulated
+  node_modules_cache:
+    folder: node_modules
+    reupload_on_changes: false # since there is a fingerprint script
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - node --version
+      - cat package-lock.json
+    populate_script:
+      - npm ci
+  wait_for_emulator_script: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
+  disable_animations_script: |
+    adb shell settings put global window_animation_scale 0.0
+    adb shell settings put global transition_animation_scale 0.0
+    adb shell settings put global animator_duration_scale 0.0
+  e2e_tests_script: npm run test-detox-android -- --record-videos all --record-logs all
   always:
     test_videos_artifacts:
       path: "artifacts/**/*"
