@@ -84,7 +84,7 @@ const getProjectInviteDetails = async (
   return new Promise((res, rej) => {
     setTimeout(
       () =>
-        Math.random() > 0.5
+        Math.random() > 0
           ? res({
               project: {
                 name: `Project ${Math.floor(Math.random() * 1000)}`,
@@ -101,7 +101,7 @@ const getProjectInviteDetails = async (
 export const ProjectInviteModal: NavigationStackScreenComponent<{
   invite?: string;
 }> = ({ navigation }) => {
-  const { formatMessage: t } = useIntl();
+  const { formatMessage: t, wrapRichTextChunksInFragment } = useIntl();
   const sheetRef = useBottomSheetRef();
 
   const mountedRef = React.useRef(true);

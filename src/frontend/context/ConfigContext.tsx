@@ -174,6 +174,7 @@ export const ConfigProvider = ({ children }: Props) => {
 
   return (
     <IntlProvider
+      wrapRichTextChunksInFragment
       key={intl.locale}
       locale={intl.locale}
       messages={mergedMessages}
