@@ -22,15 +22,7 @@ task:
     $ANDROID_HOME/emulator/emulator @emu -version
     echo "Hardware acceleration:"
     $ANDROID_HOME/emulator/emulator -accel-check
-  start_emulator_background_script: >
-    $ANDROID_HOME/emulator/emulator
-      -avd emu
-      -no-window
-      -gpu swiftshader_indirect
-      -no-snapshot
-      -noaudio
-      -no-boot-anim
-      -camera-back emulated
+  start_emulator_background_script: $ANDROID_HOME/emulator/emulator -avd emu -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back emulated
   wait_for_emulator_script: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
   node_modules_cache:
     folder: node_modules
