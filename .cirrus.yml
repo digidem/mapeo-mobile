@@ -14,18 +14,6 @@ connected_check_task:
     kvm: true
     cpu: 8
     memory: 24G
-  npm_install_script: |
-    mkdir -p nodejs-assets
-    npm ci
-  build_backend_script: npm run build:backend
-  build_translations_script: npm run build:translations
-  nodejs_mobile_cache:
-    folder: android/build/nodejs-native-assets
-    fingerprint_script: cat src/backend/package-lock.json
-    populate_script: echo "NODEJS_MOBILE_BUILD_NATIVE_MODULES=1" >> $CIRRUS_ENV
-  build_detox_script: |
-    printenv
-    npm run build-detox-android
   create_device_script: |
     echo no | avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;default;x86_64'
     echo "Emulator version:"
@@ -34,12 +22,33 @@ connected_check_task:
     echo "Hardware acceleration:"
     $ANDROID_HOME/emulator/emulator -accel-check
   start_emulator_background_script: $ANDROID_HOME/emulator/emulator -avd emu -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back emulated
+  node_modules_cache:
+    folder: node_modules
+    reupload_on_changes: false # since there is a fingerprint script
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - node --version
+      - cat package-lock.json
+    populate_script: 
+      - npm ci
+  build_backend_script: npm run build:backend
+  build_translations_script: npm run build:translations
+  nodejs_mobile_cache:
+    folder: android/build/nodejs-native-assets
+    fingerprint_script: cat src/backend/package-lock.json
+    populate_script: echo "NODEJS_MOBILE_BUILD_NATIVE_MODULES=1" >> $CIRRUS_ENV
+  grade_cache:
+    folder: ${HOME}/.gradle/caches
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - cat **/*.gradle*
+      - cat **/gradle/wrapper/gradle-wrapper.properties
+  build_detox_script: npm run build-detox-android
   wait_for_emulator_script: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
   disable_animations_script: |
     adb shell settings put global window_animation_scale 0.0
     adb shell settings put global transition_animation_scale 0.0
     adb shell settings put global animator_duration_scale 0.0
-  metro_background_script: npm start
   run_tests_script: |
     adb devices
     $ANDROID_HOME/emulator/emulator -list-avds
