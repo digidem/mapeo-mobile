@@ -5,11 +5,12 @@
  *   - Manually change the context value in `SettingsContext.tsx`
  */
 import * as React from "react";
-import { StyleSheet } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { defineMessages, useIntl } from "react-intl";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import { MAPEO_BLUE, WHITE } from "../lib/styles";
+import { DARK_BLUE, MAGENTA, MAPEO_BLUE, WHITE } from "../lib/styles";
 import {
   MODAL_NAVIGATION_OPTIONS,
   BottomSheetModal,
@@ -70,9 +71,9 @@ const m = defineMessages({
     id: "screens.ProjectInviteModal.tryAgain",
     defaultMessage: "Try Again",
   },
-  noInviteFound: {
-    id: "screens.ProjectInviteModal.noInviteFound",
-    defaultMessage: "No Invite Found",
+  inviteErrorMessage: {
+    id: "screens.ProjectInviteModal.inviteErrorMessage",
+    defaultMessage: "Could not retrieve invite details",
   },
 });
 
@@ -91,7 +92,7 @@ const getProjectInviteDetails = async (
               },
               role: "Project Participant",
             })
-          : rej(new Error("Could not get invite details")),
+          : rej(new Error(m.inviteErrorMessage.defaultMessage)),
       1000
     );
   });
@@ -112,7 +113,7 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
   >(
     inviteKey
       ? { type: "loading" }
-      : { type: "error", info: { error: new Error(t(m.noInviteFound)) } }
+      : { type: "error", info: { error: new Error(t(m.inviteErrorMessage)) } }
   );
 
   const fetchInviteDetails = React.useCallback(async (inviteKey: string) => {
@@ -179,28 +180,23 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
               text: t(m.tryAgain),
             },
           ]}
+          icon={
+            <View>
+              <Circle radius={40} style={styles.mapeoIconContainer}>
+                <Image
+                  style={styles.mapeoIcon}
+                  source={require("../images/mapeo-icon-transparent.png")}
+                />
+              </Circle>
+              <Circle radius={12} style={styles.errorIconContainer}>
+                <MaterialIcon name="error" size={24} style={styles.errorIcon} />
+              </Circle>
+            </View>
+          }
           title={status.info.error.message}
         />
       ) : (
         <BottomSheetContent
-          icon={
-            <Circle radius={40} style={styles.checkmarkCircle}>
-              <DoneIcon color={WHITE} size={40} />
-            </Circle>
-          }
-          description={t(m.inviteMessage, {
-            projectName: (
-              <Text style={styles.bold}>
-                {status.info.inviteDetails.project.name}
-              </Text>
-            ),
-            role: (
-              <Text style={styles.bold}>{status.info.inviteDetails.role}</Text>
-            ),
-          })}
-          title={t(m.title, {
-            projectName: status.info.inviteDetails.project.name,
-          })}
           buttonConfigs={[
             {
               text: t(m.declineInvite),
@@ -213,6 +209,24 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
               onPress: acceptInvite,
             },
           ]}
+          description={t(m.inviteMessage, {
+            projectName: (
+              <Text style={styles.bold}>
+                {status.info.inviteDetails.project.name}
+              </Text>
+            ),
+            role: (
+              <Text style={styles.bold}>{status.info.inviteDetails.role}</Text>
+            ),
+          })}
+          icon={
+            <Circle radius={40} style={styles.checkmarkCircle}>
+              <DoneIcon color={WHITE} size={40} />
+            </Circle>
+          }
+          title={t(m.title, {
+            projectName: status.info.inviteDetails.project.name,
+          })}
         />
       )}
     </BottomSheetModal>
@@ -226,6 +240,19 @@ const styles = StyleSheet.create({
     backgroundColor: MAPEO_BLUE,
     elevation: 0,
     flexDirection: "row",
+  },
+  mapeoIconContainer: { backgroundColor: DARK_BLUE },
+  mapeoIcon: { transform: [{ scale: 0.15 }] },
+  errorIconContainer: {
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+    borderWidth: 0,
+    backgroundColor: WHITE,
+  },
+  errorIcon: {
+    transform: [{ scale: 1.25 }],
+    color: MAGENTA,
   },
   bold: { fontWeight: "700" },
 });
