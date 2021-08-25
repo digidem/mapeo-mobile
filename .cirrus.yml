@@ -23,6 +23,7 @@ task:
       - echo $CIRRUS_OS
       - node --version
       - cat package-lock.json
+      - find patches -name "*.patch" -exec cat {} +
     populate_script:
       - npm ci
   build_backend_script: npm run build:backend
