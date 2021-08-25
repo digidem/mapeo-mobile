@@ -29,7 +29,7 @@ connected_check_task:
       - echo $CIRRUS_OS
       - node --version
       - cat package-lock.json
-    populate_script: 
+    populate_script:
       - npm ci
   build_backend_script: npm run build:backend
   build_translations_script: npm run build:translations
@@ -38,11 +38,7 @@ connected_check_task:
     fingerprint_script: cat src/backend/package-lock.json
     populate_script: echo "NODEJS_MOBILE_BUILD_NATIVE_MODULES=1" >> $CIRRUS_ENV
   grade_cache:
-    folder: ${HOME}/.gradle/caches
-    fingerprint_script:
-      - echo $CIRRUS_OS
-      - cat **/*.gradle*
-      - cat **/gradle/wrapper/gradle-wrapper.properties
+    folder: ~/.gradle/caches
   build_detox_script: npm run build-detox-android
   wait_for_emulator_script: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
   disable_animations_script: |
@@ -57,6 +53,12 @@ connected_check_task:
     mkdir -p artifacts
     npm run test-detox-android -- --record-videos all --record-logs all
     ls -al artifacts
+  cleanup_before_cache_script:
+    - rm -rf ~/.gradle/caches/6.2/
+    - rm -rf ~/.gradle/caches/transforms-1
+    - rm -rf ~/.gradle/caches/journal-1
+    - rm -rf ~/.gradle/caches/jars-3/*/buildSrc.jar
+    - find ~/.gradle/caches/ -name "*.lock" -type f -delete
   always:
     test_artifacts:
       path: "artifacts/**/*"
