@@ -7,6 +7,7 @@ import { BLACK } from "../../lib/styles";
 export const Backdrop = ({
   animatedIndex,
   style,
+  ...rest
 }: BottomSheetBackdropProps) => {
   const animatedOpacity = React.useMemo(
     () =>
@@ -29,5 +30,5 @@ export const Backdrop = ({
     [style, animatedOpacity]
   );
 
-  return <Animated.View style={containerStyle} />;
+  return <Animated.View {...rest} style={containerStyle} />;
 };

@@ -8,13 +8,14 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { defineMessages, useIntl } from "react-intl";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import { MAPEO_BLUE, WHITE } from "../lib/styles";
 import {
-  BottomSheet,
+  MODAL_NAVIGATION_OPTIONS,
+  BottomSheetModal,
   BottomSheetContent,
-} from "../sharedComponents/BottomSheet";
+  useBottomSheetRef,
+} from "../sharedComponents/BottomSheetModal";
 import Text from "../sharedComponents/Text";
 import { DoneIcon } from "../sharedComponents/icons";
 import Circle from "../sharedComponents/icons/Circle";
@@ -100,8 +101,9 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
   invite?: string;
 }> = ({ navigation }) => {
   const { formatMessage: t } = useIntl();
+  const sheetRef = useBottomSheetRef();
+
   const mountedRef = React.useRef(true);
-  const sheetRef = React.useRef<BottomSheetModal>(null);
 
   const inviteKey = navigation.getParam("invite");
 
@@ -156,13 +158,7 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
   }, []);
 
   return (
-    <BottomSheet
-      hideDragHandle
-      ref={sheetRef}
-      onDismiss={navigation.goBack}
-      // We intentionally don't want to dismiss this modal with a back press
-      onHardwareBackPress={() => {}}
-    >
+    <BottomSheetModal ref={sheetRef} onDismiss={navigation.goBack}>
       {status.type === "loading" ? (
         <Loading />
       ) : status.type === "error" ? (
@@ -219,14 +215,11 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
           ]}
         />
       )}
-    </BottomSheet>
+    </BottomSheetModal>
   );
 };
 
-ProjectInviteModal.navigationOptions = () => ({
-  cardStyle: { backgroundColor: "transparent" },
-  animationEnabled: false,
-});
+ProjectInviteModal.navigationOptions = () => MODAL_NAVIGATION_OPTIONS;
 
 const styles = StyleSheet.create({
   checkmarkCircle: {

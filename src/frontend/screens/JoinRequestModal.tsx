@@ -7,14 +7,15 @@
 import * as React from "react";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { defineMessages, useIntl } from "react-intl";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import ConfigContext from "../context/ConfigContext";
 import {
-  BottomSheet,
+  MODAL_NAVIGATION_OPTIONS,
+  BottomSheetModal,
   BottomSheetContent,
-} from "../sharedComponents/BottomSheet";
+  useBottomSheetRef,
+} from "../sharedComponents/BottomSheetModal";
 import { DoneIcon } from "../sharedComponents/icons";
 import Circle from "../sharedComponents/icons/Circle";
 import { MAPEO_BLUE, WHITE } from "../lib/styles";
@@ -55,7 +56,7 @@ export const JoinRequestModal: NavigationStackScreenComponent<{
   const [loading, setLoading] = React.useState(false);
   const [step, setStep] = React.useState<"prompt" | "success">("prompt");
 
-  const sheetRef = React.useRef<BottomSheetModal>(null);
+  const sheetRef = useBottomSheetRef();
   const [config] = React.useContext(ConfigContext);
 
   const projectName = config.metadata.name;
@@ -89,12 +90,7 @@ export const JoinRequestModal: NavigationStackScreenComponent<{
   }, []);
 
   return (
-    <BottomSheet
-      hideDragHandle
-      ref={sheetRef}
-      onDismiss={navigation.goBack}
-      onHardwareBackPress={closeModal}
-    >
+    <BottomSheetModal ref={sheetRef} onDismiss={navigation.goBack}>
       {step === "prompt" ? (
         <BottomSheetContent
           buttonConfigs={[
@@ -137,11 +133,8 @@ export const JoinRequestModal: NavigationStackScreenComponent<{
           title={t(m.success)}
         />
       )}
-    </BottomSheet>
+    </BottomSheetModal>
   );
 };
 
-JoinRequestModal.navigationOptions = () => ({
-  cardStyle: { backgroundColor: "transparent" },
-  animationEnabled: false,
-});
+JoinRequestModal.navigationOptions = () => MODAL_NAVIGATION_OPTIONS;
