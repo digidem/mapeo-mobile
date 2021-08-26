@@ -89,7 +89,7 @@ export const DeviceFoundStep = ({ deviceId, goBack, goNext }: Props) => {
                 selected={selectedRole === "participant"}
                 showError={showError}
               />
-              <Text style={[styles.checkboxOptionTitle, styles.bold]}>
+              <Text style={styles.checkboxOptionTitle}>
                 <FormattedMessage {...m.participantOptionTitle} />
               </Text>
             </View>
@@ -102,7 +102,7 @@ export const DeviceFoundStep = ({ deviceId, goBack, goNext }: Props) => {
                 showError={showError}
               />
               <View>
-                <Text style={[styles.checkboxOptionTitle, styles.bold]}>
+                <Text style={styles.checkboxOptionTitle}>
                   <FormattedMessage {...m.coordinatorOptionTitle} />
                 </Text>
                 <Text style={styles.checkboxOptionDescription}>
@@ -113,7 +113,7 @@ export const DeviceFoundStep = ({ deviceId, goBack, goNext }: Props) => {
           </OptionRow>
           {showError && (
             <View style={styles.errorContainer}>
-              <Text style={[styles.errorText, styles.bold]}>
+              <Text style={styles.errorText}>
                 <FormattedMessage {...m.selectValidationError} />
               </Text>
             </View>
@@ -124,7 +124,7 @@ export const DeviceFoundStep = ({ deviceId, goBack, goNext }: Props) => {
         <Button
           fullWidth
           onPress={goBack}
-          style={{ marginBottom: 12 }}
+          style={{ marginBottom: 20 }}
           variant="outlined"
         >
           <Text style={[styles.buttonText, { color: MAPEO_BLUE }]}>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
-    paddingVertical: 20,
+    paddingTop: 20,
   },
   form: {
     marginVertical: 20,
@@ -153,11 +153,12 @@ const styles = StyleSheet.create({
   optionContentContainer: { flexDirection: "row" },
   title: {
     fontSize: 40,
-    fontWeight: "bold",
+    fontWeight: "700",
   },
   checkboxOptionTitle: {
     fontSize: 20,
     paddingTop: 2,
+    fontWeight: "700",
   },
   checkboxOptionDescription: {
     fontSize: 16,
@@ -168,14 +169,13 @@ const styles = StyleSheet.create({
   errorText: {
     color: MAGENTA,
     fontSize: 16,
+    fontWeight: "700",
   },
   centeredText: {
     textAlign: "center",
   },
   buttonText: {
-    fontSize: 16,
-  },
-  bold: {
-    fontWeight: "bold",
+    fontSize: 18,
+    fontWeight: "700",
   },
 });

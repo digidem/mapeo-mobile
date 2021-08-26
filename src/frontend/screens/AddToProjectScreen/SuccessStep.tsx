@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
-    paddingVertical: 20,
+    paddingTop: 20,
   },
   title: {
     fontSize: 40,
-    fontWeight: "bold",
+    fontWeight: "700",
   },
   description: {
     fontSize: 20,
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: "700",
   },
 });
