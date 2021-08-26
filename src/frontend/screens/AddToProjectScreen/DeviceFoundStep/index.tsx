@@ -1,17 +1,11 @@
 import * as React from "react";
 import { Animated, View, StyleSheet } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import {
-  MEDIUM_GREY,
-  MAGENTA,
-  MAPEO_BLUE,
-  MEDIUM_BLUE,
-  WHITE,
-} from "../../../lib/styles";
+import { MAGENTA, MAPEO_BLUE, WHITE } from "../../../lib/styles";
 import Button from "../../../sharedComponents/Button";
 import Text from "../../../sharedComponents/Text";
+import { AnimatedRadio } from "./AnimatedRadio";
 import { OptionRow } from "./OptionRow";
 
 type Role = "participant" | "coordinator";
@@ -57,35 +51,7 @@ interface Props {
 export const DeviceFoundStep = ({ deviceId, goBack, goNext }: Props) => {
   const [selectedRole, setSelectedRole] = React.useState<Role>();
   const [showError, setShowError] = React.useState(false);
-  const pulseAnimationValue = React.useRef(new Animated.Value(0)).current;
-
-  const animatedRadioStyles = React.useMemo(
-    () => ({
-      margin: 4,
-      transform: [
-        {
-          scale: pulseAnimationValue.interpolate({
-            inputRange: [0, 0.5, 1],
-            outputRange: [1, 1.2, 1],
-          }),
-        },
-      ],
-    }),
-    []
-  );
-
-  const createAnimatedRadio = (role: Role) => {
-    const selected = selectedRole === role;
-    return (
-      <Animated.View style={animatedRadioStyles}>
-        <MaterialIcon
-          name={selected ? "radio-button-checked" : "radio-button-unchecked"}
-          size={24}
-          color={showError ? MAGENTA : selected ? MEDIUM_BLUE : MEDIUM_GREY}
-        />
-      </Animated.View>
-    );
-  };
+  const [pulseAnimationValue] = React.useState(new Animated.Value(0));
 
   const createPressHandler = (role: Role) => () =>
     setSelectedRole(previous => (previous === role ? undefined : role));
@@ -118,7 +84,11 @@ export const DeviceFoundStep = ({ deviceId, goBack, goNext }: Props) => {
         <View style={styles.form}>
           <OptionRow onPress={createPressHandler("participant")}>
             <View style={styles.optionContentContainer}>
-              {createAnimatedRadio("participant")}
+              <AnimatedRadio
+                animatedValue={pulseAnimationValue}
+                selected={selectedRole === "participant"}
+                showError={showError}
+              />
               <Text style={[styles.checkboxOptionTitle, styles.bold]}>
                 <FormattedMessage {...m.participantOptionTitle} />
               </Text>
@@ -126,7 +96,11 @@ export const DeviceFoundStep = ({ deviceId, goBack, goNext }: Props) => {
           </OptionRow>
           <OptionRow onPress={createPressHandler("coordinator")}>
             <View style={styles.optionContentContainer}>
-              {createAnimatedRadio("coordinator")}
+              <AnimatedRadio
+                animatedValue={pulseAnimationValue}
+                selected={selectedRole === "coordinator"}
+                showError={showError}
+              />
               <View>
                 <Text style={[styles.checkboxOptionTitle, styles.bold]}>
                   <FormattedMessage {...m.coordinatorOptionTitle} />
