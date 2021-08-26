@@ -38,6 +38,9 @@ task:
     fingerprint_script:
       - cat android/gradle/wrapper/gradle-wrapper.properties
       - find . -type f -name "*.gradle*" -exec cat {} +
+  artifact_cache:
+    folder: android/app/build/outputs/apk
+    fingerprint_script: echo $CIRRUS_BUILD_ID
   build_detox_script: npm run build-detox-android
   cleanup_before_cache_script:
     - rm -rf ~/.gradle/caches/6.2/
@@ -55,10 +58,9 @@ android_test_task:
     kvm: true
     cpu: 8
     memory: 16G
-  download_outputs_script: |
-    wget -q https://api.cirrus-ci.com/v1/artifact/build/${CIRRUS_BUILD_ID}/outputs_apk.zip -O /tmp/outputs_apk.zip
-    unzip /tmp/outputs_apk.zip
-    ls -al android/app/build/outputs/apk/**/*
+  artifact_cache:
+    folder: android/app/build/outputs/apk
+    fingerprint_script: echo $CIRRUS_BUILD_ID
   create_device_script: |
     echo no | avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;default;x86_64'
     echo "Emulator version:"
