@@ -7,14 +7,15 @@
 import React from "react";
 import { createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import ProjectInviteModal from "../screens/ProjectInviteModal";
-import { AppStack } from "./AppStack";
+import { JoinRequestModal } from "../screens/JoinRequestModal";
+import { ProjectInviteModal } from "../screens/ProjectInviteModal";
 import {
   CreateOrJoinScreen,
   JoinProjectQrScreen,
   SendJoinRequestScreen,
 } from "../screens/Onboarding";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
+import { AppStack } from "./AppStack";
 
 const CreateOrJoinStack = createStackNavigator(
   {
@@ -57,10 +58,8 @@ const MainStack = createSwitchNavigator(
 export const OnboardingStack = createStackNavigator(
   {
     Main: MainStack,
-    ProjectInviteModal: {
-      screen: ProjectInviteModal,
-      path: "ProjectInviteModal/:invite",
-    },
+    JoinRequestModal,
+    ProjectInviteModal,
   },
   {
     initialRouteName: "Main",
