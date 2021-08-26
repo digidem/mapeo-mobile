@@ -16,7 +16,7 @@ const m = defineMessages({
   },
   goToSync: {
     id: "screens.AddToProjectScreen.SuccessStep.goToSync",
-    defaultMessage: "Go To Sync",
+    defaultMessage: "Go to Sync",
   },
 });
 
