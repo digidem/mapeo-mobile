@@ -16,17 +16,13 @@ import {
 import Button from "../../sharedComponents/Button";
 
 const m = defineMessages({
+  joinProject: {
+    id: "screens.Onboarding.CreateOrJoinProjectScreen.joinProject",
+    defaultMessage: "Join a Project",
+  },
   createProject: {
     id: "screens.Onboarding.CreateOrJoinProjectScreen.createProject",
     defaultMessage: "Create a Project",
-  },
-  practiceMode: {
-    id: "screens.Onboarding.CreateOrJoinProjectScreen.PracticeMode",
-    defaultMessage: "Practive Mode",
-  },
-  joinProject: {
-    id: "screens.Onboarding.CreateOrJoinProjectScreen.joinProject",
-    defaultMessage: "Tap here to Join a Project",
   },
 });
 
@@ -39,49 +35,40 @@ export const CreateOrJoinScreen: NavigationStackScreenComponent = () => {
 
   return (
     <View style={styles.container}>
-      <View>
-        <View style={styles.logoContainer}>
-          <Image source={require("../../images/icon_mapeo_pin.png")} />
-        </View>
+      <View style={styles.logoContainer}>
+        <Image source={require("../../images/icon_mapeo_pin.png")} />
+      </View>
 
-        <Text style={styles.title}>Mapeo</Text>
-        <Button
-          style={styles.button}
-          onPress={() => {
-            Alert.alert(
-              "Work in progress",
-              "This feature has not been implemented yet",
-              [
-                {
-                  text: "Ok",
-                  onPress: () => {},
-                },
-              ]
-            );
-          }}
-        >
-          <Text style={styles.buttonText}>
-            <FormattedMessage {...m.createProject} />
-          </Text>
-        </Button>
-        <Button style={styles.button} onPress={() => {}}>
-          <Text style={styles.buttonText}>
-            <FormattedMessage {...m.practiceMode} />
-          </Text>
-        </Button>
-      </View>
-      <View>
-        <Button
-          variant="text"
-          onPress={() => {
-            navigate("JoinProjectQr");
-          }}
-        >
-          <Text style={styles.buttonText}>
-            <FormattedMessage {...m.joinProject} />
-          </Text>
-        </Button>
-      </View>
+      <Text style={styles.title}>Mapeo</Text>
+      <Button
+        style={styles.button}
+        onPress={() => {
+          navigate("JoinProjectQr");
+        }}
+      >
+        <Text style={styles.buttonText}>
+          <FormattedMessage {...m.joinProject} />
+        </Text>
+      </Button>
+      <Button
+        style={styles.button}
+        onPress={() => {
+          Alert.alert(
+            "Work in progress",
+            "This feature has not been implemented yet",
+            [
+              {
+                text: "Ok",
+                onPress: () => {},
+              },
+            ]
+          );
+        }}
+      >
+        <Text style={styles.buttonText}>
+          <FormattedMessage {...m.createProject} />
+        </Text>
+      </Button>
     </View>
   );
 };
