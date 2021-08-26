@@ -84,7 +84,6 @@ const Button = ({
       ) : (
         <TouchableNativeFeedback
           {...sharedTouchableProps}
-          //@ts-ignore
           background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
         >
           {buttonContent}
