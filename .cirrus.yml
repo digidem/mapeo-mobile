@@ -37,7 +37,7 @@ task:
     folder: ~/.gradle/caches
     fingerprint_script:
       - cat android/gradle/wrapper/gradle-wrapper.properties
-      - find . -name "*.gradle*" -exec cat {} +
+      - find . -type f -name "*.gradle*" -exec cat {} +
   build_detox_script: npm run build-detox-android
   cleanup_before_cache_script:
     - rm -rf ~/.gradle/caches/6.2/
