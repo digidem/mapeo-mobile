@@ -5,13 +5,14 @@
  *   - Manually change the context value in `SettingsContext.tsx`
  */
 import * as React from "react";
-import { Alert, Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { FormattedMessage, defineMessages } from "react-intl";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import { BLACK, MAPEO_BLUE, WHITE } from "../../lib/styles";
+import { showWipAlert } from "../../lib/utils";
 import Button from "../../sharedComponents/Button";
 
 const m = defineMessages({
@@ -32,15 +33,6 @@ const m = defineMessages({
     defaultMessage: "Tap here to {action}",
   },
 });
-
-const showWipAlert = () => {
-  Alert.alert("Work in progress", "This feature has not been implemented yet", [
-    {
-      text: "Ok",
-      onPress: () => {},
-    },
-  ]);
-};
 
 export const CreateOrJoinScreen: NavigationStackScreenComponent = () => {
   const { navigate } = useNavigation();
