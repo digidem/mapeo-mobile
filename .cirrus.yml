@@ -30,7 +30,9 @@ task:
   build_translations_script: npm run build:translations
   nodejs_mobile_cache:
     folder: android/build/nodejs-native-assets
-    fingerprint_script: cat src/backend/package-lock.json
+    fingerprint_script:
+      - cat src/backend/package-lock.json
+      - find src/backend/patches -name "*.patch" -exec cat {} +
     # If the native assets are not cached, then we turn on build native modules
     populate_script: echo "NODEJS_MOBILE_BUILD_NATIVE_MODULES=1" >> $CIRRUS_ENV
   grade_cache:
