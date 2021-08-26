@@ -185,6 +185,18 @@ bugsnag {
     sharedObjectPath "app/build/jni/libs"
 }
 
+String shouldRebuildNativeModules = System.getenv('NODEJS_MOBILE_BUILD_NATIVE_MODULES');
+
+// This is from the nodejs-mobile build.gradle, but it is only set if
+// NODEJS_MOBILE_BUILD_NATIVE_MODULES is "1". When we cache the native modules
+// build files we set NODEJS_MOBILE_BUILD_NATIVE_MODULES to "0", but we still
+// want to include this folder in the build
+if ("0".equals(shouldRebuildNativeModules)) {
+    // We are not rebuilding native modules, but we still want to include the
+    // cached native module build files in the build
+    project.android.sourceSets.main.assets.srcDirs+="${rootProject.buildDir}/nodejs-native-assets/"
+}
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -204,7 +216,7 @@ android {
 
         // Detox integration
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner 'com.mapeo.DetoxTestAppJUnitRunner'
     }
     splits {
         abi {
@@ -360,7 +372,8 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
 
     // Detox
-    androidTestImplementation('com.wix:detox:+')
+    androidTestImplementation 'com.wix:detox:+'
+    androidTestImplementation 'com.linkedin.testbutler:test-butler-library:2.2.1'
 }
 
 // Run this once to be able to run the application with BUCK
