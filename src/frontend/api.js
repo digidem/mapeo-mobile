@@ -563,7 +563,7 @@ export function Api({
       // Some devices are @4x or above, but we only generate icons up to @3x
       // Also we don't have @1.5x, so we round it up
       const roundedRatio = Math.min(Math.ceil(pixelRatio), 3);
-      return `${BASE_URL}presets/default/icons/${iconId}-medium@${roundedRatio}x.png`;
+      return `${BASE_URL}presets/default/icons/${iconId}-medium@${roundedRatio}x.png?{startupTime}`;
     },
 
     // Return the url for a media attachment
