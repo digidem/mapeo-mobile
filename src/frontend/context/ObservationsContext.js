@@ -33,6 +33,17 @@ export type Observation = {
   links?: string[],
   schemaVersion: number,
   value: ObservationValue,
+  metadata?: {
+    lastSavedPosition?: Position,
+    manualLocation?: boolean,
+    position?: Position,
+    positionProvider?: {
+      gpsAvailable?: boolean,
+      locationServicesEnabled?: boolean,
+      networkAvailable?: boolean,
+      passiveAvailable?: boolean,
+    },
+  },
 };
 
 export type ObservationsMap = Map<string, Observation>;

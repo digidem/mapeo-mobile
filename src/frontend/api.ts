@@ -22,14 +22,27 @@ import type {
 } from "./context/ObservationsContext";
 import { promiseTimeout } from "./lib/utils";
 import bugsnag from "./lib/logger";
-import STATUS from "../backend/constants";
+//import STATUS from "../backend/constants";
 
 import type { IconSize, ImageSize } from "./types";
 import type { DraftPhoto } from "./context/DraftObservationContext";
 import type { Observation as ServerObservation } from "mapeo-schema";
 
-// TODO: Remove `string` annotation
-export type ServerStatus = keyof typeof STATUS | string;
+// This is taken from ' import STATUS from "../backend/constants" '
+//In order to not break the flow typing of constants js, I just copied
+//and pasted the typing here. This is not ideal as we will have to maintain this
+//enum in both files, but we can address this when we convert the constants.js file to
+//TS. I have put a note in the constants file as well
+enum STATUS {
+  IDLE = "IDLE",
+  STARTING = "STARTING",
+  LISTENING = "LISTENING",
+  CLOSING = "CLOSING",
+  CLOSED = "CLOSED",
+  ERROR = "ERROR",
+  TIMEOUT = "TIMEOUT",
+}
+export type ServerStatus = keyof typeof STATUS;
 
 export type ServerStatusMessage = {
   value: ServerStatus;
@@ -173,9 +186,7 @@ interface PublicApi {
     value: ObservationValue,
     options: {
       links: Array<string>;
-      // TODO
-      userId?: number | string;
-      // userId?: $ElementType<ServerObservation, "userId">,
+      userId?: string;
     }
   ) => Promise<Observation>;
   createObservation: (value: ObservationValue) => Promise<Observation>;
@@ -187,7 +198,6 @@ interface PublicApi {
   startP2pUpgradeServices: () => void;
   stopP2pUpgradeServices: () => void;
   addPeerListener: (handler: PeerHandler) => Subscription;
-  // TODO
   syncJoin: (deviceName: string) => Promise<void>;
   syncLeave: () => Promise<void>;
   syncGetPeers: () => Promise<any>;
@@ -198,13 +208,12 @@ interface PublicApi {
   getMapStyleUrl: (id: string) => string;
 }
 
-export function Api({
-  baseUrl,
-  timeout = DEFAULT_TIMEOUT,
-}: {
+interface ApiParam {
   baseUrl: string;
   timeout?: number;
-}) {
+}
+
+export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
   let status: ServerStatus = STATUS.IDLE;
   let timeoutId: number;
   // We append this to requests for presets and map styles, in order to override
@@ -315,7 +324,7 @@ export function Api({
       const serverStartPromise = new Promise(resolve =>
         // TODO: channel is supposed to extend RN's EventEmitter
         // https://code.janeasystems.com/nodejs-mobile/react-native/bridge
-        // @ts-ignore
+        //@ts-ignore
         nodejs.channel.once("status", resolve)
       ).then(async () => {
         bugsnag.leaveBreadcrumb("Mapeo Core started");
@@ -368,14 +377,12 @@ export function Api({
      * GET async methods
      */
     getPresets: async () => {
-      // TODO
       const data = (await get(
         `presets/default/presets.json?${Date.now()}`
       )) as { presets: { [key: string]: Preset } };
       return mapToArray(data.presets);
     },
     getFields: async () => {
-      // TODO
       const data = (await get(
         `presets/default/presets.json?${Date.now()}`
       )) as { fields: { [key: string]: Field } };
@@ -389,14 +396,13 @@ export function Api({
 
     getConfigMessages: async (locale = "en") => {
       const data = await get(`presets/default/translations.json?${Date.now()}`);
-      // TODO
+      // @ts-ignore
       const messages = data && data[locale];
       if (!messages) return {};
       return flatten(messages);
     },
 
     getObservations: async () => {
-      // TODO
       const data = (await get("observations")) as ServerObservation[];
       return data.map(convertFromServer);
     },
@@ -406,7 +412,6 @@ export function Api({
     },
 
     getDeviceId: () => {
-      // TODO
       return get(`device/id`) as Promise<string>;
     },
 
@@ -415,7 +420,6 @@ export function Api({
      */
 
     deleteObservation: (id: string) => {
-      // TODO
       return del(`observations/${id}`) as Promise<{ deleted: boolean }>;
     },
 
@@ -423,7 +427,6 @@ export function Api({
      * PUT and POST methods
      */
 
-    // TODO
     savePhoto: ({ originalUri, previewUri, thumbnailUri }) => {
       if (!originalUri || !previewUri || !thumbnailUri)
         return Promise.reject(
@@ -434,7 +437,7 @@ export function Api({
         preview: convertFileUriToPosixPath(previewUri),
         thumbnail: convertFileUriToPosixPath(thumbnailUri),
       };
-      const createPromise = post("media", data);
+      const createPromise = post("media", data) as Promise<{ id: string }>;
       // After images have saved to the server we can delete the versions in
       // local cache to avoid filling up space on the phone
       const localFiles = Object.values(data);
@@ -457,7 +460,6 @@ export function Api({
         schemaVersion: 3,
         id,
       };
-      // TODO
       const serverObservation = (await put(
         `observations/${id}`,
         valueForServer
@@ -471,7 +473,6 @@ export function Api({
         type: "observation",
         schemaVersion: 3,
       };
-      // TODO
       const serverObservation = (await post(
         "observations",
         valueForServer
@@ -661,7 +662,7 @@ function convertFromServer(obs: ServerObservation): Observation {
     userId,
     links,
     schemaVersion,
-    metadata, // TODO
+    metadata,
     value: {
       ...value,
       tags: (value || {}).tags || {},
