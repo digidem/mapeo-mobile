@@ -1,7 +1,8 @@
 task:
   name: Android / e2e build
   alias: android_build
-  only_if: $CIRRUS_BRANCH == "deploy" || $CIRRUS_PR != ""
+  # Run for PRs and for every commit on the default branch (develop)
+  only_if: $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH || $CIRRUS_PR != ""
   env:
     JAVA_TOOL_OPTIONS: -Xmx6g
     ANDROID_EMULATOR_HOME: ${HOME}/.android
@@ -42,6 +43,8 @@ task:
       - find . -type f -name "*.gradle*" -exec cat {} +
   artifact_cache:
     folder: android/app/build/outputs/apk
+    # By using the build ID as the fingerprint, this cache is only available to
+    # other tasks in the same build, and used to share artifacts between tasks.
     fingerprint_script: echo $CIRRUS_BUILD_ID
   build_detox_script: npm run build-detox-android
   cleanup_before_cache_script:
@@ -54,6 +57,7 @@ task:
     path: android/app/build/outputs/apk/**/*
 android_test_task:
   name: Android / e2e test
+  only_if: $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH || $CIRRUS_PR != ""
   depends_on: android_build
   container:
     image: digidem/docker-android
@@ -77,6 +81,7 @@ android_test_task:
       - echo $CIRRUS_OS
       - node --version
       - cat package-lock.json
+      - find patches -name "*.patch" -exec cat {} +
     populate_script:
       - npm ci
   wait_for_emulator_script: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
