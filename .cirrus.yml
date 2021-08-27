@@ -43,6 +43,8 @@ task:
       - find . -type f -name "*.gradle*" -exec cat {} +
   artifact_cache:
     folder: android/app/build/outputs/apk
+    # By using the build ID as the fingerprint, this cache is only available to
+    # other tasks in the same build, and used to share artifacts between tasks.
     fingerprint_script: echo $CIRRUS_BUILD_ID
   build_detox_script: npm run build-detox-android
   cleanup_before_cache_script:
