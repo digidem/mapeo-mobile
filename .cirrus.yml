@@ -1,8 +1,8 @@
 task:
   name: Android / e2e build
   alias: android_build
-  # Run for non-draft PRs and for every commit on the default branch (develop)
-  only_if: $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH || $CIRRUS_PR != "" && $CIRRUS_PR_DRAFT != "true"
+  # Run for PRs and for every commit on the default branch (develop)
+  only_if: $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH || $CIRRUS_PR != ""
   env:
     JAVA_TOOL_OPTIONS: -Xmx6g
     ANDROID_EMULATOR_HOME: ${HOME}/.android
@@ -55,7 +55,7 @@ task:
     path: android/app/build/outputs/apk/**/*
 android_test_task:
   name: Android / e2e test
-  only_if: $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH || $CIRRUS_PR != "" && $CIRRUS_PR_DRAFT != "true"
+  only_if: $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH || $CIRRUS_PR != ""
   depends_on: android_build
   container:
     image: digidem/docker-android
