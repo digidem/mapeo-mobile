@@ -13,6 +13,7 @@ import SettingsContext from "./context/SettingsContext";
 import bugsnag from "./lib/logger";
 import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
+import { PracticeMode } from "./sharedComponents/PracticeMode";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -154,17 +155,19 @@ const AppContainerWrapper = () => {
   }, [inviteModalEnabled, queuedInvite, openInviteModal]);
 
   return (
-    <AppContainer
-      loadNavigationState={loadNavigationState}
-      onNavigationStateChange={onNavStateChange}
-      persistNavigationState={persistNavigationState}
-      ref={nav => {
-        if (nav) {
-          navRef.current = nav;
-        }
-      }}
-      uriPrefix={URI_PREFIX}
-    />
+    <PracticeMode>
+      <AppContainer
+        loadNavigationState={loadNavigationState}
+        onNavigationStateChange={onNavStateChange}
+        persistNavigationState={persistNavigationState}
+        ref={nav => {
+          if (nav) {
+            navRef.current = nav;
+          }
+        }}
+        uriPrefix={URI_PREFIX}
+      />
+    </PracticeMode>
   );
 };
 
