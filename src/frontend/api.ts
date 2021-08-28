@@ -167,47 +167,6 @@ const SERVER_START_TIMEOUT = 30000;
 
 const pixelRatio = PixelRatio.get();
 
-interface PublicApi {
-  startServer: () => Promise<void>;
-  addServerStateListener: (
-    handler: (status: ServerStatus) => void
-  ) => Subscription;
-  getPresets: () => Promise<Preset[]>;
-  getFields: () => Promise<Field[]>;
-  getMetadata: () => Promise<Metadata>;
-  getConfigMessages: (locale: string) => Promise<Messages>;
-  getObservations: () => Promise<Observation[]>;
-  getMapStyle: (id: string) => Promise<any>;
-  getDeviceId: () => Promise<string>;
-  deleteObservation: (id: string) => Promise<{ deleted: boolean }>;
-  savePhoto: (draftPhoto: DraftPhoto) => Promise<{ id: string }>;
-  updateObservation: (
-    id: string,
-    value: ObservationValue,
-    options: {
-      links: Array<string>;
-      userId?: string;
-    }
-  ) => Promise<Observation>;
-  createObservation: (value: ObservationValue) => Promise<Observation>;
-  replaceConfig: (fileUri: string) => Promise<void>;
-  addP2pUpgradeStateListener: (
-    handler: (state: UpgradeState) => void
-  ) => Subscription;
-  addP2pUpgradeErrorListener: (handler: (error: Error) => void) => Subscription;
-  startP2pUpgradeServices: () => void;
-  stopP2pUpgradeServices: () => void;
-  addPeerListener: (handler: PeerHandler) => Subscription;
-  syncJoin: (deviceName: string) => Promise<void>;
-  syncLeave: () => Promise<void>;
-  syncGetPeers: () => Promise<any>;
-  syncStart: (target: { host: string; port: number }) => Promise<void>;
-  getIconUrl: (iconId: string, size: IconSize) => string;
-  getMediaUrl: (attachmentId: string, size: ImageSize) => string;
-  getMediaFileUri: (attachmentId: string, size: ImageSize) => string;
-  getMapStyleUrl: (id: string) => string;
-}
-
 interface ApiParam {
   baseUrl: string;
   timeout?: number;
@@ -313,7 +272,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
   let channelId = 0;
 
   // All public methods
-  const api: PublicApi = {
+  const api = {
     // Start server, returns a promise that resolves when the server is ready
     // or rejects if there is an error starting the server
     startServer: () => {
@@ -367,7 +326,9 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       return serverStartTimeoutPromise;
     },
 
-    addServerStateListener: handler => {
+    addServerStateListener: (
+      handler: (status: ServerStatus) => void
+    ): Subscription => {
       listeners.push(handler);
       return {
         remove: () => (listeners = listeners.filter(h => h !== handler)),
@@ -376,25 +337,25 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     /**
      * GET async methods
      */
-    getPresets: async () => {
+    getPresets: async (): Promise<Preset[]> => {
       const data = (await get(
         `presets/default/presets.json?${Date.now()}`
       )) as { presets: { [key: string]: Preset } };
       return mapToArray(data.presets);
     },
-    getFields: async () => {
+    getFields: async (): Promise<Field[]> => {
       const data = (await get(
         `presets/default/presets.json?${Date.now()}`
       )) as { fields: { [key: string]: Field } };
       return mapToArray(data.fields);
     },
 
-    getMetadata: async () => {
+    getMetadata: async (): Promise<Metadata> => {
       const data = await get(`presets/default/metadata.json?${Date.now()}`);
       return (data || {}) as Metadata;
     },
 
-    getConfigMessages: async (locale = "en") => {
+    getConfigMessages: async (locale: string = "en"): Promise<Messages> => {
       const data = await get(`presets/default/translations.json?${Date.now()}`);
       // @ts-ignore
       const messages = data && data[locale];
@@ -402,16 +363,16 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       return flatten(messages);
     },
 
-    getObservations: async () => {
+    getObservations: async (): Promise<Observation[]> => {
       const data = (await get("observations")) as ServerObservation[];
       return data.map(convertFromServer);
     },
 
-    getMapStyle: (id: string) => {
+    getMapStyle: (id: string): Promise<any> => {
       return get(`styles/${id}/style.json?${startupTime}`);
     },
 
-    getDeviceId: () => {
+    getDeviceId: (): Promise<string> => {
       return get(`device/id`) as Promise<string>;
     },
 
@@ -419,7 +380,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
      * DELETE methods
      */
 
-    deleteObservation: (id: string) => {
+    deleteObservation: (id: string): Promise<{ deleted: boolean }> => {
       return del(`observations/${id}`) as Promise<{ deleted: boolean }>;
     },
 
@@ -427,7 +388,11 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
      * PUT and POST methods
      */
 
-    savePhoto: ({ originalUri, previewUri, thumbnailUri }) => {
+    savePhoto: ({
+      originalUri,
+      previewUri,
+      thumbnailUri,
+    }: DraftPhoto): Promise<{ id: string }> => {
       if (!originalUri || !previewUri || !thumbnailUri)
         return Promise.reject(
           new Error("Missing uri for full image or thumbnail to save to server")
@@ -448,7 +413,14 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       return createPromise;
     },
 
-    updateObservation: async (id, value, options) => {
+    updateObservation: async (
+      id: string,
+      value: ObservationValue,
+      options: {
+        links: Array<string>;
+        userId?: string;
+      }
+    ): Promise<Observation> => {
       const valueForServer = {
         ...value,
         // work around for a quirk in the api right now, we should probably change
@@ -467,7 +439,9 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       return convertFromServer(serverObservation);
     },
 
-    createObservation: async value => {
+    createObservation: async (
+      value: ObservationValue
+    ): Promise<Observation> => {
       const valueForServer = {
         ...value,
         type: "observation",
@@ -481,7 +455,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     },
 
     // Replaces app config with .mapeosettings tar file at `path`
-    replaceConfig: async fileUri => {
+    replaceConfig: async (fileUri: string): Promise<void> => {
       const path = convertFileUriToPosixPath(fileUri);
       await onReady();
       return await new Promise((resolve, reject) => {
@@ -509,7 +483,9 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
      * P2P Upgrade methods
      */
     // Listen for updates to p2p upgrade state
-    addP2pUpgradeStateListener: handler => {
+    addP2pUpgradeStateListener: (
+      handler: (state: UpgradeState) => void
+    ): Subscription => {
       nodejs.channel.addListener("p2p-upgrade::state", onState);
       // Poke backend to send a state event
       onReady()
@@ -529,7 +505,9 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
           nodejs.channel.removeListener("p2p-upgrade::state", onState),
       };
     },
-    addP2pUpgradeErrorListener: handler => {
+    addP2pUpgradeErrorListener: (
+      handler: (error: Error) => void
+    ): Subscription => {
       nodejs.channel.addListener("p2p-upgrade::error", handler);
       function onError(serializedError: UpgradeStateError) {
         handler(deserializeError(serializedError));
@@ -557,7 +535,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
 
     // Listens to the server for updates to the list of peers available for sync
     // returns a remove() function to unscubribe
-    addPeerListener: handler => {
+    addPeerListener: (handler: PeerHandler): Subscription => {
       // We sidestep the http API here, and instead of polling the endpoint, we
       // listen for an event from mapeo-core whenever the peers change, then
       // request an updated peer list.
@@ -569,7 +547,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     },
 
     // Start listening for sync peers and advertise with `deviceName`
-    syncJoin: async deviceName => {
+    syncJoin: async (deviceName: string) => {
       await onReady();
       return nodejs.channel.post("sync-join", { deviceName });
     },
@@ -587,7 +565,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     },
 
     // Start sync with a peer
-    syncStart: async target => {
+    syncStart: async (target: { host: string; port: number }) => {
       await onReady();
       return nodejs.channel.post("sync-start", target);
     },
@@ -597,7 +575,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
      */
 
     // Return the url for an icon
-    getIconUrl: (iconId: string, size = "medium") => {
+    getIconUrl: (iconId: string, size: IconSize = "medium"): string => {
       // Some devices are @4x or above, but we only generate icons up to @3x
       // Also we don't have @1.5x, so we round it up
       const roundedRatio = Math.min(Math.ceil(pixelRatio), 3);
@@ -605,7 +583,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     },
 
     // Return the url for a media attachment
-    getMediaUrl: (attachmentId, size) => {
+    getMediaUrl: (attachmentId: string, size: ImageSize): string => {
       return `${BASE_URL}media/${size}/${attachmentId}`;
     },
 
@@ -614,7 +592,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     // **WARNING**: This depends on internal implementation of the media blob
     // store and will break if that changes. I apologise if you reach here after
     // some lengthy debugging.
-    getMediaFileUri: (attachmentId, size) => {
+    getMediaFileUri: (attachmentId: string, size: ImageSize): string => {
       const dir = RNFS.DocumentDirectoryPath;
       return `file://${dir}/media/${size}/${attachmentId.slice(
         0,
@@ -623,7 +601,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     },
 
     // Return the url to a map style
-    getMapStyleUrl: id => {
+    getMapStyleUrl: (id: string): string => {
       return `${BASE_URL}styles/${id}/style.json?${startupTime}`;
     },
   };
