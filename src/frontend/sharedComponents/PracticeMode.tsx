@@ -28,13 +28,15 @@ export const PracticeMode = ({ children }: PracticeModeProps) => {
       <View style={styles.container}>
         {children}
 
-        <View style={styles.bottomBar}>
-          {/* Placeholder icon */}
-          <MaterialIcons name="highlight" color={WHITE} size={30} />
-          <Text style={styles.text}>
-            <FormattedMessage {...m.title} />
-          </Text>
-        </View>
+        {config.practiceModeBar && (
+          <View style={styles.bottomBar}>
+            {/* Placeholder icon */}
+            <MaterialIcons name="highlight" color={WHITE} size={30} />
+            <Text style={styles.text}>
+              <FormattedMessage {...m.title} />
+            </Text>
+          </View>
+        )}
       </View>
     );
   }

@@ -67,7 +67,9 @@ export type State = {
   fields: FieldsMap;
   metadata: Metadata;
   messages: Messages;
-  status: Status;
+  status?: Status;
+  practiceModeBar: boolean;
+  practiceModeBarToggle: React.Dispatch<React.SetStateAction<boolean>> | null;
 };
 
 export type ConfigContextType = [
@@ -75,11 +77,13 @@ export type ConfigContextType = [
   { reload: () => void; replace: (fileUri: string) => void }
 ];
 
-const defaultConfig = {
+const defaultConfig: State = {
   presets: new Map(),
   fields: new Map(),
   metadata: {},
   messages: {},
+  practiceModeBar: true,
+  practiceModeBarToggle: null,
 };
 
 const defaultContext: ConfigContextType = [
@@ -102,6 +106,7 @@ type Props = {
 export const ConfigProvider = ({ children }: Props) => {
   const [config, setConfig] = React.useState(defaultConfig);
   const [status, setStatus] = React.useState<Status>("idle");
+  const [bottomBar, setBottomBar] = React.useState(true);
   const [reloadToken, setReloadToken] = React.useState();
   const intl = useIntl();
 
@@ -123,10 +128,15 @@ export const ConfigProvider = ({ children }: Props) => {
 
   const contextValue: ConfigContextType = React.useMemo(
     () => [
-      { ...config, status },
+      {
+        ...config,
+        practiceModeBar: bottomBar,
+        practiceModeBarToggle: setBottomBar,
+        status,
+      },
       { reload, replace },
     ],
-    [config, status, reload, replace]
+    [config, status, reload, replace, bottomBar]
   );
 
   // Load presets and fields from Mapeo Core on first mount of the app
@@ -148,6 +158,8 @@ export const ConfigProvider = ({ children }: Props) => {
           fields: new Map(fieldsList.map(p => [p.id, p])),
           metadata: metadata,
           messages: messages,
+          practiceModeBar: bottomBar,
+          practiceModeBarToggle: setBottomBar,
         });
         setStatus("success");
       })

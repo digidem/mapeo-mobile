@@ -86,6 +86,12 @@ const ProjectConfig = () => {
     ]);
   }, [didError, t]);
 
+  React.useEffect(() => {
+    config.practiceModeBarToggle!(false);
+
+    return () => config.practiceModeBarToggle!(true);
+  }, []);
+
   const handleImportPress = React.useCallback(async () => {
     setStatus("loading");
     const result = await DocumentPicker.getDocumentAsync();
