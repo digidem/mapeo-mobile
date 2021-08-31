@@ -9,6 +9,7 @@ import SettingsContext from "../../../context/SettingsContext";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import { Status } from "../../../types";
 import { ConfigDetails } from "./ConfigDetails";
+import { LeavePracticeMode } from "./LeavePracticeMode";
 import { ManagePeople } from "./ManagePeople";
 import { isInPracticeMode } from "../../../lib/utils";
 
@@ -45,24 +46,11 @@ const m = defineMessages({
 
 export const ProjectConfig = () => {
   const { formatMessage: t } = useIntl();
+  // TODO: dummy state, mostly for demonstrative purposes
+  const [role] = React.useState<"participant" | "coordinator">("participant");
   const [status, setStatus] = React.useState<Status>("idle");
   const [config, { replace: replaceConfig }] = React.useContext(ConfigContext);
   const [{ experiments }] = React.useContext(SettingsContext);
-  const didError = config.status === "error";
-
-  React.useEffect(() => {
-    if (!didError) return;
-    Alert.alert(t(m.configErrorTitle), t(m.configErrorDescription), [
-      { text: t(m.configErrorOkButton) },
-    ]);
-  }, [didError, t]);
-
-  const handleImportPress = React.useCallback(async () => {
-    setStatus("loading");
-    const result = await DocumentPicker.getDocumentAsync();
-    setStatus("idle");
-    if (result.type === "success") replaceConfig(result.uri);
-  }, [replaceConfig]);
 
   const configName =
     config.metadata.name || config.metadata.dataset_id || t(m.unnamedConfig);
@@ -72,8 +60,30 @@ export const ProjectConfig = () => {
 
   const loading = status === "loading" || config.status === "loading";
 
+  // TODO: need an official way to determine this
+  const isInPracticeMode = configName === "mapeo-default-settings";
+
+  const handleImportPress = React.useCallback(async () => {
+    setStatus("loading");
+    const result = await DocumentPicker.getDocumentAsync();
+    setStatus("idle");
+    if (result.type === "success") replaceConfig(result.uri);
+  }, [replaceConfig]);
+
+  React.useEffect(() => {
+    const didError = config.status === "error";
+    if (didError) {
+      Alert.alert(t(m.configErrorTitle), t(m.configErrorDescription), [
+        { text: t(m.configErrorOkButton) },
+      ]);
+    }
+  }, [config.status, t]);
+
   return (
-    <ScrollView style={styles.root}>
+    <ScrollView
+      style={styles.root}
+      contentContainerStyle={role === "participant" ? { flex: 1 } : undefined}
+    >
       <ConfigDetails
         isPracticeMode={isInPracticeMode(config)}
         loading={loading}
@@ -85,7 +95,12 @@ export const ProjectConfig = () => {
         version={configVersion}
       />
 
-      {experiments.onboarding && <ManagePeople loading={loading} />}
+      {experiments.onboarding &&
+        (role === "coordinator" ? (
+          <ManagePeople loading={loading} />
+        ) : isInPracticeMode ? (
+          <LeavePracticeMode />
+        ) : null)}
     </ScrollView>
   );
 };

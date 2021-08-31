@@ -10,6 +10,8 @@ import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { defineMessages, useIntl } from "react-intl";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
+import ConfigContext from "../context/ConfigContext";
+import ObservationsContext from "../context/ObservationsContext";
 import useIsMounted from "../hooks/useIsMounted";
 import { DARK_BLUE, MAGENTA, MAPEO_BLUE, WHITE } from "../lib/styles";
 import {
@@ -22,6 +24,7 @@ import Text from "../sharedComponents/Text";
 import { DoneIcon } from "../sharedComponents/icons";
 import Circle from "../sharedComponents/icons/Circle";
 import Loading from "../sharedComponents/Loading";
+import { KeepObservationsModalContent } from "./KeepObservationsModal";
 
 interface ProjectInviteDetails {
   project: {
@@ -105,6 +108,15 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
   const { formatMessage: t } = useIntl();
   const isMounted = useIsMounted();
   const { sheetRef, closeSheet } = useBottomSheetModal({ openOnMount: true });
+  const [
+    showKeepObservationsStep,
+    setShowKeepObservationsStep,
+  ] = React.useState(false);
+  const [{ observations }] = React.useContext(ObservationsContext);
+  const [config] = React.useContext(ConfigContext);
+
+  // TODO: need an official way to determine this
+  const isInPracticeMode = config.metadata.name === "mapeo-default-settings";
 
   const inviteKey = navigation.getParam("invite");
 
@@ -135,8 +147,15 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
     [isMounted]
   );
 
+  const goToSync = (keepExistingObservations: boolean) =>
+    navigation.navigate("Sync", { keepExistingObservations });
+
   const acceptInvite = () => {
-    navigation.navigate("Sync");
+    if (isInPracticeMode && observations.size > 0) {
+      setShowKeepObservationsStep(true);
+    } else {
+      goToSync(false);
+    }
   };
 
   React.useEffect(() => {
@@ -181,6 +200,11 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
             </View>
           }
           title={status.info.error.message}
+        />
+      ) : showKeepObservationsStep ? (
+        <KeepObservationsModalContent
+          onDelete={() => goToSync(false)}
+          onKeep={() => goToSync(true)}
         />
       ) : (
         <BottomSheetContent

@@ -9,6 +9,8 @@ import { createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { JoinRequestModal } from "../screens/JoinRequestModal";
 import { ProjectInviteModal } from "../screens/ProjectInviteModal";
+import { KeepObservationsModal } from "../screens/KeepObservationsModal";
+
 import {
   CreateOrJoinScreen,
   JoinProjectQrScreen,
@@ -16,12 +18,14 @@ import {
 } from "../screens/Onboarding";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
 import { AppStack } from "./AppStack";
+import { SyncOnboardingScreen } from "../screens/Onboarding/Sync";
 
 const CreateOrJoinStack = createStackNavigator(
   {
     CreateOrJoinScreen: CreateOrJoinScreen,
     JoinProjectQr: JoinProjectQrScreen,
     SendJoinRequest: SendJoinRequestScreen,
+    Sync: SyncOnboardingScreen,
   },
   {
     initialRouteName: "CreateOrJoinScreen",
@@ -60,6 +64,7 @@ export const OnboardingStack = createStackNavigator(
     Main: MainStack,
     JoinRequestModal,
     ProjectInviteModal,
+    KeepObservationsModal,
   },
   {
     initialRouteName: "Main",

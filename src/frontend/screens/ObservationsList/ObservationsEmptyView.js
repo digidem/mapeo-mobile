@@ -42,7 +42,7 @@ const ObservationEmptyView = ({ onPressBack }: Props) => {
     <View style={styles.root} testID="observationsEmptyView">
       <View style={styles.iconContainer}>
         <View style={styles.iconCircle}>
-          <ObservationListIcon size={150} />
+          <ObservationListIcon size={150} variant="light" />
         </View>
       </View>
       <View style={styles.textContainer}>
