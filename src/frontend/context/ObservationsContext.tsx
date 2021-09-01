@@ -1,71 +1,74 @@
-// @flow
 import * as React from "react";
 
 import api from "../api";
 import type { LocationContextType } from "./LocationContext";
 import type { Status } from "../types";
+import { Position } from "mapeo-schema";
 
-export type ObservationAttachment = {
-  id: string,
-  type?: string,
-};
+export interface ObservationAttachment {
+  id: string;
+  type?: string;
+}
 
-export type ObservationValue = {
-  lat?: number | null,
-  lon?: number | null,
-  deviceId?: string,
+export interface ObservationValue {
+  lat?: number | null;
+  lon?: number | null;
+  deviceId?: string;
   metadata?: {
-    location?: LocationContextType | void,
-    manualLocation?: boolean,
-  },
-  refs?: Array<{ id: string }>,
-  attachments?: Array<ObservationAttachment>,
-  tags: { [string]: any },
-};
+    location?: LocationContextType | void;
+    manualLocation?: boolean;
+  };
+  refs?: Array<{ id: string }>;
+  attachments?: Array<ObservationAttachment>;
+  tags: { [key: string]: any };
+}
 
-export type Observation = {
-  id: string,
-  version: string,
-  created_at: string,
-  timestamp?: string,
-  userId?: string,
-  type: "observation",
-  links?: string[],
-  schemaVersion: number,
-  value: ObservationValue,
+export interface Observation {
+  id: string;
+  version: string;
+  created_at: string;
+  timestamp?: string;
+  userId?: string;
+  type: "observation";
+  links?: string[];
+  schemaVersion: 4;
+  value: ObservationValue;
   metadata?: {
-    lastSavedPosition?: Position,
-    manualLocation?: boolean,
-    position?: Position,
+    lastSavedPosition?: Position;
+    manualLocation?: boolean;
+    position?: Position;
     positionProvider?: {
-      gpsAvailable?: boolean,
-      locationServicesEnabled?: boolean,
-      networkAvailable?: boolean,
-      passiveAvailable?: boolean,
-    },
-  },
-};
+      gpsAvailable?: boolean;
+      locationServicesEnabled?: boolean;
+      networkAvailable?: boolean;
+      passiveAvailable?: boolean;
+    };
+  };
+}
 
 export type ObservationsMap = Map<string, Observation>;
 
 type State = {
   // A map of all observations in memory, by id
-  observations: ObservationsMap,
+  observations: ObservationsMap;
   // Status intial load / reload of observations from the server
-  status: Status,
+  status: Status;
   // Set to a new object in order to force a reload
-  reload?: {},
+  reload?: {};
 };
 
 type Action =
-  | {| type: "create" | "update" | "delete", value: Observation |}
-  | {| type: "reload" |}
-  | {| type: "reload_error", value: Error |}
-  | {| type: "reload_success", value: Observation[] |};
+  | { type: "create" | "update" | "delete"; value: Observation }
+  | { type: "reload" }
+  | { type: "reload_error"; value: Error }
+  | { type: "reload_success"; value: Observation[] };
 
-export type ObservationsContextType = [State, (action: Action) => void];
+export type ObservationsContextType = readonly [
+  State,
+  (action: Action) => void
+];
 
-const defaultContext = [
+const defaultContext: ObservationsContextType = [
   {
     observations: new Map(),
     status: "loading",
@@ -107,11 +110,9 @@ function reducer(state: State, action: Action): State {
 
 export const ObservationsProvider = ({
   children,
-}: {
-  children: React.Node,
-}) => {
+}: React.PropsWithChildren<{}>) => {
   const [state, dispatch] = React.useReducer(reducer, defaultContext[0]);
-  const contextValue = React.useMemo(() => [state, dispatch], [state]);
+  const contextValue = React.useMemo(() => [state, dispatch] as const, [state]);
 
   // This will load observations on first load and reload them every time the
   // value of state.reload changes (dispatch({type: "reload"}) will do this)

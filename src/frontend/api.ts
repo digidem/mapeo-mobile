@@ -631,6 +631,7 @@ function convertFromServer(obs: ServerObservation): Observation {
     metadata,
     ...value
   } = obs;
+
   return {
     id,
     version,
@@ -639,7 +640,7 @@ function convertFromServer(obs: ServerObservation): Observation {
     timestamp,
     userId,
     links,
-    schemaVersion,
+    schemaVersion: 4,
     metadata,
     value: {
       ...value,
