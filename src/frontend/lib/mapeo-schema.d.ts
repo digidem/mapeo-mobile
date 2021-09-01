@@ -1,16 +1,5 @@
 // Refer to https://github.com/digidem/mapeo-schema/blob/master/docs/README.md
 declare module "mapeo-schema" {
-  interface Common {
-    created_at: string;
-    deviceId?: string;
-    id: string;
-    links?: string[];
-    schemaVersion: number;
-    timestamp?: string;
-    userId?: string;
-    type: string;
-  }
-
   export interface Position {
     coords?: {
       accuracy?: number;
@@ -79,22 +68,6 @@ declare module "mapeo-schema" {
     terms?: string[];
   }
 
-  type MbFilter = (string | number | boolean | MbFilter)[];
-
-  export interface Filter {
-    created_at: string;
-    deviceId?: string;
-    filter: MbFilter;
-    id: string;
-    links?: string[];
-    name: string;
-    schemaVersion: number;
-    timestamp?: string;
-    type: "filter";
-    userId?: string;
-    version: string;
-  }
-
   export type Key = string | Array<string>;
 
   interface BaseField {
@@ -118,29 +91,11 @@ declare module "mapeo-schema" {
     readonly?: boolean;
   }
 
-  // type FieldType =
-  //   | 'text'
-  //   | 'number'
-  //   | 'select_one'
-  //   | 'select_multiple'
-  //   | 'date'
-  //   | 'datetime'
-
   export interface TextField extends BaseField {
     type: "text" | "textarea" | "localized";
     appearance?: "singleline" | "multiline";
     // Spaces are replaced with underscores
     snake_case?: boolean;
-  }
-
-  export interface LinkField extends BaseField {
-    type: "link";
-  }
-
-  export interface NumberField extends BaseField {
-    type: "number";
-    min_value?: number;
-    max_value?: number;
   }
 
   export type SelectableFieldValue = number | string | boolean | null;
@@ -168,19 +123,5 @@ declare module "mapeo-schema" {
 
   export interface SelectMultipleField extends BaseSelectField {
     type: "select_multiple";
-  }
-
-  interface BaseDateField extends BaseField {
-    type: "date" | "datetime";
-    min_value?: string;
-    max_value?: string;
-  }
-
-  export interface DateField extends BaseDateField {
-    type: "date";
-  }
-
-  export interface DateTimeField extends BaseDateField {
-    type: "datetime";
   }
 }
