@@ -1,6 +1,5 @@
 // Refer to https://github.com/digidem/mapeo-schema/blob/master/docs/README.md
 declare module "mapeo-schema" {
-  // TODO: do we need this?
   interface Common {
     created_at: string;
     deviceId?: string;
@@ -51,7 +50,6 @@ declare module "mapeo-schema" {
     }[];
     schemaVersion: number;
     tags?: {
-      // TODO
       [key: string]: any;
     };
     timestamp?: string;
@@ -81,7 +79,6 @@ declare module "mapeo-schema" {
     terms?: string[];
   }
 
-  // TODO
   type MbFilter = (string | number | boolean | MbFilter)[];
 
   export interface Filter {
