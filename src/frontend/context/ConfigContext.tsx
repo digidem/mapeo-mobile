@@ -99,7 +99,7 @@ const ConfigContext = React.createContext<ConfigContextType>(defaultContext);
 
 export const ConfigProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const [config, setConfig] = React.useState(defaultConfig);
-  const [status, setStatus] = React.useState<Status>("idle");
+  const [status, setStatus] = React.useState<Status>("loading");
   const intl = useIntl();
   const isMounted = useIsMounted();
 
