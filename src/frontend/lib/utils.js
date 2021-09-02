@@ -1,4 +1,5 @@
 // @flow
+import { Alert } from "react-native";
 import { fromLatLon } from "utm";
 import type { SelectOptions, LabeledSelectOption, Key } from "mapeo-schema";
 
@@ -235,4 +236,13 @@ function leftPad(str: string, len: number, char: string): string {
 // It filters an array to remove any falsy values
 function filterFalsy<T>(arr: Array<T | void>): Array<T> {
   return arr.filter(Boolean);
+}
+
+export function showWipAlert() {
+  Alert.alert("Work in progress", "This feature has not been implemented yet", [
+    {
+      text: "Ok",
+      onPress: () => {},
+    },
+  ]);
 }

@@ -161,11 +161,11 @@ interface ApiParam {
 export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
   let status: ServerStatus = STATUS.IDLE;
   let timeoutId: number;
-  // We append this to requests for presets and map styles, in order to override
-  // the local static server cache whenever the app is restarted. NB. sprite,
-  // font, and map tile requests might still be cached, only changes in the map
-  // style will be cache-busted.
-  const startupTime = Date.now();
+  // We append this to requests for presets, icons and map styles, in order to
+  // override the local static server cache whenever the app is restarted. NB.
+  // sprite, font, and map tile requests might still be cached, only changes in
+  // the map style will be cache-busted.
+  let startupTime = Date.now();
 
   const req = ky.extend({
     prefixUrl: baseUrl,
@@ -457,10 +457,14 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
           done(new Error("Timeout when replacing config"));
         }, 30 * 1000);
 
-        function done(err_1: Error) {
+        function done(err: Error) {
           clearTimeout(timeoutId);
-          if (err_1) reject(err_1);
-          else resolve();
+          if (err) return reject(err);
+          // startupTime is use for cache-busting. When we replace the
+          // config we want the cache to be reset so that icons with the
+          // same name are not cached
+          startupTime = Date.now();
+          resolve();
         }
       });
     },
@@ -565,7 +569,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       // Some devices are @4x or above, but we only generate icons up to @3x
       // Also we don't have @1.5x, so we round it up
       const roundedRatio = Math.min(Math.ceil(pixelRatio), 3);
-      return `${BASE_URL}presets/default/icons/${iconId}-medium@${roundedRatio}x.png`;
+      return `${BASE_URL}presets/default/icons/${iconId}-medium@${roundedRatio}x.png?${startupTime}`;
     },
 
     // Return the url for a media attachment

@@ -89,7 +89,7 @@ export const IntlProvider = ({ children }: { children: React.Node }) => {
       formats={formats}
       onError={onError}
     >
-      <IntlContext.Provider value={contextValue}>
+      <IntlContext.Provider wrapRichTextChunksInFragment value={contextValue}>
         {children}
       </IntlContext.Provider>
     </IntlProviderOrig>

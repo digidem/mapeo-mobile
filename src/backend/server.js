@@ -15,13 +15,9 @@ const fs = require("fs");
 const rimraf = require("rimraf");
 const tar = require("tar-fs");
 const pump = require("pump");
-const tmp = require("tmp");
 const semverCoerce = require("semver/functions/coerce");
 const UpgradeManager = require("./upgrade-manager");
 const { serializeError } = require("serialize-error");
-
-// Cleanup the temporary files even when an uncaught exception occurs
-tmp.setGracefulCleanup();
 
 const log = debug("mapeo-core:server");
 
@@ -239,81 +235,73 @@ function createServer({
   function replaceConfig({ id, path: pathToNewConfigTarball }) {
     const cb = err =>
       rnBridge.channel.post("replace-config-" + id, err && err.message);
+    const tmpDir = path.join(
+      sharedStorage,
+      (Math.random() * Math.pow(10, 10)).toFixed(0)
+    );
 
-    tmp.dir(
-      {
-        unsafeCleanup: true,
-        // NB: os.tmp() is in private cache storage on Android, but currently
-        // the destination is in sharedStorage. We can't fs.rename() between
-        // these two storage areas, so we create our own temp dir in
-        // sharedStorage
-        dir: sharedStorage,
-      },
-      (err, tmpDir, cleanup) => {
-        // 1 - extract to temp directory
+    fs.mkdir(tmpDir, err => {
+      // 1 - extract to temp directory
+      if (err) {
+        log("Could not create tmp directory for config extract", err);
+        return cb(err);
+      }
+      var source = fs.createReadStream(pathToNewConfigTarball);
+      var dest = tar.extract(tmpDir, {
+        readable: true,
+        writable: true,
+        // Samsung devices throw EPERM error if you try to set utime
+        utimes: false,
+      });
+      pump(source, dest, onExtract);
+
+      // 2 - If extract worked, check version
+      function onExtract(err) {
+        // TODO: Better checking that presets are valid
         if (err) {
-          log("Could not create tmp directory for config extract", err);
+          log("Error extracting config tarball", err);
           return cb(err);
         }
-        var source = fs.createReadStream(pathToNewConfigTarball);
-        var dest = tar.extract(tmpDir, {
-          readable: true,
-          writable: true,
-          // Samsung devices throw EPERM error if you try to set utime
-          utimes: false,
+        fs.readFile(path.join(tmpDir, "VERSION"), "utf8", (err, version) => {
+          const parsedVersion = semverCoerce(version);
+          if (err || parsedVersion == null) {
+            log("Error reading VERSION file from imported config");
+            return cb(err || new Error("Unreadable config version"));
+          }
+          if (parsedVersion.major > 3 || parsedVersion.major < 2) {
+            log(
+              "Mapeo is not compatible with this config version (" +
+                version +
+                ")"
+            );
+            return cb(new Error("Incompatible config version"));
+          }
+          log("Importing config version: " + version);
+          onVersionCheck();
         });
-        pump(source, dest, onExtract);
+      }
 
-        // 2 - If extract worked, check version
-        function onExtract(err) {
-          // TODO: Better checking that presets are valid
+      // 3 - Presets look ok, replace current presets with these
+      function onVersionCheck() {
+        // Need to rimraf() because fs.rename gives an error if the destination
+        // directory is not empty, despite what the nodejs docs say
+        // (https://github.com/nodejs/node/issues/21957)
+        rimraf(defaultConfigPath, err => {
           if (err) {
-            log("Error extracting config tarball", err);
+            log("Error trying to remove existing config", err);
             return cb(err);
           }
-          fs.readFile(path.join(tmpDir, "VERSION"), "utf8", (err, version) => {
-            const parsedVersion = semverCoerce(version);
-            if (err || parsedVersion == null) {
-              log("Error reading VERSION file from imported config");
-              return cb(err || new Error("Unreadable config version"));
-            }
-            if (parsedVersion.major > 3 || parsedVersion.major < 2) {
-              log(
-                "Mapeo is not compatible with this config version (" +
-                  version +
-                  ")"
-              );
-              return cb(new Error("Incompatible config version"));
-            }
-            log("Importing config version: " + version);
-            onVersionCheck();
-          });
-        }
-
-        // 3 - Presets look ok, replace current presets with these
-        function onVersionCheck() {
-          // Need to rimraf() because fs.rename gives an error if the destination
-          // directory is not empty, despite what the nodejs docs say
-          // (https://github.com/nodejs/node/issues/21957)
-          rimraf(defaultConfigPath, err => {
+          fs.rename(tmpDir, defaultConfigPath, err => {
             if (err) {
-              log("Error trying to remove existing config", err);
+              log("Error replacing existing config with new config", err);
               return cb(err);
             }
-            fs.rename(tmpDir, defaultConfigPath, err => {
-              if (err) {
-                log("Error replacing existing config with new config", err);
-                return cb(err);
-              }
-              // Manual cleanup of temp dir - tmp should cleanup on node exist, but
-              // just in case
-              cleanup();
-              onChangeConfig();
-            });
+            log("Successfully replaced config");
+            onChangeConfig();
           });
-        }
+        });
       }
-    );
+    });
 
     function onChangeConfig() {
       // After changing the config the projectKey can change, so we need to
