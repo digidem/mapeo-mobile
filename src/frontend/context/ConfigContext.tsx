@@ -6,7 +6,9 @@ import type {
   SelectOneField,
   SelectMultipleField,
 } from "mapeo-schema";
+
 import api from "../api";
+import useIsMounted from "../hooks/useIsMounted";
 import bugsnag from "../lib/logger";
 import type { Status } from "../types";
 
@@ -96,10 +98,10 @@ const defaultContext: ConfigContextType = [
 const ConfigContext = React.createContext<ConfigContextType>(defaultContext);
 
 export const ConfigProvider = ({ children }: React.PropsWithChildren<{}>) => {
-  const mountedRef = React.useRef(false);
   const [config, setConfig] = React.useState(defaultConfig);
   const [status, setStatus] = React.useState<Status>("idle");
   const intl = useIntl();
+  const isMounted = useIsMounted();
 
   const loadConfig = React.useCallback(async () => {
     setStatus("loading");
@@ -112,7 +114,7 @@ export const ConfigProvider = ({ children }: React.PropsWithChildren<{}>) => {
         api.getConfigMessages(intl.locale),
       ]);
 
-      if (!mountedRef.current) return; // if component was unmounted, don't set state
+      if (!isMounted()) return; // if component was unmounted, don't set state
 
       setConfig({
         presets: new Map(
@@ -131,11 +133,11 @@ export const ConfigProvider = ({ children }: React.PropsWithChildren<{}>) => {
 
       log("Error loading presets and fields", err);
 
-      if (!mountedRef.current) return; // if component was unmounted, don't set state
+      if (!isMounted()) return; // if component was unmounted, don't set state
 
       setStatus("error");
     }
-  }, [intl.locale]);
+  }, [intl.locale, isMounted]);
 
   const replace = React.useCallback(
     async fileUri => {
@@ -153,13 +155,7 @@ export const ConfigProvider = ({ children }: React.PropsWithChildren<{}>) => {
 
   // Load presets and fields from Mapeo Core on first mount of the app
   React.useEffect(() => {
-    mountedRef.current = true;
-
     loadConfig();
-
-    return () => {
-      mountedRef.current = false;
-    };
   }, [loadConfig]);
 
   const mergedMessages = React.useMemo(
