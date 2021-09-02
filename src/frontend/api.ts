@@ -418,7 +418,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       value: ObservationValue,
       options: {
         links: Array<string>;
-        userId?: string;
+        userId?: ServerObservation["userId"];
       }
     ): Promise<Observation> => {
       const valueForServer = {
