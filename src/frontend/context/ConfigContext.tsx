@@ -103,60 +103,68 @@ export const ConfigProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const intl = useIntl();
   const isMounted = useIsMounted();
 
-  const loadConfig = React.useCallback(async () => {
-    setStatus("loading");
+  const loadConfig = React.useCallback(
+    async (locale: string) => {
+      setStatus("loading");
 
-    try {
-      const [presetsList, fieldsList, metadata, messages] = await Promise.all([
-        api.getPresets(),
-        api.getFields(),
-        api.getMetadata(),
-        api.getConfigMessages(intl.locale),
-      ]);
+      try {
+        const [
+          presetsList,
+          fieldsList,
+          metadata,
+          messages,
+        ] = await Promise.all([
+          api.getPresets(),
+          api.getFields(),
+          api.getMetadata(),
+          api.getConfigMessages(locale),
+        ]);
 
-      if (!isMounted()) return; // if component was unmounted, don't set state
+        if (!isMounted()) return; // if component was unmounted, don't set state
 
-      setConfig({
-        presets: new Map(
-          presetsList.filter(filterPointPreset).map(p => [p.id, p])
-        ),
-        fields: new Map(fieldsList.map(p => [p.id, p])),
-        metadata: metadata,
-        messages: messages,
-      });
+        setConfig({
+          presets: new Map(
+            presetsList.filter(filterPointPreset).map(p => [p.id, p])
+          ),
+          fields: new Map(fieldsList.map(p => [p.id, p])),
+          metadata: metadata,
+          messages: messages,
+        });
 
-      setStatus("success");
-    } catch (err) {
-      bugsnag.notify(err, report => {
-        report.severity = "error";
-      });
+        setStatus("success");
+      } catch (err) {
+        bugsnag.notify(err, report => {
+          report.severity = "error";
+        });
 
-      log("Error loading presets and fields", err);
+        log("Error loading presets and fields", err);
 
-      if (!isMounted()) return; // if component was unmounted, don't set state
+        if (!isMounted()) return; // if component was unmounted, don't set state
 
-      setStatus("error");
-    }
-  }, [intl.locale, isMounted]);
+        setStatus("error");
+      }
+    },
+    [isMounted]
+  );
 
   const replace = React.useCallback(
     async fileUri => {
       try {
         setStatus("loading");
         await api.replaceConfig(fileUri);
-        await loadConfig();
+        await loadConfig(intl.locale);
       } catch (err) {
         log("Error replacing presets", err);
         setStatus("error");
       }
     },
-    [loadConfig]
+    [intl.locale, loadConfig]
   );
 
   // Load presets and fields from Mapeo Core on first mount of the app
   React.useEffect(() => {
-    loadConfig();
-  }, [loadConfig]);
+    loadConfig(intl.locale);
+  }, [intl.locale, loadConfig]);
 
   const mergedMessages = React.useMemo(
     () => ({
@@ -169,9 +177,9 @@ export const ConfigProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const contextValue: ConfigContextType = React.useMemo(
     () => [
       { ...config, status },
-      { reload: loadConfig, replace },
+      { reload: () => loadConfig(intl.locale), replace },
     ],
-    [config, status, loadConfig, replace]
+    [config, status, loadConfig, replace, intl.locale]
   );
 
   return (
