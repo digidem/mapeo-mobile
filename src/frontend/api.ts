@@ -22,26 +22,12 @@ import type {
 } from "./context/ObservationsContext";
 import { promiseTimeout } from "./lib/utils";
 import bugsnag from "./lib/logger";
-//import STATUS from "../backend/constants";
+import STATUS from "../backend/constants";
 
 import type { IconSize, ImageSize } from "./types";
 import type { DraftPhoto } from "./context/DraftObservationContext";
 import type { Observation as ServerObservation } from "mapeo-schema";
 
-// This is taken from ' import STATUS from "../backend/constants" '
-//In order to not break the flow typing of constants js, I just copied
-//and pasted the typing here. This is not ideal as we will have to maintain this
-//enum in both files, but we can address this when we convert the constants.js file to
-//TS. I have put a note in the constants file as well
-enum STATUS {
-  IDLE = "IDLE",
-  STARTING = "STARTING",
-  LISTENING = "LISTENING",
-  CLOSING = "CLOSING",
-  CLOSED = "CLOSED",
-  ERROR = "ERROR",
-  TIMEOUT = "TIMEOUT",
-}
 export type ServerStatus = keyof typeof STATUS;
 
 export type ServerStatusMessage = {
