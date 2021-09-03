@@ -15,7 +15,7 @@ import {
   MODAL_NAVIGATION_OPTIONS,
   BottomSheetModal,
   BottomSheetContent,
-  useBottomSheetRef,
+  useBottomSheetModal,
 } from "../sharedComponents/BottomSheetModal";
 import Text from "../sharedComponents/Text";
 import { DoneIcon } from "../sharedComponents/icons";
@@ -101,8 +101,8 @@ const getProjectInviteDetails = async (
 export const ProjectInviteModal: NavigationStackScreenComponent<{
   invite?: string;
 }> = ({ navigation }) => {
-  const { formatMessage: t, wrapRichTextChunksInFragment } = useIntl();
-  const sheetRef = useBottomSheetRef();
+  const { formatMessage: t } = useIntl();
+  const { sheetRef, closeSheet } = useBottomSheetModal({ openOnMount: true });
 
   const mountedRef = React.useRef(true);
 
@@ -126,17 +126,11 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
         setStatus({ type: "success", info: { inviteDetails } });
       }
     } catch (err) {
-      if (mountedRef.current) {
+      if (mountedRef.current && err instanceof Error) {
         setStatus({ type: "error", info: { error: err } });
       }
     }
   }, []);
-
-  const closeModal = () => {
-    if (sheetRef.current) {
-      sheetRef.current.dismiss();
-    }
-  };
 
   const acceptInvite = () => {
     navigation.navigate("Sync");
@@ -149,10 +143,6 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
   }, [fetchInviteDetails, inviteKey]);
 
   React.useEffect(() => {
-    if (sheetRef.current) {
-      sheetRef.current.present();
-    }
-
     return () => {
       mountedRef.current = false;
     };
@@ -167,7 +157,7 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
           buttonConfigs={[
             {
               variation: "outlined",
-              onPress: closeModal,
+              onPress: closeSheet,
               text: t(m.close),
             },
             {
@@ -201,7 +191,7 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
             {
               text: t(m.declineInvite),
               variation: "outlined",
-              onPress: closeModal,
+              onPress: closeSheet,
             },
             {
               text: t(m.joinAndSync),

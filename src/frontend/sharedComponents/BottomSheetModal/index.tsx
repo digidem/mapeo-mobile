@@ -15,9 +15,34 @@ export const MODAL_NAVIGATION_OPTIONS = {
   animationEnabled: false,
 };
 
-export const useBottomSheetRef = () => {
+export const useBottomSheetModal = ({
+  openOnMount,
+}: {
+  openOnMount: boolean;
+}) => {
+  const initiallyOpenedRef = React.useRef(false);
   const sheetRef = React.useRef<RNBottomSheetModal>(null);
-  return sheetRef;
+
+  const closeSheet = React.useCallback(() => {
+    if (sheetRef.current) {
+      sheetRef.current.dismiss();
+    }
+  }, []);
+
+  const openSheet = React.useCallback(() => {
+    if (sheetRef.current) {
+      sheetRef.current.present();
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (!initiallyOpenedRef.current && openOnMount) {
+      initiallyOpenedRef.current = true;
+      openSheet();
+    }
+  }, [openOnMount, openSheet]);
+
+  return { sheetRef, closeSheet, openSheet };
 };
 
 const useBackPressHandler = (onHardwareBackPress?: () => void) => {
