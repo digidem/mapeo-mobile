@@ -107,7 +107,7 @@ export const JoinRequestModal: NavigationStackScreenComponent<{
           ]}
           icon={
             <Circle radius={40}>
-              <MaterialIcon color="#000033" name="highlight" size={30} />
+              <MaterialIcon color="#000033" name="person-add" size={30} />
             </Circle>
           }
           title={t(m.joinTitle, { deviceName, projectName })}

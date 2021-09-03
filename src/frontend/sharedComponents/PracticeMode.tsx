@@ -17,9 +17,10 @@ const m = defineMessages({
 
 interface PracticeModeProps {
   children: React.ReactNode;
+  hideBar: boolean;
 }
 
-export const PracticeMode = ({ children }: PracticeModeProps) => {
+export const PracticeMode = ({ children, hideBar }: PracticeModeProps) => {
   const [config] = useContext(ConfigContext);
 
   //TODO change how we determine whether we are in practice mode or not
@@ -28,7 +29,7 @@ export const PracticeMode = ({ children }: PracticeModeProps) => {
       <View style={styles.container}>
         {children}
 
-        {config.practiceModeBar && (
+        {hideBar && (
           <View style={styles.bottomBar}>
             {/* Placeholder icon */}
             <MaterialIcons name="highlight" color={WHITE} size={30} />
