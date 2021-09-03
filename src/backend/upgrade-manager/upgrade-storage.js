@@ -7,7 +7,7 @@ const util = require("util");
 const crypto = require("crypto");
 const duplexify = require("duplexify");
 const rimraf = util.promisify(require("rimraf"));
-const AsyncService = require("./async-service");
+const AsyncService = require("../lib/async-service");
 const stream = require("stream");
 const {
   installerCompare,

@@ -1,7 +1,7 @@
 // @ts-check
 
 const got = require("got").default;
-const AsyncService = require("./async-service");
+const AsyncService = require("../lib/async-service");
 const createDiscovery = require("dns-discovery");
 const secureJson = require("secure-json-parse");
 const { isInstallerList } = require("./schema");

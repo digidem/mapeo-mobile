@@ -3,7 +3,7 @@
 const UpgradeStorage = require("./upgrade-storage");
 const UpgradeServer = require("./upgrade-server");
 const UpgradeDiscovery = require("./upgrade-discovery");
-const AsyncService = require("./async-service");
+const AsyncService = require("../lib/async-service");
 const {
   getBestUpgradeCandidate,
   installerCompare,

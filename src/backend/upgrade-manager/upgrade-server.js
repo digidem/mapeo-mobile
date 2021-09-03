@@ -6,7 +6,7 @@ const { InstallerListSchema } = require("./schema");
 const pump = require("pump");
 const { stringifyInstaller } = require("./utils");
 const throttle = require("lodash/throttle");
-const AsyncService = require("./async-service");
+const AsyncService = require("../lib/async-service");
 const log = require("debug")("p2p-upgrades:server");
 const { promisify } = require("util");
 
