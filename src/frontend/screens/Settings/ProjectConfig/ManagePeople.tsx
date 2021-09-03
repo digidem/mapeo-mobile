@@ -32,6 +32,8 @@ const m = defineMessages({
   yourDevice: {
     id: "screens.Settings.ManagePeople.yourDevice",
     defaultMessage: "(You) {deviceName}",
+    description:
+      "Row label indicating details related to the user's device membership",
   },
 });
 
