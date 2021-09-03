@@ -35,7 +35,8 @@
     "jetify": "jetify",
     "extract-messages": "extract-messages --locales=en --output messages --descriptions 'src/frontend/**/*.js'",
     "build-detox-android": "RN_SRC_EXT=e2e detox build -c android.emu.release",
-    "test-detox-android": "RN_SRC_EXT=e2e detox test -c android.emu.release --device-launch-args=\"-dns-server 1.1.1.1\""
+    "test-detox-android": "RN_SRC_EXT=e2e detox test -c android.emu.release --device-launch-args=\"-dns-server 1.1.1.1\"",
+    "eas-build-post-install": "npm run build:translations && npm run build:backend"
   },
   "husky": {
     "hooks": {
