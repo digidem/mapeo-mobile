@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { View, StyleSheet, Text } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import ConfigContext from "../context/ConfigContext";
 
 import { DARK_ORANGE, WHITE } from "../lib/styles";
@@ -29,10 +30,13 @@ export const PracticeMode = ({ children, hideBar }: PracticeModeProps) => {
       <View style={styles.container}>
         {children}
 
-        {hideBar && (
+        {!hideBar && (
           <View style={styles.bottomBar}>
-            {/* Placeholder icon */}
-            <MaterialIcons name="highlight" color={WHITE} size={30} />
+            <MaterialCommunityIcons
+              name="lightbulb-on"
+              color={WHITE}
+              size={28}
+            />
             <Text style={styles.text}>
               <FormattedMessage {...m.title} />
             </Text>
