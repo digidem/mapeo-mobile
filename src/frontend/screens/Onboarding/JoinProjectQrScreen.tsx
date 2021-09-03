@@ -55,7 +55,8 @@ export const JoinProjectQrScreen: NavigationStackScreenComponent<{
 }> = ({ navigation }) => {
   const { formatMessage: t } = useIntl();
 
-  const isAdmin = navigation.getParam("isAdmin", false);
+  const isAdmin =
+    JSON.stringify(navigation.getParam("isAdmin", false)) === "true";
 
   return (
     <WithWifiBar>
