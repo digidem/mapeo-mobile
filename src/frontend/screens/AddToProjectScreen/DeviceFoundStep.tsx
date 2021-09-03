@@ -2,11 +2,11 @@ import * as React from "react";
 import { Animated, View, StyleSheet } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
 
-import { MAGENTA, MAPEO_BLUE, WHITE } from "../../../lib/styles";
-import Button from "../../../sharedComponents/Button";
-import Text from "../../../sharedComponents/Text";
-import { AnimatedRadio } from "./AnimatedRadio";
-import { OptionRow } from "./OptionRow";
+import { MAGENTA, MAPEO_BLUE, WHITE } from "../../lib/styles";
+import Button from "../../sharedComponents/Button";
+import Text from "../../sharedComponents/Text";
+import { AnimatedRadio } from "../../sharedComponents/AnimatedRadio";
+import { OptionRow } from "../../sharedComponents/OptionRow";
 
 type Role = "participant" | "coordinator";
 
