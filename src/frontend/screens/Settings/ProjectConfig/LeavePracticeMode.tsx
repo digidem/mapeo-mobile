@@ -38,6 +38,19 @@ export const LeavePracticeMode = () => {
   const navigation = useNavigation();
   const [{ observations }] = React.useContext(ObservationsContext);
 
+  const createProject = () => {
+    if (observations.size > 0) {
+      navigation.navigate("ConfirmLeavePracticeMode", {
+        projectAction: "create",
+      });
+    } else {
+      // TODO: Do some project creation logic here
+      navigation.navigate("Map");
+    }
+  };
+
+  const joinProject = () => navigation.navigate("JoinProjectQr");
+
   return (
     <View style={styles.container}>
       <View>
@@ -54,11 +67,7 @@ export const LeavePracticeMode = () => {
       <View style={styles.buttonContainer}>
         <Button
           fullWidth
-          onPress={() =>
-            navigation.navigate(
-              observations.size > 0 ? "KeepObservationsModal" : "Map"
-            )
-          }
+          onPress={createProject}
           style={{ marginBottom: 20 }}
           variant="outlined"
         >
@@ -66,11 +75,7 @@ export const LeavePracticeMode = () => {
             <FormattedMessage {...m.createProject} />
           </Text>
         </Button>
-        <Button
-          fullWidth
-          onPress={() => navigation.navigate("JoinProjectQr")}
-          variant="outlined"
-        >
+        <Button fullWidth onPress={joinProject} variant="outlined">
           <Text style={[styles.text, styles.buttonText, styles.bold]}>
             <FormattedMessage {...m.joinProject} />
           </Text>

@@ -24,7 +24,6 @@ import Text from "../sharedComponents/Text";
 import { DoneIcon } from "../sharedComponents/icons";
 import Circle from "../sharedComponents/icons/Circle";
 import Loading from "../sharedComponents/Loading";
-import { KeepObservationsModalContent } from "./KeepObservationsModal";
 
 interface ProjectInviteDetails {
   project: {
@@ -108,10 +107,6 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
   const { formatMessage: t } = useIntl();
   const isMounted = useIsMounted();
   const { sheetRef, closeSheet } = useBottomSheetModal({ openOnMount: true });
-  const [
-    showKeepObservationsStep,
-    setShowKeepObservationsStep,
-  ] = React.useState(false);
   const [{ observations }] = React.useContext(ObservationsContext);
   const [config] = React.useContext(ConfigContext);
 
@@ -152,7 +147,9 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
 
   const acceptInvite = () => {
     if (isInPracticeMode && observations.size > 0) {
-      setShowKeepObservationsStep(true);
+      navigation.navigate("ConfirmLeavePracticeMode", {
+        projectAction: "join",
+      });
     } else {
       goToSync(false);
     }
@@ -200,11 +197,6 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
             </View>
           }
           title={status.info.error.message}
-        />
-      ) : showKeepObservationsStep ? (
-        <KeepObservationsModalContent
-          onDelete={() => goToSync(false)}
-          onKeep={() => goToSync(true)}
         />
       ) : (
         <BottomSheetContent
