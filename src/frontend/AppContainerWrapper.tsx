@@ -102,8 +102,10 @@ const AppContainerWrapper = () => {
     const previousRouteName = getRouteName(previousState);
     const currentRouteName = getRouteName(currentState);
 
-    if (NO_PRACTICE_BAR.includes("currentRouteName ")) setHidePracticeBar(true);
-    else setHidePracticeBar(false);
+    //sets practice bar on of off depedning if route name is included in NO_PRACTICE_BAR array
+    setHidePracticeBar(
+      currentRouteName !== null && NO_PRACTICE_BAR.includes(currentRouteName)
+    );
 
     if (previousRouteName !== currentRouteName && currentRouteName) {
       setInviteModalEnabled(!inviteModalDisabledOnRoute(currentRouteName));
