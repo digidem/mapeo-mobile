@@ -18,7 +18,6 @@ type FontIconProps = {
 type ImageIconProps = {
   size?: number,
   style?: ImageStyleProp,
-  variant?: "dark" | "light",
 };
 
 export { default as GpsIcon } from "./GpsIcon";
@@ -176,19 +175,12 @@ export const UserIcon = ({
   />
 );
 
-export const ObservationListIcon = ({
-  size = 30,
-  style,
-  variant = "light",
-}: ImageIconProps) => {
-  const source =
-    variant === "light"
-      ? require("../../images/observation-manager-icon-light.png")
-      : require("../../images/observation-manager-icon-dark.png");
-  return (
-    <Image source={source} style={[{ width: size, height: size }, style]} />
-  );
-};
+export const ObservationListIcon = ({ size = 30, style }: ImageIconProps) => (
+  <Image
+    source={require("../../images/observation-manager-icon.png")}
+    style={[{ width: size, height: size }, style]}
+  />
+);
 
 export const LocationNoFollowIcon = ({
   size = 30,

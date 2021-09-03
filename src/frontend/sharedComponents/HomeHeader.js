@@ -35,7 +35,7 @@ const HomeHeader = ({ navigation }: { navigation: NavigationProp }) => {
         }}
         testID="observationListButton"
       >
-        <ObservationListIcon variant="light" />
+        <ObservationListIcon />
       </IconButton>
     </View>
   );
