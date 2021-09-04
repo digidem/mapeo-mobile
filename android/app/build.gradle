@@ -98,7 +98,6 @@ project.ext.vectoricons = [
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
-apply from: "../../node_modules/@bugsnag/react-native/bugsnag-react-native.gradle"
 
 // Add bugsnag plugin for source map and symbol uploads
 apply plugin: 'com.android.application'
@@ -180,11 +179,6 @@ def myVersionCode = (getenv("ANDROID_VERSION_CODE") ?: 1) as int
 def myVersionName = getenv("ANDROID_VERSION_NAME") ?: getenv("npm_package_version") ?: "0.0.0"
 println("Version name")
 println(myVersionName)
-
-bugsnag {
-    ndk true
-    sharedObjectPath "app/build/jni/libs"
-}
 
 String shouldRebuildNativeModules = System.getenv('NODEJS_MOBILE_BUILD_NATIVE_MODULES');
 
