@@ -28,33 +28,9 @@ export const OnboardingStack = () => {
       headerTitleStyle: { marginHorizontal: 0 },
       cardStyle: { backgroundColor: "#ffffff" },
     })}
-  ></Stack.Navigator>;
+  >
+    <Stack.Screen name="CreateOrJoinScreen" component={CreateOrJoinScreen} />
+    <Stack.Screen name="JoinProjectQr" component={JoinProjectQrScreen} />
+    <Stack.Screen name="SendJoinRequest" component={SendJoinRequestScreen} />
+  </Stack.Navigator>;
 };
-
-// export const OnboardingStack = createStackNavigator(
-//   {
-//     CreateOrJoinScreen: CreateOrJoinScreen,
-//     JoinProjectQr: JoinProjectQrScreen,
-//     SendJoinRequest: SendJoinRequestScreen,
-//   },
-//   {
-//     initialRouteName: "CreateOrJoinScreen",
-//     // TODO iOS: Dynamically set transition mode to modal for modals
-//     mode: "card",
-//     headerMode: "screen",
-//     defaultNavigationOptions: {
-//       headerStyle: {
-//         height: 60,
-//       },
-//       // We use a slightly larger back icon, to improve accessibility
-//       // TODO iOS: This should probably be a chevron not an arrow
-//       headerLeft: props => <CustomHeaderLeft {...props} />,
-//       headerTitleStyle: {
-//         marginHorizontal: 0,
-//       },
-//       cardStyle: {
-//         backgroundColor: "#ffffff",
-//       },
-//     },
-//   }
-// );
