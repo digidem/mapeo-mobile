@@ -1,8 +1,18 @@
 diff --git a/node_modules/nodejs-mobile-react-native/android/build.gradle b/node_modules/nodejs-mobile-react-native/android/build.gradle
-index b6dccc4..44ba494 100644
+index b6dccc4..fe953a0 100644
 --- a/node_modules/nodejs-mobile-react-native/android/build.gradle
 +++ b/node_modules/nodejs-mobile-react-native/android/build.gradle
-@@ -261,51 +261,59 @@ if ("1".equals(shouldRebuildNativeModules)) {
+@@ -76,9 +76,6 @@ android {
+     }
+
+     sourceSets {
+-        main {
+-            jniLibs.srcDirs 'libnode/bin/'
+-        }
+         main.assets.srcDirs += '../install/resources/nodejs-modules'
+     }
+
+@@ -261,51 +258,59 @@ if ("1".equals(shouldRebuildNativeModules)) {
          String temp_cc_ver = '4.9';
          String temp_dest_cpu;
          String temp_v8_arch;
@@ -81,7 +91,7 @@ index b6dccc4..44ba494 100644
          String cargo_target_triple = cargo_build_target.toUpperCase().replaceAll('-', '_')
 
          String npm_gyp_defines = "target_arch=${temp_arch}"
-@@ -358,16 +366,8 @@ if ("1".equals(shouldRebuildNativeModules)) {
+@@ -358,16 +363,8 @@ if ("1".equals(shouldRebuildNativeModules)) {
              }
          }
 
@@ -98,7 +108,7 @@ index b6dccc4..44ba494 100644
              description = "Building native modules for ${abi_name}."
              inputs.file "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/copy.timestamp"
              outputs.dir "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/"
-@@ -398,7 +398,7 @@ if ("1".equals(shouldRebuildNativeModules)) {
+@@ -398,7 +395,7 @@ if ("1".equals(shouldRebuildNativeModules)) {
              environment ("CARGO_TARGET_${cargo_target_triple}_AR", "${npm_toolchain_ar}")
              environment ("CARGO_TARGET_${cargo_target_triple}_LINKER", "${npm_toolchain_link}")
 
