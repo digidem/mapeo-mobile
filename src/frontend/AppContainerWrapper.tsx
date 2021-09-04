@@ -102,7 +102,7 @@ const AppContainerWrapper = () => {
     const previousRouteName = getRouteName(previousState);
     const currentRouteName = getRouteName(currentState);
 
-    //sets practice bar on of off depedning if route name is included in NO_PRACTICE_BAR array
+    // sets practice bar on of off depending if route name is included in NO_PRACTICE_BAR array
     setHidePracticeBar(
       currentRouteName !== null && NO_PRACTICE_BAR.includes(currentRouteName)
     );
