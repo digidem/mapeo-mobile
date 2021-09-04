@@ -8,7 +8,7 @@ import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
-import com.bugsnag.BugsnagReactNative;
+import com.bugsnag.Bugsnag;
 import cl.json.ShareApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -71,7 +71,7 @@ public class MainApplication extends Application implements ShareApplication, Re
   @Override
   public void onCreate() {
     super.onCreate();
-    BugsnagReactNative.start(this);
+    Bugsnag.start(this);
     SoLoader.init(this, /* native expopackage */ false);
     DevLauncherController.initialize(this, getReactNativeHost());
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());

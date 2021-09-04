@@ -98,6 +98,7 @@ project.ext.vectoricons = [
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+apply from: "../../node_modules/@bugsnag/react-native/bugsnag-react-native.gradle"
 
 // Add bugsnag plugin for source map and symbol uploads
 apply plugin: 'com.android.application'
