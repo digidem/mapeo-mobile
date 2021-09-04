@@ -86,13 +86,17 @@ const getRouteName = (navState?: NavigationState): string | null => {
 const inviteModalDisabledOnRoute = (routeName: string) =>
   EDITING_SCREEN_NAMES.includes(routeName);
 
+function shouldHidePractice(route: string | null) {
+  return route !== null && NO_PRACTICE_BAR.includes(route);
+}
+
 const AppContainerWrapper = () => {
   const navRef = React.useRef<NavigationContainerComponent>();
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
   const [{ experiments }] = React.useContext(SettingsContext);
-  const [hidePracticeBar, setHidePracticeBar] = useState<boolean>(
-    () => getRouteName() !== null && NO_PRACTICE_BAR.includes(getRouteName()!)
+  const [hidePracticeBar, setHidePracticeBar] = useState<boolean>(() =>
+    shouldHidePractice(getRouteName())
   );
 
   const onNavStateChange = (
@@ -102,10 +106,8 @@ const AppContainerWrapper = () => {
     const previousRouteName = getRouteName(previousState);
     const currentRouteName = getRouteName(currentState);
 
-    // sets practice bar on of off depending if route name is included in NO_PRACTICE_BAR array
-    setHidePracticeBar(
-      currentRouteName !== null && NO_PRACTICE_BAR.includes(currentRouteName)
-    );
+    //sets practice bar on of off depending if route name is included in NO_PRACTICE_BAR array
+    setHidePracticeBar(shouldHidePractice(currentRouteName));
 
     if (previousRouteName !== currentRouteName && currentRouteName) {
       setInviteModalEnabled(!inviteModalDisabledOnRoute(currentRouteName));
