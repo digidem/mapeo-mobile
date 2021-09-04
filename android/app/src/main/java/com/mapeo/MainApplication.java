@@ -15,6 +15,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 
 import com.mapeo.generated.BasePackageList;
+import expo.modules.devlauncher.DevLauncherController;
 import org.unimodules.adapters.react.ModuleRegistryAdapter;
 import org.unimodules.adapters.react.ReactModuleRegistryProvider;
 import org.unimodules.core.interfaces.SingletonModule;
@@ -71,7 +72,8 @@ public class MainApplication extends Application implements ShareApplication, Re
   public void onCreate() {
     super.onCreate();
     BugsnagReactNative.start(this);
-    SoLoader.init(this, /* native exopackage */ false);
+    SoLoader.init(this, /* native expopackage */ false);
+    DevLauncherController.initialize(this, getReactNativeHost());
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 

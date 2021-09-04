@@ -1,16 +1,21 @@
 package com.mapeo;
 
 import android.os.Bundle; // react-native-splash-screen
-import com.facebook.react.ReactFragmentActivity; // react-native-screens
 import org.devio.rn.splashscreen.SplashScreen; // react-native-splash-screen
 
-/* Start: react-native-guesture-handler */
+/* Start: expo-dev-client */
+import android.content.Intent;
+import expo.modules.devlauncher.DevLauncherController;
+import expo.modules.devmenu.react.DevMenuAwareReactActivity;
+/* End: expo-dev-client */
+
+/* Start: react-native-gesture-handler */
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
-/* End: react-native-guesture-handler */
+/* End: react-native-gesture-handler */
 
-public class MainActivity extends ReactFragmentActivity {
+public class MainActivity extends DevMenuAwareReactActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.show(this);  // react-native-splash-screen
@@ -19,12 +24,21 @@ public class MainActivity extends ReactFragmentActivity {
 
     @Override
     protected ReactActivityDelegate createReactActivityDelegate() {
-        return new ReactActivityDelegate(this, getMainComponentName()) {
+        ReactActivityDelegate delegate = new ReactActivityDelegate(this, getMainComponentName()) {
             @Override
             protected ReactRootView createRootView() {
                 return new RNGestureHandlerEnabledRootView(MainActivity.this);
             }
         };
+        return DevLauncherController.wrapReactActivityDelegate(this,()-> delegate);
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        if (DevLauncherController.tryToHandleIntent(this, intent)) {
+           return;
+        }
+        super.onNewIntent(intent);
     }
 
     /**
