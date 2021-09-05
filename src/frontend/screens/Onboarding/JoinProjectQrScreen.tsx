@@ -1,7 +1,6 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages } from "react-intl";
 import QRCode from "react-native-qrcode-svg";
 
@@ -32,7 +31,7 @@ const m = defineMessages({
   },
 });
 
-export const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
+export const JoinProjectQrScreen = () => {
   const navigation = useNavigation();
 
   return (

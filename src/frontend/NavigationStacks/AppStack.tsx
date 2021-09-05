@@ -1,5 +1,5 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ObservationList from "../screens/ObservationsList";
 import Observation from "../screens/Observation";
 import ObservationEdit from "../screens/ObservationEdit";
@@ -60,14 +60,10 @@ export type AppStackNavTypes = {
   ProjectInviteModal: undefined;
 };
 
-const Stack = createStackNavigator<AppStackNavTypes>();
-
-interface AppStackProps {
-  isOnboarding: boolean;
-}
+const Stack = createNativeStackNavigator<AppStackNavTypes>();
 
 export const AppStack = () => {
-  const isOnboarding: boolean = false;
+  const isOnboarding: boolean = process.env.FEATURE_ONBOARDING === "true";
 
   return (
     <Stack.Navigator
@@ -76,17 +72,22 @@ export const AppStack = () => {
       <Stack.Group
         screenOptions={({ route }) => ({
           presentation: "card",
-          headerMode: "screen",
-          // We use a slightly larger back icon, to improve accessibility
-          // TODO iOS: This should probably be a chevron not an arrow
-          headerStyle: { height: 60 },
-          headerLeft: props => <CustomHeaderLeft {...props} />,
-          headerTitleStyle: { marginHorizontal: 0 },
+          // headerLeft:props=><CustomHeaderLeft {...props} />,
           headerShown: route.name !== "Home",
-          cardStyle: { backgroundColor: "#ffffff" },
         })}
+        // screenOptions={{
+        //   presentation: "card",
+        //   headerMode: "screen",
+        //   // We use a slightly larger back icon, to improve accessibility
+        //   // TODO iOS: This should probably be a chevron not an arrow
+        //   headerStyle: { height: 60 },
+        //   headerLeft: props => <CustomHeaderLeft {...props} />,
+        //   headerTitleStyle: { marginHorizontal: 0 },
+        //   headerShown: route.name !== "Home",
+        //   cardStyle: { backgroundColor: "#ffffff" },
+        // }}
       >
-        {isOnboarding && process.env.FEATURE_ONBOARDING === "true" && (
+        {/* {isOnboarding && 
           <React.Fragment>
             <Stack.Screen
               name="CreateOrJoinScreen"
@@ -101,7 +102,7 @@ export const AppStack = () => {
               component={SendJoinRequestScreen}
             />
           </React.Fragment>
-        )}
+        } */}
 
         <Stack.Screen name="Home" component={HomeTabComponent} />
         <Stack.Screen name="GpsModal" component={GpsModal} />

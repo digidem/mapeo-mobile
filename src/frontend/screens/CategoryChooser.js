@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
   cellContainer: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
     paddingTop: 5,
     paddingBottom: 5,
     borderRadius: 10,

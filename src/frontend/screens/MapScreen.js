@@ -13,14 +13,16 @@ import ObservationsContext from "../context/ObservationsContext";
 import LocationContext from "../context/LocationContext";
 import AddButton from "../sharedComponents/AddButton";
 import type { NavigationProp } from "../types";
+import { useNavigation } from "@react-navigation/native";
 
 const log = debug("mapeo:MapScreen");
 
-type Props = {
-  navigation: NavigationProp,
-};
+// type Props = {
+//   navigation: NavigationProp,
+// };
 
-const MapScreen = ({ navigation }: Props) => {
+const MapScreen = () => {
+  const navigation = useNavigation();
   const [, { newDraft }] = useDraftObservation();
   const { styleURL, styleType } = useMapStyle();
 
