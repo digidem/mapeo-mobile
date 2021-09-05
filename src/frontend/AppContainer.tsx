@@ -13,7 +13,6 @@ import { URI_PREFIX } from "./constants";
 import IS_E2E from "./lib/is-e2e";
 import bugsnag from "./lib/logger";
 import { AppStack, AppStackNavTypes } from "./NavigationStacks/AppStack";
-import { WithModalsStack } from "./NavigationStacks/WithModalsStack";
 import {
   NavigationContainer,
   NavigationContainerRef,
@@ -150,12 +149,7 @@ const AppContainerWrapper = () => {
       initialState={initialState}
       onStateChange={persistNavigationState}
     >
-      {process.env.FEATURE_ONBOARDING === "true" ? (
-        //TO DO, replace first one
-        <AppStack />
-      ) : (
-        <AppStack />
-      )}
+      <AppStack />
     </NavigationContainer>
   );
 };

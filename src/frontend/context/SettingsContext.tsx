@@ -1,30 +1,31 @@
-// @flow
 import * as React from "react";
 import createPersistedState from "../hooks/usePersistedState";
 
 // Increment if the shape of settings changes, but try to avoid doing this
 // because it will reset everybody's settings back to the defaults = bad :(
-const STORE_KEY = "@MapeoSettings@2";
+const STORE_KEY = "@MapeoSettings@3";
 
 export type CoordinateFormat = "utm" | "dd" | "dms";
 export type ExperimentalP2pUpgrade = boolean;
 
 export type SettingsState = {
-  coordinateFormat: CoordinateFormat,
+  coordinateFormat: CoordinateFormat;
   experiments: {
-    p2pUpgrade: boolean,
-  },
+    p2pUpgrade: boolean;
+    onboarding: boolean;
+  };
 };
 
-type SettingsContextType = [
+type SettingsContextType = readonly [
   SettingsState,
-  (key: $Keys<SettingsState>, value: any) => void
+  (key: keyof SettingsState, value: any) => void
 ];
 
-const DEFAULT_SETTINGS = {
+const DEFAULT_SETTINGS: SettingsState = {
   coordinateFormat: "utm",
   experiments: {
     p2pUpgrade: false,
+    onboarding: process.env.FEATURE_ONBOARDING === "true",
   },
 };
 
@@ -35,21 +36,24 @@ const SettingsContext = React.createContext<SettingsContextType>([
 
 const usePersistedState = createPersistedState(STORE_KEY);
 
-export const SettingsProvider = ({ children }: { children: React.Node }) => {
+export const SettingsProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [state, status, setState] = usePersistedState<SettingsState>(
     DEFAULT_SETTINGS
   );
 
-  const setSettings = React.useCallback(
-    // $FlowFixMe This is not broken, Flow is just wrong: https://medium.com/flow-type/spreads-common-errors-fixes-9701012e9d58 #timetoswitchtoTS
-    (key, value) => setState({ ...state, [key]: value }),
-    [setState, state]
+  const setSettings: SettingsContextType[1] = React.useCallback(
+    (key, value) => setState(previous => ({ ...previous, [key]: value })),
+    [setState]
   );
 
-  const contextValue = React.useMemo(() => [state, setSettings], [
-    state,
-    setSettings,
-  ]);
+  const contextValue: SettingsContextType = React.useMemo(
+    () => [state, setSettings],
+    [state, setSettings]
+  );
 
   return (
     <SettingsContext.Provider value={contextValue}>

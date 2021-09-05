@@ -22,6 +22,12 @@ import { LeaveProjectProgress } from "../screens/LeaveProject/LeaveProjectProges
 import { LeaveProjectCompleted } from "../screens/LeaveProject/LeaveProjectCompleted";
 import { AlreadyOnProj } from "../screens/AlreadyOnProject";
 import HomeTabComponent from "./HomeTabs";
+import {
+  CreateOrJoinScreen,
+  JoinProjectQrScreen,
+  SendJoinRequestScreen,
+} from "../screens/Onboarding";
+import ProjectInviteModal from "../screens/ProjectInviteModal";
 
 export type AppStackNavTypes = {
   Home: undefined;
@@ -44,52 +50,100 @@ export type AppStackNavTypes = {
   LeaveProjectProgress: undefined;
   LeaveProjectCompleted: undefined;
   AlreadyOnProj: undefined;
+
+  //Onboarding Stack
+  CreateOrJoinScreen: undefined;
+  JoinProjectQr: undefined;
+  SendJoinRequest: undefined;
+
+  // Modal Stacks
+  ProjectInviteModal: undefined;
 };
 
 const Stack = createStackNavigator<AppStackNavTypes>();
 
+interface AppStackProps {
+  isOnboarding: boolean;
+}
+
 export const AppStack = () => {
+  const isOnboarding: boolean = false;
+
   return (
     <Stack.Navigator
-      initialRouteName="Home"
-      screenOptions={({ route }) => ({
-        presentation: "card",
-        headerMode: "screen",
-        // We use a slightly larger back icon, to improve accessibility
-        // TODO iOS: This should probably be a chevron not an arrow
-        headerStyle: { height: 60 },
-        headerLeft: props => <CustomHeaderLeft {...props} />,
-        headerTitleStyle: { marginHorizontal: 0 },
-        headerShown: route.name !== "Home",
-        cardStyle: { backgroundColor: "#ffffff" },
-      })}
+      initialRouteName={isOnboarding ? "CreateOrJoinScreen" : "Home"}
     >
-      <Stack.Screen name="Home" component={HomeTabComponent} />
-      <Stack.Screen name="GpsModal" component={GpsModal} />
-      <Stack.Screen name="SyncModal" component={SyncModal} />
-      <Stack.Screen name="Settings" component={Settings} />
-      <Stack.Screen name="ProjectConfig" component={ProjectConfig} />
-      <Stack.Screen name="AboutMapeo" component={AboutMapeo} />
-      <Stack.Screen name="LanguageSettings" component={LanguageSettings} />
-      <Stack.Screen name="CoordinateFormat" component={CoordinateFormat} />
-      <Stack.Screen name="PhotosModal" component={PhotosModal} />
-      <Stack.Screen name="CategoryChooser" component={CategoryChooser} />
-      <Stack.Screen name="AddPhoto" component={AddPhoto} />
-      <Stack.Screen name="ObservationList" component={ObservationList} />
-      <Stack.Screen name="Observation" component={Observation} />
-      <Stack.Screen name="ObservationEdit" component={ObservationEdit} />
-      <Stack.Screen name="ManualGpsScreen" component={ManualGpsScreen} />
-      <Stack.Screen name="ObservationDetails" component={ObservationDetails} />
-      <Stack.Screen name="LeaveProjectScreen" component={LeaveProjectScreen} />
-      <Stack.Screen
-        name="LeaveProjectProgress"
-        component={LeaveProjectProgress}
-      />
-      <Stack.Screen
-        name="LeaveProjectCompleted"
-        component={LeaveProjectCompleted}
-      />
-      <Stack.Screen name="AlreadyOnProj" component={AlreadyOnProj} />
+      <Stack.Group
+        screenOptions={({ route }) => ({
+          presentation: "card",
+          headerMode: "screen",
+          // We use a slightly larger back icon, to improve accessibility
+          // TODO iOS: This should probably be a chevron not an arrow
+          headerStyle: { height: 60 },
+          headerLeft: props => <CustomHeaderLeft {...props} />,
+          headerTitleStyle: { marginHorizontal: 0 },
+          headerShown: route.name !== "Home",
+          cardStyle: { backgroundColor: "#ffffff" },
+        })}
+      >
+        {isOnboarding && process.env.FEATURE_ONBOARDING === "true" && (
+          <React.Fragment>
+            <Stack.Screen
+              name="CreateOrJoinScreen"
+              component={CreateOrJoinScreen}
+            />
+            <Stack.Screen
+              name="JoinProjectQr"
+              component={JoinProjectQrScreen}
+            />
+            <Stack.Screen
+              name="SendJoinRequest"
+              component={SendJoinRequestScreen}
+            />
+          </React.Fragment>
+        )}
+
+        <Stack.Screen name="Home" component={HomeTabComponent} />
+        <Stack.Screen name="GpsModal" component={GpsModal} />
+        <Stack.Screen name="SyncModal" component={SyncModal} />
+        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="ProjectConfig" component={ProjectConfig} />
+        <Stack.Screen name="AboutMapeo" component={AboutMapeo} />
+        <Stack.Screen name="LanguageSettings" component={LanguageSettings} />
+        <Stack.Screen name="CoordinateFormat" component={CoordinateFormat} />
+        <Stack.Screen name="PhotosModal" component={PhotosModal} />
+        <Stack.Screen name="CategoryChooser" component={CategoryChooser} />
+        <Stack.Screen name="AddPhoto" component={AddPhoto} />
+        <Stack.Screen name="ObservationList" component={ObservationList} />
+        <Stack.Screen name="Observation" component={Observation} />
+        <Stack.Screen name="ObservationEdit" component={ObservationEdit} />
+        <Stack.Screen name="ManualGpsScreen" component={ManualGpsScreen} />
+        <Stack.Screen
+          name="ObservationDetails"
+          component={ObservationDetails}
+        />
+        <Stack.Screen
+          name="LeaveProjectScreen"
+          component={LeaveProjectScreen}
+        />
+        <Stack.Screen
+          name="LeaveProjectProgress"
+          component={LeaveProjectProgress}
+        />
+        <Stack.Screen
+          name="LeaveProjectCompleted"
+          component={LeaveProjectCompleted}
+        />
+        <Stack.Screen name="AlreadyOnProj" component={AlreadyOnProj} />
+      </Stack.Group>
+
+      {/* Modals */}
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen
+          name="ProjectInviteModal"
+          component={ProjectInviteModal}
+        />
+      </Stack.Group>
     </Stack.Navigator>
   );
 };
