@@ -29,6 +29,12 @@ import {
 } from "../screens/Onboarding";
 import ProjectInviteModal from "../screens/ProjectInviteModal";
 
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends AppStackNavTypes {}
+  }
+}
+
 export type AppStackNavTypes = {
   Home: undefined;
   GpsModal: undefined;

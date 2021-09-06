@@ -2,10 +2,6 @@ import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { defineMessages, FormattedMessage } from "react-intl";
-import {
-  NavigationStackOptions,
-  NavigationStackScreenComponent,
-} from "react-navigation-stack";
 
 import Button from "../../sharedComponents/Button";
 
@@ -20,11 +16,7 @@ const m = defineMessages({
   },
 });
 
-const navOptions: NavigationStackOptions = {
-  headerShown: false,
-};
-
-export const CreateOrJoinScreen: NavigationStackScreenComponent = () => {
+export const CreateOrJoinScreen = () => {
   const { navigate } = useNavigation();
 
   return (
@@ -47,7 +39,7 @@ export const CreateOrJoinScreen: NavigationStackScreenComponent = () => {
       <Button
         style={styles.button}
         onPress={() => {
-          navigate("settings");
+          navigate("Settings");
         }}
       >
         <Text style={styles.buttonText}>
@@ -57,9 +49,6 @@ export const CreateOrJoinScreen: NavigationStackScreenComponent = () => {
     </View>
   );
 };
-
-//TODO research typesafe option
-CreateOrJoinScreen.navigationOptions = navOptions;
 
 const styles = StyleSheet.create({
   title: {
