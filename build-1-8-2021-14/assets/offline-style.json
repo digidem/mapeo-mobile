@@ -1,0 +1,156 @@
+{
+  "version": 8,
+  "name": "Blank",
+  "id": "blank",
+  "center": [0, 0],
+  "zoom": 0,
+  "sources": {},
+  "layers": [
+    {
+      "id": "ocean",
+      "type": "background",
+      "layout": {},
+      "paint": {
+        "background-color": "#78bced"
+      }
+    },
+    {
+      "type": "fill",
+      "paint": {
+        "fill-color": "#ece1cb"
+      },
+      "layout": {},
+      "source": "land-source",
+      "id": "land"
+    },
+    {
+      "type": "line",
+      "paint": {
+        "line-color": "#78bced",
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0, 4, 1],
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["get", "strokeweig"],
+          0.15,
+          0.25,
+          1.2,
+          1.5
+        ]
+      },
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "source": "rivers-source",
+      "id": "rivers"
+    },
+    {
+      "type": "fill",
+      "paint": {
+        "fill-color": "#78bced"
+      },
+      "layout": {},
+      "source": "lakes-source",
+      "id": "lakes"
+    },
+    {
+      "source": "boundaries-source",
+      "type": "line",
+      "paint": {
+        "line-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          6,
+          "hsl(40, 46%, 86%)",
+          8,
+          "hsl(0, 0%, 87%)"
+        ],
+        "line-width": ["interpolate", ["linear"], ["zoom"], 3, 3.5, 10, 8],
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0, 4, 0.5],
+        "line-blur": ["interpolate", ["linear"], ["zoom"], 3, 0, 10, 2]
+      },
+      "layout": {
+        "line-join": "round"
+      },
+      "id": "boundaries-bg"
+    },
+    {
+      "source": "boundaries-source",
+      "type": "line",
+      "paint": {
+        "line-color": "#828282",
+        "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.5, 10, 2],
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 0, 0.2, 4, 0.5]
+      },
+      "layout": {
+        "line-join": "round"
+      },
+      "id": "boundaries-dd"
+    },
+    {
+      "source": "graticule-source",
+      "type": "line",
+      "paint": {
+        "line-color": "hsl(0, 100%, 0%)",
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 4.5, 0.1, 5, 0.2],
+        "line-dasharray": [
+          "step",
+          ["zoom"],
+          ["literal", [1, 1]],
+          5,
+          ["literal", [1.5, 1.5]]
+        ],
+        "line-width": ["interpolate", ["linear"], ["zoom"], 4.5, 1, 5, 1.5]
+      },
+      "filter": ["match", ["get", "interval"], ["10"], true, false],
+      "id": "graticule-10"
+    },
+    {
+      "minzoom": 4.5,
+      "layout": {},
+      "filter": ["match", ["get", "interval"], ["1"], true, false],
+      "type": "line",
+      "source": "graticule-source",
+      "id": "graticule-1",
+      "paint": {
+        "line-color": "hsl(0, 0%, 0%)",
+        "line-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          4.5,
+          0,
+          5,
+          0.1,
+          7.5,
+          0.1,
+          8,
+          0.2
+        ],
+        "line-dasharray": [
+          "step",
+          ["zoom"],
+          ["literal", [1, 1]],
+          8,
+          ["literal", [1.5, 1.5]]
+        ],
+        "line-width": ["interpolate", ["linear"], ["zoom"], 7.5, 1, 8, 1.5]
+      }
+    },
+    {
+      "minzoom": 7.5,
+      "layout": {},
+      "filter": ["match", ["get", "interval"], ["0.1"], true, false],
+      "type": "line",
+      "source": "graticule-source",
+      "id": "graticule-0.1",
+      "paint": {
+        "line-color": "hsl(0, 0%, 0%)",
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 7.5, 0, 8, 0.08],
+        "line-dasharray": [1, 1]
+      }
+    }
+  ]
+}

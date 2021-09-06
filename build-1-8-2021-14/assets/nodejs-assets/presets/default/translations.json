@@ -1,0 +1,1360 @@
+{
+  "af": {
+    "categories": {}
+  },
+  "ar": {
+    "categories": {}
+  },
+  "de": {
+    "fields": {
+      "animal-type": {
+        "label": "Tierart",
+        "placeholder": "Welche Art von Tier?"
+      },
+      "building-type": {
+        "label": "Gebäude-Typ",
+        "options": {
+          "\"Church\"": "Kirche",
+          "\"Homestead\"": "Heimstätte",
+          "\"Hospital\"": "Krankenhaus",
+          "\"Other\"": "Andere",
+          "\"School\"": "Schule",
+          "\"Shop\"": "Shop"
+        },
+        "placeholder": "Schule/Krankenhaus/etc."
+      },
+      "items-gathered": {
+        "label": "Was wird hier gesammelt?",
+        "placeholder": "z.B. Feuerholz/Medizin/etc."
+      },
+      "name": {
+        "label": "Name",
+        "placeholder": "Verbreiteter Name dieses Ortes"
+      },
+      "note": {
+        "label": "Notiz",
+        "placeholder": "Geschichten oder Notizen über diesen Ort"
+      },
+      "owner": {
+        "label": "Besitzer",
+        "placeholder": "Besitzer bzw. Benutzer diesen Ortes"
+      },
+      "palm-species": {
+        "label": "Palmenart",
+        "placeholder": "Welche Art von Palme?"
+      },
+      "plant-species": {
+        "label": "Pflanzenart",
+        "placeholder": "Welche Art von Pflanze?"
+      },
+      "source": {
+        "label": "Quelle",
+        "placeholder": "Quelle der Daten"
+      },
+      "tree-species": {
+        "label": "Baumart",
+        "placeholder": "Welche Art von Baum?"
+      },
+      "type": {
+        "label": "Welche Art von Pfad?",
+        "placeholder": "Wofür wird dieser Pfad benutzt?"
+      }
+    },
+    "presets": {
+      "airstrip": {
+        "name": "Landebahn",
+        "terms": "flughafen,landen"
+      },
+      "animal": {
+        "name": "Tier"
+      },
+      "area": {
+        "name": "Neues Gebiet"
+      },
+      "boundary-line": {
+        "name": "Grenzlinie",
+        "terms": "grenze"
+      },
+      "building": {
+        "name": "Gebäude",
+        "terms": "medizinisch,schule"
+      },
+      "camp": {
+        "name": "Campingplatz",
+        "terms": "campingplatz,camping,jagen"
+      },
+      "cave": {
+        "name": "Höhle"
+      },
+      "clay": {
+        "name": "Lehm"
+      },
+      "community": {
+        "name": "Gemeinschaft",
+        "terms": "ort"
+      },
+      "fishing-site": {
+        "name": "Fischplatz",
+        "terms": "fisch"
+      },
+      "gathering-site": {
+        "name": "Sammelplatz",
+        "terms": "sammlung"
+      },
+      "hills": {
+        "name": "Berge",
+        "terms": "berge"
+      },
+      "house": {
+        "name": "Haus",
+        "terms": "haus,heim"
+      },
+      "hunting-site": {
+        "name": "Jagdplatz"
+      },
+      "lake": {
+        "name": "See"
+      },
+      "line": {
+        "name": "Neue Linie"
+      },
+      "palm": {
+        "name": "Palme"
+      },
+      "path": {
+        "name": "Pfad"
+      },
+      "plant": {
+        "name": "Plant"
+      },
+      "point": {
+        "name": "Neuer Punkt"
+      },
+      "river": {
+        "name": "Fluss"
+      },
+      "salt-lick": {
+        "name": "Salzlecke"
+      },
+      "special-site": {
+        "name": "Spezieller Ort",
+        "terms": "geschichte,story,heilig,geschichtlich"
+      },
+      "stream": {
+        "name": "Ströhmung"
+      },
+      "swidden": {
+        "name": "Farmgebiet",
+        "terms": "farm,garten,grundstück,kultivierungs"
+      },
+      "threat": {
+        "name": "Gefahr",
+        "terms": "gefahr,illegal,überwachung"
+      },
+      "tree": {
+        "name": "Tree"
+      },
+      "waterfall": {
+        "name": "Wasserfall",
+        "terms": "kaskade"
+      }
+    },
+    "categories": {}
+  },
+  "da": {
+    "categories": {}
+  },
+  "cs": {
+    "categories": {}
+  },
+  "ca": {
+    "categories": {}
+  },
+  "es": {
+    "categories": {}
+  },
+  "fi": {
+    "categories": {}
+  },
+  "fr": {
+    "categories": {}
+  },
+  "en": {
+    "fields": {
+      "animal-type": {
+        "helperText": "",
+        "label": "Animal type",
+        "placeholder": "What kind of animal?"
+      },
+      "building-type": {
+        "helperText": "",
+        "label": "Building type",
+        "options": {
+          "\"Church\"": "Church",
+          "\"Homestead\"": "Homestead",
+          "\"Hospital\"": "Hospital",
+          "\"Other\"": "Other",
+          "\"School\"": "School",
+          "\"Shop\"": "Shop"
+        },
+        "placeholder": "School/hospital/etc"
+      },
+      "items-gathered": {
+        "helperText": "",
+        "label": "What is gathered here?",
+        "placeholder": "e.g. firewood / medicine etc."
+      },
+      "name": {
+        "helperText": "",
+        "label": "Name",
+        "placeholder": "Common name of this place"
+      },
+      "note": {
+        "helperText": "",
+        "label": "Note",
+        "placeholder": "Stories or notes about this place"
+      },
+      "owner": {
+        "helperText": "",
+        "label": "Owner",
+        "placeholder": "Owner or user of the place"
+      },
+      "palm-species": {
+        "helperText": "",
+        "label": "Palm species",
+        "placeholder": "What kind of palm?"
+      },
+      "plant-species": {
+        "helperText": "",
+        "label": "Plant species",
+        "placeholder": "What kind of plant?"
+      },
+      "source": {
+        "helperText": "",
+        "label": "Source",
+        "placeholder": "Source of the data"
+      },
+      "tree-species": {
+        "helperText": "",
+        "label": "Tree species",
+        "placeholder": "What kind of tree?"
+      },
+      "type": {
+        "helperText": "",
+        "label": "What kind of path?",
+        "placeholder": "What is this path used for?"
+      }
+    },
+    "presets": {
+      "airstrip": {
+        "name": "Airstrip",
+        "terms": "airfield,airport,landing"
+      },
+      "animal": {
+        "name": "Animal",
+        "terms": ""
+      },
+      "area": {
+        "name": "New area",
+        "terms": ""
+      },
+      "boundary-line": {
+        "name": "boundary",
+        "terms": "border,frontier"
+      },
+      "building": {
+        "name": "Building",
+        "terms": "medical,school"
+      },
+      "camp": {
+        "name": "Camp",
+        "terms": "campsite,camping,hunting"
+      },
+      "cave": {
+        "name": "Cave",
+        "terms": ""
+      },
+      "clay": {
+        "name": "Clay",
+        "terms": ""
+      },
+      "community": {
+        "name": "Community",
+        "terms": "village"
+      },
+      "fishing-site": {
+        "name": "Fishing Site",
+        "terms": "fish"
+      },
+      "gathering-site": {
+        "name": "Gathering Site",
+        "terms": "collection"
+      },
+      "hills": {
+        "name": "Hills",
+        "terms": "mountains"
+      },
+      "house": {
+        "name": "House",
+        "terms": "house,home"
+      },
+      "hunting-site": {
+        "name": "Hunting Site",
+        "terms": ""
+      },
+      "lake": {
+        "name": "Lake",
+        "terms": ""
+      },
+      "line": {
+        "name": "New line",
+        "terms": ""
+      },
+      "palm": {
+        "name": "Palm",
+        "terms": ""
+      },
+      "path": {
+        "name": "Path",
+        "terms": ""
+      },
+      "plant": {
+        "name": "Plant",
+        "terms": ""
+      },
+      "point": {
+        "name": "Nuevo punto",
+        "terms": ""
+      },
+      "river": {
+        "name": "River",
+        "terms": ""
+      },
+      "salt-lick": {
+        "name": "Salt lick",
+        "terms": ""
+      },
+      "special-site": {
+        "name": "Special site",
+        "terms": "story,sacred,historical,history"
+      },
+      "stream": {
+        "name": "Stream",
+        "terms": ""
+      },
+      "swidden": {
+        "name": "Farmland",
+        "terms": "farm,garden,plot,allotment,paddy,cultivation"
+      },
+      "threat": {
+        "name": "Threat",
+        "terms": "danger,illegal,monitoring"
+      },
+      "tree": {
+        "name": "Tree",
+        "terms": ""
+      },
+      "waterfall": {
+        "name": "Waterfall",
+        "terms": "cascade"
+      }
+    },
+    "categories": {}
+  },
+  "el": {
+    "categories": {}
+  },
+  "hi": {
+    "categories": {}
+  },
+  "he": {
+    "categories": {}
+  },
+  "hu": {
+    "categories": {}
+  },
+  "it": {
+    "categories": {}
+  },
+  "id": {
+    "categories": {}
+  },
+  "ko": {
+    "categories": {}
+  },
+  "lo": {
+    "categories": {}
+  },
+  "km": {
+    "fields": {
+      "animal-type": {
+        "label": "ប្រភេទសត្វ",
+        "placeholder": "តើនេះជាប្រភេទសត្វអ្វី?"
+      },
+      "building-type": {
+        "label": "ប្រភេទសំណង់",
+        "options": {
+          "\"Church\"": "ព្រះវិហារ",
+          "\"Homestead\"": "ផ្ទះអ្នកស្រែ",
+          "\"Hospital\"": "មន្ទីរពេទ្យ",
+          "\"Other\"": "ផ្សេងទៀត",
+          "\"School\"": "សាលារៀន",
+          "\"Shop\"": "ហាង"
+        },
+        "placeholder": "សាលារៀន / មន្ទីរពេទ្យ / ផ្សេងៗ"
+      },
+      "items-gathered": {
+        "label": "reading",
+        "placeholder": "ឧទា. អុស / ថ្នាំ។ ល។"
+      },
+      "name": {
+        "label": "ឈ្មោះ",
+        "placeholder": "ឈ្មោះទូទៅនៃកន្លែងនេះ"
+      },
+      "note": {
+        "label": "កំណត់សំគាល់",
+        "placeholder": "រឿងរ៉ាវឬកំណត់ត្រាអំពីកន្លែងនេះ"
+      },
+      "owner": {
+        "label": "ម្ចាស់",
+        "placeholder": "ម្ចាស់ឬអ្នកប្រើប្រាស់ទីកន្លែង"
+      },
+      "palm-species": {
+        "label": "ប្រភេទដូង",
+        "placeholder": "តើប្រភេទដូងអ្វី?"
+      },
+      "plant-species": {
+        "label": "ប្រភេទរុក្ខជាតិ",
+        "placeholder": "តើប្រភេទរុក្ខជាតិអ្វី?"
+      },
+      "source": {
+        "label": "ប្រភព",
+        "placeholder": "ប្រភពទិន្នន័យ"
+      },
+      "tree-species": {
+        "label": "ប្រភេទដើមឈើ",
+        "placeholder": "តើដើមឈើប្រភេទអ្វី?"
+      },
+      "type": {
+        "label": "តើផ្លូវប្រភេទណា?",
+        "placeholder": "តើផ្លូវនេះត្រូវបានប្រើសម្រាប់អ្វី?"
+      }
+    },
+    "presets": {
+      "airstrip": {
+        "name": "ផ្លូវយន្តហោះ",
+        "terms": "អាកាសយានដ្ឋាន, ព្រលានយន្តហោះ, ចុះចត"
+      },
+      "animal": {
+        "name": "សត្វ"
+      },
+      "area": {
+        "name": "តំបន់ថ្មី"
+      },
+      "boundary-line": {
+        "name": "ព្រំប្រទល់",
+        "terms": "ព្រំដែន"
+      },
+      "building": {
+        "name": "អាគារ",
+        "terms": "​ពេទ្យ, សាលារៀន"
+      },
+      "camp": {
+        "name": "បោះជំរុំ",
+        "terms": "កន្លែងបោះជំរុំ, បោះជំរុំ, ប្រម៉ាញ់"
+      },
+      "cave": {
+        "name": "រូងភ្នំ"
+      },
+      "clay": {
+        "name": "ដីឥដ្ឋ"
+      },
+      "community": {
+        "name": "សហគមន៍",
+        "terms": "ភូមិ"
+      },
+      "fishing-site": {
+        "name": "កន្លែងនេសាទ",
+        "terms": "ត្រី"
+      },
+      "gathering-site": {
+        "name": "កន្លែងប្រមូលផ្តុំ",
+        "terms": "ប្រមូល"
+      },
+      "hills": {
+        "name": "ភ្នំ",
+        "terms": "ភ្នំ"
+      },
+      "house": {
+        "name": "ផ្ទះ",
+        "terms": "ផ្ទះសំបែង, ផ្ទះ"
+      },
+      "hunting-site": {
+        "name": "កន្លែងបរបាញ់"
+      },
+      "lake": {
+        "name": "បឹង"
+      },
+      "line": {
+        "name": "បន្ទាត់ថ្មី"
+      },
+      "palm": {
+        "name": "ដូង"
+      },
+      "path": {
+        "name": "ផ្លូវ"
+      },
+      "plant": {
+        "name": "រុក្ខជាតិ"
+      },
+      "point": {
+        "name": "ទស្សនៈថ្មី"
+      },
+      "river": {
+        "name": "ទន្លេ"
+      },
+      "salt-lick": {
+        "name": "វាលអំបិល"
+      },
+      "special-site": {
+        "name": "តំបន់ពិសេស",
+        "terms": "រឿង, ពិសិដ្ឋ, ជាប្រវត្តិសាស្រ្ត, ប្រវត្តិសាស្រ្ត"
+      },
+      "stream": {
+        "name": "ស្ទឹង"
+      },
+      "swidden": {
+        "name": "ដីស្រែចំការ",
+        "terms": "កសិដ្ឋាន, សួនច្បារ, គ្រោង, បែងចែក, ដីស្រែ, ការដាំដុះ"
+      },
+      "threat": {
+        "name": "ការគំរាមកំហែង",
+        "terms": "គ្រោះថ្នាក់, ខុសច្បាប់, ការត្រួតពិនិត្យ"
+      },
+      "tree": {
+        "name": "ដើមឈើ"
+      },
+      "waterfall": {
+        "name": "ទឹកជ្រោះ",
+        "terms": "ល្បាក់"
+      }
+    },
+    "categories": {}
+  },
+  "my": {
+    "categories": {}
+  },
+  "ja": {
+    "categories": {}
+  },
+  "no": {
+    "categories": {}
+  },
+  "ne": {
+    "categories": {}
+  },
+  "ro": {
+    "categories": {}
+  },
+  "pt": {
+    "fields": {
+      "animal-type": {
+        "label": "Tipo de animal",
+        "placeholder": "Que tipo de animal?"
+      },
+      "building-type": {
+        "label": "Tipo de prédio",
+        "options": {
+          "\"Church\"": "Igreja",
+          "\"Homestead\"": "Domicílio",
+          "\"Hospital\"": "Hospital",
+          "\"Other\"": "Outro",
+          "\"School\"": "Escola",
+          "\"Shop\"": "Loja"
+        },
+        "placeholder": "Escola/hospital/etc"
+      },
+      "items-gathered": {
+        "label": "O que está reunido aqui?",
+        "placeholder": "e.g. lenha / remédio, etc."
+      },
+      "name": {
+        "label": "Nome",
+        "placeholder": "Nome comum deste lugar"
+      },
+      "note": {
+        "label": "Anotação",
+        "placeholder": "Histórias ou anotações sobre este lugar"
+      },
+      "owner": {
+        "label": "Proprietário",
+        "placeholder": "Proprietário ou usuário do local"
+      },
+      "palm-species": {
+        "label": "Tipo de palmeira",
+        "placeholder": "Que tipo de palmeira?"
+      },
+      "plant-species": {
+        "label": "Espécie de planta",
+        "placeholder": "Que tipo de planta?"
+      },
+      "source": {
+        "label": "Fonte",
+        "placeholder": "Fonte de dados"
+      },
+      "tree-species": {
+        "label": "Espécie de árvore",
+        "placeholder": "Que tipo de árvore?"
+      },
+      "type": {
+        "label": "Que tipo de caminho?",
+        "placeholder": "Para que é usado este caminho?"
+      }
+    },
+    "presets": {
+      "airstrip": {
+        "name": "Pista",
+        "terms": "aeródromo, aeroporto, pista de pouso"
+      },
+      "animal": {
+        "name": "Animal"
+      },
+      "area": {
+        "name": "Nova área"
+      },
+      "boundary-line": {
+        "name": "limite",
+        "terms": "divisa, fronteira"
+      },
+      "building": {
+        "name": "Prédio",
+        "terms": "médico, escola"
+      },
+      "camp": {
+        "name": "Acampamento",
+        "terms": "acampamento, caça"
+      },
+      "cave": {
+        "name": "Caverna"
+      },
+      "clay": {
+        "name": "Argila"
+      },
+      "community": {
+        "name": "Comunidade",
+        "terms": "aldeia"
+      },
+      "fishing-site": {
+        "name": "Local de pesca",
+        "terms": "peixe"
+      },
+      "gathering-site": {
+        "name": "Local de coleta",
+        "terms": "coleta"
+      },
+      "hills": {
+        "name": "Morros",
+        "terms": "montanhas"
+      },
+      "house": {
+        "name": "Casa",
+        "terms": "casa, lar"
+      },
+      "hunting-site": {
+        "name": "Local de caça"
+      },
+      "lake": {
+        "name": "Lago"
+      },
+      "line": {
+        "name": "Nova linha"
+      },
+      "palm": {
+        "name": "Palmeira"
+      },
+      "path": {
+        "name": "Caminho"
+      },
+      "plant": {
+        "name": "Planta"
+      },
+      "point": {
+        "name": "Novo ponto"
+      },
+      "river": {
+        "name": "Rio"
+      },
+      "salt-lick": {
+        "name": "Saleiro"
+      },
+      "special-site": {
+        "name": "Local especial",
+        "terms": "história, sagrada, histórica"
+      },
+      "stream": {
+        "name": "Riacho"
+      },
+      "swidden": {
+        "name": "Terra agrícola",
+        "terms": "fazenda, jardim, lote, parcela, arrozal, cultivo"
+      },
+      "threat": {
+        "name": "Ameaça",
+        "terms": "perigo, ilegal, monitoramento"
+      },
+      "tree": {
+        "name": "Árvore"
+      },
+      "waterfall": {
+        "name": "Cachoeira",
+        "terms": "cascata"
+      }
+    },
+    "categories": {}
+  },
+  "pl": {
+    "categories": {}
+  },
+  "nl": {
+    "fields": {
+      "animal-type": {
+        "label": "Soort dier",
+        "placeholder": "Wat voor soort dier?"
+      },
+      "building-type": {
+        "label": "Soort gebouw",
+        "options": {
+          "\"Church\"": "Kerk",
+          "\"Homestead\"": "Huishouden",
+          "\"Hospital\"": "Ziekenhuis",
+          "\"Other\"": "Iets anders",
+          "\"School\"": "School",
+          "\"Shop\"": "Winkel"
+        },
+        "placeholder": "School/ziekenhuis/enz"
+      },
+      "items-gathered": {
+        "label": "Wat wordt hier verzameld?",
+        "placeholder": "bijv. vuurhout / geneesmiddel, enz."
+      },
+      "name": {
+        "label": "Naam",
+        "placeholder": "Algemene naam van deze plaats"
+      },
+      "note": {
+        "label": "Opmerking",
+        "placeholder": "Verhalen of notities over deze plaats"
+      },
+      "owner": {
+        "label": "Eigenaar",
+        "placeholder": "Eigenaar of gebruiker van de plaats"
+      },
+      "palm-species": {
+        "label": "Soort palm",
+        "placeholder": "Wat voor soort palm?"
+      },
+      "plant-species": {
+        "label": "Plantensoort",
+        "placeholder": "Wat voor soort plant?"
+      },
+      "source": {
+        "label": "Bron",
+        "placeholder": "Gegevensbron"
+      },
+      "tree-species": {
+        "label": "Boomsoort",
+        "placeholder": "Wat voor soort boom?"
+      },
+      "type": {
+        "label": "Wat voor soort pad?",
+        "placeholder": "Hoe wordt dit pad gebruikt?"
+      }
+    },
+    "presets": {
+      "airstrip": {
+        "name": "Landingsbaan",
+        "terms": "vliegveld,luchthaven,landingsbaan"
+      },
+      "animal": {
+        "name": "Dier"
+      },
+      "area": {
+        "name": "Nieuw gebied"
+      },
+      "boundary-line": {
+        "name": "gebiedsgrens",
+        "terms": "grens,grensscheiding"
+      },
+      "building": {
+        "name": "Gebouw",
+        "terms": "medisch,school"
+      },
+      "camp": {
+        "name": "Kamp",
+        "terms": "kampplek,kamperen,jacht"
+      },
+      "cave": {
+        "name": "Grot"
+      },
+      "clay": {
+        "name": "Klei"
+      },
+      "community": {
+        "name": "Gemeenschap",
+        "terms": "dorp"
+      },
+      "fishing-site": {
+        "name": "Vissen plaats",
+        "terms": "vis"
+      },
+      "gathering-site": {
+        "name": "Verzamelplaats",
+        "terms": "verzameling"
+      },
+      "hills": {
+        "name": "Heuvels",
+        "terms": "bergen"
+      },
+      "house": {
+        "name": "Huis",
+        "terms": "huis,woning"
+      },
+      "hunting-site": {
+        "name": "Jachtplaats"
+      },
+      "lake": {
+        "name": "Meer"
+      },
+      "line": {
+        "name": "Nieuwe lijn"
+      },
+      "palm": {
+        "name": "Palm"
+      },
+      "path": {
+        "name": "Pad"
+      },
+      "plant": {
+        "name": "Plant"
+      },
+      "point": {
+        "name": "Nieuw punt"
+      },
+      "river": {
+        "name": "Rivier"
+      },
+      "salt-lick": {
+        "name": "Zoutlik"
+      },
+      "special-site": {
+        "name": "Speciale plek",
+        "terms": "verhaal,heilig,historisch,geschiedenis"
+      },
+      "stream": {
+        "name": "Stroom"
+      },
+      "swidden": {
+        "name": "Akkerland",
+        "terms": "boerderij,tuin,plot,toewijzing,rijstveld,teelt"
+      },
+      "threat": {
+        "name": "Bedreiging",
+        "terms": "gevaar,illegaal,toezicht"
+      },
+      "tree": {
+        "name": "Boom"
+      },
+      "waterfall": {
+        "name": "Waterval",
+        "terms": "stroomversnelling"
+      }
+    },
+    "categories": {}
+  },
+  "srn": {
+    "fields": {
+      "animal-type": {
+        "label": "Sort' meti",
+        "placeholder": "Sort' meti na disi?"
+      },
+      "building-type": {
+        "label": "Sort' oso",
+        "options": {
+          "\"Church\"": "Kerki",
+          "\"Homestead\"": "Gron",
+          "\"Hospital\"": "Hati oso",
+          "\"Other\"": "Tra sani",
+          "\"School\"": "Skoro",
+          "\"Shop\"": "Wenkri"
+        },
+        "placeholder": "Skoro/ati oso/enz"
+      },
+      "items-gathered": {
+        "label": "Sort sani ie kan kisi djaso?",
+        "placeholder": "lek faya-udu / dresi enz."
+      },
+      "name": {
+        "label": "Neng",
+        "placeholder": "San na a neng fu a presi disi"
+      },
+      "note": {
+        "label": "Notitie",
+        "placeholder": "Tori o tra sani yu wan skrifi abra a presi disi"
+      },
+      "owner": {
+        "label": "Eiginari",
+        "placeholder": "Eigenari noso a man di gebroiki a presi disi"
+      },
+      "palm-species": {
+        "label": "Sort palm bon",
+        "placeholder": "Sort palm bon na disi?"
+      },
+      "plant-species": {
+        "label": "Sort prani",
+        "placeholder": "Sort prani na disi?"
+      },
+      "source": {
+        "label": "Bron",
+        "placeholder": "Bron fu a gegevens"
+      },
+      "tree-species": {
+        "label": "Sort bon",
+        "placeholder": "Sort bon na disi?"
+      },
+      "type": {
+        "label": "Sort pasi na disi?",
+        "placeholder": "Fa dey man gebroiki a pasi disi?"
+      }
+    },
+    "presets": {
+      "airstrip": {
+        "name": "Lanpresi",
+        "terms": "lanpresi,freigron,saka"
+      },
+      "animal": {
+        "name": "Meti"
+      },
+      "area": {
+        "name": "Nyun pisi"
+      },
+      "boundary-line": {
+        "name": "grens",
+        "terms": "grens,tapusei"
+      },
+      "building": {
+        "name": "Gebouw",
+        "terms": "dresi,skoro"
+      },
+      "camp": {
+        "name": "Kampu",
+        "terms": "kampu,set wan kampu,onti"
+      },
+      "cave": {
+        "name": "Bergi-olo"
+      },
+      "clay": {
+        "name": "Klei"
+      },
+      "community": {
+        "name": "Gemeenschap",
+        "terms": "kondre"
+      },
+      "fishing-site": {
+        "name": "Presi fu fisi",
+        "terms": "fisi"
+      },
+      "gathering-site": {
+        "name": "Presi pe yu kan kisi sani",
+        "terms": "hipi"
+      },
+      "hills": {
+        "name": "Pikin bergi",
+        "terms": "bergi"
+      },
+      "house": {
+        "name": "Tanpresi",
+        "terms": "oso,tanpresi"
+      },
+      "hunting-site": {
+        "name": "Onti presi"
+      },
+      "lake": {
+        "name": "Meer"
+      },
+      "line": {
+        "name": "Nyun lin"
+      },
+      "palm": {
+        "name": "Palm bon"
+      },
+      "path": {
+        "name": "Pasi"
+      },
+      "plant": {
+        "name": "Prani"
+      },
+      "point": {
+        "name": "Nyun mofo"
+      },
+      "river": {
+        "name": "Liba"
+      },
+      "salt-lick": {
+        "name": "Sowtu presi"
+      },
+      "special-site": {
+        "name": "Aparti presi",
+        "terms": "tori,santa,fositen,historie"
+      },
+      "stream": {
+        "name": "Kriki"
+      },
+      "swidden": {
+        "name": "Prani gron",
+        "terms": "prani gron,dyari,pisi gron,domein,aleisi gron,kostgron"
+      },
+      "threat": {
+        "name": "Kefalek",
+        "terms": "kefalek,illegaal,luku a busi"
+      },
+      "tree": {
+        "name": "Bon"
+      },
+      "waterfall": {
+        "name": "Bigi sula",
+        "terms": "sula"
+      }
+    },
+    "categories": {}
+  },
+  "sr": {
+    "categories": {}
+  },
+  "ru": {
+    "categories": {}
+  },
+  "th": {
+    "fields": {
+      "animal-type": {
+        "label": "ประเภทสัตว์",
+        "placeholder": "สัตว์ชนิดใด?"
+      },
+      "building-type": {
+        "label": "ประเภทอาคาร",
+        "options": {
+          "\"Church\"": "โบสถ์",
+          "\"Homestead\"": "ที่อยู่อาศัย",
+          "\"Hospital\"": "โรงพยาบาล",
+          "\"Other\"": "อื่น ๆ",
+          "\"School\"": "โรงเรียน",
+          "\"Shop\"": "ร้านค้า"
+        },
+        "placeholder": "โรงเรียน/โรงพยาบาล/อื่น ๆ"
+      },
+      "items-gathered": {
+        "label": "รวบรวมอะไรไว้ที่นี่?",
+        "placeholder": "เช่น ไม้ทำฟืน / ยา เป็นต้น"
+      },
+      "name": {
+        "label": "ชื่อ",
+        "placeholder": "ชื่อสามัญของสถานที่นี้"
+      },
+      "note": {
+        "label": "หมายเหตุ",
+        "placeholder": "เรื่องเล่าหรือบันทึกของสถานที่นี้"
+      },
+      "owner": {
+        "label": "เจ้าของ",
+        "placeholder": "เจ้าของหรือผู้ใช้สถานที่"
+      },
+      "palm-species": {
+        "label": "สายพันธุ์ปาล์ม",
+        "placeholder": "ปาล์มชนิดใด?"
+      },
+      "plant-species": {
+        "label": "สายพันธุ์พืช",
+        "placeholder": "พืชชนิดใด?"
+      },
+      "source": {
+        "label": "แหล่งที่มา",
+        "placeholder": "แหล่งที่มาข้อมูล"
+      },
+      "tree-species": {
+        "label": "สายพันธุ์ต้นไม้",
+        "placeholder": "ต้นไม้ชนิดใด?"
+      },
+      "type": {
+        "label": "ทางเดินประเภทใด?",
+        "placeholder": "เส้นทางนี้ใช้ทำอะไร?"
+      }
+    },
+    "presets": {
+      "airstrip": {
+        "name": "ทางขึ้น-ลงของเครื่องบิน",
+        "terms": "ลานบิน สนามบิน ที่ลงจอด"
+      },
+      "animal": {
+        "name": "สัตว์"
+      },
+      "area": {
+        "name": "พื้นที่ใหม่"
+      },
+      "boundary-line": {
+        "name": "ขอบเขต",
+        "terms": "เขตแดน แนวพรมแดน"
+      },
+      "building": {
+        "name": "อาคาร",
+        "terms": "โรงเรียนทางการแพทย์"
+      },
+      "camp": {
+        "name": "แคมป์",
+        "terms": "ที่ตั้งแคมป์ ตั้งแคมป์ ล่าสัตว์"
+      },
+      "cave": {
+        "name": "ถ้ำ"
+      },
+      "clay": {
+        "name": "ดินเหนียว"
+      },
+      "community": {
+        "name": "ชุมชน",
+        "terms": "หมู่บ้าน"
+      },
+      "fishing-site": {
+        "name": "ที่ตกปลา",
+        "terms": "ปลา"
+      },
+      "gathering-site": {
+        "name": "โรงเก็บสินค้า",
+        "terms": "ของสะสม"
+      },
+      "hills": {
+        "name": "เนินเขา",
+        "terms": "ภูเขา"
+      },
+      "house": {
+        "name": "บ้าน",
+        "terms": "บ้าน ที่อยู่อาศัย"
+      },
+      "hunting-site": {
+        "name": "ที่ล่าสัตว์"
+      },
+      "lake": {
+        "name": "ทะเลสาบ"
+      },
+      "line": {
+        "name": "เส้นทางใหม่"
+      },
+      "palm": {
+        "name": "ต้นปาล์ม"
+      },
+      "path": {
+        "name": "เส้นทาง"
+      },
+      "plant": {
+        "name": "พืช"
+      },
+      "point": {
+        "name": "ตำแหน่งใหม่"
+      },
+      "river": {
+        "name": "แม่น้ำ"
+      },
+      "salt-lick": {
+        "name": "โป่งเกลือ"
+      },
+      "special-site": {
+        "name": "สถานที่พิเศษ",
+        "terms": "มีเรื่องเล่า ความศักดิ์สิทธิ์ ประวัติศาสตร์"
+      },
+      "stream": {
+        "name": "ลำธาร"
+      },
+      "swidden": {
+        "name": "ที่นา",
+        "terms": "ฟาร์ม สวน แปลงปลูก การจัดแปลง นาข้าว ที่การเกษตร"
+      },
+      "threat": {
+        "name": "ภัยคุกคาม",
+        "terms": "ภัยอันตราย สิ่งผิดกฎหมาย การติดตาม"
+      },
+      "tree": {
+        "name": "ต้นไม้"
+      },
+      "waterfall": {
+        "name": "น้ำตก",
+        "terms": "ชั้นน้ำตก"
+      }
+    },
+    "categories": {}
+  },
+  "sv": {
+    "categories": {}
+  },
+  "uk": {
+    "categories": {}
+  },
+  "tr": {
+    "categories": {}
+  },
+  "vi": {
+    "fields": {
+      "animal-type": {
+        "label": "Loại động vật",
+        "placeholder": "Đây là loài động vật nào?"
+      },
+      "building-type": {
+        "label": "Loại tòa nhà",
+        "options": {
+          "\"Church\"": "Nhà thờ",
+          "\"Homestead\"": "Trang trại",
+          "\"Hospital\"": "Bệnh viện",
+          "\"Other\"": "Khác",
+          "\"School\"": "Trường học",
+          "\"Shop\"": "Cửa hàng"
+        },
+        "placeholder": "Trường học/bệnh viện/vv"
+      },
+      "items-gathered": {
+        "label": "Cái gì được tập trung ở đây?",
+        "placeholder": "ví dụ: củi/thuốc, vv"
+      },
+      "name": {
+        "label": "Tên",
+        "placeholder": "Tên thường gọi của địa điểm này"
+      },
+      "note": {
+        "label": "Ghi chú",
+        "placeholder": "Câu chuyện hoặc ghi chú về địa điểm này"
+      },
+      "owner": {
+        "label": "Người sở hữu",
+        "placeholder": "Người sở hữu hoặc người sử dụng địa điểm"
+      },
+      "palm-species": {
+        "label": "Các loài cọ",
+        "placeholder": "Đây là loài cọ gì?"
+      },
+      "plant-species": {
+        "label": "Các loài cây",
+        "placeholder": "Đây là loài cây gì?"
+      },
+      "source": {
+        "label": "Nguồn",
+        "placeholder": "Nguồn dữ liệu"
+      },
+      "tree-species": {
+        "label": "Các loài cây",
+        "placeholder": "Đây là loài cây gì?"
+      },
+      "type": {
+        "label": "Đây là đường gì?",
+        "placeholder": "Con đường này dùng để làm gì?"
+      }
+    },
+    "presets": {
+      "airstrip": {
+        "name": "Đường bay",
+        "terms": "sân bay, hạ cánh"
+      },
+      "animal": {
+        "name": "Động vật"
+      },
+      "area": {
+        "name": "Khu vực mới"
+      },
+      "boundary-line": {
+        "name": "ranh giới",
+        "terms": "biên giới, biên thùy"
+      },
+      "building": {
+        "name": "Tòa nhà",
+        "terms": "bệnh viện, trường học"
+      },
+      "camp": {
+        "name": "Trại",
+        "terms": "khu cắm trại, đi cắm trại, săn bắn"
+      },
+      "cave": {
+        "name": "Hang động"
+      },
+      "clay": {
+        "name": "Đất sét"
+      },
+      "community": {
+        "name": "Cộng đồng",
+        "terms": "làng"
+      },
+      "fishing-site": {
+        "name": "Khu câu cá",
+        "terms": "cá"
+      },
+      "gathering-site": {
+        "name": "Địa điểm tụ họp",
+        "terms": "bộ sưu tập"
+      },
+      "hills": {
+        "name": "Đồi",
+        "terms": "núi"
+      },
+      "house": {
+        "name": "Nhà",
+        "terms": "nhà"
+      },
+      "hunting-site": {
+        "name": "Khu săn bắn"
+      },
+      "lake": {
+        "name": "Hồ"
+      },
+      "line": {
+        "name": "Dòng mới"
+      },
+      "palm": {
+        "name": "Cây cọ"
+      },
+      "path": {
+        "name": "Con đường"
+      },
+      "plant": {
+        "name": "Cây"
+      },
+      "point": {
+        "name": "Điểm mới"
+      },
+      "river": {
+        "name": "Sông"
+      },
+      "salt-lick": {
+        "name": "Bãi liếm"
+      },
+      "special-site": {
+        "name": "Địa điểm đặc biệt",
+        "terms": "câu chuyện, linh thiêng, lịch sử"
+      },
+      "stream": {
+        "name": "Suối"
+      },
+      "swidden": {
+        "name": "Đất nông nghiệp",
+        "terms": "trang trại, vườn, miếng đất, mảnh đất, đồng ruộng, trồng trọt"
+      },
+      "threat": {
+        "name": "Các mối đe dọa",
+        "terms": "nguy hiểm, bất hợp pháp, giám sát"
+      },
+      "tree": {
+        "name": "Cây"
+      },
+      "waterfall": {
+        "name": "Thác nước",
+        "terms": "chảy xuống"
+      }
+    },
+    "categories": {}
+  },
+  "zh": {
+    "categories": {}
+  }
+}
