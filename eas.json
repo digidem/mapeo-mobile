@@ -18,7 +18,7 @@
       "distribution": "internal",
       "android": {
         "withoutCredentials": true,
-        "gradleCommand": ":app:assembleAppDebug --debug --stracktrace"
+        "gradleCommand": "--debug --stacktrace :app:assembleAppDebug"
       },
       "ios": {
         "buildConfiguration": "Debug"
