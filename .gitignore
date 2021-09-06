@@ -88,3 +88,6 @@ credentials.json
 
 # Downloaded APK for detox tests
 /.cache
+
+# Expo
+/.expo
