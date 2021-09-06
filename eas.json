@@ -17,6 +17,7 @@
       "extends": "base",
       "distribution": "internal",
       "android": {
+        "withoutCredentials": true,
         "gradleCommand": ":app:assembleAppDebug",
         "artifactPath": "node_modules/nodejs-mobile-react-native/android/.cxx/**/*"
       },
