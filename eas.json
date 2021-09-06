@@ -17,7 +17,8 @@
       "extends": "base",
       "distribution": "internal",
       "android": {
-        "gradleCommand": ":app:assembleAppDebug"
+        "gradleCommand": ":app:assembleAppDebug",
+        "artifactPath": "node_modules/nodejs-mobile-react-native/android/.cxx/**/*"
       },
       "ios": {
         "buildConfiguration": "Debug"
