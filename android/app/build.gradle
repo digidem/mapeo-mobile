@@ -180,9 +180,12 @@ def myVersionName = getenv("ANDROID_VERSION_NAME") ?: getenv("npm_package_versio
 println("Version name")
 println(myVersionName)
 
+def paths = [
+    new File("app/build/jni/libs")
+]
+
 bugsnag {
-    ndk true
-    sharedObjectPath "app/build/jni/libs"
+    sharedObjectPaths = paths
 }
 
 String shouldRebuildNativeModules = System.getenv('NODEJS_MOBILE_BUILD_NATIVE_MODULES');
@@ -306,7 +309,7 @@ android {
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
-                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
             }
         }
     }
@@ -324,12 +327,6 @@ android {
         // Make sure libjsc.so does not packed in APK
         // This is for react-native-v8
         exclude "**/libjsc.so"
-    }
-
-    // Use Java 1.8
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -379,7 +376,7 @@ dependencies {
 // Run this once to be able to run the application with BUCK
 // puts all compile dependencies into folder libs for BUCK to use
 task copyDownloadableDepsToLibs(type: Copy) {
-    from configurations.compile
+    from configurations.implementation
     into 'libs'
 }
 

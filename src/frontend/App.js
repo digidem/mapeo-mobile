@@ -1,3 +1,5 @@
+import "react-native-gesture-handler";
+
 // @flow
 import * as React from "react";
 import { LogBox } from "react-native";
