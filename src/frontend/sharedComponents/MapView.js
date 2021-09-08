@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { Platform, View, StyleSheet } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ScaleBar from "react-native-scale-bar";
 import CheapRuler from "cheap-ruler";
@@ -28,7 +28,9 @@ const DEFAULT_ZOOM_FALLBACK_MAP = 4;
 MapboxGL.setAccessToken(config.mapboxAccessToken);
 // Forces Mapbox to always be in connected state, rather than reading system
 // connectivity state
-MapboxGL.setConnected(true);
+if (Platform.OS === "android") {
+  MapboxGL.setConnected(true);
+}
 
 const mapboxStyles = {
   observation: {

@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { PermissionsAndroid } from "react-native";
+import { PermissionsAndroid, Platform } from "react-native";
 import debug from "debug";
 import shallowequal from "shallowequal";
 import hoistStatics from "hoist-non-react-statics";
@@ -75,6 +75,7 @@ export class PermissionsProvider extends React.Component<
   };
 
   async requestPermissions(permissions: PermissionType | PermissionType[]) {
+    if (Platform.OS !== "android") return;
     if (!Array.isArray(permissions)) permissions = [permissions];
     // $FlowFixMe see https://github.com/facebook/react-native/blob/4409642811c787052e0baeb92e2679a96002c1e3/Libraries/PermissionsAndroid/NativePermissionsAndroid.js#L16
     const status = await PermissionsAndroid.requestMultiple(permissions);

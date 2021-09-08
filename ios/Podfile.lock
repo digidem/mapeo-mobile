@@ -384,6 +384,8 @@ PODS:
     - React-Core
   - RNCMaskedView (0.1.10):
     - React
+  - RNCPicker (2.0.0):
+    - React-Core
   - RNDeviceInfo (5.6.3):
     - React
   - RNFS (2.16.6):
@@ -490,6 +492,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -626,6 +629,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/checkbox"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNFS:
@@ -663,7 +668,7 @@ SPEC CHECKSUMS:
   EXBarCodeScanner: ea326d0d2f0b84d4fa2fb833d17e28eaff7f831b
   EXCamera: 042b334f6ee9b918855fe4c4f155d4c372300a5f
   EXConstants: 3babb61f8f4bb7dffe85b8b7d6eaa31d903e4d7e
-  EXDocumentPicker: 484683af715133a58f8c4b17fdaf7e411662f498
+  EXDocumentPicker: a96d7fc2e6fcfeb0fe52cede8e32497ca225f7d1
   EXFileSystem: 0a04aba8da751b9ac954065911bcf166503f8267
   EXImageLoader: d3531a3fe530b22925c19977cb53bb43e3821fe6
   EXLinearGradient: f9ea3259f096b27008860ca50764184225dc71c9
@@ -719,6 +724,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: d059c3ee71738c39834a627476322a5a8cd5bf36
   RNCCheckbox: 6bd119c26c6eb8264a29d59ff66cb70a14de3349
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
+  RNCPicker: 4cc5f18bb7942bd63c3fa51237ce9603606b94e7
   RNDeviceInfo: 5be12a5bfbb8da3528c43ee4373abd9c30d04616
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
