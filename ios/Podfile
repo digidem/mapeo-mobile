@@ -1,12 +1,18 @@
-require_relative '../node_modules/react-native/scripts/react_native_pods'
-require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+# require_relative '../node_modules/react-native/scripts/react_native_pods'
+# require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
+require File.join(File.dirname(`node --print "require.resolve('@react-native-community/cli-platform-ios/package.json')"`), "native_modules")
+require File.join(File.dirname(`node --print "require.resolve('react-native-unimodules/package.json')"`), "cocoapods")
 
-platform :ios, '10.0'
+platform :ios, '11.0'
 
 target 'mapeo' do
+  use_unimodules!
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'mapeoTests' do
     inherit! :complete
@@ -17,7 +23,7 @@ target 'mapeo' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
-  use_flipper!
+  use_flipper!({'Flipper' => '0.75.1', 'Flipper-Folly' => '2.5.3', 'Flipper-RSocket' => '1.3.1'})
   post_install do |installer|
     flipper_post_install(installer)
   end
@@ -30,5 +36,4 @@ target 'mapeo-tvOS' do
     inherit! :search_paths
     # Pods for testing
   end
-
 end

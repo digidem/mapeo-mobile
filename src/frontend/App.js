@@ -1,4 +1,8 @@
 // @flow
+
+// https://docs.swmansion.com/react-native-gesture-handler/docs/#ios
+import "react-native-gesture-handler";
+
 import * as React from "react";
 import { LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
