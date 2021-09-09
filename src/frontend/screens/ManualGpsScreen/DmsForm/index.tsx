@@ -146,9 +146,11 @@ const DmsForm = ({ onValueUpdate }: FormProps) => {
         throw new Error(t(m.invalidCoordinates));
       }
     } catch (err) {
-      onValueUpdate({
-        error: err,
-      });
+      if (err instanceof Error) {
+        onValueUpdate({
+          error: err,
+        });
+      }
     }
   }, [latitude, longitude, latCardinality, lonCardinality, onValueUpdate]);
 

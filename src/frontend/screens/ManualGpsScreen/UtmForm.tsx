@@ -103,9 +103,11 @@ const UtmForm = ({ onValueUpdate }: FormProps) => {
         },
       });
     } catch (err) {
-      onValueUpdate({
-        error: err,
-      });
+      if (err instanceof Error) {
+        onValueUpdate({
+          error: err,
+        });
+      }
     }
   }, [easting, northing, zoneLetter, zoneNum, onValueUpdate]);
 
