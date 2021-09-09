@@ -6,7 +6,9 @@ import type {
   SelectOneField,
   SelectMultipleField,
 } from "mapeo-schema";
+
 import api from "../api";
+import useIsMounted from "../hooks/useIsMounted";
 import bugsnag from "../lib/logger";
 import type { Status } from "../types";
 
@@ -95,52 +97,31 @@ const defaultContext: ConfigContextType = [
 
 const ConfigContext = React.createContext<ConfigContextType>(defaultContext);
 
-type Props = {
-  children: React.ReactNode;
-};
-
-export const ConfigProvider = ({ children }: Props) => {
+export const ConfigProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const [config, setConfig] = React.useState(defaultConfig);
-  const [status, setStatus] = React.useState<Status>("idle");
-  const [reloadToken, setReloadToken] = React.useState<{}>();
+  const [status, setStatus] = React.useState<Status>("loading");
   const intl = useIntl();
+  const isMounted = useIsMounted();
 
-  const reload = React.useCallback(() => setReloadToken({}), []);
-
-  const replace = React.useCallback(
-    fileUri => {
+  const loadConfig = React.useCallback(
+    async (locale: string) => {
       setStatus("loading");
-      api
-        .replaceConfig(fileUri)
-        .then(reload)
-        .catch(err => {
-          log("Error replacing presets", err);
-          setStatus("error");
-        });
-    },
-    [reload]
-  );
 
-  const contextValue: ConfigContextType = React.useMemo(
-    () => [
-      { ...config, status },
-      { reload, replace },
-    ],
-    [config, status, reload, replace]
-  );
+      try {
+        const [
+          presetsList,
+          fieldsList,
+          metadata,
+          messages,
+        ] = await Promise.all([
+          api.getPresets(),
+          api.getFields(),
+          api.getMetadata(),
+          api.getConfigMessages(locale),
+        ]);
 
-  // Load presets and fields from Mapeo Core on first mount of the app
-  React.useEffect(() => {
-    let didCancel = false;
-    setStatus("loading");
-    Promise.all([
-      api.getPresets(),
-      api.getFields(),
-      api.getMetadata(),
-      api.getConfigMessages(intl.locale),
-    ])
-      .then(([presetsList, fieldsList, metadata, messages]) => {
-        if (didCancel) return; // if component was unmounted, don't set state
+        if (!isMounted()) return; // if component was unmounted, don't set state
+
         setConfig({
           presets: new Map(
             presetsList.filter(filterPointPreset).map(p => [p.id, p])
@@ -149,27 +130,58 @@ export const ConfigProvider = ({ children }: Props) => {
           metadata: metadata,
           messages: messages,
         });
+
         setStatus("success");
-      })
-      .catch(err => {
-        bugsnag.notify(err, report => {
-          report.severity = "error";
-        });
+      } catch (err) {
+        if (err instanceof Error) {
+          bugsnag.notify(err, report => {
+            report.severity = "error";
+          });
+        }
+
         log("Error loading presets and fields", err);
-        if (didCancel) return; // if component was unmounted, don't set state
+
+        if (!isMounted()) return; // if component was unmounted, don't set state
+
         setStatus("error");
-      });
-    return () => {
-      didCancel = true;
-    };
-  }, [reloadToken, intl.locale]);
+      }
+    },
+    [isMounted]
+  );
+
+  const replace = React.useCallback(
+    async fileUri => {
+      try {
+        setStatus("loading");
+        await api.replaceConfig(fileUri);
+        await loadConfig(intl.locale);
+      } catch (err) {
+        log("Error replacing presets", err);
+        setStatus("error");
+      }
+    },
+    [intl.locale, loadConfig]
+  );
+
+  // Load presets and fields from Mapeo Core on first mount of the app
+  React.useEffect(() => {
+    loadConfig(intl.locale);
+  }, [intl.locale, loadConfig]);
 
   const mergedMessages = React.useMemo(
     () => ({
       ...intl.messages,
       ...config.messages,
     }),
-    [config.messages, intl]
+    [config.messages, intl.messages]
+  );
+
+  const contextValue: ConfigContextType = React.useMemo(
+    () => [
+      { ...config, status },
+      { reload: () => loadConfig(intl.locale), replace },
+    ],
+    [config, status, loadConfig, replace, intl.locale]
   );
 
   return (

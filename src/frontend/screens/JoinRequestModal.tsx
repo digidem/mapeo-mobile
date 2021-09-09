@@ -14,7 +14,7 @@ import {
   MODAL_NAVIGATION_OPTIONS,
   BottomSheetModal,
   BottomSheetContent,
-  useBottomSheetRef,
+  useBottomSheetModal,
 } from "../sharedComponents/BottomSheetModal";
 import { DoneIcon } from "../sharedComponents/icons";
 import Circle from "../sharedComponents/icons/Circle";
@@ -56,18 +56,13 @@ export const JoinRequestModal: NavigationStackScreenComponent<{
   const [loading, setLoading] = React.useState(false);
   const [step, setStep] = React.useState<"prompt" | "success">("prompt");
 
-  const sheetRef = useBottomSheetRef();
   const [config] = React.useContext(ConfigContext);
+
+  const { sheetRef, closeSheet } = useBottomSheetModal({ openOnMount: true });
 
   const projectName = config.metadata.name;
   const deviceName = navigation.getParam("deviceName");
   const key = navigation.getParam("key");
-
-  const closeModal = () => {
-    if (sheetRef.current) {
-      sheetRef.current.dismiss();
-    }
-  };
 
   // TODO: do something with `key` here
   const invite = async () => {
@@ -83,12 +78,6 @@ export const JoinRequestModal: NavigationStackScreenComponent<{
     setStep("success");
   };
 
-  React.useEffect(() => {
-    if (sheetRef.current) {
-      sheetRef.current.present();
-    }
-  }, []);
-
   return (
     <BottomSheetModal ref={sheetRef} onDismiss={navigation.goBack}>
       {step === "prompt" ? (
@@ -96,7 +85,7 @@ export const JoinRequestModal: NavigationStackScreenComponent<{
           buttonConfigs={[
             {
               variation: "outlined",
-              onPress: closeModal,
+              onPress: closeSheet,
               text: t(m.denyRequest),
             },
             {
@@ -117,7 +106,7 @@ export const JoinRequestModal: NavigationStackScreenComponent<{
           buttonConfigs={[
             {
               variation: "outlined",
-              onPress: closeModal,
+              onPress: closeSheet,
               text: t(m.close),
             },
           ]}
