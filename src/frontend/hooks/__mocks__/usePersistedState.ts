@@ -1,10 +1,10 @@
-// @flow
 import React from "react";
 
 type Status = "idle" | "loading";
+
 type Opts = {
-  stringify: any => string,
-  parse: string => any,
+  stringify?: (value: any) => string;
+  parse?: (value: string) => any;
 };
 
 export default function createPersistedState(
@@ -13,8 +13,8 @@ export default function createPersistedState(
 ) {
   return function usePersistedState<S>(
     initialValue: S
-  ): [S, Status, ((S => S) | S) => void] {
+  ): readonly [S, Status, React.Dispatch<React.SetStateAction<S>>] {
     const [state, setState] = React.useState<S>(initialValue);
-    return [state, "idle", setState];
+    return [state, "idle", setState] as const;
   };
 }
