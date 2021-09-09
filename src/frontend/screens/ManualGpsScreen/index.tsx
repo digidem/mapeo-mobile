@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import Text from "../../sharedComponents/Text";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
+import { NavigationStackScreenComponent } from "react-navigation-stack";
 
 import useSettingsValue from "../../hooks/useSettingsValue";
 import createPersistedState from "../../hooks/usePersistedState";
@@ -17,7 +18,6 @@ import useDraftObservation from "../../hooks/useDraftObservation";
 import IconButton from "../../sharedComponents/IconButton";
 import { BackIcon, SaveIcon } from "../../sharedComponents/icons";
 import Select from "../../sharedComponents/Select";
-import { StackScreenComponent } from "../../sharedTypes";
 
 import { ConvertedCoordinateData } from "./shared";
 import DdForm from "./DdForm";
@@ -50,7 +50,9 @@ const m = defineMessages({
 
 const usePersistedState = createPersistedState("manualCoordinateEntryFormat");
 
-const ManualGpsScreen: StackScreenComponent = ({ navigation }) => {
+const ManualGpsScreen: NavigationStackScreenComponent<{
+  handleSavePress?: () => void;
+}> = ({ navigation }) => {
   const { formatMessage: t } = useIntl();
 
   const ENTRY_FORMAT_OPTIONS = [
@@ -91,11 +93,13 @@ const ManualGpsScreen: StackScreenComponent = ({ navigation }) => {
 
         navigation.pop();
       } catch (err) {
-        ToastAndroid.showWithGravity(
-          err.message,
-          ToastAndroid.LONG,
-          ToastAndroid.TOP
-        );
+        if (err instanceof Error) {
+          ToastAndroid.showWithGravity(
+            err.message,
+            ToastAndroid.LONG,
+            ToastAndroid.TOP
+          );
+        }
       }
     }
 
