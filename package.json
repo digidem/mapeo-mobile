@@ -52,7 +52,7 @@
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^6.0.0",
     "@react-native-mapbox-gl/maps": "^8.0.0",
-    "@react-native-picker/picker": "^1.16.3",
+    "@react-native-picker/picker": "^2.0.0",
     "bugsnag-react-native": "^2.23.10",
     "cheap-ruler": "^3.0.1",
     "core-js": "^3.6.5",
