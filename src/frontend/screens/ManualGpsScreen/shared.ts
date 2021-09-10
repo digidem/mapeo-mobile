@@ -11,8 +11,8 @@ export type FormProps = {
   onValueUpdate: (convertedCoordinates: ConvertedCoordinateData) => void;
 };
 
-// https://stackoverflow.com/a/39399503
-export const POSITIVE_DECIMAL_REGEX = /^(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/;
+// Adapted from https://stackoverflow.com/a/7708352
+export const POSITIVE_DECIMAL_REGEX = /^([\d]+(?:[\.][\d]*)?|\.[\d]+)$/;
 
 export const INTEGER_REGEX = /^[0-9]\d*$/;
 
