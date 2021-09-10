@@ -1,4 +1,3 @@
-// @flow
 import { Alert } from "react-native";
 import { fromLatLon } from "utm";
 import type { SelectOptions, LabeledSelectOption, Key } from "mapeo-schema";
@@ -35,18 +34,18 @@ export function promiseTimeout<T>(
   promise: Promise<T>,
   ms: number,
   msg?: string
-): Promise<T> {
-  let timeoutId: TimeoutID;
-  const timeout = new Promise((resolve, reject) => {
-    timeoutId = setTimeout(() => {
+) {
+  let timeoutId: number;
+  const timeout: Promise<void> = new Promise((_resolve, reject) => {
+    timeoutId = window.setTimeout(() => {
       reject(new Error(msg || "Timeout after " + ms + "ms"));
     }, ms);
   });
-  promise.finally(() => clearTimeout(timeoutId));
+  promise.finally(() => window.clearTimeout(timeoutId));
   return Promise.race([promise, timeout]);
 }
 
-export function parseVersionMajor(versionString?: string = "") {
+export function parseVersionMajor(versionString: string = "") {
   const major = Number.parseInt(versionString.split(".")[0]);
   return isNaN(major) ? 0 : major;
 }
@@ -81,7 +80,8 @@ export function matchPreset(
   observationValue: ObservationValue,
   presets: PresetsMap
 ): Preset | void {
-  const categoryId = observationValue.tags.categoryId;
+  const categoryId = (observationValue.tags as { categoryId?: string })
+    .categoryId;
   if (!categoryId) return;
   return presets.get(categoryId);
 }
@@ -93,7 +93,7 @@ export function addFieldDefinitions(
   const fieldDefs = Array.isArray(preset.fields)
     ? preset.fields.map(fieldId => fields.get(fieldId))
     : [];
-  // $FlowFixMe - Need to figure out how to convert types like this
+
   return {
     ...preset,
     fields: filterFalsy(fieldDefs),
@@ -103,8 +103,8 @@ export function addFieldDefinitions(
 // Filter photos from an array of observation attachments (we could have videos
 // and other media types)
 export function filterPhotosFromAttachments(
-  attachments?: Array<ObservationAttachment> = []
-): Array<SavedPhoto> {
+  attachments: ObservationAttachment[] = []
+): SavedPhoto[] {
   return attachments.reduce((acc, att) => {
     if (
       att.type === "image/jpeg" ||
@@ -114,17 +114,11 @@ export function filterPhotosFromAttachments(
     )
       acc.push({ id: att.id, type: att.type });
     return acc;
-  }, []);
-}
-
-export function getLastPhotoAttachment(
-  attachments?: Array<ObservationAttachment> = []
-): SavedPhoto | void {
-  return filterPhotosFromAttachments(attachments).pop();
+  }, [] as ObservationAttachment[]);
 }
 
 // Coordinates conversions
-export function toDegreesMinutesAndSeconds(coordinate: number) {
+function toDegreesMinutesAndSeconds(coordinate: number) {
   const absolute = Math.abs(coordinate);
   const degrees = Math.floor(absolute);
   const minutesNotTruncated = (absolute - degrees) * 60;
@@ -141,17 +135,17 @@ export function convertDmsToDd({
   degrees,
   minutes,
   seconds,
-}: {|
-  degrees: number,
-  minutes: number,
-  seconds: number,
-|}) {
+}: {
+  degrees: number;
+  minutes: number;
+  seconds: number;
+}) {
   return degrees + minutes / 60 + seconds / 3600;
 }
 
 // Style from National Geographic style guide
 // https://sites.google.com/a/ngs.org/ngs-style-manual/home/L/latitude-and-longitude
-function convertToDMS({ lat, lon }) {
+function convertToDMS({ lat, lon }: { lat: number; lon: number }) {
   const latitude = formatDms(toDegreesMinutesAndSeconds(lat));
   const latitudeCardinal = lat >= 0 ? "N" : "S";
 
@@ -160,12 +154,12 @@ function convertToDMS({ lat, lon }) {
   return `${latitude} ${latitudeCardinal}, ${longitude} ${longitudeCardinal}`;
 }
 
-function convertToUTM({ lat, lon }) {
+function convertToUTM({ lat, lon }: { lat: number; lon: number }) {
   try {
-    let { easting, northing, zoneNum, zoneLetter } = fromLatLon(lat, lon);
-    easting = leftPad(easting.toFixed(), 6, "0");
-    northing = leftPad(northing.toFixed(), 6, "0");
-    return `UTM ${zoneNum}${zoneLetter} ${easting} ${northing}`;
+    const { easting, northing, zoneNum, zoneLetter } = fromLatLon(lat, lon);
+    const formattedEasting = leftPad(easting.toFixed(), 6, "0");
+    const formattedNorthing = leftPad(northing.toFixed(), 6, "0");
+    return `UTM ${zoneNum}${zoneLetter} ${formattedEasting} ${formattedNorthing}`;
   } catch (e) {
     // Some coordinates (e.g. < 80S or 84N) cannot be formatted as UTM
     return `${lat >= 0 ? "+" : ""}${lat.toFixed(6)}°, ${
@@ -176,7 +170,7 @@ function convertToUTM({ lat, lon }) {
 
 // Style from National Geographic style guide
 // https://sites.google.com/a/ngs.org/ngs-style-manual/home/L/latitude-and-longitude
-function formatDD({ lat, lon }) {
+function formatDD({ lat, lon }: { lat: number; lon: number }) {
   const formattedLat = Math.abs(lat).toFixed(6);
   const formattedLon = Math.abs(lon).toFixed(6);
   const latCardinal = lat >= 0 ? "N" : "S";
@@ -184,7 +178,15 @@ function formatDD({ lat, lon }) {
   return `${formattedLat}° ${latCardinal}, ${formattedLon}° ${lonCardinal}`;
 }
 
-function formatDms({ degrees, minutes, seconds }) {
+function formatDms({
+  degrees,
+  minutes,
+  seconds,
+}: {
+  degrees: number;
+  minutes: number;
+  seconds: number;
+}) {
   return `${degrees}° ${minutes}' ${seconds.toFixed(3)}"`;
 }
 
@@ -193,9 +195,9 @@ export function formatCoords({
   lat,
   format = "utm",
 }: {
-  lon: number,
-  lat: number,
-  format?: "utm" | "dd" | "dms",
+  lon: number;
+  lat: number;
+  format?: "utm" | "dd" | "dms";
 }): string {
   switch (format) {
     case "dd":
@@ -223,9 +225,9 @@ export function getProp(tags: any, fieldKey: Key, defaultValue: any) {
  * used widely in presets yet
  */
 export function convertSelectOptionsToLabeled(
-  options: SelectOptions
+  options: SelectOptions // TODO: Need to update after updating `mapeo-schema` definitions
 ): LabeledSelectOption[] {
-  return options.map(option => {
+  return options.map((option: unknown) => {
     if (option === null) {
       return { label: "NULL", value: option };
     } else if (typeof option === "boolean") {
@@ -253,10 +255,16 @@ function leftPad(str: string, len: number, char: string): string {
   return pad + str;
 }
 
+// https://stackoverflow.com/a/58110124
+type Truthy<T> = T extends false | "" | 0 | null | undefined ? never : T; // from lodash
+function truthy<T>(value: T): value is Truthy<T> {
+  return !!value;
+}
+
 // This is a helper function to force the type definition
 // It filters an array to remove any falsy values
-function filterFalsy<T>(arr: Array<T | void>): Array<T> {
-  return arr.filter(Boolean);
+function filterFalsy<T>(arr: T[]) {
+  return arr.filter(truthy);
 }
 
 export function showWipAlert() {

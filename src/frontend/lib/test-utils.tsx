@@ -1,20 +1,21 @@
-// @flow
 /* eslint-env jest/globals */
 
-import React from "react";
+import * as React from "react";
 import { Text } from "react-native";
 import { render } from "@testing-library/react-native";
 import { IntlProvider } from "react-intl";
 import { PermissionsProvider } from "../context/PermissionsContext";
 import { DraftObservationProvider } from "../context/DraftObservationContext";
-import { type ObservationsContextType } from "../context/ObservationsContext";
-import { type ConfigContextType } from "../context/ConfigContext";
+import { ObservationsContextType } from "../context/ObservationsContext";
+import { ConfigContextType } from "../context/ConfigContext";
 import messages from "../../../translations/messages.json";
 
 jest.mock("../hooks/usePersistedState");
 
-const ObservationsContext = React.createContext<ObservationsContextType | void>();
-const ConfigContext = React.createContext<ConfigContextType | void>();
+const ObservationsContext = React.createContext<ObservationsContextType | void>(
+  undefined
+);
+const ConfigContext = React.createContext<ConfigContextType | void>(undefined);
 
 const observationsDefaultContext: ObservationsContextType = [
   {
@@ -39,19 +40,20 @@ const configDefaultContext: ConfigContextType = [
 ];
 
 const customRender = (
-  ui: React$Node,
+  ui: React.ReactNode,
   {
     observationsContext = observationsDefaultContext,
     configContext = configDefaultContext,
     ...renderOptions
   }: {
-    observationsContext?: ObservationsContextType,
-    configContext?: ConfigContextType,
+    observationsContext?: ObservationsContextType;
+    configContext?: ConfigContextType;
   } = {}
 ) =>
   render(
     <IntlProvider
-      messages={messages}
+      // Not ideal but it works
+      messages={messages as any}
       textComponent={
         // This is not ideal. By default IntlProvider uses <Fragment> and this
         // is what we use in the real app, but react-native-testing-library is
