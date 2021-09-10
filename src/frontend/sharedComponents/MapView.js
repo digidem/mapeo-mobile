@@ -16,7 +16,7 @@ import type { MapStyleType } from "../hooks/useMapStyle";
 import bugsnag from "../lib/logger";
 import config from "../../config.json";
 import Loading from "./Loading";
-import OfflineMapLayers from "./OfflineMapLayers";
+import { OfflineMapLayers } from "./OfflineMapLayers";
 
 // This is the default zoom used when the map first loads, and also the zoom
 // that the map will zoom to if the user clicks the "Locate" button and the

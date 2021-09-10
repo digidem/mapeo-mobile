@@ -8,7 +8,7 @@ import {
 
 export type ViewStyleProp = StyleProp<ViewStyle>;
 export type TextStyleProp = StyleProp<TextStyle>;
-export type ImageStyleProps = StyleProp<ImageStyle>;
+export type ImageStyleProp = StyleProp<ImageStyle>;
 
 export type MapStyle = {
   id: string;

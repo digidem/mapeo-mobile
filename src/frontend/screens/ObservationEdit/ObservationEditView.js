@@ -5,7 +5,6 @@ import Text from "../../sharedComponents/Text";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 
-import LocationField from "../../sharedComponents/LocationField";
 import BottomSheet from "./BottomSheet";
 import Field from "./Field";
 import {
@@ -14,6 +13,7 @@ import {
   CategoryCircleIcon,
 } from "../../sharedComponents/icons";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
+import { useObservationLocationInfo } from "../../hooks/useObservationLocationInfo";
 import useSettingsValue from "../../hooks/useSettingsValue";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import TextButton from "../../sharedComponents/TextButton";
@@ -53,16 +53,14 @@ const m = defineMessages({
   },
 });
 
-const LocationView = ({
-  longitude,
-  latitude,
-  accuracy,
-}: {
-  longitude?: number | null,
-  latitude?: number | null,
-  accuracy?: number,
-}) => {
+const LocationView = () => {
   const format = useSettingsValue("coordinateFormat");
+  const locationInfo = useObservationLocationInfo();
+
+  const longitude = locationInfo ? locationInfo.longitude : null;
+  const latitude = locationInfo ? locationInfo.latitude : null;
+  const accuracy = locationInfo ? locationInfo.accuracy : null;
+
   return (
     <View style={styles.locationContainer}>
       {longitude == null || latitude == null ? (
@@ -80,10 +78,8 @@ const LocationView = ({
           <Text style={styles.locationText}>
             <FormattedCoords format={format} lat={latitude} lon={longitude} />
           </Text>
-          {accuracy === undefined ? null : (
-            <Text style={styles.accuracy}>
-              {" ±" + accuracy.toFixed(2) + "m"}
-            </Text>
+          {accuracy != null && (
+            <Text style={accuracy}>{" ±" + accuracy.toFixed(2) + "m"}</Text>
           )}
         </>
       )}
@@ -186,11 +182,7 @@ export const ObservationEdit = ({
         style={styles.container}
         contentContainerStyle={styles.scrollViewContent}
       >
-        {isNew && (
-          <LocationField locked={!isNew}>
-            {fieldProps => <LocationView {...fieldProps} />}
-          </LocationField>
-        )}
+        {isNew && <LocationView />}
         <CategoryView preset={preset} onPress={onPressCategory} />
         <DescriptionField />
         <ThumbnailScrollView onPressPhoto={onPressPhoto} photos={photos} />

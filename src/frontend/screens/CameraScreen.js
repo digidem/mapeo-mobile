@@ -34,7 +34,7 @@ const CameraScreen = () => {
   const { permissions } = React.useContext(PermissionsContext);
 
   const handleAddPress = React.useCallback(
-    (e: any, capture: Promise<CapturedPictureMM>) => {
+    (capture: Promise<CapturedPictureMM>) => {
       log("pressed add button");
       newDraft(undefined, { tags: {} }, capture);
       navigation.navigate("CategoryChooser");

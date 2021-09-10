@@ -35,7 +35,7 @@ import useMapStyle from "../../hooks/useMapStyle";
 import useDeviceId from "../../hooks/useDeviceId";
 import useSettingsValue from "../../hooks/useSettingsValue";
 import Loading from "../../sharedComponents/Loading";
-import OfflineMapLayers from "../../sharedComponents/OfflineMapLayers";
+import { OfflineMapLayers } from "../../sharedComponents/OfflineMapLayers";
 import { ShareMessage, ShareSubject, renderToString } from "./ObservationShare";
 import {
   FormattedCoords,

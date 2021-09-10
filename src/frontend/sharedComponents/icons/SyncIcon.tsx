@@ -1,13 +1,8 @@
-// @flow
-import React from "react";
+import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import { DARK_MANGO, MANGO } from "../../lib/styles";
-
-type Props = {
-  inprogress?: boolean,
-};
 
 export const SyncIcon = ({ color = "white" }: { color?: string }) => (
   <Icon
@@ -18,15 +13,13 @@ export const SyncIcon = ({ color = "white" }: { color?: string }) => (
   />
 );
 
-const SyncIconCircle = ({ inprogress }: Props) => (
+export const SyncIconCircle = ({ inprogress }: { inprogress?: boolean }) => (
   <View style={[styles.outerCircle, { opacity: inprogress ? 0.5 : 1 }]}>
     <View style={styles.innerCircle}>
       <SyncIcon />
     </View>
   </View>
 );
-
-export default SyncIconCircle;
 
 const styles = StyleSheet.create({
   outerCircle: {

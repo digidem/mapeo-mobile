@@ -12,7 +12,7 @@ import {
   DoneIcon,
   ErrorIcon,
 } from "../../sharedComponents/icons";
-import Progress from "../../sharedComponents/icons/Progress";
+import { Progress } from "../../sharedComponents/icons/Progress";
 import DateDistance from "../../sharedComponents/DateDistance";
 import type { PeerError } from "../../api";
 import { parseVersionMajor } from "../../lib/utils";

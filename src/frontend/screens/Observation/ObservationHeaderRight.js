@@ -9,7 +9,7 @@ import { useDraftObservation } from "../../hooks/useDraftObservation";
 import { EditIcon } from "../../sharedComponents/icons";
 import type { NavigationProp } from "../../types";
 import useDeviceId from "../../hooks/useDeviceId";
-import { SyncIcon } from "../../sharedComponents/icons/SyncIconCircle";
+import { SyncIcon } from "../../sharedComponents/icons";
 
 type Props = {
   navigation: NavigationProp,

@@ -1,9 +1,8 @@
-// @flow
-import React from "react";
+import * as React from "react";
 import { View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-import type { LocationStatus } from "../../lib/utils";
+import { LocationStatus } from "../../lib/utils";
 
 const renderError = () => (
   <View
@@ -44,9 +43,11 @@ const renderIcon = (color = "#00FF02") => (
   />
 );
 
-type Props = { variant: LocationStatus };
+interface Props {
+  variant: LocationStatus;
+}
 
-const GpsIcon = ({ variant }: Props) => {
+export const GpsIcon = React.memo(({ variant }: Props) => {
   switch (variant) {
     case "error":
       return renderError();
@@ -58,6 +59,4 @@ const GpsIcon = ({ variant }: Props) => {
     default:
       return renderIcon();
   }
-};
-
-export default React.memo<Props>(GpsIcon);
+});

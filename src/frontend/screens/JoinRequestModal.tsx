@@ -17,7 +17,7 @@ import {
   useBottomSheetModal,
 } from "../sharedComponents/BottomSheetModal";
 import { DoneIcon } from "../sharedComponents/icons";
-import Circle from "../sharedComponents/icons/Circle";
+import { Circle } from "../sharedComponents/Circle";
 import { MAPEO_BLUE, WHITE } from "../lib/styles";
 
 const m = defineMessages({

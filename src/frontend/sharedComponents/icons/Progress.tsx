@@ -1,7 +1,13 @@
-import React from "react";
+import * as React from "react";
 import { Circle, CircleSnail } from "react-native-progress";
 
-const Progress = ({ size, color, progress }) =>
+interface Props {
+  color?: string;
+  progress?: number;
+  size?: number;
+}
+
+export const Progress = ({ size, color, progress }: Props) =>
   progress !== undefined && progress < 1 ? (
     <Circle
       size={size}
@@ -10,15 +16,13 @@ const Progress = ({ size, color, progress }) =>
       strokeCap="butt"
       direction="clockwise"
       borderWidth={0}
-      thicknes={3}
+      thickness={3}
     />
   ) : (
     <CircleSnail
-      size={size + 6}
+      size={size ? size + 6 : undefined}
       color={color}
       strokeCap="round"
       direction="clockwise"
     />
   );
-
-export default Progress;

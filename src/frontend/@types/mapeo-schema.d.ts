@@ -51,8 +51,8 @@ declare module "mapeo-schema" {
     lon?: number | null;
     metadata?: {
       location?: {
-        error: boolean;
-        permission: "granted" | "denied" | "never_ask_again";
+        error?: boolean;
+        permission?: "granted" | "denied" | "never_ask_again";
         position?: Position;
         provider?: Provider;
       };

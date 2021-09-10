@@ -6,7 +6,7 @@ import { useAppState } from "@react-native-community/hooks";
 
 import Text from "../../sharedComponents/Text";
 import { ErrorIcon, DoneIcon } from "../../sharedComponents/icons";
-import Progress from "../../sharedComponents/icons/Progress";
+import { Progress } from "../../sharedComponents/icons/Progress";
 import DotIndicator from "./DotIndicator";
 import api, { type UpgradeState, type TransferProgress } from "../../api";
 import ApkInstaller from "../../lib/ApkInstaller";

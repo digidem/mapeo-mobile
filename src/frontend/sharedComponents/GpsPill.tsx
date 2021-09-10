@@ -1,12 +1,11 @@
-// @flow
 import * as React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import Text from "./Text";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { defineMessages, useIntl } from "react-intl";
 import { useIsFocused } from "react-navigation-hooks";
 
 import LocationContext from "../context/LocationContext";
 import { GpsIcon } from "./icons";
+import Text from "./Text";
 import { getLocationStatus } from "../lib/utils";
 import type { LocationStatus } from "../lib/utils";
 
@@ -24,41 +23,39 @@ const m = defineMessages({
 const ERROR_COLOR = "#FF0000";
 
 type Props = {
-  onPress: null | (() => void),
-  precision?: number,
-  variant: LocationStatus,
+  onPress: () => void;
+  precision?: number;
+  variant: LocationStatus;
 };
 
-export const GpsPill = React.memo<Props>(
-  ({ onPress, variant, precision }: Props) => {
-    const isFocused = useIsFocused();
-    const { formatMessage: t } = useIntl();
-    let text: string;
-    if (variant === "error") text = t(m.noGps);
-    else if (variant === "searching" || typeof precision === "undefined")
-      text = t(m.searching);
-    else text = `± ${precision} m`;
-    return (
-      <TouchableOpacity onPress={onPress} testID="gpsPillButton">
-        <View
-          style={[
-            styles.container,
-            variant === "error" ? styles.error : undefined,
-          ]}
-        >
-          <View style={styles.icon}>
-            {isFocused && <GpsIcon variant={variant} />}
-          </View>
-          <Text style={styles.text} numberOfLines={1}>
-            {text}
-          </Text>
+export const GpsPill = React.memo(({ onPress, variant, precision }: Props) => {
+  const isFocused = useIsFocused();
+  const { formatMessage: t } = useIntl();
+  let text: string;
+  if (variant === "error") text = t(m.noGps);
+  else if (variant === "searching" || typeof precision === "undefined")
+    text = t(m.searching);
+  else text = `± ${precision} m`;
+  return (
+    <TouchableOpacity onPress={onPress} testID="gpsPillButton">
+      <View
+        style={[
+          styles.container,
+          variant === "error" ? styles.error : undefined,
+        ]}
+      >
+        <View style={styles.icon}>
+          {isFocused && <GpsIcon variant={variant} />}
         </View>
-      </TouchableOpacity>
-    );
-  }
-);
+        <Text style={styles.text} numberOfLines={1}>
+          {text}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+});
 
-const ConnectedGpsPill = ({ onPress }: { onPress: null | (() => void) }) => {
+const ConnectedGpsPill = ({ onPress }: { onPress: () => void }) => {
   const location = React.useContext(LocationContext);
   const locationStatus = getLocationStatus(location);
   const precision = location.position && location.position.coords.accuracy;

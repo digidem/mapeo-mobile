@@ -27,7 +27,7 @@ const AddPhotoScreen = ({ navigation }: NavigationScreenConfigProps) => {
   const [, { addPhoto }] = useDraftObservation();
 
   // TODO: addPhoto changes every render, so we can't useCallback here
-  const handleAddPress = (e: any, capture: Promise<CapturedPictureMM>) => {
+  const handleAddPress = (capture: Promise<CapturedPictureMM>) => {
     log("pressed add button");
     addPhoto(capture);
     // $FlowFixMe

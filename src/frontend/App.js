@@ -5,7 +5,7 @@ import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-community/async-storage";
 
 import ErrorScreen from "./screens/UncaughtError";
-import AppLoading from "./AppLoading";
+import { AppLoading } from "./AppLoading";
 import AppContainerWrapper from "./AppContainerWrapper";
 import { PermissionsProvider } from "./context/PermissionsContext";
 import { IntlProvider } from "./context/IntlContext";

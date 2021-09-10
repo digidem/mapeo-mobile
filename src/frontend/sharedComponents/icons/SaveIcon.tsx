@@ -1,23 +1,20 @@
-// @flow
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import * as React from "react";
+import { StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Octicons";
 
 import { DARK_MANGO, MANGO } from "../../lib/styles";
 
-type Props = {
-  inprogress?: boolean,
-};
+interface Props {
+  inprogress?: boolean;
+}
 
-const SaveIcon = ({ inprogress }: Props) => (
+export const SaveIcon = ({ inprogress }: Props) => (
   <View style={[styles.outerCircle, { opacity: inprogress ? 0.5 : 1 }]}>
     <View style={styles.innerCircle}>
       <Icon color="white" name="check" size={18} />
     </View>
   </View>
 );
-
-export default SaveIcon;
 
 const styles = StyleSheet.create({
   outerCircle: {

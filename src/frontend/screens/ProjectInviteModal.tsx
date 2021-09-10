@@ -22,7 +22,7 @@ import {
 } from "../sharedComponents/BottomSheetModal";
 import Text from "../sharedComponents/Text";
 import { DoneIcon } from "../sharedComponents/icons";
-import Circle from "../sharedComponents/icons/Circle";
+import { Circle } from "../sharedComponents/Circle";
 import Loading from "../sharedComponents/Loading";
 
 interface ProjectInviteDetails {

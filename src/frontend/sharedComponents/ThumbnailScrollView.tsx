@@ -1,90 +1,78 @@
-// @flow
-import React, { useRef, useLayoutEffect } from "react";
+import * as React from "react";
 import {
-  View,
   ActivityIndicator,
-  Image,
   Dimensions,
+  Image,
+  ImageErrorEventData,
+  NativeSyntheticEvent,
   ScrollView,
   StyleSheet,
 } from "react-native";
 import debug from "debug";
 
-import { TouchableOpacity } from "../sharedComponents/Touchables";
 import api from "../api";
-import { LIGHT_GREY } from "../lib/styles";
+import { Photo } from "../context/DraftObservationContext";
 import { AlertIcon } from "./icons";
-import type { Photo } from "../context/DraftObservationContext";
-import type { ViewStyleProp } from "../types";
+import { LIGHT_GREY } from "../lib/styles";
+import { ViewStyleProp } from "../sharedTypes";
+import { TouchableOpacity } from "./Touchables";
 
 const spacing = 10;
 const minSize = 150;
 const log = debug("Thumbnail");
 
-type ThumbnailProps = {
-  photo: Photo,
-  onPress: () => any,
-  style?: ViewStyleProp,
-  size?: number,
-};
-
-export class Thumbnail extends React.PureComponent<
-  ThumbnailProps,
-  { error: boolean }
-> {
-  state = { error: false };
-  static defaultProps = {
-    size: 100,
-  };
-
-  handleImageError = (e: any) => {
-    log("Error loading image:\n", e.nativeEvent && e.nativeEvent.error);
-    this.setState({ error: true });
-  };
-
-  render() {
-    const { photo, style, size, onPress } = this.props;
-    const uri =
-      typeof photo.id === "string"
-        ? api.getMediaUrl(photo.id, "thumbnail")
-        : photo.thumbnailUri != null
-        ? photo.thumbnailUri
-        : undefined;
-    const error = photo.error != null ? photo.error : this.state.error;
-    return (
-      <TouchableOpacity
-        style={[
-          styles.thumbnailContainer,
-          { width: size, height: size },
-          style,
-        ]}
-        onPress={onPress}
-      >
-        {photo.capturing === true && !error ? (
-          <ActivityIndicator />
-        ) : error || typeof uri !== "string" ? (
-          <AlertIcon />
-        ) : (
-          <Image
-            onError={this.handleImageError}
-            source={{ uri }}
-            style={{ width: size, height: size }}
-          />
-        )}
-      </TouchableOpacity>
-    );
-  }
+interface ThumbnailProps {
+  onPress: () => void;
+  photo: Photo;
+  size?: number;
+  style?: ViewStyleProp;
 }
 
-type Props = {
-  onPressPhoto: (index: number) => any,
-  photos: Array<Photo>,
+const Thumbnail = ({ onPress, photo, size = 100, style }: ThumbnailProps) => {
+  const [imageError, setImageError] = React.useState(false);
+  const uri =
+    typeof photo.id === "string"
+      ? api.getMediaUrl(photo.id, "thumbnail")
+      : photo.thumbnailUri != null
+      ? photo.thumbnailUri
+      : undefined;
+
+  const handleImageError = (e: NativeSyntheticEvent<ImageErrorEventData>) => {
+    log("Error loading image:\n", e.nativeEvent && e.nativeEvent.error);
+    setImageError(true);
+  };
+
+  const error = photo.error != null ? photo.error : imageError;
+
+  return (
+    <TouchableOpacity
+      style={[styles.thumbnailContainer, { width: size, height: size }, style]}
+      onPress={onPress}
+    >
+      {photo.capturing === true && !error ? (
+        <ActivityIndicator />
+      ) : error || typeof uri !== "string" ? (
+        <AlertIcon />
+      ) : (
+        <Image
+          onError={handleImageError}
+          source={{ uri }}
+          style={{ width: size, height: size }}
+        />
+      )}
+    </TouchableOpacity>
+  );
 };
 
-const ThumbnailScrollView = ({ onPressPhoto, photos }: Props) => {
-  const scrollViewRef = useRef();
+interface Props {
+  onPressPhoto: (index: number) => void;
+  photos: Array<Photo>;
+}
 
-  useLayoutEffect(() => {
+const ThumbnailScrollView = ({ onPressPhoto, photos }: Props) => {
+  const scrollViewRef = React.useRef<ScrollView>(null);
+
+  React.useLayoutEffect(() => {
     // For some reason without the timeout this does not work.
     const timeoutID = setTimeout(() => {
       scrollViewRef.current && scrollViewRef.current.scrollToEnd();

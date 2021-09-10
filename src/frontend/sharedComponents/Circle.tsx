@@ -1,15 +1,13 @@
-// @flow
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import type { ViewStyleProp } from "../../types";
+import { ViewStyleProp } from "../sharedTypes";
 
-type CircleProps = {
-  radius?: number,
-  children: React.Node,
-  style?: ViewStyleProp,
-};
+interface Props extends React.PropsWithChildren<{}> {
+  radius?: number;
+  style?: ViewStyleProp;
+}
 
-const Circle = ({ radius = 25, style, children }: CircleProps) => (
+export const Circle = ({ radius = 25, style, children }: Props) => (
   <View
     style={[
       styles.circle,
@@ -24,8 +22,6 @@ const Circle = ({ radius = 25, style, children }: CircleProps) => (
     {children}
   </View>
 );
-
-export default Circle;
 
 const styles = StyleSheet.create({
   circle: {

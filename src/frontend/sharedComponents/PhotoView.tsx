@@ -1,16 +1,15 @@
-// @flow
-import React, { useState } from "react";
-import { View, StyleSheet, Image, ActivityIndicator } from "react-native";
+import * as React from "react";
+import { ActivityIndicator, Image, StyleSheet, View } from "react-native";
 
+import { ViewStyleProp } from "../sharedTypes";
 import { AlertIcon } from "./icons";
-import type { ViewStyleProp } from "../types";
 
-type Props = {
+interface Props {
   uri?: string;
   variant?: "photo" | "loading" | "error";
   style?: ViewStyleProp;
   resizeMode?: "cover" | "contain" | "stretch" | "center";
-};
+}
 
 const PhotoView = ({
   uri,
@@ -18,7 +17,7 @@ const PhotoView = ({
   resizeMode = "contain",
   style,
 }: Props) => {
-  const [error, setError] = useState();
+  const [error, setError] = React.useState();
   return (
     <View style={[styles.container, style]}>
       {variant === "loading" ? (
@@ -38,7 +37,7 @@ const PhotoView = ({
   );
 };
 
-export default React.memo<Props>(PhotoView);
+export default React.memo(PhotoView);
 
 const styles = StyleSheet.create({
   container: {

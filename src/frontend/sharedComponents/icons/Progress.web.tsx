@@ -1,7 +1,7 @@
-import React from "react";
+import * as React from "react";
 import { View } from "react-native";
 
-const Progress = ({ size = 30, color = "white" }) => (
+export const Progress = ({ size = 30, color = "white" }) => (
   <View
     style={{
       borderColor: color,
@@ -13,5 +13,3 @@ const Progress = ({ size = 30, color = "white" }) => (
     }}
   />
 );
-
-export default Progress;

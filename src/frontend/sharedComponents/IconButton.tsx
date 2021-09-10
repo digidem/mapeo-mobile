@@ -22,7 +22,7 @@ const IconButton = ({ children, onPress, style, testID }: Props) => (
   </TouchableNativeFeedback>
 );
 
-export default React.memo<Props>(IconButton);
+export default React.memo(IconButton);
 
 const styles = StyleSheet.create({
   container: {

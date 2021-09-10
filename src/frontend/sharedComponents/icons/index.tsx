@@ -1,29 +1,27 @@
-// @flow
-import React from "react";
+import * as React from "react";
+import { Image } from "react-native";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import { Image } from "react-native";
 
-import Circle from "./Circle";
-import { RED, DARK_GREY, MANGO, MEDIUM_GREY } from "../../lib/styles";
-import type { TextStyleProp, ImageStyleProp } from "../../types";
+import { DARK_GREY, MEDIUM_GREY, RED } from "../../lib/styles";
+import { TextStyleProp, ImageStyleProp } from "../../sharedTypes";
+import { Circle } from "../Circle";
 
-type FontIconProps = {
-  size?: number,
-  color?: string,
-  style?: TextStyleProp,
-};
-
-type ImageIconProps = {
-  size?: number,
-  style?: ImageStyleProp,
-};
-
-export { default as GpsIcon } from "./GpsIcon";
+export { GpsIcon } from "./GpsIcon";
 export { CategoryIcon, CategoryCircleIcon } from "./CategoryIcon";
-export { default as SaveIcon } from "./SaveIcon";
-export { default as SyncIconCircle } from "./SyncIconCircle";
+export { SaveIcon } from "./SaveIcon";
+export { SyncIcon, SyncIconCircle } from "./SyncIcon";
+
+interface FontIconProps {
+  size?: number;
+  color?: string;
+  style?: TextStyleProp;
+}
+
+interface ImageIconProps {
+  size?: number;
+  style?: ImageStyleProp;
+}
 
 export const AlertIcon = ({ size = 30, color = RED, style }: FontIconProps) => (
   <MaterialCommunityIcon color={color} name="alert" size={size} style={style} />
@@ -61,10 +59,6 @@ export const LaptopIcon = ({
 
 export const BackIcon = ({ size = 30, color, style }: FontIconProps) => (
   <MaterialIcon name="arrow-back" color={color} style={style} size={size} />
-);
-
-export const DeleteIcon = ({ size = 30, color, style }: FontIconProps) => (
-  <MaterialIcon name="delete-forever" color={color} style={style} size={size} />
 );
 
 export const ErrorIcon = ({
@@ -109,14 +103,6 @@ export const DoneIcon = ({
   <MaterialIcon color={color} style={style} name="check" size={size} />
 );
 
-export const LocationIcon = ({
-  size = 30,
-  color = MANGO,
-  style,
-}: FontIconProps) => (
-  <MaterialIcon color={color} style={style} name="my-location" size={size} />
-);
-
 export const WifiOffIcon = ({
   size = 30,
   color = "#490827",
@@ -137,18 +123,6 @@ export const WifiIcon = ({
 }: FontIconProps) => (
   <MaterialIcon color={color} style={style} name="wifi" size={size} />
 );
-export const SyncIcon = ({
-  size = 30,
-  color = "white",
-  style,
-}: FontIconProps) => (
-  <FontAwesomeIcon
-    color="white"
-    name="bolt"
-    size={20}
-    style={{ transform: [{ rotate: "15deg" }] }}
-  />
-);
 
 export const CloseIcon = ({ size = 30, color, style }: FontIconProps) => (
   <MaterialIcon name="close" size={size} color={color} style={style} />
@@ -160,19 +134,6 @@ export const CameraIcon = ({
   style,
 }: FontIconProps) => (
   <MaterialIcon color={color} style={style} name="photo-camera" size={size} />
-);
-
-export const UserIcon = ({
-  size = 30,
-  color = "lightgray",
-  style,
-}: FontIconProps) => (
-  <FontAwesomeIcon
-    color={color}
-    name="user-circle-o"
-    size={size}
-    style={style}
-  />
 );
 
 export const ObservationListIcon = ({ size = 30, style }: ImageIconProps) => (
