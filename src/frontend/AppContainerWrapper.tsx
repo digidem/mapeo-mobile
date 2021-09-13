@@ -8,11 +8,11 @@ import {
 import AsyncStorage from "@react-native-community/async-storage";
 
 import {
-  URI_PREFIX,
+  EDITING_SCREEN_NAMES,
   ERROR_STORE_KEY,
   IS_E2E,
   NO_PRACTICE_BAR,
-  EDITING_SCREEN_NAMES,
+  URI_PREFIX,
 } from "./constants";
 import SettingsContext from "./context/SettingsContext";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
@@ -20,7 +20,6 @@ import bugsnag from "./lib/logger";
 import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
 import { PracticeMode } from "./sharedComponents/PracticeMode";
-import { useState } from "react";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -95,7 +94,7 @@ const AppContainerWrapper = () => {
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
   const [{ experiments }] = React.useContext(SettingsContext);
-  const [hidePracticeBar, setHidePracticeBar] = useState<boolean>(() =>
+  const [hidePracticeBar, setHidePracticeBar] = React.useState(() =>
     shouldHidePractice(getRouteName())
   );
 
@@ -106,7 +105,7 @@ const AppContainerWrapper = () => {
     const previousRouteName = getRouteName(previousState);
     const currentRouteName = getRouteName(currentState);
 
-    //sets practice bar on of off depending if route name is included in NO_PRACTICE_BAR array
+    // Sets practice bar on or off depending if route name is included in NO_PRACTICE_BAR array
     setHidePracticeBar(shouldHidePractice(currentRouteName));
 
     if (previousRouteName !== currentRouteName && currentRouteName) {
@@ -140,6 +139,16 @@ const AppContainerWrapper = () => {
     [experiments.onboarding]
   );
 
+  const Wrapper = React.useMemo(
+    () =>
+      experiments.onboarding
+        ? ({ children }: React.PropsWithChildren<{}>) => (
+            <PracticeMode hideBar={hidePracticeBar}>{children}</PracticeMode>
+          )
+        : React.Fragment,
+    [experiments, hidePracticeBar]
+  );
+
   const AppContainer = experiments.onboarding
     ? OnboardingContainer
     : DefaultContainer;
@@ -163,7 +172,7 @@ const AppContainerWrapper = () => {
   }, [inviteModalEnabled, queuedInvite, openInviteModal]);
 
   return (
-    <PracticeMode hideBar={hidePracticeBar}>
+    <Wrapper>
       <AppContainer
         loadNavigationState={loadNavigationState}
         onNavigationStateChange={onNavStateChange}
@@ -175,7 +184,7 @@ const AppContainerWrapper = () => {
         }}
         uriPrefix={URI_PREFIX}
       />
-    </PracticeMode>
+    </Wrapper>
   );
 };
 

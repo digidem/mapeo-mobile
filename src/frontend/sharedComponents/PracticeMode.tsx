@@ -2,10 +2,9 @@ import * as React from "react";
 import { useContext } from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { View, StyleSheet, Text } from "react-native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import ConfigContext from "../context/ConfigContext";
 
+import ConfigContext from "../context/ConfigContext";
 import { DARK_ORANGE, WHITE } from "../lib/styles";
 
 const m = defineMessages({
@@ -24,8 +23,10 @@ interface PracticeModeProps {
 export const PracticeMode = ({ children, hideBar }: PracticeModeProps) => {
   const [config] = useContext(ConfigContext);
 
-  //TODO change how we determine whether we are in practice mode or not
-  if (config.metadata.name === "mapeo-default-settings") {
+  // TODO change how we determine whether we are in practice mode or not
+  const isDefaultConfig = config.metadata.name === "mapeo-default-settings";
+
+  if (isDefaultConfig) {
     return (
       <View style={styles.container}>
         {children}
