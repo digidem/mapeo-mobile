@@ -62,7 +62,7 @@ const defaultContext = [
   () => {},
 ];
 
-const ObservationsContext = React.createContext<ObservationsContextType>(
+const ObservationsContext: React.Context<ObservationsContextType> = React.createContext<ObservationsContextType>(
   defaultContext
 );
 
