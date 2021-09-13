@@ -18,13 +18,18 @@ const m = defineMessages({
 
 interface PracticeModeProps {
   children: React.ReactNode;
+  enabled: boolean;
   hideBar: boolean;
 }
 
-export const PracticeMode = ({ children, hideBar }: PracticeModeProps) => {
+export const PracticeMode = ({
+  children,
+  enabled,
+  hideBar,
+}: PracticeModeProps) => {
   const [config] = useContext(ConfigContext);
 
-  if (isInPracticeMode(config)) {
+  if (enabled && isInPracticeMode(config)) {
     return (
       <View style={styles.container}>
         {children}

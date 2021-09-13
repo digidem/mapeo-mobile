@@ -105,11 +105,11 @@ const AppContainerWrapper = () => {
     const previousRouteName = getRouteName(previousState);
     const currentRouteName = getRouteName(currentState);
 
-    // Sets practice bar on or off depending if route name is included in NO_PRACTICE_BAR array
-    setHidePracticeBar(shouldHidePractice(currentRouteName));
-
     if (previousRouteName !== currentRouteName && currentRouteName) {
       setInviteModalEnabled(!inviteModalDisabledOnRoute(currentRouteName));
+
+      // Sets practice bar on or off depending if route name is included in NO_PRACTICE_BAR array
+      setHidePracticeBar(shouldHidePractice(currentRouteName));
     }
   };
 
@@ -139,16 +139,6 @@ const AppContainerWrapper = () => {
     [experiments.onboarding]
   );
 
-  const Wrapper = React.useMemo(
-    () =>
-      experiments.onboarding
-        ? ({ children }: React.PropsWithChildren<{}>) => (
-            <PracticeMode hideBar={hidePracticeBar}>{children}</PracticeMode>
-          )
-        : React.Fragment,
-    [experiments, hidePracticeBar]
-  );
-
   const AppContainer = experiments.onboarding
     ? OnboardingContainer
     : DefaultContainer;
@@ -172,7 +162,7 @@ const AppContainerWrapper = () => {
   }, [inviteModalEnabled, queuedInvite, openInviteModal]);
 
   return (
-    <Wrapper>
+    <PracticeMode enabled={experiments.onboarding} hideBar={hidePracticeBar}>
       <AppContainer
         loadNavigationState={loadNavigationState}
         onNavigationStateChange={onNavStateChange}
@@ -184,7 +174,7 @@ const AppContainerWrapper = () => {
         }}
         uriPrefix={URI_PREFIX}
       />
-    </Wrapper>
+    </PracticeMode>
   );
 };
 
