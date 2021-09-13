@@ -14,6 +14,7 @@ import type {
   PresetsMap,
   PresetWithFields,
   FieldsMap,
+  State as Config,
 } from "../context/ConfigContext";
 
 export function getDisplayName(WrappedComponent: any) {
@@ -265,4 +266,9 @@ export function showWipAlert() {
       onPress: () => {},
     },
   ]);
+}
+
+export function isInPracticeMode(config: Config) {
+  // TODO change how we determine whether we are in practice mode or not
+  return config.metadata.name === "mapeo-default-settings";
 }

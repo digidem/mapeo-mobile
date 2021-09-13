@@ -6,6 +6,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import ConfigContext from "../context/ConfigContext";
 import { DARK_ORANGE, WHITE } from "../lib/styles";
+import { isInPracticeMode } from "../lib/utils";
 
 const m = defineMessages({
   title: {
@@ -23,10 +24,7 @@ interface PracticeModeProps {
 export const PracticeMode = ({ children, hideBar }: PracticeModeProps) => {
   const [config] = useContext(ConfigContext);
 
-  // TODO change how we determine whether we are in practice mode or not
-  const isDefaultConfig = config.metadata.name === "mapeo-default-settings";
-
-  if (isDefaultConfig) {
+  if (isInPracticeMode(config)) {
     return (
       <View style={styles.container}>
         {children}
