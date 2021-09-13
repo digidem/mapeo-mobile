@@ -7,12 +7,19 @@ import {
 } from "react-navigation";
 import AsyncStorage from "@react-native-community/async-storage";
 
-import { URI_PREFIX, ERROR_STORE_KEY, IS_E2E } from "./constants";
+import {
+  EDITING_SCREEN_NAMES,
+  ERROR_STORE_KEY,
+  IS_E2E,
+  NO_PRACTICE_BAR,
+  URI_PREFIX,
+} from "./constants";
 import SettingsContext from "./context/SettingsContext";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
 import bugsnag from "./lib/logger";
 import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
+import { PracticeMode } from "./sharedComponents/PracticeMode";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -21,15 +28,6 @@ const log = debug("mapeo:App");
 // WARNING: This needs to change if we change the navigation structure
 const getNavStoreKey = (includeOnboarding: boolean) =>
   `@MapeoNavigation@${includeOnboarding ? 9 : 8}`;
-
-const EDITING_SCREEN_NAMES = [
-  "AddPhoto",
-  "Camera",
-  "CategoryChooser",
-  "ManualGpsScreen",
-  "ObservationDetails",
-  "ObservationEdit",
-];
 
 const createNavigationStatePersister = (includeOnboarding: boolean) => async (
   navState: NavigationState
@@ -87,11 +85,18 @@ const getRouteName = (navState?: NavigationState): string | null => {
 const inviteModalDisabledOnRoute = (routeName: string) =>
   EDITING_SCREEN_NAMES.includes(routeName);
 
+function shouldHidePractice(route: string | null) {
+  return route !== null && NO_PRACTICE_BAR.includes(route);
+}
+
 const AppContainerWrapper = () => {
   const navRef = React.useRef<NavigationContainerComponent>();
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
   const [{ experiments }] = React.useContext(SettingsContext);
+  const [hidePracticeBar, setHidePracticeBar] = React.useState(() =>
+    shouldHidePractice(getRouteName())
+  );
 
   const onNavStateChange = (
     previousState: NavigationState,
@@ -99,6 +104,9 @@ const AppContainerWrapper = () => {
   ) => {
     const previousRouteName = getRouteName(previousState);
     const currentRouteName = getRouteName(currentState);
+
+    // Sets practice bar on or off depending if route name is included in NO_PRACTICE_BAR array
+    setHidePracticeBar(shouldHidePractice(currentRouteName));
 
     if (previousRouteName !== currentRouteName && currentRouteName) {
       setInviteModalEnabled(!inviteModalDisabledOnRoute(currentRouteName));
@@ -131,6 +139,16 @@ const AppContainerWrapper = () => {
     [experiments.onboarding]
   );
 
+  const Wrapper = React.useMemo(
+    () =>
+      experiments.onboarding
+        ? ({ children }: React.PropsWithChildren<{}>) => (
+            <PracticeMode hideBar={hidePracticeBar}>{children}</PracticeMode>
+          )
+        : React.Fragment,
+    [experiments, hidePracticeBar]
+  );
+
   const AppContainer = experiments.onboarding
     ? OnboardingContainer
     : DefaultContainer;
@@ -154,17 +172,19 @@ const AppContainerWrapper = () => {
   }, [inviteModalEnabled, queuedInvite, openInviteModal]);
 
   return (
-    <AppContainer
-      loadNavigationState={loadNavigationState}
-      onNavigationStateChange={onNavStateChange}
-      persistNavigationState={persistNavigationState}
-      ref={nav => {
-        if (nav) {
-          navRef.current = nav;
-        }
-      }}
-      uriPrefix={URI_PREFIX}
-    />
+    <Wrapper>
+      <AppContainer
+        loadNavigationState={loadNavigationState}
+        onNavigationStateChange={onNavStateChange}
+        persistNavigationState={persistNavigationState}
+        ref={nav => {
+          if (nav) {
+            navRef.current = nav;
+          }
+        }}
+        uriPrefix={URI_PREFIX}
+      />
+    </Wrapper>
   );
 };
 
