@@ -10,6 +10,7 @@ import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import { Status } from "../../../types";
 import { ConfigDetails } from "./ConfigDetails";
 import { ManagePeople } from "./ManagePeople";
+import { isInPracticeMode } from "../../../lib/utils";
 
 const m = defineMessages({
   configTitle: {
@@ -74,6 +75,7 @@ export const ProjectConfig = () => {
   return (
     <ScrollView style={styles.root}>
       <ConfigDetails
+        isPracticeMode={isInPracticeMode(config)}
         loading={loading}
         name={configName}
         onImportPress={handleImportPress}

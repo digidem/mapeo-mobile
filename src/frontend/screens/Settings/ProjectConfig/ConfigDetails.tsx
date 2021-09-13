@@ -27,9 +27,19 @@ const m = defineMessages({
     defaultMessage: "Project Name:",
     description: "Button to import Mapeo config file",
   },
+  practiceModeName: {
+    id: "screens.Settings.ProjectConfig.practiceModeName",
+    defaultMessage: "Practice Mode",
+    description: "Placeholder config name when in Practice Mode",
+  },
+  none: {
+    id: "screens.Settings.ProjectConfig.none",
+    defaultMessage: "none",
+  },
 });
 
 interface Props {
+  isPracticeMode: boolean;
   loading: boolean;
   name: string;
   onImportPress: () => Promise<void>;
@@ -38,6 +48,7 @@ interface Props {
 }
 
 export const ConfigDetails = ({
+  isPracticeMode,
   loading,
   name,
   onImportPress,
@@ -50,19 +61,28 @@ export const ConfigDetails = ({
         <Text style={styles.configName}>{name}</Text>
       </View>
       <View style={styles.field}>
-        <Text style={styles.fieldText}>
+        <Text style={[styles.fieldText, styles.bold]}>
           <FormattedMessage {...m.currentConfig} />:
         </Text>
-        <Text style={[styles.fieldText, styles.bold]}>
-          {name}
-          {version && " v" + version}
+        <Text style={styles.fieldText}>
+          {isPracticeMode ? (
+            <FormattedMessage {...m.practiceModeName} />
+          ) : (
+            `${name} ${version && " v" + version}`
+          )}
         </Text>
       </View>
       <View style={styles.field}>
-        <Text style={styles.fieldText}>
+        <Text style={[styles.fieldText, styles.bold]}>
           <FormattedMessage {...m.projectKey} />:
         </Text>
-        <Text style={[styles.fieldText, styles.bold]}>{projectKeyPreview}</Text>
+        <Text style={styles.fieldText}>
+          {isPracticeMode ? (
+            <FormattedMessage {...m.none} />
+          ) : (
+            projectKeyPreview
+          )}
+        </Text>
       </View>
       <View style={styles.importButtonContainer}>
         <Button
