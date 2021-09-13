@@ -8,10 +8,10 @@ import ConfigContext from "../../../context/ConfigContext";
 import SettingsContext from "../../../context/SettingsContext";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import { Status } from "../../../types";
+import { isInPracticeMode } from "../../../lib/utils";
 import { ConfigDetails } from "./ConfigDetails";
 import { LeavePracticeMode } from "./LeavePracticeMode";
 import { ManagePeople } from "./ManagePeople";
-import { isInPracticeMode } from "../../../lib/utils";
 
 const m = defineMessages({
   configTitle: {
@@ -60,8 +60,7 @@ export const ProjectConfig = () => {
 
   const loading = status === "loading" || config.status === "loading";
 
-  // TODO: need an official way to determine this
-  const isInPracticeMode = configName === "mapeo-default-settings";
+  const isPracticeMode = isInPracticeMode(config);
 
   const handleImportPress = React.useCallback(async () => {
     setStatus("loading");
@@ -85,7 +84,7 @@ export const ProjectConfig = () => {
       contentContainerStyle={role === "participant" ? { flex: 1 } : undefined}
     >
       <ConfigDetails
-        isPracticeMode={isInPracticeMode(config)}
+        isPracticeMode={isPracticeMode}
         loading={loading}
         name={configName}
         onImportPress={handleImportPress}
@@ -98,7 +97,7 @@ export const ProjectConfig = () => {
       {experiments.onboarding &&
         (role === "coordinator" ? (
           <ManagePeople loading={loading} />
-        ) : isInPracticeMode ? (
+        ) : isPracticeMode ? (
           <LeavePracticeMode />
         ) : null)}
     </ScrollView>
