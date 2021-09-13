@@ -32,7 +32,7 @@ export const PracticeMode = ({
   if (enabled && isInPracticeMode(config)) {
     return (
       <View style={styles.container}>
-        {children}
+        <View style={styles.contentContainer}>{children}</View>
 
         {!hideBar && (
           <View style={styles.bottomBar}>
@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     flex: 1,
   },
+  contentContainer: { flex: 1 },
   bottomBar: {
     backgroundColor: DARK_ORANGE,
     height: 30,
