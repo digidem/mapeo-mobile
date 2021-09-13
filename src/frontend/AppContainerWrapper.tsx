@@ -17,9 +17,9 @@ import {
 import SettingsContext from "./context/SettingsContext";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
 import bugsnag from "./lib/logger";
+import { PracticeMode } from "./sharedComponents/PracticeMode";
 import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
-import { PracticeMode } from "./sharedComponents/PracticeMode";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -42,9 +42,7 @@ const createNavigationStatePersister = (includeOnboarding: boolean) => async (
   }
 };
 
-const createNavigationStateLoader = (
-  includeOnboarding: boolean
-) => async () => {
+const loadSavedNavState = async (includeOnboarding: boolean) => {
   try {
     const navState = JSON.parse(
       (await AsyncStorage.getItem(getNavStoreKey(includeOnboarding))) as string
@@ -82,10 +80,10 @@ const getRouteName = (navState?: NavigationState): string | null => {
   return route.routeName;
 };
 
-const inviteModalDisabledOnRoute = (routeName: string) =>
-  EDITING_SCREEN_NAMES.includes(routeName);
+const inviteModalDisabledOnRoute = (routeName: string | null) =>
+  routeName !== null && EDITING_SCREEN_NAMES.includes(routeName);
 
-function shouldHidePractice(route: string | null) {
+function hidePracticeBarForRoute(route: string | null) {
   return route !== null && NO_PRACTICE_BAR.includes(route);
 }
 
@@ -94,9 +92,7 @@ const AppContainerWrapper = () => {
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
   const [{ experiments }] = React.useContext(SettingsContext);
-  const [hidePracticeBar, setHidePracticeBar] = React.useState(() =>
-    shouldHidePractice(getRouteName())
-  );
+  const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
 
   const onNavStateChange = (
     previousState: NavigationState,
@@ -105,11 +101,11 @@ const AppContainerWrapper = () => {
     const previousRouteName = getRouteName(previousState);
     const currentRouteName = getRouteName(currentState);
 
-    if (previousRouteName !== currentRouteName && currentRouteName) {
+    if (previousRouteName !== currentRouteName) {
       setInviteModalEnabled(!inviteModalDisabledOnRoute(currentRouteName));
 
       // Sets practice bar on or off depending if route name is included in NO_PRACTICE_BAR array
-      setHidePracticeBar(shouldHidePractice(currentRouteName));
+      setHidePracticeBar(hidePracticeBarForRoute(currentRouteName));
     }
   };
 
@@ -129,9 +125,21 @@ const AppContainerWrapper = () => {
       IS_E2E
         ? {}
         : {
-            loadNavigationState: createNavigationStateLoader(
-              experiments.onboarding
-            ),
+            loadNavigationState: async () => {
+              const loadedNavState = await loadSavedNavState(
+                experiments.onboarding
+              );
+
+              const loadedRouteName = getRouteName(loadedNavState);
+
+              setInviteModalEnabled(
+                !inviteModalDisabledOnRoute(loadedRouteName)
+              );
+
+              setHidePracticeBar(hidePracticeBarForRoute(loadedRouteName));
+
+              return loadedNavState;
+            },
             persistNavigationState: createNavigationStatePersister(
               experiments.onboarding
             ),
