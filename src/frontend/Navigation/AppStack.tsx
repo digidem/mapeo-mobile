@@ -17,7 +17,7 @@ import Settings from "../screens/Settings";
 import PhotosModal from "../screens/PhotosModal";
 import ManualGpsScreen from "../screens/ManualGpsScreen";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
-import ProjectConfig from "../screens/Settings/ProjectConfig";
+import { ProjectConfig } from "../screens/Settings/ProjectConfig";
 import AboutMapeo from "../screens/Settings/AboutMapeo";
 import LanguageSettings from "../screens/Settings/LanguageSettings";
 import CoordinateFormat from "../screens/Settings/CoordinateFormat";
