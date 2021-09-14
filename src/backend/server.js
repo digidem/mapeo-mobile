@@ -28,6 +28,7 @@ module.exports = createServer;
  * @param {string} privateStorage Path to app-specific internal file storage
  *   folder (see https://developer.android.com/training/data-storage/app-specific).
  *   This folder cannot be accessed by other apps or the user via a computer connection.
+ * @param {string} [bundlePath] Path to application bundle (iOS only)
  * @param {string} sharedStorage Path to app-specific external file storage folder
  * @param {string} privateCacheStorage Path to app-specific internal cache storage folder
  * @param {import('./upgrade-manager/types').DeviceInfo} deviceInfo sdkVersion and supportedAbis for current device
@@ -35,6 +36,7 @@ module.exports = createServer;
  */
 function createServer({
   privateStorage,
+  bundlePath,
   sharedStorage,
   privateCacheStorage,
   deviceInfo,
@@ -48,7 +50,9 @@ function createServer({
   const upgradeStoragePath = path.join(privateCacheStorage, "upgrades");
   // Folder with default (built-in) presets to server when the user has not
   // added any presets
-  const fallbackPresetsDir = path.join(privateStorage, "nodejs-assets/presets");
+  const fallbackPresetsDir = bundlePath
+    ? path.join(bundlePath, "nodejs-project/presets")
+    : path.join(privateStorage, "nodejs-assets/presets");
 
   // create folders for presets & styles
   mkdirp.sync(defaultConfigPath);

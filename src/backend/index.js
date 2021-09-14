@@ -26,6 +26,7 @@ const createServer = require("./server");
 const { getInstallerInfo } = require("./upgrade-manager/utils");
 const createBugsnag = require("@bugsnag/js");
 const semverPrerelease = require("semver/functions/prerelease");
+const fs = require("fs");
 const { version } = require("../../package.json");
 
 const prereleaseComponents = semverPrerelease(version);
@@ -83,6 +84,7 @@ rnBridge.channel.once("config", async config => {
   }
   try {
     const {
+      bundlePath,
       sharedStorage,
       privateCacheStorage,
       deviceInfo,
@@ -94,6 +96,7 @@ rnBridge.channel.once("config", async config => {
     const currentApkInfo = apkFilepath && (await getInstallerInfo(apkFilepath));
     server = createServer({
       privateStorage: rnBridge.app.datadir(),
+      bundlePath,
       sharedStorage,
       privateCacheStorage,
       deviceInfo,

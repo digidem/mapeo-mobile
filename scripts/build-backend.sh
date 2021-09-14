@@ -75,6 +75,8 @@ rm -rf "${ANDROID_SRC_DIR}/main/assets/nodejs-assets/presets"
 rm -rf "${ANDROID_SRC_DIR}/icca/assets/nodejs-assets/presets"
 mkdir -p "${ANDROID_SRC_DIR}/main/assets/nodejs-assets/presets"
 mkdir -p "${ANDROID_SRC_DIR}/icca/assets/nodejs-assets/presets"
+mkdir -p ../../nodejs-assets/nodejs-project/presets/default
+cp -r ./node_modules/mapeo-default-settings/dist/* ../../nodejs-assets/nodejs-project/presets/default
 mv ./node_modules/mapeo-default-settings/dist "${ANDROID_SRC_DIR}/main/assets/nodejs-assets/presets/default"
 mv ./node_modules/mapeo-config-icca/dist "${ANDROID_SRC_DIR}/icca/assets/nodejs-assets/presets/default"
 cd ../..

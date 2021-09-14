@@ -268,6 +268,7 @@ export function Api({
         // other config that the server requires
         nodejs.channel.post("config", {
           // TODO: Refactor backend to work when this is undefined on iOS
+          bundlePath: RNFS.MainBundlePath,
           sharedStorage:
             Platform.OS === "android"
               ? RNFS.ExternalDirectoryPath
