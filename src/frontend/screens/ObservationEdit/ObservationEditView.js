@@ -24,6 +24,7 @@ import {
   FormattedPresetName,
   FormattedCoords,
 } from "../../sharedComponents/FormattedData";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const m = defineMessages({
   searching: {
@@ -181,8 +182,9 @@ export const ObservationEdit = ({
       onPress: onPressDetails,
     });
   }
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.scrollViewContent}
@@ -197,7 +199,7 @@ export const ObservationEdit = ({
         <ThumbnailScrollView onPressPhoto={onPressPhoto} photos={photos} />
       </ScrollView>
       <BottomSheet items={bottomSheetItems} />
-    </View>
+    </SafeAreaView>
   );
 };
 

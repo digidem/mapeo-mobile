@@ -1,4 +1,5 @@
 import React from "react";
+import { Platform } from "react-native";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -21,7 +22,7 @@ import ProjectConfig from "../screens/Settings/ProjectConfig";
 import AboutMapeo from "../screens/Settings/AboutMapeo";
 import LanguageSettings from "../screens/Settings/LanguageSettings";
 import CoordinateFormat from "../screens/Settings/CoordinateFormat";
-import HomeHeader from "../sharedComponents/HomeHeader";
+import { HomeHeader } from "../sharedComponents/HomeHeader";
 import { AlreadyOnProj } from "../screens/AlreadyOnProject";
 import { LeaveProjectScreen } from "../screens/LeaveProject";
 import { AddToProjectScreen } from "../screens/AddToProjectScreen";
@@ -84,11 +85,14 @@ export const AppStack = createStackNavigator(
   },
   {
     initialRouteName: "Home",
-    // TODO iOS: Dynamically set transition mode to modal for modals
-    mode: "card",
-    headerMode: "screen",
+    ...Platform.select({
+      // float doesn't play nicely with the HomeHeader component we have for the tab navigator
+      // ios: { mode: "modal", headerMode: "float" },
+      ios: { mode: "modal", headerMode: "screen" },
+      android: { mode: "card", headerMode: "screen" },
+    }),
     defaultNavigationOptions: {
-      headerStyle: {
+      headerStyle: Platform.OS === "android" && {
         height: 60,
       },
       // We use a slightly larger back icon, to improve accessibility

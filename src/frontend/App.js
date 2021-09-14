@@ -7,6 +7,7 @@ import * as React from "react";
 import { LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-community/async-storage";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import ErrorScreen from "./screens/UncaughtError";
 import AppLoading from "./AppLoading";
@@ -76,12 +77,14 @@ const App = () => (
       {/* Permissions provider must be before AppLoading because it waits for
         permissions before showing main app screen */}
       <PermissionsProvider>
-        <AppLoading>
-          <AppProvider>
-            <AppContainerWrapper />
-            <UpdateNotifier />
-          </AppProvider>
-        </AppLoading>
+        <SafeAreaProvider>
+          <AppLoading>
+            <AppProvider>
+              <AppContainerWrapper />
+              <UpdateNotifier />
+            </AppProvider>
+          </AppLoading>
+        </SafeAreaProvider>
       </PermissionsProvider>
     </ErrorBoundary>
   </IntlProvider>
