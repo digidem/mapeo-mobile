@@ -13,7 +13,7 @@
     "android-no-backend-rebuild": "react-native run-android --variant=appDebug --appIdSuffix=debug",
     "android-storybook": "react-native run-android --variant=storybookDebug --appIdSuffix=storybook.debug",
     "android-icca": "RN_SRC_EXT=icca react-native run-android --variant=iccaDebug --appIdSuffix=icca.debug",
-    "ios": "react-native run-ios",
+    "ios": "npm run build:backend && react-native run-ios",
     "build:backend": "./scripts/build-backend.sh",
     "build:translations": "node ./scripts/build-translations.js",
     "build:release": "npm run build:translations && npm run build:backend && ./scripts/build-release-android.sh",
