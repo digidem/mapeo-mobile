@@ -16,17 +16,22 @@
     * [Rebase]()
     * [Squash and Merge]()
     * [Translations]()
-7. [Issue Tags]()
+7. [Github Issue Labels]()
     
 
 ## Overview
 Digital Democracy
 
 ## Glossary of Term
-* PR = Pull Request
-* Rebase
+* PR
+    > Acronym for Pull Request
+* Rebase 
+    >
 * Merge
-* Version Control
+    >
+
+* Version Control 
+    >
 
 ## Best Practices
 [I am a contibutor](#)
@@ -89,7 +94,7 @@ Digital Democracy
 
 ## Template
 > # Header
-> Give the header a meaningful name that describes what you are doing. For Example, "New Page" is too broad of a name that doesn't specifiy what bug fix has been done. Instead use "Intro Page for App tutorial Created." Try to be descriptive, while also being concise
+> Give the header a meaningful name that describes what you are doing. For Example, "New Page" is too broad of a name that doesn't specifiy what bug fix has been done. Instead use "Intro Page for App tutorial Created." Try to be descriptive, while also being concise.
 >
 ># Description
 > Describe What exactly has been done:
@@ -131,9 +136,7 @@ GIVE EXAMPLES HERE
     >
 
 
-## Github Issues
-
-## Issue Tags
+## Github Issue Labels
 When creating an issue in github please use the following tags: 
 
 `Bug`
@@ -155,10 +158,10 @@ Specific Project (eg. `OTF`, `P2P`)
 > These are to indicate when research need to be done and documented. This tag is typically used when we are adding a new dependency or feature, and we need to compile information about it before hand.
 
 `Sprint Candidate`
-> This tag is used to keep track of items that will possible be added to the upcoming sprint. This tag should only be used by the Project Manager, or the individuals planning the next sprint
+> This tag is used to keep track of items that will possible be added to the upcoming sprint. This tag should only be used by the Project Manager, or the individuals planning the next sprint.
 
 `Tech Prio`
-> These are tags are for items that have been identified by DD's program team 
+> These labels are for items that have been identified by DD's program team as priorities for the tech team to address. This is an internal label, and should only be used by DD team members.
 
 `Documentation`
-> This tag is for items relating to documenation. This includes internal and external documentation
+> This tag is for items relating to documenation. This includes internal and external documentation.
