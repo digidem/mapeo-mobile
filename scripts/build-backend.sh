@@ -41,6 +41,7 @@ echo -en "Minifying with noderify..."
 # memcpy is a sub-dependency of the APK parser, but it is optional
 "$(npm bin)/noderify" \
   --replace.bindings=bindings-noderify-nodejs-mobile \
+  --replace.leveldown=leveldown-nodejs-mobile \
   --filter=rn-bridge \
   --filter=original-fs \
   --filter=async_hooks \
@@ -80,7 +81,7 @@ cd ../..
 echo -en " done.\n"
 
 echo -en "Keeping some node modules..."
-declare -a keepThese=("leveldown" ".bin" "node-gyp-build" "napi-macros")
+declare -a keepThese=("leveldown-nodejs-mobile" ".bin" "node-gyp-build" "napi-macros")
 for x in "${keepThese[@]}"; do
   if [ -e "./nodejs-assets/backend/node_modules/$x" ]; then
     mv "./nodejs-assets/backend/node_modules/$x" "./nodejs-assets/nodejs-project/node_modules/$x"
