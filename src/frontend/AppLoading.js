@@ -46,6 +46,10 @@ class AppLoading extends React.Component<Props, State> {
       log("hiding splashscreen");
     }, 1000);
     this._subscription = api.addServerStateListener(this.handleStatusChange);
+    if (this.state.serverStatus == null) {
+      api.startServer();
+      this.setState({ serverStatus: Constants.STARTING });
+    }
   }
 
   componentDidUpdate() {
