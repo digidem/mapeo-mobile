@@ -3,19 +3,20 @@
 
 <!-- Add links when completed -->
 ## Table of Contents 
-1. Overview
-2. Glossary of Terms
-3. Best Practices
-4. Giving Feeback
-5. Github Pull Request Template
-5. How To:
-    * Create a new branch
-    * Change base branch
-    * Create a PR
-    * Merge
-    * Rebase
-    * Squash and Merge
-    * Translations
+1. [Overview]()
+2. [Glossary of Terms]()
+3. [Best Practices]()
+4. [Giving Feeback]()
+5. [Github Pull Request Template]()
+6. [How To:]()
+    * [Create a new branch]()
+    * [Change base branch]()
+    * [Create a PR]()
+    * [Merge]()
+    * [Rebase]()
+    * [Squash and Merge]()
+    * [Translations]()
+7. [Issue Tags]()
     
 
 ## Overview
@@ -28,22 +29,23 @@ Digital Democracy
 * Version Control
 
 ## Best Practices
-(I am a contibutor)[#]
-(I am reviewing a PR)[]
+[I am a contibutor](#)
+
+[I am reviewing a PR]()
 
 ### **For contributors:**
 * Follow the template.
     > When creating a pr, the template for the description will autmatically appear. Please follow the instructions on the template.
 
-* Rebase When possible, only merge if absolutely necessary.
+* Rebase when possible, only merge if absolutely necessary.
     > In order to keep the history of edits in a linear order, try to rebase from the base branch. Rebasing is typically more complicated, and may sometimes be too difficult. If that is the case, then merge.
 
 * Include translated strings with approriate descriptions.
-<!-- Unclear -->
-    > Check that you have included the localization/translation for all strings. Make sure the string can be understood by an external contributor who may not have any context. If it is ambiguous, add a description. You can learn more about translations (here)[]
+
+    > Check that you have included the localization/translation for all strings. Make sure the string can be understood by an external contributor who may not have any context. If it is ambiguous, add a description. You can learn more about translations [here]()
 
 * Point the base branch to `develop`, unless you are working on smaller pieces of a bigger project (eg. sprints, new feature).
-    > All pr's should have `develop` as the base branch. The exception is when you are creating smaller pieces of a larger feature. If that is the case, the base branch of this larger feature branch should be `develop`. You can learn more about how to change the base branch (here)[]
+    > All pr's should have `develop` as the base branch. The exception is when you are creating smaller pieces of a larger feature. If that is the case, the base branch of this larger feature branch should be `develop`. You can learn more about how to change the base branch [here]()
 
 * Take out all unnecessary comments.
     > Any comments in the code that do not communicate a meaningful message to another developer should be changed to a meaningful message or taken out of the code. GIVE EXAMPLE
@@ -61,7 +63,7 @@ Digital Democracy
     > When reviewing, make sure to review the entire PR. Commenting on part of the code, while not looking at other parts of the code may lead to confusion down line. Try to address any replies from the author within 48 hours. This keeps it fresh for yourself and the contributor, making it easier to understand the comments.
 
 * Check translations. 
-    > Make sure all strings are translation strings (not hardcoded). As well make sure that string will make sense for the translator who will not have any context. If it is ambigous, ask the author of the PR to add a description. You can learn more about translations (here)[]
+    > Make sure all strings are translation strings (not hardcoded). As well make sure that string will make sense for the translator who will not have any context. If it is ambigous, ask the author of the PR to add a description. You can learn more about translations [here]()
 
 * Check for any unecessary comments.
     > If the comment does not express something meaningful to another developer, ask the author to change or delete the comment. This includes any code that is commented out. If you do not know why code is commented out, ask the author to leave a comment explaining why it is commented out, or to erase it entirely. 
@@ -74,42 +76,89 @@ Digital Democracy
 
 
 ## Giving Feeback
-* Give constructive feedback (give example)
+* Give constructive feedback
+    > The feedback should either be asking a question, or giving suggestions about how to fix something. For example, if something is unclear, instead of saying "This is unclear", ask the author "Can you explain what you are doing here?", or say "This is unclear, here is how you can make it more obvious...
+
+* Be descriptive while being concise
+    > Describe the issue, while making it very clear what you are describing. Steer away from any unnecessary language
+
+
 * Be Empathetic
-* Other things (ask people)
+    > Give feedback that humanizes the author, and recognizes the work that has gone into it. Try to use gentle language. Ask questions, when you are unsure, instead of assuming that something is done incorecctly. Use "I" instead of "you" when giving feedback. For example, dont say "You did this wrong", say "I would have done this x way, can you explain why it was done this way?". 
+
 
 ## Template
 > # Header
 > Give the header a meaningful name that describes what you are doing. For Example, "New Page" is too broad of a name that doesn't specifiy what bug fix has been done. Instead use "Intro Page for App tutorial Created." Try to be descriptive, while also being concise
-
+>
 ># Description
-Describe What exactly has been done:
-Give a highlevel overview of what work has been done.
-
-If there has been a change in the UI, also describe how to view this change in the app. When necessary give step by step instructions on what steps to recreate in order to view this change.
-
-If this is a bug fix, describe what the original bug was.
-
-Add Screen shots of the UI
-
+> Describe What exactly has been done:
+> Give a highlevel overview of what work has been done.
+>
+> If there has been a change in the UI, also describe how to view this change in the app. When necessary give step by step instructions on what steps to recreate in order to view this change.
+>
+> If this is a bug fix, describe what the original bug was.
+>
+> Add Screen shots of the new UI
+>
 > # Wireframes
-Include link to wireframes here
-
+> Include link to wireframes here
+>
 > # To Do
-Include any tasks that still need to be completed that cannot be addressed in this PR
-Give examples here
+> Include any tasks that still need to be completed that cannot be addressed in this PR
+GIVE EXAMPLES HERE
 
 ## How To
+* Create a new branch:
+    > [Github Desktop Video]()
+
+* Change Base Branch:
+    > 
+
+* Create a PR
+    >
+
+* Merge
+    >
+
+* Rebase
+    >
+
+* Squash and Merge
+    >
+
+* Translations
+    >
+
 
 ## Github Issues
 
-## Issues
-Bug
-Dependency
-Enhancement
-Nuggets
-Specific Project: (OTF, P2P)
-Research
-Sprint Candidate
-Tech Prio
-Documentation
+## Issue Tags
+When creating an issue in github please use the following tags: 
+
+`Bug`
+> This is any issue where the app is crashing, breaking, or doing an behaviour that is unexpected.
+
+`Dependency`
+> This is any work that needs to be done with the dependencies. These are often upgrades of the dependencies. 
+
+`Enhancement`
+> This is a suggestion of something that may make the app better. This can range from minor adjusments to new features.
+
+`Nuggets`
+> This is used by the Digital Democract internal team as small items that can be addressed every sprint. These items should not take more then a few hours.
+
+Specific Project (eg. `OTF`, `P2P`)
+> These labels are used to keep track of specific projects that Digital Democracy are doing.
+
+`Research`
+> These are to indicate when research need to be done and documented. This tag is typically used when we are adding a new dependency or feature, and we need to compile information about it before hand.
+
+`Sprint Candidate`
+> This tag is used to keep track of items that will possible be added to the upcoming sprint. This tag should only be used by the Project Manager, or the individuals planning the next sprint
+
+`Tech Prio`
+> These are tags are for items that have been identified by DD's program team 
+
+`Documentation`
+> This tag is for items relating to documenation. This includes internal and external documentation
