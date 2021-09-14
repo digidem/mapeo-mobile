@@ -31,7 +31,7 @@ module.exports = createServer;
  * @param {string} sharedStorage Path to app-specific external file storage folder
  * @param {string} privateCacheStorage Path to app-specific internal cache storage folder
  * @param {import('./upgrade-manager/types').DeviceInfo} deviceInfo sdkVersion and supportedAbis for current device
- * @param {import('./upgrade-manager/types').InstallerInt} currentApkInfo info about the currently running APK (see ./lib/types for documentation)
+ * @param {import('./upgrade-manager/types').InstallerInt} [currentApkInfo] info about the currently running APK (see ./lib/types for documentation)
  */
 function createServer({
   privateStorage,
@@ -79,7 +79,7 @@ function createServer({
   });
   let mapeoCore = mapeoRouter.api.core;
 
-  createUpgradeManager();
+  if (currentApkInfo) createUpgradeManager();
 
   const server = http.createServer(function requestListener(req, res) {
     log(req.method + ": " + req.url);

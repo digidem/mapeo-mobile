@@ -91,7 +91,7 @@ rnBridge.channel.once("config", async config => {
     } = config;
     // Don't debug log in production
     if (isDev) debug.enable("*");
-    const currentApkInfo = await getInstallerInfo(apkFilepath);
+    const currentApkInfo = apkFilepath && (await getInstallerInfo(apkFilepath));
     server = createServer({
       privateStorage: rnBridge.app.datadir(),
       sharedStorage,
