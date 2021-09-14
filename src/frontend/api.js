@@ -1,6 +1,6 @@
 // @flow
 import "core-js/es/reflect";
-import { PixelRatio } from "react-native";
+import { PixelRatio, Platform } from "react-native";
 import ky from "ky";
 import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
@@ -267,7 +267,11 @@ export function Api({
         // As soon as we hear from the Node process, send the storagePath and
         // other config that the server requires
         nodejs.channel.post("config", {
-          sharedStorage: RNFS.ExternalDirectoryPath,
+          // TODO: Refactor backend to work when this is undefined on iOS
+          sharedStorage:
+            Platform.OS === "android"
+              ? RNFS.ExternalDirectoryPath
+              : RNFS.DocumentDirectoryPath,
           privateCacheStorage: RNFS.CachesDirectoryPath,
           apkFilepath: AppInfo.sourceDir,
           deviceInfo: {
