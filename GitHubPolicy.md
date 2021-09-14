@@ -20,18 +20,24 @@
     
 
 ## Overview
-Digital Democracy
+Digital Democracy believes in Open Source Software, and therfore has a codebase that can be viewed, and in which contributions can be made by the public.
 
+The codebase is maintained through Github Version Control. Pull requests can be made if you would like to contribute to our codebase. Before creating a pull request please refer to our[contributing doc]().
+
+Please refer to
 ## Glossary of Term
 * PR
-    > Acronym for Pull Request
+    > Acronym for "Pull Request"
 * Rebase 
-    >
+    > This is the process of reording the commit history, so the commits on the PR show up at the head of the commit history. In otherwords, we are changing the base of the commit history, so that the history remains linear.
+
 * Merge
-    >
+    > This is the process of combining the commit history so that commits of the PR just merge with the commits of the base branch.
 
 * Version Control 
-    >
+    > This is the process of tracking and managing edits to a codebase. This is typically done by having an
+
+* Pull Request
 
 ## Best Practices
 [I am a contibutor](#)
