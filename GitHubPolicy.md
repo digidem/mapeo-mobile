@@ -10,13 +10,16 @@
 5. Github Pull Request Template
 5. How To:
     * Create a new branch
+    * Change base branch
     * Create a PR
     * Merge
     * Rebase
+    * Squash and Merge
     * Translations
+    
 
 ## Overview
-Digital Demcracy
+Digital Democracy
 
 ## Glossary of Term
 * PR = Pull Request
@@ -25,20 +28,49 @@ Digital Demcracy
 * Version Control
 
 ## Best Practices
-List of thing to do/consider as a contributor
-* Follow the template
-* Rebase When possible, only merge if absolutely necessary
-* Make sure all translations have been completed:
-* Point to develop, unless you are working on smaller pieces of a bigger project aka- sprints
-* Take out all unnecessary comments. (Desribe what an unneccessary comment is). Are there any commented out code blocks? If so, erase the code instead of commenting. If
+(I am a contibutor)[#]
+(I am reviewing a PR)[]
 
-List of things that we should consider as editor
-* Don't contribute, just comment
+### **For contributors:**
+* Follow the template.
+    > When creating a pr, the template for the description will autmatically appear. Please follow the instructions on the template.
+
+* Rebase When possible, only merge if absolutely necessary.
+    > In order to keep the history of edits in a linear order, try to rebase from the base branch. Rebasing is typically more complicated, and may sometimes be too difficult. If that is the case, then merge.
+
+* Include translated strings with approriate descriptions.
+<!-- Unclear -->
+    > Check that you have included the localization/translation for all strings. Make sure the string can be understood by an external contributor who may not have any context. If it is ambiguous, add a description. You can learn more about translations (here)[]
+
+* Point the base branch to `develop`, unless you are working on smaller pieces of a bigger project (eg. sprints, new feature).
+    > All pr's should have `develop` as the base branch. The exception is when you are creating smaller pieces of a larger feature. If that is the case, the base branch of this larger feature branch should be `develop`. You can learn more about how to change the base branch (here)[]
+
+* Take out all unnecessary comments.
+    > Any comments in the code that do not communicate a meaningful message to another developer should be changed to a meaningful message or taken out of the code. GIVE EXAMPLE
+    <!-- Example yo -->
+
+* Be Timely.
+    > After someone has reviewed you PR and left comments, try to address those comments within 48 hours. This keeps it fresh for yourself and the reviewer, making it easier to understand the comments.
+    <!-- I feel like i need to explain this a little better -->
+
+### **Reviwing PR**
+* Don't Fix the code, just comment on Github
+    > If you see any mistakes, just add a comment in github instead of going in and trying to fix it yourself. This keeps the edit history clean and unambigous as to where the contribution came from.
+
 * Be timely
-* Translations
-* Check for any unecessary comments. This includes any code that is commented out
-* Read through the code, does it make sense? If there is anything that doesn't make sense, leave a comment asking for clarification. After clarification, can you suggest another way to write the code, that makes it more human readable? If not, ask the contributor to add a comment above giving a brief explanation
-* Squash and merge
+    > When reviewing, make sure to review the entire PR. Commenting on part of the code, while not looking at other parts of the code may lead to confusion down line. Try to address any replies from the author within 48 hours. This keeps it fresh for yourself and the contributor, making it easier to understand the comments.
+
+* Check translations. 
+    > Make sure all strings are translation strings (not hardcoded). As well make sure that string will make sense for the translator who will not have any context. If it is ambigous, ask the author of the PR to add a description. You can learn more about translations (here)[]
+
+* Check for any unecessary comments.
+    > If the comment does not express something meaningful to another developer, ask the author to change or delete the comment. This includes any code that is commented out. If you do not know why code is commented out, ask the author to leave a comment explaining why it is commented out, or to erase it entirely. 
+
+* Does the code make sense? 
+    > If there is anything that doesn't make sense, leave a comment asking for clarification. After clarification, can you suggest another way to write the code, that makes it more human readable? If not, ask the contributor to add a comment above giving a brief explanation
+
+* Squash and merge.
+    > When the PR has been approved, (squash and merge)[] instead of just merging. This makes the history show by order or PR instead of commit
 
 
 ## Giving Feeback
@@ -68,3 +100,16 @@ Include any tasks that still need to be completed that cannot be addressed in th
 Give examples here
 
 ## How To
+
+## Github Issues
+
+## Issues
+Bug
+Dependency
+Enhancement
+Nuggets
+Specific Project: (OTF, P2P)
+Research
+Sprint Candidate
+Tech Prio
+Documentation
