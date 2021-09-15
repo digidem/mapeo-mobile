@@ -20,7 +20,7 @@ import ManualGpsScreen from "../screens/ManualGpsScreen";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
 import ProjectConfig from "../screens/Settings/ProjectConfig";
 import AboutMapeo from "../screens/Settings/AboutMapeo";
-import LanguageSettings from "../screens/Settings/LanguageSettings";
+import { LanguageSettings } from "../screens/Settings/LanguageSettings";
 import CoordinateFormat from "../screens/Settings/CoordinateFormat";
 import { HomeHeader } from "../sharedComponents/HomeHeader";
 import { AlreadyOnProj } from "../screens/AlreadyOnProject";

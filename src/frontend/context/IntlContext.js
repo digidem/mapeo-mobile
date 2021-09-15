@@ -44,7 +44,9 @@ const usePersistedState = createPersistedState(STORE_KEY);
 
 type IntlContextType = [string, (locale: string) => void];
 
-const IntlContext = React.createContext<IntlContextType>(["en", () => {}]);
+const IntlContext: React.Context<IntlContextType> = React.createContext<IntlContextType>(
+  ["en", () => {}]
+);
 
 export const IntlProvider = ({ children }: { children: React.Node }) => {
   const [appLocale, persistStatus, setLocale] = usePersistedState(null);

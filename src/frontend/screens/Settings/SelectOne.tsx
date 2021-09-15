@@ -1,5 +1,4 @@
-// @flow
-import React from "react";
+import * as React from "react";
 
 import {
   List,
@@ -8,19 +7,23 @@ import {
   ListItemIcon,
 } from "../../sharedComponents/List";
 
-type Props = {|
-  value: any,
-  onChange: (value: any) => any,
-  options: Array<{|
-    value: any,
-    label: string,
-    hint?: string,
-  |}>,
-|};
+interface Props<Value> {
+  value: Value;
+  onChange: (value: Value) => void;
+  options: {
+    value: Value;
+    label: string;
+    hint?: string;
+  }[];
+}
 
-const SelectOne = ({ value, options, onChange }: Props) => (
+const SelectOne = <Value extends string>({
+  value,
+  options,
+  onChange,
+}: Props<Value>) => (
   <List dense>
-    {options.map((item, index) => (
+    {options.map(item => (
       <ListItem
         key={item.value}
         testID={`${item.value}LanguageButton`}
@@ -39,4 +42,4 @@ const SelectOne = ({ value, options, onChange }: Props) => (
   </List>
 );
 
-export default React.memo<Props>(SelectOne);
+export default React.memo(SelectOne);
