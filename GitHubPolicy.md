@@ -3,12 +3,12 @@
 
 <!-- Add links when completed -->
 ## Table of Contents 
-1. [Overview]()
-2. [Glossary of Terms]()
-3. [Best Practices]()
-4. [Giving Feeback]()
-5. [Github Pull Request Template]()
-6. [How To:]()
+1. [Overview](#overview)
+2. [Glossary of Terms](#glossary-of-term)
+3. [Best Practices](#best-practices)
+4. [Giving Feeback](#giving-feeback)
+5. [Github Pull Request Template](#template)
+6. [How To:](#how-to)
     * [Create a new branch]()
     * [Change base branch]()
     * [Create a PR]()
@@ -16,13 +16,12 @@
     * [Rebase]()
     * [Squash and Merge]()
     * [Translations]()
-7. [Github Issue Labels]()
+7. [Github Issue Labels](#github-issue-labels)
     
 
 ## Overview
-Digital Democracy believes in Open Source Software, and therfore has a codebase that can be viewed, and in which contributions can be made by the public.
 
-The codebase is maintained through Github Version Control. Pull requests can be made if you would like to contribute to our codebase. Before creating a pull request please refer to our[contributing doc]().
+Digital Democracy's codebase is maintained through Github Version Control. Pull requests can be made if you would like to contribute to our codebase. Before creating a pull request please refer to our [contributing doc]().
 
 Please refer to
 ## Glossary of Term
@@ -35,36 +34,41 @@ Please refer to
     > This is the process of combining the commit history so that commits of the PR just merge with the commits of the base branch.
 
 * Version Control 
-    > This is the process of tracking and managing edits to a codebase. This is typically done by having an
+    > This is the process of tracking and managing edits to a codebase. 
 
 * Pull Request
 
 ## Best Practices
-[I am a contibutor](#)
+[I am a contibutor](#for-contributors)
 
-[I am reviewing a PR]()
+[I am reviewing a PR](#reviwing-pr)
 
 ### **For contributors:**
 * Follow the template.
-    > When creating a pr, the template for the description will autmatically appear. Please follow the instructions on the template.
+    > When creating a pr, the template for the description will autmatically appear (I will add this once we come up with a template). Please follow the instructions on the template.
 
 * Rebase when possible, only merge if absolutely necessary.
     > In order to keep the history of edits in a linear order, try to rebase from the base branch. Rebasing is typically more complicated, and may sometimes be too difficult. If that is the case, then merge.
 
 * Include translated strings with approriate descriptions.
 
-    > Check that you have included the localization/translation for all strings. Make sure the string can be understood by an external contributor who may not have any context. If it is ambiguous, add a description. You can learn more about translations [here]()
+    > Check that you have included the localization/translation for all strings. Make sure the string can be understood by an external translator who may not have any context. If it is ambiguous, add a description. You can learn more about translations [here]()
 
 * Point the base branch to `develop`, unless you are working on smaller pieces of a bigger project (eg. sprints, new feature).
     > All pr's should have `develop` as the base branch. The exception is when you are creating smaller pieces of a larger feature. If that is the case, the base branch of this larger feature branch should be `develop`. You can learn more about how to change the base branch [here]()
 
 * Take out all unnecessary comments.
     > Any comments in the code that do not communicate a meaningful message to another developer should be changed to a meaningful message or taken out of the code. GIVE EXAMPLE
-    <!-- Example yo -->
+
+* Code has been tested.
+    > Make sure that you have fully tested your code on a device or emulator. It is up to you as the author, to make sure everything is functioning the way that you intended. 
 
 * Be Timely.
     > After someone has reviewed you PR and left comments, try to address those comments within 48 hours. This keeps it fresh for yourself and the reviewer, making it easier to understand the comments.
     <!-- I feel like i need to explain this a little better -->
+
+* Make sure test passes CI.
+    >Our CI tests take a few minutes to run after a PR has been created in Github. Check to make sure that these tests have passed. If they did not pass, see troubleshooting (TODO).
 
 ### **Reviwing PR**
 * Don't Fix the code, just comment on Github
@@ -88,10 +92,10 @@ Please refer to
 
 ## Giving Feeback
 * Give constructive feedback
-    > The feedback should either be asking a question, or giving suggestions about how to fix something. For example, if something is unclear, instead of saying "This is unclear", ask the author "Can you explain what you are doing here?", or say "This is unclear, here is how you can make it more obvious...
+    > The feedback should either be asking a question, or giving suggestions about how to fix something. For example, if something is unclear, instead of saying "This is unclear", ask the author "Can you explain what you are doing here?", or say "This is unclear, here is how you can make it more obvious..."
 
 * Be descriptive while being concise
-    > Describe the issue, while making it very clear what you are describing. Steer away from any unnecessary language
+    > Describe the issue, while making it very clear what you are describing. Steer away from any unnecessary language.
 
 
 * Be Empathetic
