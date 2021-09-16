@@ -5,8 +5,11 @@ import * as Location from "expo-location";
 import AsyncStorage from "@react-native-community/async-storage";
 import debug from "debug";
 
-import { withPermissions, PERMISSIONS, RESULTS } from "./PermissionsContext";
-import type { PermissionResult, PermissionsType } from "./PermissionsContext";
+import { PERMISSIONS, RESULTS, usePermissions } from "./PermissionsContext";
+import type {
+  PermissionResult,
+  PermissionsWithResult,
+} from "./PermissionsContext";
 
 const log = debug("mapeo:Location");
 const STORE_KEY = "@MapeoPosition@1";
@@ -58,7 +61,7 @@ type AppStateType = "active" | "background" | "inactive";
 
 type Props = {
   children: React.Node,
-  permissions: PermissionsType,
+  permissions: PermissionsWithResult,
 };
 
 const defaultContext: LocationContextType = {
@@ -222,4 +225,11 @@ class _LocationProvider extends React.Component<Props, LocationContextType> {
 
 export default LocationContext;
 
-export const LocationProvider = withPermissions(_LocationProvider);
+const LocationProviderWithPermissions = ({ children }) => {
+  const { permissions } = usePermissions();
+  return (
+    <_LocationProvider permissions={permissions}>{children}</_LocationProvider>
+  );
+};
+
+export { LocationProviderWithPermissions as LocationProvider };
