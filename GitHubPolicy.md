@@ -21,7 +21,7 @@
 
 ## Overview
 
-Digital Democracy's codebase is maintained through Github Version Control. Pull requests can be made if you would like to contribute to our codebase. Before creating a pull request please refer to our [contributing doc]().
+Digital Democracy's codebase is maintained using Git and hosted on GitHub. Pull requests can be made if you would like to contribute to our codebase. Before creating a pull request please refer to our [contributing doc]().
 
 Please refer to
 ## Glossary of Term
