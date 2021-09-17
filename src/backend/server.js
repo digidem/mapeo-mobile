@@ -1,8 +1,10 @@
+// @ts-check
 const http = require("http");
 const path = require("path");
 const level = require("level");
 const kappa = require("kappa-core");
 const raf = require("random-access-file");
+const crypto = require("hypercore-crypto");
 const createOsmDbOrig = require("kappa-osm");
 const createMediaStore = require("safe-fs-blob-store");
 const createMapeoRouter = require("mapeo-server");
@@ -25,13 +27,13 @@ module.exports = createServer;
 
 /**
  * @param {object} options
- * @param {string} privateStorage Path to app-specific internal file storage
+ * @param {string} options.privateStorage Path to app-specific internal file storage
  *   folder (see https://developer.android.com/training/data-storage/app-specific).
  *   This folder cannot be accessed by other apps or the user via a computer connection.
- * @param {string} sharedStorage Path to app-specific external file storage folder
- * @param {string} privateCacheStorage Path to app-specific internal cache storage folder
- * @param {import('./upgrade-manager/types').DeviceInfo} deviceInfo sdkVersion and supportedAbis for current device
- * @param {import('./upgrade-manager/types').InstallerInt} currentApkInfo info about the currently running APK (see ./lib/types for documentation)
+ * @param {string} options.sharedStorage Path to app-specific external file storage folder
+ * @param {string} options.privateCacheStorage Path to app-specific internal cache storage folder
+ * @param {import('./upgrade-manager/types').DeviceInfo} options.deviceInfo sdkVersion and supportedAbis for current device
+ * @param {import('./upgrade-manager/types').InstallerInt} options.currentApkInfo info about the currently running APK (see ./lib/types for documentation)
  */
 function createServer({
   privateStorage,
@@ -55,20 +57,24 @@ function createServer({
   mkdirp.sync(upgradeStoragePath);
   mkdirp.sync(path.join(sharedStorage, "styles/default"));
 
-  let projectKey = readProjectKey({
-    defaultConfigPath,
-    fallbackPresetsDir,
+  const projectKey = readProjectKey();
+  const projectId = discoveryKey(projectKey);
+  const dbStorageDir = path.join(privateStorage, projectId);
+
+  migrateProjectStorageIfNeeded({
+    oldStorageDir: privateStorage,
+    newStorageDir: dbStorageDir,
   });
 
   // The main osm db for observations and map data
   let { osm, close: closeOsm } = createOsmDb({
-    feedsDir: path.join(privateStorage, "db"),
-    indexDir: path.join(privateStorage, "index"),
+    feedsDir: path.join(dbStorageDir, "db"),
+    indexDir: path.join(dbStorageDir, "index"),
     encryptionKey: projectKey,
   });
 
   // The media store for photos, video etc.
-  const media = createMediaStore(path.join(privateStorage, "media"));
+  const media = createMediaStore(path.join(dbStorageDir, "media"));
 
   // Handles all other routes for Mapeo
   let mapeoRouter = createMapeoRouter(osm, media, {
@@ -334,29 +340,6 @@ function createServer({
     }
   }
 
-  // Send message to frontend whenever there is an update to the peer list
-  function sendPeerUpdateToRN(peer) {
-    const peers = mapeoCore.sync.peers().map(peer => {
-      const { connection, ...rest } = peer;
-      return {
-        ...rest,
-        channel: Buffer.isBuffer(rest.channel)
-          ? rest.channel.toString("hex")
-          : undefined,
-        swarmId: Buffer.isBuffer(rest.swarmId)
-          ? rest.swarmId.toString("hex")
-          : undefined,
-      };
-    });
-    rnBridge.channel.post("peer-update", peers);
-  }
-
-  function startSync(target = {}) {
-    if (!target.host || !target.port) return;
-    const sync = mapeoCore.sync.replicate(target, { deviceType: "mobile" });
-    syncWatch(sync);
-  }
-
   function joinSync({ deviceName } = {}) {
     try {
       if (deviceName) mapeoCore.sync.setName(deviceName);
@@ -425,8 +408,7 @@ function createServer({
    * Create an kappa-osm database instance
    *
    * @param {object} options
-   * @param {string} options.indexDir Folder for storing leveldb and spatial indexes
-   * @param {string} options.feedsDir Folder for storing hypercore feeds
+
    * @param {string} options.encryptionKey Encryption key for multifeed
    * @returns {object} An object with properties `osm` (an instance of kappa-osm)
    * and `close` (gracefully close all storage and callback)
@@ -440,18 +422,6 @@ function createServer({
         severity: "error",
         context: "core",
       });
-    });
-
-    const coreDb = kappa(feedsDir, {
-      valueEncoding: "json",
-      encryptionKey,
-    });
-
-    // The main osm db for observations and map data
-    const osm = createOsmDbOrig({
-      core: coreDb,
-      index: indexDb,
-      storage: createBkdStorage,
     });
 
     // To close cleanly we need to wait until replication has completed, destroy
@@ -494,28 +464,38 @@ function createServer({
   }
 
   return server;
-}
 
-/**
- * Read a projectKey from the metadata.json in the default config path, with a
- * fallback to the project key in the default settings if the user has not added
- * any custom presets
- *
- * @param {object} options
- * @param {string} options.defaultConfigPath
- * @param {string} options.fallbackPresetsDir
- * @returns {string} projectKey
- */
-function readProjectKey({ defaultConfigPath, fallbackPresetsDir }) {
-  let projectKey;
-  try {
-    const metadata = JSON.parse(
-      fs.readFileSync(path.join(defaultConfigPath, "metadata.json"), "utf8")
-    );
-    projectKey = metadata.projectKey;
-  } catch (err) {
-    // if there was an error reading the user presets, try reading a projectKey
-    // from the fallback presets
+  /**
+   * Read a projectKey from private storage, with fall back to metadata.json in
+   * the default config path, with a fallback to the project key in the default
+   * settings if the user has not added any custom presets
+   *
+   * @returns {string} project key
+   */
+  function readProjectKey() {
+    try {
+      const projectKeyPath = path.join(privateStorage, "project_key");
+      const projectKeyBuf = fs.readFileSync(projectKeyPath);
+      const projectKey = projectKeyBuf.toString("hex");
+      if (projectKey) {
+        log("Using project key from storage", projectKey.slice(0, 4));
+        return projectKey;
+      }
+    } catch (e) {}
+
+    try {
+      const metadata = JSON.parse(
+        fs.readFileSync(path.join(defaultConfigPath, "metadata.json"), "utf8")
+      );
+      if (metadata.projectKey) {
+        log(
+          "Using project key from custom config",
+          metadata.projectKey.slice(0, 4)
+        );
+        return metadata.projectKey;
+      }
+    } catch (e) {}
+
     try {
       const metadata = JSON.parse(
         fs.readFileSync(
@@ -523,13 +503,38 @@ function readProjectKey({ defaultConfigPath, fallbackPresetsDir }) {
           "utf8"
         )
       );
-      projectKey = metadata.projectKey;
+      if (metadata.projectKey) {
+        log(
+          "Using project key from default config",
+          metadata.projectKey.slice(0, 4)
+        );
+        return metadata.projectKey;
+      }
     } catch (e) {}
-  }
-  if (projectKey) {
-    log("Found projectKey starting with ", projectKey.slice(0, 4));
-  } else {
+
     log("No projectKey found, using default 'mapeo' key");
+    return DEFAULT_PROJECT_KEY;
   }
-  return projectKey;
+}
+
+/**
+ * Generate a discovery key for a given projectKey. If projectKey is undefined
+ * then it will use SYNC_DEFAULT_KEY as the discovery key (this is for backwards
+ * compatibility with clients that did not use projectKeys)
+ *
+ * @param {String|Buffer} projectKey A unique random key identifying the
+ * project. Must be 32-byte Buffer or a string hex encoding of a 32-Byte buffer
+ * @returns {string} A hex encoded 32-byte Buffer
+ */
+function discoveryKey(projectKey) {
+  if (typeof projectKey === "string") {
+    projectKey = Buffer.from(projectKey, "hex");
+  }
+  if (Buffer.isBuffer(projectKey) && projectKey.length === 32) {
+    return crypto.discoveryKey(projectKey).toString("hex");
+  } else {
+    throw new Error(
+      "projectKey must be undefined or a 32-byte Buffer, or a hex string encoding a 32-byte buffer"
+    );
+  }
 }

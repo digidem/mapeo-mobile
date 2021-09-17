@@ -3,6 +3,7 @@ import {
   ListenerSignature,
   DefaultListener,
 } from "tiny-typed-emitter";
+import { AsyncServiceState } from "../upgrade-manager/types";
 
 // This is done this way in a d.ts file with the same name as `async-service.js`
 // since it is not possible to declare a class with Generics in JSDoc, so by
@@ -28,20 +29,4 @@ declare abstract class AsyncService<
   abstract _stop(): Promise<void>;
 }
 
-export type AsyncServiceStateValue =
-  | "stopped"
-  | "starting"
-  | "started"
-  | "stopping"
-  | "error";
-
-export type AsyncServiceState =
-  | {
-      value: Exclude<AsyncServiceStateValue, "error">;
-    }
-  | {
-      value: "error";
-      error: Error;
-    };
-
-export default AsyncService;
+export = AsyncService;
