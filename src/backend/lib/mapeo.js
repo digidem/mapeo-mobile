@@ -96,7 +96,7 @@ class Mapeo extends AsyncService {
   }
 
   /**
-   * Start Mapeo Server and sync
+   * Start Mapeo Server and sync services
    * @param {number} port
    * @returns {Promise<void>}
    */
@@ -107,7 +107,9 @@ class Mapeo extends AsyncService {
     }
     return new Promise((resolve, reject) => {
       this.#server.once("error", reject);
+      // Start the sync swarm (but do not adverstise yet)
       this.core.sync.listen(() => {
+        // Start the Mapeo Server listening on port
         this.#server.listen(port, () => {
           this.#server.removeListener("error", reject);
           log("Mapeo Core listening on port " + port);
@@ -120,7 +122,8 @@ class Mapeo extends AsyncService {
   /**
    * Close the server and set a timer to destroy any active syncs after 9
    * minutes (on Android if the task is left running in the background for too
-   * long (10 minutes?), then the sync is aborted).
+   * long (10 minutes?), then Android might terminate this process, which will
+   * require the app to be restarted).
    */
   async _stop() {
     if (this.#destroyed) throw new Error("Already destroyed");
@@ -141,12 +144,23 @@ class Mapeo extends AsyncService {
    * Close all resources (level databases, storages, etc.)
    */
   async destroy() {
+    // We need to stop syncing to close Mapeo Core, arbitrarily waiting 1 second
+    // for sync to complete before forcing a stop. We do not allow destroy() to
+    // be aborted (unlike stop(), which can be aborted by calling start() before
+    // it completes).
+    await this._closeSyncWithTimeout({ timeout: 1000 });
     await promisify(this.core.close).call(this.core);
     const pending = [];
+
+    // TODO: this.core.close() does not close the underlying hyperlogs or
+    // stop indexing in @mapeo/core v8.1.3. This was added in v9 which we
+    // are not yet using. When we switch to v9 we can remove the extra
+    // cleanup of hypercores and the sync pause here.
 
     pending.push(
       /** @type {Promise<void>} */
       (new Promise(resolve => {
+        // Pause any in-progress indexing
         this.core.osm.core.pause(() => {
           // This calls multifeed.close() which closes the hypercore feeds
           this.core.osm.core._logs.close(() => resolve());
@@ -154,10 +168,12 @@ class Mapeo extends AsyncService {
       }))
     );
 
+    // Close all the random-access-file storages
     for (const storage of this.#storages) {
       pending.push(promisify(storage.close).call(storage));
     }
 
+    // Close the indexDb database used for indexes
     pending.push(this.#indexDb.close());
 
     await Promise.all(pending);
