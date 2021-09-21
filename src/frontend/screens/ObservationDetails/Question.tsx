@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 
 import SelectOne from "./SelectOne";
@@ -8,19 +7,18 @@ import TextArea from "./TextArea";
 import type { Field } from "../../context/ConfigContext";
 
 export type QuestionProps = {
-  field: Field,
-  value: any,
-  onChange: (value: any) => any,
+  field: Field;
+  value: any;
+  onChange: (value: any) => any;
+  autoFocus?: boolean;
 };
 
-const Question = (props: QuestionProps) => {
-  // This is needed for Flow to understand the type refinement
-  const { field, ...other } = props;
+const Question = ({ field, autoFocus = false, ...other }: QuestionProps) => {
   if (field.type === "select_one" && Array.isArray(field.options)) {
     return <SelectOne {...other} field={field} />;
   } else if (field.type === "select_multiple" && Array.isArray(field.options)) {
     return <SelectMultiple {...other} field={field} />;
-  } else return <TextArea {...props} />;
+  } else return <TextArea {...{ field, autoFocus, ...other }} />;
 };
 
 export default Question;

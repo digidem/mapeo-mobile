@@ -137,7 +137,7 @@ const DescriptionField = () => {
           placeholderTextColor="silver"
           underlineColorAndroid="transparent"
           multiline
-          autoFocus={false}
+          autoFocus={true}
           scrollEnabled={false}
           textContentType="none"
           testID="observationDescriptionField"
