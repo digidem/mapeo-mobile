@@ -1,15 +1,14 @@
-// @flow
-import React from "react";
+import * as React from "react";
+import { Alert, BackHandler } from "react-native";
 import { defineMessages, useIntl } from "react-intl";
 import { HeaderBackButton } from "react-navigation-stack";
-import { useNavigation, useFocusEffect } from "react-navigation-hooks";
-import { Alert, BackHandler } from "react-native";
+import { useFocusEffect, useNavigation } from "react-navigation-hooks";
 import isEqual from "lodash/isEqual";
 
-import { CloseIcon, BackIcon } from "./icons";
 import { useDraftObservation } from "../hooks/useDraftObservation";
 import { useObservation } from "../hooks/useObservation";
 import { filterPhotosFromAttachments } from "../lib/utils";
+import { CloseIcon, BackIcon } from "./icons";
 
 const m = defineMessages({
   discardTitle: {
@@ -101,7 +100,10 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
   const routes = parent && parent.state.routes;
   const currentIndex = routes && routes.findIndex(route => route.key === key);
   const prevRouteNameInStack =
-    routes && routes[currentIndex - 1] && routes[currentIndex - 1].routeName;
+    routes &&
+    currentIndex &&
+    routes[currentIndex - 1] &&
+    routes[currentIndex - 1].routeName;
 
   const shouldConfirm =
     routeName === "ObservationEdit" ||
