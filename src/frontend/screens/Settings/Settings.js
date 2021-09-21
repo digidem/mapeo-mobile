@@ -103,7 +103,7 @@ const Settings = () => {
         <ListItemText
           primary={<FormattedMessage {...m.language} />}
           secondary={<FormattedMessage {...m.languageDesc} />}
-        ></ListItemText>
+        />
       </ListItem>
       <ListItem
         onPress={() => navigate("ProjectConfig")}
@@ -113,7 +113,7 @@ const Settings = () => {
         <ListItemText
           primary={<FormattedMessage {...m.projectConfig} />}
           secondary={<FormattedMessage {...m.projectConfigDesc} />}
-        ></ListItemText>
+        />
       </ListItem>
       <ListItem
         onPress={() => navigate("CoordinateFormat")}
@@ -123,7 +123,7 @@ const Settings = () => {
         <ListItemText
           primary={<FormattedMessage {...m.coordinateFormat} />}
           secondary={<FormattedMessage {...m.coordinateFormatDesc} />}
-        ></ListItemText>
+        />
       </ListItem>
       <ListItem
         onPress={() => navigate("AboutMapeo")}
@@ -133,7 +133,7 @@ const Settings = () => {
         <ListItemText
           primary={<FormattedMessage {...m.aboutMapeo} />}
           secondary={<FormattedMessage {...m.aboutMapeoDesc} />}
-        ></ListItemText>
+        />
       </ListItem>
       <ListItem
         onPress={() => navigate("Experiments")}
@@ -143,7 +143,7 @@ const Settings = () => {
         <ListItemText
           primary={<FormattedMessage {...m.experiments} />}
           secondary={<FormattedMessage {...m.experimentsDesc} />}
-        ></ListItemText>
+        />
       </ListItem>
     </List>
   );

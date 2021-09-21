@@ -44,7 +44,7 @@ const Experiments = () => {
         <ListItemText
           primary={<FormattedMessage {...m.p2pUpgrades} />}
           secondary={<FormattedMessage {...m.p2pUpgradesDesc} />}
-        ></ListItemText>
+        />
       </ListItem>
     </List>
   );

@@ -67,7 +67,7 @@ const DeviceInfoListItem = ({
       : formatMessage(m.unknown);
   return (
     <ListItem>
-      <ListItemText primary={label} secondary={displayValue}></ListItemText>
+      <ListItemText primary={label} secondary={displayValue} />
     </ListItem>
   );
 };

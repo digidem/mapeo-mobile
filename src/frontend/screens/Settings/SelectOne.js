@@ -33,7 +33,7 @@ const SelectOne = ({ value, options, onChange }: Props) => (
               : "radio-button-unchecked"
           }
         />
-        <ListItemText primary={item.label} secondary={item.hint}></ListItemText>
+        <ListItemText primary={item.label} secondary={item.hint} />
       </ListItem>
     ))}
   </List>
