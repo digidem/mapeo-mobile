@@ -3,7 +3,7 @@ import * as React from "react";
 import { FormattedDate, defineMessages, useIntl } from "react-intl";
 
 import { formatCoords, convertSelectOptionsToLabeled } from "../lib/utils";
-import DateDistance from "./DateDistance";
+import { DateDistance } from "./DateDistance";
 import { type Observation } from "../context/ObservationsContext";
 import { formats } from "../context/IntlContext";
 import type { Field, Preset, PresetWithFields } from "../context/ConfigContext";

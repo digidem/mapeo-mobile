@@ -8,7 +8,7 @@ import LocationContext from "../context/LocationContext";
 import useSettingsValue from "../hooks/useSettingsValue";
 
 import { FormattedCoords } from "../sharedComponents/FormattedData";
-import DateDistance from "../sharedComponents/DateDistance";
+import { DateDistance } from "../sharedComponents/DateDistance";
 import HeaderTitle from "../sharedComponents/HeaderTitle";
 
 import type { LocationContextType } from "../context/LocationContext";

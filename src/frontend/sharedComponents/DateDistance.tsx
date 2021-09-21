@@ -1,15 +1,9 @@
-// @flow
-import React from "react";
-import Text from "./Text";
-import { FormattedRelativeTime, FormattedDate } from "react-intl";
+import * as React from "react";
+import { FormattedDate, FormattedRelativeTime } from "react-intl";
 import { useAppState } from "@react-native-community/hooks";
 
-import type { TextStyleProp } from "../types";
-
-type Props = {
-  date: Date,
-  style?: TextStyleProp,
-};
+import { TextStyleProp } from "../sharedTypes";
+import Text from "./Text";
 
 // We use relative dates for anything within the last 7 days, and then absolute
 // dates for anything else.
@@ -18,9 +12,15 @@ const MINUTE = 60;
 const HOUR = 60 * 60;
 const DAY = 60 * 60 * 24;
 
-const DateDistance = ({ date = new Date(), style }: Props) => {
+interface Props {
+  date: Date;
+  style?: TextStyleProp;
+}
+
+export const DateDistance = ({ date = new Date(), style }: Props) => {
   // Round distance to nearest 10 seconds
-  const distanceInSeconds = Math.floor((Date.now() - date) / 10000) * 10;
+  const distanceInSeconds =
+    Math.floor((Date.now() - date.getTime()) / 10000) * 10;
   const currentAppState = useAppState();
 
   const absValue = Math.abs(distanceInSeconds);
