@@ -1,13 +1,12 @@
-// @flow
 import * as React from "react";
 import { FormattedDate, defineMessages, useIntl } from "react-intl";
 
-import { formatCoords, convertSelectOptionsToLabeled } from "../lib/utils";
-import { DateDistance } from "./DateDistance";
-import { type Observation } from "../context/ObservationsContext";
+import { Field, Preset, PresetWithFields } from "../context/ConfigContext";
 import { formats } from "../context/IntlContext";
-import type { Field, Preset, PresetWithFields } from "../context/ConfigContext";
-import { type CoordinateFormat } from "../context/SettingsContext";
+import { Observation } from "../context/ObservationsContext";
+import { convertSelectOptionsToLabeled, formatCoords } from "../lib/utils";
+import { CoordinateFormat } from "../context/SettingsContext";
+import { DateDistance } from "./DateDistance";
 
 const m = defineMessages({
   noAnswer: {
@@ -35,9 +34,9 @@ export const FormattedCoords = ({
   lon,
   format,
 }: {
-  lat: number,
-  lon: number,
-  format: CoordinateFormat,
+  lat: number;
+  lon: number;
+  format: CoordinateFormat;
 }) => {
   return <>{formatCoords({ lon, lat, format })}</>;
 };
@@ -51,8 +50,8 @@ export const FormattedFieldProp = ({
   field,
   propName,
 }: {
-  field: Field,
-  propName: "label" | "placeholder" | "helperText",
+  field: Field;
+  propName: "label" | "placeholder" | "helperText";
 }) => {
   const { formatMessage: t } = useIntl();
   const fieldKey = Array.isArray(field.key) ? field.key[0] : field.key;
@@ -80,10 +79,10 @@ export const FormattedFieldProp = ({
 export const FormattedFieldValue = ({
   value,
   field,
-}: {|
-  value: any,
-  field: Field,
-|}) => {
+}: {
+  value: any;
+  field: Field;
+}) => {
   const { formatMessage: t } = useIntl();
   // Select multiple answers are an array, so we join them with commas
   const formattedValue = (Array.isArray(value) ? value : [value])
@@ -108,10 +107,10 @@ export const FormattedObservationDate = ({
   observation,
   variant,
 }: {
-  observation: Observation,
+  observation: Observation;
   // 'relative' = relative date format e.g. "3 minutes ago"
   // for other formats see formats.date
-  variant: "relative" | $Keys<typeof formats.date>,
+  variant: "relative" | keyof typeof formats.date;
 }) => {
   const createdAtDate = new Date(observation.created_at);
   switch (variant) {
@@ -126,9 +125,9 @@ export const FormattedObservationDate = ({
 // preset is defined
 export const FormattedPresetName = ({
   preset,
-}: {|
-  preset: Preset | PresetWithFields | void,
-|}) => {
+}: {
+  preset?: Preset | PresetWithFields;
+}) => {
   const { formatMessage: t } = useIntl();
   const name = preset
     ? t({ id: `presets.${preset.id}.name`, defaultMessage: preset.name })
