@@ -4,7 +4,7 @@ import QuestionLabel from "./QuestionLabel";
 
 import type { QuestionProps } from "./Question";
 
-const TextArea = ({ value, field, onChange, autoFocus }: QuestionProps) => (
+const TextArea = ({ value, field, onChange }: QuestionProps) => (
   <>
     <QuestionLabel field={field} />
     <TextInput
@@ -15,7 +15,7 @@ const TextArea = ({ value, field, onChange, autoFocus }: QuestionProps) => (
       multiline
       scrollEnabled={false}
       textContentType="none"
-      autoFocus={autoFocus}
+      autoFocus={true}
     />
   </>
 );
