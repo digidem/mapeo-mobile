@@ -2,18 +2,18 @@
 const AsyncService = require("./async-service");
 const main = require("../index");
 const Mapeo = require("./mapeo");
+const Project = require("./project");
+const path = require("path");
 const fs = require("fs");
 const debug = require("debug");
 const throttle = require("lodash/throttle");
+const UpgradeManager = require("../upgrade-manager");
+const mkdirp = require("mkdirp");
+const { serializeError } = require("serialize-error");
 
 const log = debug("mapeo-core:server");
 
-/** @typedef {import('events').EventEmitter & { post: (event: string, message: any) => void }} Channel */
-
-// From https://github.com/kappa-db/multifeed - default key used by Mapeo Core
-// when no other key has been provided.
-const DEFAULT_PROJECT_KEY =
-  "bee80ff3a4ee5e727dc44197cb9d25bf8f19d50b0f3ad2984cfe5b7d14e75de7";
+/** @typedef {import('events').EventEmitter & { post: (event: string, message?: any) => void }} Channel */
 
 /**
  * @extends {AsyncService<{}, [number]>}
@@ -21,6 +21,11 @@ const DEFAULT_PROJECT_KEY =
 export class MapeoServices extends AsyncService {
   #channel;
   #mapeo;
+  #project;
+  #upgradeManager;
+  #dbStorageDir;
+  #staticRoot;
+  #fallbackPresetsDir;
 
   /**
    * @param {object} options
@@ -43,10 +48,58 @@ export class MapeoServices extends AsyncService {
   }) {
     super();
     this.#channel = channel;
-    this.#mapeo = new Mapeo();
+    this.#staticRoot = sharedStorage;
+    const metadataPath = path.join(privateStorage, "project_metadata.json");
+    const importedConfigPath = path.join(sharedStorage, "presets/default");
+    this.#project = new Project({ metadataPath, importedConfigPath });
+
+    this.#dbStorageDir = path.join(
+      privateStorage,
+      "data",
+      this.#project.metadata.id || "practice_project"
+    );
+    migrateProjectStorageIfNeeded({
+      oldStorageDir: privateStorage,
+      newStorageDir: this.#dbStorageDir,
+    });
+    // Folder with default (built-in) presets to server when the user has not
+    // added any presets
+    this.#fallbackPresetsDir = path.join(
+      privateStorage,
+      "nodejs-assets/presets"
+    );
+    const upgradeStoragePath = path.join(privateCacheStorage, "upgrades");
+    // create folders for upgrades, imported config & map styles
+    mkdirp.sync(importedConfigPath);
+    mkdirp.sync(upgradeStoragePath);
+    mkdirp.sync(path.join(sharedStorage, "styles/default"));
+
+    this.#mapeo = new Mapeo({
+      dbStorageDir: this.#dbStorageDir,
+      projectKey: this.#project.metadata.key,
+      staticRoot: this.#staticRoot,
+      fallbackPresetsDir: this.#fallbackPresetsDir,
+    });
+
+    try {
+      this.#upgradeManager = new UpgradeManager({
+        storageDir: upgradeStoragePath,
+        currentApkInfo,
+        deviceInfo,
+      });
+    } catch (err) {
+      main.bugsnag.notify(err, {
+        severity: "error",
+        context: "p2p-upgrade",
+      });
+      log(`error initializing p2p-upgrade: ${err.toString()}`);
+    }
+
     // Sending data over the bridge to RN is costly, and progress events fire
     // frequently, so we throttle updates to once every 500ms
     this._throttledSendPeerUpdateToRN = throttle(this._sendPeerUpdateToRN, 500);
+
+    this._attachUpgradeManagerListeners();
   }
 
   /**
@@ -78,9 +131,60 @@ export class MapeoServices extends AsyncService {
     await this.#mapeo.stop();
   }
 
+  _attachUpgradeManagerListeners() {
+    const upgradeManager = this.#upgradeManager;
+    if (upgradeManager) {
+      upgradeManager.on("state", onUpgradeManagerState);
+      upgradeManager.on("error", err => {
+        onError("p2p-upgrade", err);
+        const serializedError = serializeError(err);
+        this.#channel.post("p2p-upgrade::error", serializedError);
+      });
+      this.#channel.on("p2p-upgrade::start-services", () => {
+        log("Request to start upgrade manager");
+        upgradeManager.start().catch(err => onError("p2p-start", err));
+      });
+      this.#channel.on("p2p-upgrade::stop-services", () => {
+        log("Request to stop upgrade manager");
+        upgradeManager.stop().catch(err => onError("p2p-stop", err));
+      });
+      this.#channel.on("p2p-upgrade::get-state", () => {
+        // Don't particularly like this way of doing things, eventually we will
+        // set up and RPC for calling these methods directly
+        const state = upgradeManager.getState();
+        onUpgradeManagerState(state);
+      });
+    } else {
+      this.#channel.on("p2p-upgrade::get-state", () => {
+        // If UpgradeManager fails to initialize, we always report the state as
+        // the error, and ignore all the other IPC messages
+
+        /** @type {import("../upgrade-manager/types").UpgradeState} */
+        const state = {
+          value: "error",
+          error: new Error("Upgrade manager failed to load"),
+          uploads: [],
+          downloads: [],
+          checkedPeers: [],
+        };
+        onUpgradeManagerState(state);
+      });
+    }
+
+    /** @param {import("../upgrade-manager/types").UpgradeState} state */
+    function onUpgradeManagerState(state) {
+      // Serialize error object so it can be transferred over ipc
+      const serializedErrorState = {
+        ...state,
+        error: serializeError(state.error),
+      };
+      this.#channel.post("p2p-upgrade::state", serializedErrorState);
+    }
+  }
+
   /** @param {any} peer */
   _onNewPeer = peer => {
-    this._throttledSendPeerUpdateToRN(peer);
+    this._throttledSendPeerUpdateToRN();
     if (!peer.sync) {
       return log("Could not monitor peer, missing sync property");
     }
@@ -121,20 +225,24 @@ export class MapeoServices extends AsyncService {
     }
   };
 
-  // Send peer state to frontend
+  /**
+   * Send peer state to frontend
+   */
   _sendPeerUpdateToRN = () => {
-    const peers = this.#mapeo.core.sync.peers().map(peer => {
-      const { connection, ...rest } = peer;
-      return {
-        ...rest,
-        channel: Buffer.isBuffer(rest.channel)
-          ? rest.channel.toString("hex")
-          : undefined,
-        swarmId: Buffer.isBuffer(rest.swarmId)
-          ? rest.swarmId.toString("hex")
-          : undefined,
-      };
-    });
+    const peers = this.#mapeo.core.sync.peers().map(
+      /** @param {any} peer */ peer => {
+        const { connection, ...rest } = peer;
+        return {
+          ...rest,
+          channel: Buffer.isBuffer(rest.channel)
+            ? rest.channel.toString("hex")
+            : undefined,
+          swarmId: Buffer.isBuffer(rest.swarmId)
+            ? rest.swarmId.toString("hex")
+            : undefined,
+        };
+      }
+    );
     this.#channel.post("peer-update", peers);
   };
 
@@ -150,6 +258,7 @@ export class MapeoServices extends AsyncService {
   /** @param {any} opts */
   _joinSync = ({ deviceName } = {}) => {
     try {
+      const projectKey = this.#project.metadata.key;
       if (deviceName) this.#mapeo.core.sync.setName(deviceName);
       log("Joining swarm", projectKey && projectKey.slice(0, 4));
       this.#mapeo.core.sync.join(projectKey);
@@ -158,6 +267,48 @@ export class MapeoServices extends AsyncService {
         severity: "error",
         context: "sync join",
       });
+    }
+  };
+
+  _leaveSync = () => {
+    try {
+      const projectKey = this.#project.metadata.key;
+      log("Leaving swarm", projectKey && projectKey.slice(0, 4));
+      this.#mapeo.core.sync.leave(projectKey);
+    } catch (e) {
+      main.bugsnag.notify(e, {
+        severity: "error",
+        context: "sync leave",
+      });
+    }
+  };
+
+  /**
+   * @param {object} opts
+   * @param {string | number} opts.id
+   * @param {string} opts.path
+   */
+  _replaceConfig = async ({ id, path: configTarballPath }) => {
+    const currentProjectKey = this.#project.metadata.key;
+    try {
+      const newMetadata = await this.#project.importConfig(configTarballPath);
+      if (newMetadata.key !== currentProjectKey) {
+        await this.#mapeo.destroy();
+        this.#mapeo = new Mapeo({
+          dbStorageDir: this.#dbStorageDir,
+          projectKey: this.#project.metadata.key,
+          staticRoot: this.#staticRoot,
+          fallbackPresetsDir: this.#fallbackPresetsDir,
+        });
+        // TODO: re-attach event listeners - this is why we were seeing bugs
+        // with sync after replacing config
+      }
+      this.#channel.post("replace-config-" + id);
+    } catch (e) {
+      this.#channel.post(
+        "replace-config-" + id,
+        e.message || new Error("Unknown error")
+      );
     }
   };
 }
@@ -203,4 +354,17 @@ function migrateProjectStorageIfNeeded({ oldStorageDir, newStorageDir }) {
   } else {
     log("No existing project database detected, skipping migration");
   }
+}
+
+/**
+ * @param {string} prefix
+ * @param {Error} [err]
+ */
+function onError(prefix, err) {
+  if (!err) return;
+  main.bugsnag.notify(err, {
+    severity: "error",
+    context: prefix,
+  });
+  log(`error(${prefix}): ' + ${err.toString()}`);
 }

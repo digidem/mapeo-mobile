@@ -32,7 +32,7 @@ class Mapeo extends AsyncService {
 
   /**
    * @param {object} options
-   * @param {string} options.projectKey
+   * @param {string} [options.projectKey]
    * @param {string} options.dbStorageDir Folder for storing database and indexes
    * @param {string} options.staticRoot Root folder for serving static files
    * @param {string} options.fallbackPresetsDir Folder with default presets
@@ -133,6 +133,7 @@ class Mapeo extends AsyncService {
     // Wait up to 9 minutes to see if active syncs complete, then force-stop
     // the sync, but don't await it - we will cancel the destroy if we restart
     this._closeSyncWithTimeout({ timeout: 9 * MINUTE, signal }).catch(e =>
+      // TODO: Report this to bugsnag
       log(e)
     );
     // Stop server from listening
