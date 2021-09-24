@@ -220,9 +220,19 @@ export const Map = React.memo(
       </>
     );
   },
-  (_prevProps, nextProps) =>
-    // Don't update the map at all if the map is not the active screen
-    !nextProps.isFocused
+  (prevProps, nextProps) => {
+    // Don't update if screen was not focused and will not be focused
+    if (!prevProps.isFocused && !nextProps.isFocused) {
+      return true;
+    }
+
+    // Don't update if no props have changed
+    if (!shallowDiffers(prevProps, nextProps)) {
+      return true;
+    }
+
+    return false;
+  }
 );
 
 const styles = StyleSheet.create({
@@ -235,6 +245,15 @@ const styles = StyleSheet.create({
     bottom: 20,
   },
 });
+
+// Shallow compare objects, but omitting certain keys from the comparison
+function shallowDiffers(a: any, b: any) {
+  for (const i in a) if (!(i in b)) return true;
+  for (const i in b) {
+    if (a[i] !== b[i]) return true;
+  }
+  return false;
+}
 
 function reportError() {
   bugsnag.notify(new Error("Failed to load map"), report => {
