@@ -324,6 +324,22 @@
     "description": "Description of the 'About Mapeo' page",
     "message": "เวอร์ชันและรหัส Build Number"
   },
+  "screens.Settings.appInstall": {
+    "description": "Primary text for Mapeo APK test",
+    "message": "ติดตั้งไฟล์ APK"
+  },
+  "screens.Settings.appInstallDesc": {
+    "description": "Secondary text for Mapeo APK test",
+    "message": "ทดสอบการติดตั้งไฟล์ APK (แอปติดตั้งใหม่)"
+  },
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "แชร์ตัวติดตั้ง Mapeo"
+  },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "ติดตั้งและอัปเดต Mapeo บนมือถืออีกเครื่อง"
+  },
   "screens.Settings.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "เกิดข้อผิดพลาดระหว่างการนำเข้าไฟล์การตั้งค่า"
@@ -412,6 +428,18 @@
     "description": "Label for last sync datetime",
     "message": "เชื่อมต่อข้อมูลแล้ว:"
   },
+  "screens.SyncModal.SyncView.checkingUpdates": {
+    "description": "Label in upgrade bar when checking for updates",
+    "message": "ตรวจสอบการอัปเดตแอป"
+  },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "ติดตั้งการอัปเดต"
+  },
+  "screens.SyncModal.SyncView.noUpdates": {
+    "description": "Label in upgrade bar when no updates are found",
+    "message": "ไม่พบการอัปเดตแอป"
+  },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
     "message": "เลือกการตั้งค่าในโทรศัพท์ของคุณเพื่อเชื่อมต่อเครือข่าย WiFi ​และโอนข้อมูล"
@@ -419,6 +447,10 @@
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
     "message": "ไม่มีสัญญาณ WiFi"
+  },
+  "screens.SyncModal.SyncView.openSettingsButton": {
+    "description": "Label for button to open settings to fix update permissions error",
+    "message": "เปิดการตั้งค่า"
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
@@ -436,9 +468,37 @@
     "description": "Button to open WiFi settings",
     "message": "เปิดการตั้งค่า"
   },
+  "screens.SyncModal.SyncView.sharingUpdate": {
+    "description": "Label in upgrade bar when sharing an update with others",
+    "message": "แชร์การอัปเดตแอปไปยังอุปกรณ์อื่น"
+  },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
     "message": "เชื่อมโยงข้อมูลให้ตรงกัน"
+  },
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "มีรายการอัปเดต รอการเชื่อมโยงให้เสร็จสิ้น"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "กำลังดาวน์โหลดการอัปเดต"
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "ไม่สามารถอัปเดตได้"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "ไม่สามารถอัปเดตได้"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Mapeo มีเวอร์ชั่นใหม่พร้อมให้ดาวน์โหลดแล้ว"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "สถานะที่ยังไม่ได้ดำเนินการ"
   },
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
