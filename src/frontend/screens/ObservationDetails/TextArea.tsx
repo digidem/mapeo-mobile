@@ -15,7 +15,7 @@ const TextArea = ({ value, field, onChange }: QuestionProps) => (
       multiline
       scrollEnabled={false}
       textContentType="none"
-      autoFocus={true}
+      autoFocus
     />
   </>
 );
