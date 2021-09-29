@@ -17,12 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// @ts-check
 const rnBridge = require("rn-bridge");
 const debug = require("debug");
 
 const ServerStatus = require("./status");
 const constants = require("./constants");
-const createServer = require("./server");
+const MapeoServices = require("./lib/mapeo-services");
 const { getInstallerInfo } = require("./upgrade-manager/utils");
 const createBugsnag = require("@bugsnag/js");
 const semverPrerelease = require("semver/functions/prerelease");

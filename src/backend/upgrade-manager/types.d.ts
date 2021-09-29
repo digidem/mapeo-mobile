@@ -11,7 +11,7 @@ import {
 } from "fastify";
 import { PartialDeep } from "type-fest";
 import UpgradeManager from ".";
-import { AsyncServiceState } from "../lib/async-service";
+import { AsyncServiceState } from "../lib/types";
 
 // External installer type, in server responses
 export type InstallerExt = Static<typeof InstallerExtSchema>;
@@ -106,19 +106,3 @@ export interface DevicePlan {
   config: ManagerOptions & { autoStart?: boolean };
   steps: Array<ScenarioStep>;
 }
-
-export type AsyncServiceStateValue =
-  | "stopped"
-  | "starting"
-  | "started"
-  | "stopping"
-  | "error";
-
-export type AsyncServiceState =
-  | {
-      value: Exclude<AsyncServiceStateValue, "error">;
-    }
-  | {
-      value: "error";
-      error: Error;
-    };

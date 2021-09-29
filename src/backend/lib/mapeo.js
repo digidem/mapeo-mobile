@@ -18,7 +18,9 @@ const log = debug("mapeo-core:mapeo");
 const MINUTE = 60 * 1000;
 
 /**
- * A wrapper around Mapeo Core and Mapeo Server
+ * A wrapper around Mapeo Core and Mapeo Server. Sets up storage, creates
+ * kappa-core, kappa-osm and mapeo instances, and starts the mapeo server.
+ *
  * @extends {AsyncService<{}, [number]>}
  */
 class Mapeo extends AsyncService {
@@ -217,14 +219,13 @@ class Mapeo extends AsyncService {
 
       function checkIfDone() {
         if (signal && signal.aborted) abort();
-        const currentlyReplicatingPeers = mapeoCoreSync
-          .peers()
-          .filter(
-            peer =>
-              peer.state &&
-              (peer.state.topic === "replication-started" ||
-                peer.state.topic === "replication-progress")
-          );
+        const currentlyReplicatingPeers = mapeoCoreSync.peers().filter(
+          /** @param {any} peer */
+          peer =>
+            peer.state &&
+            (peer.state.topic === "replication-started" ||
+              peer.state.topic === "replication-progress")
+        );
         log(currentlyReplicatingPeers.length + " peers still replicating");
         if (currentlyReplicatingPeers.length === 0) done();
         else mapeoCoreSync.once("down", checkIfDone);

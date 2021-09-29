@@ -1,7 +1,7 @@
 // @ts-check
 const { TypedEmitter } = require("tiny-typed-emitter");
 
-/** @typedef {import('./async-service').AsyncServiceState } AsyncServiceState */
+/** @typedef {import('./types').AsyncServiceState } AsyncServiceState */
 
 /**
  * @typedef {Object} InternalEvents

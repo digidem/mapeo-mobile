@@ -47,6 +47,7 @@
     "pump": "^3.0.0",
     "random-access-file": "^2.1.5",
     "rimraf": "^3.0.0",
+    "rpc-reflector": "^1.3.1",
     "safe-fs-blob-store": "^1.0.3",
     "secure-json-parse": "^2.4.0",
     "semver": "^7.3.4",

@@ -3,7 +3,7 @@ import {
   ListenerSignature,
   DefaultListener,
 } from "tiny-typed-emitter";
-import { AsyncServiceState } from "../upgrade-manager/types";
+import { AsyncServiceState } from "./types";
 
 // This is done this way in a d.ts file with the same name as `async-service.js`
 // since it is not possible to declare a class with Generics in JSDoc, so by

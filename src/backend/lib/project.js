@@ -13,8 +13,7 @@ const pipeline = promisify(stream.pipeline);
 const crypto = require("hypercore-crypto");
 const log = debug("mapeo-core:project");
 
-/** @typedef {{ key?: undefined, name: "Practice Project", practiceMode: true }} PracticeModeMetadata */
-/** @typedef {{ id: string, key: string, name: string, practiceMode: false } | PracticeModeMetadata} ProjectMetadata */
+/** @typedef {import('./types').ProjectInfo} ProjectInfo */
 
 /**
  * A small helper class to manage storage of the current project key and name,
@@ -22,44 +21,44 @@ const log = debug("mapeo-core:project");
  * switching projects.
  */
 class Project {
-  /** @type {ProjectMetadata} */
-  #metadata;
-  #metadataPath;
+  /** @type {ProjectInfo} */
+  #info;
+  #infoPath;
   #importedConfigPath;
 
   /**
    * @param {object} options
-   * @param {string} options.metadataPath Path the JSON file used to store the metadata of the current project
+   * @param {string} options.infoPath Path the JSON file used to store the info of the current project
    * @param {string} options.importedConfigPath Path to folder of data imported from a `.mapeoconfig` file
    */
-  constructor({ metadataPath, importedConfigPath }) {
-    this.#metadataPath = metadataPath;
+  constructor({ infoPath, importedConfigPath }) {
+    this.#infoPath = infoPath;
     this.#importedConfigPath = importedConfigPath;
-    this.#metadata = this._readMetadata();
+    this.#info = this._readInfo();
   }
 
-  get metadata() {
+  get info() {
     // Clone so that this cannot be modified from outside this class
-    return { ...this.#metadata };
+    return { ...this.#info };
   }
 
-  /** @param {ProjectMetadata} newMetadata */
-  switchProject(newMetadata) {
-    if (newMetadata.key) {
-      log("Switching project to key", newMetadata.key.slice(0, 4));
-    } else {
+  /** @param {ProjectInfo} newInfo */
+  switchProject(newInfo) {
+    if (newInfo.practiceMode) {
       log("Switching project to practice mode");
+    } else {
+      log("Switching project to key", newInfo.key.slice(0, 4));
     }
-    this.#metadata = newMetadata;
-    this._writeMetadata(newMetadata);
+    this.#info = newInfo;
+    this._writeInfo(newInfo);
   }
 
   /**
-   * Import project config from a .mapeosettings file. Project metadata in the
+   * Import project config from a .mapeosettings file. Project info in the
    * config file will be ignored.
    *
    * @param {string} configPath Path to .mapeosettings file
-   * @returns {Promise<ProjectMetadata>}
+   * @returns {Promise<ProjectInfo>}
    */
   async importConfig(configPath) {
     const tmpDir = path.join(
@@ -130,27 +129,31 @@ class Project {
     }
     log("Successfully replaced config");
 
-    // Current behaviour is for metadata from the imported config to be ignored
+    // Current behaviour is for info from the imported config to be ignored
     // if the project has been created via the new project onboarding flow.
-    this.#metadata = this._readMetadata();
-    return this.#metadata;
-  }
-
-  /** @param {ProjectMetadata} metadata */
-  _writeMetadata(metadata) {
-    fs.writeFileSync(this.#metadataPath, JSON.stringify(metadata));
+    this.#info = this._readInfo();
+    return this.#info;
   }
 
   /**
-   * Read project metadata, with a fallback to metadata from an imported config
-   * Will migrate the metadata from the imported config to the new project
-   * metadata format if necessary
-   *
-   * @returns {ProjectMetadata}
+   * @private
+   * @param {ProjectInfo} info
    */
-  _readMetadata() {
+  _writeInfo(info) {
+    fs.writeFileSync(this.#infoPath, JSON.stringify(info));
+  }
+
+  /**
+   * Read project info, with a fallback to info from an imported config
+   * Will migrate the info from the imported config to the new project
+   * info format if necessary
+   *
+   * @private
+   * @returns {ProjectInfo}
+   */
+  _readInfo() {
     try {
-      const config = JSON.parse(fs.readFileSync(this.#metadataPath, "utf-8"));
+      const config = JSON.parse(fs.readFileSync(this.#infoPath, "utf-8"));
       if (isValidConfig(config)) {
         if (config.practiceMode) {
           log("Using insecure practice mode");
@@ -163,54 +166,52 @@ class Project {
       log("Error trying to read project config " + e.message);
     }
 
-    /** @type {ProjectMetadata} */
-    let migratedMetadata;
+    /** @type {ProjectInfo} */
+    let migratedInfo;
 
     try {
-      const metadata = JSON.parse(
+      const info = JSON.parse(
         fs.readFileSync(this.#importedConfigPath, "utf8")
       );
-      if (!metadata) throw new Error("Unable to read project config metadata");
-      const { projectKey, name } = metadata;
+      if (!info) throw new Error("Unable to read project config info");
+      const { projectKey, name } = info;
       if (typeof projectKey === "string") {
         log(
           "Using project key from imported custom config",
-          metadata.projectKey.slice(0, 4)
+          info.projectKey.slice(0, 4)
         );
-        migratedMetadata = {
+        migratedInfo = {
           id: discoveryKey(projectKey),
           key: projectKey,
-          name: name || "Practice Project",
+          name: typeof name === "string" ? name : undefined,
           practiceMode: false,
         };
       } else {
         log(
           "No project key defined in imported custom config, setting practice mode"
         );
-        migratedMetadata = {
-          name: name || "Practice Project",
+        migratedInfo = {
+          name: typeof name === "string" ? name : undefined,
           practiceMode: true,
         };
       }
     } catch (e) {
       log(
-        "Error trying to read project metadata, setting practice mode: " +
-          e.message
+        "Error trying to read project info, setting practice mode: " + e.message
       );
-      migratedMetadata = {
-        name: "Practice Project",
+      migratedInfo = {
         practiceMode: true,
       };
     }
 
     try {
-      this._writeMetadata(migratedMetadata);
+      this._writeInfo(migratedInfo);
       log("Migrated project config to new format");
     } catch (e) {
       log("Error trying to migrate config: " + e.message);
     }
 
-    return migratedMetadata;
+    return migratedInfo;
   }
 }
 
@@ -218,12 +219,12 @@ module.exports = Project;
 
 /**
  * @param {unknown} config
- * @returns {config is ProjectMetadata}
+ * @returns {config is ProjectInfo}
  */
 function isValidConfig(config) {
   if (typeof config !== "object") return false;
   if (config == null) return false;
-  const typeAssertedConfig = /** @type {ProjectMetadata} */ (config);
+  const typeAssertedConfig = /** @type {ProjectInfo} */ (config);
   if (typeof typeAssertedConfig.name !== "string") return false;
   if (typeAssertedConfig.practiceMode === true) {
     if (typeof typeAssertedConfig.key === "undefined") return true;

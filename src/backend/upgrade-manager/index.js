@@ -31,7 +31,7 @@ const DOWNLOAD_PROGRESS_THROTTLE_MS = 400;
 
 /** @typedef {import('./types').UpgradeState} UpgradeState */
 /** @typedef {import('./types').UpgradeStateInternal} UpgradeStateInternal */
-/** @typedef {import('./types').AsyncServiceState} AsyncServiceState */
+/** @typedef {import('../lib/types').AsyncServiceState} AsyncServiceState */
 /** @typedef {import('./types').InstallerExt} InstallerExt */
 /** @typedef {import('./types').InstallerInt} InstallerInt */
 /** @typedef {import('./types').TransferProgress} TransferProgress */
