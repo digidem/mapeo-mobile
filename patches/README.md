@@ -16,6 +16,10 @@ assets (e.g. presets)
 
 Patch the build process to use the prebuilt toolchain that is now included in NDK, rather than build the toolchain as part of the build process. This increases build speed and avoids errors trying to build the toolchain.
 
+### Specify NDK version
+
+`nodejs-mobile-react-native` seems to fail with NDK version 22 and 23. The patch specifies the NDK version in the `nodejs-mobile-react-native` `build.gradle`.
+
 ## `react-native`
 
 This patch adds an environment variable `APP_VARIANT` with the app variant name

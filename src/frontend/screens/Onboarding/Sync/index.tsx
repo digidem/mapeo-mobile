@@ -30,7 +30,9 @@ const m = defineMessages({
   },
 });
 
-export const SyncOnboardingScreen: NavigationStackScreenComponent = ({}) => {
+export const SyncOnboardingScreen: NavigationStackScreenComponent<{
+  keepExistingObservations?: boolean;
+}> = ({ navigation }) => {
   //For UI testing purposes
   const [obsCompleted, setObsCompleted] = useState(1);
   const total = 30;
@@ -46,7 +48,6 @@ export const SyncOnboardingScreen: NavigationStackScreenComponent = ({}) => {
   const { syncing, completed } = SyncScreenStates;
   const [screenState, setScreenState] = useState(syncing);
   const { formatMessage: t } = useIntl();
-  const { navigate } = useNavigation();
 
   const progress = obsCompleted / total;
 
@@ -87,9 +88,7 @@ export const SyncOnboardingScreen: NavigationStackScreenComponent = ({}) => {
       )}
 
       <Button
-        onPress={() => {
-          navigate("App");
-        }}
+        onPress={() => navigation.navigate("App")}
         variant="outlined"
         color="light"
         disabled={screenState === syncing}

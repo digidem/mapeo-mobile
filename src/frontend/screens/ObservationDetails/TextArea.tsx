@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { StyleSheet, TextInput } from "react-native";
 import QuestionLabel from "./QuestionLabel";
@@ -16,6 +15,7 @@ const TextArea = ({ value, field, onChange }: QuestionProps) => (
       multiline
       scrollEnabled={false}
       textContentType="none"
+      autoFocus
     />
   </>
 );

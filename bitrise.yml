@@ -267,7 +267,7 @@ workflows:
                 done
 
                 # Join the path_list array into a string separated by |
-                IFS=\\| eval 'NEW_APK_PATH_LIST="${new_paths[*]}"'
+                IFS='|' eval 'NEW_APK_PATH_LIST="${new_paths[*]}"'
 
                 # Save the variable to the env so it is accessible in other build steps
                 envman add --key BITRISE_APK_PATH_LIST --value "$NEW_APK_PATH_LIST"
