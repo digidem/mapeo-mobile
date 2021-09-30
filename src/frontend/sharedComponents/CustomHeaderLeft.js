@@ -7,7 +7,7 @@ import { Alert, BackHandler } from "react-native";
 import isEqual from "lodash/isEqual";
 
 import { CloseIcon, BackIcon } from "./icons";
-import useDraftObservation from "../hooks/useDraftObservation";
+import { useDraftObservation } from "../hooks/useDraftObservation";
 import useObservation from "../hooks/useObservation";
 import { filterPhotosFromAttachments } from "../lib/utils";
 

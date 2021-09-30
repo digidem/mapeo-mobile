@@ -4,7 +4,7 @@ import { View, StyleSheet } from "react-native";
 
 import IconButton from "../../sharedComponents/IconButton";
 import useObservation from "../../hooks/useObservation";
-import useDraftObservation from "../../hooks/useDraftObservation";
+import { useDraftObservation } from "../../hooks/useDraftObservation";
 
 import { EditIcon } from "../../sharedComponents/icons";
 import type { NavigationProp } from "../../types";

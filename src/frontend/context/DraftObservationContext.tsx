@@ -1,42 +1,38 @@
-// @flow
 import * as React from "react";
+import { Observation } from "mapeo-schema";
 
 import createPersistedState from "../hooks/usePersistedState";
-
-import type { UseState } from "../types";
-import type { ObservationValue } from "./ObservationsContext";
+import { ClientGeneratedObservation } from "./ObservationsContext";
 
 // WARNING: This needs to change if we change the draft data structure
 const STORE_KEY = "@MapeoDraft@2";
 
-// save = debounce(this.save, 500, { leading: true });
-
 // Photo from an existing observation that are already saved
-export type SavedPhoto = {|
+export interface SavedPhoto {
   // id of the photo in the Mapeo database
-  id: string,
-  type?: "image/jpeg",
+  id: string;
+  type?: "image/jpeg";
   // If an image is to be deleted
-  deleted?: boolean,
-|};
+  deleted?: boolean;
+}
 
 // Photo added to a draft observation, that has not yet been saved
 // It is added to the draft observation as soon as capturing starts, when it
 // does not yet have any image associated with it
-export type DraftPhoto = {|
+export interface DraftPhoto {
   // If the photo is still being captured
-  capturing: boolean,
+  capturing: boolean;
   // uri to a local thumbnail image (this is uploaded to Mapeo server)
-  thumbnailUri?: string,
+  thumbnailUri?: string;
   // uri to a local preview image
-  previewUri?: string,
+  previewUri?: string;
   // uri to a local full-resolution image (this is uploaded to Mapeo server)
-  originalUri?: string,
+  originalUri?: string;
   // If an image is to be deleted
-  deleted?: boolean,
+  deleted?: boolean;
   // If there was any kind of error on image capture
-  error?: boolean,
-|};
+  error?: boolean;
+}
 
 /**
  * A Photo does not become an observation attachment until it is actually saved.
@@ -46,14 +42,16 @@ export type DraftPhoto = {|
  */
 export type Photo = SavedPhoto | DraftPhoto;
 
-export type DraftObservationContextState = {|
-  photos: Array<SavedPhoto | DraftPhoto>,
-  value: ObservationValue | null,
-  photoPromises: Array<
-    Promise<DraftPhoto> & { signal?: { didCancel: boolean } }
-  >,
-  observationId?: string,
-|};
+export interface Signal {
+  didCancel?: boolean;
+}
+
+export interface DraftObservationContextState {
+  photos: (SavedPhoto | DraftPhoto)[];
+  value: ClientGeneratedObservation | null;
+  photoPromises: (Promise<DraftPhoto> & { signal?: Signal })[];
+  observationId?: string;
+}
 
 const usePersistedState = createPersistedState(
   STORE_KEY,
@@ -66,9 +64,12 @@ const usePersistedState = createPersistedState(
   }
 );
 
-export type DraftObservationContextType = UseState<DraftObservationContextState>;
+export type DraftObservationContextType = readonly [
+  DraftObservationContextState,
+  React.Dispatch<React.SetStateAction<DraftObservationContextState>>
+];
 
-const defaultContext: DraftObservationContextType = [
+const DEFAULT_CONTEXT: DraftObservationContextType = [
   {
     photos: [],
     value: null,
@@ -77,24 +78,21 @@ const defaultContext: DraftObservationContextType = [
   () => {},
 ];
 
-const DraftObservationContext = React.createContext<DraftObservationContextType>(
-  defaultContext
-);
+const DraftObservationContext = React.createContext<
+  DraftObservationContextType
+>(DEFAULT_CONTEXT);
 
-type Props = {
-  children: React.Node,
-};
+export const DraftObservationProvider = ({
+  children,
+}: React.PropsWithChildren<{}>) => {
+  const [state, status, setState] = usePersistedState<
+    DraftObservationContextState
+  >(DEFAULT_CONTEXT[0]);
 
-export const DraftObservationProvider = ({ children }: Props) => {
-  const [
-    state,
-    status,
-    setState,
-  ] = usePersistedState<DraftObservationContextState>(defaultContext[0]);
-  const contextValue = React.useMemo(() => [state, setState], [
-    state,
-    setState,
-  ]);
+  const contextValue: DraftObservationContextType = React.useMemo(
+    () => [state, setState],
+    [state, setState]
+  );
 
   return (
     <DraftObservationContext.Provider value={contextValue}>
@@ -107,8 +105,9 @@ export default DraftObservationContext;
 
 // If we crash during photo capture and restore state from async storage, then,
 // unfortunately, any photos that did not finish capturing are lost :(
-function filterCapturedPhotos(photo: Photo): boolean {
-  if (typeof photo.id === "string") return true;
-  if (typeof photo.originalUri === "string") return true;
+function filterCapturedPhotos(photo: Photo) {
+  if ("id" in photo && typeof photo.id === "string") return true;
+  if ("originalUri" in photo && typeof photo.originalUri === "string")
+    return true;
   return false;
 }

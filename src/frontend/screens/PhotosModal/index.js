@@ -7,7 +7,7 @@ import IconButton from "../../sharedComponents/IconButton";
 import { CloseIcon } from "../../sharedComponents/icons";
 import { filterPhotosFromAttachments } from "../../lib/utils";
 import useObservation from "../../hooks/useObservation";
-import useDraftObservation from "../../hooks/useDraftObservation";
+import { useDraftObservation } from "../../hooks/useDraftObservation";
 import PhotoView from "../../sharedComponents/PhotoView";
 import api from "../../api";
 import type { NavigationProp } from "../../types";
