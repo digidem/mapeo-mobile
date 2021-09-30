@@ -6,27 +6,17 @@ import RNFS from "react-native-fs";
 import debug from "debug";
 import flatten from "flat";
 import DeviceInfo from "react-native-device-info";
-import AppInfo from "./lib/AppInfo";
+import { Observation } from "mapeo-schema";
 import { deserializeError } from "serialize-error";
 
-import type {
-  Preset,
-  Field,
-  Metadata,
-  Messages,
-} from "./context/ConfigContext";
-
-import type {
-  Observation,
-  ObservationValue,
-} from "./context/ObservationsContext";
+import STATUS from "../backend/constants";
+import { Preset, Field, Metadata, Messages } from "./context/ConfigContext";
+import type { DraftPhoto } from "./context/DraftObservationContext";
+import { ClientGeneratedObservation } from "./context/ObservationsContext";
+import AppInfo from "./lib/AppInfo";
 import { promiseTimeout } from "./lib/utils";
 import bugsnag from "./lib/logger";
-import STATUS from "../backend/constants";
-
-import type { IconSize, ImageSize } from "./types";
-import type { DraftPhoto } from "./context/DraftObservationContext";
-import type { Observation as ServerObservation } from "mapeo-schema";
+import { IconSize, ImageSize } from "./sharedTypes";
 
 export type ServerStatus = keyof typeof STATUS;
 
@@ -349,9 +339,12 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       return flatten(messages);
     },
 
+    // getObservations: async (): Promise<Observation[]> => {
     getObservations: async (): Promise<Observation[]> => {
-      const data = (await get("observations")) as ServerObservation[];
-      return data.map(convertFromServer);
+      const data = (await get("observations")) as Observation[];
+
+      console.log("DATA", JSON.stringify(data, null, 2));
+      return data;
     },
 
     getMapStyle: (id: string): Promise<any> => {
@@ -401,10 +394,10 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
 
     updateObservation: async (
       id: string,
-      value: ObservationValue,
+      value: ClientGeneratedObservation,
       options: {
         links: Array<string>;
-        userId?: ServerObservation["userId"];
+        userId?: Observation["userId"];
       }
     ): Promise<Observation> => {
       const valueForServer = {
@@ -418,26 +411,30 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
         schemaVersion: 3,
         id,
       };
+
       const serverObservation = (await put(
         `observations/${id}`,
         valueForServer
-      )) as ServerObservation;
-      return convertFromServer(serverObservation);
+      )) as Observation;
+
+      return serverObservation;
     },
 
     createObservation: async (
-      value: ObservationValue
+      value: ClientGeneratedObservation
     ): Promise<Observation> => {
       const valueForServer = {
         ...value,
         type: "observation",
         schemaVersion: 3,
       };
+
       const serverObservation = (await post(
         "observations",
         valueForServer
-      )) as ServerObservation;
-      return convertFromServer(serverObservation);
+      )) as Observation;
+
+      return serverObservation;
     },
 
     // Replaces app config with .mapeosettings tar file at `path`
@@ -606,37 +603,6 @@ function mapToArray<T>(map: { [key: string]: T }): Array<T> {
     ...map[id],
     id,
   }));
-}
-
-function convertFromServer(obs: ServerObservation): Observation {
-  const {
-    id,
-    version,
-    type,
-    created_at,
-    timestamp,
-    userId,
-    links,
-    schemaVersion,
-    metadata,
-    ...value
-  } = obs;
-
-  return {
-    id,
-    version,
-    type,
-    created_at,
-    timestamp,
-    userId,
-    links,
-    schemaVersion: 4,
-    metadata,
-    value: {
-      ...value,
-      tags: (value || {}).tags || {},
-    },
-  };
 }
 
 function convertFileUriToPosixPath(fileUri: unknown) {

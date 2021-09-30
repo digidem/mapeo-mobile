@@ -10,6 +10,7 @@ declare module "mapeo-schema" {
       speed?: number;
     };
     mocked?: boolean;
+    timestamp: number;
   }
 
   export interface Observation {
@@ -24,20 +25,24 @@ declare module "mapeo-schema" {
     links?: string[];
     lon?: number | null;
     metadata?: {
-      lastSavedPosition?: Position;
-      manualLocation?: boolean;
-      position?: Position;
-      positionProvider?: {
-        gpsAvailable?: boolean;
-        locationServicesEnabled?: boolean;
-        networkAvailable?: boolean;
-        passiveAvailable?: boolean;
+      location?: {
+        error: boolean;
+        permission: "granted" | "denied" | "never_ask_again";
+        provider?: {
+          backgroundModeEnabled: boolean;
+          gpsAvailable: boolean;
+          passiveAvailable: boolean;
+          locationServicesEnabled: boolean;
+          networkAvailable: boolean;
+        };
+        position?: Position;
       };
+      manualLocation?: boolean;
     };
     refs?: {
       id: string;
     }[];
-    schemaVersion: number;
+    schemaVersion: 3;
     tags?: {
       [key: string]: any;
     };

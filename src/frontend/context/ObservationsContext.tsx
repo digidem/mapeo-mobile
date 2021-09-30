@@ -1,50 +1,19 @@
 import * as React from "react";
+import { Observation } from "mapeo-schema";
 
 import api from "../api";
-import type { LocationContextType } from "./LocationContext";
-import type { Status } from "../types";
-import { Position } from "mapeo-schema";
+import { Status } from "../sharedTypes";
 
 export interface ObservationAttachment {
   id: string;
   type?: string;
 }
 
-export interface ObservationValue {
-  lat?: number | null;
-  lon?: number | null;
-  deviceId?: string;
-  metadata?: {
-    location?: LocationContextType | void;
-    manualLocation?: boolean;
-  };
-  refs?: Array<{ id: string }>;
-  attachments?: Array<ObservationAttachment>;
-  tags: { [key: string]: any };
-}
-
-export interface Observation {
-  id: string;
-  version: string;
-  created_at: string;
-  timestamp?: string;
-  userId?: string;
-  type: "observation";
-  links?: string[];
-  schemaVersion: 4;
-  value: ObservationValue;
-  metadata?: {
-    lastSavedPosition?: Position;
-    manualLocation?: boolean;
-    position?: Position;
-    positionProvider?: {
-      gpsAvailable?: boolean;
-      locationServicesEnabled?: boolean;
-      networkAvailable?: boolean;
-      passiveAvailable?: boolean;
-    };
-  };
-}
+export interface ClientGeneratedObservation
+  extends Omit<
+    Observation,
+    "created_at" | "schemaVersion" | "id" | "type" | "version"
+  > {}
 
 export type ObservationsMap = Map<string, Observation>;
 
@@ -76,7 +45,7 @@ const defaultContext: ObservationsContextType = [
   () => {},
 ];
 
-const ObservationsContext: React.Context<ObservationsContextType> = React.createContext<ObservationsContextType>(
+const ObservationsContext = React.createContext<ObservationsContextType>(
   defaultContext
 );
 
@@ -85,12 +54,14 @@ function reducer(state: State, action: Action): State {
     case "update":
     case "create": {
       const cloned = new Map(state.observations);
-      cloned.set(action.value.id, action.value);
+      const { value } = action;
+      cloned.set(value.id, value);
       return { ...state, observations: cloned };
     }
     case "delete": {
       const cloned = new Map(state.observations);
-      cloned.delete(action.value.id);
+      const { value } = action;
+      cloned.delete(value.id);
       return { ...state, observations: cloned };
     }
     case "reload":
@@ -98,9 +69,10 @@ function reducer(state: State, action: Action): State {
     case "reload_error":
       return { ...state, status: "error" };
     case "reload_success":
+      const { value } = action;
       return {
         ...state,
-        observations: new Map(action.value.map(obs => [obs.id, obs])),
+        observations: new Map(value.map(obs => [obs.id, obs])),
         status: "success",
       };
     default:
@@ -118,16 +90,20 @@ export const ObservationsProvider = ({
   // value of state.reload changes (dispatch({type: "reload"}) will do this)
   React.useEffect(() => {
     let didCancel = false;
-    api
-      .getObservations()
-      .then(obsList => {
+
+    const fetchObservations = async () => {
+      try {
+        const obsList = await api.getObservations();
         if (didCancel) return;
         dispatch({ type: "reload_success", value: obsList });
-      })
-      .catch(e => {
-        if (didCancel) return;
-        dispatch({ type: "reload_error", value: e });
-      });
+      } catch (err) {
+        if (didCancel || !(err instanceof Error)) return;
+        dispatch({ type: "reload_error", value: err });
+      }
+    };
+
+    fetchObservations();
+
     return () => {
       didCancel = true;
     };
