@@ -39,12 +39,84 @@
     "description": "Label for Android version",
     "message": "Versi Android"
   },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Pembuatan Mapeo"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Varian Mapeo"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "Versi Mapeo"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "Model telepon"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "Tentang Mapeo"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "Tidak diketahui"
+  },
   "screens.AddPhoto.cancel": {
     "message": "Batal"
+  },
+  "screens.CameraScreen.noCameraAccess": {
+    "description": "Error message shown when app does not have permissions to camera",
+    "message": "Tidak ada akses ke kamera"
+  },
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "Pilih apa yang sedang terjadi"
+  },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "Derajat Desimal (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "Derajat/Menit/Detik (DMD)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "Format Koordinat"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "Mercator Transversal Universal (UTM)"
+  },
+  "screens.GpsModal.details": {
+    "description": "Section title for details about current position",
+    "message": "Rincian"
+  },
+  "screens.GpsModal.gpsHeader": {
+    "description": "Header for GPS screen",
+    "message": "Lokasi GPS saat ini"
   },
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
     "message": "Pembaharuan terakhir"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "Koordinat Derajat Desimal"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "Koordinat DMS"
+  },
+  "screens.GpsModal.locationSensors": {
+    "description": "Heading for section about location sensor status",
+    "message": "Status Sensor"
+  },
+  "screens.GpsModal.locationUTM": {
+    "description": "Section title for UTM coordinates",
+    "message": "Koordinat UTM"
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
@@ -53,6 +125,10 @@
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
     "message": "Ya"
+  },
+  "screens.LanguageSettings.title": {
+    "description": "Title language settings screen",
+    "message": "Bahasa"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "Timur"
@@ -69,6 +145,20 @@
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "Masukkan koordinat"
+  },
+  "screens.ManualGpsScreen.zoneLetter": {
+    "message": "Huruf Zona"
+  },
+  "screens.ManualGpsScreen.zoneNumber": {
+    "message": "Nomor Zona"
+  },
+  "screens.Observation.ObservationView.alertFooter": {
+    "description": "Footer for shared observations message",
+    "message": "Dikirim dari Mapeo"
+  },
+  "screens.Observation.ObservationView.alertSubject": {
+    "description": "Subject-line for shared observations",
+    "message": "Peringatan Mapeo"
   },
   "screens.Observation.ObservationView.delete": {
     "description": "Button to delete an observation",
@@ -98,6 +188,14 @@
     "description": "Title of dialog asking confirmation to delete an observation",
     "message": "Menghapus pengamatan?"
   },
+  "screens.Observation.notFound": {
+    "description": "Message shown when an observation is not found",
+    "message": "Pengamatan tidak ditemukan"
+  },
+  "screens.Observation.title": {
+    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
+    "message": "Pengamatan"
+  },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
     "message": "{current} dari {total}\n "
@@ -122,6 +220,10 @@
     "description": "Button to change a category / preset",
     "message": "Ubah"
   },
+  "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
+    "description": "Placeholder for description/notes field",
+    "message": "Apa yang terjadi di sini?"
+  },
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
     "message": "Tambahkan Rincian"
@@ -137,6 +239,10 @@
   "screens.ObservationEdit.SaveButton.keepWaiting": {
     "description": "Button to cancel save and continue waiting for GPS",
     "message": "Terus menunggu"
+  },
+  "screens.ObservationEdit.SaveButton.manualEntry": {
+    "description": "Button to manually enter GPS coordinates",
+    "message": "Koordinat Manual"
   },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
