@@ -7,7 +7,7 @@ import type { NavigationScreenConfigProps } from "react-navigation";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import ObservationsListView from "./ObservationsListView";
-import useAllObservations from "../../hooks/useAllObservations";
+import { useAllObservations } from "../../hooks/useAllObservations";
 import { SettingsIcon } from "../../sharedComponents/icons";
 import IconButton from "../../sharedComponents/IconButton";
 
