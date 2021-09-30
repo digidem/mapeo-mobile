@@ -1,11 +1,13 @@
+// @ts-check
 const rnBridge = require("rn-bridge");
 const log = require("debug")("mapeo-core:status");
-const constants = require("./constants");
 const main = require("./index");
 
 class ServerStatus {
   constructor() {
-    this.setState(constants.IDLE);
+    /** @type {import('./lib/types').BackendStateValue} */
+    this.state = "idle";
+    rnBridge.channel.post("status", { value: this.state });
     rnBridge.channel.on("request-status", () => {
       log("status request -> " + this.state);
       rnBridge.channel.post("status", { value: this.state });
@@ -20,18 +22,24 @@ class ServerStatus {
   }
   pauseHeartbeat() {
     log("Pause heartbeat");
-    clearInterval(this.intervalId);
+    if (this.intervalId) clearInterval(this.intervalId);
     this.intervalId = null;
   }
   getState() {
     return this.state;
   }
+  /**
+   * @param {import('./lib/types').BackendStateValue} nextState
+   * @param {object} [opts]
+   * @param {Error} [opts.error]
+   * @param {string} [opts.context]
+   */
   setState(nextState, { error, context } = {}) {
     if (nextState === this.state) return;
     log("state changed", nextState);
     // Once we have an uncaught error, don't try to pretend it's gone away
-    if (this.state === constants.ERROR) return;
-    if (nextState === constants.ERROR) {
+    if (this.state === "error") return;
+    if (nextState === "error") {
       error = error || new Error("Unknown server error");
       log(context, error.message);
       main.bugsnag.notify(error, { context });

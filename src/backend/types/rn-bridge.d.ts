@@ -7,13 +7,14 @@ declare module "rn-bridge" {
     resume: () => void;
   }
   interface ChannelEvents {
-    [eventName: string]: (message: JsonValue) => void;
+    [eventName: string]: (message: any) => void;
   }
   interface App extends TypedEmitter<AppEvents> {
     datadir(): string;
   }
   interface Channel extends TypedEmitter<ChannelEvents> {
     send(message: JsonValue): void;
+    post(event: string, ...message: any[]): void;
     emit(): never;
   }
   interface RnBridge {

@@ -39,9 +39,12 @@ export interface TransferProgress {
   /** total number of bytes to transfer */
   total: number;
 }
-// Info about the current device
+/** Info about the current device */
 export interface DeviceInfo {
+  /** Which architectures the current device supports (e.g. a 64-bit Android
+   * devices supports both armeabi-v71 and arm64-v8a) */
   supportedAbis: InstallerExt["arch"];
+  /** Android only: The SDK version of the device */
   sdkVersion: number;
 }
 

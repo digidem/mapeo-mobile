@@ -1,5 +1,9 @@
 import { TypedEmitter } from "tiny-typed-emitter";
-import { ManagerEvents, UpgradeState } from "../upgrade-manager/types";
+import {
+  ManagerEvents,
+  UpgradeState,
+  DeviceInfo,
+} from "../upgrade-manager/types";
 
 interface SyncTarget {
   host: string;
@@ -64,6 +68,7 @@ export interface Peer {
 }
 
 interface PracticeModeInfo {
+  id?: undefined;
   key?: undefined;
   name?: string;
   practiceMode: true;
@@ -119,6 +124,8 @@ export type AsyncServiceStateValue =
   | "stopping"
   | "error";
 
+export type BackendStateValue = AsyncServiceStateValue | "idle";
+
 export type AsyncServiceState =
   | {
       value: Exclude<AsyncServiceStateValue, "error">;
@@ -127,3 +134,20 @@ export type AsyncServiceState =
       value: "error";
       error: Error;
     };
+
+/**
+ * Configuration passed from the frontend to the backend, because this
+ * information is only available in the React Native thread, not NodeJS
+ */
+export interface BackendConfig {
+  /** File path to the shared storage folder */
+  sharedStorage: string;
+  /** File path to the private cache storage data (for non-persistent data) */
+  privateCacheStorage: string;
+  /** Information about the current device */
+  deviceInfo: DeviceInfo;
+  /** File path to APK for currently running app */
+  apkFilepath: string;
+  /** Set `true` to enable debug logging */
+  debug: boolean;
+}

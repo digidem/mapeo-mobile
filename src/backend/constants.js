@@ -1,25 +1,8 @@
-// @flow
+// @ts-check
 
-/*::
-type ConstantsType = {|
-  IDLE: "IDLE",
-  STARTING: "STARTING",
-  LISTENING: "LISTENING",
-  CLOSING: "CLOSING",
-  CLOSED: "CLOSED",
-  ERROR: "ERROR",
-  TIMEOUT: "TIMEOUT"
-|}
-*/
-
-const Constants /*: ConstantsType */ = {
-  IDLE: "IDLE",
-  STARTING: "STARTING",
-  LISTENING: "LISTENING",
-  CLOSING: "CLOSING",
-  CLOSED: "CLOSED",
-  ERROR: "ERROR",
-  TIMEOUT: "TIMEOUT",
+const constants = {
+  /** @type {"@@API_MESSAGE"} */
+  API_EVENT_NAME: "@@API_MESSAGE",
 };
 
-module.exports = Constants;
+module.exports = constants;

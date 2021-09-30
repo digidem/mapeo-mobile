@@ -1,6 +1,5 @@
 // @ts-check
 const AsyncService = require("./async-service");
-const main = require("../index");
 const Mapeo = require("./mapeo");
 const Project = require("./project");
 const path = require("path");
@@ -16,9 +15,9 @@ const log = debug("mapeo-core:server");
 /** @typedef {Parameters<createServer>[1]} Channel */
 
 /**
- * @extends {AsyncService<{}, [number]>}
+ * @extends {AsyncService<{ error: (err: Error) => void, state: (state: import('./types').AsyncServiceState) => void }, [number]>}
  */
-export class MapeoServices extends AsyncService {
+class MapeoServices extends AsyncService {
   #mapeo;
   #project;
   #upgradeManager;
@@ -55,7 +54,7 @@ export class MapeoServices extends AsyncService {
     this.#dbStorageDir = path.join(
       privateStorage,
       "data",
-      "id" in info && info.id ? info.id : "practice_project"
+      info.id || "practice_project"
     );
     migrateProjectStorageIfNeeded({
       oldStorageDir: privateStorage,
@@ -80,6 +79,7 @@ export class MapeoServices extends AsyncService {
       fallbackPresetsDir: this.#fallbackPresetsDir,
     });
 
+    // We treat this as a non-fatal error whilst p2p-upgrades is experimental
     try {
       this.#upgradeManager = new UpgradeManager({
         storageDir: upgradeStoragePath,
@@ -87,11 +87,11 @@ export class MapeoServices extends AsyncService {
         deviceInfo,
       });
     } catch (err) {
-      main.bugsnag.notify(err, {
-        severity: "error",
-        context: "p2p-upgrade",
-      });
-      log(`error initializing p2p-upgrade: ${err.toString()}`);
+      log(err);
+      this.emit(
+        "error",
+        new Error(`error initializing p2p-upgrade: ${err.message}`)
+      );
     }
 
     const api = createApi({
@@ -102,8 +102,11 @@ export class MapeoServices extends AsyncService {
     });
     createServer(api, channel);
 
-    api.sync.on("error", err => onError("syncApi", err));
-    api.upgrade.on("error", err => onError("upgradeApi", err));
+    api.sync.on("error", err => this.emit("error", err));
+    api.upgrade.on("error", err =>
+      this.emit("error", err || new Error("Unknown Upgrade Services error"))
+    );
+    super.addStateListener(state => this.emit("state", state));
   }
 
   /**
@@ -125,6 +128,7 @@ export class MapeoServices extends AsyncService {
    * @private
    * @param {string | undefined} projectKey
    * @param {object} [opts]
+   * TODO: Add options to migrate data to new project
    * @returns {Promise<any>} Mapeo Core instance
    */
   _switchProject = async (projectKey, opts = {}) => {
@@ -138,6 +142,8 @@ export class MapeoServices extends AsyncService {
     return this.#mapeo.core;
   };
 }
+
+module.exports = MapeoServices;
 
 /**
  * Previously the Mapeo database was stored directly under the private storage
@@ -166,31 +172,12 @@ function migrateProjectStorageIfNeeded({ oldStorageDir, newStorageDir }) {
       path.join(newStorageDir, "media")
     );
   } else if (oldStorageExists && newStorageExists) {
-    main.bugsnag.notify(
-      new Error(
-        "Unexpected migration error: new storage folder exists, but old storage folder exists also"
-      ),
-      {
-        severity: "warning",
-        context: "core",
-      }
+    throw new Error(
+      "Unexpected migration error: new storage folder exists, but old storage folder exists also"
     );
   } else if (!oldStorageExists && newStorageExists) {
     log("Project storage already migrated");
   } else {
     log("No existing project database detected, skipping migration");
   }
-}
-
-/**
- * @param {string} context
- * @param {Error} [err]
- */
-function onError(context, err) {
-  if (!err) return;
-  main.bugsnag.notify(err, {
-    severity: "error",
-    context: context,
-  });
-  log(`error(${context}): ' + ${err.toString()}`);
 }

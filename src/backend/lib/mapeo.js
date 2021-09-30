@@ -12,7 +12,6 @@ const debug = require("debug");
 const { promisify } = require("util");
 
 const AsyncService = require("./async-service");
-const main = require("../index");
 
 const log = debug("mapeo-core:mapeo");
 const MINUTE = 60 * 1000;
@@ -21,7 +20,7 @@ const MINUTE = 60 * 1000;
  * A wrapper around Mapeo Core and Mapeo Server. Sets up storage, creates
  * kappa-core, kappa-osm and mapeo instances, and starts the mapeo server.
  *
- * @extends {AsyncService<{}, [number]>}
+ * @extends {AsyncService<{ error: (err: Error) => void }, [number]>}
  */
 class Mapeo extends AsyncService {
   /** @type {Array<any>} */
@@ -45,7 +44,7 @@ class Mapeo extends AsyncService {
 
     this.#indexDb = level(indexDir);
     // @ts-ignore - missing type for 'error' event
-    this.#indexDb.on("error", this._onError);
+    this.#indexDb.on("error", err => this.emit("error", err));
 
     // Storage for kappeo-osm
     const coreDb = kappa(path.join(dbStorageDir, "db"), {
@@ -181,15 +180,6 @@ class Mapeo extends AsyncService {
 
     await Promise.all(pending);
     log("Closed all storage for kappa-osm");
-  }
-
-  /** @param {Error} err */
-  _onError(err) {
-    main.bugsnag.notify(err, {
-      severity: "error",
-      context: "core",
-    });
-    log(`error: ${err.toString()}`);
   }
 
   /**
