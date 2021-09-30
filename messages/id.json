@@ -17,7 +17,7 @@
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when cancelling a new observation",
-    "message": "Hapus pilihan?"
+    "message": "Hapus pengamatan?"
   },
   "hooks.updateNotifier.dialogMessage": {
     "description": "Message shown in dialog shown to the user when Mapeo is updated",
@@ -444,17 +444,96 @@
     "description": "Description shown when no wifi network",
     "message": "Buka pengaturan ponsel Anda dan sambungkan ke jaringan WiFi untuk menyinkronkan"
   },
+  "screens.SyncModal.SyncView.noWifiTitle": {
+    "description": "Title of message shown when no wifi network",
+    "message": "Tidak ada Wi-Fi"
+  },
+  "screens.SyncModal.SyncView.openSettingsButton": {
+    "description": "Label for button to open settings to fix update permissions error",
+    "message": "Buka Pengaturan"
+  },
+  "screens.SyncModal.SyncView.projectKey": {
+    "description": "First 5 characters of project key displayed on sync screen",
+    "message": "Kunci Proyek: {projectKey}"
+  },
+  "screens.SyncModal.SyncView.searchingDesc": {
+    "description": "Description shown whilst searcing for sync peers",
+    "message": "Pastikan perangkat lain dihidupkan dan terhubung ke jaringan WiFi yang sama"
+  },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
     "message": "Mencari"
+  },
+  "screens.SyncModal.SyncView.settingsButton": {
+    "description": "Button to open WiFi settings",
+    "message": "Buka Pengaturan"
+  },
+  "screens.SyncModal.SyncView.sharingUpdate": {
+    "description": "Label in upgrade bar when sharing an update with others",
+    "message": "Berbagi pembaruan aplikasi dengan perangkat lain"
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
     "message": "Sinkronisasi"
   },
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "Pembaruan tersedia; menunggu sinkronisasi selesai"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "Mengunduh pembaruan"
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "Tidak dapat memperbarui"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "Tidak dapat memperbarui"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Versi baru Mapeo telah tersedia"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "Status tidak diimplementasikan"
+  },
   "screens.SyncModal.SyncView.wifi": {
     "description": "Label for wifi network name",
     "message": "WiFi:"
+  },
+  "screens.SyncModal.errorDialogOk": {
+    "description": "Button to dismiss error alert about incompatible sync protocol",
+    "message": "Oke"
+  },
+  "screens.SyncModal.errorVersionThemBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "Perangkat yang Anda coba sinkronkan perlu memutakhirkan Mapeo ke versi terbaru untuk menyinkronkan dengan Anda."
+  },
+  "screens.SyncModal.errorVersionThemBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} perlu meningkatkan versi Mapeo"
+  },
+  "screens.SyncModal.errorVersionUsBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
+    "message": "Perangkat yang Anda coba sinkronkan memiliki versi Mapeo yang lebih baru. Anda perlu memutakhirkan Mapeo untuk menyinkronkan dengan perangkat ini."
+  },
+  "screens.SyncModal.errorVersionUsBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "Anda perlu mengupgrade Mapeo untuk menyinkronkan dengan {deviceName}"
+  },
+  "screens.UncaughtError.errorDesc": {
+    "description": "Description when there is an uncaught message in the app",
+    "message": "Sangat menyesal tentang ini, sesuatu yang tidak terduga terjadi, dan itu salah kami bukan kesalahan anda. Coba mulai ulang aplikasi untuk melihat apakah itu memperbaiki keadaan."
+  },
+  "screens.UncaughtError.errorTitle": {
+    "description": "Title of message when there is an uncaught message in the app",
+    "message": "Kesalahan yang tidak terduga"
+  },
+  "sharedComponents.GpsPill.noGps": {
+    "message": "Tidak ada GPS"
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Mencari…"
