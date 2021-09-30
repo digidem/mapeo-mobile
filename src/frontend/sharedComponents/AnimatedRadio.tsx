@@ -2,7 +2,23 @@ import * as React from "react";
 import { Animated } from "react-native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import { MAGENTA, MEDIUM_BLUE, MEDIUM_GREY } from "../../../lib/styles";
+import { MAGENTA, MEDIUM_BLUE, MEDIUM_GREY } from "../lib/styles";
+
+export const useAnimatedRadio = () => {
+  const [animatedValue] = React.useState(new Animated.Value(0));
+
+  const animate = React.useCallback(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      useNativeDriver: true,
+      duration: 500,
+    }).start(() => {
+      animatedValue.setValue(0);
+    });
+  }, [animatedValue]);
+
+  return { animate, animatedValue };
+};
 
 interface Props {
   animatedValue: Animated.Value;

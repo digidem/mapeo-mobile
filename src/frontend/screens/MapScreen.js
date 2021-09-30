@@ -13,6 +13,7 @@ import ObservationsContext from "../context/ObservationsContext";
 import LocationContext from "../context/LocationContext";
 import AddButton from "../sharedComponents/AddButton";
 import type { NavigationProp } from "../types";
+import { PracticeMode } from "../sharedComponents/PracticeMode";
 
 const log = debug("mapeo:MapScreen");
 

@@ -6,3 +6,21 @@ export const ERROR_STORE_KEY = "@MapeoError";
 // Currently this is only used at runtime to turn off navigation persistence
 export const IS_E2E =
   process.env.RN_SRC_EXT && process.env.RN_SRC_EXT.split(",").includes("e2e");
+
+export const NO_PRACTICE_BAR: string[] = [
+  "ConfirmLeavePracticeMode",
+  "JoinRequestModal",
+  "ProjectConfig",
+  "ProjectInviteModal",
+  // TODO: Remove the whole practice mode UI for this screen?
+  "Sync",
+];
+
+export const EDITING_SCREEN_NAMES = [
+  "AddPhoto",
+  "Camera",
+  "CategoryChooser",
+  "ManualGpsScreen",
+  "ObservationDetails",
+  "ObservationEdit",
+];

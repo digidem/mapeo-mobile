@@ -14,6 +14,7 @@ const modulesToTransform = [
   "@react-native-mapbox-gl",
   "expo-document-picker",
   "@unimodules",
+  "@react-native-picker/picker",
 ];
 
 module.exports = {

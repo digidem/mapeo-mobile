@@ -10,12 +10,15 @@ import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { defineMessages, useIntl } from "react-intl";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
+import ConfigContext from "../context/ConfigContext";
+import ObservationsContext from "../context/ObservationsContext";
+import useIsMounted from "../hooks/useIsMounted";
 import { DARK_BLUE, MAGENTA, MAPEO_BLUE, WHITE } from "../lib/styles";
 import {
   MODAL_NAVIGATION_OPTIONS,
   BottomSheetModal,
   BottomSheetContent,
-  useBottomSheetRef,
+  useBottomSheetModal,
 } from "../sharedComponents/BottomSheetModal";
 import Text from "../sharedComponents/Text";
 import { DoneIcon } from "../sharedComponents/icons";
@@ -101,10 +104,14 @@ const getProjectInviteDetails = async (
 export const ProjectInviteModal: NavigationStackScreenComponent<{
   invite?: string;
 }> = ({ navigation }) => {
-  const { formatMessage: t, wrapRichTextChunksInFragment } = useIntl();
-  const sheetRef = useBottomSheetRef();
+  const { formatMessage: t } = useIntl();
+  const isMounted = useIsMounted();
+  const { sheetRef, closeSheet } = useBottomSheetModal({ openOnMount: true });
+  const [{ observations }] = React.useContext(ObservationsContext);
+  const [config] = React.useContext(ConfigContext);
 
-  const mountedRef = React.useRef(true);
+  // TODO: need an official way to determine this
+  const isInPracticeMode = config.metadata.name === "mapeo-default-settings";
 
   const inviteKey = navigation.getParam("invite");
 
@@ -116,30 +123,36 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
       : { type: "error", info: { error: new Error(t(m.inviteErrorMessage)) } }
   );
 
-  const fetchInviteDetails = React.useCallback(async (inviteKey: string) => {
-    try {
-      setStatus({ type: "loading" });
+  const fetchInviteDetails = React.useCallback(
+    async (inviteKey: string) => {
+      try {
+        setStatus({ type: "loading" });
 
-      const inviteDetails = await getProjectInviteDetails(inviteKey);
+        const inviteDetails = await getProjectInviteDetails(inviteKey);
 
-      if (mountedRef.current) {
-        setStatus({ type: "success", info: { inviteDetails } });
+        if (isMounted()) {
+          setStatus({ type: "success", info: { inviteDetails } });
+        }
+      } catch (err) {
+        if (isMounted() && err instanceof Error) {
+          setStatus({ type: "error", info: { error: err } });
+        }
       }
-    } catch (err) {
-      if (mountedRef.current) {
-        setStatus({ type: "error", info: { error: err } });
-      }
-    }
-  }, []);
+    },
+    [isMounted]
+  );
 
-  const closeModal = () => {
-    if (sheetRef.current) {
-      sheetRef.current.dismiss();
-    }
-  };
+  const goToSync = (keepExistingObservations: boolean) =>
+    navigation.navigate("Sync", { keepExistingObservations });
 
   const acceptInvite = () => {
-    navigation.navigate("Sync");
+    if (isInPracticeMode && observations.size > 0) {
+      navigation.navigate("ConfirmLeavePracticeMode", {
+        projectAction: "join",
+      });
+    } else {
+      goToSync(false);
+    }
   };
 
   React.useEffect(() => {
@@ -147,16 +160,6 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
       fetchInviteDetails(inviteKey);
     }
   }, [fetchInviteDetails, inviteKey]);
-
-  React.useEffect(() => {
-    if (sheetRef.current) {
-      sheetRef.current.present();
-    }
-
-    return () => {
-      mountedRef.current = false;
-    };
-  }, []);
 
   return (
     <BottomSheetModal ref={sheetRef} onDismiss={navigation.goBack}>
@@ -167,7 +170,7 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
           buttonConfigs={[
             {
               variation: "outlined",
-              onPress: closeModal,
+              onPress: closeSheet,
               text: t(m.close),
             },
             {
@@ -201,7 +204,7 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
             {
               text: t(m.declineInvite),
               variation: "outlined",
-              onPress: closeModal,
+              onPress: closeSheet,
             },
             {
               text: t(m.joinAndSync),
