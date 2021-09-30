@@ -63,9 +63,9 @@ jobs:
         with:
           java-version: "openjdk8"
           architecture: "x64"
-      # Our build will otherwise use NDK 22, which does not work.
-      - name: Delete newer NDK version
-        run: rm -rf $ANDROID_HOME/ndk/22*
+      # Our build will otherwise use NDK 22 or 23, which does not work.
+      - name: Delete newer NDK versions
+        run: rm -rf $ANDROID_HOME/ndk/{22,23}*
       - name: Install node_modules
         run: |
           mkdir -p nodejs-assets
