@@ -1,8 +1,16 @@
 diff --git a/node_modules/nodejs-mobile-react-native/android/build.gradle b/node_modules/nodejs-mobile-react-native/android/build.gradle
-index b6dccc4..44ba494 100644
+index b6dccc4..9f69488 100644
 --- a/node_modules/nodejs-mobile-react-native/android/build.gradle
 +++ b/node_modules/nodejs-mobile-react-native/android/build.gradle
-@@ -261,51 +261,59 @@ if ("1".equals(shouldRebuildNativeModules)) {
+@@ -50,6 +50,7 @@ def _isCorrectSTLDefinedByApp = DoesAppAlreadyDefineWantedSTL()
+ android {
+     compileSdkVersion ((rootProject?.ext?.properties?.compileSdkVersion) ?: 23)
+     buildToolsVersion ((rootProject?.ext?.properties?.buildToolsVersion) ?: "23.0.1")
++    ndkVersion "21.4.7075529"
+ 
+     defaultConfig {
+         minSdkVersion _nodeMinSdkVersion
+@@ -261,51 +262,59 @@ if ("1".equals(shouldRebuildNativeModules)) {
          String temp_cc_ver = '4.9';
          String temp_dest_cpu;
          String temp_v8_arch;
@@ -56,7 +64,7 @@ index b6dccc4..44ba494 100644
                  throw new GradleException("Unsupported architecture for nodejs-mobile native modules: ${temp_arch}")
                  break
          }
-
+ 
 +        String temp_host_tag
 +        if (OperatingSystem.current().isMacOsX()) {
 +            temp_host_tag = 'darwin-x86_64'
@@ -79,12 +87,12 @@ index b6dccc4..44ba494 100644
 +        String npm_toolchain_cxx = "${toolchain_path}/bin/${temp_compiler_prefix}-clang++"
 +        String npm_toolchain_link = "${toolchain_path}/bin/${temp_compiler_prefix}-clang++"
          String cargo_target_triple = cargo_build_target.toUpperCase().replaceAll('-', '_')
-
+ 
          String npm_gyp_defines = "target_arch=${temp_arch}"
-@@ -358,16 +366,8 @@ if ("1".equals(shouldRebuildNativeModules)) {
+@@ -358,16 +367,8 @@ if ("1".equals(shouldRebuildNativeModules)) {
              }
          }
-
+ 
 -        task "MakeToolchain${abi_name}" (type:Exec) {
 -            description = "Building a native toolchain to compile nodejs-mobile native modules for ${abi_name}."
 -            executable = "${ndk_bundle_path}/build/tools/make-standalone-toolchain.sh"
@@ -98,10 +106,10 @@ index b6dccc4..44ba494 100644
              description = "Building native modules for ${abi_name}."
              inputs.file "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/copy.timestamp"
              outputs.dir "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/"
-@@ -398,7 +398,7 @@ if ("1".equals(shouldRebuildNativeModules)) {
+@@ -398,7 +399,7 @@ if ("1".equals(shouldRebuildNativeModules)) {
              environment ("CARGO_TARGET_${cargo_target_triple}_AR", "${npm_toolchain_ar}")
              environment ("CARGO_TARGET_${cargo_target_triple}_LINKER", "${npm_toolchain_link}")
-
+ 
 -            environment ('TOOLCHAIN',"${standalone_toolchain}")
 +            environment ('TOOLCHAIN',"${toolchain_path}")
              environment ('AR',"${npm_toolchain_ar}")
@@ -126,9 +134,9 @@ index e882a0c..d5ed11a 100644
 +  private static String nodeJsAssetsPath;
    private static String builtinModulesPath;
    private static String nativeAssetsPath;
-
+ 
 @@ -74,6 +76,7 @@ public class RNNodeJsMobileModule extends ReactContextBaseJavaModule implements
-
+ 
      // The paths where we expect the node project assets to be at runtime.
      nodeJsProjectPath = filesDirPath + "/" + NODEJS_PROJECT_DIR;
 +    nodeJsAssetsPath = filesDirPath + "/" + NODEJS_ASSETS_DIR;
@@ -138,7 +146,7 @@ index e882a0c..d5ed11a 100644
 @@ -387,6 +390,9 @@ public class RNNodeJsMobileModule extends ReactContextBaseJavaModule implements
      // Copy the nodejs built-in modules to the application's data path.
      copyAssetFolder("builtin_modules", builtinModulesPath);
-
+ 
 +    // Copy nodejs assets (e.g. presets) which can vary between variants
 +    copyAssetFolder("nodejs-assets", nodeJsAssetsPath);
 +
