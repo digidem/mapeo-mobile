@@ -1,4 +1,7 @@
-// Refer to https://github.com/digidem/mapeo-schema/blob/master/docs/README.md
+// Type definitions for mapeo-schema 3.0.0
+// Project: https://github.com/digidem/mapeo-schema/
+// Definitions by: Andrew Chou <https://github.com/achou11>
+
 declare module "mapeo-schema" {
   export interface Position {
     coords?: {
@@ -28,6 +31,7 @@ declare module "mapeo-schema" {
       location?: {
         error: boolean;
         permission: "granted" | "denied" | "never_ask_again";
+        position?: Position;
         provider?: {
           backgroundModeEnabled: boolean;
           gpsAvailable: boolean;
@@ -35,7 +39,6 @@ declare module "mapeo-schema" {
           locationServicesEnabled: boolean;
           networkAvailable: boolean;
         };
-        position?: Position;
       };
       manualLocation?: boolean;
     };
@@ -53,10 +56,10 @@ declare module "mapeo-schema" {
   }
 
   export interface Preset {
+    additionalFields?: string[];
     addTags?: {
       [key: string]: any;
     };
-    additionalFields?: string[];
     fields?: string[];
     geometry: ("point" | "vertex" | "line" | "area" | "relation")[];
     icon?: string;
@@ -65,7 +68,7 @@ declare module "mapeo-schema" {
     removeTags?: {
       [key: string]: any;
     };
-    schemaVersion: number;
+    schemaVersion: 1;
     sort?: number;
     tags: {
       [key: string]: any;
@@ -73,9 +76,12 @@ declare module "mapeo-schema" {
     terms?: string[];
   }
 
-  export type Key = string | Array<string>;
+  export type Key = string | string[];
 
   interface BaseField {
+    // Additional context about the field, e.g. hints about how to answer the
+    // question.
+    helperText?: string;
     // A unique id used to reference the field from presets
     id: string;
     // They key in a tags object that this field applies to. For nested
@@ -86,40 +92,28 @@ declare module "mapeo-schema" {
     // Displayed as a placeholder or hint for the field: use for additional
     // context or example responses for the user
     placeholder?: string;
-    // Additional context about the field, e.g. hints about how to answer the
-    // question.
-    helperText?: string;
+    // Displayed, but cannot be edited
+    readonly?: boolean;
     // If a field definition contains the property "universal": true, this field
     // will appear in the "Add Field" list for all presets
     universal?: boolean;
-    // Displayed, but cannot be edited
-    readonly?: boolean;
   }
 
   export interface TextField extends BaseField {
-    type: "text" | "textarea" | "localized";
     appearance?: "singleline" | "multiline";
+    type: "text" | "textarea" | "localized";
     // Spaces are replaced with underscores
     snake_case?: boolean;
   }
 
-  export type SelectableFieldValue = number | string | boolean | null;
-
-  export interface LabeledSelectOption {
-    value: SelectableFieldValue;
-    label: string;
-  }
-
-  export type SelectOptions = (SelectableFieldValue | LabeledSelectOption)[];
-
   interface BaseSelectField extends BaseField {
-    type: "select_one" | "select_multiple";
     options: SelectOptions;
     // User can enter their own reponse if not on the list (defaults to true on
     // desktop, false on mobile)
     other?: boolean;
     // Spaces are replaced with underscores
     snake_case?: boolean;
+    type: "select_one" | "select_multiple";
   }
 
   export interface SelectOneField extends BaseSelectField {
@@ -129,4 +123,13 @@ declare module "mapeo-schema" {
   export interface SelectMultipleField extends BaseSelectField {
     type: "select_multiple";
   }
+
+  export type SelectableFieldValue = number | string | boolean | null;
+
+  export interface LabeledSelectOption {
+    label: string;
+    value: SelectableFieldValue;
+  }
+
+  export type SelectOptions = (SelectableFieldValue | LabeledSelectOption)[];
 }
