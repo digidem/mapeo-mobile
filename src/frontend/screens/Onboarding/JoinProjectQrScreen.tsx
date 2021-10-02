@@ -6,8 +6,6 @@
  */
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
-import { StackActions, NavigationActions } from "react-navigation";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import QRCode from "react-native-qrcode-svg";
@@ -47,26 +45,17 @@ const m = defineMessages({
   },
 });
 
-//Cancels the QR code screen and resets the navigation stack so the
-//user CANNOT hit the back button to go back to this screen
-const resetAction = StackActions.reset({
-  index: 0, // <-- currect active route from actions array
-  actions: [NavigationActions.navigate({ routeName: "Home" })],
-});
-
 /* 
   This screen is being used for 2 use cases:
   1. Project Joiner asking to be invited to project
   2. Project Admin adding user to project
-
-  IsAdmin:boolean Flag is passed (through navigation) if the 
-  user is in an admin
 */
-export const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
-  const navigation = useNavigation();
+export const JoinProjectQrScreen: NavigationStackScreenComponent<{
+  isAdmin?: boolean;
+}> = ({ navigation }) => {
   const { formatMessage: t } = useIntl();
 
-  const isAdmin: boolean =
+  const isAdmin =
     JSON.stringify(navigation.getParam("isAdmin", false)) === "true";
 
   return (
@@ -92,11 +81,8 @@ export const JoinProjectQrScreen: NavigationStackScreenComponent = () => {
         </View>
 
         {isAdmin ? (
-          //Admin cancel Button
-          <Button
-            variant="outlined"
-            onPress={() => navigation.dispatch(resetAction)}
-          >
+          // Admin cancel Button
+          <Button variant="outlined" onPress={() => navigation.goBack()}>
             {t(m.cancel)}
           </Button>
         ) : (

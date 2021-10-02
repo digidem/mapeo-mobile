@@ -17,7 +17,7 @@ import Settings from "../screens/Settings";
 import PhotosModal from "../screens/PhotosModal";
 import ManualGpsScreen from "../screens/ManualGpsScreen";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
-import ProjectConfig from "../screens/Settings/ProjectConfig";
+import { ProjectConfig } from "../screens/Settings/ProjectConfig";
 import AboutMapeo from "../screens/Settings/AboutMapeo";
 import LanguageSettings from "../screens/Settings/LanguageSettings";
 import CoordinateFormat from "../screens/Settings/CoordinateFormat";
@@ -28,6 +28,7 @@ import { AddToProjectScreen } from "../screens/AddToProjectScreen";
 import { UnableToLinkScreen } from "../screens/UnableToLink";
 import { JoinProjectQrScreen } from "../screens/Onboarding";
 import { ConnectingToDeviceScreen } from "../screens/ConnectingToDeviceScreen";
+import { ConfirmLeavePracticeModeScreen } from "../screens/ConfirmLeavePracticeModeScreen";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -81,6 +82,7 @@ export const AppStack = createStackNavigator(
     UnableToLink: UnableToLinkScreen,
     JoinProjectQr: JoinProjectQrScreen,
     ConnectingToDevice: ConnectingToDeviceScreen,
+    ConfirmLeavePracticeMode: ConfirmLeavePracticeModeScreen,
   },
   {
     initialRouteName: "Home",

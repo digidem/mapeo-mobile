@@ -4,15 +4,17 @@
  *   - Set `FEATURE_ONBOARDING=true` when running/building
  *   - Manually change the context value in `SettingsContext.tsx`
  */
-import React from "react";
+import * as React from "react";
 import { createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+
 import { JoinRequestModal } from "../screens/JoinRequestModal";
 import { ProjectInviteModal } from "../screens/ProjectInviteModal";
 import {
   CreateOrJoinScreen,
   JoinProjectQrScreen,
   SendJoinRequestScreen,
+  SyncOnboardingScreen,
 } from "../screens/Onboarding";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
 import { AppStack } from "./AppStack";
@@ -22,6 +24,7 @@ const CreateOrJoinStack = createStackNavigator(
     CreateOrJoinScreen: CreateOrJoinScreen,
     JoinProjectQr: JoinProjectQrScreen,
     SendJoinRequest: SendJoinRequestScreen,
+    Sync: SyncOnboardingScreen,
   },
   {
     initialRouteName: "CreateOrJoinScreen",
@@ -48,7 +51,7 @@ const CreateOrJoinStack = createStackNavigator(
 const MainStack = createSwitchNavigator(
   {
     App: AppStack,
-    CreateOrJoinStack: CreateOrJoinStack,
+    CreateOrJoinStack,
   },
   {
     initialRouteName: "App",
