@@ -61,15 +61,12 @@ function mapObservationsToFeatures(
   const features = [];
   for (const obs of obsMap.values()) {
     // Only include observations with a location in the map view
-    if (
-      typeof obs.value.lon === "number" &&
-      typeof obs.value.lat === "number"
-    ) {
+    if (typeof obs.lon === "number" && typeof obs.lat === "number") {
       features.push({
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [obs.value.lon, obs.value.lat],
+          coordinates: [obs.lon, obs.lat],
         },
         properties: {
           id: obs.id,
