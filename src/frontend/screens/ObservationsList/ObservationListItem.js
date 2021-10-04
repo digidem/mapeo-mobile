@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import Text from "../../sharedComponents/Text";
 
 import { TouchableHighlight } from "../../sharedComponents/Touchables";
-import useObservation from "../../hooks/useObservation";
+import { useObservation } from "../../hooks/useObservation";
 import { CategoryCircleIcon } from "../../sharedComponents/icons";
 import { filterPhotosFromAttachments } from "../../lib/utils";
 import PhotoView from "../../sharedComponents/PhotoView";
@@ -59,9 +59,9 @@ const ObservationListItem = ({
   if (!observation) return null; // Should never get here!
 
   const photos = filterPhotosFromAttachments(
-    observation && observation.value.attachments
+    observation && observation.attachments
   ).slice(0, 3);
-  const isMine = observation && observation.value.deviceId === deviceId;
+  const isMine = observation && observation.deviceId === deviceId;
   return (
     <TouchableHighlight
       onPress={() => onPress(observationId)}

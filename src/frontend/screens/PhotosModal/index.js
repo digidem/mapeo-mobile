@@ -6,7 +6,7 @@ import { TabView } from "react-native-tab-view";
 import IconButton from "../../sharedComponents/IconButton";
 import { CloseIcon } from "../../sharedComponents/icons";
 import { filterPhotosFromAttachments } from "../../lib/utils";
-import useObservation from "../../hooks/useObservation";
+import { useObservation } from "../../hooks/useObservation";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
 import PhotoView from "../../sharedComponents/PhotoView";
 import api from "../../api";
@@ -22,7 +22,7 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
 
   if (observation) {
     const savedPhotosRoutes = filterPhotosFromAttachments(
-      observation.value.attachments
+      observation.attachments
     ).map((savedPhoto, idx) => ({
       key: savedPhoto.id,
       uri: api.getMediaUrl(savedPhoto.id, "preview"),
