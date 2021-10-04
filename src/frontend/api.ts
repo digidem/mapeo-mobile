@@ -342,8 +342,6 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     // getObservations: async (): Promise<Observation[]> => {
     getObservations: async (): Promise<Observation[]> => {
       const data = (await get("observations")) as Observation[];
-
-      console.log("DATA", JSON.stringify(data, null, 2));
       return data;
     },
 

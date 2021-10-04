@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Observation } from "mapeo-schema";
 
 import createPersistedState from "../hooks/usePersistedState";
 import { ClientGeneratedObservation } from "./ObservationsContext";
