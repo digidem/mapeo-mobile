@@ -3,7 +3,27 @@
 // Definitions by: Andrew Chou <https://github.com/achou11>
 
 declare module "mapeo-schema" {
+  interface Tags {
+    [key: string]: string | number | Tags;
+  }
+
+  interface Provider {
+    backgroundModeEnabled: boolean;
+    // Whether the user has enabled GPS for device location (this is not the same
+    // as turning location services off, this is a setting whether to use just
+    // wifi and bluetooth or use GPS for location)
+    gpsAvailable?: boolean;
+    // Whether the device can lookup location based on wifi and bluetooth networks
+    passiveAvailable?: boolean;
+    // Has the user enabled location services on the device (this is often turned
+    // off when the device is in airplane mode)
+    locationServicesEnabled: boolean;
+    // Whether the device can lookup location based on cell phone towers
+    networkAvailable?: boolean;
+  }
+
   export interface Position {
+    // Position details, should be self explanatory. Units in meters
     coords?: {
       accuracy?: number;
       altitude?: number;
@@ -12,7 +32,9 @@ declare module "mapeo-schema" {
       longitude?: number;
       speed?: number;
     };
+    // Whether the position is mocked or not
     mocked?: boolean;
+    // The timestamp of when the current position was obtained
     timestamp: number;
   }
 
@@ -29,16 +51,12 @@ declare module "mapeo-schema" {
     lon?: number | null;
     metadata?: {
       location?: {
+        // TOOD: Is this necessary?
         error: boolean;
+        // TOOD: Is this necessary?
         permission: "granted" | "denied" | "never_ask_again";
         position?: Position;
-        provider?: {
-          backgroundModeEnabled: boolean;
-          gpsAvailable: boolean;
-          passiveAvailable: boolean;
-          locationServicesEnabled: boolean;
-          networkAvailable: boolean;
-        };
+        provider?: Provider;
       };
       manualLocation?: boolean;
     };
@@ -46,9 +64,7 @@ declare module "mapeo-schema" {
       id: string;
     }[];
     schemaVersion: 3;
-    tags?: {
-      [key: string]: any;
-    };
+    tags?: Tags;
     timestamp?: string;
     type: "observation";
     userId?: string;
@@ -65,14 +81,10 @@ declare module "mapeo-schema" {
     icon?: string;
     id: string;
     name: string;
-    removeTags?: {
-      [key: string]: any;
-    };
+    removeTags?: Tags;
     schemaVersion: 1;
     sort?: number;
-    tags: {
-      [key: string]: any;
-    };
+    tags: Tags;
     terms?: string[];
   }
 
