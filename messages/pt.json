@@ -39,6 +39,14 @@
     "description": "Label for Android version",
     "message": "Versão do Android"
   },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Build do Mapeo"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Variante do Mapeo"
+  },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
     "message": "Versão do Mapeo"
@@ -65,6 +73,10 @@
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
     "message": "Escolha o que está acontecendo"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "Formato das coordenadas"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -319,6 +331,10 @@
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "Erro ao importar"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "Escolher como as coordenadas são exibidas"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
