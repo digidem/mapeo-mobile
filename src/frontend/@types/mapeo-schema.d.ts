@@ -73,9 +73,7 @@ declare module "mapeo-schema" {
 
   export interface Preset {
     additionalFields?: string[];
-    addTags?: {
-      [key: string]: any;
-    };
+    addTags?: Tags;
     fields?: string[];
     geometry: ("point" | "vertex" | "line" | "area" | "relation")[];
     icon?: string;

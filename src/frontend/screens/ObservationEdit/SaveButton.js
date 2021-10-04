@@ -80,7 +80,7 @@ const SaveButton = ({ navigation }: Props) => {
   ];
 
   const handleSavePress = () => {
-    log("Draft value > ", JSON.stringify(value, null, 2));
+    log("Draft value > ", value);
     if (!value) return;
     const isNew = navigation.getParam("observationId") === undefined;
     if (!isNew) return saveDraft();
