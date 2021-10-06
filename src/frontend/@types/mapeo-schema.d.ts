@@ -2,38 +2,38 @@
 // Project: https://github.com/digidem/mapeo-schema/
 // Definitions by: Andrew Chou <https://github.com/achou11>
 
+/**
+ * Copied from https://github.com/sindresorhus/type-fest/blob/9cfbfc5acc4bdbc8abbdbbe8e1154c4bfc8fae7a/source/basic.d.ts#L15-L45
+ */
+type JsonObject = { [Key in string]?: JsonValue };
+type JsonArray = JsonValue[];
+type JsonPrimitive = string | number | boolean | null;
+type JsonValue = JsonPrimitive | JsonObject | JsonArray;
+
 declare module "mapeo-schema" {
   interface Tags {
-    [key: string]: string | number | Tags;
+    [key: string]: JsonValue;
   }
 
   interface Provider {
     backgroundModeEnabled: boolean;
-    // Whether the user has enabled GPS for device location (this is not the same
-    // as turning location services off, this is a setting whether to use just
-    // wifi and bluetooth or use GPS for location)
     gpsAvailable?: boolean;
-    // Whether the device can lookup location based on wifi and bluetooth networks
     passiveAvailable?: boolean;
-    // Has the user enabled location services on the device (this is often turned
-    // off when the device is in airplane mode)
     locationServicesEnabled: boolean;
-    // Whether the device can lookup location based on cell phone towers
     networkAvailable?: boolean;
   }
 
   export interface Position {
     // Position details, should be self explanatory. Units in meters
-    coords?: {
-      accuracy?: number;
-      altitude?: number;
-      heading?: number;
-      latitude?: number;
-      longitude?: number;
-      speed?: number;
+    coords: {
+      latitude: number;
+      longitude: number;
+      altitude: number | null;
+      accuracy: number | null;
+      altitudeAccuracy: number | null;
+      heading: number | null;
+      speed: number | null;
     };
-    // Whether the position is mocked or not
-    mocked?: boolean;
     // The timestamp of when the current position was obtained
     timestamp: number;
   }
@@ -51,9 +51,7 @@ declare module "mapeo-schema" {
     lon?: number | null;
     metadata?: {
       location?: {
-        // TOOD: Is this necessary?
         error: boolean;
-        // TOOD: Is this necessary?
         permission: "granted" | "denied" | "never_ask_again";
         position?: Position;
         provider?: Provider;
