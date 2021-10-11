@@ -232,13 +232,17 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Mapeo डाटावेसकाे साथ केहि छ"
   },
-  "screens.Settings.configErrorOkButton": {
-    "description": "Button to dismiss error dialog when there is an error importing a config file",
-    "message": "ठिक छ"
-  },
-  "screens.Settings.currentConfig": {
+  "screens.Settings.ProjectConfig.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "हालकाे व्यवस्था"
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "प्रडक्ट कि"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "नाम नभएकाे"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -252,17 +256,9 @@
     "description": "Secondary text for project config settings",
     "message": "श्रेणीहरू, आइकनहरू र प्रश्नहरू"
   },
-  "screens.Settings.projectKey": {
-    "description": "Label for project key",
-    "message": "प्रडक्ट कि"
-  },
   "screens.Settings.title": {
     "description": "Title of settings screen",
     "message": "सेटिङ"
-  },
-  "screens.Settings.unnamedConfig": {
-    "description": "Config name when do name is defined",
-    "message": "नाम नभएकाे"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
@@ -288,10 +284,6 @@
     "description": "Label for last sync datetime",
     "message": "समिकरण"
   },
-  "screens.SyncModal.SyncView.noWifiDesc": {
-    "description": "Description shown when no wifi network",
-    "message": "फाेनकाे सेटिङमा जानु र सिङ्क्राेनाइकाे लागि WiFi नेटवर्कमा जाेडिनु"
-  },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
     "message": "WiFi छैन"
@@ -315,10 +307,6 @@
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
     "message": "सिंक्राेनाइज"
-  },
-  "screens.SyncModal.SyncView.wifi": {
-    "description": "Label for wifi network name",
-    "message": "WiFi"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
@@ -349,5 +337,9 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "खाेजी जारी …"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi"
   }
 }
