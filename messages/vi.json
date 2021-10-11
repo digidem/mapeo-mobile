@@ -286,7 +286,7 @@
   },
   "screens.ProjectConfig.title": {
     "description": "Title of project configuration screen",
-    "message": "Cấu hình Dự án"
+    "message": "Cấu hình dự án"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
