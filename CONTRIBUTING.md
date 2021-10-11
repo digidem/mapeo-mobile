@@ -8,8 +8,9 @@ storybook server.
 
 ## Initial Install
 
-In order to start developing you will need git and node >=v8 installed on your
-computer. For many development tasks you will also need the Android SDK installed.
+In order to start developing you will need git and node >=v10 installed on your
+computer (node v14 does not seem to be working at this time, you can use [nvm](https://github.com/nvm-sh/nvm) to rollback
+your node version). For many development tasks you will also need the Android SDK installed.
 
 ```sh
 git clone https://github.com/digidem/mapeo-mobile.git
@@ -75,16 +76,12 @@ able to control the mobile app.
 ### Pre-requisites
 
 In order to develop the full app you will need the Android SDK installed and
-specifically [21.3.6528147 of the NDK](https://developer.android.com/ndk/guides/) in order to build
+specifically [21.4.7075529 of the NDK](https://developer.android.com/ndk/guides/) in order to build
 nodejs-mobile for Android.
 
-You may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and cofigures requirements that might be missing, like the NDK and CMake to build the native code part of the project.
+You may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and configures requirements that might be missing, like the NDK and CMake to build the native code part of the project.
 
-You can also set the environment variable `ANDROID_NDK_HOME`, as in this example:
-
-```sh
-export ANDROID_NDK_HOME=/Users/username/Library/Android/sdk/ndk-bundle
-```
+Mapeo Mobile does NOT work with Android OS version 11 (as of June 2020, version 11 is still in beta release)
 
 ### Testing Device
 
@@ -137,19 +134,19 @@ its own (e.g. if you already have the app installed), use `npm start`.
 Mapeo uses [Detox](https://github.com/wix/Detox) to run end-to-end tests. If Metro bundler is already running (via `npm start` or `npm run android`), stop it first with `Ctrl-C`, then restart it:
 
 ```sh
-RN_SRC_EXT=e2e.js npm start
+RN_SRC_EXT=e2e npm start
 ```
 
 Then, build a debug test version of the app:
 
 ```sh
-RN_SRC_EXT=e2e.js detox build -c android.device.debug
+RN_SRC_EXT=e2e detox build -c android.device.debug
 ```
 
 Now, to run the tests on a device or a running emulator, replace `DEVICE_ID` in the line below with the output of `adb devices`:
 
 ```sh
-RN_SRC_EXT=e2e.js detox test -c  android.device.debug -n DEVICE_ID -r
+RN_SRC_EXT=e2e detox test -c  android.device.debug -n DEVICE_ID -r
 ```
 
 ## Release Variants
@@ -262,7 +259,38 @@ Production releases are created for git tags that match the pattern `v*.*.*`.
 They are uploaded to S3, Github Releases, and Google Play production track. No
 QA variant is created for production releases.
 
+## Setting a custom version name & version code
+
+By default (since [e861e6a](https://github.com/digidem/mapeo-mobile/commit/e861e6a248cdd613cb9a33b9633cc8773c67c6cc)), if you build or run Mapeo via an npm script (e.g. `npm run android`), Mapeo will use the `version` field of `package.json` as the Android [version name](https://developer.android.com/reference/android/content/pm/PackageInfo#versionName). This value is shown to the user in the "About Mapeo" screen, is used for evaluating updates, and is shown in the Android System Settings as the version of the app. To override this version name, or to define the version name when building Mapeo directly via Gradle (e.g. `cd android && ./gradlew assembleAppRelease`), you may set the environment variable `ANDROID_VERSION_NAME` e.g. `ANDROID_VERSION_NAME=5.4.0-RC.56 ./gradlew assembleAppRelease`. This may be useful for testing version logic, or for building a "special" version such as a Release Candidate or internal testing build (see https://github.com/digidem/mapeo-mobile/blob/develop/bitrise.yml#L376-L412 for how our CI sets this value).
+
+The Android [versionCode](https://developer.android.com/reference/android/R.styleable#AndroidManifest_versionCode) [defaults to `1`](https://github.com/digidem/mapeo-mobile/blob/develop/android/app/build.gradle#L178). You may override this by setting the `ANDROID_VERSION_CODE` environment variable. Android will only let you install a new version of the app over an existing version if the Version Code is equal to or greater than the installed app. In our CI we use the CI build count as the version code, which ensures that each subsequent release of Mapeo has a higher version code.
+
 ## Troubleshooting
+
+### General Troubleshooting
+
+You can access the Android Debug Bridge (adb) directly in the terminal.
+
+adb commands:
+
+- `adb devices` to see all emulators running.
+- `adb -s {emulator name} logcat '*:E'` to see error and log outputs of the emulator in the terminal.
+
+### Errors to look for in the terminal while using ADB logcat
+
+`NODEJS-MOBILE: terminating with uncaught exception of type std::bad_cast: std::bad_cast` this is related to your NDK version. Make sure that you only have one version of the NDK installed on your device. Refer to [Prerequisites](#pre-requisites)
+
+### Blank Screen/Stuck on Splash Screen
+
+This is most likely due to a severed connection between metro (the react-native bundler) and the emulator. You can manually try to reset it in the terminal. Run the following commands:
+
+- `adb kill-server`
+- `adb devices` copy the emulator name that you are using
+- `adb -s {emulator name} reverse tcp:8081 tcp:8081`
+
+### `App shows a warning at the bottom of the screen "unable to connect to dev server"`
+
+Follow the instructions for [Blank Screen/Stuck on Splash Screen](#blank-screenstuck-on-splash-screen)
 
 ### `error: bundling failed: ReferenceError: Module not registered in graph`
 

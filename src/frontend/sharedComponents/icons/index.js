@@ -76,7 +76,7 @@ export const ErrorIcon = ({
     name="error"
     color={color}
     size={size}
-    style={{ position: "absolute" }}
+    style={[{ position: "absolute" }, style]}
   />
 );
 

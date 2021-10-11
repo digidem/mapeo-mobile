@@ -1,4 +1,5 @@
 // @flow
+import { Alert } from "react-native";
 import { fromLatLon } from "utm";
 import type { SelectOptions, LabeledSelectOption, Key } from "mapeo-schema";
 
@@ -13,6 +14,7 @@ import type {
   PresetsMap,
   PresetWithFields,
   FieldsMap,
+  State as Config,
 } from "../context/ConfigContext";
 
 export function getDisplayName(WrappedComponent: any) {
@@ -121,15 +123,44 @@ export function getLastPhotoAttachment(
   return filterPhotosFromAttachments(attachments).pop();
 }
 
-export function formatCoords({
-  lon,
-  lat,
-  format = "utm",
-}: {
-  lon: number,
-  lat: number,
-  format?: "utm",
-}): string {
+// Coordinates conversions
+export function toDegreesMinutesAndSeconds(coordinate: number) {
+  const absolute = Math.abs(coordinate);
+  const degrees = Math.floor(absolute);
+  const minutesNotTruncated = (absolute - degrees) * 60;
+  const minutes = Math.floor(minutesNotTruncated);
+  const seconds = (minutesNotTruncated - minutes) * 60;
+  return {
+    degrees,
+    minutes,
+    seconds,
+  };
+}
+
+export function convertDmsToDd({
+  degrees,
+  minutes,
+  seconds,
+}: {|
+  degrees: number,
+  minutes: number,
+  seconds: number,
+|}) {
+  return degrees + minutes / 60 + seconds / 3600;
+}
+
+// Style from National Geographic style guide
+// https://sites.google.com/a/ngs.org/ngs-style-manual/home/L/latitude-and-longitude
+function convertToDMS({ lat, lon }) {
+  const latitude = formatDms(toDegreesMinutesAndSeconds(lat));
+  const latitudeCardinal = lat >= 0 ? "N" : "S";
+
+  const longitude = formatDms(toDegreesMinutesAndSeconds(lon));
+  const longitudeCardinal = lon >= 0 ? "E" : "W";
+  return `${latitude} ${latitudeCardinal}, ${longitude} ${longitudeCardinal}`;
+}
+
+function convertToUTM({ lat, lon }) {
   try {
     let { easting, northing, zoneNum, zoneLetter } = fromLatLon(lat, lon);
     easting = leftPad(easting.toFixed(), 6, "0");
@@ -140,6 +171,41 @@ export function formatCoords({
     return `${lat >= 0 ? "+" : ""}${lat.toFixed(6)}°, ${
       lon >= 0 ? "+" : ""
     }${lon.toFixed(6)}°`;
+  }
+}
+
+// Style from National Geographic style guide
+// https://sites.google.com/a/ngs.org/ngs-style-manual/home/L/latitude-and-longitude
+function formatDD({ lat, lon }) {
+  const formattedLat = Math.abs(lat).toFixed(6);
+  const formattedLon = Math.abs(lon).toFixed(6);
+  const latCardinal = lat >= 0 ? "N" : "S";
+  const lonCardinal = lon >= 0 ? "E" : "W";
+  return `${formattedLat}° ${latCardinal}, ${formattedLon}° ${lonCardinal}`;
+}
+
+function formatDms({ degrees, minutes, seconds }) {
+  return `${degrees}° ${minutes}' ${seconds.toFixed(3)}"`;
+}
+
+export function formatCoords({
+  lon,
+  lat,
+  format = "utm",
+}: {
+  lon: number,
+  lat: number,
+  format?: "utm" | "dd" | "dms",
+}): string {
+  switch (format) {
+    case "dd":
+      return formatDD({ lat, lon });
+    case "utm":
+      return convertToUTM({ lat, lon });
+    case "dms":
+      return convertToDMS({ lat, lon });
+    default:
+      return convertToUTM({ lat, lon });
   }
 }
 
@@ -191,4 +257,18 @@ function leftPad(str: string, len: number, char: string): string {
 // It filters an array to remove any falsy values
 function filterFalsy<T>(arr: Array<T | void>): Array<T> {
   return arr.filter(Boolean);
+}
+
+export function showWipAlert() {
+  Alert.alert("Work in progress", "This feature has not been implemented yet", [
+    {
+      text: "Ok",
+      onPress: () => {},
+    },
+  ]);
+}
+
+export function isInPracticeMode(config: Config) {
+  // TODO change how we determine whether we are in practice mode or not
+  return config.metadata.name === "mapeo-default-settings";
 }
