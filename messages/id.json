@@ -27,10 +27,6 @@
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
     "message": "OKE"
   },
-  "hooks.updateNotifier.dialogTitle": {
-    "description": "Title of dialog shown to the user when Mapeo is updated",
-    "message": "Mapeo diperbarui"
-  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Nomor seri Android"
@@ -296,10 +292,6 @@
     "description": "message shown whilst observations are loading",
     "message": "Memuat… ini bisa memakan waktu cukup lama setelah menyinkronkan perangkat baru"
   },
-  "screens.ProjectConfig.title": {
-    "description": "Title of project configuration screen",
-    "message": "Konfigurasi Proyek"
-  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Anda dapat mencoba memulai ulang aplikasi secara paksa, tetapi mungkin ada sesuatu yang perlu diperbaiki. Sangat menyesal tentang ini, membuat aplikasi itu sulit."
@@ -315,6 +307,30 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Ada yang salah dengan database Mapeo"
+  },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "Terjadi kesalahan saat mencoba mengimpor file konfigurasi ini"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Kesalahan Impor"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "Konfigurasi saat ini"
+  },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "Impor Konfigurasi"
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "Kunci Proyek"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "Tidak disebutkan namanya"
   },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
@@ -340,18 +356,6 @@
     "description": "Secondary text for sharing the mapeo APK installer",
     "message": "Instal atau perbarui Mapeo di ponsel lain"
   },
-  "screens.Settings.configErrorDescription": {
-    "description": "Description of error dialog when there is an error importing a config file",
-    "message": "Terjadi kesalahan saat mencoba mengimpor file konfigurasi ini"
-  },
-  "screens.Settings.configErrorOkButton": {
-    "description": "Button to dismiss error dialog when there is an error importing a config file",
-    "message": "Oke"
-  },
-  "screens.Settings.configErrorTitle": {
-    "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Kesalahan Impor"
-  },
   "screens.Settings.coordinateFormat": {
     "description": "Settings for coordinate format",
     "message": "Format Koordinat"
@@ -359,14 +363,6 @@
   "screens.Settings.coordinateFormatDesc": {
     "description": "Description of the 'Coordinate Format' page",
     "message": "Pilih bagaimana koordinat ditampilkan"
-  },
-  "screens.Settings.currentConfig": {
-    "description": "Label for name & version of current configuration",
-    "message": "Konfigurasi saat ini"
-  },
-  "screens.Settings.importConfig": {
-    "description": "Button to import Mapeo config file",
-    "message": "Impor Konfigurasi"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -384,17 +380,9 @@
     "description": "Secondary text for project config settings",
     "message": "Kategori, ikon dan pertanyaan"
   },
-  "screens.Settings.projectKey": {
-    "description": "Label for project key",
-    "message": "Kunci Proyek"
-  },
   "screens.Settings.title": {
     "description": "Title of settings screen",
     "message": "Pengaturan"
-  },
-  "screens.Settings.unnamedConfig": {
-    "description": "Config name when do name is defined",
-    "message": "Tidak disebutkan namanya"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
@@ -432,17 +420,9 @@
     "description": "Label in upgrade bar when checking for updates",
     "message": "Memeriksa pembaruan aplikasi"
   },
-  "screens.SyncModal.SyncView.installUpdateButton": {
-    "description": "Label for button to install an update",
-    "message": "Memasang pembaruan"
-  },
   "screens.SyncModal.SyncView.noUpdates": {
     "description": "Label in upgrade bar when no updates are found",
     "message": "Tidak ada pembaruan aplikasi yang ditemukan"
-  },
-  "screens.SyncModal.SyncView.noWifiDesc": {
-    "description": "Description shown when no wifi network",
-    "message": "Buka pengaturan ponsel Anda dan sambungkan ke jaringan WiFi untuk menyinkronkan"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
@@ -484,10 +464,6 @@
     "description": "Label in upgrade bar when downloading an update",
     "message": "Mengunduh pembaruan"
   },
-  "screens.SyncModal.SyncView.updateGenericError": {
-    "description": "Label in upgrade bar when there is an error getting an update",
-    "message": "Tidak dapat memperbarui"
-  },
   "screens.SyncModal.SyncView.updatePermissionError": {
     "description": "Label in upgrade bar when there is permissions error getting an update",
     "message": "Tidak dapat memperbarui"
@@ -499,10 +475,6 @@
   "screens.SyncModal.SyncView.updateUnknownState": {
     "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
     "message": "Status tidak diimplementasikan"
-  },
-  "screens.SyncModal.SyncView.wifi": {
-    "description": "Label for wifi network name",
-    "message": "WiFi:"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
@@ -537,5 +509,9 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Mencari…"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi:"
   }
 }
