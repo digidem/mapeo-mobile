@@ -284,10 +284,6 @@
     "description": "message shown whilst observations are loading",
     "message": "Đang tải... việc này có thể càn một chút thời gian sau khi đồng bộ hóa với thiết bị mới"
   },
-  "screens.ProjectConfig.title": {
-    "description": "Title of project configuration screen",
-    "message": "Cấu hình Dự án"
-  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Bạn có thể thử buộc khởi động lại ứng dụng, nhưng có một số lỗi cần phải được khắc phục. Rất xin lỗi về điều này, việc tạo nên ứng dụng thật là khó."
@@ -303,6 +299,30 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Có gì đó không ổn với dữ liệu Mapeo"
+  },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "Đã xảy ra lỗi khi nhập tệp cấu hình này"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Lỗi nhập"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "Cấu hình hiện tại"
+  },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "Nhập cấu hình"
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "Project Key"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "Chưa có tên"
   },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
@@ -328,18 +348,6 @@
     "description": "Secondary text for sharing the mapeo APK installer",
     "message": "Cài đặt hoặc cập nhật Mapeo trên điện thoại khác"
   },
-  "screens.Settings.configErrorDescription": {
-    "description": "Description of error dialog when there is an error importing a config file",
-    "message": "Đã xảy ra lỗi khi nhập tệp cấu hình này"
-  },
-  "screens.Settings.configErrorOkButton": {
-    "description": "Button to dismiss error dialog when there is an error importing a config file",
-    "message": "OK"
-  },
-  "screens.Settings.configErrorTitle": {
-    "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Lỗi nhập"
-  },
   "screens.Settings.coordinateFormat": {
     "description": "Settings for coordinate format",
     "message": "Định dạng tọa độ"
@@ -347,14 +355,6 @@
   "screens.Settings.coordinateFormatDesc": {
     "description": "Description of the 'Coordinate Format' page",
     "message": "Chọn cách hiển thị tọa độ"
-  },
-  "screens.Settings.currentConfig": {
-    "description": "Label for name & version of current configuration",
-    "message": "Cấu hình hiện tại"
-  },
-  "screens.Settings.importConfig": {
-    "description": "Button to import Mapeo config file",
-    "message": "Nhập cấu hình"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -372,17 +372,9 @@
     "description": "Secondary text for project config settings",
     "message": "Các thể loại, biểu tượng và câu hỏi"
   },
-  "screens.Settings.projectKey": {
-    "description": "Label for project key",
-    "message": "Project Key"
-  },
   "screens.Settings.title": {
     "description": "Title of settings screen",
     "message": "Cài đặt"
-  },
-  "screens.Settings.unnamedConfig": {
-    "description": "Config name when do name is defined",
-    "message": "Chưa có tên"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
@@ -420,17 +412,9 @@
     "description": "Label in upgrade bar when checking for updates",
     "message": "Kiểm tra cập nhật mới của ứng dụng"
   },
-  "screens.SyncModal.SyncView.installUpdateButton": {
-    "description": "Label for button to install an update",
-    "message": "Cài đặt bản cập nhật"
-  },
   "screens.SyncModal.SyncView.noUpdates": {
     "description": "Label in upgrade bar when no updates are found",
     "message": "Không tìm thấy bản cập nhật mới"
-  },
-  "screens.SyncModal.SyncView.noWifiDesc": {
-    "description": "Description shown when no wifi network",
-    "message": "Mở cài đặt điện thoại của bạn và kết nối với Wifi để đồng bộ"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
@@ -472,10 +456,6 @@
     "description": "Label in upgrade bar when downloading an update",
     "message": "Đang tải về bản cập nhật"
   },
-  "screens.SyncModal.SyncView.updateGenericError": {
-    "description": "Label in upgrade bar when there is an error getting an update",
-    "message": "Không thể cập nhật"
-  },
   "screens.SyncModal.SyncView.updatePermissionError": {
     "description": "Label in upgrade bar when there is permissions error getting an update",
     "message": "Không thể cập nhật"
@@ -487,10 +467,6 @@
   "screens.SyncModal.SyncView.updateUnknownState": {
     "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
     "message": "Trạng thái chưa được thực hiện"
-  },
-  "screens.SyncModal.SyncView.wifi": {
-    "description": "Label for wifi network name",
-    "message": "WiFi:"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
@@ -525,5 +501,9 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Đang tìm kiếm…"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi:"
   }
 }
