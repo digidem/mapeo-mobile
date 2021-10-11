@@ -27,10 +27,6 @@
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
     "message": "ตกลง"
   },
-  "hooks.updateNotifier.dialogTitle": {
-    "description": "Title of dialog shown to the user when Mapeo is updated",
-    "message": "อัปเดต Mapeo แล้ว"
-  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "รหัส Build Number บน Android"
@@ -296,10 +292,6 @@
     "description": "message shown whilst observations are loading",
     "message": "กำลังโหลดข้อมูล... การเชื่อมต่อกับอุปกรณ์ใหม่จะใช้เวลาสักครู่"
   },
-  "screens.ProjectConfig.title": {
-    "description": "Title of project configuration screen",
-    "message": "การกำหนดค่าโครงการ"
-  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "ลองปิด-เปิดแอปฯ อีกครั้ง ขออภัยในความไม่สะดวก ทางเรากำลังปรับปรุงการทำงานของแอปฯ ให้ดียิ่งขึ้น"
@@ -315,6 +307,30 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "กำลังเชื่อมต่อกับฐานข้อมูล Mapeo"
+  },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "เกิดข้อผิดพลาดระหว่างการนำเข้าไฟล์การตั้งค่า"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "ข้อผิดพลาดในการนำเข้า"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "การกำหนดค่าปัจจุบัน"
+  },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "นำเข้าไฟล์โครงสร้าง"
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "รหัสโครงการ"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "ไม่มีชื่อ"
   },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
@@ -340,18 +356,6 @@
     "description": "Secondary text for sharing the mapeo APK installer",
     "message": "ติดตั้งและอัปเดต Mapeo บนมือถืออีกเครื่อง"
   },
-  "screens.Settings.configErrorDescription": {
-    "description": "Description of error dialog when there is an error importing a config file",
-    "message": "เกิดข้อผิดพลาดระหว่างการนำเข้าไฟล์การตั้งค่า"
-  },
-  "screens.Settings.configErrorOkButton": {
-    "description": "Button to dismiss error dialog when there is an error importing a config file",
-    "message": "ตกลง"
-  },
-  "screens.Settings.configErrorTitle": {
-    "description": "Title of error dialog when there is an error importing a config file",
-    "message": "ข้อผิดพลาดในการนำเข้า"
-  },
   "screens.Settings.coordinateFormat": {
     "description": "Settings for coordinate format",
     "message": "รูปแบบพิกัด"
@@ -359,14 +363,6 @@
   "screens.Settings.coordinateFormatDesc": {
     "description": "Description of the 'Coordinate Format' page",
     "message": "เลือกรูปแบบแสดงพิกัด"
-  },
-  "screens.Settings.currentConfig": {
-    "description": "Label for name & version of current configuration",
-    "message": "การกำหนดค่าปัจจุบัน"
-  },
-  "screens.Settings.importConfig": {
-    "description": "Button to import Mapeo config file",
-    "message": "นำเข้าไฟล์โครงสร้าง"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -384,17 +380,9 @@
     "description": "Secondary text for project config settings",
     "message": "หมวดหมู่, ไอคอน และคำถาม"
   },
-  "screens.Settings.projectKey": {
-    "description": "Label for project key",
-    "message": "รหัสโครงการ"
-  },
   "screens.Settings.title": {
     "description": "Title of settings screen",
     "message": "การตั้งค่า"
-  },
-  "screens.Settings.unnamedConfig": {
-    "description": "Config name when do name is defined",
-    "message": "ไม่มีชื่อ"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
@@ -432,17 +420,9 @@
     "description": "Label in upgrade bar when checking for updates",
     "message": "ตรวจสอบการอัปเดตแอป"
   },
-  "screens.SyncModal.SyncView.installUpdateButton": {
-    "description": "Label for button to install an update",
-    "message": "ติดตั้งการอัปเดต"
-  },
   "screens.SyncModal.SyncView.noUpdates": {
     "description": "Label in upgrade bar when no updates are found",
     "message": "ไม่พบการอัปเดตแอป"
-  },
-  "screens.SyncModal.SyncView.noWifiDesc": {
-    "description": "Description shown when no wifi network",
-    "message": "เลือกการตั้งค่าในโทรศัพท์ของคุณเพื่อเชื่อมต่อเครือข่าย WiFi ​และโอนข้อมูล"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
@@ -484,10 +464,6 @@
     "description": "Label in upgrade bar when downloading an update",
     "message": "กำลังดาวน์โหลดการอัปเดต"
   },
-  "screens.SyncModal.SyncView.updateGenericError": {
-    "description": "Label in upgrade bar when there is an error getting an update",
-    "message": "ไม่สามารถอัปเดตได้"
-  },
   "screens.SyncModal.SyncView.updatePermissionError": {
     "description": "Label in upgrade bar when there is permissions error getting an update",
     "message": "ไม่สามารถอัปเดตได้"
@@ -499,10 +475,6 @@
   "screens.SyncModal.SyncView.updateUnknownState": {
     "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
     "message": "สถานะที่ยังไม่ได้ดำเนินการ"
-  },
-  "screens.SyncModal.SyncView.wifi": {
-    "description": "Label for wifi network name",
-    "message": "WiFi:"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
@@ -537,5 +509,9 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "กำลัง​ค้น​หา..."
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi:"
   }
 }
