@@ -285,6 +285,60 @@
   "screens.ManualGpsScreen.DdForm.west": {
     "message": "Barat"
   },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "{field} menit dimasukkan"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "{field} detik dimasukkan"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "Derajat"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
+    "message": "{field} derajat dimasukkan"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "Arah"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
+    "message": "Menit"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "Detik"
+  },
+  "screens.ManualGpsScreen.DmsForm.east": {
+    "message": "Timur"
+  },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "Koordinat tidak valid"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "Garis Lintang"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "Garis bujur"
+  },
+  "screens.ManualGpsScreen.DmsForm.north": {
+    "message": "Utara"
+  },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "Pilih kardinalitas garis lintang"
+  },
+  "screens.ManualGpsScreen.DmsForm.south": {
+    "message": "Selatan"
+  },
+  "screens.ManualGpsScreen.DmsForm.west": {
+    "message": "Barat"
+  },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "Format Koordinat"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "Derajat Desimal (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "Derajat/Menit/Detik (DMD)"
+  },
   "screens.ManualGpsScreen.easting": {
     "message": "Timur"
   },
@@ -300,6 +354,9 @@
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "Masukkan koordinat"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "Mercator Transversal Universal (UTM)"
   },
   "screens.ManualGpsScreen.zoneLetter": {
     "message": "Huruf Zona"
@@ -450,6 +507,51 @@
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
     "message": "Memuat… ini bisa memakan waktu cukup lama setelah menyinkronkan perangkat baru"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "Buat Proyek"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "Ketuk di sini untuk {action}"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "Bergabung Dengan Proyek"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "Mode Latihan"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "Batal"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "Mintalah Peserta Proyek memindai kode undangan ini."
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "Tunjukkan kode QR ini ke Admin Proyek Anda"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "Instruksi"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "Kirim Permintaan Bergabung sebagai gantinya"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "Bergabung Dengan Proyek"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "Bagikan kode ini dengan Koordinator Proyek"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "Bagikan"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "Kirim Permintaan Bergabung"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "Kode verifikasi"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "Selesai!"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
