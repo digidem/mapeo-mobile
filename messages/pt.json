@@ -81,6 +81,59 @@
   "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
     "message": "Este dispositivo é um Participante"
   },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "Selecione uma função para este dispositivo"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "Dispositivo {deviceId} encontrado"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "Está com problemas?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "Peça ao Participante para enviar um pedido de adesão"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "Leia o código QR do dispositivo para adicionar a pessoa ao projeto"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "Instruções"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} foi adicionado ao projeto {projectName}"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Ir para Sincronização"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "Sucesso!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "Convidar dispositivo"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "Adicionar ao projeto"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "Você está no projeto {projectName}"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "Voltar"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "Sair do projeto atual"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "Para participar de um novo projeto, você deve sair do seu atual."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "Você já está participando de um projeto"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "Sem acesso à câmera"
@@ -88,6 +141,24 @@
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
     "message": "Escolha o que está acontecendo"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "Não, exclua minhas observações"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "Sim, manter minhas observações"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "Trazer ({observationCount}) {observationCount, plural, one {observação} other {observações}} do Modo de Treinamento para o projeto?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "Sair do Modo de Treinamento"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "Selecione uma das opções a seguir"
   },
   "screens.CoordinateFormat.title": {
     "description": "Title coordinate format screen",
@@ -120,6 +191,24 @@
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
     "message": "Sim"
+  },
+  "screens.JoinRequestModal.close": {
+    "message": "Fechar"
+  },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "Negar pedido"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "Convidar"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "O convite foi enviado."
+  },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{deviceName} quer se juntar ao projeto {projectName}"
+  },
+  "screens.JoinRequestModal.success": {
+    "message": "Sucesso!"
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
