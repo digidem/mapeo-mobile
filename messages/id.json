@@ -215,9 +215,75 @@
   "screens.JoinRequestModal.close": {
     "message": "Tutup"
   },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "Tolak Permintaan"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "Undang"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "Undangan telah dikirim."
+  },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{deviceName} ingin bergabung dengan {projectName}"
+  },
+  "screens.JoinRequestModal.success": {
+    "message": "Berhasil!"
+  },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "Bahasa"
+  },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "Tinggalkan Proyek"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "Kembali ke Beranda"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "Pengamatan Dihapus"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
+    "message": "Selesai!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "Keluar dari Proyek {projectName}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "Menghapus Pengamatan"
+  },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "Timur"
+  },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "Koordinat tidak valid"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "Nilai lintang"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "Garis Lintang"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "Nilai bujur"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "Garis bujur"
+  },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "Utara"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "Pilih kardinalitas garis lintang"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "Pilih kardinalitas garis bujur"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "Selatan"
+  },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "Barat"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "Timur"
