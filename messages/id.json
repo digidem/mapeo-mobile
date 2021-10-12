@@ -99,6 +99,41 @@
   "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
     "message": "Instruksi"
   },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} telah ditambahkan ke {projectName}"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Pergi ke Sinkronkan"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "Berhasil!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "Undang Perangkat"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "Tambahkan ke Proyek"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "Anda berada di {projectName}"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "Kembali"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "Keluar dari Proyek Saat Ini"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "Untuk bergabung dengan proyek baru, Anda harus keluar dari proyek Anda saat ini."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "Anda sudah dalam sebuah proyek"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "Tidak ada akses ke kamera"
@@ -106,6 +141,24 @@
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
     "message": "Pilih apa yang sedang terjadi"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "Membatalkan"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "Tidak, hapus pengamatan saya"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "Ya, simpan pengamatan saya"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "Bawa ({observationCount}) {observationCount, plural, satu {observation} other {observations}} dari Mode Latihan ke proyek?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "Keluar dari Mode Latihan"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "Pilih salah satu opsi"
   },
   "screens.CoordinateFormat.dd": {
     "description": "Decimal Degrees coordinate format",
@@ -158,6 +211,9 @@
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
     "message": "Ya"
+  },
+  "screens.JoinRequestModal.close": {
+    "message": "Tutup"
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
