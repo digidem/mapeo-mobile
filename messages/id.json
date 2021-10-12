@@ -27,6 +27,10 @@
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
     "message": "OKE"
   },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo diperbarui ✅"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Nomor seri Android"
@@ -61,6 +65,39 @@
   },
   "screens.AddPhoto.cancel": {
     "message": "Batal"
+  },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "Menghubungkan ke perangkat..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "Membatalkan"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "Koordinator dapat menambah dan menghapus perangkat dari proyek"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "Perangkat ini adalah Koordinator"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "Perangkat ini adalah Peserta"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "Pilih peran untuk perangkat"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "Perangkat {deviceId} Ditemukan"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "Mempunyai masalah?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "Minta Pemeta komunitas untuk mengirim permintaan bergabung"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "Pindai perangkat untuk menambahkan orang ke proyek"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "Instruksi"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
