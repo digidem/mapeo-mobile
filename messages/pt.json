@@ -72,6 +72,15 @@
   "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
     "message": "Cancelar"
   },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "Os coordenadores podem adicionar e remover dispositivos de projetos"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "Este dispositivo é um Coordenador"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "Este dispositivo é um Participante"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "Sem acesso à câmera"
