@@ -27,6 +27,10 @@
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
     "message": "OK"
   },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo atualizado ✅"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Número de compilação Android"
@@ -60,6 +64,12 @@
     "message": "Desconhecido"
   },
   "screens.AddPhoto.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "Conectando-se ao dispositivo..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
     "message": "Cancelar"
   },
   "screens.CameraScreen.noCameraAccess": {
