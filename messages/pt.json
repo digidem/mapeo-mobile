@@ -235,6 +235,33 @@
   "screens.ManualGpsScreen.DdForm.south": {
     "message": "Sul"
   },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "Oeste"
+  },
+  "screens.ManualGpsScreen.DmsForm.east": {
+    "message": "Leste"
+  },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "Coordenadas inválidas"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "Latitude"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "Longitude"
+  },
+  "screens.ManualGpsScreen.DmsForm.north": {
+    "message": "Norte"
+  },
+  "screens.ManualGpsScreen.DmsForm.south": {
+    "message": "Sul"
+  },
+  "screens.ManualGpsScreen.DmsForm.west": {
+    "message": "Oeste"
+  },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "Formato das coordenadas"
+  },
   "screens.ManualGpsScreen.easting": {
     "message": "Leste"
   },
@@ -401,6 +428,18 @@
     "description": "message shown whilst observations are loading",
     "message": "Carregando... pode demorar um pouco após a sincronização com um novo dispositivo"
   },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "Sincronizando..."
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "Fechar"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "Recusar o convite"
+  },
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Tente novamente"
   },
@@ -423,6 +462,10 @@
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "Houve um erro ao tentar importar este arquivo de configuração"
+  },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "OK"
   },
   "screens.Settings.ProjectConfig.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
@@ -536,6 +579,10 @@
     "description": "Label in upgrade bar when no updates are found",
     "message": "Nenhuma atualização encontrada"
   },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "Abra as configurações do seu dispositivo e conecte-se a uma rede Wi-Fi para sincronizar"
+  },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
     "message": "Sem Wi-Fi"
@@ -576,6 +623,10 @@
     "description": "Label in upgrade bar when downloading an update",
     "message": "Baixando atualizações"
   },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "Não foi possível verificar se há atualizações"
+  },
   "screens.SyncModal.SyncView.updatePermissionError": {
     "description": "Label in upgrade bar when there is permissions error getting an update",
     "message": "Não foi possível atualizar"
@@ -608,6 +659,10 @@
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
     "message": "Você precisa atualizar o Mapeo para sincronizar com {deviceName}"
   },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "Adicionar ao projeto"
+  },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
     "message": "Lamentamos muito - algo inesperado deu errado e a culpa é nossa, não é sua. Tente reiniciar o aplicativo para ver se corrige o problema."
@@ -621,6 +676,9 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Procurando…"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "Sem internet"
   },
   "sharedComponents.WifiBar.wifi": {
     "description": "Label for wifi network name",
