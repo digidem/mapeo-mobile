@@ -92,5 +92,11 @@
   },
   "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
     "message": "ဒေသခံ ကွင်းပတ်သူများကို ချိတ်ဆက်မှုအတွက် တောင်းဆိုမှု ပေးပို့ရန်ပြောပါ"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "စီမံကိန်းမှာ နောက်ထပ်လူပေါင်းထပ်ရန် ကိရိယာကို Scan လုပ်ခြင်း"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "ညွှန်ကြားချက်များ"
   }
 }
