@@ -61,5 +61,21 @@
   },
   "screens.AddPhoto.cancel": {
     "message": "ပယ်ဖျက်သည်"
+  },
+  "screens.CameraScreen.noCameraAccess": {
+    "description": "Error message shown when app does not have permissions to camera",
+    "message": "ကင်မရာ သုံးခွင့်မရှိပါ"
+  },
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "ဘာဖြစ်နေသလဲဆိုတာ ရွေးပါ"
+  },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "ဒသမ ဒီဂရီ"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "ဒီဂရီ/ မိနစ်/ စက္ကန့်"
   }
 }
