@@ -553,6 +553,15 @@
   "screens.Onboarding.Sync.Loader.complete": {
     "message": "Selesai!"
   },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "{num}/{total} pengamatan selesai"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "Menyinkronkan..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "{num}/{total} pengamatan selesai"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Anda dapat mencoba memulai ulang aplikasi secara paksa, tetapi mungkin ada sesuatu yang perlu diperbaiki. Sangat menyesal tentang ini, membuat aplikasi itu sulit."
