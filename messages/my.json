@@ -1,1 +1,22 @@
-{}
+{
+  "AppContainer.EditHeader.discardCancel": {
+    "description": "Button on dialog to keep editing (cancelling close action)",
+    "message": "ဆက်လက်ပြင်ဆင်ခြင်း"
+  },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "ပြောင်းလဲမှုများကို ဖျက်ခြင်း"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "ပြောင်းလဲမှုများကို ဖျက်ချင်လား?"
+  },
+  "AppContainer.EditHeader.discardContent": {
+    "description": "Button on dialog to cancel a new observation",
+    "message": "သိမ်းဆည်းမှုမလုပ်ဘဲ ဖျက်ခြင်း"
+  },
+  "AppContainer.EditHeader.discardTitle": {
+    "description": "Title of dialog that shows when cancelling a new observation",
+    "message": "လေ့လာထားရှိမှုများကို ဖျက်ပစ်မှာလား?"
+  }
+}
