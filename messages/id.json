@@ -562,6 +562,30 @@
   "screens.Onboarding.Sync.numComplete": {
     "message": "{num}/{total} pengamatan selesai"
   },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "Mulai Pemetaan"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "Tutup"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "Tolak Undangan"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "Tidak dapat mengambil detail undangan"
+  },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "Anda telah diundang untuk bergabung\n {projectName} sebagai {role}"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "Gabung dan Sinkronkan"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "Bergabunglah dengan {projectName}"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "Coba Lagi"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Anda dapat mencoba memulai ulang aplikasi secara paksa, tetapi mungkin ada sesuatu yang perlu diperbaiki. Sangat menyesal tentang ini, membuat aplikasi itu sulit."
@@ -577,6 +601,33 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Ada yang salah dengan database Mapeo"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p upgrades",
+    "message": "Peningkatan P2P"
+  },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "Bagikan dan terima pembaruan dengan perangkat terdekat"
+  },
+  "screens.Settings.ManagePeople.add": {
+    "message": "Tambah"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "Tinggalkan Proyek"
+  },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "Kelola Orang"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "Hapus"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(Anda) {deviceName}"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "Buat atau bergabung dengan proyek di bawah ini"
   },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
