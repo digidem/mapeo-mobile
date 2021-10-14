@@ -18,5 +18,48 @@
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when cancelling a new observation",
     "message": "လေ့လာထားရှိမှုများကို ဖျက်ပစ်မှာလား?"
+  },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "မက်ပီယိုကို ယခင်ဘာရှင်းမှ ယခုအဆင့်မြင့် ဘာရှင်းသို့ အောင်မြင်စွာ မြှင့်တင်ပြီးပါပြီ"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "အိုကေ"
+  },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "အန့်ဒရိုက် Android တည်ဆောက် နံပါတ်"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "အန့်ဒရိုက် Android ဘားရှင်း"
+  },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "မက်ပီယို တည်ဆောက်မှု"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "မက်ပီယို မူကွဲ"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "မက်ပီယို ဘားရှင်း"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "ဖုန်းမော်ဒယ်"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "မက်ပီယိုအကြောင်း"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "မသိသော"
+  },
+  "screens.AddPhoto.cancel": {
+    "message": "ပယ်ဖျက်သည်"
   }
 }
