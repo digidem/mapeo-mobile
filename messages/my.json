@@ -77,5 +77,26 @@
   "screens.CoordinateFormat.dms": {
     "description": "Degrees/Minutes/Seconds coordinate format",
     "message": "ဒီဂရီ/ မိနစ်/ စက္ကန့်"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "ကိုဩဒိနိတ် ပုံစံ"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "UTM (Universal Transverse Mercator)"
+  },
+  "screens.ManualGpsScreen.easting": {
+    "message": "အရှေ့"
+  },
+  "screens.ManualGpsScreen.northing": {
+    "message": "မြောက်"
+  },
+  "screens.ManualGpsScreen.title": {
+    "description": "title of manual GPS screen",
+    "message": "ကိုဩဒိနိတ်အမှတ်များ ရိုက်ထည့်ပါ"
+  },
+  "screens.ManualGpsScreen.zoneNumber": {
+    "message": "ဇုန်နံပါတ်"
   }
 }
