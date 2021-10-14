@@ -629,9 +629,22 @@
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Buat atau bergabung dengan proyek di bawah ini"
   },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "Membuat Proyek"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "Bergabung dengan Proyek"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "Siap untuk meninggalkan Mode Latihan?"
+  },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "Terjadi kesalahan saat mencoba mengimpor file konfigurasi ini"
+  },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "Oke"
   },
   "screens.Settings.ProjectConfig.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
@@ -645,9 +658,24 @@
     "description": "Button to import Mapeo config file",
     "message": "Impor Konfigurasi"
   },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "Nama Proyek:"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "tidak ada"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "Mode Latihan"
+  },
   "screens.Settings.ProjectConfig.projectKey": {
     "description": "Label for project key",
     "message": "Kunci Proyek"
+  },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "Konfigurasi Proyek"
   },
   "screens.Settings.ProjectConfig.unnamedConfig": {
     "description": "Config name when do name is defined",
@@ -684,6 +712,14 @@
   "screens.Settings.coordinateFormatDesc": {
     "description": "Description of the 'Coordinate Format' page",
     "message": "Pilih bagaimana koordinat ditampilkan"
+  },
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "Percobaan"
+  },
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "Aktifkan fitur baru eksperimental"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -741,9 +777,21 @@
     "description": "Label in upgrade bar when checking for updates",
     "message": "Memeriksa pembaruan aplikasi"
   },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "Memasang"
+  },
   "screens.SyncModal.SyncView.noUpdates": {
     "description": "Label in upgrade bar when no updates are found",
     "message": "Tidak ada pembaruan aplikasi yang ditemukan"
+  },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "Memeriksa {count, plural, one {# device} other {# devices}}"
+  },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "Buka pengaturan ponsel Anda dan sambungkan ke jaringan WiFi untuk menyinkronkan"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
@@ -785,6 +833,10 @@
     "description": "Label in upgrade bar when downloading an update",
     "message": "Mengunduh pembaruan"
   },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "Tidak dapat memeriksa pembaruan"
+  },
   "screens.SyncModal.SyncView.updatePermissionError": {
     "description": "Label in upgrade bar when there is permissions error getting an update",
     "message": "Tidak dapat memperbarui"
@@ -817,6 +869,26 @@
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
     "message": "Anda perlu mengupgrade Mapeo untuk menyinkronkan dengan {deviceName}"
   },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "Tambahkan ke Proyek"
+  },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "Bagikan Undangan"
+  },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "Tampilkan Kode QR"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "Coba sambungkan menggunakan salah satu metode lain di bawah ini."
+  },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "Tidak Dapat Menautkan ke Perangkat"
+  },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
     "message": "Sangat menyesal tentang ini, sesuatu yang tidak terduga terjadi, dan itu salah kami bukan kesalahan anda. Coba mulai ulang aplikasi untuk melihat apakah itu memperbaiki keadaan."
@@ -830,6 +902,13 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Mencari…"
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "Mode Latihan"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "Tidak ada internet"
   },
   "sharedComponents.WifiBar.wifi": {
     "description": "Label for wifi network name",
