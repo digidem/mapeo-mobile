@@ -98,5 +98,11 @@
   },
   "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
     "message": "ညွှန်ကြားချက်များ"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "ကိရိယာကို စီမံကိန်းသို့ ပေါင်းထပ်ပြီးဖြစ်သည်"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Sync သို့သွားပါ"
   }
 }
