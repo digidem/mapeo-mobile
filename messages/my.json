@@ -68,5 +68,29 @@
   },
   "screens.AddToProjectScreen.ConnectStep.title": {
     "message": "ကိရိယာနှင့် ချိတ်ဆက်ခြင်း..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "ပယ်ဖျက်သည်"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "ညှိနှိုင်းရေးမှူးများသည် ကရိယာများကို စီမံကိန်းမှ ဖယ်ရှားခြင်းနှင့် ထပ်ပေါင်းခြင်း ပြုလုပ်နိုင်သည်"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "ဒီ ကိရိယာသည် ညှိနှိုင်းရေးမှူး"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "ဒီ ကိရိယာသည် ပူးပေါင်းပါဝင်သူ"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "ကိရိယာအတွက် အခန်းကဏ္ဍကိုရွေးပါ"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "ကိရိယာကို တွေ့ရှိသည်"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "အခက်အခဲရှိပါသလား?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "ဒေသခံ ကွင်းပတ်သူများကို ချိတ်ဆက်မှုအတွက် တောင်းဆိုမှု ပေးပို့ရန်ပြောပါ"
   }
 }
