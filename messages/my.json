@@ -104,5 +104,65 @@
   },
   "screens.AddToProjectScreen.SuccessStep.goToSync": {
     "message": "Sync သို့သွားပါ"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "ကိရိယာများကို ဖိတ်ခေါ်ပါ"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "စီမံကိန်းသို့ ပေါင်းထပ်ပါ"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "စီမံကိန်း... တွင် သင်ရောက်ရှိနေပါပြီ"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "နောက်သို့ ပြန်သွား"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "လက်ရှိ စီမံကိန်းမှ ထွက်သည်"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "စီမံကိန်းအသစ်သို့ ဝင်ရန် လက်ရှိတစ်ခုမှ ထွက်ရမည်။"
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "စီမံကိန်းတစ်ခုတွင် သင် ရောက်နှင့်ပြီးဖြစ်သည်"
+  },
+  "screens.CameraScreen.noCameraAccess": {
+    "description": "Error message shown when app does not have permissions to camera",
+    "message": "ကင်မရာ သုံးခွင့်မရှိပါ"
+  },
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "ဘာဖြစ်နေသလဲဆိုတာ ရွေးပါ"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "ပယ်ဖျက်သည်"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "မဟုတ်ပါ, လေ့လာထားရှိမှုများကို ပယ်ဖျက်မည်"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "ဟုတ်ပါသည်, လေ့လာထားရှိမှုများကို သိမ်းထားပါမည်"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "လေ့လာထားရှိမှုများကို လက်တွေ့လုပ်ဆောင်မှု Mode မှ စီမံကိန်းသို့ ယူဆောင်ခြင်း"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "လက်တွေ့လုပ်ဆောင်မှု Mode မှ ထွက်ပါ"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "ရွေးချယ်စရာများမှ တစ်ခုရွေးပါ"
+  },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "ဒသမ ဒီဂရီ"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "ဒီဂရီ/ မိနစ်/ စက္ကန့်"
   }
 }
