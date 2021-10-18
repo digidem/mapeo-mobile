@@ -223,8 +223,14 @@
   "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
     "message": "Coordenadas inválidas"
   },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "Valor da latitude"
+  },
   "screens.ManualGpsScreen.DdForm.latitude": {
     "message": "Latitude"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "Valor da longitude"
   },
   "screens.ManualGpsScreen.DdForm.longitude": {
     "message": "Longitude"
@@ -232,11 +238,38 @@
   "screens.ManualGpsScreen.DdForm.north": {
     "message": "Norte"
   },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "Selecionar cardinalidade de latitude"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "Selecionar cardinalidade de longitude"
+  },
   "screens.ManualGpsScreen.DdForm.south": {
     "message": "Sul"
   },
   "screens.ManualGpsScreen.DdForm.west": {
     "message": "Oeste"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "{field} minutos"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "{field} segundos"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "Graus"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
+    "message": "{field} graus"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "Direção"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
+    "message": "Minutos"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "Segundos"
   },
   "screens.ManualGpsScreen.DmsForm.east": {
     "message": "Leste"
@@ -253,6 +286,9 @@
   "screens.ManualGpsScreen.DmsForm.north": {
     "message": "Norte"
   },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "Selecionar cardinalidade de latitude"
+  },
   "screens.ManualGpsScreen.DmsForm.south": {
     "message": "Sul"
   },
@@ -261,6 +297,12 @@
   },
   "screens.ManualGpsScreen.coordinateFormat": {
     "message": "Formato das coordenadas"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "Graus decimais (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "Graus/Minutos/Segundos (DMS)"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "Leste"
@@ -277,6 +319,9 @@
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "Inserir coordenadas"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "Universal Transversa de Mercator (UTM)"
   },
   "screens.ManualGpsScreen.zoneLetter": {
     "message": "Letra da zona"
