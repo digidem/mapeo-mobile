@@ -2,21 +2,18 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Text from "../../sharedComponents/Text";
-import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import Button from "../../sharedComponents/Button";
-import { WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
+import { WifiOffIcon } from "../../sharedComponents/icons";
+import WifiBar from "../../sharedComponents/WifiBar";
+
 import DotIndicator from "./DotIndicator";
-import PeerList from "./PeerList";
-import type { Peer } from "./PeerList";
+import PeerList, { peerStatus, type Peer } from "./PeerList";
+import UpgradeBar from "./UpgradeBar";
+import useSettingsValue from "../../hooks/useSettingsValue";
 
 const m = defineMessages({
-  wifi: {
-    id: "screens.SyncModal.SyncView.wifi",
-    defaultMessage: "WiFi:",
-    description: "Label for wifi network name",
-  },
   noWifiTitle: {
     id: "screens.SyncModal.SyncView.noWifiTitle",
     defaultMessage: "No WiFi",
@@ -26,7 +23,7 @@ const m = defineMessages({
     id: "screens.SyncModal.SyncView.noWifiDesc",
     description: "Description shown when no wifi network",
     defaultMessage:
-      "Open your phone settins and connect to a WiFi network to synchronize",
+      "Open your phone settings and connect to a WiFi network to synchronize",
   },
   settingsButton: {
     id: "screens.SyncModal.SyncView.settingsButton",
@@ -50,21 +47,6 @@ const m = defineMessages({
     defaultMessage: "Project Key: {projectKey}",
   },
 });
-
-const WifiBar = ({ onPress, ssid, deviceName }) => (
-  <TouchableNativeFeedback onPress={onPress}>
-    <View style={styles.wifiBar}>
-      <WifiIcon />
-      <Text style={styles.wifiBarText} numberOfLines={1}>
-        <Text style={styles.bold}>
-          <FormattedMessage {...m.wifi} />
-        </Text>{" "}
-        {ssid}
-      </Text>
-      <Text style={styles.deviceName}>{deviceName}</Text>
-    </View>
-  </TouchableNativeFeedback>
-);
 
 const NoWifiBox = ({ onPress }) => {
   const { formatMessage: t } = useIntl();
@@ -122,33 +104,41 @@ const SyncView = ({
   deviceName,
   onWifiPress,
   projectKey,
-}: Props) => (
-  <View style={styles.root}>
-    {ssid ? (
-      <>
-        <WifiBar onPress={onWifiPress} ssid={ssid} deviceName={deviceName} />
-        {peers.length ? (
-          <PeerList peers={peers} onSyncPress={onSyncPress} />
-        ) : (
-          <SearchingBox />
-        )}
+}: Props) => {
+  const experiments = useSettingsValue("experiments");
+  const isSyncing = React.useMemo(
+    () => peers.some(p => p.status === peerStatus.PROGRESS),
+    [peers]
+  );
+  return (
+    <View style={styles.root}>
+      {ssid ? (
+        <>
+          <WifiBar onPress={onWifiPress} ssid={ssid} deviceName={deviceName} />
+          {experiments.p2pUpgrade ? <UpgradeBar isSyncing={isSyncing} /> : null}
+          {peers.length ? (
+            <PeerList peers={peers} onSyncPress={onSyncPress} />
+          ) : (
+            <SearchingBox />
+          )}
 
-        <Text style={styles.projectId}>
-          <FormattedMessage
-            {...m.projectKey}
-            values={{
-              projectKey: projectKey
-                ? projectKey.slice(0, 5) + "**********"
-                : "MAPEO",
-            }}
-          />
-        </Text>
-      </>
-    ) : (
-      <NoWifiBox onPress={onWifiPress} />
-    )}
-  </View>
-);
+          <Text style={styles.projectId}>
+            <FormattedMessage
+              {...m.projectKey}
+              values={{
+                projectKey: projectKey
+                  ? projectKey.slice(0, 5) + "**********"
+                  : "MAPEO",
+              }}
+            />
+          </Text>
+        </>
+      ) : (
+        <NoWifiBox onPress={onWifiPress} />
+      )}
+    </View>
+  );
+};
 
 export default SyncView;
 
@@ -212,27 +202,6 @@ const styles = StyleSheet.create({
   searchingTextContainer: {
     maxWidth: "75%",
     marginLeft: 30,
-  },
-  wifiBar: {
-    backgroundColor: "#19337F",
-    height: 50,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    paddingHorizontal: 15,
-  },
-  wifiBarText: {
-    color: "white",
-    paddingLeft: 10,
-  },
-  deviceName: {
-    fontWeight: "bold",
-    textAlign: "right",
-    color: "white",
-    flex: 1,
-  },
-  bold: {
-    fontWeight: "700",
   },
   settingsButton: {
     flex: 1,

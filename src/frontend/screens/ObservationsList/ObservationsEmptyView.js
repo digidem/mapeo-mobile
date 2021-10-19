@@ -54,7 +54,7 @@ const ObservationEmptyView = ({ onPressBack }: Props) => {
         </Text>
       </View>
       <View style={styles.backButton}>
-        <Button onPress={onPressBack} variant="outlined" color="light">
+        <Button onPress={onPressBack} variant="outlined" color="dark">
           {t(m.backButton)}
         </Button>
       </View>

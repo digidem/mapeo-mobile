@@ -15,26 +15,44 @@ const fs = require("fs");
 const rimraf = require("rimraf");
 const tar = require("tar-fs");
 const pump = require("pump");
-const tmp = require("tmp");
 const semverCoerce = require("semver/functions/coerce");
-
-// Cleanup the temporary files even when an uncaught exception occurs
-tmp.setGracefulCleanup();
+const UpgradeManager = require("./upgrade-manager");
+const { serializeError } = require("serialize-error");
 
 const log = debug("mapeo-core:server");
 
 module.exports = createServer;
 
-function createServer({ privateStorage, sharedStorage, flavor }) {
-  const defaultConfigPath = path.join(sharedStorage, "presets/default");
+/**
+ * @param {object} options
+ * @param {string} privateStorage Path to app-specific internal file storage
+ *   folder (see https://developer.android.com/training/data-storage/app-specific).
+ *   This folder cannot be accessed by other apps or the user via a computer connection.
+ * @param {string} sharedStorage Path to app-specific external file storage folder
+ * @param {string} privateCacheStorage Path to app-specific internal cache storage folder
+ * @param {import('./upgrade-manager/types').DeviceInfo} deviceInfo sdkVersion and supportedAbis for current device
+ * @param {import('./upgrade-manager/types').InstallerInt} currentApkInfo info about the currently running APK (see ./lib/types for documentation)
+ */
+function createServer({
+  privateStorage,
+  sharedStorage,
+  privateCacheStorage,
+  deviceInfo,
+  currentApkInfo,
+}) {
   log("Creating server");
-
+  // Folder the user copies custom config into. TODO: This is now handled within
+  // the app settings screen, so this could move into privateStorage
+  const defaultConfigPath = path.join(sharedStorage, "presets/default");
+  // Set up the p2p upgrades subsystem.
+  const upgradeStoragePath = path.join(privateCacheStorage, "upgrades");
   // Folder with default (built-in) presets to server when the user has not
   // added any presets
   const fallbackPresetsDir = path.join(privateStorage, "nodejs-assets/presets");
 
   // create folders for presets & styles
   mkdirp.sync(defaultConfigPath);
+  mkdirp.sync(upgradeStoragePath);
   mkdirp.sync(path.join(sharedStorage, "styles/default"));
 
   let projectKey = readProjectKey({
@@ -60,6 +78,8 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
     deviceType: "mobile",
   });
   let mapeoCore = mapeoRouter.api.core;
+
+  createUpgradeManager();
 
   const server = http.createServer(function requestListener(req, res) {
     log(req.method + ": " + req.url);
@@ -131,89 +151,157 @@ function createServer({ privateStorage, sharedStorage, flavor }) {
       rnBridge.channel.on("sync-join", joinSync);
       rnBridge.channel.on("sync-leave", leaveSync);
       rnBridge.channel.on("replace-config", replaceConfig);
+      log("++++ 1 backend listening");
       origListen.apply(server, args);
     });
   };
+
+  function onError(prefix, err) {
+    if (!err) return;
+    main.bugsnag.notify(err, {
+      severity: "error",
+      context: prefix,
+    });
+    log(`error(${prefix}): ' + ${err.toString()}`);
+  }
+
+  function createUpgradeManager() {
+    // TODO: What is the effect of leaving these event handlers attached when
+    // the app is in the background? Ideally we would clean up event handlers
+    // each time the app goes to the background and re-attach them when back in
+    // foreground.
+
+    try {
+      const manager = new UpgradeManager({
+        storageDir: upgradeStoragePath,
+        currentApkInfo,
+        deviceInfo,
+      });
+      manager.on("state", onState);
+      manager.on("error", err => {
+        onError("p2p-upgrade", err);
+        const serializedError = serializeError(err);
+        rnBridge.channel.post("p2p-upgrade::error", serializedError);
+      });
+      rnBridge.channel.on("p2p-upgrade::start-services", () => {
+        log("Request to start upgrade manager");
+        manager.start().catch(err => onError("p2p-start", err));
+      });
+      rnBridge.channel.on("p2p-upgrade::stop-services", () => {
+        log("Request to stop upgrade manager");
+        manager.stop().catch(err => onError("p2p-stop", err));
+      });
+      rnBridge.channel.on("p2p-upgrade::get-state", () => {
+        // Don't particularly like this way of doing things, eventually we will
+        // set up and RPC for calling these methods directly
+        const state = manager.getState();
+        onState(state);
+      });
+    } catch (err) {
+      main.bugsnag.notify(err, {
+        severity: "error",
+        context: "p2p-upgrade",
+      });
+      log(`error initializing p2p-upgrade: ${err.toString()}`);
+
+      rnBridge.channel.on("p2p-upgrade::get-state", () => {
+        // If UpgradeManager fails to initialize, we always report the state as
+        // the error, and ignore all the other IPC messages
+
+        /** @type {import("./upgrade-manager/types").UpgradeState} */
+        const state = {
+          value: "error",
+          error: err,
+          uploads: [],
+          downloads: [],
+          checkedPeers: [],
+        };
+        onState(state);
+      });
+    }
+
+    /** @param {import("./upgrade-manager/types").UpgradeState} state */
+    function onState(state) {
+      // Serialize error object so it can be transferred over ipc
+      const serializedErrorState = {
+        ...state,
+        error: serializeError(state.error),
+      };
+      rnBridge.channel.post("p2p-upgrade::state", serializedErrorState);
+    }
+  }
 
   // Given a config tarball at `path`, replace the current config.
   function replaceConfig({ id, path: pathToNewConfigTarball }) {
     const cb = err =>
       rnBridge.channel.post("replace-config-" + id, err && err.message);
+    const tmpDir = path.join(
+      sharedStorage,
+      (Math.random() * Math.pow(10, 10)).toFixed(0)
+    );
 
-    tmp.dir(
-      {
-        unsafeCleanup: true,
-        // NB: os.tmp() is in private cache storage on Android, but currently
-        // the destination is in sharedStorage. We can't fs.rename() between
-        // these two storage areas, so we create our own temp dir in
-        // sharedStorage
-        dir: sharedStorage,
-      },
-      (err, tmpDir, cleanup) => {
-        // 1 - extract to temp directory
+    fs.mkdir(tmpDir, err => {
+      // 1 - extract to temp directory
+      if (err) {
+        log("Could not create tmp directory for config extract", err);
+        return cb(err);
+      }
+      var source = fs.createReadStream(pathToNewConfigTarball);
+      var dest = tar.extract(tmpDir, {
+        readable: true,
+        writable: true,
+        // Samsung devices throw EPERM error if you try to set utime
+        utimes: false,
+      });
+      pump(source, dest, onExtract);
+
+      // 2 - If extract worked, check version
+      function onExtract(err) {
+        // TODO: Better checking that presets are valid
         if (err) {
-          log("Could not create tmp directory for config extract", err);
+          log("Error extracting config tarball", err);
           return cb(err);
         }
-        var source = fs.createReadStream(pathToNewConfigTarball);
-        var dest = tar.extract(tmpDir, {
-          readable: true,
-          writable: true,
-          // Samsung devices throw EPERM error if you try to set utime
-          utimes: false,
+        fs.readFile(path.join(tmpDir, "VERSION"), "utf8", (err, version) => {
+          const parsedVersion = semverCoerce(version);
+          if (err || parsedVersion == null) {
+            log("Error reading VERSION file from imported config");
+            return cb(err || new Error("Unreadable config version"));
+          }
+          if (parsedVersion.major > 3 || parsedVersion.major < 2) {
+            log(
+              "Mapeo is not compatible with this config version (" +
+                version +
+                ")"
+            );
+            return cb(new Error("Incompatible config version"));
+          }
+          log("Importing config version: " + version);
+          onVersionCheck();
         });
-        pump(source, dest, onExtract);
+      }
 
-        // 2 - If extract worked, check version
-        function onExtract(err) {
-          // TODO: Better checking that presets are valid
+      // 3 - Presets look ok, replace current presets with these
+      function onVersionCheck() {
+        // Need to rimraf() because fs.rename gives an error if the destination
+        // directory is not empty, despite what the nodejs docs say
+        // (https://github.com/nodejs/node/issues/21957)
+        rimraf(defaultConfigPath, err => {
           if (err) {
-            log("Error extracting config tarball", err);
+            log("Error trying to remove existing config", err);
             return cb(err);
           }
-          fs.readFile(path.join(tmpDir, "VERSION"), "utf8", (err, version) => {
-            const parsedVersion = semverCoerce(version);
-            if (err || parsedVersion == null) {
-              log("Error reading VERSION file from imported config");
-              return cb(err || new Error("Unreadable config version"));
-            }
-            if (parsedVersion.major > 3 || parsedVersion.major < 2) {
-              log(
-                "Mapeo is not compatible with this config version (" +
-                  version +
-                  ")"
-              );
-              return cb(new Error("Incompatible config version"));
-            }
-            log("Importing config version: " + version);
-            onVersionCheck();
-          });
-        }
-
-        // 3 - Presets look ok, replace current presets with these
-        function onVersionCheck() {
-          // Need to rimraf() because fs.rename gives an error if the destination
-          // directory is not empty, despite what the nodejs docs say
-          // (https://github.com/nodejs/node/issues/21957)
-          rimraf(defaultConfigPath, err => {
+          fs.rename(tmpDir, defaultConfigPath, err => {
             if (err) {
-              log("Error trying to remove existing config", err);
+              log("Error replacing existing config with new config", err);
               return cb(err);
             }
-            fs.rename(tmpDir, defaultConfigPath, err => {
-              if (err) {
-                log("Error replacing existing config with new config", err);
-                return cb(err);
-              }
-              // Manual cleanup of temp dir - tmp should cleanup on node exist, but
-              // just in case
-              cleanup();
-              onChangeConfig();
-            });
+            log("Successfully replaced config");
+            onChangeConfig();
           });
-        }
+        });
       }
-    );
+    });
 
     function onChangeConfig() {
       // After changing the config the projectKey can change, so we need to

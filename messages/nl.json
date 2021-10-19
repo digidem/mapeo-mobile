@@ -5,7 +5,7 @@
   },
   "AppContainer.EditHeader.discardChangesContent": {
     "description": "Button on dialog to cancel observation edits",
-    "message": "Wijzigingen niet opslaan"
+    "message": "Wijzigingen annuleren"
   },
   "AppContainer.EditHeader.discardChangesTitle": {
     "description": "Title of dialog that shows when cancelling observation edits",
@@ -19,17 +19,33 @@
     "description": "Title of dialog that shows when cancelling a new observation",
     "message": "Waarneming annuleren?"
   },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo is succesvol bijgewerkt van versie {previousVersion} naar {currentVersion} op {updateDateTime}"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "OK"
+  },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo bijgewerkt"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
-    "message": "Android buildnummer"
+    "message": "Android build nummer"
   },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
     "message": "Android versie"
   },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Mapeo versie"
+  },
   "screens.AboutMapeo.mapeoType": {
-    "description": "Label for Mapeo type",
-    "message": "Soort Mapeo versie"
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Mapeo variant"
   },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
@@ -58,6 +74,22 @@
     "description": "Title for category chooser screen",
     "message": "Kies wat er gebeurt"
   },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "Decimale graden (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "Graden/Minuten/Seconden (DMS)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "Coördinaat formaat"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "Universal Transverse Mercator (UTM)"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Details"
@@ -69,6 +101,14 @@
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
     "message": "Laatste update"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "Coördinaten Decimale Graden"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "DMS coördinaten"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
@@ -142,11 +182,11 @@
   },
   "screens.Observation.confirm": {
     "description": "Button to confirm delete of observation",
-    "message": "Ja, annuleren"
+    "message": "Ja, verwijderen"
   },
   "screens.Observation.deleteTitle": {
     "description": "Title of dialog asking confirmation to delete an observation",
-    "message": "Waarneming annuleren?"
+    "message": "Waarneming verwijderen?"
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
@@ -194,7 +234,7 @@
   },
   "screens.ObservationEdit.ObservationEditView.searching": {
     "description": "Shown in new observation screen whilst looking for GPS",
-    "message": "Zoeken…"
+    "message": "Bezig te zoeken…"
   },
   "screens.ObservationEdit.SaveButton.keepWaiting": {
     "description": "Button to cancel save and continue waiting for GPS",
@@ -206,7 +246,7 @@
   },
   "screens.ObservationEdit.SaveButton.noGpsDesc": {
     "description": "Description in dialog when trying to save with no GPS coords",
-    "message": "Deze waarneming heeft geen locatie. Je kunt doorgaan met wachten op een GPS signaal, de waarneming opslaan zonder een locatie, of coördinaten handmatig invoeren"
+    "message": "Deze waarneming heeft geen locatie. U kunt doorgaan met wachten op een GPS signaal, de waarneming opslaan zonder een locatie, of de coördinaten handmatig invoeren"
   },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
@@ -218,7 +258,7 @@
   },
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
-    "message": "GPS nauwkeurigheid is laag. Je kunt blijven wachten op betere nauwkeurigheid, de waarneming opslaan met lage nauwkeurigheid, of handmatig coördinaten invoeren"
+    "message": "GPS nauwkeurigheid is laag. U kunt blijven wachten op betere nauwkeurigheid, de waarneming opslaan met lage nauwkeurigheid, of handmatig de coördinaten invoeren"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
@@ -242,7 +282,7 @@
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
-    "message": "Begin van de kaart- of cameraweergave om je eerste waarneming op te nemen."
+    "message": "Begin van de kaart- of camera weergave om de eerste waarneming op te nemen."
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
     "description": "Title of observation list view when the user has not yet recorded observations",
@@ -250,11 +290,11 @@
   },
   "screens.ObservationsList.error": {
     "description": "message shown when there is an unexpected error when loading observations",
-    "message": "Er is iets fout gegaan bij het laden van waarnemingen. Probeer Mapeo te sluiten en opnieuw te starten."
+    "message": "Er is een fout bij het laden van de waarnemingen. Probeer Mapeo te sluiten en opnieuw te starten."
   },
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
-    "message": "Laden… dit kan even duren na het synchroniseren met een nieuw apparaat"
+    "message": "Bezig te laden… dit kan even duren na het synchroniseren met een nieuw apparaat"
   },
   "screens.ProjectConfig.title": {
     "description": "Title of project configuration screen",
@@ -262,7 +302,7 @@
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
-    "message": "Je kunt proberen de app gedwongen opnieuw op te starten, maar er is misschien iets dat moet worden opgelost. Het spijt ons echt; het maken van apps is moeilijk."
+    "message": "U kunt proberen de app gedwongen opnieuw op te starten, maar er is misschien iets dat moet worden opgelost. Het spijt ons echt; het maken van apps is moeilijk."
   },
   "screens.ServerStatus.errorTitle": {
     "description": "Title of message when there the Mapeo Core server crashes",
@@ -270,7 +310,7 @@
   },
   "screens.ServerStatus.timeoutDesc": {
     "description": "Description when the server has not responded for 10 seconds",
-    "message": "Als je dit bericht blijft zien, moet Mapeo misschien geforceerd herstarten"
+    "message": "Als u dit bericht blijft zien, moet Mapeo misschien gedwongen worden om te herstarten"
   },
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
@@ -294,7 +334,15 @@
   },
   "screens.Settings.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Importeerfout"
+    "message": "Fout bij importeren"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "Coördinaat formaat"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "Kies hoe coördinaten worden weergegeven"
   },
   "screens.Settings.currentConfig": {
     "description": "Label for name & version of current configuration",
@@ -346,7 +394,7 @@
   },
   "screens.SyncModal.PeerList.errorClientMismatch": {
     "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
-    "message": "Niet een Mapeo client"
+    "message": "Geen Mapeo client"
   },
   "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
     "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
@@ -402,7 +450,7 @@
   },
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "Het apparaat waarmee je probeert te synchroniseren, moet Mapeo upgraden naar de nieuwste versie om met je te kunnen synchroniseren."
+    "message": "Het apparaat waarmee u probeert te synchroniseren, moet Mapeo upgraden naar de nieuwste versie om met u te kunnen synchroniseren."
   },
   "screens.SyncModal.errorVersionThemBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
@@ -410,15 +458,15 @@
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
-    "message": "Het apparaat waarmee je probeert te synchroniseren heeft een nieuwere versie van Mapeo. Je moet Mapeo upgraden om met dit apparaat te kunnen synchroniseren."
+    "message": "Het apparaat waarmee u probeert te synchroniseren heeft een nieuwere versie van Mapeo. U moet Mapeo upgraden om met dit apparaat te kunnen synchroniseren."
   },
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
-    "message": "Je moet Mapeo upgraden om te kunnen synchroniseren met {deviceName}"
+    "message": "U moet Mapeo upgraden om te kunnen synchroniseren met {deviceName}"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
-    "message": "Het spijt me echt, maar er is iets onverwachts misgegaan, en het is onze schuld en niet de jouwe. Probeer de app opnieuw te starten om te zien of dat het probleem oplost."
+    "message": "Het spijt me echt, maar er is iets onverwachts misgegaan, en het is onze schuld en niet de uwe. Probeer de app opnieuw te starten om te zien of dat het probleem oplost."
   },
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
