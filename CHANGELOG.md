@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.3.0](https://github.com/digidem/mapeo-mobile/compare/v5.2.1...v5.3.0) (2021-09-27)
+
+### Features
+
+- Add support for manual coordinate entry with dd and dms formats ([#632](https://github.com/digidem/mapeo-mobile/issues/632), [#641](https://github.com/digidem/mapeo-mobile/issues/641)) ([b56d39b](https://github.com/digidem/mapeo-mobile/commit/b56d39b553fe908956189d7c9e6032176ec5ba64))
+- Add experimental support for peer-to-peer updates ([#595](https://github.com/digidem/mapeo-mobile/issues/595)) ([871fce8](https://github.com/digidem/mapeo-mobile/commit/871fce8e09527b2fcdd8df5173b01243a0309cf2)), closes [digidem/mapeo-mobile#521](https://github.com/digidem/mapeo-mobile/issues/521) [#561](https://github.com/digidem/mapeo-mobile/issues/561) [#577](https://github.com/digidem/mapeo-mobile/issues/577) [#586](https://github.com/digidem/mapeo-mobile/issues/586) [#596](https://github.com/digidem/mapeo-mobile/issues/596) [#612](https://github.com/digidem/mapeo-mobile/issues/612)
+- **translations:** New Japanese translations (76%) + fixes to Dutch ([fa2e117](https://github.com/digidem/mapeo-mobile/commit/fa2e117132175eb3dabf60186083854dd27ecaf9))
+- Setting to choose coordinate display format ([#526](https://github.com/digidem/mapeo-mobile/issues/526)) ([567fcce](https://github.com/digidem/mapeo-mobile/commit/567fcce87c57ecf811b2e43757c48cd08583eed3))
+- Show alert dialog when Mapeo is updated ([#555](https://github.com/digidem/mapeo-mobile/issues/555)) ([e67f780](https://github.com/digidem/mapeo-mobile/commit/e67f780034debb38dbfde5abd9b30f5826dc826f))
+- Updated translations for default configuration (vi, srn) ([c267a99](https://github.com/digidem/mapeo-mobile/commit/c267a9928533d5afaf317dccb9a59ba4964b0d21))
+
+### Bug Fixes
+
+- Add "Sranan Tongo" as an option in the language settings screen ([9161b15](https://github.com/digidem/mapeo-mobile/commit/9161b15f4a446dde4d03f904be3781153f126272))
+- Add missing moduleResolution to tsconfig ([7e092a5](https://github.com/digidem/mapeo-mobile/commit/7e092a5ce67abcf1bd9d1791ffbb8b007441f8a4))
+- Fix crash bug in UpgradeManager and minor fixes ([#671](https://github.com/digidem/mapeo-mobile/issues/671)) ([724cc15](https://github.com/digidem/mapeo-mobile/commit/724cc15542342ae89ec35e6bc5e9a5335a2133d1)), closes [#611](https://github.com/digidem/mapeo-mobile/issues/611)
+- Fix custom config import ([#726](https://github.com/digidem/mapeo-mobile/issues/726)) ([6ed8eae](https://github.com/digidem/mapeo-mobile/commit/6ed8eae11f2dea5db3bb39ce7d37d16723d37c63))
+- Fix icons with same name not changing when config changes ([#722](https://github.com/digidem/mapeo-mobile/issues/722)) ([533e913](https://github.com/digidem/mapeo-mobile/commit/533e913907f3aba85682aa95b0a34f7baa925184))
+- fix merging of settings state in settings context ([#711](https://github.com/digidem/mapeo-mobile/issues/711)) ([6314d6c](https://github.com/digidem/mapeo-mobile/commit/6314d6ca5274a5cccf3a4ad165990faf5a490bdf))
+- Internationalize labels on "About Mapeo" screen ([#560](https://github.com/digidem/mapeo-mobile/issues/560)) ([727aa3e](https://github.com/digidem/mapeo-mobile/commit/727aa3e6f8a8fc723ac89ea5129c610c55ac8ff3))
+- Migrate settings when new settings are added ([#687](https://github.com/digidem/mapeo-mobile/issues/687)) ([793911c](https://github.com/digidem/mapeo-mobile/commit/793911c39f116397b855b5a2a0bf71372bfbf372))
+- Autofocus text fields in Observation Details flow ([#734](https://github.com/digidem/mapeo-mobile/issues/632)) ([d1fd137](https://github.com/digidem/mapeo-mobile/commit/d1fd13777dfaa65e3aa24025e8bdc256e170ad3f))
+
 ## [5.2.1](https://github.com/digidem/mapeo-mobile/compare/v5.2.0...v5.2.1) (2021-08-04)
 
 ### Bug Fixes
