@@ -74,9 +74,21 @@
     "description": "Title for category chooser screen",
     "message": "Escolha o que está acontecendo"
   },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "Graus decimais (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "Graus/Minutos/Segundos (DMS)"
+  },
   "screens.CoordinateFormat.title": {
     "description": "Title coordinate format screen",
     "message": "Formato das coordenadas"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "Universal Transversa de Mercator (UTM)"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
