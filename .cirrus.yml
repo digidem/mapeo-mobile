@@ -67,8 +67,20 @@ android_test_task:
   artifact_cache:
     folder: android/app/build/outputs/apk
     fingerprint_script: echo $CIRRUS_BUILD_ID
-  create_device_script: |
-    echo no | avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;default;x86_64'
+  matrix:
+    - name: Android 8.1
+      create_device_script: |
+        echo no | avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-27;default;x86_64'
+    - name: Android 9.0
+      create_device_script: |
+        echo no | avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;default;x86_64'
+    - name: Android 10.0
+      create_device_script: |
+        echo no | avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-29;default;x86_64'
+    - name: Android 11.0
+      create_device_script: |
+        echo no | avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-30;default;x86_64'
+  check_emulator_version_script: |
     echo "Emulator version:"
     $ANDROID_HOME/emulator/emulator @emu -version
     echo "Hardware acceleration:"
