@@ -26,6 +26,7 @@
     "log": "adb logcat -v brief *:S NODEJS-MOBILE:V ReactNative:V ReactNativeJS:V",
     "dev-menu": "adb shell input keyevent 82",
     "prettier": "prettier --write \"src/**/*.js\"",
+    "prettier:staged": "pretty-quick --staged",
     "release": "standard-version",
     "release:update": "standard-version --skip bump",
     "release-notes": "conventional-changelog -r 2 -p angular",
@@ -36,8 +37,7 @@
     "jetify": "jetify",
     "extract-messages": "extract-messages --locales=en --output messages --descriptions 'src/frontend/**/*.{js,ts,tsx}'",
     "build-detox-android": "RN_SRC_EXT=e2e detox build -c android.emu.release",
-    "test-detox-android": "RN_SRC_EXT=e2e detox test -c android.emu.release --device-launch-args=\"-dns-server 1.1.1.1\"",
-    "lint-staged": "lint-staged"
+    "test-detox-android": "RN_SRC_EXT=e2e detox test -c android.emu.release --device-launch-args=\"-dns-server 1.1.1.1\""
   },
   "dependencies": {
     "@digidem/wcmc-mapeo-mobile-intro": "^1.0.3",
@@ -171,7 +171,6 @@
     "jest": "^27.0.6",
     "jest-cli": "^26.4.2",
     "jetifier": "^1.6.6",
-    "lint-staged": "^11.1.2",
     "metro-react-native-babel-preset": "^0.61.0",
     "mkdirp": "^1.0.4",
     "prettier": "^2.0.5",
@@ -190,10 +189,5 @@
       "tag": true
     },
     "releaseCommitMessageFormat": "chore(release): Prepare release {{currentTag}}"
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "pretty-quick --staged"
-    ]
   }
 }
