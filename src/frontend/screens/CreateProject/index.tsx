@@ -73,14 +73,6 @@ export const CreateProjectScreen: NavigationStackScreenComponent = ({
     validateDeviceName,
   ] = useInputFieldValue();
 
-  const updateProjectName = React.useCallback(value => {
-    setProjectName(value);
-  }, []);
-
-  const updateDeviceName = React.useCallback(value => {
-    setDeviceName(value);
-  }, []);
-
   const submit = () => {
     const projectNameIsValid = validateProjectName();
     const deviceNameIsValid = validateDeviceName();
@@ -107,10 +99,10 @@ export const CreateProjectScreen: NavigationStackScreenComponent = ({
             label={<FormattedMessage {...m.projectNameLabel} />}
             placeholder={t(m.projectNamePlaceholder)}
             onBlur={() => {
-              updateProjectName(projectName.trim());
+              setProjectName(projectName.trim());
               validateProjectName();
             }}
-            onChangeText={updateProjectName}
+            onChangeText={setProjectName}
             value={projectName}
           />
           <InputField
@@ -121,10 +113,10 @@ export const CreateProjectScreen: NavigationStackScreenComponent = ({
             label={<FormattedMessage {...m.deviceNameLabel} />}
             maxLength={60}
             onBlur={() => {
-              updateDeviceName(deviceName.trim());
+              setDeviceName(deviceName.trim());
               validateDeviceName();
             }}
-            onChangeText={updateDeviceName}
+            onChangeText={setDeviceName}
             placeholder={t(m.deviceNamePlaceholder)}
             value={deviceName}
           />
