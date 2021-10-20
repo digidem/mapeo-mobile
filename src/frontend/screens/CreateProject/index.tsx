@@ -10,7 +10,7 @@ import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import Text from "../../sharedComponents/Text";
 
 import { InputField } from "./InputField";
-import { useInputFieldValue } from "./useFieldValue";
+import { useInputFieldValue } from "./useInputFieldValue";
 
 const m = defineMessages({
   createProjectTitle: {
