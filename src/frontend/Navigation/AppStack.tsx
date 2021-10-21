@@ -21,6 +21,7 @@ import { ProjectConfig } from "../screens/Settings/ProjectConfig";
 import AboutMapeo from "../screens/Settings/AboutMapeo";
 import LanguageSettings from "../screens/Settings/LanguageSettings";
 import CoordinateFormat from "../screens/Settings/CoordinateFormat";
+import Experiments from "../screens/Settings/Experiments";
 import HomeHeader from "../sharedComponents/HomeHeader";
 import { AlreadyOnProj } from "../screens/AlreadyOnProject";
 import { LeaveProjectScreen } from "../screens/LeaveProject";
@@ -69,6 +70,7 @@ export const AppStack = createStackNavigator(
     AboutMapeo,
     LanguageSettings,
     CoordinateFormat,
+    Experiments,
     PhotosModal: PhotosModal,
     CategoryChooser: CategoryChooser,
     AddPhoto: AddPhoto,
