@@ -91,6 +91,9 @@
   "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
     "message": "Hướng dẫn"
   },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} đã được thêm vào {projectName}"
+  },
   "screens.AddToProjectScreen.SuccessStep.goToSync": {
     "message": "Đi đến Đồng bộ hóa"
   },
@@ -144,7 +147,7 @@
     "message": "Mang ({observationCount}) {observationCount, plural, one {observation} other {quan sát}} từ Chế độ Thực hành vào dự án?"
   },
   "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
-    "message": "Rời khỏi Chế độ Thực hành"
+    "message": "Rời khỏi Chế độ Luyện tập"
   },
   "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
     "message": "Chọn một trong các lựa chọn"
