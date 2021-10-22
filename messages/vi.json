@@ -140,6 +140,15 @@
   "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
     "message": "Có, giữ lại các quan sát"
   },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "Mang ({observationCount}) {observationCount, plural, one {observation} other {quan sát}} từ Chế độ Thực hành vào dự án?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "Rời khỏi Chế độ Thực hành"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "Chọn một trong các lựa chọn"
+  },
   "screens.CoordinateFormat.dd": {
     "description": "Decimal Degrees coordinate format",
     "message": "Độ thập phân (DD)"
@@ -224,9 +233,114 @@
     "description": "if a location sensor is active yes/no",
     "message": "Có"
   },
+  "screens.JoinRequestModal.close": {
+    "message": "Đóng"
+  },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "Từ chối yêu cầu"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "Mời tham gia"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "Lời mời tham gia đã được gửi đi."
+  },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{deviceName} muốn tham gia {projectName}"
+  },
+  "screens.JoinRequestModal.success": {
+    "message": "Thành công!"
+  },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "Language"
+  },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "Rời dự án"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "Về Màn hình chính"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "Quan sát đã được xóa"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
+    "message": "Hoàn thành!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "Rời khỏi Dựa án {projectName}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "Đang xóa bỏ quan sát"
+  },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "Đông"
+  },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "Tọa độ không hợp lệ"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "Giá trị vĩ độ"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "Vĩ độ"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "Giá trị kinh độ"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "Kinh độ"
+  },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "Bắc"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "Chọn vĩ độ"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "Chọn kinh độ"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "Nam"
+  },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "Tây"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "{field} nhập phút"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "{field} nhập giây"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "Độ"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
+    "message": "{field} nhập độ"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "Hướng"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
+    "message": "Phút"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "Giây"
+  },
+  "screens.ManualGpsScreen.DmsForm.east": {
+    "message": "Đông"
+  },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "Tọa độ không hợp lệ"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "Vĩ độ"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "Kinh độ"
+  },
+  "screens.ManualGpsScreen.DmsForm.north": {
+    "message": "Bắc"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "Hướng Đông"
@@ -409,6 +523,19 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Có gì đó không ổn với dữ liệu Mapeo"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "Rời khỏi dự án"
+  },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "Quản lý người tham gia"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "Loại bỏ"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(Bạn) {deviceName}"
   },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
