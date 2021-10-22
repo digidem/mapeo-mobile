@@ -308,6 +308,51 @@
   "screens.ManualGpsScreen.DdForm.south": {
     "message": "ใต้"
   },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "ตะวันตก"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "องศา"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "ทิศทาง"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
+    "message": "นาที"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "วินาที"
+  },
+  "screens.ManualGpsScreen.DmsForm.east": {
+    "message": "ตะวันออก"
+  },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "พิกัดไม่ถูกต้อง"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "ละติจูด"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "ลองจิจูด"
+  },
+  "screens.ManualGpsScreen.DmsForm.north": {
+    "message": "เหนือ"
+  },
+  "screens.ManualGpsScreen.DmsForm.south": {
+    "message": "ใต้"
+  },
+  "screens.ManualGpsScreen.DmsForm.west": {
+    "message": "ตะวันตก"
+  },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "รูปแบบพิกัด"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "องศาทศนิยม (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "องศา ลิปดา ฟิลิปดา (DMS)"
+  },
   "screens.ManualGpsScreen.easting": {
     "message": "ตะวันออก"
   },
@@ -323,6 +368,9 @@
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "ป้อนพิกัด"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "ระบบพิกัดกริดแบบยูทีเอ็ม (Universal Transverse Mercator - UTM)"
   },
   "screens.ManualGpsScreen.zoneLetter": {
     "message": "ตัวอักษรโซน"
@@ -474,6 +522,51 @@
     "description": "message shown whilst observations are loading",
     "message": "กำลังโหลดข้อมูล... การเชื่อมต่อกับอุปกรณ์ใหม่จะใช้เวลาสักครู่"
   },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "สร้างโครงการ"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "แตะที่นี่เพื่อ {action}"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "เข้าร่วมโครงการ"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "โหมดฝึกฝน"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "ยกเลิก"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "คำแนะนำ"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "เข้าร่วมโครงการ"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "แบ่งปันโค้ดนี้กับผู้ประสานงานโครงการ"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "แบ่งปัน"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "ส่งคำร้องขอเข้าร่วม"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "ปิด"
+  },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "คุณได้รับคำเชิญเข้าร่วม {projectName} ในฐานะ {role}"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "เข้าร่วมและเชื่อมโยงข้อมูล"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "เข้าร่วม {projectName}"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "ลองอีกครั้ง"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "ลองปิด-เปิดแอปฯ อีกครั้ง ขออภัยในความไม่สะดวก ทางเรากำลังปรับปรุงการทำงานของแอปฯ ให้ดียิ่งขึ้น"
@@ -489,6 +582,14 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "กำลังเชื่อมต่อกับฐานข้อมูล Mapeo"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p upgrades",
+    "message": "ปรับปรุง P2P"
+  },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "แชร์และรับข้อมูลอัปเดตกับอุปกรณ์ข้างเคียง"
   },
   "screens.Settings.ManagePeople.add": {
     "message": "เพิ่ม"
@@ -665,6 +766,14 @@
     "description": "Label in upgrade bar when no updates are found",
     "message": "ไม่พบการอัปเดตแอป"
   },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "ตรวจสอบ {count, plural, one {# device} other {# devices}} แล้ว"
+  },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "เลือกการตั้งค่าในโทรศัพท์ของคุณเพื่อเชื่อมต่อเครือข่าย WiFi ​และโอนข้อมูล"
+  },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
     "message": "ไม่มีสัญญาณ WiFi"
@@ -705,6 +814,10 @@
     "description": "Label in upgrade bar when downloading an update",
     "message": "กำลังดาวน์โหลดการอัปเดต"
   },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "ไม่สามารถตรวจสอบหาอัปเดตได้!"
+  },
   "screens.SyncModal.SyncView.updatePermissionError": {
     "description": "Label in upgrade bar when there is permissions error getting an update",
     "message": "ไม่สามารถอัปเดตได้"
@@ -737,6 +850,26 @@
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
     "message": "กรุณาอัพเกรด Mapeo เพื่อเชื่อมต่อกับ {deviceName}"
   },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "เพิ่มเข้าไปในโครงการ"
+  },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "แชร์คำเชิญ"
+  },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "แสดง QR code"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "ลองเชื่อมต่อโดยใช้วิธีดังต่อไปนี้"
+  },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "ไม่สามารถเชื่อมต่อกับอุปกรณ์"
+  },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
     "message": "ขออภัย... ระบบขัดข้อง กรุณาทดลองปิดและเปิดแอปพลิเคชันใหม่เพื่อดูว่าระบบใช้ได้เป็นปกติหรือไม่"
@@ -750,6 +883,13 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "กำลัง​ค้น​หา..."
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "โหมดฝึกฝน"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "ไม่มีอินเทอร์เน็ต"
   },
   "sharedComponents.WifiBar.wifi": {
     "description": "Label for wifi network name",
