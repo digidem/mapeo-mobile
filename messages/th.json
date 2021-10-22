@@ -27,6 +27,10 @@
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
     "message": "ตกลง"
   },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "อัปเดต Mapeo แล้ว ✅"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "รหัส Build Number บน Android"
@@ -62,6 +66,21 @@
   "screens.AddPhoto.cancel": {
     "message": "ยกเลิก"
   },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "เชื่อมต่อกับอุปกรณ์..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "ยกเลิก"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "ผู้ประสานงานสามารถเพิ่มหรือลบอุปกรณ์จากโครงการได้"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "อุปกรณ์นี้เป็นตัวประสานงาน"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "อุปกรณ์นี้เข้าร่วม"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "ไม่สามารถเชื่อมต่อกล้องได้"
@@ -85,6 +104,38 @@
   "screens.CoordinateFormat.utm": {
     "description": "Universal Transverse Mercator coordinate format",
     "message": "ระบบพิกัดกริดแบบยูทีเอ็ม (Universal Transverse Mercator - UTM)"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "สร้างโครงการ"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "สร้างโครงการ"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "ใส่ชื่ออุปกรณ์"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "ใส่ชื่ออุปกรณ์"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "ชื่ออุปกรณ์"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "ใส่ชื่อโครงการ"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "ใส่ชื่อโครงการ"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "ชื่อโครงการ"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
