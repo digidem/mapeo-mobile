@@ -296,6 +296,18 @@
   "screens.ManualGpsScreen.DdForm.latitude": {
     "message": "ละติจูด"
   },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "พิกัดลองจิจูด"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "ลองจิจูด"
+  },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "เหนือ"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "ใต้"
+  },
   "screens.ManualGpsScreen.easting": {
     "message": "ตะวันออก"
   },
@@ -478,9 +490,41 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "กำลังเชื่อมต่อกับฐานข้อมูล Mapeo"
   },
+  "screens.Settings.ManagePeople.add": {
+    "message": "เพิ่ม"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "ออกจากโครงการ"
+  },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "จัดการสมาชิก"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "ลบออก"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(คุณ) {deviceName}"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "สร้างและเข้าร่วมในโครงการข้างล่าง"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "สร้างโครงการ"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "เข้าร่วมโครงการ"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "พร้อมจะออกจากโหมดฝึกฝนหรือไม่?"
+  },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "เกิดข้อผิดพลาดระหว่างการนำเข้าไฟล์การตั้งค่า"
+  },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "ตกลง"
   },
   "screens.Settings.ProjectConfig.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
@@ -494,9 +538,24 @@
     "description": "Button to import Mapeo config file",
     "message": "นำเข้าไฟล์โครงสร้าง"
   },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "ชื่อโครงการ:"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "ไม่มี"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "โหมดฝึกฝน"
+  },
   "screens.Settings.ProjectConfig.projectKey": {
     "description": "Label for project key",
     "message": "รหัสโครงการ"
+  },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "การกำหนดค่าโครงการ"
   },
   "screens.Settings.ProjectConfig.unnamedConfig": {
     "description": "Config name when do name is defined",
@@ -533,6 +592,14 @@
   "screens.Settings.coordinateFormatDesc": {
     "description": "Description of the 'Coordinate Format' page",
     "message": "เลือกรูปแบบแสดงพิกัด"
+  },
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "การทดลอง"
+  },
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "เปิดระบบทดลองคุณสมบัติใหม่"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -589,6 +656,10 @@
   "screens.SyncModal.SyncView.checkingUpdates": {
     "description": "Label in upgrade bar when checking for updates",
     "message": "ตรวจสอบการอัปเดตแอป"
+  },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "ติดตั้ง"
   },
   "screens.SyncModal.SyncView.noUpdates": {
     "description": "Label in upgrade bar when no updates are found",
