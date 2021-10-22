@@ -78,6 +78,38 @@
     "description": "Universal Transverse Mercator coordinate format",
     "message": "Hệ tọa độ vuông góc (UTM)"
   },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "Tạo Dự án"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "Tạo một Dự án"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "Nhập tên thiết bị"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "Đặt tên cho thiết bị của bạn"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "Tên thiết bị"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "Nhập tên Dự án"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "Nhập tên cho dự án"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "Tên dự án"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Chi tiết"
