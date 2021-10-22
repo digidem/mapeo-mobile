@@ -537,9 +537,25 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Bạn) {deviceName}"
   },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "Tạo mới hoặc tham gia một dự án dưới đây"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "Tọa một dự án"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "Tham gia một dự án"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "Sẵn sàng rời khỏi Chế độ Luyện tập?"
+  },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "Đã xảy ra lỗi khi nhập tệp cấu hình này"
+  },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "OK"
   },
   "screens.Settings.ProjectConfig.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
@@ -553,9 +569,24 @@
     "description": "Button to import Mapeo config file",
     "message": "Nhập cấu hình"
   },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "Tên dự án:"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "không gì cả"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "Chế độ Luyện Tập"
+  },
   "screens.Settings.ProjectConfig.projectKey": {
     "description": "Label for project key",
     "message": "Project Key"
+  },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "Cấu hình Dự án"
   },
   "screens.Settings.ProjectConfig.unnamedConfig": {
     "description": "Config name when do name is defined",
@@ -592,6 +623,14 @@
   "screens.Settings.coordinateFormatDesc": {
     "description": "Description of the 'Coordinate Format' page",
     "message": "Chọn cách hiển thị tọa độ"
+  },
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "Thử nghiệm"
+  },
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "Bật các tính năng thử nghiệm"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -649,9 +688,21 @@
     "description": "Label in upgrade bar when checking for updates",
     "message": "Kiểm tra cập nhật mới của ứng dụng"
   },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "Cài đặt"
+  },
   "screens.SyncModal.SyncView.noUpdates": {
     "description": "Label in upgrade bar when no updates are found",
     "message": "Không tìm thấy bản cập nhật mới"
+  },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "Đã kiểm tra {count, plural, one {# device} other {# thiết bị}}"
+  },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "Mở cài đặt điện thoại của bạn và kết nối với Wifi để đồng bộ"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
@@ -693,6 +744,10 @@
     "description": "Label in upgrade bar when downloading an update",
     "message": "Đang tải về bản cập nhật"
   },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "Không kiểm tra được bản cập nhật"
+  },
   "screens.SyncModal.SyncView.updatePermissionError": {
     "description": "Label in upgrade bar when there is permissions error getting an update",
     "message": "Không thể cập nhật"
@@ -725,6 +780,26 @@
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
     "message": "Bạn cần phải nâng cấp phiên bản Mapeo để đồng bộ với"
   },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "Thêm vào dự án"
+  },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "Chia sẻ lời mời tham gia"
+  },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "Hiển thị mã QR"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "Hãy thử kết nối bằng một trong các phương pháp khác bên dưới."
+  },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "Không thể liên kết với thiết bị"
+  },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
     "message": "Rất xin lỗi về điều này, đã có lỗi ở đâu đó, đây là lỗi thuộc về chúng tôi không phải bạn. Hãy thử khởi động lại ứng dụng để xem lỗi đã được khắc phục chưa."
@@ -738,6 +813,13 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Đang tìm kiếm…"
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "Chế độ Luyện Tập"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "Không có kết nối Internet"
   },
   "sharedComponents.WifiBar.wifi": {
     "description": "Label for wifi network name",
