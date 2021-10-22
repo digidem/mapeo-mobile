@@ -19,6 +19,10 @@
     "description": "Title of dialog that shows when cancelling a new observation",
     "message": "Hủy bỏ quan sát?"
   },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo đã được cập nhật"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Android GD2I"
@@ -53,6 +57,33 @@
   },
   "screens.AddPhoto.cancel": {
     "message": "Hủy"
+  },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "Kết nối với thiết bị..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "Hủy"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "Điều phối viên có thể thêm hoặc xóa thiết bị khỏi dự án"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "Thiết bị này là Điều phối viên"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "Thiết bị này là Người tham gia"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "Chọn một vai trò cho thiết bị"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "Thiết bị {deviceId} đã được tìm thấy"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "Gặp rắc rối?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "Hỏi người lập bản đồ cộng đồng để gửi yêu cầu tham gia"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
