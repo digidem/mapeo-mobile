@@ -81,6 +81,33 @@
   "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
     "message": "อุปกรณ์นี้เข้าร่วม"
   },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "เลือกบทบาทสำหรับอุปกรณ์"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "อุปกรณ์ {deviceId} ที่พบ"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "ประสบปัญหาหรือ?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "ขอให้นักทำแผนที่ชุมชนส่งคำขอเข้าร่วมโครงการ"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "สแกนอุปกรณ์เพื่อเพิ่มบุคคลในโครงการ"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "คำแนะนำ"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} ได้รับการเพิ่มใน {projectName}"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "ไปยังการเชื่อมโยง"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "สำเร็จ!"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "ไม่สามารถเชื่อมต่อกล้องได้"
