@@ -108,6 +108,32 @@
   "screens.AddToProjectScreen.SuccessStep.title": {
     "message": "สำเร็จ!"
   },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "ส่งคำเชิญไปยังอุปกรณ์"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "เพิ่มเข้าไปในโครงการ"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "คุณเป็นส่วนหนึ่งของ {projectName}"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "ย้อนกลับ"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "ออกจากโครงการปัจจุบัน"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "เพื่อเข้าร่วมโครงการใหม่ คุณต้องออกจากโครงการปัจจุบันก่อน"
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "คุณอยู่ในโครงการแล้ว"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "ไม่สามารถเชื่อมต่อกล้องได้"
@@ -115,6 +141,24 @@
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
     "message": "เลือกหมวดหมู่การสังเกต"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "ยกเลิก"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "ไม่ใช่ ลบการสังเกตนี้"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "ใช่ เก็บการสังเกตนี้ไว้"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "ต้องการนำ ({observationCount}) {observationCount, plural, one {observation} other {observations}} จากโหมดฝึกฝนสู่โครงการหรือไม่?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "ออกจากโหมดฝึกฝน"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "เลือกหนึ่งในตัวเลือก"
   },
   "screens.CoordinateFormat.dd": {
     "description": "Decimal Degrees coordinate format",
@@ -200,9 +244,57 @@
     "description": "if a location sensor is active yes/no",
     "message": "ใช่"
   },
+  "screens.JoinRequestModal.close": {
+    "message": "ปิด"
+  },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "ปฏิเสธคำร้องขอ"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "เชิญชวน"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "ส่งการเชิญแล้ว"
+  },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{deviceName} ต้องการเข้าร่วม {projectName}"
+  },
+  "screens.JoinRequestModal.success": {
+    "message": "เสร็จสมบูรณ์!"
+  },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "ภาษา"
+  },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "ออกจากโครงการ"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "ไปที่หน้าหลัก"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "ลบการสังเกตการณ์แล้ว"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
+    "message": "เสร็จสมบูรณ์!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "ออกจากโครงการ {projectName}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "กำลังลบการสังเกต"
+  },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "ตะวันออก"
+  },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "พิกัดไม่ถูกต้อง"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "พิกัดละติจูด"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "ละติจูด"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "ตะวันออก"
