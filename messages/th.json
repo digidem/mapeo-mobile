@@ -305,14 +305,29 @@
   "screens.ManualGpsScreen.DdForm.north": {
     "message": "เหนือ"
   },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "เลือกละติจูด"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "เลือกลองจิจูด"
+  },
   "screens.ManualGpsScreen.DdForm.south": {
     "message": "ใต้"
   },
   "screens.ManualGpsScreen.DdForm.west": {
     "message": "ตะวันตก"
   },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "ป้อน {field} ลิปดา"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "ป้อน {field} ฟิลิปดา"
+  },
   "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
     "message": "องศา"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
+    "message": "ป้อน {field} องศา"
   },
   "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
     "message": "ทิศทาง"
@@ -337,6 +352,9 @@
   },
   "screens.ManualGpsScreen.DmsForm.north": {
     "message": "เหนือ"
+  },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "เลือกละติจูด"
   },
   "screens.ManualGpsScreen.DmsForm.south": {
     "message": "ใต้"
@@ -537,8 +555,17 @@
   "screens.Onboarding.JoinProjectQrScreen.cancel": {
     "message": "ยกเลิก"
   },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "ให้ผู้เข้าร่วมโครงการสแกนโค้ดคำเชิญ"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "แสดง QR code นี้ต่อแอดมินโครงการ"
+  },
   "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
     "message": "คำแนะนำ"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "ส่งคำร้องขอเข้าร่วมแทน"
   },
   "screens.Onboarding.JoinProjectQrScreen.title": {
     "message": "เข้าร่วมโครงการ"
@@ -552,8 +579,32 @@
   "screens.Onboarding.SendJoinRequestScreen.title": {
     "message": "ส่งคำร้องขอเข้าร่วม"
   },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "รหัสยืนยัน"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "เสร็จสมบูรณ์!"
+  },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "การสังเกต {num}/{total} รายการ สมบูรณ์"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "กำลังประสานข้อมูล..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "การสังเกต {num}/{total} รายการ สมบูรณ์"
+  },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "เริ่มทำแผนที่"
+  },
   "screens.ProjectInviteModal.close": {
     "message": "ปิด"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "ปฏิเสธคำเชิญ"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "ไม่สามารถเรียกดูคำเชิญได้"
   },
   "screens.ProjectInviteModal.inviteMessage": {
     "message": "คุณได้รับคำเชิญเข้าร่วม {projectName} ในฐานะ {role}"
