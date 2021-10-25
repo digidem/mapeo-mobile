@@ -19,6 +19,10 @@
     "description": "Title of dialog that shows when cancelling a new observation",
     "message": "Hủy bỏ quan sát?"
   },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo đã được cập nhật"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Android GD2I"
@@ -54,6 +58,74 @@
   "screens.AddPhoto.cancel": {
     "message": "Hủy"
   },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "Kết nối với thiết bị..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "Hủy"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "Điều phối viên có thể thêm hoặc xóa thiết bị khỏi dự án"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "Thiết bị này là Điều phối viên"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "Thiết bị này là Người tham gia"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "Chọn một vai trò cho thiết bị"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "Thiết bị {deviceId} đã được tìm thấy"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "Gặp rắc rối?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "Hỏi người lập bản đồ cộng đồng để gửi yêu cầu tham gia"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "Quét t"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "Hướng dẫn"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} đã được thêm vào {projectName}"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Đi đến Đồng bộ hóa"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "Thành công!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "Mời thiết bị tham gia"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "Thêm vào dự án"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "Bạn đang ở {projectName}"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "Quay trở lại"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "Rời khỏi Dự án hiện tại"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "Để tham gia dự án mới bạn cần phải rời khỏi dự án hiện tại."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "Bạn đang làm một dự án"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "Không có quyền truy cập tới máy ảnh"
@@ -61,6 +133,24 @@
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
     "message": "Chọn những gì đang diễn ra"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "Hủy"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "Không, xóa các quan sát"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "Có, giữ lại các quan sát"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "Mang ({observationCount}) {observationCount, plural, one {observation} other {quan sát}} từ Chế độ Thực hành vào dự án?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "Rời khỏi Chế độ Luyện tập"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "Chọn một trong các lựa chọn"
   },
   "screens.CoordinateFormat.dd": {
     "description": "Decimal Degrees coordinate format",
@@ -77,6 +167,38 @@
   "screens.CoordinateFormat.utm": {
     "description": "Universal Transverse Mercator coordinate format",
     "message": "Hệ tọa độ vuông góc (UTM)"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "Tạo Dự án"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "Tạo một Dự án"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "Nhập tên thiết bị"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "Đặt tên cho thiết bị của bạn"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "Tên thiết bị"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "Nhập tên Dự án"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "Nhập tên cho dự án"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "Tên dự án"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -114,9 +236,114 @@
     "description": "if a location sensor is active yes/no",
     "message": "Có"
   },
+  "screens.JoinRequestModal.close": {
+    "message": "Đóng"
+  },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "Từ chối yêu cầu"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "Mời tham gia"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "Lời mời tham gia đã được gửi đi."
+  },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{deviceName} muốn tham gia {projectName}"
+  },
+  "screens.JoinRequestModal.success": {
+    "message": "Thành công!"
+  },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "Language"
+  },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "Rời dự án"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "Về Màn hình chính"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "Quan sát đã được xóa"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
+    "message": "Hoàn thành!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "Rời khỏi Dựa án {projectName}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "Đang xóa bỏ quan sát"
+  },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "Đông"
+  },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "Tọa độ không hợp lệ"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "Giá trị vĩ độ"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "Vĩ độ"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "Giá trị kinh độ"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "Kinh độ"
+  },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "Bắc"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "Chọn vĩ độ"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "Chọn kinh độ"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "Nam"
+  },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "Tây"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "{field} nhập phút"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "{field} nhập giây"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "Độ"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
+    "message": "{field} nhập độ"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "Hướng"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
+    "message": "Phút"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "Giây"
+  },
+  "screens.ManualGpsScreen.DmsForm.east": {
+    "message": "Đông"
+  },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "Tọa độ không hợp lệ"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "Vĩ độ"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "Kinh độ"
+  },
+  "screens.ManualGpsScreen.DmsForm.north": {
+    "message": "Bắc"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "Hướng Đông"
@@ -284,10 +511,6 @@
     "description": "message shown whilst observations are loading",
     "message": "Đang tải... việc này có thể càn một chút thời gian sau khi đồng bộ hóa với thiết bị mới"
   },
-  "screens.ProjectConfig.title": {
-    "description": "Title of project configuration screen",
-    "message": "Cấu hình Dự án"
-  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Bạn có thể thử buộc khởi động lại ứng dụng, nhưng có một số lỗi cần phải được khắc phục. Rất xin lỗi về điều này, việc tạo nên ứng dụng thật là khó."
@@ -304,6 +527,74 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Có gì đó không ổn với dữ liệu Mapeo"
   },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "Rời khỏi dự án"
+  },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "Quản lý người tham gia"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "Loại bỏ"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(Bạn) {deviceName}"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "Tạo mới hoặc tham gia một dự án dưới đây"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "Tọa một dự án"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "Tham gia một dự án"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "Sẵn sàng rời khỏi Chế độ Luyện tập?"
+  },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "Đã xảy ra lỗi khi nhập tệp cấu hình này"
+  },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "OK"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Lỗi nhập"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "Cấu hình hiện tại"
+  },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "Nhập cấu hình"
+  },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "Tên dự án:"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "không gì cả"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "Chế độ Luyện Tập"
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "Project Key"
+  },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "Cấu hình Dự án"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "Chưa có tên"
+  },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
     "message": "Giới thiệu về Mapeo"
@@ -312,17 +603,21 @@
     "description": "Description of the 'About Mapeo' page",
     "message": "Phiên bản và số hiệu bản tạo"
   },
-  "screens.Settings.configErrorDescription": {
-    "description": "Description of error dialog when there is an error importing a config file",
-    "message": "Đã xảy ra lỗi khi nhập tệp cấu hình này"
+  "screens.Settings.appInstall": {
+    "description": "Primary text for Mapeo APK test",
+    "message": "Cài đặt APK"
   },
-  "screens.Settings.configErrorOkButton": {
-    "description": "Button to dismiss error dialog when there is an error importing a config file",
-    "message": "OK"
+  "screens.Settings.appInstallDesc": {
+    "description": "Secondary text for Mapeo APK test",
+    "message": "Test cài đặt APK (cài lại ứng dụng)"
   },
-  "screens.Settings.configErrorTitle": {
-    "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Lỗi nhập"
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "Chia sẻ bộ cài đặt Mapeo"
+  },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "Cài đặt hoặc cập nhật Mapeo trên điện thoại khác"
   },
   "screens.Settings.coordinateFormat": {
     "description": "Settings for coordinate format",
@@ -332,13 +627,13 @@
     "description": "Description of the 'Coordinate Format' page",
     "message": "Chọn cách hiển thị tọa độ"
   },
-  "screens.Settings.currentConfig": {
-    "description": "Label for name & version of current configuration",
-    "message": "Cấu hình hiện tại"
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "Thử nghiệm"
   },
-  "screens.Settings.importConfig": {
-    "description": "Button to import Mapeo config file",
-    "message": "Nhập cấu hình"
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "Bật các tính năng thử nghiệm"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -356,17 +651,9 @@
     "description": "Secondary text for project config settings",
     "message": "Các thể loại, biểu tượng và câu hỏi"
   },
-  "screens.Settings.projectKey": {
-    "description": "Label for project key",
-    "message": "Project Key"
-  },
   "screens.Settings.title": {
     "description": "Title of settings screen",
     "message": "Cài đặt"
-  },
-  "screens.Settings.unnamedConfig": {
-    "description": "Config name when do name is defined",
-    "message": "Chưa có tên"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
@@ -400,6 +687,22 @@
     "description": "Label for last sync datetime",
     "message": "Đã đồng bộ xong:"
   },
+  "screens.SyncModal.SyncView.checkingUpdates": {
+    "description": "Label in upgrade bar when checking for updates",
+    "message": "Kiểm tra cập nhật mới của ứng dụng"
+  },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "Cài đặt"
+  },
+  "screens.SyncModal.SyncView.noUpdates": {
+    "description": "Label in upgrade bar when no updates are found",
+    "message": "Không tìm thấy bản cập nhật mới"
+  },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "Đã kiểm tra {count, plural, one {# device} other {# thiết bị}}"
+  },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
     "message": "Mở cài đặt điện thoại của bạn và kết nối với Wifi để đồng bộ"
@@ -407,6 +710,10 @@
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
     "message": "Không có Wifi"
+  },
+  "screens.SyncModal.SyncView.openSettingsButton": {
+    "description": "Label for button to open settings to fix update permissions error",
+    "message": "Mở cài đặt"
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
@@ -424,13 +731,37 @@
     "description": "Button to open WiFi settings",
     "message": "Mở cài đặt"
   },
+  "screens.SyncModal.SyncView.sharingUpdate": {
+    "description": "Label in upgrade bar when sharing an update with others",
+    "message": "Chia sẻ cập nhật ứng dụng với các thiết bị khác"
+  },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
     "message": "Đồng bộ"
   },
-  "screens.SyncModal.SyncView.wifi": {
-    "description": "Label for wifi network name",
-    "message": "WiFi:"
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "Có bản cập nhật mới; đang đợi đồng bộ hóa để kết thúc"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "Đang tải về bản cập nhật"
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "Không kiểm tra được bản cập nhật"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "Không thể cập nhật"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Đã có phiên bản mới của Mapeo"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "Trạng thái chưa được thực hiện"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
@@ -452,6 +783,26 @@
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
     "message": "Bạn cần phải nâng cấp phiên bản Mapeo để đồng bộ với"
   },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "Thêm vào dự án"
+  },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "Chia sẻ lời mời tham gia"
+  },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "Hiển thị mã QR"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "Hãy thử kết nối bằng một trong các phương pháp khác bên dưới."
+  },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "Không thể liên kết với thiết bị"
+  },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
     "message": "Rất xin lỗi về điều này, đã có lỗi ở đâu đó, đây là lỗi thuộc về chúng tôi không phải bạn. Hãy thử khởi động lại ứng dụng để xem lỗi đã được khắc phục chưa."
@@ -465,5 +816,16 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Đang tìm kiếm…"
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "Chế độ Luyện Tập"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "Không có kết nối Internet"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi:"
   }
 }
