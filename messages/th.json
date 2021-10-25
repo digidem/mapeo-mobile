@@ -29,7 +29,7 @@
   },
   "hooks.updateNotifier.dialogTitle": {
     "description": "Title of dialog shown to the user when Mapeo is updated",
-    "message": "อัปเดต Mapeo แล้ว"
+    "message": "อัปเดต Mapeo แล้ว ✅"
   },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
@@ -66,6 +66,74 @@
   "screens.AddPhoto.cancel": {
     "message": "ยกเลิก"
   },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "เชื่อมต่อกับอุปกรณ์..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "ยกเลิก"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "ผู้ประสานงานสามารถเพิ่มหรือลบอุปกรณ์จากโครงการได้"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "อุปกรณ์นี้เป็นตัวประสานงาน"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "อุปกรณ์นี้เข้าร่วม"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "เลือกบทบาทสำหรับอุปกรณ์"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "อุปกรณ์ {deviceId} ที่พบ"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "ประสบปัญหาหรือ?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "ขอให้นักทำแผนที่ชุมชนส่งคำขอเข้าร่วมโครงการ"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "สแกนอุปกรณ์เพื่อเพิ่มบุคคลในโครงการ"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "คำแนะนำ"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} ได้รับการเพิ่มใน {projectName}"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "ไปยังการเชื่อมโยง"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "สำเร็จ!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "ส่งคำเชิญไปยังอุปกรณ์"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "เพิ่มเข้าไปในโครงการ"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "คุณเป็นส่วนหนึ่งของ {projectName}"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "ย้อนกลับ"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "ออกจากโครงการปัจจุบัน"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "เพื่อเข้าร่วมโครงการใหม่ คุณต้องออกจากโครงการปัจจุบันก่อน"
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "คุณอยู่ในโครงการแล้ว"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "ไม่สามารถเชื่อมต่อกล้องได้"
@@ -73,6 +141,24 @@
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
     "message": "เลือกหมวดหมู่การสังเกต"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "ยกเลิก"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "ไม่ใช่ ลบการสังเกตนี้"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "ใช่ เก็บการสังเกตนี้ไว้"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "ต้องการนำ ({observationCount}) {observationCount, plural, one {observation} other {observations}} จากโหมดฝึกฝนสู่โครงการหรือไม่?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "ออกจากโหมดฝึกฝน"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "เลือกหนึ่งในตัวเลือก"
   },
   "screens.CoordinateFormat.dd": {
     "description": "Decimal Degrees coordinate format",
@@ -89,6 +175,38 @@
   "screens.CoordinateFormat.utm": {
     "description": "Universal Transverse Mercator coordinate format",
     "message": "ระบบพิกัดกริดแบบยูทีเอ็ม (Universal Transverse Mercator - UTM)"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "สร้างโครงการ"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "สร้างโครงการ"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "ใส่ชื่ออุปกรณ์"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "ใส่ชื่ออุปกรณ์"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "ชื่ออุปกรณ์"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "ใส่ชื่อโครงการ"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "ใส่ชื่อโครงการ"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "ชื่อโครงการ"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -126,9 +244,132 @@
     "description": "if a location sensor is active yes/no",
     "message": "ใช่"
   },
+  "screens.JoinRequestModal.close": {
+    "message": "ปิด"
+  },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "ปฏิเสธคำร้องขอ"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "เชิญชวน"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "ส่งการเชิญแล้ว"
+  },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{deviceName} ต้องการเข้าร่วม {projectName}"
+  },
+  "screens.JoinRequestModal.success": {
+    "message": "เสร็จสมบูรณ์!"
+  },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "ภาษา"
+  },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "ออกจากโครงการ"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "ไปที่หน้าหลัก"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "ลบการสังเกตการณ์แล้ว"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
+    "message": "เสร็จสมบูรณ์!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "ออกจากโครงการ {projectName}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "กำลังลบการสังเกต"
+  },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "ตะวันออก"
+  },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "พิกัดไม่ถูกต้อง"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "พิกัดละติจูด"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "ละติจูด"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "พิกัดลองจิจูด"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "ลองจิจูด"
+  },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "เหนือ"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "เลือกละติจูด"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "เลือกลองจิจูด"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "ใต้"
+  },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "ตะวันตก"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "ป้อน {field} ลิปดา"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "ป้อน {field} ฟิลิปดา"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "องศา"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
+    "message": "ป้อน {field} องศา"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "ทิศทาง"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
+    "message": "นาที"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "วินาที"
+  },
+  "screens.ManualGpsScreen.DmsForm.east": {
+    "message": "ตะวันออก"
+  },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "พิกัดไม่ถูกต้อง"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "ละติจูด"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "ลองจิจูด"
+  },
+  "screens.ManualGpsScreen.DmsForm.north": {
+    "message": "เหนือ"
+  },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "เลือกละติจูด"
+  },
+  "screens.ManualGpsScreen.DmsForm.south": {
+    "message": "ใต้"
+  },
+  "screens.ManualGpsScreen.DmsForm.west": {
+    "message": "ตะวันตก"
+  },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "รูปแบบพิกัด"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "องศาทศนิยม (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "องศา ลิปดา ฟิลิปดา (DMS)"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "ตะวันออก"
@@ -145,6 +386,9 @@
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "ป้อนพิกัด"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "ระบบพิกัดกริดแบบยูทีเอ็ม (Universal Transverse Mercator - UTM)"
   },
   "screens.ManualGpsScreen.zoneLetter": {
     "message": "ตัวอักษรโซน"
@@ -296,9 +540,83 @@
     "description": "message shown whilst observations are loading",
     "message": "กำลังโหลดข้อมูล... การเชื่อมต่อกับอุปกรณ์ใหม่จะใช้เวลาสักครู่"
   },
-  "screens.ProjectConfig.title": {
-    "description": "Title of project configuration screen",
-    "message": "การกำหนดค่าโครงการ"
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "สร้างโครงการ"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "แตะที่นี่เพื่อ {action}"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "เข้าร่วมโครงการ"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "โหมดฝึกฝน"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "ยกเลิก"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "ให้ผู้เข้าร่วมโครงการสแกนโค้ดคำเชิญ"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "แสดง QR code นี้ต่อแอดมินโครงการ"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "คำแนะนำ"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "ส่งคำร้องขอเข้าร่วมแทน"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "เข้าร่วมโครงการ"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "แบ่งปันโค้ดนี้กับผู้ประสานงานโครงการ"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "แบ่งปัน"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "ส่งคำร้องขอเข้าร่วม"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "รหัสยืนยัน"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "เสร็จสมบูรณ์!"
+  },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "การสังเกต {num}/{total} รายการ สมบูรณ์"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "กำลังประสานข้อมูล..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "การสังเกต {num}/{total} รายการ สมบูรณ์"
+  },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "เริ่มทำแผนที่"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "ปิด"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "ปฏิเสธคำเชิญ"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "ไม่สามารถเรียกดูคำเชิญได้"
+  },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "คุณได้รับคำเชิญเข้าร่วม {projectName} ในฐานะ {role}"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "เข้าร่วมและเชื่อมโยงข้อมูล"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "เข้าร่วม {projectName}"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "ลองอีกครั้ง"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
@@ -316,6 +634,85 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "กำลังเชื่อมต่อกับฐานข้อมูล Mapeo"
   },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p upgrades",
+    "message": "ปรับปรุง P2P"
+  },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "แชร์และรับข้อมูลอัปเดตกับอุปกรณ์ข้างเคียง"
+  },
+  "screens.Settings.ManagePeople.add": {
+    "message": "เพิ่ม"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "ออกจากโครงการ"
+  },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "จัดการสมาชิก"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "ลบออก"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(คุณ) {deviceName}"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "สร้างและเข้าร่วมในโครงการข้างล่าง"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "สร้างโครงการ"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "เข้าร่วมโครงการ"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "พร้อมจะออกจากโหมดฝึกฝนหรือไม่?"
+  },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "เกิดข้อผิดพลาดระหว่างการนำเข้าไฟล์การตั้งค่า"
+  },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "ตกลง"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "ข้อผิดพลาดในการนำเข้า"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "การกำหนดค่าปัจจุบัน"
+  },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "นำเข้าไฟล์โครงสร้าง"
+  },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "ชื่อโครงการ:"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "ไม่มี"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "โหมดฝึกฝน"
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "รหัสโครงการ"
+  },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "การกำหนดค่าโครงการ"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "ไม่มีชื่อ"
+  },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
     "message": "เกี่ยวกับ Mapeo"
@@ -324,17 +721,21 @@
     "description": "Description of the 'About Mapeo' page",
     "message": "เวอร์ชันและรหัส Build Number"
   },
-  "screens.Settings.configErrorDescription": {
-    "description": "Description of error dialog when there is an error importing a config file",
-    "message": "เกิดข้อผิดพลาดระหว่างการนำเข้าไฟล์การตั้งค่า"
+  "screens.Settings.appInstall": {
+    "description": "Primary text for Mapeo APK test",
+    "message": "ติดตั้งไฟล์ APK"
   },
-  "screens.Settings.configErrorOkButton": {
-    "description": "Button to dismiss error dialog when there is an error importing a config file",
-    "message": "ตกลง"
+  "screens.Settings.appInstallDesc": {
+    "description": "Secondary text for Mapeo APK test",
+    "message": "ทดสอบการติดตั้งไฟล์ APK (แอปติดตั้งใหม่)"
   },
-  "screens.Settings.configErrorTitle": {
-    "description": "Title of error dialog when there is an error importing a config file",
-    "message": "ข้อผิดพลาดในการนำเข้า"
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "แชร์ตัวติดตั้ง Mapeo"
+  },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "ติดตั้งและอัปเดต Mapeo บนมือถืออีกเครื่อง"
   },
   "screens.Settings.coordinateFormat": {
     "description": "Settings for coordinate format",
@@ -344,13 +745,13 @@
     "description": "Description of the 'Coordinate Format' page",
     "message": "เลือกรูปแบบแสดงพิกัด"
   },
-  "screens.Settings.currentConfig": {
-    "description": "Label for name & version of current configuration",
-    "message": "การกำหนดค่าปัจจุบัน"
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "การทดลอง"
   },
-  "screens.Settings.importConfig": {
-    "description": "Button to import Mapeo config file",
-    "message": "นำเข้าไฟล์โครงสร้าง"
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "เปิดระบบทดลองคุณสมบัติใหม่"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -368,17 +769,9 @@
     "description": "Secondary text for project config settings",
     "message": "หมวดหมู่, ไอคอน และคำถาม"
   },
-  "screens.Settings.projectKey": {
-    "description": "Label for project key",
-    "message": "รหัสโครงการ"
-  },
   "screens.Settings.title": {
     "description": "Title of settings screen",
     "message": "การตั้งค่า"
-  },
-  "screens.Settings.unnamedConfig": {
-    "description": "Config name when do name is defined",
-    "message": "ไม่มีชื่อ"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
@@ -412,6 +805,22 @@
     "description": "Label for last sync datetime",
     "message": "เชื่อมต่อข้อมูลแล้ว:"
   },
+  "screens.SyncModal.SyncView.checkingUpdates": {
+    "description": "Label in upgrade bar when checking for updates",
+    "message": "ตรวจสอบการอัปเดตแอป"
+  },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "ติดตั้ง"
+  },
+  "screens.SyncModal.SyncView.noUpdates": {
+    "description": "Label in upgrade bar when no updates are found",
+    "message": "ไม่พบการอัปเดตแอป"
+  },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "ตรวจสอบ {count, plural, one {# device} other {# devices}} แล้ว"
+  },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
     "message": "เลือกการตั้งค่าในโทรศัพท์ของคุณเพื่อเชื่อมต่อเครือข่าย WiFi ​และโอนข้อมูล"
@@ -419,6 +828,10 @@
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
     "message": "ไม่มีสัญญาณ WiFi"
+  },
+  "screens.SyncModal.SyncView.openSettingsButton": {
+    "description": "Label for button to open settings to fix update permissions error",
+    "message": "เปิดการตั้งค่า"
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
@@ -436,13 +849,37 @@
     "description": "Button to open WiFi settings",
     "message": "เปิดการตั้งค่า"
   },
+  "screens.SyncModal.SyncView.sharingUpdate": {
+    "description": "Label in upgrade bar when sharing an update with others",
+    "message": "แชร์การอัปเดตแอปไปยังอุปกรณ์อื่น"
+  },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
     "message": "เชื่อมโยงข้อมูลให้ตรงกัน"
   },
-  "screens.SyncModal.SyncView.wifi": {
-    "description": "Label for wifi network name",
-    "message": "WiFi:"
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "มีรายการอัปเดต รอการเชื่อมโยงให้เสร็จสิ้น"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "กำลังดาวน์โหลดการอัปเดต"
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "ไม่สามารถตรวจสอบหาอัปเดตได้!"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "ไม่สามารถอัปเดตได้"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Mapeo มีเวอร์ชั่นใหม่พร้อมให้ดาวน์โหลดแล้ว"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "สถานะที่ยังไม่ได้ดำเนินการ"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
@@ -464,6 +901,26 @@
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
     "message": "กรุณาอัพเกรด Mapeo เพื่อเชื่อมต่อกับ {deviceName}"
   },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "เพิ่มเข้าไปในโครงการ"
+  },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "แชร์คำเชิญ"
+  },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "แสดง QR code"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "ลองเชื่อมต่อโดยใช้วิธีดังต่อไปนี้"
+  },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "ไม่สามารถเชื่อมต่อกับอุปกรณ์"
+  },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
     "message": "ขออภัย... ระบบขัดข้อง กรุณาทดลองปิดและเปิดแอปพลิเคชันใหม่เพื่อดูว่าระบบใช้ได้เป็นปกติหรือไม่"
@@ -477,5 +934,16 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "กำลัง​ค้น​หา..."
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "โหมดฝึกฝน"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "ไม่มีอินเทอร์เน็ต"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi:"
   }
 }
