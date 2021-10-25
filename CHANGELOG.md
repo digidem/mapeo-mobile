@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0](https://github.com/digidem/mapeo-mobile/compare/v5.3.0...v5.4.0) (2021-10-25)
+
+
+### Features
+
+* Add Create Project flow ([#846](https://github.com/digidem/mapeo-mobile/issues/846)) ([978bb61](https://github.com/digidem/mapeo-mobile/commit/978bb61e3d0e33ffb7dcb08d0c40bfeab1c740d1))
+
+
+### Bug Fixes
+
+* Do not surface Practice Mode in config details in settings ([#852](https://github.com/digidem/mapeo-mobile/issues/852)) ([9903e4b](https://github.com/digidem/mapeo-mobile/commit/9903e4b761bf957291c9bbe19d8799c4cfb00ea2))
+* Enable navigation to Experiments screen ([#853](https://github.com/digidem/mapeo-mobile/issues/853)) ([f742eea](https://github.com/digidem/mapeo-mobile/commit/f742eeab71e999b40ee98d54d35b6f766d5cb194))
+
 ## [5.3.0](https://github.com/digidem/mapeo-mobile/compare/v5.2.1...v5.3.0) (2021-09-27)
 
 ### Features
