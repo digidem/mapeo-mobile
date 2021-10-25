@@ -204,13 +204,13 @@
     "description": "message shown whilst observations are loading",
     "message": "Chargement… cela peut prendre un certain temps après la synchronisation avec un nouvel appareil"
   },
-  "screens.ProjectConfig.title": {
-    "description": "Title of project configuration screen",
-    "message": "Configuration du projet"
-  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Vous pouvez essayer de forcer le redémarrage de l'application, mais il peut y avoir quelque chose qui doit être corrigé. Désolé pour cela, rendre les applications c'est difficile."
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "Clé du Projet"
   },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
@@ -231,10 +231,6 @@
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
     "message": "Catégories, icônes et questions"
-  },
-  "screens.Settings.projectKey": {
-    "description": "Label for project key",
-    "message": "Clé du Projet"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
