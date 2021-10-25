@@ -252,10 +252,6 @@
     "description": "message shown whilst observations are loading",
     "message": "Cargando… esto puede tomar un tiempo después de sincronizar con un nuevo dispositivo"
   },
-  "screens.ProjectConfig.title": {
-    "description": "Title of project configuration screen",
-    "message": "Configuración del Proyecto"
-  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Disculpas, hay un problema con Mapeo. Puedes reiniciar Mapeo, pero si sigue este mensaje hay un problema inesperado y necesitas un actualización de Mapeo."
@@ -272,6 +268,30 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Algo está pasando con la base de datos Mapeo"
   },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "Hubo un error al intentar importar este archivo de configuración"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Error al importar"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "Configuración actual"
+  },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "Importar configuración"
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "Clave del proyecto"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "Sin nombre"
+  },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
     "message": "Acerca de Mapeo"
@@ -279,26 +299,6 @@
   "screens.Settings.aboutMapeoDesc": {
     "description": "Description of the 'About Mapeo' page",
     "message": "Versión y número de compilación"
-  },
-  "screens.Settings.configErrorDescription": {
-    "description": "Description of error dialog when there is an error importing a config file",
-    "message": "Hubo un error al intentar importar este archivo de configuración"
-  },
-  "screens.Settings.configErrorOkButton": {
-    "description": "Button to dismiss error dialog when there is an error importing a config file",
-    "message": "OK"
-  },
-  "screens.Settings.configErrorTitle": {
-    "description": "Title of error dialog when there is an error importing a config file",
-    "message": "Error al importar"
-  },
-  "screens.Settings.currentConfig": {
-    "description": "Label for name & version of current configuration",
-    "message": "Configuración actual"
-  },
-  "screens.Settings.importConfig": {
-    "description": "Button to import Mapeo config file",
-    "message": "Importar configuración"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -316,17 +316,9 @@
     "description": "Secondary text for project config settings",
     "message": "Categorías, íconos y preguntas"
   },
-  "screens.Settings.projectKey": {
-    "description": "Label for project key",
-    "message": "Clave del proyecto"
-  },
   "screens.Settings.title": {
     "description": "Title of settings screen",
     "message": "Ajustes"
-  },
-  "screens.Settings.unnamedConfig": {
-    "description": "Config name when do name is defined",
-    "message": "Sin nombre"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
@@ -360,10 +352,6 @@
     "description": "Label for last sync datetime",
     "message": "Sincronizado:"
   },
-  "screens.SyncModal.SyncView.noWifiDesc": {
-    "description": "Description shown when no wifi network",
-    "message": "Abre la configuración de tu teléfono y conéctate a una red WiFi para sincronizar"
-  },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
     "message": "Sin WiFi"
@@ -387,10 +375,6 @@
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
     "message": "Sincronizar"
-  },
-  "screens.SyncModal.SyncView.wifi": {
-    "description": "Label for wifi network name",
-    "message": "WiFi:"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
@@ -425,5 +409,9 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Buscando…"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi:"
   }
 }
