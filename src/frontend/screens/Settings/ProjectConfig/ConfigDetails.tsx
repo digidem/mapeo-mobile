@@ -68,7 +68,7 @@ export const ConfigDetails = ({
           {isPracticeMode ? (
             <FormattedMessage {...m.practiceModeName} />
           ) : (
-            `${name} ${version && " v" + version}`
+            `${name}${version ? " " + formatDisplayedVersion(version) : ""}`
           )}
         </Text>
       </View>
@@ -104,6 +104,10 @@ export const ConfigDetails = ({
     )}
   </View>
 );
+
+function formatDisplayedVersion(version: string) {
+  return version.toLowerCase().startsWith("v") ? version : `v${version}`;
+}
 
 const styles = StyleSheet.create({
   container: {

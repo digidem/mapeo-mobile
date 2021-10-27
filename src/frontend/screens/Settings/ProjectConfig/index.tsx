@@ -60,7 +60,7 @@ export const ProjectConfig = () => {
 
   const loading = status === "loading" || config.status === "loading";
 
-  const isPracticeMode = isInPracticeMode(config);
+  const isPracticeMode = experiments.onboarding && isInPracticeMode(config);
 
   const handleImportPress = React.useCallback(async () => {
     setStatus("loading");

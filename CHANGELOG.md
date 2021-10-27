@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.3.1](https://github.com/digidem/mapeo-mobile/compare/v5.3.0...v5.3.1) (2021-10-26)
+
+
+### Bug Fixes
+
+* Do not surface Practice Mode in config details in settings ([#852](https://github.com/digidem/mapeo-mobile/issues/852)) ([5f89f46](https://github.com/digidem/mapeo-mobile/commit/5f89f46c5acecbba0d121a4d219823fb276bd83f))
+* Enable navigation to Experiments screen ([#853](https://github.com/digidem/mapeo-mobile/issues/853)) ([7d6fe03](https://github.com/digidem/mapeo-mobile/commit/7d6fe036827db7113b7554d52f888867089d316e))
+
 ## [5.3.0](https://github.com/digidem/mapeo-mobile/compare/v5.2.1...v5.3.0) (2021-09-27)
 
 ### Features
