@@ -45,7 +45,11 @@ export const CreateOrJoinScreen: NavigationStackScreenComponent = () => {
         </View>
 
         <Text style={styles.title}>Mapeo</Text>
-        <Button fullWidth onPress={showWipAlert} style={styles.button}>
+        <Button
+          fullWidth
+          onPress={() => navigate("CreateProject")}
+          style={styles.button}
+        >
           <Text style={[styles.buttonText, { color: WHITE }]}>
             <FormattedMessage {...m.createProject} />
           </Text>

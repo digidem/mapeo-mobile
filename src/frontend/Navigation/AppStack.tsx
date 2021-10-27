@@ -30,6 +30,7 @@ import { UnableToLinkScreen } from "../screens/UnableToLink";
 import { JoinProjectQrScreen } from "../screens/Onboarding";
 import { ConnectingToDeviceScreen } from "../screens/ConnectingToDeviceScreen";
 import { ConfirmLeavePracticeModeScreen } from "../screens/ConfirmLeavePracticeModeScreen";
+import { CreateProjectScreen } from "../screens/CreateProject";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -85,6 +86,7 @@ export const AppStack = createStackNavigator(
     JoinProjectQr: JoinProjectQrScreen,
     ConnectingToDevice: ConnectingToDeviceScreen,
     ConfirmLeavePracticeMode: ConfirmLeavePracticeModeScreen,
+    CreateProject: CreateProjectScreen,
   },
   {
     initialRouteName: "Home",

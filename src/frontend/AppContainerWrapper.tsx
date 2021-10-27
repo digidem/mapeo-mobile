@@ -12,6 +12,7 @@ import {
   ERROR_STORE_KEY,
   IS_E2E,
   NO_PRACTICE_BAR,
+  TEMP_HIDE_PRACTICE_MODE_UI,
   URI_PREFIX,
 } from "./constants";
 import SettingsContext from "./context/SettingsContext";
@@ -87,27 +88,38 @@ function hidePracticeBarForRoute(route: string | null) {
   return route !== null && NO_PRACTICE_BAR.includes(route);
 }
 
+function hidePracticeModeTemporarily(route: string | null) {
+  return route !== null && TEMP_HIDE_PRACTICE_MODE_UI.includes(route);
+}
+
 const AppContainerWrapper = () => {
   const navRef = React.useRef<NavigationContainerComponent>();
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
   const [{ experiments }] = React.useContext(SettingsContext);
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
+  const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
 
-  const onNavStateChange = (
-    previousState: NavigationState,
-    currentState: NavigationState
-  ) => {
-    const previousRouteName = getRouteName(previousState);
-    const currentRouteName = getRouteName(currentState);
+  const updateRouteBasedAppState = React.useCallback(
+    (routeName: string | null) => {
+      setInviteModalEnabled(!inviteModalDisabledOnRoute(routeName));
+      setHidePracticeBar(hidePracticeBarForRoute(routeName));
+      setHidePracticeMode(hidePracticeModeTemporarily(routeName));
+    },
+    []
+  );
 
-    if (previousRouteName !== currentRouteName) {
-      setInviteModalEnabled(!inviteModalDisabledOnRoute(currentRouteName));
+  const onNavStateChange = React.useCallback(
+    (previousState: NavigationState, currentState: NavigationState) => {
+      const previousRouteName = getRouteName(previousState);
+      const currentRouteName = getRouteName(currentState);
 
-      // Sets practice bar on or off depending if route name is included in NO_PRACTICE_BAR array
-      setHidePracticeBar(hidePracticeBarForRoute(currentRouteName));
-    }
-  };
+      if (previousRouteName !== currentRouteName) {
+        updateRouteBasedAppState(currentRouteName);
+      }
+    },
+    [updateRouteBasedAppState]
+  );
 
   const openInviteModal = React.useCallback((key: string) => {
     if (navRef.current) {
@@ -132,11 +144,7 @@ const AppContainerWrapper = () => {
 
               const loadedRouteName = getRouteName(loadedNavState);
 
-              setInviteModalEnabled(
-                !inviteModalDisabledOnRoute(loadedRouteName)
-              );
-
-              setHidePracticeBar(hidePracticeBarForRoute(loadedRouteName));
+              updateRouteBasedAppState(loadedRouteName);
 
               return loadedNavState;
             },
@@ -144,7 +152,7 @@ const AppContainerWrapper = () => {
               experiments.onboarding
             ),
           },
-    [experiments.onboarding]
+    [experiments.onboarding, updateRouteBasedAppState]
   );
 
   const AppContainer = experiments.onboarding
@@ -170,7 +178,10 @@ const AppContainerWrapper = () => {
   }, [inviteModalEnabled, queuedInvite, openInviteModal]);
 
   return (
-    <PracticeMode enabled={experiments.onboarding} hideBar={hidePracticeBar}>
+    <PracticeMode
+      enabled={experiments.onboarding && !hidePracticeMode}
+      hideBar={hidePracticeBar}
+    >
       <AppContainer
         loadNavigationState={loadNavigationState}
         onNavigationStateChange={onNavStateChange}
