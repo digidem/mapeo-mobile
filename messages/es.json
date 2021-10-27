@@ -54,6 +54,10 @@
     "description": "Title for category chooser screen",
     "message": "Elegir qué está pasando"
   },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "Grados/Minutos/Segundos (DMS)"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Detalles"
