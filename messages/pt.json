@@ -909,6 +909,18 @@
     "description": "Button prompting user to share a link to invite user to join a project",
     "message": "Compartilhar Convite"
   },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "Mostrar QR Code"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "Tente conectar-se usando um dos outros métodos abaixo."
+  },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "Não foi Possível Vincular ao Dispositivo"
+  },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
     "message": "Lamentamos muito - algo inesperado deu errado e a culpa é nossa, não é sua. Tente reiniciar o aplicativo para ver se corrige o problema."
@@ -922,6 +934,10 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Procurando…"
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "Modo de Treino"
   },
   "sharedComponents.WifiBar.noWifi": {
     "message": "Sem internet"
