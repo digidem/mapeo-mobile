@@ -546,8 +546,32 @@
   "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
     "message": "Toque aqui para {action}"
   },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "Entrar em um Projeto"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "Modo de Treino"
+  },
   "screens.Onboarding.JoinProjectQrScreen.cancel": {
     "message": "Cancelar"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "Peça ao Participante do Projeto que escaneie este código de convite."
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "Mostrar este QR Code para o administrador do seu projeto"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "Instruções"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "Entrar em um Projeto"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "Compartilhar este código com o Coordenador do Projeto"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "Compartilhar"
   },
   "screens.Onboarding.Sync.Loader.syncing": {
     "message": "Sincronizando..."
