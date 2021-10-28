@@ -564,6 +564,9 @@
   "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
     "message": "Instruções"
   },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "Enviar Solicitação para Entrar"
+  },
   "screens.Onboarding.JoinProjectQrScreen.title": {
     "message": "Entrar em um Projeto"
   },
@@ -573,14 +576,44 @@
   "screens.Onboarding.SendJoinRequestScreen.share": {
     "message": "Compartilhar"
   },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "Enviar Solicitação para Entrar"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "Código de Verificação"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "Concluído!"
+  },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "{num}/{total} observações completadas"
+  },
   "screens.Onboarding.Sync.Loader.syncing": {
     "message": "Sincronizando..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "{num}/{total} observações completadas"
+  },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "Começar Mapeamento"
   },
   "screens.ProjectInviteModal.close": {
     "message": "Fechar"
   },
   "screens.ProjectInviteModal.declineInvite": {
     "message": "Recusar o convite"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "Não foi possível recuperar detalhes do convite"
+  },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "Você foi convidado para entrar em\n {projectName} como {role}"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "Juntar-se e Sincronizar"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "Entrar em {projectName}"
   },
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Tente novamente"
@@ -600,6 +633,42 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Algo está acontecendo com a base de dados do Mapeo"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p upgrades",
+    "message": "Atualizações P2P"
+  },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "Compartilhar e receber atualizações com dispositivos próximos"
+  },
+  "screens.Settings.ManagePeople.add": {
+    "message": "Adicionar"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "Sair do Projeto"
+  },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "Gerenciar Pessoas"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "Remover"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(Você) {deviceName}"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "Criar ou participar de um projeto abaixo"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "Criar um Projeto"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "Entrar em um Projeto"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "Pronto para sair do Modo de Prática?"
   },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
@@ -621,9 +690,24 @@
     "description": "Button to import Mapeo config file",
     "message": "Importar configuração"
   },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "Nome do Projeto:"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "nenhum"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "Modo de Treino"
+  },
   "screens.Settings.ProjectConfig.projectKey": {
     "description": "Label for project key",
     "message": "Chave do projeto"
+  },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "Configuração do Projeto"
   },
   "screens.Settings.ProjectConfig.unnamedConfig": {
     "description": "Config name when do name is defined",
@@ -653,9 +737,21 @@
     "description": "Secondary text for sharing the mapeo APK installer",
     "message": "Instalar ou atualizar o Mapeo em outro telefone"
   },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "Formato das Coordenadas"
+  },
   "screens.Settings.coordinateFormatDesc": {
     "description": "Description of the 'Coordinate Format' page",
     "message": "Escolher como as coordenadas são exibidas"
+  },
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "Experimentos"
+  },
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "Ativar recursos experimentais"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -720,6 +816,10 @@
   "screens.SyncModal.SyncView.noUpdates": {
     "description": "Label in upgrade bar when no updates are found",
     "message": "Nenhuma atualização encontrada"
+  },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "Verificado {count, plural, one {# device} other {# devices}}"
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
@@ -804,6 +904,10 @@
   "screens.UnableToLink.bannerTitle": {
     "description": "Title describing the flow of adding user to project",
     "message": "Adicionar ao projeto"
+  },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "Compartilhar Convite"
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
