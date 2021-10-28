@@ -176,6 +176,38 @@
     "description": "Universal Transverse Mercator coordinate format",
     "message": "Universal Transversa de Mercator (UTM)"
   },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "Criar projetos"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "Criar um projeto"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "Digite o nome do dispositivo"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "Adicione um nome para o seu dispositivo"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "Nome do dispositivo"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "Insira o Nome do Projeto"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "Digite um nome para o projeto"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "Nome do Projeto"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Detalhes"
