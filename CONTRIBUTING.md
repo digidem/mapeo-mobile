@@ -77,15 +77,9 @@ able to control the mobile app.
 
 In order to develop the full app you will need the Android SDK installed and
 specifically [21.4.7075529 of the NDK](https://developer.android.com/ndk/guides/) in order to build
-nodejs-mobile for Android. Currently you will need to remove any later versions of NDK (e.g. >=v22) if you are using "NDK side-by-side" (which allows you to have multiple versions of NDK installed at the same time), because for some reason the build process ignores the Gradle preference for NDK version.
+nodejs-mobile for Android.
 
-You may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and cofigures requirements that might be missing, like the NDK and CMake to build the native code part of the project.
-
-You can also set the environment variable `ANDROID_NDK_HOME`, as in this example:
-
-```sh
-export ANDROID_NDK_HOME=/Users/username/Library/Android/sdk/ndk-bundle
-```
+You may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and configures requirements that might be missing, like the NDK and CMake to build the native code part of the project.
 
 Mapeo Mobile does NOT work with Android OS version 11 (as of June 2020, version 11 is still in beta release)
 
@@ -140,19 +134,19 @@ its own (e.g. if you already have the app installed), use `npm start`.
 Mapeo uses [Detox](https://github.com/wix/Detox) to run end-to-end tests. If Metro bundler is already running (via `npm start` or `npm run android`), stop it first with `Ctrl-C`, then restart it:
 
 ```sh
-RN_SRC_EXT=e2e.js npm start
+RN_SRC_EXT=e2e npm start
 ```
 
 Then, build a debug test version of the app:
 
 ```sh
-RN_SRC_EXT=e2e.js detox build -c android.device.debug
+RN_SRC_EXT=e2e detox build -c android.device.debug
 ```
 
 Now, to run the tests on a device or a running emulator, replace `DEVICE_ID` in the line below with the output of `adb devices`:
 
 ```sh
-RN_SRC_EXT=e2e.js detox test -c  android.device.debug -n DEVICE_ID -r
+RN_SRC_EXT=e2e detox test -c  android.device.debug -n DEVICE_ID -r
 ```
 
 ## Release Variants

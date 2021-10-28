@@ -5,10 +5,20 @@ to update dependencies which have unpublished fixes.
 
 ## `nodejs-mobile-react-native`
 
-This patch additionally extracts files in the folder `assets/nodejs-assets` so
+### Extract nodejs-assets
+
+Patch to additionally extracts files in the folder `assets/nodejs-assets` so
 that they can be accessed by the nodejs process. This is necessary so that
 different variants (Mapeo for ICCAs vs normal Mapeo) can each ship their own
 assets (e.g. presets)
+
+### Use prebuilt toolchain
+
+Patch the build process to use the prebuilt toolchain that is now included in NDK, rather than build the toolchain as part of the build process. This increases build speed and avoids errors trying to build the toolchain.
+
+### Specify NDK version
+
+`nodejs-mobile-react-native` seems to fail with NDK version 22 and 23. The patch specifies the NDK version in the `nodejs-mobile-react-native` `build.gradle`.
 
 ## `react-native`
 

@@ -1,6 +1,6 @@
 /* eslint-disable promise/param-names */
 const test = require("tape");
-const AsyncService = require("../lib/async-service");
+const AsyncService = require("../upgrade-manager/async-service");
 
 // * - Calling `start()` when the service is "stopped" calls the `_start()` method
 // *   and resolves when it completes.

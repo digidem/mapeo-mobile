@@ -1,0 +1,95 @@
+task:
+  name: Android / e2e build
+  alias: android_build
+  # Run for PRs and for every commit on the default branch (develop)
+  only_if: $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH || $CIRRUS_PR != ""
+  env:
+    JAVA_TOOL_OPTIONS: -Xmx6g
+    ANDROID_EMULATOR_HOME: ${HOME}/.android
+    GRADLE_OPTS: >-
+      -Dorg.gradle.daemon=false
+      -Dorg.gradle.parallel=true
+      -Dorg.gradle.jvmargs=-Dfile.encoding=UTF-8
+      -Dkotlin.incremental=false
+      -Dkotlin.compiler.execution.strategy=in-process
+    NODEJS_MOBILE_BUILD_NATIVE_MODULES: "0"
+  container:
+    image: digidem/docker-android
+    cpu: 8
+    memory: 24G
+  node_modules_cache:
+    folder: node_modules
+    reupload_on_changes: false # since there is a fingerprint script
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - node --version
+      - cat package-lock.json
+      - find patches -name "*.patch" -exec cat {} +
+    populate_script:
+      - npm ci
+  build_backend_script: npm run build:backend
+  build_translations_script: npm run build:translations
+  nodejs_mobile_cache:
+    folder: android/build/nodejs-native-assets
+    fingerprint_script:
+      - cat src/backend/package-lock.json
+      - find src/backend/patches -name "*.patch" -exec cat {} +
+    # If the native assets are not cached, then we turn on build native modules
+    populate_script: echo "NODEJS_MOBILE_BUILD_NATIVE_MODULES=1" >> $CIRRUS_ENV
+  grade_cache:
+    folder: ~/.gradle/caches
+    fingerprint_script:
+      - cat android/gradle/wrapper/gradle-wrapper.properties
+      - find . -type f -name "*.gradle*" -exec cat {} +
+  artifact_cache:
+    folder: android/app/build/outputs/apk
+    # By using the build ID as the fingerprint, this cache is only available to
+    # other tasks in the same build, and used to share artifacts between tasks.
+    fingerprint_script: echo $CIRRUS_BUILD_ID
+  build_detox_script: npm run build-detox-android
+  cleanup_before_cache_script:
+    - rm -rf ~/.gradle/caches/6.2/
+    - rm -rf ~/.gradle/caches/transforms-1
+    - rm -rf ~/.gradle/caches/journal-1
+    - rm -rf ~/.gradle/caches/jars-3/*/buildSrc.jar
+    - find ~/.gradle/caches/ -name "*.lock" -type f -delete
+  outputs_apk_artifacts:
+    path: android/app/build/outputs/apk/**/*
+android_test_task:
+  name: Android / e2e test
+  only_if: $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH || $CIRRUS_PR != ""
+  depends_on: android_build
+  container:
+    image: digidem/docker-android
+    kvm: true
+    cpu: 8
+    memory: 16G
+  artifact_cache:
+    folder: android/app/build/outputs/apk
+    fingerprint_script: echo $CIRRUS_BUILD_ID
+  create_device_script: |
+    echo no | avdmanager create avd --force --name emu --device "Nexus 6" -k 'system-images;android-28;default;x86_64'
+    echo "Emulator version:"
+    $ANDROID_HOME/emulator/emulator @emu -version
+    echo "Hardware acceleration:"
+    $ANDROID_HOME/emulator/emulator -accel-check
+  start_emulator_background_script: $ANDROID_HOME/emulator/emulator -avd emu -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back emulated
+  node_modules_cache:
+    folder: node_modules
+    reupload_on_changes: false # since there is a fingerprint script
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - node --version
+      - cat package-lock.json
+      - find patches -name "*.patch" -exec cat {} +
+    populate_script:
+      - npm ci
+  wait_for_emulator_script: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
+  disable_animations_script: |
+    adb shell settings put global window_animation_scale 0.0
+    adb shell settings put global transition_animation_scale 0.0
+    adb shell settings put global animator_duration_scale 0.0
+  e2e_tests_script: npm run test-detox-android -- --record-videos all --record-logs all
+  always:
+    test_videos_artifacts:
+      path: "artifacts/**/*"

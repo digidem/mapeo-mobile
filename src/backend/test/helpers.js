@@ -2,18 +2,18 @@
 const { promises: fsPromises } = require("fs");
 const path = require("path");
 const tmp = require("tmp-promise");
-const Storage = require("../lib/upgrade-storage");
-const UpgradeManager = require("../lib/upgrade-manager");
+const Storage = require("../upgrade-manager/upgrade-storage");
+const UpgradeManager = require("../upgrade-manager");
 const isMatch = require("lodash/isMatch");
 const log = require("debug")("p2p-upgrades:testHelpers");
 
 tmp.setGracefulCleanup();
 
-/** @typedef {import('../lib/types').InstallerInt} InstallerInt */
-/** @typedef {import('../lib/types').InstallerExt} InstallerExt */
-/** @typedef {import('../lib/types').DeviceInfo} DeviceInfo */
-/** @typedef {import('../lib/types').DevicePlan} DevicePlan */
-/** @typedef {import('../lib/types').ScenarioStepEvent} ScenarioStepEvent */
+/** @typedef {import('../upgrade-manager/types').InstallerInt} InstallerInt */
+/** @typedef {import('../upgrade-manager/types').InstallerExt} InstallerExt */
+/** @typedef {import('../upgrade-manager/types').DeviceInfo} DeviceInfo */
+/** @typedef {import('../upgrade-manager/types').DevicePlan} DevicePlan */
+/** @typedef {import('../upgrade-manager/types').ScenarioStepEvent} ScenarioStepEvent */
 
 const validApksFolder = path.join(__dirname, "./fixtures/valid-apks");
 
@@ -97,7 +97,7 @@ async function setupTmpStorageFolder(filepaths, currentApkInfo) {
  * Create an UpgradeManager instance and create a temporary dir for storageDir,
  * optionally initializing the storage with a list of APKs
  *
- * @param {import('../lib/types').ManagerOptions} options
+ * @param {import('../upgrade-manager/types').ManagerOptions} options
  */
 async function createManager({ apkFiles = [], currentApk, deviceInfo }) {
   const filepaths = apkFiles.map(f => path.join(validApksFolder, f));
@@ -158,7 +158,7 @@ async function onceEventResult(
       reject(error);
     }
 
-    /** @param {import("../lib/types").UpgradeState} value */
+    /** @param {import("../upgrade-manager/types").UpgradeState} value */
     function checkValue(value) {
       log(`${name}: %o`, value);
       if (never && compareValue(value, never)) {

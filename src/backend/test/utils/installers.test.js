@@ -1,5 +1,5 @@
 // @ts-check
-const { installerCompare } = require("../../lib/utils");
+const { installerCompare } = require("../../upgrade-manager/utils");
 const test = require("tape");
 const fixtures = require("../fixtures/installer-compare");
 

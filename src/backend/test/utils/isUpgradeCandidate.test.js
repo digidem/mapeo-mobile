@@ -1,5 +1,5 @@
 const test = require("tape");
-const { isUpgradeCandidate } = require("../../lib/utils");
+const { isUpgradeCandidate } = require("../../upgrade-manager/utils");
 const fs = require("fs");
 const path = require("path");
 

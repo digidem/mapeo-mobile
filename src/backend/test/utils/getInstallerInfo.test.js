@@ -1,4 +1,4 @@
-const { getInstallerInfo } = require("../../lib/utils");
+const { getInstallerInfo } = require("../../upgrade-manager/utils");
 const test = require("tape");
 const path = require("path");
 const { promises: fs } = require("fs");

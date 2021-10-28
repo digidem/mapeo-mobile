@@ -2,23 +2,18 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Text from "../../sharedComponents/Text";
-import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
-import DeviceInfo from "react-native-device-info";
 
 import Button from "../../sharedComponents/Button";
-import { WifiOffIcon, WifiIcon } from "../../sharedComponents/icons";
+import { WifiOffIcon } from "../../sharedComponents/icons";
+import WifiBar from "../../sharedComponents/WifiBar";
+
 import DotIndicator from "./DotIndicator";
 import PeerList, { peerStatus, type Peer } from "./PeerList";
 import UpgradeBar from "./UpgradeBar";
 import useSettingsValue from "../../hooks/useSettingsValue";
 
 const m = defineMessages({
-  wifi: {
-    id: "screens.SyncModal.SyncView.wifi",
-    defaultMessage: "WiFi:",
-    description: "Label for wifi network name",
-  },
   noWifiTitle: {
     id: "screens.SyncModal.SyncView.noWifiTitle",
     defaultMessage: "No WiFi",
@@ -52,26 +47,6 @@ const m = defineMessages({
     defaultMessage: "Project Key: {projectKey}",
   },
 });
-
-const WifiBar = ({ onPress, ssid, deviceName }) => (
-  <TouchableNativeFeedback onPress={onPress}>
-    <View style={styles.wifiBar}>
-      <View style={styles.wifiInfo}>
-        <WifiIcon />
-        <Text style={styles.wifiBarText} numberOfLines={1}>
-          <Text style={styles.bold}>
-            <FormattedMessage {...m.wifi} />
-          </Text>{" "}
-          {ssid}
-        </Text>
-      </View>
-      <View>
-        <Text style={styles.deviceName}>{deviceName}</Text>
-        <Text style={styles.version}>v{DeviceInfo.getVersion()}</Text>
-      </View>
-    </View>
-  </TouchableNativeFeedback>
-);
 
 const NoWifiBox = ({ onPress }) => {
   const { formatMessage: t } = useIntl();
@@ -228,32 +203,6 @@ const styles = StyleSheet.create({
     maxWidth: "75%",
     marginLeft: 30,
   },
-  wifiBar: {
-    backgroundColor: "#19337F",
-    height: 50,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 15,
-  },
-  wifiBarText: {
-    color: "white",
-    paddingLeft: 10,
-  },
-  deviceName: {
-    fontWeight: "bold",
-    textAlign: "right",
-    color: "white",
-    flex: 0,
-  },
-  version: {
-    fontWeight: "500",
-    color: "white",
-  },
-  bold: {
-    fontWeight: "700",
-    color: "white",
-  },
   settingsButton: {
     flex: 1,
     paddingVertical: 10,
@@ -269,10 +218,5 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "stretch",
-  },
-  wifiInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
   },
 });

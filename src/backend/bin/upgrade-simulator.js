@@ -2,8 +2,8 @@
 const mkdirp = require("mkdirp");
 const tmp = require("tmp-promise");
 const debug = require("debug");
-const UpgradeManager = require("../lib/upgrade-manager");
-const { getInstallerInfo } = require("../lib/utils");
+const UpgradeManager = require("../upgrade-manager");
+const { getInstallerInfo } = require("../upgrade-manager/utils");
 
 const log = debug("p2p-upgrades:simulator");
 // Why this? Because I got tired of typing `DEBUG=p2p*` whenever I run the

@@ -1,63 +1,21 @@
-/* global __DEV__ */
 // @flow
 import * as React from "react";
-import { YellowBox } from "react-native";
-import debug from "debug";
+import { LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-community/async-storage";
 
 import ErrorScreen from "./screens/UncaughtError";
 import AppLoading from "./AppLoading";
-import AppContainer from "./AppContainer";
+import AppContainerWrapper from "./AppContainerWrapper";
 import { PermissionsProvider } from "./context/PermissionsContext";
 import { IntlProvider } from "./context/IntlContext";
 import AppProvider from "./context/AppProvider";
 import bugsnag from "./lib/logger";
-import IS_E2E from "./lib/is-e2e";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
+import { ERROR_STORE_KEY } from "./constants";
 
 // Turn off warnings about require cycles
-YellowBox.ignoreWarnings(["Require cycle:"]);
-
-// Turn on logging if in debug mode
-if (__DEV__) debug.enable("*");
-const log = debug("mapeo:App");
-// WARNING: This needs to change if we change the navigation structure
-const NAV_STORE_KEY = "@MapeoNavigation@8";
-const ERROR_STORE_KEY = "@MapeoError";
-
-const persistNavigationState = IS_E2E
-  ? undefined
-  : async navState => {
-      try {
-        await AsyncStorage.setItem(NAV_STORE_KEY, JSON.stringify(navState));
-      } catch (err) {
-        log("Error saving navigation state", err);
-      }
-    };
-const loadNavigationState = IS_E2E
-  ? undefined
-  : async () => {
-      try {
-        const navState = JSON.parse(await AsyncStorage.getItem(NAV_STORE_KEY));
-        const didCrashLastOpen = JSON.parse(
-          await AsyncStorage.getItem(ERROR_STORE_KEY)
-        );
-        // Clear error saved state so that navigation persistence happens on next load
-        await AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(false));
-        // If the app crashed last time, don't restore nav state
-        if (didCrashLastOpen) {
-          bugsnag.leaveBreadcrumb("Crash on last open");
-          log("Crashed on last open, skipping load of navigation state");
-          return null;
-        } else {
-          return navState;
-        }
-      } catch (error) {
-        bugsnag.leaveBreadcrumb("Error loading nav state", { error });
-        log("Error reading navigation and error state", error);
-      }
-    };
+LogBox.ignoreLogs(["Require cycle:"]);
 
 /**
  * Catches Javascript errors anywhere in the child component tree, logs the
@@ -116,10 +74,7 @@ const App = () => (
       <PermissionsProvider>
         <AppLoading>
           <AppProvider>
-            <AppContainer
-              persistNavigationState={persistNavigationState}
-              loadNavigationState={loadNavigationState}
-            />
+            <AppContainerWrapper />
             <UpdateNotifier />
           </AppProvider>
         </AppLoading>
