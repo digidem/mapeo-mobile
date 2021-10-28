@@ -220,6 +220,14 @@
     "description": "Section title for time of last GPS update",
     "message": "Última atualização"
   },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "Coordenadas Graus Decimais"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "Coordenadas DMS"
+  },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
     "message": "Status dos sensores"
@@ -258,8 +266,23 @@
     "description": "Title language settings screen",
     "message": "Idioma"
   },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "Sair do Projeto"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "Voltar ao início"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "Observações Excluídas"
+  },
   "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
     "message": "Concluído!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "Saindo do projeto {projectName}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "Excluindo observações"
   },
   "screens.ManualGpsScreen.DdForm.east": {
     "message": "Leste"
@@ -516,6 +539,12 @@
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
     "message": "Carregando... pode demorar um pouco após a sincronização com um novo dispositivo"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "Criar um Projeto"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "Toque aqui para {action}"
   },
   "screens.Onboarding.JoinProjectQrScreen.cancel": {
     "message": "Cancelar"
