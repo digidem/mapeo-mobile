@@ -719,7 +719,7 @@
   },
   "screens.Settings.aboutMapeoDesc": {
     "description": "Description of the 'About Mapeo' page",
-    "message": "Versão e número do Build"
+    "message": "Versão e número do build"
   },
   "screens.Settings.appInstall": {
     "description": "Primary text for Mapeo APK test",
