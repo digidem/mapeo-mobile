@@ -41,7 +41,7 @@
   },
   "screens.AboutMapeo.mapeoBuild": {
     "description": "Label for Mapeo build number",
-    "message": "Build do Mapeo"
+    "message": "Número da versão"
   },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
@@ -174,7 +174,7 @@
   },
   "screens.CoordinateFormat.utm": {
     "description": "Universal Transverse Mercator coordinate format",
-    "message": "Universal Transversa de Mercator (UTM)"
+    "message": "Universal Transversal de Mercator (UTM)"
   },
   "screens.CreateProject.createProjectButton": {
     "description": "Text for submit button",
