@@ -41,7 +41,7 @@
   },
   "screens.AboutMapeo.mapeoBuild": {
     "description": "Label for Mapeo build number",
-    "message": "Número da versão"
+    "message": "Build do Mapeo"
   },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
@@ -719,7 +719,7 @@
   },
   "screens.Settings.aboutMapeoDesc": {
     "description": "Description of the 'About Mapeo' page",
-    "message": "Versão e número de compilação"
+    "message": "Versão e número do Build"
   },
   "screens.Settings.appInstall": {
     "description": "Primary text for Mapeo APK test",
