@@ -692,10 +692,10 @@
   },
   "screens.Settings.ProjectConfig.name": {
     "description": "Button to import Mapeo config file",
-    "message": "Nome do Projeto:"
+    "message": "Nome do projeto:"
   },
   "screens.Settings.ProjectConfig.none": {
-    "message": "nenhum"
+    "message": "Nenhum"
   },
   "screens.Settings.ProjectConfig.practiceModeName": {
     "description": "Placeholder config name when in Practice Mode",
@@ -707,7 +707,7 @@
   },
   "screens.Settings.ProjectConfig.title": {
     "description": "Title of project configuration screen",
-    "message": "Configuração do Projeto"
+    "message": "Configuração do projeto"
   },
   "screens.Settings.ProjectConfig.unnamedConfig": {
     "description": "Config name when do name is defined",
@@ -739,7 +739,7 @@
   },
   "screens.Settings.coordinateFormat": {
     "description": "Settings for coordinate format",
-    "message": "Formato das Coordenadas"
+    "message": "Formato das coordenadas"
   },
   "screens.Settings.coordinateFormatDesc": {
     "description": "Description of the 'Coordinate Format' page",
@@ -751,7 +751,7 @@
   },
   "screens.Settings.experimentsDesc": {
     "description": "Description of the 'Experiment' page",
-    "message": "Ativar recursos experimentais"
+    "message": "Ativar funcionalidades experimentais"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
