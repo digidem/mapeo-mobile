@@ -66,6 +66,14 @@
     "description": "Degrees/Minutes/Seconds coordinate format",
     "message": "Grados/Minutos/Segundos (DMS)"
   },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "Formato de las Coordenadas"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "Universal Transversal de Mercator (UTM)"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Detalles"
@@ -77,6 +85,14 @@
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
     "message": "Última actualización"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "Coordenadas Grados Decimales"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "Coordenadas Grados/Minutos/Segundos (DMS)"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
@@ -98,6 +114,60 @@
     "description": "Title language settings screen",
     "message": "Escoger idioma"
   },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "Este"
+  },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "Coordenadas inválidas"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "Valor de latitud"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "Latitud"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "Valor de longitud"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "Longitud"
+  },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "Norte"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "Sur"
+  },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "Oeste"
+  },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "Coordenadas inválidas"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "Latitud"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "Longitud"
+  },
+  "screens.ManualGpsScreen.DmsForm.north": {
+    "message": "Norte"
+  },
+  "screens.ManualGpsScreen.DmsForm.south": {
+    "message": "Sur"
+  },
+  "screens.ManualGpsScreen.DmsForm.west": {
+    "message": "Oeste"
+  },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "Formato de las Coordenadas"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "Grados Decimales (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "Grados/Minutos/Segundos (DMS)"
+  },
   "screens.ManualGpsScreen.easting": {
     "message": "Este"
   },
@@ -113,6 +183,9 @@
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "Ingresar coordenadas"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "Universal Transversal de Mercator (UTM)"
   },
   "screens.ManualGpsScreen.zoneLetter": {
     "message": "Letra de zona"
@@ -300,6 +373,10 @@
     "description": "Label for project key",
     "message": "Clave del proyecto"
   },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "Configuración del Proyecto"
+  },
   "screens.Settings.ProjectConfig.unnamedConfig": {
     "description": "Config name when do name is defined",
     "message": "Sin nombre"
@@ -311,6 +388,10 @@
   "screens.Settings.aboutMapeoDesc": {
     "description": "Description of the 'About Mapeo' page",
     "message": "Versión y número de compilación"
+  },
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "Experimentos"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
