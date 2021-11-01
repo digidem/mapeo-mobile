@@ -141,6 +141,21 @@
   "screens.ManualGpsScreen.DdForm.west": {
     "message": "Oeste"
   },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "Grados"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "Dirección"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
+    "message": "Minutos"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "Segundos"
+  },
+  "screens.ManualGpsScreen.DmsForm.east": {
+    "message": "Este"
+  },
   "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
     "message": "Coordenadas inválidas"
   },
@@ -393,6 +408,10 @@
     "description": "Experimental features",
     "message": "Experimentos"
   },
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "Activar nuevas características experimentales"
+  },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
     "message": "Idioma"
@@ -502,6 +521,9 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Buscando…"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "Sin internet"
   },
   "sharedComponents.WifiBar.wifi": {
     "description": "Label for wifi network name",
