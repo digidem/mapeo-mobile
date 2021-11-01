@@ -27,6 +27,10 @@
     "description": "Label for Android version",
     "message": "Versión de Android"
   },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Número de compilación de Mapeo"
+  },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
     "message": "Variante de Mapeo"
@@ -135,13 +139,28 @@
   "screens.ManualGpsScreen.DdForm.north": {
     "message": "Norte"
   },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "Selecciona la cardinalidad de la latitud"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "Selecciona la cardinalidad de la longitud"
+  },
   "screens.ManualGpsScreen.DdForm.south": {
     "message": "Sur"
   },
   "screens.ManualGpsScreen.DdForm.west": {
     "message": "Oeste"
   },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "Minutos"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "Segundos"
+  },
   "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "Grados"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
     "message": "Grados"
   },
   "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
@@ -167,6 +186,9 @@
   },
   "screens.ManualGpsScreen.DmsForm.north": {
     "message": "Norte"
+  },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "Selecciona la cardinalidad de la longitud"
   },
   "screens.ManualGpsScreen.DmsForm.south": {
     "message": "Sur"
