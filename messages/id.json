@@ -176,6 +176,38 @@
     "description": "Universal Transverse Mercator coordinate format",
     "message": "Mercator Transversal Universal (UTM)"
   },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "Buat proyek"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "Buat proyek"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "Masukkan nama perangkat"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "Tambahkan nama untuk perangkat anda"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "Nama Perangkat"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "Masukkan nama proyek"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "Masukan nama untuk proyek"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "Nama proyek"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Rincian"
