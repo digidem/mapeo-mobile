@@ -47,7 +47,7 @@ const m = defineMessages({
   configImportAlertMessage: {
     id: "screens.Settings.ProjectConfig.configImportAlertMessage",
     defaultMessage: "Successfully imported config:\n\n{name} {version}",
-    description: "Message for alert afterful successful config import",
+    description: "Message for alert after successful config import",
   },
   configImportAlertOkButton: {
     id: "screens.Settings.ProjectConfig.configImportAlertOk",
