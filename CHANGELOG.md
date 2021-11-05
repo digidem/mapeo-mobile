@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.3.2](https://github.com/digidem/mapeo-mobile/compare/v5.3.1...v5.3.2) (2021-11-04)
+
+
+### Bug Fixes
+
+* Add missing Portuguese and Spanish translations ([092859e](https://github.com/digidem/mapeo-mobile/commit/092859e099f6fd234c896dab97fd1bf553c596a5))
+
 ### [5.3.1](https://github.com/digidem/mapeo-mobile/compare/v5.3.0...v5.3.1) (2021-10-26)
 
 
