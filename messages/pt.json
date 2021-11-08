@@ -682,6 +682,14 @@
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "Erro ao importar"
   },
+  "screens.Settings.ProjectConfig.configImportAlertMessage": {
+    "description": "Message for alert afterful successful config import",
+    "message": "Configuração importada com sucesso:\n\n{name} {version}"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertOk": {
+    "description": "Button text for config import alert acknowledgement",
+    "message": "OK"
+  },
   "screens.Settings.ProjectConfig.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "Configuração atual"
