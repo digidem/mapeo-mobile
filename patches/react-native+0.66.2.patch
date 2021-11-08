@@ -1,11 +1,11 @@
 diff --git a/node_modules/react-native/react.gradle b/node_modules/react-native/react.gradle
-index 6441d93..caa2cda 100644
+index ff46476..c287ee6 100644
 --- a/node_modules/react-native/react.gradle
 +++ b/node_modules/react-native/react.gradle
-@@ -167,6 +167,8 @@ afterEvaluate {
-                 extraArgs.add(bundleConfig);
+@@ -170,6 +170,8 @@ afterEvaluate {
+                 extraArgs.addAll(config.extraPackagerArgs)
              }
-
+ 
 +            environment("APP_VARIANT", variant.name);
 +
              commandLine(*execCommand, bundleCommand, "--platform", "android", "--dev", "${devEnabled}",
