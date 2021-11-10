@@ -4,7 +4,7 @@
  *
  * @format
  */
-const blacklist = require("metro-config/src/defaults/blacklist");
+const exclusionList = require("metro-config/src/defaults/exclusionList");
 const defaultSourceExts = require("metro-config/src/defaults/defaults")
   .sourceExts;
 
@@ -51,7 +51,7 @@ module.exports = {
     }),
   },
   resolver: {
-    blacklistRE: blacklist([/nodejs-assets\/.*/, /android\/.*/, /ios\/.*/]),
+    blocklist: exclusionList([/nodejs-assets\/.*/, /android\/.*/, /ios\/.*/]),
     sourceExts: customSourceExts.concat(defaultSourceExts),
   },
 };
