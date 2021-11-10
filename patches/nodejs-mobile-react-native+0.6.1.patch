@@ -1,5 +1,5 @@
 diff --git a/node_modules/nodejs-mobile-react-native/android/build.gradle b/node_modules/nodejs-mobile-react-native/android/build.gradle
-index b6dccc4..9f69488 100644
+index b6dccc4..c6d8dca 100644
 --- a/node_modules/nodejs-mobile-react-native/android/build.gradle
 +++ b/node_modules/nodejs-mobile-react-native/android/build.gradle
 @@ -50,6 +50,7 @@ def _isCorrectSTLDefinedByApp = DoesAppAlreadyDefineWantedSTL()
@@ -10,7 +10,21 @@ index b6dccc4..9f69488 100644
  
      defaultConfig {
          minSdkVersion _nodeMinSdkVersion
-@@ -261,51 +262,59 @@ if ("1".equals(shouldRebuildNativeModules)) {
+@@ -76,9 +77,10 @@ android {
+     }
+ 
+     sourceSets {
+-        main {
+-            jniLibs.srcDirs 'libnode/bin/'
+-        }
++        // see https://github.com/JaneaSystems/nodejs-mobile/issues/317#issuecomment-852033823
++        // main {
++        //     jniLibs.srcDirs 'libnode/bin/'
++        // }
+         main.assets.srcDirs += '../install/resources/nodejs-modules'
+     }
+ 
+@@ -261,51 +263,59 @@ if ("1".equals(shouldRebuildNativeModules)) {
          String temp_cc_ver = '4.9';
          String temp_dest_cpu;
          String temp_v8_arch;
@@ -89,7 +103,7 @@ index b6dccc4..9f69488 100644
          String cargo_target_triple = cargo_build_target.toUpperCase().replaceAll('-', '_')
  
          String npm_gyp_defines = "target_arch=${temp_arch}"
-@@ -358,16 +367,8 @@ if ("1".equals(shouldRebuildNativeModules)) {
+@@ -358,16 +368,8 @@ if ("1".equals(shouldRebuildNativeModules)) {
              }
          }
  
@@ -106,7 +120,7 @@ index b6dccc4..9f69488 100644
              description = "Building native modules for ${abi_name}."
              inputs.file "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/copy.timestamp"
              outputs.dir "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/"
-@@ -398,7 +399,7 @@ if ("1".equals(shouldRebuildNativeModules)) {
+@@ -398,7 +400,7 @@ if ("1".equals(shouldRebuildNativeModules)) {
              environment ("CARGO_TARGET_${cargo_target_triple}_AR", "${npm_toolchain_ar}")
              environment ("CARGO_TARGET_${cargo_target_triple}_LINKER", "${npm_toolchain_link}")
  
@@ -153,3 +167,15 @@ index e882a0c..d5ed11a 100644
      saveLastUpdateTime();
      Log.d(TAG, "Node assets copy completed successfully");
    }
+diff --git a/node_modules/nodejs-mobile-react-native/index.js b/node_modules/nodejs-mobile-react-native/index.js
+index ef45a64..92a53ae 100644
+--- a/node_modules/nodejs-mobile-react-native/index.js
++++ b/node_modules/nodejs-mobile-react-native/index.js
+@@ -1,6 +1,6 @@
+ 
+ import { NativeModules, NativeAppEventEmitter } from 'react-native';
+-var EventEmitter = require('react-native/Libraries/vendor/emitter/EventEmitter');
++var EventEmitter = require('react-native/Libraries/vendor/emitter/EventEmitter').default;
+ 
+ const EVENT_CHANNEL = '_EVENTS_';
+ 
