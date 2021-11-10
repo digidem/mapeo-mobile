@@ -31,6 +31,7 @@
     "storybook-native": "./node_modules/@storybook/react-native-server/bin/index.js -p 7007 -c ./storybook-native",
     "storybook-web": "./node_modules/@storybook/react/bin/index.js -c ./storybook-web -s ./public -p 5005 --ci",
     "upload-sourcemaps:release:android": "./scripts/upload-sourcemaps-release-android.sh",
+    "preinstall": "npx npm-force-resolutions",
     "postinstall": "patch-package && jetify && cp ./node_modules/mapeo-offline-map/style.json ./android/app/src/main/assets/offline-style.json",
     "jetify": "jetify",
     "extract-messages": "extract-messages --locales=en --output messages --descriptions 'src/frontend/**/*.{js,ts,tsx}'",
@@ -178,6 +179,7 @@
     "metro-config": "^0.66.2",
     "metro-react-native-babel-preset": "^0.66.2",
     "mkdirp": "^1.0.4",
+    "npm-force-resolutions": "0.0.10",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.0",
     "random-date-generator": "^1.0.2",
@@ -189,6 +191,10 @@
     "standard-version": "^8.0.2",
     "ts-jest": "^27.0.3",
     "txtgen": "^2.2.7"
+  },
+  "resolutions": {
+    "@babel/core": "~7.12.17",
+    "@babel/runtime": "~7.12.18"
   },
   "standard-version": {
     "skip": {
