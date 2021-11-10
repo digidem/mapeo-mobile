@@ -140,11 +140,6 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
-/**
- * Architectures to build native code for in debug.
- */
-def nativeArchitectures = project.getProperties().get("reactNativeDebugArchitectures")
-
 def loadDotEnv() {
     def envFile = ".env"
 
@@ -291,10 +286,8 @@ android {
             signingConfig signingConfigs.debug
             applicationIdSuffix ".debug"
 
-            if (nativeArchitectures) {
-                ndk {
-                    abiFilters nativeArchitectures.split(',') // "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
-                }
+            ndk {
+                abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
             }
         }
     }
@@ -317,7 +310,7 @@ android {
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
-                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
+                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
         }
     }
@@ -335,6 +328,12 @@ android {
         // Make sure libjsc.so does not packed in APK
         // This is for react-native-v8
         exclude "**/libjsc.so"
+    }
+
+    // Use Java 1.8
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
