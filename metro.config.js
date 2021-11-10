@@ -51,7 +51,7 @@ module.exports = {
     }),
   },
   resolver: {
-    blocklist: exclusionList([/nodejs-assets\/.*/, /android\/.*/, /ios\/.*/]),
+    blockList: exclusionList([/nodejs-assets\/.*/, /android\/.*/, /ios\/.*/]),
     sourceExts: customSourceExts.concat(defaultSourceExts),
   },
 };
