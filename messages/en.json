@@ -683,7 +683,7 @@
     "message": "Import Error"
   },
   "screens.Settings.ProjectConfig.configImportAlertMessage": {
-    "description": "Message for alert afterful successful config import",
+    "description": "Message for alert after successful config import",
     "message": "Successfully imported config:\n\n{name} {version}"
   },
   "screens.Settings.ProjectConfig.configImportAlertOk": {
