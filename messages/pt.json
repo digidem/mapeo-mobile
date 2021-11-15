@@ -683,7 +683,7 @@
     "message": "Erro ao importar"
   },
   "screens.Settings.ProjectConfig.configImportAlertMessage": {
-    "description": "Message for alert afterful successful config import",
+    "description": "Message for alert after successful config import",
     "message": "Configuração importada com sucesso:\n\n{name} {version}"
   },
   "screens.Settings.ProjectConfig.configImportAlertOk": {
