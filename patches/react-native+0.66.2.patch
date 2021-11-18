@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native/react.gradle b/node_modules/react-native/react.gradle
-index 84b1f60..f4457f2 100644
+index ff46476..c287ee6 100644
 --- a/node_modules/react-native/react.gradle
 +++ b/node_modules/react-native/react.gradle
 @@ -170,6 +170,8 @@ afterEvaluate {
