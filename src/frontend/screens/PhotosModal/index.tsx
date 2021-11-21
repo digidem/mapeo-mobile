@@ -4,6 +4,7 @@ import { Dimensions, View, StyleSheet } from "react-native";
 import { TabView } from "react-native-tab-view";
 
 import IconButton from "../../sharedComponents/IconButton";
+import Button from "../../sharedComponents/Button";
 import { CloseIcon } from "../../sharedComponents/icons";
 import { filterPhotosFromAttachments } from "../../lib/utils";
 import { useObservation } from "../../hooks/useObservation";
@@ -16,7 +17,8 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
   const observationId = navigation.getParam("observationId");
   const [index, setIndex] = useState(navigation.getParam("photoIndex") || 0);
   const [{ observation }] = useObservation(observationId);
-  const [{ photos: draftPhotos }] = useDraftObservation();
+  const [{ photos: draftPhotos }, { deletePhoto }] = useDraftObservation();
+  const [showHeader, setShowHeader] = useState(false);
 
   const routes = [];
 
@@ -31,30 +33,42 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
   }
   if (draftPhotos) {
     const draftPhotosRoutes = draftPhotos
-      // $FlowFixMe
       .filter(draftPhoto => !draftPhoto.id)
       .map((draftPhoto, idx) => ({
         key: idx,
-        // $FlowFixMe
         uri: draftPhoto.previewUri,
-        // $FlowFixMe
         error: draftPhoto.error,
-        // $FlowFixMe
         capturing: draftPhoto.capturing,
       }));
     Array.prototype.push.apply(routes, draftPhotosRoutes);
   }
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <IconButton
-          onPress={() => {
-            navigation.pop();
-          }}
-        >
-          <CloseIcon color="white" />
-        </IconButton>
-      </View>
+    <View
+      style={styles.container}
+      onTouchEnd={() => {
+        setShowHeader(!showHeader);
+      }}
+    >
+      {showHeader && (
+        <View style={styles.header}>
+          <IconButton
+            onPress={() => {
+              navigation.pop();
+            }}
+          >
+            <CloseIcon color="white" />
+          </IconButton>
+          <Button
+            onPress={() => {
+              deletePhoto(index);
+              navigation.pop();
+            }}
+          >
+            Delete Photo
+          </Button>
+        </View>
+      )}
+
       <TabView
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
@@ -91,5 +105,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
   },
 });
