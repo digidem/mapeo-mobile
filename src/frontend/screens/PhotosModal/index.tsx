@@ -1,5 +1,4 @@
-// @flow
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dimensions, View, StyleSheet } from "react-native";
 import { TabView } from "react-native-tab-view";
 
@@ -12,15 +11,40 @@ import { useDraftObservation } from "../../hooks/useDraftObservation";
 import PhotoView from "../../sharedComponents/PhotoView";
 import api from "../../api";
 import type { NavigationProp } from "../../types";
-
+import { useBottomSheetModal } from "../../sharedComponents/BottomSheetModal";
+import { ConfirmDeleteModal } from "./ConfirmDeleteModal";
 const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
   const observationId = navigation.getParam("observationId");
   const [index, setIndex] = useState(navigation.getParam("photoIndex") || 0);
   const [{ observation }] = useObservation(observationId);
-  const [{ photos: draftPhotos }, { deletePhoto }] = useDraftObservation();
+  const [{ photos: draftPhotos }] = useDraftObservation();
   const [showHeader, setShowHeader] = useState(false);
+  const { sheetRef, openSheet, closeSheet } = useBottomSheetModal({
+    openOnMount: false,
+  });
+  const modalIsOpen = useRef<boolean>(false);
 
-  const routes = [];
+  //We don't want to show the header when the modal is open, these functions
+  //check if the modal is open before trying to show header
+  function toggleShowHeader() {
+    if (modalIsOpen.current) {
+      setShowHeader(false);
+      return;
+    }
+    setShowHeader(!showHeader);
+  }
+
+  function openModal() {
+    modalIsOpen.current = true;
+    openSheet();
+  }
+
+  function closeModal() {
+    modalIsOpen.current = false;
+    closeSheet();
+  }
+
+  const routes: any[] = [];
 
   if (observation) {
     const savedPhotosRoutes = filterPhotosFromAttachments(
@@ -43,12 +67,7 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
     Array.prototype.push.apply(routes, draftPhotosRoutes);
   }
   return (
-    <View
-      style={styles.container}
-      onTouchEnd={() => {
-        setShowHeader(!showHeader);
-      }}
-    >
+    <View style={styles.container} onTouchEnd={toggleShowHeader}>
       {showHeader && (
         <View style={styles.header}>
           <IconButton
@@ -58,20 +77,16 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
           >
             <CloseIcon color="white" />
           </IconButton>
-          <Button
-            onPress={() => {
-              deletePhoto(index);
-              navigation.pop();
-            }}
-          >
-            Delete Photo
-          </Button>
+          <Button onPress={openModal}>Delete Photo</Button>
         </View>
       )}
 
       <TabView
         navigationState={{ index, routes }}
-        onIndexChange={setIndex}
+        onIndexChange={ind => {
+          setIndex(ind);
+          setShowHeader(false);
+        }}
         renderScene={({ route }) => {
           let variant = "photo";
           if (route.error) variant = "error";
@@ -82,6 +97,12 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
         }}
         initialLayout={{ width: Dimensions.get("window").width }}
         renderTabBar={() => null}
+      />
+      <ConfirmDeleteModal
+        navigationProp={navigation}
+        closeSheet={closeModal}
+        sheetRef={sheetRef}
+        photoIndex={index}
       />
     </View>
   );
