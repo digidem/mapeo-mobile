@@ -83,7 +83,7 @@ function mapObservationsToFeatures(
 // Min distance in meters the user moves before the map will re-render (saves
 // lots of map renders when the user is standing still, which uses up battery
 // life)
-const MIN_DISPLACEMENT = 1;
+const MIN_DISPLACEMENT = 15;
 
 class ObservationMapLayer extends React.PureComponent<{
   onPress: Function,
@@ -355,7 +355,7 @@ class MapView extends React.Component<Props, State> {
             {locationServicesEnabled ? (
               <MapboxGL.UserLocation
                 visible={isFocused}
-                minDisplacement={MIN_DISPLACEMENT}
+                minDisplacement={1}
                 showsUserHeadingIndicator={true}
               />
             ) : null}
