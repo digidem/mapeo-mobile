@@ -117,10 +117,7 @@ class UpgradeDiscovery extends AsyncService {
       log(
         `${this.#port}: Starting download: ${stringifyInstaller(
           installer.installer
-        )} from ${
-          // @ts-ignore
-          new URL(installer.installer.url).host
-        }`
+        )} from ${new URL(installer.installer.url).host}`
       );
       const downloadStream = got.stream(installer.installer.url);
       downloadStream.once("error", e => {
