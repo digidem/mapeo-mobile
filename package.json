@@ -43,7 +43,6 @@
     "@bugsnag/react-native": "^7.14.1",
     "@digidem/wcmc-mapeo-mobile-intro": "^1.0.3",
     "@gorhom/bottom-sheet": "^2.3.0",
-    "@react-native-community/art": "^1.2.0",
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/checkbox": "^0.5.8",
     "@react-native-community/hooks": "^2.8.0",
