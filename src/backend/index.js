@@ -22,12 +22,12 @@ const rnBridge = require("rn-bridge");
 const debug = require("debug");
 
 const ServerStatus = require("./status");
-const { API_EVENT_NAME } = require("./constants");
 const MapeoServices = require("./lib/mapeo-services");
 const { getInstallerInfo } = require("./upgrade-manager/utils");
 const createBugsnag = require("@bugsnag/js");
 const semverPrerelease = require("semver/functions/prerelease");
 const { version } = require("../../package.json");
+const MessagePortLike = require("./lib/message-port-like");
 
 const prereleaseComponents = semverPrerelease(version);
 const releaseStage = prereleaseComponents
@@ -39,35 +39,6 @@ const PORT = 9081;
 const status = new ServerStatus();
 /** @type {MapeoServices | undefined} */
 let mapeoServices;
-
-/**
- * Wrap the nodejs-mobile RNBridge to act like a MessagePort
- */
-class MessagePortLike {
-  /**
-   * @param {'message'} eventName
-   * @param {(value: any) => void} listener
-   */
-  on(eventName, listener) {
-    rnBridge.channel.on(API_EVENT_NAME, listener);
-    return this;
-  }
-  /**
-   * @param {'message'} eventName
-   * @param {(value: any) => void} listener
-   */
-  off(eventName, listener) {
-    rnBridge.channel.off(API_EVENT_NAME, listener);
-    return this;
-  }
-  /**
-   * @param {any} message
-   */
-  postMessage(message) {
-    rnBridge.channel.post(API_EVENT_NAME, message);
-    return this;
-  }
-}
 
 // This is nastily circular: we need an instance of status for the constructor
 // of bugsnag (so that we can inform the front-end of errors) but then we need
