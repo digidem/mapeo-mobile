@@ -6,7 +6,7 @@ import {
 import { AsyncServiceState } from "./types";
 
 // This is done this way in a d.ts file with the same name as `async-service.js`
-// since it is not possible to declare a class with Generics in JSDoc, so by
+// since it is not possible to declare an abstract class in JSDoc, so by
 // putting it in this file, the type is augmented with the type below when it
 // is imported/required
 declare abstract class AsyncService<
