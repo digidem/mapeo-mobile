@@ -39,6 +39,8 @@ echo -en "Minifying with noderify..."
 # noderify does not realize that worker_threads and http2 are built-in node modules
 # pino-pretty is conditionally required by fastify, but we don't need it
 # memcpy is a sub-dependency of the APK parser, but it is optional
+# diagnostics_channel is used by fastify, it does not work with the current version of node, 
+# and fastify just throws an empty error if diagnostic channel does not work anyway
 "$(npm bin)/noderify" \
   --replace.bindings=bindings-noderify-nodejs-mobile \
   --filter=rn-bridge \
@@ -50,6 +52,7 @@ echo -en "Minifying with noderify..."
   --filter=http2 \
   --filter=pino-pretty \
   --filter=memcpy \
+  --filter=diagnostics_channel \
   index.js > ../nodejs-project/index.js
 cd ../..
 echo -en " done.\n"

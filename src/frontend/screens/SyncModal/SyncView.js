@@ -47,20 +47,20 @@ const m = defineMessages({
   },
 });
 
-const WifiBar = ({ onPress, ssid, deviceName }) => (
-  <TouchableNativeFeedback onPress={onPress}>
-    <View style={styles.wifiBar}>
-      <WifiIcon />
-      <Text style={styles.wifiBarText} numberOfLines={1}>
-        <Text style={styles.bold}>
-          <FormattedMessage {...m.wifi} />
-        </Text>{" "}
-        {ssid}
-      </Text>
-      <Text style={styles.deviceName}>{deviceName}</Text>
-    </View>
-  </TouchableNativeFeedback>
-);
+// const WifiBar = ({ onPress, ssid, deviceName }) => (
+//   <TouchableNativeFeedback onPress={onPress}>
+//     <View style={styles.wifiBar}>
+//       <WifiIcon />
+//       <Text style={styles.wifiBarText} numberOfLines={1}>
+//         <Text style={styles.bold}>
+//           <FormattedMessage {...m.wifi} />
+//         </Text>{" "}
+//         {ssid}
+//       </Text>
+//       <Text style={styles.deviceName}>{deviceName}</Text>
+//     </View>
+//   </TouchableNativeFeedback>
+// );
 
 const CloudSyncBox = ({
   onConnectCloudPress,
