@@ -91,13 +91,18 @@ rnBridge.channel.once(
       // Don't debug log in production
       if (enableDebug) debug.enable("*");
       const currentApkInfo = await getInstallerInfo(apkFilepath);
+      const channel = new MessagePortLike();
+      // We can start the channel straight away, because we attach the listener
+      // in the MapeoServices constructor in the same tick, so there is no
+      // chance of messages getting queued.
+      channel.start();
       mapeoServices = new MapeoServices({
         privateStorage: rnBridge.app.datadir(),
         sharedStorage,
         privateCacheStorage,
         deviceInfo,
         currentApkInfo,
-        channel: new MessagePortLike(),
+        channel,
       });
       mapeoServices.on("error", error => {
         // non-fatal error, report to Bugsnag
