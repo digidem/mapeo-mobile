@@ -97,7 +97,7 @@ const defaultContext: ConfigContextType = [
   },
   {
     reload: () => {},
-    replace: () => {},
+    replace: async () => {},
   },
 ];
 
