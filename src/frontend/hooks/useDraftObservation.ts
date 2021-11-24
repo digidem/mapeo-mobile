@@ -139,16 +139,18 @@ export const useDraftObservation = (): UseDraftObservation => {
   const newDraft = useCallback(
     (
       id?: string,
-      value?: Observation | null, // TOOD: use to have default value of { tags: {} }
+      value: ClientGeneratedObservation | Observation | null = {
+        tags: {},
+      },
       capture?: Promise<CapturedPictureMM>
     ) => {
       cancelPhotoProcessing();
 
       setDraft({
+        observationId: id,
         photoPromises: [],
         photos: value ? filterPhotosFromAttachments(value.attachments) : [],
-        value: value || null,
-        observationId: id,
+        value,
       });
 
       if (capture) addPhoto(capture);
