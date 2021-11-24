@@ -339,7 +339,6 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       return flatten(messages);
     },
 
-    // getObservations: async (): Promise<Observation[]> => {
     getObservations: async (): Promise<Observation[]> => {
       const data = (await get("observations")) as Observation[];
       return data;
