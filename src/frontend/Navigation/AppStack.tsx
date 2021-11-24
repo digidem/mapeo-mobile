@@ -21,6 +21,7 @@ import { ProjectConfig } from "../screens/Settings/ProjectConfig";
 import AboutMapeo from "../screens/Settings/AboutMapeo";
 import LanguageSettings from "../screens/Settings/LanguageSettings";
 import CoordinateFormat from "../screens/Settings/CoordinateFormat";
+import Experiments from "../screens/Settings/Experiments";
 import HomeHeader from "../sharedComponents/HomeHeader";
 import { AlreadyOnProj } from "../screens/AlreadyOnProject";
 import { LeaveProjectScreen } from "../screens/LeaveProject";
@@ -29,6 +30,7 @@ import { UnableToLinkScreen } from "../screens/UnableToLink";
 import { JoinProjectQrScreen } from "../screens/Onboarding";
 import { ConnectingToDeviceScreen } from "../screens/ConnectingToDeviceScreen";
 import { ConfirmLeavePracticeModeScreen } from "../screens/ConfirmLeavePracticeModeScreen";
+import { CreateProjectScreen } from "../screens/CreateProject";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -68,6 +70,7 @@ export const AppStack = createStackNavigator(
     AboutMapeo,
     LanguageSettings,
     CoordinateFormat,
+    Experiments,
     PhotosModal: PhotosModal,
     CategoryChooser: CategoryChooser,
     AddPhoto: AddPhoto,
@@ -83,6 +86,7 @@ export const AppStack = createStackNavigator(
     JoinProjectQr: JoinProjectQrScreen,
     ConnectingToDevice: ConnectingToDeviceScreen,
     ConfirmLeavePracticeMode: ConfirmLeavePracticeModeScreen,
+    CreateProject: CreateProjectScreen,
   },
   {
     initialRouteName: "Home",
