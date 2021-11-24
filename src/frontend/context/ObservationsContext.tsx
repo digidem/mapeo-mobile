@@ -84,7 +84,10 @@ export const ObservationsProvider = ({
   children,
 }: React.PropsWithChildren<{}>) => {
   const [state, dispatch] = React.useReducer(reducer, defaultContext[0]);
-  const contextValue = React.useMemo(() => [state, dispatch] as const, [state]);
+  const contextValue: ObservationsContextType = React.useMemo(
+    () => [state, dispatch],
+    [state]
+  );
 
   // This will load observations on first load and reload them every time the
   // value of state.reload changes (dispatch({type: "reload"}) will do this)
