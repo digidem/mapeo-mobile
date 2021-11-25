@@ -82,6 +82,9 @@ export interface JoinedProjectInfo {
 }
 
 export type ProjectInfo = PracticeModeInfo | JoinedProjectInfo;
+export type KeylessProjectInfo =
+  | PracticeModeInfo
+  | Omit<JoinedProjectInfo, "key">;
 
 export interface SyncApiEvents {
   peers: (peers: Peer[]) => void;
@@ -101,14 +104,19 @@ interface UpgradeApi extends TypedEmitter<ManagerEvents> {
   getState(): UpgradeState;
 }
 
+interface ProjectCreateJoinOptions {
+  keepData?: boolean;
+}
+
 interface ProjectApi {
   getInfo(): Omit<ProjectInfo, "key">;
   replaceConfig(fileUri: string): Promise<Omit<ProjectInfo, "key">>;
-  // create(
-  //   projectInfo: Omit<JoinedProjectInfo, "key" | "id">
-  // ): Omit<JoinedProjectInfo, "key">;
-  // join(): Omit<JoinedProjectInfo, "key">;
-  // leave(): Promise<void>;
+  create(
+    projectInfo: { name: string },
+    options?: ProjectCreateJoinOptions
+  ): KeylessProjectInfo;
+  join(options?: ProjectCreateJoinOptions): KeylessProjectInfo;
+  leave(): Promise<void>;
 }
 
 export interface Api {

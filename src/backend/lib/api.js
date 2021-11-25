@@ -3,6 +3,7 @@ const { TypedEmitter } = require("tiny-typed-emitter");
 const debug = require("debug");
 const throttle = require("lodash/throttle");
 const { AbortController } = require("abort-controller");
+const crypto = require("crypto");
 
 const log = debug("mapeo-core:api");
 
@@ -186,6 +187,22 @@ function createApi({ switchProject, mapeoCore, upgradeManager, project }) {
     return info;
   }
 
+  /** @type {Api['project']['create']} */
+  async function createProject(
+    { name },
+    { keepData = false } = { keepData: false }
+  ) {
+    const key = crypto.randomBytes(32).toString("hex");
+    const { key: _, ...info } = project.updateInfo({
+      name,
+      key,
+      practiceMode: false,
+    });
+    mapeoCore = await switchProject(key);
+    addSyncEventListeners();
+    return info;
+  }
+
   return {
     sync: Object.assign(syncEmitter, {
       joinSwarm,
@@ -196,6 +213,7 @@ function createApi({ switchProject, mapeoCore, upgradeManager, project }) {
     project: {
       getInfo,
       replaceConfig,
+      create: createProject,
     },
     upgrade: Object.assign(
       upgradeEmitter,
