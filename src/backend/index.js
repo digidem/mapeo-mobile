@@ -87,6 +87,7 @@ rnBridge.channel.once(
         deviceInfo,
         apkFilepath,
         debug: enableDebug,
+        identityKey,
       } = config;
       // Don't debug log in production
       if (enableDebug) debug.enable("*");
@@ -103,6 +104,7 @@ rnBridge.channel.once(
         deviceInfo,
         currentApkInfo,
         channel,
+        identityKey,
       });
       mapeoServices.on("error", error => {
         // non-fatal error, report to Bugsnag

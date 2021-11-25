@@ -150,4 +150,6 @@ export interface BackendConfig {
   apkFilepath: string;
   /** Set `true` to enable debug logging */
   debug: boolean;
+  /** Identity key, used to derive master key & all public-private key pairs */
+  identityKey: string;
 }

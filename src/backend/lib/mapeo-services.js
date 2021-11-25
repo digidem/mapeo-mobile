@@ -9,6 +9,7 @@ const UpgradeManager = require("../upgrade-manager");
 const createApi = require("./api");
 const mkdirp = require("mkdirp");
 const { createServer } = require("rpc-reflector");
+const KeyManager = require("./key-manager");
 
 const log = debug("mapeo-core:server");
 
@@ -24,6 +25,7 @@ class MapeoServices extends AsyncService {
   #dbStorageDir;
   #staticRoot;
   #fallbackPresetsDir;
+  #keyManager;
 
   /**
    * @param {object} options
@@ -35,6 +37,7 @@ class MapeoServices extends AsyncService {
    * @param {import('../upgrade-manager/types').DeviceInfo} options.deviceInfo sdkVersion and supportedAbis for current device
    * @param {import('../upgrade-manager/types').InstallerInt} options.currentApkInfo info about the currently running APK (see ./lib/types for documentation)
    * @param {Channel} options.channel
+   * @param {string} options.identityKey Identity key used to derive key pairs
    */
   constructor({
     privateStorage,
@@ -43,6 +46,7 @@ class MapeoServices extends AsyncService {
     deviceInfo,
     currentApkInfo,
     channel,
+    identityKey,
   }) {
     super();
     this.#staticRoot = sharedStorage;
@@ -50,6 +54,8 @@ class MapeoServices extends AsyncService {
     const importedConfigPath = path.join(sharedStorage, "presets/default");
     this.#project = new Project({ infoPath, importedConfigPath });
     const { info } = this.#project;
+
+    this.#keyManager = new KeyManager(identityKey);
 
     this.#dbStorageDir = path.join(
       privateStorage,
