@@ -37,20 +37,25 @@ class Project {
     this.#info = this._readInfo();
   }
 
-  get info() {
+  readInfo() {
     // Clone so that this cannot be modified from outside this class
     return { ...this.#info };
   }
 
-  /** @param {ProjectInfo} newInfo */
-  switchProject(newInfo) {
+  /**
+   * @param {import('./types').PracticeModeInfo | Omit<import('./types').JoinedProjectInfo, 'id'>} newInfo
+   * @returns {ProjectInfo}
+   */
+  updateInfo(newInfo) {
     if (newInfo.practiceMode) {
       log("Switching project to practice mode");
+      this.#info = newInfo;
     } else {
       log("Switching project to key", newInfo.key.slice(0, 4));
+      this.#info = { ...newInfo, id: discoveryKey(newInfo.key) };
     }
-    this.#info = newInfo;
-    this._writeInfo(newInfo);
+    this._writeInfo(this.#info);
+    return { ...this.#info };
   }
 
   /**

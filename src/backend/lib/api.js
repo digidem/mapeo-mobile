@@ -171,7 +171,8 @@ function createApi({ switchProject, mapeoCore, upgradeManager, project }) {
 
   /** @type {Api['project']['getInfo']} */
   function getInfo() {
-    const { key, ...info } = project.info;
+    // We don't expose the project key in the API
+    const { key, ...info } = project.readInfo();
     return info;
   }
 

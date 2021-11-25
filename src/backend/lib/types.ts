@@ -67,14 +67,14 @@ export interface Peer {
       };
 }
 
-interface PracticeModeInfo {
+export interface PracticeModeInfo {
   id?: undefined;
   key?: undefined;
   name?: string;
   practiceMode: true;
 }
 
-interface JoinedProjectInfo {
+export interface JoinedProjectInfo {
   id: string;
   key: string;
   name?: string;

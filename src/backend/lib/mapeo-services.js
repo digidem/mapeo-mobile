@@ -53,7 +53,7 @@ class MapeoServices extends AsyncService {
     const infoPath = path.join(privateStorage, "project_info.json");
     const importedConfigPath = path.join(sharedStorage, "presets/default");
     this.#project = new Project({ infoPath, importedConfigPath });
-    const { info } = this.#project;
+    const info = this.#project.readInfo();
 
     this.#keyManager = new KeyManager(identityKey);
 
@@ -80,7 +80,7 @@ class MapeoServices extends AsyncService {
 
     this.#mapeo = new Mapeo({
       dbStorageDir: this.#dbStorageDir,
-      projectKey: this.#project.info.key,
+      projectKey: this.#project.readInfo().key,
       staticRoot: this.#staticRoot,
       fallbackPresetsDir: this.#fallbackPresetsDir,
     });
