@@ -3,6 +3,14 @@
     "description": "Button on dialog to keep editing (cancelling close action)",
     "message": "निरन्तर सम्पादन"
   },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "परिवर्तन रद्द"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "परिवर्तन रद्द?"
+  },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to cancel a new observation",
     "message": "संग्रह नगरी खारेज गर्नु"
