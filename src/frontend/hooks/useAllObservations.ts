@@ -1,21 +1,18 @@
-// @flow
-import { useContext, useMemo, useCallback } from "react";
+import { useCallback, useContext, useMemo } from "react";
+import { Observation } from "mapeo-schema";
 
-import ObservationsContext, {
-  type Observation,
-} from "../context/ObservationsContext";
-import type { Status } from "../types";
-type UseAllObservations = [
+import ObservationsContext from "../context/ObservationsContext";
+import { Status } from "../sharedTypes";
+
+export const useAllObservations = (): [
   {
     // Array of observations
-    observations: Observation[],
-    status: Status,
+    observations: Observation[];
+    status: Status;
   },
   // reload observations from Mapeo Core
   () => void
-];
-
-export default (): UseAllObservations => {
+] => {
   const [state, dispatch] = useContext(ObservationsContext);
 
   // We store observations in state as a Map, but the components expect an array

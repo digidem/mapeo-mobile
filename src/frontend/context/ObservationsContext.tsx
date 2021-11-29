@@ -1,60 +1,43 @@
-// @flow
 import * as React from "react";
+import { Observation } from "mapeo-schema";
 
 import api from "../api";
-import type { LocationContextType } from "./LocationContext";
-import type { Status } from "../types";
+import { Status } from "../sharedTypes";
 
-export type ObservationAttachment = {
-  id: string,
-  type?: string,
-};
+export interface ObservationAttachment {
+  id: string;
+  type?: string;
+}
 
-export type ObservationValue = {
-  lat?: number | null,
-  lon?: number | null,
-  deviceId?: string,
-  metadata?: {
-    location?: LocationContextType | void,
-    manualLocation?: boolean,
-  },
-  refs?: Array<{ id: string }>,
-  attachments?: Array<ObservationAttachment>,
-  tags: { [string]: any },
-};
-
-export type Observation = {
-  id: string,
-  version: string,
-  created_at: string,
-  timestamp?: string,
-  userId?: string,
-  type: "observation",
-  links?: string[],
-  schemaVersion: 4,
-  value: ObservationValue,
-};
+export interface ClientGeneratedObservation
+  extends Omit<
+    Observation,
+    "created_at" | "schemaVersion" | "id" | "type" | "version"
+  > {}
 
 export type ObservationsMap = Map<string, Observation>;
 
 type State = {
   // A map of all observations in memory, by id
-  observations: ObservationsMap,
+  observations: ObservationsMap;
   // Status intial load / reload of observations from the server
-  status: Status,
+  status: Status;
   // Set to a new object in order to force a reload
-  reload?: {},
+  reload?: {};
 };
 
 type Action =
-  | {| type: "create" | "update" | "delete", value: Observation |}
-  | {| type: "reload" |}
-  | {| type: "reload_error", value: Error |}
-  | {| type: "reload_success", value: Observation[] |};
+  | { type: "create" | "update" | "delete"; value: Observation }
+  | { type: "reload" }
+  | { type: "reload_error"; value: Error }
+  | { type: "reload_success"; value: Observation[] };
 
-export type ObservationsContextType = [State, (action: Action) => void];
+export type ObservationsContextType = readonly [
+  State,
+  (action: Action) => void
+];
 
-const defaultContext = [
+const defaultContext: ObservationsContextType = [
   {
     observations: new Map(),
     status: "loading",
@@ -62,7 +45,7 @@ const defaultContext = [
   () => {},
 ];
 
-const ObservationsContext: React.Context<ObservationsContextType> = React.createContext<ObservationsContextType>(
+const ObservationsContext = React.createContext<ObservationsContextType>(
   defaultContext
 );
 
@@ -71,12 +54,14 @@ function reducer(state: State, action: Action): State {
     case "update":
     case "create": {
       const cloned = new Map(state.observations);
-      cloned.set(action.value.id, action.value);
+      const { value } = action;
+      cloned.set(value.id, value);
       return { ...state, observations: cloned };
     }
     case "delete": {
       const cloned = new Map(state.observations);
-      cloned.delete(action.value.id);
+      const { value } = action;
+      cloned.delete(value.id);
       return { ...state, observations: cloned };
     }
     case "reload":
@@ -84,9 +69,10 @@ function reducer(state: State, action: Action): State {
     case "reload_error":
       return { ...state, status: "error" };
     case "reload_success":
+      const { value } = action;
       return {
         ...state,
-        observations: new Map(action.value.map(obs => [obs.id, obs])),
+        observations: new Map(value.map(obs => [obs.id, obs])),
         status: "success",
       };
     default:
@@ -96,26 +82,31 @@ function reducer(state: State, action: Action): State {
 
 export const ObservationsProvider = ({
   children,
-}: {
-  children: React.Node,
-}) => {
+}: React.PropsWithChildren<{}>) => {
   const [state, dispatch] = React.useReducer(reducer, defaultContext[0]);
-  const contextValue = React.useMemo(() => [state, dispatch], [state]);
+  const contextValue: ObservationsContextType = React.useMemo(
+    () => [state, dispatch],
+    [state]
+  );
 
   // This will load observations on first load and reload them every time the
   // value of state.reload changes (dispatch({type: "reload"}) will do this)
   React.useEffect(() => {
     let didCancel = false;
-    api
-      .getObservations()
-      .then(obsList => {
+
+    const fetchObservations = async () => {
+      try {
+        const obsList = await api.getObservations();
         if (didCancel) return;
         dispatch({ type: "reload_success", value: obsList });
-      })
-      .catch(e => {
-        if (didCancel) return;
-        dispatch({ type: "reload_error", value: e });
-      });
+      } catch (err) {
+        if (didCancel || !(err instanceof Error)) return;
+        dispatch({ type: "reload_error", value: err });
+      }
+    };
+
+    fetchObservations();
+
     return () => {
       didCancel = true;
     };

@@ -7,8 +7,8 @@ import { Alert, BackHandler } from "react-native";
 import isEqual from "lodash/isEqual";
 
 import { CloseIcon, BackIcon } from "./icons";
-import useDraftObservation from "../hooks/useDraftObservation";
-import useObservation from "../hooks/useObservation";
+import { useDraftObservation } from "../hooks/useDraftObservation";
+import { useObservation } from "../hooks/useObservation";
 import { filterPhotosFromAttachments } from "../lib/utils";
 
 const m = defineMessages({
@@ -112,9 +112,9 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
   const handleCloseRequest = React.useCallback(() => {
     const isUntouched =
       existingObservation &&
-      isEqual(existingObservation.value, draftObservation.value) &&
+      isEqual(existingObservation, draftObservation.value) &&
       isEqual(
-        filterPhotosFromAttachments(existingObservation.value.attachments),
+        filterPhotosFromAttachments(existingObservation.attachments),
         draftObservation.photos
       );
     if (!shouldConfirm || isUntouched) {

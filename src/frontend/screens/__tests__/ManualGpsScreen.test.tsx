@@ -2,11 +2,11 @@
 import React from "react";
 import { fireEvent } from "@testing-library/react-native";
 import { ReactTestInstance } from "react-test-renderer";
+import { Position } from "mapeo-schema";
 
 import { render } from "../../lib/test-utils";
 import LocationContext, {
   LocationContextType,
-  PositionType,
 } from "../../context/LocationContext";
 import DdForm, { messages as ddFormMessages } from "../ManualGpsScreen/DdForm";
 import DmsForm, {
@@ -20,7 +20,7 @@ type Coordinates = { lat: number; lon: number };
 
 const mockOnValueUpdate = jest.fn();
 
-const generatePositionValue = ({ lat, lon }: Coordinates): PositionType => ({
+const generatePositionValue = ({ lat, lon }: Coordinates): Position => ({
   timestamp: new Date().getTime(),
   mocked: false,
   coords: {

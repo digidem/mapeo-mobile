@@ -1,40 +1,38 @@
-// @flow
 import { useContext, useState, useCallback } from "react";
+import { Observation } from "mapeo-schema";
 
 import api from "../api";
 import { matchPreset, addFieldDefinitions } from "../lib/utils";
-import ObservationsContext, {
-  type Observation,
-} from "../context/ObservationsContext";
-import ConfigContext, { type PresetWithFields } from "../context/ConfigContext";
-import type { Status } from "../types";
+import ConfigContext, { PresetWithFields } from "../context/ConfigContext";
+import ObservationsContext from "../context/ObservationsContext";
+import { Status } from "../sharedTypes";
 
 type UseObservation = [
   {
-    observation?: Observation,
-    preset?: PresetWithFields,
-    loadingStatus: Status,
-    deletingStatus?: Status,
+    observation?: Observation;
+    preset?: PresetWithFields;
+    loadingStatus: Status;
+    deletingStatus?: Status;
   },
   // Delete the observation
   () => void
 ];
 
-export default (observationId: mixed): UseObservation => {
+export const useObservation = (observationId: unknown): UseObservation => {
   const [{ observations, status: observationsStatus }, dispatch] = useContext(
     ObservationsContext
   );
   const [{ presets, fields, status: presetsStatus }] = useContext(
     ConfigContext
   );
-  const [deletingStatus, setDeletingStatus] = useState();
+  const [deletingStatus, setDeletingStatus] = useState<Status>();
   const loadingStatus = mergeLoadingStatus(observationsStatus, presetsStatus);
 
   const observation =
     typeof observationId === "string"
       ? observations.get(observationId)
       : undefined;
-  const preset = observation && matchPreset(observation.value, presets);
+  const preset = observation && matchPreset(observation, presets);
 
   const deleteObservation = useCallback(() => {
     // Can't delete it if we can't find it
@@ -56,7 +54,7 @@ export default (observationId: mixed): UseObservation => {
       deletingStatus,
       loadingStatus,
       observation: observation,
-      preset: preset && addFieldDefinitions(preset, fields),
+      preset: preset ? addFieldDefinitions(preset, fields) : undefined,
     },
     deleteObservation,
   ];

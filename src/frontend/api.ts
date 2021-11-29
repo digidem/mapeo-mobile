@@ -1,4 +1,3 @@
-// @flow
 import "core-js/es/reflect";
 import { PixelRatio } from "react-native";
 import ky from "ky";
@@ -7,92 +6,82 @@ import RNFS from "react-native-fs";
 import debug from "debug";
 import flatten from "flat";
 import DeviceInfo from "react-native-device-info";
-import AppInfo from "./lib/AppInfo";
+import { Observation } from "mapeo-schema";
 import { deserializeError } from "serialize-error";
 
-import type {
-  Preset,
-  Field,
-  Metadata,
-  Messages,
-} from "./context/ConfigContext";
-
-import type {
-  Observation,
-  ObservationValue,
-} from "./context/ObservationsContext";
+import STATUS from "../backend/constants";
+import { Preset, Field, Metadata, Messages } from "./context/ConfigContext";
+import type { DraftPhoto } from "./context/DraftObservationContext";
+import { ClientGeneratedObservation } from "./context/ObservationsContext";
+import AppInfo from "./lib/AppInfo";
 import { promiseTimeout } from "./lib/utils";
 import bugsnag from "./lib/logger";
-import STATUS from "../backend/constants";
+import { IconSize, ImageSize } from "./sharedTypes";
 
-import type { IconSize, ImageSize } from "./types";
-import type { DraftPhoto } from "./context/DraftObservationContext";
-import type { Observation as ServerObservation } from "mapeo-schema";
+export type ServerStatus = keyof typeof STATUS;
 
-export type ServerStatus = $Keys<typeof STATUS>;
-
-export type ServerStatusMessage = {|
-  value: ServerStatus,
-  error?: string,
-  context?: string,
-|};
+export type ServerStatusMessage = {
+  value: ServerStatus;
+  error?: string;
+  context?: string;
+};
 export type Subscription = { remove: () => any };
 
 export type PeerError =
-  | {|
-      topic: "replication-error",
-      message: string,
-      lastCompletedDate?: number,
-    |}
   | {
-      topic: "replication-error",
-      message: string,
-      code: "ERR_VERSION_MISMATCH",
-      usVersion: string,
-      themVersion: string,
+      topic: "replication-error";
+      message: string;
+      lastCompletedDate?: number;
     }
   | {
-      topic: "replication-error",
-      message: string,
-      code: "ERR_CLIENT_MISMATCH",
-      usClient: string,
-      themClient: string,
+      topic: "replication-error";
+      message: string;
+      code: "ERR_VERSION_MISMATCH";
+      usVersion: string;
+      themVersion: string;
+    }
+  | {
+      topic: "replication-error";
+      message: string;
+      code: "ERR_CLIENT_MISMATCH";
+      usClient: string;
+      themClient: string;
     };
 
 export type ServerPeer = {
-  id: string,
-  name: string,
+  id: string;
+  name: string;
   // Host address for peer
-  host: string,
+  host: string;
   // Port for peer
-  port: number,
+  port: number;
   // Whether device is desktop or mobile
-  deviceType: "desktop" | "mobile",
-  connected: boolean,
+  deviceType: "desktop" | "mobile";
+  connected: boolean;
   state?:
-    | {|
-        topic: "replication-progress",
-        message: {|
-          db: {| sofar: number, total: number |},
-          media: {| sofar: number, total: number |},
-        |},
-        lastCompletedDate?: number,
-      |}
-    | {|
-        topic: "replication-wifi-ready",
-        lastCompletedDate?: number,
-      |}
-    | {|
-        topic: "replication-complete",
+    | {
+        topic: "replication-progress";
+        message: {
+          db: { sofar: number; total: number };
+          media: { sofar: number; total: number };
+        };
+        lastCompletedDate?: number;
+      }
+    | {
+        topic: "replication-wifi-ready";
+        lastCompletedDate?: number;
+      }
+    | {
+        topic: "replication-complete";
         // The time of completed sync in milliseconds since UNIX Epoch
-        message: number,
-        lastCompletedDate?: number,
-      |}
+        message: number;
+        lastCompletedDate?: number;
+      }
     | PeerError
-    | {|
-        topic: "replication-started",
-        lastCompletedDate?: number,
-      |},
+    | {
+        topic: "replication-started";
+        lastCompletedDate?: number;
+      };
 };
 
 type PeerHandler = (peerList: Array<ServerPeer>) => any;
@@ -102,40 +91,40 @@ type PeerHandler = (peerList: Array<ServerPeer>) => any;
 // Typescript - right now frontend uses Flow.
 
 type AvailableUpgrade = {
-  hash: string,
-  hashType: "sha256",
-  versionName: string,
-  versionCode: number,
-  applicationId: string,
-  minSdkVersion: number,
+  hash: string;
+  hashType: "sha256";
+  versionName: string;
+  versionCode: number;
+  applicationId: string;
+  minSdkVersion: number;
   // Backend code guarantees that this will be "android"
-  platform: "android",
-  arch: Array<"x86" | "x86_64" | "armeabi-v7a" | "arm64-v8a">,
-  size: number,
-  filepath: string,
+  platform: "android";
+  arch: Array<"x86" | "x86_64" | "armeabi-v7a" | "arm64-v8a">;
+  size: number;
+  filepath: string;
 };
 
 export type TransferProgress = {
   /** id (hash) of the file being transferred */
-  id: string,
+  id: string;
   /** bytes transferred so far */
-  sofar: number,
+  sofar: number;
   /** total number of bytes to transfer */
-  total: number,
+  total: number;
 };
 
 type UpgradeStateBase = {
-  uploads: TransferProgress[],
-  downloads: TransferProgress[],
-  checkedPeers: string[],
-  availableUpgrade?: AvailableUpgrade,
+  uploads: TransferProgress[];
+  downloads: TransferProgress[];
+  checkedPeers: string[];
+  availableUpgrade?: AvailableUpgrade;
 };
 type UpgradeStateNoError = UpgradeStateBase & {
-  value: "starting" | "started" | "stopping" | "stopped",
+  value: "starting" | "started" | "stopping" | "stopped";
 };
 type UpgradeStateError = UpgradeStateBase & {
-  value: "error",
-  error: Error,
+  value: "error";
+  error: Error;
 };
 export type UpgradeState = UpgradeStateNoError | UpgradeStateError;
 
@@ -154,15 +143,14 @@ const SERVER_START_TIMEOUT = 30000;
 
 const pixelRatio = PixelRatio.get();
 
-export function Api({
-  baseUrl,
-  timeout = DEFAULT_TIMEOUT,
-}: {
-  baseUrl: string,
-  timeout?: number,
-}) {
+interface ApiParam {
+  baseUrl: string;
+  timeout?: number;
+}
+
+export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
   let status: ServerStatus = STATUS.IDLE;
-  let timeoutId: TimeoutID;
+  let timeoutId: number;
   // We append this to requests for presets, icons and map styles, in order to
   // override the local static server cache whenever the app is restarted. NB.
   // sprite, font, and map tile requests might still be cached, only changes in
@@ -180,7 +168,10 @@ export function Api({
     },
   });
 
-  const pending: Array<{ resolve: () => any, reject: Error => any }> = [];
+  const pending: Array<{
+    resolve: () => any;
+    reject: (err: Error) => void;
+  }> = [];
   let listeners: Array<(status: ServerStatus) => any> = [];
 
   nodejs.channel.addListener("status", onStatus);
@@ -195,13 +186,13 @@ export function Api({
     status = value;
 
     if (status === STATUS.LISTENING) {
-      while (pending.length) pending.shift().resolve();
+      while (pending.length) pending.shift()?.resolve();
     } else if (status === STATUS.ERROR) {
       while (pending.length)
-        pending.shift().reject(new Error(error || "Unknown server Error"));
+        pending.shift()?.reject(new Error(error || "Unknown server Error"));
     } else if (status === STATUS.TIMEOUT) {
       while (pending.length)
-        pending.shift().reject(new Error("Server Timeout"));
+        pending.shift()?.reject(new Error("Server Timeout"));
     }
     listeners.forEach(handler => handler(status));
     if (
@@ -217,13 +208,16 @@ export function Api({
 
   function restartTimeout() {
     if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => onStatus({ value: STATUS.TIMEOUT }), timeout);
+    timeoutId = window.setTimeout(
+      () => onStatus({ value: STATUS.TIMEOUT }),
+      timeout
+    );
   }
 
   // Returns a promise that resolves when the server is ready to accept a
   // request and rejects if there is an error with server startup
   function onReady() {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       log("onReady called", status);
       if (status === STATUS.LISTENING) resolve();
       else if (status === STATUS.ERROR) reject(new Error("Server Error"));
@@ -233,17 +227,21 @@ export function Api({
   }
 
   // Request convenience methods that wait for the server to be ready
-  function get(url: string) {
-    return onReady().then(() => req.get(url).json());
+  async function get(url: string) {
+    await onReady();
+    return await req.get(url).json();
   }
-  function del(url: string) {
-    return onReady().then(() => req.delete(url).json());
+  async function del(url: string) {
+    await onReady();
+    return await req.delete(url).json();
   }
-  function put(url: string, data: any) {
-    return onReady().then(() => req.put(url, { json: data }).json());
+  async function put(url: string, data: any) {
+    await onReady();
+    return await req.put(url, { json: data }).json();
   }
-  function post(url: string, data: any) {
-    return onReady().then(() => req.post(url, { json: data }).json());
+  async function post(url: string, data: any) {
+    await onReady();
+    return await req.post(url, { json: data }).json();
   }
 
   // Used to track RPC communication
@@ -253,12 +251,15 @@ export function Api({
   const api = {
     // Start server, returns a promise that resolves when the server is ready
     // or rejects if there is an error starting the server
-    startServer: function startServer(): Promise<void> {
+    startServer: () => {
       // The server might already be started - request current status
       nodejs.channel.post("request-status");
       bugsnag.leaveBreadcrumb("Starting Mapeo Core");
       nodejs.start("loader.js");
       const serverStartPromise = new Promise(resolve =>
+        // TODO: channel is supposed to extend RN's EventEmitter
+        // https://code.janeasystems.com/nodejs-mobile/react-native/bridge
+        //@ts-ignore
         nodejs.channel.once("status", resolve)
       ).then(async () => {
         bugsnag.leaveBreadcrumb("Mapeo Core started");
@@ -301,80 +302,73 @@ export function Api({
       return serverStartTimeoutPromise;
     },
 
-    addServerStateListener: function addServerStateListener(
-      handler: (status: ServerStatus) => any
-    ): Subscription {
+    addServerStateListener: (
+      handler: (status: ServerStatus) => void
+    ): Subscription => {
       listeners.push(handler);
       return {
         remove: () => (listeners = listeners.filter(h => h !== handler)),
       };
     },
-
     /**
      * GET async methods
      */
-
-    getPresets: function getPresets(): Promise<Preset[]> {
-      return get(`presets/default/presets.json?${Date.now()}`).then(data =>
-        mapToArray(data.presets)
-      );
+    getPresets: async (): Promise<Preset[]> => {
+      const data = (await get(
+        `presets/default/presets.json?${Date.now()}`
+      )) as { presets: { [key: string]: Preset } };
+      return mapToArray(data.presets);
+    },
+    getFields: async (): Promise<Field[]> => {
+      const data = (await get(
+        `presets/default/presets.json?${Date.now()}`
+      )) as { fields: { [key: string]: Field } };
+      return mapToArray(data.fields);
     },
 
-    getFields: function getFields(): Promise<Field[]> {
-      return get(`presets/default/presets.json?${Date.now()}`).then(data =>
-        mapToArray(data.fields)
-      );
+    getMetadata: async (): Promise<Metadata> => {
+      const data = await get(`presets/default/metadata.json?${Date.now()}`);
+      return (data || {}) as Metadata;
     },
 
-    getMetadata: function getMetadata(): Promise<Metadata> {
-      return get(`presets/default/metadata.json?${Date.now()}`).then(
-        data => data || {}
-      );
+    getConfigMessages: async (locale: string = "en"): Promise<Messages> => {
+      const data = await get(`presets/default/translations.json?${Date.now()}`);
+      // @ts-ignore
+      const messages = data && data[locale];
+      if (!messages) return {};
+      return flatten(messages);
     },
 
-    getConfigMessages: function getConfigMessages(
-      locale: string = "en"
-    ): Promise<Messages> {
-      return get(`presets/default/translations.json?${Date.now()}`).then(
-        data => {
-          const messages = data && data[locale];
-          if (!messages) return {};
-          return flatten(messages);
-        }
-      );
+    getObservations: async (): Promise<Observation[]> => {
+      const data = (await get("observations")) as Observation[];
+      return data;
     },
 
-    getObservations: function getObservations(): Promise<Observation[]> {
-      return get("observations").then(data => data.map(convertFromServer));
-    },
-
-    getMapStyle: function getMapStyle(id: string): Promise<any> {
+    getMapStyle: (id: string): Promise<any> => {
       return get(`styles/${id}/style.json?${startupTime}`);
     },
 
-    getDeviceId: function getDeviceId(): Promise<string> {
-      return get(`device/id`);
+    getDeviceId: (): Promise<string> => {
+      return get(`device/id`) as Promise<string>;
     },
 
     /**
      * DELETE methods
      */
 
-    deleteObservation: function deleteObservation(
-      id: string
-    ): Promise<{ deleted: boolean }> {
-      return del(`observations/${id}`);
+    deleteObservation: (id: string): Promise<{ deleted: boolean }> => {
+      return del(`observations/${id}`) as Promise<{ deleted: boolean }>;
     },
 
     /**
      * PUT and POST methods
      */
 
-    savePhoto: function savePhoto({
+    savePhoto: ({
       originalUri,
       previewUri,
       thumbnailUri,
-    }: DraftPhoto): Promise<{| id: string |}> {
+    }: DraftPhoto): Promise<{ id: string }> => {
       if (!originalUri || !previewUri || !thumbnailUri)
         return Promise.reject(
           new Error("Missing uri for full image or thumbnail to save to server")
@@ -384,26 +378,25 @@ export function Api({
         preview: convertFileUriToPosixPath(previewUri),
         thumbnail: convertFileUriToPosixPath(thumbnailUri),
       };
-      const createPromise = post("media", data);
+      const createPromise = post("media", data) as Promise<{ id: string }>;
       // After images have saved to the server we can delete the versions in
       // local cache to avoid filling up space on the phone
       const localFiles = Object.values(data);
       createPromise
-        // $FlowFixMe - Flow has issues with Object.values
         .then(_ => Promise.all(localFiles.map(path => RNFS.unlink(path))))
         .then(() => log("Deleted temp photos on save", localFiles))
         .catch(err => log("Error deleting local image file", err));
       return createPromise;
     },
 
-    updateObservation: function updateObservation(
+    updateObservation: async (
       id: string,
-      value: ObservationValue,
-      options: {|
-        links: Array<string>,
-        userId?: $ElementType<ServerObservation, "userId">,
-      |}
-    ): Promise<Observation> {
+      value: ClientGeneratedObservation,
+      options: {
+        links: Array<string>;
+        userId?: Observation["userId"];
+      }
+    ): Promise<Observation> => {
       const valueForServer = {
         ...value,
         // work around for a quirk in the api right now, we should probably change
@@ -415,72 +408,75 @@ export function Api({
         schemaVersion: 3,
         id,
       };
-      return put(
+
+      const serverObservation = (await put(
         `observations/${id}`,
         valueForServer
-      ).then((serverObservation: ServerObservation) =>
-        convertFromServer(serverObservation)
-      );
+      )) as Observation;
+
+      return serverObservation;
     },
 
-    createObservation: function createObservation(
-      value: ObservationValue
-    ): Promise<Observation> {
+    createObservation: async (
+      value: ClientGeneratedObservation
+    ): Promise<Observation> => {
       const valueForServer = {
         ...value,
         type: "observation",
         schemaVersion: 3,
       };
-      return post(
+
+      const serverObservation = (await post(
         "observations",
         valueForServer
-      ).then((serverObservation: ServerObservation) =>
-        convertFromServer(serverObservation)
-      );
+      )) as Observation;
+
+      return serverObservation;
     },
 
     // Replaces app config with .mapeosettings tar file at `path`
-    replaceConfig: function replaceConfig(fileUri: string): Promise<void> {
+    replaceConfig: async (fileUri: string): Promise<void> => {
       const path = convertFileUriToPosixPath(fileUri);
-      return onReady().then(
-        () =>
-          new Promise((resolve, reject) => {
-            const id = channelId++;
-            nodejs.channel.once("replace-config-" + id, done);
-            nodejs.channel.post("replace-config", { path, id });
+      await onReady();
+      return await new Promise((resolve, reject) => {
+        const id = channelId++;
+        // TODO: channel is supposed to extend RN's EventEmitter
+        // https://code.janeasystems.com/nodejs-mobile/react-native/bridge
+        // @ts-ignore
+        nodejs.channel.once("replace-config-" + id, done);
+        nodejs.channel.post("replace-config", { path, id });
 
-            const timeoutId = setTimeout(() => {
-              nodejs.channel.removeListener("replace-config-" + id, done);
-              done(new Error("Timeout when replacing config"));
-            }, 30 * 1000);
+        const timeoutId = setTimeout(() => {
+          nodejs.channel.removeListener("replace-config-" + id, done);
+          done(new Error("Timeout when replacing config"));
+        }, 30 * 1000);
 
-            function done(err) {
-              clearTimeout(timeoutId);
-              if (err) return reject(err);
-              // startupTime is use for cache-busting. When we replace the
-              // config we want the cache to be reset so that icons with the
-              // same name are not cached
-              startupTime = Date.now();
-              resolve();
-            }
-          })
-      );
+        function done(err: Error) {
+          clearTimeout(timeoutId);
+          if (err) return reject(err);
+          // startupTime is use for cache-busting. When we replace the
+          // config we want the cache to be reset so that icons with the
+          // same name are not cached
+          startupTime = Date.now();
+          resolve();
+        }
+      });
     },
 
     /**
      * P2P Upgrade methods
      */
     // Listen for updates to p2p upgrade state
-    addP2pUpgradeStateListener: function addP2pUpgradeStateListener(
+    addP2pUpgradeStateListener: (
       handler: (state: UpgradeState) => void
-    ): Subscription {
+    ): Subscription => {
       nodejs.channel.addListener("p2p-upgrade::state", onState);
       // Poke backend to send a state event
       onReady()
         .then(() => nodejs.channel.post("p2p-upgrade::get-state"))
         .catch(() => {});
       // Deserialize error
-      function onState(stateSerializedError) {
+      function onState(stateSerializedError: UpgradeStateError) {
         handler({
           ...stateSerializedError,
           error:
@@ -493,11 +489,11 @@ export function Api({
           nodejs.channel.removeListener("p2p-upgrade::state", onState),
       };
     },
-    addP2pUpgradeErrorListener: function addP2pUpgradeErrorListener(
+    addP2pUpgradeErrorListener: (
       handler: (error: Error) => void
-    ): Subscription {
+    ): Subscription => {
       nodejs.channel.addListener("p2p-upgrade::error", handler);
-      function onError(serializedError) {
+      function onError(serializedError: UpgradeStateError) {
         handler(deserializeError(serializedError));
       }
       return {
@@ -505,12 +501,15 @@ export function Api({
           nodejs.channel.removeListener("p2p-upgrade::error", onError),
       };
     },
-    startP2pUpgradeServices: function startP2pUpgradeServices() {
-      onReady()
-        .then(() => nodejs.channel.post("p2p-upgrade::start-services"))
-        .catch(() => {});
+    startP2pUpgradeServices: async () => {
+      try {
+        await onReady();
+        nodejs.channel.post("p2p-upgrade::start-services");
+      } catch {
+        // noop
+      }
     },
-    stopP2pUpgradeServices: function stopP2pUpgradeServices() {
+    stopP2pUpgradeServices: () => {
       nodejs.channel.post("p2p-upgrade::stop-services");
     },
 
@@ -520,9 +519,7 @@ export function Api({
 
     // Listens to the server for updates to the list of peers available for sync
     // returns a remove() function to unscubribe
-    addPeerListener: function addPeerListener(
-      handler: PeerHandler
-    ): Subscription {
+    addPeerListener: (handler: PeerHandler): Subscription => {
       // We sidestep the http API here, and instead of polling the endpoint, we
       // listen for an event from mapeo-core whenever the peers change, then
       // request an updated peer list.
@@ -534,25 +531,27 @@ export function Api({
     },
 
     // Start listening for sync peers and advertise with `deviceName`
-    syncJoin: function syncJoin(deviceName: string) {
-      return onReady().then(() =>
-        nodejs.channel.post("sync-join", { deviceName })
-      );
+    syncJoin: async (deviceName: string) => {
+      await onReady();
+      return nodejs.channel.post("sync-join", { deviceName });
     },
 
     // Stop listening for sync peers and stop advertising
-    syncLeave: function syncLeave() {
-      return onReady().then(() => nodejs.channel.post("sync-leave"));
+    syncLeave: async () => {
+      await onReady();
+      return nodejs.channel.post("sync-leave");
     },
 
     // Get a list of discovered sync peers
-    syncGetPeers: function syncGetPeers() {
-      return get("sync/peers").then(data => data && data.message);
+    syncGetPeers: async () => {
+      const data = await get("sync/peers");
+      return data && (data as { message: any }).message;
     },
 
     // Start sync with a peer
-    syncStart: function syncStart(target: { host: string, port: number }) {
-      return onReady().then(() => nodejs.channel.post("sync-start", target));
+    syncStart: async (target: { host: string; port: number }) => {
+      await onReady();
+      return nodejs.channel.post("sync-start", target);
     },
 
     /**
@@ -560,10 +559,7 @@ export function Api({
      */
 
     // Return the url for an icon
-    getIconUrl: function getIconUrl(
-      iconId: string,
-      size: IconSize = "medium"
-    ): string {
+    getIconUrl: (iconId: string, size: IconSize = "medium"): string => {
       // Some devices are @4x or above, but we only generate icons up to @3x
       // Also we don't have @1.5x, so we round it up
       const roundedRatio = Math.min(Math.ceil(pixelRatio), 3);
@@ -571,10 +567,7 @@ export function Api({
     },
 
     // Return the url for a media attachment
-    getMediaUrl: function getMediaUrl(
-      attachmentId: string,
-      size: ImageSize
-    ): string {
+    getMediaUrl: (attachmentId: string, size: ImageSize): string => {
       return `${BASE_URL}media/${size}/${attachmentId}`;
     },
 
@@ -583,10 +576,7 @@ export function Api({
     // **WARNING**: This depends on internal implementation of the media blob
     // store and will break if that changes. I apologise if you reach here after
     // some lengthy debugging.
-    getMediaFileUri: function getMediaFileUri(
-      attachmentId: string,
-      size: ImageSize
-    ): string {
+    getMediaFileUri: (attachmentId: string, size: ImageSize): string => {
       const dir = RNFS.DocumentDirectoryPath;
       return `file://${dir}/media/${size}/${attachmentId.slice(
         0,
@@ -595,7 +585,7 @@ export function Api({
     },
 
     // Return the url to a map style
-    getMapStyleUrl: function getMapStyleUrl(id: string): string {
+    getMapStyleUrl: (id: string): string => {
       return `${BASE_URL}styles/${id}/style.json?${startupTime}`;
     },
   };
@@ -605,44 +595,14 @@ export function Api({
 
 export default Api({ baseUrl: BASE_URL });
 
-function mapToArray<T>(map: { [string]: T }): Array<T> {
+function mapToArray<T>(map: { [key: string]: T }): Array<T> {
   return Object.keys(map).map(id => ({
     ...map[id],
-    id: id,
+    id,
   }));
 }
 
-function convertFromServer(obs: ServerObservation): Observation {
-  const {
-    id,
-    version,
-    type,
-    created_at,
-    timestamp,
-    userId,
-    links,
-    schemaVersion,
-    metadata,
-    ...value
-  } = obs;
-  return {
-    id,
-    version,
-    type,
-    created_at,
-    timestamp,
-    userId,
-    links,
-    schemaVersion,
-    metadata,
-    value: {
-      ...value,
-      tags: (value || {}).tags || {},
-    },
-  };
-}
-
-function convertFileUriToPosixPath(fileUri) {
+function convertFileUriToPosixPath(fileUri: unknown) {
   if (typeof fileUri !== "string")
     throw new Error("Attempted to convert invalid file Uri:" + fileUri);
   return fileUri.replace(/^file:\/\//, "");

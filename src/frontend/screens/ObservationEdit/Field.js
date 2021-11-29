@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 
-import useDraftObservation from "../../hooks/useDraftObservation";
+import { useDraftObservation } from "../../hooks/useDraftObservation";
 import type { Field as FieldType } from "../../context/ConfigContext";
 
 type Props = {
