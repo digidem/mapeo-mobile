@@ -56,7 +56,7 @@ const ListItemText = ({
       ]}
       {...other}
     >
-      <Text style={styles.primary}>{primary}</Text>
+      <Text style={[styles.primary, style]}>{primary}</Text>
       {secondary && <Text style={styles.secondary}>{secondary}</Text>}
     </View>
   );

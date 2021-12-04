@@ -134,7 +134,16 @@
     "description": "Title of screen letting user know that they are already part of a project.",
     "message": "You are already on a project"
   },
-  "screens.AppPasscode.NewPasscode.Splash": {
+  "screens.AppPasscode": {
+    "message": "App Passcode"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "Continue"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.description": {
+    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc."
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "What is App Passcode?"
   },
   "screens.CameraScreen.noCameraAccess": {

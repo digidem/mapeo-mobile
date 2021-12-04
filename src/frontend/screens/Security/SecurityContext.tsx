@@ -10,6 +10,7 @@ const defaultSecurityContext = [false, () => {}];
 
 //@ts-ignore
 export const SecurityContext = React.createContext<SecurityContextType>(
+  //@ts-ignore
   defaultSecurityContext
 );
 
