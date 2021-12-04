@@ -8,8 +8,8 @@ import { FormattedMessage } from "react-intl";
 interface ListItemTextProp {
   style?: TextStyleProp;
   inset?: boolean;
-  primary: any;
-  secondary?: any;
+  primary: string | React.ReactNode;
+  secondary?: string | React.ReactNode;
 }
 
 const styles = StyleSheet.create({

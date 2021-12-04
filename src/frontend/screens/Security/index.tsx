@@ -99,7 +99,10 @@ export const Security: NavigationStackScreenComponent = () => {
           />
         </ListItem>
 
-        <ListItem style={[styles.divder]}></ListItem>
+        <ListItem style={[styles.divder]}>
+          {/* Divider, added a React Fragment as List Item Requires a child */}
+          <React.Fragment></React.Fragment>
+        </ListItem>
 
         <ListItem button={false}>
           <ListItemText
