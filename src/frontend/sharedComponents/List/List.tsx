@@ -1,8 +1,16 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import * as React from "react";
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import Text from "../Text";
 import PropTypes from "prop-types";
 import ListContext from "./ListContext";
+
+interface ListProp {
+  children: React.ReactNode;
+  style?: StyleProp<ViewStyle>;
+  disablePadding?: boolean;
+  subheader?: string;
+  dense?: boolean;
+}
 
 const List = ({
   children,
@@ -11,7 +19,7 @@ const List = ({
   subheader,
   dense = false,
   ...other
-}) => {
+}: ListProp) => {
   const context = React.useMemo(() => ({ dense }), [dense]);
   return (
     <ListContext.Provider value={context}>

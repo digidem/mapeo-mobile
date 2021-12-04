@@ -88,6 +88,15 @@ const m = defineMessages({
     defaultMessage: "Turn on experimental new features",
     description: "Description of the 'Experiment' page",
   },
+  security: {
+    id: "screens.Settings.security",
+    defaultMessage: "Security",
+  },
+  securityDesc: {
+    id: "screens.Settings.securityDesc",
+    defaultMessage: "App Passcode and Device Security",
+    description: "Description of security button in settings",
+  },
 });
 
 const Settings = () => {
@@ -143,6 +152,13 @@ const Settings = () => {
         <ListItemText
           primary={<FormattedMessage {...m.experiments} />}
           secondary={<FormattedMessage {...m.experimentsDesc} />}
+        ></ListItemText>
+      </ListItem>
+      <ListItem onPress={() => navigate("Security")}>
+        <ListItemIcon iconName="security" />
+        <ListItemText
+          primary={<FormattedMessage {...m.security} />}
+          secondary={<FormattedMessage {...m.securityDesc} />}
         ></ListItemText>
       </ListItem>
     </List>
