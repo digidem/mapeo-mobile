@@ -8,6 +8,7 @@ import IconButton from "../../sharedComponents/IconButton";
 import { BackIcon, SaveIcon } from "../../sharedComponents/icons";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { SecurityContext } from "./SecurityContext";
+import { useNavigation } from "react-navigation-hooks";
 
 const m = defineMessages({
   title: {
@@ -47,6 +48,8 @@ const m = defineMessages({
 export const Security: NavigationStackScreenComponent = () => {
   const { passIsSet } = React.useContext(SecurityContext);
 
+  const { navigate } = useNavigation();
+
   const [passCodeDes, killPassCodeDes] = React.useMemo(
     () =>
       passIsSet
@@ -61,12 +64,7 @@ export const Security: NavigationStackScreenComponent = () => {
         <ListItemText primary={<FormattedMessage {...m.securitySubheader} />} />
       </ListItem>
 
-      <ListItem
-        button={true}
-        onPress={() => {
-          return;
-        }}
-      >
+      <ListItem button={true} onPress={() => navigate("AppPasscode")}>
         <ListItemText
           primary={<FormattedMessage {...m.passcodeHeader} />}
           secondary={<FormattedMessage {...passCodeDes} />}
