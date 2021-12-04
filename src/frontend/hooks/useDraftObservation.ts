@@ -23,19 +23,6 @@ import {
 } from "../lib/utils";
 import type { Status } from "../types";
 
-<<<<<<< HEAD:src/frontend/hooks/useDraftObservation.ts
-=======
-import ConfigContext, { PresetWithFields } from "../context/ConfigContext";
-import ObservationsContext, {
-  ObservationValue,
-  ObservationAttachment,
-} from "../context/ObservationsContext";
-import DraftObservationContext, {
-  DraftObservationContextState,
-  DraftPhoto,
-} from "../context/DraftObservationContext";
-
->>>>>>> 89ff4378 (chore: update hook and context to typescript):src/frontend/hooks/useDraftObservation.tsx
 const log = debug("mapeo:useDraftObservation");
 
 const THUMBNAIL_SIZE = 400;
@@ -48,13 +35,9 @@ export type CapturedPictureMM = {
   rotate?: number;
 };
 
-<<<<<<< HEAD:src/frontend/hooks/useDraftObservation.ts
 type CancellablePromise<T> = Promise<T> & { signal?: Signal };
 
 type UseDraftObservation = [
-=======
-export type UseDraftObservation = [
->>>>>>> 89ff4378 (chore: update hook and context to typescript):src/frontend/hooks/useDraftObservation.tsx
   {
     value: DraftObservationContextState["value"];
     photos: DraftObservationContextState["photos"];
@@ -72,11 +55,7 @@ export type UseDraftObservation = [
     // Save a draft
     saveDraft: () => Promise<void>;
     // Performs a shallow merge of the observation value, like setState
-<<<<<<< HEAD:src/frontend/hooks/useDraftObservation.ts
     updateDraft: (value: ClientGeneratedObservation) => void;
-=======
-    updateDraft: (value: ObservationValue) => void;
->>>>>>> 89ff4378 (chore: update hook and context to typescript):src/frontend/hooks/useDraftObservation.tsx
     // Clear the current draft
     clearDraft: () => void;
     // Create a new draft observation
@@ -104,12 +83,8 @@ export const useDraftObservation = (): UseDraftObservation => {
 
       // Use signal to cancel processing by setting signal.didCancel = true
       // Important because image resize/rotate is expensive
-<<<<<<< HEAD:src/frontend/hooks/useDraftObservation.ts
       const signal: Signal = {};
 
-=======
-      const signal = { didCancel: false };
->>>>>>> 89ff4378 (chore: update hook and context to typescript):src/frontend/hooks/useDraftObservation.tsx
       const photoPromise: CancellablePromise<DraftPhoto> = processPhoto(
         capturePromise,
         signal
@@ -123,12 +98,8 @@ export const useDraftObservation = (): UseDraftObservation => {
         photos: [...draft.photos, capturingPhoto],
       }));
 
-<<<<<<< HEAD:src/frontend/hooks/useDraftObservation.ts
       let photo: DraftPhoto;
 
-=======
-      let photo: DraftPhoto | { capturing: boolean; error: boolean };
->>>>>>> 89ff4378 (chore: update hook and context to typescript):src/frontend/hooks/useDraftObservation.tsx
       try {
         photo = await photoPromise;
       } catch (err) {
