@@ -1,12 +1,11 @@
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import * as React from "react";
-import useDraftObservation from "../../hooks/useDraftObservation";
+import { defineMessages, useIntl } from "react-intl";
+import { useDraftObservation } from "../../hooks/useDraftObservation";
 
 import {
-  MODAL_NAVIGATION_OPTIONS,
   BottomSheetModal,
   BottomSheetContent,
-  useBottomSheetModal,
 } from "../../sharedComponents/BottomSheetModal";
 import { NavigationProp } from "../../types";
 
@@ -17,34 +16,58 @@ interface ModalProps {
   navigationProp: NavigationProp;
 }
 
+const m = defineMessages({
+  deletePhotoHeader: {
+    id: "screens.Photos.ConfirmDeleteModal.deletePhotoHeader",
+    defaultMessage: "Delete this photo?",
+  },
+  deletePhotoButton: {
+    id: "screens.Photos.ConfirmDeleteModal.deletePhotoButton",
+    defaultMessage: "Delete Photo",
+  },
+  cancel: {
+    id: "screens.Photos.ConfirmDeleteModal.cancel",
+    defaultMessage: "cancel",
+  },
+});
+
 export const ConfirmDeleteModal = ({
   sheetRef,
   photoIndex,
   closeSheet,
   navigationProp,
 }: ModalProps) => {
-  const [{}, { deletePhoto }] = useDraftObservation();
+  const [{ photos }, { deletePhoto }] = useDraftObservation();
+  const { formatMessage: t } = useIntl();
+
+  function photoDelete() {
+    const photoToDelete = photos[photoIndex];
+    if ("id" in photoToDelete) {
+      const photoId = photoToDelete.id;
+      deletePhoto(photoId);
+      closeSheet();
+      navigationProp.pop();
+    }
+    return;
+  }
 
   return (
     <BottomSheetModal ref={sheetRef} onDismiss={closeSheet}>
       <BottomSheetContent
         buttonConfigs={[
           {
-            variation: "outlined",
-            onPress: closeSheet,
-            text: "Cancel",
+            variation: "filled",
+            dangerous: true,
+            onPress: photoDelete,
+            text: t(m.deletePhotoButton),
           },
           {
-            variation: "filled",
-            onPress: () => {
-              deletePhoto(photoIndex);
-              closeSheet();
-              navigationProp.pop();
-            },
-            text: "Yes, Delete",
+            variation: "outlined",
+            onPress: closeSheet,
+            text: t(m.cancel),
           },
         ]}
-        title="Do you want to delete your photo?"
+        title={t(m.deletePhotoHeader)}
       />
     </BottomSheetModal>
   );

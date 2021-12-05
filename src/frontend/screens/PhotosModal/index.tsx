@@ -13,6 +13,8 @@ import api from "../../api";
 import type { NavigationProp } from "../../types";
 import { useBottomSheetModal } from "../../sharedComponents/BottomSheetModal";
 import { ConfirmDeleteModal } from "./ConfirmDeleteModal";
+import { DraftPhoto } from "../../context/DraftObservationContext";
+
 const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
   const observationId = navigation.getParam("observationId");
   const [index, setIndex] = useState(navigation.getParam("photoIndex") || 0);
@@ -57,12 +59,12 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
   }
   if (draftPhotos) {
     const draftPhotosRoutes = draftPhotos
-      .filter(draftPhoto => !draftPhoto.id)
+      .filter(draftPhoto => "id" in draftPhoto)
       .map((draftPhoto, idx) => ({
         key: idx,
-        uri: draftPhoto.previewUri,
-        error: draftPhoto.error,
-        capturing: draftPhoto.capturing,
+        uri: "previewUri" in draftPhoto ? draftPhoto.previewUri : undefined,
+        error: "error" in draftPhoto ? draftPhoto.error : undefined,
+        capturing: "capturing" in draftPhoto ? draftPhoto.capturing : undefined,
       }));
     Array.prototype.push.apply(routes, draftPhotosRoutes);
   }
@@ -88,7 +90,7 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
           setShowHeader(false);
         }}
         renderScene={({ route }) => {
-          let variant = "photo";
+          let variant: "photo" | "loading" | "error" = "photo";
           if (route.error) variant = "error";
           if (route.capturing) variant = "loading";
           return (
