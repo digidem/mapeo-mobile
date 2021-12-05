@@ -44,7 +44,7 @@ const ObservationEdit = ({ navigation }: { navigation: NavigationProp }) => {
       navigation.navigate("PhotosModal", {
         photoIndex: photoIndex,
         observationId: navigation.getParam("observationId"),
-        // editing: true,
+        editing: true,
       });
     },
     [navigation]
