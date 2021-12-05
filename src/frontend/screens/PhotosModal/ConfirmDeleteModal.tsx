@@ -2,11 +2,14 @@ import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/typ
 import * as React from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
+import { RED } from "../../lib/styles";
 
 import {
   BottomSheetModal,
   BottomSheetContent,
 } from "../../sharedComponents/BottomSheetModal";
+import { AlertIcon, ErrorIcon } from "../../sharedComponents/icons";
+import Circle from "../../sharedComponents/icons/Circle";
 import { NavigationProp } from "../../types";
 
 interface ModalProps {
@@ -27,7 +30,7 @@ const m = defineMessages({
   },
   cancel: {
     id: "screens.Photos.ConfirmDeleteModal.cancel",
-    defaultMessage: "cancel",
+    defaultMessage: "Cancel",
   },
 });
 
@@ -42,9 +45,10 @@ export const ConfirmDeleteModal = ({
 
   function photoDelete() {
     const photoToDelete = photos[photoIndex];
-    if ("id" in photoToDelete) {
-      const photoId = photoToDelete.id;
-      deletePhoto(photoId);
+    console.log(photoToDelete);
+    if ("originalUri" in photoToDelete) {
+      const uri = photoToDelete.originalUri;
+      deletePhoto(uri!);
       closeSheet();
       navigationProp.pop();
     }
@@ -58,7 +62,7 @@ export const ConfirmDeleteModal = ({
           {
             variation: "filled",
             dangerous: true,
-            onPress: photoDelete,
+            onPress: () => photoDelete(),
             text: t(m.deletePhotoButton),
           },
           {
@@ -68,6 +72,11 @@ export const ConfirmDeleteModal = ({
           },
         ]}
         title={t(m.deletePhotoHeader)}
+        icon={
+          <Circle radius={40}>
+            <ErrorIcon size={80} color={RED} />
+          </Circle>
+        }
       />
     </BottomSheetModal>
   );

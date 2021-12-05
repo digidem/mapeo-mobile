@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Dimensions, View, StyleSheet } from "react-native";
-import { TabView } from "react-native-tab-view";
+import { NavigationState, TabView, Route } from "react-native-tab-view";
 
 import IconButton from "../../sharedComponents/IconButton";
 import Button from "../../sharedComponents/Button";
-import { CloseIcon } from "../../sharedComponents/icons";
+import { CloseIcon, DeleteIcon } from "../../sharedComponents/icons";
 import { filterPhotosFromAttachments } from "../../lib/utils";
 import { useObservation } from "../../hooks/useObservation";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
@@ -13,14 +13,29 @@ import api from "../../api";
 import type { NavigationProp } from "../../types";
 import { useBottomSheetModal } from "../../sharedComponents/BottomSheetModal";
 import { ConfirmDeleteModal } from "./ConfirmDeleteModal";
-import { DraftPhoto } from "../../context/DraftObservationContext";
+import Text from "../../sharedComponents/Text";
+import { defineMessages, FormattedMessage } from "react-intl";
+import { TouchableNativeFeedback } from "../../sharedComponents/Touchables/index.ios";
+
+interface customRoute extends Route {
+  uri?: string;
+  error?: boolean;
+  capturing?: boolean;
+}
+
+const m = defineMessages({
+  deleteImage: {
+    id: "screens.PhotosModal",
+    defaultMessage: "Delete Image",
+  },
+});
 
 const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
   const observationId = navigation.getParam("observationId");
   const [index, setIndex] = useState(navigation.getParam("photoIndex") || 0);
   const [{ observation }] = useObservation(observationId);
   const [{ photos: draftPhotos }] = useDraftObservation();
-  const [showHeader, setShowHeader] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
   const { sheetRef, openSheet, closeSheet } = useBottomSheetModal({
     openOnMount: false,
   });
@@ -43,31 +58,33 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
 
   function closeModal() {
     modalIsOpen.current = false;
+    setShowHeader(true);
     closeSheet();
   }
 
-  const routes: any[] = [];
-
-  if (observation) {
-    const savedPhotosRoutes = filterPhotosFromAttachments(
-      observation.attachments
-    ).map((savedPhoto, idx) => ({
-      key: savedPhoto.id,
-      uri: api.getMediaUrl(savedPhoto.id, "preview"),
-    }));
-    Array.prototype.push.apply(routes, savedPhotosRoutes);
-  }
-  if (draftPhotos) {
-    const draftPhotosRoutes = draftPhotos
-      .filter(draftPhoto => "id" in draftPhoto)
-      .map((draftPhoto, idx) => ({
-        key: idx,
-        uri: "previewUri" in draftPhoto ? draftPhoto.previewUri : undefined,
-        error: "error" in draftPhoto ? draftPhoto.error : undefined,
-        capturing: "capturing" in draftPhoto ? draftPhoto.capturing : undefined,
+  const routes: customRoute[] = useMemo(() => {
+    if (observation) {
+      const savedPhotosRoutes = filterPhotosFromAttachments(
+        observation.attachments
+      ).map((savedPhoto, idx) => ({
+        key: savedPhoto.id,
+        uri: api.getMediaUrl(savedPhoto.id, "preview"),
       }));
-    Array.prototype.push.apply(routes, draftPhotosRoutes);
-  }
+      return savedPhotosRoutes;
+    } else {
+      const draftPhotosRoutes = draftPhotos
+        .filter(draftPhoto => !("id" in draftPhoto))
+        .map((draftPhoto, idx) => ({
+          key: idx.toString(),
+          uri: "previewUri" in draftPhoto ? draftPhoto.previewUri : undefined,
+          error: "error" in draftPhoto ? draftPhoto.error : undefined,
+          capturing:
+            "capturing" in draftPhoto ? draftPhoto.capturing : undefined,
+        }));
+      return draftPhotosRoutes;
+    }
+  }, [observation, draftPhotos]);
+
   return (
     <View style={styles.container} onTouchEnd={toggleShowHeader}>
       {showHeader && (
@@ -79,7 +96,22 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
           >
             <CloseIcon color="white" />
           </IconButton>
-          <Button onPress={openModal}>Delete Photo</Button>
+          {/* The delete button only show up when creating a NEW observation NOT when editing a saved observation */}
+          {!observation && (
+            <TouchableNativeFeedback
+              style={[styles.button]}
+              onPress={openModal}
+              variant="outlined"
+              color="light"
+            >
+              <View style={[styles.flexButton]}>
+                <DeleteIcon style={[{ marginRight: 10 }]} color="white" />
+                <Text style={[{ color: "#FFFFFF" }]}>
+                  <FormattedMessage {...m.deleteImage} />
+                </Text>
+              </View>
+            </TouchableNativeFeedback>
+          )}
         </View>
       )}
 
@@ -124,10 +156,24 @@ const styles = StyleSheet.create({
   header: {
     position: "absolute",
     zIndex: 1,
-    height: 60,
     marginBottom: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    width: "100%",
+  },
+  button: {
+    marginTop: 10,
+    marginRight: 20,
+    color: "#FFFFFF",
+    borderWidth: 2,
+    borderColor: "#FFFFFF",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+  },
+  flexButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    color: "white",
   },
 });

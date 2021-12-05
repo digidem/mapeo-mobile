@@ -76,14 +76,30 @@ export const useDraftObservation = (): UseDraftObservation => {
   );
   const [savingStatus, setSavingStatus] = useState<Status>();
 
-  function deletePhoto(photoId: string) {
+  function deletePhoto(uri: string) {
     const newPhotosArray = draft.photos.filter(
-      photo => "capturing" in photo || ("id" in photo && photo.id !== photoId)
+      photo => "originalUri" in photo && photo.originalUri !== uri
     );
+
+    const newPhotoPromiseArray = draft.photoPromises.map(async photo => {
+      const resolvedPhoto = await photo;
+      if (resolvedPhoto.originalUri === uri) {
+        const deletedPhoto: Promise<DraftPhoto> = new Promise((res, rej) => {
+          resolvedPhoto.deleted = true;
+          res(resolvedPhoto);
+        });
+        const cancelPhoto = deletedPhoto as CancellablePromise<DraftPhoto>;
+        cancelPhoto.signal = { didCancel: true };
+        return cancelPhoto;
+      }
+
+      return photo;
+    });
 
     setDraft(prevDraft => ({
       ...prevDraft,
       photos: newPhotosArray,
+      photoPromises: newPhotoPromiseArray,
     }));
   }
 
