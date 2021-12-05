@@ -27,7 +27,7 @@ const m = defineMessages({
   },
   deletePhotoButton: {
     id: "screens.Photos.ConfirmDeleteModal.deletePhotoButton",
-    defaultMessage: "Delete Photo",
+    defaultMessage: "Delete Image",
   },
   cancel: {
     id: "screens.Photos.ConfirmDeleteModal.cancel",

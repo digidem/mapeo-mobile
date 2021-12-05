@@ -601,7 +601,7 @@
     "message": "Cancel"
   },
   "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
-    "message": "Delete Photo"
+    "message": "Delete Image"
   },
   "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
     "message": "Delete this photo?"
