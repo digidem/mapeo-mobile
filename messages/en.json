@@ -598,13 +598,16 @@
     "message": "Start Mapping"
   },
   "screens.Photos.ConfirmDeleteModal.cancel": {
-    "message": "cancel"
+    "message": "Cancel"
   },
   "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
     "message": "Delete Photo"
   },
   "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
     "message": "Delete this photo?"
+  },
+  "screens.PhotosModal": {
+    "message": "Delete Image"
   },
   "screens.ProjectInviteModal.close": {
     "message": "Close"

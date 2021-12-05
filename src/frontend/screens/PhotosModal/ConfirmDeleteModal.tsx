@@ -1,6 +1,6 @@
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import * as React from "react";
-import { defineMessages, useIntl } from "react-intl";
+import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
 import { RED } from "../../lib/styles";
 
@@ -10,6 +10,7 @@ import {
 } from "../../sharedComponents/BottomSheetModal";
 import { AlertIcon, ErrorIcon } from "../../sharedComponents/icons";
 import Circle from "../../sharedComponents/icons/Circle";
+import Text from "../../sharedComponents/Text";
 import { NavigationProp } from "../../types";
 
 interface ModalProps {
@@ -73,9 +74,7 @@ export const ConfirmDeleteModal = ({
         ]}
         title={t(m.deletePhotoHeader)}
         icon={
-          <Circle radius={40}>
-            <ErrorIcon size={80} color={RED} />
-          </Circle>
+          <ErrorIcon style={{ position: "relative" }} size={90} color={RED} />
         }
       />
     </BottomSheetModal>

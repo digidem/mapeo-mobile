@@ -41,14 +41,20 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
   });
   const modalIsOpen = useRef<boolean>(false);
 
-  //We don't want to show the header when the modal is open, these functions
-  //check if the modal is open before trying to show header
   function toggleShowHeader() {
+    //we want the header to always show if it is NOT a draft
+    if (!!observation) {
+      setShowHeader(true);
+      return;
+    }
+
+    //We don't want to show the header when the modal is open
     if (modalIsOpen.current) {
       setShowHeader(false);
       return;
     }
-    setShowHeader(!showHeader);
+
+    setShowHeader(prev => !prev);
   }
 
   function openModal() {
@@ -170,6 +176,9 @@ const styles = StyleSheet.create({
     borderColor: "#FFFFFF",
     borderRadius: 5,
     paddingHorizontal: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
   },
   flexButton: {
     flexDirection: "row",
