@@ -18,6 +18,7 @@ interface ModalProps {
   photoIndex: number;
   closeSheet: () => void;
   navigationProp: NavigationProp;
+  disableBackdrop: boolean;
 }
 
 const m = defineMessages({
@@ -40,6 +41,7 @@ export const ConfirmDeleteModal = ({
   photoIndex,
   closeSheet,
   navigationProp,
+  disableBackdrop,
 }: ModalProps) => {
   const [{ photos }, { deletePhoto }] = useDraftObservation();
   const { formatMessage: t } = useIntl();
@@ -57,7 +59,11 @@ export const ConfirmDeleteModal = ({
   }
 
   return (
-    <BottomSheetModal ref={sheetRef} onDismiss={closeSheet}>
+    <BottomSheetModal
+      ref={sheetRef}
+      disableBackrop={disableBackdrop}
+      onDismiss={closeSheet}
+    >
       <BottomSheetContent
         buttonConfigs={[
           {

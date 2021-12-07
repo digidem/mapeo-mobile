@@ -36,10 +36,9 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
   const [{ observation }] = useObservation(observationId);
   const [{ photos: draftPhotos }] = useDraftObservation();
   const [showHeader, setShowHeader] = useState(true);
-  const { sheetRef, openSheet, closeSheet } = useBottomSheetModal({
+  const { sheetRef, openSheet, closeSheet, isOpen } = useBottomSheetModal({
     openOnMount: false,
   });
-  const modalIsOpen = useRef<boolean>(false);
 
   function toggleShowHeader() {
     //we want the header to always show if it is NOT a draft
@@ -49,7 +48,7 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
     }
 
     //We don't want to show the header when the modal is open
-    if (modalIsOpen.current) {
+    if (isOpen) {
       setShowHeader(false);
       return;
     }
@@ -58,12 +57,10 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
   }
 
   function openModal() {
-    modalIsOpen.current = true;
     openSheet();
   }
 
   function closeModal() {
-    modalIsOpen.current = false;
     setShowHeader(true);
     closeSheet();
   }
@@ -139,6 +136,7 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
         renderTabBar={() => null}
       />
       <ConfirmDeleteModal
+        disableBackdrop={true}
         navigationProp={navigation}
         closeSheet={closeModal}
         sheetRef={sheetRef}
