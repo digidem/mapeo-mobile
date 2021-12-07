@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View } from "react-native";
-import { SplashScreen } from "./splash";
+import { SplashScreen } from "./Splash";
 
 enum ScreenState {
   splash,
