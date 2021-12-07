@@ -48,7 +48,6 @@ export const ConfirmDeleteModal = ({
 
   function photoDelete() {
     const photoToDelete = photos[photoIndex];
-    console.log(photoToDelete);
     if ("originalUri" in photoToDelete) {
       const uri = photoToDelete.originalUri;
       deletePhoto(uri!);
