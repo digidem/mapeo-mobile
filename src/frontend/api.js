@@ -459,7 +459,7 @@ export function Api({
             nodejs.channel.post("replace-config", { path, id });
 
             const timeoutId = setTimeout(() => {
-              nodejs.channel.removeListener("replace-config-" + id, done);
+              replaceConfigIdSubscription.remove();
               done(new Error("Timeout when replacing config"));
             }, 30 * 1000);
 
@@ -483,7 +483,10 @@ export function Api({
     addP2pUpgradeStateListener: function addP2pUpgradeStateListener(
       handler: (state: UpgradeState) => void
     ): Subscription {
-      nodejs.channel.addListener("p2p-upgrade::state", onState);
+      const stateSubscription = nodejs.channel.addListener(
+        "p2p-upgrade::state",
+        onState
+      );
       // Poke backend to send a state event
       onReady()
         .then(() => nodejs.channel.post("p2p-upgrade::get-state"))
@@ -498,20 +501,21 @@ export function Api({
         });
       }
       return {
-        remove: () =>
-          nodejs.channel.removeListener("p2p-upgrade::state", onState),
+        remove: () => stateSubscription.remove(),
       };
     },
     addP2pUpgradeErrorListener: function addP2pUpgradeErrorListener(
       handler: (error: Error) => void
     ): Subscription {
-      nodejs.channel.addListener("p2p-upgrade::error", handler);
+      const errorSubscription = nodejs.channel.addListener(
+        "p2p-upgrade::error",
+        handler
+      );
       function onError(serializedError) {
         handler(deserializeError(serializedError));
       }
       return {
-        remove: () =>
-          nodejs.channel.removeListener("p2p-upgrade::error", onError),
+        remove: () => errorSubscription.remove(),
       };
     },
     startP2pUpgradeServices: function startP2pUpgradeServices() {
@@ -535,10 +539,13 @@ export function Api({
       // We sidestep the http API here, and instead of polling the endpoint, we
       // listen for an event from mapeo-core whenever the peers change, then
       // request an updated peer list.
-      nodejs.channel.addListener("peer-update", handler);
+      const peerUpdateSubscription = nodejs.channel.addListener(
+        "peer-update",
+        handler
+      );
       api.syncGetPeers().then(handler);
       return {
-        remove: () => nodejs.channel.removeListener("peer-update", handler),
+        remove: () => peerUpdateSubscription.remove(),
       };
     },
 
