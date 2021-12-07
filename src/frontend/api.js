@@ -258,9 +258,12 @@ export function Api({
       nodejs.channel.post("request-status");
       bugsnag.leaveBreadcrumb("Starting Mapeo Core");
       nodejs.start("loader.js");
-      const serverStartPromise = new Promise(resolve =>
-        nodejs.channel.once("status", resolve)
-      ).then(async () => {
+      const serverStartPromise = new Promise(resolve => {
+        const statusSubscription = nodejs.channel.addListener("status", () => {
+          statusSubscription.remove();
+          resolve();
+        });
+      }).then(async () => {
         bugsnag.leaveBreadcrumb("Mapeo Core started");
         // Start monitoring for timeout
         restartTimeout();
@@ -446,7 +449,13 @@ export function Api({
         () =>
           new Promise((resolve, reject) => {
             const id = channelId++;
-            nodejs.channel.once("replace-config-" + id, done);
+            const replaceConfigIdSubscription = nodejs.channel.addListener(
+              "replace-config-" + id,
+              () => {
+                replaceConfigIdSubscription.remove();
+                done();
+              }
+            );
             nodejs.channel.post("replace-config", { path, id });
 
             const timeoutId = setTimeout(() => {
