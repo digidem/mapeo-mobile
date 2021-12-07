@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ListItem = ({
+export const ListItem = ({
   alignItems = "center",
   button = false,
   children,
@@ -131,4 +131,30 @@ ListItem.propTypes = {
   divider: PropTypes.bool,
 };
 
-export default ListItem;
+interface ListDividerProp {
+  color?: string;
+  lineWidth?: number;
+  style?: ViewStyleProp;
+}
+
+export const ListDivider = ({
+  color = "#CCCCD6",
+  lineWidth = 1,
+  style,
+}: ListDividerProp) => {
+  return (
+    <ListItem
+      disabled={true}
+      style={[
+        {
+          width: "100%",
+          borderBottomWidth: lineWidth,
+          borderBottomColor: color,
+        },
+        style,
+      ]}
+    >
+      <React.Fragment></React.Fragment>
+    </ListItem>
+  );
+};

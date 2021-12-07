@@ -3,7 +3,12 @@ import { View, Text, StyleSheet } from "react-native";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages } from "react-intl";
 
-import { List, ListItem, ListItemText } from "../../sharedComponents/List";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListDivider,
+} from "../../sharedComponents/List";
 import IconButton from "../../sharedComponents/IconButton";
 import { BackIcon, SaveIcon } from "../../sharedComponents/icons";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
@@ -99,10 +104,7 @@ export const Security: NavigationStackScreenComponent = () => {
           />
         </ListItem>
 
-        <ListItem style={[styles.divder]}>
-          {/* Divider, added a React Fragment as List Item Requires a child */}
-          <React.Fragment></React.Fragment>
-        </ListItem>
+        <ListDivider style={styles.divder} />
 
         <ListItem button={false}>
           <ListItemText
@@ -138,9 +140,6 @@ Security.navigationOptions = () => ({
 
 const styles = StyleSheet.create({
   divder: {
-    width: "100%",
-    borderBottomWidth: 1,
-    borderBottomColor: "#CCCCD6",
     marginVertical: 20,
   },
 });
