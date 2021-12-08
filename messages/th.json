@@ -682,6 +682,14 @@
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "ข้อผิดพลาดในการนำเข้า"
   },
+  "screens.Settings.ProjectConfig.configImportAlertMessage": {
+    "description": "Message for alert after successful config import",
+    "message": "นำเข้าการตั้งค่าได้สำเร็จ: {name} {version}"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertOk": {
+    "description": "Button text for config import alert acknowledgement",
+    "message": "ตกลง"
+  },
   "screens.Settings.ProjectConfig.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "การกำหนดค่าปัจจุบัน"
