@@ -49,7 +49,7 @@
     "@react-native-community/art": "^1.2.0",
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/checkbox": "^0.5.8",
-    "@react-native-community/hooks": "^2.6.0",
+    "@react-native-community/hooks": "^2.8.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^6.0.0",
     "@react-native-mapbox-gl/maps": "^8.5.0",
