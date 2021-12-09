@@ -73,6 +73,7 @@ status.startHeartbeat();
  * We need to wait for the React Native process to tell us where the folder is.
  */
 rnBridge.channel.once("config", async config => {
+  log("*** RECEIVED CONFIG MESSAGE");
   log("config", config);
   if (server) {
     const error = new Error(
@@ -120,15 +121,20 @@ rnBridge.app.on("pause", pauseLock => {
   stopServer(() => pauseLock.release());
 });
 
+let count = 0;
 // Start things up again when app is back in foreground
 rnBridge.app.on("resume", () => {
-  log("App went into foreground");
+  count++;
+  log("App went into foreground: ", count);
   // When the RN app requests permissions from the user it causes a resume event
   // but no pause event. We don't need to start the server if it's already
   // listening (because it wasn't paused)
   // https://github.com/janeasystems/nodejs-mobile/issues/177
   status.startHeartbeat();
+
+  // if (server) {
   startServer();
+  // }
 });
 
 const noop = () => {};
