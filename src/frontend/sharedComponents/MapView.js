@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import MapboxGL from "@react-native-mapbox-gl/maps";
+import MapboxGL, { Logger } from "@react-native-mapbox-gl/maps";
 import ScaleBar from "react-native-scale-bar";
 import CheapRuler from "cheap-ruler";
 
@@ -24,6 +24,17 @@ const DEFAULT_ZOOM = 12;
 // The fallback map style does not include much detail, so at zoom 12 it looks
 // empty. If the fallback map is used, then we use zoom 4 as the default zoom.
 const DEFAULT_ZOOM_FALLBACK_MAP = 4;
+
+// Suppress expected warnings in logs - see https://github.com/react-native-mapbox-gl/maps/issues/943#issuecomment-759220852
+Logger.setLogCallback(log => {
+  const { message } = log;
+
+  // expected warnings - see https://github.com/mapbox/mapbox-gl-native/issues/15341#issuecomment-522889062
+  return (
+    message.match("Request failed due to a permanent error: Canceled") ||
+    message.match("Request failed due to a permanent error: Socket Closed")
+  );
+});
 
 MapboxGL.setAccessToken(config.mapboxAccessToken);
 // Forces Mapbox to always be in connected state, rather than reading system
