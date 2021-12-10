@@ -8,10 +8,10 @@ import CheapRuler from "cheap-ruler";
 // import type { MapStyle } from "../types";
 import { LocationFollowingIcon, LocationNoFollowIcon } from "./icons";
 import IconButton from "./IconButton";
-import withNavigationFocus from "../lib/withNavigationFocus";
 import type { LocationContextType } from "../context/LocationContext";
 import type { ObservationsMap } from "../context/ObservationsContext";
 import type { MapStyleType } from "../hooks/useMapStyle";
+import { useIsFullyFocused } from "../hooks/useIsFullyFocused";
 import bugsnag from "../lib/logger";
 import config from "../../config.json";
 import Loading from "./Loading";
@@ -378,7 +378,12 @@ class MapView extends React.Component<Props, State> {
   }
 }
 
-export default withNavigationFocus(MapView);
+const FocusAwareMapView = (props: $Diff<Props, {| isFocused: boolean |}>) => {
+  const isFocused = useIsFullyFocused();
+  return <MapView {...props} isFocused={isFocused} />;
+};
+
+export default FocusAwareMapView;
 
 // Shallow compare objects, but omitting certain keys from the comparison
 function shallowDiffers(a: any, b: any, omit: string[] = []) {
