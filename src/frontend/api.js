@@ -269,8 +269,6 @@ export function Api({
         restartTimeout();
         // As soon as we hear from the Node process, send the storagePath and
         // other config that the server requires
-
-        console.log("*** POSTING CONFIG");
         nodejs.channel.post("config", {
           sharedStorage: RNFS.ExternalDirectoryPath,
           privateCacheStorage: RNFS.CachesDirectoryPath,
