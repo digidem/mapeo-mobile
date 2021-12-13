@@ -138,7 +138,6 @@ const ObservationView = ({
   const icon = (preset && preset.icon) || undefined;
 
   const handleShare = () => {
-    const { value } = observation;
     const msg = renderToString(
       <ShareMessage observation={observation} preset={preset} />,
       { intl }
@@ -148,10 +147,8 @@ const ObservationView = ({
       { intl }
     );
 
-    if (value.attachments && value.attachments.length) {
-      const urls = value.attachments.map(a =>
-        api.getMediaFileUri(a.id, "preview")
-      );
+    if (attachments && attachments.length) {
+      const urls = attachments.map(a => api.getMediaFileUri(a.id, "preview"));
       const options = {
         urls: urls,
         message: msg,
