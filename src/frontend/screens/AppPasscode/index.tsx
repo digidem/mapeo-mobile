@@ -21,8 +21,7 @@ export const AppPasscode: NavigationStackScreenComponent = () => {
 
   return (
     <View style={styles.pageContainer}>
-      {!passIsSet && <NewPasscode />}
-      {passIsSet && <EnterPasscode />}
+      {!passIsSet ? <NewPasscode /> : <EnterPasscode />}
     </View>
   );
 };

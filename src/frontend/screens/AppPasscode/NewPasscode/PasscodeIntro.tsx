@@ -25,7 +25,7 @@ interface SplashProps {
   incrementState: () => void;
 }
 
-export const SplashScreen = ({ incrementState }: SplashProps) => {
+export const PasscodeIntro = ({ incrementState }: SplashProps) => {
   const { setPassIsSet } = React.useContext(SecurityContext);
   const { formatMessage: t } = useIntl();
   const { navigate } = useNavigation();

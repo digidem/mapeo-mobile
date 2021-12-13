@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View } from "react-native";
-import { SplashScreen } from "./Splash";
+import { PasscodeIntro } from "./PasscodeIntro";
 
 enum ScreenState {
   splash,
@@ -13,12 +13,16 @@ export const NewPasscode = () => {
     ScreenState.splash
   );
 
-  function incrementState() {
+  function incrementState(forward: boolean = true) {
+    if (!forward) {
+      setScreenState(prevState => prevState - 1);
+    }
+
     setScreenState(prevState => prevState + 1);
   }
 
   if (screenState === ScreenState.splash) {
-    return <SplashScreen incrementState={incrementState} />;
+    return <PasscodeIntro incrementState={incrementState} />;
   }
 
   //To-Do Create Set Passcode Screen
