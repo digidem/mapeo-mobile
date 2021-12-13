@@ -6,6 +6,7 @@
     "node": "12.16.3"
   },
   "scripts": {
+    "prepare": "husky install",
     "start": "react-native start",
     "start-otf": "FEATURE_ONBOARDING=true npm start -- --reset-cache",
     "start-icca": "RN_SRC_EXT=icca react-native start",
@@ -25,6 +26,7 @@
     "log": "adb logcat -v brief *:S NODEJS-MOBILE:V ReactNative:V ReactNativeJS:V",
     "dev-menu": "adb shell input keyevent 82",
     "prettier": "prettier --write \"src/**/*.js\"",
+    "prettier:staged": "pretty-quick --staged",
     "release": "standard-version",
     "release:update": "standard-version --skip bump",
     "release-notes": "conventional-changelog -r 2 -p angular",
@@ -36,11 +38,6 @@
     "extract-messages": "extract-messages --locales=en --output messages --descriptions 'src/frontend/**/*.{js,ts,tsx}'",
     "build-detox-android": "RN_SRC_EXT=e2e detox build -c android.emu.release",
     "test-detox-android": "RN_SRC_EXT=e2e detox test -c android.emu.release --device-launch-args=\"-dns-server 1.1.1.1\""
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
   },
   "dependencies": {
     "@bugsnag/react-native": "^7.14.1",
@@ -133,7 +130,8 @@
     "@testing-library/jest-native": "^3.4.3",
     "@testing-library/react-native": "^7.2.0",
     "@turf/random": "^6.0.2",
-    "@types/debug": "^4.1.6",
+    "@types/debug": "^4.1.7",
+    "@types/flat": "^5.0.2",
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.172",
     "@types/react": "^17.0.37",
@@ -173,7 +171,7 @@
     "fs-extra": "^10.0.0",
     "glob": "^7.1.5",
     "hubfs.js": "^1.0.0",
-    "husky": "^4.2.5",
+    "husky": "^7.0.2",
     "jest": "^27.0.6",
     "jest-cli": "^26.4.2",
     "jetifier": "^1.6.6",
@@ -181,7 +179,7 @@
     "metro-react-native-babel-preset": "^0.66.2",
     "mkdirp": "^1.0.4",
     "prettier": "^2.0.5",
-    "pretty-quick": "^2.0.0",
+    "pretty-quick": "^2.0.2",
     "random-date-generator": "^1.0.2",
     "random-title": "^1.0.4",
     "react-dom": "^17.0.2",

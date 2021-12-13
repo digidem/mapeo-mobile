@@ -13,7 +13,7 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import { getUniqueId } from "react-native-device-info";
 
 import SyncView from "./SyncView";
-import useAllObservations from "../../hooks/useAllObservations";
+import { useAllObservations } from "../../hooks/useAllObservations";
 import useWifiStatus from "../../hooks/useWifiStatus";
 import ConfigContext from "../../context/ConfigContext";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";

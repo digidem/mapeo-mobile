@@ -3,8 +3,8 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 
 import IconButton from "../../sharedComponents/IconButton";
-import useObservation from "../../hooks/useObservation";
-import useDraftObservation from "../../hooks/useDraftObservation";
+import { useObservation } from "../../hooks/useObservation";
+import { useDraftObservation } from "../../hooks/useDraftObservation";
 
 import { EditIcon } from "../../sharedComponents/icons";
 import type { NavigationProp } from "../../types";
@@ -23,13 +23,13 @@ const ObservationHeaderRight = ({ navigation }: Props) => {
 
   function handlePress() {
     if (!observation) return;
-    newDraft(observation.id, observation.value);
+    newDraft(observation.id, observation);
     navigation.navigate("ObservationEdit", { observationId });
   }
 
   // Don't render the button if observation doesn't exist
   if (!observation) return null;
-  const isMine = observation.value.deviceId === deviceId;
+  const isMine = observation.deviceId === deviceId;
   return isMine ? (
     <IconButton onPress={handlePress} testID="editButton">
       <EditIcon />

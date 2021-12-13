@@ -7,7 +7,8 @@ import debug from "debug";
 import { defineMessages, FormattedMessage } from "react-intl";
 
 import CameraView from "../sharedComponents/CameraView";
-import useDraftObservation, {
+import {
+  useDraftObservation,
   type CapturedPictureMM,
 } from "../hooks/useDraftObservation";
 
