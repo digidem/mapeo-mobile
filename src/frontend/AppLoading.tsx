@@ -26,7 +26,9 @@ const REQUESTED_PERMISSIONS = [
 export const AppLoading = ({ children }: React.PropsWithChildren<{}>) => {
   const { requestPermissions } = usePermissions();
 
-  const [serverStatus, setServerStatus] = React.useState<ServerStatus>(null);
+  const [serverStatus, setServerStatus] = React.useState<ServerStatus | null>(
+    null
+  );
 
   const timeoutId = React.useRef<number>();
 
