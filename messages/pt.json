@@ -597,6 +597,18 @@
   "screens.Onboarding.Sync.startMapping": {
     "message": "Começar Mapeamento"
   },
+  "screens.Photos.ConfirmDeleteModal.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
+    "message": "Excluir imagem"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
+    "message": "Excluir esta foto?"
+  },
+  "screens.PhotosModal": {
+    "message": "Excluir imagem"
+  },
   "screens.ProjectInviteModal.close": {
     "message": "Fechar"
   },
