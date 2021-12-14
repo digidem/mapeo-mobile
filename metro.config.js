@@ -46,6 +46,9 @@ module.exports = {
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
+        // This should be set to true but doing so potentially breaks async storage module
+        //   - https://github.com/facebook/metro/issues/682
+        //   - https://github.com/react-native-async-storage/async-storage/issues/604
         inlineRequires: false,
       },
     }),
