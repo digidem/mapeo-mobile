@@ -14,6 +14,7 @@ import { BackIcon, SaveIcon } from "../../sharedComponents/icons";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { SecurityContext } from "./SecurityContext";
 import { useNavigation } from "react-navigation-hooks";
+import SettingsContext from "../../context/SettingsContext";
 
 const m = defineMessages({
   title: {
@@ -64,8 +65,12 @@ const m = defineMessages({
 
 export const Security: NavigationStackScreenComponent = () => {
   const { passIsSet } = React.useContext(SecurityContext);
-
+  const [{ experiments }] = React.useContext(SettingsContext);
   const { navigate } = useNavigation();
+
+  React.useEffect(() => {
+    if (!experiments.appPasscode) navigate("Settings");
+  }, []);
 
   const [passCodeDes, killPassCodeDes] = React.useMemo(
     () =>
@@ -76,51 +81,49 @@ export const Security: NavigationStackScreenComponent = () => {
   );
 
   return (
-    <React.Fragment>
-      <List>
-        <ListItem button={false} style={{ marginVertical: 10 }}>
-          <ListItemText
-            style={{ textTransform: "uppercase" }}
-            primary={<FormattedMessage {...m.securitySubheader} />}
-          />
-        </ListItem>
+    <List>
+      <ListItem button={false} style={{ marginVertical: 10 }}>
+        <ListItemText
+          style={{ textTransform: "uppercase" }}
+          primary={<FormattedMessage {...m.securitySubheader} />}
+        />
+      </ListItem>
 
-        <ListItem button={true} onPress={() => navigate("AppPasscode")}>
-          <ListItemText
-            primary={<FormattedMessage {...m.passcodeHeader} />}
-            secondary={<FormattedMessage {...passCodeDes} />}
-          />
-        </ListItem>
+      <ListItem button={true} onPress={() => navigate("AppPasscode")}>
+        <ListItemText
+          primary={<FormattedMessage {...m.passcodeHeader} />}
+          secondary={<FormattedMessage {...passCodeDes} />}
+        />
+      </ListItem>
 
-        <ListItem
-          button={true}
-          onPress={() => {
-            return;
-          }}
-        >
-          <ListItemText
-            primary={<FormattedMessage {...m.killPasscodeHeader} />}
-            secondary={<FormattedMessage {...killPassCodeDes} />}
-          />
-        </ListItem>
+      <ListItem
+        button={true}
+        onPress={() => {
+          return;
+        }}
+      >
+        <ListItemText
+          primary={<FormattedMessage {...m.killPasscodeHeader} />}
+          secondary={<FormattedMessage {...killPassCodeDes} />}
+        />
+      </ListItem>
 
-        <ListDivider style={styles.divder} />
+      <ListDivider style={styles.divder} />
 
-        <ListItem button={false}>
-          <ListItemText
-            style={{ textTransform: "uppercase" }}
-            primary={<FormattedMessage {...m.deviceBackup} />}
-          />
-        </ListItem>
+      <ListItem button={false}>
+        <ListItemText
+          style={{ textTransform: "uppercase" }}
+          primary={<FormattedMessage {...m.deviceBackup} />}
+        />
+      </ListItem>
 
-        <ListItem>
-          <ListItemText
-            primary={<FormattedMessage {...m.paperKey} />}
-            secondary={<FormattedMessage {...m.paperKeyDes} />}
-          />
-        </ListItem>
-      </List>
-    </React.Fragment>
+      <ListItem>
+        <ListItemText
+          primary={<FormattedMessage {...m.paperKey} />}
+          secondary={<FormattedMessage {...m.paperKeyDes} />}
+        />
+      </ListItem>
+    </List>
   );
 };
 

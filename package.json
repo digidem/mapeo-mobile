@@ -8,7 +8,7 @@
   "scripts": {
     "prepare": "husky install",
     "start": "react-native start",
-    "start-otf": "FEATURE_ONBOARDING=true npm start -- --reset-cache",
+    "start-otf": "FEATURE_ONBOARDING=true FEATURE_PASSCODE=true npm start -- --reset-cache",
     "start-icca": "RN_SRC_EXT=icca react-native start",
     "android": "npm run build:backend && npm run android-no-backend-rebuild",
     "android-no-backend-rebuild": "react-native run-android --variant=appDebug --appIdSuffix=debug",
