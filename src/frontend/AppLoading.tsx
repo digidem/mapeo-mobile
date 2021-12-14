@@ -2,9 +2,10 @@ import * as React from "react";
 import SplashScreen from "react-native-splash-screen";
 import debug from "debug";
 
-import api, { Constants, ServerStatus } from "./api";
+import { Constants } from "./api";
 import { PERMISSIONS } from "./context/PermissionsContext";
 import { usePermissions } from "./hooks/usePermissions";
+import { useServerStatus } from "./hooks/useServerStatus";
 import ServerStatusScreen from "./screens/ServerStatus";
 
 const log = debug("mapeo:AppLoading");
@@ -25,10 +26,7 @@ const REQUESTED_PERMISSIONS = [
  */
 export const AppLoading = ({ children }: React.PropsWithChildren<{}>) => {
   const { requestPermissions } = usePermissions();
-
-  const [serverStatus, setServerStatus] = React.useState<ServerStatus | null>(
-    null
-  );
+  const serverStatus = useServerStatus();
 
   React.useEffect(() => {
     const timeoutId = window.setTimeout(() => {
@@ -43,35 +41,10 @@ export const AppLoading = ({ children }: React.PropsWithChildren<{}>) => {
   }, []);
 
   React.useEffect(() => {
-    const handleStatusChange = (newServerStatus: ServerStatus) => {
-      setServerStatus(previous => {
-        if (previous === newServerStatus) {
-          return previous;
-        } else {
-          log("status change", newServerStatus);
-          return newServerStatus;
-        }
-      });
-    };
-
-    const stateSubscription = api.addServerStateListener(handleStatusChange);
-
-    return () => stateSubscription.remove();
-  }, []);
-
-  React.useEffect(() => {
     requestPermissions(REQUESTED_PERMISSIONS);
   }, [requestPermissions]);
 
-  React.useEffect(() => {
-    if (!serverStatus) {
-      api.startServer();
-      setServerStatus(Constants.STARTING);
-    }
-  }, [serverStatus]);
-
-  if (!serverStatus) return null;
-  else if (serverStatus === Constants.ERROR) {
+  if (serverStatus === Constants.ERROR) {
     return <ServerStatusScreen variant="error" />;
   } else if (serverStatus === Constants.TIMEOUT) {
     return <ServerStatusScreen variant="timeout" />;
