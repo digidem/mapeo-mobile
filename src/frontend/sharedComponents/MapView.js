@@ -206,6 +206,7 @@ class MapView extends React.Component<Props, State> {
       properties?: { id: string },
     }[],
   }) => {
+    console.log("PRESSED  ");
     const pressedFeature = event.features && event.features[0];
 
     if (!pressedFeature || !pressedFeature.properties) return;
@@ -308,7 +309,6 @@ class MapView extends React.Component<Props, State> {
             rotateEnabled={false}
             surfaceView={true}
             attributionPosition={{ right: 8, bottom: 8 }}
-            onPress={this.handleObservationPress}
             onDidFailLoadingMap={e =>
               bugsnag.notify(new Error("Failed to load map"), report => {
                 report.severity = "error";
