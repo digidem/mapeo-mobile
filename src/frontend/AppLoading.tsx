@@ -30,12 +30,14 @@ export const AppLoading = ({ children }: React.PropsWithChildren<{}>) => {
     null
   );
 
-  const timeoutId = React.useRef<number>();
-
   React.useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      SplashScreen.hide();
+      log("hiding splashscreen");
+    }, 1000);
+
     return () => {
-      if (!timeoutId.current) return;
-      window.clearTimeout(timeoutId.current);
+      window.clearTimeout(timeoutId);
       SplashScreen.hide();
     };
   }, []);
@@ -59,12 +61,6 @@ export const AppLoading = ({ children }: React.PropsWithChildren<{}>) => {
 
   React.useEffect(() => {
     requestPermissions(REQUESTED_PERMISSIONS);
-
-    timeoutId.current = window.setTimeout(() => {
-      SplashScreen.hide();
-      timeoutId.current = undefined;
-      log("hiding splashscreen");
-    }, 1000);
   }, [requestPermissions]);
 
   React.useEffect(() => {
