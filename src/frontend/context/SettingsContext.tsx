@@ -17,6 +17,7 @@ export type SettingsState = {
   experiments: {
     p2pUpgrade: boolean;
     onboarding: boolean;
+    appPasscode: boolean;
   };
 };
 
@@ -30,6 +31,7 @@ const DEFAULT_SETTINGS: SettingsState = {
   experiments: {
     p2pUpgrade: false,
     onboarding: process.env.FEATURE_ONBOARDING === "true",
+    appPasscode: process.env.FEATURE_PASSCODE === "true",
   },
 };
 

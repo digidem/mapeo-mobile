@@ -27,15 +27,29 @@ if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 
 // WARNING: This needs to change if we change the navigation structure
-const getNavStoreKey = (includeOnboarding: boolean) =>
-  `@MapeoNavigation@${includeOnboarding ? 9 : 8}`;
-
-const createNavigationStatePersister = (includeOnboarding: boolean) => async (
-  navState: NavigationState
+const getNavStoreKey = (
+  includeOnboarding: boolean,
+  includePasscode: boolean
 ) => {
+  if (!includeOnboarding && !includePasscode) {
+    return "@MapeoNavigation@8";
+  } else if (includeOnboarding && !includePasscode) {
+    return "@MapeoNavigation@9";
+  } else if (!includeOnboarding && includePasscode) {
+    return "@MapeoNavigation@10";
+  } else includeOnboarding && includePasscode;
+  {
+    return "@MapeoNavigation@11";
+  }
+};
+
+const createNavigationStatePersister = (
+  includeOnboarding: boolean,
+  includePasscode: boolean
+) => async (navState: NavigationState) => {
   try {
     await AsyncStorage.setItem(
-      getNavStoreKey(includeOnboarding),
+      getNavStoreKey(includeOnboarding, includePasscode),
       JSON.stringify(navState)
     );
   } catch (err) {
@@ -43,10 +57,15 @@ const createNavigationStatePersister = (includeOnboarding: boolean) => async (
   }
 };
 
-const loadSavedNavState = async (includeOnboarding: boolean) => {
+const loadSavedNavState = async (
+  includeOnboarding: boolean,
+  includePasscode: boolean
+) => {
   try {
     const navState = JSON.parse(
-      (await AsyncStorage.getItem(getNavStoreKey(includeOnboarding))) as string
+      (await AsyncStorage.getItem(
+        getNavStoreKey(includeOnboarding, includePasscode)
+      )) as string
     );
     const didCrashLastOpen = JSON.parse(
       (await AsyncStorage.getItem(ERROR_STORE_KEY)) as string
@@ -139,7 +158,8 @@ const AppContainerWrapper = () => {
         : {
             loadNavigationState: async () => {
               const loadedNavState = await loadSavedNavState(
-                experiments.onboarding
+                experiments.onboarding,
+                experiments.appPasscode
               );
 
               const loadedRouteName = getRouteName(loadedNavState);
@@ -149,7 +169,8 @@ const AppContainerWrapper = () => {
               return loadedNavState;
             },
             persistNavigationState: createNavigationStatePersister(
-              experiments.onboarding
+              experiments.onboarding,
+              experiments.appPasscode
             ),
           },
     [experiments.onboarding, updateRouteBasedAppState]
