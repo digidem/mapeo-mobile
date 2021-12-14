@@ -64,6 +64,7 @@ type UseDraftObservation = [
       value?: Observation | null,
       capture?: Promise<CapturedPictureMM>
     ) => void;
+    deletePhoto: (id: string) => void;
   }
 ];
 
@@ -74,6 +75,33 @@ export const useDraftObservation = (): UseDraftObservation => {
     ObservationsContext
   );
   const [savingStatus, setSavingStatus] = useState<Status>();
+
+  function deletePhoto(uri: string) {
+    const newPhotosArray = draft.photos.filter(
+      photo => "originalUri" in photo && photo.originalUri !== uri
+    );
+
+    const newPhotoPromiseArray = draft.photoPromises.map(async photo => {
+      const resolvedPhoto = await photo;
+      if (resolvedPhoto.originalUri === uri) {
+        const deletedPhoto: Promise<DraftPhoto> = new Promise((res, rej) => {
+          resolvedPhoto.deleted = true;
+          res(resolvedPhoto);
+        });
+        const cancelPhoto = deletedPhoto as CancellablePromise<DraftPhoto>;
+        cancelPhoto.signal = { didCancel: true };
+        return cancelPhoto;
+      }
+
+      return photo;
+    });
+
+    setDraft(prevDraft => ({
+      ...prevDraft,
+      photos: newPhotosArray,
+      photoPromises: newPhotoPromiseArray,
+    }));
+  }
 
   const addPhoto = useCallback(
     async (capturePromise: Promise<CapturedPictureMM>) => {
@@ -296,6 +324,7 @@ export const useDraftObservation = (): UseDraftObservation => {
       newDraft,
       saveDraft,
       updateDraft,
+      deletePhoto,
     },
   ];
 };
