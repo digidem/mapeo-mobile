@@ -6,10 +6,10 @@ import { AlertIcon } from "./icons";
 import type { ViewStyleProp } from "../types";
 
 type Props = {
-  uri?: string,
-  variant?: "photo" | "loading" | "error",
-  style?: ViewStyleProp,
-  resizeMode?: "cover" | "contain" | "stretch" | "center",
+  uri?: string;
+  variant?: "photo" | "loading" | "error";
+  style?: ViewStyleProp;
+  resizeMode?: "cover" | "contain" | "stretch" | "center";
 };
 
 const PhotoView = ({

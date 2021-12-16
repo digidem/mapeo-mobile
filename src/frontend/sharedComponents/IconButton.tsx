@@ -16,8 +16,6 @@ const IconButton = ({ children, onPress, style, testID }: Props) => (
   <TouchableNativeFeedback
     testID={testID}
     onPress={onPress}
-    // TODO: There's some typing issue with react-native-gesture-handler here. Using the definition from react native works fine
-    // @ts-expect-error
     background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, true)}
   >
     <View style={[styles.container, style]}>{children}</View>
