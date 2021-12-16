@@ -2,10 +2,9 @@ import * as React from "react";
 import SplashScreen from "react-native-splash-screen";
 import debug from "debug";
 
-import { Constants } from "./api";
+import api, { Constants, ServerStatus } from "./api";
 import { PERMISSIONS } from "./context/PermissionsContext";
 import { usePermissions } from "./hooks/usePermissions";
-import { useServerStatus } from "./hooks/useServerStatus";
 import ServerStatusScreen from "./screens/ServerStatus";
 
 const log = debug("mapeo:AppLoading");
@@ -52,3 +51,34 @@ export const AppLoading = ({ children }: React.PropsWithChildren<{}>) => {
     return children;
   }
 };
+
+function useServerStatus() {
+  const [status, setStatus] = React.useState<ServerStatus>(
+    api.getServerStatus()
+  );
+
+  React.useEffect(() => {
+    const onStatusChange = (newServerStatus: ServerStatus) => {
+      setStatus(previous => {
+        if (previous === newServerStatus) {
+          return previous;
+        } else {
+          log("status change", newServerStatus);
+          return newServerStatus;
+        }
+      });
+    };
+
+    const stateSubscription = api.addServerStateListener(onStatusChange);
+
+    return () => stateSubscription.remove();
+  }, []);
+
+  React.useEffect(() => {
+    if (status === Constants.IDLE) {
+      api.startServer();
+    }
+  }, [status]);
+
+  return status;
+}
