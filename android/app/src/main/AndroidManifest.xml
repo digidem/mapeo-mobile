@@ -27,6 +27,9 @@
     <!-- Detect and report crashes from C and C++ code (e.g. nodejs-mobile) -->
     <meta-data android:name="com.bugsnag.android.DETECT_NDK_CRASHES"
       android:value="true"/>
+    <!-- Dynamically set release stage in Bugsnag at build time: https://github.com/bugsnag/bugsnag-js/issues/1264#issuecomment-767191963 -->
+    <meta-data android:name="com.bugsnag.android.RELEASE_STAGE"
+    android:value="${bugsnagReleaseStage}"/>
     <!-- android:launchMode="singleTask" fixes a bug where our React app would
          never unmount and instead kept remounting new instances -->
     <!-- maybe add android:largeHeap="true" if we keep getting out of memory
