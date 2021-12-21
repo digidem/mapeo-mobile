@@ -154,7 +154,7 @@ function convertToDMS({ lat, lon }: { lat: number; lon: number }): string {
   return `${latitude} ${latitudeCardinal}, ${longitude} ${longitudeCardinal}`;
 }
 
-function convertToUTM({ lat, lon }: { lat: number; lon: number }) {
+function convertToUTM({ lat, lon }: { lat: number; lon: number }): string {
   try {
     const { easting, northing, zoneNum, zoneLetter } = fromLatLon(lat, lon);
     const formattedEasting = leftPad(easting.toFixed(), 6, "0");
