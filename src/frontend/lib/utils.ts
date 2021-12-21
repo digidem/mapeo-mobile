@@ -145,7 +145,7 @@ export function convertDmsToDd({
 
 // Style from National Geographic style guide
 // https://sites.google.com/a/ngs.org/ngs-style-manual/home/L/latitude-and-longitude
-function convertToDMS({ lat, lon }: { lat: number; lon: number }) {
+function convertToDMS({ lat, lon }: { lat: number; lon: number }): string {
   const latitude = formatDms(toDegreesMinutesAndSeconds(lat));
   const latitudeCardinal = lat >= 0 ? "N" : "S";
 
