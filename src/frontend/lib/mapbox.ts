@@ -15,7 +15,10 @@ const config = {
 
 const help = "See https://www.mapbox.com/api-documentation/#access-tokens";
 
-function makeAPIURL(urlObject: UrlObject, accessToken: string | null = null) {
+function makeAPIURL(
+  urlObject: UrlObject,
+  accessToken: string | null = null
+): string {
   const apiUrlObject = parseUrl(config.API_URL);
   urlObject.protocol = apiUrlObject.protocol;
   urlObject.authority = apiUrlObject.authority;
