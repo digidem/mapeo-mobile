@@ -146,10 +146,10 @@ export function convertDmsToDd({
 // Style from National Geographic style guide
 // https://sites.google.com/a/ngs.org/ngs-style-manual/home/L/latitude-and-longitude
 function convertToDMS({ lat, lon }: { lat: number; lon: number }): string {
-  const latitude = formatDms(toDegreesMinutesAndSeconds(lat));
+  const latitude = formatDMS(toDegreesMinutesAndSeconds(lat));
   const latitudeCardinal = lat >= 0 ? "N" : "S";
 
-  const longitude = formatDms(toDegreesMinutesAndSeconds(lon));
+  const longitude = formatDMS(toDegreesMinutesAndSeconds(lon));
   const longitudeCardinal = lon >= 0 ? "E" : "W";
   return `${latitude} ${latitudeCardinal}, ${longitude} ${longitudeCardinal}`;
 }
@@ -178,7 +178,7 @@ function formatDD({ lat, lon }: { lat: number; lon: number }) {
   return `${formattedLat}° ${latCardinal}, ${formattedLon}° ${lonCardinal}`;
 }
 
-function formatDms({
+function formatDMS({
   degrees,
   minutes,
   seconds,
