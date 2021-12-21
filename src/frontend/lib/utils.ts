@@ -4,7 +4,7 @@ import type { SelectOptions, LabeledSelectOption, Key } from "mapeo-schema";
 
 import type { LocationContextType } from "../context/LocationContext";
 import type {
-  ObservationValue,
+  ClientGeneratedObservation,
   ObservationAttachment,
 } from "../context/ObservationsContext";
 import type { SavedPhoto } from "../context/DraftObservationContext";
@@ -77,7 +77,7 @@ export function getLocationStatus({
 
 // Get a matching preset from a Map of presets, for a given observation value
 export function matchPreset(
-  observationValue: ObservationValue,
+  observationValue: ClientGeneratedObservation,
   presets: PresetsMap
 ): Preset | void {
   const categoryId = (observationValue.tags as { categoryId?: string })
@@ -225,9 +225,9 @@ export function getProp(tags: any, fieldKey: Key, defaultValue: any) {
  * used widely in presets yet
  */
 export function convertSelectOptionsToLabeled(
-  options: SelectOptions // TODO: Need to update after updating `mapeo-schema` definitions
+  options: SelectOptions
 ): LabeledSelectOption[] {
-  return options.map((option: unknown) => {
+  return options.map(option => {
     if (option === null) {
       return { label: "NULL", value: option };
     } else if (typeof option === "boolean") {
