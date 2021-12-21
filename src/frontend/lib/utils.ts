@@ -114,7 +114,7 @@ export function filterPhotosFromAttachments(
     )
       acc.push({ id: att.id, type: att.type });
     return acc;
-  }, [] as ObservationAttachment[]);
+  }, [] as SavedPhoto[]);
 }
 
 // Coordinates conversions
