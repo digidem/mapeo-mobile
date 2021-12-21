@@ -186,7 +186,7 @@ function formatDms({
   degrees: number;
   minutes: number;
   seconds: number;
-}) {
+}): string {
   return `${degrees}° ${minutes}' ${seconds.toFixed(3)}"`;
 }
 
