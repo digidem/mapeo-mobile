@@ -109,7 +109,8 @@
     "shallowequal": "^1.1.0",
     "turndown-rn": "^6.1.0",
     "use-memo-one": "^1.1.1",
-    "utm": "^1.1.1"
+    "utm": "^1.1.1",
+    "validate-color": "^2.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.1",
