@@ -597,6 +597,18 @@
   "screens.Onboarding.Sync.startMapping": {
     "message": "เริ่มทำแผนที่"
   },
+  "screens.Photos.ConfirmDeleteModal.cancel": {
+    "message": "ยกเลิก"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
+    "message": "ลบรูปภาพ"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
+    "message": "ลบรูปนี้หรือไม่?"
+  },
+  "screens.PhotosModal": {
+    "message": "ลบรูปภาพ"
+  },
   "screens.ProjectInviteModal.close": {
     "message": "ปิด"
   },
