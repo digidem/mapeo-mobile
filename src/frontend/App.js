@@ -14,8 +14,15 @@ import bugsnag from "./lib/logger";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
 import { ERROR_STORE_KEY } from "./constants";
 
-// Turn off warnings about require cycles
-LogBox.ignoreLogs(["Require cycle:"]);
+/**
+ * Turn off warnings about:
+ * - require cycles
+ * - react-native-screens warning that suggests upgrading react-navigation to 5
+ */
+LogBox.ignoreLogs([
+  "Require cycle:",
+  "new functionality added to react-native-screens",
+]);
 
 /**
  * Catches Javascript errors anywhere in the child component tree, logs the
