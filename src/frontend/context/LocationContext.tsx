@@ -5,8 +5,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Position, Provider } from "mapeo-schema";
 import debug from "debug";
 
-import { withPermissions, PERMISSIONS, RESULTS } from "./PermissionsContext";
-import { PermissionResult, PermissionsType } from "./PermissionsContext";
+import { PERMISSIONS, RESULTS, PermissionResult } from "./PermissionsContext";
+import { usePermissions } from "../hooks/usePermissions";
 
 const log = debug("mapeo:Location");
 const STORE_KEY = "@MapeoPosition@1";
@@ -68,12 +68,9 @@ const LocationContext: React.Context<LocationContextType> = React.createContext<
  * if we get not new readings for 10 seconds then we check to see whether the
  * user has turned off location.
  */
-const _LocationProvider = ({
-  children,
-  permissions,
-}: React.PropsWithChildren<{
-  permissions: PermissionsType;
-}>) => {
+export const LocationProvider = ({ children }: React.PropsWithChildren<{}>) => {
+  const { permissions } = usePermissions();
+
   const [error, setError] = React.useState(false);
   const [savedPosition, setSavedPosition] = React.useState<Position>();
   const [position, setPosition] = React.useState<Position>();
@@ -175,6 +172,7 @@ const _LocationProvider = ({
       }
     };
 
+    // TODO: Use subscription to remove listener when upgrading to React Native 0.64
     AppState.addEventListener("change", handleAppStateChange);
 
     return () => {
@@ -205,5 +203,3 @@ const _LocationProvider = ({
 };
 
 export default LocationContext;
-
-export const LocationProvider = withPermissions(_LocationProvider);
