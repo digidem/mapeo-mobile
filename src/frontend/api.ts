@@ -352,6 +352,10 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       return get(`device/id`) as Promise<string>;
     },
 
+    getServerStatus: (): ServerStatus => {
+      return status;
+    },
+
     /**
      * DELETE methods
      */
