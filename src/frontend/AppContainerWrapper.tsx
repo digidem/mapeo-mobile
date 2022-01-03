@@ -5,7 +5,7 @@ import {
   NavigationContainerComponent,
   NavigationState,
 } from "react-navigation";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   EDITING_SCREEN_NAMES,

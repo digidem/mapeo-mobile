@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AppState, AppStateStatus } from "react-native";
 import * as Location from "expo-location";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Position, Provider } from "mapeo-schema";
 import debug from "debug";
 

@@ -2,7 +2,7 @@
 import * as React from "react";
 import { LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import ErrorScreen from "./screens/UncaughtError";
 import AppLoading from "./AppLoading";
