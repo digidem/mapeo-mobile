@@ -25,6 +25,7 @@ export type Preset = {
   sort?: number;
   matchScore?: number;
   searchable?: boolean;
+  color?: string;
 };
 
 export type {
