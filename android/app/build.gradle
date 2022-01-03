@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
+import net.swiftzer.semver.SemVer
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -180,9 +181,22 @@ def myVersionName = getenv("ANDROID_VERSION_NAME") ?: getenv("npm_package_versio
 println("Version name")
 println(myVersionName)
 
+def getDefaultBugsnagReleaseStage(version) {
+    SemVer parsed = SemVer.parse(version)
+    def preRelease = parsed.preRelease
+    if (preRelease != null) {
+        // This is kind of lazy but let's assume that these three delimiters will be sufficient for us
+        return preRelease.split("[.|-|+]")[0]
+    }
+    return 'production'
+}
+
+def paths = [
+    new File("app/build/jni/libs")
+]
+
 bugsnag {
-    ndk true
-    sharedObjectPath "app/build/jni/libs"
+    sharedObjectPaths = paths
 }
 
 String shouldRebuildNativeModules = System.getenv('NODEJS_MOBILE_BUILD_NATIVE_MODULES');
@@ -217,6 +231,9 @@ android {
         // Detox integration
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
         testInstrumentationRunner 'com.mapeo.DetoxTestAppJUnitRunner'
+
+        // Bugsnag integration
+        manifestPlaceholders = [bugsnagReleaseStage: getDefaultBugsnagReleaseStage(myVersionName)]
     }
     splits {
         abi {
@@ -286,6 +303,7 @@ android {
             ndk {
                 abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
             }
+            manifestPlaceholders = [bugsnagReleaseStage: "development"]
         }
     }
 

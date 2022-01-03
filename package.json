@@ -40,6 +40,7 @@
     "test-detox-android": "RN_SRC_EXT=e2e detox test -c android.emu.release --device-launch-args=\"-dns-server 1.1.1.1\""
   },
   "dependencies": {
+    "@bugsnag/react-native": "^7.14.1",
     "@digidem/wcmc-mapeo-mobile-intro": "^1.0.3",
     "@gorhom/bottom-sheet": "^2.3.0",
     "@react-native-community/art": "^1.2.0",
@@ -50,7 +51,6 @@
     "@react-native-community/netinfo": "^6.0.0",
     "@react-native-mapbox-gl/maps": "^8.0.0",
     "@react-native-picker/picker": "^2.0.0",
-    "bugsnag-react-native": "^2.23.10",
     "cheap-ruler": "^3.0.1",
     "core-js": "^3.6.5",
     "debug": "^4.1.1",
@@ -104,7 +104,6 @@
     "react-navigation-stack": "^2.8.2",
     "react-navigation-tabs": "^2.9.0",
     "react-to-string": "^0.1.1",
-    "semver": "^7.3.2",
     "serialize-error": "^8.1.0",
     "shallowequal": "^1.1.0",
     "turndown-rn": "^6.1.0",
