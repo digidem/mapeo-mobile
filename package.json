@@ -70,7 +70,7 @@
     "mapeo-schema": "^2.0.2",
     "nodejs-mobile-react-native": "^0.6.1",
     "p-is-promise": "^4.0.0",
-    "patch-package": "^6.2.2",
+    "patch-package": "^6.4.7",
     "path": "^0.12.7",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
