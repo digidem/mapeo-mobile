@@ -206,7 +206,6 @@ class MapView extends React.Component<Props, State> {
       properties?: { id: string },
     }[],
   }) => {
-    console.log("PRESSED  ");
     const pressedFeature = event.features && event.features[0];
 
     if (!pressedFeature || !pressedFeature.properties) return;
