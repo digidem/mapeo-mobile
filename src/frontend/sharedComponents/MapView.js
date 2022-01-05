@@ -9,10 +9,10 @@ import validateColor from "validate-color";
 import ConfigContext from "../context/ConfigContext";
 import { LocationFollowingIcon, LocationNoFollowIcon } from "./icons";
 import IconButton from "./IconButton";
-import withNavigationFocus from "../lib/withNavigationFocus";
 import type { LocationContextType } from "../context/LocationContext";
 import type { ObservationsMap } from "../context/ObservationsContext";
 import type { MapStyleType } from "../hooks/useMapStyle";
+import { useIsFullyFocused } from "../hooks/useIsFullyFocused";
 import bugsnag from "../lib/logger";
 import config from "../../config.json";
 import Loading from "./Loading";
@@ -222,14 +222,12 @@ class MapView extends React.Component<Props, State> {
     }
   }
 
-  handleObservationPress = (e: {
-    nativeEvent?: {
-      payload?: {
-        properties?: { id: string },
-      },
+  handleObservationPress = (event: {
+    features?: {
+      properties?: { id: string },
     },
   }) => {
-    const pressedFeature = e.nativeEvent && e.nativeEvent.payload;
+    const pressedFeature = event.features && event.features[0];
     if (!pressedFeature || !pressedFeature.properties) return;
 
     const observationId = pressedFeature.properties.id;
@@ -330,7 +328,6 @@ class MapView extends React.Component<Props, State> {
             rotateEnabled={false}
             surfaceView={true}
             attributionPosition={{ right: 8, bottom: 8 }}
-            onPress={this.handleObservationPress}
             onDidFailLoadingMap={e =>
               bugsnag.notify(new Error("Failed to load map"), report => {
                 report.severity = "error";
@@ -408,7 +405,12 @@ class MapView extends React.Component<Props, State> {
   }
 }
 
-export default withNavigationFocus(MapView);
+const FocusAwareMapView = (props: $Diff<Props, {| isFocused: boolean |}>) => {
+  const isFocused = useIsFullyFocused();
+  return <MapView {...props} isFocused={isFocused} />;
+};
+
+export default FocusAwareMapView;
 
 // Shallow compare objects, but omitting certain keys from the comparison
 function shallowDiffers(a: any, b: any, omit: string[] = []) {
