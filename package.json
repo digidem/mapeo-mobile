@@ -62,7 +62,6 @@
     "expo-location": "^12.1.0",
     "expo-sensors": "^10.2.0",
     "flat": "^5.0.2",
-    "jsdom-jscore-rn": "^0.1.8",
     "ky": "^0.23.0",
     "lodash": "^4.17.19",
     "mapeo-offline-map": "^2.0.0",
