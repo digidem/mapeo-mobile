@@ -8,8 +8,8 @@ buildscript {
         compileSdkVersion = 30
         targetSdkVersion = 30
         supportLibVersion = "30.0.0"
-        // Kotlin is needed by Detox testing framework
-        kotlinVersion = "1.3.50"
+        // Kotlin is needed by Detox testing framework and react-native-screens
+        kotlinVersion = "1.6.10"
         ndkVersion = "21.4.7075529"
     }
     repositories {
@@ -26,7 +26,7 @@ buildscript {
         // Bugsnag plugin for uploading source maps and symbols to bugsnag
         classpath 'com.bugsnag:bugsnag-android-gradle-plugin:5.+'
         // Used in ./app/build.gradle to parse app version for Bugsnag
-        classpath 'net.swiftzer.semver:semver:1.1.2'
+        classpath 'net.swiftzer.semver:semver:1.2.0'
         // Used by Detox
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
