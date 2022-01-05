@@ -57,7 +57,9 @@ jobs:
           path: android/build/nodejs-native-assets
           key: ${{ runner.os }}-nodejs-mobile-${{ hashFiles('src/backend/package-lock.json') }}
       - name: Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
+        with:
+          node-version: "12.16.3"
       - name: Use specific Java version for sdkmanager to work
         uses: joschi/setup-jdk@v2
         with:
@@ -103,7 +105,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
+        with:
+          node-version: "12.16.3"
       - name: Use specific Java version for sdkmanager to work
         uses: joschi/setup-jdk@v2
         with:
