@@ -386,9 +386,6 @@ dependencies {
         implementation jscFlavor
     }
 
-    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
-
     // Detox
     androidTestImplementation 'com.wix:detox:+'
     androidTestImplementation 'com.linkedin.testbutler:test-butler-library:2.2.1'
