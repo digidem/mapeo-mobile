@@ -1,6 +1,6 @@
+// @flow
 import "react-native-gesture-handler";
 
-// @flow
 import * as React from "react";
 import { LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
