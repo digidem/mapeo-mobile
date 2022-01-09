@@ -592,6 +592,27 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     getMapStyleUrl: (id: string): string => {
       return `${BASE_URL}styles/${id}/style.json?${startupTime}`;
     },
+
+    /**
+     *
+     *
+     *
+     *
+     *
+     *
+     *  JOIN PROJECT API
+     *
+     *
+     *
+     *
+     *
+     *
+     * */
+
+    getUrlJoinRequest: async (): Promise<string> => {
+      const url = (await get(`/joinReq`)) as string;
+      return url;
+    },
   };
 
   return api;

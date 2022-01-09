@@ -17,6 +17,7 @@ import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import IconButton from "../../sharedComponents/IconButton";
 import Text from "../../sharedComponents/Text";
 import { WithWifiBar } from "./WithWifiBar";
+import api from "../../api";
 
 const m = defineMessages({
   title: {
@@ -54,18 +55,32 @@ export const JoinProjectQrScreen: NavigationStackScreenComponent<{
   isAdmin?: boolean;
 }> = ({ navigation }) => {
   const { formatMessage: t } = useIntl();
+  const [qrUrl, setQrUrl] = React.useState("");
 
   const isAdmin =
     JSON.stringify(navigation.getParam("isAdmin", false)) === "true";
+
+  React.useEffect(() => {
+    if (!isAdmin) {
+      api.getUrlJoinRequest().then(url => {
+        //To do: make this a constant
+        setQrUrl("https://i.mapeo.app/" + url);
+      });
+      return;
+    }
+
+    //IF Admin what do we do here?
+  }, []);
 
   return (
     <WithWifiBar>
       <View style={styles.container}>
         <View>
-          <View style={styles.qrCodeContainer}>
-            {/* TODO: use an actual value for this */}
-            <QRCode value="https://digital-democracy.org" size={250} />
-          </View>
+          {qrUrl != undefined && (
+            <View style={styles.qrCodeContainer}>
+              <QRCode value={qrUrl} size={250} />
+            </View>
+          )}
           <View style={styles.instructionsContainer}>
             <Text style={styles.instructionsTitle}>
               <FormattedMessage {...m.instructionsTitle} />

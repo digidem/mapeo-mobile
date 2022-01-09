@@ -18,6 +18,7 @@ const pump = require("pump");
 const semverCoerce = require("semver/functions/coerce");
 const UpgradeManager = require("./upgrade-manager");
 const { serializeError } = require("serialize-error");
+const { createCrytoServer } = require("./crypto/crypto-server");
 
 const log = debug("mapeo-core:server");
 
@@ -66,6 +67,8 @@ function createServer({
     indexDir: path.join(privateStorage, "index"),
     encryptionKey: projectKey,
   });
+
+  createCrytoServer(projectKey, 1500);
 
   // The media store for photos, video etc.
   const media = createMediaStore(path.join(privateStorage, "media"));
