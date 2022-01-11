@@ -6,7 +6,7 @@ import { defineMessages, useIntl } from "react-intl";
 
 import IconButton from "../../sharedComponents/IconButton";
 import { SaveIcon } from "../../sharedComponents/icons";
-import useDraftObservation from "../../hooks/useDraftObservation";
+import { useDraftObservation } from "../../hooks/useDraftObservation";
 import type { ObservationValue } from "../../context/ObservationsContext";
 import type { NavigationProp } from "../../types";
 

@@ -4,14 +4,15 @@ import { View, StyleSheet } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ScaleBar from "react-native-scale-bar";
 import CheapRuler from "cheap-ruler";
+import validateColor from "validate-color";
 
-// import type { MapStyle } from "../types";
+import ConfigContext from "../context/ConfigContext";
 import { LocationFollowingIcon, LocationNoFollowIcon } from "./icons";
 import IconButton from "./IconButton";
-import withNavigationFocus from "../lib/withNavigationFocus";
 import type { LocationContextType } from "../context/LocationContext";
 import type { ObservationsMap } from "../context/ObservationsContext";
 import type { MapStyleType } from "../hooks/useMapStyle";
+import { useIsFullyFocused } from "../hooks/useIsFullyFocused";
 import bugsnag from "../lib/logger";
 import config from "../../config.json";
 import Loading from "./Loading";
@@ -25,19 +26,12 @@ const DEFAULT_ZOOM = 12;
 // empty. If the fallback map is used, then we use zoom 4 as the default zoom.
 const DEFAULT_ZOOM_FALLBACK_MAP = 4;
 
+const DEFAULT_MARKER_COLOR = "#F29D4B";
+
 MapboxGL.setAccessToken(config.mapboxAccessToken);
 // Forces Mapbox to always be in connected state, rather than reading system
 // connectivity state
 MapboxGL.setConnected(true);
-
-const mapboxStyles = {
-  observation: {
-    circleColor: "#F29D4B",
-    circleRadius: 5,
-    circleStrokeColor: "#fff",
-    circleStrokeWidth: 2,
-  },
-};
 
 type ObservationFeature = {
   type: "Feature",
@@ -61,18 +55,17 @@ function mapObservationsToFeatures(
   const features = [];
   for (const obs of obsMap.values()) {
     // Only include observations with a location in the map view
-    if (
-      typeof obs.value.lon === "number" &&
-      typeof obs.value.lat === "number"
-    ) {
+    if (typeof obs.lon === "number" && typeof obs.lat === "number") {
       features.push({
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [obs.value.lon, obs.value.lat],
+          coordinates: [obs.lon, obs.lat],
         },
         properties: {
           id: obs.id,
+          categoryId:
+            obs.tags && obs.tags.categoryId ? obs.tags.categoryId : undefined,
         },
       });
     }
@@ -85,27 +78,63 @@ function mapObservationsToFeatures(
 // life)
 const MIN_DISPLACEMENT = 15;
 
-class ObservationMapLayer extends React.PureComponent<{
-  onPress: Function,
+const ObservationMapLayer = ({
+  observations,
+  onPress,
+}: {
   observations: ObservationsMap,
-}> {
-  render() {
-    const { onPress, observations } = this.props;
-    const featureCollection = {
-      type: "FeatureCollection",
-      features: mapObservationsToFeatures(observations),
+  onPress: (event: {
+    nativeEvent?: {
+      payload?: {
+        properties?: { id: string },
+      },
+    },
+  }) => void,
+}) => {
+  const [{ presets }] = React.useContext(ConfigContext);
+
+  const featureCollection = {
+    type: "FeatureCollection",
+    features: mapObservationsToFeatures(observations),
+  };
+
+  const layerStyles = React.useMemo(() => {
+    // Based on example implementation:
+    // https://github.com/react-native-mapbox-gl/maps/blob/d6e7257e705b8e0be5d2d365a495c514b7f015f5/example/src/examples/SymbolCircleLayer/DataDrivenCircleColors.js
+    const categoryColorPairs = [];
+
+    presets.forEach(({ color }, id) => {
+      if (color && validateColor(color)) {
+        categoryColorPairs.push(id, color);
+      }
+    });
+
+    return {
+      circleColor:
+        categoryColorPairs.length > 0
+          ? [
+              "match",
+              ["get", "categoryId"],
+              ...categoryColorPairs,
+              DEFAULT_MARKER_COLOR,
+            ]
+          : DEFAULT_MARKER_COLOR,
+      circleRadius: 5,
+      circleStrokeColor: "#fff",
+      circleStrokeWidth: 2,
     };
-    return (
-      <MapboxGL.ShapeSource
-        onPress={onPress}
-        id={`observations-source`}
-        shape={featureCollection}
-      >
-        <MapboxGL.CircleLayer id={`circles`} style={mapboxStyles.observation} />
-      </MapboxGL.ShapeSource>
-    );
-  }
-}
+  }, [presets]);
+
+  return (
+    <MapboxGL.ShapeSource
+      onPress={onPress}
+      id="observations-source"
+      shape={featureCollection}
+    >
+      <MapboxGL.CircleLayer id="circles" style={layerStyles} />
+    </MapboxGL.ShapeSource>
+  );
+};
 
 type Props = {
   observations: ObservationsMap,
@@ -193,14 +222,12 @@ class MapView extends React.Component<Props, State> {
     }
   }
 
-  handleObservationPress = (e: {
-    nativeEvent?: {
-      payload?: {
-        properties?: { id: string },
-      },
-    },
+  handleObservationPress = (event: {
+    features?: {
+      properties?: { id: string },
+    }[],
   }) => {
-    const pressedFeature = e.nativeEvent && e.nativeEvent.payload;
+    const pressedFeature = event.features && event.features[0];
     if (!pressedFeature || !pressedFeature.properties) return;
 
     const observationId = pressedFeature.properties.id;
@@ -301,7 +328,6 @@ class MapView extends React.Component<Props, State> {
             rotateEnabled={false}
             surfaceView={true}
             attributionPosition={{ right: 8, bottom: 8 }}
-            onPress={this.handleObservationPress}
             onDidFailLoadingMap={e =>
               bugsnag.notify(new Error("Failed to load map"), report => {
                 report.severity = "error";
@@ -379,7 +405,12 @@ class MapView extends React.Component<Props, State> {
   }
 }
 
-export default withNavigationFocus(MapView);
+const FocusAwareMapView = (props: $Diff<Props, {| isFocused: boolean |}>) => {
+  const isFocused = useIsFullyFocused();
+  return <MapView {...props} isFocused={isFocused} />;
+};
+
+export default FocusAwareMapView;
 
 // Shallow compare objects, but omitting certain keys from the comparison
 function shallowDiffers(a: any, b: any, omit: string[] = []) {

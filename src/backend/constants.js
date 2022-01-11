@@ -1,8 +1,26 @@
 // @ts-check
 
-const constants = {
-  /** @type {"@@API_MESSAGE"} */
+/**
+ * @type {{
+  API_EVENT_NAME: "@@API_MESSAGE"
+  IDLE: "IDLE",
+  STARTING: "STARTING",
+  LISTENING: "LISTENING",
+  CLOSING: "CLOSING",
+  CLOSED: "CLOSED",
+  ERROR: "ERROR",
+  TIMEOUT: "TIMEOUT"
+  }}
+*/
+const Constants = {
   API_EVENT_NAME: "@@API_MESSAGE",
+  IDLE: "IDLE",
+  STARTING: "STARTING",
+  LISTENING: "LISTENING",
+  CLOSING: "CLOSING",
+  CLOSED: "CLOSED",
+  ERROR: "ERROR",
+  TIMEOUT: "TIMEOUT",
 };
 
-module.exports = constants;
+module.exports = Constants;

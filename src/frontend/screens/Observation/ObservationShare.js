@@ -55,12 +55,11 @@ export const ShareMessage = ({ observation, preset }: ShareMessageProps) => {
   const { formatMessage: t } = useIntl();
   const coordinateFormat = useSettingsValue("coordinateFormat");
 
-  const { value } = observation;
-  const { lon, lat } = value;
+  const { lat, lon, tags } = observation;
 
   const completedFields = preset
     ? preset.fields.filter(f => {
-        const fieldValue = getProp(value.tags, f.key);
+        const fieldValue = getProp(tags, f.key);
         return fieldValue != null && fieldValue !== "";
       })
     : [];
@@ -87,7 +86,7 @@ export const ShareMessage = ({ observation, preset }: ShareMessageProps) => {
           <FormattedCoords format={coordinateFormat} lat={lat} lon={lon} />
         ) : null}
       </p>
-      {value.tags.notes ? <p>{value.tags.notes}</p> : null}
+      {tags.notes ? <p>{tags.notes}</p> : null}
       {completedFields.map((field, idx) => (
         <p key={idx}>
           <b>
@@ -97,7 +96,7 @@ export const ShareMessage = ({ observation, preset }: ShareMessageProps) => {
           <i>
             <FormattedFieldValue
               field={field}
-              value={getProp(value.tags, field.key)}
+              value={getProp(tags, field.key)}
             />
           </i>
         </p>

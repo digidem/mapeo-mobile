@@ -97,7 +97,7 @@ const defaultContext: ConfigContextType = [
   },
   {
     reload: () => {},
-    replace: () => {},
+    replace: async () => {},
   },
 ];
 
@@ -143,9 +143,11 @@ export const ConfigProvider = ({ children }: React.PropsWithChildren<{}>) => {
           onSuccess(metadata);
         }
       } catch (err) {
-        bugsnag.notify(err, report => {
-          report.severity = "error";
-        });
+        if (err instanceof Error) {
+          bugsnag.notify(err, report => {
+            report.severity = "error";
+          });
+        }
 
         log("Error loading presets and fields", err);
 

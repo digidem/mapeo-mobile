@@ -2,7 +2,7 @@
 import * as React from "react";
 import omit from "lodash/omit";
 
-import useDraftObservation from "../hooks/useDraftObservation";
+import { useDraftObservation } from "../hooks/useDraftObservation";
 import LocationContext from "../context/LocationContext";
 
 type Props = {

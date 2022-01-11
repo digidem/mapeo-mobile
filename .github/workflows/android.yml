@@ -87,7 +87,7 @@ jobs:
   e2e-tests:
     needs: e2e-build
     name: e2e tests
-    runs-on: macos-latest
+    runs-on: macos-10.15
     steps:
       - name: Checkout
         uses: actions/checkout@v2

@@ -22,16 +22,19 @@ export const useBottomSheetModal = ({
 }) => {
   const initiallyOpenedRef = React.useRef(false);
   const sheetRef = React.useRef<RNBottomSheetModal>(null);
+  const isOpen = React.useRef<boolean>(false);
 
   const closeSheet = React.useCallback(() => {
     if (sheetRef.current) {
       sheetRef.current.dismiss();
+      isOpen.current = false;
     }
   }, []);
 
   const openSheet = React.useCallback(() => {
     if (sheetRef.current) {
       sheetRef.current.present();
+      isOpen.current = true;
     }
   }, []);
 
@@ -42,7 +45,7 @@ export const useBottomSheetModal = ({
     }
   }, [openOnMount, openSheet]);
 
-  return { sheetRef, closeSheet, openSheet };
+  return { sheetRef, closeSheet, openSheet, isOpen: isOpen.current };
 };
 
 const useBackPressHandler = (onHardwareBackPress?: () => void) => {
@@ -92,10 +95,11 @@ interface Props extends React.PropsWithChildren<{}> {
   onDismiss: () => void;
   onHardwareBackPress?: () => void;
   snapPoints?: (string | number)[];
+  disableBackrop?: boolean;
 }
 
 export const BottomSheetModal = React.forwardRef<RNBottomSheetModal, Props>(
-  ({ children, onDismiss, onHardwareBackPress }, ref) => {
+  ({ children, onDismiss, onHardwareBackPress, disableBackrop }, ref) => {
     useBackPressHandler(onHardwareBackPress);
 
     const { snapPoints, updateSheetHeight } = useSnapPointsCalculator();
@@ -104,7 +108,7 @@ export const BottomSheetModal = React.forwardRef<RNBottomSheetModal, Props>(
       <BottomSheetModalProvider>
         <RNBottomSheetModal
           ref={ref}
-          backdropComponent={Backdrop}
+          backdropComponent={disableBackrop ? null : Backdrop}
           enableContentPanningGesture={false}
           enableHandlePanningGesture={false}
           handleComponent={() => null}
