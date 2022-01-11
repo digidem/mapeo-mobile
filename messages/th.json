@@ -29,7 +29,7 @@
   },
   "hooks.updateNotifier.dialogTitle": {
     "description": "Title of dialog shown to the user when Mapeo is updated",
-    "message": "อัปเดต Mapeo แล้ว ✅"
+    "message": "อัปเดต Mapeo แล้ว"
   },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
