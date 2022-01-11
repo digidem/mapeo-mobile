@@ -339,6 +339,10 @@
     "description": "Label for last sync datetime",
     "message": "Synchronisiert:"
   },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "Verbinde dich mit einem WiFi-Netzwerk zum synchronisieren"
+  },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
     "message": "Kein WiFi"
