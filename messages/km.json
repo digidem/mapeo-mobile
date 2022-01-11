@@ -352,6 +352,10 @@
     "description": "Label for last sync datetime",
     "message": "ត្រូវបានធ្វើសមកាលកម្មរួចរាល់៖"
   },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "សូមចូលទៅកាន់កន្លែងកែសម្រួលដំណើរការទូរស័ព្ទ និងធ្វើការភ្ជាប់ Wifi ដើម្បីធ្វើសមកាលកម្ម"
+  },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
     "message": "គ្មានប្រព័ន្ធ WiFi"
