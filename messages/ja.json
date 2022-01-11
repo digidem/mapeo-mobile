@@ -23,6 +23,10 @@
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
     "message": "OK"
   },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeoを更新する"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Android ビルド番号"
@@ -271,6 +275,10 @@
   "screens.SyncModal.PeerList.syncLabel": {
     "description": "Label for last sync datetime",
     "message": "同期済み:"
+  },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "端末の設定を開き、WiFiネットワークに接続して同期します"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
