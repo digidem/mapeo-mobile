@@ -109,14 +109,17 @@ interface ProjectCreateJoinOptions {
 }
 
 interface ProjectApi {
-  getInfo(): Omit<ProjectInfo, "key">;
-  replaceConfig(fileUri: string): Promise<Omit<ProjectInfo, "key">>;
+  getInfo(): KeylessProjectInfo;
+  replaceConfig(fileUri: string): Promise<KeylessProjectInfo>;
   create(
-    projectInfo: { name: string },
+    projectInfo: Pick<JoinedProjectInfo, "name">,
     options?: ProjectCreateJoinOptions
-  ): KeylessProjectInfo;
-  join(options?: ProjectCreateJoinOptions): KeylessProjectInfo;
-  leave(): Promise<void>;
+  ): Promise<KeylessProjectInfo>;
+  join(
+    projectInfo: Pick<JoinedProjectInfo, "name" | "key">,
+    options?: ProjectCreateJoinOptions
+  ): Promise<KeylessProjectInfo>;
+  leave(): Promise<KeylessProjectInfo>;
 }
 
 export interface Api {
@@ -159,5 +162,5 @@ export interface BackendConfig {
   /** Set `true` to enable debug logging */
   debug: boolean;
   /** Identity key, used to derive master key & all public-private key pairs */
-  identityKey: string;
+  identityKey?: string;
 }

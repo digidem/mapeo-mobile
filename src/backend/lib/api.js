@@ -4,6 +4,7 @@ const debug = require("debug");
 const throttle = require("lodash/throttle");
 const { AbortController } = require("abort-controller");
 const crypto = require("crypto");
+const { hasLegacyKey } = require("./project");
 
 const log = debug("mapeo-core:api");
 
@@ -36,12 +37,12 @@ const upgradeManagerStub = {
 /**
  * @param {object} options
  * @param {import('../upgrade-manager/index')} [options.upgradeManager]
- * @param {(projectKey: string | void, opts?: {}) => Promise<any>} options.switchProject Switch to a different project and return a new instance of Mapeo Core
  * @param {any} options.mapeoCore Instance of Mapeo Core
  * @param {import('./project')} options.project Instance of the project interface
+ * @param {import('./config')} options.config Instance of the config interface
  * @returns {Api}
  */
-function createApi({ switchProject, mapeoCore, upgradeManager, project }) {
+function createApi({ mapeoCore, upgradeManager, project, config }) {
   // The sync code is a tangle of event emitters and listeners. Calling abort
   // will remove all the listeners
   let abortController = new AbortController();
@@ -80,7 +81,7 @@ function createApi({ switchProject, mapeoCore, upgradeManager, project }) {
 
   /** @type {Api['sync']['joinSwarm']} */
   function joinSwarm({ deviceName } = {}) {
-    const projectKey = project.info.key;
+    const projectKey = project.get().key;
     if (deviceName) mapeoCore.sync.setName(deviceName);
     log("Joining swarm", projectKey && projectKey.slice(0, 4));
     mapeoCore.sync.join(projectKey);
@@ -88,7 +89,7 @@ function createApi({ switchProject, mapeoCore, upgradeManager, project }) {
 
   /** @type {Api['sync']['leaveSwarm']} */
   function leaveSwarm() {
-    const projectKey = project.info.key;
+    const projectKey = project.get().key;
     log("Leaving swarm", projectKey && projectKey.slice(0, 4));
     mapeoCore.sync.leave(projectKey);
   }
@@ -173,34 +174,48 @@ function createApi({ switchProject, mapeoCore, upgradeManager, project }) {
   /** @type {Api['project']['getInfo']} */
   function getInfo() {
     // We don't expose the project key in the API
-    const { key, ...info } = project.readInfo();
+    const { key, ...info } = project.get();
     return info;
   }
 
   /** @type {Api['project']['replaceConfig']} */
   async function replaceConfig(fileUri) {
-    const { key, ...info } = await project.importConfig(fileUri);
+    const practiceMode = project.get().practiceMode;
+    const legacyInfo = await config.import(fileUri);
+    // If the config contained legacy project info, and the user has not already
+    // joined a project (e.g. they are in practice mode), then join the project
+    // defined in the config
+    if (hasLegacyKey(legacyInfo) && practiceMode) {
+      return joinProject(legacyInfo);
+    } else {
+      // TODO: Also update the project name from the config?
+      return getInfo();
+    }
+  }
+
+  /** @type {Api['project']['join']} */
+  async function joinProject(projectInfo) {
+    if (projectInfo.key === project.get().key) return project.get();
     abortController.abort();
     abortController = new AbortController();
-    mapeoCore = await switchProject(key);
+    mapeoCore = await project.join(projectInfo);
     addSyncEventListeners();
-    return info;
+    return getInfo();
   }
 
   /** @type {Api['project']['create']} */
-  async function createProject(
-    { name },
-    { keepData = false } = { keepData: false }
-  ) {
+  async function createProject({ name }) {
     const key = crypto.randomBytes(32).toString("hex");
-    const { key: _, ...info } = project.updateInfo({
-      name,
-      key,
-      practiceMode: false,
-    });
-    mapeoCore = await switchProject(key);
+    return joinProject({ key, name });
+  }
+
+  /** @type {Api['project']['leave']} */
+  async function leaveProject() {
+    abortController.abort();
+    abortController = new AbortController();
+    mapeoCore = await project.leave();
     addSyncEventListeners();
-    return info;
+    return getInfo();
   }
 
   return {
@@ -214,6 +229,8 @@ function createApi({ switchProject, mapeoCore, upgradeManager, project }) {
       getInfo,
       replaceConfig,
       create: createProject,
+      join: joinProject,
+      leave: leaveProject,
     },
     upgrade: Object.assign(
       upgradeEmitter,

@@ -9,19 +9,22 @@ const UpgradeManager = require("../upgrade-manager");
 const createApi = require("./api");
 const mkdirp = require("mkdirp");
 const { createServer } = require("rpc-reflector");
+const renameOverwrite = require("rename-overwrite");
+const Config = require("./config");
 
 const log = debug("mapeo-core:server");
 
 /** @typedef {Parameters<createServer>[1]} Channel */
+/** @typedef {import('./types').ProjectInfo} ProjectInfo */
 
 /**
  * @extends {AsyncService<{ error: (err: Error) => void, state: (state: import('./types').AsyncServiceState) => void }, [number]>}
  */
 class MapeoServices extends AsyncService {
   #mapeo;
-  #project;
   #upgradeManager;
   #dbStorageDir;
+  #privateStorage;
   #staticRoot;
   #fallbackPresetsDir;
 
@@ -47,16 +50,18 @@ class MapeoServices extends AsyncService {
   }) {
     super();
     this.#staticRoot = sharedStorage;
+    this.#privateStorage = privateStorage;
     const infoPath = path.join(privateStorage, "project_info.json");
     const importedConfigPath = path.join(sharedStorage, "presets/default");
-    this.#project = new Project({ infoPath, importedConfigPath });
-    const info = this.#project.readInfo();
+    const config = new Config({ importedConfigPath });
+    const project = new Project({
+      infoPath,
+      switchProject: this._switchProject.bind(this),
+      legacyInfo: config.getLegacyProjectInfo(),
+    });
+    const projectInfo = project.get();
 
-    this.#dbStorageDir = path.join(
-      privateStorage,
-      "data",
-      info.id || "practice_project"
-    );
+    this.#dbStorageDir = this._getDbStorageDir(projectInfo.id);
     migrateProjectStorageIfNeeded({
       oldStorageDir: privateStorage,
       newStorageDir: this.#dbStorageDir,
@@ -75,7 +80,7 @@ class MapeoServices extends AsyncService {
 
     this.#mapeo = new Mapeo({
       dbStorageDir: this.#dbStorageDir,
-      projectKey: this.#project.readInfo().key,
+      projectKey: project.get().key,
       staticRoot: this.#staticRoot,
       fallbackPresetsDir: this.#fallbackPresetsDir,
     });
@@ -97,9 +102,9 @@ class MapeoServices extends AsyncService {
 
     const api = createApi({
       mapeoCore: this.#mapeo.core,
-      project: this.#project,
+      project,
+      config,
       upgradeManager: this.#upgradeManager,
-      switchProject: this._switchProject,
     });
     createServer(api, channel);
 
@@ -123,25 +128,39 @@ class MapeoServices extends AsyncService {
     await this.#mapeo.stop();
   }
 
+  /** @param {string | void} projectId */
+  _getDbStorageDir(projectId) {
+    return path.join(
+      this.#privateStorage,
+      "data",
+      projectId || "practice_project"
+    );
+  }
+
   /**
-   * NB: this is bound to `this` due to the methodName = () => {} syntax
-   *
    * @private
-   * @param {string | undefined} projectKey
-   * @param {object} [opts]
-   * TODO: Add options to migrate data to new project
+   * @param {ProjectInfo} projectInfo
+   * @param {object} [opts={}]
+   * @param {boolean} [opts.keepData=true] Move data to the new project
    * @returns {Promise<any>} Mapeo Core instance
    */
-  _switchProject = async (projectKey, opts = {}) => {
+  async _switchProject(projectInfo, { keepData = true } = {}) {
     await this.#mapeo.destroy();
+    const newDbStorageDir = this._getDbStorageDir(projectInfo.id);
+    if (keepData) {
+      await renameOverwrite(this.#dbStorageDir, newDbStorageDir);
+    } else {
+      // For now don't delete the old data folder
+    }
+    this.#dbStorageDir = newDbStorageDir;
     this.#mapeo = new Mapeo({
       dbStorageDir: this.#dbStorageDir,
-      projectKey,
+      projectKey: projectInfo.key,
       staticRoot: this.#staticRoot,
       fallbackPresetsDir: this.#fallbackPresetsDir,
     });
     return this.#mapeo.core;
-  };
+  }
 }
 
 module.exports = MapeoServices;
