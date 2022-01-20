@@ -15,8 +15,11 @@ import type { DraftPhoto } from "./context/DraftObservationContext";
 import { ClientGeneratedObservation } from "./context/ObservationsContext";
 import AppInfo from "./lib/AppInfo";
 import { promiseTimeout } from "./lib/utils";
+import MessagePortLike from "./lib/message-port-like";
 import bugsnag from "./lib/logger";
 import { IconSize, ImageSize } from "./sharedTypes";
+import { Api as BackendApi } from "../backend/lib/types";
+import { createClient } from "rpc-reflector";
 
 export type ServerStatus = keyof typeof STATUS;
 
@@ -26,6 +29,8 @@ export type ServerStatusMessage = {
   context?: string;
 };
 export type Subscription = { remove: () => any };
+
+const backendApi = createClient<BackendApi>(new MessagePortLike());
 
 export type PeerError =
   | {
@@ -442,6 +447,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     replaceConfig: async (fileUri: string): Promise<void> => {
       const path = convertFileUriToPosixPath(fileUri);
       await onReady();
+      await backendApi.replaceConfig(path);
       return await new Promise((resolve, reject) => {
         const id = channelId++;
         // TODO: channel is supposed to extend RN's EventEmitter
