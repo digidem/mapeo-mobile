@@ -256,12 +256,18 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       nodejs.channel.post("request-status");
       bugsnag.leaveBreadcrumb("Starting Mapeo Core");
       nodejs.start("loader.js");
-      const serverStartPromise = new Promise(resolve =>
-        // TODO: channel is supposed to extend RN's EventEmitter
-        // https://code.janeasystems.com/nodejs-mobile/react-native/bridge
-        //@ts-ignore
-        nodejs.channel.once("status", resolve)
-      ).then(async () => {
+      const serverStartPromise = new Promise<void>(resolve => {
+        // nodejs-mobile-react-native channel extends React Native's EventEmitter
+        //   - https://code.janeasystems.com/nodejs-mobile/react-native/bridge
+        const statusSubscription = nodejs.channel.addListener("status", () => {
+          // addListener returns an EventSubscription with the remove method
+          //   - https://github.com/facebook/react-native/blob/v0.66.3/Libraries/vendor/emitter/_EventEmitter.js#L57
+          //   - https://github.com/facebook/react-native/blob/v0.66.3/Libraries/vendor/emitter/_EventSubscription.js#L39
+          // @ts-expect-error
+          statusSubscription.remove();
+          resolve();
+        });
+      }).then(async () => {
         bugsnag.leaveBreadcrumb("Mapeo Core started");
         // Start monitoring for timeout
         restartTimeout();
@@ -444,14 +450,21 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       await onReady();
       return await new Promise((resolve, reject) => {
         const id = channelId++;
-        // TODO: channel is supposed to extend RN's EventEmitter
-        // https://code.janeasystems.com/nodejs-mobile/react-native/bridge
-        // @ts-ignore
-        nodejs.channel.once("replace-config-" + id, done);
+        const replaceConfigIdSubscription = nodejs.channel.addListener(
+          "replace-config-" + id,
+          err => {
+            // See comment in startServer
+            // @ts-expect-error
+            replaceConfigIdSubscription.remove();
+            done(err);
+          }
+        );
         nodejs.channel.post("replace-config", { path, id });
 
         const timeoutId = setTimeout(() => {
-          nodejs.channel.removeListener("replace-config-" + id, done);
+          // See comment in startServer
+          // @ts-expect-error
+          replaceConfigIdSubscription.remove();
           done(new Error("Timeout when replacing config"));
         }, 30 * 1000);
 
@@ -474,7 +487,10 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     addP2pUpgradeStateListener: (
       handler: (state: UpgradeState) => void
     ): Subscription => {
-      nodejs.channel.addListener("p2p-upgrade::state", onState);
+      const stateSubscription = nodejs.channel.addListener(
+        "p2p-upgrade::state",
+        onState
+      );
       // Poke backend to send a state event
       onReady()
         .then(() => nodejs.channel.post("p2p-upgrade::get-state"))
@@ -489,20 +505,25 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
         });
       }
       return {
-        remove: () =>
-          nodejs.channel.removeListener("p2p-upgrade::state", onState),
+        // See comment in startServer
+        // @ts-expect-error
+        remove: () => stateSubscription.remove(),
       };
     },
     addP2pUpgradeErrorListener: (
       handler: (error: Error) => void
     ): Subscription => {
-      nodejs.channel.addListener("p2p-upgrade::error", handler);
+      const errorSubscription = nodejs.channel.addListener(
+        "p2p-upgrade::error",
+        onError
+      );
       function onError(serializedError: UpgradeStateError) {
         handler(deserializeError(serializedError));
       }
       return {
-        remove: () =>
-          nodejs.channel.removeListener("p2p-upgrade::error", onError),
+        // See comment in startServer
+        // @ts-expect-error
+        remove: () => errorSubscription.remove(),
       };
     },
     startP2pUpgradeServices: async () => {
@@ -527,10 +548,15 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       // We sidestep the http API here, and instead of polling the endpoint, we
       // listen for an event from mapeo-core whenever the peers change, then
       // request an updated peer list.
-      nodejs.channel.addListener("peer-update", handler);
+      const peerUpdateSubscription = nodejs.channel.addListener(
+        "peer-update",
+        handler
+      );
       api.syncGetPeers().then(handler);
       return {
-        remove: () => nodejs.channel.removeListener("peer-update", handler),
+        // See comment in startServer
+        // @ts-expect-error
+        remove: () => peerUpdateSubscription.remove(),
       };
     },
 

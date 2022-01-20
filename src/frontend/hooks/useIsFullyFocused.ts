@@ -23,10 +23,12 @@ export const useIsFullyFocused = () => {
     const onAppStateChange = (nextAppState: AppStateStatus) =>
       setIsAppActive(nextAppState === "active");
 
-    // TODO: Use subscription to remove listener when upgrading to React Native 0.64
-    AppState.addEventListener("change", onAppStateChange);
+    const changeSubscription = AppState.addEventListener(
+      "change",
+      onAppStateChange
+    );
 
-    return () => AppState.removeEventListener("change", onAppStateChange);
+    return () => changeSubscription.remove();
   }, []);
 
   useEffect(() => {

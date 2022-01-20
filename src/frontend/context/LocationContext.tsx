@@ -172,12 +172,12 @@ export const LocationProvider = ({ children }: React.PropsWithChildren<{}>) => {
       }
     };
 
-    // TODO: Use subscription to remove listener when upgrading to React Native 0.64
-    AppState.addEventListener("change", handleAppStateChange);
+    const changeSubscription = AppState.addEventListener(
+      "change",
+      handleAppStateChange
+    );
 
-    return () => {
-      AppState.removeEventListener("change", handleAppStateChange);
-    };
+    return () => changeSubscription.remove();
   }, [updateStatus]);
 
   React.useEffect(() => {

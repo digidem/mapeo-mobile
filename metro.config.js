@@ -4,7 +4,7 @@
  *
  * @format
  */
-const blacklist = require("metro-config/src/defaults/blacklist");
+const exclusionList = require("metro-config/src/defaults/exclusionList");
 const defaultSourceExts = require("metro-config/src/defaults/defaults")
   .sourceExts;
 
@@ -46,12 +46,15 @@ module.exports = {
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
+        // This should be set to true but doing so potentially breaks async storage module
+        //   - https://github.com/facebook/metro/issues/682
+        //   - https://github.com/react-native-async-storage/async-storage/issues/604
         inlineRequires: false,
       },
     }),
   },
   resolver: {
-    blacklistRE: blacklist([/nodejs-assets\/.*/, /android\/.*/, /ios\/.*/]),
+    blockList: exclusionList([/nodejs-assets\/.*/, /android\/.*/, /ios\/.*/]),
     sourceExts: customSourceExts.concat(defaultSourceExts),
   },
 };
