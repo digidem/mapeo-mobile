@@ -25,7 +25,7 @@ export const AppPasscode: NavigationStackScreenComponent = () => {
 
   React.useEffect(() => {
     if (!experiments.appPasscode) navigate("Settings");
-  }, []);
+  }, [experiments]);
 
   return (
     <View style={styles.pageContainer}>

@@ -70,7 +70,7 @@ export const Security: NavigationStackScreenComponent = () => {
 
   React.useEffect(() => {
     if (!experiments.appPasscode) navigate("Settings");
-  }, []);
+  }, [experiments]);
 
   const [passCodeDes, killPassCodeDes] = React.useMemo(
     () =>
