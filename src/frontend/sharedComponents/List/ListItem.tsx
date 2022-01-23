@@ -2,9 +2,22 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import PropTypes from "prop-types";
 
-import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
+import { TouchableNativeFeedback } from "../Touchables";
 import { VERY_LIGHT_BLUE } from "../../lib/styles";
 import ListContext from "./ListContext";
+import { ViewStyleProp } from "../../sharedTypes";
+
+interface ListItemProp {
+  alignItems?: "flex-start" | "center";
+  button?: boolean;
+  children: React.ReactNode;
+  style?: ViewStyleProp;
+  dense?: boolean;
+  disabled?: boolean;
+  disableGutters?: boolean;
+  divider?: boolean;
+  onPress?: () => void;
+}
 
 const styles = StyleSheet.create({
   /* Styles applied to the (normally root) `component` element. May be wrapped by a `container`. */
@@ -40,7 +53,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ListItem = ({
+export const ListItem = ({
   alignItems = "center",
   button = false,
   children,
@@ -49,8 +62,9 @@ const ListItem = ({
   disabled = false,
   disableGutters = false,
   divider = false,
+  onPress,
   ...otherProps
-}) => {
+}: ListItemProp) => {
   const context = React.useContext(ListContext);
   const childContext = React.useMemo(
     () => ({
@@ -65,7 +79,6 @@ const ListItem = ({
     childContext.dense && styles.dense,
     !disableGutters && styles.gutters,
     divider && styles.divider,
-    button && styles.button,
     alignItems === "flex-start" && styles.alignItemsFlexStart,
     style,
   ];
@@ -73,6 +86,7 @@ const ListItem = ({
   return (
     <ListContext.Provider value={childContext}>
       <TouchableNativeFeedback
+        onPress={onPress}
         disabled={disabled}
         {...otherProps}
         background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
@@ -117,4 +131,30 @@ ListItem.propTypes = {
   divider: PropTypes.bool,
 };
 
-export default ListItem;
+interface ListDividerProp {
+  color?: string;
+  lineWidth?: number;
+  style?: ViewStyleProp;
+}
+
+export const ListDivider = ({
+  color = "#CCCCD6",
+  lineWidth = 1,
+  style,
+}: ListDividerProp) => {
+  return (
+    <ListItem
+      disabled={true}
+      style={[
+        {
+          width: "100%",
+          borderBottomWidth: lineWidth,
+          borderBottomColor: color,
+        },
+        style,
+      ]}
+    >
+      <React.Fragment></React.Fragment>
+    </ListItem>
+  );
+};

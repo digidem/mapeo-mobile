@@ -2,6 +2,15 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import Text from "../Text";
 import PropTypes from "prop-types";
+import { TextStyleProp } from "../../sharedTypes";
+import { FormattedMessage } from "react-intl";
+
+interface ListItemTextProp {
+  style?: TextStyleProp;
+  inset?: boolean;
+  primary: string | React.ReactNode;
+  secondary?: string | React.ReactNode;
+}
 
 const styles = StyleSheet.create({
   /* Styles applied to the root element. */
@@ -37,7 +46,7 @@ const ListItemText = ({
   primary,
   secondary,
   ...other
-}) => {
+}: ListItemTextProp) => {
   return (
     <View
       style={[
@@ -47,7 +56,7 @@ const ListItemText = ({
       ]}
       {...other}
     >
-      <Text style={styles.primary}>{primary}</Text>
+      <Text style={[styles.primary, style]}>{primary}</Text>
       {secondary && <Text style={styles.secondary}>{secondary}</Text>}
     </View>
   );

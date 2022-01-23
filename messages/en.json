@@ -134,6 +134,18 @@
     "description": "Title of screen letting user know that they are already part of a project.",
     "message": "You are already on a project"
   },
+  "screens.AppPasscode": {
+    "message": "App Passcode"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "Continue"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.description": {
+    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc."
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "What is App Passcode?"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "No access to camera"
@@ -630,6 +642,39 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Try Again"
   },
+  "screens.Security.deviceBackup": {
+    "message": "Device Backup"
+  },
+  "screens.Security.killPassDescriptonPassNotSet": {
+    "message": "To use, enable App Passcode"
+  },
+  "screens.Security.killPassDescriptonPassSet": {
+    "message": "Protect your device against seizure"
+  },
+  "screens.Security.killPasscodeHeader": {
+    "message": "Kill Passcode"
+  },
+  "screens.Security.paperKey": {
+    "message": "Paper Key"
+  },
+  "screens.Security.paperKeyDes": {
+    "message": "Reinstate your account if this device is lost"
+  },
+  "screens.Security.passDesriptionPassNotSet": {
+    "message": "Passcode not set"
+  },
+  "screens.Security.passDesriptionPassSet": {
+    "message": "Passcode is set"
+  },
+  "screens.Security.passcodeHeader": {
+    "message": "App Passcode"
+  },
+  "screens.Security.securitySubheader": {
+    "message": "Device Security"
+  },
+  "screens.Security.title": {
+    "message": "Security"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "You can try force-restarting the app, but there may be something that needs fixing. Really sorry about this, making apps is hard."
@@ -788,6 +833,13 @@
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
     "message": "Categories, icons and questions"
+  },
+  "screens.Settings.security": {
+    "message": "Security"
+  },
+  "screens.Settings.securityDesc": {
+    "description": "Description of security button in settings",
+    "message": "App Passcode and Device Security"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
