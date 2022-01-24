@@ -835,7 +835,7 @@
     "description": "Secondary text for language settings",
     "message": "Display language for App"
   },
-  "screens.Settings.mapSettingd": {
+  "screens.Settings.mapSettings": {
     "description": "Button to adjust settings for map",
     "message": "Map Settings"
   },
