@@ -715,6 +715,15 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(You) {deviceName}"
   },
+  "screens.Settings.MapSettings.batteryWarning": {
+    "message": "May drain battery faster"
+  },
+  "screens.Settings.MapSettings.directionalArrow": {
+    "message": "Use Directional Arrow"
+  },
+  "screens.Settings.MapSettings.mapSettingTitle": {
+    "message": "Map Settings"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Create or join a project below"
   },
@@ -825,6 +834,10 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "Display language for App"
+  },
+  "screens.Settings.mapSettingd": {
+    "description": "Button to adjust settings for map",
+    "message": "Map Settings"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
