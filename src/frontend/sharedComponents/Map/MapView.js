@@ -6,17 +6,19 @@ import ScaleBar from "react-native-scale-bar";
 import CheapRuler from "cheap-ruler";
 import validateColor from "validate-color";
 
-import ConfigContext from "../context/ConfigContext";
-import { LocationFollowingIcon, LocationNoFollowIcon } from "./icons";
-import IconButton from "./IconButton";
-import type { LocationContextType } from "../context/LocationContext";
-import type { ObservationsMap } from "../context/ObservationsContext";
-import type { MapStyleType } from "../hooks/useMapStyle";
-import { useIsFullyFocused } from "../hooks/useIsFullyFocused";
-import bugsnag from "../lib/logger";
-import config from "../../config.json";
-import Loading from "./Loading";
-import OfflineMapLayers from "./OfflineMapLayers";
+import ConfigContext from "../../context/ConfigContext";
+import { LocationFollowingIcon, LocationNoFollowIcon } from "../icons";
+import IconButton from "../IconButton";
+import type { LocationContextType } from "../../context/LocationContext";
+import type { ObservationsMap } from "../../context/ObservationsContext";
+import type { MapStyleType } from "../../hooks/useMapStyle";
+import { useIsFullyFocused } from "../../hooks/useIsFullyFocused";
+import bugsnag from "../../lib/logger";
+import config from "../../../config.json";
+import Loading from "../Loading";
+import OfflineMapLayers from "../OfflineMapLayers";
+import SettingsContext from "../../context/SettingsContext";
+import { UserLocation } from "./UserLocation";
 
 // This is the default zoom used when the map first loads, and also the zoom
 // that the map will zoom to if the user clicks the "Locate" button and the
@@ -182,7 +184,7 @@ class MapView extends React.Component<Props, State> {
   zoomRef: number;
   lastCoords: ?Coords;
   ruler: { distance: (Coords, Coords) => number };
-
+  static contextType = SettingsContext;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -391,7 +393,7 @@ class MapView extends React.Component<Props, State> {
             )}
             {styleType === "fallback" ? <OfflineMapLayers /> : null}
             {locationServicesEnabled ? (
-              <MapboxGL.UserLocation
+              <UserLocation
                 visible={isFocused}
                 minDisplacement={MIN_DISPLACEMENT}
               />
