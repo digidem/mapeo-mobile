@@ -184,7 +184,7 @@ class MapView extends React.Component<Props, State> {
   zoomRef: number;
   lastCoords: ?Coords;
   ruler: { distance: (Coords, Coords) => number };
-  static contextType = SettingsContext;
+
   constructor(props: Props) {
     super(props);
     this.state = {
