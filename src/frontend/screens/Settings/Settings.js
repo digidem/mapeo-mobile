@@ -99,7 +99,7 @@ const m = defineMessages({
     description: "Description of security button in settings",
   },
   mapSettings: {
-    id: "screens.Settings.mapSettingd",
+    id: "screens.Settings.mapSettings",
     defaultMessage: "Map Settings",
     description: "Button to adjust settings for map",
   },
