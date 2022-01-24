@@ -98,6 +98,11 @@ const m = defineMessages({
     defaultMessage: "App Passcode and Device Security",
     description: "Description of security button in settings",
   },
+  mapSettings: {
+    id: "screens.Settings.mapSettings",
+    defaultMessage: "Map Settings",
+    description: "Button to adjust settings for map",
+  },
 });
 
 const Settings = () => {
@@ -126,6 +131,17 @@ const Settings = () => {
           secondary={<FormattedMessage {...m.projectConfigDesc} />}
         ></ListItemText>
       </ListItem>
+      <ListItem
+        onPress={() => navigate("MapSettings")}
+        testID="settingsMapSettingsButton"
+      >
+        <ListItemIcon iconName="map" />
+        <ListItemText
+          primary={<FormattedMessage {...m.mapSettings} />}
+          secondary="---------"
+        />
+      </ListItem>
+
       <ListItem
         onPress={() => navigate("CoordinateFormat")}
         testID="settingsCoodinatesButton"
