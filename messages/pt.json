@@ -33,7 +33,7 @@
   },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
-    "message": "Número de compilação Android"
+    "message": "Número do build do Android"
   },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
@@ -41,7 +41,7 @@
   },
   "screens.AboutMapeo.mapeoBuild": {
     "description": "Label for Mapeo build number",
-    "message": "Número de compilação do Mapeo"
+    "message": "Build do Mapeo"
   },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
@@ -57,7 +57,7 @@
   },
   "screens.AboutMapeo.title": {
     "description": "Title of 'About Mapeo' screen",
-    "message": "Sobre Mapeo"
+    "message": "Sobre o Mapeo"
   },
   "screens.AboutMapeo.unknownValue": {
     "description": "Shown when a device info (e.g. version number) is unknown",
