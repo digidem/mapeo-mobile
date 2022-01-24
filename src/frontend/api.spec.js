@@ -3,6 +3,7 @@ import ky from "ky";
 import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
 import { Api, Constants } from "./api";
+import AppInfo from "./lib/AppInfo";
 
 // require("debug").enable("*");
 
@@ -33,7 +34,14 @@ describe("Server startup", () => {
     expect(nodejs.start.mock.calls[0][0]).toBe("loader.js");
     expect(nodejs.channel.post.mock.calls.length).toBe(2);
     expect(nodejs.channel.post.mock.calls[1][1]).toStrictEqual({
-      storagePath: RNFS.ExternalDirectoryPath,
+      sharedStorage: RNFS.ExternalDirectoryPath,
+      apkFilepath: AppInfo.sourceDir,
+      privateCacheStorage: RNFS.CachesDirectoryPath,
+      deviceInfo: {
+        sdkVersion: -1, // mocked value
+        supportedAbis: [], // mocked value
+      },
+      isDev: __DEV__,
     });
   });
 
@@ -122,11 +130,8 @@ describe("Server get requests", () => {
   ky.extend.mockImplementation(() => ({
     get: jest.fn(url => ({
       json: jest.fn(() => {
-        if (url.startsWith("styles")) return [];
-        const data = [];
-        data.presets = {};
-        data.fields = {};
-        return data;
+        if (url.startsWith("presets")) return { presets: {}, fields: {} };
+        return [];
       }),
     })),
   }));

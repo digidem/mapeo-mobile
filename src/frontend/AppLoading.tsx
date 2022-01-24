@@ -28,13 +28,13 @@ export const AppLoading = ({ children }: React.PropsWithChildren<{}>) => {
   const serverStatus = useServerStatus();
 
   React.useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       SplashScreen.hide();
       log("hiding splashscreen");
     }, 1000);
 
     return () => {
-      window.clearTimeout(timeoutId);
+      clearTimeout(timeoutId);
       SplashScreen.hide();
     };
   }, []);

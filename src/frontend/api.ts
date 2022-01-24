@@ -150,7 +150,7 @@ interface ApiParam {
 
 export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
   let status: ServerStatus = STATUS.IDLE;
-  let timeoutId: number;
+  let timeoutId: ReturnType<typeof setTimeout>;
   // We append this to requests for presets, icons and map styles, in order to
   // override the local static server cache whenever the app is restarted. NB.
   // sprite, font, and map tile requests might still be cached, only changes in
@@ -208,10 +208,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
 
   function restartTimeout() {
     if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = window.setTimeout(
-      () => onStatus({ value: STATUS.TIMEOUT }),
-      timeout
-    );
+    timeoutId = setTimeout(() => onStatus({ value: STATUS.TIMEOUT }), timeout);
   }
 
   // Returns a promise that resolves when the server is ready to accept a

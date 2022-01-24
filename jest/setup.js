@@ -1,5 +1,5 @@
 /* eslint-env jest/globals */
-
+import mockRNDeviceInfo from "react-native-device-info/jest/react-native-device-info-mock";
 import "react-native-gesture-handler/jestSetup";
 
 jest.mock("react-native-reanimated", () => {
@@ -17,3 +17,8 @@ jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 
 // As of react-native@0.64.X file has moved
 // jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper");
+
+jest.mock("react-native-device-info", () => mockRNDeviceInfo);
+jest.mock("../src/frontend/lib/AppInfo.ts");
+jest.mock("@bugsnag/react-native");
+jest.mock("ky");
