@@ -11,7 +11,7 @@ export const UserLocation = ({
   visible,
   minDisplacement,
 }: UserLocationProps) => {
-  const directionalArrow = useSettingsValue("directionalArrow") as boolean;
+  const directionalArrow = useSettingsValue("directionalArrow");
 
   return (
     <MapboxGL.UserLocation

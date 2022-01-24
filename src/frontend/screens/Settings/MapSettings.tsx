@@ -1,15 +1,9 @@
 import React, { useContext } from "react";
 import { FormattedMessage, defineMessages } from "react-intl";
-import { View, Text, Switch } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
+import { Switch } from "react-native";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import SettingsContext from "../../context/SettingsContext";
-import {
-  DARK_BLUE,
-  LIGHT_BLUE,
-  VERY_LIGHT_BLUE,
-  LIGHT_GREY,
-} from "../../lib/styles";
+import { DARK_BLUE, LIGHT_GREY } from "../../lib/styles";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import IconButton from "../../sharedComponents/IconButton";
@@ -65,5 +59,3 @@ MapSettings.navigationOptions = () => ({
       </IconButton>
     ),
 });
-
-const useArrowListItem = () => {};

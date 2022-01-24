@@ -17,7 +17,6 @@ import bugsnag from "../../lib/logger";
 import config from "../../../config.json";
 import Loading from "../Loading";
 import OfflineMapLayers from "../OfflineMapLayers";
-import SettingsContext from "../../context/SettingsContext";
 import { UserLocation } from "./UserLocation";
 
 // This is the default zoom used when the map first loads, and also the zoom
