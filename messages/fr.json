@@ -208,6 +208,14 @@
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Vous pouvez essayer de forcer le redémarrage de l'application, mais il peut y avoir quelque chose qui doit être corrigé. Désolé pour cela, rendre les applications c'est difficile."
   },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Erreur d'importation"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "Configuration actuelle"
+  },
   "screens.Settings.ProjectConfig.projectKey": {
     "description": "Label for project key",
     "message": "Clé du Projet"
@@ -239,5 +247,9 @@
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
     "message": "Assurez-vous que d'autres appareils sont allumés et connectés au même réseau WiFi"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi:"
   }
 }
