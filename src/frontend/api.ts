@@ -14,7 +14,7 @@ import { Preset, Field, Metadata, Messages } from "./context/ConfigContext";
 import type { DraftPhoto } from "./context/DraftObservationContext";
 import { ClientGeneratedObservation } from "./context/ObservationsContext";
 import AppInfo from "./lib/AppInfo";
-import { promiseTimeout } from "./lib/utils";
+import promiseTimeout, { TimeoutError } from "p-timeout";
 import bugsnag from "./lib/logger";
 import { IconSize, ImageSize } from "./sharedTypes";
 
@@ -139,7 +139,7 @@ const DEFAULT_TIMEOUT = 10000; // 10 seconds
 // heartbeat then we consider the server has errored
 // This is high because in e2e testing and on very low-power devices it seems
 // like startup can take a long time. TODO: Investigate slowness.
-const SERVER_START_TIMEOUT = 30000;
+export const SERVER_START_TIMEOUT = 30000;
 
 const pixelRatio = PixelRatio.get();
 
@@ -177,8 +177,9 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
   nodejs.channel.addListener("status", onStatus);
 
   function onStatus({ value, error }: ServerStatusMessage) {
+    console.log("STATUS", value, error);
     if (status !== value) {
-      bugsnag.leaveBreadcrumb("Server status change", { status: value });
+      bugsnag.leaveBreadcrumb("Server status change", { status: value, error });
       if (value === STATUS.ERROR) {
         bugsnag.notify(new Error(error || "Unknown Server Error"));
       }
@@ -202,6 +203,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     ) {
       restartTimeout();
     } else {
+      console.log("Clearing timeout");
       clearTimeout(timeoutId);
     }
   }
@@ -218,7 +220,8 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       log("onReady called", status);
       if (status === STATUS.LISTENING) resolve();
       else if (status === STATUS.ERROR) reject(new Error("Server Error"));
-      else if (status === STATUS.TIMEOUT) reject(new Error("Server Timeout"));
+      else if (status === STATUS.TIMEOUT)
+        reject(new TimeoutError("Server Timeout"));
       else pending.push({ resolve, reject });
     });
   }
@@ -295,10 +298,13 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       );
 
       serverStartTimeoutPromise.catch(e => {
-        // We could get here when the timeout timer has not yet started and the
-        // server status is still "STARTING", so we update the status to an
-        // error
-        onStatus({ value: STATUS.ERROR });
+        if (e instanceof TimeoutError) {
+          if (status !== STATUS.TIMEOUT && status !== STATUS.ERROR) {
+            onStatus({ value: STATUS.TIMEOUT, error: e.message });
+          }
+        } else {
+          onStatus({ value: STATUS.ERROR, error: e.message });
+        }
         bugsnag.notify(e);
       });
 
