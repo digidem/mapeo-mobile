@@ -208,6 +208,10 @@
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Vous pouvez essayer de forcer le redémarrage de l'application, mais il peut y avoir quelque chose qui doit être corrigé. Désolé pour cela, rendre les applications c'est difficile."
   },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "Une erreur s'est produite lors de l'importation de ce fichier de configuration"
+  },
   "screens.Settings.ProjectConfig.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "Erreur d'importation"
