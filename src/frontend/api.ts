@@ -177,7 +177,6 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
   nodejs.channel.addListener("status", onStatus);
 
   function onStatus({ value, error }: ServerStatusMessage) {
-    console.log("STATUS", value, error);
     if (status !== value) {
       bugsnag.leaveBreadcrumb("Server status change", { status: value, error });
       if (value === STATUS.ERROR) {
@@ -203,7 +202,6 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     ) {
       restartTimeout();
     } else {
-      console.log("Clearing timeout");
       clearTimeout(timeoutId);
     }
   }

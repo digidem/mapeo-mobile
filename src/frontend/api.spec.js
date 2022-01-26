@@ -11,28 +11,22 @@ import FakeTimers from "@sinonjs/fake-timers";
 jest.mock("ky");
 jest.mock("react-native-fs");
 
-describe.skip("Server startup", () => {
+describe("Server startup", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-  });
-  afterEach(() => {
-    // This is a hack to make sure the server is stopped before the next test
-    nodejs.channel.emit("status", { value: Constants.CLOSED });
-    nodejs.channel.removeAllListeners();
   });
 
   test("Initialization sets up nodejs status listener", () => {
     const spy = jest.spyOn(nodejs.channel, "addListener");
-    new Api({ baseUrl: "__URL__" }); // eslint-disable-line no-new
+    const { cleanup } = setupApi();
     expect(spy).toHaveBeenCalled();
+    return cleanup();
   });
 
   test("Start server", async () => {
-    expect.assertions(5);
-    const api = new Api({ baseUrl: "__URL__" });
-    const serverStartPromise = api.startServer();
-    nodejs.channel.emit("status", { value: Constants.LISTENING });
-    await expect(serverStartPromise).resolves.toBeUndefined();
+    const { serverStart, serverStatus, cleanup } = setupApi();
+    serverStatus({ value: Constants.LISTENING });
+    await expect(serverStart).resolves.toBeUndefined();
     expect(nodejs.start.mock.calls.length).toBe(1);
     expect(nodejs.start.mock.calls[0][0]).toBe("loader.js");
     expect(nodejs.channel.post.mock.calls.length).toBe(2);
@@ -46,19 +40,17 @@ describe.skip("Server startup", () => {
       },
       isDev: __DEV__,
     });
+    await cleanup();
   });
 
-  test("Start server timeout", () => {
-    jest.useFakeTimers();
-    expect.assertions(4);
-    const api = new Api({ baseUrl: "__URL__" });
-    const serverStartPromise = api.startServer();
-    jest.runAllTimers();
-    expect(api.startServer()).rejects.toThrow("Server start timeout");
+  test("Start server timeout", async () => {
+    const { serverStart, clock, cleanup } = setupApi();
+    await clock.runAllAsync();
+    expect(serverStart).rejects.toThrow("Server start timeout");
     expect(nodejs.start.mock.calls.length).toBe(1);
     expect(nodejs.start.mock.calls[0][0]).toBe("loader.js");
     expect(nodejs.channel.post.mock.calls.length).toBe(1);
-    jest.useRealTimers();
+    await cleanup();
   });
 });
 
@@ -68,13 +60,13 @@ describe("Server status", () => {
   });
 
   test("Timeout", async () => {
-    const { stateListener, cleanup, clock } = startServer();
+    const { stateListener, cleanup, clock } = setupApi();
     await clock.runAllAsync();
     expect(stateListener).toHaveBeenCalledWith(Constants.TIMEOUT);
     await cleanup();
   });
   test("Timeout only happens once if no other server status message", async () => {
-    const { stateListener, cleanup, clock } = startServer();
+    const { stateListener, cleanup, clock } = setupApi();
     await clock.tickAsync(SERVER_START_TIMEOUT + 1);
     await clock.tickAsync(SERVER_START_TIMEOUT + 1);
     expect(stateListener).toHaveBeenCalledTimes(1);
@@ -82,7 +74,7 @@ describe("Server status", () => {
     await cleanup();
   });
   test("After timeout, if server starts listening, timeout starts again", async () => {
-    const { serverStatus, stateListener, cleanup, clock } = startServer();
+    const { serverStatus, stateListener, cleanup, clock } = setupApi();
     await clock.tickAsync(SERVER_START_TIMEOUT + 1);
     serverStatus({ value: Constants.LISTENING });
     await clock.tickAsync(SERVER_START_TIMEOUT + 1);
@@ -93,7 +85,7 @@ describe("Server status", () => {
     await cleanup();
   });
   test("After timeout, if server is starting, timeout starts again", async () => {
-    const { serverStatus, stateListener, cleanup, clock } = startServer();
+    const { serverStatus, stateListener, cleanup, clock } = setupApi();
     await clock.tickAsync(SERVER_START_TIMEOUT + 1);
     serverStatus({ value: Constants.STARTING });
     await clock.tickAsync(SERVER_START_TIMEOUT + 1);
@@ -104,7 +96,7 @@ describe("Server status", () => {
     await cleanup();
   });
   test("After error, timeout will not happen", async () => {
-    const { serverStatus, stateListener, cleanup, clock } = startServer();
+    const { serverStatus, stateListener, cleanup, clock } = setupApi();
     serverStatus({ value: Constants.ERROR });
     await clock.tickAsync(SERVER_START_TIMEOUT + 1);
     expect(stateListener).toHaveBeenCalledWith(Constants.ERROR);
@@ -117,7 +109,7 @@ describe("Server status", () => {
       stateListener,
       cleanup,
       clock,
-    } = startServer();
+    } = setupApi();
     serverStatus({ value: Constants.LISTENING });
     await serverStart;
     serverStatus({ value: Constants.CLOSED });
@@ -132,12 +124,7 @@ describe("Server status", () => {
     await cleanup();
   });
   test("Unsubscribe works", async () => {
-    const {
-      subscription,
-      serverStatus,
-      stateListener,
-      cleanup,
-    } = startServer();
+    const { subscription, serverStatus, stateListener, cleanup } = setupApi();
     subscription.remove();
     serverStatus({ value: Constants.LISTENING });
     expect(stateListener).toHaveBeenCalledTimes(0);
@@ -145,59 +132,60 @@ describe("Server status", () => {
   });
 });
 
-// describe("Server get requests", () => {
-//   ky.extend.mockImplementation(() => ({
-//     get: jest.fn(url => ({
-//       json: jest.fn(() => {
-//         if (url.startsWith("presets")) return { presets: {}, fields: {} };
-//         return [];
-//       }),
-//     })),
-//   }));
+describe("Server get requests", () => {
+  ky.extend.mockImplementation(() => ({
+    get: jest.fn(url => ({
+      json: jest.fn(() => {
+        if (url.startsWith("presets")) return { presets: {}, fields: {} };
+        return [];
+      }),
+    })),
+  }));
 
-//   ["getObservations", "getPresets", "getFields", "getMapStyle"].forEach(
-//     method => {
-//       test(method + " with server ready", async () => {
-//         const { api } = await startServer();
-//         expect.assertions(1);
-//         return expect(api[method]()).resolves.toEqual([]);
-//       });
-//       test(method + " doesn't resolve until server is ready", async () => {
-//         const { api, serverStatus } = await startServer();
-//         jest.useRealTimers();
-//         let pending = true;
-//         serverStatus({ value: Constants.STARTING });
-//         expect.assertions(2);
-//         const getPromise = api[method]().finally(() => {
-//           pending = false;
-//         });
-//         setTimeout(() => {
-//           expect(pending).toBe(true);
-//           serverStatus({ value: Constants.LISTENING });
-//         }, 200);
-//         return expect(getPromise).resolves.toEqual([]);
-//       });
-//       test(method + " rejects if server timeout", async () => {
-//         const { api, serverStatus } = await startServer();
-//         jest.useFakeTimers("legacy");
-//         serverStatus({ value: Constants.STARTING });
-//         const getPromise = api[method]();
-//         jest.runAllTimers();
-//         expect.assertions(1);
-//         return expect(getPromise).rejects.toThrow("Server Timeout");
-//       });
-//       test(method + " rejects if server error", async () => {
-//         const { api, serverStatus } = await startServer();
-//         serverStatus({ value: Constants.ERROR });
-//         const getPromise = api[method]();
-//         expect.assertions(1);
-//         return expect(getPromise).rejects.toThrow("Server Error");
-//       });
-//     }
-//   );
-// });
+  ["getObservations" /**, "getPresets", "getFields", "getMapStyle" */].forEach(
+    method => {
+      test(method + " with server ready", async () => {
+        const { api, serverStatus, cleanup } = setupApi();
+        serverStatus({ value: Constants.LISTENING });
+        await expect(api[method]()).resolves.toEqual([]);
+        await cleanup();
+      });
+      test(method + " doesn't resolve until server is ready", async () => {
+        const { api, serverStatus, cleanup, clock } = setupApi();
+        clock.uninstall();
+        let pending = true;
+        serverStatus({ value: Constants.STARTING });
+        expect.assertions(2);
+        const getPromise = api[method]().finally(() => {
+          pending = false;
+        });
+        setTimeout(() => {
+          expect(pending).toBe(true);
+          serverStatus({ value: Constants.LISTENING });
+        }, 200);
+        await expect(getPromise).resolves.toEqual([]);
+        await cleanup();
+      });
+      test(method + " rejects if server timeout", async () => {
+        const { api, serverStatus, clock } = setupApi();
+        serverStatus({ value: Constants.STARTING });
+        const getPromise = api[method]();
+        await clock.runAllAsync();
+        expect.assertions(1);
+        return expect(getPromise).rejects.toThrow("Server Timeout");
+      });
+      test(method + " rejects if server error", async () => {
+        const { api, serverStatus } = setupApi();
+        serverStatus({ value: Constants.ERROR });
+        const getPromise = api[method]();
+        expect.assertions(1);
+        return expect(getPromise).rejects.toThrow("Server Error");
+      });
+    }
+  );
+});
 
-function startServer() {
+function setupApi() {
   const clock = FakeTimers.install();
   const stateListener = jest.fn();
   const api = new Api({ baseUrl: "__URL__" });
@@ -218,6 +206,7 @@ function startServer() {
   }
 
   return {
+    api,
     serverStart,
     subscription,
     serverStatus,
