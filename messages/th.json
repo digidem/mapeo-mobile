@@ -645,6 +645,9 @@
   "screens.Security.killPassDescriptonPassNotSet": {
     "message": "ในการใช้งาน ให้เปิดใช้งานรหัสผ่านแอป"
   },
+  "screens.Security.killPassDescriptonPassSet": {
+    "message": "ปกป้องอุปกรณ์ของคุณจากหน้าจอค้าง"
+  },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "ยังไม่ได้ตั้งรหัสผ่าน"
   },
