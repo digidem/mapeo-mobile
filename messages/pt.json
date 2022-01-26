@@ -671,7 +671,7 @@
     "message": "(Você) {deviceName}"
   },
   "screens.Settings.MapSettings.batteryWarning": {
-    "message": "Pode descarregar a bateria mais rápido"
+    "message": "Pode gastar mais bateria"
   },
   "screens.Settings.MapSettings.directionalArrow": {
     "message": "Usar seta direcional"
