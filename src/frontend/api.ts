@@ -306,7 +306,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
         bugsnag.notify(e);
       });
 
-      return serverStartTimeoutPromise;
+      return serverStartTimeoutPromise as Promise<void>;
     },
 
     addServerStateListener: (
