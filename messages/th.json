@@ -648,6 +648,15 @@
   "screens.Security.killPassDescriptonPassSet": {
     "message": "ปกป้องอุปกรณ์ของคุณจากหน้าจอค้าง"
   },
+  "screens.Security.killPasscodeHeader": {
+    "message": "กำจัดรหัสผ่าน"
+  },
+  "screens.Security.paperKey": {
+    "message": "กุญแจกระดาษ"
+  },
+  "screens.Security.paperKeyDes": {
+    "message": "กู้คืนสถานะบัญชีของคุณ กรณีอุปกรณ์นี้สูญหาย"
+  },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "ยังไม่ได้ตั้งรหัสผ่าน"
   },
