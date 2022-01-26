@@ -134,6 +134,15 @@
     "description": "Title of screen letting user know that they are already part of a project.",
     "message": "คุณอยู่ในโครงการแล้ว"
   },
+  "screens.AppPasscode": {
+    "message": "รหัสผ่านแอป"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "ดำเนินการต่อ"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "รหัสผ่านแอป คืออะไร?"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "ไม่สามารถเชื่อมต่อกล้องได้"
@@ -630,6 +639,24 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "ลองอีกครั้ง"
   },
+  "screens.Security.deviceBackup": {
+    "message": "สำรองข้อมูลอุปกรณ์"
+  },
+  "screens.Security.killPassDescriptonPassNotSet": {
+    "message": "ในการใช้งาน ให้เปิดใช้งานรหัสผ่านแอป"
+  },
+  "screens.Security.passDesriptionPassNotSet": {
+    "message": "ยังไม่ได้ตั้งรหัสผ่าน"
+  },
+  "screens.Security.passDesriptionPassSet": {
+    "message": "ตั้งรหัสผ่านแล้ว"
+  },
+  "screens.Security.securitySubheader": {
+    "message": "ความปลอดภัยอุปกรณ์"
+  },
+  "screens.Security.title": {
+    "message": "ความปลอดภัย"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "ลองปิด-เปิดแอปฯ อีกครั้ง ขออภัยในความไม่สะดวก ทางเรากำลังปรับปรุงการทำงานของแอปฯ ให้ดียิ่งขึ้น"
@@ -669,6 +696,9 @@
   "screens.Settings.ManagePeople.yourDevice": {
     "description": "Row label indicating details related to the user's device membership",
     "message": "(คุณ) {deviceName}"
+  },
+  "screens.Settings.MapSettings.batteryWarning": {
+    "message": "แบตเตอรี่อาจจะหมดเร็วขึ้น"
   },
   "screens.Settings.MapSettings.directionalArrow": {
     "message": "ใช้ลูกศรทิศทาง"
@@ -798,6 +828,13 @@
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
     "message": "หมวดหมู่, ไอคอน และคำถาม"
+  },
+  "screens.Settings.security": {
+    "message": "ความปลอดภัย"
+  },
+  "screens.Settings.securityDesc": {
+    "description": "Description of security button in settings",
+    "message": "รหัสผ่านแอปและความปลอดภัยอุปกรณ์"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
