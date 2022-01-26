@@ -44,6 +44,9 @@ jobs:
       - name: Npm Install
         run: |
           npm ci
+      - name: Build translations
+        run: |
+          npm run build:translations
       - name: Frontend Tests
         run: |
           npm test
