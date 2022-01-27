@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0](https://github.com/digidem/mapeo-mobile/compare/v5.3.2...v5.4.0) (2022-01-27)
+
+### Features
+
+- Add Create Project flow ([#846](https://github.com/digidem/mapeo-mobile/issues/846)) ([978bb61](https://github.com/digidem/mapeo-mobile/commit/978bb61e3d0e33ffb7dcb08d0c40bfeab1c740d1))
+- Added Security to Setting and App Passocde Splash Screen ([#879](https://github.com/digidem/mapeo-mobile/issues/879)) ([0099d78](https://github.com/digidem/mapeo-mobile/commit/0099d789e8b0c796344bc194a8dd70d6765bf12f))
+- Show alert after successfully importing config ([#864](https://github.com/digidem/mapeo-mobile/issues/864)) ([8ea87e8](https://github.com/digidem/mapeo-mobile/commit/8ea87e8af43dade964a16839d0b1a5a1dfea90e0))
+- Support custom colors for observations ([#885](https://github.com/digidem/mapeo-mobile/issues/885)) ([7ab50e4](https://github.com/digidem/mapeo-mobile/commit/7ab50e46476dc9c7a5949c7d5e98560c101eba8d))
+- Add optional directional arrow to map ([#881](https://github.com/digidem/mapeo-mobile/issues/881)) ([794d21e](https://github.com/digidem/mapeo-mobile/pull/915/commits/794d21e56d6abcf94969c9e0b9ac051200248ca9))
+- Enable photo deletion when creating an observation ([#886](https://github.com/digidem/mapeo-mobile/issues/866)) ([ad2f571](https://github.com/digidem/mapeo-mobile/commit/ad2f57184072e3241846f04ffdca3b98a20c3e96))
+
+### Bug Fixes
+
+- Do not surface Practice Mode in config details in settings ([#852](https://github.com/digidem/mapeo-mobile/issues/852)) ([9903e4b](https://github.com/digidem/mapeo-mobile/commit/9903e4b761bf957291c9bbe19d8799c4cfb00ea2))
+- Enable navigation to Experiments screen ([#853](https://github.com/digidem/mapeo-mobile/issues/853)) ([f742eea](https://github.com/digidem/mapeo-mobile/commit/f742eeab71e999b40ee98d54d35b6f766d5cb194))
+- Update ObservationView to fix issues from observation types refactor ([#880](https://github.com/digidem/mapeo-mobile/issues/880)) ([b90f842](https://github.com/digidem/mapeo-mobile/commit/b90f84266abbc47bba082aac58b34a807d14b04e))
+
 ### [5.3.2](https://github.com/digidem/mapeo-mobile/compare/v5.3.1...v5.3.2) (2021-11-04)
 
 ### Bug Fixes
