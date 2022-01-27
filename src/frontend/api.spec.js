@@ -142,7 +142,7 @@ describe("Server get requests", () => {
     })),
   }));
 
-  ["getObservations" /**, "getPresets", "getFields", "getMapStyle" */].forEach(
+  ["getObservations", "getPresets", "getFields", "getMapStyle"].forEach(
     method => {
       test(method + " with server ready", async () => {
         const { api, serverStatus, cleanup } = setupApi();
@@ -167,19 +167,21 @@ describe("Server get requests", () => {
         await cleanup();
       });
       test(method + " rejects if server timeout", async () => {
-        const { api, serverStatus, clock } = setupApi();
+        const { api, serverStatus, clock, cleanup } = setupApi();
         serverStatus({ value: Constants.STARTING });
         const getPromise = api[method]();
         await clock.runAllAsync();
         expect.assertions(1);
-        return expect(getPromise).rejects.toThrow("Server Timeout");
+        await expect(getPromise).rejects.toThrow("Server Timeout");
+        await cleanup();
       });
       test(method + " rejects if server error", async () => {
-        const { api, serverStatus } = setupApi();
+        const { api, serverStatus, cleanup } = setupApi();
         serverStatus({ value: Constants.ERROR });
         const getPromise = api[method]();
         expect.assertions(1);
-        return expect(getPromise).rejects.toThrow("Server Error");
+        await expect(getPromise).rejects.toThrow("Server Error");
+        await cleanup();
       });
     }
   );
