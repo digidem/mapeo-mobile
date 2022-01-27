@@ -14,7 +14,7 @@ import { Preset, Field, Metadata, Messages } from "./context/ConfigContext";
 import type { DraftPhoto } from "./context/DraftObservationContext";
 import { ClientGeneratedObservation } from "./context/ObservationsContext";
 import AppInfo from "./lib/AppInfo";
-import { promiseTimeout } from "./lib/utils";
+import promiseTimeout, { TimeoutError } from "p-timeout";
 import bugsnag from "./lib/logger";
 import { IconSize, ImageSize } from "./sharedTypes";
 
@@ -139,7 +139,7 @@ const DEFAULT_TIMEOUT = 10000; // 10 seconds
 // heartbeat then we consider the server has errored
 // This is high because in e2e testing and on very low-power devices it seems
 // like startup can take a long time. TODO: Investigate slowness.
-const SERVER_START_TIMEOUT = 30000;
+export const SERVER_START_TIMEOUT = 30000;
 
 const pixelRatio = PixelRatio.get();
 
@@ -150,7 +150,7 @@ interface ApiParam {
 
 export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
   let status: ServerStatus = STATUS.IDLE;
-  let timeoutId: number;
+  let timeoutId: ReturnType<typeof setTimeout>;
   // We append this to requests for presets, icons and map styles, in order to
   // override the local static server cache whenever the app is restarted. NB.
   // sprite, font, and map tile requests might still be cached, only changes in
@@ -178,7 +178,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
 
   function onStatus({ value, error }: ServerStatusMessage) {
     if (status !== value) {
-      bugsnag.leaveBreadcrumb("Server status change", { status: value });
+      bugsnag.leaveBreadcrumb("Server status change", { status: value, error });
       if (value === STATUS.ERROR) {
         bugsnag.notify(new Error(error || "Unknown Server Error"));
       }
@@ -208,10 +208,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
 
   function restartTimeout() {
     if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = window.setTimeout(
-      () => onStatus({ value: STATUS.TIMEOUT }),
-      timeout
-    );
+    timeoutId = setTimeout(() => onStatus({ value: STATUS.TIMEOUT }), timeout);
   }
 
   // Returns a promise that resolves when the server is ready to accept a
@@ -221,7 +218,8 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       log("onReady called", status);
       if (status === STATUS.LISTENING) resolve();
       else if (status === STATUS.ERROR) reject(new Error("Server Error"));
-      else if (status === STATUS.TIMEOUT) reject(new Error("Server Timeout"));
+      else if (status === STATUS.TIMEOUT)
+        reject(new TimeoutError("Server Timeout"));
       else pending.push({ resolve, reject });
     });
   }
@@ -298,14 +296,17 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       );
 
       serverStartTimeoutPromise.catch(e => {
-        // We could get here when the timeout timer has not yet started and the
-        // server status is still "STARTING", so we update the status to an
-        // error
-        onStatus({ value: STATUS.ERROR });
+        if (e instanceof TimeoutError) {
+          if (status !== STATUS.TIMEOUT && status !== STATUS.ERROR) {
+            onStatus({ value: STATUS.TIMEOUT, error: e.message });
+          }
+        } else {
+          onStatus({ value: STATUS.ERROR, error: e.message });
+        }
         bugsnag.notify(e);
       });
 
-      return serverStartTimeoutPromise;
+      return serverStartTimeoutPromise as Promise<void>;
     },
 
     addServerStateListener: (

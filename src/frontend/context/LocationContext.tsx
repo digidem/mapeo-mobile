@@ -51,7 +51,7 @@ const stopWatchingLocation = (
 ) => {
   log("Stopping GPS watch");
   if (subscriptionRef.current) subscriptionRef.current.remove();
-  if (timeoutIdRef.current) window.clearTimeout(timeoutIdRef.current);
+  if (timeoutIdRef.current) clearTimeout(timeoutIdRef.current);
   subscriptionRef.current = undefined;
 };
 
@@ -76,7 +76,7 @@ export const LocationProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const [position, setPosition] = React.useState<Position>();
   const [provider, setProvider] = React.useState<Provider>();
 
-  const timeoutId = React.useRef<number>();
+  const timeoutId = React.useRef<ReturnType<typeof setTimeout>>();
   const subscription = React.useRef<Subscription>();
 
   const fineLocationPermissionResult = permissions[
@@ -87,7 +87,7 @@ export const LocationProvider = ({ children }: React.PropsWithChildren<{}>) => {
     try {
       if (fineLocationPermissionResult !== RESULTS.GRANTED) return;
 
-      if (timeoutId.current) window.clearTimeout(timeoutId.current);
+      if (timeoutId.current) clearTimeout(timeoutId.current);
 
       const providerStatus = await Location.getProviderStatusAsync();
 
@@ -105,18 +105,15 @@ export const LocationProvider = ({ children }: React.PropsWithChildren<{}>) => {
             // won't know why. If we haven't had a location update for a while, we check
             // on the provider status to see if location services are enabled, so that
             // we can update the state with the current status
-            if (timeoutId.current) window.clearTimeout(timeoutId.current);
-            timeoutId.current = window.setTimeout(
-              updateStatus,
-              LOCATION_TIMEOUT
-            );
+            if (timeoutId.current) clearTimeout(timeoutId.current);
+            timeoutId.current = setTimeout(updateStatus, LOCATION_TIMEOUT);
             setPosition(location as Position);
           }
         );
       } else {
         subscription.current?.remove();
         subscription.current = undefined;
-        timeoutId.current = window.setTimeout(updateStatus, LOCATION_TIMEOUT);
+        timeoutId.current = setTimeout(updateStatus, LOCATION_TIMEOUT);
       }
       // If location services are disabled, clear the position stored in state,
       // so that we don't create observations with a stale position.
