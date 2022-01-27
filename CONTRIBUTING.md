@@ -26,7 +26,7 @@ For many development tasks you will also need the Android SDK installed to build
 * Android SDK (Android API 29) 
 * Android NDK (21.4.7075529)
 * Andriod AVD Image (x86 ABI image for Android 10 or lower)
-* Android Studio is an optional as most tasks are done with 'gradle' build tool is available in mapeo-mobile source code itself.
+* Android Studio is optional as most tasks are done using the 'gradle' build tool, which is available through the mapeo-mobile source code itself.
 
 Please refer to [Android Build number](https://source.android.com/setup/start/build-numbers) page for full description of Android versions. 
 
