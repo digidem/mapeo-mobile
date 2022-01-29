@@ -273,7 +273,7 @@
     "message": "Voltar ao início"
   },
   "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
-    "message": "Observações Excluídas"
+    "message": "Observações excluídas"
   },
   "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
     "message": "Concluído!"
