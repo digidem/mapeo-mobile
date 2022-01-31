@@ -50,7 +50,7 @@ const SyncModal = ({ navigation }: Props) => {
   ] = React.useContext(ConfigContext);
 
   const { ssid } = useWifiStatus();
-  const [peers, syncPeer, syncGetPeers, canSyncConnect, syncConnect, connectCloud] = usePeers(!!ssid, deviceName);
+  const [peers, syncPeer, syncGetPeers, connectCloud] = usePeers(!!ssid, deviceName);
 
   const canConnectCloud = syncServer;
   const cloudPeer = peers.find(({ deviceType }) => deviceType === "cloud");
