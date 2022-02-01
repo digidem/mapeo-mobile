@@ -572,9 +572,19 @@
   "screens.Settings.MapSettings.mapSettingTitle": {
     "message": "Ajustes del mapa"
   },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "Crear un proyecto"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "Unirse a un proyecto"
+  },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "Hubo un error al intentar importar este archivo de configuración"
+  },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "OK"
   },
   "screens.Settings.ProjectConfig.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
@@ -584,6 +594,10 @@
     "description": "Message for alert after successful config import",
     "message": "Configuración importada con éxito:\n\n{name} {version}"
   },
+  "screens.Settings.ProjectConfig.configImportAlertOk": {
+    "description": "Button text for config import alert acknowledgement",
+    "message": "OK"
+  },
   "screens.Settings.ProjectConfig.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "Configuración actual"
@@ -591,6 +605,13 @@
   "screens.Settings.ProjectConfig.importConfig": {
     "description": "Button to import Mapeo config file",
     "message": "Importar configuración"
+  },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "Nombre del proyecto:"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "ninguno"
   },
   "screens.Settings.ProjectConfig.projectKey": {
     "description": "Label for project key",
@@ -611,6 +632,14 @@
   "screens.Settings.aboutMapeoDesc": {
     "description": "Description of the 'About Mapeo' page",
     "message": "Versión y número de compilación"
+  },
+  "screens.Settings.appInstall": {
+    "description": "Primary text for Mapeo APK test",
+    "message": "Instalar APK"
+  },
+  "screens.Settings.appInstallDesc": {
+    "description": "Secondary text for Mapeo APK test",
+    "message": "Probar instalación APK (reinstala la aplicación)"
   },
   "screens.Settings.experiments": {
     "description": "Experimental features",
