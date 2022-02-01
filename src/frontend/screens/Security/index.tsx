@@ -12,9 +12,9 @@ import {
 import IconButton from "../../sharedComponents/IconButton";
 import { BackIcon, SaveIcon } from "../../sharedComponents/icons";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import { SecurityContext } from "./SecurityContext";
 import { useNavigation } from "react-navigation-hooks";
 import SettingsContext from "../../context/SettingsContext";
+import { SecurityContext } from "../../context/SecurityContext";
 
 const m = defineMessages({
   title: {
@@ -64,8 +64,8 @@ const m = defineMessages({
 });
 
 export const Security: NavigationStackScreenComponent = () => {
-  const { passIsSet } = React.useContext(SecurityContext);
   const [{ experiments }] = React.useContext(SettingsContext);
+  const { passcode } = React.useContext(SecurityContext);
   const { navigate } = useNavigation();
 
   React.useEffect(() => {
@@ -74,10 +74,10 @@ export const Security: NavigationStackScreenComponent = () => {
 
   const [passCodeDes, killPassCodeDes] = React.useMemo(
     () =>
-      passIsSet
+      !!passcode
         ? [m.passDesriptionPassSet, m.killPassDescriptonPassSet]
         : [m.passDesriptionPassNotSet, m.killPassDescriptonPassNotSet],
-    [passIsSet]
+    [passcode]
   );
 
   return (
