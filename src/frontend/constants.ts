@@ -25,3 +25,5 @@ export const EDITING_SCREEN_NAMES = [
 ];
 
 export const TEMP_HIDE_PRACTICE_MODE_UI = ["CreateProject"];
+
+export const KILL_PASSCODE = "00000";

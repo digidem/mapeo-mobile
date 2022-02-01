@@ -15,6 +15,7 @@ import AppProvider from "./context/AppProvider";
 import bugsnag from "./lib/logger";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
 import { ERROR_STORE_KEY } from "./constants";
+import { SecurityProvider } from "./context/SecurityContext";
 
 /**
  * Turn off warnings about:
@@ -83,8 +84,10 @@ const App = () => (
       <PermissionsProvider>
         <AppLoading>
           <AppProvider>
-            <AppContainerWrapper />
-            <UpdateNotifier />
+            <SecurityProvider>
+              <AppContainerWrapper />
+              <UpdateNotifier />
+            </SecurityProvider>
           </AppProvider>
         </AppLoading>
       </PermissionsProvider>
