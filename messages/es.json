@@ -278,6 +278,15 @@
   "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
     "message": "Las observaciones se han eliminado"
   },
+  "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
+    "message": "¡Completo!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "Abandonando proyecto {projectName}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "Eliminando observaciones"
+  },
   "screens.ManualGpsScreen.DdForm.east": {
     "message": "Este"
   },
@@ -534,6 +543,30 @@
     "description": "message shown whilst observations are loading",
     "message": "Cargando… esto puede tomar un tiempo después de sincronizar con un nuevo dispositivo"
   },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "Crear un proyecto"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "Haz clic aquí para {action}"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "Unirse a un proyecto"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "Haz que el Participante del proyecto escanee este código de invitación."
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "Instrucciones"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "Unirse a un proyecto"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "Comparte este código con el Coordinador del proyecto"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Disculpas, hay un problema con Mapeo. Puedes reiniciar Mapeo, pero si sigue este mensaje hay un problema inesperado y necesitas un actualización de Mapeo."
@@ -641,6 +674,18 @@
     "description": "Secondary text for Mapeo APK test",
     "message": "Probar instalación APK (reinstala la aplicación)"
   },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "Instalar o actualizar Mapeo en otro teléfono"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "Formato de Coordenadas"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "Elegir cómo se muestran las coordenadas"
+  },
   "screens.Settings.experiments": {
     "description": "Experimental features",
     "message": "Experimentos"
@@ -657,6 +702,10 @@
     "description": "Secondary text for language settings",
     "message": "Idioma para la aplicación"
   },
+  "screens.Settings.mapSettings": {
+    "description": "Button to adjust settings for map",
+    "message": "Ajustes del mapa"
+  },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
     "message": "Configuración del proyecto"
@@ -664,6 +713,13 @@
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
     "message": "Categorías, íconos y preguntas"
+  },
+  "screens.Settings.security": {
+    "message": "Seguridad"
+  },
+  "screens.Settings.securityDesc": {
+    "description": "Description of security button in settings",
+    "message": "Contraseña de App y Seguridad del Dispositivo"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
@@ -701,6 +757,18 @@
     "description": "Label for last sync datetime",
     "message": "Sincronizado:"
   },
+  "screens.SyncModal.SyncView.checkingUpdates": {
+    "description": "Label in upgrade bar when checking for updates",
+    "message": "Buscar actualizaciones de la aplicación"
+  },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "Instalar"
+  },
+  "screens.SyncModal.SyncView.noUpdates": {
+    "description": "Label in upgrade bar when no updates are found",
+    "message": "No se han encontrado actualizaciones"
+  },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
     "message": "Abre la configuración de tu teléfono y conéctate a una red WiFi para sincronizar"
@@ -708,6 +776,10 @@
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
     "message": "Sin WiFi"
+  },
+  "screens.SyncModal.SyncView.openSettingsButton": {
+    "description": "Label for button to open settings to fix update permissions error",
+    "message": "Abrir ajustes"
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
@@ -725,9 +797,29 @@
     "description": "Button to open WiFi settings",
     "message": "Abrir Ajustes"
   },
+  "screens.SyncModal.SyncView.sharingUpdate": {
+    "description": "Label in upgrade bar when sharing an update with others",
+    "message": "Compartiendo actualizaciones de la aplicación con otros dispositivos"
+  },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
     "message": "Sincronizar"
+  },
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "Actualización disponible; esperando a que finalice la sincronización"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "Descargando actualizaciones"
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "No se ha podido buscar actualizaciones"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Una nueva versión de Mapeo está disponible"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
@@ -748,6 +840,22 @@
   "screens.SyncModal.errorVersionUsBadTitle": {
     "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
     "message": "Necesitas actualizar Mapeo para sincronizar con {deviceName}"
+  },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "Añadir al proyecto"
+  },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "Compartir invitación"
+  },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "Mostrar código QR"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "Intente conectarse usando uno de los otros métodos a continuación."
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
