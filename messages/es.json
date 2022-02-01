@@ -73,7 +73,69 @@
     "message": "Cancelar"
   },
   "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
-    "message": "Los coordinadores pueden añadir y eliminar dispositivos de los proyectos"
+    "message": "Los Coordinadores pueden añadir y eliminar dispositivos de los proyectos"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "Este dispositivo es un Coordinador"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "Este dispositivo es un Participante"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "Seleccione un rol para el dispositivo"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "Dispositivo {deviceId} encontrado"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "¿Tienes problemas?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "Instrucciones"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} ha sido añadido a {projectName}"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Ir a Sincronizar"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "¡Éxito!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "Invitar dispositivo"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "Añadir al proyecto"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "Estás en {projectName}"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "Volver"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "Abandonar proyecto actual"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "Para unirte a un nuevo proyecto debes abandonar el actual."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "Ya estás en un proyecto"
+  },
+  "screens.AppPasscode": {
+    "message": "Contraseña de App"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "Continuar"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "¿Qué es la Contraseña de App?"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -82,6 +144,24 @@
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
     "message": "Elegir qué está pasando"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "No, borrar mis observaciones"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "Sí, mantener mis observaciones"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "Trae ({observationCount}) {observationCount, plural, one {observación} other {observaciones}} del modo de práctica al proyecto?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "Dejar modo de práctica"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "Seleccione una de las opciones"
   },
   "screens.CoordinateFormat.dd": {
     "description": "Decimal Degrees coordinate format",
@@ -98,6 +178,38 @@
   "screens.CoordinateFormat.utm": {
     "description": "Universal Transverse Mercator coordinate format",
     "message": "Universal Transversal de Mercator (UTM)"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "Crear proyecto"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "Crear un proyecto"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "Introduce el nombre del dispositivo"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "Añade un nombre para tu dispositivo"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "Nombre del dispositivo"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "Introducir nombre del proyecto"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "Introduzca un nombre para el proyecto"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "Nombre del proyecto"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -135,9 +247,36 @@
     "description": "if a location sensor is active yes/no",
     "message": "Si"
   },
+  "screens.JoinRequestModal.close": {
+    "message": "Cerrar"
+  },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "Denegar Solicitud"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "Invitar"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "La invitación ha sido enviada."
+  },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{deviceName} quiere unirse a {projectName}"
+  },
+  "screens.JoinRequestModal.success": {
+    "message": "¡Éxito!"
+  },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "Escoger idioma"
+  },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "Abandonar proyecto"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "Ir a la página principal"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "Las observaciones se han eliminado"
   },
   "screens.ManualGpsScreen.DdForm.east": {
     "message": "Este"
@@ -410,6 +549,28 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Algo está pasando con la base de datos Mapeo"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "Abandonar proyecto"
+  },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "Gestionar personas"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "Eliminar"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(Tú) {deviceName}"
+  },
+  "screens.Settings.MapSettings.batteryWarning": {
+    "message": "Puede consumir batería más rápido"
+  },
+  "screens.Settings.MapSettings.directionalArrow": {
+    "message": "Usar flecha direccional"
+  },
+  "screens.Settings.MapSettings.mapSettingTitle": {
+    "message": "Ajustes del mapa"
   },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
