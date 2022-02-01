@@ -23,6 +23,14 @@
     "description": "Message shown in dialog shown to the user when Mapeo is updated",
     "message": "Mapeo se actualizó correctamente de la versión {previousVersion} a la versión {currentVersion} el {updateDateTime}"
   },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "OK"
+  },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo actualizado ✅"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Número de compilación de Android"
@@ -57,6 +65,15 @@
   },
   "screens.AddPhoto.cancel": {
     "message": "Cancelar"
+  },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "Conectando con el dispositivo..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "Los coordinadores pueden añadir y eliminar dispositivos de los proyectos"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
