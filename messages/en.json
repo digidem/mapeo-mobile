@@ -274,6 +274,18 @@
   "screens.JoinRequestModal.success": {
     "message": "Success!"
   },
+  "screens.KillPasscode.body": {
+    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur"
+  },
+  "screens.KillPasscode.instructions": {
+    "message": "Enter the code aboce to hide sensitive data in Mapeo"
+  },
+  "screens.KillPasscode.title": {
+    "message": "Kill Passcode"
+  },
+  "screens.KillPasscode.toggleMessage": {
+    "message": "Use Kill Passcode"
+  },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "Language"
