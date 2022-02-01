@@ -567,6 +567,63 @@
   "screens.Onboarding.SendJoinRequestScreen.instructions": {
     "message": "Comparte este código con el Coordinador del proyecto"
   },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "Compartir"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "Código de verificación"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "¡Completo!"
+  },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "{num}/{total} observaciones completadas"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "Sincronizando..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "{num}/{total} observaciones completadas"
+  },
+  "screens.Photos.ConfirmDeleteModal.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
+    "message": "Eliminar imagen"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
+    "message": "¿Desea eliminar esta foto?"
+  },
+  "screens.PhotosModal": {
+    "message": "Eliminar imagen"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "Cerrar"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "Rechazar invitación"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "No se pudieron recuperar los detalles de la invitación"
+  },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "Has sido invitado a unirte a\n {projectName} como {role}"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "Unirse y sincronizar"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "Únete a {projectName}"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "Inténtalo de nuevo"
+  },
+  "screens.Security.deviceBackup": {
+    "message": "Copia de seguridad del dispositivo"
+  },
+  "screens.Security.title": {
+    "message": "Seguridad"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Disculpas, hay un problema con Mapeo. Puedes reiniciar Mapeo, pero si sigue este mensaje hay un problema inesperado y necesitas un actualización de Mapeo."
@@ -582,6 +639,17 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Algo está pasando con la base de datos Mapeo"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p upgrades",
+    "message": "Mejoras P2P"
+  },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "Compartir y recibir actualizaciones de dispositivos cercanos"
+  },
+  "screens.Settings.ManagePeople.add": {
+    "message": "Añadir"
   },
   "screens.Settings.ManagePeople.leaveProject": {
     "message": "Abandonar proyecto"
@@ -604,6 +672,9 @@
   },
   "screens.Settings.MapSettings.mapSettingTitle": {
     "message": "Ajustes del mapa"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "Crear o unirse a un proyecto a continuación"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
     "message": "Crear un proyecto"
@@ -816,6 +887,10 @@
   "screens.SyncModal.SyncView.updateGenericError": {
     "description": "Label in upgrade bar when there is an error getting an update",
     "message": "No se ha podido buscar actualizaciones"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "No se puede actualizar"
   },
   "screens.SyncModal.SyncView.updateReady": {
     "description": "Label in upgrade bar when an update is available",
