@@ -62,6 +62,42 @@
   "screens.AddPhoto.cancel": {
     "message": "Annuler"
   },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "Connexion à l'appareil..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "Annuler"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "Les coordinateurs peuvent ajouter ou supprimer des appareils des projets"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "Cet appareil est un Coordinateur"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "Cet appareil est un Participant"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "Sélectionnez un rôle pour l'appareil"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "Appareil {deviceId} détecté"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "Vous avez un souci ?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "Demandez au Mappeur de la communauté d'envoyer une demande pour rejoindre"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "Scanner l'appareil pour ajouter une personne au projet"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "Instructions"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} a bien été ajouté à {projectName}"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "Pas d'accès à l'appareil photo"
