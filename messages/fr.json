@@ -477,6 +477,24 @@
   "screens.ProjectInviteModal.inviteErrorMessage": {
     "message": "Impossible de récupérer les détails de l'invitation"
   },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "Vous avez été invité à rejoindre\n{projectName} en tant que {role}"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "Rejoindre et synchronisation"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "Rejoindre {projectName}"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "Réessayer"
+  },
+  "screens.Security.deviceBackup": {
+    "message": "Sauvegarde de l'appareil"
+  },
+  "screens.Security.killPassDescriptonPassNotSet": {
+    "message": "Pour utiliser, activez le code d'accès à l'application"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Vous pouvez essayer de forcer le redémarrage de l'application, mais il peut y avoir quelque chose qui doit être corrigé. Désolé pour cela, rendre les applications c'est difficile."
