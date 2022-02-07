@@ -15,6 +15,7 @@ import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { useNavigation } from "react-navigation-hooks";
 import SettingsContext from "../../context/SettingsContext";
 import { SecurityContext } from "../../context/SecurityContext";
+import { MEDIUM_GREY, RED } from "../../lib/styles";
 
 const m = defineMessages({
   title: {
@@ -66,11 +67,19 @@ const m = defineMessages({
 export const Security: NavigationStackScreenComponent = () => {
   const [{ experiments }] = React.useContext(SettingsContext);
   const { passcode } = React.useContext(SecurityContext);
+  const [highlight, setHighlight] = React.useState(false);
   const { navigate } = useNavigation();
 
   React.useEffect(() => {
     if (!experiments.appPasscode) navigate("Settings");
   }, [experiments]);
+
+  function highlightError() {
+    setHighlight(true);
+    setTimeout(() => {
+      setHighlight(false);
+    }, 2000);
+  }
 
   const [passCodeDes, killPassCodeDes] = React.useMemo(
     () =>
@@ -97,14 +106,22 @@ export const Security: NavigationStackScreenComponent = () => {
       </ListItem>
 
       <ListItem
-        button={true}
+        button={!!passcode}
         onPress={() => {
-          return;
+          if (!passcode) {
+            highlightError();
+            return;
+          }
+          navigate("KillPasscode");
         }}
       >
         <ListItemText
           primary={<FormattedMessage {...m.killPasscodeHeader} />}
-          secondary={<FormattedMessage {...killPassCodeDes} />}
+          secondary={
+            <Text style={{ color: highlight ? RED : MEDIUM_GREY }}>
+              <FormattedMessage {...killPassCodeDes} />
+            </Text>
+          }
         />
       </ListItem>
 

@@ -1,16 +1,16 @@
 import * as React from "react";
 import { View } from "react-native";
+import { SecurityContext } from "../../context/SecurityContext";
 import Button from "../../sharedComponents/Button";
 import Text from "../../sharedComponents/Text";
-import { SecurityContext } from "../Security/SecurityContext";
 
 export const EnterPasscode = () => {
-  const { setPassIsSet } = React.useContext(SecurityContext);
+  const { passcode, setPasscode } = React.useContext(SecurityContext);
 
   return (
     <React.Fragment>
-      <Text>Under Construction</Text>
-      <Button onPress={() => setPassIsSet(false)}>Turn Off App Passcode</Button>
+      <Text>{passcode}</Text>
+      <Button onPress={() => setPasscode(null)}>Turn Off App Passcode</Button>
     </React.Fragment>
   );
 };

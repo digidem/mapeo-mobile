@@ -177,6 +177,8 @@ const AppContainerWrapper = () => {
     }
   }, [inviteModalEnabled, queuedInvite, openInviteModal]);
 
+  React.useEffect(() => {}, []);
+
   return (
     <PracticeMode
       enabled={experiments.onboarding && !hidePracticeMode}

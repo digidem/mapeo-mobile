@@ -5,7 +5,8 @@ import { View, StyleSheet, Text } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import ConfigContext from "../context/ConfigContext";
-import { DARK_ORANGE, WHITE } from "../lib/styles";
+import { SecurityContext } from "../context/SecurityContext";
+import { DARK_ORANGE, MEDIUM_BLUE, WHITE } from "../lib/styles";
 import { isInPracticeMode } from "../lib/utils";
 
 const m = defineMessages({
@@ -13,6 +14,12 @@ const m = defineMessages({
     id: "sharedComponents.PracticeMode.title",
     defaultMessage: "Practice Mode",
     description: "Indicated to user that they are on practice mode",
+  },
+  welcomeMode: {
+    id: "sharedComponents.PracticeMode.welcomeMode",
+    defaultMessage: "Welcome Mode",
+    description:
+      "Indicated to user that they are on Kill/Welcome Mode (No observations will be shown)",
   },
 });
 
@@ -28,6 +35,7 @@ export const PracticeMode = ({
   hideBar,
 }: PracticeModeProps) => {
   const [config] = useContext(ConfigContext);
+  const { killState } = useContext(SecurityContext);
 
   const showPracticeModeUi = enabled && isInPracticeMode(config);
 
@@ -36,15 +44,26 @@ export const PracticeMode = ({
       style={[
         styles.flexContainer,
         showPracticeModeUi && styles.practiceModeContainer,
+        killState && styles.welcomeMode,
       ]}
     >
       <View style={styles.flexContainer}>{children}</View>
 
       {showPracticeModeUi && !hideBar && (
-        <View style={styles.bottomBar}>
-          <MaterialCommunityIcons name="lightbulb-on" color={WHITE} size={28} />
+        <View style={[styles.bottomBar, killState && styles.welcomeMode]}>
+          {!killState && (
+            <MaterialCommunityIcons
+              name="lightbulb-on"
+              color={WHITE}
+              size={28}
+            />
+          )}
           <Text style={styles.text}>
-            <FormattedMessage {...m.title} />
+            {!killState ? (
+              <FormattedMessage {...m.title} />
+            ) : (
+              <FormattedMessage {...m.welcomeMode} />
+            )}
           </Text>
         </View>
       )}
@@ -67,6 +86,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+  },
+  welcomeMode: {
+    backgroundColor: MEDIUM_BLUE,
+    borderColor: MEDIUM_BLUE,
   },
   text: {
     color: WHITE,

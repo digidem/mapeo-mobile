@@ -3,11 +3,11 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import { StyleSheet, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
+import { SecurityContext } from "../../context/SecurityContext";
 import SettingsContext from "../../context/SettingsContext";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import IconButton from "../../sharedComponents/IconButton";
 import { BackIcon } from "../../sharedComponents/icons";
-import { SecurityContext } from "../Security/SecurityContext";
 import { EnterPasscode } from "./EnterPasscode";
 import { NewPasscode } from "./NewPasscode";
 
@@ -19,7 +19,7 @@ const m = defineMessages({
 });
 
 export const AppPasscode: NavigationStackScreenComponent = () => {
-  const { passIsSet } = React.useContext(SecurityContext);
+  const { passcode } = React.useContext(SecurityContext);
   const [{ experiments }] = React.useContext(SettingsContext);
   const { navigate } = useNavigation();
 
@@ -29,7 +29,7 @@ export const AppPasscode: NavigationStackScreenComponent = () => {
 
   return (
     <View style={styles.pageContainer}>
-      {!passIsSet ? <NewPasscode /> : <EnterPasscode />}
+      {!passcode ? <NewPasscode /> : <EnterPasscode />}
     </View>
   );
 };

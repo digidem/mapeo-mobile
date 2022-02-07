@@ -1,4 +1,6 @@
 import * as React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PASSWORD_KEY } from "../constants";
 
 //We should be setting the password to null when the password is turned off
 interface SecuritContextType {
@@ -19,7 +21,11 @@ export const SecurityContext = React.createContext<SecuritContextType>(
   DEFAULT_CONTEXT
 );
 
-export const SecurityProvider = (children: React.ReactNode) => {
+export const SecurityProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [killState, setKillState] = React.useState(false);
   const [passcode, setPasscode] = React.useState<string | null>(null);
 
@@ -35,15 +41,19 @@ export const SecurityProvider = (children: React.ReactNode) => {
     [setKillState, passcode]
   );
 
+  //validates passcode
   const setPasscodeWithCheck = React.useCallback(
     (passcode: string | null) => {
       if (!passcode) {
         setKillState(false);
+        setPasscode(null);
+        AsyncStorage.setItem(PASSWORD_KEY, "");
       } else {
         if (!validPasscode(passcode)) {
           throw new Error("passcode not valid");
         } else {
           setPasscode(passcode);
+          AsyncStorage.setItem(PASSWORD_KEY, passcode);
         }
       }
     },
