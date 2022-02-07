@@ -98,6 +98,47 @@
   "screens.AddToProjectScreen.SuccessStep.description": {
     "message": "{deviceId} a bien été ajouté à {projectName}"
   },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Aller à la synchronisation"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "Succès !"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "Inviter un appareil"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "Ajouter au projet"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "Vous êtes sur {projectName}"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "Retour"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "Quitter le projet actuel"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "Pour rejoindre un nouveau projet, vous devez quitter celui actuel."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "Vous êtes déjà dans un projet"
+  },
+  "screens.AppPasscode": {
+    "message": "Code d'accès de l'application"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "Continuer"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "Quel est le code d'accès à l'application ?"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "Pas d'accès à l'appareil photo"
@@ -105,6 +146,68 @@
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
     "message": "Choisissez ce qui se passe"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "Annuler"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "Non, supprimer mes observations"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "Oui, garder mes observations"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "Apporter ({observationCount}) {observationCount, plural,one {observation} other {observations}} au mode d'entraînement du projet ?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "Quitter le mode d'entraînement"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "Sélectionnez l'une des options"
+  },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "Degrés décimaux (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "Degrés/Minutes/Secondes (DMS)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "Format des coordonnées"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "Créer un projet"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "Créer un projet"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "Entrez le nom de l'appareil"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "Ajoutez un nom pour votre appareil"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "Nom de l'appareil"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "Entrez le nom du projet"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "Entrez un nom pour le projet"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "Nom du projet"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -117,6 +220,14 @@
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
     "message": "Dernière modification"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "Coordonnés des degrés décimaux"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "Coordonnées DMS"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
@@ -192,9 +303,17 @@
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "Observation"
   },
+  "screens.ObservationDetails.done": {
+    "description": "Button text when all questions are complete",
+    "message": "Terminé"
+  },
   "screens.ObservationDetails.nextQuestion": {
     "description": "Button text to navigate to next question",
     "message": "Suivant"
+  },
+  "screens.ObservationDetails.title": {
+    "description": "Title of observation details screen showing question number and total",
+    "message": "Question {current} sur {total}"
   },
   "screens.ObservationEdit.BottomSheet.addLabel": {
     "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
@@ -216,6 +335,26 @@
     "description": "Button label for adding photo",
     "message": "Ajouter une photo"
   },
+  "screens.ObservationEdit.ObservationEditView.searching": {
+    "description": "Shown in new observation screen whilst looking for GPS",
+    "message": "Recherche…"
+  },
+  "screens.ObservationEdit.SaveButton.keepWaiting": {
+    "description": "Button to cancel save and continue waiting for GPS",
+    "message": "Continuer d'attendre"
+  },
+  "screens.ObservationEdit.SaveButton.manualEntry": {
+    "description": "Button to manually enter GPS coordinates",
+    "message": "Coordonnées manuelles"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsDesc": {
+    "description": "Description in dialog when trying to save with no GPS coords",
+    "message": "Cette observation n'a pas d'emplacement. Vous pouvez continuer d'attendre un signal GPS, sauvegarder l'observation sans localisation, ou entrer les coordonnées manuellement"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsTitle": {
+    "description": "Title of dialog when trying to save with no GPS coords",
+    "message": "Aucun signal GPS"
+  },
   "screens.ObservationEdit.SaveButton.saveAnyway": {
     "description": "Button to save regardless of GPS state",
     "message": "Enregistrer"
@@ -223,6 +362,10 @@
   "screens.ObservationEdit.SaveButton.weakGpsDesc": {
     "description": "Description in dialog when trying to save with low GPS accuracy.",
     "message": "La précision du GPS est faible. Vous pouvez continuer à attendre une meilleure précision, enregistrer l'observation avec une faible précision, ou entrer les coordonnées manuellement"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsTitle": {
+    "description": "Title of dialog when trying to save with low GPS accuracy.",
+    "message": "Signal GPS faible"
   },
   "screens.ObservationEdit.editTitle": {
     "description": "screen title for edit observation screen",
@@ -255,6 +398,84 @@
   "screens.ObservationsList.loading": {
     "description": "message shown whilst observations are loading",
     "message": "Chargement… cela peut prendre un certain temps après la synchronisation avec un nouvel appareil"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "Créer un projet"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "Appuyer ici pour {action}"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "Rejoindre un projet"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "Mode d'entraînement"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "Annuler"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "Le participant du projet doit scanner ce code d'invitation."
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "Montrer ce QR code à votre administrateur du projet"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "Instructions"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "Envoyer la demande pour rejoindre à la place"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "Rejoindre un projet"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "Partagez ce code avec le coordinateur du projet"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "Partager"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "Envoyez une demande pour rejoindre"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "Code de vérification"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "Terminé !"
+  },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "{num}/{total} observations terminées"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "Synchronisation..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "{num}/{total} observations terminées"
+  },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "Commencer la cartographie"
+  },
+  "screens.Photos.ConfirmDeleteModal.cancel": {
+    "message": "Annuler"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
+    "message": "Supprimer l'image"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
+    "message": "Supprimer cette photo ?"
+  },
+  "screens.PhotosModal": {
+    "message": "Supprimer l'image"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "Fermer"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "Décliner l'invitation"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "Impossible de récupérer les détails de l'invitation"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
