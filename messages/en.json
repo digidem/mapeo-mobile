@@ -220,6 +220,9 @@
     "description": "Placeholder text for project name input field",
     "message": "Project Name"
   },
+  "screens.EnterPassword.enterPass": {
+    "message": "Enter your passcode"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Details"
@@ -278,7 +281,7 @@
     "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur"
   },
   "screens.KillPasscode.instructions": {
-    "message": "Enter the code aboce to hide sensitive data in Mapeo"
+    "message": "Enter the code above to hide sensitive data in Mapeo"
   },
   "screens.KillPasscode.title": {
     "message": "Kill Passcode"
@@ -1035,6 +1038,10 @@
   "sharedComponents.PracticeMode.title": {
     "description": "Indicated to user that they are on practice mode",
     "message": "Practice Mode"
+  },
+  "sharedComponents.PracticeMode.welcomeMode": {
+    "description": "Indicated to user that they are on Kill/Welcome Mode (No observations will be shown)",
+    "message": "Welcome Mode"
   },
   "sharedComponents.WifiBar.noWifi": {
     "message": "No Internet"
