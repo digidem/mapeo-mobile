@@ -691,6 +691,34 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Something is up with the Mapeo database"
   },
+  "screens.Settings.Experiments.MapSettings.DirectionalArrow.directionalArrow": {
+    "message": "Directional Arrow"
+  },
+  "screens.Settings.Experiments.MapSettings.DirectionalArrow.disclaimer": {
+    "message": "The new Directional Arrow is a feature that uses magnetometer and falls back to accelerometer on your smartphone to determine the direction a user is facing. For best use: Be outside away from objects. Walk forward as this helps devices establish a direction. If your device does not have a gyroscope (internal compass) accuracy of the arrow can be misleading.This feature should not be used exclusively for navigation. Accompany use with a compass or dedicated GPS device. Expect battery to drain faster. Arrow may move with some delay when changing direction"
+  },
+  "screens.Settings.Experiments.MapSettings.DirectionalArrow.useArrow": {
+    "message": "Use Directional Arrow"
+  },
+  "screens.Settings.Experiments.MapSettings.Menu.active": {
+    "message": "Active"
+  },
+  "screens.Settings.Experiments.MapSettings.Menu.inactive": {
+    "message": "Inactive"
+  },
+  "screens.Settings.Experiments.MapSettings.active": {
+    "message": "Use Directional Arrow"
+  },
+  "screens.Settings.Experiments.MapSettings.directionalArrow": {
+    "message": "Use Directional Arrow"
+  },
+  "screens.Settings.Experiments.MapSettings.mapSettingTitle": {
+    "message": "Map Settings"
+  },
+  "screens.Settings.Experiments.mapSettings": {
+    "description": "Button to adjust settings for map",
+    "message": "Map Settings"
+  },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
     "message": "P2P upgrades"
@@ -715,14 +743,11 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(You) {deviceName}"
   },
-  "screens.Settings.MapSettings.batteryWarning": {
-    "message": "May drain battery faster"
-  },
-  "screens.Settings.MapSettings.directionalArrow": {
+  "screens.Settings.MapSettings.Menu.directionalArrow": {
     "message": "Use Directional Arrow"
   },
-  "screens.Settings.MapSettings.mapSettingTitle": {
-    "message": "Map Settings"
+  "screens.Settings.MapSettings.inactive": {
+    "message": "Use Directional Arrow"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Create or join a project below"
@@ -834,10 +859,6 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "Display language for App"
-  },
-  "screens.Settings.mapSettings": {
-    "description": "Button to adjust settings for map",
-    "message": "Map Settings"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
