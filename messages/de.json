@@ -93,6 +93,56 @@
   "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
     "message": "Frage einen Community mapper um eine Beitritsanfrage zu senden"
   },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "Gerät scannen, um eine Person zum Projekt hinzu zufügen"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "Erklährung"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} Wurde hinzugefügt zu {projectName}"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Gehe zu Sync"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "Erfolg!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "Gerät einladen"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "Zum Projekt hinzufügen"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "Sie sind in {projectName}"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "Gehe zurück"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "Verlasse aktuelles Projekt"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "Um einem Projekt beizutreten musst du dein aktuelles verlassen."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "Du bist bereits in einem Projekt"
+  },
+  "screens.AppPasscode": {
+    "message": "App-Passwort"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "Fortsetzen"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "Was ist ein App-Passwort?"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "Kein Zugriff auf Kamera"
@@ -100,6 +150,28 @@
   "screens.CategoryChooser.categoryTitle": {
     "description": "Title for category chooser screen",
     "message": "Was ist passiert?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "Abbrechen"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "Nein, diese Beobachtung löschen"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "Ja, behalte meine Beobachtungen"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "Bringe ({observationCount}) {observationCount, plural,one {Beobachtung} other {Beobachtung}} von Übungs-Modus zu dem Project?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "Verlasse Übungs-Modus"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "Wähle eine der Optionen"
+  },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "Dezimal Grad (DG)"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
