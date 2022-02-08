@@ -21,7 +21,7 @@ import { ProjectConfig } from "../screens/Settings/ProjectConfig";
 import AboutMapeo from "../screens/Settings/AboutMapeo";
 import LanguageSettings from "../screens/Settings/LanguageSettings";
 import CoordinateFormat from "../screens/Settings/CoordinateFormat";
-import Experiments from "../screens/Settings/Experiments";
+import Experiments from "../screens/Settings/Experiments/Experiments";
 import HomeHeader from "../sharedComponents/HomeHeader";
 import { AlreadyOnProj } from "../screens/AlreadyOnProject";
 import { LeaveProjectScreen } from "../screens/LeaveProject";
@@ -33,7 +33,7 @@ import { ConfirmLeavePracticeModeScreen } from "../screens/ConfirmLeavePracticeM
 import { CreateProjectScreen } from "../screens/CreateProject";
 import { Security } from "../screens/Security";
 import { AppPasscode } from "../screens/AppPasscode";
-import { MapSettings } from "../screens/Settings/MapSettings";
+import { MapSettings } from "../screens/Settings/Experiments/MapSettings";
 
 const HomeTabs = createBottomTabNavigator(
   {

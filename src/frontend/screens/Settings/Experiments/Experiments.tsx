@@ -1,13 +1,13 @@
-// @flow
 import React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import SettingsContext from "../../context/SettingsContext";
+import { useNavigation } from "react-navigation-hooks";
+import SettingsContext from "../../../context/SettingsContext";
 import {
   List,
   ListItem,
   ListItemText,
   ListItemIcon,
-} from "../../sharedComponents/List";
+} from "../../../sharedComponents/List";
 
 const m = defineMessages({
   p2pUpgrades: {
@@ -20,10 +20,16 @@ const m = defineMessages({
     defaultMessage: "Share and receive updates with nearby devices",
     description: "Label for p2p upgrades description",
   },
+  mapSettings: {
+    id: "screens.Settings.Experiments.mapSettings",
+    defaultMessage: "Map Settings",
+    description: "Button to adjust settings for map",
+  },
 });
 
 const Experiments = () => {
   const [{ experiments }, setSettings] = React.useContext(SettingsContext);
+  const { navigate } = useNavigation();
 
   return (
     <List testID="experimentsList">
@@ -45,6 +51,16 @@ const Experiments = () => {
           primary={<FormattedMessage {...m.p2pUpgrades} />}
           secondary={<FormattedMessage {...m.p2pUpgradesDesc} />}
         ></ListItemText>
+      </ListItem>
+      <ListItem
+        onPress={() => navigate("MapSettings")}
+        testID="settingsMapSettingsButton"
+      >
+        <ListItemIcon iconName="map" />
+        <ListItemText
+          primary={<FormattedMessage {...m.mapSettings} />}
+          secondary="---------"
+        />
       </ListItem>
     </List>
   );
