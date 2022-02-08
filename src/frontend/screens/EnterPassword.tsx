@@ -1,17 +1,21 @@
 import { orderBy } from "lodash";
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import {
-  View,
-  Image,
-  Text,
-  TextInput,
-  StyleSheet,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-} from "react-native";
+import { View, Image, Text, StyleSheet } from "react-native";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { MEDIUM_GREY } from "../lib/styles";
+
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+  MaskSymbol,
+  isLastFilledCell,
+} from "react-native-confirmation-code-field";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PASSWORD_KEY } from "../constants";
 
 const m = defineMessages({
   enterPass: {
@@ -20,18 +24,61 @@ const m = defineMessages({
   },
 });
 
+const CELL_COUNT = 5;
+
 export const EnterPassword: NavigationStackScreenComponent = () => {
-  const inputtedValue = React.useRef<number[]>([]);
-  const [showPass, setShowPass] = React.useState(() =>
-    inputtedValue.current.toString()
-  );
+  const [password, setPassword] = React.useState("");
+  const ref = useBlurOnFulfill({ value: password, cellCount: CELL_COUNT });
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+    value: password,
+    setValue: setPassword,
+  });
+  const userPass = React.useRef("");
 
   React.useEffect(() => {
-    setShowPass(inputtedValue.current.toString());
-  }, [inputtedValue.current]);
+    if (password.length === CELL_COUNT) {
+      if (!validatePassword(password)) {
+      }
+    }
+  }, [password]);
+
+  React.useEffect(() => {
+    AsyncStorage.getItem(PASSWORD_KEY, (err, result) => {
+      if (!!err) return;
+
+      userPass.current = result || "";
+    });
+  }, []);
+
+  const renderCell = ({ index, symbol, isFocused }: any) => {
+    let textChild = null;
+
+    if (symbol) {
+      textChild = (
+        <MaskSymbol
+          maskSymbol="*"
+          isLastFilledCell={isLastFilledCell({ index, value: password })}
+        >
+          {symbol}
+        </MaskSymbol>
+      );
+    } else if (isFocused) {
+      textChild = <Cursor />;
+    }
+
+    return (
+      <Text
+        key={index}
+        style={[styles.cell, isFocused && styles.focusCell]}
+        onLayout={getCellOnLayoutHandler(index)}
+      >
+        {textChild}
+      </Text>
+    );
+  };
 
   return (
-    <View>
+    <View style={[styles.container]}>
       <Image source={require("../images/icon_mapeo_pin.png")} />
       <Text>Mapeo</Text>
 
@@ -39,70 +86,48 @@ export const EnterPassword: NavigationStackScreenComponent = () => {
         <FormattedMessage {...m.enterPass} />
       </Text>
 
-      <Text>{showPass}</Text>
-
-      <PasswordInput inputtedValue={inputtedValue} order={0} />
-      <PasswordInput inputtedValue={inputtedValue} order={1} />
-      <PasswordInput inputtedValue={inputtedValue} order={2} />
-      <PasswordInput inputtedValue={inputtedValue} order={3} />
-      <PasswordInput inputtedValue={inputtedValue} order={4} />
+      <CodeField
+        ref={ref}
+        {...props}
+        value={password}
+        caretHidden={true}
+        onChangeText={setPassword}
+        cellCount={CELL_COUNT}
+        rootStyle={styles.codeFieldRoot}
+        keyboardType="number-pad"
+        textContentType="oneTimeCode"
+        renderCell={renderCell}
+      />
     </View>
   );
 };
 
-interface PasswordInputProps {
-  inputtedValue: React.MutableRefObject<number[]>;
-  order: number;
+function validatePassword(password: string) {
+  if (password.length !== CELL_COUNT) return false;
+  const parsedNumber = parseInt(password);
+
+  if (isNaN(parsedNumber)) return false;
 }
 
-const PasswordInput = ({ inputtedValue, order }: PasswordInputProps) => {
-  const [singleNumber, setSingleNumber] = React.useState("");
-  const isFocused = React.useRef(false);
-
-  React.useEffect(() => {
-    const length = inputtedValue.current.length;
-    if (length > order) setSingleNumber("*");
-    if (length < order) setSingleNumber("");
-    if (length === order) {
-      if (isFocused) {
-        if (!!inputtedValue.current[order])
-          setSingleNumber(inputtedValue.current[order].toString());
-      } else {
-        setSingleNumber("*");
-      }
-    }
-  }, [inputtedValue.current]);
-
-  function changeVal(e: NativeSyntheticEvent<TextInputChangeEventData>) {
-    const newVal = parseInt(e.nativeEvent.text);
-    if (newVal > 0 && newVal <= 9) {
-      const updatedPassword: number[] = [...inputtedValue.current, newVal];
-      inputtedValue.current = updatedPassword;
-      setSingleNumber(newVal.toString());
-    }
-  }
-
-  return (
-    <TextInput
-      onFocus={() => {
-        isFocused.current = true;
-      }}
-      onBlur={() => {
-        isFocused.current = false;
-      }}
-      style={styles.passInput}
-      value={singleNumber}
-      onChange={changeVal}
-    />
-  );
-};
-
 const styles = StyleSheet.create({
-  passInput: {
-    borderRadius: 8,
-    padding: 10,
-    borderColor: MEDIUM_GREY,
+  root: {
+    flex: 1,
+  },
+  container: {
+    paddingHorizontal: 20,
+  },
+  codeFieldRoot: {
+    marginTop: 20,
+  },
+  cell: {
+    width: 40,
+    height: 40,
+    fontSize: 24,
     borderWidth: 2,
-    color: "#000000",
+    borderColor: "#00000030",
+    textAlign: "center",
+  },
+  focusCell: {
+    borderColor: "#000",
   },
 });
