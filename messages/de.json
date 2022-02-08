@@ -173,6 +173,50 @@
     "description": "Decimal Degrees coordinate format",
     "message": "Dezimal Grad (DG)"
   },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "Grad/Minuten/Secunden (GMS)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "Koordinaten Format"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "Universelle Transverse Mercator (UTM)"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "Erstelle Project"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "Erstelle ein Projekt"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "Gerätename angeben"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "Fuge ein Namen für dein Gerät hinzu"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "Gerätename"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "Gebe ein Project Name an"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "Gebe ein Namen für das Project an"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "Name des Projektes"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Details"
@@ -184,6 +228,14 @@
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
     "message": "Letztes Update"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "Koordinaten Dezimal Grad"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "DMS Koordinaten"
   },
   "screens.GpsModal.locationSensors": {
     "description": "Heading for section about location sensor status",
