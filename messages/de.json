@@ -19,6 +19,18 @@
     "description": "Title of dialog that shows when cancelling a new observation",
     "message": "Beobachtung verwerfen?"
   },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo wurde erfolgreich aktualisiert von Version {previousVersion} zu {currentVersion} am {updateDateTime}"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "Ok"
+  },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo Aktualisiert"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Android Build-Nummer"
@@ -26,6 +38,14 @@
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
     "message": "Android Version"
+  },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Mapeo Build"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Mapeo Variante"
   },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
@@ -45,6 +65,33 @@
   },
   "screens.AddPhoto.cancel": {
     "message": "Abbrechen"
+  },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "Verbinde mit Gerät..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "Abbrechen"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "Koordinatoren können Geräte von Projekten hinzufügen und entfernen"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "Dieses Gerät ist ein Koordinator"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "Dieses Gerät ist ein Teilnehmer"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "Wählen sie eine Rolle für dieses Gerät"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "Gerät {deviceId} gefunden"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "Haben sie Probleme?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "Frage einen Community mapper um eine Beitritsanfrage zu senden"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
