@@ -1,8 +1,11 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { StyleSheet, Switch, Text, View } from "react-native";
-import SettingsContext from "../../../../context/SettingsContext";
-import { LIGHT_GREY } from "../../../../lib/styles";
+import { StyleSheet, Text, View } from "react-native";
+import CheckBox from "@react-native-community/checkbox";
+import { NavigationStackScreenComponent } from "react-navigation-stack";
+import SettingsContext from "../../../context/SettingsContext";
+import { LIGHT_GREY } from "../../../lib/styles";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 const m = defineMessages({
   directionalArrow: {
@@ -21,7 +24,7 @@ const m = defineMessages({
   },
 });
 
-export const DirectionalArrow = () => {
+export const DirectionalArrow: NavigationStackScreenComponent = () => {
   const [{ directionalArrow }, setSetting] = React.useContext(SettingsContext);
 
   return (
@@ -37,13 +40,18 @@ export const DirectionalArrow = () => {
         <Text>
           <FormattedMessage {...m.useArrow} />
         </Text>
-        <Switch
-          trackColor={{ false: LIGHT_GREY, true: LIGHT_GREY }}
-          onChange={() => {
+
+        <View
+          onTouchEnd={() => {
             setSetting("directionalArrow", !directionalArrow);
           }}
-          value={directionalArrow}
-        />
+        >
+          <MaterialIcon
+            name={directionalArrow ? "check-box" : "check-box-outline-blank"}
+            size={24}
+            color="rgba(0, 0, 0, 0.54)"
+          />
+        </View>
       </View>
     </View>
   );
