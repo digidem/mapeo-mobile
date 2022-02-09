@@ -700,24 +700,25 @@
   "screens.Settings.Experiments.MapSettings.DirectionalArrow.useArrow": {
     "message": "Use Directional Arrow"
   },
-  "screens.Settings.Experiments.MapSettings.Menu.active": {
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "P2P Upgrade"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "Use p2p upgrader"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Inidicates whether directional arrow is active on map",
     "message": "Active"
   },
-  "screens.Settings.Experiments.MapSettings.Menu.inactive": {
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "Directional Arrow"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Inidicates whether directional arrow is NOT active on map",
     "message": "Inactive"
-  },
-  "screens.Settings.Experiments.MapSettings.active": {
-    "message": "Use Directional Arrow"
-  },
-  "screens.Settings.Experiments.MapSettings.directionalArrow": {
-    "message": "Use Directional Arrow"
-  },
-  "screens.Settings.Experiments.MapSettings.mapSettingTitle": {
-    "message": "Map Settings"
-  },
-  "screens.Settings.Experiments.mapSettings": {
-    "description": "Button to adjust settings for map",
-    "message": "Map Settings"
   },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
@@ -742,12 +743,6 @@
   "screens.Settings.ManagePeople.yourDevice": {
     "description": "Row label indicating details related to the user's device membership",
     "message": "(You) {deviceName}"
-  },
-  "screens.Settings.MapSettings.Menu.directionalArrow": {
-    "message": "Use Directional Arrow"
-  },
-  "screens.Settings.MapSettings.inactive": {
-    "message": "Use Directional Arrow"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Create or join a project below"
