@@ -4,6 +4,7 @@ import {
   NavigationActions,
   NavigationContainerComponent,
   NavigationState,
+  NavigationContainer,
 } from "react-navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -21,6 +22,7 @@ import bugsnag from "./lib/logger";
 import { PracticeMode } from "./sharedComponents/PracticeMode";
 import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
+import { SecurityContext } from "./context/SecurityContext";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -47,7 +49,7 @@ const loadSavedNavState = async (includeOnboarding: boolean) => {
   try {
     const navState = JSON.parse(
       (await AsyncStorage.getItem(getNavStoreKey(includeOnboarding))) as string
-    );
+    ) as NavigationState;
     const didCrashLastOpen = JSON.parse(
       (await AsyncStorage.getItem(ERROR_STORE_KEY)) as string
     );
@@ -99,6 +101,7 @@ const AppContainerWrapper = () => {
   const [{ experiments }] = React.useContext(SettingsContext);
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
+  const { killState, passcode } = React.useContext(SecurityContext);
 
   const updateRouteBasedAppState = React.useCallback(
     (routeName: string | null) => {
@@ -142,7 +145,7 @@ const AppContainerWrapper = () => {
                 experiments.onboarding
               );
 
-              const loadedRouteName = getRouteName(loadedNavState);
+              const loadedRouteName = getRouteName(loadedNavState!);
 
               updateRouteBasedAppState(loadedRouteName);
 
