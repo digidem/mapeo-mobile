@@ -4,7 +4,7 @@ import {
   NavigationActions,
   NavigationContainerComponent,
   NavigationState,
-  NavigationContainer,
+  createAppContainer,
 } from "react-navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -23,6 +23,8 @@ import { PracticeMode } from "./sharedComponents/PracticeMode";
 import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
 import { SecurityContext } from "./context/SecurityContext";
+import { AuthStack } from "./Navigation/AuthStack";
+import { AppState, AppStateStatus, LogBox } from "react-native";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -94,14 +96,51 @@ function hidePracticeModeTemporarily(route: string | null) {
   return route !== null && TEMP_HIDE_PRACTICE_MODE_UI.includes(route);
 }
 
-const AppContainerWrapper = () => {
+interface AppContainerProps {
+  appPasscode: string | null;
+}
+
+LogBox.ignoreAllLogs();
+
+const AppContainerWrapper = ({ appPasscode }: AppContainerProps) => {
   const navRef = React.useRef<NavigationContainerComponent>();
+  const appState = React.useRef(AppState.currentState);
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
   const [{ experiments }] = React.useContext(SettingsContext);
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
-  const { killState, passcode } = React.useContext(SecurityContext);
+  const {
+    killStateActive,
+    passcode,
+    checkFlag,
+    setCheckFlag,
+  } = React.useContext(SecurityContext);
+
+  React.useEffect(() => {
+    const StateListener = AppState.addEventListener(
+      "change",
+      handleStateAndSetCheckPassFlag
+    );
+
+    return () => StateListener.remove();
+  }, []);
+
+  const handleStateAndSetCheckPassFlag = (nextAppState: AppStateStatus) => {
+    if (
+      (appState.current.match(/active/) && nextAppState === "inactive") ||
+      "background"
+    ) {
+      setCheckFlag(true);
+    }
+  };
+
+  const AppContainer = React.useMemo(
+    () => (experiments.onboarding ? OnboardingContainer : DefaultContainer),
+    [experiments.onboarding]
+  );
+
+  const AuthContainer = createAppContainer(AuthStack);
 
   const updateRouteBasedAppState = React.useCallback(
     (routeName: string | null) => {
@@ -158,10 +197,6 @@ const AppContainerWrapper = () => {
     [experiments.onboarding, updateRouteBasedAppState]
   );
 
-  const AppContainer = experiments.onboarding
-    ? OnboardingContainer
-    : DefaultContainer;
-
   /**
    * TODO: Uncomment when project invites are supported
    */
@@ -187,17 +222,28 @@ const AppContainerWrapper = () => {
       enabled={experiments.onboarding && !hidePracticeMode}
       hideBar={hidePracticeBar}
     >
-      <AppContainer
-        loadNavigationState={loadNavigationState}
-        onNavigationStateChange={onNavStateChange}
-        persistNavigationState={persistNavigationState}
-        ref={nav => {
-          if (nav) {
-            navRef.current = nav;
-          }
-        }}
-        uriPrefix={URI_PREFIX}
-      />
+      {(!!passcode || killStateActive) && checkFlag ? (
+        <AuthContainer
+          ref={nav => {
+            if (nav) {
+              navRef.current = nav;
+            }
+          }}
+          uriPrefix={URI_PREFIX}
+        />
+      ) : (
+        <AppContainer
+          loadNavigationState={loadNavigationState}
+          onNavigationStateChange={onNavStateChange}
+          persistNavigationState={persistNavigationState}
+          ref={nav => {
+            if (nav) {
+              navRef.current = nav;
+            }
+          }}
+          uriPrefix={URI_PREFIX}
+        />
+      )}
     </PracticeMode>
   );
 };

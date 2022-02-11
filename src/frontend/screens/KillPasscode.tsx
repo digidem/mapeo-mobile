@@ -32,14 +32,17 @@ const m = defineMessages({
 });
 
 export const KillPasscode: NavigationStackScreenComponent = () => {
-  const { passcode, setKillState, killState } = React.useContext(
-    SecurityContext
-  );
+  const {
+    passcode,
+    killStateActive,
+    setKillStateActive,
+    killState,
+  } = React.useContext(SecurityContext);
 
   const { navigate } = useNavigation();
 
   React.useEffect(() => {
-    if (!passcode) navigate("Security");
+    if (!passcode || killState) navigate("Security");
   }, []);
 
   return (
@@ -57,13 +60,13 @@ export const KillPasscode: NavigationStackScreenComponent = () => {
         </Text>
         <Switch
           onChange={() => {
-            setKillState(!killState);
+            setKillStateActive(!killStateActive);
           }}
-          value={killState}
+          value={killStateActive}
         />
       </View>
 
-      {killState && (
+      {killStateActive && (
         <View style={styles.passbox}>
           <Text style={{ textAlign: "center", marginBottom: 10, fontSize: 20 }}>
             {KILL_PASSCODE}

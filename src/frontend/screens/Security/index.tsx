@@ -66,7 +66,7 @@ const m = defineMessages({
 
 export const Security: NavigationStackScreenComponent = () => {
   const [{ experiments }] = React.useContext(SettingsContext);
-  const { passcode } = React.useContext(SecurityContext);
+  const { passcode, killState } = React.useContext(SecurityContext);
   const [highlight, setHighlight] = React.useState(false);
   const { navigate } = useNavigation();
 
@@ -91,42 +91,45 @@ export const Security: NavigationStackScreenComponent = () => {
 
   return (
     <List>
-      <ListItem button={false} style={{ marginVertical: 10 }}>
-        <ListItemText
-          style={{ textTransform: "uppercase" }}
-          primary={<FormattedMessage {...m.securitySubheader} />}
-        />
-      </ListItem>
+      {!killState && (
+        <>
+          <ListItem button={false} style={{ marginVertical: 10 }}>
+            <ListItemText
+              style={{ textTransform: "uppercase" }}
+              primary={<FormattedMessage {...m.securitySubheader} />}
+            />
+          </ListItem>
 
-      <ListItem button={true} onPress={() => navigate("AppPasscode")}>
-        <ListItemText
-          primary={<FormattedMessage {...m.passcodeHeader} />}
-          secondary={<FormattedMessage {...passCodeDes} />}
-        />
-      </ListItem>
+          <ListItem button={true} onPress={() => navigate("AppPasscode")}>
+            <ListItemText
+              primary={<FormattedMessage {...m.passcodeHeader} />}
+              secondary={<FormattedMessage {...passCodeDes} />}
+            />
+          </ListItem>
 
-      <ListItem
-        button={!!passcode}
-        onPress={() => {
-          if (!passcode) {
-            highlightError();
-            return;
-          }
-          navigate("KillPasscode");
-        }}
-      >
-        <ListItemText
-          primary={<FormattedMessage {...m.killPasscodeHeader} />}
-          secondary={
-            <Text style={{ color: highlight ? RED : MEDIUM_GREY }}>
-              <FormattedMessage {...killPassCodeDes} />
-            </Text>
-          }
-        />
-      </ListItem>
+          <ListItem
+            button={!!passcode}
+            onPress={() => {
+              if (!passcode) {
+                highlightError();
+                return;
+              }
+              navigate("KillPasscode");
+            }}
+          >
+            <ListItemText
+              primary={<FormattedMessage {...m.killPasscodeHeader} />}
+              secondary={
+                <Text style={{ color: highlight ? RED : MEDIUM_GREY }}>
+                  <FormattedMessage {...killPassCodeDes} />
+                </Text>
+              }
+            />
+          </ListItem>
 
-      <ListDivider style={styles.divder} />
-
+          <ListDivider style={styles.divder} />
+        </>
+      )}
       <ListItem button={false}>
         <ListItemText
           style={{ textTransform: "uppercase" }}

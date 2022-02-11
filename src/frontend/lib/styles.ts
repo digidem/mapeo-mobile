@@ -1,5 +1,3 @@
-// @flow
-
 export const BLACK = "#000000";
 export const WHITE = "#ffffff";
 export const MAPEO_BLUE = "#3366ff";
@@ -19,3 +17,5 @@ export const CHARCOAL = "#1F1F1F";
 export const GREEN = "#7AFA4C";
 export const RED = "#BC271A";
 export const DARK_ORANGE = "#E86826";
+//From Design System: https://www.notion.so/digidem/d2b2903e77fc4a8cae6d6a8467e25b59?v=def381515abe45578065598c05682c75&p=9be0bdfcabee41ba9e17ddebfa6c0788
+export const WARNING_RED = "#D92222";

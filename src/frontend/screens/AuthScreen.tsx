@@ -3,7 +3,7 @@ import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { View, Image, Text, StyleSheet } from "react-native";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
-import { DARK_BLUE, MEDIUM_GREY } from "../lib/styles";
+import { DARK_BLUE, DARK_GREY, MEDIUM_GREY, WARNING_RED } from "../lib/styles";
 
 import {
   CodeField,
@@ -25,17 +25,27 @@ const m = defineMessages({
     id: "screens.EnterPassword.enterPass",
     defaultMessage: "Enter your passcode",
   },
+  wrongPass: {
+    id: "screens.EnterPassword.wrongPass",
+    defaultMessage: "Incorrect password, please try again ",
+  },
 });
 
 const CELL_COUNT = 5;
 const onlyNumRegEx = new RegExp("^[0-9]+$");
 
-export const EnterPassword: NavigationStackScreenComponent = () => {
+export const AuthScreen: NavigationStackScreenComponent = () => {
   const [inputtedPass, setInputtedPass] = React.useState("");
-  const { navigate } = useNavigation();
-  const [tempMessage, setTempMessage] = React.useState("");
-  const { setKillState, killState } = React.useContext(SecurityContext);
+  const [error, setError] = React.useState(false);
+  const {
+    setKillState,
+    killState,
+    setCheckFlag,
+    passcode,
+    killStateActive,
+  } = React.useContext(SecurityContext);
   const ref = useBlurOnFulfill({ value: inputtedPass, cellCount: CELL_COUNT });
+
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value: inputtedPass,
     setValue: setInputtedPass,
@@ -43,19 +53,24 @@ export const EnterPassword: NavigationStackScreenComponent = () => {
   const userPass = React.useRef("");
 
   React.useEffect(() => {
-    // setTempMessage(password)
     if (inputtedPass.length === CELL_COUNT) {
       if (validatePassword(inputtedPass)) {
-        if (inputtedPass === KILL_PASSCODE) {
+        if (inputtedPass === KILL_PASSCODE && killStateActive) {
           setKillState(true);
-          navigate("");
+          setCheckFlag(false);
           return;
         }
 
-        //password is valid, therefore they will be getting out of killMode
-        if (killState) setKillState(false);
-        navigate("");
-      } else setInputtedPass("");
+        if (inputtedPass === passcode) {
+          if (killState) setKillState(false);
+          setCheckFlag(false);
+          return;
+        }
+
+        setError(true);
+      }
+
+      setInputtedPass("");
     }
   }, [inputtedPass]);
 
@@ -106,8 +121,7 @@ export const EnterPassword: NavigationStackScreenComponent = () => {
       <Text style={[styles.title]}>Mapeo</Text>
 
       <Text style={[{ marginBottom: 20, fontSize: 16 }]}>
-        {/* <FormattedMessage {...m.enterPass} /> */}
-        {tempMessage}
+        <FormattedMessage {...m.enterPass} />
       </Text>
 
       <CodeField
@@ -122,6 +136,12 @@ export const EnterPassword: NavigationStackScreenComponent = () => {
         textContentType="oneTimeCode"
         renderCell={renderCell}
       />
+
+      {inputtedPass.length === 0 && error && (
+        <Text style={[styles.wrongPass]}>
+          <FormattedMessage {...m.wrongPass} />
+        </Text>
+      )}
     </View>
   );
 };
@@ -160,10 +180,19 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginHorizontal: 5,
     borderWidth: 2,
-    borderColor: "#00000030",
+    borderColor: MEDIUM_GREY,
     textAlign: "center",
   },
   focusCell: {
-    borderColor: "#000",
+    borderColor: DARK_GREY,
+  },
+  wrongPass: {
+    fontSize: 16,
+    marginTop: 20,
+    color: WARNING_RED,
   },
 });
+
+AuthScreen.navigationOptions = {
+  headerShown: false,
+};

@@ -163,7 +163,7 @@ const Settings = () => {
         ></ListItemText>
       </ListItem>
       <ListItem
-        onPress={() => navigate("EnterPassword")}
+        onPress={() => navigate("Experiments")}
         testID="settingsExperimentButton"
       >
         <ListItemIcon iconName="flag" />

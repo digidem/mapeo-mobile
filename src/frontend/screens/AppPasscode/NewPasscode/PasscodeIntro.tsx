@@ -4,6 +4,8 @@ import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { SecurityContext } from "../../../context/SecurityContext";
 import Button from "../../../sharedComponents/Button";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PASSWORD_KEY } from "../../../constants";
 
 const m = defineMessages({
   title: {
@@ -32,6 +34,7 @@ export const PasscodeIntro = ({ incrementState }: SplashProps) => {
 
   function tempStateSet() {
     setPasscode("12345");
+    AsyncStorage.setItem(PASSWORD_KEY, "12345");
     navigate("Security");
   }
 

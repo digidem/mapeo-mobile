@@ -14,7 +14,7 @@ import { IntlProvider } from "./context/IntlContext";
 import AppProvider from "./context/AppProvider";
 import bugsnag from "./lib/logger";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
-import { ERROR_STORE_KEY } from "./constants";
+import { ERROR_STORE_KEY, PASSWORD_KEY } from "./constants";
 import { SecurityProvider } from "./context/SecurityContext";
 
 /**
@@ -76,24 +76,26 @@ const UpdateNotifier = () => {
 };
 
 /* IntlProvider needs to be first so that error messages are translated */
-const App = () => (
-  <IntlProvider>
-    <ErrorBoundary>
-      {/* Permissions provider must be before AppLoading because it waits for
-        permissions before showing main app screen */}
-      <PermissionsProvider>
-        <AppLoading>
-          <AppProvider>
-            <SecurityProvider>
-              <AppContainerWrapper />
-              <UpdateNotifier />
-            </SecurityProvider>
-          </AppProvider>
-        </AppLoading>
-      </PermissionsProvider>
-    </ErrorBoundary>
-  </IntlProvider>
-);
+const App = () => {
+  return (
+    <IntlProvider>
+      <ErrorBoundary>
+        {/* Permissions provider must be before AppLoading because it waits for
+          permissions before showing main app screen */}
+        <PermissionsProvider>
+          <SecurityProvider>
+            <AppLoading>
+              <AppProvider>
+                <AppContainerWrapper />
+                <UpdateNotifier />
+              </AppProvider>
+            </AppLoading>
+          </SecurityProvider>
+        </PermissionsProvider>
+      </ErrorBoundary>
+    </IntlProvider>
+  );
+};
 
 export default App;
 

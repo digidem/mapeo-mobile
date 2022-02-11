@@ -35,7 +35,7 @@ import { Security } from "../screens/Security";
 import { AppPasscode } from "../screens/AppPasscode";
 import { MapSettings } from "../screens/Settings/MapSettings";
 import { KillPasscode } from "../screens/KillPasscode";
-import { EnterPassword } from "../screens/EnterPassword";
+import { AuthScreen } from "../screens/AuthScreen";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -96,7 +96,7 @@ export const AppStack = createStackNavigator(
     AppPasscode: AppPasscode,
     MapSettings,
     KillPasscode,
-    EnterPassword,
+    AuthScreen,
   },
   {
     initialRouteName: "Home",

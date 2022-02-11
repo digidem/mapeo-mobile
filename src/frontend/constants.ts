@@ -1,6 +1,7 @@
 export const URI_PREFIX = "mapeo://";
 export const ERROR_STORE_KEY = "@MapeoError";
 export const PASSWORD_KEY = "PASSWORD";
+export const ASYNC_KILL_KEY = "KillPassKey";
 // We are using RN_SRC_EXT to do this because in the future we might want to
 // mock some files for e2e testing, as described in
 // https://github.com/wix/Detox/blob/master/docs/Guide.Mocking.md
