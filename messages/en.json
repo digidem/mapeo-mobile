@@ -223,6 +223,9 @@
   "screens.EnterPassword.enterPass": {
     "message": "Enter your passcode"
   },
+  "screens.EnterPassword.wrongPass": {
+    "message": "Incorrect password, please try again"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Details"
