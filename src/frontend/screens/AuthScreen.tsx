@@ -1,4 +1,3 @@
-import { orderBy } from "lodash";
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { View, Image, Text, StyleSheet } from "react-native";

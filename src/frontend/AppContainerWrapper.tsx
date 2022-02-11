@@ -96,13 +96,7 @@ function hidePracticeModeTemporarily(route: string | null) {
   return route !== null && TEMP_HIDE_PRACTICE_MODE_UI.includes(route);
 }
 
-interface AppContainerProps {
-  appPasscode: string | null;
-}
-
-LogBox.ignoreAllLogs();
-
-const AppContainerWrapper = ({ appPasscode }: AppContainerProps) => {
+const AppContainerWrapper = () => {
   const navRef = React.useRef<NavigationContainerComponent>();
   const appState = React.useRef(AppState.currentState);
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);

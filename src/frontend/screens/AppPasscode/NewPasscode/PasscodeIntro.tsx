@@ -34,7 +34,6 @@ export const PasscodeIntro = ({ incrementState }: SplashProps) => {
 
   function tempStateSet() {
     setPasscode("12345");
-    AsyncStorage.setItem(PASSWORD_KEY, "12345");
     navigate("Security");
   }
 
