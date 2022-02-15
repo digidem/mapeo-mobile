@@ -43,6 +43,10 @@
     "description": "Label for Mapeo build number",
     "message": "Build de Mapeo"
   },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Chemin de Mapeo"
+  },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
     "message": "Version Mapeo"
@@ -135,6 +139,9 @@
   },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continuer"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.description": {
+    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc."
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "Quel est le code d'accès à l'application ?"
@@ -258,19 +265,148 @@
   "screens.JoinRequestModal.invite": {
     "message": "Inviter"
   },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "L'invitation a été envoyée."
+  },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{deviceName} veut rejoindre {projectName}"
+  },
+  "screens.JoinRequestModal.success": {
+    "message": "Succès !"
+  },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "Langage"
   },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "Quitter le projet"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "Retour au menu"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "Observations Supprimées"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
+    "message": "Terminé !"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "Quitte le projet {projectName}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "Supprimer des observations"
+  },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "Est"
+  },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "Coordonnées invalides"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "Valeur de la latitude"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "Latitude"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "Valeur de la longitude"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "Longitude"
+  },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "Nord"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "Sélectionner la cardinalité de latitude"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "Sélectionner la cardinalité de longitude"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "Sud"
+  },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "Ouest"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "{field} minutes entrées"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "{field} secondes entrées"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "Degrés"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
+    "message": "{field} degrés entrés"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "Direction"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
+    "message": "Minutes"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "Secondes"
+  },
+  "screens.ManualGpsScreen.DmsForm.east": {
+    "message": "Est"
+  },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "Coordonnées invalides"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "Latitude"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "Longitude"
+  },
+  "screens.ManualGpsScreen.DmsForm.north": {
+    "message": "Nord"
+  },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "Sélectionner la cardinalité de latitude"
+  },
+  "screens.ManualGpsScreen.DmsForm.south": {
+    "message": "Sud"
+  },
+  "screens.ManualGpsScreen.DmsForm.west": {
+    "message": "Ouest"
+  },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "Format des coordonnées"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "Degrés décimaux (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "Degrés/Minutes/Secondes (DMS)"
+  },
   "screens.ManualGpsScreen.easting": {
     "message": "Est"
+  },
+  "screens.ManualGpsScreen.eastingSuffix": {
+    "message": "mE"
   },
   "screens.ManualGpsScreen.northing": {
     "message": "Nord"
   },
+  "screens.ManualGpsScreen.northingSuffix": {
+    "message": "mN"
+  },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "Entrer les coordonnées"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "Transverse Universelle de Mercator (UTM)"
+  },
+  "screens.ManualGpsScreen.zoneLetter": {
+    "message": "Lettre de la zone"
+  },
+  "screens.ManualGpsScreen.zoneNumber": {
+    "message": "Numéro de la zone"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
@@ -315,6 +451,10 @@
   "screens.Observation.title": {
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "Observation"
+  },
+  "screens.ObservationDetails.QuestionNavBar.questionPage": {
+    "description": "Indicates which question we are on and total questions",
+    "message": "{current} sur {total}"
   },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
@@ -551,6 +691,18 @@
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
     "message": "Catégories, icônes et questions"
+  },
+  "screens.SyncModal.PeerList.errorClientMismatch": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
+    "message": "Client incompatible"
+  },
+  "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
+    "message": "Version incompatible"
+  },
+  "screens.SyncModal.PeerList.finishingButton": {
+    "description": "Button label when finishing sync but don't have correct progress",
+    "message": "..."
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
