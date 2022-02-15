@@ -1,7 +1,7 @@
 {
   "AppContainer.EditHeader.discardCancel": {
     "description": "Button on dialog to keep editing (cancelling close action)",
-    "message": "Continuer l'édition"
+    "message": "Continuer la modification"
   },
   "AppContainer.EditHeader.discardChangesContent": {
     "description": "Button on dialog to cancel observation edits",
@@ -654,6 +654,9 @@
   "screens.Security.killPasscodeHeader": {
     "message": "Tuer le mot de passe"
   },
+  "screens.Security.paperKey": {
+    "message": "Clé papier"
+  },
   "screens.Security.paperKeyDes": {
     "message": "Rétablir votre compte si cet appareil est perdu"
   },
@@ -796,6 +799,34 @@
     "description": "Primary text for Mapeo APK test",
     "message": "Installer l'APK"
   },
+  "screens.Settings.appInstallDesc": {
+    "description": "Secondary text for Mapeo APK test",
+    "message": "Installer l'APK de test (réinstalle l'application)"
+  },
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "Partager l'installateur Mapeo"
+  },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "Installer ou mettre à jour Mapeo sur un autre téléphone"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "Format des coordonnées"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "Choisir comment les coordonnées sont affichées"
+  },
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "Expérimentations"
+  },
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "Activer les nouvelles fonctionnalités expérimentales"
+  },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
     "message": "Langage"
@@ -804,6 +835,10 @@
     "description": "Secondary text for language settings",
     "message": "Afficher la langue pour l'application"
   },
+  "screens.Settings.mapSettings": {
+    "description": "Button to adjust settings for map",
+    "message": "Paramètres de la carte"
+  },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
     "message": "Configuration du projet"
@@ -811,6 +846,29 @@
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
     "message": "Catégories, icônes et questions"
+  },
+  "screens.Settings.security": {
+    "message": "Sécurité"
+  },
+  "screens.Settings.securityDesc": {
+    "description": "Description of security button in settings",
+    "message": "Code d'accès et sécurité de l'appareil"
+  },
+  "screens.Settings.title": {
+    "description": "Title of settings screen",
+    "message": "Paramètres"
+  },
+  "screens.SyncModal.PeerList.completeButton": {
+    "description": "Button label when complete",
+    "message": "Terminer"
+  },
+  "screens.SyncModal.PeerList.disconnectedButton": {
+    "description": "Button label when disconnected",
+    "message": "Déconnecté"
+  },
+  "screens.SyncModal.PeerList.errorButton": {
+    "description": "Button label when there is an error",
+    "message": "Erreur"
   },
   "screens.SyncModal.PeerList.errorClientMismatch": {
     "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
