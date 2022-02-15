@@ -704,13 +704,125 @@
     "description": "Button label when finishing sync but don't have correct progress",
     "message": "..."
   },
+  "screens.SyncModal.PeerList.syncButton": {
+    "description": "Button label for sync button",
+    "message": "Synchroniser"
+  },
+  "screens.SyncModal.PeerList.syncLabel": {
+    "description": "Label for last sync datetime",
+    "message": "Synchronisé :"
+  },
+  "screens.SyncModal.SyncView.checkingUpdates": {
+    "description": "Label in upgrade bar when checking for updates",
+    "message": "Recherche de mises à jour"
+  },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "Installer"
+  },
+  "screens.SyncModal.SyncView.noUpdates": {
+    "description": "Label in upgrade bar when no updates are found",
+    "message": "Aucune mise à jour trouvée"
+  },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "{count, plural,one {# appareil vérifié} other {# appareils vérifiés}}"
+  },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "Ouvrez les paramètres de votre téléphone et connectez-le à un réseau Wifi pour synchroniser"
+  },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
     "message": "Pas de Wi-Fi"
   },
+  "screens.SyncModal.SyncView.openSettingsButton": {
+    "description": "Label for button to open settings to fix update permissions error",
+    "message": "Ouvrir les paramètres"
+  },
+  "screens.SyncModal.SyncView.projectKey": {
+    "description": "First 5 characters of project key displayed on sync screen",
+    "message": "Clé du projet : {projectKey}"
+  },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
     "message": "Assurez-vous que d'autres appareils sont allumés et connectés au même réseau WiFi"
+  },
+  "screens.SyncModal.SyncView.searchingTitle": {
+    "description": "Title of message shown while looking for sync peers",
+    "message": "Recherche"
+  },
+  "screens.SyncModal.SyncView.settingsButton": {
+    "description": "Button to open WiFi settings",
+    "message": "Ouvrir les paramètres"
+  },
+  "screens.SyncModal.SyncView.sharingUpdate": {
+    "description": "Label in upgrade bar when sharing an update with others",
+    "message": "Partagez des mises à jour avec d'autres appareils"
+  },
+  "screens.SyncModal.SyncView.syncHeader": {
+    "description": "Header of sync screen",
+    "message": "Synchroniser"
+  },
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "Mise à jour disponible ; en attente de la fin de la synchronisation"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "Téléchargement des mises à jour"
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "Impossible de rechercher des mises à jour"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "Impossible de mettre à jour"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Une nouvelle version de Mapeo est disponible"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "État non implémenté"
+  },
+  "screens.SyncModal.errorDialogOk": {
+    "description": "Button to dismiss error alert about incompatible sync protocol",
+    "message": "OK"
+  },
+  "screens.SyncModal.errorVersionThemBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "L'appareil avec lequel vous essayez de synchroniser nécessite une mise à jour de Mapeo vers la dernière version afin de se synchroniser avec vous."
+  },
+  "screens.SyncModal.errorVersionThemBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} a besoin de mettre à jour Mapeo"
+  },
+  "screens.SyncModal.errorVersionUsBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
+    "message": "L'appareil que vous essayez de synchroniser a une version plus récente de Mapeo. Vous devez mettre à jour Mapeo afin de vous synchroniser avec cet appareil."
+  },
+  "screens.SyncModal.errorVersionUsBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "Vous devez mettre à jour Mapeo pour synchroniser avec {deviceName}"
+  },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "Ajouter au projet"
+  },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "Partager l'invitation"
+  },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "Montrer le QR Code"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "Essayez de vous connecter en utilisant l'une des méthodes ci-dessous."
   },
   "sharedComponents.WifiBar.wifi": {
     "description": "Label for wifi network name",
