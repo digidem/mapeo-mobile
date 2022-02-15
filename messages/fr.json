@@ -1,7 +1,7 @@
 {
   "AppContainer.EditHeader.discardCancel": {
     "description": "Button on dialog to keep editing (cancelling close action)",
-    "message": "Continuer le montage"
+    "message": "Continuer l'édition"
   },
   "AppContainer.EditHeader.discardChangesContent": {
     "description": "Button on dialog to cancel observation edits",
@@ -9,7 +9,7 @@
   },
   "AppContainer.EditHeader.discardChangesTitle": {
     "description": "Title of dialog that shows when cancelling observation edits",
-    "message": "Annuler les modifications?"
+    "message": "Annuler les modifications ?"
   },
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to cancel a new observation",
@@ -17,7 +17,7 @@
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when cancelling a new observation",
-    "message": "Ignorer l'observation?"
+    "message": "Ignorer l'observation ?"
   },
   "hooks.updateNotifier.dialogMessage": {
     "description": "Message shown in dialog shown to the user when Mapeo is updated",
@@ -33,7 +33,7 @@
   },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
-    "message": "Numéro de version Android"
+    "message": "Numéro de la version d'Android"
   },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
@@ -41,7 +41,7 @@
   },
   "screens.AboutMapeo.mapeoBuild": {
     "description": "Label for Mapeo build number",
-    "message": "Build de Mapeo"
+    "message": "Numéro de la version de Mapeo"
   },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
@@ -49,11 +49,11 @@
   },
   "screens.AboutMapeo.mapeoVersion": {
     "description": "Label for Mapeo version",
-    "message": "Version Mapeo"
+    "message": "Version de Mapeo"
   },
   "screens.AboutMapeo.phoneModel": {
     "description": "Label for phone model",
-    "message": "Modèle de téléphone"
+    "message": "Modèle du téléphone"
   },
   "screens.AboutMapeo.title": {
     "description": "Title of 'About Mapeo' screen",
@@ -648,25 +648,137 @@
   "screens.Security.killPassDescriptonPassNotSet": {
     "message": "Pour utiliser, activez le code d'accès à l'application"
   },
+  "screens.Security.killPassDescriptonPassSet": {
+    "message": "Protégez votre appareil contre la saisie"
+  },
+  "screens.Security.killPasscodeHeader": {
+    "message": "Tuer le mot de passe"
+  },
+  "screens.Security.paperKeyDes": {
+    "message": "Rétablir votre compte si cet appareil est perdu"
+  },
+  "screens.Security.passDesriptionPassNotSet": {
+    "message": "Code d'accès non défini"
+  },
+  "screens.Security.passDesriptionPassSet": {
+    "message": "Code d'accès défini"
+  },
+  "screens.Security.passcodeHeader": {
+    "message": "Code d'accès de l'application"
+  },
+  "screens.Security.securitySubheader": {
+    "message": "Sécurité de l'appareil"
+  },
+  "screens.Security.title": {
+    "message": "Sécurité"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Vous pouvez essayer de forcer le redémarrage de l'application, mais il peut y avoir quelque chose qui doit être corrigé. Désolé pour cela, rendre les applications c'est difficile."
+  },
+  "screens.ServerStatus.errorTitle": {
+    "description": "Title of message when there the Mapeo Core server crashes",
+    "message": "Oh chère, quelque chose est cassé dans la base de données Mapeo."
+  },
+  "screens.ServerStatus.timeoutDesc": {
+    "description": "Description when the server has not responded for 10 seconds",
+    "message": "Si vous continuez à voir ce message, vous devrez peut-être redémarrer de force Mapeo"
+  },
+  "screens.ServerStatus.timeoutTitle": {
+    "description": "Title of message when the server has not responded for 10 seconds",
+    "message": "Une opération est en cours sur la base de données Mapeo"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p upgrades",
+    "message": "Mises à jour P2P"
+  },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "Partagez et recevez des mises à jour avec les appareils à proximité"
+  },
+  "screens.Settings.ManagePeople.add": {
+    "message": "Ajouter"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "Quitter le projet"
+  },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "Gérer les profils"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "Enlever"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(Vous) {deviceName}"
+  },
+  "screens.Settings.MapSettings.batteryWarning": {
+    "message": "Peut décharger la batterie plus rapidement"
+  },
+  "screens.Settings.MapSettings.directionalArrow": {
+    "message": "Utiliser une flèche directionnelle"
+  },
+  "screens.Settings.MapSettings.mapSettingTitle": {
+    "message": "Paramètres de la carte"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "Créer ou rejoindre un projet ci-dessous"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "Créer un projet"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "Rejoindre un projet"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "Prêt à quitter le mode entraînement ?"
   },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "Une erreur s'est produite lors de l'importation de ce fichier de configuration"
   },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "OK"
+  },
   "screens.Settings.ProjectConfig.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "Erreur d'importation"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertMessage": {
+    "description": "Message for alert after successful config import",
+    "message": "Configuration importée avec succès :\n\n{name} {version}"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertOk": {
+    "description": "Button text for config import alert acknowledgement",
+    "message": "OK"
   },
   "screens.Settings.ProjectConfig.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "Configuration actuelle"
   },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "Importer une configuration"
+  },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "Nom du projet :"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "none"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "Mode entraînement"
+  },
   "screens.Settings.ProjectConfig.projectKey": {
     "description": "Label for project key",
     "message": "Clé du Projet"
+  },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "Configuration du projet"
   },
   "screens.Settings.ProjectConfig.unnamedConfig": {
     "description": "Config name when do name is defined",
@@ -675,6 +787,14 @@
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
     "message": "À propos de Mapeo"
+  },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "Version et numéro de version"
+  },
+  "screens.Settings.appInstall": {
+    "description": "Primary text for Mapeo APK test",
+    "message": "Installer l'APK"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -823,6 +943,31 @@
   "screens.UnableToLink.tryAnotherMethod": {
     "description": "Suggests that user tries another method for adding another device to the project.",
     "message": "Essayez de vous connecter en utilisant l'une des méthodes ci-dessous."
+  },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "Impossible de lier avec l'appareil"
+  },
+  "screens.UncaughtError.errorDesc": {
+    "description": "Description when there is an uncaught message in the app",
+    "message": "Désolé pour cela, quelque chose d'inattendu s'est mal passé, et c'est notre faute, pas la vôtre. Essayez de redémarrer l'application pour voir si cela corrige les problèmes."
+  },
+  "screens.UncaughtError.errorTitle": {
+    "description": "Title of message when there is an uncaught message in the app",
+    "message": "Erreur inconnue"
+  },
+  "sharedComponents.GpsPill.noGps": {
+    "message": "Pas de GPS"
+  },
+  "sharedComponents.GpsPill.searching": {
+    "message": "Recherche…"
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "Mode d'entraînement"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "Aucune connexion Internet"
   },
   "sharedComponents.WifiBar.wifi": {
     "description": "Label for wifi network name",
