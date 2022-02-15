@@ -177,6 +177,10 @@
     "description": "Title coordinate format screen",
     "message": "Format des coordonnées"
   },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "Transverse Universelle de Mercator (UTM)"
+  },
   "screens.CreateProject.createProjectButton": {
     "description": "Text for submit button",
     "message": "Créer un projet"
@@ -244,6 +248,15 @@
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
     "message": "Oui"
+  },
+  "screens.JoinRequestModal.close": {
+    "message": "Fermer"
+  },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "Rejeter la demande"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "Inviter"
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
@@ -549,6 +562,6 @@
   },
   "sharedComponents.WifiBar.wifi": {
     "description": "Label for wifi network name",
-    "message": "WiFi:"
+    "message": "Wifi :"
   }
 }
