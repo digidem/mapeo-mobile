@@ -92,5 +92,20 @@
   },
   "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
     "message": "සම්බන්ධ වීමේ ඉල්ලීම යැවීමට ප්‍රජා සිතියම්කරුගෙන් ඉල්ලා සිටින්න"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "ව්‍යාපෘතියට පුද්ගලයා එක් කිරීමට උපාංගය පරිලෝකනය කරන්න"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "උපදෙස්"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} {projectName} වෙත එක් කර ඇත"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Sync වෙත යන්න"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "සාර්ථකත්වය!"
   }
 }
