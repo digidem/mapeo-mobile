@@ -46,5 +46,51 @@
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
     "message": "Mapeo ප්රභේදය"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "Mapeo අනුවාදය"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "දුරකථන ආකෘතිය"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "Mapeo ගැන"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "නොදන්නා"
+  },
+  "screens.AddPhoto.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "උපාංගය වෙත සම්බන්ධ වෙමින්..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "සම්බන්ධීකාරකවරුන්ට ව්‍යාපෘතිවලින් උපාංග එකතු කිරීමට සහ ඉවත් කිරීමට හැකිය"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "මෙම උපාංගය සම්බන්ධීකාරක වේ"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "මෙම උපාංගය සහභාගිවන්නකි"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "උපාංගය සඳහා භූමිකාවක් තෝරන්න"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "උපාංගය {deviceId} හමු විය"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "කරදරයක්ද?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "සම්බන්ධ වීමේ ඉල්ලීම යැවීමට ප්‍රජා සිතියම්කරුගෙන් ඉල්ලා සිටින්න"
   }
 }
