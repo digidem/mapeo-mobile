@@ -842,7 +842,7 @@
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
-    "message": "Abre la configuración de tu teléfono y conéctate a una red WiFi para sincronizar"
+    "message": "Abre los ajustes de tu teléfono y conéctate a una red WiFi para sincronizar"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
