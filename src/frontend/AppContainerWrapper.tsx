@@ -24,7 +24,7 @@ import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
 import { SecurityContext } from "./context/SecurityContext";
 import { AuthStack } from "./Navigation/AuthStack";
-import { AppState, AppStateStatus, LogBox } from "react-native";
+import { AppState, AppStateStatus } from "react-native";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -112,12 +112,12 @@ const AppContainerWrapper = () => {
   } = React.useContext(SecurityContext);
 
   React.useEffect(() => {
-    const StateListener = AppState.addEventListener(
+    const appStateListener = AppState.addEventListener(
       "change",
       handleStateAndSetCheckPassFlag
     );
 
-    return () => StateListener.remove();
+    return () => appStateListener.remove();
   }, []);
 
   const handleStateAndSetCheckPassFlag = (nextAppState: AppStateStatus) => {
@@ -174,11 +174,10 @@ const AppContainerWrapper = () => {
         ? {}
         : {
             loadNavigationState: async () => {
-              const loadedNavState = await loadSavedNavState(
-                experiments.onboarding
-              );
+              const loadedNavState =
+                (await loadSavedNavState(experiments.onboarding)) || undefined;
 
-              const loadedRouteName = getRouteName(loadedNavState!);
+              const loadedRouteName = getRouteName(loadedNavState);
 
               updateRouteBasedAppState(loadedRouteName);
 
@@ -208,8 +207,6 @@ const AppContainerWrapper = () => {
       openInviteModal(queuedInvite);
     }
   }, [inviteModalEnabled, queuedInvite, openInviteModal]);
-
-  React.useEffect(() => {}, []);
 
   return (
     <PracticeMode

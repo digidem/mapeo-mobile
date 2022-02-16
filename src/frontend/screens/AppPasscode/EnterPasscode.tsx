@@ -13,7 +13,7 @@ export const EnterPasscode = () => {
     <React.Fragment>
       <Text>{passcode}</Text>
       <Button
-        onPress={async () => {
+        onPress={() => {
           setPasscode(null);
         }}
       >

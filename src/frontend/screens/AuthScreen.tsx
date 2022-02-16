@@ -17,7 +17,6 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { KILL_PASSCODE, PASSWORD_KEY } from "../constants";
 import { SecurityContext } from "../context/SecurityContext";
-import { useNavigation } from "react-navigation-hooks";
 
 const m = defineMessages({
   enterPass: {
@@ -49,7 +48,6 @@ export const AuthScreen: NavigationStackScreenComponent = () => {
     value: inputtedPass,
     setValue: setInputtedPass,
   });
-  const userPass = React.useRef("");
 
   React.useEffect(() => {
     if (inputtedPass.length === CELL_COUNT) {
@@ -72,14 +70,6 @@ export const AuthScreen: NavigationStackScreenComponent = () => {
       setInputtedPass("");
     }
   }, [inputtedPass]);
-
-  React.useEffect(() => {
-    AsyncStorage.getItem(PASSWORD_KEY, (err, result) => {
-      if (!!err) return;
-
-      userPass.current = result || "";
-    });
-  }, []);
 
   function validateAndSetInput(text: string) {
     if (onlyNumRegEx.test(text)) {
@@ -145,13 +135,12 @@ export const AuthScreen: NavigationStackScreenComponent = () => {
   );
 };
 
-function validatePassword(password: string) {
+function validatePassword(password: string): boolean {
   if (password.length !== CELL_COUNT) return false;
 
   const passAsArray = Array.from(password);
-  return passAsArray.reduce((acc, letter) => {
-    return onlyNumRegEx.test(letter);
-  }, false);
+
+  return passAsArray.every(letter => onlyNumRegEx.test(letter));
 }
 
 const styles = StyleSheet.create({
