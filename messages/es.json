@@ -642,7 +642,7 @@
   },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
-    "message": "Mejoras P2P"
+    "message": "Actualizaciones P2P"
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
@@ -830,7 +830,7 @@
   },
   "screens.SyncModal.SyncView.checkingUpdates": {
     "description": "Label in upgrade bar when checking for updates",
-    "message": "Buscar actualizaciones de la aplicación"
+    "message": "Buscando actualizaciones de la aplicación"
   },
   "screens.SyncModal.SyncView.installUpdateButton": {
     "description": "Label for button to install an update",
