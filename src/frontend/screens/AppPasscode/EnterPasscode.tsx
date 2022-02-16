@@ -7,14 +7,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PASSWORD_KEY } from "../../constants";
 
 export const EnterPasscode = () => {
-  const { passcode, setPasscode } = React.useContext(SecurityContext);
+  const [authState, setAuthState] = React.useContext(SecurityContext);
 
   return (
     <React.Fragment>
-      <Text>{passcode}</Text>
+      <Text>{authState.passcode}</Text>
       <Button
         onPress={() => {
-          setPasscode(null);
+          setAuthState({ type: "setPasscode", newPasscode: null });
         }}
       >
         Turn Off App Passcode

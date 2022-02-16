@@ -28,12 +28,12 @@ interface SplashProps {
 }
 
 export const PasscodeIntro = ({ incrementState }: SplashProps) => {
-  const { setPasscode } = React.useContext(SecurityContext);
+  const [authState, setAuthState] = React.useContext(SecurityContext);
   const { formatMessage: t } = useIntl();
   const { navigate } = useNavigation();
 
   function tempStateSet() {
-    setPasscode("12345");
+    setAuthState({ type: "setPasscode", newPasscode: "12345" });
     navigate("Security");
   }
 

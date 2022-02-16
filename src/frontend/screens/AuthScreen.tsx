@@ -35,13 +35,7 @@ const onlyNumRegEx = new RegExp("^[0-9]+$");
 export const AuthScreen: NavigationStackScreenComponent = () => {
   const [inputtedPass, setInputtedPass] = React.useState("");
   const [error, setError] = React.useState(false);
-  const {
-    setKillState,
-    killState,
-    setCheckFlag,
-    passcode,
-    killStateActive,
-  } = React.useContext(SecurityContext);
+  const [authState, setAuthState] = React.useContext(SecurityContext);
   const ref = useBlurOnFulfill({ value: inputtedPass, cellCount: CELL_COUNT });
 
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -52,15 +46,16 @@ export const AuthScreen: NavigationStackScreenComponent = () => {
   React.useEffect(() => {
     if (inputtedPass.length === CELL_COUNT) {
       if (validatePassword(inputtedPass)) {
-        if (inputtedPass === KILL_PASSCODE && killStateActive) {
-          setKillState(true);
-          setCheckFlag(false);
+        if (inputtedPass === KILL_PASSCODE && authState.killCodeEnabled) {
+          setAuthState({ type: "toggleAppMode", newAppMode: "kill" });
+          // setCheckFlag(false);
           return;
         }
 
-        if (inputtedPass === passcode) {
-          if (killState) setKillState(false);
-          setCheckFlag(false);
+        if (inputtedPass === authState.passcode) {
+          if (authState.appMode === "kill")
+            setAuthState({ type: "toggleAppMode" });
+          // setCheckFlag(false);
           return;
         }
 

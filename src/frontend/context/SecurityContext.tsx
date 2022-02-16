@@ -1,4 +1,8 @@
 import * as React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { PasscodeIntro } from "../screens/AppPasscode/NewPasscode/PasscodeIntro";
+import { PASSWORD_KEY } from "../constants";
 
 type AppModeTypes = "normal" | "kill";
 type AuthStatusTypes = "pending" | "authenticated" | "notRequired";
@@ -13,13 +17,18 @@ type AuthState = {
 type KillModeActions =
   | { type: "setPasscode"; newPasscode: string | null }
   | { type: "toggleAppMode"; newAppMode?: AppModeTypes }
-  | { type: "toggleKillMode"; newKillValue?: boolean }
+  | { type: "toggleKillModeEnabled"; newKillValue?: boolean }
   | { type: "setAuthStatus"; newAuthStatus: AuthStatusTypes };
 
 function killModeReducer(state: AuthState, action: KillModeActions): AuthState {
   switch (action.type) {
     case "setPasscode":
-      return { ...state, passcode: action.newPasscode };
+      const passcode = action.newPasscode;
+      if (passcode === null || validPasscode(passcode)) {
+        AsyncStorage.setItem(PASSWORD_KEY, passcode || "");
+        return { ...state, passcode };
+      }
+      throw new Error("Invalid New Password");
     case "toggleAppMode":
       return {
         ...state,
@@ -29,7 +38,15 @@ function killModeReducer(state: AuthState, action: KillModeActions): AuthState {
           ? "normal"
           : "kill",
       };
-    case "toggleKillMode":
+    case "toggleKillModeEnabled":
+      if (
+        !state.passcode &&
+        (action.newKillValue ||
+          (!action.newKillValue && !state.killCodeEnabled))
+      ) {
+        throw new Error('Cannot enable "killMode" until password has been set');
+      }
+
       return {
         ...state,
         killCodeEnabled: !!action.newKillValue
@@ -50,9 +67,12 @@ const DefaultState: AuthState = {
   passcode: null,
 };
 
-type SecuritContextType = readonly [AuthState, React.Dispatch<KillModeActions>];
+type SecurityContextType = readonly [
+  AuthState,
+  React.Dispatch<KillModeActions>
+];
 
-export const SecurityContext = React.createContext<SecuritContextType>([
+export const SecurityContext = React.createContext<SecurityContextType>([
   DefaultState,
   () => {},
 ]);
@@ -64,7 +84,7 @@ export const SecurityProvider = ({
 }) => {
   const [state, dispatch] = React.useReducer(killModeReducer, DefaultState);
 
-  const contextValue: SecuritContextType = React.useMemo(() => {
+  const contextValue: SecurityContextType = React.useMemo(() => {
     return [state, dispatch];
   }, [state]);
 

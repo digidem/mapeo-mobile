@@ -32,17 +32,13 @@ const m = defineMessages({
 });
 
 export const KillPasscode: NavigationStackScreenComponent = () => {
-  const {
-    passcode,
-    killStateActive,
-    setKillStateActive,
-    killState,
-  } = React.useContext(SecurityContext);
-
+  const [state, dispatch] = React.useContext(SecurityContext);
   const { navigate } = useNavigation();
 
   React.useEffect(() => {
-    if (!passcode || killState) navigate("Security");
+    //If the user does not have a passcode set, they should NOT be able to see this screen
+    //Also, if the user is in killmode, we do not want the person who has apprehended the phone to see this screen!
+    if (!state.passcode || state.appMode === "kill") navigate("Security");
   }, []);
 
   return (
@@ -60,13 +56,13 @@ export const KillPasscode: NavigationStackScreenComponent = () => {
         </Text>
         <Switch
           onChange={() => {
-            setKillStateActive(!killStateActive);
+            dispatch({ type: "toggleKillModeEnabled" });
           }}
-          value={killStateActive}
+          value={state.killCodeEnabled}
         />
       </View>
 
-      {killStateActive && (
+      {state.killCodeEnabled && (
         <View style={styles.passbox}>
           <Text style={{ textAlign: "center", marginBottom: 10, fontSize: 20 }}>
             {KILL_PASSCODE}

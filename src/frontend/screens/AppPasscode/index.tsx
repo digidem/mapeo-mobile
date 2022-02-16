@@ -19,7 +19,7 @@ const m = defineMessages({
 });
 
 export const AppPasscode: NavigationStackScreenComponent = () => {
-  const { passcode } = React.useContext(SecurityContext);
+  const [authstate, setAuthState] = React.useContext(SecurityContext);
   const [{ experiments }] = React.useContext(SettingsContext);
   const { navigate } = useNavigation();
 
@@ -29,7 +29,7 @@ export const AppPasscode: NavigationStackScreenComponent = () => {
 
   return (
     <View style={styles.pageContainer}>
-      {!passcode ? <NewPasscode /> : <EnterPasscode />}
+      {!authstate.passcode ? <NewPasscode /> : <EnterPasscode />}
     </View>
   );
 };
