@@ -712,6 +712,9 @@
   "screens.Settings.Experiments.P2pUpgrade.warning": {
     "message": "Les mises à jour de l'application P2P vous permettent de partager et recevoir de nouvelles versions de l'application Mapeo en vous connectant à d'autres appareils Mapeo via le Wifi (aucune connexion internet requise). Pour utiliser cette fonctionnalité, l'écran de Synchronisation Mapeo doit être ouvert sur les deux appareils."
   },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "REMARQUE : Pendant la mise à jour de la version de l'application Mapeo de cette manière, AUCUNE de vos données Mapeo (observations, configurations, ou cartes) sont partagées entre les appareils."
+  },
   "screens.Settings.Experiments.active": {
     "description": "Inidicates whether directional arrow is active on map",
     "message": "Actif"
