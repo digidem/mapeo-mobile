@@ -104,12 +104,7 @@ const AppContainerWrapper = () => {
   const [{ experiments }] = React.useContext(SettingsContext);
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
-  const {
-    killStateActive,
-    passcode,
-    checkFlag,
-    setCheckFlag,
-  } = React.useContext(SecurityContext);
+  const [authState, setAppState] = React.useContext(SecurityContext);
 
   React.useEffect(() => {
     const appStateListener = AppState.addEventListener(
@@ -118,14 +113,17 @@ const AppContainerWrapper = () => {
     );
 
     return () => appStateListener.remove();
-  }, []);
+  }, [authState.authStatus]);
 
   const handleStateAndSetCheckPassFlag = (nextAppState: AppStateStatus) => {
+    console.log("newAppStatus " + nextAppState);
+    console.log("appState");
     if (
-      (appState.current.match(/active/) && nextAppState === "inactive") ||
-      "background"
+      appState.current.match(/active/) &&
+      nextAppState === "background" &&
+      authState.authStatus !== "notRequired"
     ) {
-      setCheckFlag(true);
+      setAppState({ type: "setAuthStatus", newAuthStatus: "pending" });
     }
   };
 
@@ -213,7 +211,7 @@ const AppContainerWrapper = () => {
       enabled={experiments.onboarding && !hidePracticeMode}
       hideBar={hidePracticeBar}
     >
-      {(!!passcode || killStateActive) && checkFlag ? (
+      {authState.authStatus === "pending" ? (
         <AuthContainer
           ref={nav => {
             if (nav) {

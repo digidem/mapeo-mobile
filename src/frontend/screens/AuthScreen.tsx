@@ -14,7 +14,6 @@ import {
   RenderCellOptions,
 } from "react-native-confirmation-code-field";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { KILL_PASSCODE, PASSWORD_KEY } from "../constants";
 import { SecurityContext } from "../context/SecurityContext";
 
@@ -46,16 +45,23 @@ export const AuthScreen: NavigationStackScreenComponent = () => {
   React.useEffect(() => {
     if (inputtedPass.length === CELL_COUNT) {
       if (validatePassword(inputtedPass)) {
-        if (inputtedPass === KILL_PASSCODE && authState.killCodeEnabled) {
+        if (inputtedPass === KILL_PASSCODE && authState.killModeEnabled) {
           setAuthState({ type: "toggleAppMode", newAppMode: "kill" });
-          // setCheckFlag(false);
+          setAuthState({
+            type: "setAuthStatus",
+            newAuthStatus: "authenticated",
+          });
           return;
         }
 
         if (inputtedPass === authState.passcode) {
           if (authState.appMode === "kill")
             setAuthState({ type: "toggleAppMode" });
-          // setCheckFlag(false);
+
+          setAuthState({
+            type: "setAuthStatus",
+            newAuthStatus: "authenticated",
+          });
           return;
         }
 

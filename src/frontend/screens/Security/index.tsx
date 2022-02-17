@@ -66,7 +66,7 @@ const m = defineMessages({
 
 export const Security: NavigationStackScreenComponent = () => {
   const [{ experiments }] = React.useContext(SettingsContext);
-  const { passcode, killState } = React.useContext(SecurityContext);
+  const [authState, setAuthState] = React.useContext(SecurityContext);
   const [highlight, setHighlight] = React.useState(false);
   const { navigate } = useNavigation();
 
@@ -83,15 +83,15 @@ export const Security: NavigationStackScreenComponent = () => {
 
   const [passCodeDes, killPassCodeDes] = React.useMemo(
     () =>
-      !!passcode
+      !!authState.passcode
         ? [m.passDesriptionPassSet, m.killPassDescriptonPassSet]
         : [m.passDesriptionPassNotSet, m.killPassDescriptonPassNotSet],
-    [passcode]
+    [authState.passcode]
   );
 
   return (
     <List>
-      {!killState && (
+      {authState.appMode === "normal" && (
         <>
           <ListItem button={false} style={{ marginVertical: 10 }}>
             <ListItemText
@@ -108,9 +108,8 @@ export const Security: NavigationStackScreenComponent = () => {
           </ListItem>
 
           <ListItem
-            button={!!passcode}
             onPress={() => {
-              if (!passcode) {
+              if (!authState.passcode) {
                 highlightError();
                 return;
               }

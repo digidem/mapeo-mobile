@@ -58,11 +58,11 @@ export const KillPasscode: NavigationStackScreenComponent = () => {
           onChange={() => {
             dispatch({ type: "toggleKillModeEnabled" });
           }}
-          value={state.killCodeEnabled}
+          value={state.killModeEnabled}
         />
       </View>
 
-      {state.killCodeEnabled && (
+      {state.killModeEnabled && (
         <View style={styles.passbox}>
           <Text style={{ textAlign: "center", marginBottom: 10, fontSize: 20 }}>
             {KILL_PASSCODE}

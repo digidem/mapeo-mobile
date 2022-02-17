@@ -35,9 +35,13 @@ export const PracticeMode = ({
   hideBar,
 }: PracticeModeProps) => {
   const [config] = useContext(ConfigContext);
-  const { killState } = useContext(SecurityContext);
+  const [{ appMode }] = useContext(SecurityContext);
 
   const showPracticeModeUi = enabled && isInPracticeMode(config);
+
+  const killState = React.useMemo(() => {
+    return appMode === "kill";
+  }, [appMode]);
 
   return (
     <View
