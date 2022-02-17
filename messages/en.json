@@ -691,6 +691,41 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Something is up with the Mapeo database"
   },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "Directional Arrow"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "The new Directional Arrow feature uses your smartphone's digital compass to provide information about which direction your phone is facing. Close proximity to large metal objects or strong magnetic field can affect the precision of the compass. If your smartphone doesn't have a compass, the Directional Arrow may still be able to determine direction based on movement. Direction based on movement may be less accurate."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "NOTE: Directional Arrow is not reliable enough to be used exclusively for navigation, and it may drain your device battery faster."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "Use Directional Arrow"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "P2P App Updates"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "Use P2P App Updater"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "P2P App Updates allows you to share and receive newer versions of the Mapeo app by connecting to other Mapeo devices via Wi-Fi (no internet connection required). To use this feature, the Mapeo Synchronize screen must be open on both devices."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "NOTE: When updating the Mapeo app version in this way, NONE of your Mapeo data (observations, configurations, or maps) is shared between devices."
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Inidicates whether directional arrow is active on map",
+    "message": "Active"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "Directional Arrow"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Inidicates whether directional arrow is NOT active on map",
+    "message": "Inactive"
+  },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
     "message": "P2P upgrades"
@@ -698,6 +733,9 @@
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
     "message": "Share and receive updates with nearby devices"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "Experiments"
   },
   "screens.Settings.ManagePeople.add": {
     "message": "Add"
@@ -714,15 +752,6 @@
   "screens.Settings.ManagePeople.yourDevice": {
     "description": "Row label indicating details related to the user's device membership",
     "message": "(You) {deviceName}"
-  },
-  "screens.Settings.MapSettings.batteryWarning": {
-    "message": "May drain battery faster"
-  },
-  "screens.Settings.MapSettings.directionalArrow": {
-    "message": "Use Directional Arrow"
-  },
-  "screens.Settings.MapSettings.mapSettingTitle": {
-    "message": "Map Settings"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Create or join a project below"
@@ -834,10 +863,6 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "Display language for App"
-  },
-  "screens.Settings.mapSettings": {
-    "description": "Button to adjust settings for map",
-    "message": "Map Settings"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
