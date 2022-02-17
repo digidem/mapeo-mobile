@@ -3,12 +3,238 @@
     "description": "Button on dialog to keep editing (cancelling close action)",
     "message": "Lanjutkan menyunting"
   },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "Batalkan perubahan"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "Batalkan perubahan?"
+  },
+  "AppContainer.EditHeader.discardContent": {
+    "description": "Button on dialog to cancel a new observation",
+    "message": "Keluar tanpa menyimpan"
+  },
+  "AppContainer.EditHeader.discardTitle": {
+    "description": "Title of dialog that shows when cancelling a new observation",
+    "message": "Hapus pengamatan?"
+  },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo berhasil diperbarui dari versi {previousVersion} ke {currentVersion} pada {updateDateTime}"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "OKE"
+  },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo diperbarui ✅"
+  },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "Nomor seri Android"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "Versi Android"
+  },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Pembuatan Mapeo"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Varian Mapeo"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "Versi Mapeo"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "Model telepon"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "Tentang Mapeo"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "Tidak diketahui"
+  },
   "screens.AddPhoto.cancel": {
     "message": "Batal"
+  },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "Menghubungkan ke perangkat..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "Membatalkan"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "Koordinator dapat menambah dan menghapus perangkat dari proyek"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "Perangkat ini adalah Koordinator"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "Perangkat ini adalah Peserta"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "Pilih peran untuk perangkat"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "Perangkat {deviceId} Ditemukan"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "Mempunyai masalah?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "Minta Pemeta komunitas untuk mengirim permintaan bergabung"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "Pindai perangkat untuk menambahkan orang ke proyek"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "Instruksi"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} telah ditambahkan ke {projectName}"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Pergi ke Sinkronkan"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "Berhasil!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "Undang Perangkat"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "Tambahkan ke Proyek"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "Anda berada di {projectName}"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "Kembali"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "Keluar dari Proyek Saat Ini"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "Untuk bergabung dengan proyek baru, Anda harus keluar dari proyek Anda saat ini."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "Anda sudah dalam sebuah proyek"
+  },
+  "screens.CameraScreen.noCameraAccess": {
+    "description": "Error message shown when app does not have permissions to camera",
+    "message": "Tidak ada akses ke kamera"
+  },
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "Pilih apa yang sedang terjadi"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "Membatalkan"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "Tidak, hapus pengamatan saya"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "Ya, simpan pengamatan saya"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "Bawa ({observationCount}) {observationCount, plural, satu {observation} other {observations}} dari Mode Latihan ke proyek?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "Keluar dari Mode Latihan"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "Pilih salah satu opsi"
+  },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "Derajat Desimal (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "Derajat/Menit/Detik (DMD)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "Format Koordinat"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "Mercator Transversal Universal (UTM)"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "Buat proyek"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "Buat proyek"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "Masukkan nama perangkat"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "Tambahkan nama untuk perangkat anda"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "Nama Perangkat"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "Masukkan nama proyek"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "Masukan nama untuk proyek"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "Nama proyek"
+  },
+  "screens.GpsModal.details": {
+    "description": "Section title for details about current position",
+    "message": "Rincian"
+  },
+  "screens.GpsModal.gpsHeader": {
+    "description": "Header for GPS screen",
+    "message": "Lokasi GPS saat ini"
   },
   "screens.GpsModal.lastUpdate": {
     "description": "Section title for time of last GPS update",
     "message": "Pembaharuan terakhir"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "Koordinat Derajat Desimal"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "Koordinat DMS"
+  },
+  "screens.GpsModal.locationSensors": {
+    "description": "Heading for section about location sensor status",
+    "message": "Status Sensor"
+  },
+  "screens.GpsModal.locationUTM": {
+    "description": "Section title for UTM coordinates",
+    "message": "Koordinat UTM"
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
@@ -17,6 +243,133 @@
   "screens.GpsModal.yes": {
     "description": "if a location sensor is active yes/no",
     "message": "Ya"
+  },
+  "screens.JoinRequestModal.close": {
+    "message": "Tutup"
+  },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "Tolak Permintaan"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "Undang"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "Undangan telah dikirim."
+  },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{deviceName} ingin bergabung dengan {projectName}"
+  },
+  "screens.JoinRequestModal.success": {
+    "message": "Berhasil!"
+  },
+  "screens.LanguageSettings.title": {
+    "description": "Title language settings screen",
+    "message": "Bahasa"
+  },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "Tinggalkan Proyek"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "Kembali ke Beranda"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "Pengamatan Dihapus"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
+    "message": "Selesai!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "Keluar dari Proyek {projectName}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "Menghapus Pengamatan"
+  },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "Timur"
+  },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "Koordinat tidak valid"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "Nilai lintang"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "Garis Lintang"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "Nilai bujur"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "Garis bujur"
+  },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "Utara"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "Pilih kardinalitas garis lintang"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "Pilih kardinalitas garis bujur"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "Selatan"
+  },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "Barat"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "{field} menit dimasukkan"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "{field} detik dimasukkan"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "Derajat"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
+    "message": "{field} derajat dimasukkan"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "Arah"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
+    "message": "Menit"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "Detik"
+  },
+  "screens.ManualGpsScreen.DmsForm.east": {
+    "message": "Timur"
+  },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "Koordinat tidak valid"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "Garis Lintang"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "Garis bujur"
+  },
+  "screens.ManualGpsScreen.DmsForm.north": {
+    "message": "Utara"
+  },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "Pilih kardinalitas garis lintang"
+  },
+  "screens.ManualGpsScreen.DmsForm.south": {
+    "message": "Selatan"
+  },
+  "screens.ManualGpsScreen.DmsForm.west": {
+    "message": "Barat"
+  },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "Format Koordinat"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "Derajat Desimal (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "Derajat/Menit/Detik (DMD)"
   },
   "screens.ManualGpsScreen.easting": {
     "message": "Timur"
@@ -33,6 +386,23 @@
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "Masukkan koordinat"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "Mercator Transversal Universal (UTM)"
+  },
+  "screens.ManualGpsScreen.zoneLetter": {
+    "message": "Huruf Zona"
+  },
+  "screens.ManualGpsScreen.zoneNumber": {
+    "message": "Nomor Zona"
+  },
+  "screens.Observation.ObservationView.alertFooter": {
+    "description": "Footer for shared observations message",
+    "message": "Dikirim dari Mapeo"
+  },
+  "screens.Observation.ObservationView.alertSubject": {
+    "description": "Subject-line for shared observations",
+    "message": "Peringatan Mapeo"
   },
   "screens.Observation.ObservationView.delete": {
     "description": "Button to delete an observation",
@@ -62,6 +432,14 @@
     "description": "Title of dialog asking confirmation to delete an observation",
     "message": "Menghapus pengamatan?"
   },
+  "screens.Observation.notFound": {
+    "description": "Message shown when an observation is not found",
+    "message": "Pengamatan tidak ditemukan"
+  },
+  "screens.Observation.title": {
+    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
+    "message": "Pengamatan"
+  },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
     "message": "{current} dari {total}\n "
@@ -86,6 +464,10 @@
     "description": "Button to change a category / preset",
     "message": "Ubah"
   },
+  "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
+    "description": "Placeholder for description/notes field",
+    "message": "Apa yang terjadi di sini?"
+  },
   "screens.ObservationEdit.ObservationEditView.detailsButton": {
     "description": "Button label to add details",
     "message": "Tambahkan Rincian"
@@ -102,6 +484,14 @@
     "description": "Button to cancel save and continue waiting for GPS",
     "message": "Terus menunggu"
   },
+  "screens.ObservationEdit.SaveButton.manualEntry": {
+    "description": "Button to manually enter GPS coordinates",
+    "message": "Koordinat Manual"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsDesc": {
+    "description": "Description in dialog when trying to save with no GPS coords",
+    "message": "Pengamatan ini tidak memiliki lokasi. Anda dapat terus menunggu sinyal GPS, menyimpan pengamatan tanpa lokasi, atau memasukkan koordinat secara manual"
+  },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
     "message": "Tidak ada sinyal GPS"
@@ -109,6 +499,10 @@
   "screens.ObservationEdit.SaveButton.saveAnyway": {
     "description": "Button to save regardless of GPS state",
     "message": "Simpan"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsDesc": {
+    "description": "Description in dialog when trying to save with low GPS accuracy.",
+    "message": "Akurasi GPS rendah. Anda dapat terus menunggu akurasi yang lebih baik, menyimpan pengamatan dengan akurasi rendah, atau memasukkan koordinat secara manual"
   },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
@@ -126,31 +520,430 @@
     "description": "Title of screen with list of observations",
     "message": "Pengamatan"
   },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "Pergi ke Peta"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
+    "description": "Description of observation list view when the user has not yet recorded observations",
+    "message": "Mulai dari tampilan peta atau kamera untuk merekam pengamatan pertama Anda."
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
+    "description": "Title of observation list view when the user has not yet recorded observations",
+    "message": "Tambahkan Pengamatan"
+  },
+  "screens.ObservationsList.error": {
+    "description": "message shown when there is an unexpected error when loading observations",
+    "message": "Terjadi kesalahan saat memuat pengamatan. Coba keluar dan mulai ulang Mapeo."
+  },
+  "screens.ObservationsList.loading": {
+    "description": "message shown whilst observations are loading",
+    "message": "Memuat… ini bisa memakan waktu cukup lama setelah menyinkronkan perangkat baru"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "Buat Proyek"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "Ketuk di sini untuk {action}"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "Bergabung Dengan Proyek"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "Mode Latihan"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "Batal"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "Mintalah Peserta Proyek memindai kode undangan ini."
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "Tunjukkan kode QR ini ke Admin Proyek Anda"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "Instruksi"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "Kirim Permintaan Bergabung sebagai gantinya"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "Bergabung Dengan Proyek"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "Bagikan kode ini dengan Koordinator Proyek"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "Bagikan"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "Kirim Permintaan Bergabung"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "Kode verifikasi"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "Selesai!"
+  },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "{num}/{total} pengamatan selesai"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "Menyinkronkan..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "{num}/{total} pengamatan selesai"
+  },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "Mulai Pemetaan"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "Tutup"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "Tolak Undangan"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "Tidak dapat mengambil detail undangan"
+  },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "Anda telah diundang untuk bergabung\n {projectName} sebagai {role}"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "Gabung dan Sinkronkan"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "Bergabunglah dengan {projectName}"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "Coba Lagi"
+  },
+  "screens.ServerStatus.errorDesc": {
+    "description": "Description when there the Mapeo Core server crashes",
+    "message": "Anda dapat mencoba memulai ulang aplikasi secara paksa, tetapi mungkin ada sesuatu yang perlu diperbaiki. Sangat menyesal tentang ini, membuat aplikasi itu sulit."
+  },
+  "screens.ServerStatus.errorTitle": {
+    "description": "Title of message when there the Mapeo Core server crashes",
+    "message": "Ya ampun, ada yang rusak di database Mapeo."
+  },
+  "screens.ServerStatus.timeoutDesc": {
+    "description": "Description when the server has not responded for 10 seconds",
+    "message": "Jika Anda terus melihat pesan ini, Anda mungkin perlu memulai ulang Mapeo secara paksa"
+  },
+  "screens.ServerStatus.timeoutTitle": {
+    "description": "Title of message when the server has not responded for 10 seconds",
+    "message": "Ada yang salah dengan database Mapeo"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p upgrades",
+    "message": "Peningkatan P2P"
+  },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "Bagikan dan terima pembaruan dengan perangkat terdekat"
+  },
+  "screens.Settings.ManagePeople.add": {
+    "message": "Tambah"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "Tinggalkan Proyek"
+  },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "Kelola Orang"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "Hapus"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(Anda) {deviceName}"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "Buat atau bergabung dengan proyek di bawah ini"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "Membuat Proyek"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "Bergabung dengan Proyek"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "Siap untuk meninggalkan Mode Latihan?"
+  },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "Terjadi kesalahan saat mencoba mengimpor file konfigurasi ini"
+  },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "Oke"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Kesalahan Impor"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "Konfigurasi saat ini"
+  },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "Impor Konfigurasi"
+  },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "Nama Proyek:"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "tidak ada"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "Mode Latihan"
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "Kunci Proyek"
+  },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "Konfigurasi Proyek"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "Tidak disebutkan namanya"
+  },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "Tentang Mapeo"
+  },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "Versi dan nomor pembuatan"
+  },
+  "screens.Settings.appInstall": {
+    "description": "Primary text for Mapeo APK test",
+    "message": "Pemasangan APK"
+  },
+  "screens.Settings.appInstallDesc": {
+    "description": "Secondary text for Mapeo APK test",
+    "message": "Uji pemasangan APK (instal ulang aplikasi)"
+  },
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "Bagikan Penginstal Mapeo"
+  },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "Instal atau perbarui Mapeo di ponsel lain"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "Format Koordinat"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "Pilih bagaimana koordinat ditampilkan"
+  },
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "Percobaan"
+  },
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "Aktifkan fitur baru eksperimental"
+  },
+  "screens.Settings.language": {
+    "description": "Primary text for language settings",
+    "message": "Bahasa"
+  },
+  "screens.Settings.languageDesc": {
+    "description": "Secondary text for language settings",
+    "message": "Bahasa tampilan untuk Aplikasi"
+  },
+  "screens.Settings.projectConfig": {
+    "description": "Primary text for project config settings",
+    "message": "Konfigurasi Proyek"
+  },
+  "screens.Settings.projectConfigDesc": {
+    "description": "Secondary text for project config settings",
+    "message": "Kategori, ikon dan pertanyaan"
+  },
+  "screens.Settings.title": {
+    "description": "Title of settings screen",
+    "message": "Pengaturan"
+  },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
     "message": "Selesai"
+  },
+  "screens.SyncModal.PeerList.disconnectedButton": {
+    "description": "Button label when disconnected",
+    "message": "Terputus"
   },
   "screens.SyncModal.PeerList.errorButton": {
     "description": "Button label when there is an error",
     "message": "Galat"
   },
+  "screens.SyncModal.PeerList.errorClientMismatch": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
+    "message": "Bukan klien Mapeo"
+  },
+  "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
+    "message": "Mapeo yang tidak kompatibel"
+  },
+  "screens.SyncModal.PeerList.finishingButton": {
+    "description": "Button label when finishing sync but don't have correct progress",
+    "message": "..."
+  },
+  "screens.SyncModal.PeerList.syncButton": {
+    "description": "Button label for sync button",
+    "message": "Sinkronkan"
+  },
   "screens.SyncModal.PeerList.syncLabel": {
     "description": "Label for last sync datetime",
     "message": "Disinkornkan:"
+  },
+  "screens.SyncModal.SyncView.checkingUpdates": {
+    "description": "Label in upgrade bar when checking for updates",
+    "message": "Memeriksa pembaruan aplikasi"
+  },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "Memasang"
+  },
+  "screens.SyncModal.SyncView.noUpdates": {
+    "description": "Label in upgrade bar when no updates are found",
+    "message": "Tidak ada pembaruan aplikasi yang ditemukan"
+  },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "Memeriksa {count, plural, one {# device} other {# devices}}"
+  },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "Buka pengaturan ponsel Anda dan sambungkan ke jaringan WiFi untuk menyinkronkan"
+  },
+  "screens.SyncModal.SyncView.noWifiTitle": {
+    "description": "Title of message shown when no wifi network",
+    "message": "Tidak ada Wi-Fi"
+  },
+  "screens.SyncModal.SyncView.openSettingsButton": {
+    "description": "Label for button to open settings to fix update permissions error",
+    "message": "Buka Pengaturan"
+  },
+  "screens.SyncModal.SyncView.projectKey": {
+    "description": "First 5 characters of project key displayed on sync screen",
+    "message": "Kunci Proyek: {projectKey}"
+  },
+  "screens.SyncModal.SyncView.searchingDesc": {
+    "description": "Description shown whilst searcing for sync peers",
+    "message": "Pastikan perangkat lain dihidupkan dan terhubung ke jaringan WiFi yang sama"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
     "message": "Mencari"
   },
+  "screens.SyncModal.SyncView.settingsButton": {
+    "description": "Button to open WiFi settings",
+    "message": "Buka Pengaturan"
+  },
+  "screens.SyncModal.SyncView.sharingUpdate": {
+    "description": "Label in upgrade bar when sharing an update with others",
+    "message": "Berbagi pembaruan aplikasi dengan perangkat lain"
+  },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
     "message": "Sinkronisasi"
   },
-  "screens.SyncModal.SyncView.wifi": {
-    "description": "Label for wifi network name",
-    "message": "WiFi:"
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "Pembaruan tersedia; menunggu sinkronisasi selesai"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "Mengunduh pembaruan"
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "Tidak dapat memeriksa pembaruan"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "Tidak dapat memperbarui"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Versi baru Mapeo telah tersedia"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "Status tidak diimplementasikan"
+  },
+  "screens.SyncModal.errorDialogOk": {
+    "description": "Button to dismiss error alert about incompatible sync protocol",
+    "message": "Oke"
+  },
+  "screens.SyncModal.errorVersionThemBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "Perangkat yang Anda coba sinkronkan perlu memutakhirkan Mapeo ke versi terbaru untuk menyinkronkan dengan Anda."
+  },
+  "screens.SyncModal.errorVersionThemBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} perlu meningkatkan versi Mapeo"
+  },
+  "screens.SyncModal.errorVersionUsBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
+    "message": "Perangkat yang Anda coba sinkronkan memiliki versi Mapeo yang lebih baru. Anda perlu memutakhirkan Mapeo untuk menyinkronkan dengan perangkat ini."
+  },
+  "screens.SyncModal.errorVersionUsBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "Anda perlu mengupgrade Mapeo untuk menyinkronkan dengan {deviceName}"
+  },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "Tambahkan ke Proyek"
+  },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "Bagikan Undangan"
+  },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "Tampilkan Kode QR"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "Coba sambungkan menggunakan salah satu metode lain di bawah ini."
+  },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "Tidak Dapat Menautkan ke Perangkat"
+  },
+  "screens.UncaughtError.errorDesc": {
+    "description": "Description when there is an uncaught message in the app",
+    "message": "Sangat menyesal tentang ini, sesuatu yang tidak terduga terjadi, dan itu salah kami bukan kesalahan anda. Coba mulai ulang aplikasi untuk melihat apakah itu memperbaiki keadaan."
+  },
+  "screens.UncaughtError.errorTitle": {
+    "description": "Title of message when there is an uncaught message in the app",
+    "message": "Kesalahan yang tidak terduga"
+  },
+  "sharedComponents.GpsPill.noGps": {
+    "message": "Tidak ada GPS"
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Mencari…"
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "Mode Latihan"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "Tidak ada internet"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi:"
   }
 }

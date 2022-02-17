@@ -33,7 +33,7 @@
   },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
-    "message": "Número de compilação Android"
+    "message": "Número do build do Android"
   },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
@@ -41,7 +41,7 @@
   },
   "screens.AboutMapeo.mapeoBuild": {
     "description": "Label for Mapeo build number",
-    "message": "Número de compilação do Mapeo"
+    "message": "Build do Mapeo"
   },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
@@ -57,7 +57,7 @@
   },
   "screens.AboutMapeo.title": {
     "description": "Title of 'About Mapeo' screen",
-    "message": "Sobre Mapeo"
+    "message": "Sobre o Mapeo"
   },
   "screens.AboutMapeo.unknownValue": {
     "description": "Shown when a device info (e.g. version number) is unknown",
@@ -176,6 +176,38 @@
     "description": "Universal Transverse Mercator coordinate format",
     "message": "Universal Transversal de Mercator (UTM)"
   },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "Criar projetos"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "Criar um projeto"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "Digite o nome do dispositivo"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "Adicione um nome para o seu dispositivo"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "Nome do dispositivo"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "Insira o Nome do Projeto"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "Digite um nome para o projeto"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "Nome do Projeto"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Detalhes"
@@ -241,7 +273,7 @@
     "message": "Voltar ao início"
   },
   "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
-    "message": "Observações Excluídas"
+    "message": "Observações excluídas"
   },
   "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
     "message": "Concluído!"
@@ -565,6 +597,18 @@
   "screens.Onboarding.Sync.startMapping": {
     "message": "Começar Mapeamento"
   },
+  "screens.Photos.ConfirmDeleteModal.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
+    "message": "Excluir imagem"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
+    "message": "Excluir esta foto?"
+  },
+  "screens.PhotosModal": {
+    "message": "Excluir imagem"
+  },
   "screens.ProjectInviteModal.close": {
     "message": "Fechar"
   },
@@ -649,6 +693,14 @@
   "screens.Settings.ProjectConfig.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "Erro ao importar"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertMessage": {
+    "description": "Message for alert after successful config import",
+    "message": "Configuração importada com sucesso:\n\n{name} {version}"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertOk": {
+    "description": "Button text for config import alert acknowledgement",
+    "message": "OK"
   },
   "screens.Settings.ProjectConfig.currentConfig": {
     "description": "Label for name & version of current configuration",

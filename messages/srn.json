@@ -95,13 +95,13 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Kande a database fu Mapeo abi wan probleem"
   },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "Sroto fu a Project"
+  },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
     "message": "Abra Mapeo"
-  },
-  "screens.Settings.configErrorOkButton": {
-    "description": "Button to dismiss error dialog when there is an error importing a config file",
-    "message": "Abung"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -110,10 +110,6 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "Sori tongo fu a App"
-  },
-  "screens.Settings.projectKey": {
-    "description": "Label for project key",
-    "message": "Sroto fu a Project"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
@@ -135,10 +131,6 @@
     "description": "Title of message shown while looking for sync peers",
     "message": "Suku"
   },
-  "screens.SyncModal.SyncView.wifi": {
-    "description": "Label for wifi network name",
-    "message": "WiFi:"
-  },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
     "message": "Abung"
@@ -152,5 +144,9 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Suku…"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi:"
   }
 }
