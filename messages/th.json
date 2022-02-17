@@ -709,15 +709,6 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(คุณ) {deviceName}"
   },
-  "screens.Settings.MapSettings.batteryWarning": {
-    "message": "แบตเตอรี่อาจจะหมดเร็วขึ้น"
-  },
-  "screens.Settings.MapSettings.directionalArrow": {
-    "message": "ใช้ลูกศรทิศทาง"
-  },
-  "screens.Settings.MapSettings.mapSettingTitle": {
-    "message": "การตั้งค่าแผนที่"
-  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "สร้างและเข้าร่วมในโครงการข้างล่าง"
   },
@@ -828,10 +819,6 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "แสดงภาษาสำหรับแอป"
-  },
-  "screens.Settings.mapSettings": {
-    "description": "Button to adjust settings for map",
-    "message": "การตั้งค่าแผนที่"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
