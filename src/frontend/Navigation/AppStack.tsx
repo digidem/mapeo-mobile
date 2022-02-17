@@ -33,7 +33,8 @@ import { ConfirmLeavePracticeModeScreen } from "../screens/ConfirmLeavePracticeM
 import { CreateProjectScreen } from "../screens/CreateProject";
 import { Security } from "../screens/Security";
 import { AppPasscode } from "../screens/AppPasscode";
-import { MapSettings } from "../screens/Settings/MapSettings";
+import { DirectionalArrow } from "../screens/Settings/Experiments/DirectionalArrow";
+import { P2pUpgrade } from "../screens/Settings/Experiments/P2pUpgrade";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -92,7 +93,8 @@ export const AppStack = createStackNavigator(
     CreateProject: CreateProjectScreen,
     Security: Security,
     AppPasscode: AppPasscode,
-    MapSettings,
+    DirectionalArrow,
+    P2pUpgrade,
   },
   {
     initialRouteName: "Home",

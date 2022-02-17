@@ -17,6 +17,7 @@ interface ListItemProp {
   disableGutters?: boolean;
   divider?: boolean;
   onPress?: () => void;
+  testID?: string;
 }
 
 const styles = StyleSheet.create({
@@ -63,6 +64,7 @@ export const ListItem = ({
   disableGutters = false,
   divider = false,
   onPress,
+  testID,
   ...otherProps
 }: ListItemProp) => {
   const context = React.useContext(ListContext);
@@ -86,6 +88,7 @@ export const ListItem = ({
   return (
     <ListContext.Provider value={childContext}>
       <TouchableNativeFeedback
+        testID={testID}
         onPress={onPress}
         disabled={disabled}
         {...otherProps}

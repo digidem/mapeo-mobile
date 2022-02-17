@@ -10,6 +10,7 @@ interface ListProp {
   disablePadding?: boolean;
   subheader?: string;
   dense?: boolean;
+  testID?: string;
 }
 
 const List = ({
@@ -18,6 +19,7 @@ const List = ({
   disablePadding = false,
   subheader,
   dense = false,
+  testID: testId,
   ...other
 }: ListProp) => {
   const context = React.useMemo(() => ({ dense }), [dense]);
@@ -26,6 +28,7 @@ const List = ({
       <View
         style={[styles.root, !disablePadding && styles.padding, style]}
         {...other}
+        testID={testId}
       >
         {subheader && <Text style={styles.subheader}>{subheader}</Text>}
         {children}
