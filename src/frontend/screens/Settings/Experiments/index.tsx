@@ -1,7 +1,8 @@
-import React from "react";
+import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
+
 import SettingsContext from "../../../context/SettingsContext";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import {

@@ -2,9 +2,10 @@ import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+
 import SettingsContext from "../../../context/SettingsContext";
 import { LIGHT_GREY } from "../../../lib/styles";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 
 const m = defineMessages({
