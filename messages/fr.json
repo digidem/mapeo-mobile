@@ -692,7 +692,23 @@
     "message": "Une opération est en cours sur la base de données Mapeo"
   },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
-    "message": "Flèche directionnelle"
+    "message": "Flèche Directionnelle"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "La nouvelle fonctionnalité Flèche Directionnelle utilise la boussole numérique de votre téléphone pour récupérer des informations sur la direction vers laquelle est tourné votre téléphone. La faible proximité à de grands objets métalliques ou de forts champs magnétiques peut affecter la précision de la boussole. Si votre téléphone n'a pas de boussole, la Flèche Directionnelle peut toujours être déterminé en se basant sur les mouvements. La direction basée sur le mouvement peut être moins précise."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "REMARQUE : La Flèche Directionnelle n'est pas suffisamment fiable pour être utilisée exclusivement en navigation, et peut décharger la batterie de votre appareil plus rapidement."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "Utiliser la Flèche Directionnelle"
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Inidicates whether directional arrow is active on map",
+    "message": "Actif"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "Flèche Directionnelle"
   },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
