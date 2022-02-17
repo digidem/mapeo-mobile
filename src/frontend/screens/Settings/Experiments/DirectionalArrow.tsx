@@ -6,20 +6,25 @@ import { NavigationStackScreenComponent } from "react-navigation-stack";
 import SettingsContext from "../../../context/SettingsContext";
 import { LIGHT_GREY } from "../../../lib/styles";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 
 const m = defineMessages({
   directionalArrow: {
-    id:
-      "screens.Settings.Experiments.MapSettings.DirectionalArrow.directionalArrow",
+    id: "screens.Settings.Experiments.DirectionalArrow.directionalArrow",
     defaultMessage: "Directional Arrow",
   },
   disclaimer: {
-    id: "screens.Settings.Experiments.MapSettings.DirectionalArrow.disclaimer",
+    id: "screens.Settings.Experiments.DirectionalArrow.disclaimer",
     defaultMessage:
-      "The new Directional Arrow is a feature that uses magnetometer and falls back to accelerometer on your smartphone to determine the direction a user is facing. For best use: Be outside away from objects. Walk forward as this helps devices establish a direction. If your device does not have a gyroscope (internal compass) accuracy of the arrow can be misleading.This feature should not be used exclusively for navigation. Accompany use with a compass or dedicated GPS device. Expect battery to drain faster. Arrow may move with some delay when changing direction",
+      "The new Directional Arrow feature uses your smartphone's digital compass to provide information about which direction your phone is facing. Close proximity to large metal objects or strong magnetic field can affect the precision of the compass. If your smartphone doesn't have a compass, the Directional Arrow may still be able to determine direction based on movement. Direction based on movement may be less accurate.",
+  },
+  disclaimerNote: {
+    id: "screens.Settings.Experiments.DirectionalArrow.disclaimerNote",
+    defaultMessage:
+      "NOTE: Directional Arrow is not reliable enough to be used exclusively for navigation, and it may drain your device battery faster.",
   },
   useArrow: {
-    id: "screens.Settings.Experiments.MapSettings.DirectionalArrow.useArrow",
+    id: "screens.Settings.Experiments.DirectionalArrow.useArrow",
     defaultMessage: "Use Directional Arrow",
   },
 });
@@ -32,8 +37,12 @@ export const DirectionalArrow: NavigationStackScreenComponent = () => {
       <Text style={[styles.header]}>
         <FormattedMessage {...m.directionalArrow} />
       </Text>
-      <Text>
+      <Text style={{ marginBottom: 20 }}>
         <FormattedMessage {...m.disclaimer} />
+      </Text>
+
+      <Text>
+        <FormattedMessage {...m.disclaimerNote} />
       </Text>
 
       <View style={[styles.switchContainer]}>
@@ -55,6 +64,14 @@ export const DirectionalArrow: NavigationStackScreenComponent = () => {
       </View>
     </View>
   );
+};
+
+DirectionalArrow.navigationOptions = {
+  headerTitle: () => (
+    <HeaderTitle>
+      <FormattedMessage {...m.directionalArrow} />
+    </HeaderTitle>
+  ),
 };
 
 const styles = StyleSheet.create({

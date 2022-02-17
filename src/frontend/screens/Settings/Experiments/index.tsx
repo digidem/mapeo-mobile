@@ -1,7 +1,9 @@
 import React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { useNavigation } from "react-navigation-hooks";
+import { NavigationStackScreenComponent } from "react-navigation-stack";
 import SettingsContext from "../../../context/SettingsContext";
+import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import {
   List,
   ListItem,
@@ -34,9 +36,13 @@ const m = defineMessages({
     id: "screens.Settings.Experiments.directionalArrow",
     defaultMessage: "Directional Arrow",
   },
+  title: {
+    id: "screens.Settings.Experiments.title",
+    defaultMessage: "Experiments",
+  },
 });
 
-const Experiments = () => {
+const Experiments: NavigationStackScreenComponent = () => {
   const [{ experiments, directionalArrow }, setSettings] = React.useContext(
     SettingsContext
   );
@@ -48,7 +54,7 @@ const Experiments = () => {
         onPress={() => navigate("P2pUpgrade")}
         testID="p2pUpgradeExperimentButton"
       >
-        <ListItemIcon iconName="upgrade" />
+        <ListItemIcon iconName="sync" />
         <ListItemText
           primary={<FormattedMessage {...m.p2pUpgrades} />}
           secondary={
@@ -75,6 +81,14 @@ const Experiments = () => {
       </ListItem>
     </List>
   );
+};
+
+Experiments.navigationOptions = {
+  headerTitle: () => (
+    <HeaderTitle>
+      <FormattedMessage {...m.title} />
+    </HeaderTitle>
+  ),
 };
 
 export default Experiments;

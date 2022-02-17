@@ -5,20 +5,26 @@ import { NavigationStackScreenComponent } from "react-navigation-stack";
 import SettingsContext from "../../../context/SettingsContext";
 import { LIGHT_GREY } from "../../../lib/styles";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 
 const m = defineMessages({
   title: {
     id: "screens.Settings.Experiments.P2pUpgrade.title",
-    defaultMessage: "P2P Upgrade",
+    defaultMessage: "P2P App Updates",
   },
   warning: {
     id: "screens.Settings.Experiments.P2pUpgrade.warning",
     defaultMessage:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "P2P App Updates allows you to share and receive newer versions of the Mapeo app by connecting to other Mapeo devices via Wi-Fi (no internet connection required). To use this feature, the Mapeo Synchronize screen must be open on both devices.",
+  },
+  warningSubheader: {
+    id: "screens.Settings.Experiments.P2pUpgrade.warningSubheader",
+    defaultMessage:
+      "NOTE: When updating the Mapeo app version in this way, NONE of your Mapeo data (observations, configurations, or maps) is shared between devices.",
   },
   useP2p: {
     id: "screens.Settings.Experiments.P2pUpgrade.useP2p",
-    defaultMessage: "Use p2p upgrader",
+    defaultMessage: "Use P2P App Updater",
   },
 });
 
@@ -31,6 +37,10 @@ export const P2pUpgrade: NavigationStackScreenComponent = () => {
       </Text>
       <Text>
         <FormattedMessage {...m.warning} />
+      </Text>
+
+      <Text style={{ marginTop: 20 }}>
+        <FormattedMessage {...m.warningSubheader} />
       </Text>
 
       <View style={[styles.switchContainer]}>
@@ -57,6 +67,14 @@ export const P2pUpgrade: NavigationStackScreenComponent = () => {
       </View>
     </View>
   );
+};
+
+P2pUpgrade.navigationOptions = {
+  headerTitle: () => (
+    <HeaderTitle>
+      <FormattedMessage {...m.title} />
+    </HeaderTitle>
+  ),
 };
 
 const styles = StyleSheet.create({
