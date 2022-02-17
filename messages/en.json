@@ -691,23 +691,29 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Something is up with the Mapeo database"
   },
-  "screens.Settings.Experiments.MapSettings.DirectionalArrow.directionalArrow": {
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Directional Arrow"
   },
-  "screens.Settings.Experiments.MapSettings.DirectionalArrow.disclaimer": {
-    "message": "The new Directional Arrow is a feature that uses magnetometer and falls back to accelerometer on your smartphone to determine the direction a user is facing. For best use: Be outside away from objects. Walk forward as this helps devices establish a direction. If your device does not have a gyroscope (internal compass) accuracy of the arrow can be misleading.This feature should not be used exclusively for navigation. Accompany use with a compass or dedicated GPS device. Expect battery to drain faster. Arrow may move with some delay when changing direction"
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "The new Directional Arrow feature uses your smartphone's digital compass to provide information about which direction your phone is facing. Close proximity to large metal objects or strong magnetic field can affect the precision of the compass. If your smartphone doesn't have a compass, the Directional Arrow may still be able to determine direction based on movement. Direction based on movement may be less accurate."
   },
-  "screens.Settings.Experiments.MapSettings.DirectionalArrow.useArrow": {
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "NOTE: Directional Arrow is not reliable enough to be used exclusively for navigation, and it may drain your device battery faster."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
     "message": "Use Directional Arrow"
   },
   "screens.Settings.Experiments.P2pUpgrade.title": {
-    "message": "P2P Upgrade"
+    "message": "P2P App Updates"
   },
   "screens.Settings.Experiments.P2pUpgrade.useP2p": {
-    "message": "Use p2p upgrader"
+    "message": "Use P2P App Updater"
   },
   "screens.Settings.Experiments.P2pUpgrade.warning": {
-    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    "message": "P2P App Updates allows you to share and receive newer versions of the Mapeo app by connecting to other Mapeo devices via Wi-Fi (no internet connection required). To use this feature, the Mapeo Synchronize screen must be open on both devices."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "NOTE: When updating the Mapeo app version in this way, NONE of your Mapeo data (observations, configurations, or maps) is shared between devices."
   },
   "screens.Settings.Experiments.active": {
     "description": "Inidicates whether directional arrow is active on map",
@@ -727,6 +733,9 @@
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
     "message": "Share and receive updates with nearby devices"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "Experiments"
   },
   "screens.Settings.ManagePeople.add": {
     "message": "Add"
