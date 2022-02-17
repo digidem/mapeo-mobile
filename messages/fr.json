@@ -691,6 +691,9 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Une opération est en cours sur la base de données Mapeo"
   },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "Flèche directionnelle"
+  },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
     "message": "Mises à jour P2P"
