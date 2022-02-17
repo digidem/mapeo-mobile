@@ -11,7 +11,8 @@
     "moduleResolution": "node",
     "strict": true,
     "target": "esnext",
-    "types": ["node", "jest", "detox"]
+    "types": ["node", "jest", "detox"],
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules", ".babelrc", "metro.config.js", "jest.config.js"],
   "include": ["src/frontend/**/*", "e2e/**/*"]

@@ -6,7 +6,7 @@ import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 
 import ObservationView from "./ObservationView";
 import CenteredView from "../../sharedComponents/CenteredView";
-import useObservation from "../../hooks/useObservation";
+import { useObservation } from "../../hooks/useObservation";
 import ObservationHeaderRight from "./ObservationHeaderRight";
 import type { NavigationProp } from "../../types";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";

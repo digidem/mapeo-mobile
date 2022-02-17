@@ -1,7 +1,5 @@
-// @flow
-
-/*::
-type ConstantsType = {|
+/** 
+ * @type {{
   IDLE: "IDLE",
   STARTING: "STARTING",
   LISTENING: "LISTENING",
@@ -9,10 +7,9 @@ type ConstantsType = {|
   CLOSED: "CLOSED",
   ERROR: "ERROR",
   TIMEOUT: "TIMEOUT"
-|}
+  }} 
 */
-
-const Constants /*: ConstantsType */ = {
+const Constants = {
   IDLE: "IDLE",
   STARTING: "STARTING",
   LISTENING: "LISTENING",

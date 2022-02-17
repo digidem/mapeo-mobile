@@ -128,7 +128,13 @@ rnBridge.app.on("resume", () => {
   // listening (because it wasn't paused)
   // https://github.com/janeasystems/nodejs-mobile/issues/177
   status.startHeartbeat();
-  startServer();
+
+  // (achou11): this check is not ideal but necessary because of how the 'resume' event
+  // is spawned after interacting with RN's permissions prompt on startup.
+  // It seems to be inconsistent based on OS, RN, and/or nodejs-mobile-react-native versions
+  if (server) {
+    startServer();
+  }
 });
 
 const noop = () => {};

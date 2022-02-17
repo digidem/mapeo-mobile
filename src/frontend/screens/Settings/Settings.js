@@ -1,8 +1,9 @@
 // @flow
-import React from "react";
+import React, { useContext } from "react";
 // import { Picker as OriginalPicker } from "@react-native-community/picker";
 import { FormattedMessage, defineMessages } from "react-intl";
 import { useNavigation } from "react-navigation-hooks";
+import SettingsContext from "../../context/SettingsContext";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import {
@@ -88,10 +89,25 @@ const m = defineMessages({
     defaultMessage: "Turn on experimental new features",
     description: "Description of the 'Experiment' page",
   },
+  security: {
+    id: "screens.Settings.security",
+    defaultMessage: "Security",
+  },
+  securityDesc: {
+    id: "screens.Settings.securityDesc",
+    defaultMessage: "App Passcode and Device Security",
+    description: "Description of security button in settings",
+  },
+  mapSettings: {
+    id: "screens.Settings.mapSettings",
+    defaultMessage: "Map Settings",
+    description: "Button to adjust settings for map",
+  },
 });
 
 const Settings = () => {
   const { navigate } = useNavigation();
+  const [{ experiments }] = useContext(SettingsContext);
 
   return (
     <List testID="settingsList">
@@ -115,6 +131,17 @@ const Settings = () => {
           secondary={<FormattedMessage {...m.projectConfigDesc} />}
         ></ListItemText>
       </ListItem>
+      <ListItem
+        onPress={() => navigate("MapSettings")}
+        testID="settingsMapSettingsButton"
+      >
+        <ListItemIcon iconName="map" />
+        <ListItemText
+          primary={<FormattedMessage {...m.mapSettings} />}
+          secondary="---------"
+        />
+      </ListItem>
+
       <ListItem
         onPress={() => navigate("CoordinateFormat")}
         testID="settingsCoodinatesButton"
@@ -145,6 +172,16 @@ const Settings = () => {
           secondary={<FormattedMessage {...m.experimentsDesc} />}
         ></ListItemText>
       </ListItem>
+
+      {experiments.appPasscode && (
+        <ListItem onPress={() => navigate("Security")}>
+          <ListItemIcon iconName="security" />
+          <ListItemText
+            primary={<FormattedMessage {...m.security} />}
+            secondary={<FormattedMessage {...m.securityDesc} />}
+          ></ListItemText>
+        </ListItem>
+      )}
     </List>
   );
 };

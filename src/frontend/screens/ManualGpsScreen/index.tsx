@@ -14,7 +14,7 @@ import useSettingsValue from "../../hooks/useSettingsValue";
 import createPersistedState from "../../hooks/usePersistedState";
 import { BLACK } from "../../lib/styles";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import useDraftObservation from "../../hooks/useDraftObservation";
+import { useDraftObservation } from "../../hooks/useDraftObservation";
 import IconButton from "../../sharedComponents/IconButton";
 import { BackIcon, SaveIcon } from "../../sharedComponents/icons";
 import Select from "../../sharedComponents/Select";

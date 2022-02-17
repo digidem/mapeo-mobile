@@ -48,7 +48,7 @@ task:
     fingerprint_script: echo $CIRRUS_BUILD_ID
   build_detox_script: npm run build-detox-android
   cleanup_before_cache_script:
-    - rm -rf ~/.gradle/caches/6.2/
+    - rm -rf ~/.gradle/caches/6.9.2/
     - rm -rf ~/.gradle/caches/transforms-1
     - rm -rf ~/.gradle/caches/journal-1
     - rm -rf ~/.gradle/caches/jars-3/*/buildSrc.jar

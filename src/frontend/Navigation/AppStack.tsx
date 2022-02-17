@@ -31,6 +31,9 @@ import { JoinProjectQrScreen } from "../screens/Onboarding";
 import { ConnectingToDeviceScreen } from "../screens/ConnectingToDeviceScreen";
 import { ConfirmLeavePracticeModeScreen } from "../screens/ConfirmLeavePracticeModeScreen";
 import { CreateProjectScreen } from "../screens/CreateProject";
+import { Security } from "../screens/Security";
+import { AppPasscode } from "../screens/AppPasscode";
+import { MapSettings } from "../screens/Settings/MapSettings";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -87,6 +90,9 @@ export const AppStack = createStackNavigator(
     ConnectingToDevice: ConnectingToDeviceScreen,
     ConfirmLeavePracticeMode: ConfirmLeavePracticeModeScreen,
     CreateProject: CreateProjectScreen,
+    Security: Security,
+    AppPasscode: AppPasscode,
+    MapSettings,
   },
   {
     initialRouteName: "Home",

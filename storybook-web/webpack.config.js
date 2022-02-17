@@ -5,8 +5,8 @@ module.exports = async ({ config }) => {
     test: /\.(gif|jpe?g|png|svg)$/,
     use: {
       loader: "url-loader",
-      options: { name: "[name].[ext]" }
-    }
+      options: { name: "[name].[ext]" },
+    },
   });
 
   config.resolve.extensions = [".web.js", ".js", ".json", ".web.jsx", ".jsx"];
@@ -29,13 +29,13 @@ module.exports = async ({ config }) => {
       "../__mocks__/nodejs-mobile-react-native.js"
     ),
     "@babel/runtime": "@babel/runtime",
-    "@react-native-community/async-storage":
+    "@react-native-async-storage/async-storage":
       "react-native-web/dist/exports/AsyncStorage",
     "react-native-image-resizer": path.join(
       __dirname,
       "../__mocks__/react-native-image-resizer"
     ),
-    "expo-location": path.join(__dirname, "../__mocks__/expo-location")
+    "expo-location": path.join(__dirname, "../__mocks__/expo-location"),
   };
 
   return config;
