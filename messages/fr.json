@@ -715,15 +715,6 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Vous) {deviceName}"
   },
-  "screens.Settings.MapSettings.batteryWarning": {
-    "message": "Peut décharger la batterie plus rapidement"
-  },
-  "screens.Settings.MapSettings.directionalArrow": {
-    "message": "Utiliser une flèche directionnelle"
-  },
-  "screens.Settings.MapSettings.mapSettingTitle": {
-    "message": "Paramètres de la carte"
-  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Créer ou rejoindre un projet ci-dessous"
   },
@@ -834,10 +825,6 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "Afficher la langue pour l'application"
-  },
-  "screens.Settings.mapSettings": {
-    "description": "Button to adjust settings for map",
-    "message": "Paramètres de la carte"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
