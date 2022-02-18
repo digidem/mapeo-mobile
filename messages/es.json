@@ -648,6 +648,9 @@
     "description": "Label for p2p upgrades description",
     "message": "Compartir y recibir actualizaciones de dispositivos cercanos"
   },
+  "screens.Settings.Experiments.title": {
+    "message": "Experimentos"
+  },
   "screens.Settings.ManagePeople.add": {
     "message": "Añadir"
   },
