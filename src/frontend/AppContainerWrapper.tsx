@@ -127,10 +127,13 @@ const AppContainerWrapper = () => {
     }
   };
 
-  const AppContainer = React.useMemo(
-    () => (experiments.onboarding ? OnboardingContainer : DefaultContainer),
-    [experiments.onboarding]
-  );
+  const AppContainer = React.useMemo(() => {
+    if (authState.authStatus === "pending") {
+      return AuthContainer;
+    }
+
+    return experiments.onboarding ? OnboardingContainer : DefaultContainer;
+  }, [experiments.onboarding, authState.authStatus]);
 
   const AuthContainer = createAppContainer(AuthStack);
 
@@ -211,28 +214,17 @@ const AppContainerWrapper = () => {
       enabled={experiments.onboarding && !hidePracticeMode}
       hideBar={hidePracticeBar}
     >
-      {authState.authStatus === "pending" ? (
-        <AuthContainer
-          ref={nav => {
-            if (nav) {
-              navRef.current = nav;
-            }
-          }}
-          uriPrefix={URI_PREFIX}
-        />
-      ) : (
-        <AppContainer
-          loadNavigationState={loadNavigationState}
-          onNavigationStateChange={onNavStateChange}
-          persistNavigationState={persistNavigationState}
-          ref={nav => {
-            if (nav) {
-              navRef.current = nav;
-            }
-          }}
-          uriPrefix={URI_PREFIX}
-        />
-      )}
+      <AppContainer
+        loadNavigationState={loadNavigationState}
+        onNavigationStateChange={onNavStateChange}
+        persistNavigationState={persistNavigationState}
+        ref={nav => {
+          if (nav) {
+            navRef.current = nav;
+          }
+        }}
+        uriPrefix={URI_PREFIX}
+      />
     </PracticeMode>
   );
 };

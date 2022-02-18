@@ -21,6 +21,12 @@ type KillModeActions =
 
 function killModeReducer(state: AuthState, action: KillModeActions): AuthState {
   switch (action.type) {
+    /***
+     * if passcode is set to null we need to set the auth status to 'notRequired'
+     *
+     * If a passcode is set, we want to set the authStatus to 'authenticated'
+     * If the auth status is set to 'pending' they will be navigated to the auth screen, to type in their password.
+     */
     case "setPasscode":
       const passcode = action.newPasscode;
       if (passcode === null || validPasscode(passcode)) {
@@ -31,6 +37,10 @@ function killModeReducer(state: AuthState, action: KillModeActions): AuthState {
         return { ...state, passcode, authStatus: "authenticated" };
       }
       throw new Error("Invalid New Password");
+    /***
+     * Does not require a new value in the dispatcher payload, but a new value is optional in the payload
+     * If there is no new value, the value is toggled (as there are only 2 values)
+     */
     case "toggleAppMode":
       return {
         ...state,
@@ -40,11 +50,11 @@ function killModeReducer(state: AuthState, action: KillModeActions): AuthState {
           ? "normal"
           : "kill",
       };
+    //will throw an error if the user does NOT have a password AND if the user is trying to set killMode to true
+    //With the killMode dispatch code, the user does not have to explicity set a value for kill mode
+    //If there is no value set, the kill mode just toggles, hence why I am checking if the value is
+    //explicitly being set to true, OR if it is not being set and kill mode is CURRENTLY false (and therfore will be set to true)
     case "toggleKillModeEnabled":
-      //will throw an error if the user does NOT have a password AND if the user is trying to set killMode to true
-      //With the killMode dispatch code, the user does not have to explicity set a value for kill mode
-      //If there is no value set, the kill mode just toggles, hence why I am checking if the value is
-      //explicitly being set to true, OR if it is not being set and kill mode is CURRENTLY false (and therfore will be set to true)
       if (
         !state.passcode &&
         (action.newKillModeValue ||
@@ -61,6 +71,11 @@ function killModeReducer(state: AuthState, action: KillModeActions): AuthState {
           ? false
           : true,
       };
+
+    /**
+     * If auth status is pending, the user will only see the auth screen and will be prompted to type in their password
+     *
+     */
     case "setAuthStatus":
       if (
         (action.newAuthStatus === "authenticated" ||
@@ -99,15 +114,12 @@ export const SecurityProvider = ({
 }) => {
   const [state, dispatch] = React.useReducer(killModeReducer, DefaultState);
 
-  React.useEffect(() => {
-    console.log(state);
-  }, [state]);
-  // const contextValue: SecurityContextType = React.useMemo(() => {
-  //   return [state, dispatch];
-  // }, [state, dispatch]);
+  const contextValue: SecurityContextType = React.useMemo(() => {
+    return [state, dispatch];
+  }, [state, dispatch]);
 
   return (
-    <SecurityContext.Provider value={[state, dispatch]}>
+    <SecurityContext.Provider value={contextValue}>
       {children}
     </SecurityContext.Provider>
   );
