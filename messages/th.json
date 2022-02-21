@@ -663,6 +663,9 @@
   "screens.Security.passDesriptionPassSet": {
     "message": "ตั้งรหัสผ่านแล้ว"
   },
+  "screens.Security.passcodeHeader": {
+    "message": "รหัสผ่านแอป"
+  },
   "screens.Security.securitySubheader": {
     "message": "ความปลอดภัยอุปกรณ์"
   },
@@ -688,11 +691,20 @@
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "ใช้ลูกศรทิศทาง"
   },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "ระบบลูกศรทิศทางใหม่จะใช้เข็มทิศดิจิตอลบนสมาร์ทโฟนของคุณ เพื่อบอกทิศทางว่าคุณหันไปทิศทางใด การอยู่ใกล้วัตถุโลหะขนาดใหญ่หรือสนามแม่เหล็กแรงสูงอาจส่งผลต่อความแม่นยำของเข็มทิศได้ หากสมาร์ทโฟนของคุณไม่มีเข็มทิศ ระบบลูกศรทิศทางอาจยังสามารถบอกทิศทางตามการเคลื่อนไหวได้ แต่ทิศทางตามการเคลื่อนไหวนี้อาจมีความแม่นยำน้อยกว่า"
+  },
   "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
     "message": "หมายเหตุ: ระบบลูกศรทิศทางยังไม่เสถียรสำหรับระบบนำทาง และอาจทำให้แบตเตอรี่ของอุปกรณ์หมดเร็วขึ้น"
   },
   "screens.Settings.Experiments.DirectionalArrow.useArrow": {
     "message": "ใช้ลูกศรทิศทาง"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "การอัปเดตแอปเครือข่ายเพียร์ทูเพียร์ (P2P) "
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "ใช้โปรแกรมอัปเดตแอป P2P "
   },
   "screens.Settings.Experiments.active": {
     "description": "Inidicates whether directional arrow is active on map",
