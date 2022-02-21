@@ -649,6 +649,12 @@
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Seta direcional"
   },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "O novo recurso de Flecha Direcional usa a bússola digital do seu smartphone para fornecer informações sobre qual direção o seu telefone está indo. Proximidade com objetos de metal grandes ou um campo magnético forte pode afetar a precisão da bússola. Se o seu smartphone não tem uma bússola, a seta direcional pode ainda ser capaz de determinar a direção com base no movimento. A orientação baseada em movimentos pode ser menos precisa."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "NOTA: A Seta Direcional não é confiável o suficiente para ser usado exclusivamente para navegação e pode drenar a bateria do seu dispositivo mais rapidamente."
+  },
   "screens.Settings.Experiments.DirectionalArrow.useArrow": {
     "message": "Usar Seta direcional"
   },
