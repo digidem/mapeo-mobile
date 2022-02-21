@@ -19,9 +19,6 @@ const m = defineMessages({
   },
 });
 
-const CELL_COUNT = 5;
-const onlyNumRegEx = new RegExp("^[0-9]+$");
-
 export const AuthScreen: NavigationStackScreenComponent = () => {
   const [error, setError] = React.useState(false);
   const [authState, setAuthState] = React.useContext(SecurityContext);
