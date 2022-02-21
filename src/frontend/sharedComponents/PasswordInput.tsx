@@ -1,0 +1,141 @@
+import * as React from "react";
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
+
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+  MaskSymbol,
+  isLastFilledCell,
+  RenderCellOptions,
+} from "react-native-confirmation-code-field";
+import { CodeFieldOverridableComponent } from "react-native-confirmation-code-field/esm/CodeField";
+import { KILL_PASSCODE } from "../constants";
+import { SecurityContext } from "../context/SecurityContext";
+import { MEDIUM_GREY, DARK_GREY } from "../lib/styles";
+
+const CELL_COUNT = 5;
+const onlyNumRegEx = new RegExp("^[0-9]+$");
+
+interface PasswordInputProps {
+  handleError: () => void;
+  handleCorrectOrNewPass: (inputtedValue: string, clear: () => void) => void;
+  clearError: () => void;
+  stylesProps?: StyleProp<ViewStyle>;
+}
+
+export const PasswordInput = ({
+  handleError,
+  handleCorrectOrNewPass,
+  stylesProps,
+}: PasswordInputProps) => {
+  const [inputtedPass, setInputtedPass] = React.useState("");
+  const ref = useBlurOnFulfill({ value: inputtedPass, cellCount: CELL_COUNT });
+  const [{ passcode, killModeEnabled }, setAuthState] = React.useContext(
+    SecurityContext
+  );
+
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+    value: inputtedPass,
+    setValue: setInputtedPass,
+  });
+
+  function clearInput() {
+    setInputtedPass("");
+  }
+
+  React.useEffect(() => {
+    if (inputtedPass.length === CELL_COUNT) {
+      if (!validatePassword(inputtedPass)) {
+        handleError();
+        return;
+      }
+
+      handleCorrectOrNewPass(inputtedPass, clearInput);
+    }
+  }, [inputtedPass, screen, passcode, killModeEnabled]);
+
+  function validateAndSetInput(text: string) {
+    if (onlyNumRegEx.test(text)) {
+      setInputtedPass(text);
+    }
+  }
+
+  function renderCell({ index, symbol, isFocused }: RenderCellOptions) {
+    let textChild = null;
+
+    if (symbol) {
+      textChild = (
+        <MaskSymbol
+          maskSymbol="*"
+          isLastFilledCell={isLastFilledCell({ index, value: inputtedPass })}
+        >
+          {symbol}
+        </MaskSymbol>
+      );
+    } else if (isFocused) {
+      textChild = <Cursor />;
+    }
+
+    return (
+      <Text
+        key={index}
+        style={[styles.cell, isFocused && styles.focusCell]}
+        onLayout={getCellOnLayoutHandler(index)}
+      >
+        {textChild}
+      </Text>
+    );
+  }
+
+  return (
+    <CodeField
+      ref={ref}
+      {...props}
+      value={inputtedPass}
+      caretHidden={true}
+      onChangeText={validateAndSetInput}
+      cellCount={CELL_COUNT}
+      rootStyle={[styles.codeFieldRoot, stylesProps]}
+      keyboardType="number-pad"
+      textContentType="oneTimeCode"
+      renderCell={renderCell}
+    />
+  );
+};
+
+function validatePassword(password: string): boolean {
+  if (password.length !== CELL_COUNT) return false;
+
+  const passAsArray = Array.from(password);
+
+  return passAsArray.every(letter => onlyNumRegEx.test(letter));
+}
+
+const styles = StyleSheet.create({
+  cell: {
+    width: 49,
+    height: 49,
+    borderRadius: 8,
+    fontSize: 24,
+    marginHorizontal: 5,
+    borderWidth: 2,
+    borderColor: MEDIUM_GREY,
+    textAlign: "center",
+  },
+  focusCell: {
+    borderColor: DARK_GREY,
+  },
+  codeFieldRoot: {
+    maxWidth: 289,
+    alignSelf: "center",
+  },
+});

@@ -4,18 +4,9 @@ import { View, Image, Text, StyleSheet } from "react-native";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { DARK_BLUE, DARK_GREY, MEDIUM_GREY, WARNING_RED } from "../lib/styles";
 
-import {
-  CodeField,
-  Cursor,
-  useBlurOnFulfill,
-  useClearByFocusCell,
-  MaskSymbol,
-  isLastFilledCell,
-  RenderCellOptions,
-} from "react-native-confirmation-code-field";
-
 import { KILL_PASSCODE, PASSWORD_KEY } from "../constants";
 import { SecurityContext } from "../context/SecurityContext";
+import { PasswordInput } from "../sharedComponents/PasswordInput";
 
 const m = defineMessages({
   enterPass: {
@@ -32,78 +23,40 @@ const CELL_COUNT = 5;
 const onlyNumRegEx = new RegExp("^[0-9]+$");
 
 export const AuthScreen: NavigationStackScreenComponent = () => {
-  const [inputtedPass, setInputtedPass] = React.useState("");
   const [error, setError] = React.useState(false);
   const [authState, setAuthState] = React.useContext(SecurityContext);
-  const ref = useBlurOnFulfill({ value: inputtedPass, cellCount: CELL_COUNT });
 
-  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
-    value: inputtedPass,
-    setValue: setInputtedPass,
-  });
-
-  React.useEffect(() => {
-    if (inputtedPass.length === CELL_COUNT) {
-      if (validatePassword(inputtedPass)) {
-        if (inputtedPass === KILL_PASSCODE && authState.killModeEnabled) {
-          setAuthState({ type: "toggleAppMode", newAppMode: "kill" });
-          setAuthState({
-            type: "setAuthStatus",
-            newAuthStatus: "authenticated",
-          });
-          return;
-        }
-
-        if (inputtedPass === authState.passcode) {
-          if (authState.appMode === "kill")
-            setAuthState({ type: "toggleAppMode" });
-
-          setAuthState({
-            type: "setAuthStatus",
-            newAuthStatus: "authenticated",
-          });
-          return;
-        }
-
-        setError(true);
-      }
-
-      setInputtedPass("");
+  function validatePass(inputtedPass: string, clearInput: () => void) {
+    if (inputtedPass === KILL_PASSCODE && authState.killModeEnabled) {
+      setAuthState({ type: "toggleAppMode", newAppMode: "kill" });
+      setAuthState({
+        type: "setAuthStatus",
+        newAuthStatus: "authenticated",
+      });
+      return;
     }
-  }, [inputtedPass]);
 
-  function validateAndSetInput(text: string) {
-    if (onlyNumRegEx.test(text)) {
-      setInputtedPass(text);
+    if (inputtedPass === authState.passcode) {
+      if (authState.appMode === "kill") setAuthState({ type: "toggleAppMode" });
+
+      setAuthState({
+        type: "setAuthStatus",
+        newAuthStatus: "authenticated",
+      });
+      return;
     }
+
+    setError(true);
+    clearInput();
   }
 
-  const renderCell = ({ index, symbol, isFocused }: RenderCellOptions) => {
-    let textChild = null;
+  function handleError() {
+    setError(true);
+  }
 
-    if (symbol) {
-      textChild = (
-        <MaskSymbol
-          maskSymbol="*"
-          isLastFilledCell={isLastFilledCell({ index, value: inputtedPass })}
-        >
-          {symbol}
-        </MaskSymbol>
-      );
-    } else if (isFocused) {
-      textChild = <Cursor />;
-    }
-
-    return (
-      <Text
-        key={index}
-        style={[styles.cell, isFocused && styles.focusCell]}
-        onLayout={getCellOnLayoutHandler(index)}
-      >
-        {textChild}
-      </Text>
-    );
-  };
+  function clearError() {
+    setError(false);
+  }
 
   return (
     <View style={[styles.container]}>
@@ -114,20 +67,13 @@ export const AuthScreen: NavigationStackScreenComponent = () => {
         <FormattedMessage {...m.enterPass} />
       </Text>
 
-      <CodeField
-        ref={ref}
-        {...props}
-        value={inputtedPass}
-        caretHidden={true}
-        onChangeText={validateAndSetInput}
-        cellCount={CELL_COUNT}
-        rootStyle={styles.codeFieldRoot}
-        keyboardType="number-pad"
-        textContentType="oneTimeCode"
-        renderCell={renderCell}
+      <PasswordInput
+        handleCorrectOrNewPass={validatePass}
+        handleError={handleError}
+        clearError={clearError}
       />
 
-      {inputtedPass.length === 0 && error && (
+      {error && (
         <Text style={[styles.wrongPass]}>
           <FormattedMessage {...m.wrongPass} />
         </Text>
@@ -135,14 +81,6 @@ export const AuthScreen: NavigationStackScreenComponent = () => {
     </View>
   );
 };
-
-function validatePassword(password: string): boolean {
-  if (password.length !== CELL_COUNT) return false;
-
-  const passAsArray = Array.from(password);
-
-  return passAsArray.every(letter => onlyNumRegEx.test(letter));
-}
 
 const styles = StyleSheet.create({
   container: {
