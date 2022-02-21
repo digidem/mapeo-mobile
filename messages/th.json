@@ -688,6 +688,23 @@
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "ใช้ลูกศรทิศทาง"
   },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "หมายเหตุ: ระบบลูกศรทิศทางยังไม่เสถียรสำหรับระบบนำทาง และอาจทำให้แบตเตอรี่ของอุปกรณ์หมดเร็วขึ้น"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "ใช้ลูกศรทิศทาง"
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Inidicates whether directional arrow is active on map",
+    "message": "เปิดใช้งาน"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "ลูกศรทิศทาง"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Inidicates whether directional arrow is NOT active on map",
+    "message": "ยังไม่เปิดใช้"
+  },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
     "message": "ปรับปรุง P2P"
@@ -695,6 +712,9 @@
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
     "message": "แชร์และรับข้อมูลอัปเดตกับอุปกรณ์ข้างเคียง"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "การทดลอง"
   },
   "screens.Settings.ManagePeople.add": {
     "message": "เพิ่ม"
