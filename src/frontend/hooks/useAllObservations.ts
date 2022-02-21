@@ -15,16 +15,16 @@ export const useAllObservations = (): [
   () => void
 ] => {
   const [state, dispatch] = useContext(ObservationsContext);
-  const { killState } = useContext(SecurityContext);
+  const [{ appMode }] = useContext(SecurityContext);
 
   // We store observations in state as a Map, but the components expect an array
   const observationsArray = useMemo(() => {
-    if (killState) return [];
+    if (appMode === "kill") return [];
     return Array.from(state.observations.values()).sort((a, b) =>
       // TODO: move sorting into component
       a.created_at < b.created_at ? 1 : -1
     );
-  }, [state.observations, killState]);
+  }, [state.observations, appMode]);
 
   const reload = useCallback(() => dispatch({ type: "reload" }), [dispatch]);
 

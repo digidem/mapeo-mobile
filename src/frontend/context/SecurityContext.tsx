@@ -13,13 +13,13 @@ type AuthState = {
   authStatus: AuthStatusTypes;
 };
 
-type KillModeActions =
+type AuthActions =
   | { type: "setPasscode"; newPasscode: string | null }
   | { type: "toggleAppMode"; newAppMode?: AppModeTypes }
   | { type: "toggleKillModeEnabled"; newKillModeValue?: boolean }
   | { type: "setAuthStatus"; newAuthStatus: AuthStatusTypes };
 
-function killModeReducer(state: AuthState, action: KillModeActions): AuthState {
+function securityReducer(state: AuthState, action: AuthActions): AuthState {
   switch (action.type) {
     /***
      * if passcode is set to null we need to set the auth status to 'notRequired'
@@ -29,14 +29,19 @@ function killModeReducer(state: AuthState, action: KillModeActions): AuthState {
      */
     case "setPasscode":
       const passcode = action.newPasscode;
-      if (passcode === null || validPasscode(passcode)) {
-        AsyncStorage.setItem(PASSWORD_KEY, passcode || "");
-        if (!passcode) {
-          return { ...state, passcode, authStatus: "notRequired" };
-        }
-        return { ...state, passcode, authStatus: "authenticated" };
+      if (!validPasscode(passcode)) throw new Error("Invalid New Password");
+
+      AsyncStorage.setItem(PASSWORD_KEY, passcode || "");
+      if (!passcode) {
+        return {
+          ...state,
+          passcode,
+          authStatus: "notRequired",
+          appMode: "normal",
+        };
       }
-      throw new Error("Invalid New Password");
+
+      return { ...state, passcode, authStatus: "authenticated" };
     /***
      * Does not require a new value in the dispatcher payload, but a new value is optional in the payload
      * If there is no new value, the value is toggled (as there are only 2 values)
@@ -97,10 +102,7 @@ const DefaultState: AuthState = {
   passcode: null,
 };
 
-type SecurityContextType = readonly [
-  AuthState,
-  React.Dispatch<KillModeActions>
-];
+type SecurityContextType = readonly [AuthState, React.Dispatch<AuthActions>];
 
 export const SecurityContext = React.createContext<SecurityContextType>([
   DefaultState,
@@ -112,7 +114,7 @@ export const SecurityProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [state, dispatch] = React.useReducer(killModeReducer, DefaultState);
+  const [state, dispatch] = React.useReducer(securityReducer, DefaultState);
 
   const contextValue: SecurityContextType = React.useMemo(() => {
     return [state, dispatch];
@@ -125,6 +127,7 @@ export const SecurityProvider = ({
   );
 };
 
-function validPasscode(passcode: string): boolean {
-  return passcode.length === 5 && !isNaN(parseInt(passcode, 10));
+function validPasscode(passcode: string | null): boolean {
+  if (null) return true;
+  else return passcode!.length === 5 && !isNaN(parseInt(passcode!, 10));
 }
