@@ -685,6 +685,9 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "กำลังเชื่อมต่อกับฐานข้อมูล Mapeo"
   },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "ใช้ลูกศรทิศทาง"
+  },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
     "message": "ปรับปรุง P2P"
