@@ -643,6 +643,15 @@
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Flecha direccional"
   },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "La nueva función Flecha Direccional utiliza la brújula digital de tu teléfono móvil para proporcionar información sobre la dirección a la que apunta tu teléfono. La precisión de la brújula puede verse afectada por la proximidad cercana a grandes objetos de metal o a campos magnéticos fuertes. Si tu teléfono móvil no tiene una brújula, la Flecha Direccional puede aún ser capaz de determinar la dirección basada en el movimiento. La dirección basada en el movimiento puede ser menos precisa."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "NOTA: La Flecha Direccional no es lo suficientemente fiable como para ser utilizada como herramienta única para la navegación, y puede consumir la batería del dispositivo más rápido."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "Usar Flecha Direccional"
+  },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
     "message": "Actualizaciones P2P"
