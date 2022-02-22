@@ -15,8 +15,8 @@ import {
 const m = defineMessages({
   p2pUpgrades: {
     id: "screens.Settings.Experiments.p2pUpgrades",
-    defaultMessage: "P2P upgrades",
-    description: "Label for p2p upgrades",
+    defaultMessage: "P2P App Updates",
+    description: "Label for p2p app updates",
   },
   p2pUpgradesDesc: {
     id: "screens.Settings.Experiments.p2pUpgradesDesc",
@@ -25,13 +25,13 @@ const m = defineMessages({
   },
   active: {
     id: "screens.Settings.Experiments.active",
-    defaultMessage: "Active",
-    description: "Inidicates whether directional arrow is active on map",
+    defaultMessage: "On",
+    description: "Indicates that the experimental feature is enabled",
   },
   inactive: {
     id: "screens.Settings.Experiments.inactive",
-    defaultMessage: "Inactive",
-    description: "Inidicates whether directional arrow is NOT active on map",
+    defaultMessage: "Off",
+    description: "Indicates that the experimental feature is not enabled",
   },
   directionalArrow: {
     id: "screens.Settings.Experiments.directionalArrow",

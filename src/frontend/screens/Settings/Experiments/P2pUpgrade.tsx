@@ -16,7 +16,7 @@ const m = defineMessages({
   warning: {
     id: "screens.Settings.Experiments.P2pUpgrade.warning",
     defaultMessage:
-      "P2P App Updates allows you to share and receive newer versions of the Mapeo app by connecting to other Mapeo devices via Wi-Fi (no internet connection required). To use this feature, the Mapeo Synchronize screen must be open on both devices.",
+      "Peer-to-peer (P2P) App Updates allows you to share and receive newer versions of the Mapeo app by connecting to other Mapeo devices via Wi-Fi (no internet connection required). To use this feature, the Mapeo Synchronize screen must be open on both devices.",
   },
   warningSubheader: {
     id: "screens.Settings.Experiments.P2pUpgrade.warningSubheader",

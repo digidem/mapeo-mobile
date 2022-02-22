@@ -716,18 +716,18 @@
     "message": "NOTE: When updating the Mapeo app version in this way, NONE of your Mapeo data (observations, configurations, or maps) is shared between devices."
   },
   "screens.Settings.Experiments.active": {
-    "description": "Inidicates whether directional arrow is active on map",
+    "description": "Indicates that the experimental feature is enabled",
     "message": "On"
   },
   "screens.Settings.Experiments.directionalArrow": {
     "message": "Directional Arrow"
   },
   "screens.Settings.Experiments.inactive": {
-    "description": "Inidicates whether directional arrow is NOT active on map",
+    "description": "Indicates that the experimental feature is not enabled",
     "message": "Off"
   },
   "screens.Settings.Experiments.p2pUpgrades": {
-    "description": "Label for p2p upgrades",
+    "description": "Label for p2p app updates",
     "message": "P2P App Updates"
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
