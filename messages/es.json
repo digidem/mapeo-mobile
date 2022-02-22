@@ -640,6 +640,9 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Algo está pasando con la base de datos Mapeo"
   },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "Flecha direccional"
+  },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
     "message": "Actualizaciones P2P"
