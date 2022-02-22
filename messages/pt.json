@@ -665,7 +665,7 @@
     "message": "Usar Atualizador P2P do aplicativo"
   },
   "screens.Settings.Experiments.P2pUpgrade.warning": {
-    "message": "Atualizações peer-to-peer (P2P) do aplicativo permite que você compartilhe e receba versões mais recentes do aplicativo Mapeo conectando-se a outros dispositivos Mapeo via Wi-Fi (sem necessidade de conexão com a Internet). Para usar este recurso, a tela Sincronizar do Mapeo deve estar aberta em ambos os dispositivos."
+    "message": "Atualizações par-a-par (P2P) do aplicativo permitem que você compartilhe e receba versões mais recentes do aplicativo Mapeo conectando-se a outros dispositivos Mapeo via Wi-Fi (sem necessidade de conexão com a Internet). Para usar este recurso, a tela Sincronizar do Mapeo deve estar aberta em ambos os dispositivos."
   },
   "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
     "message": "NOTA: Ao atualizar a versão do aplicativo Mapeo desta forma, NENHUM dos seus dados do Mapeo (observações, configurações ou mapas) é compartilhado entre os dispositivos."
