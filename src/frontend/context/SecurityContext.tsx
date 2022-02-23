@@ -1,12 +1,12 @@
 import * as React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { PASSWORD_KEY } from "../constants";
+import { KILL_KEY, PASSWORD_KEY } from "../constants";
 
 type AppModeTypes = "normal" | "kill";
 type AuthStatusTypes = "pending" | "authenticated" | "notRequired";
 
-type AuthState = {
+export type AuthState = {
   passcode: string | null;
   appMode: AppModeTypes;
   killModeEnabled: boolean;
@@ -47,14 +47,15 @@ function securityReducer(state: AuthState, action: AuthActions): AuthState {
      * If there is no new value, the value is toggled (as there are only 2 values)
      */
     case "toggleAppMode":
-      return {
-        ...state,
-        appMode: !!action.newAppMode
-          ? action.newAppMode
-          : state.appMode === "kill"
-          ? "normal"
-          : "kill",
-      };
+      if (!action.newAppMode) {
+        return {
+          ...state,
+          appMode: state.appMode === "kill" ? "normal" : "kill",
+        };
+      }
+
+      return { ...state, appMode: action.newAppMode };
+
     //will throw an error if the user does NOT have a password AND if the user is trying to set killMode to true
     //With the killMode dispatch code, the user does not have to explicity set a value for kill mode
     //If there is no value set, the kill mode just toggles, hence why I am checking if the value is
@@ -68,14 +69,11 @@ function securityReducer(state: AuthState, action: AuthActions): AuthState {
         throw new Error('Cannot enable "killMode" until password has been set');
       }
 
-      return {
-        ...state,
-        killModeEnabled: !!action.newKillModeValue
-          ? action.newKillModeValue
-          : state.killModeEnabled
-          ? false
-          : true,
-      };
+      if (action.newKillModeValue === undefined) {
+        return { ...state, killModeEnabled: !state.killModeEnabled };
+      }
+
+      return { ...state, killModeEnabled: action.newKillModeValue };
 
     /**
      * If auth status is pending, the user will only see the auth screen and will be prompted to type in their password
@@ -102,10 +100,15 @@ const DefaultState: AuthState = {
   passcode: null,
 };
 
-type SecurityContextType = readonly [AuthState, React.Dispatch<AuthActions>];
+type SecurityContextType = readonly [
+  AuthState,
+  React.Dispatch<AuthActions>,
+  () => void
+];
 
 export const SecurityContext = React.createContext<SecurityContextType>([
   DefaultState,
+  () => {},
   () => {},
 ]);
 
@@ -117,8 +120,34 @@ export const SecurityProvider = ({
   const [state, dispatch] = React.useReducer(securityReducer, DefaultState);
 
   const contextValue: SecurityContextType = React.useMemo(() => {
-    return [state, dispatch];
+    return [state, dispatch, loadInitialState];
   }, [state, dispatch]);
+
+  React.useEffect(() => {
+    async function initialize() {
+      const [[, password], [, appMode]] = await AsyncStorage.multiGet([
+        PASSWORD_KEY,
+        KILL_KEY,
+      ]);
+
+      if (!!password) {
+        dispatch({ type: "setPasscode", newPasscode: password });
+        // dispatch({type:'setAuthStatus',newAuthStatus:'pending'})
+      }
+
+      if (appMode === "kill") {
+        dispatch({ type: "toggleAppMode", newAppMode: appMode });
+      } else if (appMode === "normal") {
+        dispatch({ type: "toggleAppMode", newAppMode: appMode });
+      }
+    }
+
+    initialize();
+  }, []);
+
+  async function loadInitialState() {
+    return;
+  }
 
   return (
     <SecurityContext.Provider value={contextValue}>
@@ -128,6 +157,6 @@ export const SecurityProvider = ({
 };
 
 function validPasscode(passcode: string | null): boolean {
-  if (null) return true;
-  else return passcode!.length === 5 && !isNaN(parseInt(passcode!, 10));
+  if (passcode === null) return true;
+  else return passcode.length === 5 && !isNaN(parseInt(passcode!, 10));
 }

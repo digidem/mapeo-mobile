@@ -25,6 +25,9 @@ import OnboardingContainer from "./Navigation/OnboardingContainer";
 import { SecurityContext } from "./context/SecurityContext";
 import { AuthStack } from "./Navigation/AuthStack";
 import { AppState, AppStateStatus } from "react-native";
+import { OnboardingWithAuthContainer } from "./Navigation/OnboardingWithAuthContainer";
+import { DefaultWithAuthContainer } from "./Navigation/DefaultWithAuthContainer";
+import { useNavigation } from "react-navigation-hooks";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -47,7 +50,9 @@ const createNavigationStatePersister = (includeOnboarding: boolean) => async (
   }
 };
 
-const loadSavedNavState = async (includeOnboarding: boolean) => {
+const loadSavedNavState = async (
+  includeOnboarding: boolean
+): Promise<NavigationState | null> => {
   try {
     const navState = JSON.parse(
       (await AsyncStorage.getItem(getNavStoreKey(includeOnboarding))) as string
@@ -68,6 +73,7 @@ const loadSavedNavState = async (includeOnboarding: boolean) => {
   } catch (error) {
     bugsnag.leaveBreadcrumb("Error loading nav state", { error });
     log("Error reading navigation and error state", error);
+    return null;
   }
 };
 
@@ -98,13 +104,12 @@ function hidePracticeModeTemporarily(route: string | null) {
 
 const AppContainerWrapper = () => {
   const navRef = React.useRef<NavigationContainerComponent>();
-  const appState = React.useRef(AppState.currentState);
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
   const [{ experiments }] = React.useContext(SettingsContext);
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
-  const [authState, setAppState] = React.useContext(SecurityContext);
+  const [{ authStatus }, setAuthState] = React.useContext(SecurityContext);
 
   React.useEffect(() => {
     const appStateListener = AppState.addEventListener(
@@ -112,30 +117,32 @@ const AppContainerWrapper = () => {
       handleStateAndSetCheckPassFlag
     );
 
+    if (navRef.current) {
+      if (authStatus === "pending") {
+        navRef.current.dispatch(
+          NavigationActions.navigate({
+            routeName: "AuthStack",
+          })
+        );
+      }
+    }
+
     return () => appStateListener.remove();
-  }, [authState.authStatus]);
+  }, [authStatus, navRef.current]);
 
   const handleStateAndSetCheckPassFlag = (nextAppState: AppStateStatus) => {
-    console.log("newAppStatus " + nextAppState);
-    console.log("appState");
-    if (
-      appState.current.match(/active/) &&
-      nextAppState === "background" &&
-      authState.authStatus !== "notRequired"
-    ) {
-      setAppState({ type: "setAuthStatus", newAuthStatus: "pending" });
+    if (authStatus !== "notRequired") {
+      if (nextAppState === "inactive" || nextAppState === "background") {
+        setAuthState({ type: "setAuthStatus", newAuthStatus: "pending" });
+      }
     }
   };
 
   const AppContainer = React.useMemo(() => {
-    if (authState.authStatus === "pending") {
-      return AuthContainer;
-    }
-
-    return experiments.onboarding ? OnboardingContainer : DefaultContainer;
-  }, [experiments.onboarding, authState.authStatus]);
-
-  const AuthContainer = createAppContainer(AuthStack);
+    return experiments.onboarding
+      ? OnboardingWithAuthContainer
+      : DefaultWithAuthContainer;
+  }, [experiments.onboarding]);
 
   const updateRouteBasedAppState = React.useCallback(
     (routeName: string | null) => {

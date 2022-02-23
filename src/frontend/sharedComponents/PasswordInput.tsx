@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  View,
-  Image,
-  Text,
-  StyleSheet,
-  StyleProp,
-  ViewStyle,
-} from "react-native";
+import { Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
 
 import {
   CodeField,
@@ -17,8 +10,6 @@ import {
   isLastFilledCell,
   RenderCellOptions,
 } from "react-native-confirmation-code-field";
-import { CodeFieldOverridableComponent } from "react-native-confirmation-code-field/esm/CodeField";
-import { KILL_PASSCODE } from "../constants";
 import { SecurityContext } from "../context/SecurityContext";
 import { MEDIUM_GREY, DARK_GREY } from "../lib/styles";
 
@@ -36,12 +27,11 @@ export const PasswordInput = ({
   handleError,
   handleCorrectOrNewPass,
   stylesProps,
+  clearError,
 }: PasswordInputProps) => {
   const [inputtedPass, setInputtedPass] = React.useState("");
   const ref = useBlurOnFulfill({ value: inputtedPass, cellCount: CELL_COUNT });
-  const [{ passcode, killModeEnabled }, setAuthState] = React.useContext(
-    SecurityContext
-  );
+  const [{ passcode, killModeEnabled }] = React.useContext(SecurityContext);
 
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value: inputtedPass,
@@ -53,6 +43,9 @@ export const PasswordInput = ({
   }
 
   React.useEffect(() => {
+    //This assures that the error message is only shown when the user is not inputting a password (aka only right after the failed attempt)
+    if (inputtedPass.length === 1) clearError();
+
     if (inputtedPass.length === CELL_COUNT) {
       if (!validatePassword(inputtedPass)) {
         handleError();
@@ -61,7 +54,7 @@ export const PasswordInput = ({
 
       handleCorrectOrNewPass(inputtedPass, clearInput);
     }
-  }, [inputtedPass, screen, passcode, killModeEnabled]);
+  }, [inputtedPass, passcode, killModeEnabled]);
 
   function validateAndSetInput(text: string) {
     if (onlyNumRegEx.test(text)) {

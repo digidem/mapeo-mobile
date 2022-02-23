@@ -29,7 +29,7 @@ export const AppPasscode: NavigationStackScreenComponent = () => {
 
   return (
     <View style={styles.pageContainer}>
-      {passcode ? <NewPasscode /> : <EnterPasscode />}
+      {passcode ? <EnterPasscode /> : <NewPasscode />}
     </View>
   );
 };
