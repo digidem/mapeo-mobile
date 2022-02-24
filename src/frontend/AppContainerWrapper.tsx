@@ -49,7 +49,7 @@ const createNavigationStatePersister = (includeOnboarding: boolean) => async (
 
 const loadSavedNavState = async (
   includeOnboarding: boolean
-): Promise<NavigationState | null> => {
+): Promise<NavigationState | undefined> => {
   try {
     const navState = JSON.parse(
       (await AsyncStorage.getItem(getNavStoreKey(includeOnboarding))) as string
@@ -63,14 +63,14 @@ const loadSavedNavState = async (
     if (didCrashLastOpen) {
       bugsnag.leaveBreadcrumb("Crash on last open");
       log("Crashed on last open, skipping load of navigation state");
-      return null;
+      return undefined;
     } else {
       return navState;
     }
   } catch (error) {
     bugsnag.leaveBreadcrumb("Error loading nav state", { error });
     log("Error reading navigation and error state", error);
-    return null;
+    return undefined;
   }
 };
 
@@ -175,8 +175,9 @@ const AppContainerWrapper = () => {
         : {
             loadNavigationState: async () => {
               if (authStatus === "pending") return;
-              const loadedNavState =
-                (await loadSavedNavState(experiments.onboarding)) || undefined;
+              const loadedNavState = await loadSavedNavState(
+                experiments.onboarding
+              );
 
               const loadedRouteName = getRouteName(loadedNavState);
 
