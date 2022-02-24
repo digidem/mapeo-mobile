@@ -37,7 +37,6 @@ export const AuthScreen: NavigationStackScreenComponent = () => {
         type: "setAuthStatus",
         newAuthStatus: "authenticated",
       });
-      navigate("AppStack");
       return;
     }
 
@@ -48,7 +47,6 @@ export const AuthScreen: NavigationStackScreenComponent = () => {
         type: "setAuthStatus",
         newAuthStatus: "authenticated",
       });
-      navigate("AppStack");
       return;
     }
 

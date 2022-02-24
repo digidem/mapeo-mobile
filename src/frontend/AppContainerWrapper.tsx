@@ -25,9 +25,6 @@ import OnboardingContainer from "./Navigation/OnboardingContainer";
 import { SecurityContext } from "./context/SecurityContext";
 import { AuthStack } from "./Navigation/AuthStack";
 import { AppState, AppStateStatus } from "react-native";
-import { OnboardingWithAuthContainer } from "./Navigation/OnboardingWithAuthContainer";
-import { DefaultWithAuthContainer } from "./Navigation/DefaultWithAuthContainer";
-import { useNavigation } from "react-navigation-hooks";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -102,6 +99,8 @@ function hidePracticeModeTemporarily(route: string | null) {
   return route !== null && TEMP_HIDE_PRACTICE_MODE_UI.includes(route);
 }
 
+const AuthContainer = createAppContainer(AuthStack);
+
 const AppContainerWrapper = () => {
   const navRef = React.useRef<NavigationContainerComponent>();
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
@@ -110,22 +109,17 @@ const AppContainerWrapper = () => {
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
   const [{ authStatus }, setAuthState] = React.useContext(SecurityContext);
+  const isMounted = React.useRef(false);
+
+  React.useEffect(() => {
+    isMounted.current = true;
+  }, []);
 
   React.useEffect(() => {
     const appStateListener = AppState.addEventListener(
       "change",
       handleStateAndSetCheckPassFlag
     );
-
-    if (navRef.current) {
-      if (authStatus === "pending") {
-        navRef.current.dispatch(
-          NavigationActions.navigate({
-            routeName: "AuthStack",
-          })
-        );
-      }
-    }
 
     return () => appStateListener.remove();
   }, [authStatus, navRef.current]);
@@ -139,9 +133,7 @@ const AppContainerWrapper = () => {
   };
 
   const AppContainer = React.useMemo(() => {
-    return experiments.onboarding
-      ? OnboardingWithAuthContainer
-      : DefaultWithAuthContainer;
+    return experiments.onboarding ? OnboardingContainer : DefaultContainer;
   }, [experiments.onboarding]);
 
   const updateRouteBasedAppState = React.useCallback(
@@ -182,6 +174,7 @@ const AppContainerWrapper = () => {
         ? {}
         : {
             loadNavigationState: async () => {
+              if (authStatus === "pending") return;
               const loadedNavState =
                 (await loadSavedNavState(experiments.onboarding)) || undefined;
 
@@ -195,7 +188,7 @@ const AppContainerWrapper = () => {
               experiments.onboarding
             ),
           },
-    [experiments.onboarding, updateRouteBasedAppState]
+    [experiments.onboarding, updateRouteBasedAppState, authStatus]
   );
 
   /**

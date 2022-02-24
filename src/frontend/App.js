@@ -16,6 +16,7 @@ import bugsnag from "./lib/logger";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
 import { ERROR_STORE_KEY, PASSWORD_KEY } from "./constants";
 import { SecurityProvider } from "./context/SecurityContext";
+import { AuthWrapper } from "./screens/AuthWrapper";
 
 /**
  * Turn off warnings about:
@@ -86,7 +87,7 @@ const App = () => {
           <SecurityProvider>
             <AppLoading>
               <AppProvider>
-                <AppContainerWrapper />
+                <AuthWrapper />
                 <UpdateNotifier />
               </AppProvider>
             </AppLoading>

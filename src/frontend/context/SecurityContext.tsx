@@ -2,6 +2,10 @@ import * as React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { KILL_KEY, PASSWORD_KEY } from "../constants";
+import {
+  NavigationActions,
+  NavigationContainerComponent,
+} from "react-navigation";
 
 type AppModeTypes = "normal" | "kill";
 type AuthStatusTypes = "pending" | "authenticated" | "notRequired";
@@ -33,6 +37,7 @@ function securityReducer(state: AuthState, action: AuthActions): AuthState {
 
       AsyncStorage.setItem(PASSWORD_KEY, passcode || "");
       if (!passcode) {
+        AsyncStorage.setItem(KILL_KEY, JSON.stringify(false));
         return {
           ...state,
           passcode,
@@ -70,9 +75,10 @@ function securityReducer(state: AuthState, action: AuthActions): AuthState {
       }
 
       if (action.newKillModeValue === undefined) {
+        AsyncStorage.setItem(KILL_KEY, JSON.stringify(!state.killModeEnabled));
         return { ...state, killModeEnabled: !state.killModeEnabled };
       }
-
+      AsyncStorage.setItem(KILL_KEY, JSON.stringify(action.newKillModeValue));
       return { ...state, killModeEnabled: action.newKillModeValue };
 
     /**
@@ -100,15 +106,10 @@ const DefaultState: AuthState = {
   passcode: null,
 };
 
-type SecurityContextType = readonly [
-  AuthState,
-  React.Dispatch<AuthActions>,
-  () => void
-];
+type SecurityContextType = readonly [AuthState, React.Dispatch<AuthActions>];
 
 export const SecurityContext = React.createContext<SecurityContextType>([
   DefaultState,
-  () => {},
   () => {},
 ]);
 
@@ -120,34 +121,30 @@ export const SecurityProvider = ({
   const [state, dispatch] = React.useReducer(securityReducer, DefaultState);
 
   const contextValue: SecurityContextType = React.useMemo(() => {
-    return [state, dispatch, loadInitialState];
+    return [state, dispatch];
   }, [state, dispatch]);
 
   React.useEffect(() => {
     async function initialize() {
-      const [[, password], [, appMode]] = await AsyncStorage.multiGet([
+      const [[, password], [, killModeEnabled]] = await AsyncStorage.multiGet([
         PASSWORD_KEY,
         KILL_KEY,
       ]);
 
       if (!!password) {
         dispatch({ type: "setPasscode", newPasscode: password });
-        // dispatch({type:'setAuthStatus',newAuthStatus:'pending'})
+        dispatch({ type: "setAuthStatus", newAuthStatus: "pending" });
       }
 
-      if (appMode === "kill") {
-        dispatch({ type: "toggleAppMode", newAppMode: appMode });
-      } else if (appMode === "normal") {
-        dispatch({ type: "toggleAppMode", newAppMode: appMode });
+      if (killModeEnabled === "true") {
+        dispatch({ type: "toggleKillModeEnabled", newKillModeValue: true });
+      } else {
+        dispatch({ type: "toggleKillModeEnabled", newKillModeValue: false });
       }
     }
 
     initialize();
   }, []);
-
-  async function loadInitialState() {
-    return;
-  }
 
   return (
     <SecurityContext.Provider value={contextValue}>
