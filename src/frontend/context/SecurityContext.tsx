@@ -129,7 +129,7 @@ export const SecurityProvider = ({
         dispatch({ type: "setAuthStatus", newAuthStatus: "pending" });
       }
 
-      if (killModeEnabled === "true") {
+      if (killModeEnabled === "true" && !!password) {
         dispatch({ type: "killModeEnabled:set", newKillModeValue: true });
       } else {
         dispatch({ type: "killModeEnabled:set", newKillModeValue: false });

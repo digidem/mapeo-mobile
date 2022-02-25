@@ -93,24 +93,6 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     marginBottom: 40,
   },
-  codeFieldRoot: {
-    marginTop: 20,
-    maxWidth: 289,
-    alignSelf: "center",
-  },
-  cell: {
-    width: 49,
-    height: 49,
-    borderRadius: 8,
-    fontSize: 24,
-    marginHorizontal: 5,
-    borderWidth: 2,
-    borderColor: MEDIUM_GREY,
-    textAlign: "center",
-  },
-  focusCell: {
-    borderColor: DARK_GREY,
-  },
   wrongPass: {
     fontSize: 16,
     marginTop: 20,

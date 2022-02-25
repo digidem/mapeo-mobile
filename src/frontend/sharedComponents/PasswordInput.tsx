@@ -93,6 +93,7 @@ export const PasswordInput = ({
   return (
     <CodeField
       ref={ref}
+      autoFocus={true}
       {...props}
       value={inputtedPass}
       onChangeText={validateAndSetInput}
@@ -123,9 +124,11 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: MEDIUM_GREY,
     textAlign: "center",
+    textAlignVertical: "center",
   },
   focusCell: {
     borderColor: DARK_GREY,
+    textAlignVertical: "top",
   },
   codeFieldRoot: {
     maxWidth: 289,

@@ -24,6 +24,7 @@ import OnboardingContainer from "./Navigation/OnboardingContainer";
 import { SecurityContext } from "./context/SecurityContext";
 import { AuthStack } from "./Navigation/AuthStack";
 import { AppState, AppStateStatus } from "react-native";
+import { AppLoading } from "./AppLoading";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -164,7 +165,6 @@ const AppContainerWrapper = () => {
         ? {}
         : {
             loadNavigationState: async () => {
-              if (authStatus === "pending") return;
               const loadedNavState = await loadSavedNavState(
                 experiments.onboarding
               );
@@ -179,7 +179,7 @@ const AppContainerWrapper = () => {
               experiments.onboarding
             ),
           },
-    [experiments.onboarding, updateRouteBasedAppState, authStatus]
+    [experiments.onboarding, updateRouteBasedAppState]
   );
 
   /**
