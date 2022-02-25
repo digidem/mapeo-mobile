@@ -221,10 +221,10 @@
     "message": "Project Name"
   },
   "screens.EnterPassword.enterPass": {
-    "message": "Enter your password"
+    "message": "Enter your passcode"
   },
   "screens.EnterPassword.wrongPass": {
-    "message": "Incorrect password, please try again"
+    "message": "Incorrect passcode, please try again"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
