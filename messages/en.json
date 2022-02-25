@@ -221,7 +221,7 @@
     "message": "Project Name"
   },
   "screens.EnterPassword.enterPass": {
-    "message": "Enter your passcode"
+    "message": "Enter your password"
   },
   "screens.EnterPassword.wrongPass": {
     "message": "Incorrect password, please try again"
