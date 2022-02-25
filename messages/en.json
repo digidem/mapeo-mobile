@@ -137,6 +137,12 @@
   "screens.AppPasscode": {
     "message": "App Passcode"
   },
+  "screens.AppPasscode.NewPasscode.SetPasscode.subTitle": {
+    "message": "This passcode will be used to open the Mapeo App"
+  },
+  "screens.AppPasscode.NewPasscode.SetPasscode.title": {
+    "message": "Set Passcode"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continue"
   },
