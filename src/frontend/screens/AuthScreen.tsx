@@ -3,21 +3,19 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import { View, Image, Text, StyleSheet } from "react-native";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { DARK_BLUE, DARK_GREY, MEDIUM_GREY, WARNING_RED } from "../lib/styles";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { KILL_PASSCODE, PASSWORD_KEY } from "../constants";
-import { AuthState, SecurityContext } from "../context/SecurityContext";
+import { KILL_PASSCODE } from "../constants";
+import { SecurityContext } from "../context/SecurityContext";
 import { PasswordInput } from "../sharedComponents/PasswordInput";
-import { useNavigation } from "react-navigation-hooks";
 
 const m = defineMessages({
   enterPass: {
     id: "screens.EnterPassword.enterPass",
-    defaultMessage: "Enter your password",
+    defaultMessage: "Enter your passcode",
   },
   wrongPass: {
     id: "screens.EnterPassword.wrongPass",
-    defaultMessage: "Incorrect password, please try again ",
+    defaultMessage: "Incorrect passcode, please try again ",
   },
 });
 
@@ -25,12 +23,7 @@ export const AuthScreen: NavigationStackScreenComponent = () => {
   const [error, setError] = React.useState(false);
   const [authState, setAuthState] = React.useContext(SecurityContext);
 
-  const { navigate } = useNavigation();
-
   async function validatePass(inputtedPass: string, clearInput: () => void) {
-    console.log("input" + inputtedPass);
-    console.log("currentPass" + authState.passcode);
-    console.log(await AsyncStorage.getItem(PASSWORD_KEY));
     if (inputtedPass === KILL_PASSCODE && authState.killModeEnabled) {
       setAuthState({ type: "appMode:set", newAppMode: "kill" });
       setAuthState({
@@ -62,10 +55,6 @@ export const AuthScreen: NavigationStackScreenComponent = () => {
   function clearError() {
     setError(false);
   }
-
-  React.useEffect(() => {
-    console.log("Outside", authState.passcode);
-  }, []);
 
   return (
     <View style={[styles.container]}>

@@ -120,7 +120,7 @@ const AppContainerWrapper = () => {
     );
 
     return () => appStateListener.remove();
-  }, [authStatus]);
+  }, [authStatus, setAuthState]);
 
   const AppContainer = React.useMemo(() => {
     return experiments.onboarding ? OnboardingContainer : DefaultContainer;

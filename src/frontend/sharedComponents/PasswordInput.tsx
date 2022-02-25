@@ -57,13 +57,14 @@ export const PasswordInput = ({
   }, [inputtedPass, passcode, killModeEnabled]);
 
   function validateAndSetInput(text: string) {
+    if (!text) setInputtedPass("");
     if (onlyNumRegEx.test(text)) {
       setInputtedPass(text);
     }
   }
 
   function renderCell({ index, symbol, isFocused }: RenderCellOptions) {
-    let textChild = null;
+    let textChild;
 
     if (symbol) {
       textChild = (
@@ -94,7 +95,6 @@ export const PasswordInput = ({
       ref={ref}
       {...props}
       value={inputtedPass}
-      caretHidden={true}
       onChangeText={validateAndSetInput}
       cellCount={CELL_COUNT}
       rootStyle={[styles.codeFieldRoot, stylesProps]}
