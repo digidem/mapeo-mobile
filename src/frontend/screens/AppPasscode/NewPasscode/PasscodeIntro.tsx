@@ -28,14 +28,7 @@ interface SplashProps {
 }
 
 export const PasscodeIntro = ({ incrementState }: SplashProps) => {
-  const [authState, setAuthState] = React.useContext(SecurityContext);
   const { formatMessage: t } = useIntl();
-  const { navigate } = useNavigation();
-
-  function tempStateSet() {
-    setAuthState({ type: "setPasscode", newPasscode: "12345" });
-    navigate("Security");
-  }
 
   return (
     <View style={[styles.container]}>
@@ -49,7 +42,7 @@ export const PasscodeIntro = ({ incrementState }: SplashProps) => {
       </View>
       <View>
         {/* To do, increment state of the screen */}
-        <Button style={[styles.button]} onPress={() => tempStateSet()}>
+        <Button style={[styles.button]} onPress={incrementState}>
           {t(m.continue)}
         </Button>
       </View>
