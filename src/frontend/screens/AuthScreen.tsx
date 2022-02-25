@@ -13,7 +13,7 @@ import { useNavigation } from "react-navigation-hooks";
 const m = defineMessages({
   enterPass: {
     id: "screens.EnterPassword.enterPass",
-    defaultMessage: "Enter your passcode",
+    defaultMessage: "Enter your password",
   },
   wrongPass: {
     id: "screens.EnterPassword.wrongPass",
@@ -32,7 +32,7 @@ export const AuthScreen: NavigationStackScreenComponent = () => {
     console.log("currentPass" + authState.passcode);
     console.log(await AsyncStorage.getItem(PASSWORD_KEY));
     if (inputtedPass === KILL_PASSCODE && authState.killModeEnabled) {
-      setAuthState({ type: "toggleAppMode", newAppMode: "kill" });
+      setAuthState({ type: "appMode:set", newAppMode: "kill" });
       setAuthState({
         type: "setAuthStatus",
         newAuthStatus: "authenticated",
@@ -41,7 +41,8 @@ export const AuthScreen: NavigationStackScreenComponent = () => {
     }
 
     if (inputtedPass === authState.passcode) {
-      if (authState.appMode === "kill") setAuthState({ type: "toggleAppMode" });
+      if (authState.appMode === "kill")
+        setAuthState({ type: "appMode:toggle" });
 
       setAuthState({
         type: "setAuthStatus",

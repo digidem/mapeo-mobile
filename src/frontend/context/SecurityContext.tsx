@@ -2,10 +2,6 @@ import * as React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { KILL_KEY, PASSWORD_KEY } from "../constants";
-import {
-  NavigationActions,
-  NavigationContainerComponent,
-} from "react-navigation";
 
 type AppModeTypes = "normal" | "kill";
 type AuthStatusTypes = "pending" | "authenticated" | "notRequired";
@@ -19,8 +15,10 @@ export type AuthState = {
 
 type AuthActions =
   | { type: "setPasscode"; newPasscode: string | null }
-  | { type: "toggleAppMode"; newAppMode?: AppModeTypes }
-  | { type: "toggleKillModeEnabled"; newKillModeValue?: boolean }
+  | { type: "appMode:toggle" }
+  | { type: "appMode:set"; newAppMode: AppModeTypes }
+  | { type: "killModeEnabled:toggle" }
+  | { type: "killModeEnabled:set"; newKillModeValue: boolean }
   | { type: "setAuthStatus"; newAuthStatus: AuthStatusTypes };
 
 function securityReducer(state: AuthState, action: AuthActions): AuthState {
@@ -43,44 +41,39 @@ function securityReducer(state: AuthState, action: AuthActions): AuthState {
           passcode,
           authStatus: "notRequired",
           appMode: "normal",
+          killModeEnabled: false,
         };
       }
 
       return { ...state, passcode, authStatus: "authenticated" };
     /***
-     * Does not require a new value in the dispatcher payload, but a new value is optional in the payload
-     * If there is no new value, the value is toggled (as there are only 2 values)
+     * Toggles the app mode(as there are only 2 states)
      */
-    case "toggleAppMode":
-      if (!action.newAppMode) {
-        return {
-          ...state,
-          appMode: state.appMode === "kill" ? "normal" : "kill",
-        };
-      }
-
+    case "appMode:toggle":
+      return {
+        ...state,
+        appMode: state.appMode === "kill" ? "normal" : "kill",
+      };
+    /***
+     * sets new app mode
+     */
+    case "appMode:set":
       return { ...state, appMode: action.newAppMode };
 
     //will throw an error if the user does NOT have a password AND if the user is trying to set killMode to true
-    //With the killMode dispatch code, the user does not have to explicity set a value for kill mode
-    //If there is no value set, the kill mode just toggles, hence why I am checking if the value is
-    //explicitly being set to true, OR if it is not being set and kill mode is CURRENTLY false (and therfore will be set to true)
-    case "toggleKillModeEnabled":
-      if (
-        !state.passcode &&
-        (action.newKillModeValue ||
-          (action.newKillModeValue === undefined && !state.killModeEnabled))
-      ) {
+    case "killModeEnabled:toggle":
+      if (!state.passcode && !state.killModeEnabled) {
         throw new Error('Cannot enable "killMode" until password has been set');
       }
 
-      if (action.newKillModeValue === undefined) {
-        AsyncStorage.setItem(KILL_KEY, JSON.stringify(!state.killModeEnabled));
-        return { ...state, killModeEnabled: !state.killModeEnabled };
-      }
-      AsyncStorage.setItem(KILL_KEY, JSON.stringify(action.newKillModeValue));
-      return { ...state, killModeEnabled: action.newKillModeValue };
+      return { ...state, killModeEnabled: !state.killModeEnabled };
 
+    case "killModeEnabled:set":
+      if (!state.passcode && action.newKillModeValue) {
+        throw new Error('Cannot enable "killMode" until password has been set');
+      }
+
+      return { ...state, killModeEnabled: action.newKillModeValue };
     /**
      * If auth status is pending, the user will only see the auth screen and will be prompted to type in their password
      *
@@ -137,9 +130,9 @@ export const SecurityProvider = ({
       }
 
       if (killModeEnabled === "true") {
-        dispatch({ type: "toggleKillModeEnabled", newKillModeValue: true });
+        dispatch({ type: "killModeEnabled:set", newKillModeValue: true });
       } else {
-        dispatch({ type: "toggleKillModeEnabled", newKillModeValue: false });
+        dispatch({ type: "killModeEnabled:set", newKillModeValue: false });
       }
     }
 

@@ -56,7 +56,7 @@ export const KillPasscode: NavigationStackScreenComponent = () => {
         </Text>
         <Switch
           onChange={() => {
-            dispatch({ type: "toggleKillModeEnabled" });
+            dispatch({ type: "killModeEnabled:toggle" });
           }}
           value={state.killModeEnabled}
         />

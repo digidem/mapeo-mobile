@@ -6,7 +6,6 @@ import api, { Constants, ServerStatus } from "./api";
 import { PERMISSIONS } from "./context/PermissionsContext";
 import { usePermissions } from "./hooks/usePermissions";
 import ServerStatusScreen from "./screens/ServerStatus";
-import { SecurityContext } from "./context/SecurityContext";
 
 const log = debug("mapeo:AppLoading");
 

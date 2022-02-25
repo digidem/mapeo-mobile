@@ -4,7 +4,6 @@ import {
   NavigationActions,
   NavigationContainerComponent,
   NavigationState,
-  createAppContainer,
 } from "react-navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -99,8 +98,6 @@ function hidePracticeModeTemporarily(route: string | null) {
   return route !== null && TEMP_HIDE_PRACTICE_MODE_UI.includes(route);
 }
 
-const AuthContainer = createAppContainer(AuthStack);
-
 const AppContainerWrapper = () => {
   const navRef = React.useRef<NavigationContainerComponent>();
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
@@ -109,28 +106,21 @@ const AppContainerWrapper = () => {
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
   const [{ authStatus }, setAuthState] = React.useContext(SecurityContext);
-  const isMounted = React.useRef(false);
-
-  React.useEffect(() => {
-    isMounted.current = true;
-  }, []);
 
   React.useEffect(() => {
     const appStateListener = AppState.addEventListener(
       "change",
-      handleStateAndSetCheckPassFlag
+      (nextAppState: AppStateStatus) => {
+        if (authStatus !== "notRequired") {
+          if (nextAppState === "inactive" || nextAppState === "background") {
+            setAuthState({ type: "setAuthStatus", newAuthStatus: "pending" });
+          }
+        }
+      }
     );
 
     return () => appStateListener.remove();
-  }, [authStatus, navRef.current]);
-
-  const handleStateAndSetCheckPassFlag = (nextAppState: AppStateStatus) => {
-    if (authStatus !== "notRequired") {
-      if (nextAppState === "inactive" || nextAppState === "background") {
-        setAuthState({ type: "setAuthStatus", newAuthStatus: "pending" });
-      }
-    }
-  };
+  }, [authStatus]);
 
   const AppContainer = React.useMemo(() => {
     return experiments.onboarding ? OnboardingContainer : DefaultContainer;
