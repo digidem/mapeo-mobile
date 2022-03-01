@@ -634,10 +634,6 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Ada yang salah dengan database Mapeo"
   },
-  "screens.Settings.Experiments.p2pUpgrades": {
-    "description": "Label for p2p upgrades",
-    "message": "Peningkatan P2P"
-  },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
     "message": "Bagikan dan terima pembaruan dengan perangkat terdekat"
