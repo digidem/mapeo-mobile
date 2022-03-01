@@ -1,1 +1,27 @@
-{}
+{
+  "AppContainer.EditHeader.discardCancel": {
+    "description": "Button on dialog to keep editing (cancelling close action)",
+    "message": "தொடர்ந்து திருத்தவும்"
+  },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "மாற்றங்களை நிராகரிக்கவும்"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "சரி"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "வெற்றி!"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "பின் செல்"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "தொடரவும்"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "மூடு"
+  }
+}
