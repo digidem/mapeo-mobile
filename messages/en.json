@@ -710,25 +710,25 @@
     "message": "Use P2P App Updater"
   },
   "screens.Settings.Experiments.P2pUpgrade.warning": {
-    "message": "P2P App Updates allows you to share and receive newer versions of the Mapeo app by connecting to other Mapeo devices via Wi-Fi (no internet connection required). To use this feature, the Mapeo Synchronize screen must be open on both devices."
+    "message": "Peer-to-peer (P2P) App Updates allows you to share and receive newer versions of the Mapeo app by connecting to other Mapeo devices via Wi-Fi (no internet connection required). To use this feature, the Mapeo Synchronize screen must be open on both devices."
   },
   "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
     "message": "NOTE: When updating the Mapeo app version in this way, NONE of your Mapeo data (observations, configurations, or maps) is shared between devices."
   },
   "screens.Settings.Experiments.active": {
-    "description": "Inidicates whether directional arrow is active on map",
-    "message": "Active"
+    "description": "Indicates that the experimental feature is enabled",
+    "message": "On"
   },
   "screens.Settings.Experiments.directionalArrow": {
     "message": "Directional Arrow"
   },
   "screens.Settings.Experiments.inactive": {
-    "description": "Inidicates whether directional arrow is NOT active on map",
-    "message": "Inactive"
+    "description": "Indicates that the experimental feature is not enabled",
+    "message": "Off"
   },
   "screens.Settings.Experiments.p2pUpgrades": {
-    "description": "Label for p2p upgrades",
-    "message": "P2P upgrades"
+    "description": "Label for p2p app updates",
+    "message": "P2P App Updates"
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
