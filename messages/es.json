@@ -640,6 +640,41 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Algo está pasando con la base de datos Mapeo"
   },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "Flecha direccional"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "La nueva función Flecha direccional utiliza la brújula digital de tu teléfono móvil para proporcionar información sobre la dirección a la que apunta tu teléfono. La precisión de la brújula puede verse afectada por la proximidad cercana a grandes objetos de metal o a campos magnéticos fuertes. Si tu teléfono móvil no tiene una brújula, la flecha direccional puede aún ser capaz de determinar la dirección basada en el movimiento. La dirección basada en el movimiento puede ser menos precisa."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "NOTA: La Flecha direccional no es lo suficientemente fiable como para ser utilizada como herramienta única para la navegación, y puede consumir la batería del dispositivo más rápido."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "Usar Flecha direccional"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "Actualizaciones P2P de la App"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "Usar Actualizaciones P2P de la App"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "Las Actualizaciones P2P (entre pares) de la App le permiten compartir y recibir nuevas versiones de la aplicación Mapeo conectándose a otros dispositivos Mapeo a través de Wi-Fi (sin necesidad de conexión a Internet). Para utilizar esta función, la pantalla de sincronización de Mapeo debe estar abierta en ambos dispositivos."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "NOTA: Al actualizar la versión de la aplicación de Mapeo de esta manera, NINGUNO de sus datos de Mapeo (observaciones, configuraciones o mapas) es compartido entre dispositivos."
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Inidicates whether directional arrow is active on map",
+    "message": "Activado"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "Flecha direccional"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Inidicates whether directional arrow is NOT active on map",
+    "message": "Desactivado"
+  },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
     "message": "Actualizaciones P2P"
@@ -647,6 +682,9 @@
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
     "message": "Compartir y recibir actualizaciones de dispositivos cercanos"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "Experimentos"
   },
   "screens.Settings.ManagePeople.add": {
     "message": "Añadir"

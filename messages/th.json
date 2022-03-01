@@ -663,6 +663,9 @@
   "screens.Security.passDesriptionPassSet": {
     "message": "ตั้งรหัสผ่านแล้ว"
   },
+  "screens.Security.passcodeHeader": {
+    "message": "รหัสผ่านแอป"
+  },
   "screens.Security.securitySubheader": {
     "message": "ความปลอดภัยอุปกรณ์"
   },
@@ -685,6 +688,41 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "กำลังเชื่อมต่อกับฐานข้อมูล Mapeo"
   },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "ใช้ลูกศรทิศทาง"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "ระบบลูกศรทิศทางใหม่จะใช้เข็มทิศดิจิตอลบนสมาร์ทโฟนของคุณ เพื่อบอกทิศทางว่าคุณหันไปทิศทางใด การอยู่ใกล้วัตถุโลหะขนาดใหญ่หรือสนามแม่เหล็กแรงสูงอาจส่งผลต่อความแม่นยำของเข็มทิศได้ หากสมาร์ทโฟนของคุณไม่มีเข็มทิศ ระบบลูกศรทิศทางอาจยังสามารถบอกทิศทางตามการเคลื่อนไหวได้ แต่ทิศทางตามการเคลื่อนไหวนี้อาจมีความแม่นยำน้อยกว่า"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "หมายเหตุ: ระบบลูกศรทิศทางยังไม่เสถียรสำหรับระบบนำทาง และอาจทำให้แบตเตอรี่ของอุปกรณ์หมดเร็วขึ้น"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "ใช้ลูกศรทิศทาง"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "การอัปเดตแอปเครือข่ายเพียร์ทูเพียร์ (P2P) "
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "ใช้โปรแกรมอัปเดตแอป P2P "
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "การอัปเดตแอป P2P ช่วยให้คุณแชร์และรับข้อมูลแอป Mapeo เวอร์ชันใหม่ได้ เพียงเชื่อมต่อกับอุปกรณ์ Mapeo อื่น ๆ ผ่าน Wi-Fi (ไม่จำเป็นต้องเชื่อมต่ออินเทอร์เน็ต) การใช้ระบบนี้ คุณต้องเปิดหน้าจอการเชื่อมข้อมูล Mapeo บนอุปกรณ์ทั้งสองไว้"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "หมายเหตุ: เมื่ออัปเดตเวอร์ชันของ Mapeo ด้วยวิธีนี้แล้ว จะไม่มีการแชร์ข้อมูลแอป Mapeo ของคุณ (เช่น ข้อมูลการสังเกต การกำหนดค่า หรือแผนที่) ระหว่างอุปกรณ์"
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Inidicates whether directional arrow is active on map",
+    "message": "เปิดใช้งาน"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "ลูกศรทิศทาง"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Inidicates whether directional arrow is NOT active on map",
+    "message": "ยังไม่เปิดใช้"
+  },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
     "message": "ปรับปรุง P2P"
@@ -692,6 +730,9 @@
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
     "message": "แชร์และรับข้อมูลอัปเดตกับอุปกรณ์ข้างเคียง"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "การทดลอง"
   },
   "screens.Settings.ManagePeople.add": {
     "message": "เพิ่ม"
