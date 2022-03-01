@@ -36,11 +36,11 @@ export const P2pUpgrade: NavigationStackScreenComponent = () => {
       <Text style={[styles.header]}>
         <FormattedMessage {...m.title} />
       </Text>
-      <Text>
+      <Text style={[styles.text]}>
         <FormattedMessage {...m.warning} />
       </Text>
 
-      <Text style={{ marginTop: 20 }}>
+      <Text style={[{ marginTop: 20 }, styles.text]}>
         <FormattedMessage {...m.warningSubheader} />
       </Text>
 
@@ -96,5 +96,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  text: {
+    fontSize: 16,
   },
 });
