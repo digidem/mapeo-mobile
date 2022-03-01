@@ -37,11 +37,11 @@ export const DirectionalArrow: NavigationStackScreenComponent = () => {
       <Text style={[styles.header]}>
         <FormattedMessage {...m.directionalArrow} />
       </Text>
-      <Text style={{ marginBottom: 20 }}>
+      <Text style={[{ marginBottom: 20 }, styles.text]}>
         <FormattedMessage {...m.disclaimer} />
       </Text>
 
-      <Text>
+      <Text style={[styles.text]}>
         <FormattedMessage {...m.disclaimerNote} />
       </Text>
 
@@ -92,5 +92,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  text: {
+    fontSize: 16,
   },
 });
