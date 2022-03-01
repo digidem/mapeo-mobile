@@ -21,6 +21,7 @@ interface PasswordInputProps {
   handleCorrectOrNewPass: (inputtedValue: string, clear: () => void) => void;
   clearError: () => void;
   stylesProps?: StyleProp<ViewStyle>;
+  autoFocus: boolean;
 }
 
 export const PasswordInput = ({
@@ -28,6 +29,7 @@ export const PasswordInput = ({
   handleCorrectOrNewPass,
   stylesProps,
   clearError,
+  autoFocus,
 }: PasswordInputProps) => {
   const [inputtedPass, setInputtedPass] = React.useState("");
   const ref = useBlurOnFulfill({ value: inputtedPass, cellCount: CELL_COUNT });
@@ -93,7 +95,7 @@ export const PasswordInput = ({
   return (
     <CodeField
       ref={ref}
-      autoFocus={true}
+      autoFocus={autoFocus}
       {...props}
       value={inputtedPass}
       onChangeText={validateAndSetInput}

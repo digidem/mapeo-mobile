@@ -6,7 +6,6 @@ import {
   NavigationState,
 } from "react-navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import {
   EDITING_SCREEN_NAMES,
   ERROR_STORE_KEY,
@@ -22,9 +21,8 @@ import { PracticeMode } from "./sharedComponents/PracticeMode";
 import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
 import { SecurityContext } from "./context/SecurityContext";
-import { AuthStack } from "./Navigation/AuthStack";
-import { AppState, AppStateStatus } from "react-native";
-import { AppLoading } from "./AppLoading";
+import { AppState, AppStateStatus, Text, View } from "react-native";
+import { AuthScreen } from "./screens/AuthScreen";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -202,13 +200,16 @@ const AppContainerWrapper = () => {
 
   return (
     <PracticeMode
-      enabled={experiments.onboarding && !hidePracticeMode}
+      enabled={false} //experiments.onboarding && !hidePracticeMode}
       hideBar={hidePracticeBar}
     >
       <AppContainer
         loadNavigationState={loadNavigationState}
         onNavigationStateChange={onNavStateChange}
         persistNavigationState={persistNavigationState}
+        renderLoadingExperimental={() => {
+          return <AuthScreen focusOnOpen={false} />;
+        }}
         ref={nav => {
           if (nav) {
             navRef.current = nav;
