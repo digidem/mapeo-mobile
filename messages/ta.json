@@ -142,5 +142,28 @@
   "screens.ObservationEdit.ObservationEditView.photoButton": {
     "description": "Button label for adding photo",
     "message": "போட்டோவைச் சேர்க்கவும்"
+  },
+  "screens.ObservationEdit.ObservationEditView.searching": {
+    "description": "Shown in new observation screen whilst looking for GPS",
+    "message": "தேடு…"
+  },
+  "screens.ObservationEdit.SaveButton.keepWaiting": {
+    "description": "Button to cancel save and continue waiting for GPS",
+    "message": "தொடர்ந்து காத்திருக்கவும்"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsTitle": {
+    "description": "Title of dialog when trying to save with no GPS coords",
+    "message": "GPS சமிக்ஞை இல்லை"
+  },
+  "screens.ObservationEdit.SaveButton.saveAnyway": {
+    "description": "Button to save regardless of GPS state",
+    "message": "சேமிக்கவும்"
+  },
+  "screens.ObservationList.observationListTitle": {
+    "description": "Title of screen with list of observations",
+    "message": "அவதானிப்புகள்"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "பகிரவும்"
   }
 }
