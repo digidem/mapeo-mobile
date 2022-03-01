@@ -1,0 +1,127 @@
+{
+  "AppContainer.EditHeader.discardCancel": {
+    "description": "Button on dialog to keep editing (cancelling close action)",
+    "message": "Taastay iweechweech"
+  },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "Toochinee weecheet"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "Toochinee weecheet?"
+  },
+  "AppContainer.EditHeader.discardContent": {
+    "description": "Button on dialog to cancel a new observation",
+    "message": "Toochinee meekonoor"
+  },
+  "AppContainer.EditHeader.discardTitle": {
+    "description": "Title of dialog that shows when cancelling a new observation",
+    "message": "Toochinee observation?"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "Karaam"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "Wunee Mapeo"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "Meengetoksee"
+  },
+  "screens.AddPhoto.cancel": {
+    "message": "Noomtee"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "Noomtee"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "Atiing'ee wuinwookiik?"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Wee Sync"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "Taastay"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "Momiikaina"
+  },
+  "screens.SyncModal.PeerList.completeButton": {
+    "description": "Button label when complete",
+    "message": "Waany"
+  },
+  "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
+    "message": "Manomekey Mapeo"
+  },
+  "screens.SyncModal.PeerList.finishingButton": {
+    "description": "Button label when finishing sync but don't have correct progress",
+    "message": "..."
+  },
+  "screens.SyncModal.PeerList.syncButton": {
+    "description": "Button label for sync button",
+    "message": "Sync"
+  },
+  "screens.SyncModal.SyncView.noWifiTitle": {
+    "description": "Title of message shown when no wifi network",
+    "message": "Momii WiFi"
+  },
+  "screens.SyncModal.SyncView.searchingTitle": {
+    "description": "Title of message shown while looking for sync peers",
+    "message": "Cheeng'"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "Koreet"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "Emeet nyewoo"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "Emeet Nyeemining'"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "Keel Nyeemining'"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "Kelwokiik"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "Kokweet"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "Zoom Nyeetia"
+  },
+  "sharedComponents.BGMapCard.abbrevMegabyte": {
+    "description": "The abbreviation for megabyte",
+    "message": "MB"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "Maaput Abkuunyi"
+  },
+  "sharedComponents.BGMapSelector.close": {
+    "message": "Keer"
+  },
+  "sharedComponents.GpsPill.noGps": {
+    "message": "Momii GPS"
+  },
+  "sharedComponents.GpsPill.searching": {
+    "message": "Cheeng'…"
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "Kaneetet Mode"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "Momii Intaneet"
+  }
+}

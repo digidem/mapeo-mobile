@@ -635,7 +635,7 @@
     "message": "Ada yang salah dengan database Mapeo"
   },
   "screens.Settings.Experiments.p2pUpgrades": {
-    "description": "Label for p2p upgrades",
+    "description": "Label for p2p app updates",
     "message": "Peningkatan P2P"
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
