@@ -579,6 +579,33 @@
   "screens.Onboarding.JoinProjectQrScreen.title": {
     "message": "Tham gia một dự án"
   },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "Chia sẻ mã này với Điều phối viên Dự án"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "Chia sẻ"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "Gửi Yêu cầu tham gia"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "Mã xác nhận"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "Hoàn thành!"
+  },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "{num}/{total} quan sát hoàn thành"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "Đang đồng bộ..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "{num}/{total} quan sát hoàn thành"
+  },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "Bắt đầu lập bản đồ"
+  },
   "screens.Photos.ConfirmDeleteModal.cancel": {
     "message": "Hủy"
   },
@@ -590,6 +617,39 @@
   },
   "screens.PhotosModal": {
     "message": "Xóa hình ảnh"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "Đóng"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "Từ chối lời mời"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "Không thể truy xuất chi tiết lời mời"
+  },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "Bạn đã được mời tham gia dự án\n {projectName} với vai trò {role}"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "Tham gia và Đồng bộ"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "Tham gia {projectName}"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "Thử lại"
+  },
+  "screens.Security.deviceBackup": {
+    "message": "Sao lưu thiết bị"
+  },
+  "screens.Security.killPassDescriptonPassNotSet": {
+    "message": "Để sử dụng, bật Mật khẩu ứng dụng"
+  },
+  "screens.Security.killPassDescriptonPassSet": {
+    "message": "Bảo vệ thiế bị của bạn khỏi bị tịch thu"
+  },
+  "screens.Security.killPasscodeHeader": {
+    "message": "Huỷ Mật khẩu"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
