@@ -651,6 +651,27 @@
   "screens.Security.killPasscodeHeader": {
     "message": "Huỷ Mật khẩu"
   },
+  "screens.Security.paperKey": {
+    "message": "Khoá giấy"
+  },
+  "screens.Security.paperKeyDes": {
+    "message": "Khôi phục tài khoản của bạn nếu thiết bị này bị mất"
+  },
+  "screens.Security.passDesriptionPassNotSet": {
+    "message": "Mật khẩu chưa được đặt"
+  },
+  "screens.Security.passDesriptionPassSet": {
+    "message": "Mật khẩu đã được đặt"
+  },
+  "screens.Security.passcodeHeader": {
+    "message": "Mật khẩu Ứng dụng"
+  },
+  "screens.Security.securitySubheader": {
+    "message": "Bảo mật thiết bị"
+  },
+  "screens.Security.title": {
+    "message": "Bảo mật"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Bạn có thể thử buộc khởi động lại ứng dụng, nhưng có một số lỗi cần phải được khắc phục. Rất xin lỗi về điều này, việc tạo nên ứng dụng thật là khó."
@@ -667,12 +688,36 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Có gì đó không ổn với dữ liệu Mapeo"
   },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "Mũi tên định hướng"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "Tính năng Mũi tên định hướng mới sử dụng la bàn kỹ thuật số của điện thoại thông minh của bạn để cung cấp thông tin về hướng mà điện thoại của bạn đang đối mặt. Ở gần các vật kim loại lớn hoặc từ trường mạnh có thể ảnh hưởng đến độ chính xác của la bàn. Nếu điện thoại thông minh của bạn không có la bàn, Mũi tên Định hướng vẫn có thể xác định hướng dựa trên chuyển động. Hướng dựa trên chuyển động có thể kém chính xác hơn."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "LƯU Ý: Mũi tên định hướng không đủ tin cậy để sử dụng riêng cho việc điều hướng và nó có thể làm hao pin thiết bị của bạn nhanh hơn."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "Sử dụng Mũi tên định hướng"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "Cập nhật ứng dụng ngang hàng"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "Cập nhật ứng dụng ngang hàng"
+  },
   "screens.Settings.Experiments.P2pUpgrade.warning": {
     "message": "Cập nhật ứng dụng ngang hàng (P2P) cho phép bạn chia sẻ và nhận các phiên bản mới hơn của ứng dụng Mapeo thông qua kết nối với các thiết bị Mapeo khác qua Wi-Fi (không cần kết nối internet). Để sử dụng tính năng này, phải mở màn hình Mapeo Đồng bộ hoá trên cả hai thiết bị."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "LƯU Ý: Khi cập nhật phiên bản ứng dụng Mapeo theo cách này, dữ liệu Mapeo của bạn (quan sát, cấu hình hoặc bản đồ) KHÔNG được chia sẻ giữa các thiết bị."
   },
   "screens.Settings.Experiments.active": {
     "description": "Indicates that the experimental feature is enabled",
     "message": "Bật"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "Mũi tên định hướng"
   },
   "screens.Settings.Experiments.inactive": {
     "description": "Indicates that the experimental feature is not enabled",
@@ -681,6 +726,9 @@
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p app updates",
     "message": "Cập nhật ứng dụng ngang hàng"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "Thử nghiệm"
   },
   "screens.Settings.ManagePeople.leaveProject": {
     "message": "Rời khỏi dự án"
