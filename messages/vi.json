@@ -573,6 +573,12 @@
   "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
     "message": "Hướng dẫn"
   },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "Gửi Yêu cầu tham gia thay thế"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "Tham gia một dự án"
+  },
   "screens.Photos.ConfirmDeleteModal.cancel": {
     "message": "Hủy"
   },
