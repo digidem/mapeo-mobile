@@ -19,6 +19,14 @@
     "description": "Title of dialog that shows when cancelling a new observation",
     "message": "Hủy bỏ quan sát?"
   },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo đã được cập nhật thành công từ phiên bản {previousVersion} sang {currentVersion} vào {updateDateTime}"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "OK"
+  },
   "hooks.updateNotifier.dialogTitle": {
     "description": "Title of dialog shown to the user when Mapeo is updated",
     "message": "Mapeo đã được cập nhật"
@@ -125,6 +133,15 @@
   "screens.AlreadyOnProject.title": {
     "description": "Title of screen letting user know that they are already part of a project.",
     "message": "Bạn đang làm một dự án"
+  },
+  "screens.AppPasscode": {
+    "message": "Mật khẩu Ứng dụng"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "Tiếp tục"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "Mật khẩu Ứng dụng là gì?"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -345,6 +362,24 @@
   "screens.ManualGpsScreen.DmsForm.north": {
     "message": "Bắc"
   },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "Chọn vĩ độ"
+  },
+  "screens.ManualGpsScreen.DmsForm.south": {
+    "message": "Nam"
+  },
+  "screens.ManualGpsScreen.DmsForm.west": {
+    "message": "Tây"
+  },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "Định dạng tọa độ"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "Độ thập phân (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "Độ/Phút/Giây (DMS)"
+  },
   "screens.ManualGpsScreen.easting": {
     "message": "Hướng Đông"
   },
@@ -360,6 +395,9 @@
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "Nhập tọa độ"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "Hệ tọa độ vuông góc (UTM)"
   },
   "screens.ManualGpsScreen.zoneLetter": {
     "message": "Zone Letter"
@@ -511,6 +549,30 @@
     "description": "message shown whilst observations are loading",
     "message": "Đang tải... việc này có thể càn một chút thời gian sau khi đồng bộ hóa với thiết bị mới"
   },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "Tạo một Dự án"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "Chạm vào đây để {action}"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "Tham gia một dự án"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "Chế độ Luyện Tập"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "Hủy"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "Yêu cầu Người tham gia dự án quét mã mời này."
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "Đưa mã QR này cho người quản lý dự án của bạn"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "Hướng dẫn"
+  },
   "screens.Photos.ConfirmDeleteModal.cancel": {
     "message": "Hủy"
   },
@@ -538,6 +600,21 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Có gì đó không ổn với dữ liệu Mapeo"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "Cập nhật ứng dụng ngang hàng (P2P) cho phép bạn chia sẻ và nhận các phiên bản mới hơn của ứng dụng Mapeo thông qua kết nối với các thiết bị Mapeo khác qua Wi-Fi (không cần kết nối internet). Để sử dụng tính năng này, phải mở màn hình Mapeo Đồng bộ hoá trên cả hai thiết bị."
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Indicates that the experimental feature is enabled",
+    "message": "Bật"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Indicates that the experimental feature is not enabled",
+    "message": "Tắt"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p app updates",
+    "message": "Cập nhật ứng dụng ngang hàng"
   },
   "screens.Settings.ManagePeople.leaveProject": {
     "message": "Rời khỏi dự án"
