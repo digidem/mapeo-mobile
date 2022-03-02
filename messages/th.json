@@ -706,11 +706,26 @@
   "screens.Settings.Experiments.P2pUpgrade.useP2p": {
     "message": "ใช้โปรแกรมอัปเดตแอป P2P "
   },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "การอัปเดตแอป P2P ช่วยให้คุณแชร์และรับข้อมูลแอป Mapeo เวอร์ชันใหม่ได้ เพียงเชื่อมต่อกับอุปกรณ์ Mapeo อื่น ๆ ผ่าน Wi-Fi (ไม่จำเป็นต้องเชื่อมต่ออินเทอร์เน็ต) การใช้ระบบนี้ คุณต้องเปิดหน้าจอการเชื่อมข้อมูล Mapeo บนอุปกรณ์ทั้งสองไว้"
+  },
   "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
     "message": "หมายเหตุ: เมื่ออัปเดตเวอร์ชันของ Mapeo ด้วยวิธีนี้แล้ว จะไม่มีการแชร์ข้อมูลแอป Mapeo ของคุณ (เช่น ข้อมูลการสังเกต การกำหนดค่า หรือแผนที่) ระหว่างอุปกรณ์"
   },
+  "screens.Settings.Experiments.active": {
+    "description": "Indicates that the experimental feature is enabled",
+    "message": "เปิด"
+  },
   "screens.Settings.Experiments.directionalArrow": {
     "message": "ลูกศรทิศทาง"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Indicates that the experimental feature is not enabled",
+    "message": "ปิด"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p app updates",
+    "message": "การอัปเดตแอปเครือข่ายเพียร์ทูเพียร์ (P2P) "
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
