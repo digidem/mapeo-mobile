@@ -1,11 +1,8 @@
 import * as React from "react";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
 import { SecurityContext } from "../../../context/SecurityContext";
 import Button from "../../../sharedComponents/Button";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { PASSWORD_KEY } from "../../../constants";
 
 const m = defineMessages({
   title: {
@@ -30,12 +27,6 @@ interface SplashProps {
 export const PasscodeIntro = ({ incrementState }: SplashProps) => {
   const [authState, setAuthState] = React.useContext(SecurityContext);
   const { formatMessage: t } = useIntl();
-  const { navigate } = useNavigation();
-
-  function tempStateSet() {
-    setAuthState({ type: "setPasscode", newPasscode: "12345" });
-    navigate("Security");
-  }
 
   return (
     <View style={[styles.container]}>
@@ -48,8 +39,7 @@ export const PasscodeIntro = ({ incrementState }: SplashProps) => {
         </Text>
       </View>
       <View>
-        {/* To do, increment state of the screen */}
-        <Button style={[styles.button]} onPress={() => tempStateSet()}>
+        <Button style={[styles.button]} onPress={incrementState}>
           {t(m.continue)}
         </Button>
       </View>
