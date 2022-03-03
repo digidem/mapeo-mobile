@@ -1,19 +1,12 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { View, Image, Text, StyleSheet } from "react-native";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
-import {
-  DARK_BLUE,
-  DARK_GREY,
-  MEDIUM_GREY,
-  WARNING_RED,
-  WHITE,
-} from "../lib/styles";
+import { DARK_BLUE, WARNING_RED, WHITE } from "../lib/styles";
 
 import { KILL_PASSCODE } from "../constants";
 import { SecurityContext } from "../context/SecurityContext";
 import { PasswordInput } from "../sharedComponents/PasswordInput";
-import { AutoFocus } from "expo-camera/build/Camera.types";
+import { useNavigation } from "react-navigation-hooks";
 
 const m = defineMessages({
   enterPass: {
@@ -33,6 +26,7 @@ export const AuthScreen = ({
 }) => {
   const [error, setError] = React.useState(false);
   const [authState, setAuthState] = React.useContext(SecurityContext);
+  const { navigate } = useNavigation();
 
   async function validatePass(inputtedPass: string, clearInput: () => void) {
     if (inputtedPass === KILL_PASSCODE && authState.killModeEnabled) {
@@ -41,6 +35,7 @@ export const AuthScreen = ({
         type: "setAuthStatus",
         newAuthStatus: "authenticated",
       });
+      navigate("AppStack");
       return;
     }
 
@@ -52,6 +47,7 @@ export const AuthScreen = ({
         type: "setAuthStatus",
         newAuthStatus: "authenticated",
       });
+      navigate("AppStack");
       return;
     }
 

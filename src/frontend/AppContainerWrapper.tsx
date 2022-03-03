@@ -113,6 +113,13 @@ const AppContainerWrapper = () => {
         if (authStatus !== "notRequired") {
           if (nextAppState === "inactive" || nextAppState === "background") {
             setAuthState({ type: "setAuthStatus", newAuthStatus: "pending" });
+            if (navRef.current) {
+              navRef.current.dispatch(
+                NavigationActions.navigate({
+                  routeName: "AuthStack",
+                })
+              );
+            }
           }
         }
       }
@@ -163,21 +170,28 @@ const AppContainerWrapper = () => {
         ? {}
         : {
             loadNavigationState: async () => {
-              const loadedNavState = await loadSavedNavState(
-                experiments.onboarding
-              );
+              if (
+                authStatus === "authenticated" ||
+                authStatus === "notRequired"
+              ) {
+                const loadedNavState = await loadSavedNavState(
+                  experiments.onboarding
+                );
 
-              const loadedRouteName = getRouteName(loadedNavState);
+                const loadedRouteName = getRouteName(loadedNavState);
 
-              updateRouteBasedAppState(loadedRouteName);
+                updateRouteBasedAppState(loadedRouteName);
 
-              return loadedNavState;
+                return loadedNavState;
+              }
+
+              return;
             },
             persistNavigationState: createNavigationStatePersister(
               experiments.onboarding
             ),
           },
-    [experiments.onboarding, updateRouteBasedAppState]
+    [experiments.onboarding, updateRouteBasedAppState, authStatus]
   );
 
   /**
@@ -207,9 +221,6 @@ const AppContainerWrapper = () => {
         loadNavigationState={loadNavigationState}
         onNavigationStateChange={onNavStateChange}
         persistNavigationState={persistNavigationState}
-        renderLoadingExperimental={() => {
-          return <AuthScreen focusOnOpen={false} />;
-        }}
         ref={nav => {
           if (nav) {
             navRef.current = nav;
