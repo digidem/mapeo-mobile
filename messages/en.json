@@ -143,6 +143,9 @@
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
     "message": "Set Passcode"
   },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
+    "message": "Password Does not match"
+  },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
     "message": "Error with Pass"
   },
@@ -156,7 +159,7 @@
     "message": "Please Type Pass"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.titleEnter": {
-    "message": "Re-enter Passcode"
+    "message": "Enter Passcode"
   },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continue"
@@ -166,6 +169,9 @@
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "What is App Passcode?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.TurnOff": {
+    "message": "Continue"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
