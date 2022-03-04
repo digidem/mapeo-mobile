@@ -159,5 +159,141 @@
   },
   "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
     "message": "ඔව්, මෙම නිරීක්ෂණය මකන්න"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "ව්‍යාපෘතියට ({observationCount}) {observationCount, plural, one {නිරීක්ෂණ} other  {නිරීක්ෂණ}} ගෙන එන්නද?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "පුහුණු මාදිලියෙන් ඉවත් වන්න"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "විකල්ප වලින් එකක් තෝරන්න"
+  },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "දශම අංශක (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "උපාධි/මිනිත්තු/තත්පර (DMS)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "සම්බන්ධීකරණ ආකෘතිය"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "Universal Transverse Mercator (UTM)"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "ව්යාපෘතිය සාදන්න"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "නව ව්‍යාපෘතියක් සාදන්න"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "උපාංගයේ නම ඇතුළත් කරන්න"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "ඔබගේ උපාංගය සඳහා නමක් එක් කරන්න"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "උපාංගයේ නම"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "ව්යාපෘතියේ නම ඇතුළත් කරන්න"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "ව්‍යාපෘතිය සඳහා නමක් ඇතුළත් කරන්න"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "ව්යාපෘතියේ නම"
+  },
+  "screens.GpsModal.details": {
+    "description": "Section title for details about current position",
+    "message": "විස්තරය"
+  },
+  "screens.GpsModal.gpsHeader": {
+    "description": "Header for GPS screen",
+    "message": "වත්මන් GPS ස්ථානය"
+  },
+  "screens.GpsModal.lastUpdate": {
+    "description": "Section title for time of last GPS update",
+    "message": "අවසන් යාවත්කාලීනය"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "ඛණ්ඩාංක දශම අංශක"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "ඛණ්ඩාංක DMS"
+  },
+  "screens.GpsModal.locationSensors": {
+    "description": "Heading for section about location sensor status",
+    "message": "සංවේදක තත්ත්වය"
+  },
+  "screens.GpsModal.locationUTM": {
+    "description": "Section title for UTM coordinates",
+    "message": "ඛණ්ඩාංක UTM"
+  },
+  "screens.GpsModal.no": {
+    "description": "if a location sensor is active yes/no",
+    "message": "නැහැ"
+  },
+  "screens.GpsModal.yes": {
+    "description": "if a location sensor is active yes/no",
+    "message": "ඔව්"
+  },
+  "screens.JoinRequestModal.close": {
+    "message": "වසන්න"
+  },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "ඉල්ලීම ප්‍රතික්ෂේප කරන්න"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "ආරාධනා කරන්න"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "ආරාධනාව යවා ඇත."
+  },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{deviceName} හට {projectName} හා සම්බන්ධ වීමට අවශ්‍යයි"
+  },
+  "screens.JoinRequestModal.success": {
+    "message": "සාර්ථකයි!"
+  },
+  "screens.LanguageSettings.title": {
+    "description": "Title language settings screen",
+    "message": "භාෂාව"
+  },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "ව්යාපෘතිය අත්හැර"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "ගෙදර යන්න"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "නිරීක්ෂණය මකා දමන ලදි"
+  },
+  "screens.Observation.notFound": {
+    "description": "Message shown when an observation is not found",
+    "message": "නිරීක්ෂණය හමු නොවීය"
+  },
+  "screens.Observation.title": {
+    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
+    "message": "නිරීක්ෂණය"
+  },
+  "screens.ObservationDetails.QuestionNavBar.questionPage": {
+    "description": "Indicates which question we are on and total questions",
+    "message": "{current} වල {total}"
   }
 }
