@@ -137,6 +137,27 @@
   "screens.AppPasscode": {
     "message": "App Passcode"
   },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
+    "message": "Re-enter Passcode"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
+    "message": "Set Passcode"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "Error with Pass"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleConfirm": {
+    "message": "Password"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleEnter": {
+    "message": "Please Enter Password"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
+    "message": "Please Type Pass"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.titleEnter": {
+    "message": "Re-enter Passcode"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continue"
   },
