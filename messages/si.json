@@ -334,6 +334,42 @@
   },
   "screens.ObservationEdit.SaveButton.manualEntry": {
     "description": "Button to manually enter GPS coordinates",
-    "message": "Manual Coords"
+    "message": "ඛණ්ඩාංක අතින් ඇතුල් කරන්න"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsDesc": {
+    "description": "Description in dialog when trying to save with no GPS coords",
+    "message": "මෙම නිරීක්ෂණයට ස්ථානයක් නොමැත. ඔබට GPS සංඥාවක් සඳහා රැඳී සිටිය හැක, ස්ථානයක් නොමැතිව නිරීක්ෂණ සුරකින්න, හෝ ඛණ්ඩාංක අතින් ඇතුල් කරන්න"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsTitle": {
+    "description": "Title of dialog when trying to save with no GPS coords",
+    "message": "GPS සංඥා නැත"
+  },
+  "screens.ObservationEdit.SaveButton.saveAnyway": {
+    "description": "Button to save regardless of GPS state",
+    "message": "සුරකින්න"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsDesc": {
+    "description": "Description in dialog when trying to save with low GPS accuracy.",
+    "message": "GPS නිරවද්‍යතාවය අඩුයි. වඩා හොඳ නිරවද්‍යතාවයක් සඳහා ඔබට දිගටම බලා සිටිය හැක, අඩු නිරවද්‍යතාවයකින් නිරීක්ෂණය සුරකින්න, හෝ ඛණ්ඩාංක අතින් ඇතුල් කරන්න"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsTitle": {
+    "description": "Title of dialog when trying to save with low GPS accuracy.",
+    "message": "දුර්වල GPS සංඥා"
+  },
+  "screens.ObservationEdit.editTitle": {
+    "description": "screen title for edit observation screen",
+    "message": "නිරීක්ෂණ සංස්කරණය කරන්න"
+  },
+  "screens.ObservationEdit.newTitle": {
+    "description": "screen title for new observation screen",
+    "message": "නව නිරීක්ෂණයක්"
+  },
+  "screens.ObservationList.observationListTitle": {
+    "description": "Title of screen with list of observations",
+    "message": "නිරීක්ෂණය"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "සිතියම වෙත යන්න"
   }
 }
