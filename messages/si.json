@@ -107,5 +107,57 @@
   },
   "screens.AddToProjectScreen.SuccessStep.title": {
     "message": "සාර්ථකත්වය!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "උපාංගයට ආරාධනා කරන්න"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "ව්යාපෘතියට එකතු කරන්න"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "ඔබ {projectName} හි සිටී"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "ආපසු යන්න"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "වත්මන් ව්‍යාපෘතියෙන් ඉවත් වන්න"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "නව ව්‍යාපෘතියකට සම්බන්ධ වීමට ඔබ ඔබේ වත්මන් එක අත්හැරිය යුතුය."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "ඔබ දැනටමත් ව්‍යාපෘතියක සිටී"
+  },
+  "screens.AppPasscode": {
+    "message": "යෙදුම් මුර කේතය"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "ඉදිරියට යන්න"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "යෙදුම් මුර කේතය යනු කුමක්ද?"
+  },
+  "screens.CameraScreen.noCameraAccess": {
+    "description": "Error message shown when app does not have permissions to camera",
+    "message": "කැමරාවට ප්‍රවේශය නැත"
+  },
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "සිදුවන්නේ කුමක්ද යන්න තෝරන්න"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "ඔව්, මෙම නිරීක්ෂණය මකන්න"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "ඔව්, මෙම නිරීක්ෂණය මකන්න"
   }
 }
