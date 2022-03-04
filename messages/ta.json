@@ -466,25 +466,73 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "மீண்டும் முயற்சி"
   },
+  "screens.Security.passcodeHeader": {
+    "message": "App கடவுக்குறியீடு"
+  },
+  "screens.Security.securitySubheader": {
+    "message": "சாதனப் பாதுகாப்பு"
+  },
+  "screens.Security.title": {
+    "message": "பாதுகாப்பு"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "திட்டத்தை விட்டு வெளியேறவும்"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "நீக்கு"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "திட்டப்பணியை உருவாக்கு"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "திட்டத்தில் சேரவும்"
+  },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "இந்த config file ஐ பதிவிறக்கம் செய்யும் முயற்சியில் தவறு ஏற்பட்டது"
+  },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "சரி"
   },
   "screens.Settings.ProjectConfig.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "பதிவிறக்கப் பிழை"
   },
+  "screens.Settings.ProjectConfig.configImportAlertOk": {
+    "description": "Button text for config import alert acknowledgement",
+    "message": "சரி"
+  },
   "screens.Settings.ProjectConfig.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "தற்போதைய கட்டமைப்பு"
+  },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "செயற்திட்டத்தின் பெயர்"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "எதுவுமில்லை"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "பயிற்சி முறை"
   },
   "screens.Settings.ProjectConfig.projectKey": {
     "description": "Label for project key",
     "message": "திட்டத் திறவுகோல்"
   },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "திட்டக் கட்டமைப்பு"
+  },
   "screens.Settings.ProjectConfig.unnamedConfig": {
     "description": "Config name when do name is defined",
     "message": "பெயரிடப்படாதது"
+  },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "மேபியோ பற்றி"
   },
   "screens.Settings.aboutMapeoDesc": {
     "description": "Description of the 'About Mapeo' page",
@@ -629,6 +677,10 @@
     "description": "Header of sync screen",
     "message": "ஒத்திசைவாக்குங்கள்"
   },
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "புதுப்பிப்பு கிடைக்கிறது; ஒத்திசைவு முடியும் வரை காத்திருக்கவும்"
+  },
   "screens.SyncModal.SyncView.updateDownloading": {
     "description": "Label in upgrade bar when downloading an update",
     "message": "மேம்பாடு பதிவிறக்கப்படுகிறது..."
@@ -656,6 +708,10 @@
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
     "message": "நீங்கள் ஒத்திசைக்க முயற்சிக்கும் சாதனம் உங்களுடன் ஒத்திசைக்க Mapeo ஐ சமீபத்திய பதிப்பிற்கு மேம்படுத்த வேண்டும்."
+  },
+  "screens.SyncModal.errorVersionThemBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "{சாதனத்தின் பெயர்} Mapeoஐ மேம்படுத்த வேண்டும்"
   },
   "screens.SyncModal.errorVersionUsBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
