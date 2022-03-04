@@ -165,5 +165,29 @@
   },
   "screens.Onboarding.SendJoinRequestScreen.share": {
     "message": "பகிரவும்"
+  },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "இந்த config file ஐ பதிவிறக்கம் செய்யும் முயற்சியில் தவறு ஏற்பட்டது"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "பதிவிறக்கப் பிழை"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "தற்போதைய கட்டமைப்பு"
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "திட்டத் திறவுகோல்"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "பெயரிடப்படாதது"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi"
   }
 }
