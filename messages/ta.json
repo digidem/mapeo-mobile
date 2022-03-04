@@ -466,6 +466,9 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "மீண்டும் முயற்சி"
   },
+  "screens.Security.passDesriptionPassSet": {
+    "message": "பாஸ்கோடு அமைக்கப்பட்டது"
+  },
   "screens.Security.passcodeHeader": {
     "message": "App கடவுக்குறியீடு"
   },
