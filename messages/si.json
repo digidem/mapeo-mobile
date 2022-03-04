@@ -100,10 +100,7 @@
     "message": "උපදෙස්"
   },
   "screens.AddToProjectScreen.SuccessStep.description": {
-    "message": "{deviceId} {projectName} වෙත එක් කර ඇත"
-  },
-  "screens.AddToProjectScreen.SuccessStep.goToSync": {
-    "message": "Sync වෙත යන්න"
+    "message": "{deviceId} වෙත එකතු කර ඇත {projectName}"
   },
   "screens.AddToProjectScreen.SuccessStep.title": {
     "message": "සාර්ථකත්වය!"
@@ -523,5 +520,136 @@
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
     "message": "ව්යාපෘති වින්යාසය"
+  },
+  "screens.Settings.projectConfigDesc": {
+    "description": "Secondary text for project config settings",
+    "message": "කාණ්ඩ, අයිකන සහ ප්රශ්න"
+  },
+  "screens.Settings.security": {
+    "message": "ආරක්ෂාව"
+  },
+  "screens.Settings.securityDesc": {
+    "description": "Description of security button in settings",
+    "message": "යෙදුම් මුර කේතය සහ උපාංග ආරක්ෂාව"
+  },
+  "screens.Settings.title": {
+    "description": "Title of settings screen",
+    "message": "සැකසුම්"
+  },
+  "screens.SyncModal.PeerList.completeButton": {
+    "description": "Button label when complete",
+    "message": "සම්පූර්ණයි"
+  },
+  "screens.SyncModal.PeerList.disconnectedButton": {
+    "description": "Button label when disconnected",
+    "message": "විසන්ධි කරන්න"
+  },
+  "screens.SyncModal.PeerList.errorButton": {
+    "description": "Button label when there is an error",
+    "message": "දෝෂයකි"
+  },
+  "screens.SyncModal.PeerList.errorClientMismatch": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
+    "message": "Mapeo සේවාදායකයෙක් නොවේ"
+  },
+  "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
+    "message": "Mapeo සදහා නොගැලපෙයි"
+  },
+  "screens.SyncModal.PeerList.finishingButton": {
+    "description": "Button label when finishing sync but don't have correct progress",
+    "message": "..."
+  },
+  "screens.SyncModal.PeerList.syncButton": {
+    "description": "Button label for sync button",
+    "message": "සමමුහුර්තනය"
+  },
+  "screens.SyncModal.PeerList.syncLabel": {
+    "description": "Label for last sync datetime",
+    "message": "සමමුහුර්ත:"
+  },
+  "screens.SyncModal.SyncView.checkingUpdates": {
+    "description": "Label in upgrade bar when checking for updates",
+    "message": "යෙදුම් යාවත්කාලීන සඳහා පරීක්ෂා කරමින්"
+  },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "ස්ථාපනය"
+  },
+  "screens.SyncModal.SyncView.noUpdates": {
+    "description": "Label in upgrade bar when no updates are found",
+    "message": "යෙදුම් යාවත්කාලීන කිසිවක් හමු නොවීය"
+  },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "{count, plural, one {# device} other {# device}} පරීක්ෂා කරන ලදී"
+  },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "ඔබගේ දුරකථන සැකසුම් විවෘත කර සමමුහුර්ත කිරීමට WiFi ජාලයකට සම්බන්ධ වන්න"
+  },
+  "screens.SyncModal.SyncView.noWifiTitle": {
+    "description": "Title of message shown when no wifi network",
+    "message": "WiFi නැත"
+  },
+  "screens.SyncModal.SyncView.openSettingsButton": {
+    "description": "Label for button to open settings to fix update permissions error",
+    "message": "සැකසුම් විවෘත කරන්න"
+  },
+  "screens.SyncModal.SyncView.projectKey": {
+    "description": "First 5 characters of project key displayed on sync screen",
+    "message": "ව්යාපෘති යතුර:{projectKey}"
+  },
+  "screens.SyncModal.SyncView.searchingDesc": {
+    "description": "Description shown whilst searcing for sync peers",
+    "message": "වෙනත් උපාංග සක්‍රිය කර ඇති බවත් එම WiFi ජාලයට සම්බන්ධ වී ඇති බවත් සහතික කර ගන්න"
+  },
+  "screens.SyncModal.SyncView.searchingTitle": {
+    "description": "Title of message shown while looking for sync peers",
+    "message": "සොයමින්"
+  },
+  "screens.SyncModal.SyncView.settingsButton": {
+    "description": "Button to open WiFi settings",
+    "message": "සැකසුම් විවෘත කරන්න"
+  },
+  "screens.SyncModal.SyncView.sharingUpdate": {
+    "description": "Label in upgrade bar when sharing an update with others",
+    "message": "වෙනත් උපාංග සමඟ යෙදුම් යාවත්කාලීන බෙදා ගැනීම"
+  },
+  "screens.SyncModal.SyncView.syncHeader": {
+    "description": "Header of sync screen",
+    "message": "සමමුහුර්ත කරන්න"
+  },
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "යාවත්කාලීන ලබා ගත හැකිය; සමමුහුර්ත කිරීම අවසන් වන තෙක් බලා සිටීන්න"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "යාවත්කාලීන බාගත කිරීම"
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "යාවත්කාලීන සඳහා පරීක්ෂා කළ නොහැක"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "යාවත්කාලීන කළ නොහැක"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Mapeo හි නව අනුවාදයක් තිබේ"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "ක්‍රියාත්මක නොකළ තත්ත්වය"
+  },
+  "screens.SyncModal.errorDialogOk": {
+    "description": "Button to dismiss error alert about incompatible sync protocol",
+    "message": "හරි"
+  },
+  "screens.SyncModal.errorVersionThemBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "ඔබ සමමුහුර්ත කිරීමට උත්සාහ කරන උපාංගය ඔබ සමඟ සමමුහුර්ත කිරීමට Mapeo නවතම අනුවාදයට උත්ශ්‍රේණි කිරීමට අවශ්‍ය වේ."
   }
 }
