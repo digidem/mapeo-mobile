@@ -532,7 +532,7 @@
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
-    "message": "திட்ட கட்டமைப்பு"
+    "message": "திட்டக் கட்டமைப்பு"
   },
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
@@ -580,6 +580,98 @@
   "screens.SyncModal.PeerList.syncLabel": {
     "description": "Label for last sync datetime",
     "message": "ஒத்திசைவானது"
+  },
+  "screens.SyncModal.SyncView.checkingUpdates": {
+    "description": "Label in upgrade bar when checking for updates",
+    "message": "புதுப்பிப்புகளை சரிபார்க்கிறது\n\nchecking_for_updates\nகோப்பு: strings. xml"
+  },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "இன்ஸ்டால்"
+  },
+  "screens.SyncModal.SyncView.noUpdates": {
+    "description": "Label in upgrade bar when no updates are found",
+    "message": "புதிய புதுப்பிப்புகள் இல்லை"
+  },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "உங்கள் ஃபோன் settins யைத்திறந்து, synchronize WiFi நெட்வொர்க்குடன் இணைக்கவும்."
+  },
+  "screens.SyncModal.SyncView.noWifiTitle": {
+    "description": "Title of message shown when no wifi network",
+    "message": "WiFi இல்லை"
+  },
+  "screens.SyncModal.SyncView.openSettingsButton": {
+    "description": "Label for button to open settings to fix update permissions error",
+    "message": "அமைப்புகளைத் திற"
+  },
+  "screens.SyncModal.SyncView.projectKey": {
+    "description": "First 5 characters of project key displayed on sync screen",
+    "message": "திட்டச் சாவி: {திட்டச்சாவி}"
+  },
+  "screens.SyncModal.SyncView.searchingDesc": {
+    "description": "Description shown whilst searcing for sync peers",
+    "message": "மற்ற சாதனங்கள் இயக்கப்பட்டு, அதே வைஃபை நெட்வொர்க்குடன் இணைக்கப்பட்டுள்ளதை உறுதிசெய்யவும்"
+  },
+  "screens.SyncModal.SyncView.searchingTitle": {
+    "description": "Title of message shown while looking for sync peers",
+    "message": "தேடு"
+  },
+  "screens.SyncModal.SyncView.settingsButton": {
+    "description": "Button to open WiFi settings",
+    "message": "அமைப்புகளைத் திற"
+  },
+  "screens.SyncModal.SyncView.sharingUpdate": {
+    "description": "Label in upgrade bar when sharing an update with others",
+    "message": "பிற சாதனங்களுடன் ஆப்ஸ் புதுப்பிப்புகளைப் பகிர்தல்"
+  },
+  "screens.SyncModal.SyncView.syncHeader": {
+    "description": "Header of sync screen",
+    "message": "ஒத்திசைவாக்குங்கள்"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "மேம்பாடு பதிவிறக்கப்படுகிறது..."
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "மேம்பாடுகள் உள்ளதா எனப் பார்க்க முடியாதுள்ளது"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "புதுப்பிக்க முடியவில்லை"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Mapeo இன் புதிய பதிப்பு கிடைக்கிறது"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "செயல்படுத்தப்படாத நிலை"
+  },
+  "screens.SyncModal.errorDialogOk": {
+    "description": "Button to dismiss error alert about incompatible sync protocol",
+    "message": "சரி"
+  },
+  "screens.SyncModal.errorVersionThemBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "நீங்கள் ஒத்திசைக்க முயற்சிக்கும் சாதனம் உங்களுடன் ஒத்திசைக்க Mapeo ஐ சமீபத்திய பதிப்பிற்கு மேம்படுத்த வேண்டும்."
+  },
+  "screens.SyncModal.errorVersionUsBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
+    "message": "நீங்கள் ஒத்திசைக்க முயற்சிக்கும் சாதனத்தில் Mapeo இன் புதிய பதிப்பு உள்ளது. இந்தச் சாதனத்துடன் ஒத்திசைக்க Mapeoஐ மேம்படுத்த வேண்டும்."
+  },
+  "screens.SyncModal.errorVersionUsBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "{சாதனத்தின் பெயர்} உடன் ஒத்திசைக்க Mapeo ஐ மேம்படுத்த வேண்டும்"
+  },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "திட்டத்தைச் சேர்க்கவும்"
+  },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "அழைப்பைப் பகிரவும்"
   },
   "screens.UnableToLink.showCode": {
     "description": "Button prompting user to show code for message",
