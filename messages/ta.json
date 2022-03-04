@@ -114,6 +114,10 @@
   "screens.AddToProjectScreen.titleGeneric": {
     "message": "திட்டத்தைச் சேர்க்கவும்"
   },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "நீங்கள் இருப்பது{திட்டத்தின் பெயர்}"
+  },
   "screens.AlreadyOnProject.goBack": {
     "description": "Button to Go Back leaving project",
     "message": "பின் செல்"
@@ -126,11 +130,57 @@
     "description": "Informs user that they must leave their current project before they can join the new project",
     "message": "புதிய திட்டத்தில் சேர, தற்போதைய திட்டத்தை விட்டு வெளியேற வேண்டும்."
   },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "நீங்கள் ஏற்கனவே ஒரு திட்டப்பணியில் உள்ளீர்கள்"
+  },
+  "screens.AppPasscode": {
+    "message": "App கடவுக்குறியீடு"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "தொடரவும்"
   },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": " App கடவுக்குறியீடு என்றால் என்ன?"
+  },
+  "screens.CameraScreen.noCameraAccess": {
+    "description": "Error message shown when app does not have permissions to camera",
+    "message": "கேமராவிற்கு அனுமதி  இல்லை"
+  },
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "என்ன நடக்கிறது என்பதைத் தேர்ந்தெடுக்கவும்"
+  },
   "screens.ConfirmLeavePracticeModeScreen.cancel": {
     "message": "மூடு"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "இல்லை, எனது அவதானிப்புகளை நீக்கவும்"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "ஆம், எனது அவதானிப்புகளை வைத்திருங்கள்"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "பயிற்சி பயன்முறையை விட்டு வெளியேறவும்"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "கீழே உள்ள விருப்பங்களில் ஒன்றினை தேர்ந்தெடுக்கவும்:"
+  },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "தசம டிகிரி (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "டிகிரி/நிமிடங்கள்/வினாடிகள் (DMS)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "ஒருங்கிணைப்பு வடிவம்"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "சாதனத்தின் பெயர்"
   },
   "screens.CreateProject.projectNameError": {
     "description": "Validation error for project name input field",
@@ -169,6 +219,9 @@
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "மொழி"
+  },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "திட்டத்தை விட்டு வெளியேறவும்"
   },
   "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
     "message": "முடிந்தது!"
