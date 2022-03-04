@@ -486,6 +486,134 @@
     "description": "Config name when do name is defined",
     "message": "பெயரிடப்படாதது"
   },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "பதிப்பு மற்றும் உருவாக்க எண்"
+  },
+  "screens.Settings.appInstall": {
+    "description": "Primary text for Mapeo APK test",
+    "message": "APK ஐ நிறுவவும்"
+  },
+  "screens.Settings.appInstallDesc": {
+    "description": "Secondary text for Mapeo APK test",
+    "message": "சோதனை APK நிறுவல்- install (முன் நிறுவப்பட்ட பயன்பாடு)"
+  },
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "Mapeo நிறுவியைப் பகிரவும்"
+  },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "மற்றொரு மொபைலில் Mapeo ஐ நிறுவவும் அல்லது புதுப்பிக்கவும்"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "ஒருங்கிணைப்பு வடிவம்"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "ஆயத்தொலைவுகள் எவ்வாறு காட்டப்படுகின்றன என்பதைத் தேர்ந்தெடுக்கவும்"
+  },
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "சோதனைகள்"
+  },
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "புதிய சோதனை அம்சங்களை இயக்கவும்"
+  },
+  "screens.Settings.language": {
+    "description": "Primary text for language settings",
+    "message": "மொழி"
+  },
+  "screens.Settings.languageDesc": {
+    "description": "Secondary text for language settings",
+    "message": "பயன்பாட்டுக்குக் காட்டப்பட்டுள்ள மொழி "
+  },
+  "screens.Settings.projectConfig": {
+    "description": "Primary text for project config settings",
+    "message": "திட்ட கட்டமைப்பு"
+  },
+  "screens.Settings.projectConfigDesc": {
+    "description": "Secondary text for project config settings",
+    "message": "வகைகள், சின்னங்கள் மற்றும் கேள்விகள்"
+  },
+  "screens.Settings.security": {
+    "message": "பாதுகாப்பு"
+  },
+  "screens.Settings.securityDesc": {
+    "description": "Description of security button in settings",
+    "message": "பயன்பாட்டு கடவுக்குறியீடு மற்றும் சாதன பாதுகாப்பு"
+  },
+  "screens.Settings.title": {
+    "description": "Title of settings screen",
+    "message": "அமைப்புகள்"
+  },
+  "screens.SyncModal.PeerList.completeButton": {
+    "description": "Button label when complete",
+    "message": "முடிந்தது!"
+  },
+  "screens.SyncModal.PeerList.disconnectedButton": {
+    "description": "Button label when disconnected",
+    "message": "துண்டிக்கப்பட்டது"
+  },
+  "screens.SyncModal.PeerList.errorButton": {
+    "description": "Button label when there is an error",
+    "message": "பிழை"
+  },
+  "screens.SyncModal.PeerList.errorClientMismatch": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
+    "message": "Mapeo வாடிக்கையாளர் அல்ல"
+  },
+  "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
+    "message": "பொருந்தாத Mapeo"
+  },
+  "screens.SyncModal.PeerList.finishingButton": {
+    "description": "Button label when finishing sync but don't have correct progress",
+    "message": "....."
+  },
+  "screens.SyncModal.PeerList.syncButton": {
+    "description": "Button label for sync button",
+    "message": "ஒத்திசைவு"
+  },
+  "screens.SyncModal.PeerList.syncLabel": {
+    "description": "Label for last sync datetime",
+    "message": "ஒத்திசைவானது"
+  },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "QR குறியீட்டைக் காட்டு"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "கீழே உள்ள மற்ற முறைகளில் ஒன்றைப் பயன்படுத்தி இணைக்க முயற்சிக்கவும்."
+  },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "சாதனத்துடன் இணைக்க முடியவில்லை"
+  },
+  "screens.UncaughtError.errorDesc": {
+    "description": "Description when there is an uncaught message in the app",
+    "message": "இதைப் பற்றி உண்மையிலேயே வருந்துகிறேன், ஏதோ எதிர்பாராத தவறு நேர்ந்தது, அது உங்கள் தவறு அல்ல. அது விஷயங்களைச் சரிசெய்கிறதா என்பதைப் பார்க்க, பயன்பாட்டை மறுதொடக்கம் செய்ய முயற்சிக்கவும்."
+  },
+  "screens.UncaughtError.errorTitle": {
+    "description": "Title of message when there is an uncaught message in the app",
+    "message": "எதிர்பாராத பிழை"
+  },
+  "sharedComponents.GpsPill.noGps": {
+    "message": "GPS இல்லை"
+  },
+  "sharedComponents.GpsPill.searching": {
+    "message": "தேடு…"
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "பயிற்சி முறை"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "இணைய இணைப்பில்லை"
+  },
   "sharedComponents.WifiBar.wifi": {
     "description": "Label for wifi network name",
     "message": "WiFi"
