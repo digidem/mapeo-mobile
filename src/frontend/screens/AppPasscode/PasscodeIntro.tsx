@@ -1,6 +1,7 @@
 import * as React from "react";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "react-navigation-hooks";
 import { PasscodeScreens } from ".";
 import { SecurityContext } from "../../context/SecurityContext";
 import Button from "../../sharedComponents/Button";
@@ -26,8 +27,13 @@ interface PasscodeIntroProps {
 }
 
 export const PasscodeIntro = ({ setScreen }: PasscodeIntroProps) => {
-  const [authState, setAuthState] = React.useContext(SecurityContext);
+  const [{ passcode }, setAuthState] = React.useContext(SecurityContext);
   const { formatMessage: t } = useIntl();
+  const { navigate } = useNavigation();
+
+  React.useEffect(() => {
+    if (!!passcode) navigate("Security");
+  }, []);
 
   return (
     <View style={[styles.container]}>

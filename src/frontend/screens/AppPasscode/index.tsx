@@ -10,7 +10,7 @@ import IconButton from "../../sharedComponents/IconButton";
 import { BackIcon } from "../../sharedComponents/icons";
 import { InputPasscodeScreen } from "./InputPasscodeScreen";
 import { PasscodeIntro } from "./PasscodeIntro";
-import { EnterPasscode, TurnOffPasscode } from "./TurnOffPasscode";
+import { TurnOffPasscode } from "./TurnOffPasscode";
 
 const m = defineMessages({
   title: {
@@ -27,13 +27,12 @@ export type PasscodeScreens =
   | "disablePasscode";
 
 export const AppPasscode: NavigationStackScreenComponent = () => {
-  const [{ passcode }] = React.useContext(SecurityContext);
   const [{ experiments }] = React.useContext(SettingsContext);
   const { navigate } = useNavigation();
-  const [authState] = React.useContext(SecurityContext);
+  const [{ passcode }] = React.useContext(SecurityContext);
 
   const [screenState, setScreenState] = React.useState<PasscodeScreens>(() =>
-    !!authState.passcode ? "enterPasscode" : "intro"
+    !!passcode ? "enterPasscode" : "intro"
   );
 
   React.useEffect(() => {

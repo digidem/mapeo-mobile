@@ -18,7 +18,7 @@ const m = defineMessages({
   },
   titleEnter: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.titleEnter",
-    defaultMessage: "Re-enter Passcode",
+    defaultMessage: "Enter Passcode",
   },
   subTitleSet: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet",
@@ -31,6 +31,11 @@ const m = defineMessages({
   subTitleEnter: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleEnter",
     defaultMessage: "Please Enter Password",
+  },
+  passwordDoesNotMatch: {
+    id:
+      "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch",
+    defaultMessage: "Password Does not match",
   },
   passwordError: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError",
@@ -52,16 +57,23 @@ export const InputPasscodeScreen = ({
   const [authState, setAuthState] = React.useContext(SecurityContext);
   const { navigate } = useNavigation();
 
-  const [title, subtitle] = React.useMemo(() => {
+  //This checks that the user cannot be in the confirm passcode screen if they have not typed in an initial passcode
+  React.useEffect(() => {
+    if (screenState === "confirmSetPasscode" && !initialPassword.current) {
+      setScreenState("intro");
+    }
+  }, [screenState]);
+
+  const [title, subtitle, errorMessage] = React.useMemo(() => {
     if (screenState === "setPasscode") {
       return [m.titleSet, m.titleConfirm];
     }
 
     if (screenState === "confirmSetPasscode") {
-      return [m.titleConfirm, m.subTitleConfirm];
+      return [m.titleConfirm, m.subTitleConfirm, m.passwordDoesNotMatch];
     }
 
-    return [m.titleEnter, m.subTitleEnter];
+    return [m.titleEnter, m.subTitleEnter, m.passwordError];
   }, [screenState]);
 
   function onError() {
@@ -80,6 +92,7 @@ export const InputPasscodeScreen = ({
     if (screenState === "confirmSetPasscode") {
       if (inputtedValue === initialPassword.current) {
         setAuthState({ type: "setPasscode", newPasscode: inputtedValue });
+        initialPassword.current = "";
         navigate("Security");
         return;
       }
@@ -119,9 +132,9 @@ export const InputPasscodeScreen = ({
         handleCorrectOrNewPass={correctPass}
       />
 
-      {error && (
+      {error && !!errorMessage && (
         <Text>
-          <FormattedMessage {...m.passwordError} />
+          <FormattedMessage {...errorMessage} />
         </Text>
       )}
     </View>
