@@ -7,16 +7,124 @@
     "description": "Button on dialog to cancel observation edits",
     "message": "மாற்றங்களை நிராகரிக்கவும்"
   },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "மாற்றங்களை அகற்றவா?"
+  },
+  "AppContainer.EditHeader.discardContent": {
+    "description": "Button on dialog to cancel a new observation",
+    "message": "சேமிக்காமல் நிராகரிக்கவும்"
+  },
+  "AppContainer.EditHeader.discardTitle": {
+    "description": "Title of dialog that shows when cancelling a new observation",
+    "message": "அவதானிப்புகளை நீக்கவா?"
+  },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo பதிப்பிலிருந்து வெற்றிகரமாகப் புதுப்பிக்கப்பட்டது"
+  },
   "hooks.updateNotifier.dialogOK": {
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
     "message": "சரி"
   },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo புதுப்பிக்கப்பட்டது ✅"
+  },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "Android உருவாக்க எண்"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "ஆண்ட்ராய்டு பதிப்பு (Android version)"
+  },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "மேபியோ உருவாக்கம்"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "மேபியோ மாறுபாடு"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "மேபியோ பதிப்பு"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "போன் மாடல்"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "மேபியோ பற்றி"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "தெரியாத"
+  },
+  "screens.AddPhoto.cancel": {
+    "message": "ரத்து செய்க"
+  },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "சாதனத்துடன் இணைக்கவும்"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "ரத்து செய்க"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "ஒருங்கிணைப்பாளர்கள் திட்டங்களிலிருந்து சாதனங்களைச் சேர்க்கலாம் மற்றும் அகற்றலாம்"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "இந்தச் சாதனம் ஒரு ஒருங்கிணைப்பாளர்"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "இந்த சாதனம் ஒரு பங்கேற்பாளர்"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "USB சாதனத்திற்காக ஒரு பயன்பாட்டைத் தேர்வு செய்யவும்"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "சாதனம் கண்டுபிடிக்கப்பட்டது"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "பிரச்சனை உள்ளதா?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "சமூக மேப்பரிடம், இணைந்துகொள்ள கோரிக்கை அனுப்புமாறு கேளுங்கள்."
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "திட்டத்திற்கு நபரைச் சேர்க்க சாதனத்தை ஸ்கேன் செய்யவும்"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "அறிவுறுத்தல்கள்"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{சாதன ஐடி} ஆனது {திட்டத்தின் பெயர்} இல் சேர்க்கப்பட்டது"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "ஒத்திசைவுக்குச் செல்லவும் (Go to Sync)"
+  },
   "screens.AddToProjectScreen.SuccessStep.title": {
     "message": "வெற்றி!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "சாதனத்தை அழைக்கவும்"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "திட்டத்தைச் சேர்க்கவும்"
   },
   "screens.AlreadyOnProject.goBack": {
     "description": "Button to Go Back leaving project",
     "message": "பின் செல்"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "தற்போதைய திட்டத்திலிருந்து வெளியேறவும்"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "புதிய திட்டத்தில் சேர, தற்போதைய திட்டத்தை விட்டு வெளியேற வேண்டும்."
   },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "தொடரவும்"
