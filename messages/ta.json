@@ -178,6 +178,26 @@
     "description": "Title coordinate format screen",
     "message": "ஒருங்கிணைப்பு வடிவம்"
   },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "யுனிவர்சல் டிரான்ஸ்வர்ஸ் மெர்கேட்டர் (UTM)"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "திட்டப்பணியை உருவாக்கு"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "திட்டப்பணியை உருவாக்கு"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "சாதனத்தின் பெயரை உள்ளிடவும்"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "உங்கள் சாதனத்திற்கு ஒரு பெயரைச் சேர்க்கவும்"
+  },
   "screens.CreateProject.deviceNamePlaceholder": {
     "description": "Placeholder text for device name input field",
     "message": "சாதனத்தின் பெயர்"
@@ -185,6 +205,10 @@
   "screens.CreateProject.projectNameError": {
     "description": "Validation error for project name input field",
     "message": "திட்டத்தின் பெயரை உள்ளிடவும்"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "திட்டத்திற்கான பெயரை உள்ளிடவும்"
   },
   "screens.CreateProject.projectNamePlaceholder": {
     "description": "Placeholder text for project name input field",
@@ -202,6 +226,22 @@
     "description": "Section title for time of last GPS update",
     "message": "கடைசியாகப் புதுப்பித்தது"
   },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "தசம டிகிரிகளை ஒருங்கிணைக்கிறது"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "DMS ஒருங்கிணைப்பு"
+  },
+  "screens.GpsModal.locationSensors": {
+    "description": "Heading for section about location sensor status",
+    "message": "சென்சார் நிலை"
+  },
+  "screens.GpsModal.locationUTM": {
+    "description": "Section title for UTM coordinates",
+    "message": "UTM ஒருங்கிணைப்பு"
+  },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
     "message": "இல்லை"
@@ -213,6 +253,18 @@
   "screens.JoinRequestModal.close": {
     "message": "மூடுக"
   },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "கோரிக்கையை மறுக்கவும்"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "அழைக்கவும்"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "அழைப்பு அனுப்பப்பட்டது."
+  },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{சாதனத்தின் பெயர்} இல் சேர விரும்புகிறார் {திட்டத்தின் பெயர்}"
+  },
   "screens.JoinRequestModal.success": {
     "message": "வெற்றி!"
   },
@@ -223,8 +275,38 @@
   "screens.LeaveProject.LeaveProject": {
     "message": "திட்டத்தை விட்டு வெளியேறவும்"
   },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "கோ ஹோம் (Go Home)"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "அவதானிப்புகள் நீக்கப்பட்டன"
+  },
   "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
     "message": "முடிந்தது!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "திட்டத்திலிருந்து வெளியேறுதல் {திட்டத்தின் பெயர்}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "அவதானிப்புகளை நீக்குதல்"
+  },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "கிழக்கு"
+  },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "தவறான ஒருங்கிணைப்புகள்"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "அட்சரேகை மதிப்பு"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "அட்சரேகை"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "தீர்க்கரேகை மதிப்பு"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "தீர்க்கரேகை"
   },
   "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
     "message": "நிமிடம்"
@@ -324,8 +406,65 @@
     "description": "Title of screen with list of observations",
     "message": "அவதானிப்புகள்"
   },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "அறிவுறுத்தல்கள்"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "அதற்குப் பதிலாகச் சேருவதற்கான கோரிக்கையை அனுப்பவும்"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "திட்டத்தில் சேரவும்"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "திட்ட ஒருங்கிணைப்பாளருடன் இந்தக் குறியீட்டைப் பகிரவும்"
+  },
   "screens.Onboarding.SendJoinRequestScreen.share": {
     "message": "பகிரவும்"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "சேர கோரிக்கை அனுப்பவும்"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "சரிபார்ப்பு குறியீடு"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "முடிந்தது!"
+  },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "{எண்}/{மொத்தம்} அவதானிப்புகள் முடிந்தது"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "ஒத்திசைக்கிறது..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "{எண்}/{மொத்தம்} அவதானிப்புகள் முடிந்தது"
+  },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "மேப்பிங்கைத் தொடங்கவும்"
+  },
+  "screens.Photos.ConfirmDeleteModal.cancel": {
+    "message": "ரத்து செய்க"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
+    "message": "படத்தை நீக்கு"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
+    "message": "இந்தப் படத்தை நீக்கவா?"
+  },
+  "screens.PhotosModal": {
+    "message": "படத்தை நீக்கு"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "மூடுக"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "அழைப்பை நிராகரி"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "அழைப்பு விவரங்களை மீட்டெடுக்க முடியவில்லை"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "மீண்டும் முயற்சி"
   },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
