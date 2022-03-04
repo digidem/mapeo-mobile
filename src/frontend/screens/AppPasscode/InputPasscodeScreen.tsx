@@ -2,6 +2,7 @@ import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
+
 import { PasscodeScreens } from ".";
 import { SecurityContext } from "../../context/SecurityContext";
 import { PasswordInput } from "../../sharedComponents/PasswordInput";

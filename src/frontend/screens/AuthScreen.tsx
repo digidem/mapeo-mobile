@@ -1,8 +1,8 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { View, Image, Text, StyleSheet } from "react-native";
-import { DARK_BLUE, WARNING_RED, WHITE } from "../lib/styles";
 
+import { DARK_BLUE, WARNING_RED, WHITE } from "../lib/styles";
 import { KILL_PASSCODE } from "../constants";
 import { SecurityContext } from "../context/SecurityContext";
 import { PasswordInput } from "../sharedComponents/PasswordInput";

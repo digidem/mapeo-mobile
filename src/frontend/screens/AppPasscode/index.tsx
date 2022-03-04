@@ -3,8 +3,10 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import { StyleSheet, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
+
 import { SecurityContext } from "../../context/SecurityContext";
 import SettingsContext from "../../context/SettingsContext";
+import { WHITE } from "../../lib/styles";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import IconButton from "../../sharedComponents/IconButton";
 import { BackIcon } from "../../sharedComponents/icons";
@@ -81,5 +83,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 20,
     paddingHorizontal: 20,
+    flex: 1,
+    backgroundColor: WHITE,
   },
 });

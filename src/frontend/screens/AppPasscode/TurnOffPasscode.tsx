@@ -1,10 +1,11 @@
 import * as React from "react";
 import { View } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
-import { SecurityContext } from "../../context/SecurityContext";
 import { useNavigation } from "react-navigation-hooks";
-import Text from "../../sharedComponents/Text";
 import { defineMessages, FormattedMessage } from "react-intl";
+
+import { SecurityContext } from "../../context/SecurityContext";
+import Text from "../../sharedComponents/Text";
 
 const m = defineMessages({
   turnOff: {
