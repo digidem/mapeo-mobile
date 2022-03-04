@@ -371,5 +371,157 @@
   "screens.ObservationsList.ObservationsEmptyView.backButton": {
     "description": "Back button on observation list screen when no observations are yet recorded",
     "message": "සිතියම වෙත යන්න"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
+    "description": "Description of observation list view when the user has not yet recorded observations",
+    "message": "ඔබගේ පළමු නිරීක්ෂණය වාර්තා කිරීමට සිතියමෙන් හෝ කැමරා දර්ශනයෙන් ආරම්භ කරන්න."
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
+    "description": "Title of observation list view when the user has not yet recorded observations",
+    "message": "නිරීක්ෂණය එකතු කරන්න"
+  },
+  "screens.ObservationsList.error": {
+    "description": "message shown when there is an unexpected error when loading observations",
+    "message": "නිරීක්ෂණ පූරණය කිරීමේ දෝෂයකි. Mapeo වෙතින් ඉවත් වී නැවත ආරම්භ කිරීමට උත්සාහ කරන්න."
+  },
+  "screens.ObservationsList.loading": {
+    "description": "message shown whilst observations are loading",
+    "message": "පූරණය වෙමින් පවතී... මෙය නව උපාංගයක් සමඟ සමමුහුර්ත කිරීමෙන් පසු යම් කාලයක් ගත විය හැක"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "නව ව්‍යාපෘතියක් සාදන්න"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "{action} කිරීමට මෙහි තට්ටු කරන්න"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "ව්යාපෘතියකට සම්බන්ධ වන්න"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "පුහුණු මාදිලිය"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "ව්‍යාපෘති සහභාගිවන්නන්ට මෙම ආරාධනා කේතය පරිලෝකනය කිරීමට සලස්වන්න."
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "මෙම QR කේතය ඔබේ ව්‍යාපෘති පරිපාලක වෙත පෙන්වන්න"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "උපදෙස්"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "ඒ වෙනුවට Join Request යවන්න"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "ව්යාපෘතියකට සම්බන්ධ වන්න"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "මෙම කේතය ව්‍යාපෘති සම්බන්ධීකාරක සමඟ බෙදා ගන්න"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "බෙදාගන්න"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "Join Request යවන්න"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "Verification Code"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "සම්පූර්ණයි!"
+  },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "{num}/{total} නිරීක්ෂණ සම්පූර්ණයි"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "සමමුහුර්ත වෙමින්..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "{num}/{total} නිරීක්ෂණ සම්පූර්ණයි"
+  },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "සිතියම්ගත කිරීම ආරම්භ කරන්න"
+  },
+  "screens.Photos.ConfirmDeleteModal.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
+    "message": "රූපය මකන්න"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
+    "message": "මෙම ඡායාරූපය මකන්නද?"
+  },
+  "screens.PhotosModal": {
+    "message": "රූපය මකන්න"
+  },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "ව්යාපෘතියේ නම:"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "කිසිවක් නැත"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "පුහුණු මාදිලිය"
+  },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "ව්යාපෘති වින්යාසය"
+  },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "Mapeo ගැන"
+  },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "අනුවාදය සහ ගොඩනැගීමේ අංකය"
+  },
+  "screens.Settings.appInstall": {
+    "description": "Primary text for Mapeo APK test",
+    "message": "APK ස්ථාපනය කරන්න"
+  },
+  "screens.Settings.appInstallDesc": {
+    "description": "Secondary text for Mapeo APK test",
+    "message": "APK ස්ථාපනය පරීක්ෂා කරන්න (යෙදුම නැවත ස්ථාපනය කරන්න)"
+  },
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "Mapeo ස්ථාපකය බෙදාගන්න"
+  },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "වෙනත් දුරකථනයක Mapeo ස්ථාපනය කරන්න හෝ යාවත්කාලීන කරන්න"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "සම්බන්ධීකරණ ආකෘතිය"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "ඛණ්ඩාංක පෙන්වන ආකාරය තෝරන්න\nContextrequest"
+  },
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "අත්හදා බැලීම්"
+  },
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "අත්හදා බැලීම්"
+  },
+  "screens.Settings.language": {
+    "description": "Primary text for language settings",
+    "message": "භාෂාව"
+  },
+  "screens.Settings.languageDesc": {
+    "description": "Secondary text for language settings",
+    "message": "යෙදුම සඳහා සංදර්ශක භාෂාව"
+  },
+  "screens.Settings.projectConfig": {
+    "description": "Primary text for project config settings",
+    "message": "ව්යාපෘති වින්යාසය"
   }
 }
