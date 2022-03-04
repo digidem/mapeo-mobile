@@ -1,8 +1,9 @@
 import * as React from "react";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
-import { SecurityContext } from "../../../context/SecurityContext";
-import Button from "../../../sharedComponents/Button";
+import { PasscodeScreens } from ".";
+import { SecurityContext } from "../../context/SecurityContext";
+import Button from "../../sharedComponents/Button";
 
 const m = defineMessages({
   title: {
@@ -20,11 +21,11 @@ const m = defineMessages({
   },
 });
 
-interface SplashProps {
-  incrementState: () => void;
+interface PasscodeIntroProps {
+  setScreen: React.Dispatch<React.SetStateAction<PasscodeScreens>>;
 }
 
-export const PasscodeIntro = ({ incrementState }: SplashProps) => {
+export const PasscodeIntro = ({ setScreen }: PasscodeIntroProps) => {
   const [authState, setAuthState] = React.useContext(SecurityContext);
   const { formatMessage: t } = useIntl();
 
@@ -39,7 +40,10 @@ export const PasscodeIntro = ({ incrementState }: SplashProps) => {
         </Text>
       </View>
       <View>
-        <Button style={[styles.button]} onPress={incrementState}>
+        <Button
+          style={[styles.button]}
+          onPress={() => setScreen("setPasscode")}
+        >
           {t(m.continue)}
         </Button>
       </View>

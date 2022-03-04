@@ -1,14 +1,15 @@
 import * as React from "react";
+import { View } from "react-native";
 import { SecurityContext } from "../../context/SecurityContext";
 import Button from "../../sharedComponents/Button";
 import Text from "../../sharedComponents/Text";
 
-export const EnterPasscode = () => {
+export const TurnOffPasscode = () => {
   const [authState, setAuthState] = React.useContext(SecurityContext);
 
   return (
-    <React.Fragment>
-      <Text>{authState.passcode}</Text>
+    <View>
+      <Text></Text>
       <Button
         onPress={() => {
           setAuthState({ type: "setPasscode", newPasscode: null });
@@ -16,6 +17,6 @@ export const EnterPasscode = () => {
       >
         Turn Off App Passcode
       </Button>
-    </React.Fragment>
+    </View>
   );
 };

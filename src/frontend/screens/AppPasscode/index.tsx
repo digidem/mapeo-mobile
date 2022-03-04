@@ -8,8 +8,9 @@ import SettingsContext from "../../context/SettingsContext";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import IconButton from "../../sharedComponents/IconButton";
 import { BackIcon } from "../../sharedComponents/icons";
-import { EnterPasscode } from "./EnterPasscode";
-import { NewPasscode } from "./NewPasscode";
+import { InputPasscodeScreen } from "./InputPasscodeScreen";
+import { PasscodeIntro } from "./PasscodeIntro";
+import { EnterPasscode, TurnOffPasscode } from "./TurnOffPasscode";
 
 const m = defineMessages({
   title: {
@@ -18,20 +19,49 @@ const m = defineMessages({
   },
 });
 
+export type PasscodeScreens =
+  | "intro"
+  | "setPasscode"
+  | "confirmSetPasscode"
+  | "enterPasscode"
+  | "disablePasscode";
+
 export const AppPasscode: NavigationStackScreenComponent = () => {
   const [{ passcode }] = React.useContext(SecurityContext);
   const [{ experiments }] = React.useContext(SettingsContext);
   const { navigate } = useNavigation();
+  const [authState] = React.useContext(SecurityContext);
+
+  const [screenState, setScreenState] = React.useState<PasscodeScreens>(() =>
+    !!authState.passcode ? "enterPasscode" : "intro"
+  );
 
   React.useEffect(() => {
     if (!experiments.appPasscode) navigate("Settings");
   }, [experiments]);
 
-  return (
-    <View style={styles.pageContainer}>
-      {passcode ? <EnterPasscode /> : <NewPasscode />}
-    </View>
-  );
+  const screen = React.useMemo(() => {
+    if (screenState === "intro") {
+      return <PasscodeIntro setScreen={setScreenState} />;
+    }
+
+    if (
+      screenState === "setPasscode" ||
+      screenState === "confirmSetPasscode" ||
+      screenState === "enterPasscode"
+    ) {
+      return (
+        <InputPasscodeScreen
+          screenState={screenState}
+          setScreenState={setScreenState}
+        />
+      );
+    }
+
+    return <TurnOffPasscode />;
+  }, [screenState]);
+
+  return <View style={styles.pageContainer}>{screen}</View>;
 };
 
 AppPasscode.navigationOptions = () => ({
