@@ -454,6 +454,18 @@
   "screens.PhotosModal": {
     "message": "රූපය මකන්න"
   },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "මෙම වින්‍යාස ගොනුව ආයාත කිරීමට උත්සාහ කිරීමේදී දෝෂයක් ඇති විය"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "අපනයන දෝෂ"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "වත්මන් වින්යාසය"
+  },
   "screens.Settings.ProjectConfig.name": {
     "description": "Button to import Mapeo config file",
     "message": "ව්යාපෘතියේ නම:"
@@ -465,9 +477,17 @@
     "description": "Placeholder config name when in Practice Mode",
     "message": "පුහුණු මාදිලිය"
   },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "ව්යාපෘති යතුර"
+  },
   "screens.Settings.ProjectConfig.title": {
     "description": "Title of project configuration screen",
     "message": "ව්යාපෘති වින්යාසය"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "නම් නොකළ"
   },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
@@ -651,5 +671,9 @@
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
     "message": "ඔබ සමමුහුර්ත කිරීමට උත්සාහ කරන උපාංගය ඔබ සමඟ සමමුහුර්ත කිරීමට Mapeo නවතම අනුවාදයට උත්ශ්‍රේණි කිරීමට අවශ්‍ය වේ."
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "වයිෆයි:"
   }
 }
