@@ -440,9 +440,17 @@
     "description": "Button to confirm delete of observation",
     "message": "ඔව්, මකන්න"
   },
+  "screens.Observation.deleteTitle": {
+    "description": "Title of dialog asking confirmation to delete an observation",
+    "message": "නිරීක්ෂණය මකන්නද?"
+  },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
     "message": "නිරීක්ෂණය හමු නොවීය"
+  },
+  "screens.Observation.title": {
+    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
+    "message": "නිරීක්ෂණ"
   },
   "screens.ObservationDetails.QuestionNavBar.questionPage": {
     "description": "Indicates which question we are on and total questions",
@@ -612,6 +620,82 @@
   },
   "screens.PhotosModal": {
     "message": "රූපය මකන්න"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "වසන්න"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "ආරාධනාව ප්‍රතික්ෂේප කරන්න"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "ආරාධනා විස්තර ලබා ගැනීමට නොහැකි විය"
+  },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "{role} අයෙක් ලෙස {projectName} ඔබට එක් වීමට ආරාධනා කර ඇත"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "එකතු වී සමමුහුර්ත කරන්න"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "{projectName} හා එක් වන්න"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "යලි උත්සාහ කරන්න"
+  },
+  "screens.Security.deviceBackup": {
+    "message": "උපාංග උපස්ථය"
+  },
+  "screens.Security.killPassDescriptonPassNotSet": {
+    "message": "භාවිතා කිරීමට, යෙදුම් මුරකේතය සබල කරන්න"
+  },
+  "screens.Security.killPassDescriptonPassSet": {
+    "message": "අල්ලා ගැනීමෙන් ඔබේ උපාංගය ආරක්ෂා කරන්න"
+  },
+  "screens.Security.killPasscodeHeader": {
+    "message": "මුර කේතය විසන්ධි කරන්න"
+  },
+  "screens.Security.paperKey": {
+    "message": "කඩදාසි යතුර"
+  },
+  "screens.Security.paperKeyDes": {
+    "message": "මෙම උපාංගය නැති වුවහොත් ඔබගේ ගිණුම නැවත පිහිටුවන්න"
+  },
+  "screens.Security.passDesriptionPassNotSet": {
+    "message": "මුර කේතය සකසා නැත"
+  },
+  "screens.Security.passDesriptionPassSet": {
+    "message": "මුර කේතය සකසා ඇත"
+  },
+  "screens.Security.passcodeHeader": {
+    "message": "යෙදුම් මුර කේතය"
+  },
+  "screens.Security.securitySubheader": {
+    "message": "උපාංග ආරක්ෂාව"
+  },
+  "screens.Security.title": {
+    "message": "ආරක්ෂාව"
+  },
+  "screens.ServerStatus.errorDesc": {
+    "description": "Description when there the Mapeo Core server crashes",
+    "message": "ඔබට යෙදුම බලහත්කාරයෙන් නැවත ආරම්භ කිරීමට උත්සාහ කළ හැක, නමුත් නිවැරදි කිරීමට අවශ්‍ය යමක් තිබිය හැක. ඇත්තටම මේ ගැන කණගාටුයි, යෙදුම් සෑදීම අපහසුයි."
+  },
+  "screens.ServerStatus.errorTitle": {
+    "description": "Title of message when there the Mapeo Core server crashes",
+    "message": "අපොයි, Mapeo දත්ත ගබඩාවේ යමක් කැඩී ඇත."
+  },
+  "screens.ServerStatus.timeoutDesc": {
+    "description": "Description when the server has not responded for 10 seconds",
+    "message": "ඔබ මෙම පණිවිඩය දිගටම බලන්නේ නම් ඔබට Mapeo බලහත්කාරයෙන් නැවත ආරම්භ කිරීමට අවශ්‍ය විය හැක"
+  },
+  "screens.ServerStatus.timeoutTitle": {
+    "description": "Title of message when the server has not responded for 10 seconds",
+    "message": "Mapeo දත්ත ගබඩාවේ යම් දෙයක් තිබේ"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "දිශානුගත ඊතලය"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "නව දිශානුගත ඊතල විශේෂාංගය ඔබගේ දුරකථනය මුහුණ දෙන දිශාව පිළිබඳ තොරතුරු සැපයීමට ඔබගේ ස්මාර්ට් ජංගම දුරකතනයේ ඩිජිටල් මාලිමා යන්ත්‍රය භාවිතා කරයි. විශාල ලෝහ වස්තූන් හෝ ප්රබල චුම්බක ක්ෂේත්රයට සමීප වීම මාලිමාවේ නිරවද්යතාවට බලපායි. ඔබගේ ස්මාර්ට් ජංගම දුරකතනයේ මාලිමා යන්ත්‍රයක් නොමැති නම්, දිශානුගත ඊතලයට චලනය මත දිශාව තීරණය කිරීමට තවමත් හැකි වේ. චලනය මත පදනම් වූ දිශාව අඩු නිවැරදි තාවයකින් පෙන්විය හැක."
   },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
