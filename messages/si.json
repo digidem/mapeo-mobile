@@ -102,6 +102,9 @@
   "screens.AddToProjectScreen.SuccessStep.description": {
     "message": "{deviceId} වෙත එකතු කර ඇත {projectName}"
   },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "සමමුහුර්ත කරන්න"
+  },
   "screens.AddToProjectScreen.SuccessStep.title": {
     "message": "සාර්ථකත්වය!"
   },
@@ -136,6 +139,9 @@
   },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "ඉදිරියට යන්න"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.description": {
+    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc."
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "යෙදුම් මුර කේතය යනු කුමක්ද?"
@@ -280,6 +286,15 @@
   },
   "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
     "message": "නිරීක්ෂණය මකා දමන ලදි"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
+    "message": "සම්පූර්ණයි!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "ව්‍යාපෘතියෙන් ඉවත් වීම {projectName}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "නිරීක්ෂණ මකමින්"
   },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
