@@ -719,13 +719,71 @@
     "description": "Indicates that the experimental feature is enabled",
     "message": "සක්‍රීයයි"
   },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "දිශානුගත ඊතලය"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Indicates that the experimental feature is not enabled",
+    "message": "අක්‍රීයයි"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p app updates",
+    "message": "P2P යෙදුම් යාවත්කාලීන"
+  },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "අවට උපාංග සමඟ යාවත්කාලීන බෙදා ගන්න සහ ලබා ගන්න"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "අත්හදා බැලීම්"
+  },
+  "screens.Settings.ManagePeople.add": {
+    "message": "එකතු කරන්න"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "ව්‍යාපෘතියෙන් ඉවත් වන්න"
+  },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "මිනිසුන් කළමනාකරණය කරන්න"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "ඉවත් කරන්න"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(You) {deviceName}"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "පහත ව්‍යාපෘතියක් සාදන්න හෝ සම්බන්ධ වන්න"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "නව ව්‍යාපෘතියක් සාදන්න"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "ව්යාපෘතියකට සම්බන්ධ වන්න"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "පුහුණු ප්‍රකාරය හැර යාමට සූදානම්ද?"
+  },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "මෙම වින්‍යාස ගොනුව ආයාත කිරීමට උත්සාහ කිරීමේදී දෝෂයක් ඇති විය"
   },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "හරි"
+  },
   "screens.Settings.ProjectConfig.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "අපනයන දෝෂ"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertMessage": {
+    "description": "Message for alert after successful config import",
+    "message": "සාර්ථකව ආනයනය කරන ලද වින්‍යාසය:\n\n{name} {version}"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertOk": {
+    "description": "Button text for config import alert acknowledgement",
+    "message": "හරි"
   },
   "screens.Settings.ProjectConfig.currentConfig": {
     "description": "Label for name & version of current configuration",
