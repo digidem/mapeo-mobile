@@ -651,6 +651,9 @@
   "screens.Security.paperKey": {
     "message": "காகித சாவி"
   },
+  "screens.Security.paperKeyDes": {
+    "message": "இந்தச் சாதனம் தொலைந்து போனால் உங்கள் கணக்கை மீண்டும் நிறுவவும்"
+  },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "கடவுக்குறியீடு அமைக்கப்படவில்லை"
   },
