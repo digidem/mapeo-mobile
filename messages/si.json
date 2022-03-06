@@ -697,6 +697,28 @@
   "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
     "message": "නව දිශානුගත ඊතල විශේෂාංගය ඔබගේ දුරකථනය මුහුණ දෙන දිශාව පිළිබඳ තොරතුරු සැපයීමට ඔබගේ ස්මාර්ට් ජංගම දුරකතනයේ ඩිජිටල් මාලිමා යන්ත්‍රය භාවිතා කරයි. විශාල ලෝහ වස්තූන් හෝ ප්රබල චුම්බක ක්ෂේත්රයට සමීප වීම මාලිමාවේ නිරවද්යතාවට බලපායි. ඔබගේ ස්මාර්ට් ජංගම දුරකතනයේ මාලිමා යන්ත්‍රයක් නොමැති නම්, දිශානුගත ඊතලයට චලනය මත දිශාව තීරණය කිරීමට තවමත් හැකි වේ. චලනය මත පදනම් වූ දිශාව අඩු නිවැරදි තාවයකින් පෙන්විය හැක."
   },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "සටහන: දිශානුගත ඊතලය සංචාලනය සඳහා පමණක් භාවිතා කිරීමට තරම් විශ්වාසදායක නොවන අතර, එය ඔබගේ උපාංගයේ බැටරිය වේගයෙන් බැස යා හැක."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "දිශානුගත ඊතලය භාවිතා කරන්න"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "P2P යෙදුම් යාවත්කාලීන"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "P2P යෙදුම් යාවත්කාලීන කරන්නා භාවිතා කරන්න"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "Peer-to-peer (P2P) යෙදුම් යාවත්කාලීන ඔබට Wi-Fi හරහා වෙනත් Mapeo උපාංග වෙත සම්බන්ධ වීමෙන් Mapeo යෙදුමේ නව අනුවාද බෙදා ගැනීමට සහ ලබා ගැනීමට ඉඩ සලසයි (අන්තර්ජාල සම්බන්ධතාවක් අවශ්‍ය නොවේ). මෙම විශේෂාංගය භාවිතා කිරීමට, Mapeo Synchronize තිරය උපාංග දෙකෙහිම විවෘතව තිබිය යුතුය."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "සටහන: මේ ආකාරයෙන් Mapeo යෙදුම් අනුවාදය යාවත්කාලීන කරන විට, ඔබගේ Mapeo දත්ත කිසිවක් (නිරීක්ෂණ, වින්‍යාස කිරීම්, හෝ සිතියම්) උපාංග අතර බෙදා නොගනී."
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Indicates that the experimental feature is enabled",
+    "message": "සක්‍රීයයි"
+  },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "මෙම වින්‍යාස ගොනුව ආයාත කිරීමට උත්සාහ කිරීමේදී දෝෂයක් ඇති විය"
