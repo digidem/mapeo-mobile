@@ -308,6 +308,30 @@
   "screens.ManualGpsScreen.DdForm.longitude": {
     "message": "தீர்க்கரேகை"
   },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "வடக்கு"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "அட்சரேகை கார்டினாலிட்டியைத் தேர்ந்தெடுக்கவும்"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "தீர்க்கரேகை கார்டினாலிட்டியைத் தேர்ந்தெடுக்கவும்"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "தெற்கு"
+  },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "மேற்கு"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "{களம்} நிமிட உள்ளீடு"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "{களம்} வினாடிகள் உள்ளீடு"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "கோணங்கள்"
+  },
   "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
     "message": "நிமிடம்"
   },
