@@ -359,6 +359,87 @@
   "screens.ManualGpsScreen.DmsForm.latitude": {
     "message": "අක්ෂාංශ"
   },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "දේශාංශ"
+  },
+  "screens.ManualGpsScreen.DmsForm.north": {
+    "message": "උතුරු"
+  },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "අක්ෂාංශ කාර්ඩිනලිටි තෝරන්න"
+  },
+  "screens.ManualGpsScreen.DmsForm.south": {
+    "message": "දකුණ"
+  },
+  "screens.ManualGpsScreen.DmsForm.west": {
+    "message": "බටහිර"
+  },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "සම්බන්ධීකරණ ආකෘතිය"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "දශම අංශක (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "උපාධි/මිනිත්තු/තත්පර (DMS)"
+  },
+  "screens.ManualGpsScreen.easting": {
+    "message": "නැගෙනහිර"
+  },
+  "screens.ManualGpsScreen.eastingSuffix": {
+    "message": "mE"
+  },
+  "screens.ManualGpsScreen.northing": {
+    "message": "උතුරු"
+  },
+  "screens.ManualGpsScreen.northingSuffix": {
+    "message": "mN"
+  },
+  "screens.ManualGpsScreen.title": {
+    "description": "title of manual GPS screen",
+    "message": "ඛණ්ඩාංක ඇතුළත් කරන්න"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "Universal Transverse Mercator (UTM)"
+  },
+  "screens.ManualGpsScreen.zoneLetter": {
+    "message": "කලාප ලිපිය"
+  },
+  "screens.ManualGpsScreen.zoneNumber": {
+    "message": "කලාප අංකය"
+  },
+  "screens.Observation.ObservationView.alertFooter": {
+    "description": "Footer for shared observations message",
+    "message": "Mapeo එකෙන් එව්වා"
+  },
+  "screens.Observation.ObservationView.alertSubject": {
+    "description": "Subject-line for shared observations",
+    "message": "Mapeo ඇඟවීම"
+  },
+  "screens.Observation.ObservationView.delete": {
+    "description": "Button to delete an observation",
+    "message": "මකන්න"
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "පිළිතුරක් නැත"
+  },
+  "screens.Observation.ObservationView.observation": {
+    "description": "Default name of observation with no matching preset",
+    "message": "නිරීක්ෂණ"
+  },
+  "screens.Observation.ObservationView.share": {
+    "description": "Button to share an observation",
+    "message": "බෙදාගන්න"
+  },
+  "screens.Observation.cancel": {
+    "description": "Button to cancel delete of observation",
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.Observation.confirm": {
+    "description": "Button to confirm delete of observation",
+    "message": "ඔව්, මකන්න"
+  },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
     "message": "නිරීක්ෂණය හමු නොවීය"
@@ -543,6 +624,10 @@
   "screens.Settings.ProjectConfig.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "වත්මන් වින්යාසය"
+  },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "ආයාත වින්‍යාසය"
   },
   "screens.Settings.ProjectConfig.name": {
     "description": "Button to import Mapeo config file",
@@ -749,6 +834,14 @@
   "screens.SyncModal.errorVersionThemBadDesc": {
     "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
     "message": "ඔබ සමමුහුර්ත කිරීමට උත්සාහ කරන උපාංගය ඔබ සමඟ සමමුහුර්ත කිරීමට Mapeo නවතම අනුවාදයට උත්ශ්‍රේණි කිරීමට අවශ්‍ය වේ."
+  },
+  "screens.SyncModal.errorVersionThemBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} හට Mapeo උත්ශ්‍රේණි කිරීමට අවශ්‍යයි"
+  },
+  "screens.SyncModal.errorVersionUsBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
+    "message": "ඔබ සමමුහුර්ත කිරීමට උත්සාහ කරන උපාංගයේ Mapeo හි නවතම අනුවාදයක් ඇත. මෙම උපාංගය සමඟ සමමුහුර්ත කිරීමට ඔබ Mapeo උත්ශ්‍රේණි කිරීමට අවශ්‍ය වේ."
   },
   "sharedComponents.WifiBar.wifi": {
     "description": "Label for wifi network name",
