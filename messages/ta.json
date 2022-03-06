@@ -682,17 +682,76 @@
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "திசை அம்பு"
   },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "புதிய திசை அம்பு அம்சமானது உங்கள் ஸ்மார்ட்போனின் டிஜிட்டல் திசைகாட்டியைப் பயன்படுத்தி, உங்கள் ஃபோன் எந்தத் திசையை எதிர்கொள்கிறது என்பதைப் பற்றிய தகவலை வழங்குகிறது. பெரிய உலோகப் பொருட்களுக்கு அருகாமையில் இருப்பது அல்லது வலுவான காந்தப்புலம் திசைகாட்டியின் துல்லியத்தைப் பாதிக்கலாம். உங்கள் ஸ்மார்ட்போனில் திசைகாட்டி இல்லை என்றால், திசை அம்பு இயக்கத்தின் அடிப்படையில் திசையைத் தீர்மானிக்க முடியும். இயக்கத்தின் அடிப்படையிலான திசையானது குறைவான துல்லியமாக இருக்கலாம்."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "குறிப்பு: வழிசெலுத்தலுக்காகப் பிரத்தியேகமாகப் பயன்படுத்தப்படும் அளவுக்குத் திசை அம்புக்குறி நம்பகமானதாக இல்லை, மேலும் இது உங்கள் சாதனத்தின் பேட்டரியை வேகமாக வெளியேற்றலாம்."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "திசை அம்புக்குறியைப் பயன்படுத்தவும்"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "P2P ஆப்ஸ் புதுப்பிப்புகள்"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "P2P ஆப் புதுப்பிப்புகள் பயன்படுத்தவும்"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "பியர்-டு-பியர் (P2P) ஆப்ஸ் புதுப்பிப்புகள், வைஃபை வழியாக (இணைய இணைப்பு தேவையில்லை) மற்ற மேபியோ சாதனங்களுடன் இணைப்பதன் மூலம் Mapeo பயன்பாட்டின் புதிய பதிப்புகளைப் பகிரவும் பெறவும் உங்களை அனுமதிக்கிறது. இந்த அம்சத்தைப் பயன்படுத்த, இரண்டு சாதனங்களிலும் Mapeo Synchronize திரை திறந்திருக்க வேண்டும்."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "குறிப்பு: இந்த வழியில் Mapeo ஆப்ஸ் பதிப்பைப் புதுப்பிக்கும்போது, உங்கள் Mapeo தரவு எதுவும் (கவனிப்புகள், உள்ளமைவுகள் அல்லது வரைபடங்கள்) சாதனங்களுக்கு இடையே பகிரப்படாது."
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Indicates that the experimental feature is enabled",
+    "message": "On"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "திசை அம்பு"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Indicates that the experimental feature is not enabled",
+    "message": "ஆஃப்"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p app updates",
+    "message": "P2P ஆப்ஸ் புதுப்பிப்புகள்"
+  },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "அருகில் உள்ள சாதனங்களுடன் புதுப்பிப்புகளைப் பகிரவும் மற்றும் பெறவும்"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "சோதனைகள்"
+  },
+  "screens.Settings.ManagePeople.add": {
+    "message": "சேர்க்க"
+  },
   "screens.Settings.ManagePeople.leaveProject": {
     "message": "திட்டத்தை விட்டு வெளியேறவும்"
   },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "மக்களை நிர்வகிக்கவும்"
+  },
   "screens.Settings.ManagePeople.remove": {
     "message": "நீக்கு"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(நீங்கள்) {சாதனத்தின் பெயர்}"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "கீழே உள்ள திட்டத்தை உருவாக்கவும் அல்லது சேரவும்"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
     "message": "திட்டப்பணியை உருவாக்கு"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
     "message": "திட்டத்தில் சேரவும்"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "பயிற்சி பயன்முறையிலிருந்து வெளியேறத் தயாரா?"
   },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
@@ -705,6 +764,10 @@
   "screens.Settings.ProjectConfig.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "பதிவிறக்கப் பிழை"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertMessage": {
+    "description": "Message for alert after successful config import",
+    "message": "வெற்றிகரமாக இறக்குமதி செய்யப்பட்ட கட்டமைப்பு:\n{பெயர்} {பதிப்பு}\n\n"
   },
   "screens.Settings.ProjectConfig.configImportAlertOk": {
     "description": "Button text for config import alert acknowledgement",
