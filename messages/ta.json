@@ -332,14 +332,35 @@
   "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
     "message": "கோணங்கள்"
   },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
+    "message": "{களம்} ஒப்பீட்டு உள்ளீடு"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "வழிகாட்டுதல்"
+  },
   "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
     "message": "நிமிடம்"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "நொடிகள்"
   },
   "screens.ManualGpsScreen.DmsForm.east": {
     "message": "கிழக்கு"
   },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "தவறான ஒருங்கிணைப்புகள்"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "அட்சரேகை"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "தீர்க்கரேகை"
+  },
   "screens.ManualGpsScreen.DmsForm.north": {
     "message": "வடக்கு"
+  },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "அட்சரேகை கார்டினாலிட்டியைத் தேர்ந்தெடுக்கவும்"
   },
   "screens.ManualGpsScreen.DmsForm.south": {
     "message": "தெற்கு"
@@ -347,8 +368,51 @@
   "screens.ManualGpsScreen.DmsForm.west": {
     "message": "மேற்கு"
   },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "ஒருங்கிணைப்பு வடிவம்"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "தசம டிகிரி (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "டிகிரி/நிமிடங்கள்/வினாடிகள் (DMS)"
+  },
+  "screens.ManualGpsScreen.easting": {
+    "message": "கிழக்கு"
+  },
+  "screens.ManualGpsScreen.eastingSuffix": {
+    "message": "மீட்டர் கிழக்கு ME"
+  },
   "screens.ManualGpsScreen.northing": {
     "message": "வடக்கு"
+  },
+  "screens.ManualGpsScreen.northingSuffix": {
+    "message": "மீட்டர் வடக்கு MN"
+  },
+  "screens.ManualGpsScreen.title": {
+    "description": "title of manual GPS screen",
+    "message": "ஒருங்கிணைப்புகள் உள்ளிடவும்"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "யுனிவர்சல் டிரான்ஸ்வர்ஸ் மெர்கேட்டர் (UTM)"
+  },
+  "screens.ManualGpsScreen.zoneLetter": {
+    "message": "மண்டல கடிதம்"
+  },
+  "screens.ManualGpsScreen.zoneNumber": {
+    "message": "மண்டல எண்"
+  },
+  "screens.Observation.ObservationView.alertFooter": {
+    "description": "Footer for shared observations message",
+    "message": "Mapeo இலிருந்து அனுப்பப்பட்டது"
+  },
+  "screens.Observation.ObservationView.alertSubject": {
+    "description": "Subject-line for shared observations",
+    "message": "மேபியோ எச்சரிக்கை"
+  },
+  "screens.Observation.ObservationView.delete": {
+    "description": "Button to delete an observation",
+    "message": "அழி"
   },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
@@ -382,6 +446,10 @@
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "அவதானிப்புகள்"
   },
+  "screens.ObservationDetails.QuestionNavBar.questionPage": {
+    "description": "Indicates which question we are on and total questions",
+    "message": "{தற்போதைய} இல்  {மொத்தம்} "
+  },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
     "message": "முடிந்தது"
@@ -389,6 +457,10 @@
   "screens.ObservationDetails.nextQuestion": {
     "description": "Button text to navigate to next question",
     "message": "அடுத்து"
+  },
+  "screens.ObservationDetails.title": {
+    "description": "Title of observation details screen showing question number and total",
+    "message": "கேள்வி {தற்போதைய} இல் {மொத்தம்}"
   },
   "screens.ObservationEdit.BottomSheet.addLabel": {
     "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
@@ -418,6 +490,14 @@
     "description": "Button to cancel save and continue waiting for GPS",
     "message": "தொடர்ந்து காத்திருக்கவும்"
   },
+  "screens.ObservationEdit.SaveButton.manualEntry": {
+    "description": "Button to manually enter GPS coordinates",
+    "message": "கையேடு இணைப்புகள்"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsDesc": {
+    "description": "Description in dialog when trying to save with no GPS coords",
+    "message": "இந்தக் கவனிப்புக்கு இடம் இல்லை. ஜிபிஎஸ் சிக்னலுக்காக நீங்கள் தொடர்ந்து காத்திருக்கலாம், இருப்பிடம் இல்லாமல் கண்காணிப்பைச் சேமிக்கலாம் அல்லது ஆயங்களை கைமுறையாக உள்ளிடலாம்"
+  },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
     "message": "GPS சமிக்ஞை இல்லை"
@@ -426,9 +506,66 @@
     "description": "Button to save regardless of GPS state",
     "message": "சேமிக்கவும்"
   },
+  "screens.ObservationEdit.SaveButton.weakGpsDesc": {
+    "description": "Description in dialog when trying to save with low GPS accuracy.",
+    "message": "GPS துல்லியம் குறைவாக உள்ளது. சிறந்த துல்லியத்திற்காக நீங்கள் தொடர்ந்து காத்திருக்கலாம், குறைந்த துல்லியத்துடன் கண்காணிப்பைச் சேமிக்கலாம் அல்லது ஆயங்களை கைமுறையாக உள்ளிடலாம்"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsTitle": {
+    "description": "Title of dialog when trying to save with low GPS accuracy.",
+    "message": "பலவீனமான GPS சிக்னல்"
+  },
+  "screens.ObservationEdit.editTitle": {
+    "description": "screen title for edit observation screen",
+    "message": "கவனிப்பைத் திருத்து"
+  },
+  "screens.ObservationEdit.newTitle": {
+    "description": "screen title for new observation screen",
+    "message": "புதிய கவனிப்பு"
+  },
   "screens.ObservationList.observationListTitle": {
     "description": "Title of screen with list of observations",
     "message": "அவதானிப்புகள்"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "வரைபடத்திற்குச் செல்லவும்"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
+    "description": "Description of observation list view when the user has not yet recorded observations",
+    "message": "உங்கள் முதல் கண்காணிப்பைப் பதிவு செய்ய வரைபடம் அல்லது கேமரா காட்சியிலிருந்து தொடங்கவும்."
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
+    "description": "Title of observation list view when the user has not yet recorded observations",
+    "message": "அவதானிப்புகளைச் சேர்க்கவும்"
+  },
+  "screens.ObservationsList.error": {
+    "description": "message shown when there is an unexpected error when loading observations",
+    "message": "அவதானிப்புகளை ஏற்றுவதில் பிழை. Mapeo ஐ விட்டுவிட்டு மீண்டும் தொடங்க முயற்சிக்கவும்."
+  },
+  "screens.ObservationsList.loading": {
+    "description": "message shown whilst observations are loading",
+    "message": "ஏற்றுகிறது... புதிய சாதனத்துடன் ஒத்திசைத்த பிறகு இதற்கு சிறிது நேரம் ஆகலாம்"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "திட்டப்பணியை உருவாக்கு"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "தொடங்குவதற்கு இங்கே தட்டவும்"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "திட்டத்தில் சேரவும்"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "பயிற்சி முறை"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "ரத்து செய்க"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "திட்டப் பங்கேற்பாளரிடம் இந்த அழைப்புக் குறியீட்டை ஸ்கேன் செய்யச் சொல்லுங்கள்."
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "இந்த QR குறியீட்டை உங்கள் திட்ட நிர்வாகியிடம் காட்டுங்கள்"
   },
   "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
     "message": "அறிவுறுத்தல்கள்"
@@ -487,8 +624,32 @@
   "screens.ProjectInviteModal.inviteErrorMessage": {
     "message": "அழைப்பு விவரங்களை மீட்டெடுக்க முடியவில்லை"
   },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "சேரவும் மற்றும் ஒத்திசைக்கவும்"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "{திட்டத்தின் பெயர்} இல் சேரவும்"
+  },
   "screens.ProjectInviteModal.tryAgain": {
     "message": "மீண்டும் முயற்சி"
+  },
+  "screens.Security.deviceBackup": {
+    "message": "சாதன காப்புப்பிரதி"
+  },
+  "screens.Security.killPassDescriptonPassNotSet": {
+    "message": "பயன்படுத்த, பயன்பாட்டு கடவுக்குறியீட்டை இயக்கவும்"
+  },
+  "screens.Security.killPassDescriptonPassSet": {
+    "message": "வலிப்புத்தாக்கத்திலிருந்து உங்கள் சாதனத்தைப் பாதுகாக்கவும்"
+  },
+  "screens.Security.killPasscodeHeader": {
+    "message": "கடவுக்குறியீட்டை நீக்கவும்"
+  },
+  "screens.Security.paperKey": {
+    "message": "காகித சாவி"
+  },
+  "screens.Security.passDesriptionPassNotSet": {
+    "message": "கடவுக்குறியீடு அமைக்கப்படவில்லை"
   },
   "screens.Security.passDesriptionPassSet": {
     "message": "பாஸ்கோடு அமைக்கப்பட்டது"
@@ -501,6 +662,25 @@
   },
   "screens.Security.title": {
     "message": "பாதுகாப்பு"
+  },
+  "screens.ServerStatus.errorDesc": {
+    "description": "Description when there the Mapeo Core server crashes",
+    "message": "பயன்பாட்டை வலுக்கட்டாயமாக மறுதொடக்கம் செய்ய முயற்சி செய்யலாம், ஆனால் ஏதாவது சரிசெய்ய வேண்டியிருக்கலாம். இதைப் பற்றி வருந்துகிறேன், பயன்பாடுகளை உருவாக்குவது கடினம்."
+  },
+  "screens.ServerStatus.errorTitle": {
+    "description": "Title of message when there the Mapeo Core server crashes",
+    "message": "அன்பே, Mapeo தரவுத்தளத்தில் ஏதோ உடைந்துவிட்டது."
+  },
+  "screens.ServerStatus.timeoutDesc": {
+    "description": "Description when the server has not responded for 10 seconds",
+    "message": "இந்தச் செய்தியை நீங்கள் தொடர்ந்து பார்த்தால், நீங்கள் Mapeo-ஐ வலுக்கட்டாயமாக மறுதொடக்கம் செய்ய வேண்டியிருக்கும்"
+  },
+  "screens.ServerStatus.timeoutTitle": {
+    "description": "Title of message when the server has not responded for 10 seconds",
+    "message": "Mapeo தரவுத்தளத்தில் ஏதோ உள்ளது"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "திசை அம்பு"
   },
   "screens.Settings.ManagePeople.leaveProject": {
     "message": "திட்டத்தை விட்டு வெளியேறவும்"
