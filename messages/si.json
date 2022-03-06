@@ -296,6 +296,69 @@
   "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
     "message": "නිරීක්ෂණ මකමින්"
   },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "නැගෙනහිර"
+  },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "වලංගු නොවන ඛණ්ඩාංක"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "අක්ෂාංශ අගය"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "අක්ෂාංශ"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "දේශාංශ අගය"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "දේශාංශ"
+  },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "උතුරු"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "අක්ෂාංශ කාර්ඩිනලිටි තෝරන්න"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "දේශාංශ කාඩිනලිටි තෝරන්න"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "දකුණ"
+  },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "බටහිර"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "{field} මිනිත්තු ආදානය"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "{field} තත්පර ආදානය"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "අංශක"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
+    "message": "{field} අංශක ආදානය"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "දිශාව"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
+    "message": "විනාඩි"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "තත්පර"
+  },
+  "screens.ManualGpsScreen.DmsForm.east": {
+    "message": "නැගෙනහිර"
+  },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "වලංගු නොවන ඛණ්ඩාංක"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "අක්ෂාංශ"
+  },
   "screens.Observation.notFound": {
     "description": "Message shown when an observation is not found",
     "message": "නිරීක්ෂණය හමු නොවීය"
