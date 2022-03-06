@@ -624,6 +624,9 @@
   "screens.ProjectInviteModal.inviteErrorMessage": {
     "message": "அழைப்பு விவரங்களை மீட்டெடுக்க முடியவில்லை"
   },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "நீங்கள் சேர அழைக்கப்பட்டுள்ளீர்கள்\n {திட்டத்தின் பெயர்} ஒரு {வகிபாகம்}"
+  },
   "screens.ProjectInviteModal.joinAndSync": {
     "message": "சேரவும் மற்றும் ஒத்திசைக்கவும்"
   },
@@ -777,6 +780,10 @@
     "description": "Label for name & version of current configuration",
     "message": "தற்போதைய கட்டமைப்பு"
   },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "இறக்குமதி கட்டமைப்பு"
+  },
   "screens.Settings.ProjectConfig.name": {
     "description": "Button to import Mapeo config file",
     "message": "செயற்திட்டத்தின் பெயர்"
@@ -910,6 +917,10 @@
   "screens.SyncModal.SyncView.noUpdates": {
     "description": "Label in upgrade bar when no updates are found",
     "message": "புதிய புதுப்பிப்புகள் இல்லை"
+  },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "சரிபார்க்கப்பட்டது "
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
