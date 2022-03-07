@@ -140,6 +140,9 @@
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "தொடரவும்"
   },
+  "screens.AppPasscode.NewPasscode.Splash.description": {
+    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc.\n"
+  },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": " App கடவுக்குறியீடு என்றால் என்ன?"
   },
@@ -159,6 +162,9 @@
   },
   "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
     "message": "ஆம், எனது அவதானிப்புகளை வைத்திருங்கள்"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "Bring ({observationCount}) {observationCount, plural, one {observation} other {observations}} from Practice Mode to the project?\n"
   },
   "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
     "message": "பயிற்சி பயன்முறையை விட்டு வெளியேறவும்"
