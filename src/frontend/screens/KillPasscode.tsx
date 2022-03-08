@@ -1,11 +1,13 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { StyleSheet, Switch, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
+import CheckBox from "@react-native-community/checkbox";
+
 import { KILL_PASSCODE } from "../constants";
 import { SecurityContext } from "../context/SecurityContext";
-import { LIGHT_GREY } from "../lib/styles";
+import { DARK_GREY, LIGHT_GREY } from "../lib/styles";
 import HeaderTitle from "../sharedComponents/HeaderTitle";
 import IconButton from "../sharedComponents/IconButton";
 import { BackIcon } from "../sharedComponents/icons";
@@ -15,11 +17,6 @@ const m = defineMessages({
   title: {
     id: "screens.KillPasscode.title",
     defaultMessage: "Kill Passcode",
-  },
-  body: {
-    id: "screens.KillPasscode.body",
-    defaultMessage:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
   },
   toggleMessage: {
     id: "screens.KillPasscode.toggleMessage",
@@ -39,23 +36,31 @@ export const KillPasscode: NavigationStackScreenComponent = () => {
     //If the user does not have a passcode set, they should NOT be able to see this screen
     //Also, if the user is in killmode, we do not want the person who has apprehended the phone to see this screen!
     if (!state.passcode || state.appMode === "kill") navigate("Security");
-  }, []);
+  }, [state.appMode, state.passcode]);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
         <FormattedMessage {...m.title} />
       </Text>
-      <Text>
-        <FormattedMessage {...m.body} />
+      {/* TO DO: Get translation and copy from programs */}
+      <Text style={{ fontSize: 16 }}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+        velit esse cillum dolore eu fugiat nulla pariatur
+        {/* <FormattedMessage {...m.body} /> */}
       </Text>
 
       <View style={styles.switch}>
-        <Text>
+        <Text style={{ fontSize: 16 }}>
           <FormattedMessage {...m.toggleMessage} />
         </Text>
-        <Switch
-          onChange={() => {
+        <CheckBox
+          tintColors={{ false: DARK_GREY }}
+          style={{ width: 20 }}
+          onValueChange={() => {
             dispatch({ type: "killModeEnabled:toggle" });
           }}
           value={state.killModeEnabled}

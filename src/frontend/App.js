@@ -18,6 +18,7 @@ import { ERROR_STORE_KEY, PASSWORD_KEY } from "./constants";
 import { SecurityProvider } from "./context/SecurityContext";
 import { AuthWrapper } from "./screens/AuthWrapper";
 import { AuthContainer } from "./Navigation/AuthContainers";
+import { AuthLoading } from "./screens/AuthLoading";
 
 /**
  * Turn off warnings about:
@@ -88,7 +89,7 @@ const App = () => {
           <SecurityProvider>
             <AppLoading>
               <AppProvider>
-                <AuthContainer />
+                <AppContainerWrapper />
                 <UpdateNotifier />
               </AppProvider>
             </AppLoading>

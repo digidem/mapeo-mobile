@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages } from "react-intl";
 
@@ -10,7 +10,7 @@ import {
   ListDivider,
 } from "../../sharedComponents/List";
 import IconButton from "../../sharedComponents/IconButton";
-import { BackIcon, SaveIcon } from "../../sharedComponents/icons";
+import { BackIcon } from "../../sharedComponents/icons";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { useNavigation } from "react-navigation-hooks";
 import SettingsContext from "../../context/SettingsContext";
@@ -66,13 +66,13 @@ const m = defineMessages({
 
 export const Security: NavigationStackScreenComponent = () => {
   const [{ experiments }] = React.useContext(SettingsContext);
-  const [authState, setAuthState] = React.useContext(SecurityContext);
+  const [authState] = React.useContext(SecurityContext);
   const [highlight, setHighlight] = React.useState(false);
   const { navigate } = useNavigation();
 
   React.useEffect(() => {
     if (!experiments.appPasscode) navigate("Settings");
-  }, [experiments]);
+  }, [experiments.appPasscode]);
 
   function highlightError() {
     setHighlight(true);

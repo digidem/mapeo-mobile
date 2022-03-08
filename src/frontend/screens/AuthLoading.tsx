@@ -32,8 +32,8 @@ export const AuthLoading = () => {
       }
     }
 
-    initialize().then(shouldNav => {
-      if (shouldNav) {
+    initialize().then(hasPassword => {
+      if (hasPassword) {
         navigate("AuthStack");
         return;
       }
@@ -52,5 +52,6 @@ export const AuthLoading = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: WHITE,
+    flex: 1,
   },
 });

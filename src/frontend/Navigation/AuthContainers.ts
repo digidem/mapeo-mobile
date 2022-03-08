@@ -1,39 +1,42 @@
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
-import { AppStack } from "./AppStack";
+import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+
 import { AuthScreen } from "../screens/AuthScreen";
-import { OnboardingStack } from "./OnboardingStack";
 import { AuthLoading } from "../screens/AuthLoading";
-import DefaultContainer from "./DefaultContainer";
-import OnboardingContainer from "./OnboardingContainer";
-import AppContainerWrapper from "../AppContainerWrapper";
-const AuthStack = createStackNavigator({ AuthScreen }, { headerMode: "none" });
-
-// const DefaultWithAuthNavigator = createSwitchNavigator(
-//     {
-//         AuthLoading,
-//         AppStack:DefaultContainer,
-//         AuthStack
-//     },
-//     {
-//         initialRouteName:'AuthLoading',
-
-//     }
-// )
-
-// export const DefaultWithAuthContainer = createAppContainer(DefaultWithAuthNavigator)
+import { AppStack } from "./AppStack";
+import { OnboardingStack } from "./OnboardingStack";
 
 //Route Name of Onboarding stack should match the name of App stack above^
-const AuthNavigator = createSwitchNavigator(
+const AuthOnboardingNavigator = createStackNavigator(
   {
     AuthLoading,
-    AppStack: AppContainerWrapper,
-    AuthStack,
+    AppStack: OnboardingStack,
+    AuthStack: AuthScreen,
   },
   {
     initialRouteName: "AuthLoading",
-    resetOnBlur: false,
+    mode: "modal",
+    headerMode: "none",
   }
 );
 
-export const AuthContainer = createAppContainer(AuthNavigator);
+export const OnboardingWithAuthContainer = createAppContainer(
+  AuthOnboardingNavigator
+);
+
+const AuthDefaultNavigator = createStackNavigator(
+  {
+    AuthLoading,
+    AppStack: AppStack,
+    AuthStack: AuthScreen,
+  },
+  {
+    initialRouteName: "AuthLoading",
+    mode: "modal",
+    headerMode: "none",
+  }
+);
+
+export const DefaultWithAuthContainer = createAppContainer(
+  AuthDefaultNavigator
+);

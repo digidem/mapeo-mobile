@@ -66,12 +66,16 @@ function securityReducer(state: AuthState, action: AuthActions): AuthState {
         throw new Error('Cannot enable "killMode" until password has been set');
       }
 
+      AsyncStorage.setItem(KILL_KEY, JSON.stringify(!state.killModeEnabled));
+
       return { ...state, killModeEnabled: !state.killModeEnabled };
 
     case "killModeEnabled:set":
       if (!state.passcode && action.newKillModeValue) {
         throw new Error('Cannot enable "killMode" until password has been set');
       }
+
+      AsyncStorage.setItem(KILL_KEY, JSON.stringify(action.newKillModeValue));
 
       return { ...state, killModeEnabled: action.newKillModeValue };
     /**

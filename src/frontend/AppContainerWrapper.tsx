@@ -18,11 +18,14 @@ import SettingsContext from "./context/SettingsContext";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
 import bugsnag from "./lib/logger";
 import { PracticeMode } from "./sharedComponents/PracticeMode";
-import DefaultContainer from "./Navigation/DefaultContainer";
-import OnboardingContainer from "./Navigation/OnboardingContainer";
+
 import { SecurityContext } from "./context/SecurityContext";
 import { AppState, AppStateStatus, Text, View } from "react-native";
-import { AuthScreen } from "./screens/AuthScreen";
+
+import {
+  DefaultWithAuthContainer,
+  OnboardingWithAuthContainer,
+} from "./Navigation/AuthContainers";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -129,7 +132,9 @@ const AppContainerWrapper = () => {
   }, [authStatus, setAuthState]);
 
   const AppContainer = React.useMemo(() => {
-    return experiments.onboarding ? OnboardingContainer : DefaultContainer;
+    return experiments.onboarding
+      ? OnboardingWithAuthContainer
+      : DefaultWithAuthContainer;
   }, [experiments.onboarding]);
 
   const updateRouteBasedAppState = React.useCallback(
@@ -214,7 +219,7 @@ const AppContainerWrapper = () => {
 
   return (
     <PracticeMode
-      enabled={false} //experiments.onboarding && !hidePracticeMode}
+      enabled={experiments.onboarding && !hidePracticeMode}
       hideBar={hidePracticeBar}
     >
       <AppContainer

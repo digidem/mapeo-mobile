@@ -17,10 +17,22 @@ const CELL_COUNT = 5;
 const onlyNumRegEx = new RegExp("^[0-9]+$");
 
 interface PasswordInputProps {
+  /**
+   * Function that handles the error state of the parent screen
+   */
   handleError: () => void;
+  /**
+   * When the input has a validated passcode, that passcode is passed to this function. A function to clear the input is also passed to the parent screen through this function
+   */
   handleCorrectOrNewPass: (inputtedValue: string, clear: () => void) => void;
+  /**
+   * Function to clear the error of the parent screen
+   */
   clearError: () => void;
   stylesProps?: StyleProp<ViewStyle>;
+  /**
+   * If set to true, the input will be focused on Open. Default: `true`
+   */
   autoFocus: boolean;
 }
 
