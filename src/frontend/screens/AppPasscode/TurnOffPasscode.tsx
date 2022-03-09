@@ -1,11 +1,11 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import { useNavigation } from "react-navigation-hooks";
 import { defineMessages, FormattedMessage } from "react-intl";
 
 import { SecurityContext } from "../../context/SecurityContext";
-import Text from "../../sharedComponents/Text";
+
 import {
   List,
   ListDivider,
@@ -61,6 +61,8 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
         />
       </ListItem>
       <ListDivider />
+
+      {/* User is not able to see this option unlesss they already have a pass */}
       {passcodeSet && (
         <ListItem
           onPress={() => {

@@ -179,8 +179,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: WHITE,
     fontSize: 16,
-    maxWidth: 280,
-    minWidth: 90,
+    width: 280,
     textAlign: "center",
   },
   button: {},
