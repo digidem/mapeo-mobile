@@ -12,11 +12,6 @@ const m = defineMessages({
     id: "screens.AppPasscode.NewPasscode.Splash.title",
     defaultMessage: "What is App Passcode?",
   },
-  description: {
-    id: "screens.AppPasscode.NewPasscode.Splash.description",
-    defaultMessage:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc.",
-  },
   continue: {
     id: "screens.AppPasscode.NewPasscode.Splash.continue",
     defaultMessage: "Continue",
@@ -34,7 +29,7 @@ export const PasscodeIntro = ({ setScreen }: PasscodeIntroProps) => {
 
   React.useEffect(() => {
     if (!!passcode) navigate("Security");
-  }, []);
+  }, [passcode]);
 
   return (
     <View style={[styles.container]}>
@@ -43,7 +38,9 @@ export const PasscodeIntro = ({ setScreen }: PasscodeIntroProps) => {
           <FormattedMessage {...m.title} />
         </Text>
         <Text style={[styles.description]}>
-          <FormattedMessage {...m.description} />
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum
+          diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo
+          risus non adipiscing nisi, scelerisque. Quis enim nunc.
         </Text>
       </View>
       <View>

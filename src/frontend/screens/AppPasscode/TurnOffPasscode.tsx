@@ -1,20 +1,36 @@
 import * as React from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import { useNavigation } from "react-navigation-hooks";
 import { defineMessages, FormattedMessage } from "react-intl";
 
 import { SecurityContext } from "../../context/SecurityContext";
 import Text from "../../sharedComponents/Text";
+import {
+  List,
+  ListDivider,
+  ListItem,
+  ListItemText,
+} from "../../sharedComponents/List";
+import { MEDIUM_GREY } from "../../lib/styles";
+import { PasscodeScreens } from ".";
 
 const m = defineMessages({
-  turnOff: {
-    id: "screens.AppPasscode.TurnOffPasscode.TurnOff",
-    defaultMessage: "Continue",
+  usePasscode: {
+    id: "screens.AppPasscode.TurnOffPasscode.usePasscode",
+    defaultMessage: "Use App Passcode",
+  },
+  changePasscode: {
+    id: "screens.AppPasscode.TurnOffPasscode.changePasscode",
+    defaultMessage: "Change App Passcode",
   },
 });
 
-export const TurnOffPasscode = () => {
+interface TurnOffPasscodeProps {
+  setScreenState: (screen: PasscodeScreens) => void;
+}
+
+export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
   const [{ passcode }, setAuthState] = React.useContext(SecurityContext);
   const { navigate } = useNavigation();
 
@@ -23,28 +39,48 @@ export const TurnOffPasscode = () => {
     if (!passcode) navigate("Security");
   }, []);
 
-  //Set timeout allows the user to see that they have unchecked the checkbox before they are navigated away (avoids it looking glitchy) To Do: Talk to sabella to determine a better way for user feedback!
-  React.useEffect(() => {
-    if (!passcode) {
-      setTimeout(() => {
-        navigate("Security");
-      }, 2000);
-    }
-  }, [passcode]);
+  const passcodeSet = React.useMemo(() => passcode != undefined, [passcode]);
 
   function unsetAppPasscode() {
-    setAuthState({ type: "setPasscode", newPasscode: null });
+    if (!!passcode) setAuthState({ type: "setPasscode", newPasscode: null });
+
+    if (!passcode) setScreenState("setPasscode");
   }
 
   return (
-    <View>
-      <Text>
-        <FormattedMessage {...m.turnOff} />
-      </Text>
-      <CheckBox
-        onValueChange={unsetAppPasscode}
-        value={passcode != undefined}
-      />
-    </View>
+    <List>
+      <ListItem onPress={unsetAppPasscode}>
+        <ListItemText
+          style={styles.text}
+          primary={<FormattedMessage {...m.usePasscode} />}
+        />
+        <CheckBox
+          tintColors={{ false: MEDIUM_GREY }}
+          onValueChange={unsetAppPasscode}
+          value={passcodeSet}
+        />
+      </ListItem>
+      <ListDivider />
+      {passcodeSet && (
+        <ListItem
+          onPress={() => {
+            setScreenState("setPasscode");
+          }}
+          style={{ marginTop: 20 }}
+        >
+          <ListItemText
+            style={styles.text}
+            primary={<FormattedMessage {...m.changePasscode} />}
+          />
+        </ListItem>
+      )}
+    </List>
   );
 };
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 16,
+    fontWeight: "700",
+  },
+});

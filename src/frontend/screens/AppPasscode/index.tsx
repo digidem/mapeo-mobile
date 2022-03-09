@@ -59,7 +59,7 @@ export const AppPasscode: NavigationStackScreenComponent = () => {
       );
     }
 
-    return <TurnOffPasscode />;
+    return <TurnOffPasscode setScreenState={setScreenState} />;
   }, [screenState]);
 
   return <View style={styles.pageContainer}>{screen}</View>;

@@ -1,17 +1,27 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 
 import { PasscodeScreens } from ".";
+import { KILL_PASSCODE } from "../../constants";
 import { SecurityContext } from "../../context/SecurityContext";
-import { PasswordInput } from "../../sharedComponents/PasswordInput";
+import { RED, WHITE } from "../../lib/styles";
+import Button from "../../sharedComponents/Button";
+import {
+  CELL_COUNT,
+  PasswordInput,
+} from "../../sharedComponents/PasswordInput";
 import Text from "../../sharedComponents/Text";
 
 const m = defineMessages({
   titleSet: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet",
-    defaultMessage: "Set Passcode",
+    defaultMessage: "Set App Passcode",
+  },
+  initialPassError: {
+    id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError",
+    defaultMessage: "Password Must be 5 numbers",
   },
   titleConfirm: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm",
@@ -23,7 +33,7 @@ const m = defineMessages({
   },
   subTitleSet: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet",
-    defaultMessage: "Please Type Pass",
+    defaultMessage: "This passcode will be used to open the Mapeo App",
   },
   subTitleConfirm: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleConfirm",
@@ -36,11 +46,19 @@ const m = defineMessages({
   passwordDoesNotMatch: {
     id:
       "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch",
-    defaultMessage: "Password Does not match",
+    defaultMessage: "Password does not match",
   },
   passwordError: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError",
-    defaultMessage: "Error with Pass",
+    defaultMessage: "Incorrect Password",
+  },
+  button: {
+    id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button",
+    defaultMessage: "Next",
+  },
+  killPasscodeError: {
+    id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.killPasscodeError",
+    defaultMessage: "Cannot be used as a Passcode",
   },
 });
 
@@ -55,8 +73,10 @@ export const InputPasscodeScreen = ({
 }: SetPasscodeProps) => {
   const [error, setError] = React.useState(false);
   const initialPassword = React.useRef("");
-  const [authState, setAuthState] = React.useContext(SecurityContext);
+  const [{ passcode }, setAuthState] = React.useContext(SecurityContext);
   const { navigate } = useNavigation();
+  const [inputtedPass, setInputtedPass] = React.useState("");
+  const isKillPasscode = React.useRef(false);
 
   //This checks that the user cannot be in the confirm passcode screen if they have not typed in an initial passcode
   React.useEffect(() => {
@@ -65,9 +85,15 @@ export const InputPasscodeScreen = ({
     }
   }, [screenState]);
 
+  React.useEffect(() => {
+    if (error) setError(false);
+  }, [inputtedPass]);
+
   const [title, subtitle, errorMessage] = React.useMemo(() => {
     if (screenState === "setPasscode") {
-      return [m.titleSet, m.titleConfirm];
+      if (isKillPasscode.current)
+        return [m.titleSet, m.subTitleSet, m.killPasscodeError];
+      return [m.titleSet, m.subTitleSet, m.initialPassError];
     }
 
     if (screenState === "confirmSetPasscode") {
@@ -75,69 +101,113 @@ export const InputPasscodeScreen = ({
     }
 
     return [m.titleEnter, m.subTitleEnter, m.passwordError];
-  }, [screenState]);
+  }, [screenState, isKillPasscode.current]);
 
-  function onError() {
-    setError(true);
-  }
-
-  function correctPass(inputtedValue: string, clearInput: () => void) {
-    if (screenState === "setPasscode") {
-      initialPassword.current = inputtedValue;
-
-      clearInput();
-      setScreenState("confirmSetPasscode");
+  function validateAndSetScreen(screen: PasscodeScreens) {
+    if (inputtedPass.length !== CELL_COUNT) {
+      setError(true);
       return;
     }
 
-    if (screenState === "confirmSetPasscode") {
-      if (inputtedValue === initialPassword.current) {
-        setAuthState({ type: "setPasscode", newPasscode: inputtedValue });
-        initialPassword.current = "";
-        navigate("Security");
+    switch (screen) {
+      case "enterPasscode":
+        if (inputtedPass === passcode) {
+          setScreenState("disablePasscode");
+          return;
+        }
+        setError(true);
+        break;
+      case "setPasscode":
+        if (inputtedPass === KILL_PASSCODE) {
+          isKillPasscode.current = true;
+          setError(true);
+          return;
+        }
+        initialPassword.current = inputtedPass;
+        setInputtedPass("");
+        setScreenState("confirmSetPasscode");
         return;
-      }
-
-      setError(true);
-      clearInput();
-      return;
-    }
-
-    if (screenState === "enterPasscode") {
-      if (inputtedValue === authState.passcode) {
-        setScreenState("disablePasscode");
-        return;
-      }
-
-      setError(true);
-      clearInput();
-      return;
+      case "confirmSetPasscode":
+        if (inputtedPass === initialPassword.current) {
+          setAuthState({
+            type: "setPasscode",
+            newPasscode: initialPassword.current,
+          });
+          navigate("Security");
+          return;
+        }
+      default:
+        setError(true);
     }
   }
 
   return (
-    <View>
-      <Text>
-        <FormattedMessage {...title} />
-      </Text>
-      <Text>
-        <FormattedMessage {...subtitle} />
-      </Text>
-
-      <PasswordInput
-        handleError={onError}
-        autoFocus={true}
-        clearError={() => {
-          setError(false);
-        }}
-        handleCorrectOrNewPass={correctPass}
-      />
-
-      {error && !!errorMessage && (
-        <Text>
-          <FormattedMessage {...errorMessage} />
+    <View style={[styles.container]}>
+      <View>
+        <Text style={[styles.header]}>
+          <FormattedMessage {...title} />
         </Text>
-      )}
+        <Text style={[styles.subtext]}>
+          <FormattedMessage {...subtitle} />
+        </Text>
+
+        <PasswordInput
+          inputValue={inputtedPass}
+          onChangeTextWithValidation={setInputtedPass}
+        />
+
+        {error && (
+          <Text style={styles.error}>
+            <FormattedMessage {...errorMessage} />
+          </Text>
+        )}
+      </View>
+
+      <Button
+        style={styles.button}
+        onPress={() => validateAndSetScreen(screenState)}
+      >
+        <Text style={styles.buttonText}>
+          <FormattedMessage {...m.button} />
+        </Text>
+      </Button>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  buttonText: {
+    color: WHITE,
+    fontSize: 16,
+    maxWidth: 280,
+    minWidth: 90,
+    textAlign: "center",
+  },
+  button: {},
+  header: {
+    fontSize: 32,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  subtext: {
+    marginBottom: 20,
+    textAlign: "center",
+    fontSize: 16,
+  },
+  container: {
+    padding: 20,
+    flexDirection: "column",
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  passwordInput: {
+    marginBottom: 20,
+  },
+  error: {
+    textAlign: "center",
+    fontSize: 16,
+    marginBottom: 20,
+    marginTop: 20,
+    color: RED,
+  },
+});

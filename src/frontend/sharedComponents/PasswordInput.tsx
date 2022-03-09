@@ -12,7 +12,7 @@ import {
 } from "react-native-confirmation-code-field";
 import { MEDIUM_GREY, DARK_GREY } from "../lib/styles";
 
-const CELL_COUNT = 5;
+export const CELL_COUNT = 5;
 const onlyNumRegEx = new RegExp("^[0-9]+$");
 
 interface PasswordInputProps {
@@ -35,13 +35,6 @@ export const PasswordInput = ({
 
   React.useEffect(() => {
     if (inputValue.length === 0) ref.current?.focus();
-
-    if (inputValue.length === CELL_COUNT) {
-      ref.current?.focus();
-      if (!validatePassword(inputValue)) {
-        return;
-      }
-    }
   }, [inputValue]);
 
   function validateAndSetInput(text: string) {
