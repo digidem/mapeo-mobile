@@ -19,22 +19,28 @@ const m = defineMessages({
   },
 });
 
-export const AuthScreen = ({
-  focusOnOpen = true,
-}: {
-  focusOnOpen?: boolean;
-}) => {
+export const AuthScreen = () => {
   const [error, setError] = React.useState(false);
   const [authState, setAuthState] = React.useContext(SecurityContext);
+  const [inputtedPass, setInputtedPass] = React.useState("");
   const { navigate } = useNavigation();
 
-  async function validatePass(inputtedPass: string, clearInput: () => void) {
+  React.useEffect(() => {
+    if (error) setError(false);
+    console.log("Render");
+    if (inputtedPass.length === 5) {
+      validatePass(inputtedPass);
+    }
+  }, [inputtedPass]);
+
+  function validatePass(inputtedPass: string) {
     if (inputtedPass === KILL_PASSCODE && authState.killModeEnabled) {
       setAuthState({ type: "appMode:set", newAppMode: "kill" });
       setAuthState({
         type: "setAuthStatus",
         newAuthStatus: "authenticated",
       });
+      setInputtedPass("");
       navigate("AppStack");
       return;
     }
@@ -47,20 +53,12 @@ export const AuthScreen = ({
         type: "setAuthStatus",
         newAuthStatus: "authenticated",
       });
+      setInputtedPass("");
       navigate("AppStack");
       return;
     }
 
     setError(true);
-    clearInput();
-  }
-
-  function handleError() {
-    setError(true);
-  }
-
-  function clearError() {
-    setError(false);
   }
 
   return (
@@ -73,10 +71,8 @@ export const AuthScreen = ({
       </Text>
 
       <PasswordInput
-        handleCorrectOrNewPass={validatePass}
-        handleError={handleError}
-        clearError={clearError}
-        autoFocus={focusOnOpen}
+        inputValue={inputtedPass}
+        onChangeTextWithValidation={setInputtedPass}
       />
 
       {error && (

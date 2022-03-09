@@ -10,70 +10,44 @@ import {
   isLastFilledCell,
   RenderCellOptions,
 } from "react-native-confirmation-code-field";
-import { SecurityContext } from "../context/SecurityContext";
 import { MEDIUM_GREY, DARK_GREY } from "../lib/styles";
 
 const CELL_COUNT = 5;
 const onlyNumRegEx = new RegExp("^[0-9]+$");
 
 interface PasswordInputProps {
-  /**
-   * Function that handles the error state of the parent screen
-   */
-  handleError: () => void;
-  /**
-   * When the input has a validated passcode, that passcode is passed to this function. A function to clear the input is also passed to the parent screen through this function
-   */
-  handleCorrectOrNewPass: (inputtedValue: string, clear: () => void) => void;
-  /**
-   * Function to clear the error of the parent screen
-   */
-  clearError: () => void;
   stylesProps?: StyleProp<ViewStyle>;
-  /**
-   * If set to true, the input will be focused on Open. Default: `true`
-   */
-  autoFocus: boolean;
+  inputValue: string;
+  onChangeTextWithValidation: (newVal: string) => void;
 }
 
 export const PasswordInput = ({
-  handleError,
-  handleCorrectOrNewPass,
   stylesProps,
-  clearError,
-  autoFocus,
+  inputValue,
+  onChangeTextWithValidation,
 }: PasswordInputProps) => {
-  const [inputtedPass, setInputtedPass] = React.useState("");
-  const ref = useBlurOnFulfill({ value: inputtedPass, cellCount: CELL_COUNT });
-  const [{ passcode, killModeEnabled }] = React.useContext(SecurityContext);
+  const ref = useBlurOnFulfill({ value: inputValue, cellCount: CELL_COUNT });
 
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
-    value: inputtedPass,
-    setValue: setInputtedPass,
+    value: inputValue,
+    setValue: onChangeTextWithValidation,
   });
 
-  function clearInput() {
-    setInputtedPass("");
-  }
-
   React.useEffect(() => {
-    //This assures that the error message is only shown when the user is not inputting a password (aka only right after the failed attempt)
-    if (inputtedPass.length === 1) clearError();
+    if (inputValue.length === 0) ref.current?.focus();
 
-    if (inputtedPass.length === CELL_COUNT) {
-      if (!validatePassword(inputtedPass)) {
-        handleError();
+    if (inputValue.length === CELL_COUNT) {
+      ref.current?.focus();
+      if (!validatePassword(inputValue)) {
         return;
       }
-
-      handleCorrectOrNewPass(inputtedPass, clearInput);
     }
-  }, [inputtedPass, passcode, killModeEnabled]);
+  }, [inputValue]);
 
   function validateAndSetInput(text: string) {
-    if (!text) setInputtedPass("");
+    if (!text) onChangeTextWithValidation("");
     if (onlyNumRegEx.test(text)) {
-      setInputtedPass(text);
+      onChangeTextWithValidation(text);
     }
   }
 
@@ -84,7 +58,7 @@ export const PasswordInput = ({
       textChild = (
         <MaskSymbol
           maskSymbol="*"
-          isLastFilledCell={isLastFilledCell({ index, value: inputtedPass })}
+          isLastFilledCell={isLastFilledCell({ index, value: inputValue })}
         >
           {symbol}
         </MaskSymbol>
@@ -107,9 +81,9 @@ export const PasswordInput = ({
   return (
     <CodeField
       ref={ref}
-      autoFocus={autoFocus}
+      autoFocus={true}
       {...props}
-      value={inputtedPass}
+      value={inputValue}
       onChangeText={validateAndSetInput}
       cellCount={CELL_COUNT}
       rootStyle={[styles.codeFieldRoot, stylesProps]}
