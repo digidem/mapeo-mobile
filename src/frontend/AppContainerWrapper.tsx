@@ -1,10 +1,12 @@
 import * as React from "react";
 import debug from "debug";
+import { AppState, AppStateStatus } from "react-native";
 import {
   NavigationActions,
   NavigationContainerComponent,
   NavigationState,
 } from "react-navigation";
+import { useNavigation } from "react-navigation-hooks";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   EDITING_SCREEN_NAMES,
@@ -18,14 +20,9 @@ import SettingsContext from "./context/SettingsContext";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
 import bugsnag from "./lib/logger";
 import { PracticeMode } from "./sharedComponents/PracticeMode";
-
 import { SecurityContext } from "./context/SecurityContext";
-import { AppState, AppStateStatus, Text, View } from "react-native";
-
-import {
-  DefaultWithAuthContainer,
-  OnboardingWithAuthContainer,
-} from "./Navigation/AuthContainers";
+import OnboardingContainer from "./Navigation/OnboardingContainer";
+import DefaultContainer from "./Navigation/DefaultContainer";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -101,6 +98,8 @@ function hidePracticeModeTemporarily(route: string | null) {
 }
 
 const AppContainerWrapper = () => {
+  // Refers to the navigation prop provided by AppContainerWithAuth
+  const { navigate } = useNavigation();
   const navRef = React.useRef<NavigationContainerComponent>();
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
@@ -108,34 +107,6 @@ const AppContainerWrapper = () => {
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
   const [{ authStatus }, setAuthState] = React.useContext(SecurityContext);
-
-  React.useEffect(() => {
-    const appStateListener = AppState.addEventListener(
-      "change",
-      (nextAppState: AppStateStatus) => {
-        if (authStatus !== "notRequired") {
-          if (nextAppState === "inactive" || nextAppState === "background") {
-            setAuthState({ type: "setAuthStatus", newAuthStatus: "pending" });
-            if (navRef.current) {
-              navRef.current.dispatch(
-                NavigationActions.navigate({
-                  routeName: "AuthStack",
-                })
-              );
-            }
-          }
-        }
-      }
-    );
-
-    return () => appStateListener.remove();
-  }, [authStatus, setAuthState]);
-
-  const AppContainer = React.useMemo(() => {
-    return experiments.onboarding
-      ? OnboardingWithAuthContainer
-      : DefaultWithAuthContainer;
-  }, [experiments.onboarding]);
 
   const updateRouteBasedAppState = React.useCallback(
     (routeName: string | null) => {
@@ -189,7 +160,6 @@ const AppContainerWrapper = () => {
 
                 return loadedNavState;
               }
-
               return;
             },
             persistNavigationState: createNavigationStatePersister(
@@ -216,6 +186,26 @@ const AppContainerWrapper = () => {
       openInviteModal(queuedInvite);
     }
   }, [inviteModalEnabled, queuedInvite, openInviteModal]);
+
+  React.useEffect(() => {
+    const appStateListener = AppState.addEventListener(
+      "change",
+      (nextAppState: AppStateStatus) => {
+        if (authStatus !== "notRequired") {
+          if (nextAppState === "inactive" || nextAppState === "background") {
+            setAuthState({ type: "setAuthStatus", newAuthStatus: "pending" });
+            navigate("Auth");
+          }
+        }
+      }
+    );
+
+    return () => appStateListener.remove();
+  }, [authStatus, setAuthState, navigate]);
+
+  const AppContainer = React.useMemo(() => {
+    return experiments.onboarding ? OnboardingContainer : DefaultContainer;
+  }, [experiments.onboarding]);
 
   return (
     <PracticeMode

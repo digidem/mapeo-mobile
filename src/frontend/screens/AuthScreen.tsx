@@ -41,7 +41,7 @@ export const AuthScreen = () => {
         newAuthStatus: "authenticated",
       });
       setInputtedPass("");
-      navigate("AppStack");
+      navigate("App");
       return;
     }
 
@@ -54,7 +54,7 @@ export const AuthScreen = () => {
         newAuthStatus: "authenticated",
       });
       setInputtedPass("");
-      navigate("AppStack");
+      navigate("App");
       return;
     }
 

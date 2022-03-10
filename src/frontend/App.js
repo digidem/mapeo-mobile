@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import ErrorScreen from "./screens/UncaughtError";
 import { AppLoading } from "./AppLoading";
-import AppContainerWrapper from "./AppContainerWrapper";
+import { AppContainerWithAuth } from "./AppContainerWithAuth";
 import { PermissionsProvider } from "./context/PermissionsContext";
 import { IntlProvider } from "./context/IntlContext";
 import AppProvider from "./context/AppProvider";
@@ -16,9 +16,6 @@ import bugsnag from "./lib/logger";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
 import { ERROR_STORE_KEY, PASSWORD_KEY } from "./constants";
 import { SecurityProvider } from "./context/SecurityContext";
-import { AuthWrapper } from "./screens/AuthWrapper";
-import { AuthContainer } from "./Navigation/AuthContainers";
-import { AuthLoading } from "./screens/AuthLoading";
 
 /**
  * Turn off warnings about:
@@ -89,7 +86,7 @@ const App = () => {
           <SecurityProvider>
             <AppLoading>
               <AppProvider>
-                <AppContainerWrapper />
+                <AppContainerWithAuth />
                 <UpdateNotifier />
               </AppProvider>
             </AppLoading>

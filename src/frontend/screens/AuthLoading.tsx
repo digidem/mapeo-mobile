@@ -13,7 +13,7 @@ export const AuthLoading = () => {
   const { navigate } = useNavigation();
 
   React.useEffect(() => {
-    async function initialize(): Promise<boolean | undefined> {
+    async function initialize(): Promise<boolean> {
       const [[, password], [, killModeEnabled]] = await AsyncStorage.multiGet([
         PASSWORD_KEY,
         KILL_KEY,
@@ -29,16 +29,18 @@ export const AuthLoading = () => {
         setAuthState({ type: "setPasscode", newPasscode: password });
         setAuthState({ type: "setAuthStatus", newAuthStatus: "pending" });
         return true;
+      } else {
+        return false;
       }
     }
 
     initialize().then(hasPassword => {
       if (hasPassword) {
-        navigate("AuthStack");
+        navigate("Auth");
         return;
       }
 
-      navigate("AppStack");
+      navigate("App");
     });
   }, []);
 
