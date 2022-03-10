@@ -23,6 +23,7 @@ import { PracticeMode } from "./sharedComponents/PracticeMode";
 import { SecurityContext } from "./context/SecurityContext";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
 import DefaultContainer from "./Navigation/DefaultContainer";
+import { useNavState } from "./AppContainerWithAuth";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -45,7 +46,7 @@ const createNavigationStatePersister = (includeOnboarding: boolean) => async (
   }
 };
 
-const loadSavedNavState = async (
+export const loadSavedNavState = async (
   includeOnboarding: boolean
 ): Promise<NavigationState | undefined> => {
   try {
@@ -108,6 +109,8 @@ const AppContainerWrapper = () => {
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
   const [{ authStatus }, setAuthState] = React.useContext(SecurityContext);
 
+  const { navState, fetchSavedNavState } = useNavState();
+
   const updateRouteBasedAppState = React.useCallback(
     (routeName: string | null) => {
       setInviteModalEnabled(!inviteModalDisabledOnRoute(routeName));
@@ -145,28 +148,22 @@ const AppContainerWrapper = () => {
       IS_E2E
         ? {}
         : {
-            loadNavigationState: async () => {
+            loadNavigationState: () => {
               if (
                 authStatus === "authenticated" ||
                 authStatus === "notRequired"
               ) {
-                const loadedNavState = await loadSavedNavState(
-                  experiments.onboarding
-                );
-
-                const loadedRouteName = getRouteName(loadedNavState);
-
+                const loadedRouteName = getRouteName(navState);
                 updateRouteBasedAppState(loadedRouteName);
-
-                return loadedNavState;
               }
-              return;
+
+              return Promise.resolve(navState);
             },
             persistNavigationState: createNavigationStatePersister(
               experiments.onboarding
             ),
           },
-    [experiments.onboarding, updateRouteBasedAppState, authStatus]
+    [authStatus, experiments.onboarding, navState, updateRouteBasedAppState]
   );
 
   /**
@@ -194,6 +191,7 @@ const AppContainerWrapper = () => {
         if (authStatus !== "notRequired") {
           if (nextAppState === "inactive" || nextAppState === "background") {
             setAuthState({ type: "setAuthStatus", newAuthStatus: "pending" });
+            fetchSavedNavState();
             navigate("Auth");
           }
         }
@@ -201,7 +199,7 @@ const AppContainerWrapper = () => {
     );
 
     return () => appStateListener.remove();
-  }, [authStatus, setAuthState, navigate]);
+  }, [authStatus, setAuthState, navigate, fetchSavedNavState]);
 
   const AppContainer = React.useMemo(() => {
     return experiments.onboarding ? OnboardingContainer : DefaultContainer;

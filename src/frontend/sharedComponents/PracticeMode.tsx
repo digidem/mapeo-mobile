@@ -49,6 +49,7 @@ export const PracticeMode = ({
         styles.flexContainer,
         showPracticeModeUi && styles.practiceModeContainer,
         killState && styles.welcomeMode,
+        { backgroundColor: "#FFF" },
       ]}
     >
       <View style={styles.flexContainer}>{children}</View>
