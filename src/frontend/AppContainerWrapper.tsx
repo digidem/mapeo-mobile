@@ -22,10 +22,12 @@ import { PracticeMode } from "./sharedComponents/PracticeMode";
 import { SecurityContext } from "./context/SecurityContext";
 import { AppState, AppStateStatus, Text, View } from "react-native";
 
-import {
-  DefaultWithAuthContainer,
-  OnboardingWithAuthContainer,
-} from "./Navigation/AuthContainers";
+// import {
+//   DefaultWithAuthContainer,
+//   OnboardingWithAuthContainer,
+// } from "./Navigation/AuthContainers";
+import OnboardingContainer from "./Navigation/OnboardingContainer";
+import DefaultContainer from "./Navigation/DefaultContainer";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -132,9 +134,10 @@ const AppContainerWrapper = () => {
   }, [authStatus, setAuthState]);
 
   const AppContainer = React.useMemo(() => {
-    return experiments.onboarding
-      ? OnboardingWithAuthContainer
-      : DefaultWithAuthContainer;
+    return experiments.onboarding ? OnboardingContainer : DefaultContainer;
+    //Should be used for modal auth container/password
+    // ? OnboardingWithAuthContainer
+    // : DefaultWithAuthContainer;
   }, [experiments.onboarding]);
 
   const updateRouteBasedAppState = React.useCallback(
@@ -219,7 +222,7 @@ const AppContainerWrapper = () => {
 
   return (
     <PracticeMode
-      enabled={experiments.onboarding && !hidePracticeMode}
+      enabled={experiments.onboarding && !hidePracticeMode} //&& authStatus!=='pending'}
       hideBar={hidePracticeBar}
     >
       <AppContainer

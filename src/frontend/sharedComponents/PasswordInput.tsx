@@ -33,10 +33,6 @@ export const PasswordInput = ({
     setValue: onChangeTextWithValidation,
   });
 
-  React.useEffect(() => {
-    if (inputValue.length === 0) ref.current?.focus();
-  }, [inputValue]);
-
   function validateAndSetInput(text: string) {
     if (!text) onChangeTextWithValidation("");
     if (onlyNumRegEx.test(text)) {
@@ -73,6 +69,7 @@ export const PasswordInput = ({
 
   return (
     <CodeField
+      key={2}
       ref={ref}
       autoFocus={true}
       {...props}
@@ -86,14 +83,6 @@ export const PasswordInput = ({
     />
   );
 };
-
-function validatePassword(password: string): boolean {
-  if (password.length !== CELL_COUNT) return false;
-
-  const passAsArray = Array.from(password);
-
-  return passAsArray.every(letter => onlyNumRegEx.test(letter));
-}
 
 const styles = StyleSheet.create({
   cell: {

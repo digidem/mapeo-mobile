@@ -23,11 +23,10 @@ export const AuthScreen = () => {
   const [error, setError] = React.useState(false);
   const [authState, setAuthState] = React.useContext(SecurityContext);
   const [inputtedPass, setInputtedPass] = React.useState("");
-  const { navigate } = useNavigation();
+  const { navigate, dismiss } = useNavigation();
 
   React.useEffect(() => {
     if (error) setError(false);
-    console.log("Render");
     if (inputtedPass.length === 5) {
       validatePass(inputtedPass);
     }
@@ -40,7 +39,7 @@ export const AuthScreen = () => {
         type: "setAuthStatus",
         newAuthStatus: "authenticated",
       });
-      setInputtedPass("");
+      dismiss();
       navigate("AppStack");
       return;
     }
@@ -53,7 +52,7 @@ export const AuthScreen = () => {
         type: "setAuthStatus",
         newAuthStatus: "authenticated",
       });
-      setInputtedPass("");
+      dismiss();
       navigate("AppStack");
       return;
     }
