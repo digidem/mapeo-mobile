@@ -192,25 +192,13 @@ workflows:
                 set -x
 
                 node ./scripts/gh-pages-redirect.js /icca/latest https://mapeo-apks.s3.amazonaws.com/release-ICCA/${ICCA_RELEASE_APK_PATH##*/}
-      - script@1.1.6:
-          title: Generate release description
-          inputs:
-            - content: |-
-                #!/usr/bin/env bash
-                # fail if any commands fails
-                set -e
-                # debug log
-                set -x
-
-                RELEASE_DESCRIPTION=$(printf "$(npm run --silent release-notes | tail -n +3)\n\n### [Known Issues](KNOWN_ISSUES.md)\n")
-                envman add --key RELEASE_DESCRIPTION --value "$RELEASE_DESCRIPTION"
       - github-release@0.11.0:
           inputs:
             - username: $GITHUB_USERNAME
             - name: $BITRISE_GIT_TAG
             - draft: "no"
             - files_to_upload: $RELEASE_APK_PATH
-            - body: $RELEASE_DESCRIPTION
+            - body: "See [changelog](https://github.com/digidem/mapeo-mobile/blob/develop/CHANGELOG.md) for a detailed list of changes"
             - api_token: $GITHUB_TOKEN
       - google-play-deploy@3.0.2:
           inputs:
