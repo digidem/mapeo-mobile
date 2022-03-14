@@ -33,7 +33,7 @@
   },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
-    "message": "Número de compilação Android"
+    "message": "Número do build do Android"
   },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
@@ -41,7 +41,7 @@
   },
   "screens.AboutMapeo.mapeoBuild": {
     "description": "Label for Mapeo build number",
-    "message": "Número de compilação do Mapeo"
+    "message": "Build do Mapeo"
   },
   "screens.AboutMapeo.mapeoType": {
     "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
@@ -57,7 +57,7 @@
   },
   "screens.AboutMapeo.title": {
     "description": "Title of 'About Mapeo' screen",
-    "message": "Sobre Mapeo"
+    "message": "Sobre o Mapeo"
   },
   "screens.AboutMapeo.unknownValue": {
     "description": "Shown when a device info (e.g. version number) is unknown",
@@ -176,6 +176,38 @@
     "description": "Universal Transverse Mercator coordinate format",
     "message": "Universal Transversal de Mercator (UTM)"
   },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "Criar projetos"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "Criar um projeto"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "Digite o nome do dispositivo"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "Adicione um nome para o seu dispositivo"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "Nome do dispositivo"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "Insira o Nome do Projeto"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "Digite um nome para o projeto"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "Nome do Projeto"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Detalhes"
@@ -241,7 +273,7 @@
     "message": "Voltar ao início"
   },
   "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
-    "message": "Observações Excluídas"
+    "message": "Observações excluídas"
   },
   "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
     "message": "Concluído!"
@@ -565,6 +597,18 @@
   "screens.Onboarding.Sync.startMapping": {
     "message": "Começar Mapeamento"
   },
+  "screens.Photos.ConfirmDeleteModal.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
+    "message": "Excluir imagem"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
+    "message": "Excluir esta foto?"
+  },
+  "screens.PhotosModal": {
+    "message": "Excluir imagem"
+  },
   "screens.ProjectInviteModal.close": {
     "message": "Fechar"
   },
@@ -602,13 +646,51 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Algo está acontecendo com a base de dados do Mapeo"
   },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "Seta direcional"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "O novo recurso de Seta direcional usa a bússola digital do seu smartphone para fornecer informações sobre qual direção o seu telefone está indo. Proximidade com objetos de metal grandes ou um campo magnético forte pode afetar a precisão da bússola. Se o seu smartphone não tem uma bússola, a Seta direcional pode ainda ser capaz de determinar a direção com base no movimento. A orientação baseada em movimentos pode ser menos precisa."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "NOTA: A Seta Direcional não é confiável o suficiente para ser usado exclusivamente para navegação e pode drenar a bateria do seu dispositivo mais rapidamente."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "Usar Seta direcional"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "Atualizações P2P do aplicativo"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "Usar Atualizador P2P do aplicativo"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "Atualizações par-a-par (P2P) do aplicativo permitem que você compartilhe e receba versões mais recentes do aplicativo Mapeo conectando-se a outros dispositivos Mapeo via Wi-Fi (sem necessidade de conexão com a Internet). Para usar este recurso, a tela Sincronizar do Mapeo deve estar aberta em ambos os dispositivos."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "NOTA: Ao atualizar a versão do aplicativo Mapeo desta forma, NENHUM dos seus dados do Mapeo (observações, configurações ou mapas) é compartilhado entre os dispositivos."
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Inidicates whether directional arrow is active on map",
+    "message": "Ativado"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "Seta direcional"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Inidicates whether directional arrow is NOT active on map",
+    "message": "Desativado"
+  },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
-    "message": "Atualizações P2P"
+    "message": "Atualizações P2P do aplicativo"
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
     "message": "Compartilhar e receber atualizações com dispositivos próximos"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "Experimentos"
   },
   "screens.Settings.ManagePeople.add": {
     "message": "Adicionar"
@@ -649,6 +731,14 @@
   "screens.Settings.ProjectConfig.configErrorTitle": {
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "Erro ao importar"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertMessage": {
+    "description": "Message for alert after successful config import",
+    "message": "Configuração importada com sucesso:\n\n{name} {version}"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertOk": {
+    "description": "Button text for config import alert acknowledgement",
+    "message": "OK"
   },
   "screens.Settings.ProjectConfig.currentConfig": {
     "description": "Label for name & version of current configuration",
@@ -719,7 +809,7 @@
   },
   "screens.Settings.experimentsDesc": {
     "description": "Description of the 'Experiment' page",
-    "message": "Ativar funcionalidades experimentais"
+    "message": "Ativar recursos experimentais"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",

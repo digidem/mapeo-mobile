@@ -1,11 +1,13 @@
 // @flow
+import "react-native-gesture-handler";
+
 import * as React from "react";
 import { LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import ErrorScreen from "./screens/UncaughtError";
-import AppLoading from "./AppLoading";
+import { AppLoading } from "./AppLoading";
 import AppContainerWrapper from "./AppContainerWrapper";
 import { PermissionsProvider } from "./context/PermissionsContext";
 import { IntlProvider } from "./context/IntlContext";
@@ -14,8 +16,15 @@ import bugsnag from "./lib/logger";
 import useUpdateNotifierEffect from "./hooks/useUpdateNotifierEffect";
 import { ERROR_STORE_KEY } from "./constants";
 
-// Turn off warnings about require cycles
-LogBox.ignoreLogs(["Require cycle:"]);
+/**
+ * Turn off warnings about:
+ * - require cycles
+ * - react-native-screens warning that suggests upgrading react-navigation to 5
+ */
+LogBox.ignoreLogs([
+  "Require cycle:",
+  "new functionality added to react-native-screens",
+]);
 
 /**
  * Catches Javascript errors anywhere in the child component tree, logs the

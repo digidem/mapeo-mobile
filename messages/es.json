@@ -21,7 +21,7 @@
   },
   "hooks.updateNotifier.dialogMessage": {
     "description": "Message shown in dialog shown to the user when Mapeo is updated",
-    "message": "Mapeo was successfully updated from version {previousVersion} to {currentVersion} on {updateDateTime}"
+    "message": "Mapeo se actualizó correctamente de la versión {previousVersion} a la versión {currentVersion} el {updateDateTime}"
   },
   "hooks.updateNotifier.dialogOK": {
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
@@ -29,7 +29,7 @@
   },
   "hooks.updateNotifier.dialogTitle": {
     "description": "Title of dialog shown to the user when Mapeo is updated",
-    "message": "Mapeo Updated ✅"
+    "message": "Mapeo actualizado ✅"
   },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
@@ -67,72 +67,75 @@
     "message": "Cancelar"
   },
   "screens.AddToProjectScreen.ConnectStep.title": {
-    "message": "Connecting to device..."
+    "message": "Conectando con el dispositivo..."
   },
   "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
-    "message": "Coordinators can add and remove devices from projects"
+    "message": "Los Coordinadores pueden añadir y eliminar dispositivos de los proyectos"
   },
   "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
-    "message": "This device is a Coordinator"
+    "message": "Este dispositivo es un Coordinador"
   },
   "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
-    "message": "This device is a Participant"
+    "message": "Este dispositivo es un Participante"
   },
   "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
-    "message": "Select a role for the device"
+    "message": "Seleccione un rol para el dispositivo"
   },
   "screens.AddToProjectScreen.DeviceFoundStep.title": {
-    "message": "Device {deviceId} Found"
+    "message": "Dispositivo {deviceId} encontrado"
   },
   "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
-    "message": "Having trouble?"
-  },
-  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
-    "message": "Ask community Mapper to send join request"
-  },
-  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
-    "message": "Scan device to add person to project"
+    "message": "¿Tienes problemas?"
   },
   "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
-    "message": "Instructions"
+    "message": "Instrucciones"
   },
   "screens.AddToProjectScreen.SuccessStep.description": {
-    "message": "{deviceId} has been added to {projectName}"
+    "message": "{deviceId} ha sido añadido a {projectName}"
   },
   "screens.AddToProjectScreen.SuccessStep.goToSync": {
-    "message": "Go to Sync"
+    "message": "Ir a Sincronizar"
   },
   "screens.AddToProjectScreen.SuccessStep.title": {
-    "message": "Success!"
+    "message": "¡Éxito!"
   },
   "screens.AddToProjectScreen.inviteDevice": {
-    "message": "Invite Device"
+    "message": "Invitar dispositivo"
   },
   "screens.AddToProjectScreen.titleGeneric": {
-    "message": "Add to Project"
+    "message": "Añadir al proyecto"
   },
   "screens.AlreadyOnProject.currentProjectWarn": {
     "description": "Informs user of the name of current project",
-    "message": "You are on {projectName}"
+    "message": "Estás en {projectName}"
   },
   "screens.AlreadyOnProject.goBack": {
     "description": "Button to Go Back leaving project",
-    "message": "Go Back"
+    "message": "Volver"
   },
   "screens.AlreadyOnProject.leaveButton": {
     "description": "Button to start leave project flow.",
-    "message": "Leave Current Project"
+    "message": "Abandonar proyecto actual"
   },
   "screens.AlreadyOnProject.leaveInstructions": {
     "description": "Informs user that they must leave their current project before they can join the new project",
-    "message": "To join a new project you must leave your current one."
+    "message": "Para unirte a un nuevo proyecto debes abandonar el actual."
   },
   "screens.AlreadyOnProject.title": {
     "description": "Title of screen letting user know that they are already part of a project.",
-    "message": "You are already on a project"
+    "message": "Ya estás en un proyecto"
+  },
+  "screens.AppPasscode": {
+    "message": "Contraseña de App"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "Continuar"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "¿Qué es la Contraseña de App?"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -143,22 +146,22 @@
     "message": "Elegir qué está pasando"
   },
   "screens.ConfirmLeavePracticeModeScreen.cancel": {
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
-    "message": "No, delete my observations"
+    "message": "No, borrar mis observaciones"
   },
   "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
-    "message": "Yes, keep my observations"
+    "message": "Sí, mantener mis observaciones"
   },
   "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
-    "message": "Bring ({observationCount}) {observationCount, plural, one {observation} other {observations}} from Practice Mode to the project?"
+    "message": "Trae ({observationCount}) {observationCount, plural, one {observación} other {observaciones}} del modo de práctica al proyecto?"
   },
   "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
-    "message": "Leave Practice Mode"
+    "message": "Dejar modo de práctica"
   },
   "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
-    "message": "Select one of the options"
+    "message": "Seleccione una de las opciones"
   },
   "screens.CoordinateFormat.dd": {
     "description": "Decimal Degrees coordinate format",
@@ -175,6 +178,38 @@
   "screens.CoordinateFormat.utm": {
     "description": "Universal Transverse Mercator coordinate format",
     "message": "Universal Transversal de Mercator (UTM)"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "Crear proyecto"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "Crear un proyecto"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "Introduce el nombre del dispositivo"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "Añade un nombre para tu dispositivo"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "Nombre del dispositivo"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "Introducir nombre del proyecto"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "Introduzca un nombre para el proyecto"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "Nombre del proyecto"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -213,44 +248,44 @@
     "message": "Si"
   },
   "screens.JoinRequestModal.close": {
-    "message": "Close"
+    "message": "Cerrar"
   },
   "screens.JoinRequestModal.denyRequest": {
-    "message": "Deny Request"
+    "message": "Denegar Solicitud"
   },
   "screens.JoinRequestModal.invite": {
-    "message": "Invite"
+    "message": "Invitar"
   },
   "screens.JoinRequestModal.inviteSent": {
-    "message": "Invite has been sent."
+    "message": "La invitación ha sido enviada."
   },
   "screens.JoinRequestModal.joinTitle": {
-    "message": "{deviceName} wants to join {projectName}"
+    "message": "{deviceName} quiere unirse a {projectName}"
   },
   "screens.JoinRequestModal.success": {
-    "message": "Success!"
+    "message": "¡Éxito!"
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "Escoger idioma"
   },
   "screens.LeaveProject.LeaveProject": {
-    "message": "Leave Project"
+    "message": "Abandonar proyecto"
   },
   "screens.LeaveProject.LeaveProjectCompleted.goHome": {
-    "message": "Go Home"
+    "message": "Ir a la página principal"
   },
   "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
-    "message": "Observations Deleted"
+    "message": "Las observaciones se han eliminado"
   },
   "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
-    "message": "Complete!"
+    "message": "¡Completo!"
   },
   "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
-    "message": "Leaving Project {projectName}"
+    "message": "Abandonando proyecto {projectName}"
   },
   "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
-    "message": "Deleting Observations"
+    "message": "Eliminando observaciones"
   },
   "screens.ManualGpsScreen.DdForm.east": {
     "message": "Este"
@@ -509,82 +544,85 @@
     "message": "Cargando… esto puede tomar un tiempo después de sincronizar con un nuevo dispositivo"
   },
   "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
-    "message": "Create a Project"
+    "message": "Crear un proyecto"
   },
   "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
-    "message": "Tap here to {action}"
+    "message": "Haz clic aquí para {action}"
   },
   "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
-    "message": "Join a Project"
-  },
-  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
-    "message": "Practice Mode"
+    "message": "Unirse a un proyecto"
   },
   "screens.Onboarding.JoinProjectQrScreen.cancel": {
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
-    "message": "Have the Project Participant scan this invite code."
-  },
-  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
-    "message": "Show this QR code to your Project Admin"
+    "message": "Haz que el Participante del proyecto escanee este código de invitación."
   },
   "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
-    "message": "Instructions"
-  },
-  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
-    "message": "Send Join Request instead"
+    "message": "Instrucciones"
   },
   "screens.Onboarding.JoinProjectQrScreen.title": {
-    "message": "Join a Project"
+    "message": "Unirse a un proyecto"
   },
   "screens.Onboarding.SendJoinRequestScreen.instructions": {
-    "message": "Share this code with the Project Coordinator"
+    "message": "Comparte este código con el Coordinador del proyecto"
   },
   "screens.Onboarding.SendJoinRequestScreen.share": {
-    "message": "Share"
-  },
-  "screens.Onboarding.SendJoinRequestScreen.title": {
-    "message": "Send Join Request"
+    "message": "Compartir"
   },
   "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
-    "message": "Verification Code"
+    "message": "Código de verificación"
   },
   "screens.Onboarding.Sync.Loader.complete": {
-    "message": "Complete!"
+    "message": "¡Completo!"
   },
   "screens.Onboarding.Sync.Loader.numComplete": {
-    "message": "{num}/{total} observations complete"
+    "message": "{num}/{total} observaciones completadas"
   },
   "screens.Onboarding.Sync.Loader.syncing": {
-    "message": "Syncing..."
+    "message": "Sincronizando..."
   },
   "screens.Onboarding.Sync.numComplete": {
-    "message": "{num}/{total} observations complete"
+    "message": "{num}/{total} observaciones completadas"
   },
-  "screens.Onboarding.Sync.startMapping": {
-    "message": "Start Mapping"
+  "screens.Photos.ConfirmDeleteModal.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
+    "message": "Eliminar imagen"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
+    "message": "¿Desea eliminar esta foto?"
+  },
+  "screens.PhotosModal": {
+    "message": "Eliminar imagen"
   },
   "screens.ProjectInviteModal.close": {
-    "message": "Close"
+    "message": "Cerrar"
   },
   "screens.ProjectInviteModal.declineInvite": {
-    "message": "Decline Invite"
+    "message": "Rechazar invitación"
   },
   "screens.ProjectInviteModal.inviteErrorMessage": {
-    "message": "Could not retrieve invite details"
+    "message": "No se pudieron recuperar los detalles de la invitación"
   },
   "screens.ProjectInviteModal.inviteMessage": {
-    "message": "You've been invited to join\n {projectName} as a {role}"
+    "message": "Has sido invitado a unirte a\n {projectName} como {role}"
   },
   "screens.ProjectInviteModal.joinAndSync": {
-    "message": "Join and Sync"
+    "message": "Unirse y sincronizar"
   },
   "screens.ProjectInviteModal.title": {
-    "message": "Join {projectName}"
+    "message": "Únete a {projectName}"
   },
   "screens.ProjectInviteModal.tryAgain": {
-    "message": "Try Again"
+    "message": "Inténtalo de nuevo"
+  },
+  "screens.Security.deviceBackup": {
+    "message": "Copia de seguridad del dispositivo"
+  },
+  "screens.Security.title": {
+    "message": "Seguridad"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
@@ -602,41 +640,76 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Algo está pasando con la base de datos Mapeo"
   },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "Flecha direccional"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "La nueva función Flecha direccional utiliza la brújula digital de tu teléfono móvil para proporcionar información sobre la dirección a la que apunta tu teléfono. La precisión de la brújula puede verse afectada por la proximidad cercana a grandes objetos de metal o a campos magnéticos fuertes. Si tu teléfono móvil no tiene una brújula, la flecha direccional puede aún ser capaz de determinar la dirección basada en el movimiento. La dirección basada en el movimiento puede ser menos precisa."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "NOTA: La Flecha direccional no es lo suficientemente fiable como para ser utilizada como herramienta única para la navegación, y puede consumir la batería del dispositivo más rápido."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "Usar Flecha direccional"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "Actualizaciones P2P de la App"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "Usar Actualizaciones P2P de la App"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "Las Actualizaciones P2P (entre pares) de la App le permiten compartir y recibir nuevas versiones de la aplicación Mapeo conectándose a otros dispositivos Mapeo a través de Wi-Fi (sin necesidad de conexión a Internet). Para utilizar esta función, la pantalla de sincronización de Mapeo debe estar abierta en ambos dispositivos."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "NOTA: Al actualizar la versión de la aplicación de Mapeo de esta manera, NINGUNO de sus datos de Mapeo (observaciones, configuraciones o mapas) es compartido entre dispositivos."
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Inidicates whether directional arrow is active on map",
+    "message": "Activado"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "Flecha direccional"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Inidicates whether directional arrow is NOT active on map",
+    "message": "Desactivado"
+  },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p upgrades",
-    "message": "P2P upgrades"
+    "message": "Actualizaciones P2P"
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
-    "message": "Share and receive updates with nearby devices"
+    "message": "Compartir y recibir actualizaciones de dispositivos cercanos"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "Experimentos"
   },
   "screens.Settings.ManagePeople.add": {
-    "message": "Add"
+    "message": "Añadir"
   },
   "screens.Settings.ManagePeople.leaveProject": {
-    "message": "Leave Project"
+    "message": "Abandonar proyecto"
   },
   "screens.Settings.ManagePeople.managePeople": {
-    "message": "Manage People"
+    "message": "Gestionar personas"
   },
   "screens.Settings.ManagePeople.remove": {
-    "message": "Remove"
+    "message": "Eliminar"
   },
   "screens.Settings.ManagePeople.yourDevice": {
     "description": "Row label indicating details related to the user's device membership",
-    "message": "(You) {deviceName}"
+    "message": "(Tú) {deviceName}"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
-    "message": "Create or join a project below"
+    "message": "Crear o unirse a un proyecto a continuación"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
-    "message": "Create a Project"
+    "message": "Crear un proyecto"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
-    "message": "Join a Project"
-  },
-  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
-    "message": "Ready to leave Practice Mode?"
+    "message": "Unirse a un proyecto"
   },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
@@ -650,6 +723,14 @@
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "Error al importar"
   },
+  "screens.Settings.ProjectConfig.configImportAlertMessage": {
+    "description": "Message for alert after successful config import",
+    "message": "Configuración importada con éxito:\n\n{name} {version}"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertOk": {
+    "description": "Button text for config import alert acknowledgement",
+    "message": "OK"
+  },
   "screens.Settings.ProjectConfig.currentConfig": {
     "description": "Label for name & version of current configuration",
     "message": "Configuración actual"
@@ -660,14 +741,10 @@
   },
   "screens.Settings.ProjectConfig.name": {
     "description": "Button to import Mapeo config file",
-    "message": "Project Name:"
+    "message": "Nombre del proyecto:"
   },
   "screens.Settings.ProjectConfig.none": {
-    "message": "none"
-  },
-  "screens.Settings.ProjectConfig.practiceModeName": {
-    "description": "Placeholder config name when in Practice Mode",
-    "message": "Practice Mode"
+    "message": "ninguno"
   },
   "screens.Settings.ProjectConfig.projectKey": {
     "description": "Label for project key",
@@ -691,27 +768,23 @@
   },
   "screens.Settings.appInstall": {
     "description": "Primary text for Mapeo APK test",
-    "message": "Install APK"
+    "message": "Instalar APK"
   },
   "screens.Settings.appInstallDesc": {
     "description": "Secondary text for Mapeo APK test",
-    "message": "Test APK install (re-installs app)"
-  },
-  "screens.Settings.appShare": {
-    "description": "Primary text for sharing the mapeo APK installer",
-    "message": "Share Mapeo Installer"
+    "message": "Probar instalación APK (reinstala la aplicación)"
   },
   "screens.Settings.appShareDesc": {
     "description": "Secondary text for sharing the mapeo APK installer",
-    "message": "Install or update Mapeo on another phone"
+    "message": "Instalar o actualizar Mapeo en otro teléfono"
   },
   "screens.Settings.coordinateFormat": {
     "description": "Settings for coordinate format",
-    "message": "Coordinate Format"
+    "message": "Formato de Coordenadas"
   },
   "screens.Settings.coordinateFormatDesc": {
     "description": "Description of the 'Coordinate Format' page",
-    "message": "Choose how coordinates are displayed"
+    "message": "Elegir cómo se muestran las coordenadas"
   },
   "screens.Settings.experiments": {
     "description": "Experimental features",
@@ -736,6 +809,13 @@
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
     "message": "Categorías, íconos y preguntas"
+  },
+  "screens.Settings.security": {
+    "message": "Seguridad"
+  },
+  "screens.Settings.securityDesc": {
+    "description": "Description of security button in settings",
+    "message": "Contraseña de App y Seguridad del Dispositivo"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
@@ -775,23 +855,19 @@
   },
   "screens.SyncModal.SyncView.checkingUpdates": {
     "description": "Label in upgrade bar when checking for updates",
-    "message": "Checking for app updates"
+    "message": "Buscando actualizaciones de la aplicación"
   },
   "screens.SyncModal.SyncView.installUpdateButton": {
     "description": "Label for button to install an update",
-    "message": "Install"
+    "message": "Instalar"
   },
   "screens.SyncModal.SyncView.noUpdates": {
     "description": "Label in upgrade bar when no updates are found",
-    "message": "No app updates found"
-  },
-  "screens.SyncModal.SyncView.noUpdatesDetails": {
-    "description": "A second line of text describing how many devices have been checked for updates",
-    "message": "Checked {count, plural, one {# device} other {# devices}}"
+    "message": "No se han encontrado actualizaciones"
   },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
-    "message": "Abre la configuración de tu teléfono y conéctate a una red WiFi para sincronizar"
+    "message": "Abre los ajustes de tu teléfono y conéctate a una red WiFi para sincronizar"
   },
   "screens.SyncModal.SyncView.noWifiTitle": {
     "description": "Title of message shown when no wifi network",
@@ -799,7 +875,7 @@
   },
   "screens.SyncModal.SyncView.openSettingsButton": {
     "description": "Label for button to open settings to fix update permissions error",
-    "message": "Open Settings"
+    "message": "Abrir ajustes"
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
@@ -819,7 +895,7 @@
   },
   "screens.SyncModal.SyncView.sharingUpdate": {
     "description": "Label in upgrade bar when sharing an update with others",
-    "message": "Sharing app updates with other devices"
+    "message": "Compartiendo actualizaciones de la aplicación con otros dispositivos"
   },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
@@ -827,27 +903,23 @@
   },
   "screens.SyncModal.SyncView.updateAwaitingSync": {
     "description": "Label in upgrade bar when waiting for sync to complete",
-    "message": "Update available; waiting for sync to finish"
+    "message": "Actualización disponible; esperando a que finalice la sincronización"
   },
   "screens.SyncModal.SyncView.updateDownloading": {
     "description": "Label in upgrade bar when downloading an update",
-    "message": "Downloading updates"
+    "message": "Descargando actualizaciones"
   },
   "screens.SyncModal.SyncView.updateGenericError": {
     "description": "Label in upgrade bar when there is an error getting an update",
-    "message": "Unable to check for updates"
+    "message": "No se ha podido buscar actualizaciones"
   },
   "screens.SyncModal.SyncView.updatePermissionError": {
     "description": "Label in upgrade bar when there is permissions error getting an update",
-    "message": "Unable to update"
+    "message": "No se puede actualizar"
   },
   "screens.SyncModal.SyncView.updateReady": {
     "description": "Label in upgrade bar when an update is available",
-    "message": "A new version of Mapeo is available"
-  },
-  "screens.SyncModal.SyncView.updateUnknownState": {
-    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
-    "message": "Unimplemented state"
+    "message": "Una nueva versión de Mapeo está disponible"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
@@ -871,23 +943,19 @@
   },
   "screens.UnableToLink.bannerTitle": {
     "description": "Title describing the flow of adding user to project",
-    "message": "Add to Project"
+    "message": "Añadir al proyecto"
   },
   "screens.UnableToLink.shareInvite": {
     "description": "Button prompting user to share a link to invite user to join a project",
-    "message": "Share Invite"
+    "message": "Compartir invitación"
   },
   "screens.UnableToLink.showCode": {
     "description": "Button prompting user to show code for message",
-    "message": "Show QR Code"
+    "message": "Mostrar código QR"
   },
   "screens.UnableToLink.tryAnotherMethod": {
     "description": "Suggests that user tries another method for adding another device to the project.",
-    "message": "Try connecting using one of the other methods below."
-  },
-  "screens.UnableToLink.unableToLink": {
-    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
-    "message": "Unable to Link to Device"
+    "message": "Intente conectarse usando uno de los otros métodos a continuación."
   },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
@@ -902,10 +970,6 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Buscando…"
-  },
-  "sharedComponents.PracticeMode.title": {
-    "description": "Indicated to user that they are on practice mode",
-    "message": "Practice Mode"
   },
   "sharedComponents.WifiBar.noWifi": {
     "message": "Sin internet"

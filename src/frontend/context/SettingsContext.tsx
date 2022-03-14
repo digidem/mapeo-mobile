@@ -17,7 +17,9 @@ export type SettingsState = {
   experiments: {
     p2pUpgrade: boolean;
     onboarding: boolean;
+    appPasscode: boolean;
   };
+  directionalArrow: boolean;
 };
 
 type SettingsContextType = readonly [
@@ -30,7 +32,9 @@ const DEFAULT_SETTINGS: SettingsState = {
   experiments: {
     p2pUpgrade: false,
     onboarding: process.env.FEATURE_ONBOARDING === "true",
+    appPasscode: process.env.FEATURE_PASSCODE === "true",
   },
+  directionalArrow: false,
 };
 
 const SettingsContext = React.createContext<SettingsContextType>([

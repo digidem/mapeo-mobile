@@ -29,38 +29,37 @@ export const PracticeMode = ({
 }: PracticeModeProps) => {
   const [config] = useContext(ConfigContext);
 
-  if (enabled && isInPracticeMode(config)) {
-    return (
-      <View style={styles.container}>
-        <View style={styles.contentContainer}>{children}</View>
+  const showPracticeModeUi = enabled && isInPracticeMode(config);
 
-        {!hideBar && (
-          <View style={styles.bottomBar}>
-            <MaterialCommunityIcons
-              name="lightbulb-on"
-              color={WHITE}
-              size={28}
-            />
-            <Text style={styles.text}>
-              <FormattedMessage {...m.title} />
-            </Text>
-          </View>
-        )}
-      </View>
-    );
-  }
+  return (
+    <View
+      style={[
+        styles.flexContainer,
+        showPracticeModeUi && styles.practiceModeContainer,
+      ]}
+    >
+      <View style={styles.flexContainer}>{children}</View>
 
-  //If practice mode is NOT enabled, the user is just returned the children
-  return <React.Fragment>{children}</React.Fragment>;
+      {showPracticeModeUi && !hideBar && (
+        <View style={styles.bottomBar}>
+          <MaterialCommunityIcons name="lightbulb-on" color={WHITE} size={28} />
+          <Text style={styles.text}>
+            <FormattedMessage {...m.title} />
+          </Text>
+        </View>
+      )}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    borderColor: DARK_ORANGE,
-    borderWidth: 5,
+  flexContainer: {
     flex: 1,
   },
-  contentContainer: { flex: 1 },
+  practiceModeContainer: {
+    borderColor: DARK_ORANGE,
+    borderWidth: 5,
+  },
   bottomBar: {
     backgroundColor: DARK_ORANGE,
     height: 30,

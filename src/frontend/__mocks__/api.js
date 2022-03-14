@@ -30,5 +30,5 @@ export default {
   getConfigMessages: () => {
     return jest.fn(() => Promise.resolve());
   },
-  getObservations: jest.fn(() => Promise.resolve([])),
+  getObservations: () => jest.fn(() => Promise.resolve([])),
 };

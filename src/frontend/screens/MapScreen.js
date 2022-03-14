@@ -5,9 +5,9 @@ import Text from "../sharedComponents/Text";
 
 import debug from "debug";
 
-import MapView from "../sharedComponents/MapView";
+import MapView from "../sharedComponents/Map/MapView";
 import Loading from "../sharedComponents/Loading";
-import useDraftObservation from "../hooks/useDraftObservation";
+import { useDraftObservation } from "../hooks/useDraftObservation";
 import useMapStyle from "../hooks/useMapStyle";
 import ObservationsContext from "../context/ObservationsContext";
 import LocationContext from "../context/LocationContext";

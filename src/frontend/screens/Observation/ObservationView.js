@@ -129,8 +129,8 @@ const ObservationView = ({
   const coordinateFormat = useSettingsValue("coordinateFormat");
   const { formatMessage: t } = intl;
   const deviceId = useDeviceId();
-  const isMine = deviceId === observation.value.deviceId;
-  const { lat, lon, attachments } = observation.value;
+  const isMine = deviceId === observation.deviceId;
+  const { lat, lon, attachments } = observation;
   // Currently only show photo attachments
   const photos = filterPhotosFromAttachments(attachments);
 
@@ -138,7 +138,6 @@ const ObservationView = ({
   const icon = (preset && preset.icon) || undefined;
 
   const handleShare = () => {
-    const { value } = observation;
     const msg = renderToString(
       <ShareMessage observation={observation} preset={preset} />,
       { intl }
@@ -148,10 +147,8 @@ const ObservationView = ({
       { intl }
     );
 
-    if (value.attachments && value.attachments.length) {
-      const urls = value.attachments.map(a =>
-        api.getMediaFileUri(a.id, "preview")
-      );
+    if (attachments && attachments.length) {
+      const urls = attachments.map(a => api.getMediaFileUri(a.id, "preview"));
       const options = {
         urls: urls,
         message: msg,
@@ -200,12 +197,9 @@ const ObservationView = ({
               <FormattedPresetName preset={preset} />
             </Text>
           </View>
-          {observation.value.tags.notes &&
-          observation.value.tags.notes.trim() ? (
+          {observation.tags.notes && observation.tags.notes.trim() ? (
             <View style={{ paddingTop: 15 }}>
-              <Text style={styles.textNotes}>
-                {observation.value.tags.notes}
-              </Text>
+              <Text style={styles.textNotes}>{observation.tags.notes}</Text>
             </View>
           ) : null}
           {!!photos.length && (
@@ -221,7 +215,7 @@ const ObservationView = ({
         {fields && fields.length > 0 && (
           <View>
             {fields.map((field, idx) => {
-              const value = getProp(observation.value.tags, field.key);
+              const value = getProp(observation.tags, field.key);
               return (
                 <View
                   key={idx}

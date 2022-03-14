@@ -6,6 +6,7 @@ import { ObservationsProvider } from "./ObservationsContext";
 import { ConfigProvider } from "./ConfigContext";
 import { SettingsProvider } from "./SettingsContext";
 import { DraftObservationProvider } from "./DraftObservationContext";
+import { SecurityProvider } from "../screens/Security/SecurityContext";
 
 // This is a convenience wrapper for providing all App contexts to the tree,
 // apart from the Permissions Provider which is needed separately.
@@ -14,7 +15,9 @@ const AppProvider = ({ children }: { children: React.Node }) => (
     <ObservationsProvider>
       <ConfigProvider>
         <SettingsProvider>
-          <DraftObservationProvider>{children}</DraftObservationProvider>
+          <SecurityProvider>
+            <DraftObservationProvider>{children}</DraftObservationProvider>
+          </SecurityProvider>
         </SettingsProvider>
       </ConfigProvider>
     </ObservationsProvider>

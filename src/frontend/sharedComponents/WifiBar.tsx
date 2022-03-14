@@ -16,7 +16,7 @@ const m = defineMessages({
     description: "Label for wifi network name",
   },
   noWifi: {
-    id: "sharedComponents.WifiBar.wifi",
+    id: "sharedComponents.WifiBar.noWifi",
     defaultMessage: "No Internet",
   },
 });

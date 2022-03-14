@@ -1,0 +1,15 @@
+diff --git a/node_modules/metro-transform-worker/src/index.js b/node_modules/metro-transform-worker/src/index.js
+index afcc18d..4c878e0 100644
+--- a/node_modules/metro-transform-worker/src/index.js
++++ b/node_modules/metro-transform-worker/src/index.js
+@@ -196,7 +196,9 @@ async function transformJS(file, { config, options, projectRoot }) {
+       // However, switching the flag to false caused issues with ES Modules if `experimentalImportSupport` isn't used https://github.com/facebook/metro/issues/641
+       // either because one of the plugins is doing something funky or Babel messes up some caches.
+       // Make sure to test the above mentioned case before flipping the flag back to false.
+-      cloneInputAst: true
++
++      // Possibly causing issue when set to `true`, see https://github.com/facebook/metro/issues/652#issuecomment-966804405
++      cloneInputAst: false
+     }).ast
+   );
+ 

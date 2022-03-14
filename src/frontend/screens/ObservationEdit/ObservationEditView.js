@@ -13,7 +13,7 @@ import {
   DetailsIcon,
   CategoryCircleIcon,
 } from "../../sharedComponents/icons";
-import useDraftObservation from "../../hooks/useDraftObservation";
+import { useDraftObservation } from "../../hooks/useDraftObservation";
 import useSettingsValue from "../../hooks/useSettingsValue";
 import ThumbnailScrollView from "../../sharedComponents/ThumbnailScrollView";
 import TextButton from "../../sharedComponents/TextButton";

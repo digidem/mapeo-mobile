@@ -8,7 +8,7 @@ import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
-import com.bugsnag.BugsnagReactNative;
+import com.bugsnag.android.Bugsnag;
 import cl.json.ShareApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -18,8 +18,6 @@ import com.mapeo.generated.BasePackageList;
 import org.unimodules.adapters.react.ModuleRegistryAdapter;
 import org.unimodules.adapters.react.ReactModuleRegistryProvider;
 import org.unimodules.core.interfaces.SingletonModule;
-
-import com.mapbox.rctmgl.RCTMGLPackage;
 
 import com.mapeo.AppInfoPackage;
 import com.mapeo.ApkInstallerPackage;
@@ -70,7 +68,7 @@ public class MainApplication extends Application implements ShareApplication, Re
   @Override
   public void onCreate() {
     super.onCreate();
-    BugsnagReactNative.start(this);
+    Bugsnag.start(this);
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
