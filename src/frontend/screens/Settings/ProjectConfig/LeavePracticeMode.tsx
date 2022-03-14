@@ -44,8 +44,7 @@ export const LeavePracticeMode = () => {
         projectAction: "create",
       });
     } else {
-      // TODO: Do some project creation logic here
-      navigation.navigate("Map");
+      navigation.navigate("CreateProject");
     }
   };
 

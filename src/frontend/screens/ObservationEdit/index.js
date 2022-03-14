@@ -5,7 +5,7 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import ObservationEditView from "./ObservationEditView";
 import SaveButton from "./SaveButton";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import useDraftObservation from "../../hooks/useDraftObservation";
+import { useDraftObservation } from "../../hooks/useDraftObservation";
 import type { NavigationProp } from "../../types";
 
 const m = defineMessages({

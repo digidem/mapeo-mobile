@@ -1,7 +1,7 @@
 package com.mapeo;
 
 import android.os.Bundle; // react-native-splash-screen
-import com.facebook.react.ReactFragmentActivity; // react-native-screens
+import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen; // react-native-splash-screen
 
 /* Start: react-native-guesture-handler */
@@ -10,11 +10,11 @@ import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 /* End: react-native-guesture-handler */
 
-public class MainActivity extends ReactFragmentActivity {
+public class MainActivity extends ReactActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.show(this);  // react-native-splash-screen
-        super.onCreate(savedInstanceState);
+        super.onCreate(null); // react-native-screens
     }
 
     @Override

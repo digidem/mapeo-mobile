@@ -1,0 +1,111 @@
+{
+  "AppContainer.EditHeader.discardCancel": {
+    "description": "Button on dialog to keep editing (cancelling close action)",
+    "message": "සංස්කරණය කරගෙන යන්න"
+  },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "වෙනස්කම් ඉවතලන්න"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "වෙනස්කම් ඉවතලන්න?"
+  },
+  "AppContainer.EditHeader.discardContent": {
+    "description": "Button on dialog to cancel a new observation",
+    "message": "ඉතිරි නොකර ඉවතලන්න"
+  },
+  "AppContainer.EditHeader.discardTitle": {
+    "description": "Title of dialog that shows when cancelling a new observation",
+    "message": "නිරීක්ෂණය ඉවතලන්නද?"
+  },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo {previousVersion} අනුවාදයේ සිට {currentVersion} වෙත {updateDateTime} දින සාර්ථකව යාවත්කාලීන කරන ලදී"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "හරි"
+  },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo යාවත්කාලීන ✅"
+  },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "Android ගොඩනැගීමේ අංකය"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "ඇන්ඩ්රොයිඩ් අනුවාදය"
+  },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Mapeo ගොඩනැගීම"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Mapeo ප්රභේදය"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "Mapeo අනුවාදය"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "දුරකථන ආකෘතිය"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "Mapeo ගැන"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "නොදන්නා"
+  },
+  "screens.AddPhoto.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "උපාංගය වෙත සම්බන්ධ වෙමින්..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "සම්බන්ධීකාරකවරුන්ට ව්‍යාපෘතිවලින් උපාංග එකතු කිරීමට සහ ඉවත් කිරීමට හැකිය"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "මෙම උපාංගය සම්බන්ධීකාරක වේ"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "මෙම උපාංගය සහභාගිවන්නකි"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "උපාංගය සඳහා භූමිකාවක් තෝරන්න"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "උපාංගය {deviceId} හමු විය"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "කරදරයක්ද?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "සම්බන්ධ වීමේ ඉල්ලීම යැවීමට ප්‍රජා සිතියම්කරුගෙන් ඉල්ලා සිටින්න"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "ව්‍යාපෘතියට පුද්ගලයා එක් කිරීමට උපාංගය පරිලෝකනය කරන්න"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "උපදෙස්"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} {projectName} වෙත එක් කර ඇත"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Sync වෙත යන්න"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "සාර්ථකත්වය!"
+  }
+}

@@ -252,10 +252,6 @@
     "description": "message shown whilst observations are loading",
     "message": "កំពុងធ្វើការ ... វាត្រូវការពេលមួយរយៈ បន្ទាប់ពីធ្វើសមកាលកម្មជាមួយឧបករណ៍ថ្មីរួចរាល់"
   },
-  "screens.ProjectConfig.title": {
-    "description": "Title of project configuration screen",
-    "message": "ការកំណត់រចនាសម្ព័ន្ធនៃគម្រោង"
-  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "អ្នកអាចព្យាយាមបង្ខំឱ្យដំណើរការកម្មវិធីសារជាថ្មីឡើងវិញ ប៉ុន្តែវាអាចមានអ្វីមួយដែលត្រូវការជួសជុល។ ពិតជាសោកស្តាយចំពោះបញ្ហានេះការបង្កើតកម្មវិធីគឺពិបាកណាស់។"
@@ -272,6 +268,30 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "វាមានភាពត្រូវគ្នាជាមួយនឹងមូលដ្ឋានទិន្នន័យរបស់ Mapeo"
   },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "មិនបានមានបញ្ហាក្នុងការព្យាយាមទាញចូលឯកសារខិនហ្វិក"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "ការទាញចូលមានបញ្ហា"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "ការកំណត់រចនាសម្ព័ន្ធថ្មីៗនេះ"
+  },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "នាំចូលការកំណត់រចនាសម្ព័ន្ធ"
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "សោគម្រោង"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "គ្មានឈ្មោះ"
+  },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
     "message": "អំពីមែបភីអូ"
@@ -279,26 +299,6 @@
   "screens.Settings.aboutMapeoDesc": {
     "description": "Description of the 'About Mapeo' page",
     "message": "លេខសេរ៊ីនិងកំណែរ"
-  },
-  "screens.Settings.configErrorDescription": {
-    "description": "Description of error dialog when there is an error importing a config file",
-    "message": "មិនបានមានបញ្ហាក្នុងការព្យាយាមទាញចូលឯកសារខិនហ្វិក"
-  },
-  "screens.Settings.configErrorOkButton": {
-    "description": "Button to dismiss error dialog when there is an error importing a config file",
-    "message": "យល់ព្រម"
-  },
-  "screens.Settings.configErrorTitle": {
-    "description": "Title of error dialog when there is an error importing a config file",
-    "message": "ការទាញចូលមានបញ្ហា"
-  },
-  "screens.Settings.currentConfig": {
-    "description": "Label for name & version of current configuration",
-    "message": "ការកំណត់រចនាសម្ព័ន្ធថ្មីៗនេះ"
-  },
-  "screens.Settings.importConfig": {
-    "description": "Button to import Mapeo config file",
-    "message": "នាំចូលការកំណត់រចនាសម្ព័ន្ធ"
   },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
@@ -316,17 +316,9 @@
     "description": "Secondary text for project config settings",
     "message": "ប្រភេទ, រូបតំណាង និងសំណួរ"
   },
-  "screens.Settings.projectKey": {
-    "description": "Label for project key",
-    "message": "សោគម្រោង"
-  },
   "screens.Settings.title": {
     "description": "Title of settings screen",
     "message": "ការកំណត់"
-  },
-  "screens.Settings.unnamedConfig": {
-    "description": "Config name when do name is defined",
-    "message": "គ្មានឈ្មោះ"
   },
   "screens.SyncModal.PeerList.completeButton": {
     "description": "Button label when complete",
@@ -388,10 +380,6 @@
     "description": "Header of sync screen",
     "message": "ធ្វើសមកាលកម្ម"
   },
-  "screens.SyncModal.SyncView.wifi": {
-    "description": "Label for wifi network name",
-    "message": "ប្រព័ន្ធ WiFi:"
-  },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
     "message": "យល់ព្រម"
@@ -425,5 +413,9 @@
   },
   "sharedComponents.GpsPill.searching": {
     "message": "កំពុងស្វែងរក…"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "ប្រព័ន្ធ WiFi:"
   }
 }

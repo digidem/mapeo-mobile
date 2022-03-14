@@ -77,15 +77,9 @@ able to control the mobile app.
 
 In order to develop the full app you will need the Android SDK installed and
 specifically [21.4.7075529 of the NDK](https://developer.android.com/ndk/guides/) in order to build
-nodejs-mobile for Android. Currently you will need to remove any later versions of NDK (e.g. >=v22) if you are using "NDK side-by-side" (which allows you to have multiple versions of NDK installed at the same time), because for some reason the build process ignores the Gradle preference for NDK version.
+nodejs-mobile for Android.
 
-You may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and cofigures requirements that might be missing, like the NDK and CMake to build the native code part of the project.
-
-You can also set the environment variable `ANDROID_NDK_HOME`, as in this example:
-
-```sh
-export ANDROID_NDK_HOME=/Users/username/Library/Android/sdk/ndk-bundle
-```
+You may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and configures requirements that might be missing, like the NDK and CMake to build the native code part of the project.
 
 Mapeo Mobile does NOT work with Android OS version 11 (as of June 2020, version 11 is still in beta release)
 

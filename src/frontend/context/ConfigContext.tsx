@@ -74,7 +74,13 @@ export type State = {
 
 export type ConfigContextType = [
   State,
-  { reload: () => void; replace: (fileUri: string) => void }
+  {
+    reload: () => void;
+    replace: (
+      fileUri: string,
+      onSuccess?: (metadata: Metadata) => void
+    ) => Promise<void>;
+  }
 ];
 
 const defaultConfig = {
@@ -91,7 +97,7 @@ const defaultContext: ConfigContextType = [
   },
   {
     reload: () => {},
-    replace: () => {},
+    replace: async () => {},
   },
 ];
 
@@ -104,7 +110,7 @@ export const ConfigProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const isMounted = useIsMounted();
 
   const loadConfig = React.useCallback(
-    async (locale: string) => {
+    async (locale: string, onSuccess?: (configMetadata: Metadata) => void) => {
       setStatus("loading");
 
       try {
@@ -132,10 +138,16 @@ export const ConfigProvider = ({ children }: React.PropsWithChildren<{}>) => {
         });
 
         setStatus("success");
+
+        if (onSuccess) {
+          onSuccess(metadata);
+        }
       } catch (err) {
-        bugsnag.notify(err, report => {
-          report.severity = "error";
-        });
+        if (err instanceof Error) {
+          bugsnag.notify(err, report => {
+            report.severity = "error";
+          });
+        }
 
         log("Error loading presets and fields", err);
 
@@ -148,11 +160,11 @@ export const ConfigProvider = ({ children }: React.PropsWithChildren<{}>) => {
   );
 
   const replace = React.useCallback(
-    async fileUri => {
+    async (fileUri, onSuccess) => {
       try {
         setStatus("loading");
         await api.replaceConfig(fileUri);
-        await loadConfig(intl.locale);
+        await loadConfig(intl.locale, onSuccess);
       } catch (err) {
         log("Error replacing presets", err);
         setStatus("error");

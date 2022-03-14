@@ -1,0 +1,65 @@
+diff --git a/node_modules/nodejs-mobile-react-native/android/build.gradle b/node_modules/nodejs-mobile-react-native/android/build.gradle
+index e54f25c..178b15a 100644
+--- a/node_modules/nodejs-mobile-react-native/android/build.gradle
++++ b/node_modules/nodejs-mobile-react-native/android/build.gradle
+@@ -50,6 +50,7 @@ def _isCorrectSTLDefinedByApp = DoesAppAlreadyDefineWantedSTL()
+ android {
+     compileSdkVersion ((rootProject?.ext?.properties?.compileSdkVersion) ?: 23)
+     buildToolsVersion ((rootProject?.ext?.properties?.buildToolsVersion) ?: "23.0.1")
++    ndkVersion "21.4.7075529"
+ 
+     defaultConfig {
+         minSdkVersion _nodeMinSdkVersion
+@@ -76,9 +77,11 @@ android {
+     }
+ 
+     sourceSets {
+-        main {
+-            jniLibs.srcDirs 'libnode/bin/'
+-        }
++        // Not needed
++        // see https://github.com/JaneaSystems/nodejs-mobile/issues/317#issuecomment-852033823
++        // main {
++        //     jniLibs.srcDirs 'libnode/bin/'
++        // }
+         main.assets.srcDirs += '../install/resources/nodejs-modules'
+     }
+ 
+diff --git a/node_modules/nodejs-mobile-react-native/android/src/main/java/com/janeasystems/rn_nodejs_mobile/RNNodeJsMobileModule.java b/node_modules/nodejs-mobile-react-native/android/src/main/java/com/janeasystems/rn_nodejs_mobile/RNNodeJsMobileModule.java
+index e882a0c..d5ed11a 100644
+--- a/node_modules/nodejs-mobile-react-native/android/src/main/java/com/janeasystems/rn_nodejs_mobile/RNNodeJsMobileModule.java
++++ b/node_modules/nodejs-mobile-react-native/android/src/main/java/com/janeasystems/rn_nodejs_mobile/RNNodeJsMobileModule.java
+@@ -32,6 +32,7 @@ public class RNNodeJsMobileModule extends ReactContextBaseJavaModule implements
+   private final ReactApplicationContext reactContext;
+   private static final String TAG = "NODEJS-RN";
+   private static final String NODEJS_PROJECT_DIR = "nodejs-project";
++  private static final String NODEJS_ASSETS_DIR = "nodejs-assets";
+   private static final String NODEJS_BUILTIN_MODULES = "nodejs-builtin_modules";
+   private static final String TRASH_DIR = "nodejs-project-trash";
+   private static final String SHARED_PREFS = "NODEJS_MOBILE_PREFS";
+@@ -42,6 +43,7 @@ public class RNNodeJsMobileModule extends ReactContextBaseJavaModule implements
+   private static String trashDirPath;
+   private static String filesDirPath;
+   private static String nodeJsProjectPath;
++  private static String nodeJsAssetsPath;
+   private static String builtinModulesPath;
+   private static String nativeAssetsPath;
+ 
+@@ -74,6 +76,7 @@ public class RNNodeJsMobileModule extends ReactContextBaseJavaModule implements
+ 
+     // The paths where we expect the node project assets to be at runtime.
+     nodeJsProjectPath = filesDirPath + "/" + NODEJS_PROJECT_DIR;
++    nodeJsAssetsPath = filesDirPath + "/" + NODEJS_ASSETS_DIR;
+     builtinModulesPath = filesDirPath + "/" + NODEJS_BUILTIN_MODULES;
+     trashDirPath = filesDirPath + "/" + TRASH_DIR;
+     nativeAssetsPath = BUILTIN_NATIVE_ASSETS_PREFIX + getCurrentABIName();
+@@ -387,6 +390,9 @@ public class RNNodeJsMobileModule extends ReactContextBaseJavaModule implements
+     // Copy the nodejs built-in modules to the application's data path.
+     copyAssetFolder("builtin_modules", builtinModulesPath);
+ 
++    // Copy nodejs assets (e.g. presets) which can vary between variants
++    copyAssetFolder("nodejs-assets", nodeJsAssetsPath);
++
+     saveLastUpdateTime();
+     Log.d(TAG, "Node assets copy completed successfully");
+   }

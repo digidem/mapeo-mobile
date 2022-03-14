@@ -1,1 +1,286 @@
-{}
+{
+  "AppContainer.EditHeader.discardCancel": {
+    "description": "Button on dialog to keep editing (cancelling close action)",
+    "message": "ဆက်လက်ပြင်ဆင်ခြင်း"
+  },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "ပြောင်းလဲမှုများကို ဖျက်ခြင်း"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "ပြောင်းလဲမှုများကို ဖျက်ပစ်မှာလား?"
+  },
+  "AppContainer.EditHeader.discardContent": {
+    "description": "Button on dialog to cancel a new observation",
+    "message": "သိမ်းဆည်းမှုမလုပ်ဘဲ ဖျက်ခြင်း"
+  },
+  "AppContainer.EditHeader.discardTitle": {
+    "description": "Title of dialog that shows when cancelling a new observation",
+    "message": "လေ့လာထားရှိမှုများကို ဖျက်ပစ်မှာလား?"
+  },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "မက်ပီယိုကို ယခင်ဘာရှင်းမှ ယခုအဆင့်မြင့် ဘာရှင်းသို့ အောင်မြင်စွာ မြှင့်တင်ပြီးပါပြီ"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "အိုကေ"
+  },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "မက်ပီယိုအဆင့်မြှင့်တင်ပြီး"
+  },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "အန့်ဒရိုက် Android တည်ဆောက် နံပါတ်"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "အန့်ဒရိုက် Android ဘားရှင်း"
+  },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "မက်ပီယို တည်ဆောက်မှု"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "မက်ပီယို မူကွဲ"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "မက်ပီယို ဘားရှင်း"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "ဖုန်းမော်ဒယ်"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "မက်ပီယိုအကြောင်း"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "မသိသော"
+  },
+  "screens.AddPhoto.cancel": {
+    "message": "ပယ်ဖျက်သည်"
+  },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "ကိရိယာနှင့် ချိတ်ဆက်ခြင်း..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "ပယ်ဖျက်သည်"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "ညှိနှိုင်းရေးမှူးများသည် ကရိယာများကို စီမံကိန်းမှ ဖယ်ရှားခြင်းနှင့် ထပ်ပေါင်းခြင်း ပြုလုပ်နိုင်သည်"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "ဒီ ကိရိယာသည် ညှိနှိုင်းရေးမှူး"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "ဒီ ကိရိယာသည် ပူးပေါင်းပါဝင်သူ"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "ကိရိယာအတွက် အခန်းကဏ္ဍကိုရွေးပါ"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "ကိရိယာကို တွေ့ရှိသည်"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "အခက်အခဲရှိပါသလား?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "ဒေသခံ ကွင်းပတ်သူများကို ချိတ်ဆက်မှုအတွက် တောင်းဆိုမှု ပေးပို့ရန်ပြောပါ"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "စီမံကိန်းမှာ နောက်ထပ်လူပေါင်းထပ်ရန် ကိရိယာကို Scan လုပ်ခြင်း"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "ညွှန်ကြားချက်များ"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "ကိရိယာကို စီမံကိန်းသို့ ပေါင်းထပ်ပြီးဖြစ်သည်"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Sync သို့သွားပါ"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "ကိရိယာများကို ဖိတ်ခေါ်ပါ"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "စီမံကိန်းသို့ ပေါင်းထပ်ပါ"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "စီမံကိန်း... တွင် သင်ရောက်ရှိနေပါပြီ"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "နောက်သို့ ပြန်သွား"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "လက်ရှိ စီမံကိန်းမှ ထွက်သည်"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "စီမံကိန်းအသစ်သို့ ဝင်ရန် လက်ရှိတစ်ခုမှ ထွက်ရမည်။"
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "စီမံကိန်းတစ်ခုတွင် သင် ရောက်နှင့်ပြီးဖြစ်သည်"
+  },
+  "screens.CameraScreen.noCameraAccess": {
+    "description": "Error message shown when app does not have permissions to camera",
+    "message": "ကင်မရာ သုံးခွင့်မရှိပါ"
+  },
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "ဘာဖြစ်နေသလဲဆိုတာ ရွေးပါ"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "ပယ်ဖျက်သည်"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "မဟုတ်ပါ, လေ့လာထားရှိမှုများကို ပယ်ဖျက်မည်"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "ဟုတ်ပါသည်, လေ့လာထားရှိမှုများကို သိမ်းထားပါမည်"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "လေ့လာထားရှိမှုများကို လက်တွေ့လုပ်ဆောင်မှု Mode မှ စီမံကိန်းသို့ ယူဆောင်ခြင်း"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "လက်တွေ့လုပ်ဆောင်မှု Mode မှ ထွက်ပါ"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "ရွေးချယ်စရာများမှ တစ်ခုရွေးပါ"
+  },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "ဒသမ ဒီဂရီ"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "ဒီဂရီ/ မိနစ်/ စက္ကန့်"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "ကိုဩဒိနိတ် ပုံစံ"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "UTM (Universal Transverse Mercator)"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "ဒသမ ဒီဂရီ"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "ဒီဂရီ/ မိနစ်/ စက္ကန့်"
+  },
+  "screens.ManualGpsScreen.easting": {
+    "message": "အရှေ့"
+  },
+  "screens.ManualGpsScreen.northing": {
+    "message": "မြောက်"
+  },
+  "screens.ManualGpsScreen.title": {
+    "description": "title of manual GPS screen",
+    "message": "ကိုဩဒိနိတ်အမှတ်များ ရိုက်ထည့်ပါ"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "UTM (Universal Transverse Mercator)"
+  },
+  "screens.ManualGpsScreen.zoneNumber": {
+    "message": "ဇုန်နံပါတ်"
+  },
+  "screens.Observation.ObservationView.alertFooter": {
+    "description": "Footer for shared observations message",
+    "message": "မက်ပီယိုမှ ပေးပို့ပြီးဖြစ်သည်"
+  },
+  "screens.Observation.ObservationView.alertSubject": {
+    "description": "Subject-line for shared observations",
+    "message": "မက်ပီယို၏ သတိပေးချက်"
+  },
+  "screens.Observation.ObservationView.delete": {
+    "description": "Button to delete an observation",
+    "message": "ပယ်ဖျက်သည်"
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "အဖြေမရှိပါ"
+  },
+  "screens.Observation.ObservationView.observation": {
+    "description": "Default name of observation with no matching preset",
+    "message": "လေ့လာတွေ့ရှိချက်များ"
+  },
+  "screens.Observation.ObservationView.share": {
+    "description": "Button to share an observation",
+    "message": "မျှဝေခြင်း"
+  },
+  "screens.Observation.cancel": {
+    "description": "Button to cancel delete of observation",
+    "message": "ပယ်ဖျက်သည်"
+  },
+  "screens.Observation.confirm": {
+    "description": "Button to confirm delete of observation",
+    "message": "ဟုတ်ကဲ့၊ ပယ်ဖျက်မည်"
+  },
+  "screens.Observation.deleteTitle": {
+    "description": "Title of dialog asking confirmation to delete an observation",
+    "message": "လေ့လာထားရှိမှုများကို ဖျက်ပစ်မှာလား?"
+  },
+  "screens.Observation.notFound": {
+    "description": "Message shown when an observation is not found",
+    "message": "လေ့လာထားမှု မတွေ့ရှိပါ"
+  },
+  "screens.Observation.title": {
+    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
+    "message": "လေ့လာတွေ့ရှိချက်များ"
+  },
+  "screens.ObservationDetails.QuestionNavBar.questionPage": {
+    "description": "Indicates which question we are on and total questions",
+    "message": "{စုစုပေါင်း} မှ {လက်ရှိ}"
+  },
+  "screens.ObservationDetails.done": {
+    "description": "Button text when all questions are complete",
+    "message": "ပြီးသွားပြီ"
+  },
+  "screens.ObservationDetails.nextQuestion": {
+    "description": "Button text to navigate to next question",
+    "message": "နောက်ထပ်"
+  },
+  "screens.ObservationDetails.title": {
+    "description": "Title of observation details screen showing question number and total",
+    "message": "{စုစုပေါင်း} မှ {လက်ရှိ} မေးခွန်း"
+  },
+  "screens.ObservationEdit.BottomSheet.addLabel": {
+    "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
+    "message": "ပေါင်းထည့်သည်…"
+  },
+  "screens.ObservationEdit.ObservationEditView.changePreset": {
+    "description": "Button to change a category / preset",
+    "message": "ပြောင်းလဲသည်"
+  },
+  "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
+    "description": "Placeholder for description/notes field",
+    "message": "ဒီမှာ ဘာဖြစ်နေတာလဲ?"
+  },
+  "screens.ObservationEdit.ObservationEditView.detailsButton": {
+    "description": "Button label to add details",
+    "message": "အသေးစိတ် ထည့်ပါ"
+  },
+  "screens.ObservationEdit.ObservationEditView.photoButton": {
+    "description": "Button label for adding photo",
+    "message": "ဓါတ်ပုံထည့်ပါ"
+  },
+  "screens.ObservationEdit.ObservationEditView.searching": {
+    "description": "Shown in new observation screen whilst looking for GPS",
+    "message": "ရှာဖွေခြင်း…"
+  },
+  "screens.ObservationEdit.SaveButton.keepWaiting": {
+    "description": "Button to cancel save and continue waiting for GPS",
+    "message": "ဆက်လက် စောင့်နေခြင်း"
+  }
+}

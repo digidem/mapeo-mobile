@@ -8,7 +8,7 @@ import TextButton from "../../sharedComponents/TextButton";
 import QuestionContainer from "./QuestionContainer";
 import Question from "./Question";
 import Field from "../ObservationEdit/Field";
-import useDraftObservation from "../../hooks/useDraftObservation";
+import { useDraftObservation } from "../../hooks/useDraftObservation";
 import type { NavigationProp } from "../../types";
 
 const m = defineMessages({
