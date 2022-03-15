@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.4.1](https://github.com/digidem/mapeo-mobile/compare/v5.4.0...v5.4.1) (2022-03-15)
+
+### Bug Fixes
+
+- fix regression in release apk build size ([2285c5e](https://github.com/digidem/mapeo-mobile/commit/2285c5ef8663f72dd200bd30dcdf21e8f1d439ad))
+
 ## [5.4.0](https://github.com/digidem/mapeo-mobile/compare/v5.3.2...v5.4.0) (2022-01-27)
 
 ### Features
