@@ -1,5 +1,5 @@
 diff --git a/node_modules/nodejs-mobile-react-native/android/build.gradle b/node_modules/nodejs-mobile-react-native/android/build.gradle
-index e54f25c..178b15a 100644
+index e54f25c..79b96e2 100644
 --- a/node_modules/nodejs-mobile-react-native/android/build.gradle
 +++ b/node_modules/nodejs-mobile-react-native/android/build.gradle
 @@ -50,6 +50,7 @@ def _isCorrectSTLDefinedByApp = DoesAppAlreadyDefineWantedSTL()
@@ -25,6 +25,15 @@ index e54f25c..178b15a 100644
          main.assets.srcDirs += '../install/resources/nodejs-modules'
      }
  
+@@ -239,7 +242,7 @@ if ("1".equals(shouldRebuildNativeModules)) {
+     GenerateNodeProjectAssetsLists.dependsOn "ApplyPatchScriptToModules"
+ 
+     def nativeModulesABIs = android.defaultConfig.ndk.abiFilters;
+-    if (nativeModulesABIs == null) {
++    if (!nativeModulesABIs) {
+         // No abiFilter is defined for the build. Build native modules for eevery architecture.
+         nativeModulesABIs = ["armeabi-v7a", "x86", "arm64-v8a", "x86_64"] as Set<String>;
+     }
 diff --git a/node_modules/nodejs-mobile-react-native/android/src/main/java/com/janeasystems/rn_nodejs_mobile/RNNodeJsMobileModule.java b/node_modules/nodejs-mobile-react-native/android/src/main/java/com/janeasystems/rn_nodejs_mobile/RNNodeJsMobileModule.java
 index e882a0c..d5ed11a 100644
 --- a/node_modules/nodejs-mobile-react-native/android/src/main/java/com/janeasystems/rn_nodejs_mobile/RNNodeJsMobileModule.java

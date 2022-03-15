@@ -227,11 +227,6 @@ android {
         versionName myVersionName
         archivesBaseName = "mapeo"
 
-        // For nodejs-mobile. If this is not set, then nodejs-mobile thinks that this is an empty array, so it does not do any native builds
-        ndk {
-            abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
-        }
-
         // Detox integration
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
         testInstrumentationRunner 'com.mapeo.DetoxTestAppJUnitRunner'
