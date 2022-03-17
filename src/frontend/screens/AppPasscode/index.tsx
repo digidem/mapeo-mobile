@@ -1,6 +1,7 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import SettingsContext from "../../context/SettingsContext";
@@ -28,9 +29,9 @@ export const AppPasscode: NavigationStackScreenComponent = () => {
   }, [experiments]);
 
   return (
-    <View style={styles.pageContainer}>
+    <ScrollView contentContainerStyle={styles.pageContainer}>
       {!passIsSet ? <NewPasscode /> : <EnterPasscode />}
-    </View>
+    </ScrollView>
   );
 };
 

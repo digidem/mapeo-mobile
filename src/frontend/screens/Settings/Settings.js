@@ -2,6 +2,7 @@
 import React, { useContext } from "react";
 // import { Picker as OriginalPicker } from "@react-native-community/picker";
 import { FormattedMessage, defineMessages } from "react-intl";
+import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "react-navigation-hooks";
 import SettingsContext from "../../context/SettingsContext";
 
@@ -105,68 +106,70 @@ const Settings = () => {
   const [{ experiments }] = useContext(SettingsContext);
 
   return (
-    <List testID="settingsList">
-      <ListItem
-        onPress={() => navigate("LanguageSettings")}
-        testID="settingsLanguageButton"
-      >
-        <ListItemIcon iconName="language" />
-        <ListItemText
-          primary={<FormattedMessage {...m.language} />}
-          secondary={<FormattedMessage {...m.languageDesc} />}
-        ></ListItemText>
-      </ListItem>
-      <ListItem
-        onPress={() => navigate("ProjectConfig")}
-        testID="settingsProjectConfigButton"
-      >
-        <ListItemIcon iconName="assignment" />
-        <ListItemText
-          primary={<FormattedMessage {...m.projectConfig} />}
-          secondary={<FormattedMessage {...m.projectConfigDesc} />}
-        ></ListItemText>
-      </ListItem>
-      <ListItem
-        onPress={() => navigate("CoordinateFormat")}
-        testID="settingsCoodinatesButton"
-      >
-        <ListItemIcon iconName="explore" />
-        <ListItemText
-          primary={<FormattedMessage {...m.coordinateFormat} />}
-          secondary={<FormattedMessage {...m.coordinateFormatDesc} />}
-        ></ListItemText>
-      </ListItem>
-      <ListItem
-        onPress={() => navigate("AboutMapeo")}
-        testID="settingsAboutButton"
-      >
-        <ListItemIcon iconName="info-outline" />
-        <ListItemText
-          primary={<FormattedMessage {...m.aboutMapeo} />}
-          secondary={<FormattedMessage {...m.aboutMapeoDesc} />}
-        ></ListItemText>
-      </ListItem>
-      <ListItem
-        onPress={() => navigate("Experiments")}
-        testID="settingsExperimentButton"
-      >
-        <ListItemIcon iconName="flag" />
-        <ListItemText
-          primary={<FormattedMessage {...m.experiments} />}
-          secondary={<FormattedMessage {...m.experimentsDesc} />}
-        ></ListItemText>
-      </ListItem>
-
-      {experiments.appPasscode && (
-        <ListItem onPress={() => navigate("Security")}>
-          <ListItemIcon iconName="security" />
+    <ScrollView>
+      <List testID="settingsList">
+        <ListItem
+          onPress={() => navigate("LanguageSettings")}
+          testID="settingsLanguageButton"
+        >
+          <ListItemIcon iconName="language" />
           <ListItemText
-            primary={<FormattedMessage {...m.security} />}
-            secondary={<FormattedMessage {...m.securityDesc} />}
+            primary={<FormattedMessage {...m.language} />}
+            secondary={<FormattedMessage {...m.languageDesc} />}
           ></ListItemText>
         </ListItem>
-      )}
-    </List>
+        <ListItem
+          onPress={() => navigate("ProjectConfig")}
+          testID="settingsProjectConfigButton"
+        >
+          <ListItemIcon iconName="assignment" />
+          <ListItemText
+            primary={<FormattedMessage {...m.projectConfig} />}
+            secondary={<FormattedMessage {...m.projectConfigDesc} />}
+          ></ListItemText>
+        </ListItem>
+        <ListItem
+          onPress={() => navigate("CoordinateFormat")}
+          testID="settingsCoodinatesButton"
+        >
+          <ListItemIcon iconName="explore" />
+          <ListItemText
+            primary={<FormattedMessage {...m.coordinateFormat} />}
+            secondary={<FormattedMessage {...m.coordinateFormatDesc} />}
+          ></ListItemText>
+        </ListItem>
+        <ListItem
+          onPress={() => navigate("AboutMapeo")}
+          testID="settingsAboutButton"
+        >
+          <ListItemIcon iconName="info-outline" />
+          <ListItemText
+            primary={<FormattedMessage {...m.aboutMapeo} />}
+            secondary={<FormattedMessage {...m.aboutMapeoDesc} />}
+          ></ListItemText>
+        </ListItem>
+        <ListItem
+          onPress={() => navigate("Experiments")}
+          testID="settingsExperimentButton"
+        >
+          <ListItemIcon iconName="flag" />
+          <ListItemText
+            primary={<FormattedMessage {...m.experiments} />}
+            secondary={<FormattedMessage {...m.experimentsDesc} />}
+          ></ListItemText>
+        </ListItem>
+
+        {experiments.appPasscode && (
+          <ListItem onPress={() => navigate("Security")}>
+            <ListItemIcon iconName="security" />
+            <ListItemText
+              primary={<FormattedMessage {...m.security} />}
+              secondary={<FormattedMessage {...m.securityDesc} />}
+            ></ListItemText>
+          </ListItem>
+        )}
+      </List>
+    </ScrollView>
   );
 };
 

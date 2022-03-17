@@ -116,10 +116,7 @@ export const ProjectConfig = () => {
   }, [config.status, t]);
 
   return (
-    <ScrollView
-      style={styles.root}
-      contentContainerStyle={role === "participant" ? { flex: 1 } : undefined}
-    >
+    <ScrollView style={styles.root}>
       <ConfigDetails
         isPracticeMode={isPracticeMode}
         loading={loading}
