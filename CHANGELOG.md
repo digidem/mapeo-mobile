@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.4.2](https://github.com/digidem/mapeo-mobile/compare/v5.4.1...v5.4.2) (2022-03-17)
+
+### Bug Fixes
+
+- fix inability to scroll in various settings screens ([25dbefd](https://github.com/digidem/mapeo-mobile/commit/25dbefd8afaf5c83b1bc060168d52f55d693928f))
+
 ### [5.4.1](https://github.com/digidem/mapeo-mobile/compare/v5.4.0...v5.4.1) (2022-03-15)
 
 ### Bug Fixes
