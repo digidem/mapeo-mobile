@@ -1,5 +1,6 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
+import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 
@@ -50,37 +51,39 @@ const Experiments: NavigationStackScreenComponent = () => {
   const { navigate } = useNavigation();
 
   return (
-    <List testID="experimentsList">
-      <ListItem
-        onPress={() => navigate("P2pUpgrade")}
-        testID="p2pUpgradeExperimentButton"
-      >
-        <ListItemIcon iconName="sync" />
-        <ListItemText
-          primary={<FormattedMessage {...m.p2pUpgrades} />}
-          secondary={
-            experiments.p2pUpgrade ? (
-              <FormattedMessage {...m.active} />
-            ) : (
-              <FormattedMessage {...m.inactive} />
-            )
-          }
-        />
-      </ListItem>
-      <ListItem onPress={() => navigate("DirectionalArrow")}>
-        <ListItemIcon iconName="map" />
-        <ListItemText
-          primary={<FormattedMessage {...m.directionalArrow} />}
-          secondary={
-            directionalArrow ? (
-              <FormattedMessage {...m.active} />
-            ) : (
-              <FormattedMessage {...m.inactive} />
-            )
-          }
-        />
-      </ListItem>
-    </List>
+    <ScrollView testID="experimentsList">
+      <List>
+        <ListItem
+          onPress={() => navigate("P2pUpgrade")}
+          testID="p2pUpgradeExperimentButton"
+        >
+          <ListItemIcon iconName="sync" />
+          <ListItemText
+            primary={<FormattedMessage {...m.p2pUpgrades} />}
+            secondary={
+              experiments.p2pUpgrade ? (
+                <FormattedMessage {...m.active} />
+              ) : (
+                <FormattedMessage {...m.inactive} />
+              )
+            }
+          />
+        </ListItem>
+        <ListItem onPress={() => navigate("DirectionalArrow")}>
+          <ListItemIcon iconName="map" />
+          <ListItemText
+            primary={<FormattedMessage {...m.directionalArrow} />}
+            secondary={
+              directionalArrow ? (
+                <FormattedMessage {...m.active} />
+              ) : (
+                <FormattedMessage {...m.inactive} />
+              )
+            }
+          />
+        </ListItem>
+      </List>
+    </ScrollView>
   );
 };
 

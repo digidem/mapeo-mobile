@@ -1,6 +1,7 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
@@ -32,7 +33,7 @@ const m = defineMessages({
 export const P2pUpgrade: NavigationStackScreenComponent = () => {
   const [{ experiments }, setSettings] = React.useContext(SettingsContext);
   return (
-    <View style={[styles.container]}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={[styles.header]}>
         <FormattedMessage {...m.title} />
       </Text>
@@ -66,7 +67,7 @@ export const P2pUpgrade: NavigationStackScreenComponent = () => {
           />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
