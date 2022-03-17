@@ -1,6 +1,7 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
@@ -33,7 +34,7 @@ export const DirectionalArrow: NavigationStackScreenComponent = () => {
   const [{ directionalArrow }, setSetting] = React.useContext(SettingsContext);
 
   return (
-    <View style={[styles.container]}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={[styles.header]}>
         <FormattedMessage {...m.directionalArrow} />
       </Text>
@@ -62,7 +63,7 @@ export const DirectionalArrow: NavigationStackScreenComponent = () => {
           />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
