@@ -753,6 +753,21 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(You) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "Add Background Map"
+  },
+  "screens.Settings.MapSettings.backgroundMaps": {
+    "message": "Map Settings"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "Close"
+  },
+  "screens.Settings.MapSettings.dataLayers": {
+    "message": "Data Layers"
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "Import from File"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Create or join a project below"
   },
@@ -863,6 +878,10 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "Display language for App"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "Map Settings"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
