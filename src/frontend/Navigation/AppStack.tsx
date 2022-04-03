@@ -37,6 +37,7 @@ import { DirectionalArrow } from "../screens/Settings/Experiments/DirectionalArr
 import { P2pUpgrade } from "../screens/Settings/Experiments/P2pUpgrade";
 import { MapSettings } from "../screens/Settings/MapSettings";
 import { BackgroundMaps } from "../screens/Settings/MapSettings/BackgroundMaps";
+import { OfflineAreas } from "../screens/Settings/MapSettings/OfflineAreas";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -99,6 +100,7 @@ export const AppStack = createStackNavigator(
     P2pUpgrade,
     MapSettings,
     BackgroundMaps,
+    OfflineAreas,
   },
   {
     initialRouteName: "Home",

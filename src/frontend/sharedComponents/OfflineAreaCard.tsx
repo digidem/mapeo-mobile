@@ -28,13 +28,13 @@ export const OfflineAreaCard = ({
 }: OfflineAreaCardProps) => {
   return (
     <View style={[styles.container]}>
-      <Text>{title}</Text>
-      <Text>
-        <FormattedMessage {...m.zoomLevel} /> {+": " + zoomLevel.toString()}
+      <Text style={[styles.text, styles.title]}>{title}</Text>
+      <Text style={[styles.text]}>
+        <FormattedMessage {...m.zoomLevel} />: {zoomLevel.toString()}
       </Text>
       {!!lvlOfDetail && (
-        <Text>
-          <FormattedMessage {...m.lvlDetail} /> {+": " + lvlOfDetail}
+        <Text style={[styles.text]}>
+          <FormattedMessage {...m.lvlDetail} />: {lvlOfDetail}
         </Text>
       )}
     </View>
@@ -44,6 +44,14 @@ export const OfflineAreaCard = ({
 const styles = StyleSheet.create({
   container: {
     borderColor: LIGHT_GREY,
-    borderRadius: 16,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 6,
+  },
+  text: {
+    fontSize: 16,
+  },
+  title: {
+    fontWeight: "bold",
   },
 });

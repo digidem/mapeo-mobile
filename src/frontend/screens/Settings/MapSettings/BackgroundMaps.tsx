@@ -44,9 +44,12 @@ const y = m.addBGMap;
 interface BackgroundMap {
   size: number;
   title: string;
+  mapId: string;
 }
 
-export const BackgroundMaps: NavigationStackScreenComponent = () => {
+export const BackgroundMaps: NavigationStackScreenComponent = ({
+  navigation,
+}) => {
   const { closeSheet, isOpen, openSheet, sheetRef } = useBottomSheetModal({
     openOnMount: false,
   });
@@ -65,7 +68,13 @@ export const BackgroundMaps: NavigationStackScreenComponent = () => {
         </Button>
 
         {/* Default BG map card */}
-        <BGMapCard mapSize={45} mapTitle="Default" />
+        <BGMapCard
+          mapId="D3f4U1t"
+          navigation={navigation}
+          style={{ marginTop: 20 }}
+          mapSize={45}
+          mapTitle="Default Map"
+        />
 
         {backgroundMapList === undefined ? (
           <Loading />
@@ -75,7 +84,12 @@ export const BackgroundMaps: NavigationStackScreenComponent = () => {
           </Text>
         ) : (
           backgroundMapList.map(bgMap => (
-            <BGMapCard mapSize={bgMap.size} mapTitle={bgMap.title} />
+            <BGMapCard
+              mapId="3f4U1tD"
+              navigation={navigation}
+              mapSize={bgMap.size}
+              mapTitle={bgMap.title}
+            />
           ))
         )}
       </ScrollView>
