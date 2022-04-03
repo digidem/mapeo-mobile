@@ -756,6 +756,9 @@
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Add Background Map"
   },
+  "screens.Settings.MapSettings.OfflineArea": {
+    "message": "Offline Areas"
+  },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Background Maps"
   },
@@ -774,6 +777,9 @@
   "screens.Settings.MapSettings.noAreas": {
     "description": "Message to indicate to user that no offline areas have been downloaded",
     "message": "No Downloaded Offline Area"
+  },
+  "screens.Settings.MapSettings.removeMap": {
+    "message": "Remove Map"
   },
   "screens.Settings.MapSettings.title": {
     "message": "Background Maps"
@@ -1073,6 +1079,10 @@
   },
   "sharedComponent.OfflineAreaCard.zoomLevel": {
     "message": "Zoom Level"
+  },
+  "sharedComponents.BGMapCard.abbrevMegaBite": {
+    "description": "The abbreviation for mega bite",
+    "message": "MB"
   },
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Current Map"
