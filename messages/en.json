@@ -757,7 +757,7 @@
     "message": "Add Background Map"
   },
   "screens.Settings.MapSettings.backgroundMaps": {
-    "message": "Map Settings"
+    "message": "Background Maps"
   },
   "screens.Settings.MapSettings.close": {
     "message": "Close"
@@ -767,6 +767,16 @@
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Import from File"
+  },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "Map Settings"
+  },
+  "screens.Settings.MapSettings.noAreas": {
+    "description": "Message to indicate to user that no offline areas have been downloaded",
+    "message": "No Downloaded Offline Area"
+  },
+  "screens.Settings.MapSettings.title": {
+    "message": "Background Maps"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Create or join a project below"
@@ -1057,6 +1067,15 @@
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
     "message": "Unexpected Error"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "Level of Detail"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "Zoom Level"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "Current Map"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "No GPS"
