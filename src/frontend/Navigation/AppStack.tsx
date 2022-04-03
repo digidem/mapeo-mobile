@@ -35,6 +35,8 @@ import { Security } from "../screens/Security";
 import { AppPasscode } from "../screens/AppPasscode";
 import { DirectionalArrow } from "../screens/Settings/Experiments/DirectionalArrow";
 import { P2pUpgrade } from "../screens/Settings/Experiments/P2pUpgrade";
+import { MapSettings } from "../screens/Settings/MapSettings";
+import { BackgroundMaps } from "../screens/Settings/MapSettings/BackgroundMaps";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -95,6 +97,8 @@ export const AppStack = createStackNavigator(
     AppPasscode: AppPasscode,
     DirectionalArrow,
     P2pUpgrade,
+    MapSettings,
+    BackgroundMaps,
   },
   {
     initialRouteName: "Home",

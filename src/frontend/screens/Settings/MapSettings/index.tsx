@@ -1,18 +1,23 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { View } from "react-native";
+import { ScrollView } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
+import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import { List, ListItem, ListItemText } from "../../../sharedComponents/List";
 
 const m = defineMessages({
   backgroundMaps: {
     id: "screens.Settings.MapSettings.backgroundMaps",
-    defaultMessage: "Map Settings",
+    defaultMessage: "Background Maps",
   },
   dataLayers: {
     id: "screens.Settings.MapSettings.dataLayers",
     defaultMessage: "Data Layers",
+  },
+  mapSettings: {
+    id: "screens.Settings.MapSettings.mapSettings",
+    defaultMessage: "Map Settings",
   },
 });
 
@@ -20,11 +25,11 @@ export const MapSettings: NavigationStackScreenComponent = () => {
   const { navigate } = useNavigation();
 
   return (
-    <View>
+    <ScrollView>
       <List>
         <ListItem
           onPress={() => {
-            navigate("");
+            navigate("BackgroundMaps");
           }}
         >
           <ListItemText
@@ -32,16 +37,15 @@ export const MapSettings: NavigationStackScreenComponent = () => {
             secondary={"---------"}
           />
         </ListItem>
-        {/* TO DO: Uncomment out whenpage has been added */}
-        {/* <ListItem
-                    onPress={()=>{navigate("")}}
-                >
-                    <ListItemText 
-                        primary={<FormattedMessage {...m.dataLayers} />}
-                        secondary={"---------"}
-                    />
-                </ListItem> */}
       </List>
-    </View>
+    </ScrollView>
   );
+};
+
+MapSettings.navigationOptions = {
+  headerTitle: () => (
+    <HeaderTitle>
+      <FormattedMessage {...m.mapSettings} />
+    </HeaderTitle>
+  ),
 };

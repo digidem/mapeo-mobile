@@ -2,7 +2,7 @@
 
 export const BLACK = "#000000";
 export const WHITE = "#ffffff";
-export const MAPEO_BLUE = "#3366ff";
+export const MAPEO_BLUE = "#0066FF";
 export const MEDIUM_BLUE = "#2752d1";
 export const DARK_BLUE = "#17317c";
 export const DARK_GREY = "#333333";

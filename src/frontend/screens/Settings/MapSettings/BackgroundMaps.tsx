@@ -1,13 +1,18 @@
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import * as React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
-import { View } from "react-native";
+import { ScrollView, StyleSheet, Text } from "react-native";
+import { NavigationStackScreenComponent } from "react-navigation-stack";
+import { MEDIUM_GREY } from "../../../lib/styles";
+import { BGMapCard } from "../../../sharedComponents/BGMapCard";
 import {
   BottomSheetContent,
   BottomSheetModal,
   useBottomSheetModal,
 } from "../../../sharedComponents/BottomSheetModal";
 import Button from "../../../sharedComponents/Button";
+import HeaderTitle from "../../../sharedComponents/HeaderTitle";
+import Loading from "../../../sharedComponents/Loading";
 
 const m = defineMessages({
   addBGMap: {
@@ -22,22 +27,70 @@ const m = defineMessages({
     id: "screens.Settings.MapSettings.importFromFile",
     defaultMessage: "Import from File",
   },
+  title: {
+    id: "screens.Settings.MapSettings.title",
+    defaultMessage: "Background Maps",
+  },
+  noAreas: {
+    id: "screens.Settings.MapSettings.noAreas",
+    defaultMessage: "No Downloaded Offline Area",
+    description:
+      "Message to indicate to user that no offline areas have been downloaded",
+  },
 });
 
-export const BackgroundMaps = () => {
+const y = m.addBGMap;
+
+interface BackgroundMap {
+  size: number;
+  title: string;
+}
+
+export const BackgroundMaps: NavigationStackScreenComponent = () => {
   const { closeSheet, isOpen, openSheet, sheetRef } = useBottomSheetModal({
     openOnMount: false,
   });
 
+  const [backgroundMapList, setBackgroundMapList] = React.useState<
+    BackgroundMap[]
+  >([]);
+
+  const { formatMessage: t } = useIntl();
+
   return (
-    <View>
-      <Button onPress={openSheet}>
-        <FormattedMessage {...m.addBGMap} />
-      </Button>
+    <>
+      <ScrollView style={styles.container}>
+        <Button style={[styles.button]} variant="outlined" onPress={openSheet}>
+          {t(m.addBGMap)}
+        </Button>
+
+        {/* Default BG map card */}
+        <BGMapCard mapSize={45} mapTitle="Default" />
+
+        {backgroundMapList === undefined ? (
+          <Loading />
+        ) : backgroundMapList.length === 0 ? (
+          <Text style={styles.noDownloads}>
+            <FormattedMessage {...m.noAreas} />
+          </Text>
+        ) : (
+          backgroundMapList.map(bgMap => (
+            <BGMapCard mapSize={bgMap.size} mapTitle={bgMap.title} />
+          ))
+        )}
+      </ScrollView>
 
       <BackgroundMapModal closeSheet={closeSheet} sheetRef={sheetRef} />
-    </View>
+    </>
   );
+};
+
+BackgroundMaps.navigationOptions = {
+  headerTitle: () => (
+    <HeaderTitle>
+      <FormattedMessage {...m.title} />
+    </HeaderTitle>
+  ),
 };
 
 const BackgroundMapModal = ({
@@ -74,3 +127,20 @@ const BackgroundMapModal = ({
     </BottomSheetModal>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    marginTop: 40,
+    width: 280,
+  },
+  noDownloads: {
+    fontSize: 16,
+    color: MEDIUM_GREY,
+    textAlign: "center",
+    marginTop: 20,
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+});

@@ -133,7 +133,10 @@ const Settings = () => {
             secondary={<FormattedMessage {...m.projectConfigDesc} />}
           ></ListItemText>
         </ListItem>
-        <ListItem onPress={() => navigate("")} testID="settingsMapSettings">
+        <ListItem
+          onPress={() => navigate("MapSettings")}
+          testID="settingsMapSettings"
+        >
           <ListItemIcon iconName="map" />
           <ListItemText
             primary={<FormattedMessage {...m.mapSettings} />}
