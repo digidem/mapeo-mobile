@@ -1,5 +1,6 @@
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import * as React from "react";
+import * as DocumentPicker from "expo-document-picker";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { ScrollView, StyleSheet, Text } from "react-native";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
@@ -119,6 +120,22 @@ const BackgroundMapModal = ({
 }) => {
   const { formatMessage: t } = useIntl();
 
+  async function handleImportPress() {
+    const results = await DocumentPicker.getDocumentAsync();
+
+    if (results.type === "cancel") {
+      closeSheet();
+      return;
+    }
+
+    if (results.type === "success") {
+      //To do API call to import map
+      console.log(results.uri);
+      closeSheet();
+      return;
+    }
+  }
+
   return (
     <BottomSheetModal
       disableBackrop={false}
@@ -130,7 +147,7 @@ const BackgroundMapModal = ({
         buttonConfigs={[
           {
             variation: "filled",
-            onPress: () => {},
+            onPress: handleImportPress,
             text: t(m.importFromFile),
           },
           {
