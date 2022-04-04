@@ -19,15 +19,17 @@ interface OfflineAreaCardProps {
   title: string;
   zoomLevel: number;
   lvlOfDetail?: string;
+  position: number;
 }
 
 export const OfflineAreaCard = ({
   title,
   zoomLevel,
   lvlOfDetail,
+  position,
 }: OfflineAreaCardProps) => {
   return (
-    <View style={[styles.container]}>
+    <View style={[styles.container, position === 0 ? {} : { marginTop: 20 }]}>
       <Text style={[styles.text, styles.title]}>{title}</Text>
       <Text style={[styles.text]}>
         <FormattedMessage {...m.zoomLevel} />: {zoomLevel.toString()}

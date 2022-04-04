@@ -39,8 +39,6 @@ const m = defineMessages({
   },
 });
 
-const y = m.addBGMap;
-
 interface BackgroundMap {
   size: number;
   title: string;
@@ -56,12 +54,17 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
 
   const [backgroundMapList, setBackgroundMapList] = React.useState<
     BackgroundMap[]
-  >([]);
+  >();
+
+  React.useEffect(() => {
+    //To do: get background map list from server
+    setBackgroundMapList([]);
+  }, []);
 
   const { formatMessage: t } = useIntl();
 
   return (
-    <>
+    <React.Fragment>
       <ScrollView style={styles.container}>
         <Button style={[styles.button]} variant="outlined" onPress={openSheet}>
           {t(m.addBGMap)}
@@ -85,7 +88,7 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
         ) : (
           backgroundMapList.map(bgMap => (
             <BGMapCard
-              mapId="3f4U1tD"
+              mapId={bgMap.mapId}
               navigation={navigation}
               mapSize={bgMap.size}
               mapTitle={bgMap.title}
@@ -95,7 +98,7 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
       </ScrollView>
 
       <BackgroundMapModal closeSheet={closeSheet} sheetRef={sheetRef} />
-    </>
+    </React.Fragment>
   );
 };
 

@@ -9,14 +9,13 @@ export const Backdrop = ({
   style,
   ...rest
 }: BottomSheetBackdropProps) => {
-  const animatedOpacity = React.useMemo(
-    () =>
-      interpolate(animatedIndex, {
-        inputRange: [0, 1],
-        outputRange: [0, 0.3],
-        extrapolate: Extrapolate.CLAMP,
-      }),
-    [animatedIndex]
+  //Use memo was causing a flickering effect when the backdrop was opened.
+  const animatedOpacity = React.useRef(
+    interpolate(animatedIndex, {
+      inputRange: [0, 1],
+      outputRange: [0, 0.3],
+      extrapolate: Extrapolate.CLAMP,
+    })
   );
 
   const containerStyle = React.useMemo(
@@ -24,10 +23,10 @@ export const Backdrop = ({
       style,
       {
         backgroundColor: BLACK,
-        opacity: animatedOpacity,
+        opacity: animatedOpacity.current,
       },
     ],
-    [style, animatedOpacity]
+    [style, animatedOpacity.current]
   );
 
   return <Animated.View {...rest} style={containerStyle} />;
