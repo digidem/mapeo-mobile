@@ -762,6 +762,12 @@
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Background Maps"
   },
+  "screens.Settings.MapSettings.cancel": {
+    "message": "Cancel"
+  },
+  "screens.Settings.MapSettings.clearDiagrams": {
+    "message": "Are you sure you want to Clear diagrams"
+  },
   "screens.Settings.MapSettings.close": {
     "message": "Close"
   },
@@ -780,6 +786,9 @@
   },
   "screens.Settings.MapSettings.removeMap": {
     "message": "Remove Map"
+  },
+  "screens.Settings.MapSettings.subtitle": {
+    "message": "This map and offline areas attached to it will be deleted. This cannot be undone"
   },
   "screens.Settings.MapSettings.title": {
     "message": "Background Maps"
