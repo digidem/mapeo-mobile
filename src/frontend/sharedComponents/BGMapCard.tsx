@@ -97,7 +97,7 @@ export const BGMapCard = ({
         <View style={[styles.textContainer]}>
           <Text style={[styles.text, { fontWeight: "bold" }]}>{mapTitle}</Text>
           <Text style={[styles.text]}>
-            {mapSize.toString() + t(m.abbrevMegaBite)}
+            {mapSize.toString() + t(m.abbrevMegabyte)}
           </Text>
           <Pill containerStyle={{ marginTop: 10 }} text={m.currentMap} />
         </View>
