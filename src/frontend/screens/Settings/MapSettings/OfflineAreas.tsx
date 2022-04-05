@@ -31,7 +31,7 @@ const m = defineMessages({
   },
   clearDiagrams: {
     id: "screens.Settings.MapSettings.clearDiagrams",
-    defaultMessage: "Are you sure you want to Clear diagrams",
+    defaultMessage: "Are you sure you want to clear diagrams?",
   },
   subtitle: {
     id: "screens.Settings.MapSettings.subtitle",
