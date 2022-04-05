@@ -1089,8 +1089,8 @@
   "sharedComponent.OfflineAreaCard.zoomLevel": {
     "message": "Zoom Level"
   },
-  "sharedComponents.BGMapCard.abbrevMegaBite": {
-    "description": "The abbreviation for mega bite",
+  "sharedComponents.BGMapCard.abbrevMegabyte": {
+    "description": "The abbreviation for megabyte",
     "message": "MB"
   },
   "sharedComponents.BGMapCard.currentMap": {
