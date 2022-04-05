@@ -15,10 +15,10 @@ const m = defineMessages({
     id: "sharedComponents.BGMapCard.currentMap",
     defaultMessage: "Current Map",
   },
-  abbrevMegaBite: {
-    id: "sharedComponents.BGMapCard.abbrevMegaBite",
+  abbrevMegabyte: {
+    id: "sharedComponents.BGMapCard.abbrevMegabyte",
     defaultMessage: "MB",
-    description: "The abbreviation for mega bite",
+    description: "The abbreviation for megabyte",
   },
 });
 
