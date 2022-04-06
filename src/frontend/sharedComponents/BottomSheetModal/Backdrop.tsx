@@ -9,26 +9,25 @@ export const Backdrop = ({
   style,
   ...rest
 }: BottomSheetBackdropProps) => {
-  //Causing flashing when opening the bottom sheet
-
-  // const animatedOpacity = React.useMemo(
-  //   () =>
-  //     interpolate(animatedIndex, {
-  //       inputRange: [0, 1],
-  //       outputRange: [0.1, 0.3],
-  //       extrapolate: Extrapolate.CLAMP,
-  //     }),
-  //   [animatedIndex])
+  const animatedOpacity = React.useMemo(
+    () =>
+      interpolate(animatedIndex, {
+        inputRange: [0, 1],
+        outputRange: [0.1, 0.3],
+        extrapolate: Extrapolate.CLAMP,
+      }),
+    [animatedIndex]
+  );
 
   const containerStyle = React.useMemo(
     () => [
       style,
       {
         backgroundColor: BLACK,
-        opacity: 0.3,
+        opacity: animatedOpacity,
       },
     ],
-    [style, animatedIndex]
+    [style, animatedOpacity]
   );
 
   return <Animated.View {...rest} style={containerStyle} />;

@@ -98,6 +98,7 @@ export const OfflineAreas: NavigationStackScreenComponent = ({
           ))
         )}
       </ScrollView>
+
       <Button style={styles.button} onPress={openSheet}>
         {t(m.removeMap)}
       </Button>

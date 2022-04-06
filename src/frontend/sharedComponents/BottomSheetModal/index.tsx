@@ -66,7 +66,7 @@ const useBackPressHandler = (onHardwareBackPress?: () => void) => {
 };
 
 const useSnapPointsCalculator = () => {
-  const [sheetHeight, setSheetHeight] = React.useState(0);
+  const [sheetHeight, setSheetHeight] = React.useState(-1);
 
   const { height: windowHeight } = useWindowDimensions();
 
