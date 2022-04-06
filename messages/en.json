@@ -766,7 +766,7 @@
     "message": "Cancel"
   },
   "screens.Settings.MapSettings.clearDiagrams": {
-    "message": "Are you sure you want to Clear diagrams"
+    "message": "Are you sure you want to clear diagrams?"
   },
   "screens.Settings.MapSettings.close": {
     "message": "Close"
@@ -1083,8 +1083,60 @@
     "description": "Title of message when there is an uncaught message in the app",
     "message": "Unexpected Error"
   },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "Street Intersection"
+  },
   "sharedComponent.OfflineAreaCard.lvlDetail": {
     "message": "Level of Detail"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - Can see addresses on map",
+    "message": "Address"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - Can see most Cities on Map",
+    "message": "City"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "Global"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "Large Country"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - Can see details of large metropolitan areas",
+    "message": "Large Metropolitan Area"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "Small Country"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - cab see small roads on map",
+    "message": "Small Road"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "Street"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "Street Block"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "Subcontinent"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "Town"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "Village"
   },
   "sharedComponent.OfflineAreaCard.zoomLevel": {
     "message": "Zoom Level"
