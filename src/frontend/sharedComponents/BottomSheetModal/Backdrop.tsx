@@ -9,24 +9,26 @@ export const Backdrop = ({
   style,
   ...rest
 }: BottomSheetBackdropProps) => {
-  //Use memo was causing a flickering effect when the backdrop was opened.
-  const animatedOpacity = React.useRef(
-    interpolate(animatedIndex, {
-      inputRange: [0, 1],
-      outputRange: [0, 0.3],
-      extrapolate: Extrapolate.CLAMP,
-    })
-  );
+  //Causing flashing when opening the bottom sheet
+
+  // const animatedOpacity = React.useMemo(
+  //   () =>
+  //     interpolate(animatedIndex, {
+  //       inputRange: [0, 1],
+  //       outputRange: [0.1, 0.3],
+  //       extrapolate: Extrapolate.CLAMP,
+  //     }),
+  //   [animatedIndex])
 
   const containerStyle = React.useMemo(
     () => [
       style,
       {
         backgroundColor: BLACK,
-        opacity: animatedOpacity.current,
+        opacity: 0.3,
       },
     ],
-    [style, animatedOpacity.current]
+    [style, animatedIndex]
   );
 
   return <Animated.View {...rest} style={containerStyle} />;

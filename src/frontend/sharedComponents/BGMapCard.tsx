@@ -59,7 +59,7 @@ export const BGMapCard = ({
   React.useEffect(() => {
     function getStyleURL() {
       //To do: API call to get styleURL
-      return "mapbox://styles/mapbox/streets-v11";
+      return MapboxGL.StyleURL.Street;
     }
     function getZoomLevel() {
       //To do: API call to get zoom level
@@ -92,6 +92,9 @@ export const BGMapCard = ({
           <MapboxGL.Camera
             zoomLevel={zoomLevel}
             centerCoordinate={centerCoordinate}
+            animationDuration={0}
+            animationMode={"linearTo"}
+            allowUpdates={false}
           />
         </MapboxGL.MapView>
         <View style={[styles.textContainer]}>

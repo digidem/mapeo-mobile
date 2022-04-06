@@ -44,7 +44,6 @@ interface OfflineArea {
   id: string;
   title: string;
   zoomLevel: number;
-  levelOfDetail: string;
 }
 
 export const OfflineAreas: NavigationStackScreenComponent = ({
@@ -57,14 +56,11 @@ export const OfflineAreas: NavigationStackScreenComponent = ({
     openOnMount: false,
   });
 
-  const [listOfflineAreas, setListOfflineAreas] = React.useState<
-    OfflineArea[]
-  >();
+  const [offlineAreaList, setOfflineAreaList] = React.useState<OfflineArea[]>();
 
   const { getParam } = navigation;
 
   React.useEffect(() => {
-    //Typesafety?
     bgMapId.current = getParam("mapId", "");
 
     //To Do Api call to get offline areas
@@ -73,33 +69,30 @@ export const OfflineAreas: NavigationStackScreenComponent = ({
         {
           id: "1",
           title: "Offline Area 1",
-          zoomLevel: 44,
-          levelOfDetail: "Small Roads",
+          zoomLevel: 12,
         },
         {
           id: "2",
           title: "Offline Area 2",
-          zoomLevel: 44,
-          levelOfDetail: "Small Roads",
+          zoomLevel: 7,
         },
       ];
     }
 
-    setListOfflineAreas(getAllOfflineAreas(bgMapId.current));
-  }, []);
+    setOfflineAreaList(getAllOfflineAreas(bgMapId.current));
+  }, [getParam]);
 
   return (
     <React.Fragment>
       <ScrollView style={[styles.container]}>
-        {listOfflineAreas === undefined ? (
+        {offlineAreaList === undefined ? (
           <Loading />
         ) : (
-          listOfflineAreas.map((offlineArea: OfflineArea, ind) => (
+          offlineAreaList.map((offlineArea: OfflineArea, ind) => (
             <OfflineAreaCard
               key={offlineArea.id}
               title={offlineArea.title}
               zoomLevel={offlineArea.zoomLevel}
-              lvlOfDetail={offlineArea.levelOfDetail}
               position={ind}
             />
           ))
