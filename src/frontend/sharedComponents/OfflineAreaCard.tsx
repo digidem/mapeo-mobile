@@ -4,8 +4,6 @@ import { StyleSheet, View } from "react-native";
 import { LIGHT_GREY } from "../lib/styles";
 import Text from "./Text";
 
-//Lev
-
 const m = defineMessages({
   lvlDetail: {
     id: "sharedComponent.OfflineAreaCard.lvlDetail",
@@ -39,12 +37,12 @@ const m = defineMessages({
     id: "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro",
     defaultMessage: "Large Metropolitan Area",
     description:
-      "Level of detail seen on map - Can see details of large metropolitan areas",
+      "Level of detail seen on map - can see details of large metropolitan areas",
   },
   lvlDetailCity: {
     id: "sharedComponent.OfflineAreaCard.lvlDetailCity",
     defaultMessage: "City",
-    description: "Level of detail seen on map - Can see most Cities on Map",
+    description: "Level of detail seen on map - can see most Cities on Map",
   },
   lvlDetailTown: {
     id: "sharedComponent.OfflineAreaCard.lvlDetailTown",
@@ -59,7 +57,7 @@ const m = defineMessages({
   lvlDetailSmallRoad: {
     id: "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad",
     defaultMessage: "Small Road",
-    description: "Level of detail seen on map - cab see small roads on map",
+    description: "Level of detail seen on map - can see small roads on map",
   },
   lvlDetailStreet: {
     id: "sharedComponent.OfflineAreaCard.lvlDetailStreet",
@@ -75,7 +73,7 @@ const m = defineMessages({
   lvlDetailAddress: {
     id: "sharedComponent.OfflineAreaCard.lvlDetailAddress",
     defaultMessage: "Address",
-    description: "Level of detail seen on map - Can see addresses on map",
+    description: "Level of detail seen on map - can see addresses on map",
   },
   lvlDetailStreetIntersection: {
     id: "sharedComponent.OfflineAreaCard.StreetIntersection",
@@ -101,33 +99,33 @@ export const OfflineAreaCard = ({
   const lvlOfDetail = React.useMemo(() => {
     switch (true) {
       case zoomLevel <= 2:
-        return t(m.lvlDetailGlobal);
+        return m.lvlDetailGlobal;
       case zoomLevel <= 4:
-        return t(m.lvlDetailSubcontinent);
+        return m.lvlDetailSubcontinent;
       case zoomLevel <= 6:
-        return t(m.lvlDetailLargeCountry);
+        return m.lvlDetailLargeCountry;
       case zoomLevel <= 8:
-        return t(m.lvlDetailSmallCountry);
+        return m.lvlDetailSmallCountry;
       case zoomLevel <= 10:
-        return t(m.lvlDetailLargeMetro);
+        return m.lvlDetailLargeMetro;
       case zoomLevel === 11:
-        return t(m.lvlDetailCity);
+        return m.lvlDetailCity;
       case zoomLevel === 12:
-        return t(m.lvlDetailTown);
+        return m.lvlDetailTown;
       case zoomLevel <= 14:
-        return t(m.lvlDetailVillage);
+        return m.lvlDetailVillage;
       case zoomLevel === 15:
-        return t(m.lvlDetailSmallRoad);
+        return m.lvlDetailSmallRoad;
       case zoomLevel === 16:
-        return t(m.lvlDetailStreet);
+        return m.lvlDetailStreet;
       case zoomLevel === 17:
-        return t(m.lvlDetailStreetBlock);
+        return m.lvlDetailStreetBlock;
       case zoomLevel === 18:
-        return t(m.lvlDetailAddress);
+        return m.lvlDetailAddress;
       case zoomLevel < 23:
-        return t(m.lvlDetailStreetIntersection);
+        return m.lvlDetailStreetIntersection;
       default:
-        return t(m.lvlDetailGlobal);
+        return m.lvlDetailGlobal;
     }
   }, [zoomLevel]);
 
@@ -139,7 +137,7 @@ export const OfflineAreaCard = ({
       </Text>
 
       <Text style={[styles.text]}>
-        <FormattedMessage {...m.lvlDetail} />: {lvlOfDetail}
+        <FormattedMessage {...m.lvlDetail} />: {t(lvlOfDetail)}
       </Text>
     </View>
   );

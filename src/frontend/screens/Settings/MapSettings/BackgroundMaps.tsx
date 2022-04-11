@@ -49,7 +49,7 @@ interface BackgroundMap {
 export const BackgroundMaps: NavigationStackScreenComponent = ({
   navigation,
 }) => {
-  const { closeSheet, isOpen, openSheet, sheetRef } = useBottomSheetModal({
+  const { closeSheet, openSheet, sheetRef } = useBottomSheetModal({
     openOnMount: false,
   });
 
@@ -63,6 +63,22 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
   }, []);
 
   const { formatMessage: t } = useIntl();
+
+  async function handleImportPress() {
+    const results = await DocumentPicker.getDocumentAsync();
+
+    if (results.type === "cancel") {
+      closeSheet();
+      return;
+    }
+
+    if (results.type === "success") {
+      //To do API call to import map
+      console.log(results.uri);
+      closeSheet();
+      return;
+    }
+  }
 
   return (
     <React.Fragment>
@@ -98,7 +114,28 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
         )}
       </ScrollView>
 
-      <BackgroundMapModal closeSheet={closeSheet} sheetRef={sheetRef} />
+      <BottomSheetModal
+        disableBackrop={false}
+        onDismiss={closeSheet}
+        ref={sheetRef}
+        onHardwareBackPress={closeSheet}
+      >
+        <BottomSheetContent
+          buttonConfigs={[
+            {
+              variation: "filled",
+              onPress: handleImportPress,
+              text: t(m.importFromFile),
+            },
+            {
+              variation: "outlined",
+              onPress: closeSheet,
+              text: t(m.close),
+            },
+          ]}
+          title={t(m.addBGMap)}
+        />
+      </BottomSheetModal>
     </React.Fragment>
   );
 };
@@ -109,57 +146,6 @@ BackgroundMaps.navigationOptions = {
       <FormattedMessage {...m.title} />
     </HeaderTitle>
   ),
-};
-
-const BackgroundMapModal = ({
-  closeSheet,
-  sheetRef,
-}: {
-  closeSheet: () => void;
-  sheetRef: React.RefObject<BottomSheetModalMethods>;
-}) => {
-  const { formatMessage: t } = useIntl();
-
-  async function handleImportPress() {
-    const results = await DocumentPicker.getDocumentAsync();
-
-    if (results.type === "cancel") {
-      closeSheet();
-      return;
-    }
-
-    if (results.type === "success") {
-      //To do API call to import map
-      console.log(results.uri);
-      closeSheet();
-      return;
-    }
-  }
-
-  return (
-    <BottomSheetModal
-      disableBackrop={false}
-      onDismiss={closeSheet}
-      ref={sheetRef}
-      onHardwareBackPress={closeSheet}
-    >
-      <BottomSheetContent
-        buttonConfigs={[
-          {
-            variation: "filled",
-            onPress: handleImportPress,
-            text: t(m.importFromFile),
-          },
-          {
-            variation: "outlined",
-            onPress: closeSheet,
-            text: t(m.close),
-          },
-        ]}
-        title={t(m.addBGMap)}
-      />
-    </BottomSheetModal>
-  );
 };
 
 const styles = StyleSheet.create({

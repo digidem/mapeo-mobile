@@ -103,7 +103,37 @@ export const OfflineAreas: NavigationStackScreenComponent = ({
         {t(m.removeMap)}
       </Button>
 
-      <DeleteAreaModal closeSheet={closeSheet} sheetRef={sheetRef} />
+      <BottomSheetModal
+        disableBackrop={false}
+        onDismiss={closeSheet}
+        ref={sheetRef}
+        onHardwareBackPress={closeSheet}
+      >
+        <BottomSheetContent
+          buttonConfigs={[
+            {
+              variation: "filled",
+              dangerous: true,
+              //To do API call to delete map
+              onPress: () => {
+                closeSheet;
+              },
+
+              text: t(m.removeMap),
+            },
+            {
+              variation: "outlined",
+              onPress: closeSheet,
+              text: t(m.cancel),
+            },
+          ]}
+          icon={
+            <ErrorIcon style={{ position: "relative" }} size={90} color={RED} />
+          }
+          title={t(m.clearDiagrams)}
+          description={t(m.subtitle)}
+        />
+      </BottomSheetModal>
     </React.Fragment>
   );
 };
@@ -114,50 +144,6 @@ OfflineAreas.navigationOptions = {
       <FormattedMessage {...m.title} />
     </HeaderTitle>
   ),
-};
-
-const DeleteAreaModal = ({
-  closeSheet,
-  sheetRef,
-}: {
-  closeSheet: () => void;
-  sheetRef: React.RefObject<BottomSheetModalMethods>;
-}) => {
-  const { formatMessage: t } = useIntl();
-
-  return (
-    <BottomSheetModal
-      disableBackrop={false}
-      onDismiss={closeSheet}
-      ref={sheetRef}
-      onHardwareBackPress={closeSheet}
-    >
-      <BottomSheetContent
-        buttonConfigs={[
-          {
-            variation: "filled",
-            dangerous: true,
-            //To do API call to delete map
-            onPress: () => {
-              closeSheet;
-            },
-
-            text: t(m.removeMap),
-          },
-          {
-            variation: "outlined",
-            onPress: closeSheet,
-            text: t(m.cancel),
-          },
-        ]}
-        icon={
-          <ErrorIcon style={{ position: "relative" }} size={90} color={RED} />
-        }
-        title={t(m.clearDiagrams)}
-        description={t(m.subtitle)}
-      />
-    </BottomSheetModal>
-  );
 };
 
 const styles = StyleSheet.create({
