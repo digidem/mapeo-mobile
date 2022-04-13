@@ -61,7 +61,7 @@ export const SettingsProvider = ({ children }: React.PropsWithChildren<{}>) => {
     // undefined in a users' persisted state, so we merge in the defaults
     const mergedState = merge({}, DEFAULT_SETTINGS, state);
     return [mergedState, setSettings];
-  }, [state, setSettings]);
+  }, [state, setSettings, DEFAULT_SETTINGS]);
 
   return (
     <SettingsContext.Provider value={contextValue}>

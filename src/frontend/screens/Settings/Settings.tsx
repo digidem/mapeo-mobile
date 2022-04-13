@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import * as React from "react";
 import { FormattedMessage, defineMessages } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "react-navigation-hooks";
-import SettingsContext from "../../context/SettingsContext";
+import useSettingsValue from "../../hooks/useSettingsValue";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import {
@@ -106,7 +106,7 @@ const m = defineMessages({
 
 const Settings = () => {
   const { navigate } = useNavigation();
-  const [{ experiments }] = useContext(SettingsContext);
+  const experiments = useSettingsValue("experiments");
 
   return (
     <ScrollView>
