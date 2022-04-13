@@ -18,6 +18,7 @@ export type SettingsState = {
     p2pUpgrade: boolean;
     onboarding: boolean;
     appPasscode: boolean;
+    devExperiments: boolean;
   };
   directionalArrow: boolean;
 };
@@ -33,6 +34,7 @@ const DEFAULT_SETTINGS: SettingsState = {
     p2pUpgrade: false,
     onboarding: process.env.FEATURE_ONBOARDING === "true",
     appPasscode: process.env.FEATURE_PASSCODE === "true",
+    devExperiments: process.env.FEATURE_DEV_EXPERIMENTS === "true",
   },
   directionalArrow: false,
 };

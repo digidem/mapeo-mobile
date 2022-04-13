@@ -1,6 +1,4 @@
-// @flow
 import React, { useContext } from "react";
-// import { Picker as OriginalPicker } from "@react-native-community/picker";
 import { FormattedMessage, defineMessages } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "react-navigation-hooks";
@@ -133,16 +131,18 @@ const Settings = () => {
             secondary={<FormattedMessage {...m.projectConfigDesc} />}
           ></ListItemText>
         </ListItem>
-        <ListItem
-          onPress={() => navigate("MapSettings")}
-          testID="settingsMapSettings"
-        >
-          <ListItemIcon iconName="map" />
-          <ListItemText
-            primary={<FormattedMessage {...m.mapSettings} />}
-            secondary="---------"
-          />
-        </ListItem>
+        {experiments.devExperiments && (
+          <ListItem
+            onPress={() => navigate("MapSettings")}
+            testID="settingsMapSettings"
+          >
+            <ListItemIcon iconName="map" />
+            <ListItemText
+              primary={<FormattedMessage {...m.mapSettings} />}
+              secondary="---------"
+            />
+          </ListItem>
+        )}
         <ListItem
           onPress={() => navigate("CoordinateFormat")}
           testID="settingsCoodinatesButton"

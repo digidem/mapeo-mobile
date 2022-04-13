@@ -21,21 +21,24 @@ import bugsnag from "./lib/logger";
 import { PracticeMode } from "./sharedComponents/PracticeMode";
 import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
+import { ExperimentsContainer } from "./Navigation/ExperimentsStack";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 
 // WARNING: This needs to change if we change the navigation structure
-const getNavStoreKey = (includeOnboarding: boolean) =>
-  `@MapeoNavigation@${includeOnboarding ? 9 : 8}`;
+//Dev experiments and include onbooarding cannot be turned on at the same time (as discussed with the whole team)
+const getNavStoreKey = (includeOnboarding: boolean, devExperiments: boolean) =>
+  `@MapeoNavigation@${devExperiments ? 10 : includeOnboarding ? 9 : 8}`;
 
-const createNavigationStatePersister = (includeOnboarding: boolean) => async (
-  navState: NavigationState
-) => {
+const createNavigationStatePersister = (
+  includeOnboarding: boolean,
+  devExperiments: boolean
+) => async (navState: NavigationState) => {
   try {
     await AsyncStorage.setItem(
-      getNavStoreKey(includeOnboarding),
+      getNavStoreKey(includeOnboarding, devExperiments),
       JSON.stringify(navState)
     );
   } catch (err) {
@@ -43,10 +46,15 @@ const createNavigationStatePersister = (includeOnboarding: boolean) => async (
   }
 };
 
-const loadSavedNavState = async (includeOnboarding: boolean) => {
+const loadSavedNavState = async (
+  includeOnboarding: boolean,
+  devExperiments: boolean
+) => {
   try {
     const navState = JSON.parse(
-      (await AsyncStorage.getItem(getNavStoreKey(includeOnboarding))) as string
+      (await AsyncStorage.getItem(
+        getNavStoreKey(includeOnboarding, devExperiments)
+      )) as string
     );
     const didCrashLastOpen = JSON.parse(
       (await AsyncStorage.getItem(ERROR_STORE_KEY)) as string
@@ -139,7 +147,8 @@ const AppContainerWrapper = () => {
         : {
             loadNavigationState: async () => {
               const loadedNavState = await loadSavedNavState(
-                experiments.onboarding
+                experiments.onboarding,
+                experiments.devExperiments
               );
 
               const loadedRouteName = getRouteName(loadedNavState);
@@ -149,13 +158,20 @@ const AppContainerWrapper = () => {
               return loadedNavState;
             },
             persistNavigationState: createNavigationStatePersister(
-              experiments.onboarding
+              experiments.onboarding,
+              experiments.devExperiments
             ),
           },
-    [experiments.onboarding, updateRouteBasedAppState]
+    [
+      experiments.onboarding,
+      updateRouteBasedAppState,
+      experiments.devExperiments,
+    ]
   );
 
-  const AppContainer = experiments.onboarding
+  const AppContainer = experiments.devExperiments
+    ? ExperimentsContainer
+    : experiments.onboarding
     ? OnboardingContainer
     : DefaultContainer;
 
