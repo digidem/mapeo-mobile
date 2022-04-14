@@ -22,6 +22,7 @@ import { PracticeMode } from "./sharedComponents/PracticeMode";
 import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
 import { ExperimentsContainer } from "./Navigation/ExperimentsStack";
+import { FeatureFlag } from "./sharedTypes";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -29,16 +30,23 @@ const log = debug("mapeo:App");
 
 // WARNING: This needs to change if we change the navigation structure
 //Dev experiments and include onbooarding cannot be turned on at the same time (as discussed with the whole team)
-const getNavStoreKey = (includeOnboarding: boolean, devExperiments: boolean) =>
-  `@MapeoNavigation@${devExperiments ? 10 : includeOnboarding ? 9 : 8}`;
+const getNavStoreKey = (featureFlag?: FeatureFlag) => {
+  switch (featureFlag) {
+    case "Onboarding":
+      return "@MapeoNavigation-Onboarding@1";
+    case "DevExperiments":
+      return "@MapeoNavigation-DevExperiments@1";
+    default:
+      return "@MapeoNavigation@10";
+  }
+};
 
-const createNavigationStatePersister = (
-  includeOnboarding: boolean,
-  devExperiments: boolean
-) => async (navState: NavigationState) => {
+const createNavigationStatePersister = (featureFlag?: FeatureFlag) => async (
+  navState: NavigationState
+) => {
   try {
     await AsyncStorage.setItem(
-      getNavStoreKey(includeOnboarding, devExperiments),
+      getNavStoreKey(featureFlag),
       JSON.stringify(navState)
     );
   } catch (err) {
@@ -46,15 +54,10 @@ const createNavigationStatePersister = (
   }
 };
 
-const loadSavedNavState = async (
-  includeOnboarding: boolean,
-  devExperiments: boolean
-) => {
+const loadSavedNavState = async (featureFlag?: FeatureFlag) => {
   try {
     const navState = JSON.parse(
-      (await AsyncStorage.getItem(
-        getNavStoreKey(includeOnboarding, devExperiments)
-      )) as string
+      (await AsyncStorage.getItem(getNavStoreKey(featureFlag))) as string
     );
     const didCrashLastOpen = JSON.parse(
       (await AsyncStorage.getItem(ERROR_STORE_KEY)) as string
@@ -108,6 +111,16 @@ const AppContainerWrapper = () => {
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
 
+  //dev experiments always overwrite onboarding
+  const featureFlag = React.useMemo(() => {
+    if (experiments.devExperiments) {
+      return "DevExperiments";
+    }
+    if (experiments.onboarding) {
+      return "Onboarding";
+    }
+  }, [experiments]);
+
   const updateRouteBasedAppState = React.useCallback(
     (routeName: string | null) => {
       setInviteModalEnabled(!inviteModalDisabledOnRoute(routeName));
@@ -146,10 +159,7 @@ const AppContainerWrapper = () => {
         ? {}
         : {
             loadNavigationState: async () => {
-              const loadedNavState = await loadSavedNavState(
-                experiments.onboarding,
-                experiments.devExperiments
-              );
+              const loadedNavState = await loadSavedNavState(featureFlag);
 
               const loadedRouteName = getRouteName(loadedNavState);
 
@@ -157,10 +167,7 @@ const AppContainerWrapper = () => {
 
               return loadedNavState;
             },
-            persistNavigationState: createNavigationStatePersister(
-              experiments.onboarding,
-              experiments.devExperiments
-            ),
+            persistNavigationState: createNavigationStatePersister(featureFlag),
           },
     [
       experiments.onboarding,
@@ -169,7 +176,19 @@ const AppContainerWrapper = () => {
     ]
   );
 
-  const AppContainer = experiments.devExperiments
+  const AppContainer = React.useMemo(() => {
+    if (featureFlag === "DevExperiments") {
+      return ExperimentsContainer;
+    }
+
+    if (featureFlag === "Onboarding") {
+      return OnboardingContainer;
+    }
+
+    return DefaultContainer;
+  }, [featureFlag]);
+
+  experiments.devExperiments
     ? ExperimentsContainer
     : experiments.onboarding
     ? OnboardingContainer
