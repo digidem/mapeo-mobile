@@ -297,7 +297,9 @@ android {
         }
         // Build type for intel devices (chromebooks and rare phones)
         intel {
-            initWith release
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
             matchingFallbacks = ['release']
             ndk {
                 abiFilters "x86", "x86_64"
