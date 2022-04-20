@@ -112,7 +112,7 @@ workflows:
                   # Uppercase flavor or remove
                   filename="${filename/-qa-/-QA-}"
                   filename="${filename/-icca-release/-ICCA}"
-                  filename="${filename/-intel-release/-x86}"
+                  filename="${filename/-app-intel/-x86}"
                   filename="${filename/-app-release/}"
                   filename="${filename/-app-/-}"
                   # Construct path with new filename
