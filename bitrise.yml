@@ -204,8 +204,7 @@ workflows:
           inputs:
             - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
             - track: beta
-            - apk_path: $RELEASE_APK_PATH
-            - app_path: $BITRISE_AAB_PATH
+            - app_path: $RELEASE_APK_PATH
             - package_name: com.mapeo
     meta:
       bitrise.io: null
