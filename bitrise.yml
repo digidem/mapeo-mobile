@@ -200,7 +200,7 @@ workflows:
             - files_to_upload: $RELEASE_APK_PATH
             - body: "See [changelog](https://github.com/digidem/mapeo-mobile/blob/develop/CHANGELOG.md) for a detailed list of changes"
             - api_token: $GITHUB_TOKEN
-      - google-play-deploy@3.0.2:
+      - google-play-deploy@3.7.2:
           inputs:
             - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
             - track: beta
