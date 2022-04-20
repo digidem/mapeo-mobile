@@ -295,6 +295,14 @@ android {
                 abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
             }
         }
+        // Build type for intel devices (chromebooks and rare phones)
+        intel {
+            initWith release
+            matchingFallbacks = ['release']
+            ndk {
+                abiFilters "x86", "x86_64"
+            }
+        }
         debug {
             // We need to set this to null so that we can override it for variants
             signingConfig signingConfigs.debug
