@@ -81,7 +81,7 @@ workflows:
     before_run:
       - primary
     envs:
-      - GRADLE_TASKS: assembleApp assembleIccaRelease bundleAppUniversal -x assembleAppDebug
+      - GRADLE_TASKS: assembleApp assembleIccaRelease assembleAppUniversal assembleAppIntel -x assembleAppDebug
         opts:
           is_expand: false
     steps:
@@ -112,6 +112,7 @@ workflows:
                   # Uppercase flavor or remove
                   filename="${filename/-qa-/-QA-}"
                   filename="${filename/-icca-release/-ICCA}"
+                  filename="${filename/-app-intel/-x86}"
                   filename="${filename/-app-release/}"
                   filename="${filename/-app-/-}"
                   # Construct path with new filename
@@ -142,10 +143,12 @@ workflows:
                 RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*[0-9]\.apk)
                 UNIVERSAL_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*[0-9]-universal\.apk)
                 ICCA_RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*ICCA\.apk)
+                INTEL_RELEASE_APK_PATH=$(echo -n "${BITRISE_APK_PATH_LIST//|/$'\n'}" | grep mapeo-.*x86\.apk)
 
                 envman add --key RELEASE_APK_PATH --value "$RELEASE_APK_PATH"
                 envman add --key UNIVERSAL_APK_PATH --value "$UNIVERSAL_APK_PATH"
                 envman add --key ICCA_RELEASE_APK_PATH --value "$ICCA_RELEASE_APK_PATH"
+                envman add --key INTEL_RELEASE_APK_PATH --value "$INTEL_RELEASE_APK_PATH"
       - amazon-s3-uploader@1.0.1:
           title: Upload APK for Arm
           inputs:
@@ -200,12 +203,11 @@ workflows:
             - files_to_upload: $RELEASE_APK_PATH
             - body: "See [changelog](https://github.com/digidem/mapeo-mobile/blob/develop/CHANGELOG.md) for a detailed list of changes"
             - api_token: $GITHUB_TOKEN
-      - google-play-deploy@3.0.2:
+      - google-play-deploy@3.7.2:
           inputs:
             - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
             - track: beta
-            - apk_path: $RELEASE_APK_PATH
-            - app_path: $BITRISE_AAB_PATH
+            - app_path: $RELEASE_APK_PATH|$INTEL_RELEASE_APK_PATH
             - package_name: com.mapeo
     meta:
       bitrise.io: null
