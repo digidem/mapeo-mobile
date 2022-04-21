@@ -5,9 +5,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import SettingsContext from "../../../context/SettingsContext";
 import { LIGHT_GREY } from "../../../lib/styles";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
+import { useExperiments } from "../../../hooks/useExperiments";
 
 const m = defineMessages({
   title: {
@@ -31,7 +31,7 @@ const m = defineMessages({
 });
 
 export const P2pUpgrade: NavigationStackScreenComponent = () => {
-  const [{ experiments }, setSettings] = React.useContext(SettingsContext);
+  const [experiments, setExperiments] = useExperiments();
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={[styles.header]}>
@@ -52,10 +52,7 @@ export const P2pUpgrade: NavigationStackScreenComponent = () => {
 
         <View
           onTouchEnd={() => {
-            setSettings("experiments", {
-              ...experiments,
-              p2pUpgrade: !experiments.p2pUpgrade,
-            });
+            setExperiments("p2pUpgrade");
           }}
         >
           <MaterialIcon

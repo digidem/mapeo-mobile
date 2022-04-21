@@ -15,14 +15,13 @@ import {
   TEMP_HIDE_PRACTICE_MODE_UI,
   URI_PREFIX,
 } from "./constants";
-import SettingsContext from "./context/SettingsContext";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
 import bugsnag from "./lib/logger";
 import { PracticeMode } from "./sharedComponents/PracticeMode";
 import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
-import { ExperimentsContainer } from "./Navigation/ExperimentsStack";
 import { FeatureFlag } from "./sharedTypes";
+import { devExperiments } from "./lib/DevExperiments";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -34,8 +33,6 @@ const getNavStoreKey = (featureFlag?: FeatureFlag) => {
   switch (featureFlag) {
     case "Onboarding":
       return "@MapeoNavigation-Onboarding@1";
-    case "DevExperiments":
-      return "@MapeoNavigation-DevExperiments@1";
     default:
       return "@MapeoNavigation@10";
   }
@@ -107,19 +104,18 @@ const AppContainerWrapper = () => {
   const navRef = React.useRef<NavigationContainerComponent>();
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
-  const [{ experiments }] = React.useContext(SettingsContext);
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
+  const { onboarding } = devExperiments();
 
   //dev experiments always overwrite onboarding
   const featureFlag = React.useMemo(() => {
-    if (experiments.devExperiments) {
-      return "DevExperiments";
-    }
-    if (experiments.onboarding) {
+    if (onboarding) {
       return "Onboarding";
     }
-  }, [experiments]);
+    // explicity returning undefined for readability
+    return undefined;
+  }, [onboarding]);
 
   const updateRouteBasedAppState = React.useCallback(
     (routeName: string | null) => {
@@ -169,18 +165,10 @@ const AppContainerWrapper = () => {
             },
             persistNavigationState: createNavigationStatePersister(featureFlag),
           },
-    [
-      experiments.onboarding,
-      updateRouteBasedAppState,
-      experiments.devExperiments,
-    ]
+    [onboarding, updateRouteBasedAppState]
   );
 
   const AppContainer = React.useMemo(() => {
-    if (featureFlag === "DevExperiments") {
-      return ExperimentsContainer;
-    }
-
     if (featureFlag === "Onboarding") {
       return OnboardingContainer;
     }
@@ -188,11 +176,7 @@ const AppContainerWrapper = () => {
     return DefaultContainer;
   }, [featureFlag]);
 
-  experiments.devExperiments
-    ? ExperimentsContainer
-    : experiments.onboarding
-    ? OnboardingContainer
-    : DefaultContainer;
+  onboarding ? OnboardingContainer : DefaultContainer;
 
   /**
    * TODO: Uncomment when project invites are supported
@@ -214,7 +198,7 @@ const AppContainerWrapper = () => {
 
   return (
     <PracticeMode
-      enabled={experiments.onboarding && !hidePracticeMode}
+      enabled={onboarding && !hidePracticeMode}
       hideBar={hidePracticeBar}
     >
       <AppContainer

@@ -3,8 +3,8 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
+import { useExperiments } from "../../../hooks/useExperiments";
 
-import SettingsContext from "../../../context/SettingsContext";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import {
   List,
@@ -45,9 +45,8 @@ const m = defineMessages({
 });
 
 const Experiments: NavigationStackScreenComponent = () => {
-  const [{ experiments, directionalArrow }, setSettings] = React.useContext(
-    SettingsContext
-  );
+  const [experiments] = useExperiments();
+
   const { navigate } = useNavigation();
 
   return (
@@ -74,7 +73,7 @@ const Experiments: NavigationStackScreenComponent = () => {
           <ListItemText
             primary={<FormattedMessage {...m.directionalArrow} />}
             secondary={
-              directionalArrow ? (
+              experiments.directionalArrow ? (
                 <FormattedMessage {...m.active} />
               ) : (
                 <FormattedMessage {...m.inactive} />

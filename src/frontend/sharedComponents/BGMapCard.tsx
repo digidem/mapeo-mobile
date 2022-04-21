@@ -22,7 +22,7 @@ const m = defineMessages({
   },
 });
 
-//ToDo: API calls to get styleURL, zoom level, center coordinate, etc.
+// ToDo: API calls to get styleURL, zoom level, center coordinate, etc.
 
 interface BGMapCardProps {
   mapId: string;
@@ -58,17 +58,17 @@ export const BGMapCard = ({
 
   React.useEffect(() => {
     function getStyleURL() {
-      //To do: API call to get styleURL
+      // To do: API call to get styleURL
       return MapboxGL.StyleURL.Street;
     }
     function getZoomLevel() {
-      //To do: API call to get zoom level
-      //This should be min zoom. Where is this coming from?
+      // To do: API call to get zoom level
+      // This should be min zoom. Where is this coming from?
       return 6;
     }
     function getCenterCoordinate() {
-      //To do: API call to get center coordinate
-      //I believe this should come from the styleJSON `center` property
+      // To do: API call to get center coordinate
+      // I believe this should come from the styleJSON `center` property
       return [position?.coords.longitude, position?.coords.latitude];
     }
 

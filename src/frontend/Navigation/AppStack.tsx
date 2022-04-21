@@ -45,6 +45,9 @@ import {
   StackNavigationOptions,
   StackNavigationProp,
 } from "react-navigation-stack/lib/typescript/src/vendor/types";
+import { MapSettings } from "../screens/Settings/MapSettings";
+import { BackgroundMaps } from "../screens/Settings/MapSettings/BackgroundMaps";
+import { OfflineAreas } from "../screens/Settings/MapSettings/OfflineAreas";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -107,6 +110,9 @@ export const AppStackMap: NavigationRouteConfigMap<
   AppPasscode: AppPasscode,
   DirectionalArrow,
   P2pUpgrade,
+  MapSettings,
+  BackgroundMaps,
+  OfflineAreas,
 };
 
 export const stackNavConfig: CreateNavigatorConfig<

@@ -5,6 +5,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "react-navigation-hooks";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import SettingsContext from "../../context/SettingsContext";
+import { devExperiments } from "../../lib/DevExperiments";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import IconButton from "../../sharedComponents/IconButton";
 import { BackIcon } from "../../sharedComponents/icons";
@@ -21,12 +22,12 @@ const m = defineMessages({
 
 export const AppPasscode: NavigationStackScreenComponent = () => {
   const { passIsSet } = React.useContext(SecurityContext);
-  const [{ experiments }] = React.useContext(SettingsContext);
   const { navigate } = useNavigation();
+  const { appPasscode } = devExperiments();
 
   React.useEffect(() => {
-    if (!experiments.appPasscode) navigate("Settings");
-  }, [experiments]);
+    if (!appPasscode) navigate("Settings");
+  }, [appPasscode]);
 
   return (
     <ScrollView contentContainerStyle={styles.pageContainer}>
