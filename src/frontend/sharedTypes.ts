@@ -23,8 +23,6 @@ export type ImageSize = "thumbnail" | "preview" | "original";
 
 export type Status = "idle" | "loading" | "error" | "success" | void;
 
-export type FeatureFlag = "Onboarding";
-
 type NavigationParams = {
   observationId?: string;
   question: number;
