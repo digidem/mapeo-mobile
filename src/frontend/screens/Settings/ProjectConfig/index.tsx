@@ -64,7 +64,7 @@ export const ProjectConfig = () => {
   const [status, setStatus] = React.useState<Status>("idle");
   const [config, { replace: replaceConfig }] = React.useContext(ConfigContext);
 
-  const { onboarding } = devExperiments();
+  const { onboarding } = devExperiments;
   const getConfigName = (metadata: ConfigMetadata) =>
     extractConfigName(metadata) || t(m.unnamedConfig);
 

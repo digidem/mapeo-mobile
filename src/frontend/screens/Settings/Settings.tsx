@@ -2,7 +2,6 @@ import * as React from "react";
 import { FormattedMessage, defineMessages } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "react-navigation-hooks";
-import useSettingsValue from "../../hooks/useSettingsValue";
 import { devExperiments } from "../../lib/DevExperiments";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
@@ -107,7 +106,7 @@ const m = defineMessages({
 
 const Settings = () => {
   const { navigate } = useNavigation();
-  const { appPasscode, mapSettings } = devExperiments();
+  const { appPasscode, mapSettings } = devExperiments;
   return (
     <ScrollView>
       <List testID="settingsList">

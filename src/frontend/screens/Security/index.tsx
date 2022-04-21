@@ -69,7 +69,7 @@ export const Security: NavigationStackScreenComponent = () => {
   const { passIsSet } = React.useContext(SecurityContext);
   const [{ experiments }] = React.useContext(SettingsContext);
   const { navigate } = useNavigation();
-  const { appPasscode } = devExperiments();
+  const { appPasscode } = devExperiments;
 
   React.useEffect(() => {
     if (!appPasscode) navigate("Settings");
