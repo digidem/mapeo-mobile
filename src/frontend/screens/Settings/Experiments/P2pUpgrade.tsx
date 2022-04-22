@@ -51,7 +51,7 @@ export const P2pUpgrade: NavigationStackScreenComponent = () => {
         </Text>
 
         <View
-          onTouchEnd={() => {
+          onTouchStart={() => {
             setExperiments("p2pUpgrade");
           }}
         >

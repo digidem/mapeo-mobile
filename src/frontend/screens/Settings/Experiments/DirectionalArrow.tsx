@@ -52,7 +52,7 @@ export const DirectionalArrow: NavigationStackScreenComponent = () => {
         </Text>
 
         <View
-          onTouchEnd={() => {
+          onTouchStart={() => {
             setExperiments("directionalArrow");
           }}
         >
