@@ -21,7 +21,6 @@ import bugsnag from "./lib/logger";
 import { PracticeMode } from "./sharedComponents/PracticeMode";
 import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
-import { FeatureFlag } from "./sharedTypes";
 import { devExperiments, featureFlagOn } from "./lib/DevExperiments";
 
 // Turn on logging if in debug mode
@@ -96,16 +95,7 @@ const AppContainerWrapper = () => {
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
-  const onboarding = devExperiments;
-
-  //dev experiments always overwrite onboarding
-  const featureFlag = React.useMemo(() => {
-    if (onboarding) {
-      return "Onboarding";
-    }
-    // explicity returning undefined for readability
-    return undefined;
-  }, [onboarding]);
+  const { onboarding } = devExperiments;
 
   const updateRouteBasedAppState = React.useCallback(
     (routeName: string | null) => {
@@ -158,15 +148,10 @@ const AppContainerWrapper = () => {
     [onboarding, updateRouteBasedAppState]
   );
 
-  const AppContainer = React.useMemo(() => {
-    if (featureFlag === "Onboarding") {
-      return OnboardingContainer;
-    }
-
-    return DefaultContainer;
-  }, [featureFlag]);
-
-  onboarding ? OnboardingContainer : DefaultContainer;
+  const AppContainer = React.useMemo(
+    () => (onboarding ? OnboardingContainer : DefaultContainer),
+    [onboarding]
+  );
 
   /**
    * TODO: Uncomment when project invites are supported
