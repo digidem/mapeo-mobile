@@ -325,7 +325,7 @@ workflows:
                     # This is a push to deploy event or a tag event
                     # Pushing a tag to Github for some reason triggers this workflow with $BITRISE_GIT_BRANCH set to master
                     ANDROID_VERSION_NAME="${VERSION_NAME}"
-                elif [ "${BITRISE_GIT_BRANCH%/*}" == "release" ]; then
+                elif [[ "${BITRISE_GIT_BRANCH%/*}" == "release" || "${BITRISE_GIT_BRANCH%/*}" == "hotfix" ]]; then
                     # This is a push to a branch matching `release/*`, so we build a release candidate
                     ANDROID_VERSION_NAME="${VERSION_NAME}-RC"
                     if [ -n "${BITRISE_GIT_COMMIT}" ]; then
