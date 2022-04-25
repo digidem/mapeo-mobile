@@ -1,4 +1,3 @@
-import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import * as React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { ScrollView, StyleSheet } from "react-native";
@@ -52,7 +51,7 @@ export const OfflineAreas: NavigationStackScreenComponent = ({
   const bgMapId = React.useRef("");
   const { formatMessage: t } = useIntl();
 
-  const { closeSheet, isOpen, openSheet, sheetRef } = useBottomSheetModal({
+  const { closeSheet, openSheet, sheetRef } = useBottomSheetModal({
     openOnMount: false,
   });
 
@@ -63,7 +62,7 @@ export const OfflineAreas: NavigationStackScreenComponent = ({
   React.useEffect(() => {
     bgMapId.current = getParam("mapId", "");
 
-    //To Do Api call to get offline areas
+    // To Do Api call to get offline areas
     function getAllOfflineAreas(mapId: string): OfflineArea[] {
       return [
         {
@@ -114,9 +113,9 @@ export const OfflineAreas: NavigationStackScreenComponent = ({
             {
               variation: "filled",
               dangerous: true,
-              //To do API call to delete map
+              // To do API call to delete map
               onPress: () => {
-                closeSheet;
+                closeSheet();
               },
 
               text: t(m.removeMap),

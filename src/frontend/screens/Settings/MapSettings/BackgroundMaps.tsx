@@ -1,4 +1,3 @@
-import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import * as React from "react";
 import * as DocumentPicker from "expo-document-picker";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
@@ -58,7 +57,7 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
   >();
 
   React.useEffect(() => {
-    //To do: get background map list from server
+    // To do: get background map list from server
     setBackgroundMapList([]);
   }, []);
 
@@ -73,10 +72,9 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
     }
 
     if (results.type === "success") {
-      //To do API call to import map
+      // To do API call to import map
       console.log(results.uri);
       closeSheet();
-      return;
     }
   }
 
@@ -105,6 +103,7 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
         ) : (
           backgroundMapList.map(bgMap => (
             <BGMapCard
+              key={bgMap.mapId}
               mapId={bgMap.mapId}
               navigation={navigation}
               mapSize={bgMap.size}
