@@ -1148,6 +1148,13 @@
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Current Map"
   },
+  "sharedComponents.BGMapSelector.close": {
+    "message": "Close"
+  },
+  "sharedComponents.BGMapSelector.title": {
+    "description": "Title for the background map selector",
+    "message": "Background Maps"
+  },
   "sharedComponents.GpsPill.noGps": {
     "message": "No GPS"
   },
