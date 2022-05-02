@@ -53,7 +53,7 @@ export const DirectionalArrow: NavigationStackScreenComponent = () => {
 
         <View
           onTouchStart={() => {
-            setExperiments("directionalArrow");
+            setExperiments("directionalArrow", !experiments.directionalArrow);
           }}
         >
           <MaterialIcon

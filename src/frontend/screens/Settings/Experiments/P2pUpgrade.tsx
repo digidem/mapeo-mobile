@@ -52,7 +52,7 @@ export const P2pUpgrade: NavigationStackScreenComponent = () => {
 
         <View
           onTouchStart={() => {
-            setExperiments("p2pUpgrade");
+            setExperiments("p2pUpgrade", !experiments.p2pUpgrade);
           }}
         >
           <MaterialIcon

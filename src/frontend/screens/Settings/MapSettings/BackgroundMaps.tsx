@@ -73,7 +73,6 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
 
     if (results.type === "success") {
       // To do API call to import map
-      console.log(results.uri);
       closeSheet();
     }
   }

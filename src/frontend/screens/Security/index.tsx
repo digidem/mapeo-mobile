@@ -15,7 +15,6 @@ import { BackIcon } from "../../sharedComponents/icons";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { SecurityContext } from "./SecurityContext";
 import { useNavigation } from "react-navigation-hooks";
-import SettingsContext from "../../context/SettingsContext";
 import { devExperiments } from "../../lib/DevExperiments";
 
 const m = defineMessages({
@@ -68,11 +67,10 @@ const m = defineMessages({
 export const Security: NavigationStackScreenComponent = () => {
   const { passIsSet } = React.useContext(SecurityContext);
   const { navigate } = useNavigation();
-  const { appPasscode } = devExperiments;
 
   React.useEffect(() => {
-    if (!appPasscode) navigate("Settings");
-  }, [appPasscode]);
+    if (!devExperiments.appPasscode) navigate("Settings");
+  }, []);
 
   const [passCodeDes, killPassCodeDes] = React.useMemo(
     () =>
@@ -99,12 +97,7 @@ export const Security: NavigationStackScreenComponent = () => {
           />
         </ListItem>
 
-        <ListItem
-          button={true}
-          onPress={() => {
-            return;
-          }}
-        >
+        <ListItem button={true} onPress={() => {}}>
           <ListItemText
             primary={<FormattedMessage {...m.killPasscodeHeader} />}
             secondary={<FormattedMessage {...killPassCodeDes} />}

@@ -7,7 +7,6 @@ import * as DocumentPicker from "expo-document-picker";
 import ConfigContext, {
   Metadata as ConfigMetadata,
 } from "../../../context/ConfigContext";
-import SettingsContext from "../../../context/SettingsContext";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import { Status } from "../../../types";
 import { isInPracticeMode } from "../../../lib/utils";
@@ -64,7 +63,6 @@ export const ProjectConfig = () => {
   const [status, setStatus] = React.useState<Status>("idle");
   const [config, { replace: replaceConfig }] = React.useContext(ConfigContext);
 
-  const { onboarding } = devExperiments;
   const getConfigName = (metadata: ConfigMetadata) =>
     extractConfigName(metadata) || t(m.unnamedConfig);
 
@@ -105,7 +103,7 @@ export const ProjectConfig = () => {
 
   const loading = status === "loading" || config.status === "loading";
 
-  const isPracticeMode = onboarding && isInPracticeMode(config);
+  const isPracticeMode = devExperiments.onboarding && isInPracticeMode(config);
 
   React.useEffect(() => {
     const didError = config.status === "error";
@@ -129,7 +127,7 @@ export const ProjectConfig = () => {
         version={config.metadata.version}
       />
 
-      {onboarding &&
+      {devExperiments.onboarding &&
         (role === "coordinator" ? (
           <ManagePeople loading={loading} />
         ) : isPracticeMode ? (

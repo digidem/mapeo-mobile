@@ -106,7 +106,7 @@ const m = defineMessages({
 
 const Settings = () => {
   const { navigate } = useNavigation();
-  const { appPasscode, mapSettings } = devExperiments;
+
   return (
     <ScrollView>
       <List testID="settingsList">
@@ -130,7 +130,7 @@ const Settings = () => {
             secondary={<FormattedMessage {...m.projectConfigDesc} />}
           ></ListItemText>
         </ListItem>
-        {mapSettings && (
+        {devExperiments.mapSettings && (
           <ListItem
             onPress={() => navigate("MapSettings")}
             testID="settingsMapSettings"
@@ -173,7 +173,7 @@ const Settings = () => {
           ></ListItemText>
         </ListItem>
 
-        {appPasscode && (
+        {devExperiments.appPasscode && (
           <ListItem onPress={() => navigate("Security")}>
             <ListItemIcon iconName="security" />
             <ListItemText
