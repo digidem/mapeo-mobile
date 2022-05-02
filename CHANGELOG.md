@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.4.3](https://github.com/digidem/mapeo-mobile/compare/v5.4.2...v5.4.3) (2022-04-25)
+
+### Bug Fixes
+
+- ensure all devices get 32-bit and 64-bit ABIs from the Play Store ([#951](https://github.com/digidem/mapeo-mobile/issues/951)) ([fd7af49](https://github.com/digidem/mapeo-mobile/commit/fd7af4956df4460011e95eef28ab648a935ab5b8))
+- only support light theme ([#947](https://github.com/digidem/mapeo-mobile/issues/947)) ([b85f623](https://github.com/digidem/mapeo-mobile/commit/b85f62311a4f62c711e8c5fe83cfefe70ff69733))
+
 ### [5.4.2](https://github.com/digidem/mapeo-mobile/compare/v5.4.1...v5.4.2) (2022-03-17)
 
 ### Bug Fixes
