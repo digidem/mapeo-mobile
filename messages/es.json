@@ -251,7 +251,7 @@
     "message": "Cerrar"
   },
   "screens.JoinRequestModal.denyRequest": {
-    "message": "Denegar Solicitud"
+    "message": "Denegar solicitud"
   },
   "screens.JoinRequestModal.invite": {
     "message": "Invitar"
@@ -559,7 +559,7 @@
     "message": "Cancelar"
   },
   "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
-    "message": "Haz que el Participante del proyecto escanee este código de invitación."
+    "message": "Haz que el participante del proyecto escanee este código de invitación."
   },
   "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
     "message": "Instrucciones"
@@ -568,7 +568,7 @@
     "message": "Unirse a un proyecto"
   },
   "screens.Onboarding.SendJoinRequestScreen.instructions": {
-    "message": "Comparte este código con el Coordinador del proyecto"
+    "message": "Comparte este código con el coordinador del proyecto"
   },
   "screens.Onboarding.SendJoinRequestScreen.share": {
     "message": "Compartir"
@@ -711,6 +711,12 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Tú) {deviceName}"
   },
+  "screens.Settings.MapSettings.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "Cerrar"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Crear o unirse a un proyecto a continuación"
   },
@@ -754,6 +760,10 @@
   },
   "screens.Settings.ProjectConfig.none": {
     "message": "ninguno"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "Modo de práctica"
   },
   "screens.Settings.ProjectConfig.projectKey": {
     "description": "Label for project key",
@@ -810,6 +820,10 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "Idioma para la aplicación"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "Ajustes del mapa"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -874,6 +888,10 @@
     "description": "Label in upgrade bar when no updates are found",
     "message": "No se han encontrado actualizaciones"
   },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "¡Verificados {count, plural, one {# dispositivo} other {# dispositivos}}!"
+  },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
     "message": "Abre los ajustes de tu teléfono y conéctate a una red WiFi para sincronizar"
@@ -930,6 +948,10 @@
     "description": "Label in upgrade bar when an update is available",
     "message": "Una nueva versión de Mapeo está disponible"
   },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "Estado no implementado"
+  },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
     "message": "OK"
@@ -973,6 +995,10 @@
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
     "message": "Error inesperado"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "Carretera pequeña"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "Sin GPS"
