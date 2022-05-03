@@ -1,10 +1,8 @@
-// @flow
-import React, { useContext } from "react";
-// import { Picker as OriginalPicker } from "@react-native-community/picker";
+import * as React from "react";
 import { FormattedMessage, defineMessages } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "react-navigation-hooks";
-import SettingsContext from "../../context/SettingsContext";
+import { devExperiments } from "../../lib/DevExperiments";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import {
@@ -99,12 +97,16 @@ const m = defineMessages({
     defaultMessage: "App Passcode and Device Security",
     description: "Description of security button in settings",
   },
+  mapSettings: {
+    id: "screens.Settings.mapSettings",
+    defaultMessage: "Map Settings",
+    description: "Description of map settings button in settings",
+  },
 });
 
 const Settings = () => {
   const { navigate } = useNavigation();
-  const [{ experiments }] = useContext(SettingsContext);
-
+  const { appPasscode, mapSettings } = devExperiments;
   return (
     <ScrollView>
       <List testID="settingsList">
@@ -128,6 +130,18 @@ const Settings = () => {
             secondary={<FormattedMessage {...m.projectConfigDesc} />}
           ></ListItemText>
         </ListItem>
+        {mapSettings && (
+          <ListItem
+            onPress={() => navigate("MapSettings")}
+            testID="settingsMapSettings"
+          >
+            <ListItemIcon iconName="map" />
+            <ListItemText
+              primary={<FormattedMessage {...m.mapSettings} />}
+              secondary="---------"
+            />
+          </ListItem>
+        )}
         <ListItem
           onPress={() => navigate("CoordinateFormat")}
           testID="settingsCoodinatesButton"
@@ -159,7 +173,7 @@ const Settings = () => {
           ></ListItemText>
         </ListItem>
 
-        {experiments.appPasscode && (
+        {appPasscode && (
           <ListItem onPress={() => navigate("Security")}>
             <ListItemIcon iconName="security" />
             <ListItemText

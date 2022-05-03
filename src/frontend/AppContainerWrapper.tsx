@@ -11,42 +11,39 @@ import {
   EDITING_SCREEN_NAMES,
   ERROR_STORE_KEY,
   IS_E2E,
+  NAV_STORE_KEY,
   NO_PRACTICE_BAR,
   TEMP_HIDE_PRACTICE_MODE_UI,
   URI_PREFIX,
 } from "./constants";
-import SettingsContext from "./context/SettingsContext";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
 import bugsnag from "./lib/logger";
 import { PracticeMode } from "./sharedComponents/PracticeMode";
 import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
+import { devExperiments, featureFlagOn } from "./lib/DevExperiments";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 
-// WARNING: This needs to change if we change the navigation structure
-const getNavStoreKey = (includeOnboarding: boolean) =>
-  `@MapeoNavigation@${includeOnboarding ? 9 : 8}`;
-
-const createNavigationStatePersister = (includeOnboarding: boolean) => async (
+const createNavigationStatePersister = () => async (
   navState: NavigationState
 ) => {
+  if (featureFlagOn) return;
+
   try {
-    await AsyncStorage.setItem(
-      getNavStoreKey(includeOnboarding),
-      JSON.stringify(navState)
-    );
+    await AsyncStorage.setItem(NAV_STORE_KEY, JSON.stringify(navState));
   } catch (err) {
     log("Error saving navigation state", err);
   }
 };
 
-const loadSavedNavState = async (includeOnboarding: boolean) => {
+const loadSavedNavState = async () => {
   try {
+    if (featureFlagOn) return null;
     const navState = JSON.parse(
-      (await AsyncStorage.getItem(getNavStoreKey(includeOnboarding))) as string
+      (await AsyncStorage.getItem(NAV_STORE_KEY)) as string
     );
     const didCrashLastOpen = JSON.parse(
       (await AsyncStorage.getItem(ERROR_STORE_KEY)) as string
@@ -96,9 +93,9 @@ const AppContainerWrapper = () => {
   const navRef = React.useRef<NavigationContainerComponent>();
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
-  const [{ experiments }] = React.useContext(SettingsContext);
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
+  const { onboarding } = devExperiments;
 
   const updateRouteBasedAppState = React.useCallback(
     (routeName: string | null) => {
@@ -138,9 +135,7 @@ const AppContainerWrapper = () => {
         ? {}
         : {
             loadNavigationState: async () => {
-              const loadedNavState = await loadSavedNavState(
-                experiments.onboarding
-              );
+              const loadedNavState = await loadSavedNavState();
 
               const loadedRouteName = getRouteName(loadedNavState);
 
@@ -148,16 +143,15 @@ const AppContainerWrapper = () => {
 
               return loadedNavState;
             },
-            persistNavigationState: createNavigationStatePersister(
-              experiments.onboarding
-            ),
+            persistNavigationState: createNavigationStatePersister(),
           },
-    [experiments.onboarding, updateRouteBasedAppState]
+    [onboarding, updateRouteBasedAppState]
   );
 
-  const AppContainer = experiments.onboarding
-    ? OnboardingContainer
-    : DefaultContainer;
+  const AppContainer = React.useMemo(
+    () => (onboarding ? OnboardingContainer : DefaultContainer),
+    [onboarding]
+  );
 
   /**
    * TODO: Uncomment when project invites are supported
@@ -179,7 +173,7 @@ const AppContainerWrapper = () => {
 
   return (
     <PracticeMode
-      enabled={experiments.onboarding && !hidePracticeMode}
+      enabled={onboarding && !hidePracticeMode}
       hideBar={hidePracticeBar}
     >
       <AppContainer

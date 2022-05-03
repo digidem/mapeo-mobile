@@ -16,6 +16,7 @@ import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { SecurityContext } from "./SecurityContext";
 import { useNavigation } from "react-navigation-hooks";
 import SettingsContext from "../../context/SettingsContext";
+import { devExperiments } from "../../lib/DevExperiments";
 
 const m = defineMessages({
   title: {
@@ -66,12 +67,12 @@ const m = defineMessages({
 
 export const Security: NavigationStackScreenComponent = () => {
   const { passIsSet } = React.useContext(SecurityContext);
-  const [{ experiments }] = React.useContext(SettingsContext);
   const { navigate } = useNavigation();
+  const { appPasscode } = devExperiments;
 
   React.useEffect(() => {
-    if (!experiments.appPasscode) navigate("Settings");
-  }, [experiments]);
+    if (!appPasscode) navigate("Settings");
+  }, [appPasscode]);
 
   const [passCodeDes, killPassCodeDes] = React.useMemo(
     () =>

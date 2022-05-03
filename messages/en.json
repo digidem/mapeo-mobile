@@ -753,6 +753,46 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(You) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "Add Background Map"
+  },
+  "screens.Settings.MapSettings.OfflineArea": {
+    "message": "Offline Areas"
+  },
+  "screens.Settings.MapSettings.backgroundMaps": {
+    "message": "Background Maps"
+  },
+  "screens.Settings.MapSettings.cancel": {
+    "message": "Cancel"
+  },
+  "screens.Settings.MapSettings.clearDiagrams": {
+    "message": "Are you sure you want to clear diagrams?"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "Close"
+  },
+  "screens.Settings.MapSettings.dataLayers": {
+    "message": "Data Layers"
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "Import from File"
+  },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "Map Settings"
+  },
+  "screens.Settings.MapSettings.noAreas": {
+    "description": "Message to indicate to user that no offline areas have been downloaded",
+    "message": "No Downloaded Offline Area"
+  },
+  "screens.Settings.MapSettings.removeMap": {
+    "message": "Remove Map"
+  },
+  "screens.Settings.MapSettings.subtitle": {
+    "message": "This map and offline areas attached to it will be deleted. This cannot be undone"
+  },
+  "screens.Settings.MapSettings.title": {
+    "message": "Background Maps"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Create or join a project below"
   },
@@ -863,6 +903,10 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "Display language for App"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "Map Settings"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -1038,6 +1082,71 @@
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
     "message": "Unexpected Error"
+  },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "Street Intersection"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "Level of Detail"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "Address"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "City"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "Global"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "Large Country"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "Large Metropolitan Area"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "Small Country"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "Small Road"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "Street"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "Street Block"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "Subcontinent"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "Town"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "Village"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "Zoom Level"
+  },
+  "sharedComponents.BGMapCard.abbrevMegabyte": {
+    "description": "The abbreviation for megabyte",
+    "message": "MB"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "Current Map"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "No GPS"

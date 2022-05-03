@@ -5,9 +5,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import SettingsContext from "../../../context/SettingsContext";
 import { LIGHT_GREY } from "../../../lib/styles";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
+import { useExperiments } from "../../../hooks/useExperiments";
 
 const m = defineMessages({
   directionalArrow: {
@@ -31,7 +31,7 @@ const m = defineMessages({
 });
 
 export const DirectionalArrow: NavigationStackScreenComponent = () => {
-  const [{ directionalArrow }, setSetting] = React.useContext(SettingsContext);
+  const [experiments, setExperiments] = useExperiments();
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -52,12 +52,16 @@ export const DirectionalArrow: NavigationStackScreenComponent = () => {
         </Text>
 
         <View
-          onTouchEnd={() => {
-            setSetting("directionalArrow", !directionalArrow);
+          onTouchStart={() => {
+            setExperiments("directionalArrow");
           }}
         >
           <MaterialIcon
-            name={directionalArrow ? "check-box" : "check-box-outline-blank"}
+            name={
+              experiments.directionalArrow
+                ? "check-box"
+                : "check-box-outline-blank"
+            }
             size={24}
             color="rgba(0, 0, 0, 0.54)"
           />

@@ -1,7 +1,6 @@
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import * as React from "react";
-import useSettingsValue from "../../hooks/useSettingsValue";
-
+import { useExperiments } from "../../hooks/useExperiments";
 interface UserLocationProps {
   visible: boolean;
   minDisplacement: number;
@@ -11,7 +10,7 @@ export const UserLocation = ({
   visible,
   minDisplacement,
 }: UserLocationProps) => {
-  const directionalArrow = useSettingsValue("directionalArrow");
+  const [{ directionalArrow }] = useExperiments();
 
   return (
     <MapboxGL.UserLocation

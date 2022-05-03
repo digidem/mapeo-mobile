@@ -14,6 +14,7 @@ import { isInPracticeMode } from "../../../lib/utils";
 import { ConfigDetails } from "./ConfigDetails";
 import { LeavePracticeMode } from "./LeavePracticeMode";
 import { ManagePeople } from "./ManagePeople";
+import { devExperiments } from "../../../lib/DevExperiments";
 
 const m = defineMessages({
   configTitle: {
@@ -62,8 +63,8 @@ export const ProjectConfig = () => {
   const [role] = React.useState<"participant" | "coordinator">("participant");
   const [status, setStatus] = React.useState<Status>("idle");
   const [config, { replace: replaceConfig }] = React.useContext(ConfigContext);
-  const [{ experiments }] = React.useContext(SettingsContext);
 
+  const { onboarding } = devExperiments;
   const getConfigName = (metadata: ConfigMetadata) =>
     extractConfigName(metadata) || t(m.unnamedConfig);
 
@@ -104,7 +105,7 @@ export const ProjectConfig = () => {
 
   const loading = status === "loading" || config.status === "loading";
 
-  const isPracticeMode = experiments.onboarding && isInPracticeMode(config);
+  const isPracticeMode = onboarding && isInPracticeMode(config);
 
   React.useEffect(() => {
     const didError = config.status === "error";
@@ -128,7 +129,7 @@ export const ProjectConfig = () => {
         version={config.metadata.version}
       />
 
-      {experiments.onboarding &&
+      {onboarding &&
         (role === "coordinator" ? (
           <ManagePeople loading={loading} />
         ) : isPracticeMode ? (
