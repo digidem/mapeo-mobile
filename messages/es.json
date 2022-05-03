@@ -559,7 +559,7 @@
     "message": "Cancelar"
   },
   "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
-    "message": "Haz que el participante del proyecto escanee este código de invitación."
+    "message": "Haz que la persona participante del proyecto escanee este código de invitación."
   },
   "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
     "message": "Instrucciones"
@@ -571,7 +571,7 @@
     "message": "Unirse a un proyecto"
   },
   "screens.Onboarding.SendJoinRequestScreen.instructions": {
-    "message": "Comparte este código con el coordinador del proyecto"
+    "message": "Comparte este código con la persona coordinadora del proyecto"
   },
   "screens.Onboarding.SendJoinRequestScreen.share": {
     "message": "Compartir"
