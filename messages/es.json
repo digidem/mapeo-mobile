@@ -155,10 +155,10 @@
     "message": "Sí, mantener mis observaciones"
   },
   "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
-    "message": "Trae ({observationCount}) {observationCount, plural, one {observación} other {observaciones}} del modo de práctica al proyecto?"
+    "message": "Traer ({observationCount}) {observationCount, plural, one {observación} other {observaciones}} del modo de práctica al proyecto?"
   },
   "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
-    "message": "Dejar modo de práctica"
+    "message": "Abandonar modo de práctica"
   },
   "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
     "message": "Seleccione una de las opciones"
@@ -564,6 +564,9 @@
   "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
     "message": "Instrucciones"
   },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "Enviar solicitud para unirse"
+  },
   "screens.Onboarding.JoinProjectQrScreen.title": {
     "message": "Unirse a un proyecto"
   },
@@ -572,6 +575,9 @@
   },
   "screens.Onboarding.SendJoinRequestScreen.share": {
     "message": "Compartir"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "Enviar solicitud para unirse"
   },
   "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
     "message": "Código de verificación"
@@ -624,11 +630,26 @@
   "screens.Security.deviceBackup": {
     "message": "Copia de seguridad del dispositivo"
   },
+  "screens.Security.killPassDescriptonPassNotSet": {
+    "message": "Para usarla, activa la contraseña de app"
+  },
   "screens.Security.killPassDescriptonPassSet": {
     "message": "Protege tu dispositivo contra el robo"
   },
+  "screens.Security.paperKey": {
+    "message": "Clave en papel"
+  },
   "screens.Security.paperKeyDes": {
     "message": "Reinstala tu cuenta si este dispositivo se pierde"
+  },
+  "screens.Security.passDesriptionPassNotSet": {
+    "message": "Contraseña no establecida"
+  },
+  "screens.Security.passDesriptionPassSet": {
+    "message": "Contraseña establecida"
+  },
+  "screens.Security.passcodeHeader": {
+    "message": "Contraseña de app"
   },
   "screens.Security.securitySubheader": {
     "message": "Seguridad del dispositivo"
@@ -669,6 +690,9 @@
   },
   "screens.Settings.Experiments.P2pUpgrade.useP2p": {
     "message": "Usar Actualizaciones P2P de la App"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "Las Actualizaciones P2P (entre pares) de la App le permiten compartir y recibir nuevas versiones de la aplicación Mapeo conectándose a otros dispositivos Mapeo a través de Wi-Fi (sin necesidad de conexión a Internet). Para utilizar esta función, la pantalla de sincronización de Mapeo debe estar abierta en ambos dispositivos."
   },
   "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
     "message": "NOTA: Al actualizar la versión de la aplicación de Mapeo de esta manera, NINGUNO de sus datos de Mapeo (observaciones, configuraciones o mapas) es compartido entre dispositivos."
@@ -711,11 +735,29 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Tú) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "Añadir mapa base"
+  },
+  "screens.Settings.MapSettings.OfflineArea": {
+    "message": "Áreas descargadas"
+  },
   "screens.Settings.MapSettings.cancel": {
     "message": "Cancelar"
   },
   "screens.Settings.MapSettings.close": {
     "message": "Cerrar"
+  },
+  "screens.Settings.MapSettings.dataLayers": {
+    "message": "Capas de datos"
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "Importar desde archivo"
+  },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "Ajustes del mapa"
+  },
+  "screens.Settings.MapSettings.removeMap": {
+    "message": "Eliminar mapa"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Crear o unirse a un proyecto a continuación"
@@ -725,6 +767,9 @@
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
     "message": "Unirse a un proyecto"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "¿Listo para abandonar el modo de práctica?"
   },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
@@ -792,6 +837,10 @@
   "screens.Settings.appInstallDesc": {
     "description": "Secondary text for Mapeo APK test",
     "message": "Probar instalación APK (reinstala la aplicación)"
+  },
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "Compartir instalador de Mapeo"
   },
   "screens.Settings.appShareDesc": {
     "description": "Secondary text for sharing the mapeo APK installer",
@@ -988,6 +1037,10 @@
     "description": "Suggests that user tries another method for adding another device to the project.",
     "message": "Intente conectarse usando uno de los otros métodos a continuación."
   },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "No se puede vincular con el dispositivo"
+  },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
     "message": "Disculpas, hay un error inesperado. No es tu culpa, hay un problema interno. Intenta reiniciar Mapeo para ver si se resuelve."
@@ -996,15 +1049,72 @@
     "description": "Title of message when there is an uncaught message in the app",
     "message": "Error inesperado"
   },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "Intersección de calles"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "Nivel de detalle"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "Dirección"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "Ciudad"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "Global"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "País grande"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "Área metropolitana grande"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "País pequeño"
+  },
   "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
     "description": "Level of detail seen on map - can see small roads on map",
     "message": "Carretera pequeña"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "Calle"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "Subcontinente"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "Ciudad"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "Pueblo"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "Nivel de Zoom"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "Mapa actual"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "Sin GPS"
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Buscando…"
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "Modo de práctica"
   },
   "sharedComponents.WifiBar.noWifi": {
     "message": "Sin internet"
