@@ -106,7 +106,6 @@ const m = defineMessages({
 
 const Settings = () => {
   const { navigate } = useNavigation();
-
   return (
     <ScrollView>
       <List testID="settingsList">

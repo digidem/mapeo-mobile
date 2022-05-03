@@ -67,6 +67,7 @@ const m = defineMessages({
 export const Security: NavigationStackScreenComponent = () => {
   const { passIsSet } = React.useContext(SecurityContext);
   const { navigate } = useNavigation();
+  const { appPasscode } = devExperiments;
 
   React.useEffect(() => {
     if (!devExperiments.appPasscode) navigate("Settings");

@@ -94,6 +94,7 @@ const AppContainerWrapper = () => {
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
+  const { onboarding } = devExperiments;
 
   const updateRouteBasedAppState = React.useCallback(
     (routeName: string | null) => {
