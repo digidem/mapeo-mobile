@@ -552,6 +552,9 @@
   "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
     "message": "Unirse a un proyecto"
   },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "Modo de práctica"
+  },
   "screens.Onboarding.JoinProjectQrScreen.cancel": {
     "message": "Cancelar"
   },
@@ -621,6 +624,15 @@
   "screens.Security.deviceBackup": {
     "message": "Copia de seguridad del dispositivo"
   },
+  "screens.Security.killPassDescriptonPassSet": {
+    "message": "Protege tu dispositivo contra el robo"
+  },
+  "screens.Security.paperKeyDes": {
+    "message": "Reinstala tu cuenta si este dispositivo se pierde"
+  },
+  "screens.Security.securitySubheader": {
+    "message": "Seguridad del dispositivo"
+  },
   "screens.Security.title": {
     "message": "Seguridad"
   },
@@ -661,8 +673,20 @@
   "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
     "message": "NOTA: Al actualizar la versión de la aplicación de Mapeo de esta manera, NINGUNO de sus datos de Mapeo (observaciones, configuraciones o mapas) es compartido entre dispositivos."
   },
+  "screens.Settings.Experiments.active": {
+    "description": "Indicates that the experimental feature is enabled",
+    "message": "Activado"
+  },
   "screens.Settings.Experiments.directionalArrow": {
     "message": "Flecha direccional"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Indicates that the experimental feature is not enabled",
+    "message": "Desactivado"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p app updates",
+    "message": "Actualizaciones P2P de la App"
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
