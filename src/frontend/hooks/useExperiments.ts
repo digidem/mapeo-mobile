@@ -10,7 +10,7 @@ export function useExperiments() {
     (key: keyof SettingsState["experiments"], val: boolean) => {
       setSettings("experiments", { ...settings.experiments, [key]: val });
     },
-    [setSettings]
+    [setSettings, settings.experiments]
   );
 
   return [settings.experiments, setExperiments] as const;
