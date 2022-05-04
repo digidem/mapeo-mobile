@@ -5,10 +5,9 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import { LIGHT_BLUE, LIGHT_GREY, MEDIUM_GREY } from "../../../lib/styles";
+import { LIGHT_BLUE, LIGHT_GREY } from "../../../lib/styles";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import { useExperiments } from "../../../hooks/useExperiments";
-import { color } from "react-native-reanimated";
 import { useNavigation } from "react-navigation-hooks";
 
 const m = defineMessages({
@@ -60,19 +59,23 @@ export const BGMapsSettings: NavigationStackScreenComponent = () => {
 
         <View
           onTouchStart={() => {
-            setExperiments("BGMaps", !experiments.BGMaps);
+            setExperiments("backgroundMaps", !experiments.backgroundMaps);
           }}
         >
           <MaterialIcon
-            name={experiments.BGMaps ? "check-box" : "check-box-outline-blank"}
+            name={
+              experiments.backgroundMaps
+                ? "check-box"
+                : "check-box-outline-blank"
+            }
             size={24}
             color="rgba(0, 0, 0, 0.54)"
           />
         </View>
       </View>
 
-      {experiments.BGMaps && (
-        <View style={[styles.linkContatiner]}>
+      {experiments.backgroundMaps && (
+        <View style={[styles.linkContainer]}>
           <Text style={[styles.text]}>{t(m.goTo)}:</Text>
           <TouchableOpacity
             onPress={() => {
@@ -125,7 +128,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
   },
-  linkContatiner: {
+  linkContainer: {
     backgroundColor: LIGHT_GREY,
     marginTop: 20,
     marginHorizontal: 20,

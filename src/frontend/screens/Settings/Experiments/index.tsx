@@ -90,7 +90,7 @@ const Experiments: NavigationStackScreenComponent = () => {
           <ListItemText
             primary={<FormattedMessage {...m.BGMaps} />}
             secondary={
-              experiments.BGMaps ? (
+              experiments.backgroundMaps ? (
                 <FormattedMessage {...m.active} />
               ) : (
                 <FormattedMessage {...m.inactive} />

@@ -8,7 +8,7 @@ import {
 import { createStackNavigator } from "react-navigation-stack";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-import { MapScreen } from "../screens/MapScreen";
+import { MapScreen } from "../screens/MapScreen/MapScreen";
 import CameraScreen from "../screens/CameraScreen";
 import ObservationList from "../screens/ObservationsList";
 import Observation from "../screens/Observation";

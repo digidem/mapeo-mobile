@@ -18,11 +18,11 @@ export type SettingsState = {
   experiments: {
     p2pUpgrade: boolean;
     directionalArrow: boolean;
-    BGMaps: boolean;
+    backgroundMaps: boolean;
   };
 };
 
-export type SettingsContextType = [
+type SettingsContextType = [
   SettingsState,
   (key: keyof SettingsState, value: any) => void
 ];
@@ -32,7 +32,7 @@ const DEFAULT_SETTINGS: SettingsState = {
   experiments: {
     p2pUpgrade: false,
     directionalArrow: false,
-    BGMaps: false,
+    backgroundMaps: false,
   },
 };
 

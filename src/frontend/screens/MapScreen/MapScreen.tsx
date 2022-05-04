@@ -1,22 +1,22 @@
 import * as React from "react";
-import { GestureResponderEvent, View } from "react-native";
+import { View } from "react-native";
 import debug from "debug";
 
-import Text from "../sharedComponents/Text";
-import MapView from "../sharedComponents/Map/MapView";
-import Loading from "../sharedComponents/Loading";
-import { useDraftObservation } from "../hooks/useDraftObservation";
-import useMapStyle from "../hooks/useMapStyle";
-import ObservationsContext from "../context/ObservationsContext";
-import LocationContext from "../context/LocationContext";
-import { AddButton } from "../sharedComponents/AddButton";
-import type { NavigationProp } from "../types";
-import { BGMapSelector } from "../sharedComponents/BGMapSelector";
-import IconButton from "../sharedComponents/IconButton";
+import Text from "../../sharedComponents/Text";
+import MapView from "../../sharedComponents/Map/MapView";
+import Loading from "../../sharedComponents/Loading";
+import { useDraftObservation } from "../../hooks/useDraftObservation";
+import useMapStyle from "../../hooks/useMapStyle";
+import ObservationsContext from "../../context/ObservationsContext";
+import LocationContext from "../../context/LocationContext";
+import { AddButton } from "../../sharedComponents/AddButton";
+import type { NavigationProp } from "../../types";
+import { BGMapSelector } from "./BGMapSelector";
+import IconButton from "../../sharedComponents/IconButton";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import { MEDIUM_GREY } from "../lib/styles";
+import { MEDIUM_GREY } from "../../lib/styles";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { useExperiments } from "../hooks/useExperiments";
+import { useExperiments } from "../../hooks/useExperiments";
 const log = debug("mapeo:MapScreen");
 
 interface MapScreenProps {
@@ -62,9 +62,9 @@ export const MapScreen = ({ navigation }: MapScreenProps) => {
         />
       )}
       <AddButton testID="addButtonMap" onPress={handleAddPress} />
-      {experiments.BGMaps && (
+      {experiments.backgroundMaps && (
         <React.Fragment>
-          <BGMapButton onPress={() => sheetRef.current?.snapTo(1)} />
+          <BGMapButton openSheet={() => sheetRef.current?.snapTo(1)} />
           <BGMapSelector
             // To do: Set map style here (useMapStyle needs to be updated)
             onMapSelected={() => {}}
@@ -79,15 +79,15 @@ export const MapScreen = ({ navigation }: MapScreenProps) => {
 
 interface BGMapButtonProps {
   /** `openSheet()` should NOT come from `useBottomSheetModal` */
-  onPress: () => void;
+  openSheet: () => void;
 }
 
-const BGMapButton = ({ onPress }: BGMapButtonProps) => {
+const BGMapButton = ({ openSheet }: BGMapButtonProps) => {
   return (
     <View style={{ position: "absolute", top: 100, right: 10 }}>
       <IconButton
         style={{ backgroundColor: "#fff", borderRadius: 50 }}
-        onPress={onPress}
+        onPress={openSheet}
       >
         <MaterialIcon color={MEDIUM_GREY} name="layers" size={40} />
       </IconButton>

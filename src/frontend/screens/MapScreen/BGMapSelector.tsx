@@ -3,16 +3,15 @@ import { StyleSheet, View, Text, BackHandler } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import { defineMessages, useIntl } from "react-intl";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
-
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-
-import Loading from "./Loading";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { LIGHT_GREY, MEDIUM_BLUE } from "../lib/styles";
-import Button from "./Button";
+
+import Loading from "../../sharedComponents/Loading";
+import { LIGHT_GREY, MEDIUM_BLUE } from "../../lib/styles";
+import Button from "../../sharedComponents/Button";
 import { useNavigation } from "react-navigation-hooks";
-import { ListDivider } from "./List";
-import LocationContext from "../context/LocationContext";
+import { ListDivider } from "../../sharedComponents/List";
+import LocationContext from "../../context/LocationContext";
 
 const m = defineMessages({
   title: {
@@ -69,6 +68,11 @@ export const BGMapSelector = React.forwardRef<
 
     BackHandler.addEventListener("hardwareBackPress", onBackPress);
 
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+  }, [closeSheet]);
+
+  React.useEffect(() => {
     // To do: Api call to get list styles
     async function getListStyles(): Promise<mapServerStyle[]> {
       return [
@@ -102,10 +106,7 @@ export const BGMapSelector = React.forwardRef<
     getListStyles().then(stylesList => {
       setBgMapList(stylesList);
     });
-
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", onBackPress);
-  }, [closeSheet, setBgMapList]);
+  }, [setBgMapList]);
 
   return (
     <BottomSheet

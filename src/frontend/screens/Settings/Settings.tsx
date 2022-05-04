@@ -132,7 +132,7 @@ const Settings = () => {
             secondary={<FormattedMessage {...m.projectConfigDesc} />}
           ></ListItemText>
         </ListItem>
-        {experiments.BGMaps && (
+        {experiments.backgroundMaps && (
           <ListItem
             onPress={() => navigate("MapSettings")}
             testID="settingsMapSettings"
