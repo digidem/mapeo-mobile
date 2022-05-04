@@ -187,7 +187,8 @@
     "rimraf": "^3.0.0",
     "standard-version": "^8.0.2",
     "ts-jest": "^27.0.3",
-    "txtgen": "^2.2.7"
+    "txtgen": "^2.2.7",
+    "yauzl": "^2.10.0"
   },
   "standard-version": {
     "skip": {

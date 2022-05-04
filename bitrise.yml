@@ -25,7 +25,7 @@ workflows:
     before_run:
       - primary
     envs:
-      - GRADLE_TASKS: assembleIccaRelease assembleAppUniversal assembleAppRelease assembleAppIntel assembleQaRelease
+      - GRADLE_TASKS: assembleAppRelease assembleAppIntel assembleAppUniversal assembleIccaRelease assembleQaRelease -x bundleAppReleaseJsAndAssets -x bundleAppIntelJsAndAssets -x bundleAppUniversalJsAndAssets -x bundleIccaReleaseJsAndAssets -s bundleQaReleaseJsAndAssets
         opts:
           is_expand: false
     steps:
@@ -115,6 +115,7 @@ workflows:
                 node ./scripts/gh-pages-redirect.js /latest https://mapeo-apks.s3.amazonaws.com/release/v${VERSION_NAME}/${RELEASE_APK_PATH##*/}
       - amazon-s3-uploader@1.0.1:
           title: Upload universal (all ABIs) APK
+          is_skippable: true
           inputs:
             - aws_access_key: $AWS_ACCESS_KEY_ID
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
@@ -123,6 +124,7 @@ workflows:
             - file_path: $UNIVERSAL_APK_PATH
       - amazon-s3-uploader@1.0.1:
           title: Upload APK for ICCA (Arm)
+          is_skippable: true
           inputs:
             - aws_access_key: $AWS_ACCESS_KEY_ID
             - aws_secret_key: $AWS_SECRET_ACCESS_KEY
@@ -131,6 +133,7 @@ workflows:
             - file_path: $ICCA_RELEASE_APK_PATH
       - script@1.1.6:
           title: Update download URL for ICCA
+          is_skippable: true
           inputs:
             - content: |-
                 #!/usr/bin/env bash
@@ -162,7 +165,7 @@ workflows:
     before_run:
       - primary
     envs:
-      - GRADLE_TASKS: assembleQaDebug assembleQaRelease assembleAppRelease assembleIccaRelease
+      - GRADLE_TASKS: assembleAppRelease assembleIccaRelease assembleQaRelease -x bundleAppReleaseJsAndAssets -x bundleIccaReleaseJsAndAssets -s bundleQaReleaseJsAndAssets
         opts:
           is_expand: false
     steps:
@@ -347,6 +350,10 @@ workflows:
                 envman add --key VERSION_NAME --value $VERSION_NAME
                 envman add --key ANDROID_VERSION_NAME --value $ANDROID_VERSION_NAME
                 envman add --key ANDROID_VERSION_CODE --value $BITRISE_BUILD_NUMBER
+      - script-runner@0.9.3:
+          title: Prepare JS bundles
+          inputs:
+            - file_path: scripts/prepare-js-bundles-android.js
       - change-workdir@1.0:
           is_always_run: true
           inputs:
@@ -367,6 +374,25 @@ workflows:
             - is_create_path: "false"
             - path: ..
       - cache-push@2: {}
+      - script@1:
+          title: Check APK assets
+          inputs:
+            - content: |
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+                set -o pipefail
+                # debug log
+                shopt -s extdebug
+
+                # Split the path_list variable by | into an array
+                IFS='|' read -r -a paths <<< "$BITRISE_APK_PATH_LIST"
+
+                for path in "${paths[@]}"
+                do
+                  node scripts/check-apk-assets.js "${path}"
+                done
     meta:
       bitrise.io: null
       stack: linux-docker-android
