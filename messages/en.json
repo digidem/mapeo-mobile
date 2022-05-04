@@ -691,6 +691,18 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Something is up with the Mapeo database"
   },
+  "screens.Settings.Experiments.BGMaps": {
+    "message": "Background Maps"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMaps": {
+    "message": "Background Maps"
+  },
+  "screens.Settings.Experiments.BGMaps.goTo": {
+    "message": "Go to"
+  },
+  "screens.Settings.Experiments.BGMaps.useBGMap": {
+    "message": "Use Background Map Feature"
+  },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Directional Arrow"
   },
@@ -1150,6 +1162,9 @@
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Close"
+  },
+  "sharedComponents.BGMapSelector.manageMaps": {
+    "message": "Manage Maps"
   },
   "sharedComponents.BGMapSelector.title": {
     "description": "Title for the background map selector",
