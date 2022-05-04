@@ -1,18 +1,18 @@
 import * as React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, BackHandler } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import { defineMessages, useIntl } from "react-intl";
-import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
 import Loading from "./Loading";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import bottomSheetModal from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetModal";
+import { LIGHT_GREY, MEDIUM_BLUE } from "../lib/styles";
+import Button from "./Button";
+import { useNavigation } from "react-navigation-hooks";
+import { ListDivider } from "./List";
+import LocationContext from "../context/LocationContext";
 
 const m = defineMessages({
   title: {
@@ -24,6 +24,10 @@ const m = defineMessages({
     id: "sharedComponents.BGMapSelector.close",
     defaultMessage: "Close",
   },
+  manageMaps: {
+    id: "sharedComponents.BGMapSelector.manageMaps",
+    defaultMessage: "Manage Maps",
+  },
 });
 
 // To do: We should get this all from one central place
@@ -33,27 +37,38 @@ interface mapServerStyle {
   styleUrl: string;
   title?: string;
 }
-
 interface MapSelectorProps {
-  /** Should come from `useBottomSheet()` */
+  /** Should NOT come from `useBottomSheet()` */
   closeSheet: () => void;
+  onMapSelected: (styleURL: string) => void;
 }
 
-/**
- * `ref` should come from - `useBottomSheet()`
- */
+/** `ref` should NOT come from - `useBottomSheet()` */
 export const BGMapSelector = React.forwardRef<
-  bottomSheetModal,
+  BottomSheetMethods,
   MapSelectorProps
->(({ closeSheet }, ref) => {
+>(({ closeSheet, onMapSelected }, ref) => {
   const [bgMapsList, setBgMapList] = React.useState<null | mapServerStyle[]>(
     null
   );
-  const snapPoints = React.useMemo(() => ["0%", "20%"], []);
+
+  const { navigate } = useNavigation();
+
+  const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
+    0,
+    "40%",
+  ]);
 
   const { formatMessage: t } = useIntl();
 
   React.useEffect(() => {
+    function onBackPress() {
+      closeSheet();
+      return true;
+    }
+
+    BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
     // To do: Api call to get list styles
     async function getListStyles(): Promise<mapServerStyle[]> {
       return [
@@ -87,25 +102,87 @@ export const BGMapSelector = React.forwardRef<
     getListStyles().then(stylesList => {
       setBgMapList(stylesList);
     });
-  }, []);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+  }, [closeSheet, setBgMapList]);
 
   return (
-    <BottomSheetModalProvider>
-      <BottomSheetModal ref={ref} snapPoints={snapPoints}>
-        <Text> {t(m.title)}</Text>
-        <ScrollView style={styles.flexContainer} horizontal={true}>
-          {bgMapsList?.map(mapStyle => (
-            <MapThumbnail map={mapStyle} key={mapStyle.id} />
-          ))}
-        </ScrollView>
-      </BottomSheetModal>
-    </BottomSheetModalProvider>
+    <BottomSheet
+      ref={ref}
+      snapPoints={snapPoints}
+      backdropComponent={BottomSheetBackdrop}
+      enableContentPanningGesture={false}
+      enableHandlePanningGesture={false}
+      handleHeight={0}
+    >
+      <View
+        onLayout={e => {
+          const { height } = e.nativeEvent.layout;
+          setSnapPoints([0, height]);
+        }}
+        style={{ padding: 20 }}
+      >
+        {bgMapsList === null ? (
+          <Loading />
+        ) : (
+          <React.Fragment>
+            <Text style={styles.title}> {t(m.title)}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigate("MapSettings");
+              }}
+            >
+              <Text
+                style={{
+                  color: MEDIUM_BLUE,
+                  fontSize: 16,
+                  textAlign: "center",
+                  marginBottom: 10,
+                }}
+              >
+                {t(m.manageMaps)}
+              </Text>
+            </TouchableOpacity>
+            <ListDivider style={{ marginBottom: 10 }} />
+            <ScrollView style={styles.flexContainer} horizontal={true}>
+              {bgMapsList?.map(mapStyle => (
+                <MapThumbnail
+                  onMapSelected={onMapSelected}
+                  map={mapStyle}
+                  key={mapStyle.id}
+                />
+              ))}
+            </ScrollView>
+          </React.Fragment>
+        )}
+
+        <Button
+          fullWidth
+          variant="outlined"
+          style={{ margin: 20 }}
+          onPress={closeSheet}
+        >
+          {t(m.close)}
+        </Button>
+      </View>
+    </BottomSheet>
   );
 });
 
-const MapThumbnail = ({ map }: { map: mapServerStyle }) => {
+const MapThumbnail = ({
+  map,
+  onMapSelected,
+}: {
+  map: mapServerStyle;
+  onMapSelected: (styleURL: string) => void;
+}) => {
+  const { position } = React.useContext(LocationContext);
   return (
-    <View style={{ width: 80, margin: 10 }}>
+    <TouchableOpacity
+      onPress={() => onMapSelected(map.styleUrl)}
+      style={{ width: 80, margin: 10 }}
+    >
       <MapboxGL.MapView
         compassEnabled={false}
         zoomEnabled={false}
@@ -117,10 +194,14 @@ const MapThumbnail = ({ map }: { map: mapServerStyle }) => {
         <MapboxGL.Camera
           animationDuration={0}
           animationMode="linearTo"
+          centerCoordinate={[
+            position?.coords.longitude,
+            position?.coords.latitude,
+          ]}
           allowUpdates={false}
         />
       </MapboxGL.MapView>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -134,5 +215,13 @@ const styles = StyleSheet.create({
   thumbnail: {
     width: "100%",
     height: 80,
+  },
+  title: {
+    fontSize: 32,
+    textAlign: "center",
+    paddingBottom: 20,
+  },
+  divider: {
+    borderBottomColor: LIGHT_GREY,
   },
 });

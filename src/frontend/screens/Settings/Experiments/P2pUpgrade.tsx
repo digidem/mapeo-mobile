@@ -46,7 +46,7 @@ export const P2pUpgrade: NavigationStackScreenComponent = () => {
       </Text>
 
       <View style={[styles.switchContainer]}>
-        <Text>
+        <Text style={[styles.text]}>
           <FormattedMessage {...m.useP2p} />
         </Text>
 

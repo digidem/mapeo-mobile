@@ -15,7 +15,8 @@ import { BGMapSelector } from "../sharedComponents/BGMapSelector";
 import IconButton from "../sharedComponents/IconButton";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { MEDIUM_GREY } from "../lib/styles";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { useExperiments } from "../hooks/useExperiments";
 const log = debug("mapeo:MapScreen");
 
 interface MapScreenProps {
@@ -26,7 +27,10 @@ export const MapScreen = ({ navigation }: MapScreenProps) => {
   const [, { newDraft }] = useDraftObservation();
   const { styleURL, styleType } = useMapStyle();
 
-  const sheetRef = React.useRef<BottomSheetModal>(null);
+  const [experiments] = useExperiments();
+
+  const sheetRef = React.useRef<BottomSheetMethods>(null);
+
   const [{ observations, status }] = React.useContext(ObservationsContext);
   const location = React.useContext(LocationContext);
 
@@ -58,27 +62,32 @@ export const MapScreen = ({ navigation }: MapScreenProps) => {
         />
       )}
       <AddButton testID="addButtonMap" onPress={handleAddPress} />
-      <BGMapButton
-        openSheet={() => {
-          sheetRef.current?.snapTo(1);
-        }}
-      />
-      <BGMapSelector closeSheet={() => {}} ref={sheetRef} />
+      {experiments.BGMaps && (
+        <React.Fragment>
+          <BGMapButton onPress={() => sheetRef.current?.snapTo(1)} />
+          <BGMapSelector
+            // To do: Set map style here (useMapStyle needs to be updated)
+            onMapSelected={() => {}}
+            ref={sheetRef}
+            closeSheet={() => sheetRef.current?.close()}
+          />
+        </React.Fragment>
+      )}
     </View>
   );
 };
 
 interface BGMapButtonProps {
-  /** `openSheet()` should come from `useBottomSheetModal` */
-  openSheet: () => void;
+  /** `openSheet()` should NOT come from `useBottomSheetModal` */
+  onPress: () => void;
 }
 
-const BGMapButton = ({ openSheet }: BGMapButtonProps) => {
+const BGMapButton = ({ onPress }: BGMapButtonProps) => {
   return (
     <View style={{ position: "absolute", top: 100, right: 10 }}>
       <IconButton
         style={{ backgroundColor: "#fff", borderRadius: 50 }}
-        onPress={openSheet}
+        onPress={onPress}
       >
         <MaterialIcon color={MEDIUM_GREY} name="layers" size={40} />
       </IconButton>
