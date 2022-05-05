@@ -11,7 +11,7 @@ import { LocationFollowingIcon, LocationNoFollowIcon } from "../icons";
 import IconButton from "../IconButton";
 import type { LocationContextType } from "../../context/LocationContext";
 import type { ObservationsMap } from "../../context/ObservationsContext";
-import type { MapStyleType } from "../../hooks/useMapStyle";
+import { MapStyleType } from "../../hooks/useMapStyle";
 import { useIsFullyFocused } from "../../hooks/useIsFullyFocused";
 import bugsnag from "../../lib/logger";
 import config from "../../../config.json";

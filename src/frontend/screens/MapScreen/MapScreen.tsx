@@ -6,7 +6,7 @@ import Text from "../../sharedComponents/Text";
 import MapView from "../../sharedComponents/Map/MapView";
 import Loading from "../../sharedComponents/Loading";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
-import useMapStyle from "../../hooks/useMapStyle";
+import { useMapStyle } from "../../hooks/useMapStyle";
 import ObservationsContext from "../../context/ObservationsContext";
 import LocationContext from "../../context/LocationContext";
 import { AddButton } from "../../sharedComponents/AddButton";
@@ -25,7 +25,7 @@ interface MapScreenProps {
 
 export const MapScreen = ({ navigation }: MapScreenProps) => {
   const [, { newDraft }] = useDraftObservation();
-  const { styleURL, styleType } = useMapStyle();
+  const [mapStyles] = useMapStyle();
 
   const [experiments] = useExperiments();
 
@@ -57,8 +57,8 @@ export const MapScreen = ({ navigation }: MapScreenProps) => {
           location={location}
           observations={observations}
           onPressObservation={handleObservationPress}
-          styleURL={styleURL}
-          styleType={styleType}
+          styleURL={mapStyles.mapStyleURL}
+          styleType={mapStyles.mapStyle}
         />
       )}
       <AddButton testID="addButtonMap" onPress={handleAddPress} />
