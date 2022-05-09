@@ -73,7 +73,7 @@ type MapProps = {
 const InsetMapView = React.memo<MapProps>(({ lon, lat }: MapProps) => {
   const [backgroundMap] = useMapStyle();
 
-  return backgroundMap.mapStyleURL === null ? (
+  return backgroundMap.type === "loading" ? (
     <View style={styles.map}>
       <Loading />
     </View>
