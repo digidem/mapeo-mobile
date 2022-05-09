@@ -5,9 +5,10 @@ import ky from "ky";
 import config from "react-native-build-config";
 
 import api from "../api";
-import useWifiStatus from "./useWifiStatus";
 import { normalizeStyleURL } from "../lib/mapbox";
 import { useExperiments } from "./useExperiments";
+import { useNetInfo } from "@react-native-community/netinfo";
+import Loading from "../sharedComponents/Loading";
 
 /** Key used to store most recent map id in Async Storage */
 const MAP_STYLE_KEY = "@MAPSTYLE";
@@ -21,7 +22,8 @@ const fallbackStyleURL = "asset://offline-style.json";
 
 type MapActions =
   | { type: "setCustomLegacy" | "setMapServer"; style: string }
-  | { type: "setLoading" | "setOnline" | "setFallback" };
+  | { type: "setLoading" | "setOnline" | "setFallback" }
+  | { type: "setFromAsyncStorage"; state: MapStyleState };
 
 export type MapStyleType =
   | "customLegacy"
@@ -60,6 +62,8 @@ function mapStyleReducer(
         mapStyle: "mapServer",
         mapStyleURL: action.style,
       };
+    case "setFromAsyncStorage":
+      return action.state;
     default:
       return {
         mapStyle: "loading",
@@ -68,52 +72,23 @@ function mapStyleReducer(
   }
 }
 
-/**
- * @param {string} styleId
- * @returns `[mapStyle, setMapStyle(styleId:string)]` setMapStyle is a function that can be used to set the map style when map server is on
- */
 export function useMapStyle(styleId: string = "default") {
   const [state, dispatch] = React.useReducer(mapStyleReducer, {
     mapStyle: "loading",
     mapStyleURL: null,
   });
 
-  const { ssid } = useWifiStatus();
+  const { isInternetReachable } = useNetInfo();
 
-  const [{ backgroundMaps }] = useExperiments();
-
+  // stores the map style in Async Storage anytime map style changes (except for loading state)
   React.useEffect(() => {
-    if (state.mapStyle === "mapServer" || state.mapStyle === "customLegacy")
-      return;
+    if (state.mapStyle !== "loading") setAsyncMapStyle(state);
+  }, [state]);
 
-    if (ssid === null && state.mapStyle === "online") {
-      dispatch({ type: "setFallback" });
-    }
-  }, [ssid]);
+  React.useEffect(() => {}, []);
 
-  React.useEffect(() => {
-    if (!backgroundMaps && state.mapStyle === "mapServer") {
-      turnOffMapServer(ssid !== null);
-    }
-
-    if (backgroundMaps && state.mapStyle !== "mapServer") {
-      turnOnMapServer();
-    }
-  }, [backgroundMaps, ssid, turnOffMapServer, turnOnMapServer]);
-
-  /** Will turn on experimental map server */
-  function turnOnMapServer() {
-    dispatch({ type: "setLoading" });
-    AsyncStorage.getItem(MAP_STYLE_KEY)
-      .then(style => {
-        if (style === null) {
-          dispatch({ type: "setMapServer", style: fallbackStyleURL });
-          return;
-        }
-
-        dispatch({ type: "setMapServer", style: style });
-      })
-      .catch(() => dispatch({ type: "setMapServer", style: fallbackStyleURL }));
+  function setAsyncMapStyle(mapStyleState: MapStyleState) {
+    AsyncStorage.setItem(MAP_STYLE_KEY, JSON.stringify(mapStyleState));
   }
 
   /**
@@ -121,14 +96,14 @@ export function useMapStyle(styleId: string = "default") {
    * and set it as background map. If there are no offline maps, will set online map as background
    * map. If user is not online, will set fallback map as background map.
    */
-  function turnOffMapServer(isOnline: boolean) {
+  function turnOffMapServer() {
     dispatch({ type: "setLoading" });
     ky.get(normalizeStyleURL(onlineStyleURL, config.mapboxAccessToken))
       .json()
       .then(() => api.getMapStyleUrl(styleId))
       .then(style => dispatch({ type: "setCustomLegacy", style: style }))
       .catch(() => {
-        if (isOnline) {
+        if (!!isInternetReachable) {
           dispatch({ type: "setOnline" });
           return;
         }
@@ -136,16 +111,28 @@ export function useMapStyle(styleId: string = "default") {
       });
   }
 
-  function setMapServerStyleURL(styleId: string) {
-    if (state.mapStyle === "mapServer") {
-      throw new Error(
-        "Map server must be turned on before setting a map server style. Map server can be turned on using useExperiments() hook."
-      );
-    }
+  function setMapServerStyleURL(styleId?: string) {
+    if (!styleId) {
+      AsyncStorage.getItem(MAP_STYLE_KEY)
+        .then(storedStyleId => {
+          if (!storedStyleId) {
+            dispatch({ type: "setMapServer", style: onlineStyleURL });
+            return;
+          }
 
+          dispatch({
+            type: "setMapServer",
+            style: api.getMapStyleUrl(storedStyleId),
+          });
+        })
+        .catch(() =>
+          dispatch({ type: "setMapServer", style: fallbackStyleURL })
+        );
+
+      return;
+    }
     dispatch({ type: "setMapServer", style: api.getMapStyleUrl(styleId) });
-    AsyncStorage.setItem(MAP_STYLE_KEY, styleId);
   }
 
-  return [state, setMapServerStyleURL] as const;
+  return [state, { setMapServerStyleURL, turnOffMapServer }] as const;
 }
