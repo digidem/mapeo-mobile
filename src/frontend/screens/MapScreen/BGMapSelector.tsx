@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, BackHandler } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import { defineMessages, useIntl } from "react-intl";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
@@ -59,18 +59,6 @@ export const BGMapSelector = React.forwardRef<
   ]);
 
   const { formatMessage: t } = useIntl();
-
-  React.useEffect(() => {
-    function onBackPress() {
-      closeSheet();
-      return true;
-    }
-
-    BackHandler.addEventListener("hardwareBackPress", onBackPress);
-
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", onBackPress);
-  }, [closeSheet]);
 
   React.useEffect(() => {
     // To do: Api call to get list styles
