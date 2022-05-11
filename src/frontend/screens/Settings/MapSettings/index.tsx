@@ -45,7 +45,7 @@ export const MapSettings: NavigationStackScreenComponent = () => {
 MapSettings.navigationOptions = ({ navigation }) => ({
   headerTitle: () => (
     <HeaderTitle>
-      <FormattedMessage {...m.backgroundMaps} />
+      <FormattedMessage {...m.mapSettings} />
     </HeaderTitle>
   ),
 });

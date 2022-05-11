@@ -94,7 +94,7 @@ export const BGMapSelector = React.forwardRef<
     getListStyles().then(stylesList => {
       setBgMapList(stylesList);
     });
-  }, [setBgMapList]);
+  }, []);
 
   return (
     <BottomSheet
