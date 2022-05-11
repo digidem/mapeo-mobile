@@ -7,7 +7,6 @@ import org.unimodules.core.interfaces.Package;
 public class BasePackageList {
   public List<Package> getPackageList() {
     return Arrays.<Package>asList(
-        new expo.modules.barcodescanner.BarCodeScannerPackage(),
         new expo.modules.camera.CameraPackage(),
         new expo.modules.constants.ConstantsPackage(),
         new expo.modules.documentpicker.DocumentPickerPackage(),
@@ -16,7 +15,9 @@ public class BasePackageList {
         new expo.modules.lineargradient.LinearGradientPackage(),
         new expo.modules.localization.LocalizationPackage(),
         new expo.modules.location.LocationPackage(),
-        new expo.modules.sensors.SensorsPackage()
+        new expo.modules.permissions.PermissionsPackage(),
+        new expo.modules.sensors.SensorsPackage(),
+        new expo.modules.barcodescanner.BarCodeScannerPackage()
     );
   }
 }

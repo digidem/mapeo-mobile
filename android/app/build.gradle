@@ -277,6 +277,10 @@ android {
             dimension "version"
             applicationIdSuffix ".icca"
         }
+        agroforest {
+            dimension "version"
+            applicationIdSuffix ".agroforest"
+        }
     }
     buildTypes {
         release {

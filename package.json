@@ -19,6 +19,7 @@
     "build:translations": "node ./scripts/build-translations.js",
     "build:release": "npm run build:translations && npm run build:backend && ./scripts/build-release-android.sh",
     "build:release-icca": "npm run build:translations && npm run build:backend && RN_SRC_EXT=icca ./scripts/build-release-android.sh",
+    "build:release-agroforest": "npm run build:translations && npm run build:backend && RN_SRC_EXT=agroforest ./scripts/build-release-android.sh",
     "build:storybook": "./node_modules/@storybook/react/bin/build.js -c ./storybook-web -s ./public -o ./build --no-dll",
     "test": "jest",
     "lint": "eslint *.js \"src/**/*.js\"",
