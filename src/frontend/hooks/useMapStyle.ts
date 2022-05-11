@@ -84,8 +84,10 @@ export function useMapStyle(styleId: string = "default") {
     });
   }, []);
 
-  function setMapTileSource(mapTileSource: MapTileSource) {
-    mapTileSource.type === "mapServer"
+  function setMapTileSource(
+    mapTileSource: Omit<MapTileSource["type"], "loading">
+  ) {
+    mapTileSource === "mapServer"
       ? dispatch({ action: "setMapServer", styleId: styleId })
       : setLegacyMapsOn();
   }
@@ -131,11 +133,3 @@ export function useMapStyle(styleId: string = "default") {
 
   return [mapTileSource, { setMapTileSource, setMapServerStyleId }] as const;
 }
-
-/**
- * setMapTileSource(source:'MapServer'|'Legacy')
- * CurrentMapTileSource: 'MapServer'|'Legacy'
- * isLoading:boolean
- * setMapServerStyleId //Only if Legacy
- *
- */
