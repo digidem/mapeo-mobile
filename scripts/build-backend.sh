@@ -81,7 +81,7 @@ cd ../..
 echo -en " done.\n"
 
 echo -en "Keeping some node modules..."
-declare -a keepThese=("leveldown" ".bin" "node-gyp-build" "napi-macros" "@mapeo/map-server/prisma" "@mapeo/map-server/dist/lib/mbtiles_import_worker.js" "better-sqlite3")
+declare -a keepThese=("leveldown" ".bin" "node-gyp-build" "napi-macros" "@mapeo/map-server" "better-sqlite3")
 for x in "${keepThese[@]}"; do
   if [ -e "./nodejs-assets/backend/node_modules/$x" ]; then
     dest="./nodejs-assets/nodejs-project/node_modules/$x"
