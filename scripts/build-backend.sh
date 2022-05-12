@@ -50,6 +50,8 @@ echo -en "Minifying with noderify..."
   --filter=http2 \
   --filter=pino-pretty \
   --filter=memcpy \
+  --filter=diagnostics_channel \
+  --filter="@mapeo/map-server" \
   index.js > ../nodejs-project/index.js
 cd ../..
 echo -en " done.\n"
@@ -80,12 +82,15 @@ cd ../..
 echo -en " done.\n"
 
 echo -en "Keeping some node modules..."
-declare -a keepThese=("leveldown" ".bin" "node-gyp-build" "napi-macros")
+declare -a keepThese=("leveldown" ".bin" "node-gyp-build" "napi-macros" "@mapeo/map-server")
 for x in "${keepThese[@]}"; do
   if [ -e "./nodejs-assets/backend/node_modules/$x" ]; then
-    mv "./nodejs-assets/backend/node_modules/$x" "./nodejs-assets/nodejs-project/node_modules/$x"
+    dest="./nodejs-assets/nodejs-project/node_modules/$x"
+    mkdir -p "${dest%/*}"
+    mv "./nodejs-assets/backend/node_modules/$x" "${dest}"
   fi
 done
+
 # The hasha worker thread is not bundled by noderify, so we need to manually include it
 if [ -e "./nodejs-assets/backend/node_modules/hasha/thread.js" ]; then
   mkdir -p "./nodejs-assets/nodejs-project/node_modules/hasha"

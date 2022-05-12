@@ -19,6 +19,7 @@
 
 const rnBridge = require("rn-bridge");
 const debug = require("debug");
+const createMapServer = require("@mapeo/map-server").default;
 
 const ServerStatus = require("./status");
 const constants = require("./constants");
@@ -35,8 +36,12 @@ const releaseStage = prereleaseComponents
 
 const log = debug("mapeo-core:index");
 const PORT = 9081;
+const MAP_SERVER_PORT = 9082;
 const status = new ServerStatus();
 let server;
+const mapServer = createMapServer(undefined, {
+  dbPath: "./mapeo-maps.db",
+});
 
 // This is nastily circular: we need an instance of status for the constructor
 // of bugsnag (so that we can inform the front-end of errors) but then we need
@@ -89,9 +94,12 @@ rnBridge.channel.once("config", async config => {
       apkFilepath,
       isDev,
     } = config;
+
     // Don't debug log in production
     if (isDev) debug.enable("*");
+
     const currentApkInfo = await getInstallerInfo(apkFilepath);
+
     server = createServer({
       privateStorage: rnBridge.app.datadir(),
       sharedStorage,
@@ -99,10 +107,12 @@ rnBridge.channel.once("config", async config => {
       deviceInfo,
       currentApkInfo,
     });
+
     server.on("error", error => {
       status.setState(constants.ERROR, { error });
     });
-    startServer();
+
+    startServers();
   } catch (error) {
     console.log(error.stack);
     status.setState(constants.ERROR, { error, context: "createServer" });
@@ -117,7 +127,7 @@ rnBridge.channel.once("config", async config => {
 rnBridge.app.on("pause", pauseLock => {
   log("App went into background");
   status.pauseHeartbeat();
-  stopServer(() => pauseLock.release());
+  stopServers(() => pauseLock.release());
 });
 
 // Start things up again when app is back in foreground
@@ -133,13 +143,13 @@ rnBridge.app.on("resume", () => {
   // is spawned after interacting with RN's permissions prompt on startup.
   // It seems to be inconsistent based on OS, RN, and/or nodejs-mobile-react-native versions
   if (server) {
-    startServer();
+    startServers();
   }
 });
 
 const noop = () => {};
 
-function startServer() {
+function startServers() {
   if (!server) {
     const error = new Error("Tried to start server before config was received");
     status.setState(constants.ERROR, { error, context: "createServer" });
@@ -148,25 +158,32 @@ function startServer() {
   const state = status.getState();
   if (state === constants.CLOSING) {
     log("Server was closing when it tried to start");
-    server.on("close", () => startServer());
+    server.on("close", () => startServers());
   } else if (state === constants.IDLE || state === constants.CLOSED) {
     status.setState(constants.STARTING);
     server.listen(PORT, () => {
       status.setState(constants.LISTENING);
+    });
+    mapServer.listen(MAP_SERVER_PORT, (err, address) => {
+      log("MAP SERVER LISTENING AT", address);
     });
   } else {
     log("tried to start server but state was: " + state);
   }
 }
 
-function stopServer(cb = noop) {
+function stopServers(cb = noop) {
   if (!server) return process.nextTick(cb);
   const state = status.getState();
   if (state === constants.STARTING) {
     log("Server was starting when it tried to close");
-    server.on("listening", () => stopServer(cb));
+    server.on("listening", () => stopServers(cb));
+    mapServer.on("listening", () => stopServers(cb));
   } else if (state !== constants.IDLE) {
     status.setState(constants.CLOSING);
+    mapServer.close(() => {
+      log("MAP SERVER CLOSED");
+    });
     server.close(() => {
       status.setState(constants.CLOSED);
       cb();
