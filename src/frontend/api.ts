@@ -8,6 +8,8 @@ import flatten from "flat";
 import DeviceInfo from "react-native-device-info";
 import { Observation } from "mapeo-schema";
 import { deserializeError } from "serialize-error";
+import { StyleJSON } from "@mapeo/map-server/dist/lib/stylejson";
+import { TileJSON } from "@mapeo/map-server/dist/lib/tilejson";
 
 import STATUS from "../backend/constants";
 import { Preset, Field, Metadata, Messages } from "./context/ConfigContext";
@@ -132,6 +134,7 @@ export { STATUS as Constants };
 
 const log = debug("mapeo-mobile:api");
 const BASE_URL = "http://127.0.0.1:9081/";
+const BASE_MAP_SERVER_URL = "http://127.0.0.1:9082/";
 // Timeout between heartbeats from the server. If 10 seconds pass without a
 // heartbeat then we consider the server has errored
 const DEFAULT_TIMEOUT = 10000; // 10 seconds
@@ -148,6 +151,89 @@ interface ApiParam {
   timeout?: number;
 }
 
+function createRequestClient(baseUrl: string, onReady?: () => Promise<void>) {
+  const req = ky.extend({
+    prefixUrl: baseUrl,
+    timeout: false,
+    headers: {
+      "cache-control": "no-cache",
+      pragma: "no-cache",
+    },
+  });
+
+  return {
+    get: async (url: string) => {
+      if (onReady) await onReady();
+      return await req.get(url).json();
+    },
+    del: async (url: string) => {
+      if (onReady) await onReady();
+      return await req.delete(url).json();
+    },
+    put: async (url: string, data: any) => {
+      if (onReady) await onReady();
+      return await req.put(url, { json: data }).json();
+    },
+    post: async (url: string, data: any) => {
+      if (onReady) await onReady();
+      return await req.post(url, { json: data }).json();
+    },
+  };
+}
+
+// TODO: Incorporate server status and making sure it's ready for requests?
+function createMapServerApi(baseUrl: string) {
+  const { del, get, post } = createRequestClient(baseUrl);
+
+  return {
+    // `from` is mostly for DX to get TS inference about valid params
+    createStyle: async ({
+      from,
+      ...params
+    }: { accessToken?: string } & (
+      | { from: "url"; url: string }
+      | { from: "style"; id?: string; style: StyleJSON }
+    )): Promise<{ id: string; style: StyleJSON }> => {
+      return (await post("styles", params)) as {
+        id: string;
+        style: StyleJSON;
+      };
+    },
+    // Delete a map style
+    deleteStyle: async (id: string): Promise<void> => {
+      return (await del(`styles/${id}`)) as void;
+    },
+    // Get a map style in the form of a style definition
+    getStyle: async (id: string): Promise<StyleJSON> => {
+      return (await get(`styles/${id}`)) as StyleJSON;
+    },
+    // Get a list of all existing styles containing scalar information about each style
+    getStyleList: async (): Promise<
+      { id: string; name?: string; url: string }[]
+    > => {
+      return (await get("styles")) as {
+        id: string;
+        name?: string;
+        url: string;
+      }[];
+    },
+    // Create a tileset using a tilejson definition
+    createTileset: async (tilejson: TileJSON): Promise<TileJSON> => {
+      return (await post("tilesets", tilejson)) as TileJSON;
+    },
+    // Create a tileset using an existing MBTiles file
+    importTileset: async (filePath: string): Promise<TileJSON> => {
+      return (await post("tilesets/import", {
+        filePath,
+      })) as TileJSON;
+    },
+    // Return the url to a map style from the map server
+    getMapServerStyleUrl: (id: string): string => {
+      return `${baseUrl}/styles/${id}`;
+    },
+  };
+}
+
 export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
   let status: ServerStatus = STATUS.IDLE;
   let timeoutId: ReturnType<typeof setTimeout>;
@@ -156,17 +242,6 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
   // sprite, font, and map tile requests might still be cached, only changes in
   // the map style will be cache-busted.
   let startupTime = Date.now();
-
-  const req = ky.extend({
-    prefixUrl: baseUrl,
-    // No timeout because indexing after first sync takes a long time, which mean
-    // requests to the server take a long time
-    timeout: false,
-    headers: {
-      "cache-control": "no-cache",
-      pragma: "no-cache",
-    },
-  });
 
   const pending: Array<{
     resolve: () => any;
@@ -224,29 +299,17 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     });
   }
 
-  // Request convenience methods that wait for the server to be ready
-  async function get(url: string) {
-    await onReady();
-    return await req.get(url).json();
-  }
-  async function del(url: string) {
-    await onReady();
-    return await req.delete(url).json();
-  }
-  async function put(url: string, data: any) {
-    await onReady();
-    return await req.put(url, { json: data }).json();
-  }
-  async function post(url: string, data: any) {
-    await onReady();
-    return await req.post(url, { json: data }).json();
-  }
-
   // Used to track RPC communication
   let channelId = 0;
 
+  const { del, get, post, put } = createRequestClient(baseUrl, onReady);
+
   // All public methods
   const api = {
+    /**
+     * Map server methods
+     */
+    ...createMapServerApi(BASE_MAP_SERVER_URL),
     // Start server, returns a promise that resolves when the server is ready
     // or rejects if there is an error starting the server
     startServer: () => {
@@ -584,7 +647,6 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       await onReady();
       return nodejs.channel.post("sync-start", target);
     },
-
     /**
      * HELPER synchronous methods
      */
