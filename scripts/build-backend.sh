@@ -51,7 +51,6 @@ echo -en "Minifying with noderify..."
   --filter=pino-pretty \
   --filter=memcpy \
   --filter=diagnostics_channel \
-  --filter="@mapeo/map-server" \
   index.js > ../nodejs-project/index.js
 cd ../..
 echo -en " done.\n"
@@ -82,7 +81,7 @@ cd ../..
 echo -en " done.\n"
 
 echo -en "Keeping some node modules..."
-declare -a keepThese=("leveldown" ".bin" "node-gyp-build" "napi-macros" "@mapeo/map-server")
+declare -a keepThese=("leveldown" ".bin" "node-gyp-build" "napi-macros" "@mapeo/map-server/prisma" "@mapeo/map-server/dist/lib/mbtiles_import_worker.js" "better-sqlite3")
 for x in "${keepThese[@]}"; do
   if [ -e "./nodejs-assets/backend/node_modules/$x" ]; then
     dest="./nodejs-assets/nodejs-project/node_modules/$x"
