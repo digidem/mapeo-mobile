@@ -54,6 +54,7 @@ echo -en "Minifying with noderify..."
   index.js > ../nodejs-project/index.js
 
 "$(npm bin)/noderify" \
+  --replace.bindings=bindings-noderify-nodejs-mobile \
   --filter=worker_threads \
   node_modules/@mapeo/map-server/dist/lib/mbtiles_import_worker.js > ../nodejs-project/mbtiles_import_worker.js
 
