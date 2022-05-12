@@ -18,6 +18,7 @@
  */
 
 const rnBridge = require("rn-bridge");
+const path = require("path");
 const debug = require("debug");
 const createMapServer = require("@mapeo/map-server").default;
 
@@ -39,9 +40,14 @@ const PORT = 9081;
 const MAP_SERVER_PORT = 9082;
 const status = new ServerStatus();
 let server;
-const mapServer = createMapServer(undefined, {
-  dbPath: "./mapeo-maps.db",
-});
+let mapServer;
+try {
+  mapServer = createMapServer(undefined, {
+    dbPath: path.join(rnBridge.app.datadir(), "mapeo-maps.db"),
+  });
+} catch (e) {
+  log("Error creating map server", e);
+}
 
 // This is nastily circular: we need an instance of status for the constructor
 // of bugsnag (so that we can inform the front-end of errors) but then we need
@@ -165,6 +171,9 @@ function startServers() {
       status.setState(constants.LISTENING);
     });
     mapServer.listen(MAP_SERVER_PORT, (err, address) => {
+      if (err) {
+        log("Error starting map server", err);
+      }
       log("MAP SERVER LISTENING AT", address);
     });
   } else {
