@@ -52,6 +52,11 @@ echo -en "Minifying with noderify..."
   --filter=memcpy \
   --filter=diagnostics_channel \
   index.js > ../nodejs-project/index.js
+
+"$(npm bin)/noderify" \
+  --filter=worker_threads \
+  node_modules/@mapeo/map-server/dist/lib/mbtiles_import_worker.js > ../nodejs-project/mbtiles_import_worker.js
+
 cd ../..
 echo -en " done.\n"
 
@@ -89,6 +94,8 @@ for x in "${keepThese[@]}"; do
     mv "./nodejs-assets/backend/node_modules/$x" "${dest}"
   fi
 done
+
+mv -f ./nodejs-assets/nodejs-project/mbtiles_import_worker.js ./nodejs-assets/nodejs-project/node_modules/@mapeo/map-server/dist/lib/mbtiles_import_worker.js
 
 # The hasha worker thread is not bundled by noderify, so we need to manually include it
 if [ -e "./nodejs-assets/backend/node_modules/hasha/thread.js" ]; then
