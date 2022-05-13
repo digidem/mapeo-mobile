@@ -53,7 +53,7 @@ const buildTypes = ["release", "intel", "universal"];
     const {
       stdout,
     } = await exec(
-      `RN_SRC_EXT=${flavor} react-native bundle --platform android --dev false --reset-cache --entry-file index.js --bundle-output ${jsBundleFile} --sourcemap-output ${jsOutputSourceMapFile} --assets-dest ${resourcesDir}`,
+      `RN_SRC_EXT=${flavor} npx react-native bundle --platform android --dev false --reset-cache --entry-file index.js --bundle-output ${jsBundleFile} --sourcemap-output ${jsOutputSourceMapFile} --assets-dest ${resourcesDir}`,
       { cwd: projectRoot }
     );
     console.log(stdout);
