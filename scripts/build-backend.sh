@@ -51,12 +51,23 @@ echo -en "Minifying with noderify..."
   --filter=pino-pretty \
   --filter=memcpy \
   --filter=diagnostics_channel \
-  index.js > ../nodejs-project/index.js
+  index.js | \
+  # Apologies to future contributors: this worker needs to load better-sqlite3,
+  # and I could not get bindings() to correctly load the native code when this is
+  # not at the project root. If the path name of the worker changes in the
+  # original module then this replacement needs to be updated. Apologies for the
+  # fragility, but this was the best solution I could find in limited time.
+  sed 's|\./lib/mbtiles_import_worker\.js|../../../../mbtiles_import_worker.js|' > \
+  ../nodejs-project/index.js
 
+# The worker in MapServer needs to be bundled separately, and we need to move it
+# and search & replace the reference to the file in the main bundle so that all
+# the paths resolve correctly
 "$(npm bin)/noderify" \
   --replace.bindings=bindings-noderify-nodejs-mobile \
   --filter=worker_threads \
-  node_modules/@mapeo/map-server/dist/lib/mbtiles_import_worker.js > ../nodejs-project/mbtiles_import_worker.js
+  node_modules/@mapeo/map-server/dist/lib/mbtiles_import_worker.js > \
+  ../nodejs-project/mbtiles_import_worker.js
 
 cd ../..
 echo -en " done.\n"
@@ -87,7 +98,19 @@ cd ../..
 echo -en " done.\n"
 
 echo -en "Keeping some node modules..."
-declare -a keepThese=("leveldown" ".bin" "node-gyp-build" "napi-macros" "@mapeo/map-server" "better-sqlite3")
+declare -a keepThese=(
+  # We need to leave this in place so that nodejs-mobile finds it and builds it
+  "leveldown"
+  ".bin"
+  "node-gyp-build"
+  "napi-macros"
+  # This is a static folder referenced by the mapserver code
+  "@mapeo/map-server/prisma"
+  # We need to leave this in place so that nodejs-mobile finds it and builds it
+  "better-sqlite3"
+  # The hasha worker thread is not bundled by noderify, so we need to manually include it
+  "hasha/thread.js"
+)
 for x in "${keepThese[@]}"; do
   if [ -e "./nodejs-assets/backend/node_modules/$x" ]; then
     dest="./nodejs-assets/nodejs-project/node_modules/$x"
@@ -96,13 +119,7 @@ for x in "${keepThese[@]}"; do
   fi
 done
 
-mv -f ./nodejs-assets/nodejs-project/mbtiles_import_worker.js ./nodejs-assets/nodejs-project/node_modules/@mapeo/map-server/dist/lib/mbtiles_import_worker.js
-
-# The hasha worker thread is not bundled by noderify, so we need to manually include it
-if [ -e "./nodejs-assets/backend/node_modules/hasha/thread.js" ]; then
-  mkdir -p "./nodejs-assets/nodejs-project/node_modules/hasha"
-  cp "./nodejs-assets/backend/node_modules/hasha/thread.js" "./nodejs-assets/nodejs-project/node_modules/hasha/thread.js"
-fi
+# Reduce apk size by removing leveldown prebuilds
 rm -rf ./nodejs-assets/nodejs-project/node_modules/leveldown/prebuilds
 echo -en " done.\n"
 
