@@ -353,6 +353,7 @@ workflows:
       - script-runner@0.9.3:
           title: Prepare JS bundles
           inputs:
+            - runner: /usr/bin/env node
             - file_path: scripts/prepare-js-bundles-android.js
       - change-workdir@1.0:
           is_always_run: true
