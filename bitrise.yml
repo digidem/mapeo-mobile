@@ -25,7 +25,7 @@ workflows:
     before_run:
       - primary
     envs:
-      - GRADLE_TASKS: assembleAppRelease assembleAppIntel assembleAppUniversal assembleIccaRelease assembleQaRelease -x bundleAppReleaseJsAndAssets -x bundleAppIntelJsAndAssets -x bundleAppUniversalJsAndAssets -x bundleIccaReleaseJsAndAssets -s bundleQaReleaseJsAndAssets
+      - GRADLE_TASKS: assembleAppRelease assembleAppIntel assembleAppUniversal assembleIccaRelease assembleQaRelease -x bundleAppReleaseJsAndAssets -x bundleAppIntelJsAndAssets -x bundleAppUniversalJsAndAssets -x bundleIccaReleaseJsAndAssets -x bundleQaReleaseJsAndAssets
         opts:
           is_expand: false
     steps:
@@ -165,7 +165,7 @@ workflows:
     before_run:
       - primary
     envs:
-      - GRADLE_TASKS: assembleAppRelease assembleIccaRelease assembleQaRelease -x bundleAppReleaseJsAndAssets -x bundleIccaReleaseJsAndAssets -s bundleQaReleaseJsAndAssets
+      - GRADLE_TASKS: assembleAppRelease assembleIccaRelease assembleQaRelease -x bundleAppReleaseJsAndAssets -x bundleIccaReleaseJsAndAssets -x bundleQaReleaseJsAndAssets
         opts:
           is_expand: false
     steps:
