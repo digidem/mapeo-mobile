@@ -7,6 +7,8 @@ import { useNetInfo } from "@react-native-community/netinfo";
 import ky from "ky";
 import { normalizeStyleURL } from "../lib/mapbox";
 import config from "../../config.json";
+import SettingsContext from "../context/SettingsContext";
+import { useExperiments } from "./useExperiments";
 
 /** Key used to store most recent map id in Async Storage */
 const MAP_STYLE_KEY = "@MAPSTYLE";
@@ -54,6 +56,116 @@ function mapStyleReducer(
         legacyMapType: action.legacyMapType,
       };
   }
+}
+
+function useLegacy(isOnline: boolean, styleId: string = "default") {
+  const [customStyleStatus, setCustomStyleStatus] = React.useState("unknown");
+  const [onlineStyleStatus, setOnlineStyleStatus] = React.useState("unknown");
+
+  const cachedStyleUrl = React.useRef<string | undefined>(undefined);
+
+  React.useEffect(() => {
+    let didCancel = false;
+
+    if (customStyleStatus !== "unknown") return;
+
+    async function getMap() {
+      try {
+        await api.getMapStyle(styleId);
+        setCustomStyleStatus("available");
+      } catch (err) {
+        setCustomStyleStatus("unavailable");
+      }
+    }
+
+    if (!didCancel) {
+      getMap();
+    }
+
+    return () => {
+      didCancel = true;
+    };
+  }, [styleId, customStyleStatus, onlineStyleStatus]);
+
+  React.useEffect(() => {
+    setOnlineStyleStatus(isOnline ? "available" : "unavailable");
+  }, [isOnline]);
+
+  React.useEffect(() => {
+    let didCancel = false;
+
+    if (onlineStyleStatus !== "available") return;
+
+    ky.get(normalizeStyleURL(onlineStyleURL, config.mapboxAccessToken))
+      .json()
+      .then(() => didCancel || setOnlineStyleStatus("available"))
+      .catch(() => didCancel || setOnlineStyleStatus("unavailable"));
+
+    return () => {
+      didCancel = true;
+    };
+  }, [onlineStyleStatus]);
+
+  return React.useMemo(() => {
+    let styleUrl = cachedStyleUrl.current;
+    let styleType = "loading";
+
+    if (customStyleStatus === "available") {
+      styleUrl = cachedStyleUrl.current = api.getMapStyleUrl(styleId);
+      styleType = "custom";
+    } else if (
+      customStyleStatus === "unavailable" &&
+      onlineStyleStatus === "available"
+    ) {
+      styleUrl = cachedStyleUrl.current = onlineStyleURL;
+      styleType = "online";
+    } else if (
+      customStyleStatus === "unavailable" &&
+      onlineStyleStatus === "unavailable"
+    ) {
+      styleUrl = cachedStyleUrl.current = fallbackStyleURL;
+      styleType = "fallback";
+    }
+
+    return {
+      styleUrl,
+      styleType,
+      setId: () => {
+        throw new Error("Cannot set style id for legacy maps");
+      },
+    };
+  }, [customStyleStatus, onlineStyleStatus, styleId]);
+}
+
+function useMapServerStyle() {
+  const [id, setId] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    AsyncStorage.getItem(MAP_STYLE_KEY).then(id => {
+      if (id) setId(id);
+    });
+  }, []);
+
+  React.useEffect(() => {
+    if (id) AsyncStorage.setItem(MAP_STYLE_KEY, id);
+  }, [id]);
+
+  return {
+    styleUrl: id ? api.getMapStyleUrl(id) : null,
+    styleType: "map-server",
+    setStyleId: setId,
+  };
+}
+
+function useMapStyleV2(styleId?: string) {
+  const [{ backgroundMaps }] = useExperiments();
+
+  const { isInternetReachable } = useNetInfo();
+
+  const legacyStyleInfo = useLegacy(!!isInternetReachable, styleId);
+  const mapServerInfo = useMapServerStyle();
+
+  return backgroundMaps ? mapServerInfo : legacyStyleInfo;
 }
 
 export function useMapStyle(styleId: string = "default") {
