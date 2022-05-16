@@ -82,14 +82,19 @@ project.ext.react = [
     // We distribute the QA debug build for testing, so that we get debug logs.
     // This setting bundles the JS into the APK, so you don't need the metro
     // bundler running in order to run the Debug QA build
-    bundleInQaDebug: true,
     bundleInUniversal: true,
+    bundleInIntel: true,
+    bundleInRelease: true,
     enableHermes: false, // clean and rebuild if changing
     // Disable dev logging in the Universal build (only disabled in release
     // build type by default)
     devDisabledInAppUniversal: true,
     devDisabledInQaUniversal: true,
-    devDisabledInIccaUniversal: true
+    devDisabledInIccaUniversal: true,
+    devDisabledInAppIntel: true,
+    devDisabledInQaIntel: true,
+    devDisabledInIccaIntel: true
+
 ]
 
 project.ext.vectoricons = [
@@ -101,7 +106,6 @@ apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 // Add bugsnag plugin for source map and symbol uploads
-apply plugin: 'com.android.application'
 apply plugin: 'com.bugsnag.android.gradle'
 
 /**

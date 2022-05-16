@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.4.4](https://github.com/digidem/mapeo-mobile/compare/v5.4.3...v5.4.4) (2022-05-03)
+
+### Bug Fixes
+
+- fix p2p-updates startup error ([9da24f7](https://github.com/digidem/mapeo-mobile/commit/9da24f7cbbbec528e2534e075eb5a93192bf61a8))
+- upgrade icons library to fix gradle issue ([9c607a6](https://github.com/digidem/mapeo-mobile/commit/9c607a645570fba3bc4fcf695fb2651d6b3f7b95))
+
 ### [5.4.3](https://github.com/digidem/mapeo-mobile/compare/v5.4.2...v5.4.3) (2022-04-25)
 
 ### Bug Fixes
