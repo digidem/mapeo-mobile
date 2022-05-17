@@ -11,7 +11,7 @@ import { LocationFollowingIcon, LocationNoFollowIcon } from "../icons";
 import IconButton from "../IconButton";
 import type { LocationContextType } from "../../context/LocationContext";
 import type { ObservationsMap } from "../../context/ObservationsContext";
-import { MapTileSource } from "../../hooks/useMapStyle";
+import { MapTypes } from "../../hooks/useMapStyle";
 import { useIsFullyFocused } from "../../hooks/useIsFullyFocused";
 import bugsnag from "../../lib/logger";
 import config from "../../../config.json";
@@ -151,7 +151,7 @@ const ObservationMapLayer = ({
 type Props = {
   observations: ObservationsMap,
   styleURL: string | void,
-  styleType: MapTileSource,
+  styleType: MapTypes,
   location: LocationContextType,
   onPressObservation: (observationId: string) => any,
   isFocused: boolean,

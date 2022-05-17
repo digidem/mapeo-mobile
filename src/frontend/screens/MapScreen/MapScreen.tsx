@@ -25,7 +25,7 @@ interface MapScreenProps {
 
 export const MapScreen = ({ navigation }: MapScreenProps) => {
   const [, { newDraft }] = useDraftObservation();
-  const [mapTileSource] = useMapStyle();
+  const { styleType, styleUrl } = useMapStyle();
 
   const [experiments] = useExperiments();
 
@@ -48,7 +48,7 @@ export const MapScreen = ({ navigation }: MapScreenProps) => {
 
   return (
     <View style={{ flex: 1 }}>
-      {mapTileSource.type === "loading" ? (
+      {styleType === "loading" ? (
         <Loading />
       ) : status === "error" ? (
         <Text>Error</Text>
@@ -57,8 +57,8 @@ export const MapScreen = ({ navigation }: MapScreenProps) => {
           location={location}
           observations={observations}
           onPressObservation={handleObservationPress}
-          styleURL={mapTileSource.styleUrl}
-          styleType={mapTileSource}
+          styleURL={styleUrl}
+          styleType={styleType}
         />
       )}
       <AddButton testID="addButtonMap" onPress={handleAddPress} />

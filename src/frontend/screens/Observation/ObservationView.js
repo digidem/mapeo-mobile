@@ -71,9 +71,9 @@ type MapProps = {
 };
 
 const InsetMapView = React.memo<MapProps>(({ lon, lat }: MapProps) => {
-  const [mapTileSource] = useMapStyle();
+  const { styleType, styleUrl } = useMapStyle();
 
-  return mapTileSource.type === "loading" ? (
+  return styleType === "loading" ? (
     <View style={styles.map}>
       <Text>Hello</Text>
       <Loading />
@@ -87,7 +87,7 @@ const InsetMapView = React.memo<MapProps>(({ lon, lat }: MapProps) => {
       pitchEnabled={false}
       rotateEnabled={false}
       compassEnabled={false}
-      styleURL={mapTileSource.styleUrl}
+      styleURL={styleUrl}
     >
       <MapboxGL.Camera
         centerCoordinate={[lon, lat]}
