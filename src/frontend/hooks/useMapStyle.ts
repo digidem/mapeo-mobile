@@ -8,7 +8,6 @@ import ky from "ky";
 import { normalizeStyleURL } from "../lib/mapbox";
 import config from "../../config.json";
 import { useExperiments } from "./useExperiments";
-import Loading from "../sharedComponents/Loading";
 
 /** Key used to store most recent map id in Async Storage */
 const MAP_STYLE_KEY = "@MAPSTYLE";
