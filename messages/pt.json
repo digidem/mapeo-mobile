@@ -708,6 +708,40 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Você) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "Adicionar mapa de fundo"
+  },
+  "screens.Settings.MapSettings.OfflineArea": {
+    "message": "Áreas offline"
+  },
+  "screens.Settings.MapSettings.backgroundMaps": {
+    "message": "Mapas de fundo"
+  },
+  "screens.Settings.MapSettings.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "Fechar"
+  },
+  "screens.Settings.MapSettings.dataLayers": {
+    "message": "Camadas de dados"
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "Importar de arquivo"
+  },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "Ajustes do mapa"
+  },
+  "screens.Settings.MapSettings.noAreas": {
+    "description": "Message to indicate to user that no offline areas have been downloaded",
+    "message": "Sem área offline baixada"
+  },
+  "screens.Settings.MapSettings.removeMap": {
+    "message": "Remover mapa"
+  },
+  "screens.Settings.MapSettings.title": {
+    "message": "Mapas de fundo"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Criar ou participar de um projeto abaixo"
   },
@@ -818,6 +852,10 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "Idioma de exibição do aplicativo"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "Ajustes do mapa"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -986,6 +1024,51 @@
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
     "message": "Erro inesperado"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "Nível de detalhe"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "Endereço"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "Cidade"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "Global"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "País grande"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "Área metropolitana grande"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "País pequeno"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "Rua"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "Subcontinente"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "Nível de zoom"
+  },
+  "sharedComponents.BGMapCard.abbrevMegabyte": {
+    "description": "The abbreviation for megabyte",
+    "message": "MB"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "Mapa atual"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "Sem GPS"
