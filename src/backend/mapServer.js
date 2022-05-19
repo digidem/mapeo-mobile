@@ -1,5 +1,5 @@
 const { promisify } = require("util");
-const getPort = require("get-port");
+// const getPort = require("get-port");
 const createServer = require("@mapeo/map-server").default;
 const log = require("debug")("map-server");
 
@@ -31,17 +31,17 @@ class MapServer extends AsyncService {
    * @returns {Promise<number>} Resolves with the port number when server is started
    */
   async _start() {
-    // TODO: This seems to not maintain the previous port when resuming - is that expected/okay?
-    this.#port = await getPort({ port: this.#port || undefined });
+    // TODO: Use dynamic port
+    this.#port = 9082; // await getPort({ port: this.#port || undefined });
     log(`${this.#port}: starting`);
     if (!this.#fastifyStarted) {
       log("first start, initializing fastify");
-      await this.#fastify.listen(this.#port, "0.0.0.0");
+      await this.#fastify.listen(this.#port);
       this.#fastifyStarted = true;
     } else {
       log("second start, listening");
       const { server } = this.#fastify;
-      await promisify(server.listen.bind(server))(this.#port, "0.0.0.0");
+      await promisify(server.listen.bind(server))(this.#port);
     }
     log(`${this.#port}: started`);
   }

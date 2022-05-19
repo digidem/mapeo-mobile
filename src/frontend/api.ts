@@ -134,7 +134,6 @@ export { STATUS as Constants };
 
 const log = debug("mapeo-mobile:api");
 const BASE_URL = "http://127.0.0.1:9081/";
-const BASE_MAP_SERVER_URL = "http://127.0.0.1:9082/";
 // Timeout between heartbeats from the server. If 10 seconds pass without a
 // heartbeat then we consider the server has errored
 const DEFAULT_TIMEOUT = 10000; // 10 seconds
@@ -151,7 +150,7 @@ interface ApiParam {
   timeout?: number;
 }
 
-function createRequestClient(baseUrl: string, onReady?: () => Promise<void>) {
+function createRequestClient(baseUrl?: string, onReady?: () => Promise<void>) {
   const req = ky.extend({
     prefixUrl: baseUrl,
     timeout: false,
@@ -182,37 +181,28 @@ function createRequestClient(baseUrl: string, onReady?: () => Promise<void>) {
 }
 
 // TODO: Incorporate server status and making sure it's ready for requests?
-function createMapServerApi({
-  baseUrl,
-  onReady,
-}: {
-  baseUrl: string;
-  onReady: () => Promise<void>;
-}) {
-  const { del, get, post } = createRequestClient(baseUrl);
+function createMapServerApi() {
+  // TODO: Use dynamic port
+  let port: number | undefined = 9082;
+  let client = createRequestClient(getBaseUrl(port));
 
+  // TODO: Uncomment this when working with dynamic ports
+  // nodejs.channel.addListener(
+  //   "map-server::start",
+  //   (payload: { port: number }) => {
+  //     if (port !== payload.port) {
+  //       client = createRequestClient(getBaseUrl(port));
+  //       port = payload.port;
+  //     }
+  //   }
+  // );
+
+  function getBaseUrl(port?: number) {
+    return `http://127.0.0.1${port !== undefined ? `:${port}/` : "/"}`;
+  }
+
+  // TODO: Implement addMapServerStateListener and addMapServerErrorListener
   return {
-    // TODO: Implement addMapServerStateListener and addMapServerErrorListener
-    startMapServerServices: async (): Promise<{ port: number }> => {
-      await onReady();
-
-      nodejs.channel.post("map-server::start-services");
-
-      return new Promise(resolve => {
-        const subscription = nodejs.channel.addListener(
-          "map-server::start",
-          (payload: { port: number }) => {
-            // See comment in startServer
-            // @ts-expect-error
-            subscription.remove();
-            resolve(payload);
-          }
-        );
-      });
-    },
-    stopMapServerServices: () => {
-      nodejs.channel.post("map-server::stop-services");
-    },
     // `from` is mostly for DX to get TS inference about valid params
     createStyle: async ({
       from,
@@ -220,40 +210,33 @@ function createMapServerApi({
     }: { accessToken?: string } & (
       | { from: "url"; url: string }
       | { from: "style"; id?: string; style: StyleJSON }
-    )): Promise<{ id: string; style: StyleJSON }> => {
-      return (await post("styles", params)) as {
+    )): Promise<{ id: string; style: StyleJSON }> =>
+      (await client.post("styles", params)) as {
         id: string;
         style: StyleJSON;
-      };
-    },
+      },
     // Delete a map style
-    deleteStyle: async (id: string): Promise<void> => {
-      return (await del(`styles/${id}`)) as void;
-    },
+    deleteStyle: async (id: string): Promise<void> =>
+      (await client.del(`styles/${id}`)) as void,
     // Get a map style in the form of a style definition
-    getStyle: async (id: string): Promise<StyleJSON> => {
-      return (await get(`styles/${id}`)) as StyleJSON;
-    },
+    getStyle: async (id: string): Promise<StyleJSON> =>
+      (await client.get(`styles/${id}`)) as StyleJSON,
     // Get a list of all existing styles containing scalar information about each style
     getStyleList: async (): Promise<
       { id: string; name?: string; url: string }[]
-    > => {
-      return (await get("styles")) as {
+    > =>
+      (await client.get("styles")) as {
         id: string;
         name?: string;
         url: string;
-      }[];
-    },
+      }[],
     // Create a tileset using an existing MBTiles file
-    importTileset: async (filePath: string): Promise<TileJSON> => {
-      return (await post("tilesets/import", {
-        filePath,
-      })) as TileJSON;
-    },
+    importTileset: async (filePath: string): Promise<TileJSON> =>
+      (await client.post("tilesets/import", {
+        filePath: convertFileUriToPosixPath(filePath),
+      })) as TileJSON,
     // Return the url to a map style from the map server
-    getMapServerStyleUrl: (id: string): string => {
-      return `${baseUrl}/styles/${id}`;
-    },
+    getStyleUrl: (id: string): string => `${getBaseUrl(port)}styles/${id}`,
   };
 }
 
@@ -332,7 +315,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     /**
      * Map server methods
      */
-    ...createMapServerApi({ baseUrl: BASE_MAP_SERVER_URL, onReady }),
+    maps: createMapServerApi(),
     // Start server, returns a promise that resolves when the server is ready
     // or rejects if there is an error starting the server
     startServer: () => {

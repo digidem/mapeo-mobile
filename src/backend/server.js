@@ -82,8 +82,7 @@ function createServer({
   });
   let mapeoCore = mapeoRouter.api.core;
 
-  // TODO: Use the unsubscribe function that's returned to do cleanup
-  createMapServer();
+  const mapServer = createMapServer();
   createUpgradeManager();
 
   const server = http.createServer(function requestListener(req, res) {
@@ -159,6 +158,8 @@ function createServer({
       log("++++ 1 backend listening");
       origListen.apply(server, args);
     });
+
+    mapServer.start();
   };
 
   function onError(prefix, err) {
@@ -173,25 +174,21 @@ function createServer({
   /**
    * Setup function for creating the map server
    *
-   * @returns {() => void} Unsubscribe function to remove event listeners
+   * @returns {{ start: () => void, stop: () => void }} Object with start and stop methods
    */
   function createMapServer() {
-    let handleStart, handleStop, handleGetState, handleReportErrorState;
+    let handleGetState, handleReportErrorState, mapServer;
 
     try {
-      const mapServer = new MapServer({
+      mapServer = new MapServer({
         dbPath: path.join(privateStorage, "maps.db"),
       });
 
       mapServer.on("state", onState);
       mapServer.on("error", handleError);
 
-      handleStart = createStartHandler(mapServer);
-      handleStop = createStopHandler(mapServer);
       handleGetState = createGetStateHandler(mapServer);
 
-      rnBridge.channel.on("map-server::start-services", handleStart);
-      rnBridge.channel.on("map-server::stop-services", handleStop);
       rnBridge.channel.on("map-server::get-state", handleGetState);
     } catch (err) {
       main.bugsnag.notify(err, {
@@ -211,27 +208,6 @@ function createServer({
       };
 
       rnBridge.channel.on("map-server::get-state", handleReportErrorState);
-    }
-
-    function createStartHandler(mapServer) {
-      return function handleStart() {
-        log("Request to start map server");
-        mapServer
-          .start()
-          .then(() => {
-            rnBridge.channel.post("map-server::start", {
-              port: mapServer.port,
-            });
-          })
-          .catch(err => onError("map-server-start", err));
-      };
-    }
-
-    function createStopHandler(mapServer) {
-      return function handleStop() {
-        log("Request to stop map server");
-        mapServer.stop().catch(err => onError("map-server-stop", err));
-      };
     }
 
     function createGetStateHandler(mapServer) {
@@ -258,40 +234,53 @@ function createServer({
       rnBridge.channel.post("map-server::error", serializedError);
     }
 
-    // Unsubscribe from events specific to map server
-    return () => {
-      log("Unsubscribing map server");
+    return {
+      start: () => {
+        log("Starting map server");
 
-      mapServer.removeListener("state", onState);
-      mapServer.removeListener("error", handleError);
+        // TODO: Handle this better
+        if (!mapServer) {
+          log("Map server instance does not exist");
+          return;
+        }
 
-      if (handleStart) {
-        rnBridge.channel.removeListener(
-          "map-server::start-services",
-          handleStart
-        );
-      }
+        handleGetState = createGetStateHandler(mapServer);
+        rnBridge.channel.on("map-server::get-state", handleGetState);
 
-      if (handleStop) {
-        rnBridge.channel.removeListener(
-          "map-server::stop-services",
-          handleStop
-        );
-      }
+        mapServer
+          .start()
+          .then(() => {
+            rnBridge.channel.post("map-server::start", {
+              port: mapServer.port,
+            });
+          })
+          .catch(err => onError("map-server-start", err));
+      },
+      stop: () => {
+        log("Stopping map server");
 
-      if (handleGetState) {
-        rnBridge.channel.removeListener(
-          "map-server::get-state",
-          handleGetState
-        );
-      }
+        if (handleGetState) {
+          rnBridge.channel.removeListener(
+            "map-server::get-state",
+            handleGetState
+          );
+        }
 
-      if (handleReportErrorState) {
-        rnBridge.channel.removeListener(
-          "map-server::get-state",
-          handleReportErrorState
-        );
-      }
+        if (handleReportErrorState) {
+          rnBridge.channel.removeListener(
+            "map-server::get-state",
+            handleReportErrorState
+          );
+        }
+
+        // TODO: Handle this better
+        if (!mapServer) {
+          log("Map server instance does not exist");
+          return;
+        }
+
+        mapServer.stop().catch(err => onError("map-server-stop", err));
+      },
     };
   }
 
@@ -522,6 +511,8 @@ function createServer({
     onReplicationComplete(() => {
       mapeoCore.sync.destroy(() => origClose.call(server, cb));
     });
+
+    mapServer.stop();
   };
 
   function onReplicationComplete(cb) {
