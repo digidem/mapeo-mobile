@@ -182,10 +182,37 @@ function createRequestClient(baseUrl: string, onReady?: () => Promise<void>) {
 }
 
 // TODO: Incorporate server status and making sure it's ready for requests?
-function createMapServerApi(baseUrl: string) {
+function createMapServerApi({
+  baseUrl,
+  onReady,
+}: {
+  baseUrl: string;
+  onReady: () => Promise<void>;
+}) {
   const { del, get, post } = createRequestClient(baseUrl);
 
   return {
+    // TODO: Implement addMapServerStateListener and addMapServerErrorListener
+    startMapServerServices: async (): Promise<{ port: number }> => {
+      await onReady();
+
+      nodejs.channel.post("map-server::start-services");
+
+      return new Promise(resolve => {
+        const subscription = nodejs.channel.addListener(
+          "map-server::start",
+          (payload: { port: number }) => {
+            // See comment in startServer
+            // @ts-expect-error
+            subscription.remove();
+            resolve(payload);
+          }
+        );
+      });
+    },
+    stopMapServerServices: () => {
+      nodejs.channel.post("map-server::stop-services");
+    },
     // `from` is mostly for DX to get TS inference about valid params
     createStyle: async ({
       from,
@@ -216,10 +243,6 @@ function createMapServerApi(baseUrl: string) {
         name?: string;
         url: string;
       }[];
-    },
-    // Create a tileset using a tilejson definition
-    createTileset: async (tilejson: TileJSON): Promise<TileJSON> => {
-      return (await post("tilesets", tilejson)) as TileJSON;
     },
     // Create a tileset using an existing MBTiles file
     importTileset: async (filePath: string): Promise<TileJSON> => {
@@ -309,7 +332,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     /**
      * Map server methods
      */
-    ...createMapServerApi(BASE_MAP_SERVER_URL),
+    ...createMapServerApi({ baseUrl: BASE_MAP_SERVER_URL, onReady }),
     // Start server, returns a promise that resolves when the server is ready
     // or rejects if there is an error starting the server
     startServer: () => {

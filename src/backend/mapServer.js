@@ -1,14 +1,19 @@
 const { promisify } = require("util");
+const getPort = require("get-port");
 const createServer = require("@mapeo/map-server").default;
 const log = require("debug")("map-server");
 
-const AsyncService = require("./async-service/async-service");
+const AsyncService = require("./upgrade-manager/async-service");
 
+// TODO: Does it make sense for this to extend AsyncService?
 class MapServer extends AsyncService {
   /** @type {number?} */
   #port;
   /** @type {import('fastify').FastifyInstance} */
   #fastify;
+
+  /** @type {boolean} */
+  #fastifyStarted = false;
 
   /**
    * @param {object} object
@@ -23,11 +28,11 @@ class MapServer extends AsyncService {
   /**
    * Start the server on the specified port. Listen on all interfaces.
    *
-   * @param {number} port
-   * @returns {Promise<void>} Resolves when server is started
+   * @returns {Promise<number>} Resolves with the port number when server is started
    */
-  async _start(port) {
-    this.#port = port;
+  async _start() {
+    // TODO: This seems to not maintain the previous port when resuming - is that expected/okay?
+    this.#port = await getPort({ port: this.#port || undefined });
     log(`${this.#port}: starting`);
     if (!this.#fastifyStarted) {
       log("first start, initializing fastify");
@@ -52,6 +57,10 @@ class MapServer extends AsyncService {
     const { server } = this.#fastify;
     await promisify(server.close.bind(server))();
     log(`${this.#port}: stopped`);
+  }
+
+  get port() {
+    return this.#port;
   }
 }
 

@@ -10,14 +10,17 @@ const debug = require("debug");
 const mkdirp = require("mkdirp");
 const rnBridge = require("rn-bridge");
 const throttle = require("lodash/throttle");
-const main = require("./index");
 const fs = require("fs");
 const rimraf = require("rimraf");
 const tar = require("tar-fs");
 const pump = require("pump");
 const semverCoerce = require("semver/functions/coerce");
-const UpgradeManager = require("./upgrade-manager");
 const { serializeError } = require("serialize-error");
+const getPort = require("get-port");
+
+const main = require("./index");
+const MapServer = require("./mapServer");
+const UpgradeManager = require("./upgrade-manager");
 
 const log = debug("mapeo-core:server");
 
@@ -79,6 +82,8 @@ function createServer({
   });
   let mapeoCore = mapeoRouter.api.core;
 
+  // TODO: Use the unsubscribe function that's returned to do cleanup
+  createMapServer();
   createUpgradeManager();
 
   const server = http.createServer(function requestListener(req, res) {
@@ -163,6 +168,131 @@ function createServer({
       context: prefix,
     });
     log(`error(${prefix}): ' + ${err.toString()}`);
+  }
+
+  /**
+   * Setup function for creating the map server
+   *
+   * @returns {() => void} Unsubscribe function to remove event listeners
+   */
+  function createMapServer() {
+    let handleStart, handleStop, handleGetState, handleReportErrorState;
+
+    try {
+      const mapServer = new MapServer({
+        dbPath: path.join(privateStorage, "maps.db"),
+      });
+
+      mapServer.on("state", onState);
+      mapServer.on("error", handleError);
+
+      handleStart = createStartHandler(mapServer);
+      handleStop = createStopHandler(mapServer);
+      handleGetState = createGetStateHandler(mapServer);
+
+      rnBridge.channel.on("map-server::start-services", handleStart);
+      rnBridge.channel.on("map-server::stop-services", handleStop);
+      rnBridge.channel.on("map-server::get-state", handleGetState);
+    } catch (err) {
+      main.bugsnag.notify(err, {
+        severity: "error",
+        context: "map-server",
+      });
+
+      log(`error initializing map-server: ${err.toString()}`);
+
+      handleReportErrorState = function handleError() {
+        // If MapServer fails to initialize, we always report the state as
+        // the error, and ignore all the other IPC messages
+        onState({
+          value: "error",
+          error: err,
+        });
+      };
+
+      rnBridge.channel.on("map-server::get-state", handleReportErrorState);
+    }
+
+    function createStartHandler(mapServer) {
+      return function handleStart() {
+        log("Request to start map server");
+        mapServer
+          .start()
+          .then(() => {
+            rnBridge.channel.post("map-server::start", {
+              port: mapServer.port,
+            });
+          })
+          .catch(err => onError("map-server-start", err));
+      };
+    }
+
+    function createStopHandler(mapServer) {
+      return function handleStop() {
+        log("Request to stop map server");
+        mapServer.stop().catch(err => onError("map-server-stop", err));
+      };
+    }
+
+    function createGetStateHandler(mapServer) {
+      return function handleGetState() {
+        // Don't particularly like this way of doing things, eventually we will
+        // set up and RPC for calling these methods directly
+        const state = mapServer.getState();
+        onState(state);
+      };
+    }
+
+    function onState(state) {
+      // Serialize error object so it can be transferred over ipc
+      const serializedErrorState = {
+        ...state,
+        error: serializeError(state.error),
+      };
+      rnBridge.channel.post("map-server::state", serializedErrorState);
+    }
+
+    function handleError(err) {
+      onError("map-server", err);
+      const serializedError = serializeError(err);
+      rnBridge.channel.post("map-server::error", serializedError);
+    }
+
+    // Unsubscribe from events specific to map server
+    return () => {
+      log("Unsubscribing map server");
+
+      mapServer.removeListener("state", onState);
+      mapServer.removeListener("error", handleError);
+
+      if (handleStart) {
+        rnBridge.channel.removeListener(
+          "map-server::start-services",
+          handleStart
+        );
+      }
+
+      if (handleStop) {
+        rnBridge.channel.removeListener(
+          "map-server::stop-services",
+          handleStop
+        );
+      }
+
+      if (handleGetState) {
+        rnBridge.channel.removeListener(
+          "map-server::get-state",
+          handleGetState
+        );
+      }
+
+      if (handleReportErrorState) {
+        rnBridge.channel.removeListener(
+          "map-server::get-state",
+          handleReportErrorState
+        );
+      }
+    };
   }
 
   function createUpgradeManager() {
