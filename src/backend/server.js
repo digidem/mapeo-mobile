@@ -16,7 +16,6 @@ const tar = require("tar-fs");
 const pump = require("pump");
 const semverCoerce = require("semver/functions/coerce");
 const { serializeError } = require("serialize-error");
-const getPort = require("get-port");
 
 const main = require("./index");
 const MapServer = require("./mapServer");
