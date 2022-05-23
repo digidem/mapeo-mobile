@@ -787,6 +787,9 @@
   "screens.Settings.MapSettings.subtitle": {
     "message": "แผนที่นี้พร้อมพื้นที่ออฟไลน์ที่แนบด้วยจะถูกลบออก และไม่สามารถยกเลิกคำสั่งได้"
   },
+  "screens.Settings.MapSettings.title": {
+    "message": "ภาพพื้นหลังแผนที่"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "สร้างและเข้าร่วมในโครงการข้างล่าง"
   },
@@ -897,6 +900,10 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "แสดงภาษาสำหรับแอป"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "การตั้งค่าแผนที่"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -1073,9 +1080,20 @@
     "description": "Title of message when there is an uncaught message in the app",
     "message": "ผิดพลาดอย่างไม่คาดคิด"
   },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "สี่แยก"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "ระดับความละเอียด"
+  },
   "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
     "description": "Level of detail seen on map - can see addresses on map",
     "message": "ที่อยู่"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "เมือง"
   },
   "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
     "description": "Level of detail seen on map - farthest zoom level",
@@ -1084,6 +1102,10 @@
   "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
     "description": "Level of detail seen on map - can see large countries",
     "message": "ประเทศขนาดใหญ่"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "พื้นที่เมืองหลวงขนาดใหญ่"
   },
   "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
     "description": "Level of detail seen on map - can see smaller countries",
@@ -1097,6 +1119,14 @@
     "description": "Level of detail seen on map - can see most streets on map",
     "message": "ถนน"
   },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "บล็อกถนน"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "อนุทวีป"
+  },
   "sharedComponent.OfflineAreaCard.lvlDetailTown": {
     "description": "Level of detail seen on map - can see most towns on map",
     "message": "เมือง"
@@ -1107,6 +1137,10 @@
   },
   "sharedComponent.OfflineAreaCard.zoomLevel": {
     "message": "ระดับการซูม"
+  },
+  "sharedComponents.BGMapCard.abbrevMegabyte": {
+    "description": "The abbreviation for megabyte",
+    "message": "MB"
   },
   "sharedComponents.BGMapCard.currentMap": {
     "message": "แผนที่ปัจจุบัน"
