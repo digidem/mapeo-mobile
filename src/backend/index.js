@@ -18,7 +18,6 @@
  */
 
 const rnBridge = require("rn-bridge");
-const path = require("path");
 const debug = require("debug");
 
 const ServerStatus = require("./status");
@@ -90,12 +89,9 @@ rnBridge.channel.once("config", async config => {
       apkFilepath,
       isDev,
     } = config;
-
     // Don't debug log in production
     if (isDev) debug.enable("*");
-
     const currentApkInfo = await getInstallerInfo(apkFilepath);
-
     server = createServer({
       privateStorage: rnBridge.app.datadir(),
       sharedStorage,
@@ -107,8 +103,7 @@ rnBridge.channel.once("config", async config => {
     server.on("error", error => {
       status.setState(constants.ERROR, { error });
     });
-
-    startServers();
+    startServer();
   } catch (error) {
     console.log(error.stack);
     status.setState(constants.ERROR, { error, context: "createServer" });
@@ -123,7 +118,7 @@ rnBridge.channel.once("config", async config => {
 rnBridge.app.on("pause", pauseLock => {
   log("App went into background");
   status.pauseHeartbeat();
-  stopServers(() => pauseLock.release());
+  stopServer(() => pauseLock.release());
 });
 
 // Start things up again when app is back in foreground
@@ -139,13 +134,13 @@ rnBridge.app.on("resume", () => {
   // is spawned after interacting with RN's permissions prompt on startup.
   // It seems to be inconsistent based on OS, RN, and/or nodejs-mobile-react-native versions
   if (server) {
-    startServers();
+    startServer();
   }
 });
 
 const noop = () => {};
 
-function startServers() {
+function startServer() {
   if (!server) {
     const error = new Error("Tried to start server before config was received");
     status.setState(constants.ERROR, { error, context: "createServer" });
@@ -154,7 +149,7 @@ function startServers() {
   const state = status.getState();
   if (state === constants.CLOSING) {
     log("Server was closing when it tried to start");
-    server.on("close", () => startServers());
+    server.on("close", () => startServer());
   } else if (state === constants.IDLE || state === constants.CLOSED) {
     status.setState(constants.STARTING);
     server.listen(PORT, () => {
@@ -165,12 +160,12 @@ function startServers() {
   }
 }
 
-function stopServers(cb = noop) {
+function stopServer(cb = noop) {
   if (!server) return process.nextTick(cb);
   const state = status.getState();
   if (state === constants.STARTING) {
     log("Server was starting when it tried to close");
-    server.on("listening", () => stopServers(cb));
+    server.on("listening", () => stopServer(cb));
   } else if (state !== constants.IDLE) {
     status.setState(constants.CLOSING);
     server.close(() => {
