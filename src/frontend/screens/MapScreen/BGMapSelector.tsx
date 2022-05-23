@@ -3,14 +3,17 @@ import { StyleSheet, View, Text } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import { defineMessages, useIntl } from "react-intl";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import {
+  ScrollView,
+  TouchableHighlight,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 
 import Loading from "../../sharedComponents/Loading";
-import { LIGHT_GREY, MEDIUM_BLUE } from "../../lib/styles";
+import { LIGHT_GREY, MEDIUM_BLUE, WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
 import { useNavigation } from "react-navigation-hooks";
-import { ListDivider } from "../../sharedComponents/List";
 import LocationContext from "../../context/LocationContext";
 
 const m = defineMessages({
@@ -104,6 +107,7 @@ export const BGMapSelector = React.forwardRef<
       enableContentPanningGesture={false}
       enableHandlePanningGesture={false}
       handleHeight={0}
+      handleComponent={() => null}
     >
       <View
         onLayout={e => {
@@ -115,9 +119,10 @@ export const BGMapSelector = React.forwardRef<
         {bgMapsList === null ? (
           <Loading />
         ) : (
-          <React.Fragment>
+          <View style={{ backgroundColor: WHITE }}>
             <Text style={styles.title}> {t(m.title)}</Text>
             <TouchableOpacity
+              activeOpacity={0.99}
               onPress={() => {
                 navigate("MapSettings");
               }}
@@ -133,7 +138,14 @@ export const BGMapSelector = React.forwardRef<
                 {t(m.manageMaps)}
               </Text>
             </TouchableOpacity>
-            <ListDivider style={{ marginBottom: 10 }} />
+            <View
+              style={{
+                borderBottomColor: LIGHT_GREY,
+                borderBottomWidth: 1,
+                marginBottom: 10,
+                marginTop: 10,
+              }}
+            />
             <ScrollView style={styles.flexContainer} horizontal={true}>
               {bgMapsList?.map(mapStyle => (
                 <MapThumbnail
@@ -143,7 +155,7 @@ export const BGMapSelector = React.forwardRef<
                 />
               ))}
             </ScrollView>
-          </React.Fragment>
+          </View>
         )}
 
         <Button
@@ -167,8 +179,9 @@ const MapThumbnail = ({
   onMapSelected: (styleURL: string) => void;
 }) => {
   const { position } = React.useContext(LocationContext);
+
   return (
-    <TouchableOpacity
+    <TouchableHighlight
       onPress={() => onMapSelected(map.styleUrl)}
       style={{ width: 80, margin: 10 }}
     >
@@ -183,14 +196,15 @@ const MapThumbnail = ({
         <MapboxGL.Camera
           animationDuration={0}
           animationMode="linearTo"
-          centerCoordinate={[
-            position?.coords.longitude,
-            position?.coords.latitude,
-          ]}
-          allowUpdates={false}
+          centerCoordinate={
+            position
+              ? [position.coords.longitude, position.coords.latitude]
+              : [0, 0]
+          }
+          allowUpdates
         />
       </MapboxGL.MapView>
-    </TouchableOpacity>
+    </TouchableHighlight>
   );
 };
 
@@ -200,6 +214,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "auto",
     flexDirection: "row",
+    backgroundColor: WHITE,
   },
   thumbnail: {
     width: "100%",
