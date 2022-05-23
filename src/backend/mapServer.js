@@ -1,5 +1,5 @@
 const { promisify } = require("util");
-// const getPort = require("get-port");
+const getPort = require("get-port");
 const createServer = require("@mapeo/map-server").default;
 const log = require("debug")("map-server");
 
@@ -28,11 +28,13 @@ class MapServer extends AsyncService {
   /**
    * Start the server on the specified port. Listen on all interfaces.
    *
-   * @returns {Promise<number>} Resolves with the port number when server is started
+   * @returns {Promise<void>} Resolves with the port number when server is started
    */
   async _start() {
-    // TODO: Use dynamic port
-    this.#port = 9082; // await getPort({ port: this.#port || undefined });
+    if (!this.#port) {
+      this.#port = await getPort();
+    }
+
     log(`${this.#port}: starting`);
     if (!this.#fastifyStarted) {
       log("first start, initializing fastify");
