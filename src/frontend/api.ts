@@ -19,6 +19,7 @@ import AppInfo from "./lib/AppInfo";
 import promiseTimeout, { TimeoutError } from "p-timeout";
 import bugsnag from "./lib/logger";
 import { IconSize, ImageSize } from "./sharedTypes";
+import { devExperiments } from "./lib/DevExperiments";
 
 export type ServerStatus = keyof typeof STATUS;
 
@@ -129,11 +130,17 @@ type UpgradeStateError = UpgradeStateBase & {
   error: Error;
 };
 export type UpgradeState = UpgradeStateNoError | UpgradeStateError;
+interface ApiParam {
+  baseUrl: string;
+  timeout?: number;
+}
 
 export { STATUS as Constants };
 
 const log = debug("mapeo-mobile:api");
-const BASE_URL = "http://127.0.0.1:9081/";
+
+const APP_SERVER_PORT = 9081;
+const APP_BASE_URL = getBaseUrl(APP_SERVER_PORT);
 // Timeout between heartbeats from the server. If 10 seconds pass without a
 // heartbeat then we consider the server has errored
 const DEFAULT_TIMEOUT = 10000; // 10 seconds
@@ -144,11 +151,6 @@ const DEFAULT_TIMEOUT = 10000; // 10 seconds
 export const SERVER_START_TIMEOUT = 30000;
 
 const pixelRatio = PixelRatio.get();
-
-interface ApiParam {
-  baseUrl: string;
-  timeout?: number;
-}
 
 function createRequestClient(baseUrl?: string, onReady?: () => Promise<void>) {
   const req = ky.extend({
@@ -182,61 +184,74 @@ function createRequestClient(baseUrl?: string, onReady?: () => Promise<void>) {
 
 // TODO: Incorporate server status and making sure it's ready for requests?
 function createMapServerApi() {
-  // TODO: Use dynamic port
-  let port: number | undefined = 9082;
-  let client = createRequestClient(getBaseUrl(port));
+  let mapServerPort: number | undefined;
+  let client: ReturnType<typeof createRequestClient> | undefined;
 
-  // TODO: Uncomment this when working with dynamic ports
-  // nodejs.channel.addListener(
-  //   "map-server::start",
-  //   (payload: { port: number }) => {
-  //     if (port !== payload.port) {
-  //       client = createRequestClient(getBaseUrl(port));
-  //       port = payload.port;
-  //     }
-  //   }
-  // );
+  nodejs.channel.addListener(
+    "map-server::start",
+    (payload: { port: number }) => {
+      if (mapServerPort !== payload.port) {
+        mapServerPort = payload.port;
+        client = createMapServerClient(mapServerPort);
+      }
+    }
+  );
 
-  function getBaseUrl(port?: number) {
-    return `http://127.0.0.1${port !== undefined ? `:${port}/` : "/"}`;
+  function createMapServerClient(port: number) {
+    return createRequestClient(getBaseUrl(port));
+  }
+
+  function guaranteeClient() {
+    if (!mapServerPort)
+      throw new Error(
+        "Map server client cannot be used because port is unknown"
+      );
+
+    if (!client) {
+      client = createMapServerClient(mapServerPort);
+    }
+
+    return client;
   }
 
   // TODO: Implement addMapServerStateListener and addMapServerErrorListener
   return {
-    // `from` is mostly for DX to get TS inference about valid params
     createStyle: async ({
-      from,
+      from, // mostly for convenience to get TS inference about valid params
       ...params
     }: { accessToken?: string } & (
       | { from: "url"; url: string }
       | { from: "style"; id?: string; style: StyleJSON }
     )): Promise<{ id: string; style: StyleJSON }> =>
-      (await client.post("styles", params)) as {
+      (await guaranteeClient().post("styles", params)) as {
         id: string;
         style: StyleJSON;
       },
     // Delete a map style
     deleteStyle: async (id: string): Promise<void> =>
-      (await client.del(`styles/${id}`)) as void,
+      (await guaranteeClient().del(`styles/${id}`)) as void,
     // Get a map style in the form of a style definition
     getStyle: async (id: string): Promise<StyleJSON> =>
-      (await client.get(`styles/${id}`)) as StyleJSON,
+      (await guaranteeClient().get(`styles/${id}`)) as StyleJSON,
     // Get a list of all existing styles containing scalar information about each style
     getStyleList: async (): Promise<
       { id: string; name?: string; url: string }[]
     > =>
-      (await client.get("styles")) as {
+      (await guaranteeClient().get("styles")) as {
         id: string;
         name?: string;
         url: string;
       }[],
     // Create a tileset using an existing MBTiles file
-    importTileset: async (filePath: string): Promise<TileJSON> =>
-      (await client.post("tilesets/import", {
+    importTileset: async (
+      filePath: string
+    ): Promise<TileJSON & { id: string }> =>
+      (await guaranteeClient().post("tilesets/import", {
         filePath: convertFileUriToPosixPath(filePath),
-      })) as TileJSON,
+      })) as TileJSON & { id: string },
     // Return the url to a map style from the map server
-    getStyleUrl: (id: string): string => `${getBaseUrl(port)}styles/${id}`,
+    getStyleUrl: (id: string): string | undefined =>
+      mapServerPort ? `${getBaseUrl(mapServerPort)}styles/${id}` : undefined,
   };
 }
 
@@ -315,7 +330,9 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     /**
      * Map server methods
      */
-    maps: createMapServerApi(),
+    ...(devExperiments.mapSettings
+      ? { maps: createMapServerApi() }
+      : undefined),
     // Start server, returns a promise that resolves when the server is ready
     // or rejects if there is an error starting the server
     startServer: () => {
@@ -662,12 +679,12 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       // Some devices are @4x or above, but we only generate icons up to @3x
       // Also we don't have @1.5x, so we round it up
       const roundedRatio = Math.min(Math.ceil(pixelRatio), 3);
-      return `${BASE_URL}presets/default/icons/${iconId}-medium@${roundedRatio}x.png?${startupTime}`;
+      return `${APP_BASE_URL}presets/default/icons/${iconId}-medium@${roundedRatio}x.png?${startupTime}`;
     },
 
     // Return the url for a media attachment
     getMediaUrl: (attachmentId: string, size: ImageSize): string => {
-      return `${BASE_URL}media/${size}/${attachmentId}`;
+      return `${APP_BASE_URL}media/${size}/${attachmentId}`;
     },
 
     // Return the File Uri for a media attachment in local storage. Necessary
@@ -685,14 +702,18 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
 
     // Return the url to a map style
     getMapStyleUrl: (id: string): string => {
-      return `${BASE_URL}styles/${id}/style.json?${startupTime}`;
+      return `${APP_BASE_URL}styles/${id}/style.json?${startupTime}`;
     },
   };
 
   return api;
 }
 
-export default Api({ baseUrl: BASE_URL });
+export default Api({ baseUrl: APP_BASE_URL });
+
+function getBaseUrl(port: number) {
+  return `http://127.0.0.1:${port}/`;
+}
 
 function mapToArray<T>(map: { [key: string]: T }): Array<T> {
   return Object.keys(map).map(id => ({
