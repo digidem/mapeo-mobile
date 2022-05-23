@@ -750,6 +750,43 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(คุณ) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "เพิ่มพื้นหลังแผนที่"
+  },
+  "screens.Settings.MapSettings.OfflineArea": {
+    "message": "พื้นที่ออฟไลน์"
+  },
+  "screens.Settings.MapSettings.backgroundMaps": {
+    "message": "ภาพพื้นหลังแผนที่"
+  },
+  "screens.Settings.MapSettings.cancel": {
+    "message": "ยกเลิก"
+  },
+  "screens.Settings.MapSettings.clearDiagrams": {
+    "message": "คุณแน่ใจหรือไม่ว่าคุณต้องการลบไดอะแกรม?"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "ปิด"
+  },
+  "screens.Settings.MapSettings.dataLayers": {
+    "message": "ระดับชั้นข้อมูล"
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "นำเข้าจากไฟล์"
+  },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "การตั้งค่าแผนที่"
+  },
+  "screens.Settings.MapSettings.noAreas": {
+    "description": "Message to indicate to user that no offline areas have been downloaded",
+    "message": "ไม่พบการดาวน์โหลดพื้นที่ออฟไลน์"
+  },
+  "screens.Settings.MapSettings.removeMap": {
+    "message": "นำแผนที่ออก"
+  },
+  "screens.Settings.MapSettings.subtitle": {
+    "message": "แผนที่นี้พร้อมพื้นที่ออฟไลน์ที่แนบด้วยจะถูกลบออก และไม่สามารถยกเลิกคำสั่งได้"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "สร้างและเข้าร่วมในโครงการข้างล่าง"
   },
@@ -1036,9 +1073,29 @@
     "description": "Title of message when there is an uncaught message in the app",
     "message": "ผิดพลาดอย่างไม่คาดคิด"
   },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "ที่อยู่"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "ทั่วโลก"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "ประเทศขนาดใหญ่"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "ประเทศขนาดเล็ก"
+  },
   "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
     "description": "Level of detail seen on map - can see small roads on map",
     "message": "ถนนสายเล็ก"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "ถนน"
   },
   "sharedComponent.OfflineAreaCard.lvlDetailTown": {
     "description": "Level of detail seen on map - can see most towns on map",
