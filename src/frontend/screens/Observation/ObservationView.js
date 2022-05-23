@@ -75,7 +75,6 @@ const InsetMapView = React.memo<MapProps>(({ lon, lat }: MapProps) => {
 
   return styleType === "loading" ? (
     <View style={styles.map}>
-      <Text>Hello</Text>
       <Loading />
     </View>
   ) : (
