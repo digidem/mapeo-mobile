@@ -1036,6 +1036,24 @@
     "description": "Title of message when there is an uncaught message in the app",
     "message": "ผิดพลาดอย่างไม่คาดคิด"
   },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "ถนนสายเล็ก"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "เมือง"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "หมู่บ้าน"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "ระดับการซูม"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "แผนที่ปัจจุบัน"
+  },
   "sharedComponents.GpsPill.noGps": {
     "message": "ไม่มีสัญญาณ GPS"
   },
