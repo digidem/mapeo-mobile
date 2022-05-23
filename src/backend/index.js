@@ -99,7 +99,6 @@ rnBridge.channel.once("config", async config => {
       deviceInfo,
       currentApkInfo,
     });
-
     server.on("error", error => {
       status.setState(constants.ERROR, { error });
     });
