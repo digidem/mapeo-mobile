@@ -249,6 +249,7 @@ function createServer({
         mapServer
           .start()
           .then(() => {
+            // Tell the client which port the server is running on
             rnBridge.channel.post("map-server::start", {
               port: mapServer.port,
             });
