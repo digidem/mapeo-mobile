@@ -42,7 +42,7 @@ export const MapScreen = ({ navigation }: MapScreenProps) => {
 
   const handleAddPress = React.useCallback(() => {
     log("pressed add button");
-    newDraft(undefined, null);
+    newDraft(undefined, undefined);
     navigation.navigate("CategoryChooser");
   }, [navigation, newDraft]);
 
