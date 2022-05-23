@@ -152,7 +152,13 @@ export const SERVER_START_TIMEOUT = 30000;
 
 const pixelRatio = PixelRatio.get();
 
-function createRequestClient(baseUrl?: string, onReady?: () => Promise<void>) {
+function createRequestClient({
+  baseUrl,
+  onReady,
+}: {
+  baseUrl?: string;
+  onReady?: () => Promise<void>;
+} = {}) {
   const req = ky.extend({
     prefixUrl: baseUrl,
     timeout: false,
@@ -198,7 +204,7 @@ function createMapServerApi() {
   );
 
   function createMapServerClient(port: number) {
-    return createRequestClient(getBaseUrl(port));
+    return createRequestClient({ baseUrl: getBaseUrl(port) });
   }
 
   function guaranteeClient() {
@@ -323,7 +329,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
   // Used to track RPC communication
   let channelId = 0;
 
-  const { del, get, post, put } = createRequestClient(baseUrl, onReady);
+  const { del, get, post, put } = createRequestClient({ baseUrl, onReady });
 
   // All public methods
   const api = {
