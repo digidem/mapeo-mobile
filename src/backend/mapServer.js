@@ -5,7 +5,6 @@ const log = require("debug")("map-server");
 
 const AsyncService = require("./upgrade-manager/async-service");
 
-// TODO: Does it make sense for this to extend AsyncService?
 class MapServer extends AsyncService {
   /** @type {number?} */
   #port;
