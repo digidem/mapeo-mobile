@@ -43,7 +43,7 @@ class MapServer extends AsyncService {
     } else {
       log("second start, listening");
       const { server } = this.#fastify;
-      await promisify(server.listen.bind(server))(this.#port);
+      await promisify(server.listen).call(server, this.#port);
     }
     log(`${this.#port}: started`);
   }
