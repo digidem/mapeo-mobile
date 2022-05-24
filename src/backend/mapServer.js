@@ -56,7 +56,7 @@ class MapServer extends AsyncService {
   async _stop() {
     log(`${this.#port}: stopping`);
     const { server } = this.#fastify;
-    await promisify(server.close.call(server));
+    await promisify(server.close).call(server);
     log(`${this.#port}: stopped`);
   }
 
