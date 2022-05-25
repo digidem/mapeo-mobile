@@ -10,14 +10,16 @@ const debug = require("debug");
 const mkdirp = require("mkdirp");
 const rnBridge = require("rn-bridge");
 const throttle = require("lodash/throttle");
-const main = require("./index");
 const fs = require("fs");
 const rimraf = require("rimraf");
 const tar = require("tar-fs");
 const pump = require("pump");
 const semverCoerce = require("semver/functions/coerce");
-const UpgradeManager = require("./upgrade-manager");
 const { serializeError } = require("serialize-error");
+
+const main = require("./index");
+const MapServer = require("./mapServer");
+const UpgradeManager = require("./upgrade-manager");
 
 const log = debug("mapeo-core:server");
 
@@ -79,6 +81,7 @@ function createServer({
   });
   let mapeoCore = mapeoRouter.api.core;
 
+  const mapServer = createMapServer();
   createUpgradeManager();
 
   const server = http.createServer(function requestListener(req, res) {
@@ -154,6 +157,8 @@ function createServer({
       log("++++ 1 backend listening");
       origListen.apply(server, args);
     });
+
+    mapServer.start();
   };
 
   function onError(prefix, err) {
@@ -163,6 +168,120 @@ function createServer({
       context: prefix,
     });
     log(`error(${prefix}): ' + ${err.toString()}`);
+  }
+
+  /**
+   * Setup function for creating the map server
+   *
+   * @returns {{ start: () => void, stop: () => void }} Object with start and stop methods
+   */
+  function createMapServer() {
+    let handleGetState, handleReportErrorState, mapServer;
+
+    try {
+      mapServer = new MapServer({
+        dbPath: path.join(privateStorage, "maps.db"),
+      });
+
+      mapServer.on("state", onState);
+      mapServer.on("error", handleError);
+
+      handleGetState = createGetStateHandler(mapServer);
+
+      rnBridge.channel.on("map-server::get-state", handleGetState);
+    } catch (err) {
+      main.bugsnag.notify(err, {
+        severity: "error",
+        context: "map-server",
+      });
+
+      log(`error initializing map-server: ${err.toString()}`);
+
+      handleReportErrorState = function handleError() {
+        // If MapServer fails to initialize, we always report the state as
+        // the error, and ignore all the other IPC messages
+        onState({
+          value: "error",
+          error: err,
+        });
+      };
+
+      rnBridge.channel.on("map-server::get-state", handleReportErrorState);
+    }
+
+    function createGetStateHandler(mapServer) {
+      return function handleGetState() {
+        // Don't particularly like this way of doing things, eventually we will
+        // set up and RPC for calling these methods directly
+        const state = mapServer.getState();
+        onState(state);
+      };
+    }
+
+    function onState(state) {
+      // Serialize error object so it can be transferred over ipc
+      const serializedErrorState = {
+        ...state,
+        error: serializeError(state.error),
+      };
+      rnBridge.channel.post("map-server::state", serializedErrorState);
+    }
+
+    function handleError(err) {
+      onError("map-server", err);
+      const serializedError = serializeError(err);
+      rnBridge.channel.post("map-server::error", serializedError);
+    }
+
+    return {
+      start: () => {
+        log("Starting map server");
+
+        // TODO: Handle this better
+        if (!mapServer) {
+          log("Map server instance does not exist");
+          return;
+        }
+
+        handleGetState = createGetStateHandler(mapServer);
+        rnBridge.channel.on("map-server::get-state", handleGetState);
+
+        mapServer
+          .start()
+          .then(() => {
+            // Tell the client which port the server is running on
+            rnBridge.channel.post("map-server::start", {
+              port: mapServer.port,
+            });
+          })
+          .catch(err => onError("map-server-start", err));
+      },
+      stop: () => {
+        log("Stopping map server");
+
+        if (handleGetState) {
+          rnBridge.channel.removeListener(
+            "map-server::get-state",
+            handleGetState
+          );
+        }
+
+        if (handleReportErrorState) {
+          rnBridge.channel.removeListener(
+            "map-server::get-state",
+            handleReportErrorState
+          );
+        }
+
+        // TODO: Handle this better
+        if (!mapServer) {
+          log("Map server instance does not exist");
+          return;
+        }
+
+        mapServer.stop().catch(err => onError("map-server-stop", err));
+      },
+    };
   }
 
   function createUpgradeManager() {
@@ -392,6 +511,8 @@ function createServer({
     onReplicationComplete(() => {
       mapeoCore.sync.destroy(() => origClose.call(server, cb));
     });
+
+    mapServer.stop();
   };
 
   function onReplicationComplete(cb) {

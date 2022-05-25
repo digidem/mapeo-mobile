@@ -1,0 +1,13 @@
+diff --git a/node_modules/fastify/lib/pluginUtils.js b/node_modules/fastify/lib/pluginUtils.js
+index 7e56c1f..41af8cf 100644
+--- a/node_modules/fastify/lib/pluginUtils.js
++++ b/node_modules/fastify/lib/pluginUtils.js
+@@ -22,7 +22,7 @@ function getPluginName (func) {
+   // let's see if this is a file, and in that case use that
+   // this is common for plugins
+   const cache = require.cache
+-  const keys = Object.keys(cache)
++  const keys = cache ? Object.keys(cache) : []
+ 
+   for (let i = 0; i < keys.length; i++) {
+     const key = keys[i]
