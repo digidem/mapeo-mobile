@@ -92,7 +92,7 @@ function useLegacyStyle(
     if (isOnline && state.type === "fallback") {
       dispatch({ action: "setOnline" });
     }
-  }, [isOnline]);
+  }, [isOnline, state.type]);
 
   return {
     styleUrl: state.styleUrl,
@@ -118,15 +118,19 @@ function useMapServerStyle(): {
     });
   }, []);
 
-  React.useEffect(() => {
-    if (id) AsyncStorage.setItem(MAP_STYLE_KEY, id);
-  }, [id]);
+  const setIdWithAsync = React.useCallback(
+    (id: string) => {
+      setId(id);
+      AsyncStorage.setItem(MAP_STYLE_KEY, id);
+    },
+    [setId]
+  );
 
   return React.useMemo(
     () => ({
       styleUrl: id ? api.getMapStyleUrl(id) : null,
       styleType: "mapServer",
-      setStyleId: setId,
+      setStyleId: setIdWithAsync,
     }),
     [id, setId]
   );

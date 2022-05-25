@@ -11,7 +11,7 @@ import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import Loading from "../../../sharedComponents/Loading";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "../../../sharedComponents/Touchables";
 
 const m = defineMessages({
   addBGMap: {
@@ -149,7 +149,7 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
                 <Text style={styles.text}> {t(m.importFromFile)}</Text>
               </View>
               <Text style={[styles.text, { textAlign: "center" }]}>
-                {"( .mbtile )"}
+                {"( .mbtiles )"}
               </Text>
             </React.Fragment>
           </TouchableOpacity>

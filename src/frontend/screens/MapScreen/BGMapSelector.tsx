@@ -34,7 +34,7 @@ const m = defineMessages({
 
 // To do: We should get this all from one central place
 // Perhaps as a Seperate Module published on npm
-interface mapServerStyle {
+interface MapServerStyle {
   id: string;
   styleUrl: string;
   title?: string;
@@ -50,7 +50,7 @@ export const BGMapSelector = React.forwardRef<
   BottomSheetMethods,
   MapSelectorProps
 >(({ closeSheet, onMapSelected }, ref) => {
-  const [bgMapsList, setBgMapList] = React.useState<null | mapServerStyle[]>(
+  const [bgMapsList, setBgMapList] = React.useState<null | MapServerStyle[]>(
     null
   );
 
@@ -65,7 +65,7 @@ export const BGMapSelector = React.forwardRef<
 
   React.useEffect(() => {
     // To do: Api call to get list styles
-    async function getListStyles(): Promise<mapServerStyle[]> {
+    async function getListStyles(): Promise<MapServerStyle[]> {
       return [
         {
           id: "121",
@@ -122,9 +122,14 @@ export const BGMapSelector = React.forwardRef<
           <View style={{ backgroundColor: WHITE }}>
             <Text style={styles.title}> {t(m.title)}</Text>
             <TouchableOpacity
-              activeOpacity={0.99}
               onPress={() => {
                 navigate("MapSettings");
+              }}
+              style={{
+                borderWidth: 1,
+                borderColor: "red",
+                alignSelf: "center",
+                flex: 0,
               }}
             >
               <Text
@@ -133,6 +138,7 @@ export const BGMapSelector = React.forwardRef<
                   fontSize: 16,
                   textAlign: "center",
                   marginBottom: 10,
+                  fontWeight: "bold",
                 }}
               >
                 {t(m.manageMaps)}
@@ -175,13 +181,14 @@ const MapThumbnail = ({
   map,
   onMapSelected,
 }: {
-  map: mapServerStyle;
+  map: MapServerStyle;
   onMapSelected: (styleURL: string) => void;
 }) => {
   const { position } = React.useContext(LocationContext);
 
   return (
     <TouchableHighlight
+      activeOpacity={0.8}
       onPress={() => onMapSelected(map.styleUrl)}
       style={{ width: 80, margin: 10 }}
     >
@@ -224,8 +231,5 @@ const styles = StyleSheet.create({
     fontSize: 32,
     textAlign: "center",
     paddingBottom: 20,
-  },
-  divider: {
-    borderBottomColor: LIGHT_GREY,
   },
 });
