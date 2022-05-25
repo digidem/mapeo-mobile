@@ -125,12 +125,6 @@ export const BGMapSelector = React.forwardRef<
               onPress={() => {
                 navigate("MapSettings");
               }}
-              style={{
-                borderWidth: 1,
-                borderColor: "red",
-                alignSelf: "center",
-                flex: 0,
-              }}
             >
               <Text
                 style={{
