@@ -116,19 +116,20 @@ export type TransferProgress = {
   total: number;
 };
 
+// Derived from /src/backend/upgrade-manager/types.ts
+type WorkingServerState = {
+  value: "starting" | "started" | "stopping" | "stopped";
+};
+type ErrorServerState = { value: "error"; error: Error };
+
 type UpgradeStateBase = {
   uploads: TransferProgress[];
   downloads: TransferProgress[];
   checkedPeers: string[];
   availableUpgrade?: AvailableUpgrade;
 };
-type UpgradeStateNoError = UpgradeStateBase & {
-  value: "starting" | "started" | "stopping" | "stopped";
-};
-type UpgradeStateError = UpgradeStateBase & {
-  value: "error";
-  error: Error;
-};
+type UpgradeStateNoError = UpgradeStateBase & WorkingServerState;
+type UpgradeStateError = UpgradeStateBase & ErrorServerState;
 export type UpgradeState = UpgradeStateNoError | UpgradeStateError;
 interface ApiParam {
   baseUrl: string;
@@ -223,7 +224,7 @@ function createMapServerApi() {
   }
 
   // TODO: Implement addMapServerStateListener and addMapServerErrorListener
-  return {
+  const mapsApi = {
     // TODO: Probably should use some kind of status-related implementation similar to how the app server does it
     ready: () => {
       // TODO: Rely on the app server's status heartbeat to ping the map server and check its state
@@ -270,6 +271,50 @@ function createMapServerApi() {
 
       return mapServerReadyPromise as Promise<void>;
     },
+    addServerStateListener: (
+      handler: (state: WorkingServerState | ErrorServerState) => void
+    ): Subscription => {
+      const stateSubscription = nodejs.channel.addListener(
+        "map-server::state",
+        onState
+      );
+
+      // Poke backend to send a state event
+      mapsApi
+        .ready()
+        .then(() => nodejs.channel.post("map-server::get-state"))
+        .catch(() => {});
+
+      function onState(serializedState: WorkingServerState | ErrorServerState) {
+        handler(
+          // Deserialize error if it exists
+          serializedState.value === "error"
+            ? {
+                ...serializedState,
+                error: deserializeError(serializedState.error),
+              }
+            : serializedState
+        );
+      }
+
+      return {
+        // @ts-expect-error
+        remove: () => stateSubscription.remove(),
+      };
+    },
+    addServerErrorListener: (handler: (error: Error) => void): Subscription => {
+      const errorSubscription = nodejs.channel.addListener(
+        "map-server::error",
+        (serializedError: ErrorServerState) => {
+          handler(deserializeError(serializedError));
+        }
+      );
+
+      return {
+        // @ts-expect-error
+        remove: () => errorSubscription.remove(),
+      };
+    },
     createStyle: async ({
       from, // mostly for convenience to get TS inference about valid params
       ...params
@@ -307,6 +352,8 @@ function createMapServerApi() {
     getStyleUrl: (id: string): string | undefined =>
       mapServerPort ? `${getBaseUrl(mapServerPort)}styles/${id}` : undefined,
   };
+
+  return mapsApi;
 }
 
 export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
