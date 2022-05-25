@@ -1,17 +1,18 @@
 import * as React from "react";
 import * as DocumentPicker from "expo-document-picker";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text } from "react-native";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
-import { LIGHT_GREY, MEDIUM_GREY } from "../../../lib/styles";
+import { MEDIUM_GREY } from "../../../lib/styles";
 import { BGMapCard } from "../../../sharedComponents/BGMapCard";
-import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import {
+  BottomSheetContent,
+  BottomSheetModal,
+  useBottomSheetModal,
+} from "../../../sharedComponents/BottomSheetModal";
 import Button from "../../../sharedComponents/Button";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import Loading from "../../../sharedComponents/Loading";
-import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import { TouchableOpacity } from "../../../sharedComponents/Touchables";
 
 const m = defineMessages({
   addBGMap: {
@@ -47,12 +48,9 @@ interface BackgroundMap {
 export const BackgroundMaps: NavigationStackScreenComponent = ({
   navigation,
 }) => {
-  const sheetRef = React.useRef<BottomSheetMethods>(null);
-
-  const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
-    0,
-    "30%",
-  ]);
+  const { closeSheet, openSheet, sheetRef } = useBottomSheetModal({
+    openOnMount: false,
+  });
 
   const [backgroundMapList, setBackgroundMapList] = React.useState<
     BackgroundMap[]
@@ -69,24 +67,21 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
     const results = await DocumentPicker.getDocumentAsync();
 
     if (results.type === "cancel") {
-      sheetRef.current?.close();
+      closeSheet();
       return;
     }
 
     if (results.type === "success") {
       // To do API call to import map
-      sheetRef.current?.close();
+      console.log(results.uri);
+      closeSheet();
     }
   }
 
   return (
     <React.Fragment>
       <ScrollView style={styles.container}>
-        <Button
-          style={[styles.button]}
-          variant="outlined"
-          onPress={() => sheetRef.current?.snapTo(1)}
-        >
+        <Button style={[styles.button]} variant="outlined" onPress={openSheet}>
           {t(m.addBGMap)}
         </Button>
 
@@ -118,51 +113,28 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
         )}
       </ScrollView>
 
-      <BottomSheet
-        snapPoints={snapPoints}
+      <BottomSheetModal
+        disableBackrop={false}
+        onDismiss={closeSheet}
         ref={sheetRef}
-        backdropComponent={BottomSheetBackdrop}
-        handleComponent={() => null}
+        onHardwareBackPress={closeSheet}
       >
-        <View
-          onLayout={e => {
-            const { height } = e.nativeEvent.layout;
-            setSnapPoints([0, height]);
-          }}
-          style={{ padding: 20 }}
-        >
-          <HeaderTitle style={{ textAlign: "center", marginTop: 20 }}>
-            {t(m.title)}
-          </HeaderTitle>
-
-          <TouchableOpacity
-            onPress={handleImportPress}
-            style={styles.importButton}
-          >
-            <React.Fragment>
-              <View style={styles.importTextAndIcon}>
-                <MaterialIcon
-                  name="file-upload"
-                  size={30}
-                  color={MEDIUM_GREY}
-                />
-                <Text style={styles.text}> {t(m.importFromFile)}</Text>
-              </View>
-              <Text style={[styles.text, { textAlign: "center" }]}>
-                {"( .mbtiles )"}
-              </Text>
-            </React.Fragment>
-          </TouchableOpacity>
-
-          <Button
-            fullWidth
-            variant="outlined"
-            onPress={() => sheetRef.current?.close()}
-          >
-            {t(m.close)}
-          </Button>
-        </View>
-      </BottomSheet>
+        <BottomSheetContent
+          buttonConfigs={[
+            {
+              variation: "filled",
+              onPress: handleImportPress,
+              text: t(m.importFromFile),
+            },
+            {
+              variation: "outlined",
+              onPress: closeSheet,
+              text: t(m.close),
+            },
+          ]}
+          title={t(m.addBGMap)}
+        />
+      </BottomSheetModal>
     </React.Fragment>
   );
 };
@@ -189,21 +161,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-  },
-  importButton: {
-    backgroundColor: LIGHT_GREY,
-    padding: 40,
-    marginTop: 20,
-    marginBottom: 20,
-    borderRadius: 5,
-  },
-  text: {
-    fontSize: 16,
-  },
-  importTextAndIcon: {
-    marginBottom: 20,
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "row",
   },
 });

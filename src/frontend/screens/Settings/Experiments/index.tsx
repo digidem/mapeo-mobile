@@ -42,10 +42,6 @@ const m = defineMessages({
     id: "screens.Settings.Experiments.title",
     defaultMessage: "Experiments",
   },
-  BGMaps: {
-    id: "screens.Settings.Experiments.BGMaps",
-    defaultMessage: "Background Maps",
-  },
 });
 
 const Experiments: NavigationStackScreenComponent = () => {
@@ -78,19 +74,6 @@ const Experiments: NavigationStackScreenComponent = () => {
             primary={<FormattedMessage {...m.directionalArrow} />}
             secondary={
               experiments.directionalArrow ? (
-                <FormattedMessage {...m.active} />
-              ) : (
-                <FormattedMessage {...m.inactive} />
-              )
-            }
-          />
-        </ListItem>
-        <ListItem onPress={() => navigate("BGMapsSettings")}>
-          <ListItemIcon iconName="map" />
-          <ListItemText
-            primary={<FormattedMessage {...m.BGMaps} />}
-            secondary={
-              experiments.backgroundMaps ? (
                 <FormattedMessage {...m.active} />
               ) : (
                 <FormattedMessage {...m.inactive} />
