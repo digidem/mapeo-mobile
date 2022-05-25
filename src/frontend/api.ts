@@ -193,6 +193,8 @@ function createMapServerApi() {
   let mapServerPort: number | undefined;
   let client: ReturnType<typeof createRequestClient> | undefined;
 
+  // This event occurs whenever the map server's start method is called,
+  // which can happen on app startup but also app resumes
   nodejs.channel.addListener(
     "map-server::start",
     (payload: { port: number }) => {
@@ -222,6 +224,52 @@ function createMapServerApi() {
 
   // TODO: Implement addMapServerStateListener and addMapServerErrorListener
   return {
+    // TODO: Probably should use some kind of status-related implementation similar to how the app server does it
+    ready: () => {
+      // TODO: Rely on the app server's status heartbeat to ping the map server and check its state
+      // This is a temporary measure since there is no server status implemented for the map server right now
+      const appServerStatusSubscription = nodejs.channel.addListener(
+        "status",
+        ({ value }: ServerStatusMessage) => {
+          if (
+            value === STATUS.LISTENING ||
+            value === STATUS.STARTING ||
+            value === STATUS.IDLE
+          ) {
+            nodejs.channel.post("map-server::get-state");
+          }
+        }
+      );
+
+      const readyPromise = new Promise<void>(resolve => {
+        const stateListenerSubscription = nodejs.channel.addListener(
+          "map-server::state",
+          state => {
+            if (state.value === "started") {
+              // @ts-expect-error
+              appServerStatusSubscription.remove();
+              // @ts-expect-error
+              stateListenerSubscription.remove();
+              resolve();
+            }
+          }
+        );
+      });
+
+      const mapServerReadyPromise = promiseTimeout(
+        readyPromise,
+        DEFAULT_TIMEOUT,
+        "Map server start timeout"
+      );
+
+      mapServerReadyPromise.catch(err => {
+        // @ts-expect-error
+        appServerStatusSubscription.remove();
+        bugsnag.notify(err);
+      });
+
+      return mapServerReadyPromise as Promise<void>;
+    },
     createStyle: async ({
       from, // mostly for convenience to get TS inference about valid params
       ...params
