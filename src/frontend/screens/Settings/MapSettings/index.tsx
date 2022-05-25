@@ -42,10 +42,10 @@ export const MapSettings: NavigationStackScreenComponent = () => {
   );
 };
 
-MapSettings.navigationOptions = {
+MapSettings.navigationOptions = ({ navigation }) => ({
   headerTitle: () => (
     <HeaderTitle>
       <FormattedMessage {...m.mapSettings} />
     </HeaderTitle>
   ),
-};
+});

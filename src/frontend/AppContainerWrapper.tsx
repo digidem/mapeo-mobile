@@ -23,6 +23,10 @@ import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
 import { devExperiments, featureFlagOn } from "./lib/DevExperiments";
 
+const AppContainer = devExperiments.onboarding
+  ? OnboardingContainer
+  : DefaultContainer;
+
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
@@ -31,7 +35,6 @@ const createNavigationStatePersister = () => async (
   navState: NavigationState
 ) => {
   if (featureFlagOn) return;
-
   try {
     await AsyncStorage.setItem(NAV_STORE_KEY, JSON.stringify(navState));
   } catch (err) {
@@ -95,7 +98,6 @@ const AppContainerWrapper = () => {
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
-  const { onboarding } = devExperiments;
 
   const updateRouteBasedAppState = React.useCallback(
     (routeName: string | null) => {
@@ -145,12 +147,7 @@ const AppContainerWrapper = () => {
             },
             persistNavigationState: createNavigationStatePersister(),
           },
-    [onboarding, updateRouteBasedAppState]
-  );
-
-  const AppContainer = React.useMemo(
-    () => (onboarding ? OnboardingContainer : DefaultContainer),
-    [onboarding]
+    [updateRouteBasedAppState]
   );
 
   /**
@@ -173,7 +170,7 @@ const AppContainerWrapper = () => {
 
   return (
     <PracticeMode
-      enabled={onboarding && !hidePracticeMode}
+      enabled={devExperiments.onboarding && !hidePracticeMode}
       hideBar={hidePracticeBar}
     >
       <AppContainer

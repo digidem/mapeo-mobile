@@ -47,13 +47,13 @@ export const DirectionalArrow: NavigationStackScreenComponent = () => {
       </Text>
 
       <View style={[styles.switchContainer]}>
-        <Text>
+        <Text style={[styles.text]}>
           <FormattedMessage {...m.useArrow} />
         </Text>
 
         <View
           onTouchStart={() => {
-            setExperiments("directionalArrow");
+            setExperiments("directionalArrow", !experiments.directionalArrow);
           }}
         >
           <MaterialIcon
