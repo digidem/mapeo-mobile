@@ -148,8 +148,6 @@ export const ListDivider = ({
   return (
     <ListItem
       disabled={true}
-      button={false}
-      onPress={() => {}}
       style={[
         {
           width: "100%",

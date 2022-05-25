@@ -35,7 +35,7 @@
   },
   "rules": {
     "react/prop-types": 0,
-    "react-native/no-unused-styles": 0,
+    "react-native/no-unused-styles": 2,
     "react/display-name": 0,
     "camelcase": 0,
     "lines-between-class-members": 0,
@@ -43,8 +43,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "react-native/no-raw-text": ["error", { "skip": ["Button"] }],
     "jest/no-disabled-tests": 0,
-    "flowtype/no-types-missing-file-annotation": 0,
-    "no-unused-vars":1,
+    "flowtype/no-types-missing-file-annotation": 0
   },
   "settings": {
     "react": {

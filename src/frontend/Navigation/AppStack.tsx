@@ -8,7 +8,7 @@ import {
 import { createStackNavigator } from "react-navigation-stack";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-import { MapScreen } from "../screens/MapScreen/MapScreen";
+import MapScreen from "../screens/MapScreen";
 import CameraScreen from "../screens/CameraScreen";
 import ObservationList from "../screens/ObservationsList";
 import Observation from "../screens/Observation";
@@ -48,7 +48,6 @@ import {
 import { MapSettings } from "../screens/Settings/MapSettings";
 import { BackgroundMaps } from "../screens/Settings/MapSettings/BackgroundMaps";
 import { OfflineAreas } from "../screens/Settings/MapSettings/OfflineAreas";
-import { BGMapsSettings } from "../screens/Settings/Experiments/BGMaps";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -114,7 +113,6 @@ export const AppStackMap: NavigationRouteConfigMap<
   MapSettings,
   BackgroundMaps,
   OfflineAreas,
-  BGMapsSettings,
 };
 
 export const stackNavConfig: CreateNavigatorConfig<

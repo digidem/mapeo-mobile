@@ -4,4 +4,13 @@ export const devExperiments: { [key: string]: boolean } = {
   mapSettings: process.env.FEATURE_MAP_SETTINGS === "true",
 };
 
-export const featureFlagOn = Object.values(devExperiments).some(value => value);
+const checkFeatureFlagOn = (featureObject: { [key: string]: boolean }) => {
+  for (const k in featureObject) {
+    if (featureObject[k]) {
+      return true;
+    }
+  }
+  return false;
+};
+
+export const featureFlagOn = checkFeatureFlagOn(devExperiments);

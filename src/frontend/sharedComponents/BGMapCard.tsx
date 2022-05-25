@@ -48,6 +48,9 @@ export const BGMapCard = ({
     "mapbox://styles/mapbox/streets-v11"
   );
   const [zoomLevel, setZoomLevel] = React.useState<number>(6);
+  const [centerCoordinate, setCenterCoordinate] = React.useState<
+    (number | undefined)[]
+  >([position?.coords.longitude, position?.coords.latitude]);
 
   function onPressDefault() {
     navigate("OfflineAreas", { mapId });
@@ -63,9 +66,15 @@ export const BGMapCard = ({
       // This should be min zoom. Where is this coming from?
       return 6;
     }
+    function getCenterCoordinate() {
+      // To do: API call to get center coordinate
+      // I believe this should come from the styleJSON `center` property
+      return [position?.coords.longitude, position?.coords.latitude];
+    }
 
     setStyleUrl(getStyleURL());
     setZoomLevel(getZoomLevel());
+    setCenterCoordinate(getCenterCoordinate());
   }, []);
 
   return (
@@ -82,14 +91,10 @@ export const BGMapCard = ({
         >
           <MapboxGL.Camera
             zoomLevel={zoomLevel}
-            centerCoordinate={
-              !!position
-                ? [position?.coords.longitude, position?.coords.latitude]
-                : [0, 0]
-            }
+            centerCoordinate={centerCoordinate}
             animationDuration={0}
             animationMode={"linearTo"}
-            allowUpdates={true}
+            allowUpdates={false}
           />
         </MapboxGL.MapView>
         <View style={[styles.textContainer]}>
@@ -108,7 +113,7 @@ const styles = StyleSheet.create({
   container: {
     borderColor: MEDIUM_GREY,
     borderWidth: 1,
-    borderRadius: 2,
+    borderRadius: 5,
     flexDirection: "row",
   },
   textContainer: {

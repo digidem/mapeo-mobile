@@ -11,7 +11,7 @@ import { LocationFollowingIcon, LocationNoFollowIcon } from "../icons";
 import IconButton from "../IconButton";
 import type { LocationContextType } from "../../context/LocationContext";
 import type { ObservationsMap } from "../../context/ObservationsContext";
-import { MapTypes } from "../../hooks/useMapStyle";
+import type { MapStyleType } from "../../hooks/useMapStyle";
 import { useIsFullyFocused } from "../../hooks/useIsFullyFocused";
 import bugsnag from "../../lib/logger";
 import config from "../../../config.json";
@@ -151,7 +151,7 @@ const ObservationMapLayer = ({
 type Props = {
   observations: ObservationsMap,
   styleURL: string | void,
-  styleType: MapTypes,
+  styleType: MapStyleType,
   location: LocationContextType,
   onPressObservation: (observationId: string) => any,
   isFocused: boolean,
@@ -305,7 +305,7 @@ class MapView extends React.Component<Props, State> {
     const currentZoom = this.zoomRef;
     this.setState(state => {
       const newZoom = (this.zoomRef =
-        styleType.type === "legacy" && styleType.legacyMapType === "fallback"
+        styleType === "fallback"
           ? Math.max(currentZoom, DEFAULT_ZOOM_FALLBACK_MAP)
           : Math.max(currentZoom, DEFAULT_ZOOM));
       return {
@@ -328,7 +328,7 @@ class MapView extends React.Component<Props, State> {
       location.provider && location.provider.locationServicesEnabled;
     return (
       <>
-        {styleURL === undefined || styleType.type === "loading" ? (
+        {styleURL === undefined || styleType === "loading" ? (
           <Loading />
         ) : (
           <MapboxGL.MapView
@@ -352,10 +352,7 @@ class MapView extends React.Component<Props, State> {
               bugsnag.leaveBreadcrumb("onDidFinishRenderingMap")
             }
             onDidFinishRenderingMapFully={() => {
-              if (
-                styleType.type === "legacy" &&
-                styleType.legacyMapType !== "fallback"
-              ) {
+              if (styleType !== "fallback") {
                 // For the fallback offline map (that does not contain much
                 // detail) we stay at zoom 4, but if we do load a style then we
                 // zoom in to zoom 12 once the map loads
@@ -393,9 +390,7 @@ class MapView extends React.Component<Props, State> {
                 observations={observations}
               />
             )}
-            {styleType.legacyMapType === "fallback" ? (
-              <OfflineMapLayers />
-            ) : null}
+            {styleType === "fallback" ? <OfflineMapLayers /> : null}
             {locationServicesEnabled ? (
               <UserLocation
                 visible={isFocused}
