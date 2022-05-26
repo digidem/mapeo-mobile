@@ -1,9 +1,11 @@
 import * as React from "react";
 import MapboxGL from "@react-native-mapbox-gl/maps";
+import ky from "ky";
 
 import api from "../api";
-import { useNetInfo } from "@react-native-community/netinfo";
 import { useExperiments } from "./useExperiments";
+import { normalizeStyleURL } from "../lib/mapbox";
+import config from "../../config.json";
 
 import { MapStyleContext, MapTypes } from "../context/MapStyleContext";
 
@@ -30,19 +32,23 @@ type MapStyleState =
     };
 
 function useLegacyStyle(): MapStyleState {
+  const [onlineState, setOnlineState] = React.useState<OnlineState>("unknown");
   const [customMapState, setCustomMapState] = React.useState<
     LegacyCustomMapState
   >("unknown");
-  // TODO (maybe): use onlineStyleURL as reachabilityUrl, so we use that to
-  // check online status. Would probably be a more expensive request than the
-  // default though (https://clients3.google.com/generate_204).
-  const { isInternetReachable } = useNetInfo();
-  const onlineState: OnlineState =
-    isInternetReachable === null
-      ? "unknown"
-      : isInternetReachable
-      ? "online"
-      : "offline";
+
+  React.useEffect(() => {
+    let didCancel = false;
+
+    ky.get(normalizeStyleURL(onlineStyleURL, config.mapboxAccessToken))
+      .json()
+      .then(() => didCancel || setOnlineState("online"))
+      .catch(() => didCancel || setOnlineState("offline"));
+
+    return () => {
+      didCancel = true;
+    };
+  }, []);
 
   React.useEffect(() => {
     let didCancel = false;
