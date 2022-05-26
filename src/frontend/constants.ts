@@ -1,6 +1,6 @@
 export const URI_PREFIX = "mapeo://";
 export const ERROR_STORE_KEY = "@MapeoError";
-export const NAV_STORE_KEY = "@MapeoNav";
+export const NAV_STORE_KEY = "@MapeoNavigation@8";
 // We are using RN_SRC_EXT to do this because in the future we might want to
 // mock some files for e2e testing, as described in
 // https://github.com/wix/Detox/blob/master/docs/Guide.Mocking.md

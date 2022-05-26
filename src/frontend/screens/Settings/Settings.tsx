@@ -2,6 +2,7 @@ import * as React from "react";
 import { FormattedMessage, defineMessages } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "react-navigation-hooks";
+import { useExperiments } from "../../hooks/useExperiments";
 import { devExperiments } from "../../lib/DevExperiments";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
@@ -106,7 +107,8 @@ const m = defineMessages({
 
 const Settings = () => {
   const { navigate } = useNavigation();
-  const { appPasscode, mapSettings } = devExperiments;
+
+  const [experiments] = useExperiments();
   return (
     <ScrollView>
       <List testID="settingsList">
@@ -130,7 +132,7 @@ const Settings = () => {
             secondary={<FormattedMessage {...m.projectConfigDesc} />}
           ></ListItemText>
         </ListItem>
-        {mapSettings && (
+        {experiments.backgroundMaps && (
           <ListItem
             onPress={() => navigate("MapSettings")}
             testID="settingsMapSettings"
@@ -173,7 +175,7 @@ const Settings = () => {
           ></ListItemText>
         </ListItem>
 
-        {appPasscode && (
+        {devExperiments.appPasscode && (
           <ListItem onPress={() => navigate("Security")}>
             <ListItemIcon iconName="security" />
             <ListItemText

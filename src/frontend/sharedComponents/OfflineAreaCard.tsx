@@ -146,9 +146,9 @@ export const OfflineAreaCard = ({
 const styles = StyleSheet.create({
   container: {
     borderColor: LIGHT_GREY,
-    borderWidth: 1,
+    borderWidth: 2,
     padding: 10,
-    borderRadius: 6,
+    borderRadius: 2,
   },
   text: {
     fontSize: 16,

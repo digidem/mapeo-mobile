@@ -18,13 +18,13 @@ export type SettingsState = {
   experiments: {
     p2pUpgrade: boolean;
     directionalArrow: boolean;
+    backgroundMaps: boolean;
   };
 };
 
-type SettingsContextType = readonly [
+type SettingsContextType = [
   SettingsState,
-  (key: keyof SettingsState, value: any) => void,
-  (key: keyof SettingsState["experiments"], value?: boolean) => void
+  (key: keyof SettingsState, value: any) => void
 ];
 
 const DEFAULT_SETTINGS: SettingsState = {
@@ -32,12 +32,12 @@ const DEFAULT_SETTINGS: SettingsState = {
   experiments: {
     p2pUpgrade: false,
     directionalArrow: false,
+    backgroundMaps: false,
   },
 };
 
 const SettingsContext = React.createContext<SettingsContextType>([
   DEFAULT_SETTINGS,
-  () => {},
   () => {},
 ]);
 
@@ -53,30 +53,12 @@ export const SettingsProvider = ({ children }: React.PropsWithChildren<{}>) => {
     [setState]
   );
 
-  /**
-   * @typedef {SettingsContextType[2]} setExperiment
-   * @param key The key of the experiment to toggle
-   * @param value The value to set the experiment to. If not provided the value will be toggled
-   * @description Sets the value of the experiment to the provided value or toggles it if no value is provided
-   */
-  const setExperiments: SettingsContextType[2] = React.useCallback(
-    (key, value) =>
-      setState(prev => ({
-        ...prev,
-        experiments: {
-          ...prev.experiments,
-          [key]: value === undefined ? !prev.experiments[key] : value,
-        },
-      })),
-    [setState]
-  );
-
   const contextValue: SettingsContextType = React.useMemo(() => {
     // If we add any new properties to the settings state, they will be
     // undefined in a users' persisted state, so we merge in the defaults
     const mergedState = merge({}, DEFAULT_SETTINGS, state);
-    return [mergedState, setSettings, setExperiments];
-  }, [state, setSettings, DEFAULT_SETTINGS]);
+    return [mergedState, setSettings];
+  }, [state, setSettings]);
 
   return (
     <SettingsContext.Provider value={contextValue}>
