@@ -12,6 +12,7 @@ import { StyleJSON } from "@mapeo/map-server/dist/lib/stylejson";
 import { TileJSON } from "@mapeo/map-server/dist/lib/tilejson";
 
 import STATUS from "../backend/constants";
+import type { ServerStartupConfig } from "../shared-types";
 import { Preset, Field, Metadata, Messages } from "./context/ConfigContext";
 import type { DraftPhoto } from "./context/DraftObservationContext";
 import { ClientGeneratedObservation } from "./context/ObservationsContext";
@@ -436,11 +437,26 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       : undefined),
     // Start server, returns a promise that resolves when the server is ready
     // or rejects if there is an error starting the server
-    startServer: () => {
+    startServer: async () => {
       // The server might already be started - request current status
       nodejs.channel.post("request-status");
       bugsnag.leaveBreadcrumb("Starting Mapeo Core");
-      nodejs.start("loader.js");
+      const config: ServerStartupConfig = {
+        sharedStorage: RNFS.ExternalDirectoryPath,
+        privateCacheStorage: RNFS.CachesDirectoryPath,
+        apkFilepath: AppInfo.sourceDir,
+        sdkVersion: await DeviceInfo.getApiLevel(),
+        supportedAbis: await DeviceInfo.supportedAbis(),
+        version: DeviceInfo.getVersion(),
+        buildNumber: DeviceInfo.getBuildNumber(),
+        bundleId: DeviceInfo.getBundleId(),
+        isDev: __DEV__,
+      };
+      let nodejsCommand = "loader.js";
+      for (const [key, value] of Object.entries(config)) {
+        nodejsCommand += ` --${key} ${value}`;
+      }
+      nodejs.startWithArgs(nodejsCommand);
       const serverStartPromise = new Promise<void>(resolve => {
         // nodejs-mobile-react-native channel extends React Native's EventEmitter
         //   - https://code.janeasystems.com/nodejs-mobile/react-native/bridge
@@ -456,18 +472,6 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
         bugsnag.leaveBreadcrumb("Mapeo Core started");
         // Start monitoring for timeout
         restartTimeout();
-        // As soon as we hear from the Node process, send the storagePath and
-        // other config that the server requires
-        nodejs.channel.post("config", {
-          sharedStorage: RNFS.ExternalDirectoryPath,
-          privateCacheStorage: RNFS.CachesDirectoryPath,
-          apkFilepath: AppInfo.sourceDir,
-          deviceInfo: {
-            sdkVersion: await DeviceInfo.getApiLevel(),
-            supportedAbis: await DeviceInfo.supportedAbis(),
-          },
-          isDev: __DEV__,
-        });
         // Resolve once the server reports status as "LISTENING"
         return onReady();
       });

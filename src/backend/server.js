@@ -9,6 +9,7 @@ const createMapeoRouter = require("mapeo-server");
 const debug = require("debug");
 const mkdirp = require("mkdirp");
 const rnBridge = require("rn-bridge");
+const Bugsnag = require("@bugsnag/js").default;
 const throttle = require("lodash/throttle");
 const fs = require("fs");
 const rimraf = require("rimraf");
@@ -17,7 +18,6 @@ const pump = require("pump");
 const semverCoerce = require("semver/functions/coerce");
 const { serializeError } = require("serialize-error");
 
-const main = require("./index");
 const MapServer = require("./mapServer");
 const UpgradeManager = require("./upgrade-manager");
 
@@ -26,14 +26,14 @@ const log = debug("mapeo-core:server");
 module.exports = createServer;
 
 /**
- * @param {object} options
- * @param {string} privateStorage Path to app-specific internal file storage
+ * @param {object} opts
+ * @param {string} opts.privateStorage Path to app-specific internal file storage
  *   folder (see https://developer.android.com/training/data-storage/app-specific).
  *   This folder cannot be accessed by other apps or the user via a computer connection.
- * @param {string} sharedStorage Path to app-specific external file storage folder
- * @param {string} privateCacheStorage Path to app-specific internal cache storage folder
- * @param {import('./upgrade-manager/types').DeviceInfo} deviceInfo sdkVersion and supportedAbis for current device
- * @param {import('./upgrade-manager/types').InstallerInt} currentApkInfo info about the currently running APK (see ./lib/types for documentation)
+ * @param {string} opts.sharedStorage Path to app-specific external file storage folder
+ * @param {string} opts.privateCacheStorage Path to app-specific internal cache storage folder
+ * @param {import('./upgrade-manager/types').DeviceInfo} opts.deviceInfo sdkVersion and supportedAbis for current device
+ * @param {import('./upgrade-manager/types').InstallerInt} opts.currentApkInfo info about the currently running APK (see ./lib/types for documentation)
  */
 function createServer({
   privateStorage,
@@ -125,9 +125,9 @@ function createServer({
     sendPeerUpdateToRN();
 
     function onerror(err) {
-      main.bugsnag.notify(err, {
-        severity: "error",
-        context: "sync",
+      Bugsnag.notify(err, event => {
+        event.severity = "error";
+        event.context = "sync";
       });
       sendPeerUpdateToRN();
       sync.removeListener("error", onerror);
@@ -163,9 +163,9 @@ function createServer({
 
   function onError(prefix, err) {
     if (!err) return;
-    main.bugsnag.notify(err, {
-      severity: "error",
-      context: prefix,
+    Bugsnag.notify(err, event => {
+      event.severity = "error";
+      event.context = prefix;
     });
     log(`error(${prefix}): ' + ${err.toString()}`);
   }
@@ -190,9 +190,9 @@ function createServer({
 
       rnBridge.channel.on("map-server::get-state", handleGetState);
     } catch (err) {
-      main.bugsnag.notify(err, {
-        severity: "error",
-        context: "map-server",
+      Bugsnag.notify(err, event => {
+        event.severity = "error";
+        event.context = "map-server";
       });
 
       log(`error initializing map-server: ${err.toString()}`);
@@ -317,9 +317,9 @@ function createServer({
         onState(state);
       });
     } catch (err) {
-      main.bugsnag.notify(err, {
-        severity: "error",
-        context: "p2p-upgrade",
+      Bugsnag.notify(err, event => {
+        event.severity = "error";
+        event.context = "p2p-upgrade";
       });
       log(`error initializing p2p-upgrade: ${err.toString()}`);
 
@@ -482,9 +482,9 @@ function createServer({
       log("Joining swarm", projectKey && projectKey.slice(0, 4));
       mapeoCore.sync.join(projectKey);
     } catch (e) {
-      main.bugsnag.notify(e, {
-        severity: "error",
-        context: "sync join",
+      Bugsnag.notify(e, event => {
+        event.severity = "error";
+        event.context = "sync join";
       });
     }
   }
@@ -494,9 +494,9 @@ function createServer({
       log("Leaving swarm", projectKey && projectKey.slice(0, 4));
       mapeoCore.sync.leave(projectKey);
     } catch (e) {
-      main.bugsnag.notify(e, {
-        severity: "error",
-        context: "sync leave",
+      Bugsnag.notify(e, event => {
+        event.severity = "error";
+        event.context = "sync leave";
       });
     }
   }
@@ -557,9 +557,9 @@ function createServer({
 
     const indexDb = level(indexDir);
     indexDb.on("error", err => {
-      main.bugsnag.notify(err, {
-        severity: "error",
-        context: "core",
+      Bugsnag.notify(err, event => {
+        event.severity = "error";
+        event.context = "core";
       });
     });
 
