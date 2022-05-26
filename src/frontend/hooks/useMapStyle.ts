@@ -1,16 +1,11 @@
 import * as React from "react";
 import MapboxGL from "@react-native-mapbox-gl/maps";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import api from "../api";
 import { useNetInfo } from "@react-native-community/netinfo";
-import ky from "ky";
-import { normalizeStyleURL } from "../lib/mapbox";
-import config from "../../config.json";
 import { useExperiments } from "./useExperiments";
 
 import { MapStyleContext, MapTypes } from "../context/MapStyleContext";
-import createPersistedState from "./usePersistedState";
 
 /** URL used for map style when no custom map and user is online */
 const onlineStyleURL = MapboxGL.StyleURL.Outdoors + "?" + Date.now();
@@ -20,113 +15,90 @@ const onlineStyleURL = MapboxGL.StyleURL.Outdoors + "?" + Date.now();
 const fallbackStyleURL = "asset://offline-style.json";
 
 type OnlineState = "unknown" | "online" | "offline";
-type LegacyCustomMapState =
-  | { state: "unknown" | "unavailable" }
-  | { state: "available"; id: string };
-
-function getStyleUrl(
-  onlineState: OnlineState,
-  customMapState: LegacyCustomMapState
-): { styleUrl: string | null; styleType: MapTypes } {
-  if (onlineState === "unknown" || customMapState.state === "unknown") {
-    return { styleType: "loading", styleUrl: null };
-  } else if (customMapState.state === "available") {
-    return {
-      styleType: "custom",
-      styleUrl: api.getMapStyleUrl(customMapState.id),
+type LegacyCustomMapState = "unknown" | "unavailable" | "available";
+type SetStyleId = (id: string) => void;
+type MapStyleState =
+  | {
+      styleUrl: null;
+      styleType: Extract<MapTypes, "loading">;
+      setStyleId: SetStyleId;
+    }
+  | {
+      styleUrl: string;
+      styleType: Exclude<MapTypes, "loading">;
+      setStyleId: SetStyleId;
     };
-  } else if (onlineState === "online") {
-    return { styleType: "online", styleUrl: onlineStyleURL };
-  } else {
-    return { styleType: "fallback", styleUrl: fallbackStyleURL };
-  }
-}
 
-function useLegacyStyle(
-  styleId: string = "default"
-): {
-  styleUrl: string | null;
-  styleType: MapTypes;
-  setStyleId: (id: string) => void;
-} {
-  const [onlineState, setOnlineState] = React.useState<OnlineState>("unknown");
+function useLegacyStyle(): MapStyleState {
   const [customMapState, setCustomMapState] = React.useState<
     LegacyCustomMapState
-  >({ state: "unknown" });
-
+  >("unknown");
+  // TODO (maybe): use onlineStyleURL as reachabilityUrl, so we use that to
+  // check online status. Would probably be a more expensive request than the
+  // default though (https://clients3.google.com/generate_204).
   const { isInternetReachable } = useNetInfo();
+  const onlineState: OnlineState =
+    isInternetReachable === null
+      ? "unknown"
+      : isInternetReachable
+      ? "online"
+      : "offline";
 
   React.useEffect(() => {
     let didCancel = false;
-
-    if (customMapState.state !== "unknown") return;
 
     api
-      .getMapStyle(styleId)
-      .then(
-        () =>
-          didCancel || setCustomMapState({ state: "available", id: styleId })
-      )
-      .catch(() => didCancel || setCustomMapState({ state: "unavailable" }));
+      .getMapStyle("default")
+      .then(() => didCancel || setCustomMapState("available"))
+      .catch(() => didCancel || setCustomMapState("unavailable"));
 
     return () => {
       didCancel = true;
     };
-  }, [customMapState]);
+  }, []);
 
-  React.useEffect(() => {
-    let didCancel = false;
-
-    if (onlineState !== "unknown") return;
-
-    ky.get(normalizeStyleURL(onlineStyleURL, config.mapboxAccessToken))
-      .json()
-      .then(() => didCancel || setOnlineState("online"))
-      .catch(() => didCancel || setOnlineState("offline"));
-
-    return () => {
-      didCancel = true;
+  return React.useMemo(() => {
+    const setStyleId = (id: string) => {
+      throw new Error("Cannot set styleId on legacy map");
     };
-  }, [onlineState]);
-
-  return React.useMemo(
-    () => ({
-      ...getStyleUrl(onlineState, customMapState),
-      setStyleId: (id: string) => {
-        throw new Error("Cannot set styleId on legacy map");
-      },
-    }),
-    [onlineState, customMapState]
-  );
+    if (onlineState === "unknown" || customMapState === "unknown") {
+      return { styleType: "loading", styleUrl: null, setStyleId };
+    } else if (customMapState === "available") {
+      return {
+        styleType: "custom",
+        styleUrl: api.getMapStyleUrl("default"),
+        setStyleId,
+      };
+    } else if (onlineState === "online") {
+      return { styleType: "online", styleUrl: onlineStyleURL, setStyleId };
+    } else {
+      return { styleType: "fallback", styleUrl: fallbackStyleURL, setStyleId };
+    }
+  }, [onlineState, customMapState]);
 }
 
-function useMapServerStyle(): {
-  styleUrl: string | null;
-  styleType: MapTypes;
-  setStyleId: (id: string) => void;
-} {
-  const [id, setId] = React.useContext(MapStyleContext);
+function useMapServerStyle(): MapStyleState {
+  const [styleId, setStyleId] = React.useContext(MapStyleContext);
 
-  return React.useMemo(
-    () => ({
-      styleUrl: id ? api.getMapStyleUrl(id) : null,
-      styleType: "mapServer",
-      setStyleId: setId,
-    }),
-    [id, setId]
-  );
+  return React.useMemo(() => {
+    if (typeof styleId !== "string") {
+      // TODO: Need to figure out default style when using new map server
+      return { styleType: "loading", styleUrl: null, setStyleId };
+    } else {
+      return {
+        styleType: "mapServer",
+        // TODO: When integrating I think this might be a different method?
+        styleUrl: api.getMapStyleUrl(styleId),
+        setStyleId,
+      };
+    }
+  }, [styleId, setStyleId]);
 }
 
-export function useMapStyle(
-  styleId: string = "default"
-): {
-  styleUrl: string | null;
-  styleType: MapTypes;
-  setStyleId: (id: string) => void;
-} {
+export function useMapStyle(styleId: string = "default"): MapStyleState {
   const [{ backgroundMaps }] = useExperiments();
 
-  const legacyStyleInfo = useLegacyStyle(styleId);
+  const legacyStyleInfo = useLegacyStyle();
   const mapServerInfo = useMapServerStyle();
 
   return backgroundMaps ? mapServerInfo : legacyStyleInfo;
