@@ -19,7 +19,7 @@ index 337de9b..636ef2b 100644
    private final ReactApplicationContext reactContext;
    private static final String TAG = "NODEJS-RN";
    private static final String NODEJS_PROJECT_DIR = "nodejs-project";
-+  private static final String NODEJS_ASSETS_DIR = "nodejs-assets"
++  private static final String NODEJS_ASSETS_DIR = "nodejs-assets";
    private static final String NODEJS_BUILTIN_MODULES = "nodejs-builtin_modules";
    private static final String TRASH_DIR = "nodejs-project-trash";
    private static final String SHARED_PREFS = "NODEJS_MOBILE_PREFS";
