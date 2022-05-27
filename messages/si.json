@@ -792,6 +792,19 @@
   "screens.Settings.MapSettings.mapSettings": {
     "message": "සිතියම් සැකසීම්"
   },
+  "screens.Settings.MapSettings.noAreas": {
+    "description": "Message to indicate to user that no offline areas have been downloaded",
+    "message": "බාගත කළ නොබැඳි ප්‍රදේශයක් නැත"
+  },
+  "screens.Settings.MapSettings.removeMap": {
+    "message": "සිතියම ඉවත් කරන්න"
+  },
+  "screens.Settings.MapSettings.subtitle": {
+    "message": "මෙම සිතියම සහ එයට අමුණා ඇති නොබැඳි ප්‍රදේශ මකා දැමෙනු ඇත. මෙය ආපසු හැරවිය නොහැක"
+  },
+  "screens.Settings.MapSettings.title": {
+    "message": "පසුබිම් සිතියම්"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "පහත ව්‍යාපෘතියක් සාදන්න හෝ සම්බන්ධ වන්න"
   },
@@ -902,6 +915,10 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "යෙදුම සඳහා සංදර්ශක භාෂාව"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "සිතියම් සැකසීම්"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -1077,6 +1094,57 @@
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
     "message": "අනපේක්‍ෂිත දෝෂයකි"
+  },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "වීදි මංසන්ධිය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "විස්තර මට්ටම"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "ලිපිනය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "නගරය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "ගෝලීය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "විශාල රට"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "විශාල මෙට්රොපොලිටන් ප්රදේශය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "කුඩා රට"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "කුඩා මාර්ගය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "වීදිය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "වීදි වාරණ"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "උපමහාද්වීපය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "නගරය"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "වසන්න"
