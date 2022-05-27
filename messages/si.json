@@ -691,6 +691,18 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Mapeo දත්ත ගබඩාවේ යම් දෙයක් තිබේ"
   },
+  "screens.Settings.Experiments.BGMaps": {
+    "message": "පසුබිම් සිතියම්"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMaps": {
+    "message": "පසුබිම් සිතියම්"
+  },
+  "screens.Settings.Experiments.BGMaps.goTo": {
+    "message": "වෙත යන්න"
+  },
+  "screens.Settings.Experiments.BGMaps.useBGMap": {
+    "message": "පසුබිම් සිතියම් විශේෂාංගය භාවිතා කරන්න"
+  },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "දිශානුගත ඊතලය"
   },
@@ -752,6 +764,33 @@
   "screens.Settings.ManagePeople.yourDevice": {
     "description": "Row label indicating details related to the user's device membership",
     "message": "(You) {deviceName}"
+  },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "පසුබිම් සිතියම එක් කරන්න"
+  },
+  "screens.Settings.MapSettings.OfflineArea": {
+    "message": "නොබැඳි ප්රදේශ"
+  },
+  "screens.Settings.MapSettings.backgroundMaps": {
+    "message": "පසුබිම් සිතියම්"
+  },
+  "screens.Settings.MapSettings.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.Settings.MapSettings.clearDiagrams": {
+    "message": "ඔබට රූප සටහන් හිස් කිරීමට අවශ්‍ය බව විශ්වාසද?"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "වසන්න"
+  },
+  "screens.Settings.MapSettings.dataLayers": {
+    "message": "දත්ත ස්ථර"
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "ගොනුව වෙතින් ආයාත කරන්න"
+  },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "සිතියම් සැකසීම්"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "පහත ව්‍යාපෘතියක් සාදන්න හෝ සම්බන්ධ වන්න"
@@ -1038,6 +1077,16 @@
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
     "message": "අනපේක්‍ෂිත දෝෂයකි"
+  },
+  "sharedComponents.BGMapSelector.close": {
+    "message": "වසන්න"
+  },
+  "sharedComponents.BGMapSelector.manageMaps": {
+    "message": "සිතියම් කළමනාකරණය කරන්න"
+  },
+  "sharedComponents.BGMapSelector.title": {
+    "description": "Title for the background map selector",
+    "message": "පසුබිම් සිතියම්"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "GPS නැත"
