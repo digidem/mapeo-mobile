@@ -797,6 +797,9 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(You) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMapTitle": {
+    "message": "Background Maps"
+  },
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Add Background Map"
   },
@@ -810,13 +813,21 @@
     "message": "Cancel"
   },
   "screens.Settings.MapSettings.clearDiagrams": {
-    "message": "Are you sure you want to clear diagrams?"
+    "message": "Are you sure you want to delete map?"
   },
   "screens.Settings.MapSettings.close": {
     "message": "Close"
   },
+  "screens.Settings.MapSettings.confirmDelete": {
+    "description": "Confirm delete map modal button",
+    "message": "Yes, Delete"
+  },
   "screens.Settings.MapSettings.dataLayers": {
     "message": "Data Layers"
+  },
+  "screens.Settings.MapSettings.deleteMapTitle": {
+    "description": "Title for the delete map modal",
+    "message": "Delete Map"
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Import from File"
@@ -833,9 +844,6 @@
   },
   "screens.Settings.MapSettings.subtitle": {
     "message": "This map and offline areas attached to it will be deleted. This cannot be undone"
-  },
-  "screens.Settings.MapSettings.title": {
-    "message": "Background Maps"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Create or join a project below"
@@ -1191,6 +1199,10 @@
   },
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Current Map"
+  },
+  "sharedComponents.BGMapCard.unamedStyle": {
+    "description": "The name for the default map style",
+    "message": "Unamed Style"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Close"
