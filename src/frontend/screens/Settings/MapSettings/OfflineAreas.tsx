@@ -96,7 +96,7 @@ export const OfflineAreas: NativeNavigationComponent<"OfflineAreas"> = ({
                       navigation.goBack();
                     })
                     .catch(err => {
-                      console.log(err + mapId);
+                      console.log(err);
                     });
                 }
               },

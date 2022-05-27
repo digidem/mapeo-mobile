@@ -128,6 +128,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
           <BGMapCard
             mapId={DEFAULT_MAP_ID}
             style={{ marginTop: 20 }}
+            onPress={() => {}}
             isSelected={styleUrl === defaultStyleUrl}
             styleUrl={defaultStyleUrl}
             mapTitle="Default Map"
