@@ -131,6 +131,7 @@ type UpgradeStateBase = {
 };
 type UpgradeStateNoError = UpgradeStateBase & WorkingServerState;
 type UpgradeStateError = UpgradeStateBase & ErrorServerState;
+export type MapServerState = WorkingServerState | ErrorServerState;
 export type UpgradeState = UpgradeStateNoError | UpgradeStateError;
 interface ApiParam {
   baseUrl: string;
@@ -273,7 +274,7 @@ function createMapServerApi() {
       return mapServerReadyPromise as Promise<void>;
     },
     addServerStateListener: (
-      handler: (state: WorkingServerState | ErrorServerState) => void
+      handler: (state: MapServerState) => void
     ): Subscription => {
       const stateSubscription = nodejs.channel.addListener(
         "map-server::state",
@@ -286,7 +287,7 @@ function createMapServerApi() {
         .then(() => nodejs.channel.post("map-server::get-state"))
         .catch(() => {});
 
-      function onState(serializedState: WorkingServerState | ErrorServerState) {
+      function onState(serializedState: MapServerState) {
         handler(
           // Deserialize error if it exists
           serializedState.value === "error"
@@ -432,9 +433,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     /**
      * Map server methods
      */
-    ...(devExperiments.mapSettings
-      ? { maps: createMapServerApi() }
-      : undefined),
+    maps: createMapServerApi(),
     // Start server, returns a promise that resolves when the server is ready
     // or rejects if there is an error starting the server
     startServer: async () => {

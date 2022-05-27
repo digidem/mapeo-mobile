@@ -20,31 +20,36 @@ const m = defineMessages({
     defaultMessage: "MB",
     description: "The abbreviation for megabyte",
   },
+  unamedStyle: {
+    id: "sharedComponents.BGMapCard.unamedStyle",
+    defaultMessage: "Unamed Style",
+    description: "The name for the default map style",
+  },
 });
 
 // ToDo: API calls to get styleURL, zoom level, center coordinate, etc.
 
 interface BGMapCardProps {
   mapId: string;
-  mapTitle: string;
-  mapSize: number;
+  mapTitle?: string;
   style?: ViewStyleProp;
+  styleUrl: string;
   onPress?: (() => void) | null;
+  isSelected: boolean;
 }
 
 export const BGMapCard = ({
-  mapSize,
   mapTitle,
   style,
+  isSelected,
+  styleUrl,
   onPress,
   mapId,
 }: BGMapCardProps) => {
   const { formatMessage: t } = useIntl();
   const { navigate } = useNavigationFromRoot();
   const { position } = React.useContext(LocationContext);
-  const [styleUrl, setStyleUrl] = React.useState<string>(
-    "mapbox://styles/mapbox/streets-v11"
-  );
+
   const [zoomLevel, setZoomLevel] = React.useState<number>(6);
 
   function onPressDefault() {
@@ -52,25 +57,25 @@ export const BGMapCard = ({
   }
 
   React.useEffect(() => {
-    function getStyleURL() {
-      // To do: API call to get styleURL
-      return MapboxGL.StyleURL.Street;
-    }
     function getZoomLevel() {
       // To do: API call to get zoom level
       // This should be min zoom. Where is this coming from?
       return 6;
     }
 
-    setStyleUrl(getStyleURL());
     setZoomLevel(getZoomLevel());
   }, []);
 
   return (
-    <TouchableOpacity onPress={onPress || onPressDefault}>
-      <View style={[styles.container, style]}>
+    <TouchableOpacity
+      style={[
+        { borderColor: MEDIUM_GREY, borderWidth: 1, borderRadius: 2 },
+        style,
+      ]}
+      onPress={onPress || onPressDefault}
+    >
+      <View style={[styles.container]}>
         <MapboxGL.MapView
-          // placeholder style URL
           styleURL={styleUrl}
           compassEnabled={false}
           zoomEnabled={false}
@@ -79,9 +84,9 @@ export const BGMapCard = ({
           style={[styles.map]}
         >
           <MapboxGL.Camera
-            zoomLevel={zoomLevel}
+            zoomLevel={0}
             centerCoordinate={
-              !!position
+              position
                 ? [position?.coords.longitude, position?.coords.latitude]
                 : [0, 0]
             }
@@ -91,11 +96,12 @@ export const BGMapCard = ({
           />
         </MapboxGL.MapView>
         <View style={[styles.textContainer]}>
-          <Text style={[styles.text, { fontWeight: "bold" }]}>{mapTitle}</Text>
-          <Text style={[styles.text]}>
-            {mapSize.toString() + t(m.abbrevMegabyte)}
+          <Text style={[styles.text, { fontWeight: "bold" }]}>
+            {mapTitle || t(m.unamedStyle)}
           </Text>
-          <Pill containerStyle={{ marginTop: 10 }} text={m.currentMap} />
+          {isSelected && (
+            <Pill containerStyle={{ marginTop: 10 }} text={m.currentMap} />
+          )}
         </View>
       </View>
     </TouchableOpacity>
@@ -108,6 +114,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 2,
     flexDirection: "row",
+    minHeight: 100,
   },
   textContainer: {
     padding: 10,

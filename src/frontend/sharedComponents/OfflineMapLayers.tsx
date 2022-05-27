@@ -1,5 +1,4 @@
-// @flow
-import React from "react";
+import * as React from "react";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 
 import riversSource from "mapeo-offline-map/dist/rivers.json";
@@ -8,7 +7,7 @@ import lakesSource from "mapeo-offline-map/dist/lakes.json";
 import landSource from "mapeo-offline-map/dist/land.json";
 import graticuleSource from "mapeo-offline-map/dist/graticule.json";
 
-const OfflineMapLayers = React.memo<{}>(() => (
+export const OfflineMapLayers = React.memo<{}>(() => (
   <>
     <MapboxGL.ShapeSource id={`rivers-source`} shape={riversSource} />
     <MapboxGL.ShapeSource id={`boundaries-source`} shape={boundariesSource} />
@@ -17,5 +16,3 @@ const OfflineMapLayers = React.memo<{}>(() => (
     <MapboxGL.ShapeSource id={`graticule-source`} shape={graticuleSource} />
   </>
 ));
-
-export default OfflineMapLayers;

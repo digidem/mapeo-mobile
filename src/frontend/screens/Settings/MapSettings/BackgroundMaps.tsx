@@ -2,7 +2,7 @@ import * as React from "react";
 import * as DocumentPicker from "expo-document-picker";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { LIGHT_GREY, MEDIUM_GREY } from "../../../lib/styles";
+import { LIGHT_GREY, MEDIUM_GREY, RED } from "../../../lib/styles";
 import { BGMapCard } from "../../../sharedComponents/BGMapCard";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import Button from "../../../sharedComponents/Button";
@@ -13,8 +13,11 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "../../../sharedComponents/Touchables";
 import {
   NativeNavigationComponent,
-  NativeRootNavigationProps,
 } from "../../../sharedTypes";
+import api from "../../../api";
+import { useMapStyle } from "../../../hooks/useMapStyle";
+
+export const DEFAULT_MAP_ID = "default";
 
 const m = defineMessages({
   addBGMap: {
@@ -29,8 +32,8 @@ const m = defineMessages({
     id: "screens.Settings.MapSettings.importFromFile",
     defaultMessage: "Import from File",
   },
-  title: {
-    id: "screens.Settings.MapSettings.title",
+  BackgroundMapTitle: {
+    id: "screens.Settings.MapSettings.BackgroundMapTitle",
     defaultMessage: "Background Maps",
   },
   noAreas: {
@@ -39,18 +42,30 @@ const m = defineMessages({
     description:
       "Message to indicate to user that no offline areas have been downloaded",
   },
+  deleteMapTitle: {
+    id: "screens.Settings.MapSettings.deleteMapTitle",
+    defaultMessage: "Delete Map",
+    description: "Title for the delete map modal",
+  },
+  confirmDelete: {
+    id: "screens.Settings.MapSettings.confirmDelete",
+    defaultMessage: "Yes, Delete",
+    description: "Confirm delete map modal button",
+  },
 });
 
 interface BackgroundMap {
-  size: number;
-  title: string;
-  mapId: string;
+  id: string;
+  name?: string;
+  url: string;
 }
 
 export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
   navigation,
 }) => {
   const sheetRef = React.useRef<BottomSheetMethods>(null);
+
+  const { styleUrl, defaultStyleUrl } = useMapStyle();
 
   const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
     0,
@@ -62,11 +77,19 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
   >();
 
   React.useEffect(() => {
-    // To do: get background map list from server
-    setBackgroundMapList([]);
+    api.maps
+      .getStyleList()
+      .then(list => setBackgroundMapList(list))
+      .catch(() => {
+        console.log("COULD NOT FETCH STYLES");
+      });
   }, []);
 
   const { formatMessage: t } = useIntl();
+
+  function openModal() {
+    sheetRef.current?.snapTo(1);
+  }
 
   async function handleImportPress() {
     const results = await DocumentPicker.getDocumentAsync();
@@ -78,31 +101,43 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
 
     if (results.type === "success") {
       // To do API call to import map
-      sheetRef.current?.close();
+
+      api.maps
+        .importTileset(results.uri)
+        .then(() => {
+          api.maps.getStyleList().then(list => setBackgroundMapList(list));
+        })
+        .catch(err => {
+          console.log("FAILED TO IMPORT", err);
+        })
+        .finally(() => {
+          sheetRef.current?.close();
+        });
     }
   }
 
   return (
     <React.Fragment>
       <ScrollView style={styles.container}>
-        <Button
-          style={[styles.button]}
-          variant="outlined"
-          onPress={() => sheetRef.current?.snapTo(1)}
-        >
+        <Button style={[styles.button]} variant="outlined" onPress={openModal}>
           {t(m.addBGMap)}
         </Button>
 
         {/* Default BG map card */}
-        <BGMapCard
-          mapId="D3f4U1t"
-          style={{ marginTop: 20 }}
-          mapSize={45}
-          mapTitle="Default Map"
-        />
+        {defaultStyleUrl && (
+          <BGMapCard
+            mapId={DEFAULT_MAP_ID}
+            style={{ marginTop: 20 }}
+            isSelected={styleUrl === defaultStyleUrl}
+            styleUrl={defaultStyleUrl}
+            mapTitle="Default Map"
+          />
+        )}
 
         {backgroundMapList === undefined ? (
-          <Loading />
+          <View style={{ marginTop: 40 }}>
+            <Loading />
+          </View>
         ) : backgroundMapList.length === 0 ? (
           <Text style={styles.noDownloads}>
             <FormattedMessage {...m.noAreas} />
@@ -110,10 +145,12 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
         ) : (
           backgroundMapList.map(bgMap => (
             <BGMapCard
-              key={bgMap.mapId}
-              mapId={bgMap.mapId}
-              mapSize={bgMap.size}
-              mapTitle={bgMap.title}
+              key={bgMap.id}
+              mapId={bgMap.id}
+              style={{ marginTop: 20 }}
+              styleUrl={bgMap.url}
+              isSelected={styleUrl === bgMap.url}
+              mapTitle={bgMap.name}
             />
           ))
         )}
@@ -133,7 +170,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
           style={{ padding: 20 }}
         >
           <HeaderTitle style={{ textAlign: "center", marginTop: 20 }}>
-            {t(m.title)}
+            {t(m.BackgroundMapTitle)}
           </HeaderTitle>
 
           <TouchableOpacity
@@ -168,7 +205,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
   );
 };
 
-BackgroundMaps.navTitle = m.title;
+BackgroundMaps.navTitle = m.BackgroundMapTitle;
 
 const styles = StyleSheet.create({
   button: {

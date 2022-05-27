@@ -1,6 +1,7 @@
 import * as React from "react";
 import { defineMessages, useIntl } from "react-intl";
-import { ScrollView, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import api from "../../../api";
 
 import { RED } from "../../../lib/styles";
 import {
@@ -10,8 +11,6 @@ import {
 } from "../../../sharedComponents/BottomSheetModal";
 import Button from "../../../sharedComponents/Button";
 import { ErrorIcon } from "../../../sharedComponents/icons";
-import Loading from "../../../sharedComponents/Loading";
-import { OfflineAreaCard } from "../../../sharedComponents/OfflineAreaCard";
 import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
@@ -29,7 +28,7 @@ const m = defineMessages({
   },
   clearDiagrams: {
     id: "screens.Settings.MapSettings.clearDiagrams",
-    defaultMessage: "Are you sure you want to clear diagrams?",
+    defaultMessage: "Are you sure you want to delete map?",
   },
   subtitle: {
     id: "screens.Settings.MapSettings.subtitle",
@@ -46,41 +45,19 @@ interface OfflineArea {
 
 export const OfflineAreas: NativeNavigationComponent<"OfflineAreas"> = ({
   route,
+  navigation
 }) => {
-  const bgMapId = React.useRef("");
   const { formatMessage: t } = useIntl();
 
   const { closeSheet, openSheet, sheetRef } = useBottomSheetModal({
     openOnMount: false,
   });
 
-  const [offlineAreaList, setOfflineAreaList] = React.useState<OfflineArea[]>();
-
-  React.useEffect(() => {
-    bgMapId.current = route.params.mapId;
-
-    // To Do Api call to get offline areas
-    function getAllOfflineAreas(mapId: string): OfflineArea[] {
-      return [
-        {
-          id: "1",
-          title: "Offline Area 1",
-          zoomLevel: 12,
-        },
-        {
-          id: "2",
-          title: "Offline Area 2",
-          zoomLevel: 7,
-        },
-      ];
-    }
-
-    setOfflineAreaList(getAllOfflineAreas(bgMapId.current));
-  }, [route.params.mapId]);
+  const { mapId } = route.params;
 
   return (
     <React.Fragment>
-      <ScrollView style={[styles.container]}>
+      {/* <ScrollView style={[styles.container]}>
         {offlineAreaList === undefined ? (
           <Loading />
         ) : (
@@ -93,7 +70,7 @@ export const OfflineAreas: NativeNavigationComponent<"OfflineAreas"> = ({
             />
           ))
         )}
-      </ScrollView>
+      </ScrollView> */}
 
       <Button style={styles.button} onPress={openSheet}>
         {t(m.removeMap)}
@@ -110,9 +87,18 @@ export const OfflineAreas: NativeNavigationComponent<"OfflineAreas"> = ({
             {
               variation: "filled",
               dangerous: true,
-              // To do API call to delete map
+
               onPress: () => {
-                closeSheet();
+                if (typeof mapId === "string") {
+                  api.maps
+                    .deleteStyle(mapId)
+                    .then(() => {
+                      navigation.goBack();
+                    })
+                    .catch(err => {
+                      console.log(err + mapId);
+                    });
+                }
               },
 
               text: t(m.removeMap),
@@ -145,5 +131,6 @@ const styles = StyleSheet.create({
     backgroundColor: RED,
     width: 280,
     marginBottom: 20,
+    marginTop: 40,
   },
 });
