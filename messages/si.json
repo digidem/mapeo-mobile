@@ -1146,6 +1146,20 @@
     "description": "Level of detail seen on map - can see most towns on map",
     "message": "නගරය"
   },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "ගම"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "විශාල කිරීමේ මට්ටම්"
+  },
+  "sharedComponents.BGMapCard.abbrevMegabyte": {
+    "description": "The abbreviation for megabyte",
+    "message": "MB"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "වත්මන් සිතියම"
+  },
   "sharedComponents.BGMapSelector.close": {
     "message": "වසන්න"
   },
