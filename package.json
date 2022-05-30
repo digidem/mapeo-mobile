@@ -24,7 +24,7 @@
     "lint": "eslint *.js \"src/**/*.js\"",
     "flow": "flow",
     "flow-typed": "flow-typed install -i dev",
-    "log": "adb logcat -v brief *:S NODEJS-MOBILE:V ReactNative:V ReactNativeJS:V",
+    "log": "adb logcat -v brief *:S NODEJS-MOBILE:V nodejs:V ReactNative:V ReactNativeJS:V",
     "dev-menu": "adb shell input keyevent 82",
     "prettier": "prettier --write \"src/**/*.js\"",
     "prettier:staged": "pretty-quick --staged",

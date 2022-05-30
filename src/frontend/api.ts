@@ -446,7 +446,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
         privateCacheStorage: RNFS.CachesDirectoryPath,
         apkFilepath: AppInfo.sourceDir,
         sdkVersion: await DeviceInfo.getApiLevel(),
-        supportedAbis: await DeviceInfo.supportedAbis(),
+        supportedAbis: (await DeviceInfo.supportedAbis()) as ServerStartupConfig["supportedAbis"],
         version: DeviceInfo.getVersion(),
         buildNumber: DeviceInfo.getBuildNumber(),
         bundleId: DeviceInfo.getBundleId(),
@@ -454,7 +454,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       };
       let nodejsCommand = "loader.js";
       for (const [key, value] of Object.entries(config)) {
-        nodejsCommand += ` --${key} ${value}`;
+        nodejsCommand += ` --${key}=${value}`;
       }
       nodejs.startWithArgs(nodejsCommand);
       const serverStartPromise = new Promise<void>(resolve => {
