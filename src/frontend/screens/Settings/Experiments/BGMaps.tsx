@@ -22,6 +22,11 @@ const m = defineMessages({
     id: "screens.Settings.Experiments.BGMaps.goTo",
     defaultMessage: "Go to",
   },
+  BGMapsDescription: {
+    id: "screens.Settings.Experiments.BGMaps.BGMapsDescription",
+    defaultMessage:
+      "Use the background maps features to change the map background seen in the mapview. This feature will allow you to upload a raster MBtiles file. Once the file is uploaded, you will be able to set the background map in the mapview and use it even if you are not connected to the internet.",
+  },
 });
 
 export const BGMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
@@ -39,18 +44,7 @@ export const BGMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
         <FormattedMessage {...m.BGMaps} />
       </Text>
       <Text style={[{ marginBottom: 20 }, styles.text]}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum. Sed ut perspiciatis
-      </Text>
-
-      <Text style={[styles.text]}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.
+        {t(m.BGMapsDescription)}
       </Text>
 
       <View style={[styles.switchContainer]}>
@@ -58,8 +52,8 @@ export const BGMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
           <FormattedMessage {...m.useBGMap} />
         </Text>
 
-        <View
-          onTouchStart={() => {
+        <TouchableOpacity
+          onPress={() => {
             setExperiments("backgroundMaps", !experiments.backgroundMaps);
           }}
         >
@@ -72,7 +66,7 @@ export const BGMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
             size={24}
             color="rgba(0, 0, 0, 0.54)"
           />
-        </View>
+        </TouchableOpacity>
       </View>
 
       {experiments.backgroundMaps && (
