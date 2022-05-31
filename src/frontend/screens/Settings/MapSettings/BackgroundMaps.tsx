@@ -16,6 +16,7 @@ import {
 } from "../../../sharedTypes";
 import api from "../../../api";
 import { useMapStyle } from "../../../hooks/useMapStyle";
+import { useDefaultStyleUrl } from "../../../hooks/useDefaultStyleUrl";
 
 export const DEFAULT_MAP_ID = "default";
 
@@ -52,7 +53,14 @@ const m = defineMessages({
     defaultMessage: "Yes, Delete",
     description: "Confirm delete map modal button",
   },
+  importError: {
+    id: "screens.Settings.MapSettings.importError",
+    defaultMessage: "Error Importing Map, please try a different file.",
+    description: "Error importing map warning",
+  },
 });
+
+type ModalContent = "import" | "loading" | "error";
 
 interface BackgroundMap {
   id: string;
@@ -65,7 +73,13 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
 }) => {
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
-  const { styleUrl, defaultStyleUrl } = useMapStyle();
+  const { styleUrl } = useMapStyle();
+
+  const defaultStyleUrl = useDefaultStyleUrl();
+
+  const [modalContent, setModalContent] = React.useState<ModalContent>(
+    "import"
+  );
 
   const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
     0,
@@ -80,8 +94,9 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
     api.maps
       .getStyleList()
       .then(list => setBackgroundMapList(list))
-      .catch(() => {
-        console.log("COULD NOT FETCH STYLES");
+      .catch(err => {
+        console.log("COULD NOT FETCH STYLES", err);
+        setBackgroundMapList([]);
       });
   }, []);
 
@@ -100,19 +115,17 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
     }
 
     if (results.type === "success") {
-      // To do API call to import map
-
-      api.maps
-        .importTileset(results.uri)
-        .then(() => {
-          api.maps.getStyleList().then(list => setBackgroundMapList(list));
-        })
-        .catch(err => {
-          console.log("FAILED TO IMPORT", err);
-        })
-        .finally(() => {
-          sheetRef.current?.close();
-        });
+      setModalContent("loading");
+      try {
+        await api.maps.importTileset(results.uri);
+        const list = await api.maps.getStyleList();
+        setBackgroundMapList(list);
+        setModalContent("import");
+        sheetRef.current?.close();
+      } catch (err) {
+        console.log("FAILED TO IMPORT", err);
+        setModalContent("error");
+      }
     }
   }
 
@@ -174,29 +187,45 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
             {t(m.BackgroundMapTitle)}
           </HeaderTitle>
 
-          <TouchableOpacity
-            onPress={handleImportPress}
-            style={styles.importButton}
-          >
-            <React.Fragment>
-              <View style={styles.importTextAndIcon}>
-                <MaterialIcon
-                  name="file-upload"
-                  size={30}
-                  color={MEDIUM_GREY}
-                />
-                <Text style={styles.text}> {t(m.importFromFile)}</Text>
-              </View>
-              <Text style={[styles.text, { textAlign: "center" }]}>
-                {"( .mbtiles )"}
+          {modalContent === "import" ? (
+            <TouchableOpacity
+              onPress={handleImportPress}
+              style={styles.importButton}
+            >
+              <React.Fragment>
+                <View style={styles.importTextAndIcon}>
+                  <MaterialIcon
+                    name="file-upload"
+                    size={30}
+                    color={MEDIUM_GREY}
+                  />
+                  <Text style={styles.text}> {t(m.importFromFile)}</Text>
+                </View>
+                <Text style={[styles.text, { textAlign: "center" }]}>
+                  {"( .mbtiles )"}
+                </Text>
+              </React.Fragment>
+            </TouchableOpacity>
+          ) : modalContent === "loading" ? (
+            <View style={{ padding: 40 }}>
+              <Loading />
+            </View>
+          ) : (
+            <View style={{ paddingVertical: 40 }}>
+              <Text style={{ fontSize: 16, textAlign: "center" }}>
+                {" "}
+                {t(m.importError)}{" "}
               </Text>
-            </React.Fragment>
-          </TouchableOpacity>
+            </View>
+          )}
 
           <Button
             fullWidth
             variant="outlined"
-            onPress={() => sheetRef.current?.close()}
+            onPress={() => {
+              setModalContent("import");
+              sheetRef.current?.close();
+            }}
           >
             {t(m.close)}
           </Button>

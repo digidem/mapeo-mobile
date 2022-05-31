@@ -67,12 +67,13 @@ export const BGMapCard = ({
   }, []);
 
   return (
-    <TouchableOpacity
+    // To do. When deletion is supported, conver this to a TouchableOpacity
+    // and make onPress={onPress || onPressDefault}
+    <View
       style={[
         { borderColor: MEDIUM_GREY, borderWidth: 1, borderRadius: 2 },
         style,
       ]}
-      onPress={onPress || onPressDefault}
     >
       <View style={[styles.container]}>
         <MapboxGL.MapView
@@ -104,7 +105,7 @@ export const BGMapCard = ({
           )}
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

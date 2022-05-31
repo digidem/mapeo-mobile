@@ -21,6 +21,8 @@ import { OfflineMapLayers } from "../../sharedComponents/OfflineMapLayers";
 import api from "../../api";
 import { DEFAULT_MAP_ID } from "../Settings/MapSettings/BackgroundMaps";
 import { useMapServerState } from "../../hooks/useMapServerState";
+import { useDefaultStyleUrl } from "../../hooks/useDefaultStyleUrl";
+import { MapServerStyle } from "./MapScreen";
 
 const m = defineMessages({
   title: {
@@ -38,17 +40,11 @@ const m = defineMessages({
   },
 });
 
-// To do: We should get this all from one central place
-// Perhaps as a Seperate Module published on npm
-interface MapServerStyle {
-  id: string;
-  url: string;
-  name?: string;
-}
 interface MapSelectorProps {
   /** Should NOT come from `useBottomSheet()` */
   closeSheet: () => void;
   onMapSelected: (id: string) => void;
+  bgMapsList: MapServerStyle[] | null;
 }
 
 /** `ref` should NOT come from - `useBottomSheet()` */
@@ -63,7 +59,7 @@ export const BGMapSelector = React.forwardRef<
   const { navigate } = useNavigationFromRoot();
   const mapServerReady = useMapServerState();
 
-  const { defaultStyleUrl } = useMapStyle();
+  const defaultStyleUrl = useDefaultStyleUrl();
 
   const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
     0,
@@ -71,17 +67,6 @@ export const BGMapSelector = React.forwardRef<
   ]);
 
   const { formatMessage: t } = useIntl();
-
-  React.useEffect(() => {
-    async function getListStyles() {
-      console.log("Getting list of styles");
-      return setBgMapList(await api.maps.getStyleList());
-    }
-
-    if (mapServerReady) {
-      getListStyles();
-    }
-  }, [mapServerReady]);
 
   return (
     <BottomSheet
@@ -111,6 +96,7 @@ export const BGMapSelector = React.forwardRef<
             <React.Fragment>
               <TouchableOpacity
                 onPress={() => {
+                  closeSheet();
                   navigate("MapSettings");
                 }}
               >

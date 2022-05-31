@@ -75,7 +75,6 @@ export const MapStyleProvider: React.FC = ({ children }) => {
 
     if (backgroundMaps) {
       subscription = api.maps.addServerStateListener(({ value }) => {
-        console.log("SETTING STATE");
         setMapServerReady(value === "started");
       });
     }

@@ -2,6 +2,7 @@ import * as React from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { StyleSheet } from "react-native";
 import api from "../../../api";
+import { useMapStyle } from "../../../hooks/useMapStyle";
 
 import { RED } from "../../../lib/styles";
 import {
@@ -12,6 +13,9 @@ import {
 import Button from "../../../sharedComponents/Button";
 import { ErrorIcon } from "../../../sharedComponents/icons";
 import { NativeNavigationComponent } from "../../../sharedTypes";
+import Loading from "../../../sharedComponents/Loading";
+import { OfflineAreaCard } from "../../../sharedComponents/OfflineAreaCard";
+import { DEFAULT_MAP_ID } from "./BackgroundMaps";
 
 const m = defineMessages({
   title: {
@@ -55,6 +59,8 @@ export const OfflineAreas: NativeNavigationComponent<"OfflineAreas"> = ({
 
   const { mapId } = route.params;
 
+  const { styleId, setStyleId } = useMapStyle();
+
   return (
     <React.Fragment>
       {/* <ScrollView style={[styles.container]}>
@@ -88,16 +94,13 @@ export const OfflineAreas: NativeNavigationComponent<"OfflineAreas"> = ({
               variation: "filled",
               dangerous: true,
 
-              onPress: () => {
+              onPress: async () => {
                 if (typeof mapId === "string") {
-                  api.maps
-                    .deleteStyle(mapId)
-                    .then(() => {
-                      navigation.goBack();
-                    })
-                    .catch(err => {
-                      console.log(err);
-                    });
+                  try {
+                    await api.maps.deleteStyle(mapId);
+                    if (styleId === mapId) setStyleId(DEFAULT_MAP_ID);
+                  } catch (err) {
+                  }
                 }
               },
 

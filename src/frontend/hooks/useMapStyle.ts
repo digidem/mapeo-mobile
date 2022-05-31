@@ -1,11 +1,7 @@
 import * as React from "react";
-import MapboxGL from "@react-native-mapbox-gl/maps";
-import ky from "ky";
 
 import api from "../api";
 import { useExperiments } from "./useExperiments";
-import { normalizeStyleURL } from "../lib/mapbox";
-import config from "../../config.json";
 
 import {
   fallbackStyleURL,
@@ -16,21 +12,22 @@ import {
   onlineStyleURL,
 } from "../context/MapStyleContext";
 import { DEFAULT_MAP_ID } from "../screens/Settings/MapSettings/BackgroundMaps";
+import { useDefaultStyleUrl } from "./useDefaultStyleUrl";
 
 type LegacyCustomMapState = "unknown" | "unavailable" | "available";
 type SetStyleId = (id: string) => void;
 type MapStyleState =
   | {
       styleUrl: null | string;
-      defaultStyleUrl?: null | string;
-      styleType: Extract<MapTypes, "loading">;
+      styleType: Exclude<MapTypes, "mapServer">;
       setStyleId: SetStyleId;
+      styleId?: string;
     }
   | {
       styleUrl: null | string;
-      defaultStyleUrl?: null | string;
-      styleType: Exclude<MapTypes, "loading">;
+      styleType: Extract<MapTypes, "mapServer">;
       setStyleId: SetStyleId;
+      styleId: string;
     };
 
 function useLegacyStyle(onlineMapState: OnlineState): MapStyleState {
@@ -75,17 +72,14 @@ function useMapServerStyle({
   styleId,
   setStyleId,
   mapServerReady,
-  onlineMapState,
 }: MapStyleContextType): MapStyleState {
-  return React.useMemo(() => {
-    const defaultStyleUrl =
-      onlineMapState === "online" ? onlineStyleURL : fallbackStyleURL;
+  const defaultStyleUrl = useDefaultStyleUrl();
 
+  return React.useMemo(() => {
     if (!mapServerReady) {
       return {
         styleType: "loading",
         styleUrl: null,
-        defaultStyleUrl: null,
         setStyleId,
       };
     }
@@ -94,7 +88,6 @@ function useMapServerStyle({
       return {
         styleType: "loading",
         styleUrl: defaultStyleUrl,
-        defaultStyleUrl,
         setStyleId,
       };
     }
@@ -103,18 +96,18 @@ function useMapServerStyle({
       return {
         styleType: "mapServer",
         styleUrl: defaultStyleUrl,
-        defaultStyleUrl,
         setStyleId,
+        styleId,
       };
     }
 
     return {
       styleType: "mapServer",
       styleUrl: api.maps.getStyleUrl(styleId) || null,
-      defaultStyleUrl,
       setStyleId,
+      styleId,
     };
-  }, [styleId, setStyleId, mapServerReady, onlineMapState]);
+  }, [styleId, setStyleId, mapServerReady, defaultStyleUrl]);
 }
 
 export function useMapStyle(styleId: string = "default"): MapStyleState {

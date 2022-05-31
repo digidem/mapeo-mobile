@@ -18,7 +18,16 @@ import { MEDIUM_GREY } from "../../lib/styles";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useExperiments } from "../../hooks/useExperiments";
 import { NativeHomeTabsNavigationProps } from "../../sharedTypes";
+import api from "../../api";
+import { useMapServerState } from "../../hooks/useMapServerState";
 const log = debug("mapeo:MapScreen");
+
+export interface MapServerStyle {
+  id: string;
+  url: string;
+  name?: string;
+}
+
 
 export const MapScreen = ({
   navigation,
@@ -27,19 +36,40 @@ export const MapScreen = ({
   const { styleType, styleUrl, setStyleId } = useMapStyle();
 
   const [experiments] = useExperiments();
+  const mapServerReady = useMapServerState();
 
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
+  const [bgMapsList, setBgMapList] = React.useState<null | MapServerStyle[]>(
+    null
+  );
+
+  React.useEffect(() => {
+    if (mapServerReady) {
+      api.maps.getStyleList().then(setBgMapList);
+    }
+  }, [mapServerReady]);
+
   const [{ observations }] = React.useContext(ObservationsContext);
   const location = React.useContext(LocationContext);
+
+  async function openSheet() {
+    sheetRef.current?.snapTo(1);
+    if (mapServerReady) {
+      try {
+        const list = await api.maps.getStyleList();
+        setBgMapList(list);
+      } catch {
+        setBgMapList([]);
+      }
+    }
+  }
 
   const handleObservationPress = React.useCallback(
     (observationId: string) =>
       navigation.navigate("Observation", { observationId }),
     [navigation]
   );
-
-  console.log("RENDER");
 
   const handleAddPress = React.useCallback(() => {
     log("pressed add button");
@@ -63,8 +93,9 @@ export const MapScreen = ({
       <AddButton testID="addButtonMap" onPress={handleAddPress} />
       {experiments.backgroundMaps && (
         <React.Fragment>
-          <BGMapButton openSheet={() => sheetRef.current?.snapTo(1)} />
+          <BGMapButton openSheet={openSheet} />
           <BGMapSelector
+            bgMapsList={bgMapsList}
             onMapSelected={setStyleId}
             ref={sheetRef}
             closeSheet={() => sheetRef.current?.close()}
