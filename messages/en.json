@@ -729,6 +729,9 @@
   "screens.Settings.Experiments.BGMaps.BGMaps": {
     "message": "Background Maps"
   },
+  "screens.Settings.Experiments.BGMaps.BGMapsDescription": {
+    "message": "Use the background maps features to change the map background seen in the mapview. This feature will allow you to upload a raster MBtiles file. Once the file is uploaded, you will be able to set the background map in the mapview and use it even if you are not connected to the internet."
+  },
   "screens.Settings.Experiments.BGMaps.goTo": {
     "message": "Go to"
   },
