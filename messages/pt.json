@@ -646,6 +646,18 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Algo está acontecendo com a base de dados do Mapeo"
   },
+  "screens.Settings.Experiments.BGMaps": {
+    "message": "Mapas de fundo"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMaps": {
+    "message": "Mapas de fundo"
+  },
+  "screens.Settings.Experiments.BGMaps.goTo": {
+    "message": "Ir para"
+  },
+  "screens.Settings.Experiments.BGMaps.useBGMap": {
+    "message": "Usar recurso de mapa de fundo"
+  },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Seta direcional"
   },
@@ -1069,6 +1081,16 @@
   },
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Mapa atual"
+  },
+  "sharedComponents.BGMapSelector.close": {
+    "message": "Fechar"
+  },
+  "sharedComponents.BGMapSelector.manageMaps": {
+    "message": "Gerenciar mapas"
+  },
+  "sharedComponents.BGMapSelector.title": {
+    "description": "Title for the background map selector",
+    "message": "Mapas de fundo"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "Sem GPS"
