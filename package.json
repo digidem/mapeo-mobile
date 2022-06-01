@@ -41,7 +41,7 @@
     "test-detox-android": "RN_SRC_EXT=e2e detox test -c android.emu.release --device-launch-args=\"-dns-server 1.1.1.1\""
   },
   "dependencies": {
-    "@bugsnag/react-native": "^7.14.1",
+    "@bugsnag/react-native": "^7.16.7",
     "@digidem/wcmc-mapeo-mobile-intro": "^1.0.3",
     "@gorhom/bottom-sheet": "^2.3.0",
     "@react-native-async-storage/async-storage": "^1.15.14",
@@ -115,6 +115,7 @@
     "@babel/core": "~7.12.17",
     "@babel/preset-typescript": "^7.14.5",
     "@babel/runtime": "~7.12.18",
+    "@bugsnag/source-maps": "^2.3.1",
     "@digidem/extract-react-intl-messages": "^2.0.2",
     "@mapeo/map-server": "^1.0.0-alpha.4",
     "@react-native-community/cli": "^6.2.0",

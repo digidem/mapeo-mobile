@@ -48,6 +48,7 @@ async function init(config) {
   } = config;
 
   const variant = bundleId.endsWith("icca") ? "icca" : "mapeo";
+  // If changing this, also change in android/app/build.gradle
   const releaseStage =
     isDev || bundleId.endsWith("debug")
       ? "development"
@@ -60,24 +61,23 @@ async function init(config) {
     apiKey: BUGSNAG_API_KEY,
     releaseStage,
     appVersion: version,
+    // If changing this, also change in android/app/src/main/AndroidManifest.xml
     enabledReleaseStages: ["production", "rc", "internal"],
     appType: "android_node",
     metadata: { variant },
     onUncaughtException: error => {
       log("uncaughtException", error);
-      status &&
-        status.setState(constants.ERROR, {
-          error,
-          context: "uncaughtException",
-        });
+      status.setState(constants.ERROR, {
+        error,
+        context: "uncaughtException",
+      });
     },
     onUnhandledRejection: error => {
       log("unhandledRejection", error);
-      status &&
-        status.setState(constants.ERROR, {
-          error,
-          context: "unhandledRejection",
-        });
+      status.setState(constants.ERROR, {
+        error,
+        context: "unhandledRejection",
+      });
     },
   });
 
@@ -169,8 +169,9 @@ async function init(config) {
  * @returns {'production' | 'rc' | 'internal'}
  */
 function parseReleaseStage(version) {
-  const prereleaseComponents = semverPrerelease(version);
-  if (!prereleaseComponents) return "production";
-  if (prereleaseComponents[0] === "rc") return "rc";
+  // If changing this, also change in android/app/build.gradle
+  const prc = semverPrerelease(version);
+  if (!prc) return "production";
+  if (typeof prc[0] === "string" && prc[0].toLowerCase() === "rc") return "rc";
   return "internal";
 }
