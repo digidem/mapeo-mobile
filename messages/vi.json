@@ -688,6 +688,18 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Có gì đó không ổn với dữ liệu Mapeo"
   },
+  "screens.Settings.Experiments.BGMaps": {
+    "message": "Bản đồ nền"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMaps": {
+    "message": "Bản đồ nền"
+  },
+  "screens.Settings.Experiments.BGMaps.goTo": {
+    "message": "Đi đến"
+  },
+  "screens.Settings.Experiments.BGMaps.useBGMap": {
+    "message": "Sử dụng tính năng bản đồ nền"
+  },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Mũi tên định hướng"
   },
@@ -742,6 +754,18 @@
   "screens.Settings.ManagePeople.yourDevice": {
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Bạn) {deviceName}"
+  },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "Thêm Bản đồ nền"
+  },
+  "screens.Settings.MapSettings.OfflineArea": {
+    "message": "Khu vực ngoại tuyến"
+  },
+  "screens.Settings.MapSettings.backgroundMaps": {
+    "message": "Bản đồ nền"
+  },
+  "screens.Settings.MapSettings.cancel": {
+    "message": "Hủy"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Tạo mới hoặc tham gia một dự án dưới đây"
@@ -1021,6 +1045,16 @@
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
     "message": "Lỗi bất thường"
+  },
+  "sharedComponents.BGMapSelector.close": {
+    "message": "Đóng"
+  },
+  "sharedComponents.BGMapSelector.manageMaps": {
+    "message": "Quản lý Bản đồ"
+  },
+  "sharedComponents.BGMapSelector.title": {
+    "description": "Title for the background map selector",
+    "message": "Bản đồ nền"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "Không có GPS"
