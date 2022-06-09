@@ -767,6 +767,34 @@
   "screens.Settings.MapSettings.cancel": {
     "message": "Hủy"
   },
+  "screens.Settings.MapSettings.clearDiagrams": {
+    "message": "Bạn có chắc chắn muốn xóa sơ đồ không?"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "Đóng"
+  },
+  "screens.Settings.MapSettings.dataLayers": {
+    "message": "Các lớp dữ liệu"
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "Nhập từ file"
+  },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "Cài đặt bản đồ"
+  },
+  "screens.Settings.MapSettings.noAreas": {
+    "description": "Message to indicate to user that no offline areas have been downloaded",
+    "message": "Không có khu vực ngoại tuyến được tải xuống"
+  },
+  "screens.Settings.MapSettings.removeMap": {
+    "message": "Gỡ bỏ bản đồ"
+  },
+  "screens.Settings.MapSettings.subtitle": {
+    "message": "Bản đồ này và các khu vực ngoại tuyến liên quan sẽ bị xóa. Việc này không thể hoàn tác được"
+  },
+  "screens.Settings.MapSettings.title": {
+    "message": "Bản đồ nền"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Tạo mới hoặc tham gia một dự án dưới đây"
   },
@@ -877,6 +905,10 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "Ngôn ngữ hiển thị cho ứng dụng"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "Cài đặt bản đồ"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -1045,6 +1077,71 @@
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
     "message": "Lỗi bất thường"
+  },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "Giao lộ"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "Mức độ chi tiết"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "Địa chỉ"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "Thành phố"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "Toàn cầu"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "Quốc gia lớn"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "Khu vực đô thị lớn"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "Quốc gia nhỏ"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "Đường nhỏ"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "Phố"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "Khối phố"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "Tiểu lục địa"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "Thị xã/thị trấn"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "Thôn/bản"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "Mức độ phóng to"
+  },
+  "sharedComponents.BGMapCard.abbrevMegabyte": {
+    "description": "The abbreviation for megabyte",
+    "message": "MB"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "Bản đồ hiện tại"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Đóng"
