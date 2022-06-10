@@ -688,6 +688,18 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "กำลังเชื่อมต่อกับฐานข้อมูล Mapeo"
   },
+  "screens.Settings.Experiments.BGMaps": {
+    "message": "ภาพพื้นหลังแผนที่"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMaps": {
+    "message": "ภาพพื้นหลังแผนที่"
+  },
+  "screens.Settings.Experiments.BGMaps.goTo": {
+    "message": "ไปที่"
+  },
+  "screens.Settings.Experiments.BGMaps.useBGMap": {
+    "message": "ใช้ภาพพื้นหลังแผนที่"
+  },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "ใช้ลูกศรทิศทาง"
   },
@@ -1144,6 +1156,16 @@
   },
   "sharedComponents.BGMapCard.currentMap": {
     "message": "แผนที่ปัจจุบัน"
+  },
+  "sharedComponents.BGMapSelector.close": {
+    "message": "ปิด"
+  },
+  "sharedComponents.BGMapSelector.manageMaps": {
+    "message": "จัดการแผนที่"
+  },
+  "sharedComponents.BGMapSelector.title": {
+    "description": "Title for the background map selector",
+    "message": "ภาพพื้นหลังแผนที่"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "ไม่มีสัญญาณ GPS"
