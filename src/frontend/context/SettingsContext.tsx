@@ -1,5 +1,6 @@
 import * as React from "react";
 import merge from "lodash/merge";
+import Bugsnag from "@bugsnag/react-native";
 
 import createPersistedState from "../hooks/usePersistedState";
 
@@ -59,6 +60,23 @@ export const SettingsProvider = ({ children }: React.PropsWithChildren<{}>) => {
     const mergedState = merge({}, DEFAULT_SETTINGS, state);
     return [mergedState, setSettings];
   }, [state, setSettings]);
+
+  // Track feature flags in Bugsnag
+  React.useEffect(
+    () => {
+      for (const [key, value] of Object.entries(state.experiments)) {
+        // Not tracking each value to see if it has changed, assuming that this
+        // is not a costly operation to run unnecessarily
+        if (value) {
+          Bugsnag.addFeatureFlag(key);
+        } else {
+          Bugsnag.clearFeatureFlag(key);
+        }
+      }
+    },
+    // Re-run effect if any of the experiments change
+    Object.values(state.experiments)
+  );
 
   return (
     <SettingsContext.Provider value={contextValue}>
