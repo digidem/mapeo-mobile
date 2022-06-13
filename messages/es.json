@@ -158,7 +158,7 @@
     "message": "Traer ({observationCount}) {observationCount, plural, one {observación} other {observaciones}} del modo de práctica al proyecto?"
   },
   "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
-    "message": "Abandonar modo de práctica"
+    "message": "Dejar modo de práctica"
   },
   "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
     "message": "Seleccione una de las opciones"
