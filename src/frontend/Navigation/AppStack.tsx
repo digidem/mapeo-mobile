@@ -1,9 +1,14 @@
 import React from "react";
 import { createBottomTabNavigator } from "react-navigation-tabs";
+import {
+  CreateNavigatorConfig,
+  NavigationRouteConfigMap,
+  NavigationStackRouterConfig,
+} from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-import MapScreen from "../screens/MapScreen";
+import { MapScreen } from "../screens/MapScreen/MapScreen";
 import CameraScreen from "../screens/CameraScreen";
 import ObservationList from "../screens/ObservationsList";
 import Observation from "../screens/Observation";
@@ -35,6 +40,15 @@ import { Security } from "../screens/Security";
 import { AppPasscode } from "../screens/AppPasscode";
 import { DirectionalArrow } from "../screens/Settings/Experiments/DirectionalArrow";
 import { P2pUpgrade } from "../screens/Settings/Experiments/P2pUpgrade";
+import {
+  StackNavigationConfig,
+  StackNavigationOptions,
+  StackNavigationProp,
+} from "react-navigation-stack/lib/typescript/src/vendor/types";
+import { MapSettings } from "../screens/Settings/MapSettings";
+import { BackgroundMaps } from "../screens/Settings/MapSettings/BackgroundMaps";
+import { OfflineAreas } from "../screens/Settings/MapSettings/OfflineAreas";
+import { BGMapsSettings } from "../screens/Settings/Experiments/BGMaps";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -64,56 +78,69 @@ const HomeTabs = createBottomTabNavigator(
   }
 );
 
-export const AppStack = createStackNavigator(
-  {
-    Home: HomeTabs,
-    GpsModal: GpsModal,
-    SyncModal: SyncModal,
-    Settings: Settings,
-    ProjectConfig: ProjectConfig,
-    AboutMapeo,
-    LanguageSettings,
-    CoordinateFormat,
-    Experiments,
-    PhotosModal: PhotosModal,
-    CategoryChooser: CategoryChooser,
-    AddPhoto: AddPhoto,
-    ObservationList: ObservationList,
-    Observation: Observation,
-    ObservationEdit: ObservationEdit,
-    ManualGpsScreen: ManualGpsScreen,
-    ObservationDetails: ObservationDetails,
-    LeaveProjectScreen: LeaveProjectScreen,
-    AlreadyOnProj: AlreadyOnProj,
-    AddToProject: AddToProjectScreen,
-    UnableToLink: UnableToLinkScreen,
-    JoinProjectQr: JoinProjectQrScreen,
-    ConnectingToDevice: ConnectingToDeviceScreen,
-    ConfirmLeavePracticeMode: ConfirmLeavePracticeModeScreen,
-    CreateProject: CreateProjectScreen,
-    Security: Security,
-    AppPasscode: AppPasscode,
-    DirectionalArrow,
-    P2pUpgrade,
-  },
-  {
-    initialRouteName: "Home",
-    // TODO iOS: Dynamically set transition mode to modal for modals
-    mode: "card",
-    headerMode: "screen",
-    defaultNavigationOptions: {
-      headerStyle: {
-        height: 60,
-      },
-      // We use a slightly larger back icon, to improve accessibility
-      // TODO iOS: This should probably be a chevron not an arrow
-      headerLeft: props => <CustomHeaderLeft {...props} />,
-      headerTitleStyle: {
-        marginHorizontal: 0,
-      },
-      cardStyle: {
-        backgroundColor: "#ffffff",
-      },
+export const AppStackMap: NavigationRouteConfigMap<
+  StackNavigationOptions,
+  StackNavigationProp
+> = {
+  Home: HomeTabs,
+  GpsModal: GpsModal,
+  SyncModal: SyncModal,
+  Settings: Settings,
+  ProjectConfig: ProjectConfig,
+  AboutMapeo,
+  LanguageSettings,
+  CoordinateFormat,
+  Experiments,
+  PhotosModal: PhotosModal,
+  CategoryChooser: CategoryChooser,
+  AddPhoto: AddPhoto,
+  ObservationList: ObservationList,
+  Observation: Observation,
+  ObservationEdit: ObservationEdit,
+  ManualGpsScreen: ManualGpsScreen,
+  ObservationDetails: ObservationDetails,
+  LeaveProjectScreen: LeaveProjectScreen,
+  AlreadyOnProj: AlreadyOnProj,
+  AddToProject: AddToProjectScreen,
+  UnableToLink: UnableToLinkScreen,
+  JoinProjectQr: JoinProjectQrScreen,
+  ConnectingToDevice: ConnectingToDeviceScreen,
+  ConfirmLeavePracticeMode: ConfirmLeavePracticeModeScreen,
+  CreateProject: CreateProjectScreen,
+  Security: Security,
+  AppPasscode: AppPasscode,
+  DirectionalArrow,
+  P2pUpgrade,
+  MapSettings,
+  BackgroundMaps,
+  OfflineAreas,
+  BGMapsSettings,
+};
+
+export const stackNavConfig: CreateNavigatorConfig<
+  StackNavigationConfig,
+  NavigationStackRouterConfig,
+  StackNavigationOptions,
+  StackNavigationProp
+> = {
+  initialRouteName: "Home",
+  // TODO iOS: Dynamically set transition mode to modal for modals
+  mode: "card",
+  headerMode: "screen",
+  defaultNavigationOptions: {
+    headerStyle: {
+      height: 60,
     },
-  }
-);
+    // We use a slightly larger back icon, to improve accessibility
+    // TODO iOS: This should probably be a chevron not an arrow
+    headerLeft: props => <CustomHeaderLeft {...props} />,
+    headerTitleStyle: {
+      marginHorizontal: 0,
+    },
+    cardStyle: {
+      backgroundColor: "#ffffff",
+    },
+  },
+};
+
+export const AppStack = createStackNavigator(AppStackMap, stackNavConfig);

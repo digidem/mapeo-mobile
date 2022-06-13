@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     alignItems: "center",
-    margin: 20,
+    margin: 15,
   },
   text: { fontSize: 18 },
   bold: { fontWeight: "700" },

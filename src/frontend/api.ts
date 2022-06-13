@@ -8,8 +8,11 @@ import flatten from "flat";
 import DeviceInfo from "react-native-device-info";
 import { Observation } from "mapeo-schema";
 import { deserializeError } from "serialize-error";
+import { StyleJSON } from "@mapeo/map-server/dist/lib/stylejson";
+import { TileJSON } from "@mapeo/map-server/dist/lib/tilejson";
 
 import STATUS from "../backend/constants";
+import type { ServerStartupConfig } from "../shared-types";
 import { Preset, Field, Metadata, Messages } from "./context/ConfigContext";
 import type { DraftPhoto } from "./context/DraftObservationContext";
 import { ClientGeneratedObservation } from "./context/ObservationsContext";
@@ -17,6 +20,7 @@ import AppInfo from "./lib/AppInfo";
 import promiseTimeout, { TimeoutError } from "p-timeout";
 import bugsnag from "./lib/logger";
 import { IconSize, ImageSize } from "./sharedTypes";
+import { devExperiments } from "./lib/DevExperiments";
 
 export type ServerStatus = keyof typeof STATUS;
 
@@ -113,25 +117,32 @@ export type TransferProgress = {
   total: number;
 };
 
+// Derived from /src/backend/upgrade-manager/types.ts
+type WorkingServerState = {
+  value: "starting" | "started" | "stopping" | "stopped";
+};
+type ErrorServerState = { value: "error"; error: Error };
+
 type UpgradeStateBase = {
   uploads: TransferProgress[];
   downloads: TransferProgress[];
   checkedPeers: string[];
   availableUpgrade?: AvailableUpgrade;
 };
-type UpgradeStateNoError = UpgradeStateBase & {
-  value: "starting" | "started" | "stopping" | "stopped";
-};
-type UpgradeStateError = UpgradeStateBase & {
-  value: "error";
-  error: Error;
-};
+type UpgradeStateNoError = UpgradeStateBase & WorkingServerState;
+type UpgradeStateError = UpgradeStateBase & ErrorServerState;
 export type UpgradeState = UpgradeStateNoError | UpgradeStateError;
+interface ApiParam {
+  baseUrl: string;
+  timeout?: number;
+}
 
 export { STATUS as Constants };
 
 const log = debug("mapeo-mobile:api");
-const BASE_URL = "http://127.0.0.1:9081/";
+
+const APP_SERVER_PORT = 9081;
+const APP_BASE_URL = getBaseUrl(APP_SERVER_PORT);
 // Timeout between heartbeats from the server. If 10 seconds pass without a
 // heartbeat then we consider the server has errored
 const DEFAULT_TIMEOUT = 10000; // 10 seconds
@@ -143,9 +154,207 @@ export const SERVER_START_TIMEOUT = 30000;
 
 const pixelRatio = PixelRatio.get();
 
-interface ApiParam {
-  baseUrl: string;
-  timeout?: number;
+function createRequestClient({
+  baseUrl,
+  onReady,
+}: {
+  baseUrl?: string;
+  onReady?: () => Promise<void>;
+} = {}) {
+  const req = ky.extend({
+    prefixUrl: baseUrl,
+    timeout: false,
+    headers: {
+      "cache-control": "no-cache",
+      pragma: "no-cache",
+    },
+  });
+
+  return {
+    get: async (url: string) => {
+      if (onReady) await onReady();
+      return await req.get(url).json();
+    },
+    del: async (url: string) => {
+      if (onReady) await onReady();
+      return await req.delete(url).json();
+    },
+    put: async (url: string, data: any) => {
+      if (onReady) await onReady();
+      return await req.put(url, { json: data }).json();
+    },
+    post: async (url: string, data: any) => {
+      if (onReady) await onReady();
+      return await req.post(url, { json: data }).json();
+    },
+  };
+}
+
+// TODO: Incorporate server status and making sure it's ready for requests?
+function createMapServerApi() {
+  let mapServerPort: number | undefined;
+  let client: ReturnType<typeof createRequestClient> | undefined;
+
+  // This event occurs whenever the map server's start method is called,
+  // which can happen on app startup but also app resumes
+  nodejs.channel.addListener(
+    "map-server::start",
+    (payload: { port: number }) => {
+      if (mapServerPort !== payload.port) {
+        mapServerPort = payload.port;
+        client = createMapServerClient(mapServerPort);
+      }
+    }
+  );
+
+  function createMapServerClient(port: number) {
+    return createRequestClient({ baseUrl: getBaseUrl(port) });
+  }
+
+  function guaranteeClient() {
+    if (!mapServerPort)
+      throw new Error(
+        "Map server client cannot be used because port is unknown"
+      );
+
+    if (!client) {
+      client = createMapServerClient(mapServerPort);
+    }
+
+    return client;
+  }
+
+  // TODO: Implement addMapServerStateListener and addMapServerErrorListener
+  const mapsApi = {
+    // TODO: Probably should use some kind of status-related implementation similar to how the app server does it
+    ready: () => {
+      // TODO: Rely on the app server's status heartbeat to ping the map server and check its state
+      // This is a temporary measure since there is no server status implemented for the map server right now
+      const appServerStatusSubscription = nodejs.channel.addListener(
+        "status",
+        ({ value }: ServerStatusMessage) => {
+          if (
+            value === STATUS.LISTENING ||
+            value === STATUS.STARTING ||
+            value === STATUS.IDLE
+          ) {
+            nodejs.channel.post("map-server::get-state");
+          }
+        }
+      );
+
+      const readyPromise = new Promise<void>(resolve => {
+        const stateListenerSubscription = nodejs.channel.addListener(
+          "map-server::state",
+          state => {
+            if (state.value === "started") {
+              // @ts-expect-error
+              appServerStatusSubscription.remove();
+              // @ts-expect-error
+              stateListenerSubscription.remove();
+              resolve();
+            }
+          }
+        );
+      });
+
+      const mapServerReadyPromise = promiseTimeout(
+        readyPromise,
+        DEFAULT_TIMEOUT,
+        "Map server start timeout"
+      );
+
+      mapServerReadyPromise.catch(err => {
+        // @ts-expect-error
+        appServerStatusSubscription.remove();
+        bugsnag.notify(err);
+      });
+
+      return mapServerReadyPromise as Promise<void>;
+    },
+    addServerStateListener: (
+      handler: (state: WorkingServerState | ErrorServerState) => void
+    ): Subscription => {
+      const stateSubscription = nodejs.channel.addListener(
+        "map-server::state",
+        onState
+      );
+
+      // Poke backend to send a state event
+      mapsApi
+        .ready()
+        .then(() => nodejs.channel.post("map-server::get-state"))
+        .catch(() => {});
+
+      function onState(serializedState: WorkingServerState | ErrorServerState) {
+        handler(
+          // Deserialize error if it exists
+          serializedState.value === "error"
+            ? {
+                ...serializedState,
+                error: deserializeError(serializedState.error),
+              }
+            : serializedState
+        );
+      }
+
+      return {
+        // @ts-expect-error
+        remove: () => stateSubscription.remove(),
+      };
+    },
+    addServerErrorListener: (handler: (error: Error) => void): Subscription => {
+      const errorSubscription = nodejs.channel.addListener(
+        "map-server::error",
+        (serializedError: ErrorServerState) => {
+          handler(deserializeError(serializedError));
+        }
+      );
+
+      return {
+        // @ts-expect-error
+        remove: () => errorSubscription.remove(),
+      };
+    },
+    createStyle: async ({
+      from, // mostly for convenience to get TS inference about valid params
+      ...params
+    }: { accessToken?: string } & (
+      | { from: "url"; url: string }
+      | { from: "style"; id?: string; style: StyleJSON }
+    )): Promise<{ id: string; style: StyleJSON }> =>
+      (await guaranteeClient().post("styles", params)) as {
+        id: string;
+        style: StyleJSON;
+      },
+    // Delete a map style
+    deleteStyle: async (id: string): Promise<void> =>
+      (await guaranteeClient().del(`styles/${id}`)) as void,
+    // Get a map style in the form of a style definition
+    getStyle: async (id: string): Promise<StyleJSON> =>
+      (await guaranteeClient().get(`styles/${id}`)) as StyleJSON,
+    // Get a list of all existing styles containing scalar information about each style
+    getStyleList: async (): Promise<
+      { id: string; name?: string; url: string }[]
+    > =>
+      (await guaranteeClient().get("styles")) as {
+        id: string;
+        name?: string;
+        url: string;
+      }[],
+    // Create a tileset using an existing MBTiles file
+    importTileset: async (
+      filePath: string
+    ): Promise<TileJSON & { id: string }> =>
+      (await guaranteeClient().post("tilesets/import", {
+        filePath: convertFileUriToPosixPath(filePath),
+      })) as TileJSON & { id: string },
+    // Return the url to a map style from the map server
+    getStyleUrl: (id: string): string | undefined =>
+      mapServerPort ? `${getBaseUrl(mapServerPort)}styles/${id}` : undefined,
+  };
+
+  return mapsApi;
 }
 
 export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
@@ -156,17 +365,6 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
   // sprite, font, and map tile requests might still be cached, only changes in
   // the map style will be cache-busted.
   let startupTime = Date.now();
-
-  const req = ky.extend({
-    prefixUrl: baseUrl,
-    // No timeout because indexing after first sync takes a long time, which mean
-    // requests to the server take a long time
-    timeout: false,
-    headers: {
-      "cache-control": "no-cache",
-      pragma: "no-cache",
-    },
-  });
 
   const pending: Array<{
     resolve: () => any;
@@ -224,36 +422,41 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     });
   }
 
-  // Request convenience methods that wait for the server to be ready
-  async function get(url: string) {
-    await onReady();
-    return await req.get(url).json();
-  }
-  async function del(url: string) {
-    await onReady();
-    return await req.delete(url).json();
-  }
-  async function put(url: string, data: any) {
-    await onReady();
-    return await req.put(url, { json: data }).json();
-  }
-  async function post(url: string, data: any) {
-    await onReady();
-    return await req.post(url, { json: data }).json();
-  }
-
   // Used to track RPC communication
   let channelId = 0;
 
+  const { del, get, post, put } = createRequestClient({ baseUrl, onReady });
+
   // All public methods
   const api = {
+    /**
+     * Map server methods
+     */
+    ...(devExperiments.mapSettings
+      ? { maps: createMapServerApi() }
+      : undefined),
     // Start server, returns a promise that resolves when the server is ready
     // or rejects if there is an error starting the server
-    startServer: () => {
+    startServer: async () => {
       // The server might already be started - request current status
       nodejs.channel.post("request-status");
       bugsnag.leaveBreadcrumb("Starting Mapeo Core");
-      nodejs.start("loader.js");
+      const config: ServerStartupConfig = {
+        sharedStorage: RNFS.ExternalDirectoryPath,
+        privateCacheStorage: RNFS.CachesDirectoryPath,
+        apkFilepath: AppInfo.sourceDir,
+        sdkVersion: await DeviceInfo.getApiLevel(),
+        supportedAbis: (await DeviceInfo.supportedAbis()) as ServerStartupConfig["supportedAbis"],
+        version: DeviceInfo.getVersion(),
+        buildNumber: DeviceInfo.getBuildNumber(),
+        bundleId: DeviceInfo.getBundleId(),
+        isDev: __DEV__,
+      };
+      let nodejsCommand = "loader.js";
+      for (const [key, value] of Object.entries(config)) {
+        nodejsCommand += ` --${key}=${value}`;
+      }
+      nodejs.startWithArgs(nodejsCommand);
       const serverStartPromise = new Promise<void>(resolve => {
         // nodejs-mobile-react-native channel extends React Native's EventEmitter
         //   - https://code.janeasystems.com/nodejs-mobile/react-native/bridge
@@ -269,18 +472,6 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
         bugsnag.leaveBreadcrumb("Mapeo Core started");
         // Start monitoring for timeout
         restartTimeout();
-        // As soon as we hear from the Node process, send the storagePath and
-        // other config that the server requires
-        nodejs.channel.post("config", {
-          sharedStorage: RNFS.ExternalDirectoryPath,
-          privateCacheStorage: RNFS.CachesDirectoryPath,
-          apkFilepath: AppInfo.sourceDir,
-          deviceInfo: {
-            sdkVersion: await DeviceInfo.getApiLevel(),
-            supportedAbis: await DeviceInfo.supportedAbis(),
-          },
-          isDev: __DEV__,
-        });
         // Resolve once the server reports status as "LISTENING"
         return onReady();
       });
@@ -584,7 +775,6 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       await onReady();
       return nodejs.channel.post("sync-start", target);
     },
-
     /**
      * HELPER synchronous methods
      */
@@ -594,12 +784,12 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
       // Some devices are @4x or above, but we only generate icons up to @3x
       // Also we don't have @1.5x, so we round it up
       const roundedRatio = Math.min(Math.ceil(pixelRatio), 3);
-      return `${BASE_URL}presets/default/icons/${iconId}-medium@${roundedRatio}x.png?${startupTime}`;
+      return `${APP_BASE_URL}presets/default/icons/${iconId}-medium@${roundedRatio}x.png?${startupTime}`;
     },
 
     // Return the url for a media attachment
     getMediaUrl: (attachmentId: string, size: ImageSize): string => {
-      return `${BASE_URL}media/${size}/${attachmentId}`;
+      return `${APP_BASE_URL}media/${size}/${attachmentId}`;
     },
 
     // Return the File Uri for a media attachment in local storage. Necessary
@@ -617,14 +807,18 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
 
     // Return the url to a map style
     getMapStyleUrl: (id: string): string => {
-      return `${BASE_URL}styles/${id}/style.json?${startupTime}`;
+      return `${APP_BASE_URL}styles/${id}/style.json?${startupTime}`;
     },
   };
 
   return api;
 }
 
-export default Api({ baseUrl: BASE_URL });
+export default Api({ baseUrl: APP_BASE_URL });
+
+function getBaseUrl(port: number) {
+  return `http://127.0.0.1:${port}/`;
+}
 
 function mapToArray<T>(map: { [key: string]: T }): Array<T> {
   return Object.keys(map).map(id => ({

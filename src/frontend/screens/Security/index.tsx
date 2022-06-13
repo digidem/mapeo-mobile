@@ -1,5 +1,6 @@
 import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages } from "react-intl";
 
@@ -10,11 +11,11 @@ import {
   ListDivider,
 } from "../../sharedComponents/List";
 import IconButton from "../../sharedComponents/IconButton";
-import { BackIcon, SaveIcon } from "../../sharedComponents/icons";
+import { BackIcon } from "../../sharedComponents/icons";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { SecurityContext } from "./SecurityContext";
 import { useNavigation } from "react-navigation-hooks";
-import SettingsContext from "../../context/SettingsContext";
+import { devExperiments } from "../../lib/DevExperiments";
 
 const m = defineMessages({
   title: {
@@ -65,12 +66,12 @@ const m = defineMessages({
 
 export const Security: NavigationStackScreenComponent = () => {
   const { passIsSet } = React.useContext(SecurityContext);
-  const [{ experiments }] = React.useContext(SettingsContext);
   const { navigate } = useNavigation();
+  const { appPasscode } = devExperiments;
 
   React.useEffect(() => {
-    if (!experiments.appPasscode) navigate("Settings");
-  }, [experiments]);
+    if (!devExperiments.appPasscode) navigate("Settings");
+  }, []);
 
   const [passCodeDes, killPassCodeDes] = React.useMemo(
     () =>
@@ -81,49 +82,46 @@ export const Security: NavigationStackScreenComponent = () => {
   );
 
   return (
-    <List>
-      <ListItem button={false} style={{ marginVertical: 10 }}>
-        <ListItemText
-          style={{ textTransform: "uppercase" }}
-          primary={<FormattedMessage {...m.securitySubheader} />}
-        />
-      </ListItem>
+    <ScrollView>
+      <List>
+        <ListItem button={false} style={{ marginVertical: 10 }}>
+          <ListItemText
+            style={{ textTransform: "uppercase" }}
+            primary={<FormattedMessage {...m.securitySubheader} />}
+          />
+        </ListItem>
 
-      <ListItem button={true} onPress={() => navigate("AppPasscode")}>
-        <ListItemText
-          primary={<FormattedMessage {...m.passcodeHeader} />}
-          secondary={<FormattedMessage {...passCodeDes} />}
-        />
-      </ListItem>
+        <ListItem button={true} onPress={() => navigate("AppPasscode")}>
+          <ListItemText
+            primary={<FormattedMessage {...m.passcodeHeader} />}
+            secondary={<FormattedMessage {...passCodeDes} />}
+          />
+        </ListItem>
 
-      <ListItem
-        button={true}
-        onPress={() => {
-          return;
-        }}
-      >
-        <ListItemText
-          primary={<FormattedMessage {...m.killPasscodeHeader} />}
-          secondary={<FormattedMessage {...killPassCodeDes} />}
-        />
-      </ListItem>
+        <ListItem button={true} onPress={() => {}}>
+          <ListItemText
+            primary={<FormattedMessage {...m.killPasscodeHeader} />}
+            secondary={<FormattedMessage {...killPassCodeDes} />}
+          />
+        </ListItem>
 
-      <ListDivider style={styles.divder} />
+        <ListDivider style={styles.divder} />
 
-      <ListItem button={false}>
-        <ListItemText
-          style={{ textTransform: "uppercase" }}
-          primary={<FormattedMessage {...m.deviceBackup} />}
-        />
-      </ListItem>
+        <ListItem button={false}>
+          <ListItemText
+            style={{ textTransform: "uppercase" }}
+            primary={<FormattedMessage {...m.deviceBackup} />}
+          />
+        </ListItem>
 
-      <ListItem>
-        <ListItemText
-          primary={<FormattedMessage {...m.paperKey} />}
-          secondary={<FormattedMessage {...m.paperKeyDes} />}
-        />
-      </ListItem>
-    </List>
+        <ListItem>
+          <ListItemText
+            primary={<FormattedMessage {...m.paperKey} />}
+            secondary={<FormattedMessage {...m.paperKeyDes} />}
+          />
+        </ListItem>
+      </List>
+    </ScrollView>
   );
 };
 

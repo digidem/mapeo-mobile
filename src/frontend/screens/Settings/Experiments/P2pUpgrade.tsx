@@ -1,12 +1,13 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import SettingsContext from "../../../context/SettingsContext";
 import { LIGHT_GREY } from "../../../lib/styles";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
+import { useExperiments } from "../../../hooks/useExperiments";
 
 const m = defineMessages({
   title: {
@@ -30,9 +31,9 @@ const m = defineMessages({
 });
 
 export const P2pUpgrade: NavigationStackScreenComponent = () => {
-  const [{ experiments }, setSettings] = React.useContext(SettingsContext);
+  const [experiments, setExperiments] = useExperiments();
   return (
-    <View style={[styles.container]}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={[styles.header]}>
         <FormattedMessage {...m.title} />
       </Text>
@@ -45,16 +46,13 @@ export const P2pUpgrade: NavigationStackScreenComponent = () => {
       </Text>
 
       <View style={[styles.switchContainer]}>
-        <Text>
+        <Text style={[styles.text]}>
           <FormattedMessage {...m.useP2p} />
         </Text>
 
         <View
-          onTouchEnd={() => {
-            setSettings("experiments", {
-              ...experiments,
-              p2pUpgrade: !experiments.p2pUpgrade,
-            });
+          onTouchStart={() => {
+            setExperiments("p2pUpgrade", !experiments.p2pUpgrade);
           }}
         >
           <MaterialIcon
@@ -66,7 +64,7 @@ export const P2pUpgrade: NavigationStackScreenComponent = () => {
           />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

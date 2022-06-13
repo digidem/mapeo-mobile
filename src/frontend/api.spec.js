@@ -8,6 +8,8 @@ import FakeTimers from "@sinonjs/fake-timers";
 
 // require("debug").enable("*");
 
+const nextTick = () => new Promise(resolve => process.nextTick(resolve));
+
 jest.mock("ky");
 jest.mock("react-native-fs");
 
@@ -25,31 +27,18 @@ describe("Server startup", () => {
 
   test("Start server", async () => {
     const { serverStart, serverStatus, cleanup } = setupApi();
+    await nextTick();
     serverStatus({ value: Constants.LISTENING });
     await expect(serverStart).resolves.toBeUndefined();
-    expect(nodejs.start.mock.calls.length).toBe(1);
-    expect(nodejs.start.mock.calls[0][0]).toBe("loader.js");
-    expect(nodejs.channel.post.mock.calls.length).toBe(2);
-    expect(nodejs.channel.post.mock.calls[1][1]).toStrictEqual({
-      sharedStorage: RNFS.ExternalDirectoryPath,
-      apkFilepath: AppInfo.sourceDir,
-      privateCacheStorage: RNFS.CachesDirectoryPath,
-      deviceInfo: {
-        sdkVersion: -1, // mocked value
-        supportedAbis: [], // mocked value
-      },
-      isDev: __DEV__,
-    });
+    expect(nodejs.startWithArgs.mock.calls.length).toBe(1);
     await cleanup();
   });
 
   test("Start server timeout", async () => {
     const { serverStart, clock, cleanup } = setupApi();
     await clock.runAllAsync();
-    expect(serverStart).rejects.toThrow("Server start timeout");
-    expect(nodejs.start.mock.calls.length).toBe(1);
-    expect(nodejs.start.mock.calls[0][0]).toBe("loader.js");
-    expect(nodejs.channel.post.mock.calls.length).toBe(1);
+    await expect(serverStart).rejects.toThrow("Server start timeout");
+    expect(nodejs.startWithArgs.mock.calls.length).toBe(1);
     await cleanup();
   });
 });
@@ -110,6 +99,7 @@ describe("Server status", () => {
       cleanup,
       clock,
     } = setupApi();
+    await nextTick();
     serverStatus({ value: Constants.LISTENING });
     await serverStart;
     serverStatus({ value: Constants.CLOSED });

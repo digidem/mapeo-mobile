@@ -1,5 +1,6 @@
 // @flow
 import React from "react";
+import { ScrollView } from "react-native-gesture-handler";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
@@ -75,17 +76,19 @@ const DeviceInfoListItem = ({
 const AboutMapeo = () => {
   const { formatMessage: t } = useIntl();
   return (
-    <List>
-      <DeviceInfoListItem label={t(m.mapeoVersion)} deviceProp="version" />
-      <DeviceInfoListItem label={t(m.mapeoBuild)} deviceProp="buildNumber" />
-      <DeviceInfoListItem label={t(m.mapeoType)} deviceProp="bundleId" />
-      <DeviceInfoListItem
-        label={t(m.androidVersion)}
-        deviceProp="systemVersion"
-      />
-      <DeviceInfoListItem label={t(m.androidBuild)} deviceProp="buildId" />
-      <DeviceInfoListItem label={t(m.phoneModel)} deviceProp="model" />
-    </List>
+    <ScrollView>
+      <List>
+        <DeviceInfoListItem label={t(m.mapeoVersion)} deviceProp="version" />
+        <DeviceInfoListItem label={t(m.mapeoBuild)} deviceProp="buildNumber" />
+        <DeviceInfoListItem label={t(m.mapeoType)} deviceProp="bundleId" />
+        <DeviceInfoListItem
+          label={t(m.androidVersion)}
+          deviceProp="systemVersion"
+        />
+        <DeviceInfoListItem label={t(m.androidBuild)} deviceProp="buildId" />
+        <DeviceInfoListItem label={t(m.phoneModel)} deviceProp="model" />
+      </List>
+    </ScrollView>
   );
 };
 

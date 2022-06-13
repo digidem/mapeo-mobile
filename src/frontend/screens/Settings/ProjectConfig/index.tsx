@@ -7,13 +7,13 @@ import * as DocumentPicker from "expo-document-picker";
 import ConfigContext, {
   Metadata as ConfigMetadata,
 } from "../../../context/ConfigContext";
-import SettingsContext from "../../../context/SettingsContext";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import { Status } from "../../../types";
 import { isInPracticeMode } from "../../../lib/utils";
 import { ConfigDetails } from "./ConfigDetails";
 import { LeavePracticeMode } from "./LeavePracticeMode";
 import { ManagePeople } from "./ManagePeople";
+import { devExperiments } from "../../../lib/DevExperiments";
 
 const m = defineMessages({
   configTitle: {
@@ -62,8 +62,8 @@ export const ProjectConfig = () => {
   const [role] = React.useState<"participant" | "coordinator">("participant");
   const [status, setStatus] = React.useState<Status>("idle");
   const [config, { replace: replaceConfig }] = React.useContext(ConfigContext);
-  const [{ experiments }] = React.useContext(SettingsContext);
 
+  const { onboarding } = devExperiments;
   const getConfigName = (metadata: ConfigMetadata) =>
     extractConfigName(metadata) || t(m.unnamedConfig);
 
@@ -104,7 +104,7 @@ export const ProjectConfig = () => {
 
   const loading = status === "loading" || config.status === "loading";
 
-  const isPracticeMode = experiments.onboarding && isInPracticeMode(config);
+  const isPracticeMode = devExperiments.onboarding && isInPracticeMode(config);
 
   React.useEffect(() => {
     const didError = config.status === "error";
@@ -116,10 +116,7 @@ export const ProjectConfig = () => {
   }, [config.status, t]);
 
   return (
-    <ScrollView
-      style={styles.root}
-      contentContainerStyle={role === "participant" ? { flex: 1 } : undefined}
-    >
+    <ScrollView style={styles.root}>
       <ConfigDetails
         isPracticeMode={isPracticeMode}
         loading={loading}
@@ -131,7 +128,7 @@ export const ProjectConfig = () => {
         version={config.metadata.version}
       />
 
-      {experiments.onboarding &&
+      {devExperiments.onboarding &&
         (role === "coordinator" ? (
           <ManagePeople loading={loading} />
         ) : isPracticeMode ? (

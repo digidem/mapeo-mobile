@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.4.4](https://github.com/digidem/mapeo-mobile/compare/v5.4.3...v5.4.4) (2022-05-03)
+
+### Bug Fixes
+
+- fix p2p-updates startup error ([9da24f7](https://github.com/digidem/mapeo-mobile/commit/9da24f7cbbbec528e2534e075eb5a93192bf61a8))
+- upgrade icons library to fix gradle issue ([9c607a6](https://github.com/digidem/mapeo-mobile/commit/9c607a645570fba3bc4fcf695fb2651d6b3f7b95))
+
+### [5.4.3](https://github.com/digidem/mapeo-mobile/compare/v5.4.2...v5.4.3) (2022-04-25)
+
+### Bug Fixes
+
+- ensure all devices get 32-bit and 64-bit ABIs from the Play Store ([#951](https://github.com/digidem/mapeo-mobile/issues/951)) ([fd7af49](https://github.com/digidem/mapeo-mobile/commit/fd7af4956df4460011e95eef28ab648a935ab5b8))
+- only support light theme ([#947](https://github.com/digidem/mapeo-mobile/issues/947)) ([b85f623](https://github.com/digidem/mapeo-mobile/commit/b85f62311a4f62c711e8c5fe83cfefe70ff69733))
+
+### [5.4.2](https://github.com/digidem/mapeo-mobile/compare/v5.4.1...v5.4.2) (2022-03-17)
+
+### Bug Fixes
+
+- fix inability to scroll in various settings screens ([25dbefd](https://github.com/digidem/mapeo-mobile/commit/25dbefd8afaf5c83b1bc060168d52f55d693928f))
+
+### [5.4.1](https://github.com/digidem/mapeo-mobile/compare/v5.4.0...v5.4.1) (2022-03-15)
+
+### Bug Fixes
+
+- fix regression in release apk build size ([2285c5e](https://github.com/digidem/mapeo-mobile/commit/2285c5ef8663f72dd200bd30dcdf21e8f1d439ad))
+
+## [5.4.0](https://github.com/digidem/mapeo-mobile/compare/v5.3.2...v5.4.0) (2022-01-27)
+
+### Features
+
+- Add Create Project flow ([#846](https://github.com/digidem/mapeo-mobile/issues/846)) ([978bb61](https://github.com/digidem/mapeo-mobile/commit/978bb61e3d0e33ffb7dcb08d0c40bfeab1c740d1))
+- Added Security to Setting and App Passocde Splash Screen ([#879](https://github.com/digidem/mapeo-mobile/issues/879)) ([0099d78](https://github.com/digidem/mapeo-mobile/commit/0099d789e8b0c796344bc194a8dd70d6765bf12f))
+- Show alert after successfully importing config ([#864](https://github.com/digidem/mapeo-mobile/issues/864)) ([8ea87e8](https://github.com/digidem/mapeo-mobile/commit/8ea87e8af43dade964a16839d0b1a5a1dfea90e0))
+- Support custom colors for observations ([#885](https://github.com/digidem/mapeo-mobile/issues/885)) ([7ab50e4](https://github.com/digidem/mapeo-mobile/commit/7ab50e46476dc9c7a5949c7d5e98560c101eba8d))
+- Add optional directional arrow to map ([#881](https://github.com/digidem/mapeo-mobile/issues/881)) ([794d21e](https://github.com/digidem/mapeo-mobile/pull/915/commits/794d21e56d6abcf94969c9e0b9ac051200248ca9))
+- Enable photo deletion when creating an observation ([#886](https://github.com/digidem/mapeo-mobile/issues/866)) ([ad2f571](https://github.com/digidem/mapeo-mobile/commit/ad2f57184072e3241846f04ffdca3b98a20c3e96))
+
+### Bug Fixes
+
+- Do not surface Practice Mode in config details in settings ([#852](https://github.com/digidem/mapeo-mobile/issues/852)) ([9903e4b](https://github.com/digidem/mapeo-mobile/commit/9903e4b761bf957291c9bbe19d8799c4cfb00ea2))
+- Enable navigation to Experiments screen ([#853](https://github.com/digidem/mapeo-mobile/issues/853)) ([f742eea](https://github.com/digidem/mapeo-mobile/commit/f742eeab71e999b40ee98d54d35b6f766d5cb194))
+- Update ObservationView to fix issues from observation types refactor ([#880](https://github.com/digidem/mapeo-mobile/issues/880)) ([b90f842](https://github.com/digidem/mapeo-mobile/commit/b90f84266abbc47bba082aac58b34a807d14b04e))
+
 ### [5.3.2](https://github.com/digidem/mapeo-mobile/compare/v5.3.1...v5.3.2) (2021-11-04)
 
 ### Bug Fixes

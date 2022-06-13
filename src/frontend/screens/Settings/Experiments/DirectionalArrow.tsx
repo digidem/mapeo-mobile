@@ -1,12 +1,13 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import SettingsContext from "../../../context/SettingsContext";
 import { LIGHT_GREY } from "../../../lib/styles";
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
+import { useExperiments } from "../../../hooks/useExperiments";
 
 const m = defineMessages({
   directionalArrow: {
@@ -30,10 +31,10 @@ const m = defineMessages({
 });
 
 export const DirectionalArrow: NavigationStackScreenComponent = () => {
-  const [{ directionalArrow }, setSetting] = React.useContext(SettingsContext);
+  const [experiments, setExperiments] = useExperiments();
 
   return (
-    <View style={[styles.container]}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={[styles.header]}>
         <FormattedMessage {...m.directionalArrow} />
       </Text>
@@ -46,23 +47,27 @@ export const DirectionalArrow: NavigationStackScreenComponent = () => {
       </Text>
 
       <View style={[styles.switchContainer]}>
-        <Text>
+        <Text style={[styles.text]}>
           <FormattedMessage {...m.useArrow} />
         </Text>
 
         <View
-          onTouchEnd={() => {
-            setSetting("directionalArrow", !directionalArrow);
+          onTouchStart={() => {
+            setExperiments("directionalArrow", !experiments.directionalArrow);
           }}
         >
           <MaterialIcon
-            name={directionalArrow ? "check-box" : "check-box-outline-blank"}
+            name={
+              experiments.directionalArrow
+                ? "check-box"
+                : "check-box-outline-blank"
+            }
             size={24}
             color="rgba(0, 0, 0, 0.54)"
           />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

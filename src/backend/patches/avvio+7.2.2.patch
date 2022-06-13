@@ -1,5 +1,5 @@
 diff --git a/node_modules/avvio/plugin.js b/node_modules/avvio/plugin.js
-index afa4375..826c829 100644
+index afa4375..deeae63 100644
 --- a/node_modules/avvio/plugin.js
 +++ b/node_modules/avvio/plugin.js
 @@ -11,7 +11,7 @@ function getName (func) {
@@ -7,7 +7,7 @@ index afa4375..826c829 100644
    // this is common for plugins
    const cache = require.cache
 -  const keys = Object.keys(cache)
-+  const keys = [] // Object.keys(cache)
++  const keys = cache ? Object.keys(cache) : []
  
    // eslint-disable-next-line no-var
    for (var i = 0; i < keys.length; i++) {
