@@ -710,25 +710,25 @@
     "message": "Utiliser la mise à jour de l'application P2P"
   },
   "screens.Settings.Experiments.P2pUpgrade.warning": {
-    "message": "Les mises à jour de l'application pair-à-pair (P2P) vous permettent de partager et recevoir de nouvelles versions de l'application Mapeo en vous connectant à d'autres appareils Mapeo via le wifi (aucune connexion internet requise). Pour utiliser cette fonctionnalité, la page de Synchronisation Mapeo doit être ouverte sur les deux appareils."
+    "message": "Les mises à jour de l'application P2P vous permettent de partager et recevoir de nouvelles versions de l'application Mapeo en vous connectant à d'autres appareils Mapeo via le Wifi (aucune connexion internet requise). Pour utiliser cette fonctionnalité, l'écran de Synchronisation Mapeo doit être ouvert sur les deux appareils."
   },
   "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
     "message": "REMARQUE : Pendant la mise à jour de la version de l'application Mapeo de cette manière, AUCUNE de vos données Mapeo (observations, configurations, ou cartes) sont partagées entre les appareils."
   },
   "screens.Settings.Experiments.active": {
     "description": "Indicates that the experimental feature is enabled",
-    "message": "Activé"
+    "message": "Actif"
   },
   "screens.Settings.Experiments.directionalArrow": {
     "message": "Flèche Directionnelle"
   },
   "screens.Settings.Experiments.inactive": {
     "description": "Indicates that the experimental feature is not enabled",
-    "message": "Désactivé"
+    "message": "Inactif"
   },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p app updates",
-    "message": "Mises à jour de l'application P2P"
+    "message": "Mises à jour P2P"
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
