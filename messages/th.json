@@ -726,18 +726,18 @@
   },
   "screens.Settings.Experiments.active": {
     "description": "Indicates that the experimental feature is enabled",
-    "message": "เปิด"
+    "message": "เปิดใช้งาน"
   },
   "screens.Settings.Experiments.directionalArrow": {
     "message": "ลูกศรทิศทาง"
   },
   "screens.Settings.Experiments.inactive": {
     "description": "Indicates that the experimental feature is not enabled",
-    "message": "ปิด"
+    "message": "ยังไม่เปิดใช้"
   },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p app updates",
-    "message": "การอัปเดตแอปเครือข่ายเพียร์ทูเพียร์ (P2P) "
+    "message": "ปรับปรุง P2P"
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
