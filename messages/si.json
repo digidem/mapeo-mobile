@@ -17,7 +17,7 @@
   },
   "AppContainer.EditHeader.discardTitle": {
     "description": "Title of dialog that shows when cancelling a new observation",
-    "message": "නිරීක්ෂණය මකන්නද?"
+    "message": "නිරීක්ෂණය ඉවතලන්නද?"
   },
   "hooks.updateNotifier.dialogMessage": {
     "description": "Message shown in dialog shown to the user when Mapeo is updated",
@@ -29,7 +29,7 @@
   },
   "hooks.updateNotifier.dialogTitle": {
     "description": "Title of dialog shown to the user when Mapeo is updated",
-    "message": "Mapeo යාවත්කාලීන කරන ලදී ✅"
+    "message": "Mapeo යාවත්කාලීන ✅"
   },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
@@ -37,7 +37,7 @@
   },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
-    "message": "ඇන්ඩ්‍රොයිඩ් අනුවාදය"
+    "message": "ඇන්ඩ්රොයිඩ් අනුවාදය"
   },
   "screens.AboutMapeo.mapeoBuild": {
     "description": "Label for Mapeo build number",
@@ -100,10 +100,10 @@
     "message": "උපදෙස්"
   },
   "screens.AddToProjectScreen.SuccessStep.description": {
-    "message": "{deviceId} වෙත එකතු කර ඇත {projectName}"
+    "message": "{deviceId} {projectName} වෙත එක් කර ඇත"
   },
   "screens.AddToProjectScreen.SuccessStep.goToSync": {
-    "message": "සමමුහුර්ත කරන්න"
+    "message": "Sync වෙත යන්න"
   },
   "screens.AddToProjectScreen.SuccessStep.title": {
     "message": "සාර්ථකත්වය!"
