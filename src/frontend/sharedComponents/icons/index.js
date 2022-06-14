@@ -40,7 +40,7 @@ export const CellphoneIcon = ({
 }: FontIconProps) => (
   <MaterialCommunityIcon
     color={color}
-    name="cellphone-android"
+    name="cellphone"
     size={size}
     style={style}
   />
@@ -53,7 +53,7 @@ export const LaptopIcon = ({
 }: FontIconProps) => (
   <MaterialCommunityIcon
     color={color}
-    name="laptop-windows"
+    name="laptop"
     size={size}
     style={style}
   />
