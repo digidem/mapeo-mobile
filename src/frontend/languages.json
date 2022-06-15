@@ -591,6 +591,10 @@
     "nativeName": "Occitan",
     "englishName": "Occitan"
   },
+  "oki": {
+    "nativeName": "Ogiek",
+    "englishName": "Ogiek"
+  },
   "or-IN": {
     "nativeName": "ଓଡ଼ିଆ",
     "englishName": "Oriya"
@@ -658,6 +662,10 @@
   "se-NO": {
     "nativeName": "Davvisámegiella",
     "englishName": "Northern Sámi"
+  },
+  "si": {
+    "nativeName": "පළාත",
+    "englishName": "Sinhala (Sri Lanka)"
   },
   "si-LK": {
     "nativeName": "පළාත",

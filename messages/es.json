@@ -155,7 +155,7 @@
     "message": "Sí, mantener mis observaciones"
   },
   "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
-    "message": "Trae ({observationCount}) {observationCount, plural, one {observación} other {observaciones}} del modo de práctica al proyecto?"
+    "message": "Traer ({observationCount}) {observationCount, plural, one {observación} other {observaciones}} del modo de práctica al proyecto?"
   },
   "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
     "message": "Dejar modo de práctica"
@@ -251,7 +251,7 @@
     "message": "Cerrar"
   },
   "screens.JoinRequestModal.denyRequest": {
-    "message": "Denegar Solicitud"
+    "message": "Denegar solicitud"
   },
   "screens.JoinRequestModal.invite": {
     "message": "Invitar"
@@ -552,23 +552,32 @@
   "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
     "message": "Unirse a un proyecto"
   },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "Modo de práctica"
+  },
   "screens.Onboarding.JoinProjectQrScreen.cancel": {
     "message": "Cancelar"
   },
   "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
-    "message": "Haz que el Participante del proyecto escanee este código de invitación."
+    "message": "Haz que la persona participante del proyecto escanee este código de invitación."
   },
   "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
     "message": "Instrucciones"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "Enviar solicitud para unirse"
   },
   "screens.Onboarding.JoinProjectQrScreen.title": {
     "message": "Unirse a un proyecto"
   },
   "screens.Onboarding.SendJoinRequestScreen.instructions": {
-    "message": "Comparte este código con el Coordinador del proyecto"
+    "message": "Comparte este código con la persona coordinadora del proyecto"
   },
   "screens.Onboarding.SendJoinRequestScreen.share": {
     "message": "Compartir"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "Enviar solicitud para unirse"
   },
   "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
     "message": "Código de verificación"
@@ -621,6 +630,30 @@
   "screens.Security.deviceBackup": {
     "message": "Copia de seguridad del dispositivo"
   },
+  "screens.Security.killPassDescriptonPassNotSet": {
+    "message": "Para usarla, activa la contraseña de app"
+  },
+  "screens.Security.killPassDescriptonPassSet": {
+    "message": "Protege tu dispositivo contra el robo"
+  },
+  "screens.Security.paperKey": {
+    "message": "Clave en papel"
+  },
+  "screens.Security.paperKeyDes": {
+    "message": "Reinstala tu cuenta si este dispositivo se pierde"
+  },
+  "screens.Security.passDesriptionPassNotSet": {
+    "message": "Contraseña no establecida"
+  },
+  "screens.Security.passDesriptionPassSet": {
+    "message": "Contraseña establecida"
+  },
+  "screens.Security.passcodeHeader": {
+    "message": "Contraseña de app"
+  },
+  "screens.Security.securitySubheader": {
+    "message": "Seguridad del dispositivo"
+  },
   "screens.Security.title": {
     "message": "Seguridad"
   },
@@ -665,19 +698,19 @@
     "message": "NOTA: Al actualizar la versión de la aplicación de Mapeo de esta manera, NINGUNO de sus datos de Mapeo (observaciones, configuraciones o mapas) es compartido entre dispositivos."
   },
   "screens.Settings.Experiments.active": {
-    "description": "Inidicates whether directional arrow is active on map",
+    "description": "Indicates that the experimental feature is enabled",
     "message": "Activado"
   },
   "screens.Settings.Experiments.directionalArrow": {
     "message": "Flecha direccional"
   },
   "screens.Settings.Experiments.inactive": {
-    "description": "Inidicates whether directional arrow is NOT active on map",
+    "description": "Indicates that the experimental feature is not enabled",
     "message": "Desactivado"
   },
   "screens.Settings.Experiments.p2pUpgrades": {
-    "description": "Label for p2p upgrades",
-    "message": "Actualizaciones P2P"
+    "description": "Label for p2p app updates",
+    "message": "Actualizaciones P2P de la App"
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
@@ -702,6 +735,30 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Tú) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "Añadir mapa base"
+  },
+  "screens.Settings.MapSettings.OfflineArea": {
+    "message": "Áreas descargadas"
+  },
+  "screens.Settings.MapSettings.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "Cerrar"
+  },
+  "screens.Settings.MapSettings.dataLayers": {
+    "message": "Capas de datos"
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "Importar desde archivo"
+  },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "Ajustes del mapa"
+  },
+  "screens.Settings.MapSettings.removeMap": {
+    "message": "Eliminar mapa"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Crear o unirse a un proyecto a continuación"
   },
@@ -710,6 +767,9 @@
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
     "message": "Unirse a un proyecto"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "¿Listo para abandonar el modo de práctica?"
   },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
@@ -746,6 +806,10 @@
   "screens.Settings.ProjectConfig.none": {
     "message": "ninguno"
   },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "Modo de práctica"
+  },
   "screens.Settings.ProjectConfig.projectKey": {
     "description": "Label for project key",
     "message": "Clave del proyecto"
@@ -774,6 +838,10 @@
     "description": "Secondary text for Mapeo APK test",
     "message": "Probar instalación APK (reinstala la aplicación)"
   },
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "Compartir instalador de Mapeo"
+  },
   "screens.Settings.appShareDesc": {
     "description": "Secondary text for sharing the mapeo APK installer",
     "message": "Instalar o actualizar Mapeo en otro teléfono"
@@ -801,6 +869,10 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "Idioma para la aplicación"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "Ajustes del mapa"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -865,6 +937,10 @@
     "description": "Label in upgrade bar when no updates are found",
     "message": "No se han encontrado actualizaciones"
   },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "¡Verificados {count, plural, one {# dispositivo} other {# dispositivos}}!"
+  },
   "screens.SyncModal.SyncView.noWifiDesc": {
     "description": "Description shown when no wifi network",
     "message": "Abre los ajustes de tu teléfono y conéctate a una red WiFi para sincronizar"
@@ -921,6 +997,10 @@
     "description": "Label in upgrade bar when an update is available",
     "message": "Una nueva versión de Mapeo está disponible"
   },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "Estado no implementado"
+  },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
     "message": "OK"
@@ -957,6 +1037,10 @@
     "description": "Suggests that user tries another method for adding another device to the project.",
     "message": "Intente conectarse usando uno de los otros métodos a continuación."
   },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "No se puede vincular con el dispositivo"
+  },
   "screens.UncaughtError.errorDesc": {
     "description": "Description when there is an uncaught message in the app",
     "message": "Disculpas, hay un error inesperado. No es tu culpa, hay un problema interno. Intenta reiniciar Mapeo para ver si se resuelve."
@@ -965,11 +1049,72 @@
     "description": "Title of message when there is an uncaught message in the app",
     "message": "Error inesperado"
   },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "Intersección de calles"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "Nivel de detalle"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "Dirección"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "Ciudad"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "Global"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "País grande"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "Área metropolitana grande"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "País pequeño"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "Carretera pequeña"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "Calle"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "Subcontinente"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "Ciudad"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "Pueblo"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "Nivel de Zoom"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "Mapa actual"
+  },
   "sharedComponents.GpsPill.noGps": {
     "message": "Sin GPS"
   },
   "sharedComponents.GpsPill.searching": {
     "message": "Buscando…"
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "Modo de práctica"
   },
   "sharedComponents.WifiBar.noWifi": {
     "message": "Sin internet"
