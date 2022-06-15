@@ -7,26 +7,214 @@
     "description": "Button on dialog to cancel observation edits",
     "message": "மாற்றங்களை நிராகரிக்கவும்"
   },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "மாற்றங்களை அகற்றவா?"
+  },
+  "AppContainer.EditHeader.discardContent": {
+    "description": "Button on dialog to cancel a new observation",
+    "message": "சேமிக்காமல் நிராகரிக்கவும்"
+  },
+  "AppContainer.EditHeader.discardTitle": {
+    "description": "Title of dialog that shows when cancelling a new observation",
+    "message": "அவதானிப்புகளை நீக்கவா?"
+  },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo பதிப்பிலிருந்து வெற்றிகரமாகப் புதுப்பிக்கப்பட்டது"
+  },
   "hooks.updateNotifier.dialogOK": {
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
     "message": "சரி"
   },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo புதுப்பிக்கப்பட்டது ✅"
+  },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "Android உருவாக்க எண்"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "ஆண்ட்ராய்டு பதிப்பு (Android version)"
+  },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "மேபியோ உருவாக்கம்"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "மேபியோ மாறுபாடு"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "மேபியோ பதிப்பு"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "போன் மாடல்"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "மேபியோ பற்றி"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "தெரியாத"
+  },
+  "screens.AddPhoto.cancel": {
+    "message": "ரத்து செய்க"
+  },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "சாதனத்துடன் இணைக்கவும்"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "ரத்து செய்க"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "ஒருங்கிணைப்பாளர்கள் திட்டங்களிலிருந்து சாதனங்களைச் சேர்க்கலாம் மற்றும் அகற்றலாம்"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "இந்தச் சாதனம் ஒரு ஒருங்கிணைப்பாளர்"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "இந்த சாதனம் ஒரு பங்கேற்பாளர்"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "USB சாதனத்திற்காக ஒரு பயன்பாட்டைத் தேர்வு செய்யவும்"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "சாதனம் கண்டுபிடிக்கப்பட்டது"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "பிரச்சனை உள்ளதா?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "சமூக மேப்பரிடம், இணைந்துகொள்ள கோரிக்கை அனுப்புமாறு கேளுங்கள்."
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "திட்டத்திற்கு நபரைச் சேர்க்க சாதனத்தை ஸ்கேன் செய்யவும்"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "அறிவுறுத்தல்கள்"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{சாதன ஐடி} ஆனது {திட்டத்தின் பெயர்} இல் சேர்க்கப்பட்டது"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "ஒத்திசைவுக்குச் செல்லவும் (Go to Sync)"
+  },
   "screens.AddToProjectScreen.SuccessStep.title": {
     "message": "வெற்றி!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "சாதனத்தை அழைக்கவும்"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "திட்டத்தைச் சேர்க்கவும்"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "நீங்கள் இருப்பது{திட்டத்தின் பெயர்}"
   },
   "screens.AlreadyOnProject.goBack": {
     "description": "Button to Go Back leaving project",
     "message": "பின் செல்"
   },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "தற்போதைய திட்டத்திலிருந்து வெளியேறவும்"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "புதிய திட்டத்தில் சேர, தற்போதைய திட்டத்தை விட்டு வெளியேற வேண்டும்."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "நீங்கள் ஏற்கனவே ஒரு திட்டப்பணியில் உள்ளீர்கள்"
+  },
+  "screens.AppPasscode": {
+    "message": "App கடவுக்குறியீடு"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "தொடரவும்"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.description": {
+    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc.\n"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": " App கடவுக்குறியீடு என்றால் என்ன?"
+  },
+  "screens.CameraScreen.noCameraAccess": {
+    "description": "Error message shown when app does not have permissions to camera",
+    "message": "கேமராவிற்கு அனுமதி  இல்லை"
+  },
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "என்ன நடக்கிறது என்பதைத் தேர்ந்தெடுக்கவும்"
   },
   "screens.ConfirmLeavePracticeModeScreen.cancel": {
     "message": "மூடு"
   },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "இல்லை, எனது அவதானிப்புகளை நீக்கவும்"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "ஆம், எனது அவதானிப்புகளை வைத்திருங்கள்"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "Bring ({observationCount}) {observationCount, plural, one {observation} other {observations}} from Practice Mode to the project?\n"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "பயிற்சி பயன்முறையை விட்டு வெளியேறவும்"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "கீழே உள்ள விருப்பங்களில் ஒன்றினை தேர்ந்தெடுக்கவும்:"
+  },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "தசம டிகிரி (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "டிகிரி/நிமிடங்கள்/வினாடிகள் (DMS)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "ஒருங்கிணைப்பு வடிவம்"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "யுனிவர்சல் டிரான்ஸ்வர்ஸ் மெர்கேட்டர் (UTM)"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "திட்டப்பணியை உருவாக்கு"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "திட்டப்பணியை உருவாக்கு"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "சாதனத்தின் பெயரை உள்ளிடவும்"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "உங்கள் சாதனத்திற்கு ஒரு பெயரைச் சேர்க்கவும்"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "சாதனத்தின் பெயர்"
+  },
   "screens.CreateProject.projectNameError": {
     "description": "Validation error for project name input field",
     "message": "திட்டத்தின் பெயரை உள்ளிடவும்"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "திட்டத்திற்கான பெயரை உள்ளிடவும்"
   },
   "screens.CreateProject.projectNamePlaceholder": {
     "description": "Placeholder text for project name input field",
@@ -44,6 +232,22 @@
     "description": "Section title for time of last GPS update",
     "message": "கடைசியாகப் புதுப்பித்தது"
   },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "தசம டிகிரிகளை ஒருங்கிணைக்கிறது"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "DMS ஒருங்கிணைப்பு"
+  },
+  "screens.GpsModal.locationSensors": {
+    "description": "Heading for section about location sensor status",
+    "message": "சென்சார் நிலை"
+  },
+  "screens.GpsModal.locationUTM": {
+    "description": "Section title for UTM coordinates",
+    "message": "UTM ஒருங்கிணைப்பு"
+  },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
     "message": "இல்லை"
@@ -55,6 +259,18 @@
   "screens.JoinRequestModal.close": {
     "message": "மூடுக"
   },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "கோரிக்கையை மறுக்கவும்"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "அழைக்கவும்"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "அழைப்பு அனுப்பப்பட்டது."
+  },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{சாதனத்தின் பெயர்} இல் சேர விரும்புகிறார் {திட்டத்தின் பெயர்}"
+  },
   "screens.JoinRequestModal.success": {
     "message": "வெற்றி!"
   },
@@ -62,17 +278,95 @@
     "description": "Title language settings screen",
     "message": "மொழி"
   },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "திட்டத்தை விட்டு வெளியேறவும்"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "கோ ஹோம் (Go Home)"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "அவதானிப்புகள் நீக்கப்பட்டன"
+  },
   "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
     "message": "முடிந்தது!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "திட்டத்திலிருந்து வெளியேறுதல் {திட்டத்தின் பெயர்}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "அவதானிப்புகளை நீக்குதல்"
+  },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "கிழக்கு"
+  },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "தவறான ஒருங்கிணைப்புகள்"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "அட்சரேகை மதிப்பு"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "அட்சரேகை"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "தீர்க்கரேகை மதிப்பு"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "தீர்க்கரேகை"
+  },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "வடக்கு"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "அட்சரேகை கார்டினாலிட்டியைத் தேர்ந்தெடுக்கவும்"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "தீர்க்கரேகை கார்டினாலிட்டியைத் தேர்ந்தெடுக்கவும்"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "தெற்கு"
+  },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "மேற்கு"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "{களம்} நிமிட உள்ளீடு"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "{களம்} வினாடிகள் உள்ளீடு"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "கோணங்கள்"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
+    "message": "{களம்} ஒப்பீட்டு உள்ளீடு"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "வழிகாட்டுதல்"
   },
   "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
     "message": "நிமிடம்"
   },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "நொடிகள்"
+  },
   "screens.ManualGpsScreen.DmsForm.east": {
     "message": "கிழக்கு"
   },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "தவறான ஒருங்கிணைப்புகள்"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "அட்சரேகை"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "தீர்க்கரேகை"
+  },
   "screens.ManualGpsScreen.DmsForm.north": {
     "message": "வடக்கு"
+  },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "அட்சரேகை கார்டினாலிட்டியைத் தேர்ந்தெடுக்கவும்"
   },
   "screens.ManualGpsScreen.DmsForm.south": {
     "message": "தெற்கு"
@@ -80,8 +374,51 @@
   "screens.ManualGpsScreen.DmsForm.west": {
     "message": "மேற்கு"
   },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "ஒருங்கிணைப்பு வடிவம்"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "தசம டிகிரி (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "டிகிரி/நிமிடங்கள்/வினாடிகள் (DMS)"
+  },
+  "screens.ManualGpsScreen.easting": {
+    "message": "கிழக்கு"
+  },
+  "screens.ManualGpsScreen.eastingSuffix": {
+    "message": "மீட்டர் கிழக்கு ME"
+  },
   "screens.ManualGpsScreen.northing": {
     "message": "வடக்கு"
+  },
+  "screens.ManualGpsScreen.northingSuffix": {
+    "message": "மீட்டர் வடக்கு MN"
+  },
+  "screens.ManualGpsScreen.title": {
+    "description": "title of manual GPS screen",
+    "message": "ஒருங்கிணைப்புகள் உள்ளிடவும்"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "யுனிவர்சல் டிரான்ஸ்வர்ஸ் மெர்கேட்டர் (UTM)"
+  },
+  "screens.ManualGpsScreen.zoneLetter": {
+    "message": "மண்டல கடிதம்"
+  },
+  "screens.ManualGpsScreen.zoneNumber": {
+    "message": "மண்டல எண்"
+  },
+  "screens.Observation.ObservationView.alertFooter": {
+    "description": "Footer for shared observations message",
+    "message": "Mapeo இலிருந்து அனுப்பப்பட்டது"
+  },
+  "screens.Observation.ObservationView.alertSubject": {
+    "description": "Subject-line for shared observations",
+    "message": "மேபியோ எச்சரிக்கை"
+  },
+  "screens.Observation.ObservationView.delete": {
+    "description": "Button to delete an observation",
+    "message": "அழி"
   },
   "screens.Observation.ObservationView.noAnswer": {
     "description": "Placeholder text for fields on an observation which are not answered",
@@ -115,6 +452,10 @@
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "அவதானிப்புகள்"
   },
+  "screens.ObservationDetails.QuestionNavBar.questionPage": {
+    "description": "Indicates which question we are on and total questions",
+    "message": "{தற்போதைய} இல்  {மொத்தம்} "
+  },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
     "message": "முடிந்தது"
@@ -122,6 +463,10 @@
   "screens.ObservationDetails.nextQuestion": {
     "description": "Button text to navigate to next question",
     "message": "அடுத்து"
+  },
+  "screens.ObservationDetails.title": {
+    "description": "Title of observation details screen showing question number and total",
+    "message": "கேள்வி {தற்போதைய} இல் {மொத்தம்}"
   },
   "screens.ObservationEdit.BottomSheet.addLabel": {
     "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
@@ -151,6 +496,14 @@
     "description": "Button to cancel save and continue waiting for GPS",
     "message": "தொடர்ந்து காத்திருக்கவும்"
   },
+  "screens.ObservationEdit.SaveButton.manualEntry": {
+    "description": "Button to manually enter GPS coordinates",
+    "message": "கையேடு இணைப்புகள்"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsDesc": {
+    "description": "Description in dialog when trying to save with no GPS coords",
+    "message": "இந்தக் கவனிப்புக்கு இடம் இல்லை. ஜிபிஎஸ் சிக்னலுக்காக நீங்கள் தொடர்ந்து காத்திருக்கலாம், இருப்பிடம் இல்லாமல் கண்காணிப்பைச் சேமிக்கலாம் அல்லது ஆயங்களை கைமுறையாக உள்ளிடலாம்"
+  },
   "screens.ObservationEdit.SaveButton.noGpsTitle": {
     "description": "Title of dialog when trying to save with no GPS coords",
     "message": "GPS சமிக்ஞை இல்லை"
@@ -159,11 +512,548 @@
     "description": "Button to save regardless of GPS state",
     "message": "சேமிக்கவும்"
   },
+  "screens.ObservationEdit.SaveButton.weakGpsDesc": {
+    "description": "Description in dialog when trying to save with low GPS accuracy.",
+    "message": "GPS துல்லியம் குறைவாக உள்ளது. சிறந்த துல்லியத்திற்காக நீங்கள் தொடர்ந்து காத்திருக்கலாம், குறைந்த துல்லியத்துடன் கண்காணிப்பைச் சேமிக்கலாம் அல்லது ஆயங்களை கைமுறையாக உள்ளிடலாம்"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsTitle": {
+    "description": "Title of dialog when trying to save with low GPS accuracy.",
+    "message": "பலவீனமான GPS சிக்னல்"
+  },
+  "screens.ObservationEdit.editTitle": {
+    "description": "screen title for edit observation screen",
+    "message": "கவனிப்பைத் திருத்து"
+  },
+  "screens.ObservationEdit.newTitle": {
+    "description": "screen title for new observation screen",
+    "message": "புதிய கவனிப்பு"
+  },
   "screens.ObservationList.observationListTitle": {
     "description": "Title of screen with list of observations",
     "message": "அவதானிப்புகள்"
   },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "வரைபடத்திற்குச் செல்லவும்"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
+    "description": "Description of observation list view when the user has not yet recorded observations",
+    "message": "உங்கள் முதல் கண்காணிப்பைப் பதிவு செய்ய வரைபடம் அல்லது கேமரா காட்சியிலிருந்து தொடங்கவும்."
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
+    "description": "Title of observation list view when the user has not yet recorded observations",
+    "message": "அவதானிப்புகளைச் சேர்க்கவும்"
+  },
+  "screens.ObservationsList.error": {
+    "description": "message shown when there is an unexpected error when loading observations",
+    "message": "அவதானிப்புகளை ஏற்றுவதில் பிழை. Mapeo ஐ விட்டுவிட்டு மீண்டும் தொடங்க முயற்சிக்கவும்."
+  },
+  "screens.ObservationsList.loading": {
+    "description": "message shown whilst observations are loading",
+    "message": "ஏற்றுகிறது... புதிய சாதனத்துடன் ஒத்திசைத்த பிறகு இதற்கு சிறிது நேரம் ஆகலாம்"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "திட்டப்பணியை உருவாக்கு"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "தொடங்குவதற்கு இங்கே தட்டவும்"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "திட்டத்தில் சேரவும்"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "பயிற்சி முறை"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "ரத்து செய்க"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "திட்டப் பங்கேற்பாளரிடம் இந்த அழைப்புக் குறியீட்டை ஸ்கேன் செய்யச் சொல்லுங்கள்."
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "இந்த QR குறியீட்டை உங்கள் திட்ட நிர்வாகியிடம் காட்டுங்கள்"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "அறிவுறுத்தல்கள்"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "அதற்குப் பதிலாகச் சேருவதற்கான கோரிக்கையை அனுப்பவும்"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "திட்டத்தில் சேரவும்"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "திட்ட ஒருங்கிணைப்பாளருடன் இந்தக் குறியீட்டைப் பகிரவும்"
+  },
   "screens.Onboarding.SendJoinRequestScreen.share": {
     "message": "பகிரவும்"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "சேர கோரிக்கை அனுப்பவும்"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "சரிபார்ப்பு குறியீடு"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "முடிந்தது!"
+  },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "{எண்}/{மொத்தம்} அவதானிப்புகள் முடிந்தது"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "ஒத்திசைக்கிறது..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "{எண்}/{மொத்தம்} அவதானிப்புகள் முடிந்தது"
+  },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "மேப்பிங்கைத் தொடங்கவும்"
+  },
+  "screens.Photos.ConfirmDeleteModal.cancel": {
+    "message": "ரத்து செய்க"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
+    "message": "படத்தை நீக்கு"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
+    "message": "இந்தப் படத்தை நீக்கவா?"
+  },
+  "screens.PhotosModal": {
+    "message": "படத்தை நீக்கு"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "மூடுக"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "அழைப்பை நிராகரி"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "அழைப்பு விவரங்களை மீட்டெடுக்க முடியவில்லை"
+  },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "நீங்கள் சேர அழைக்கப்பட்டுள்ளீர்கள்\n {திட்டத்தின் பெயர்} ஒரு {வகிபாகம்}"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "சேரவும் மற்றும் ஒத்திசைக்கவும்"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "{திட்டத்தின் பெயர்} இல் சேரவும்"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "மீண்டும் முயற்சி"
+  },
+  "screens.Security.deviceBackup": {
+    "message": "சாதன காப்புப்பிரதி"
+  },
+  "screens.Security.killPassDescriptonPassNotSet": {
+    "message": "பயன்படுத்த, பயன்பாட்டு கடவுக்குறியீட்டை இயக்கவும்"
+  },
+  "screens.Security.killPassDescriptonPassSet": {
+    "message": "வலிப்புத்தாக்கத்திலிருந்து உங்கள் சாதனத்தைப் பாதுகாக்கவும்"
+  },
+  "screens.Security.killPasscodeHeader": {
+    "message": "கடவுக்குறியீட்டை நீக்கவும்"
+  },
+  "screens.Security.paperKey": {
+    "message": "காகித சாவி"
+  },
+  "screens.Security.paperKeyDes": {
+    "message": "இந்தச் சாதனம் தொலைந்து போனால் உங்கள் கணக்கை மீண்டும் நிறுவவும்"
+  },
+  "screens.Security.passDesriptionPassNotSet": {
+    "message": "கடவுக்குறியீடு அமைக்கப்படவில்லை"
+  },
+  "screens.Security.passDesriptionPassSet": {
+    "message": "பாஸ்கோடு அமைக்கப்பட்டது"
+  },
+  "screens.Security.passcodeHeader": {
+    "message": "App கடவுக்குறியீடு"
+  },
+  "screens.Security.securitySubheader": {
+    "message": "சாதனப் பாதுகாப்பு"
+  },
+  "screens.Security.title": {
+    "message": "பாதுகாப்பு"
+  },
+  "screens.ServerStatus.errorDesc": {
+    "description": "Description when there the Mapeo Core server crashes",
+    "message": "பயன்பாட்டை வலுக்கட்டாயமாக மறுதொடக்கம் செய்ய முயற்சி செய்யலாம், ஆனால் ஏதாவது சரிசெய்ய வேண்டியிருக்கலாம். இதைப் பற்றி வருந்துகிறேன், பயன்பாடுகளை உருவாக்குவது கடினம்."
+  },
+  "screens.ServerStatus.errorTitle": {
+    "description": "Title of message when there the Mapeo Core server crashes",
+    "message": "அன்பே, Mapeo தரவுத்தளத்தில் ஏதோ உடைந்துவிட்டது."
+  },
+  "screens.ServerStatus.timeoutDesc": {
+    "description": "Description when the server has not responded for 10 seconds",
+    "message": "இந்தச் செய்தியை நீங்கள் தொடர்ந்து பார்த்தால், நீங்கள் Mapeo-ஐ வலுக்கட்டாயமாக மறுதொடக்கம் செய்ய வேண்டியிருக்கும்"
+  },
+  "screens.ServerStatus.timeoutTitle": {
+    "description": "Title of message when the server has not responded for 10 seconds",
+    "message": "Mapeo தரவுத்தளத்தில் ஏதோ உள்ளது"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "திசை அம்பு"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "புதிய திசை அம்பு அம்சமானது உங்கள் ஸ்மார்ட்போனின் டிஜிட்டல் திசைகாட்டியைப் பயன்படுத்தி, உங்கள் ஃபோன் எந்தத் திசையை எதிர்கொள்கிறது என்பதைப் பற்றிய தகவலை வழங்குகிறது. பெரிய உலோகப் பொருட்களுக்கு அருகாமையில் இருப்பது அல்லது வலுவான காந்தப்புலம் திசைகாட்டியின் துல்லியத்தைப் பாதிக்கலாம். உங்கள் ஸ்மார்ட்போனில் திசைகாட்டி இல்லை என்றால், திசை அம்பு இயக்கத்தின் அடிப்படையில் திசையைத் தீர்மானிக்க முடியும். இயக்கத்தின் அடிப்படையிலான திசையானது குறைவான துல்லியமாக இருக்கலாம்."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "குறிப்பு: வழிசெலுத்தலுக்காகப் பிரத்தியேகமாகப் பயன்படுத்தப்படும் அளவுக்குத் திசை அம்புக்குறி நம்பகமானதாக இல்லை, மேலும் இது உங்கள் சாதனத்தின் பேட்டரியை வேகமாக வெளியேற்றலாம்."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "திசை அம்புக்குறியைப் பயன்படுத்தவும்"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "P2P ஆப்ஸ் புதுப்பிப்புகள்"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "P2P ஆப் புதுப்பிப்புகள் பயன்படுத்தவும்"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "பியர்-டு-பியர் (P2P) ஆப்ஸ் புதுப்பிப்புகள், வைஃபை வழியாக (இணைய இணைப்பு தேவையில்லை) மற்ற மேபியோ சாதனங்களுடன் இணைப்பதன் மூலம் Mapeo பயன்பாட்டின் புதிய பதிப்புகளைப் பகிரவும் பெறவும் உங்களை அனுமதிக்கிறது. இந்த அம்சத்தைப் பயன்படுத்த, இரண்டு சாதனங்களிலும் Mapeo Synchronize திரை திறந்திருக்க வேண்டும்."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "குறிப்பு: இந்த வழியில் Mapeo ஆப்ஸ் பதிப்பைப் புதுப்பிக்கும்போது, உங்கள் Mapeo தரவு எதுவும் (கவனிப்புகள், உள்ளமைவுகள் அல்லது வரைபடங்கள்) சாதனங்களுக்கு இடையே பகிரப்படாது."
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Indicates that the experimental feature is enabled",
+    "message": "On"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "திசை அம்பு"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Indicates that the experimental feature is not enabled",
+    "message": "ஆஃப்"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p app updates",
+    "message": "P2P ஆப்ஸ் புதுப்பிப்புகள்"
+  },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "அருகில் உள்ள சாதனங்களுடன் புதுப்பிப்புகளைப் பகிரவும் மற்றும் பெறவும்"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "சோதனைகள்"
+  },
+  "screens.Settings.ManagePeople.add": {
+    "message": "சேர்க்க"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "திட்டத்தை விட்டு வெளியேறவும்"
+  },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "மக்களை நிர்வகிக்கவும்"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "நீக்கு"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(நீங்கள்) {சாதனத்தின் பெயர்}"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "கீழே உள்ள திட்டத்தை உருவாக்கவும் அல்லது சேரவும்"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "திட்டப்பணியை உருவாக்கு"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "திட்டத்தில் சேரவும்"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "பயிற்சி பயன்முறையிலிருந்து வெளியேறத் தயாரா?"
+  },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "இந்த config file ஐ பதிவிறக்கம் செய்யும் முயற்சியில் தவறு ஏற்பட்டது"
+  },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "சரி"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "பதிவிறக்கப் பிழை"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertMessage": {
+    "description": "Message for alert after successful config import",
+    "message": "வெற்றிகரமாக இறக்குமதி செய்யப்பட்ட கட்டமைப்பு:\n{பெயர்} {பதிப்பு}\n\n"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertOk": {
+    "description": "Button text for config import alert acknowledgement",
+    "message": "சரி"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "தற்போதைய கட்டமைப்பு"
+  },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "இறக்குமதி கட்டமைப்பு"
+  },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "செயற்திட்டத்தின் பெயர்"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "எதுவுமில்லை"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "பயிற்சி முறை"
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "திட்டத் திறவுகோல்"
+  },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "திட்டக் கட்டமைப்பு"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "பெயரிடப்படாதது"
+  },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "மேபியோ பற்றி"
+  },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "பதிப்பு மற்றும் உருவாக்க எண்"
+  },
+  "screens.Settings.appInstall": {
+    "description": "Primary text for Mapeo APK test",
+    "message": "APK ஐ நிறுவவும்"
+  },
+  "screens.Settings.appInstallDesc": {
+    "description": "Secondary text for Mapeo APK test",
+    "message": "சோதனை APK நிறுவல்- install (முன் நிறுவப்பட்ட பயன்பாடு)"
+  },
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "Mapeo நிறுவியைப் பகிரவும்"
+  },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "மற்றொரு மொபைலில் Mapeo ஐ நிறுவவும் அல்லது புதுப்பிக்கவும்"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "ஒருங்கிணைப்பு வடிவம்"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "ஆயத்தொலைவுகள் எவ்வாறு காட்டப்படுகின்றன என்பதைத் தேர்ந்தெடுக்கவும்"
+  },
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "சோதனைகள்"
+  },
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "புதிய சோதனை அம்சங்களை இயக்கவும்"
+  },
+  "screens.Settings.language": {
+    "description": "Primary text for language settings",
+    "message": "மொழி"
+  },
+  "screens.Settings.languageDesc": {
+    "description": "Secondary text for language settings",
+    "message": "பயன்பாட்டுக்குக் காட்டப்பட்டுள்ள மொழி "
+  },
+  "screens.Settings.projectConfig": {
+    "description": "Primary text for project config settings",
+    "message": "திட்டக் கட்டமைப்பு"
+  },
+  "screens.Settings.projectConfigDesc": {
+    "description": "Secondary text for project config settings",
+    "message": "வகைகள், சின்னங்கள் மற்றும் கேள்விகள்"
+  },
+  "screens.Settings.security": {
+    "message": "பாதுகாப்பு"
+  },
+  "screens.Settings.securityDesc": {
+    "description": "Description of security button in settings",
+    "message": "பயன்பாட்டு கடவுக்குறியீடு மற்றும் சாதன பாதுகாப்பு"
+  },
+  "screens.Settings.title": {
+    "description": "Title of settings screen",
+    "message": "அமைப்புகள்"
+  },
+  "screens.SyncModal.PeerList.completeButton": {
+    "description": "Button label when complete",
+    "message": "முடிந்தது!"
+  },
+  "screens.SyncModal.PeerList.disconnectedButton": {
+    "description": "Button label when disconnected",
+    "message": "துண்டிக்கப்பட்டது"
+  },
+  "screens.SyncModal.PeerList.errorButton": {
+    "description": "Button label when there is an error",
+    "message": "பிழை"
+  },
+  "screens.SyncModal.PeerList.errorClientMismatch": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
+    "message": "Mapeo வாடிக்கையாளர் அல்ல"
+  },
+  "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
+    "message": "பொருந்தாத Mapeo"
+  },
+  "screens.SyncModal.PeerList.finishingButton": {
+    "description": "Button label when finishing sync but don't have correct progress",
+    "message": "....."
+  },
+  "screens.SyncModal.PeerList.syncButton": {
+    "description": "Button label for sync button",
+    "message": "ஒத்திசைவு"
+  },
+  "screens.SyncModal.PeerList.syncLabel": {
+    "description": "Label for last sync datetime",
+    "message": "ஒத்திசைவானது"
+  },
+  "screens.SyncModal.SyncView.checkingUpdates": {
+    "description": "Label in upgrade bar when checking for updates",
+    "message": "புதுப்பிப்புகளை சரிபார்க்கிறது\n\nchecking_for_updates\nகோப்பு: strings. xml"
+  },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "இன்ஸ்டால்"
+  },
+  "screens.SyncModal.SyncView.noUpdates": {
+    "description": "Label in upgrade bar when no updates are found",
+    "message": "புதிய புதுப்பிப்புகள் இல்லை"
+  },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "சரிபார்க்கப்பட்டது "
+  },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "உங்கள் ஃபோன் settins யைத்திறந்து, synchronize WiFi நெட்வொர்க்குடன் இணைக்கவும்."
+  },
+  "screens.SyncModal.SyncView.noWifiTitle": {
+    "description": "Title of message shown when no wifi network",
+    "message": "WiFi இல்லை"
+  },
+  "screens.SyncModal.SyncView.openSettingsButton": {
+    "description": "Label for button to open settings to fix update permissions error",
+    "message": "அமைப்புகளைத் திற"
+  },
+  "screens.SyncModal.SyncView.projectKey": {
+    "description": "First 5 characters of project key displayed on sync screen",
+    "message": "திட்டச் சாவி: {திட்டச்சாவி}"
+  },
+  "screens.SyncModal.SyncView.searchingDesc": {
+    "description": "Description shown whilst searcing for sync peers",
+    "message": "மற்ற சாதனங்கள் இயக்கப்பட்டு, அதே வைஃபை நெட்வொர்க்குடன் இணைக்கப்பட்டுள்ளதை உறுதிசெய்யவும்"
+  },
+  "screens.SyncModal.SyncView.searchingTitle": {
+    "description": "Title of message shown while looking for sync peers",
+    "message": "தேடு"
+  },
+  "screens.SyncModal.SyncView.settingsButton": {
+    "description": "Button to open WiFi settings",
+    "message": "அமைப்புகளைத் திற"
+  },
+  "screens.SyncModal.SyncView.sharingUpdate": {
+    "description": "Label in upgrade bar when sharing an update with others",
+    "message": "பிற சாதனங்களுடன் ஆப்ஸ் புதுப்பிப்புகளைப் பகிர்தல்"
+  },
+  "screens.SyncModal.SyncView.syncHeader": {
+    "description": "Header of sync screen",
+    "message": "ஒத்திசைவாக்குங்கள்"
+  },
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "புதுப்பிப்பு கிடைக்கிறது; ஒத்திசைவு முடியும் வரை காத்திருக்கவும்"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "மேம்பாடு பதிவிறக்கப்படுகிறது..."
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "மேம்பாடுகள் உள்ளதா எனப் பார்க்க முடியாதுள்ளது"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "புதுப்பிக்க முடியவில்லை"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Mapeo இன் புதிய பதிப்பு கிடைக்கிறது"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "செயல்படுத்தப்படாத நிலை"
+  },
+  "screens.SyncModal.errorDialogOk": {
+    "description": "Button to dismiss error alert about incompatible sync protocol",
+    "message": "சரி"
+  },
+  "screens.SyncModal.errorVersionThemBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "நீங்கள் ஒத்திசைக்க முயற்சிக்கும் சாதனம் உங்களுடன் ஒத்திசைக்க Mapeo ஐ சமீபத்திய பதிப்பிற்கு மேம்படுத்த வேண்டும்."
+  },
+  "screens.SyncModal.errorVersionThemBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "{சாதனத்தின் பெயர்} Mapeoஐ மேம்படுத்த வேண்டும்"
+  },
+  "screens.SyncModal.errorVersionUsBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
+    "message": "நீங்கள் ஒத்திசைக்க முயற்சிக்கும் சாதனத்தில் Mapeo இன் புதிய பதிப்பு உள்ளது. இந்தச் சாதனத்துடன் ஒத்திசைக்க Mapeoஐ மேம்படுத்த வேண்டும்."
+  },
+  "screens.SyncModal.errorVersionUsBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "{சாதனத்தின் பெயர்} உடன் ஒத்திசைக்க Mapeo ஐ மேம்படுத்த வேண்டும்"
+  },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "திட்டத்தைச் சேர்க்கவும்"
+  },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "அழைப்பைப் பகிரவும்"
+  },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "QR குறியீட்டைக் காட்டு"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "கீழே உள்ள மற்ற முறைகளில் ஒன்றைப் பயன்படுத்தி இணைக்க முயற்சிக்கவும்."
+  },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "சாதனத்துடன் இணைக்க முடியவில்லை"
+  },
+  "screens.UncaughtError.errorDesc": {
+    "description": "Description when there is an uncaught message in the app",
+    "message": "இதைப் பற்றி உண்மையிலேயே வருந்துகிறேன், ஏதோ எதிர்பாராத தவறு நேர்ந்தது, அது உங்கள் தவறு அல்ல. அது விஷயங்களைச் சரிசெய்கிறதா என்பதைப் பார்க்க, பயன்பாட்டை மறுதொடக்கம் செய்ய முயற்சிக்கவும்."
+  },
+  "screens.UncaughtError.errorTitle": {
+    "description": "Title of message when there is an uncaught message in the app",
+    "message": "எதிர்பாராத பிழை"
+  },
+  "sharedComponents.GpsPill.noGps": {
+    "message": "GPS இல்லை"
+  },
+  "sharedComponents.GpsPill.searching": {
+    "message": "தேடு…"
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "பயிற்சி முறை"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "இணைய இணைப்பில்லை"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi"
   }
 }

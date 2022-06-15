@@ -19,6 +19,14 @@
     "description": "Title of dialog that shows when cancelling a new observation",
     "message": "Hủy bỏ quan sát?"
   },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo đã được cập nhật thành công từ phiên bản {previousVersion} sang {currentVersion} vào {updateDateTime}"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "OK"
+  },
   "hooks.updateNotifier.dialogTitle": {
     "description": "Title of dialog shown to the user when Mapeo is updated",
     "message": "Mapeo đã được cập nhật"
@@ -125,6 +133,15 @@
   "screens.AlreadyOnProject.title": {
     "description": "Title of screen letting user know that they are already part of a project.",
     "message": "Bạn đang làm một dự án"
+  },
+  "screens.AppPasscode": {
+    "message": "Mật khẩu Ứng dụng"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "Tiếp tục"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "Mật khẩu Ứng dụng là gì?"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -345,6 +362,24 @@
   "screens.ManualGpsScreen.DmsForm.north": {
     "message": "Bắc"
   },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "Chọn vĩ độ"
+  },
+  "screens.ManualGpsScreen.DmsForm.south": {
+    "message": "Nam"
+  },
+  "screens.ManualGpsScreen.DmsForm.west": {
+    "message": "Tây"
+  },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "Định dạng tọa độ"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "Độ thập phân (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "Độ/Phút/Giây (DMS)"
+  },
   "screens.ManualGpsScreen.easting": {
     "message": "Hướng Đông"
   },
@@ -360,6 +395,9 @@
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "Nhập tọa độ"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "Hệ tọa độ vuông góc (UTM)"
   },
   "screens.ManualGpsScreen.zoneLetter": {
     "message": "Zone Letter"
@@ -511,6 +549,63 @@
     "description": "message shown whilst observations are loading",
     "message": "Đang tải... việc này có thể càn một chút thời gian sau khi đồng bộ hóa với thiết bị mới"
   },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "Tạo một Dự án"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "Chạm vào đây để {action}"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "Tham gia một dự án"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "Chế độ Luyện Tập"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "Hủy"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "Yêu cầu Người tham gia dự án quét mã mời này."
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "Đưa mã QR này cho người quản lý dự án của bạn"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "Hướng dẫn"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "Gửi Yêu cầu tham gia thay thế"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "Tham gia một dự án"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "Chia sẻ mã này với Điều phối viên Dự án"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "Chia sẻ"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "Gửi Yêu cầu tham gia"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "Mã xác nhận"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "Hoàn thành!"
+  },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "{num}/{total} quan sát hoàn thành"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "Đang đồng bộ..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "{num}/{total} quan sát hoàn thành"
+  },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "Bắt đầu lập bản đồ"
+  },
   "screens.Photos.ConfirmDeleteModal.cancel": {
     "message": "Hủy"
   },
@@ -522,6 +617,60 @@
   },
   "screens.PhotosModal": {
     "message": "Xóa hình ảnh"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "Đóng"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "Từ chối lời mời"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "Không thể truy xuất chi tiết lời mời"
+  },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "Bạn đã được mời tham gia dự án\n {projectName} với vai trò {role}"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "Tham gia và Đồng bộ"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "Tham gia {projectName}"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "Thử lại"
+  },
+  "screens.Security.deviceBackup": {
+    "message": "Sao lưu thiết bị"
+  },
+  "screens.Security.killPassDescriptonPassNotSet": {
+    "message": "Để sử dụng, bật Mật khẩu ứng dụng"
+  },
+  "screens.Security.killPassDescriptonPassSet": {
+    "message": "Bảo vệ thiế bị của bạn khỏi bị tịch thu"
+  },
+  "screens.Security.killPasscodeHeader": {
+    "message": "Huỷ Mật khẩu"
+  },
+  "screens.Security.paperKey": {
+    "message": "Khoá giấy"
+  },
+  "screens.Security.paperKeyDes": {
+    "message": "Khôi phục tài khoản của bạn nếu thiết bị này bị mất"
+  },
+  "screens.Security.passDesriptionPassNotSet": {
+    "message": "Mật khẩu chưa được đặt"
+  },
+  "screens.Security.passDesriptionPassSet": {
+    "message": "Mật khẩu đã được đặt"
+  },
+  "screens.Security.passcodeHeader": {
+    "message": "Mật khẩu Ứng dụng"
+  },
+  "screens.Security.securitySubheader": {
+    "message": "Bảo mật thiết bị"
+  },
+  "screens.Security.title": {
+    "message": "Bảo mật"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
@@ -539,6 +688,60 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Có gì đó không ổn với dữ liệu Mapeo"
   },
+  "screens.Settings.Experiments.BGMaps": {
+    "message": "Bản đồ nền"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMaps": {
+    "message": "Bản đồ nền"
+  },
+  "screens.Settings.Experiments.BGMaps.goTo": {
+    "message": "Đi đến"
+  },
+  "screens.Settings.Experiments.BGMaps.useBGMap": {
+    "message": "Sử dụng tính năng bản đồ nền"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "Mũi tên định hướng"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "Tính năng Mũi tên định hướng mới sử dụng la bàn kỹ thuật số của điện thoại thông minh của bạn để cung cấp thông tin về hướng mà điện thoại của bạn đang đối mặt. Ở gần các vật kim loại lớn hoặc từ trường mạnh có thể ảnh hưởng đến độ chính xác của la bàn. Nếu điện thoại thông minh của bạn không có la bàn, Mũi tên Định hướng vẫn có thể xác định hướng dựa trên chuyển động. Hướng dựa trên chuyển động có thể kém chính xác hơn."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "LƯU Ý: Mũi tên định hướng không đủ tin cậy để sử dụng riêng cho việc điều hướng và nó có thể làm hao pin thiết bị của bạn nhanh hơn."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "Sử dụng Mũi tên định hướng"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "Cập nhật ứng dụng ngang hàng"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "Cập nhật ứng dụng ngang hàng"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "Cập nhật ứng dụng ngang hàng (P2P) cho phép bạn chia sẻ và nhận các phiên bản mới hơn của ứng dụng Mapeo thông qua kết nối với các thiết bị Mapeo khác qua Wi-Fi (không cần kết nối internet). Để sử dụng tính năng này, phải mở màn hình Mapeo Đồng bộ hoá trên cả hai thiết bị."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "LƯU Ý: Khi cập nhật phiên bản ứng dụng Mapeo theo cách này, dữ liệu Mapeo của bạn (quan sát, cấu hình hoặc bản đồ) KHÔNG được chia sẻ giữa các thiết bị."
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Indicates that the experimental feature is enabled",
+    "message": "Bật"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "Mũi tên định hướng"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Indicates that the experimental feature is not enabled",
+    "message": "Tắt"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p app updates",
+    "message": "Cập nhật ứng dụng ngang hàng"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "Thử nghiệm"
+  },
   "screens.Settings.ManagePeople.leaveProject": {
     "message": "Rời khỏi dự án"
   },
@@ -551,6 +754,46 @@
   "screens.Settings.ManagePeople.yourDevice": {
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Bạn) {deviceName}"
+  },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "Thêm Bản đồ nền"
+  },
+  "screens.Settings.MapSettings.OfflineArea": {
+    "message": "Khu vực ngoại tuyến"
+  },
+  "screens.Settings.MapSettings.backgroundMaps": {
+    "message": "Bản đồ nền"
+  },
+  "screens.Settings.MapSettings.cancel": {
+    "message": "Hủy"
+  },
+  "screens.Settings.MapSettings.clearDiagrams": {
+    "message": "Bạn có chắc chắn muốn xóa sơ đồ không?"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "Đóng"
+  },
+  "screens.Settings.MapSettings.dataLayers": {
+    "message": "Các lớp dữ liệu"
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "Nhập từ file"
+  },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "Cài đặt bản đồ"
+  },
+  "screens.Settings.MapSettings.noAreas": {
+    "description": "Message to indicate to user that no offline areas have been downloaded",
+    "message": "Không có khu vực ngoại tuyến được tải xuống"
+  },
+  "screens.Settings.MapSettings.removeMap": {
+    "message": "Gỡ bỏ bản đồ"
+  },
+  "screens.Settings.MapSettings.subtitle": {
+    "message": "Bản đồ này và các khu vực ngoại tuyến liên quan sẽ bị xóa. Việc này không thể hoàn tác được"
+  },
+  "screens.Settings.MapSettings.title": {
+    "message": "Bản đồ nền"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Tạo mới hoặc tham gia một dự án dưới đây"
@@ -662,6 +905,10 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "Ngôn ngữ hiển thị cho ứng dụng"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "Cài đặt bản đồ"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -830,6 +1077,81 @@
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
     "message": "Lỗi bất thường"
+  },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "Giao lộ"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "Mức độ chi tiết"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "Địa chỉ"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "Thành phố"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "Toàn cầu"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "Quốc gia lớn"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "Khu vực đô thị lớn"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "Quốc gia nhỏ"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "Đường nhỏ"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "Phố"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "Khối phố"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "Tiểu lục địa"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "Thị xã/thị trấn"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "Thôn/bản"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "Mức độ phóng to"
+  },
+  "sharedComponents.BGMapCard.abbrevMegabyte": {
+    "description": "The abbreviation for megabyte",
+    "message": "MB"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "Bản đồ hiện tại"
+  },
+  "sharedComponents.BGMapSelector.close": {
+    "message": "Đóng"
+  },
+  "sharedComponents.BGMapSelector.manageMaps": {
+    "message": "Quản lý Bản đồ"
+  },
+  "sharedComponents.BGMapSelector.title": {
+    "description": "Title for the background map selector",
+    "message": "Bản đồ nền"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "Không có GPS"

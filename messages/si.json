@@ -107,5 +107,1084 @@
   },
   "screens.AddToProjectScreen.SuccessStep.title": {
     "message": "සාර්ථකත්වය!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "උපාංගයට ආරාධනා කරන්න"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "ව්යාපෘතියට එකතු කරන්න"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "ඔබ {projectName} හි සිටී"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "ආපසු යන්න"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "වත්මන් ව්‍යාපෘතියෙන් ඉවත් වන්න"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "නව ව්‍යාපෘතියකට සම්බන්ධ වීමට ඔබ ඔබේ වත්මන් එක අත්හැරිය යුතුය."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "ඔබ දැනටමත් ව්‍යාපෘතියක සිටී"
+  },
+  "screens.AppPasscode": {
+    "message": "යෙදුම් මුර කේතය"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "ඉදිරියට යන්න"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.description": {
+    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc."
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "යෙදුම් මුර කේතය යනු කුමක්ද?"
+  },
+  "screens.CameraScreen.noCameraAccess": {
+    "description": "Error message shown when app does not have permissions to camera",
+    "message": "කැමරාවට ප්‍රවේශය නැත"
+  },
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "සිදුවන්නේ කුමක්ද යන්න තෝරන්න"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "ඔව්, මෙම නිරීක්ෂණය මකන්න"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "ඔව්, මෙම නිරීක්ෂණය මකන්න"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "ව්‍යාපෘතියට ({observationCount}) {observationCount, plural, one {නිරීක්ෂණ} other  {නිරීක්ෂණ}} ගෙන එන්නද?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "පුහුණු මාදිලියෙන් ඉවත් වන්න"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "විකල්ප වලින් එකක් තෝරන්න"
+  },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "දශම අංශක (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "උපාධි/මිනිත්තු/තත්පර (DMS)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "සම්බන්ධීකරණ ආකෘතිය"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "Universal Transverse Mercator (UTM)"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "ව්යාපෘතිය සාදන්න"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "නව ව්‍යාපෘතියක් සාදන්න"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "උපාංගයේ නම ඇතුළත් කරන්න"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "ඔබගේ උපාංගය සඳහා නමක් එක් කරන්න"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "උපාංගයේ නම"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "ව්යාපෘතියේ නම ඇතුළත් කරන්න"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "ව්‍යාපෘතිය සඳහා නමක් ඇතුළත් කරන්න"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "ව්යාපෘතියේ නම"
+  },
+  "screens.GpsModal.details": {
+    "description": "Section title for details about current position",
+    "message": "විස්තරය"
+  },
+  "screens.GpsModal.gpsHeader": {
+    "description": "Header for GPS screen",
+    "message": "වත්මන් GPS ස්ථානය"
+  },
+  "screens.GpsModal.lastUpdate": {
+    "description": "Section title for time of last GPS update",
+    "message": "අවසන් යාවත්කාලීනය"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "ඛණ්ඩාංක දශම අංශක"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "ඛණ්ඩාංක DMS"
+  },
+  "screens.GpsModal.locationSensors": {
+    "description": "Heading for section about location sensor status",
+    "message": "සංවේදක තත්ත්වය"
+  },
+  "screens.GpsModal.locationUTM": {
+    "description": "Section title for UTM coordinates",
+    "message": "ඛණ්ඩාංක UTM"
+  },
+  "screens.GpsModal.no": {
+    "description": "if a location sensor is active yes/no",
+    "message": "නැහැ"
+  },
+  "screens.GpsModal.yes": {
+    "description": "if a location sensor is active yes/no",
+    "message": "ඔව්"
+  },
+  "screens.JoinRequestModal.close": {
+    "message": "වසන්න"
+  },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "ඉල්ලීම ප්‍රතික්ෂේප කරන්න"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "ආරාධනා කරන්න"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "ආරාධනාව යවා ඇත."
+  },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{deviceName} හට {projectName} හා සම්බන්ධ වීමට අවශ්‍යයි"
+  },
+  "screens.JoinRequestModal.success": {
+    "message": "සාර්ථකයි!"
+  },
+  "screens.LanguageSettings.title": {
+    "description": "Title language settings screen",
+    "message": "භාෂාව"
+  },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "ව්යාපෘතිය අත්හැර"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "ගෙදර යන්න"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "නිරීක්ෂණය මකා දමන ලදි"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
+    "message": "සම්පූර්ණයි!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "ව්‍යාපෘතියෙන් ඉවත් වීම {projectName}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "නිරීක්ෂණ මකමින්"
+  },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "නැගෙනහිර"
+  },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "වලංගු නොවන ඛණ්ඩාංක"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "අක්ෂාංශ අගය"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "අක්ෂාංශ"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "දේශාංශ අගය"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "දේශාංශ"
+  },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "උතුරු"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "අක්ෂාංශ කාර්ඩිනලිටි තෝරන්න"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "දේශාංශ කාඩිනලිටි තෝරන්න"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "දකුණ"
+  },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "බටහිර"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "{field} මිනිත්තු ආදානය"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "{field} තත්පර ආදානය"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "අංශක"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
+    "message": "{field} අංශක ආදානය"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "දිශාව"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
+    "message": "විනාඩි"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "තත්පර"
+  },
+  "screens.ManualGpsScreen.DmsForm.east": {
+    "message": "නැගෙනහිර"
+  },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "වලංගු නොවන ඛණ්ඩාංක"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "අක්ෂාංශ"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "දේශාංශ"
+  },
+  "screens.ManualGpsScreen.DmsForm.north": {
+    "message": "උතුරු"
+  },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "අක්ෂාංශ කාර්ඩිනලිටි තෝරන්න"
+  },
+  "screens.ManualGpsScreen.DmsForm.south": {
+    "message": "දකුණ"
+  },
+  "screens.ManualGpsScreen.DmsForm.west": {
+    "message": "බටහිර"
+  },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "සම්බන්ධීකරණ ආකෘතිය"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "දශම අංශක (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "උපාධි/මිනිත්තු/තත්පර (DMS)"
+  },
+  "screens.ManualGpsScreen.easting": {
+    "message": "නැගෙනහිර"
+  },
+  "screens.ManualGpsScreen.eastingSuffix": {
+    "message": "mE"
+  },
+  "screens.ManualGpsScreen.northing": {
+    "message": "උතුරු"
+  },
+  "screens.ManualGpsScreen.northingSuffix": {
+    "message": "mN"
+  },
+  "screens.ManualGpsScreen.title": {
+    "description": "title of manual GPS screen",
+    "message": "ඛණ්ඩාංක ඇතුළත් කරන්න"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "Universal Transverse Mercator (UTM)"
+  },
+  "screens.ManualGpsScreen.zoneLetter": {
+    "message": "කලාප ලිපිය"
+  },
+  "screens.ManualGpsScreen.zoneNumber": {
+    "message": "කලාප අංකය"
+  },
+  "screens.Observation.ObservationView.alertFooter": {
+    "description": "Footer for shared observations message",
+    "message": "Mapeo එකෙන් එව්වා"
+  },
+  "screens.Observation.ObservationView.alertSubject": {
+    "description": "Subject-line for shared observations",
+    "message": "Mapeo ඇඟවීම"
+  },
+  "screens.Observation.ObservationView.delete": {
+    "description": "Button to delete an observation",
+    "message": "මකන්න"
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "පිළිතුරක් නැත"
+  },
+  "screens.Observation.ObservationView.observation": {
+    "description": "Default name of observation with no matching preset",
+    "message": "නිරීක්ෂණ"
+  },
+  "screens.Observation.ObservationView.share": {
+    "description": "Button to share an observation",
+    "message": "බෙදාගන්න"
+  },
+  "screens.Observation.cancel": {
+    "description": "Button to cancel delete of observation",
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.Observation.confirm": {
+    "description": "Button to confirm delete of observation",
+    "message": "ඔව්, මකන්න"
+  },
+  "screens.Observation.deleteTitle": {
+    "description": "Title of dialog asking confirmation to delete an observation",
+    "message": "නිරීක්ෂණය මකන්නද?"
+  },
+  "screens.Observation.notFound": {
+    "description": "Message shown when an observation is not found",
+    "message": "නිරීක්ෂණය හමු නොවීය"
+  },
+  "screens.Observation.title": {
+    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
+    "message": "නිරීක්ෂණ"
+  },
+  "screens.ObservationDetails.QuestionNavBar.questionPage": {
+    "description": "Indicates which question we are on and total questions",
+    "message": "{current} වල {total}"
+  },
+  "screens.ObservationDetails.done": {
+    "description": "Button text when all questions are complete",
+    "message": "කළා"
+  },
+  "screens.ObservationDetails.nextQuestion": {
+    "description": "Button text to navigate to next question",
+    "message": "ඊළඟ"
+  },
+  "screens.ObservationDetails.title": {
+    "description": "Title of observation details screen showing question number and total",
+    "message": "ප්‍රශ්නය {current} වල {total}"
+  },
+  "screens.ObservationEdit.BottomSheet.addLabel": {
+    "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
+    "message": "එකතු කරන්න…"
+  },
+  "screens.ObservationEdit.ObservationEditView.changePreset": {
+    "description": "Button to change a category / preset",
+    "message": "වෙනස් කරන්න"
+  },
+  "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
+    "description": "Placeholder for description/notes field",
+    "message": "මෙතන මොකද වෙන්නේ?"
+  },
+  "screens.ObservationEdit.ObservationEditView.detailsButton": {
+    "description": "Button label to add details",
+    "message": "විස්තර එකතු කරන්න"
+  },
+  "screens.ObservationEdit.ObservationEditView.photoButton": {
+    "description": "Button label for adding photo",
+    "message": "ඡායාරූපය එක් කරන්න"
+  },
+  "screens.ObservationEdit.ObservationEditView.searching": {
+    "description": "Shown in new observation screen whilst looking for GPS",
+    "message": "සොයමින්…"
+  },
+  "screens.ObservationEdit.SaveButton.keepWaiting": {
+    "description": "Button to cancel save and continue waiting for GPS",
+    "message": "දිගටම බලා සිටින්න"
+  },
+  "screens.ObservationEdit.SaveButton.manualEntry": {
+    "description": "Button to manually enter GPS coordinates",
+    "message": "ඛණ්ඩාංක අතින් ඇතුල් කරන්න"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsDesc": {
+    "description": "Description in dialog when trying to save with no GPS coords",
+    "message": "මෙම නිරීක්ෂණයට ස්ථානයක් නොමැත. ඔබට GPS සංඥාවක් සඳහා රැඳී සිටිය හැක, ස්ථානයක් නොමැතිව නිරීක්ෂණ සුරකින්න, හෝ ඛණ්ඩාංක අතින් ඇතුල් කරන්න"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsTitle": {
+    "description": "Title of dialog when trying to save with no GPS coords",
+    "message": "GPS සංඥා නැත"
+  },
+  "screens.ObservationEdit.SaveButton.saveAnyway": {
+    "description": "Button to save regardless of GPS state",
+    "message": "සුරකින්න"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsDesc": {
+    "description": "Description in dialog when trying to save with low GPS accuracy.",
+    "message": "GPS නිරවද්‍යතාවය අඩුයි. වඩා හොඳ නිරවද්‍යතාවයක් සඳහා ඔබට දිගටම බලා සිටිය හැක, අඩු නිරවද්‍යතාවයකින් නිරීක්ෂණය සුරකින්න, හෝ ඛණ්ඩාංක අතින් ඇතුල් කරන්න"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsTitle": {
+    "description": "Title of dialog when trying to save with low GPS accuracy.",
+    "message": "දුර්වල GPS සංඥා"
+  },
+  "screens.ObservationEdit.editTitle": {
+    "description": "screen title for edit observation screen",
+    "message": "නිරීක්ෂණ සංස්කරණය කරන්න"
+  },
+  "screens.ObservationEdit.newTitle": {
+    "description": "screen title for new observation screen",
+    "message": "නව නිරීක්ෂණයක්"
+  },
+  "screens.ObservationList.observationListTitle": {
+    "description": "Title of screen with list of observations",
+    "message": "නිරීක්ෂණය"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "සිතියම වෙත යන්න"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
+    "description": "Description of observation list view when the user has not yet recorded observations",
+    "message": "ඔබගේ පළමු නිරීක්ෂණය වාර්තා කිරීමට සිතියමෙන් හෝ කැමරා දර්ශනයෙන් ආරම්භ කරන්න."
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
+    "description": "Title of observation list view when the user has not yet recorded observations",
+    "message": "නිරීක්ෂණය එකතු කරන්න"
+  },
+  "screens.ObservationsList.error": {
+    "description": "message shown when there is an unexpected error when loading observations",
+    "message": "නිරීක්ෂණ පූරණය කිරීමේ දෝෂයකි. Mapeo වෙතින් ඉවත් වී නැවත ආරම්භ කිරීමට උත්සාහ කරන්න."
+  },
+  "screens.ObservationsList.loading": {
+    "description": "message shown whilst observations are loading",
+    "message": "පූරණය වෙමින් පවතී... මෙය නව උපාංගයක් සමඟ සමමුහුර්ත කිරීමෙන් පසු යම් කාලයක් ගත විය හැක"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "නව ව්‍යාපෘතියක් සාදන්න"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "{action} කිරීමට මෙහි තට්ටු කරන්න"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "ව්යාපෘතියකට සම්බන්ධ වන්න"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "පුහුණු මාදිලිය"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "ව්‍යාපෘති සහභාගිවන්නන්ට මෙම ආරාධනා කේතය පරිලෝකනය කිරීමට සලස්වන්න."
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "මෙම QR කේතය ඔබේ ව්‍යාපෘති පරිපාලක වෙත පෙන්වන්න"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "උපදෙස්"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "ඒ වෙනුවට Join Request යවන්න"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "ව්යාපෘතියකට සම්බන්ධ වන්න"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "මෙම කේතය ව්‍යාපෘති සම්බන්ධීකාරක සමඟ බෙදා ගන්න"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "බෙදාගන්න"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "Join Request යවන්න"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "Verification Code"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "සම්පූර්ණයි!"
+  },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "{num}/{total} නිරීක්ෂණ සම්පූර්ණයි"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "සමමුහුර්ත වෙමින්..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "{num}/{total} නිරීක්ෂණ සම්පූර්ණයි"
+  },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "සිතියම්ගත කිරීම ආරම්භ කරන්න"
+  },
+  "screens.Photos.ConfirmDeleteModal.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
+    "message": "රූපය මකන්න"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
+    "message": "මෙම ඡායාරූපය මකන්නද?"
+  },
+  "screens.PhotosModal": {
+    "message": "රූපය මකන්න"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "වසන්න"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "ආරාධනාව ප්‍රතික්ෂේප කරන්න"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "ආරාධනා විස්තර ලබා ගැනීමට නොහැකි විය"
+  },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "{role} අයෙක් ලෙස {projectName} ඔබට එක් වීමට ආරාධනා කර ඇත"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "එකතු වී සමමුහුර්ත කරන්න"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "{projectName} හා එක් වන්න"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "යලි උත්සාහ කරන්න"
+  },
+  "screens.Security.deviceBackup": {
+    "message": "උපාංග උපස්ථය"
+  },
+  "screens.Security.killPassDescriptonPassNotSet": {
+    "message": "භාවිතා කිරීමට, යෙදුම් මුරකේතය සබල කරන්න"
+  },
+  "screens.Security.killPassDescriptonPassSet": {
+    "message": "අල්ලා ගැනීමෙන් ඔබේ උපාංගය ආරක්ෂා කරන්න"
+  },
+  "screens.Security.killPasscodeHeader": {
+    "message": "මුර කේතය විසන්ධි කරන්න"
+  },
+  "screens.Security.paperKey": {
+    "message": "කඩදාසි යතුර"
+  },
+  "screens.Security.paperKeyDes": {
+    "message": "මෙම උපාංගය නැති වුවහොත් ඔබගේ ගිණුම නැවත පිහිටුවන්න"
+  },
+  "screens.Security.passDesriptionPassNotSet": {
+    "message": "මුර කේතය සකසා නැත"
+  },
+  "screens.Security.passDesriptionPassSet": {
+    "message": "මුර කේතය සකසා ඇත"
+  },
+  "screens.Security.passcodeHeader": {
+    "message": "යෙදුම් මුර කේතය"
+  },
+  "screens.Security.securitySubheader": {
+    "message": "උපාංග ආරක්ෂාව"
+  },
+  "screens.Security.title": {
+    "message": "ආරක්ෂාව"
+  },
+  "screens.ServerStatus.errorDesc": {
+    "description": "Description when there the Mapeo Core server crashes",
+    "message": "ඔබට යෙදුම බලහත්කාරයෙන් නැවත ආරම්භ කිරීමට උත්සාහ කළ හැක, නමුත් නිවැරදි කිරීමට අවශ්‍ය යමක් තිබිය හැක. ඇත්තටම මේ ගැන කණගාටුයි, යෙදුම් සෑදීම අපහසුයි."
+  },
+  "screens.ServerStatus.errorTitle": {
+    "description": "Title of message when there the Mapeo Core server crashes",
+    "message": "අපොයි, Mapeo දත්ත ගබඩාවේ යමක් කැඩී ඇත."
+  },
+  "screens.ServerStatus.timeoutDesc": {
+    "description": "Description when the server has not responded for 10 seconds",
+    "message": "ඔබ මෙම පණිවිඩය දිගටම බලන්නේ නම් ඔබට Mapeo බලහත්කාරයෙන් නැවත ආරම්භ කිරීමට අවශ්‍ය විය හැක"
+  },
+  "screens.ServerStatus.timeoutTitle": {
+    "description": "Title of message when the server has not responded for 10 seconds",
+    "message": "Mapeo දත්ත ගබඩාවේ යම් දෙයක් තිබේ"
+  },
+  "screens.Settings.Experiments.BGMaps": {
+    "message": "පසුබිම් සිතියම්"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMaps": {
+    "message": "පසුබිම් සිතියම්"
+  },
+  "screens.Settings.Experiments.BGMaps.goTo": {
+    "message": "වෙත යන්න"
+  },
+  "screens.Settings.Experiments.BGMaps.useBGMap": {
+    "message": "පසුබිම් සිතියම් විශේෂාංගය භාවිතා කරන්න"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "දිශානුගත ඊතලය"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "නව දිශානුගත ඊතල විශේෂාංගය ඔබගේ දුරකථනය මුහුණ දෙන දිශාව පිළිබඳ තොරතුරු සැපයීමට ඔබගේ ස්මාර්ට් ජංගම දුරකතනයේ ඩිජිටල් මාලිමා යන්ත්‍රය භාවිතා කරයි. විශාල ලෝහ වස්තූන් හෝ ප්රබල චුම්බක ක්ෂේත්රයට සමීප වීම මාලිමාවේ නිරවද්යතාවට බලපායි. ඔබගේ ස්මාර්ට් ජංගම දුරකතනයේ මාලිමා යන්ත්‍රයක් නොමැති නම්, දිශානුගත ඊතලයට චලනය මත දිශාව තීරණය කිරීමට තවමත් හැකි වේ. චලනය මත පදනම් වූ දිශාව අඩු නිවැරදි තාවයකින් පෙන්විය හැක."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "සටහන: දිශානුගත ඊතලය සංචාලනය සඳහා පමණක් භාවිතා කිරීමට තරම් විශ්වාසදායක නොවන අතර, එය ඔබගේ උපාංගයේ බැටරිය වේගයෙන් බැස යා හැක."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "දිශානුගත ඊතලය භාවිතා කරන්න"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "P2P යෙදුම් යාවත්කාලීන"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "P2P යෙදුම් යාවත්කාලීන කරන්නා භාවිතා කරන්න"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "Peer-to-peer (P2P) යෙදුම් යාවත්කාලීන ඔබට Wi-Fi හරහා වෙනත් Mapeo උපාංග වෙත සම්බන්ධ වීමෙන් Mapeo යෙදුමේ නව අනුවාද බෙදා ගැනීමට සහ ලබා ගැනීමට ඉඩ සලසයි (අන්තර්ජාල සම්බන්ධතාවක් අවශ්‍ය නොවේ). මෙම විශේෂාංගය භාවිතා කිරීමට, Mapeo Synchronize තිරය උපාංග දෙකෙහිම විවෘතව තිබිය යුතුය."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "සටහන: මේ ආකාරයෙන් Mapeo යෙදුම් අනුවාදය යාවත්කාලීන කරන විට, ඔබගේ Mapeo දත්ත කිසිවක් (නිරීක්ෂණ, වින්‍යාස කිරීම්, හෝ සිතියම්) උපාංග අතර බෙදා නොගනී."
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Indicates that the experimental feature is enabled",
+    "message": "සක්‍රීයයි"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "දිශානුගත ඊතලය"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Indicates that the experimental feature is not enabled",
+    "message": "අක්‍රීයයි"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p app updates",
+    "message": "P2P යෙදුම් යාවත්කාලීන"
+  },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "අවට උපාංග සමඟ යාවත්කාලීන බෙදා ගන්න සහ ලබා ගන්න"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "අත්හදා බැලීම්"
+  },
+  "screens.Settings.ManagePeople.add": {
+    "message": "එකතු කරන්න"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "ව්‍යාපෘතියෙන් ඉවත් වන්න"
+  },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "මිනිසුන් කළමනාකරණය කරන්න"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "ඉවත් කරන්න"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(You) {deviceName}"
+  },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "පසුබිම් සිතියම එක් කරන්න"
+  },
+  "screens.Settings.MapSettings.OfflineArea": {
+    "message": "නොබැඳි ප්රදේශ"
+  },
+  "screens.Settings.MapSettings.backgroundMaps": {
+    "message": "පසුබිම් සිතියම්"
+  },
+  "screens.Settings.MapSettings.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.Settings.MapSettings.clearDiagrams": {
+    "message": "ඔබට රූප සටහන් හිස් කිරීමට අවශ්‍ය බව විශ්වාසද?"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "වසන්න"
+  },
+  "screens.Settings.MapSettings.dataLayers": {
+    "message": "දත්ත ස්ථර"
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "ගොනුව වෙතින් ආයාත කරන්න"
+  },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "සිතියම් සැකසීම්"
+  },
+  "screens.Settings.MapSettings.noAreas": {
+    "description": "Message to indicate to user that no offline areas have been downloaded",
+    "message": "බාගත කළ නොබැඳි ප්‍රදේශයක් නැත"
+  },
+  "screens.Settings.MapSettings.removeMap": {
+    "message": "සිතියම ඉවත් කරන්න"
+  },
+  "screens.Settings.MapSettings.subtitle": {
+    "message": "මෙම සිතියම සහ එයට අමුණා ඇති නොබැඳි ප්‍රදේශ මකා දැමෙනු ඇත. මෙය ආපසු හැරවිය නොහැක"
+  },
+  "screens.Settings.MapSettings.title": {
+    "message": "පසුබිම් සිතියම්"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "පහත ව්‍යාපෘතියක් සාදන්න හෝ සම්බන්ධ වන්න"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "නව ව්‍යාපෘතියක් සාදන්න"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "ව්යාපෘතියකට සම්බන්ධ වන්න"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "පුහුණු ප්‍රකාරය හැර යාමට සූදානම්ද?"
+  },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "මෙම වින්‍යාස ගොනුව ආයාත කිරීමට උත්සාහ කිරීමේදී දෝෂයක් ඇති විය"
+  },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "හරි"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "අපනයන දෝෂ"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertMessage": {
+    "description": "Message for alert after successful config import",
+    "message": "සාර්ථකව ආනයනය කරන ලද වින්‍යාසය:\n\n{name} {version}"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertOk": {
+    "description": "Button text for config import alert acknowledgement",
+    "message": "හරි"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "වත්මන් වින්යාසය"
+  },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "ආයාත වින්‍යාසය"
+  },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "ව්යාපෘතියේ නම:"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "කිසිවක් නැත"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "පුහුණු මාදිලිය"
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "ව්යාපෘති යතුර"
+  },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "ව්යාපෘති වින්යාසය"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "නම් නොකළ"
+  },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "Mapeo ගැන"
+  },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "අනුවාදය සහ ගොඩනැගීමේ අංකය"
+  },
+  "screens.Settings.appInstall": {
+    "description": "Primary text for Mapeo APK test",
+    "message": "APK ස්ථාපනය කරන්න"
+  },
+  "screens.Settings.appInstallDesc": {
+    "description": "Secondary text for Mapeo APK test",
+    "message": "APK ස්ථාපනය පරීක්ෂා කරන්න (යෙදුම නැවත ස්ථාපනය කරන්න)"
+  },
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "Mapeo ස්ථාපකය බෙදාගන්න"
+  },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "වෙනත් දුරකථනයක Mapeo ස්ථාපනය කරන්න හෝ යාවත්කාලීන කරන්න"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "සම්බන්ධීකරණ ආකෘතිය"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "ඛණ්ඩාංක පෙන්වන ආකාරය තෝරන්න\nContextrequest"
+  },
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "අත්හදා බැලීම්"
+  },
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "අත්හදා බැලීම්"
+  },
+  "screens.Settings.language": {
+    "description": "Primary text for language settings",
+    "message": "භාෂාව"
+  },
+  "screens.Settings.languageDesc": {
+    "description": "Secondary text for language settings",
+    "message": "යෙදුම සඳහා සංදර්ශක භාෂාව"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "සිතියම් සැකසීම්"
+  },
+  "screens.Settings.projectConfig": {
+    "description": "Primary text for project config settings",
+    "message": "ව්යාපෘති වින්යාසය"
+  },
+  "screens.Settings.projectConfigDesc": {
+    "description": "Secondary text for project config settings",
+    "message": "කාණ්ඩ, අයිකන සහ ප්රශ්න"
+  },
+  "screens.Settings.security": {
+    "message": "ආරක්ෂාව"
+  },
+  "screens.Settings.securityDesc": {
+    "description": "Description of security button in settings",
+    "message": "යෙදුම් මුර කේතය සහ උපාංග ආරක්ෂාව"
+  },
+  "screens.Settings.title": {
+    "description": "Title of settings screen",
+    "message": "සැකසුම්"
+  },
+  "screens.SyncModal.PeerList.completeButton": {
+    "description": "Button label when complete",
+    "message": "සම්පූර්ණයි"
+  },
+  "screens.SyncModal.PeerList.disconnectedButton": {
+    "description": "Button label when disconnected",
+    "message": "විසන්ධි කරන්න"
+  },
+  "screens.SyncModal.PeerList.errorButton": {
+    "description": "Button label when there is an error",
+    "message": "දෝෂයකි"
+  },
+  "screens.SyncModal.PeerList.errorClientMismatch": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
+    "message": "Mapeo සේවාදායකයෙක් නොවේ"
+  },
+  "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
+    "message": "Mapeo සදහා නොගැලපෙයි"
+  },
+  "screens.SyncModal.PeerList.finishingButton": {
+    "description": "Button label when finishing sync but don't have correct progress",
+    "message": "..."
+  },
+  "screens.SyncModal.PeerList.syncButton": {
+    "description": "Button label for sync button",
+    "message": "සමමුහුර්තනය"
+  },
+  "screens.SyncModal.PeerList.syncLabel": {
+    "description": "Label for last sync datetime",
+    "message": "සමමුහුර්ත:"
+  },
+  "screens.SyncModal.SyncView.checkingUpdates": {
+    "description": "Label in upgrade bar when checking for updates",
+    "message": "යෙදුම් යාවත්කාලීන සඳහා පරීක්ෂා කරමින්"
+  },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "ස්ථාපනය"
+  },
+  "screens.SyncModal.SyncView.noUpdates": {
+    "description": "Label in upgrade bar when no updates are found",
+    "message": "යෙදුම් යාවත්කාලීන කිසිවක් හමු නොවීය"
+  },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "{count, plural, one {# device} other {# device}} පරීක්ෂා කරන ලදී"
+  },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "ඔබගේ දුරකථන සැකසුම් විවෘත කර සමමුහුර්ත කිරීමට WiFi ජාලයකට සම්බන්ධ වන්න"
+  },
+  "screens.SyncModal.SyncView.noWifiTitle": {
+    "description": "Title of message shown when no wifi network",
+    "message": "WiFi නැත"
+  },
+  "screens.SyncModal.SyncView.openSettingsButton": {
+    "description": "Label for button to open settings to fix update permissions error",
+    "message": "සැකසුම් විවෘත කරන්න"
+  },
+  "screens.SyncModal.SyncView.projectKey": {
+    "description": "First 5 characters of project key displayed on sync screen",
+    "message": "ව්යාපෘති යතුර:{projectKey}"
+  },
+  "screens.SyncModal.SyncView.searchingDesc": {
+    "description": "Description shown whilst searcing for sync peers",
+    "message": "වෙනත් උපාංග සක්‍රිය කර ඇති බවත් එම WiFi ජාලයට සම්බන්ධ වී ඇති බවත් සහතික කර ගන්න"
+  },
+  "screens.SyncModal.SyncView.searchingTitle": {
+    "description": "Title of message shown while looking for sync peers",
+    "message": "සොයමින්"
+  },
+  "screens.SyncModal.SyncView.settingsButton": {
+    "description": "Button to open WiFi settings",
+    "message": "සැකසුම් විවෘත කරන්න"
+  },
+  "screens.SyncModal.SyncView.sharingUpdate": {
+    "description": "Label in upgrade bar when sharing an update with others",
+    "message": "වෙනත් උපාංග සමඟ යෙදුම් යාවත්කාලීන බෙදා ගැනීම"
+  },
+  "screens.SyncModal.SyncView.syncHeader": {
+    "description": "Header of sync screen",
+    "message": "සමමුහුර්ත කරන්න"
+  },
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "යාවත්කාලීන ලබා ගත හැකිය; සමමුහුර්ත කිරීම අවසන් වන තෙක් බලා සිටීන්න"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "යාවත්කාලීන බාගත කිරීම"
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "යාවත්කාලීන සඳහා පරීක්ෂා කළ නොහැක"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "යාවත්කාලීන කළ නොහැක"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Mapeo හි නව අනුවාදයක් තිබේ"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "ක්‍රියාත්මක නොකළ තත්ත්වය"
+  },
+  "screens.SyncModal.errorDialogOk": {
+    "description": "Button to dismiss error alert about incompatible sync protocol",
+    "message": "හරි"
+  },
+  "screens.SyncModal.errorVersionThemBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "ඔබ සමමුහුර්ත කිරීමට උත්සාහ කරන උපාංගය ඔබ සමඟ සමමුහුර්ත කිරීමට Mapeo නවතම අනුවාදයට උත්ශ්‍රේණි කිරීමට අවශ්‍ය වේ."
+  },
+  "screens.SyncModal.errorVersionThemBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} හට Mapeo උත්ශ්‍රේණි කිරීමට අවශ්‍යයි"
+  },
+  "screens.SyncModal.errorVersionUsBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
+    "message": "ඔබ සමමුහුර්ත කිරීමට උත්සාහ කරන උපාංගයේ Mapeo හි නවතම අනුවාදයක් ඇත. මෙම උපාංගය සමඟ සමමුහුර්ත කිරීමට ඔබ Mapeo උත්ශ්‍රේණි කිරීමට අවශ්‍ය වේ."
+  },
+  "screens.SyncModal.errorVersionUsBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "ඔබ {deviceName} සමඟ සමමුහුර්ත කිරීමට Mapeo upgrade කිරීමට අවශ්‍ය වේ"
+  },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "ව්යාපෘතියට එකතු කරන්න"
+  },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "ආරාධනා බෙදාගන්න"
+  },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "QR කේතය පෙන්වන්න"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "පහත වෙනත් ක්‍රම වලින් එකක් භාවිතා කර සම්බන්ධ වීමට උත්සාහ කරන්න."
+  },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "උපාංගය වෙත සම්බන්ධ කිරීමට නොහැක"
+  },
+  "screens.UncaughtError.errorDesc": {
+    "description": "Description when there is an uncaught message in the app",
+    "message": "මේ ගැන ඇත්තටම කණගාටුයි, අනපේක්ෂිත දෙයක් වැරදී ඇත, එය ඔබගේ නොව අපගේ වරදකි. එය දේවල් නිවැරදි කරන්නේ දැයි බැලීමට යෙදුම නැවත ආරම්භ කිරීමට උත්සාහ කරන්න."
+  },
+  "screens.UncaughtError.errorTitle": {
+    "description": "Title of message when there is an uncaught message in the app",
+    "message": "අනපේක්‍ෂිත දෝෂයකි"
+  },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "වීදි මංසන්ධිය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "විස්තර මට්ටම"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "ලිපිනය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "නගරය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "ගෝලීය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "විශාල රට"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "විශාල මෙට්රොපොලිටන් ප්රදේශය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "කුඩා රට"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "කුඩා මාර්ගය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "වීදිය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "වීදි වාරණ"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "උපමහාද්වීපය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "නගරය"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "ගම"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "විශාල කිරීමේ මට්ටම්"
+  },
+  "sharedComponents.BGMapCard.abbrevMegabyte": {
+    "description": "The abbreviation for megabyte",
+    "message": "MB"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "වත්මන් සිතියම"
+  },
+  "sharedComponents.BGMapSelector.close": {
+    "message": "වසන්න"
+  },
+  "sharedComponents.BGMapSelector.manageMaps": {
+    "message": "සිතියම් කළමනාකරණය කරන්න"
+  },
+  "sharedComponents.BGMapSelector.title": {
+    "description": "Title for the background map selector",
+    "message": "පසුබිම් සිතියම්"
+  },
+  "sharedComponents.GpsPill.noGps": {
+    "message": "GPS නැත"
+  },
+  "sharedComponents.GpsPill.searching": {
+    "message": "සොයමින්…"
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "පුහුණු මාදිලිය"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "අන්තර්ජාලය නොමැත"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "වයිෆයි:"
   }
 }
