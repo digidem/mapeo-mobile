@@ -575,6 +575,13 @@ function createServer({
       storage: createBkdStorage,
     });
 
+    osm.on("error", err => {
+      Bugsnag.notify(err, event => {
+        event.severity = "error";
+        event.context = "core";
+      });
+    });
+
     // To close cleanly we need to wait until replication has completed, destroy
     // the discovery swarm, and close all the random-access-storage instances
     // and the leveldb instance
