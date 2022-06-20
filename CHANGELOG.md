@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.4.6](https://github.com/digidem/mapeo-mobile/compare/v5.4.5...v5.4.6) (2022-06-20)
+
+### Bug Fixes
+
+- add error listener to kappa-osm instances ([42053be](https://github.com/digidem/mapeo-mobile/commit/42053be864692ea5180b280297b7ff0b07f288cd))
+
 ### [5.4.5](https://github.com/digidem/mapeo-mobile/compare/v5.4.4...v5.4.5) (2022-06-15)
 
 ### Features
