@@ -455,7 +455,7 @@ function createServer({
     });
 
     osm.on("error", err => {
-      Bugsnag.notify(err, event => {
+      main.bugsnag.notify(err, event => {
         event.severity = "error";
         event.context = "core";
       });
