@@ -82,6 +82,7 @@ const DeviceInfoListItem = ({
 const AboutMapeo = () => {
   const { formatMessage: t } = useIntl();
   const deviceId = useDeviceId();
+  const displayDeviceId = deviceId ? deviceId.slice(0, 7) : t(m.unknown);
   return (
     <ScrollView>
       <List>
@@ -95,6 +96,12 @@ const AboutMapeo = () => {
         <DeviceInfoListItem label={t(m.androidBuild)} deviceProp="buildId" />
         <DeviceInfoListItem label={t(m.phoneModel)} deviceProp="model" />
         <DeviceInfoListItem label={t(m.deviceId)} deviceProp="deviceId" />
+        <ListItem>
+          <ListItemText
+            primary={t(m.deviceId)}
+            secondary={displayDeviceId}
+          ></ListItemText>
+        </ListItem>
       </List>
     </ScrollView>
   );
