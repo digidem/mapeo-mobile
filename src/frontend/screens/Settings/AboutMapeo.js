@@ -6,6 +6,7 @@ import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { List, ListItem, ListItemText } from "../../sharedComponents/List";
 import useDeviceInfo from "../../hooks/useDeviceInfo";
+import useDeviceId from "../../hooks/useDeviceId";
 
 const m = defineMessages({
   aboutMapeoTitle: {
@@ -49,6 +50,11 @@ const m = defineMessages({
     defaultMessage: "Unknown",
     description: "Shown when a device info (e.g. version number) is unknown",
   },
+  deviceId: {
+    id: "screens.AboutMapeo.deviceId",
+    defaultMessage: "Device ID",
+    description: "Label for device ID",
+  },
 });
 
 const DeviceInfoListItem = ({
@@ -75,6 +81,7 @@ const DeviceInfoListItem = ({
 
 const AboutMapeo = () => {
   const { formatMessage: t } = useIntl();
+  const deviceId = useDeviceId();
   return (
     <ScrollView>
       <List>
@@ -87,6 +94,7 @@ const AboutMapeo = () => {
         />
         <DeviceInfoListItem label={t(m.androidBuild)} deviceProp="buildId" />
         <DeviceInfoListItem label={t(m.phoneModel)} deviceProp="model" />
+        <DeviceInfoListItem label={t(m.deviceId)} deviceProp="deviceId" />
       </List>
     </ScrollView>
   );
