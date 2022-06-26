@@ -1,8 +1,6 @@
-// @flow
 import React from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { HeaderBackButton } from "react-navigation-stack";
-import { useNavigation, useFocusEffect } from "react-navigation-hooks";
 import { Alert, BackHandler } from "react-native";
 import isEqual from "lodash/isEqual";
 
@@ -10,6 +8,12 @@ import { CloseIcon, BackIcon } from "./icons";
 import { useDraftObservation } from "../hooks/useDraftObservation";
 import { useObservation } from "../hooks/useObservation";
 import { filterPhotosFromAttachments } from "../lib/utils";
+import { useNavigation } from "../hooks/useNavigationWithTypes";
+import {
+  useFocusEffect,
+  useNavigationState,
+  useRoute,
+} from "@react-navigation/native";
 
 const m = defineMessages({
   discardTitle: {
@@ -96,12 +100,13 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
   const isNew =
     draftObservation.value &&
     typeof draftObservation.observationId === "undefined";
-  const { routeName, key } = navigation.state;
-  const parent = navigation.dangerouslyGetParent();
-  const routes = parent && parent.state.routes;
+  const { key } = navigation.getState();
+  const routeName = useNavigationState(state => state.routes[state.index].name);
+  const parent = navigation.getParent();
+  const routes = parent && parent.getState().routes;
   const currentIndex = routes && routes.findIndex(route => route.key === key);
   const prevRouteNameInStack =
-    routes && routes[currentIndex - 1] && routes[currentIndex - 1].routeName;
+    currentIndex && routes[currentIndex - 1] && routes[currentIndex - 1].name;
 
   const shouldConfirm =
     routeName === "ObservationEdit" ||
@@ -168,6 +173,7 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
   );
 
   return (
+    // To do: This if from react-navigation-stack v3
     <HeaderBackButton
       {...props}
       onPress={handleCloseRequest}

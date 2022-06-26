@@ -3,7 +3,7 @@ import * as React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import Text from "./Text";
 import { defineMessages, useIntl } from "react-intl";
-import { useIsFocused } from "react-navigation-hooks";
+import { useIsFocused } from "@react-navigation/native";
 
 import LocationContext from "../context/LocationContext";
 import { GpsIcon } from "./icons";
@@ -24,9 +24,9 @@ const m = defineMessages({
 const ERROR_COLOR = "#FF0000";
 
 type Props = {
-  onPress: null | (() => void),
-  precision?: number,
-  variant: LocationStatus,
+  onPress: null | (() => void);
+  precision?: number;
+  variant: LocationStatus;
 };
 
 export const GpsPill = React.memo<Props>(
@@ -39,7 +39,12 @@ export const GpsPill = React.memo<Props>(
       text = t(m.searching);
     else text = `± ${precision} m`;
     return (
-      <TouchableOpacity onPress={onPress} testID="gpsPillButton">
+      <TouchableOpacity
+        onPress={() => {
+          onPress;
+        }}
+        testID="gpsPillButton"
+      >
         <View
           style={[
             styles.container,
@@ -47,6 +52,8 @@ export const GpsPill = React.memo<Props>(
           ]}
         >
           <View style={styles.icon}>
+            {/*
+             // @ts-ignore */}
             {isFocused && <GpsIcon variant={variant} />}
           </View>
           <Text style={styles.text} numberOfLines={1}>

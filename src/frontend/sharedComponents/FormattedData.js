@@ -134,7 +134,7 @@ export const FormattedPresetName = ({
     ? t({ id: `presets.${preset.id}.name`, defaultMessage: preset.name })
     : t(m.observation);
 
-  return <>{name}</>;
+  return <React.Fragment>{name}</React.Fragment>;
 };
 
 // TODO: Better hangling of boolean and null values (we don't create these

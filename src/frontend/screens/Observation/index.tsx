@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { Alert } from "react-native";
 import Text from "../../sharedComponents/Text";
@@ -8,8 +7,8 @@ import ObservationView from "./ObservationView";
 import CenteredView from "../../sharedComponents/CenteredView";
 import { useObservation } from "../../hooks/useObservation";
 import ObservationHeaderRight from "./ObservationHeaderRight";
-import type { NavigationProp } from "../../types";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import { NativeNavigationProp } from "../../sharedTypes";
 
 const m = defineMessages({
   notFound: {
@@ -51,12 +50,10 @@ const ObservationNotFound = () => (
   </CenteredView>
 );
 
-type Props = {
-  navigation: NavigationProp,
-};
+type ObservationProps = NativeNavigationProp<"Observation">;
 
-const Observation = ({ navigation }: Props) => {
-  const observationId = navigation.getParam("observationId");
+const Observation = ({ route, navigation }: ObservationProps) => {
+  const { observationId } = route.params;
   const { formatMessage: t } = useIntl();
 
   const [
@@ -68,7 +65,7 @@ const Observation = ({ navigation }: Props) => {
   function handlePressPhoto(photoIndex: number) {
     navigation.navigate("PhotosModal", {
       photoIndex: photoIndex,
-      observationId: navigation.getParam("observationId"),
+      observationId: observationId,
     });
   }
 
@@ -100,17 +97,17 @@ const Observation = ({ navigation }: Props) => {
   );
 };
 
-Observation.navigationOptions = ({
-  navigation,
-}: {
-  navigation: NavigationProp,
-}) => ({
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-  headerRight: () => <ObservationHeaderRight navigation={navigation} />,
-});
+// Observation.navigationOptions = ({
+//   navigation,
+// }: {
+//   navigation: NavigationProp,
+// }) => ({
+//   headerTitle: () => (
+//     <HeaderTitle>
+//       <FormattedMessage {...m.title} />
+//     </HeaderTitle>
+//   ),
+//   headerRight: () => <ObservationHeaderRight navigation={navigation} />,
+// });
 
 export default Observation;

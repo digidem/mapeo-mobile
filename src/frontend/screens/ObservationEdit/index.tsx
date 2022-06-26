@@ -67,7 +67,7 @@ const ObservationEdit = ({ navigation }: { navigation: NavigationProp }) => {
 ObservationEdit.navigationOptions = ({
   navigation,
 }: {
-  navigation: NavigationProp,
+  navigation: NavigationProp;
 }) => ({
   headerTitle: () => (
     <HeaderTitle>

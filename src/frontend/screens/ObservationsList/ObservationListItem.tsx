@@ -17,12 +17,12 @@ import {
   FormattedObservationDate,
 } from "../../sharedComponents/FormattedData";
 
-type Props = {
-  onPress: string => any,
-  style?: ViewStyleProp,
-  observationId: string,
-  testID: string,
-};
+interface ObservationListItemProps {
+  style?: ViewStyleProp;
+  observationId: string;
+  testID: string;
+  onPress: (id: string) => void;
+}
 
 const photoOverlap = 10;
 
@@ -48,11 +48,11 @@ const PhotoStack = ({ photos }: { photos: SavedPhoto[] }) => {
 };
 
 const ObservationListItem = ({
-  onPress = () => {},
   style,
   observationId,
   testID,
-}: Props) => {
+  onPress = () => {},
+}: ObservationListItemProps) => {
   const [{ observation, preset }] = useObservation(observationId);
   const deviceId = useDeviceId();
   const iconId = preset && preset.icon;
@@ -73,6 +73,8 @@ const ObservationListItem = ({
       >
         <View style={styles.text}>
           <Text style={styles.title}>
+            {/* This needs to changed to typescript
+            // @ts-ignore */}
             <FormattedPresetName preset={preset} />
           </Text>
           <Text>
@@ -99,7 +101,7 @@ const ObservationListItem = ({
   );
 };
 
-export default React.memo<Props>(ObservationListItem);
+export default React.memo<ObservationListItemProps>(ObservationListItem);
 
 const styles = StyleSheet.create({
   container: {

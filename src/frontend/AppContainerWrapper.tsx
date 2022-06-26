@@ -19,13 +19,18 @@ import {
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
 import bugsnag from "./lib/logger";
 import { PracticeMode } from "./sharedComponents/PracticeMode";
-import DefaultContainer from "./Navigation/DefaultContainer";
 import OnboardingContainer from "./Navigation/OnboardingContainer";
 import { devExperiments, featureFlagOn } from "./lib/DevExperiments";
+import {
+  NavigationContainer,
+  createNavigationContainerRef,
+} from "@react-navigation/native";
+import { AppStack } from "./Navigation/AppStack";
 
-const AppContainer = devExperiments.onboarding
-  ? OnboardingContainer
-  : DefaultContainer;
+const AppContainer = AppStack;
+//  devExperiments.onboarding
+//   ? OnboardingContainer
+//   : DefaultContainer;
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -93,11 +98,12 @@ function hidePracticeModeTemporarily(route: string | null) {
 }
 
 const AppContainerWrapper = () => {
-  const navRef = React.useRef<NavigationContainerComponent>();
   const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
   const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
   const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
+
+  const navRef = createNavigationContainerRef();
 
   const updateRouteBasedAppState = React.useCallback(
     (routeName: string | null) => {
@@ -173,17 +179,9 @@ const AppContainerWrapper = () => {
       enabled={devExperiments.onboarding && !hidePracticeMode}
       hideBar={hidePracticeBar}
     >
-      <AppContainer
-        loadNavigationState={loadNavigationState}
-        onNavigationStateChange={onNavStateChange}
-        persistNavigationState={persistNavigationState}
-        ref={nav => {
-          if (nav) {
-            navRef.current = nav;
-          }
-        }}
-        uriPrefix={URI_PREFIX}
-      />
+      <NavigationContainer>
+        <AppContainer />
+      </NavigationContainer>
     </PracticeMode>
   );
 };

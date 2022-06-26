@@ -1,15 +1,17 @@
-// @flow
 import React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { useNavigation } from "react-navigation-hooks";
 
-import type { NavigationScreenConfigProps } from "react-navigation";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import ObservationsListView from "./ObservationsListView";
 import { useAllObservations } from "../../hooks/useAllObservations";
 import { SettingsIcon } from "../../sharedComponents/icons";
+
 import IconButton from "../../sharedComponents/IconButton";
+import { AppStackList } from "../../Navigation/AppStack";
+import { useNavigation } from "../../hooks/useNavigationWithTypes";
+import { NativeNavigationProp } from "../../sharedTypes";
 
 const m = defineMessages({
   observationListTitle: {
@@ -19,7 +21,9 @@ const m = defineMessages({
   },
 });
 
-const ObservationsList = ({ navigation }: NavigationScreenConfigProps) => {
+type ObservationListProps = NativeNavigationProp<"ObservationList">;
+
+const ObservationsList = ({ navigation }: ObservationListProps) => {
   const [{ observations, status }] = useAllObservations();
 
   const navigateToObservation = (observationId: string) => {

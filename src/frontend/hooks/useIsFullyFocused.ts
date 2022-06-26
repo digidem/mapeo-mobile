@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { AppState, AppStateStatus } from "react-native";
 import { NavigationEventSubscription } from "react-navigation";
-import { useNavigation } from "react-navigation-hooks";
-
+import { useNavigation } from "@react-navigation/native";
 /**
  * Similar to `react-navigation/core`'s [`useIsFocused`](https://reactnavigation.org/docs/use-is-focused/)
  * but considers the screen to be focused only when:
@@ -32,18 +31,12 @@ export const useIsFullyFocused = () => {
   }, []);
 
   useEffect(() => {
-    let navSubscriptions: NavigationEventSubscription[] = [];
+    let navSubscriptions: (() => void)[] = [];
 
     navSubscriptions = [
-      navigation.addListener("didFocus", () =>
-        setIsNavigationFullyFocused(true)
-      ),
-      navigation.addListener("didBlur", () =>
-        setIsNavigationFullyFocused(false)
-      ),
+      navigation.addListener("focus", () => setIsNavigationFullyFocused(true)),
+      navigation.addListener("blur", () => setIsNavigationFullyFocused(false)),
     ];
-
-    return () => navSubscriptions.forEach(s => s.remove());
   }, [navigation]);
 
   return isNavigationFullyFocused && isAppActive;

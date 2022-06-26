@@ -33,7 +33,7 @@ const m = defineMessages({
 });
 
 type Props = {
-  onPressBack: () => any,
+  onPressBack: () => any;
 };
 
 const ObservationEmptyView = ({ onPressBack }: Props) => {
