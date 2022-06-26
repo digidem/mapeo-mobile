@@ -47,25 +47,26 @@ import { BGMapsSettings } from "../screens/Settings/Experiments/BGMaps";
 
 export type AppStackList = {
   Home: BottomTabNavigationProp<HomeTabsList> | undefined;
-  GpsModal: undefined;
-  SyncModal: undefined;
-  Settings: undefined;
-  ProjectConfig: undefined;
-  AboutMapeo: undefined;
-  LanguageSettings: undefined;
-  CoordinateFormat: undefined;
+  GpsModal: undefined; //c
+  SyncModal: undefined; //c
+  Settings: undefined; //c
+  ProjectConfig: undefined; //c
+  AboutMapeo: undefined; //c
+  LanguageSettings: undefined; //c
+  CoordinateFormat: undefined; //c
   Experiments: undefined;
   PhotosModal: {
     photoIndex: number;
     observationId: string;
+    editing?: true;
   };
   CategoryChooser: undefined;
   AddPhoto: undefined;
   ObservationList: undefined;
   Observation: { observationId: string };
-  ObservationEdit: undefined;
+  ObservationEdit: { observationId: string } | undefined;
   ManualGpsScreen: undefined;
-  ObservationDetails: undefined;
+  ObservationDetails: { question: number };
   LeaveProjectScreen: undefined;
   AlreadyOnProj: undefined;
   AddToProjectScreen: undefined;
@@ -153,7 +154,7 @@ export const AppStack = () => (
       presentation: "card",
       headerStyle: { backgroundColor: "#ffffff" },
       headerShown: route.route.name !== "Home",
-      headerLeft: () => <CustomHeaderLeft />,
+      headerLeft: props => <CustomHeaderLeft headerBackButtonProps={props} />,
     })}
   >
     <Stack.Screen name="Home" component={HomeTabs} />

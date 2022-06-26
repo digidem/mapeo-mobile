@@ -9,6 +9,7 @@ import { formatCoords } from "../../lib/utils";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import SelectOne from "./SelectOne";
+import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   title: {
@@ -38,6 +39,8 @@ const m = defineMessages({
 const EXAMPLE_LOCATION = { longitude: -72.312023, latitude: -10.38787 };
 
 const CoordinateFormat = () => {
+  useSetHeader({ headerTitle: m.title });
+
   const intl = useIntl();
   const location = React.useContext(LocationContext);
   const [{ coordinateFormat }, setSettings] = React.useContext(SettingsContext);

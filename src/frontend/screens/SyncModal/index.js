@@ -19,6 +19,8 @@ import ConfigContext from "../../context/ConfigContext";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import usePeers from "./usePeers";
 import KeepAwake from "react-native-keep-awake";
+import { useSetHeader } from "../../hooks/useSetHeader";
+import { SYNC_BACKGROUND, WHITE } from "../../lib/styles";
 
 type Props = {
   navigation: any,
@@ -41,6 +43,12 @@ const m = defineMessages({
 const deviceName: string = "Android " + getUniqueId().slice(0, 4).toUpperCase();
 
 const SyncModal = ({ navigation }: Props) => {
+  useSetHeader({
+    headerTitle: m.syncHeader,
+    backgroundColor: SYNC_BACKGROUND,
+    headerTintColor: WHITE,
+  });
+
   const [, reload] = useAllObservations();
 
   const [
@@ -97,18 +105,6 @@ const SyncModal = ({ navigation }: Props) => {
       projectKey={projectKey}
     />
   );
-};
-
-SyncModal.navigationOptions = {
-  headerTintColor: "white",
-  headerStyle: {
-    backgroundColor: "#2348B2",
-  },
-  headerTitle: () => (
-    <HeaderTitle style={{ color: "white" }}>
-      <FormattedMessage {...m.syncHeader} />
-    </HeaderTitle>
-  ),
 };
 
 export default SyncModal;

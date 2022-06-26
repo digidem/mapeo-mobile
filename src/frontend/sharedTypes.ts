@@ -1,10 +1,12 @@
 // TS port of /src/frontend/types.js
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ImageStyle, StyleProp, TextStyle, ViewStyle } from "react-native";
 import { NavigationRoute } from "react-navigation";
 import {
   NavigationStackProp,
   NavigationStackScreenComponent,
 } from "react-navigation-stack";
+import { AppStackList } from "./Navigation/AppStack";
 
 export type ViewStyleProp = StyleProp<ViewStyle>;
 export type TextStyleProp = StyleProp<TextStyle>;
@@ -39,3 +41,9 @@ export type NavigationProp = NavigationStackProp<
 export type StackScreenComponent = NavigationStackScreenComponent<
   NavigationParams
 >;
+
+type NavKeys = keyof AppStackList;
+
+export type NativeNavigationProp<
+  ScreenName extends NavKeys
+> = NativeStackScreenProps<AppStackList, ScreenName>;

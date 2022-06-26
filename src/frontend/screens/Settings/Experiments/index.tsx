@@ -1,9 +1,9 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
-import { useNavigation } from "react-navigation-hooks";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { useExperiments } from "../../../hooks/useExperiments";
+import { useNavigation } from "../../../hooks/useNavigationWithTypes";
+import { useSetHeader } from "../../../hooks/useSetHeader";
 
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import {
@@ -48,7 +48,9 @@ const m = defineMessages({
   },
 });
 
-const Experiments: NavigationStackScreenComponent = () => {
+const Experiments = () => {
+  useSetHeader({ headerTitle: m.title });
+
   const [experiments] = useExperiments();
 
   const { navigate } = useNavigation();
@@ -101,14 +103,6 @@ const Experiments: NavigationStackScreenComponent = () => {
       </List>
     </ScrollView>
   );
-};
-
-Experiments.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
 };
 
 export default Experiments;

@@ -12,6 +12,8 @@ import DateDistance from "../sharedComponents/DateDistance";
 import HeaderTitle from "../sharedComponents/HeaderTitle";
 
 import type { LocationContextType } from "../context/LocationContext";
+import { useSetHeader } from "../hooks/useSetHeader";
+import { GPS_MODAL_TEXT } from "../lib/styles";
 
 const m = defineMessages({
   gpsHeader: {
@@ -80,6 +82,12 @@ const GpsModal = ({ navigation }: Props) => {
   const coordinateFormat = useSettingsValue("coordinateFormat");
   const { formatMessage: t } = useIntl();
 
+  useSetHeader({
+    headerTitle: m.gpsHeader,
+    headerTintColor: WHITE,
+    backgroundColor: GPS_MODAL_TEXT,
+  });
+
   return (
     <ScrollView style={styles.container} testID="gpsScreenScrollView">
       <View style={styles.infoArea}>
@@ -131,18 +139,6 @@ const GpsModal = ({ navigation }: Props) => {
       </View>
     </ScrollView>
   );
-};
-
-GpsModal.navigationOptions = {
-  headerTintColor: "white",
-  headerStyle: {
-    backgroundColor: "rgb(40,40,40)",
-  },
-  headerTitle: () => (
-    <HeaderTitle style={{ color: "white" }}>
-      <FormattedMessage {...m.gpsHeader} />
-    </HeaderTitle>
-  ),
 };
 
 export default GpsModal;

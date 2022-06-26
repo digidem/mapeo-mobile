@@ -1,5 +1,5 @@
 import React from "react";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -12,6 +12,7 @@ import IconButton from "../../sharedComponents/IconButton";
 import { AppStackList } from "../../Navigation/AppStack";
 import { useNavigation } from "../../hooks/useNavigationWithTypes";
 import { NativeNavigationProp } from "../../sharedTypes";
+import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   observationListTitle: {
@@ -25,6 +26,11 @@ type ObservationListProps = NativeNavigationProp<"ObservationList">;
 
 const ObservationsList = ({ navigation }: ObservationListProps) => {
   const [{ observations, status }] = useAllObservations();
+
+  useSetHeader({
+    headerTitle: m.observationListTitle,
+    headerRight: () => <SettingsButton />,
+  });
 
   const navigateToObservation = (observationId: string) => {
     navigation.navigate("Observation", { observationId });

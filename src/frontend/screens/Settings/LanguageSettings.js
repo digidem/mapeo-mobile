@@ -1,11 +1,11 @@
 // @flow
 import React from "react";
 import { ScrollView } from "react-native";
-import { FormattedMessage, defineMessages } from "react-intl";
+import { defineMessages } from "react-intl";
 
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import SelectOne from "./SelectOne";
 import IntlContext, { supportedLanguages } from "../../context/IntlContext";
+import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   title: {
@@ -17,6 +17,8 @@ const m = defineMessages({
 
 const LanguageSettings = () => {
   const [locale, setLocale] = React.useContext(IntlContext);
+
+  useSetHeader({ headerTitle: m.title });
 
   const options = supportedLanguages.map(
     ({ locale, nativeName, englishName }) => ({
@@ -35,14 +37,6 @@ const LanguageSettings = () => {
       />
     </ScrollView>
   );
-};
-
-LanguageSettings.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
 };
 
 export default LanguageSettings;
