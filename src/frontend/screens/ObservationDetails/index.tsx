@@ -1,15 +1,16 @@
-// @flow
 import React from "react";
 import { StyleSheet, Platform } from "react-native";
-import Text from "../../sharedComponents/Text";
-import { defineMessages, useIntl, FormattedMessage } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 
 import TextButton from "../../sharedComponents/TextButton";
 import QuestionContainer from "./QuestionContainer";
 import Question from "./Question";
 import Field from "../ObservationEdit/Field";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
-import type { NavigationProp } from "../../types";
+import { NativeNavigationProp } from "../../sharedTypes";
+import { useSetHeader } from "../../hooks/useSetHeader";
+import { useNavigation } from "../../hooks/useNavigationWithTypes";
+import { Preset } from "../../context/ConfigContext";
 
 const m = defineMessages({
   nextQuestion: {
@@ -30,36 +31,54 @@ const m = defineMessages({
   },
 });
 
-type Props = {
-  navigation: NavigationProp,
-};
+const ObservationDetails = ({
+  navigation,
+  route,
+}: NativeNavigationProp<"ObservationDetails">) => {
+  const [{ preset }] = useDraftObservation();
+  const { formatMessage: t } = useIntl();
+  const current: number = +route.params.question;
 
-const DetailsTitle = ({ navigation }: Props) => {
-  const [{ preset = {} }] = useDraftObservation();
+  // TO Do: header title can only take a string, can't seem to extract the string
+  useSetHeader({
+    headerTitle: t(m.title, {
+      current: current,
+      preset: !!preset ? preset.fields.length : 0,
+    }),
+    headerRight: () => <DetailsHeaderRight question={current} />,
+  });
+  React.useEffect(() => {
+    if (!preset || !preset.fields || current > preset.fields.length) {
+      navigation.pop(current);
+    }
+  }, [preset, navigation, current]);
+
+  const field = preset!.fields[current - 1];
   return (
-    <Text numberOfLines={1} style={styles.title}>
-      <FormattedMessage
-        {...m.title}
-        values={{
-          current: navigation.getParam("question"),
-          total: (preset.fields || []).length,
-        }}
-      />
-    </Text>
+    <Field field={field}>
+      {/*  //TO DO: FIX
+      // @ts-ignore */}
+      {({ value, onChange }) => (
+        <QuestionContainer>
+          <Question field={field} value={value} onChange={onChange} />
+        </QuestionContainer>
+      )}
+    </Field>
   );
 };
 
-const DetailsHeaderRight = ({ navigation }: Props) => {
+const DetailsHeaderRight = ({ question }: { question: number }) => {
   const { formatMessage: t } = useIntl();
-  const [{ preset = {} }] = useDraftObservation();
-  const current = navigation.getParam("question");
-  const isLastQuestion = current >= (preset.fields || []).length;
+  const navigation = useNavigation();
+  const [{ preset }] = useDraftObservation();
+  const isLastQuestion = question >= (!!preset ? preset.fields.length : 0);
   const buttonText = isLastQuestion ? t(m.done) : t(m.nextQuestion);
+
   const onPress = () =>
     isLastQuestion
       ? navigation.navigate("ObservationEdit")
-      : navigation.push(navigation.state.routeName, {
-          question: current + 1,
+      : navigation.push("ObservationDetails", {
+          question: question + 1,
         });
 
   return (
@@ -70,29 +89,6 @@ const DetailsHeaderRight = ({ navigation }: Props) => {
     />
   );
 };
-
-const ObservationDetails = ({ navigation }: Props) => {
-  const [{ preset = {} }] = useDraftObservation();
-
-  const current: number = +navigation.getParam("question");
-  if (!preset || !preset.fields || current > preset.fields.length)
-    return navigation.pop(current);
-  const field = preset.fields[current - 1];
-  return (
-    <Field field={field}>
-      {({ value, onChange }) => (
-        <QuestionContainer current={current}>
-          <Question field={field} value={value} onChange={onChange} />
-        </QuestionContainer>
-      )}
-    </Field>
-  );
-};
-
-ObservationDetails.navigationOptions = ({ navigation }: any) => ({
-  headerTitle: () => <DetailsTitle navigation={navigation} />,
-  headerRight: () => <DetailsHeaderRight navigation={navigation} />,
-});
 
 export default ObservationDetails;
 

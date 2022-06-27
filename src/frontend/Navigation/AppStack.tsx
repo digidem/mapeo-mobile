@@ -54,18 +54,18 @@ export type AppStackList = {
   AboutMapeo: undefined; //c
   LanguageSettings: undefined; //c
   CoordinateFormat: undefined; //c
-  Experiments: undefined;
+  Experiments: undefined; //c
   PhotosModal: {
     photoIndex: number;
     observationId: string;
     editing?: true;
-  };
-  CategoryChooser: undefined;
-  AddPhoto: undefined;
+  }; //c
+  CategoryChooser: undefined; //c
+  AddPhoto: undefined; //c
   ObservationList: undefined;
-  Observation: { observationId: string };
-  ObservationEdit: { observationId: string } | undefined;
-  ManualGpsScreen: undefined;
+  Observation: { observationId: string }; //c
+  ObservationEdit: { observationId: string } | undefined; //c
+  ManualGpsScreen: undefined; //c
   ObservationDetails: { question: number };
   LeaveProjectScreen: undefined;
   AlreadyOnProj: undefined;

@@ -1,6 +1,5 @@
-// @flow
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, GestureResponderEvent } from "react-native";
 import Text from "../sharedComponents/Text";
 import { TouchableNativeFeedback } from "../sharedComponents/Touchables";
 import debug from "debug";
@@ -9,10 +8,10 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import CameraView from "../sharedComponents/CameraView";
 import {
   useDraftObservation,
-  type CapturedPictureMM,
+  CapturedPictureMM,
 } from "../hooks/useDraftObservation";
-
-import type { NavigationScreenConfigProps } from "react-navigation";
+import { NativeNavigationProp } from "../sharedTypes";
+import { useSetHeader } from "../hooks/useSetHeader";
 
 const m = defineMessages({
   cancel: {
@@ -23,20 +22,19 @@ const m = defineMessages({
 
 const log = debug("AddPhotoScreen");
 
-const AddPhotoScreen = ({ navigation }: NavigationScreenConfigProps) => {
+const AddPhotoScreen = ({ navigation }: NativeNavigationProp<"AddPhoto">) => {
+  useSetHeader({ headerShown: false });
   const [, { addPhoto }] = useDraftObservation();
 
   // TODO: addPhoto changes every render, so we can't useCallback here
   const handleAddPress = (e: any, capture: Promise<CapturedPictureMM>) => {
     log("pressed add button");
     addPhoto(capture);
-    // $FlowFixMe
     navigation.pop();
   };
 
-  const handleCancelPress = (e: any) => {
+  const handleCancelPress = (e: GestureResponderEvent) => {
     log("cancelled");
-    // $FlowFixMe
     navigation.pop();
   };
 
@@ -53,10 +51,6 @@ const AddPhotoScreen = ({ navigation }: NavigationScreenConfigProps) => {
       </TouchableNativeFeedback>
     </View>
   );
-};
-
-AddPhotoScreen.navigationOptions = {
-  headerShown: false,
 };
 
 export default AddPhotoScreen;

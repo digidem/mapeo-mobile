@@ -7,19 +7,15 @@ import { useObservation } from "../../hooks/useObservation";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
 
 import { EditIcon } from "../../sharedComponents/icons";
-import type { NavigationProp } from "../../types";
 import useDeviceId from "../../hooks/useDeviceId";
 import { SyncIcon } from "../../sharedComponents/icons/SyncIconCircle";
+import { useNavigation } from "../../hooks/useNavigationWithTypes";
 
-type Props = {
-  navigation: NavigationProp,
-};
-
-const ObservationHeaderRight = ({ navigation }: Props) => {
-  const observationId = navigation.getParam("observationId");
+const ObservationHeaderRight = ({ observationId }) => {
   const [{ observation }] = useObservation(observationId);
   const deviceId = useDeviceId();
   const [, { newDraft }] = useDraftObservation();
+  const navigation = useNavigation();
 
   function handlePress() {
     if (!observation) return;

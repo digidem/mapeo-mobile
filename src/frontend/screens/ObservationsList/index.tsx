@@ -1,15 +1,10 @@
 import React from "react";
-import { defineMessages, FormattedMessage, useIntl } from "react-intl";
-
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import { defineMessages } from "react-intl";
 import ObservationsListView from "./ObservationsListView";
 import { useAllObservations } from "../../hooks/useAllObservations";
 import { SettingsIcon } from "../../sharedComponents/icons";
 
 import IconButton from "../../sharedComponents/IconButton";
-import { AppStackList } from "../../Navigation/AppStack";
 import { useNavigation } from "../../hooks/useNavigationWithTypes";
 import { NativeNavigationProp } from "../../sharedTypes";
 import { useSetHeader } from "../../hooks/useSetHeader";
@@ -22,9 +17,9 @@ const m = defineMessages({
   },
 });
 
-type ObservationListProps = NativeNavigationProp<"ObservationList">;
-
-const ObservationsList = ({ navigation }: ObservationListProps) => {
+const ObservationsList = ({
+  navigation,
+}: NativeNavigationProp<"ObservationList">) => {
   const [{ observations, status }] = useAllObservations();
 
   useSetHeader({
@@ -53,15 +48,6 @@ const SettingsButton = () => {
       <SettingsIcon color="rgba(0, 0, 0, 0.54)" />
     </IconButton>
   );
-};
-
-ObservationsList.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.observationListTitle} />
-    </HeaderTitle>
-  ),
-  headerRight: () => <SettingsButton />,
 };
 
 export default ObservationsList;

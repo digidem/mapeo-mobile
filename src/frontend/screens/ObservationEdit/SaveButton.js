@@ -1,4 +1,3 @@
-// @flow
 import React, { useEffect } from "react";
 import { Alert } from "react-native";
 import debug from "debug";
@@ -8,7 +7,7 @@ import IconButton from "../../sharedComponents/IconButton";
 import { SaveIcon } from "../../sharedComponents/icons";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
 import type { ObservationValue } from "../../context/ObservationsContext";
-import type { NavigationProp } from "../../types";
+import { useNavigation } from "../../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   noGpsTitle: {
@@ -54,14 +53,10 @@ const m = defineMessages({
 const MINIMUM_ACCURACY = 10;
 const log = debug("SaveButton");
 
-type Props = {
-  navigation: NavigationProp,
-};
-
-const SaveButton = ({ navigation }: Props) => {
+const SaveButton = ({ observationId }) => {
   const [{ value, savingStatus }, { saveDraft }] = useDraftObservation();
   const { formatMessage: t } = useIntl();
-
+  const navigation = useNavigation();
   const confirmationOptions = [
     {
       text: t(m.saveAnyway),
@@ -82,7 +77,7 @@ const SaveButton = ({ navigation }: Props) => {
   const handleSavePress = () => {
     log("Draft value > ", value);
     if (!value) return;
-    const isNew = navigation.getParam("observationId") === undefined;
+    const isNew = !observationId;
     if (!isNew) return saveDraft();
 
     const hasLocation = value.lat !== undefined && value.lon !== undefined;
@@ -102,13 +97,12 @@ const SaveButton = ({ navigation }: Props) => {
 
   useEffect(() => {
     if (savingStatus !== "success") return;
-    const observationId = navigation.getParam("observationId");
     if (typeof observationId === "string") {
       navigation.pop();
     } else {
       navigation.navigate("Home");
     }
-  }, [savingStatus, navigation]);
+  }, [savingStatus, navigation, observationId]);
 
   return (
     <IconButton onPress={handleSavePress} testID="saveButton">

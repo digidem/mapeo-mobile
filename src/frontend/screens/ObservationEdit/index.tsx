@@ -1,11 +1,11 @@
 import React, { useCallback } from "react";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages } from "react-intl";
 
 import ObservationEditView from "./ObservationEditView";
 import SaveButton from "./SaveButton";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
 import { NativeNavigationProp } from "../../sharedTypes";
+import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   editTitle: {
@@ -25,7 +25,10 @@ const ObservationEdit = ({
   route,
 }: NativeNavigationProp<"ObservationEdit">) => {
   const observationId = route.params?.observationId;
-
+  useSetHeader({
+    headerTitle: !!observationId ? m.editTitle : m.newTitle,
+    headerRight: () => <SaveButton observationId={observationId} />,
+  });
   const handleCategoryPress = useCallback(() => {
     navigation.navigate("CategoryChooser");
     //   {
@@ -68,22 +71,5 @@ const ObservationEdit = ({
     />
   );
 };
-
-// ObservationEdit.navigationOptions = ({
-//   navigation,
-// }: {
-//   navigation: NavigationProp;
-// }) => ({
-//   headerTitle: () => (
-//     <HeaderTitle>
-//       {navigation.getParam("observationId") ? (
-//         <FormattedMessage {...m.editTitle} />
-//       ) : (
-//         <FormattedMessage {...m.newTitle} />
-//       )}
-//     </HeaderTitle>
-//   ),
-//   headerRight: () => <SaveButton navigation={navigation} />,
-// });
 
 export default ObservationEdit;

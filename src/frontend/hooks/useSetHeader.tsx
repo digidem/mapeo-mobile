@@ -9,25 +9,32 @@ import { BLACK } from "../lib/styles";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
 
 interface useSetHeaderProps {
-  headerTitle: MessageDescriptor;
+  headerTitle?: MessageDescriptor | string;
   headerRight?: StackNavigationOptions["headerRight"];
   backgroundColor?: string;
   headerTintColor?: string;
+  headerShown?: boolean;
 }
 
-export const useSetHeader = ({
-  headerTitle,
-  headerRight,
-  backgroundColor,
-  headerTintColor,
-}: useSetHeaderProps) => {
+export const useSetHeader = (options: useSetHeaderProps) => {
   const { formatMessage: t } = useIntl();
-
+  const {
+    headerTitle,
+    headerRight,
+    backgroundColor,
+    headerTintColor,
+    headerShown,
+  } = options;
   const navigation = useNavigation();
 
   return React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: t(headerTitle),
+      headerTitle:
+        typeof headerTitle === "string"
+          ? headerTitle
+          : typeof headerTitle === "undefined"
+          ? undefined
+          : t(headerTitle),
       headerRight: headerRight || undefined,
       headerStyle: {
         backgroundColor: backgroundColor || "#fff",
@@ -39,13 +46,7 @@ export const useSetHeader = ({
           tintColor={headerTintColor}
         />
       ),
+      headerShown,
     });
-  }, [
-    navigation,
-    t,
-    headerTitle,
-    headerRight,
-    backgroundColor,
-    headerTintColor,
-  ]);
+  }, [navigation, t, options]);
 };

@@ -9,6 +9,7 @@ import { useObservation } from "../../hooks/useObservation";
 import ObservationHeaderRight from "./ObservationHeaderRight";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { NativeNavigationProp } from "../../sharedTypes";
+import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   notFound: {
@@ -50,10 +51,16 @@ const ObservationNotFound = () => (
   </CenteredView>
 );
 
-type ObservationProps = NativeNavigationProp<"Observation">;
-
-const Observation = ({ route, navigation }: ObservationProps) => {
+const Observation = ({
+  route,
+  navigation,
+}: NativeNavigationProp<"Observation">) => {
   const { observationId } = route.params;
+  useSetHeader({
+    headerTitle: m.title,
+    headerRight: () => <ObservationHeaderRight observationId={observationId} />,
+  });
+
   const { formatMessage: t } = useIntl();
 
   const [

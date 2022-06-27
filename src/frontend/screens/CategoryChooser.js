@@ -14,8 +14,7 @@ import ConfigContext, { type Preset } from "../context/ConfigContext";
 import HeaderTitle from "../sharedComponents/HeaderTitle";
 import { useDraftObservation } from "../hooks/useDraftObservation";
 import { CategoryCircleIcon } from "../sharedComponents/icons";
-
-import type { NavigationProp } from "../types";
+import { useSetHeader } from "../hooks/useSetHeader";
 
 const m = defineMessages({
   categoryTitle: {
@@ -68,7 +67,8 @@ const Item = React.memo(
   )
 );
 
-const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
+const CategoryChooser = ({ navigation }) => {
+  useSetHeader({ headerTitle: m.categoryTitle });
   const [{ presets }] = useContext(ConfigContext);
   const [{ value: draftValue }, { updateDraft }] = useDraftObservation();
   const presetsList = Array.from(presets.values())
@@ -134,14 +134,6 @@ const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
       />
     </View>
   );
-};
-
-CategoryChooser.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.categoryTitle} />
-    </HeaderTitle>
-  ),
 };
 
 export default CategoryChooser;
