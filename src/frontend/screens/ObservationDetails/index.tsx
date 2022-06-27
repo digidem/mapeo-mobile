@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, Platform } from "react-native";
-import { defineMessages, useIntl } from "react-intl";
+import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
+import Text from "../../sharedComponents/Text";
 import TextButton from "../../sharedComponents/TextButton";
 import QuestionContainer from "./QuestionContainer";
 import Question from "./Question";
@@ -39,12 +40,8 @@ const ObservationDetails = ({
   const { formatMessage: t } = useIntl();
   const current: number = +route.params.question;
 
-  // TO Do: header title can only take a string, can't seem to extract the string
   useSetHeader({
-    headerTitle: t(m.title, {
-      current: current,
-      preset: !!preset ? preset.fields.length : 0,
-    }),
+    headerTitle: () => <DetailsTitle question={current} />,
     headerRight: () => <DetailsHeaderRight question={current} />,
   });
   React.useEffect(() => {
@@ -87,6 +84,21 @@ const DetailsHeaderRight = ({ question }: { question: number }) => {
       title={buttonText}
       style={styles.headerButton}
     />
+  );
+};
+
+const DetailsTitle = ({ question }: { question: number }) => {
+  const [{ preset }] = useDraftObservation();
+  return (
+    <Text numberOfLines={1} style={styles.title}>
+      <FormattedMessage
+        {...m.title}
+        values={{
+          current: question,
+          total: !preset ? 0 : preset.fields,
+        }}
+      />
+    </Text>
   );
 };
 

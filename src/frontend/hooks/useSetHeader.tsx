@@ -9,7 +9,13 @@ import { BLACK } from "../lib/styles";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
 
 interface useSetHeaderProps {
-  headerTitle?: MessageDescriptor | string;
+  headerTitle?:
+    | MessageDescriptor
+    | ((props: {
+        children: string;
+        tintColor?: string | undefined;
+      }) => React.ReactNode)
+    | undefined;
   headerRight?: StackNavigationOptions["headerRight"];
   backgroundColor?: string;
   headerTintColor?: string;
@@ -29,12 +35,9 @@ export const useSetHeader = (options: useSetHeaderProps) => {
 
   return React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle:
-        typeof headerTitle === "string"
-          ? headerTitle
-          : typeof headerTitle === "undefined"
-          ? undefined
-          : t(headerTitle),
+      headerTitle: isMessageDescriptor(headerTitle)
+        ? t(headerTitle)
+        : headerTitle,
       headerRight: headerRight || undefined,
       headerStyle: {
         backgroundColor: backgroundColor || "#fff",
@@ -50,3 +53,7 @@ export const useSetHeader = (options: useSetHeaderProps) => {
     });
   }, [navigation, t, options]);
 };
+
+function isMessageDescriptor(value: any): value is MessageDescriptor {
+  return "defaultMessage" in value;
+}
