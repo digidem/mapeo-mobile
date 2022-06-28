@@ -4,8 +4,8 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import ConfigContext from "../../context/ConfigContext";
 import Button from "../../sharedComponents/Button";
-import { useNavigation } from "react-navigation-hooks";
 import { LeaveProjSharedProp } from ".";
+import { useNavigation } from "../../hooks/useNavigationWithTypes";
 
 const m = defineMessage({
   leaveProjectTitle: {

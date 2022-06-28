@@ -1,8 +1,8 @@
 import React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { View, Text, StyleSheet, Image } from "react-native";
+import { useNavigation } from "../../hooks/useNavigationWithTypes";
 import Button from "../../sharedComponents/Button";
-import { useNavigation } from "react-navigation-hooks";
 
 const m = defineMessages({
   projectDeleted: {

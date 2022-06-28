@@ -1,9 +1,9 @@
 import * as React from "react";
 import { BackHandler, StyleSheet, View } from "react-native";
 import { FormattedMessage, defineMessages } from "react-intl";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
-import { useNavigation } from "react-navigation-hooks";
 import Text from "../sharedComponents/Text";
+import { useSetHeader } from "../hooks/useSetHeader";
+import { NativeNavigationProp } from "../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -12,12 +12,14 @@ const m = defineMessages({
   },
 });
 
-export const ConnectingToDeviceScreen = () => {
+export const ConnectingToDeviceScreen = ({
+  route,
+}: NativeNavigationProp<"ConnectingToDeviceScreen">) => {
   const taskStarted = React.useRef(false);
 
-  const navigation = useNavigation();
+  useSetHeader({ headerShown: false });
 
-  const task = navigation.getParam("task");
+  const task = route.params.task;
 
   React.useEffect(() => {
     const startTask = async () => {
@@ -49,10 +51,6 @@ export const ConnectingToDeviceScreen = () => {
       </View>
     </View>
   );
-};
-
-ConnectingToDeviceScreen.navigationOptions = {
-  headerShown: false,
 };
 
 const styles = StyleSheet.create({

@@ -7,10 +7,10 @@
 import React, { useMemo, useEffect, useState } from "react";
 import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 import { StyleSheet, View, Text } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
+import { useSetHeader } from "../../../hooks/useSetHeader";
 import { MEDIUM_BLUE, WHITE } from "../../../lib/styles";
 import Button from "../../../sharedComponents/Button";
+import { NativeNavigationProp } from "../../../sharedTypes";
 import { SyncOnboardingComplete } from "./Complete";
 import { SyncLoading } from "./Loader";
 
@@ -30,12 +30,14 @@ const m = defineMessages({
   },
 });
 
-export const SyncOnboardingScreen: NavigationStackScreenComponent<{
-  keepExistingObservations?: boolean;
-}> = ({ navigation }) => {
+export const SyncOnboardingScreen = ({
+  navigation,
+}: NativeNavigationProp<"SyncOnboardingScreen">) => {
   //For UI testing purposes
   const [obsCompleted, setObsCompleted] = useState(1);
   const total = 30;
+
+  useSetHeader({ headerShown: false });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -88,7 +90,7 @@ export const SyncOnboardingScreen: NavigationStackScreenComponent<{
       )}
 
       <Button
-        onPress={() => navigation.navigate("App")}
+        onPress={() => navigation.navigate("Home")}
         variant="outlined"
         color="light"
         disabled={screenState === syncing}
@@ -97,10 +99,6 @@ export const SyncOnboardingScreen: NavigationStackScreenComponent<{
       </Button>
     </View>
   );
-};
-
-SyncOnboardingScreen.navigationOptions = {
-  headerShown: false,
 };
 
 const styles = StyleSheet.create({

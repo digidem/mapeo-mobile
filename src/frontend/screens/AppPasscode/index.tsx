@@ -2,7 +2,7 @@ import * as React from "react";
 import { defineMessages } from "react-intl";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { useNavigation } from "react-navigation-hooks";
+import { useNavigation } from "../../hooks/useNavigationWithTypes";
 
 import { useSetHeader } from "../../hooks/useSetHeader";
 import { devExperiments } from "../../lib/DevExperiments";

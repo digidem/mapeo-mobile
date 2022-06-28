@@ -6,7 +6,6 @@
  */
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
 import { getUniqueId } from "react-native-device-info";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { FormattedMessage, defineMessages } from "react-intl";
@@ -17,6 +16,7 @@ import Button from "../../../sharedComponents/Button";
 import Text from "../../../sharedComponents/Text";
 
 import { MemberRow } from "./MemberRow";
+import { useNavigation } from "../../../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   managePeople: {
@@ -71,7 +71,7 @@ export const ManagePeople = ({ loading }: Props) => {
         <Button
           variant="outlined"
           disabled={loading}
-          onPress={() => navigation.navigate("AddToProject")}
+          onPress={() => navigation.navigate("AddToProjectScreen")}
         >
           <View style={styles.addButtonContainer}>
             <MaterialIcon

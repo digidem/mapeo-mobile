@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { AppState, AppStateStatus } from "react-native";
-import { NavigationEventSubscription } from "react-navigation";
 import { useNavigation } from "@react-navigation/native";
 /**
  * Similar to `react-navigation/core`'s [`useIsFocused`](https://reactnavigation.org/docs/use-is-focused/)

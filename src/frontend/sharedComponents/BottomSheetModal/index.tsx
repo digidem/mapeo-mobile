@@ -7,12 +7,23 @@ import {
 } from "@gorhom/bottom-sheet";
 
 import { Backdrop } from "./Backdrop";
+import { useNavigation } from "../../hooks/useNavigationWithTypes";
 
 const MIN_SHEET_HEIGHT = 400;
 
 export const MODAL_NAVIGATION_OPTIONS = {
   cardStyle: { backgroundColor: "transparent" },
   animationEnabled: false,
+};
+
+export const useSetModalNavOptions = () => {
+  const { setOptions } = useNavigation();
+  return React.useLayoutEffect(() => {
+    setOptions({
+      presentation: "transparentModal",
+      animation: "none",
+    });
+  }, []);
 };
 
 export const useBottomSheetModal = ({

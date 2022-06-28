@@ -1,12 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import { defineMessages, FormattedMessage } from "react-intl";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
+import { defineMessages } from "react-intl";
 
 import { LeaveProjectCompleted } from "./LeaveProjectCompleted";
 import { LeaveProjectInitial } from "./LeaveProjectInitial";
 import { LeaveProjectProgress } from "./LeaveProjectProgess";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
@@ -26,7 +24,7 @@ export interface LeaveProjSharedProp {
   next: () => void;
 }
 
-export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
+export const LeaveProjectScreen = () => {
   const { initial, progress } = ScreenStates;
   const [screen, setScreen] = useState(initial);
 

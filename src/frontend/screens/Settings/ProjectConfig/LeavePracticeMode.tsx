@@ -7,13 +7,13 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { FormattedMessage, defineMessages } from "react-intl";
-import { useNavigation } from "react-navigation-hooks";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import ObservationsContext from "../../../context/ObservationsContext";
 import Text from "../../../sharedComponents/Text";
 import Button from "../../../sharedComponents/Button";
 import { MAPEO_BLUE } from "../../../lib/styles";
+import { useNavigation } from "../../../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   leavePracticeMode: {
@@ -40,15 +40,16 @@ export const LeavePracticeMode = () => {
 
   const createProject = () => {
     if (observations.size > 0) {
-      navigation.navigate("ConfirmLeavePracticeMode", {
+      navigation.navigate("ConfirmLeavePracticeModeScreen", {
         projectAction: "create",
       });
     } else {
-      navigation.navigate("CreateProject");
+      navigation.navigate("CreateProjectScreen");
     }
   };
 
-  const joinProject = () => navigation.navigate("JoinProjectQr");
+  const joinProject = () =>
+    navigation.navigate("JoinProjectQrScreen", { isAdmin: false });
 
   return (
     <View style={styles.container}>

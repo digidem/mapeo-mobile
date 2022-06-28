@@ -32,7 +32,6 @@ import { AlreadyOnProj } from "../screens/AlreadyOnProject";
 import { LeaveProjectScreen } from "../screens/LeaveProject";
 import { AddToProjectScreen } from "../screens/AddToProjectScreen";
 import { UnableToLinkScreen } from "../screens/UnableToLink";
-import { JoinProjectQrScreen } from "../screens/Onboarding";
 import { ConnectingToDeviceScreen } from "../screens/ConnectingToDeviceScreen";
 import { ConfirmLeavePracticeModeScreen } from "../screens/ConfirmLeavePracticeModeScreen";
 import { CreateProjectScreen } from "../screens/CreateProject";
@@ -44,47 +43,59 @@ import { MapSettings } from "../screens/Settings/MapSettings";
 import { BackgroundMaps } from "../screens/Settings/MapSettings/BackgroundMaps";
 import { OfflineAreas } from "../screens/Settings/MapSettings/OfflineAreas";
 import { BGMapsSettings } from "../screens/Settings/Experiments/BGMaps";
+import { devExperiments } from "../lib/DevExperiments";
+import {
+  CreateOrJoinScreen,
+  JoinProjectQrScreen,
+  SendJoinRequestScreen,
+  SyncOnboardingScreen,
+} from "../screens/Onboarding";
+import { ProjectInviteModal } from "../screens/ProjectInviteModal";
+import { JoinRequestModal } from "../screens/JoinRequestModal";
 
 export type AppStackList = {
   Home: BottomTabNavigationProp<HomeTabsList> | undefined;
-  GpsModal: undefined; //c
-  SyncModal: undefined; //c
-  Settings: undefined; //c
-  ProjectConfig: undefined; //c
-  AboutMapeo: undefined; //c
-  LanguageSettings: undefined; //c
-  CoordinateFormat: undefined; //c
-  Experiments: undefined; //c
+  GpsModal: undefined;
+  SyncModal: undefined;
+  Settings: undefined;
+  ProjectConfig: undefined;
+  AboutMapeo: undefined;
+  LanguageSettings: undefined;
+  CoordinateFormat: undefined;
+  Experiments: undefined;
   PhotosModal: {
     photoIndex: number;
     observationId: string;
     editing?: true;
-  }; //c
-  CategoryChooser: undefined; //c
-  AddPhoto: undefined; //c
+  };
+  CategoryChooser: undefined;
+  AddPhoto: undefined;
   ObservationList: undefined;
-  Observation: { observationId: string }; //c
-  ObservationEdit: { observationId: string } | undefined; //c
-  ManualGpsScreen: undefined; //c
+  Observation: { observationId: string };
+  ObservationEdit: { observationId: string } | undefined;
+  ManualGpsScreen: undefined;
   ObservationDetails: { question: number };
-  LeaveProjectScreen: undefined; //c
-  AlreadyOnProj: undefined; //c
-  AddToProjectScreen: undefined; //c
-  UnableToLinkScreen: undefined; //c
-  // To Do: This was called something else in previous navigation stack
-  JoinProjectQrScreen: { isAdmin: boolean }; //c
-  ConnectingToDeviceScreen: { task: () => Promise<void> }; //c
-  ConfirmLeavePracticeModeScreen: undefined;
-  // To Do: This was called something else in previous navigation stack
-  CreateProjectScreen: undefined; //c
-  Security: undefined; //c
-  AppPasscode: undefined; //c
-  DirectionalArrow: undefined; //c
-  P2pUpgrade: undefined; //c
-  MapSettings: undefined; //c
-  BackgroundMaps: undefined; //c
-  OfflineAreas: { mapId: string }; //c
-  BGMapsSettings: undefined; //c
+  LeaveProjectScreen: undefined;
+  AlreadyOnProj: undefined;
+  AddToProjectScreen: undefined;
+  UnableToLinkScreen: undefined;
+  JoinProjectQrScreen: { isAdmin: boolean };
+  ConnectingToDeviceScreen: { task: () => Promise<void> };
+  ConfirmLeavePracticeModeScreen: { projectAction: "join" | "create" };
+  CreateProjectScreen: undefined;
+  Security: undefined;
+  AppPasscode: undefined;
+  DirectionalArrow: undefined;
+  P2pUpgrade: undefined;
+  MapSettings: undefined;
+  BackgroundMaps: undefined;
+  OfflineAreas: { mapId: string };
+  BGMapsSettings: undefined;
+  CreateOrJoinScreen: undefined;
+  SendJoinRequestScreen: undefined;
+  SyncOnboardingScreen: { keepExistingObservations: boolean };
+  ProjectInviteModal: { inviteKey: string };
+  JoinRequestModal: { deviceName?: string; key?: string } | undefined;
 };
 
 export type StackNavProp = CompositeNavigationProp<
@@ -157,45 +168,80 @@ export const AppStack = () => (
       headerLeft: props => <CustomHeaderLeft headerBackButtonProps={props} />,
     })}
   >
-    <Stack.Screen name="Home" component={HomeTabs} />
-    <Stack.Screen name="AboutMapeo" component={AboutMapeo} />
-    <Stack.Screen name="AddPhoto" component={AddPhoto} />
-    <Stack.Screen name="AddToProjectScreen" component={AddToProjectScreen} />
-    <Stack.Screen name="AlreadyOnProj" component={AlreadyOnProj} />
-    <Stack.Screen name="AppPasscode" component={AppPasscode} />
-    <Stack.Screen name="BGMapsSettings" component={BGMapsSettings} />
-    <Stack.Screen name="BackgroundMaps" component={BackgroundMaps} />
-    <Stack.Screen name="CategoryChooser" component={CategoryChooser} />
-    <Stack.Screen
-      name="ConfirmLeavePracticeModeScreen"
-      component={ConfirmLeavePracticeModeScreen}
-    />
-    <Stack.Screen
-      name="ConnectingToDeviceScreen"
-      component={ConnectingToDeviceScreen}
-    />
-    <Stack.Screen name="CoordinateFormat" component={CoordinateFormat} />
-    <Stack.Screen name="CreateProjectScreen" component={CreateProjectScreen} />
-    <Stack.Screen name="DirectionalArrow" component={DirectionalArrow} />
-    <Stack.Screen name="Experiments" component={Experiments} />
-    <Stack.Screen name="GpsModal" component={GpsModal} />
-    <Stack.Screen name="JoinProjectQrScreen" component={JoinProjectQrScreen} />
-    <Stack.Screen name="LanguageSettings" component={LanguageSettings} />
-    <Stack.Screen name="LeaveProjectScreen" component={LeaveProjectScreen} />
-    <Stack.Screen name="ManualGpsScreen" component={ManualGpsScreen} />
-    <Stack.Screen name="MapSettings" component={MapSettings} />
-    <Stack.Screen name="Observation" component={Observation} />
-    <Stack.Screen name="ObservationDetails" component={ObservationDetails} />
-    <Stack.Screen name="ObservationEdit" component={ObservationEdit} />
-    <Stack.Screen name="ObservationList" component={ObservationList} />
-    <Stack.Screen name="OfflineAreas" component={OfflineAreas} />
-    <Stack.Screen name="P2pUpgrade" component={P2pUpgrade} />
-    <Stack.Screen name="PhotosModal" component={PhotosModal} />
-    <Stack.Screen name="ProjectConfig" component={ProjectConfig} />
-    <Stack.Screen name="Security" component={Security} />
-    <Stack.Screen name="Settings" component={Settings} />
-    <Stack.Screen name="SyncModal" component={SyncModal} />
-    <Stack.Screen name="UnableToLinkScreen" component={UnableToLinkScreen} />
+    <Stack.Group>
+      <Stack.Screen name="Home" component={HomeTabs} />
+      <Stack.Screen name="AboutMapeo" component={AboutMapeo} />
+      <Stack.Screen name="AddPhoto" component={AddPhoto} />
+      <Stack.Screen name="AddToProjectScreen" component={AddToProjectScreen} />
+      <Stack.Screen name="AlreadyOnProj" component={AlreadyOnProj} />
+      <Stack.Screen name="AppPasscode" component={AppPasscode} />
+      <Stack.Screen name="BGMapsSettings" component={BGMapsSettings} />
+      <Stack.Screen name="BackgroundMaps" component={BackgroundMaps} />
+      <Stack.Screen name="CategoryChooser" component={CategoryChooser} />
+      <Stack.Screen
+        name="ConfirmLeavePracticeModeScreen"
+        component={ConfirmLeavePracticeModeScreen}
+      />
+      <Stack.Screen
+        name="ConnectingToDeviceScreen"
+        component={ConnectingToDeviceScreen}
+      />
+      <Stack.Screen name="CoordinateFormat" component={CoordinateFormat} />
+      <Stack.Screen
+        name="CreateProjectScreen"
+        component={CreateProjectScreen}
+      />
+      <Stack.Screen name="DirectionalArrow" component={DirectionalArrow} />
+      <Stack.Screen name="Experiments" component={Experiments} />
+      <Stack.Screen name="GpsModal" component={GpsModal} />
+      <Stack.Screen
+        name="JoinProjectQrScreen"
+        component={JoinProjectQrScreen}
+      />
+      <Stack.Screen name="LanguageSettings" component={LanguageSettings} />
+      <Stack.Screen name="LeaveProjectScreen" component={LeaveProjectScreen} />
+      <Stack.Screen name="ManualGpsScreen" component={ManualGpsScreen} />
+      <Stack.Screen name="MapSettings" component={MapSettings} />
+      <Stack.Screen name="Observation" component={Observation} />
+      <Stack.Screen name="ObservationDetails" component={ObservationDetails} />
+      <Stack.Screen name="ObservationEdit" component={ObservationEdit} />
+      <Stack.Screen name="ObservationList" component={ObservationList} />
+      <Stack.Screen name="OfflineAreas" component={OfflineAreas} />
+      <Stack.Screen name="P2pUpgrade" component={P2pUpgrade} />
+      <Stack.Screen name="PhotosModal" component={PhotosModal} />
+      <Stack.Screen name="ProjectConfig" component={ProjectConfig} />
+      <Stack.Screen name="Security" component={Security} />
+      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="SyncModal" component={SyncModal} />
+      <Stack.Screen name="UnableToLinkScreen" component={UnableToLinkScreen} />
+    </Stack.Group>
+    {devExperiments.onboarding && (
+      <Stack.Group>
+        <Stack.Screen
+          name="CreateOrJoinScreen"
+          component={CreateOrJoinScreen}
+        />
+        <Stack.Screen
+          name="SendJoinRequestScreen"
+          component={SendJoinRequestScreen}
+        />
+        <Stack.Screen
+          name="SyncOnboardingScreen"
+          component={SyncOnboardingScreen}
+        />
+        {/* Modal Screen */}
+        <Stack.Screen
+          name="ProjectInviteModal"
+          component={ProjectInviteModal}
+          options={{ presentation: "transparentModal" }}
+        />
+        <Stack.Screen
+          name="JoinRequestModal"
+          component={JoinRequestModal}
+          options={{ presentation: "transparentModal" }}
+        />
+      </Stack.Group>
+    )}
   </Stack.Navigator>
 );
 

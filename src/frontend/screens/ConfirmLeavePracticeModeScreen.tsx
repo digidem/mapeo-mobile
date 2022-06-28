@@ -6,13 +6,10 @@
  */
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages } from "react-intl";
 
 import { MAGENTA, MAPEO_BLUE, WHITE } from "../lib/styles";
-import HeaderTitle from "../sharedComponents/HeaderTitle";
 import Text from "../sharedComponents/Text";
-import IconButton from "../sharedComponents/IconButton";
 import Button from "../sharedComponents/Button";
 
 import { OptionRow } from "../sharedComponents/OptionRow";
@@ -21,7 +18,8 @@ import {
   AnimatedRadio,
   useAnimatedRadio,
 } from "../sharedComponents/AnimatedRadio";
-import { BackIcon } from "../sharedComponents/icons";
+import { NativeNavigationProp } from "../sharedTypes";
+import { useSetHeader } from "../hooks/useSetHeader";
 
 type PersistenceOption = "keep" | "delete";
 
@@ -52,9 +50,10 @@ const m = defineMessages({
   },
 });
 
-export const ConfirmLeavePracticeModeScreen: NavigationStackScreenComponent<{
-  projectAction?: "join" | "create";
-}> = ({ navigation }) => {
+export const ConfirmLeavePracticeModeScreen = ({
+  navigation,
+  route,
+}: NativeNavigationProp<"ConfirmLeavePracticeModeScreen">) => {
   const [selectedOption, setSelectedOption] = React.useState<
     PersistenceOption
   >();
@@ -64,6 +63,8 @@ export const ConfirmLeavePracticeModeScreen: NavigationStackScreenComponent<{
     animatedValue: animatedPulseValue,
   } = useAnimatedRadio();
 
+  useSetHeader(m.leavePracticeMode);
+
   const [{ observations }] = React.useContext(ObservationsContext);
 
   const createPressHandler = (option: PersistenceOption) => () =>
@@ -71,11 +72,11 @@ export const ConfirmLeavePracticeModeScreen: NavigationStackScreenComponent<{
 
   const createProject = () => {
     // TODO: do some project creation logic based on `selectedOption` value
-    navigation.navigate("Map");
+    navigation.navigate("Home");
   };
 
   const joinProject = () => {
-    navigation.navigate("Sync", {
+    navigation.navigate("SyncOnboardingScreen", {
       keepExistingObservations: selectedOption === "keep",
     });
   };
@@ -87,13 +88,9 @@ export const ConfirmLeavePracticeModeScreen: NavigationStackScreenComponent<{
       return;
     }
 
-    const projectAction = navigation.getParam("projectAction");
+    const projectAction = route.params.projectAction;
 
-    if (projectAction === "join") {
-      joinProject();
-    } else if (projectAction === "create") {
-      createProject();
-    }
+    projectAction === "join" ? joinProject() : createProject();
   };
 
   React.useEffect(() => {
@@ -175,21 +172,6 @@ export const ConfirmLeavePracticeModeScreen: NavigationStackScreenComponent<{
     </View>
   );
 };
-
-ConfirmLeavePracticeModeScreen.navigationOptions = () => ({
-  animationEnabled: true,
-  headerTitle: () => (
-    <HeaderTitle style={{}}>
-      <FormattedMessage {...m.leavePracticeMode} />
-    </HeaderTitle>
-  ),
-  headerLeft: ({ onPress }) =>
-    onPress && (
-      <IconButton onPress={onPress}>
-        <BackIcon />
-      </IconButton>
-    ),
-});
 
 const styles = StyleSheet.create({
   container: {

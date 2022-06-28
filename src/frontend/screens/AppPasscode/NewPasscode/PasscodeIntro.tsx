@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
+import { useNavigation } from "../../../hooks/useNavigationWithTypes";
 import Button from "../../../sharedComponents/Button";
 import { SecurityContext } from "../../Security/SecurityContext";
 

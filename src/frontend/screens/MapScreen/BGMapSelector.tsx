@@ -13,8 +13,8 @@ import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import Loading from "../../sharedComponents/Loading";
 import { LIGHT_GREY, MEDIUM_BLUE, WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
-import { useNavigation } from "react-navigation-hooks";
 import LocationContext from "../../context/LocationContext";
+import { useNavigation } from "../../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   title: {

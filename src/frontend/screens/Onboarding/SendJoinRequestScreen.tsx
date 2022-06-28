@@ -7,19 +7,14 @@
 import * as React from "react";
 import { Share, StyleSheet, View } from "react-native";
 import { FormattedMessage, defineMessages } from "react-intl";
-import {
-  NavigationStackScreenComponent,
-  TransitionPresets,
-} from "react-navigation-stack";
 
 import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import { BackIcon } from "../../sharedComponents/icons";
+
 import Button from "../../sharedComponents/Button";
-import IconButton from "../../sharedComponents/IconButton";
 import Text from "../../sharedComponents/Text";
 import { URI_PREFIX } from "../../constants";
 import { WithWifiBar } from "./WithWifiBar";
+import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   title: {
@@ -40,7 +35,12 @@ const m = defineMessages({
   },
 });
 
-export const SendJoinRequestScreen: NavigationStackScreenComponent = () => {
+export const SendJoinRequestScreen = () => {
+  useSetHeader({
+    headerTitle: m.title,
+    headerTintColor: WHITE,
+    backgroundColor: MEDIUM_BLUE,
+  });
   // TOOD: Need to properly generate
   const verificationCode = Math.random().toString().slice(-5);
 
@@ -70,24 +70,6 @@ export const SendJoinRequestScreen: NavigationStackScreenComponent = () => {
     </WithWifiBar>
   );
 };
-
-SendJoinRequestScreen.navigationOptions = () => ({
-  ...TransitionPresets.SlideFromRightIOS,
-  headerTitle: () => (
-    <HeaderTitle style={{ color: WHITE }}>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-  headerLeft: ({ onPress }) =>
-    onPress && (
-      <IconButton onPress={onPress}>
-        <BackIcon color={WHITE} />
-      </IconButton>
-    ),
-  headerStyle: {
-    backgroundColor: MEDIUM_BLUE,
-  },
-});
 
 const styles = StyleSheet.create({
   container: {
