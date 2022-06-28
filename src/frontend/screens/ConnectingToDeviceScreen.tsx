@@ -12,7 +12,7 @@ const m = defineMessages({
   },
 });
 
-export const ConnectingToDeviceScreen: NavigationStackScreenComponent = () => {
+export const ConnectingToDeviceScreen = () => {
   const taskStarted = React.useRef(false);
 
   const navigation = useNavigation();

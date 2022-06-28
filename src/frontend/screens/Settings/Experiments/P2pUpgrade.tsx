@@ -2,12 +2,11 @@ import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import { LIGHT_GREY } from "../../../lib/styles";
-import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import { useExperiments } from "../../../hooks/useExperiments";
+import { useSetHeader } from "../../../hooks/useSetHeader";
 
 const m = defineMessages({
   title: {
@@ -30,8 +29,9 @@ const m = defineMessages({
   },
 });
 
-export const P2pUpgrade: NavigationStackScreenComponent = () => {
+export const P2pUpgrade = () => {
   const [experiments, setExperiments] = useExperiments();
+  useSetHeader({ headerTitle: m.title });
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={[styles.header]}>
@@ -66,14 +66,6 @@ export const P2pUpgrade: NavigationStackScreenComponent = () => {
       </View>
     </ScrollView>
   );
-};
-
-P2pUpgrade.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
 };
 
 const styles = StyleSheet.create({

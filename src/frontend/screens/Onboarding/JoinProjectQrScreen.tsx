@@ -6,17 +6,15 @@
  */
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import QRCode from "react-native-qrcode-svg";
 
 import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
-import { BackIcon } from "../../sharedComponents/icons";
 import Button from "../../sharedComponents/Button";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import IconButton from "../../sharedComponents/IconButton";
 import Text from "../../sharedComponents/Text";
 import { WithWifiBar } from "./WithWifiBar";
+import { NativeNavigationProp } from "../../sharedTypes";
+import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   title: {
@@ -50,13 +48,19 @@ const m = defineMessages({
   1. Project Joiner asking to be invited to project
   2. Project Admin adding user to project
 */
-export const JoinProjectQrScreen: NavigationStackScreenComponent<{
-  isAdmin?: boolean;
-}> = ({ navigation }) => {
+export const JoinProjectQrScreen = ({
+  navigation,
+  route,
+}: NativeNavigationProp<"JoinProjectQrScreen">) => {
   const { formatMessage: t } = useIntl();
 
-  const isAdmin =
-    JSON.stringify(navigation.getParam("isAdmin", false)) === "true";
+  const isAdmin = route.params.isAdmin;
+
+  useSetHeader({
+    headerTitle: m.title,
+    backgroundColor: MEDIUM_BLUE,
+    headerTintColor: WHITE,
+  });
 
   return (
     <WithWifiBar>
@@ -100,23 +104,6 @@ export const JoinProjectQrScreen: NavigationStackScreenComponent<{
     </WithWifiBar>
   );
 };
-
-JoinProjectQrScreen.navigationOptions = () => ({
-  headerTitle: () => (
-    <HeaderTitle style={{ color: WHITE }}>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-  headerLeft: ({ onPress }) =>
-    onPress && (
-      <IconButton onPress={onPress}>
-        <BackIcon color={WHITE} />
-      </IconButton>
-    ),
-  headerStyle: {
-    backgroundColor: MEDIUM_BLUE,
-  },
-});
 
 const styles = StyleSheet.create({
   container: {

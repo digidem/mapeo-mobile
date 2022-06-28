@@ -67,24 +67,24 @@ export type AppStackList = {
   ObservationEdit: { observationId: string } | undefined; //c
   ManualGpsScreen: undefined; //c
   ObservationDetails: { question: number };
-  LeaveProjectScreen: undefined;
-  AlreadyOnProj: undefined;
-  AddToProjectScreen: undefined;
-  UnableToLinkScreen: undefined;
+  LeaveProjectScreen: undefined; //c
+  AlreadyOnProj: undefined; //c
+  AddToProjectScreen: undefined; //c
+  UnableToLinkScreen: undefined; //c
   // To Do: This was called something else in previous navigation stack
-  JoinProjectQrScreen: undefined;
-  ConnectingToDeviceScreen: undefined;
+  JoinProjectQrScreen: { isAdmin: boolean }; //c
+  ConnectingToDeviceScreen: { task: () => Promise<void> }; //c
   ConfirmLeavePracticeModeScreen: undefined;
   // To Do: This was called something else in previous navigation stack
-  CreateProjectScreen: undefined;
-  Security: undefined;
-  AppPasscode: undefined;
-  DirectionalArrow: undefined;
-  P2pUpgrade: undefined;
-  MapSettings: undefined;
-  BackgroundMaps: undefined;
-  OfflineAreas: undefined;
-  BGMapsSettings: undefined;
+  CreateProjectScreen: undefined; //c
+  Security: undefined; //c
+  AppPasscode: undefined; //c
+  DirectionalArrow: undefined; //c
+  P2pUpgrade: undefined; //c
+  MapSettings: undefined; //c
+  BackgroundMaps: undefined; //c
+  OfflineAreas: { mapId: string }; //c
+  BGMapsSettings: undefined; //c
 };
 
 export type StackNavProp = CompositeNavigationProp<

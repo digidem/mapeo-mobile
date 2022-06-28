@@ -3,12 +3,12 @@ import { defineMessages, useIntl } from "react-intl";
 import { StyleSheet, View, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MapboxGL from "@react-native-mapbox-gl/maps";
-import { StackNavigationProp } from "react-navigation-stack/lib/typescript/src/vendor/types";
 
 import { LIGHT_GREY, MEDIUM_GREY } from "../lib/styles";
 import { ViewStyleProp } from "../sharedTypes";
 import { Pill } from "./Pill";
 import LocationContext from "../context/LocationContext";
+import { useNavigation } from "../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   currentMap: {
@@ -28,7 +28,6 @@ interface BGMapCardProps {
   mapId: string;
   mapTitle: string;
   mapSize: number;
-  navigation: StackNavigationProp;
   style?: ViewStyleProp;
   onPress?: (() => void) | null;
 }
@@ -39,10 +38,9 @@ export const BGMapCard = ({
   style,
   onPress,
   mapId,
-  navigation,
 }: BGMapCardProps) => {
   const { formatMessage: t } = useIntl();
-  const { navigate } = navigation;
+  const { navigate } = useNavigation();
   const { position } = React.useContext(LocationContext);
   const [styleUrl, setStyleUrl] = React.useState<string>(
     "mapbox://styles/mapbox/streets-v11"

@@ -1,15 +1,10 @@
 import React from "react";
-import { useMemo } from "react";
 import { useContext } from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { Image, View, Text, StyleSheet } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
-import {
-  NavigationStackOptions,
-  NavigationStackScreenComponent,
-} from "react-navigation-stack";
 import ConfigContext from "../context/ConfigContext";
 import Button from "../sharedComponents/Button";
+import { NativeNavigationProp } from "../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -41,14 +36,11 @@ const m = defineMessages({
   },
 });
 
-const navSettings: NavigationStackOptions = {
-  headerShown: false,
-};
-
-export const AlreadyOnProj: NavigationStackScreenComponent = () => {
+export const AlreadyOnProj = ({
+  navigation,
+}: NativeNavigationProp<"AlreadyOnProj">) => {
   const [config] = useContext(ConfigContext);
   const { formatMessage: t } = useIntl();
-  const nav = useNavigation();
 
   const name = config.metadata.name;
 
@@ -79,7 +71,7 @@ export const AlreadyOnProj: NavigationStackScreenComponent = () => {
       <Button
         style={[styles.buttons, { backgroundColor: "#FF0000", marginTop: 30 }]}
         onPress={() => {
-          nav.navigate("LeaveProjectScreen");
+          navigation.navigate("LeaveProjectScreen");
         }}
       >
         {t(m.leaveButton)}
@@ -89,7 +81,7 @@ export const AlreadyOnProj: NavigationStackScreenComponent = () => {
         style={[styles.buttons]}
         variant="outlined"
         onPress={() => {
-          nav.goBack();
+          navigation.goBack();
         }}
       >
         {t(m.goBack)}
@@ -97,8 +89,6 @@ export const AlreadyOnProj: NavigationStackScreenComponent = () => {
     </View>
   );
 };
-
-AlreadyOnProj.navigationOptions = navSettings;
 
 const styles = StyleSheet.create({
   screenContainer: {

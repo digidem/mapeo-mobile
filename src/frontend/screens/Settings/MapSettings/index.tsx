@@ -1,10 +1,9 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { ScrollView } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
-import HeaderTitle from "../../../sharedComponents/HeaderTitle";
+import { useSetHeader } from "../../../hooks/useSetHeader";
 import { List, ListItem, ListItemText } from "../../../sharedComponents/List";
+import { NativeNavigationProp } from "../../../sharedTypes";
 
 const m = defineMessages({
   backgroundMaps: {
@@ -21,9 +20,11 @@ const m = defineMessages({
   },
 });
 
-export const MapSettings: NavigationStackScreenComponent = () => {
-  const { navigate } = useNavigation();
-
+export const MapSettings = ({
+  navigation,
+}: NativeNavigationProp<"MapSettings">) => {
+  const { navigate } = navigation;
+  useSetHeader({ headerTitle: m.mapSettings });
   return (
     <ScrollView>
       <List>
@@ -41,11 +42,3 @@ export const MapSettings: NavigationStackScreenComponent = () => {
     </ScrollView>
   );
 };
-
-MapSettings.navigationOptions = ({ navigation }) => ({
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.mapSettings} />
-    </HeaderTitle>
-  ),
-});

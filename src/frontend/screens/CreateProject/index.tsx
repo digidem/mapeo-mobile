@@ -2,12 +2,12 @@ import * as React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
+import { useSetHeader } from "../../hooks/useSetHeader";
 
 import { WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import Text from "../../sharedComponents/Text";
+import { NativeNavigationProp } from "../../sharedTypes";
 
 import { InputField } from "./InputField";
 import { useInputFieldValue } from "./useInputFieldValue";
@@ -55,11 +55,11 @@ const m = defineMessages({
   },
 });
 
-export const CreateProjectScreen: NavigationStackScreenComponent = ({
+export const CreateProjectScreen = ({
   navigation,
-}) => {
+}: NativeNavigationProp<"CreateProjectScreen">) => {
   const { formatMessage: t } = useIntl();
-
+  useSetHeader(m.createProjectTitle);
   const [
     projectName,
     setProjectName,
@@ -131,14 +131,6 @@ export const CreateProjectScreen: NavigationStackScreenComponent = ({
       </View>
     </View>
   );
-};
-
-CreateProjectScreen.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle style={{}}>
-      <FormattedMessage {...m.createProjectTitle} />
-    </HeaderTitle>
-  ),
 };
 
 const styles = StyleSheet.create({

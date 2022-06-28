@@ -7,6 +7,7 @@ import { LeaveProjectCompleted } from "./LeaveProjectCompleted";
 import { LeaveProjectInitial } from "./LeaveProjectInitial";
 import { LeaveProjectProgress } from "./LeaveProjectProgess";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   headerTitle: {
@@ -29,6 +30,8 @@ export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
   const { initial, progress } = ScreenStates;
   const [screen, setScreen] = useState(initial);
 
+  useSetHeader({ headerTitle: m.headerTitle });
+
   function nextScreenState() {
     setScreen(previousScreen => previousScreen + 1);
   }
@@ -42,12 +45,4 @@ export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
   }
 
   return <LeaveProjectCompleted />;
-};
-
-LeaveProjectScreen.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle style={{}}>
-      <FormattedMessage {...m.headerTitle} />
-    </HeaderTitle>
-  ),
 };

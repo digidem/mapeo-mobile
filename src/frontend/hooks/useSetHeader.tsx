@@ -1,11 +1,7 @@
-import { NavigationProp } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as React from "react";
 import { MessageDescriptor, useIntl } from "react-intl";
-import { AppStackList } from "../Navigation/AppStack";
 import { useNavigation } from "./useNavigationWithTypes";
 import type { StackNavigationOptions } from "@react-navigation/stack";
-import { BLACK } from "../lib/styles";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
 
 interface useSetHeaderProps {
@@ -20,38 +16,53 @@ interface useSetHeaderProps {
   backgroundColor?: string;
   headerTintColor?: string;
   headerShown?: boolean;
+  headerLeft?: StackNavigationOptions["headerLeft"];
 }
 
-export const useSetHeader = (options: useSetHeaderProps) => {
+export const useSetHeader = (
+  titleOrOptions: useSetHeaderProps | MessageDescriptor
+) => {
   const { formatMessage: t } = useIntl();
+  const navigation = useNavigation();
+
+  if (isMessageDescriptor(titleOrOptions)) {
+    return React.useLayoutEffect(() => {
+      navigation.setOptions({
+        headerTitle: t(titleOrOptions),
+      });
+    }, [navigation, t, titleOrOptions]);
+  }
+
   const {
     headerTitle,
     headerRight,
     backgroundColor,
     headerTintColor,
     headerShown,
-  } = options;
-  const navigation = useNavigation();
+    headerLeft,
+  } = titleOrOptions;
 
   return React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: isMessageDescriptor(headerTitle)
         ? t(headerTitle)
         : headerTitle,
-      headerRight: headerRight || undefined,
+      headerRight: headerRight,
       headerStyle: {
-        backgroundColor: backgroundColor || "#fff",
+        backgroundColor: backgroundColor,
       },
       // For some reason, when headerTintColor is set, the back button is not getting the tint color. So I am setting it directly in custom header left.
-      headerLeft: props => (
-        <CustomHeaderLeft
-          headerBackButtonProps={props}
-          tintColor={headerTintColor}
-        />
-      ),
+      headerLeft: !!headerLeft
+        ? headerLeft
+        : props => (
+            <CustomHeaderLeft
+              headerBackButtonProps={props}
+              tintColor={headerTintColor}
+            />
+          ),
       headerShown,
     });
-  }, [navigation, t, options]);
+  }, [navigation, t, titleOrOptions]);
 };
 
 function isMessageDescriptor(value: any): value is MessageDescriptor {

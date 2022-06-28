@@ -1,7 +1,6 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages } from "react-intl";
 
 import {
@@ -10,12 +9,10 @@ import {
   ListItemText,
   ListDivider,
 } from "../../sharedComponents/List";
-import IconButton from "../../sharedComponents/IconButton";
-import { BackIcon } from "../../sharedComponents/icons";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { SecurityContext } from "./SecurityContext";
-import { useNavigation } from "react-navigation-hooks";
 import { devExperiments } from "../../lib/DevExperiments";
+import { useSetHeader } from "../../hooks/useSetHeader";
+import { NativeNavigationProp } from "../../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -64,13 +61,14 @@ const m = defineMessages({
   },
 });
 
-export const Security: NavigationStackScreenComponent = () => {
+export const Security = ({ navigation }: NativeNavigationProp<"Security">) => {
   const { passIsSet } = React.useContext(SecurityContext);
-  const { navigate } = useNavigation();
+  useSetHeader(m.title);
+
   const { appPasscode } = devExperiments;
 
   React.useEffect(() => {
-    if (!devExperiments.appPasscode) navigate("Settings");
+    if (!devExperiments.appPasscode) navigation.navigate("Settings");
   }, []);
 
   const [passCodeDes, killPassCodeDes] = React.useMemo(
@@ -91,7 +89,10 @@ export const Security: NavigationStackScreenComponent = () => {
           />
         </ListItem>
 
-        <ListItem button={true} onPress={() => navigate("AppPasscode")}>
+        <ListItem
+          button={true}
+          onPress={() => navigation.navigate("AppPasscode")}
+        >
           <ListItemText
             primary={<FormattedMessage {...m.passcodeHeader} />}
             secondary={<FormattedMessage {...passCodeDes} />}
@@ -124,20 +125,6 @@ export const Security: NavigationStackScreenComponent = () => {
     </ScrollView>
   );
 };
-
-Security.navigationOptions = () => ({
-  headerTitle: () => (
-    <HeaderTitle style={{}}>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-  headerLeft: ({ onPress }) =>
-    onPress && (
-      <IconButton onPress={onPress}>
-        <BackIcon />
-      </IconButton>
-    ),
-});
 
 const styles = StyleSheet.create({
   divder: {

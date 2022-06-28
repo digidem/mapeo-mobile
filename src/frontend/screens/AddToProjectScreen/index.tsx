@@ -1,21 +1,21 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
-import { NavigationEvents } from "react-navigation";
-import { useNavigation } from "react-navigation-hooks";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
-import { FormattedMessage, defineMessages } from "react-intl";
+import { defineMessages } from "react-intl";
 
 import ConfigContext from "../../context/ConfigContext";
 import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { BackIcon } from "../../sharedComponents/icons";
 import IconButton from "../../sharedComponents/IconButton";
+
 // TODO: Make this a shared component instead?
 import { WithWifiBar } from "../Onboarding/WithWifiBar";
 
 import { DeviceFoundStep } from "./DeviceFoundStep";
 import { ScanQrCodeStep } from "./ScanQrCodeStep";
 import { SuccessStep } from "./SuccessStep";
+import { NativeNavigationProp } from "../../sharedTypes";
+import { useFocusEffect } from "@react-navigation/native";
+import { useSetHeader } from "../../hooks/useSetHeader";
 
 type Step = "scan" | "found" | "success";
 
@@ -33,23 +33,37 @@ const sendInviteToDevice = (deviceId: string) =>
     setTimeout(res, 2000);
   });
 
-export const AddToProjectScreen: NavigationStackScreenComponent = () => {
-  const navigation = useNavigation();
-
+export const AddToProjectScreen = ({
+  navigation,
+}: NativeNavigationProp<"AddToProjectScreen">) => {
   const [screenLoaded, setScreenLoaded] = React.useState(false);
   const [step, setStep] = React.useState<Step>("scan");
   const [foundDeviceId, setFoundDeviceId] = React.useState<string>();
   const [config] = React.useContext(ConfigContext);
 
+  useSetHeader({
+    headerTitle: m.titleGeneric,
+    headerLeft: prop => (
+      <IconButton onPress={prop.onPress || navigation.goBack}>
+        <BackIcon color={WHITE} />
+      </IconButton>
+    ),
+    backgroundColor: MEDIUM_BLUE,
+  });
+
+  useFocusEffect(() => {
+    setScreenLoaded(true);
+  });
+
   const sendInvite = async (deviceId: string) =>
-    navigation.navigate("ConnectingToDevice", {
+    navigation.navigate("ConnectingToDeviceScreen", {
       task: async () => {
         try {
           await sendInviteToDevice(deviceId);
-          navigation.navigate("AddToProject");
+          navigation.navigate("AddToProjectScreen");
           setStep("success");
         } catch (err) {
-          navigation.navigate("AddToProject");
+          navigation.navigate("AddToProjectScreen");
         }
       },
     });
@@ -99,35 +113,10 @@ export const AddToProjectScreen: NavigationStackScreenComponent = () => {
 
   return (
     <WithWifiBar>
-      <NavigationEvents
-        onDidFocus={() => {
-          if (!screenLoaded) {
-            setScreenLoaded(true);
-          }
-        }}
-      />
       <View style={styles.container}>{getRenderedStep()}</View>
     </WithWifiBar>
   );
 };
-
-AddToProjectScreen.navigationOptions = () => ({
-  // TODO: Get the project name and add it to the title here
-  headerTitle: () => (
-    <HeaderTitle style={{ color: WHITE }}>
-      <FormattedMessage {...m.titleGeneric} />
-    </HeaderTitle>
-  ),
-  headerLeft: ({ onPress }) =>
-    onPress && (
-      <IconButton onPress={onPress}>
-        <BackIcon color={WHITE} />
-      </IconButton>
-    ),
-  headerStyle: {
-    backgroundColor: MEDIUM_BLUE,
-  },
-});
 
 const styles = StyleSheet.create({
   container: {
