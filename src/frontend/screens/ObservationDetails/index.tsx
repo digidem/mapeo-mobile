@@ -37,20 +37,19 @@ const ObservationDetails = ({
   route,
 }: NativeNavigationProp<"ObservationDetails">) => {
   const [{ preset }] = useDraftObservation();
-  const { formatMessage: t } = useIntl();
   const current: number = +route.params.question;
 
   useSetHeader({
     headerTitle: () => <DetailsTitle question={current} />,
     headerRight: () => <DetailsHeaderRight question={current} />,
   });
-  React.useEffect(() => {
-    if (!preset || !preset.fields || current > preset.fields.length) {
-      navigation.pop(current);
-    }
-  }, [preset, navigation, current]);
 
-  const field = preset!.fields[current - 1];
+  if (!preset || !preset.fields || current > preset.fields.length) {
+    navigation.pop(current);
+    return null;
+  }
+
+  const field = preset.fields[current - 1];
   return (
     <Field field={field}>
       {/*  //TO DO: FIX

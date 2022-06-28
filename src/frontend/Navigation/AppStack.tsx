@@ -53,6 +53,11 @@ import {
 import { ProjectInviteModal } from "../screens/ProjectInviteModal";
 import { JoinRequestModal } from "../screens/JoinRequestModal";
 
+export type StackNavProp = CompositeNavigationProp<
+  NativeStackNavigationProp<AppStackList>,
+  BottomTabNavigationProp<HomeTabsList>
+>;
+
 export type AppStackList = {
   Home: BottomTabNavigationProp<HomeTabsList> | undefined;
   GpsModal: undefined;
@@ -98,11 +103,6 @@ export type AppStackList = {
   JoinRequestModal: { deviceName?: string; key?: string } | undefined;
 };
 
-export type StackNavProp = CompositeNavigationProp<
-  NativeStackNavigationProp<AppStackList>,
-  BottomTabNavigationProp<HomeTabsList>
->;
-
 type HomeTabsList = {
   Map: undefined;
   Camera: undefined;
@@ -122,39 +122,15 @@ const HomeTabs = () => (
       header: () => <HomeHeader />,
       headerTransparent: true,
     })}
+    initialRouteName="Map"
+    backBehavior="initialRoute"
   >
     <Tab.Screen name="Map" component={MapScreen} />
     <Tab.Screen name="Camera" component={CameraScreen} />
   </Tab.Navigator>
 );
 
-// const HomeTabs = createBottomTabNavigator(
-//   {
-//     Map: MapScreen,
-//     Camera: CameraScreen,
-//   },
-//   {
-//     navigationOptions: () => ({
-//       header: (props: any) => <HomeHeader {...props} />,
-//       headerTransparent: true,
-//     }),
-//     defaultNavigationOptions: ({ navigation }) => ({
-//       initialRouteName: "Map",
-//       backBehavior: "initialRoute",
-//       tabBarOptions: {
-//         showLabel: false,
-//       },
-//       tabBarIcon: ({ tintColor }) => {
-//         const { routeName } = navigation.state;
-//         let iconName;
-//         if (routeName === "Map") iconName = "map";
-//         else iconName = "photo-camera";
-//         return <MaterialIcons name={iconName} size={30} color={tintColor} />;
-//       },
-//       tabBarTestID: "tabBarButton" + navigation.state.routeName,
-//     }),
-//   }
-// );
+//tabBarTestID: "tabBarButton" + navigation.state.routeName,
 
 const Stack = createNativeStackNavigator<AppStackList>();
 
@@ -235,6 +211,7 @@ export const AppStack = () => (
           component={ProjectInviteModal}
           options={{ presentation: "transparentModal" }}
         />
+        {/* Modal Screen */}
         <Stack.Screen
           name="JoinRequestModal"
           component={JoinRequestModal}
@@ -244,24 +221,3 @@ export const AppStack = () => (
     )}
   </Stack.Navigator>
 );
-
-// const stackNavConfig= {
-//   initialRouteName: "Home",
-//   // TODO iOS: Dynamically set transition mode to modal for modals
-//   mode: "card",
-//   headerMode: "screen",
-//   defaultNavigationOptions: {
-//     headerStyle: {
-//       height: 60,
-//     },
-//     // We use a slightly larger back icon, to improve accessibility
-//     // TODO iOS: This should probably be a chevron not an arrow
-//     headerLeft: props => <CustomHeaderLeft {...props} />,
-//     headerTitleStyle: {
-//       marginHorizontal: 0,
-//     },
-//     cardStyle: {
-//       backgroundColor: "#ffffff",
-//     },
-//   },
-// };

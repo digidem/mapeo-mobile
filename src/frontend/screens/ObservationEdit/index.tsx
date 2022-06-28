@@ -66,7 +66,7 @@ const ObservationEdit = ({
       onPressCategory={handleCategoryPress}
       onPressCamera={handleCameraPress}
       onPressDetails={handleDetailsPress}
-      onPressPhoto={() => handlePhotoPress}
+      onPressPhoto={handlePhotoPress}
       preset={preset}
     />
   );

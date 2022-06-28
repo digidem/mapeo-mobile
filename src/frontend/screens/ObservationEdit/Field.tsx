@@ -5,8 +5,8 @@ import { useDraftObservation } from "../../hooks/useDraftObservation";
 import type { Field as FieldType } from "../../context/ConfigContext";
 
 type Props = {
-  field: FieldType,
-  children: { value: any, onChange: (fieldValue: any) => any },
+  field?: FieldType | {};
+  children: { value: any; onChange: (fieldValue: any) => any };
 };
 
 const Field = ({ field, children }: Props) => {
