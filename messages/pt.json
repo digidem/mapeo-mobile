@@ -134,6 +134,12 @@
     "description": "Title of screen letting user know that they are already part of a project.",
     "message": "Você já está participando de um projeto"
   },
+  "screens.AppPasscode": {
+    "message": "Senha da aplicação20222022\n"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "Continue"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "Sem acesso à câmera"
