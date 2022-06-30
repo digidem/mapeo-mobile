@@ -60,6 +60,7 @@ export const useSetHeader = (
               tintColor={headerTintColor}
             />
           ),
+      headerTintColor: headerTintColor,
       headerShown,
     });
   }, [navigation, t, titleOrOptions]);

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform, View } from "react-native";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import Text from "../../sharedComponents/Text";
@@ -73,7 +73,7 @@ const DetailsHeaderRight = ({ question }: { question: number }) => {
   const onPress = () =>
     isLastQuestion
       ? navigation.navigate("ObservationEdit")
-      : navigation.push("ObservationDetails", {
+      : navigation.navigate("ObservationDetails", {
           question: question + 1,
         });
 
@@ -89,15 +89,17 @@ const DetailsHeaderRight = ({ question }: { question: number }) => {
 const DetailsTitle = ({ question }: { question: number }) => {
   const [{ preset }] = useDraftObservation();
   return (
-    <Text numberOfLines={1} style={styles.title}>
-      <FormattedMessage
-        {...m.title}
-        values={{
-          current: question,
-          total: !preset ? 0 : preset.fields,
-        }}
-      />
-    </Text>
+    <View>
+      <Text numberOfLines={1} style={styles.title}>
+        <FormattedMessage
+          {...m.title}
+          values={{
+            current: question,
+            total: !preset ? 0 : preset.fields,
+          }}
+        />
+      </Text>
+    </View>
   );
 };
 

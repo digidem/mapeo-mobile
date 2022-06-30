@@ -1,6 +1,5 @@
-// @flow
 import * as React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Text from "./Text";
 import { defineMessages, useIntl } from "react-intl";
 import { useIsFocused } from "@react-navigation/native";
@@ -9,6 +8,7 @@ import LocationContext from "../context/LocationContext";
 import { GpsIcon } from "./icons";
 import { getLocationStatus } from "../lib/utils";
 import type { LocationStatus } from "../lib/utils";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const m = defineMessages({
   noGps: {
@@ -39,12 +39,7 @@ export const GpsPill = React.memo<Props>(
       text = t(m.searching);
     else text = `± ${precision} m`;
     return (
-      <TouchableOpacity
-        onPress={() => {
-          onPress;
-        }}
-        testID="gpsPillButton"
-      >
+      <TouchableOpacity onPress={onPress || undefined} testID="gpsPillButton">
         <View
           style={[
             styles.container,
@@ -52,8 +47,6 @@ export const GpsPill = React.memo<Props>(
           ]}
         >
           <View style={styles.icon}>
-            {/*
-             // @ts-ignore */}
             {isFocused && <GpsIcon variant={variant} />}
           </View>
           <Text style={styles.text} numberOfLines={1}>

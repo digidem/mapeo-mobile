@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import Text from "../sharedComponents/Text";
@@ -9,8 +8,8 @@ import useSettingsValue from "../hooks/useSettingsValue";
 
 import { FormattedCoords } from "../sharedComponents/FormattedData";
 import DateDistance from "../sharedComponents/DateDistance";
-import HeaderTitle from "../sharedComponents/HeaderTitle";
 
+import { WHITE } from "../lib/styles";
 import type { LocationContextType } from "../context/LocationContext";
 import { useSetHeader } from "../hooks/useSetHeader";
 import { GPS_MODAL_TEXT } from "../lib/styles";
@@ -63,7 +62,7 @@ const m = defineMessages({
   },
 });
 
-const GpsModalRow = ({ label, value }: { label: string, value: string }) => (
+const GpsModalRow = ({ label, value }: { label: string; value: string }) => (
   <View style={styles.row}>
     <Text style={styles.rowLabel}>{label}</Text>
     <Text style={styles.rowValue}>{value}</Text>
@@ -71,7 +70,7 @@ const GpsModalRow = ({ label, value }: { label: string, value: string }) => (
 );
 
 type Props = {
-  navigation: any,
+  navigation: any;
 };
 
 const GpsModal = ({ navigation }: Props) => {
@@ -145,10 +144,11 @@ export default GpsModal;
 
 function getLastUpdateText(location: LocationContextType) {
   if (!location.savedPosition && !location.position) return "None";
-  const lastTimestamp = location.position
+  const lastTimestamp = !!location.position
     ? location.position.timestamp
-    : // $FlowFixMe
-      location.savedPosition.timestamp;
+    : !!location.savedPosition
+    ? location.savedPosition.timestamp
+    : "";
   return new Date(lastTimestamp).toLocaleString();
 }
 
