@@ -89,17 +89,15 @@ const DetailsHeaderRight = ({ question }: { question: number }) => {
 const DetailsTitle = ({ question }: { question: number }) => {
   const [{ preset }] = useDraftObservation();
   return (
-    <View>
-      <Text numberOfLines={1} style={styles.title}>
-        <FormattedMessage
-          {...m.title}
-          values={{
-            current: question,
-            total: !preset ? 0 : preset.fields,
-          }}
-        />
-      </Text>
-    </View>
+    <Text numberOfLines={1} style={styles.title}>
+      <FormattedMessage
+        {...m.title}
+        values={{
+          current: question,
+          total: !preset ? 0 : preset.fields.length,
+        }}
+      />
+    </Text>
   );
 };
 

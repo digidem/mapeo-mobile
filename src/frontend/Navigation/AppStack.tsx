@@ -121,6 +121,7 @@ const HomeTabs = () => (
       },
       header: () => <HomeHeader />,
       headerTransparent: true,
+      tabBarTestID: "tabBarButton" + route.name,
     })}
     initialRouteName="Map"
     backBehavior="initialRoute"
@@ -142,6 +143,9 @@ export const AppStack = () => (
       headerStyle: { backgroundColor: "#ffffff" },
       headerShown: route.route.name !== "Home",
       headerLeft: props => <CustomHeaderLeft headerBackButtonProps={props} />,
+      // This is for the default back button. We render a custom one in headerLeft, so this one should always be hidden.
+      // This **might** cause a problem for IOS
+      headerBackVisible: false,
     })}
   >
     <Stack.Group>

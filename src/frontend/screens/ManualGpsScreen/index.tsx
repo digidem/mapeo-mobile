@@ -161,13 +161,6 @@ const ManualGpsScreen = ({
   );
 };
 
-//   headerLeft: ({ onPress }) =>
-//     onPress && (
-//       <IconButton onPress={onPress}>
-//         <BackIcon />
-//       </IconButton>
-//     )
-
 export default ManualGpsScreen;
 
 function isCoordinateFormat(value: string): value is CoordinateFormat {

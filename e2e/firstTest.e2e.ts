@@ -1,6 +1,6 @@
 /* eslint-env detox/detox, jest/globals */
 
-import { byId, byText } from "./matcher";
+import { byId, byLabel, byText } from "./matcher";
 import { expect } from "detox";
 import delay from "delay";
 
@@ -21,7 +21,7 @@ describe("Mapeo", () => {
     });
 
     test("Touching tab bar icons switches between map & camera", async () => {
-      await byId("tabBarButtonCamera").tap();
+      await byLabel("tabBarButtonCamera").tap();
       await expect(byId("camera")).toBeVisible();
       await byId("tabBarButtonMap").tap();
       await expect(byId("mapboxMapView")).toBeVisible();

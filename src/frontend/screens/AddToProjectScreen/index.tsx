@@ -4,8 +4,6 @@ import { defineMessages } from "react-intl";
 
 import ConfigContext from "../../context/ConfigContext";
 import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
-import { BackIcon } from "../../sharedComponents/icons";
-import IconButton from "../../sharedComponents/IconButton";
 
 // TODO: Make this a shared component instead?
 import { WithWifiBar } from "../Onboarding/WithWifiBar";
@@ -43,11 +41,6 @@ export const AddToProjectScreen = ({
 
   useSetHeader({
     headerTitle: m.titleGeneric,
-    headerLeft: prop => (
-      <IconButton onPress={prop.onPress || navigation.goBack}>
-        <BackIcon color={WHITE} />
-      </IconButton>
-    ),
     backgroundColor: MEDIUM_BLUE,
   });
 
