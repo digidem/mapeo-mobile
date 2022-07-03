@@ -24,9 +24,6 @@ import {
 } from "./Navigation/NavigationStateHelperFunctions";
 
 const AppContainer = AppStack;
-//  devExperiments.onboarding
-//   ? OnboardingContainer
-//   : DefaultContainer;
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -54,7 +51,7 @@ const AppContainerWrapper = () => {
       try {
         // When we support deeplinking we need to fix this. Currently it is never resolving
         // You can find issue here: https://github.com/facebook/react-native/issues/25675
-        //const initialUrl = await Linking.getInitialURL();
+        // const initialUrl = await Linking.getInitialURL();
 
         const initialUrl = undefined;
         // if deeplinking, dont set initial state
