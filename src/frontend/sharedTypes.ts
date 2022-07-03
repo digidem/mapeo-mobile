@@ -4,10 +4,7 @@ import { CompositeScreenProps } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StackScreenProps } from "@react-navigation/stack";
 import { ImageStyle, StyleProp, TextStyle, ViewStyle } from "react-native";
-import { NavigationRoute } from "react-navigation";
-import { NavigationStackProp } from "react-navigation-stack";
 import { AppStackList, HomeTabsList } from "./Navigation/AppStack";
-import { IccaStackList } from "./screens/Intro";
 
 export type ViewStyleProp = StyleProp<ViewStyle>;
 export type TextStyleProp = StyleProp<TextStyle>;
@@ -25,19 +22,6 @@ export type IconSize = "small" | "medium" | "large";
 export type ImageSize = "thumbnail" | "preview" | "original";
 
 export type Status = "idle" | "loading" | "error" | "success" | void;
-
-type NavigationParams = {
-  observationId?: string;
-  question: number;
-  photoIndex?: number;
-  editing?: boolean;
-  handleSavePress?: () => void;
-};
-
-export type NavigationProp = NavigationStackProp<
-  NavigationRoute,
-  NavigationParams
->;
 
 export type NativeRootNavigationProps<
   ScreenName extends keyof AppStackList

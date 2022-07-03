@@ -9,11 +9,7 @@ import { useDraftObservation } from "../hooks/useDraftObservation";
 import { useObservation } from "../hooks/useObservation";
 import { filterPhotosFromAttachments } from "../lib/utils";
 import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
-import {
-  useFocusEffect,
-  useNavigationState,
-  useRoute,
-} from "@react-navigation/native";
+import { useFocusEffect, useNavigationState } from "@react-navigation/native";
 import { HeaderBackButtonProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { BLACK } from "../lib/styles";
 

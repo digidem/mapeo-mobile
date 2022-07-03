@@ -4,19 +4,16 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { AppStackList, HomeTabsList } from "../Navigation/AppStack";
 
 export const useNavigationFromRoot = () =>
   useNavigation<NativeStackNavigationProp<AppStackList>>();
 
-export function useNavigationFromHomeTabs<
-  ScreenName extends keyof HomeTabsList
->() {
+export function useNavigationFromHomeTabs() {
   return useNavigation<
     CompositeNavigationProp<
-      BottomTabNavigationProp<HomeTabsList, ScreenName>,
-      StackNavigationProp<AppStackList>
+      BottomTabNavigationProp<HomeTabsList>,
+      NativeStackNavigationProp<AppStackList>
     >
   >();
 }

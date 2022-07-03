@@ -17,10 +17,6 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { MEDIUM_GREY } from "../../lib/styles";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useExperiments } from "../../hooks/useExperiments";
-import { CompositeScreenProps } from "@react-navigation/native";
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { AppStackList, HomeTabsList } from "../../Navigation/AppStack";
-import { StackScreenProps } from "@react-navigation/stack";
 import { NativeHomeTabsNavigationProps } from "../../sharedTypes";
 const log = debug("mapeo:MapScreen");
 

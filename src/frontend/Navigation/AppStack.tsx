@@ -42,14 +42,6 @@ import { BackgroundMaps } from "../screens/Settings/MapSettings/BackgroundMaps";
 import { OfflineAreas } from "../screens/Settings/MapSettings/OfflineAreas";
 import { BGMapsSettings } from "../screens/Settings/Experiments/BGMaps";
 import { devExperiments } from "../lib/DevExperiments";
-import {
-  CreateOrJoinScreen,
-  JoinProjectQrScreen,
-  SendJoinRequestScreen,
-  SyncOnboardingScreen,
-} from "../screens/Onboarding";
-import { ProjectInviteModal } from "../screens/ProjectInviteModal";
-import { JoinRequestModal } from "../screens/JoinRequestModal";
 import { NewPasscode } from "../screens/AppPasscode/NewPasscode";
 import { IccaStack, IccaStackList } from "../screens/Intro";
 import { OnboardingStack, OnboardingStackList } from "./OnboardingStack";
@@ -195,7 +187,7 @@ export const AppStack = () => (
     {devExperiments.appPasscode && (
       <RootStack.Group>
         <RootStack.Screen name="NewPasscode" component={NewPasscode} />
-        <RootStack.Screen name="AppPasscode" component={AppPasscode} />"
+        <RootStack.Screen name="AppPasscode" component={AppPasscode} />
       </RootStack.Group>
     )}
     {/* To do: Determine if ICCA */}
