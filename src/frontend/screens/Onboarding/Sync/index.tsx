@@ -10,7 +10,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { useSetHeader } from "../../../hooks/useSetHeader";
 import { MEDIUM_BLUE, WHITE } from "../../../lib/styles";
 import Button from "../../../sharedComponents/Button";
-import { NativeNavigationProp } from "../../../sharedTypes";
+import { NativeRootNavigationProps } from "../../../sharedTypes";
 import { SyncOnboardingComplete } from "./Complete";
 import { SyncLoading } from "./Loader";
 
@@ -32,7 +32,7 @@ const m = defineMessages({
 
 export const SyncOnboardingScreen = ({
   navigation,
-}: NativeNavigationProp<"SyncOnboardingScreen">) => {
+}: NativeRootNavigationProps<"SyncOnboardingScreen">) => {
   //For UI testing purposes
   const [obsCompleted, setObsCompleted] = useState(1);
   const total = 30;
@@ -90,7 +90,7 @@ export const SyncOnboardingScreen = ({
       )}
 
       <Button
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.navigate("Home", { screen: "Map" })}
         variant="outlined"
         color="light"
         disabled={screenState === syncing}

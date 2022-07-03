@@ -11,7 +11,6 @@ import {
 import { defineMessages, FormattedMessage } from "react-intl";
 
 import ConfigContext, { type Preset } from "../context/ConfigContext";
-import HeaderTitle from "../sharedComponents/HeaderTitle";
 import { useDraftObservation } from "../hooks/useDraftObservation";
 import { CategoryCircleIcon } from "../sharedComponents/icons";
 import { useSetHeader } from "../hooks/useSetHeader";

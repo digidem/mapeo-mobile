@@ -8,7 +8,7 @@ import { LIGHT_GREY, MEDIUM_GREY } from "../lib/styles";
 import { ViewStyleProp } from "../sharedTypes";
 import { Pill } from "./Pill";
 import LocationContext from "../context/LocationContext";
-import { useNavigation } from "../hooks/useNavigationWithTypes";
+import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   currentMap: {
@@ -40,7 +40,7 @@ export const BGMapCard = ({
   mapId,
 }: BGMapCardProps) => {
   const { formatMessage: t } = useIntl();
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigationFromRoot();
   const { position } = React.useContext(LocationContext);
   const [styleUrl, setStyleUrl] = React.useState<string>(
     "mapbox://styles/mapbox/streets-v11"

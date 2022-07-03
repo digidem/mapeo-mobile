@@ -7,7 +7,7 @@ import IconButton from "../../sharedComponents/IconButton";
 import { SaveIcon } from "../../sharedComponents/icons";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
 import type { ObservationValue } from "../../context/ObservationsContext";
-import { useNavigation } from "../../hooks/useNavigationWithTypes";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   noGpsTitle: {
@@ -56,7 +56,7 @@ const log = debug("SaveButton");
 const SaveButton = ({ observationId }) => {
   const [{ value, savingStatus }, { saveDraft }] = useDraftObservation();
   const { formatMessage: t } = useIntl();
-  const navigation = useNavigation();
+  const navigation = useNavigationFromRoot();
   const confirmationOptions = [
     {
       text: t(m.saveAnyway),
@@ -100,7 +100,7 @@ const SaveButton = ({ observationId }) => {
     if (typeof observationId === "string") {
       navigation.pop();
     } else {
-      navigation.navigate("Home");
+      navigation.navigate("Home", { screen: "Map" });
     }
   }, [savingStatus, navigation, observationId]);
 

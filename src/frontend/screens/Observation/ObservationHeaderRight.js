@@ -9,13 +9,13 @@ import { useDraftObservation } from "../../hooks/useDraftObservation";
 import { EditIcon } from "../../sharedComponents/icons";
 import useDeviceId from "../../hooks/useDeviceId";
 import { SyncIcon } from "../../sharedComponents/icons/SyncIconCircle";
-import { useNavigation } from "../../hooks/useNavigationWithTypes";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 
 const ObservationHeaderRight = ({ observationId }) => {
   const [{ observation }] = useObservation(observationId);
   const deviceId = useDeviceId();
   const [, { newDraft }] = useDraftObservation();
-  const navigation = useNavigation();
+  const navigation = useNavigationFromRoot();
 
   function handlePress() {
     if (!observation) return;

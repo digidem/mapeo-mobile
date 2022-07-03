@@ -3,7 +3,7 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import { ScrollView } from "react-native";
 import { useSetHeader } from "../../../hooks/useSetHeader";
 import { List, ListItem, ListItemText } from "../../../sharedComponents/List";
-import { NativeNavigationProp } from "../../../sharedTypes";
+import { NativeRootNavigationProps } from "../../../sharedTypes";
 
 const m = defineMessages({
   backgroundMaps: {
@@ -22,7 +22,7 @@ const m = defineMessages({
 
 export const MapSettings = ({
   navigation,
-}: NativeNavigationProp<"MapSettings">) => {
+}: NativeRootNavigationProps<"MapSettings">) => {
   const { navigate } = navigation;
   useSetHeader({ headerTitle: m.mapSettings });
   return (

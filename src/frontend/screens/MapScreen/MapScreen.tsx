@@ -10,20 +10,23 @@ import { useMapStyle } from "../../hooks/useMapStyle";
 import ObservationsContext from "../../context/ObservationsContext";
 import LocationContext from "../../context/LocationContext";
 import { AddButton } from "../../sharedComponents/AddButton";
-import type { NavigationProp } from "../../types";
+
 import { BGMapSelector } from "./BGMapSelector";
 import IconButton from "../../sharedComponents/IconButton";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { MEDIUM_GREY } from "../../lib/styles";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useExperiments } from "../../hooks/useExperiments";
+import { CompositeScreenProps } from "@react-navigation/native";
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { AppStackList, HomeTabsList } from "../../Navigation/AppStack";
+import { StackScreenProps } from "@react-navigation/stack";
+import { NativeHomeTabsNavigationProps } from "../../sharedTypes";
 const log = debug("mapeo:MapScreen");
 
-interface MapScreenProps {
-  navigation: NavigationProp;
-}
-
-export const MapScreen = ({ navigation }: MapScreenProps) => {
+export const MapScreen = ({
+  navigation,
+}: NativeHomeTabsNavigationProps<"Map">) => {
   const [, { newDraft }] = useDraftObservation();
   const { styleType, styleUrl } = useMapStyle();
 

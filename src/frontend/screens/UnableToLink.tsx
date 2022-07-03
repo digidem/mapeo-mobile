@@ -6,7 +6,7 @@ import Button from "../sharedComponents/Button";
 import WifiBar from "../sharedComponents/WifiBar";
 import { URI_PREFIX } from "../constants";
 import useWifiStatus from "../hooks/useWifiStatus";
-import { NativeNavigationProp } from "../sharedTypes";
+import { NativeRootNavigationProps } from "../sharedTypes";
 import { useSetHeader } from "../hooks/useSetHeader";
 const m = defineMessages({
   unableToLink: {
@@ -41,7 +41,7 @@ const m = defineMessages({
 
 export const UnableToLinkScreen = ({
   navigation,
-}: NativeNavigationProp<"UnableToLinkScreen">) => {
+}: NativeRootNavigationProps<"UnableToLinkScreen">) => {
   const { ssid } = useWifiStatus();
   const { formatMessage: t } = useIntl();
   const { navigate } = navigation;

@@ -14,7 +14,7 @@ import { ConfirmDeleteModal } from "./ConfirmDeleteModal";
 import Text from "../../sharedComponents/Text";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables/index.ios";
-import { NativeNavigationProp } from "../../sharedTypes";
+import { NativeRootNavigationProps } from "../../sharedTypes";
 import { useSetHeader } from "../../hooks/useSetHeader";
 
 interface customRoute extends Route {
@@ -33,7 +33,7 @@ const m = defineMessages({
 const PhotosModal = ({
   navigation,
   route: navRoute,
-}: NativeNavigationProp<"PhotosModal">) => {
+}: NativeRootNavigationProps<"PhotosModal">) => {
   useSetHeader({ headerShown: false });
   const { observationId, photoIndex } = navRoute.params;
   const [index, setIndex] = useState(photoIndex || 0);

@@ -4,7 +4,7 @@ import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { Image, View, Text, StyleSheet } from "react-native";
 import ConfigContext from "../context/ConfigContext";
 import Button from "../sharedComponents/Button";
-import { NativeNavigationProp } from "../sharedTypes";
+import { NativeRootNavigationProps } from "../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -38,7 +38,7 @@ const m = defineMessages({
 
 export const AlreadyOnProj = ({
   navigation,
-}: NativeNavigationProp<"AlreadyOnProj">) => {
+}: NativeRootNavigationProps<"AlreadyOnProj">) => {
   const [config] = useContext(ConfigContext);
   const { formatMessage: t } = useIntl();
 

@@ -7,7 +7,7 @@ import {
 } from "@gorhom/bottom-sheet";
 
 import { Backdrop } from "./Backdrop";
-import { useNavigation } from "../../hooks/useNavigationWithTypes";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 
 const MIN_SHEET_HEIGHT = 400;
 
@@ -17,7 +17,7 @@ export const MODAL_NAVIGATION_OPTIONS = {
 };
 
 export const useSetModalNavOptions = () => {
-  const { setOptions } = useNavigation();
+  const { setOptions } = useNavigationFromRoot();
   return React.useLayoutEffect(() => {
     setOptions({
       presentation: "transparentModal",

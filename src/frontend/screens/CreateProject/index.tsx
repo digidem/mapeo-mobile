@@ -7,7 +7,7 @@ import { useSetHeader } from "../../hooks/useSetHeader";
 import { WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
 import Text from "../../sharedComponents/Text";
-import { NativeNavigationProp } from "../../sharedTypes";
+import { NativeRootNavigationProps } from "../../sharedTypes";
 
 import { InputField } from "./InputField";
 import { useInputFieldValue } from "./useInputFieldValue";
@@ -57,7 +57,7 @@ const m = defineMessages({
 
 export const CreateProjectScreen = ({
   navigation,
-}: NativeNavigationProp<"CreateProjectScreen">) => {
+}: NativeRootNavigationProps<"CreateProjectScreen">) => {
   const { formatMessage: t } = useIntl();
   useSetHeader(m.createProjectTitle);
   const [
@@ -81,7 +81,7 @@ export const CreateProjectScreen = ({
 
     // TODO: Handle project creation based on form details, then navigate if successful
     if (canSubmit) {
-      navigation.navigate("Home");
+      navigation.navigate("Home", { screen: "Map" });
     }
   };
 

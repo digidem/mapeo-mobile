@@ -5,8 +5,8 @@ import { useAllObservations } from "../../hooks/useAllObservations";
 import { SettingsIcon } from "../../sharedComponents/icons";
 
 import IconButton from "../../sharedComponents/IconButton";
-import { useNavigation } from "../../hooks/useNavigationWithTypes";
-import { NativeNavigationProp } from "../../sharedTypes";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
+import { NativeRootNavigationProps } from "../../sharedTypes";
 import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
@@ -19,7 +19,7 @@ const m = defineMessages({
 
 const ObservationsList = ({
   navigation,
-}: NativeNavigationProp<"ObservationList">) => {
+}: NativeRootNavigationProps<"ObservationList">) => {
   const [{ observations, status }] = useAllObservations();
 
   useSetHeader({
@@ -42,7 +42,7 @@ const ObservationsList = ({
 };
 
 const SettingsButton = () => {
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigationFromRoot();
   return (
     <IconButton onPress={() => navigate("Settings")} testID="settingsButton">
       <SettingsIcon color="rgba(0, 0, 0, 0.54)" />

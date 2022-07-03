@@ -6,7 +6,7 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import ObservationListItem from "./ObservationListItem";
 import ObservationEmptyView from "./ObservationsEmptyView";
 import { Observation } from "mapeo-schema";
-import { useNavigation } from "../../hooks/useNavigationWithTypes";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   loading: {
@@ -55,7 +55,7 @@ const ObservationsListView = ({
   observations,
   onPressObservation,
 }: Props) => {
-  const navigation = useNavigation();
+  const navigation = useNavigationFromRoot();
   const rowsPerWindow = Math.ceil(
     (Dimensions.get("window").height - 65) / OBSERVATION_CELL_HEIGHT
   );

@@ -11,7 +11,7 @@ import { WithWifiBar } from "../Onboarding/WithWifiBar";
 import { DeviceFoundStep } from "./DeviceFoundStep";
 import { ScanQrCodeStep } from "./ScanQrCodeStep";
 import { SuccessStep } from "./SuccessStep";
-import { NativeNavigationProp } from "../../sharedTypes";
+import { NativeRootNavigationProps } from "../../sharedTypes";
 import { useFocusEffect } from "@react-navigation/native";
 import { useSetHeader } from "../../hooks/useSetHeader";
 
@@ -33,7 +33,7 @@ const sendInviteToDevice = (deviceId: string) =>
 
 export const AddToProjectScreen = ({
   navigation,
-}: NativeNavigationProp<"AddToProjectScreen">) => {
+}: NativeRootNavigationProps<"AddToProjectScreen">) => {
   const [screenLoaded, setScreenLoaded] = React.useState(false);
   const [step, setStep] = React.useState<Step>("scan");
   const [foundDeviceId, setFoundDeviceId] = React.useState<string>();
@@ -94,7 +94,7 @@ export const AddToProjectScreen = ({
               goNext={() => {
                 setFoundDeviceId(undefined);
                 // TODO: Need to go to a sync screen instead
-                navigation.navigate("Home");
+                navigation.navigate("Home", { screen: "Map" });
               }}
               deviceId={foundDeviceId}
               projectName={config.metadata.name}

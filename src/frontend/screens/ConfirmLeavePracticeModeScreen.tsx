@@ -18,7 +18,7 @@ import {
   AnimatedRadio,
   useAnimatedRadio,
 } from "../sharedComponents/AnimatedRadio";
-import { NativeNavigationProp } from "../sharedTypes";
+import { NativeRootNavigationProps } from "../sharedTypes";
 import { useSetHeader } from "../hooks/useSetHeader";
 
 type PersistenceOption = "keep" | "delete";
@@ -53,7 +53,7 @@ const m = defineMessages({
 export const ConfirmLeavePracticeModeScreen = ({
   navigation,
   route,
-}: NativeNavigationProp<"ConfirmLeavePracticeModeScreen">) => {
+}: NativeRootNavigationProps<"ConfirmLeavePracticeModeScreen">) => {
   const [selectedOption, setSelectedOption] = React.useState<
     PersistenceOption
   >();
@@ -72,7 +72,7 @@ export const ConfirmLeavePracticeModeScreen = ({
 
   const createProject = () => {
     // TODO: do some project creation logic based on `selectedOption` value
-    navigation.navigate("Home");
+    navigation.navigate("Home", { screen: "Map" });
   };
 
   const joinProject = () => {

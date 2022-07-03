@@ -1,12 +1,13 @@
 // TS port of /src/frontend/types.js
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { CompositeScreenProps } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { StackScreenProps } from "@react-navigation/stack";
 import { ImageStyle, StyleProp, TextStyle, ViewStyle } from "react-native";
 import { NavigationRoute } from "react-navigation";
-import {
-  NavigationStackProp,
-  NavigationStackScreenComponent,
-} from "react-navigation-stack";
-import { AppStackList } from "./Navigation/AppStack";
+import { NavigationStackProp } from "react-navigation-stack";
+import { AppStackList, HomeTabsList } from "./Navigation/AppStack";
+import { IccaStackList } from "./screens/Intro";
 
 export type ViewStyleProp = StyleProp<ViewStyle>;
 export type TextStyleProp = StyleProp<TextStyle>;
@@ -38,12 +39,13 @@ export type NavigationProp = NavigationStackProp<
   NavigationParams
 >;
 
-export type StackScreenComponent = NavigationStackScreenComponent<
-  NavigationParams
->;
-
-type NavKeys = keyof AppStackList;
-
-export type NativeNavigationProp<
-  ScreenName extends NavKeys
+export type NativeRootNavigationProps<
+  ScreenName extends keyof AppStackList
 > = NativeStackScreenProps<AppStackList, ScreenName>;
+
+export type NativeHomeTabsNavigationProps<
+  ScreenName extends keyof HomeTabsList
+> = CompositeScreenProps<
+  BottomTabScreenProps<HomeTabsList, ScreenName>,
+  StackScreenProps<AppStackList>
+>;

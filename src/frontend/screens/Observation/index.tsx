@@ -8,7 +8,7 @@ import CenteredView from "../../sharedComponents/CenteredView";
 import { useObservation } from "../../hooks/useObservation";
 import ObservationHeaderRight from "./ObservationHeaderRight";
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import { NativeNavigationProp } from "../../sharedTypes";
+import { NativeRootNavigationProps } from "../../sharedTypes";
 import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
@@ -54,7 +54,7 @@ const ObservationNotFound = () => (
 const Observation = ({
   route,
   navigation,
-}: NativeNavigationProp<"Observation">) => {
+}: NativeRootNavigationProps<"Observation">) => {
   const { observationId } = route.params;
   useSetHeader({
     headerTitle: m.title,

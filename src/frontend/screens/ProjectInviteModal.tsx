@@ -23,7 +23,7 @@ import Text from "../sharedComponents/Text";
 import { DoneIcon } from "../sharedComponents/icons";
 import Circle from "../sharedComponents/icons/Circle";
 import Loading from "../sharedComponents/Loading";
-import { NativeNavigationProp } from "../sharedTypes";
+import { NativeRootNavigationProps } from "../sharedTypes";
 
 interface ProjectInviteDetails {
   project: {
@@ -104,7 +104,7 @@ const getProjectInviteDetails = async (
 export const ProjectInviteModal = ({
   route,
   navigation,
-}: NativeNavigationProp<"ProjectInviteModal">) => {
+}: NativeRootNavigationProps<"ProjectInviteModal">) => {
   const { formatMessage: t } = useIntl();
   const isMounted = useIsMounted();
   const { sheetRef, closeSheet } = useBottomSheetModal({ openOnMount: true });

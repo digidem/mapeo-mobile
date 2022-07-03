@@ -16,7 +16,7 @@ import Button from "../../../sharedComponents/Button";
 import Text from "../../../sharedComponents/Text";
 
 import { MemberRow } from "./MemberRow";
-import { useNavigation } from "../../../hooks/useNavigationWithTypes";
+import { useNavigationFromRoot } from "../../../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   managePeople: {
@@ -53,7 +53,7 @@ interface Props {
 }
 
 export const ManagePeople = ({ loading }: Props) => {
-  const navigation = useNavigation();
+  const navigation = useNavigationFromRoot();
 
   // TODO: dummy state
   const [members] = React.useState<MemberDevice[]>([

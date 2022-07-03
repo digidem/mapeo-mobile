@@ -5,11 +5,10 @@ import LinearGradient from "react-native-linear-gradient";
 import IconButton from "./IconButton";
 import { ObservationListIcon, SyncIconCircle } from "./icons";
 import GpsPill from "./GpsPill";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavProp } from "../Navigation/AppStack";
+import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
 
 const HomeHeader = () => {
-  const navigation = useNavigation<StackNavProp>();
+  const navigation = useNavigationFromRoot();
 
   return (
     <View style={[styles.header]}>

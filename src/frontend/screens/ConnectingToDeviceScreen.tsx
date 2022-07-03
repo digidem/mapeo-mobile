@@ -3,7 +3,7 @@ import { BackHandler, StyleSheet, View } from "react-native";
 import { FormattedMessage, defineMessages } from "react-intl";
 import Text from "../sharedComponents/Text";
 import { useSetHeader } from "../hooks/useSetHeader";
-import { NativeNavigationProp } from "../sharedTypes";
+import { NativeRootNavigationProps } from "../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -14,7 +14,7 @@ const m = defineMessages({
 
 export const ConnectingToDeviceScreen = ({
   route,
-}: NativeNavigationProp<"ConnectingToDeviceScreen">) => {
+}: NativeRootNavigationProps<"ConnectingToDeviceScreen">) => {
   const taskStarted = React.useRef(false);
 
   useSetHeader({ headerShown: false });

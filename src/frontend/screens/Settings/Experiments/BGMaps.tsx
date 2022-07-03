@@ -7,7 +7,7 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { LIGHT_BLUE, LIGHT_GREY } from "../../../lib/styles";
 
 import { useExperiments } from "../../../hooks/useExperiments";
-import { NativeNavigationProp } from "../../../sharedTypes";
+import { NativeRootNavigationProps } from "../../../sharedTypes";
 import { useSetHeader } from "../../../hooks/useSetHeader";
 
 const m = defineMessages({
@@ -27,7 +27,7 @@ const m = defineMessages({
 
 export const BGMapsSettings = ({
   navigation,
-}: NativeNavigationProp<"BGMapsSettings">) => {
+}: NativeRootNavigationProps<"BGMapsSettings">) => {
   const [experiments, setExperiments] = useExperiments();
 
   useSetHeader({ headerTitle: m.BGMaps });

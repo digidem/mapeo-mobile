@@ -19,7 +19,7 @@ import {
 import { DoneIcon } from "../sharedComponents/icons";
 import Circle from "../sharedComponents/icons/Circle";
 import { MAPEO_BLUE, WHITE } from "../lib/styles";
-import { NativeNavigationProp } from "../sharedTypes";
+import { NativeRootNavigationProps } from "../sharedTypes";
 
 const m = defineMessages({
   joinTitle: {
@@ -51,7 +51,7 @@ const m = defineMessages({
 export const JoinRequestModal = ({
   navigation,
   route,
-}: NativeNavigationProp<"JoinRequestModal">) => {
+}: NativeRootNavigationProps<"JoinRequestModal">) => {
   const { formatMessage: t } = useIntl();
   useSetModalNavOptions();
   const [loading, setLoading] = React.useState(false);

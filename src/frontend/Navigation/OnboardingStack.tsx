@@ -5,8 +5,6 @@
  *   - Manually change the context value in `SettingsContext.tsx`
  */
 import * as React from "react";
-import { createSwitchNavigator } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
 
 import { JoinRequestModal } from "../screens/JoinRequestModal";
 import { ProjectInviteModal } from "../screens/ProjectInviteModal";
@@ -16,57 +14,46 @@ import {
   SendJoinRequestScreen,
   SyncOnboardingScreen,
 } from "../screens/Onboarding";
-import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
-import { AppStack } from "./AppStack";
+import { RootStack } from "./AppStack";
 
-const CreateOrJoinStack = createStackNavigator(
-  {
-    CreateOrJoinScreen: CreateOrJoinScreen,
-    JoinProjectQr: JoinProjectQrScreen,
-    SendJoinRequest: SendJoinRequestScreen,
-    Sync: SyncOnboardingScreen,
-  },
-  {
-    initialRouteName: "CreateOrJoinScreen",
-    // TODO iOS: Dynamically set transition mode to modal for modals
-    mode: "card",
-    headerMode: "screen",
-    defaultNavigationOptions: {
-      headerStyle: {
-        height: 60,
-      },
-      // We use a slightly larger back icon, to improve accessibility
-      // TODO iOS: This should probably be a chevron not an arrow
-      headerLeft: props => <CustomHeaderLeft {...props} />,
-      headerTitleStyle: {
-        marginHorizontal: 0,
-      },
-      cardStyle: {
-        backgroundColor: "#ffffff",
-      },
-    },
-  }
-);
+export type OnboardingStackList = {
+  JoinProjectQrScreen: { isAdmin: boolean };
+  CreateOrJoinScreen: undefined;
+  SendJoinRequestScreen: undefined;
+  SyncOnboardingScreen: { keepExistingObservations: boolean };
+  ProjectInviteModal: { inviteKey: string };
+  JoinRequestModal: { deviceName?: string; key?: string } | undefined;
+};
 
-const MainStack = createSwitchNavigator(
-  {
-    App: AppStack,
-    CreateOrJoinStack,
-  },
-  {
-    initialRouteName: "App",
-  }
-);
-
-export const OnboardingStack = createStackNavigator(
-  {
-    Main: MainStack,
-    JoinRequestModal,
-    ProjectInviteModal,
-  },
-  {
-    initialRouteName: "Main",
-    mode: "modal",
-    headerMode: "none",
-  }
+export const OnboardingStack = () => (
+  <RootStack.Group>
+    <RootStack.Screen
+      name="CreateOrJoinScreen"
+      component={CreateOrJoinScreen}
+    />
+    <RootStack.Screen
+      name="SendJoinRequestScreen"
+      component={SendJoinRequestScreen}
+    />
+    <RootStack.Screen
+      name="SyncOnboardingScreen"
+      component={SyncOnboardingScreen}
+    />
+    <RootStack.Screen
+      name="JoinProjectQrScreen"
+      component={JoinProjectQrScreen}
+    />
+    {/* Modal Screen */}
+    <RootStack.Screen
+      name="ProjectInviteModal"
+      component={ProjectInviteModal}
+      options={{ presentation: "transparentModal" }}
+    />
+    {/* Modal Screen */}
+    <RootStack.Screen
+      name="JoinRequestModal"
+      component={JoinRequestModal}
+      options={{ presentation: "transparentModal" }}
+    />
+  </RootStack.Group>
 );

@@ -8,7 +8,7 @@ import { CloseIcon, BackIcon } from "./icons";
 import { useDraftObservation } from "../hooks/useDraftObservation";
 import { useObservation } from "../hooks/useObservation";
 import { filterPhotosFromAttachments } from "../lib/utils";
-import { useNavigation } from "../hooks/useNavigationWithTypes";
+import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
 import {
   useFocusEffect,
   useNavigationState,
@@ -105,7 +105,7 @@ const CustomHeaderLeft = ({
   headerBackButtonProps,
 }: CustomHeaderLeftProps) => {
   const { formatMessage: t } = useIntl();
-  const navigation = useNavigation();
+  const navigation = useNavigationFromRoot();
   const [draftObservation, { clearDraft }] = useDraftObservation();
   const [{ observation: existingObservation }] = useObservation(
     draftObservation.observationId
@@ -147,7 +147,7 @@ const CustomHeaderLeft = ({
           text: t(m.discardConfirm),
           onPress: () => {
             clearDraft();
-            navigation.navigate("Home");
+            navigation.navigate("Home", { screen: "Map" });
           },
         },
         { text: t(m.discardCancel), onPress: () => {} },

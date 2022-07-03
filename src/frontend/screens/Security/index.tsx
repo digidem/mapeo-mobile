@@ -12,7 +12,7 @@ import {
 import { SecurityContext } from "./SecurityContext";
 import { devExperiments } from "../../lib/DevExperiments";
 import { useSetHeader } from "../../hooks/useSetHeader";
-import { NativeNavigationProp } from "../../sharedTypes";
+import { NativeRootNavigationProps } from "../../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -61,7 +61,9 @@ const m = defineMessages({
   },
 });
 
-export const Security = ({ navigation }: NativeNavigationProp<"Security">) => {
+export const Security = ({
+  navigation,
+}: NativeRootNavigationProps<"Security">) => {
   const { passIsSet } = React.useContext(SecurityContext);
   useSetHeader(m.title);
 

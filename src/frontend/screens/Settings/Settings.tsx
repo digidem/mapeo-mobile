@@ -2,7 +2,7 @@ import * as React from "react";
 import { FormattedMessage, defineMessages } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
 import { useExperiments } from "../../hooks/useExperiments";
-import { useNavigation } from "../../hooks/useNavigationWithTypes";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import { useSetHeader } from "../../hooks/useSetHeader";
 import { devExperiments } from "../../lib/DevExperiments";
 import {
@@ -105,7 +105,7 @@ const m = defineMessages({
 });
 
 const Settings = () => {
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigationFromRoot();
 
   useSetHeader({ headerTitle: m.settingsTitle });
 

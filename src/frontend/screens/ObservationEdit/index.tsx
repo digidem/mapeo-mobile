@@ -4,7 +4,7 @@ import { defineMessages } from "react-intl";
 import ObservationEditView from "./ObservationEditView";
 import SaveButton from "./SaveButton";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
-import { NativeNavigationProp } from "../../sharedTypes";
+import { NativeRootNavigationProps } from "../../sharedTypes";
 import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
@@ -23,7 +23,7 @@ const m = defineMessages({
 const ObservationEdit = ({
   navigation,
   route,
-}: NativeNavigationProp<"ObservationEdit">) => {
+}: NativeRootNavigationProps<"ObservationEdit">) => {
   const observationId = route.params?.observationId;
   useSetHeader({
     headerTitle: !!observationId ? m.editTitle : m.newTitle,

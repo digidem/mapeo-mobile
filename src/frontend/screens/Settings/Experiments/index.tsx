@@ -2,7 +2,7 @@ import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
 import { useExperiments } from "../../../hooks/useExperiments";
-import { useNavigation } from "../../../hooks/useNavigationWithTypes";
+import { useNavigationFromRoot } from "../../../hooks/useNavigationWithTypes";
 import { useSetHeader } from "../../../hooks/useSetHeader";
 
 import HeaderTitle from "../../../sharedComponents/HeaderTitle";
@@ -53,7 +53,7 @@ const Experiments = () => {
 
   const [experiments] = useExperiments();
 
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigationFromRoot();
 
   return (
     <ScrollView testID="experimentsList">

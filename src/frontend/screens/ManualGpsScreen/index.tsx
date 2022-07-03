@@ -21,7 +21,7 @@ import { ConvertedCoordinateData } from "./shared";
 import DdForm from "./DdForm";
 import DmsForm from "./DmsForm";
 import UtmForm from "./UtmForm";
-import { NativeNavigationProp } from "../../sharedTypes";
+import { NativeRootNavigationProps } from "../../sharedTypes";
 import { useSetHeader } from "../../hooks/useSetHeader";
 import { CoordinateFormat } from "../../context/SettingsContext";
 
@@ -53,7 +53,7 @@ const usePersistedState = createPersistedState("manualCoordinateEntryFormat");
 
 const ManualGpsScreen = ({
   navigation,
-}: NativeNavigationProp<"ManualGpsScreen">) => {
+}: NativeRootNavigationProps<"ManualGpsScreen">) => {
   const { formatMessage: t } = useIntl();
 
   useSetHeader({

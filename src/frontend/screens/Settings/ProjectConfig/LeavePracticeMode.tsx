@@ -13,7 +13,7 @@ import ObservationsContext from "../../../context/ObservationsContext";
 import Text from "../../../sharedComponents/Text";
 import Button from "../../../sharedComponents/Button";
 import { MAPEO_BLUE } from "../../../lib/styles";
-import { useNavigation } from "../../../hooks/useNavigationWithTypes";
+import { useNavigationFromRoot } from "../../../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   leavePracticeMode: {
@@ -35,7 +35,7 @@ const m = defineMessages({
 });
 
 export const LeavePracticeMode = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigationFromRoot();
   const [{ observations }] = React.useContext(ObservationsContext);
 
   const createProject = () => {

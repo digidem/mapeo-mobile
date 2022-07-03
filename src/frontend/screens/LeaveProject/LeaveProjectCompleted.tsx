@@ -1,7 +1,7 @@
 import React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { View, Text, StyleSheet, Image } from "react-native";
-import { useNavigation } from "../../hooks/useNavigationWithTypes";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import Button from "../../sharedComponents/Button";
 
 const m = defineMessages({
@@ -20,7 +20,7 @@ const m = defineMessages({
 });
 
 export const LeaveProjectCompleted = () => {
-  const nav = useNavigation();
+  const nav = useNavigationFromRoot();
 
   return (
     <View style={styles.screenContainer}>
@@ -36,7 +36,7 @@ export const LeaveProjectCompleted = () => {
       <View>
         <Button
           onPress={() => {
-            nav.navigate("Home");
+            nav.navigate("Home", { screen: "Map" });
           }}
         >
           <Text style={{ fontSize: 16, fontWeight: "400", color: "#ffffff" }}>

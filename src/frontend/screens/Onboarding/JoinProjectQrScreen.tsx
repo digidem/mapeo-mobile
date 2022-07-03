@@ -13,7 +13,7 @@ import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
 import Text from "../../sharedComponents/Text";
 import { WithWifiBar } from "./WithWifiBar";
-import { NativeNavigationProp } from "../../sharedTypes";
+import { NativeRootNavigationProps } from "../../sharedTypes";
 import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
@@ -51,7 +51,7 @@ const m = defineMessages({
 export const JoinProjectQrScreen = ({
   navigation,
   route,
-}: NativeNavigationProp<"JoinProjectQrScreen">) => {
+}: NativeRootNavigationProps<"JoinProjectQrScreen">) => {
   const { formatMessage: t } = useIntl();
 
   const isAdmin = route.params.isAdmin;

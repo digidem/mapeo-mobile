@@ -1,17 +1,17 @@
 import * as React from "react";
 import { MessageDescriptor, useIntl } from "react-intl";
-import { useNavigation } from "./useNavigationWithTypes";
+import { useNavigationFromRoot } from "./useNavigationWithTypes";
 import type { StackNavigationOptions } from "@react-navigation/stack";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
 
 interface useSetHeaderProps {
   headerTitle?:
+    | string
     | MessageDescriptor
     | ((props: {
         children: string;
         tintColor?: string | undefined;
-      }) => React.ReactNode)
-    | undefined;
+      }) => React.ReactNode);
   headerRight?: StackNavigationOptions["headerRight"];
   backgroundColor?: string;
   headerTintColor?: string;
@@ -23,7 +23,7 @@ export const useSetHeader = (
   titleOrOptions: useSetHeaderProps | MessageDescriptor
 ) => {
   const { formatMessage: t } = useIntl();
-  const navigation = useNavigation();
+  const navigation = useNavigationFromRoot();
 
   if (isMessageDescriptor(titleOrOptions)) {
     return React.useLayoutEffect(() => {

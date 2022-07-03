@@ -14,7 +14,7 @@ import Loading from "../../sharedComponents/Loading";
 import { LIGHT_GREY, MEDIUM_BLUE, WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
 import LocationContext from "../../context/LocationContext";
-import { useNavigation } from "../../hooks/useNavigationWithTypes";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   title: {
@@ -54,7 +54,7 @@ export const BGMapSelector = React.forwardRef<
     null
   );
 
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigationFromRoot();
 
   const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
     0,

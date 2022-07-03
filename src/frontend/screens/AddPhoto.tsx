@@ -10,7 +10,7 @@ import {
   useDraftObservation,
   CapturedPictureMM,
 } from "../hooks/useDraftObservation";
-import { NativeNavigationProp } from "../sharedTypes";
+import { NativeRootNavigationProps } from "../sharedTypes";
 import { useSetHeader } from "../hooks/useSetHeader";
 
 const m = defineMessages({
@@ -22,7 +22,9 @@ const m = defineMessages({
 
 const log = debug("AddPhotoScreen");
 
-const AddPhotoScreen = ({ navigation }: NativeNavigationProp<"AddPhoto">) => {
+const AddPhotoScreen = ({
+  navigation,
+}: NativeRootNavigationProps<"AddPhoto">) => {
   useSetHeader({ headerShown: false });
   const [, { addPhoto }] = useDraftObservation();
 

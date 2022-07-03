@@ -12,7 +12,7 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { BLACK, MAPEO_BLUE, WHITE } from "../../lib/styles";
 import { showWipAlert } from "../../lib/utils";
 import Button from "../../sharedComponents/Button";
-import { NativeNavigationProp } from "../../sharedTypes";
+import { NativeRootNavigationProps } from "../../sharedTypes";
 
 const m = defineMessages({
   createProject: {
@@ -35,7 +35,7 @@ const m = defineMessages({
 
 export const CreateOrJoinScreen = ({
   navigation,
-}: NativeNavigationProp<"CreateOrJoinScreen">) => {
+}: NativeRootNavigationProps<"CreateOrJoinScreen">) => {
   return (
     <View style={styles.pageContainer}>
       <View style={styles.primaryActionsContainer}>

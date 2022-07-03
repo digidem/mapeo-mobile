@@ -13,7 +13,7 @@ import Button from "../../../sharedComponents/Button";
 import { ErrorIcon } from "../../../sharedComponents/icons";
 import Loading from "../../../sharedComponents/Loading";
 import { OfflineAreaCard } from "../../../sharedComponents/OfflineAreaCard";
-import { NativeNavigationProp } from "../../../sharedTypes";
+import { NativeRootNavigationProps } from "../../../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -47,7 +47,7 @@ interface OfflineArea {
 
 export const OfflineAreas = ({
   route,
-}: NativeNavigationProp<"OfflineAreas">) => {
+}: NativeRootNavigationProps<"OfflineAreas">) => {
   const bgMapId = React.useRef("");
   const { formatMessage: t } = useIntl();
 

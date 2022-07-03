@@ -1,5 +1,4 @@
 import * as React from "react";
-import { View } from "react-native";
 import Button from "../../sharedComponents/Button";
 import Text from "../../sharedComponents/Text";
 import { SecurityContext } from "../Security/SecurityContext";

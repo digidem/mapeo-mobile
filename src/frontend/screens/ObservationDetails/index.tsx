@@ -8,9 +8,9 @@ import QuestionContainer from "./QuestionContainer";
 import Question from "./Question";
 import Field from "../ObservationEdit/Field";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
-import { NativeNavigationProp } from "../../sharedTypes";
+import { NativeRootNavigationProps } from "../../sharedTypes";
 import { useSetHeader } from "../../hooks/useSetHeader";
-import { useNavigation } from "../../hooks/useNavigationWithTypes";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import { Preset } from "../../context/ConfigContext";
 
 const m = defineMessages({
@@ -35,7 +35,7 @@ const m = defineMessages({
 const ObservationDetails = ({
   navigation,
   route,
-}: NativeNavigationProp<"ObservationDetails">) => {
+}: NativeRootNavigationProps<"ObservationDetails">) => {
   const [{ preset }] = useDraftObservation();
   const current: number = +route.params.question;
 
@@ -65,7 +65,7 @@ const ObservationDetails = ({
 
 const DetailsHeaderRight = ({ question }: { question: number }) => {
   const { formatMessage: t } = useIntl();
-  const navigation = useNavigation();
+  const navigation = useNavigationFromRoot();
   const [{ preset }] = useDraftObservation();
   const isLastQuestion = question >= (!!preset ? preset.fields.length : 0);
   const buttonText = isLastQuestion ? t(m.done) : t(m.nextQuestion);
