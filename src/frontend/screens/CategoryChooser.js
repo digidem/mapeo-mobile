@@ -15,6 +15,7 @@ import ConfigContext, { type Preset } from "../context/ConfigContext";
 import { useDraftObservation } from "../hooks/useDraftObservation";
 import { CategoryCircleIcon } from "../sharedComponents/icons";
 import { useSetHeader } from "../hooks/useSetHeader";
+import { WHITE } from "../lib/styles";
 
 const m = defineMessages({
   categoryTitle: {
@@ -165,6 +166,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 5,
     flex: 1,
+    backgroundColor: WHITE,
   },
   cellTouchable: {
     flex: 1,
