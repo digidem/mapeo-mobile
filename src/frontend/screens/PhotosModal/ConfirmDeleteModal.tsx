@@ -1,6 +1,6 @@
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import * as React from "react";
-import { defineMessages, FormattedMessage, useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import { RED } from "../../lib/styles";
@@ -47,11 +47,10 @@ export const ConfirmDeleteModal = ({
     const photoToDelete = photos[photoIndex];
     if ("originalUri" in photoToDelete) {
       const uri = photoToDelete.originalUri;
-      deletePhoto(uri!);
+      if (uri) deletePhoto(uri);
       closeSheet();
       navigation.pop();
     }
-    return;
   }
 
   return (

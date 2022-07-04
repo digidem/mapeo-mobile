@@ -1,7 +1,7 @@
 import * as React from "react";
 import { MessageDescriptor, useIntl } from "react-intl";
 import { useNavigationFromRoot } from "./useNavigationWithTypes";
-import type { StackNavigationOptions } from "@react-navigation/stack";
+import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import CustomHeaderLeft from "../sharedComponents/CustomHeaderLeft";
 
 interface useSetHeaderProps {
@@ -12,11 +12,11 @@ interface useSetHeaderProps {
         children: string;
         tintColor?: string | undefined;
       }) => React.ReactNode);
-  headerRight?: StackNavigationOptions["headerRight"];
   backgroundColor?: string;
   headerTintColor?: string;
   headerShown?: boolean;
-  headerLeft?: StackNavigationOptions["headerLeft"];
+  headerRight?: NativeStackNavigationOptions["headerRight"];
+  headerLeft?: NativeStackNavigationOptions["headerLeft"];
 }
 
 export const useSetHeader = (

@@ -12,7 +12,7 @@ import {
   useNavigationContainerRef,
 } from "@react-navigation/native";
 import { AppStack, AppStackList } from "./Navigation/AppStack";
-import { Linking } from "react-native";
+// import { Linking } from "react-native";
 import Loading from "./sharedComponents/Loading";
 import {
   getRouteName,
@@ -52,10 +52,10 @@ const AppContainerWrapper = () => {
         // When we support deeplinking we need to fix this. Currently it is never resolving
         // You can find issue here: https://github.com/facebook/react-native/issues/25675
         // const initialUrl = await Linking.getInitialURL();
-
         const initialUrl = undefined;
+
         // if deeplinking, dont set initial state
-        if (!!initialUrl) {
+        if (initialUrl) {
           setInitialNavState(undefined);
           return;
         }
@@ -71,7 +71,7 @@ const AppContainerWrapper = () => {
       setCurrentRoute(getRouteName(navState));
       persistNavigationState(log, navState);
     },
-    [IS_E2E]
+    []
   );
 
   const inviteModalEnabled = inviteModalDisabledOnRoute(currentRoute);
@@ -93,9 +93,7 @@ const AppContainerWrapper = () => {
     if (inviteModalEnabled && queuedInvite) {
       setQueuedInvite(null);
 
-      if (!!navRef) {
-        navRef.navigate("ProjectInviteModal", { inviteKey: queuedInvite });
-      }
+      navRef.navigate("ProjectInviteModal", { inviteKey: queuedInvite });
     }
   }, [navRef, inviteModalEnabled, queuedInvite]);
 

@@ -2,7 +2,6 @@
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { CompositeScreenProps } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { StackScreenProps } from "@react-navigation/stack";
 import { ImageStyle, StyleProp, TextStyle, ViewStyle } from "react-native";
 import { AppStackList, HomeTabsList } from "./Navigation/AppStack";
 
@@ -31,5 +30,5 @@ export type NativeHomeTabsNavigationProps<
   ScreenName extends keyof HomeTabsList
 > = CompositeScreenProps<
   BottomTabScreenProps<HomeTabsList, ScreenName>,
-  StackScreenProps<AppStackList>
+  NativeStackScreenProps<AppStackList>
 >;

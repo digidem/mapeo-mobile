@@ -9,7 +9,7 @@ import { useDraftObservation } from "../hooks/useDraftObservation";
 import { useObservation } from "../hooks/useObservation";
 import { filterPhotosFromAttachments } from "../lib/utils";
 import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
-import { useFocusEffect, useNavigationState } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import { HeaderBackButtonProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { BLACK } from "../lib/styles";
 
@@ -109,18 +109,18 @@ const CustomHeaderLeft = ({
   const isNew =
     draftObservation.value &&
     typeof draftObservation.observationId === "undefined";
-  const { key } = navigation.getState();
-  const routeName = useNavigationState(state => state.routes[state.index].name);
-  const parent = navigation.getParent();
-  const routes = parent && parent.getState().routes;
-  const currentIndex = routes && routes.findIndex(route => route.key === key);
-  const prevRouteNameInStack =
-    currentIndex && routes[currentIndex - 1] && routes[currentIndex - 1].name;
+  const state = navigation.getState();
+  const currentIndex = state.index;
+  const routes = state.routes;
+  const currentRouteName = routes[currentIndex].name;
+  const prevRouteNameInStack = !routes[currentIndex - 1]
+    ? undefined
+    : routes[currentIndex - 1].name;
 
   const shouldConfirm =
-    routeName === "ObservationEdit" ||
+    currentRouteName === "ObservationEdit" ||
     (isNew &&
-      routeName === "CategoryChooser" &&
+      currentRouteName === "CategoryChooser" &&
       prevRouteNameInStack === "Home");
 
   const handleCloseRequest = React.useCallback(() => {

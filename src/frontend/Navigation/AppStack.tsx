@@ -46,6 +46,11 @@ import { NewPasscode } from "../screens/AppPasscode/NewPasscode";
 import { IccaStack, IccaStackList } from "../screens/Intro";
 import { OnboardingStack, OnboardingStackList } from "./OnboardingStack";
 
+export type HomeTabsList = {
+  Map: undefined;
+  Camera: undefined;
+};
+
 export type AppStackList = {
   Home: NavigatorScreenParams<HomeTabsList>;
   GpsModal: undefined;
@@ -86,11 +91,6 @@ export type AppStackList = {
   NewPasscode: undefined;
 } & IccaStackList &
   OnboardingStackList;
-
-export type HomeTabsList = {
-  Map: undefined;
-  Camera: undefined;
-};
 
 const Tab = createBottomTabNavigator<HomeTabsList>();
 
@@ -183,7 +183,11 @@ export const AppStack = () => (
         component={UnableToLinkScreen}
       />
     </RootStack.Group>
-    {devExperiments.onboarding && <OnboardingStack />}
+    {devExperiments.onboarding && (
+      <RootStack.Group>
+        <OnboardingStack />
+      </RootStack.Group>
+    )}
     {devExperiments.appPasscode && (
       <RootStack.Group>
         <RootStack.Screen name="NewPasscode" component={NewPasscode} />
@@ -191,6 +195,10 @@ export const AppStack = () => (
       </RootStack.Group>
     )}
     {/* To do: Determine if ICCA */}
-    {/* {true && <IccaStack />} */}
+    {false && (
+      <RootStack.Group>
+        <IccaStack />
+      </RootStack.Group>
+    )}
   </RootStack.Navigator>
 );

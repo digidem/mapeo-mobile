@@ -26,7 +26,7 @@ export type OnboardingStackList = {
 };
 
 export const OnboardingStack = () => (
-  <RootStack.Group>
+  <>
     <RootStack.Screen
       name="CreateOrJoinScreen"
       component={CreateOrJoinScreen}
@@ -55,5 +55,5 @@ export const OnboardingStack = () => (
       component={JoinRequestModal}
       options={{ presentation: "transparentModal" }}
     />
-  </RootStack.Group>
+  </>
 );

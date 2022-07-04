@@ -1,4 +1,5 @@
-// @flow This code is very difficult to refactor into typescript. It currently relies on the dynamic nature of JS, and the refactor is causing a cascade of other typescript refactors that are outside the scope of this PR, hence why I am keeping it as JS.
+// @flow
+// This code is very difficult to refactor into typescript. It currently relies on the dynamic nature of JS, and the refactor is causing a cascade of other typescript refactors that are outside the scope of this PR, hence why I am keeping it as JS.
 import React, { useContext } from "react";
 import {
   View,
