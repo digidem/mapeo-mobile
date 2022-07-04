@@ -4,9 +4,7 @@ import { IntroPager, IntroInfo } from "@digidem/wcmc-mapeo-mobile-intro";
 
 import { NativeRootNavigationProps } from "../../sharedTypes";
 import { useSetHeader } from "../../hooks/useSetHeader";
-import { AppStackList, RootStack } from "../../Navigation/AppStack";
-import { RouteGroupConfig } from "@react-navigation/native";
-import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
+import { RootStack } from "../../Navigation/AppStack";
 
 export type IccaStackList = {
   IccaInfo: {
@@ -53,7 +51,7 @@ const Intro = ({ navigation }: NativeRootNavigationProps<"IccaIntro">) => {
   );
 };
 
-export const IccaStack = () => (
+export const IccaStack: typeof RootStack.Group = () => (
   <RootStack.Group>
     <RootStack.Screen name="IccaIntro" component={Intro} />
     <RootStack.Screen name="IccaInfo" component={Info} />

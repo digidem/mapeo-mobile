@@ -191,6 +191,6 @@ export const AppStack = () => (
       </RootStack.Group>
     )}
     {/* To do: Determine if ICCA */}
-    {true && <IccaStack />}
+    {/* {true && <IccaStack />} */}
   </RootStack.Navigator>
 );

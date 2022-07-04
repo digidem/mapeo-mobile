@@ -21,7 +21,7 @@ describe("Mapeo", () => {
     });
 
     test("Touching tab bar icons switches between map & camera", async () => {
-      await byLabel("tabBarButtonCamera").tap();
+      await byId("tabBarButtonCamera").tap();
       await expect(byId("camera")).toBeVisible();
       await byId("tabBarButtonMap").tap();
       await expect(byId("mapboxMapView")).toBeVisible();
