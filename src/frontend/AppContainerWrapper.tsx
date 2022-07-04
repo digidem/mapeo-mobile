@@ -109,8 +109,9 @@ const AppContainerWrapper = () => {
       hideBar={hidePracticeBar}
     >
       <NavigationContainer
-        initialState={initialNavState} // === 'loading' ? undefined : initialNavState}
+        initialState={initialNavState}
         onStateChange={handleNavStateChange}
+        linking={{ prefixes: [URI_PREFIX] }}
       >
         <AppContainer />
       </NavigationContainer>

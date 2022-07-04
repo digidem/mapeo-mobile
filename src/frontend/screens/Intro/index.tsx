@@ -51,7 +51,7 @@ const Intro = ({ navigation }: NativeRootNavigationProps<"IccaIntro">) => {
   );
 };
 
-export const IccaStack: typeof RootStack.Group = () => (
+export const IccaStacks = () => (
   <RootStack.Group>
     <RootStack.Screen name="IccaIntro" component={Intro} />
     <RootStack.Screen name="IccaInfo" component={Info} />
