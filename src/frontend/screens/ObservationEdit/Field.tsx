@@ -1,20 +1,22 @@
-// @flow
 import * as React from "react";
 
 import { useDraftObservation } from "../../hooks/useDraftObservation";
-import type { Field as FieldType } from "../../context/ConfigContext";
+import { Field as FieldType } from "../../context/ConfigContext";
 
 type Props = {
-  field?: FieldType | {};
-  children: { value: any; onChange: (fieldValue: any) => any };
+  field: FieldType;
+  children: (options: {
+    value: any;
+    onChange: (fieldValue: any) => void;
+  }) => React.ReactElement;
 };
 
 const Field = ({ field, children }: Props) => {
   const [{ value: draftValue }, { updateDraft }] = useDraftObservation();
   const fieldKey: string = Array.isArray(field.key) ? field.key[0] : field.key;
-  const tags = draftValue ? draftValue.tags : {};
+  const tags = draftValue?.tags || {};
   const value = tags[fieldKey];
-  const onChange = fieldValue =>
+  const onChange = (fieldValue: any) =>
     updateDraft({
       tags: {
         ...tags,

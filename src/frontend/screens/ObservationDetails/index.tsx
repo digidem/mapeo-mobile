@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Platform, View } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import Text from "../../sharedComponents/Text";
@@ -11,7 +11,6 @@ import { useDraftObservation } from "../../hooks/useDraftObservation";
 import { NativeRootNavigationProps } from "../../sharedTypes";
 import { useSetHeader } from "../../hooks/useSetHeader";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
-import { Preset } from "../../context/ConfigContext";
 
 const m = defineMessages({
   nextQuestion: {
@@ -52,8 +51,6 @@ const ObservationDetails = ({
   const field = preset.fields[current - 1];
   return (
     <Field field={field}>
-      {/*  //TO DO: FIX
-      // @ts-ignore */}
       {({ value, onChange }) => (
         <QuestionContainer>
           <Question field={field} value={value} onChange={onChange} />
