@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import Text from "../../sharedComponents/Text";
@@ -73,8 +72,6 @@ const ObservationListItem = ({
       >
         <View style={styles.text}>
           <Text style={styles.title}>
-            {/* This needs to changed to typescript
-            // @ts-ignore */}
             <FormattedPresetName preset={preset} />
           </Text>
           <Text>
