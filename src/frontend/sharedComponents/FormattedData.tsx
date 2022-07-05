@@ -110,7 +110,7 @@ export const FormattedObservationDate = ({
   observation: Observation;
   // 'relative' = relative date format e.g. "3 minutes ago"
   // for other formats see formats.date
-  variant: "relative" | keyof typeof formats.date; // $Keys<typeof formats.date>,
+  variant: "relative" | keyof typeof formats.date;
 }) => {
   const createdAtDate = new Date(observation.created_at);
   switch (variant) {
