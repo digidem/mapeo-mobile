@@ -7,9 +7,9 @@ import TextArea from "./TextArea";
 import type { Field } from "../../context/ConfigContext";
 
 export type QuestionProps = {
-  field: Field,
-  value: any,
-  onChange: (value: any) => any,
+  field: Field;
+  value: any;
+  onChange: (value: any) => any;
 };
 
 const Question = ({ field, ...other }: QuestionProps) => {

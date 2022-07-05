@@ -1,13 +1,12 @@
-// @flow
-import React from "react";
+import * as React from "react";
 import { View, StyleSheet } from "react-native";
-import Text from "../../sharedComponents/Text";
-import type { Field } from "../../context/ConfigContext";
+import { Field } from "../../context/ConfigContext";
 import { FormattedFieldProp } from "../../sharedComponents/FormattedData";
+import Text from "../../sharedComponents/Text";
 
-type Props = {|
-  field: Field,
-|};
+interface Props {
+  field: Field;
+}
 
 const QuestionLabel = ({ field }: Props) => {
   const hint = <FormattedFieldProp field={field} propName="placeholder" />;
