@@ -10,11 +10,9 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import ConfigContext from "../context/ConfigContext";
 import {
-  MODAL_NAVIGATION_OPTIONS,
   BottomSheetModal,
   BottomSheetContent,
   useBottomSheetModal,
-  useSetModalNavOptions,
 } from "../sharedComponents/BottomSheetModal";
 import { DoneIcon } from "../sharedComponents/icons";
 import Circle from "../sharedComponents/icons/Circle";
@@ -53,7 +51,6 @@ export const JoinRequestModal = ({
   route,
 }: NativeRootNavigationProps<"JoinRequestModal">) => {
   const { formatMessage: t } = useIntl();
-  useSetModalNavOptions();
   const [loading, setLoading] = React.useState(false);
   const [step, setStep] = React.useState<"prompt" | "success">("prompt");
 

@@ -49,16 +49,17 @@ const AppContainerWrapper = () => {
       try {
         // When we support deeplinking we need to fix this. Currently it is never resolving
         // You can find issue here: https://github.com/facebook/react-native/issues/25675
-        // const initialUrl = await Linking.getInitialURL();
-        const initialUrl = undefined;
+        const initialUrl = undefined; //await Linking.getInitialURL();
 
         // if deeplinking, dont set initial state
         if (initialUrl) {
           setInitialNavState(undefined);
           return;
         }
-      } finally {
+
         setInitialNavState(await loadSavedNavState(log));
+      } catch {
+        // handle error here
       }
     }
   }, []);
@@ -79,7 +80,6 @@ const AppContainerWrapper = () => {
   React.useEffect(() => {
     if (inviteModalEnabled && queuedInvite) {
       setQueuedInvite(null);
-
       navRef.navigate("ProjectInviteModal", { inviteKey: queuedInvite });
     }
   }, [navRef, inviteModalEnabled, queuedInvite]);

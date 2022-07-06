@@ -5,7 +5,10 @@
  *   - Manually change the context value in `SettingsContext.tsx`
  */
 import * as React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from "@react-navigation/native-stack";
 
 import { JoinRequestModal } from "../screens/JoinRequestModal";
 import { ProjectInviteModal } from "../screens/ProjectInviteModal";
@@ -16,6 +19,7 @@ import {
   SyncOnboardingScreen,
 } from "../screens/Onboarding";
 import { RootStack } from "./AppStack";
+import { MODAL_NAVIGATION_OPTIONS } from "../sharedComponents/BottomSheetModal";
 
 export type OnboardingStackList = {
   JoinProjectQrScreen: { isAdmin: boolean };
@@ -26,36 +30,32 @@ export type OnboardingStackList = {
   JoinRequestModal: { deviceName?: string; key?: string } | undefined;
 };
 
+const Stack = createNativeStackNavigator<OnboardingStackList>();
+
 export const OnboardingStack = () => (
-  <>
-    <RootStack.Screen
-      name="CreateOrJoinScreen"
-      component={CreateOrJoinScreen}
-    />
-    <RootStack.Screen
+  <Stack.Navigator>
+    <Stack.Screen name="CreateOrJoinScreen" component={CreateOrJoinScreen} />
+    <Stack.Screen
       name="SendJoinRequestScreen"
       component={SendJoinRequestScreen}
     />
-    <RootStack.Screen
+    <Stack.Screen
       name="SyncOnboardingScreen"
       component={SyncOnboardingScreen}
       options={{ headerShown: false }}
     />
-    <RootStack.Screen
-      name="JoinProjectQrScreen"
-      component={JoinProjectQrScreen}
-    />
+    <Stack.Screen name="JoinProjectQrScreen" component={JoinProjectQrScreen} />
     {/* Modal Screen */}
-    <RootStack.Screen
+    <Stack.Screen
       name="ProjectInviteModal"
       component={ProjectInviteModal}
-      options={{ presentation: "transparentModal" }}
+      options={MODAL_NAVIGATION_OPTIONS}
     />
     {/* Modal Screen */}
-    <RootStack.Screen
+    <Stack.Screen
       name="JoinRequestModal"
       component={JoinRequestModal}
-      options={{ presentation: "transparentModal" }}
+      options={MODAL_NAVIGATION_OPTIONS}
     />
-  </>
+  </Stack.Navigator>
 );

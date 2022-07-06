@@ -17,7 +17,6 @@ import {
   BottomSheetModal,
   BottomSheetContent,
   useBottomSheetModal,
-  useSetModalNavOptions,
 } from "../sharedComponents/BottomSheetModal";
 import Text from "../sharedComponents/Text";
 import { DoneIcon } from "../sharedComponents/icons";
@@ -110,8 +109,6 @@ export const ProjectInviteModal = ({
   const { sheetRef, closeSheet } = useBottomSheetModal({ openOnMount: true });
   const [{ observations }] = React.useContext(ObservationsContext);
   const [config] = React.useContext(ConfigContext);
-
-  useSetModalNavOptions();
 
   // TODO: need an official way to determine this
   const isInPracticeMode = config.metadata.name === "mapeo-default-settings";

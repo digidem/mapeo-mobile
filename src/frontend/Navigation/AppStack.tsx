@@ -45,11 +45,6 @@ import { devExperiments } from "../lib/DevExperiments";
 import { NewPasscode } from "../screens/AppPasscode/NewPasscode";
 import { IccaStack, IccaStackList } from "../screens/Intro";
 import { OnboardingStack, OnboardingStackList } from "./OnboardingStack";
-import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
-
-export type AppContainerList = {
-  App: NavigatorScreenParams<AppStackList>;
-};
 
 export type HomeTabsList = {
   Map: undefined;

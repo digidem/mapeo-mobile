@@ -30,13 +30,10 @@ const ObservationEdit = ({
     headerRight: () => <SaveButton observationId={observationId} />,
   });
   const handleCategoryPress = useCallback(() => {
-    navigation.navigate("CategoryChooser");
-    //   {
-    //   routeName: "CategoryChooser",
-    //   // Set a key here so we don't navigate back in the stack when creating a
-    //   // new observation (which starts with the category chooser screen)
-    //   key: "fromObservationEdit",
-    // });
+    navigation.navigate({
+      key: "fromObservationEdit",
+      name: "CategoryChooser",
+    });
   }, [navigation]);
 
   const handleCameraPress = useCallback(() => {
