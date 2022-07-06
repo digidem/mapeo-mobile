@@ -36,9 +36,6 @@ export const SyncOnboardingScreen = ({
   //For UI testing purposes
   const [obsCompleted, setObsCompleted] = useState(1);
   const total = 30;
-
-  useSetHeader({ headerShown: false });
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setObsCompleted(prev => prev + 1);

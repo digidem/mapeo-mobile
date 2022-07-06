@@ -27,7 +27,6 @@ const Info = ({ route }: NativeRootNavigationProps<"IccaInfo">) => {
   );
 };
 const Intro = ({ navigation }: NativeRootNavigationProps<"IccaIntro">) => {
-  useSetHeader({ headerShown: false });
   const handleShowInfo = React.useCallback(
     ({ title, text }) => {
       navigation.navigate("IccaInfo", {
@@ -53,7 +52,11 @@ const Intro = ({ navigation }: NativeRootNavigationProps<"IccaIntro">) => {
 
 export const IccaStack = () => (
   <>
-    <RootStack.Screen name="IccaIntro" component={Intro} />
+    <RootStack.Screen
+      name="IccaIntro"
+      component={Intro}
+      options={{ headerShown: false }}
+    />
     <RootStack.Screen name="IccaInfo" component={Info} />
   </>
 );

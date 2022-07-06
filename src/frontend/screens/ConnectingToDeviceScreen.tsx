@@ -16,9 +16,6 @@ export const ConnectingToDeviceScreen = ({
   route,
 }: NativeRootNavigationProps<"ConnectingToDeviceScreen">) => {
   const taskStarted = React.useRef(false);
-
-  useSetHeader({ headerShown: false });
-
   const task = route.params.task;
 
   React.useEffect(() => {

@@ -34,7 +34,6 @@ const PhotosModal = ({
   navigation,
   route: navRoute,
 }: NativeRootNavigationProps<"PhotosModal">) => {
-  useSetHeader({ headerShown: false });
   const { observationId, photoIndex } = navRoute.params;
   const [index, setIndex] = useState(photoIndex || 0);
   const [{ observation }] = useObservation(observationId);
@@ -141,7 +140,6 @@ const PhotosModal = ({
       />
       <ConfirmDeleteModal
         disableBackdrop={true}
-        navigationProp={navigation}
         closeSheet={closeModal}
         sheetRef={sheetRef}
         photoIndex={index}

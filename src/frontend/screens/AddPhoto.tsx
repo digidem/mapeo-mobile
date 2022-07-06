@@ -25,7 +25,6 @@ const log = debug("AddPhotoScreen");
 const AddPhotoScreen = ({
   navigation,
 }: NativeRootNavigationProps<"AddPhoto">) => {
-  useSetHeader({ headerShown: false });
   const [, { addPhoto }] = useDraftObservation();
 
   // TODO: addPhoto changes every render, so we can't useCallback here

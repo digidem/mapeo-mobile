@@ -11,7 +11,7 @@ import {
   NavigationState,
   useNavigationContainerRef,
 } from "@react-navigation/native";
-import { AppStack, AppStackList } from "./Navigation/AppStack";
+import { AppContainer, AppStack, AppStackList } from "./Navigation/AppStack";
 // import { Linking } from "react-native";
 import Loading from "./sharedComponents/Loading";
 import {
@@ -21,9 +21,7 @@ import {
   inviteModalDisabledOnRoute,
   loadSavedNavState,
   persistNavigationState,
-} from "./Navigation/NavigationStateHelperFunctions";
-
-const AppContainer = AppStack;
+} from "./Navigation/navigationStateHelperFunctions";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -77,17 +75,6 @@ const AppContainerWrapper = () => {
   const inviteModalEnabled = inviteModalDisabledOnRoute(currentRoute);
   const hidePracticeBar = hidePracticeBarForRoute(currentRoute);
   const hidePracticeMode = hidePracticeModeTemporarily(currentRoute);
-
-  /**
-   * TODO: Uncomment when project invites are supported
-   */
-  //   useProjectInviteListener(invite => {
-  //     if () {
-  //       openInviteModal(invite);
-  //     } else {
-  //       setQueuedInvite(invite);
-  //     }
-  //   });
 
   React.useEffect(() => {
     if (inviteModalEnabled && queuedInvite) {

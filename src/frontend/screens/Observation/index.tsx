@@ -73,6 +73,7 @@ const Observation = ({
     navigation.navigate("PhotosModal", {
       photoIndex: photoIndex,
       observationId: observationId,
+      editing: false,
     });
   }
 
@@ -103,18 +104,5 @@ const Observation = ({
     />
   );
 };
-
-// Observation.navigationOptions = ({
-//   navigation,
-// }: {
-//   navigation: NavigationProp,
-// }) => ({
-//   headerTitle: () => (
-//     <HeaderTitle>
-//       <FormattedMessage {...m.title} />
-//     </HeaderTitle>
-//   ),
-//   headerRight: () => <ObservationHeaderRight navigation={navigation} />,
-// });
 
 export default Observation;

@@ -5,6 +5,7 @@
  *   - Manually change the context value in `SettingsContext.tsx`
  */
 import * as React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { JoinRequestModal } from "../screens/JoinRequestModal";
 import { ProjectInviteModal } from "../screens/ProjectInviteModal";
@@ -38,6 +39,7 @@ export const OnboardingStack = () => (
     <RootStack.Screen
       name="SyncOnboardingScreen"
       component={SyncOnboardingScreen}
+      options={{ headerShown: false }}
     />
     <RootStack.Screen
       name="JoinProjectQrScreen"
