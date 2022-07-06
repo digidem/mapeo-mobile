@@ -11,7 +11,7 @@ import {
   NavigationState,
   useNavigationContainerRef,
 } from "@react-navigation/native";
-import { AppContainer, AppStack, AppStackList } from "./Navigation/AppStack";
+import { AppStack, AppStackList } from "./Navigation/AppStack";
 // import { Linking } from "react-native";
 import Loading from "./sharedComponents/Loading";
 import {
@@ -98,7 +98,7 @@ const AppContainerWrapper = () => {
         onStateChange={handleNavStateChange}
         linking={{ prefixes: [URI_PREFIX] }}
       >
-        <AppContainer />
+        <AppStack />
       </NavigationContainer>
     </PracticeMode>
   );

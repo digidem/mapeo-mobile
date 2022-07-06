@@ -1,10 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { NavigatorScreenParams } from "@react-navigation/native";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -124,136 +121,99 @@ const HomeTabs = () => (
 
 export const RootStack = createNativeStackNavigator<AppStackList>();
 
-const ContainerStack = createNativeStackNavigator();
-
-export const AppContainer = () => {
-  return (
-    <ContainerStack.Navigator>
-      <ContainerStack.Screen
-        name="App"
+export const AppStack = () => (
+  <RootStack.Navigator
+    initialRouteName="Home"
+    screenOptions={route => ({
+      presentation: "card",
+      headerStyle: { backgroundColor: "#ffffff" },
+      headerShown: route.route.name !== "Home",
+      headerLeft: props => <CustomHeaderLeft headerBackButtonProps={props} />,
+      // This only hides the DEFAULT back button. We render a custom one in headerLeft, so the default one should always be hidden.
+      // This **might** cause a problem for IOS
+      headerBackVisible: false,
+    })}
+  >
+    <RootStack.Group>
+      <RootStack.Screen name="Home" component={HomeTabs} />
+      <RootStack.Screen name="AboutMapeo" component={AboutMapeo} />
+      <RootStack.Screen
+        name="AddPhoto"
+        component={AddPhoto}
         options={{ headerShown: false }}
-        component={AppStack}
       />
-    </ContainerStack.Navigator>
-  );
-};
-
-export const AppStack = () => {
-  const navigation = useNavigationFromRoot();
-  const state = navigation.getState();
-  const currentIndex = state.index;
-  const routes = state.routes;
-  const currentRouteName = routes[currentIndex].name;
-  const prevRouteNameInStack = !routes[currentIndex - 1]
-    ? undefined
-    : routes[currentIndex - 1].name;
-
-  console.log("current: " + currentRouteName);
-  console.log("prev: " + prevRouteNameInStack);
-
-  return (
-    <RootStack.Navigator
-      initialRouteName="Home"
-      screenOptions={route => ({
-        presentation: "card",
-        headerStyle: { backgroundColor: "#ffffff" },
-        headerShown: route.route.name !== "Home",
-        headerLeft: props => <CustomHeaderLeft headerBackButtonProps={props} />,
-        // This only hides the DEFAULT back button. We render a custom one in headerLeft, so the default one should always be hidden.
-        // This **might** cause a problem for IOS
-        headerBackVisible: false,
-      })}
-    >
+      <RootStack.Screen
+        name="AddToProjectScreen"
+        component={AddToProjectScreen}
+      />
+      <RootStack.Screen name="AlreadyOnProj" component={AlreadyOnProj} />
+      <RootStack.Screen name="AppPasscode" component={AppPasscode} />
+      <RootStack.Screen name="BGMapsSettings" component={BGMapsSettings} />
+      <RootStack.Screen name="BackgroundMaps" component={BackgroundMaps} />
+      <RootStack.Screen name="CategoryChooser" component={CategoryChooser} />
+      <RootStack.Screen
+        name="ConfirmLeavePracticeModeScreen"
+        component={ConfirmLeavePracticeModeScreen}
+      />
+      <RootStack.Screen
+        name="ConnectingToDeviceScreen"
+        component={ConnectingToDeviceScreen}
+        options={{ headerShown: false }}
+      />
+      <RootStack.Screen name="CoordinateFormat" component={CoordinateFormat} />
+      <RootStack.Screen
+        name="CreateProjectScreen"
+        component={CreateProjectScreen}
+      />
+      <RootStack.Screen name="DirectionalArrow" component={DirectionalArrow} />
+      <RootStack.Screen name="Experiments" component={Experiments} />
+      <RootStack.Screen name="GpsModal" component={GpsModal} />
+      <RootStack.Screen name="LanguageSettings" component={LanguageSettings} />
+      <RootStack.Screen
+        name="LeaveProjectScreen"
+        component={LeaveProjectScreen}
+      />
+      <RootStack.Screen name="ManualGpsScreen" component={ManualGpsScreen} />
+      <RootStack.Screen name="MapSettings" component={MapSettings} />
+      <RootStack.Screen name="Observation" component={Observation} />
+      <RootStack.Screen
+        name="ObservationDetails"
+        component={ObservationDetails}
+      />
+      <RootStack.Screen name="ObservationEdit" component={ObservationEdit} />
+      <RootStack.Screen name="ObservationList" component={ObservationList} />
+      <RootStack.Screen name="OfflineAreas" component={OfflineAreas} />
+      <RootStack.Screen name="P2pUpgrade" component={P2pUpgrade} />
+      <RootStack.Screen
+        name="PhotosModal"
+        component={PhotosModal}
+        options={{ headerShown: false }}
+      />
+      <RootStack.Screen name="ProjectConfig" component={ProjectConfig} />
+      <RootStack.Screen name="Security" component={Security} />
+      <RootStack.Screen name="Settings" component={Settings} />
+      <RootStack.Screen name="SyncModal" component={SyncModal} />
+      <RootStack.Screen
+        name="UnableToLinkScreen"
+        component={UnableToLinkScreen}
+      />
+    </RootStack.Group>
+    {devExperiments.onboarding && (
       <RootStack.Group>
-        <RootStack.Screen name="Home" component={HomeTabs} />
-        <RootStack.Screen name="AboutMapeo" component={AboutMapeo} />
-        <RootStack.Screen
-          name="AddPhoto"
-          component={AddPhoto}
-          options={{ headerShown: false }}
-        />
-        <RootStack.Screen
-          name="AddToProjectScreen"
-          component={AddToProjectScreen}
-        />
-        <RootStack.Screen name="AlreadyOnProj" component={AlreadyOnProj} />
-        <RootStack.Screen name="AppPasscode" component={AppPasscode} />
-        <RootStack.Screen name="BGMapsSettings" component={BGMapsSettings} />
-        <RootStack.Screen name="BackgroundMaps" component={BackgroundMaps} />
-        <RootStack.Screen name="CategoryChooser" component={CategoryChooser} />
-        <RootStack.Screen
-          name="ConfirmLeavePracticeModeScreen"
-          component={ConfirmLeavePracticeModeScreen}
-        />
-        <RootStack.Screen
-          name="ConnectingToDeviceScreen"
-          component={ConnectingToDeviceScreen}
-          options={{ headerShown: false }}
-        />
-        <RootStack.Screen
-          name="CoordinateFormat"
-          component={CoordinateFormat}
-        />
-        <RootStack.Screen
-          name="CreateProjectScreen"
-          component={CreateProjectScreen}
-        />
-        <RootStack.Screen
-          name="DirectionalArrow"
-          component={DirectionalArrow}
-        />
-        <RootStack.Screen name="Experiments" component={Experiments} />
-        <RootStack.Screen name="GpsModal" component={GpsModal} />
-        <RootStack.Screen
-          name="LanguageSettings"
-          component={LanguageSettings}
-        />
-        <RootStack.Screen
-          name="LeaveProjectScreen"
-          component={LeaveProjectScreen}
-        />
-        <RootStack.Screen name="ManualGpsScreen" component={ManualGpsScreen} />
-        <RootStack.Screen name="MapSettings" component={MapSettings} />
-        <RootStack.Screen name="Observation" component={Observation} />
-        <RootStack.Screen
-          name="ObservationDetails"
-          component={ObservationDetails}
-        />
-        <RootStack.Screen name="ObservationEdit" component={ObservationEdit} />
-        <RootStack.Screen name="ObservationList" component={ObservationList} />
-        <RootStack.Screen name="OfflineAreas" component={OfflineAreas} />
-        <RootStack.Screen name="P2pUpgrade" component={P2pUpgrade} />
-        <RootStack.Screen
-          name="PhotosModal"
-          component={PhotosModal}
-          options={{ headerShown: false }}
-        />
-        <RootStack.Screen name="ProjectConfig" component={ProjectConfig} />
-        <RootStack.Screen name="Security" component={Security} />
-        <RootStack.Screen name="Settings" component={Settings} />
-        <RootStack.Screen name="SyncModal" component={SyncModal} />
-        <RootStack.Screen
-          name="UnableToLinkScreen"
-          component={UnableToLinkScreen}
-        />
+        <OnboardingStack />
       </RootStack.Group>
-      {devExperiments.onboarding && (
-        <RootStack.Group>
-          <OnboardingStack />
-        </RootStack.Group>
-      )}
-      {devExperiments.appPasscode && (
-        <RootStack.Group>
-          <RootStack.Screen name="NewPasscode" component={NewPasscode} />
-          <RootStack.Screen name="AppPasscode" component={AppPasscode} />
-        </RootStack.Group>
-      )}
-      {/* To do: Determine if ICCA */}
-      {false && (
-        <RootStack.Group>
-          <IccaStack />
-        </RootStack.Group>
-      )}
-    </RootStack.Navigator>
-  );
-};
+    )}
+    {devExperiments.appPasscode && (
+      <RootStack.Group>
+        <RootStack.Screen name="NewPasscode" component={NewPasscode} />
+        <RootStack.Screen name="AppPasscode" component={AppPasscode} />
+      </RootStack.Group>
+    )}
+    {/* To do: Determine if ICCA */}
+    {false && (
+      <RootStack.Group>
+        <IccaStack />
+      </RootStack.Group>
+    )}
+  </RootStack.Navigator>
+);
