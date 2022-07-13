@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.4.7](https://github.com/digidem/mapeo-mobile/compare/v5.4.6...v5.4.7) (2022-06-22)
+
+### Bug Fixes
+
+- fix bugsnag call in osm error handler ([cd0204c](https://github.com/digidem/mapeo-mobile/commit/cd0204ca1e8444aae7dda94ec7f2aa73896561e0))
+
 ### [5.4.6](https://github.com/digidem/mapeo-mobile/compare/v5.4.5...v5.4.6) (2022-06-20)
 
 ### Bug Fixes
