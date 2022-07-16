@@ -15,7 +15,6 @@ import { AppStack, AppStackList } from "./Navigation/AppStack";
 // import { Linking } from "react-native";
 import Loading from "./sharedComponents/Loading";
 import {
-  getRouteName,
   hidePracticeBarForRoute,
   hidePracticeModeTemporarily,
   inviteModalDisabledOnRoute,
@@ -28,14 +27,15 @@ if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 
 const AppContainerWrapper = () => {
-  const [currentRoute, setCurrentRoute] = React.useState<string | null>(null);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
-
-  const navRef = useNavigationContainerRef<AppStackList>();
 
   const [initialNavState, setInitialNavState] = React.useState<
     InitialState | "loading" | undefined
   >("loading");
+
+  const navRef = useNavigationContainerRef<AppStackList>();
+
+  const currentRoute = navRef.getCurrentRoute()?.name;
 
   React.useEffect(() => {
     if (featureFlagOn) {
@@ -67,7 +67,6 @@ const AppContainerWrapper = () => {
   const handleNavStateChange = React.useCallback(
     (navState?: NavigationState) => {
       if (!navState || IS_E2E) return;
-      setCurrentRoute(getRouteName(navState));
       persistNavigationState(log, navState);
     },
     []
@@ -97,6 +96,7 @@ const AppContainerWrapper = () => {
         initialState={initialNavState}
         onStateChange={handleNavStateChange}
         linking={{ prefixes: [URI_PREFIX] }}
+        ref={navRef}
       >
         <AppStack />
       </NavigationContainer>

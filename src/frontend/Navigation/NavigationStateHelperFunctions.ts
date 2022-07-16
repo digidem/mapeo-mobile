@@ -49,18 +49,14 @@ export async function loadSavedNavState(log: debug.Debugger) {
   }
 }
 
-export function getRouteName(navState?: NavigationState) {
-  return !!navState ? navState.routes[navState.index].name : null;
+export function inviteModalDisabledOnRoute(routeName?: string) {
+  return !!routeName && EDITING_SCREEN_NAMES.includes(routeName);
 }
 
-export function inviteModalDisabledOnRoute(routeName: string | null) {
-  return routeName !== null && EDITING_SCREEN_NAMES.includes(routeName);
+export function hidePracticeBarForRoute(route?: string) {
+  return !!route && NO_PRACTICE_BAR.includes(route);
 }
 
-export function hidePracticeBarForRoute(route: string | null) {
-  return route !== null && NO_PRACTICE_BAR.includes(route);
-}
-
-export function hidePracticeModeTemporarily(route: string | null) {
-  return route !== null && TEMP_HIDE_PRACTICE_MODE_UI.includes(route);
+export function hidePracticeModeTemporarily(route?: string) {
+  return !!route && TEMP_HIDE_PRACTICE_MODE_UI.includes(route);
 }
