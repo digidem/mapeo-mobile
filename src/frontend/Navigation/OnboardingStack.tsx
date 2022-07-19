@@ -5,10 +5,6 @@
  *   - Manually change the context value in `SettingsContext.tsx`
  */
 import * as React from "react";
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationOptions,
-} from "@react-navigation/native-stack";
 
 import { JoinRequestModal } from "../screens/JoinRequestModal";
 import { ProjectInviteModal } from "../screens/ProjectInviteModal";
@@ -30,32 +26,36 @@ export type OnboardingStackList = {
   JoinRequestModal: { deviceName?: string; key?: string } | undefined;
 };
 
-const Stack = createNativeStackNavigator<OnboardingStackList>();
-
 export const OnboardingStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="CreateOrJoinScreen" component={CreateOrJoinScreen} />
-    <Stack.Screen
+  <RootStack.Group>
+    <RootStack.Screen
+      name="CreateOrJoinScreen"
+      component={CreateOrJoinScreen}
+    />
+    <RootStack.Screen
       name="SendJoinRequestScreen"
       component={SendJoinRequestScreen}
     />
-    <Stack.Screen
+    <RootStack.Screen
       name="SyncOnboardingScreen"
       component={SyncOnboardingScreen}
       options={{ headerShown: false }}
     />
-    <Stack.Screen name="JoinProjectQrScreen" component={JoinProjectQrScreen} />
+    <RootStack.Screen
+      name="JoinProjectQrScreen"
+      component={JoinProjectQrScreen}
+    />
     {/* Modal Screen */}
-    <Stack.Screen
+    <RootStack.Screen
       name="ProjectInviteModal"
       component={ProjectInviteModal}
       options={MODAL_NAVIGATION_OPTIONS}
     />
     {/* Modal Screen */}
-    <Stack.Screen
+    <RootStack.Screen
       name="JoinRequestModal"
       component={JoinRequestModal}
       options={MODAL_NAVIGATION_OPTIONS}
     />
-  </Stack.Navigator>
+  </RootStack.Group>
 );

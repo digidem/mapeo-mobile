@@ -193,11 +193,7 @@ export const AppStack = () => (
         component={UnableToLinkScreen}
       />
     </RootStack.Group>
-    {devExperiments.onboarding && (
-      <RootStack.Group>
-        <OnboardingStack />
-      </RootStack.Group>
-    )}
+    {devExperiments.onboarding && <OnboardingStack />}
     {devExperiments.appPasscode && (
       <RootStack.Group>
         <RootStack.Screen name="NewPasscode" component={NewPasscode} />
