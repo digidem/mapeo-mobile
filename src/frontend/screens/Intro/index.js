@@ -3,7 +3,10 @@ import React from "react";
 import { type NavigationScreenProp } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { StatusBar } from "react-native";
-import { IntroPager, IntroInfo } from "@digidem/wcmc-mapeo-mobile-intro";
+import {
+  IntroPager,
+  IntroInfo,
+} from "@unep-wcmc/icca-mapeo-mobile-intro-screens";
 
 import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import CustomHeaderLeft from "../../sharedComponents/CustomHeaderLeft";
