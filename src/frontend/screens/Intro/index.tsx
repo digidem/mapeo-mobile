@@ -2,9 +2,14 @@ import * as React from "react";
 import { StatusBar } from "react-native";
 import { IntroPager, IntroInfo } from "@digidem/wcmc-mapeo-mobile-intro";
 
-import { NativeRootNavigationProps } from "../../sharedTypes";
 import { useSetHeader } from "../../hooks/useSetHeader";
-import { RootStack } from "../../Navigation/AppStack";
+import {
+  createNativeStackNavigator,
+  NativeStackScreenProps,
+} from "@react-navigation/native-stack";
+import { NavigatorScreenOptions } from "../../Navigation/AppStack";
+import { CompositeScreenProps } from "@react-navigation/native";
+import { IccaStackListRoot } from "../../Navigation/AppNavigator.icca";
 
 export type IccaStackList = {
   IccaInfo: {
@@ -14,19 +19,28 @@ export type IccaStackList = {
   IccaIntro: undefined;
 };
 
-const Info = ({ route }: NativeRootNavigationProps<"IccaInfo">) => {
+const IccaStack = createNativeStackNavigator<IccaStackList>();
+
+type IccaNavProps<
+  ScreenName extends keyof IccaStackList
+> = CompositeScreenProps<
+  NativeStackScreenProps<IccaStackList, ScreenName>,
+  NativeStackScreenProps<IccaStackListRoot>
+>;
+
+const Info = ({ route }: IccaNavProps<"IccaInfo">) => {
   const text = route.params.introInfoText;
   const title = route.params.introInfoTitle;
 
   useSetHeader({ headerTitle: title });
   return (
-    <>
+    <React.Fragment>
       <StatusBar hidden={false} />
       <IntroInfo markdownText={text} />
-    </>
+    </React.Fragment>
   );
 };
-const Intro = ({ navigation }: NativeRootNavigationProps<"IccaIntro">) => {
+const Intro = ({ navigation }: IccaNavProps<"IccaIntro">) => {
   const handleShowInfo = React.useCallback(
     ({ title, text }) => {
       navigation.navigate("IccaInfo", {
@@ -37,26 +51,26 @@ const Intro = ({ navigation }: NativeRootNavigationProps<"IccaIntro">) => {
     [navigation]
   );
   const handlePressComplete = React.useCallback(() => {
-    navigation.navigate("Home", { screen: "Map" });
+    navigation.navigate("App");
   }, [navigation]);
   return (
-    <>
+    <React.Fragment>
       <StatusBar hidden />
       <IntroPager
         onShowInfo={handleShowInfo}
         onPressComplete={handlePressComplete}
       />
-    </>
+    </React.Fragment>
   );
 };
 
-export const IccaStack = () => (
-  <>
-    <RootStack.Screen
+export const IccaStackNav = () => (
+  <IccaStack.Navigator screenOptions={NavigatorScreenOptions}>
+    <IccaStack.Screen
       name="IccaIntro"
       component={Intro}
       options={{ headerShown: false }}
     />
-    <RootStack.Screen name="IccaInfo" component={Info} />
-  </>
+    <IccaStack.Screen name="IccaInfo" component={Info} />
+  </IccaStack.Navigator>
 );

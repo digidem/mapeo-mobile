@@ -11,7 +11,7 @@ import {
   NavigationState,
   useNavigationContainerRef,
 } from "@react-navigation/native";
-import { AppStack, AppStackList } from "./Navigation/AppStack";
+import { AppStackList } from "./Navigation/AppStack";
 // import { Linking } from "react-native";
 import Loading from "./sharedComponents/Loading";
 import {
@@ -21,6 +21,7 @@ import {
   loadSavedNavState,
   persistNavigationState,
 } from "./Navigation/navigationStateHelperFunctions";
+import { AppNavigator } from "./Navigation/AppNavigator";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -35,7 +36,9 @@ const AppContainerWrapper = () => {
 
   const navRef = useNavigationContainerRef<AppStackList>();
 
-  const currentRoute = navRef.getCurrentRoute()?.name;
+  const currentRoute = navRef.isReady()
+    ? navRef.getCurrentRoute()?.name
+    : undefined;
 
   React.useEffect(() => {
     if (featureFlagOn) {
@@ -77,7 +80,7 @@ const AppContainerWrapper = () => {
   const hidePracticeMode = hidePracticeModeTemporarily(currentRoute);
 
   React.useEffect(() => {
-    if (inviteModalEnabled && queuedInvite) {
+    if (inviteModalEnabled && queuedInvite && navRef.isReady()) {
       setQueuedInvite(null);
       navRef.navigate("ProjectInviteModal", { inviteKey: queuedInvite });
     }
@@ -98,7 +101,7 @@ const AppContainerWrapper = () => {
         linking={{ prefixes: [URI_PREFIX] }}
         ref={navRef}
       >
-        <AppStack />
+        <AppNavigator />
       </NavigationContainer>
     </PracticeMode>
   );

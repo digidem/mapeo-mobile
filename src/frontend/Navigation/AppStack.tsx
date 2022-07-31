@@ -43,13 +43,32 @@ import { OfflineAreas } from "../screens/Settings/MapSettings/OfflineAreas";
 import { BGMapsSettings } from "../screens/Settings/Experiments/BGMaps";
 import { devExperiments } from "../lib/DevExperiments";
 import { NewPasscode } from "../screens/AppPasscode/NewPasscode";
-import { IccaStack, IccaStackList } from "../screens/Intro";
-import { OnboardingStack, OnboardingStackList } from "./OnboardingStack";
-
+import { JoinRequestModal } from "../screens/JoinRequestModal";
+import { ProjectInviteModal } from "../screens/ProjectInviteModal";
+import {
+  CreateOrJoinScreen,
+  JoinProjectQrScreen,
+  SendJoinRequestScreen,
+  SyncOnboardingScreen,
+} from "../screens/Onboarding";
+import { MODAL_NAVIGATION_OPTIONS } from "../sharedComponents/BottomSheetModal";
+import {
+  HeaderButtonProps,
+  NativeStackNavigationOptions,
+} from "@react-navigation/native-stack/lib/typescript/src/types";
 export type HomeTabsList = {
   Map: undefined;
   Camera: undefined;
   other: undefined;
+};
+
+type OnboardingStackList = {
+  JoinProjectQrScreen: { isAdmin: boolean };
+  CreateOrJoinScreen: undefined;
+  SendJoinRequestScreen: undefined;
+  SyncOnboardingScreen: { keepExistingObservations: boolean };
+  ProjectInviteModal: { inviteKey: string };
+  JoinRequestModal: { deviceName?: string; key?: string } | undefined;
 };
 
 export type AppStackList = {
@@ -90,8 +109,7 @@ export type AppStackList = {
   OfflineAreas: { mapId: string };
   BGMapsSettings: undefined;
   NewPasscode: undefined;
-} & IccaStackList &
-  OnboardingStackList;
+} & OnboardingStackList;
 
 const Tab = createBottomTabNavigator<HomeTabsList>();
 
@@ -116,17 +134,23 @@ const HomeTabs = () => (
 
 export const RootStack = createNativeStackNavigator<AppStackList>();
 
+export const NavigatorScreenOptions: NativeStackNavigationOptions = {
+  presentation: "card",
+  headerStyle: { backgroundColor: "#ffffff" },
+  headerLeft: (props: HeaderButtonProps) => (
+    <CustomHeaderLeft headerBackButtonProps={props} />
+  ),
+  // This only hides the DEFAULT back button. We render a custom one in headerLeft, so the default one should always be hidden.
+  // This **might** cause a problem for IOS
+  headerBackVisible: false,
+};
+
 export const AppStack = () => (
   <RootStack.Navigator
     initialRouteName="Home"
     screenOptions={route => ({
-      presentation: "card",
-      headerStyle: { backgroundColor: "#ffffff" },
+      ...NavigatorScreenOptions,
       headerShown: route.route.name !== "Home",
-      headerLeft: props => <CustomHeaderLeft headerBackButtonProps={props} />,
-      // This only hides the DEFAULT back button. We render a custom one in headerLeft, so the default one should always be hidden.
-      // This **might** cause a problem for IOS
-      headerBackVisible: false,
     })}
   >
     <RootStack.Group>
@@ -142,7 +166,6 @@ export const AppStack = () => (
         component={AddToProjectScreen}
       />
       <RootStack.Screen name="AlreadyOnProj" component={AlreadyOnProj} />
-      <RootStack.Screen name="AppPasscode" component={AppPasscode} />
       <RootStack.Screen name="BGMapsSettings" component={BGMapsSettings} />
       <RootStack.Screen name="BackgroundMaps" component={BackgroundMaps} />
       <RootStack.Screen name="CategoryChooser" component={CategoryChooser} />
@@ -193,17 +216,43 @@ export const AppStack = () => (
         component={UnableToLinkScreen}
       />
     </RootStack.Group>
-    {devExperiments.onboarding && <OnboardingStack />}
+    {devExperiments.onboarding && (
+      <RootStack.Group>
+        <RootStack.Screen
+          name="CreateOrJoinScreen"
+          component={CreateOrJoinScreen}
+        />
+        <RootStack.Screen
+          name="SendJoinRequestScreen"
+          component={SendJoinRequestScreen}
+        />
+        <RootStack.Screen
+          name="SyncOnboardingScreen"
+          component={SyncOnboardingScreen}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen
+          name="JoinProjectQrScreen"
+          component={JoinProjectQrScreen}
+        />
+        {/* Modal Screen */}
+        <RootStack.Screen
+          name="ProjectInviteModal"
+          component={ProjectInviteModal}
+          options={MODAL_NAVIGATION_OPTIONS}
+        />
+        {/* Modal Screen */}
+        <RootStack.Screen
+          name="JoinRequestModal"
+          component={JoinRequestModal}
+          options={MODAL_NAVIGATION_OPTIONS}
+        />
+      </RootStack.Group>
+    )}
     {devExperiments.appPasscode && (
       <RootStack.Group>
         <RootStack.Screen name="NewPasscode" component={NewPasscode} />
         <RootStack.Screen name="AppPasscode" component={AppPasscode} />
-      </RootStack.Group>
-    )}
-    {/* To do: Determine if ICCA */}
-    {false && (
-      <RootStack.Group>
-        <IccaStack />
       </RootStack.Group>
     )}
   </RootStack.Navigator>
