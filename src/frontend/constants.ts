@@ -10,7 +10,11 @@ export const NAV_STORE_KEY = "@MapeoNativeNav@1";
 export const IS_E2E =
   process.env.RN_SRC_EXT && process.env.RN_SRC_EXT.split(",").includes("e2e");
 
-export const NO_PRACTICE_BAR = [
+type Screens = AppStackList & HomeTabsList;
+
+type ScreenNames = (keyof Screens)[];
+
+export const NO_PRACTICE_BAR: ScreenNames = [
   "ConfirmLeavePracticeModeScreen",
   "JoinRequestModal",
   "ProjectConfig",
@@ -18,7 +22,7 @@ export const NO_PRACTICE_BAR = [
   "SyncModal",
 ];
 
-export const EDITING_SCREEN_NAMES = [
+export const EDITING_SCREEN_NAMES: ScreenNames = [
   "AddPhoto",
   "Camera",
   "CategoryChooser",
@@ -27,7 +31,7 @@ export const EDITING_SCREEN_NAMES = [
   "ObservationEdit",
 ];
 
-export const TEMP_HIDE_PRACTICE_MODE_UI = [
+export const TEMP_HIDE_PRACTICE_MODE_UI: ScreenNames = [
   "CreateProjectScreen",
   "IccaInfo",
   "IccaIntro",
