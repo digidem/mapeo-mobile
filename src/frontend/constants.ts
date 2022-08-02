@@ -1,3 +1,5 @@
+import { AppStackList, HomeTabsList } from "./Navigation/AppStack";
+
 export const URI_PREFIX = "mapeo://";
 export const ERROR_STORE_KEY = "@MapeoError";
 export const NAV_STORE_KEY = "@MapeoNativeNav@1";
@@ -9,7 +11,7 @@ export const IS_E2E =
   process.env.RN_SRC_EXT && process.env.RN_SRC_EXT.split(",").includes("e2e");
 
 export const NO_PRACTICE_BAR = [
-  "ConfirmLeavePracticeMode",
+  "ConfirmLeavePracticeModeScreen",
   "JoinRequestModal",
   "ProjectConfig",
   "ProjectInviteModal",
@@ -25,4 +27,8 @@ export const EDITING_SCREEN_NAMES = [
   "ObservationEdit",
 ];
 
-export const TEMP_HIDE_PRACTICE_MODE_UI = ["CreateProject"];
+export const TEMP_HIDE_PRACTICE_MODE_UI = [
+  "CreateProjectScreen",
+  "IccaInfo",
+  "IccaIntro",
+];

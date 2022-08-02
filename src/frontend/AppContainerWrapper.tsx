@@ -22,6 +22,7 @@ import {
   persistNavigationState,
 } from "./Navigation/navigationStateHelperFunctions";
 import { AppNavigator } from "./Navigation/AppNavigator";
+import ConfigContext from "./context/ConfigContext";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -33,6 +34,8 @@ const AppContainerWrapper = () => {
   const [initialNavState, setInitialNavState] = React.useState<
     InitialState | "loading" | undefined
   >("loading");
+
+  const [config] = React.useContext(ConfigContext);
 
   const navRef = useNavigationContainerRef<AppStackList>();
 

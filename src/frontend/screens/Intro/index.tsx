@@ -3,13 +3,9 @@ import { StatusBar } from "react-native";
 import { IntroPager, IntroInfo } from "@digidem/wcmc-mapeo-mobile-intro";
 
 import { useSetHeader } from "../../hooks/useSetHeader";
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from "@react-navigation/native-stack";
-import { NavigatorScreenOptions } from "../../Navigation/AppStack";
-import { CompositeScreenProps } from "@react-navigation/native";
-import { IccaStackListRoot } from "../../Navigation/AppNavigator.icca";
+
+import { NativeRootNavigationProps } from "../../sharedTypes";
+import { RootStack } from "../../Navigation/AppStack";
 
 export type IccaStackList = {
   IccaInfo: {
@@ -19,16 +15,12 @@ export type IccaStackList = {
   IccaIntro: undefined;
 };
 
-const IccaStack = createNativeStackNavigator<IccaStackList>();
+// type IccaNavProps<ScreenName extends keyof IccaStackList> = CompositeScreenProps<
+//   NativeStackScreenProps<IccaStackList, ScreenName>,
+//   NativeStackScreenProps<IccaStackListRoot>
+// >;
 
-type IccaNavProps<
-  ScreenName extends keyof IccaStackList
-> = CompositeScreenProps<
-  NativeStackScreenProps<IccaStackList, ScreenName>,
-  NativeStackScreenProps<IccaStackListRoot>
->;
-
-const Info = ({ route }: IccaNavProps<"IccaInfo">) => {
+const Info = ({ route }: NativeRootNavigationProps<"IccaInfo">) => {
   const text = route.params.introInfoText;
   const title = route.params.introInfoTitle;
 
@@ -40,7 +32,7 @@ const Info = ({ route }: IccaNavProps<"IccaInfo">) => {
     </React.Fragment>
   );
 };
-const Intro = ({ navigation }: IccaNavProps<"IccaIntro">) => {
+const Intro = ({ navigation }: NativeRootNavigationProps<"IccaIntro">) => {
   const handleShowInfo = React.useCallback(
     ({ title, text }) => {
       navigation.navigate("IccaInfo", {
@@ -51,7 +43,7 @@ const Intro = ({ navigation }: IccaNavProps<"IccaIntro">) => {
     [navigation]
   );
   const handlePressComplete = React.useCallback(() => {
-    navigation.navigate("App");
+    navigation.navigate("Home", { screen: "Map" });
   }, [navigation]);
   return (
     <React.Fragment>
@@ -65,12 +57,12 @@ const Intro = ({ navigation }: IccaNavProps<"IccaIntro">) => {
 };
 
 export const IccaStackNav = () => (
-  <IccaStack.Navigator screenOptions={NavigatorScreenOptions}>
-    <IccaStack.Screen
+  <React.Fragment>
+    <RootStack.Screen
       name="IccaIntro"
       component={Intro}
       options={{ headerShown: false }}
     />
-    <IccaStack.Screen name="IccaInfo" component={Info} />
-  </IccaStack.Navigator>
+    <RootStack.Screen name="IccaInfo" component={Info} />
+  </React.Fragment>
 );

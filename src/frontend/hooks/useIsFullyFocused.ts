@@ -30,12 +30,14 @@ export const useIsFullyFocused = () => {
   }, []);
 
   useEffect(() => {
-    let navSubscriptions: (() => void)[] = [];
+    // let navSubscriptions: EventListenerCallback<any, any>  [] = [];
 
-    navSubscriptions = [
+    const navSubscriptions = [
       navigation.addListener("focus", () => setIsNavigationFullyFocused(true)),
       navigation.addListener("blur", () => setIsNavigationFullyFocused(false)),
     ];
+
+    return navSubscriptions.forEach(s => s);
   }, [navigation]);
 
   return isNavigationFullyFocused && isAppActive;

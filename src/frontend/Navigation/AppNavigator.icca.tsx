@@ -1,22 +1,23 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { IccaStackNav } from "../screens/Intro";
-import { AppStack } from "./AppStack";
-
-export type IccaStackListRoot = {
-  Icca: undefined;
-  App: undefined;
-};
-const AppStackIcca = createNativeStackNavigator<IccaStackListRoot>();
+import { AppStack, NavigatorScreenOptions, RootStack } from "./AppStack";
 
 export const AppNavigator = () => {
   return (
-    <AppStackIcca.Navigator
-      initialRouteName="Icca"
-      screenOptions={() => ({ headerShown: false })}
+    <RootStack.Navigator
+      initialRouteName="IccaIntro"
+      screenOptions={route => ({
+        ...NavigatorScreenOptions,
+        headerShown: !(
+          route.route.name === "Home" ||
+          route.route.name === "IccaIntro" ||
+          route.route.name === "IccaInfo"
+        ),
+      })}
     >
-      <AppStackIcca.Screen name="Icca" component={IccaStackNav} />
-      <AppStackIcca.Screen name="App" component={AppStack} />
-    </AppStackIcca.Navigator>
+      {/* Refer to this issue for this odd syntax: https://github.com/react-navigation/react-navigation/issues/9578 */}
+      {(() => AppStack())()}
+      {(() => IccaStackNav())()}
+    </RootStack.Navigator>
   );
 };

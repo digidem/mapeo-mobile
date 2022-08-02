@@ -1,13 +1,17 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { AppStack } from "./AppStack";
+import { AppStack, NavigatorScreenOptions, RootStack } from "./AppStack";
 
 export const AppNavigator = () => {
-  const RootStack = createNativeStackNavigator();
-
   return (
-    <RootStack.Navigator screenOptions={() => ({ headerShown: false })}>
-      <RootStack.Screen name="App" component={AppStack} />
+    <RootStack.Navigator
+      initialRouteName="Home"
+      screenOptions={route => ({
+        ...NavigatorScreenOptions,
+        headerShown: route.route.name !== "Home",
+      })}
+    >
+      {/* Refer to this issue for this odd syntax: https://github.com/react-navigation/react-navigation/issues/9578 */}
+      {(() => AppStack())()}
     </RootStack.Navigator>
   );
 };

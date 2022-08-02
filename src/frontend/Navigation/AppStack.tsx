@@ -1,9 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import type { NavigatorScreenParams } from "@react-navigation/native";
-
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import { MapScreen } from "../screens/MapScreen/MapScreen";
@@ -52,14 +49,16 @@ import {
   SyncOnboardingScreen,
 } from "../screens/Onboarding";
 import { MODAL_NAVIGATION_OPTIONS } from "../sharedComponents/BottomSheetModal";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   HeaderButtonProps,
   NativeStackNavigationOptions,
 } from "@react-navigation/native-stack/lib/typescript/src/types";
+import { NavigatorScreenParams } from "@react-navigation/native";
+import { IccaStackList } from "../screens/Intro";
 export type HomeTabsList = {
   Map: undefined;
   Camera: undefined;
-  other: undefined;
 };
 
 type OnboardingStackList = {
@@ -109,9 +108,12 @@ export type AppStackList = {
   OfflineAreas: { mapId: string };
   BGMapsSettings: undefined;
   NewPasscode: undefined;
-} & OnboardingStackList;
+} & OnboardingStackList &
+  IccaStackList;
 
 const Tab = createBottomTabNavigator<HomeTabsList>();
+
+export const RootStack = createNativeStackNavigator<AppStackList>();
 
 const HomeTabs = () => (
   <Tab.Navigator
@@ -132,8 +134,6 @@ const HomeTabs = () => (
   </Tab.Navigator>
 );
 
-export const RootStack = createNativeStackNavigator<AppStackList>();
-
 export const NavigatorScreenOptions: NativeStackNavigationOptions = {
   presentation: "card",
   headerStyle: { backgroundColor: "#ffffff" },
@@ -146,13 +146,7 @@ export const NavigatorScreenOptions: NativeStackNavigationOptions = {
 };
 
 export const AppStack = () => (
-  <RootStack.Navigator
-    initialRouteName="Home"
-    screenOptions={route => ({
-      ...NavigatorScreenOptions,
-      headerShown: route.route.name !== "Home",
-    })}
-  >
+  <React.Fragment>
     <RootStack.Group>
       <RootStack.Screen name="Home" component={HomeTabs} />
       <RootStack.Screen name="AboutMapeo" component={AboutMapeo} />
@@ -255,5 +249,5 @@ export const AppStack = () => (
         <RootStack.Screen name="AppPasscode" component={AppPasscode} />
       </RootStack.Group>
     )}
-  </RootStack.Navigator>
+  </React.Fragment>
 );
