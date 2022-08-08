@@ -38,7 +38,6 @@ import { MapSettings } from "../screens/Settings/MapSettings";
 import { BackgroundMaps } from "../screens/Settings/MapSettings/BackgroundMaps";
 import { OfflineAreas } from "../screens/Settings/MapSettings/OfflineAreas";
 import { BGMapsSettings } from "../screens/Settings/Experiments/BGMaps";
-import { devExperiments } from "../lib/DevExperiments";
 import { NewPasscode } from "../screens/AppPasscode/NewPasscode";
 import { JoinRequestModal } from "../screens/JoinRequestModal";
 import { ProjectInviteModal } from "../screens/ProjectInviteModal";
@@ -145,109 +144,115 @@ export const NavigatorScreenOptions: NativeStackNavigationOptions = {
   headerBackVisible: false,
 };
 
-export const AppStack = () => (
-  <React.Fragment>
-    <RootStack.Group>
-      <RootStack.Screen name="Home" component={HomeTabs} />
-      <RootStack.Screen name="AboutMapeo" component={AboutMapeo} />
-      <RootStack.Screen
-        name="AddPhoto"
-        component={AddPhoto}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen
-        name="AddToProjectScreen"
-        component={AddToProjectScreen}
-      />
-      <RootStack.Screen name="AlreadyOnProj" component={AlreadyOnProj} />
-      <RootStack.Screen name="BGMapsSettings" component={BGMapsSettings} />
-      <RootStack.Screen name="BackgroundMaps" component={BackgroundMaps} />
-      <RootStack.Screen name="CategoryChooser" component={CategoryChooser} />
-      <RootStack.Screen
-        name="ConfirmLeavePracticeModeScreen"
-        component={ConfirmLeavePracticeModeScreen}
-      />
-      <RootStack.Screen
-        name="ConnectingToDeviceScreen"
-        component={ConnectingToDeviceScreen}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen name="CoordinateFormat" component={CoordinateFormat} />
-      <RootStack.Screen
-        name="CreateProjectScreen"
-        component={CreateProjectScreen}
-      />
-      <RootStack.Screen name="DirectionalArrow" component={DirectionalArrow} />
-      <RootStack.Screen name="Experiments" component={Experiments} />
-      <RootStack.Screen name="GpsModal" component={GpsModal} />
-      <RootStack.Screen name="LanguageSettings" component={LanguageSettings} />
-      <RootStack.Screen
-        name="LeaveProjectScreen"
-        component={LeaveProjectScreen}
-      />
-      <RootStack.Screen name="ManualGpsScreen" component={ManualGpsScreen} />
-      <RootStack.Screen name="MapSettings" component={MapSettings} />
-      <RootStack.Screen name="Observation" component={Observation} />
-      <RootStack.Screen
-        name="ObservationDetails"
-        component={ObservationDetails}
-      />
-      <RootStack.Screen name="ObservationEdit" component={ObservationEdit} />
-      <RootStack.Screen name="ObservationList" component={ObservationList} />
-      <RootStack.Screen name="OfflineAreas" component={OfflineAreas} />
-      <RootStack.Screen name="P2pUpgrade" component={P2pUpgrade} />
-      <RootStack.Screen
-        name="PhotosModal"
-        component={PhotosModal}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen name="ProjectConfig" component={ProjectConfig} />
-      <RootStack.Screen name="Security" component={Security} />
-      <RootStack.Screen name="Settings" component={Settings} />
-      <RootStack.Screen name="SyncModal" component={SyncModal} />
-      <RootStack.Screen
-        name="UnableToLinkScreen"
-        component={UnableToLinkScreen}
-      />
-    </RootStack.Group>
-    {devExperiments.onboarding && (
-      <RootStack.Group>
-        <RootStack.Screen
-          name="CreateOrJoinScreen"
-          component={CreateOrJoinScreen}
-        />
-        <RootStack.Screen
-          name="SendJoinRequestScreen"
-          component={SendJoinRequestScreen}
-        />
-        <RootStack.Screen
-          name="SyncOnboardingScreen"
-          component={SyncOnboardingScreen}
-          options={{ headerShown: false }}
-        />
-        <RootStack.Screen
-          name="JoinProjectQrScreen"
-          component={JoinProjectQrScreen}
-        />
-        {/* Modal Screen */}
-        <RootStack.Screen
-          name="ProjectInviteModal"
-          component={ProjectInviteModal}
-          options={MODAL_NAVIGATION_OPTIONS}
-        />
-        {/* Modal Screen */}
-        <RootStack.Screen
-          name="JoinRequestModal"
-          component={JoinRequestModal}
-          options={MODAL_NAVIGATION_OPTIONS}
-        />
-      </RootStack.Group>
-    )}
-    {devExperiments.appPasscode && (
-      <RootStack.Group>
-        <RootStack.Screen name="NewPasscode" component={NewPasscode} />
-        <RootStack.Screen name="AppPasscode" component={AppPasscode} />
-      </RootStack.Group>
-    )}
-  </React.Fragment>
+// **NOTE**: No hooks allowed here (this is not a component, it is a function
+// that returns a react element)
+export const createDefaultScreenGroup = () => (
+  <RootStack.Group key="default">
+    <RootStack.Screen name="Home" component={HomeTabs} />
+    <RootStack.Screen name="AboutMapeo" component={AboutMapeo} />
+    <RootStack.Screen
+      name="AddPhoto"
+      component={AddPhoto}
+      options={{ headerShown: false }}
+    />
+    <RootStack.Screen
+      name="AddToProjectScreen"
+      component={AddToProjectScreen}
+    />
+    <RootStack.Screen name="AlreadyOnProj" component={AlreadyOnProj} />
+    <RootStack.Screen name="BGMapsSettings" component={BGMapsSettings} />
+    <RootStack.Screen name="BackgroundMaps" component={BackgroundMaps} />
+    <RootStack.Screen name="CategoryChooser" component={CategoryChooser} />
+    <RootStack.Screen
+      name="ConfirmLeavePracticeModeScreen"
+      component={ConfirmLeavePracticeModeScreen}
+    />
+    <RootStack.Screen
+      name="ConnectingToDeviceScreen"
+      component={ConnectingToDeviceScreen}
+      options={{ headerShown: false }}
+    />
+    <RootStack.Screen name="CoordinateFormat" component={CoordinateFormat} />
+    <RootStack.Screen
+      name="CreateProjectScreen"
+      component={CreateProjectScreen}
+    />
+    <RootStack.Screen name="DirectionalArrow" component={DirectionalArrow} />
+    <RootStack.Screen name="Experiments" component={Experiments} />
+    <RootStack.Screen name="GpsModal" component={GpsModal} />
+    <RootStack.Screen name="LanguageSettings" component={LanguageSettings} />
+    <RootStack.Screen
+      name="LeaveProjectScreen"
+      component={LeaveProjectScreen}
+    />
+    <RootStack.Screen name="ManualGpsScreen" component={ManualGpsScreen} />
+    <RootStack.Screen name="MapSettings" component={MapSettings} />
+    <RootStack.Screen name="Observation" component={Observation} />
+    <RootStack.Screen
+      name="ObservationDetails"
+      component={ObservationDetails}
+    />
+    <RootStack.Screen name="ObservationEdit" component={ObservationEdit} />
+    <RootStack.Screen name="ObservationList" component={ObservationList} />
+    <RootStack.Screen name="OfflineAreas" component={OfflineAreas} />
+    <RootStack.Screen name="P2pUpgrade" component={P2pUpgrade} />
+    <RootStack.Screen
+      name="PhotosModal"
+      component={PhotosModal}
+      options={{ headerShown: false }}
+    />
+    <RootStack.Screen name="ProjectConfig" component={ProjectConfig} />
+    <RootStack.Screen name="Security" component={Security} />
+    <RootStack.Screen name="Settings" component={Settings} />
+    <RootStack.Screen name="SyncModal" component={SyncModal} />
+    <RootStack.Screen
+      name="UnableToLinkScreen"
+      component={UnableToLinkScreen}
+    />
+  </RootStack.Group>
+);
+
+// **NOTE**: No hooks allowed here (this is not a component, it is a function
+// that returns a react element)
+export const createOnboardingScreenGroup = () => (
+  <RootStack.Group key="onboarding">
+    <RootStack.Screen
+      name="CreateOrJoinScreen"
+      component={CreateOrJoinScreen}
+    />
+    <RootStack.Screen
+      name="SendJoinRequestScreen"
+      component={SendJoinRequestScreen}
+    />
+    <RootStack.Screen
+      name="SyncOnboardingScreen"
+      component={SyncOnboardingScreen}
+      options={{ headerShown: false }}
+    />
+    <RootStack.Screen
+      name="JoinProjectQrScreen"
+      component={JoinProjectQrScreen}
+    />
+    {/* Modal Screen */}
+    <RootStack.Screen
+      name="ProjectInviteModal"
+      component={ProjectInviteModal}
+      options={MODAL_NAVIGATION_OPTIONS}
+    />
+    {/* Modal Screen */}
+    <RootStack.Screen
+      name="JoinRequestModal"
+      component={JoinRequestModal}
+      options={MODAL_NAVIGATION_OPTIONS}
+    />
+  </RootStack.Group>
+);
+
+// **NOTE**: No hooks allowed here (this is not a component, it is a function
+// that returns a react element)
+export const createAppPasscodeScreenGroup = () => (
+  <RootStack.Group key="appPasscode">
+    <RootStack.Screen name="NewPasscode" component={NewPasscode} />
+    <RootStack.Screen name="AppPasscode" component={AppPasscode} />
+  </RootStack.Group>
 );

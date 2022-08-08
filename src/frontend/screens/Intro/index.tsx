@@ -5,7 +5,6 @@ import { IntroPager, IntroInfo } from "@digidem/wcmc-mapeo-mobile-intro";
 import { useSetHeader } from "../../hooks/useSetHeader";
 
 import { NativeRootNavigationProps } from "../../sharedTypes";
-import { RootStack } from "../../Navigation/AppStack";
 
 export type IccaStackList = {
   IccaInfo: {
@@ -20,7 +19,7 @@ export type IccaStackList = {
 //   NativeStackScreenProps<IccaStackListRoot>
 // >;
 
-const Info = ({ route }: NativeRootNavigationProps<"IccaInfo">) => {
+export const Info = ({ route }: NativeRootNavigationProps<"IccaInfo">) => {
   const text = route.params.introInfoText;
   const title = route.params.introInfoTitle;
 
@@ -32,7 +31,9 @@ const Info = ({ route }: NativeRootNavigationProps<"IccaInfo">) => {
     </React.Fragment>
   );
 };
-const Intro = ({ navigation }: NativeRootNavigationProps<"IccaIntro">) => {
+export const Intro = ({
+  navigation,
+}: NativeRootNavigationProps<"IccaIntro">) => {
   const handleShowInfo = React.useCallback(
     ({ title, text }) => {
       navigation.navigate("IccaInfo", {
@@ -55,14 +56,3 @@ const Intro = ({ navigation }: NativeRootNavigationProps<"IccaIntro">) => {
     </React.Fragment>
   );
 };
-
-export const IccaStackNav = () => (
-  <React.Fragment>
-    <RootStack.Screen
-      name="IccaIntro"
-      component={Intro}
-      options={{ headerShown: false }}
-    />
-    <RootStack.Screen name="IccaInfo" component={Info} />
-  </React.Fragment>
-);

@@ -1,6 +1,10 @@
 import * as React from "react";
-import { IccaStackNav } from "../screens/Intro";
-import { AppStack, NavigatorScreenOptions, RootStack } from "./AppStack";
+import { Intro, Info } from "../screens/Intro";
+import {
+  createDefaultScreenGroup,
+  NavigatorScreenOptions,
+  RootStack,
+} from "./AppStack";
 
 export const AppNavigator = () => {
   return (
@@ -15,9 +19,16 @@ export const AppNavigator = () => {
         ),
       })}
     >
-      {/* Refer to this issue for this odd syntax: https://github.com/react-navigation/react-navigation/issues/9578 */}
-      {(() => AppStack())()}
-      {(() => IccaStackNav())()}
+      {/** NB: devExperiments not available in ICCA variant */}
+      {createDefaultScreenGroup()}
+      <RootStack.Group key="icca">
+        <RootStack.Screen
+          name="IccaIntro"
+          component={Intro}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen name="IccaInfo" component={Info} />
+      </RootStack.Group>
     </RootStack.Navigator>
   );
 };
