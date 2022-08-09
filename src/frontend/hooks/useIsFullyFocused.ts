@@ -37,7 +37,7 @@ export const useIsFullyFocused = () => {
       navigation.addListener("blur", () => setIsNavigationFullyFocused(false)),
     ];
 
-    return navSubscriptions.forEach(s => s);
+    return () => navSubscriptions.forEach(s => s());
   }, [navigation]);
 
   return isNavigationFullyFocused && isAppActive;
