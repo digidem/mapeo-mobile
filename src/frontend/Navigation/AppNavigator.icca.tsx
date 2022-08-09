@@ -10,14 +10,7 @@ export const AppNavigator = () => {
   return (
     <RootStack.Navigator
       initialRouteName="IccaIntro"
-      screenOptions={route => ({
-        ...NavigatorScreenOptions,
-        headerShown: !(
-          route.route.name === "Home" ||
-          route.route.name === "IccaIntro" ||
-          route.route.name === "IccaInfo"
-        ),
-      })}
+      screenOptions={NavigatorScreenOptions}
     >
       {/** NB: devExperiments not available in ICCA variant */}
       {createDefaultScreenGroup()}
@@ -27,7 +20,11 @@ export const AppNavigator = () => {
           component={Intro}
           options={{ headerShown: false }}
         />
-        <RootStack.Screen name="IccaInfo" component={Info} />
+        <RootStack.Screen
+          name="IccaInfo"
+          options={{ headerShown: false }}
+          component={Info}
+        />
       </RootStack.Group>
     </RootStack.Navigator>
   );

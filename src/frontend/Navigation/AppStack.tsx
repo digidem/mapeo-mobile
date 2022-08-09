@@ -148,7 +148,11 @@ export const NavigatorScreenOptions: NativeStackNavigationOptions = {
 // that returns a react element)
 export const createDefaultScreenGroup = () => (
   <RootStack.Group key="default">
-    <RootStack.Screen name="Home" component={HomeTabs} />
+    <RootStack.Screen
+      name="Home"
+      options={{ headerShown: false }}
+      component={HomeTabs}
+    />
     <RootStack.Screen name="AboutMapeo" component={AboutMapeo} />
     <RootStack.Screen
       name="AddPhoto"

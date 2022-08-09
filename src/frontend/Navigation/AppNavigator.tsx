@@ -28,10 +28,7 @@ export const AppNavigator = () => {
   return (
     <RootStack.Navigator
       initialRouteName="Home"
-      screenOptions={route => ({
-        ...NavigatorScreenOptions,
-        headerShown: route.route.name !== "Home",
-      })}
+      screenOptions={NavigatorScreenOptions}
     >
       {createDefaultScreenGroup()}
       {devExperiments.onboarding && createOnboardingScreenGroup()}

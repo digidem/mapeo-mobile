@@ -54,12 +54,14 @@ export const useSetHeader = (
       // For some reason, when headerTintColor is set, the back button is not getting the tint color. So I am setting it directly in custom header left.
       headerLeft: !!headerLeft
         ? headerLeft
-        : props => (
+        : !!headerTintColor
+        ? props => (
             <CustomHeaderLeft
               headerBackButtonProps={props}
               tintColor={headerTintColor}
             />
-          ),
+          )
+        : undefined,
       headerTintColor: headerTintColor,
       headerShown,
     });
