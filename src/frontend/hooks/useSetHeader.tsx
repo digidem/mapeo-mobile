@@ -66,6 +66,6 @@ export const useSetHeader = (
   }, [navigation, t, titleOrOptions]);
 };
 
-function isMessageDescriptor(value: any): value is MessageDescriptor {
-  return !value ? false : "defaultMessage" in value;
+function isMessageDescriptor(value: unknown): value is MessageDescriptor {
+  return typeof value === "object" && !!value && "defaultMessage" in value;
 }
