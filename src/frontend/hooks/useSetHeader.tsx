@@ -16,7 +16,6 @@ interface useSetHeaderProps {
   headerTintColor?: string;
   headerShown?: boolean;
   headerRight?: NativeStackNavigationOptions["headerRight"];
-  headerLeft?: NativeStackNavigationOptions["headerLeft"];
 }
 
 export const useSetHeader = (
@@ -39,8 +38,30 @@ export const useSetHeader = (
     backgroundColor,
     headerTintColor,
     headerShown,
-    headerLeft,
   } = titleOrOptions;
+
+  // For some reason, when headerTintColor is set, the back button is not getting the tint color. So I am setting it directly in custom header left. Header left should only be rewritten if there is a color. Otherwise, setting it as undefined, causes it to be removed.
+  if (!!headerTintColor) {
+    return React.useLayoutEffect(() => {
+      navigation.setOptions({
+        headerTitle: isMessageDescriptor(headerTitle)
+          ? t(headerTitle)
+          : headerTitle,
+        headerRight: headerRight,
+        headerStyle: {
+          backgroundColor: backgroundColor,
+        },
+        headerLeft: props => (
+          <CustomHeaderLeft
+            headerBackButtonProps={props}
+            tintColor={headerTintColor}
+          />
+        ),
+        headerTintColor: headerTintColor,
+        headerShown,
+      });
+    }, [navigation, t, titleOrOptions]);
+  }
 
   return React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -52,17 +73,6 @@ export const useSetHeader = (
         backgroundColor: backgroundColor,
       },
       // For some reason, when headerTintColor is set, the back button is not getting the tint color. So I am setting it directly in custom header left.
-      headerLeft: !!headerLeft
-        ? headerLeft
-        : !!headerTintColor
-        ? props => (
-            <CustomHeaderLeft
-              headerBackButtonProps={props}
-              tintColor={headerTintColor}
-            />
-          )
-        : undefined,
-      headerTintColor: headerTintColor,
       headerShown,
     });
   }, [navigation, t, titleOrOptions]);

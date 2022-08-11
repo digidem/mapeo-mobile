@@ -185,7 +185,7 @@ const CustomHeaderLeft = ({
     <HeaderBackButton
       {...headerBackButtonProps}
       onPress={handleCloseRequest}
-      style={{ marginLeft: 0, paddingRight: 15 }}
+      style={{ marginLeft: 0, marginRight: 15 }}
       backImage={() =>
         isNew && shouldConfirm ? (
           <HeaderCloseIcon tintColor={tintColor || BLACK} />
