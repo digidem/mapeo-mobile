@@ -1,0 +1,41 @@
+{
+  "cli": {
+    "version": ">= 0.60.0"
+  },
+  "build": {
+    "base": {
+      "node": "12.19.1",
+      "android": {
+        "image": "ubuntu-20.04-jdk-8-ndk-r21e"
+      }
+    },
+    "development": {
+      "extends": "base",
+      "distribution": "internal",
+      "android": {
+        "withoutCredentials": true,
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "ios": {
+        "buildConfiguration": "Debug"
+      }
+    },
+    "qa": {
+      "extends": "base",
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": "assembleAppRelease assembleIccaRelease assembleQaRelease -x bundleAppReleaseJsAndAssets -x bundleIccaReleaseJsAndAssets -x bundleQaReleaseJsAndAssets"
+      }
+    },
+    "release": {
+      "extends": "base",
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": "assembleAppRelease assembleAppIntel assembleAppUniversal assembleIccaRelease assembleQaRelease -x bundleAppReleaseJsAndAssets -x bundleAppIntelJsAndAssets -x bundleAppUniversalJsAndAssets -x bundleIccaReleaseJsAndAssets -x bundleQaReleaseJsAndAssets"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
