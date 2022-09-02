@@ -56,12 +56,7 @@ import {
 import { NavigatorScreenParams } from "@react-navigation/native";
 import { IccaStackList } from "../screens/Intro";
 import { MessageDescriptor } from "react-intl";
-import {
-  GPS_MODAL_TEXT,
-  MEDIUM_BLUE,
-  SYNC_BACKGROUND,
-  WHITE,
-} from "../lib/styles";
+import { GPS_MODAL_TEXT, MEDIUM_BLUE, SYNC_BACKGROUND } from "../lib/styles";
 export type HomeTabsList = {
   Map: undefined;
   Camera: undefined;

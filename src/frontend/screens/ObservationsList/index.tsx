@@ -11,7 +11,7 @@ import { NativeNavigationComponent } from "../../sharedTypes";
 const m = defineMessages({
   observationListTitle: {
     id: "screens.ObservationList.observationListTitle",
-    defaultMessage: "The List",
+    defaultMessage: "Observations",
     description: "Title of screen with list of observations",
   },
 });
