@@ -3,15 +3,14 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
 import { useExperiments } from "../../../hooks/useExperiments";
 import { useNavigationFromRoot } from "../../../hooks/useNavigationWithTypes";
-import { useSetHeader } from "../../../hooks/useSetHeader";
 
-import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import {
   List,
   ListItem,
   ListItemText,
   ListItemIcon,
 } from "../../../sharedComponents/List";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   p2pUpgrades: {
@@ -48,9 +47,7 @@ const m = defineMessages({
   },
 });
 
-const Experiments = () => {
-  useSetHeader({ headerTitle: m.title });
-
+const Experiments: NativeNavigationComponent<"Experiments"> = () => {
   const [experiments] = useExperiments();
 
   const { navigate } = useNavigationFromRoot();
@@ -104,5 +101,7 @@ const Experiments = () => {
     </ScrollView>
   );
 };
+
+Experiments.navTitle = m.title;
 
 export default Experiments;

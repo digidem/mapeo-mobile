@@ -6,26 +6,20 @@ import { SettingsIcon } from "../../sharedComponents/icons";
 
 import IconButton from "../../sharedComponents/IconButton";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
-import { NativeRootNavigationProps } from "../../sharedTypes";
-import { useSetHeader } from "../../hooks/useSetHeader";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 const m = defineMessages({
   observationListTitle: {
     id: "screens.ObservationList.observationListTitle",
-    defaultMessage: "Observations",
+    defaultMessage: "The List",
     description: "Title of screen with list of observations",
   },
 });
 
-const ObservationsList = ({
+const ObservationsList: NativeNavigationComponent<"ObservationList"> = ({
   navigation,
-}: NativeRootNavigationProps<"ObservationList">) => {
+}) => {
   const [{ observations, status }] = useAllObservations();
-
-  useSetHeader({
-    headerTitle: m.observationListTitle,
-    headerRight: () => <SettingsButton />,
-  });
 
   const navigateToObservation = (observationId: string) => {
     navigation.navigate("Observation", { observationId });
@@ -41,7 +35,7 @@ const ObservationsList = ({
   );
 };
 
-const SettingsButton = () => {
+export const SettingsButton = () => {
   const { navigate } = useNavigationFromRoot();
   return (
     <IconButton onPress={() => navigate("Settings")} testID="settingsButton">
@@ -49,5 +43,7 @@ const SettingsButton = () => {
     </IconButton>
   );
 };
+
+ObservationsList.navTitle = m.observationListTitle;
 
 export default ObservationsList;

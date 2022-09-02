@@ -11,7 +11,6 @@ import {
   CapturedPictureMM,
 } from "../hooks/useDraftObservation";
 import { NativeRootNavigationProps } from "../sharedTypes";
-import { useSetHeader } from "../hooks/useSetHeader";
 
 const m = defineMessages({
   cancel: {

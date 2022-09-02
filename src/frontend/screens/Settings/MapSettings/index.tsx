@@ -1,9 +1,8 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { ScrollView } from "react-native";
-import { useSetHeader } from "../../../hooks/useSetHeader";
 import { List, ListItem, ListItemText } from "../../../sharedComponents/List";
-import { NativeRootNavigationProps } from "../../../sharedTypes";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   backgroundMaps: {
@@ -20,11 +19,10 @@ const m = defineMessages({
   },
 });
 
-export const MapSettings = ({
+export const MapSettings: NativeNavigationComponent<"MapSettings"> = ({
   navigation,
-}: NativeRootNavigationProps<"MapSettings">) => {
+}) => {
   const { navigate } = navigation;
-  useSetHeader({ headerTitle: m.mapSettings });
   return (
     <ScrollView>
       <List>
@@ -42,3 +40,5 @@ export const MapSettings = ({
     </ScrollView>
   );
 };
+
+MapSettings.navTitle = m.mapSettings;

@@ -14,11 +14,6 @@ export type IccaStackList = {
   IccaIntro: undefined;
 };
 
-// type IccaNavProps<ScreenName extends keyof IccaStackList> = CompositeScreenProps<
-//   NativeStackScreenProps<IccaStackList, ScreenName>,
-//   NativeStackScreenProps<IccaStackListRoot>
-// >;
-
 export const Info = ({ route }: NativeRootNavigationProps<"IccaInfo">) => {
   const text = route.params.introInfoText;
   const title = route.params.introInfoTitle;

@@ -6,7 +6,7 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import { LIGHT_GREY } from "../../../lib/styles";
 import { useExperiments } from "../../../hooks/useExperiments";
-import { useSetHeader } from "../../../hooks/useSetHeader";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -29,9 +29,8 @@ const m = defineMessages({
   },
 });
 
-export const P2pUpgrade = () => {
+export const P2pUpgrade: NativeNavigationComponent<"P2pUpgrade"> = () => {
   const [experiments, setExperiments] = useExperiments();
-  useSetHeader({ headerTitle: m.title });
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={[styles.header]}>
@@ -67,6 +66,8 @@ export const P2pUpgrade = () => {
     </ScrollView>
   );
 };
+
+P2pUpgrade.navTitle = m.title;
 
 const styles = StyleSheet.create({
   container: {

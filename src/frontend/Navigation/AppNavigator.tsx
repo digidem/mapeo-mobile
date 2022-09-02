@@ -7,6 +7,7 @@ import {
   RootStack,
 } from "./AppStack";
 import { devExperiments } from "../lib/DevExperiments";
+import { useIntl } from "react-intl";
 
 // React Navigation expects children of the Navigator to be a `Screen`, `Group`
 // or `React.Fragment` element type. We want to keep this logic in a separate
@@ -25,14 +26,17 @@ import { devExperiments } from "../lib/DevExperiments";
 // update them efficiently.
 
 export const AppNavigator = () => {
+  const { formatMessage } = useIntl();
+
   return (
     <RootStack.Navigator
       initialRouteName="Home"
       screenOptions={NavigatorScreenOptions}
     >
-      {createDefaultScreenGroup()}
-      {devExperiments.onboarding && createOnboardingScreenGroup()}
-      {devExperiments.appPasscode && createAppPasscodeScreenGroup()}
+      {createDefaultScreenGroup(formatMessage)}
+      {devExperiments.onboarding && createOnboardingScreenGroup(formatMessage)}
+      {devExperiments.appPasscode &&
+        createAppPasscodeScreenGroup(formatMessage)}
     </RootStack.Navigator>
   );
 };

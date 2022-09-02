@@ -3,9 +3,8 @@ import { defineMessages } from "react-intl";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import { useSetHeader } from "../../hooks/useSetHeader";
 import { devExperiments } from "../../lib/DevExperiments";
-import { NativeRootNavigationProps } from "../../sharedTypes";
+import { NativeNavigationComponent } from "../../sharedTypes";
 import { SecurityContext } from "../Security/SecurityContext";
 import { EnterPasscode } from "./EnterPasscode";
 import { NewPasscode } from "./NewPasscode";
@@ -17,9 +16,9 @@ const m = defineMessages({
   },
 });
 
-export const AppPasscode = ({
+export const AppPasscode: NativeNavigationComponent<"AppPasscode"> = ({
   navigation,
-}: NativeRootNavigationProps<"AppPasscode">) => {
+}) => {
   const { passIsSet } = React.useContext(SecurityContext);
   const { appPasscode } = devExperiments;
 
@@ -27,14 +26,14 @@ export const AppPasscode = ({
     if (!appPasscode) navigation.navigate("Settings");
   }, [appPasscode]);
 
-  useSetHeader({ headerTitle: m.title });
-
   return (
     <ScrollView contentContainerStyle={styles.pageContainer}>
       {!passIsSet ? <NewPasscode /> : <EnterPasscode />}
     </ScrollView>
   );
 };
+
+AppPasscode.navTitle = m.title;
 
 const styles = StyleSheet.create({
   pageContainer: {

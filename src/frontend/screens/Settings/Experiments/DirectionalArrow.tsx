@@ -6,7 +6,7 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import { LIGHT_GREY } from "../../../lib/styles";
 import { useExperiments } from "../../../hooks/useExperiments";
-import { useSetHeader } from "../../../hooks/useSetHeader";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   directionalArrow: {
@@ -29,9 +29,8 @@ const m = defineMessages({
   },
 });
 
-export const DirectionalArrow = () => {
+export const DirectionalArrow: NativeNavigationComponent<"DirectionalArrow"> = () => {
   const [experiments, setExperiments] = useExperiments();
-  useSetHeader({ headerTitle: m.directionalArrow });
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={[styles.header]}>
@@ -69,6 +68,8 @@ export const DirectionalArrow = () => {
     </ScrollView>
   );
 };
+
+DirectionalArrow.navTitle = m.directionalArrow;
 
 const styles = StyleSheet.create({
   container: {

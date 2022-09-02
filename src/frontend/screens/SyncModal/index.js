@@ -1,4 +1,3 @@
-// @flow
 /**
  * This component contains all the state logic for sync. Some state is stored in
  * Mapeo Core, but whether a peer has done syncing or an error during sync can
@@ -16,15 +15,10 @@ import SyncView from "./SyncView";
 import { useAllObservations } from "../../hooks/useAllObservations";
 import useWifiStatus from "../../hooks/useWifiStatus";
 import ConfigContext from "../../context/ConfigContext";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import usePeers from "./usePeers";
 import KeepAwake from "react-native-keep-awake";
 import { useSetHeader } from "../../hooks/useSetHeader";
-import { SYNC_BACKGROUND, WHITE } from "../../lib/styles";
-
-type Props = {
-  navigation: any,
-};
+import { WHITE } from "../../lib/styles";
 
 const m = defineMessages({
   errorDialogOk: {
@@ -40,12 +34,10 @@ const m = defineMessages({
   },
 });
 
-const deviceName: string = "Android " + getUniqueId().slice(0, 4).toUpperCase();
+const deviceName = "Android " + getUniqueId().slice(0, 4).toUpperCase();
 
-const SyncModal = ({ navigation }: Props) => {
+const SyncModal = ({ navigation }) => {
   useSetHeader({
-    headerTitle: m.syncHeader,
-    backgroundColor: SYNC_BACKGROUND,
     headerTintColor: WHITE,
   });
 
@@ -106,5 +98,7 @@ const SyncModal = ({ navigation }: Props) => {
     />
   );
 };
+
+SyncModal.navTitle = m.syncHeader;
 
 export default SyncModal;

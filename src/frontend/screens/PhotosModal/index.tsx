@@ -15,7 +15,6 @@ import Text from "../../sharedComponents/Text";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables/index.ios";
 import { NativeRootNavigationProps } from "../../sharedTypes";
-import { useSetHeader } from "../../hooks/useSetHeader";
 
 interface customRoute extends Route {
   uri?: string;

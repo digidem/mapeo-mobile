@@ -8,13 +8,14 @@ import * as React from "react";
 import { Share, StyleSheet, View } from "react-native";
 import { FormattedMessage, defineMessages } from "react-intl";
 
-import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
+import { WHITE } from "../../lib/styles";
 
 import Button from "../../sharedComponents/Button";
 import Text from "../../sharedComponents/Text";
 import { URI_PREFIX } from "../../constants";
 import { WithWifiBar } from "./WithWifiBar";
 import { useSetHeader } from "../../hooks/useSetHeader";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -35,11 +36,9 @@ const m = defineMessages({
   },
 });
 
-export const SendJoinRequestScreen = () => {
+export const SendJoinRequestScreen: NativeNavigationComponent<"SendJoinRequestScreen"> = () => {
   useSetHeader({
-    headerTitle: m.title,
     headerTintColor: WHITE,
-    backgroundColor: MEDIUM_BLUE,
   });
   // TOOD: Need to properly generate
   const verificationCode = Math.random().toString().slice(-5);
@@ -70,6 +69,8 @@ export const SendJoinRequestScreen = () => {
     </WithWifiBar>
   );
 };
+
+SendJoinRequestScreen.navTitle = m.title;
 
 const styles = StyleSheet.create({
   container: {

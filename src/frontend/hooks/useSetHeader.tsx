@@ -24,25 +24,24 @@ export const useSetHeader = (
   const { formatMessage: t } = useIntl();
   const navigation = useNavigationFromRoot();
 
-  if (isMessageDescriptor(titleOrOptions)) {
-    return React.useLayoutEffect(() => {
+  // For some reason, when headerTintColor is set, the back button is not getting the tint color. So I am setting it directly in custom header left. Header left should ONLY be rewritten if there is a color. Otherwise, setting it as undefined, causes it to be rerendered.
+  return React.useLayoutEffect(() => {
+    if (isMessageDescriptor(titleOrOptions)) {
       navigation.setOptions({
         headerTitle: t(titleOrOptions),
       });
-    }, [navigation, t, titleOrOptions]);
-  }
+      return;
+    }
 
-  const {
-    headerTitle,
-    headerRight,
-    backgroundColor,
-    headerTintColor,
-    headerShown,
-  } = titleOrOptions;
+    const {
+      headerTitle,
+      headerRight,
+      backgroundColor,
+      headerTintColor,
+      headerShown,
+    } = titleOrOptions;
 
-  // For some reason, when headerTintColor is set, the back button is not getting the tint color. So I am setting it directly in custom header left. Header left should only be rewritten if there is a color. Otherwise, setting it as undefined, causes it to be removed.
-  if (!!headerTintColor) {
-    return React.useLayoutEffect(() => {
+    if (!!headerTintColor) {
       navigation.setOptions({
         headerTitle: isMessageDescriptor(headerTitle)
           ? t(headerTitle)
@@ -60,10 +59,9 @@ export const useSetHeader = (
         headerTintColor: headerTintColor,
         headerShown,
       });
-    }, [navigation, t, titleOrOptions]);
-  }
+      return;
+    }
 
-  return React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: isMessageDescriptor(headerTitle)
         ? t(headerTitle)

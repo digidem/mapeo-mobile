@@ -5,7 +5,6 @@ import { defineMessages } from "react-intl";
 
 import SelectOne from "./SelectOne";
 import IntlContext, { supportedLanguages } from "../../context/IntlContext";
-import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   title: {
@@ -17,8 +16,6 @@ const m = defineMessages({
 
 const LanguageSettings = () => {
   const [locale, setLocale] = React.useContext(IntlContext);
-
-  useSetHeader({ headerTitle: m.title });
 
   const options = supportedLanguages.map(
     ({ locale, nativeName, englishName }) => ({
@@ -38,5 +35,7 @@ const LanguageSettings = () => {
     </ScrollView>
   );
 };
+
+LanguageSettings.navTitle = m.title;
 
 export default LanguageSettings;

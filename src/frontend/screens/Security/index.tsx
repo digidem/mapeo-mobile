@@ -11,8 +11,7 @@ import {
 } from "../../sharedComponents/List";
 import { SecurityContext } from "./SecurityContext";
 import { devExperiments } from "../../lib/DevExperiments";
-import { useSetHeader } from "../../hooks/useSetHeader";
-import { NativeRootNavigationProps } from "../../sharedTypes";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -61,11 +60,10 @@ const m = defineMessages({
   },
 });
 
-export const Security = ({
+export const Security: NativeNavigationComponent<"Security"> = ({
   navigation,
-}: NativeRootNavigationProps<"Security">) => {
+}) => {
   const { passIsSet } = React.useContext(SecurityContext);
-  useSetHeader(m.title);
 
   const { appPasscode } = devExperiments;
 
@@ -127,6 +125,8 @@ export const Security = ({
     </ScrollView>
   );
 };
+
+Security.navTitle = m.title;
 
 const styles = StyleSheet.create({
   divder: {

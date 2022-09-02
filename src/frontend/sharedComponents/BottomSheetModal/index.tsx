@@ -8,7 +8,6 @@ import {
 import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 
 import { Backdrop } from "./Backdrop";
-import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 
 const MIN_SHEET_HEIGHT = 400;
 

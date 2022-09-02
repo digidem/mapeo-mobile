@@ -18,8 +18,7 @@ import {
   AnimatedRadio,
   useAnimatedRadio,
 } from "../sharedComponents/AnimatedRadio";
-import { NativeRootNavigationProps } from "../sharedTypes";
-import { useSetHeader } from "../hooks/useSetHeader";
+import { NativeNavigationComponent } from "../sharedTypes";
 
 type PersistenceOption = "keep" | "delete";
 
@@ -50,10 +49,10 @@ const m = defineMessages({
   },
 });
 
-export const ConfirmLeavePracticeModeScreen = ({
+export const ConfirmLeavePracticeModeScreen: NativeNavigationComponent<"ConfirmLeavePracticeModeScreen"> = ({
   navigation,
   route,
-}: NativeRootNavigationProps<"ConfirmLeavePracticeModeScreen">) => {
+}) => {
   const [selectedOption, setSelectedOption] = React.useState<
     PersistenceOption
   >();
@@ -62,8 +61,6 @@ export const ConfirmLeavePracticeModeScreen = ({
     animate: animateRadio,
     animatedValue: animatedPulseValue,
   } = useAnimatedRadio();
-
-  useSetHeader(m.leavePracticeMode);
 
   const [{ observations }] = React.useContext(ObservationsContext);
 
@@ -172,6 +169,8 @@ export const ConfirmLeavePracticeModeScreen = ({
     </View>
   );
 };
+
+ConfirmLeavePracticeModeScreen.navTitle = m.leavePracticeMode;
 
 const styles = StyleSheet.create({
   container: {

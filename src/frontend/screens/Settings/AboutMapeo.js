@@ -5,7 +5,6 @@ import { defineMessages, useIntl } from "react-intl";
 
 import { List, ListItem, ListItemText } from "../../sharedComponents/List";
 import useDeviceInfo from "../../hooks/useDeviceInfo";
-import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   aboutMapeoTitle: {
@@ -76,8 +75,6 @@ const DeviceInfoListItem = ({
 const AboutMapeo = () => {
   const { formatMessage: t } = useIntl();
 
-  useSetHeader({ headerTitle: m.aboutMapeoTitle });
-
   return (
     <ScrollView>
       <List>
@@ -94,5 +91,7 @@ const AboutMapeo = () => {
     </ScrollView>
   );
 };
+
+AboutMapeo.navTitle = m.aboutMapeoTitle;
 
 export default AboutMapeo;

@@ -7,7 +7,6 @@
 import React, { useMemo, useEffect, useState } from "react";
 import { defineMessages, useIntl, FormattedMessage } from "react-intl";
 import { StyleSheet, View, Text } from "react-native";
-import { useSetHeader } from "../../../hooks/useSetHeader";
 import { MEDIUM_BLUE, WHITE } from "../../../lib/styles";
 import Button from "../../../sharedComponents/Button";
 import { NativeRootNavigationProps } from "../../../sharedTypes";

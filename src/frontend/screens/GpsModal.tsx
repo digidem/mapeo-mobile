@@ -13,6 +13,7 @@ import { WHITE } from "../lib/styles";
 import type { LocationContextType } from "../context/LocationContext";
 import { useSetHeader } from "../hooks/useSetHeader";
 import { GPS_MODAL_TEXT } from "../lib/styles";
+import { NativeNavigationComponent } from "../sharedTypes";
 
 const m = defineMessages({
   gpsHeader: {
@@ -69,11 +70,7 @@ const GpsModalRow = ({ label, value }: { label: string; value: string }) => (
   </View>
 );
 
-type Props = {
-  navigation: any;
-};
-
-const GpsModal = ({ navigation }: Props) => {
+const GpsModal: NativeNavigationComponent<"GpsModal"> = () => {
   const location = React.useContext(LocationContext);
   // This is necessary for Flow type checking (if we use location.position in a
   // conditional it does not know if something else can change it)
@@ -82,9 +79,7 @@ const GpsModal = ({ navigation }: Props) => {
   const { formatMessage: t } = useIntl();
 
   useSetHeader({
-    headerTitle: m.gpsHeader,
     headerTintColor: WHITE,
-    backgroundColor: GPS_MODAL_TEXT,
   });
 
   return (
@@ -139,6 +134,8 @@ const GpsModal = ({ navigation }: Props) => {
     </ScrollView>
   );
 };
+
+GpsModal.navTitle = m.gpsHeader;
 
 export default GpsModal;
 

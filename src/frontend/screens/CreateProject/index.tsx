@@ -2,12 +2,14 @@ import * as React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { useSetHeader } from "../../hooks/useSetHeader";
 
 import { WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
 import Text from "../../sharedComponents/Text";
-import { NativeRootNavigationProps } from "../../sharedTypes";
+import {
+  NativeNavigationComponent,
+  NativeRootNavigationProps,
+} from "../../sharedTypes";
 
 import { InputField } from "./InputField";
 import { useInputFieldValue } from "./useInputFieldValue";
@@ -55,11 +57,11 @@ const m = defineMessages({
   },
 });
 
-export const CreateProjectScreen = ({
+export const CreateProjectScreen: NativeNavigationComponent<"CreateProjectScreen"> = ({
   navigation,
-}: NativeRootNavigationProps<"CreateProjectScreen">) => {
+}) => {
   const { formatMessage: t } = useIntl();
-  useSetHeader(m.createProjectTitle);
+
   const [
     projectName,
     setProjectName,
@@ -132,6 +134,8 @@ export const CreateProjectScreen = ({
     </View>
   );
 };
+
+CreateProjectScreen.navTitle = m.createProjectTitle;
 
 const styles = StyleSheet.create({
   container: {

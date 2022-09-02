@@ -12,9 +12,11 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import ConfigContext, { Preset } from "../context/ConfigContext";
 import { useDraftObservation } from "../hooks/useDraftObservation";
 import { CategoryCircleIcon } from "../sharedComponents/icons";
-import { useSetHeader } from "../hooks/useSetHeader";
 import { WHITE } from "../lib/styles";
-import { NativeRootNavigationProps } from "../sharedTypes";
+import {
+  NativeNavigationComponent,
+  NativeRootNavigationProps,
+} from "../sharedTypes";
 
 const m = defineMessages({
   categoryTitle: {
@@ -67,11 +69,9 @@ const Item = React.memo(
   )
 );
 
-const CategoryChooser = ({
+const CategoryChooser: NativeNavigationComponent<"CategoryChooser"> = ({
   navigation,
-}: NativeRootNavigationProps<"CategoryChooser">) => {
-  useSetHeader({ headerTitle: m.categoryTitle });
-
+}) => {
   const [{ presets }] = useContext(ConfigContext);
   const [{ value: draftValue }, { updateDraft }] = useDraftObservation();
 
@@ -143,6 +143,8 @@ const CategoryChooser = ({
     </View>
   );
 };
+
+CategoryChooser.navTitle = m.categoryTitle;
 
 export default CategoryChooser;
 

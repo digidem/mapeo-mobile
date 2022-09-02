@@ -1,7 +1,6 @@
 import * as React from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { ScrollView, StyleSheet } from "react-native";
-import { useSetHeader } from "../../../hooks/useSetHeader";
 
 import { RED } from "../../../lib/styles";
 import {
@@ -13,7 +12,10 @@ import Button from "../../../sharedComponents/Button";
 import { ErrorIcon } from "../../../sharedComponents/icons";
 import Loading from "../../../sharedComponents/Loading";
 import { OfflineAreaCard } from "../../../sharedComponents/OfflineAreaCard";
-import { NativeRootNavigationProps } from "../../../sharedTypes";
+import {
+  NativeNavigationComponent,
+  NativeRootNavigationProps,
+} from "../../../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -45,13 +47,11 @@ interface OfflineArea {
   zoomLevel: number;
 }
 
-export const OfflineAreas = ({
+export const OfflineAreas: NativeNavigationComponent<"OfflineAreas"> = ({
   route,
-}: NativeRootNavigationProps<"OfflineAreas">) => {
+}) => {
   const bgMapId = React.useRef("");
   const { formatMessage: t } = useIntl();
-
-  useSetHeader({ headerTitle: m.title });
 
   const { closeSheet, openSheet, sheetRef } = useBottomSheetModal({
     openOnMount: false,
@@ -136,6 +136,8 @@ export const OfflineAreas = ({
     </React.Fragment>
   );
 };
+
+OfflineAreas.navTitle = m.title;
 
 const styles = StyleSheet.create({
   container: {

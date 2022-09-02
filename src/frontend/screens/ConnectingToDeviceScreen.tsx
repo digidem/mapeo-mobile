@@ -2,7 +2,6 @@ import * as React from "react";
 import { BackHandler, StyleSheet, View } from "react-native";
 import { FormattedMessage, defineMessages } from "react-intl";
 import Text from "../sharedComponents/Text";
-import { useSetHeader } from "../hooks/useSetHeader";
 import { NativeRootNavigationProps } from "../sharedTypes";
 
 const m = defineMessages({

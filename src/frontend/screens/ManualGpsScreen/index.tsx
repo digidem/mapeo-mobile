@@ -21,9 +21,9 @@ import { ConvertedCoordinateData } from "./shared";
 import DdForm from "./DdForm";
 import DmsForm from "./DmsForm";
 import UtmForm from "./UtmForm";
-import { NativeRootNavigationProps } from "../../sharedTypes";
-import { useSetHeader } from "../../hooks/useSetHeader";
+import { NativeNavigationComponent } from "../../sharedTypes";
 import { CoordinateFormat } from "../../context/SettingsContext";
+import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   title: {
@@ -51,13 +51,12 @@ const m = defineMessages({
 
 const usePersistedState = createPersistedState("manualCoordinateEntryFormat");
 
-const ManualGpsScreen = ({
+const ManualGpsScreen: NativeNavigationComponent<"ManualGpsScreen"> = ({
   navigation,
-}: NativeRootNavigationProps<"ManualGpsScreen">) => {
+}) => {
   const { formatMessage: t } = useIntl();
 
   useSetHeader({
-    headerTitle: m.title,
     headerRight: () => (
       <IconButton onPress={handleSavePress}>
         <SaveIcon inprogress={false} />
@@ -160,6 +159,8 @@ const ManualGpsScreen = ({
     </View>
   );
 };
+
+ManualGpsScreen.navTitle = m.title;
 
 export default ManualGpsScreen;
 

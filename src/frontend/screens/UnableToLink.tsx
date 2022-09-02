@@ -6,8 +6,11 @@ import Button from "../sharedComponents/Button";
 import WifiBar from "../sharedComponents/WifiBar";
 import { URI_PREFIX } from "../constants";
 import useWifiStatus from "../hooks/useWifiStatus";
-import { NativeRootNavigationProps } from "../sharedTypes";
-import { useSetHeader } from "../hooks/useSetHeader";
+import {
+  NativeNavigationComponent,
+  NativeRootNavigationProps,
+} from "../sharedTypes";
+
 const m = defineMessages({
   unableToLink: {
     id: "screens.UnableToLink.unableToLink",
@@ -39,14 +42,12 @@ const m = defineMessages({
   },
 });
 
-export const UnableToLinkScreen = ({
+export const UnableToLinkScreen: NativeNavigationComponent<"UnableToLinkScreen"> = ({
   navigation,
-}: NativeRootNavigationProps<"UnableToLinkScreen">) => {
+}) => {
   const { ssid } = useWifiStatus();
   const { formatMessage: t } = useIntl();
   const { navigate } = navigation;
-
-  useSetHeader({ headerTitle: m.bannerTitle });
 
   // TOOD: Need to properly generate
   const verificationCode = Math.random().toString().slice(-5);
@@ -98,6 +99,8 @@ export const UnableToLinkScreen = ({
     </View>
   );
 };
+
+UnableToLinkScreen.navTitle = m.bannerTitle;
 
 const styles = StyleSheet.create({
   screenContainer: {

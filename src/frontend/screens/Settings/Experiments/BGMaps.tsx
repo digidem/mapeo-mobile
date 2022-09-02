@@ -7,8 +7,10 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { LIGHT_BLUE, LIGHT_GREY } from "../../../lib/styles";
 
 import { useExperiments } from "../../../hooks/useExperiments";
-import { NativeRootNavigationProps } from "../../../sharedTypes";
-import { useSetHeader } from "../../../hooks/useSetHeader";
+import {
+  NativeNavigationComponent,
+  NativeRootNavigationProps,
+} from "../../../sharedTypes";
 
 const m = defineMessages({
   BGMaps: {
@@ -25,12 +27,10 @@ const m = defineMessages({
   },
 });
 
-export const BGMapsSettings = ({
+export const BGMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
   navigation,
-}: NativeRootNavigationProps<"BGMapsSettings">) => {
+}) => {
   const [experiments, setExperiments] = useExperiments();
-
-  useSetHeader({ headerTitle: m.BGMaps });
 
   const { formatMessage: t } = useIntl();
 
@@ -101,6 +101,8 @@ export const BGMapsSettings = ({
     </ScrollView>
   );
 };
+
+BGMapsSettings.navTitle = m.BGMaps;
 
 const styles = StyleSheet.create({
   container: {

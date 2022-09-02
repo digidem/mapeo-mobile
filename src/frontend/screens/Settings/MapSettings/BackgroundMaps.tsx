@@ -165,14 +165,6 @@ export const BackgroundMaps = ({
   );
 };
 
-BackgroundMaps.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-};
-
 const styles = StyleSheet.create({
   button: {
     marginTop: 40,

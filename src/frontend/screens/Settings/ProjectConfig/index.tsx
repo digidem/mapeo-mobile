@@ -13,7 +13,7 @@ import { ConfigDetails } from "./ConfigDetails";
 import { LeavePracticeMode } from "./LeavePracticeMode";
 import { ManagePeople } from "./ManagePeople";
 import { devExperiments } from "../../../lib/DevExperiments";
-import { useSetHeader } from "../../../hooks/useSetHeader";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   configTitle: {
@@ -56,10 +56,8 @@ const m = defineMessages({
   },
 });
 
-export const ProjectConfig = () => {
+export const ProjectConfig: NativeNavigationComponent<"ProjectConfig"> = () => {
   const { formatMessage: t } = useIntl();
-
-  useSetHeader({ headerTitle: m.configTitle });
 
   // TODO: dummy state, mostly for demonstrative purposes
   const [role] = React.useState<"participant" | "coordinator">("participant");
@@ -140,6 +138,8 @@ export const ProjectConfig = () => {
     </ScrollView>
   );
 };
+
+ProjectConfig.navTitle = m.configTitle;
 
 function extractConfigName(configMetadata: ConfigMetadata) {
   return configMetadata.name || configMetadata.dataset_id;

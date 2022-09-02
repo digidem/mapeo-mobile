@@ -5,7 +5,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import { MapScreen } from "../screens/MapScreen/MapScreen";
 import CameraScreen from "../screens/CameraScreen";
-import ObservationList from "../screens/ObservationsList";
+import ObservationList, { SettingsButton } from "../screens/ObservationsList";
 import Observation from "../screens/Observation";
 import ObservationEdit from "../screens/ObservationEdit";
 import AddPhoto from "../screens/AddPhoto";
@@ -55,6 +55,13 @@ import {
 } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { NavigatorScreenParams } from "@react-navigation/native";
 import { IccaStackList } from "../screens/Intro";
+import { MessageDescriptor } from "react-intl";
+import {
+  GPS_MODAL_TEXT,
+  MEDIUM_BLUE,
+  SYNC_BACKGROUND,
+  WHITE,
+} from "../lib/styles";
 export type HomeTabsList = {
   Map: undefined;
   Camera: undefined;
@@ -146,14 +153,20 @@ export const NavigatorScreenOptions: NativeStackNavigationOptions = {
 
 // **NOTE**: No hooks allowed here (this is not a component, it is a function
 // that returns a react element)
-export const createDefaultScreenGroup = () => (
+export const createDefaultScreenGroup = (
+  intl: (title: MessageDescriptor) => string
+) => (
   <RootStack.Group key="default">
     <RootStack.Screen
       name="Home"
       options={{ headerShown: false }}
       component={HomeTabs}
     />
-    <RootStack.Screen name="AboutMapeo" component={AboutMapeo} />
+    <RootStack.Screen
+      name="AboutMapeo"
+      component={AboutMapeo}
+      options={{ headerTitle: intl(AboutMapeo.navTitle) }}
+    />
     <RootStack.Screen
       name="AddPhoto"
       component={AddPhoto}
@@ -162,63 +175,152 @@ export const createDefaultScreenGroup = () => (
     <RootStack.Screen
       name="AddToProjectScreen"
       component={AddToProjectScreen}
+      options={{ headerTitle: intl(AddToProjectScreen.navTitle) }}
     />
+    {/* Modal, no title */}
     <RootStack.Screen name="AlreadyOnProj" component={AlreadyOnProj} />
-    <RootStack.Screen name="BGMapsSettings" component={BGMapsSettings} />
+    <RootStack.Screen
+      name="BGMapsSettings"
+      component={BGMapsSettings}
+      options={{ headerTitle: intl(BGMapsSettings.navTitle) }}
+    />
+    {/* Modal, no title */}
     <RootStack.Screen name="BackgroundMaps" component={BackgroundMaps} />
-    <RootStack.Screen name="CategoryChooser" component={CategoryChooser} />
+    <RootStack.Screen
+      name="CategoryChooser"
+      component={CategoryChooser}
+      options={{ headerTitle: intl(CategoryChooser.navTitle) }}
+    />
     <RootStack.Screen
       name="ConfirmLeavePracticeModeScreen"
       component={ConfirmLeavePracticeModeScreen}
+      options={{ headerTitle: intl(ConfirmLeavePracticeModeScreen.navTitle) }}
     />
     <RootStack.Screen
       name="ConnectingToDeviceScreen"
       component={ConnectingToDeviceScreen}
       options={{ headerShown: false }}
     />
-    <RootStack.Screen name="CoordinateFormat" component={CoordinateFormat} />
+    <RootStack.Screen
+      name="CoordinateFormat"
+      component={CoordinateFormat}
+      options={{ headerTitle: intl(CoordinateFormat.navTitle) }}
+    />
     <RootStack.Screen
       name="CreateProjectScreen"
       component={CreateProjectScreen}
+      options={{ headerTitle: intl(CreateProjectScreen.navTitle) }}
     />
-    <RootStack.Screen name="DirectionalArrow" component={DirectionalArrow} />
-    <RootStack.Screen name="Experiments" component={Experiments} />
-    <RootStack.Screen name="GpsModal" component={GpsModal} />
-    <RootStack.Screen name="LanguageSettings" component={LanguageSettings} />
+    <RootStack.Screen
+      name="DirectionalArrow"
+      component={DirectionalArrow}
+      options={{ headerTitle: intl(DirectionalArrow.navTitle) }}
+    />
+    <RootStack.Screen
+      name="Experiments"
+      component={Experiments}
+      options={{ headerTitle: intl(Experiments.navTitle) }}
+    />
+    <RootStack.Screen
+      name="GpsModal"
+      component={GpsModal}
+      options={{
+        headerTitle: intl(GpsModal.navTitle),
+        headerStyle: { backgroundColor: GPS_MODAL_TEXT },
+      }}
+    />
+    <RootStack.Screen
+      name="LanguageSettings"
+      component={LanguageSettings}
+      options={{ headerTitle: intl(LanguageSettings.navTitle) }}
+    />
     <RootStack.Screen
       name="LeaveProjectScreen"
       component={LeaveProjectScreen}
+      options={{ headerTitle: intl(LeaveProjectScreen.navTitle) }}
     />
-    <RootStack.Screen name="ManualGpsScreen" component={ManualGpsScreen} />
-    <RootStack.Screen name="MapSettings" component={MapSettings} />
-    <RootStack.Screen name="Observation" component={Observation} />
+    <RootStack.Screen
+      name="ManualGpsScreen"
+      component={ManualGpsScreen}
+      options={{ headerTitle: intl(ManualGpsScreen.navTitle) }}
+    />
+    <RootStack.Screen
+      name="MapSettings"
+      component={MapSettings}
+      options={{ headerTitle: intl(MapSettings.navTitle) }}
+    />
+    <RootStack.Screen
+      name="Observation"
+      component={Observation}
+      options={{ headerTitle: intl(Observation.navTitle) }}
+    />
+
+    {/* Header is set in component */}
     <RootStack.Screen
       name="ObservationDetails"
       component={ObservationDetails}
     />
+    {/* Header is set in component */}
     <RootStack.Screen name="ObservationEdit" component={ObservationEdit} />
-    <RootStack.Screen name="ObservationList" component={ObservationList} />
-    <RootStack.Screen name="OfflineAreas" component={OfflineAreas} />
-    <RootStack.Screen name="P2pUpgrade" component={P2pUpgrade} />
+    <RootStack.Screen
+      name="ObservationList"
+      component={ObservationList}
+      options={{
+        headerTitle: intl(ObservationList.navTitle),
+        headerRight: () => <SettingsButton />,
+      }}
+    />
+    <RootStack.Screen
+      name="OfflineAreas"
+      component={OfflineAreas}
+      options={{ headerTitle: intl(OfflineAreas.navTitle) }}
+    />
+    <RootStack.Screen
+      name="P2pUpgrade"
+      component={P2pUpgrade}
+      options={{ headerTitle: intl(P2pUpgrade.navTitle) }}
+    />
     <RootStack.Screen
       name="PhotosModal"
       component={PhotosModal}
       options={{ headerShown: false }}
     />
-    <RootStack.Screen name="ProjectConfig" component={ProjectConfig} />
-    <RootStack.Screen name="Security" component={Security} />
-    <RootStack.Screen name="Settings" component={Settings} />
-    <RootStack.Screen name="SyncModal" component={SyncModal} />
+    <RootStack.Screen
+      name="ProjectConfig"
+      component={ProjectConfig}
+      options={{ headerTitle: intl(ProjectConfig.navTitle) }}
+    />
+    <RootStack.Screen
+      name="Security"
+      component={Security}
+      options={{ headerTitle: intl(Security.navTitle) }}
+    />
+    <RootStack.Screen
+      name="Settings"
+      component={Settings}
+      options={{ headerTitle: intl(Settings.navTitle) }}
+    />
+    <RootStack.Screen
+      name="SyncModal"
+      component={SyncModal}
+      options={{
+        headerTitle: intl(SyncModal.navTitle),
+        headerStyle: { backgroundColor: SYNC_BACKGROUND },
+      }}
+    />
     <RootStack.Screen
       name="UnableToLinkScreen"
       component={UnableToLinkScreen}
+      options={{ headerTitle: intl(UnableToLinkScreen.navTitle) }}
     />
   </RootStack.Group>
 );
 
 // **NOTE**: No hooks allowed here (this is not a component, it is a function
 // that returns a react element)
-export const createOnboardingScreenGroup = () => (
+export const createOnboardingScreenGroup = (
+  intl: (title: MessageDescriptor) => string
+) => (
   <RootStack.Group key="onboarding">
     <RootStack.Screen
       name="CreateOrJoinScreen"
@@ -227,6 +329,10 @@ export const createOnboardingScreenGroup = () => (
     <RootStack.Screen
       name="SendJoinRequestScreen"
       component={SendJoinRequestScreen}
+      options={{
+        headerTitle: intl(SendJoinRequestScreen.navTitle),
+        headerStyle: { backgroundColor: MEDIUM_BLUE },
+      }}
     />
     <RootStack.Screen
       name="SyncOnboardingScreen"
@@ -236,6 +342,10 @@ export const createOnboardingScreenGroup = () => (
     <RootStack.Screen
       name="JoinProjectQrScreen"
       component={JoinProjectQrScreen}
+      options={{
+        headerTitle: intl(JoinProjectQrScreen.navTitle),
+        headerStyle: { backgroundColor: MEDIUM_BLUE },
+      }}
     />
     {/* Modal Screen */}
     <RootStack.Screen
@@ -254,9 +364,15 @@ export const createOnboardingScreenGroup = () => (
 
 // **NOTE**: No hooks allowed here (this is not a component, it is a function
 // that returns a react element)
-export const createAppPasscodeScreenGroup = () => (
+export const createAppPasscodeScreenGroup = (
+  intl: (title: MessageDescriptor) => string
+) => (
   <RootStack.Group key="appPasscode">
     <RootStack.Screen name="NewPasscode" component={NewPasscode} />
-    <RootStack.Screen name="AppPasscode" component={AppPasscode} />
+    <RootStack.Screen
+      name="AppPasscode"
+      component={AppPasscode}
+      options={{ headerTitle: intl(AppPasscode.navTitle) }}
+    />
   </RootStack.Group>
 );

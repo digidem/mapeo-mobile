@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { defineMessages } from "react-intl";
 
 import ConfigContext from "../../context/ConfigContext";
-import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
+import { MEDIUM_BLUE } from "../../lib/styles";
 
 // TODO: Make this a shared component instead?
 import { WithWifiBar } from "../Onboarding/WithWifiBar";
@@ -11,9 +11,11 @@ import { WithWifiBar } from "../Onboarding/WithWifiBar";
 import { DeviceFoundStep } from "./DeviceFoundStep";
 import { ScanQrCodeStep } from "./ScanQrCodeStep";
 import { SuccessStep } from "./SuccessStep";
-import { NativeRootNavigationProps } from "../../sharedTypes";
+import {
+  NativeNavigationComponent,
+  NativeRootNavigationProps,
+} from "../../sharedTypes";
 import { useFocusEffect } from "@react-navigation/native";
-import { useSetHeader } from "../../hooks/useSetHeader";
 
 type Step = "scan" | "found" | "success";
 
@@ -31,18 +33,13 @@ const sendInviteToDevice = (deviceId: string) =>
     setTimeout(res, 2000);
   });
 
-export const AddToProjectScreen = ({
+export const AddToProjectScreen: NativeNavigationComponent<"AddToProjectScreen"> = ({
   navigation,
 }: NativeRootNavigationProps<"AddToProjectScreen">) => {
   const [screenLoaded, setScreenLoaded] = React.useState(false);
   const [step, setStep] = React.useState<Step>("scan");
   const [foundDeviceId, setFoundDeviceId] = React.useState<string>();
   const [config] = React.useContext(ConfigContext);
-
-  useSetHeader({
-    headerTitle: m.titleGeneric,
-    backgroundColor: MEDIUM_BLUE,
-  });
 
   useFocusEffect(() => {
     setScreenLoaded(true);
@@ -117,3 +114,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+AddToProjectScreen.navTitle = m.titleGeneric;

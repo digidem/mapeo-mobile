@@ -13,7 +13,10 @@ import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
 import Text from "../../sharedComponents/Text";
 import { WithWifiBar } from "./WithWifiBar";
-import { NativeRootNavigationProps } from "../../sharedTypes";
+import {
+  NativeNavigationComponent,
+  NativeRootNavigationProps,
+} from "../../sharedTypes";
 import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
@@ -48,17 +51,15 @@ const m = defineMessages({
   1. Project Joiner asking to be invited to project
   2. Project Admin adding user to project
 */
-export const JoinProjectQrScreen = ({
+export const JoinProjectQrScreen: NativeNavigationComponent<"JoinProjectQrScreen"> = ({
   navigation,
   route,
-}: NativeRootNavigationProps<"JoinProjectQrScreen">) => {
+}) => {
   const { formatMessage: t } = useIntl();
 
   const isAdmin = route.params.isAdmin;
 
   useSetHeader({
-    headerTitle: m.title,
-    backgroundColor: MEDIUM_BLUE,
     headerTintColor: WHITE,
   });
 
@@ -93,7 +94,7 @@ export const JoinProjectQrScreen = ({
           // Project Joiner Request
           <Button
             variant="text"
-            onPress={() => navigation.navigate("SendJoinRequest")}
+            onPress={() => navigation.navigate("SendJoinRequestScreen")}
           >
             <Text style={styles.sendJoinRequest}>
               <FormattedMessage {...m.sendJoinRequest} />
@@ -104,6 +105,8 @@ export const JoinProjectQrScreen = ({
     </WithWifiBar>
   );
 };
+
+JoinProjectQrScreen.navTitle = m.title;
 
 const styles = StyleSheet.create({
   container: {
