@@ -22,11 +22,7 @@ export const AppNavigator = () => {
           component={Intro}
           options={{ headerShown: false }}
         />
-        <RootStack.Screen
-          name="IccaInfo"
-          options={{ headerShown: false }}
-          component={Info}
-        />
+        <RootStack.Screen name="IccaInfo" component={Info} />
       </RootStack.Group>
     </RootStack.Navigator>
   );

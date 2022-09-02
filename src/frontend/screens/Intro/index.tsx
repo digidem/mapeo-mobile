@@ -12,11 +12,19 @@ export type IccaStackList = {
   IccaIntro: undefined;
 };
 
-export const Info = ({ route }: NativeRootNavigationProps<"IccaInfo">) => {
+export const Info = ({
+  route,
+  navigation,
+}: NativeRootNavigationProps<"IccaInfo">) => {
   const text = route.params.introInfoText;
   const title = route.params.introInfoTitle;
 
-  // useSetHeader({ headerTitle: title });
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: title,
+    });
+  }, [navigation, title]);
+
   return (
     <React.Fragment>
       <StatusBar hidden={false} />
