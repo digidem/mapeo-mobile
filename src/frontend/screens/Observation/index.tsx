@@ -12,7 +12,6 @@ import {
   NativeNavigationComponent,
   NativeRootNavigationProps,
 } from "../../sharedTypes";
-import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   notFound: {
@@ -59,9 +58,14 @@ const Observation: NativeNavigationComponent<"Observation"> = ({
   navigation,
 }) => {
   const { observationId } = route.params;
-  useSetHeader({
-    headerRight: () => <ObservationHeaderRight observationId={observationId} />,
-  });
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <ObservationHeaderRight observationId={observationId} />
+      ),
+    });
+  }, [navigation, observationId, ObservationHeaderRight]);
 
   const { formatMessage: t } = useIntl();
 

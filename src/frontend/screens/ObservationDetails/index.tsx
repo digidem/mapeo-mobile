@@ -9,7 +9,6 @@ import Question from "./Question";
 import Field from "../ObservationEdit/Field";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
 import { NativeRootNavigationProps } from "../../sharedTypes";
-import { useSetHeader } from "../../hooks/useSetHeader";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
@@ -38,10 +37,12 @@ const ObservationDetails = ({
   const [{ preset }] = useDraftObservation();
   const current: number = +route.params.question;
 
-  useSetHeader({
-    headerTitle: () => <DetailsTitle question={current} />,
-    headerRight: () => <DetailsHeaderRight question={current} />,
-  });
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => <DetailsTitle question={current} />,
+      headerRight: () => <DetailsHeaderRight question={current} />,
+    });
+  }, [navigation, current]);
 
   if (!preset || !preset.fields || current > preset.fields.length) {
     navigation.pop(current);

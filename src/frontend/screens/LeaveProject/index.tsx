@@ -24,7 +24,9 @@ export interface LeaveProjSharedProp {
   next: () => void;
 }
 
-export const LeaveProjectScreen: NativeNavigationComponent<"LeaveProjectScreen"> = () => {
+export const LeaveProjectScreen: NativeNavigationComponent<"LeaveProjectScreen"> = ({
+  navigation,
+}) => {
   const { initial, progress } = ScreenStates;
   const [screen, setScreen] = useState(initial);
 
@@ -37,7 +39,9 @@ export const LeaveProjectScreen: NativeNavigationComponent<"LeaveProjectScreen">
   }
 
   if (screen === progress) {
-    return <LeaveProjectProgress next={nextScreenState} />;
+    return (
+      <LeaveProjectProgress next={nextScreenState} navigation={navigation} />
+    );
   }
 
   return <LeaveProjectCompleted />;

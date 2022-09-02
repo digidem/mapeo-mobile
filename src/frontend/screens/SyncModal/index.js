@@ -8,7 +8,7 @@
 import React from "react";
 import { Alert } from "react-native";
 import OpenSettings from "react-native-android-open-settings";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages } from "react-intl";
 import { getUniqueId } from "react-native-device-info";
 
 import SyncView from "./SyncView";
@@ -17,8 +17,6 @@ import useWifiStatus from "../../hooks/useWifiStatus";
 import ConfigContext from "../../context/ConfigContext";
 import usePeers from "./usePeers";
 import KeepAwake from "react-native-keep-awake";
-import { useSetHeader } from "../../hooks/useSetHeader";
-import { WHITE } from "../../lib/styles";
 
 const m = defineMessages({
   errorDialogOk: {
@@ -37,10 +35,6 @@ const m = defineMessages({
 const deviceName = "Android " + getUniqueId().slice(0, 4).toUpperCase();
 
 const SyncModal = ({ navigation }) => {
-  useSetHeader({
-    headerTintColor: WHITE,
-  });
-
   const [, reload] = useAllObservations();
 
   const [

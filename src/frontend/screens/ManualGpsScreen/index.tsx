@@ -23,7 +23,6 @@ import DmsForm from "./DmsForm";
 import UtmForm from "./UtmForm";
 import { NativeNavigationComponent } from "../../sharedTypes";
 import { CoordinateFormat } from "../../context/SettingsContext";
-import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   title: {
@@ -56,13 +55,15 @@ const ManualGpsScreen: NativeNavigationComponent<"ManualGpsScreen"> = ({
 }) => {
   const { formatMessage: t } = useIntl();
 
-  useSetHeader({
-    headerRight: () => (
-      <IconButton onPress={handleSavePress}>
-        <SaveIcon inprogress={false} />
-      </IconButton>
-    ),
-  });
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton onPress={handleSavePress}>
+          <SaveIcon inprogress={false} />
+        </IconButton>
+      ),
+    });
+  }, [navigation]);
 
   const ENTRY_FORMAT_OPTIONS = [
     { label: t(m.decimalDegrees), value: "dd" },

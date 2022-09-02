@@ -2,8 +2,6 @@ import * as React from "react";
 import { StatusBar } from "react-native";
 import { IntroPager, IntroInfo } from "@digidem/wcmc-mapeo-mobile-intro";
 
-import { useSetHeader } from "../../hooks/useSetHeader";
-
 import { NativeRootNavigationProps } from "../../sharedTypes";
 
 export type IccaStackList = {
@@ -18,7 +16,7 @@ export const Info = ({ route }: NativeRootNavigationProps<"IccaInfo">) => {
   const text = route.params.introInfoText;
   const title = route.params.introInfoTitle;
 
-  useSetHeader({ headerTitle: title });
+  // useSetHeader({ headerTitle: title });
   return (
     <React.Fragment>
       <StatusBar hidden={false} />

@@ -9,10 +9,7 @@ import useSettingsValue from "../hooks/useSettingsValue";
 import { FormattedCoords } from "../sharedComponents/FormattedData";
 import DateDistance from "../sharedComponents/DateDistance";
 
-import { WHITE } from "../lib/styles";
 import type { LocationContextType } from "../context/LocationContext";
-import { useSetHeader } from "../hooks/useSetHeader";
-import { GPS_MODAL_TEXT } from "../lib/styles";
 import { NativeNavigationComponent } from "../sharedTypes";
 
 const m = defineMessages({
@@ -77,10 +74,6 @@ const GpsModal: NativeNavigationComponent<"GpsModal"> = () => {
   const { position, provider } = location;
   const coordinateFormat = useSettingsValue("coordinateFormat");
   const { formatMessage: t } = useIntl();
-
-  useSetHeader({
-    headerTintColor: WHITE,
-  });
 
   return (
     <ScrollView style={styles.container} testID="gpsScreenScrollView">

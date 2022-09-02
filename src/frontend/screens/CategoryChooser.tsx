@@ -13,10 +13,7 @@ import ConfigContext, { Preset } from "../context/ConfigContext";
 import { useDraftObservation } from "../hooks/useDraftObservation";
 import { CategoryCircleIcon } from "../sharedComponents/icons";
 import { WHITE } from "../lib/styles";
-import {
-  NativeNavigationComponent,
-  NativeRootNavigationProps,
-} from "../sharedTypes";
+import { NativeNavigationComponent } from "../sharedTypes";
 
 const m = defineMessages({
   categoryTitle: {

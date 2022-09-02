@@ -14,7 +14,6 @@ import Button from "../../sharedComponents/Button";
 import Text from "../../sharedComponents/Text";
 import { URI_PREFIX } from "../../constants";
 import { WithWifiBar } from "./WithWifiBar";
-import { useSetHeader } from "../../hooks/useSetHeader";
 import { NativeNavigationComponent } from "../../sharedTypes";
 
 const m = defineMessages({
@@ -37,9 +36,6 @@ const m = defineMessages({
 });
 
 export const SendJoinRequestScreen: NativeNavigationComponent<"SendJoinRequestScreen"> = () => {
-  useSetHeader({
-    headerTintColor: WHITE,
-  });
   // TOOD: Need to properly generate
   const verificationCode = Math.random().toString().slice(-5);
 

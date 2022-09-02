@@ -9,15 +9,10 @@ import { StyleSheet, View } from "react-native";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import QRCode from "react-native-qrcode-svg";
 
-import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
 import Text from "../../sharedComponents/Text";
 import { WithWifiBar } from "./WithWifiBar";
-import {
-  NativeNavigationComponent,
-  NativeRootNavigationProps,
-} from "../../sharedTypes";
-import { useSetHeader } from "../../hooks/useSetHeader";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -58,10 +53,6 @@ export const JoinProjectQrScreen: NativeNavigationComponent<"JoinProjectQrScreen
   const { formatMessage: t } = useIntl();
 
   const isAdmin = route.params.isAdmin;
-
-  useSetHeader({
-    headerTintColor: WHITE,
-  });
 
   return (
     <WithWifiBar>

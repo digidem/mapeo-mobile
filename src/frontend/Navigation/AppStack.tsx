@@ -56,7 +56,12 @@ import {
 import { NavigatorScreenParams } from "@react-navigation/native";
 import { IccaStackList } from "../screens/Intro";
 import { MessageDescriptor } from "react-intl";
-import { GPS_MODAL_TEXT, MEDIUM_BLUE, SYNC_BACKGROUND } from "../lib/styles";
+import {
+  GPS_MODAL_TEXT,
+  MEDIUM_BLUE,
+  SYNC_BACKGROUND,
+  WHITE,
+} from "../lib/styles";
 export type HomeTabsList = {
   Map: undefined;
   Camera: undefined;
@@ -222,6 +227,10 @@ export const createDefaultScreenGroup = (
       options={{
         headerTitle: intl(GpsModal.navTitle),
         headerStyle: { backgroundColor: GPS_MODAL_TEXT },
+        headerTintColor: WHITE,
+        headerLeft: props => (
+          <CustomHeaderLeft headerBackButtonProps={props} tintColor={WHITE} />
+        ),
       }}
     />
     <RootStack.Screen
@@ -301,6 +310,10 @@ export const createDefaultScreenGroup = (
       options={{
         headerTitle: intl(SyncModal.navTitle),
         headerStyle: { backgroundColor: SYNC_BACKGROUND },
+        headerTintColor: WHITE,
+        headerLeft: props => (
+          <CustomHeaderLeft headerBackButtonProps={props} tintColor={WHITE} />
+        ),
       }}
     />
     <RootStack.Screen
@@ -327,6 +340,10 @@ export const createOnboardingScreenGroup = (
       options={{
         headerTitle: intl(SendJoinRequestScreen.navTitle),
         headerStyle: { backgroundColor: MEDIUM_BLUE },
+        headerTintColor: WHITE,
+        headerLeft: props => (
+          <CustomHeaderLeft headerBackButtonProps={props} tintColor={WHITE} />
+        ),
       }}
     />
     <RootStack.Screen
@@ -340,6 +357,10 @@ export const createOnboardingScreenGroup = (
       options={{
         headerTitle: intl(JoinProjectQrScreen.navTitle),
         headerStyle: { backgroundColor: MEDIUM_BLUE },
+        headerTintColor: WHITE,
+        headerLeft: props => (
+          <CustomHeaderLeft headerBackButtonProps={props} tintColor={WHITE} />
+        ),
       }}
     />
     {/* Modal Screen */}

@@ -1,11 +1,10 @@
 import React, { useCallback } from "react";
-import { defineMessages } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 
 import ObservationEditView from "./ObservationEditView";
 import SaveButton from "./SaveButton";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
 import { NativeRootNavigationProps } from "../../sharedTypes";
-import { useSetHeader } from "../../hooks/useSetHeader";
 
 const m = defineMessages({
   editTitle: {
@@ -25,10 +24,16 @@ const ObservationEdit = ({
   route,
 }: NativeRootNavigationProps<"ObservationEdit">) => {
   const observationId = route.params?.observationId;
-  useSetHeader({
-    headerTitle: !!observationId ? m.editTitle : m.newTitle,
-    headerRight: () => <SaveButton observationId={observationId} />,
-  });
+
+  const { formatMessage: t } = useIntl();
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: !!observationId ? t(m.editTitle) : t(m.newTitle),
+      headerRight: () => <SaveButton observationId={observationId} />,
+    });
+  }, [navigation, observationId]);
+
   const handleCategoryPress = useCallback(() => {
     navigation.navigate({
       key: "fromObservationEdit",

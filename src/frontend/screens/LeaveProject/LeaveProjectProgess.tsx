@@ -5,7 +5,8 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import ConfigContext from "../../context/ConfigContext";
 import { useState } from "react";
 import { LeaveProjSharedProp } from ".";
-import { useSetHeader } from "../../hooks/useSetHeader";
+import { AppStackList } from "../../Navigation/AppStack";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const m = defineMessages({
   leaveProjectTitle: {
@@ -18,9 +19,22 @@ const m = defineMessages({
   },
 });
 
-export const LeaveProjectProgress = ({ next }: LeaveProjSharedProp) => {
+export const LeaveProjectProgress = ({
+  navigation,
+  next,
+}: {
+  navigation: NativeStackNavigationProp<
+    AppStackList,
+    "LeaveProjectScreen",
+    undefined
+  >;
+  next: () => void;
+}) => {
   const [config] = useContext(ConfigContext);
-  useSetHeader({ headerShown: false });
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({ headerShown: false });
+  }, [navigation]);
 
   //To do => When Delete API has been created
   const [progress, setProgress] = useState(0);
