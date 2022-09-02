@@ -7,11 +7,7 @@ import ObservationView from "./ObservationView";
 import CenteredView from "../../sharedComponents/CenteredView";
 import { useObservation } from "../../hooks/useObservation";
 import ObservationHeaderRight from "./ObservationHeaderRight";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import {
-  NativeNavigationComponent,
-  NativeRootNavigationProps,
-} from "../../sharedTypes";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 const m = defineMessages({
   notFound: {

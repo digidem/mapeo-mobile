@@ -6,10 +6,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
 import Text from "../../sharedComponents/Text";
-import {
-  NativeNavigationComponent,
-  NativeRootNavigationProps,
-} from "../../sharedTypes";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 import { InputField } from "./InputField";
 import { useInputFieldValue } from "./useInputFieldValue";

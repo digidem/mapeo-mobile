@@ -12,10 +12,7 @@ import Button from "../../../sharedComponents/Button";
 import { ErrorIcon } from "../../../sharedComponents/icons";
 import Loading from "../../../sharedComponents/Loading";
 import { OfflineAreaCard } from "../../../sharedComponents/OfflineAreaCard";
-import {
-  NativeNavigationComponent,
-  NativeRootNavigationProps,
-} from "../../../sharedTypes";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   title: {

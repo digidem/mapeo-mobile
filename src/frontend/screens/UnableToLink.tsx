@@ -6,10 +6,7 @@ import Button from "../sharedComponents/Button";
 import WifiBar from "../sharedComponents/WifiBar";
 import { URI_PREFIX } from "../constants";
 import useWifiStatus from "../hooks/useWifiStatus";
-import {
-  NativeNavigationComponent,
-  NativeRootNavigationProps,
-} from "../sharedTypes";
+import { NativeNavigationComponent } from "../sharedTypes";
 
 const m = defineMessages({
   unableToLink: {

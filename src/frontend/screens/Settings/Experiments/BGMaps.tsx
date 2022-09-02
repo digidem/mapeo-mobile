@@ -7,10 +7,7 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { LIGHT_BLUE, LIGHT_GREY } from "../../../lib/styles";
 
 import { useExperiments } from "../../../hooks/useExperiments";
-import {
-  NativeNavigationComponent,
-  NativeRootNavigationProps,
-} from "../../../sharedTypes";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   BGMaps: {
