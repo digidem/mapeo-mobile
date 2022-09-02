@@ -55,16 +55,6 @@ const ManualGpsScreen: NativeNavigationComponent<"ManualGpsScreen"> = ({
 }) => {
   const { formatMessage: t } = useIntl();
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <IconButton onPress={handleSavePress}>
-          <SaveIcon inprogress={false} />
-        </IconButton>
-      ),
-    });
-  }, [navigation]);
-
   const ENTRY_FORMAT_OPTIONS = [
     { label: t(m.decimalDegrees), value: "dd" },
     { label: t(m.degreesMinutesSeconds), value: "dms" },
@@ -111,6 +101,16 @@ const ManualGpsScreen: NativeNavigationComponent<"ManualGpsScreen"> = ({
       }
     }
   }, [convertedData, updateDraft, navigation]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton onPress={handleSavePress}>
+          <SaveIcon inprogress={false} />
+        </IconButton>
+      ),
+    });
+  }, [navigation, handleSavePress]);
 
   if (status === "loading") {
     return null;
