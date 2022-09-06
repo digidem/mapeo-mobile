@@ -3,10 +3,10 @@ import React, { useMemo } from "react";
 import { View, FlatList, Dimensions, StyleSheet } from "react-native";
 import Text from "../../sharedComponents/Text";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { useNavigation } from "react-navigation-hooks";
 import ObservationListItem from "./ObservationListItem";
 import ObservationEmptyView from "./ObservationsEmptyView";
-import type { Observation } from "../../context/ObservationsContext";
+import { Observation } from "mapeo-schema";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   loading: {
@@ -26,21 +26,24 @@ const m = defineMessages({
 
 const OBSERVATION_CELL_HEIGHT = 80;
 
-const getItemLayout = (data, index) => ({
+const getItemLayout = (
+  data: Observation[] | null | undefined,
+  index: number
+) => ({
   length: OBSERVATION_CELL_HEIGHT,
   offset: OBSERVATION_CELL_HEIGHT * index,
   index,
 });
 
-const keyExtractor = item => item.id.toString();
+const keyExtractor = (item: Observation) => item.id.toString();
 
 type Props = {
-  loading: boolean,
-  error?: boolean,
+  loading: boolean;
+  error?: boolean;
   // Array of observations
-  observations: Observation[],
+  observations: Observation[];
   // Called when the user presses a list item, called with observation id
-  onPressObservation: (id: string) => any,
+  onPressObservation: (id: string) => void;
 };
 
 /**
@@ -52,7 +55,7 @@ const ObservationsListView = ({
   observations,
   onPressObservation,
 }: Props) => {
-  const navigation = useNavigation();
+  const navigation = useNavigationFromRoot();
   const rowsPerWindow = Math.ceil(
     (Dimensions.get("window").height - 65) / OBSERVATION_CELL_HEIGHT
   );
@@ -92,7 +95,6 @@ const ObservationsListView = ({
         getItemLayout={getItemLayout}
         keyExtractor={keyExtractor}
         style={styles.container}
-        scrollViewContent={styles.scrollViewContent}
         windowSize={3}
         removeClippedSubviews
         renderItem={({ item, index }) => {

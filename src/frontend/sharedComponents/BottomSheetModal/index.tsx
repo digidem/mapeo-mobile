@@ -5,14 +5,15 @@ import {
   BottomSheetModalProvider,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
+import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 
 import { Backdrop } from "./Backdrop";
 
 const MIN_SHEET_HEIGHT = 400;
 
-export const MODAL_NAVIGATION_OPTIONS = {
-  cardStyle: { backgroundColor: "transparent" },
-  animationEnabled: false,
+export const MODAL_NAVIGATION_OPTIONS: NativeStackNavigationOptions = {
+  presentation: "transparentModal",
+  animation: "none",
 };
 
 export const useBottomSheetModal = ({

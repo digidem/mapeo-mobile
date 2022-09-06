@@ -8,21 +8,21 @@ import {
 } from "react-native";
 import Text from "../../sharedComponents/Text";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 
 import useSettingsValue from "../../hooks/useSettingsValue";
 import createPersistedState from "../../hooks/usePersistedState";
 import { BLACK } from "../../lib/styles";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
 import IconButton from "../../sharedComponents/IconButton";
-import { BackIcon, SaveIcon } from "../../sharedComponents/icons";
+import { SaveIcon } from "../../sharedComponents/icons";
 import Select from "../../sharedComponents/Select";
 
 import { ConvertedCoordinateData } from "./shared";
 import DdForm from "./DdForm";
 import DmsForm from "./DmsForm";
 import UtmForm from "./UtmForm";
+import { NativeNavigationComponent } from "../../sharedTypes";
+import { CoordinateFormat } from "../../context/SettingsContext";
 
 const m = defineMessages({
   title: {
@@ -50,9 +50,9 @@ const m = defineMessages({
 
 const usePersistedState = createPersistedState("manualCoordinateEntryFormat");
 
-const ManualGpsScreen: NavigationStackScreenComponent<{
-  handleSavePress?: () => void;
-}> = ({ navigation }) => {
+const ManualGpsScreen: NativeNavigationComponent<"ManualGpsScreen"> = ({
+  navigation,
+}) => {
   const { formatMessage: t } = useIntl();
 
   const ENTRY_FORMAT_OPTIONS = [
@@ -75,44 +75,53 @@ const ManualGpsScreen: NavigationStackScreenComponent<{
     ConvertedCoordinateData
   >({});
 
-  React.useEffect(() => {
-    function handleSavePress() {
-      try {
-        if (convertedData.error) {
-          throw convertedData.error;
-        }
+  const handleSavePress = React.useCallback(() => {
+    try {
+      if (convertedData.error) {
+        throw convertedData.error;
+      }
 
-        updateDraft({
-          ...convertedData.coords,
-          metadata: {
-            ...(value || {}).metadata,
-            manualLocation: true,
-          },
-          tags: (value || {}).tags,
-        });
+      updateDraft({
+        ...convertedData.coords,
+        metadata: {
+          ...(value || {}).metadata,
+          manualLocation: true,
+        },
+        tags: (value || {}).tags,
+      });
 
-        navigation.pop();
-      } catch (err) {
-        if (err instanceof Error) {
-          ToastAndroid.showWithGravity(
-            err.message,
-            ToastAndroid.LONG,
-            ToastAndroid.TOP
-          );
-        }
+      navigation.pop();
+    } catch (err) {
+      if (err instanceof Error) {
+        ToastAndroid.showWithGravity(
+          err.message,
+          ToastAndroid.LONG,
+          ToastAndroid.TOP
+        );
       }
     }
+  }, [convertedData, updateDraft, navigation, value]);
 
-    navigation.setParams({ handleSavePress });
-    // The navigation prop changes on every render, so it causes in infinite
-    // loop here if included. Not including it might cause unexpected bugs, but
-    // the setParams() and pop() methods should be always the same. TODO: Fix
-    // this and make sure we're not going to cause a bug with this.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [convertedData, updateDraft]);
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton onPress={handleSavePress}>
+          <SaveIcon inprogress={false} />
+        </IconButton>
+      ),
+    });
+  }, [navigation, handleSavePress]);
 
   if (status === "loading") {
     return null;
+  }
+
+  function handleOnChangeSelect(value: string | number, index: number) {
+    if (typeof value === "number") return;
+
+    if (!isCoordinateFormat(value)) return;
+
+    setEntryCoordinateFormat(value);
   }
 
   return (
@@ -131,7 +140,7 @@ const ManualGpsScreen: NavigationStackScreenComponent<{
             </Text>
             <Select
               containerStyles={styles.selectContainer}
-              onChange={setEntryCoordinateFormat}
+              onChange={handleOnChangeSelect}
               options={ENTRY_FORMAT_OPTIONS}
               selectedValue={entryCoordinateFormat}
             />
@@ -152,31 +161,13 @@ const ManualGpsScreen: NavigationStackScreenComponent<{
   );
 };
 
-ManualGpsScreen.navigationOptions = ({ navigation }) => ({
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-  headerLeft: ({ onPress }) =>
-    onPress && (
-      <IconButton onPress={onPress}>
-        <BackIcon />
-      </IconButton>
-    ),
-  headerRight: () => {
-    const onPress = navigation.getParam("handleSavePress");
-    return (
-      onPress && (
-        <IconButton onPress={onPress}>
-          <SaveIcon inprogress={false} />
-        </IconButton>
-      )
-    );
-  },
-});
+ManualGpsScreen.navTitle = m.title;
 
 export default ManualGpsScreen;
+
+function isCoordinateFormat(value: string): value is CoordinateFormat {
+  return value === "dd" || value === "dms" || value === "utm";
+}
 
 const styles = StyleSheet.create({
   selectContainer: {

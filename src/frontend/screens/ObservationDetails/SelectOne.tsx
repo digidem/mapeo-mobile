@@ -1,8 +1,8 @@
-// @flow
-import React from "react";
+import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import Text from "../../sharedComponents/Text";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import { useIntl } from "react-intl";
 
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables";
 import { VERY_LIGHT_BLUE } from "../../lib/styles";
@@ -11,28 +11,27 @@ import { convertSelectOptionsToLabeled } from "../../lib/utils";
 
 import type { ViewStyleProp } from "../../types";
 import type { QuestionProps } from "./Question";
-import type { SelectMultipleField } from "../../context/ConfigContext";
+import type { SelectOneField } from "../../context/ConfigContext";
 
-type Props = {
-  ...$Exact<QuestionProps>,
-  field: SelectMultipleField,
+interface Props extends QuestionProps {
+  field: SelectOneField;
+}
+
+type RadioItemProps = {
+  checked: boolean;
+  onPress: () => any;
+  label: string;
+  style: ViewStyleProp;
 };
 
-type CheckItemProps = {
-  checked: boolean,
-  onPress: () => any,
-  label: string,
-  style: ViewStyleProp,
-};
-
-const CheckItem = ({ checked, onPress, label, style }: CheckItemProps) => (
+const RadioItem = ({ checked, onPress, label, style }: RadioItemProps) => (
   <TouchableNativeFeedback
     onPress={onPress}
     background={TouchableNativeFeedback.Ripple(VERY_LIGHT_BLUE, false)}
   >
     <View style={style}>
       <MaterialIcon
-        name={checked ? "check-box" : "check-box-outline-blank"}
+        name={checked ? "radio-button-checked" : "radio-button-unchecked"}
         size={30}
       />
       <Text style={styles.itemLabel}>{label}</Text>
@@ -40,25 +39,21 @@ const CheckItem = ({ checked, onPress, label, style }: CheckItemProps) => (
   </TouchableNativeFeedback>
 );
 
-const SelectMultiple = ({ value, field, onChange }: Props) => {
-  const valueAsArray = toArray(value);
-
-  const handleChange = itemValue => {
-    const updatedValue = valueAsArray.includes(itemValue)
-      ? valueAsArray.filter(d => d !== itemValue)
-      : [...valueAsArray, itemValue];
-    onChange(updatedValue);
-  };
+const SelectOne = ({ value, field, onChange }: Props) => {
+  const { formatMessage: t } = useIntl();
 
   return (
     <>
       <QuestionLabel field={field} />
       {convertSelectOptionsToLabeled(field.options).map((item, index) => (
-        <CheckItem
+        <RadioItem
           key={item.label}
-          onPress={() => handleChange(item.value)}
-          checked={valueAsArray.includes(item.value)}
-          label={item.label}
+          onPress={() => onChange(value === item.value ? null : item.value)}
+          checked={item.value === value}
+          label={t({
+            id: `fields.${field.id}.options.${JSON.stringify(item.value)}`,
+            defaultMessage: item.label,
+          })}
           style={[styles.radioContainer, index === 0 ? styles.noBorder : {}]}
         />
       ))}
@@ -66,13 +61,7 @@ const SelectMultiple = ({ value, field, onChange }: Props) => {
   );
 };
 
-function toArray(value) {
-  // null or undefined
-  if (value == null) return [];
-  return Array.isArray(value) ? value : [value];
-}
-
-export default React.memo<Props>(SelectMultiple);
+export default React.memo<Props>(SelectOne);
 
 const styles = StyleSheet.create({
   radioContainer: {

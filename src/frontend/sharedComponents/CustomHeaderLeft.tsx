@@ -1,8 +1,6 @@
-// @flow
 import React from "react";
 import { defineMessages, useIntl } from "react-intl";
-import { HeaderBackButton } from "react-navigation-stack";
-import { useNavigation, useFocusEffect } from "react-navigation-hooks";
+import { HeaderBackButton } from "@react-navigation/elements";
 import { Alert, BackHandler } from "react-native";
 import isEqual from "lodash/isEqual";
 
@@ -10,6 +8,10 @@ import { CloseIcon, BackIcon } from "./icons";
 import { useDraftObservation } from "../hooks/useDraftObservation";
 import { useObservation } from "../hooks/useObservation";
 import { filterPhotosFromAttachments } from "../lib/utils";
+import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
+import { useFocusEffect } from "@react-navigation/native";
+import { HeaderBackButtonProps } from "@react-navigation/native-stack/lib/typescript/src/types";
+import { BLACK } from "../lib/styles";
 
 const m = defineMessages({
   discardTitle: {
@@ -57,9 +59,9 @@ const HeaderCloseIcon = ({ tintColor }: { tintColor: string }) => (
 
 // We use a slightly larger back icon, to improve accessibility
 // TODO iOS: This should probably be a chevron not an arrow
-const HeaderBackIcon = ({ tintColor }: { tintColor: string }) => (
-  <BackIcon color={tintColor} />
-);
+const HeaderBackIcon = ({ tintColor }: { tintColor: string }) => {
+  return <BackIcon color={tintColor} />;
+};
 
 /**
  * WARNING: Hairy code which could probably be clearer!
@@ -86,9 +88,20 @@ const HeaderBackIcon = ({ tintColor }: { tintColor: string }) => (
  * Whether the observation has been edited is checked by deep-equal between the
  * draft and the original observation
  */
-const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
+
+interface CustomHeaderLeftProps {
+  onPress?: () => void;
+  tintColor?: string;
+  headerBackButtonProps: HeaderBackButtonProps;
+}
+
+const CustomHeaderLeft = ({
+  onPress,
+  tintColor,
+  headerBackButtonProps,
+}: CustomHeaderLeftProps) => {
   const { formatMessage: t } = useIntl();
-  const navigation = useNavigation();
+  const navigation = useNavigationFromRoot();
   const [draftObservation, { clearDraft }] = useDraftObservation();
   const [{ observation: existingObservation }] = useObservation(
     draftObservation.observationId
@@ -96,17 +109,18 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
   const isNew =
     draftObservation.value &&
     typeof draftObservation.observationId === "undefined";
-  const { routeName, key } = navigation.state;
-  const parent = navigation.dangerouslyGetParent();
-  const routes = parent && parent.state.routes;
-  const currentIndex = routes && routes.findIndex(route => route.key === key);
-  const prevRouteNameInStack =
-    routes && routes[currentIndex - 1] && routes[currentIndex - 1].routeName;
+  const state = navigation.getState();
+  const currentIndex = state.index;
+  const routes = state.routes;
+  const currentRouteName = routes[currentIndex].name;
+  const prevRouteNameInStack = !routes[currentIndex - 1]
+    ? undefined
+    : routes[currentIndex - 1].name;
 
   const shouldConfirm =
-    routeName === "ObservationEdit" ||
+    currentRouteName === "ObservationEdit" ||
     (isNew &&
-      routeName === "CategoryChooser" &&
+      currentRouteName === "CategoryChooser" &&
       prevRouteNameInStack === "Home");
 
   const handleCloseRequest = React.useCallback(() => {
@@ -129,7 +143,7 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
           text: t(m.discardConfirm),
           onPress: () => {
             clearDraft();
-            navigation.navigate("Home");
+            navigation.navigate("Home", { screen: "Map" });
           },
         },
         { text: t(m.discardCancel), onPress: () => {} },
@@ -169,9 +183,16 @@ const CustomHeaderLeft = ({ onPress: originalOnPress, ...props }: any) => {
 
   return (
     <HeaderBackButton
-      {...props}
+      {...headerBackButtonProps}
       onPress={handleCloseRequest}
-      backImage={isNew && shouldConfirm ? HeaderCloseIcon : HeaderBackIcon}
+      style={{ marginLeft: 0, marginRight: 15 }}
+      backImage={() =>
+        isNew && shouldConfirm ? (
+          <HeaderCloseIcon tintColor={tintColor || BLACK} />
+        ) : (
+          <HeaderBackIcon tintColor={tintColor || BLACK} />
+        )
+      }
     />
   );
 };

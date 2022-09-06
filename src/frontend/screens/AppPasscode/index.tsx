@@ -1,14 +1,10 @@
 import * as React from "react";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages } from "react-intl";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { useNavigation } from "react-navigation-hooks";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
-import SettingsContext from "../../context/SettingsContext";
+
 import { devExperiments } from "../../lib/DevExperiments";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import IconButton from "../../sharedComponents/IconButton";
-import { BackIcon } from "../../sharedComponents/icons";
+import { NativeNavigationComponent } from "../../sharedTypes";
 import { SecurityContext } from "../Security/SecurityContext";
 import { EnterPasscode } from "./EnterPasscode";
 import { NewPasscode } from "./NewPasscode";
@@ -20,13 +16,14 @@ const m = defineMessages({
   },
 });
 
-export const AppPasscode: NavigationStackScreenComponent = () => {
+export const AppPasscode: NativeNavigationComponent<"AppPasscode"> = ({
+  navigation,
+}) => {
   const { passIsSet } = React.useContext(SecurityContext);
-  const { navigate } = useNavigation();
   const { appPasscode } = devExperiments;
 
   React.useEffect(() => {
-    if (!appPasscode) navigate("Settings");
+    if (!appPasscode) navigation.navigate("Settings");
   }, [appPasscode]);
 
   return (
@@ -36,19 +33,8 @@ export const AppPasscode: NavigationStackScreenComponent = () => {
   );
 };
 
-AppPasscode.navigationOptions = () => ({
-  headerTitle: () => (
-    <HeaderTitle style={{}}>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-  headerLeft: ({ onPress }) =>
-    onPress && (
-      <IconButton onPress={onPress}>
-        <BackIcon />
-      </IconButton>
-    ),
-});
+AppPasscode.navTitle = m.title;
+
 const styles = StyleSheet.create({
   pageContainer: {
     paddingTop: 40,

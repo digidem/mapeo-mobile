@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { Alert } from "react-native";
 import Text from "../../sharedComponents/Text";
@@ -8,8 +7,7 @@ import ObservationView from "./ObservationView";
 import CenteredView from "../../sharedComponents/CenteredView";
 import { useObservation } from "../../hooks/useObservation";
 import ObservationHeaderRight from "./ObservationHeaderRight";
-import type { NavigationProp } from "../../types";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 const m = defineMessages({
   notFound: {
@@ -51,12 +49,20 @@ const ObservationNotFound = () => (
   </CenteredView>
 );
 
-type Props = {
-  navigation: NavigationProp,
-};
+const Observation: NativeNavigationComponent<"Observation"> = ({
+  route,
+  navigation,
+}) => {
+  const { observationId } = route.params;
 
-const Observation = ({ navigation }: Props) => {
-  const observationId = navigation.getParam("observationId");
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <ObservationHeaderRight observationId={observationId} />
+      ),
+    });
+  }, [navigation, observationId]);
+
   const { formatMessage: t } = useIntl();
 
   const [
@@ -68,7 +74,8 @@ const Observation = ({ navigation }: Props) => {
   function handlePressPhoto(photoIndex: number) {
     navigation.navigate("PhotosModal", {
       photoIndex: photoIndex,
-      observationId: navigation.getParam("observationId"),
+      observationId: observationId,
+      editing: false,
     });
   }
 
@@ -100,17 +107,6 @@ const Observation = ({ navigation }: Props) => {
   );
 };
 
-Observation.navigationOptions = ({
-  navigation,
-}: {
-  navigation: NavigationProp,
-}) => ({
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-  headerRight: () => <ObservationHeaderRight navigation={navigation} />,
-});
+Observation.navTitle = m.title;
 
 export default Observation;

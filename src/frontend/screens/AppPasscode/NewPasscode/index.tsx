@@ -1,5 +1,4 @@
 import * as React from "react";
-import { View } from "react-native";
 import { PasscodeIntro } from "./PasscodeIntro";
 
 enum ScreenState {

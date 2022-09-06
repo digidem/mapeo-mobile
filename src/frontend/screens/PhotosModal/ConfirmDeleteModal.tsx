@@ -1,23 +1,20 @@
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import * as React from "react";
-import { defineMessages, FormattedMessage, useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import { RED } from "../../lib/styles";
 
 import {
   BottomSheetModal,
   BottomSheetContent,
 } from "../../sharedComponents/BottomSheetModal";
-import { AlertIcon, ErrorIcon } from "../../sharedComponents/icons";
-import Circle from "../../sharedComponents/icons/Circle";
-import Text from "../../sharedComponents/Text";
-import { NavigationProp } from "../../types";
+import { ErrorIcon } from "../../sharedComponents/icons";
 
 interface ModalProps {
   sheetRef: React.RefObject<BottomSheetModalMethods>;
   photoIndex: number;
   closeSheet: () => void;
-  navigationProp: NavigationProp;
   disableBackdrop: boolean;
 }
 
@@ -40,21 +37,20 @@ export const ConfirmDeleteModal = ({
   sheetRef,
   photoIndex,
   closeSheet,
-  navigationProp,
   disableBackdrop,
 }: ModalProps) => {
   const [{ photos }, { deletePhoto }] = useDraftObservation();
   const { formatMessage: t } = useIntl();
+  const navigation = useNavigationFromRoot();
 
   function photoDelete() {
     const photoToDelete = photos[photoIndex];
     if ("originalUri" in photoToDelete) {
       const uri = photoToDelete.originalUri;
-      deletePhoto(uri!);
+      if (uri) deletePhoto(uri);
       closeSheet();
-      navigationProp.pop();
+      navigation.pop();
     }
-    return;
   }
 
   return (

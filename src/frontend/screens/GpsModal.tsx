@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import Text from "../sharedComponents/Text";
@@ -9,9 +8,9 @@ import useSettingsValue from "../hooks/useSettingsValue";
 
 import { FormattedCoords } from "../sharedComponents/FormattedData";
 import DateDistance from "../sharedComponents/DateDistance";
-import HeaderTitle from "../sharedComponents/HeaderTitle";
 
 import type { LocationContextType } from "../context/LocationContext";
+import { NativeNavigationComponent } from "../sharedTypes";
 
 const m = defineMessages({
   gpsHeader: {
@@ -61,18 +60,14 @@ const m = defineMessages({
   },
 });
 
-const GpsModalRow = ({ label, value }: { label: string, value: string }) => (
+const GpsModalRow = ({ label, value }: { label: string; value: string }) => (
   <View style={styles.row}>
     <Text style={styles.rowLabel}>{label}</Text>
     <Text style={styles.rowValue}>{value}</Text>
   </View>
 );
 
-type Props = {
-  navigation: any,
-};
-
-const GpsModal = ({ navigation }: Props) => {
+const GpsModal: NativeNavigationComponent<"GpsModal"> = () => {
   const location = React.useContext(LocationContext);
   // This is necessary for Flow type checking (if we use location.position in a
   // conditional it does not know if something else can change it)
@@ -133,27 +128,15 @@ const GpsModal = ({ navigation }: Props) => {
   );
 };
 
-GpsModal.navigationOptions = {
-  headerTintColor: "white",
-  headerStyle: {
-    backgroundColor: "rgb(40,40,40)",
-  },
-  headerTitle: () => (
-    <HeaderTitle style={{ color: "white" }}>
-      <FormattedMessage {...m.gpsHeader} />
-    </HeaderTitle>
-  ),
-};
+GpsModal.navTitle = m.gpsHeader;
 
 export default GpsModal;
 
 function getLastUpdateText(location: LocationContextType) {
-  if (!location.savedPosition && !location.position) return "None";
-  const lastTimestamp = location.position
-    ? location.position.timestamp
-    : // $FlowFixMe
-      location.savedPosition.timestamp;
-  return new Date(lastTimestamp).toLocaleString();
+  const { savedPosition, position } = location;
+  if (position) return new Date(position.timestamp).toLocaleString();
+  if (savedPosition) return new Date(savedPosition.timestamp).toLocaleString();
+  return "None";
 }
 
 const styles = StyleSheet.create({

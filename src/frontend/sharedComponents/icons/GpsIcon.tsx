@@ -1,11 +1,10 @@
-// @flow
 import React from "react";
 import { View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 import type { LocationStatus } from "../../lib/utils";
 
-const renderError = () => (
+const RenderError = () => (
   <View
     style={{
       width: 22,
@@ -32,7 +31,7 @@ const renderError = () => (
   </View>
 );
 
-const renderIcon = (color = "#00FF02") => (
+const RenderIcon = ({ color = "#00FF02" }: { color?: string }) => (
   <View
     style={{
       backgroundColor: color,
@@ -49,14 +48,14 @@ type Props = { variant: LocationStatus };
 const GpsIcon = ({ variant }: Props) => {
   switch (variant) {
     case "error":
-      return renderError();
+      return <RenderError />;
     case "searching":
-      return renderIcon("#0166FF");
+      return <RenderIcon color="#0166FF" />;
     case "improving":
-      return renderIcon("#00FF02");
+      return <RenderIcon color="#00FF02" />;
     case "good":
     default:
-      return renderIcon();
+      return <RenderIcon />;
   }
 };
 

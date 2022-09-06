@@ -1,4 +1,3 @@
-// @flow
 import React, { useContext } from "react";
 import {
   View,
@@ -10,12 +9,11 @@ import {
 } from "react-native";
 import { defineMessages, FormattedMessage } from "react-intl";
 
-import ConfigContext, { type Preset } from "../context/ConfigContext";
-import HeaderTitle from "../sharedComponents/HeaderTitle";
+import ConfigContext, { Preset } from "../context/ConfigContext";
 import { useDraftObservation } from "../hooks/useDraftObservation";
 import { CategoryCircleIcon } from "../sharedComponents/icons";
-
-import type { NavigationProp } from "../types";
+import { WHITE } from "../lib/styles";
+import { NativeNavigationComponent } from "../sharedTypes";
 
 const m = defineMessages({
   categoryTitle: {
@@ -32,21 +30,21 @@ const ROW_HEIGHT = 120;
 const MIN_COL_WIDTH = 100;
 // const log = debug("CategoriesView");
 
-const getItemLayout = (data, index) => ({
+const getItemLayout = (_data: unknown, index: number) => ({
   length: ROW_HEIGHT,
   offset: ROW_HEIGHT * index,
   index,
 });
 
-const keyExtractor = item => item.id;
+const keyExtractor = (item: { id: string }) => item.id;
 
 const Item = React.memo(
   ({
     item,
     onSelect,
   }: {
-    item: Preset,
-    onSelect: (preset: Preset) => void,
+    item: Preset;
+    onSelect: (preset: Preset) => void;
   }) => (
     <TouchableHighlight
       style={styles.cellTouchable}
@@ -68,9 +66,12 @@ const Item = React.memo(
   )
 );
 
-const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
+const CategoryChooser: NativeNavigationComponent<"CategoryChooser"> = ({
+  navigation,
+}) => {
   const [{ presets }] = useContext(ConfigContext);
   const [{ value: draftValue }, { updateDraft }] = useDraftObservation();
+
   const presetsList = Array.from(presets.values())
     // Sort presets by sort property and then by name, then filter only point presets
     .sort(presetCompare)
@@ -81,7 +82,7 @@ const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
     const currentDraftTags = (draftValue || {}).tags || {};
     // Tags from previous preset
     const prevPresetTags =
-      (presets.get(currentDraftTags.categoryId) || {}).tags || {};
+      (presets.get(currentDraftTags.categoryId as string) || {}).tags || {};
     // Create object with new tags only
     const draftTags = Object.keys(currentDraftTags).reduce(
       (previous, current) => {
@@ -99,6 +100,7 @@ const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
       },
       {}
     );
+
     updateDraft({
       tags: {
         ...draftTags,
@@ -106,12 +108,9 @@ const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
         categoryId: selectedPreset.id,
       },
     });
+
     navigation.navigate("ObservationEdit");
   };
-
-  const renderItem = ({ item }) => (
-    <Item key={keyExtractor(item)} item={item} onSelect={handleSelectPreset} />
-  );
 
   const rowsPerWindow = Math.ceil(
     (Dimensions.get("window").height - 65) / ROW_HEIGHT
@@ -128,7 +127,13 @@ const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
         maxToRenderPerBatch={numColumns}
         removeClippedSubviews
         style={{ width: Dimensions.get("window").width }}
-        renderItem={renderItem}
+        renderItem={({ item }) => (
+          <Item
+            key={keyExtractor(item)}
+            item={item}
+            onSelect={handleSelectPreset}
+          />
+        )}
         data={presetsList}
         numColumns={numColumns}
       />
@@ -136,18 +141,12 @@ const CategoryChooser = ({ navigation }: { navigation: NavigationProp }) => {
   );
 };
 
-CategoryChooser.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.categoryTitle} />
-    </HeaderTitle>
-  ),
-};
+CategoryChooser.navTitle = m.categoryTitle;
 
 export default CategoryChooser;
 
 // Sort presets by sort property and then by name, then filter only point presets
-function presetCompare(a, b) {
+function presetCompare(a: Preset, b: Preset) {
   if (typeof a.sort !== "undefined" && typeof b.sort !== "undefined") {
     // If sort value is the same, then sort by name
     if (a.sort === b.sort) return compareStrings(a.name, b.name);
@@ -173,6 +172,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 5,
     flex: 1,
+    backgroundColor: WHITE,
   },
   cellTouchable: {
     flex: 1,

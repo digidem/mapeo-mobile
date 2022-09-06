@@ -7,7 +7,7 @@ import type { ViewStyleProp } from "../types";
 
 type Props = {
   children: React.ReactNode;
-  onPress: (event: GestureResponderEvent) => void;
+  onPress: ((event: GestureResponderEvent) => void) | (() => void);
   style?: ViewStyleProp;
   testID?: string;
 };

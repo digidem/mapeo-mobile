@@ -1,15 +1,12 @@
-// @flow
 import React from "react";
-import { defineMessages, FormattedMessage } from "react-intl";
-import { useNavigation } from "react-navigation-hooks";
-
-import type { NavigationScreenConfigProps } from "react-navigation";
-
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import { defineMessages } from "react-intl";
 import ObservationsListView from "./ObservationsListView";
 import { useAllObservations } from "../../hooks/useAllObservations";
 import { SettingsIcon } from "../../sharedComponents/icons";
+
 import IconButton from "../../sharedComponents/IconButton";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 const m = defineMessages({
   observationListTitle: {
@@ -19,7 +16,9 @@ const m = defineMessages({
   },
 });
 
-const ObservationsList = ({ navigation }: NavigationScreenConfigProps) => {
+const ObservationsList: NativeNavigationComponent<"ObservationList"> = ({
+  navigation,
+}) => {
   const [{ observations, status }] = useAllObservations();
 
   const navigateToObservation = (observationId: string) => {
@@ -36,8 +35,8 @@ const ObservationsList = ({ navigation }: NavigationScreenConfigProps) => {
   );
 };
 
-const SettingsButton = () => {
-  const { navigate } = useNavigation();
+export const SettingsButton = () => {
+  const { navigate } = useNavigationFromRoot();
   return (
     <IconButton onPress={() => navigate("Settings")} testID="settingsButton">
       <SettingsIcon color="rgba(0, 0, 0, 0.54)" />
@@ -45,13 +44,6 @@ const SettingsButton = () => {
   );
 };
 
-ObservationsList.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.observationListTitle} />
-    </HeaderTitle>
-  ),
-  headerRight: () => <SettingsButton />,
-};
+ObservationsList.navTitle = m.observationListTitle;
 
 export default ObservationsList;

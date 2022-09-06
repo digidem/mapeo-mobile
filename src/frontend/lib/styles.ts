@@ -1,5 +1,3 @@
-// @flow
-
 export const BLACK = "#000000";
 export const WHITE = "#ffffff";
 export const MAPEO_BLUE = "#0066FF";
@@ -19,3 +17,5 @@ export const CHARCOAL = "#1F1F1F";
 export const GREEN = "#7AFA4C";
 export const RED = "#BC271A";
 export const DARK_ORANGE = "#E86826";
+export const SYNC_BACKGROUND = "#2348B2";
+export const GPS_MODAL_TEXT = "rgb(40,40,40)";

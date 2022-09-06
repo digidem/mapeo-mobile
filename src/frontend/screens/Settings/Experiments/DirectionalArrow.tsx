@@ -2,12 +2,11 @@ import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import { LIGHT_GREY } from "../../../lib/styles";
-import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import { useExperiments } from "../../../hooks/useExperiments";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   directionalArrow: {
@@ -30,9 +29,8 @@ const m = defineMessages({
   },
 });
 
-export const DirectionalArrow: NavigationStackScreenComponent = () => {
+export const DirectionalArrow: NativeNavigationComponent<"DirectionalArrow"> = () => {
   const [experiments, setExperiments] = useExperiments();
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={[styles.header]}>
@@ -71,13 +69,7 @@ export const DirectionalArrow: NavigationStackScreenComponent = () => {
   );
 };
 
-DirectionalArrow.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.directionalArrow} />
-    </HeaderTitle>
-  ),
-};
+DirectionalArrow.navTitle = m.directionalArrow;
 
 const styles = StyleSheet.create({
   container: {

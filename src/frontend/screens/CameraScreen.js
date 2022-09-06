@@ -3,8 +3,8 @@ import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import Text from "../sharedComponents/Text";
 import debug from "debug";
-import { useNavigation, useIsFocused } from "react-navigation-hooks";
 import { defineMessages, FormattedMessage } from "react-intl";
+import { useIsFocused } from "@react-navigation/native";
 
 import CameraView from "../sharedComponents/CameraView";
 import {
@@ -27,10 +27,9 @@ const m = defineMessages({
 
 const log = debug("mapeo:CameraScreen");
 
-const CameraScreen = () => {
-  const isFocussed = useIsFocused();
+const CameraScreen = ({ navigation }) => {
+  const isFocused = useIsFocused();
   const [, { newDraft }] = useDraftObservation();
-  const navigation = useNavigation();
   const { permissions } = React.useContext(PermissionsContext);
 
   const handleAddPress = React.useCallback(
@@ -48,7 +47,7 @@ const CameraScreen = () => {
         <Text>
           <FormattedMessage {...m.noCameraAccess} />
         </Text>
-      ) : isFocussed ? (
+      ) : isFocused ? (
         <CameraView onAddPress={handleAddPress} />
       ) : null}
     </View>

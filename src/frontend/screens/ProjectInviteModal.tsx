@@ -6,7 +6,6 @@
  */
 import * as React from "react";
 import { Image, StyleSheet, View } from "react-native";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { defineMessages, useIntl } from "react-intl";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
@@ -15,7 +14,6 @@ import ObservationsContext from "../context/ObservationsContext";
 import useIsMounted from "../hooks/useIsMounted";
 import { DARK_BLUE, MAGENTA, MAPEO_BLUE, WHITE } from "../lib/styles";
 import {
-  MODAL_NAVIGATION_OPTIONS,
   BottomSheetModal,
   BottomSheetContent,
   useBottomSheetModal,
@@ -24,6 +22,7 @@ import Text from "../sharedComponents/Text";
 import { DoneIcon } from "../sharedComponents/icons";
 import Circle from "../sharedComponents/icons/Circle";
 import Loading from "../sharedComponents/Loading";
+import { NativeRootNavigationProps } from "../sharedTypes";
 
 interface ProjectInviteDetails {
   project: {
@@ -101,9 +100,10 @@ const getProjectInviteDetails = async (
   });
 };
 
-export const ProjectInviteModal: NavigationStackScreenComponent<{
-  invite?: string;
-}> = ({ navigation }) => {
+export const ProjectInviteModal = ({
+  route,
+  navigation,
+}: NativeRootNavigationProps<"ProjectInviteModal">) => {
   const { formatMessage: t } = useIntl();
   const isMounted = useIsMounted();
   const { sheetRef, closeSheet } = useBottomSheetModal({ openOnMount: true });
@@ -113,7 +113,7 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
   // TODO: need an official way to determine this
   const isInPracticeMode = config.metadata.name === "mapeo-default-settings";
 
-  const inviteKey = navigation.getParam("invite");
+  const inviteKey = route.params.inviteKey;
 
   const [status, setStatus] = React.useState<
     LoadingStatus | ErrorStatus | SuccessStatus
@@ -143,11 +143,11 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
   );
 
   const goToSync = (keepExistingObservations: boolean) =>
-    navigation.navigate("Sync", { keepExistingObservations });
+    navigation.navigate("SyncOnboardingScreen", { keepExistingObservations });
 
   const acceptInvite = () => {
     if (isInPracticeMode && observations.size > 0) {
-      navigation.navigate("ConfirmLeavePracticeMode", {
+      navigation.navigate("ConfirmLeavePracticeModeScreen", {
         projectAction: "join",
       });
     } else {
@@ -235,8 +235,6 @@ export const ProjectInviteModal: NavigationStackScreenComponent<{
     </BottomSheetModal>
   );
 };
-
-ProjectInviteModal.navigationOptions = () => MODAL_NAVIGATION_OPTIONS;
 
 const styles = StyleSheet.create({
   checkmarkCircle: {

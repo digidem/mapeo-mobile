@@ -1,10 +1,14 @@
 // TS port of /src/frontend/types.js
-import { ImageStyle, StyleProp, TextStyle, ViewStyle } from "react-native";
-import { NavigationRoute } from "react-navigation";
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { CompositeScreenProps } from "@react-navigation/native";
 import {
-  NavigationStackProp,
-  NavigationStackScreenComponent,
-} from "react-navigation-stack";
+  NativeStackNavigationOptions,
+  NativeStackScreenProps,
+} from "@react-navigation/native-stack";
+import React from "react";
+import { MessageDescriptor } from "react-intl";
+import { ImageStyle, StyleProp, TextStyle, ViewStyle } from "react-native";
+import { AppStackList, HomeTabsList } from "./Navigation/AppStack";
 
 export type ViewStyleProp = StyleProp<ViewStyle>;
 export type TextStyleProp = StyleProp<TextStyle>;
@@ -23,19 +27,24 @@ export type ImageSize = "thumbnail" | "preview" | "original";
 
 export type Status = "idle" | "loading" | "error" | "success" | void;
 
-type NavigationParams = {
-  observationId?: string;
-  question: number;
-  photoIndex?: number;
-  editing?: boolean;
-  handleSavePress?: () => void;
+type Title = { title: string };
+
+export type NativeRootNavigationProps<
+  ScreenName extends keyof AppStackList
+> = NativeStackScreenProps<AppStackList, ScreenName> & Title;
+
+/**
+ * Add description here
+ */
+export type NativeNavigationComponent<
+  ScreenName extends keyof AppStackList
+> = React.FC<NativeRootNavigationProps<ScreenName>> & {
+  navTitle: MessageDescriptor;
 };
 
-export type NavigationProp = NavigationStackProp<
-  NavigationRoute,
-  NavigationParams
->;
-
-export type StackScreenComponent = NavigationStackScreenComponent<
-  NavigationParams
+export type NativeHomeTabsNavigationProps<
+  ScreenName extends keyof HomeTabsList
+> = CompositeScreenProps<
+  BottomTabScreenProps<HomeTabsList, ScreenName>,
+  NativeStackScreenProps<AppStackList>
 >;

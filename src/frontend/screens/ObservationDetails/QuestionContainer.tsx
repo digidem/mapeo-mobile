@@ -1,12 +1,11 @@
-// @flow
 import * as React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 
-type Props = {
-  children: React.Node,
+type QuestionContainerProps = {
+  children: React.ReactNode;
 };
 
-const QuestionContainer = ({ children }: Props) => (
+const QuestionContainer = ({ children }: QuestionContainerProps) => (
   <ScrollView style={styles.container}>{children}</ScrollView>
 );
 

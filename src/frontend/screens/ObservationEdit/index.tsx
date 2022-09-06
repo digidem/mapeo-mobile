@@ -1,12 +1,10 @@
-// @flow
 import React, { useCallback } from "react";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 
 import ObservationEditView from "./ObservationEditView";
 import SaveButton from "./SaveButton";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
-import type { NavigationProp } from "../../types";
+import { NativeRootNavigationProps } from "../../sharedTypes";
 
 const m = defineMessages({
   editTitle: {
@@ -21,13 +19,25 @@ const m = defineMessages({
   },
 });
 
-const ObservationEdit = ({ navigation }: { navigation: NavigationProp }) => {
+const ObservationEdit = ({
+  navigation,
+  route,
+}: NativeRootNavigationProps<"ObservationEdit">) => {
+  const observationId = route.params?.observationId;
+
+  const { formatMessage: t } = useIntl();
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: !!observationId ? t(m.editTitle) : t(m.newTitle),
+      headerRight: () => <SaveButton observationId={observationId} />,
+    });
+  }, [navigation, observationId]);
+
   const handleCategoryPress = useCallback(() => {
     navigation.navigate({
-      routeName: "CategoryChooser",
-      // Set a key here so we don't navigate back in the stack when creating a
-      // new observation (which starts with the category chooser screen)
       key: "fromObservationEdit",
+      name: "CategoryChooser",
     });
   }, [navigation]);
 
@@ -40,10 +50,10 @@ const ObservationEdit = ({ navigation }: { navigation: NavigationProp }) => {
   }, [navigation]);
 
   const handlePhotoPress = useCallback(
-    (photoIndex: number) => {
+    (photoIndex: number, observationId: string) => {
       navigation.navigate("PhotosModal", {
         photoIndex: photoIndex,
-        observationId: navigation.getParam("observationId"),
+        observationId: observationId,
         editing: true,
       });
     },
@@ -54,7 +64,7 @@ const ObservationEdit = ({ navigation }: { navigation: NavigationProp }) => {
 
   return (
     <ObservationEditView
-      isNew={navigation.getParam("observationId") === undefined}
+      isNew={!observationId}
       onPressCategory={handleCategoryPress}
       onPressCamera={handleCameraPress}
       onPressDetails={handleDetailsPress}
@@ -63,22 +73,5 @@ const ObservationEdit = ({ navigation }: { navigation: NavigationProp }) => {
     />
   );
 };
-
-ObservationEdit.navigationOptions = ({
-  navigation,
-}: {
-  navigation: NavigationProp,
-}) => ({
-  headerTitle: () => (
-    <HeaderTitle>
-      {navigation.getParam("observationId") ? (
-        <FormattedMessage {...m.editTitle} />
-      ) : (
-        <FormattedMessage {...m.newTitle} />
-      )}
-    </HeaderTitle>
-  ),
-  headerRight: () => <SaveButton navigation={navigation} />,
-});
 
 export default ObservationEdit;

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
-import { useNavigation } from "react-navigation-hooks";
+import { useNavigationFromRoot } from "../../../hooks/useNavigationWithTypes";
 import Button from "../../../sharedComponents/Button";
 import { SecurityContext } from "../../Security/SecurityContext";
 
@@ -28,7 +28,7 @@ interface SplashProps {
 export const PasscodeIntro = ({ incrementState }: SplashProps) => {
   const { setPassIsSet } = React.useContext(SecurityContext);
   const { formatMessage: t } = useIntl();
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigationFromRoot();
 
   function tempStateSet() {
     setPassIsSet(prev => !prev);
