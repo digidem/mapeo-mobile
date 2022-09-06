@@ -1,6 +1,6 @@
 /* eslint-env detox/detox, jest/globals */
 
-import { byId, byLabel, byText } from "./matcher";
+import { byId, byText } from "./matcher";
 import { expect } from "detox";
 import delay from "delay";
 
