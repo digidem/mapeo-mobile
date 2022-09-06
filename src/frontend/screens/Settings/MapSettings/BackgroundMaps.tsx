@@ -11,7 +11,10 @@ import Loading from "../../../sharedComponents/Loading";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "../../../sharedComponents/Touchables";
-import { NativeRootNavigationProps } from "../../../sharedTypes";
+import {
+  NativeNavigationComponent,
+  NativeRootNavigationProps,
+} from "../../../sharedTypes";
 
 const m = defineMessages({
   addBGMap: {
@@ -44,9 +47,9 @@ interface BackgroundMap {
   mapId: string;
 }
 
-export const BackgroundMaps = ({
+export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
   navigation,
-}: NativeRootNavigationProps<"BackgroundMaps">) => {
+}) => {
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
   const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
@@ -164,6 +167,8 @@ export const BackgroundMaps = ({
     </React.Fragment>
   );
 };
+
+BackgroundMaps.navTitle = m.title;
 
 const styles = StyleSheet.create({
   button: {

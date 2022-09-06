@@ -61,7 +61,7 @@ const Observation: NativeNavigationComponent<"Observation"> = ({
         <ObservationHeaderRight observationId={observationId} />
       ),
     });
-  }, [navigation, observationId, ObservationHeaderRight]);
+  }, [navigation, observationId]);
 
   const { formatMessage: t } = useIntl();
 

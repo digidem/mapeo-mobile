@@ -133,13 +133,10 @@ GpsModal.navTitle = m.gpsHeader;
 export default GpsModal;
 
 function getLastUpdateText(location: LocationContextType) {
-  if (!location.savedPosition && !location.position) return "None";
-  const lastTimestamp = !!location.position
-    ? location.position.timestamp
-    : !!location.savedPosition
-    ? location.savedPosition.timestamp
-    : "";
-  return new Date(lastTimestamp).toLocaleString();
+  const { savedPosition, position } = location;
+  if (position) return new Date(position.timestamp).toLocaleString();
+  if (savedPosition) return new Date(savedPosition.timestamp).toLocaleString();
+  return "None";
 }
 
 const styles = StyleSheet.create({

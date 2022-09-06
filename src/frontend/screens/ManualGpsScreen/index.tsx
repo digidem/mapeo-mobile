@@ -100,7 +100,7 @@ const ManualGpsScreen: NativeNavigationComponent<"ManualGpsScreen"> = ({
         );
       }
     }
-  }, [convertedData, updateDraft, navigation]);
+  }, [convertedData, updateDraft, navigation, value]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
