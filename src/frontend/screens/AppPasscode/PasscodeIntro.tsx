@@ -50,7 +50,7 @@ export const PasscodeIntro = ({ setScreen }: PasscodeIntroProps) => {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    flexBasis: "100%",
+    flexBasis: "90%",
     justifyContent: "space-between",
   },
   title: {
