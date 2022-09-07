@@ -1,13 +1,12 @@
 import * as React from "react";
 import { defineMessages } from "react-intl";
-import { StyleSheet } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { StyleSheet, View } from "react-native";
 
-import { devExperiments } from "../../lib/DevExperiments";
+import { WHITE } from "../../lib/styles";
 import { NativeNavigationComponent } from "../../sharedTypes";
-import { SecurityContext } from "../Security/SecurityContext";
-import { EnterPasscode } from "./EnterPasscode";
-import { NewPasscode } from "./NewPasscode";
+
+import { InputPasscode } from "./InputPasscode";
+import { PasscodeIntro } from "./PasscodeIntro";
 
 const m = defineMessages({
   title: {
@@ -16,21 +15,27 @@ const m = defineMessages({
   },
 });
 
-export const AppPasscode: NativeNavigationComponent<"AppPasscode"> = ({
-  navigation,
-}) => {
-  const { passIsSet } = React.useContext(SecurityContext);
-  const { appPasscode } = devExperiments;
+export type PasscodeScreens = "intro" | "setPasscode" | "confirmSetPasscode";
 
-  React.useEffect(() => {
-    if (!appPasscode) navigation.navigate("Settings");
-  }, [appPasscode]);
-
-  return (
-    <ScrollView contentContainerStyle={styles.pageContainer}>
-      {!passIsSet ? <NewPasscode /> : <EnterPasscode />}
-    </ScrollView>
+export const AppPasscode: NativeNavigationComponent<"AppPasscode"> = () => {
+  const [screenState, setScreenState] = React.useState<PasscodeScreens>(
+    "intro"
   );
+
+  const screen = React.useMemo(() => {
+    if (screenState === "intro") {
+      return <PasscodeIntro setScreen={setScreenState} />;
+    }
+
+    return (
+      <InputPasscode
+        screenState={screenState}
+        setScreenState={setScreenState}
+      />
+    );
+  }, [screenState]);
+
+  return <View style={styles.pageContainer}>{screen}</View>;
 };
 
 AppPasscode.navTitle = m.title;
@@ -40,5 +45,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 20,
     paddingHorizontal: 20,
+    flex: 1,
+    backgroundColor: WHITE,
   },
 });

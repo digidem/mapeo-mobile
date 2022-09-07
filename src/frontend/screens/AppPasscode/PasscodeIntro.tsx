@@ -1,19 +1,14 @@
 import * as React from "react";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
-import { useNavigationFromRoot } from "../../../hooks/useNavigationWithTypes";
-import Button from "../../../sharedComponents/Button";
-import { SecurityContext } from "../../Security/SecurityContext";
+
+import { PasscodeScreens } from ".";
+import Button from "../../sharedComponents/Button";
 
 const m = defineMessages({
   title: {
     id: "screens.AppPasscode.NewPasscode.Splash.title",
     defaultMessage: "What is App Passcode?",
-  },
-  description: {
-    id: "screens.AppPasscode.NewPasscode.Splash.description",
-    defaultMessage:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc.",
   },
   continue: {
     id: "screens.AppPasscode.NewPasscode.Splash.continue",
@@ -21,19 +16,12 @@ const m = defineMessages({
   },
 });
 
-interface SplashProps {
-  incrementState: () => void;
+interface PasscodeIntroProps {
+  setScreen: React.Dispatch<React.SetStateAction<PasscodeScreens>>;
 }
 
-export const PasscodeIntro = ({ incrementState }: SplashProps) => {
-  const { setPassIsSet } = React.useContext(SecurityContext);
+export const PasscodeIntro = ({ setScreen }: PasscodeIntroProps) => {
   const { formatMessage: t } = useIntl();
-  const { navigate } = useNavigationFromRoot();
-
-  function tempStateSet() {
-    setPassIsSet(prev => !prev);
-    navigate("Security");
-  }
 
   return (
     <View style={[styles.container]}>
@@ -42,12 +30,16 @@ export const PasscodeIntro = ({ incrementState }: SplashProps) => {
           <FormattedMessage {...m.title} />
         </Text>
         <Text style={[styles.description]}>
-          <FormattedMessage {...m.description} />
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum
+          diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo
+          risus non adipiscing nisi, scelerisque. Quis enim nunc.
         </Text>
       </View>
       <View>
-        {/* To do, increment state of the screen */}
-        <Button style={[styles.button]} onPress={() => tempStateSet()}>
+        <Button
+          style={[styles.button]}
+          onPress={() => setScreen("setPasscode")}
+        >
           {t(m.continue)}
         </Button>
       </View>
