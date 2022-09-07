@@ -147,7 +147,7 @@
     "message": "Next"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError": {
-    "message": "Password must be 5 numbers"
+    "message": "Password Must be 5 numbers"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.killPasscodeError": {
     "message": "Cannot be used as a Passcode"
@@ -303,15 +303,6 @@
   },
   "screens.JoinRequestModal.success": {
     "message": "Success!"
-  },
-  "screens.KillPasscode.instructions": {
-    "message": "Enter the code above to hide sensitive data in Mapeo"
-  },
-  "screens.KillPasscode.title": {
-    "message": "Kill Passcode"
-  },
-  "screens.KillPasscode.toggleMessage": {
-    "message": "Use Kill Passcode"
   },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
@@ -677,6 +668,9 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Try Again"
   },
+  "screens.Security.deviceBackup": {
+    "message": "Device Backup"
+  },
   "screens.Security.killPassDescriptonPassNotSet": {
     "message": "To use, enable App Passcode"
   },
@@ -685,6 +679,12 @@
   },
   "screens.Security.killPasscodeHeader": {
     "message": "Kill Passcode"
+  },
+  "screens.Security.paperKey": {
+    "message": "Paper Key"
+  },
+  "screens.Security.paperKeyDes": {
+    "message": "Reinstate your account if this device is lost"
   },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "Passcode not set"
