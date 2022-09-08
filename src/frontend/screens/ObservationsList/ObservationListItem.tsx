@@ -55,6 +55,7 @@ const ObservationListItem = ({
   const [{ observation, preset }] = useObservation(observationId);
   const deviceId = useDeviceId();
   const iconId = preset && preset.icon;
+  const iconColor = preset && preset.color;
   if (!observation) return null; // Should never get here!
 
   const photos = filterPhotosFromAttachments(
@@ -86,12 +87,13 @@ const ObservationListItem = ({
             <PhotoStack photos={photos} />
             <CategoryCircleIcon
               iconId={iconId}
+              color={iconColor}
               size="small"
               style={styles.smallIcon}
             />
           </View>
         ) : (
-          <CategoryCircleIcon iconId={iconId} size="medium" />
+          <CategoryCircleIcon iconId={iconId} color={iconColor} size="medium" />
         )}
       </View>
     </TouchableHighlight>
