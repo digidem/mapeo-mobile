@@ -17,7 +17,7 @@
   "dependencies": {
     "@bugsnag/js": "^7.16.5",
     "@gmaclennan/zip-fs": "^1.2.0",
-    "@mapeo/map-server": "^1.0.0-alpha.4",
+    "@mapeo/map-server": "^1.0.0-alpha.9",
     "@sinclair/typebox": "^0.16.5",
     "agentkeepalive": "^4.1.4",
     "ajv": "^8.3.0",
