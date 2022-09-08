@@ -2,6 +2,7 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import type { ViewStyleProp } from "../../types";
+import validateColor from "validate-color";
 
 type CircleProps = {
   color?: string,
@@ -12,28 +13,31 @@ type CircleProps = {
 };
 
 const Circle = ({
-  color = "#EAEAEA",
+  color,
   borderWidth = 2,
   radius = 25,
   style,
   children,
-}: CircleProps) => (
-  <View
-    style={[
-      styles.circle,
-      {
-        borderWidth: color === "#EAEAEA" ? null : borderWidth,
-        borderColor: color,
-        width: radius * 2,
-        height: radius * 2,
-        borderRadius: radius * 2,
-      },
-      style,
-    ]}
-  >
-    {children}
-  </View>
-);
+}: CircleProps) => {
+  const validColor = color && validateColor(color);
+  return (
+    <View
+      style={[
+        styles.circle,
+        {
+          borderWidth: validColor && borderWidth,
+          borderColor: validColor && color,
+          width: radius * 2,
+          height: radius * 2,
+          borderRadius: radius * 2,
+        },
+        style,
+      ]}
+    >
+      {children}
+    </View>
+  );
+};
 
 export default Circle;
 
