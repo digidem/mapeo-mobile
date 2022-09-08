@@ -12,6 +12,7 @@ type IconProps = {
   size?: IconSize,
   style?: ViewStyleProp,
   iconId?: string,
+  color?: string,
 };
 
 const iconSizes = {
@@ -45,12 +46,13 @@ export const CategoryIcon = React.memo<IconProps>(
 );
 
 export const CategoryCircleIcon = ({
+  color,
   style,
   size = "medium",
   ...props
 }: IconProps) => {
   return (
-    <Circle radius={radii[size]} style={style}>
+    <Circle color={color} radius={radii[size]} style={style}>
       <CategoryIcon {...props} size={size} />
     </Circle>
   );
