@@ -36,7 +36,7 @@ cd ./nodejs-assets/backend && npm ci
 
 echo -en "Minifying with noderify..."
 # https://github.com/digidem/mapeo-mobile/issues/521
-# noderify does not realize that worker_threads and http2 are built-in node modules
+# noderify does not realize that worker_threads, http2, and perf_hooks are built-in node modules
 # pino-pretty is conditionally required by fastify, but we don't need it
 # memcpy is a sub-dependency of the APK parser, but it is optional
 "$(npm bin)/noderify" \
@@ -51,6 +51,7 @@ echo -en "Minifying with noderify..."
   --filter=pino-pretty \
   --filter=memcpy \
   --filter=diagnostics_channel \
+  --filter=perf_hooks \
   index.js | \
   # Apologies to future contributors: this worker needs to load better-sqlite3,
   # and I could not get bindings() to correctly load the native code when this is
@@ -104,8 +105,9 @@ declare -a keepThese=(
   ".bin"
   "node-gyp-build"
   "napi-macros"
-  # This is a static folder referenced by the mapserver code
+  # These are static folders referenced by the mapserver code
   "@mapeo/map-server/prisma"
+  "@mapeo/map-server/sdf"
   # We need to leave this in place so that nodejs-mobile finds it and builds it
   "better-sqlite3"
   # The hasha worker thread is not bundled by noderify, so we need to manually include it
