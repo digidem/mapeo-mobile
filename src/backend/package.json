@@ -76,7 +76,7 @@
     "get-stream": "^6.0.1",
     "getport": "^0.1.0",
     "node-gyp-build": "^4.2.3",
-    "noderify": "^5.1.0",
+    "noderify": "^5.1.1",
     "patch-package": "^6.4.7",
     "pino-pretty": "^4.8.0",
     "tape": "^5.1.1",
