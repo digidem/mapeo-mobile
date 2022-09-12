@@ -1,6 +1,6 @@
 const { promisify } = require("util");
 const getPort = require("get-port");
-const createServer = require("@mapeo/map-server").default;
+const createServer = require("@mapeo/map-server");
 const log = require("debug")("map-server");
 
 const AsyncService = require("./upgrade-manager/async-service");
