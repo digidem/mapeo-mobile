@@ -57,8 +57,8 @@ echo -en "Minifying with noderify..."
   # not at the project root. If the path name of the worker changes in the
   # original module then this replacement needs to be updated. Apologies for the
   # fragility, but this was the best solution I could find in limited time.
-  sed 's|\.\./lib/mbtiles_import_worker\.js|../../../../mbtiles_import_worker.js|' | \
-  sed 's|worker\.js|../../../../piscina_worker.js|' > \
+  sed 's|\.\./lib/mbtiles_import_worker\.js|../../../../../mbtiles_import_worker.js|' | \
+  sed "s|'worker\.js'|'../../../../piscina_worker.js'|" > \
   ../nodejs-project/index.js
 
 # The worker in MapServer needs to be bundled separately, and we need to move it
@@ -68,6 +68,9 @@ echo -en "Minifying with noderify..."
   --replace.bindings=bindings-noderify-nodejs-mobile \
   node_modules/@mapeo/map-server/dist/lib/mbtiles_import_worker.js > \
   ../nodejs-project/mbtiles_import_worker.js \
+
+"$(npm bin)/noderify" \
+  --replace.bindings=bindings-noderify-nodejs-mobile \
   node_modules/piscina/dist/src/worker.js > \
   ../nodejs-project/piscina_worker.js
 
