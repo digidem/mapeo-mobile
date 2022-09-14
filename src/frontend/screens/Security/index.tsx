@@ -97,7 +97,12 @@ export const Security: NativeNavigationComponent<"Security"> = ({
           />
         </ListItem>
 
-        <ListItem button={true} onPress={() => {}}>
+        <ListItem
+          button={true}
+          onPress={() => {
+            navigation.navigate("KillPasscode");
+          }}
+        >
           <ListItemText
             primary={<FormattedMessage {...m.killPasscodeHeader} />}
             secondary={<FormattedMessage {...killPassCodeDes} />}

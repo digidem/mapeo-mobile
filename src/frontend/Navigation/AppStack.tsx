@@ -61,6 +61,7 @@ import {
   SYNC_BACKGROUND,
   WHITE,
 } from "../lib/styles";
+import { KillPasscode } from "../screens/KillPasscode";
 export type HomeTabsList = {
   Map: undefined;
   Camera: undefined;
@@ -113,6 +114,7 @@ export type AppStackList = {
   OfflineAreas: { mapId: string };
   BGMapsSettings: undefined;
   NewPasscode: undefined;
+  KillPasscode: undefined;
 } & OnboardingStackList &
   IccaStackList;
 
@@ -387,6 +389,11 @@ export const createAppPasscodeScreenGroup = (
       name="AppPasscode"
       component={AppPasscode}
       options={{ headerTitle: intl(AppPasscode.navTitle) }}
+    />
+    <RootStack.Screen
+      name="KillPasscode"
+      component={KillPasscode}
+      options={{ headerTitle: intl(KillPasscode.navTitle) }}
     />
   </RootStack.Group>
 );
