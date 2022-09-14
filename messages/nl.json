@@ -196,10 +196,6 @@
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "Waarneming"
   },
-  "screens.ObservationDetails.QuestionNavBar.questionPage": {
-    "description": "Indicates which question we are on and total questions",
-    "message": "{current} van {total}"
-  },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
     "message": "Voltooid"
