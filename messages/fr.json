@@ -140,9 +140,6 @@
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continuer"
   },
-  "screens.AppPasscode.NewPasscode.Splash.description": {
-    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc."
-  },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "Quel est le code d'accès à l'application ?"
   },
@@ -451,10 +448,6 @@
   "screens.Observation.title": {
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "Observation"
-  },
-  "screens.ObservationDetails.QuestionNavBar.questionPage": {
-    "description": "Indicates which question we are on and total questions",
-    "message": "{current} sur {total}"
   },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
