@@ -304,6 +304,15 @@
   "screens.JoinRequestModal.success": {
     "message": "Success!"
   },
+  "screens.KillPasscode.instructions": {
+    "message": "Enter the code above to hide sensitive data in Mapeo"
+  },
+  "screens.KillPasscode.title": {
+    "message": "Kill Passcode"
+  },
+  "screens.KillPasscode.toggleMessage": {
+    "message": "Use Kill Passcode"
+  },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "Language"
