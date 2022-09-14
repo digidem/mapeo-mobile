@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 
 import { LocationProvider } from "./LocationContext";
@@ -6,7 +5,7 @@ import { ObservationsProvider } from "./ObservationsContext";
 import { ConfigProvider } from "./ConfigContext";
 import { SettingsProvider } from "./SettingsContext";
 import { DraftObservationProvider } from "./DraftObservationContext";
-import { SecurityProvider } from "../screens/Security/SecurityContext";
+import { SecurityProvider } from "./SecurityContext";
 import { MapStyleProvider } from "./MapStyleContext";
 
 // This is a convenience wrapper for providing all App contexts to the tree,
