@@ -148,10 +148,7 @@ export const InputPasscode = ({
         )}
       </View>
 
-      <Button
-        style={styles.button}
-        onPress={() => validateAndSetScreen(screenState)}
-      >
+      <Button fullWidth onPress={() => validateAndSetScreen(screenState)}>
         <Text style={styles.buttonText}>
           <FormattedMessage {...m.button} />
         </Text>
@@ -164,7 +161,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: WHITE,
     fontSize: 16,
-    width: 280,
     textAlign: "center",
   },
   button: {

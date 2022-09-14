@@ -84,13 +84,14 @@ export const PasswordInput = React.forwardRef<TextInput, PasswordInputProps>(
   }
 );
 
+const FONT_SIZE = 24;
+
 const styles = StyleSheet.create({
   cell: {
-    lineHeight: 24 * 1.8,
-    width: 49,
-    height: 49,
+    width: FONT_SIZE * 2,
+    height: FONT_SIZE * 2,
     borderRadius: 8,
-    fontSize: 24,
+    fontSize: FONT_SIZE,
     marginHorizontal: 5,
     borderWidth: 2,
     borderColor: MEDIUM_GREY,
@@ -102,7 +103,8 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
   codeFieldRoot: {
-    maxWidth: 289,
-    alignSelf: "center",
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "center",
   },
 });
