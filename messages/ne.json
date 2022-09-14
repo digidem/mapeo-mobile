@@ -124,10 +124,6 @@
     "description": "Message shown when an observation is not found",
     "message": "अवलाेकन भेटिएन"
   },
-  "screens.ObservationDetails.QuestionNavBar.questionPage": {
-    "description": "Indicates which question we are on and total questions",
-    "message": "{हाल} मा {जम्मा}"
-  },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
     "message": "भयाे"
