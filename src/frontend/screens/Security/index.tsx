@@ -1,14 +1,9 @@
 import * as React from "react";
-import { StyleSheet } from "react-native";
+
 import { ScrollView } from "react-native-gesture-handler";
 import { FormattedMessage, defineMessages } from "react-intl";
 
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ListDivider,
-} from "../../sharedComponents/List";
+import { List, ListItem, ListItemText } from "../../sharedComponents/List";
 import { SecurityContext } from "./SecurityContext";
 import { devExperiments } from "../../lib/DevExperiments";
 import { NativeNavigationComponent } from "../../sharedTypes";
@@ -45,18 +40,6 @@ const m = defineMessages({
   killPassDescriptonPassSet: {
     id: "screens.Security.killPassDescriptonPassSet",
     defaultMessage: "Protect your device against seizure",
-  },
-  deviceBackup: {
-    id: "screens.Security.deviceBackup",
-    defaultMessage: "Device Backup",
-  },
-  paperKey: {
-    id: "screens.Security.paperKey",
-    defaultMessage: "Paper Key",
-  },
-  paperKeyDes: {
-    id: "screens.Security.paperKeyDes",
-    defaultMessage: "Reinstate your account if this device is lost",
   },
 });
 
@@ -108,31 +91,9 @@ export const Security: NativeNavigationComponent<"Security"> = ({
             secondary={<FormattedMessage {...killPassCodeDes} />}
           />
         </ListItem>
-
-        <ListDivider style={styles.divder} />
-
-        <ListItem button={false}>
-          <ListItemText
-            style={{ textTransform: "uppercase" }}
-            primary={<FormattedMessage {...m.deviceBackup} />}
-          />
-        </ListItem>
-
-        <ListItem>
-          <ListItemText
-            primary={<FormattedMessage {...m.paperKey} />}
-            secondary={<FormattedMessage {...m.paperKeyDes} />}
-          />
-        </ListItem>
       </List>
     </ScrollView>
   );
 };
 
 Security.navTitle = m.title;
-
-const styles = StyleSheet.create({
-  divder: {
-    marginVertical: 20,
-  },
-});
