@@ -27,8 +27,8 @@ interface PasswordInputProps {
 }
 
 export const PasswordInput = React.forwardRef<TextInput, PasswordInputProps>(
-  ({ stylesProps, inputValue, onChangeTextWithValidation }, ref) => {
-    const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+  ({ stylesProps, inputValue, onChangeTextWithValidation }, inputRef) => {
+    const [codeFieldProps, getCellOnLayoutHandler] = useClearByFocusCell({
       value: inputValue,
       setValue: onChangeTextWithValidation,
     });
@@ -69,10 +69,9 @@ export const PasswordInput = React.forwardRef<TextInput, PasswordInputProps>(
 
     return (
       <CodeField
-        key={2}
-        ref={ref}
+        {...codeFieldProps}
+        ref={inputRef}
         autoFocus={true}
-        {...props}
         value={inputValue}
         onChangeText={validateAndSetInput}
         cellCount={CELL_COUNT}
@@ -87,6 +86,7 @@ export const PasswordInput = React.forwardRef<TextInput, PasswordInputProps>(
 
 const styles = StyleSheet.create({
   cell: {
+    lineHeight: 24 * 1.8,
     width: 49,
     height: 49,
     borderRadius: 8,

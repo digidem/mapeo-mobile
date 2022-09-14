@@ -11,7 +11,7 @@ import Button from "../../sharedComponents/Button";
 import {
   CELL_COUNT,
   PasswordInput,
-} from "../../sharedComponents/PasswordInput";
+} from "../../sharedComponents/PasscodeInput";
 import Text from "../../sharedComponents/Text";
 
 const m = defineMessages({
@@ -21,7 +21,7 @@ const m = defineMessages({
   },
   initialPassError: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError",
-    defaultMessage: "Password Must be 5 numbers",
+    defaultMessage: "Password must be 5 numbers",
   },
   titleConfirm: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm",
@@ -78,7 +78,10 @@ export const InputPasscode = ({
   const { navigate } = useNavigationFromRoot();
 
   const [inputtedPass, setInputtedPass] = React.useState("");
-  const ref = useBlurOnFulfill({ value: inputtedPass, cellCount: CELL_COUNT });
+  const inputRef = useBlurOnFulfill({
+    value: inputtedPass,
+    cellCount: CELL_COUNT,
+  });
 
   React.useEffect(() => {
     if (error && inputtedPass.length > 0) setError(false);
@@ -116,7 +119,7 @@ export const InputPasscode = ({
         }
         setInputtedPass("");
         setError(true);
-        ref.current?.focus();
+        inputRef.current?.focus();
       default:
         setError(true);
     }
@@ -133,7 +136,7 @@ export const InputPasscode = ({
         </Text>
 
         <PasswordInput
-          ref={ref}
+          ref={inputRef}
           inputValue={inputtedPass}
           onChangeTextWithValidation={setInputtedPass}
         />
