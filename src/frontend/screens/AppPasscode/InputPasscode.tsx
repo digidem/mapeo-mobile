@@ -10,7 +10,7 @@ import { RED, WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
 import {
   CELL_COUNT,
-  PasswordInput,
+  PasscodeInput,
 } from "../../sharedComponents/PasscodeInput";
 import Text from "../../sharedComponents/Text";
 
@@ -135,7 +135,7 @@ export const InputPasscode = ({
           <FormattedMessage {...subtitle} />
         </Text>
 
-        <PasswordInput
+        <PasscodeInput
           ref={inputRef}
           inputValue={inputtedPass}
           onChangeTextWithValidation={setInputtedPass}
@@ -183,9 +183,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1,
     justifyContent: "space-between",
-  },
-  passwordInput: {
-    marginBottom: 20,
   },
   error: {
     textAlign: "center",
