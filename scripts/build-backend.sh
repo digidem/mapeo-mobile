@@ -58,6 +58,10 @@ echo -en "Minifying with noderify..."
   # original module then this replacement needs to be updated. Apologies for the
   # fragility, but this was the best solution I could find in limited time.
   sed 's|\.\./lib/mbtiles_import_worker\.js|../../../../../mbtiles_import_worker.js|' | \
+  # Additional apologies for this, which is even more fragile. Context is that 
+  # Piscina introduces its own worker file (unfortunately with a very generic name of `worker.js`)
+  # so we need to update the path it references to point to the eventually relocated
+  # file within the nodejs-project directory.
   sed "s|'worker\.js'|'../../../../piscina_worker.js'|" > \
   ../nodejs-project/index.js
 
@@ -69,8 +73,9 @@ echo -en "Minifying with noderify..."
   node_modules/@mapeo/map-server/dist/lib/mbtiles_import_worker.js > \
   ../nodejs-project/mbtiles_import_worker.js \
 
+# Piscina uses its own worker to initiate other workers, 
+# so we need to bundle it seperately
 "$(npm bin)/noderify" \
-  --replace.bindings=bindings-noderify-nodejs-mobile \
   node_modules/piscina/dist/src/worker.js > \
   ../nodejs-project/piscina_worker.js
 
