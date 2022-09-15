@@ -137,11 +137,41 @@
   "screens.AppPasscode": {
     "message": "App Passcode"
   },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
+    "message": "Re-enter Passcode"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
+    "message": "Set App Passcode"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
+    "message": "Next"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError": {
+    "message": "Password must be 5 numbers"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.killPasscodeError": {
+    "message": "Cannot be used as a Passcode"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
+    "message": "Password does not match"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "Incorrect Password"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleConfirm": {
+    "message": "Password"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleEnter": {
+    "message": "Please Enter Password"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
+    "message": "This passcode will be used to open the Mapeo App"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.titleEnter": {
+    "message": "Enter Passcode"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continue"
-  },
-  "screens.AppPasscode.NewPasscode.Splash.description": {
-    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc."
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "What is App Passcode?"
