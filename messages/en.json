@@ -176,6 +176,21 @@
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "What is App Passcode?"
   },
+  "screens.AppPasscode.TurnOffPasscode.cancel": {
+    "message": "Cancel"
+  },
+  "screens.AppPasscode.TurnOffPasscode.changePasscode": {
+    "message": "Change App Passcode"
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOff": {
+    "message": "Turn Off"
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOffConfirmation": {
+    "message": "Turn Off App Passcode?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.usePasscode": {
+    "message": "Use App Passcode"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "No access to camera"
