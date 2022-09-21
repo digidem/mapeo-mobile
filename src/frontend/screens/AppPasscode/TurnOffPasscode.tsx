@@ -47,17 +47,16 @@ interface TurnOffPasscodeProps {
 }
 
 export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
-  const {
-    authValuesSet: authenticationValuesSet,
-    setAuthValues: setAuthenticationValues,
-  } = React.useContext(SecurityContext);
+  const [{ passcode }, setAuthState] = React.useContext(SecurityContext);
+
+  const passcodeSet = React.useMemo(() => passcode != undefined, [passcode]);
 
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
   const { navigate } = useNavigationFromRoot();
 
   function unsetAppPasscode() {
-    setAuthenticationValues({ type: "passcode", value: null });
+    setAuthState({ type: "setPasscode", newPasscode: null });
     navigate("Security");
   }
 
@@ -75,11 +74,7 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
           />
           <TouchableOpacity shouldActivateOnStart onPress={openBottomSheet}>
             <MaterialIcon
-              name={
-                authenticationValuesSet.passcodeSet
-                  ? "check-box"
-                  : "check-box-outline-blank"
-              }
+              name={passcodeSet ? "check-box" : "check-box-outline-blank"}
               size={24}
               color={MEDIUM_GREY}
             />
@@ -88,7 +83,7 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
         <ListDivider />
 
         {/* User is not able to see this option unlesss they already have a pass */}
-        {authenticationValuesSet.passcodeSet && (
+        {passcodeSet && (
           <ListItem
             onPress={() => {
               setScreenState("setPasscode");
@@ -144,21 +139,19 @@ const ConfirmTurnOffPasswordModal = React.forwardRef<
           const { height } = e.nativeEvent.layout;
           setSnapPoints([0, height]);
         }}
-        style={styles.btmSheetContainer}
+        style={{ padding: 20 }}
       >
         <ErrorIcon style={{ position: "relative" }} size={90} color={RED} />
-        <Text style={{ fontSize: 24, textAlign: "center", margin: 10 }}>
-          {t(m.turnOffConfirmation)}
-        </Text>
+        <Text>{t(m.turnOffConfirmation)}</Text>
         <Button
           onPress={turnOffPasscode}
           fullWidth
           color="dark"
-          style={{ backgroundColor: RED, marginTop: 30, marginBottom: 20 }}
+          variant="contained"
         >
           {t(m.turnOff)}
         </Button>
-        <Button onPress={closeSheet} fullWidth variant="outlined">
+        <Button onPress={closeSheet} fullWidth variant="contained">
           {t(m.cancel)}
         </Button>
       </View>
@@ -174,12 +167,5 @@ const styles = StyleSheet.create({
   checkBoxContainer: {
     display: "flex",
     alignItems: "center",
-  },
-  btmSheetContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
   },
 });
