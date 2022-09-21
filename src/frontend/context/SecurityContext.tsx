@@ -132,5 +132,5 @@ export const SecurityProvider = ({
 
 function validPasscode(passcode: string | null): boolean {
   if (passcode === null) return true;
-  else return passcode.length === 5 && !isNaN(parseInt(passcode!, 10));
+  return passcode.length === 5 && !isNaN(parseInt(passcode!, 10));
 }

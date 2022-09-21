@@ -8,6 +8,7 @@ import { LIGHT_GREY } from "../lib/styles";
 import Text from "../sharedComponents/Text";
 import { NativeNavigationComponent } from "../sharedTypes";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { SecurityContext } from "../context/SecurityContext";
 
 const m = defineMessages({
   title: {
@@ -25,7 +26,7 @@ const m = defineMessages({
 });
 
 export const KillPasscode: NativeNavigationComponent<"KillPasscode"> = () => {
-  const [killPasscodeEnabled, setKillPasscodeEnabled] = React.useState(false);
+  const [{ killModeEnabled }, setAuthState] = React.useContext(SecurityContext);
 
   return (
     <ScrollView style={styles.container}>
@@ -45,17 +46,22 @@ export const KillPasscode: NativeNavigationComponent<"KillPasscode"> = () => {
         </Text>
         <TouchableOpacity
           shouldActivateOnStart
-          onPress={() => setKillPasscodeEnabled(prev => !prev)}
+          onPress={() =>
+            setAuthState({
+              type: "killModeEnabled:set",
+              newKillModeValue: !killModeEnabled,
+            })
+          }
         >
           <MaterialIcon
-            name={killPasscodeEnabled ? "check-box" : "check-box-outline-blank"}
+            name={killModeEnabled ? "check-box" : "check-box-outline-blank"}
             size={24}
             color="rgba(0, 0, 0, 0.54)"
           />
         </TouchableOpacity>
       </View>
 
-      {killPasscodeEnabled && (
+      {killModeEnabled && (
         <View style={styles.passbox}>
           <Text style={{ textAlign: "center", marginBottom: 10, fontSize: 20 }}>
             {KILL_PASSCODE}

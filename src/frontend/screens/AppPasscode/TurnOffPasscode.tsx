@@ -49,8 +49,6 @@ interface TurnOffPasscodeProps {
 export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
   const [{ passcode }, setAuthState] = React.useContext(SecurityContext);
 
-  const passcodeSet = React.useMemo(() => passcode != undefined, [passcode]);
-
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
   const { navigate } = useNavigationFromRoot();
@@ -74,7 +72,7 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
           />
           <TouchableOpacity shouldActivateOnStart onPress={openBottomSheet}>
             <MaterialIcon
-              name={passcodeSet ? "check-box" : "check-box-outline-blank"}
+              name={passcode !== null ? "check-box" : "check-box-outline-blank"}
               size={24}
               color={MEDIUM_GREY}
             />
@@ -83,7 +81,7 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
         <ListDivider />
 
         {/* User is not able to see this option unlesss they already have a pass */}
-        {passcodeSet && (
+        {passcode !== null && (
           <ListItem
             onPress={() => {
               setScreenState("setPasscode");
@@ -139,19 +137,21 @@ const ConfirmTurnOffPasswordModal = React.forwardRef<
           const { height } = e.nativeEvent.layout;
           setSnapPoints([0, height]);
         }}
-        style={{ padding: 20 }}
+        style={styles.btmSheetContainer}
       >
         <ErrorIcon style={{ position: "relative" }} size={90} color={RED} />
-        <Text>{t(m.turnOffConfirmation)}</Text>
+        <Text style={{ fontSize: 24, textAlign: "center", margin: 10 }}>
+          {t(m.turnOffConfirmation)}
+        </Text>
         <Button
           onPress={turnOffPasscode}
           fullWidth
           color="dark"
-          variant="contained"
+          style={{ backgroundColor: RED, marginTop: 30, marginBottom: 20 }}
         >
           {t(m.turnOff)}
         </Button>
-        <Button onPress={closeSheet} fullWidth variant="contained">
+        <Button onPress={closeSheet} fullWidth variant="outlined">
           {t(m.cancel)}
         </Button>
       </View>
@@ -167,5 +167,12 @@ const styles = StyleSheet.create({
   checkBoxContainer: {
     display: "flex",
     alignItems: "center",
+  },
+  btmSheetContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
   },
 });
