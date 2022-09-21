@@ -4,6 +4,8 @@ import { StyleSheet, View } from "react-native";
 import { useBlurOnFulfill } from "react-native-confirmation-code-field";
 
 import { PasscodeScreens } from ".";
+import { KILL_PASSCODE } from "../../constants";
+import { SecurityContext } from "../../context/SecurityContext";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 
 import { RED, WHITE } from "../../lib/styles";
@@ -69,19 +71,26 @@ interface SetPasscodeProps {
 
 /** This screen is used when the user is setting a password, confiriming their password, and will be used when the user is entering their password to enter the app */
 
-export const InputPasscode = ({
+export const InputPasscodeScreen = ({
   screenState,
   setScreenState,
 }: SetPasscodeProps) => {
   const [error, setError] = React.useState(false);
   const initialPassword = React.useRef("");
+  const [{ passcode }, setAuthState] = React.useContext(SecurityContext);
   const { navigate } = useNavigationFromRoot();
-
   const [inputtedPass, setInputtedPass] = React.useState("");
+  const isKillPasscode = React.useRef(false);
   const inputRef = useBlurOnFulfill({
     value: inputtedPass,
     cellCount: CELL_COUNT,
   });
+  //This checks that the user cannot be in the confirm passcode screen if they have not typed in an initial passcode
+  React.useEffect(() => {
+    if (screenState === "confirmSetPasscode" && !initialPassword.current) {
+      setScreenState("intro");
+    }
+  }, [screenState]);
 
   React.useEffect(() => {
     if (error && inputtedPass.length > 0) setError(false);
@@ -89,6 +98,8 @@ export const InputPasscode = ({
 
   const [title, subtitle, errorMessage] = React.useMemo(() => {
     if (screenState === "setPasscode") {
+      if (isKillPasscode.current)
+        return [m.titleSet, m.subTitleSet, m.killPasscodeError];
       return [m.titleSet, m.subTitleSet, m.initialPassError];
     }
 
@@ -97,7 +108,7 @@ export const InputPasscode = ({
     }
 
     return [m.titleEnter, m.subTitleEnter, m.passwordError];
-  }, [screenState]);
+  }, [screenState, isKillPasscode.current]);
 
   function validateAndSetScreen(screen: PasscodeScreens) {
     if (inputtedPass.length !== CELL_COUNT) {
@@ -106,20 +117,32 @@ export const InputPasscode = ({
     }
 
     switch (screen) {
+      case "enterPasscode":
+        if (inputtedPass === passcode) {
+          setScreenState("disablePasscode");
+          return;
+        }
+        setError(true);
+        break;
       case "setPasscode":
+        if (inputtedPass === KILL_PASSCODE) {
+          isKillPasscode.current = true;
+          setError(true);
+          return;
+        }
         initialPassword.current = inputtedPass;
         setInputtedPass("");
         setScreenState("confirmSetPasscode");
         return;
       case "confirmSetPasscode":
         if (inputtedPass === initialPassword.current) {
-          // To Do: Set Password
+          setAuthState({
+            type: "setPasscode",
+            newPasscode: initialPassword.current,
+          });
           navigate("Security");
           return;
         }
-        setInputtedPass("");
-        setError(true);
-        inputRef.current?.focus();
       default:
         setError(true);
     }

@@ -4,9 +4,11 @@ import { ScrollView } from "react-native-gesture-handler";
 import { FormattedMessage, defineMessages } from "react-intl";
 
 import { List, ListItem, ListItemText } from "../../sharedComponents/List";
-import { SecurityContext } from "./SecurityContext";
 import { devExperiments } from "../../lib/DevExperiments";
 import { NativeNavigationComponent } from "../../sharedTypes";
+import { SecurityContext } from "../../context/SecurityContext";
+import { MEDIUM_GREY, RED } from "../../lib/styles";
+import { Text } from "react-native";
 
 const m = defineMessages({
   title: {
@@ -46,7 +48,8 @@ const m = defineMessages({
 export const Security: NativeNavigationComponent<"Security"> = ({
   navigation,
 }) => {
-  const { passIsSet } = React.useContext(SecurityContext);
+  const [authState] = React.useContext(SecurityContext);
+  const [highlight, setHighlight] = React.useState(false);
 
   React.useEffect(() => {
     if (!devExperiments.appPasscode) navigation.navigate("Settings");
@@ -54,11 +57,18 @@ export const Security: NativeNavigationComponent<"Security"> = ({
 
   const [passCodeDes, killPassCodeDes] = React.useMemo(
     () =>
-      passIsSet
+      !!authState.passcode
         ? [m.passDesriptionPassSet, m.killPassDescriptonPassSet]
         : [m.passDesriptionPassNotSet, m.killPassDescriptonPassNotSet],
-    [passIsSet]
+    [authState.passcode]
   );
+
+  function highlightError() {
+    setHighlight(true);
+    setTimeout(() => {
+      setHighlight(false);
+    }, 2000);
+  }
 
   return (
     <ScrollView>
@@ -81,14 +91,21 @@ export const Security: NativeNavigationComponent<"Security"> = ({
         </ListItem>
 
         <ListItem
-          button={true}
           onPress={() => {
+            if (!authState.passcode) {
+              highlightError();
+              return;
+            }
             navigation.navigate("KillPasscode");
           }}
         >
           <ListItemText
             primary={<FormattedMessage {...m.killPasscodeHeader} />}
-            secondary={<FormattedMessage {...killPassCodeDes} />}
+            secondary={
+              <Text style={{ color: highlight ? RED : MEDIUM_GREY }}>
+                <FormattedMessage {...killPassCodeDes} />
+              </Text>
+            }
           />
         </ListItem>
       </List>
