@@ -3,7 +3,7 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import { StyleSheet, View } from "react-native";
 
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import { OBSCURE_PASSCODE } from "../constants";
+import { KILL_PASSCODE } from "../constants";
 import { LIGHT_GREY } from "../lib/styles";
 import Text from "../sharedComponents/Text";
 import { NativeNavigationComponent } from "../sharedTypes";
@@ -12,24 +12,21 @@ import { SecurityContext } from "../context/SecurityContext";
 
 const m = defineMessages({
   title: {
-    id: "screens.ObscurePasscode.title",
+    id: "screens.KillPasscode.title",
     defaultMessage: "Kill Passcode",
   },
   toggleMessage: {
-    id: "screens.ObscurePasscode.toggleMessage",
+    id: "screens.KillPasscode.toggleMessage",
     defaultMessage: "Use Kill Passcode",
   },
   instructions: {
-    id: "screens.ObscurePasscode.instructions",
+    id: "screens.KillPasscode.instructions",
     defaultMessage: "Enter the code above to hide sensitive data in Mapeo",
   },
 });
 
-export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = () => {
-  const {
-    setAuthValues: setAuthenticationValues,
-    authValuesSet: authenticationValuesSet,
-  } = React.useContext(SecurityContext);
+export const KillPasscode: NativeNavigationComponent<"KillPasscode"> = () => {
+  const [{ killModeEnabled }, setAuthState] = React.useContext(SecurityContext);
 
   return (
     <ScrollView style={styles.container}>
@@ -50,28 +47,24 @@ export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = () 
         <TouchableOpacity
           shouldActivateOnStart
           onPress={() =>
-            setAuthenticationValues({
-              type: "obscure",
-              value: authenticationValuesSet.obscureSet ? null : undefined,
+            setAuthState({
+              type: "killModeEnabled:set",
+              newKillModeValue: !killModeEnabled,
             })
           }
         >
           <MaterialIcon
-            name={
-              authenticationValuesSet.obscureSet
-                ? "check-box"
-                : "check-box-outline-blank"
-            }
-            size={32}
+            name={killModeEnabled ? "check-box" : "check-box-outline-blank"}
+            size={24}
             color="rgba(0, 0, 0, 0.54)"
           />
         </TouchableOpacity>
       </View>
 
-      {authenticationValuesSet.obscureSet && (
+      {killModeEnabled && (
         <View style={styles.passbox}>
           <Text style={{ textAlign: "center", marginBottom: 10, fontSize: 20 }}>
-            {OBSCURE_PASSCODE}
+            {KILL_PASSCODE}
           </Text>
           <Text style={{ fontSize: 16 }}>
             <FormattedMessage {...m.instructions} />
@@ -82,7 +75,7 @@ export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = () 
   );
 };
 
-ObscurePasscode.navTitle = m.title;
+KillPasscode.navTitle = m.title;
 
 const styles = StyleSheet.create({
   container: {

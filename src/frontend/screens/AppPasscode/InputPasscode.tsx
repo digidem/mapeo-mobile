@@ -93,8 +93,8 @@ export const InputPasscodeScreen = ({
   }, [screenState]);
 
   React.useEffect(() => {
-    if (error && inputtedPass.length > 0) setError(false);
-  }, [inputtedPass, error]);
+    if (inputtedPass.length > 0) setError(false);
+  }, [inputtedPass]);
 
   const [title, subtitle, errorMessage] = React.useMemo(() => {
     if (screenState === "setPasscode") {
@@ -133,6 +133,7 @@ export const InputPasscodeScreen = ({
         initialPassword.current = inputtedPass;
         setInputtedPass("");
         setScreenState("confirmSetPasscode");
+        inputRef.current?.focus();
         return;
       case "confirmSetPasscode":
         if (inputtedPass === initialPassword.current) {
@@ -149,8 +150,8 @@ export const InputPasscodeScreen = ({
   }
 
   return (
-    <View style={[styles.container]}>
-      <View>
+    <React.Fragment>
+      <View style={[styles.container]}>
         <Text style={[styles.header]}>
           <FormattedMessage {...title} />
         </Text>
@@ -162,6 +163,12 @@ export const InputPasscodeScreen = ({
           ref={inputRef}
           inputValue={inputtedPass}
           onChangeTextWithValidation={setInputtedPass}
+          maskValues={
+            !(
+              screenState === "confirmSetPasscode" ||
+              screenState === "setPasscode"
+            )
+          }
         />
 
         {error && (
@@ -176,7 +183,7 @@ export const InputPasscodeScreen = ({
           <FormattedMessage {...m.button} />
         </Text>
       </Button>
-    </View>
+    </React.Fragment>
   );
 };
 
