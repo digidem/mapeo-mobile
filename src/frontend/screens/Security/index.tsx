@@ -65,8 +65,6 @@ export const Security: NativeNavigationComponent<"Security"> = ({
 }) => {
   const { passIsSet } = React.useContext(SecurityContext);
 
-  const { appPasscode } = devExperiments;
-
   React.useEffect(() => {
     if (!devExperiments.appPasscode) navigation.navigate("Settings");
   }, []);

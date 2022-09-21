@@ -38,7 +38,6 @@ import { MapSettings } from "../screens/Settings/MapSettings";
 import { BackgroundMaps } from "../screens/Settings/MapSettings/BackgroundMaps";
 import { OfflineAreas } from "../screens/Settings/MapSettings/OfflineAreas";
 import { BGMapsSettings } from "../screens/Settings/Experiments/BGMaps";
-import { NewPasscode } from "../screens/AppPasscode/NewPasscode";
 import { JoinRequestModal } from "../screens/JoinRequestModal";
 import { ProjectInviteModal } from "../screens/ProjectInviteModal";
 import {
@@ -384,7 +383,6 @@ export const createAppPasscodeScreenGroup = (
   intl: (title: MessageDescriptor) => string
 ) => (
   <RootStack.Group key="appPasscode">
-    <RootStack.Screen name="NewPasscode" component={NewPasscode} />
     <RootStack.Screen
       name="AppPasscode"
       component={AppPasscode}
