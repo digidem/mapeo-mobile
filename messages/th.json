@@ -635,9 +635,6 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "ลองอีกครั้ง"
   },
-  "screens.Security.deviceBackup": {
-    "message": "สำรองข้อมูลอุปกรณ์"
-  },
   "screens.Security.killPassDescriptonPassNotSet": {
     "message": "ในการใช้งาน ให้เปิดใช้งานรหัสผ่านแอป"
   },
@@ -646,12 +643,6 @@
   },
   "screens.Security.killPasscodeHeader": {
     "message": "กำจัดรหัสผ่าน"
-  },
-  "screens.Security.paperKey": {
-    "message": "กุญแจกระดาษ"
-  },
-  "screens.Security.paperKeyDes": {
-    "message": "กู้คืนสถานะบัญชีของคุณ กรณีอุปกรณ์นี้สูญหาย"
   },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "ยังไม่ได้ตั้งรหัสผ่าน"
