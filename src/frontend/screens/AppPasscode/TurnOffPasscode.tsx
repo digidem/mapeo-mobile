@@ -47,14 +47,14 @@ interface TurnOffPasscodeProps {
 }
 
 export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
-  const [{ passcode }, setAuthState] = React.useContext(SecurityContext);
+  const { passcode, setPasscode } = React.useContext(SecurityContext);
 
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
   const { navigate } = useNavigationFromRoot();
 
   function unsetAppPasscode() {
-    setAuthState({ type: "setPasscode", newPasscode: null });
+    setPasscode(null);
     navigate("Security");
   }
 

@@ -25,7 +25,7 @@ export type PasscodeScreens =
   | "disablePasscode";
 
 export const AppPasscode: NativeNavigationComponent<"AppPasscode"> = () => {
-  const [{ passcode }] = React.useContext(SecurityContext);
+  const { passcode } = React.useContext(SecurityContext);
   const [screenState, setScreenState] = React.useState<PasscodeScreens>(() =>
     !!passcode ? "enterPasscode" : "intro"
   );

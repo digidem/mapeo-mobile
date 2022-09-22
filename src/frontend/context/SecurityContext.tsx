@@ -1,131 +1,85 @@
 import * as React from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { KILL_KEY, PASSWORD_KEY } from "../constants";
+import { PASSWORD_KEY } from "../constants";
+import createPersistedState from "../hooks/usePersistedState";
+import SettingsContext from "./SettingsContext";
 
-type AppModeTypes = "normal" | "kill";
-type AuthStatusTypes = "pending" | "authenticated" | "notRequired";
+type AuthState =
+  | "unauthenticated"
+  | "authenticated"
+  | "notRequired"
+  | "obscured";
 
-export type AuthState = {
+type SecurityContextType = {
+  authState: AuthState;
   passcode: string | null;
-  appMode: AppModeTypes;
-  killModeEnabled: boolean;
-  authStatus: AuthStatusTypes;
+  setPasscode: (val: string | null) => void;
+  setAuthState: (val: AuthState) => void;
 };
 
-type AuthActions =
-  | { type: "setPasscode"; newPasscode: string | null }
-  | { type: "appMode:set"; newAppMode: AppModeTypes }
-  | { type: "killModeEnabled:set"; newKillModeValue: boolean }
-  | { type: "setAuthStatus"; newAuthStatus: AuthStatusTypes };
-
-function securityReducer(state: AuthState, action: AuthActions): AuthState {
-  switch (action.type) {
-    /***
-     * if passcode is set to null we need to set the auth status to 'notRequired'
-     *
-     * If a passcode is set, we want to set the authStatus to 'authenticated'
-     * If the auth status is set to 'pending' they will be navigated to the auth screen, to type in their password.
-     */
-    case "setPasscode":
-      const passcode = action.newPasscode;
-      if (!validPasscode(passcode)) throw new Error("Invalid New Password");
-
-      AsyncStorage.setItem(PASSWORD_KEY, passcode || "");
-      if (!passcode) {
-        AsyncStorage.setItem(KILL_KEY, JSON.stringify(false));
-        return {
-          ...state,
-          passcode,
-          authStatus: "notRequired",
-          appMode: "normal",
-          killModeEnabled: false,
-        };
-      }
-
-      return { ...state, passcode, authStatus: "authenticated" };
-    /***
-     * sets new app mode
-     */
-    case "appMode:set":
-      return { ...state, appMode: action.newAppMode };
-
-    case "killModeEnabled:set":
-      if (!state.passcode && action.newKillModeValue) {
-        throw new Error('Cannot enable "killMode" until password has been set');
-      }
-
-      AsyncStorage.setItem(KILL_KEY, JSON.stringify(action.newKillModeValue));
-
-      return { ...state, killModeEnabled: action.newKillModeValue };
-    /**
-     * If auth status is pending, the user will only see the auth screen and will be prompted to type in their password
-     *
-     */
-    case "setAuthStatus":
-      if (
-        (action.newAuthStatus === "authenticated" ||
-          action.newAuthStatus === "pending") &&
-        state.passcode === null
-      ) {
-        throw new Error(
-          "Cannot require authentication unless a password is set"
-        );
-      }
-      return { ...state, authStatus: action.newAuthStatus };
-  }
-}
-
-const DefaultState: AuthState = {
-  appMode: "normal",
-  authStatus: "notRequired",
-  killModeEnabled: false,
+const DefaultState: SecurityContextType = {
+  authState: "notRequired",
   passcode: null,
+  setPasscode: () => {},
+  setAuthState: () => {},
 };
 
-type SecurityContextType = readonly [AuthState, React.Dispatch<AuthActions>];
+export const SecurityContext = React.createContext<SecurityContextType>(
+  DefaultState
+);
 
-export const SecurityContext = React.createContext<SecurityContextType>([
-  DefaultState,
-  () => {},
-]);
+const usePersistedPasscodeState = createPersistedState(PASSWORD_KEY);
 
 export const SecurityProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [state, dispatch] = React.useReducer(securityReducer, DefaultState);
+  const [authState, setAuthState] = React.useState<AuthState>("notRequired");
+  const [{ obscurityPassEnabled }, setState] = React.useContext(
+    SettingsContext
+  );
+  const [passcode, status, setPasscode] = usePersistedPasscodeState<
+    string | null
+  >(null);
 
-  const contextValue: SecurityContextType = React.useMemo(() => {
-    return [state, dispatch];
-  }, [state, dispatch]);
-
-  React.useEffect(() => {
-    async function initialize() {
-      const [[, password], [, killModeEnabled]] = await AsyncStorage.multiGet([
-        PASSWORD_KEY,
-        KILL_KEY,
-      ]);
-
-      if (!!password) {
-        dispatch({ type: "setPasscode", newPasscode: password });
-        dispatch({ type: "setAuthStatus", newAuthStatus: "pending" });
+  const setPasscodeWithValidation = React.useCallback(
+    (passcodeValue: string | null) => {
+      if (!passcodeValue && obscurityPassEnabled) {
+        setState("obscurityPassEnabled", false);
       }
 
-      if (killModeEnabled === "true" && !!password) {
-        dispatch({ type: "killModeEnabled:set", newKillModeValue: true });
-      } else {
-        dispatch({ type: "killModeEnabled:set", newKillModeValue: false });
+      if (!validPasscode(passcodeValue)) {
+        throw new Error("passcode not valid");
       }
-    }
+      setPasscode(passcodeValue);
+    },
+    [obscurityPassEnabled]
+  );
 
-    initialize();
-  }, []);
+  const setAuthStateWithValidation = React.useCallback(
+    (authStateValue: AuthState) => {
+      if (authStateValue === "obscured" && !obscurityPassEnabled) {
+        throw new Error("obscure mode not enabled");
+      }
+      setAuthState(authStateValue);
+    },
+    [obscurityPassEnabled]
+  );
+
+  const contextValue: SecurityContextType = React.useMemo(
+    () => ({
+      passcode,
+      authState,
+      setAuthState: setAuthStateWithValidation,
+      setPasscode: setPasscodeWithValidation,
+    }),
+    [passcode, authState, setAuthStateWithValidation, setPasscodeWithValidation]
+  );
 
   return (
     <SecurityContext.Provider value={contextValue}>
-      {children}
+      {status === "loading" ? null : children}
     </SecurityContext.Provider>
   );
 };

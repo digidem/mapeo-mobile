@@ -15,6 +15,7 @@ export type ExperimentalP2pUpgrade = boolean;
 
 export type SettingsState = {
   coordinateFormat: CoordinateFormat;
+  obscurityPassEnabled: boolean;
   // Experiments should only include experiments that are enabled in the app. AKA only experiments that can be turned on and off by the user
   experiments: {
     p2pUpgrade: boolean;
@@ -35,6 +36,7 @@ const DEFAULT_SETTINGS: SettingsState = {
     directionalArrow: false,
     backgroundMaps: false,
   },
+  obscurityPassEnabled: false,
 };
 
 const SettingsContext = React.createContext<SettingsContextType>([
