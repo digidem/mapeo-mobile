@@ -1,35 +1,33 @@
-// @flow
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import type { ViewStyleProp } from "../../types";
 import validateColor from "validate-color";
 
-type CircleProps = {
-  color?: string,
-  borderWidth?: number,
-  radius?: number,
-  children: React.Node,
-  style?: ViewStyleProp,
-};
+import { ViewStyleProp } from "../../types";
 
-const Circle = ({
-  color,
-  borderWidth = 2,
-  radius = 25,
-  style,
-  children,
-}: CircleProps) => {
-  const validColor = color && validateColor(color);
+const BORDER_DEFAULTS = {
+  color: "#EAEAEA",
+  width: 1,
+} as const;
+
+interface Props
+  extends React.PropsWithChildren<{
+    color?: string;
+    radius?: number;
+    style?: ViewStyleProp;
+  }> {}
+
+const Circle = ({ children, color, radius = 25, style }: Props) => {
+  const validColor = !!(color && validateColor(color));
   return (
     <View
       style={[
-        styles.circle,
+        styles.base,
         {
-          borderWidth: validColor && borderWidth,
-          borderColor: validColor && color,
+          borderWidth: validColor ? 1.5 : BORDER_DEFAULTS.width,
+          borderColor: validColor ? color : BORDER_DEFAULTS.color,
+          borderRadius: radius * 2,
           width: radius * 2,
           height: radius * 2,
-          borderRadius: radius * 2,
         },
         style,
       ]}
@@ -42,12 +40,10 @@ const Circle = ({
 export default Circle;
 
 const styles = StyleSheet.create({
-  circle: {
+  base: {
     width: 50,
     height: 50,
     backgroundColor: "white",
-    borderRadius: 50,
-    borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "black",
