@@ -11,6 +11,7 @@
     "start-otf": "FEATURE_ONBOARDING=true FEATURE_PASSCODE=true npm start -- --reset-cache",
     "start-experiments": "FEATURE_DEV_EXPERIMENTS=true npm start -- --reset-cache",
     "start-icca": "RN_SRC_EXT=icca react-native start",
+    "start-passcode": "FEATURE_PASSCODE=true npm start -- --reset-cache",
     "android": "npm run build:backend && npm run android-no-backend-rebuild",
     "android-no-backend-rebuild": "react-native run-android --variant=appDebug --appIdSuffix=debug",
     "android-storybook": "react-native run-android --variant=storybookDebug --appIdSuffix=storybook.debug",

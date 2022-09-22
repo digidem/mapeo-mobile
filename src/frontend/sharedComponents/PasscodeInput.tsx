@@ -20,13 +20,13 @@ import { MEDIUM_GREY, DARK_GREY } from "../lib/styles";
 export const CELL_COUNT = 5;
 const onlyNumRegEx = new RegExp("^[0-9]+$");
 
-interface PasswordInputProps {
+interface PasscodeInputProps {
   stylesProps?: StyleProp<ViewStyle>;
   inputValue: string;
   onChangeTextWithValidation: (newVal: string) => void;
 }
 
-export const PasswordInput = React.forwardRef<TextInput, PasswordInputProps>(
+export const PasscodeInput = React.forwardRef<TextInput, PasscodeInputProps>(
   ({ stylesProps, inputValue, onChangeTextWithValidation }, inputRef) => {
     const [codeFieldProps, getCellOnLayoutHandler] = useClearByFocusCell({
       value: inputValue,
