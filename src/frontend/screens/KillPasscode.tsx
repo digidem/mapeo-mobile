@@ -29,9 +29,6 @@ export const KillPasscode: NativeNavigationComponent<"KillPasscode"> = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>
-        <FormattedMessage {...m.title} />
-      </Text>
       {/* TO DO: Get translation and copy from programs */}
       <Text style={{ fontSize: 16 }}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
