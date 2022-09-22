@@ -23,7 +23,6 @@ const Circle = ({ children, color, radius = 25, style }: Props) => {
       style={[
         styles.base,
         {
-          borderWidth: validColor ? 1.5 : BORDER_DEFAULTS.width,
           borderColor: validColor ? color : BORDER_DEFAULTS.color,
           borderRadius: radius * 2,
           width: radius * 2,
@@ -43,6 +42,7 @@ const styles = StyleSheet.create({
   base: {
     width: 50,
     height: 50,
+    borderWidth: BORDER_DEFAULTS.width,
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
