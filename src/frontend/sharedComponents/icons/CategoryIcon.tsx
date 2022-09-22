@@ -1,19 +1,18 @@
-// @flow
 import * as React from "react";
 import { Image } from "react-native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import Circle from "./Circle";
 import api from "../../api";
-import { type ViewStyleProp } from "../../types";
-import type { IconSize } from "../../types";
+import { IconSize, ViewStyleProp } from "../../types";
+import ConfigContext from "../../context/ConfigContext";
 
-type IconProps = {
-  size?: IconSize,
-  style?: ViewStyleProp,
-  iconId?: string,
-  color?: string,
-};
+interface IconProps {
+  size?: IconSize;
+  style?: ViewStyleProp;
+  iconId?: string;
+  color?: string;
+}
 
 const iconSizes = {
   small: 22,
@@ -51,8 +50,20 @@ export const CategoryCircleIcon = ({
   size = "medium",
   ...props
 }: IconProps) => {
+  const [{ presets }] = React.useContext(ConfigContext);
+
+  // If the preset defines a "color" field for *any* point-based category
+  // we want to render a thicker border, even if not all categories have a color defined
+  const presetsUseColors = Array.from(presets.values()).some(
+    p => p.geometry.includes("point") && !!p.color
+  );
+
   return (
-    <Circle color={color} radius={radii[size]} style={style}>
+    <Circle
+      color={color}
+      radius={radii[size]}
+      style={[style, presetsUseColors ? { borderWidth: 1.5 } : undefined]}
+    >
       <CategoryIcon {...props} size={size} />
     </Circle>
   );
