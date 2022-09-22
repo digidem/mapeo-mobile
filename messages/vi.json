@@ -635,9 +635,6 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Thử lại"
   },
-  "screens.Security.deviceBackup": {
-    "message": "Sao lưu thiết bị"
-  },
   "screens.Security.killPassDescriptonPassNotSet": {
     "message": "Để sử dụng, bật Mật khẩu ứng dụng"
   },
@@ -646,12 +643,6 @@
   },
   "screens.Security.killPasscodeHeader": {
     "message": "Huỷ Mật khẩu"
-  },
-  "screens.Security.paperKey": {
-    "message": "Khoá giấy"
-  },
-  "screens.Security.paperKeyDes": {
-    "message": "Khôi phục tài khoản của bạn nếu thiết bị này bị mất"
   },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "Mật khẩu chưa được đặt"
