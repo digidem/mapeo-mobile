@@ -77,7 +77,7 @@ export const InputPasscodeScreen = ({
 }: SetPasscodeProps) => {
   const [error, setError] = React.useState(false);
   const initialPassword = React.useRef("");
-  const [{ passcode }, setAuthState] = React.useContext(SecurityContext);
+  const { passcode, setPasscode } = React.useContext(SecurityContext);
   const { navigate } = useNavigationFromRoot();
   const [inputtedPass, setInputtedPass] = React.useState("");
   const isKillPasscode = React.useRef(false);
@@ -137,10 +137,7 @@ export const InputPasscodeScreen = ({
         return;
       case "confirmSetPasscode":
         if (inputtedPass === initialPassword.current) {
-          setAuthState({
-            type: "setPasscode",
-            newPasscode: initialPassword.current,
-          });
+          setPasscode(inputtedPass);
           navigate("Security");
           return;
         }
