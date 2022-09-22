@@ -58,8 +58,9 @@ const m = defineMessages({
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button",
     defaultMessage: "Next",
   },
-  killPasscodeError: {
-    id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.killPasscodeError",
+  obscurePasscodeError: {
+    id:
+      "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError",
     defaultMessage: "Cannot be used as a Passcode",
   },
 });
@@ -80,7 +81,7 @@ export const InputPasscodeScreen = ({
   const { passcode, setPasscode } = React.useContext(SecurityContext);
   const { navigate } = useNavigationFromRoot();
   const [inputtedPass, setInputtedPass] = React.useState("");
-  const isKillPasscode = React.useRef(false);
+  const isObscurePasscode = React.useRef(false);
   const inputRef = useBlurOnFulfill({
     value: inputtedPass,
     cellCount: CELL_COUNT,
@@ -98,8 +99,8 @@ export const InputPasscodeScreen = ({
 
   const [title, subtitle, errorMessage] = React.useMemo(() => {
     if (screenState === "setPasscode") {
-      if (isKillPasscode.current)
-        return [m.titleSet, m.subTitleSet, m.killPasscodeError];
+      if (isObscurePasscode.current)
+        return [m.titleSet, m.subTitleSet, m.obscurePasscodeError];
       return [m.titleSet, m.subTitleSet, m.initialPassError];
     }
 
@@ -108,7 +109,7 @@ export const InputPasscodeScreen = ({
     }
 
     return [m.titleEnter, m.subTitleEnter, m.passwordError];
-  }, [screenState, isKillPasscode.current]);
+  }, [screenState, isObscurePasscode.current]);
 
   function validateAndSetScreen(screen: PasscodeScreens) {
     if (inputtedPass.length !== CELL_COUNT) {
@@ -126,7 +127,7 @@ export const InputPasscodeScreen = ({
         break;
       case "setPasscode":
         if (inputtedPass === OBSCURE_PASSCODE) {
-          isKillPasscode.current = true;
+          isObscurePasscode.current = true;
           setError(true);
           return;
         }

@@ -149,7 +149,7 @@
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError": {
     "message": "Password must be 5 numbers"
   },
-  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.killPasscodeError": {
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError": {
     "message": "Cannot be used as a Passcode"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
