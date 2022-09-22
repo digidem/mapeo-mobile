@@ -319,15 +319,6 @@
   "screens.JoinRequestModal.success": {
     "message": "Success!"
   },
-  "screens.KillPasscode.instructions": {
-    "message": "Enter the code above to hide sensitive data in Mapeo"
-  },
-  "screens.KillPasscode.title": {
-    "message": "Kill Passcode"
-  },
-  "screens.KillPasscode.toggleMessage": {
-    "message": "Use Kill Passcode"
-  },
   "screens.LanguageSettings.title": {
     "description": "Title language settings screen",
     "message": "Language"
@@ -461,6 +452,15 @@
   },
   "screens.ManualGpsScreen.zoneNumber": {
     "message": "Zone Number"
+  },
+  "screens.ObscurePasscode.instructions": {
+    "message": "Enter the code above to hide sensitive data in Mapeo"
+  },
+  "screens.ObscurePasscode.title": {
+    "message": "Kill Passcode"
+  },
+  "screens.ObscurePasscode.toggleMessage": {
+    "message": "Use Kill Passcode"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
@@ -692,13 +692,13 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Try Again"
   },
-  "screens.Security.killPassDescriptonPassNotSet": {
+  "screens.Security.obscurePassDescriptonPassNotSet": {
     "message": "To use, enable App Passcode"
   },
-  "screens.Security.killPassDescriptonPassSet": {
+  "screens.Security.obscurePassDescriptonPassSet": {
     "message": "Protect your device against seizure"
   },
-  "screens.Security.killPasscodeHeader": {
+  "screens.Security.obscurePasscodeHeader": {
     "message": "Kill Passcode"
   },
   "screens.Security.passDesriptionPassNotSet": {
