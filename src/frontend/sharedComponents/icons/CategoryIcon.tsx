@@ -4,13 +4,15 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import Circle from "./Circle";
 import api from "../../api";
-import { IconSize, ViewStyleProp } from "../../types";
+import { IconSize } from "../../types";
 import ConfigContext from "../../context/ConfigContext";
 
-interface IconProps {
+interface CategoryIconProps {
   size?: IconSize;
-  style?: ViewStyleProp;
   iconId?: string;
+}
+
+interface CategoryCircleIconProps extends CategoryIconProps {
   color?: string;
 }
 
@@ -26,7 +28,7 @@ const radii = {
   large: 35,
 };
 
-export const CategoryIcon = React.memo<IconProps>(
+export const CategoryIcon = React.memo<CategoryIconProps>(
   ({ size = "medium", iconId }) => {
     const [error, setError] = React.useState(false);
     const iconSize = iconSizes[size] || 35;
@@ -46,10 +48,9 @@ export const CategoryIcon = React.memo<IconProps>(
 
 export const CategoryCircleIcon = ({
   color,
-  style,
+  iconId,
   size = "medium",
-  ...props
-}: IconProps) => {
+}: CategoryCircleIconProps) => {
   const [{ presets }] = React.useContext(ConfigContext);
 
   // If the preset defines a "color" field for *any* point-based category
@@ -62,9 +63,9 @@ export const CategoryCircleIcon = ({
     <Circle
       color={color}
       radius={radii[size]}
-      style={[style, presetsUseColors ? { borderWidth: 1.5 } : undefined]}
+      style={presetsUseColors ? { borderWidth: 1.5 } : undefined}
     >
-      <CategoryIcon {...props} size={size} />
+      <CategoryIcon iconId={iconId} size={size} />
     </Circle>
   );
 };

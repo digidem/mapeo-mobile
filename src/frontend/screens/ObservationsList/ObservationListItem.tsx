@@ -85,12 +85,13 @@ const ObservationListItem = ({
         {photos.length ? (
           <View style={styles.photoContainer}>
             <PhotoStack photos={photos} />
-            <CategoryCircleIcon
-              iconId={iconId}
-              color={iconColor}
-              size="small"
-              style={styles.smallIcon}
-            />
+            <View style={styles.smallIconContainer}>
+              <CategoryCircleIcon
+                iconId={iconId}
+                color={iconColor}
+                size="small"
+              />
+            </View>
           </View>
         ) : (
           <CategoryCircleIcon iconId={iconId} color={iconColor} size="medium" />
@@ -141,5 +142,5 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderStyle: "solid",
   },
-  smallIcon: { position: "absolute", right: -3, bottom: -3 },
+  smallIconContainer: { position: "absolute", right: -3, bottom: -3 },
 });
