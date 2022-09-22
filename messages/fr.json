@@ -635,9 +635,6 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Réessayer"
   },
-  "screens.Security.deviceBackup": {
-    "message": "Sauvegarde de l'appareil"
-  },
   "screens.Security.killPassDescriptonPassNotSet": {
     "message": "Pour utiliser, activez le code d'accès à l'application"
   },
@@ -646,12 +643,6 @@
   },
   "screens.Security.killPasscodeHeader": {
     "message": "Tuer le mot de passe"
-  },
-  "screens.Security.paperKey": {
-    "message": "Clé papier"
-  },
-  "screens.Security.paperKeyDes": {
-    "message": "Rétablir votre compte si cet appareil est perdu"
   },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "Code d'accès non défini"
