@@ -623,20 +623,11 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Inténtalo de nuevo"
   },
-  "screens.Security.deviceBackup": {
-    "message": "Copia de seguridad del dispositivo"
-  },
   "screens.Security.killPassDescriptonPassNotSet": {
     "message": "Para usarla, activa la contraseña de app"
   },
   "screens.Security.killPassDescriptonPassSet": {
     "message": "Protege tu dispositivo contra el robo"
-  },
-  "screens.Security.paperKey": {
-    "message": "Clave en papel"
-  },
-  "screens.Security.paperKeyDes": {
-    "message": "Reinstala tu cuenta si este dispositivo se pierde"
   },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "Contraseña no establecida"
