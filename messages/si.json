@@ -635,9 +635,6 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "යලි උත්සාහ කරන්න"
   },
-  "screens.Security.deviceBackup": {
-    "message": "උපාංග උපස්ථය"
-  },
   "screens.Security.killPassDescriptonPassNotSet": {
     "message": "භාවිතා කිරීමට, යෙදුම් මුරකේතය සබල කරන්න"
   },
@@ -646,12 +643,6 @@
   },
   "screens.Security.killPasscodeHeader": {
     "message": "මුර කේතය විසන්ධි කරන්න"
-  },
-  "screens.Security.paperKey": {
-    "message": "කඩදාසි යතුර"
-  },
-  "screens.Security.paperKeyDes": {
-    "message": "මෙම උපාංගය නැති වුවහොත් ඔබගේ ගිණුම නැවත පිහිටුවන්න"
   },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "මුර කේතය සකසා නැත"
