@@ -39,4 +39,4 @@ export const TEMP_HIDE_PRACTICE_MODE_UI: ScreenNames = [
 ];
 
 // this has to be a string because js does not recognize 00000 as being 5 digits
-export const KILL_PASSCODE = "00000";
+export const OBSCURE_PASSCODE = "00000";

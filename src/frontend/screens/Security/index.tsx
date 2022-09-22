@@ -31,16 +31,16 @@ const m = defineMessages({
     id: "screens.Security.passDesriptionPassSet",
     defaultMessage: "Passcode is set",
   },
-  killPasscodeHeader: {
-    id: "screens.Security.killPasscodeHeader",
+  obscurePasscodeHeader: {
+    id: "screens.Security.obscurePasscodeHeader",
     defaultMessage: "Kill Passcode",
   },
-  killPassDescriptonPassNotSet: {
-    id: "screens.Security.killPassDescriptonPassNotSet",
+  obscurePassDescriptonPassNotSet: {
+    id: "screens.Security.obscurePassDescriptonPassNotSet",
     defaultMessage: "To use, enable App Passcode",
   },
-  killPassDescriptonPassSet: {
-    id: "screens.Security.killPassDescriptonPassSet",
+  obscurePassDescriptonPassSet: {
+    id: "screens.Security.obscurePassDescriptonPassSet",
     defaultMessage: "Protect your device against seizure",
   },
 });
@@ -48,19 +48,19 @@ const m = defineMessages({
 export const Security: NativeNavigationComponent<"Security"> = ({
   navigation,
 }) => {
-  const [authState] = React.useContext(SecurityContext);
+  const { passcode } = React.useContext(SecurityContext);
   const [highlight, setHighlight] = React.useState(false);
 
   React.useEffect(() => {
     if (!devExperiments.appPasscode) navigation.navigate("Settings");
   }, []);
 
-  const [passCodeDes, killPassCodeDes] = React.useMemo(
+  const [passCodeDes, obscurePassCodeDes] = React.useMemo(
     () =>
-      !!authState.passcode
-        ? [m.passDesriptionPassSet, m.killPassDescriptonPassSet]
-        : [m.passDesriptionPassNotSet, m.killPassDescriptonPassNotSet],
-    [authState.passcode]
+      !!passcode
+        ? [m.passDesriptionPassSet, m.obscurePassDescriptonPassSet]
+        : [m.passDesriptionPassNotSet, m.obscurePassDescriptonPassNotSet],
+    [passcode]
   );
 
   function highlightError() {
@@ -92,18 +92,18 @@ export const Security: NativeNavigationComponent<"Security"> = ({
 
         <ListItem
           onPress={() => {
-            if (!authState.passcode) {
+            if (passcode) {
               highlightError();
               return;
             }
-            navigation.navigate("KillPasscode");
+            navigation.navigate("ObscurePasscode");
           }}
         >
           <ListItemText
-            primary={<FormattedMessage {...m.killPasscodeHeader} />}
+            primary={<FormattedMessage {...m.obscurePasscodeHeader} />}
             secondary={
               <Text style={{ color: highlight ? RED : MEDIUM_GREY }}>
-                <FormattedMessage {...killPassCodeDes} />
+                <FormattedMessage {...obscurePassCodeDes} />
               </Text>
             }
           />

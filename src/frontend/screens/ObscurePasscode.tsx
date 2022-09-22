@@ -3,7 +3,7 @@ import { defineMessages, FormattedMessage } from "react-intl";
 import { StyleSheet, View } from "react-native";
 
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import { KILL_PASSCODE } from "../constants";
+import { OBSCURE_PASSCODE } from "../constants";
 import { LIGHT_GREY } from "../lib/styles";
 import Text from "../sharedComponents/Text";
 import { NativeNavigationComponent } from "../sharedTypes";
@@ -12,20 +12,20 @@ import SettingsContext from "../context/SettingsContext";
 
 const m = defineMessages({
   title: {
-    id: "screens.KillPasscode.title",
+    id: "screens.ObscurePasscode.title",
     defaultMessage: "Kill Passcode",
   },
   toggleMessage: {
-    id: "screens.KillPasscode.toggleMessage",
+    id: "screens.ObscurePasscode.toggleMessage",
     defaultMessage: "Use Kill Passcode",
   },
   instructions: {
-    id: "screens.KillPasscode.instructions",
+    id: "screens.ObscurePasscode.instructions",
     defaultMessage: "Enter the code above to hide sensitive data in Mapeo",
   },
 });
 
-export const KillPasscode: NativeNavigationComponent<"KillPasscode"> = () => {
+export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = () => {
   const [{ obscurityPassEnabled }, setSettings] = React.useContext(
     SettingsContext
   );
@@ -65,7 +65,7 @@ export const KillPasscode: NativeNavigationComponent<"KillPasscode"> = () => {
       {obscurityPassEnabled && (
         <View style={styles.passbox}>
           <Text style={{ textAlign: "center", marginBottom: 10, fontSize: 20 }}>
-            {KILL_PASSCODE}
+            {OBSCURE_PASSCODE}
           </Text>
           <Text style={{ fontSize: 16 }}>
             <FormattedMessage {...m.instructions} />
@@ -76,7 +76,7 @@ export const KillPasscode: NativeNavigationComponent<"KillPasscode"> = () => {
   );
 };
 
-KillPasscode.navTitle = m.title;
+ObscurePasscode.navTitle = m.title;
 
 const styles = StyleSheet.create({
   container: {
