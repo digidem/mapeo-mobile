@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { useBlurOnFulfill } from "react-native-confirmation-code-field";
 
 import { PasscodeScreens } from ".";
-import { KILL_PASSCODE } from "../../constants";
+import { OBSCURE_PASSCODE } from "../../constants";
 import { SecurityContext } from "../../context/SecurityContext";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 
@@ -125,7 +125,7 @@ export const InputPasscodeScreen = ({
         setError(true);
         break;
       case "setPasscode":
-        if (inputtedPass === KILL_PASSCODE) {
+        if (inputtedPass === OBSCURE_PASSCODE) {
           isKillPasscode.current = true;
           setError(true);
           return;
