@@ -92,7 +92,7 @@ export const Security: NativeNavigationComponent<"Security"> = ({
 
         <ListItem
           onPress={() => {
-            if (passcode) {
+            if (!passcode) {
               highlightError();
               return;
             }
