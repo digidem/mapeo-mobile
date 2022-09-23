@@ -1,5 +1,4 @@
-// @flow
-import React, { useMemo } from "react";
+import * as React from "react";
 import { View, FlatList, Dimensions, StyleSheet } from "react-native";
 import Text from "../../sharedComponents/Text";
 import { defineMessages, FormattedMessage } from "react-intl";
@@ -60,13 +59,15 @@ const ObservationsListView = ({
     (Dimensions.get("window").height - 65) / OBSERVATION_CELL_HEIGHT
   );
 
-  const sortedObservations = useMemo(
+  const sortedObservations = React.useMemo(
     () => observations.sort((a, b) => (a.created_at < b.created_at ? 1 : -1)),
     [observations]
   );
   if (!observations.length) {
     return (
-      <ObservationEmptyView onPressBack={() => navigation.navigate("Map")} />
+      <ObservationEmptyView
+        onPressBack={() => navigation.navigate("Home", { screen: "Map" })}
+      />
     );
   }
   if (loading) {
