@@ -1,11 +1,8 @@
 import * as React from "react";
 import { useIntl } from "react-intl";
 import { Intro, Info } from "../screens/Intro";
-import {
-  createDefaultScreenGroup,
-  NavigatorScreenOptions,
-  RootStack,
-} from "./AppStack";
+import { NavigatorScreenOptions, RootStack } from "./AppStack";
+import { createDefaultScreenGroup } from "./ScreenGroups/AppScreens";
 
 export const AppNavigator = () => {
   const { formatMessage } = useIntl();

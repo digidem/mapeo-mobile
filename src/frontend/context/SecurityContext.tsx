@@ -43,6 +43,15 @@ export const SecurityProvider = ({
     string | null
   >(null);
 
+  React.useEffect(() => {
+    console.log(passcode);
+    if (passcode === null) {
+      setAuthState("notRequired");
+      return;
+    }
+    setAuthState("authenticated");
+  }, [passcode]);
+
   const setPasscodeWithValidation = React.useCallback(
     (passcodeValue: string | null) => {
       if (!passcodeValue && obscurityPassEnabled) {
@@ -52,6 +61,7 @@ export const SecurityProvider = ({
       if (!validPasscode(passcodeValue)) {
         throw new Error("passcode not valid");
       }
+
       setPasscode(passcodeValue);
     },
     [obscurityPassEnabled]
@@ -62,6 +72,7 @@ export const SecurityProvider = ({
       if (authStateValue === "obscured" && !obscurityPassEnabled) {
         throw new Error("obscure mode not enabled");
       }
+
       setAuthState(authStateValue);
     },
     [obscurityPassEnabled]

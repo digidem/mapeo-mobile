@@ -3,6 +3,7 @@ import { Observation } from "mapeo-schema";
 
 import api from "../api";
 import { Status } from "../sharedTypes";
+import { SecurityContext } from "./SecurityContext";
 
 export interface ObservationAttachment {
   id: string;
@@ -84,6 +85,7 @@ export const ObservationsProvider = ({
   children,
 }: React.PropsWithChildren<{}>) => {
   const [state, dispatch] = React.useReducer(reducer, defaultContext[0]);
+  const { authState } = React.useContext(SecurityContext);
   const contextValue: ObservationsContextType = React.useMemo(
     () => [state, dispatch],
     [state]
@@ -111,6 +113,15 @@ export const ObservationsProvider = ({
       didCancel = true;
     };
   }, [state.reload]);
+
+  React.useEffect(() => {
+    if (authState === "obscured") {
+      dispatch({ type: "reload_success", value: [] });
+      return;
+    }
+
+    dispatch({ type: "reload" });
+  }, [authState]);
 
   return (
     <ObservationsContext.Provider value={contextValue}>

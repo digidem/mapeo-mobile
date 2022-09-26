@@ -3,6 +3,7 @@ import { Observation } from "mapeo-schema";
 
 import ObservationsContext from "../context/ObservationsContext";
 import { Status } from "../sharedTypes";
+import { SecurityContext } from "../context/SecurityContext";
 
 export const useAllObservations = (): [
   {
@@ -14,16 +15,16 @@ export const useAllObservations = (): [
   () => void
 ] => {
   const [state, dispatch] = useContext(ObservationsContext);
+  const { authState } = useContext(SecurityContext);
 
   // We store observations in state as a Map, but the components expect an array
-  const observationsArray = useMemo(
-    () =>
-      Array.from(state.observations.values()).sort((a, b) =>
-        // TODO: move sorting into component
-        a.created_at < b.created_at ? 1 : -1
-      ),
-    [state.observations]
-  );
+  const observationsArray = useMemo(() => {
+    if (authState === "obscured") return [];
+    return Array.from(state.observations.values()).sort((a, b) =>
+      // TODO: move sorting into component
+      a.created_at < b.created_at ? 1 : -1
+    );
+  }, [state.observations, authState]);
 
   const reload = useCallback(() => dispatch({ type: "reload" }), [dispatch]);
 

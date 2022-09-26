@@ -22,6 +22,8 @@ import {
   persistNavigationState,
 } from "./Navigation/navigationStateHelperFunctions";
 import { AppNavigator } from "./Navigation/AppNavigator";
+import { AppState, AppStateStatus } from "react-native";
+import { SecurityContext } from "./context/SecurityContext";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -35,6 +37,29 @@ const AppContainerWrapper = () => {
   >("loading");
 
   const navRef = useNavigationContainerRef<AppStackList>();
+
+  const { authState, setAuthState } = React.useContext(SecurityContext);
+
+  React.useEffect(() => {
+    const appStateListener = AppState.addEventListener(
+      "change",
+      (nextAppState: AppStateStatus) => {
+        console.log("nextAppState: " + nextAppState);
+        console.log("authState: " + authState);
+        if (authState !== "notRequired") {
+          if (
+            nextAppState === "active" ||
+            nextAppState === "background" ||
+            nextAppState === "inactive"
+          ) {
+            setAuthState("unauthenticated");
+          }
+        }
+      }
+    );
+
+    return () => appStateListener.remove();
+  }, [authState]);
 
   const currentRoute = navRef.isReady()
     ? navRef.getCurrentRoute()?.name
