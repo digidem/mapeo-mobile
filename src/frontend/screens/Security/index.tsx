@@ -48,7 +48,9 @@ const m = defineMessages({
 export const Security: NativeNavigationComponent<"Security"> = ({
   navigation,
 }) => {
-  const { passcode } = React.useContext(SecurityContext);
+  const { authValuesSet: authenticationValuesSet } = React.useContext(
+    SecurityContext
+  );
   const [highlight, setHighlight] = React.useState(false);
 
   React.useEffect(() => {
@@ -57,10 +59,10 @@ export const Security: NativeNavigationComponent<"Security"> = ({
 
   const [passCodeDes, obscurePassCodeDes] = React.useMemo(
     () =>
-      !!passcode
+      authenticationValuesSet.passcodeSet
         ? [m.passDesriptionPassSet, m.obscurePassDescriptonPassSet]
         : [m.passDesriptionPassNotSet, m.obscurePassDescriptonPassNotSet],
-    [passcode]
+    [authenticationValuesSet.passcodeSet]
   );
 
   function highlightError() {
@@ -92,7 +94,7 @@ export const Security: NativeNavigationComponent<"Security"> = ({
 
         <ListItem
           onPress={() => {
-            if (!passcode) {
+            if (!authenticationValuesSet.passcodeSet) {
               highlightError();
               return;
             }

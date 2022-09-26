@@ -70,7 +70,7 @@ interface SetPasscodeProps {
   setScreenState: React.Dispatch<React.SetStateAction<PasscodeScreens>>;
 }
 
-/** This screen is used when the user is setting a password, confiriming their password, and will be used when the user is entering their password to enter the app */
+/** This screen is used when the user is setting a password and confiriming their password */
 
 export const InputPasscodeScreen = ({
   screenState,
@@ -78,7 +78,10 @@ export const InputPasscodeScreen = ({
 }: SetPasscodeProps) => {
   const [error, setError] = React.useState(false);
   const initialPassword = React.useRef("");
-  const { passcode, setPasscode } = React.useContext(SecurityContext);
+  const {
+    setAuthValues: setAuthenticationValues,
+    authenticate,
+  } = React.useContext(SecurityContext);
   const { navigate } = useNavigationFromRoot();
   const [inputtedPass, setInputtedPass] = React.useState("");
   const isObscurePasscode = React.useRef(false);
@@ -119,13 +122,14 @@ export const InputPasscodeScreen = ({
 
     switch (screen) {
       case "enterPasscode":
-        if (inputtedPass === passcode) {
+        if (authenticate(inputtedPass, true)) {
           setScreenState("disablePasscode");
           return;
         }
         setError(true);
         break;
       case "setPasscode":
+        // If user is able to set their own obscure pass take if statement out
         if (inputtedPass === OBSCURE_PASSCODE) {
           isObscurePasscode.current = true;
           setError(true);
@@ -138,7 +142,10 @@ export const InputPasscodeScreen = ({
         return;
       case "confirmSetPasscode":
         if (inputtedPass === initialPassword.current) {
-          setPasscode(inputtedPass);
+          setAuthenticationValues({
+            type: "passcode",
+            value: initialPassword.current,
+          });
           navigate("Security");
           return;
         }

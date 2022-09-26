@@ -1,27 +1,32 @@
 import * as React from "react";
 
-import { PASSWORD_KEY } from "../constants";
+import { OBSCURE_KEY, OBSCURE_PASSCODE, PASSWORD_KEY } from "../constants";
 import createPersistedState from "../hooks/usePersistedState";
-import SettingsContext from "./SettingsContext";
 
-type AuthState =
-  | "unauthenticated"
-  | "authenticated"
-  | "notRequired"
-  | "obscured";
+type AuthState = "unauthenticated" | "authenticated" | "obscured";
+
+type AuthSetters =
+  | { type: "passcode"; value: string | null }
+  //This is to set up the future use of the obscure pass beings set by the user. if the `value` is undefined, the default obscure pass is being used
+  | { type: "obscure"; value?: string | null };
+
+type AuthValuesSet = {
+  passcodeSet: boolean;
+  obscureSet: boolean;
+};
 
 type SecurityContextType = {
+  authValuesSet: AuthValuesSet;
+  setAuthValues: (val: AuthSetters) => void;
+  authenticate: (val: string | null, validateOnly?: boolean) => boolean;
   authState: AuthState;
-  passcode: string | null;
-  setPasscode: (val: string | null) => void;
-  setAuthState: (val: AuthState) => void;
 };
 
 const DefaultState: SecurityContextType = {
-  authState: "notRequired",
-  passcode: null,
-  setPasscode: () => {},
-  setAuthState: () => {},
+  authValuesSet: { passcodeSet: false, obscureSet: false },
+  setAuthValues: () => {},
+  authenticate: () => false,
+  authState: "unauthenticated",
 };
 
 export const SecurityContext = React.createContext<SecurityContextType>(
@@ -29,57 +34,117 @@ export const SecurityContext = React.createContext<SecurityContextType>(
 );
 
 const usePersistedPasscodeState = createPersistedState(PASSWORD_KEY);
+const usePersistedObscureState = createPersistedState(OBSCURE_KEY);
 
 export const SecurityProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [authState, setAuthState] = React.useState<AuthState>("notRequired");
-  const [{ obscurityPassEnabled }, setState] = React.useContext(
-    SettingsContext
+  const [authState, setAuthState] = React.useState<AuthState>(
+    "unauthenticated"
   );
-  const [passcode, status, setPasscode] = usePersistedPasscodeState<
+
+  const [passcode, passCodestatus, setPasscode] = usePersistedPasscodeState<
     string | null
   >(null);
 
+  const [obscureCode, , setobscureCode] = usePersistedObscureState<
+    string | null
+  >(null);
+
+  // if passcode is unset, we want to makes sure that obscure code is unset, and that the user is 'authenticated' aka does not need a passcode to enter the app.
+  React.useEffect(() => {
+    if (passcode === null) {
+      setobscureCode(null);
+      setAuthState("authenticated");
+    }
+  }, [passcode]);
+
   const setPasscodeWithValidation = React.useCallback(
     (passcodeValue: string | null) => {
-      if (!passcodeValue && obscurityPassEnabled) {
-        setState("obscurityPassEnabled", false);
+      if (passcodeValue === OBSCURE_PASSCODE) {
+        throw new Error("passcode is reserved");
       }
 
       if (!validPasscode(passcodeValue)) {
         throw new Error("passcode not valid");
       }
+
       setPasscode(passcodeValue);
     },
-    [obscurityPassEnabled]
+    [OBSCURE_PASSCODE]
   );
 
-  const setAuthStateWithValidation = React.useCallback(
-    (authStateValue: AuthState) => {
-      if (authStateValue === "obscured" && !obscurityPassEnabled) {
-        throw new Error("obscure mode not enabled");
+  const setObscureCodeWithValidation = React.useCallback(
+    (newObscureVal: string | null | undefined) => {
+      if (passcode === null && newObscureVal !== null) {
+        throw new Error("Cannot set obscure mode if passcode not set");
       }
-      setAuthState(authStateValue);
+
+      if (newObscureVal === undefined) {
+        setobscureCode(OBSCURE_PASSCODE);
+        return;
+      }
+
+      if (!validPasscode(newObscureVal) || newObscureVal === passcode) {
+        throw new Error("passcode not valid");
+      }
+
+      setobscureCode(newObscureVal);
     },
-    [obscurityPassEnabled]
+    [passcode, OBSCURE_PASSCODE]
+  );
+
+  const authenticate = React.useCallback(
+    (passcodeValue: string | null, validateOnly: boolean = false) => {
+      if (validateOnly) {
+        if (passcodeValue === passcode) {
+          return true;
+        }
+
+        return false;
+      }
+
+      if (passcodeValue === obscureCode) {
+        setAuthState("obscured");
+        return true;
+      }
+
+      if (passcodeValue === passcode) {
+        setAuthState("authenticated");
+        return true;
+      }
+
+      throw new Error("Incorrect Passcode");
+    },
+    [passcode, obscureCode]
+  );
+
+  const setAuthValues = React.useCallback(
+    ({ type, value }: AuthSetters) => {
+      if (type === "passcode") setPasscodeWithValidation(value);
+      setObscureCodeWithValidation(value);
+    },
+    [setPasscodeWithValidation, setObscureCodeWithValidation]
   );
 
   const contextValue: SecurityContextType = React.useMemo(
     () => ({
-      passcode,
+      authValuesSet: {
+        passcodeSet: passcode !== null,
+        obscureSet: obscureCode !== null,
+      },
+      setAuthValues,
+      authenticate,
       authState,
-      setAuthState: setAuthStateWithValidation,
-      setPasscode: setPasscodeWithValidation,
     }),
-    [passcode, authState, setAuthStateWithValidation, setPasscodeWithValidation]
+    [setAuthValues, authenticate, passcode, obscureCode, authState]
   );
 
   return (
     <SecurityContext.Provider value={contextValue}>
-      {status === "loading" ? null : children}
+      {passCodestatus === "loading" ? null : children}
     </SecurityContext.Provider>
   );
 };

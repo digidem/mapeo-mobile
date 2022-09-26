@@ -8,7 +8,7 @@ import { LIGHT_GREY } from "../lib/styles";
 import Text from "../sharedComponents/Text";
 import { NativeNavigationComponent } from "../sharedTypes";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import SettingsContext from "../context/SettingsContext";
+import { SecurityContext } from "../context/SecurityContext";
 
 const m = defineMessages({
   title: {
@@ -26,9 +26,10 @@ const m = defineMessages({
 });
 
 export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = () => {
-  const [{ obscurityPassEnabled }, setSettings] = React.useContext(
-    SettingsContext
-  );
+  const {
+    setAuthValues: setAuthenticationValues,
+    authValuesSet: authenticationValuesSet,
+  } = React.useContext(SecurityContext);
 
   return (
     <ScrollView style={styles.container}>
@@ -48,13 +49,13 @@ export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = () 
         </Text>
         <TouchableOpacity
           shouldActivateOnStart
-          onPress={() =>
-            setSettings("obscurityPassEnabled", !obscurityPassEnabled)
-          }
+          onPress={() => setAuthenticationValues({ type: "obscure" })}
         >
           <MaterialIcon
             name={
-              obscurityPassEnabled ? "check-box" : "check-box-outline-blank"
+              authenticationValuesSet.obscureSet
+                ? "check-box"
+                : "check-box-outline-blank"
             }
             size={24}
             color="rgba(0, 0, 0, 0.54)"
@@ -62,7 +63,7 @@ export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = () 
         </TouchableOpacity>
       </View>
 
-      {obscurityPassEnabled && (
+      {authenticationValuesSet.obscureSet && (
         <View style={styles.passbox}>
           <Text style={{ textAlign: "center", marginBottom: 10, fontSize: 20 }}>
             {OBSCURE_PASSCODE}

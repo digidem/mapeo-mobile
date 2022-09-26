@@ -12,17 +12,17 @@ import { MapStyleProvider } from "./MapStyleContext";
 // apart from the Permissions Provider which is needed separately.
 const AppProvider = ({ children }: { children: React.Node }) => (
   <LocationProvider>
-    <ObservationsProvider>
-      <ConfigProvider>
-        <SettingsProvider>
-          <SecurityProvider>
+    <SecurityProvider>
+      <ObservationsProvider>
+        <ConfigProvider>
+          <SettingsProvider>
             <DraftObservationProvider>
               <MapStyleProvider>{children}</MapStyleProvider>
             </DraftObservationProvider>
-          </SecurityProvider>
-        </SettingsProvider>
-      </ConfigProvider>
-    </ObservationsProvider>
+          </SettingsProvider>
+        </ConfigProvider>
+      </ObservationsProvider>
+    </SecurityProvider>
   </LocationProvider>
 );
 
