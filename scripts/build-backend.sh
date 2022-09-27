@@ -36,7 +36,7 @@ cd ./nodejs-assets/backend && npm ci
 
 echo -en "Minifying with noderify..."
 # https://github.com/digidem/mapeo-mobile/issues/521
-# noderify does not realize that worker_threads and http2 are built-in node modules
+# noderify does not realize that http2 and perf_hooks are built-in node modules
 # pino-pretty is conditionally required by fastify, but we don't need it
 # memcpy is a sub-dependency of the APK parser, but it is optional
 "$(npm bin)/noderify" \
@@ -46,18 +46,23 @@ echo -en "Minifying with noderify..."
   --filter=async_hooks \
   --filter=utf-8-validate \
   --filter=bufferutil \
-  --filter=worker_threads \
   --filter=http2 \
   --filter=pino-pretty \
   --filter=memcpy \
   --filter=diagnostics_channel \
+  --filter=perf_hooks \
   index.js | \
   # Apologies to future contributors: this worker needs to load better-sqlite3,
   # and I could not get bindings() to correctly load the native code when this is
   # not at the project root. If the path name of the worker changes in the
   # original module then this replacement needs to be updated. Apologies for the
   # fragility, but this was the best solution I could find in limited time.
-  sed 's|\./lib/mbtiles_import_worker\.js|../../../../mbtiles_import_worker.js|' > \
+  sed 's|\.\./lib/mbtiles_import_worker\.js|../../../../../mbtiles_import_worker.js|' | \
+  # Additional apologies for this, which is even more fragile. Context is that 
+  # Piscina introduces its own worker file (unfortunately with a very generic name of `worker.js`)
+  # so we need to update the path it references to point to the eventually relocated
+  # file within the nodejs-project directory.
+  sed "s|'worker\.js'|'../../../../piscina_worker.js'|" > \
   ../nodejs-project/index.js
 
 # The worker in MapServer needs to be bundled separately, and we need to move it
@@ -65,9 +70,14 @@ echo -en "Minifying with noderify..."
 # the paths resolve correctly
 "$(npm bin)/noderify" \
   --replace.bindings=bindings-noderify-nodejs-mobile \
-  --filter=worker_threads \
   node_modules/@mapeo/map-server/dist/lib/mbtiles_import_worker.js > \
-  ../nodejs-project/mbtiles_import_worker.js
+  ../nodejs-project/mbtiles_import_worker.js \
+
+# Piscina uses its own worker to initiate other workers, 
+# so we need to bundle it seperately
+"$(npm bin)/noderify" \
+  node_modules/piscina/dist/src/worker.js > \
+  ../nodejs-project/piscina_worker.js
 
 cd ../..
 echo -en " done.\n"
@@ -104,8 +114,9 @@ declare -a keepThese=(
   ".bin"
   "node-gyp-build"
   "napi-macros"
-  # This is a static folder referenced by the mapserver code
+  # These are static folders referenced by the mapserver code
   "@mapeo/map-server/prisma"
+  "@mapeo/map-server/sdf"
   # We need to leave this in place so that nodejs-mobile finds it and builds it
   "better-sqlite3"
   # The hasha worker thread is not bundled by noderify, so we need to manually include it
