@@ -63,6 +63,7 @@ export const SecurityProvider = ({
 
   const setPasscodeWithValidation = React.useCallback(
     (passcodeValue: string | null) => {
+      // If user is able to set their own obscure passcode get rid of this if statement.
       if (passcodeValue === OBSCURE_PASSCODE) {
         throw new Error("passcode is reserved");
       }
@@ -73,7 +74,7 @@ export const SecurityProvider = ({
 
       setPasscode(passcodeValue);
     },
-    [OBSCURE_PASSCODE]
+    []
   );
 
   const setObscureCodeWithValidation = React.useCallback(
@@ -93,7 +94,7 @@ export const SecurityProvider = ({
 
       setobscureCode(newObscureVal);
     },
-    [passcode, OBSCURE_PASSCODE]
+    [passcode]
   );
 
   const authenticate = React.useCallback(
@@ -124,7 +125,7 @@ export const SecurityProvider = ({
   const setAuthValues = React.useCallback(
     ({ type, value }: AuthSetters) => {
       if (type === "passcode") setPasscodeWithValidation(value);
-      setObscureCodeWithValidation(value);
+      else setObscureCodeWithValidation(value);
     },
     [setPasscodeWithValidation, setObscureCodeWithValidation]
   );

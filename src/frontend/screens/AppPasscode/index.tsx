@@ -5,9 +5,10 @@ import { SecurityContext } from "../../context/SecurityContext";
 
 import { WHITE } from "../../lib/styles";
 import { NativeNavigationComponent } from "../../sharedTypes";
+import { EnterPassToTurnOff } from "./EnterPassToTurnOff";
 
-import { InputPasscodeScreen } from "./InputPasscode";
 import { PasscodeIntro } from "./PasscodeIntro";
+import { SetPassword } from "./SetPassword";
 import { TurnOffPasscode } from "./TurnOffPasscode";
 
 const m = defineMessages({
@@ -20,7 +21,6 @@ const m = defineMessages({
 export type PasscodeScreens =
   | "intro"
   | "setPasscode"
-  | "confirmSetPasscode"
   | "enterPasscode"
   | "disablePasscode";
 
@@ -37,17 +37,12 @@ export const AppPasscode: NativeNavigationComponent<"AppPasscode"> = () => {
       return <PasscodeIntro setScreen={setScreenState} />;
     }
 
-    if (
-      screenState === "setPasscode" ||
-      screenState === "confirmSetPasscode" ||
-      screenState === "enterPasscode"
-    ) {
-      return (
-        <InputPasscodeScreen
-          screenState={screenState}
-          setScreenState={setScreenState}
-        />
-      );
+    if (screenState === "setPasscode") {
+      return <SetPassword setScreen={setScreenState} />;
+    }
+
+    if (screenState === "enterPasscode") {
+      return <EnterPassToTurnOff setScreenState={setScreenState} />;
     }
 
     return <TurnOffPasscode setScreenState={setScreenState} />;
