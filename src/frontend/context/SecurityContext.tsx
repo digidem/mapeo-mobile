@@ -41,13 +41,29 @@ export const SecurityProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  const [passcode, status, setPasscode] = usePersistedPasscodeState<
+    string | null
+  >(null);
+  if (status === "loading") return null;
+  return (
+    <SecurityProviderInner passcode={passcode} setPasscode={setPasscode}>
+      {children}
+    </SecurityProviderInner>
+  );
+};
+
+const SecurityProviderInner = ({
+  children,
+  passcode,
+  setPasscode,
+}: {
+  children: React.ReactNode;
+  passcode: string | null;
+  setPasscode: React.Dispatch<React.SetStateAction<null | string>>;
+}) => {
   const [authState, setAuthState] = React.useState<AuthState>(
     "unauthenticated"
   );
-
-  const [passcode, passCodestatus, setPasscode] = usePersistedPasscodeState<
-    string | null
-  >(null);
 
   const [obscureCode, , setobscureCode] = usePersistedObscureState<
     string | null
@@ -145,7 +161,7 @@ export const SecurityProvider = ({
 
   return (
     <SecurityContext.Provider value={contextValue}>
-      {passCodestatus === "loading" ? null : children}
+      {children}
     </SecurityContext.Provider>
   );
 };
