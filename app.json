@@ -1,4 +1,11 @@
 {
   "name": "mapeo",
-  "displayName": "Mapeo"
+  "expo": {
+    "name": "Mapeo",
+    "owner": "digidem",
+    "slug": "mapeo",
+    "ios": {
+      "bundleIdentifier": "org.digital-democracy.mapeo"
+    }
+  }
 }
