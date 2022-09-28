@@ -49,7 +49,12 @@ export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = () 
         </Text>
         <TouchableOpacity
           shouldActivateOnStart
-          onPress={() => setAuthenticationValues({ type: "obscure" })}
+          onPress={() =>
+            setAuthenticationValues({
+              type: "obscure",
+              value: authenticationValuesSet.obscureSet ? null : undefined,
+            })
+          }
         >
           <MaterialIcon
             name={
@@ -57,7 +62,7 @@ export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = () 
                 ? "check-box"
                 : "check-box-outline-blank"
             }
-            size={24}
+            size={32}
             color="rgba(0, 0, 0, 0.54)"
           />
         </TouchableOpacity>
