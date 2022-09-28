@@ -8,7 +8,7 @@ import { NativeNavigationComponent } from "../../sharedTypes";
 import { EnterPassToTurnOff } from "./EnterPassToTurnOff";
 
 import { PasscodeIntro } from "./PasscodeIntro";
-import { SetPassword } from "./SetPassword";
+import { SetPassword } from "./SetPasscode";
 import { TurnOffPasscode } from "./TurnOffPasscode";
 
 const m = defineMessages({
