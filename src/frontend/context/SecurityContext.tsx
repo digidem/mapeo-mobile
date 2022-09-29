@@ -76,6 +76,10 @@ const SecurityProviderInner = ({
         throw new Error("passcode is reserved");
       }
 
+      if (passcode !== null && passcodeValue === obscureCode) {
+        throw new Error("passcode is already being used obscure code");
+      }
+
       if (!validPasscode(passcodeValue)) {
         throw new Error("passcode not valid");
       }
@@ -87,7 +91,7 @@ const SecurityProviderInner = ({
 
       setPasscode(passcodeValue);
     },
-    []
+    [obscureCode]
   );
 
   const setObscureCodeWithValidation = React.useCallback(
