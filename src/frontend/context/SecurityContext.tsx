@@ -65,17 +65,19 @@ const SecurityProviderInner = ({
     "unauthenticated"
   );
 
-  const [obscureCode, , setobscureCode] = usePersistedObscureState<
+  const [obscureCode, , setObscureCode] = usePersistedObscureState<
     string | null
   >(null);
 
   // if passcode is unset, we want to makes sure that obscure code is unset, and that the user is 'authenticated' aka does not need a passcode to enter the app.
-  React.useEffect(() => {
-    if (passcode === null) {
-      setobscureCode(null);
+  if (passcode === null) {
+    if (authState !== "authenticated") {
       setAuthState("authenticated");
     }
-  }, [passcode]);
+    if (obscureCode !== null) {
+      setObscureCode(null);
+    }
+  }
 
   const setPasscodeWithValidation = React.useCallback(
     (passcodeValue: string | null) => {
@@ -100,7 +102,7 @@ const SecurityProviderInner = ({
       }
 
       if (newObscureVal === undefined) {
-        setobscureCode(OBSCURE_PASSCODE);
+        setObscureCode(OBSCURE_PASSCODE);
         return;
       }
 
@@ -108,7 +110,7 @@ const SecurityProviderInner = ({
         throw new Error("passcode not valid");
       }
 
-      setobscureCode(newObscureVal);
+      setObscureCode(newObscureVal);
     },
     [passcode]
   );
