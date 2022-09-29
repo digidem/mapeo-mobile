@@ -63,7 +63,7 @@ export const CategoryCircleIcon = ({
     <Circle
       color={color}
       radius={radii[size]}
-      style={presetsUseColors ? { borderWidth: 1.5 } : undefined}
+      style={presetsUseColors ? { borderWidth: 3 } : undefined}
     >
       <CategoryIcon iconId={iconId} size={size} />
     </Circle>
