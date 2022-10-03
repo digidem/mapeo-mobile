@@ -635,15 +635,6 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "மீண்டும் முயற்சி"
   },
-  "screens.Security.killPassDescriptonPassNotSet": {
-    "message": "பயன்படுத்த, பயன்பாட்டு கடவுக்குறியீட்டை இயக்கவும்"
-  },
-  "screens.Security.killPassDescriptonPassSet": {
-    "message": "வலிப்புத்தாக்கத்திலிருந்து உங்கள் சாதனத்தைப் பாதுகாக்கவும்"
-  },
-  "screens.Security.killPasscodeHeader": {
-    "message": "கடவுக்குறியீட்டை நீக்கவும்"
-  },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "கடவுக்குறியீடு அமைக்கப்படவில்லை"
   },
