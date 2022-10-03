@@ -1,4 +1,5 @@
-import { AppStackList, HomeTabsList } from "./Navigation/AppStack";
+import { AppStackList } from "./Navigation/AppStack";
+import { HomeTabsList } from "./Navigation/ScreenGroups/AppScreens";
 
 export const URI_PREFIX = "mapeo://";
 export const ERROR_STORE_KEY = "@MapeoError";
