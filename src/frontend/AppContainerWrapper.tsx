@@ -67,6 +67,7 @@ const AppContainerWrapper = () => {
     : undefined;
 
   React.useEffect(() => {
+    console.log("restore nav");
     if (featureFlagOn) {
       setInitialNavState(undefined);
       return;
