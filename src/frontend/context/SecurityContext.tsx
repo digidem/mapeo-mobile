@@ -117,7 +117,7 @@ const SecurityProviderInner = ({
 
       setPasscode(passcodeValue);
     },
-    [obscureCode]
+    [obscureCode, passcode]
   );
 
   const setObscureCodeWithValidation = React.useCallback(

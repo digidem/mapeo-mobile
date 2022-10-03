@@ -23,7 +23,6 @@ import {
 } from "./Navigation/navigationStateHelperFunctions";
 import { AppNavigator } from "./Navigation/AppNavigator";
 import { AppState, AppStateStatus } from "react-native";
-import { useAuthState } from "./hooks/useAuthState";
 import { SecurityContext } from "./context/SecurityContext";
 
 // Turn on logging if in debug mode
@@ -37,7 +36,7 @@ const AppContainerWrapper = () => {
     InitialState | "loading" | undefined
   >("loading");
 
-  const { authValuesSet, setToUnauthenticated, authState } = React.useContext(
+  const { authValuesSet, setToUnauthenticated } = React.useContext(
     SecurityContext
   );
 
@@ -67,7 +66,6 @@ const AppContainerWrapper = () => {
     : undefined;
 
   React.useEffect(() => {
-    console.log("restore nav");
     if (featureFlagOn) {
       setInitialNavState(undefined);
       return;
