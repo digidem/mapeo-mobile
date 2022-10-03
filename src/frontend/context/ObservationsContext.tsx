@@ -117,6 +117,15 @@ export const ObservationsProvider = ({
     };
   }, [state.reload]);
 
+  React.useEffect(() => {
+    if (authState === "obscured") {
+      dispatch({ type: "reload_success", value: [] });
+      return;
+    }
+
+    dispatch({ type: "reload" });
+  }, [authState]);
+
   return (
     <ObservationsContext.Provider value={contextValue}>
       {children}
