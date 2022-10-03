@@ -623,12 +623,6 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Inténtalo de nuevo"
   },
-  "screens.Security.killPassDescriptonPassNotSet": {
-    "message": "Para usarla, activa la contraseña de app"
-  },
-  "screens.Security.killPassDescriptonPassSet": {
-    "message": "Protege tu dispositivo contra el robo"
-  },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "Contraseña no establecida"
   },
