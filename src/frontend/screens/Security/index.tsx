@@ -4,9 +4,11 @@ import { ScrollView } from "react-native-gesture-handler";
 import { FormattedMessage, defineMessages } from "react-intl";
 
 import { List, ListItem, ListItemText } from "../../sharedComponents/List";
-import { SecurityContext } from "./SecurityContext";
 import { devExperiments } from "../../lib/DevExperiments";
 import { NativeNavigationComponent } from "../../sharedTypes";
+import { SecurityContext } from "../../context/SecurityContext";
+import { MEDIUM_GREY, RED } from "../../lib/styles";
+import { Text } from "react-native";
 
 const m = defineMessages({
   title: {
@@ -29,16 +31,16 @@ const m = defineMessages({
     id: "screens.Security.passDesriptionPassSet",
     defaultMessage: "Passcode is set",
   },
-  killPasscodeHeader: {
-    id: "screens.Security.killPasscodeHeader",
+  obscurePasscodeHeader: {
+    id: "screens.Security.obscurePasscodeHeader",
     defaultMessage: "Kill Passcode",
   },
-  killPassDescriptonPassNotSet: {
-    id: "screens.Security.killPassDescriptonPassNotSet",
+  obscurePassDescriptonPassNotSet: {
+    id: "screens.Security.obscurePassDescriptonPassNotSet",
     defaultMessage: "To use, enable App Passcode",
   },
-  killPassDescriptonPassSet: {
-    id: "screens.Security.killPassDescriptonPassSet",
+  obscurePassDescriptonPassSet: {
+    id: "screens.Security.obscurePassDescriptonPassSet",
     defaultMessage: "Protect your device against seizure",
   },
 });
@@ -46,19 +48,29 @@ const m = defineMessages({
 export const Security: NativeNavigationComponent<"Security"> = ({
   navigation,
 }) => {
-  const { passIsSet } = React.useContext(SecurityContext);
+  const { authValuesSet: authenticationValuesSet } = React.useContext(
+    SecurityContext
+  );
+  const [highlight, setHighlight] = React.useState(false);
 
   React.useEffect(() => {
     if (!devExperiments.appPasscode) navigation.navigate("Settings");
   }, []);
 
-  const [passCodeDes, killPassCodeDes] = React.useMemo(
+  const [passCodeDes, obscurePassCodeDes] = React.useMemo(
     () =>
-      passIsSet
-        ? [m.passDesriptionPassSet, m.killPassDescriptonPassSet]
-        : [m.passDesriptionPassNotSet, m.killPassDescriptonPassNotSet],
-    [passIsSet]
+      authenticationValuesSet.passcodeSet
+        ? [m.passDesriptionPassSet, m.obscurePassDescriptonPassSet]
+        : [m.passDesriptionPassNotSet, m.obscurePassDescriptonPassNotSet],
+    [authenticationValuesSet.passcodeSet]
   );
+
+  function highlightError() {
+    setHighlight(true);
+    setTimeout(() => {
+      setHighlight(false);
+    }, 2000);
+  }
 
   return (
     <ScrollView>
@@ -81,14 +93,21 @@ export const Security: NativeNavigationComponent<"Security"> = ({
         </ListItem>
 
         <ListItem
-          button={true}
           onPress={() => {
-            navigation.navigate("KillPasscode");
+            if (!authenticationValuesSet.passcodeSet) {
+              highlightError();
+              return;
+            }
+            navigation.navigate("ObscurePasscode");
           }}
         >
           <ListItemText
-            primary={<FormattedMessage {...m.killPasscodeHeader} />}
-            secondary={<FormattedMessage {...killPassCodeDes} />}
+            primary={<FormattedMessage {...m.obscurePasscodeHeader} />}
+            secondary={
+              <Text style={{ color: highlight ? RED : MEDIUM_GREY }}>
+                <FormattedMessage {...obscurePassCodeDes} />
+              </Text>
+            }
           />
         </ListItem>
       </List>

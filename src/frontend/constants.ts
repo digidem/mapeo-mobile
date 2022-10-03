@@ -3,6 +3,8 @@ import { AppStackList, HomeTabsList } from "./Navigation/AppStack";
 export const URI_PREFIX = "mapeo://";
 export const ERROR_STORE_KEY = "@MapeoError";
 export const NAV_STORE_KEY = "@MapeoNativeNav@1";
+export const PASSWORD_KEY = "PASSWORD";
+export const OBSCURE_KEY = "OBSCURE";
 // We are using RN_SRC_EXT to do this because in the future we might want to
 // mock some files for e2e testing, as described in
 // https://github.com/wix/Detox/blob/master/docs/Guide.Mocking.md
@@ -38,4 +40,4 @@ export const TEMP_HIDE_PRACTICE_MODE_UI: ScreenNames = [
 ];
 
 // this has to be a string because js does not recognize 00000 as being 5 digits
-export const KILL_PASSCODE = "00000";
+export const OBSCURE_PASSCODE = "00000";
