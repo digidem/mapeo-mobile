@@ -635,15 +635,6 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Thử lại"
   },
-  "screens.Security.killPassDescriptonPassNotSet": {
-    "message": "Để sử dụng, bật Mật khẩu ứng dụng"
-  },
-  "screens.Security.killPassDescriptonPassSet": {
-    "message": "Bảo vệ thiế bị của bạn khỏi bị tịch thu"
-  },
-  "screens.Security.killPasscodeHeader": {
-    "message": "Huỷ Mật khẩu"
-  },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "Mật khẩu chưa được đặt"
   },
