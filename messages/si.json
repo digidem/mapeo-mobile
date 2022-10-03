@@ -635,15 +635,6 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "යලි උත්සාහ කරන්න"
   },
-  "screens.Security.killPassDescriptonPassNotSet": {
-    "message": "භාවිතා කිරීමට, යෙදුම් මුරකේතය සබල කරන්න"
-  },
-  "screens.Security.killPassDescriptonPassSet": {
-    "message": "අල්ලා ගැනීමෙන් ඔබේ උපාංගය ආරක්ෂා කරන්න"
-  },
-  "screens.Security.killPasscodeHeader": {
-    "message": "මුර කේතය විසන්ධි කරන්න"
-  },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "මුර කේතය සකසා නැත"
   },
