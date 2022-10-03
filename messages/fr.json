@@ -635,15 +635,6 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Réessayer"
   },
-  "screens.Security.killPassDescriptonPassNotSet": {
-    "message": "Pour utiliser, activez le code d'accès à l'application"
-  },
-  "screens.Security.killPassDescriptonPassSet": {
-    "message": "Protégez votre appareil contre la saisie"
-  },
-  "screens.Security.killPasscodeHeader": {
-    "message": "Tuer le mot de passe"
-  },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "Code d'accès non défini"
   },
