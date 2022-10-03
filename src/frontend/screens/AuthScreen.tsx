@@ -63,6 +63,7 @@ export const AuthScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
+    display: "flex",
     paddingHorizontal: 20,
     alignItems: "center",
     paddingTop: 40,

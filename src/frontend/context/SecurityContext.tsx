@@ -7,7 +7,7 @@ type AuthState = "unauthenticated" | "authenticated" | "obscured";
 
 type AuthSetters =
   | { type: "passcode"; value: string | null }
-  //This is to set up the future use of the obscure pass beings set by the user. if the `value` is undefined, the default obscure pass is being used
+  // This is to set up the future use of the obscure pass beings set by the user. if the `value` is undefined, the default obscure pass is being used
   | { type: "obscure"; value?: string | null };
 
 type AuthValuesSet = {
@@ -101,7 +101,7 @@ const SecurityProviderInner = ({
 
       setPasscode(passcodeValue);
     },
-    [obscureCode]
+    [obscureCode, passcode]
   );
 
   const setObscureCodeWithValidation = React.useCallback(
@@ -187,5 +187,5 @@ const SecurityProviderInner = ({
 
 function validPasscode(passcode: string | null): boolean {
   if (passcode === null) return true;
-  return passcode.length === 5 && !isNaN(parseInt(passcode!, 10));
+  return passcode.length === 5 && !isNaN(parseInt(passcode, 10));
 }

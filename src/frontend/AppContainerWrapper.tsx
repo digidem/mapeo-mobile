@@ -23,7 +23,6 @@ import {
 } from "./Navigation/navigationStateHelperFunctions";
 import { AppNavigator } from "./Navigation/AppNavigator";
 import { AppState, AppStateStatus } from "react-native";
-import { useAuthState } from "./hooks/useAuthState";
 import { SecurityContext } from "./context/SecurityContext";
 
 // Turn on logging if in debug mode
@@ -37,7 +36,7 @@ const AppContainerWrapper = () => {
     InitialState | "loading" | undefined
   >("loading");
 
-  const { authValuesSet, setToUnauthenticated, authState } = React.useContext(
+  const { authValuesSet, setToUnauthenticated } = React.useContext(
     SecurityContext
   );
 
@@ -67,7 +66,6 @@ const AppContainerWrapper = () => {
     : undefined;
 
   React.useEffect(() => {
-    console.log("restore nav");
     if (featureFlagOn) {
       setInitialNavState(undefined);
       return;
@@ -79,7 +77,7 @@ const AppContainerWrapper = () => {
       try {
         // When we support deeplinking we need to fix this. Currently it is never resolving
         // You can find issue here: https://github.com/facebook/react-native/issues/25675
-        const initialUrl = undefined; //await Linking.getInitialURL();
+        const initialUrl = undefined; // await Linking.getInitialURL();
 
         // if deeplinking, dont set initial state
         if (initialUrl) {

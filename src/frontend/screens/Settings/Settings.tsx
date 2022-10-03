@@ -4,7 +4,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useAuthState } from "../../hooks/useAuthState";
 import { useExperiments } from "../../hooks/useExperiments";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
-import { devExperiments } from "../../lib/DevExperiments";
 import {
   List,
   ListItem,
