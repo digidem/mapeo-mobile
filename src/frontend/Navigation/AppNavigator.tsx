@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  createDefaultScreenGroup,
-  createOnboardingScreenGroup,
-  createAppPasscodeScreenGroup,
-  NavigatorScreenOptions,
-  RootStack,
-} from "./AppStack";
-import { devExperiments } from "../lib/DevExperiments";
+import { NavigatorScreenOptions, RootStack, ScreensWithAuth } from "./AppStack";
 import { useIntl } from "react-intl";
 
 // React Navigation expects children of the Navigator to be a `Screen`, `Group`
@@ -33,10 +26,7 @@ export const AppNavigator = () => {
       initialRouteName="Home"
       screenOptions={NavigatorScreenOptions}
     >
-      {createDefaultScreenGroup(formatMessage)}
-      {devExperiments.onboarding && createOnboardingScreenGroup(formatMessage)}
-      {devExperiments.appPasscode &&
-        createAppPasscodeScreenGroup(formatMessage)}
+      {ScreensWithAuth(formatMessage)}
     </RootStack.Navigator>
   );
 };

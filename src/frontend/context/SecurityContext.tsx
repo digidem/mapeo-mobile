@@ -20,6 +20,7 @@ type SecurityContextType = {
   setAuthValues: (val: AuthSetters) => void;
   authenticate: (val: string | null, validateOnly?: boolean) => boolean;
   authState: AuthState;
+  setToUnauthenticated: () => void;
 };
 
 const DefaultState: SecurityContextType = {
@@ -27,6 +28,7 @@ const DefaultState: SecurityContextType = {
   setAuthValues: () => {},
   authenticate: () => false,
   authState: "unauthenticated",
+  setToUnauthenticated: () => {},
 };
 
 export const SecurityContext = React.createContext<SecurityContextType>(
@@ -68,6 +70,14 @@ const SecurityProviderInner = ({
   const [obscureCode, , setObscureCode] = usePersistedObscureState<
     string | null
   >(null);
+
+  const setToUnauthenticated = React.useCallback(() => {
+    if (passcode === null) {
+      throw new Error("Cannot set to unauthenticated without a password set");
+    }
+
+    setAuthState("unauthenticated");
+  }, [passcode]);
 
   const setPasscodeWithValidation = React.useCallback(
     (passcodeValue: string | null) => {
@@ -156,8 +166,16 @@ const SecurityProviderInner = ({
       setAuthValues,
       authenticate,
       authState,
+      setToUnauthenticated,
     }),
-    [setAuthValues, authenticate, passcode, obscureCode, authState]
+    [
+      setAuthValues,
+      authenticate,
+      passcode,
+      obscureCode,
+      authState,
+      setToUnauthenticated,
+    ]
   );
 
   return (

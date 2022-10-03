@@ -1,6 +1,7 @@
 import * as React from "react";
 import { FormattedMessage, defineMessages } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
+import { useAuthState } from "../../hooks/useAuthState";
 import { useExperiments } from "../../hooks/useExperiments";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import { devExperiments } from "../../lib/DevExperiments";
@@ -108,6 +109,8 @@ const Settings: NativeNavigationComponent<"Settings"> = () => {
   const { navigate } = useNavigationFromRoot();
 
   const [experiments] = useExperiments();
+
+  const authState = useAuthState();
   return (
     <ScrollView>
       <List testID="settingsList">
@@ -174,7 +177,7 @@ const Settings: NativeNavigationComponent<"Settings"> = () => {
           ></ListItemText>
         </ListItem>
 
-        {devExperiments.appPasscode && (
+        {authState !== "obscured" && (
           <ListItem onPress={() => navigate("Security")}>
             <ListItemIcon iconName="security" />
             <ListItemText

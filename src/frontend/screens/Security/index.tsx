@@ -4,7 +4,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import { FormattedMessage, defineMessages } from "react-intl";
 
 import { List, ListItem, ListItemText } from "../../sharedComponents/List";
-import { devExperiments } from "../../lib/DevExperiments";
 import { NativeNavigationComponent } from "../../sharedTypes";
 import { SecurityContext } from "../../context/SecurityContext";
 import { MEDIUM_GREY, RED } from "../../lib/styles";
@@ -52,10 +51,6 @@ export const Security: NativeNavigationComponent<"Security"> = ({
     SecurityContext
   );
   const [highlight, setHighlight] = React.useState(false);
-
-  React.useEffect(() => {
-    if (!devExperiments.appPasscode) navigation.navigate("Settings");
-  }, []);
 
   const [passCodeDes, obscurePassCodeDes] = React.useMemo(
     () =>
