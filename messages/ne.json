@@ -22,6 +22,9 @@
   "screens.AddPhoto.cancel": {
     "message": "रद्द"
   },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError": {
+    "message": "पासकोडको रूपमा प्रयोग गर्न सकिँदैन"
+  },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
     "message": "क्यामाराकाे लागि पहुँच छैन"
