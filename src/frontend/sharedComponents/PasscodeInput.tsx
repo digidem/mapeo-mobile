@@ -24,10 +24,14 @@ interface PasscodeInputProps {
   stylesProps?: StyleProp<ViewStyle>;
   inputValue: string;
   onChangeTextWithValidation: (newVal: string) => void;
+  maskValues?: boolean;
 }
 
 export const PasscodeInput = React.forwardRef<TextInput, PasscodeInputProps>(
-  ({ stylesProps, inputValue, onChangeTextWithValidation }, inputRef) => {
+  (
+    { stylesProps, inputValue, onChangeTextWithValidation, maskValues = true },
+    inputRef
+  ) => {
     const [codeFieldProps, getCellOnLayoutHandler] = useClearByFocusCell({
       value: inputValue,
       setValue: onChangeTextWithValidation,
@@ -46,7 +50,7 @@ export const PasscodeInput = React.forwardRef<TextInput, PasscodeInputProps>(
       if (symbol) {
         textChild = (
           <MaskSymbol
-            maskSymbol="*"
+            maskSymbol={maskValues ? "*" : symbol}
             isLastFilledCell={isLastFilledCell({ index, value: inputValue })}
           >
             {symbol}
@@ -76,7 +80,7 @@ export const PasscodeInput = React.forwardRef<TextInput, PasscodeInputProps>(
         onChangeText={validateAndSetInput}
         cellCount={CELL_COUNT}
         rootStyle={[styles.codeFieldRoot, stylesProps]}
-        keyboardType="number-pad"
+        keyboardType="numeric"
         textContentType="oneTimeCode"
         renderCell={renderCell}
       />
