@@ -1,4 +1,3 @@
-// @flow
 /**
  * This component contains all the state logic for sync. Some state is stored in
  * Mapeo Core, but whether a peer has done syncing or an error during sync can
@@ -9,20 +8,15 @@
 import React from "react";
 import { Alert } from "react-native";
 import OpenSettings from "react-native-android-open-settings";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages } from "react-intl";
 import { getUniqueId } from "react-native-device-info";
 
 import SyncView from "./SyncView";
 import { useAllObservations } from "../../hooks/useAllObservations";
 import useWifiStatus from "../../hooks/useWifiStatus";
 import ConfigContext from "../../context/ConfigContext";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import usePeers from "./usePeers";
 import KeepAwake from "react-native-keep-awake";
-
-type Props = {
-  navigation: any,
-};
 
 const m = defineMessages({
   errorDialogOk: {
@@ -38,9 +32,9 @@ const m = defineMessages({
   },
 });
 
-const deviceName: string = "Android " + getUniqueId().slice(0, 4).toUpperCase();
+const deviceName = "Android " + getUniqueId().slice(0, 4).toUpperCase();
 
-const SyncModal = ({ navigation }: Props) => {
+const SyncModal = ({ navigation }) => {
   const [, reload] = useAllObservations();
 
   const [
@@ -99,16 +93,6 @@ const SyncModal = ({ navigation }: Props) => {
   );
 };
 
-SyncModal.navigationOptions = {
-  headerTintColor: "white",
-  headerStyle: {
-    backgroundColor: "#2348B2",
-  },
-  headerTitle: () => (
-    <HeaderTitle style={{ color: "white" }}>
-      <FormattedMessage {...m.syncHeader} />
-    </HeaderTitle>
-  ),
-};
+SyncModal.navTitle = m.syncHeader;
 
 export default SyncModal;

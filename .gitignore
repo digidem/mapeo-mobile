@@ -87,3 +87,6 @@ buck-out/
 
 # Downloaded APK for detox tests
 /.cache
+
+# git-secret
+.gitsecret/keys/random_seed

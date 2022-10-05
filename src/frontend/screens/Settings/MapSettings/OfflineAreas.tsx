@@ -1,7 +1,6 @@
 import * as React from "react";
-import { defineMessages, FormattedMessage, useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { ScrollView, StyleSheet } from "react-native";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 
 import { RED } from "../../../lib/styles";
 import {
@@ -10,10 +9,10 @@ import {
   useBottomSheetModal,
 } from "../../../sharedComponents/BottomSheetModal";
 import Button from "../../../sharedComponents/Button";
-import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import { ErrorIcon } from "../../../sharedComponents/icons";
 import Loading from "../../../sharedComponents/Loading";
 import { OfflineAreaCard } from "../../../sharedComponents/OfflineAreaCard";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -45,8 +44,8 @@ interface OfflineArea {
   zoomLevel: number;
 }
 
-export const OfflineAreas: NavigationStackScreenComponent = ({
-  navigation,
+export const OfflineAreas: NativeNavigationComponent<"OfflineAreas"> = ({
+  route,
 }) => {
   const bgMapId = React.useRef("");
   const { formatMessage: t } = useIntl();
@@ -57,10 +56,8 @@ export const OfflineAreas: NavigationStackScreenComponent = ({
 
   const [offlineAreaList, setOfflineAreaList] = React.useState<OfflineArea[]>();
 
-  const { getParam } = navigation;
-
   React.useEffect(() => {
-    bgMapId.current = getParam("mapId", "");
+    bgMapId.current = route.params.mapId;
 
     // To Do Api call to get offline areas
     function getAllOfflineAreas(mapId: string): OfflineArea[] {
@@ -79,7 +76,7 @@ export const OfflineAreas: NavigationStackScreenComponent = ({
     }
 
     setOfflineAreaList(getAllOfflineAreas(bgMapId.current));
-  }, [getParam]);
+  }, [route.params.mapId]);
 
   return (
     <React.Fragment>
@@ -137,13 +134,7 @@ export const OfflineAreas: NavigationStackScreenComponent = ({
   );
 };
 
-OfflineAreas.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-};
+OfflineAreas.navTitle = m.title;
 
 const styles = StyleSheet.create({
   container: {

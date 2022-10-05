@@ -2,7 +2,6 @@ import * as React from "react";
 import * as DocumentPicker from "expo-document-picker";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { LIGHT_GREY, MEDIUM_GREY } from "../../../lib/styles";
 import { BGMapCard } from "../../../sharedComponents/BGMapCard";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
@@ -12,6 +11,10 @@ import Loading from "../../../sharedComponents/Loading";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "../../../sharedComponents/Touchables";
+import {
+  NativeNavigationComponent,
+  NativeRootNavigationProps,
+} from "../../../sharedTypes";
 
 const m = defineMessages({
   addBGMap: {
@@ -44,7 +47,7 @@ interface BackgroundMap {
   mapId: string;
 }
 
-export const BackgroundMaps: NavigationStackScreenComponent = ({
+export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
   navigation,
 }) => {
   const sheetRef = React.useRef<BottomSheetMethods>(null);
@@ -93,7 +96,6 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
         {/* Default BG map card */}
         <BGMapCard
           mapId="D3f4U1t"
-          navigation={navigation}
           style={{ marginTop: 20 }}
           mapSize={45}
           mapTitle="Default Map"
@@ -110,7 +112,6 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
             <BGMapCard
               key={bgMap.mapId}
               mapId={bgMap.mapId}
-              navigation={navigation}
               mapSize={bgMap.size}
               mapTitle={bgMap.title}
             />
@@ -167,13 +168,7 @@ export const BackgroundMaps: NavigationStackScreenComponent = ({
   );
 };
 
-BackgroundMaps.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-};
+BackgroundMaps.navTitle = m.title;
 
 const styles = StyleSheet.create({
   button: {

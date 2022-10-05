@@ -1,21 +1,14 @@
 import * as React from "react";
-import { StyleSheet } from "react-native";
+
 import { ScrollView } from "react-native-gesture-handler";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages } from "react-intl";
 
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ListDivider,
-} from "../../sharedComponents/List";
-import IconButton from "../../sharedComponents/IconButton";
-import { BackIcon } from "../../sharedComponents/icons";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import { SecurityContext } from "./SecurityContext";
-import { useNavigation } from "react-navigation-hooks";
+import { List, ListItem, ListItemText } from "../../sharedComponents/List";
 import { devExperiments } from "../../lib/DevExperiments";
+import { NativeNavigationComponent } from "../../sharedTypes";
+import { SecurityContext } from "../../context/SecurityContext";
+import { MEDIUM_GREY, RED } from "../../lib/styles";
+import { Text } from "react-native";
 
 const m = defineMessages({
   title: {
@@ -38,48 +31,46 @@ const m = defineMessages({
     id: "screens.Security.passDesriptionPassSet",
     defaultMessage: "Passcode is set",
   },
-  killPasscodeHeader: {
-    id: "screens.Security.killPasscodeHeader",
+  obscurePasscodeHeader: {
+    id: "screens.Security.obscurePasscodeHeader",
     defaultMessage: "Kill Passcode",
   },
-  killPassDescriptonPassNotSet: {
-    id: "screens.Security.killPassDescriptonPassNotSet",
+  obscurePassDescriptonPassNotSet: {
+    id: "screens.Security.obscurePassDescriptonPassNotSet",
     defaultMessage: "To use, enable App Passcode",
   },
-  killPassDescriptonPassSet: {
-    id: "screens.Security.killPassDescriptonPassSet",
+  obscurePassDescriptonPassSet: {
+    id: "screens.Security.obscurePassDescriptonPassSet",
     defaultMessage: "Protect your device against seizure",
-  },
-  deviceBackup: {
-    id: "screens.Security.deviceBackup",
-    defaultMessage: "Device Backup",
-  },
-  paperKey: {
-    id: "screens.Security.paperKey",
-    defaultMessage: "Paper Key",
-  },
-  paperKeyDes: {
-    id: "screens.Security.paperKeyDes",
-    defaultMessage: "Reinstate your account if this device is lost",
   },
 });
 
-export const Security: NavigationStackScreenComponent = () => {
-  const { passIsSet } = React.useContext(SecurityContext);
-  const { navigate } = useNavigation();
-  const { appPasscode } = devExperiments;
+export const Security: NativeNavigationComponent<"Security"> = ({
+  navigation,
+}) => {
+  const { authValuesSet: authenticationValuesSet } = React.useContext(
+    SecurityContext
+  );
+  const [highlight, setHighlight] = React.useState(false);
 
   React.useEffect(() => {
-    if (!devExperiments.appPasscode) navigate("Settings");
+    if (!devExperiments.appPasscode) navigation.navigate("Settings");
   }, []);
 
-  const [passCodeDes, killPassCodeDes] = React.useMemo(
+  const [passCodeDes, obscurePassCodeDes] = React.useMemo(
     () =>
-      passIsSet
-        ? [m.passDesriptionPassSet, m.killPassDescriptonPassSet]
-        : [m.passDesriptionPassNotSet, m.killPassDescriptonPassNotSet],
-    [passIsSet]
+      authenticationValuesSet.passcodeSet
+        ? [m.passDesriptionPassSet, m.obscurePassDescriptonPassSet]
+        : [m.passDesriptionPassNotSet, m.obscurePassDescriptonPassNotSet],
+    [authenticationValuesSet.passcodeSet]
   );
+
+  function highlightError() {
+    setHighlight(true);
+    setTimeout(() => {
+      setHighlight(false);
+    }, 2000);
+  }
 
   return (
     <ScrollView>
@@ -91,33 +82,32 @@ export const Security: NavigationStackScreenComponent = () => {
           />
         </ListItem>
 
-        <ListItem button={true} onPress={() => navigate("AppPasscode")}>
+        <ListItem
+          button={true}
+          onPress={() => navigation.navigate("AppPasscode")}
+        >
           <ListItemText
             primary={<FormattedMessage {...m.passcodeHeader} />}
             secondary={<FormattedMessage {...passCodeDes} />}
           />
         </ListItem>
 
-        <ListItem button={true} onPress={() => {}}>
+        <ListItem
+          onPress={() => {
+            if (!authenticationValuesSet.passcodeSet) {
+              highlightError();
+              return;
+            }
+            navigation.navigate("ObscurePasscode");
+          }}
+        >
           <ListItemText
-            primary={<FormattedMessage {...m.killPasscodeHeader} />}
-            secondary={<FormattedMessage {...killPassCodeDes} />}
-          />
-        </ListItem>
-
-        <ListDivider style={styles.divder} />
-
-        <ListItem button={false}>
-          <ListItemText
-            style={{ textTransform: "uppercase" }}
-            primary={<FormattedMessage {...m.deviceBackup} />}
-          />
-        </ListItem>
-
-        <ListItem>
-          <ListItemText
-            primary={<FormattedMessage {...m.paperKey} />}
-            secondary={<FormattedMessage {...m.paperKeyDes} />}
+            primary={<FormattedMessage {...m.obscurePasscodeHeader} />}
+            secondary={
+              <Text style={{ color: highlight ? RED : MEDIUM_GREY }}>
+                <FormattedMessage {...obscurePassCodeDes} />
+              </Text>
+            }
           />
         </ListItem>
       </List>
@@ -125,22 +115,4 @@ export const Security: NavigationStackScreenComponent = () => {
   );
 };
 
-Security.navigationOptions = () => ({
-  headerTitle: () => (
-    <HeaderTitle style={{}}>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-  headerLeft: ({ onPress }) =>
-    onPress && (
-      <IconButton onPress={onPress}>
-        <BackIcon />
-      </IconButton>
-    ),
-});
-
-const styles = StyleSheet.create({
-  divder: {
-    marginVertical: 20,
-  },
-});
+Security.navTitle = m.title;

@@ -13,8 +13,8 @@ import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import Loading from "../../sharedComponents/Loading";
 import { LIGHT_GREY, MEDIUM_BLUE, WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
-import { useNavigation } from "react-navigation-hooks";
 import LocationContext from "../../context/LocationContext";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   title: {
@@ -54,7 +54,7 @@ export const BGMapSelector = React.forwardRef<
     null
   );
 
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigationFromRoot();
 
   const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
     0,

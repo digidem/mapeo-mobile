@@ -4,8 +4,8 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import ConfigContext from "../../context/ConfigContext";
 import Button from "../../sharedComponents/Button";
-import { useNavigation } from "react-navigation-hooks";
 import { LeaveProjSharedProp } from ".";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 
 const m = defineMessage({
   leaveProjectTitle: {
@@ -49,7 +49,7 @@ export const LeaveProjectInitial = ({ next }: LeaveProjSharedProp) => {
   const [untouched, setUntouched] = useState(true);
   const [config] = useContext(ConfigContext);
 
-  const nav = useNavigation();
+  const nav = useNavigationFromRoot();
 
   function getObservationData() {}
 

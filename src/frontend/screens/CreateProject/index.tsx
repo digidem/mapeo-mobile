@@ -2,12 +2,11 @@ import * as React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 
 import { WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import Text from "../../sharedComponents/Text";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 import { InputField } from "./InputField";
 import { useInputFieldValue } from "./useInputFieldValue";
@@ -55,7 +54,7 @@ const m = defineMessages({
   },
 });
 
-export const CreateProjectScreen: NavigationStackScreenComponent = ({
+export const CreateProjectScreen: NativeNavigationComponent<"CreateProjectScreen"> = ({
   navigation,
 }) => {
   const { formatMessage: t } = useIntl();
@@ -81,7 +80,7 @@ export const CreateProjectScreen: NavigationStackScreenComponent = ({
 
     // TODO: Handle project creation based on form details, then navigate if successful
     if (canSubmit) {
-      navigation.navigate("Home");
+      navigation.navigate("Home", { screen: "Map" });
     }
   };
 
@@ -133,13 +132,7 @@ export const CreateProjectScreen: NavigationStackScreenComponent = ({
   );
 };
 
-CreateProjectScreen.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle style={{}}>
-      <FormattedMessage {...m.createProjectTitle} />
-    </HeaderTitle>
-  ),
-};
+CreateProjectScreen.navTitle = m.createProjectTitle;
 
 const styles = StyleSheet.create({
   container: {

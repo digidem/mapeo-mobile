@@ -1,17 +1,15 @@
 import * as React from "react";
-import { defineMessages, FormattedMessage } from "react-intl";
-import { StyleSheet } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { useNavigation } from "react-navigation-hooks";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
-import SettingsContext from "../../context/SettingsContext";
-import { devExperiments } from "../../lib/DevExperiments";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import IconButton from "../../sharedComponents/IconButton";
-import { BackIcon } from "../../sharedComponents/icons";
-import { SecurityContext } from "../Security/SecurityContext";
-import { EnterPasscode } from "./EnterPasscode";
-import { NewPasscode } from "./NewPasscode";
+import { defineMessages } from "react-intl";
+import { StyleSheet, View } from "react-native";
+import { SecurityContext } from "../../context/SecurityContext";
+
+import { WHITE } from "../../lib/styles";
+import { NativeNavigationComponent } from "../../sharedTypes";
+import { EnterPassToTurnOff } from "./EnterPassToTurnOff";
+
+import { PasscodeIntro } from "./PasscodeIntro";
+import { SetPassword } from "./SetPasscode";
+import { TurnOffPasscode } from "./TurnOffPasscode";
 
 const m = defineMessages({
   title: {
@@ -20,39 +18,46 @@ const m = defineMessages({
   },
 });
 
-export const AppPasscode: NavigationStackScreenComponent = () => {
-  const { passIsSet } = React.useContext(SecurityContext);
-  const { navigate } = useNavigation();
-  const { appPasscode } = devExperiments;
+export type PasscodeScreens =
+  | "intro"
+  | "setPasscode"
+  | "enterPasscode"
+  | "disablePasscode";
 
-  React.useEffect(() => {
-    if (!appPasscode) navigate("Settings");
-  }, [appPasscode]);
-
-  return (
-    <ScrollView contentContainerStyle={styles.pageContainer}>
-      {!passIsSet ? <NewPasscode /> : <EnterPasscode />}
-    </ScrollView>
+export const AppPasscode: NativeNavigationComponent<"AppPasscode"> = () => {
+  const { authValuesSet: authenticationValuesSet } = React.useContext(
+    SecurityContext
   );
+  const [screenState, setScreenState] = React.useState<PasscodeScreens>(() =>
+    authenticationValuesSet.passcodeSet ? "enterPasscode" : "intro"
+  );
+
+  const screen = React.useMemo(() => {
+    if (screenState === "intro") {
+      return <PasscodeIntro setScreen={setScreenState} />;
+    }
+
+    if (screenState === "setPasscode") {
+      return <SetPassword setScreen={setScreenState} />;
+    }
+
+    if (screenState === "enterPasscode") {
+      return <EnterPassToTurnOff setScreenState={setScreenState} />;
+    }
+
+    return <TurnOffPasscode setScreenState={setScreenState} />;
+  }, [screenState]);
+
+  return <View style={styles.pageContainer}>{screen}</View>;
 };
 
-AppPasscode.navigationOptions = () => ({
-  headerTitle: () => (
-    <HeaderTitle style={{}}>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-  headerLeft: ({ onPress }) =>
-    onPress && (
-      <IconButton onPress={onPress}>
-        <BackIcon />
-      </IconButton>
-    ),
-});
+AppPasscode.navTitle = m.title;
+
 const styles = StyleSheet.create({
   pageContainer: {
-    paddingTop: 40,
     paddingBottom: 20,
     paddingHorizontal: 20,
+    flex: 1,
+    backgroundColor: WHITE,
   },
 });

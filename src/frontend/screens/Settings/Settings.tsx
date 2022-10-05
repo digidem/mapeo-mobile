@@ -1,17 +1,16 @@
 import * as React from "react";
 import { FormattedMessage, defineMessages } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
-import { useNavigation } from "react-navigation-hooks";
 import { useExperiments } from "../../hooks/useExperiments";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import { devExperiments } from "../../lib/DevExperiments";
-
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import {
   List,
   ListItem,
   ListItemText,
   ListItemIcon,
 } from "../../sharedComponents/List";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 const m = defineMessages({
   settingsTitle: {
@@ -105,8 +104,8 @@ const m = defineMessages({
   },
 });
 
-const Settings = () => {
-  const { navigate } = useNavigation();
+const Settings: NativeNavigationComponent<"Settings"> = () => {
+  const { navigate } = useNavigationFromRoot();
 
   const [experiments] = useExperiments();
   return (
@@ -189,12 +188,6 @@ const Settings = () => {
   );
 };
 
-Settings.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.settingsTitle} />
-    </HeaderTitle>
-  ),
-};
+Settings.navTitle = m.settingsTitle;
 
 export default Settings;

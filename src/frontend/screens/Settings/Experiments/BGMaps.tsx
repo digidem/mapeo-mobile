@@ -2,13 +2,12 @@ import * as React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import { LIGHT_BLUE, LIGHT_GREY } from "../../../lib/styles";
-import HeaderTitle from "../../../sharedComponents/HeaderTitle";
+
 import { useExperiments } from "../../../hooks/useExperiments";
-import { useNavigation } from "react-navigation-hooks";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   BGMaps: {
@@ -25,12 +24,14 @@ const m = defineMessages({
   },
 });
 
-export const BGMapsSettings: NavigationStackScreenComponent = () => {
+export const BGMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
+  navigation,
+}) => {
   const [experiments, setExperiments] = useExperiments();
 
   const { formatMessage: t } = useIntl();
 
-  const { navigate, goBack } = useNavigation();
+  const { navigate, goBack } = navigation;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -98,13 +99,7 @@ export const BGMapsSettings: NavigationStackScreenComponent = () => {
   );
 };
 
-BGMapsSettings.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.BGMaps} />
-    </HeaderTitle>
-  ),
-};
+BGMapsSettings.navTitle = m.BGMaps;
 
 const styles = StyleSheet.create({
   container: {
