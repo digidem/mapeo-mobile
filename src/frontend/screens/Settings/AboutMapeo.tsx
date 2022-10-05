@@ -1,5 +1,4 @@
-// @flow
-import React from "react";
+import * as React from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { defineMessages, useIntl } from "react-intl";
 
@@ -60,8 +59,8 @@ const DeviceInfoListItem = ({
   label,
   deviceProp,
 }: {
-  label: string,
-  deviceProp: string,
+  label: string;
+  deviceProp: string;
 }) => {
   const { formatMessage } = useIntl();
   const { value, state } = useDeviceInfo(deviceProp);
