@@ -1,14 +1,12 @@
 import * as React from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { StyleSheet, View, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 
 import { LIGHT_GREY, MEDIUM_GREY } from "../lib/styles";
 import { ViewStyleProp } from "../sharedTypes";
 import { Pill } from "./Pill";
 import LocationContext from "../context/LocationContext";
-import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   currentMap: {
@@ -43,32 +41,11 @@ export const BGMapCard = ({
   style,
   isSelected,
   styleUrl,
-  onPress,
-  mapId,
 }: BGMapCardProps) => {
   const { formatMessage: t } = useIntl();
-  const { navigate } = useNavigationFromRoot();
   const { position } = React.useContext(LocationContext);
 
-  const [zoomLevel, setZoomLevel] = React.useState<number>(6);
-
-  function onPressDefault() {
-    navigate("OfflineAreas", { mapId });
-  }
-
-  React.useEffect(() => {
-    function getZoomLevel() {
-      // To do: API call to get zoom level
-      // This should be min zoom. Where is this coming from?
-      return 6;
-    }
-
-    setZoomLevel(getZoomLevel());
-  }, []);
-
   return (
-    // To do. When deletion is supported, conver this to a TouchableOpacity
-    // and make onPress={onPress || onPressDefault}
     <View
       style={[
         { borderColor: MEDIUM_GREY, borderWidth: 1, borderRadius: 2 },
