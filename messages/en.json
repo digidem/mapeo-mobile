@@ -816,7 +816,7 @@
     "message": "Cancel"
   },
   "screens.Settings.MapSettings.clearDiagrams": {
-    "message": "Are you sure you want to delete map?"
+    "message": "Are you sure you want to clear diagrams?"
   },
   "screens.Settings.MapSettings.close": {
     "message": "Close"
