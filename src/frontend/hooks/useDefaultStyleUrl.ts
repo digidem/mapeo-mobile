@@ -6,9 +6,7 @@ import {
 } from "../context/MapStyleContext";
 
 export const useDefaultStyleUrl = () => {
-  const { mapServerReady, onlineMapState } = React.useContext(MapStyleContext);
-
-  if (!mapServerReady) return null;
+  const { onlineMapState } = React.useContext(MapStyleContext);
 
   return onlineMapState === "online" ? onlineStyleURL : fallbackStyleURL;
 };

@@ -27,14 +27,14 @@ export type MapTypes =
   | "fallback";
 
 export type MapStyleContextType = {
-  styleId: string | null;
-  setStyleId: React.Dispatch<React.SetStateAction<string | null>>;
+  styleId: string;
+  setStyleId: React.Dispatch<React.SetStateAction<string>>;
   mapServerReady: boolean;
   onlineMapState: OnlineState;
 };
 
 const defaultMapStyleContext: MapStyleContextType = {
-  styleId: null,
+  styleId: "",
   setStyleId: () => {},
   mapServerReady: false,
   onlineMapState: "unknown",
@@ -48,7 +48,7 @@ const usePersistedState = createPersistedState(MAP_STYLE_KEY);
 
 export const MapStyleProvider: React.FC = ({ children }) => {
   const [mapServerReady, setMapServerReady] = React.useState(false);
-  const [styleId, , setStyleId] = usePersistedState<string | null>(null);
+  const [styleId, status, setStyleId] = usePersistedState<string>("");
   const [{ backgroundMaps }] = useExperiments();
 
   const [onlineMapState, setOnlineState] = React.useState<OnlineState>(

@@ -3,34 +3,20 @@ import * as React from "react";
 import api from "../api";
 import { useExperiments } from "./useExperiments";
 
-import {
-  fallbackStyleURL,
-  MapStyleContext,
-  MapStyleContextType,
-  MapTypes,
-  OnlineState,
-  onlineStyleURL,
-} from "../context/MapStyleContext";
+import { MapStyleContext, MapTypes } from "../context/MapStyleContext";
 import { DEFAULT_MAP_ID } from "../screens/Settings/MapSettings/BackgroundMaps";
 import { useDefaultStyleUrl } from "./useDefaultStyleUrl";
 
 type LegacyCustomMapState = "unknown" | "unavailable" | "available";
 type SetStyleId = (id: string) => void;
-type MapStyleState =
-  | {
-      styleUrl: null | string;
-      styleType: Exclude<MapTypes, "mapServer">;
-      setStyleId: SetStyleId;
-      styleId?: string;
-    }
-  | {
-      styleUrl: null | string;
-      styleType: Extract<MapTypes, "mapServer">;
-      setStyleId: SetStyleId;
-      styleId: string;
-    };
+type MapStyleState = {
+  styleUrl: null | string;
+  styleType: MapTypes;
+  setStyleId: SetStyleId;
+  styleId?: string;
+};
 
-function useLegacyStyle(onlineMapState: OnlineState): MapStyleState {
+function useLegacyStyle(defaultMap: string): MapStyleState {
   const [customMapState, setCustomMapState] = React.useState<
     LegacyCustomMapState
   >("unknown");
@@ -52,42 +38,33 @@ function useLegacyStyle(onlineMapState: OnlineState): MapStyleState {
     const setStyleId = (id: string) => {
       throw new Error("Cannot set styleId on legacy map");
     };
-    if (onlineMapState === "unknown" || customMapState === "unknown") {
+
+    if (customMapState === "unknown") {
       return { styleType: "loading", styleUrl: null, setStyleId };
-    } else if (customMapState === "available") {
+    }
+
+    if (customMapState === "available") {
       return {
         styleType: "custom",
         styleUrl: api.getMapStyleUrl("default"),
         setStyleId,
       };
-    } else if (onlineMapState === "online") {
-      return { styleType: "online", styleUrl: onlineStyleURL, setStyleId };
-    } else {
-      return { styleType: "fallback", styleUrl: fallbackStyleURL, setStyleId };
     }
-  }, [onlineMapState, customMapState]);
+
+    return { styleType: "fallback", styleUrl: defaultMap, setStyleId };
+  }, [defaultMap, customMapState]);
 }
 
-function useMapServerStyle({
-  styleId,
-  setStyleId,
-  mapServerReady,
-}: MapStyleContextType): MapStyleState {
-  const defaultStyleUrl = useDefaultStyleUrl();
+function useMapServerStyle(defaultStyleUrl: string): MapStyleState {
+  const { mapServerReady, setStyleId, styleId } = React.useContext(
+    MapStyleContext
+  );
 
   return React.useMemo(() => {
     if (!mapServerReady) {
       return {
         styleType: "loading",
         styleUrl: null,
-        setStyleId,
-      };
-    }
-
-    if (typeof styleId !== "string") {
-      return {
-        styleType: "loading",
-        styleUrl: defaultStyleUrl,
         setStyleId,
       };
     }
@@ -112,9 +89,9 @@ function useMapServerStyle({
 
 export function useMapStyle(styleId: string = "default"): MapStyleState {
   const [{ backgroundMaps }] = useExperiments();
-  const mapStyleInfo = React.useContext(MapStyleContext);
-  const legacyStyleInfo = useLegacyStyle(mapStyleInfo.onlineMapState);
-  const mapServerInfo = useMapServerStyle(mapStyleInfo);
+  const defaultStyleUrl = useDefaultStyleUrl();
+  const legacyStyleInfo = useLegacyStyle(defaultStyleUrl);
+  const mapServerInfo = useMapServerStyle(defaultStyleUrl);
 
   return backgroundMaps ? mapServerInfo : legacyStyleInfo;
 }
