@@ -40,9 +40,6 @@ export const BGMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={[styles.header]}>
-        <FormattedMessage {...m.BGMaps} />
-      </Text>
       <Text style={[{ marginBottom: 20 }, styles.text]}>
         {t(m.BGMapsDescription)}
       </Text>
@@ -98,6 +95,7 @@ BGMapsSettings.navTitle = m.BGMaps;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
+    paddingVertical: 40,
   },
   header: {
     fontSize: 32,

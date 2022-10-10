@@ -51,11 +51,7 @@ interface MapSelectorProps {
 export const BGMapSelector = React.forwardRef<
   BottomSheetMethods,
   MapSelectorProps
->(({ closeSheet, onMapSelected }, ref) => {
-  const [bgMapsList, setBgMapList] = React.useState<null | MapServerStyle[]>(
-    null
-  );
-
+>(({ closeSheet, onMapSelected, bgMapsList }, ref) => {
   const { navigate } = useNavigationFromRoot();
   const mapServerReady = useMapServerState();
 
@@ -88,7 +84,7 @@ export const BGMapSelector = React.forwardRef<
         <View style={{ backgroundColor: WHITE }}>
           <Text style={styles.title}> {t(m.title)}</Text>
 
-          {bgMapsList === null ? (
+          {bgMapsList === null || !mapServerReady ? (
             <View style={{ margin: 40 }}>
               <Loading />
             </View>
