@@ -89,7 +89,7 @@ export const MapStyleProvider: React.FC = ({ children }) => {
 
   return (
     <MapStyleContext.Provider value={contextValue}>
-      {children}
+      {status === "loading" ? null : children}
     </MapStyleContext.Provider>
   );
 };
