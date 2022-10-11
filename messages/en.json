@@ -1209,7 +1209,7 @@
   },
   "sharedComponents.BGMapCard.unamedStyle": {
     "description": "The name for the default map style",
-    "message": "Unamed Style"
+    "message": "Unnamed Style"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Close"
