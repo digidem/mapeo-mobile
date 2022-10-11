@@ -18,9 +18,9 @@ const m = defineMessages({
     defaultMessage: "MB",
     description: "The abbreviation for megabyte",
   },
-  unamedStyle: {
+  unnamedStyle: {
     id: "sharedComponents.BGMapCard.unamedStyle",
-    defaultMessage: "Unamed Style",
+    defaultMessage: "Unnamed Style",
     description: "The name for the default map style",
   },
 });
@@ -29,7 +29,7 @@ const m = defineMessages({
 
 interface BGMapCardProps {
   mapId: string;
-  mapTitle?: string;
+  mapTitle: string | null;
   style?: ViewStyleProp;
   styleUrl: string;
   onPress?: (() => void) | null;
@@ -75,7 +75,7 @@ export const BGMapCard = ({
         </MapboxGL.MapView>
         <View style={[styles.textContainer]}>
           <Text style={[styles.text, { fontWeight: "bold" }]}>
-            {mapTitle || t(m.unamedStyle)}
+            {mapTitle || t(m.unnamedStyle)}
           </Text>
           {isSelected && (
             <Pill containerStyle={{ marginTop: 10 }} text={m.currentMap} />

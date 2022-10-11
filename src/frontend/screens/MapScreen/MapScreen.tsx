@@ -17,17 +17,13 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { MEDIUM_GREY } from "../../lib/styles";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useExperiments } from "../../hooks/useExperiments";
-import { NativeHomeTabsNavigationProps } from "../../sharedTypes";
+import {
+  MapServerStyle,
+  NativeHomeTabsNavigationProps,
+} from "../../sharedTypes";
 import api from "../../api";
 import { useMapServerState } from "../../hooks/useMapServerState";
 const log = debug("mapeo:MapScreen");
-
-export interface MapServerStyle {
-  id: string;
-  url: string;
-  name?: string;
-}
-
 
 export const MapScreen = ({
   navigation,
@@ -46,7 +42,7 @@ export const MapScreen = ({
 
   React.useEffect(() => {
     if (mapServerReady) {
-      api.maps.getStyleList().then(setBgMapList);
+      api.maps.getStyleList().then(val => setBgMapList(val));
     }
   }, [mapServerReady]);
 

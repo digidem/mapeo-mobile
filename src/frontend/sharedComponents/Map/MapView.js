@@ -327,8 +327,6 @@ class MapView extends React.Component<Props, State> {
     const locationServicesEnabled =
       location.provider && location.provider.locationServicesEnabled;
 
-    console.log("MAPVIEW", { styleURL, styleType });
-
     return (
       <>
         {styleType === "loading" && styleURL === null ? (

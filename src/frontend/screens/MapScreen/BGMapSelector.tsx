@@ -20,7 +20,7 @@ import { OfflineMapLayers } from "../../sharedComponents/OfflineMapLayers";
 import { DEFAULT_MAP_ID } from "../Settings/MapSettings/BackgroundMaps";
 import { useMapServerState } from "../../hooks/useMapServerState";
 import { useDefaultStyleUrl } from "../../hooks/useDefaultStyleUrl";
-import { MapServerStyle } from "./MapScreen";
+import { MapServerStyle } from "../../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -164,7 +164,7 @@ const MapThumbnail = ({
   onMapSelected,
 }: {
   styleUrl: string;
-  title?: string;
+  title: string | null;
   id: string;
   onMapSelected: (id: string) => void;
 }) => {
