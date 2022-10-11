@@ -24,13 +24,19 @@ export type PasscodeScreens =
   | "enterPasscode"
   | "disablePasscode";
 
-export const AppPasscode: NativeNavigationComponent<"AppPasscode"> = () => {
-  const { authValuesSet: authenticationValuesSet } = React.useContext(
-    SecurityContext
-  );
+export const AppPasscode: NativeNavigationComponent<"AppPasscode"> = ({
+  navigation,
+}) => {
+  const { authValuesSet, obscureModeOn } = React.useContext(SecurityContext);
   const [screenState, setScreenState] = React.useState<PasscodeScreens>(() =>
-    authenticationValuesSet.passcodeSet ? "enterPasscode" : "intro"
+    authValuesSet.passcodeSet ? "enterPasscode" : "intro"
   );
+
+  React.useEffect(() => {
+    if (obscureModeOn) {
+      navigation.navigate("Settings");
+    }
+  }, [navigation, obscureModeOn]);
 
   const screen = React.useMemo(() => {
     if (screenState === "intro") {

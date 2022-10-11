@@ -18,7 +18,6 @@ import {
 import { MessageDescriptor } from "react-intl";
 import { devExperiments } from "../lib/DevExperiments";
 import { AuthStackList, createAuthScreenGroup } from "./ScreenGroups/Auth";
-import { useAuthState } from "../hooks/useAuthState";
 
 export type AppStackList = AppList &
   OnboardingStackList &
@@ -40,18 +39,14 @@ export const NavigatorScreenOptions: NativeStackNavigationOptions = {
 };
 
 export const ScreensWithAuth = (intl: (title: MessageDescriptor) => string) => {
-  const authState = useAuthState();
   return (
     <React.Fragment>
-      {authState === "unauthenticated" ? (
-        createAuthScreenGroup()
-      ) : (
-        <React.Fragment>
-          {createDefaultScreenGroup(intl)}
-          {devExperiments.onboarding && createOnboardingScreenGroup(intl)}
-          {createAppPasscodeScreenGroup(intl)}
-        </React.Fragment>
-      )}
+      <React.Fragment>
+        {createDefaultScreenGroup(intl)}
+        {createAuthScreenGroup()}
+        {devExperiments.onboarding && createOnboardingScreenGroup(intl)}
+        {createAppPasscodeScreenGroup(intl)}
+      </React.Fragment>
     </React.Fragment>
   );
 };

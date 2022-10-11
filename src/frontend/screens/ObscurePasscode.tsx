@@ -25,11 +25,18 @@ const m = defineMessages({
   },
 });
 
-export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = () => {
-  const {
-    setAuthValues: setAuthenticationValues,
-    authValuesSet: authenticationValuesSet,
-  } = React.useContext(SecurityContext);
+export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = ({
+  navigation,
+}) => {
+  const { setAuthValues, authValuesSet, obscureModeOn } = React.useContext(
+    SecurityContext
+  );
+
+  React.useEffect(() => {
+    if (obscureModeOn) {
+      navigation.navigate("Settings");
+    }
+  }, [navigation, obscureModeOn]);
 
   return (
     <ScrollView style={styles.container}>
@@ -50,17 +57,15 @@ export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = () 
         <TouchableOpacity
           shouldActivateOnStart
           onPress={() =>
-            setAuthenticationValues({
+            setAuthValues({
               type: "obscure",
-              value: authenticationValuesSet.obscureSet ? null : undefined,
+              value: authValuesSet.obscureSet ? null : undefined,
             })
           }
         >
           <MaterialIcon
             name={
-              authenticationValuesSet.obscureSet
-                ? "check-box"
-                : "check-box-outline-blank"
+              authValuesSet.obscureSet ? "check-box" : "check-box-outline-blank"
             }
             size={32}
             color="rgba(0, 0, 0, 0.54)"
@@ -68,7 +73,7 @@ export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = () 
         </TouchableOpacity>
       </View>
 
-      {authenticationValuesSet.obscureSet && (
+      {authValuesSet.obscureSet && (
         <View style={styles.passbox}>
           <Text style={{ textAlign: "center", marginBottom: 10, fontSize: 20 }}>
             {OBSCURE_PASSCODE}

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FormattedMessage, defineMessages } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
-import { useAuthState } from "../../hooks/useAuthState";
+import { SecurityContext } from "../../context/SecurityContext";
 import { useExperiments } from "../../hooks/useExperiments";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import {
@@ -109,7 +109,8 @@ const Settings: NativeNavigationComponent<"Settings"> = () => {
 
   const [experiments] = useExperiments();
 
-  const authState = useAuthState();
+  const { obscureModeOn } = React.useContext(SecurityContext);
+
   return (
     <ScrollView>
       <List testID="settingsList">
@@ -176,7 +177,7 @@ const Settings: NativeNavigationComponent<"Settings"> = () => {
           ></ListItemText>
         </ListItem>
 
-        {authState !== "obscured" && (
+        {!obscureModeOn && (
           <ListItem onPress={() => navigate("Security")}>
             <ListItemIcon iconName="security" />
             <ListItemText

@@ -47,17 +47,14 @@ interface TurnOffPasscodeProps {
 }
 
 export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
-  const {
-    authValuesSet: authenticationValuesSet,
-    setAuthValues: setAuthenticationValues,
-  } = React.useContext(SecurityContext);
+  const { authValuesSet, setAuthValues } = React.useContext(SecurityContext);
 
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
   const { navigate } = useNavigationFromRoot();
 
   function unsetAppPasscode() {
-    setAuthenticationValues({ type: "passcode", value: null });
+    setAuthValues({ type: "passcode", value: null });
     navigate("Security");
   }
 
@@ -76,7 +73,7 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
           <TouchableOpacity shouldActivateOnStart onPress={openBottomSheet}>
             <MaterialIcon
               name={
-                authenticationValuesSet.passcodeSet
+                authValuesSet.passcodeSet
                   ? "check-box"
                   : "check-box-outline-blank"
               }
@@ -88,7 +85,7 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
         <ListDivider />
 
         {/* User is not able to see this option unlesss they already have a pass */}
-        {authenticationValuesSet.passcodeSet && (
+        {authValuesSet.passcodeSet && (
           <ListItem
             onPress={() => {
               setScreenState("setPasscode");

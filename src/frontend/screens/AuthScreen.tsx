@@ -5,6 +5,7 @@ import { View, Image, Text, StyleSheet } from "react-native";
 import { DARK_BLUE, RED, WHITE } from "../lib/styles";
 import { SecurityContext } from "../context/SecurityContext";
 import { PasscodeInput } from "../sharedComponents/PasscodeInput";
+import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   enterPass: {
@@ -21,6 +22,7 @@ export const AuthScreen = () => {
   const [error, setError] = React.useState(false);
   const { authenticate } = React.useContext(SecurityContext);
   const [inputtedPass, setInputtedPass] = React.useState("");
+  const { goBack } = useNavigationFromRoot();
 
   function setInputWithValidation(passValue: string) {
     if (error) setError(false);
@@ -31,11 +33,12 @@ export const AuthScreen = () => {
   }
 
   function validatePass(passValue: string) {
-    try {
-      authenticate(passValue);
-    } catch {
-      setError(true);
+    if (authenticate(passValue)) {
+      goBack();
+      return;
     }
+
+    setError(true);
   }
 
   return (

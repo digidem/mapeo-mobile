@@ -1,10 +1,7 @@
 import * as React from "react";
-import { AppState, AppStateStatus } from "react-native";
 
 import { OBSCURE_KEY, OBSCURE_PASSCODE, PASSWORD_KEY } from "../constants";
 import createPersistedState from "../hooks/usePersistedState";
-
-type AuthState = "unauthenticated" | "authenticated" | "obscured";
 
 type AuthSetters =
   | { type: "passcode"; value: string | null }
@@ -20,14 +17,14 @@ type SecurityContextType = {
   authValuesSet: AuthValuesSet;
   setAuthValues: (val: AuthSetters) => void;
   authenticate: (val: string | null, validateOnly?: boolean) => boolean;
-  authState: AuthState;
+  obscureModeOn: boolean;
 };
 
 const DefaultState: SecurityContextType = {
   authValuesSet: { passcodeSet: false, obscureSet: false },
   setAuthValues: () => {},
   authenticate: () => false,
-  authState: "unauthenticated",
+  obscureModeOn: false,
 };
 
 export const SecurityContext = React.createContext<SecurityContextType>(
@@ -62,34 +59,14 @@ const SecurityProviderInner = ({
   passcode: string | null;
   setPasscode: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {
-  const [authState, setAuthState] = React.useState<AuthState>(
-    passcode === null ? "authenticated" : "unauthenticated"
-  );
+  const [obscureModeOn, setObscureModeOn] = React.useState(false);
 
   const [obscureCode, , setObscureCode] = usePersistedObscureState<
     string | null
   >(null);
 
   const passcodeSet = passcode !== null;
-
-  React.useEffect(() => {
-    const appStateListener = AppState.addEventListener(
-      "change",
-      (nextAppState: AppStateStatus) => {
-        if (passcodeSet) {
-          if (
-            nextAppState === "active" ||
-            nextAppState === "background" ||
-            nextAppState === "inactive"
-          ) {
-            setAuthState("unauthenticated");
-          }
-        }
-      }
-    );
-
-    return () => appStateListener.remove();
-  }, [passcodeSet]);
+  const obscureSet = obscureCode !== null;
 
   const setPasscodeWithValidation = React.useCallback(
     (passcodeValue: string | null) => {
@@ -107,7 +84,6 @@ const SecurityProviderInner = ({
       }
 
       if (passcodeValue === null) {
-        setAuthState("authenticated");
         setObscureCode(null);
       }
 
@@ -131,26 +107,30 @@ const SecurityProviderInner = ({
         throw new Error("passcode not valid");
       }
 
+      if (newObscureVal === null && obscureModeOn) {
+        setObscureModeOn(false);
+      }
+
       setObscureCode(newObscureVal);
     },
-    [passcode]
+    [passcode, obscureModeOn]
   );
 
   const authenticate = React.useCallback(
     (passcodeValue: string | null, validateOnly: boolean = false) => {
-      if (validateOnly) return passcodeValue === passcode;
-
-      if (passcodeValue === obscureCode) {
-        setAuthState("obscured");
-        return true;
-      }
+      if (validateOnly || !obscureSet) return passcodeValue === passcode;
 
       if (passcodeValue === passcode) {
-        setAuthState("authenticated");
+        setObscureModeOn(false);
         return true;
       }
 
-      throw new Error("Incorrect Passcode");
+      if (passcodeValue === obscureCode && obscureSet) {
+        setObscureModeOn(true);
+        return true;
+      }
+
+      return false;
     },
     [passcode, obscureCode]
   );
@@ -167,13 +147,13 @@ const SecurityProviderInner = ({
     () => ({
       authValuesSet: {
         passcodeSet,
-        obscureSet: obscureCode !== null,
+        obscureSet,
       },
       setAuthValues,
       authenticate,
-      authState,
+      obscureModeOn,
     }),
-    [setAuthValues, authenticate, passcodeSet, obscureCode, authState]
+    [setAuthValues, authenticate, passcodeSet, obscureCode, obscureSet]
   );
 
   return (
