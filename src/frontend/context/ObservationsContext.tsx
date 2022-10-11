@@ -94,6 +94,12 @@ export const ObservationsProvider = ({
     return [derivedState, dispatch];
   }, [state, authState]);
 
+  const contextValue: ObservationsContextType = React.useMemo(() => {
+    const derivedState = { ...state };
+    if (authState === "obscured") derivedState.observations = new Map([]);
+    return [derivedState, dispatch];
+  }, [state, authState]);
+
   // This will load observations on first load and reload them every time the
   // value of state.reload changes (dispatch({type: "reload"}) will do this)
   React.useEffect(() => {
@@ -116,15 +122,6 @@ export const ObservationsProvider = ({
       didCancel = true;
     };
   }, [state.reload]);
-
-  React.useEffect(() => {
-    if (authState === "obscured") {
-      dispatch({ type: "reload_success", value: [] });
-      return;
-    }
-
-    dispatch({ type: "reload" });
-  }, [authState]);
 
   return (
     <ObservationsContext.Provider value={contextValue}>
