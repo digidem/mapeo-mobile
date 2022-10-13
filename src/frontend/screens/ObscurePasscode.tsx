@@ -28,15 +28,15 @@ const m = defineMessages({
 export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = ({
   navigation,
 }) => {
-  const { setAuthValues, authValuesSet, obscureModeOn } = React.useContext(
+  const { setAuthValues, authValuesSet, authState } = React.useContext(
     SecurityContext
   );
 
   React.useEffect(() => {
-    if (obscureModeOn) {
+    if (authState === "obscured") {
       navigation.navigate("Settings");
     }
-  }, [navigation, obscureModeOn]);
+  }, [navigation, authState]);
 
   return (
     <ScrollView style={styles.container}>
