@@ -109,7 +109,7 @@ const Settings: NativeNavigationComponent<"Settings"> = () => {
 
   const [experiments] = useExperiments();
 
-  const { obscureModeOn } = React.useContext(SecurityContext);
+  const { authState } = React.useContext(SecurityContext);
 
   return (
     <ScrollView>
@@ -177,7 +177,7 @@ const Settings: NativeNavigationComponent<"Settings"> = () => {
           ></ListItemText>
         </ListItem>
 
-        {!obscureModeOn && (
+        {authState !== "obscured" && (
           <ListItem onPress={() => navigate("Security")}>
             <ListItemIcon iconName="security" />
             <ListItemText

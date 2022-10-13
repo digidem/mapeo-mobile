@@ -47,14 +47,14 @@ const m = defineMessages({
 export const Security: NativeNavigationComponent<"Security"> = ({
   navigation,
 }) => {
-  const { authValuesSet, obscureModeOn } = React.useContext(SecurityContext);
+  const { authValuesSet, authState } = React.useContext(SecurityContext);
   const [highlight, setHighlight] = React.useState(false);
 
   React.useEffect(() => {
-    if (obscureModeOn) {
+    if (authState === "obscured") {
       navigation.navigate("Settings");
     }
-  }, [navigation, obscureModeOn]);
+  }, [navigation, authState]);
 
   const [passCodeDes, obscurePassCodeDes] = React.useMemo(
     () =>

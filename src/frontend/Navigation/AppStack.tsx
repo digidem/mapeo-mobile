@@ -17,13 +17,11 @@ import {
 } from "./ScreenGroups/AppPasscode";
 import { MessageDescriptor } from "react-intl";
 import { devExperiments } from "../lib/DevExperiments";
-import { AuthStackList, createAuthScreenGroup } from "./ScreenGroups/Auth";
 
 export type AppStackList = AppList &
   OnboardingStackList &
   IccaStackList &
-  AppPasscodeStackList &
-  AuthStackList;
+  AppPasscodeStackList;
 
 export const RootStack = createNativeStackNavigator<AppStackList>();
 
@@ -43,7 +41,6 @@ export const ScreensWithAuth = (intl: (title: MessageDescriptor) => string) => {
     <React.Fragment>
       <React.Fragment>
         {createDefaultScreenGroup(intl)}
-        {createAuthScreenGroup()}
         {devExperiments.onboarding && createOnboardingScreenGroup(intl)}
         {createAppPasscodeScreenGroup(intl)}
       </React.Fragment>

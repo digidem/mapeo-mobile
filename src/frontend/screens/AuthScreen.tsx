@@ -1,11 +1,13 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, BackHandler } from "react-native";
 
 import { DARK_BLUE, RED, WHITE } from "../lib/styles";
 import { SecurityContext } from "../context/SecurityContext";
 import { PasscodeInput } from "../sharedComponents/PasscodeInput";
-import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AppStackList } from "../Navigation/AppStack";
+import { useFocusEffect } from "@react-navigation/native";
 
 const m = defineMessages({
   enterPass: {
@@ -18,11 +20,30 @@ const m = defineMessages({
   },
 });
 
-export const AuthScreen = () => {
+export const AuthScreen = ({
+  navigation,
+}: NativeStackScreenProps<AppStackList, "AuthScreen">) => {
   const [error, setError] = React.useState(false);
-  const { authenticate } = React.useContext(SecurityContext);
+  const { authenticate, authState } = React.useContext(SecurityContext);
   const [inputtedPass, setInputtedPass] = React.useState("");
-  const { goBack } = useNavigationFromRoot();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const subscription = BackHandler.addEventListener(
+        "hardwareBackPress",
+        () => {
+          // This is not being fired?!
+          return true;
+        }
+      );
+      console.log(subscription);
+      return () => {
+        if (true) {
+          subscription.remove();
+        }
+      };
+    }, [])
+  );
 
   function setInputWithValidation(passValue: string) {
     if (error) setError(false);
@@ -33,12 +54,14 @@ export const AuthScreen = () => {
   }
 
   function validatePass(passValue: string) {
-    if (authenticate(passValue)) {
-      goBack();
-      return;
+    try {
+      authenticate(passValue, {
+        validateOnly: false,
+        goBack: navigation.goBack,
+      });
+    } catch (err) {
+      setError(true);
     }
-
-    setError(true);
   }
 
   return (

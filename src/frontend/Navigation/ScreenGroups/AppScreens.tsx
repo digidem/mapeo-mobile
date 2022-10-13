@@ -41,6 +41,7 @@ import SyncModal from "../../screens/SyncModal";
 import { UnableToLinkScreen } from "../../screens/UnableToLink";
 import CustomHeaderLeft from "../../sharedComponents/CustomHeaderLeft";
 import HomeHeader from "../../sharedComponents/HomeHeader";
+import { AuthScreen } from "../../screens/AuthScreen";
 import { RootStack } from "../AppStack";
 
 export type HomeTabsList = {
@@ -84,6 +85,7 @@ export type AppList = {
   BackgroundMaps: undefined;
   OfflineAreas: { mapId: string };
   BGMapsSettings: undefined;
+  AuthScreen: undefined;
 };
 
 const Tab = createBottomTabNavigator<HomeTabsList>();
@@ -117,6 +119,11 @@ export const createDefaultScreenGroup = (
       name="Home"
       options={{ headerShown: false }}
       component={HomeTabs}
+    />
+    <RootStack.Screen
+      name="AuthScreen"
+      component={AuthScreen}
+      options={{ headerShown: false }}
     />
     <RootStack.Screen
       name="AboutMapeo"
