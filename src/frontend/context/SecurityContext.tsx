@@ -3,7 +3,6 @@ import { AppState, AppStateStatus } from "react-native";
 
 import { OBSCURE_KEY, OBSCURE_PASSCODE, PASSWORD_KEY } from "../constants";
 import createPersistedState from "../hooks/usePersistedState";
-import { AppStackList } from "../Navigation/AppStack";
 
 type AuthState = "unauthenticated" | "authenticated" | "obscured";
 
@@ -19,7 +18,7 @@ type AuthValuesSet = {
 
 type authenticateValidationParam =
   | { validateOnly: true }
-  | { validateOnly: false; goBack: () => void };
+  | { validateOnly: false; removeListenerAndGoBack: () => void };
 
 type SecurityContextType = {
   authValuesSet: AuthValuesSet;
@@ -79,6 +78,7 @@ const SecurityProviderInner = ({
   >(null);
 
   const passcodeSet = passcode !== null;
+  const obscureSet = obscureCode !== null;
 
   React.useEffect(() => {
     const appStateListener = AppState.addEventListener(
@@ -151,21 +151,20 @@ const SecurityProviderInner = ({
     ) => {
       if (validationParam.validateOnly) return passcodeValue === passcode;
 
-      if (passcodeValue === obscureCode) {
+      if (obscureSet && passcodeValue === obscureCode) {
         setAuthState("obscured");
-        validationParam.goBack();
         return true;
       }
 
       if (passcodeValue === passcode) {
         setAuthState("authenticated");
-        validationParam.goBack();
+        validationParam.removeListenerAndGoBack();
         return true;
       }
 
       throw new Error("Incorrect Passcode");
     },
-    [passcode, obscureCode]
+    [passcode, obscureCode, obscureSet]
   );
 
   const setAuthValues = React.useCallback(
@@ -180,13 +179,13 @@ const SecurityProviderInner = ({
     () => ({
       authValuesSet: {
         passcodeSet,
-        obscureSet: obscureCode !== null,
+        obscureSet,
       },
       setAuthValues,
       authenticate,
       authState,
     }),
-    [setAuthValues, authenticate, passcodeSet, obscureCode, authState]
+    [setAuthValues, authenticate, passcodeSet, obscureSet, authState]
   );
 
   return (

@@ -27,23 +27,24 @@ export const AuthScreen = ({
   const { authenticate, authState } = React.useContext(SecurityContext);
   const [inputtedPass, setInputtedPass] = React.useState("");
 
-  useFocusEffect(
-    React.useCallback(() => {
-      const subscription = BackHandler.addEventListener(
-        "hardwareBackPress",
-        () => {
-          // This is not being fired?!
-          return true;
-        }
-      );
-      console.log(subscription);
-      return () => {
-        if (true) {
-          subscription.remove();
-        }
-      };
-    }, [])
-  );
+  const disableBack = React.useCallback((e: any) => {
+    e.preventDefault();
+  }, []);
+
+  const removeListener = React.useCallback(() => {
+    navigation.removeListener("beforeRemove", disableBack);
+  }, [navigation]);
+
+  React.useEffect(() => {
+    if (authState === "unauthenticated") {
+      navigation.addListener("beforeRemove", disableBack);
+    }
+  }, [authState, navigation, disableBack]);
+
+  function removeListenerAndGoBack() {
+    removeListener();
+    navigation.goBack();
+  }
 
   function setInputWithValidation(passValue: string) {
     if (error) setError(false);
@@ -57,7 +58,7 @@ export const AuthScreen = ({
     try {
       authenticate(passValue, {
         validateOnly: false,
-        goBack: navigation.goBack,
+        removeListenerAndGoBack,
       });
     } catch (err) {
       setError(true);
@@ -90,11 +91,13 @@ export const AuthScreen = ({
 const styles = StyleSheet.create({
   container: {
     display: "flex",
+    flexDirection: "column",
     paddingHorizontal: 20,
     alignItems: "center",
+    justifyContent: "flex-start",
     paddingTop: 40,
-    flex: 1,
     backgroundColor: WHITE,
+    flex: 1,
   },
   title: {
     fontSize: 52.5,
@@ -103,8 +106,8 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   wrongPass: {
-    fontSize: 16,
     marginTop: 20,
+    fontSize: 16,
     color: RED,
   },
 });
