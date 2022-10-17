@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     height: "100%",
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
   },
   error: {
     textAlign: "center",
