@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     padding: 20,
     flexDirection: "column",
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
   },
   error: {
     textAlign: "center",

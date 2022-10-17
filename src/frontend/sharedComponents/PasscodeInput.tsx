@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
   },
   codeFieldRoot: {
     flexDirection: "row",
-    flex: 1,
     justifyContent: "center",
   },
 });
