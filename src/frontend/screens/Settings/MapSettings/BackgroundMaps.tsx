@@ -12,6 +12,7 @@ import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "../../../sharedComponents/Touchables";
 import {
+  MapServerStyle,
   NativeNavigationComponent,
 } from "../../../sharedTypes";
 import api from "../../../api";
@@ -60,13 +61,7 @@ const m = defineMessages({
   },
 });
 
-type ModalContent = "import" | "loading" | "error";
-
-interface BackgroundMap {
-  id: string;
-  name?: string;
-  url: string;
-}
+type ModalContent = "import" | "error";
 
 export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
   navigation,
@@ -87,7 +82,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
   ]);
 
   const [backgroundMapList, setBackgroundMapList] = React.useState<
-    BackgroundMap[]
+    MapServerStyle[]
   >();
 
   React.useEffect(() => {
@@ -115,12 +110,10 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
     }
 
     if (results.type === "success") {
-      setModalContent("loading");
       try {
         await api.maps.importTileset(results.uri);
         const list = await api.maps.getStyleList();
         setBackgroundMapList(list);
-        setModalContent("import");
         sheetRef.current?.close();
       } catch (err) {
         console.log("FAILED TO IMPORT", err);
@@ -206,10 +199,6 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
                 </Text>
               </React.Fragment>
             </TouchableOpacity>
-          ) : modalContent === "loading" ? (
-            <View style={{ padding: 40 }}>
-              <Loading />
-            </View>
           ) : (
             <View style={{ paddingVertical: 40 }}>
               <Text style={{ fontSize: 16, textAlign: "center" }}>
@@ -249,8 +238,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   container: {
-    flex: 1,
     paddingHorizontal: 20,
+    marginBottom: 20,
   },
   importButton: {
     backgroundColor: LIGHT_GREY,
