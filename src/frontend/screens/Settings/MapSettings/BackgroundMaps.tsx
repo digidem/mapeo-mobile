@@ -132,12 +132,13 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
         {/* Default BG map card */}
         {defaultStyleUrl && (
           <BGMapCard
-            mapId={DEFAULT_MAP_ID}
+            id={DEFAULT_MAP_ID}
             style={{ marginTop: 20 }}
+            bytesStored={0}
             onPress={() => {}}
             isSelected={styleUrl === defaultStyleUrl}
-            styleUrl={defaultStyleUrl}
-            mapTitle="Default Map"
+            url={defaultStyleUrl}
+            name="Default Map"
           />
         )}
 
@@ -153,11 +154,12 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
           backgroundMapList.map(bgMap => (
             <BGMapCard
               key={bgMap.id}
-              mapId={bgMap.id}
+              id={bgMap.id}
+              bytesStored={bgMap.bytesStored}
               style={{ marginTop: 20 }}
-              styleUrl={bgMap.url}
+              url={bgMap.url}
               isSelected={styleUrl === bgMap.url}
-              mapTitle={bgMap.name}
+              name={bgMap.name}
             />
           ))
         )}

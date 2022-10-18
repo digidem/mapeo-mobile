@@ -4,7 +4,7 @@ import { StyleSheet, View, Text } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 
 import { LIGHT_GREY, MEDIUM_GREY } from "../lib/styles";
-import { ViewStyleProp } from "../sharedTypes";
+import { MapServerStyle, ViewStyleProp } from "../sharedTypes";
 import { Pill } from "./Pill";
 import LocationContext from "../context/LocationContext";
 
@@ -27,20 +27,18 @@ const m = defineMessages({
 
 // ToDo: API calls to get styleURL, zoom level, center coordinate, etc.
 
-interface BGMapCardProps {
-  mapId: string;
-  mapTitle: string | null;
+type BGMapCardProps = {
   style?: ViewStyleProp;
-  styleUrl: string;
   onPress?: (() => void) | null;
   isSelected: boolean;
-}
+} & MapServerStyle;
 
 export const BGMapCard = ({
-  mapTitle,
+  name,
   style,
   isSelected,
-  styleUrl,
+  url,
+  bytesStored,
 }: BGMapCardProps) => {
   const { formatMessage: t } = useIntl();
   const { position } = React.useContext(LocationContext);
@@ -54,7 +52,7 @@ export const BGMapCard = ({
     >
       <View style={[styles.container]}>
         <MapboxGL.MapView
-          styleURL={styleUrl}
+          styleURL={url}
           compassEnabled={false}
           zoomEnabled={false}
           logoEnabled={false}
@@ -75,8 +73,13 @@ export const BGMapCard = ({
         </MapboxGL.MapView>
         <View style={[styles.textContainer]}>
           <Text style={[styles.text, { fontWeight: "bold" }]}>
-            {mapTitle || t(m.unnamedStyle)}
+            {name || t(m.unnamedStyle)}
           </Text>
+          {bytesStored !== 0 && (
+            <Text style={styles.text}>
+              {`${convertBytesToMb(bytesStored)} ${t(m.abbrevMegabyte)}`}
+            </Text>
+          )}
           {isSelected && (
             <Pill containerStyle={{ marginTop: 10 }} text={m.currentMap} />
           )}
@@ -85,6 +88,10 @@ export const BGMapCard = ({
     </View>
   );
 };
+
+function convertBytesToMb(bytes: number) {
+  return (bytes / 1024 ** 2).toFixed(0);
+}
 
 const styles = StyleSheet.create({
   container: {
