@@ -1,13 +1,12 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { View, Image, Text, StyleSheet, BackHandler } from "react-native";
+import { View, Image, Text, StyleSheet } from "react-native";
 
 import { DARK_BLUE, RED, WHITE } from "../lib/styles";
 import { SecurityContext } from "../context/SecurityContext";
 import { PasscodeInput } from "../sharedComponents/PasscodeInput";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppStackList } from "../Navigation/AppStack";
-import { useFocusEffect } from "@react-navigation/native";
 
 const m = defineMessages({
   enterPass: {
@@ -27,24 +26,23 @@ export const AuthScreen = ({
   const { authenticate, authState } = React.useContext(SecurityContext);
   const [inputtedPass, setInputtedPass] = React.useState("");
 
-  const disableBack = React.useCallback((e: any) => {
-    e.preventDefault();
-  }, []);
+  React.useEffect(() => {
+    function disableBack(e: any) {
+      if (authState !== "unauthenticated") return;
+      // Prevent back if unauthenticated
+      e.preventDefault();
+    }
+    navigation.addListener("beforeRemove", disableBack);
 
-  const removeListener = React.useCallback(() => {
-    navigation.removeListener("beforeRemove", disableBack);
-  }, [navigation]);
+    return () => {
+      navigation.removeListener("beforeRemove", disableBack);
+    };
+  }, [authState, navigation]);
 
   React.useEffect(() => {
-    if (authState === "unauthenticated") {
-      navigation.addListener("beforeRemove", disableBack);
-    }
-  }, [authState, navigation, disableBack]);
-
-  function removeListenerAndGoBack() {
-    removeListener();
+    if (authState === "unauthenticated") return;
     navigation.goBack();
-  }
+  }, [authState, navigation]);
 
   function setInputWithValidation(passValue: string) {
     if (error) setError(false);
@@ -56,10 +54,7 @@ export const AuthScreen = ({
 
   function validatePass(passValue: string) {
     try {
-      authenticate(passValue, {
-        validateOnly: false,
-        removeListenerAndGoBack,
-      });
+      authenticate(passValue);
     } catch (err) {
       setError(true);
     }

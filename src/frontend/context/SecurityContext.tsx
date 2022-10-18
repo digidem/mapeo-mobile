@@ -16,16 +16,12 @@ type AuthValuesSet = {
   obscureSet: boolean;
 };
 
-type authenticateValidationParam =
-  | { validateOnly: true }
-  | { validateOnly: false; removeListenerAndGoBack: () => void };
-
 type SecurityContextType = {
   authValuesSet: AuthValuesSet;
   setAuthValues: (val: AuthSetters) => void;
   authenticate: (
-    val: string | null,
-    validationParam: authenticateValidationParam
+    passcodeValue: string | null,
+    validateOnly?: boolean
   ) => boolean;
   authState: AuthState;
 };
@@ -144,12 +140,9 @@ const SecurityProviderInner = ({
     [passcode]
   );
 
-  const authenticate = React.useCallback(
-    (
-      passcodeValue: string | null,
-      validationParam: authenticateValidationParam
-    ) => {
-      if (validationParam.validateOnly) return passcodeValue === passcode;
+  const authenticate: SecurityContextType["authenticate"] = React.useCallback(
+    (passcodeValue, validateOnly = false) => {
+      if (validateOnly) return passcodeValue === passcode;
 
       if (obscureSet && passcodeValue === obscureCode) {
         setAuthState("obscured");
@@ -158,7 +151,6 @@ const SecurityProviderInner = ({
 
       if (passcodeValue === passcode) {
         setAuthState("authenticated");
-        validationParam.removeListenerAndGoBack();
         return true;
       }
 
@@ -167,8 +159,8 @@ const SecurityProviderInner = ({
     [passcode, obscureCode, obscureSet]
   );
 
-  const setAuthValues = React.useCallback(
-    ({ type, value }: AuthSetters) => {
+  const setAuthValues: SecurityContextType["setAuthValues"] = React.useCallback(
+    ({ type, value }) => {
       if (type === "passcode") setPasscodeWithValidation(value);
       else setObscureCodeWithValidation(value);
     },
