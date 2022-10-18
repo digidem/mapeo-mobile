@@ -22,7 +22,6 @@ import {
   persistNavigationState,
 } from "./Navigation/navigationStateHelperFunctions";
 import { AppNavigator } from "./Navigation/AppNavigator";
-import { SecurityContext } from "./context/SecurityContext";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
@@ -40,14 +39,6 @@ const AppContainerWrapper = () => {
   const currentRoute = navRef.isReady()
     ? navRef.getCurrentRoute()?.name
     : undefined;
-
-  const { authState } = React.useContext(SecurityContext);
-
-  React.useEffect(() => {
-    if (authState === "unauthenticated" && navRef.isReady()) {
-      navRef.navigate("AuthScreen");
-    }
-  }, [authState, navRef]);
 
   React.useEffect(() => {
     if (featureFlagOn) {

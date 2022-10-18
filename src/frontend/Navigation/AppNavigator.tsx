@@ -1,6 +1,8 @@
 import * as React from "react";
 import { NavigatorScreenOptions, RootStack, ScreensWithAuth } from "./AppStack";
 import { useIntl } from "react-intl";
+import { SecurityContext } from "../context/SecurityContext";
+import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
 
 // React Navigation expects children of the Navigator to be a `Screen`, `Group`
 // or `React.Fragment` element type. We want to keep this logic in a separate
@@ -20,6 +22,14 @@ import { useIntl } from "react-intl";
 
 export const AppNavigator = () => {
   const { formatMessage } = useIntl();
+  const { authState } = React.useContext(SecurityContext);
+  const navigation = useNavigationFromRoot();
+
+  React.useEffect(() => {
+    if (authState === "unauthenticated") {
+      navigation.navigate("AuthScreen");
+    }
+  }, [authState, navigation]);
 
   return (
     <RootStack.Navigator
