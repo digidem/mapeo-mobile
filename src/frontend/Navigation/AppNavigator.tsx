@@ -1,8 +1,15 @@
 import * as React from "react";
-import { NavigatorScreenOptions, RootStack, ScreensWithAuth } from "./AppStack";
+import {
+  NavigatorScreenOptions,
+  RootStack,
+  createDefaultScreenGroup,
+  createOnboardingScreenGroup,
+  createAppPasscodeScreenGroup,
+} from "./AppStack";
 import { useIntl } from "react-intl";
 import { SecurityContext } from "../context/SecurityContext";
 import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
+import { devExperiments } from "../lib/DevExperiments";
 
 // React Navigation expects children of the Navigator to be a `Screen`, `Group`
 // or `React.Fragment` element type. We want to keep this logic in a separate
@@ -36,7 +43,9 @@ export const AppNavigator = () => {
       initialRouteName="Home"
       screenOptions={NavigatorScreenOptions}
     >
-      {ScreensWithAuth(formatMessage)}
+      {createDefaultScreenGroup(formatMessage)}
+      {devExperiments.onboarding && createOnboardingScreenGroup(formatMessage)}
+      {createAppPasscodeScreenGroup(formatMessage)}
     </RootStack.Navigator>
   );
 };

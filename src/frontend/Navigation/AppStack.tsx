@@ -6,17 +6,13 @@ import {
   NativeStackNavigationOptions,
 } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { IccaStackList } from "../screens/Intro";
-import {
-  createOnboardingScreenGroup,
-  OnboardingStackList,
-} from "./ScreenGroups/Onboarding";
-import { AppList, createDefaultScreenGroup } from "./ScreenGroups/AppScreens";
-import {
-  AppPasscodeStackList,
-  createAppPasscodeScreenGroup,
-} from "./ScreenGroups/AppPasscode";
-import { MessageDescriptor } from "react-intl";
-import { devExperiments } from "../lib/DevExperiments";
+import { OnboardingStackList } from "./ScreenGroups/Onboarding";
+import { AppList } from "./ScreenGroups/AppScreens";
+import { AppPasscodeStackList } from "./ScreenGroups/AppPasscode";
+
+export { createOnboardingScreenGroup } from "./ScreenGroups/Onboarding";
+export { createDefaultScreenGroup } from "./ScreenGroups/AppScreens";
+export { createAppPasscodeScreenGroup } from "./ScreenGroups/AppPasscode";
 
 export type AppStackList = AppList &
   OnboardingStackList &
@@ -34,16 +30,4 @@ export const NavigatorScreenOptions: NativeStackNavigationOptions = {
   // This only hides the DEFAULT back button. We render a custom one in headerLeft, so the default one should always be hidden.
   // This **might** cause a problem for IOS
   headerBackVisible: false,
-};
-
-export const ScreensWithAuth = (intl: (title: MessageDescriptor) => string) => {
-  return (
-    <React.Fragment>
-      <React.Fragment>
-        {createDefaultScreenGroup(intl)}
-        {devExperiments.onboarding && createOnboardingScreenGroup(intl)}
-        {createAppPasscodeScreenGroup(intl)}
-      </React.Fragment>
-    </React.Fragment>
-  );
 };
