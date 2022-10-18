@@ -6,9 +6,20 @@ import {
   NavigatorScreenOptions,
   RootStack,
 } from "./AppStack";
+import { SecurityContext } from "../context/SecurityContext";
+import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
 
 export const AppNavigator = () => {
   const { formatMessage } = useIntl();
+  const { authState } = React.useContext(SecurityContext);
+  const navigation = useNavigationFromRoot();
+
+  React.useEffect(() => {
+    if (authState === "unauthenticated") {
+      navigation.navigate("AuthScreen");
+    }
+  }, [authState, navigation]);
+
   return (
     <RootStack.Navigator
       initialRouteName="IccaIntro"
