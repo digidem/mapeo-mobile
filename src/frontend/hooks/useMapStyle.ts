@@ -88,7 +88,7 @@ function useMapServerStyle(defaultStyleUrl: string): MapStyleState {
   }, [styleId, setStyleId, mapServerReady, defaultStyleUrl]);
 }
 
-export function useMapStyle(styleId: string = "default"): MapStyleState {
+export function useMapStyle(): MapStyleState {
   const [{ backgroundMaps }] = useExperiments();
   const defaultStyleUrl = useDefaultStyleUrl();
   const legacyStyleInfo = useLegacyStyle(defaultStyleUrl);
