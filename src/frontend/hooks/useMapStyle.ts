@@ -70,7 +70,7 @@ function useMapServerStyle(defaultStyleUrl: string): MapStyleState {
       };
     }
 
-    if (styleId === DEFAULT_MAP_ID) {
+    if (styleId === DEFAULT_MAP_ID || !styleId) {
       return {
         styleType: "mapServer",
         styleUrl: defaultStyleUrl,
