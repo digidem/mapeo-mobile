@@ -214,6 +214,7 @@ const styles = StyleSheet.create({
     height: "auto",
     flexDirection: "row",
     backgroundColor: WHITE,
+    paddingBottom: 20,
   },
   thumbnail: {
     width: 80,
