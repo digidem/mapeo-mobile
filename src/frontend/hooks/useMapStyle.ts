@@ -8,11 +8,12 @@ import { DEFAULT_MAP_ID } from "../screens/Settings/MapSettings/BackgroundMaps";
 import { useDefaultStyleUrl } from "./useDefaultStyleUrl";
 
 type LegacyCustomMapState = "unknown" | "unavailable" | "available";
-type SetStyleId = (id: string) => void;
 type MapStyleState = {
   styleUrl: null | string;
   styleType: MapTypes;
-  setStyleId: SetStyleId;
+  setStyleId:
+    | React.Dispatch<React.SetStateAction<string>>
+    | ((id: string) => never);
   styleId?: string;
 };
 

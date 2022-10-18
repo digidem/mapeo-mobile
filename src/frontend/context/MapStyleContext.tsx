@@ -75,7 +75,10 @@ export const MapStyleProvider: React.FC = ({ children }) => {
 
     if (backgroundMaps) {
       subscription = api.maps.addServerStateListener(({ value }) => {
-        setMapServerReady(value === "started");
+        setMapServerReady(prev => {
+          const next = value === "started";
+          return prev === next ? prev : next;
+        });
       });
     }
 
