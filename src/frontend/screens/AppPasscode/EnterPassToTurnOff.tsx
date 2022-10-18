@@ -29,7 +29,7 @@ export const EnterPassToTurnOff = ({
   const [pass, setPass] = React.useState("");
 
   function validate() {
-    if (!authenticate(pass, { validateOnly: true })) {
+    if (!authenticate(pass, true)) {
       setError(true);
       return;
     }
