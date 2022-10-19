@@ -74,13 +74,6 @@ export const Security: NativeNavigationComponent<"Security"> = ({
   return (
     <ScrollView>
       <List>
-        <ListItem button={false} style={{ marginVertical: 10 }}>
-          <ListItemText
-            style={{ textTransform: "uppercase" }}
-            primary={<FormattedMessage {...m.securitySubheader} />}
-          />
-        </ListItem>
-
         <ListItem
           button={true}
           onPress={() => navigation.navigate("AppPasscode")}
