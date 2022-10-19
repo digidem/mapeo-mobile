@@ -15,7 +15,7 @@ import {
   isLastFilledCell,
   RenderCellOptions,
 } from "react-native-confirmation-code-field";
-import { MEDIUM_GREY, DARK_GREY } from "../lib/styles";
+import { MEDIUM_GREY, DARK_GREY, RED } from "../lib/styles";
 
 export const CELL_COUNT = 5;
 const onlyNumRegEx = new RegExp("^[0-9]+$");
@@ -25,11 +25,18 @@ interface PasscodeInputProps {
   inputValue: string;
   onChangeTextWithValidation: (newVal: string) => void;
   maskValues?: boolean;
+  error: boolean;
 }
 
 export const PasscodeInput = React.forwardRef<TextInput, PasscodeInputProps>(
   (
-    { stylesProps, inputValue, onChangeTextWithValidation, maskValues = true },
+    {
+      stylesProps,
+      inputValue,
+      onChangeTextWithValidation,
+      maskValues = true,
+      error,
+    },
     inputRef
   ) => {
     const [codeFieldProps, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -63,7 +70,11 @@ export const PasscodeInput = React.forwardRef<TextInput, PasscodeInputProps>(
       return (
         <Text
           key={index}
-          style={[styles.cell, isFocused && styles.focusCell]}
+          style={[
+            styles.cell,
+            isFocused && styles.focusCell,
+            error ? { borderColor: RED } : undefined,
+          ]}
           onLayout={getCellOnLayoutHandler(index)}
         >
           {textChild}

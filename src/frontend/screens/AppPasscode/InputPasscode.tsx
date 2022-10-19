@@ -4,7 +4,13 @@ import {
   FormattedMessage,
   MessageDescriptor,
 } from "react-intl";
-import { View, StyleSheet, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  KeyboardAvoidingView,
+} from "react-native";
 import { useBlurOnFulfill } from "react-native-confirmation-code-field";
 import { WHITE, RED } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
@@ -48,8 +54,8 @@ export const InputPasscode = ({
   if (error) inputRef.current?.focus();
 
   return (
-    <React.Fragment>
-      <View style={[styles.container]}>
+    <View style={[styles.container]}>
+      <View>
         <Text style={[styles.header]}>
           <FormattedMessage {...text.title} />
         </Text>
@@ -58,6 +64,7 @@ export const InputPasscode = ({
         </Text>
 
         <PasscodeInput
+          error={error}
           ref={inputRef}
           inputValue={inputValue}
           onChangeTextWithValidation={setInputValue}
@@ -76,7 +83,7 @@ export const InputPasscode = ({
           <FormattedMessage {...m.button} />
         </Text>
       </Button>
-    </React.Fragment>
+    </View>
   );
 };
 
@@ -105,7 +112,7 @@ const styles = StyleSheet.create({
     padding: 20,
     flexDirection: "column",
     flex: 1,
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
   },
   error: {
     textAlign: "center",

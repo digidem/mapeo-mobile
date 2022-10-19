@@ -1,6 +1,14 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
-import { View, Image, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Dimensions,
+} from "react-native";
 
 import { DARK_BLUE, RED, WHITE } from "../lib/styles";
 import { SecurityContext } from "../context/SecurityContext";
@@ -25,6 +33,7 @@ export const AuthScreen = ({
   const [error, setError] = React.useState(false);
   const { authenticate, authState } = React.useContext(SecurityContext);
   const [inputtedPass, setInputtedPass] = React.useState("");
+  const scrollViewRef = React.useRef<ScrollView>(null);
 
   React.useEffect(() => {
     function disableBack(e: any) {
@@ -45,7 +54,9 @@ export const AuthScreen = ({
   }, [authState, navigation]);
 
   function setInputWithValidation(passValue: string) {
-    if (error) setError(false);
+    if (error) {
+      setError(false);
+    }
     setInputtedPass(passValue);
     if (passValue.length === 5) {
       validatePass(passValue);
@@ -56,30 +67,37 @@ export const AuthScreen = ({
     try {
       authenticate(passValue);
     } catch (err) {
+      scrollViewRef.current?.scrollToEnd();
       setError(true);
     }
   }
 
   return (
-    <View style={[styles.container]}>
-      <Image source={require("../images/icon_mapeo_pin.png")} />
-      <Text style={[styles.title]}>Mapeo</Text>
+    <ScrollView
+      ref={scrollViewRef}
+      style={{ height: "100%", backgroundColor: WHITE }}
+    >
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+        <Image source={require("../images/icon_mapeo_pin.png")} />
+        <Text style={[styles.title]}>Mapeo</Text>
 
-      <Text style={[{ marginBottom: 20, fontSize: 16 }]}>
-        <FormattedMessage {...m.enterPass} />
-      </Text>
-
-      <PasscodeInput
-        inputValue={inputtedPass}
-        onChangeTextWithValidation={setInputWithValidation}
-      />
-
-      {error && (
-        <Text style={[styles.wrongPass]}>
-          <FormattedMessage {...m.wrongPass} />
+        <Text style={[{ marginBottom: 20, fontSize: 16 }]}>
+          <FormattedMessage {...m.enterPass} />
         </Text>
-      )}
-    </View>
+
+        <PasscodeInput
+          error={error}
+          inputValue={inputtedPass}
+          onChangeTextWithValidation={setInputWithValidation}
+        />
+
+        {error && (
+          <Text style={[styles.wrongPass]}>
+            <FormattedMessage {...m.wrongPass} />
+          </Text>
+        )}
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
@@ -89,10 +107,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     paddingHorizontal: 20,
     alignItems: "center",
-    justifyContent: "flex-start",
     paddingTop: 40,
     backgroundColor: WHITE,
-    flex: 1,
   },
   title: {
     fontSize: 52.5,
@@ -102,6 +118,7 @@ const styles = StyleSheet.create({
   },
   wrongPass: {
     marginTop: 20,
+    paddingBottom: 20,
     fontSize: 16,
     color: RED,
   },
