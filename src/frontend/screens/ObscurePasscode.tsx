@@ -50,19 +50,20 @@ export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = ({
         {/* <FormattedMessage {...m.body} /> */}
       </Text>
 
-      <View style={styles.switch}>
-        <Text style={{ fontSize: 16 }}>
-          <FormattedMessage {...m.toggleMessage} />
-        </Text>
-        <TouchableOpacity
-          shouldActivateOnStart
-          onPress={() =>
-            setAuthValues({
-              type: "obscure",
-              value: authValuesSet.obscureSet ? null : undefined,
-            })
-          }
-        >
+      <TouchableOpacity
+        style={styles.switch}
+        onPress={() =>
+          setAuthValues({
+            type: "obscure",
+            value: authValuesSet.obscureSet ? null : undefined,
+          })
+        }
+      >
+        <React.Fragment>
+          <Text style={{ fontSize: 16 }}>
+            <FormattedMessage {...m.toggleMessage} />
+          </Text>
+
           <MaterialIcon
             name={
               authValuesSet.obscureSet ? "check-box" : "check-box-outline-blank"
@@ -70,8 +71,8 @@ export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = ({
             size={32}
             color="rgba(0, 0, 0, 0.54)"
           />
-        </TouchableOpacity>
-      </View>
+        </React.Fragment>
+      </TouchableOpacity>
 
       {authValuesSet.obscureSet && (
         <View style={styles.passbox}>
@@ -119,5 +120,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
 });
