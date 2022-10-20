@@ -777,9 +777,6 @@
   "screens.Settings.MapSettings.subtitle": {
     "message": "แผนที่นี้พร้อมพื้นที่ออฟไลน์ที่แนบด้วยจะถูกลบออก และไม่สามารถยกเลิกคำสั่งได้"
   },
-  "screens.Settings.MapSettings.title": {
-    "message": "ภาพพื้นหลังแผนที่"
-  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "สร้างและเข้าร่วมในโครงการข้างล่าง"
   },
