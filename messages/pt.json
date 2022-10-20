@@ -753,9 +753,6 @@
   "screens.Settings.MapSettings.removeMap": {
     "message": "Remover mapa"
   },
-  "screens.Settings.MapSettings.title": {
-    "message": "Mapas de fundo"
-  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Criar ou participar de um projeto abaixo"
   },
