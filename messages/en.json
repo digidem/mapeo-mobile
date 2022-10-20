@@ -729,6 +729,9 @@
   "screens.Settings.Experiments.BGMaps.BGMaps": {
     "message": "Background Maps"
   },
+  "screens.Settings.Experiments.BGMaps.BGMapsDescription": {
+    "message": "Use the background maps features to change the map background seen in the mapview. This feature will allow you to upload a raster MBtiles file. Once the file is uploaded, you will be able to set the background map in the mapview and use it even if you are not connected to the internet."
+  },
   "screens.Settings.Experiments.BGMaps.goTo": {
     "message": "Go to"
   },
@@ -797,6 +800,9 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(You) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMapTitle": {
+    "message": "Background Maps"
+  },
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Add Background Map"
   },
@@ -815,8 +821,20 @@
   "screens.Settings.MapSettings.close": {
     "message": "Close"
   },
+  "screens.Settings.MapSettings.confirmDelete": {
+    "description": "Confirm delete map modal button",
+    "message": "Yes, Delete"
+  },
   "screens.Settings.MapSettings.dataLayers": {
     "message": "Data Layers"
+  },
+  "screens.Settings.MapSettings.deleteMapTitle": {
+    "description": "Title for the delete map modal",
+    "message": "Delete Map"
+  },
+  "screens.Settings.MapSettings.importError": {
+    "description": "Error importing map warning",
+    "message": "Error Importing Map, please try a different file."
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Import from File"
@@ -833,9 +851,6 @@
   },
   "screens.Settings.MapSettings.subtitle": {
     "message": "This map and offline areas attached to it will be deleted. This cannot be undone"
-  },
-  "screens.Settings.MapSettings.title": {
-    "message": "Background Maps"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Create or join a project below"
@@ -1191,6 +1206,10 @@
   },
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Current Map"
+  },
+  "sharedComponents.BGMapCard.unamedStyle": {
+    "description": "The name for the default map style",
+    "message": "Unnamed Style"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Close"

@@ -19,8 +19,7 @@ import { ClientGeneratedObservation } from "./context/ObservationsContext";
 import AppInfo from "./lib/AppInfo";
 import promiseTimeout, { TimeoutError } from "p-timeout";
 import bugsnag from "./lib/logger";
-import { IconSize, ImageSize } from "./sharedTypes";
-import { devExperiments } from "./lib/DevExperiments";
+import { IconSize, ImageSize, MapServerStyle } from "./sharedTypes";
 
 export type ServerStatus = keyof typeof STATUS;
 
@@ -131,6 +130,7 @@ type UpgradeStateBase = {
 };
 type UpgradeStateNoError = UpgradeStateBase & WorkingServerState;
 type UpgradeStateError = UpgradeStateBase & ErrorServerState;
+export type MapServerState = WorkingServerState | ErrorServerState;
 export type UpgradeState = UpgradeStateNoError | UpgradeStateError;
 interface ApiParam {
   baseUrl: string;
@@ -273,7 +273,7 @@ function createMapServerApi() {
       return mapServerReadyPromise as Promise<void>;
     },
     addServerStateListener: (
-      handler: (state: WorkingServerState | ErrorServerState) => void
+      handler: (state: MapServerState) => void
     ): Subscription => {
       const stateSubscription = nodejs.channel.addListener(
         "map-server::state",
@@ -286,7 +286,7 @@ function createMapServerApi() {
         .then(() => nodejs.channel.post("map-server::get-state"))
         .catch(() => {});
 
-      function onState(serializedState: WorkingServerState | ErrorServerState) {
+      function onState(serializedState: MapServerState) {
         handler(
           // Deserialize error if it exists
           serializedState.value === "error"
@@ -334,14 +334,8 @@ function createMapServerApi() {
     getStyle: async (id: string): Promise<StyleJSON> =>
       (await guaranteeClient().get(`styles/${id}`)) as StyleJSON,
     // Get a list of all existing styles containing scalar information about each style
-    getStyleList: async (): Promise<
-      { id: string; name?: string; url: string }[]
-    > =>
-      (await guaranteeClient().get("styles")) as {
-        id: string;
-        name?: string;
-        url: string;
-      }[],
+    getStyleList: async (): Promise<MapServerStyle[]> =>
+      (await guaranteeClient().get("styles")) as MapServerStyle[],
     // Create a tileset using an existing MBTiles file
     importTileset: async (
       filePath: string
@@ -432,9 +426,7 @@ export function Api({ baseUrl, timeout = DEFAULT_TIMEOUT }: ApiParam) {
     /**
      * Map server methods
      */
-    ...(devExperiments.mapSettings
-      ? { maps: createMapServerApi() }
-      : undefined),
+    maps: createMapServerApi(),
     // Start server, returns a promise that resolves when the server is ready
     // or rejects if there is an error starting the server
     startServer: async () => {
