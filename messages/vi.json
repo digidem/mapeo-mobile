@@ -770,9 +770,6 @@
   "screens.Settings.MapSettings.subtitle": {
     "message": "Bản đồ này và các khu vực ngoại tuyến liên quan sẽ bị xóa. Việc này không thể hoàn tác được"
   },
-  "screens.Settings.MapSettings.title": {
-    "message": "Bản đồ nền"
-  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Tạo mới hoặc tham gia một dự án dưới đây"
   },
