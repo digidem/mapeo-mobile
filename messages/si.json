@@ -777,9 +777,6 @@
   "screens.Settings.MapSettings.subtitle": {
     "message": "මෙම සිතියම සහ එයට අමුණා ඇති නොබැඳි ප්‍රදේශ මකා දැමෙනු ඇත. මෙය ආපසු හැරවිය නොහැක"
   },
-  "screens.Settings.MapSettings.title": {
-    "message": "පසුබිම් සිතියම්"
-  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "පහත ව්‍යාපෘතියක් සාදන්න හෝ සම්බන්ධ වන්න"
   },
