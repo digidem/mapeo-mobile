@@ -60,6 +60,7 @@ export const BGMapCard = ({
           bytesStored,
           id: mapId,
           name: mapTitle || "",
+          styleUrl,
         })
       }
     >

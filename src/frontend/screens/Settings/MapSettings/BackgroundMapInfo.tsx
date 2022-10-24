@@ -1,3 +1,4 @@
+import MapboxGL from "@react-native-mapbox-gl/maps";
 import * as React from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
@@ -42,7 +43,7 @@ export const BackgroundMapInfo = ({
   navigation,
 }: NativeRootNavigationProps<"BackgroundMapInfo">) => {
   const { formatMessage: t } = useIntl();
-  const { bytesStored, id } = route.params;
+  const { bytesStored, id, styleUrl } = route.params;
   const [zoomAndDescription, setZoomAndDescription] = React.useState<
     { zoom?: number; description?: string } | "loading"
   >("loading");
@@ -64,25 +65,37 @@ export const BackgroundMapInfo = ({
 
   return (
     <React.Fragment>
+      <MapboxGL.MapView
+        styleURL={styleUrl}
+        compassEnabled={false}
+        zoomEnabled={false}
+        logoEnabled={false}
+        scrollEnabled={false}
+        style={{ height: "60%" }}
+      >
+        <MapboxGL.Camera
+          zoomLevel={0}
+          animationDuration={0}
+          animationMode={"linearTo"}
+          allowUpdates={true}
+        />
+      </MapboxGL.MapView>
       <View>
-        <View></View>
-        <View>
-          <Text>{`${bytesStored} ${t(m.mb)}`}</Text>
-          {zoomAndDescription === "loading" ? (
-            <Loading />
-          ) : (
-            <React.Fragment>
-              {zoomAndDescription.zoom && (
-                <Text>{`${t(m.zoomLevel)}: ${zoomAndDescription.zoom}`}</Text>
-              )}
-              {zoomAndDescription.description && (
-                <Text>{`${t(m.description)}: ${
-                  zoomAndDescription.description
-                }`}</Text>
-              )}
-            </React.Fragment>
-          )}
-        </View>
+        <Text>{`${bytesStored} ${t(m.mb)}`}</Text>
+        {zoomAndDescription === "loading" ? (
+          <Loading />
+        ) : (
+          <React.Fragment>
+            {zoomAndDescription.zoom && (
+              <Text>{`${t(m.zoomLevel)}: ${zoomAndDescription.zoom}`}</Text>
+            )}
+            {zoomAndDescription.description && (
+              <Text>{`${t(m.description)}: ${
+                zoomAndDescription.description
+              }`}</Text>
+            )}
+          </React.Fragment>
+        )}
       </View>
     </React.Fragment>
   );
