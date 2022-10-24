@@ -132,6 +132,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
             isSelected={styleUrl === defaultStyleUrl}
             styleUrl={defaultStyleUrl}
             mapTitle="Default Map"
+            bytesStored={0}
           />
         )}
 
@@ -148,6 +149,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
               styleUrl={bgMap.url}
               isSelected={styleUrl === bgMap.url}
               mapTitle={bgMap.name}
+              bytesStored={bgMap.bytesStored}
             />
           ))
         )}

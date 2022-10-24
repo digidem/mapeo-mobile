@@ -19,7 +19,7 @@ import { ClientGeneratedObservation } from "./context/ObservationsContext";
 import AppInfo from "./lib/AppInfo";
 import promiseTimeout, { TimeoutError } from "p-timeout";
 import bugsnag from "./lib/logger";
-import { IconSize, ImageSize, MapServerStyle } from "./sharedTypes";
+import { IconSize, ImageSize, MapServerStyle, Tileset } from "./sharedTypes";
 
 export type ServerStatus = keyof typeof STATUS;
 
@@ -346,6 +346,8 @@ function createMapServerApi() {
     // Return the url to a map style from the map server
     getStyleUrl: (id: string): string | undefined =>
       mapServerPort ? `${getBaseUrl(mapServerPort)}styles/${id}` : undefined,
+    getTileset: async (id: string): Promise<Tileset> =>
+      (await guaranteeClient().get(`tilesets/${id}`)) as Tileset,
   };
 
   return mapsApi;
