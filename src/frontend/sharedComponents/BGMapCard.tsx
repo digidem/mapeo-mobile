@@ -4,9 +4,11 @@ import { StyleSheet, View, Text } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 
 import { LIGHT_GREY, MEDIUM_GREY } from "../lib/styles";
-import { ViewStyleProp } from "../sharedTypes";
+import { MapServerStyle, ViewStyleProp } from "../sharedTypes";
 import { Pill } from "./Pill";
 import LocationContext from "../context/LocationContext";
+import { useEventSource } from "../hooks/useEventSource";
+import api from "../api";
 
 const m = defineMessages({
   currentMap: {
@@ -27,23 +29,24 @@ const m = defineMessages({
 
 // ToDo: API calls to get styleURL, zoom level, center coordinate, etc.
 
-interface BGMapCardProps {
-  mapId: string;
-  mapTitle: string | null;
+type BGMapCardProps = {
   style?: ViewStyleProp;
-  styleUrl: string;
   onPress?: (() => void) | null;
   isSelected: boolean;
-}
+} & MapServerStyle;
 
 export const BGMapCard = ({
-  mapTitle,
+  name,
   style,
   isSelected,
-  styleUrl,
+  url,
+  id,
 }: BGMapCardProps) => {
   const { formatMessage: t } = useIntl();
   const { position } = React.useContext(LocationContext);
+
+  // We need to only open the event source if import isny completed
+  //useEventSource(api.maps.getImportProgressUrl(id))
 
   return (
     <View
@@ -54,7 +57,7 @@ export const BGMapCard = ({
     >
       <View style={[styles.container]}>
         <MapboxGL.MapView
-          styleURL={styleUrl}
+          styleURL={url}
           compassEnabled={false}
           zoomEnabled={false}
           logoEnabled={false}
@@ -75,7 +78,7 @@ export const BGMapCard = ({
         </MapboxGL.MapView>
         <View style={[styles.textContainer]}>
           <Text style={[styles.text, { fontWeight: "bold" }]}>
-            {mapTitle || t(m.unnamedStyle)}
+            {name || t(m.unnamedStyle)}
           </Text>
           {isSelected && (
             <Pill containerStyle={{ marginTop: 10 }} text={m.currentMap} />
