@@ -9,6 +9,8 @@ import { Pill } from "./Pill";
 import LocationContext from "../context/LocationContext";
 import { useEventSource } from "../hooks/useEventSource";
 import api from "../api";
+import throttle from "lodash/throttle";
+import { EventSourceMessage } from "@microsoft/fetch-event-source";
 
 const m = defineMessages({
   currentMap: {
@@ -29,11 +31,30 @@ const m = defineMessages({
 
 // ToDo: API calls to get styleURL, zoom level, center coordinate, etc.
 
-type BGMapCardProps = {
+interface BGMapCardProps extends MapServerStyle {
   style?: ViewStyleProp;
   onPress?: (() => void) | null;
   isSelected: boolean;
-} & MapServerStyle;
+  importId?: string;
+}
+
+const onMessage = throttle((message: EventSourceMessage) => {
+  console.log(message);
+}, 100);
+
+const onOpen = throttle(async (response: Response) => {
+  console.log("STATUS", response.status);
+
+  console.log("BODY", response.body);
+
+  const contentType = response.headers.get("content-type");
+
+  console.log("CONTENT TYPE", contentType);
+
+  const text = await response.text();
+
+  console.log("TEXT", text);
+}, 100);
 
 export const BGMapCard = ({
   name,
@@ -41,12 +62,27 @@ export const BGMapCard = ({
   isSelected,
   url,
   id,
+  importId,
 }: BGMapCardProps) => {
   const { formatMessage: t } = useIntl();
   const { position } = React.useContext(LocationContext);
 
-  // We need to only open the event source if import isny completed
-  //useEventSource(api.maps.getImportProgressUrl(id))
+  const unsubscribe = useEventSource(
+    importId ? api.maps.getImportProgressUrl(importId) : undefined,
+    {
+      headers: {
+        "Content-Type": "text/event-stream",
+      },
+      onopen: async response => onOpen(response),
+      onmessage: onMessage,
+      onerror(err) {
+        console.error(err);
+      },
+      onclose() {
+        console.log("CLOSED");
+      },
+    }
+  );
 
   return (
     <View

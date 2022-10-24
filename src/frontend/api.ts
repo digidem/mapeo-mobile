@@ -336,18 +336,18 @@ function createMapServerApi() {
     // Get a list of all existing styles containing scalar information about each style
     getStyleList: async (): Promise<MapServerStyle[]> =>
       (await guaranteeClient().get("styles")) as MapServerStyle[],
-    // Create a tileset using an existing MBTiles file
+    // `Create` a tileset using an existing MBTiles file
     importTileset: async (
       filePath: string
-    ): Promise<TileJSON & { id: string }> =>
+    ): Promise<TileJSON & { import: { id: string } }> =>
       (await guaranteeClient().post("tilesets/import", {
         filePath: convertFileUriToPosixPath(filePath),
-      })) as TileJSON & { id: string },
+      })) as TileJSON & { import: { id: string } },
     // Return the url to a map style from the map server
     getStyleUrl: (id: string): string | undefined =>
       mapServerPort ? `${getBaseUrl(mapServerPort)}styles/${id}` : undefined,
     getImportProgressUrl: (id: string): string | undefined =>
-      mapServerPort
+      mapServerPort && id !== "default"
         ? `${getBaseUrl(mapServerPort)}imports/progress/${id}`
         : undefined,
     getImport: async (id: string): Promise<Imports> =>

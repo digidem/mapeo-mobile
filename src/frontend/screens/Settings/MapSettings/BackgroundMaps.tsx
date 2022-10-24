@@ -85,6 +85,10 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
     MapServerStyle[]
   >();
 
+  const [styleToImportId, setStyleToImportId] = React.useState<{
+    [key: string]: string;
+  }>({});
+
   React.useEffect(() => {
     api.maps
       .getStyleList()
@@ -111,9 +115,21 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
 
     if (results.type === "success") {
       try {
-        await api.maps.importTileset(results.uri);
+        const { import: tilesetImport } = await api.maps.importTileset(
+          results.uri
+        );
+
+        // TODO: Once https://github.com/digidem/mapeo-map-server/issues/81 is implemented, no need to call this endpoint and use the last item, etc
         const list = await api.maps.getStyleList();
+        const lastStyle = list[list.length - 1];
+
+        setStyleToImportId(prev => ({
+          ...prev,
+          [lastStyle.id]: tilesetImport.id,
+        }));
+
         setBackgroundMapList(list);
+
         sheetRef.current?.close();
       } catch (err) {
         console.log("FAILED TO IMPORT", err);
@@ -156,6 +172,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
               key={bgMap.id}
               bytesStored={bgMap.bytesStored}
               id={bgMap.id}
+              importId={styleToImportId[bgMap.id]}
               style={{ marginTop: 20 }}
               url={bgMap.url}
               isSelected={styleUrl === bgMap.url}
