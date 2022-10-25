@@ -1207,6 +1207,10 @@
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Current Map"
   },
+  "sharedComponents.BGMapCard.importProgress": {
+    "description": "Message about number of tileset assets imported so far out of total number",
+    "message": "{soFar, number} out of {total, number} assets imported"
+  },
   "sharedComponents.BGMapCard.unamedStyle": {
     "description": "The name for the default map style",
     "message": "Unnamed Style"
