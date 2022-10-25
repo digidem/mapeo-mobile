@@ -87,6 +87,7 @@
     "react-native-build-config": "^0.3.2",
     "react-native-confirmation-code-field": "^7.3.0",
     "react-native-device-info": "^8.4.8",
+    "react-native-fetch-api": "^3.0.0",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-resizer": "^1.2.3",
@@ -109,11 +110,13 @@
     "react-native-vector-icons": "^9.1.0",
     "serialize-error": "^8.1.0",
     "shallowequal": "^1.1.0",
+    "text-encoding": "^0.7.0",
     "turndown-rn": "^6.1.0",
     "use-memo-one": "^1.1.1",
     "utm": "^1.1.1",
     "v8-android": "9.93.0",
-    "validate-color": "^2.2.1"
+    "validate-color": "^2.2.1",
+    "web-streams-polyfill": "^3.2.1"
   },
   "devDependencies": {
     "@babel/core": "~7.12.17",

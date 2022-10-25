@@ -140,7 +140,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
 
   return (
     <React.Fragment>
-      <ScrollView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <Button style={[styles.button]} variant="outlined" onPress={openModal}>
           {t(m.addBGMap)}
         </Button>
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: 20,
-    marginBottom: 20,
+    paddingBottom: 20,
   },
   importButton: {
     backgroundColor: LIGHT_GREY,

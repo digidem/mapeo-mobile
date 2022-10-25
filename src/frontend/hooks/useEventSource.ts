@@ -3,50 +3,50 @@ import {
   fetchEventSource,
   FetchEventSourceInit,
 } from "@microsoft/fetch-event-source";
-import "fast-text-encoding";
-
-global.window = Object.assign(global.window || {}, {
-  setTimeout,
-  clearTimeout,
-  fetch,
-});
-
-global.document = Object.assign(global.document || {}, {
-  hidden: false,
-  addEventListener: () => {},
-  removeEventListener: () => {},
-});
+// TODO: Ideally create module defs for this
+// @ts-ignore
+import { fetch } from "react-native-fetch-api";
 
 export const useEventSource = (
   // TODO: Should fix this at the app level, where the maps api is only available if the port is known
   url: string | undefined,
-  options: Omit<FetchEventSourceInit, "signal">
+  createOptions?: (cancel: () => void) => Omit<FetchEventSourceInit, "signal">
 ) => {
   const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     if (!url) return;
 
-    console.log("CREATING EVENT SOURCE", url);
-
     const controller = new AbortController();
 
     abortControllerRef.current = controller;
 
+    const options = createOptions
+      ? createOptions(() => {
+          controller.abort();
+          abortControllerRef.current = null;
+        })
+      : undefined;
+
     fetchEventSource(url, {
       ...options,
+      fetch: (input: RequestInfo | URL, opts: RequestInit | undefined) => {
+        console.log("INPUT", input);
+        return fetch(input, { ...opts, reactNative: { textStreaming: true } });
+      },
       signal: controller.signal,
     });
 
     return () => {
-      console.log("ABORTING CLEANUP");
       controller.abort();
       abortControllerRef.current = null;
     };
-  }, [url, options]);
+  }, [url, createOptions]);
 
   return () => {
-    console.log("ABORTING UNSUB");
-    abortControllerRef.current?.abort();
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
   };
 };
