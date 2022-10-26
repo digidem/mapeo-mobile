@@ -672,6 +672,9 @@
   "screens.Settings.Experiments.BGMaps.BGMaps": {
     "message": "Bản đồ nền"
   },
+  "screens.Settings.Experiments.BGMaps.BGMapsDescription": {
+    "message": "Sử dụng các tính năng của bản đồ nền để thay đổi nền bản đồ trong chế độ xem bản đồ (mapview). Tính năng này sẽ cho phép bạn tải lên tệp dạng MBtiles raster. Sau khi tệp được tải lên, bạn sẽ có thể thiết lập đồ nền trong chế độ mapview và sử dụng nó ngay cả khi bạn không kết nối với internet."
+  },
   "screens.Settings.Experiments.BGMaps.goTo": {
     "message": "Đi đến"
   },
@@ -733,6 +736,9 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Bạn) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMapTitle": {
+    "message": "Bản đồ nền"
+  },
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Thêm Bản đồ nền"
   },
@@ -751,8 +757,20 @@
   "screens.Settings.MapSettings.close": {
     "message": "Đóng"
   },
+  "screens.Settings.MapSettings.confirmDelete": {
+    "description": "Confirm delete map modal button",
+    "message": "Có, xoá đi"
+  },
   "screens.Settings.MapSettings.dataLayers": {
     "message": "Các lớp dữ liệu"
+  },
+  "screens.Settings.MapSettings.deleteMapTitle": {
+    "description": "Title for the delete map modal",
+    "message": "Xoá bản đồ"
+  },
+  "screens.Settings.MapSettings.importError": {
+    "description": "Error importing map warning",
+    "message": "Lỗi khi nhập bản đồ, vui lòng thử một tệp khác."
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Nhập từ file"
@@ -1117,6 +1135,10 @@
   },
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Bản đồ hiện tại"
+  },
+  "sharedComponents.BGMapCard.unamedStyle": {
+    "description": "The name for the default map style",
+    "message": "Kiểu không tên"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Đóng"
