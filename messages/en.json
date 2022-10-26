@@ -828,6 +828,10 @@
   "screens.Settings.MapSettings.dataLayers": {
     "message": "Data Layers"
   },
+  "screens.Settings.MapSettings.defaultMap": {
+    "description": "Name of default map",
+    "message": "Default Map"
+  },
   "screens.Settings.MapSettings.deleteMapTitle": {
     "description": "Title for the delete map modal",
     "message": "Delete Map"
@@ -1207,13 +1211,17 @@
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Current Map"
   },
-  "sharedComponents.BGMapCard.importProgress": {
-    "description": "Message about number of tileset assets imported so far out of total number",
-    "message": "{soFar, number} out of {total, number} assets imported"
+  "sharedComponents.BGMapCard.importInProgress": {
+    "description": "Message about the import being in progress",
+    "message": "Import in progress…"
   },
   "sharedComponents.BGMapCard.unamedStyle": {
     "description": "The name for the default map style",
     "message": "Unnamed Style"
+  },
+  "sharedComponents.BGMapCard.waitingForImport": {
+    "description": "Message indicating that import is waiting to start",
+    "message": "Waiting for import…"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Close"
