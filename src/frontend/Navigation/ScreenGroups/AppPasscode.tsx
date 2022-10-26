@@ -1,12 +1,14 @@
 import * as React from "react";
 import { MessageDescriptor } from "react-intl";
 import { AppPasscode } from "../../screens/AppPasscode";
+import { ConfirmPasscodeSheet } from "../../screens/AppPasscode/ConfirmPasscodeSheet";
 import { ObscurePasscode } from "../../screens/ObscurePasscode";
 import { RootStack } from "../AppStack";
 
 export type AppPasscodeStackList = {
   AppPasscode: undefined;
   ObscurePasscode: undefined;
+  ConfirmPasscodeSheet: { passcode: string };
 };
 
 // **NOTE**: No hooks allowed here (this is not a component, it is a function
@@ -24,6 +26,11 @@ export const createAppPasscodeScreenGroup = (
       name="ObscurePasscode"
       component={ObscurePasscode}
       options={{ headerTitle: intl(ObscurePasscode.navTitle) }}
+    />
+    <RootStack.Screen
+      name="ConfirmPasscodeSheet"
+      component={ConfirmPasscodeSheet}
+      options={{ headerShown: false, presentation: "modal" }}
     />
   </RootStack.Group>
 );
