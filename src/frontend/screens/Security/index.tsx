@@ -4,7 +4,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import { FormattedMessage, defineMessages } from "react-intl";
 
 import { List, ListItem, ListItemText } from "../../sharedComponents/List";
-import { devExperiments } from "../../lib/DevExperiments";
 import { NativeNavigationComponent } from "../../sharedTypes";
 import { SecurityContext } from "../../context/SecurityContext";
 import { MEDIUM_GREY, RED } from "../../lib/styles";
@@ -33,7 +32,7 @@ const m = defineMessages({
   },
   obscurePasscodeHeader: {
     id: "screens.Security.obscurePasscodeHeader",
-    defaultMessage: "Kill Passcode",
+    defaultMessage: "Obscure Passcode",
   },
   obscurePassDescriptonPassNotSet: {
     id: "screens.Security.obscurePassDescriptonPassNotSet",
@@ -48,21 +47,21 @@ const m = defineMessages({
 export const Security: NativeNavigationComponent<"Security"> = ({
   navigation,
 }) => {
-  const { authValuesSet: authenticationValuesSet } = React.useContext(
-    SecurityContext
-  );
+  const { authValuesSet, authState } = React.useContext(SecurityContext);
   const [highlight, setHighlight] = React.useState(false);
 
   React.useEffect(() => {
-    if (!devExperiments.appPasscode) navigation.navigate("Settings");
-  }, []);
+    if (authState === "obscured") {
+      navigation.navigate("Settings");
+    }
+  }, [navigation, authState]);
 
   const [passCodeDes, obscurePassCodeDes] = React.useMemo(
     () =>
-      authenticationValuesSet.passcodeSet
+      authValuesSet.passcodeSet
         ? [m.passDesriptionPassSet, m.obscurePassDescriptonPassSet]
         : [m.passDesriptionPassNotSet, m.obscurePassDescriptonPassNotSet],
-    [authenticationValuesSet.passcodeSet]
+    [authValuesSet.passcodeSet]
   );
 
   function highlightError() {
@@ -75,13 +74,6 @@ export const Security: NativeNavigationComponent<"Security"> = ({
   return (
     <ScrollView>
       <List>
-        <ListItem button={false} style={{ marginVertical: 10 }}>
-          <ListItemText
-            style={{ textTransform: "uppercase" }}
-            primary={<FormattedMessage {...m.securitySubheader} />}
-          />
-        </ListItem>
-
         <ListItem
           button={true}
           onPress={() => navigation.navigate("AppPasscode")}
@@ -94,7 +86,7 @@ export const Security: NativeNavigationComponent<"Security"> = ({
 
         <ListItem
           onPress={() => {
-            if (!authenticationValuesSet.passcodeSet) {
+            if (!authValuesSet.passcodeSet) {
               highlightError();
               return;
             }

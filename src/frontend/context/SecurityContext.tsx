@@ -1,4 +1,5 @@
 import * as React from "react";
+import { AppState, AppStateStatus } from "react-native";
 
 import { OBSCURE_KEY, OBSCURE_PASSCODE, PASSWORD_KEY } from "../constants";
 import createPersistedState from "../hooks/usePersistedState";
@@ -7,7 +8,7 @@ type AuthState = "unauthenticated" | "authenticated" | "obscured";
 
 type AuthSetters =
   | { type: "passcode"; value: string | null }
-  //This is to set up the future use of the obscure pass beings set by the user. if the `value` is undefined, the default obscure pass is being used
+  // This is to set up the future use of the obscure pass beings set by the user. if the `value` is undefined, the default obscure pass is being used
   | { type: "obscure"; value?: string | null };
 
 type AuthValuesSet = {
@@ -18,7 +19,10 @@ type AuthValuesSet = {
 type SecurityContextType = {
   authValuesSet: AuthValuesSet;
   setAuthValues: (val: AuthSetters) => void;
-  authenticate: (val: string | null, validateOnly?: boolean) => boolean;
+  authenticate: (
+    passcodeValue: string | null,
+    validateOnly?: boolean
+  ) => boolean;
   authState: AuthState;
 };
 
@@ -69,6 +73,28 @@ const SecurityProviderInner = ({
     string | null
   >(null);
 
+  const passcodeSet = passcode !== null;
+  const obscureSet = obscureCode !== null;
+
+  React.useEffect(() => {
+    const appStateListener = AppState.addEventListener(
+      "change",
+      (nextAppState: AppStateStatus) => {
+        if (passcodeSet) {
+          if (
+            nextAppState === "active" ||
+            nextAppState === "background" ||
+            nextAppState === "inactive"
+          ) {
+            setAuthState("unauthenticated");
+          }
+        }
+      }
+    );
+
+    return () => appStateListener.remove();
+  }, [passcodeSet]);
+
   const setPasscodeWithValidation = React.useCallback(
     (passcodeValue: string | null) => {
       // If user is able to set their own obscure passcode get rid of this if statement.
@@ -76,7 +102,7 @@ const SecurityProviderInner = ({
         throw new Error("passcode is reserved");
       }
 
-      if (passcode !== null && passcodeValue === obscureCode) {
+      if (passcodeValue !== null && passcodeValue === obscureCode) {
         throw new Error("passcode is already being used obscure code");
       }
 
@@ -114,17 +140,11 @@ const SecurityProviderInner = ({
     [passcode]
   );
 
-  const authenticate = React.useCallback(
-    (passcodeValue: string | null, validateOnly: boolean = false) => {
-      if (validateOnly) {
-        if (passcodeValue === passcode) {
-          return true;
-        }
+  const authenticate: SecurityContextType["authenticate"] = React.useCallback(
+    (passcodeValue, validateOnly = false) => {
+      if (validateOnly) return passcodeValue === passcode;
 
-        return false;
-      }
-
-      if (passcodeValue === obscureCode) {
+      if (obscureSet && passcodeValue === obscureCode) {
         setAuthState("obscured");
         return true;
       }
@@ -136,11 +156,11 @@ const SecurityProviderInner = ({
 
       throw new Error("Incorrect Passcode");
     },
-    [passcode, obscureCode]
+    [passcode, obscureCode, obscureSet]
   );
 
-  const setAuthValues = React.useCallback(
-    ({ type, value }: AuthSetters) => {
+  const setAuthValues: SecurityContextType["setAuthValues"] = React.useCallback(
+    ({ type, value }) => {
       if (type === "passcode") setPasscodeWithValidation(value);
       else setObscureCodeWithValidation(value);
     },
@@ -150,14 +170,14 @@ const SecurityProviderInner = ({
   const contextValue: SecurityContextType = React.useMemo(
     () => ({
       authValuesSet: {
-        passcodeSet: passcode !== null,
-        obscureSet: obscureCode !== null,
+        passcodeSet,
+        obscureSet,
       },
       setAuthValues,
       authenticate,
       authState,
     }),
-    [setAuthValues, authenticate, passcode, obscureCode, authState]
+    [setAuthValues, authenticate, passcodeSet, obscureSet, authState]
   );
 
   return (
@@ -169,5 +189,5 @@ const SecurityProviderInner = ({
 
 function validPasscode(passcode: string | null): boolean {
   if (passcode === null) return true;
-  return passcode.length === 5 && !isNaN(parseInt(passcode!, 10));
+  return passcode.length === 5 && !isNaN(parseInt(passcode, 10));
 }

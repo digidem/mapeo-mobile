@@ -52,7 +52,7 @@ const AppContainerWrapper = () => {
       try {
         // When we support deeplinking we need to fix this. Currently it is never resolving
         // You can find issue here: https://github.com/facebook/react-native/issues/25675
-        const initialUrl = undefined; //await Linking.getInitialURL();
+        const initialUrl = undefined; // await Linking.getInitialURL();
 
         // if deeplinking, dont set initial state
         if (initialUrl) {

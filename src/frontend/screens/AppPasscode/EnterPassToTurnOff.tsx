@@ -11,11 +11,11 @@ const m = defineMessage({
   },
   subTitleEnter: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleEnter",
-    defaultMessage: "Please Enter Password",
+    defaultMessage: "Please Enter Passcode",
   },
   passwordError: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError",
-    defaultMessage: "Incorrect Password",
+    defaultMessage: "Incorrect Passcode",
   },
 });
 
