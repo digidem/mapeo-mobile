@@ -19,12 +19,7 @@ import { ClientGeneratedObservation } from "./context/ObservationsContext";
 import AppInfo from "./lib/AppInfo";
 import promiseTimeout, { TimeoutError } from "p-timeout";
 import bugsnag from "./lib/logger";
-import {
-  IconSize,
-  ImageSize,
-  Imports,
-  MapServerStyleInfo,
-} from "./sharedTypes";
+import { IconSize, ImageSize, Import, MapServerStyleInfo } from "./sharedTypes";
 
 export type ServerStatus = keyof typeof STATUS;
 
@@ -355,8 +350,8 @@ function createMapServerApi() {
       mapServerPort && id !== "default"
         ? `${getBaseUrl(mapServerPort)}imports/progress/${id}`
         : undefined,
-    getImport: async (id: string): Promise<Imports> =>
-      (await guaranteeClient().get(`imports/${id}`)) as Imports,
+    getImport: async (id: string): Promise<Import> =>
+      (await guaranteeClient().get(`imports/${id}`)) as Import,
   };
 
   return mapsApi;
