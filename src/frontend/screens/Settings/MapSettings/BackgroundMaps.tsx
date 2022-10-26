@@ -12,7 +12,7 @@ import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "../../../sharedComponents/Touchables";
 import {
-  MapServerStyle,
+  MapServerStyleInfo,
   NativeNavigationComponent,
 } from "../../../sharedTypes";
 import api from "../../../api";
@@ -20,6 +20,13 @@ import { useMapStyle } from "../../../hooks/useMapStyle";
 import { useDefaultStyleUrl } from "../../../hooks/useDefaultStyleUrl";
 
 export const DEFAULT_MAP_ID = "default";
+
+// Use a singleton to represent active imports that are occurring or have errored.
+// May want to use context instead at some point but this works for now.
+export const ACTIVE_MAP_IMPORTS = new Map<
+  string,
+  { id: string; error?: boolean }
+>();
 
 const m = defineMessages({
   addBGMap: {
@@ -59,14 +66,18 @@ const m = defineMessages({
     defaultMessage: "Error Importing Map, please try a different file.",
     description: "Error importing map warning",
   },
+  defaultMap: {
+    id: "screens.Settings.MapSettings.defaultMap",
+    defaultMessage: "Default Map",
+    description: "Name of default map",
+  },
 });
 
 type ModalContent = "import" | "error";
 
-export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
-  navigation,
-}) => {
+export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () => {
   const sheetRef = React.useRef<BottomSheetMethods>(null);
+  const mountedRef = React.useRef<boolean>(true);
 
   const { styleUrl } = useMapStyle();
 
@@ -82,12 +93,8 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
   ]);
 
   const [backgroundMapList, setBackgroundMapList] = React.useState<
-    MapServerStyle[]
+    MapServerStyleInfo[]
   >();
-
-  const [styleToImportId, setStyleToImportId] = React.useState<{
-    [key: string]: string;
-  }>({});
 
   React.useEffect(() => {
     api.maps
@@ -101,9 +108,31 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
 
   const { formatMessage: t } = useIntl();
 
-  function openModal() {
-    sheetRef.current?.snapTo(1);
-  }
+  // TODO: Opening the sheet doesn't work here
+  const onImportError = React.useCallback(() => {
+    if (mountedRef.current && sheetRef.current) {
+      setModalContent("error");
+      sheetRef.current.expand();
+    }
+  }, []);
+
+  // Check for errored imports that haven't been handled yet when entering this screen
+  // Upon entering, if an import had failed, open the bottom sheet to deal with it
+  React.useEffect(() => {
+    mountedRef.current = true;
+
+    for (const activeImport of ACTIVE_MAP_IMPORTS.values()) {
+      if (activeImport.error) {
+        console.log("DETECTED ERROR");
+        onImportError();
+        return;
+      }
+    }
+
+    return () => {
+      mountedRef.current = false;
+    };
+  }, [onImportError]);
 
   async function handleImportPress() {
     const results = await DocumentPicker.getDocumentAsync();
@@ -123,10 +152,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
         const list = await api.maps.getStyleList();
         const lastStyle = list[list.length - 1];
 
-        setStyleToImportId(prev => ({
-          ...prev,
-          [lastStyle.id]: tilesetImport.id,
-        }));
+        ACTIVE_MAP_IMPORTS.set(lastStyle.id, { id: tilesetImport.id });
 
         setBackgroundMapList(list);
 
@@ -141,21 +167,29 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
   return (
     <React.Fragment>
       <ScrollView contentContainerStyle={styles.container}>
-        <Button style={[styles.button]} variant="outlined" onPress={openModal}>
+        <Button
+          style={[styles.button]}
+          variant="outlined"
+          onPress={() => {
+            sheetRef.current?.snapTo(1);
+          }}
+        >
           {t(m.addBGMap)}
         </Button>
 
         {/* Default BG map card */}
         {defaultStyleUrl && (
-          <BGMapCard
-            id={DEFAULT_MAP_ID}
-            bytesStored={0}
-            style={{ marginTop: 20 }}
-            onPress={() => {}}
-            isSelected={styleUrl === defaultStyleUrl}
-            url={defaultStyleUrl}
-            name="Default Map"
-          />
+          <View style={{ marginTop: 20 }}>
+            <BGMapCard
+              isSelected={styleUrl === defaultStyleUrl}
+              mapStyleInfo={{
+                id: DEFAULT_MAP_ID,
+                url: defaultStyleUrl,
+                bytesStored: 0,
+                name: t(m.defaultMap),
+              }}
+            />
+          </View>
         )}
 
         {backgroundMapList === undefined ? (
@@ -168,16 +202,13 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
           </Text>
         ) : (
           backgroundMapList.map(bgMap => (
-            <BGMapCard
-              key={bgMap.id}
-              bytesStored={bgMap.bytesStored}
-              id={bgMap.id}
-              importId={styleToImportId[bgMap.id]}
-              style={{ marginTop: 20 }}
-              url={bgMap.url}
-              isSelected={styleUrl === bgMap.url}
-              name={bgMap.name}
-            />
+            <View key={bgMap.id} style={{ marginTop: 20 }}>
+              <BGMapCard
+                isSelected={styleUrl === bgMap.url}
+                mapStyleInfo={bgMap}
+                onImportError={onImportError}
+              />
+            </View>
           ))
         )}
       </ScrollView>

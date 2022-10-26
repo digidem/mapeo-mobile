@@ -2,7 +2,6 @@ import * as React from "react";
 import { View } from "react-native";
 import debug from "debug";
 
-import Text from "../../sharedComponents/Text";
 import MapView from "../../sharedComponents/Map/MapView";
 import Loading from "../../sharedComponents/Loading";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
@@ -12,18 +11,24 @@ import LocationContext from "../../context/LocationContext";
 import { AddButton } from "../../sharedComponents/AddButton";
 
 import { BGMapSelector } from "./BGMapSelector";
+import { ACTIVE_MAP_IMPORTS } from "../Settings/MapSettings/BackgroundMaps";
 import IconButton from "../../sharedComponents/IconButton";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { MEDIUM_GREY } from "../../lib/styles";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useExperiments } from "../../hooks/useExperiments";
 import {
-  MapServerStyle,
+  MapServerStyleInfo,
   NativeHomeTabsNavigationProps,
 } from "../../sharedTypes";
 import api from "../../api";
 import { useMapServerState } from "../../hooks/useMapServerState";
+
 const log = debug("mapeo:MapScreen");
+
+function onlyFullyImportedStyles(styleList: MapServerStyleInfo[]) {
+  return styleList.filter(({ id }) => !ACTIVE_MAP_IMPORTS.get(id));
+}
 
 export const MapScreen = ({
   navigation,
@@ -36,13 +41,15 @@ export const MapScreen = ({
 
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
-  const [bgMapsList, setBgMapList] = React.useState<null | MapServerStyle[]>(
-    null
-  );
+  const [bgMapsList, setBgMapList] = React.useState<
+    null | MapServerStyleInfo[]
+  >(null);
 
   React.useEffect(() => {
     if (mapServerReady) {
-      api.maps.getStyleList().then(val => setBgMapList(val));
+      api.maps.getStyleList().then(list => {
+        setBgMapList(onlyFullyImportedStyles(list));
+      });
     }
   }, [mapServerReady]);
 
@@ -54,7 +61,7 @@ export const MapScreen = ({
     if (mapServerReady) {
       try {
         const list = await api.maps.getStyleList();
-        setBgMapList(list);
+        setBgMapList(onlyFullyImportedStyles(list));
       } catch {
         setBgMapList([]);
       }

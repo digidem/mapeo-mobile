@@ -19,7 +19,12 @@ import { ClientGeneratedObservation } from "./context/ObservationsContext";
 import AppInfo from "./lib/AppInfo";
 import promiseTimeout, { TimeoutError } from "p-timeout";
 import bugsnag from "./lib/logger";
-import { IconSize, ImageSize, Imports, MapServerStyle } from "./sharedTypes";
+import {
+  IconSize,
+  ImageSize,
+  Imports,
+  MapServerStyleInfo,
+} from "./sharedTypes";
 
 export type ServerStatus = keyof typeof STATUS;
 
@@ -334,8 +339,8 @@ function createMapServerApi() {
     getStyle: async (id: string): Promise<StyleJSON> =>
       (await guaranteeClient().get(`styles/${id}`)) as StyleJSON,
     // Get a list of all existing styles containing scalar information about each style
-    getStyleList: async (): Promise<MapServerStyle[]> =>
-      (await guaranteeClient().get("styles")) as MapServerStyle[],
+    getStyleList: async (): Promise<MapServerStyleInfo[]> =>
+      (await guaranteeClient().get("styles")) as MapServerStyleInfo[],
     // `Create` a tileset using an existing MBTiles file
     importTileset: async (
       filePath: string

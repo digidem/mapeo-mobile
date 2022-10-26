@@ -56,6 +56,6 @@ export type NativeHomeTabsNavigationProps<
   NativeStackScreenProps<AppStackList>
 >;
 
-export type MapServerStyle = Unpacked<ReturnType<StylesApi["listStyles"]>>;
+export type MapServerStyleInfo = Unpacked<ReturnType<StylesApi["listStyles"]>>;
 
 export type Imports = Unpacked<ReturnType<ImportsApi["getImport"]>>;
