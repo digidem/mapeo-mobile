@@ -26,7 +26,7 @@ const m = defineMessages({
   },
   instructions: {
     id: "screens.ObscurePasscode.instructions",
-    defaultMessage: "Enter the code above to hide sensitive data in Mapeo",
+    defaultMessage: "Enter the code above to hide your data in Mapeo",
   },
   description: {
     id: "screens.ObscurePasscode.description",
