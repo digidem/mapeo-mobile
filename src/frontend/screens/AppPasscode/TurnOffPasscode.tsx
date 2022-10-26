@@ -40,6 +40,11 @@ const m = defineMessages({
     id: "screens.AppPasscode.TurnOffPasscode.cancel",
     defaultMessage: "Cancel",
   },
+  description: {
+    id: "screens.AppPasscode.TurnOffPasscode.description",
+    defaultMessage:
+      "App Passcode adds an additional layer of security by requiring that you enter a passcode in order to open the Mapeo app.You are currently using App Passcode. See below to stop using or change your passcode.",
+  },
 });
 
 interface TurnOffPasscodeProps {
@@ -53,6 +58,8 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
 
   const { navigate } = useNavigationFromRoot();
 
+  const { formatMessage: t } = useIntl();
+
   function unsetAppPasscode() {
     setAuthValues({ type: "passcode", value: null });
     navigate("Security");
@@ -64,6 +71,8 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
 
   return (
     <React.Fragment>
+      <Text style={styles.description}>{t(m.description)}</Text>
+
       <List>
         <ListItem style={styles.checkBoxContainer} onPress={openBottomSheet}>
           <ListItemText
@@ -178,5 +187,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+  },
+  description: {
+    marginTop: 40,
+    fontSize: 16,
+    marginBottom: 20,
   },
 });

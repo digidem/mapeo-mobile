@@ -57,7 +57,7 @@ export const ConfirmPasscodeSheet = ({
           {
             text: t(m.cancel),
             onPress: () => {
-              navigation.goBack();
+              navigation.navigate("Security");
             },
             variation: "outlined",
           },
