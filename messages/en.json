@@ -137,6 +137,9 @@
   "screens.AppPasscode": {
     "message": "App Passcode"
   },
+  "screens.AppPasscode.InputPasscodeScreen.cancel": {
+    "message": "Cancel"
+  },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
     "message": "Re-enter Passcode"
   },
@@ -155,17 +158,20 @@
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
     "message": "Password does not match"
   },
-  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleConfirm": {
-    "message": "Password"
-  },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
-    "message": "This passcode will be used to open the Mapeo App"
+    "message": "This passcode will be required to open the Mapeo App"
   },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continue"
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "What is App Passcode?"
+  },
+  "screens.AppPasscode.PasscodeIntro.description": {
+    "message": "App Passcode allows you to add an additional layer of security by requiring that you enter a passcode in order to open the Mapeo app. You can define your own 5-digit passcode by turning on the feature below."
+  },
+  "screens.AppPasscode.PasscodeIntro.warning": {
+    "message": "**Please note that forgotten passcodes cannot be recovered!** Once this feature is enabled, if you forget or lose your passcode, you will not be able to open Mapeo and will lose access to any Mapeo data that has not been synced with other project participants."
   },
   "screens.AppPasscode.TurnOffPasscode.cancel": {
     "message": "Cancel"
@@ -450,14 +456,20 @@
   "screens.ManualGpsScreen.zoneNumber": {
     "message": "Zone Number"
   },
+  "screens.ObscurePasscode.description": {
+    "message": "Obscure Passcode is a security feature that allows you to open Mapeo in a decoy mode that hides all of your data. Entering the Obscure Passcode on the intro screen will display an empty version of Mapeo which allows you to create demonstration observations that are not saved to the Mapeo database."
+  },
   "screens.ObscurePasscode.instructions": {
     "message": "Enter the code above to hide sensitive data in Mapeo"
   },
   "screens.ObscurePasscode.title": {
-    "message": "Kill Passcode"
+    "message": "Obscure Passcode"
   },
   "screens.ObscurePasscode.toggleMessage": {
-    "message": "Use Kill Passcode"
+    "message": "Use Obscure Passcode"
+  },
+  "screens.ObscurePasscode.whatIsObscure": {
+    "message": "What is Obscure Passcode?"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
@@ -696,7 +708,7 @@
     "message": "Protect your device against seizure"
   },
   "screens.Security.obscurePasscodeHeader": {
-    "message": "Kill Passcode"
+    "message": "Obscure Passcode"
   },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "Passcode not set"

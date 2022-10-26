@@ -32,7 +32,7 @@ const m = defineMessages({
   },
   obscurePasscodeHeader: {
     id: "screens.Security.obscurePasscodeHeader",
-    defaultMessage: "Kill Passcode",
+    defaultMessage: "Obscure Passcode",
   },
   obscurePassDescriptonPassNotSet: {
     id: "screens.Security.obscurePassDescriptonPassNotSet",
