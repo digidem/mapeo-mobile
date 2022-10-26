@@ -279,7 +279,4 @@ const styles = StyleSheet.create({
   map: {
     width: 84,
   },
-  separator: {
-    height: 10,
-  },
 });

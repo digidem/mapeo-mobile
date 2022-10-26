@@ -123,7 +123,6 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
 
     for (const activeImport of ACTIVE_MAP_IMPORTS.values()) {
       if (activeImport.error) {
-        console.log("DETECTED ERROR");
         onImportError();
         return;
       }
