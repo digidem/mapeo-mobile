@@ -206,15 +206,6 @@
   "screens.ManualGpsScreen.zoneNumber": {
     "message": "जाेन नम्बर"
   },
-  "screens.ObscurePasscode.instructions": {
-    "message": "Mapeo मा संवेदनशील डाटा लुकाउन माथिको कोड राख्नुहाेस"
-  },
-  "screens.ObscurePasscode.title": {
-    "message": "Kill पासकाेड"
-  },
-  "screens.ObscurePasscode.toggleMessage": {
-    "message": "Kill पासकाेड प्रयाेग गर्नुहाेस"
-  },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
     "message": "Mapeo बाट पठाएकाे"
@@ -356,9 +347,6 @@
   },
   "screens.Security.obscurePassDescriptonPassSet": {
     "message": "आफ्नो यन्त्रलाई आक्रमणबाट सुरक्षित गर्नुहोस्"
-  },
-  "screens.Security.obscurePasscodeHeader": {
-    "message": "Kill पासकाेड"
   },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
