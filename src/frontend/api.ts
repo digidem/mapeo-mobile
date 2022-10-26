@@ -341,7 +341,7 @@ function createMapServerApi() {
     // Get a list of all existing styles containing scalar information about each style
     getStyleList: async (): Promise<MapServerStyleInfo[]> =>
       (await guaranteeClient().get("styles")) as MapServerStyleInfo[],
-    // `Create` a tileset using an existing MBTiles file
+    // Create a tileset using an existing MBTiles file
     importTileset: async (
       filePath: string
     ): Promise<TileJSON & { import: { id: string } }> =>
