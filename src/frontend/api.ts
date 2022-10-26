@@ -346,8 +346,7 @@ function createMapServerApi() {
     // Return the url to a map style from the map server
     getStyleUrl: (id: string): string | undefined =>
       mapServerPort ? `${getBaseUrl(mapServerPort)}styles/${id}` : undefined,
-    getTileset: async (id: string): Promise<Tileset> =>
-      (await guaranteeClient().get(`tilesets/${id}`)) as Tileset,
+    getTileset: async (url: string) => await (await ky.get(url)).json(),
   };
 
   return mapsApi;

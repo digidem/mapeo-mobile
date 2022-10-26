@@ -18,6 +18,7 @@ import {
 import api from "../../../api";
 import { useMapStyle } from "../../../hooks/useMapStyle";
 import { useDefaultStyleUrl } from "../../../hooks/useDefaultStyleUrl";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const DEFAULT_MAP_ID = "default";
 
@@ -79,15 +80,17 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
     MapServerStyle[]
   >();
 
-  React.useEffect(() => {
+  const getStylesAndPopulateList = React.useCallback(() => {
     api.maps
       .getStyleList()
-      .then(list => setBackgroundMapList(list))
+      .then(setBackgroundMapList)
       .catch(err => {
         console.log("COULD NOT FETCH STYLES", err);
         setBackgroundMapList([]);
       });
   }, []);
+
+  useFocusEffect(getStylesAndPopulateList);
 
   const { formatMessage: t } = useIntl();
 
@@ -217,6 +220,10 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
 };
 
 BackgroundMaps.navTitle = m.BackgroundMapTitle;
+
+export function convertBytesToMb(bytes: number) {
+  return (bytes / 1024 ** 2).toFixed(0);
+}
 
 const styles = StyleSheet.create({
   button: {
