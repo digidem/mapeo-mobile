@@ -54,7 +54,7 @@ export const Content = ({
         )}
       </View>
     </View>
-    <View>
+    <View style={styles.buttonsContainer}>
       {buttonConfigs.map((config, index) => (
         <Button
           fullWidth
@@ -115,6 +115,9 @@ const styles = StyleSheet.create({
   title: {
     textAlign: "center",
     fontSize: 24,
+  },
+  buttonsContainer: {
+    paddingHorizontal: 20,
   },
   description: {
     marginTop: 10,
