@@ -43,7 +43,12 @@ const m = defineMessages({
   description: {
     id: "screens.AppPasscode.TurnOffPasscode.description",
     defaultMessage:
-      "App Passcode adds an additional layer of security by requiring that you enter a passcode in order to open the Mapeo app.You are currently using App Passcode. See below to stop using or change your passcode.",
+      "App Passcode adds an additional layer of security by requiring that you enter a passcode in order to open the Mapeo app.",
+  },
+  currentlyUsing: {
+    id: "screens.AppPasscode.TurnOffPasscode.currentlyUsing",
+    defaultMessage:
+      "You are currently using App Passcode. See below to stop using or change your passcode.",
   },
 });
 
@@ -72,7 +77,9 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
   return (
     <React.Fragment>
       <Text style={styles.description}>{t(m.description)}</Text>
-
+      <Text style={{ fontSize: 16, marginBottom: 20 }}>
+        {t(m.currentlyUsing)}
+      </Text>
       <List>
         <ListItem style={styles.checkBoxContainer} onPress={openBottomSheet}>
           <ListItemText
