@@ -39,7 +39,7 @@ const m = defineMessages({
   },
   description: {
     id: "screens.Settings.MapSettings.description",
-    defaultMessage: "Description",
+    defaultMessage: "Level of Detail",
   },
   deleteMap: {
     id: "screens.Settings.MapSettings.deleteMap",
@@ -51,17 +51,20 @@ const m = defineMessages({
   },
 });
 
+// To Do: Get level of detail from programs team
 export const BackgroundMapInfo = ({
   route,
   navigation,
 }: NativeRootNavigationProps<"BackgroundMapInfo">) => {
   const { formatMessage: t } = useIntl();
   const { bytesStored, id, styleUrl, name } = route.params;
-  const [zoomAndDescription, setZoomAndDescription] = React.useState<
-    { zoom?: number; description?: string } | "loading"
-  >("loading");
+  const [zoom, setZoom] = React.useState<"loading" | number | null>("loading");
 
   const sheetRef = React.useRef<BottomSheetMethods>(null);
+
+  const levelOfDetail = React.useMemo(() => {
+    return "Level of detail";
+  }, [zoom]);
 
   const { setStyleId } = useMapStyle();
 
@@ -74,18 +77,42 @@ export const BackgroundMapInfo = ({
     api.maps
       .getStyle(id)
       .then(style => {
-        // @ts-ignore
-        return api.maps.getTileset(style.sources["raster-source"].url);
-      })
-      .then(obj => {
-        setZoomAndDescription({
-          zoom: obj.maxzoom || undefined,
-          description: obj.description || undefined,
+        const tileSetIdArray = Object.values(style.sources).map(source => {
+          if ("url" in source && source.url) {
+            const url = source.url;
+            const searchWord = "tilesets/";
+            const startPosition = url.search(searchWord);
+            if (startPosition === -1) return;
+            const endPosition = url.length;
+            return url.substring(
+              startPosition + searchWord.length,
+              endPosition
+            );
+          }
         });
+
+        return Promise.all(
+          tileSetIdArray.map(id => {
+            if (id) {
+              return api.maps.getTileset(id);
+            }
+          })
+        );
+      })
+      .then(tileJson => {
+        const maxZoom = tileJson.reduce((highest, tile) => {
+          if (!tile || !tile.maxzoom) return highest;
+          if (tile.maxzoom > highest) return tile.maxzoom;
+          return highest;
+        }, -1);
+
+        if (maxZoom === -1) throw new Error("no max zoom available");
+
+        setZoom(maxZoom);
       })
       .catch(err => {
         console.log(err);
-        setZoomAndDescription({ zoom: undefined, description: undefined });
+        setZoom(null);
       });
   }, [id]);
 
@@ -113,20 +140,14 @@ export const BackgroundMapInfo = ({
               {`${convertBytesToMb(bytesStored).toFixed(0)} ${t(m.mb)}`}
             </Text>
           )}
-          {zoomAndDescription === "loading" ? (
+          {zoom === "loading" ? (
             <Loading />
-          ) : (
+          ) : zoom ? (
             <React.Fragment>
-              {zoomAndDescription.zoom && (
-                <Text>{`${t(m.zoomLevel)}: ${zoomAndDescription.zoom}`}</Text>
-              )}
-              {zoomAndDescription.description && (
-                <Text>{`${t(m.description)}: ${
-                  zoomAndDescription.description
-                }`}</Text>
-              )}
+              <Text>{`${t(m.zoomLevel)}: ${zoom}`}</Text>
+              <Text>{`${t(m.description)}: ${levelOfDetail}`}</Text>
             </React.Fragment>
-          )}
+          ) : null}
 
           {id !== DEFAULT_MAP_ID && (
             <Button
