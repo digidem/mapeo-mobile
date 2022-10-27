@@ -719,26 +719,14 @@
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Añadir mapa base"
   },
-  "screens.Settings.MapSettings.OfflineArea": {
-    "message": "Áreas descargadas"
-  },
-  "screens.Settings.MapSettings.cancel": {
-    "message": "Cancelar"
-  },
   "screens.Settings.MapSettings.close": {
     "message": "Cerrar"
-  },
-  "screens.Settings.MapSettings.dataLayers": {
-    "message": "Capas de datos"
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Importar desde archivo"
   },
   "screens.Settings.MapSettings.mapSettings": {
     "message": "Ajustes del mapa"
-  },
-  "screens.Settings.MapSettings.removeMap": {
-    "message": "Eliminar mapa"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Crear o unirse a un proyecto a continuación"
