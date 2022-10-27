@@ -135,7 +135,6 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
             isSelected={styleUrl === defaultStyleUrl}
             styleUrl={defaultStyleUrl}
             mapTitle="Default Map"
-            bytesStored={0}
           />
         )}
 
@@ -222,7 +221,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
 BackgroundMaps.navTitle = m.BackgroundMapTitle;
 
 export function convertBytesToMb(bytes: number) {
-  return (bytes / 1024 ** 2).toFixed(0);
+  return bytes / 1024 ** 2;
 }
 
 const styles = StyleSheet.create({

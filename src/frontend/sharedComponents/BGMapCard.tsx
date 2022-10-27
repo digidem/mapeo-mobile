@@ -8,6 +8,7 @@ import { ViewStyleProp } from "../sharedTypes";
 import { Pill } from "./Pill";
 import LocationContext from "../context/LocationContext";
 import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const m = defineMessages({
   currentMap: {
@@ -35,7 +36,7 @@ interface BGMapCardProps {
   styleUrl: string;
   onPress?: (() => void) | null;
   isSelected: boolean;
-  bytesStored: number;
+  bytesStored?: number;
 }
 
 export const BGMapCard = ({
@@ -50,12 +51,12 @@ export const BGMapCard = ({
   const { position } = React.useContext(LocationContext);
   const { navigate } = useNavigationFromRoot();
   return (
-    <View
+    <TouchableOpacity
       style={[
         { borderColor: MEDIUM_GREY, borderWidth: 1, borderRadius: 2 },
         style,
       ]}
-      onTouchStart={() =>
+      onPress={() =>
         navigate("BackgroundMapInfo", {
           bytesStored,
           id: mapId,
@@ -94,7 +95,7 @@ export const BGMapCard = ({
           )}
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

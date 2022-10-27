@@ -1,5 +1,8 @@
 import * as React from "react";
-import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { StyleSheet, View, Text } from "react-native";
 import { MAPEO_BLUE, RED, WHITE } from "../../../lib/styles";
@@ -56,14 +59,15 @@ export const DeleteMapBottomSheet = React.forwardRef<
       return;
     }
 
-    // If user is deleting the map that is currently being used, we want to set the map to be the default map
-    if (styleId === mapId) {
-      setStyleId(DEFAULT_MAP_ID);
-    }
-
     api.maps
       .deleteStyle(mapId)
-      .then(() => navigate("BackgroundMaps"))
+      .then(() => {
+        // If user is deleting the map that is currently being used, we want to set the map to be the default map
+        if (styleId === mapId) {
+          setStyleId(DEFAULT_MAP_ID);
+        }
+        navigate("BackgroundMaps");
+      })
       .catch(err => {
         console.log(err);
       });
@@ -79,7 +83,7 @@ export const DeleteMapBottomSheet = React.forwardRef<
       handleHeight={0}
       handleComponent={() => null}
     >
-      <View
+      <BottomSheetView
         onLayout={e => {
           const { height } = e.nativeEvent.layout;
           setSnapPoints([0, height]);
@@ -124,7 +128,7 @@ export const DeleteMapBottomSheet = React.forwardRef<
             {t(m.cancel)}
           </Text>
         </Button>
-      </View>
+      </BottomSheetView>
     </BottomSheet>
   );
 });

@@ -79,7 +79,7 @@ export const BackgroundMapInfo = ({
       })
       .then(obj => {
         setZoomAndDescription({
-          zoom: obj.maxzoom.toString() || undefined,
+          zoom: obj.maxzoom || undefined,
           description: obj.description || undefined,
         });
       })
@@ -108,9 +108,11 @@ export const BackgroundMapInfo = ({
           />
         </MapboxGL.MapView>
         <ScrollView style={styles.container}>
-          <Text style={{ color: MEDIUM_GREY }}>{`${convertBytesToMb(
-            bytesStored
-          )} ${t(m.mb)}`}</Text>
+          {bytesStored && (
+            <Text style={{ color: MEDIUM_GREY }}>
+              {`${convertBytesToMb(bytesStored).toFixed(0)} ${t(m.mb)}`}
+            </Text>
+          )}
           {zoomAndDescription === "loading" ? (
             <Loading />
           ) : (
