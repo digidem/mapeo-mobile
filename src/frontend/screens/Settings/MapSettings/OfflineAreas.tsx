@@ -16,23 +16,23 @@ import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   title: {
-    id: "screens.Settings.MapSettings.OfflineArea",
+    id: "screens.Settings.MapSettings.OfflineArea.title",
     defaultMessage: "Offline Areas",
   },
   removeMap: {
-    id: "screens.Settings.MapSettings.removeMap",
+    id: "screens.Settings.MapSettings.OfflineArea.removeMap",
     defaultMessage: "Remove Map",
   },
   cancel: {
-    id: "screens.Settings.MapSettings.cancel",
+    id: "screens.Settings.MapSettings.OfflineArea.cancel",
     defaultMessage: "Cancel",
   },
   clearDiagrams: {
-    id: "screens.Settings.MapSettings.clearDiagrams",
+    id: "screens.Settings.MapSettings.OfflineArea.clearDiagrams",
     defaultMessage: "Are you sure you want to clear diagrams?",
   },
   subtitle: {
-    id: "screens.Settings.MapSettings.subtitle",
+    id: "screens.Settings.MapSettings.OfflineArea.subtitle",
     defaultMessage:
       "This map and offline areas attached to it will be deleted. This cannot be undone",
   },
