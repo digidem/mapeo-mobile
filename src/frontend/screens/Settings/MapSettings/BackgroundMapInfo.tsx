@@ -91,7 +91,7 @@ export const BackgroundMapInfo = ({
           }
         });
 
-        return Promise.all(
+        return Promise.allSettled(
           tileSetIdArray.map(id => {
             if (id) {
               return api.maps.getTileset(id);
@@ -100,7 +100,9 @@ export const BackgroundMapInfo = ({
         );
       })
       .then(tileJson => {
-        const maxZoom = tileJson.reduce((highest, tile) => {
+        const maxZoom = tileJson.reduce((highest, tilePromise) => {
+          if (tilePromise.status === "rejected") return highest;
+          const tile = tilePromise.value;
           if (!tile || !tile.maxzoom) return highest;
           if (tile.maxzoom > highest) return tile.maxzoom;
           return highest;
@@ -156,14 +158,7 @@ export const BackgroundMapInfo = ({
               variant="outlined"
               onPress={() => sheetRef.current?.snapTo(1)}
             >
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+              <View style={styles.deleteButtonContainer}>
                 <DeleteIcon color={MAPEO_BLUE} />
                 <Text style={styles.deleteButton}>{t(m.deleteMap)}</Text>
               </View>
@@ -203,5 +198,11 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     letterSpacing: 0.5,
     fontSize: 16,
+  },
+  deleteButtonContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
