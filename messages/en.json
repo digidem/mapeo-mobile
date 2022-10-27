@@ -192,8 +192,11 @@
   "screens.AppPasscode.TurnOffPasscode.changePasscode": {
     "message": "Change App Passcode"
   },
+  "screens.AppPasscode.TurnOffPasscode.currentlyUsing": {
+    "message": "You are currently using App Passcode. See below to stop using or change your passcode."
+  },
   "screens.AppPasscode.TurnOffPasscode.description": {
-    "message": "App Passcode adds an additional layer of security by requiring that you enter a passcode in order to open the Mapeo app.You are currently using App Passcode. See below to stop using or change your passcode."
+    "message": "App Passcode adds an additional layer of security by requiring that you enter a passcode in order to open the Mapeo app."
   },
   "screens.AppPasscode.TurnOffPasscode.turnOff": {
     "message": "Turn Off"
