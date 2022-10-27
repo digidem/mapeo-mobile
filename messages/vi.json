@@ -672,15 +672,6 @@
   "screens.Settings.Experiments.BGMaps.BGMaps": {
     "message": "Bản đồ nền"
   },
-  "screens.Settings.Experiments.BGMaps.BGMapsDescription": {
-    "message": "Sử dụng các tính năng của bản đồ nền để thay đổi nền bản đồ trong chế độ xem bản đồ (mapview). Tính năng này sẽ cho phép bạn tải lên tệp dạng MBtiles raster. Sau khi tệp được tải lên, bạn sẽ có thể thiết lập đồ nền trong chế độ mapview và sử dụng nó ngay cả khi bạn không kết nối với internet."
-  },
-  "screens.Settings.Experiments.BGMaps.goTo": {
-    "message": "Đi đến"
-  },
-  "screens.Settings.Experiments.BGMaps.useBGMap": {
-    "message": "Sử dụng tính năng bản đồ nền"
-  },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Mũi tên định hướng"
   },
@@ -742,17 +733,8 @@
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Thêm Bản đồ nền"
   },
-  "screens.Settings.MapSettings.OfflineArea": {
-    "message": "Khu vực ngoại tuyến"
-  },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Bản đồ nền"
-  },
-  "screens.Settings.MapSettings.cancel": {
-    "message": "Hủy"
-  },
-  "screens.Settings.MapSettings.clearDiagrams": {
-    "message": "Bạn có chắc chắn muốn xóa sơ đồ không?"
   },
   "screens.Settings.MapSettings.close": {
     "message": "Đóng"
@@ -760,9 +742,6 @@
   "screens.Settings.MapSettings.confirmDelete": {
     "description": "Confirm delete map modal button",
     "message": "Có, xoá đi"
-  },
-  "screens.Settings.MapSettings.dataLayers": {
-    "message": "Các lớp dữ liệu"
   },
   "screens.Settings.MapSettings.deleteMapTitle": {
     "description": "Title for the delete map modal",
@@ -777,16 +756,6 @@
   },
   "screens.Settings.MapSettings.mapSettings": {
     "message": "Cài đặt bản đồ"
-  },
-  "screens.Settings.MapSettings.noAreas": {
-    "description": "Message to indicate to user that no offline areas have been downloaded",
-    "message": "Không có khu vực ngoại tuyến được tải xuống"
-  },
-  "screens.Settings.MapSettings.removeMap": {
-    "message": "Gỡ bỏ bản đồ"
-  },
-  "screens.Settings.MapSettings.subtitle": {
-    "message": "Bản đồ này và các khu vực ngoại tuyến liên quan sẽ bị xóa. Việc này không thể hoàn tác được"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Tạo mới hoặc tham gia một dự án dưới đây"
