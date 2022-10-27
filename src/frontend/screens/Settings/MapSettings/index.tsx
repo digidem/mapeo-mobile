@@ -9,13 +9,13 @@ const m = defineMessages({
     id: "screens.Settings.MapSettings.backgroundMaps",
     defaultMessage: "Background Maps",
   },
-  dataLayers: {
-    id: "screens.Settings.MapSettings.dataLayers",
-    defaultMessage: "Data Layers",
-  },
   mapSettings: {
     id: "screens.Settings.MapSettings.mapSettings",
     defaultMessage: "Map Settings",
+  },
+  subtitle: {
+    id: "screens.Settings.MapSettings.subtitle",
+    defaultMessage: "Add, remove, and view map details",
   },
 });
 
@@ -33,7 +33,7 @@ export const MapSettings: NativeNavigationComponent<"MapSettings"> = ({
         >
           <ListItemText
             primary={<FormattedMessage {...m.backgroundMaps} />}
-            secondary={"---------"}
+            secondary={<FormattedMessage {...m.subtitle} />}
           />
         </ListItem>
       </List>

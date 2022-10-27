@@ -102,6 +102,10 @@ const m = defineMessages({
     defaultMessage: "Map Settings",
     description: "Description of map settings button in settings",
   },
+  mapSettingSubtitle: {
+    id: "screens.Settings.mapSettingsSubtitle",
+    defaultMessage: "Background Maps",
+  },
 });
 
 const Settings: NativeNavigationComponent<"Settings"> = () => {
@@ -142,7 +146,7 @@ const Settings: NativeNavigationComponent<"Settings"> = () => {
             <ListItemIcon iconName="map" />
             <ListItemText
               primary={<FormattedMessage {...m.mapSettings} />}
-              secondary="---------"
+              secondary={<FormattedMessage {...m.mapSettingSubtitle} />}
             />
           </ListItem>
         )}

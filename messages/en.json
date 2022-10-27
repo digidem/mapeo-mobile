@@ -748,13 +748,22 @@
     "message": "Background Maps"
   },
   "screens.Settings.Experiments.BGMaps.BGMapsDescription": {
-    "message": "Use the background maps features to change the map background seen in the mapview. This feature will allow you to upload a raster MBtiles file. Once the file is uploaded, you will be able to set the background map in the mapview and use it even if you are not connected to the internet."
+    "message": "The Background Map in Mapeo is displayed on the home map screen and is used as a background for the observations you collect. This new pilot feature allows you to add your own custom maps and switch between multiple maps. Background Maps is currently an advanced feature - an existing map file in .mbtiles format is required for testing."
+  },
+  "screens.Settings.Experiments.BGMaps.BGMapsOnlineSupport": {
+    "message": "For online support on generating map files, see:"
+  },
+  "screens.Settings.Experiments.BGMaps.feedBack": {
+    "message": "We welcome any feedback on this feature before the final version is released."
   },
   "screens.Settings.Experiments.BGMaps.goTo": {
-    "message": "Go to"
+    "message": "Try it now"
   },
   "screens.Settings.Experiments.BGMaps.useBGMap": {
-    "message": "Use Background Map Feature"
+    "message": "Use Background Maps (Feature)"
+  },
+  "screens.Settings.Experiments.BGMaps.warning": {
+    "message": "WARNING: When this feature is enabled, you will not have access to the map you had previously been using in Mapeo. Turn off Map Manager to switch back to your previous map. Please note that this feature is still in the pilot testing phase and you will need to re-import any maps added to the Map Manager once the final version is released."
   },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Directional Arrow"
@@ -824,17 +833,23 @@
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Add Background Map"
   },
-  "screens.Settings.MapSettings.OfflineArea": {
+  "screens.Settings.MapSettings.OfflineArea.cancel": {
+    "message": "Cancel"
+  },
+  "screens.Settings.MapSettings.OfflineArea.clearDiagrams": {
+    "message": "Are you sure you want to clear diagrams?"
+  },
+  "screens.Settings.MapSettings.OfflineArea.removeMap": {
+    "message": "Remove Map"
+  },
+  "screens.Settings.MapSettings.OfflineArea.subtitle": {
+    "message": "This map and offline areas attached to it will be deleted. This cannot be undone"
+  },
+  "screens.Settings.MapSettings.OfflineArea.title": {
     "message": "Offline Areas"
   },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Background Maps"
-  },
-  "screens.Settings.MapSettings.cancel": {
-    "message": "Cancel"
-  },
-  "screens.Settings.MapSettings.clearDiagrams": {
-    "message": "Are you sure you want to clear diagrams?"
   },
   "screens.Settings.MapSettings.close": {
     "message": "Close"
@@ -842,9 +857,6 @@
   "screens.Settings.MapSettings.confirmDelete": {
     "description": "Confirm delete map modal button",
     "message": "Yes, Delete"
-  },
-  "screens.Settings.MapSettings.dataLayers": {
-    "message": "Data Layers"
   },
   "screens.Settings.MapSettings.deleteMapTitle": {
     "description": "Title for the delete map modal",
@@ -860,15 +872,8 @@
   "screens.Settings.MapSettings.mapSettings": {
     "message": "Map Settings"
   },
-  "screens.Settings.MapSettings.noAreas": {
-    "description": "Message to indicate to user that no offline areas have been downloaded",
-    "message": "No Downloaded Offline Area"
-  },
-  "screens.Settings.MapSettings.removeMap": {
-    "message": "Remove Map"
-  },
   "screens.Settings.MapSettings.subtitle": {
-    "message": "This map and offline areas attached to it will be deleted. This cannot be undone"
+    "message": "Add, remove, and view map details"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Create or join a project below"
@@ -984,6 +989,9 @@
   "screens.Settings.mapSettings": {
     "description": "Description of map settings button in settings",
     "message": "Map Settings"
+  },
+  "screens.Settings.mapSettingsSubtitle": {
+    "message": "Background Maps"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
