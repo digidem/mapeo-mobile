@@ -11,7 +11,6 @@ import LocationContext from "../../context/LocationContext";
 import { AddButton } from "../../sharedComponents/AddButton";
 
 import { BGMapSelector } from "./BGMapSelector";
-import { ACTIVE_MAP_IMPORTS } from "../Settings/MapSettings/BackgroundMaps";
 import IconButton from "../../sharedComponents/IconButton";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { MEDIUM_GREY } from "../../lib/styles";
@@ -23,12 +22,9 @@ import {
 } from "../../sharedTypes";
 import api from "../../api";
 import { useMapServerState } from "../../hooks/useMapServerState";
+import { useBackgroundedMapImports } from "../../hooks/useBackgroundedMapImports";
 
 const log = debug("mapeo:MapScreen");
-
-function onlyFullyImportedStyles(styleList: MapServerStyleInfo[]) {
-  return styleList.filter(({ id }) => !ACTIVE_MAP_IMPORTS.get(id));
-}
 
 export const MapScreen = ({
   navigation,
@@ -38,6 +34,7 @@ export const MapScreen = ({
 
   const [experiments] = useExperiments();
   const mapServerReady = useMapServerState();
+  const backgroundedMapImports = useBackgroundedMapImports();
 
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
@@ -48,10 +45,10 @@ export const MapScreen = ({
   React.useEffect(() => {
     if (mapServerReady) {
       api.maps.getStyleList().then(list => {
-        setBgMapList(onlyFullyImportedStyles(list));
+        setBgMapList(list.filter(({ id }) => !backgroundedMapImports[id]));
       });
     }
-  }, [mapServerReady]);
+  }, [mapServerReady, backgroundedMapImports]);
 
   const [{ observations }] = React.useContext(ObservationsContext);
   const location = React.useContext(LocationContext);
@@ -61,7 +58,7 @@ export const MapScreen = ({
     if (mapServerReady) {
       try {
         const list = await api.maps.getStyleList();
-        setBgMapList(onlyFullyImportedStyles(list));
+        setBgMapList(list.filter(({ id }) => !backgroundedMapImports[id]));
       } catch {
         setBgMapList([]);
       }

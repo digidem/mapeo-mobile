@@ -35,6 +35,8 @@ export const useEventSource = (
         return fetch(input, { ...opts, reactNative: { textStreaming: true } });
       },
       signal: controller.signal,
+    }).catch(err => {
+      console.error("FETCH EVENT SOURCE ERROR", err);
     });
 
     return () => {

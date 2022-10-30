@@ -10,8 +10,8 @@ import { MapServerStyleInfo } from "../sharedTypes";
 import { Pill } from "./Pill";
 import LocationContext from "../context/LocationContext";
 import { useEventSource } from "../hooks/useEventSource";
+import { useMapImportBackgrounder } from "../hooks/useBackgroundedMapImports";
 import api from "../api";
-import { ACTIVE_MAP_IMPORTS } from "../screens/Settings/MapSettings/BackgroundMaps";
 
 const m = defineMessages({
   currentMap: {
@@ -67,129 +67,120 @@ function bytesToMegabytes(bytes: number) {
 }
 
 interface BGMapCardProps {
+  activeImportId?: string;
   isSelected: boolean;
   mapStyleInfo: MapServerStyleInfo;
   onImportError?: () => void;
 }
 
 export const BGMapCard = ({
+  activeImportId,
   isSelected,
   mapStyleInfo,
   onImportError,
 }: BGMapCardProps) => {
-  const activeImport = ACTIVE_MAP_IMPORTS.get(mapStyleInfo.id);
-
   const { formatMessage: t } = useIntl();
   const { position } = React.useContext(LocationContext);
 
   const [importStatus, setImportStatus] = React.useState<ImportStatus>(null);
   const [bytesStored, setBytesStored] = React.useState(
-    activeImport?.id ? 0 : mapStyleInfo.bytesStored
+    activeImportId ? 0 : mapStyleInfo.bytesStored
   );
+
+  useMapImportBackgrounder(mapStyleInfo.id, activeImportId);
 
   const importComplete = importStatus?.status === "complete";
 
   const eventSourceUrl = React.useMemo(
     () =>
-      !importComplete && activeImport?.id
-        ? api.maps.getImportProgressUrl(activeImport.id)
+      !importComplete && activeImportId
+        ? api.maps.getImportProgressUrl(activeImportId)
         : undefined,
-    [activeImport?.id, importComplete]
+    [activeImportId, importComplete]
   );
 
   const createEventSourceOptions = React.useCallback(
-    (_cancel: () => void) => {
-      return {
-        // TODO: Ideally throttle this but can't get it to work with Lodash
-        onmessage: (message: EventSourceMessage) => {
-          const data = JSON.parse(message.data);
+    (_cancel: () => void) => ({
+      onmessage: (message: EventSourceMessage) => {
+        const data = JSON.parse(message.data);
 
-          switch (data.type) {
-            case "progress": {
-              setImportStatus(prev => {
-                if (!prev) {
-                  return {
-                    status: "progress",
-                    soFar: data.soFar,
-                    total: data.total,
-                  };
-                }
-
-                if (
-                  prev.status === "progress" &&
-                  prev.soFar === data.soFar &&
-                  prev.total === data.total
-                ) {
-                  return prev;
-                }
-
+        switch (data.type) {
+          case "progress": {
+            setImportStatus(prev => {
+              if (!prev) {
                 return {
                   status: "progress",
                   soFar: data.soFar,
                   total: data.total,
                 };
-              });
+              }
 
-              break;
-            }
-            case "complete": {
-              setImportStatus({
-                status: "complete",
+              if (
+                prev.status === "progress" &&
+                prev.soFar === data.soFar &&
+                prev.total === data.total
+              ) {
+                return prev;
+              }
+
+              return {
+                status: "progress",
                 soFar: data.soFar,
                 total: data.total,
+              };
+            });
+
+            break;
+          }
+          case "complete": {
+            setImportStatus({
+              status: "complete",
+              soFar: data.soFar,
+              total: data.total,
+            });
+
+            api.maps
+              .getStyleList()
+              .then(list => {
+                const styleInfoAfterImport = list.find(
+                  styleInfo => styleInfo.id === mapStyleInfo.id
+                );
+
+                if (styleInfoAfterImport) {
+                  setBytesStored(styleInfoAfterImport.bytesStored);
+                }
+              })
+              .catch(err => {
+                console.error(err);
               });
 
-              ACTIVE_MAP_IMPORTS.delete(mapStyleInfo.id);
-
-              api.maps
-                .getStyleList()
-                .then(list => {
-                  const styleInfoAfterImport = list.find(
-                    styleInfo => styleInfo.id === mapStyleInfo.id
-                  );
-
-                  if (styleInfoAfterImport) {
-                    setBytesStored(styleInfoAfterImport.bytesStored);
-                  }
-                })
-                .catch(err => {
-                  console.error(err);
-                });
-
-              break;
-            }
-            case "error": {
-              throw new Error("Error occurred during import");
-            }
+            break;
           }
-        },
-        onclose() {
-          console.log("CLOSED");
-        },
-        onerror(err: Error) {
-          console.error(err);
-
-          if (activeImport) {
-            ACTIVE_MAP_IMPORTS.set(mapStyleInfo.id, {
-              id: activeImport.id,
-              error: true,
-            });
+          case "error": {
+            throw new Error("Error occurred during import");
           }
+        }
+      },
+      onclose() {
+        console.log("CLOSED");
+      },
+      onerror(err: Error) {
+        console.error(err);
 
-          setImportStatus(prev => ({ ...(prev || {}), status: "error" }));
+        setImportStatus(prev => ({ ...(prev || {}), status: "error" }));
 
-          if (onImportError) onImportError();
-        },
-      };
-    },
-    [activeImport, onImportError]
+        if (onImportError) onImportError();
+
+        throw err;
+      },
+    }),
+    [mapStyleInfo.id, onImportError]
   );
 
   useEventSource(eventSourceUrl, createEventSourceOptions);
 
   const showBytesStored =
-    bytesStored > 0 &&
-    (!activeImport?.id || importStatus?.status === "complete");
+    bytesStored > 0 && (!activeImportId || importStatus?.status === "complete");
 
   return (
     <View style={[styles.container]}>
@@ -224,7 +215,7 @@ export const BGMapCard = ({
           </Text>
         )}
 
-        {activeImport?.id && (
+        {activeImportId && (
           <>
             {shouldShowProgressBar(importStatus) && (
               <View style={{ marginTop: 10 }}>

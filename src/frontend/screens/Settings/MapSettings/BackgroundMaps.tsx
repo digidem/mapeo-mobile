@@ -18,15 +18,9 @@ import {
 import api from "../../../api";
 import { useMapStyle } from "../../../hooks/useMapStyle";
 import { useDefaultStyleUrl } from "../../../hooks/useDefaultStyleUrl";
+import { useBackgroundedMapImports } from "../../../hooks/useBackgroundedMapImports";
 
 export const DEFAULT_MAP_ID = "default";
-
-// Use a singleton to represent active imports that are occurring or have errored.
-// May want to use context instead at some point but this works for now.
-export const ACTIVE_MAP_IMPORTS = new Map<
-  string,
-  { id: string; error?: boolean }
->();
 
 const m = defineMessages({
   addBGMap: {
@@ -77,7 +71,6 @@ type ModalContent = "import" | "error";
 
 export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () => {
   const sheetRef = React.useRef<BottomSheetMethods>(null);
-  const mountedRef = React.useRef<boolean>(true);
 
   const { styleUrl } = useMapStyle();
 
@@ -87,6 +80,8 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
     "import"
   );
 
+  // TODO: May have to update to something like this: https://github.com/gorhom/react-native-bottom-sheet/blob/v2.4.1/example/src/screens/advanced/DynamicSnapPointExample.tsx
+  // Also see useSnapPointsCalculator in BottomSheetModal/index.tsx
   const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
     0,
     "30%",
@@ -95,6 +90,12 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
   const [backgroundMapList, setBackgroundMapList] = React.useState<
     MapServerStyleInfo[]
   >();
+
+  const backgroundedMapImports = useBackgroundedMapImports();
+
+  const [activeMapImports, setActiveMapImports] = React.useState<
+    Record<string, string | undefined>
+  >(backgroundedMapImports);
 
   React.useEffect(() => {
     api.maps
@@ -110,28 +111,11 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
 
   // TODO: Opening the sheet doesn't work here
   const onImportError = React.useCallback(() => {
-    if (mountedRef.current && sheetRef.current) {
+    if (sheetRef.current) {
       setModalContent("error");
-      sheetRef.current.expand();
+      sheetRef.current.snapTo(1);
     }
   }, []);
-
-  // Check for errored imports that haven't been handled yet when entering this screen
-  // Upon entering, if an import had failed, open the bottom sheet to deal with it
-  React.useEffect(() => {
-    mountedRef.current = true;
-
-    for (const activeImport of ACTIVE_MAP_IMPORTS.values()) {
-      if (activeImport.error) {
-        onImportError();
-        return;
-      }
-    }
-
-    return () => {
-      mountedRef.current = false;
-    };
-  }, [onImportError]);
 
   async function handleImportPress() {
     const results = await DocumentPicker.getDocumentAsync();
@@ -151,7 +135,10 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
         const list = await api.maps.getStyleList();
         const lastStyle = list[list.length - 1];
 
-        ACTIVE_MAP_IMPORTS.set(lastStyle.id, { id: tilesetImport.id });
+        setActiveMapImports(prev => ({
+          ...prev,
+          [lastStyle.id]: tilesetImport.id,
+        }));
 
         setBackgroundMapList(list);
 
@@ -203,6 +190,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
           backgroundMapList.map(bgMap => (
             <View key={bgMap.id} style={{ marginTop: 20 }}>
               <BGMapCard
+                activeImportId={activeMapImports[bgMap.id]}
                 isSelected={styleUrl === bgMap.url}
                 mapStyleInfo={bgMap}
                 onImportError={onImportError}
