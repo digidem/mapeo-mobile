@@ -22,7 +22,6 @@ function reducer(
       const { importId, styleId } = payload;
 
       if (state[styleId]) {
-        console.warn(`CANNOT ADD ${styleId}, ALREADY EXISTS`);
         return state;
       }
 
@@ -32,7 +31,6 @@ function reducer(
       const { styleId } = payload;
 
       if (!state[styleId]) {
-        console.warn(`CANNOT REMOVE ${styleId}, DOE NOT EXIST`);
         return state;
       }
 
@@ -56,6 +54,7 @@ const BackgroundedMapImportsProvider = ({
 }: React.PropsWithChildren<{}>) => {
   const [backgroundedMapImports, dispatch] = React.useReducer(reducer, {});
 
+  console.log("backgroundedMapImports", backgroundedMapImports);
   return (
     <StateContext.Provider value={backgroundedMapImports}>
       <ActionsContext.Provider value={dispatch}>

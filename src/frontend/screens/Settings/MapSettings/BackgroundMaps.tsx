@@ -18,7 +18,10 @@ import {
 import api from "../../../api";
 import { useMapStyle } from "../../../hooks/useMapStyle";
 import { useDefaultStyleUrl } from "../../../hooks/useDefaultStyleUrl";
-import { useBackgroundedMapImports } from "../../../hooks/useBackgroundedMapImports";
+import {
+  useBackgroundedMapImports,
+  useBackgroundedMapImportsManager,
+} from "../../../hooks/useBackgroundedMapImports";
 
 export const DEFAULT_MAP_ID = "default";
 
@@ -86,6 +89,9 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
   >();
 
   const backgroundedMapImports = useBackgroundedMapImports();
+  const {
+    remove: removeImportFromBackground,
+  } = useBackgroundedMapImportsManager();
 
   const [activeMapImports, setActiveMapImports] = React.useState<
     Record<string, string | undefined>
@@ -177,16 +183,39 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
             <Loading />
           </View>
         ) : (
-          backgroundMapList.map(bgMap => (
-            <View key={bgMap.id} style={{ marginTop: 20 }}>
-              <BGMapCard
-                activeImportId={activeMapImports[bgMap.id]}
-                isSelected={styleUrl === bgMap.url}
-                mapStyleInfo={bgMap}
-                onImportError={onImportError}
-              />
-            </View>
-          ))
+          backgroundMapList.map(bgMap => {
+            const onImportComplete = () => {
+              removeImportFromBackground(bgMap.id);
+
+              api.maps
+                .getStyleList()
+                .then(list => {
+                  setBackgroundMapList(list);
+                })
+                .catch(err => {
+                  console.error(err);
+                })
+                .finally(() => {
+                  setActiveMapImports(prev => {
+                    const updated = { ...prev };
+                    delete updated[bgMap.id];
+                    return updated;
+                  });
+                });
+            };
+
+            return (
+              <View key={bgMap.id} style={{ marginTop: 20 }}>
+                <BGMapCard
+                  activeImportId={activeMapImports[bgMap.id]}
+                  isSelected={styleUrl === bgMap.url}
+                  mapStyleInfo={bgMap}
+                  onImportError={onImportError}
+                  onImportComplete={onImportComplete}
+                />
+              </View>
+            );
+          })
         )}
       </ScrollView>
 

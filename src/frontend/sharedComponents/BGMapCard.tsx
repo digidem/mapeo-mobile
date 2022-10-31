@@ -12,6 +12,7 @@ import LocationContext from "../context/LocationContext";
 import { useEventSource } from "../hooks/useEventSource";
 import { useMapImportBackgrounder } from "../hooks/useBackgroundedMapImports";
 import api from "../api";
+import { DEFAULT_MAP_ID } from "../screens/Settings/MapSettings/BackgroundMaps";
 
 const m = defineMessages({
   currentMap: {
@@ -62,6 +63,27 @@ function shouldShowProgressBar(
   );
 }
 
+function showBytesStored(
+  mapStyleInfo: MapServerStyleInfo,
+  activeImportId?: string,
+  importStatus?: ImportStatus
+) {
+  // Map is default map
+  if (mapStyleInfo.id === DEFAULT_MAP_ID) return false;
+
+  // Map import has started but has not yet been completed
+  if (
+    (activeImportId && !importStatus) ||
+    (importStatus && importStatus.status !== "complete")
+  )
+    return false;
+
+  // Map has zero byte count
+  if (mapStyleInfo.bytesStored === 0) return false;
+
+  return true;
+}
+
 function bytesToMegabytes(bytes: number) {
   return bytes / 2 ** 20;
 }
@@ -70,6 +92,7 @@ interface BGMapCardProps {
   activeImportId?: string;
   isSelected: boolean;
   mapStyleInfo: MapServerStyleInfo;
+  onImportComplete?: () => void;
   onImportError?: () => void;
 }
 
@@ -77,15 +100,13 @@ export const BGMapCard = ({
   activeImportId,
   isSelected,
   mapStyleInfo,
+  onImportComplete,
   onImportError,
 }: BGMapCardProps) => {
   const { formatMessage: t } = useIntl();
   const { position } = React.useContext(LocationContext);
 
   const [importStatus, setImportStatus] = React.useState<ImportStatus>(null);
-  const [bytesStored, setBytesStored] = React.useState(
-    activeImportId ? 0 : mapStyleInfo.bytesStored
-  );
 
   useMapImportBackgrounder(mapStyleInfo.id, activeImportId);
 
@@ -139,20 +160,7 @@ export const BGMapCard = ({
               total: data.total,
             });
 
-            api.maps
-              .getStyleList()
-              .then(list => {
-                const styleInfoAfterImport = list.find(
-                  styleInfo => styleInfo.id === mapStyleInfo.id
-                );
-
-                if (styleInfoAfterImport) {
-                  setBytesStored(styleInfoAfterImport.bytesStored);
-                }
-              })
-              .catch(err => {
-                console.error(err);
-              });
+            if (onImportComplete) onImportComplete();
 
             break;
           }
@@ -160,9 +168,6 @@ export const BGMapCard = ({
             throw new Error("Error occurred during import");
           }
         }
-      },
-      onclose() {
-        console.log("CLOSED");
       },
       onerror(err: Error) {
         console.error(err);
@@ -174,13 +179,10 @@ export const BGMapCard = ({
         throw err;
       },
     }),
-    [mapStyleInfo.id, onImportError]
+    [onImportComplete, onImportError]
   );
 
   useEventSource(eventSourceUrl, createEventSourceOptions);
-
-  const showBytesStored =
-    bytesStored > 0 && (!activeImportId || importStatus?.status === "complete");
 
   return (
     <View style={[styles.container]}>
@@ -190,7 +192,7 @@ export const BGMapCard = ({
         zoomEnabled={false}
         logoEnabled={false}
         scrollEnabled={false}
-        style={[styles.map]}
+        style={styles.map}
       >
         <MapboxGL.Camera
           zoomLevel={0}
@@ -209,9 +211,10 @@ export const BGMapCard = ({
           {mapStyleInfo.name || t(m.unnamedStyle)}
         </Text>
 
-        {showBytesStored && (
+        {showBytesStored(mapStyleInfo, activeImportId, importStatus) && (
           <Text style={[styles.text, { color: DARK_GREY }]}>
-            {bytesToMegabytes(bytesStored).toFixed(2)} {t(m.abbrevMegabyte)}
+            {bytesToMegabytes(mapStyleInfo.bytesStored).toFixed(2)}{" "}
+            {t(m.abbrevMegabyte)}
           </Text>
         )}
 
