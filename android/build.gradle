@@ -34,21 +34,21 @@ buildscript {
 }
 
 allprojects {
+    repositories {
         // Basically removes references to jcenter in deps,
         // which is needed due to jcenter officially shutting down
         // https://github.com/facebook/react-native/issues/35136
-        repositories {
-            all { ArtifactRepository repo ->
-                if (repo instanceof MavenArtifactRepository) {
-                    def url = repo.url.toString()
-                    if (url.startsWith('https://jcenter.bintray.com/')) {
-                        project.logger.lifecycle "Repository ${repo.url} dropped"
-                        remove repo
-                        // TODO: We may want to call mavenCentral() here based on the issue,
-                        // but not sure it's necessary
-                        mavenCentral()
-                    }
+        all { ArtifactRepository repo ->
+            if (repo instanceof MavenArtifactRepository) {
+                def url = repo.url.toString()
+                if (url.startsWith('https://jcenter.bintray.com/')) {
+                    project.logger.lifecycle "Repository ${repo.url} dropped"
+                    remove repo
+                    // TODO: We may want to call mavenCentral() here based on the issue,
+                    // but not sure it's necessary
+                    mavenCentral()
                 }
+            }
         }
         mavenLocal()
         maven { url("https://maven.google.com") }
