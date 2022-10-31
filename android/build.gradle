@@ -46,7 +46,6 @@ allprojects {
                     remove repo
                     // TODO: We may want to call mavenCentral() here based on the issue,
                     // but not sure it's necessary
-                    mavenCentral()
                 }
             }
         }
