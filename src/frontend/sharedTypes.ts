@@ -7,7 +7,8 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { MessageDescriptor } from "react-intl";
 import { ImageStyle, StyleProp, TextStyle, ViewStyle } from "react-native";
-import { AppStackList, HomeTabsList } from "./Navigation/AppStack";
+import { AppStackList } from "./Navigation/AppStack";
+import { HomeTabsList } from "./Navigation/ScreenGroups/AppScreens";
 
 export type ViewStyleProp = StyleProp<ViewStyle>;
 export type TextStyleProp = StyleProp<TextStyle>;

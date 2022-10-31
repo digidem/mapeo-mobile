@@ -39,12 +39,6 @@ const m = defineMessages({
     id: "screens.Settings.MapSettings.BackgroundMapTitle",
     defaultMessage: "Background Maps",
   },
-  noAreas: {
-    id: "screens.Settings.MapSettings.noAreas",
-    defaultMessage: "No Downloaded Offline Area",
-    description:
-      "Message to indicate to user that no offline areas have been downloaded",
-  },
   deleteMapTitle: {
     id: "screens.Settings.MapSettings.deleteMapTitle",
     defaultMessage: "Delete Map",
@@ -182,10 +176,6 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
           <View style={{ marginTop: 40 }}>
             <Loading />
           </View>
-        ) : backgroundMapList.length === 0 ? (
-          <Text style={styles.noDownloads}>
-            <FormattedMessage {...m.noAreas} />
-          </Text>
         ) : (
           backgroundMapList.map(bgMap => (
             <View key={bgMap.id} style={{ marginTop: 20 }}>
