@@ -16,7 +16,7 @@ buildscript {
         google()
         mavenCentral()
         // Needed for Mapbox deps, see https://github.com/react-native-mapbox-gl/maps/issues/1572
-        jcenter()
+        // jcenter()
         maven { url("$rootDir/../node_modules/react-native/android") }
         maven { url("https://www.jitpack.io") }
         maven { url("https://maven.google.com") }
@@ -36,7 +36,22 @@ buildscript {
 }
 
 allprojects {
-    repositories {
+        // Basically removes references to jcenter in deps,
+        // which is needed due to jcenter officially shutting down
+        // https://github.com/facebook/react-native/issues/35136
+        repositories {
+            all { ArtifactRepository repo ->
+                if (repo instanceof MavenArtifactRepository) {
+                    def url = repo.url.toString()
+                    if (url.startsWith('https://jcenter.bintray.com/')) {
+                        project.logger.lifecycle "Repository ${repo.url} dropped"
+                        remove repo
+                        // TODO: We may want to call mavenCentral() here based on the issue,
+                        // but not sure it's necessary
+                        mavenCentral()
+                    }
+                }
+        }
         mavenLocal()
         maven { url("https://maven.google.com") }
         maven {
@@ -53,8 +68,24 @@ allprojects {
         }
         google()
         mavenCentral()
-        // Needed for Mapbox deps, see https://github.com/react-native-mapbox-gl/maps/issues/1572
-        jcenter()
+        // Needed for installing @react-native-mapbox-gl/maps, which relies on the v9 Maps SDK
+        // Context: https://github.com/react-native-mapbox-gl/maps/issues/1572
+        // Instructions for installation:
+        // - https://github.com/rnmapbox/maps/blob/38c4cc6cc50583ebbc488d5142e11f0132c9db2e/android/install.md#mapbox-maps-sdk-pre-v10
+        // - https://docs.mapbox.com/android/maps/guides/install/#configure-credentials
+        maven {
+            url 'https://api.mapbox.com/downloads/v2/releases/maven'
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                // Do not change the username below.
+                // This should always be `mapbox` (not your username).
+                username = "mapbox"
+                // Use the secret token you stored in user's gradle.properties (i.e. $HOME/.gradle/gradle.properties) as the password
+                password = project.properties['MAPBOX_DOWNLOADS_TOKEN'] ?: ""
+            }
+        }
         maven { url 'https://www.jitpack.io' }
         maven {
             // All of Detox' artifacts are provided via the npm module
