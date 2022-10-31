@@ -112,11 +112,7 @@ const SetPasswordConfirm = ({ initialPass }: { initialPass: string }) => {
 
   function validate() {
     if (confirmPass === initialPass) {
-      setAuthValues({
-        type: "passcode",
-        value: confirmPass,
-      });
-      navigate("Security");
+      navigate("ConfirmPasscodeSheet", { passcode: confirmPass });
       return;
     }
 

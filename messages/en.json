@@ -137,6 +137,19 @@
   "screens.AppPasscode": {
     "message": "App Passcode"
   },
+  "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
+    "message": "Cancel"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.passcode": {
+    "description": "used to indicate to the user what the new passcode will be.",
+    "message": "Passcode"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
+    "message": "Save App Passcode"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.title": {
+    "message": "App Passcodes can never be recovered if lost or forgotten! Make sure to note your passcode in a secure location before saving."
+  },
   "screens.AppPasscode.InputPasscodeScreen.cancel": {
     "message": "Cancel"
   },
@@ -178,6 +191,12 @@
   },
   "screens.AppPasscode.TurnOffPasscode.changePasscode": {
     "message": "Change App Passcode"
+  },
+  "screens.AppPasscode.TurnOffPasscode.currentlyUsing": {
+    "message": "You are currently using App Passcode. See below to stop using or change your passcode."
+  },
+  "screens.AppPasscode.TurnOffPasscode.description": {
+    "message": "App Passcode adds an additional layer of security by requiring that you enter a passcode in order to open the Mapeo app."
   },
   "screens.AppPasscode.TurnOffPasscode.turnOff": {
     "message": "Turn Off"
