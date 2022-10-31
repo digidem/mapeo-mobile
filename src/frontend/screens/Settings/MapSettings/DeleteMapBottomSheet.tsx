@@ -139,7 +139,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
   deleteButton: {
     fontWeight: "700",

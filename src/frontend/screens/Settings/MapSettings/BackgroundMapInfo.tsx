@@ -16,38 +16,106 @@ import { DeleteIcon } from "../../../sharedComponents/icons";
 
 const m = defineMessages({
   removeMap: {
-    id: "screens.Settings.MapSettings.removeMap",
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.removeMap",
     defaultMessage: "Remove Map",
   },
   cancel: {
-    id: "screens.Settings.MapSettings.cancel",
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.cancel",
     defaultMessage: "Cancel",
   },
   subtitle: {
-    id: "screens.Settings.MapSettings.subtitle",
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.subtitle",
     defaultMessage:
       "This map and offline areas attached to it will be deleted. This cannot be undone",
   },
   mb: {
-    id: "screens.Settings.MapSettings.mb",
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.mb",
     defaultMessage: "MB",
     description: "abbreviation for megabyte",
   },
   zoomLevel: {
-    id: "screens.Settings.MapSettings.zoomLevel",
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.zoomLevel",
     defaultMessage: "Zoom Level",
   },
   description: {
-    id: "screens.Settings.MapSettings.description",
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.description",
     defaultMessage: "Level of Detail",
   },
   deleteMap: {
-    id: "screens.Settings.MapSettings.deleteMap",
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.deleteMap",
     defaultMessage: "Delete Map",
   },
   useMap: {
-    id: "screens.Settings.MapSettings.useMap",
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.useMap",
     defaultMessage: "Use Map",
+  },
+  lvlOfDetail0to1: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail0to1",
+    defaultMessage: "Whole world",
+  },
+  lvlOfDetail2: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail2",
+    defaultMessage: "Subcontinental area ",
+  },
+  lvlOfDetail3to4: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail3to4",
+    defaultMessage: "Largest country",
+  },
+  lvlOfDetail5: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail5",
+    defaultMessage: "Large African country",
+  },
+  lvlOfDetail6: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail6",
+    defaultMessage: "Large European country",
+  },
+  lvlOfDetail7to8: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail7to8",
+    defaultMessage: "Small country, US state",
+  },
+  lvlOfDetail9: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail9",
+    defaultMessage: "Wide area, large metropolitan area",
+  },
+  lvlOfDetail10: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail10",
+    defaultMessage: "Metropolitan area",
+  },
+  lvlOfDetail11: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail11",
+    defaultMessage: "City",
+  },
+  lvlOfDetail12: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail12",
+    defaultMessage: "Town, or city district",
+  },
+  lvlOfDetail13to14: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail13to14",
+    defaultMessage: "Village, or suburb",
+  },
+  lvlOfDetail15: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail15",
+    defaultMessage: "Small road",
+  },
+  lvlOfDetail16: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail16",
+    defaultMessage: "Street",
+  },
+  lvlOfDetail17: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail17",
+    defaultMessage: "Block, park, addresses",
+  },
+  lvlOfDetail18: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail18",
+    defaultMessage: "Some buildings, trees",
+  },
+  lvlOfDetail19: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail19",
+    defaultMessage: "Local highway and crossing details",
+  },
+  lvlOfDetail20: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail20",
+    defaultMessage: "A mid-sized building",
   },
 });
 
@@ -63,7 +131,46 @@ export const BackgroundMapInfo = ({
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
   const levelOfDetail = React.useMemo(() => {
-    return "Level of detail";
+    if (typeof zoom !== "number") return undefined;
+
+    switch (true) {
+      case zoom >= 0 && zoom < 2:
+        return m.lvlOfDetail0to1;
+      case zoom === 2:
+        return m.lvlOfDetail2;
+      case zoom >= 3 && zoom < 5:
+        return m.lvlOfDetail3to4;
+      case zoom === 5:
+        return m.lvlOfDetail5;
+      case zoom === 6:
+        return m.lvlOfDetail6;
+      case zoom >= 7 && zoom < 9:
+        return m.lvlOfDetail7to8;
+      case zoom === 9:
+        return m.lvlOfDetail9;
+      case zoom === 10:
+        return m.lvlOfDetail10;
+      case zoom === 11:
+        return m.lvlOfDetail11;
+      case zoom === 12:
+        return m.lvlOfDetail12;
+      case zoom >= 13 && zoom < 15:
+        return m.lvlOfDetail13to14;
+      case zoom === 15:
+        return m.lvlOfDetail15;
+      case zoom === 16:
+        return m.lvlOfDetail16;
+      case zoom === 17:
+        return m.lvlOfDetail17;
+      case zoom === 18:
+        return m.lvlOfDetail18;
+      case zoom === 19:
+        return m.lvlOfDetail19;
+      case zoom === 20:
+        return m.lvlOfDetail20;
+      default:
+        return undefined;
+    }
   }, [zoom]);
 
   const { setStyleId } = useMapStyle();
@@ -91,7 +198,9 @@ export const BackgroundMapInfo = ({
           }
         });
 
-        return Promise.allSettled(
+        // Promise.allSettled does not work in React Native
+        // See https://github.com/facebook/react-native/issues/30236
+        return allSettled(
           tileSetIdArray.map(id => {
             if (id) {
               return api.maps.getTileset(id);
@@ -101,9 +210,9 @@ export const BackgroundMapInfo = ({
       })
       .then(tileJson => {
         const maxZoom = tileJson.reduce((highest, tilePromise) => {
-          if (tilePromise.status === "rejected") return highest;
+          if (!tilePromise || !("value" in tilePromise)) return highest;
           const tile = tilePromise.value;
-          if (!tile || !tile.maxzoom) return highest;
+          if (!tile.maxzoom) return highest;
           if (tile.maxzoom > highest) return tile.maxzoom;
           return highest;
         }, -1);
@@ -120,14 +229,14 @@ export const BackgroundMapInfo = ({
 
   return (
     <React.Fragment>
-      <View style={{ flex: 1, backgroundColor: WHITE }}>
+      <View style={{ flex: 1, backgroundColor: WHITE, paddingBottom: 20 }}>
         <MapboxGL.MapView
           styleURL={styleUrl}
           compassEnabled={false}
           zoomEnabled={false}
           logoEnabled={false}
           scrollEnabled={false}
-          style={{ height: "60%" }}
+          style={{ height: "55%" }}
         >
           <MapboxGL.Camera
             zoomLevel={0}
@@ -147,7 +256,9 @@ export const BackgroundMapInfo = ({
           ) : zoom ? (
             <React.Fragment>
               <Text>{`${t(m.zoomLevel)}: ${zoom}`}</Text>
-              <Text>{`${t(m.description)}: ${levelOfDetail}`}</Text>
+              <Text>{`${t(m.description)}: ${
+                !levelOfDetail ? "" : t(levelOfDetail)
+              }`}</Text>
             </React.Fragment>
           ) : null}
 
@@ -206,3 +317,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+function allSettled<T>(promises: (Promise<T> | undefined)[]) {
+  return Promise.all(
+    promises.map(promise => {
+      if (!promise) return;
+      return promise
+        .then(value => ({ state: "fulfilled", value }))
+        .catch(reason => ({ state: "rejected", reason }));
+    })
+  );
+}
