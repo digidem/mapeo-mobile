@@ -81,7 +81,11 @@ nodejs-mobile for Android.
 
 You may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and configures requirements that might be missing, like the NDK and CMake to build the native code part of the project.
 
-Mapeo Mobile does NOT work with Android OS version 11 (as of June 2020, version 11 is still in beta release)
+Due to an [issue](https://github.com/rnmapbox/maps/issues/1572) with installing some Mapbox SDK Android deps, you will also have to complete additional steps before getting the app to build (detailed [here](https://github.com/rnmapbox/maps/blob/38c4cc6cc50583ebbc488d5142e11f0132c9db2e/android/install.md#mapbox-maps-sdk-pre-v10)):
+
+1. Refer to the [`Configure Credentials`](https://docs.mapbox.com/android/maps/guides/install/#configure-credentials) section and follow the instructions for creating a **secret access token**. This requires creating a [Mapbox](https://mapbox.com) account.
+
+2. On the same page, follow the steps in the `Configure your secret token` section for setting the secret token in your **user** `gradle.properties` file on your computer.
 
 ### Testing Device
 
