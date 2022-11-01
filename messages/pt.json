@@ -137,6 +137,40 @@
   "screens.AppPasscode": {
     "message": "Senha da aplicação20222022\n"
   },
+  "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.passcode": {
+    "description": "used to indicate to the user what the new passcode will be.",
+    "message": "Senha"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
+    "message": "Salvar Senha do aplicativo"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.title": {
+    "message": "Se perder ou esquecer a Senha do aplicativo, nunca pode ser recuperada! Certifique-se de anotar sua senha em um local seguro antes de salvar."
+  },
+  "screens.AppPasscode.InputPasscodeScreen.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
+    "message": "Insira sua senha novamente"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
+    "message": "Definir Senha do aplicativo"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
+    "message": "Próximo"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError": {
+    "message": "A senha deve ser de 5 números"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError": {
+    "message": "Não pode ser usado como uma senha"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
+    "message": "Senha não corresponde"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continue"
   },
