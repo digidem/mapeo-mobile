@@ -145,38 +145,9 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
-def loadDotEnv() {
-    def envFile = ".env"
-
-    def env = [:]
-    println("Reading env from: $envFile")
-
-    File f = new File("$project.rootDir/../$envFile");
-    if (!f.exists()) {
-        f = new File("$envFile");
-    }
-
-    if (f.exists()) {
-        f.eachLine { line ->
-            def matcher = (line =~ /^\s*(?:export\s+|)([\w\d\.\-_]+)\s*=\s*['"]?(.*?)?['"]?\s*$/)
-            if (matcher.getCount() == 1 && matcher[0].size() == 3) {
-                env.put(matcher[0][1], matcher[0][2].replace('"', '\\"'))
-            }
-        }
-    } else {
-        println("**************************")
-        println("*** Missing .env file ****")
-        println("**************************")
-    }
-
-    project.ext.set("env", env)
-}
-
 def getenv(key) {
     return System.getenv(key) ?: project.env.get(key)
 }
-
-loadDotEnv()
 
 File releaseKeystore = file("mapeo-release-key.keystore")
 def myVersionCode = (getenv("ANDROID_VERSION_CODE") ?: 1) as int

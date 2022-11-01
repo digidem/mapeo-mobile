@@ -1,5 +1,39 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+// Load the .env file in the repo and set project environment variables if found
+def loadDotEnv() {
+    def envFile = ".env"
+
+    def env = [:]
+    println("Reading env from: $envFile")
+
+    File f = new File("$project.rootDir/../$envFile");
+    if (!f.exists()) {
+        f = new File("$envFile");
+    }
+
+    if (f.exists()) {
+        f.eachLine { line ->
+            def matcher = (line =~ /^\s*(?:export\s+|)([\w\d\.\-_]+)\s*=\s*['"]?(.*?)?['"]?\s*$/)
+            if (matcher.getCount() == 1 && matcher[0].size() == 3) {
+                env.put(matcher[0][1], matcher[0][2].replace('"', '\\"'))
+            }
+        }
+    } else {
+        println("**************************")
+        println("*** Missing .env file ****")
+        println("**************************")
+    }
+
+    project.ext.set("env", env)
+}
+
+def getenv(key) {
+    return System.getenv(key) ?: project.env.get(key)
+}
+
+loadDotEnv()
+
 buildscript {
     ext {
         buildToolsVersion = "30.0.2"
@@ -80,7 +114,7 @@ allprojects {
                 // This should always be `mapbox` (not your username).
                 username = "mapbox"
                 // Use the secret token you stored in user's gradle.properties (i.e. $HOME/.gradle/gradle.properties) as the password
-                password = project.properties['MAPBOX_DOWNLOADS_TOKEN'] ?: ""
+                password = getenv("MAPBOX_DOWNLOAD_TOKEN") ?: ""
             }
         }
         maven { url 'https://www.jitpack.io' }
