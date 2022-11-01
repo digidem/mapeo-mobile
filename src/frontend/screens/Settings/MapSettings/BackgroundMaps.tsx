@@ -221,7 +221,9 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
                   setErroredImports({});
                   setBackgroundMapList(await api.maps.getStyleList());
                 } catch (err) {
-                  console.log("COULD NOT DELETE STYLES", err);
+                  // TODO: Implement better error handling here
+                  console.log(err);
+                  sheetRef.current?.close();
                 }
               },
               text: t(m.close),
@@ -346,10 +348,11 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
       </ScrollView>
 
       <BottomSheet
-        snapPoints={snapPoints}
-        ref={sheetRef}
         backdropComponent={BottomSheetBackdrop}
+        enableContentPanningGesture={false}
         handleComponent={() => null}
+        ref={sheetRef}
+        snapPoints={snapPoints}
       >
         <BottomSheetView
           onLayout={updateSheetHeight}

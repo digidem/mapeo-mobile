@@ -14,6 +14,8 @@ import { DEFAULT_MAP_ID } from "../screens/Settings/MapSettings/BackgroundMaps";
 import api from "../api";
 import { Pill } from "./Pill";
 
+class ImportError extends Error {}
+
 const m = defineMessages({
   currentMap: {
     id: "sharedComponents.BGMapCard.currentMap",
@@ -110,15 +112,13 @@ export const BGMapCard = ({
 
   useMapImportBackgrounder(mapStyleInfo.id, activeImportId);
 
-  const importComplete = importStatus?.status === "complete";
-
-  const eventSourceUrl = React.useMemo(
-    () =>
-      !importComplete && activeImportId
-        ? api.maps.getImportProgressUrl(activeImportId)
-        : undefined,
-    [activeImportId, importComplete]
-  );
+  const eventSourceUrl = React.useMemo(() => {
+    const shouldCheckImport =
+      importStatus === null || importStatus?.status === "progress";
+    return activeImportId && shouldCheckImport
+      ? api.maps.getImportProgressUrl(activeImportId)
+      : undefined;
+  }, [activeImportId, importStatus]);
 
   const createEventSourceOptions = React.useCallback(
     (cancel: () => void) => ({
@@ -165,18 +165,22 @@ export const BGMapCard = ({
             break;
           }
           case "error": {
-            throw new Error("Error occurred during import");
+            throw new ImportError();
           }
         }
       },
       onerror(err: Error) {
-        console.error(err);
+        if (err instanceof ImportError) {
+          setImportStatus(prev => ({ ...(prev || {}), status: "error" }));
 
-        setImportStatus(prev => ({ ...(prev || {}), status: "error" }));
+          if (onImportError) {
+            onImportError();
+            cancel();
+            return;
+          }
+        }
 
-        if (onImportError) onImportError();
-
-        cancel();
+        throw err;
       },
     }),
     [onImportComplete, onImportError]
