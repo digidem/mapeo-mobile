@@ -97,7 +97,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
 
   const [bottomSheetState, setBottomSheetState] = React.useState<
     BottomSheetState
-  >("import");
+  >("import_error");
 
   const { snapPoints, updateSheetHeight } = useSnapPointsCalculator(
     MIN_SHEET_HEIGHT
@@ -184,9 +184,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
     bottomSheetState === "file_error"
       ? {
           title: t(m.importErrorTitle),
-          icon: (
-            <ErrorIcon color={RED} size={90} style={{ position: "relative" }} />
-          ),
+          icon: <ErrorIcon color={RED} size={90} style={styles.errorIcon} />,
           description: t(m.fileErrorDescription),
           buttonConfigs: [
             {
@@ -202,9 +200,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
       : bottomSheetState === "import_error"
       ? {
           title: t(m.importErrorTitle),
-          icon: (
-            <ErrorIcon color={RED} size={90} style={{ position: "relative" }} />
-          ),
+          icon: <ErrorIcon color={RED} size={90} style={styles.errorIcon} />,
           description: t(m.importErrorDescription, {
             styleNames: Object.entries(erroredImports)
               .map(([styleId, styleName]) => `"${styleName || styleId}"`)
@@ -358,11 +354,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
       >
         <BottomSheetView
           onLayout={updateSheetHeight}
-          style={{
-            flex: 1,
-            paddingHorizontal: 20,
-            paddingTop: 30,
-          }}
+          style={styles.bottomSheetContentContainer}
         >
           <BottomSheetContent {...bottomSheetContentProps} />
         </BottomSheetView>
@@ -374,9 +366,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
 BackgroundMaps.navTitle = m.BackgroundMapTitle;
 
 const styles = StyleSheet.create({
-  scrollContentContainer: {
-    padding: 20,
-  },
+  scrollContentContainer: { padding: 20 },
   addMapButtonContainer: { paddingVertical: 20 },
   addMapButton: { backgroundColor: WHITE },
   mapCardsContainer: { paddingVertical: 20 },
@@ -393,9 +383,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 5,
   },
-  text: {
-    fontSize: 16,
-  },
+  text: { fontSize: 16 },
   importTextAndIcon: {
     marginBottom: 20,
     display: "flex",
@@ -403,4 +391,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  bottomSheetContentContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 30,
+  },
+  errorIcon: { position: "relative" },
 });

@@ -5,14 +5,14 @@ import MapboxGL from "@react-native-mapbox-gl/maps";
 import { EventSourceMessage } from "@microsoft/fetch-event-source";
 import { Bar } from "react-native-progress";
 
-import { DARK_GREY, LIGHT_GREY, MAPEO_BLUE, MEDIUM_GREY } from "../lib/styles";
 import { MapServerStyleInfo } from "../sharedTypes";
-import { Pill } from "./Pill";
+import { LIGHT_GREY, MAPEO_BLUE, MEDIUM_GREY } from "../lib/styles";
 import LocationContext from "../context/LocationContext";
 import { useEventSource } from "../hooks/useEventSource";
 import { useMapImportBackgrounder } from "../hooks/useBackgroundedMapImports";
-import api from "../api";
 import { DEFAULT_MAP_ID } from "../screens/Settings/MapSettings/BackgroundMaps";
+import api from "../api";
+import { Pill } from "./Pill";
 
 const m = defineMessages({
   currentMap: {
@@ -185,7 +185,7 @@ export const BGMapCard = ({
   useEventSource(eventSourceUrl, createEventSourceOptions);
 
   return (
-    <View style={[styles.container]}>
+    <View style={styles.container}>
       <MapboxGL.MapView
         styleURL={mapStyleInfo.url}
         compassEnabled={false}
@@ -262,7 +262,6 @@ const styles = StyleSheet.create({
   container: {
     borderColor: LIGHT_GREY,
     borderRadius,
-    borderWidth: 1,
     overflow: "hidden",
     flexDirection: "row",
     minHeight: 100,
@@ -270,15 +269,13 @@ const styles = StyleSheet.create({
   infoContainer: {
     padding: 10,
     backgroundColor: LIGHT_GREY,
-    borderWidth: 1,
-    borderColor: MEDIUM_GREY,
+    borderWidth: 0.5,
+    borderRightWidth: 1,
     borderBottomRightRadius: borderRadius,
     borderTopRightRadius: borderRadius,
     flex: 3,
   },
-  text: {
-    fontSize: 14,
-  },
+  text: { fontSize: 14 },
   mapPreview: {
     flex: 1,
     maxWidth: 100,
