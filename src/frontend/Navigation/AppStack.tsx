@@ -5,6 +5,7 @@ import {
   HeaderButtonProps,
   NativeStackNavigationOptions,
 } from "@react-navigation/native-stack/lib/typescript/src/types";
+import { WHITE } from "../lib/styles";
 import { IccaStackList } from "../screens/Intro";
 import { OnboardingStackList } from "./ScreenGroups/Onboarding";
 import { AppList } from "./ScreenGroups/AppScreens";
@@ -23,7 +24,8 @@ export const RootStack = createNativeStackNavigator<AppStackList>();
 
 export const NavigatorScreenOptions: NativeStackNavigationOptions = {
   presentation: "card",
-  headerStyle: { backgroundColor: "#ffffff" },
+  contentStyle: { backgroundColor: WHITE },
+  headerStyle: { backgroundColor: WHITE },
   headerLeft: (props: HeaderButtonProps) => (
     <CustomHeaderLeft headerBackButtonProps={props} />
   ),
