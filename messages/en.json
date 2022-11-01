@@ -885,9 +885,17 @@
     "description": "Title for the delete map modal",
     "message": "Delete Map"
   },
-  "screens.Settings.MapSettings.importError": {
-    "description": "Error importing map warning",
-    "message": "Error Importing Map, please try a different file."
+  "screens.Settings.MapSettings.fileErrorDescription": {
+    "description": "Description for file error in bottom sheet content",
+    "message": "Error importing file, please try a different file."
+  },
+  "screens.Settings.MapSettings.importErrorDescription": {
+    "description": "Description for import error in bottom sheet content",
+    "message": "Unable to import {styleNames}. Re-import the map {fileCount, plural, one {file} other {files}} to try again."
+  },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "Import Error"
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Import from File"
