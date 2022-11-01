@@ -271,7 +271,6 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
             onPress={() => {
               sheetRef.current?.expand();
             }}
-            style={styles.addMapButton}
             variant="outlined"
           >
             {t(m.addBGMap)}
@@ -367,8 +366,7 @@ BackgroundMaps.navTitle = m.BackgroundMapTitle;
 
 const styles = StyleSheet.create({
   scrollContentContainer: { padding: 20 },
-  addMapButtonContainer: { paddingVertical: 20 },
-  addMapButton: { backgroundColor: WHITE },
+  addMapButtonContainer: { padding: 20 },
   mapCardsContainer: { paddingVertical: 20 },
   noDownloads: {
     fontSize: 16,
