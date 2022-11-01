@@ -81,11 +81,25 @@ nodejs-mobile for Android.
 
 You may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and configures requirements that might be missing, like the NDK and CMake to build the native code part of the project.
 
-Due to an [issue](https://github.com/rnmapbox/maps/issues/1572) with installing some Mapbox SDK Android deps, you will also have to complete additional steps before getting the app to build (detailed [here](https://github.com/rnmapbox/maps/blob/38c4cc6cc50583ebbc488d5142e11f0132c9db2e/android/install.md#mapbox-maps-sdk-pre-v10)):
+Due to an [issue](https://github.com/rnmapbox/maps/issues/1572) with installing some Mapbox SDK Android deps, you will also have to complete additional steps before getting the app to build:
 
 1. Refer to the [`Configure Credentials`](https://docs.mapbox.com/android/maps/guides/install/#configure-credentials) section and follow the instructions for creating a **secret access token**. This requires creating a [Mapbox](https://mapbox.com) account.
 
-2. On the same page, follow the steps in the `Configure your secret token` section for setting the secret token in your **user** `gradle.properties` file on your computer.
+2. With the secret token, you'll need to define the `MAPBOX_DOWNLOAD_TOKEN` environment variable. Although not ideal, there are a couple of options to choose from:
+
+- Specify the environment variable when running the `react-native run-android` command (or any command that runs it). For example:
+
+  ```sh
+  MAPBOX_DOWNLOAD_TOKEN=your_token_here npm run android
+  ```
+
+- Export the environment variable in your shell environment. Usually this will be in a file like `$HOME/.bashrc` (or `$HOME/.bash_profile`), `$HOME/.zshrc`, etc (depending on which shell you use). For example, add a line like this in the file and then restart your shell session:
+
+  ```sh
+  EXPORT MAPBOX_DOWNLOAD_TOKEN=your_token_here
+  ```
+
+We recognize that this extra configuration is not ideal and we intend for this to be temporary.
 
 ### Testing Device
 
