@@ -86,6 +86,8 @@ const m = defineMessages({
 
 type BottomSheetState = "import" | "file_error" | "import_error";
 
+// TODO: We should update the state for the backgroundMapList so that it has a fetch state too
+// That way we can provide better messaging and recovery in case errors occur when fetching the list of styles
 export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () => {
   const { formatMessage: t } = useIntl();
 
@@ -348,7 +350,9 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
       </ScrollView>
 
       <BottomSheet
-        backdropComponent={BottomSheetBackdrop}
+        backdropComponent={props => (
+          <BottomSheetBackdrop {...props} pressBehavior="none" />
+        )}
         enableContentPanningGesture={false}
         handleComponent={() => null}
         ref={sheetRef}
