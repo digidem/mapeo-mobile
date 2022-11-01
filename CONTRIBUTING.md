@@ -96,7 +96,7 @@ Due to an [issue](https://github.com/rnmapbox/maps/issues/1572) with installing 
 - Export the environment variable in your shell environment. Usually this will be in a file like `$HOME/.bashrc` (or `$HOME/.bash_profile`), `$HOME/.zshrc`, etc (depending on which shell you use). For example, add a line like this in the file and then restart your shell session:
 
   ```sh
-  EXPORT MAPBOX_DOWNLOAD_TOKEN=your_token_here
+  export MAPBOX_DOWNLOAD_TOKEN=your_token_here
   ```
 
 We recognize that this extra configuration is not ideal and we intend for this to be temporary.
