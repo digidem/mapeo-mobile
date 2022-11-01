@@ -44,6 +44,7 @@ const m = defineMessages({
 });
 
 type ImportStatus =
+  | { status: "waiting" }
   | { status: "error"; soFar?: number; total?: number }
   | {
       status: "progress" | "complete";
@@ -52,36 +53,35 @@ type ImportStatus =
     }
   | null;
 
-function shouldShowProgressBar(
+function showProgressBar(
   importStatus: ImportStatus
-): importStatus is {
-  status: "progress" | "complete";
-  soFar: number;
-  total: number;
-} | null {
-  return (
-    importStatus === null ||
-    (importStatus.status !== "error" && importStatus.status !== "complete")
+): importStatus is
+  | {
+      status: "progress" | "complete";
+      soFar: number;
+      total: number;
+    }
+  | { status: "waiting" } {
+  return !!(
+    importStatus &&
+    (importStatus.status === "waiting" ||
+      importStatus.status === "progress" ||
+      importStatus.status === "complete")
   );
 }
 
 function showBytesStored(
   mapStyleInfo: MapServerStyleInfo,
-  activeImportId?: string,
-  importStatus?: ImportStatus
+  activeImportId?: string
 ) {
   // Map is default map
   if (mapStyleInfo.id === DEFAULT_MAP_ID) return false;
 
-  // Map import has started but has not yet been completed
-  if (
-    (activeImportId && !importStatus) ||
-    (importStatus && importStatus.status !== "complete")
-  )
-    return false;
-
   // Map has zero byte count
   if (mapStyleInfo.bytesStored === 0) return false;
+
+  // Map import is still active
+  if (activeImportId) return false;
 
   return true;
 }
@@ -108,13 +108,23 @@ export const BGMapCard = ({
   const { formatMessage: t } = useIntl();
   const { position } = React.useContext(LocationContext);
 
-  const [importStatus, setImportStatus] = React.useState<ImportStatus>(null);
+  const [importStatus, setImportStatus] = React.useState<ImportStatus>(
+    activeImportId ? { status: "waiting" } : null
+  );
 
   useMapImportBackgrounder(mapStyleInfo.id, activeImportId);
 
+  // TODO: Not ideal but works for now
+  React.useEffect(() => {
+    if (importStatus === null && activeImportId) {
+      setImportStatus({ status: "waiting" });
+    }
+  }, [activeImportId, importStatus]);
+
   const eventSourceUrl = React.useMemo(() => {
     const shouldCheckImport =
-      importStatus === null || importStatus?.status === "progress";
+      importStatus?.status === "waiting" || importStatus?.status === "progress";
+
     return activeImportId && shouldCheckImport
       ? api.maps.getImportProgressUrl(activeImportId)
       : undefined;
@@ -215,7 +225,7 @@ export const BGMapCard = ({
           {mapStyleInfo.name || t(m.unnamedStyle)}
         </Text>
 
-        {showBytesStored(mapStyleInfo, activeImportId, importStatus) && (
+        {showBytesStored(mapStyleInfo, activeImportId) && (
           <Text style={[styles.text, { color: MEDIUM_GREY }]}>
             {bytesToMegabytes(mapStyleInfo.bytesStored).toFixed(0)}{" "}
             {t(m.abbrevMegabyte)}
@@ -224,24 +234,27 @@ export const BGMapCard = ({
 
         {activeImportId && (
           <>
-            {shouldShowProgressBar(importStatus) && (
+            {showProgressBar(importStatus) && (
               <View style={{ marginTop: 10 }}>
                 <Bar
-                  indeterminate={!importStatus}
+                  indeterminate={importStatus.status === "waiting"}
                   color={MAPEO_BLUE}
                   width={null}
                   progress={
-                    importStatus
-                      ? importStatus.soFar / importStatus.total
-                      : undefined
+                    importStatus.status === "waiting"
+                      ? undefined
+                      : importStatus.soFar / importStatus.total
                   }
                 />
               </View>
             )}
-            {(importStatus === null || importStatus.status === "progress") && (
+            {(importStatus?.status === "waiting" ||
+              importStatus?.status === "progress") && (
               <View style={{ marginTop: 10 }}>
                 <Text>
-                  {importStatus ? t(m.importInProgress) : t(m.waitingForImport)}
+                  {importStatus.status === "progress"
+                    ? t(m.importInProgress)
+                    : t(m.waitingForImport)}
                 </Text>
               </View>
             )}
