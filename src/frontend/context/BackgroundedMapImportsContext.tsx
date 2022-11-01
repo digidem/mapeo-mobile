@@ -54,7 +54,6 @@ const BackgroundedMapImportsProvider = ({
 }: React.PropsWithChildren<{}>) => {
   const [backgroundedMapImports, dispatch] = React.useReducer(reducer, {});
 
-  console.log("backgroundedMapImports", backgroundedMapImports);
   return (
     <StateContext.Provider value={backgroundedMapImports}>
       <ActionsContext.Provider value={dispatch}>

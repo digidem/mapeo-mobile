@@ -121,7 +121,7 @@ export const BGMapCard = ({
   );
 
   const createEventSourceOptions = React.useCallback(
-    (_cancel: () => void) => ({
+    (cancel: () => void) => ({
       onmessage: (message: EventSourceMessage) => {
         const data = JSON.parse(message.data);
 
@@ -176,7 +176,7 @@ export const BGMapCard = ({
 
         if (onImportError) onImportError();
 
-        throw err;
+        cancel();
       },
     }),
     [onImportComplete, onImportError]
@@ -192,7 +192,7 @@ export const BGMapCard = ({
         zoomEnabled={false}
         logoEnabled={false}
         scrollEnabled={false}
-        style={styles.map}
+        style={styles.mapPreview}
       >
         <MapboxGL.Camera
           zoomLevel={0}
@@ -206,14 +206,14 @@ export const BGMapCard = ({
           allowUpdates={true}
         />
       </MapboxGL.MapView>
-      <View style={[styles.infoContainer]}>
-        <Text style={[styles.text, { fontWeight: "bold" }]}>
+      <View style={styles.infoContainer}>
+        <Text style={[styles.text, { fontWeight: "500" }]}>
           {mapStyleInfo.name || t(m.unnamedStyle)}
         </Text>
 
         {showBytesStored(mapStyleInfo, activeImportId, importStatus) && (
-          <Text style={[styles.text, { color: DARK_GREY }]}>
-            {bytesToMegabytes(mapStyleInfo.bytesStored).toFixed(2)}{" "}
+          <Text style={[styles.text, { color: MEDIUM_GREY }]}>
+            {bytesToMegabytes(mapStyleInfo.bytesStored).toFixed(0)}{" "}
             {t(m.abbrevMegabyte)}
           </Text>
         )}
@@ -241,7 +241,9 @@ export const BGMapCard = ({
                 </Text>
               </View>
             )}
-            {importStatus?.status === "error" && <Text>Error Occurred</Text>}
+            {importStatus?.status === "error" && (
+              <Text style={styles.text}>Error Occurred</Text>
+            )}
           </>
         )}
         {isSelected && (
@@ -254,23 +256,31 @@ export const BGMapCard = ({
   );
 };
 
+const borderRadius = 8;
+
 const styles = StyleSheet.create({
   container: {
-    borderColor: MEDIUM_GREY,
+    borderColor: LIGHT_GREY,
+    borderRadius,
     borderWidth: 1,
-    borderRadius: 2,
+    overflow: "hidden",
     flexDirection: "row",
     minHeight: 100,
   },
   infoContainer: {
     padding: 10,
     backgroundColor: LIGHT_GREY,
-    flex: 1,
+    borderWidth: 1,
+    borderColor: MEDIUM_GREY,
+    borderBottomRightRadius: borderRadius,
+    borderTopRightRadius: borderRadius,
+    flex: 3,
   },
   text: {
     fontSize: 14,
   },
-  map: {
-    width: 84,
+  mapPreview: {
+    flex: 1,
+    maxWidth: 100,
   },
 });

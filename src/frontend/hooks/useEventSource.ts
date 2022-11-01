@@ -30,10 +30,8 @@ export const useEventSource = (
 
     fetchEventSource(url, {
       ...options,
-      fetch: (input: RequestInfo | URL, opts: RequestInit | undefined) => {
-        console.log("INPUT", input);
-        return fetch(input, { ...opts, reactNative: { textStreaming: true } });
-      },
+      fetch: (input: RequestInfo | URL, opts: RequestInit | undefined) =>
+        fetch(input, { ...opts, reactNative: { textStreaming: true } }),
       signal: controller.signal,
     }).catch(err => {
       console.error("FETCH EVENT SOURCE ERROR", err);

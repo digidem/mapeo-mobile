@@ -25,7 +25,7 @@ type ActionButtonConfig =
   | PrimaryActionButtonConfig
   | SecondaryActionButtonConfig;
 
-interface Props {
+interface Props extends React.PropsWithChildren<{}> {
   buttonConfigs: ActionButtonConfig[];
   description?: React.ReactNode;
   icon?: React.ReactNode;
@@ -35,6 +35,7 @@ interface Props {
 }
 
 export const Content = ({
+  children,
   icon,
   buttonConfigs,
   description,
@@ -53,6 +54,7 @@ export const Content = ({
           </Text>
         )}
       </View>
+      {!!children && <View>{children}</View>}
     </View>
     <View style={styles.buttonsContainer}>
       {buttonConfigs.map((config, index) => (

@@ -1,12 +1,14 @@
 import * as React from "react";
 import * as DocumentPicker from "expo-document-picker";
-import { defineMessages, FormattedMessage, useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { LIGHT_GREY, MEDIUM_GREY, RED } from "../../../lib/styles";
+import { LIGHT_GREY, MEDIUM_GREY, RED, WHITE } from "../../../lib/styles";
 import { BGMapCard } from "../../../sharedComponents/BGMapCard";
-import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import Button from "../../../sharedComponents/Button";
-import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import Loading from "../../../sharedComponents/Loading";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
@@ -15,15 +17,22 @@ import {
   MapServerStyleInfo,
   NativeNavigationComponent,
 } from "../../../sharedTypes";
-import api from "../../../api";
+import api, { extractHttpErrorResponse } from "../../../api";
 import { useMapStyle } from "../../../hooks/useMapStyle";
 import { useDefaultStyleUrl } from "../../../hooks/useDefaultStyleUrl";
 import {
   useBackgroundedMapImports,
   useBackgroundedMapImportsManager,
 } from "../../../hooks/useBackgroundedMapImports";
+import {
+  BottomSheetContent,
+  useSnapPointsCalculator,
+} from "../../../sharedComponents/BottomSheet";
+import { ErrorIcon } from "../../../sharedComponents/icons";
 
 export const DEFAULT_MAP_ID = "default";
+
+const MIN_SHEET_HEIGHT = 400;
 
 const m = defineMessages({
   addBGMap: {
@@ -52,10 +61,21 @@ const m = defineMessages({
     defaultMessage: "Yes, Delete",
     description: "Confirm delete map modal button",
   },
-  importError: {
-    id: "screens.Settings.MapSettings.importError",
-    defaultMessage: "Error Importing Map, please try a different file.",
-    description: "Error importing map warning",
+  importErrorTitle: {
+    id: "screens.Settings.MapSettings.importErrorTitle",
+    defaultMessage: "Import Error",
+    description: "Title for import error in bottom sheet content",
+  },
+  importErrorDescription: {
+    id: "screens.Settings.MapSettings.importErrorDescription",
+    defaultMessage:
+      "Unable to import {styleNames}. Re-import the map {fileCount, plural, one {file} other {files}} to try again.",
+    description: "Description for import error in bottom sheet content",
+  },
+  fileErrorDescription: {
+    id: "screens.Settings.MapSettings.fileErrorDescription",
+    defaultMessage: "Error importing file, please try a different file.",
+    description: "Description for file error in bottom sheet content",
   },
   defaultMap: {
     id: "screens.Settings.MapSettings.defaultMap",
@@ -64,29 +84,32 @@ const m = defineMessages({
   },
 });
 
-type ModalContent = "import" | "error";
+type BottomSheetState = "import" | "file_error" | "import_error";
 
 export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () => {
+  const { formatMessage: t } = useIntl();
+
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
   const { styleUrl } = useMapStyle();
 
   const defaultStyleUrl = useDefaultStyleUrl();
 
-  const [modalContent, setModalContent] = React.useState<ModalContent>(
-    "import"
-  );
+  const [bottomSheetState, setBottomSheetState] = React.useState<
+    BottomSheetState
+  >("import");
 
-  // TODO: May have to update to something like this: https://github.com/gorhom/react-native-bottom-sheet/blob/v2.4.1/example/src/screens/advanced/DynamicSnapPointExample.tsx
-  // Also see useSnapPointsCalculator in BottomSheetModal/index.tsx
-  const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
-    0,
-    "30%",
-  ]);
+  const { snapPoints, updateSheetHeight } = useSnapPointsCalculator(
+    MIN_SHEET_HEIGHT
+  );
 
   const [backgroundMapList, setBackgroundMapList] = React.useState<
     MapServerStyleInfo[]
   >();
+
+  const [erroredImports, setErroredImports] = React.useState<
+    Record<string, string | null | undefined>
+  >({});
 
   const backgroundedMapImports = useBackgroundedMapImports();
   const {
@@ -107,136 +130,121 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
       });
   }, []);
 
-  const { formatMessage: t } = useIntl();
-
-  // TODO: Opening the sheet doesn't work here
-  const onImportError = React.useCallback(() => {
-    if (sheetRef.current) {
-      setModalContent("error");
-      sheetRef.current.snapTo(1);
-    }
-  }, []);
-
   async function handleImportPress() {
-    const results = await DocumentPicker.getDocumentAsync();
+    try {
+      const results = await DocumentPicker.getDocumentAsync();
 
-    if (results.type === "cancel") {
-      sheetRef.current?.close();
-      return;
-    }
-
-    if (results.type === "success") {
-      try {
-        const { import: tilesetImport } = await api.maps.importTileset(
-          results.uri
-        );
-
-        // TODO: Once https://github.com/digidem/mapeo-map-server/issues/81 is implemented, no need to call this endpoint and use the last item, etc
-        const list = await api.maps.getStyleList();
-        const lastStyle = list[list.length - 1];
-
-        setActiveMapImports(prev => ({
-          ...prev,
-          [lastStyle.id]: tilesetImport.id,
-        }));
-
-        setBackgroundMapList(list);
-
+      if (results.type === "cancel") {
         sheetRef.current?.close();
-      } catch (err) {
-        console.log("FAILED TO IMPORT", err);
-        setModalContent("error");
+        return;
       }
+
+      if (results.type === "success") {
+        // Need to call collapse here, otherwise expanding later in this function doesn't work
+        sheetRef.current?.collapse();
+
+        try {
+          const { import: tilesetImport } = await api.maps.importTileset(
+            results.uri
+          );
+
+          // TODO: Once https://github.com/digidem/mapeo-map-server/issues/81 is implemented,
+          // no need to call this endpoint and use the last item, etc
+          const list = await api.maps.getStyleList();
+          const lastStyle = list[list.length - 1];
+
+          setActiveMapImports(prev => ({
+            ...prev,
+            [lastStyle.id]: tilesetImport.id,
+          }));
+
+          setBackgroundMapList(list);
+        } catch (err) {
+          const parsedError = await extractHttpErrorResponse(err)?.json();
+
+          if (parsedError) {
+            if (parsedError.statusCode >= 400 && parsedError.statusCode < 500) {
+              setBottomSheetState("file_error");
+              sheetRef.current?.expand();
+              return;
+            }
+          }
+
+          setBottomSheetState("import_error");
+          sheetRef.current?.expand();
+        }
+      }
+    } catch (err) {
+      setBottomSheetState("file_error");
+      sheetRef.current?.expand();
     }
   }
 
-  return (
-    <React.Fragment>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Button
-          style={[styles.button]}
-          variant="outlined"
-          onPress={() => {
-            sheetRef.current?.snapTo(1);
-          }}
-        >
-          {t(m.addBGMap)}
-        </Button>
+  const bottomSheetContentProps: React.ComponentProps<typeof BottomSheetContent> =
+    bottomSheetState === "file_error"
+      ? {
+          title: t(m.importErrorTitle),
+          icon: (
+            <ErrorIcon color={RED} size={90} style={{ position: "relative" }} />
+          ),
+          description: t(m.fileErrorDescription),
+          buttonConfigs: [
+            {
+              onPress: () => {
+                sheetRef.current?.close();
+                setBottomSheetState("import");
+              },
+              text: t(m.close),
+              variation: "outlined",
+            },
+          ],
+        }
+      : bottomSheetState === "import_error"
+      ? {
+          title: t(m.importErrorTitle),
+          icon: (
+            <ErrorIcon color={RED} size={90} style={{ position: "relative" }} />
+          ),
+          description: t(m.importErrorDescription, {
+            styleNames: Object.entries(erroredImports)
+              .map(([styleId, styleName]) => `"${styleName || styleId}"`)
+              .join(", "),
+            fileCount: Object.keys(erroredImports).length,
+          }),
+          buttonConfigs: [
+            {
+              onPress: async () => {
+                try {
+                  await Promise.all(
+                    Object.keys(erroredImports).map(api.maps.deleteStyle)
+                  );
 
-        {/* Default BG map card */}
-        {defaultStyleUrl && (
-          <View style={{ marginTop: 20 }}>
-            <BGMapCard
-              isSelected={styleUrl === defaultStyleUrl}
-              mapStyleInfo={{
-                id: DEFAULT_MAP_ID,
-                url: defaultStyleUrl,
-                bytesStored: 0,
-                name: t(m.defaultMap),
-              }}
-            />
-          </View>
-        )}
+                  sheetRef.current?.close();
 
-        {backgroundMapList === undefined ? (
-          <View style={{ marginTop: 40 }}>
-            <Loading />
-          </View>
-        ) : (
-          backgroundMapList.map(bgMap => {
-            const onImportComplete = () => {
-              removeImportFromBackground(bgMap.id);
-
-              api.maps
-                .getStyleList()
-                .then(list => {
-                  setBackgroundMapList(list);
-                })
-                .catch(err => {
-                  console.error(err);
-                })
-                .finally(() => {
-                  setActiveMapImports(prev => {
-                    const updated = { ...prev };
-                    delete updated[bgMap.id];
-                    return updated;
-                  });
-                });
-            };
-
-            return (
-              <View key={bgMap.id} style={{ marginTop: 20 }}>
-                <BGMapCard
-                  activeImportId={activeMapImports[bgMap.id]}
-                  isSelected={styleUrl === bgMap.url}
-                  mapStyleInfo={bgMap}
-                  onImportError={onImportError}
-                  onImportComplete={onImportComplete}
-                />
-              </View>
-            );
-          })
-        )}
-      </ScrollView>
-
-      <BottomSheet
-        snapPoints={snapPoints}
-        ref={sheetRef}
-        backdropComponent={BottomSheetBackdrop}
-        handleComponent={() => null}
-      >
-        <View
-          onLayout={e => {
-            const { height } = e.nativeEvent.layout;
-            setSnapPoints([0, height]);
-          }}
-          style={{ padding: 20 }}
-        >
-          <HeaderTitle style={{ textAlign: "center", marginTop: 20 }}>
-            {t(m.BackgroundMapTitle)}
-          </HeaderTitle>
-
-          {modalContent === "import" ? (
+                  setBottomSheetState("import");
+                  setErroredImports({});
+                  setBackgroundMapList(await api.maps.getStyleList());
+                } catch (err) {
+                  console.log("COULD NOT DELETE STYLES", err);
+                }
+              },
+              text: t(m.close),
+              variation: "outlined",
+            },
+          ],
+        }
+      : {
+          title: t(m.BackgroundMapTitle),
+          buttonConfigs: [
+            {
+              onPress: () => {
+                sheetRef.current?.close();
+              },
+              text: t(m.close),
+              variation: "outlined",
+            },
+          ],
+          children: (
             <TouchableOpacity
               onPress={handleImportPress}
               style={styles.importButton}
@@ -255,26 +263,109 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
                 </Text>
               </React.Fragment>
             </TouchableOpacity>
-          ) : (
-            <View style={{ paddingVertical: 40 }}>
-              <Text style={{ fontSize: 16, textAlign: "center" }}>
-                {" "}
-                {t(m.importError)}{" "}
-              </Text>
+          ),
+        };
+
+  return (
+    <React.Fragment>
+      <ScrollView contentContainerStyle={styles.scrollContentContainer}>
+        <View style={styles.addMapButtonContainer}>
+          <Button
+            fullWidth
+            onPress={() => {
+              sheetRef.current?.expand();
+            }}
+            style={styles.addMapButton}
+            variant="outlined"
+          >
+            {t(m.addBGMap)}
+          </Button>
+        </View>
+
+        <View style={styles.mapCardsContainer}>
+          {/* Default BG map card */}
+          {defaultStyleUrl && (
+            <View>
+              <BGMapCard
+                isSelected={styleUrl === defaultStyleUrl}
+                mapStyleInfo={{
+                  id: DEFAULT_MAP_ID,
+                  url: defaultStyleUrl,
+                  bytesStored: 0,
+                  name: t(m.defaultMap),
+                }}
+              />
             </View>
           )}
 
-          <Button
-            fullWidth
-            variant="outlined"
-            onPress={() => {
-              setModalContent("import");
-              sheetRef.current?.close();
-            }}
-          >
-            {t(m.close)}
-          </Button>
+          {backgroundMapList === undefined ? (
+            <View style={{ marginTop: 40 }}>
+              <Loading />
+            </View>
+          ) : (
+            backgroundMapList.map(bgMap => {
+              async function onImportComplete() {
+                removeImportFromBackground(bgMap.id);
+
+                return api.maps
+                  .getStyleList()
+                  .then(list => {
+                    setBackgroundMapList(list);
+                  })
+                  .catch(err => {
+                    console.error(err);
+                  })
+                  .finally(() => {
+                    setActiveMapImports(prev => {
+                      const updated = { ...prev };
+                      delete updated[bgMap.id];
+                      return updated;
+                    });
+                  });
+              }
+
+              function onImportError() {
+                setErroredImports(prev => ({
+                  ...prev,
+                  [bgMap.id]: bgMap.name,
+                }));
+
+                setBottomSheetState("import_error");
+                sheetRef.current?.expand();
+              }
+
+              return (
+                <View key={bgMap.id} style={{ marginTop: 20 }}>
+                  <BGMapCard
+                    activeImportId={activeMapImports[bgMap.id]}
+                    isSelected={styleUrl === bgMap.url}
+                    mapStyleInfo={bgMap}
+                    onImportError={onImportError}
+                    onImportComplete={onImportComplete}
+                  />
+                </View>
+              );
+            })
+          )}
         </View>
+      </ScrollView>
+
+      <BottomSheet
+        snapPoints={snapPoints}
+        ref={sheetRef}
+        backdropComponent={BottomSheetBackdrop}
+        handleComponent={() => null}
+      >
+        <BottomSheetView
+          onLayout={updateSheetHeight}
+          style={{
+            flex: 1,
+            paddingHorizontal: 20,
+            paddingTop: 30,
+          }}
+        >
+          <BottomSheetContent {...bottomSheetContentProps} />
+        </BottomSheetView>
       </BottomSheet>
     </React.Fragment>
   );
@@ -283,19 +374,17 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
 BackgroundMaps.navTitle = m.BackgroundMapTitle;
 
 const styles = StyleSheet.create({
-  button: {
-    marginTop: 40,
-    width: 280,
+  scrollContentContainer: {
+    padding: 20,
   },
+  addMapButtonContainer: { paddingVertical: 20 },
+  addMapButton: { backgroundColor: WHITE },
+  mapCardsContainer: { paddingVertical: 20 },
   noDownloads: {
     fontSize: 16,
     color: MEDIUM_GREY,
     textAlign: "center",
     marginTop: 20,
-  },
-  container: {
-    paddingHorizontal: 20,
-    paddingBottom: 20,
   },
   importButton: {
     backgroundColor: LIGHT_GREY,
@@ -312,5 +401,6 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     flexDirection: "row",
+    alignItems: "center",
   },
 });
