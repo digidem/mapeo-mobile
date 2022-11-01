@@ -59,4 +59,4 @@ export type NativeHomeTabsNavigationProps<
 
 export type MapServerStyleInfo = Unpacked<ReturnType<StylesApi["listStyles"]>>;
 
-export type Import = Unpacked<ReturnType<ImportsApi["getImport"]>>;
+export type MapServerImport = Unpacked<ReturnType<ImportsApi["getImport"]>>;

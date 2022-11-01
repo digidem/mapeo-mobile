@@ -110,7 +110,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
   >();
 
   const [erroredImports, setErroredImports] = React.useState<
-    Record<string, string | null | undefined>
+    Record<MapServerStyleInfo["id"], MapServerStyleInfo["name"] | undefined>
   >({});
 
   const backgroundedMapImports = useBackgroundedMapImports();
@@ -118,8 +118,9 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
     remove: removeImportFromBackground,
   } = useBackgroundedMapImportsManager();
 
+  // TODO: Should be MapServerImport["id"] for value type but need to fix return type in @mapeo/map-server
   const [activeMapImports, setActiveMapImports] = React.useState<
-    Record<string, string | undefined>
+    Record<MapServerStyleInfo["id"], string | undefined>
   >(backgroundedMapImports);
 
   React.useEffect(() => {

@@ -1,6 +1,11 @@
 import * as React from "react";
+import { MapServerStyleInfo } from "../sharedTypes";
 
-type BackgroundedMapImportsState = Record<string, string>;
+type BackgroundedMapImportsState = Record<
+  MapServerStyleInfo["id"],
+  // TODO: Should be MapServerImport["id"] but need to fix return type in @mapeo/map-server
+  string
+>;
 
 type AddAction = {
   type: "add";
