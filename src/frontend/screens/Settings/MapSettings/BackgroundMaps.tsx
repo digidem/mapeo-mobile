@@ -97,7 +97,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
 
   const [bottomSheetState, setBottomSheetState] = React.useState<
     BottomSheetState
-  >("import_error");
+  >("import");
 
   const { snapPoints, updateSheetHeight } = useSnapPointsCalculator(
     MIN_SHEET_HEIGHT
