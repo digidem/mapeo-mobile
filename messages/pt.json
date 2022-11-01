@@ -476,7 +476,7 @@
     "message": "Número do fuso"
   },
   "screens.ObscurePasscode.description": {
-    "message": "A Senha obscura é um recurso de segurança que permite abrir o Mapeo em um modo de fantasia que oculta todos os seus dados. Inserindo a Senha obscura na tela inicial exibirá uma versão vazia do Mapeo que permite que você crie observações de demonstração que não são salvas no banco de dados do Mapeo."
+    "message": "A Senha obscura é um recurso de segurança que permite abrir o Mapeo em um modo que oculta todos os seus dados. Inserindo a Senha obscura na tela inicial exibirá uma versão vazia do Mapeo que permite que você crie observações de demonstração que não são salvas no banco de dados do Mapeo."
   },
   "screens.ObscurePasscode.instructions": {
     "message": "Insira a senha acima para ocultar seus dados no Mapeo"
