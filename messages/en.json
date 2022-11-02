@@ -1269,7 +1269,7 @@
     "message": "Error occurred"
   },
   "sharedComponents.BGMapCard.importInProgress": {
-    "description": "Message about the import being in progress",
+    "description": "Progress bar message about the import being in progress",
     "message": "Import in progress…"
   },
   "sharedComponents.BGMapCard.unamedStyle": {
@@ -1277,7 +1277,7 @@
     "message": "Unnamed Style"
   },
   "sharedComponents.BGMapCard.waitingForImport": {
-    "description": "Message indicating that import is waiting to start",
+    "description": "Progress bar message indicating that import is waiting to start",
     "message": "Waiting for import…"
   },
   "sharedComponents.BGMapSelector.close": {

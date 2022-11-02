@@ -34,12 +34,13 @@ const m = defineMessages({
   waitingForImport: {
     id: "sharedComponents.BGMapCard.waitingForImport",
     defaultMessage: "Waiting for import…",
-    description: "Message indicating that import is waiting to start",
+    description:
+      "Progress bar message indicating that import is waiting to start",
   },
   importInProgress: {
     id: "sharedComponents.BGMapCard.importInProgress",
     defaultMessage: "Import in progress…",
-    description: "Message about the import being in progress",
+    description: "Progress bar message about the import being in progress",
   },
   errorOccurred: {
     id: "sharedComponents.BGMapCard.errorOccurred",
