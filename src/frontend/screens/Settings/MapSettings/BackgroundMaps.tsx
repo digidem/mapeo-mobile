@@ -88,6 +88,13 @@ type BottomSheetState = "import" | "file_error" | "import_error";
 
 // TODO: We should update the state for the backgroundMapList so that it has a fetch state too
 // That way we can provide better messaging and recovery in case errors occur when fetching the list of styles
+
+// Ideally this screen uses sharedComponents/BottomSheetModal instead of BottomSheet,
+// but we need to use a bottom sheet because of the display logic that occurs in handleImportPress.
+// The BottomSheet has a `collapse` method which is useful for temporarily "closing" the sheet and later re-opening it.
+// Due to how error handling plays into the interaction, this is an important feature for UX purposes.
+// From testing, using the BottomSheetModal - as it's currently implemented - cannot achieve the same effect,
+// potentially due to a bug on our end, or just some limitation with the component itself.
 export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () => {
   const { formatMessage: t } = useIntl();
 
@@ -354,7 +361,6 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
         </View>
       </ScrollView>
 
-      {/* TODO: This should probably use sharedComponents/BottomSheetModal */}
       <BottomSheet
         backdropComponent={props => (
           <BottomSheetBackdrop
