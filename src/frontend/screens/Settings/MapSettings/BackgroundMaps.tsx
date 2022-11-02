@@ -290,7 +290,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
           ) : null
         }
         ListHeaderComponent={
-          <View style={{ paddingBottom: 20 }}>
+          <View>
             <View style={styles.addMapButtonContainer}>
               <Button
                 fullWidth
@@ -373,8 +373,11 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
 BackgroundMaps.navTitle = m.BackgroundMapTitle;
 
 const styles = StyleSheet.create({
-  scrollContentContainer: { paddingHorizontal: 20, paddingVertical: 30 },
-  addMapButtonContainer: { paddingHorizontal: 20, paddingVertical: 10 },
+  scrollContentContainer: { paddingHorizontal: 20, paddingVertical: 40 },
+  addMapButtonContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 30,
+  },
   mapCardContainer: { paddingVertical: 10 },
   noDownloads: {
     fontSize: 16,
