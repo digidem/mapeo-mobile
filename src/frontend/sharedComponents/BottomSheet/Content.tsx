@@ -44,7 +44,7 @@ export const Content = ({
   descriptionStyle,
 }: Props) => (
   <View style={styles.container}>
-    <View>
+    <View style={{ flex: 1 }}>
       {icon && <View style={styles.iconContainer}>{icon}</View>}
       <View style={styles.textContainer}>
         <Text style={[styles.title, styles.bold, titleStyle]}>{title}</Text>
@@ -54,7 +54,7 @@ export const Content = ({
           </Text>
         )}
       </View>
-      {!!children && <View>{children}</View>}
+      {!!children && <View style={{ flex: 1 }}>{children}</View>}
     </View>
     <View style={styles.buttonsContainer}>
       {buttonConfigs.map((config, index) => (
