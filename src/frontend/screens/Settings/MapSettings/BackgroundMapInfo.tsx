@@ -119,6 +119,8 @@ const m = defineMessages({
   },
 });
 
+type Zoom = "loading" | number | null;
+
 // To Do: Get level of detail from programs team
 export const BackgroundMapInfo = ({
   route,
@@ -126,52 +128,11 @@ export const BackgroundMapInfo = ({
 }: NativeRootNavigationProps<"BackgroundMapInfo">) => {
   const { formatMessage: t } = useIntl();
   const { bytesStored, id, styleUrl, name } = route.params;
-  const [zoom, setZoom] = React.useState<"loading" | number | null>("loading");
+  const [zoom, setZoom] = React.useState<Zoom>("loading");
 
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
-  const levelOfDetail = React.useMemo(() => {
-    if (typeof zoom !== "number") return undefined;
-
-    switch (true) {
-      case zoom >= 0 && zoom < 2:
-        return m.lvlOfDetail0to1;
-      case zoom === 2:
-        return m.lvlOfDetail2;
-      case zoom >= 3 && zoom < 5:
-        return m.lvlOfDetail3to4;
-      case zoom === 5:
-        return m.lvlOfDetail5;
-      case zoom === 6:
-        return m.lvlOfDetail6;
-      case zoom >= 7 && zoom < 9:
-        return m.lvlOfDetail7to8;
-      case zoom === 9:
-        return m.lvlOfDetail9;
-      case zoom === 10:
-        return m.lvlOfDetail10;
-      case zoom === 11:
-        return m.lvlOfDetail11;
-      case zoom === 12:
-        return m.lvlOfDetail12;
-      case zoom >= 13 && zoom < 15:
-        return m.lvlOfDetail13to14;
-      case zoom === 15:
-        return m.lvlOfDetail15;
-      case zoom === 16:
-        return m.lvlOfDetail16;
-      case zoom === 17:
-        return m.lvlOfDetail17;
-      case zoom === 18:
-        return m.lvlOfDetail18;
-      case zoom === 19:
-        return m.lvlOfDetail19;
-      case zoom === 20:
-        return m.lvlOfDetail20;
-      default:
-        return undefined;
-    }
-  }, [zoom]);
+  const levelOfDetail = determineLevelOfDetail(zoom);
 
   const { setStyleId } = useMapStyle();
 
@@ -184,33 +145,24 @@ export const BackgroundMapInfo = ({
     api.maps
       .getStyle(id)
       .then(style => {
-        const tileSetIdArray = Object.values(style.sources).map(source => {
+        let tileSetIds: string[] = [];
+        for (const source of Object.values(style.sources)) {
           if ("url" in source && source.url) {
-            const url = source.url;
-            const searchWord = "tilesets/";
-            const startPosition = url.search(searchWord);
-            if (startPosition === -1) return;
-            const endPosition = url.length;
-            return url.substring(
-              startPosition + searchWord.length,
-              endPosition
-            );
-          }
-        });
+            const url = new URL(source.url);
 
+            if (url.pathname.startsWith("/tilesets/")) {
+              const splitPathname = url.pathname.split("/");
+              tileSetIds.push(splitPathname[splitPathname.length - 1]);
+            }
+          }
+        }
         // Promise.allSettled does not work in React Native
         // See https://github.com/facebook/react-native/issues/30236
-        return allSettled(
-          tileSetIdArray.map(id => {
-            if (id) {
-              return api.maps.getTileset(id);
-            }
-          })
-        );
+        return allSettled(tileSetIds.map(id => api.maps.getTileset(id)));
       })
       .then(tileJson => {
         const maxZoom = tileJson.reduce((highest, tilePromise) => {
-          if (!tilePromise || !("value" in tilePromise)) return highest;
+          if (!("value" in tilePromise)) return highest;
           const tile = tilePromise.value;
           if (!tile.maxzoom) return highest;
           if (tile.maxzoom > highest) return tile.maxzoom;
@@ -318,13 +270,55 @@ const styles = StyleSheet.create({
   },
 });
 
-function allSettled<T>(promises: (Promise<T> | undefined)[]) {
+function allSettled<T>(promises: Promise<T>[]) {
   return Promise.all(
     promises.map(promise => {
-      if (!promise) return;
       return promise
         .then(value => ({ state: "fulfilled", value }))
         .catch(reason => ({ state: "rejected", reason }));
     })
   );
+}
+
+function determineLevelOfDetail(zoom: Zoom) {
+  if (typeof zoom !== "number") return undefined;
+
+  switch (true) {
+    case zoom >= 0 && zoom < 2:
+      return m.lvlOfDetail0to1;
+    case zoom === 2:
+      return m.lvlOfDetail2;
+    case zoom >= 3 && zoom < 5:
+      return m.lvlOfDetail3to4;
+    case zoom === 5:
+      return m.lvlOfDetail5;
+    case zoom === 6:
+      return m.lvlOfDetail6;
+    case zoom >= 7 && zoom < 9:
+      return m.lvlOfDetail7to8;
+    case zoom === 9:
+      return m.lvlOfDetail9;
+    case zoom === 10:
+      return m.lvlOfDetail10;
+    case zoom === 11:
+      return m.lvlOfDetail11;
+    case zoom === 12:
+      return m.lvlOfDetail12;
+    case zoom >= 13 && zoom < 15:
+      return m.lvlOfDetail13to14;
+    case zoom === 15:
+      return m.lvlOfDetail15;
+    case zoom === 16:
+      return m.lvlOfDetail16;
+    case zoom === 17:
+      return m.lvlOfDetail17;
+    case zoom === 18:
+      return m.lvlOfDetail18;
+    case zoom === 19:
+      return m.lvlOfDetail19;
+    case zoom === 20:
+      return m.lvlOfDetail20;
+    default:
+      return undefined;
+  }
 }
