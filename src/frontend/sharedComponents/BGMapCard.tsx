@@ -41,17 +41,21 @@ const m = defineMessages({
     defaultMessage: "Import in progress…",
     description: "Message about the import being in progress",
   },
+  errorOccurred: {
+    id: "sharedComponents.BGMapCard.errorOccurred",
+    defaultMessage: "Error occurred",
+    description: "Message describing that error occurred for map import",
+  },
 });
 
 type ImportStatus =
-  | { status: "waiting" }
+  | { status: "idle" }
   | { status: "error"; soFar?: number; total?: number }
   | {
       status: "progress" | "complete";
       soFar: number;
       total: number;
-    }
-  | null;
+    };
 
 function showProgressBar(
   importStatus: ImportStatus
@@ -61,13 +65,24 @@ function showProgressBar(
       soFar: number;
       total: number;
     }
-  | { status: "waiting" } {
-  return !!(
-    importStatus &&
-    (importStatus.status === "waiting" ||
-      importStatus.status === "progress" ||
-      importStatus.status === "complete")
+  | { status: "idle" } {
+  return (
+    importStatus.status === "idle" ||
+    importStatus.status === "progress" ||
+    importStatus.status === "complete"
   );
+}
+
+function showProgressBarMessage(
+  importStatus: ImportStatus
+): importStatus is
+  | {
+      status: "progress";
+      soFar: number;
+      total: number;
+    }
+  | { status: "idle" } {
+  return importStatus.status === "idle" || importStatus.status === "progress";
 }
 
 function showBytesStored(
@@ -90,6 +105,10 @@ function bytesToMegabytes(bytes: number) {
   return bytes / 2 ** 20;
 }
 
+const WithTopSeparation = ({ children }: React.PropsWithChildren<{}>) => (
+  <View style={{ marginTop: 10 }}>{children}</View>
+);
+
 interface BGMapCardProps {
   activeImportId?: string;
   isSelected: boolean;
@@ -108,27 +127,15 @@ export const BGMapCard = ({
   const { formatMessage: t } = useIntl();
   const { position } = React.useContext(LocationContext);
 
-  const [importStatus, setImportStatus] = React.useState<ImportStatus>(
-    activeImportId ? { status: "waiting" } : null
-  );
+  const [importStatus, setImportStatus] = React.useState<ImportStatus>({
+    status: "idle",
+  });
 
   useMapImportBackgrounder(mapStyleInfo.id, activeImportId);
 
-  // TODO: Not ideal but works for now
-  React.useEffect(() => {
-    if (importStatus === null && activeImportId) {
-      setImportStatus({ status: "waiting" });
-    }
-  }, [activeImportId, importStatus]);
-
-  const eventSourceUrl = React.useMemo(() => {
-    const shouldCheckImport =
-      importStatus?.status === "waiting" || importStatus?.status === "progress";
-
-    return activeImportId && shouldCheckImport
-      ? api.maps.getImportProgressUrl(activeImportId)
-      : undefined;
-  }, [activeImportId, importStatus]);
+  const eventSourceUrl = activeImportId
+    ? api.maps.getImportProgressUrl(activeImportId)
+    : undefined;
 
   const createEventSourceOptions = React.useCallback(
     (cancel: () => void) => ({
@@ -138,14 +145,6 @@ export const BGMapCard = ({
         switch (data.type) {
           case "progress": {
             setImportStatus(prev => {
-              if (!prev) {
-                return {
-                  status: "progress",
-                  soFar: data.soFar,
-                  total: data.total,
-                };
-              }
-
               if (
                 prev.status === "progress" &&
                 prev.soFar === data.soFar &&
@@ -163,6 +162,9 @@ export const BGMapCard = ({
 
             break;
           }
+
+          // Once the map server sends this event, it will close the connection automatically
+          // so it shouldn't be necessary to throw an error or cancel.
           case "complete": {
             setImportStatus({
               status: "complete",
@@ -181,7 +183,7 @@ export const BGMapCard = ({
       },
       onerror(err: Error) {
         if (err instanceof ImportError) {
-          setImportStatus(prev => ({ ...(prev || {}), status: "error" }));
+          setImportStatus(prev => ({ ...prev, status: "error" }));
 
           if (onImportError) {
             onImportError();
@@ -212,7 +214,7 @@ export const BGMapCard = ({
           zoomLevel={0}
           centerCoordinate={
             position
-              ? [position?.coords.longitude, position?.coords.latitude]
+              ? [position.coords.longitude, position.coords.latitude]
               : undefined
           }
           animationDuration={0}
@@ -233,40 +235,41 @@ export const BGMapCard = ({
         )}
 
         {activeImportId && (
-          <>
+          <WithTopSeparation>
             {showProgressBar(importStatus) && (
-              <View style={{ marginTop: 10 }}>
-                <Bar
-                  indeterminate={importStatus.status === "waiting"}
-                  color={MAPEO_BLUE}
-                  width={null}
-                  progress={
-                    importStatus.status === "waiting"
-                      ? undefined
-                      : importStatus.soFar / importStatus.total
-                  }
-                />
-              </View>
+              <Bar
+                indeterminate={importStatus.status === "idle"}
+                color={MAPEO_BLUE}
+                width={null}
+                progress={
+                  importStatus.status === "idle"
+                    ? undefined
+                    : importStatus.soFar / importStatus.total
+                }
+              />
             )}
-            {(importStatus?.status === "waiting" ||
-              importStatus?.status === "progress") && (
-              <View style={{ marginTop: 10 }}>
-                <Text>
+            {showProgressBarMessage(importStatus) && (
+              <WithTopSeparation>
+                <Text style={styles.text}>
                   {importStatus.status === "progress"
                     ? t(m.importInProgress)
                     : t(m.waitingForImport)}
                 </Text>
-              </View>
+              </WithTopSeparation>
             )}
-            {importStatus?.status === "error" && (
-              <Text style={styles.text}>Error Occurred</Text>
-            )}
-          </>
+          </WithTopSeparation>
         )}
+
+        {importStatus.status === "error" && (
+          <WithTopSeparation>
+            <Text style={styles.text}>{t(m.errorOccurred)}</Text>
+          </WithTopSeparation>
+        )}
+
         {isSelected && (
-          <View style={{ marginTop: 10 }}>
+          <WithTopSeparation>
             <Pill text={m.currentMap} />
-          </View>
+          </WithTopSeparation>
         )}
       </View>
     </View>

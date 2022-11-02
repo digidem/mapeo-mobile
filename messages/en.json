@@ -1264,6 +1264,10 @@
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Current Map"
   },
+  "sharedComponents.BGMapCard.errorOccurred": {
+    "description": "Message describing that error occurred for map import",
+    "message": "Error occurred"
+  },
   "sharedComponents.BGMapCard.importInProgress": {
     "description": "Message about the import being in progress",
     "message": "Import in progress…"
