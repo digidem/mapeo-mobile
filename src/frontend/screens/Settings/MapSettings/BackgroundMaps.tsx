@@ -2,7 +2,7 @@ import * as React from "react";
 import * as DocumentPicker from "expo-document-picker";
 import { defineMessages, useIntl } from "react-intl";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { LIGHT_GREY, MEDIUM_GREY, RED, WHITE } from "../../../lib/styles";
+import { LIGHT_GREY, MEDIUM_GREY, RED } from "../../../lib/styles";
 import { BGMapCard } from "../../../sharedComponents/BGMapCard";
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -93,6 +93,12 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
 
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
+  const [sheetIsOpen, setSheetIsOpen] = React.useState(false);
+
+  const { snapPoints, updateSheetHeight } = useSnapPointsCalculator(
+    MIN_SHEET_HEIGHT
+  );
+
   const { styleUrl } = useMapStyle();
 
   const defaultStyleUrl = useDefaultStyleUrl();
@@ -100,10 +106,6 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
   const [bottomSheetState, setBottomSheetState] = React.useState<
     BottomSheetState
   >("import");
-
-  const { snapPoints, updateSheetHeight } = useSnapPointsCalculator(
-    MIN_SHEET_HEIGHT
-  );
 
   const [backgroundMapList, setBackgroundMapList] = React.useState<
     MapServerStyleInfo[]
@@ -162,6 +164,8 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
           }));
 
           setBackgroundMapList(list);
+
+          sheetRef.current?.close();
         } catch (err) {
           const parsedError = await extractHttpErrorResponse(err)?.json();
 
@@ -268,7 +272,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
         };
 
   return (
-    <React.Fragment>
+    <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.scrollContentContainer}>
         <View style={styles.addMapButtonContainer}>
           <Button
@@ -350,13 +354,21 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
         </View>
       </ScrollView>
 
+      {/* TODO: This should probably use sharedComponents/BottomSheetModal */}
       <BottomSheet
         backdropComponent={props => (
-          <BottomSheetBackdrop {...props} pressBehavior="none" />
+          <BottomSheetBackdrop
+            {...props}
+            pressBehavior={sheetIsOpen ? "none" : undefined}
+          />
         )}
         enableContentPanningGesture={false}
         handleComponent={() => null}
         ref={sheetRef}
+        index={-1}
+        onChange={index => {
+          setSheetIsOpen(index > 0);
+        }}
         snapPoints={snapPoints}
       >
         <BottomSheetView
@@ -366,7 +378,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
           <BottomSheetContent {...bottomSheetContentProps} />
         </BottomSheetView>
       </BottomSheet>
-    </React.Fragment>
+    </View>
   );
 };
 
