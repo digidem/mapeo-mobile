@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as DocumentPicker from "expo-document-picker";
 import { defineMessages, useIntl } from "react-intl";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { LIGHT_GREY, MEDIUM_GREY, RED } from "../../../lib/styles";
 import { BGMapCard } from "../../../sharedComponents/BGMapCard";
 import Button from "../../../sharedComponents/Button";
@@ -279,87 +279,89 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={styles.scrollContentContainer}>
-        <View style={styles.addMapButtonContainer}>
-          <Button
-            fullWidth
-            onPress={() => {
-              openSheet();
-            }}
-            variant="outlined"
-          >
-            {t(m.addBGMap)}
-          </Button>
-        </View>
-
-        <View style={styles.mapCardsContainer}>
-          {/* Default BG map card */}
-          {defaultStyleUrl && (
-            <View>
-              <BGMapCard
-                isSelected={styleUrl === defaultStyleUrl}
-                mapStyleInfo={{
-                  id: DEFAULT_MAP_ID,
-                  url: defaultStyleUrl,
-                  bytesStored: 0,
-                  name: t(m.defaultMap),
-                }}
-              />
-            </View>
-          )}
-
-          {backgroundMapList === undefined ? (
+      <FlatList
+        contentContainerStyle={styles.scrollContentContainer}
+        data={backgroundMapList}
+        ListEmptyComponent={
+          backgroundMapList === undefined ? (
             <View style={{ marginTop: 40 }}>
               <Loading />
             </View>
-          ) : (
-            backgroundMapList.map(bgMap => {
-              async function onImportComplete() {
-                removeImportFromBackground(bgMap.id);
+          ) : null
+        }
+        ListHeaderComponent={
+          <View style={{ paddingBottom: 20 }}>
+            <View style={styles.addMapButtonContainer}>
+              <Button
+                fullWidth
+                onPress={() => {
+                  openSheet();
+                }}
+                variant="outlined"
+              >
+                {t(m.addBGMap)}
+              </Button>
+            </View>
+            {/* Default BG map card */}
+            {defaultStyleUrl && (
+              <View style={styles.mapCardContainer}>
+                <BGMapCard
+                  isSelected={styleUrl === defaultStyleUrl}
+                  mapStyleInfo={{
+                    id: DEFAULT_MAP_ID,
+                    url: defaultStyleUrl,
+                    bytesStored: 0,
+                    name: t(m.defaultMap),
+                  }}
+                />
+              </View>
+            )}
+          </View>
+        }
+        renderItem={({ item: bgMap }) => {
+          async function onImportComplete() {
+            removeImportFromBackground(bgMap.id);
 
-                return api.maps
-                  .getStyleList()
-                  .then(list => {
-                    setBackgroundMapList(list);
-                  })
-                  .catch(err => {
-                    console.error(err);
-                  })
-                  .finally(() => {
-                    setActiveMapImports(prev => {
-                      const updated = { ...prev };
-                      delete updated[bgMap.id];
-                      return updated;
-                    });
-                  });
-              }
+            return api.maps
+              .getStyleList()
+              .then(list => {
+                setBackgroundMapList(list);
+              })
+              .catch(err => {
+                console.error(err);
+              })
+              .finally(() => {
+                setActiveMapImports(prev => {
+                  const updated = { ...prev };
+                  delete updated[bgMap.id];
+                  return updated;
+                });
+              });
+          }
 
-              function onImportError() {
-                setErroredImports(prev => ({
-                  ...prev,
-                  [bgMap.id]: bgMap.name,
-                }));
+          function onImportError() {
+            setErroredImports(prev => ({
+              ...prev,
+              [bgMap.id]: bgMap.name,
+            }));
 
-                setBottomSheetState("import_error");
-                // sheetRef.current?.expand();
-                openSheet();
-              }
+            setBottomSheetState("import_error");
+            openSheet();
+          }
 
-              return (
-                <View key={bgMap.id} style={{ marginTop: 20 }}>
-                  <BGMapCard
-                    activeImportId={activeMapImports[bgMap.id]}
-                    isSelected={styleUrl === bgMap.url}
-                    mapStyleInfo={bgMap}
-                    onImportError={onImportError}
-                    onImportComplete={onImportComplete}
-                  />
-                </View>
-              );
-            })
-          )}
-        </View>
-      </ScrollView>
+          return (
+            <View key={bgMap.id} style={styles.mapCardContainer}>
+              <BGMapCard
+                activeImportId={activeMapImports[bgMap.id]}
+                isSelected={styleUrl === bgMap.url}
+                mapStyleInfo={bgMap}
+                onImportError={onImportError}
+                onImportComplete={onImportComplete}
+              />
+            </View>
+          );
+        }}
+      />
 
       <BottomSheetModal ref={sheetRef} onDismiss={() => {}}>
         <BottomSheetContent {...bottomSheetContentProps} />
@@ -371,9 +373,9 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
 BackgroundMaps.navTitle = m.BackgroundMapTitle;
 
 const styles = StyleSheet.create({
-  scrollContentContainer: { padding: 20 },
-  addMapButtonContainer: { padding: 20 },
-  mapCardsContainer: { paddingVertical: 20 },
+  scrollContentContainer: { paddingHorizontal: 20, paddingVertical: 30 },
+  addMapButtonContainer: { paddingHorizontal: 20, paddingVertical: 10 },
+  mapCardContainer: { paddingVertical: 10 },
   noDownloads: {
     fontSize: 16,
     color: MEDIUM_GREY,
