@@ -145,7 +145,7 @@
     "message": "Senha"
   },
   "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
-    "message": "Salvar Senha de aplicativo"
+    "message": "Salvar Senha do aplicativo"
   },
   "screens.AppPasscode.ConfirmPasscodeSheet.title": {
     "message": "Se perder ou esquecer a Senha de aplicativo, nunca pode ser recuperada! Certifique-se de anotar sua senha em um local seguro antes de salvar."
@@ -181,7 +181,7 @@
     "message": "O que é Senha de aplicativo?"
   },
   "screens.AppPasscode.PasscodeIntro.description": {
-    "message": "A Senha de aplicativo permite que você adicione uma camada adicional de segurança, exigindo que você insira uma senha para abrir o aplicativo Mapeo. Você pode definir sua própria senha de 5 dígitos ativando o recurso abaixo."
+    "message": "A Senha do aplicativo permite que você adicione uma camada adicional de segurança, exigindo que você insira uma senha para abrir o aplicativo Mapeo. Você pode definir sua própria senha de 5 dígitos ativando o recurso abaixo."
   },
   "screens.AppPasscode.PasscodeIntro.warning": {
     "message": "**AVISO: Senhas esquecidas não podem ser recuperadas!** Quando esse recurso estiver ativado, se você esquecer ou perder sua senha, não será capaz de abrir o Mapeo e perderá o acesso a quaisquer dados do Mapeo que foram sincronizados com outros participantes do projeto."
@@ -190,22 +190,22 @@
     "message": "Cancelar"
   },
   "screens.AppPasscode.TurnOffPasscode.changePasscode": {
-    "message": "Alterar Senha de aplicativo"
+    "message": "Alterar Senha do aplicativo"
   },
   "screens.AppPasscode.TurnOffPasscode.currentlyUsing": {
-    "message": "Atualmente você está usando a Senha de aplicativo. Veja abaixo para desativar ou alterar sua senha."
+    "message": "Atualmente você está usando a Senha do aplicativo. Veja abaixo para desativar ou alterar sua senha."
   },
   "screens.AppPasscode.TurnOffPasscode.description": {
-    "message": "A Senha de aplicativo adiciona uma camada adicional de segurança, exigindo que você insira uma senha para abrir o aplicativo Mapeo."
+    "message": "A Senha do aplicativo adiciona uma camada adicional de segurança, exigindo que você insira uma senha para abrir o aplicativo Mapeo."
   },
   "screens.AppPasscode.TurnOffPasscode.turnOff": {
     "message": "Desativar"
   },
   "screens.AppPasscode.TurnOffPasscode.turnOffConfirmation": {
-    "message": "Desativar Senha de aplicativo?"
+    "message": "Desativar Senha do aplicativo?"
   },
   "screens.AppPasscode.TurnOffPasscode.usePasscode": {
-    "message": "Usar Senha de aplicativo"
+    "message": "Usar Senha do aplicativo"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -721,7 +721,7 @@
     "message": "Tente novamente"
   },
   "screens.Security.obscurePassDescriptonPassNotSet": {
-    "message": "Para usar, ative a Senha de aplicativo"
+    "message": "Para usar, ative a Senha do aplicativo"
   },
   "screens.Security.obscurePasscodeHeader": {
     "message": "Senha obscura"
