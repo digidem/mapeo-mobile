@@ -4,13 +4,8 @@ import { defineMessages, useIntl } from "react-intl";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { LIGHT_GREY, MEDIUM_GREY, RED } from "../../../lib/styles";
 import { BGMapCard } from "../../../sharedComponents/BGMapCard";
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
 import Button from "../../../sharedComponents/Button";
 import Loading from "../../../sharedComponents/Loading";
-import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "../../../sharedComponents/Touchables";
 import {
@@ -24,15 +19,14 @@ import {
   useBackgroundedMapImports,
   useBackgroundedMapImportsManager,
 } from "../../../hooks/useBackgroundedMapImports";
+import { ErrorIcon } from "../../../sharedComponents/icons";
 import {
   BottomSheetContent,
-  useSnapPointsCalculator,
-} from "../../../sharedComponents/BottomSheet";
-import { ErrorIcon } from "../../../sharedComponents/icons";
+  BottomSheetModal,
+  useBottomSheetModal,
+} from "../../../sharedComponents/BottomSheetModal";
 
 export const DEFAULT_MAP_ID = "default";
-
-const MIN_SHEET_HEIGHT = 400;
 
 const m = defineMessages({
   addBGMap: {
@@ -84,27 +78,16 @@ const m = defineMessages({
   },
 });
 
-type BottomSheetState = "import" | "file_error" | "import_error";
+type BottomSheetState = "import" | "loading" | "file_error" | "import_error";
 
 // TODO: We should update the state for the backgroundMapList so that it has a fetch state too
 // That way we can provide better messaging and recovery in case errors occur when fetching the list of styles
-
-// Ideally this screen uses sharedComponents/BottomSheetModal instead of BottomSheet,
-// but we need to use a bottom sheet because of the display logic that occurs in handleImportPress.
-// The BottomSheet has a `collapse` method which is useful for temporarily "closing" the sheet and later re-opening it.
-// Due to how error handling plays into the interaction, this is an important feature for UX purposes.
-// From testing, using the BottomSheetModal - as it's currently implemented - cannot achieve the same effect,
-// potentially due to a bug on our end, or just some limitation with the component itself.
 export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () => {
   const { formatMessage: t } = useIntl();
 
-  const sheetRef = React.useRef<BottomSheetMethods>(null);
-
-  const [sheetIsOpen, setSheetIsOpen] = React.useState(false);
-
-  const { snapPoints, updateSheetHeight } = useSnapPointsCalculator(
-    MIN_SHEET_HEIGHT
-  );
+  const { sheetRef, closeSheet, openSheet } = useBottomSheetModal({
+    openOnMount: false,
+  });
 
   const { styleUrl } = useMapStyle();
 
@@ -147,15 +130,14 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
       const results = await DocumentPicker.getDocumentAsync();
 
       if (results.type === "cancel") {
-        sheetRef.current?.close();
+        closeSheet();
         return;
       }
 
       if (results.type === "success") {
-        // Need to call collapse here, otherwise expanding later in this function doesn't work
-        sheetRef.current?.collapse();
-
         try {
+          setBottomSheetState("loading");
+
           const { import: tilesetImport } = await api.maps.importTileset(
             results.uri
           );
@@ -170,113 +152,130 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
             [lastStyle.id]: tilesetImport.id,
           }));
 
-          setBackgroundMapList(list);
+          closeSheet();
 
-          sheetRef.current?.close();
+          setBackgroundMapList(list);
+          setBottomSheetState("import");
         } catch (err) {
           const parsedError = await extractHttpErrorResponse(err)?.json();
 
           if (parsedError) {
             if (parsedError.statusCode >= 400 && parsedError.statusCode < 500) {
               setBottomSheetState("file_error");
-              sheetRef.current?.expand();
               return;
             }
           }
 
           setBottomSheetState("import_error");
-          sheetRef.current?.expand();
         }
       }
     } catch (err) {
       setBottomSheetState("file_error");
-      sheetRef.current?.expand();
     }
   }
 
-  const bottomSheetContentProps: React.ComponentProps<typeof BottomSheetContent> =
-    bottomSheetState === "file_error"
-      ? {
-          title: t(m.importErrorTitle),
-          icon: <ErrorIcon color={RED} size={90} style={styles.errorIcon} />,
-          description: t(m.fileErrorDescription),
-          buttonConfigs: [
-            {
-              onPress: () => {
-                sheetRef.current?.close();
+  // Using an IIFE to avoid a lengthy ternary. Not sure how much better this is...
+  const bottomSheetContentProps: React.ComponentProps<typeof BottomSheetContent> = (function createBottomSheetContentProps() {
+    if (bottomSheetState === "file_error") {
+      return {
+        title: t(m.importErrorTitle),
+        icon: <ErrorIcon color={RED} size={90} style={styles.errorIcon} />,
+        description: t(m.fileErrorDescription),
+        buttonConfigs: [
+          {
+            onPress: () => {
+              closeSheet();
+              setBottomSheetState("import");
+            },
+            text: t(m.close),
+            variation: "outlined",
+          },
+        ],
+      };
+    }
+
+    if (bottomSheetState === "import_error") {
+      return {
+        title: t(m.importErrorTitle),
+        icon: <ErrorIcon color={RED} size={90} style={styles.errorIcon} />,
+        description: t(m.importErrorDescription, {
+          styleNames: Object.entries(erroredImports)
+            .map(([styleId, styleName]) => `"${styleName || styleId}"`)
+            .join(", "),
+          fileCount: Object.keys(erroredImports).length,
+        }),
+        buttonConfigs: [
+          {
+            onPress: async () => {
+              try {
+                await Promise.all(
+                  Object.keys(erroredImports).map(api.maps.deleteStyle)
+                );
+
+                closeSheet();
+
                 setBottomSheetState("import");
-              },
-              text: t(m.close),
-              variation: "outlined",
+                setErroredImports({});
+                setBackgroundMapList(await api.maps.getStyleList());
+              } catch (err) {
+                // TODO: Implement better error handling here
+                console.log(err);
+              } finally {
+                closeSheet();
+              }
             },
-          ],
-        }
-      : bottomSheetState === "import_error"
-      ? {
-          title: t(m.importErrorTitle),
-          icon: <ErrorIcon color={RED} size={90} style={styles.errorIcon} />,
-          description: t(m.importErrorDescription, {
-            styleNames: Object.entries(erroredImports)
-              .map(([styleId, styleName]) => `"${styleName || styleId}"`)
-              .join(", "),
-            fileCount: Object.keys(erroredImports).length,
-          }),
-          buttonConfigs: [
-            {
-              onPress: async () => {
-                try {
-                  await Promise.all(
-                    Object.keys(erroredImports).map(api.maps.deleteStyle)
-                  );
+            text: t(m.close),
+            variation: "outlined",
+          },
+        ],
+      };
+    }
 
-                  sheetRef.current?.close();
+    if (bottomSheetState === "import") {
+      return {
+        title: t(m.BackgroundMapTitle),
+        buttonConfigs: [
+          {
+            onPress: () => {
+              closeSheet();
+            },
+            text: t(m.close),
+            variation: "outlined",
+          },
+        ],
+        children: (
+          <TouchableOpacity
+            onPress={handleImportPress}
+            style={styles.importButton}
+          >
+            <View style={styles.importTextAndIcon}>
+              <MaterialIcon name="file-upload" size={30} color={MEDIUM_GREY} />
+              <Text style={styles.text}> {t(m.importFromFile)}</Text>
+            </View>
+            <Text style={[styles.text, { textAlign: "center" }]}>
+              {"( .mbtiles )"}
+            </Text>
+          </TouchableOpacity>
+        ),
+      };
+    }
 
-                  setBottomSheetState("import");
-                  setErroredImports({});
-                  setBackgroundMapList(await api.maps.getStyleList());
-                } catch (err) {
-                  // TODO: Implement better error handling here
-                  console.log(err);
-                  sheetRef.current?.close();
-                }
-              },
-              text: t(m.close),
-              variation: "outlined",
-            },
-          ],
-        }
-      : {
-          title: t(m.BackgroundMapTitle),
-          buttonConfigs: [
-            {
-              onPress: () => {
-                sheetRef.current?.close();
-              },
-              text: t(m.close),
-              variation: "outlined",
-            },
-          ],
-          children: (
-            <TouchableOpacity
-              onPress={handleImportPress}
-              style={styles.importButton}
-            >
-              <React.Fragment>
-                <View style={styles.importTextAndIcon}>
-                  <MaterialIcon
-                    name="file-upload"
-                    size={30}
-                    color={MEDIUM_GREY}
-                  />
-                  <Text style={styles.text}> {t(m.importFromFile)}</Text>
-                </View>
-                <Text style={[styles.text, { textAlign: "center" }]}>
-                  {"( .mbtiles )"}
-                </Text>
-              </React.Fragment>
-            </TouchableOpacity>
-          ),
-        };
+    // bottomSheetState === 'loading' here
+    return {
+      title: t(m.BackgroundMapTitle),
+      buttonConfigs: [],
+      children: (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+          }}
+        >
+          <Loading />
+        </View>
+      ),
+    };
+  })();
 
   return (
     <View style={{ flex: 1 }}>
@@ -285,7 +284,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
           <Button
             fullWidth
             onPress={() => {
-              sheetRef.current?.expand();
+              openSheet();
             }}
             variant="outlined"
           >
@@ -342,7 +341,8 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
                 }));
 
                 setBottomSheetState("import_error");
-                sheetRef.current?.expand();
+                // sheetRef.current?.expand();
+                openSheet();
               }
 
               return (
@@ -361,31 +361,9 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
         </View>
       </ScrollView>
 
-      <BottomSheet
-        backdropComponent={props => (
-          <BottomSheetBackdrop
-            {...props}
-            // This needs to be conditionally calculated because otherwise
-            // press events are disabled in the scrollview even if the sheet is closed
-            pressBehavior={sheetIsOpen ? "none" : undefined}
-          />
-        )}
-        enableContentPanningGesture={false}
-        handleComponent={() => null}
-        ref={sheetRef}
-        index={-1}
-        onChange={index => {
-          setSheetIsOpen(index > 0);
-        }}
-        snapPoints={snapPoints}
-      >
-        <BottomSheetView
-          onLayout={updateSheetHeight}
-          style={styles.bottomSheetContentContainer}
-        >
-          <BottomSheetContent {...bottomSheetContentProps} />
-        </BottomSheetView>
-      </BottomSheet>
+      <BottomSheetModal ref={sheetRef} onDismiss={() => {}}>
+        <BottomSheetContent {...bottomSheetContentProps} />
+      </BottomSheetModal>
     </View>
   );
 };
