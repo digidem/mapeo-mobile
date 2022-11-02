@@ -85,7 +85,11 @@ type BottomSheetState = "import" | "loading" | "file_error" | "import_error";
 export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () => {
   const { formatMessage: t } = useIntl();
 
-  const { sheetRef, closeSheet, openSheet } = useBottomSheetModal({
+  const importModal = useBottomSheetModal({
+    openOnMount: false,
+  });
+
+  const errorModal = useBottomSheetModal({
     openOnMount: false,
   });
 
@@ -130,9 +134,11 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
       const results = await DocumentPicker.getDocumentAsync();
 
       if (results.type === "cancel") {
-        closeSheet();
+        importModal.closeSheet();
         return;
       }
+
+      importModal.closeSheet();
 
       if (results.type === "success") {
         try {
@@ -152,8 +158,6 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
             [lastStyle.id]: tilesetImport.id,
           }));
 
-          closeSheet();
-
           setBackgroundMapList(list);
           setBottomSheetState("import");
         } catch (err) {
@@ -162,20 +166,82 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
           if (parsedError) {
             if (parsedError.statusCode >= 400 && parsedError.statusCode < 500) {
               setBottomSheetState("file_error");
+              errorModal.openSheet();
               return;
             }
           }
 
           setBottomSheetState("import_error");
+          errorModal.openSheet();
         }
       }
     } catch (err) {
+      importModal.closeSheet();
       setBottomSheetState("file_error");
+      errorModal.openSheet();
     }
   }
 
   // Using an IIFE to avoid a lengthy ternary. Not sure how much better this is...
   const bottomSheetContentProps: React.ComponentProps<typeof BottomSheetContent> = (function createBottomSheetContentProps() {
+    if (bottomSheetState === "import") {
+      return {
+        title: t(m.BackgroundMapTitle),
+        buttonConfigs: [
+          {
+            onPress: () => {
+              importModal.closeSheet();
+            },
+            text: t(m.close),
+            variation: "outlined",
+          },
+        ],
+        children: (
+          <TouchableOpacity
+            onPress={handleImportPress}
+            style={styles.importButton}
+          >
+            <View style={styles.importTextAndIcon}>
+              <MaterialIcon name="file-upload" size={30} color={MEDIUM_GREY} />
+              <Text style={styles.text}> {t(m.importFromFile)}</Text>
+            </View>
+            <Text style={[styles.text, { textAlign: "center" }]}>
+              {"( .mbtiles )"}
+            </Text>
+          </TouchableOpacity>
+        ),
+      };
+    }
+
+    if (bottomSheetState === "loading") {
+      return {
+        title: t(m.BackgroundMapTitle),
+        buttonConfigs: [],
+        children: (
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+            }}
+          >
+            <Loading />
+          </View>
+        ),
+      };
+    }
+
+    // Return import skeleton if state is an error state
+    return {
+      title: t(m.BackgroundMapTitle),
+      buttonConfigs: [
+        { text: t(m.close), variation: "outlined", onPress: () => {} },
+      ],
+    };
+  })();
+
+  const errorBottomSheetContentProps:
+    | React.ComponentProps<typeof BottomSheetContent>
+    | undefined = (function createErrorBottomSheetContentProps() {
     if (bottomSheetState === "file_error") {
       return {
         title: t(m.importErrorTitle),
@@ -184,7 +250,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
         buttonConfigs: [
           {
             onPress: () => {
-              closeSheet();
+              errorModal.closeSheet();
               setBottomSheetState("import");
             },
             text: t(m.close),
@@ -212,7 +278,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
                   Object.keys(erroredImports).map(api.maps.deleteStyle)
                 );
 
-                closeSheet();
+                errorModal.closeSheet();
 
                 setBottomSheetState("import");
                 setErroredImports({});
@@ -221,7 +287,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
                 // TODO: Implement better error handling here
                 console.log(err);
               } finally {
-                closeSheet();
+                errorModal.closeSheet();
               }
             },
             text: t(m.close),
@@ -231,49 +297,13 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
       };
     }
 
-    if (bottomSheetState === "import") {
-      return {
-        title: t(m.BackgroundMapTitle),
-        buttonConfigs: [
-          {
-            onPress: () => {
-              closeSheet();
-            },
-            text: t(m.close),
-            variation: "outlined",
-          },
-        ],
-        children: (
-          <TouchableOpacity
-            onPress={handleImportPress}
-            style={styles.importButton}
-          >
-            <View style={styles.importTextAndIcon}>
-              <MaterialIcon name="file-upload" size={30} color={MEDIUM_GREY} />
-              <Text style={styles.text}> {t(m.importFromFile)}</Text>
-            </View>
-            <Text style={[styles.text, { textAlign: "center" }]}>
-              {"( .mbtiles )"}
-            </Text>
-          </TouchableOpacity>
-        ),
-      };
-    }
-
-    // bottomSheetState === 'loading' here
+    // Return import skeleton if state is an error state
     return {
-      title: t(m.BackgroundMapTitle),
-      buttonConfigs: [],
-      children: (
-        <View
-          style={{
-            flex: 1,
-            alignItems: "center",
-          }}
-        >
-          <Loading />
-        </View>
-      ),
+      title: t(m.importErrorTitle),
+      icon: <ErrorIcon color={RED} size={90} style={styles.errorIcon} />,
+      buttonConfigs: [
+        { text: t(m.close), variation: "outlined", onPress: () => {} },
+      ],
     };
   })();
 
@@ -295,7 +325,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
               <Button
                 fullWidth
                 onPress={() => {
-                  openSheet();
+                  importModal.openSheet();
                 }}
                 variant="outlined"
               >
@@ -346,7 +376,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
             }));
 
             setBottomSheetState("import_error");
-            openSheet();
+            errorModal.openSheet();
           }
 
           return (
@@ -363,8 +393,12 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
         }}
       />
 
-      <BottomSheetModal ref={sheetRef} onDismiss={() => {}}>
+      <BottomSheetModal ref={importModal.sheetRef} onDismiss={() => {}}>
         <BottomSheetContent {...bottomSheetContentProps} />
+      </BottomSheetModal>
+
+      <BottomSheetModal ref={errorModal.sheetRef} onDismiss={() => {}}>
+        <BottomSheetContent {...errorBottomSheetContentProps} />
       </BottomSheetModal>
     </View>
   );
