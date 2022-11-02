@@ -134,9 +134,10 @@ export const BGMapCard = ({
 
   useMapImportBackgrounder(mapStyleInfo.id, activeImportId);
 
-  const eventSourceUrl = activeImportId
-    ? api.maps.getImportProgressUrl(activeImportId)
-    : undefined;
+  const eventSourceUrl =
+    activeImportId && importStatus.status !== "error"
+      ? api.maps.getImportProgressUrl(activeImportId)
+      : undefined;
 
   const createEventSourceOptions = React.useCallback(
     (cancel: () => void) => ({
@@ -185,12 +186,10 @@ export const BGMapCard = ({
       onerror(err: Error) {
         if (err instanceof ImportError) {
           setImportStatus(prev => ({ ...prev, status: "error" }));
+        }
 
-          if (onImportError) {
-            onImportError();
-            cancel();
-            return;
-          }
+        if (onImportError) {
+          onImportError();
         }
 
         throw err;
