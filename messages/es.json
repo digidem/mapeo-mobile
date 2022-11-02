@@ -90,6 +90,9 @@
   "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
     "message": "¿Tienes problemas?"
   },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "Escanear dispositivo para agregar persona al proyecto"
+  },
   "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
     "message": "Instrucciones"
   },
@@ -131,11 +134,26 @@
   "screens.AppPasscode": {
     "message": "Contraseña de App"
   },
+  "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.AppPasscode.InputPasscodeScreen.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
+    "message": "Siguiente"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continuar"
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "¿Qué es la Contraseña de App?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOff": {
+    "message": "Desactivar"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -654,6 +672,9 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Algo está pasando con la base de datos Mapeo"
   },
+  "screens.Settings.Experiments.BGMaps.goTo": {
+    "message": "Pruébalo ahora"
+  },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Flecha direccional"
   },
@@ -718,6 +739,9 @@
   },
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Añadir mapa base"
+  },
+  "screens.Settings.MapSettings.OfflineArea.cancel": {
+    "message": "Cancelar"
   },
   "screens.Settings.MapSettings.close": {
     "message": "Cerrar"
