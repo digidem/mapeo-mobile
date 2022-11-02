@@ -365,6 +365,8 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
         backdropComponent={props => (
           <BottomSheetBackdrop
             {...props}
+            // This needs to be conditionally calculated because otherwise
+            // press events are disabled in the scrollview even if the sheet is closed
             pressBehavior={sheetIsOpen ? "none" : undefined}
           />
         )}
