@@ -1,10 +1,5 @@
 import * as React from "react";
-// import {
-//   BottomSheetBackdrop,
-//   BottomSheetModal,
-//   BottomSheetModalProvider,
-//   BottomSheetView,
-// } from "@gorhom/bottom-sheet";
+
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { StyleSheet, View, Text } from "react-native";
 import { MAPEO_BLUE, RED, WHITE } from "../../../lib/styles";
