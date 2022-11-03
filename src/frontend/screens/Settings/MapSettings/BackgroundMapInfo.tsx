@@ -1,4 +1,3 @@
-import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import * as React from "react";
 import { defineMessages, useIntl } from "react-intl";
@@ -13,6 +12,7 @@ import { DeleteMapBottomSheet } from "./DeleteMapBottomSheet";
 import { useMapStyle } from "../../../hooks/useMapStyle";
 import { convertBytesToMb, DEFAULT_MAP_ID } from "./BackgroundMaps";
 import { DeleteIcon } from "../../../sharedComponents/icons";
+import { useBottomSheetModal } from "../../../sharedComponents/BottomSheetModal";
 
 const m = defineMessages({
   removeMap: {
@@ -130,7 +130,9 @@ export const BackgroundMapInfo = ({
   const { bytesStored, id, styleUrl, name } = route.params;
   const [zoom, setZoom] = React.useState<Zoom>("loading");
 
-  const sheetRef = React.useRef<BottomSheetMethods>(null);
+  const { closeSheet, openSheet, sheetRef } = useBottomSheetModal({
+    openOnMount: false,
+  });
 
   const levelOfDetail = determineLevelOfDetail(zoom);
 
@@ -219,7 +221,7 @@ export const BackgroundMapInfo = ({
               style={styles.button}
               fullWidth
               variant="outlined"
-              onPress={() => sheetRef.current?.snapTo(1)}
+              onPress={() => sheetRef.current?.present()}
             >
               <View style={styles.deleteButtonContainer}>
                 <DeleteIcon color={MAPEO_BLUE} />
@@ -239,11 +241,9 @@ export const BackgroundMapInfo = ({
 
       <DeleteMapBottomSheet
         ref={sheetRef}
-        closeSheet={() => {
-          sheetRef.current?.close();
-        }}
         mapName={name}
         mapId={id}
+        closeSheet={closeSheet}
       />
     </React.Fragment>
   );

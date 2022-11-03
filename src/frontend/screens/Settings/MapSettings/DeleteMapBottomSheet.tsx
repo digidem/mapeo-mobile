@@ -1,9 +1,11 @@
 import * as React from "react";
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
-import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+// import {
+//   BottomSheetBackdrop,
+//   BottomSheetModal,
+//   BottomSheetModalProvider,
+//   BottomSheetView,
+// } from "@gorhom/bottom-sheet";
+import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { StyleSheet, View, Text } from "react-native";
 import { MAPEO_BLUE, RED, WHITE } from "../../../lib/styles";
 import { DeleteIcon, ErrorIcon } from "../../../sharedComponents/icons";
@@ -13,6 +15,10 @@ import api from "../../../api";
 import { useNavigationFromRoot } from "../../../hooks/useNavigationWithTypes";
 import { useMapStyle } from "../../../hooks/useMapStyle";
 import { DEFAULT_MAP_ID } from "./BackgroundMaps";
+import {
+  BottomSheetModal,
+  BottomSheetContent,
+} from "../../../sharedComponents/BottomSheetModal";
 
 const m = defineMessages({
   deleteMapMessage: {
@@ -41,14 +47,9 @@ interface DeleteMapBottomSheetProps {
 }
 
 export const DeleteMapBottomSheet = React.forwardRef<
-  BottomSheetMethods,
+  BottomSheetModalMethods,
   DeleteMapBottomSheetProps
 >(({ mapName, closeSheet, mapId }, sheetRef) => {
-  const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
-    0,
-    "40%",
-  ]);
-
   const { navigate } = useNavigationFromRoot();
   const { formatMessage: t } = useIntl();
   const { styleId, setStyleId } = useMapStyle();
@@ -74,62 +75,105 @@ export const DeleteMapBottomSheet = React.forwardRef<
   }
 
   return (
-    <BottomSheet
-      ref={sheetRef}
-      snapPoints={snapPoints}
-      backdropComponent={BottomSheetBackdrop}
-      enableContentPanningGesture={false}
-      enableHandlePanningGesture={false}
-      handleHeight={0}
-      handleComponent={() => null}
-    >
-      <BottomSheetView
-        onLayout={e => {
-          const { height } = e.nativeEvent.layout;
-          setSnapPoints([0, height]);
-        }}
-        style={styles.btmSheetContainer}
-      >
-        <ErrorIcon style={{ position: "relative" }} size={90} color={RED} />
-
-        <Text style={{ fontSize: 24, textAlign: "center", margin: 10 }}>
+    <BottomSheetModal ref={sheetRef} onDismiss={closeSheet}>
+      <BottomSheetContent
+        title={
           <FormattedMessage
             {...m.deleteMapMessage}
             values={{ mapName: mapName }}
           />
-        </Text>
+        }
+        description={t(m.deleteMapWarning)}
+        icon={
+          <ErrorIcon style={{ position: "relative" }} size={90} color={RED} />
+        }
+        buttonConfigs={[
+          {
+            text: (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <DeleteIcon color={WHITE} />
+                <Text style={[styles.deleteButton, { color: WHITE }]}>
+                  {t(m.deleteMap)}
+                </Text>
+              </View>
+            ),
+            variation: "filled",
+            onPress: deleteMap,
+          },
+          {
+            text: t(m.cancel),
+            variation: "outlined",
+            onPress: closeSheet,
+          },
+        ]}
+      />
+    </BottomSheetModal>
 
-        <Text>
-          <FormattedMessage {...m.deleteMapWarning} />
-        </Text>
+    // <BottomSheetModalProvider>
+    //   <BottomSheetModal
+    //     ref={sheetRef}
+    //     snapPoints={snapPoints}
+    //     backdropComponent={BottomSheetBackdrop}
+    //     enableContentPanningGesture={false}
+    //     enableHandlePanningGesture={false}
+    //     index={0}
+    //     handleComponent={() => null}
+    //   >
+    //     <BottomSheetView
+    //       onLayout={e => {
+    //         const { height } = e.nativeEvent.layout;
+    //         setSnapPoints([0, height]);
+    //       }}
+    //       style={styles.btmSheetContainer}
+    //     >
+    //       <ErrorIcon style={{ position: "relative" }} size={90} color={RED} />
 
-        <Button
-          onPress={deleteMap}
-          fullWidth
-          color="dark"
-          style={{ backgroundColor: RED, marginTop: 30, marginBottom: 20 }}
-        >
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <DeleteIcon color={WHITE} />
-            <Text style={[styles.deleteButton, { color: WHITE }]}>
-              {t(m.deleteMap)}
-            </Text>
-          </View>
-        </Button>
-        <Button onPress={closeSheet} fullWidth variant="outlined">
-          <Text style={[styles.deleteButton, { color: MAPEO_BLUE }]}>
-            {t(m.cancel)}
-          </Text>
-        </Button>
-      </BottomSheetView>
-    </BottomSheet>
+    //       <Text style={{ fontSize: 24, textAlign: "center", margin: 10 }}>
+    //         <FormattedMessage
+    //           {...m.deleteMapMessage}
+    //           values={{ mapName: mapName }}
+    //         />
+    //       </Text>
+
+    //       <Text>
+    //         <FormattedMessage {...m.deleteMapWarning} />
+    //       </Text>
+
+    //       <Button
+    //         onPress={deleteMap}
+    //         fullWidth
+    //         color="dark"
+    //         style={{ backgroundColor: RED, marginTop: 30, marginBottom: 20 }}
+    //       >
+    // <View
+    //   style={{
+    //     display: "flex",
+    //     flexDirection: "row",
+    //     justifyContent: "center",
+    //     alignItems: "center",
+    //   }}
+    // >
+    //   <DeleteIcon color={WHITE} />
+    //   <Text style={[styles.deleteButton, { color: WHITE }]}>
+    //     {t(m.deleteMap)}
+    //   </Text>
+    // </View>
+    //       </Button>
+    //       <Button onPress={closeSheet} fullWidth variant="outlined">
+    //         <Text style={[styles.deleteButton, { color: MAPEO_BLUE }]}>
+    //           {t(m.cancel)}
+    //         </Text>
+    //       </Button>
+    //     </BottomSheetView>
+    //   </BottomSheetModal>
+    // </BottomSheetModalProvider>
   );
 });
 
