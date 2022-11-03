@@ -137,6 +137,10 @@
   "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
     "message": "Cancelar"
   },
+  "screens.AppPasscode.ConfirmPasscodeSheet.passcode": {
+    "description": "used to indicate to the user what the new passcode will be.",
+    "message": "Clave"
+  },
   "screens.AppPasscode.InputPasscodeScreen.cancel": {
     "message": "Cancelar"
   },
