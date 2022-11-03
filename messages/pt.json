@@ -145,7 +145,7 @@
     "message": "Senha"
   },
   "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
-    "message": "Salvar Senha do aplicativo"
+    "message": "Salvar senha do Aplicativo"
   },
   "screens.AppPasscode.ConfirmPasscodeSheet.title": {
     "message": "Se perder ou esquecer a Senha de aplicativo, nunca pode ser recuperada! Certifique-se de anotar sua senha em um local seguro antes de salvar."
