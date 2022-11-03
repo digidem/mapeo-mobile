@@ -75,6 +75,7 @@
     "mapeo-offline-map": "^2.0.0",
     "mapeo-schema": "^2.0.2",
     "nodejs-mobile-react-native": "^0.8.1",
+    "p-defer": "^4.0.0",
     "p-is-promise": "^4.0.0",
     "p-timeout": "^4.1.0",
     "patch-package": "^6.4.7",

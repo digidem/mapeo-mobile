@@ -1,21 +1,24 @@
 import * as React from "react";
 
 import api from "../api";
-import { useExperiments } from "./useExperiments";
-
-import { MapStyleContext, MapTypes } from "../context/MapStyleContext";
+import { MapTypes } from "../context/MapStyleContext";
 import { DEFAULT_MAP_ID } from "../screens/Settings/MapSettings/BackgroundMaps";
 import { useDefaultStyleUrl } from "./useDefaultStyleUrl";
+import { useExperiments } from "./useExperiments";
+import { useMapServerStyles } from "./useMapServerStyles";
 
 type LegacyCustomMapState = "unknown" | "unavailable" | "available";
-type MapStyleState = {
-  styleUrl: null | string;
-  styleType: MapTypes;
-  setStyleId:
-    | React.Dispatch<React.SetStateAction<string>>
-    | ((id: string) => never);
-  styleId?: string;
-};
+
+type MapStyleState =
+  | {
+      styleUrl: null;
+      styleType: Extract<MapTypes, "loading">;
+    }
+  | {
+      styleUrl: string;
+      styleType: Exclude<MapTypes, "loading">;
+      styleId: string | null;
+    };
 
 function useLegacyStyle(defaultMap: string): MapStyleState {
   const [customMapState, setCustomMapState] = React.useState<
@@ -36,56 +39,58 @@ function useLegacyStyle(defaultMap: string): MapStyleState {
   }, []);
 
   return React.useMemo(() => {
-    const setStyleId = (id: string) => {
-      throw new Error("Cannot set styleId on legacy map");
-    };
-
     if (customMapState === "unknown") {
-      return { styleType: "loading", styleUrl: null, setStyleId };
+      return { styleType: "loading", styleUrl: null };
     }
 
     if (customMapState === "available") {
       return {
         styleType: "custom",
         styleUrl: api.getMapStyleUrl("default"),
-        setStyleId,
+        styleId: null,
       };
     }
 
-    return { styleType: "fallback", styleUrl: defaultMap, setStyleId };
+    return { styleType: "fallback", styleUrl: defaultMap, styleId: null };
   }, [defaultMap, customMapState]);
 }
 
 function useMapServerStyle(defaultStyleUrl: string): MapStyleState {
-  const { mapServerReady, setStyleId, styleId } = React.useContext(
-    MapStyleContext
-  );
+  const { status, selectedStyleId } = useMapServerStyles();
+  const [styleUrl, setStyleUrl] = React.useState<string | null>(null);
 
-  return React.useMemo(() => {
-    if (!mapServerReady) {
-      return {
-        styleType: "loading",
-        styleUrl: null,
-        setStyleId,
-      };
-    }
+  React.useEffect(() => {
+    (async () => {
+      try {
+        if (!selectedStyleId) return;
 
-    if (styleId === DEFAULT_MAP_ID || !styleId) {
-      return {
-        styleType: "mapServer",
-        styleUrl: defaultStyleUrl,
-        setStyleId,
-        styleId,
-      };
-    }
+        if (selectedStyleId === DEFAULT_MAP_ID) {
+          setStyleUrl(defaultStyleUrl);
+          return;
+        }
 
+        const styleUrl = await api.maps.getStyleUrl(selectedStyleId);
+
+        setStyleUrl(styleUrl);
+      } catch (err) {
+        // TODO: Bugsnag
+        console.log(err);
+      }
+    })();
+  }, [status, selectedStyleId, defaultStyleUrl]);
+
+  if (status === "loading") {
     return {
-      styleType: "mapServer",
-      styleUrl: api.maps.getStyleUrl(styleId) || null,
-      setStyleId,
-      styleId,
+      styleType: "loading",
+      styleUrl: null,
     };
-  }, [styleId, setStyleId, mapServerReady, defaultStyleUrl]);
+  }
+
+  return {
+    styleId: selectedStyleId,
+    styleType: "mapServer",
+    styleUrl: styleUrl || defaultStyleUrl,
+  };
 }
 
 export function useMapStyle(): MapStyleState {

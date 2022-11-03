@@ -1,8 +1,10 @@
 import * as React from "react";
 import ky from "ky";
 import MapboxGL from "@react-native-mapbox-gl/maps";
+import debug from "debug";
+
 import createPersistedState from "../hooks/usePersistedState";
-import api, { MapServerState, Subscription } from "../api";
+import api, { MapServerState, ServerStatus, Subscription } from "../api";
 import { useExperiments } from "../hooks/useExperiments";
 import { normalizeStyleURL } from "../lib/mapbox";
 import config from "../../config.json";
@@ -27,14 +29,14 @@ export type MapTypes =
   | "fallback";
 
 export type MapStyleContextType = {
-  styleId: string;
-  setStyleId: React.Dispatch<React.SetStateAction<string>>;
+  styleId: string | null;
+  setStyleId: React.Dispatch<React.SetStateAction<string | null>>;
   mapServerReady: boolean;
   onlineMapState: OnlineState;
 };
 
 const defaultMapStyleContext: MapStyleContextType = {
-  styleId: "",
+  styleId: null,
   setStyleId: () => {},
   mapServerReady: false,
   onlineMapState: "unknown",
@@ -48,7 +50,9 @@ const usePersistedState = createPersistedState(MAP_STYLE_KEY);
 
 export const MapStyleProvider: React.FC = ({ children }) => {
   const [mapServerReady, setMapServerReady] = React.useState(false);
-  const [styleId, status, setStyleId] = usePersistedState<string>("");
+  const [styleId, status, setStyleId] = usePersistedState<
+    MapStyleContextType["styleId"]
+  >(null);
   const [{ backgroundMaps }] = useExperiments();
 
   const [onlineMapState, setOnlineState] = React.useState<OnlineState>(

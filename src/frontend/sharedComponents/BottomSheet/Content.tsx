@@ -25,7 +25,7 @@ type ActionButtonConfig =
   | PrimaryActionButtonConfig
   | SecondaryActionButtonConfig;
 
-interface Props extends React.PropsWithChildren<{}> {
+export interface Props extends React.PropsWithChildren<{}> {
   buttonConfigs: ActionButtonConfig[];
   description?: React.ReactNode;
   icon?: React.ReactNode;

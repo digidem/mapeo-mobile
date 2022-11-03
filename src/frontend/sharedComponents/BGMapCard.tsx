@@ -2,19 +2,15 @@ import * as React from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { StyleSheet, View, Text } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
-import { EventSourceMessage } from "@microsoft/fetch-event-source";
 import { Bar } from "react-native-progress";
 
 import { MapServerStyleInfo } from "../sharedTypes";
 import { LIGHT_GREY, MAPEO_BLUE, MEDIUM_GREY } from "../lib/styles";
 import LocationContext from "../context/LocationContext";
-import { useEventSource } from "../hooks/useEventSource";
-import { useMapImportBackgrounder } from "../hooks/useBackgroundedMapImports";
+import { useMapImportsManager } from "../hooks/useMapImports";
 import { DEFAULT_MAP_ID } from "../screens/Settings/MapSettings/BackgroundMaps";
-import api from "../api";
+import { useMapImportsProgress } from "../hooks/useMapImportsProgress";
 import { Pill } from "./Pill";
-
-class ImportError extends Error {}
 
 const m = defineMessages({
   currentMap: {
@@ -49,59 +45,6 @@ const m = defineMessages({
   },
 });
 
-type ImportStatus =
-  | { status: "idle" }
-  | { status: "error"; soFar?: number; total?: number }
-  | {
-      status: "progress" | "complete";
-      soFar: number;
-      total: number;
-    };
-
-function showProgressBar(
-  importStatus: ImportStatus
-): importStatus is
-  | {
-      status: "progress" | "complete";
-      soFar: number;
-      total: number;
-    }
-  | { status: "idle" } {
-  return (
-    importStatus.status === "idle" ||
-    importStatus.status === "progress" ||
-    importStatus.status === "complete"
-  );
-}
-
-function showProgressBarMessage(
-  importStatus: ImportStatus
-): importStatus is
-  | {
-      status: "progress";
-      soFar: number;
-      total: number;
-    }
-  | { status: "idle" } {
-  return importStatus.status === "idle" || importStatus.status === "progress";
-}
-
-function showBytesStored(
-  mapStyleInfo: MapServerStyleInfo,
-  activeImportId?: string
-) {
-  // Map is default map
-  if (mapStyleInfo.id === DEFAULT_MAP_ID) return false;
-
-  // Map has zero byte count
-  if (mapStyleInfo.bytesStored === 0) return false;
-
-  // Map import is still active
-  if (activeImportId) return false;
-
-  return true;
-}
-
 function bytesToMegabytes(bytes: number) {
   return bytes / 2 ** 20;
 }
@@ -111,94 +54,39 @@ const WithTopSeparation = ({ children }: React.PropsWithChildren<{}>) => (
 );
 
 interface BGMapCardProps {
-  activeImportId?: string;
+  importInfo?: {
+    id: string;
+    progressUrl: string;
+  };
   isSelected: boolean;
   mapStyleInfo: MapServerStyleInfo;
-  onImportComplete?: () => void;
-  onImportError?: () => void;
+  onPress?: () => void;
 }
 
 export const BGMapCard = ({
-  activeImportId,
+  importInfo,
   isSelected,
   mapStyleInfo,
-  onImportComplete,
-  onImportError,
 }: BGMapCardProps) => {
   const { formatMessage: t } = useIntl();
   const { position } = React.useContext(LocationContext);
 
-  const [importStatus, setImportStatus] = React.useState<ImportStatus>({
-    status: "idle",
-  });
+  const { remove: removeMapImports } = useMapImportsManager();
 
-  useMapImportBackgrounder(mapStyleInfo.id, activeImportId);
+  const importStatus = useMapImportsProgress(importInfo?.progressUrl);
 
-  const eventSourceUrl =
-    activeImportId && importStatus.status !== "error"
-      ? api.maps.getImportProgressUrl(activeImportId)
-      : undefined;
+  // TODO: This doesn't seem right
+  // What's the best way to remove from map imports context when the import is completed successfully?
+  React.useEffect(() => {
+    if (importStatus.status === "complete") {
+      removeMapImports([mapStyleInfo.id]);
+    }
+  }, [mapStyleInfo.id, importStatus.status, removeMapImports]);
 
-  const createEventSourceOptions = React.useCallback(
-    (cancel: () => void) => ({
-      onmessage: (message: EventSourceMessage) => {
-        const data = JSON.parse(message.data);
-
-        switch (data.type) {
-          case "progress": {
-            setImportStatus(prev => {
-              if (
-                prev.status === "progress" &&
-                prev.soFar === data.soFar &&
-                prev.total === data.total
-              ) {
-                return prev;
-              }
-
-              return {
-                status: "progress",
-                soFar: data.soFar,
-                total: data.total,
-              };
-            });
-
-            break;
-          }
-
-          // Once the map server sends this event, it will close the connection automatically
-          // so it shouldn't be necessary to throw an error or cancel.
-          case "complete": {
-            setImportStatus({
-              status: "complete",
-              soFar: data.soFar,
-              total: data.total,
-            });
-
-            if (onImportComplete) onImportComplete();
-
-            break;
-          }
-          case "error": {
-            throw new ImportError();
-          }
-        }
-      },
-      onerror(err: Error) {
-        if (err instanceof ImportError) {
-          setImportStatus(prev => ({ ...prev, status: "error" }));
-        }
-
-        if (onImportError) {
-          onImportError();
-        }
-
-        throw err;
-      },
-    }),
-    [onImportComplete, onImportError]
-  );
-
-  useEventSource(eventSourceUrl, createEventSourceOptions);
+  const showBytesStored = mapStyleInfo.id !== DEFAULT_MAP_ID && !importInfo;
+  const showProgressBar = importStatus.status !== "error";
+  const showProgressBarMessage =
+    importStatus.status === "idle" || importStatus.status === "progress";
 
   return (
     <View style={styles.container}>
@@ -227,16 +115,16 @@ export const BGMapCard = ({
           {mapStyleInfo.name || t(m.unnamedStyle)}
         </Text>
 
-        {showBytesStored(mapStyleInfo, activeImportId) && (
+        {showBytesStored && (
           <Text style={[styles.text, { color: MEDIUM_GREY }]}>
             {bytesToMegabytes(mapStyleInfo.bytesStored).toFixed(0)}{" "}
             {t(m.abbrevMegabyte)}
           </Text>
         )}
 
-        {activeImportId && (
+        {importInfo && (
           <WithTopSeparation>
-            {showProgressBar(importStatus) && (
+            {showProgressBar && (
               <Bar
                 indeterminate={importStatus.status === "idle"}
                 color={MAPEO_BLUE}
@@ -244,11 +132,11 @@ export const BGMapCard = ({
                 progress={
                   importStatus.status === "idle"
                     ? undefined
-                    : importStatus.soFar / importStatus.total
+                    : importStatus.progress
                 }
               />
             )}
-            {showProgressBarMessage(importStatus) && (
+            {showProgressBarMessage && (
               <WithTopSeparation>
                 <Text style={styles.text}>
                   {importStatus.status === "progress"

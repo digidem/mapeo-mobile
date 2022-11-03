@@ -17,10 +17,7 @@ import LocationContext from "../../context/LocationContext";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import { fallbackStyleURL } from "../../context/MapStyleContext";
 import { OfflineMapLayers } from "../../sharedComponents/OfflineMapLayers";
-import { DEFAULT_MAP_ID } from "../Settings/MapSettings/BackgroundMaps";
-import { useMapServerState } from "../../hooks/useMapServerState";
-import { useDefaultStyleUrl } from "../../hooks/useDefaultStyleUrl";
-import { MapServerStyleInfo } from "../../sharedTypes";
+import { useMapServerStyles } from "../../hooks/useMapServerStyles";
 
 const m = defineMessages({
   title: {
@@ -41,19 +38,20 @@ const m = defineMessages({
 interface MapSelectorProps {
   /** Should NOT come from `useBottomSheet()` */
   closeSheet: () => void;
-  onMapSelected: (id: string) => void;
-  bgMapsList: MapServerStyleInfo[] | null;
 }
 
 /** `ref` should NOT come from - `useBottomSheet()` */
 export const BGMapSelector = React.forwardRef<
   BottomSheetMethods,
   MapSelectorProps
->(({ closeSheet, onMapSelected, bgMapsList }, ref) => {
+>(({ closeSheet }, ref) => {
   const { navigate } = useNavigationFromRoot();
-  const mapServerReady = useMapServerState();
 
-  const defaultStyleUrl = useDefaultStyleUrl();
+  const {
+    setSelectedStyleId,
+    status,
+    styles: stylesList,
+  } = useMapServerStyles();
 
   const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
     0,
@@ -82,66 +80,72 @@ export const BGMapSelector = React.forwardRef<
         <View style={{ backgroundColor: WHITE }}>
           <Text style={styles.title}> {t(m.title)}</Text>
 
-          {bgMapsList === null || !mapServerReady ? (
-            <View style={{ margin: 40 }}>
-              <Loading />
-            </View>
-          ) : (
-            <React.Fragment>
-              <TouchableOpacity
-                onPress={() => {
-                  closeSheet();
-                  navigate("MapSettings");
-                }}
-              >
-                <Text
-                  style={{
-                    color: MEDIUM_BLUE,
-                    fontSize: 16,
-                    textAlign: "center",
-                    marginBottom: 10,
-                    fontWeight: "bold",
-                  }}
-                >
-                  {t(m.manageMaps)}
-                </Text>
-              </TouchableOpacity>
-              <View
-                style={{
-                  borderBottomColor: LIGHT_GREY,
-                  borderBottomWidth: 1,
-                  marginBottom: 10,
-                  marginTop: 10,
-                }}
-              />
-              <ScrollView style={styles.flexContainer} horizontal={true}>
-                {!!defaultStyleUrl && (
-                  <MapThumbnail
-                    onMapSelected={() => {
-                      onMapSelected(DEFAULT_MAP_ID);
-                      closeSheet();
-                    }}
-                    id={DEFAULT_MAP_ID}
-                    styleUrl={defaultStyleUrl}
-                    title="Default"
-                  />
-                )}
-
-                {bgMapsList.map(({ id, url: styleUrl, name: title }) => (
-                  <MapThumbnail
-                    id={id}
-                    onMapSelected={id => {
-                      onMapSelected(id);
-                      closeSheet();
-                    }}
-                    styleUrl={styleUrl}
-                    title={title}
-                    key={id}
-                  />
-                ))}
-              </ScrollView>
-            </React.Fragment>
-          )}
+          {(() => {
+            switch (status) {
+              case "loading": {
+                return (
+                  <View style={{ margin: 40 }}>
+                    <Loading />
+                  </View>
+                );
+              }
+              case "success": {
+                return (
+                  <>
+                    <TouchableOpacity
+                      onPress={() => {
+                        closeSheet();
+                        navigate("MapSettings");
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: MEDIUM_BLUE,
+                          fontSize: 16,
+                          textAlign: "center",
+                          marginBottom: 10,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {t(m.manageMaps)}
+                      </Text>
+                    </TouchableOpacity>
+                    <View
+                      style={{
+                        borderBottomColor: LIGHT_GREY,
+                        borderBottomWidth: 1,
+                        marginBottom: 10,
+                        marginTop: 10,
+                      }}
+                    />
+                    <ScrollView style={styles.flexContainer} horizontal={true}>
+                      {stylesList
+                        .filter(({ importInfo }) => !importInfo)
+                        .map(({ id, url, name }) => (
+                          <MapThumbnail
+                            key={id}
+                            onMapSelected={() => {
+                              closeSheet();
+                              console.log("ID", id);
+                              setSelectedStyleId(id);
+                            }}
+                            styleUrl={url}
+                            title={name}
+                          />
+                        ))}
+                    </ScrollView>
+                  </>
+                );
+              }
+              // TODO: properly handle
+              case "error": {
+                return null;
+              }
+              default: {
+                return null;
+              }
+            }
+          })()}
         </View>
 
         <Button
@@ -158,15 +162,13 @@ export const BGMapSelector = React.forwardRef<
 });
 
 const MapThumbnail = ({
-  styleUrl,
-  id,
-  title,
   onMapSelected,
+  styleUrl,
+  title,
 }: {
+  onMapSelected: () => void;
   styleUrl: string;
   title: string | null;
-  id: string;
-  onMapSelected: (id: string) => void;
 }) => {
   const { position } = React.useContext(LocationContext);
 
@@ -174,7 +176,7 @@ const MapThumbnail = ({
     <View>
       <TouchableHighlight
         activeOpacity={0.8}
-        onPress={() => onMapSelected(id)}
+        onPress={onMapSelected}
         style={{ width: 80, margin: 10 }}
       >
         <MapboxGL.MapView
@@ -183,7 +185,7 @@ const MapThumbnail = ({
           logoEnabled={false}
           scrollEnabled={false}
           styleURL={styleUrl}
-          style={[styles.thumbnail]}
+          style={styles.thumbnail}
         >
           <MapboxGL.Camera
             animationDuration={0}

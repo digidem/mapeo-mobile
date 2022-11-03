@@ -1,30 +1,34 @@
 import * as React from "react";
 import * as DocumentPicker from "expo-document-picker";
 import { defineMessages, useIntl } from "react-intl";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from "react-native";
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
+import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+
 import { LIGHT_GREY, MEDIUM_GREY, RED } from "../../../lib/styles";
 import { BGMapCard } from "../../../sharedComponents/BGMapCard";
 import Button from "../../../sharedComponents/Button";
 import Loading from "../../../sharedComponents/Loading";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "../../../sharedComponents/Touchables";
-import {
-  MapServerStyleInfo,
-  NativeNavigationComponent,
-} from "../../../sharedTypes";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 import api, { extractHttpErrorResponse } from "../../../api";
-import { useMapStyle } from "../../../hooks/useMapStyle";
-import { useDefaultStyleUrl } from "../../../hooks/useDefaultStyleUrl";
-import {
-  useBackgroundedMapImports,
-  useBackgroundedMapImportsManager,
-} from "../../../hooks/useBackgroundedMapImports";
+import { useMapImportsManager } from "../../../hooks/useMapImports";
 import { ErrorIcon } from "../../../sharedComponents/icons";
 import {
   BottomSheetContent,
-  BottomSheetModal,
-  useBottomSheetModal,
-} from "../../../sharedComponents/BottomSheetModal";
+  BottomSheetContentProps,
+} from "../../../sharedComponents/BottomSheet";
+import { useMapServerStyles } from "../../../hooks/useMapServerStyles";
 
 export const DEFAULT_MAP_ID = "default";
 
@@ -78,328 +82,249 @@ const m = defineMessages({
   },
 });
 
-type BottomSheetState = "import" | "loading" | "file_error" | "import_error";
+type BottomSheetState = "import" | "file_error" | "import_error";
 
-// TODO: We should update the state for the backgroundMapList so that it has a fetch state too
-// That way we can provide better messaging and recovery in case errors occur when fetching the list of styles
 export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () => {
   const { formatMessage: t } = useIntl();
-
-  const importModal = useBottomSheetModal({
-    openOnMount: false,
-  });
-
-  const errorModal = useBottomSheetModal({
-    openOnMount: false,
-  });
-
-  const { styleUrl } = useMapStyle();
-
-  const defaultStyleUrl = useDefaultStyleUrl();
 
   const [bottomSheetState, setBottomSheetState] = React.useState<
     BottomSheetState
   >("import");
 
-  const [backgroundMapList, setBackgroundMapList] = React.useState<
-    MapServerStyleInfo[]
-  >();
-
-  const [erroredImports, setErroredImports] = React.useState<
-    Record<MapServerStyleInfo["id"], MapServerStyleInfo["name"] | undefined>
-  >({});
-
-  const backgroundedMapImports = useBackgroundedMapImports();
   const {
-    remove: removeImportFromBackground,
-  } = useBackgroundedMapImportsManager();
+    onSheetChange,
+    isOpen,
+    sheetRef,
+    snapPoints,
+    updateSheetHeight,
+    closeSheet,
+    expandSheet,
+    collapseSheet,
+  } = useBottomSheet();
 
-  // TODO: Should be MapServerImport["id"] for value type but need to fix return type in @mapeo/map-server
-  const [activeMapImports, setActiveMapImports] = React.useState<
-    Record<MapServerStyleInfo["id"], string | undefined>
-  >(backgroundedMapImports);
+  const { status, styles: stylesList, selectedStyleId } = useMapServerStyles();
 
-  React.useEffect(() => {
-    api.maps
-      .getStyleList()
-      .then(list => setBackgroundMapList(list))
-      .catch(err => {
-        console.log("COULD NOT FETCH STYLES", err);
-        setBackgroundMapList([]);
-      });
-  }, []);
+  const {
+    add: addMapImports,
+    remove: removeMapImports,
+  } = useMapImportsManager();
+
+  const stylesWithErroredImport = stylesList.filter(s => s.importInfo?.errored);
+
+  // TODO: Figure out the best way to reshow the bottom sheet when re-entering a screen while an errored import exists
+  // Something along the lines of this, which is currently kind of broken.
+  // Alternatively, could change the UX such that we visually highlight errored imports and the user has to explicit press it
+  // in order to show the modal. At the moment, only issue there is that we need the import id for the pressed style, which we can't guarantee
+  // if for example the user closed and re-opened the app.
+  //
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     if (stylesWithErroredImport.length > 0) {
+  //       setBottomSheetState("import_error");
+  //       expandSheet();
+  //     }
+  //   }, [stylesWithErroredImport, expandSheet])
+  // );
 
   async function handleImportPress() {
     try {
       const results = await DocumentPicker.getDocumentAsync();
 
       if (results.type === "cancel") {
-        importModal.closeSheet();
+        closeSheet();
         return;
       }
 
-      importModal.closeSheet();
+      collapseSheet();
 
-      if (results.type === "success") {
-        try {
-          setBottomSheetState("loading");
+      try {
+        const { import: tilesetImport } = await api.maps.importTileset(
+          results.uri
+        );
 
-          const { import: tilesetImport } = await api.maps.importTileset(
-            results.uri
-          );
+        // TODO: Once https://github.com/digidem/mapeo-map-server/issues/81 is implemented,
+        // no need to call this endpoint and use the last item, etc
+        const list = await api.maps.getStyleList();
+        const lastStyle = list[list.length - 1];
 
-          // TODO: Once https://github.com/digidem/mapeo-map-server/issues/81 is implemented,
-          // no need to call this endpoint and use the last item, etc
-          const list = await api.maps.getStyleList();
-          const lastStyle = list[list.length - 1];
+        addMapImports([
+          {
+            styleId: lastStyle.id,
+            importId: tilesetImport.id,
+          },
+        ]);
 
-          setActiveMapImports(prev => ({
-            ...prev,
-            [lastStyle.id]: tilesetImport.id,
-          }));
+        setBottomSheetState("import");
+        closeSheet();
+      } catch (err) {
+        const parsedError = await extractHttpErrorResponse(err)?.json();
 
-          setBackgroundMapList(list);
-          setBottomSheetState("import");
-        } catch (err) {
-          const parsedError = await extractHttpErrorResponse(err)?.json();
-
-          if (parsedError) {
-            if (parsedError.statusCode >= 400 && parsedError.statusCode < 500) {
-              setBottomSheetState("file_error");
-              errorModal.openSheet();
-              return;
-            }
+        if (parsedError) {
+          if (parsedError.statusCode >= 400 && parsedError.statusCode < 500) {
+            setBottomSheetState("file_error");
+            expandSheet();
+            return;
           }
-
-          setBottomSheetState("import_error");
-          errorModal.openSheet();
         }
+
+        setBottomSheetState("import");
+        closeSheet();
       }
     } catch (err) {
-      importModal.closeSheet();
       setBottomSheetState("file_error");
-      errorModal.openSheet();
+      expandSheet();
     }
   }
 
   // Using an IIFE to avoid a lengthy ternary. Not sure how much better this is...
-  const bottomSheetContentProps: React.ComponentProps<typeof BottomSheetContent> = (function createBottomSheetContentProps() {
-    if (bottomSheetState === "import") {
-      return {
-        title: t(m.BackgroundMapTitle),
-        buttonConfigs: [
-          {
-            onPress: () => {
-              importModal.closeSheet();
+  const bottomSheetContentProps: BottomSheetContentProps = (() => {
+    switch (bottomSheetState) {
+      case "import": {
+        return {
+          title: t(m.BackgroundMapTitle),
+          buttonConfigs: [
+            {
+              onPress: () => {
+                closeSheet();
+              },
+              text: t(m.close),
+              variation: "outlined",
             },
-            text: t(m.close),
-            variation: "outlined",
-          },
-        ],
-        children: (
-          <TouchableOpacity
-            onPress={handleImportPress}
-            style={styles.importButton}
-          >
-            <View style={styles.importTextAndIcon}>
-              <MaterialIcon name="file-upload" size={30} color={MEDIUM_GREY} />
-              <Text style={styles.text}> {t(m.importFromFile)}</Text>
-            </View>
-            <Text style={[styles.text, { textAlign: "center" }]}>
-              {"( .mbtiles )"}
-            </Text>
-          </TouchableOpacity>
-        ),
-      };
-    }
-
-    if (bottomSheetState === "loading") {
-      return {
-        title: t(m.BackgroundMapTitle),
-        buttonConfigs: [],
-        children: (
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-            }}
-          >
-            <Loading />
-          </View>
-        ),
-      };
-    }
-
-    // Return import skeleton if state is an error state
-    return {
-      title: t(m.BackgroundMapTitle),
-      buttonConfigs: [
-        { text: t(m.close), variation: "outlined", onPress: () => {} },
-      ],
-    };
-  })();
-
-  const errorBottomSheetContentProps:
-    | React.ComponentProps<typeof BottomSheetContent>
-    | undefined = (function createErrorBottomSheetContentProps() {
-    if (bottomSheetState === "file_error") {
-      return {
-        title: t(m.importErrorTitle),
-        icon: <ErrorIcon color={RED} size={90} style={styles.errorIcon} />,
-        description: t(m.fileErrorDescription),
-        buttonConfigs: [
-          {
-            onPress: () => {
-              errorModal.closeSheet();
-              setBottomSheetState("import");
-            },
-            text: t(m.close),
-            variation: "outlined",
-          },
-        ],
-      };
-    }
-
-    if (bottomSheetState === "import_error") {
-      return {
-        title: t(m.importErrorTitle),
-        icon: <ErrorIcon color={RED} size={90} style={styles.errorIcon} />,
-        description: t(m.importErrorDescription, {
-          styleNames: Object.entries(erroredImports)
-            .map(([styleId, styleName]) => `"${styleName || styleId}"`)
-            .join(", "),
-          fileCount: Object.keys(erroredImports).length,
-        }),
-        buttonConfigs: [
-          {
-            onPress: async () => {
-              try {
-                await Promise.all(
-                  Object.keys(erroredImports).map(api.maps.deleteStyle)
-                );
-
-                errorModal.closeSheet();
-
+          ],
+          children: (
+            <TouchableOpacity
+              onPress={handleImportPress}
+              style={styles.importButton}
+            >
+              <View style={styles.importTextAndIcon}>
+                <MaterialIcon
+                  name="file-upload"
+                  size={30}
+                  color={MEDIUM_GREY}
+                />
+                <Text style={styles.text}> {t(m.importFromFile)}</Text>
+              </View>
+              <Text style={[styles.text, { textAlign: "center" }]}>
+                {"( .mbtiles )"}
+              </Text>
+            </TouchableOpacity>
+          ),
+        };
+      }
+      case "file_error": {
+        return {
+          title: t(m.importErrorTitle),
+          icon: <ErrorIcon color={RED} size={90} style={styles.errorIcon} />,
+          description: t(m.fileErrorDescription),
+          buttonConfigs: [
+            {
+              onPress: () => {
+                closeSheet();
                 setBottomSheetState("import");
-                setErroredImports({});
-                setBackgroundMapList(await api.maps.getStyleList());
-              } catch (err) {
-                // TODO: Implement better error handling here
-                console.log(err);
-              } finally {
-                errorModal.closeSheet();
-              }
+              },
+              text: t(m.close),
+              variation: "outlined",
             },
-            text: t(m.close),
-            variation: "outlined",
-          },
-        ],
-      };
-    }
+          ],
+        };
+      }
+      case "import_error": {
+        return {
+          title: t(m.importErrorTitle),
+          icon: <ErrorIcon color={RED} size={90} style={styles.errorIcon} />,
+          description: t(m.importErrorDescription, {
+            styleNames: stylesWithErroredImport
+              .map(({ id, name }) => `"${name || id}"`)
+              .join(", "),
+            fileCount: stylesWithErroredImport.length,
+          }),
+          buttonConfigs: [
+            {
+              onPress: async () => {
+                try {
+                  const erroredStyleIds = stylesWithErroredImport.map(
+                    ({ id }) => id
+                  );
 
-    // Return import skeleton if state is an error state
-    return {
-      title: t(m.importErrorTitle),
-      icon: <ErrorIcon color={RED} size={90} style={styles.errorIcon} />,
-      buttonConfigs: [
-        { text: t(m.close), variation: "outlined", onPress: () => {} },
-      ],
-    };
+                  await Promise.all(erroredStyleIds.map(api.maps.deleteStyle));
+
+                  removeMapImports(erroredStyleIds);
+
+                  setBottomSheetState("import");
+                } catch (err) {
+                  // TODO: Implement better error handling here
+                  console.log(err);
+                } finally {
+                  closeSheet();
+                }
+              },
+              text: t(m.close),
+              variation: "outlined",
+            },
+          ],
+        };
+      }
+    }
   })();
 
   return (
     <View style={{ flex: 1 }}>
       <FlatList
         contentContainerStyle={styles.scrollContentContainer}
-        data={backgroundMapList}
+        data={status === "loading" && stylesList.length <= 1 ? [] : stylesList}
         ListEmptyComponent={
-          backgroundMapList === undefined ? (
-            <View style={{ marginTop: 40 }}>
-              <Loading />
-            </View>
-          ) : null
-        }
-        ListHeaderComponent={
-          <View>
-            <View style={styles.addMapButtonContainer}>
-              <Button
-                fullWidth
-                onPress={() => {
-                  importModal.openSheet();
-                }}
-                variant="outlined"
-              >
-                {t(m.addBGMap)}
-              </Button>
-            </View>
-            {/* Default BG map card */}
-            {defaultStyleUrl && (
-              <View style={styles.mapCardContainer}>
-                <BGMapCard
-                  isSelected={styleUrl === defaultStyleUrl}
-                  mapStyleInfo={{
-                    id: DEFAULT_MAP_ID,
-                    url: defaultStyleUrl,
-                    bytesStored: 0,
-                    name: t(m.defaultMap),
-                  }}
-                />
-              </View>
-            )}
+          <View style={{ marginTop: 40 }}>
+            <Loading />
           </View>
         }
-        renderItem={({ item: bgMap }) => {
-          async function onImportComplete() {
-            removeImportFromBackground(bgMap.id);
-
-            return api.maps
-              .getStyleList()
-              .then(list => {
-                setBackgroundMapList(list);
-              })
-              .catch(err => {
-                console.error(err);
-              })
-              .finally(() => {
-                setActiveMapImports(prev => {
-                  const updated = { ...prev };
-                  delete updated[bgMap.id];
-                  return updated;
-                });
-              });
-          }
-
-          function onImportError() {
-            setErroredImports(prev => ({
-              ...prev,
-              [bgMap.id]: bgMap.name,
-            }));
-
-            setBottomSheetState("import_error");
-            errorModal.openSheet();
-          }
-
-          return (
-            <View key={bgMap.id} style={styles.mapCardContainer}>
-              <BGMapCard
-                activeImportId={activeMapImports[bgMap.id]}
-                isSelected={styleUrl === bgMap.url}
-                mapStyleInfo={bgMap}
-                onImportError={onImportError}
-                onImportComplete={onImportComplete}
-              />
-            </View>
-          );
-        }}
+        ListHeaderComponent={
+          <View style={styles.addMapButtonContainer}>
+            <Button
+              fullWidth
+              onPress={() => {
+                expandSheet();
+              }}
+              variant="outlined"
+            >
+              {t(m.addBGMap)}
+            </Button>
+          </View>
+        }
+        renderItem={({ item }) => (
+          <View key={item.id} style={styles.mapCardContainer}>
+            <BGMapCard
+              importInfo={item.importInfo}
+              isSelected={selectedStyleId === item.id}
+              mapStyleInfo={item}
+            />
+          </View>
+        )}
       />
 
-      <BottomSheetModal ref={importModal.sheetRef} onDismiss={() => {}}>
-        <BottomSheetContent {...bottomSheetContentProps} />
-      </BottomSheetModal>
-
-      <BottomSheetModal ref={errorModal.sheetRef} onDismiss={() => {}}>
-        <BottomSheetContent {...errorBottomSheetContentProps} />
-      </BottomSheetModal>
+      <BottomSheet
+        {...DEFAULT_BOTTOM_SHEET_PROPS}
+        ref={sheetRef}
+        backdropComponent={props => (
+          <BottomSheetBackdrop
+            {...props}
+            opacity={0.3}
+            pressBehavior={isOpen ? "none" : undefined}
+          />
+        )}
+        onChange={onSheetChange}
+        snapPoints={snapPoints}
+      >
+        <BottomSheetView
+          onLayout={updateSheetHeight}
+          style={{
+            flex: 1,
+            paddingHorizontal: 20,
+            paddingTop: 30,
+          }}
+        >
+          <BottomSheetContent {...bottomSheetContentProps} />
+        </BottomSheetView>
+      </BottomSheet>
     </View>
   );
 };
@@ -422,9 +347,7 @@ const styles = StyleSheet.create({
   importButton: {
     backgroundColor: LIGHT_GREY,
     padding: 40,
-    marginTop: 20,
-    marginBottom: 20,
-    borderRadius: 5,
+    borderRadius: 8,
   },
   text: { fontSize: 16 },
   importTextAndIcon: {
@@ -441,3 +364,63 @@ const styles = StyleSheet.create({
   },
   errorIcon: { position: "relative" },
 });
+
+const DEFAULT_BOTTOM_SHEET_PROPS = {
+  index: -1,
+  enableContentPanningGesture: false,
+  enableHandlePanningGesture: false,
+  handleComponent: () => null,
+};
+
+const MIN_SHEET_HEIGHT = 400;
+
+function useSnapPointsCalculator() {
+  const [sheetHeight, setSheetHeight] = React.useState(0);
+
+  const { height: windowHeight } = useWindowDimensions();
+
+  const snapPoints = React.useMemo(() => [0, sheetHeight], [sheetHeight]);
+
+  const updateSheetHeight = React.useCallback(
+    ({
+      nativeEvent: {
+        layout: { height },
+      },
+    }) => {
+      const newSheetHeight = Math.max(
+        Math.min(windowHeight * 0.75, height),
+        MIN_SHEET_HEIGHT
+      );
+
+      setSheetHeight(newSheetHeight);
+    },
+    [windowHeight]
+  );
+
+  return { snapPoints, updateSheetHeight };
+}
+
+function useBottomSheet() {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const bottomSheetRef = React.useRef<BottomSheetMethods>(null);
+
+  const snapProps = useSnapPointsCalculator();
+
+  return {
+    ...snapProps,
+    sheetRef: bottomSheetRef,
+    isOpen,
+    onSheetChange(index: number) {
+      setIsOpen(index > 0);
+    },
+    expandSheet() {
+      bottomSheetRef.current?.expand();
+    },
+    collapseSheet() {
+      bottomSheetRef.current?.collapse();
+    },
+    closeSheet() {
+      bottomSheetRef.current?.close();
+    },
+  };
+}
