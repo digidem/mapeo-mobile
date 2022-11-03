@@ -1,11 +1,10 @@
 import * as React from "react";
-
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { StyleSheet, View, Text } from "react-native";
-import { MAPEO_BLUE, RED, WHITE } from "../../../lib/styles";
-import { DeleteIcon, ErrorIcon } from "../../../sharedComponents/icons";
-import Button from "../../../sharedComponents/Button";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
+import { StyleSheet, View, Text } from "react-native";
+
+import { RED, WHITE } from "../../../lib/styles";
+import { DeleteIcon, ErrorIcon } from "../../../sharedComponents/icons";
 import api from "../../../api";
 import { useNavigationFromRoot } from "../../../hooks/useNavigationWithTypes";
 import { useMapStyle } from "../../../hooks/useMapStyle";
@@ -72,6 +71,7 @@ export const DeleteMapBottomSheet = React.forwardRef<
   return (
     <BottomSheetModal ref={sheetRef} onDismiss={closeSheet}>
       <BottomSheetContent
+        descriptionStyle={{ fontSize: 16 }}
         title={
           <FormattedMessage
             {...m.deleteMapMessage}
@@ -85,22 +85,14 @@ export const DeleteMapBottomSheet = React.forwardRef<
         buttonConfigs={[
           {
             text: (
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+              <View style={styles.btmSheetContainer}>
                 <DeleteIcon color={WHITE} />
-                <Text style={[styles.deleteButton, { color: WHITE }]}>
-                  {t(m.deleteMap)}
-                </Text>
+                <Text style={[styles.deleteButtonText]}>{t(m.deleteMap)}</Text>
               </View>
             ),
             variation: "filled",
             onPress: deleteMap,
+            dangerous: true,
           },
           {
             text: t(m.cancel),
@@ -110,65 +102,6 @@ export const DeleteMapBottomSheet = React.forwardRef<
         ]}
       />
     </BottomSheetModal>
-
-    // <BottomSheetModalProvider>
-    //   <BottomSheetModal
-    //     ref={sheetRef}
-    //     snapPoints={snapPoints}
-    //     backdropComponent={BottomSheetBackdrop}
-    //     enableContentPanningGesture={false}
-    //     enableHandlePanningGesture={false}
-    //     index={0}
-    //     handleComponent={() => null}
-    //   >
-    //     <BottomSheetView
-    //       onLayout={e => {
-    //         const { height } = e.nativeEvent.layout;
-    //         setSnapPoints([0, height]);
-    //       }}
-    //       style={styles.btmSheetContainer}
-    //     >
-    //       <ErrorIcon style={{ position: "relative" }} size={90} color={RED} />
-
-    //       <Text style={{ fontSize: 24, textAlign: "center", margin: 10 }}>
-    //         <FormattedMessage
-    //           {...m.deleteMapMessage}
-    //           values={{ mapName: mapName }}
-    //         />
-    //       </Text>
-
-    //       <Text>
-    //         <FormattedMessage {...m.deleteMapWarning} />
-    //       </Text>
-
-    //       <Button
-    //         onPress={deleteMap}
-    //         fullWidth
-    //         color="dark"
-    //         style={{ backgroundColor: RED, marginTop: 30, marginBottom: 20 }}
-    //       >
-    // <View
-    //   style={{
-    //     display: "flex",
-    //     flexDirection: "row",
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //   }}
-    // >
-    //   <DeleteIcon color={WHITE} />
-    //   <Text style={[styles.deleteButton, { color: WHITE }]}>
-    //     {t(m.deleteMap)}
-    //   </Text>
-    // </View>
-    //       </Button>
-    //       <Button onPress={closeSheet} fullWidth variant="outlined">
-    //         <Text style={[styles.deleteButton, { color: MAPEO_BLUE }]}>
-    //           {t(m.cancel)}
-    //         </Text>
-    //       </Button>
-    //     </BottomSheetView>
-    //   </BottomSheetModal>
-    // </BottomSheetModalProvider>
   );
 });
 
@@ -181,9 +114,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  deleteButton: {
+  deleteButtonText: {
     fontWeight: "700",
     letterSpacing: 0.5,
     fontSize: 16,
+    color: WHITE,
+  },
+  deleteButtonContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

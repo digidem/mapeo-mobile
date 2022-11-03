@@ -846,26 +846,99 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(You) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMapInfo.cancel": {
+    "message": "Cancel"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.deleteMap": {
+    "message": "Delete Map"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.description": {
+    "message": "Level of Detail"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail0to1": {
+    "message": "Whole world"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail10": {
+    "message": "Metropolitan area"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail11": {
+    "message": "City"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail12": {
+    "message": "Town, or city district"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail13to14": {
+    "message": "Village, or suburb"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail15": {
+    "message": "Small road"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail16": {
+    "message": "Street"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail17": {
+    "message": "Block, park, addresses"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail18": {
+    "message": "Some buildings, trees"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail19": {
+    "message": "Local highway and crossing details"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail2": {
+    "message": "Subcontinental area"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail20": {
+    "message": "A mid-sized building"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail3to4": {
+    "message": "Largest country"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail5": {
+    "message": "Large African country"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail6": {
+    "message": "Large European country"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail7to8": {
+    "message": "Small country, US state"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail9": {
+    "message": "Wide area, large metropolitan area"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.mb": {
+    "description": "abbreviation for megabyte",
+    "message": "MB"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.removeMap": {
+    "message": "Remove Map"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.subtitle": {
+    "message": "This map and offline areas attached to it will be deleted. This cannot be undone"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.useMap": {
+    "message": "Use Map"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.zoomLevel": {
+    "message": "Zoom Level"
+  },
   "screens.Settings.MapSettings.BackgroundMapTitle": {
     "message": "Background Maps"
   },
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Add Background Map"
   },
-  "screens.Settings.MapSettings.OfflineArea.cancel": {
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.cancel": {
     "message": "Cancel"
   },
-  "screens.Settings.MapSettings.OfflineArea.clearDiagrams": {
-    "message": "Are you sure you want to clear diagrams?"
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMap": {
+    "message": "Delete Map"
   },
-  "screens.Settings.MapSettings.OfflineArea.removeMap": {
-    "message": "Remove Map"
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapMessage": {
+    "message": "Are you sure you want to delete {mapName}?"
   },
-  "screens.Settings.MapSettings.OfflineArea.subtitle": {
-    "message": "This map and offline areas attached to it will be deleted. This cannot be undone"
-  },
-  "screens.Settings.MapSettings.OfflineArea.title": {
-    "message": "Offline Areas"
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapWarning": {
+    "message": "This area will no longer be available offline. Cannot be undone."
   },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Background Maps"
