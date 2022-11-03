@@ -855,60 +855,17 @@
   "screens.Settings.MapSettings.BackgroundMapInfo.description": {
     "message": "Level of Detail"
   },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail0to1": {
-    "message": "Whole world"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail10": {
-    "message": "Metropolitan area"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail11": {
-    "message": "City"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail12": {
-    "message": "Town, or city district"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail13to14": {
-    "message": "Village, or suburb"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail15": {
-    "message": "Small road"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail16": {
-    "message": "Street"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail17": {
-    "message": "Block, park, addresses"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail18": {
-    "message": "Some buildings, trees"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail19": {
-    "message": "Local highway and crossing details"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail2": {
-    "message": "Subcontinental area"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail20": {
-    "message": "A mid-sized building"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail3to4": {
-    "message": "Largest country"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail5": {
-    "message": "Large African country"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail6": {
-    "message": "Large European country"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail7to8": {
-    "message": "Small country, US state"
-  },
-  "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail9": {
-    "message": "Wide area, large metropolitan area"
+  "screens.Settings.MapSettings.BackgroundMapInfo.maxZoom": {
+    "description": "Shows the user the max zoom for an offline map",
+    "message": "Max Zoom"
   },
   "screens.Settings.MapSettings.BackgroundMapInfo.mb": {
     "description": "abbreviation for megabyte",
     "message": "MB"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.minZoom": {
+    "description": "Shows the user the min zoom for an offline map",
+    "message": "Min Zoom"
   },
   "screens.Settings.MapSettings.BackgroundMapInfo.removeMap": {
     "message": "Remove Map"
@@ -919,8 +876,9 @@
   "screens.Settings.MapSettings.BackgroundMapInfo.useMap": {
     "message": "Use Map"
   },
-  "screens.Settings.MapSettings.BackgroundMapInfo.zoomLevel": {
-    "message": "Zoom Level"
+  "screens.Settings.MapSettings.BackgroundMapInfo.zoomRange": {
+    "description": "Shows the user the range of zoom available for an offline map",
+    "message": "Zoom Range"
   },
   "screens.Settings.MapSettings.BackgroundMapTitle": {
     "message": "Background Maps"
