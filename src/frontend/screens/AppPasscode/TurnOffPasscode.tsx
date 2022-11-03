@@ -40,6 +40,16 @@ const m = defineMessages({
     id: "screens.AppPasscode.TurnOffPasscode.cancel",
     defaultMessage: "Cancel",
   },
+  description: {
+    id: "screens.AppPasscode.TurnOffPasscode.description",
+    defaultMessage:
+      "App Passcode adds an additional layer of security by requiring that you enter a passcode in order to open the Mapeo app.",
+  },
+  currentlyUsing: {
+    id: "screens.AppPasscode.TurnOffPasscode.currentlyUsing",
+    defaultMessage:
+      "You are currently using App Passcode. See below to stop using or change your passcode.",
+  },
 });
 
 interface TurnOffPasscodeProps {
@@ -47,17 +57,16 @@ interface TurnOffPasscodeProps {
 }
 
 export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
-  const {
-    authValuesSet: authenticationValuesSet,
-    setAuthValues: setAuthenticationValues,
-  } = React.useContext(SecurityContext);
+  const { authValuesSet, setAuthValues } = React.useContext(SecurityContext);
 
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
   const { navigate } = useNavigationFromRoot();
 
+  const { formatMessage: t } = useIntl();
+
   function unsetAppPasscode() {
-    setAuthenticationValues({ type: "passcode", value: null });
+    setAuthValues({ type: "passcode", value: null });
     navigate("Security");
   }
 
@@ -67,6 +76,10 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
 
   return (
     <React.Fragment>
+      <Text style={styles.description}>{t(m.description)}</Text>
+      <Text style={{ fontSize: 16, marginBottom: 20 }}>
+        {t(m.currentlyUsing)}
+      </Text>
       <List>
         <ListItem style={styles.checkBoxContainer} onPress={openBottomSheet}>
           <ListItemText
@@ -76,7 +89,7 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
           <TouchableOpacity shouldActivateOnStart onPress={openBottomSheet}>
             <MaterialIcon
               name={
-                authenticationValuesSet.passcodeSet
+                authValuesSet.passcodeSet
                   ? "check-box"
                   : "check-box-outline-blank"
               }
@@ -88,7 +101,7 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
         <ListDivider />
 
         {/* User is not able to see this option unlesss they already have a pass */}
-        {authenticationValuesSet.passcodeSet && (
+        {authValuesSet.passcodeSet && (
           <ListItem
             onPress={() => {
               setScreenState("setPasscode");
@@ -181,5 +194,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+  },
+  description: {
+    marginTop: 40,
+    fontSize: 16,
+    marginBottom: 20,
   },
 });

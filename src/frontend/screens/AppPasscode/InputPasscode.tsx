@@ -4,9 +4,10 @@ import {
   FormattedMessage,
   MessageDescriptor,
 } from "react-intl";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 import { useBlurOnFulfill } from "react-native-confirmation-code-field";
-import { WHITE, RED } from "../../lib/styles";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
+import { WHITE, RED, MAPEO_BLUE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
 import {
   CELL_COUNT,
@@ -17,6 +18,10 @@ const m = defineMessages({
   button: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button",
     defaultMessage: "Next",
+  },
+  cancel: {
+    id: "screens.AppPasscode.InputPasscodeScreen.cancel",
+    defaultMessage: "Cancel",
   },
 });
 interface InputPasscodeProps {
@@ -47,42 +52,58 @@ export const InputPasscode = ({
 
   if (error) inputRef.current?.focus();
 
+  const { goBack } = useNavigationFromRoot();
   return (
-    <React.Fragment>
-      <View style={[styles.container]}>
-        <Text style={[styles.header]}>
-          <FormattedMessage {...text.title} />
-        </Text>
-        <Text style={[styles.subtext]}>
-          <FormattedMessage {...text.subtitle} />
-        </Text>
-
-        <PasscodeInput
-          ref={inputRef}
-          inputValue={inputValue}
-          onChangeTextWithValidation={setInputValue}
-          maskValues={!showPasscodeValues}
-        />
-
-        {error && (
-          <Text style={styles.error}>
-            <FormattedMessage {...text.errorMessage} />
+    <ScrollView>
+      <View style={styles.container}>
+        <View>
+          <Text style={[styles.header]}>
+            <FormattedMessage {...text.title} />
           </Text>
-        )}
-      </View>
+          <Text style={[styles.subtext]}>
+            <FormattedMessage {...text.subtitle} />
+          </Text>
 
-      <Button fullWidth onPress={validate}>
-        <Text style={styles.buttonText}>
-          <FormattedMessage {...m.button} />
-        </Text>
-      </Button>
-    </React.Fragment>
+          <PasscodeInput
+            error={error}
+            ref={inputRef}
+            inputValue={inputValue}
+            onChangeTextWithValidation={setInputValue}
+            maskValues={!showPasscodeValues}
+          />
+
+          {error && (
+            <Text style={styles.error}>
+              <FormattedMessage {...text.errorMessage} />
+            </Text>
+          )}
+        </View>
+
+        <View>
+          <Button
+            fullWidth
+            variant="outlined"
+            style={{ marginBottom: 20, marginTop: 20 }}
+            onPress={goBack}
+          >
+            <Text style={[styles.buttonText, { color: MAPEO_BLUE }]}>
+              <FormattedMessage {...m.cancel} />
+            </Text>
+          </Button>
+
+          <Button fullWidth onPress={validate}>
+            <Text style={[styles.buttonText, { color: WHITE }]}>
+              <FormattedMessage {...m.button} />
+            </Text>
+          </Button>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   buttonText: {
-    color: WHITE,
     fontSize: 16,
     textAlign: "center",
   },
@@ -104,6 +125,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     flexDirection: "column",
+    height: "100%",
     flex: 1,
     justifyContent: "space-between",
   },

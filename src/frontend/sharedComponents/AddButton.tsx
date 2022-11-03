@@ -28,7 +28,6 @@ export const AddButton = React.memo(AddButtonNoMemo);
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    zIndex: 10,
     bottom: 25,
     alignSelf: "center",
   },

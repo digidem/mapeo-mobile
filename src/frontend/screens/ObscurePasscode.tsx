@@ -1,5 +1,5 @@
 import * as React from "react";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { StyleSheet, View } from "react-native";
 
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
@@ -13,69 +13,77 @@ import { SecurityContext } from "../context/SecurityContext";
 const m = defineMessages({
   title: {
     id: "screens.ObscurePasscode.title",
-    defaultMessage: "Kill Passcode",
+    defaultMessage: "Obscure Passcode",
   },
+  whatIsObscure: {
+    id: "screens.ObscurePasscode.whatIsObscure",
+    defaultMessage: "What is Obscure Passcode?",
+  },
+
   toggleMessage: {
     id: "screens.ObscurePasscode.toggleMessage",
-    defaultMessage: "Use Kill Passcode",
+    defaultMessage: "Use Obscure Passcode",
   },
   instructions: {
     id: "screens.ObscurePasscode.instructions",
-    defaultMessage: "Enter the code above to hide sensitive data in Mapeo",
+    defaultMessage: "Enter the code above to hide your data in Mapeo",
+  },
+  description: {
+    id: "screens.ObscurePasscode.description",
+    defaultMessage:
+      "Obscure Passcode is a security feature that allows you to open Mapeo in a decoy mode that hides all of your data. Entering the Obscure Passcode on the intro screen will display an empty version of Mapeo which allows you to create demonstration observations that are not saved to the Mapeo database.",
   },
 });
 
-export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = () => {
-  const {
-    setAuthValues: setAuthenticationValues,
-    authValuesSet: authenticationValuesSet,
-  } = React.useContext(SecurityContext);
+export const ObscurePasscode: NativeNavigationComponent<"ObscurePasscode"> = ({
+  navigation,
+}) => {
+  const { setAuthValues, authValuesSet, authState } = React.useContext(
+    SecurityContext
+  );
+
+  const { formatMessage: t } = useIntl();
+
+  React.useEffect(() => {
+    if (authState === "obscured") {
+      navigation.navigate("Settings");
+    }
+  }, [navigation, authState]);
 
   return (
     <ScrollView style={styles.container}>
-      {/* TO DO: Get translation and copy from programs */}
-      <Text style={{ fontSize: 16 }}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur
-        {/* <FormattedMessage {...m.body} /> */}
-      </Text>
+      <Text style={[styles.title]}>{t(m.whatIsObscure)}</Text>
 
-      <View style={styles.switch}>
-        <Text style={{ fontSize: 16 }}>
-          <FormattedMessage {...m.toggleMessage} />
-        </Text>
-        <TouchableOpacity
-          shouldActivateOnStart
-          onPress={() =>
-            setAuthenticationValues({
-              type: "obscure",
-              value: authenticationValuesSet.obscureSet ? null : undefined,
-            })
-          }
-        >
+      <Text style={{ fontSize: 16 }}>{t(m.description)}</Text>
+
+      <TouchableOpacity
+        style={styles.switch}
+        onPress={() =>
+          setAuthValues({
+            type: "obscure",
+            value: authValuesSet.obscureSet ? null : undefined,
+          })
+        }
+      >
+        <React.Fragment>
+          <Text style={{ fontSize: 16 }}>{t(m.toggleMessage)}</Text>
+
           <MaterialIcon
             name={
-              authenticationValuesSet.obscureSet
-                ? "check-box"
-                : "check-box-outline-blank"
+              authValuesSet.obscureSet ? "check-box" : "check-box-outline-blank"
             }
             size={32}
             color="rgba(0, 0, 0, 0.54)"
           />
-        </TouchableOpacity>
-      </View>
+        </React.Fragment>
+      </TouchableOpacity>
 
-      {authenticationValuesSet.obscureSet && (
+      {authValuesSet.obscureSet && (
         <View style={styles.passbox}>
           <Text style={{ textAlign: "center", marginBottom: 10, fontSize: 20 }}>
             {OBSCURE_PASSCODE}
           </Text>
-          <Text style={{ fontSize: 16 }}>
-            <FormattedMessage {...m.instructions} />
-          </Text>
+          <Text style={{ fontSize: 16 }}>{t(m.instructions)}</Text>
         </View>
       )}
     </ScrollView>
@@ -93,6 +101,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     marginBottom: 20,
+    textAlign: "center",
   },
   passbox: {
     borderRadius: 10,
@@ -114,5 +123,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
 });

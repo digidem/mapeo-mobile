@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TextStyle, View } from "react-native";
 import { TouchableHighlight } from "@gorhom/bottom-sheet";
 
 import { LIGHT_BLUE, MAGENTA, MAPEO_BLUE, RED, WHITE } from "../../lib/styles";
@@ -30,15 +30,28 @@ interface Props {
   description?: React.ReactNode;
   icon?: React.ReactNode;
   title: React.ReactNode;
+  titleStyle?: TextStyle;
+  descriptionStyle?: TextStyle;
 }
 
-export const Content = ({ icon, buttonConfigs, description, title }: Props) => (
+export const Content = ({
+  icon,
+  buttonConfigs,
+  description,
+  title,
+  titleStyle,
+  descriptionStyle,
+}: Props) => (
   <View style={styles.container}>
     <View>
       {icon && <View style={styles.iconContainer}>{icon}</View>}
       <View style={styles.textContainer}>
-        <Text style={[styles.title, styles.bold]}>{title}</Text>
-        {description && <Text style={styles.description}>{description}</Text>}
+        <Text style={[styles.title, styles.bold, titleStyle]}>{title}</Text>
+        {description && (
+          <Text style={[styles.description, descriptionStyle]}>
+            {description}
+          </Text>
+        )}
       </View>
     </View>
     <View style={styles.buttonsContainer}>
@@ -103,13 +116,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 24,
   },
+  buttonsContainer: {
+    paddingHorizontal: 20,
+  },
   description: {
     marginTop: 10,
     fontSize: 20,
     textAlign: "center",
-  },
-  buttonsContainer: {
-    paddingHorizontal: 20,
   },
   buttonText: {
     fontSize: 18,

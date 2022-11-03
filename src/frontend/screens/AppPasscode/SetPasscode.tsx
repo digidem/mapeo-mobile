@@ -21,11 +21,7 @@ const m = defineMessages({
   },
   subTitleSet: {
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet",
-    defaultMessage: "This passcode will be used to open the Mapeo App",
-  },
-  subTitleConfirm: {
-    id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleConfirm",
-    defaultMessage: "Password",
+    defaultMessage: "This passcode will be required to open the Mapeo App",
   },
   passwordDoesNotMatch: {
     id:
@@ -116,11 +112,7 @@ const SetPasswordConfirm = ({ initialPass }: { initialPass: string }) => {
 
   function validate() {
     if (confirmPass === initialPass) {
-      setAuthValues({
-        type: "passcode",
-        value: confirmPass,
-      });
-      navigate("Security");
+      navigate("ConfirmPasscodeSheet", { passcode: confirmPass });
       return;
     }
 
@@ -132,7 +124,7 @@ const SetPasswordConfirm = ({ initialPass }: { initialPass: string }) => {
       text={{
         title: m.titleConfirm,
         errorMessage: m.passwordDoesNotMatch,
-        subtitle: m.subTitleConfirm,
+        subtitle: m.subTitleSet,
       }}
       validate={validate}
       error={error}
