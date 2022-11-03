@@ -33,9 +33,21 @@ const m = defineMessages({
     defaultMessage: "MB",
     description: "abbreviation for megabyte",
   },
-  zoomLevel: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.zoomLevel",
-    defaultMessage: "Zoom Level",
+  zoomRange: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.zoomRange",
+    defaultMessage: "Zoom Range",
+    description:
+      "Shows the user the range of zoom available for an offline map",
+  },
+  maxZoom: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.maxZoom",
+    defaultMessage: "Max Zoom",
+    description: "Shows the user the max zoom for an offline map",
+  },
+  minZoom: {
+    id: "screens.Settings.MapSettings.BackgroundMapInfo.minZoom",
+    defaultMessage: "Min Zoom",
+    description: "Shows the user the min zoom for an offline map",
   },
   description: {
     id: "screens.Settings.MapSettings.BackgroundMapInfo.description",
@@ -49,77 +61,77 @@ const m = defineMessages({
     id: "screens.Settings.MapSettings.BackgroundMapInfo.useMap",
     defaultMessage: "Use Map",
   },
-  lvlOfDetail0to1: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail0to1",
-    defaultMessage: "Whole world",
-  },
-  lvlOfDetail2: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail2",
-    defaultMessage: "Subcontinental area ",
-  },
-  lvlOfDetail3to4: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail3to4",
-    defaultMessage: "Largest country",
-  },
-  lvlOfDetail5: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail5",
-    defaultMessage: "Large African country",
-  },
-  lvlOfDetail6: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail6",
-    defaultMessage: "Large European country",
-  },
-  lvlOfDetail7to8: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail7to8",
-    defaultMessage: "Small country, US state",
-  },
-  lvlOfDetail9: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail9",
-    defaultMessage: "Wide area, large metropolitan area",
-  },
-  lvlOfDetail10: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail10",
-    defaultMessage: "Metropolitan area",
-  },
-  lvlOfDetail11: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail11",
-    defaultMessage: "City",
-  },
-  lvlOfDetail12: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail12",
-    defaultMessage: "Town, or city district",
-  },
-  lvlOfDetail13to14: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail13to14",
-    defaultMessage: "Village, or suburb",
-  },
-  lvlOfDetail15: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail15",
-    defaultMessage: "Small road",
-  },
-  lvlOfDetail16: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail16",
-    defaultMessage: "Street",
-  },
-  lvlOfDetail17: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail17",
-    defaultMessage: "Block, park, addresses",
-  },
-  lvlOfDetail18: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail18",
-    defaultMessage: "Some buildings, trees",
-  },
-  lvlOfDetail19: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail19",
-    defaultMessage: "Local highway and crossing details",
-  },
-  lvlOfDetail20: {
-    id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail20",
-    defaultMessage: "A mid-sized building",
-  },
+  // lvlOfDetail0to1: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail0to1",
+  //   defaultMessage: "Whole world",
+  // },
+  // lvlOfDetail2: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail2",
+  //   defaultMessage: "Subcontinental area ",
+  // },
+  // lvlOfDetail3to4: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail3to4",
+  //   defaultMessage: "Largest country",
+  // },
+  // lvlOfDetail5: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail5",
+  //   defaultMessage: "Large African country",
+  // },
+  // lvlOfDetail6: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail6",
+  //   defaultMessage: "Large European country",
+  // },
+  // lvlOfDetail7to8: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail7to8",
+  //   defaultMessage: "Small country, US state",
+  // },
+  // lvlOfDetail9: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail9",
+  //   defaultMessage: "Wide area, large metropolitan area",
+  // },
+  // lvlOfDetail10: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail10",
+  //   defaultMessage: "Metropolitan area",
+  // },
+  // lvlOfDetail11: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail11",
+  //   defaultMessage: "City",
+  // },
+  // lvlOfDetail12: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail12",
+  //   defaultMessage: "Town, or city district",
+  // },
+  // lvlOfDetail13to14: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail13to14",
+  //   defaultMessage: "Village, or suburb",
+  // },
+  // lvlOfDetail15: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail15",
+  //   defaultMessage: "Small road",
+  // },
+  // lvlOfDetail16: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail16",
+  //   defaultMessage: "Street",
+  // },
+  // lvlOfDetail17: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail17",
+  //   defaultMessage: "Block, park, addresses",
+  // },
+  // lvlOfDetail18: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail18",
+  //   defaultMessage: "Some buildings, trees",
+  // },
+  // lvlOfDetail19: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail19",
+  //   defaultMessage: "Local highway and crossing details",
+  // },
+  // lvlOfDetail20: {
+  //   id: "screens.Settings.MapSettings.BackgroundMapInfo.lvlOfDetail20",
+  //   defaultMessage: "A mid-sized building",
+  // },
 });
 
-type Zoom = "loading" | number | null;
+type Zoom = (number | undefined)[] | "loading";
 
 // To Do: Get level of detail from programs team
 export const BackgroundMapInfo = ({
@@ -133,8 +145,6 @@ export const BackgroundMapInfo = ({
   const { closeSheet, openSheet, sheetRef } = useBottomSheetModal({
     openOnMount: false,
   });
-
-  const levelOfDetail = determineLevelOfDetail(zoom);
 
   const { setStyleId } = useMapStyle();
 
@@ -163,23 +173,42 @@ export const BackgroundMapInfo = ({
         return allSettled(tileSetIds.map(id => api.maps.getTileset(id)));
       })
       .then(tileJson => {
-        const maxZoom = tileJson.reduce((highest, tilePromise) => {
-          if (!("value" in tilePromise)) return highest;
-          const tile = tilePromise.value;
-          if (!tile.maxzoom) return highest;
-          if (tile.maxzoom > highest) return tile.maxzoom;
-          return highest;
-        }, -1);
+        const initialVal: (undefined | number)[] = [undefined, undefined];
+        const zoomRanges: (undefined | number)[] = tileJson.reduce(
+          (ranges, tilePromise) => {
+            if (!("value" in tilePromise)) return ranges;
+            const tile = tilePromise.value;
 
-        if (maxZoom === -1) throw new Error("no max zoom available");
+            if (tile.minzoom) {
+              const min = ranges[0];
+              if (min === undefined || tile.minzoom < min) {
+                ranges[0] = tile.minzoom;
+              }
+            }
 
-        setZoom(maxZoom);
+            if (tile.maxzoom) {
+              const max = ranges[1];
+              if (max === undefined || tile.maxzoom > max) {
+                ranges[1] = tile.maxzoom;
+              }
+            }
+
+            return ranges;
+          },
+          initialVal
+        );
+
+        setZoom(zoomRanges);
+
+        if (zoomRanges[0] === undefined && zoomRanges[1] === undefined)
+          throw new Error("no zoom range available");
       })
       .catch(err => {
         console.log(err);
-        setZoom(null);
       });
   }, [id]);
+
+  const [min, max] = zoom !== "loading" ? zoom : [undefined, undefined];
 
   return (
     <React.Fragment>
@@ -207,13 +236,12 @@ export const BackgroundMapInfo = ({
           )}
           {zoom === "loading" ? (
             <Loading />
-          ) : zoom ? (
-            <React.Fragment>
-              <Text>{`${t(m.zoomLevel)}: ${zoom}`}</Text>
-              <Text>{`${t(m.description)}: ${
-                !levelOfDetail ? "" : t(levelOfDetail)
-              }`}</Text>
-            </React.Fragment>
+          ) : min && max ? (
+            <Text>{`${t(m.zoomRange)}: ${min} - ${max}`}</Text>
+          ) : min && !max ? (
+            <Text>{`${t(m.minZoom)}: ${min}`}</Text>
+          ) : !min && max ? (
+            <Text>{`${t(m.maxZoom)}: ${max}`}</Text>
           ) : null}
 
           {id !== DEFAULT_MAP_ID && (
@@ -221,7 +249,7 @@ export const BackgroundMapInfo = ({
               style={styles.button}
               fullWidth
               variant="outlined"
-              onPress={() => sheetRef.current?.present()}
+              onPress={openSheet}
             >
               <View style={styles.deleteButtonContainer}>
                 <DeleteIcon color={MAPEO_BLUE} />
@@ -278,47 +306,4 @@ function allSettled<T>(promises: Promise<T>[]) {
         .catch(reason => ({ state: "rejected", reason }));
     })
   );
-}
-
-function determineLevelOfDetail(zoom: Zoom) {
-  if (typeof zoom !== "number") return undefined;
-
-  switch (true) {
-    case zoom >= 0 && zoom < 2:
-      return m.lvlOfDetail0to1;
-    case zoom === 2:
-      return m.lvlOfDetail2;
-    case zoom >= 3 && zoom < 5:
-      return m.lvlOfDetail3to4;
-    case zoom === 5:
-      return m.lvlOfDetail5;
-    case zoom === 6:
-      return m.lvlOfDetail6;
-    case zoom >= 7 && zoom < 9:
-      return m.lvlOfDetail7to8;
-    case zoom === 9:
-      return m.lvlOfDetail9;
-    case zoom === 10:
-      return m.lvlOfDetail10;
-    case zoom === 11:
-      return m.lvlOfDetail11;
-    case zoom === 12:
-      return m.lvlOfDetail12;
-    case zoom >= 13 && zoom < 15:
-      return m.lvlOfDetail13to14;
-    case zoom === 15:
-      return m.lvlOfDetail15;
-    case zoom === 16:
-      return m.lvlOfDetail16;
-    case zoom === 17:
-      return m.lvlOfDetail17;
-    case zoom === 18:
-      return m.lvlOfDetail18;
-    case zoom === 19:
-      return m.lvlOfDetail19;
-    case zoom === 20:
-      return m.lvlOfDetail20;
-    default:
-      return undefined;
-  }
 }
