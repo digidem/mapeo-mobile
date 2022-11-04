@@ -22,13 +22,12 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "../../../sharedComponents/Touchables";
 import { NativeNavigationComponent } from "../../../sharedTypes";
 import api, { extractHttpErrorResponse } from "../../../api";
-import { useMapImportsManager } from "../../../hooks/useMapImports";
 import { ErrorIcon } from "../../../sharedComponents/icons";
 import {
   BottomSheetContent,
   BottomSheetContentProps,
 } from "../../../sharedComponents/BottomSheet";
-import { useMapServerStyles } from "../../../hooks/useMapServerStyles";
+import { useMapStyles } from "../../../hooks/useMapStyles";
 
 export const DEFAULT_MAP_ID = "default";
 
@@ -102,7 +101,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
     collapseSheet,
   } = useBottomSheet();
 
-  const { status, styles: stylesList, selectedStyleId } = useMapServerStyles();
+  const { status, styles: stylesList, selectedStyleId } = useMapStyles();
 
   const {
     add: addMapImports,

@@ -10,43 +10,27 @@ type MapImportsState = Record<
 
 type AddAction = {
   type: "add";
-  payload: { styleId: string; importId: string }[];
+  styleId: string;
+  importId: string;
 };
-
-type RemoveAction = { type: "remove"; payload: string[] };
+type RemoveAction = { type: "remove"; styleId: string };
 
 type MapImportsAction = AddAction | RemoveAction;
 
-function reducer(state: MapImportsState, action: MapImportsAction) {
-  const { type, payload } = action;
-
-  switch (type) {
+function reducer(
+  state: MapImportsState,
+  action: MapImportsAction
+): Readonly<MapImportsState> {
+  switch (action.type) {
     case "add": {
-      if (payload.every(({ styleId }) => state[styleId])) {
-        return state;
-      }
-
-      const updatedState = { ...state };
-
-      for (const { styleId, importId } of payload) {
-        updatedState[styleId] = importId;
-      }
-
-      return updatedState;
+      return {
+        ...state,
+        [action.styleId]: action.importId,
+      };
     }
     case "remove": {
-      if (payload.every(styleId => !state[styleId])) {
-        return state;
-      }
-
-      const updatedState = { ...state };
-
-      // delete updatedState[styleId];
-      for (const styleId of payload) {
-        delete updatedState[styleId];
-      }
-
-      return updatedState;
+      const { [action.styleId]: omitted, ...newState } = state;
+      return newState;
     }
   }
 }

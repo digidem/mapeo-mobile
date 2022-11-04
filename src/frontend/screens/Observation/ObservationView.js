@@ -31,7 +31,7 @@ import {
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
-import { useMapStyle } from "../../hooks/useMapStyle";
+import { useMapStyle } from "../../hooks/useSelectedMapStyle";
 import useDeviceId from "../../hooks/useDeviceId";
 import useSettingsValue from "../../hooks/useSettingsValue";
 import Loading from "../../sharedComponents/Loading";

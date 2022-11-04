@@ -15,9 +15,7 @@ import { LIGHT_GREY, MEDIUM_BLUE, WHITE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
 import LocationContext from "../../context/LocationContext";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
-import { fallbackStyleURL } from "../../context/MapStyleContext";
-import { OfflineMapLayers } from "../../sharedComponents/OfflineMapLayers";
-import { useMapServerStyles } from "../../hooks/useMapServerStyles";
+import { useMapStyles } from "../../hooks/useMapStyles";
 
 const m = defineMessages({
   title: {
@@ -47,11 +45,7 @@ export const BGMapSelector = React.forwardRef<
 >(({ closeSheet }, ref) => {
   const { navigate } = useNavigationFromRoot();
 
-  const {
-    setSelectedStyleId,
-    status,
-    styles: stylesList,
-  } = useMapServerStyles();
+  const { status, styles: stylesList, setSelectedStyleId } = useMapStyles();
 
   const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
     0,
@@ -79,73 +73,56 @@ export const BGMapSelector = React.forwardRef<
       >
         <View style={{ backgroundColor: WHITE }}>
           <Text style={styles.title}> {t(m.title)}</Text>
-
-          {(() => {
-            switch (status) {
-              case "loading": {
-                return (
-                  <View style={{ margin: 40 }}>
-                    <Loading />
-                  </View>
-                );
-              }
-              case "success": {
-                return (
-                  <>
-                    <TouchableOpacity
-                      onPress={() => {
+          {status === "loading" ? (
+            <View style={{ margin: 40 }}>
+              <Loading />
+            </View>
+          ) : status === "success" ? (
+            <>
+              <TouchableOpacity
+                onPress={() => {
+                  closeSheet();
+                  navigate("MapSettings");
+                }}
+              >
+                <Text
+                  style={{
+                    color: MEDIUM_BLUE,
+                    fontSize: 16,
+                    textAlign: "center",
+                    marginBottom: 10,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {t(m.manageMaps)}
+                </Text>
+              </TouchableOpacity>
+              <View
+                style={{
+                  borderBottomColor: LIGHT_GREY,
+                  borderBottomWidth: 1,
+                  marginBottom: 10,
+                  marginTop: 10,
+                }}
+              />
+              <ScrollView style={styles.flexContainer} horizontal={true}>
+                {stylesList
+                  .filter(({ isImporting }) => !isImporting)
+                  .map(({ id, url, name }) => (
+                    <MapThumbnail
+                      key={id}
+                      onMapSelected={() => {
                         closeSheet();
-                        navigate("MapSettings");
+                        console.log("ID", id);
+                        setSelectedStyleId(id);
                       }}
-                    >
-                      <Text
-                        style={{
-                          color: MEDIUM_BLUE,
-                          fontSize: 16,
-                          textAlign: "center",
-                          marginBottom: 10,
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {t(m.manageMaps)}
-                      </Text>
-                    </TouchableOpacity>
-                    <View
-                      style={{
-                        borderBottomColor: LIGHT_GREY,
-                        borderBottomWidth: 1,
-                        marginBottom: 10,
-                        marginTop: 10,
-                      }}
+                      styleUrl={url}
+                      title={name}
                     />
-                    <ScrollView style={styles.flexContainer} horizontal={true}>
-                      {stylesList
-                        .filter(({ importInfo }) => !importInfo)
-                        .map(({ id, url, name }) => (
-                          <MapThumbnail
-                            key={id}
-                            onMapSelected={() => {
-                              closeSheet();
-                              console.log("ID", id);
-                              setSelectedStyleId(id);
-                            }}
-                            styleUrl={url}
-                            title={name}
-                          />
-                        ))}
-                    </ScrollView>
-                  </>
-                );
-              }
-              // TODO: properly handle
-              case "error": {
-                return null;
-              }
-              default: {
-                return null;
-              }
-            }
-          })()}
+                  ))}
+              </ScrollView>
+            </>
+          ) : null}
         </View>
 
         <Button
@@ -172,6 +149,9 @@ const MapThumbnail = ({
 }) => {
   const { position } = React.useContext(LocationContext);
 
+  // TODO: need a background image that shows if the map does not load (e.g. if
+  // the user is offline and the map is not available offline)
+
   return (
     <View>
       <TouchableHighlight
@@ -197,7 +177,6 @@ const MapThumbnail = ({
             }
             allowUpdates
           />
-          {styleUrl === fallbackStyleURL ? <OfflineMapLayers /> : null}
         </MapboxGL.MapView>
       </TouchableHighlight>
       {title && (

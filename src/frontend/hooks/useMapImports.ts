@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import {
   MapImportsStateContext,
   MapImportsActionsContext,
@@ -12,9 +12,12 @@ export function useMapImports() {
 export function useMapImportsManager() {
   const dispatch = useContext(MapImportsActionsContext);
 
-  return {
-    add: (payload: { styleId: string; importId: string }[]) =>
-      dispatch({ type: "add", payload }),
-    remove: (payload: string[]) => dispatch({ type: "remove", payload }),
-  };
+  // Memoize in case this context gets put inside another context that changes a lot.
+  return useMemo(() => {
+    return {
+      add: ({ styleId, importId }: { styleId: string; importId: string }) =>
+        dispatch({ type: "add", styleId, importId }),
+      remove: (styleId: string) => dispatch({ type: "remove", styleId }),
+    };
+  }, [dispatch]);
 }

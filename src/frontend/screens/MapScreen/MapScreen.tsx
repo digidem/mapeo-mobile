@@ -5,7 +5,7 @@ import debug from "debug";
 import MapView from "../../sharedComponents/Map/MapView";
 import Loading from "../../sharedComponents/Loading";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
-import { useMapStyle } from "../../hooks/useMapStyle";
+import { useSelectedMapStyle } from "../../hooks/useSelectedMapStyle";
 import ObservationsContext from "../../context/ObservationsContext";
 import LocationContext from "../../context/LocationContext";
 import { AddButton } from "../../sharedComponents/AddButton";
@@ -24,7 +24,7 @@ export const MapScreen = ({
   navigation,
 }: NativeHomeTabsNavigationProps<"Map">) => {
   const [, { newDraft }] = useDraftObservation();
-  const { styleType, styleUrl } = useMapStyle();
+  const selectedMapStyle = useSelectedMapStyle();
 
   const [experiments] = useExperiments();
 
@@ -47,15 +47,15 @@ export const MapScreen = ({
 
   return (
     <View style={styles.container}>
-      {styleUrl === null ? (
+      {selectedMapStyle.status === "loading" ? (
         <Loading />
       ) : (
         <MapView
           location={location}
           observations={observations}
           onPressObservation={handleObservationPress}
-          styleURL={styleUrl}
-          styleType={styleType}
+          styleURL={selectedMapStyle.styleUrl}
+          isOfflineFallback={selectedMapStyle.isOfflineFallback}
         />
       )}
       <AddButton testID="addButtonMap" onPress={handleAddPress} />
