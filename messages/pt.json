@@ -148,7 +148,7 @@
     "message": "Salvar Senha do aplicativo"
   },
   "screens.AppPasscode.ConfirmPasscodeSheet.title": {
-    "message": "Se perder ou esquecer a Senha de aplicativo, ela nunca pode ser recuperada! Certifique-se de anotar sua senha em um local seguro antes de salvar."
+    "message": "Se perder ou esquecer a Senha do aplicativo, ela nunca pode ser recuperada! Certifique-se de anotar sua senha em um local seguro antes de salvar."
   },
   "screens.AppPasscode.InputPasscodeScreen.cancel": {
     "message": "Cancelar"
@@ -184,7 +184,7 @@
     "message": "A Senha do aplicativo permite que você adicione uma camada adicional de segurança, exigindo que você insira uma senha para abrir o aplicativo Mapeo. Você pode definir sua própria senha de 5 dígitos ativando o recurso abaixo."
   },
   "screens.AppPasscode.PasscodeIntro.warning": {
-    "message": "**AVISO: Senhas esquecidas não podem ser recuperadas!** Quando esse recurso estiver ativado, se você esquecer ou perder sua senha, não será capaz de abrir o Mapeo e perderá o acesso a quaisquer dados do Mapeo que foram sincronizados com outros participantes do projeto."
+    "message": "**AVISO: Senhas esquecidas não podem ser recuperadas!** Quando esse recurso estiver ativado, se você esquecer ou perder sua senha, não será capaz de abrir o Mapeo e perderá o acesso a quaisquer dados do Mapeo que não foram sincronizados com outros participantes do projeto."
   },
   "screens.AppPasscode.TurnOffPasscode.cancel": {
     "message": "Cancelar"
@@ -723,6 +723,9 @@
   "screens.Security.obscurePassDescriptonPassNotSet": {
     "message": "Para usar, ative a Senha do aplicativo"
   },
+  "screens.Security.obscurePassDescriptonPassSet": {
+    "message": "Proteja seu dispositivo contra apreensão"
+  },
   "screens.Security.obscurePasscodeHeader": {
     "message": "Senha obscura"
   },
@@ -779,7 +782,7 @@
     "message": "Usar o recurso de Mapas de fundo"
   },
   "screens.Settings.Experiments.BGMaps.warning": {
-    "message": "AVISO: Quando este recurso estiver ativado, você não terá acesso ao mapa que estava usando anteriormente no Mapeo. Desative o Gerenciador de mapas para voltar ao seu mapa anterior. Note que este recurso ainda está na fase de testes e você precisará importar novamente todos os mapas adicionados ao Gerenciador de mapas quando a versão final for lançada."
+    "message": "AVISO: Quando este recurso estiver ativado, você não terá acesso ao mapa que estava usando anteriormente no Mapeo. Desative Mapas de fundo para voltar ao seu mapa anterior. Note que este recurso ainda está na fase de testes e você precisará importar novamente todos os mapas adicionados no recurso Mapas de fundo quando a versão final for lançada."
   },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Seta direcional"
@@ -1181,6 +1184,10 @@
     "description": "Title of message when there is an uncaught message in the app",
     "message": "Erro inesperado"
   },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "Interseção de Rua"
+  },
   "sharedComponent.OfflineAreaCard.lvlDetail": {
     "message": "Nível de detalhe"
   },
@@ -1208,9 +1215,17 @@
     "description": "Level of detail seen on map - can see smaller countries",
     "message": "País pequeno"
   },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "Estrada pequena"
+  },
   "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
     "description": "Level of detail seen on map - can see most streets on map",
     "message": "Rua"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "Bloco de rua"
   },
   "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
     "description": "Level of detail seen on map - second farthest zoom level",
