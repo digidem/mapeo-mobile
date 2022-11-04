@@ -145,10 +145,10 @@
     "message": "Senha"
   },
   "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
-    "message": "Salvar senha do Aplicativo"
+    "message": "Salvar Senha do aplicativo"
   },
   "screens.AppPasscode.ConfirmPasscodeSheet.title": {
-    "message": "Se perder ou esquecer a Senha de aplicativo, nunca pode ser recuperada! Certifique-se de anotar sua senha em um local seguro antes de salvar."
+    "message": "Se perder ou esquecer a Senha de aplicativo, ela nunca pode ser recuperada! Certifique-se de anotar sua senha em um local seguro antes de salvar."
   },
   "screens.AppPasscode.InputPasscodeScreen.cancel": {
     "message": "Cancelar"
@@ -779,7 +779,7 @@
     "message": "Usar o recurso de Mapas de fundo"
   },
   "screens.Settings.Experiments.BGMaps.warning": {
-    "message": "AVISO: Quando este recurso estiver ativado, você não terá acesso ao mapa que estava usando anteriormente no Mapeo. Desative o Gerenciador de mapas para voltar ao seu mapa anterior. Note que este recurso ainda está na fase de teste piloto e você precisará importar novamente todos os mapas adicionados ao Gerenciador de mapas quando a versão final for lançada."
+    "message": "AVISO: Quando este recurso estiver ativado, você não terá acesso ao mapa que estava usando anteriormente no Mapeo. Desative o Gerenciador de mapas para voltar ao seu mapa anterior. Note que este recurso ainda está na fase de testes e você precisará importar novamente todos os mapas adicionados ao Gerenciador de mapas quando a versão final for lançada."
   },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Seta direcional"
