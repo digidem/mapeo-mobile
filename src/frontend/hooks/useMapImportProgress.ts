@@ -38,7 +38,8 @@ type ImportProgressMessage = MessageProgress | MessageComplete | MessageError;
 
 export type MapImportState =
   | { status: "idle" | "error" }
-  | { status: "progress" | "complete"; progress: number };
+  | { status: "progress" | "complete"; progress: number }
+  | undefined;
 
 class RetriableError extends Error {}
 class FatalError extends Error {}
@@ -97,6 +98,7 @@ export function useMapImportProgress(styleId: string): MapImportState {
     };
   }, [importId, styleId]);
 
+  if (!importId) return;
   return state;
 }
 

@@ -7,10 +7,9 @@ import { Bar } from "react-native-progress";
 import { MapServerStyleInfo } from "../sharedTypes";
 import { LIGHT_GREY, MAPEO_BLUE, MEDIUM_GREY } from "../lib/styles";
 import LocationContext from "../context/LocationContext";
-import { useMapImportsManager } from "../hooks/useMapImports";
-import { DEFAULT_MAP_ID } from "../screens/Settings/MapSettings/BackgroundMaps";
-import { useMapImportsProgress } from "../hooks/useMapImportsProgress";
+import { useMapImportProgress } from "../hooks/useMapImportProgress";
 import { Pill } from "./Pill";
+import { CUSTOM_MAP_ID, DEFAULT_MAP_ID } from "../hooks/useMapStyles";
 
 const m = defineMessages({
   currentMap: {
@@ -53,45 +52,35 @@ const WithTopSeparation = ({ children }: React.PropsWithChildren<{}>) => (
   <View style={{ marginTop: 10 }}>{children}</View>
 );
 
-interface BGMapCardProps {
-  importInfo?: {
-    id: string;
-    progressUrl: string;
-  };
+interface BGMapCardProps extends MapServerStyleInfo {
+  isImporting: boolean;
   isSelected: boolean;
-  mapStyleInfo: MapServerStyleInfo;
   onPress?: () => void;
 }
 
 export const BGMapCard = ({
-  importInfo,
+  isImporting,
   isSelected,
-  mapStyleInfo,
+  name,
+  bytesStored,
+  id: styleId,
+  url: styleUrl,
 }: BGMapCardProps) => {
   const { formatMessage: t } = useIntl();
   const { position } = React.useContext(LocationContext);
 
-  const { remove: removeMapImports } = useMapImportsManager();
+  const importInfo = useMapImportProgress(styleId);
 
-  const importStatus = useMapImportsProgress(importInfo?.progressUrl);
-
-  // TODO: This doesn't seem right
-  // What's the best way to remove from map imports context when the import is completed successfully?
-  React.useEffect(() => {
-    if (importStatus.status === "complete") {
-      removeMapImports([mapStyleInfo.id]);
-    }
-  }, [mapStyleInfo.id, importStatus.status, removeMapImports]);
-
-  const showBytesStored = mapStyleInfo.id !== DEFAULT_MAP_ID && !importInfo;
-  const showProgressBar = importStatus.status !== "error";
+  const showBytesStored =
+    styleId !== DEFAULT_MAP_ID && styleId !== CUSTOM_MAP_ID && !isImporting;
+  const showProgressBar = importInfo && importInfo.status !== "error";
   const showProgressBarMessage =
-    importStatus.status === "idle" || importStatus.status === "progress";
+    importInfo?.status === "idle" || importInfo?.status === "progress";
 
   return (
     <View style={styles.container}>
       <MapboxGL.MapView
-        styleURL={mapStyleInfo.url}
+        styleURL={styleUrl}
         compassEnabled={false}
         zoomEnabled={false}
         logoEnabled={false}
@@ -112,13 +101,12 @@ export const BGMapCard = ({
       </MapboxGL.MapView>
       <View style={styles.infoContainer}>
         <Text style={[styles.text, { fontWeight: "500" }]}>
-          {mapStyleInfo.name || t(m.unnamedStyle)}
+          {name || t(m.unnamedStyle)}
         </Text>
 
         {showBytesStored && (
           <Text style={[styles.text, { color: MEDIUM_GREY }]}>
-            {bytesToMegabytes(mapStyleInfo.bytesStored).toFixed(0)}{" "}
-            {t(m.abbrevMegabyte)}
+            {bytesToMegabytes(bytesStored).toFixed(0)} {t(m.abbrevMegabyte)}
           </Text>
         )}
 
@@ -132,7 +120,7 @@ export const BGMapCard = ({
                 progress={
                   importStatus.status === "idle"
                     ? undefined
-                    : importStatus.progress
+                    : importInfo.progress
                 }
               />
             )}
