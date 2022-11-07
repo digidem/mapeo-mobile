@@ -365,8 +365,6 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    // Add v8-android - prebuilt libv8.so into APK
-    implementation 'org.chromium:v8-android:9.93.+'
 
     addUnimodulesDependencies()
 
