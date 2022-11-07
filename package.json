@@ -176,7 +176,7 @@
     "hubfs.js": "^1.0.0",
     "husky": "^7.0.2",
     "jest": "^27.0.6",
-    "jest-cli": "^26.4.2",
+    "jest-cli": "^27.0.6",
     "jetifier": "^1.6.6",
     "metro-config": "^0.66.2",
     "metro-react-native-babel-preset": "^0.66.2",
