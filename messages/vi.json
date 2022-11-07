@@ -137,11 +137,30 @@
   "screens.AppPasscode": {
     "message": "Mật khẩu Ứng dụng"
   },
+  "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
+    "message": "Hủy"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.passcode": {
+    "description": "used to indicate to the user what the new passcode will be.",
+    "message": "Mật khẩu"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
+    "message": "Lưu mật khẩu ứng dụng"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.title": {
+    "message": "Mật khẩu ứng dụng không thể được phục hồi nếu bị mất hoặc bị quên! Hãy nhớ ghi lại mật khẩu của bạn ở một nơi an toàn trước khi lưu để dùng."
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Tiếp tục"
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "Mật khẩu Ứng dụng là gì?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.currentlyUsing": {
+    "message": "Bạn đang sử dụng Mật khẩu ứng dụng. Xem bên dưới để ngừng sử dụng hoặc thay đổi mật khẩu của bạn."
+  },
+  "screens.AppPasscode.TurnOffPasscode.description": {
+    "message": "Mật khẩu ứng dụng bổ sung thêm một lớp bảo mật bằng cách yêu cầu bạn nhập mật khẩu để mở ứng dụng Mapeo."
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
