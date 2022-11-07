@@ -43,7 +43,6 @@
   },
   "dependencies": {
     "@bugsnag/react-native": "^7.16.7",
-    "@digidem/wcmc-mapeo-mobile-intro": "^1.0.3",
     "@gorhom/bottom-sheet": "^2.3.0",
     "@react-native-async-storage/async-storage": "^1.15.14",
     "@react-native-community/art": "^1.2.0",
@@ -57,6 +56,7 @@
     "@react-navigation/elements": "^1.3.3",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
+    "@unep-wcmc/icca-mapeo-mobile-intro-screens": "^1.2.0",
     "cheap-ruler": "^3.0.1",
     "core-js": "^3.6.5",
     "debug": "^4.1.1",
