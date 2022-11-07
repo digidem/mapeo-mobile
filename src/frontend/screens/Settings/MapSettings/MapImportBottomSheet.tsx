@@ -1,17 +1,21 @@
 import React from "react";
+import { defineMessages, useIntl } from "react-intl";
+import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { defineMessages, useIntl } from "react-intl";
-import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import * as DocumentPicker from "expo-document-picker";
+
 import { TouchableOpacity } from "../../../sharedComponents/Touchables";
 import { LIGHT_GREY, MEDIUM_GREY, RED } from "../../../lib/styles";
 import { BottomSheetContent } from "../../../sharedComponents/BottomSheet";
 import { ErrorIcon } from "../../../sharedComponents/icons";
+import api, { extractHttpErrorResponse } from "../../../api";
+import { useMapImportsManager } from "../../../hooks/useMapImports";
 
 const MIN_SHEET_HEIGHT = 400;
 
@@ -133,6 +137,7 @@ const FileErrorContent = ({ onPressClose }: { onPressClose: () => void }) => {
 type BottomSheetStates = "select" | "importing" | "error";
 
 export interface MapImportBottomSheetMethods {
+  /** Open the bottom sheet by expanding it to its maximum snap point */
   open: () => void;
 }
 
@@ -155,6 +160,7 @@ const MapImportBottomSheet = React.forwardRef<MapImportBottomSheetMethods, {}>(
     const [state, setState] = React.useState<BottomSheetStates>("select");
     const bottomSheetRef = React.useRef<BottomSheetMethods>(null);
     const { snapPoints, updateSheetHeight } = useSnapPointsCalculator();
+    const { add: addMapImport } = useMapImportsManager();
 
     React.useImperativeHandle(ref, () => {
       return {
@@ -162,57 +168,57 @@ const MapImportBottomSheet = React.forwardRef<MapImportBottomSheetMethods, {}>(
       };
     });
 
-    const handlePressClose = () => {
+    const closeSheet = () => {
+      // Set state on close so when it opens again this is what you see
+      setState("select");
       bottomSheetRef.current?.close();
     };
 
     const handlePressImport = async () => {
+      setState("importing");
+      let results;
       try {
-        const results = await DocumentPicker.getDocumentAsync();
+        results = await DocumentPicker.getDocumentAsync();
+      } catch (err) {
+        setState("error");
+        return;
+      }
 
-        if (results.type === "cancel") {
-          closeSheet();
+      if (results.type === "cancel") {
+        closeSheet();
+        return;
+      }
+
+      try {
+        const {
+          import: { id: importId },
+        } = await api.maps.importTileset(results.uri);
+
+        // TODO: Once https://github.com/digidem/mapeo-map-server/issues/81 is
+        // implemented, no need to call this endpoint and use the last item,
+        // etc. We need to do this because we don't yet have an endpoint on the
+        // server for active imports, so we need to maintain our own state of
+        // active imports.
+        const list = await api.maps.getStyleList();
+        const { id: styleId } = list[list.length - 1];
+        addMapImport({ styleId, importId });
+
+        closeSheet();
+      } catch (err) {
+        console.log("IMPORT ERROR", err);
+        const parsedError = await extractHttpErrorResponse(err)?.json();
+
+        if (
+          parsedError &&
+          parsedError.statusCode >= 400 &&
+          parsedError.statusCode < 500
+        ) {
+          setState("error");
           return;
         }
 
-        collapseSheet();
-
-        try {
-          const { import: tilesetImport } = await api.maps.importTileset(
-            results.uri
-          );
-
-          // TODO: Once https://github.com/digidem/mapeo-map-server/issues/81 is implemented,
-          // no need to call this endpoint and use the last item, etc
-          const list = await api.maps.getStyleList();
-          const lastStyle = list[list.length - 1];
-
-          addMapImports([
-            {
-              styleId: lastStyle.id,
-              importId: tilesetImport.id,
-            },
-          ]);
-
-          setBottomSheetState("import");
-          closeSheet();
-        } catch (err) {
-          const parsedError = await extractHttpErrorResponse(err)?.json();
-
-          if (parsedError) {
-            if (parsedError.statusCode >= 400 && parsedError.statusCode < 500) {
-              setBottomSheetState("file_error");
-              expandSheet();
-              return;
-            }
-          }
-
-          setBottomSheetState("import");
-          closeSheet();
-        }
-      } catch (err) {
-        setBottomSheetState("file_error");
-        expandSheet();
+        // TODO: How to handle different kind of error?
+        closeSheet();
       }
     };
 
@@ -222,13 +228,13 @@ const MapImportBottomSheet = React.forwardRef<MapImportBottomSheetMethods, {}>(
     const bottomSheetContent =
       state === "select" ? (
         <SelectImportContent
-          onPressClose={handlePressClose}
+          onPressClose={closeSheet}
           onPressImport={handlePressImport}
         />
       ) : state === "importing" ? (
         <ImportingContent />
       ) : (
-        <FileErrorContent onPressClose={handlePressClose} />
+        <FileErrorContent onPressClose={closeSheet} />
       );
 
     return (

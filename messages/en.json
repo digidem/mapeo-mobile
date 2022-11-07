@@ -867,6 +867,12 @@
   "screens.Settings.MapSettings.OfflineArea.title": {
     "message": "Offline Areas"
   },
+  "screens.Settings.MapSettings.addBGMap": {
+    "message": "Add Background Map"
+  },
+  "screens.Settings.MapSettings.backgroundMapTitle": {
+    "message": "Background Maps"
+  },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Background Maps"
   },

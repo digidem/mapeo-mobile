@@ -1,13 +1,11 @@
 import * as React from "react";
-import * as DocumentPicker from "expo-document-picker";
 import { defineMessages, useIntl } from "react-intl";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
-import BottomSheet, {
+import MapImportBottomSheet, {
   MapImportBottomSheetMethods,
 } from "./MapImportBottomSheet";
-import { LIGHT_GREY, MEDIUM_GREY, RED } from "../../../lib/styles";
-import { BGMapCard } from "../../../sharedComponents/BGMapCard";
+import { BGMapCard } from "./BGMapCard";
 import Button from "../../../sharedComponents/Button";
 import Loading from "../../../sharedComponents/Loading";
 import { NativeNavigationComponent } from "../../../sharedTypes";
@@ -15,19 +13,11 @@ import { useMapStyles } from "../../../hooks/useMapStyles";
 
 const m = defineMessages({
   addBGMap: {
-    id: "screens.Settings.MapSettings.BackgroundMaps",
+    id: "screens.Settings.MapSettings.addBGMap",
     defaultMessage: "Add Background Map",
   },
-  close: {
-    id: "screens.Settings.MapSettings.close",
-    defaultMessage: "Close",
-  },
-  importFromFile: {
-    id: "screens.Settings.MapSettings.importFromFile",
-    defaultMessage: "Import from File",
-  },
-  BackgroundMapTitle: {
-    id: "screens.Settings.MapSettings.BackgroundMapTitle",
+  backgroundMapTitle: {
+    id: "screens.Settings.MapSettings.backgroundMapTitle",
     defaultMessage: "Background Maps",
   },
   deleteMapTitle: {
@@ -39,27 +29,6 @@ const m = defineMessages({
     id: "screens.Settings.MapSettings.confirmDelete",
     defaultMessage: "Yes, Delete",
     description: "Confirm delete map modal button",
-  },
-  importErrorTitle: {
-    id: "screens.Settings.MapSettings.importErrorTitle",
-    defaultMessage: "Import Error",
-    description: "Title for import error in bottom sheet content",
-  },
-  importErrorDescription: {
-    id: "screens.Settings.MapSettings.importErrorDescription",
-    defaultMessage:
-      "Unable to import {styleNames}. Re-import the map {fileCount, plural, one {file} other {files}} to try again.",
-    description: "Description for import error in bottom sheet content",
-  },
-  fileErrorDescription: {
-    id: "screens.Settings.MapSettings.fileErrorDescription",
-    defaultMessage: "Error importing file, please try a different file.",
-    description: "Description for file error in bottom sheet content",
-  },
-  defaultMap: {
-    id: "screens.Settings.MapSettings.defaultMap",
-    defaultMessage: "Default Map",
-    description: "Name of default map",
   },
 });
 
@@ -83,35 +52,31 @@ const ListHeader = ({ onPress }: { onPress: () => void }) => {
 };
 
 export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () => {
-  const { formatMessage: t } = useIntl();
-  const bottomSheetRef = React.useRef<MapImportBottomSheetMethods>();
+  const bottomSheetRef = React.useRef<MapImportBottomSheetMethods>(null);
 
-  const { status, styles, selectedStyleId } = useMapStyles();
+  const { status, styles: mapStyles, selectedStyleId } = useMapStyles();
 
   return (
     <View style={{ flex: 1 }}>
       <FlatList
         contentContainerStyle={styles.scrollContentContainer}
-        data={status === "loading" ? [] : styles}
+        data={status === "loading" ? [] : mapStyles}
         ListEmptyComponent={ListEmpty}
         ListHeaderComponent={
           <ListHeader onPress={() => bottomSheetRef.current?.open()} />
         }
         renderItem={({ item }) => (
           <View key={item.id} style={styles.mapCardContainer}>
-            <BGMapCard
-              isImporting={item.isImporting}
-              isSelected={selectedStyleId === item.id}
-              mapStyleInfo={item}
-            />
+            <BGMapCard {...item} isSelected={selectedStyleId === item.id} />
           </View>
         )}
       />
+      <MapImportBottomSheet ref={bottomSheetRef} />
     </View>
   );
 };
 
-BackgroundMaps.navTitle = m.BackgroundMapTitle;
+BackgroundMaps.navTitle = m.backgroundMapTitle;
 
 const styles = StyleSheet.create({
   scrollContentContainer: { paddingHorizontal: 20, paddingVertical: 40 },
@@ -120,29 +85,4 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   mapCardContainer: { paddingVertical: 10 },
-  noDownloads: {
-    fontSize: 16,
-    color: MEDIUM_GREY,
-    textAlign: "center",
-    marginTop: 20,
-  },
-  importButton: {
-    backgroundColor: LIGHT_GREY,
-    padding: 40,
-    borderRadius: 8,
-  },
-  text: { fontSize: 16 },
-  importTextAndIcon: {
-    marginBottom: 20,
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  bottomSheetContentContainer: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 30,
-  },
-  errorIcon: { position: "relative" },
 });

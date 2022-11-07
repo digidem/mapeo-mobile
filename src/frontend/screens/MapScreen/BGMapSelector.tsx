@@ -16,6 +16,7 @@ import Button from "../../sharedComponents/Button";
 import LocationContext from "../../context/LocationContext";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import { useMapStyles } from "../../hooks/useMapStyles";
+import MapThumbnail from "../../sharedComponents/MapThumbnail";
 
 const m = defineMessages({
   title: {
@@ -109,7 +110,7 @@ export const BGMapSelector = React.forwardRef<
                 {stylesList
                   .filter(({ isImporting }) => !isImporting)
                   .map(({ id, url, name }) => (
-                    <MapThumbnail
+                    <MapCard
                       key={id}
                       onMapSelected={() => {
                         closeSheet();
@@ -138,7 +139,7 @@ export const BGMapSelector = React.forwardRef<
   );
 });
 
-const MapThumbnail = ({
+const MapCard = ({
   onMapSelected,
   styleUrl,
   title,
@@ -147,11 +148,6 @@ const MapThumbnail = ({
   styleUrl: string;
   title: string | null;
 }) => {
-  const { position } = React.useContext(LocationContext);
-
-  // TODO: need a background image that shows if the map does not load (e.g. if
-  // the user is offline and the map is not available offline)
-
   return (
     <View>
       <TouchableHighlight
@@ -159,25 +155,7 @@ const MapThumbnail = ({
         onPress={onMapSelected}
         style={{ width: 80, margin: 10 }}
       >
-        <MapboxGL.MapView
-          compassEnabled={false}
-          zoomEnabled={false}
-          logoEnabled={false}
-          scrollEnabled={false}
-          styleURL={styleUrl}
-          style={styles.thumbnail}
-        >
-          <MapboxGL.Camera
-            animationDuration={0}
-            animationMode="linearTo"
-            centerCoordinate={
-              position
-                ? [position.coords.longitude, position.coords.latitude]
-                : [0, 0]
-            }
-            allowUpdates
-          />
-        </MapboxGL.MapView>
+        <MapThumbnail styleUrl={styleUrl} style={styles.thumbnail} />
       </TouchableHighlight>
       {title && (
         <Text style={styles.thumbnailTitle} numberOfLines={1}>

@@ -6,7 +6,6 @@ import { ConfigProvider } from "./ConfigContext";
 import { SettingsProvider } from "./SettingsContext";
 import { DraftObservationProvider } from "./DraftObservationContext";
 import { SecurityProvider } from "./SecurityContext";
-import { MapStyleProvider } from "./MapStyleContext";
 import { MapImportsProvider } from "./MapImportsContext";
 
 // This is a convenience wrapper for providing all App contexts to the tree,
@@ -18,9 +17,7 @@ const AppProvider = ({ children }: { children: React.Node }) => (
         <ConfigProvider>
           <SettingsProvider>
             <DraftObservationProvider>
-              <MapStyleProvider>
-                <MapImportsProvider>{children}</MapImportsProvider>
-              </MapStyleProvider>
+              <MapImportsProvider>{children}</MapImportsProvider>
             </DraftObservationProvider>
           </SettingsProvider>
         </ConfigProvider>
