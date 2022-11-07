@@ -691,6 +691,24 @@
   "screens.Settings.Experiments.BGMaps.BGMaps": {
     "message": "Bản đồ nền"
   },
+  "screens.Settings.Experiments.BGMaps.BGMapsDescription": {
+    "message": "Bản đồ nền trong Mapeo được hiển thị trên màn hình bản đồ chính và được sử dụng làm nền cho các quan sát bạn thu thập. Tính năng thử nghiệm mới này cho phép bạn thêm bản đồ tùy chỉnh của mình và chuyển đổi giữa nhiều bản đồ. Bản đồ nền hiện là một tính năng nâng cao - cần có sẵn tệp bản đồ ở định dạng .mbtile để thử nghiệm."
+  },
+  "screens.Settings.Experiments.BGMaps.BGMapsOnlineSupport": {
+    "message": "Để được hỗ trợ trực tuyến về việc tạo tệp bản đồ, hãy xem:"
+  },
+  "screens.Settings.Experiments.BGMaps.feedBack": {
+    "message": "Chúng tôi thu nhận mọi phản hồi về tính năng này trước khi phát hành phiên bản cuối."
+  },
+  "screens.Settings.Experiments.BGMaps.goTo": {
+    "message": "Thử ngay"
+  },
+  "screens.Settings.Experiments.BGMaps.useBGMap": {
+    "message": "Sử dụng (tính năng) bản đồ nền"
+  },
+  "screens.Settings.Experiments.BGMaps.warning": {
+    "message": "CẢNH BÁO: Khi tính năng này được bật, bạn sẽ không có quyền truy cập vào bản đồ mà bạn đã sử dụng trước đó trong Mapeo. Tắt Trình quản lý bản đồ để chuyển về bản đồ trước đó. Xin lưu ý rằng tính năng này vẫn đang trong quá trình thử nghiệm; sau khi phiên bản cuối được phát hành, bạn sẽ cần nhập lại các bản đồ nào đã được thêm vào Trình quản lý bản đồ trước đó."
+  },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Mũi tên định hướng"
   },
@@ -752,6 +770,21 @@
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Thêm Bản đồ nền"
   },
+  "screens.Settings.MapSettings.OfflineArea.cancel": {
+    "message": "Hủy"
+  },
+  "screens.Settings.MapSettings.OfflineArea.clearDiagrams": {
+    "message": "Bạn có chắc chắn muốn xóa sơ đồ không?"
+  },
+  "screens.Settings.MapSettings.OfflineArea.removeMap": {
+    "message": "Gỡ bỏ bản đồ"
+  },
+  "screens.Settings.MapSettings.OfflineArea.subtitle": {
+    "message": "Bản đồ này và các khu vực ngoại tuyến liên quan sẽ bị xóa. Việc này không thể hoàn tác được"
+  },
+  "screens.Settings.MapSettings.OfflineArea.title": {
+    "message": "Khu vực ngoại tuyến"
+  },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Bản đồ nền"
   },
@@ -775,6 +808,9 @@
   },
   "screens.Settings.MapSettings.mapSettings": {
     "message": "Cài đặt bản đồ"
+  },
+  "screens.Settings.MapSettings.subtitle": {
+    "message": "Thêm, xóa và xem chi tiết bản đồ"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Tạo mới hoặc tham gia một dự án dưới đây"
@@ -890,6 +926,9 @@
   "screens.Settings.mapSettings": {
     "description": "Description of map settings button in settings",
     "message": "Cài đặt bản đồ"
+  },
+  "screens.Settings.mapSettingsSubtitle": {
+    "message": "Bản đồ nền"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
