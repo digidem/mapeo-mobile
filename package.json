@@ -39,7 +39,7 @@
     "jetify": "jetify",
     "extract-messages": "extract-messages --locales=en --output messages --descriptions 'src/frontend/**/*.{js,ts,tsx}'",
     "build-detox-android": "RN_SRC_EXT=e2e detox build -c android.emu.release",
-    "test-detox-android": "RN_SRC_EXT=e2e detox test -c android.emu.release --device-launch-args=\"-dns-server 1.1.1.1\""
+    "test-detox-android": "RN_SRC_EXT=e2e detox test -c android.emu.release --device-boot-args=\"-dns-server 1.1.1.1\""
   },
   "dependencies": {
     "@bugsnag/react-native": "^7.16.7",
@@ -154,7 +154,7 @@
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "conventional-changelog-cli": "^2.0.34",
     "delay": "^5.0.0",
-    "detox": "^18.19.0",
+    "detox": "^19.13.0",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
