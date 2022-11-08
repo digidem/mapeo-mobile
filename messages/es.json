@@ -139,28 +139,70 @@
   },
   "screens.AppPasscode.ConfirmPasscodeSheet.passcode": {
     "description": "used to indicate to the user what the new passcode will be.",
-    "message": "Clave"
+    "message": "Contraseña"
   },
   "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
-    "message": "Guardar contraseña de la aplicación"
+    "message": "Guardar Contraseña de la aplicación"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.title": {
+    "message": "¡Si pierde u olvida la Contraseña de la aplicación, no va a poder recuperarla! Asegúrese de anotar su contraseña en un lugar seguro antes de guardar."
   },
   "screens.AppPasscode.InputPasscodeScreen.cancel": {
     "message": "Cancelar"
   },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
+    "message": "Volver a introducir la contraseña"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
+    "message": "Establecer la Contraseña de la aplicación"
+  },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
     "message": "Siguiente"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError": {
+    "message": "La contraseña debe consistir en 5 números"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError": {
+    "message": "No se puede utilizar como contraseña"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
+    "message": "La contraseña no coincide"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
+    "message": "Esta contraseña será necesaria para abrir la aplicación de Mapeo"
   },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continuar"
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
-    "message": "¿Qué es la Contraseña de App?"
+    "message": "¿Qué es la Contraseña de la aplicación?"
+  },
+  "screens.AppPasscode.PasscodeIntro.description": {
+    "message": "La Contraseña de la aplicación le permite añadir una capa adicional de seguridad, requiriendo introducir una contraseña para abrir la aplicación de Mapeo. Puede definir su propio código de acceso de 5 dígitos activando la siguiente característica."
+  },
+  "screens.AppPasscode.PasscodeIntro.warning": {
+    "message": "**AVISO: ¡Las contraseñas olvidadas no pueden ser recuperadas!** Una vez que esta funcionalidad está activada, si olvida o pierde su contraseña, no podrá abrir Mapeo y perderá el acceso a cualquier dato de Mapeo que no haya sido sincronizado con otros participantes del proyecto."
   },
   "screens.AppPasscode.TurnOffPasscode.cancel": {
     "message": "Cancelar"
   },
+  "screens.AppPasscode.TurnOffPasscode.changePasscode": {
+    "message": "Cambiar Contraseña de la aplicación"
+  },
+  "screens.AppPasscode.TurnOffPasscode.currentlyUsing": {
+    "message": "Actualmente usted está usando la Contraseña de la aplicación. Consulte abajo para dejar de usar o cambiar la contraseña."
+  },
+  "screens.AppPasscode.TurnOffPasscode.description": {
+    "message": "La Contraseña de la aplicación añade una capa adicional de seguridad, requiriendo que introduzca un código de acceso para abrir la aplicación de Mapeo."
+  },
   "screens.AppPasscode.TurnOffPasscode.turnOff": {
     "message": "Desactivar"
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOffConfirmation": {
+    "message": "¿Desactivar la Contraseña de la aplicación?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.usePasscode": {
+    "message": "Usar la Contraseña de la apliación"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -183,7 +225,7 @@
     "message": "Traer ({observationCount}) {observationCount, plural, one {observación} other {observaciones}} del modo de práctica al proyecto?"
   },
   "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
-    "message": "Dejar modo de práctica"
+    "message": "Abandonar modo de práctica"
   },
   "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
     "message": "Seleccione una de las opciones"
@@ -235,6 +277,12 @@
   "screens.CreateProject.projectNamePlaceholder": {
     "description": "Placeholder text for project name input field",
     "message": "Nombre del proyecto"
+  },
+  "screens.EnterPassword.enterPass": {
+    "message": "Introduzca su contraseña"
+  },
+  "screens.EnterPassword.wrongPass": {
+    "message": "Contraseña incorrecta, inténtelo de nuevo"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
@@ -423,6 +471,21 @@
   },
   "screens.ManualGpsScreen.zoneNumber": {
     "message": "Número de zona"
+  },
+  "screens.ObscurePasscode.description": {
+    "message": "La Contraseña oscura es una funcionalidad de seguridad que le permite abrir Mapeo en un modo que oculta todos sus datos. Introduciendo la Constraseña oscura en la pantalla de introducción se mostrará una versión vacía de Mapeo que le permite crear observaciones de demostración que no se guardan en la base de datos de Mapeo."
+  },
+  "screens.ObscurePasscode.instructions": {
+    "message": "Introduzca la constraseña anterior para ocultar sus datos en Mapeo"
+  },
+  "screens.ObscurePasscode.title": {
+    "message": "Contraseña oscura"
+  },
+  "screens.ObscurePasscode.toggleMessage": {
+    "message": "Usar la Contraseña oscura"
+  },
+  "screens.ObscurePasscode.whatIsObscure": {
+    "message": "¿Qué es la Contraseña oscura?"
   },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
@@ -648,6 +711,15 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Inténtalo de nuevo"
   },
+  "screens.Security.obscurePassDescriptonPassNotSet": {
+    "message": "Para usarla, active la Contraseña de la aplicación"
+  },
+  "screens.Security.obscurePassDescriptonPassSet": {
+    "message": "Proteja su dispositivo contra la incautación"
+  },
+  "screens.Security.obscurePasscodeHeader": {
+    "message": "Contraseña oscura"
+  },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "Contraseña no establecida"
   },
@@ -655,7 +727,7 @@
     "message": "Contraseña establecida"
   },
   "screens.Security.passcodeHeader": {
-    "message": "Contraseña de app"
+    "message": "Contraseña de la aplicación"
   },
   "screens.Security.securitySubheader": {
     "message": "Seguridad del dispositivo"
@@ -679,8 +751,29 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Algo está pasando con la base de datos Mapeo"
   },
+  "screens.Settings.Experiments.BGMaps": {
+    "message": "Mapas de fondo"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMaps": {
+    "message": "Mapas de fondo"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMapsDescription": {
+    "message": "El Mapa de fondo de Mapeo se muestra en el mapa de la pantalla de inicio y se utiliza como fondo para las observaciones recogidas. Esta nueva función piloto le permite añadir sus propios mapas personalizados y cambiar entre múltiples mapas. Mapas de fondo es actualmente una funcionalidad avanzada - un archivo de mapa existente en formato .mbtiles es necesario para probar."
+  },
+  "screens.Settings.Experiments.BGMaps.BGMapsOnlineSupport": {
+    "message": "Para soporte en línea para generar archivos de mapa, vea:"
+  },
+  "screens.Settings.Experiments.BGMaps.feedBack": {
+    "message": "Agradecemos cualquier comentario sobre esta funcionalidad antes de que se publique la versión final."
+  },
   "screens.Settings.Experiments.BGMaps.goTo": {
     "message": "Pruébalo ahora"
+  },
+  "screens.Settings.Experiments.BGMaps.useBGMap": {
+    "message": "Usar el recurso de Mapas de fondo"
+  },
+  "screens.Settings.Experiments.BGMaps.warning": {
+    "message": "ATENCIÓN: Cuando esta función esté activada, no tendrá acceso al mapa que ha estado usando previamente en Mapeo. Desactive el Administrador de mapas para volver a su mapa anterior. Tenga en cuenta que esta característica todavía está en fase de prueba piloto y tendrá que volver a importar los mapas añadidos al Administrador de mapas una vez que la versión final sea lanzada."
   },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Flecha direccional"
@@ -701,7 +794,7 @@
     "message": "Usar Actualizaciones P2P de la App"
   },
   "screens.Settings.Experiments.P2pUpgrade.warning": {
-    "message": "Las Actualizaciones P2P (entre pares) de la App le permiten compartir y recibir nuevas versiones de la aplicación Mapeo conectándose a otros dispositivos Mapeo a través de Wi-Fi (sin necesidad de conexión a Internet). Para utilizar esta función, la pantalla de sincronización de Mapeo debe estar abierta en ambos dispositivos."
+    "message": "Las Actualizaciones P2P (entre pares) de la aplicación le permiten compartir y recibir nuevas versiones de la aplicación Mapeo conectándose a otros dispositivos Mapeo a través de Wi-Fi (sin necesidad de conexión a Internet). Para utilizar esta función, la pantalla de sincronización de Mapeo debe estar abierta en ambos dispositivos."
   },
   "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
     "message": "NOTA: Al actualizar la versión de la aplicación de Mapeo de esta manera, NINGUNO de sus datos de Mapeo (observaciones, configuraciones o mapas) es compartido entre dispositivos."
@@ -744,20 +837,50 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Tú) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMapTitle": {
+    "message": "Mapas de fondo"
+  },
   "screens.Settings.MapSettings.BackgroundMaps": {
-    "message": "Añadir mapa base"
+    "message": "Añadir mapa de fondo"
   },
   "screens.Settings.MapSettings.OfflineArea.cancel": {
     "message": "Cancelar"
   },
+  "screens.Settings.MapSettings.OfflineArea.removeMap": {
+    "message": "Eliminar mapa"
+  },
+  "screens.Settings.MapSettings.OfflineArea.subtitle": {
+    "message": "Este mapa y las áreas fuera de línea adjuntas a él serán eliminadas. Esto no se puede deshacer"
+  },
+  "screens.Settings.MapSettings.OfflineArea.title": {
+    "message": "Áreas sin conexión"
+  },
+  "screens.Settings.MapSettings.backgroundMaps": {
+    "message": "Mapas de fondo"
+  },
   "screens.Settings.MapSettings.close": {
     "message": "Cerrar"
+  },
+  "screens.Settings.MapSettings.confirmDelete": {
+    "description": "Confirm delete map modal button",
+    "message": "Sí, eliminar"
+  },
+  "screens.Settings.MapSettings.deleteMapTitle": {
+    "description": "Title for the delete map modal",
+    "message": "Eliminar mapa"
+  },
+  "screens.Settings.MapSettings.importError": {
+    "description": "Error importing map warning",
+    "message": "Error al importar el mapa, por favor inténtelo con un archivo diferente."
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Importar desde archivo"
   },
   "screens.Settings.MapSettings.mapSettings": {
     "message": "Ajustes del mapa"
+  },
+  "screens.Settings.MapSettings.subtitle": {
+    "message": "Agregar, eliminar y ver detalles del mapa"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Crear o unirse a un proyecto a continuación"
@@ -840,7 +963,7 @@
   },
   "screens.Settings.appShare": {
     "description": "Primary text for sharing the mapeo APK installer",
-    "message": "Compartir instalador de Mapeo"
+    "message": "Compartir Instalador de Mapeo"
   },
   "screens.Settings.appShareDesc": {
     "description": "Secondary text for sharing the mapeo APK installer",
@@ -873,6 +996,9 @@
   "screens.Settings.mapSettings": {
     "description": "Description of map settings button in settings",
     "message": "Ajustes del mapa"
+  },
+  "screens.Settings.mapSettingsSubtitle": {
+    "message": "Mapas de fondo"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -1088,6 +1214,10 @@
     "description": "Level of detail seen on map - can see most streets on map",
     "message": "Calle"
   },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "Bloque de calle"
+  },
   "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
     "description": "Level of detail seen on map - second farthest zoom level",
     "message": "Subcontinente"
@@ -1103,8 +1233,26 @@
   "sharedComponent.OfflineAreaCard.zoomLevel": {
     "message": "Nivel de Zoom"
   },
+  "sharedComponents.BGMapCard.abbrevMegabyte": {
+    "description": "The abbreviation for megabyte",
+    "message": "MB"
+  },
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Mapa actual"
+  },
+  "sharedComponents.BGMapCard.unamedStyle": {
+    "description": "The name for the default map style",
+    "message": "Estilo sin nombre"
+  },
+  "sharedComponents.BGMapSelector.close": {
+    "message": "Cerrar"
+  },
+  "sharedComponents.BGMapSelector.manageMaps": {
+    "message": "Administrar Mapas"
+  },
+  "sharedComponents.BGMapSelector.title": {
+    "description": "Title for the background map selector",
+    "message": "Mapas de fondo"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "Sin GPS"
