@@ -141,6 +141,9 @@
     "description": "used to indicate to the user what the new passcode will be.",
     "message": "Clave"
   },
+  "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
+    "message": "Guardar contraseña de la aplicación"
+  },
   "screens.AppPasscode.InputPasscodeScreen.cancel": {
     "message": "Cancelar"
   },
