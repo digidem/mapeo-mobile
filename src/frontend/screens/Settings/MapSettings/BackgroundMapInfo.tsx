@@ -131,16 +131,12 @@ const m = defineMessages({
   // },
 });
 
-type Zoom = (number | undefined)[] | "loading";
-
-// To Do: Get level of detail from programs team
 export const BackgroundMapInfo = ({
   route,
   navigation,
 }: NativeRootNavigationProps<"BackgroundMapInfo">) => {
   const { formatMessage: t } = useIntl();
   const { bytesStored, id, styleUrl, name } = route.params;
-  const [zoom, setZoom] = React.useState<Zoom>("loading");
 
   const { closeSheet, openSheet, sheetRef } = useBottomSheetModal({
     openOnMount: false,
@@ -152,63 +148,6 @@ export const BackgroundMapInfo = ({
     setStyleId(id);
     navigation.navigate("Home", { screen: "Map" });
   }
-
-  React.useEffect(() => {
-    api.maps
-      .getStyle(id)
-      .then(style => {
-        let tileSetIds: string[] = [];
-        for (const source of Object.values(style.sources)) {
-          if ("url" in source && source.url) {
-            const url = new URL(source.url);
-
-            if (url.pathname.startsWith("/tilesets/")) {
-              const splitPathname = url.pathname.split("/");
-              tileSetIds.push(splitPathname[splitPathname.length - 1]);
-            }
-          }
-        }
-        // Promise.allSettled does not work in React Native
-        // See https://github.com/facebook/react-native/issues/30236
-        return allSettled(tileSetIds.map(id => api.maps.getTileset(id)));
-      })
-      .then(tileJson => {
-        const initialVal: (undefined | number)[] = [undefined, undefined];
-        const zoomRanges: (undefined | number)[] = tileJson.reduce(
-          (ranges, tilePromise) => {
-            if (!("value" in tilePromise)) return ranges;
-            const tile = tilePromise.value;
-
-            if (tile.minzoom) {
-              const min = ranges[0];
-              if (min === undefined || tile.minzoom < min) {
-                ranges[0] = tile.minzoom;
-              }
-            }
-
-            if (tile.maxzoom) {
-              const max = ranges[1];
-              if (max === undefined || tile.maxzoom > max) {
-                ranges[1] = tile.maxzoom;
-              }
-            }
-
-            return ranges;
-          },
-          initialVal
-        );
-
-        setZoom(zoomRanges);
-
-        if (zoomRanges[0] === undefined && zoomRanges[1] === undefined)
-          throw new Error("no zoom range available");
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, [id]);
-
-  const [min, max] = zoom !== "loading" ? zoom : [undefined, undefined];
 
   return (
     <React.Fragment>
@@ -234,15 +173,6 @@ export const BackgroundMapInfo = ({
               {`${convertBytesToMb(bytesStored).toFixed(0)} ${t(m.mb)}`}
             </Text>
           )}
-          {zoom === "loading" ? (
-            <Loading />
-          ) : min && max ? (
-            <Text>{`${t(m.zoomRange)}: ${min} - ${max}`}</Text>
-          ) : min && !max ? (
-            <Text>{`${t(m.minZoom)}: ${min}`}</Text>
-          ) : !min && max ? (
-            <Text>{`${t(m.maxZoom)}: ${max}`}</Text>
-          ) : null}
 
           {id !== DEFAULT_MAP_ID && (
             <Button
@@ -297,13 +227,3 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
-function allSettled<T>(promises: Promise<T>[]) {
-  return Promise.all(
-    promises.map(promise => {
-      return promise
-        .then(value => ({ state: "fulfilled", value }))
-        .catch(reason => ({ state: "rejected", reason }));
-    })
-  );
-}
