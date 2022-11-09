@@ -12,8 +12,6 @@ import com.bugsnag.android.Bugsnag;
 import cl.json.ShareApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.bridge.JavaScriptExecutorFactory;
-import com.facebook.react.modules.systeminfo.AndroidInfoHelpers;
 import com.facebook.soloader.SoLoader;
 
 import com.mapeo.generated.BasePackageList;
