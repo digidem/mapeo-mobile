@@ -1,1 +1,1 @@
-import("./intl-relativedatetime");
+import("./intl-relativetimeformat");

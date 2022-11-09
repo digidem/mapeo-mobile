@@ -31,7 +31,10 @@ function buildIntlRelativeTimeFormat() {
   }
 
   const writer = fs.createWriteStream(
-    path.join(__dirname, "../src/frontend/polyfills/intl-relativedatetime.ts"),
+    path.join(
+      __dirname,
+      "../src/frontend/polyfills/intl-relativetimeformat.ts"
+    ),
     { flags: "w" }
   );
 
