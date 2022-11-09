@@ -44,6 +44,8 @@
   "dependencies": {
     "@bugsnag/react-native": "^7.16.7",
     "@digidem/wcmc-mapeo-mobile-intro": "^1.0.3",
+    "@formatjs/intl-locale": "^3.0.7",
+    "@formatjs/intl-relativetimeformat": "^11.1.4",
     "@gorhom/bottom-sheet": "^2.3.0",
     "@react-native-async-storage/async-storage": "^1.15.14",
     "@react-native-community/art": "^1.2.0",
