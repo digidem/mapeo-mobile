@@ -28,8 +28,6 @@ import java.util.Arrays;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import io.csie.kudo.reactnative.v8.executor.V8ExecutorFactory;
-
 public class MainApplication extends Application implements ShareApplication, ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
       new BasePackageList().getPackageList(), Arrays.<SingletonModule>asList());
@@ -61,15 +59,6 @@ public class MainApplication extends Application implements ShareApplication, Re
     @Override
     protected String getJSMainModuleName() {
       return "index";
-    }
-
-    @Override
-    protected JavaScriptExecutorFactory getJavaScriptExecutorFactory() {
-      return new V8ExecutorFactory(
-        getApplicationContext(),
-        getPackageName(),
-        AndroidInfoHelpers.getFriendlyDeviceName(),
-        getUseDeveloperSupport());
     }
   };
 
