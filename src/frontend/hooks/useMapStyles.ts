@@ -110,7 +110,7 @@ export function useMapStyles() {
   let selectedStyleId = settings.mapStyleId;
   // If the user selected style is not available, default to the first in the
   // styles list.
-  if (styles.find(style => style.id === selectedStyleId)) {
+  if (!styles.find(style => style.id === selectedStyleId)) {
     selectedStyleId = styles[0].id;
   }
 
