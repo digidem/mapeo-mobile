@@ -114,7 +114,6 @@ export const BGMapSelector = React.forwardRef<
                       key={id}
                       onMapSelected={() => {
                         closeSheet();
-                        console.log("ID", id);
                         setSelectedStyleId(id);
                       }}
                       styleUrl={url}
