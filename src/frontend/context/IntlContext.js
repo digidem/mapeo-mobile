@@ -31,7 +31,17 @@ type SupportedLanguages = Array<{|
 |}>;
 
 export const supportedLanguages: SupportedLanguages = Object.keys(messages)
-  .filter(locale => languages[locale])
+  .filter(locale => {
+    const hasAtLeastOneTranslatedString =
+      Object.keys(messages[locale]).length > 0;
+    const hasTranslatedLanguageName = languages[locale];
+    if (!hasTranslatedLanguageName) {
+      console.warn(
+        `Locale "${locale}" is not available in Mapeo because we do not have a language name and translations in \`src/frontend/languages.json\``
+      );
+    }
+    return hasAtLeastOneTranslatedString && hasTranslatedLanguageName;
+  })
   .map(locale => ({
     locale,
     ...languages[locale],
