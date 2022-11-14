@@ -156,7 +156,7 @@ const BackdropNonPressable = (props: BottomSheetBackdropProps) => {
 };
 
 const MapImportBottomSheet = React.forwardRef<MapImportBottomSheetMethods, {}>(
-  (props, ref) => {
+  (_props, ref) => {
     const [state, setState] = React.useState<BottomSheetStates>("select");
     const bottomSheetRef = React.useRef<BottomSheetMethods>(null);
     const { snapPoints, updateSheetHeight } = useSnapPointsCalculator();

@@ -25,6 +25,7 @@ import {
   ImageSize,
   MapServerImport,
   MapServerStyleInfo,
+  Tileset,
 } from "./sharedTypes";
 
 export type ServerStatus = keyof typeof STATUS;
@@ -319,6 +320,10 @@ function createMapServerApi() {
     getImport: async (id: string) => {
       const client = await getClient();
       return client.get(`imports/${id}`) as Promise<MapServerImport>;
+    },
+    getTileset: async (id: string) => {
+      const client = await getClient();
+      return client.get(`tilesets/${id}`) as Promise<TileJSON>;
     },
   };
 

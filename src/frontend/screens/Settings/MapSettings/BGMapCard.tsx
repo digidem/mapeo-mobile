@@ -9,6 +9,9 @@ import { useMapImportProgress } from "../../../hooks/useMapImportProgress";
 import { Pill } from "../../../sharedComponents/Pill";
 import { CUSTOM_MAP_ID, DEFAULT_MAP_ID } from "../../../hooks/useMapStyles";
 import MapThumbnail from "../../../sharedComponents/MapThumbnail";
+import { TouchableOpacity } from "../../../sharedComponents/Touchables";
+import { bytesToMegabytes } from ".";
+import { useNavigationFromRoot } from "../../../hooks/useNavigationWithTypes";
 
 const m = defineMessages({
   currentMap: {
@@ -43,10 +46,6 @@ const m = defineMessages({
   },
 });
 
-function bytesToMegabytes(bytes: number) {
-  return bytes / 2 ** 20;
-}
-
 const WithTopSeparation = ({ children }: React.PropsWithChildren<{}>) => (
   <View style={{ marginTop: 10 }}>{children}</View>
 );
@@ -65,6 +64,7 @@ export const BGMapCard = ({
   id: styleId,
   url: styleUrl,
 }: BGMapCardProps) => {
+  const { navigate } = useNavigationFromRoot();
   const { formatMessage: t } = useIntl();
 
   const importInfo = useMapImportProgress(styleId);
@@ -75,13 +75,23 @@ export const BGMapCard = ({
   const showProgressBarMessage =
     importInfo?.status === "idle" || importInfo?.status === "progress";
 
+  const mapName = name || t(m.unnamedStyle);
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() =>
+        navigate("BackgroundMapInfo", {
+          bytesStored,
+          id: styleId,
+          name: mapName,
+          styleUrl,
+        })
+      }
+    >
       <MapThumbnail styleUrl={styleUrl} style={styles.mapPreview} />
       <View style={styles.infoContainer}>
-        <Text style={[styles.text, { fontWeight: "500" }]}>
-          {name || t(m.unnamedStyle)}
-        </Text>
+        <Text style={[styles.text, { fontWeight: "500" }]}>{mapName}</Text>
 
         {showBytesStored && (
           <Text style={[styles.text, { color: MEDIUM_GREY }]}>
@@ -128,7 +138,7 @@ export const BGMapCard = ({
           </WithTopSeparation>
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

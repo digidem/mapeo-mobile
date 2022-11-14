@@ -1,12 +1,12 @@
 import React from "react";
-import api from "../api";
+import { useFocusEffect } from "@react-navigation/native";
 
-import { MapImportsStateContext } from "../context/MapImportsContext";
+import api from "../api";
+import SettingsContext from "../context/SettingsContext";
 import { MapServerStyleInfo } from "../sharedTypes";
 import { useExperiments } from "./useExperiments";
 import { useMapAvailability, onlineStyleURL } from "./useMapAvailability";
-import useSettingsValue from "./useSettingsValue";
-import SettingsContext from "../context/SettingsContext";
+import { useMapImports } from "./useMapImports";
 
 interface StyleInfoWithImport extends MapServerStyleInfo {
   isImporting: boolean;
@@ -28,7 +28,7 @@ type StylesAtLeastOne = [StyleInfoWithImport, ...StyleInfoWithImport[]];
 export function useMapStyles() {
   const customStyleAvailability = useMapAvailability("custom");
   const [{ backgroundMaps }] = useExperiments();
-  const activeImports = React.useContext(MapImportsStateContext);
+  const activeImports = useMapImports();
   const [settings, setSettings] = React.useContext(SettingsContext);
   const [stylesList, setStylesList] = React.useState<StyleInfoWithImport[]>([]);
   // There is nothing to load if background maps experiment is not enabled
@@ -36,26 +36,28 @@ export function useMapStyles() {
     backgroundMaps ? "loading" : "success"
   );
 
-  React.useEffect(() => {
-    if (!backgroundMaps) return;
-    let didCancel = false;
-    api.maps
-      .getStyleList()
-      .then(styles => {
-        if (didCancel) return;
-        const stylesWithImportState = styles.map(s => {
-          // Append importing state so we can filter out importing maps if needed
-          return { ...s, isImporting: !!activeImports[s.id] };
-        });
-        setStylesList(stylesWithImportState);
-        setStatus("success");
-      })
-      .catch(() => didCancel || setStatus("error"));
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!backgroundMaps) return;
+      let didCancel = false;
+      api.maps
+        .getStyleList()
+        .then(styles => {
+          if (didCancel) return;
+          const stylesWithImportState = styles.map(s => {
+            // Append importing state so we can filter out importing maps if needed
+            return { ...s, isImporting: !!activeImports[s.id] };
+          });
+          setStylesList(stylesWithImportState);
+          setStatus("success");
+        })
+        .catch(() => didCancel || setStatus("error"));
 
-    return () => {
-      didCancel = true;
-    };
-  }, [activeImports, backgroundMaps]);
+      return () => {
+        didCancel = true;
+      };
+    }, [activeImports, backgroundMaps])
+  );
 
   // Keeping this in-scope so we can add translated name later
   const defaultStyle: StyleInfoWithImport = React.useMemo(() => {
@@ -114,5 +116,10 @@ export function useMapStyles() {
     selectedStyleId = styles[0].id;
   }
 
-  return { styles, status: mergedStatus, selectedStyleId, setSelectedStyleId };
+  return {
+    styles,
+    status: mergedStatus,
+    selectedStyleId,
+    setSelectedStyleId,
+  };
 }

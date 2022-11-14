@@ -846,26 +846,57 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(You) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMapInfo.cancel": {
+    "message": "Cancel"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.deleteMap": {
+    "message": "Delete Map"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.description": {
+    "message": "Level of Detail"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.maxZoom": {
+    "description": "Shows the user the max zoom for an offline map",
+    "message": "Max Zoom"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.mb": {
+    "description": "abbreviation for megabyte",
+    "message": "MB"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.minZoom": {
+    "description": "Shows the user the min zoom for an offline map",
+    "message": "Min Zoom"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.removeMap": {
+    "message": "Remove Map"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.subtitle": {
+    "message": "This map and offline areas attached to it will be deleted. This cannot be undone"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.useMap": {
+    "message": "Use Map"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.zoomRange": {
+    "description": "Shows the user the range of zoom available for an offline map",
+    "message": "Zoom Range"
+  },
   "screens.Settings.MapSettings.BackgroundMapTitle": {
     "message": "Background Maps"
   },
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Add Background Map"
   },
-  "screens.Settings.MapSettings.OfflineArea.cancel": {
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.cancel": {
     "message": "Cancel"
   },
-  "screens.Settings.MapSettings.OfflineArea.clearDiagrams": {
-    "message": "Are you sure you want to clear diagrams?"
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMap": {
+    "message": "Delete Map"
   },
-  "screens.Settings.MapSettings.OfflineArea.removeMap": {
-    "message": "Remove Map"
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapMessage": {
+    "message": "Are you sure you want to delete {mapName}?"
   },
-  "screens.Settings.MapSettings.OfflineArea.subtitle": {
-    "message": "This map and offline areas attached to it will be deleted. This cannot be undone"
-  },
-  "screens.Settings.MapSettings.OfflineArea.title": {
-    "message": "Offline Areas"
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapWarning": {
+    "message": "This area will no longer be available offline. Cannot be undone."
   },
   "screens.Settings.MapSettings.addBGMap": {
     "message": "Add Background Map"

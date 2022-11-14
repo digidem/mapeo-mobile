@@ -35,7 +35,6 @@ import { P2pUpgrade } from "../../screens/Settings/Experiments/P2pUpgrade";
 import LanguageSettings from "../../screens/Settings/LanguageSettings";
 import { MapSettings } from "../../screens/Settings/MapSettings";
 import { BackgroundMaps } from "../../screens/Settings/MapSettings/BackgroundMaps";
-import { OfflineAreas } from "../../screens/Settings/MapSettings/OfflineAreas";
 import { ProjectConfig } from "../../screens/Settings/ProjectConfig";
 import SyncModal from "../../screens/SyncModal";
 import { UnableToLinkScreen } from "../../screens/UnableToLink";
@@ -43,6 +42,8 @@ import CustomHeaderLeft from "../../sharedComponents/CustomHeaderLeft";
 import HomeHeader from "../../sharedComponents/HomeHeader";
 import { AuthScreen } from "../../screens/AuthScreen";
 import { RootStack } from "../AppStack";
+import { BackgroundMapInfo } from "../../screens/Settings/MapSettings/BackgroundMapInfo";
+import { HeaderTitle } from "@react-navigation/elements";
 
 export type HomeTabsList = {
   Map: undefined;
@@ -83,7 +84,12 @@ export type AppList = {
   P2pUpgrade: undefined;
   MapSettings: undefined;
   BackgroundMaps: undefined;
-  OfflineAreas: { mapId: string };
+  BackgroundMapInfo: {
+    bytesStored?: number;
+    id: string;
+    styleUrl: string;
+    name: string;
+  };
   BGMapsSettings: undefined;
   AuthScreen: undefined;
 };
@@ -238,9 +244,9 @@ export const createDefaultScreenGroup = (
       }}
     />
     <RootStack.Screen
-      name="OfflineAreas"
-      component={OfflineAreas}
-      options={{ headerTitle: intl(OfflineAreas.navTitle) }}
+      name="BackgroundMapInfo"
+      component={BackgroundMapInfo}
+      options={({ route }) => ({ headerTitle: route.params.name })}
     />
     <RootStack.Screen
       name="P2pUpgrade"
