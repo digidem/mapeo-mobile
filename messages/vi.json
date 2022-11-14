@@ -770,21 +770,6 @@
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Thêm Bản đồ nền"
   },
-  "screens.Settings.MapSettings.OfflineArea.cancel": {
-    "message": "Hủy"
-  },
-  "screens.Settings.MapSettings.OfflineArea.clearDiagrams": {
-    "message": "Bạn có chắc chắn muốn xóa sơ đồ không?"
-  },
-  "screens.Settings.MapSettings.OfflineArea.removeMap": {
-    "message": "Gỡ bỏ bản đồ"
-  },
-  "screens.Settings.MapSettings.OfflineArea.subtitle": {
-    "message": "Bản đồ này và các khu vực ngoại tuyến liên quan sẽ bị xóa. Việc này không thể hoàn tác được"
-  },
-  "screens.Settings.MapSettings.OfflineArea.title": {
-    "message": "Khu vực ngoại tuyến"
-  },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Bản đồ nền"
   },
