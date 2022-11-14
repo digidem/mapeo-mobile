@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import { Platform } from "react-native";
 import { IntlProvider as IntlProviderOrig } from "react-intl";
@@ -24,13 +23,18 @@ export const formats = {
   },
 };
 
-type SupportedLanguages = Array<{|
-  locale: string,
-  nativeName: string,
-  englishName: string,
-|}>;
+interface LanguageName {
+  /** IETF BCP 47 langauge tag with region code. */
+  locale: string;
+  /** Localized name for language */
+  nativeName: string;
+  /** English name for language */
+  englishName: string;
+}
 
-export const supportedLanguages: SupportedLanguages = Object.keys(messages)
+const translatedLocales = Object.keys(messages) as Array<keyof typeof messages>;
+
+export const supportedLanguages: LanguageName[] = translatedLocales
   .filter(locale => {
     const hasAtLeastOneTranslatedString =
       Object.keys(messages[locale]).length > 0;
