@@ -843,18 +843,6 @@
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Añadir mapa de fondo"
   },
-  "screens.Settings.MapSettings.OfflineArea.cancel": {
-    "message": "Cancelar"
-  },
-  "screens.Settings.MapSettings.OfflineArea.removeMap": {
-    "message": "Eliminar mapa"
-  },
-  "screens.Settings.MapSettings.OfflineArea.subtitle": {
-    "message": "Este mapa y las áreas fuera de línea adjuntas a él serán eliminadas. Esto no se puede deshacer"
-  },
-  "screens.Settings.MapSettings.OfflineArea.title": {
-    "message": "Áreas sin conexión"
-  },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Mapas de fondo"
   },
