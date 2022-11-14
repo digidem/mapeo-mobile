@@ -24,12 +24,6 @@ function buildIntlRelativeTimeFormat() {
 
     const hasTranslatedLanguageName = !!languages[locale];
 
-    if (!hasTranslatedLanguageName) {
-      console.warn(
-        `Locale "${locale}" is not available in Mapeo because we do not have a language name and translations in \`src/frontend/languages.json\``
-      );
-    }
-
     return hasAtLeastOneTranslatedString && hasTranslatedLanguageName;
   });
 
