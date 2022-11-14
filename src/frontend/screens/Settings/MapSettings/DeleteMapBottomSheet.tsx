@@ -83,7 +83,10 @@ export const DeleteMapBottomSheet = React.forwardRef<
         }
         buttonConfigs={[
           {
-            // TODO: This should be a text node and we should update BottomSheet/Content.tsx to account for icons instead
+            // TODO: This should be a text node based on how BottomSheet/Content.tsx works
+            // We should either:
+            // 1. Update BottomSheet/Content.tsx to account for icons instead.
+            // 2. Remove the use of the icon here.
             text: (
               <View style={styles.deleteTextContainer}>
                 <DeleteIcon color={WHITE} />
