@@ -852,18 +852,6 @@
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Adicionar mapa de fundo"
   },
-  "screens.Settings.MapSettings.OfflineArea.cancel": {
-    "message": "Cancelar"
-  },
-  "screens.Settings.MapSettings.OfflineArea.removeMap": {
-    "message": "Excluir mapa"
-  },
-  "screens.Settings.MapSettings.OfflineArea.subtitle": {
-    "message": "Este mapa e as áreas offline anexadas a ele serão excluídos. Isso não pode ser desfeito."
-  },
-  "screens.Settings.MapSettings.OfflineArea.title": {
-    "message": "Áreas offline"
-  },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Mapas de fundo"
   },
