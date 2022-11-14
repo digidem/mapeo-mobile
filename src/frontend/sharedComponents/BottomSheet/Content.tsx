@@ -10,6 +10,7 @@ interface BaseActionButtonConfig {
   onPress: () => void;
   text: React.ReactNode;
   variation: "filled" | "outlined";
+  icon?: React.ReactNode;
 }
 
 interface PrimaryActionButtonConfig extends BaseActionButtonConfig {
@@ -57,47 +58,56 @@ export const Content = ({
       {!!children && <View style={{ flex: 1 }}>{children}</View>}
     </View>
     <View style={styles.buttonsContainer}>
-      {buttonConfigs.map((config, index) => (
-        <Button
-          fullWidth
-          key={index}
-          TouchableComponent={props => (
-            <TouchableHighlight
-              {...props}
-              underlayColor={
+      {buttonConfigs.map((config, index) => {
+        return (
+          <Button
+            fullWidth
+            key={index}
+            TouchableComponent={props => (
+              <TouchableHighlight
+                {...props}
+                underlayColor={
+                  config.variation === "outlined"
+                    ? WHITE
+                    : config.dangerous
+                    ? RED
+                    : LIGHT_BLUE
+                }
+              />
+            )}
+            onPress={config.onPress}
+            style={{
+              backgroundColor:
                 config.variation === "outlined"
                   ? WHITE
                   : config.dangerous
-                  ? RED
-                  : LIGHT_BLUE
-              }
-            />
-          )}
-          onPress={config.onPress}
-          style={{
-            backgroundColor:
-              config.variation === "outlined"
-                ? WHITE
-                : config.dangerous
-                ? MAGENTA
-                : MAPEO_BLUE,
-            marginTop: index > 0 ? 20 : undefined,
-          }}
-          variant={config.variation === "outlined" ? "outlined" : undefined}
-        >
-          <Text
-            style={[
-              styles.buttonText,
-              styles.bold,
-              {
-                color: config.variation === "outlined" ? MAPEO_BLUE : WHITE,
-              },
-            ]}
+                  ? MAGENTA
+                  : MAPEO_BLUE,
+              marginTop: index > 0 ? 20 : undefined,
+            }}
+            variant={config.variation === "outlined" ? "outlined" : undefined}
           >
-            {config.text}
-          </Text>
-        </Button>
-      ))}
+            <View style={styles.buttonTextContainer}>
+              {config.icon ? (
+                <View style={styles.buttonTextIconContainer}>
+                  {config.icon}
+                </View>
+              ) : null}
+              <Text
+                style={[
+                  styles.buttonText,
+                  styles.bold,
+                  {
+                    color: config.variation === "outlined" ? MAPEO_BLUE : WHITE,
+                  },
+                ]}
+              >
+                {config.text}
+              </Text>
+            </View>
+          </Button>
+        );
+      })}
     </View>
   </View>
 );
@@ -125,6 +135,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 20,
     textAlign: "center",
+  },
+  buttonTextContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
+  },
+  buttonTextIconContainer: {
+    marginRight: 4,
   },
   buttonText: {
     fontSize: 18,

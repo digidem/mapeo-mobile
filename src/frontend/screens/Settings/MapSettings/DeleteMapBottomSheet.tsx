@@ -1,11 +1,10 @@
 import * as React from "react";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
-import { StyleSheet, View, Text } from "react-native";
 
 import { RED, WHITE } from "../../../lib/styles";
 import { DeleteIcon, ErrorIcon } from "../../../sharedComponents/icons";
-import api, { extractHttpErrorResponse } from "../../../api";
+import api from "../../../api";
 import { useNavigationFromRoot } from "../../../hooks/useNavigationWithTypes";
 import { DEFAULT_MAP_ID, useMapStyles } from "../../../hooks/useMapStyles";
 import {
@@ -83,16 +82,8 @@ export const DeleteMapBottomSheet = React.forwardRef<
         }
         buttonConfigs={[
           {
-            // TODO: This should be a text node based on how BottomSheet/Content.tsx works
-            // We should either:
-            // 1. Update BottomSheet/Content.tsx to account for icons instead.
-            // 2. Remove the use of the icon here.
-            text: (
-              <View style={styles.deleteTextContainer}>
-                <DeleteIcon color={WHITE} />
-                <Text style={[styles.deleteButtonText]}>{t(m.deleteMap)}</Text>
-              </View>
-            ),
+            text: t(m.deleteMap),
+            icon: <DeleteIcon color={WHITE} size={26} />,
             variation: "filled",
             onPress: deleteMap,
             dangerous: true,
@@ -106,27 +97,4 @@ export const DeleteMapBottomSheet = React.forwardRef<
       />
     </BottomSheetModal>
   );
-});
-
-const styles = StyleSheet.create({
-  btmSheetContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
-  deleteButtonText: {
-    fontWeight: "700",
-    letterSpacing: 0.5,
-    fontSize: 16,
-    color: WHITE,
-  },
-  deleteTextContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
 });
