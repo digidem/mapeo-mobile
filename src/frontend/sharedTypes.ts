@@ -1,5 +1,6 @@
 // TS port of /src/frontend/types.js
 import { StylesApi } from "@mapeo/map-server/dist/api/styles";
+import { TilesetsApi } from "@mapeo/map-server/dist/api/tilesets";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { CompositeScreenProps } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -57,3 +58,4 @@ export type NativeHomeTabsNavigationProps<
 >;
 
 export type MapServerStyle = Unpacked<ReturnType<StylesApi["listStyles"]>>;
+export type Tileset = Unpacked<ReturnType<TilesetsApi["getTileset"]>>;
