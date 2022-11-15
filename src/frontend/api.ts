@@ -25,7 +25,6 @@ import {
   ImageSize,
   MapServerImport,
   MapServerStyleInfo,
-  Tileset,
 } from "./sharedTypes";
 
 export type ServerStatus = keyof typeof STATUS;
