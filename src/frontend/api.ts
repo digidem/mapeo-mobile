@@ -310,7 +310,9 @@ function createMapServerApi() {
       const client = await getClient();
       return client.post("tilesets/import", {
         filePath: convertFileUriToPosixPath(filePath),
-      }) as Promise<TileJSON & { import: { id: string } }>;
+      }) as Promise<
+        TileJSON & { import: { id: string }; style: { id: string } | null }
+      >;
     },
     // Return the url to a map style from the map server
     getStyleUrl: async (id: string) =>

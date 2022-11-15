@@ -192,16 +192,12 @@ const MapImportBottomSheet = React.forwardRef<MapImportBottomSheetMethods, {}>(
       try {
         const {
           import: { id: importId },
+          style,
         } = await api.maps.importTileset(results.uri);
 
-        // TODO: Once https://github.com/digidem/mapeo-map-server/issues/81 is
-        // implemented, no need to call this endpoint and use the last item,
-        // etc. We need to do this because we don't yet have an endpoint on the
-        // server for active imports, so we need to maintain our own state of
-        // active imports.
-        const list = await api.maps.getStyleList();
-        const { id: styleId } = list[list.length - 1];
-        addMapImport({ styleId, importId });
+        if (style) {
+          addMapImport({ styleId: style.id, importId });
+        }
 
         closeSheet();
       } catch (err) {
