@@ -10,7 +10,7 @@ import { MapStyleProvider } from "./MapStyleContext";
 
 // This is a convenience wrapper for providing all App contexts to the tree,
 // apart from the Permissions Provider which is needed separately.
-const AppProvider = ({ children }: { children: React.Node }) => (
+const AppProvider = ({ children }: { children: React.ReactNode }) => (
   <LocationProvider>
     <SecurityProvider>
       <ObservationsProvider>
