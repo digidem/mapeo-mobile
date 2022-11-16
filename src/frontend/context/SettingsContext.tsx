@@ -54,7 +54,7 @@ export const SettingsProvider = ({ children }: React.PropsWithChildren<{}>) => {
     [setState]
   );
 
-  if (state.experiments.backgroundMaps) {
+  if (status !== "loading" && state.experiments.backgroundMaps) {
     setSettings("experiments", { ...state.experiments, backgroundMaps: false });
   }
 
