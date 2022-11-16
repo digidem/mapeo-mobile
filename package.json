@@ -112,7 +112,6 @@
     "react-native-vector-icons": "^9.1.0",
     "serialize-error": "^8.1.0",
     "shallowequal": "^1.1.0",
-    "text-encoding": "^0.7.0",
     "turndown-rn": "^6.1.0",
     "use-memo-one": "^1.1.1",
     "utm": "^1.1.1",
