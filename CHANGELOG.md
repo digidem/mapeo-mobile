@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.5.0](https://github.com/digidem/mapeo-mobile/compare/v5.4.7...v5.5.0) (2022-11-16)
+
+### Features
+
+- Add colored border to categories in category chooser ([#1004](https://github.com/digidem/mapeo-mobile/issues/1004)) ([968a65b](https://github.com/digidem/mapeo-mobile/commit/968a65b8b07043ffd6b1c54e18910c98d1858db5))
+- App authentication and obscure code ([#1021](https://github.com/digidem/mapeo-mobile/issues/1021)) ([827cdd8](https://github.com/digidem/mapeo-mobile/commit/827cdd8f14495f45d4a4ff8f03edf38b19eff0c4))
+
+### Bug Fixes
+
+- Bump react-native version to fix build failures ([#1040](https://github.com/digidem/mapeo-mobile/issues/1040)) ([1c7ff1e](https://github.com/digidem/mapeo-mobile/commit/1c7ff1e958aeaed1969449fa86b22f2e565306d9))
+- Fix build issues caused by jcenter shutdown ([#1035](https://github.com/digidem/mapeo-mobile/issues/1035)) ([caf9e19](https://github.com/digidem/mapeo-mobile/commit/caf9e195e710043ca69e9b8f1f9aeecc14d5641c))
+- Only show languages with translated strings ([#1042](https://github.com/digidem/mapeo-mobile/issues/1042)) ([cbe22f2](https://github.com/digidem/mapeo-mobile/commit/cbe22f23c6aff95b6cf0c74a4cf861a9b9f3fbdd))
+
 ### [5.4.7](https://github.com/digidem/mapeo-mobile/compare/v5.4.6...v5.4.7) (2022-06-22)
 
 ### Bug Fixes
