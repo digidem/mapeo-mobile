@@ -29,3 +29,7 @@ based on application variant. It is necessary to patch this file rather than
 just add an environment variable as part of the build script because it allows
 gradle tasks like `./gradlew assembleRelease` to work as expected — each variant
 will be built correctly with the correct bundled files.
+
+## `react-native-fetch-api`
+
+This patch removes the second argument passed to the `TextEncoder.encode` method because we polyfill `TextEncoder` with [`fast-text-encoding`](https://github.com/samthor/fast-text-encoding) instead of [`text-encoding`](https://github.com/inexorabletash/text-encoding). `react-native-fetch-api` assumes that the latter is used for polyfilling, but as detailed [here](https://github.com/inexorabletash/text-encoding/blob/3f330964c0e97e1ed344c2a3e963f4598610a7ad/lib/encoding.js#L1275-L1281), the argument is non-standard. While the former does accept a second argument in general, it [explicitly checks against](https://github.com/samthor/fast-text-encoding/blob/60d0a6cc787da13c2799c11cae48eba037f74548/src/o-encoder.js#L23) the specific argument that `react-native-fetch-api` is passing here and throws as a result.
