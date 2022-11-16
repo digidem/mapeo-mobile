@@ -16,8 +16,7 @@ import {
   NativeNavigationComponent,
 } from "../../../sharedTypes";
 import api from "../../../api";
-import { useMapStyle } from "../../../hooks/useMapStyle";
-import { useDefaultStyleUrl } from "../../../hooks/useDefaultStyleUrl";
+import { useMapStyles } from "../../../hooks/useMapStyles";
 import { useFocusEffect } from "@react-navigation/native";
 
 export const DEFAULT_MAP_ID = "default";
@@ -63,9 +62,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
 }) => {
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
-  const { styleUrl } = useMapStyle();
-
-  const defaultStyleUrl = useDefaultStyleUrl();
+  const { status, styles: mapStyles, selectedStyleId } = useMapStyles();
 
   const [modalContent, setModalContent] = React.useState<ModalContent>(
     "import"
@@ -126,30 +123,18 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
           {t(m.addBGMap)}
         </Button>
 
-        {/* Default BG map card */}
-        {defaultStyleUrl && (
-          <BGMapCard
-            mapId={DEFAULT_MAP_ID}
-            style={{ marginTop: 20 }}
-            onPress={() => {}}
-            isSelected={styleUrl === defaultStyleUrl}
-            styleUrl={defaultStyleUrl}
-            mapTitle="Default Map"
-          />
-        )}
-
-        {backgroundMapList === undefined ? (
+        {status === "loading" ? (
           <View style={{ marginTop: 40 }}>
             <Loading />
           </View>
         ) : (
-          backgroundMapList.map(bgMap => (
+          mapStyles.map(bgMap => (
             <BGMapCard
               key={bgMap.id}
               mapId={bgMap.id}
               style={{ marginTop: 20 }}
               styleUrl={bgMap.url}
-              isSelected={styleUrl === bgMap.url}
+              isSelected={selectedStyleId === bgMap.id}
               mapTitle={bgMap.name}
               bytesStored={bgMap.bytesStored}
             />

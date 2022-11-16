@@ -31,7 +31,7 @@ import {
 import { TouchableOpacity } from "../../sharedComponents/Touchables";
 import type { PresetWithFields } from "../../context/ConfigContext";
 import type { Observation } from "../../context/ObservationsContext";
-import { useMapStyle } from "../../hooks/useMapStyle";
+import { useSelectedMapStyle } from "../../hooks/useSelectedMapStyle";
 import useDeviceId from "../../hooks/useDeviceId";
 import useSettingsValue from "../../hooks/useSettingsValue";
 import Loading from "../../sharedComponents/Loading";
@@ -71,9 +71,9 @@ type MapProps = {
 };
 
 const InsetMapView = React.memo<MapProps>(({ lon, lat }: MapProps) => {
-  const { styleType, styleUrl } = useMapStyle();
+  const selectedMap = useSelectedMapStyle();
 
-  return styleType === "loading" ? (
+  return selectedMap.status === "loading" ? (
     <View style={styles.map}>
       <Loading />
     </View>
@@ -86,14 +86,14 @@ const InsetMapView = React.memo<MapProps>(({ lon, lat }: MapProps) => {
       pitchEnabled={false}
       rotateEnabled={false}
       compassEnabled={false}
-      styleURL={styleUrl}
+      styleURL={selectedMap.styleUrl}
     >
       <MapboxGL.Camera
         centerCoordinate={[lon, lat]}
-        zoomLevel={styleType === "fallback" ? 5 : 12}
+        zoomLevel={selectedMap.isOfflineFallback ? 5 : 12}
         animationMode="moveTo"
       />
-      {styleType === "fallback" ? <OfflineMapLayers /> : null}
+      {selectedMap.isOfflineFallback ? <OfflineMapLayers /> : null}{" "}
     </MapboxGL.MapView>
   );
 });
