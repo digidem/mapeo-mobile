@@ -808,3 +808,8 @@ function convertFileUriToPosixPath(fileUri: unknown) {
     throw new Error("Attempted to convert invalid file Uri:" + fileUri);
   return fileUri.replace(/^file:\/\//, "");
 }
+
+export function extractHttpErrorResponse(err: unknown) {
+  if (!(err instanceof ky.HTTPError)) return;
+  return err?.response;
+}
