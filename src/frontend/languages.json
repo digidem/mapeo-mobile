@@ -479,6 +479,10 @@
     "nativeName": "Lèmbörgs",
     "englishName": "Limburgish"
   },
+  "lo": {
+    "nativeName": "ພາສາລາວ",
+    "englishName": "Lao"
+  },
   "lt": {
     "nativeName": "Lietuvių",
     "englishName": "Lithuanian"
@@ -498,6 +502,10 @@
   "mai": {
     "nativeName": "मैथिली, মৈথিলী",
     "englishName": "Maithili"
+  },
+  "mg": {
+    "nativeName": "Malagasy",
+    "englishName": "Malagasy"
   },
   "mg-MG": {
     "nativeName": "Malagasy",

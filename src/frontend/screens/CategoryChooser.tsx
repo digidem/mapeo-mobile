@@ -54,7 +54,11 @@ const Item = React.memo(
       testID={`${item.id}CategoryButton`}
     >
       <View style={styles.cellContainer}>
-        <CategoryCircleIcon iconId={item.icon} size="medium" />
+        <CategoryCircleIcon
+          iconId={item.icon}
+          size="medium"
+          color={item.color}
+        />
         <Text numberOfLines={3} style={styles.categoryName}>
           <DynFormattedMessage
             id={`presets.${item.id}.name`}

@@ -1,6 +1,6 @@
 import * as React from "react";
-import { FormattedMessage, defineMessages, useIntl } from "react-intl";
-import { StyleSheet, Text, View } from "react-native";
+import { defineMessages, useIntl } from "react-intl";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 
 import { PasscodeScreens } from ".";
 import Button from "../../sharedComponents/Button";
@@ -14,6 +14,16 @@ const m = defineMessages({
     id: "screens.AppPasscode.NewPasscode.Splash.continue",
     defaultMessage: "Continue",
   },
+  description: {
+    id: "screens.AppPasscode.PasscodeIntro.description",
+    defaultMessage:
+      "App Passcode allows you to add an additional layer of security by requiring that you enter a passcode in order to open the Mapeo app. You can define your own 5-digit passcode by turning on the feature below.",
+  },
+  warning: {
+    id: "screens.AppPasscode.PasscodeIntro.warning",
+    defaultMessage:
+      "**Please note that forgotten passcodes cannot be recovered!** Once this feature is enabled, if you forget or lose your passcode, you will not be able to open Mapeo and will lose access to any Mapeo data that has not been synced with other project participants.",
+  },
 });
 
 interface PasscodeIntroProps {
@@ -24,26 +34,25 @@ export const PasscodeIntro = ({ setScreen }: PasscodeIntroProps) => {
   const { formatMessage: t } = useIntl();
 
   return (
-    <View style={[styles.container]}>
-      <View>
-        <Text style={[styles.title]}>
-          <FormattedMessage {...m.title} />
-        </Text>
-        <Text style={[styles.description]}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum
-          diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo
-          risus non adipiscing nisi, scelerisque. Quis enim nunc.
-        </Text>
+    <ScrollView>
+      <View style={styles.container}>
+        <View>
+          <Text style={[styles.title]}>{t(m.title)}</Text>
+          <Text style={[styles.description]}>{t(m.description)}</Text>
+          <Text style={[styles.description, { marginTop: 20 }]}>
+            {t(m.warning)}
+          </Text>
+        </View>
+        <View>
+          <Button
+            style={[styles.button]}
+            onPress={() => setScreen("setPasscode")}
+          >
+            {t(m.continue)}
+          </Button>
+        </View>
       </View>
-      <View>
-        <Button
-          style={[styles.button]}
-          onPress={() => setScreen("setPasscode")}
-        >
-          {t(m.continue)}
-        </Button>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -52,6 +61,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexBasis: "90%",
     justifyContent: "space-between",
+    paddingTop: 20,
   },
   title: {
     fontSize: 32,
@@ -61,9 +71,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   description: {
-    fontSize: 20,
+    fontSize: 16,
   },
   button: {
+    marginTop: 20,
     width: "100%",
     minWidth: 90,
     maxWidth: 280,
