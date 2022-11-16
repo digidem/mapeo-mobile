@@ -84,7 +84,7 @@ const Experiments: NativeNavigationComponent<"Experiments"> = () => {
             }
           />
         </ListItem>
-        <ListItem onPress={() => navigate("BGMapsSettings")}>
+        {/* <ListItem onPress={() => navigate("BGMapsSettings")}>
           <ListItemIcon iconName="map" />
           <ListItemText
             primary={<FormattedMessage {...m.BGMaps} />}
@@ -96,7 +96,7 @@ const Experiments: NativeNavigationComponent<"Experiments"> = () => {
               )
             }
           />
-        </ListItem>
+        </ListItem> */}
       </List>
     </ScrollView>
   );
