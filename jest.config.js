@@ -15,6 +15,7 @@ const modulesToTransform = [
   "expo-document-picker",
   "@unimodules",
   "@react-native-picker/picker",
+  "p-defer",
 ];
 
 module.exports = {

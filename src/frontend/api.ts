@@ -5,6 +5,7 @@ import nodejs from "nodejs-mobile-react-native";
 import RNFS from "react-native-fs";
 import debug from "debug";
 import flatten from "flat";
+import pDefer from "p-defer";
 import DeviceInfo from "react-native-device-info";
 import { Observation } from "mapeo-schema";
 import { deserializeError } from "serialize-error";
@@ -19,7 +20,13 @@ import { ClientGeneratedObservation } from "./context/ObservationsContext";
 import AppInfo from "./lib/AppInfo";
 import promiseTimeout, { TimeoutError } from "p-timeout";
 import bugsnag from "./lib/logger";
-import { IconSize, ImageSize, MapServerStyle, Tileset } from "./sharedTypes";
+import {
+  IconSize,
+  ImageSize,
+  MapServerImport,
+  MapServerStyleInfo,
+  Tileset,
+} from "./sharedTypes";
 
 export type ServerStatus = keyof typeof STATUS;
 
@@ -190,88 +197,43 @@ function createRequestClient({
   };
 }
 
+type MapServerClient = ReturnType<typeof createRequestClient> & {
+  port: number;
+};
+
 // TODO: Incorporate server status and making sure it's ready for requests?
 function createMapServerApi() {
-  let mapServerPort: number | undefined;
+  let deferred = pDefer<MapServerClient>();
   let client: ReturnType<typeof createRequestClient> | undefined;
 
+  function getClient() {
+    return deferred.promise;
+  }
+  // Workaround ready function.
+  async function ready() {
+    await getClient();
+  }
   // This event occurs whenever the map server's start method is called,
   // which can happen on app startup but also app resumes
   nodejs.channel.addListener(
     "map-server::start",
-    (payload: { port: number }) => {
-      if (mapServerPort !== payload.port) {
-        mapServerPort = payload.port;
-        client = createMapServerClient(mapServerPort);
-      }
+    ({ port }: { port: number }) => {
+      const client = {
+        ...createRequestClient({ baseUrl: getBaseUrl(port) }),
+        port,
+      };
+      deferred.resolve(client);
     }
   );
 
-  function createMapServerClient(port: number) {
-    return createRequestClient({ baseUrl: getBaseUrl(port) });
-  }
-
-  function guaranteeClient() {
-    if (!mapServerPort)
-      throw new Error(
-        "Map server client cannot be used because port is unknown"
-      );
-
-    if (!client) {
-      client = createMapServerClient(mapServerPort);
+  nodejs.channel.addListener("map-server::state", state => {
+    if (state.value === "stopping") {
+      deferred = pDefer<MapServerClient>();
     }
-
-    return client;
-  }
+  });
 
   // TODO: Implement addMapServerStateListener and addMapServerErrorListener
   const mapsApi = {
-    // TODO: Probably should use some kind of status-related implementation similar to how the app server does it
-    ready: () => {
-      // TODO: Rely on the app server's status heartbeat to ping the map server and check its state
-      // This is a temporary measure since there is no server status implemented for the map server right now
-      const appServerStatusSubscription = nodejs.channel.addListener(
-        "status",
-        ({ value }: ServerStatusMessage) => {
-          if (
-            value === STATUS.LISTENING ||
-            value === STATUS.STARTING ||
-            value === STATUS.IDLE
-          ) {
-            nodejs.channel.post("map-server::get-state");
-          }
-        }
-      );
-
-      const readyPromise = new Promise<void>(resolve => {
-        const stateListenerSubscription = nodejs.channel.addListener(
-          "map-server::state",
-          state => {
-            if (state.value === "started") {
-              // @ts-expect-error
-              appServerStatusSubscription.remove();
-              // @ts-expect-error
-              stateListenerSubscription.remove();
-              resolve();
-            }
-          }
-        );
-      });
-
-      const mapServerReadyPromise = promiseTimeout(
-        readyPromise,
-        DEFAULT_TIMEOUT,
-        "Map server start timeout"
-      );
-
-      mapServerReadyPromise.catch(err => {
-        // @ts-expect-error
-        appServerStatusSubscription.remove();
-        bugsnag.notify(err);
-      });
-
-      return mapServerReadyPromise as Promise<void>;
-    },
     addServerStateListener: (
       handler: (state: MapServerState) => void
     ): Subscription => {
@@ -281,8 +243,7 @@ function createMapServerApi() {
       );
 
       // Poke backend to send a state event
-      mapsApi
-        .ready()
+      ready()
         .then(() => nodejs.channel.post("map-server::get-state"))
         .catch(() => {});
 
@@ -322,32 +283,53 @@ function createMapServerApi() {
     }: { accessToken?: string } & (
       | { from: "url"; url: string }
       | { from: "style"; id?: string; style: StyleJSON }
-    )): Promise<{ id: string; style: StyleJSON }> =>
-      (await guaranteeClient().post("styles", params)) as {
+    )): Promise<{ id: string; style: StyleJSON }> => {
+      const client = await getClient();
+      return client.post("styles", params) as Promise<{
         id: string;
         style: StyleJSON;
-      },
+      }>;
+    },
     // Delete a map style
-    deleteStyle: async (id: string): Promise<void> =>
-      (await guaranteeClient().del(`styles/${id}`)) as void,
+    deleteStyle: async (id: string) => {
+      const client = await getClient();
+      return client.del(`styles/${id}`) as Promise<void>;
+    },
     // Get a map style in the form of a style definition
-    getStyle: async (id: string): Promise<StyleJSON> =>
-      (await guaranteeClient().get(`styles/${id}`)) as StyleJSON,
-    // Get a list of all existing styles containing scalar information about each style
-    getStyleList: async (): Promise<MapServerStyle[]> =>
-      (await guaranteeClient().get("styles")) as MapServerStyle[],
+    getStyle: async (id: string) => {
+      const client = await getClient();
+      return client.get(`styles/${id}`) as Promise<StyleJSON>;
+    },
+    // Get a list of all styles and basic info about each one
+    getStyleList: async () => {
+      const client = await getClient();
+      return client.get("styles") as Promise<MapServerStyleInfo[]>;
+    },
     // Create a tileset using an existing MBTiles file
-    importTileset: async (
-      filePath: string
-    ): Promise<TileJSON & { id: string }> =>
-      (await guaranteeClient().post("tilesets/import", {
+    importTileset: async (filePath: string) => {
+      const client = await getClient();
+      return client.post("tilesets/import", {
         filePath: convertFileUriToPosixPath(filePath),
-      })) as TileJSON & { id: string },
+      }) as Promise<
+        TileJSON & { import: { id: string }; style: { id: string } | null }
+      >;
+    },
     // Return the url to a map style from the map server
-    getStyleUrl: (id: string): string | undefined =>
-      mapServerPort ? `${getBaseUrl(mapServerPort)}styles/${id}` : undefined,
-    getTileset: async (id: string): Promise<TileJSON> =>
-      (await guaranteeClient().get(`tilesets/${id}`)) as TileJSON,
+    getStyleUrl: async (id: string) =>
+      `${getBaseUrl((await getClient()).port)}styles/${id}`,
+    // Return the url to subscribe to an import's progress via server-sent events
+    getImportProgressUrl: async (id: string) =>
+      `${getBaseUrl((await getClient()).port)}imports/progress/${id}`,
+    // Get the import info for a particular import
+    getImport: async (id: string) => {
+      const client = await getClient();
+      return client.get(`imports/${id}`) as Promise<MapServerImport>;
+    },
+    // Get the tilejson representation of a tileset
+    getTileset: async (id: string) => {
+      const client = await getClient();
+      return client.get(`tilesets/${id}`) as Promise<TileJSON>;
+    },
   };
 
   return mapsApi;

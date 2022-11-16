@@ -18,7 +18,7 @@ import { MEDIUM_GREY } from "../../lib/styles";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useExperiments } from "../../hooks/useExperiments";
 import {
-  MapServerStyle,
+  MapServerStyleInfo,
   NativeHomeTabsNavigationProps,
 } from "../../sharedTypes";
 import api from "../../api";
@@ -36,9 +36,9 @@ export const MapScreen = ({
 
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
-  const [bgMapsList, setBgMapList] = React.useState<null | MapServerStyle[]>(
-    null
-  );
+  const [bgMapsList, setBgMapList] = React.useState<
+    null | MapServerStyleInfo[]
+  >(null);
 
   React.useEffect(() => {
     if (mapServerReady) {

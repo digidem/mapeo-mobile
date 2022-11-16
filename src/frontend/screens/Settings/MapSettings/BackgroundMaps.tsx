@@ -12,7 +12,7 @@ import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { TouchableOpacity } from "../../../sharedComponents/Touchables";
 import {
-  MapServerStyle,
+  MapServerStyleInfo,
   NativeNavigationComponent,
 } from "../../../sharedTypes";
 import api from "../../../api";
@@ -77,7 +77,7 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
   ]);
 
   const [backgroundMapList, setBackgroundMapList] = React.useState<
-    MapServerStyle[]
+    MapServerStyleInfo[]
   >();
 
   const getStylesAndPopulateList = React.useCallback(() => {

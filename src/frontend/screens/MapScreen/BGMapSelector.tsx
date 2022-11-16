@@ -20,7 +20,7 @@ import { OfflineMapLayers } from "../../sharedComponents/OfflineMapLayers";
 import { DEFAULT_MAP_ID } from "../Settings/MapSettings/BackgroundMaps";
 import { useMapServerState } from "../../hooks/useMapServerState";
 import { useDefaultStyleUrl } from "../../hooks/useDefaultStyleUrl";
-import { MapServerStyle } from "../../sharedTypes";
+import { MapServerStyleInfo } from "../../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -42,7 +42,7 @@ interface MapSelectorProps {
   /** Should NOT come from `useBottomSheet()` */
   closeSheet: () => void;
   onMapSelected: (id: string) => void;
-  bgMapsList: MapServerStyle[] | null;
+  bgMapsList: MapServerStyleInfo[] | null;
 }
 
 /** `ref` should NOT come from - `useBottomSheet()` */
