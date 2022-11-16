@@ -15,7 +15,7 @@ import { CreateProjectScreen } from "../../screens/CreateProject";
 import GpsModal from "../../screens/GpsModal";
 import { LeaveProjectScreen } from "../../screens/LeaveProject";
 import ManualGpsScreen from "../../screens/ManualGpsScreen";
-import { MapScreen } from "../../screens/MapScreen/MapScreen";
+import { MapScreen } from "../../screens/MapScreen";
 import Observation from "../../screens/Observation";
 import ObservationDetails from "../../screens/ObservationDetails";
 import ObservationEdit from "../../screens/ObservationEdit";
