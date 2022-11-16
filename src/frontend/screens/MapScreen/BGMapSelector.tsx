@@ -107,16 +107,18 @@ export const BGMapSelector = React.forwardRef<
                 }}
               />
               <ScrollView style={styles.flexContainer} horizontal={true}>
-                {stylesList.map(({ id, url: styleUrl, name }) => (
-                  <View key={id}>
-                    <MapThumbnail styleUrl={styleUrl} />
-                    {name && (
-                      <Text style={styles.thumbnailTitle} numberOfLines={1}>
-                        {name}
-                      </Text>
-                    )}
-                  </View>
-                ))}
+                {stylesList
+                  .filter(({ isImporting }) => !isImporting)
+                  .map(({ id, url: styleUrl, name }) => (
+                    <View key={id}>
+                      <MapThumbnail styleUrl={styleUrl} />
+                      {name && (
+                        <Text style={styles.thumbnailTitle} numberOfLines={1}>
+                          {name}
+                        </Text>
+                      )}
+                    </View>
+                  ))}
               </ScrollView>
             </React.Fragment>
           )}
