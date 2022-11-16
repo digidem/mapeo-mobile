@@ -158,8 +158,11 @@ export const createDefaultScreenGroup = (
       component={BGMapsSettings}
       options={{ headerTitle: intl(BGMapsSettings.navTitle) }}
     />
-    {/* Modal, no title */}
-    <RootStack.Screen name="BackgroundMaps" component={BackgroundMaps} />
+    <RootStack.Screen
+      name="BackgroundMaps"
+      component={BackgroundMaps}
+      options={{ headerTitle: intl(BackgroundMaps.navTitle) }}
+    />
     <RootStack.Screen
       name="CategoryChooser"
       component={CategoryChooser}
