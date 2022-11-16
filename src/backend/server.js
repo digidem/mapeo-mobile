@@ -267,9 +267,6 @@ function createServer({
           return;
         }
 
-        handleGetState = createGetStateHandler(mapServer);
-        rnBridge.channel.on("map-server::get-state", handleGetState);
-
         mapServer
           .start()
           .then(() => {
@@ -282,20 +279,6 @@ function createServer({
       },
       stop: () => {
         log("Stopping map server");
-
-        if (handleGetState) {
-          rnBridge.channel.removeListener(
-            "map-server::get-state",
-            handleGetState
-          );
-        }
-
-        if (handleReportErrorState) {
-          rnBridge.channel.removeListener(
-            "map-server::get-state",
-            handleReportErrorState
-          );
-        }
 
         // TODO: Handle this better
         if (!mapServer) {
