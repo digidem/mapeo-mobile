@@ -19,7 +19,10 @@ const modulesToTransform = [
 
 module.exports = {
   preset: "react-native",
-  setupFilesAfterEnv: ["@testing-library/jest-native/extend-expect"],
+  setupFilesAfterEnv: [
+    "@testing-library/jest-native/extend-expect",
+    "@react-native-mapbox-gl/maps/setup-jest",
+  ],
   testPathIgnorePatterns: ["/node_modules/", "/e2e/", "/src/backend/"],
   modulePathIgnorePatterns: [
     "/nodejs-assets/",
