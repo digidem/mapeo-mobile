@@ -1,7 +1,6 @@
 import * as React from "react";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
-import { StyleSheet, View, Text } from "react-native";
 
 import { RED, WHITE } from "../../../lib/styles";
 import { DeleteIcon, ErrorIcon } from "../../../sharedComponents/icons";
@@ -83,12 +82,8 @@ export const DeleteMapBottomSheet = React.forwardRef<
         }
         buttonConfigs={[
           {
-            text: (
-              <View style={styles.btmSheetContainer}>
-                <DeleteIcon color={WHITE} />
-                <Text style={[styles.deleteButtonText]}>{t(m.deleteMap)}</Text>
-              </View>
-            ),
+            text: t(m.deleteMap),
+            icon: <DeleteIcon color={WHITE} size={26} />,
             variation: "filled",
             onPress: deleteMap,
             dangerous: true,
@@ -102,27 +97,4 @@ export const DeleteMapBottomSheet = React.forwardRef<
       />
     </BottomSheetModal>
   );
-});
-
-const styles = StyleSheet.create({
-  btmSheetContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
-  deleteButtonText: {
-    fontWeight: "700",
-    letterSpacing: 0.5,
-    fontSize: 16,
-    color: WHITE,
-  },
-  deleteButtonContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
 });
