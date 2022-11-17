@@ -126,8 +126,59 @@
     "description": "Button to start leave project flow.",
     "message": "हालकाे Project छाड्ने"
   },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "नया परियाेजनामा जाेडिन याे पुरानाे परियाेजनाबाट अनिवार्य बहिरिनु पर्दछ."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "तपाइ याे परियाेजनामा पहिले नै हुनु हुन्छ"
+  },
+  "screens.AppPasscode": {
+    "message": "एपकाे पासकाेड प्रयाेग गर्नु"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
+    "message": "रद्द"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.passcode": {
+    "description": "used to indicate to the user what the new passcode will be.",
+    "message": "पासकाेड"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
+    "message": "एपकाे पासकाेड संग्रह गर्नुहाेस"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.title": {
+    "message": "एपकाे पासकाेड हराएकाे वा बिर्सिएकाे खण्डमा पछि रिकभर गर्न सकिन्दैन । तपाइकाे पासकाेड सुरक्षित रूपले नाेट गरेर संग्रह गर्नु हाेला."
+  },
+  "screens.AppPasscode.InputPasscodeScreen.cancel": {
+    "message": "रद्द"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
+    "message": "पुनः पासकोड प्रविष्ट गर्नुहोस्"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
+    "message": "एपकाे पासकाेड बनाउनु हाेस"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
+    "message": "अर्काे"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError": {
+    "message": "पासवर्ड अनिवार्य रूपमा ५ वटा नम्बरकाे हुनु पर्छ"
+  },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError": {
     "message": "पासकोडको रूपमा प्रयोग गर्न सकिँदैन"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
+    "message": "पासवर्ड मिलेन"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
+    "message": "याे पासकाेड Mapeo App खाेल्न चाहिन्छ"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "जारी राख्ने"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "एपकाे पासकोड के हाे?"
   },
   "screens.AppPasscode.TurnOffPasscode.cancel": {
     "message": "रद्द"
