@@ -140,9 +140,6 @@
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Fortsetzen"
   },
-  "screens.AppPasscode.NewPasscode.Splash.description": {
-    "message": "Der Schmerz selbst ist Liebe, das Hauptspeichersystem. Das Element im Hinterhof ist ein Kissen rachsüchtiger Trauer. Maecenas auch Schichtspieler, Löwe Das Lachen des Löwen ist kein Spritzer, sondern eine Schokolade. Wer ist gerade dabei."
-  },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "Was ist ein App-Passwort?"
   },
@@ -451,10 +448,6 @@
   "screens.Observation.title": {
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "Beobachtung"
-  },
-  "screens.ObservationDetails.QuestionNavBar.questionPage": {
-    "description": "Indicates which question we are on and total questions",
-    "message": "{current} von {total}"
   },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",

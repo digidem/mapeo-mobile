@@ -19,8 +19,181 @@
     "description": "Title of dialog that shows when cancelling a new observation",
     "message": "अवलाेकन हटाउने?"
   },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo सफलतापूर्वक संस्करण {previousVersion} बाट {currentVersion} मा {updateDateTime} मा अपडेट गरियो"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "ठिक छ"
+  },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo अपडेट"
+  },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "Android build नम्बर"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "Android संस्करण"
+  },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Mapeo निर्माण"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Mapeo संस्करण"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "Mapeo संस्करण"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "फाेन माेडल"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "Mapeo काे बारेमा"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "अज्ञात"
+  },
   "screens.AddPhoto.cancel": {
     "message": "रद्द"
+  },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "उपकरणमा जडान हुँदै..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "रद्द"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "संयोजकहरूले Project हरूबाट उपकरणहरू थप्न र हटाउन सक्छन्"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "यो यन्त्र एक संयोजक हो"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "यो यन्त्र एक सहभागी मात्र हो"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "उपकरणकाे भूमिका चयन गर्नु हाेला"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "उपकरण {deviceId} भेटियाे"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "केहि समस्या छ?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "Community Mapper लाई सामेल हुने अनुरोध पठाउन सोध्नुहोस्"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "Project मा व्यक्तिलाई जाेड्न स्कान गर्नुहाेस"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "निर्देशनहरू"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} लाई {projectName} मा जाेडियाे"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Sync गर्नुहाेस"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "सफल!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "उपकरणलाई निमन्त्रणा"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "Project मा थप्नुहाेस"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "तपाईं {projectName} हुनुहुन्छ"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "पछाडी जानुहाेस"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "हालकाे Project छाड्ने"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "नया परियाेजनामा जाेडिन याे पुरानाे परियाेजनाबाट अनिवार्य बहिरिनु पर्दछ."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "तपाइ याे परियाेजनामा पहिले नै हुनु हुन्छ"
+  },
+  "screens.AppPasscode": {
+    "message": "एपकाे पासकाेड प्रयाेग गर्नु"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
+    "message": "रद्द"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.passcode": {
+    "description": "used to indicate to the user what the new passcode will be.",
+    "message": "पासकाेड"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
+    "message": "एपकाे पासकाेड संग्रह गर्नुहाेस"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.title": {
+    "message": "एपकाे पासकाेड हराएकाे वा बिर्सिएकाे खण्डमा पछि रिकभर गर्न सकिन्दैन । तपाइकाे पासकाेड सुरक्षित रूपले नाेट गरेर संग्रह गर्नु हाेला."
+  },
+  "screens.AppPasscode.InputPasscodeScreen.cancel": {
+    "message": "रद्द"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
+    "message": "पुनः पासकोड प्रविष्ट गर्नुहोस्"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
+    "message": "एपकाे पासकाेड बनाउनु हाेस"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
+    "message": "अर्काे"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError": {
+    "message": "पासवर्ड अनिवार्य रूपमा ५ वटा नम्बरकाे हुनु पर्छ"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError": {
+    "message": "पासकोडको रूपमा प्रयोग गर्न सकिँदैन"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
+    "message": "पासवर्ड मिलेन"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
+    "message": "याे पासकाेड Mapeo App खाेल्न चाहिन्छ"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "जारी राख्ने"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "एपकाे पासकोड के हाे?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.cancel": {
+    "message": "रद्द"
+  },
+  "screens.AppPasscode.TurnOffPasscode.changePasscode": {
+    "message": "एपकाे पासकोड परिवर्तन गर्नुहोस्"
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOff": {
+    "message": "बन्द गर्नु"
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOffConfirmation": {
+    "message": "एपकाे पासकाेड बन्द गर्नु?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.usePasscode": {
+    "message": "एपकाे पासकाेड प्रयाेग गर्नु"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -124,10 +297,6 @@
     "description": "Message shown when an observation is not found",
     "message": "अवलाेकन भेटिएन"
   },
-  "screens.ObservationDetails.QuestionNavBar.questionPage": {
-    "description": "Indicates which question we are on and total questions",
-    "message": "{हाल} मा {जम्मा}"
-  },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
     "message": "भयाे"
@@ -224,6 +393,12 @@
     "description": "message shown whilst observations are loading",
     "message": "लाेड हुँदै... नयाँ उपकरणसँग सिंक्राेनाइज हुन केहि समय लाग्न सक्छ"
   },
+  "screens.Security.obscurePassDescriptonPassNotSet": {
+    "message": "प्रयोग गर्न, एप पासकोड सक्षम गर्नुहोस्"
+  },
+  "screens.Security.obscurePassDescriptonPassSet": {
+    "message": "आफ्नो यन्त्रलाई आक्रमणबाट सुरक्षित गर्नुहोस्"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "याे एपलाइ बलपूवर्क शुरू गर्न काेशिस सक्नुहुन्छ, तर त्यहाँ केहि मिलाउनु पर्ने हुन सक्दछ । यसकाे लागि माफ गर्नुहाेस, एप बनाउन गाह्राे छ"
@@ -239,6 +414,14 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Mapeo डाटावेसकाे साथ केहि छ"
+  },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "याे config file भित्राउन खाेज्दा समस्या पैदा भएकाे छ"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "भित्राउनमा समस्या"
   },
   "screens.Settings.ProjectConfig.currentConfig": {
     "description": "Label for name & version of current configuration",

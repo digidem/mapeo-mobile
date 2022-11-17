@@ -440,10 +440,6 @@
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "Pengamatan"
   },
-  "screens.ObservationDetails.QuestionNavBar.questionPage": {
-    "description": "Indicates which question we are on and total questions",
-    "message": "{current} dari {total}\n "
-  },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
     "message": "Selesai"

@@ -137,11 +137,30 @@
   "screens.AppPasscode": {
     "message": "Mật khẩu Ứng dụng"
   },
+  "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
+    "message": "Hủy"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.passcode": {
+    "description": "used to indicate to the user what the new passcode will be.",
+    "message": "Mật khẩu"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
+    "message": "Lưu mật khẩu ứng dụng"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.title": {
+    "message": "Mật khẩu ứng dụng không thể được phục hồi nếu bị mất hoặc bị quên! Hãy nhớ ghi lại mật khẩu của bạn ở một nơi an toàn trước khi lưu để dùng."
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Tiếp tục"
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "Mật khẩu Ứng dụng là gì?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.currentlyUsing": {
+    "message": "Bạn đang sử dụng Mật khẩu ứng dụng. Xem bên dưới để ngừng sử dụng hoặc thay đổi mật khẩu của bạn."
+  },
+  "screens.AppPasscode.TurnOffPasscode.description": {
+    "message": "Mật khẩu ứng dụng bổ sung thêm một lớp bảo mật bằng cách yêu cầu bạn nhập mật khẩu để mở ứng dụng Mapeo."
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -449,10 +468,6 @@
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "Quan sát"
   },
-  "screens.ObservationDetails.QuestionNavBar.questionPage": {
-    "description": "Indicates which question we are on and total questions",
-    "message": "{current} của {total}"
-  },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
     "message": "Hoàn thành"
@@ -639,24 +654,6 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Thử lại"
   },
-  "screens.Security.deviceBackup": {
-    "message": "Sao lưu thiết bị"
-  },
-  "screens.Security.killPassDescriptonPassNotSet": {
-    "message": "Để sử dụng, bật Mật khẩu ứng dụng"
-  },
-  "screens.Security.killPassDescriptonPassSet": {
-    "message": "Bảo vệ thiế bị của bạn khỏi bị tịch thu"
-  },
-  "screens.Security.killPasscodeHeader": {
-    "message": "Huỷ Mật khẩu"
-  },
-  "screens.Security.paperKey": {
-    "message": "Khoá giấy"
-  },
-  "screens.Security.paperKeyDes": {
-    "message": "Khôi phục tài khoản của bạn nếu thiết bị này bị mất"
-  },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "Mật khẩu chưa được đặt"
   },
@@ -694,11 +691,23 @@
   "screens.Settings.Experiments.BGMaps.BGMaps": {
     "message": "Bản đồ nền"
   },
+  "screens.Settings.Experiments.BGMaps.BGMapsDescription": {
+    "message": "Bản đồ nền trong Mapeo được hiển thị trên màn hình bản đồ chính và được sử dụng làm nền cho các quan sát bạn thu thập. Tính năng thử nghiệm mới này cho phép bạn thêm bản đồ tùy chỉnh của mình và chuyển đổi giữa nhiều bản đồ. Bản đồ nền hiện là một tính năng nâng cao - cần có sẵn tệp bản đồ ở định dạng .mbtile để thử nghiệm."
+  },
+  "screens.Settings.Experiments.BGMaps.BGMapsOnlineSupport": {
+    "message": "Để được hỗ trợ trực tuyến về việc tạo tệp bản đồ, hãy xem:"
+  },
+  "screens.Settings.Experiments.BGMaps.feedBack": {
+    "message": "Chúng tôi thu nhận mọi phản hồi về tính năng này trước khi phát hành phiên bản cuối."
+  },
   "screens.Settings.Experiments.BGMaps.goTo": {
-    "message": "Đi đến"
+    "message": "Thử ngay"
   },
   "screens.Settings.Experiments.BGMaps.useBGMap": {
-    "message": "Sử dụng tính năng bản đồ nền"
+    "message": "Sử dụng (tính năng) bản đồ nền"
+  },
+  "screens.Settings.Experiments.BGMaps.warning": {
+    "message": "CẢNH BÁO: Khi tính năng này được bật, bạn sẽ không có quyền truy cập vào bản đồ mà bạn đã sử dụng trước đó trong Mapeo. Tắt Trình quản lý bản đồ để chuyển về bản đồ trước đó. Xin lưu ý rằng tính năng này vẫn đang trong quá trình thử nghiệm; sau khi phiên bản cuối được phát hành, bạn sẽ cần nhập lại các bản đồ nào đã được thêm vào Trình quản lý bản đồ trước đó."
   },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Mũi tên định hướng"
@@ -755,26 +764,29 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Bạn) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMapTitle": {
+    "message": "Bản đồ nền"
+  },
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Thêm Bản đồ nền"
-  },
-  "screens.Settings.MapSettings.OfflineArea": {
-    "message": "Khu vực ngoại tuyến"
   },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Bản đồ nền"
   },
-  "screens.Settings.MapSettings.cancel": {
-    "message": "Hủy"
-  },
-  "screens.Settings.MapSettings.clearDiagrams": {
-    "message": "Bạn có chắc chắn muốn xóa sơ đồ không?"
-  },
   "screens.Settings.MapSettings.close": {
     "message": "Đóng"
   },
-  "screens.Settings.MapSettings.dataLayers": {
-    "message": "Các lớp dữ liệu"
+  "screens.Settings.MapSettings.confirmDelete": {
+    "description": "Confirm delete map modal button",
+    "message": "Có, xoá đi"
+  },
+  "screens.Settings.MapSettings.deleteMapTitle": {
+    "description": "Title for the delete map modal",
+    "message": "Xoá bản đồ"
+  },
+  "screens.Settings.MapSettings.importError": {
+    "description": "Error importing map warning",
+    "message": "Lỗi khi nhập bản đồ, vui lòng thử một tệp khác."
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Nhập từ file"
@@ -782,18 +794,8 @@
   "screens.Settings.MapSettings.mapSettings": {
     "message": "Cài đặt bản đồ"
   },
-  "screens.Settings.MapSettings.noAreas": {
-    "description": "Message to indicate to user that no offline areas have been downloaded",
-    "message": "Không có khu vực ngoại tuyến được tải xuống"
-  },
-  "screens.Settings.MapSettings.removeMap": {
-    "message": "Gỡ bỏ bản đồ"
-  },
   "screens.Settings.MapSettings.subtitle": {
-    "message": "Bản đồ này và các khu vực ngoại tuyến liên quan sẽ bị xóa. Việc này không thể hoàn tác được"
-  },
-  "screens.Settings.MapSettings.title": {
-    "message": "Bản đồ nền"
+    "message": "Thêm, xóa và xem chi tiết bản đồ"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Tạo mới hoặc tham gia một dự án dưới đây"
@@ -909,6 +911,9 @@
   "screens.Settings.mapSettings": {
     "description": "Description of map settings button in settings",
     "message": "Cài đặt bản đồ"
+  },
+  "screens.Settings.mapSettingsSubtitle": {
+    "message": "Bản đồ nền"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -1142,6 +1147,10 @@
   },
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Bản đồ hiện tại"
+  },
+  "sharedComponents.BGMapCard.unamedStyle": {
+    "description": "The name for the default map style",
+    "message": "Kiểu không tên"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Đóng"
