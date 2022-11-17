@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.4.7](https://github.com/digidem/mapeo-mobile/compare/v5.4.6...v5.4.7) (2022-06-22)
+
+### Bug Fixes
+
+- fix bugsnag call in osm error handler ([cd0204c](https://github.com/digidem/mapeo-mobile/commit/cd0204ca1e8444aae7dda94ec7f2aa73896561e0))
+
+### [5.4.6](https://github.com/digidem/mapeo-mobile/compare/v5.4.5...v5.4.6) (2022-06-20)
+
+### Bug Fixes
+
+- add error listener to kappa-osm instances ([42053be](https://github.com/digidem/mapeo-mobile/commit/42053be864692ea5180b280297b7ff0b07f288cd))
+
+### [5.4.5](https://github.com/digidem/mapeo-mobile/compare/v5.4.4...v5.4.5) (2022-06-15)
+
+### Features
+
+- **intl:** Sinhala, Tamil & Ogiek + improved es, pt, vi, th ([f3fcc87](https://github.com/digidem/mapeo-mobile/commit/f3fcc87615fe511925c371f156189d2f597b639b))
+
+### Bug Fixes
+
+- use correct icon names in sync screen ([5d11b92](https://github.com/digidem/mapeo-mobile/commit/5d11b92bbf33b1bf02911cbe68e5e91756e6c797))
+
 ### [5.4.4](https://github.com/digidem/mapeo-mobile/compare/v5.4.3...v5.4.4) (2022-05-03)
 
 ### Bug Fixes

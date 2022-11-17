@@ -10,29 +10,56 @@ import { useMapStyle } from "../../hooks/useMapStyle";
 import ObservationsContext from "../../context/ObservationsContext";
 import LocationContext from "../../context/LocationContext";
 import { AddButton } from "../../sharedComponents/AddButton";
-import type { NavigationProp } from "../../types";
+
 import { BGMapSelector } from "./BGMapSelector";
 import IconButton from "../../sharedComponents/IconButton";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { MEDIUM_GREY } from "../../lib/styles";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useExperiments } from "../../hooks/useExperiments";
+import {
+  MapServerStyle,
+  NativeHomeTabsNavigationProps,
+} from "../../sharedTypes";
+import api from "../../api";
+import { useMapServerState } from "../../hooks/useMapServerState";
 const log = debug("mapeo:MapScreen");
 
-interface MapScreenProps {
-  navigation: NavigationProp;
-}
-
-export const MapScreen = ({ navigation }: MapScreenProps) => {
+export const MapScreen = ({
+  navigation,
+}: NativeHomeTabsNavigationProps<"Map">) => {
   const [, { newDraft }] = useDraftObservation();
-  const { styleType, styleUrl } = useMapStyle();
+  const { styleType, styleUrl, setStyleId } = useMapStyle();
 
   const [experiments] = useExperiments();
+  const mapServerReady = useMapServerState();
 
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
-  const [{ observations, status }] = React.useContext(ObservationsContext);
+  const [bgMapsList, setBgMapList] = React.useState<null | MapServerStyle[]>(
+    null
+  );
+
+  React.useEffect(() => {
+    if (mapServerReady) {
+      api.maps.getStyleList().then(val => setBgMapList(val));
+    }
+  }, [mapServerReady]);
+
+  const [{ observations }] = React.useContext(ObservationsContext);
   const location = React.useContext(LocationContext);
+
+  async function openSheet() {
+    sheetRef.current?.snapTo(1);
+    if (mapServerReady) {
+      try {
+        const list = await api.maps.getStyleList();
+        setBgMapList(list);
+      } catch {
+        setBgMapList([]);
+      }
+    }
+  }
 
   const handleObservationPress = React.useCallback(
     (observationId: string) =>
@@ -48,10 +75,8 @@ export const MapScreen = ({ navigation }: MapScreenProps) => {
 
   return (
     <View style={{ flex: 1 }}>
-      {styleType === "loading" ? (
+      {styleUrl === null ? (
         <Loading />
-      ) : status === "error" ? (
-        <Text>Error</Text>
       ) : (
         <MapView
           location={location}
@@ -64,10 +89,10 @@ export const MapScreen = ({ navigation }: MapScreenProps) => {
       <AddButton testID="addButtonMap" onPress={handleAddPress} />
       {experiments.backgroundMaps && (
         <React.Fragment>
-          <BGMapButton openSheet={() => sheetRef.current?.snapTo(1)} />
+          <BGMapButton openSheet={openSheet} />
           <BGMapSelector
-            // To do: Set map style here (useMapStyle needs to be updated)
-            onMapSelected={() => {}}
+            bgMapsList={bgMapsList}
+            onMapSelected={setStyleId}
             ref={sheetRef}
             closeSheet={() => sheetRef.current?.close()}
           />

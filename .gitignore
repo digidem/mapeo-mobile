@@ -72,6 +72,9 @@ buck-out/
 # Translation files
 /translations
 
+# Intl polyfills (generated via /scripts/build-intl-polyfill.js)
+/src/frontend/polyfills/intl-relativetimeformat.ts
+
 # Private env variables
 .env
 .bitrise.secrets.yml
@@ -87,3 +90,6 @@ buck-out/
 
 # Downloaded APK for detox tests
 /.cache
+
+# git-secret
+.gitsecret/keys/random_seed

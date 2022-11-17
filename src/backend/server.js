@@ -179,9 +179,33 @@ function createServer({
     let handleGetState, handleReportErrorState, mapServer;
 
     try {
-      mapServer = new MapServer({
-        dbPath: path.join(privateStorage, "maps.db"),
-      });
+      // Due to lack of foresight, I didn't add proper db migrations for some map server schema
+      // changes that occurred after the initial integration into the mobile app.
+      // This means that users with the initial db instance ("maps.db") would experience errors
+      // upon upgrading because the "initial" db step that the updated map server module performs
+      // assumes an incompatible schema with the existing instance, which would cause initialization
+      // errors for the server. This would not be an issue for users who completely uninstall
+      // and reinstall, or who install for the first time.
+      //
+      // The workaround solution for this is to point to a different file path to use as the
+      // database moving forward and remove the artifacts from the initial iteration.
+      // Normally this would be a terrible idea because it would result in losing valuable map server data,
+      // but since this has not been officially released for public usage at the time of writing this comment,
+      // it should be okay to do this as a one time legacy-esque exception. After a while, we may be able to
+      // confidently remove this code if we feel that enough existing users have installed this version.
+      try {
+        const legacyMapsDbPath = path.join(privateStorage, "maps.db");
+        fs.unlinkSync(legacyMapsDbPath);
+        fs.unlinkSync(legacyMapsDbPath + "-shm");
+        fs.unlinkSync(legacyMapsDbPath + "-wal");
+        log("Successfully removed legacy map server db");
+      } catch {
+        log("Could not find legacy map server db to remove");
+      }
+
+      const officialMapsDbPath = path.join(privateStorage, "mapeo-maps.db");
+
+      mapServer = new MapServer({ dbPath: officialMapsDbPath });
 
       mapServer.on("state", onState);
       mapServer.on("error", handleError);
@@ -573,6 +597,13 @@ function createServer({
       core: coreDb,
       index: indexDb,
       storage: createBkdStorage,
+    });
+
+    osm.on("error", err => {
+      Bugsnag.notify(err, event => {
+        event.severity = "error";
+        event.context = "core";
+      });
     });
 
     // To close cleanly we need to wait until replication has completed, destroy

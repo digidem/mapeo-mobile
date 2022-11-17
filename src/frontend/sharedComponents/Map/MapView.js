@@ -11,12 +11,12 @@ import { LocationFollowingIcon, LocationNoFollowIcon } from "../icons";
 import IconButton from "../IconButton";
 import type { LocationContextType } from "../../context/LocationContext";
 import type { ObservationsMap } from "../../context/ObservationsContext";
-import { MapTypes } from "../../context/MapStyleContext";
+import { MapTypes, fallbackStyleURL } from "../../context/MapStyleContext";
 import { useIsFullyFocused } from "../../hooks/useIsFullyFocused";
 import bugsnag from "../../lib/logger";
 import config from "../../../config.json";
 import Loading from "../Loading";
-import OfflineMapLayers from "../OfflineMapLayers";
+import { OfflineMapLayers } from "../OfflineMapLayers";
 import { UserLocation } from "./UserLocation";
 
 // This is the default zoom used when the map first loads, and also the zoom
@@ -326,9 +326,10 @@ class MapView extends React.Component<Props, State> {
     const { zoom, coords, following } = this.state;
     const locationServicesEnabled =
       location.provider && location.provider.locationServicesEnabled;
+
     return (
       <>
-        {styleURL === undefined || styleType === "loading" ? (
+        {styleType === "loading" && styleURL === null ? (
           <Loading />
         ) : (
           <MapboxGL.MapView
@@ -390,7 +391,7 @@ class MapView extends React.Component<Props, State> {
                 observations={observations}
               />
             )}
-            {styleType === "fallback" ? <OfflineMapLayers /> : null}
+            {styleURL === fallbackStyleURL ? <OfflineMapLayers /> : null}
             {locationServicesEnabled ? (
               <UserLocation
                 visible={isFocused}

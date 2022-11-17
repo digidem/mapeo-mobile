@@ -1,9 +1,8 @@
 // @flow
 import React from "react";
 import { ScrollView } from "react-native-gesture-handler";
-import { FormattedMessage, defineMessages, useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import { List, ListItem, ListItemText } from "../../sharedComponents/List";
 import useDeviceInfo from "../../hooks/useDeviceInfo";
 
@@ -75,6 +74,7 @@ const DeviceInfoListItem = ({
 
 const AboutMapeo = () => {
   const { formatMessage: t } = useIntl();
+
   return (
     <ScrollView>
       <List>
@@ -92,12 +92,6 @@ const AboutMapeo = () => {
   );
 };
 
-AboutMapeo.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.aboutMapeoTitle} />
-    </HeaderTitle>
-  ),
-};
+AboutMapeo.navTitle = m.aboutMapeoTitle;
 
 export default AboutMapeo;

@@ -1,12 +1,11 @@
 import React from "react";
 import { useState } from "react";
-import { defineMessages, FormattedMessage } from "react-intl";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
+import { defineMessages } from "react-intl";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 import { LeaveProjectCompleted } from "./LeaveProjectCompleted";
 import { LeaveProjectInitial } from "./LeaveProjectInitial";
 import { LeaveProjectProgress } from "./LeaveProjectProgess";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 
 const m = defineMessages({
   headerTitle: {
@@ -25,7 +24,9 @@ export interface LeaveProjSharedProp {
   next: () => void;
 }
 
-export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
+export const LeaveProjectScreen: NativeNavigationComponent<"LeaveProjectScreen"> = ({
+  navigation,
+}) => {
   const { initial, progress } = ScreenStates;
   const [screen, setScreen] = useState(initial);
 
@@ -38,16 +39,12 @@ export const LeaveProjectScreen: NavigationStackScreenComponent = () => {
   }
 
   if (screen === progress) {
-    return <LeaveProjectProgress next={nextScreenState} />;
+    return (
+      <LeaveProjectProgress next={nextScreenState} navigation={navigation} />
+    );
   }
 
   return <LeaveProjectCompleted />;
 };
 
-LeaveProjectScreen.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle style={{}}>
-      <FormattedMessage {...m.headerTitle} />
-    </HeaderTitle>
-  ),
-};
+LeaveProjectScreen.navTitle = m.headerTitle;

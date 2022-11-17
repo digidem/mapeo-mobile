@@ -6,17 +6,13 @@
  */
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { FormattedMessage, defineMessages, useIntl } from "react-intl";
 import QRCode from "react-native-qrcode-svg";
 
-import { MEDIUM_BLUE, WHITE } from "../../lib/styles";
-import { BackIcon } from "../../sharedComponents/icons";
 import Button from "../../sharedComponents/Button";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import IconButton from "../../sharedComponents/IconButton";
 import Text from "../../sharedComponents/Text";
 import { WithWifiBar } from "./WithWifiBar";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -50,13 +46,13 @@ const m = defineMessages({
   1. Project Joiner asking to be invited to project
   2. Project Admin adding user to project
 */
-export const JoinProjectQrScreen: NavigationStackScreenComponent<{
-  isAdmin?: boolean;
-}> = ({ navigation }) => {
+export const JoinProjectQrScreen: NativeNavigationComponent<"JoinProjectQrScreen"> = ({
+  navigation,
+  route,
+}) => {
   const { formatMessage: t } = useIntl();
 
-  const isAdmin =
-    JSON.stringify(navigation.getParam("isAdmin", false)) === "true";
+  const isAdmin = route.params.isAdmin;
 
   return (
     <WithWifiBar>
@@ -89,7 +85,7 @@ export const JoinProjectQrScreen: NavigationStackScreenComponent<{
           // Project Joiner Request
           <Button
             variant="text"
-            onPress={() => navigation.navigate("SendJoinRequest")}
+            onPress={() => navigation.navigate("SendJoinRequestScreen")}
           >
             <Text style={styles.sendJoinRequest}>
               <FormattedMessage {...m.sendJoinRequest} />
@@ -101,22 +97,7 @@ export const JoinProjectQrScreen: NavigationStackScreenComponent<{
   );
 };
 
-JoinProjectQrScreen.navigationOptions = () => ({
-  headerTitle: () => (
-    <HeaderTitle style={{ color: WHITE }}>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-  headerLeft: ({ onPress }) =>
-    onPress && (
-      <IconButton onPress={onPress}>
-        <BackIcon color={WHITE} />
-      </IconButton>
-    ),
-  headerStyle: {
-    backgroundColor: MEDIUM_BLUE,
-  },
-});
+JoinProjectQrScreen.navTitle = m.title;
 
 const styles = StyleSheet.create({
   container: {

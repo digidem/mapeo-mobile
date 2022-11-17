@@ -1,17 +1,16 @@
 import * as React from "react";
 import { FormattedMessage, defineMessages } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
-import { useNavigation } from "react-navigation-hooks";
+import { SecurityContext } from "../../context/SecurityContext";
 import { useExperiments } from "../../hooks/useExperiments";
-import { devExperiments } from "../../lib/DevExperiments";
-
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import {
   List,
   ListItem,
   ListItemText,
   ListItemIcon,
 } from "../../sharedComponents/List";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 const m = defineMessages({
   settingsTitle: {
@@ -103,12 +102,19 @@ const m = defineMessages({
     defaultMessage: "Map Settings",
     description: "Description of map settings button in settings",
   },
+  mapSettingSubtitle: {
+    id: "screens.Settings.mapSettingsSubtitle",
+    defaultMessage: "Background Maps",
+  },
 });
 
-const Settings = () => {
-  const { navigate } = useNavigation();
+const Settings: NativeNavigationComponent<"Settings"> = () => {
+  const { navigate } = useNavigationFromRoot();
 
   const [experiments] = useExperiments();
+
+  const { authState } = React.useContext(SecurityContext);
+
   return (
     <ScrollView>
       <List testID="settingsList">
@@ -140,7 +146,7 @@ const Settings = () => {
             <ListItemIcon iconName="map" />
             <ListItemText
               primary={<FormattedMessage {...m.mapSettings} />}
-              secondary="---------"
+              secondary={<FormattedMessage {...m.mapSettingSubtitle} />}
             />
           </ListItem>
         )}
@@ -175,7 +181,7 @@ const Settings = () => {
           ></ListItemText>
         </ListItem>
 
-        {devExperiments.appPasscode && (
+        {authState !== "obscured" && (
           <ListItem onPress={() => navigate("Security")}>
             <ListItemIcon iconName="security" />
             <ListItemText
@@ -189,12 +195,6 @@ const Settings = () => {
   );
 };
 
-Settings.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.settingsTitle} />
-    </HeaderTitle>
-  ),
-};
+Settings.navTitle = m.settingsTitle;
 
 export default Settings;

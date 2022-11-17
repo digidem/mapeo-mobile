@@ -1,9 +1,8 @@
 // @flow
 import React from "react";
 import { ScrollView } from "react-native";
-import { FormattedMessage, defineMessages } from "react-intl";
+import { defineMessages } from "react-intl";
 
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import SelectOne from "./SelectOne";
 import IntlContext, { supportedLanguages } from "../../context/IntlContext";
 
@@ -37,12 +36,6 @@ const LanguageSettings = () => {
   );
 };
 
-LanguageSettings.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-};
+LanguageSettings.navTitle = m.title;
 
 export default LanguageSettings;

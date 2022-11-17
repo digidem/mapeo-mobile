@@ -1,14 +1,13 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
-import { StyleSheet, Text, View } from "react-native";
+import { Linking, StyleSheet, Text, View } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import { LIGHT_BLUE, LIGHT_GREY } from "../../../lib/styles";
-import HeaderTitle from "../../../sharedComponents/HeaderTitle";
+
 import { useExperiments } from "../../../hooks/useExperiments";
-import { useNavigation } from "react-navigation-hooks";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   BGMaps: {
@@ -17,66 +16,87 @@ const m = defineMessages({
   },
   useBGMap: {
     id: "screens.Settings.Experiments.BGMaps.useBGMap",
-    defaultMessage: "Use Background Map Feature",
+    defaultMessage: "Use Background Maps (Feature)",
   },
   goTo: {
     id: "screens.Settings.Experiments.BGMaps.goTo",
-    defaultMessage: "Go to",
+    defaultMessage: "Try it now",
+  },
+  BGMapsDescription: {
+    id: "screens.Settings.Experiments.BGMaps.BGMapsDescription",
+    defaultMessage:
+      "The Background Map in Mapeo is displayed on the home map screen and is used as a background for the observations you collect. This new pilot feature allows you to add your own custom maps and switch between multiple maps. Background Maps is currently an advanced feature - an existing map file in .mbtiles format is required for testing.",
+  },
+  BGMapsOnlineSupport: {
+    id: "screens.Settings.Experiments.BGMaps.BGMapsOnlineSupport",
+    defaultMessage: "For online support on generating map files, see: ",
+  },
+  feedBack: {
+    id: "screens.Settings.Experiments.BGMaps.feedBack",
+    defaultMessage:
+      "We welcome any feedback on this feature before the final version is released.",
+  },
+  warning: {
+    id: "screens.Settings.Experiments.BGMaps.warning",
+    defaultMessage:
+      "WARNING: When this feature is enabled, you will not have access to the map you had previously been using in Mapeo. Turn off Map Manager to switch back to your previous map. Please note that this feature is still in the pilot testing phase and you will need to re-import any maps added to the Map Manager once the final version is released.",
   },
 });
 
-export const BGMapsSettings: NavigationStackScreenComponent = () => {
+export const BGMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
+  navigation,
+}) => {
   const [experiments, setExperiments] = useExperiments();
 
   const { formatMessage: t } = useIntl();
 
-  const { navigate, goBack } = useNavigation();
+  const { navigate, goBack } = navigation;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={[styles.header]}>
-        <FormattedMessage {...m.BGMaps} />
-      </Text>
-      <Text style={[{ marginBottom: 20 }, styles.text]}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum. Sed ut perspiciatis
-      </Text>
-
-      <Text style={[styles.text]}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.
-      </Text>
-
-      <View style={[styles.switchContainer]}>
-        <Text style={[styles.text]}>
+      <Text style={styles.text}>{t(m.BGMapsDescription)}</Text>
+      <View>
+        <Text style={[styles.text, { marginBottom: 0 }]}>
+          {t(m.BGMapsOnlineSupport)}
+        </Text>
+        <Text
+          style={[
+            styles.text,
+            { color: LIGHT_BLUE, textDecorationLine: "underline" },
+          ]}
+          onPress={() => {
+            Linking.openURL(
+              "https://docs.mapeo.app/complete-reference-guide/mapeo-mobile-installation-setup/adding-custom-base-maps-to-mapeo-mobile/add-maps-to-map-manager"
+            );
+          }}
+        >
+          https://docs.mapeo.app/complete-reference-guide/mapeo-mobile-installation-setup/adding-custom-base-maps-to-mapeo-mobile/add-maps-to-map-manager
+        </Text>
+      </View>
+      <Text style={styles.text}>{t(m.feedBack)}</Text>
+      <Text style={styles.text}>{t(m.warning)}</Text>
+      <TouchableOpacity
+        onPress={() => {
+          setExperiments("backgroundMaps", !experiments.backgroundMaps);
+        }}
+        style={[styles.switchContainer, { alignItems: "center" }]}
+      >
+        <Text style={[styles.text, { alignSelf: "flex-end" }]}>
           <FormattedMessage {...m.useBGMap} />
         </Text>
 
-        <View
-          onTouchStart={() => {
-            setExperiments("backgroundMaps", !experiments.backgroundMaps);
-          }}
-        >
-          <MaterialIcon
-            name={
-              experiments.backgroundMaps
-                ? "check-box"
-                : "check-box-outline-blank"
-            }
-            size={24}
-            color="rgba(0, 0, 0, 0.54)"
-          />
-        </View>
-      </View>
+        <MaterialIcon
+          name={
+            experiments.backgroundMaps ? "check-box" : "check-box-outline-blank"
+          }
+          size={24}
+          color="rgba(0, 0, 0, 0.54)"
+        />
+      </TouchableOpacity>
 
       {experiments.backgroundMaps && (
         <View style={[styles.linkContainer]}>
-          <Text style={[styles.text]}>{t(m.goTo)}:</Text>
+          <Text style={[styles.text, { marginBottom: 0 }]}>{t(m.goTo)}:</Text>
           <TouchableOpacity
             onPress={() => {
               goBack();
@@ -86,7 +106,11 @@ export const BGMapsSettings: NavigationStackScreenComponent = () => {
             <Text
               style={[
                 styles.text,
-                { color: LIGHT_BLUE, textDecorationLine: "underline" },
+                {
+                  color: LIGHT_BLUE,
+                  textDecorationLine: "underline",
+                  marginBottom: 0,
+                },
               ]}
             >
               {t(m.BGMaps)}
@@ -98,17 +122,12 @@ export const BGMapsSettings: NavigationStackScreenComponent = () => {
   );
 };
 
-BGMapsSettings.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.BGMaps} />
-    </HeaderTitle>
-  ),
-};
+BGMapsSettings.navTitle = m.BGMaps;
 
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
+    paddingVertical: 40,
   },
   header: {
     fontSize: 32,
@@ -127,6 +146,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+    marginBottom: 20,
   },
   linkContainer: {
     backgroundColor: LIGHT_GREY,

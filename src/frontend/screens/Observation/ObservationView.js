@@ -35,7 +35,7 @@ import { useMapStyle } from "../../hooks/useMapStyle";
 import useDeviceId from "../../hooks/useDeviceId";
 import useSettingsValue from "../../hooks/useSettingsValue";
 import Loading from "../../sharedComponents/Loading";
-import OfflineMapLayers from "../../sharedComponents/OfflineMapLayers";
+import { OfflineMapLayers } from "../../sharedComponents/OfflineMapLayers";
 import { ShareMessage, ShareSubject, renderToString } from "./ObservationShare";
 import {
   FormattedCoords,
@@ -136,6 +136,7 @@ const ObservationView = ({
 
   const fields = (preset && preset.fields) || [];
   const icon = (preset && preset.icon) || undefined;
+  const color = preset?.color;
 
   const handleShare = () => {
     const msg = renderToString(
@@ -192,7 +193,7 @@ const ObservationView = ({
         </View>
         <View style={[styles.section, { flex: 1 }]}>
           <View style={styles.categoryIconContainer}>
-            <CategoryCircleIcon iconId={icon} size="medium" />
+            <CategoryCircleIcon iconId={icon} color={color} size="medium" />
             <Text style={styles.categoryLabel} numberOfLines={1}>
               <FormattedPresetName preset={preset} />
             </Text>

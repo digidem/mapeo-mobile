@@ -1,17 +1,16 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
-import { useNavigation } from "react-navigation-hooks";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { useExperiments } from "../../../hooks/useExperiments";
+import { useNavigationFromRoot } from "../../../hooks/useNavigationWithTypes";
 
-import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import {
   List,
   ListItem,
   ListItemText,
   ListItemIcon,
 } from "../../../sharedComponents/List";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   p2pUpgrades: {
@@ -48,10 +47,10 @@ const m = defineMessages({
   },
 });
 
-const Experiments: NavigationStackScreenComponent = () => {
+const Experiments: NativeNavigationComponent<"Experiments"> = () => {
   const [experiments] = useExperiments();
 
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigationFromRoot();
 
   return (
     <ScrollView testID="experimentsList">
@@ -85,7 +84,7 @@ const Experiments: NavigationStackScreenComponent = () => {
             }
           />
         </ListItem>
-        <ListItem onPress={() => navigate("BGMapsSettings")}>
+        {/* <ListItem onPress={() => navigate("BGMapsSettings")}>
           <ListItemIcon iconName="map" />
           <ListItemText
             primary={<FormattedMessage {...m.BGMaps} />}
@@ -97,18 +96,12 @@ const Experiments: NavigationStackScreenComponent = () => {
               )
             }
           />
-        </ListItem>
+        </ListItem> */}
       </List>
     </ScrollView>
   );
 };
 
-Experiments.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-};
+Experiments.navTitle = m.title;
 
 export default Experiments;

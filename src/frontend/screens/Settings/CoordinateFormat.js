@@ -7,7 +7,6 @@ import SettingsContext from "../../context/SettingsContext";
 
 import { formatCoords } from "../../lib/utils";
 
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
 import SelectOne from "./SelectOne";
 
 const m = defineMessages({
@@ -62,12 +61,5 @@ const CoordinateFormat = () => {
   );
 };
 
-CoordinateFormat.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-};
-
+CoordinateFormat.navTitle = m.title;
 export default CoordinateFormat;
