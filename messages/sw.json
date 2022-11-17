@@ -2,5 +2,9 @@
   "hooks.updateNotifier.dialogOK": {
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
     "message": "Sawa"
+  },
+  "screens.Settings.language": {
+    "description": "Primary text for language settings",
+    "message": "Lugha"
   }
 }
