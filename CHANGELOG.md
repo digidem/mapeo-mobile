@@ -6,10 +6,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-- add colored border to categories in category chooser ([#1004](https://github.com/digidem/mapeo-mobile/issues/1004)) ([968a65b](https://github.com/digidem/mapeo-mobile/commit/968a65b8b07043ffd6b1c54e18910c98d1858db5))
-- Adds map setting screens ([#946](https://github.com/digidem/mapeo-mobile/issues/946)) ([42a7738](https://github.com/digidem/mapeo-mobile/commit/42a773823a2e4ec242147f76646a4ccdf74db355))
-- app authentication and obscure code ([#1021](https://github.com/digidem/mapeo-mobile/issues/1021)) ([827cdd8](https://github.com/digidem/mapeo-mobile/commit/827cdd8f14495f45d4a4ff8f03edf38b19eff0c4))
-- deletion of offline map ([#1029](https://github.com/digidem/mapeo-mobile/issues/1029)) ([bf7a504](https://github.com/digidem/mapeo-mobile/commit/bf7a504d93103a844cd9160638d98978d9d542f0))
+- Add colored border to categories in category chooser ([#1004](https://github.com/digidem/mapeo-mobile/issues/1004)) ([968a65b](https://github.com/digidem/mapeo-mobile/commit/968a65b8b07043ffd6b1c54e18910c98d1858db5))
+
+- App authentication and obscure code ([#1021](https://github.com/digidem/mapeo-mobile/issues/1021)) ([827cdd8](https://github.com/digidem/mapeo-mobile/commit/827cdd8f14495f45d4a4ff8f03edf38b19eff0c4))
 
 ### Bug Fixes
 
