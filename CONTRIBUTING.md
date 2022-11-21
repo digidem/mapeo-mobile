@@ -1,21 +1,123 @@
 # Contributing
 
-Thank you so much for taking the time to contribute to Mapeo development!
-mapeo-mobile is a mobile app written in react-native that currently runs on
-Android. For most development you will need the Android SDK installed on your
-computer, but it is possible to contribute to UI Component development using the
-storybook server.
+Thank you so much for taking the time to contribute to Mapeo development! Mapeo Mobile is a mobile app written in react-native that currently runs on Android. 
+
+After doing the [Initial Install](#initial-install), for most development you will need Android Studio and the Android SDK installed on your computer as outlined in the [Full App Development](#full-app-development) section.
+
+It is also possible to contribute to UI Component development using the
+storybook server. See the below [Storybook](#storybook) section for more information on that.
 
 ## Initial Install
 
 In order to start developing you will need git and node >=v10 installed on your
 computer (node v14 does not seem to be working at this time, you can use [nvm](https://github.com/nvm-sh/nvm) to rollback
-your node version). For many development tasks you will also need the Android SDK installed.
+your node version).
 
 ```sh
 git clone https://github.com/digidem/mapeo-mobile.git
 cd mapeo-mobile
 npm install
+```
+
+## Full App Development
+
+### Pre-requisites
+
+In order to develop the full app you will need the Android Studio, Android SDK, React Native CLI, and other dependencies installed, as per [this guide](https://reactnative.dev/docs/0.66/environment-setup) following the instructions up to *Creating a new application*.
+
+Once you have done so and have Android Studio open, you may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and configures requirements that might be missing, such as the NDK and CMake to build the native code part of the project. However, the version of NDK to use with Mapeo Mobile needs to be specifically [21.4.7075529](https://developer.android.com/ndk/guides/). You can download this version (as well as CMake if necessary) in Android Studio by navigating to Tools -> SDK Manager -> SDK Tools.
+
+
+Due to an [issue](https://github.com/rnmapbox/maps/issues/1572) with installing some Mapbox SDK Android deps, you will also have to complete additional steps before getting the app to build:
+
+1. Refer to the [`Configure Credentials`](https://docs.mapbox.com/android/maps/guides/install/#configure-credentials) section and follow the instructions for creating a **secret access token**. This requires creating a [Mapbox](https://mapbox.com) account.
+
+2. With the secret token, you'll need to define the `MAPBOX_DOWNLOAD_TOKEN` environment variable. Although not ideal, there are a couple of options to choose from:
+
+- Specify the environment variable when running the `react-native run-android` command (or any command that runs it). For example:
+
+  ```sh
+  MAPBOX_DOWNLOAD_TOKEN=your_token_here npm run android
+  ```
+
+- Create a `.env` file in your Mapeo Mobile directory and paste the following in there with your Mapbox access token. This will be utilized when building Mapeo Mobile.
+
+  ```sh
+  MAPBOX_DOWNLOAD_TOKEN=your_token_here
+  ```
+
+We recognize that this extra configuration is not ideal and we intend for this to be temporary.
+
+### Testing Device
+
+Testing Mapeo Mobile builds locally is much faster and more efficient with a real device. To use a real device, you will need to [enable USB
+debugging](https://developer.android.com/studio/debug/dev-options) and connect
+the phone to your computer with a USB cable. Enter `adb devices` in the terminal
+to check that you can see the phone. You may need to unlock the phone screen and
+say that you trust your computer in order for adb to connect.
+
+You can also test Mapeo Mobile in an emulator. [Set up a virtual device in
+Android Studio](https://developer.android.com/studio/run/managing-avds). Choose
+`x86` as the `ABI`, since this will be much faster.
+
+### Starting the dev version of Mapeo Mobile
+
+Build translations with:
+
+```sh
+npm run build:translations
+```
+
+Connect your phone with USB, or start up the emulator. Then start the Javascript bundler:
+
+```sh
+npm start
+```
+
+In another terminal window build and run the
+dev version of the app on your device:
+
+```sh
+npm run android
+```
+
+This process may take a while when you are first building the app. Additionally, to bypass unneeded latency when installing certain dependencies like TypeScript, you can add the following to your `.gitconfig`  file in your home directory (`~`):
+```sh
+[url "https://"]
+        insteadOf = git://
+```
+
+Once started, you can configure the app to reload whenever you make a change: shake the device
+to bring up the developer menu, and select "Enable Live Reload". Whenever you
+change the code the app should reload. Changes to any code in the `src/frontend`
+folder will appear immediately after a reload. If you change anything in
+`src/backend` you will need to re-run `npm run android` in order to see changes.
+If you are tired of shaking the phone you can enter `npm run dev-menu` from your
+computer.
+
+`npm run android` does two things: starts "Metro bundler" in one window, and
+then builds and installs the dev version of Mapeo on the connected device.
+That might not work on all machines, so in order to start the Metro bundler on
+its own (e.g. if you already have the app installed), use `npm start` first.
+
+### Running end-to-end tests
+
+Mapeo uses [Detox](https://github.com/wix/Detox) to run end-to-end tests. If Metro bundler is already running (via `npm start` or `npm run android`), stop it first with `Ctrl-C`, then restart it:
+
+```sh
+RN_SRC_EXT=e2e npm start
+```
+
+Then, build a debug test version of the app:
+
+```sh
+RN_SRC_EXT=e2e detox build -c android.device.debug
+```
+
+Now, to run the tests on a device or a running emulator, replace `DEVICE_ID` in the line below with the output of `adb devices`:
+
+```sh
+RN_SRC_EXT=e2e detox test -c  android.device.debug -n DEVICE_ID -r
 ```
 
 ## Storybook
@@ -70,103 +172,6 @@ npm run storybook-native
 
 You will probably need to reload the storybook mobile app for the web app to be
 able to control the mobile app.
-
-## Full App Development
-
-### Pre-requisites
-
-In order to develop the full app you will need the Android SDK installed and
-specifically [21.4.7075529 of the NDK](https://developer.android.com/ndk/guides/) in order to build
-nodejs-mobile for Android.
-
-You may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and configures requirements that might be missing, like the NDK and CMake to build the native code part of the project.
-
-Due to an [issue](https://github.com/rnmapbox/maps/issues/1572) with installing some Mapbox SDK Android deps, you will also have to complete additional steps before getting the app to build:
-
-1. Refer to the [`Configure Credentials`](https://docs.mapbox.com/android/maps/guides/install/#configure-credentials) section and follow the instructions for creating a **secret access token**. This requires creating a [Mapbox](https://mapbox.com) account.
-
-2. With the secret token, you'll need to define the `MAPBOX_DOWNLOAD_TOKEN` environment variable. Although not ideal, there are a couple of options to choose from:
-
-- Specify the environment variable when running the `react-native run-android` command (or any command that runs it). For example:
-
-  ```sh
-  MAPBOX_DOWNLOAD_TOKEN=your_token_here npm run android
-  ```
-
-- Export the environment variable in your shell environment. Usually this will be in a file like `$HOME/.bashrc` (or `$HOME/.bash_profile`), `$HOME/.zshrc`, etc (depending on which shell you use). For example, add a line like this in the file and then restart your shell session:
-
-  ```sh
-  export MAPBOX_DOWNLOAD_TOKEN=your_token_here
-  ```
-
-We recognize that this extra configuration is not ideal and we intend for this to be temporary.
-
-### Testing Device
-
-To use a real device, you will need to [enable USB
-debugging](https://developer.android.com/studio/debug/dev-options) and connect
-the phone to your computer with a USB cable. Enter `adb devices` in the terminal
-to check that you can see the phone. You may need to unlock the phone screen and
-say that you trust your computer in order for adb to connect.
-
-You can also test Mapeo Mobile in an emulator. [Set up a virtual device in
-Android Studio](https://developer.android.com/studio/run/managing-avds). Choose
-`x86` as the `ABI`, since this will be much faster.
-
-### Starting the dev version of Mapeo Mobile
-
-Build translations with:
-
-```sh
-npm run build:translations
-```
-
-Connect your phone with USB, or start up the emulator. Then start the Javascript bundler:
-
-```sh
-npm start
-```
-
-In another terminal window build and run the
-dev version of the app on your device:
-
-```sh
-npm run android
-```
-
-You can configure the app to reload whenever you make a change: shake the device
-to bring up the developer menu, and select "Enable Live Reload". Whenever you
-change the code the app should reload. Changes to any code in the `src/frontend`
-folder will appear immediately after a reload. If you change anything in
-`src/backend` you will need to re-run `npm run android` in order to see changes.
-If you are tired of shaking the phone you can enter `npm run dev-menu` from your
-computer.
-
-`npm run android` does two things: starts "Metro bundler" in one window, and
-then builds and installs the dev version of Mapeo on the connected device.
-That might not work on all machines, so in order to start the Metro bundler on
-its own (e.g. if you already have the app installed), use `npm start`.
-
-### Running end-to-end tests
-
-Mapeo uses [Detox](https://github.com/wix/Detox) to run end-to-end tests. If Metro bundler is already running (via `npm start` or `npm run android`), stop it first with `Ctrl-C`, then restart it:
-
-```sh
-RN_SRC_EXT=e2e npm start
-```
-
-Then, build a debug test version of the app:
-
-```sh
-RN_SRC_EXT=e2e detox build -c android.device.debug
-```
-
-Now, to run the tests on a device or a running emulator, replace `DEVICE_ID` in the line below with the output of `adb devices`:
-
-```sh
-RN_SRC_EXT=e2e detox test -c  android.device.debug -n DEVICE_ID -r
-```
-
 ## Release Variants
 
 We generate different variants of the app, each with a different Application ID,
