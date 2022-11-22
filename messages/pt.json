@@ -846,6 +846,30 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Você) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMapInfo.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.deleteMap": {
+    "message": "Excluir mapa"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.description": {
+    "message": "Nível de detalhe"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.maxZoom": {
+    "description": "Shows the user the max zoom for an offline map",
+    "message": "Zoom Máximo"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.mb": {
+    "description": "abbreviation for megabyte",
+    "message": "MB"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.minZoom": {
+    "description": "Shows the user the min zoom for an offline map",
+    "message": "Zoom Mínimo"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.removeMap": {
+    "message": "Excluir mapa"
+  },
   "screens.Settings.MapSettings.BackgroundMapTitle": {
     "message": "Mapas de fundo"
   },
