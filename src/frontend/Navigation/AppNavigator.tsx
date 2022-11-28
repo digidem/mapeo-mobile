@@ -4,7 +4,6 @@ import {
   RootStack,
   createDefaultScreenGroup,
   createOnboardingScreenGroup,
-  createAppPasscodeScreenGroup,
 } from "./AppStack";
 import { useIntl } from "react-intl";
 import { SecurityContext } from "../context/SecurityContext";
@@ -45,7 +44,6 @@ export const AppNavigator = () => {
     >
       {createDefaultScreenGroup(formatMessage)}
       {devExperiments.onboarding && createOnboardingScreenGroup(formatMessage)}
-      {createAppPasscodeScreenGroup(formatMessage)}
     </RootStack.Navigator>
   );
 };

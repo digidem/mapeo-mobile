@@ -9,16 +9,11 @@ import { WHITE } from "../lib/styles";
 import { IccaStackList } from "../screens/Intro";
 import { OnboardingStackList } from "./ScreenGroups/Onboarding";
 import { AppList } from "./ScreenGroups/AppScreens";
-import { AppPasscodeStackList } from "./ScreenGroups/AppPasscode";
 
 export { createOnboardingScreenGroup } from "./ScreenGroups/Onboarding";
 export { createDefaultScreenGroup } from "./ScreenGroups/AppScreens";
-export { createAppPasscodeScreenGroup } from "./ScreenGroups/AppPasscode";
 
-export type AppStackList = AppList &
-  OnboardingStackList &
-  IccaStackList &
-  AppPasscodeStackList;
+export type AppStackList = AppList & OnboardingStackList & IccaStackList;
 
 export const RootStack = createNativeStackNavigator<AppStackList>();
 
