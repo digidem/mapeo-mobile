@@ -135,7 +135,7 @@
     "message": "Você já está participando de um projeto"
   },
   "screens.AppPasscode": {
-    "message": "Senha de aplicativo"
+    "message": "Senha do aplicativo"
   },
   "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
     "message": "Cancelar"
@@ -157,7 +157,7 @@
     "message": "Insira sua senha novamente"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
-    "message": "Definir Senha de aplicativo"
+    "message": "Definir Senha do aplicativo"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
     "message": "Próximo"
@@ -178,7 +178,7 @@
     "message": "Continue"
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
-    "message": "O que é Senha de aplicativo?"
+    "message": "O que é Senha do aplicativo?"
   },
   "screens.AppPasscode.PasscodeIntro.description": {
     "message": "A Senha do aplicativo permite que você adicione uma camada adicional de segurança, exigindo que você insira uma senha para abrir o aplicativo Mapeo. Você pode definir sua própria senha de 5 dígitos ativando o recurso abaixo."
@@ -736,7 +736,7 @@
     "message": "Senha definida"
   },
   "screens.Security.passcodeHeader": {
-    "message": "Senha de aplicativo"
+    "message": "Senha do aplicativo"
   },
   "screens.Security.securitySubheader": {
     "message": "Segurança do dispositivo"
@@ -1034,7 +1034,7 @@
   },
   "screens.Settings.securityDesc": {
     "description": "Description of security button in settings",
-    "message": "Senha de aplicativo e Segurança do dispositivo"
+    "message": "Senha do aplicativo e Segurança do dispositivo"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
