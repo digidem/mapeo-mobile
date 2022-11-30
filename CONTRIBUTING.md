@@ -75,6 +75,8 @@ able to control the mobile app.
 
 ### Pre-requisites
 
+Follow the [official React Native instructions](https://reactnative.dev/docs/0.67/environment-setup) for setting up the majority of what's needed for your development environment (ignore the "Creating a new application" section and anything that comes after it).
+
 In order to develop the full app you will need the Android SDK installed and
 specifically [21.4.7075529 of the NDK](https://developer.android.com/ndk/guides/) in order to build
 nodejs-mobile for Android.
