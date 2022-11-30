@@ -36,7 +36,7 @@ loadDotEnv()
 
 buildscript {
     ext {
-        buildToolsVersion = "31.0.0"
+        buildToolsVersion = "30.0.3"
         // Android 5.0 - requirement for expo unimodules
         minSdkVersion = 21
         compileSdkVersion = 31
@@ -45,6 +45,33 @@ buildscript {
         // Kotlin is needed by Detox testing framework and react-native-screens
         kotlinVersion = "1.6.10"
         ndkVersion = "21.4.7075529"
+
+        // All of this (i.e. rnmbglMapboxLibs and rnmbglMapboxPlugins) is needed because of an 
+        // issue with the telemetry module on Android 12 that the default android sdk depends on:
+        // 
+        // https://github.com/rnmapbox/maps/issues/1677
+        // 
+        // Upgrading just the telemetry module based on the provided instructions did not work and
+        // instead I opted to copy the example listed in instructions:
+        // 
+        // https://github.com/rnmapbox/maps/blob/8.5.0/android/install.md#mapbox-maps-sdk-pre-v10
+        // 
+        // The main change that fixes the issue is upgrading the Android SDK to 9.7.2,
+        // which internally uses a version of the telemetry module that works on Android 12:
+        // 
+        // https://github.com/mapbox/mapbox-gl-native-android/releases/tag/android-v9.6.2
+        rnmbglMapboxLibs = {
+            implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.2'
+            implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:5.8.0'
+            implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:5.8.0'
+            implementation 'com.mapbox.mapboxsdk:mapbox-android-gestures:0.7.0'
+        }
+
+        rnmbglMapboxPlugins = {
+            implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v9:0.8.0'
+            implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-localization-v9:0.14.0'
+            implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-markerview-v9:0.4.0'
+        }
     }
     repositories {
         google()
