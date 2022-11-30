@@ -175,7 +175,7 @@
     "message": "Esta senha será necessária para abrir o Mapeo"
   },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
-    "message": "Continue"
+    "message": "Continuar"
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "O que é Senha do aplicativo?"
