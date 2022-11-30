@@ -36,12 +36,12 @@ loadDotEnv()
 
 buildscript {
     ext {
-        buildToolsVersion = "30.0.2"
+        buildToolsVersion = "31.0.0"
         // Android 5.0 - requirement for expo unimodules
         minSdkVersion = 21
-        compileSdkVersion = 30
-        targetSdkVersion = 30
-        supportLibVersion = "30.0.0"
+        compileSdkVersion = 31
+        targetSdkVersion = 31
+        supportLibVersion = "31.0.0"
         // Kotlin is needed by Detox testing framework and react-native-screens
         kotlinVersion = "1.6.10"
         ndkVersion = "21.4.7075529"
