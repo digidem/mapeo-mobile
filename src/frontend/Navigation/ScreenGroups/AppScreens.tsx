@@ -64,7 +64,7 @@ export type AppList = {
   Experiments: undefined;
   PhotosModal: {
     photoIndex: number;
-    observationId: string;
+    observationId?: string;
     editing: boolean;
   };
   CategoryChooser: undefined;
