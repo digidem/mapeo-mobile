@@ -353,7 +353,7 @@ class MapView extends React.Component<Props, State> {
               bugsnag.leaveBreadcrumb("onDidFinishRenderingMap")
             }
             onDidFinishRenderingMapFully={() => {
-              if (styleType === "legacy" && styleType !== "fallback") {
+              if (styleURL !== fallbackStyleURL) {
                 // For the fallback offline map (that does not contain much
                 // detail) we stay at zoom 4, but if we do load a style then we
                 // zoom in to zoom 12 once the map loads
