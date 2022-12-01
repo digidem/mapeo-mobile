@@ -80,13 +80,13 @@ const ObservationDetails = ({
 const DetailsHeaderRight = ({ question }: { question: number }) => {
   const { formatMessage: t } = useIntl();
   const navigation = useNavigationFromRoot();
-  const [{ preset }] = useDraftObservation();
+  const [{ preset, observationId }] = useDraftObservation();
   const isLastQuestion = question >= (!!preset ? preset.fields.length : 0);
   const buttonText = isLastQuestion ? t(m.done) : t(m.nextQuestion);
 
   const onPress = () =>
     isLastQuestion
-      ? navigation.navigate("ObservationEdit")
+      ? navigation.navigate("ObservationEdit", { observationId })
       : navigation.navigate("ObservationDetails", {
           question: question + 1,
         });
