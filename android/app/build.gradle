@@ -351,10 +351,10 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
 
-    // Use Java 1.8
+    // Use Java 11, which is required when Android Target SDK is 31 (Android 12)
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 
