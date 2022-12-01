@@ -10,6 +10,8 @@ import Field from "../ObservationEdit/Field";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
 import { NativeRootNavigationProps } from "../../sharedTypes";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
+import { BLACK } from "../../lib/styles";
+import CustomHeaderLeft from "../../sharedComponents/CustomHeaderLeft";
 
 const m = defineMessages({
   nextQuestion: {
@@ -35,10 +37,24 @@ const ObservationDetails = ({
   route,
 }: NativeRootNavigationProps<"ObservationDetails">) => {
   const [{ preset }] = useDraftObservation();
-  const current: number = +route.params.question;
+  const current = route.params.question;
+
+  const onBackPress = React.useCallback(() => {
+    if (current === 1) {
+      navigation.navigate("ObservationEdit");
+      return;
+    }
+
+    navigation.navigate("ObservationDetails", {
+      question: current - 1,
+    });
+  }, [current, navigation]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      headerLeft: props => (
+        <CustomHeaderLeft headerBackButtonProps={props} onPress={onBackPress} />
+      ),
       headerTitle: () => <DetailsTitle question={current} />,
       headerRight: () => <DetailsHeaderRight question={current} />,
     });
