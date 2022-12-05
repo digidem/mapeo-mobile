@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { defineMessage, FormattedMessage } from "react-intl";
+import { defineMessages, FormattedMessage } from "react-intl";
 import { View, Text, StyleSheet, Image } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import ConfigContext from "../../context/ConfigContext";
@@ -7,7 +7,7 @@ import Button from "../../sharedComponents/Button";
 import { LeaveProjSharedProp } from ".";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 
-const m = defineMessage({
+const m = defineMessages({
   leaveProjectTitle: {
     id: "screens.LeaveProject.LeaveProject.leaveProjectTitle",
     defaultMessage: "Leave Project{projectName}?",
