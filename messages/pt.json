@@ -150,6 +150,12 @@
   "screens.AppPasscode.ConfirmPasscodeSheet.title": {
     "message": "Se perder ou esquecer a Senha do aplicativo, ela nunca pode ser recuperada! Certifique-se de anotar sua senha em um local seguro antes de salvar."
   },
+  "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter": {
+    "message": "Por favor insira sua senha"
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
+    "message": "Insira sua senha"
+  },
   "screens.AppPasscode.InputPasscodeScreen.cancel": {
     "message": "Cancelar"
   },
@@ -170,6 +176,9 @@
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
     "message": "Senha não corresponde"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "Senha incorreta"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
     "message": "Esta senha será necessária para abrir o Mapeo"
