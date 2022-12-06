@@ -1,16 +1,16 @@
 import * as React from "react";
-import { defineMessage } from "react-intl";
+import { defineMessages } from "react-intl";
 import { PasscodeScreens } from ".";
 import { SecurityContext } from "../../context/SecurityContext";
 import { InputPasscode } from "./InputPasscode";
 
-const m = defineMessage({
+const m = defineMessages({
   titleEnter: {
-    id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.titleEnter",
+    id: "screens.AppPasscode.EnterPassToTurnOff.titleEnter",
     defaultMessage: "Enter Passcode",
   },
   subTitleEnter: {
-    id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleEnter",
+    id: "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter",
     defaultMessage: "Please Enter Passcode",
   },
   passwordError: {
