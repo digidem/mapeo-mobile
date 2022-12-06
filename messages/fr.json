@@ -140,9 +140,6 @@
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continuer"
   },
-  "screens.AppPasscode.NewPasscode.Splash.description": {
-    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc."
-  },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "Quel est le code d'accès à l'application ?"
   },
@@ -452,10 +449,6 @@
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "Observation"
   },
-  "screens.ObservationDetails.QuestionNavBar.questionPage": {
-    "description": "Indicates which question we are on and total questions",
-    "message": "{current} sur {total}"
-  },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
     "message": "Terminé"
@@ -642,24 +635,6 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Réessayer"
   },
-  "screens.Security.deviceBackup": {
-    "message": "Sauvegarde de l'appareil"
-  },
-  "screens.Security.killPassDescriptonPassNotSet": {
-    "message": "Pour utiliser, activez le code d'accès à l'application"
-  },
-  "screens.Security.killPassDescriptonPassSet": {
-    "message": "Protégez votre appareil contre la saisie"
-  },
-  "screens.Security.killPasscodeHeader": {
-    "message": "Tuer le mot de passe"
-  },
-  "screens.Security.paperKey": {
-    "message": "Clé papier"
-  },
-  "screens.Security.paperKeyDes": {
-    "message": "Rétablir votre compte si cet appareil est perdu"
-  },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "Code d'accès non défini"
   },
@@ -716,18 +691,18 @@
     "message": "REMARQUE : Pendant la mise à jour de la version de l'application Mapeo de cette manière, AUCUNE de vos données Mapeo (observations, configurations, ou cartes) sont partagées entre les appareils."
   },
   "screens.Settings.Experiments.active": {
-    "description": "Inidicates whether directional arrow is active on map",
+    "description": "Indicates that the experimental feature is enabled",
     "message": "Actif"
   },
   "screens.Settings.Experiments.directionalArrow": {
     "message": "Flèche Directionnelle"
   },
   "screens.Settings.Experiments.inactive": {
-    "description": "Inidicates whether directional arrow is NOT active on map",
+    "description": "Indicates that the experimental feature is not enabled",
     "message": "Inactif"
   },
   "screens.Settings.Experiments.p2pUpgrades": {
-    "description": "Label for p2p upgrades",
+    "description": "Label for p2p app updates",
     "message": "Mises à jour P2P"
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {

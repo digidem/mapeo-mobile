@@ -26,48 +26,16 @@ LogBox.ignoreLogs([
   "new functionality added to react-native-screens",
 ]);
 
-/**
- * Catches Javascript errors anywhere in the child component tree, logs the
- * errors and displays a fallback UI.
- */
-class ErrorBoundary extends React.Component<
-  {
-    children: React.Node,
-  },
-  {
-    hasError: boolean,
-  }
-> {
-  state = {
-    hasError: false,
-  };
+const ErrorBoundary = bugsnag.getPlugin("react").createErrorBoundary(React);
 
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, info: { componentStack: string }) {
-    // This is rendered outside AppLoading, so SpashScreen could still be
-    // showing if error occurs in AppLoading before it's hidden
-    SplashScreen.hide();
-    bugsnag.notify(error, function (report) {
-      report.severity = "error";
-      report.metadata = {
-        react: {
-          componentStack: formatComponentStack(info.componentStack),
-        },
-      };
-    });
-    // Record that we have an error so that when the app restarts we can
-    // react to the previous uncaught error
-    AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(true));
-  }
-
-  render() {
-    if (!this.state.hasError) return this.props.children;
-    return <ErrorScreen />;
-  }
-}
+const onError = event => {
+  // This is rendered outside AppLoading, so SpashScreen could still be
+  // showing if error occurs in AppLoading before it's hidden
+  SplashScreen.hide();
+  // Record that we have an error so that when the app restarts we can
+  // react to the previous uncaught error
+  AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(true));
+};
 
 const UpdateNotifier = () => {
   useUpdateNotifierEffect();
@@ -77,7 +45,7 @@ const UpdateNotifier = () => {
 /* IntlProvider needs to be first so that error messages are translated */
 const App = () => (
   <IntlProvider>
-    <ErrorBoundary>
+    <ErrorBoundary FallbackComponent={ErrorScreen} onError={onError}>
       {/* Permissions provider must be before AppLoading because it waits for
         permissions before showing main app screen */}
       <PermissionsProvider>

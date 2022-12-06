@@ -449,10 +449,6 @@
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "การสังเกต"
   },
-  "screens.ObservationDetails.QuestionNavBar.questionPage": {
-    "description": "Indicates which question we are on and total questions",
-    "message": "{current} ใน {total}"
-  },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
     "message": "เสร็จสิ้น"
@@ -639,24 +635,6 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "ลองอีกครั้ง"
   },
-  "screens.Security.deviceBackup": {
-    "message": "สำรองข้อมูลอุปกรณ์"
-  },
-  "screens.Security.killPassDescriptonPassNotSet": {
-    "message": "ในการใช้งาน ให้เปิดใช้งานรหัสผ่านแอป"
-  },
-  "screens.Security.killPassDescriptonPassSet": {
-    "message": "ปกป้องอุปกรณ์ของคุณจากหน้าจอค้าง"
-  },
-  "screens.Security.killPasscodeHeader": {
-    "message": "กำจัดรหัสผ่าน"
-  },
-  "screens.Security.paperKey": {
-    "message": "กุญแจกระดาษ"
-  },
-  "screens.Security.paperKeyDes": {
-    "message": "กู้คืนสถานะบัญชีของคุณ กรณีอุปกรณ์นี้สูญหาย"
-  },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "ยังไม่ได้ตั้งรหัสผ่าน"
   },
@@ -688,6 +666,12 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "กำลังเชื่อมต่อกับฐานข้อมูล Mapeo"
   },
+  "screens.Settings.Experiments.BGMaps": {
+    "message": "ภาพพื้นหลังแผนที่"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMaps": {
+    "message": "ภาพพื้นหลังแผนที่"
+  },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "ใช้ลูกศรทิศทาง"
   },
@@ -713,18 +697,18 @@
     "message": "หมายเหตุ: เมื่ออัปเดตเวอร์ชันของ Mapeo ด้วยวิธีนี้แล้ว จะไม่มีการแชร์ข้อมูลแอป Mapeo ของคุณ (เช่น ข้อมูลการสังเกต การกำหนดค่า หรือแผนที่) ระหว่างอุปกรณ์"
   },
   "screens.Settings.Experiments.active": {
-    "description": "Inidicates whether directional arrow is active on map",
+    "description": "Indicates that the experimental feature is enabled",
     "message": "เปิดใช้งาน"
   },
   "screens.Settings.Experiments.directionalArrow": {
     "message": "ลูกศรทิศทาง"
   },
   "screens.Settings.Experiments.inactive": {
-    "description": "Inidicates whether directional arrow is NOT active on map",
+    "description": "Indicates that the experimental feature is not enabled",
     "message": "ยังไม่เปิดใช้"
   },
   "screens.Settings.Experiments.p2pUpgrades": {
-    "description": "Label for p2p upgrades",
+    "description": "Label for p2p app updates",
     "message": "ปรับปรุง P2P"
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
@@ -749,6 +733,21 @@
   "screens.Settings.ManagePeople.yourDevice": {
     "description": "Row label indicating details related to the user's device membership",
     "message": "(คุณ) {deviceName}"
+  },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "เพิ่มพื้นหลังแผนที่"
+  },
+  "screens.Settings.MapSettings.backgroundMaps": {
+    "message": "ภาพพื้นหลังแผนที่"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "ปิด"
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "นำเข้าจากไฟล์"
+  },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "การตั้งค่าแผนที่"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "สร้างและเข้าร่วมในโครงการข้างล่าง"
@@ -860,6 +859,10 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "แสดงภาษาสำหรับแอป"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "การตั้งค่าแผนที่"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -1035,6 +1038,81 @@
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
     "message": "ผิดพลาดอย่างไม่คาดคิด"
+  },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "สี่แยก"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "ระดับความละเอียด"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "ที่อยู่"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "เมือง"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "ทั่วโลก"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "ประเทศขนาดใหญ่"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "พื้นที่เมืองหลวงขนาดใหญ่"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "ประเทศขนาดเล็ก"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "ถนนสายเล็ก"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "ถนน"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "บล็อกถนน"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "อนุทวีป"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "เมือง"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "หมู่บ้าน"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "ระดับการซูม"
+  },
+  "sharedComponents.BGMapCard.abbrevMegabyte": {
+    "description": "The abbreviation for megabyte",
+    "message": "MB"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "แผนที่ปัจจุบัน"
+  },
+  "sharedComponents.BGMapSelector.close": {
+    "message": "ปิด"
+  },
+  "sharedComponents.BGMapSelector.manageMaps": {
+    "message": "จัดการแผนที่"
+  },
+  "sharedComponents.BGMapSelector.title": {
+    "description": "Title for the background map selector",
+    "message": "ภาพพื้นหลังแผนที่"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "ไม่มีสัญญาณ GPS"

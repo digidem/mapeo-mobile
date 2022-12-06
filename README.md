@@ -126,10 +126,7 @@ If you would like your language added to the translations list, [please request 
 
 Connect with the Mapeo community for support & to contribute!
 
-- [**Mailing List**](https://lists.riseup.net/www/info/mapeo-en) (English)
-- [**Mailing List**](https://lists.riseup.net/www/info/mapeo-es) (Spanish)
-- [**IRC**](https://kiwiirc.com/nextclient/irc.freenode.net/) (channel #ddem)
-- [**Slack**](http://slack.digital-democracy.org)
+- [**Discord**](https://discord.gg/KWRFDh3v73)
 
 ## Contributing
 

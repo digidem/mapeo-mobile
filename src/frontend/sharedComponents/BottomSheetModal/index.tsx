@@ -5,14 +5,15 @@ import {
   BottomSheetModalProvider,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
+import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 
 import { Backdrop } from "./Backdrop";
 
 const MIN_SHEET_HEIGHT = 400;
 
-export const MODAL_NAVIGATION_OPTIONS = {
-  cardStyle: { backgroundColor: "transparent" },
-  animationEnabled: false,
+export const MODAL_NAVIGATION_OPTIONS: NativeStackNavigationOptions = {
+  presentation: "transparentModal",
+  animation: "none",
 };
 
 export const useBottomSheetModal = ({
@@ -66,7 +67,7 @@ const useBackPressHandler = (onHardwareBackPress?: () => void) => {
 };
 
 const useSnapPointsCalculator = () => {
-  //Having a value of 0 caused a flickering of the backdrop whenever the sheet was initially opened. This only occurs when the component is used within a component (as opposed to a standalone navigation screen). Switching it to a positive number causes the onLayout event in the content to report an inaccurate height value, which causes the sheet size to be miscalculated, affecting the content within the sheet (e.g. squishing, overflow, etc).
+  // Having a value of 0 caused a flickering of the backdrop whenever the sheet was initially opened. This only occurs when the component is used within a component (as opposed to a standalone navigation screen). Switching it to a positive number causes the onLayout event in the content to report an inaccurate height value, which causes the sheet size to be miscalculated, affecting the content within the sheet (e.g. squishing, overflow, etc).
   const [sheetHeight, setSheetHeight] = React.useState(-1);
 
   const { height: windowHeight } = useWindowDimensions();

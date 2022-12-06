@@ -21,6 +21,9 @@ const m = defineMessages({
   },
 });
 
+// TODO: Use clearError() prop that is passed to this component by Bugsnag to
+// allow the user to re-render the child tree.
+
 /**
  * Fallback screen to show if there is an uncaught error in the app
  */

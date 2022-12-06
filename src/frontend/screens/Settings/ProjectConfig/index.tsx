@@ -1,20 +1,19 @@
 import * as React from "react";
 import { Alert, StyleSheet } from "react-native";
-import { FormattedMessage, defineMessages, useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { ScrollView } from "react-native-gesture-handler";
 import * as DocumentPicker from "expo-document-picker";
 
 import ConfigContext, {
   Metadata as ConfigMetadata,
 } from "../../../context/ConfigContext";
-import SettingsContext from "../../../context/SettingsContext";
-import HeaderTitle from "../../../sharedComponents/HeaderTitle";
 import { Status } from "../../../types";
 import { isInPracticeMode } from "../../../lib/utils";
 import { ConfigDetails } from "./ConfigDetails";
 import { LeavePracticeMode } from "./LeavePracticeMode";
 import { ManagePeople } from "./ManagePeople";
 import { devExperiments } from "../../../lib/DevExperiments";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   configTitle: {
@@ -57,8 +56,9 @@ const m = defineMessages({
   },
 });
 
-export const ProjectConfig = () => {
+export const ProjectConfig: NativeNavigationComponent<"ProjectConfig"> = () => {
   const { formatMessage: t } = useIntl();
+
   // TODO: dummy state, mostly for demonstrative purposes
   const [role] = React.useState<"participant" | "coordinator">("participant");
   const [status, setStatus] = React.useState<Status>("idle");
@@ -105,7 +105,7 @@ export const ProjectConfig = () => {
 
   const loading = status === "loading" || config.status === "loading";
 
-  const isPracticeMode = onboarding && isInPracticeMode(config);
+  const isPracticeMode = devExperiments.onboarding && isInPracticeMode(config);
 
   React.useEffect(() => {
     const didError = config.status === "error";
@@ -129,7 +129,7 @@ export const ProjectConfig = () => {
         version={config.metadata.version}
       />
 
-      {onboarding &&
+      {devExperiments.onboarding &&
         (role === "coordinator" ? (
           <ManagePeople loading={loading} />
         ) : isPracticeMode ? (
@@ -139,17 +139,11 @@ export const ProjectConfig = () => {
   );
 };
 
+ProjectConfig.navTitle = m.configTitle;
+
 function extractConfigName(configMetadata: ConfigMetadata) {
   return configMetadata.name || configMetadata.dataset_id;
 }
-
-ProjectConfig.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle style={{}}>
-      <FormattedMessage {...m.configTitle} />
-    </HeaderTitle>
-  ),
-};
 
 const styles = StyleSheet.create({
   root: {

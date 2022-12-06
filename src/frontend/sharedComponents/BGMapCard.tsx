@@ -1,14 +1,14 @@
 import * as React from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { StyleSheet, View, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import MapboxGL from "@react-native-mapbox-gl/maps";
-import { StackNavigationProp } from "react-navigation-stack/lib/typescript/src/vendor/types";
 
 import { LIGHT_GREY, MEDIUM_GREY } from "../lib/styles";
 import { ViewStyleProp } from "../sharedTypes";
 import { Pill } from "./Pill";
 import LocationContext from "../context/LocationContext";
+import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const m = defineMessages({
   currentMap: {
@@ -20,68 +20,53 @@ const m = defineMessages({
     defaultMessage: "MB",
     description: "The abbreviation for megabyte",
   },
+  unnamedStyle: {
+    id: "sharedComponents.BGMapCard.unamedStyle",
+    defaultMessage: "Unnamed Style",
+    description: "The name for the default map style",
+  },
 });
 
 // ToDo: API calls to get styleURL, zoom level, center coordinate, etc.
 
 interface BGMapCardProps {
   mapId: string;
-  mapTitle: string;
-  mapSize: number;
-  navigation: StackNavigationProp;
+  mapTitle: string | null;
   style?: ViewStyleProp;
+  styleUrl: string;
   onPress?: (() => void) | null;
+  isSelected: boolean;
+  bytesStored?: number;
 }
 
 export const BGMapCard = ({
-  mapSize,
   mapTitle,
   style,
-  onPress,
+  isSelected,
+  styleUrl,
+  bytesStored,
   mapId,
-  navigation,
 }: BGMapCardProps) => {
   const { formatMessage: t } = useIntl();
-  const { navigate } = navigation;
   const { position } = React.useContext(LocationContext);
-  const [styleUrl, setStyleUrl] = React.useState<string>(
-    "mapbox://styles/mapbox/streets-v11"
-  );
-  const [zoomLevel, setZoomLevel] = React.useState<number>(6);
-  const [centerCoordinate, setCenterCoordinate] = React.useState<
-    (number | undefined)[]
-  >([position?.coords.longitude, position?.coords.latitude]);
-
-  function onPressDefault() {
-    navigate("OfflineAreas", { mapId });
-  }
-
-  React.useEffect(() => {
-    function getStyleURL() {
-      // To do: API call to get styleURL
-      return MapboxGL.StyleURL.Street;
-    }
-    function getZoomLevel() {
-      // To do: API call to get zoom level
-      // This should be min zoom. Where is this coming from?
-      return 6;
-    }
-    function getCenterCoordinate() {
-      // To do: API call to get center coordinate
-      // I believe this should come from the styleJSON `center` property
-      return [position?.coords.longitude, position?.coords.latitude];
-    }
-
-    setStyleUrl(getStyleURL());
-    setZoomLevel(getZoomLevel());
-    setCenterCoordinate(getCenterCoordinate());
-  }, []);
-
+  const { navigate } = useNavigationFromRoot();
   return (
-    <TouchableOpacity onPress={onPress || onPressDefault}>
-      <View style={[styles.container, style]}>
+    <TouchableOpacity
+      style={[
+        { borderColor: MEDIUM_GREY, borderWidth: 1, borderRadius: 2 },
+        style,
+      ]}
+      onPress={() =>
+        navigate("BackgroundMapInfo", {
+          bytesStored,
+          id: mapId,
+          name: mapTitle || "",
+          styleUrl,
+        })
+      }
+    >
+      <View style={[styles.container]}>
         <MapboxGL.MapView
-          // placeholder style URL
           styleURL={styleUrl}
           compassEnabled={false}
           zoomEnabled={false}
@@ -90,19 +75,24 @@ export const BGMapCard = ({
           style={[styles.map]}
         >
           <MapboxGL.Camera
-            zoomLevel={zoomLevel}
-            centerCoordinate={centerCoordinate}
+            zoomLevel={0}
+            centerCoordinate={
+              position
+                ? [position?.coords.longitude, position?.coords.latitude]
+                : [0, 0]
+            }
             animationDuration={0}
             animationMode={"linearTo"}
-            allowUpdates={false}
+            allowUpdates={true}
           />
         </MapboxGL.MapView>
         <View style={[styles.textContainer]}>
-          <Text style={[styles.text, { fontWeight: "bold" }]}>{mapTitle}</Text>
-          <Text style={[styles.text]}>
-            {mapSize.toString() + t(m.abbrevMegabyte)}
+          <Text style={[styles.text, { fontWeight: "bold" }]}>
+            {mapTitle || t(m.unnamedStyle)}
           </Text>
-          <Pill containerStyle={{ marginTop: 10 }} text={m.currentMap} />
+          {isSelected && (
+            <Pill containerStyle={{ marginTop: 10 }} text={m.currentMap} />
+          )}
         </View>
       </View>
     </TouchableOpacity>
@@ -113,8 +103,9 @@ const styles = StyleSheet.create({
   container: {
     borderColor: MEDIUM_GREY,
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 2,
     flexDirection: "row",
+    minHeight: 100,
   },
   textContainer: {
     padding: 10,

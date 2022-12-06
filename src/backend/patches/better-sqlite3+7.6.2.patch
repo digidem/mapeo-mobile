@@ -1,0 +1,13 @@
+diff --git a/node_modules/better-sqlite3/lib/database.js b/node_modules/better-sqlite3/lib/database.js
+index aea774d..2ebcc7e 100644
+--- a/node_modules/better-sqlite3/lib/database.js
++++ b/node_modules/better-sqlite3/lib/database.js
+@@ -45,7 +45,7 @@ function Database(filenameGiven, options) {
+ 	// Load the native addon
+ 	let addon;
+ 	if (nativeBindingPath == null) {
+-		addon = DEFAULT_ADDON || (DEFAULT_ADDON = require('bindings')('better_sqlite3.node'));
++		addon = DEFAULT_ADDON || (DEFAULT_ADDON = require('bindings')({ bindings: 'better_sqlite3.node', name: 'better-sqlite3' }));
+ 	} else {
+ 		addon = require(path.resolve(nativeBindingPath).replace(/(\.node)?$/, '.node'));
+ 	}

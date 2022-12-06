@@ -1,21 +1,20 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Dimensions, View, StyleSheet } from "react-native";
-import { NavigationState, TabView, Route } from "react-native-tab-view";
+import { TabView, Route } from "react-native-tab-view";
 
 import IconButton from "../../sharedComponents/IconButton";
-import Button from "../../sharedComponents/Button";
 import { CloseIcon, DeleteIcon } from "../../sharedComponents/icons";
 import { filterPhotosFromAttachments } from "../../lib/utils";
 import { useObservation } from "../../hooks/useObservation";
 import { useDraftObservation } from "../../hooks/useDraftObservation";
 import PhotoView from "../../sharedComponents/PhotoView";
 import api from "../../api";
-import type { NavigationProp } from "../../types";
 import { useBottomSheetModal } from "../../sharedComponents/BottomSheetModal";
 import { ConfirmDeleteModal } from "./ConfirmDeleteModal";
 import Text from "../../sharedComponents/Text";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { TouchableNativeFeedback } from "../../sharedComponents/Touchables/index.ios";
+import { NativeRootNavigationProps } from "../../sharedTypes";
 
 interface customRoute extends Route {
   uri?: string;
@@ -30,9 +29,12 @@ const m = defineMessages({
   },
 });
 
-const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
-  const observationId = navigation.getParam("observationId");
-  const [index, setIndex] = useState(navigation.getParam("photoIndex") || 0);
+const PhotosModal = ({
+  navigation,
+  route: navRoute,
+}: NativeRootNavigationProps<"PhotosModal">) => {
+  const { observationId, photoIndex } = navRoute.params;
+  const [index, setIndex] = useState(photoIndex || 0);
   const [{ observation }] = useObservation(observationId);
   const [{ photos: draftPhotos }] = useDraftObservation();
   const [showHeader, setShowHeader] = useState(true);
@@ -137,17 +139,12 @@ const PhotosModal = ({ navigation }: { navigation: NavigationProp }) => {
       />
       <ConfirmDeleteModal
         disableBackdrop={true}
-        navigationProp={navigation}
         closeSheet={closeModal}
         sheetRef={sheetRef}
         photoIndex={index}
       />
     </View>
   );
-};
-
-PhotosModal.navigationOptions = {
-  headerShown: false,
 };
 
 export default PhotosModal;

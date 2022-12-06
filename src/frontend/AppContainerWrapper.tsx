@@ -1,192 +1,108 @@
 import * as React from "react";
 import debug from "debug";
-import {
-  NavigationActions,
-  NavigationContainerComponent,
-  NavigationState,
-} from "react-navigation";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import {
-  EDITING_SCREEN_NAMES,
-  ERROR_STORE_KEY,
-  IS_E2E,
-  NAV_STORE_KEY,
-  NO_PRACTICE_BAR,
-  TEMP_HIDE_PRACTICE_MODE_UI,
-  URI_PREFIX,
-} from "./constants";
+import { IS_E2E, URI_PREFIX } from "./constants";
 // import useProjectInviteListener from "./hooks/useProjectInviteListener";
-import bugsnag from "./lib/logger";
 import { PracticeMode } from "./sharedComponents/PracticeMode";
-import DefaultContainer from "./Navigation/DefaultContainer";
-import OnboardingContainer from "./Navigation/OnboardingContainer";
 import { devExperiments, featureFlagOn } from "./lib/DevExperiments";
+import {
+  NavigationContainer,
+  InitialState,
+  NavigationState,
+  useNavigationContainerRef,
+} from "@react-navigation/native";
+import { AppStackList } from "./Navigation/AppStack";
+// import { Linking } from "react-native";
+import Loading from "./sharedComponents/Loading";
+import {
+  hidePracticeBarForRoute,
+  hidePracticeModeTemporarily,
+  inviteModalDisabledOnRoute,
+  loadSavedNavState,
+  persistNavigationState,
+} from "./Navigation/navigationStateHelperFunctions";
+import { AppNavigator } from "./Navigation/AppNavigator";
 
 // Turn on logging if in debug mode
 if (__DEV__) debug.enable("*");
 const log = debug("mapeo:App");
 
-const createNavigationStatePersister = () => async (
-  navState: NavigationState
-) => {
-  if (featureFlagOn) return;
-
-  try {
-    await AsyncStorage.setItem(NAV_STORE_KEY, JSON.stringify(navState));
-  } catch (err) {
-    log("Error saving navigation state", err);
-  }
-};
-
-const loadSavedNavState = async () => {
-  try {
-    if (featureFlagOn) return null;
-    const navState = JSON.parse(
-      (await AsyncStorage.getItem(NAV_STORE_KEY)) as string
-    );
-    const didCrashLastOpen = JSON.parse(
-      (await AsyncStorage.getItem(ERROR_STORE_KEY)) as string
-    );
-    // Clear error saved state so that navigation persistence happens on next load
-    await AsyncStorage.setItem(ERROR_STORE_KEY, JSON.stringify(false));
-    // If the app crashed last time, don't restore nav state
-    if (didCrashLastOpen) {
-      bugsnag.leaveBreadcrumb("Crash on last open");
-      log("Crashed on last open, skipping load of navigation state");
-      return null;
-    } else {
-      return navState;
-    }
-  } catch (error) {
-    bugsnag.leaveBreadcrumb("Error loading nav state", { error });
-    log("Error reading navigation and error state", error);
-  }
-};
-
-const getRouteName = (navState?: NavigationState): string | null => {
-  if (!navState) {
-    return null;
-  }
-
-  const route = navState.routes[navState.index];
-
-  if (route?.routes) {
-    return getRouteName(route);
-  }
-
-  return route.routeName;
-};
-
-const inviteModalDisabledOnRoute = (routeName: string | null) =>
-  routeName !== null && EDITING_SCREEN_NAMES.includes(routeName);
-
-function hidePracticeBarForRoute(route: string | null) {
-  return route !== null && NO_PRACTICE_BAR.includes(route);
-}
-
-function hidePracticeModeTemporarily(route: string | null) {
-  return route !== null && TEMP_HIDE_PRACTICE_MODE_UI.includes(route);
-}
-
 const AppContainerWrapper = () => {
-  const navRef = React.useRef<NavigationContainerComponent>();
-  const [inviteModalEnabled, setInviteModalEnabled] = React.useState(true);
   const [queuedInvite, setQueuedInvite] = React.useState<string | null>(null);
-  const [hidePracticeBar, setHidePracticeBar] = React.useState(true);
-  const [hidePracticeMode, setHidePracticeMode] = React.useState(false);
-  const { onboarding } = devExperiments;
 
-  const updateRouteBasedAppState = React.useCallback(
-    (routeName: string | null) => {
-      setInviteModalEnabled(!inviteModalDisabledOnRoute(routeName));
-      setHidePracticeBar(hidePracticeBarForRoute(routeName));
-      setHidePracticeMode(hidePracticeModeTemporarily(routeName));
+  const [initialNavState, setInitialNavState] = React.useState<
+    InitialState | "loading" | undefined
+  >("loading");
+
+  const navRef = useNavigationContainerRef<AppStackList>();
+
+  const currentRoute = navRef.isReady()
+    ? navRef.getCurrentRoute()?.name
+    : undefined;
+
+  React.useEffect(() => {
+    if (featureFlagOn) {
+      setInitialNavState(undefined);
+      return;
+    }
+
+    restoreNavState();
+
+    async function restoreNavState() {
+      try {
+        // When we support deeplinking we need to fix this. Currently it is never resolving
+        // You can find issue here: https://github.com/facebook/react-native/issues/25675
+        const initialUrl = undefined; // await Linking.getInitialURL();
+
+        // if deeplinking, dont set initial state
+        if (initialUrl) {
+          setInitialNavState(undefined);
+          return;
+        }
+
+        setInitialNavState(await loadSavedNavState(log));
+      } catch {
+        // handle error here
+      }
+    }
+  }, []);
+
+  const handleNavStateChange = React.useCallback(
+    (navState?: NavigationState) => {
+      if (!navState || IS_E2E) return;
+      persistNavigationState(log, navState);
     },
     []
   );
 
-  const onNavStateChange = React.useCallback(
-    (previousState: NavigationState, currentState: NavigationState) => {
-      const previousRouteName = getRouteName(previousState);
-      const currentRouteName = getRouteName(currentState);
-
-      if (previousRouteName !== currentRouteName) {
-        updateRouteBasedAppState(currentRouteName);
-      }
-    },
-    [updateRouteBasedAppState]
-  );
-
-  const openInviteModal = React.useCallback((key: string) => {
-    if (navRef.current) {
-      navRef.current.dispatch(
-        NavigationActions.navigate({
-          routeName: "ProjectInviteModal",
-          params: { invite: key },
-        })
-      );
-    }
-  }, []);
-
-  const { loadNavigationState, persistNavigationState } = React.useMemo(
-    () =>
-      IS_E2E
-        ? {}
-        : {
-            loadNavigationState: async () => {
-              const loadedNavState = await loadSavedNavState();
-
-              const loadedRouteName = getRouteName(loadedNavState);
-
-              updateRouteBasedAppState(loadedRouteName);
-
-              return loadedNavState;
-            },
-            persistNavigationState: createNavigationStatePersister(),
-          },
-    [onboarding, updateRouteBasedAppState]
-  );
-
-  const AppContainer = React.useMemo(
-    () => (onboarding ? OnboardingContainer : DefaultContainer),
-    [onboarding]
-  );
-
-  /**
-   * TODO: Uncomment when project invites are supported
-   */
-  //   useProjectInviteListener(invite => {
-  //     if (inviteModalEnabled) {
-  //       openInviteModal(invite);
-  //     } else {
-  //       setQueuedInvite(invite);
-  //     }
-  //   });
+  const inviteModalEnabled = inviteModalDisabledOnRoute(currentRoute);
+  const hidePracticeBar = hidePracticeBarForRoute(currentRoute);
+  const hidePracticeMode = hidePracticeModeTemporarily(currentRoute);
 
   React.useEffect(() => {
-    if (inviteModalEnabled && queuedInvite) {
+    if (inviteModalEnabled && queuedInvite && navRef.isReady()) {
       setQueuedInvite(null);
-      openInviteModal(queuedInvite);
+      navRef.navigate("ProjectInviteModal", { inviteKey: queuedInvite });
     }
-  }, [inviteModalEnabled, queuedInvite, openInviteModal]);
+  }, [navRef, inviteModalEnabled, queuedInvite]);
+
+  if (initialNavState === "loading") {
+    return <Loading />;
+  }
 
   return (
     <PracticeMode
-      enabled={onboarding && !hidePracticeMode}
+      enabled={devExperiments.onboarding && !hidePracticeMode}
       hideBar={hidePracticeBar}
     >
-      <AppContainer
-        loadNavigationState={loadNavigationState}
-        onNavigationStateChange={onNavStateChange}
-        persistNavigationState={persistNavigationState}
-        ref={nav => {
-          if (nav) {
-            navRef.current = nav;
-          }
-        }}
-        uriPrefix={URI_PREFIX}
-      />
+      <NavigationContainer
+        initialState={initialNavState}
+        onStateChange={handleNavStateChange}
+        linking={{ prefixes: [URI_PREFIX] }}
+        ref={navRef}
+      >
+        <AppNavigator />
+      </NavigationContainer>
     </PracticeMode>
   );
 };

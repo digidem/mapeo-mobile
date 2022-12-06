@@ -1,7 +1,7 @@
 const rnBridge = require("rn-bridge");
 const log = require("debug")("mapeo-core:status");
+const Bugsnag = require("@bugsnag/js").default;
 const constants = require("./constants");
-const main = require("./index");
 
 class ServerStatus {
   constructor() {
@@ -34,7 +34,9 @@ class ServerStatus {
     if (nextState === constants.ERROR) {
       error = error || new Error("Unknown server error");
       log(context, error.message);
-      main.bugsnag.notify(error, { context });
+      Bugsnag.notify(error, event => {
+        event.context = context;
+      });
     }
     this.state = nextState;
     rnBridge.channel.post("status", {

@@ -2,16 +2,12 @@ import React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { StyleSheet } from "react-native";
 import { View, Image, Text, Share } from "react-native";
-import {
-  NavigationStackOptions,
-  NavigationStackScreenComponent,
-} from "react-navigation-stack";
 import Button from "../sharedComponents/Button";
 import WifiBar from "../sharedComponents/WifiBar";
-import HeaderTitle from "../sharedComponents/HeaderTitle";
 import { URI_PREFIX } from "../constants";
 import useWifiStatus from "../hooks/useWifiStatus";
-import { useNavigation } from "react-navigation-hooks";
+import { NativeNavigationComponent } from "../sharedTypes";
+
 const m = defineMessages({
   unableToLink: {
     id: "screens.UnableToLink.unableToLink",
@@ -43,10 +39,12 @@ const m = defineMessages({
   },
 });
 
-export const UnableToLinkScreen: NavigationStackScreenComponent = () => {
+export const UnableToLinkScreen: NativeNavigationComponent<"UnableToLinkScreen"> = ({
+  navigation,
+}) => {
   const { ssid } = useWifiStatus();
   const { formatMessage: t } = useIntl();
-  const { navigate } = useNavigation();
+  const { navigate } = navigation;
 
   // TOOD: Need to properly generate
   const verificationCode = Math.random().toString().slice(-5);
@@ -78,7 +76,7 @@ export const UnableToLinkScreen: NavigationStackScreenComponent = () => {
         <Button
           style={[styles.buttons]}
           onPress={() =>
-            navigate("JoinProjectQr", {
+            navigate("JoinProjectQrScreen", {
               isAdmin: true,
             })
           }
@@ -99,13 +97,7 @@ export const UnableToLinkScreen: NavigationStackScreenComponent = () => {
   );
 };
 
-UnableToLinkScreen.navigationOptions = () => ({
-  headerTitle: () => (
-    <HeaderTitle style={{}}>
-      <FormattedMessage {...m.bannerTitle} />
-    </HeaderTitle>
-  ),
-});
+UnableToLinkScreen.navTitle = m.bannerTitle;
 
 const styles = StyleSheet.create({
   screenContainer: {
@@ -128,4 +120,3 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
-

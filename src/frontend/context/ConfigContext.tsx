@@ -17,6 +17,7 @@ const log = debug("mapeo:ConfigContext");
 export type Preset = {
   id: string;
   icon?: string;
+  color?: string;
   fields?: string[];
   geometry: Array<"point" | "area" | "line" | "vertex" | "relation">;
   terms?: string[];
@@ -38,6 +39,7 @@ export type Field = TextField | SelectOneField | SelectMultipleField;
 export type PresetWithFields = {
   id: string;
   icon?: string;
+  color?: string;
   fields: Field[];
   geometry: Array<"point" | "area" | "line" | "vertex" | "relation">;
   terms?: string[];
