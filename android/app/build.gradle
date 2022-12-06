@@ -350,12 +350,6 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-
-    // Use Java 11, which is required when Android Target SDK is 31 (Android 12)
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
 }
 
 dependencies {
