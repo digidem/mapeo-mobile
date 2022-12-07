@@ -879,11 +879,33 @@
   "screens.Settings.MapSettings.BackgroundMapInfo.removeMap": {
     "message": "Excluir mapa"
   },
+  "screens.Settings.MapSettings.BackgroundMapInfo.subtitle": {
+    "message": "Este mapa e as áreas offline anexadas a ele serão excluídos. Isso não pode ser desfeito."
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.useMap": {
+    "message": "Usar mapa"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.zoomRange": {
+    "description": "Shows the user the range of zoom available for an offline map",
+    "message": "Faixa de zoom"
+  },
   "screens.Settings.MapSettings.BackgroundMapTitle": {
     "message": "Mapas de fundo"
   },
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Adicionar mapa de fundo"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMap": {
+    "message": "Excluir mapa"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapMessage": {
+    "message": "Tem certeza que deseja excluir {mapName}?"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapWarning": {
+    "message": "Este mapa não estará mais disponível neste dispositivo. Não pode ser desfeito."
   },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Mapas de fundo"
