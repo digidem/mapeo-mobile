@@ -147,6 +147,12 @@
   "screens.AppPasscode.ConfirmPasscodeSheet.title": {
     "message": "¡Si pierde u olvida la Contraseña de la aplicación, no va a poder recuperarla! Asegúrese de anotar su contraseña en un lugar seguro antes de guardar."
   },
+  "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter": {
+    "message": "Vuelva a introducir su contraseña"
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
+    "message": "Introduzca su contraseña"
+  },
   "screens.AppPasscode.InputPasscodeScreen.cancel": {
     "message": "Cancelar"
   },
