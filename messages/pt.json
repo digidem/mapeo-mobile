@@ -163,7 +163,7 @@
     "message": "Insira sua senha novamente"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
-    "message": "Definir Senha do aplicativo"
+    "message": "Defina Senha do aplicativo"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
     "message": "Próximo"
@@ -184,7 +184,7 @@
     "message": "Esta senha será necessária para abrir o Mapeo"
   },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
-    "message": "Continuar"
+    "message": "Continue"
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "O que é Senha do aplicativo?"
@@ -866,7 +866,7 @@
   },
   "screens.Settings.MapSettings.BackgroundMapInfo.maxZoom": {
     "description": "Shows the user the max zoom for an offline map",
-    "message": "Zoom Máximo"
+    "message": "Zoom máximo"
   },
   "screens.Settings.MapSettings.BackgroundMapInfo.mb": {
     "description": "abbreviation for megabyte",
@@ -874,7 +874,7 @@
   },
   "screens.Settings.MapSettings.BackgroundMapInfo.minZoom": {
     "description": "Shows the user the min zoom for an offline map",
-    "message": "Zoom Mínimo"
+    "message": "Zoom mínimo"
   },
   "screens.Settings.MapSettings.BackgroundMapInfo.removeMap": {
     "message": "Excluir mapa"
