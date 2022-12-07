@@ -305,7 +305,7 @@ class MapView extends React.Component<Props, State> {
     const currentZoom = this.zoomRef;
     this.setState(state => {
       const newZoom = (this.zoomRef =
-        styleType === "legacy"
+        styleURL === fallbackStyleURL
           ? Math.max(currentZoom, DEFAULT_ZOOM_FALLBACK_MAP)
           : Math.max(currentZoom, DEFAULT_ZOOM));
       return {
