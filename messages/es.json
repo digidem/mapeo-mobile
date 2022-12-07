@@ -148,7 +148,7 @@
     "message": "¡Si pierde u olvida la Contraseña de la aplicación, no va a poder recuperarla! Asegúrese de anotar su contraseña en un lugar seguro antes de guardar."
   },
   "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter": {
-    "message": "Vuelva a introducir su contraseña"
+    "message": "Por favor, introduzca su contraseña"
   },
   "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
     "message": "Introduzca su contraseña"
@@ -157,7 +157,7 @@
     "message": "Cancelar"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
-    "message": "Volver a introducir la contraseña"
+    "message": "Vuelva a introducir la contraseña"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
     "message": "Establecer la Contraseña de la aplicación"
@@ -173,6 +173,9 @@
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
     "message": "La contraseña no coincide"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "Contraseña incorrecta"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
     "message": "Esta contraseña será necesaria para abrir la aplicación de Mapeo"
@@ -350,6 +353,9 @@
   },
   "screens.LeaveProject.LeaveProject": {
     "message": "Abandonar proyecto"
+  },
+  "screens.LeaveProject.LeaveProject.cancel": {
+    "message": "Cancelar"
   },
   "screens.LeaveProject.LeaveProjectCompleted.goHome": {
     "message": "Ir a la página principal"
