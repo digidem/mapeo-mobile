@@ -61,7 +61,7 @@ android_test_task:
   only_if: $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH || $CIRRUS_PR != ""
   depends_on: android_build
   container:
-    image: digidem/docker-android
+    image: digidem/docker-android:2
     kvm: true
     cpu: 8
     memory: 16G
