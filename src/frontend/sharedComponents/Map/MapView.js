@@ -291,7 +291,7 @@ class MapView extends React.Component<Props, State> {
   };
 
   handleLocationPress = () => {
-    const { location, styleType } = this.props;
+    const { location, styleURL } = this.props;
     if (!(location.provider && location.provider.locationServicesEnabled))
       // TODO: Show alert for the user here so they know why it does not work
       return;
