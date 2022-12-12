@@ -204,7 +204,6 @@ type MapServerClient = ReturnType<typeof createRequestClient> & {
 // TODO: Incorporate server status and making sure it's ready for requests?
 function createMapServerApi() {
   let deferred = pDefer<MapServerClient>();
-  let client: ReturnType<typeof createRequestClient> | undefined;
 
   function getClient() {
     return deferred.promise;
