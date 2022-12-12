@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useFocusEffect } from "@react-navigation/native";
+import { defineMessages, useIntl } from "react-intl";
 
 import api from "../api";
 import SettingsContext from "../context/SettingsContext";
@@ -15,12 +16,26 @@ export const CUSTOM_MAP_ID = "vg4ft8yvzwfedzgz1dz7ntneb8" as const;
 type Status = "loading" | "error" | "success";
 type StylesAtLeastOne = [MapServerStyleInfo, ...MapServerStyleInfo[]];
 
+const m = defineMessages({
+  defaultBackgroundMapName: {
+    id: "hooks.useMapStyles.defaultMapName",
+    defaultMessage: "Default",
+    description: "The name of the default background map",
+  },
+  offlineBackgroundMapName: {
+    id: "hooks.useMapStyles.offlineMapName",
+    defaultMessage: "Offline Map",
+    description: "The name of the legacy offline background map",
+  },
+});
+
 /**
  * Returns list of available map styles. If the backgroundMaps experiment is not
  * enabled then this is always a single item - either the default online map or
  * the custom map is available
  */
 export function useMapStyles() {
+  const { formatMessage: t } = useIntl();
   const customStyleAvailability = useMapAvailability("custom");
   const [{ backgroundMaps }] = useExperiments();
   const [settings, setSettings] = React.useContext(SettingsContext);
@@ -49,24 +64,25 @@ export function useMapStyles() {
     }, [backgroundMaps])
   );
 
-  // Keeping this in-scope so we can add translated name later
   const defaultStyle = React.useMemo(() => {
     return {
       id: DEFAULT_MAP_ID,
       url: onlineStyleURL,
       bytesStored: 0,
-      name: "Default",
+      name: t(m.defaultBackgroundMapName),
+      isImporting: false,
     };
-  }, []);
+  }, [t]);
 
-  const customStyle: MapServerStyleInfo = React.useMemo(() => {
+  const customStyle = React.useMemo(() => {
     return {
       id: CUSTOM_MAP_ID,
       url: api.getMapStyleUrl("default"),
       bytesStored: 0,
-      name: "Offline Map",
+      name: t(m.offlineBackgroundMapName),
+      isImporting: false,
     };
-  }, []);
+  }, [t]);
 
   const mergedStatus: Status =
     customStyleAvailability === "unknown" || status === "loading"
