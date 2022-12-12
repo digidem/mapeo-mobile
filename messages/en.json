@@ -158,6 +158,12 @@
   "screens.AppPasscode.ConfirmPasscodeSheet.title": {
     "message": "App Passcodes can never be recovered if lost or forgotten! Make sure to note your passcode in a secure location before saving."
   },
+  "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter": {
+    "message": "Please Enter Passcode"
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
+    "message": "Enter Passcode"
+  },
   "screens.AppPasscode.InputPasscodeScreen.cancel": {
     "message": "Cancel"
   },
@@ -178,6 +184,9 @@
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
     "message": "Password does not match"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "Incorrect Passcode"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
     "message": "This passcode will be required to open the Mapeo App"
@@ -355,6 +364,30 @@
   },
   "screens.LeaveProject.LeaveProject": {
     "message": "Leave Project"
+  },
+  "screens.LeaveProject.LeaveProject.agreeToDelete": {
+    "message": "I understand I will be deleting all data from my device."
+  },
+  "screens.LeaveProject.LeaveProject.cancel": {
+    "message": "Cancel"
+  },
+  "screens.LeaveProject.LeaveProject.confirmDelete": {
+    "message": "Please check the box to confirm"
+  },
+  "screens.LeaveProject.LeaveProject.headerTitle": {
+    "message": "Leave Project"
+  },
+  "screens.LeaveProject.LeaveProject.leaveButton": {
+    "message": "Leave Project"
+  },
+  "screens.LeaveProject.LeaveProject.leaveProjectTitle": {
+    "message": "Leave Project{projectName}?"
+  },
+  "screens.LeaveProject.LeaveProject.syncWarning": {
+    "message": "Sync with a team member so you don't loose all your observations."
+  },
+  "screens.LeaveProject.LeaveProject.willDelete": {
+    "message": "This will delete {numOfObservations} observations and {numOfPics} Pictures"
   },
   "screens.LeaveProject.LeaveProjectCompleted.goHome": {
     "message": "Go Home"

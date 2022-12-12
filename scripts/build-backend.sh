@@ -13,7 +13,6 @@ function onFailure() {
   exit 1
 }
 
-# Ensure we start in the right place
 dir0="$( cd "$( dirname "$0" )" && pwd )"
 repo_root="$(dirname "$dir0")"
 cd "$repo_root"
@@ -32,7 +31,15 @@ cp -r ./src/backend ./nodejs-assets
 mkdir -p ./nodejs-assets/nodejs-project/node_modules
 
 echo "Installing dependencies..."
-cd ./nodejs-assets/backend && npm ci
+cd ./nodejs-assets/backend
+# The install / postinstall scripts for backend dependencies are currently all
+# for generating / downloading builds of native modules. Because we are
+# re-building native modules anyway (for Android/iOS), we don't need to run
+# these scripts.
+npm ci --ignore-scripts
+# Setting --ignore-scripts above means that the postinstall script will not run
+# (needed for patch-package)
+npm run postinstall
 
 echo -en "Minifying with noderify..."
 # https://github.com/digidem/mapeo-mobile/issues/521

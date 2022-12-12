@@ -50,7 +50,7 @@ const ObservationEdit = ({
   }, [navigation]);
 
   const handlePhotoPress = useCallback(
-    (photoIndex: number, observationId: string) => {
+    (photoIndex: number) => {
       navigation.navigate("PhotosModal", {
         photoIndex: photoIndex,
         observationId: observationId,

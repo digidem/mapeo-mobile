@@ -43,7 +43,9 @@ import HomeHeader from "../../sharedComponents/HomeHeader";
 import { AuthScreen } from "../../screens/AuthScreen";
 import { RootStack } from "../AppStack";
 import { BackgroundMapInfo } from "../../screens/Settings/MapSettings/BackgroundMapInfo";
-import { HeaderTitle } from "@react-navigation/elements";
+import { AppPasscode } from "../../screens/AppPasscode";
+import { ConfirmPasscodeSheet } from "../../screens/AppPasscode/ConfirmPasscodeSheet";
+import { ObscurePasscode } from "../../screens/ObscurePasscode";
 
 export type HomeTabsList = {
   Map: undefined;
@@ -62,14 +64,14 @@ export type AppList = {
   Experiments: undefined;
   PhotosModal: {
     photoIndex: number;
-    observationId: string;
+    observationId?: string;
     editing: boolean;
   };
   CategoryChooser: undefined;
   AddPhoto: undefined;
   ObservationList: undefined;
   Observation: { observationId: string };
-  ObservationEdit: { observationId: string } | undefined;
+  ObservationEdit: { observationId?: string } | undefined;
   ManualGpsScreen: undefined;
   ObservationDetails: { question: number };
   LeaveProjectScreen: undefined;
@@ -92,6 +94,9 @@ export type AppList = {
   };
   BGMapsSettings: undefined;
   AuthScreen: undefined;
+  AppPasscode: undefined;
+  ObscurePasscode: undefined;
+  ConfirmPasscodeSheet: { passcode: string };
 };
 
 const Tab = createBottomTabNavigator<HomeTabsList>();
@@ -267,6 +272,21 @@ export const createDefaultScreenGroup = (
       name="Security"
       component={Security}
       options={{ headerTitle: intl(Security.navTitle) }}
+    />
+    <RootStack.Screen
+      name="AppPasscode"
+      component={AppPasscode}
+      options={{ headerTitle: intl(AppPasscode.navTitle) }}
+    />
+    <RootStack.Screen
+      name="ObscurePasscode"
+      component={ObscurePasscode}
+      options={{ headerTitle: intl(ObscurePasscode.navTitle) }}
+    />
+    <RootStack.Screen
+      name="ConfirmPasscodeSheet"
+      component={ConfirmPasscodeSheet}
+      options={{ headerShown: false, presentation: "modal" }}
     />
     <RootStack.Screen
       name="Settings"
