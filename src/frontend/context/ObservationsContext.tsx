@@ -3,6 +3,7 @@ import { Observation } from "mapeo-schema";
 
 import api from "../api";
 import { Status } from "../sharedTypes";
+import { SecurityContext } from "./SecurityContext";
 
 export interface ObservationAttachment {
   id: string;
@@ -84,10 +85,14 @@ export const ObservationsProvider = ({
   children,
 }: React.PropsWithChildren<{}>) => {
   const [state, dispatch] = React.useReducer(reducer, defaultContext[0]);
-  const contextValue: ObservationsContextType = React.useMemo(
-    () => [state, dispatch],
-    [state]
-  );
+
+  const { authState } = React.useContext(SecurityContext);
+
+  const contextValue: ObservationsContextType = React.useMemo(() => {
+    const derivedState = { ...state };
+    if (authState === "obscured") derivedState.observations = new Map([]);
+    return [derivedState, dispatch];
+  }, [state, authState]);
 
   // This will load observations on first load and reload them every time the
   // value of state.reload changes (dispatch({type: "reload"}) will do this)

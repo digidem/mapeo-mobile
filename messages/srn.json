@@ -47,10 +47,6 @@
     "description": "Button to share an observation",
     "message": "Prati"
   },
-  "screens.ObservationDetails.QuestionNavBar.questionPage": {
-    "description": "Indicates which question we are on and total questions",
-    "message": "{current} fu {total}"
-  },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
     "message": "Klari"

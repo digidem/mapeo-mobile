@@ -140,9 +140,6 @@
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "தொடரவும்"
   },
-  "screens.AppPasscode.NewPasscode.Splash.description": {
-    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc.\n"
-  },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": " App கடவுக்குறியீடு என்றால் என்ன?"
   },
@@ -452,10 +449,6 @@
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "அவதானிப்புகள்"
   },
-  "screens.ObservationDetails.QuestionNavBar.questionPage": {
-    "description": "Indicates which question we are on and total questions",
-    "message": "{தற்போதைய} இல்  {மொத்தம்} "
-  },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
     "message": "முடிந்தது"
@@ -641,24 +634,6 @@
   },
   "screens.ProjectInviteModal.tryAgain": {
     "message": "மீண்டும் முயற்சி"
-  },
-  "screens.Security.deviceBackup": {
-    "message": "சாதன காப்புப்பிரதி"
-  },
-  "screens.Security.killPassDescriptonPassNotSet": {
-    "message": "பயன்படுத்த, பயன்பாட்டு கடவுக்குறியீட்டை இயக்கவும்"
-  },
-  "screens.Security.killPassDescriptonPassSet": {
-    "message": "வலிப்புத்தாக்கத்திலிருந்து உங்கள் சாதனத்தைப் பாதுகாக்கவும்"
-  },
-  "screens.Security.killPasscodeHeader": {
-    "message": "கடவுக்குறியீட்டை நீக்கவும்"
-  },
-  "screens.Security.paperKey": {
-    "message": "காகித சாவி"
-  },
-  "screens.Security.paperKeyDes": {
-    "message": "இந்தச் சாதனம் தொலைந்து போனால் உங்கள் கணக்கை மீண்டும் நிறுவவும்"
   },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "கடவுக்குறியீடு அமைக்கப்படவில்லை"

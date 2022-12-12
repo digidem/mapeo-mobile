@@ -5,4 +5,5 @@ export default {
   channel: Object.assign(new EventEmitter(), {
     post: jest.fn(),
   }),
+  startWithArgs: jest.fn(),
 };

@@ -1,16 +1,15 @@
 import * as React from "react";
-import { defineMessages, FormattedMessage } from "react-intl";
-import { StyleSheet } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { useNavigation } from "react-navigation-hooks";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
-import SettingsContext from "../../context/SettingsContext";
-import HeaderTitle from "../../sharedComponents/HeaderTitle";
-import IconButton from "../../sharedComponents/IconButton";
-import { BackIcon } from "../../sharedComponents/icons";
-import { SecurityContext } from "../Security/SecurityContext";
-import { EnterPasscode } from "./EnterPasscode";
-import { NewPasscode } from "./NewPasscode";
+import { defineMessages } from "react-intl";
+import { StyleSheet, View } from "react-native";
+import { SecurityContext } from "../../context/SecurityContext";
+
+import { WHITE } from "../../lib/styles";
+import { NativeNavigationComponent } from "../../sharedTypes";
+import { EnterPassToTurnOff } from "./EnterPassToTurnOff";
+
+import { PasscodeIntro } from "./PasscodeIntro";
+import { SetPassword } from "./SetPasscode";
+import { TurnOffPasscode } from "./TurnOffPasscode";
 
 const m = defineMessages({
   title: {
@@ -19,39 +18,52 @@ const m = defineMessages({
   },
 });
 
-export const AppPasscode: NavigationStackScreenComponent = () => {
-  const { passIsSet } = React.useContext(SecurityContext);
-  const [{ experiments }] = React.useContext(SettingsContext);
-  const { navigate } = useNavigation();
+export type PasscodeScreens =
+  | "intro"
+  | "setPasscode"
+  | "enterPasscode"
+  | "disablePasscode";
+
+export const AppPasscode: NativeNavigationComponent<"AppPasscode"> = ({
+  navigation,
+}) => {
+  const { authValuesSet, authState } = React.useContext(SecurityContext);
+  const [screenState, setScreenState] = React.useState<PasscodeScreens>(() =>
+    authValuesSet.passcodeSet ? "enterPasscode" : "intro"
+  );
 
   React.useEffect(() => {
-    if (!experiments.appPasscode) navigate("Settings");
-  }, [experiments]);
+    if (authState === "obscured") {
+      navigation.navigate("Settings");
+    }
+  }, [navigation, authState]);
 
-  return (
-    <ScrollView contentContainerStyle={styles.pageContainer}>
-      {!passIsSet ? <NewPasscode /> : <EnterPasscode />}
-    </ScrollView>
-  );
+  const screen = React.useMemo(() => {
+    if (screenState === "intro") {
+      return <PasscodeIntro setScreen={setScreenState} />;
+    }
+
+    if (screenState === "setPasscode") {
+      return <SetPassword setScreen={setScreenState} />;
+    }
+
+    if (screenState === "enterPasscode") {
+      return <EnterPassToTurnOff setScreenState={setScreenState} />;
+    }
+
+    return <TurnOffPasscode setScreenState={setScreenState} />;
+  }, [screenState]);
+
+  return <View style={styles.pageContainer}>{screen}</View>;
 };
 
-AppPasscode.navigationOptions = () => ({
-  headerTitle: () => (
-    <HeaderTitle style={{}}>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-  headerLeft: ({ onPress }) =>
-    onPress && (
-      <IconButton onPress={onPress}>
-        <BackIcon />
-      </IconButton>
-    ),
-});
+AppPasscode.navTitle = m.title;
+
 const styles = StyleSheet.create({
   pageContainer: {
-    paddingTop: 40,
     paddingBottom: 20,
     paddingHorizontal: 20,
+    flex: 1,
+    backgroundColor: WHITE,
   },
 });

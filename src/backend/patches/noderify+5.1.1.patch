@@ -1,0 +1,1843 @@
+diff --git a/node_modules/noderify/bin.js b/node_modules/noderify/bin.js
+index d82c188..4ae9aa5 100755
+--- a/node_modules/noderify/bin.js
++++ b/node_modules/noderify/bin.js
+@@ -7,26 +7,25 @@
+     if (cache[file]) return cache[file].exports
+     if (!d) return require(file)
+     var fn = content[d[0]] //the actual module
+-    var module = (cache[file] = {
++    var customModule = file === entry ? module : (cache[file] = {
+       exports: {},
+       parent: file !== entry,
+       require: require
+     })
+-    cache[file] = module
+     var resolved = require('path').resolve(__dirname, file)
+     var dirname = require('path').dirname(resolved)
+     fn.call(
+-      module.exports,
++      customModule.exports,
+       function(m) {
+         if (!d[1][m]) return require(m)
+         else return load(d[1][m])
+       },
+-      module,
+-      module.exports,
++      customModule,
++      customModule.exports,
+       dirname,
+       resolved
+     )
+-    return cache[file].exports
++    return cache[file] ? cache[file].exports : module.exports
+   }
+ 
+   return load(entry)
+@@ -2714,6 +2713,53 @@ module.exports.obj = through2(function (options, transform, flush) {
+   return t2
+ })
+ 
++},
++"FR+leYNSpocX5rySTEOhFSYzqe5A2dgkqv7xig9yOvE=":
++function (require, module, exports, __dirname, __filename) {
++/**
++ * Modules
++ */
++
++var path = require('path')
++
++/**
++ * Vars
++ */
++
++var relative = path.relative
++var lastCwd = process.cwd()
++var cache = Object.create(null)
++
++/**
++ * Expose cachedPathRelative
++ */
++
++module.exports = cachedPathRelative
++
++/**
++ * cachedPathRelative
++ */
++
++function cachedPathRelative (from, to) {
++  // If the current working directory changes, we need
++  // to invalidate the cache
++  var cwd = process.cwd()
++  if (cwd !== lastCwd) {
++    cache = Object.create(null)
++    lastCwd = cwd
++  }
++
++  if (cache[from] && cache[from][to]) return cache[from][to]
++
++  var result = relative.call(path, from, to)
++
++  cache[from] = cache[from] || Object.create(null)
++  cache[from][to] = result
++
++  return result
++
++}
++
+ },
+ "FcuJkG63/gw127w8cU4tr0dLyQ2EX/7OuEfFN9CMoQQ=":
+ function (require, module, exports, __dirname, __filename) {
+@@ -3055,82 +3101,6 @@ module.exports = {
+     "zlib": true
+ }
+ 
+-},
+-"LAabpnjG25rNR1vMjFviDrUHfqJsZ1FN6pQpvBrU/y8=":
+-function (require, module, exports, __dirname, __filename) {
+-/* eslint-disable node/no-deprecated-api */
+-
+-var toString = Object.prototype.toString
+-
+-var isModern = (
+-  typeof Buffer !== 'undefined' &&
+-  typeof Buffer.alloc === 'function' &&
+-  typeof Buffer.allocUnsafe === 'function' &&
+-  typeof Buffer.from === 'function'
+-)
+-
+-function isArrayBuffer (input) {
+-  return toString.call(input).slice(8, -1) === 'ArrayBuffer'
+-}
+-
+-function fromArrayBuffer (obj, byteOffset, length) {
+-  byteOffset >>>= 0
+-
+-  var maxLength = obj.byteLength - byteOffset
+-
+-  if (maxLength < 0) {
+-    throw new RangeError("'offset' is out of bounds")
+-  }
+-
+-  if (length === undefined) {
+-    length = maxLength
+-  } else {
+-    length >>>= 0
+-
+-    if (length > maxLength) {
+-      throw new RangeError("'length' is out of bounds")
+-    }
+-  }
+-
+-  return isModern
+-    ? Buffer.from(obj.slice(byteOffset, byteOffset + length))
+-    : new Buffer(new Uint8Array(obj.slice(byteOffset, byteOffset + length)))
+-}
+-
+-function fromString (string, encoding) {
+-  if (typeof encoding !== 'string' || encoding === '') {
+-    encoding = 'utf8'
+-  }
+-
+-  if (!Buffer.isEncoding(encoding)) {
+-    throw new TypeError('"encoding" must be a valid string encoding')
+-  }
+-
+-  return isModern
+-    ? Buffer.from(string, encoding)
+-    : new Buffer(string, encoding)
+-}
+-
+-function bufferFrom (value, encodingOrOffset, length) {
+-  if (typeof value === 'number') {
+-    throw new TypeError('"value" argument must not be a number')
+-  }
+-
+-  if (isArrayBuffer(value)) {
+-    return fromArrayBuffer(value, encodingOrOffset, length)
+-  }
+-
+-  if (typeof value === 'string') {
+-    return fromString(value, encodingOrOffset)
+-  }
+-
+-  return isModern
+-    ? Buffer.from(value)
+-    : new Buffer(value)
+-}
+-
+-module.exports = bufferFrom
+-
+ },
+ "M3/O2aM3DeRBQXCqCkstYcpjSsLYLDWHmK+vKioE4Qc=":
+ function (require, module, exports, __dirname, __filename) {
+@@ -6012,85 +5982,6 @@ module.exports = function(Parser) {
+   }(Parser))
+ }
+ 
+-},
+-"a9lbXQz284IcyKz4HC9NhLehWPb9KEZZiE+eO0TzQSQ=":
+-function (require, module, exports, __dirname, __filename) {
+-'use strict';
+-
+-var isWindows = process.platform === 'win32';
+-
+-// Regex to split a windows path into into [dir, root, basename, name, ext]
+-var splitWindowsRe =
+-    /^(((?:[a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/]+[^\\\/]+)?[\\\/]?)(?:[^\\\/]*[\\\/])*)((\.{1,2}|[^\\\/]+?|)(\.[^.\/\\]*|))[\\\/]*$/;
+-
+-var win32 = {};
+-
+-function win32SplitPath(filename) {
+-  return splitWindowsRe.exec(filename).slice(1);
+-}
+-
+-win32.parse = function(pathString) {
+-  if (typeof pathString !== 'string') {
+-    throw new TypeError(
+-        "Parameter 'pathString' must be a string, not " + typeof pathString
+-    );
+-  }
+-  var allParts = win32SplitPath(pathString);
+-  if (!allParts || allParts.length !== 5) {
+-    throw new TypeError("Invalid path '" + pathString + "'");
+-  }
+-  return {
+-    root: allParts[1],
+-    dir: allParts[0] === allParts[1] ? allParts[0] : allParts[0].slice(0, -1),
+-    base: allParts[2],
+-    ext: allParts[4],
+-    name: allParts[3]
+-  };
+-};
+-
+-
+-
+-// Split a filename into [dir, root, basename, name, ext], unix version
+-// 'root' is just a slash, or nothing.
+-var splitPathRe =
+-    /^((\/?)(?:[^\/]*\/)*)((\.{1,2}|[^\/]+?|)(\.[^.\/]*|))[\/]*$/;
+-var posix = {};
+-
+-
+-function posixSplitPath(filename) {
+-  return splitPathRe.exec(filename).slice(1);
+-}
+-
+-
+-posix.parse = function(pathString) {
+-  if (typeof pathString !== 'string') {
+-    throw new TypeError(
+-        "Parameter 'pathString' must be a string, not " + typeof pathString
+-    );
+-  }
+-  var allParts = posixSplitPath(pathString);
+-  if (!allParts || allParts.length !== 5) {
+-    throw new TypeError("Invalid path '" + pathString + "'");
+-  }
+-  
+-  return {
+-    root: allParts[1],
+-    dir: allParts[0].slice(0, -1),
+-    base: allParts[2],
+-    ext: allParts[4],
+-    name: allParts[3],
+-  };
+-};
+-
+-
+-if (isWindows)
+-  module.exports = win32.parse;
+-else /* posix */
+-  module.exports = posix.parse;
+-
+-module.exports.posix = posix.parse;
+-module.exports.win32 = win32.parse;
+-
+ },
+ "aORLCdDoW3uTjYrbEdfGZVtkrjKI3IcO6f1rWn1WRyk=":
+ function (require, module, exports, __dirname, __filename) {
+@@ -6227,50 +6118,161 @@ module.exports = function (x, options) {
+ };
+ 
+ },
+-"bHUvmPO1JV8o07Bfb+jgH9+v12YCy8W1nrkLkyScC6I=":
++"aRb/yDtQKWPdj2Gc5FenMcwXMOKqr3f6P4vLtgNFyp0=":
+ function (require, module, exports, __dirname, __filename) {
+-/* Generated by `npm run build`, do not edit! */
++// Copyright Joyent, Inc. and other Node contributors.
++//
++// Permission is hereby granted, free of charge, to any person obtaining a
++// copy of this software and associated documentation files (the
++// "Software"), to deal in the Software without restriction, including
++// without limitation the rights to use, copy, modify, merge, publish,
++// distribute, sublicense, and/or sell copies of the Software, and to permit
++// persons to whom the Software is furnished to do so, subject to the
++// following conditions:
++//
++// The above copyright notice and this permission notice shall be included
++// in all copies or substantial portions of the Software.
++//
++// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
++// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
++// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
++// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
++// USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+-"use strict"
++// NOTE: These type checking functions intentionally don't use `instanceof`
++// because it is fragile and can be easily faked with `Object.create()`.
+ 
+-var acorn = require("acorn")
+-var tt = acorn.tokTypes
+-var privateClassElements = require("../private-class-elements")
++function isArray(arg) {
++  if (Array.isArray) {
++    return Array.isArray(arg);
++  }
++  return objectToString(arg) === '[object Array]';
++}
++exports.isArray = isArray;
+ 
+-function maybeParseFieldValue(field) {
+-  if (this.eat(tt.eq)) {
+-    var oldInFieldValue = this._inFieldValue
+-    this._inFieldValue = true
+-    field.value = this.parseExpression()
+-    this._inFieldValue = oldInFieldValue
+-  } else { field.value = null }
++function isBoolean(arg) {
++  return typeof arg === 'boolean';
+ }
++exports.isBoolean = isBoolean;
+ 
+-module.exports = function(Parser) {
+-  Parser = privateClassElements(Parser)
+-  return /*@__PURE__*/(function (Parser) {
+-    function anonymous () {
+-      Parser.apply(this, arguments);
+-    }
++function isNull(arg) {
++  return arg === null;
++}
++exports.isNull = isNull;
+ 
+-    if ( Parser ) anonymous.__proto__ = Parser;
+-    anonymous.prototype = Object.create( Parser && Parser.prototype );
+-    anonymous.prototype.constructor = anonymous;
++function isNullOrUndefined(arg) {
++  return arg == null;
++}
++exports.isNullOrUndefined = isNullOrUndefined;
+ 
+-    anonymous.prototype.parseClassElement = function parseClassElement (_constructorAllowsSuper) {
+-      if (this.options.ecmaVersion >= 8 && (this.type == tt.name || this.type == this.privateNameToken || this.type == tt.bracketL || this.type == tt.string)) {
+-        var branch = this._branch()
+-        if (branch.type == tt.bracketL) {
+-          var count = 0
+-          do {
+-            if (branch.eat(tt.bracketL)) { ++count }
+-            else if (branch.eat(tt.bracketR)) { --count }
+-            else { branch.next() }
+-          } while (count > 0)
+-        } else { branch.next() }
+-        if (branch.type == tt.eq || branch.canInsertSemicolon() || branch.type == tt.semi) {
+-          var node = this.startNode()
+-          if (this.type == this.privateNameToken) {
++function isNumber(arg) {
++  return typeof arg === 'number';
++}
++exports.isNumber = isNumber;
++
++function isString(arg) {
++  return typeof arg === 'string';
++}
++exports.isString = isString;
++
++function isSymbol(arg) {
++  return typeof arg === 'symbol';
++}
++exports.isSymbol = isSymbol;
++
++function isUndefined(arg) {
++  return arg === void 0;
++}
++exports.isUndefined = isUndefined;
++
++function isRegExp(re) {
++  return objectToString(re) === '[object RegExp]';
++}
++exports.isRegExp = isRegExp;
++
++function isObject(arg) {
++  return typeof arg === 'object' && arg !== null;
++}
++exports.isObject = isObject;
++
++function isDate(d) {
++  return objectToString(d) === '[object Date]';
++}
++exports.isDate = isDate;
++
++function isError(e) {
++  return (objectToString(e) === '[object Error]' || e instanceof Error);
++}
++exports.isError = isError;
++
++function isFunction(arg) {
++  return typeof arg === 'function';
++}
++exports.isFunction = isFunction;
++
++function isPrimitive(arg) {
++  return arg === null ||
++         typeof arg === 'boolean' ||
++         typeof arg === 'number' ||
++         typeof arg === 'string' ||
++         typeof arg === 'symbol' ||  // ES6 symbol
++         typeof arg === 'undefined';
++}
++exports.isPrimitive = isPrimitive;
++
++exports.isBuffer = Buffer.isBuffer;
++
++function objectToString(o) {
++  return Object.prototype.toString.call(o);
++}
++
++},
++"bHUvmPO1JV8o07Bfb+jgH9+v12YCy8W1nrkLkyScC6I=":
++function (require, module, exports, __dirname, __filename) {
++/* Generated by `npm run build`, do not edit! */
++
++"use strict"
++
++var acorn = require("acorn")
++var tt = acorn.tokTypes
++var privateClassElements = require("../private-class-elements")
++
++function maybeParseFieldValue(field) {
++  if (this.eat(tt.eq)) {
++    var oldInFieldValue = this._inFieldValue
++    this._inFieldValue = true
++    field.value = this.parseExpression()
++    this._inFieldValue = oldInFieldValue
++  } else { field.value = null }
++}
++
++module.exports = function(Parser) {
++  Parser = privateClassElements(Parser)
++  return /*@__PURE__*/(function (Parser) {
++    function anonymous () {
++      Parser.apply(this, arguments);
++    }
++
++    if ( Parser ) anonymous.__proto__ = Parser;
++    anonymous.prototype = Object.create( Parser && Parser.prototype );
++    anonymous.prototype.constructor = anonymous;
++
++    anonymous.prototype.parseClassElement = function parseClassElement (_constructorAllowsSuper) {
++      if (this.options.ecmaVersion >= 8 && (this.type == tt.name || this.type == this.privateNameToken || this.type == tt.bracketL || this.type == tt.string)) {
++        var branch = this._branch()
++        if (branch.type == tt.bracketL) {
++          var count = 0
++          do {
++            if (branch.eat(tt.bracketL)) { ++count }
++            else if (branch.eat(tt.bracketR)) { --count }
++            else { branch.next() }
++          } while (count > 0)
++        } else { branch.next() }
++        if (branch.type == tt.eq || branch.canInsertSemicolon() || branch.type == tt.semi) {
++          var node = this.startNode()
++          if (this.type == this.privateNameToken) {
+             this.parsePrivateClassElementName(node)
+           } else {
+             this.parsePropertyName(node)
+@@ -6300,6 +6302,89 @@ module.exports = function(Parser) {
+   }(Parser))
+ }
+ 
++},
++"bsoN8HEhdPHZZupw8/Cre+ycwxF/CGp0t7RWWRUB6Po=":
++function (require, module, exports, __dirname, __filename) {
++module.exports = {
++  "_args": [
++    [
++      "noderify@5.1.1",
++      "/Users/gregor/Dev/DdDev/mapeo-mobile/src/backend"
++    ]
++  ],
++  "_development": true,
++  "_from": "noderify@5.1.1",
++  "_id": "noderify@5.1.1",
++  "_inBundle": false,
++  "_integrity": "sha512-aTkpdkr+QlIch6OiLLAFBHjVZ3oZUCW5rCWzqJDJzinJTycESjfzbjuxUubY9jKKN9eQJQn/eaC+DjuzehGdhA==",
++  "_location": "/noderify",
++  "_phantomChildren": {
++    "readable-stream": "2.3.7",
++    "xtend": "4.0.2"
++  },
++  "_requested": {
++    "type": "version",
++    "registry": true,
++    "raw": "noderify@5.1.1",
++    "name": "noderify",
++    "escapedName": "noderify",
++    "rawSpec": "5.1.1",
++    "saveSpec": null,
++    "fetchSpec": "5.1.1"
++  },
++  "_requiredBy": [
++    "#DEV:/"
++  ],
++  "_resolved": "https://registry.npmjs.org/noderify/-/noderify-5.1.1.tgz",
++  "_spec": "5.1.1",
++  "_where": "/Users/gregor/Dev/DdDev/mapeo-mobile/src/backend",
++  "bin": {
++    "noderify": "bin.js"
++  },
++  "bugs": {
++    "url": "https://github.com/staltz/noderify/issues"
++  },
++  "contributors": [
++    {
++      "name": "Andre Staltz",
++      "email": "contact@staltz.com"
++    },
++    {
++      "name": "Dominic Tarr",
++      "email": "dominic.tarr@gmail.com"
++    }
++  ],
++  "dependencies": {
++    "minimist": "^1.1.2",
++    "module-deps": "~6.1.0",
++    "rc": "^1.1.6",
++    "resolve": "~1.7.1",
++    "sort-stream": "^1.0.1",
++    "through2": "~2.0.3"
++  },
++  "description": "browserify for node",
++  "devDependencies": {
++    "leveldown": "5.4.1",
++    "sodium-native": "2.4.6"
++  },
++  "files": [
++    "*.js"
++  ],
++  "homepage": "https://github.com/staltz/noderify",
++  "license": "MIT",
++  "main": "./index.js",
++  "name": "noderify",
++  "repository": {
++    "type": "git",
++    "url": "git://github.com/staltz/noderify.git"
++  },
++  "scripts": {
++    "prepublish": "./test/index.sh && ./index.js index.js > bin.js",
++    "test": "./test/index.sh"
++  },
++  "version": "5.1.1"
++}
++
+ },
+ "cnBOdR2JsqvJ+iPBrd9JQ1vY63uQaqYqsXpeVb3K+Bc=":
+ function (require, module, exports, __dirname, __filename) {
+@@ -6390,114 +6475,63 @@ module.exports = {
+   undestroy: undestroy
+ };
+ },
+-"dCfxbZvZGF5Am6/z5LHtbj2N/KhNNn9LizUeuSFhhlI=":
++"dDCV1jBjpLAHIiwIuFc0Z2z79Y2WmJbjFrG70jOe9u4=":
+ function (require, module, exports, __dirname, __filename) {
+-// Copyright Joyent, Inc. and other Node contributors.
+-//
+-// Permission is hereby granted, free of charge, to any person obtaining a
+-// copy of this software and associated documentation files (the
+-// "Software"), to deal in the Software without restriction, including
+-// without limitation the rights to use, copy, modify, merge, publish,
+-// distribute, sublicense, and/or sell copies of the Software, and to permit
+-// persons to whom the Software is furnished to do so, subject to the
+-// following conditions:
+-//
+-// The above copyright notice and this permission notice shall be included
+-// in all copies or substantial portions of the Software.
+-//
+-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+-// USE OR OTHER DEALINGS IN THE SOFTWARE.
+-
+-// NOTE: These type checking functions intentionally don't use `instanceof`
+-// because it is fragile and can be easily faked with `Object.create()`.
++function prelude(content, deps, entry) {
++  var cache = {}
+ 
+-function isArray(arg) {
+-  if (Array.isArray) {
+-    return Array.isArray(arg);
++  function load(file) {
++    var d = deps[file]
++    if (cache[file]) return cache[file].exports
++    if (!d) return require(file)
++    var fn = content[d[0]] //the actual module
++    var customModule = file === entry ? module : (cache[file] = {
++      exports: {},
++      parent: file !== entry,
++      require: require
++    })
++    var resolved = require('path').resolve(__dirname, file)
++    var dirname = require('path').dirname(resolved)
++    fn.call(
++      customModule.exports,
++      function(m) {
++        if (!d[1][m]) return require(m)
++        else return load(d[1][m])
++      },
++      customModule,
++      customModule.exports,
++      dirname,
++      resolved
++    )
++    return cache[file] ? cache[file].exports : module.exports
+   }
+-  return objectToString(arg) === '[object Array]';
+-}
+-exports.isArray = isArray;
+-
+-function isBoolean(arg) {
+-  return typeof arg === 'boolean';
+-}
+-exports.isBoolean = isBoolean;
+-
+-function isNull(arg) {
+-  return arg === null;
+-}
+-exports.isNull = isNull;
+-
+-function isNullOrUndefined(arg) {
+-  return arg == null;
+-}
+-exports.isNullOrUndefined = isNullOrUndefined;
+ 
+-function isNumber(arg) {
+-  return typeof arg === 'number';
+-}
+-exports.isNumber = isNumber;
+-
+-function isString(arg) {
+-  return typeof arg === 'string';
+-}
+-exports.isString = isString;
+-
+-function isSymbol(arg) {
+-  return typeof arg === 'symbol';
+-}
+-exports.isSymbol = isSymbol;
+-
+-function isUndefined(arg) {
+-  return arg === void 0;
+-}
+-exports.isUndefined = isUndefined;
+-
+-function isRegExp(re) {
+-  return objectToString(re) === '[object RegExp]';
+-}
+-exports.isRegExp = isRegExp;
+-
+-function isObject(arg) {
+-  return typeof arg === 'object' && arg !== null;
+-}
+-exports.isObject = isObject;
+-
+-function isDate(d) {
+-  return objectToString(d) === '[object Date]';
+-}
+-exports.isDate = isDate;
+-
+-function isError(e) {
+-  return (objectToString(e) === '[object Error]' || e instanceof Error);
+-}
+-exports.isError = isError;
+-
+-function isFunction(arg) {
+-  return typeof arg === 'function';
+-}
+-exports.isFunction = isFunction;
+-
+-function isPrimitive(arg) {
+-  return arg === null ||
+-         typeof arg === 'boolean' ||
+-         typeof arg === 'number' ||
+-         typeof arg === 'string' ||
+-         typeof arg === 'symbol' ||  // ES6 symbol
+-         typeof arg === 'undefined';
++  return load(entry)
+ }
+-exports.isPrimitive = isPrimitive;
+-
+-exports.isBuffer = require('buffer').Buffer.isBuffer;
+ 
+-function objectToString(o) {
+-  return Object.prototype.toString.call(o);
++module.exports = function(content, deps, entry) {
++  return (
++    '(' +
++    prelude.toString() +
++    ')(' +
++    (function() {
++      var s = '{\n'
++      for (var k in content) {
++        s += [
++          JSON.stringify(k) + ':\n',
++          'function (require, module, exports, __dirname, __filename) {\n',
++          content[k],
++          '\n},\n'
++        ].join('')
++      }
++      return s + '\n}\n'
++    })() +
++    ',\n' +
++    JSON.stringify(deps, null, 2) +
++    ',\n' +
++    JSON.stringify(entry) +
++    ')'
++  )
+ }
+ 
+ },
+@@ -6542,6 +6576,79 @@ module.exports = exports = xtend(acorn, {
+   }
+ })
+ 
++},
++"eJ+7RKEDB70sDJWMpLxYBjIR8OXa6N2U/0plqGrnDJo=":
++function (require, module, exports, __dirname, __filename) {
++var toString = Object.prototype.toString
++
++var isModern = (
++  typeof Buffer.alloc === 'function' &&
++  typeof Buffer.allocUnsafe === 'function' &&
++  typeof Buffer.from === 'function'
++)
++
++function isArrayBuffer (input) {
++  return toString.call(input).slice(8, -1) === 'ArrayBuffer'
++}
++
++function fromArrayBuffer (obj, byteOffset, length) {
++  byteOffset >>>= 0
++
++  var maxLength = obj.byteLength - byteOffset
++
++  if (maxLength < 0) {
++    throw new RangeError("'offset' is out of bounds")
++  }
++
++  if (length === undefined) {
++    length = maxLength
++  } else {
++    length >>>= 0
++
++    if (length > maxLength) {
++      throw new RangeError("'length' is out of bounds")
++    }
++  }
++
++  return isModern
++    ? Buffer.from(obj.slice(byteOffset, byteOffset + length))
++    : new Buffer(new Uint8Array(obj.slice(byteOffset, byteOffset + length)))
++}
++
++function fromString (string, encoding) {
++  if (typeof encoding !== 'string' || encoding === '') {
++    encoding = 'utf8'
++  }
++
++  if (!Buffer.isEncoding(encoding)) {
++    throw new TypeError('"encoding" must be a valid string encoding')
++  }
++
++  return isModern
++    ? Buffer.from(string, encoding)
++    : new Buffer(string, encoding)
++}
++
++function bufferFrom (value, encodingOrOffset, length) {
++  if (typeof value === 'number') {
++    throw new TypeError('"value" argument must not be a number')
++  }
++
++  if (isArrayBuffer(value)) {
++    return fromArrayBuffer(value, encodingOrOffset, length)
++  }
++
++  if (typeof value === 'string') {
++    return fromString(value, encodingOrOffset)
++  }
++
++  return isModern
++    ? Buffer.from(value)
++    : new Buffer(value)
++}
++
++module.exports = bufferFrom
++
+ },
+ "ekwZ0QJdJmlyPdKpOc7X1VbYFe7f/2K/KIlwNluLJtw=":
+ function (require, module, exports, __dirname, __filename) {
+@@ -13922,201 +14029,47 @@ if (process.env.READABLE_STREAM === 'disable' && Stream) {
+   exports.Writable = Stream.Writable;
+   exports.Duplex = Stream.Duplex;
+   exports.Transform = Stream.Transform;
+-  exports.PassThrough = Stream.PassThrough;
+-  exports.Stream = Stream;
+-} else {
+-  exports = module.exports = require('./lib/_stream_readable.js');
+-  exports.Stream = Stream || exports;
+-  exports.Readable = exports;
+-  exports.Writable = require('./lib/_stream_writable.js');
+-  exports.Duplex = require('./lib/_stream_duplex.js');
+-  exports.Transform = require('./lib/_stream_transform.js');
+-  exports.PassThrough = require('./lib/_stream_passthrough.js');
+-}
+-
+-},
+-"rTIqex3sYPPS69ogkYFkae+1W1Z9JBzzzw+kxaSv5QA=":
+-function (require, module, exports, __dirname, __filename) {
+-if (typeof Object.create === 'function') {
+-  // implementation from standard node.js 'util' module
+-  module.exports = function inherits(ctor, superCtor) {
+-    if (superCtor) {
+-      ctor.super_ = superCtor
+-      ctor.prototype = Object.create(superCtor.prototype, {
+-        constructor: {
+-          value: ctor,
+-          enumerable: false,
+-          writable: true,
+-          configurable: true
+-        }
+-      })
+-    }
+-  };
+-} else {
+-  // old school shim for old browsers
+-  module.exports = function inherits(ctor, superCtor) {
+-    if (superCtor) {
+-      ctor.super_ = superCtor
+-      var TempCtor = function () {}
+-      TempCtor.prototype = superCtor.prototype
+-      ctor.prototype = new TempCtor()
+-      ctor.prototype.constructor = ctor
+-    }
+-  }
+-}
+-
+-},
+-"sLL79s/BHn4HinttdiW5H8txmOYAf5HYaJFn5KwKWSo=":
+-function (require, module, exports, __dirname, __filename) {
+-module.exports = {
+-  "name": "noderify",
+-  "description": "browserify for node",
+-  "version": "5.1.1",
+-  "homepage": "https://github.com/staltz/noderify",
+-  "bin": "./bin.js",
+-  "main": "./index.js",
+-  "files": [
+-    "*.js"
+-  ],
+-  "repository": {
+-    "type": "git",
+-    "url": "git://github.com/staltz/noderify.git"
+-  },
+-  "dependencies": {
+-    "minimist": "^1.1.2",
+-    "module-deps": "~6.1.0",
+-    "rc": "^1.1.6",
+-    "resolve": "~1.7.1",
+-    "sort-stream": "^1.0.1",
+-    "through2": "~2.0.3"
+-  },
+-  "devDependencies": {
+-    "leveldown": "5.4.1",
+-    "sodium-native": "2.4.6"
+-  },
+-  "scripts": {
+-    "prepublish": "./test/index.sh && ./index.js index.js > bin.js",
+-    "test": "./test/index.sh"
+-  },
+-  "contributors": [
+-    {
+-      "name": "Andre Staltz",
+-      "email": "contact@staltz.com"
+-    },
+-    {
+-      "name": "Dominic Tarr",
+-      "email": "dominic.tarr@gmail.com"
+-    }
+-  ],
+-  "license": "MIT"
+-}
+-
+-},
+-"t1fwEWXzeWNt0LO2e5GNPEpvhk3w5ODiOA/g2aP9A5w=":
+-function (require, module, exports, __dirname, __filename) {
+-/**
+- * Modules
+- */
+-
+-var path = require('path')
+-
+-/**
+- * Vars
+- */
+-
+-var relative = path.relative
+-var lastCwd = process.cwd()
+-var cache = Object.create(null)
+-
+-/**
+- * Expose cachedPathRelative
+- */
+-
+-module.exports = cachedPathRelative
+-
+-/**
+- * cachedPathRelative
+- */
+-
+-function cachedPathRelative (from, to) {
+-  // If the current working directory changes, we need
+-  // to invalidate the cache
+-  var cwd = process.cwd()
+-  if (cwd !== lastCwd) {
+-    cache = {}
+-    lastCwd = cwd
+-  }
+-
+-  if (cache[from] && cache[from][to]) return cache[from][to]
+-
+-  var result = relative.call(path, from, to)
+-
+-  cache[from] = cache[from] || {}
+-  cache[from][to] = result
+-
+-  return result
+-
++  exports.PassThrough = Stream.PassThrough;
++  exports.Stream = Stream;
++} else {
++  exports = module.exports = require('./lib/_stream_readable.js');
++  exports.Stream = Stream || exports;
++  exports.Readable = exports;
++  exports.Writable = require('./lib/_stream_writable.js');
++  exports.Duplex = require('./lib/_stream_duplex.js');
++  exports.Transform = require('./lib/_stream_transform.js');
++  exports.PassThrough = require('./lib/_stream_passthrough.js');
+ }
+ 
+ },
+-"tHH/32tBmhiLvXMcffveq2gtV6NqHSzSxMBmELaYak4=":
++"rTIqex3sYPPS69ogkYFkae+1W1Z9JBzzzw+kxaSv5QA=":
+ function (require, module, exports, __dirname, __filename) {
+-function prelude(content, deps, entry) {
+-  var cache = {}
+-
+-  function load(file) {
+-    var d = deps[file]
+-    if (cache[file]) return cache[file].exports
+-    if (!d) return require(file)
+-    var fn = content[d[0]] //the actual module
+-    var module = (cache[file] = {
+-      exports: {},
+-      parent: file !== entry,
+-      require: require
+-    })
+-    cache[file] = module
+-    var resolved = require('path').resolve(__dirname, file)
+-    var dirname = require('path').dirname(resolved)
+-    fn.call(
+-      module.exports,
+-      function(m) {
+-        if (!d[1][m]) return require(m)
+-        else return load(d[1][m])
+-      },
+-      module,
+-      module.exports,
+-      dirname,
+-      resolved
+-    )
+-    return cache[file].exports
++if (typeof Object.create === 'function') {
++  // implementation from standard node.js 'util' module
++  module.exports = function inherits(ctor, superCtor) {
++    if (superCtor) {
++      ctor.super_ = superCtor
++      ctor.prototype = Object.create(superCtor.prototype, {
++        constructor: {
++          value: ctor,
++          enumerable: false,
++          writable: true,
++          configurable: true
++        }
++      })
++    }
++  };
++} else {
++  // old school shim for old browsers
++  module.exports = function inherits(ctor, superCtor) {
++    if (superCtor) {
++      ctor.super_ = superCtor
++      var TempCtor = function () {}
++      TempCtor.prototype = superCtor.prototype
++      ctor.prototype = new TempCtor()
++      ctor.prototype.constructor = ctor
++    }
+   }
+-
+-  return load(entry)
+-}
+-
+-module.exports = function(content, deps, entry) {
+-  return (
+-    '(' +
+-    prelude.toString() +
+-    ')(' +
+-    (function() {
+-      var s = '{\n'
+-      for (var k in content) {
+-        s += [
+-          JSON.stringify(k) + ':\n',
+-          'function (require, module, exports, __dirname, __filename) {\n',
+-          content[k],
+-          '\n},\n'
+-        ].join('')
+-      }
+-      return s + '\n}\n'
+-    })() +
+-    ',\n' +
+-    JSON.stringify(deps, null, 2) +
+-    ',\n' +
+-    JSON.stringify(entry) +
+-    ')'
+-  )
+ }
+ 
+ },
+@@ -14400,6 +14353,103 @@ exports.core = core;
+ exports.isCore = function (x) { return core[x] };
+ exports.sync = require('./lib/sync');
+ 
++},
++"xw5ab4D8O8reYnmL/mDx1C3iElzuYxFCf41fbxdT7rs=":
++function (require, module, exports, __dirname, __filename) {
++'use strict';
++
++var isWindows = process.platform === 'win32';
++
++// Regex to split a windows path into three parts: [*, device, slash,
++// tail] windows-only
++var splitDeviceRe =
++    /^([a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/]+[^\\\/]+)?([\\\/])?([\s\S]*?)$/;
++
++// Regex to split the tail part of the above into [*, dir, basename, ext]
++var splitTailRe =
++    /^([\s\S]*?)((?:\.{1,2}|[^\\\/]+?|)(\.[^.\/\\]*|))(?:[\\\/]*)$/;
++
++var win32 = {};
++
++// Function to split a filename into [root, dir, basename, ext]
++function win32SplitPath(filename) {
++  // Separate device+slash from tail
++  var result = splitDeviceRe.exec(filename),
++      device = (result[1] || '') + (result[2] || ''),
++      tail = result[3] || '';
++  // Split the tail into dir, basename and extension
++  var result2 = splitTailRe.exec(tail),
++      dir = result2[1],
++      basename = result2[2],
++      ext = result2[3];
++  return [device, dir, basename, ext];
++}
++
++win32.parse = function(pathString) {
++  if (typeof pathString !== 'string') {
++    throw new TypeError(
++        "Parameter 'pathString' must be a string, not " + typeof pathString
++    );
++  }
++  var allParts = win32SplitPath(pathString);
++  if (!allParts || allParts.length !== 4) {
++    throw new TypeError("Invalid path '" + pathString + "'");
++  }
++  return {
++    root: allParts[0],
++    dir: allParts[0] + allParts[1].slice(0, -1),
++    base: allParts[2],
++    ext: allParts[3],
++    name: allParts[2].slice(0, allParts[2].length - allParts[3].length)
++  };
++};
++
++
++
++// Split a filename into [root, dir, basename, ext], unix version
++// 'root' is just a slash, or nothing.
++var splitPathRe =
++    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
++var posix = {};
++
++
++function posixSplitPath(filename) {
++  return splitPathRe.exec(filename).slice(1);
++}
++
++
++posix.parse = function(pathString) {
++  if (typeof pathString !== 'string') {
++    throw new TypeError(
++        "Parameter 'pathString' must be a string, not " + typeof pathString
++    );
++  }
++  var allParts = posixSplitPath(pathString);
++  if (!allParts || allParts.length !== 4) {
++    throw new TypeError("Invalid path '" + pathString + "'");
++  }
++  allParts[1] = allParts[1] || '';
++  allParts[2] = allParts[2] || '';
++  allParts[3] = allParts[3] || '';
++
++  return {
++    root: allParts[0],
++    dir: allParts[0] + allParts[1].slice(0, -1),
++    base: allParts[2],
++    ext: allParts[3],
++    name: allParts[2].slice(0, allParts[2].length - allParts[3].length)
++  };
++};
++
++
++if (isWindows)
++  module.exports = win32.parse;
++else /* posix */
++  module.exports = posix.parse;
++
++module.exports.posix = posix.parse;
++module.exports.win32 = win32.parse;
++
+ },
+ "yP24SUPFGVX3tgihAjUbP11o+P7CeiLSr1n4Lv2kVOc=":
+ function (require, module, exports, __dirname, __filename) {
+@@ -14631,441 +14681,452 @@ module.exports.DuplexWrapper = DuplexWrapper;
+ }
+ ,
+ {
+-  "deterministic.js": [
+-    "XWv7AYChIcHdO+5x/f/jcPBFV2sGTBSCalbmWKfQemg=",
+-    {
+-      "through2": "node_modules/through2/through2.js"
+-    }
+-  ],
+-  "index.js": [
+-    "D51MGNp3X5NyTPyzJPWwNjtkspq6wILbXtiG8dffIZ8=",
+-    {
+-      "./inject": "inject.js",
+-      "./package.json": "package.json",
+-      "minimist": "node_modules/minimist/index.js",
+-      "rc": "node_modules/rc/index.js"
+-    }
+-  ],
+-  "inject.js": [
+-    "h9i2cMr/kkXPfLReg5WuCqgDJqgmZvy7uQ+HVf2QYmo=",
+-    {
+-      "./deterministic": "deterministic.js",
+-      "./pack": "pack.js",
+-      "module-deps": "node_modules/module-deps/index.js",
+-      "resolve": "node_modules/resolve/index.js"
+-    }
+-  ],
+-  "node_modules/acorn-node/index.js": [
++  "../acorn-node/index.js": [
+     "dG+A05l9GiG0CvEakEJT90G7UKEZQZIEK1wrQ8hbmQs=",
+     {
+-      "./lib/bigint": "node_modules/acorn-node/lib/bigint/index.js",
+-      "./lib/class-fields": "node_modules/acorn-node/lib/class-fields/index.js",
+-      "./lib/dynamic-import": "node_modules/acorn-node/lib/dynamic-import/index.js",
+-      "./lib/export-ns-from": "node_modules/acorn-node/lib/export-ns-from/index.js",
+-      "./lib/import-meta": "node_modules/acorn-node/lib/import-meta/index.js",
+-      "./lib/numeric-separator": "node_modules/acorn-node/lib/numeric-separator/index.js",
+-      "./lib/static-class-features": "node_modules/acorn-node/lib/static-class-features/index.js",
+-      "acorn": "node_modules/acorn/dist/acorn.js",
+-      "xtend": "node_modules/xtend/immutable.js"
++      "./lib/bigint": "../acorn-node/lib/bigint/index.js",
++      "./lib/class-fields": "../acorn-node/lib/class-fields/index.js",
++      "./lib/dynamic-import": "../acorn-node/lib/dynamic-import/index.js",
++      "./lib/export-ns-from": "../acorn-node/lib/export-ns-from/index.js",
++      "./lib/import-meta": "../acorn-node/lib/import-meta/index.js",
++      "./lib/numeric-separator": "../acorn-node/lib/numeric-separator/index.js",
++      "./lib/static-class-features": "../acorn-node/lib/static-class-features/index.js",
++      "acorn": "../acorn/dist/acorn.js",
++      "xtend": "../xtend/immutable.js"
+     }
+   ],
+-  "node_modules/acorn-node/lib/bigint/index.js": [
++  "../acorn-node/lib/bigint/index.js": [
+     "2CHjJZe3N4DsWh7UAqnxsvhmc4vp8VZs8pMKZvExL28=",
+     {
+-      "acorn": "node_modules/acorn/dist/acorn.js"
++      "acorn": "../acorn/dist/acorn.js"
+     }
+   ],
+-  "node_modules/acorn-node/lib/class-fields/index.js": [
++  "../acorn-node/lib/class-fields/index.js": [
+     "bHUvmPO1JV8o07Bfb+jgH9+v12YCy8W1nrkLkyScC6I=",
+     {
+-      "../private-class-elements": "node_modules/acorn-node/lib/private-class-elements/index.js",
+-      "acorn": "node_modules/acorn/dist/acorn.js"
++      "../private-class-elements": "../acorn-node/lib/private-class-elements/index.js",
++      "acorn": "../acorn/dist/acorn.js"
+     }
+   ],
+-  "node_modules/acorn-node/lib/dynamic-import/index.js": [
++  "../acorn-node/lib/dynamic-import/index.js": [
+     "ybGn+5pZCWNJQcb+ivVhJsw0udLDY1RDVOo+y29N/Jc=",
+     {
+-      "acorn": "node_modules/acorn/dist/acorn.js"
++      "acorn": "../acorn/dist/acorn.js"
+     }
+   ],
+-  "node_modules/acorn-node/lib/export-ns-from/index.js": [
++  "../acorn-node/lib/export-ns-from/index.js": [
+     "ZheeGdcp7FFu31Z2BcZ2n3et8wzdlSjmTrtBjwdvq8k=",
+     {
+-      "acorn": "node_modules/acorn/dist/acorn.js"
++      "acorn": "../acorn/dist/acorn.js"
+     }
+   ],
+-  "node_modules/acorn-node/lib/import-meta/index.js": [
++  "../acorn-node/lib/import-meta/index.js": [
+     "Ho1QNT5tqEz9PRe8K1rK3wpVOgsuHs4q5btDnM/rMRo=",
+     {
+-      "acorn": "node_modules/acorn/dist/acorn.js"
++      "acorn": "../acorn/dist/acorn.js"
+     }
+   ],
+-  "node_modules/acorn-node/lib/numeric-separator/index.js": [
++  "../acorn-node/lib/numeric-separator/index.js": [
+     "IWRpK0PgIRxzGhaWQLPCF27tTQwEgU5KGKMNX61qYBM=",
+     {}
+   ],
+-  "node_modules/acorn-node/lib/private-class-elements/index.js": [
++  "../acorn-node/lib/private-class-elements/index.js": [
+     "FcuJkG63/gw127w8cU4tr0dLyQ2EX/7OuEfFN9CMoQQ=",
+     {
+-      "acorn": "node_modules/acorn/dist/acorn.js"
++      "acorn": "../acorn/dist/acorn.js"
+     }
+   ],
+-  "node_modules/acorn-node/lib/static-class-features/index.js": [
++  "../acorn-node/lib/static-class-features/index.js": [
+     "ggtR4U/y5uDL7hKdwJ5U0ZvfHQx6FOY9JeIGKy8rKGU=",
+     {
+-      "../private-class-elements": "node_modules/acorn-node/lib/private-class-elements/index.js",
+-      "acorn": "node_modules/acorn/dist/acorn.js"
++      "../private-class-elements": "../acorn-node/lib/private-class-elements/index.js",
++      "acorn": "../acorn/dist/acorn.js"
+     }
+   ],
+-  "node_modules/acorn-node/walk.js": [
++  "../acorn-node/walk.js": [
+     "jkr76bYb+m84mVR1oVXTBEu8x6OGY87zuBTIYQEpt6k=",
+     {
+-      "acorn-walk": "node_modules/acorn-walk/dist/walk.js",
+-      "xtend": "node_modules/xtend/immutable.js"
++      "acorn-walk": "../acorn-walk/dist/walk.js",
++      "xtend": "../xtend/immutable.js"
+     }
+   ],
+-  "node_modules/acorn-walk/dist/walk.js": [
++  "../acorn-walk/dist/walk.js": [
+     "loSnQS+oH+RPkDu4DSBxdtVCVKW0pO3D38STCkvniPQ=",
+     {}
+   ],
+-  "node_modules/acorn/dist/acorn.js": [
++  "../acorn/dist/acorn.js": [
+     "knt9ip0r9Vkm2pKyk3+rI9fKSf8XU5/NNszOqeP/RLo=",
+     {}
+   ],
+-  "node_modules/browser-resolve/index.js": [
++  "../browser-resolve/index.js": [
+     "hKdfbLZWuoctIuG0JTWmH/vIVAzfOZmdDn18gqAbI5A=",
+     {
+-      "resolve": "node_modules/browser-resolve/node_modules/resolve/index.js"
++      "resolve": "../browser-resolve/node_modules/resolve/index.js"
+     }
+   ],
+-  "node_modules/browser-resolve/node_modules/resolve/index.js": [
++  "../browser-resolve/node_modules/resolve/index.js": [
+     "wilUqy+paoo7nQOAHxKN+XHS9Jh2+FC5j9EYOi+kTWA=",
+     {
+-      "./lib/async": "node_modules/browser-resolve/node_modules/resolve/lib/async.js",
+-      "./lib/core": "node_modules/browser-resolve/node_modules/resolve/lib/core.js",
+-      "./lib/sync": "node_modules/browser-resolve/node_modules/resolve/lib/sync.js"
++      "./lib/async": "../browser-resolve/node_modules/resolve/lib/async.js",
++      "./lib/core": "../browser-resolve/node_modules/resolve/lib/core.js",
++      "./lib/sync": "../browser-resolve/node_modules/resolve/lib/sync.js"
+     }
+   ],
+-  "node_modules/browser-resolve/node_modules/resolve/lib/async.js": [
++  "../browser-resolve/node_modules/resolve/lib/async.js": [
+     "TMJYvR8KSoqoSP1DrQhdw67nMeWM3+goaNkqjgF0b1Y=",
+     {
+-      "./caller.js": "node_modules/browser-resolve/node_modules/resolve/lib/caller.js",
+-      "./core": "node_modules/browser-resolve/node_modules/resolve/lib/core.js",
+-      "./node-modules-paths.js": "node_modules/browser-resolve/node_modules/resolve/lib/node-modules-paths.js"
++      "./caller.js": "../browser-resolve/node_modules/resolve/lib/caller.js",
++      "./core": "../browser-resolve/node_modules/resolve/lib/core.js",
++      "./node-modules-paths.js": "../browser-resolve/node_modules/resolve/lib/node-modules-paths.js"
+     }
+   ],
+-  "node_modules/browser-resolve/node_modules/resolve/lib/caller.js": [
++  "../browser-resolve/node_modules/resolve/lib/caller.js": [
+     "3xeLoVCIy7/5Y+bME5m8lRd4EvXgq7XQaMIEOC/lp/o=",
+     {}
+   ],
+-  "node_modules/browser-resolve/node_modules/resolve/lib/core.js": [
++  "../browser-resolve/node_modules/resolve/lib/core.js": [
+     "6B5eH0hKM4oUocBTVB1pyF7aY7AQmA91AJyAORzeFm4=",
+     {
+-      "./core.json": "node_modules/browser-resolve/node_modules/resolve/lib/core.json"
++      "./core.json": "../browser-resolve/node_modules/resolve/lib/core.json"
+     }
+   ],
+-  "node_modules/browser-resolve/node_modules/resolve/lib/core.json": [
++  "../browser-resolve/node_modules/resolve/lib/core.json": [
+     "MO5hijU3SyyXbH77tPZGdsfhQEjN3kcYddhIgRJ8U5I=",
+     {}
+   ],
+-  "node_modules/browser-resolve/node_modules/resolve/lib/node-modules-paths.js": [
++  "../browser-resolve/node_modules/resolve/lib/node-modules-paths.js": [
+     "UTU/i1neQeZHKL/ron4q0sQ98Fs0/BfhIQJjzt4OeAs=",
+     {}
+   ],
+-  "node_modules/browser-resolve/node_modules/resolve/lib/sync.js": [
++  "../browser-resolve/node_modules/resolve/lib/sync.js": [
+     "UrgPUI03thN8fG9Xc3juotWLewwZALvzZqtZIy/BaEI=",
+     {
+-      "./caller.js": "node_modules/browser-resolve/node_modules/resolve/lib/caller.js",
+-      "./core": "node_modules/browser-resolve/node_modules/resolve/lib/core.js",
+-      "./node-modules-paths.js": "node_modules/browser-resolve/node_modules/resolve/lib/node-modules-paths.js"
++      "./caller.js": "../browser-resolve/node_modules/resolve/lib/caller.js",
++      "./core": "../browser-resolve/node_modules/resolve/lib/core.js",
++      "./node-modules-paths.js": "../browser-resolve/node_modules/resolve/lib/node-modules-paths.js"
+     }
+   ],
+-  "node_modules/buffer-from/index.js": [
+-    "LAabpnjG25rNR1vMjFviDrUHfqJsZ1FN6pQpvBrU/y8=",
++  "../buffer-from/index.js": [
++    "eJ+7RKEDB70sDJWMpLxYBjIR8OXa6N2U/0plqGrnDJo=",
+     {}
+   ],
+-  "node_modules/cached-path-relative/lib/index.js": [
+-    "t1fwEWXzeWNt0LO2e5GNPEpvhk3w5ODiOA/g2aP9A5w=",
++  "../cached-path-relative/lib/index.js": [
++    "FR+leYNSpocX5rySTEOhFSYzqe5A2dgkqv7xig9yOvE=",
+     {}
+   ],
+-  "node_modules/concat-stream/index.js": [
+-    "4iLeG61xXUnT5QQh4KBmmfT+lEHeX0dvkC2SmZwcHbU=",
+-    {
+-      "buffer-from": "node_modules/buffer-from/index.js",
+-      "inherits": "node_modules/inherits/inherits.js",
+-      "readable-stream": "node_modules/readable-stream/readable.js",
+-      "typedarray": "node_modules/typedarray/index.js"
+-    }
+-  ],
+-  "node_modules/core-util-is/lib/util.js": [
+-    "dCfxbZvZGF5Am6/z5LHtbj2N/KhNNn9LizUeuSFhhlI=",
++  "../core-util-is/lib/util.js": [
++    "aRb/yDtQKWPdj2Gc5FenMcwXMOKqr3f6P4vLtgNFyp0=",
+     {}
+   ],
+-  "node_modules/deep-extend/lib/deep-extend.js": [
++  "../deep-extend/lib/deep-extend.js": [
+     "h6raxbPMgIG1cKJDwXxXXBlcSuZC6Yg0SVKR+mJu2dY=",
+     {}
+   ],
+-  "node_modules/defined/index.js": [
+-    "Vb6mMU0vc4x3R8riil6ujf6QXdnLhd83zDfmivCKls8=",
+-    {}
+-  ],
+-  "node_modules/detective/index.js": [
++  "../detective/index.js": [
+     "T8W9rvE2rNMJNaw61s2IRTT450ApyoC4GsQFFPCd6us=",
+     {
+-      "acorn-node": "node_modules/acorn-node/index.js",
+-      "acorn-node/walk": "node_modules/acorn-node/walk.js",
+-      "defined": "node_modules/defined/index.js"
++      "acorn-node": "../acorn-node/index.js",
++      "acorn-node/walk": "../acorn-node/walk.js",
++      "defined": "../detective/node_modules/defined/index.js"
+     }
+   ],
+-  "node_modules/duplexer2/index.js": [
++  "../detective/node_modules/defined/index.js": [
++    "Vb6mMU0vc4x3R8riil6ujf6QXdnLhd83zDfmivCKls8=",
++    {}
++  ],
++  "../duplexer2/index.js": [
+     "zS/YcNCIvVQ95C/Pxf7RybiWQJ70tzSpSVs/6EwNZCE=",
+     {
+-      "readable-stream": "node_modules/readable-stream/readable.js"
++      "readable-stream": "../readable-stream/readable.js"
+     }
+   ],
+-  "node_modules/inherits/inherits.js": [
++  "../inherits/inherits.js": [
+     "uzgPMr71/rGGePD0X4gHP+1degBpowkTLLIIDNVT1cc=",
+     {
+-      "./inherits_browser.js": "node_modules/inherits/inherits_browser.js"
++      "./inherits_browser.js": "../inherits/inherits_browser.js"
+     }
+   ],
+-  "node_modules/inherits/inherits_browser.js": [
++  "../inherits/inherits_browser.js": [
+     "rTIqex3sYPPS69ogkYFkae+1W1Z9JBzzzw+kxaSv5QA=",
+     {}
+   ],
+-  "node_modules/ini/ini.js": [
++  "../ini/ini.js": [
+     "VKsqB5mOnvwfeWZ+5SZQR58i5tbyvTu5ximxQm9bGQY=",
+     {}
+   ],
+-  "node_modules/isarray/index.js": [
++  "../isarray/index.js": [
+     "m4xpE3KALaeIycX04covHtC4irhyIXbCrqFeOOyG0kk=",
+     {}
+   ],
+-  "node_modules/minimist/index.js": [
++  "../minimist/index.js": [
+     "SKsyxLp5zemhsSNkN5QlZ/l7jqx84XATuDtUjGINtlI=",
+     {}
+   ],
+-  "node_modules/module-deps/index.js": [
++  "../module-deps/index.js": [
+     "jiU+c+BdYotFU2RDV3AIlg/uMYnceZsvy9lho6IxE4A=",
+     {
+-      "browser-resolve": "node_modules/browser-resolve/index.js",
+-      "cached-path-relative": "node_modules/cached-path-relative/lib/index.js",
+-      "concat-stream": "node_modules/concat-stream/index.js",
+-      "defined": "node_modules/defined/index.js",
+-      "detective": "node_modules/detective/index.js",
+-      "duplexer2": "node_modules/duplexer2/index.js",
+-      "inherits": "node_modules/inherits/inherits.js",
+-      "parents": "node_modules/parents/index.js",
+-      "readable-stream": "node_modules/readable-stream/readable.js",
+-      "resolve": "node_modules/resolve/index.js",
+-      "stream-combiner2": "node_modules/stream-combiner2/index.js",
+-      "through2": "node_modules/through2/through2.js",
+-      "xtend": "node_modules/xtend/immutable.js"
++      "browser-resolve": "../browser-resolve/index.js",
++      "cached-path-relative": "../cached-path-relative/lib/index.js",
++      "concat-stream": "../module-deps/node_modules/concat-stream/index.js",
++      "defined": "../module-deps/node_modules/defined/index.js",
++      "detective": "../detective/index.js",
++      "duplexer2": "../duplexer2/index.js",
++      "inherits": "../inherits/inherits.js",
++      "parents": "../parents/index.js",
++      "readable-stream": "../readable-stream/readable.js",
++      "resolve": "../resolve/index.js",
++      "stream-combiner2": "../stream-combiner2/index.js",
++      "through2": "../module-deps/node_modules/through2/through2.js",
++      "xtend": "../xtend/immutable.js"
++    }
++  ],
++  "../module-deps/node_modules/concat-stream/index.js": [
++    "4iLeG61xXUnT5QQh4KBmmfT+lEHeX0dvkC2SmZwcHbU=",
++    {
++      "buffer-from": "../buffer-from/index.js",
++      "inherits": "../inherits/inherits.js",
++      "readable-stream": "../readable-stream/readable.js",
++      "typedarray": "../typedarray/index.js"
++    }
++  ],
++  "../module-deps/node_modules/defined/index.js": [
++    "Vb6mMU0vc4x3R8riil6ujf6QXdnLhd83zDfmivCKls8=",
++    {}
++  ],
++  "../module-deps/node_modules/through2/through2.js": [
++    "DkkZbe5ksYq2P6yKPKVjuZlLe5EeryvMy2er4hRcYrQ=",
++    {
++      "readable-stream": "../readable-stream/readable.js",
++      "xtend": "../xtend/immutable.js"
+     }
+   ],
+-  "node_modules/parents/index.js": [
++  "../parents/index.js": [
+     "lvMMOx/Xs8v93RepBTJx0TKc4gtIk1F3Co6EQOjaWzs=",
+     {
+-      "path-platform": "node_modules/path-platform/path.js"
++      "path-platform": "../path-platform/path.js"
+     }
+   ],
+-  "node_modules/path-parse/index.js": [
+-    "a9lbXQz284IcyKz4HC9NhLehWPb9KEZZiE+eO0TzQSQ=",
++  "../path-parse/index.js": [
++    "xw5ab4D8O8reYnmL/mDx1C3iElzuYxFCf41fbxdT7rs=",
+     {}
+   ],
+-  "node_modules/path-platform/path.js": [
++  "../path-platform/path.js": [
+     "2rx1YAN+ITKtm5AYPAjp8/7REb5zCF1Lh33ZK6c2KLk=",
+     {}
+   ],
+-  "node_modules/process-nextick-args/index.js": [
++  "../process-nextick-args/index.js": [
+     "kLpSSFH3Ieis7XmHDW1qczzTk5spOoPi0EQXgSqLozA=",
+     {}
+   ],
+-  "node_modules/rc/index.js": [
++  "../rc/index.js": [
+     "ekwZ0QJdJmlyPdKpOc7X1VbYFe7f/2K/KIlwNluLJtw=",
+     {
+-      "./lib/utils": "node_modules/rc/lib/utils.js",
+-      "deep-extend": "node_modules/deep-extend/lib/deep-extend.js",
+-      "minimist": "node_modules/minimist/index.js"
++      "./lib/utils": "../rc/lib/utils.js",
++      "deep-extend": "../deep-extend/lib/deep-extend.js",
++      "minimist": "../minimist/index.js"
+     }
+   ],
+-  "node_modules/rc/lib/utils.js": [
++  "../rc/lib/utils.js": [
+     "Pro16v0HiixIQ6EQAMBkQ7XYsv6jtoKq4g2u6lvmbNI=",
+     {
+-      "ini": "node_modules/ini/ini.js",
+-      "strip-json-comments": "node_modules/strip-json-comments/index.js"
++      "ini": "../ini/ini.js",
++      "strip-json-comments": "../rc/node_modules/strip-json-comments/index.js"
+     }
+   ],
+-  "node_modules/readable-stream/lib/_stream_duplex.js": [
++  "../rc/node_modules/strip-json-comments/index.js": [
++    "P+jANL/GScjoBFL0xwUhU6SciaV58/h6Tfavi6tc4rk=",
++    {}
++  ],
++  "../readable-stream/lib/_stream_duplex.js": [
+     "/RfWqS3ZugBMhfjjZLJ3GvENASqDdmQ3RH265jh5+ms=",
+     {
+-      "./_stream_readable": "node_modules/readable-stream/lib/_stream_readable.js",
+-      "./_stream_writable": "node_modules/readable-stream/lib/_stream_writable.js",
+-      "core-util-is": "node_modules/core-util-is/lib/util.js",
+-      "inherits": "node_modules/inherits/inherits.js",
+-      "process-nextick-args": "node_modules/process-nextick-args/index.js"
++      "./_stream_readable": "../readable-stream/lib/_stream_readable.js",
++      "./_stream_writable": "../readable-stream/lib/_stream_writable.js",
++      "core-util-is": "../core-util-is/lib/util.js",
++      "inherits": "../inherits/inherits.js",
++      "process-nextick-args": "../process-nextick-args/index.js"
+     }
+   ],
+-  "node_modules/readable-stream/lib/_stream_passthrough.js": [
++  "../readable-stream/lib/_stream_passthrough.js": [
+     "v2FFCx/1+U/qnUZmXpMRGWQgNMkD5jzCJLTJZHLu1NQ=",
+     {
+-      "./_stream_transform": "node_modules/readable-stream/lib/_stream_transform.js",
+-      "core-util-is": "node_modules/core-util-is/lib/util.js",
+-      "inherits": "node_modules/inherits/inherits.js"
++      "./_stream_transform": "../readable-stream/lib/_stream_transform.js",
++      "core-util-is": "../core-util-is/lib/util.js",
++      "inherits": "../inherits/inherits.js"
+     }
+   ],
+-  "node_modules/readable-stream/lib/_stream_readable.js": [
++  "../readable-stream/lib/_stream_readable.js": [
+     "8ONFYfiyE4wPFW1U9VJlj01HQAr6TNXEhpI94umHjHE=",
+     {
+-      "./_stream_duplex": "node_modules/readable-stream/lib/_stream_duplex.js",
+-      "./internal/streams/BufferList": "node_modules/readable-stream/lib/internal/streams/BufferList.js",
+-      "./internal/streams/destroy": "node_modules/readable-stream/lib/internal/streams/destroy.js",
+-      "./internal/streams/stream": "node_modules/readable-stream/lib/internal/streams/stream.js",
+-      "core-util-is": "node_modules/core-util-is/lib/util.js",
+-      "inherits": "node_modules/inherits/inherits.js",
+-      "isarray": "node_modules/isarray/index.js",
+-      "process-nextick-args": "node_modules/process-nextick-args/index.js",
+-      "safe-buffer": "node_modules/safe-buffer/index.js",
+-      "string_decoder/": "node_modules/string_decoder/lib/string_decoder.js"
++      "./_stream_duplex": "../readable-stream/lib/_stream_duplex.js",
++      "./internal/streams/BufferList": "../readable-stream/lib/internal/streams/BufferList.js",
++      "./internal/streams/destroy": "../readable-stream/lib/internal/streams/destroy.js",
++      "./internal/streams/stream": "../readable-stream/lib/internal/streams/stream.js",
++      "core-util-is": "../core-util-is/lib/util.js",
++      "inherits": "../inherits/inherits.js",
++      "isarray": "../isarray/index.js",
++      "process-nextick-args": "../process-nextick-args/index.js",
++      "safe-buffer": "../safe-buffer/index.js",
++      "string_decoder/": "../string_decoder/lib/string_decoder.js"
+     }
+   ],
+-  "node_modules/readable-stream/lib/_stream_transform.js": [
++  "../readable-stream/lib/_stream_transform.js": [
+     "ViINndWLl28XOb/IWUiyZ9eXcrojZy/0AtE7az/PTkA=",
+     {
+-      "./_stream_duplex": "node_modules/readable-stream/lib/_stream_duplex.js",
+-      "core-util-is": "node_modules/core-util-is/lib/util.js",
+-      "inherits": "node_modules/inherits/inherits.js"
++      "./_stream_duplex": "../readable-stream/lib/_stream_duplex.js",
++      "core-util-is": "../core-util-is/lib/util.js",
++      "inherits": "../inherits/inherits.js"
+     }
+   ],
+-  "node_modules/readable-stream/lib/_stream_writable.js": [
++  "../readable-stream/lib/_stream_writable.js": [
+     "O+oV5gFBA4FiYptAn9IfJnXnk9qUfjr60Ptmom1Ccpk=",
+     {
+-      "./_stream_duplex": "node_modules/readable-stream/lib/_stream_duplex.js",
+-      "./internal/streams/destroy": "node_modules/readable-stream/lib/internal/streams/destroy.js",
+-      "./internal/streams/stream": "node_modules/readable-stream/lib/internal/streams/stream.js",
+-      "core-util-is": "node_modules/core-util-is/lib/util.js",
+-      "inherits": "node_modules/inherits/inherits.js",
+-      "process-nextick-args": "node_modules/process-nextick-args/index.js",
+-      "safe-buffer": "node_modules/safe-buffer/index.js",
+-      "util-deprecate": "node_modules/util-deprecate/node.js"
++      "./_stream_duplex": "../readable-stream/lib/_stream_duplex.js",
++      "./internal/streams/destroy": "../readable-stream/lib/internal/streams/destroy.js",
++      "./internal/streams/stream": "../readable-stream/lib/internal/streams/stream.js",
++      "core-util-is": "../core-util-is/lib/util.js",
++      "inherits": "../inherits/inherits.js",
++      "process-nextick-args": "../process-nextick-args/index.js",
++      "safe-buffer": "../safe-buffer/index.js",
++      "util-deprecate": "../util-deprecate/node.js"
+     }
+   ],
+-  "node_modules/readable-stream/lib/internal/streams/BufferList.js": [
++  "../readable-stream/lib/internal/streams/BufferList.js": [
+     "izrTpjdhpR6WaPiBmLIYN5KUAZx309g0Sy4vjYmj4LM=",
+     {
+-      "safe-buffer": "node_modules/safe-buffer/index.js"
++      "safe-buffer": "../safe-buffer/index.js"
+     }
+   ],
+-  "node_modules/readable-stream/lib/internal/streams/destroy.js": [
++  "../readable-stream/lib/internal/streams/destroy.js": [
+     "cvqfYP9IEpFD3i4cH2JM7w1/Qa1Vx9YNlNEBRjUplgc=",
+     {
+-      "process-nextick-args": "node_modules/process-nextick-args/index.js"
++      "process-nextick-args": "../process-nextick-args/index.js"
+     }
+   ],
+-  "node_modules/readable-stream/lib/internal/streams/stream.js": [
++  "../readable-stream/lib/internal/streams/stream.js": [
+     "HnkDkn3zOq2zZZ7M5VJmychR2mXObItyOmCjBcHFQiw=",
+     {}
+   ],
+-  "node_modules/readable-stream/readable.js": [
++  "../readable-stream/readable.js": [
+     "oe+j+gY5Ov9lLzUp6hsbwyE01J63lLIycvsLoT0hRVA=",
+     {
+-      "./lib/_stream_duplex.js": "node_modules/readable-stream/lib/_stream_duplex.js",
+-      "./lib/_stream_passthrough.js": "node_modules/readable-stream/lib/_stream_passthrough.js",
+-      "./lib/_stream_readable.js": "node_modules/readable-stream/lib/_stream_readable.js",
+-      "./lib/_stream_transform.js": "node_modules/readable-stream/lib/_stream_transform.js",
+-      "./lib/_stream_writable.js": "node_modules/readable-stream/lib/_stream_writable.js"
++      "./lib/_stream_duplex.js": "../readable-stream/lib/_stream_duplex.js",
++      "./lib/_stream_passthrough.js": "../readable-stream/lib/_stream_passthrough.js",
++      "./lib/_stream_readable.js": "../readable-stream/lib/_stream_readable.js",
++      "./lib/_stream_transform.js": "../readable-stream/lib/_stream_transform.js",
++      "./lib/_stream_writable.js": "../readable-stream/lib/_stream_writable.js"
+     }
+   ],
+-  "node_modules/resolve/index.js": [
++  "../resolve/index.js": [
+     "cnBOdR2JsqvJ+iPBrd9JQ1vY63uQaqYqsXpeVb3K+Bc=",
+     {
+-      "./lib/async": "node_modules/resolve/lib/async.js",
+-      "./lib/core": "node_modules/resolve/lib/core.js",
+-      "./lib/sync": "node_modules/resolve/lib/sync.js"
++      "./lib/async": "../resolve/lib/async.js",
++      "./lib/core": "../resolve/lib/core.js",
++      "./lib/sync": "../resolve/lib/sync.js"
+     }
+   ],
+-  "node_modules/resolve/lib/async.js": [
++  "../resolve/lib/async.js": [
+     "vvvfgPy3wJr26H+vSVRp8umzNeaAzDRA6EZQmBJNFMY=",
+     {
+-      "./caller.js": "node_modules/resolve/lib/caller.js",
+-      "./core": "node_modules/resolve/lib/core.js",
+-      "./node-modules-paths.js": "node_modules/resolve/lib/node-modules-paths.js"
++      "./caller.js": "../resolve/lib/caller.js",
++      "./core": "../resolve/lib/core.js",
++      "./node-modules-paths.js": "../resolve/lib/node-modules-paths.js"
+     }
+   ],
+-  "node_modules/resolve/lib/caller.js": [
++  "../resolve/lib/caller.js": [
+     "ZCxDw/Igd+sNPNfePq/lE2QpGa8jjF3N4VKa8Q4+mNQ=",
+     {}
+   ],
+-  "node_modules/resolve/lib/core.js": [
++  "../resolve/lib/core.js": [
+     "yP24SUPFGVX3tgihAjUbP11o+P7CeiLSr1n4Lv2kVOc=",
+     {
+-      "./core.json": "node_modules/resolve/lib/core.json"
++      "./core.json": "../resolve/lib/core.json"
+     }
+   ],
+-  "node_modules/resolve/lib/core.json": [
++  "../resolve/lib/core.json": [
+     "K/oiN7IyGdP9kxXvO5aQGg7bPt/QB5Fsf2LO/CJRj20=",
+     {}
+   ],
+-  "node_modules/resolve/lib/node-modules-paths.js": [
++  "../resolve/lib/node-modules-paths.js": [
+     "W5BHECrIQ4Wz4KGAYE9FXbDLrDk/H15YfMMB+fDkXic=",
+     {
+-      "path-parse": "node_modules/path-parse/index.js"
++      "path-parse": "../path-parse/index.js"
+     }
+   ],
+-  "node_modules/resolve/lib/sync.js": [
++  "../resolve/lib/sync.js": [
+     "aORLCdDoW3uTjYrbEdfGZVtkrjKI3IcO6f1rWn1WRyk=",
+     {
+-      "./caller.js": "node_modules/resolve/lib/caller.js",
+-      "./core": "node_modules/resolve/lib/core.js",
+-      "./node-modules-paths.js": "node_modules/resolve/lib/node-modules-paths.js"
++      "./caller.js": "../resolve/lib/caller.js",
++      "./core": "../resolve/lib/core.js",
++      "./node-modules-paths.js": "../resolve/lib/node-modules-paths.js"
+     }
+   ],
+-  "node_modules/safe-buffer/index.js": [
++  "../safe-buffer/index.js": [
+     "1YryHLBRiGTQxQV0LRr3HlteHxQvTA8nNTqg9DGmFtQ=",
+     {}
+   ],
+-  "node_modules/stream-combiner2/index.js": [
++  "../stream-combiner2/index.js": [
+     "Mlfv8wfns9/sh+mR7OA5iaVxfa2Ej9wF/zq9mS6J1kI=",
+     {
+-      "duplexer2": "node_modules/duplexer2/index.js",
+-      "readable-stream": "node_modules/readable-stream/readable.js"
++      "duplexer2": "../duplexer2/index.js",
++      "readable-stream": "../readable-stream/readable.js"
+     }
+   ],
+-  "node_modules/string_decoder/lib/string_decoder.js": [
++  "../string_decoder/lib/string_decoder.js": [
+     "8dNtR7LFeQYzksGmiWNGfy1PUaBprwnrBo2XTGPuOzc=",
+     {
+-      "safe-buffer": "node_modules/safe-buffer/index.js"
+-    }
+-  ],
+-  "node_modules/strip-json-comments/index.js": [
+-    "P+jANL/GScjoBFL0xwUhU6SciaV58/h6Tfavi6tc4rk=",
+-    {}
+-  ],
+-  "node_modules/through2/through2.js": [
+-    "DkkZbe5ksYq2P6yKPKVjuZlLe5EeryvMy2er4hRcYrQ=",
+-    {
+-      "readable-stream": "node_modules/readable-stream/readable.js",
+-      "xtend": "node_modules/xtend/immutable.js"
++      "safe-buffer": "../safe-buffer/index.js"
+     }
+   ],
+-  "node_modules/typedarray/index.js": [
++  "../typedarray/index.js": [
+     "M3/O2aM3DeRBQXCqCkstYcpjSsLYLDWHmK+vKioE4Qc=",
+     {}
+   ],
+-  "node_modules/util-deprecate/node.js": [
++  "../util-deprecate/node.js": [
+     "moain6NKmbhh5wc0X7HR4uVabCPtuPmSvtV8xgf0LY4=",
+     {}
+   ],
+-  "node_modules/xtend/immutable.js": [
++  "../xtend/immutable.js": [
+     "BJhvFouPFvTyUjfQYIzfV7bKFPEA/tYsApW9olWasks=",
+     {}
+   ],
++  "deterministic.js": [
++    "XWv7AYChIcHdO+5x/f/jcPBFV2sGTBSCalbmWKfQemg=",
++    {
++      "through2": "node_modules/through2/through2.js"
++    }
++  ],
++  "index.js": [
++    "D51MGNp3X5NyTPyzJPWwNjtkspq6wILbXtiG8dffIZ8=",
++    {
++      "./inject": "inject.js",
++      "./package.json": "package.json",
++      "minimist": "../minimist/index.js",
++      "rc": "../rc/index.js"
++    }
++  ],
++  "inject.js": [
++    "h9i2cMr/kkXPfLReg5WuCqgDJqgmZvy7uQ+HVf2QYmo=",
++    {
++      "./deterministic": "deterministic.js",
++      "./pack": "pack.js",
++      "module-deps": "../module-deps/index.js",
++      "resolve": "../resolve/index.js"
++    }
++  ],
++  "node_modules/through2/through2.js": [
++    "DkkZbe5ksYq2P6yKPKVjuZlLe5EeryvMy2er4hRcYrQ=",
++    {
++      "readable-stream": "../readable-stream/readable.js",
++      "xtend": "../xtend/immutable.js"
++    }
++  ],
+   "pack.js": [
+-    "tHH/32tBmhiLvXMcffveq2gtV6NqHSzSxMBmELaYak4=",
++    "dDCV1jBjpLAHIiwIuFc0Z2z79Y2WmJbjFrG70jOe9u4=",
+     {}
+   ],
+   "package.json": [
+-    "sLL79s/BHn4HinttdiW5H8txmOYAf5HYaJFn5KwKWSo=",
++    "bsoN8HEhdPHZZupw8/Cre+ycwxF/CGp0t7RWWRUB6Po=",
+     {}
+   ]
+ },
+diff --git a/node_modules/noderify/pack.js b/node_modules/noderify/pack.js
+index d2713a9..fa01f5d 100644
+--- a/node_modules/noderify/pack.js
++++ b/node_modules/noderify/pack.js
+@@ -6,26 +6,25 @@ function prelude(content, deps, entry) {
+     if (cache[file]) return cache[file].exports
+     if (!d) return require(file)
+     var fn = content[d[0]] //the actual module
+-    var module = (cache[file] = {
++    var customModule = file === entry ? module : (cache[file] = {
+       exports: {},
+       parent: file !== entry,
+       require: require
+     })
+-    cache[file] = module
+     var resolved = require('path').resolve(__dirname, file)
+     var dirname = require('path').dirname(resolved)
+     fn.call(
+-      module.exports,
++      customModule.exports,
+       function(m) {
+         if (!d[1][m]) return require(m)
+         else return load(d[1][m])
+       },
+-      module,
+-      module.exports,
++      customModule,
++      customModule.exports,
+       dirname,
+       resolved
+     )
+-    return cache[file].exports
++    return cache[file] ? cache[file].exports : module.exports
+   }
+ 
+   return load(entry)

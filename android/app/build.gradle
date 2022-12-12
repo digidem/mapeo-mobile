@@ -134,7 +134,7 @@ def enableProguardInReleaseBuilds = false
  * give correct results when using with locales other than en-US.  Note that
  * this variant is about 6MiB larger per architecture than default.
  */
-def jscFlavor = 'org.webkit:android-jsc:+'
+def jscFlavor = 'org.webkit:android-jsc-intl:+'
 
 /**
  * Whether to enable the Hermes VM.
@@ -145,38 +145,9 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
-def loadDotEnv() {
-    def envFile = ".env"
-
-    def env = [:]
-    println("Reading env from: $envFile")
-
-    File f = new File("$project.rootDir/../$envFile");
-    if (!f.exists()) {
-        f = new File("$envFile");
-    }
-
-    if (f.exists()) {
-        f.eachLine { line ->
-            def matcher = (line =~ /^\s*(?:export\s+|)([\w\d\.\-_]+)\s*=\s*['"]?(.*?)?['"]?\s*$/)
-            if (matcher.getCount() == 1 && matcher[0].size() == 3) {
-                env.put(matcher[0][1], matcher[0][2].replace('"', '\\"'))
-            }
-        }
-    } else {
-        println("**************************")
-        println("*** Missing .env file ****")
-        println("**************************")
-    }
-
-    project.ext.set("env", env)
-}
-
 def getenv(key) {
     return System.getenv(key) ?: project.env.get(key)
 }
-
-loadDotEnv()
 
 File releaseKeystore = file("mapeo-release-key.keystore")
 def myVersionCode = (getenv("ANDROID_VERSION_CODE") ?: 1) as int
@@ -185,13 +156,15 @@ println("Version name")
 println(myVersionName)
 
 def getDefaultBugsnagReleaseStage(version) {
+    // If changing this, also change in src/backend/app.js
     SemVer parsed = SemVer.parse(version)
     def preRelease = parsed.preRelease
-    if (preRelease != null) {
-        // This is kind of lazy but let's assume that these three delimiters will be sufficient for us
-        return preRelease.split("[.|-|+]")[0]
+    if (preRelease == null) {
+        return 'production'
+    } else if (preRelease.toLowerCase().startsWith("rc")) {
+        return 'rc'
     }
-    return 'production'
+    return 'internal'
 }
 
 def paths = [
@@ -200,6 +173,23 @@ def paths = [
 
 bugsnag {
     sharedObjectPaths = paths
+    uploadReactNativeMappings = true // enable upload of React Native source maps
+    // Set variant metadata for ICCA variant
+    // If changing this, also change in src/backend/app.js
+    variantFilter { variant ->
+        def name = variant.name.toLowerCase()
+        def map = new HashMap()
+        if (name.contains("icca")) {
+            map.put("variant", "icca")
+        } else {
+            map.put("variant", "mapeo")
+        }
+        metadata = map
+    }
+    // Disable bugsnag source uploading for locally built versions (on CI version code is set to the build number)
+    if (myVersionCode == 1) {
+        enabled = false
+    }
 }
 
 String shouldRebuildNativeModules = System.getenv('NODEJS_MOBILE_BUILD_NATIVE_MODULES');
@@ -359,15 +349,6 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
-        // Make sure libjsc.so does not packed in APK
-        // This is for react-native-v8
-        exclude "**/libjsc.so"
-    }
-
-    // Use Java 1.8
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -375,8 +356,6 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    // Add v8-android - prebuilt libv8.so into APK
-    implementation 'org.chromium:v8-android:9.93.+'
 
     addUnimodulesDependencies()
 

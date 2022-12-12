@@ -5,13 +5,11 @@
  *   - Manually change the context value in `SettingsContext.tsx`
  */
 import * as React from "react";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { defineMessages, useIntl } from "react-intl";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import ConfigContext from "../context/ConfigContext";
 import {
-  MODAL_NAVIGATION_OPTIONS,
   BottomSheetModal,
   BottomSheetContent,
   useBottomSheetModal,
@@ -19,6 +17,7 @@ import {
 import { DoneIcon } from "../sharedComponents/icons";
 import Circle from "../sharedComponents/icons/Circle";
 import { MAPEO_BLUE, WHITE } from "../lib/styles";
+import { NativeRootNavigationProps } from "../sharedTypes";
 
 const m = defineMessages({
   joinTitle: {
@@ -47,12 +46,11 @@ const m = defineMessages({
   },
 });
 
-export const JoinRequestModal: NavigationStackScreenComponent<{
-  deviceName?: string;
-  key?: string;
-}> = ({ navigation }) => {
+export const JoinRequestModal = ({
+  navigation,
+  route,
+}: NativeRootNavigationProps<"JoinRequestModal">) => {
   const { formatMessage: t } = useIntl();
-
   const [loading, setLoading] = React.useState(false);
   const [step, setStep] = React.useState<"prompt" | "success">("prompt");
 
@@ -61,8 +59,8 @@ export const JoinRequestModal: NavigationStackScreenComponent<{
   const { sheetRef, closeSheet } = useBottomSheetModal({ openOnMount: true });
 
   const projectName = config.metadata.name;
-  const deviceName = navigation.getParam("deviceName");
-  const key = navigation.getParam("key");
+  const deviceName = route.params?.deviceName || "";
+  const key = route.params?.key || "";
 
   // TODO: do something with `key` here
   const invite = async () => {
@@ -125,5 +123,3 @@ export const JoinRequestModal: NavigationStackScreenComponent<{
     </BottomSheetModal>
   );
 };
-
-JoinRequestModal.navigationOptions = () => MODAL_NAVIGATION_OPTIONS;

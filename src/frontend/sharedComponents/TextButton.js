@@ -15,11 +15,12 @@ TouchableNativeFeedback.propTypes = {
 };
 
 type Props = {
-  onPress: (SyntheticEvent<>) => any,
+  onPress: () => void,
   containerStyle?: ViewStyleProp,
   textStyle?: ViewStyleProp,
   title: string,
   testID?: string,
+  style?: ViewStyleProp,
 };
 
 const TextButton = ({

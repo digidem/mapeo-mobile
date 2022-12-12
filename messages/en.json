@@ -137,14 +137,84 @@
   "screens.AppPasscode": {
     "message": "App Passcode"
   },
+  "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
+    "message": "Cancel"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.passcode": {
+    "description": "used to indicate to the user what the new passcode will be.",
+    "message": "Passcode"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
+    "message": "Save App Passcode"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.title": {
+    "message": "App Passcodes can never be recovered if lost or forgotten! Make sure to note your passcode in a secure location before saving."
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter": {
+    "message": "Please Enter Passcode"
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
+    "message": "Enter Passcode"
+  },
+  "screens.AppPasscode.InputPasscodeScreen.cancel": {
+    "message": "Cancel"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
+    "message": "Re-enter Passcode"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
+    "message": "Set App Passcode"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
+    "message": "Next"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError": {
+    "message": "Password must be 5 numbers"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError": {
+    "message": "Cannot be used as a Passcode"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
+    "message": "Password does not match"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "Incorrect Passcode"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
+    "message": "This passcode will be required to open the Mapeo App"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continue"
   },
-  "screens.AppPasscode.NewPasscode.Splash.description": {
-    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum diam pulvinar ultrices luctus. Maecenas etiam accumsan nisl, leo. Leo risus non adipiscing nisi, scelerisque. Quis enim nunc."
-  },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "What is App Passcode?"
+  },
+  "screens.AppPasscode.PasscodeIntro.description": {
+    "message": "App Passcode allows you to add an additional layer of security by requiring that you enter a passcode in order to open the Mapeo app. You can define your own 5-digit passcode by turning on the feature below."
+  },
+  "screens.AppPasscode.PasscodeIntro.warning": {
+    "message": "**Please note that forgotten passcodes cannot be recovered!** Once this feature is enabled, if you forget or lose your passcode, you will not be able to open Mapeo and will lose access to any Mapeo data that has not been synced with other project participants."
+  },
+  "screens.AppPasscode.TurnOffPasscode.cancel": {
+    "message": "Cancel"
+  },
+  "screens.AppPasscode.TurnOffPasscode.changePasscode": {
+    "message": "Change App Passcode"
+  },
+  "screens.AppPasscode.TurnOffPasscode.currentlyUsing": {
+    "message": "You are currently using App Passcode. See below to stop using or change your passcode."
+  },
+  "screens.AppPasscode.TurnOffPasscode.description": {
+    "message": "App Passcode adds an additional layer of security by requiring that you enter a passcode in order to open the Mapeo app."
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOff": {
+    "message": "Turn Off"
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOffConfirmation": {
+    "message": "Turn Off App Passcode?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.usePasscode": {
+    "message": "Use App Passcode"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -220,6 +290,12 @@
     "description": "Placeholder text for project name input field",
     "message": "Project Name"
   },
+  "screens.EnterPassword.enterPass": {
+    "message": "Enter your passcode"
+  },
+  "screens.EnterPassword.wrongPass": {
+    "message": "Incorrect passcode, please try again"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Details"
@@ -280,6 +356,30 @@
   },
   "screens.LeaveProject.LeaveProject": {
     "message": "Leave Project"
+  },
+  "screens.LeaveProject.LeaveProject.agreeToDelete": {
+    "message": "I understand I will be deleting all data from my device."
+  },
+  "screens.LeaveProject.LeaveProject.cancel": {
+    "message": "Cancel"
+  },
+  "screens.LeaveProject.LeaveProject.confirmDelete": {
+    "message": "Please check the box to confirm"
+  },
+  "screens.LeaveProject.LeaveProject.headerTitle": {
+    "message": "Leave Project"
+  },
+  "screens.LeaveProject.LeaveProject.leaveButton": {
+    "message": "Leave Project"
+  },
+  "screens.LeaveProject.LeaveProject.leaveProjectTitle": {
+    "message": "Leave Project{projectName}?"
+  },
+  "screens.LeaveProject.LeaveProject.syncWarning": {
+    "message": "Sync with a team member so you don't loose all your observations."
+  },
+  "screens.LeaveProject.LeaveProject.willDelete": {
+    "message": "This will delete {numOfObservations} observations and {numOfPics} Pictures"
   },
   "screens.LeaveProject.LeaveProjectCompleted.goHome": {
     "message": "Go Home"
@@ -408,6 +508,21 @@
   "screens.ManualGpsScreen.zoneNumber": {
     "message": "Zone Number"
   },
+  "screens.ObscurePasscode.description": {
+    "message": "Obscure Passcode is a security feature that allows you to open Mapeo in a decoy mode that hides all of your data. Entering the Obscure Passcode on the intro screen will display an empty version of Mapeo which allows you to create demonstration observations that are not saved to the Mapeo database."
+  },
+  "screens.ObscurePasscode.instructions": {
+    "message": "Enter the code above to hide your data in Mapeo"
+  },
+  "screens.ObscurePasscode.title": {
+    "message": "Obscure Passcode"
+  },
+  "screens.ObscurePasscode.toggleMessage": {
+    "message": "Use Obscure Passcode"
+  },
+  "screens.ObscurePasscode.whatIsObscure": {
+    "message": "What is Obscure Passcode?"
+  },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
     "message": "Sent from Mapeo"
@@ -451,10 +566,6 @@
   "screens.Observation.title": {
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "Observation"
-  },
-  "screens.ObservationDetails.QuestionNavBar.questionPage": {
-    "description": "Indicates which question we are on and total questions",
-    "message": "{current} of {total}"
   },
   "screens.ObservationDetails.done": {
     "description": "Button text when all questions are complete",
@@ -642,23 +753,14 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Try Again"
   },
-  "screens.Security.deviceBackup": {
-    "message": "Device Backup"
-  },
-  "screens.Security.killPassDescriptonPassNotSet": {
+  "screens.Security.obscurePassDescriptonPassNotSet": {
     "message": "To use, enable App Passcode"
   },
-  "screens.Security.killPassDescriptonPassSet": {
+  "screens.Security.obscurePassDescriptonPassSet": {
     "message": "Protect your device against seizure"
   },
-  "screens.Security.killPasscodeHeader": {
-    "message": "Kill Passcode"
-  },
-  "screens.Security.paperKey": {
-    "message": "Paper Key"
-  },
-  "screens.Security.paperKeyDes": {
-    "message": "Reinstate your account if this device is lost"
+  "screens.Security.obscurePasscodeHeader": {
+    "message": "Obscure Passcode"
   },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "Passcode not set"
@@ -690,6 +792,30 @@
   "screens.ServerStatus.timeoutTitle": {
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Something is up with the Mapeo database"
+  },
+  "screens.Settings.Experiments.BGMaps": {
+    "message": "Background Maps"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMaps": {
+    "message": "Background Maps"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMapsDescription": {
+    "message": "The Background Map in Mapeo is displayed on the home map screen and is used as a background for the observations you collect. This new pilot feature allows you to add your own custom maps and switch between multiple maps. Background Maps is currently an advanced feature - an existing map file in .mbtiles format is required for testing."
+  },
+  "screens.Settings.Experiments.BGMaps.BGMapsOnlineSupport": {
+    "message": "For online support on generating map files, see:"
+  },
+  "screens.Settings.Experiments.BGMaps.feedBack": {
+    "message": "We welcome any feedback on this feature before the final version is released."
+  },
+  "screens.Settings.Experiments.BGMaps.goTo": {
+    "message": "Try it now"
+  },
+  "screens.Settings.Experiments.BGMaps.useBGMap": {
+    "message": "Use Background Maps (Feature)"
+  },
+  "screens.Settings.Experiments.BGMaps.warning": {
+    "message": "WARNING: When this feature is enabled, you will not have access to the map you had previously been using in Mapeo. Turn off Map Manager to switch back to your previous map. Please note that this feature is still in the pilot testing phase and you will need to re-import any maps added to the Map Manager once the final version is released."
   },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Directional Arrow"
@@ -752,6 +878,85 @@
   "screens.Settings.ManagePeople.yourDevice": {
     "description": "Row label indicating details related to the user's device membership",
     "message": "(You) {deviceName}"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.cancel": {
+    "message": "Cancel"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.deleteMap": {
+    "message": "Delete Map"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.description": {
+    "message": "Level of Detail"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.maxZoom": {
+    "description": "Shows the user the max zoom for an offline map",
+    "message": "Max Zoom"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.mb": {
+    "description": "abbreviation for megabyte",
+    "message": "MB"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.minZoom": {
+    "description": "Shows the user the min zoom for an offline map",
+    "message": "Min Zoom"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.removeMap": {
+    "message": "Remove Map"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.subtitle": {
+    "message": "This map and offline areas attached to it will be deleted. This cannot be undone"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.useMap": {
+    "message": "Use Map"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.zoomRange": {
+    "description": "Shows the user the range of zoom available for an offline map",
+    "message": "Zoom Range"
+  },
+  "screens.Settings.MapSettings.BackgroundMapTitle": {
+    "message": "Background Maps"
+  },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "Add Background Map"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.cancel": {
+    "message": "Cancel"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMap": {
+    "message": "Delete Map"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapMessage": {
+    "message": "Are you sure you want to delete {mapName}?"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapWarning": {
+    "message": "This area will no longer be available offline. Cannot be undone."
+  },
+  "screens.Settings.MapSettings.backgroundMaps": {
+    "message": "Background Maps"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "Close"
+  },
+  "screens.Settings.MapSettings.confirmDelete": {
+    "description": "Confirm delete map modal button",
+    "message": "Yes, Delete"
+  },
+  "screens.Settings.MapSettings.deleteMapTitle": {
+    "description": "Title for the delete map modal",
+    "message": "Delete Map"
+  },
+  "screens.Settings.MapSettings.importError": {
+    "description": "Error importing map warning",
+    "message": "Error Importing Map, please try a different file."
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "Import from File"
+  },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "Map Settings"
+  },
+  "screens.Settings.MapSettings.subtitle": {
+    "message": "Add, remove, and view map details"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Create or join a project below"
@@ -863,6 +1068,13 @@
   "screens.Settings.languageDesc": {
     "description": "Secondary text for language settings",
     "message": "Display language for App"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "Map Settings"
+  },
+  "screens.Settings.mapSettingsSubtitle": {
+    "message": "Background Maps"
   },
   "screens.Settings.projectConfig": {
     "description": "Primary text for project config settings",
@@ -1038,6 +1250,85 @@
   "screens.UncaughtError.errorTitle": {
     "description": "Title of message when there is an uncaught message in the app",
     "message": "Unexpected Error"
+  },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "Street Intersection"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "Level of Detail"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "Address"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "City"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "Global"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "Large Country"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "Large Metropolitan Area"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "Small Country"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "Small Road"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "Street"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "Street Block"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "Subcontinent"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "Town"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "Village"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "Zoom Level"
+  },
+  "sharedComponents.BGMapCard.abbrevMegabyte": {
+    "description": "The abbreviation for megabyte",
+    "message": "MB"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "Current Map"
+  },
+  "sharedComponents.BGMapCard.unamedStyle": {
+    "description": "The name for the default map style",
+    "message": "Unnamed Style"
+  },
+  "sharedComponents.BGMapSelector.close": {
+    "message": "Close"
+  },
+  "sharedComponents.BGMapSelector.manageMaps": {
+    "message": "Manage Maps"
+  },
+  "sharedComponents.BGMapSelector.title": {
+    "description": "Title for the background map selector",
+    "message": "Background Maps"
   },
   "sharedComponents.GpsPill.noGps": {
     "message": "No GPS"

@@ -1,5 +1,6 @@
 import * as React from "react";
 import merge from "lodash/merge";
+import Bugsnag from "@bugsnag/react-native";
 
 import createPersistedState from "../hooks/usePersistedState";
 
@@ -14,15 +15,15 @@ export type ExperimentalP2pUpgrade = boolean;
 
 export type SettingsState = {
   coordinateFormat: CoordinateFormat;
+  // Experiments should only include experiments that are enabled in the app. AKA only experiments that can be turned on and off by the user
   experiments: {
     p2pUpgrade: boolean;
-    onboarding: boolean;
-    appPasscode: boolean;
+    directionalArrow: boolean;
+    backgroundMaps: boolean;
   };
-  directionalArrow: boolean;
 };
 
-type SettingsContextType = readonly [
+type SettingsContextType = [
   SettingsState,
   (key: keyof SettingsState, value: any) => void
 ];
@@ -31,10 +32,9 @@ const DEFAULT_SETTINGS: SettingsState = {
   coordinateFormat: "utm",
   experiments: {
     p2pUpgrade: false,
-    onboarding: process.env.FEATURE_ONBOARDING === "true",
-    appPasscode: process.env.FEATURE_PASSCODE === "true",
+    directionalArrow: false,
+    backgroundMaps: false,
   },
-  directionalArrow: false,
 };
 
 const SettingsContext = React.createContext<SettingsContextType>([
@@ -57,9 +57,28 @@ export const SettingsProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const contextValue: SettingsContextType = React.useMemo(() => {
     // If we add any new properties to the settings state, they will be
     // undefined in a users' persisted state, so we merge in the defaults
-    const mergedState = merge({}, DEFAULT_SETTINGS, state);
+    const mergedState = merge({}, DEFAULT_SETTINGS, state, {
+      experiments: { backgroundMaps: false },
+    });
     return [mergedState, setSettings];
   }, [state, setSettings]);
+
+  // Track feature flags in Bugsnag
+  React.useEffect(
+    () => {
+      for (const [key, value] of Object.entries(state.experiments)) {
+        // Not tracking each value to see if it has changed, assuming that this
+        // is not a costly operation to run unnecessarily
+        if (value) {
+          Bugsnag.addFeatureFlag(key);
+        } else {
+          Bugsnag.clearFeatureFlag(key);
+        }
+      }
+    },
+    // Re-run effect if any of the experiments change
+    Object.values(state.experiments)
+  );
 
   return (
     <SettingsContext.Provider value={contextValue}>

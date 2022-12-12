@@ -102,7 +102,7 @@ const CategoryView = ({
   return (
     <View style={styles.categoryContainer}>
       <View style={styles.categoryIcon}>
-        <CategoryCircleIcon iconId={preset.icon} />
+        <CategoryCircleIcon iconId={preset.icon} color={preset.color} />
       </View>
       <Text style={styles.categoryName}>
         <FormattedPresetName preset={preset} />

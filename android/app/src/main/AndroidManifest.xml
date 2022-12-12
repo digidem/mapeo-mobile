@@ -29,7 +29,10 @@
       android:value="true"/>
     <!-- Dynamically set release stage in Bugsnag at build time: https://github.com/bugsnag/bugsnag-js/issues/1264#issuecomment-767191963 -->
     <meta-data android:name="com.bugsnag.android.RELEASE_STAGE"
-    android:value="${bugsnagReleaseStage}"/>
+      android:value="${bugsnagReleaseStage}"/>
+    <!-- if changing this, also change in src/backend/app.js -->
+    <meta-data android:name="com.bugsnag.android.ENABLED_RELEASE_STAGES"
+      android:value="production,rc,internal"/>
     <!-- android:launchMode="singleTask" fixes a bug where our React app would
          never unmount and instead kept remounting new instances -->
     <!-- maybe add android:largeHeap="true" if we keep getting out of memory
@@ -40,18 +43,19 @@
       android:launchMode="singleTask"
       android:largeHeap="true"
       android:screenOrientation="portrait"
-      android:windowSoftInputMode="adjustResize">
+      android:windowSoftInputMode="adjustResize"
+      android:exported="true">
       <intent-filter android:label="filter_react_native">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="mapeo" /> 
+        <data android:scheme="mapeo" />
       </intent-filter>
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
-      
+
     </activity>
     <provider android:name="androidx.core.content.FileProvider"
       android:authorities="${applicationId}.provider"

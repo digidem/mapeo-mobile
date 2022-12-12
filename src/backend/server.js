@@ -9,29 +9,31 @@ const createMapeoRouter = require("mapeo-server");
 const debug = require("debug");
 const mkdirp = require("mkdirp");
 const rnBridge = require("rn-bridge");
+const Bugsnag = require("@bugsnag/js").default;
 const throttle = require("lodash/throttle");
-const main = require("./index");
 const fs = require("fs");
 const rimraf = require("rimraf");
 const tar = require("tar-fs");
 const pump = require("pump");
 const semverCoerce = require("semver/functions/coerce");
-const UpgradeManager = require("./upgrade-manager");
 const { serializeError } = require("serialize-error");
+
+const MapServer = require("./mapServer");
+const UpgradeManager = require("./upgrade-manager");
 
 const log = debug("mapeo-core:server");
 
 module.exports = createServer;
 
 /**
- * @param {object} options
- * @param {string} privateStorage Path to app-specific internal file storage
+ * @param {object} opts
+ * @param {string} opts.privateStorage Path to app-specific internal file storage
  *   folder (see https://developer.android.com/training/data-storage/app-specific).
  *   This folder cannot be accessed by other apps or the user via a computer connection.
- * @param {string} sharedStorage Path to app-specific external file storage folder
- * @param {string} privateCacheStorage Path to app-specific internal cache storage folder
- * @param {import('./upgrade-manager/types').DeviceInfo} deviceInfo sdkVersion and supportedAbis for current device
- * @param {import('./upgrade-manager/types').InstallerInt} currentApkInfo info about the currently running APK (see ./lib/types for documentation)
+ * @param {string} opts.sharedStorage Path to app-specific external file storage folder
+ * @param {string} opts.privateCacheStorage Path to app-specific internal cache storage folder
+ * @param {import('./upgrade-manager/types').DeviceInfo} opts.deviceInfo sdkVersion and supportedAbis for current device
+ * @param {import('./upgrade-manager/types').InstallerInt} opts.currentApkInfo info about the currently running APK (see ./lib/types for documentation)
  */
 function createServer({
   privateStorage,
@@ -79,6 +81,7 @@ function createServer({
   });
   let mapeoCore = mapeoRouter.api.core;
 
+  const mapServer = createMapServer();
   createUpgradeManager();
 
   const server = http.createServer(function requestListener(req, res) {
@@ -122,9 +125,9 @@ function createServer({
     sendPeerUpdateToRN();
 
     function onerror(err) {
-      main.bugsnag.notify(err, {
-        severity: "error",
-        context: "sync",
+      Bugsnag.notify(err, event => {
+        event.severity = "error";
+        event.context = "sync";
       });
       sendPeerUpdateToRN();
       sync.removeListener("error", onerror);
@@ -154,15 +157,155 @@ function createServer({
       log("++++ 1 backend listening");
       origListen.apply(server, args);
     });
+
+    mapServer.start();
   };
 
   function onError(prefix, err) {
     if (!err) return;
-    main.bugsnag.notify(err, {
-      severity: "error",
-      context: prefix,
+    Bugsnag.notify(err, event => {
+      event.severity = "error";
+      event.context = prefix;
     });
     log(`error(${prefix}): ' + ${err.toString()}`);
+  }
+
+  /**
+   * Setup function for creating the map server
+   *
+   * @returns {{ start: () => void, stop: () => void }} Object with start and stop methods
+   */
+  function createMapServer() {
+    let handleGetState, handleReportErrorState, mapServer;
+
+    try {
+      // Due to lack of foresight, I didn't add proper db migrations for some map server schema
+      // changes that occurred after the initial integration into the mobile app.
+      // This means that users with the initial db instance ("maps.db") would experience errors
+      // upon upgrading because the "initial" db step that the updated map server module performs
+      // assumes an incompatible schema with the existing instance, which would cause initialization
+      // errors for the server. This would not be an issue for users who completely uninstall
+      // and reinstall, or who install for the first time.
+      //
+      // The workaround solution for this is to point to a different file path to use as the
+      // database moving forward and remove the artifacts from the initial iteration.
+      // Normally this would be a terrible idea because it would result in losing valuable map server data,
+      // but since this has not been officially released for public usage at the time of writing this comment,
+      // it should be okay to do this as a one time legacy-esque exception. After a while, we may be able to
+      // confidently remove this code if we feel that enough existing users have installed this version.
+      try {
+        const legacyMapsDbPath = path.join(privateStorage, "maps.db");
+        fs.unlinkSync(legacyMapsDbPath);
+        fs.unlinkSync(legacyMapsDbPath + "-shm");
+        fs.unlinkSync(legacyMapsDbPath + "-wal");
+        log("Successfully removed legacy map server db");
+      } catch {
+        log("Could not find legacy map server db to remove");
+      }
+
+      const officialMapsDbPath = path.join(privateStorage, "mapeo-maps.db");
+
+      mapServer = new MapServer({ dbPath: officialMapsDbPath });
+
+      mapServer.on("state", onState);
+      mapServer.on("error", handleError);
+
+      handleGetState = createGetStateHandler(mapServer);
+
+      rnBridge.channel.on("map-server::get-state", handleGetState);
+    } catch (err) {
+      Bugsnag.notify(err, event => {
+        event.severity = "error";
+        event.context = "map-server";
+      });
+
+      log(`error initializing map-server: ${err.toString()}`);
+
+      handleReportErrorState = function handleError() {
+        // If MapServer fails to initialize, we always report the state as
+        // the error, and ignore all the other IPC messages
+        onState({
+          value: "error",
+          error: err,
+        });
+      };
+
+      rnBridge.channel.on("map-server::get-state", handleReportErrorState);
+    }
+
+    function createGetStateHandler(mapServer) {
+      return function handleGetState() {
+        // Don't particularly like this way of doing things, eventually we will
+        // set up and RPC for calling these methods directly
+        const state = mapServer.getState();
+        onState(state);
+      };
+    }
+
+    function onState(state) {
+      // Serialize error object so it can be transferred over ipc
+      const serializedErrorState = {
+        ...state,
+        error: serializeError(state.error),
+      };
+      rnBridge.channel.post("map-server::state", serializedErrorState);
+    }
+
+    function handleError(err) {
+      onError("map-server", err);
+      const serializedError = serializeError(err);
+      rnBridge.channel.post("map-server::error", serializedError);
+    }
+
+    return {
+      start: () => {
+        log("Starting map server");
+
+        // TODO: Handle this better
+        if (!mapServer) {
+          log("Map server instance does not exist");
+          return;
+        }
+
+        handleGetState = createGetStateHandler(mapServer);
+        rnBridge.channel.on("map-server::get-state", handleGetState);
+
+        mapServer
+          .start()
+          .then(() => {
+            // Tell the client which port the server is running on
+            rnBridge.channel.post("map-server::start", {
+              port: mapServer.port,
+            });
+          })
+          .catch(err => onError("map-server-start", err));
+      },
+      stop: () => {
+        log("Stopping map server");
+
+        if (handleGetState) {
+          rnBridge.channel.removeListener(
+            "map-server::get-state",
+            handleGetState
+          );
+        }
+
+        if (handleReportErrorState) {
+          rnBridge.channel.removeListener(
+            "map-server::get-state",
+            handleReportErrorState
+          );
+        }
+
+        // TODO: Handle this better
+        if (!mapServer) {
+          log("Map server instance does not exist");
+          return;
+        }
+
+        mapServer.stop().catch(err => onError("map-server-stop", err));
+      },
+    };
   }
 
   function createUpgradeManager() {
@@ -198,9 +341,9 @@ function createServer({
         onState(state);
       });
     } catch (err) {
-      main.bugsnag.notify(err, {
-        severity: "error",
-        context: "p2p-upgrade",
+      Bugsnag.notify(err, event => {
+        event.severity = "error";
+        event.context = "p2p-upgrade";
       });
       log(`error initializing p2p-upgrade: ${err.toString()}`);
 
@@ -363,9 +506,9 @@ function createServer({
       log("Joining swarm", projectKey && projectKey.slice(0, 4));
       mapeoCore.sync.join(projectKey);
     } catch (e) {
-      main.bugsnag.notify(e, {
-        severity: "error",
-        context: "sync join",
+      Bugsnag.notify(e, event => {
+        event.severity = "error";
+        event.context = "sync join";
       });
     }
   }
@@ -375,9 +518,9 @@ function createServer({
       log("Leaving swarm", projectKey && projectKey.slice(0, 4));
       mapeoCore.sync.leave(projectKey);
     } catch (e) {
-      main.bugsnag.notify(e, {
-        severity: "error",
-        context: "sync leave",
+      Bugsnag.notify(e, event => {
+        event.severity = "error";
+        event.context = "sync leave";
       });
     }
   }
@@ -392,6 +535,8 @@ function createServer({
     onReplicationComplete(() => {
       mapeoCore.sync.destroy(() => origClose.call(server, cb));
     });
+
+    mapServer.stop();
   };
 
   function onReplicationComplete(cb) {
@@ -436,9 +581,9 @@ function createServer({
 
     const indexDb = level(indexDir);
     indexDb.on("error", err => {
-      main.bugsnag.notify(err, {
-        severity: "error",
-        context: "core",
+      Bugsnag.notify(err, event => {
+        event.severity = "error";
+        event.context = "core";
       });
     });
 
@@ -455,7 +600,7 @@ function createServer({
     });
 
     osm.on("error", err => {
-      main.bugsnag.notify(err, event => {
+      Bugsnag.notify(err, event => {
         event.severity = "error";
         event.context = "core";
       });

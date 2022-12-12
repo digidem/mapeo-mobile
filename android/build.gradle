@@ -1,22 +1,88 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+// Load the .env file in the repo and set project environment variables if found
+def loadDotEnv() {
+    def envFile = ".env"
+
+    def env = [:]
+    println("Reading env from: $envFile")
+
+    File f = new File("$project.rootDir/../$envFile");
+    if (!f.exists()) {
+        f = new File("$envFile");
+    }
+
+    if (f.exists()) {
+        f.eachLine { line ->
+            def matcher = (line =~ /^\s*(?:export\s+|)([\w\d\.\-_]+)\s*=\s*['"]?(.*?)?['"]?\s*$/)
+            if (matcher.getCount() == 1 && matcher[0].size() == 3) {
+                env.put(matcher[0][1], matcher[0][2].replace('"', '\\"'))
+            }
+        }
+    } else {
+        println("**************************")
+        println("*** Missing .env file ****")
+        println("**************************")
+    }
+
+    project.ext.set("env", env)
+}
+
+def getenv(key) {
+    return System.getenv(key) ?: project.env.get(key)
+}
+
+loadDotEnv()
+
 buildscript {
     ext {
-        buildToolsVersion = "30.0.2"
+        // TODO: Ideally this would be 31 but that requires upgrading Gradle to v7+ and would require – at a minimum – the following changes:
+        // 
+        // - upgrading com.android.tools.build:gradle and gradle wrapper to v7+
+        // - upgrading com.bugsnag:bugsnag-android-gradle-plugin to v7
+        // - upgrading various (maybe all?) Expo modules (https://github.com/expo/expo/issues/12774)
+        // 
+        // As detailed in https://github.com/invertase/notifee/pull/217, this version works with v4.2 and v7+ of com.android.tools.build:gradle
+        buildToolsVersion = "30.0.3"
         // Android 5.0 - requirement for expo unimodules
         minSdkVersion = 21
-        compileSdkVersion = 30
-        targetSdkVersion = 30
-        supportLibVersion = "30.0.0"
+        compileSdkVersion = 31
+        targetSdkVersion = 31
+        supportLibVersion = "31.0.0"
         // Kotlin is needed by Detox testing framework and react-native-screens
         kotlinVersion = "1.6.10"
         ndkVersion = "21.4.7075529"
+
+        // All of this (i.e. rnmbglMapboxLibs and rnmbglMapboxPlugins) is needed because of an 
+        // issue with the telemetry module on Android 12 that the default android sdk depends on:
+        // 
+        // https://github.com/rnmapbox/maps/issues/1677
+        // 
+        // Upgrading just the telemetry module based on the provided instructions did not work and
+        // instead I opted to copy the example listed in instructions:
+        // 
+        // https://github.com/rnmapbox/maps/blob/8.5.0/android/install.md#mapbox-maps-sdk-pre-v10
+        // 
+        // The main change that fixes the issue is upgrading the Android SDK to 9.7.2,
+        // which internally uses a version of the telemetry module that works on Android 12:
+        // 
+        // https://github.com/mapbox/mapbox-gl-native-android/releases/tag/android-v9.6.2
+        rnmbglMapboxLibs = {
+            implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.2'
+            implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:5.8.0'
+            implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:5.8.0'
+            implementation 'com.mapbox.mapboxsdk:mapbox-android-gestures:0.7.0'
+        }
+
+        rnmbglMapboxPlugins = {
+            implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v9:0.8.0'
+            implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-localization-v9:0.14.0'
+            implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-markerview-v9:0.4.0'
+        }
     }
     repositories {
         google()
         mavenCentral()
-        // Needed for Mapbox deps, see https://github.com/react-native-mapbox-gl/maps/issues/1572
-        jcenter()
         maven { url("$rootDir/../node_modules/react-native/android") }
         maven { url("https://www.jitpack.io") }
         maven { url("https://maven.google.com") }
@@ -37,15 +103,28 @@ buildscript {
 
 allprojects {
     repositories {
+        // Basically removes references to jcenter in deps,
+        // which is needed due to jcenter officially shutting down
+        // https://github.com/facebook/react-native/issues/35136
+        all { ArtifactRepository repo ->
+            if (repo instanceof MavenArtifactRepository) {
+                def url = repo.url.toString()
+                if (url.startsWith('https://jcenter.bintray.com/')) {
+                    project.logger.lifecycle "Repository ${repo.url} dropped"
+                    remove repo
+                    // We may want to call mavenCentral() here based on the issue but not sure it's necessary
+                }
+            }
+        }
         mavenLocal()
         maven { url("https://maven.google.com") }
         maven {
-            // Replace AAR from original RN with AAR from react-native-v8
-            url("$rootDir/../node_modules/react-native-v8/dist")
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url("$rootDir/../node_modules/react-native/android")
         }
         maven {
-            // prebuilt libv8.so
-            url("$rootDir/../node_modules/v8-android/dist")
+            // Android JSC is installed from npm
+            url("$rootDir/../node_modules/jsc-android/dist")
         }
         maven {
             // expo-camera bundles a custom com.google.android:cameraview
@@ -53,8 +132,24 @@ allprojects {
         }
         google()
         mavenCentral()
-        // Needed for Mapbox deps, see https://github.com/react-native-mapbox-gl/maps/issues/1572
-        jcenter()
+        // Needed for installing @react-native-mapbox-gl/maps, which relies on the v9 Maps SDK
+        // Context: https://github.com/react-native-mapbox-gl/maps/issues/1572
+        // Instructions for installation:
+        // - https://github.com/rnmapbox/maps/blob/38c4cc6cc50583ebbc488d5142e11f0132c9db2e/android/install.md#mapbox-maps-sdk-pre-v10
+        // - https://docs.mapbox.com/android/maps/guides/install/#configure-credentials
+        maven {
+            url 'https://api.mapbox.com/downloads/v2/releases/maven'
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                // Do not change the username below.
+                // This should always be `mapbox` (not your username).
+                username = "mapbox"
+                // Use the secret token stored in the env variable
+                password = getenv("MAPBOX_DOWNLOAD_TOKEN") ?: ""
+            }
+        }
         maven { url 'https://www.jitpack.io' }
         maven {
             // All of Detox' artifacts are provided via the npm module

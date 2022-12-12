@@ -2,12 +2,11 @@ import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import SettingsContext from "../../../context/SettingsContext";
 import { LIGHT_GREY } from "../../../lib/styles";
-import HeaderTitle from "../../../sharedComponents/HeaderTitle";
+import { useExperiments } from "../../../hooks/useExperiments";
+import { NativeNavigationComponent } from "../../../sharedTypes";
 
 const m = defineMessages({
   title: {
@@ -30,8 +29,8 @@ const m = defineMessages({
   },
 });
 
-export const P2pUpgrade: NavigationStackScreenComponent = () => {
-  const [{ experiments }, setSettings] = React.useContext(SettingsContext);
+export const P2pUpgrade: NativeNavigationComponent<"P2pUpgrade"> = () => {
+  const [experiments, setExperiments] = useExperiments();
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={[styles.header]}>
@@ -46,16 +45,13 @@ export const P2pUpgrade: NavigationStackScreenComponent = () => {
       </Text>
 
       <View style={[styles.switchContainer]}>
-        <Text>
+        <Text style={[styles.text]}>
           <FormattedMessage {...m.useP2p} />
         </Text>
 
         <View
-          onTouchEnd={() => {
-            setSettings("experiments", {
-              ...experiments,
-              p2pUpgrade: !experiments.p2pUpgrade,
-            });
+          onTouchStart={() => {
+            setExperiments("p2pUpgrade", !experiments.p2pUpgrade);
           }}
         >
           <MaterialIcon
@@ -71,13 +67,7 @@ export const P2pUpgrade: NavigationStackScreenComponent = () => {
   );
 };
 
-P2pUpgrade.navigationOptions = {
-  headerTitle: () => (
-    <HeaderTitle>
-      <FormattedMessage {...m.title} />
-    </HeaderTitle>
-  ),
-};
+P2pUpgrade.navTitle = m.title;
 
 const styles = StyleSheet.create({
   container: {
