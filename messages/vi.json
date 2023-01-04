@@ -150,6 +150,36 @@
   "screens.AppPasscode.ConfirmPasscodeSheet.title": {
     "message": "Mật khẩu ứng dụng không thể được phục hồi nếu bị mất hoặc bị quên! Hãy nhớ ghi lại mật khẩu của bạn ở một nơi an toàn trước khi lưu để dùng."
   },
+  "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter": {
+    "message": "Vui lòng nhập mật khẩu"
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
+    "message": "Nhập mật khẩu"
+  },
+  "screens.AppPasscode.InputPasscodeScreen.cancel": {
+    "message": "Hủy"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
+    "message": "Nhập lại mật khẩu"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
+    "message": "Thiết lập mật khauar ứng dụng"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
+    "message": "Tiếp theo"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError": {
+    "message": "Mật khẩu phải có 5 số"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError": {
+    "message": "Không thể sử dụng làm mật khẩu"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
+    "message": "Mật khẩu không khớp"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "Mật khẩu không đúng"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Tiếp tục"
   },
@@ -296,6 +326,30 @@
   },
   "screens.LeaveProject.LeaveProject": {
     "message": "Rời dự án"
+  },
+  "screens.LeaveProject.LeaveProject.agreeToDelete": {
+    "message": "Tôi hiểu rằng tôi sẽ xóa toàn bộ dữ liệu khỏi thiết bị của mình."
+  },
+  "screens.LeaveProject.LeaveProject.cancel": {
+    "message": "Hủy"
+  },
+  "screens.LeaveProject.LeaveProject.confirmDelete": {
+    "message": "Vui lòng đánh dấu vào ô để xác nhận"
+  },
+  "screens.LeaveProject.LeaveProject.headerTitle": {
+    "message": "Rời khỏi dự án"
+  },
+  "screens.LeaveProject.LeaveProject.leaveButton": {
+    "message": "Rời khỏi dự án"
+  },
+  "screens.LeaveProject.LeaveProject.leaveProjectTitle": {
+    "message": "Rời khỏi dự án {projectName}?"
+  },
+  "screens.LeaveProject.LeaveProject.syncWarning": {
+    "message": "Đồng bộ với thành viên khác, bạn sẽ không bị mất tất cả các quan sát của mình."
+  },
+  "screens.LeaveProject.LeaveProject.willDelete": {
+    "message": "{numOfObservations} quan sát và {numOfPics} ảnh sẽ bị xóa"
   },
   "screens.LeaveProject.LeaveProjectCompleted.goHome": {
     "message": "Về Màn hình chính"
