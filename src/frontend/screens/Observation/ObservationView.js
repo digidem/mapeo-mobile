@@ -93,7 +93,7 @@ const InsetMapView = React.memo<MapProps>(({ lon, lat }: MapProps) => {
         zoomLevel={selectedMap.isOfflineFallback ? 5 : 12}
         animationMode="moveTo"
       />
-      {selectedMap.isOfflineFallback ? <OfflineMapLayers /> : null}{" "}
+      {selectedMap.isOfflineFallback ? <OfflineMapLayers /> : null}
     </MapboxGL.MapView>
   );
 });
