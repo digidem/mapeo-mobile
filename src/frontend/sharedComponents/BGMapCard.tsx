@@ -1,14 +1,13 @@
 import * as React from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { StyleSheet, View, Text } from "react-native";
-import MapboxGL from "@react-native-mapbox-gl/maps";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
+import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
 import { LIGHT_GREY, MEDIUM_GREY } from "../lib/styles";
 import { ViewStyleProp } from "../sharedTypes";
 import { Pill } from "./Pill";
-import LocationContext from "../context/LocationContext";
-import { useNavigationFromRoot } from "../hooks/useNavigationWithTypes";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import MapThumbnail from "./MapThumbnail";
 
 const m = defineMessages({
   currentMap: {
@@ -48,7 +47,6 @@ export const BGMapCard = ({
   mapId,
 }: BGMapCardProps) => {
   const { formatMessage: t } = useIntl();
-  const { position } = React.useContext(LocationContext);
   const { navigate } = useNavigationFromRoot();
   return (
     <TouchableOpacity
@@ -66,26 +64,7 @@ export const BGMapCard = ({
       }
     >
       <View style={[styles.container]}>
-        <MapboxGL.MapView
-          styleURL={styleUrl}
-          compassEnabled={false}
-          zoomEnabled={false}
-          logoEnabled={false}
-          scrollEnabled={false}
-          style={[styles.map]}
-        >
-          <MapboxGL.Camera
-            zoomLevel={0}
-            centerCoordinate={
-              position
-                ? [position?.coords.longitude, position?.coords.latitude]
-                : [0, 0]
-            }
-            animationDuration={0}
-            animationMode={"linearTo"}
-            allowUpdates={true}
-          />
-        </MapboxGL.MapView>
+        <MapThumbnail styleUrl={styleUrl} style={styles.map} />
         <View style={[styles.textContainer]}>
           <Text style={[styles.text, { fontWeight: "bold" }]}>
             {mapTitle || t(m.unnamedStyle)}

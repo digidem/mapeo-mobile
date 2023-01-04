@@ -9,7 +9,7 @@ import Button from "../../../sharedComponents/Button";
 import Loading from "../../../sharedComponents/Loading";
 import { NativeRootNavigationProps } from "../../../sharedTypes";
 import { DeleteMapBottomSheet } from "./DeleteMapBottomSheet";
-import { useMapStyle } from "../../../hooks/useMapStyle";
+import { useMapStyles } from "../../../hooks/useMapStyles";
 import { convertBytesToMb, DEFAULT_MAP_ID } from "./BackgroundMaps";
 import { DeleteIcon } from "../../../sharedComponents/icons";
 import { useBottomSheetModal } from "../../../sharedComponents/BottomSheetModal";
@@ -142,10 +142,10 @@ export const BackgroundMapInfo = ({
     openOnMount: false,
   });
 
-  const { setStyleId } = useMapStyle();
+  const { setSelectedStyleId } = useMapStyles();
 
   function setStyleAndNavigateHome() {
-    setStyleId(id);
+    setSelectedStyleId(id);
     navigation.navigate("Home", { screen: "Map" });
   }
 

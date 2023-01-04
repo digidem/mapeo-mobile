@@ -7,8 +7,7 @@ import { RED, WHITE } from "../../../lib/styles";
 import { DeleteIcon, ErrorIcon } from "../../../sharedComponents/icons";
 import api from "../../../api";
 import { useNavigationFromRoot } from "../../../hooks/useNavigationWithTypes";
-import { useMapStyle } from "../../../hooks/useMapStyle";
-import { DEFAULT_MAP_ID } from "./BackgroundMaps";
+import { DEFAULT_MAP_ID, useMapStyles } from "../../../hooks/useMapStyles";
 import {
   BottomSheetModal,
   BottomSheetContent,
@@ -46,7 +45,7 @@ export const DeleteMapBottomSheet = React.forwardRef<
 >(({ mapName, closeSheet, mapId }, sheetRef) => {
   const { navigate } = useNavigationFromRoot();
   const { formatMessage: t } = useIntl();
-  const { styleId, setStyleId } = useMapStyle();
+  const { selectedStyleId, setSelectedStyleId } = useMapStyles();
 
   function deleteMap() {
     // Cannot delete Default Map
@@ -58,8 +57,8 @@ export const DeleteMapBottomSheet = React.forwardRef<
       .deleteStyle(mapId)
       .then(() => {
         // If user is deleting the map that is currently being used, we want to set the map to be the default map
-        if (styleId === mapId) {
-          setStyleId(DEFAULT_MAP_ID);
+        if (selectedStyleId === mapId) {
+          setSelectedStyleId(DEFAULT_MAP_ID);
         }
         navigate("BackgroundMaps");
       })

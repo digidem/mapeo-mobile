@@ -11,11 +11,9 @@ import { LocationFollowingIcon, LocationNoFollowIcon } from "../icons";
 import IconButton from "../IconButton";
 import type { LocationContextType } from "../../context/LocationContext";
 import type { ObservationsMap } from "../../context/ObservationsContext";
-import { MapTypes, fallbackStyleURL } from "../../context/MapStyleContext";
 import { useIsFullyFocused } from "../../hooks/useIsFullyFocused";
 import bugsnag from "../../lib/logger";
 import config from "../../../config.json";
-import Loading from "../Loading";
 import { OfflineMapLayers } from "../OfflineMapLayers";
 import { UserLocation } from "./UserLocation";
 
@@ -150,8 +148,8 @@ const ObservationMapLayer = ({
 
 type Props = {
   observations: ObservationsMap,
-  styleURL: string | void,
-  styleType: MapTypes,
+  styleURL: string,
+  isOfflineFallback: boolean,
   location: LocationContextType,
   onPressObservation: (observationId: string) => any,
   isFocused: boolean,
@@ -291,7 +289,7 @@ class MapView extends React.Component<Props, State> {
   };
 
   handleLocationPress = () => {
-    const { location, styleURL } = this.props;
+    const { location, isOfflineFallback } = this.props;
     if (!(location.provider && location.provider.locationServicesEnabled))
       // TODO: Show alert for the user here so they know why it does not work
       return;
@@ -304,10 +302,10 @@ class MapView extends React.Component<Props, State> {
     // button.
     const currentZoom = this.zoomRef;
     this.setState(state => {
-      const newZoom = (this.zoomRef =
-        styleURL === fallbackStyleURL
-          ? Math.max(currentZoom, DEFAULT_ZOOM_FALLBACK_MAP)
-          : Math.max(currentZoom, DEFAULT_ZOOM));
+      const newZoom = (this.zoomRef = isOfflineFallback
+        ? Math.max(currentZoom, DEFAULT_ZOOM_FALLBACK_MAP)
+        : Math.max(currentZoom, DEFAULT_ZOOM));
+
       return {
         following: !state.following,
         zoom: newZoom,
@@ -319,7 +317,7 @@ class MapView extends React.Component<Props, State> {
     const {
       observations,
       styleURL,
-      styleType,
+      isOfflineFallback,
       isFocused,
       location,
     } = this.props;
@@ -329,77 +327,73 @@ class MapView extends React.Component<Props, State> {
 
     return (
       <>
-        {styleType === "loading" && styleURL === null ? (
-          <Loading />
-        ) : (
-          <MapboxGL.MapView
-            testID="mapboxMapView"
-            style={{ flex: 1 }}
-            ref={this.handleMapViewRef}
-            maxZoomLevel={22}
-            logoEnabled={false}
-            pitchEnabled={false}
-            rotateEnabled={false}
-            surfaceView={true}
-            attributionPosition={{ right: 8, bottom: 8 }}
-            onDidFailLoadingMap={e =>
-              bugsnag.notify(new Error("Failed to load map"), report => {
-                report.severity = "error";
-                report.context = "onDidFailLoadingMap";
-              })
+        <MapboxGL.MapView
+          testID="mapboxMapView"
+          style={{ flex: 1 }}
+          ref={this.handleMapViewRef}
+          maxZoomLevel={22}
+          logoEnabled={false}
+          pitchEnabled={false}
+          rotateEnabled={false}
+          surfaceView={true}
+          attributionPosition={{ right: 8, bottom: 8 }}
+          onDidFailLoadingMap={e =>
+            bugsnag.notify(new Error("Failed to load map"), report => {
+              report.severity = "error";
+              report.context = "onDidFailLoadingMap";
+            })
+          }
+          onDidFinishLoadingStyle={this.handleDidFinishLoadingStyle}
+          onDidFinishRenderingMap={() =>
+            bugsnag.leaveBreadcrumb("onDidFinishRenderingMap")
+          }
+          onDidFinishRenderingMapFully={() => {
+            if (!isOfflineFallback) {
+              // For the fallback offline map (that does not contain much
+              // detail) we stay at zoom 4, but if we do load a style then we
+              // zoom in to DEFAULT_ZOOM (zoom 12) once the map loads
+              this.zoomRef = DEFAULT_ZOOM;
+              this.setState({ zoom: DEFAULT_ZOOM });
             }
-            onDidFinishLoadingStyle={this.handleDidFinishLoadingStyle}
-            onDidFinishRenderingMap={() =>
-              bugsnag.leaveBreadcrumb("onDidFinishRenderingMap")
-            }
-            onDidFinishRenderingMapFully={() => {
-              if (styleURL !== fallbackStyleURL) {
-                // For the fallback offline map (that does not contain much
-                // detail) we stay at zoom 4, but if we do load a style then we
-                // zoom in to zoom 12 once the map loads
-                this.zoomRef = DEFAULT_ZOOM;
-                this.setState({ zoom: DEFAULT_ZOOM });
-              }
-              bugsnag.leaveBreadcrumb("onDidFinishRenderingMapFully");
+            bugsnag.leaveBreadcrumb("onDidFinishRenderingMapFully");
+          }}
+          onWillStartLoadingMap={() =>
+            bugsnag.leaveBreadcrumb("onWillStartLoadingMap")
+          }
+          onDidFinishLoadingMap={() =>
+            bugsnag.leaveBreadcrumb("onDidFinishLoadingMap")
+          }
+          compassEnabled={false}
+          styleURL={styleURL}
+          onRegionWillChange={this.handleRegionWillChange}
+          onRegionIsChanging={this.handleRegionIsChanging}
+          onRegionDidChange={this.handleRegionDidChange}
+        >
+          <MapboxGL.Camera
+            defaultSettings={{
+              centerCoordinate: this.coordsRef || coords || [0, 0],
+              zoomLevel: this.zoomRef || zoom || DEFAULT_ZOOM,
             }}
-            onWillStartLoadingMap={() =>
-              bugsnag.leaveBreadcrumb("onWillStartLoadingMap")
-            }
-            onDidFinishLoadingMap={() =>
-              bugsnag.leaveBreadcrumb("onDidFinishLoadingMap")
-            }
-            compassEnabled={false}
-            styleURL={styleURL}
-            onRegionWillChange={this.handleRegionWillChange}
-            onRegionIsChanging={this.handleRegionIsChanging}
-            onRegionDidChange={this.handleRegionDidChange}
-          >
-            <MapboxGL.Camera
-              defaultSettings={{
-                centerCoordinate: this.coordsRef || coords || [0, 0],
-                zoomLevel: this.zoomRef || zoom || DEFAULT_ZOOM,
-              }}
-              centerCoordinate={following ? getCoords(location) : undefined}
-              zoomLevel={!following ? undefined : this.zoomRef || zoom}
-              animationDuration={1000}
-              animationMode="flyTo"
-              followUserLocation={false}
+            centerCoordinate={following ? getCoords(location) : undefined}
+            zoomLevel={!following ? undefined : this.zoomRef || zoom}
+            animationDuration={1000}
+            animationMode="flyTo"
+            followUserLocation={false}
+          />
+          {this.state.hasFinishedLoadingStyle && (
+            <ObservationMapLayer
+              onPress={this.handleObservationPress}
+              observations={observations}
             />
-            {this.state.hasFinishedLoadingStyle && (
-              <ObservationMapLayer
-                onPress={this.handleObservationPress}
-                observations={observations}
-              />
-            )}
-            {styleURL === fallbackStyleURL ? <OfflineMapLayers /> : null}
-            {locationServicesEnabled ? (
-              <UserLocation
-                visible={isFocused}
-                minDisplacement={MIN_DISPLACEMENT}
-              />
-            ) : null}
-          </MapboxGL.MapView>
-        )}
+          )}
+          {isOfflineFallback ? <OfflineMapLayers /> : null}
+          {locationServicesEnabled ? (
+            <UserLocation
+              visible={isFocused}
+              minDisplacement={MIN_DISPLACEMENT}
+            />
+          ) : null}
+        </MapboxGL.MapView>
         <ScaleBar
           zoom={zoom || 10}
           latitude={coords ? coords[1] : undefined}
