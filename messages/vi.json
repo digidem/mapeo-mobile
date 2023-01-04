@@ -180,17 +180,41 @@
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
     "message": "Mật khẩu không đúng"
   },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
+    "message": "Mật khẩu này sẽ được yêu cầu để mở ứng dụng Mapeo"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Tiếp tục"
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "Mật khẩu Ứng dụng là gì?"
   },
+  "screens.AppPasscode.PasscodeIntro.description": {
+    "message": "Mật khẩu ứng dụng cho phép bạn thêm một lớp bảo mật bổ sung bằng cách yêu cầu bạn nhập mật khẩu để mở ứng dụng Mapeo. Bạn có thể xác định mật khẩu gồm 5 chữ số của riêng mình bằng cách bật tính năng bên dưới."
+  },
+  "screens.AppPasscode.PasscodeIntro.warning": {
+    "message": "**Xin lưu ý rằng mật khẩu đã quên không thể khôi phục được!** Khi tính năng này được bật, nếu bạn quên hoặc mất mật khẩu, bạn sẽ không thể mở Mapeo và sẽ mất quyền truy cập vào mọi dữ liệu Mapeo chưa được đồng bộ hóa với những người tham gia dự án khác."
+  },
+  "screens.AppPasscode.TurnOffPasscode.cancel": {
+    "message": "Hủy"
+  },
+  "screens.AppPasscode.TurnOffPasscode.changePasscode": {
+    "message": "Đổi mật khẩu ứng dụng"
+  },
   "screens.AppPasscode.TurnOffPasscode.currentlyUsing": {
     "message": "Bạn đang sử dụng Mật khẩu ứng dụng. Xem bên dưới để ngừng sử dụng hoặc thay đổi mật khẩu của bạn."
   },
   "screens.AppPasscode.TurnOffPasscode.description": {
     "message": "Mật khẩu ứng dụng bổ sung thêm một lớp bảo mật bằng cách yêu cầu bạn nhập mật khẩu để mở ứng dụng Mapeo."
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOff": {
+    "message": "Tắt"
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOffConfirmation": {
+    "message": "Tắt mật khẩu ứng dụng?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.usePasscode": {
+    "message": "Sử dụng mật khẩu ứng dụng"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -265,6 +289,12 @@
   "screens.CreateProject.projectNamePlaceholder": {
     "description": "Placeholder text for project name input field",
     "message": "Tên dự án"
+  },
+  "screens.EnterPassword.enterPass": {
+    "message": "Nhập mật khẩu"
+  },
+  "screens.EnterPassword.wrongPass": {
+    "message": "Mật khẩu không đúng, vui lòng thử lại"
   },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
