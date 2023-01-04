@@ -64,25 +64,21 @@ export function useMapStyles() {
     }, [backgroundMaps])
   );
 
-  const defaultStyle = React.useMemo(() => {
-    return {
-      id: DEFAULT_MAP_ID,
-      url: onlineStyleURL,
-      bytesStored: 0,
-      name: t(m.defaultBackgroundMapName),
-      isImporting: false,
-    };
-  }, [t]);
+  const defaultStyle = {
+    id: DEFAULT_MAP_ID,
+    url: onlineStyleURL,
+    bytesStored: 0,
+    name: t(m.defaultBackgroundMapName),
+    isImporting: false,
+  };
 
-  const customStyle = React.useMemo(() => {
-    return {
-      id: CUSTOM_MAP_ID,
-      url: api.getMapStyleUrl("default"),
-      bytesStored: 0,
-      name: t(m.offlineBackgroundMapName),
-      isImporting: false,
-    };
-  }, [t]);
+  const customStyle = {
+    id: CUSTOM_MAP_ID,
+    url: api.getMapStyleUrl("default"),
+    bytesStored: 0,
+    name: t(m.offlineBackgroundMapName),
+    isImporting: false,
+  };
 
   const mergedStatus: Status =
     customStyleAvailability === "unknown" || status === "loading"
