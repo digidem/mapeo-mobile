@@ -2,7 +2,8 @@ import * as React from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { FlatList, StyleSheet, View } from "react-native";
 
-import MapImportBottomSheet, {
+import {
+  MapImportBottomSheet,
   MapImportBottomSheetMethods,
 } from "./MapImportBottomSheet";
 import { BGMapCard } from "./BGMapCard";

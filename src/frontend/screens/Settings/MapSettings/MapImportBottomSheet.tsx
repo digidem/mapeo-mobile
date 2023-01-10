@@ -254,7 +254,7 @@ const MapImportBottomSheet = React.forwardRef<MapImportBottomSheetMethods, {}>(
   }
 );
 
-export default MapImportBottomSheet;
+export { MapImportBottomSheet };
 
 function useSnapPointsCalculator() {
   const [sheetHeight, setSheetHeight] = React.useState(0);
