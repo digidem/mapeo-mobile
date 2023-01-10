@@ -107,10 +107,7 @@ export const BGMapCard = ({
                 color={MAPEO_BLUE}
                 width={null}
                 progress={
-                  importInfo.status === "idle"
-                    ? undefined
-                    : // @ts-ignore - will come back to this!
-                      importInfo.progress
+                  importInfo.status === "idle" ? undefined : importInfo.progress
                 }
               />
             )}

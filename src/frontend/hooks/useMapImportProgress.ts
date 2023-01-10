@@ -37,8 +37,10 @@ type MessageError = {
 type ImportProgressMessage = MessageProgress | MessageComplete | MessageError;
 
 export type MapImportState =
-  | { status: "idle" | "error" }
-  | { status: "progress" | "complete"; progress: number }
+  | { status: "idle" }
+  | { status: "error" }
+  | { status: "progress"; progress: number }
+  | { status: "complete"; progress: number }
   | undefined;
 
 class RetriableError extends Error {}
