@@ -62,9 +62,7 @@ export const SettingsProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const contextValue: SettingsContextType = React.useMemo(() => {
     // If we add any new properties to the settings state, they will be
     // undefined in a users' persisted state, so we merge in the defaults
-    const mergedState = merge({}, DEFAULT_SETTINGS, state, {
-      experiments: { backgroundMaps: false },
-    });
+    const mergedState = merge({}, DEFAULT_SETTINGS, state);
     return [mergedState, setSettings];
   }, [state, setSettings]);
 
