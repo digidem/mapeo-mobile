@@ -981,6 +981,10 @@
   "screens.Settings.MapSettings.mapSettings": {
     "message": "Map Settings"
   },
+  "screens.Settings.MapSettings.processingFile": {
+    "description": "Description for when a file is being processed for import",
+    "message": "Processing file..."
+  },
   "screens.Settings.MapSettings.subtitle": {
     "message": "Add, remove, and view map details"
   },

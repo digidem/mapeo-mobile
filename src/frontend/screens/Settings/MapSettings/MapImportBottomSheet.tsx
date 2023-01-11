@@ -67,6 +67,11 @@ const m = defineMessages({
     defaultMessage: "Default Map",
     description: "Name of default map",
   },
+  processingFile: {
+    id: "screens.Settings.MapSettings.processingFile",
+    defaultMessage: "Processing file...",
+    description: "Description for when a file is being processed for import",
+  },
 });
 
 /**
@@ -110,7 +115,9 @@ const SelectImportContent = ({
  * import id). User is unable to close this sheet.
  */
 const ImportingContent = () => {
-  return <BottomSheetContent title="Processing file..." buttonConfigs={[]} />;
+  const { formatMessage: t } = useIntl();
+
+  return <BottomSheetContent title={t(m.processingFile)} buttonConfigs={[]} />;
 };
 
 /**
