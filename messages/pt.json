@@ -921,9 +921,9 @@
     "description": "Title for the delete map modal",
     "message": "Excluir mapa"
   },
-  "screens.Settings.MapSettings.importError": {
-    "description": "Error importing map warning",
-    "message": "Erro ao importar o mapa, por favor tente um arquivo diferente."
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "Erro ao importar"
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Importar de arquivo"
