@@ -31,6 +31,14 @@
     "description": "Title of dialog shown to the user when Mapeo is updated",
     "message": "Mapeo actualizado ✅"
   },
+  "hooks.useMapStyles.defaultMapName": {
+    "description": "The name of the default background map",
+    "message": "Predeterminado"
+  },
+  "hooks.useMapStyles.offlineMapName": {
+    "description": "The name of the legacy offline background map",
+    "message": "Mapa sin conexión"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Número de compilación de Android"
@@ -354,8 +362,23 @@
   "screens.LeaveProject.LeaveProject": {
     "message": "Abandonar proyecto"
   },
+  "screens.LeaveProject.LeaveProject.agreeToDelete": {
+    "message": "Entiendo que borraré todos los datos de mi dispositivo."
+  },
   "screens.LeaveProject.LeaveProject.cancel": {
     "message": "Cancelar"
+  },
+  "screens.LeaveProject.LeaveProject.confirmDelete": {
+    "message": "Por favor, marque la casilla para continuar"
+  },
+  "screens.LeaveProject.LeaveProject.headerTitle": {
+    "message": "Abandonar proyecto"
+  },
+  "screens.LeaveProject.LeaveProject.leaveButton": {
+    "message": "Abandonar proyecto"
+  },
+  "screens.LeaveProject.LeaveProject.syncWarning": {
+    "message": "Sincroniza con alguien del equipo para que no pierdas todas tus observaciones."
   },
   "screens.LeaveProject.LeaveProjectCompleted.goHome": {
     "message": "Ir a la página principal"
@@ -849,11 +872,60 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Tú) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMapInfo.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.deleteMap": {
+    "message": "Eliminar mapa"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.description": {
+    "message": "Nivel de detalle"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.maxZoom": {
+    "description": "Shows the user the max zoom for an offline map",
+    "message": "Zoom máximo"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.mb": {
+    "description": "abbreviation for megabyte",
+    "message": "MB"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.minZoom": {
+    "description": "Shows the user the min zoom for an offline map",
+    "message": "Zoom mínimo"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.subtitle": {
+    "message": "Este mapa y las áreas fuera de línea adjuntas a él serán eliminadas permanentemente. Esta acción no se puede deshacer"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.useMap": {
+    "message": "Usar mapa"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.zoomRange": {
+    "description": "Shows the user the range of zoom available for an offline map",
+    "message": "Rango del Zoom"
+  },
   "screens.Settings.MapSettings.BackgroundMapTitle": {
     "message": "Mapas de fondo"
   },
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Añadir mapa de fondo"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMap": {
+    "message": "Eliminar mapa"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapMessage": {
+    "message": "¿Seguro que desea eliminar el mapa {mapName}?"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapWarning": {
+    "message": "Esta área ya no estará disponible sin conexión a internet. Esta acción no se puede deshacer."
+  },
+  "screens.Settings.MapSettings.addBGMap": {
+    "message": "Añadir mapa de fondo"
+  },
+  "screens.Settings.MapSettings.backgroundMapTitle": {
+    "message": "Mapas de fondo"
   },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Mapas de fondo"
@@ -865,9 +937,21 @@
     "description": "Confirm delete map modal button",
     "message": "Sí, eliminar"
   },
+  "screens.Settings.MapSettings.defaultMap": {
+    "description": "Name of default map",
+    "message": "Mapa por defecto"
+  },
   "screens.Settings.MapSettings.deleteMapTitle": {
     "description": "Title for the delete map modal",
     "message": "Eliminar mapa"
+  },
+  "screens.Settings.MapSettings.fileErrorDescription": {
+    "description": "Description for file error in bottom sheet content",
+    "message": "Error al importar el mapa, por favor inténtelo con un archivo diferente."
+  },
+  "screens.Settings.MapSettings.importErrorDescription": {
+    "description": "Description for import error in bottom sheet content",
+    "message": "No se puede importar {styleNames}. Re-importa el mapa {fileCount, plural, one {archivo} other {¡archivos}} para intentarlo de nuevo."
   },
   "screens.Settings.MapSettings.importErrorTitle": {
     "description": "Title for import error in bottom sheet content",
@@ -878,6 +962,10 @@
   },
   "screens.Settings.MapSettings.mapSettings": {
     "message": "Ajustes del mapa"
+  },
+  "screens.Settings.MapSettings.processingFile": {
+    "description": "Description for when a file is being processed for import",
+    "message": "Procesando archivo..."
   },
   "screens.Settings.MapSettings.subtitle": {
     "message": "Agregar, eliminar y ver detalles del mapa"
@@ -1240,9 +1328,21 @@
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Mapa actual"
   },
+  "sharedComponents.BGMapCard.errorOccurred": {
+    "description": "Message describing that error occurred for map import",
+    "message": "Se ha producido un error"
+  },
+  "sharedComponents.BGMapCard.importInProgress": {
+    "description": "Progress bar message about the import being in progress",
+    "message": "Importando…"
+  },
   "sharedComponents.BGMapCard.unamedStyle": {
     "description": "The name for the default map style",
     "message": "Estilo sin nombre"
+  },
+  "sharedComponents.BGMapCard.waitingForImport": {
+    "description": "Progress bar message indicating that import is waiting to start",
+    "message": "Esperando para importar…"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Cerrar"
