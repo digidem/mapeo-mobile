@@ -654,6 +654,10 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Anda) {deviceName}"
   },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "Kesalahan Impor"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Buat atau bergabung dengan proyek di bawah ini"
   },
