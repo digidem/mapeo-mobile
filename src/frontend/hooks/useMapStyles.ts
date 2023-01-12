@@ -7,14 +7,19 @@ import SettingsContext from "../context/SettingsContext";
 import { MapServerStyleInfo } from "../sharedTypes";
 import { useExperiments } from "./useExperiments";
 import { useMapAvailability, onlineStyleURL } from "./useMapAvailability";
+import { useMapImports } from "./useMapImports";
 
 // Randomly generated, but should not change, since this is stored in settings
 // if the user selects one of these "legacy" map styles
 export const DEFAULT_MAP_ID = "487x2pc8ws801avhs5hw58qnxc" as const;
 export const CUSTOM_MAP_ID = "vg4ft8yvzwfedzgz1dz7ntneb8" as const;
 
+interface StyleInfoWithImport extends MapServerStyleInfo {
+  isImporting: boolean;
+}
+
 type Status = "loading" | "error" | "success";
-type StylesAtLeastOne = [MapServerStyleInfo, ...MapServerStyleInfo[]];
+type StylesAtLeastOne = [StyleInfoWithImport, ...StyleInfoWithImport[]];
 
 const m = defineMessages({
   defaultBackgroundMapName: {
@@ -36,10 +41,11 @@ const m = defineMessages({
  */
 export function useMapStyles() {
   const { formatMessage: t } = useIntl();
+  const activeImports = useMapImports();
   const customStyleAvailability = useMapAvailability("custom");
   const [{ backgroundMaps }] = useExperiments();
   const [settings, setSettings] = React.useContext(SettingsContext);
-  const [stylesList, setStylesList] = React.useState<MapServerStyleInfo[]>([]);
+  const [stylesList, setStylesList] = React.useState<StyleInfoWithImport[]>([]);
   // There is nothing to load if background maps experiment is not enabled
   const [status, setStatus] = React.useState<Status>(
     backgroundMaps ? "loading" : "success"
@@ -53,7 +59,11 @@ export function useMapStyles() {
         .getStyleList()
         .then(styles => {
           if (didCancel) return;
-          setStylesList(styles);
+          const stylesWithImportState = styles.map(s => {
+            // Append importing state so we can filter out importing maps if needed
+            return { ...s, isImporting: !!activeImports[s.id] };
+          });
+          setStylesList(stylesWithImportState);
           setStatus("success");
         })
         .catch(() => didCancel || setStatus("error"));
@@ -61,7 +71,7 @@ export function useMapStyles() {
       return () => {
         didCancel = true;
       };
-    }, [backgroundMaps])
+    }, [activeImports, backgroundMaps])
   );
 
   const defaultStyle = {

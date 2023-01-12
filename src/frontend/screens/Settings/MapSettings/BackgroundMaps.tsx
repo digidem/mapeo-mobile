@@ -1,41 +1,24 @@
 import * as React from "react";
-import * as DocumentPicker from "expo-document-picker";
-import { defineMessages, FormattedMessage, useIntl } from "react-intl";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { LIGHT_GREY, MEDIUM_GREY, RED } from "../../../lib/styles";
-import { BGMapCard } from "../../../sharedComponents/BGMapCard";
-import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
-import Button from "../../../sharedComponents/Button";
-import HeaderTitle from "../../../sharedComponents/HeaderTitle";
-import Loading from "../../../sharedComponents/Loading";
-import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import { TouchableOpacity } from "../../../sharedComponents/Touchables";
-import {
-  MapServerStyleInfo,
-  NativeNavigationComponent,
-} from "../../../sharedTypes";
-import api from "../../../api";
-import { useMapStyles } from "../../../hooks/useMapStyles";
-import { useFocusEffect } from "@react-navigation/native";
+import { defineMessages, useIntl } from "react-intl";
+import { FlatList, StyleSheet, View } from "react-native";
 
-export const DEFAULT_MAP_ID = "default";
+import {
+  MapImportBottomSheet,
+  MapImportBottomSheetMethods,
+} from "./MapImportBottomSheet";
+import { BGMapCard } from "./BGMapCard";
+import Button from "../../../sharedComponents/Button";
+import Loading from "../../../sharedComponents/Loading";
+import { NativeNavigationComponent } from "../../../sharedTypes";
+import { useMapStyles } from "../../../hooks/useMapStyles";
 
 const m = defineMessages({
   addBGMap: {
-    id: "screens.Settings.MapSettings.BackgroundMaps",
+    id: "screens.Settings.MapSettings.addBGMap",
     defaultMessage: "Add Background Map",
   },
-  close: {
-    id: "screens.Settings.MapSettings.close",
-    defaultMessage: "Close",
-  },
-  importFromFile: {
-    id: "screens.Settings.MapSettings.importFromFile",
-    defaultMessage: "Import from File",
-  },
-  BackgroundMapTitle: {
-    id: "screens.Settings.MapSettings.BackgroundMapTitle",
+  backgroundMapTitle: {
+    id: "screens.Settings.MapSettings.backgroundMapTitle",
     defaultMessage: "Background Maps",
   },
   deleteMapTitle: {
@@ -48,196 +31,59 @@ const m = defineMessages({
     defaultMessage: "Yes, Delete",
     description: "Confirm delete map modal button",
   },
-  importError: {
-    id: "screens.Settings.MapSettings.importError",
-    defaultMessage: "Error Importing Map, please try a different file.",
-    description: "Error importing map warning",
-  },
 });
 
-type ModalContent = "import" | "error";
-
-export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = ({
-  navigation,
-}) => {
-  const sheetRef = React.useRef<BottomSheetMethods>(null);
-
-  const { status, styles: mapStyles, selectedStyleId } = useMapStyles();
-
-  const [modalContent, setModalContent] = React.useState<ModalContent>(
-    "import"
-  );
-
-  const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
-    0,
-    "30%",
-  ]);
-
-  const [backgroundMapList, setBackgroundMapList] = React.useState<
-    MapServerStyleInfo[]
-  >();
-
-  const getStylesAndPopulateList = React.useCallback(() => {
-    api.maps
-      .getStyleList()
-      .then(setBackgroundMapList)
-      .catch(err => {
-        console.log("COULD NOT FETCH STYLES", err);
-        setBackgroundMapList([]);
-      });
-  }, []);
-
-  useFocusEffect(getStylesAndPopulateList);
-
-  const { formatMessage: t } = useIntl();
-
-  function openModal() {
-    sheetRef.current?.snapTo(1);
-  }
-
-  async function handleImportPress() {
-    const results = await DocumentPicker.getDocumentAsync();
-
-    if (results.type === "cancel") {
-      sheetRef.current?.close();
-      return;
-    }
-
-    if (results.type === "success") {
-      try {
-        await api.maps.importTileset(results.uri);
-        const list = await api.maps.getStyleList();
-        setBackgroundMapList(list);
-        sheetRef.current?.close();
-      } catch (err) {
-        console.log("FAILED TO IMPORT", err);
-        setModalContent("error");
-      }
-    }
-  }
-
+const ListEmpty = () => {
   return (
-    <React.Fragment>
-      <ScrollView style={styles.container}>
-        <Button style={[styles.button]} variant="outlined" onPress={openModal}>
-          {t(m.addBGMap)}
-        </Button>
-
-        {status === "loading" ? (
-          <View style={{ marginTop: 40 }}>
-            <Loading />
-          </View>
-        ) : (
-          mapStyles.map(bgMap => (
-            <BGMapCard
-              key={bgMap.id}
-              mapId={bgMap.id}
-              style={{ marginTop: 20 }}
-              styleUrl={bgMap.url}
-              isSelected={selectedStyleId === bgMap.id}
-              mapTitle={bgMap.name}
-              bytesStored={bgMap.bytesStored}
-            />
-          ))
-        )}
-      </ScrollView>
-
-      <BottomSheet
-        snapPoints={snapPoints}
-        ref={sheetRef}
-        backdropComponent={BottomSheetBackdrop}
-        handleComponent={() => null}
-      >
-        <View
-          onLayout={e => {
-            const { height } = e.nativeEvent.layout;
-            setSnapPoints([0, height]);
-          }}
-          style={{ padding: 20 }}
-        >
-          <HeaderTitle style={{ textAlign: "center", marginTop: 20 }}>
-            {t(m.BackgroundMapTitle)}
-          </HeaderTitle>
-
-          {modalContent === "import" ? (
-            <TouchableOpacity
-              onPress={handleImportPress}
-              style={styles.importButton}
-            >
-              <React.Fragment>
-                <View style={styles.importTextAndIcon}>
-                  <MaterialIcon
-                    name="file-upload"
-                    size={30}
-                    color={MEDIUM_GREY}
-                  />
-                  <Text style={styles.text}> {t(m.importFromFile)}</Text>
-                </View>
-                <Text style={[styles.text, { textAlign: "center" }]}>
-                  {"( .mbtiles )"}
-                </Text>
-              </React.Fragment>
-            </TouchableOpacity>
-          ) : (
-            <View style={{ paddingVertical: 40 }}>
-              <Text style={{ fontSize: 16, textAlign: "center" }}>
-                {" "}
-                {t(m.importError)}{" "}
-              </Text>
-            </View>
-          )}
-
-          <Button
-            fullWidth
-            variant="outlined"
-            onPress={() => {
-              setModalContent("import");
-              sheetRef.current?.close();
-            }}
-          >
-            {t(m.close)}
-          </Button>
-        </View>
-      </BottomSheet>
-    </React.Fragment>
+    <View style={{ marginTop: 40 }}>
+      <Loading />
+    </View>
   );
 };
 
-BackgroundMaps.navTitle = m.BackgroundMapTitle;
+const ListHeader = ({ onPress }: { onPress: () => void }) => {
+  const { formatMessage: t } = useIntl();
+  return (
+    <View style={styles.addMapButtonContainer}>
+      <Button fullWidth onPress={onPress} variant="outlined">
+        {t(m.addBGMap)}
+      </Button>
+    </View>
+  );
+};
 
-export function convertBytesToMb(bytes: number) {
-  return bytes / 1024 ** 2;
-}
+export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () => {
+  const bottomSheetRef = React.useRef<MapImportBottomSheetMethods>(null);
+
+  const { status, styles: mapStyles, selectedStyleId } = useMapStyles();
+
+  return (
+    <View style={{ flex: 1 }}>
+      <FlatList
+        contentContainerStyle={styles.scrollContentContainer}
+        data={status === "loading" ? [] : mapStyles}
+        ListEmptyComponent={ListEmpty}
+        ListHeaderComponent={
+          <ListHeader onPress={() => bottomSheetRef.current?.open()} />
+        }
+        renderItem={({ item }) => (
+          <View key={item.id} style={styles.mapCardContainer}>
+            <BGMapCard {...item} isSelected={selectedStyleId === item.id} />
+          </View>
+        )}
+      />
+      <MapImportBottomSheet ref={bottomSheetRef} />
+    </View>
+  );
+};
+
+BackgroundMaps.navTitle = m.backgroundMapTitle;
 
 const styles = StyleSheet.create({
-  button: {
-    marginTop: 40,
-    width: 280,
-  },
-  noDownloads: {
-    fontSize: 16,
-    color: MEDIUM_GREY,
-    textAlign: "center",
-    marginTop: 20,
-  },
-  container: {
+  scrollContentContainer: { paddingHorizontal: 20, paddingVertical: 40 },
+  addMapButtonContainer: {
     paddingHorizontal: 20,
-    marginBottom: 20,
+    paddingBottom: 30,
   },
-  importButton: {
-    backgroundColor: LIGHT_GREY,
-    padding: 40,
-    marginTop: 20,
-    marginBottom: 20,
-    borderRadius: 5,
-  },
-  text: {
-    fontSize: 16,
-  },
-  importTextAndIcon: {
-    marginBottom: 20,
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "row",
-  },
+  mapCardContainer: { paddingVertical: 10 },
 });

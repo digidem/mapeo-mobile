@@ -4,6 +4,10 @@ import { ScrollView } from "react-native";
 import { List, ListItem, ListItemText } from "../../../sharedComponents/List";
 import { NativeNavigationComponent } from "../../../sharedTypes";
 
+export function bytesToMegabytes(bytes: number) {
+  return bytes / 2 ** 20;
+}
+
 const m = defineMessages({
   backgroundMaps: {
     id: "screens.Settings.MapSettings.backgroundMaps",
