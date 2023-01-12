@@ -167,7 +167,7 @@ export const BackgroundMapInfo = ({
         </MapboxGL.MapView>
         <View style={[styles.flex, styles.container]}>
           <View>
-            {bytesStored ? (
+            {bytesStored > 0 ? (
               <Text style={styles.detailsText}>
                 {`${bytesToMegabytes(bytesStored).toFixed(0)} ${t(m.mb)}`}
               </Text>

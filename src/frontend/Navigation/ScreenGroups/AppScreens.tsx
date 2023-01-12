@@ -87,7 +87,7 @@ export type AppList = {
   MapSettings: undefined;
   BackgroundMaps: undefined;
   BackgroundMapInfo: {
-    bytesStored?: number;
+    bytesStored: number;
     id: string;
     styleUrl: string;
     name: string;
