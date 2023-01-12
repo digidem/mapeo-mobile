@@ -264,6 +264,10 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "វាមានភាពត្រូវគ្នាជាមួយនឹងមូលដ្ឋានទិន្នន័យរបស់ Mapeo"
   },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "ការទាញចូលមានបញ្ហា"
+  },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "មិនបានមានបញ្ហាក្នុងការព្យាយាមទាញចូលឯកសារខិនហ្វិក"
