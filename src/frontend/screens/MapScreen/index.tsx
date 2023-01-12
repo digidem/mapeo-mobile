@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import debug from "debug";
 
 import MapView from "../../sharedComponents/Map/MapView";
@@ -10,7 +10,7 @@ import ObservationsContext from "../../context/ObservationsContext";
 import LocationContext from "../../context/LocationContext";
 import { AddButton } from "../../sharedComponents/AddButton";
 
-import { BGMapSelector } from "./BGMapSelector";
+import { BackgroundMapSelector } from "./BackgroundMapSelector";
 import IconButton from "../../sharedComponents/IconButton";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { MEDIUM_GREY } from "../../lib/styles";
@@ -46,7 +46,7 @@ export const MapScreen = ({
   }, [navigation, newDraft]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       {selectedMapStyle.status === "loading" ? (
         <Loading />
       ) : (
@@ -60,32 +60,31 @@ export const MapScreen = ({
       )}
       <AddButton testID="addButtonMap" onPress={handleAddPress} />
       {experiments.backgroundMaps && (
-        <React.Fragment>
-          <BGMapButton openSheet={() => sheetRef.current?.snapTo(1)} />
-          <BGMapSelector
+        <>
+          <View style={styles.mapSelectorButtonContainer}>
+            <IconButton
+              style={styles.mapSelectorButton}
+              onPress={() => sheetRef.current?.snapTo(1)}
+            >
+              <MaterialIcon color={MEDIUM_GREY} name="layers" size={40} />
+            </IconButton>
+          </View>
+          <BackgroundMapSelector
             ref={sheetRef}
             closeSheet={() => sheetRef.current?.close()}
           />
-        </React.Fragment>
+        </>
       )}
     </View>
   );
 };
 
-interface BGMapButtonProps {
-  /** `openSheet()` should NOT come from `useBottomSheetModal` */
-  openSheet: () => void;
-}
-
-const BGMapButton = ({ openSheet }: BGMapButtonProps) => {
-  return (
-    <View style={{ position: "absolute", top: 100, right: 10 }}>
-      <IconButton
-        style={{ backgroundColor: "#fff", borderRadius: 50 }}
-        onPress={openSheet}
-      >
-        <MaterialIcon color={MEDIUM_GREY} name="layers" size={40} />
-      </IconButton>
-    </View>
-  );
-};
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  mapSelectorButtonContainer: {
+    position: "absolute",
+    top: 100,
+    right: 10,
+  },
+  mapSelectorButton: { backgroundColor: "#fff", borderRadius: 50 },
+});

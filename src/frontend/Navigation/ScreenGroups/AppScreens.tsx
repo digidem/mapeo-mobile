@@ -15,7 +15,7 @@ import { CreateProjectScreen } from "../../screens/CreateProject";
 import GpsModal from "../../screens/GpsModal";
 import { LeaveProjectScreen } from "../../screens/LeaveProject";
 import ManualGpsScreen from "../../screens/ManualGpsScreen";
-import { MapScreen } from "../../screens/MapScreen/MapScreen";
+import { MapScreen } from "../../screens/MapScreen";
 import Observation from "../../screens/Observation";
 import ObservationDetails from "../../screens/ObservationDetails";
 import ObservationEdit from "../../screens/ObservationEdit";
@@ -29,7 +29,7 @@ import Settings from "../../screens/Settings";
 import AboutMapeo from "../../screens/Settings/AboutMapeo";
 import CoordinateFormat from "../../screens/Settings/CoordinateFormat";
 import Experiments from "../../screens/Settings/Experiments";
-import { BGMapsSettings } from "../../screens/Settings/Experiments/BGMaps";
+import { BackgroundMapsSettings } from "../../screens/Settings/Experiments/BackgroundMaps";
 import { DirectionalArrow } from "../../screens/Settings/Experiments/DirectionalArrow";
 import { P2pUpgrade } from "../../screens/Settings/Experiments/P2pUpgrade";
 import LanguageSettings from "../../screens/Settings/LanguageSettings";
@@ -155,8 +155,8 @@ export const createDefaultScreenGroup = (
     <RootStack.Screen name="AlreadyOnProj" component={AlreadyOnProj} />
     <RootStack.Screen
       name="BGMapsSettings"
-      component={BGMapsSettings}
-      options={{ headerTitle: intl(BGMapsSettings.navTitle) }}
+      component={BackgroundMapsSettings}
+      options={{ headerTitle: intl(BackgroundMapsSettings.navTitle) }}
     />
     <RootStack.Screen
       name="BackgroundMaps"
