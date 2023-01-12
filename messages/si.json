@@ -743,6 +743,10 @@
   "screens.Settings.MapSettings.close": {
     "message": "වසන්න"
   },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "අපනයන දෝෂ"
+  },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "ගොනුව වෙතින් ආයාත කරන්න"
   },
