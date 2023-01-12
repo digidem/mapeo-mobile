@@ -204,6 +204,10 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Mapeoデータベースに問題があります"
   },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "インポートエラー"
+  },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "この設定ファイルのインポート中にエラーが発生しました"
