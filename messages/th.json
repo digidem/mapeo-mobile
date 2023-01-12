@@ -743,6 +743,10 @@
   "screens.Settings.MapSettings.close": {
     "message": "ปิด"
   },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "ข้อผิดพลาดในการนำเข้า"
+  },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "นำเข้าจากไฟล์"
   },
