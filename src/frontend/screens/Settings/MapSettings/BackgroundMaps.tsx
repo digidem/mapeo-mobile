@@ -6,7 +6,7 @@ import {
   MapImportBottomSheet,
   MapImportBottomSheetMethods,
 } from "./MapImportBottomSheet";
-import { BGMapCard } from "./BGMapCard";
+import { BackgroundMapCard } from "./BackgroundMapCard";
 import Button from "../../../sharedComponents/Button";
 import Loading from "../../../sharedComponents/Loading";
 import { NativeNavigationComponent } from "../../../sharedTypes";
@@ -68,7 +68,10 @@ export const BackgroundMaps: NativeNavigationComponent<"BackgroundMaps"> = () =>
         }
         renderItem={({ item }) => (
           <View key={item.id} style={styles.mapCardContainer}>
-            <BGMapCard {...item} isSelected={selectedStyleId === item.id} />
+            <BackgroundMapCard
+              {...item}
+              isSelected={selectedStyleId === item.id}
+            />
           </View>
         )}
       />

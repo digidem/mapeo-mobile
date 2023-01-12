@@ -56,7 +56,7 @@ interface BGMapCardProps extends MapServerStyleInfo {
   onPress?: () => void;
 }
 
-export const BGMapCard = ({
+export const BackgroundMapCard = ({
   isImporting,
   isSelected,
   name,

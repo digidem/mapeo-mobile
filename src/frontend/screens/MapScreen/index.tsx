@@ -10,7 +10,7 @@ import ObservationsContext from "../../context/ObservationsContext";
 import LocationContext from "../../context/LocationContext";
 import { AddButton } from "../../sharedComponents/AddButton";
 
-import { BGMapSelector } from "./BGMapSelector";
+import { BackgroundMapSelector } from "./BackgroundMapSelector";
 import IconButton from "../../sharedComponents/IconButton";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { MEDIUM_GREY } from "../../lib/styles";
@@ -69,7 +69,7 @@ export const MapScreen = ({
               <MaterialIcon color={MEDIUM_GREY} name="layers" size={40} />
             </IconButton>
           </View>
-          <BGMapSelector
+          <BackgroundMapSelector
             ref={sheetRef}
             closeSheet={() => sheetRef.current?.close()}
           />

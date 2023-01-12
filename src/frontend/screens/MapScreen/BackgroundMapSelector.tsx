@@ -37,7 +37,7 @@ interface MapSelectorProps {
 }
 
 /** `ref` should NOT come from - `useBottomSheet()` */
-export const BGMapSelector = React.forwardRef<
+export const BackgroundMapSelector = React.forwardRef<
   BottomSheetMethods,
   MapSelectorProps
 >(({ closeSheet }, ref) => {
