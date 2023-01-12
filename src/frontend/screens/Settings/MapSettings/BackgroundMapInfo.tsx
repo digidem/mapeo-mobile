@@ -1,18 +1,16 @@
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import * as React from "react";
 import { defineMessages, useIntl } from "react-intl";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-import api from "../../../api";
 import { MAPEO_BLUE, MEDIUM_GREY, WHITE } from "../../../lib/styles";
 import Button from "../../../sharedComponents/Button";
-import Loading from "../../../sharedComponents/Loading";
 import { NativeRootNavigationProps } from "../../../sharedTypes";
 import { DeleteMapBottomSheet } from "./DeleteMapBottomSheet";
-import { useMapStyle } from "../../../hooks/useMapStyle";
-import { convertBytesToMb, DEFAULT_MAP_ID } from "./BackgroundMaps";
+import { DEFAULT_MAP_ID, useMapStyles } from "../../../hooks/useMapStyles";
 import { DeleteIcon } from "../../../sharedComponents/icons";
 import { useBottomSheetModal } from "../../../sharedComponents/BottomSheetModal";
+import { bytesToMegabytes } from ".";
 
 const m = defineMessages({
   removeMap: {
@@ -142,16 +140,16 @@ export const BackgroundMapInfo = ({
     openOnMount: false,
   });
 
-  const { setStyleId } = useMapStyle();
+  const { setSelectedStyleId } = useMapStyles();
 
   function setStyleAndNavigateHome() {
-    setStyleId(id);
+    setSelectedStyleId(id);
     navigation.navigate("Home", { screen: "Map" });
   }
 
   return (
-    <React.Fragment>
-      <View style={{ flex: 1, backgroundColor: WHITE, paddingBottom: 20 }}>
+    <View style={styles.flex}>
+      <View style={styles.flex}>
         <MapboxGL.MapView
           styleURL={styleUrl}
           compassEnabled={false}
@@ -167,34 +165,38 @@ export const BackgroundMapInfo = ({
             allowUpdates={true}
           />
         </MapboxGL.MapView>
-        <ScrollView style={styles.container}>
-          {bytesStored && (
-            <Text style={{ color: MEDIUM_GREY }}>
-              {`${convertBytesToMb(bytesStored).toFixed(0)} ${t(m.mb)}`}
-            </Text>
-          )}
-
-          {id !== DEFAULT_MAP_ID && (
+        <View style={[styles.flex, styles.container]}>
+          <View>
+            {bytesStored > 0 ? (
+              <Text style={styles.detailsText}>
+                {`${bytesToMegabytes(bytesStored).toFixed(0)} ${t(m.mb)}`}
+              </Text>
+            ) : null}
+          </View>
+          <View>
+            {id !== DEFAULT_MAP_ID && (
+              <Button fullWidth variant="outlined" onPress={openSheet}>
+                <View style={styles.deleteButtonContainer}>
+                  <View style={styles.buttonTextIconContainer}>
+                    <DeleteIcon color={MAPEO_BLUE} size={26} />
+                  </View>
+                  <Text style={[styles.buttonText, { color: MAPEO_BLUE }]}>
+                    {t(m.deleteMap)}
+                  </Text>
+                </View>
+              </Button>
+            )}
             <Button
-              style={styles.button}
               fullWidth
-              variant="outlined"
-              onPress={openSheet}
+              style={{ marginTop: 20 }}
+              onPress={setStyleAndNavigateHome}
             >
-              <View style={styles.deleteButtonContainer}>
-                <DeleteIcon color={MAPEO_BLUE} />
-                <Text style={styles.deleteButton}>{t(m.deleteMap)}</Text>
-              </View>
+              <Text style={[styles.buttonText, { color: WHITE }]}>
+                {t(m.useMap)}
+              </Text>
             </Button>
-          )}
-          <Button
-            style={[styles.button, { marginBottom: 20 }]}
-            fullWidth
-            onPress={setStyleAndNavigateHome}
-          >
-            {t(m.useMap)}
-          </Button>
-        </ScrollView>
+          </View>
+        </View>
       </View>
 
       <DeleteMapBottomSheet
@@ -203,22 +205,24 @@ export const BackgroundMapInfo = ({
         mapId={id}
         closeSheet={closeSheet}
       />
-    </React.Fragment>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  flex: { flex: 1 },
   container: {
     padding: 20,
+    justifyContent: "space-between",
   },
-  button: {
-    marginTop: 20,
+  detailsText: {
+    fontSize: 14,
+    color: MEDIUM_GREY,
   },
-  deleteButton: {
-    color: MAPEO_BLUE,
-    fontWeight: "700",
-    letterSpacing: 0.5,
-    fontSize: 16,
+  buttonTextIconContainer: { marginRight: 4 },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
   deleteButtonContainer: {
     display: "flex",

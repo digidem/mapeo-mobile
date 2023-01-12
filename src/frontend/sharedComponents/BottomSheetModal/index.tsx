@@ -134,4 +134,4 @@ export const BottomSheetModal = React.forwardRef<RNBottomSheetModal, Props>(
   }
 );
 
-export { Content as BottomSheetContent } from "./Content";
+export { BottomSheetContent } from "../BottomSheet";

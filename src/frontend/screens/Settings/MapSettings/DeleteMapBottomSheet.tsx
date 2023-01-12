@@ -1,14 +1,12 @@
 import * as React from "react";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
-import { StyleSheet, View, Text } from "react-native";
 
 import { RED, WHITE } from "../../../lib/styles";
 import { DeleteIcon, ErrorIcon } from "../../../sharedComponents/icons";
 import api from "../../../api";
 import { useNavigationFromRoot } from "../../../hooks/useNavigationWithTypes";
-import { useMapStyle } from "../../../hooks/useMapStyle";
-import { DEFAULT_MAP_ID } from "./BackgroundMaps";
+import { DEFAULT_MAP_ID, useMapStyles } from "../../../hooks/useMapStyles";
 import {
   BottomSheetModal,
   BottomSheetContent,
@@ -46,7 +44,7 @@ export const DeleteMapBottomSheet = React.forwardRef<
 >(({ mapName, closeSheet, mapId }, sheetRef) => {
   const { navigate } = useNavigationFromRoot();
   const { formatMessage: t } = useIntl();
-  const { styleId, setStyleId } = useMapStyle();
+  const { selectedStyleId, setSelectedStyleId } = useMapStyles();
 
   function deleteMap() {
     // Cannot delete Default Map
@@ -58,8 +56,8 @@ export const DeleteMapBottomSheet = React.forwardRef<
       .deleteStyle(mapId)
       .then(() => {
         // If user is deleting the map that is currently being used, we want to set the map to be the default map
-        if (styleId === mapId) {
-          setStyleId(DEFAULT_MAP_ID);
+        if (selectedStyleId === mapId) {
+          setSelectedStyleId(DEFAULT_MAP_ID);
         }
         navigate("BackgroundMaps");
       })
@@ -84,12 +82,8 @@ export const DeleteMapBottomSheet = React.forwardRef<
         }
         buttonConfigs={[
           {
-            text: (
-              <View style={styles.btmSheetContainer}>
-                <DeleteIcon color={WHITE} />
-                <Text style={[styles.deleteButtonText]}>{t(m.deleteMap)}</Text>
-              </View>
-            ),
+            text: t(m.deleteMap),
+            icon: <DeleteIcon color={WHITE} size={26} />,
             variation: "filled",
             onPress: deleteMap,
             dangerous: true,
@@ -103,27 +97,4 @@ export const DeleteMapBottomSheet = React.forwardRef<
       />
     </BottomSheetModal>
   );
-});
-
-const styles = StyleSheet.create({
-  btmSheetContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
-  deleteButtonText: {
-    fontWeight: "700",
-    letterSpacing: 0.5,
-    fontSize: 16,
-    color: WHITE,
-  },
-  deleteButtonContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
 });

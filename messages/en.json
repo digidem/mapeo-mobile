@@ -31,6 +31,14 @@
     "description": "Title of dialog shown to the user when Mapeo is updated",
     "message": "Mapeo Updated ✅"
   },
+  "hooks.useMapStyles.defaultMapName": {
+    "description": "The name of the default background map",
+    "message": "Default"
+  },
+  "hooks.useMapStyles.offlineMapName": {
+    "description": "The name of the legacy offline background map",
+    "message": "Offline Map"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Android build number"
@@ -150,6 +158,12 @@
   "screens.AppPasscode.ConfirmPasscodeSheet.title": {
     "message": "App Passcodes can never be recovered if lost or forgotten! Make sure to note your passcode in a secure location before saving."
   },
+  "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter": {
+    "message": "Please Enter Passcode"
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
+    "message": "Enter Passcode"
+  },
   "screens.AppPasscode.InputPasscodeScreen.cancel": {
     "message": "Cancel"
   },
@@ -170,6 +184,9 @@
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
     "message": "Password does not match"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "Incorrect Passcode"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
     "message": "This passcode will be required to open the Mapeo App"
@@ -347,6 +364,30 @@
   },
   "screens.LeaveProject.LeaveProject": {
     "message": "Leave Project"
+  },
+  "screens.LeaveProject.LeaveProject.agreeToDelete": {
+    "message": "I understand I will be deleting all data from my device."
+  },
+  "screens.LeaveProject.LeaveProject.cancel": {
+    "message": "Cancel"
+  },
+  "screens.LeaveProject.LeaveProject.confirmDelete": {
+    "message": "Please check the box to confirm"
+  },
+  "screens.LeaveProject.LeaveProject.headerTitle": {
+    "message": "Leave Project"
+  },
+  "screens.LeaveProject.LeaveProject.leaveButton": {
+    "message": "Leave Project"
+  },
+  "screens.LeaveProject.LeaveProject.leaveProjectTitle": {
+    "message": "Leave Project{projectName}?"
+  },
+  "screens.LeaveProject.LeaveProject.syncWarning": {
+    "message": "Sync with a team member so you don't loose all your observations."
+  },
+  "screens.LeaveProject.LeaveProject.willDelete": {
+    "message": "This will delete {numOfObservations} observations and {numOfPics} Pictures"
   },
   "screens.LeaveProject.LeaveProjectCompleted.goHome": {
     "message": "Go Home"
@@ -898,6 +939,12 @@
   "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapWarning": {
     "message": "This area will no longer be available offline. Cannot be undone."
   },
+  "screens.Settings.MapSettings.addBGMap": {
+    "message": "Add Background Map"
+  },
+  "screens.Settings.MapSettings.backgroundMapTitle": {
+    "message": "Background Maps"
+  },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Background Maps"
   },
@@ -908,19 +955,35 @@
     "description": "Confirm delete map modal button",
     "message": "Yes, Delete"
   },
+  "screens.Settings.MapSettings.defaultMap": {
+    "description": "Name of default map",
+    "message": "Default Map"
+  },
   "screens.Settings.MapSettings.deleteMapTitle": {
     "description": "Title for the delete map modal",
     "message": "Delete Map"
   },
-  "screens.Settings.MapSettings.importError": {
-    "description": "Error importing map warning",
-    "message": "Error Importing Map, please try a different file."
+  "screens.Settings.MapSettings.fileErrorDescription": {
+    "description": "Description for file error in bottom sheet content",
+    "message": "Error importing file, please try a different file."
+  },
+  "screens.Settings.MapSettings.importErrorDescription": {
+    "description": "Description for import error in bottom sheet content",
+    "message": "Unable to import {styleNames}. Re-import the map {fileCount, plural, one {file} other {files}} to try again."
+  },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "Import Error"
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Import from File"
   },
   "screens.Settings.MapSettings.mapSettings": {
     "message": "Map Settings"
+  },
+  "screens.Settings.MapSettings.processingFile": {
+    "description": "Description for when a file is being processed for import",
+    "message": "Processing file..."
   },
   "screens.Settings.MapSettings.subtitle": {
     "message": "Add, remove, and view map details"
@@ -1283,9 +1346,21 @@
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Current Map"
   },
+  "sharedComponents.BGMapCard.errorOccurred": {
+    "description": "Message describing that error occurred for map import",
+    "message": "Error occurred"
+  },
+  "sharedComponents.BGMapCard.importInProgress": {
+    "description": "Progress bar message about the import being in progress",
+    "message": "Import in progress…"
+  },
   "sharedComponents.BGMapCard.unamedStyle": {
     "description": "The name for the default map style",
     "message": "Unnamed Style"
+  },
+  "sharedComponents.BGMapCard.waitingForImport": {
+    "description": "Progress bar message indicating that import is waiting to start",
+    "message": "Waiting for import…"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Close"

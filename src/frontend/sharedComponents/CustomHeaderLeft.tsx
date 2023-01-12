@@ -59,7 +59,7 @@ const HeaderCloseIcon = ({ tintColor }: { tintColor: string }) => (
 
 // We use a slightly larger back icon, to improve accessibility
 // TODO iOS: This should probably be a chevron not an arrow
-const HeaderBackIcon = ({ tintColor }: { tintColor: string }) => {
+export const HeaderBackIcon = ({ tintColor }: { tintColor: string }) => {
   return <BackIcon color={tintColor} />;
 };
 
@@ -174,17 +174,17 @@ const CustomHeaderLeft = ({
   // Listen to the Android back button
   useBackHandler(
     React.useCallback(() => {
-      handleCloseRequest();
+      onPress ? onPress() : handleCloseRequest();
       // Return true to denote to BackHandler that we have handled the event
       // See https://reactnavigation.org/docs/en/3.x/custom-android-back-button-handling.html
       return true;
-    }, [handleCloseRequest])
+    }, [handleCloseRequest, onPress])
   );
 
   return (
     <HeaderBackButton
       {...headerBackButtonProps}
-      onPress={handleCloseRequest}
+      onPress={onPress || handleCloseRequest}
       style={{ marginLeft: 0, marginRight: 15 }}
       backImage={() =>
         isNew && shouldConfirm ? (

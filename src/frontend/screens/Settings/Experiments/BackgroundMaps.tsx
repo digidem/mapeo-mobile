@@ -43,7 +43,7 @@ const m = defineMessages({
   },
 });
 
-export const BGMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
+export const BackgroundMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
   navigation,
 }) => {
   const [experiments, setExperiments] = useExperiments();
@@ -122,7 +122,7 @@ export const BGMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
   );
 };
 
-BGMapsSettings.navTitle = m.BGMaps;
+BackgroundMapsSettings.navTitle = m.BGMaps;
 
 const styles = StyleSheet.create({
   container: {

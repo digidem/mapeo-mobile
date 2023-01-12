@@ -15,7 +15,7 @@ task:
     NODEJS_MOBILE_BUILD_NATIVE_MODULES: "0"
     MAPBOX_DOWNLOAD_TOKEN: ENCRYPTED[6c72ef68629d29a9a0d9aa396d1f55badda203ce2d2ce0e21c6f79d6714dc2966db4326efb73d0f6e2082cdf27943d34]
   container:
-    image: digidem/docker-android
+    image: digidem/docker-android:2
     cpu: 8
     memory: 24G
   node_modules_cache:
@@ -61,7 +61,7 @@ android_test_task:
   only_if: $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH || $CIRRUS_PR != ""
   depends_on: android_build
   container:
-    image: digidem/docker-android
+    image: digidem/docker-android:2
     kvm: true
     cpu: 8
     memory: 16G
