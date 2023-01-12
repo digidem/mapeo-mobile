@@ -868,9 +868,9 @@
     "description": "Title for the delete map modal",
     "message": "Xoá bản đồ"
   },
-  "screens.Settings.MapSettings.importError": {
-    "description": "Error importing map warning",
-    "message": "Lỗi khi nhập bản đồ, vui lòng thử một tệp khác."
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "Lỗi nhập"
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Nhập từ file"
