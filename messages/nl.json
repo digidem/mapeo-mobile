@@ -308,6 +308,10 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Er is iets mis met de Mapeo database"
   },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "Fout bij importeren"
+  },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "Er is een fout opgetreden bij het importeren van deze configuratie file"

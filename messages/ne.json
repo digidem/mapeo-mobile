@@ -415,6 +415,10 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Mapeo डाटावेसकाे साथ केहि छ"
   },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "भित्राउनमा समस्या"
+  },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
     "message": "याे config file भित्राउन खाेज्दा समस्या पैदा भएकाे छ"
