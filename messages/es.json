@@ -893,6 +893,9 @@
     "description": "Shows the user the min zoom for an offline map",
     "message": "Zoom mínimo"
   },
+  "screens.Settings.MapSettings.BackgroundMapInfo.removeMap": {
+    "message": "Eliminar mapa"
+  },
   "screens.Settings.MapSettings.BackgroundMapInfo.subtitle": {
     "message": "Este mapa y las áreas fuera de línea adjuntas a él serán eliminadas permanentemente. Esta acción no se puede deshacer"
   },
