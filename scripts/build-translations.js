@@ -19,10 +19,43 @@ async function writeJson(file, data) {
   await writeFile(file, JSON.stringify(data, null, 2));
 }
 
+const getPackageJson = pathToPackage => {
+  return JSON.parse(
+    fs.readFileSync(path.join(pathToPackage, "package.json"), "utf8")
+  );
+};
+
+const getTranslationsPathsFromDependencies = () => {
+  const pak = getPackageJson(path.join(__dirname, "../"));
+  const translationsPaths = [];
+
+  Object.keys(pak.dependencies).forEach(dependencyName => {
+    const nodeModulePath = path.join(
+      __dirname,
+      "../node_modules",
+      dependencyName
+    );
+    const depPak = getPackageJson(nodeModulePath);
+
+    if (depPak.lang) {
+      translationsPaths.push(path.join(nodeModulePath, depPak.lang));
+    }
+  });
+
+  return translationsPaths;
+};
+
+const translationPaths = [
+  "messages",
+  ...getTranslationsPathsFromDependencies(),
+];
+
+const globPattern = "{" + translationPaths.join(",") + "}/**/*.json";
+
 rimraf.sync("translations/*");
 
 // "shared" strings are included in translations for all components
-glob("messages/**/*.json", async function(er, files) {
+glob(globPattern, async function (er, files) {
   const allMsgs = {};
   for (const file of files) {
     const lang = path.parse(file).name;
