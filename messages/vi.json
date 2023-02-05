@@ -854,6 +854,12 @@
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Thêm Bản đồ nền"
   },
+  "screens.Settings.MapSettings.addBGMap": {
+    "message": "Thêm Bản đồ nền"
+  },
+  "screens.Settings.MapSettings.backgroundMapTitle": {
+    "message": "Bản đồ nền"
+  },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Bản đồ nền"
   },
@@ -864,9 +870,21 @@
     "description": "Confirm delete map modal button",
     "message": "Có, xoá đi"
   },
+  "screens.Settings.MapSettings.defaultMap": {
+    "description": "Name of default map",
+    "message": "Bản đồ mặc định"
+  },
   "screens.Settings.MapSettings.deleteMapTitle": {
     "description": "Title for the delete map modal",
     "message": "Xoá bản đồ"
+  },
+  "screens.Settings.MapSettings.fileErrorDescription": {
+    "description": "Description for file error in bottom sheet content",
+    "message": "Lỗi khi nhập tệp, vui lỏng thử một tệp khác."
+  },
+  "screens.Settings.MapSettings.importErrorDescription": {
+    "description": "Description for import error in bottom sheet content",
+    "message": "Không thể nhập {styleNames}. Nhập lại bản đồ {fileCount, plural, one {file} other {files}} để thử lại."
   },
   "screens.Settings.MapSettings.importErrorTitle": {
     "description": "Title for import error in bottom sheet content",
@@ -877,6 +895,10 @@
   },
   "screens.Settings.MapSettings.mapSettings": {
     "message": "Cài đặt bản đồ"
+  },
+  "screens.Settings.MapSettings.processingFile": {
+    "description": "Description for when a file is being processed for import",
+    "message": "Đang xử lý tệp..."
   },
   "screens.Settings.MapSettings.subtitle": {
     "message": "Thêm, xóa và xem chi tiết bản đồ"
@@ -1232,9 +1254,21 @@
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Bản đồ hiện tại"
   },
+  "sharedComponents.BGMapCard.errorOccurred": {
+    "description": "Message describing that error occurred for map import",
+    "message": "Xảy ra lỗi"
+  },
+  "sharedComponents.BGMapCard.importInProgress": {
+    "description": "Progress bar message about the import being in progress",
+    "message": "Đang nhập vào…"
+  },
   "sharedComponents.BGMapCard.unamedStyle": {
     "description": "The name for the default map style",
     "message": "Kiểu không tên"
+  },
+  "sharedComponents.BGMapCard.waitingForImport": {
+    "description": "Progress bar message indicating that import is waiting to start",
+    "message": "Đợi để nhập…"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Đóng"
