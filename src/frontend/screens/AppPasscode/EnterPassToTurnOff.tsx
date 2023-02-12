@@ -1,7 +1,8 @@
 import * as React from "react";
 import { defineMessages } from "react-intl";
-import { PasscodeScreens } from ".";
+
 import { SecurityContext } from "../../context/SecurityContext";
+import { NativeNavigationComponent } from "../../sharedTypes";
 import { InputPasscode } from "./InputPasscode";
 
 const m = defineMessages({
@@ -17,31 +18,32 @@ const m = defineMessages({
     id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError",
     defaultMessage: "Incorrect Passcode",
   },
+  title: {
+    id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.title",
+    defaultMessage: "Confirm Passcode",
+  },
 });
 
-export const EnterPassToTurnOff = ({
-  setScreenState,
-}: {
-  setScreenState: React.Dispatch<React.SetStateAction<PasscodeScreens>>;
+export const EnterPassToTurnOff: NativeNavigationComponent<"EnterPassToTurnOff"> = ({
+  navigation,
 }) => {
-  const { authenticate } = React.useContext(SecurityContext);
+  const { authenticate, authValuesSet } = React.useContext(SecurityContext);
   const [error, setError] = React.useState(false);
-  const [pass, setPass] = React.useState("");
+  const { navigate } = navigation;
 
-  function validate() {
-    if (!authenticate(pass, true)) {
+  // Stops user from accessing this page if no password is set
+  React.useLayoutEffect(() => {
+    if (!authValuesSet.passcodeSet) {
+      navigate("Security");
+    }
+  }, [navigate, authValuesSet]);
+
+  function validate(passcode: string) {
+    if (!authenticate(passcode, true)) {
       setError(true);
       return;
     }
-    setScreenState("disablePasscode");
-  }
-
-  function setPassWithValidation(passValue: string) {
-    if (error && passValue.length > 0) {
-      setError(false);
-    }
-
-    setPass(passValue);
+    navigate("DisablePasscode");
   }
 
   return (
@@ -53,8 +55,10 @@ export const EnterPassToTurnOff = ({
       }}
       error={error}
       validate={validate}
-      inputValue={pass}
-      setInputValue={setPassWithValidation}
+      showNext={false}
+      hideError={() => setError(false)}
     />
   );
 };
+
+EnterPassToTurnOff.navTitle = m.title;

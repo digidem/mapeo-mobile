@@ -44,8 +44,11 @@ import { AuthScreen } from "../../screens/AuthScreen";
 import { RootStack } from "../AppStack";
 import { BackgroundMapInfo } from "../../screens/Settings/MapSettings/BackgroundMapInfo";
 import { AppPasscode } from "../../screens/AppPasscode";
+import { TurnOffPasscode } from "../../screens/AppPasscode/TurnOffPasscode";
 import { ConfirmPasscodeSheet } from "../../screens/AppPasscode/ConfirmPasscodeSheet";
 import { ObscurePasscode } from "../../screens/ObscurePasscode";
+import { SetPasscode } from "../../screens/AppPasscode/SetPasscode";
+import { EnterPassToTurnOff } from "../../screens/AppPasscode/EnterPassToTurnOff";
 
 export type HomeTabsList = {
   Map: undefined;
@@ -97,6 +100,9 @@ export type AppList = {
   AppPasscode: undefined;
   ObscurePasscode: undefined;
   ConfirmPasscodeSheet: { passcode: string };
+  DisablePasscode: undefined;
+  SetPasscode: undefined;
+  EnterPassToTurnOff: undefined;
 };
 
 const Tab = createBottomTabNavigator<HomeTabsList>();
@@ -280,6 +286,21 @@ export const createDefaultScreenGroup = (
       name="AppPasscode"
       component={AppPasscode}
       options={{ headerTitle: intl(AppPasscode.navTitle) }}
+    />
+    <RootStack.Screen
+      name="DisablePasscode"
+      component={TurnOffPasscode}
+      options={{ headerTitle: intl(TurnOffPasscode.navTitle) }}
+    />
+    <RootStack.Screen
+      name="SetPasscode"
+      component={SetPasscode}
+      options={{ headerTitle: intl(SetPasscode.navTitle) }}
+    />
+    <RootStack.Screen
+      name="EnterPassToTurnOff"
+      component={EnterPassToTurnOff}
+      options={{ headerTitle: intl(EnterPassToTurnOff.navTitle) }}
     />
     <RootStack.Screen
       name="ObscurePasscode"
