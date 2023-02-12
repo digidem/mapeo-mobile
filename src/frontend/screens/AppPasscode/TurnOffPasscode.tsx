@@ -174,9 +174,6 @@ const ConfirmTurnOffPasswordModal = React.forwardRef<
     "40%",
   ]);
 
-  // This is crude, but it is suddenly opening and then closing if I don't do this...
-  React.useLayoutEffect(() => closeSheet(), [closeSheet]);
-
   const { formatMessage: t } = useIntl();
 
   return (
@@ -187,6 +184,7 @@ const ConfirmTurnOffPasswordModal = React.forwardRef<
       enableContentPanningGesture={false}
       enableHandlePanningGesture={false}
       handleHeight={0}
+      index={-1}
     >
       <View
         onLayout={e => {
