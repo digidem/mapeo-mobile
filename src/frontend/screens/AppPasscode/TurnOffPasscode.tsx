@@ -184,6 +184,7 @@ const ConfirmTurnOffPasswordModal = React.forwardRef<
       enableContentPanningGesture={false}
       enableHandlePanningGesture={false}
       handleHeight={0}
+      handleComponent={() => null}
       index={-1}
     >
       <View

@@ -106,7 +106,6 @@ export const InputPasscode = ({
             <Button
               fullWidth
               onPress={() => {
-                console.log(inputValue);
                 validate(inputValue);
               }}
             >
