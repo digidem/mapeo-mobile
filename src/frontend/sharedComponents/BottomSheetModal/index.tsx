@@ -54,17 +54,15 @@ export const useBottomSheetModal = ({
 
 // Handles cases where Android hardware backpress button is used to trigger navigation events
 // not covered by usePreventNavigationBack
-const usePreventHardwareBackPressHandler = (
-  enable: boolean,
-  onHardwareBackPress?: () => void
-) => {
+const useBackHandler = (enable: boolean, onBack?: () => void) => {
   React.useEffect(() => {
     let subscription: NativeEventSubscription;
 
     if (enable) {
+      // This event is triggered by both Android hardware back press and gesture back swipe
       subscription = BackHandler.addEventListener("hardwareBackPress", () => {
-        if (onHardwareBackPress) {
-          onHardwareBackPress();
+        if (onBack) {
+          onBack();
         }
 
         return true;
@@ -74,7 +72,7 @@ const usePreventHardwareBackPressHandler = (
     return () => {
       if (subscription) subscription.remove();
     };
-  }, [enable, onHardwareBackPress]);
+  }, [enable, onBack]);
 };
 
 const useSnapPointsCalculator = () => {
@@ -107,17 +105,15 @@ const useSnapPointsCalculator = () => {
 interface Props extends React.PropsWithChildren<{}> {
   isOpen: boolean;
   onDismiss?: () => void;
-  onHardwareBackPress?: () => void;
+  // Triggered by: Android hardware back press and gesture back swipe
+  onBack?: () => void;
   snapPoints?: (string | number)[];
   disableBackrop?: boolean;
 }
 
 export const BottomSheetModal = React.forwardRef<RNBottomSheetModal, Props>(
-  (
-    { children, isOpen, onDismiss, onHardwareBackPress, disableBackrop },
-    ref
-  ) => {
-    usePreventHardwareBackPressHandler(isOpen, onHardwareBackPress);
+  ({ children, isOpen, onDismiss, onBack, disableBackrop }, ref) => {
+    useBackHandler(isOpen, onBack);
 
     const { snapPoints, updateSheetHeight } = useSnapPointsCalculator();
 

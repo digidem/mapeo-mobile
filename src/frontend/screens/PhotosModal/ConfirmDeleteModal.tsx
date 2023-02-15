@@ -61,7 +61,7 @@ export const ConfirmDeleteModal = ({
       isOpen={isOpen}
       disableBackrop={disableBackdrop}
       onDismiss={closeSheet}
-      onHardwareBackPress={closeSheet}
+      onBack={closeSheet}
     >
       <BottomSheetContent
         buttonConfigs={[
