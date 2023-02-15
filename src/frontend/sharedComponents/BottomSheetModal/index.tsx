@@ -1,11 +1,16 @@
 import * as React from "react";
-import { BackHandler, useWindowDimensions } from "react-native";
+import {
+  BackHandler,
+  NativeEventSubscription,
+  useWindowDimensions,
+} from "react-native";
 import {
   BottomSheetModal as RNBottomSheetModal,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 
+import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import { Backdrop } from "./Backdrop";
 
 const MIN_SHEET_HEIGHT = 400;
@@ -22,7 +27,7 @@ export const useBottomSheetModal = ({
 }) => {
   const initiallyOpenedRef = React.useRef(false);
   const sheetRef = React.useRef<RNBottomSheetModal>(null);
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(openOnMount);
 
   const closeSheet = React.useCallback(() => {
     if (sheetRef.current) {
@@ -48,24 +53,49 @@ export const useBottomSheetModal = ({
   return { sheetRef, closeSheet, openSheet, isOpen };
 };
 
-const useBackPressHandler = (onHardwareBackPress?: () => void | boolean) => {
+// More universal way of preventing navigation back events
+// https://reactnavigation.org/docs/preventing-going-back/
+function usePreventNavigationBack(enable: boolean) {
+  const navigation = useNavigationFromRoot();
+
   React.useEffect(() => {
-    const onBack = () => {
-      if (onHardwareBackPress) {
-        const backPress = onHardwareBackPress();
-        if (typeof backPress === "boolean") {
-          return backPress;
-        }
-      }
+    let unsubscribe: () => void;
 
-      // We don't allow the back press to navigate/dismiss this modal by default
-      return true;
+    if (enable) {
+      unsubscribe = navigation.addListener("beforeRemove", event => {
+        if (event.data.action.type === "GO_BACK") event.preventDefault();
+      });
+    }
+
+    return () => {
+      if (unsubscribe) unsubscribe();
     };
+  }, [enable]);
+}
 
-    BackHandler.addEventListener("hardwareBackPress", onBack);
+// Handles cases where Android hardware backpress button is used to trigger navigation events
+// not covered by usePreventNavigationBack
+const usePreventHardwareBackPressHandler = (
+  enable: boolean,
+  onHardwareBackPress?: () => void
+) => {
+  React.useEffect(() => {
+    let subscription: NativeEventSubscription;
 
-    return () => BackHandler.removeEventListener("hardwareBackPress", onBack);
-  }, [onHardwareBackPress]);
+    if (enable) {
+      subscription = BackHandler.addEventListener("hardwareBackPress", () => {
+        if (onHardwareBackPress) {
+          onHardwareBackPress();
+        }
+
+        return true;
+      });
+    }
+
+    return () => {
+      if (subscription) subscription.remove();
+    };
+  }, [enable, onHardwareBackPress]);
 };
 
 const useSnapPointsCalculator = () => {
@@ -96,15 +126,20 @@ const useSnapPointsCalculator = () => {
 };
 
 interface Props extends React.PropsWithChildren<{}> {
-  onDismiss: () => void;
-  onHardwareBackPress?: () => void | boolean;
+  isOpen: boolean;
+  onDismiss?: () => void;
+  onHardwareBackPress?: () => void;
   snapPoints?: (string | number)[];
   disableBackrop?: boolean;
 }
 
 export const BottomSheetModal = React.forwardRef<RNBottomSheetModal, Props>(
-  ({ children, onDismiss, onHardwareBackPress, disableBackrop }, ref) => {
-    useBackPressHandler(onHardwareBackPress);
+  (
+    { children, isOpen, onDismiss, onHardwareBackPress, disableBackrop },
+    ref
+  ) => {
+    usePreventNavigationBack(!!isOpen);
+    usePreventHardwareBackPressHandler(!!isOpen, onHardwareBackPress);
 
     const { snapPoints, updateSheetHeight } = useSnapPointsCalculator();
 
