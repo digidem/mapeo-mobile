@@ -10,7 +10,6 @@ import {
 } from "@gorhom/bottom-sheet";
 import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 
-import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import { Backdrop } from "./Backdrop";
 
 const MIN_SHEET_HEIGHT = 400;
@@ -52,26 +51,6 @@ export const useBottomSheetModal = ({
 
   return { sheetRef, closeSheet, openSheet, isOpen };
 };
-
-// More universal way of preventing navigation back events
-// https://reactnavigation.org/docs/preventing-going-back/
-function usePreventNavigationBack(enable: boolean) {
-  const navigation = useNavigationFromRoot();
-
-  React.useEffect(() => {
-    let unsubscribe: () => void;
-
-    if (enable) {
-      unsubscribe = navigation.addListener("beforeRemove", event => {
-        if (event.data.action.type === "GO_BACK") event.preventDefault();
-      });
-    }
-
-    return () => {
-      if (unsubscribe) unsubscribe();
-    };
-  }, [enable]);
-}
 
 // Handles cases where Android hardware backpress button is used to trigger navigation events
 // not covered by usePreventNavigationBack
@@ -138,8 +117,7 @@ export const BottomSheetModal = React.forwardRef<RNBottomSheetModal, Props>(
     { children, isOpen, onDismiss, onHardwareBackPress, disableBackrop },
     ref
   ) => {
-    usePreventNavigationBack(!!isOpen);
-    usePreventHardwareBackPressHandler(!!isOpen, onHardwareBackPress);
+    usePreventHardwareBackPressHandler(isOpen, onHardwareBackPress);
 
     const { snapPoints, updateSheetHeight } = useSnapPointsCalculator();
 
