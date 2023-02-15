@@ -2,7 +2,6 @@ import * as React from "react";
 import { BackHandler, useWindowDimensions } from "react-native";
 import {
   BottomSheetModal as RNBottomSheetModal,
-  BottomSheetModalProvider,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
@@ -110,29 +109,27 @@ export const BottomSheetModal = React.forwardRef<RNBottomSheetModal, Props>(
     const { snapPoints, updateSheetHeight } = useSnapPointsCalculator();
 
     return (
-      <BottomSheetModalProvider>
-        <RNBottomSheetModal
-          ref={ref}
-          backdropComponent={disableBackrop ? null : Backdrop}
-          enableContentPanningGesture={false}
-          enableHandlePanningGesture={false}
-          handleComponent={() => null}
-          index={0}
-          onDismiss={onDismiss}
-          snapPoints={snapPoints}
+      <RNBottomSheetModal
+        ref={ref}
+        backdropComponent={disableBackrop ? null : Backdrop}
+        enableContentPanningGesture={false}
+        enableHandlePanningGesture={false}
+        handleComponent={() => null}
+        index={0}
+        onDismiss={onDismiss}
+        snapPoints={snapPoints}
+      >
+        <BottomSheetView
+          onLayout={updateSheetHeight}
+          style={{
+            flex: 1,
+            paddingHorizontal: 20,
+            paddingTop: 30,
+          }}
         >
-          <BottomSheetView
-            onLayout={updateSheetHeight}
-            style={{
-              flex: 1,
-              paddingHorizontal: 20,
-              paddingTop: 30,
-            }}
-          >
-            {children}
-          </BottomSheetView>
-        </RNBottomSheetModal>
-      </BottomSheetModalProvider>
+          {children}
+        </BottomSheetView>
+      </RNBottomSheetModal>
     );
   }
 );

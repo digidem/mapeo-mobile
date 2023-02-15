@@ -5,6 +5,7 @@ import * as React from "react";
 import { LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 import ErrorScreen from "./screens/UncaughtError";
 import { AppLoading } from "./AppLoading";
@@ -51,7 +52,9 @@ const App = () => (
       <PermissionsProvider>
         <AppLoading>
           <AppProvider>
-            <AppContainerWrapper />
+            <BottomSheetModalProvider>
+              <AppContainerWrapper />
+            </BottomSheetModalProvider>
             <UpdateNotifier />
           </AppProvider>
         </AppLoading>
