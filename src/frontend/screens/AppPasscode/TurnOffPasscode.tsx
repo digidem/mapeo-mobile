@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { BackHandler, StyleSheet, Text, View } from "react-native";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
@@ -13,11 +13,13 @@ import {
   ListItem,
   ListItemText,
 } from "../../sharedComponents/List";
-import { MEDIUM_GREY, RED } from "../../lib/styles";
-import { PasscodeScreens } from ".";
-import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
+import { MEDIUM_GREY, RED, WHITE } from "../../lib/styles";
 import { ErrorIcon } from "../../sharedComponents/icons";
 import Button from "../../sharedComponents/Button";
+import { NativeNavigationComponent } from "../../sharedTypes";
+import { useFocusEffect, StackActions } from "@react-navigation/native";
+import CustomHeaderLeft from "../../sharedComponents/CustomHeaderLeft";
+import { HeaderButtonProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 
 const m = defineMessages({
   usePasscode: {
@@ -50,20 +52,52 @@ const m = defineMessages({
     defaultMessage:
       "You are currently using App Passcode. See below to stop using or change your passcode.",
   },
+  title: {
+    id: "screens.AppPasscode.TurnOffPasscode.title",
+    defaultMessage: "App Passcode",
+  },
 });
 
-interface TurnOffPasscodeProps {
-  setScreenState: (screen: PasscodeScreens) => void;
-}
-
-export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
+export const TurnOffPasscode: NativeNavigationComponent<"DisablePasscode"> = ({
+  navigation,
+}) => {
   const { authValuesSet, setAuthValues } = React.useContext(SecurityContext);
 
   const sheetRef = React.useRef<BottomSheetMethods>(null);
 
-  const { navigate } = useNavigationFromRoot();
+  const { navigate } = navigation;
 
   const { formatMessage: t } = useIntl();
+
+  // These next three function forces the user to go back to the setting page instead of the "EnterPassToTurnOff" screen
+  const backPress = React.useCallback(() => {
+    const popAction = StackActions.pop(2);
+    navigation.dispatch(popAction);
+  }, [navigation]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: (props: HeaderButtonProps) => (
+        <CustomHeaderLeft headerBackButtonProps={props} onPress={backPress} />
+      ),
+    });
+  }, [backPress, navigation]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        backPress();
+        return true;
+      };
+
+      const subscription = BackHandler.addEventListener(
+        "hardwareBackPress",
+        onBackPress
+      );
+
+      return () => subscription.remove();
+    }, [backPress])
+  );
 
   function unsetAppPasscode() {
     setAuthValues({ type: "passcode", value: null });
@@ -75,7 +109,7 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
   }
 
   return (
-    <React.Fragment>
+    <View style={styles.pageContainer}>
       <Text style={styles.description}>{t(m.description)}</Text>
       <Text style={{ fontSize: 16, marginBottom: 20 }}>
         {t(m.currentlyUsing)}
@@ -104,7 +138,7 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
         {authValuesSet.passcodeSet && (
           <ListItem
             onPress={() => {
-              setScreenState("setPasscode");
+              navigate("SetPasscode");
             }}
             style={{ marginTop: 20 }}
           >
@@ -122,18 +156,18 @@ export const TurnOffPasscode = ({ setScreenState }: TurnOffPasscodeProps) => {
           sheetRef.current?.close();
         }}
       />
-    </React.Fragment>
+    </View>
   );
 };
 
-interface ConfirmTurnOffPasswordModal {
+interface ConfirmTurnOffPasswordModalProps {
   turnOffPasscode: () => void;
   closeSheet: () => void;
 }
 
 const ConfirmTurnOffPasswordModal = React.forwardRef<
   BottomSheetMethods,
-  ConfirmTurnOffPasswordModal
+  ConfirmTurnOffPasswordModalProps
 >(({ turnOffPasscode, closeSheet }, sheetRef) => {
   const [snapPoints, setSnapPoints] = React.useState<(number | string)[]>([
     0,
@@ -151,6 +185,7 @@ const ConfirmTurnOffPasswordModal = React.forwardRef<
       enableHandlePanningGesture={false}
       handleHeight={0}
       handleComponent={() => null}
+      index={-1}
     >
       <View
         onLayout={e => {
@@ -179,6 +214,8 @@ const ConfirmTurnOffPasswordModal = React.forwardRef<
   );
 });
 
+TurnOffPasscode.navTitle = m.title;
+
 const styles = StyleSheet.create({
   text: {
     fontSize: 16,
@@ -199,5 +236,11 @@ const styles = StyleSheet.create({
     marginTop: 40,
     fontSize: 16,
     marginBottom: 20,
+  },
+  pageContainer: {
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    flex: 1,
+    backgroundColor: WHITE,
   },
 });

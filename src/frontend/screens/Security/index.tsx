@@ -76,7 +76,11 @@ export const Security: NativeNavigationComponent<"Security"> = ({
       <List>
         <ListItem
           button={true}
-          onPress={() => navigation.navigate("AppPasscode")}
+          onPress={() =>
+            navigation.navigate(
+              !authValuesSet.passcodeSet ? "AppPasscode" : "EnterPassToTurnOff"
+            )
+          }
         >
           <ListItemText
             primary={<FormattedMessage {...m.passcodeHeader} />}
