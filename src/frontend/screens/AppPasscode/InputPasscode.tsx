@@ -6,7 +6,6 @@ import {
 } from "react-intl";
 import { View, StyleSheet, Text, ScrollView } from "react-native";
 import { useBlurOnFulfill } from "react-native-confirmation-code-field";
-
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
 import { WHITE, RED, MAPEO_BLUE } from "../../lib/styles";
 import Button from "../../sharedComponents/Button";
@@ -31,11 +30,11 @@ interface InputPasscodeProps {
     subtitle: MessageDescriptor;
     errorMessage: MessageDescriptor;
   };
-  validate: (pass: string) => void;
+  validate: () => void;
   showPasscodeValues?: boolean;
   error: boolean;
-  hideError: () => void;
-  showNext?: boolean;
+  inputValue: string;
+  setInputValue: (val: string) => void;
 }
 
 export const InputPasscode = ({
@@ -43,11 +42,9 @@ export const InputPasscode = ({
   text,
   showPasscodeValues,
   error,
-  hideError,
-  showNext = true,
+  inputValue,
+  setInputValue,
 }: InputPasscodeProps) => {
-  const [inputValue, setInputValue] = React.useState("");
-
   const inputRef = useBlurOnFulfill({
     value: inputValue,
     cellCount: CELL_COUNT,
@@ -55,13 +52,7 @@ export const InputPasscode = ({
 
   if (error) inputRef.current?.focus();
 
-  function updateInput(newVal: string) {
-    if (error) hideError();
-    setInputValue(newVal);
-    if (!showNext && newVal.length === 5) validate(newVal);
-  }
-
-  const { navigate } = useNavigationFromRoot();
+  const { goBack } = useNavigationFromRoot();
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -77,7 +68,7 @@ export const InputPasscode = ({
             error={error}
             ref={inputRef}
             inputValue={inputValue}
-            onChangeTextWithValidation={updateInput}
+            onChangeTextWithValidation={setInputValue}
             maskValues={!showPasscodeValues}
           />
 
@@ -93,27 +84,18 @@ export const InputPasscode = ({
             fullWidth
             variant="outlined"
             style={{ marginBottom: 20, marginTop: 20 }}
-            onPress={() => {
-              navigate("Security");
-            }}
+            onPress={goBack}
           >
             <Text style={[styles.buttonText, { color: MAPEO_BLUE }]}>
               <FormattedMessage {...m.cancel} />
             </Text>
           </Button>
 
-          {showNext && (
-            <Button
-              fullWidth
-              onPress={() => {
-                validate(inputValue);
-              }}
-            >
-              <Text style={[styles.buttonText, { color: WHITE }]}>
-                <FormattedMessage {...m.button} />
-              </Text>
-            </Button>
-          )}
+          <Button fullWidth onPress={validate}>
+            <Text style={[styles.buttonText, { color: WHITE }]}>
+              <FormattedMessage {...m.button} />
+            </Text>
+          </Button>
         </View>
       </View>
     </ScrollView>

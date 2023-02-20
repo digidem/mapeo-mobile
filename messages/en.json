@@ -191,9 +191,6 @@
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
     "message": "This passcode will be required to open the Mapeo App"
   },
-  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.title": {
-    "message": "Set Passcode"
-  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continue"
   },
@@ -217,9 +214,6 @@
   },
   "screens.AppPasscode.TurnOffPasscode.description": {
     "message": "App Passcode adds an additional layer of security by requiring that you enter a passcode in order to open the Mapeo app."
-  },
-  "screens.AppPasscode.TurnOffPasscode.title": {
-    "message": "App Passcode"
   },
   "screens.AppPasscode.TurnOffPasscode.turnOff": {
     "message": "Turn Off"

@@ -2,7 +2,7 @@ import * as React from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 
-import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
+import { PasscodeScreens } from ".";
 import Button from "../../sharedComponents/Button";
 
 const m = defineMessages({
@@ -26,9 +26,12 @@ const m = defineMessages({
   },
 });
 
-export const PasscodeIntro = () => {
+interface PasscodeIntroProps {
+  setScreen: React.Dispatch<React.SetStateAction<PasscodeScreens>>;
+}
+
+export const PasscodeIntro = ({ setScreen }: PasscodeIntroProps) => {
   const { formatMessage: t } = useIntl();
-  const { navigate } = useNavigationFromRoot();
 
   return (
     <ScrollView>
@@ -43,7 +46,7 @@ export const PasscodeIntro = () => {
         <View>
           <Button
             style={[styles.button]}
-            onPress={() => navigate("SetPasscode")}
+            onPress={() => setScreen("setPasscode")}
           >
             {t(m.continue)}
           </Button>
