@@ -21,6 +21,7 @@ public class AppInfoPackage implements ReactPackage {
     List<NativeModule> modules = new ArrayList<>();
 
     modules.add(new AppInfoModule(reactContext));
+    modules.add(new FlagSecureModule(reactContext));
 
     return modules;
   }

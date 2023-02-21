@@ -1,8 +1,10 @@
 import * as React from "react";
-import { AppState, AppStateStatus } from "react-native";
+import { AppState, AppStateStatus, NativeModules } from "react-native";
 
 import { OBSCURE_KEY, OBSCURE_PASSCODE, PASSWORD_KEY } from "../constants";
 import createPersistedState from "../hooks/usePersistedState";
+
+const { FlagSecureModule } = NativeModules;
 
 type AuthState = "unauthenticated" | "authenticated" | "obscured";
 
@@ -113,8 +115,12 @@ const SecurityProviderInner = ({
       if (passcodeValue === null) {
         setAuthState("authenticated");
         setObscureCode(null);
+        setPasscode(passcodeValue);
+        FlagSecureModule.deactivate();
+        return;
       }
 
+      FlagSecureModule.activate();
       setPasscode(passcodeValue);
     },
     [obscureCode]
