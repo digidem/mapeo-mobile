@@ -136,7 +136,7 @@ export const BackgroundMapInfo = ({
   const { formatMessage: t } = useIntl();
   const { bytesStored, id, styleUrl, name } = route.params;
 
-  const { closeSheet, openSheet, sheetRef } = useBottomSheetModal({
+  const { closeSheet, openSheet, sheetRef, isOpen } = useBottomSheetModal({
     openOnMount: false,
   });
 
@@ -204,6 +204,8 @@ export const BackgroundMapInfo = ({
         mapName={name}
         mapId={id}
         closeSheet={closeSheet}
+        // If open, hardware backpress returns true, which disables the back button and vice versa
+        onHardwareBackPress={() => isOpen}
       />
     </View>
   );
