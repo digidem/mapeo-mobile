@@ -795,6 +795,10 @@
   "screens.Settings.Experiments.BGMaps.goTo": {
     "message": "Experimente agora"
   },
+  "screens.Settings.Experiments.BGMaps.shortLink": {
+    "description": "Used as a link to the gitbooks documentation for adding background maps",
+    "message": "aqui."
+  },
   "screens.Settings.Experiments.BGMaps.useBGMap": {
     "message": "Usar o recurso de Mapas de fundo"
   },
