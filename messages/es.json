@@ -140,7 +140,7 @@
     "message": "Ya estás en un proyecto"
   },
   "screens.AppPasscode": {
-    "message": "Contraseña de App"
+    "message": "Contraseña de la aplicación"
   },
   "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
     "message": "Cancelar"
@@ -826,7 +826,7 @@
     "message": "Actualizaciones P2P de la App"
   },
   "screens.Settings.Experiments.P2pUpgrade.useP2p": {
-    "message": "Usar Actualizaciones P2P de la App"
+    "message": "Usar Actualizador P2P de la App"
   },
   "screens.Settings.Experiments.P2pUpgrade.warning": {
     "message": "Las Actualizaciones P2P (entre pares) de la aplicación le permiten compartir y recibir nuevas versiones de la aplicación Mapeo conectándose a otros dispositivos Mapeo a través de Wi-Fi (sin necesidad de conexión a Internet). Para utilizar esta función, la pantalla de sincronización de Mapeo debe estar abierta en ambos dispositivos."
