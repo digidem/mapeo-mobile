@@ -81,7 +81,7 @@
     "message": "Cancelar"
   },
   "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
-    "message": "Los Coordinadores pueden añadir y eliminar dispositivos de los proyectos"
+    "message": "Las personas coordinadoras pueden añadir y eliminar dispositivos de los proyectos"
   },
   "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
     "message": "Este dispositivo es un Coordinador"
