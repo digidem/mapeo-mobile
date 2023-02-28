@@ -15,7 +15,7 @@ import { CreateProjectScreen } from "../../screens/CreateProject";
 import GpsModal from "../../screens/GpsModal";
 import { LeaveProjectScreen } from "../../screens/LeaveProject";
 import ManualGpsScreen from "../../screens/ManualGpsScreen";
-import { MapScreen } from "../../screens/MapScreen/MapScreen";
+import { MapScreen } from "../../screens/MapScreen";
 import Observation from "../../screens/Observation";
 import ObservationDetails from "../../screens/ObservationDetails";
 import ObservationEdit from "../../screens/ObservationEdit";
@@ -29,7 +29,7 @@ import Settings from "../../screens/Settings";
 import AboutMapeo from "../../screens/Settings/AboutMapeo";
 import CoordinateFormat from "../../screens/Settings/CoordinateFormat";
 import Experiments from "../../screens/Settings/Experiments";
-import { BGMapsSettings } from "../../screens/Settings/Experiments/BGMaps";
+import { BackgroundMapsSettings } from "../../screens/Settings/Experiments/BackgroundMaps";
 import { DirectionalArrow } from "../../screens/Settings/Experiments/DirectionalArrow";
 import { P2pUpgrade } from "../../screens/Settings/Experiments/P2pUpgrade";
 import LanguageSettings from "../../screens/Settings/LanguageSettings";
@@ -44,8 +44,11 @@ import { AuthScreen } from "../../screens/AuthScreen";
 import { RootStack } from "../AppStack";
 import { BackgroundMapInfo } from "../../screens/Settings/MapSettings/BackgroundMapInfo";
 import { AppPasscode } from "../../screens/AppPasscode";
+import { TurnOffPasscode } from "../../screens/AppPasscode/TurnOffPasscode";
 import { ConfirmPasscodeSheet } from "../../screens/AppPasscode/ConfirmPasscodeSheet";
 import { ObscurePasscode } from "../../screens/ObscurePasscode";
+import { SetPasscode } from "../../screens/AppPasscode/SetPasscode";
+import { EnterPassToTurnOff } from "../../screens/AppPasscode/EnterPassToTurnOff";
 
 export type HomeTabsList = {
   Map: undefined;
@@ -87,7 +90,7 @@ export type AppList = {
   MapSettings: undefined;
   BackgroundMaps: undefined;
   BackgroundMapInfo: {
-    bytesStored?: number;
+    bytesStored: number;
     id: string;
     styleUrl: string;
     name: string;
@@ -97,6 +100,9 @@ export type AppList = {
   AppPasscode: undefined;
   ObscurePasscode: undefined;
   ConfirmPasscodeSheet: { passcode: string };
+  DisablePasscode: undefined;
+  SetPasscode: undefined;
+  EnterPassToTurnOff: undefined;
 };
 
 const Tab = createBottomTabNavigator<HomeTabsList>();
@@ -155,11 +161,14 @@ export const createDefaultScreenGroup = (
     <RootStack.Screen name="AlreadyOnProj" component={AlreadyOnProj} />
     <RootStack.Screen
       name="BGMapsSettings"
-      component={BGMapsSettings}
-      options={{ headerTitle: intl(BGMapsSettings.navTitle) }}
+      component={BackgroundMapsSettings}
+      options={{ headerTitle: intl(BackgroundMapsSettings.navTitle) }}
     />
-    {/* Modal, no title */}
-    <RootStack.Screen name="BackgroundMaps" component={BackgroundMaps} />
+    <RootStack.Screen
+      name="BackgroundMaps"
+      component={BackgroundMaps}
+      options={{ headerTitle: intl(BackgroundMaps.navTitle) }}
+    />
     <RootStack.Screen
       name="CategoryChooser"
       component={CategoryChooser}
@@ -277,6 +286,21 @@ export const createDefaultScreenGroup = (
       name="AppPasscode"
       component={AppPasscode}
       options={{ headerTitle: intl(AppPasscode.navTitle) }}
+    />
+    <RootStack.Screen
+      name="DisablePasscode"
+      component={TurnOffPasscode}
+      options={{ headerTitle: intl(TurnOffPasscode.navTitle) }}
+    />
+    <RootStack.Screen
+      name="SetPasscode"
+      component={SetPasscode}
+      options={{ headerTitle: intl(SetPasscode.navTitle) }}
+    />
+    <RootStack.Screen
+      name="EnterPassToTurnOff"
+      component={EnterPassToTurnOff}
+      options={{ headerTitle: intl(EnterPassToTurnOff.navTitle) }}
     />
     <RootStack.Screen
       name="ObscurePasscode"

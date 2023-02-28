@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.6.0](https://github.com/digidem/mapeo-mobile/compare/v5.5.0...v5.6.0) (2023-01-16)
+
+### Features
+
+- Re-introduce improved maps management experimental feature ([93a0753](https://github.com/digidem/mapeo-mobile/commit/93a0753403b729763fc0a8aeafeca6e66827d615), [1649e3f](https://github.com/digidem/mapeo-mobile/commit/1649e3f50355d8325a7ea9115273d99572e05d4f), [7ee2863](https://github.com/digidem/mapeo-mobile/commit/7ee2863508c3b6d09aa7f85f7f3940fb990269b1))
+
 ## [5.5.0](https://github.com/digidem/mapeo-mobile/compare/v5.4.7...v5.5.0) (2022-11-17)
 
 ### Features

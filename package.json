@@ -1,6 +1,6 @@
 {
   "name": "mapeo-mobile",
-  "version": "5.5.0",
+  "version": "5.6.0",
   "private": true,
   "engines": {
     "node": "12.16.3"
@@ -46,7 +46,8 @@
     "@bugsnag/react-native": "^7.16.7",
     "@formatjs/intl-locale": "^3.0.7",
     "@formatjs/intl-relativetimeformat": "^11.1.4",
-    "@gorhom/bottom-sheet": "^2.3.0",
+    "@gorhom/bottom-sheet": "^2.4.1",
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@react-native-async-storage/async-storage": "^1.15.14",
     "@react-native-community/art": "^1.2.0",
     "@react-native-community/checkbox": "^0.5.8",
@@ -70,12 +71,14 @@
     "expo-localization": "^10.2.0",
     "expo-location": "^12.1.0",
     "expo-sensors": "^10.2.0",
+    "fast-text-encoding": "^1.0.6",
     "flat": "^5.0.2",
     "ky": "^0.23.0",
     "lodash": "^4.17.19",
     "mapeo-offline-map": "^2.0.0",
     "mapeo-schema": "^2.0.2",
     "nodejs-mobile-react-native": "^0.8.1",
+    "p-defer": "^4.0.0",
     "p-is-promise": "^4.0.0",
     "p-timeout": "^4.1.0",
     "patch-package": "^6.4.7",
@@ -87,6 +90,7 @@
     "react-native-android-open-settings": "^1.3.0",
     "react-native-confirmation-code-field": "^7.3.0",
     "react-native-device-info": "^8.4.8",
+    "react-native-fetch-api": "^3.0.0",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-resizer": "^1.2.3",
@@ -111,7 +115,8 @@
     "turndown-rn": "^6.1.0",
     "use-memo-one": "^1.1.1",
     "utm": "^1.1.1",
-    "validate-color": "^2.2.1"
+    "validate-color": "^2.2.1",
+    "web-streams-polyfill": "^3.2.1"
   },
   "devDependencies": {
     "@babel/core": "~7.12.17",
@@ -119,7 +124,7 @@
     "@babel/runtime": "~7.12.18",
     "@bugsnag/source-maps": "^2.3.1",
     "@digidem/extract-react-intl-messages": "^2.0.2",
-    "@mapeo/map-server": "^1.0.0-alpha.10",
+    "@mapeo/map-server": "^1.0.0-alpha.11",
     "@react-native-community/cli": "^6.2.0",
     "@react-native-community/eslint-config": "^2.0.0",
     "@sinonjs/fake-timers": "^8.1.0",

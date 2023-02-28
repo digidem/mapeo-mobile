@@ -728,6 +728,10 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(நீங்கள்) {சாதனத்தின் பெயர்}"
   },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "பதிவிறக்கப் பிழை"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "கீழே உள்ள திட்டத்தை உருவாக்கவும் அல்லது சேரவும்"
   },

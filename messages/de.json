@@ -573,6 +573,10 @@
     "description": "Title of message when the server has not responded for 10 seconds",
     "message": "Etwas stimmt nicht mit der Mapeo Datenbank"
   },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "Fehler beim Importieren"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
     "message": "Bereit, den Übungsmodus zu verlassen?"
   },

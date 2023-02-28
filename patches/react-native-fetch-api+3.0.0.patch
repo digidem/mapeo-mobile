@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-native-fetch-api/src/Fetch.js b/node_modules/react-native-fetch-api/src/Fetch.js
+index b3a5614..043dedd 100644
+--- a/node_modules/react-native-fetch-api/src/Fetch.js
++++ b/node_modules/react-native-fetch-api/src/Fetch.js
+@@ -181,9 +181,7 @@ class Fetch {
+             return;
+         }
+ 
+-        const typedArray = this._textEncoder.encode(responseText, {
+-            stream: true,
+-        });
++        const typedArray = this._textEncoder.encode(responseText);
+         this._streamController.enqueue(typedArray);
+     }
+ 

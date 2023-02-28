@@ -23,19 +23,19 @@ export const useBottomSheetModal = ({
 }) => {
   const initiallyOpenedRef = React.useRef(false);
   const sheetRef = React.useRef<RNBottomSheetModal>(null);
-  const isOpen = React.useRef<boolean>(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const closeSheet = React.useCallback(() => {
     if (sheetRef.current) {
       sheetRef.current.dismiss();
-      isOpen.current = false;
+      setIsOpen(false);
     }
   }, []);
 
   const openSheet = React.useCallback(() => {
     if (sheetRef.current) {
       sheetRef.current.present();
-      isOpen.current = true;
+      setIsOpen(true);
     }
   }, []);
 
@@ -46,14 +46,17 @@ export const useBottomSheetModal = ({
     }
   }, [openOnMount, openSheet]);
 
-  return { sheetRef, closeSheet, openSheet, isOpen: isOpen.current };
+  return { sheetRef, closeSheet, openSheet, isOpen };
 };
 
-const useBackPressHandler = (onHardwareBackPress?: () => void) => {
+const useBackPressHandler = (onHardwareBackPress?: () => void | boolean) => {
   React.useEffect(() => {
     const onBack = () => {
       if (onHardwareBackPress) {
-        onHardwareBackPress();
+        const backPress = onHardwareBackPress();
+        if (typeof backPress === "boolean") {
+          return backPress;
+        }
       }
 
       // We don't allow the back press to navigate/dismiss this modal by default
@@ -95,7 +98,7 @@ const useSnapPointsCalculator = () => {
 
 interface Props extends React.PropsWithChildren<{}> {
   onDismiss: () => void;
-  onHardwareBackPress?: () => void;
+  onHardwareBackPress?: () => void | boolean;
   snapPoints?: (string | number)[];
   disableBackrop?: boolean;
 }
@@ -134,4 +137,4 @@ export const BottomSheetModal = React.forwardRef<RNBottomSheetModal, Props>(
   }
 );
 
-export { Content as BottomSheetContent } from "./Content";
+export { BottomSheetContent } from "../BottomSheet";

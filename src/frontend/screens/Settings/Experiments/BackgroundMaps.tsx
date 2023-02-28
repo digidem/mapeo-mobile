@@ -41,9 +41,15 @@ const m = defineMessages({
     defaultMessage:
       "WARNING: When this feature is enabled, you will not have access to the map you had previously been using in Mapeo. Turn off Map Manager to switch back to your previous map. Please note that this feature is still in the pilot testing phase and you will need to re-import any maps added to the Map Manager once the final version is released.",
   },
+  shortLink: {
+    id: "screens.Settings.Experiments.BGMaps.shortLink",
+    description:
+      "Used as a link to the gitbooks documentation for adding background maps",
+    defaultMessage: "here.",
+  },
 });
 
-export const BGMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
+export const BackgroundMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
   navigation,
 }) => {
   const [experiments, setExperiments] = useExperiments();
@@ -66,11 +72,11 @@ export const BGMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
           ]}
           onPress={() => {
             Linking.openURL(
-              "https://docs.mapeo.app/complete-reference-guide/mapeo-mobile-installation-setup/adding-custom-base-maps-to-mapeo-mobile/add-maps-to-map-manager"
+              "https://docs.mapeo.app/complete-reference-guide/customization-options/custom-base-maps/creating-custom-maps/creating-mbtiles"
             );
           }}
         >
-          https://docs.mapeo.app/complete-reference-guide/mapeo-mobile-installation-setup/adding-custom-base-maps-to-mapeo-mobile/add-maps-to-map-manager
+          {t(m.shortLink)}
         </Text>
       </View>
       <Text style={styles.text}>{t(m.feedBack)}</Text>
@@ -122,7 +128,7 @@ export const BGMapsSettings: NativeNavigationComponent<"BGMapsSettings"> = ({
   );
 };
 
-BGMapsSettings.navTitle = m.BGMaps;
+BackgroundMapsSettings.navTitle = m.BGMaps;
 
 const styles = StyleSheet.create({
   container: {

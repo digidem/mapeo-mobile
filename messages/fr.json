@@ -728,6 +728,10 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Vous) {deviceName}"
   },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "Erreur d'importation"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
     "message": "Créer ou rejoindre un projet ci-dessous"
   },

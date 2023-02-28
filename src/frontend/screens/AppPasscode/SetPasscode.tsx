@@ -1,10 +1,9 @@
 import * as React from "react";
-import { PasscodeScreens } from ".";
 import { InputPasscode } from "./InputPasscode";
 import { defineMessages } from "react-intl";
 import { OBSCURE_PASSCODE } from "../../constants";
 import { useNavigationFromRoot } from "../../hooks/useNavigationWithTypes";
-import { SecurityContext } from "../../context/SecurityContext";
+import { NativeNavigationComponent } from "../../sharedTypes";
 
 const m = defineMessages({
   titleSet: {
@@ -33,6 +32,10 @@ const m = defineMessages({
       "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError",
     defaultMessage: "Cannot be used as a Passcode",
   },
+  title: {
+    id: "screens.AppPasscode.NewPasscode.InputPasscodeScreen.title",
+    defaultMessage: "Set Passcode",
+  },
 });
 
 type SetPasswordError =
@@ -42,11 +45,7 @@ type SetPasswordError =
     }
   | { error: false; isObscurePassword: false };
 
-export const SetPassword = ({
-  setScreen,
-}: {
-  setScreen: React.Dispatch<React.SetStateAction<PasscodeScreens>>;
-}) => {
+export const SetPasscode: NativeNavigationComponent<"SetPasscode"> = () => {
   const [error, setError] = React.useState<SetPasswordError>({
     error: false,
     isObscurePassword: false,
@@ -54,25 +53,23 @@ export const SetPassword = ({
   const [initialPass, setInitialPass] = React.useState("");
   const [isConfirming, setIsConfirming] = React.useState(false);
 
-  function setInitialPassWithErrorCheck(password: string) {
-    if (error.error && password.length > 0)
-      setError({ error: false, isObscurePassword: false });
-
-    setInitialPass(password);
+  function hideError() {
+    setError({ error: false, isObscurePassword: false });
   }
 
-  function validate() {
-    if (initialPass === OBSCURE_PASSCODE) {
+  function validate(inputVal: string) {
+    if (inputVal === OBSCURE_PASSCODE) {
       setError({ error: true, isObscurePassword: true });
       setInitialPass("");
       return;
     }
 
-    if (initialPass.length < 5) {
+    if (inputVal.length < 5) {
       setError({ error: true, isObscurePassword: false });
       return;
     }
 
+    setInitialPass(inputVal);
     setIsConfirming(true);
   }
 
@@ -89,8 +86,7 @@ export const SetPassword = ({
         validate={validate}
         error={error.error}
         showPasscodeValues={true}
-        inputValue={initialPass}
-        setInputValue={setInitialPassWithErrorCheck}
+        hideError={hideError}
       />
     );
   }
@@ -98,21 +94,15 @@ export const SetPassword = ({
   return <SetPasswordConfirm initialPass={initialPass} />;
 };
 
+SetPasscode.navTitle = m.title;
+
 const SetPasswordConfirm = ({ initialPass }: { initialPass: string }) => {
   const [error, setError] = React.useState(false);
   const { navigate } = useNavigationFromRoot();
-  const { setAuthValues } = React.useContext(SecurityContext);
 
-  const [confirmPass, setConfirmPass] = React.useState("");
-
-  function confirmPassWithCheck(password: string) {
-    if (error && password.length > 0) setError(false);
-    setConfirmPass(password);
-  }
-
-  function validate() {
-    if (confirmPass === initialPass) {
-      navigate("ConfirmPasscodeSheet", { passcode: confirmPass });
+  function validate(inputVal: string) {
+    if (inputVal === initialPass) {
+      navigate("ConfirmPasscodeSheet", { passcode: inputVal });
       return;
     }
 
@@ -129,8 +119,9 @@ const SetPasswordConfirm = ({ initialPass }: { initialPass: string }) => {
       validate={validate}
       error={error}
       showPasscodeValues={true}
-      inputValue={confirmPass}
-      setInputValue={confirmPassWithCheck}
+      hideError={() => {
+        setError(false);
+      }}
     />
   );
 };
