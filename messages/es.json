@@ -188,6 +188,9 @@
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
     "message": "Esta contraseña será necesaria para abrir la aplicación de Mapeo"
   },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.title": {
+    "message": "Establecer la Contraseña de la aplicación"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continuar"
   },
@@ -211,6 +214,9 @@
   },
   "screens.AppPasscode.TurnOffPasscode.description": {
     "message": "La Contraseña de la aplicación añade una capa adicional de seguridad, requiriendo que introduzca un código de acceso para abrir la aplicación de Mapeo."
+  },
+  "screens.AppPasscode.TurnOffPasscode.title": {
+    "message": "Contraseña de la aplicación"
   },
   "screens.AppPasscode.TurnOffPasscode.turnOff": {
     "message": "Desactivar"
@@ -808,7 +814,7 @@
     "message": "Usar el recurso de Mapas de fondo"
   },
   "screens.Settings.Experiments.BGMaps.warning": {
-    "message": "ATENCIÓN: Cuando esta función esté activada, no tendrá acceso al mapa que ha estado usando previamente en Mapeo. Desactive el Administrador de mapas para volver a su mapa anterior. Tenga en cuenta que esta característica todavía está en fase de prueba piloto y tendrá que volver a importar los mapas añadidos al Administrador de mapas una vez que la versión final sea lanzada."
+    "message": "ATENCIÓN: Cuando esta función esté activada, no tendrás acceso al mapa que has estado usando previamente en Mapeo. Desactiva la Administración de mapas para volver a tu mapa anterior. Ten en cuenta que esta característica todavía está en fase de prueba piloto y tendrás que volver a importar los mapas añadidos a la Administración de mapas una vez que la versión final sea lanzada."
   },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Flecha direccional"
@@ -1176,7 +1182,7 @@
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
-    "message": "Asegúrese de que otros dispositivos están encendidos y conectados a la misma red WiFi"
+    "message": "Asegúrate de que otros dispositivos están encendidos y conectados a la misma red WiFi"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
@@ -1252,7 +1258,7 @@
   },
   "screens.UnableToLink.tryAnotherMethod": {
     "description": "Suggests that user tries another method for adding another device to the project.",
-    "message": "Intente conectarse usando uno de los otros métodos a continuación."
+    "message": "Intenta conectarte usando uno de los otros métodos a continuación."
   },
   "screens.UnableToLink.unableToLink": {
     "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
