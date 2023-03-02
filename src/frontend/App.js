@@ -5,6 +5,11 @@ import * as React from "react";
 import { LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// We need to wrap the app with this provider to fix an the bottom sheet modal backdrop
+// not overlaying the navigation header. Without this, the header is accessible even when
+// the modal is open, which we don't want (e.g. header back button shouldn't be reachable).
+// See https://github.com/gorhom/react-native-bottom-sheet/issues/1157
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 import ErrorScreen from "./screens/UncaughtError";
