@@ -1,7 +1,11 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { Linking, StyleSheet, Text, View } from "react-native";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import {
+  ScrollView,
+  TouchableHighlight,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import { LIGHT_BLUE, LIGHT_GREY } from "../../../lib/styles";
@@ -61,24 +65,27 @@ export const BackgroundMapsSettings: NativeNavigationComponent<"BGMapsSettings">
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.text}>{t(m.BGMapsDescription)}</Text>
-      <View>
-        <Text style={[styles.text, { marginBottom: 0 }]}>
-          {t(m.BGMapsOnlineSupport)}
-        </Text>
-        <Text
-          style={[
-            styles.text,
-            { color: LIGHT_BLUE, textDecorationLine: "underline" },
-          ]}
-          onPress={() => {
-            Linking.openURL(
-              "https://docs.mapeo.app/complete-reference-guide/customization-options/custom-base-maps/creating-custom-maps/creating-mbtiles"
-            );
-          }}
-        >
-          {t(m.shortLink)}
-        </Text>
-      </View>
+      <TouchableOpacity
+        onPress={() => {
+          Linking.openURL(
+            "https://docs.mapeo.app/complete-reference-guide/customization-options/custom-base-maps/creating-custom-maps/creating-mbtiles"
+          );
+        }}
+      >
+        <>
+          <Text style={[styles.text, { marginBottom: 0 }]}>
+            {t(m.BGMapsOnlineSupport)}
+          </Text>
+          <Text
+            style={[
+              styles.text,
+              { color: LIGHT_BLUE, textDecorationLine: "underline" },
+            ]}
+          >
+            {t(m.shortLink)}
+          </Text>
+        </>
+      </TouchableOpacity>
       <Text style={styles.text}>{t(m.feedBack)}</Text>
       <Text style={styles.text}>{t(m.warning)}</Text>
       <TouchableOpacity
