@@ -1,13 +1,11 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import {
-  View,
   Image,
   Text,
   StyleSheet,
   ScrollView,
   KeyboardAvoidingView,
-  Dimensions,
 } from "react-native";
 
 import { DARK_BLUE, RED, WHITE } from "../lib/styles";
@@ -52,6 +50,10 @@ export const AuthScreen = ({
     if (authState === "unauthenticated") return;
     navigation.goBack();
   }, [authState, navigation]);
+
+  if (error) {
+    if (inputtedPass.length === 5) setInputtedPass("");
+  }
 
   function setInputWithValidation(passValue: string) {
     if (error) {
