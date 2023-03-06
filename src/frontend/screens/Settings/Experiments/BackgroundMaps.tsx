@@ -1,11 +1,7 @@
 import * as React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { Linking, StyleSheet, Text, View } from "react-native";
-import {
-  ScrollView,
-  TouchableHighlight,
-  TouchableOpacity,
-} from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import { LIGHT_BLUE, LIGHT_GREY } from "../../../lib/styles";
