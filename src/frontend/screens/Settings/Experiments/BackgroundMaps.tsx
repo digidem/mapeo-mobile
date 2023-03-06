@@ -61,24 +61,27 @@ export const BackgroundMapsSettings: NativeNavigationComponent<"BGMapsSettings">
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.text}>{t(m.BGMapsDescription)}</Text>
-      <View>
-        <Text style={[styles.text, { marginBottom: 0 }]}>
-          {t(m.BGMapsOnlineSupport)}
-        </Text>
-        <Text
-          style={[
-            styles.text,
-            { color: LIGHT_BLUE, textDecorationLine: "underline" },
-          ]}
-          onPress={() => {
-            Linking.openURL(
-              "https://docs.mapeo.app/complete-reference-guide/customization-options/custom-base-maps/creating-custom-maps/creating-mbtiles"
-            );
-          }}
-        >
-          {t(m.shortLink)}
-        </Text>
-      </View>
+      <TouchableOpacity
+        onPress={() => {
+          Linking.openURL(
+            "https://docs.mapeo.app/complete-reference-guide/customization-options/custom-base-maps/creating-custom-maps/creating-mbtiles"
+          );
+        }}
+      >
+        <React.Fragment>
+          <Text style={[styles.text, { marginBottom: 0 }]}>
+            {t(m.BGMapsOnlineSupport)}
+          </Text>
+          <Text
+            style={[
+              styles.text,
+              { color: LIGHT_BLUE, textDecorationLine: "underline" },
+            ]}
+          >
+            {t(m.shortLink)}
+          </Text>
+        </React.Fragment>
+      </TouchableOpacity>
       <Text style={styles.text}>{t(m.feedBack)}</Text>
       <Text style={styles.text}>{t(m.warning)}</Text>
       <TouchableOpacity
