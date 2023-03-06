@@ -53,7 +53,10 @@ export const InputPasscode = ({
     cellCount: CELL_COUNT,
   });
 
-  if (error) inputRef.current?.focus();
+  if (error) {
+    inputRef.current?.focus();
+    if (inputValue.length === 5) setInputValue("");
+  }
 
   function updateInput(newVal: string) {
     if (error) hideError();
