@@ -68,7 +68,7 @@ export const BackgroundMapsSettings: NativeNavigationComponent<"BGMapsSettings">
           );
         }}
       >
-        <>
+        <React.Fragment>
           <Text style={[styles.text, { marginBottom: 0 }]}>
             {t(m.BGMapsOnlineSupport)}
           </Text>
@@ -80,7 +80,7 @@ export const BackgroundMapsSettings: NativeNavigationComponent<"BGMapsSettings">
           >
             {t(m.shortLink)}
           </Text>
-        </>
+        </React.Fragment>
       </TouchableOpacity>
       <Text style={styles.text}>{t(m.feedBack)}</Text>
       <Text style={styles.text}>{t(m.warning)}</Text>
