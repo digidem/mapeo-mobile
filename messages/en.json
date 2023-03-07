@@ -847,6 +847,9 @@
   "screens.Settings.Experiments.DirectionalArrow.useArrow": {
     "message": "Use Directional Arrow"
   },
+  "screens.Settings.Experiments.P2pUpgrade.p2pWillBeDeprecated": {
+    "message": "Important: A new restriction by Google means that you can no longer update this app via P2P updates. However, activating this feature will still allow you to update older versions of Mapeo up to v5.6.0 on other phones. We are doing research on ways we can resolve this issue for future versions of Mapeo Mobile"
+  },
   "screens.Settings.Experiments.P2pUpgrade.title": {
     "message": "P2P App Updates"
   },
