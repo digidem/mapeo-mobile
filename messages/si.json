@@ -137,11 +137,17 @@
   "screens.AppPasscode": {
     "message": "යෙදුම් මුර කේතය"
   },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.title": {
+    "message": "යෙදුම් මුර කේතය"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "ඉදිරියට යන්න"
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "යෙදුම් මුර කේතය යනු කුමක්ද?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.title": {
+    "message": "යෙදුම් මුර කේතය"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
