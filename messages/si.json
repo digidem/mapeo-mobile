@@ -31,6 +31,14 @@
     "description": "Title of dialog shown to the user when Mapeo is updated",
     "message": "Mapeo යාවත්කාලීන ✅"
   },
+  "hooks.useMapStyles.defaultMapName": {
+    "description": "The name of the default background map",
+    "message": "පෙරනිමිය"
+  },
+  "hooks.useMapStyles.offlineMapName": {
+    "description": "The name of the legacy offline background map",
+    "message": "නොබැඳි සිතියම"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Android ගොඩනැගීමේ අංකය"
@@ -137,6 +145,52 @@
   "screens.AppPasscode": {
     "message": "යෙදුම් මුර කේතය"
   },
+  "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.passcode": {
+    "description": "used to indicate to the user what the new passcode will be.",
+    "message": "මුරකේතය"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
+    "message": "යෙදුම් මුර කේතය සුරකින්න"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.title": {
+    "message": "යෙදුම් මුරකේත නැති වුවහොත් හෝ අමතක වූවා නම් කිසිවිටෙක ආපසු ලබාගත නොහැක! සුරැකීමට පෙර ඔබේ මුර කේතය ආරක්ෂිත ස්ථානයක සටහන් කිරීමට වග බලා ගන්න."
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter": {
+    "message": "කරුණාකර මුර කේතය ඇතුලත් කරන්න"
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
+    "message": "මුරකේතය ඇතුල්කරන්න"
+  },
+  "screens.AppPasscode.InputPasscodeScreen.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
+    "message": "මුරකේතය නැවත ඇතුල්කරන්න"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
+    "message": "යෙදුම් මුර කේතය සකසන්න"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
+    "message": "ඊළඟ"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError": {
+    "message": "මුරපදය අංක 5ක් විය යුතුය"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError": {
+    "message": "මුර කේතයක් ලෙස භාවිතා කළ නොහැක"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
+    "message": "මුරපදය නොගැලපේ"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "වැරදි මුර කේතය"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
+    "message": "Mapeo යෙදුම විවෘත කිරීමට මෙම මුර කේතය අවශ්‍ය වනු ඇත"
+  },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.title": {
     "message": "යෙදුම් මුර කේතය"
   },
@@ -145,6 +199,18 @@
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "යෙදුම් මුර කේතය යනු කුමක්ද?"
+  },
+  "screens.AppPasscode.PasscodeIntro.description": {
+    "message": "Mapeo යෙදුම විවෘත කිරීම සඳහා ඔබට මුරකේතයක් ඇතුළත් කිරීම අවශ්‍ය කිරීමෙන් අමතර ආරක්ෂක ස්ථරයක් එක් කිරීමට යෙදුම් මුරකේතය ඔබට ඉඩ සලසයි. පහත විශේෂාංගය ක්‍රියාත්මක කිරීමෙන් ඔබට ඔබේම ඉලක්කම් 5ක මුරකේතය අර්ථ දැක්විය හැක."
+  },
+  "screens.AppPasscode.TurnOffPasscode.cancel": {
+    "message": "අවලංගු කරන්න"
+  },
+  "screens.AppPasscode.TurnOffPasscode.changePasscode": {
+    "message": "මුර කේතය වෙනස් කරන්න"
+  },
+  "screens.AppPasscode.TurnOffPasscode.currentlyUsing": {
+    "message": "ඔබ දැනට යෙදුම් මුරකේතය භාවිතා කරයි. ඔබගේ මුර කේතය භාවිතා කිරීම නැවැත්වීමට හෝ වෙනස් කිරීමට පහත බලන්න."
   },
   "screens.AppPasscode.TurnOffPasscode.title": {
     "message": "යෙදුම් මුර කේතය"
@@ -1113,6 +1179,10 @@
   },
   "sharedComponents.BGMapCard.currentMap": {
     "message": "වත්මන් සිතියම"
+  },
+  "sharedComponents.BGMapCard.waitingForImport": {
+    "description": "Progress bar message indicating that import is waiting to start",
+    "message": "ආනයනය සඳහා රැඳී සිටිමින්..."
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "වසන්න"
