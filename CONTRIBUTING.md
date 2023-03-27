@@ -1,16 +1,39 @@
 # Contributing
 
-Thank you so much for taking the time to contribute to Mapeo development!
-mapeo-mobile is a mobile app written in react-native that currently runs on
-Android. For most development you will need the Android SDK installed on your
-computer, but it is possible to contribute to UI Component development using the
-storybook server.
+Thank you so much for taking the time to contribute to Mapeo development! Mapeo-mobile is a mobile app written in react-native that currently runs on Android mobile devices. 
 
-## Initial Install
+## Setting Up the Development Environment
 
-In order to start developing you will need git and node >=v10 installed on your
-computer (node v14 does not seem to be working at this time, you can use [nvm](https://github.com/nvm-sh/nvm) to rollback
-your node version). For many development tasks you will also need the Android SDK installed.
+To get started with Mapeo-mobile development, you need some basic software installed on your computer. Please ensure you have correct version of required software for pain-free development experience. 
+
+### Prerequisites
+
+* A OSX, gnu/Linux, Windows OS (64bit) computer with plenty of disk space and multi-core CPU for faster builds.  
+* Node 12 (<=12.16.3)
+* NPM (Node Package Manager) or Yarn 
+* Git 
+
+We are currently using Node 12 LTS for our development work. Please refer to [React-Native documentation](https://reactnative.dev/docs/environment-setup) if you need any additional information. 
+
+You are encouraged to use [nvm](https://github.com/nvm-sh/nvm) program to easily switch between different versions of Node.js versions.
+
+### Build Requirements 
+
+For many development tasks you will also need the Android SDK installed to build Node.js for Android.
+
+* Java SDK  
+* Android command-line platform tools 
+* Android SDK (Android API 29) 
+* Android NDK (21.4.7075529)
+* Andriod AVD Image (x86 ABI image for Android 10 or lower)
+* Android Studio is optional as most tasks are done using the 'gradle' build tool, which is available through the mapeo-mobile source code itself.
+
+Please refer to [Android Build number](https://source.android.com/setup/start/build-numbers) page for full description of Android versions. 
+
+
+### Setup 
+
+Checkout the source code of Mapeo-mobile on your computer using 'git' command and then install the dependencies using 'npm' or 'yarn' tool.
 
 ```sh
 git clone https://github.com/digidem/mapeo-mobile.git
