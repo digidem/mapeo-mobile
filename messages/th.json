@@ -702,6 +702,9 @@
   "screens.Settings.Experiments.DirectionalArrow.useArrow": {
     "message": "ใช้ลูกศรทิศทาง"
   },
+  "screens.Settings.Experiments.P2pUpgrade.p2pWillBeDeprecated": {
+    "message": "สำคัญ: ข้อจำกัดใหม่จาก Google คือ คุณไม่สามารถอัปเดตแอปนี้ผ่านการอัปเดต P2P ได้อีกต่อไป อย่างไรก็ตาม การเปิดใช้งานฟีเจอร์นี้จะยังคงอนุญาตให้คุณอัปเดต Mapeo เวอร์ชันเก่าได้ถึงเวอร์ชั่น v5.6.0 บนโทรศัพท์เครื่องอื่นได้ เรากำลังศึกษาแนวทางแก้ไขประเด็นนี้สำหรับ Mapeo Mobile เวอร์ชั่นใหม่"
+  },
   "screens.Settings.Experiments.P2pUpgrade.title": {
     "message": "การอัปเดตแอปเครือข่ายเพียร์ทูเพียร์ (P2P) "
   },
