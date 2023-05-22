@@ -104,7 +104,7 @@
     "react-native-safe-area-context": "^3.4.1",
     "react-native-scale-bar": "^1.0.6",
     "react-native-screens": "^3.13.1",
-    "react-native-share": "^3.7.0",
+    "react-native-share": "^8.2.2",
     "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^12.1.1",
     "react-native-tab-view": "^2.15.1",
