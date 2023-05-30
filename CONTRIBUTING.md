@@ -112,8 +112,7 @@ to check that you can see the phone. You may need to unlock the phone screen and
 say that you trust your computer in order for adb to connect.
 
 You can also test Mapeo Mobile in an emulator. [Set up a virtual device in
-Android Studio](https://developer.android.com/studio/run/managing-avds). Choose
-`x86` as the `ABI`, since this will be much faster.
+Android Studio](https://developer.android.com/studio/run/managing-avds).
 
 ### Starting the dev version of Mapeo Mobile
 

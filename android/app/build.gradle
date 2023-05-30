@@ -233,7 +233,8 @@ android {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+            // nodejs-mobile v16.17.X does not support x86: https://github.com/nodejs-mobile/nodejs-mobile/blob/main/doc_mobile/CHANGELOG.md#2023-01-26-version-16170
+            include "armeabi-v7a", "arm64-v8a", "x86_64" // "x86"
         }
     }
     signingConfigs {
@@ -286,7 +287,8 @@ android {
             // For depedencies, fallback to using this build type name
             matchingFallbacks = ['release']
             ndk {
-                abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+                // nodejs-mobile v16.17.X does not support x86: https://github.com/nodejs-mobile/nodejs-mobile/blob/main/doc_mobile/CHANGELOG.md#2023-01-26-version-16170
+                abiFilters "armeabi-v7a", "arm64-v8a", "x86_64" // "x86"
             }
         }
         // Build type for intel devices (chromebooks and rare phones)
@@ -296,7 +298,8 @@ android {
             signingConfig signingConfigs.release
             matchingFallbacks = ['release']
             ndk {
-                abiFilters "x86", "x86_64"
+                // nodejs-mobile v16.17.X does not support x86: https://github.com/nodejs-mobile/nodejs-mobile/blob/main/doc_mobile/CHANGELOG.md#2023-01-26-version-16170
+                abiFilters "x86_64" // "x86"
             }
         }
         debug {
@@ -304,7 +307,8 @@ android {
             signingConfig signingConfigs.debug
             applicationIdSuffix ".debug"
             ndk {
-                abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+                // nodejs-mobile v16.17.X does not support x86: https://github.com/nodejs-mobile/nodejs-mobile/blob/main/doc_mobile/CHANGELOG.md#2023-01-26-version-16170
+                abiFilters "armeabi-v7a", "arm64-v8a", "x86_64" // "x86"
             }
             manifestPlaceholders = [bugsnagReleaseStage: "development"]
         }
@@ -321,7 +325,7 @@ android {
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            // The special intel (x86) build type needs to have a different
+            // The special intel (e.g. x86, x86_64) build type needs to have a different
             // version code to the release build type if they are to be
             // published alongside each other on the Play Store
             if (variant.buildType.name == "intel") {
