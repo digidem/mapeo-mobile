@@ -2,6 +2,8 @@ package com.mapeo;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
+import androidx.annotation.NonNull;
 
 import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
@@ -14,15 +16,12 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 
-import com.mapeo.generated.BasePackageList;
-import org.unimodules.adapters.react.ModuleRegistryAdapter;
-import org.unimodules.adapters.react.ReactModuleRegistryProvider;
-import org.unimodules.core.interfaces.SingletonModule;
+import expo.modules.ApplicationLifecycleDispatcher;
+import expo.modules.ReactNativeHostWrapper;
 
 import com.mapeo.AppInfoPackage;
 import com.mapeo.ApkInstallerPackage;
 
-import java.util.Arrays;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -35,7 +34,9 @@ public class MainApplication extends Application implements ShareApplication, Re
     return BuildConfig.APPLICATION_ID + ".provider";
   }
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHostWrapper(
+    this,
+    new ReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
@@ -48,7 +49,7 @@ public class MainApplication extends Application implements ShareApplication, Re
       // Packages that cannot be autolinked yet can be added manually here, for
       // example:
       // packages.add(new MyReactNativePackage());
-      packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
+      
       packages.add(new AppInfoPackage());
       packages.add(new ApkInstallerPackage());
       return packages;
@@ -58,7 +59,7 @@ public class MainApplication extends Application implements ShareApplication, Re
     protected String getJSMainModuleName() {
       return "index";
     }
-  };
+  });
 
   @Override
   public ReactNativeHost getReactNativeHost() {
@@ -71,8 +72,14 @@ public class MainApplication extends Application implements ShareApplication, Re
     Bugsnag.start(this);
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    ApplicationLifecycleDispatcher.onApplicationCreate(this);
   }
 
+  @Override
+  public void onConfigurationChanged(@NonNull Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig);
+  }
   /**
    * Loads Flipper in React Native templates. Call this in the onCreate method
    * with something like
