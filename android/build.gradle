@@ -88,9 +88,9 @@ buildscript {
         maven { url("https://maven.google.com") }
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.2.2")
+        classpath("com.android.tools.build:gradle:7.0.2")
         // Bugsnag plugin for uploading source maps and symbols to bugsnag
-        classpath 'com.bugsnag:bugsnag-android-gradle-plugin:5.+'
+        classpath 'com.bugsnag:bugsnag-android-gradle-plugin:7.+'
         // Used in ./app/build.gradle to parse app version for Bugsnag
         classpath 'net.swiftzer.semver:semver:1.2.0'
         // Used by Detox
