@@ -8,9 +8,16 @@ storybook server.
 
 ## Initial Install
 
-In order to start developing you will need git and node >=v10 installed on your
-computer (node v14 does not seem to be working at this time, you can use [nvm](https://github.com/nvm-sh/nvm) to rollback
-your node version). For many development tasks you will also need the Android SDK installed.
+In order to start developing you will need git, node v16, and npm v6 installed on your computer. We recommend using a node version management tool like [nvm](https://github.com/nvm-sh/nvm) to install and manage different node versions. For many development tasks you will also need the Android SDK installed.
+
+Note that when installing node v16, it comes with npm v8 by default, which will not work for this project. You can update the global npm version by running the following:
+
+```sh
+npm --version # check which npm version is installed globally
+npm install --global npm@6 # install v6 globally if necessary
+```
+
+To get started with the project, run the following:
 
 ```sh
 git clone https://github.com/digidem/mapeo-mobile.git
