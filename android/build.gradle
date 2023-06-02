@@ -43,11 +43,11 @@ buildscript {
         // - upgrading various (maybe all?) Expo modules (https://github.com/expo/expo/issues/12774)
         // 
         // As detailed in https://github.com/invertase/notifee/pull/217, this version works with v4.2 and v7+ of com.android.tools.build:gradle
-        buildToolsVersion = "30.0.3"
+        buildToolsVersion = "33.0.0"
         // Android 5.0 - requirement for expo unimodules
         minSdkVersion = 21
-        compileSdkVersion = 31
-        targetSdkVersion = 31
+        compileSdkVersion = 33
+        targetSdkVersion = 33
         supportLibVersion = "31.0.0"
         // Kotlin is needed by Detox testing framework and react-native-screens
         kotlinVersion = "1.6.10"
@@ -88,7 +88,8 @@ buildscript {
         maven { url("https://maven.google.com") }
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.2")
+        classpath("com.android.tools.build:gradle:7.3.1")
+        classpath("com.facebook.react:react-native-gradle-plugin")
         // Bugsnag plugin for uploading source maps and symbols to bugsnag
         classpath 'com.bugsnag:bugsnag-android-gradle-plugin:7.+'
         // Used in ./app/build.gradle to parse app version for Bugsnag
@@ -116,20 +117,13 @@ allprojects {
                 }
             }
         }
-        mavenLocal()
         maven { url("https://maven.google.com") }
-        maven {
-            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url(new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim(), "../android"))        }
-        maven {
-            // Android JSC is installed from npm
-            url(new File(["node", "--print", "require.resolve('jsc-android/package.json')"].execute(null, rootDir).text.trim(), "../dist"))        }
+        
+       
         maven {
             // expo-camera bundles a custom com.google.android:cameraview
             url("$rootDir/../node_modules/expo-camera/android/maven")
         }
-        google()
-        mavenCentral()
         // Needed for installing @react-native-mapbox-gl/maps, which relies on the v9 Maps SDK
         // Context: https://github.com/react-native-mapbox-gl/maps/issues/1572
         // Instructions for installation:
@@ -148,7 +142,6 @@ allprojects {
                 password = getenv("MAPBOX_DOWNLOAD_TOKEN") ?: ""
             }
         }
-        maven { url 'https://www.jitpack.io' }
         maven {
             // All of Detox' artifacts are provided via the npm module
             url "$rootDir/../node_modules/detox/Detox-android"

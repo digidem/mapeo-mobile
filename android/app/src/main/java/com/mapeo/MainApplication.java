@@ -1,7 +1,6 @@
 package com.mapeo;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.res.Configuration;
 import androidx.annotation.NonNull;
 
@@ -9,11 +8,12 @@ import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
-import com.facebook.react.ReactInstanceManager;
 import com.bugsnag.android.Bugsnag;
 import cl.json.ShareApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
+import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
+import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 
 import expo.modules.ApplicationLifecycleDispatcher;
@@ -22,7 +22,6 @@ import expo.modules.ReactNativeHostWrapper;
 import com.mapeo.AppInfoPackage;
 import com.mapeo.ApkInstallerPackage;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class MainApplication extends Application implements ShareApplication, ReactApplication {
@@ -36,7 +35,7 @@ public class MainApplication extends Application implements ShareApplication, Re
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHostWrapper(
     this,
-    new ReactNativeHost(this) {
+    new DefaultReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
@@ -59,6 +58,17 @@ public class MainApplication extends Application implements ShareApplication, Re
     protected String getJSMainModuleName() {
       return "index";
     }
+
+    @Override
+    protected boolean isNewArchEnabled() {
+      return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
+    }
+    
+    @Override
+    protected Boolean isHermesEnabled() {
+      return BuildConfig.IS_HERMES_ENABLED;
+    }
+
   });
 
   @Override

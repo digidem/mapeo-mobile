@@ -2,6 +2,8 @@ package com.mapeo;
 
 import android.os.Bundle; // react-native-splash-screen
 import com.facebook.react.ReactActivity;
+import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
+import com.facebook.react.defaults.DefaultReactActivityDelegate;
 import org.devio.rn.splashscreen.SplashScreen; // react-native-splash-screen
 
 /* Start: react-native-guesture-handler */
@@ -41,4 +43,5 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "mapeo";
     }
+    
 }
