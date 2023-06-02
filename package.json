@@ -68,7 +68,7 @@
     "expo": "^48.0.18",
     "expo-barcode-scanner": "^12.3.2",
     "expo-camera": "^13.2.1",
-    "expo-document-picker": "^8.3.0",
+    "expo-document-picker": "^11.2.2",
     "expo-linear-gradient": "^9.2.0",
     "expo-localization": "^10.2.0",
     "expo-location": "^12.1.0",
