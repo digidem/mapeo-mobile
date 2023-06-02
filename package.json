@@ -73,7 +73,7 @@
     "expo-localization": "^14.1.1",
     "expo-location": "^15.1.1",
     "expo-modules-autolinking": "^1.2.0",
-    "expo-sensors": "^10.2.0",
+    "expo-sensors": "^12.1.1",
     "fast-text-encoding": "^1.0.6",
     "flat": "^5.0.2",
     "ky": "^0.23.0",
