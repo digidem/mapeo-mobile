@@ -65,7 +65,7 @@
     "cheap-ruler": "^3.0.1",
     "core-js": "^3.6.5",
     "debug": "^4.1.1",
-    "expo": "^48.0.18",
+    "expo": "^48.0.0",
     "expo-barcode-scanner": "^12.3.2",
     "expo-camera": "^13.2.1",
     "expo-document-picker": "^11.2.2",
