@@ -77,6 +77,8 @@ android_test_task:
     echo "Hardware acceleration:"
     $ANDROID_HOME/emulator/emulator -accel-check
   start_emulator_background_script: $ANDROID_HOME/emulator/emulator -avd emu -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back emulated
+  # TODO: Ideally this step wouldn't be needed but npm v8 comes with node 16 by default and doesn't work for our project at the moment
+  update_global_npm_script: npm install --global npm@6.14.18
   node_modules_cache:
     folder: node_modules
     reupload_on_changes: false # since there is a fingerprint script
