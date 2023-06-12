@@ -269,7 +269,7 @@ workflows:
       - npm@1.1:
           title: Update npm
           inputs:
-            - command: install -g --force npm@^6.13
+            - command: install -g --force npm@^6.14.8
       - npm@1.1:
           title: npm ci
           inputs:
