@@ -85,7 +85,7 @@ android_test_task:
       - node --version
       - cat package-lock.json
       - find patches -name "*.patch" -exec cat {} +
-    populate_script: 
+    populate_script:
       - npm ci
   wait_for_emulator_script: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 3; done; input keyevent 82'
   disable_animations_script: |
