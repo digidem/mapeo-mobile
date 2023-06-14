@@ -205,7 +205,11 @@ class Storage extends AsyncService {
           try {
             fsStream.destroy(e);
             await fs.promises.unlink(tmpFilepath);
-          } catch (e) {}
+          } catch (_) {
+          } finally {
+            // TODO: This fixes the failing upgrade-storage tests
+            throw e;
+          }
         }
       },
     });
