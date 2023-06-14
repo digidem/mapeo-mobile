@@ -363,6 +363,8 @@ function beforeAfterStream({ createStream, finalize }) {
         }
         cb();
       } catch (e) {
+        // TODO: This fixes the failing beforeAfterStream test
+        if (wrappedStream && wrappedStream.destroyed) return;
         // Don't bubble up destroy errors a second time
         cb(e.__fromDestroy ? null : e);
       }
