@@ -31,6 +31,14 @@
     "description": "Title of dialog shown to the user when Mapeo is updated",
     "message": "Mapeo actualizado ✅"
   },
+  "hooks.useMapStyles.defaultMapName": {
+    "description": "The name of the default background map",
+    "message": "Predeterminado"
+  },
+  "hooks.useMapStyles.offlineMapName": {
+    "description": "The name of the legacy offline background map",
+    "message": "Mapa sin conexión"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Número de compilación de Android"
@@ -73,7 +81,7 @@
     "message": "Cancelar"
   },
   "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
-    "message": "Los Coordinadores pueden añadir y eliminar dispositivos de los proyectos"
+    "message": "Las personas coordinadoras pueden añadir y eliminar dispositivos de los proyectos"
   },
   "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
     "message": "Este dispositivo es un Coordinador"
@@ -132,7 +140,7 @@
     "message": "Ya estás en un proyecto"
   },
   "screens.AppPasscode": {
-    "message": "Contraseña de App"
+    "message": "Contraseña de la aplicación"
   },
   "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
     "message": "Cancelar"
@@ -147,11 +155,17 @@
   "screens.AppPasscode.ConfirmPasscodeSheet.title": {
     "message": "¡Si pierde u olvida la Contraseña de la aplicación, no va a poder recuperarla! Asegúrese de anotar su contraseña en un lugar seguro antes de guardar."
   },
+  "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter": {
+    "message": "Por favor, introduzca su contraseña"
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
+    "message": "Introduzca su contraseña"
+  },
   "screens.AppPasscode.InputPasscodeScreen.cancel": {
     "message": "Cancelar"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
-    "message": "Volver a introducir la contraseña"
+    "message": "Vuelva a introducir la contraseña"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
     "message": "Establecer la Contraseña de la aplicación"
@@ -168,8 +182,14 @@
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
     "message": "La contraseña no coincide"
   },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "Contraseña incorrecta"
+  },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
     "message": "Esta contraseña será necesaria para abrir la aplicación de Mapeo"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.title": {
+    "message": "Establecer la Contraseña de la aplicación"
   },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Continuar"
@@ -194,6 +214,9 @@
   },
   "screens.AppPasscode.TurnOffPasscode.description": {
     "message": "La Contraseña de la aplicación añade una capa adicional de seguridad, requiriendo que introduzca un código de acceso para abrir la aplicación de Mapeo."
+  },
+  "screens.AppPasscode.TurnOffPasscode.title": {
+    "message": "Contraseña de la aplicación"
   },
   "screens.AppPasscode.TurnOffPasscode.turnOff": {
     "message": "Desactivar"
@@ -344,6 +367,24 @@
   },
   "screens.LeaveProject.LeaveProject": {
     "message": "Abandonar proyecto"
+  },
+  "screens.LeaveProject.LeaveProject.agreeToDelete": {
+    "message": "Entiendo que borraré todos los datos de mi dispositivo."
+  },
+  "screens.LeaveProject.LeaveProject.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.LeaveProject.LeaveProject.confirmDelete": {
+    "message": "Por favor, marque la casilla para continuar"
+  },
+  "screens.LeaveProject.LeaveProject.headerTitle": {
+    "message": "Abandonar proyecto"
+  },
+  "screens.LeaveProject.LeaveProject.leaveButton": {
+    "message": "Abandonar proyecto"
+  },
+  "screens.LeaveProject.LeaveProject.syncWarning": {
+    "message": "Sincroniza con alguien del equipo para que no pierdas todas tus observaciones."
   },
   "screens.LeaveProject.LeaveProjectCompleted.goHome": {
     "message": "Ir a la página principal"
@@ -773,7 +814,7 @@
     "message": "Usar el recurso de Mapas de fondo"
   },
   "screens.Settings.Experiments.BGMaps.warning": {
-    "message": "ATENCIÓN: Cuando esta función esté activada, no tendrá acceso al mapa que ha estado usando previamente en Mapeo. Desactive el Administrador de mapas para volver a su mapa anterior. Tenga en cuenta que esta característica todavía está en fase de prueba piloto y tendrá que volver a importar los mapas añadidos al Administrador de mapas una vez que la versión final sea lanzada."
+    "message": "ATENCIÓN: Cuando esta función esté activada, no tendrás acceso al mapa que has estado usando previamente en Mapeo. Desactiva la Administración de mapas para volver a tu mapa anterior. Ten en cuenta que esta característica todavía está en fase de prueba piloto y tendrás que volver a importar los mapas añadidos a la Administración de mapas una vez que la versión final sea lanzada."
   },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "Flecha direccional"
@@ -788,13 +829,13 @@
     "message": "Usar Flecha direccional"
   },
   "screens.Settings.Experiments.P2pUpgrade.title": {
-    "message": "Actualizaciones P2P de la App"
+    "message": "Actualizaciones entre pares (P2P) de la aplicación"
   },
   "screens.Settings.Experiments.P2pUpgrade.useP2p": {
-    "message": "Usar Actualizaciones P2P de la App"
+    "message": "Usar Actualizaciones entre pares (P2P) de la aplicación"
   },
   "screens.Settings.Experiments.P2pUpgrade.warning": {
-    "message": "Las Actualizaciones P2P (entre pares) de la aplicación le permiten compartir y recibir nuevas versiones de la aplicación Mapeo conectándose a otros dispositivos Mapeo a través de Wi-Fi (sin necesidad de conexión a Internet). Para utilizar esta función, la pantalla de sincronización de Mapeo debe estar abierta en ambos dispositivos."
+    "message": "Las Actualizaciones entre pares (P2P) de la aplicación permiten compartir y recibir nuevas versiones de la aplicación Mapeo conectándose a otros dispositivos de Mapeo a través de WiFi (sin necesidad de conexión a Internet). Para utilizar esta función, la pantalla de Sincronización de Mapeo debe estar abierta en ambos dispositivos."
   },
   "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
     "message": "NOTA: Al actualizar la versión de la aplicación de Mapeo de esta manera, NINGUNO de sus datos de Mapeo (observaciones, configuraciones o mapas) es compartido entre dispositivos."
@@ -812,7 +853,7 @@
   },
   "screens.Settings.Experiments.p2pUpgrades": {
     "description": "Label for p2p app updates",
-    "message": "Actualizaciones P2P de la App"
+    "message": "Actualizaciones entre pares (P2P) de la aplicación"
   },
   "screens.Settings.Experiments.p2pUpgradesDesc": {
     "description": "Label for p2p upgrades description",
@@ -837,11 +878,63 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Tú) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMapInfo.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.deleteMap": {
+    "message": "Eliminar mapa"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.description": {
+    "message": "Nivel de detalle"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.maxZoom": {
+    "description": "Shows the user the max zoom for an offline map",
+    "message": "Zoom máximo"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.mb": {
+    "description": "abbreviation for megabyte",
+    "message": "MB"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.minZoom": {
+    "description": "Shows the user the min zoom for an offline map",
+    "message": "Zoom mínimo"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.removeMap": {
+    "message": "Eliminar mapa"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.subtitle": {
+    "message": "Este mapa y las áreas fuera de línea adjuntas a él serán eliminadas permanentemente. Esta acción no se puede deshacer"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.useMap": {
+    "message": "Usar mapa"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.zoomRange": {
+    "description": "Shows the user the range of zoom available for an offline map",
+    "message": "Rango del Zoom"
+  },
   "screens.Settings.MapSettings.BackgroundMapTitle": {
     "message": "Mapas de fondo"
   },
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Añadir mapa de fondo"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMap": {
+    "message": "Eliminar mapa"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapMessage": {
+    "message": "¿Seguro que desea eliminar el mapa {mapName}?"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapWarning": {
+    "message": "Esta área ya no estará disponible sin conexión a internet. Esta acción no se puede deshacer."
+  },
+  "screens.Settings.MapSettings.addBGMap": {
+    "message": "Añadir mapa de fondo"
+  },
+  "screens.Settings.MapSettings.backgroundMapTitle": {
+    "message": "Mapas de fondo"
   },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Mapas de fondo"
@@ -853,19 +946,35 @@
     "description": "Confirm delete map modal button",
     "message": "Sí, eliminar"
   },
+  "screens.Settings.MapSettings.defaultMap": {
+    "description": "Name of default map",
+    "message": "Mapa por defecto"
+  },
   "screens.Settings.MapSettings.deleteMapTitle": {
     "description": "Title for the delete map modal",
     "message": "Eliminar mapa"
   },
-  "screens.Settings.MapSettings.importError": {
-    "description": "Error importing map warning",
+  "screens.Settings.MapSettings.fileErrorDescription": {
+    "description": "Description for file error in bottom sheet content",
     "message": "Error al importar el mapa, por favor inténtelo con un archivo diferente."
+  },
+  "screens.Settings.MapSettings.importErrorDescription": {
+    "description": "Description for import error in bottom sheet content",
+    "message": "No se puede importar {styleNames}. Re-importa el mapa {fileCount, plural, one {archivo} other {¡archivos}} para intentarlo de nuevo."
+  },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "Error al importar"
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Importar desde archivo"
   },
   "screens.Settings.MapSettings.mapSettings": {
     "message": "Ajustes del mapa"
+  },
+  "screens.Settings.MapSettings.processingFile": {
+    "description": "Description for when a file is being processed for import",
+    "message": "Procesando archivo..."
   },
   "screens.Settings.MapSettings.subtitle": {
     "message": "Agregar, eliminar y ver detalles del mapa"
@@ -1073,7 +1182,7 @@
   },
   "screens.SyncModal.SyncView.searchingDesc": {
     "description": "Description shown whilst searcing for sync peers",
-    "message": "Asegúrese de que otros dispositivos están encendidos y conectados a la misma red WiFi"
+    "message": "Asegúrate de que otros dispositivos están encendidos y conectados a la misma red WiFi"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
@@ -1149,7 +1258,7 @@
   },
   "screens.UnableToLink.tryAnotherMethod": {
     "description": "Suggests that user tries another method for adding another device to the project.",
-    "message": "Intente conectarse usando uno de los otros métodos a continuación."
+    "message": "Intenta conectarte usando uno de los otros métodos a continuación."
   },
   "screens.UnableToLink.unableToLink": {
     "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
@@ -1228,9 +1337,21 @@
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Mapa actual"
   },
+  "sharedComponents.BGMapCard.errorOccurred": {
+    "description": "Message describing that error occurred for map import",
+    "message": "Se ha producido un error"
+  },
+  "sharedComponents.BGMapCard.importInProgress": {
+    "description": "Progress bar message about the import being in progress",
+    "message": "Importando…"
+  },
   "sharedComponents.BGMapCard.unamedStyle": {
     "description": "The name for the default map style",
     "message": "Estilo sin nombre"
+  },
+  "sharedComponents.BGMapCard.waitingForImport": {
+    "description": "Progress bar message indicating that import is waiting to start",
+    "message": "Esperando para importar…"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Cerrar"

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import { LIGHT_GREY } from "../../../lib/styles";
+import { LIGHT_GREY, RED } from "../../../lib/styles";
 import { useExperiments } from "../../../hooks/useExperiments";
 import { NativeNavigationComponent } from "../../../sharedTypes";
 
@@ -27,6 +27,11 @@ const m = defineMessages({
     id: "screens.Settings.Experiments.P2pUpgrade.useP2p",
     defaultMessage: "Use P2P App Updater",
   },
+  p2pWillBeDeprecated: {
+    id: "screens.Settings.Experiments.P2pUpgrade.p2pWillBeDeprecated",
+    defaultMessage:
+      "Important: A new restriction by Google means that you can no longer update this app via P2P updates. However, activating this feature will still allow you to update older versions of Mapeo up to v5.6.0 on other phones. We are doing research on ways we can resolve this issue for future versions of Mapeo Mobile",
+  },
 });
 
 export const P2pUpgrade: NativeNavigationComponent<"P2pUpgrade"> = () => {
@@ -42,6 +47,10 @@ export const P2pUpgrade: NativeNavigationComponent<"P2pUpgrade"> = () => {
 
       <Text style={[{ marginTop: 20 }, styles.text]}>
         <FormattedMessage {...m.warningSubheader} />
+      </Text>
+
+      <Text style={[styles.text, { marginTop: 20, color: RED }]}>
+        <FormattedMessage {...m.p2pWillBeDeprecated} />
       </Text>
 
       <View style={[styles.switchContainer]}>
@@ -79,7 +88,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   switchContainer: {
-    marginTop: 20,
+    marginVertical: 20,
     paddingVertical: 20,
     borderColor: LIGHT_GREY,
     borderTopWidth: 2,

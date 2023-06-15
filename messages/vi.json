@@ -150,17 +150,71 @@
   "screens.AppPasscode.ConfirmPasscodeSheet.title": {
     "message": "Mật khẩu ứng dụng không thể được phục hồi nếu bị mất hoặc bị quên! Hãy nhớ ghi lại mật khẩu của bạn ở một nơi an toàn trước khi lưu để dùng."
   },
+  "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter": {
+    "message": "Vui lòng nhập mật khẩu"
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
+    "message": "Nhập mật khẩu"
+  },
+  "screens.AppPasscode.InputPasscodeScreen.cancel": {
+    "message": "Hủy"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
+    "message": "Nhập lại mật khẩu"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
+    "message": "Thiết lập mật khauar ứng dụng"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
+    "message": "Tiếp theo"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError": {
+    "message": "Mật khẩu phải có 5 số"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError": {
+    "message": "Không thể sử dụng làm mật khẩu"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
+    "message": "Mật khẩu không khớp"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "Mật khẩu không đúng"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
+    "message": "Mật khẩu này sẽ được yêu cầu để mở ứng dụng Mapeo"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Tiếp tục"
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "Mật khẩu Ứng dụng là gì?"
   },
+  "screens.AppPasscode.PasscodeIntro.description": {
+    "message": "Mật khẩu ứng dụng cho phép bạn thêm một lớp bảo mật bổ sung bằng cách yêu cầu bạn nhập mật khẩu để mở ứng dụng Mapeo. Bạn có thể xác định mật khẩu gồm 5 chữ số của riêng mình bằng cách bật tính năng bên dưới."
+  },
+  "screens.AppPasscode.PasscodeIntro.warning": {
+    "message": "**Xin lưu ý rằng mật khẩu đã quên không thể khôi phục được!** Khi tính năng này được bật, nếu bạn quên hoặc mất mật khẩu, bạn sẽ không thể mở Mapeo và sẽ mất quyền truy cập vào mọi dữ liệu Mapeo chưa được đồng bộ hóa với những người tham gia dự án khác."
+  },
+  "screens.AppPasscode.TurnOffPasscode.cancel": {
+    "message": "Hủy"
+  },
+  "screens.AppPasscode.TurnOffPasscode.changePasscode": {
+    "message": "Đổi mật khẩu ứng dụng"
+  },
   "screens.AppPasscode.TurnOffPasscode.currentlyUsing": {
     "message": "Bạn đang sử dụng Mật khẩu ứng dụng. Xem bên dưới để ngừng sử dụng hoặc thay đổi mật khẩu của bạn."
   },
   "screens.AppPasscode.TurnOffPasscode.description": {
     "message": "Mật khẩu ứng dụng bổ sung thêm một lớp bảo mật bằng cách yêu cầu bạn nhập mật khẩu để mở ứng dụng Mapeo."
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOff": {
+    "message": "Tắt"
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOffConfirmation": {
+    "message": "Tắt mật khẩu ứng dụng?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.usePasscode": {
+    "message": "Sử dụng mật khẩu ứng dụng"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -236,6 +290,12 @@
     "description": "Placeholder text for project name input field",
     "message": "Tên dự án"
   },
+  "screens.EnterPassword.enterPass": {
+    "message": "Nhập mật khẩu"
+  },
+  "screens.EnterPassword.wrongPass": {
+    "message": "Mật khẩu không đúng, vui lòng thử lại"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Chi tiết"
@@ -296,6 +356,30 @@
   },
   "screens.LeaveProject.LeaveProject": {
     "message": "Rời dự án"
+  },
+  "screens.LeaveProject.LeaveProject.agreeToDelete": {
+    "message": "Tôi hiểu rằng tôi sẽ xóa toàn bộ dữ liệu khỏi thiết bị của mình."
+  },
+  "screens.LeaveProject.LeaveProject.cancel": {
+    "message": "Hủy"
+  },
+  "screens.LeaveProject.LeaveProject.confirmDelete": {
+    "message": "Vui lòng đánh dấu vào ô để xác nhận"
+  },
+  "screens.LeaveProject.LeaveProject.headerTitle": {
+    "message": "Rời khỏi dự án"
+  },
+  "screens.LeaveProject.LeaveProject.leaveButton": {
+    "message": "Rời khỏi dự án"
+  },
+  "screens.LeaveProject.LeaveProject.leaveProjectTitle": {
+    "message": "Rời khỏi dự án {projectName}?"
+  },
+  "screens.LeaveProject.LeaveProject.syncWarning": {
+    "message": "Đồng bộ với thành viên khác, bạn sẽ không bị mất tất cả các quan sát của mình."
+  },
+  "screens.LeaveProject.LeaveProject.willDelete": {
+    "message": "{numOfObservations} quan sát và {numOfPics} ảnh sẽ bị xóa"
   },
   "screens.LeaveProject.LeaveProjectCompleted.goHome": {
     "message": "Về Màn hình chính"
@@ -770,6 +854,12 @@
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Thêm Bản đồ nền"
   },
+  "screens.Settings.MapSettings.addBGMap": {
+    "message": "Thêm Bản đồ nền"
+  },
+  "screens.Settings.MapSettings.backgroundMapTitle": {
+    "message": "Bản đồ nền"
+  },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Bản đồ nền"
   },
@@ -780,19 +870,35 @@
     "description": "Confirm delete map modal button",
     "message": "Có, xoá đi"
   },
+  "screens.Settings.MapSettings.defaultMap": {
+    "description": "Name of default map",
+    "message": "Bản đồ mặc định"
+  },
   "screens.Settings.MapSettings.deleteMapTitle": {
     "description": "Title for the delete map modal",
     "message": "Xoá bản đồ"
   },
-  "screens.Settings.MapSettings.importError": {
-    "description": "Error importing map warning",
-    "message": "Lỗi khi nhập bản đồ, vui lòng thử một tệp khác."
+  "screens.Settings.MapSettings.fileErrorDescription": {
+    "description": "Description for file error in bottom sheet content",
+    "message": "Lỗi khi nhập tệp, vui lỏng thử một tệp khác."
+  },
+  "screens.Settings.MapSettings.importErrorDescription": {
+    "description": "Description for import error in bottom sheet content",
+    "message": "Không thể nhập {styleNames}. Nhập lại bản đồ {fileCount, plural, one {file} other {files}} để thử lại."
+  },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "Lỗi nhập"
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Nhập từ file"
   },
   "screens.Settings.MapSettings.mapSettings": {
     "message": "Cài đặt bản đồ"
+  },
+  "screens.Settings.MapSettings.processingFile": {
+    "description": "Description for when a file is being processed for import",
+    "message": "Đang xử lý tệp..."
   },
   "screens.Settings.MapSettings.subtitle": {
     "message": "Thêm, xóa và xem chi tiết bản đồ"
@@ -1148,9 +1254,21 @@
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Bản đồ hiện tại"
   },
+  "sharedComponents.BGMapCard.errorOccurred": {
+    "description": "Message describing that error occurred for map import",
+    "message": "Xảy ra lỗi"
+  },
+  "sharedComponents.BGMapCard.importInProgress": {
+    "description": "Progress bar message about the import being in progress",
+    "message": "Đang nhập vào…"
+  },
   "sharedComponents.BGMapCard.unamedStyle": {
     "description": "The name for the default map style",
     "message": "Kiểu không tên"
+  },
+  "sharedComponents.BGMapCard.waitingForImport": {
+    "description": "Progress bar message indicating that import is waiting to start",
+    "message": "Đợi để nhập…"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Đóng"

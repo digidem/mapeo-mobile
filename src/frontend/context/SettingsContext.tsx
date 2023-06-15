@@ -3,6 +3,7 @@ import merge from "lodash/merge";
 import Bugsnag from "@bugsnag/react-native";
 
 import createPersistedState from "../hooks/usePersistedState";
+import { CUSTOM_MAP_ID } from "../hooks/useMapStyles";
 
 // Increment if the shape of settings changes, but try to avoid doing this
 // because it will reset everybody's settings back to the defaults = bad :( It is
@@ -21,6 +22,7 @@ export type SettingsState = {
     directionalArrow: boolean;
     backgroundMaps: boolean;
   };
+  mapStyleId: string;
 };
 
 type SettingsContextType = [
@@ -35,6 +37,9 @@ const DEFAULT_SETTINGS: SettingsState = {
     directionalArrow: false,
     backgroundMaps: false,
   },
+  // Default to this, if it doesn't exist then the useSelectedMapStyle hook will
+  // default to the default online map
+  mapStyleId: CUSTOM_MAP_ID,
 };
 
 const SettingsContext = React.createContext<SettingsContextType>([
@@ -57,9 +62,7 @@ export const SettingsProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const contextValue: SettingsContextType = React.useMemo(() => {
     // If we add any new properties to the settings state, they will be
     // undefined in a users' persisted state, so we merge in the defaults
-    const mergedState = merge({}, DEFAULT_SETTINGS, state, {
-      experiments: { backgroundMaps: false },
-    });
+    const mergedState = merge({}, DEFAULT_SETTINGS, state);
     return [mergedState, setSettings];
   }, [state, setSettings]);
 

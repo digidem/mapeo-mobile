@@ -7,7 +7,7 @@
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
   <uses-permission android:name="android.permission.CAMERA" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
 
   <application android:name=".MainApplication"
     android:usesCleartextTraffic="true"
@@ -43,7 +43,8 @@
       android:launchMode="singleTask"
       android:largeHeap="true"
       android:screenOrientation="portrait"
-      android:windowSoftInputMode="adjustResize">
+      android:windowSoftInputMode="adjustResize"
+      android:exported="true">
       <intent-filter android:label="filter_react_native">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />

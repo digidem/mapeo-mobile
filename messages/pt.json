@@ -31,6 +31,14 @@
     "description": "Title of dialog shown to the user when Mapeo is updated",
     "message": "Mapeo atualizado ✅"
   },
+  "hooks.useMapStyles.defaultMapName": {
+    "description": "The name of the default background map",
+    "message": "Padrão"
+  },
+  "hooks.useMapStyles.offlineMapName": {
+    "description": "The name of the legacy offline background map",
+    "message": "Mapa offline"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "Número do build do Android"
@@ -135,7 +143,7 @@
     "message": "Você já está participando de um projeto"
   },
   "screens.AppPasscode": {
-    "message": "Senha de aplicativo"
+    "message": "Senha do aplicativo"
   },
   "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
     "message": "Cancelar"
@@ -150,6 +158,12 @@
   "screens.AppPasscode.ConfirmPasscodeSheet.title": {
     "message": "Se perder ou esquecer a Senha do aplicativo, ela nunca pode ser recuperada! Certifique-se de anotar sua senha em um local seguro antes de salvar."
   },
+  "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter": {
+    "message": "Por favor insira sua senha"
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
+    "message": "Insira sua senha"
+  },
   "screens.AppPasscode.InputPasscodeScreen.cancel": {
     "message": "Cancelar"
   },
@@ -157,7 +171,7 @@
     "message": "Insira sua senha novamente"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
-    "message": "Definir Senha de aplicativo"
+    "message": "Defina Senha do aplicativo"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
     "message": "Próximo"
@@ -171,6 +185,9 @@
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
     "message": "Senha não corresponde"
   },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "Senha incorreta"
+  },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
     "message": "Esta senha será necessária para abrir o Mapeo"
   },
@@ -178,7 +195,7 @@
     "message": "Continue"
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
-    "message": "O que é Senha de aplicativo?"
+    "message": "O que é Senha do aplicativo?"
   },
   "screens.AppPasscode.PasscodeIntro.description": {
     "message": "A Senha do aplicativo permite que você adicione uma camada adicional de segurança, exigindo que você insira uma senha para abrir o aplicativo Mapeo. Você pode definir sua própria senha de 5 dígitos ativando o recurso abaixo."
@@ -736,7 +753,7 @@
     "message": "Senha definida"
   },
   "screens.Security.passcodeHeader": {
-    "message": "Senha de aplicativo"
+    "message": "Senha do aplicativo"
   },
   "screens.Security.securitySubheader": {
     "message": "Segurança do dispositivo"
@@ -777,6 +794,10 @@
   },
   "screens.Settings.Experiments.BGMaps.goTo": {
     "message": "Experimente agora"
+  },
+  "screens.Settings.Experiments.BGMaps.shortLink": {
+    "description": "Used as a link to the gitbooks documentation for adding background maps",
+    "message": "aqui."
   },
   "screens.Settings.Experiments.BGMaps.useBGMap": {
     "message": "Usar o recurso de Mapas de fundo"
@@ -846,11 +867,63 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Você) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMapInfo.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.deleteMap": {
+    "message": "Excluir mapa"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.description": {
+    "message": "Nível de detalhe"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.maxZoom": {
+    "description": "Shows the user the max zoom for an offline map",
+    "message": "Zoom máximo"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.mb": {
+    "description": "abbreviation for megabyte",
+    "message": "MB"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.minZoom": {
+    "description": "Shows the user the min zoom for an offline map",
+    "message": "Zoom mínimo"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.removeMap": {
+    "message": "Excluir mapa"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.subtitle": {
+    "message": "Este mapa e as áreas offline anexadas a ele serão excluídos. Isso não pode ser desfeito."
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.useMap": {
+    "message": "Usar mapa"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.zoomRange": {
+    "description": "Shows the user the range of zoom available for an offline map",
+    "message": "Faixa de zoom"
+  },
   "screens.Settings.MapSettings.BackgroundMapTitle": {
     "message": "Mapas de fundo"
   },
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Adicionar mapa de fundo"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.cancel": {
+    "message": "Cancelar"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMap": {
+    "message": "Excluir mapa"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapMessage": {
+    "message": "Tem certeza que deseja excluir {mapName}?"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapWarning": {
+    "message": "Este mapa não estará mais disponível neste dispositivo. Não pode ser desfeito."
+  },
+  "screens.Settings.MapSettings.addBGMap": {
+    "message": "Adicionar mapa de fundo"
+  },
+  "screens.Settings.MapSettings.backgroundMapTitle": {
+    "message": "Mapas de fundo"
   },
   "screens.Settings.MapSettings.backgroundMaps": {
     "message": "Mapas de fundo"
@@ -862,19 +935,35 @@
     "description": "Confirm delete map modal button",
     "message": "Sim, excluir"
   },
+  "screens.Settings.MapSettings.defaultMap": {
+    "description": "Name of default map",
+    "message": "Mapa padrão"
+  },
   "screens.Settings.MapSettings.deleteMapTitle": {
     "description": "Title for the delete map modal",
     "message": "Excluir mapa"
   },
-  "screens.Settings.MapSettings.importError": {
-    "description": "Error importing map warning",
-    "message": "Erro ao importar o mapa, por favor tente um arquivo diferente."
+  "screens.Settings.MapSettings.fileErrorDescription": {
+    "description": "Description for file error in bottom sheet content",
+    "message": "Erro ao importar o mapa. Por favor tente um arquivo diferente."
+  },
+  "screens.Settings.MapSettings.importErrorDescription": {
+    "description": "Description for import error in bottom sheet content",
+    "message": "Não foi possível importar {styleNames}. Por favor, tente importar {fileCount, plural, one {o arquivo} other {os arquivos}} novamente."
+  },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "Erro ao importar"
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Importar de arquivo"
   },
   "screens.Settings.MapSettings.mapSettings": {
     "message": "Ajustes do mapa"
+  },
+  "screens.Settings.MapSettings.processingFile": {
+    "description": "Description for when a file is being processed for import",
+    "message": "Processando arquivo..."
   },
   "screens.Settings.MapSettings.subtitle": {
     "message": "Adicionar, excluir e ver detalhes do mapa"
@@ -944,7 +1033,7 @@
   },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
-    "message": "Sobre Mapeo"
+    "message": "Sobre o Mapeo"
   },
   "screens.Settings.aboutMapeoDesc": {
     "description": "Description of the 'About Mapeo' page",
@@ -1010,7 +1099,7 @@
   },
   "screens.Settings.securityDesc": {
     "description": "Description of security button in settings",
-    "message": "Senha de aplicativo e Segurança do dispositivo"
+    "message": "Senha do aplicativo e Segurança do dispositivo"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
@@ -1074,7 +1163,7 @@
   },
   "screens.SyncModal.SyncView.openSettingsButton": {
     "description": "Label for button to open settings to fix update permissions error",
-    "message": "Abrir ajustes"
+    "message": "Abrir Ajustes"
   },
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
@@ -1102,7 +1191,7 @@
   },
   "screens.SyncModal.SyncView.updateAwaitingSync": {
     "description": "Label in upgrade bar when waiting for sync to complete",
-    "message": "Atualização disponível; aguardando sincronização terminar"
+    "message": "Atualização disponível; aguardando a sincronização terminar"
   },
   "screens.SyncModal.SyncView.updateDownloading": {
     "description": "Label in upgrade bar when downloading an update",
@@ -1237,9 +1326,21 @@
   "sharedComponents.BGMapCard.currentMap": {
     "message": "Mapa atual"
   },
+  "sharedComponents.BGMapCard.errorOccurred": {
+    "description": "Message describing that error occurred for map import",
+    "message": "Ocorreu um erro"
+  },
+  "sharedComponents.BGMapCard.importInProgress": {
+    "description": "Progress bar message about the import being in progress",
+    "message": "Importação em andamento…"
+  },
   "sharedComponents.BGMapCard.unamedStyle": {
     "description": "The name for the default map style",
     "message": "Estilo sem nome"
+  },
+  "sharedComponents.BGMapCard.waitingForImport": {
+    "description": "Progress bar message indicating that import is waiting to start",
+    "message": "Aguardando importação…"
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Fechar"
