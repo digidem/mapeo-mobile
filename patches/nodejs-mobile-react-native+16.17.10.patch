@@ -1,5 +1,5 @@
 diff --git a/node_modules/nodejs-mobile-react-native/android/build.gradle b/node_modules/nodejs-mobile-react-native/android/build.gradle
-index d572527..1e4c4b7 100644
+index d572527..bd9f3c4 100644
 --- a/node_modules/nodejs-mobile-react-native/android/build.gradle
 +++ b/node_modules/nodejs-mobile-react-native/android/build.gradle
 @@ -68,7 +68,8 @@ android {
@@ -25,6 +25,93 @@ index d572527..1e4c4b7 100644
      }
  
      nativeModulesABIs.each { abi_name ->
+@@ -365,47 +367,47 @@ if ("1".equals(shouldRebuildNativeModules)) {
+             }
+         }
+ 
+-        task "DeleteIncorrectPrebuilds${abi_name}" (type:Delete) {
+-            dependsOn "CopyNodeProjectAssets${abi_name}"
+-            description = "Delete all .node files except the prebuilt ones for ${abi_name}."
+-
+-            delete fileTree(dir: "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/node_modules/").matching {
+-                include "**/*.node" // Look for all .node files
+-                exclude "**/prebuilds/android-${temp_arch}/*" // Don't touch the correct prebuilds
+-            }
+-        }
+-
+-        task "DetectCorrectPrebuilds${abi_name}" {
+-            dependsOn "DeleteIncorrectPrebuilds${abi_name}"
+-            description = "Handle npm packages that have a correct prebuild for ${abi_name}."
+-            inputs.file "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/copy.timestamp"
+-            outputs.dir "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/"
+-
+-            doLast {
+-                def correctDotNodes = fileTree(dir: "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/node_modules/").matching {
+-                    include "**/prebuilds/android-${temp_arch}/*.node"
+-                }
+-                for (dotNode in correctDotNodes) {
+-                    def moduleRoot = file("${dotNode.getAbsoluteFile()}/../../..")
+-                    def moduleName = moduleRoot.getName()
+-                    println "Preparing to use the prebuild in ${moduleName}"
+-                    delete "${moduleRoot}/build"
+-                    copy {
+-                        from "${dotNode.getAbsoluteFile()}"
+-                        into "${moduleRoot}/build/Release/"
+-                    }
+-                    exec {
+-                        workingDir moduleRoot
+-                        commandLine 'sed', '-i.bak', 's/"install"/"dontinstall"/g; s/"rebuild"/"dontrebuild"/g; s/"gypfile"/"dontgypfile"/g', 'package.json'
+-                    }
+-                    delete "${moduleRoot}/binding.gyp"
+-                    delete "${moduleRoot}/prebuilds"
+-                }
+-            }
+-        }
++        // task "DeleteIncorrectPrebuilds${abi_name}" (type:Delete) {
++        //     dependsOn "CopyNodeProjectAssets${abi_name}"
++        //     description = "Delete all .node files except the prebuilt ones for ${abi_name}."
++
++        //     delete fileTree(dir: "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/node_modules/").matching {
++        //         include "**/*.node" // Look for all .node files
++        //         exclude "**/prebuilds/android-${temp_arch}/*" // Don't touch the correct prebuilds
++        //     }
++        // }
++
++        // task "DetectCorrectPrebuilds${abi_name}" {
++        //     dependsOn "DeleteIncorrectPrebuilds${abi_name}"
++        //     description = "Handle npm packages that have a correct prebuild for ${abi_name}."
++        //     inputs.file "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/copy.timestamp"
++        //     outputs.dir "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/"
++
++        //     doLast {
++        //         def correctDotNodes = fileTree(dir: "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/node_modules/").matching {
++        //             include "**/prebuilds/android-${temp_arch}/*.node"
++        //         }
++        //         for (dotNode in correctDotNodes) {
++        //             def moduleRoot = file("${dotNode.getAbsoluteFile()}/../../..")
++        //             def moduleName = moduleRoot.getName()
++        //             println "Preparing to use the prebuild in ${moduleName}"
++        //             delete "${moduleRoot}/build"
++        //             copy {
++        //                 from "${dotNode.getAbsoluteFile()}"
++        //                 into "${moduleRoot}/build/Release/"
++        //             }
++        //             exec {
++        //                 workingDir moduleRoot
++        //                 commandLine 'sed', '-i.bak', 's/"install"/"dontinstall"/g; s/"rebuild"/"dontrebuild"/g; s/"gypfile"/"dontgypfile"/g', 'package.json'
++        //             }
++        //             delete "${moduleRoot}/binding.gyp"
++        //             delete "${moduleRoot}/prebuilds"
++        //         }
++        //     }
++        // }
+ 
+         task "BuildNpmModules${abi_name}" (type:Exec) {
+-            dependsOn "DetectCorrectPrebuilds${abi_name}"
++            dependsOn "CopyNodeProjectAssets${abi_name}"
+             description = "Building native modules for ${abi_name}."
+             def nodeVersionStdout = new ByteArrayOutputStream()
+             def nodeVersionResult = exec {
 diff --git a/node_modules/nodejs-mobile-react-native/android/src/main/java/com/janeasystems/rn_nodejs_mobile/RNNodeJsMobileModule.java b/node_modules/nodejs-mobile-react-native/android/src/main/java/com/janeasystems/rn_nodejs_mobile/RNNodeJsMobileModule.java
 index 337de9b..86000ba 100644
 --- a/node_modules/nodejs-mobile-react-native/android/src/main/java/com/janeasystems/rn_nodejs_mobile/RNNodeJsMobileModule.java

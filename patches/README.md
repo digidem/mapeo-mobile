@@ -18,6 +18,12 @@ Introduces change from this [commit](https://github.com/nodejs-mobile/nodejs-mob
 
 Also introduces a change that fixes an issue where all ABIs are built by default (see https://github.com/nodejs-mobile/nodejs-mobile-react-native/issues/11).
 
+### Remove unnecessary gradle tasks related to mobile prebuilds detection support
+
+`nodejs-mobile-react-native` introduced support for detecting mobile prebuilds. When building the Android app, it performs a couple of
+additional steps related to this, but these break the caching approach that used to work to avoid building native deps unnecessarily.
+We comment out these steps as we don't currently rely on this feature. See https://github.com/nodejs-mobile/nodejs-mobile-react-native/issues/45 for more info.
+
 ## `react-native`
 
 This patch adds an environment variable `APP_VARIANT` with the app variant name
