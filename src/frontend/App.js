@@ -28,6 +28,8 @@ LogBox.ignoreLogs([
 
 const ErrorBoundary = bugsnag.getPlugin("react").createErrorBoundary(React);
 
+console.log(`V8 version is ${global._v8runtime().version}`);
+
 const onError = event => {
   // This is rendered outside AppLoading, so SpashScreen could still be
   // showing if error occurs in AppLoading before it's hidden
