@@ -51,7 +51,7 @@ buildscript {
         supportLibVersion = "31.0.0"
         // Kotlin is needed by Detox testing framework and react-native-screens
         kotlinVersion = "1.6.10"
-        ndkVersion = "24.0.8215888"
+        ndkVersion = "21.4.7075529"
 
         // All of this (i.e. rnmbglMapboxLibs and rnmbglMapboxPlugins) is needed because of an 
         // issue with the telemetry module on Android 12 that the default android sdk depends on:
