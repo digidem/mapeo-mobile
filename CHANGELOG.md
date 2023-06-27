@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.6.3](https://github.com/digidem/mapeo-mobile/compare/v5.6.2...v5.6.3) (2023-06-27)
+
 ### [5.6.2](https://github.com/digidem/mapeo-mobile/compare/v5.6.1...v5.6.2) (2023-05-25)
 
 ### Bug Fixes
