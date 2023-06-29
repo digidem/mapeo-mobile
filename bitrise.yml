@@ -303,6 +303,16 @@ workflows:
                 echo "Updated to latest SDK:"
 
                 sdkmanager --list
+
+                echo "Downloading correct cmake version"
+
+                mkdir /usr/local/share/android-sdk/cmdline-tools/latest/
+                mkdir /usr/local/share/android-sdk/cmdline-tools/latest/bin/
+                ln -s /usr/local/share/android-sdk/cmdline-tools/cmdline-tools/bin/sdkmanager /usr/local/share/android-sdk/cmdline-tools/latest/bin/sdkmanager
+                /usr/local/share/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses
+                $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "cmake;3.10.2.4988404"
+
+                echo "cmake;3.10.2.4988404 downloaded"
       - script-runner@0.9.3:
           title: Build nodejs backend
           inputs:
