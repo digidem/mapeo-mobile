@@ -1,1 +1,6 @@
-{}
+{
+  "AppContainer.EditHeader.discardCancel": {
+    "description": "Button on dialog to keep editing (cancelling close action)",
+    "message": "Үргэлжлүүлэн засварлах"
+  }
+}
