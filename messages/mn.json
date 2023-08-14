@@ -2,5 +2,17 @@
   "AppContainer.EditHeader.discardCancel": {
     "description": "Button on dialog to keep editing (cancelling close action)",
     "message": "Үргэлжлүүлэн засварлах"
+  },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "Өөрчлөлтийг цуцлах"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "Өөрчлөлтийг цуцлах уу? "
+  },
+  "AppContainer.EditHeader.discardContent": {
+    "description": "Button on dialog to cancel a new observation",
+    "message": "Хадгалахгүйгээр цуцлах"
   }
 }
