@@ -15,19 +15,98 @@
     "description": "Button on dialog to cancel a new observation",
     "message": "Хадгалахгүйгээр цуцлах"
   },
+  "AppContainer.EditHeader.discardTitle": {
+    "description": "Title of dialog that shows when cancelling a new observation",
+    "message": "Сануулгаас татгалзах уу?"
+  },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo-г {updateDateTime}-д {previousVersion} хувилбараас {currentVersion} болгон амжилттай шинэчилсэн."
+  },
   "hooks.updateNotifier.dialogOK": {
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
     "message": "Баталгаажуулах"
   },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo шинэчлэгдсэн ✅"
+  },
+  "hooks.useMapStyles.defaultMapName": {
+    "description": "The name of the default background map",
+    "message": "Өгөгдмөл"
+  },
+  "hooks.useMapStyles.offlineMapName": {
+    "description": "The name of the legacy offline background map",
+    "message": "Офлайн газрын зураг"
+  },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "Android бүтээх дугаар"
+  },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
     "message": "Android хувилбар"
+  },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Mapeo бүтээх"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Mapeo төрөл"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "Mapeo хувилбар"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "Mapeoгийн тухай"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "Үл мэдэгдэх"
   },
   "screens.AddPhoto.cancel": {
     "message": "Цуцлах"
   },
   "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
     "message": "Цуцлах"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "Зааварчилгаа"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "Амжилттай!"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "Төсөлд нэмэх"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "Буцах"
+  },
+  "screens.AppPasscode": {
+    "message": "Аппликэшний нууц үг"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
+    "message": "Цуцлах"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.passcode": {
+    "description": "used to indicate to the user what the new passcode will be.",
+    "message": "Нууц үг"
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
+    "message": "Нууц үг оруулах"
+  },
+  "screens.AppPasscode.InputPasscodeScreen.cancel": {
+    "message": "Цуцлах"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
+    "message": "Нууц үг дахин оруулах"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
+    "message": "Нууц үг тохируулах"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
     "message": "Дараагийнх"
@@ -40,6 +119,29 @@
   },
   "screens.AppPasscode.TurnOffPasscode.cancel": {
     "message": "Цуцлах"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "Төхөөрөмжний нэр"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "Төслийн нэр"
+  },
+  "screens.EnterPassword.enterPass": {
+    "message": "Нууц үгээ оруулах"
+  },
+  "screens.GpsModal.details": {
+    "description": "Section title for details about current position",
+    "message": "Дэлгэрэнгүй"
+  },
+  "screens.GpsModal.no": {
+    "description": "if a location sensor is active yes/no",
+    "message": "Үгүй"
+  },
+  "screens.GpsModal.yes": {
+    "description": "if a location sensor is active yes/no",
+    "message": "Тийм"
   },
   "screens.JoinRequestModal.close": {
     "message": "Хаах"
@@ -69,6 +171,21 @@
   "screens.LeaveProject.LeaveProject.leaveProjectTitle": {
     "message": "Төслийг орхих уу{projectName}?"
   },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "Сануулгыг устгаж байна"
+  },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "Өмнөд"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "Өргөрөг"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "Уртраг"
+  },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "Хойд"
+  },
   "screens.ManualGpsScreen.easting": {
     "message": "Өмнөд"
   },
@@ -78,6 +195,14 @@
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "Солбицол оруулах"
+  },
+  "screens.Observation.ObservationView.delete": {
+    "description": "Button to delete an observation",
+    "message": "Устгах"
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "Хариулт алга"
   },
   "screens.Onboarding.JoinProjectQrScreen.cancel": {
     "message": "Цуцлах"
