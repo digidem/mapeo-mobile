@@ -14,5 +14,103 @@
   "AppContainer.EditHeader.discardContent": {
     "description": "Button on dialog to cancel a new observation",
     "message": "Хадгалахгүйгээр цуцлах"
+  },
+  "hooks.updateNotifier.dialogOK": {
+    "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
+    "message": "Баталгаажуулах"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "Android хувилбар"
+  },
+  "screens.AddPhoto.cancel": {
+    "message": "Цуцлах"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "Цуцлах"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
+    "message": "Дараагийнх"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.title": {
+    "message": "Нууц үг тохируулах"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "Үргэлжлүүлэх"
+  },
+  "screens.AppPasscode.TurnOffPasscode.cancel": {
+    "message": "Цуцлах"
+  },
+  "screens.JoinRequestModal.close": {
+    "message": "Хаах"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "Урих"
+  },
+  "screens.JoinRequestModal.success": {
+    "message": "Амжилттай!"
+  },
+  "screens.LanguageSettings.title": {
+    "description": "Title language settings screen",
+    "message": "Хэл"
+  },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "Төслийг орхих"
+  },
+  "screens.LeaveProject.LeaveProject.cancel": {
+    "message": "Цуцлах"
+  },
+  "screens.LeaveProject.LeaveProject.headerTitle": {
+    "message": "Төслийг орхих"
+  },
+  "screens.LeaveProject.LeaveProject.leaveButton": {
+    "message": "Төслийг орхих"
+  },
+  "screens.LeaveProject.LeaveProject.leaveProjectTitle": {
+    "message": "Төслийг орхих уу{projectName}?"
+  },
+  "screens.ManualGpsScreen.easting": {
+    "message": "Өмнөд"
+  },
+  "screens.ManualGpsScreen.northing": {
+    "message": "Хойд"
+  },
+  "screens.ManualGpsScreen.title": {
+    "description": "title of manual GPS screen",
+    "message": "Солбицол оруулах"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "Цуцлах"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "Хуваалцах"
+  },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "Баталгаажуулах"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertOk": {
+    "description": "Button text for config import alert acknowledgement",
+    "message": "Баталгаажуулах"
+  },
+  "screens.SyncModal.errorDialogOk": {
+    "description": "Button to dismiss error alert about incompatible sync protocol",
+    "message": "Баталгаажуулах"
+  },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "QR код харуулах"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "Хаяг"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "Хот"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "Жижиг зам"
   }
 }
