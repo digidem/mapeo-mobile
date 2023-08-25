@@ -175,7 +175,7 @@
     "message": "Сануулгыг устгаж байна"
   },
   "screens.ManualGpsScreen.DdForm.east": {
-    "message": "Өмнөд"
+    "message": "Дорнод"
   },
   "screens.ManualGpsScreen.DdForm.latitude": {
     "message": "Өргөрөг"
@@ -186,8 +186,41 @@
   "screens.ManualGpsScreen.DdForm.north": {
     "message": "Хойд"
   },
-  "screens.ManualGpsScreen.easting": {
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "Өрнөд"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "Өнцөг"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "Чиглэл"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
+    "message": "Минут"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "Секунд"
+  },
+  "screens.ManualGpsScreen.DmsForm.east": {
+    "message": "Дорнод"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "Өргөрөг"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "Уртраг"
+  },
+  "screens.ManualGpsScreen.DmsForm.north": {
+    "message": "Хойд"
+  },
+  "screens.ManualGpsScreen.DmsForm.south": {
     "message": "Өмнөд"
+  },
+  "screens.ManualGpsScreen.DmsForm.west": {
+    "message": "Өрнөд"
+  },
+  "screens.ManualGpsScreen.easting": {
+    "message": "Дорнод"
   },
   "screens.ManualGpsScreen.northing": {
     "message": "Хойд"
@@ -204,19 +237,187 @@
     "description": "Placeholder text for fields on an observation which are not answered",
     "message": "Хариулт алга"
   },
+  "screens.Observation.ObservationView.observation": {
+    "description": "Default name of observation with no matching preset",
+    "message": "Сануулга"
+  },
+  "screens.Observation.ObservationView.share": {
+    "description": "Button to share an observation",
+    "message": "Хуваалцах"
+  },
+  "screens.Observation.cancel": {
+    "description": "Button to cancel delete of observation",
+    "message": "Цуцлах"
+  },
+  "screens.Observation.confirm": {
+    "description": "Button to confirm delete of observation",
+    "message": "Тийм, устгах"
+  },
+  "screens.Observation.deleteTitle": {
+    "description": "Title of dialog asking confirmation to delete an observation",
+    "message": "Сануулгыг устгах уу?"
+  },
+  "screens.Observation.title": {
+    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
+    "message": "Сануулга"
+  },
+  "screens.ObservationDetails.done": {
+    "description": "Button text when all questions are complete",
+    "message": "Дууслаа"
+  },
+  "screens.ObservationDetails.nextQuestion": {
+    "description": "Button text to navigate to next question",
+    "message": "Дараагийнх"
+  },
+  "screens.ObservationEdit.BottomSheet.addLabel": {
+    "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
+    "message": "Нэмэх…"
+  },
+  "screens.ObservationEdit.ObservationEditView.changePreset": {
+    "description": "Button to change a category / preset",
+    "message": "Өөрчлөх"
+  },
+  "screens.ObservationEdit.ObservationEditView.searching": {
+    "description": "Shown in new observation screen whilst looking for GPS",
+    "message": "Хайлт хийж байна..."
+  },
+  "screens.ObservationEdit.SaveButton.keepWaiting": {
+    "description": "Button to cancel save and continue waiting for GPS",
+    "message": "Үргэлжлүүлэн хүлээж байна"
+  },
+  "screens.ObservationEdit.SaveButton.saveAnyway": {
+    "description": "Button to save regardless of GPS state",
+    "message": "Хадгалах"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsTitle": {
+    "description": "Title of dialog when trying to save with low GPS accuracy.",
+    "message": "GPS-ийн дохио сул байна"
+  },
+  "screens.ObservationEdit.newTitle": {
+    "description": "screen title for new observation screen",
+    "message": "Шинэ сануулга"
+  },
+  "screens.ObservationList.observationListTitle": {
+    "description": "Title of screen with list of observations",
+    "message": "Сануулгууд"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
+    "description": "Description of observation list view when the user has not yet recorded observations",
+    "message": "Анхны сануулгаа бичхийн тулд газрын зураг эсвэл камерын харагдацаас эхэл."
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
+    "description": "Title of observation list view when the user has not yet recorded observations",
+    "message": "Сануулгууд нэмэх"
+  },
   "screens.Onboarding.JoinProjectQrScreen.cancel": {
     "message": "Цуцлах"
   },
   "screens.Onboarding.SendJoinRequestScreen.share": {
     "message": "Хуваалцах"
   },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "Дууссан!"
+  },
+  "screens.Photos.ConfirmDeleteModal.cancel": {
+    "message": "Цуцлах"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
+    "message": "Зураг устгах"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
+    "message": "Энэ зургийг устгах уу?"
+  },
+  "screens.PhotosModal": {
+    "message": "Зураг устгах"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "Хаах"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "Дахин оролдох"
+  },
+  "screens.Security.passcodeHeader": {
+    "message": "Аппликэшний нууц үг"
+  },
+  "screens.Settings.Experiments.BGMaps.goTo": {
+    "message": "Одоо оролдоод үз"
+  },
+  "screens.Settings.ManagePeople.add": {
+    "message": "Нэмэх"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "Төслийг орхих"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "Арилгах"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.cancel": {
+    "message": "Цуцлах"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.cancel": {
+    "message": "Цуцлах"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "Хаах"
+  },
+  "screens.Settings.MapSettings.confirmDelete": {
+    "description": "Confirm delete map modal button",
+    "message": "Тийм, устгах"
+  },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "Импорт хийхэд гарсан алдаа"
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "Файлаас импорт хийх"
+  },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "Энэ тохиргооны файлыг импорт хийхэд алдаа гарсан байна"
+  },
   "screens.Settings.ProjectConfig.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
     "message": "Баталгаажуулах"
   },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Импорт хийхэд гарсан алдаа"
+  },
   "screens.Settings.ProjectConfig.configImportAlertOk": {
     "description": "Button text for config import alert acknowledgement",
     "message": "Баталгаажуулах"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "Одоогийн тохиргоо"
+  },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "Төслийн нэр:"
+  },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "Төслийн түлхүүр"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "Нэрлэгдээгүй"
+  },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "Mapeo-гийн тухай"
+  },
+  "screens.SyncModal.PeerList.disconnectedButton": {
+    "description": "Button label when disconnected",
+    "message": "Сүлжээний холболт салгасан"
+  },
+  "screens.SyncModal.SyncView.searchingTitle": {
+    "description": "Title of message shown while looking for sync peers",
+    "message": "Хайлт хийж байна"
+  },
+  "screens.SyncModal.SyncView.syncHeader": {
+    "description": "Header of sync screen",
+    "message": "Зэрэгцүүлэх"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
@@ -237,5 +438,12 @@
   "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
     "description": "Level of detail seen on map - can see small roads on map",
     "message": "Жижиг зам"
+  },
+  "sharedComponents.BGMapSelector.close": {
+    "message": "Хаах"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi"
   }
 }
