@@ -59,6 +59,10 @@
     "description": "Label for Mapeo version",
     "message": "Mapeo хувилбар"
   },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "Гар утасны загвар"
+  },
   "screens.AboutMapeo.title": {
     "description": "Title of 'About Mapeo' screen",
     "message": "Mapeoгийн тухай"
@@ -70,21 +74,66 @@
   "screens.AddPhoto.cancel": {
     "message": "Цуцлах"
   },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "Төхөөрөмжид холбогдож байна..."
+  },
   "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
     "message": "Цуцлах"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "Зохицуулагчид төслүүдээс төхөөрөмж нэмэх, хасах боломжтой"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "Энэ төхөөрөмж нь Зохицуулагч юм"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "Энэ төхөөрөмж нь Оролцогч юм"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "Төхөөрөмжийн үүргийг сонгох"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "{deviceId} төхөөрөмж олдлоо"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "Асуудалтай байна уу?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "Нийгэмлэгийн газрын зурагчаас нэгдэх хүсэлт илгээхийг асуух"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "Төсөлд хүн нэмэхийн тулд төхөөрөмжийг сканнердах"
   },
   "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
     "message": "Зааварчилгаа"
   },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Синк хийх рүү очно уу"
+  },
   "screens.AddToProjectScreen.SuccessStep.title": {
     "message": "Амжилттай!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "Төхөөрөмж урих"
   },
   "screens.AddToProjectScreen.titleGeneric": {
     "message": "Төсөлд нэмэх"
   },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "Та {projectName} дээр байна"
+  },
   "screens.AlreadyOnProject.goBack": {
     "description": "Button to Go Back leaving project",
     "message": "Буцах"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "Шинэ төсөлд нэгдэхийн тулд та одоо байгаа төслөө орхих ёстой."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "Та аль хэдийн төсөл дээр байна"
   },
   "screens.AppPasscode": {
     "message": "Аппликэшний нууц үг"
@@ -95,6 +144,15 @@
   "screens.AppPasscode.ConfirmPasscodeSheet.passcode": {
     "description": "used to indicate to the user what the new passcode will be.",
     "message": "Нууц үг"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
+    "message": "Аппликэйшний нууц үгийг хадгалах"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.title": {
+    "message": "Аппликэйшний нууц үгийг алдсан эсвэл мартсан тохиолдолд хэзээ ч сэргээх боломжгүй! Хадгалахаасаа өмнө нууц үгээ аюулгүй газар тэмдэглэнэ үү."
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter": {
+    "message": "Нууц үгийг оруулна уу"
   },
   "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
     "message": "Нууц үг оруулах"
@@ -111,11 +169,29 @@
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
     "message": "Дараагийнх"
   },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError": {
+    "message": "Нууц үг 5 оронтой тоо байх ёстой"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError": {
+    "message": "Нууц үг болгон ашиглах боломжгүй"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
+    "message": "Нууц үг тохирохгүй байна"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "Нууц үг буруу"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
+    "message": "Mapeo програмыг нээхэд энэ нууц үг шаардлагатай болно"
+  },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.title": {
     "message": "Нууц үг тохируулах"
   },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Үргэлжлүүлэх"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "Аппликэйшний нууц үг гэж юу вэ?"
   },
   "screens.AppPasscode.TurnOffPasscode.cancel": {
     "message": "Цуцлах"
