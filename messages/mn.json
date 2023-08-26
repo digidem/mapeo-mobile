@@ -193,6 +193,12 @@
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "Аппликэйшний нууц үг гэж юу вэ?"
   },
+  "screens.AppPasscode.PasscodeIntro.description": {
+    "message": "Аппликэйшний нууц үг нь Mapeo програмыг нээхийн тулд нууц үг оруулах шаардлагатай тул хамгаалалтын нэмэлт давхарга нэмэх боломжийг танд олгоно. Та доорх функцийг идэвхжүүлснээр өөрийн 5 оронтой нууц үгийг тодорхойлж болно."
+  },
+  "screens.AppPasscode.PasscodeIntro.warning": {
+    "message": "**Мартагдсан нууц үгийг сэргээх боломжгүй гэдгийг анхаарна уу!** Энэ функцийг идэвхжүүлсний дараа, хэрэв та нууц үгээ мартсан эсвэл алдсан тохиолдолд Mapeo-г нээх боломжгүй бөгөөд бусад төсөлд оролцогчидтой синк хийгээгүй Mapeo өгөгдөлд хандах эрхээ алдах болно. "
+  },
   "screens.AppPasscode.TurnOffPasscode.cancel": {
     "message": "Цуцлах"
   },
@@ -365,6 +371,10 @@
     "description": "Button to save regardless of GPS state",
     "message": "Хадгалах"
   },
+  "screens.ObservationEdit.SaveButton.weakGpsDesc": {
+    "description": "Description in dialog when trying to save with low GPS accuracy.",
+    "message": "GPS-ийн нарийвчлал бага байна. Та илүү нарийвчлалтай байхыг үргэлжлүүлэн хүлээх, ажиглалтыг бага нарийвчлалтайгаар хадгалах эсвэл солбицолыг гараар оруулах боломжтой."
+  },
   "screens.ObservationEdit.SaveButton.weakGpsTitle": {
     "description": "Title of dialog when trying to save with low GPS accuracy.",
     "message": "GPS-ийн дохио сул байна"
@@ -385,8 +395,31 @@
     "description": "Title of observation list view when the user has not yet recorded observations",
     "message": "Сануулгууд нэмэх"
   },
+  "screens.ObservationsList.error": {
+    "description": "message shown when there is an unexpected error when loading observations",
+    "message": "Сануулгыг ачаалахад алдаа гарлаа. Mapeo-г орхиж, дахин эхлүүлээд үзээрэй."
+  },
+  "screens.ObservationsList.loading": {
+    "description": "message shown whilst observations are loading",
+    "message": "Ачаалж байна... шинэ төхөөрөмжтэй зэрэгцүүлэлт хийсний дараа хэсэг хугацаа шаардагдах болно"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "Төсөл үүсгэх"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "Энд товшоод {action}"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "Төсөлд нэгдэх"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "Дасгалын горим"
+  },
   "screens.Onboarding.JoinProjectQrScreen.cancel": {
     "message": "Цуцлах"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "Төсөлд нэгдэх"
   },
   "screens.Onboarding.SendJoinRequestScreen.share": {
     "message": "Хуваалцах"
@@ -415,6 +448,22 @@
   "screens.Security.passcodeHeader": {
     "message": "Аппликэшний нууц үг"
   },
+  "screens.ServerStatus.errorDesc": {
+    "description": "Description when there the Mapeo Core server crashes",
+    "message": "Та програмыг хүчээр дахин эхлүүлэхийг оролдож болно, гэхдээ засах шаардлагатай зүйл байж магадгүй. Үүнд үнэхээр уучлаарай, програм хийх хэцүү."
+  },
+  "screens.Settings.Experiments.BGMaps": {
+    "message": "Дэвсгэр газрын зургууд"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMaps": {
+    "message": "Дэвсгэр газрын зургууд"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMapsDescription": {
+    "message": "Mapeo дахь дэвсгэр газрын зураг нь үндсэн газрын зургийн дэлгэц дээр гарч ирэх бөгөөд таны цуглуулсан сануулгуудын дэвсгэр болгон ашигладаг. Энэхүү туршилтын шинэ функц нь танд өөрийн газрын зургийг нэмж, олон газрын зураг хооронд шилжих боломжийг олгоно. Дэвсгэр газрын зураг нь одоогоор дэвшилтэт функц юм - .mbtiles форматтай байгаа газрын зургийн файлыг туршихад шаардлагатай."
+  },
+  "screens.Settings.Experiments.BGMaps.feedBack": {
+    "message": "Эцсийн хувилбар гарахаас өмнө бид энэ функцийн талаарх санал хүсэлтийг хүлээн авна."
+  },
   "screens.Settings.Experiments.BGMaps.goTo": {
     "message": "Одоо оролдоод үз"
   },
@@ -433,6 +482,12 @@
   "screens.Settings.MapSettings.DeleteMapBottomSheet.cancel": {
     "message": "Цуцлах"
   },
+  "screens.Settings.MapSettings.backgroundMapTitle": {
+    "message": "Дэвсгэр газрын зургууд"
+  },
+  "screens.Settings.MapSettings.backgroundMaps": {
+    "message": "Дэвсгэр газрын зургууд"
+  },
   "screens.Settings.MapSettings.close": {
     "message": "Хаах"
   },
@@ -446,6 +501,12 @@
   },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Файлаас импорт хийх"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "Төсөл үүсгэх"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "Төсөлд нэгдэх"
   },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
@@ -499,6 +560,10 @@
     "description": "Button to dismiss error alert about incompatible sync protocol",
     "message": "Баталгаажуулах"
   },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "Төсөлд нэмэх"
+  },
   "screens.UnableToLink.showCode": {
     "description": "Button prompting user to show code for message",
     "message": "QR код харуулах"
@@ -511,12 +576,48 @@
     "description": "Level of detail seen on map - can see most Cities on Map",
     "message": "Хот"
   },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "Дэлхийн"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "Том нутаг дэвсгэр"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "Жижиг нутаг дэвсгэр"
+  },
   "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
     "description": "Level of detail seen on map - can see small roads on map",
     "message": "Жижиг зам"
   },
+  "sharedComponents.BGMapCard.unamedStyle": {
+    "description": "The name for the default map style",
+    "message": "Нэрлэгдээгүй загвар"
+  },
   "sharedComponents.BGMapSelector.close": {
     "message": "Хаах"
+  },
+  "sharedComponents.BGMapSelector.manageMaps": {
+    "message": "Газрын зургийг удирдах"
+  },
+  "sharedComponents.BGMapSelector.title": {
+    "description": "Title for the background map selector",
+    "message": "Дэвсгэр газрын зургууд"
+  },
+  "sharedComponents.GpsPill.noGps": {
+    "message": "GPS алга байна"
+  },
+  "sharedComponents.GpsPill.searching": {
+    "message": "Хайлт хийж байна..."
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "Дасгалын горим"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "Интернетгүй байна"
   },
   "sharedComponents.WifiBar.wifi": {
     "description": "Label for wifi network name",
