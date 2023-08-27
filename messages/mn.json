@@ -127,6 +127,10 @@
     "description": "Button to Go Back leaving project",
     "message": "Буцах"
   },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "Одоогийн төслөө орхих"
+  },
   "screens.AlreadyOnProject.leaveInstructions": {
     "description": "Informs user that they must leave their current project before they can join the new project",
     "message": "Шинэ төсөлд нэгдэхийн тулд та одоо байгаа төслөө орхих ёстой."
@@ -352,6 +356,9 @@
   "screens.LeaveProject.LeaveProject.cancel": {
     "message": "Цуцлах"
   },
+  "screens.LeaveProject.LeaveProject.confirmDelete": {
+    "message": "Баталгаажуулахын тулд нүдийг шалгана уу"
+  },
   "screens.LeaveProject.LeaveProject.headerTitle": {
     "message": "Төслийг орхих"
   },
@@ -382,8 +389,17 @@
   "screens.ManualGpsScreen.DdForm.east": {
     "message": "Дорнод"
   },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "Буруу солбицол"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "Өргөрөгийн утга"
+  },
   "screens.ManualGpsScreen.DdForm.latitude": {
     "message": "Өргөрөг"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "Уртрагын утга"
   },
   "screens.ManualGpsScreen.DdForm.longitude": {
     "message": "Уртраг"
@@ -424,6 +440,9 @@
   "screens.ManualGpsScreen.DmsForm.east": {
     "message": "Дорнод"
   },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "Буруу солбицол"
+  },
   "screens.ManualGpsScreen.DmsForm.latitude": {
     "message": "Өргөрөг"
   },
@@ -432,6 +451,9 @@
   },
   "screens.ManualGpsScreen.DmsForm.north": {
     "message": "Хойд"
+  },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "Өргөргийн үндсэн байдлыг сонгох"
   },
   "screens.ManualGpsScreen.DmsForm.south": {
     "message": "Өмнөд"
@@ -624,14 +646,41 @@
   "screens.Onboarding.JoinProjectQrScreen.cancel": {
     "message": "Цуцлах"
   },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "Төслийн оролцогчид энэ урилгын кодыг уншуул."
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "Энэ QR кодыг төслийн админдаа үзүүл"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "Зааварчилгаа"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "Оронд нь элсэх хүсэлт илгээнэ үү"
+  },
   "screens.Onboarding.JoinProjectQrScreen.title": {
     "message": "Төсөлд нэгдэх"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "Энэ кодыг Төслийн зохицуулагчтай хуваалцах"
   },
   "screens.Onboarding.SendJoinRequestScreen.share": {
     "message": "Хуваалцах"
   },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "Нэгдэх хүсэлт илгээх"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "Баталгаажуулах код"
+  },
   "screens.Onboarding.Sync.Loader.complete": {
     "message": "Дууссан!"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "Синк хийж байна..."
+  },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "Газрын зураглалыг эхлүүлэх"
   },
   "screens.Photos.ConfirmDeleteModal.cancel": {
     "message": "Цуцлах"
@@ -648,15 +697,63 @@
   "screens.ProjectInviteModal.close": {
     "message": "Хаах"
   },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "Урилгаас татгалзах"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "Урилгын дэлгэрэнгүй мэдээллийг авч чадсангүй"
+  },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "Таныг нэгдэхийг урьсан байна\n  {projectName} нь {role}"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "Нэгдэх ба синк хийх"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "{projectName}-д нэгдэх"
+  },
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Дахин оролдох"
+  },
+  "screens.Security.obscurePassDescriptonPassNotSet": {
+    "message": "Ашиглахын тулд Аппликэшний нууц үгийг тааруулах"
+  },
+  "screens.Security.obscurePassDescriptonPassSet": {
+    "message": "Төхөөрөмжөө хураахаас хамгаалаарай"
+  },
+  "screens.Security.obscurePasscodeHeader": {
+    "message": "Тодорхой бус нууц үг"
+  },
+  "screens.Security.passDesriptionPassNotSet": {
+    "message": "Нууц үгийг тохируулаагүй байна"
+  },
+  "screens.Security.passDesriptionPassSet": {
+    "message": "Нууц үгийг тохируулсан байна"
   },
   "screens.Security.passcodeHeader": {
     "message": "Аппликэшний нууц үг"
   },
+  "screens.Security.securitySubheader": {
+    "message": "Төхөөрөмжийн аюулгүй байдал"
+  },
+  "screens.Security.title": {
+    "message": "Аюулгүй байдал"
+  },
   "screens.ServerStatus.errorDesc": {
     "description": "Description when there the Mapeo Core server crashes",
     "message": "Та програмыг хүчээр дахин эхлүүлэхийг оролдож болно, гэхдээ засах шаардлагатай зүйл байж магадгүй. Үүнд үнэхээр уучлаарай, програм хийх хэцүү."
+  },
+  "screens.ServerStatus.errorTitle": {
+    "description": "Title of message when there the Mapeo Core server crashes",
+    "message": "Өө эрхэмээ, Mapeo мэдээллийн санд ямар нэг зүйл эвдэрсэн байна."
+  },
+  "screens.ServerStatus.timeoutDesc": {
+    "description": "Description when the server has not responded for 10 seconds",
+    "message": "Хэрэв та энэ мессежийг үргэлжлүүлэн харсаар байвал Mapeo-г хүчээр дахин эхлүүлэх шаардлагатай болж магадгүй юм"
+  },
+  "screens.ServerStatus.timeoutTitle": {
+    "description": "Title of message when the server has not responded for 10 seconds",
+    "message": "Mapeo мэдээллийн санд ямар нэг зүйл тохиолдсон байна"
   },
   "screens.Settings.Experiments.BGMaps": {
     "message": "Дэвсгэр газрын зургууд"
@@ -666,6 +763,9 @@
   },
   "screens.Settings.Experiments.BGMaps.BGMapsDescription": {
     "message": "Mapeo дахь дэвсгэр газрын зураг нь үндсэн газрын зургийн дэлгэц дээр гарч ирэх бөгөөд таны цуглуулсан сануулгуудын дэвсгэр болгон ашигладаг. Энэхүү туршилтын шинэ функц нь танд өөрийн газрын зургийг нэмж, олон газрын зураг хооронд шилжих боломжийг олгоно. Дэвсгэр газрын зураг нь одоогоор дэвшилтэт функц юм - .mbtiles форматтай байгаа газрын зургийн файлыг туршихад шаардлагатай."
+  },
+  "screens.Settings.Experiments.BGMaps.BGMapsOnlineSupport": {
+    "message": "Газрын зургийн файл үүсгэх онлайн дэмжлэг авахыг хүсвэл:"
   },
   "screens.Settings.Experiments.BGMaps.feedBack": {
     "message": "Эцсийн хувилбар гарахаас өмнө бид энэ функцийн талаарх санал хүсэлтийг хүлээн авна."
@@ -692,8 +792,45 @@
   "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
     "message": "ТАЙЛБАР: Чиглэлийн сум нь зөвхөн замчлахад ашиглахад хангалттай найдвартай биш бөгөөд энэ нь таны төхөөрөмжийн батарейг хурдан шавхаж болзошгүй."
   },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "Чиглэлийн сумыг ашиглах"
+  },
   "screens.Settings.Experiments.P2pUpgrade.p2pWillBeDeprecated": {
     "message": "Анхаарах зүйл: Google-ийн шинэ хязгаарлалт нь та P2P шинэчлэлтээр энэ програмыг шинэчлэх боломжгүй гэсэн үг юм. Гэсэн хэдий ч энэ функцийг идэвхжүүлснээр Mapeo-ийн хуучин хувилбарыг v5.6.0 хүртэл бусад утсан дээр шинэчлэх боломжтой хэвээр байх болно. Бид Mapeo Mobile-ийн ирээдүйн хувилбаруудад энэ асуудлыг хэрхэн шийдвэрлэх талаар судалгаа хийж байна"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "P2P програмын шинэчлэлтүүд"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "P2P програмын шинэчлэгчийг ашиглах"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "Peer-to-peer (P2P) програмын шинэчлэлтүүд нь бусад Mapeo төхөөрөмжид Wi-Fi-аар холбогдож (интернет холболт шаардлагагүй) Mapeo програмын шинэ хувилбарыг хуваалцах, хүлээн авах боломжийг олгодог. Энэ функцийг ашиглахын тулд Mapeo зэрэгцүүлэх дэлгэц хоёр төхөөрөмж дээр нээлттэй байх ёстой."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "ТАЙЛБАР: Mapeo програмын хувилбарыг ийм байдлаар шинэчлэх үед таны Mapeo өгөгдөл (ажиглалт, тохиргоо эсвэл газрын зураг) төхөөрөмжүүдийн хооронд хуваалцахгүй."
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Indicates that the experimental feature is enabled",
+    "message": "Асаалттай"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "Чиглэлийн сум"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Indicates that the experimental feature is not enabled",
+    "message": "Унтраалттай"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p app updates",
+    "message": "P2P програмын шинэчлэлтүүд"
+  },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "Ойролцоох төхөөрөмжүүдтэй шинэчлэлтүүдийг хуваалцаж, хүлээн авна уу"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "Сорилт"
   },
   "screens.Settings.ManagePeople.add": {
     "message": "Нэмэх"
@@ -701,14 +838,62 @@
   "screens.Settings.ManagePeople.leaveProject": {
     "message": "Төслийг орхих"
   },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "Хүмүүсийг удирдах"
+  },
   "screens.Settings.ManagePeople.remove": {
     "message": "Арилгах"
   },
   "screens.Settings.MapSettings.BackgroundMapInfo.cancel": {
     "message": "Цуцлах"
   },
+  "screens.Settings.MapSettings.BackgroundMapInfo.deleteMap": {
+    "message": "Газрын зургийг устгах"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.description": {
+    "message": "Нарийвчилсан түвшин"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.maxZoom": {
+    "description": "Shows the user the max zoom for an offline map",
+    "message": "Хамгийн их томруулах"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.minZoom": {
+    "description": "Shows the user the min zoom for an offline map",
+    "message": "Хамгийн бага томруулах"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.removeMap": {
+    "message": "Газрын зургийг арилгах"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.subtitle": {
+    "message": "Энэ газрын зураг болон түүнд хавсаргасан офлайн хэсгүүд устах болно. Энэ буцаах боломжгүй"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.useMap": {
+    "message": "Газрын зураг ашиглах"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.zoomRange": {
+    "description": "Shows the user the range of zoom available for an offline map",
+    "message": "Томруулах хүрээ"
+  },
+  "screens.Settings.MapSettings.BackgroundMapTitle": {
+    "message": "Дэвсгэр газрын зургууд"
+  },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "Дэвсгэр газрын зураг нэмэх"
+  },
   "screens.Settings.MapSettings.DeleteMapBottomSheet.cancel": {
     "message": "Цуцлах"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMap": {
+    "message": "Газрын зургийг устгах"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapMessage": {
+    "message": "Та {mapName}-г устгахдаа итгэлтэй байна уу?"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapWarning": {
+    "message": "Энэ бүсийг офлайнаар ашиглах боломжгүй болно. Буцаах боломжгүй."
+  },
+  "screens.Settings.MapSettings.addBGMap": {
+    "message": "Дэвсгэр газрын зураг нэмэх"
   },
   "screens.Settings.MapSettings.backgroundMapTitle": {
     "message": "Дэвсгэр газрын зургууд"
@@ -723,6 +908,18 @@
     "description": "Confirm delete map modal button",
     "message": "Тийм, устгах"
   },
+  "screens.Settings.MapSettings.defaultMap": {
+    "description": "Name of default map",
+    "message": "Өгөгдмөл газрын зураг"
+  },
+  "screens.Settings.MapSettings.deleteMapTitle": {
+    "description": "Title for the delete map modal",
+    "message": "Газрын зургийг устгах"
+  },
+  "screens.Settings.MapSettings.fileErrorDescription": {
+    "description": "Description for file error in bottom sheet content",
+    "message": "Файл импортлоход алдаа гарлаа, өөр файл оруулж үзнэ үү."
+  },
   "screens.Settings.MapSettings.importErrorTitle": {
     "description": "Title for import error in bottom sheet content",
     "message": "Импорт хийхэд гарсан алдаа"
@@ -730,11 +927,27 @@
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Файлаас импорт хийх"
   },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "Газрын зургийн тохиргоо"
+  },
+  "screens.Settings.MapSettings.processingFile": {
+    "description": "Description for when a file is being processed for import",
+    "message": "Файлыг боловсруулж байна..."
+  },
+  "screens.Settings.MapSettings.subtitle": {
+    "message": "Газрын зургийн дэлгэрэнгүй мэдээллийг нэмэх, хасах, үзэх"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "Доорх төсөл үүсгэх эсвэл нэгдээрэй"
+  },
   "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
     "message": "Төсөл үүсгэх"
   },
   "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
     "message": "Төсөлд нэгдэх"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "Дасгалын горимоос гарахад бэлэн үү?"
   },
   "screens.Settings.ProjectConfig.configErrorDescription": {
     "description": "Description of error dialog when there is an error importing a config file",
@@ -748,6 +961,10 @@
     "description": "Title of error dialog when there is an error importing a config file",
     "message": "Импорт хийхэд гарсан алдаа"
   },
+  "screens.Settings.ProjectConfig.configImportAlertMessage": {
+    "description": "Message for alert after successful config import",
+    "message": "Тохиргоог амжилттай импортолсон:"
+  },
   "screens.Settings.ProjectConfig.configImportAlertOk": {
     "description": "Button text for config import alert acknowledgement",
     "message": "Баталгаажуулах"
@@ -756,13 +973,28 @@
     "description": "Label for name & version of current configuration",
     "message": "Одоогийн тохиргоо"
   },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "Импортын тохиргоо"
+  },
   "screens.Settings.ProjectConfig.name": {
     "description": "Button to import Mapeo config file",
     "message": "Төслийн нэр:"
   },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "аль нь ч биш"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "Дасгалын горим"
+  },
   "screens.Settings.ProjectConfig.projectKey": {
     "description": "Label for project key",
     "message": "Төслийн түлхүүр"
+  },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "Төслийн тохиргоо"
   },
   "screens.Settings.ProjectConfig.unnamedConfig": {
     "description": "Config name when do name is defined",
@@ -772,29 +1004,230 @@
     "description": "Primary text for 'About Mapeo' link (version info)",
     "message": "Mapeo-гийн тухай"
   },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "Хувилбар ба барилгын дугаар"
+  },
+  "screens.Settings.appInstall": {
+    "description": "Primary text for Mapeo APK test",
+    "message": "APK суулгах"
+  },
+  "screens.Settings.appInstallDesc": {
+    "description": "Secondary text for Mapeo APK test",
+    "message": "APK суулгацыг турших (програмыг дахин суулгана)"
+  },
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "Mapeo суулгагчийг хуваалцаарай"
+  },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "Mapeo-г өөр гар утсан дээр суулгах эсвэл шинэчлэх"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "Солбицолын формат"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "Солбицол хэрхэн харагдахыг сонгоно уу"
+  },
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "Сорилт"
+  },
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "Туршилтын шинэ функцуудыг асаах"
+  },
+  "screens.Settings.language": {
+    "description": "Primary text for language settings",
+    "message": "Хэл"
+  },
+  "screens.Settings.languageDesc": {
+    "description": "Secondary text for language settings",
+    "message": "Аппликэйшнд зориулсан хэлийг харуулах"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "Газрын зургийн тохиргоо"
+  },
+  "screens.Settings.mapSettingsSubtitle": {
+    "message": "Дэвсгэр газрын зургууд"
+  },
+  "screens.Settings.projectConfig": {
+    "description": "Primary text for project config settings",
+    "message": "Төслийн тохиргоо"
+  },
+  "screens.Settings.projectConfigDesc": {
+    "description": "Secondary text for project config settings",
+    "message": "Ангилал, дүрс, асуултууд"
+  },
+  "screens.Settings.security": {
+    "message": "Аюулгүй байдал"
+  },
+  "screens.Settings.securityDesc": {
+    "description": "Description of security button in settings",
+    "message": "Аппликэйшний нууц үг ба төхөөрөмжийн аюулгүй байдал"
+  },
+  "screens.Settings.title": {
+    "description": "Title of settings screen",
+    "message": "Тохиргоо"
+  },
+  "screens.SyncModal.PeerList.completeButton": {
+    "description": "Button label when complete",
+    "message": "Дууссан"
+  },
   "screens.SyncModal.PeerList.disconnectedButton": {
     "description": "Button label when disconnected",
     "message": "Сүлжээний холболт салгасан"
+  },
+  "screens.SyncModal.PeerList.errorButton": {
+    "description": "Button label when there is an error",
+    "message": "Алдаа"
+  },
+  "screens.SyncModal.PeerList.errorClientMismatch": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
+    "message": "Mapeo үйлчлүүлэгч биш"
+  },
+  "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
+    "message": "Тохиромжгүй Mapeo"
+  },
+  "screens.SyncModal.PeerList.syncButton": {
+    "description": "Button label for sync button",
+    "message": "Синхрон хийх"
+  },
+  "screens.SyncModal.PeerList.syncLabel": {
+    "description": "Label for last sync datetime",
+    "message": "Синхрон хийсэн:"
+  },
+  "screens.SyncModal.SyncView.checkingUpdates": {
+    "description": "Label in upgrade bar when checking for updates",
+    "message": "Програмын шинэчлэлтүүдийг шалгаж байна"
+  },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "Суулгах"
+  },
+  "screens.SyncModal.SyncView.noUpdates": {
+    "description": "Label in upgrade bar when no updates are found",
+    "message": "Ямар ч програмын шинэчлэл олдсонгүй"
+  },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "Зэрэгцүүлэлт хийхийн тулд утасныхаа тохиргоог нээгээд WiFi сүлжээнд холбогдоно уу"
+  },
+  "screens.SyncModal.SyncView.noWifiTitle": {
+    "description": "Title of message shown when no wifi network",
+    "message": "WiFi сүлжээ алга"
+  },
+  "screens.SyncModal.SyncView.openSettingsButton": {
+    "description": "Label for button to open settings to fix update permissions error",
+    "message": "Тохиргоонуудыг нээх"
+  },
+  "screens.SyncModal.SyncView.projectKey": {
+    "description": "First 5 characters of project key displayed on sync screen",
+    "message": "Төслийн түлхүүр: {projectKey}"
+  },
+  "screens.SyncModal.SyncView.searchingDesc": {
+    "description": "Description shown whilst searcing for sync peers",
+    "message": "Бусад төхөөрөмжүүд асаалттай, ижил WiFi сүлжээнд холбогдсон эсэхийг шалгаарай"
   },
   "screens.SyncModal.SyncView.searchingTitle": {
     "description": "Title of message shown while looking for sync peers",
     "message": "Хайлт хийж байна"
   },
+  "screens.SyncModal.SyncView.settingsButton": {
+    "description": "Button to open WiFi settings",
+    "message": "Тохиргоонуудыг нээх"
+  },
+  "screens.SyncModal.SyncView.sharingUpdate": {
+    "description": "Label in upgrade bar when sharing an update with others",
+    "message": "Програмын шинэчлэлтийг бусад төхөөрөмжтэй хуваалцах"
+  },
   "screens.SyncModal.SyncView.syncHeader": {
     "description": "Header of sync screen",
     "message": "Зэрэгцүүлэх"
+  },
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "Шинэчлэх боломжтой; синк дуусахыг хүлээж байна"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "Шинэчлэлтүүдийг татаж байна"
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "Шинэчлэлтүүдийг шалгах боломжгүй байна"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "Шинэчлэх боломжгүй"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Mapeo-ийн шинэ хувилбар гарсан байна"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "Хэрэгжүүлээгүй байдал"
   },
   "screens.SyncModal.errorDialogOk": {
     "description": "Button to dismiss error alert about incompatible sync protocol",
     "message": "Баталгаажуулах"
   },
+  "screens.SyncModal.errorVersionThemBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "Таны синк хийх гэж буй төхөөрөмж тантай синк хийхийн тулд Mapeo-г хамгийн сүүлийн хувилбар болгон шинэчлэх шаардлагатай."
+  },
+  "screens.SyncModal.errorVersionThemBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} Mapeo-г шинэчлэх шаардлагатай"
+  },
+  "screens.SyncModal.errorVersionUsBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
+    "message": "Таны синк хийх гэж буй төхөөрөмжид Mapeo-ийн шинэ хувилбар байна. Та энэ төхөөрөмжтэй синк хийхийн тулд Mapeo-г шинэчлэх шаардлагатай."
+  },
+  "screens.SyncModal.errorVersionUsBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "Та {deviceName}-тэй синк хийхийн тулд Mapeo-г шинэчлэх шаардлагатай."
+  },
   "screens.UnableToLink.bannerTitle": {
     "description": "Title describing the flow of adding user to project",
     "message": "Төсөлд нэмэх"
   },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "Урилгыг хуваалцах"
+  },
   "screens.UnableToLink.showCode": {
     "description": "Button prompting user to show code for message",
     "message": "QR код харуулах"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "Доорх өөр аргуудын аль нэгийг ашиглан холбогдож үзнэ үү."
+  },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "Төхөөрөмжтэй холбох боломжгүй"
+  },
+  "screens.UncaughtError.errorDesc": {
+    "description": "Description when there is an uncaught message in the app",
+    "message": "Үүнд үнэхээр уучлаарай, гэнэтийн зүйл буруу болсон бөгөөд энэ нь таны буруу биш бидний буруу. Энэ нь ямар нэг зүйлийг засах эсэхийг шалгахын тулд програмаа дахин эхлүүлээд үзээрэй."
+  },
+  "screens.UncaughtError.errorTitle": {
+    "description": "Title of message when there is an uncaught message in the app",
+    "message": "Гэнэтийн алдаа"
+  },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "Гудамжны уулзвар"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "Нарийвчилсан түвшин"
   },
   "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
     "description": "Level of detail seen on map - can see addresses on map",
@@ -812,6 +1245,10 @@
     "description": "Level of detail seen on map - can see large countries",
     "message": "Том нутаг дэвсгэр"
   },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "Том метрополитан бүс"
+  },
   "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
     "description": "Level of detail seen on map - can see smaller countries",
     "message": "Жижиг нутаг дэвсгэр"
@@ -819,6 +1256,40 @@
   "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
     "description": "Level of detail seen on map - can see small roads on map",
     "message": "Жижиг зам"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "Гудамж"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "Гудамжны блок"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "хагас эх газар"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "Хотхон"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "Тосгон"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "Томруулах түвшин"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "Одоогийн газрын зураг"
+  },
+  "sharedComponents.BGMapCard.errorOccurred": {
+    "description": "Message describing that error occurred for map import",
+    "message": "Алдаа гарлаа"
+  },
+  "sharedComponents.BGMapCard.importInProgress": {
+    "description": "Progress bar message about the import being in progress",
+    "message": "Импорт хийж байна..."
   },
   "sharedComponents.BGMapCard.unamedStyle": {
     "description": "The name for the default map style",
