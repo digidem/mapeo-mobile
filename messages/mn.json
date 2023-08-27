@@ -394,8 +394,20 @@
   "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
     "message": "Өргөргийн үндсэн байдлыг сонгох"
   },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "Уртрагын үндсэн байдлыг сонгох"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "Өмнөд"
+  },
   "screens.ManualGpsScreen.DdForm.west": {
     "message": "Өрнөд"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "{field} минутын оролт"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "{field} секундын оролт"
   },
   "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
     "message": "Өнцөг"
@@ -427,6 +439,9 @@
   "screens.ManualGpsScreen.DmsForm.west": {
     "message": "Өрнөд"
   },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "Солбицолын формат"
+  },
   "screens.ManualGpsScreen.easting": {
     "message": "Дорнод"
   },
@@ -436,6 +451,35 @@
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
     "message": "Солбицол оруулах"
+  },
+  "screens.ManualGpsScreen.zoneLetter": {
+    "message": "Бүсийн үсэг"
+  },
+  "screens.ManualGpsScreen.zoneNumber": {
+    "message": "Бүсын дугаар"
+  },
+  "screens.ObscurePasscode.description": {
+    "message": "Бүрхэг нууц үг нь Mapeo-г төөрөгдүүлэх горимд нээх боломжийг олгодог хамгаалалтын функц бөгөөд таны бүх өгөгдлийг нуудаг. Танилцуулгын дэлгэцэн дээр тодорхойгүй нууц үгийг оруулснаар Mapeo-ийн хоосон хувилбар гарч ирэх бөгөөд энэ нь танд Mapeo мэдээллийн санд хадгалагдаагүй үзүүлэх ажиглалт үүсгэх боломжийг олгоно."
+  },
+  "screens.ObscurePasscode.instructions": {
+    "message": "Mapeo дээрх өгөгдлөө нуухын тулд дээрх кодыг оруулна уу"
+  },
+  "screens.ObscurePasscode.title": {
+    "message": "Тодорхой бус нууц үг"
+  },
+  "screens.ObscurePasscode.toggleMessage": {
+    "message": "Тодорхой бус нууц үгийг ашиглах"
+  },
+  "screens.ObscurePasscode.whatIsObscure": {
+    "message": "Тодорхой бус нууц үг юу вэ?"
+  },
+  "screens.Observation.ObservationView.alertFooter": {
+    "description": "Footer for shared observations message",
+    "message": "Mapeo-гоос илгээсэн"
+  },
+  "screens.Observation.ObservationView.alertSubject": {
+    "description": "Subject-line for shared observations",
+    "message": "Mapeo дохиолол"
   },
   "screens.Observation.ObservationView.delete": {
     "description": "Button to delete an observation",
@@ -465,6 +509,10 @@
     "description": "Title of dialog asking confirmation to delete an observation",
     "message": "Сануулгыг устгах уу?"
   },
+  "screens.Observation.notFound": {
+    "description": "Message shown when an observation is not found",
+    "message": "Сануулга олдсонгүй"
+  },
   "screens.Observation.title": {
     "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
     "message": "Сануулга"
@@ -485,6 +533,18 @@
     "description": "Button to change a category / preset",
     "message": "Өөрчлөх"
   },
+  "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
+    "description": "Placeholder for description/notes field",
+    "message": "Энд юу болоод байгаа юм бэ?"
+  },
+  "screens.ObservationEdit.ObservationEditView.detailsButton": {
+    "description": "Button label to add details",
+    "message": "Дэлгэрэнгүй мэдээлэл нэмэх"
+  },
+  "screens.ObservationEdit.ObservationEditView.photoButton": {
+    "description": "Button label for adding photo",
+    "message": "Фото зураг нэмэх"
+  },
   "screens.ObservationEdit.ObservationEditView.searching": {
     "description": "Shown in new observation screen whilst looking for GPS",
     "message": "Хайлт хийж байна..."
@@ -492,6 +552,18 @@
   "screens.ObservationEdit.SaveButton.keepWaiting": {
     "description": "Button to cancel save and continue waiting for GPS",
     "message": "Үргэлжлүүлэн хүлээж байна"
+  },
+  "screens.ObservationEdit.SaveButton.manualEntry": {
+    "description": "Button to manually enter GPS coordinates",
+    "message": "Гар ажиллагаатай солбицолууд"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsDesc": {
+    "description": "Description in dialog when trying to save with no GPS coords",
+    "message": "Энэ сануулга нь байршилгүй. Та GPS дохиог үргэлжлүүлэн хүлээх, сануулгыг байршилгүйгээр хадгалах эсвэл солбицолуудыг гараар оруулах боломжтой"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsTitle": {
+    "description": "Title of dialog when trying to save with no GPS coords",
+    "message": "GPS-ийн дохио байхгүй"
   },
   "screens.ObservationEdit.SaveButton.saveAnyway": {
     "description": "Button to save regardless of GPS state",
@@ -505,6 +577,10 @@
     "description": "Title of dialog when trying to save with low GPS accuracy.",
     "message": "GPS-ийн дохио сул байна"
   },
+  "screens.ObservationEdit.editTitle": {
+    "description": "screen title for edit observation screen",
+    "message": "Сануулга засах"
+  },
   "screens.ObservationEdit.newTitle": {
     "description": "screen title for new observation screen",
     "message": "Шинэ сануулга"
@@ -512,6 +588,10 @@
   "screens.ObservationList.observationListTitle": {
     "description": "Title of screen with list of observations",
     "message": "Сануулгууд"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "Газрын зураг руу очих"
   },
   "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
     "description": "Description of observation list view when the user has not yet recorded observations",
@@ -592,6 +672,28 @@
   },
   "screens.Settings.Experiments.BGMaps.goTo": {
     "message": "Одоо оролдоод үз"
+  },
+  "screens.Settings.Experiments.BGMaps.shortLink": {
+    "description": "Used as a link to the gitbooks documentation for adding background maps",
+    "message": "энд."
+  },
+  "screens.Settings.Experiments.BGMaps.useBGMap": {
+    "message": "Дэвсгэр газрын зургийг ашиглах (функц)"
+  },
+  "screens.Settings.Experiments.BGMaps.warning": {
+    "message": "АНХААРУУЛГА: Энэ функцийг идэвхжүүлсэн үед та өмнө нь Mapeo-д ашиглаж байсан газрын зурагт хандах эрхгүй болно. Өмнөх газрын зураг руугаа буцахын тулд Газрын зургийн менежерийг унтраа. Энэ функц туршилтын шатандаа байгаа бөгөөд эцсийн хувилбар гарсны дараа та Газрын зургийн менежерт нэмсэн газрын зургийг дахин импортлох шаардлагатай болно гэдгийг анхаарна уу."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "Чиглэлийн сум"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "Чиглэлийн сумны шинэ функц нь таны ухаалаг утасны дижитал луужинг ашиглан таны утас аль зүг рүү чиглэж байгаа талаар мэдээлэл өгдөг. Том хэмжээний металл объект эсвэл хүчтэй соронзон оронтой ойрхон байх нь луужингийн нарийвчлалд нөлөөлдөг. Хэрэв таны ухаалаг гар утсанд луужин байхгүй бол чигийн сум нь хөдөлгөөнд тулгуурлан чиглэлийг тодорхойлох боломжтой хэвээр байж магадгүй. Хөдөлгөөн дээр суурилсан чиглэл нь нарийвчлал багатай байж болно."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "ТАЙЛБАР: Чиглэлийн сум нь зөвхөн замчлахад ашиглахад хангалттай найдвартай биш бөгөөд энэ нь таны төхөөрөмжийн батарейг хурдан шавхаж болзошгүй."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.p2pWillBeDeprecated": {
+    "message": "Анхаарах зүйл: Google-ийн шинэ хязгаарлалт нь та P2P шинэчлэлтээр энэ програмыг шинэчлэх боломжгүй гэсэн үг юм. Гэсэн хэдий ч энэ функцийг идэвхжүүлснээр Mapeo-ийн хуучин хувилбарыг v5.6.0 хүртэл бусад утсан дээр шинэчлэх боломжтой хэвээр байх болно. Бид Mapeo Mobile-ийн ирээдүйн хувилбаруудад энэ асуудлыг хэрхэн шийдвэрлэх талаар судалгаа хийж байна"
   },
   "screens.Settings.ManagePeople.add": {
     "message": "Нэмэх"
@@ -721,6 +823,10 @@
   "sharedComponents.BGMapCard.unamedStyle": {
     "description": "The name for the default map style",
     "message": "Нэрлэгдээгүй загвар"
+  },
+  "sharedComponents.BGMapCard.waitingForImport": {
+    "description": "Progress bar message indicating that import is waiting to start",
+    "message": "Импортыг хүлээж байна..."
   },
   "sharedComponents.BGMapSelector.close": {
     "message": "Хаах"
