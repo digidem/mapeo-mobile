@@ -202,9 +202,81 @@
   "screens.AppPasscode.TurnOffPasscode.cancel": {
     "message": "Цуцлах"
   },
+  "screens.AppPasscode.TurnOffPasscode.changePasscode": {
+    "message": "Аппликэйшний нууц үгийг өөрчлөх"
+  },
+  "screens.AppPasscode.TurnOffPasscode.currentlyUsing": {
+    "message": "Та одоогоор Аппликэйшний нууц үгийг ашиглаж байна. Нууц үгээ ашиглахаа зогсоох эсвэл өөрчлөхийн тулд доороос үзнэ үү."
+  },
+  "screens.AppPasscode.TurnOffPasscode.description": {
+    "message": "Аппликэйшний нууц үг нь Mapeo програмыг нээхийн тулд нууц үг оруулах шаардлагатай тул аюулгүй байдлын нэмэлт давхаргыг нэмдэг."
+  },
+  "screens.AppPasscode.TurnOffPasscode.title": {
+    "message": "Аппликэшний нууц үг"
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOff": {
+    "message": "Унтраах"
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOffConfirmation": {
+    "message": "Аппликэйшний нууц үгийг унтраах"
+  },
+  "screens.AppPasscode.TurnOffPasscode.usePasscode": {
+    "message": "Аппликэйшний нууц үгийг ашиглах"
+  },
+  "screens.CameraScreen.noCameraAccess": {
+    "description": "Error message shown when app does not have permissions to camera",
+    "message": "Камер руу нэвтрэх боломжгүй"
+  },
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "Юу болж байгааг сонгох"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "Цуцлах"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "Үгүй, миний сануулгуудыг устгах"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "Тийм ээ, миний сануулгуудыг үргэлжлүүлэх"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "Дасгалын горимыг орхи"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "Сонголтуудаас аль нэгийг нь сонгох"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "Солбицолын формат"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "Төсөл үүсгэх"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "Төсөл үүсгэх"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "Төхөөрөмжний нэр оруулах"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "Төхөөрөмжнийхөө нэрийг нэмэх"
+  },
   "screens.CreateProject.deviceNamePlaceholder": {
     "description": "Placeholder text for device name input field",
     "message": "Төхөөрөмжний нэр"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "Төслийн нэр оруулах"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "Төслийн нэрийг оруулах"
   },
   "screens.CreateProject.projectNamePlaceholder": {
     "description": "Placeholder text for project name input field",
@@ -213,9 +285,36 @@
   "screens.EnterPassword.enterPass": {
     "message": "Нууц үгээ оруулах"
   },
+  "screens.EnterPassword.wrongPass": {
+    "message": "Нууц үг буруу байна, дахин оролдоно уу"
+  },
   "screens.GpsModal.details": {
     "description": "Section title for details about current position",
     "message": "Дэлгэрэнгүй"
+  },
+  "screens.GpsModal.gpsHeader": {
+    "description": "Header for GPS screen",
+    "message": "Одоогийн GPS-ийн байршил"
+  },
+  "screens.GpsModal.lastUpdate": {
+    "description": "Section title for time of last GPS update",
+    "message": "Сүүлийн шинэчлэл"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "Аравтын зэрэгтэй солбицолууд"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "DMS-ийн солбицолууд"
+  },
+  "screens.GpsModal.locationSensors": {
+    "description": "Heading for section about location sensor status",
+    "message": "Мэдрэгчийн төлөв"
+  },
+  "screens.GpsModal.locationUTM": {
+    "description": "Section title for UTM coordinates",
+    "message": "UTM-ийн солбицолууд"
   },
   "screens.GpsModal.no": {
     "description": "if a location sensor is active yes/no",
@@ -228,8 +327,14 @@
   "screens.JoinRequestModal.close": {
     "message": "Хаах"
   },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "Хүсэлтийг үгүйсгэх"
+  },
   "screens.JoinRequestModal.invite": {
     "message": "Урих"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "Урилгыг илгээсэн."
   },
   "screens.JoinRequestModal.success": {
     "message": "Амжилттай!"
@@ -240,6 +345,9 @@
   },
   "screens.LeaveProject.LeaveProject": {
     "message": "Төслийг орхих"
+  },
+  "screens.LeaveProject.LeaveProject.agreeToDelete": {
+    "message": "Би төхөөрөмжөөсөө бүх өгөгдлийг устгах болно гэдгийг ойлгож байна."
   },
   "screens.LeaveProject.LeaveProject.cancel": {
     "message": "Цуцлах"
@@ -252,6 +360,21 @@
   },
   "screens.LeaveProject.LeaveProject.leaveProjectTitle": {
     "message": "Төслийг орхих уу{projectName}?"
+  },
+  "screens.LeaveProject.LeaveProject.syncWarning": {
+    "message": "Бүх сануулгуудаа алдахгүйн тулд багийн гишүүнтэй синк хийнэ үү."
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "Home руу очих"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "Сануулгуудыг устгасан"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
+    "message": "Дууссан!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "Төслийг орхих уу{projectName}"
   },
   "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
     "message": "Сануулгыг устгаж байна"
@@ -267,6 +390,9 @@
   },
   "screens.ManualGpsScreen.DdForm.north": {
     "message": "Хойд"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "Өргөргийн үндсэн байдлыг сонгох"
   },
   "screens.ManualGpsScreen.DdForm.west": {
     "message": "Өрнөд"
