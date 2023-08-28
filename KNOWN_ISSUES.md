@@ -41,3 +41,4 @@
 #### Misc
 
 - Switching quickly between two different installations of Mapeo on the same phone can cause an error. [#434](https://github.com/digidem/mapeo-mobile/issues/434)
+- Use of the p2p updater will not work for v5.6.0 and above if the app has been downloaded from the Google Play Store, as per [Google's policy](https://support.google.com/googleplay/android-developer/answer/12085295). Users will be able to update older version of Mapeo, up to v5.6.0, on other phones. But they will not be able to recieve an update themselves.

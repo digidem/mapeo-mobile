@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.6.3](https://github.com/digidem/mapeo-mobile/compare/v5.6.2...v5.6.3) (2023-06-29)
+
+### [5.6.2](https://github.com/digidem/mapeo-mobile/compare/v5.6.1...v5.6.2) (2023-05-25)
+
+### Bug Fixes
+
+- fix sharing of observation on Android 12+ ([4de6820](https://github.com/digidem/mapeo-mobile/commit/4de6820aefa5f723e7b87a332726818913c31fe8))
+
+### [5.6.1](https://github.com/digidem/mapeo-mobile/compare/v5.6.0...v5.6.1) (2023-03-08)
+
 ## [5.6.0](https://github.com/digidem/mapeo-mobile/compare/v5.5.0...v5.6.0) (2023-01-16)
 
 ### Features
