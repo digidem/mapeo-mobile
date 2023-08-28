@@ -29,7 +29,7 @@ workflows:
         opts:
           is_expand: false
     steps:
-      - script@1.1.6:
+      - script@1.2.0:
           title: Rename APKs
           inputs:
             - content: |
@@ -71,7 +71,7 @@ workflows:
                 # Save the variable to the env so it is accessible in other build steps
                 envman add --key BITRISE_APK_PATH_LIST --value "$NEW_APK_PATH_LIST"
       - deploy-to-bitrise-io@2.0: {}
-      - script@1.1.6:
+      - script@1.2.0:
           title: Set APK path variables
           inputs:
             - content: |
@@ -102,7 +102,7 @@ workflows:
             - bucket_name: $AWS_S3_BUCKET_NAME
             - path_in_bucket: release/v${VERSION_NAME}
             - file_path: $RELEASE_APK_PATH
-      - script@1.1.6:
+      - script@1.2.0:
           title: Update download URL for release
           inputs:
             - content: |-
@@ -131,7 +131,7 @@ workflows:
             - bucket_name: $AWS_S3_BUCKET_NAME
             - path_in_bucket: release-ICCA
             - file_path: $ICCA_RELEASE_APK_PATH
-      - script@1.1.6:
+      - script@1.2.0:
           title: Update download URL for ICCA
           is_skippable: true
           inputs:
@@ -169,7 +169,7 @@ workflows:
         opts:
           is_expand: false
     steps:
-      - script@1.1.6:
+      - script@1.2.0:
           title: Rename APKs
           inputs:
             - content: |
@@ -210,7 +210,7 @@ workflows:
 
                 # Save the variable to the env so it is accessible in other build steps
                 envman add --key BITRISE_APK_PATH_LIST --value "$NEW_APK_PATH_LIST"
-      - script@1.1.6:
+      - script@1.2.0:
           title: Set APK path variables
           inputs:
             - content: |
@@ -281,7 +281,7 @@ workflows:
           inputs:
             - destination: $PROJECT_LOCATION/app/mapeo-release-key.keystore
             - source: $BITRISEIO_ANDROID_KEYSTORE_URL
-      - script@1.1.6:
+      - script@1.2.0:
           title: Update SDK components
           inputs:
             - content: |
@@ -322,7 +322,7 @@ workflows:
           inputs:
             - npm_version: ""
             - command: run build:translations
-      - script@1.1.6:
+      - script@1.2.0:
           title: Set version name & code
           inputs:
             - content: |
