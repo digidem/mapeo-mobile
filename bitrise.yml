@@ -306,6 +306,7 @@ workflows:
 
                 echo "Downloading correct cmake version"
 
+                rm -rf /usr/local/share/android-sdk/cmdline-tools/latest/
                 mkdir /usr/local/share/android-sdk/cmdline-tools/latest/
                 mkdir /usr/local/share/android-sdk/cmdline-tools/latest/bin/
                 ln -s /usr/local/share/android-sdk/cmdline-tools/cmdline-tools/bin/sdkmanager /usr/local/share/android-sdk/cmdline-tools/latest/bin/sdkmanager
