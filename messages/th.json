@@ -31,6 +31,14 @@
     "description": "Title of dialog shown to the user when Mapeo is updated",
     "message": "อัปเดต Mapeo แล้ว"
   },
+  "hooks.useMapStyles.defaultMapName": {
+    "description": "The name of the default background map",
+    "message": "ค่าเริ่มต้น"
+  },
+  "hooks.useMapStyles.offlineMapName": {
+    "description": "The name of the legacy offline background map",
+    "message": "แผนที่ออฟไลน์"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
     "message": "รหัส Build Number บน Android"
@@ -137,11 +145,17 @@
   "screens.AppPasscode": {
     "message": "รหัสผ่านแอป"
   },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.title": {
+    "message": "กำหนดรหัสผ่าน"
+  },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "ดำเนินการต่อ"
   },
   "screens.AppPasscode.NewPasscode.Splash.title": {
     "message": "รหัสผ่านแอป คืออะไร?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.title": {
+    "message": "รหัสผ่านแอป"
   },
   "screens.CameraScreen.noCameraAccess": {
     "description": "Error message shown when app does not have permissions to camera",
@@ -672,6 +686,10 @@
   "screens.Settings.Experiments.BGMaps.BGMaps": {
     "message": "ภาพพื้นหลังแผนที่"
   },
+  "screens.Settings.Experiments.BGMaps.shortLink": {
+    "description": "Used as a link to the gitbooks documentation for adding background maps",
+    "message": "ที่นี่"
+  },
   "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
     "message": "ใช้ลูกศรทิศทาง"
   },
@@ -683,6 +701,9 @@
   },
   "screens.Settings.Experiments.DirectionalArrow.useArrow": {
     "message": "ใช้ลูกศรทิศทาง"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.p2pWillBeDeprecated": {
+    "message": "สำคัญ: ข้อจำกัดใหม่จาก Google คือ คุณไม่สามารถอัปเดตแอปนี้ผ่านการอัปเดต P2P ได้อีกต่อไป อย่างไรก็ตาม การเปิดใช้งานฟีเจอร์นี้จะยังคงอนุญาตให้คุณอัปเดต Mapeo เวอร์ชันเก่าได้ถึงเวอร์ชั่น v5.6.0 บนโทรศัพท์เครื่องอื่นได้ เรากำลังศึกษาแนวทางแก้ไขประเด็นนี้สำหรับ Mapeo Mobile เวอร์ชั่นใหม่"
   },
   "screens.Settings.Experiments.P2pUpgrade.title": {
     "message": "การอัปเดตแอปเครือข่ายเพียร์ทูเพียร์ (P2P) "
