@@ -248,7 +248,7 @@
     "message": "Ndiyo, weka uchunguzi wangu"
   },
   "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
-    "message": "Leta uchunguzi ({observationCount}) {observationCount, plural, one {} other {}} kutoka Hali ya Mazoezi hadi kwenye mradi?"
+    "message": "Ungependa kuleta uchunguzi ({observationCount}) {observationCount, plural, one {} other {}}kutoka Hali ya Mazoezi hadi kwenye mradi?"
   },
   "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
     "message": "Ondoa kwenye Hali ya Mazoezi"
@@ -358,8 +358,156 @@
   "screens.JoinRequestModal.inviteSent": {
     "message": "Mwaliko umetumwa."
   },
+  "screens.JoinRequestModal.joinTitle": {
+    "message": "{deviceName} inataka kujiunga na {projectName}"
+  },
+  "screens.JoinRequestModal.success": {
+    "message": "Imefaulu!"
+  },
+  "screens.LanguageSettings.title": {
+    "description": "Title language settings screen",
+    "message": "Lugha"
+  },
+  "screens.LeaveProject.LeaveProject": {
+    "message": "Ondoka kwenye Mradi"
+  },
+  "screens.LeaveProject.LeaveProject.agreeToDelete": {
+    "message": "Ninaelewa nitakuwa nikifuta data yote kutoka kwenye kifaa changu."
+  },
+  "screens.LeaveProject.LeaveProject.cancel": {
+    "message": "Ghairi"
+  },
+  "screens.LeaveProject.LeaveProject.confirmDelete": {
+    "message": "Tafadhali chagua kisanduku ili kuthibitisha"
+  },
+  "screens.LeaveProject.LeaveProject.headerTitle": {
+    "message": "Ondoka kwenye Mradi"
+  },
+  "screens.LeaveProject.LeaveProject.leaveButton": {
+    "message": "Ondoka kwenye Mradi"
+  },
+  "screens.LeaveProject.LeaveProject.leaveProjectTitle": {
+    "message": "Ungependa Kuondoka kwenye Mradi{projectName}?"
+  },
+  "screens.LeaveProject.LeaveProject.syncWarning": {
+    "message": "Sawazisha na mshiriki wa timu ili usipoteze uchunguzi wako wote."
+  },
+  "screens.LeaveProject.LeaveProject.willDelete": {
+    "message": "Hii itafuta uchunguzi {numOfObservations} na Picha {numOfPics}"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.goHome": {
+    "message": "Nenda Nyumbani"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.observationsDeleted": {
+    "message": "Uchunguzi Umefutwa"
+  },
+  "screens.LeaveProject.LeaveProjectCompleted.projectDeleted": {
+    "message": "Imekamilika!"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.leaveProjectTitle": {
+    "message": "Unaondoka kwenye Mradi {projectName}"
+  },
+  "screens.LeaveProject.LeaveProjectProgress.progressMessage": {
+    "message": "Inafuta Uchunguzi"
+  },
+  "screens.ManualGpsScreen.DdForm.east": {
+    "message": "Mashariki"
+  },
+  "screens.ManualGpsScreen.DdForm.invalidCoordinates": {
+    "message": "Viratibu si sahihi"
+  },
+  "screens.ManualGpsScreen.DdForm.latInputLabel": {
+    "message": "Thamani ya latitudo"
+  },
+  "screens.ManualGpsScreen.DdForm.latitude": {
+    "message": "Latitudo"
+  },
+  "screens.ManualGpsScreen.DdForm.lonInputLabel": {
+    "message": "Thamani ya longitudo"
+  },
+  "screens.ManualGpsScreen.DdForm.longitude": {
+    "message": "Longitudo"
+  },
+  "screens.ManualGpsScreen.DdForm.north": {
+    "message": "Kaskazini"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLatCardinality": {
+    "message": "Chagua sehemu kuu ya latitudo"
+  },
+  "screens.ManualGpsScreen.DdForm.selectLonCardinality": {
+    "message": "Chagua sehemu kuu ya longitudo"
+  },
+  "screens.ManualGpsScreen.DdForm.south": {
+    "message": "Kusini"
+  },
+  "screens.ManualGpsScreen.DdForm.west": {
+    "message": "Magharibi"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.MinutesInputLabel": {
+    "message": "Ingizo la dakika {field}"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.SecondsInputLabel": {
+    "message": "Ingizo la sekunde {field}"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degrees": {
+    "message": "Digrii"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.degreesInputLabel": {
+    "message": "Ingizo la digrii {field}"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.direction": {
+    "message": "Mwelekeo"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.minutes": {
+    "message": "Dakika"
+  },
+  "screens.ManualGpsScreen.DmsForm.DmsInputGroup.seconds": {
+    "message": "Sekunde"
+  },
+  "screens.ManualGpsScreen.DmsForm.east": {
+    "message": "Mashariki"
+  },
+  "screens.ManualGpsScreen.DmsForm.invalidCoordinates": {
+    "message": "Viratibu si sahihi"
+  },
+  "screens.ManualGpsScreen.DmsForm.latitude": {
+    "message": "Latitudo"
+  },
+  "screens.ManualGpsScreen.DmsForm.longitude": {
+    "message": "Longitudo"
+  },
+  "screens.ManualGpsScreen.DmsForm.north": {
+    "message": "Kaskazini"
+  },
+  "screens.ManualGpsScreen.DmsForm.selectLatCardinality": {
+    "message": "Chagua sehemu kuu ya latitudo"
+  },
+  "screens.ManualGpsScreen.DmsForm.south": {
+    "message": "Kusini"
+  },
+  "screens.ManualGpsScreen.DmsForm.west": {
+    "message": "Magharibi"
+  },
   "screens.ManualGpsScreen.coordinateFormat": {
     "message": "Muundo wa Kiratibu"
+  },
+  "screens.ManualGpsScreen.decimalDegrees": {
+    "message": "Digrii za Desimali (DD)"
+  },
+  "screens.ManualGpsScreen.degreesMinutesSeconds": {
+    "message": "Digrii/Dakika/Sekunde (DMS)"
+  },
+  "screens.ManualGpsScreen.easting": {
+    "message": "Mashariki"
+  },
+  "screens.ManualGpsScreen.eastingSuffix": {
+    "message": "mE"
+  },
+  "screens.ManualGpsScreen.northing": {
+    "message": "Kaskazini"
+  },
+  "screens.ManualGpsScreen.northingSuffix": {
+    "message": "mN"
   },
   "screens.ManualGpsScreen.title": {
     "description": "title of manual GPS screen",
@@ -640,6 +788,170 @@
   "screens.Security.securitySubheader": {
     "message": "Usalama wa Kifaa"
   },
+  "screens.Security.title": {
+    "message": "Usalama"
+  },
+  "screens.ServerStatus.errorDesc": {
+    "description": "Description when there the Mapeo Core server crashes",
+    "message": "Unaweza kujaribu kulazimisha kuanzisha upya programu, lakini kunaweza kuwa na kitu kinachohitaji kurekebishwa. Pole sana kuhusu tukio hili, ni vigumu kutengeneza programu."
+  },
+  "screens.ServerStatus.errorTitle": {
+    "description": "Title of message when there the Mapeo Core server crashes",
+    "message": "Lo, kitu kimeharibika katika hifadhidata ya Mapeo."
+  },
+  "screens.ServerStatus.timeoutDesc": {
+    "description": "Description when the server has not responded for 10 seconds",
+    "message": "Ukiendelea kuona ujumbe huu huenda ukahitajika kulazimisha kuanzisha upya Mapeo"
+  },
+  "screens.ServerStatus.timeoutTitle": {
+    "description": "Title of message when the server has not responded for 10 seconds",
+    "message": "Kuna tatizo na hifadhidata ya Mapeo"
+  },
+  "screens.Settings.Experiments.BGMaps": {
+    "message": "Ramani za Chinichini"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMaps": {
+    "message": "Ramani za Chinichini"
+  },
+  "screens.Settings.Experiments.BGMaps.BGMapsDescription": {
+    "message": "Ramani ya Chinichini katika Mapeo huonyeshwa kwenye skrini ya ramani ya mwanzo na hutumika kama usuli wa uchunguzi unaokusanya. Kipengele hiki kipya cha majaribio hukuruhusu kuongeza ramani zako maalum na kubadilisha kati ya ramani nyingi. Ramani za Chinichini kwa sasa ni kipengele cha juu zaidi - faili iliyopo ya ramani katika umbizo la .mbtiles inahitajika kwa ajili ya majaribio."
+  },
+  "screens.Settings.Experiments.BGMaps.BGMapsOnlineSupport": {
+    "message": "Kwa usaidizi wa mtandaoni kuhusu kuzalisha faili za ramani, angalia:"
+  },
+  "screens.Settings.Experiments.BGMaps.feedBack": {
+    "message": "Tunakaribisha maoni yoyote kuhusu kipengele hiki kabla ya toleo la mwisho kutolewa."
+  },
+  "screens.Settings.Experiments.BGMaps.goTo": {
+    "message": "Ijaribu sasa"
+  },
+  "screens.Settings.Experiments.BGMaps.shortLink": {
+    "description": "Used as a link to the gitbooks documentation for adding background maps",
+    "message": "hapa."
+  },
+  "screens.Settings.Experiments.BGMaps.useBGMap": {
+    "message": "Tumia Ramani za Chinichini (Kipengele)"
+  },
+  "screens.Settings.Experiments.BGMaps.warning": {
+    "message": "ONYO: Kipengele hiki kikiwashwa, hutakuwa na ufikiaji wa ramani uliyokuwa ukitumia hapo awali katika Mapeo. Zima Kidhibiti cha Ramani ili urudi kwenye ramani yako ya awali. Tafadhali kumbuka kuwa kipengele hiki bado kiko katika awamu ya majaribio na utahitaji kuleta tena ramani zozote zilizoongezwa kwenye Kidhibiti cha Ramani pindi toleo la mwisho litakapotolewa."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.directionalArrow": {
+    "message": "Kishale cha Mwelekeo"
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimer": {
+    "message": "Kipengele kipya cha Kishale cha Mwelekeo hutumia dira ya kidijitali ya simu yako mahiri kutoa taarifa kuhusu mwelekeo ambao simu yako inaangalia. Ukaribu na vitu vikubwa vya chuma au sumaku zenye nguvu zinaweza kuathiri usahihi wa dira. Ikiwa simu yako mahiri haina dira, kishale cha Mwelekeo bado kinaweza kuamua mwelekeo kulingana na mwenendo. Mwelekeo kulingana na mwenendo unaweza kuwa si sahihi sana."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.disclaimerNote": {
+    "message": "KUMBUKA: Kishale cha Mwelekeo si cha kutegemewa vya kutosha kutumiwa kwa urambazaji pekee, na kinaweza kumaliza betri ya kifaa chako haraka."
+  },
+  "screens.Settings.Experiments.DirectionalArrow.useArrow": {
+    "message": "Tumia Kishale cha Mwelekeo"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.p2pWillBeDeprecated": {
+    "message": "Muhimu: Kizuizi kipya cha Google kinamaanisha kuwa huwezi tena kusasisha programu hii kupitia masasisho ya P2P. Hata hivyo, kuwezesha kipengele hiki bado kutakuruhusu kusasisha matoleo ya zamani ya Mapeo hadi v5.6.0 kwenye simu nyingine. Tunafanya utafiti kuhusu njia ambazo tunaweza kutatua suala hili kwa matoleo yajayo ya Mapeo Mobile"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.title": {
+    "message": "Masasisho ya Programu ya P2P"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.useP2p": {
+    "message": "Tumia Kisasishaji cha Programu ya P2P"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warning": {
+    "message": "Masasisho ya Programu ya Peer-to-peer (P2P) hukuruhusu kushiriki na kupokea matoleo mapya zaidi ya programu ya Mapeo kwa kuunganisha kwenye vifaa vingine vya Mapeo kupitia Wi-Fi (huhitaji muunganisho wa intaneti). Ili kutumia kipengele hiki, skrini ya Kusawazisha Mapeo lazima iwe imefunguliwa kwenye vifaa vyote viwili."
+  },
+  "screens.Settings.Experiments.P2pUpgrade.warningSubheader": {
+    "message": "KUMBUKA: Unaposasisha toleo la programu ya Mapeo kwa njia hii, HAKUNA data yako ya Mapeo (uchunguzi, usanidi, au ramani) inashirikiwa kati ya vifaa."
+  },
+  "screens.Settings.Experiments.active": {
+    "description": "Indicates that the experimental feature is enabled",
+    "message": "Imewashwa"
+  },
+  "screens.Settings.Experiments.directionalArrow": {
+    "message": "Kishale cha Mwelekeo"
+  },
+  "screens.Settings.Experiments.inactive": {
+    "description": "Indicates that the experimental feature is not enabled",
+    "message": "Imezimwa"
+  },
+  "screens.Settings.Experiments.p2pUpgrades": {
+    "description": "Label for p2p app updates",
+    "message": "Masasisho ya Programu ya P2P"
+  },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "Shiriki na upokee masasisho ukitumia vifaa vilivyo karibu"
+  },
+  "screens.Settings.Experiments.title": {
+    "message": "Majaribio"
+  },
+  "screens.Settings.ManagePeople.add": {
+    "message": "Ongeza"
+  },
+  "screens.Settings.ManagePeople.leaveProject": {
+    "message": "Ondoka kwenye Mradi"
+  },
+  "screens.Settings.ManagePeople.managePeople": {
+    "message": "Dhibiti Watu"
+  },
+  "screens.Settings.ManagePeople.remove": {
+    "message": "Ondoa"
+  },
+  "screens.Settings.ManagePeople.yourDevice": {
+    "description": "Row label indicating details related to the user's device membership",
+    "message": "(Wewe) {deviceName}"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.cancel": {
+    "message": "Ghairi"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.deleteMap": {
+    "message": "Futa Ramani"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.description": {
+    "message": "Kiwango cha Maelezo"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.maxZoom": {
+    "description": "Shows the user the max zoom for an offline map",
+    "message": "Ukuzaji wa Juu Zaidi"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.mb": {
+    "description": "abbreviation for megabyte",
+    "message": "MB"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.minZoom": {
+    "description": "Shows the user the min zoom for an offline map",
+    "message": "Ukuzaji wa Chini Zaidi"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.removeMap": {
+    "message": "Ondoa Ramani"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.subtitle": {
+    "message": "Ramani hii na maeneo ya nje ya mtandao yaliyoambatishwa kwayo yatafutwa. Hili haiwezi kutenduliwa"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.useMap": {
+    "message": "Tumia Ramani"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.zoomRange": {
+    "description": "Shows the user the range of zoom available for an offline map",
+    "message": "Masafa ya Ukuzaji"
+  },
+  "screens.Settings.MapSettings.BackgroundMapTitle": {
+    "message": "Ramani za Chinichini"
+  },
+  "screens.Settings.MapSettings.BackgroundMaps": {
+    "message": "Ongeza Ramani ya Chinichini"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.cancel": {
+    "message": "Ghairi"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMap": {
+    "message": "Futa Ramani"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapMessage": {
+    "message": "Una uhakika unataka kufuta {mapName}?"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapWarning": {
+    "message": "Eneo hili halitapatikana tena nje ya mtandao. Haiwezi kutenduliwa."
+  },
   "screens.Settings.MapSettings.addBGMap": {
     "message": "Ongeza Ramani ya Chinichini"
   },
@@ -672,6 +984,10 @@
     "description": "Description for import error in bottom sheet content",
     "message": "Haiwezi kuleta {styleNames}. Leta upya {fileCount, plural, one {faili} other {faili}} za ramani ili ujaribu tena."
   },
+  "screens.Settings.MapSettings.importErrorTitle": {
+    "description": "Title for import error in bottom sheet content",
+    "message": "Hitilafu ya Kuleta"
+  },
   "screens.Settings.MapSettings.importFromFile": {
     "message": "Leta kutoka kwenye Faili"
   },
@@ -697,9 +1013,17 @@
   "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
     "message": "Je, uko tayari kuondoka kwenye Hali ya Mazoezi?"
   },
+  "screens.Settings.ProjectConfig.configErrorDescription": {
+    "description": "Description of error dialog when there is an error importing a config file",
+    "message": "Kulikuwa na hitilafu wakati wa kujaribu kuleta faili hii ya usanidi"
+  },
   "screens.Settings.ProjectConfig.configErrorOkButton": {
     "description": "Button to dismiss error dialog when there is an error importing a config file",
     "message": "Sawa"
+  },
+  "screens.Settings.ProjectConfig.configErrorTitle": {
+    "description": "Title of error dialog when there is an error importing a config file",
+    "message": "Hitilafu ya Kuleta"
   },
   "screens.Settings.ProjectConfig.configImportAlertMessage": {
     "description": "Message for alert after successful config import",
@@ -708,6 +1032,10 @@
   "screens.Settings.ProjectConfig.configImportAlertOk": {
     "description": "Button text for config import alert acknowledgement",
     "message": "Sawa"
+  },
+  "screens.Settings.ProjectConfig.currentConfig": {
+    "description": "Label for name & version of current configuration",
+    "message": "Usanidi wa Sasa"
   },
   "screens.Settings.ProjectConfig.importConfig": {
     "description": "Button to import Mapeo config file",
@@ -724,9 +1052,17 @@
     "description": "Placeholder config name when in Practice Mode",
     "message": "Hali ya Mazoezi"
   },
+  "screens.Settings.ProjectConfig.projectKey": {
+    "description": "Label for project key",
+    "message": "Ufunguo wa Mradi"
+  },
   "screens.Settings.ProjectConfig.title": {
     "description": "Title of project configuration screen",
     "message": "Usanidi wa Mradi"
+  },
+  "screens.Settings.ProjectConfig.unnamedConfig": {
+    "description": "Config name when do name is defined",
+    "message": "Haina jina"
   },
   "screens.Settings.aboutMapeo": {
     "description": "Primary text for 'About Mapeo' link (version info)",
@@ -759,6 +1095,10 @@
   "screens.Settings.coordinateFormatDesc": {
     "description": "Description of the 'Coordinate Format' page",
     "message": "Chagua jinsi viratibu vinavyoonyeshwa"
+  },
+  "screens.Settings.experiments": {
+    "description": "Experimental features",
+    "message": "Majaribio"
   },
   "screens.Settings.experimentsDesc": {
     "description": "Description of the 'Experiment' page",
@@ -861,5 +1201,205 @@
   "screens.SyncModal.SyncView.projectKey": {
     "description": "First 5 characters of project key displayed on sync screen",
     "message": "Ufunguo wa Mradi: {projectKey}"
+  },
+  "screens.SyncModal.SyncView.searchingDesc": {
+    "description": "Description shown whilst searcing for sync peers",
+    "message": "Hakikisha kuwa vifaa vingine vimewashwa na vimeunganishwa kwenye mtandao mmoja wa WiFi"
+  },
+  "screens.SyncModal.SyncView.searchingTitle": {
+    "description": "Title of message shown while looking for sync peers",
+    "message": "Inatafuta"
+  },
+  "screens.SyncModal.SyncView.settingsButton": {
+    "description": "Button to open WiFi settings",
+    "message": "Fungua Mipangilio"
+  },
+  "screens.SyncModal.SyncView.sharingUpdate": {
+    "description": "Label in upgrade bar when sharing an update with others",
+    "message": "Kushiriki masasisho ya programu na vifaa vingine"
+  },
+  "screens.SyncModal.SyncView.syncHeader": {
+    "description": "Header of sync screen",
+    "message": "Sawazisha"
+  },
+  "screens.SyncModal.SyncView.updateAwaitingSync": {
+    "description": "Label in upgrade bar when waiting for sync to complete",
+    "message": "Sasisho linapatikana; inasubiri usawazishaji ukamilike"
+  },
+  "screens.SyncModal.SyncView.updateDownloading": {
+    "description": "Label in upgrade bar when downloading an update",
+    "message": "Inapakua masasisho"
+  },
+  "screens.SyncModal.SyncView.updateGenericError": {
+    "description": "Label in upgrade bar when there is an error getting an update",
+    "message": "Haiwezi kukagua masasisho"
+  },
+  "screens.SyncModal.SyncView.updatePermissionError": {
+    "description": "Label in upgrade bar when there is permissions error getting an update",
+    "message": "Haiwezi kusasisha"
+  },
+  "screens.SyncModal.SyncView.updateReady": {
+    "description": "Label in upgrade bar when an update is available",
+    "message": "Toleo jipya la Mapeo linapatikana"
+  },
+  "screens.SyncModal.SyncView.updateUnknownState": {
+    "description": "Label in upgrade bar when an unknown update state is detected (should not happen)",
+    "message": "Hali isiyotekelezwa"
+  },
+  "screens.SyncModal.errorDialogOk": {
+    "description": "Button to dismiss error alert about incompatible sync protocol",
+    "message": "Sawa"
+  },
+  "screens.SyncModal.errorVersionThemBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "Kifaa unachojaribu kusawazisha nacho kinahitaji kuboresha Mapeo hadi toleo jipya zaidi ili kisawazishe nawe."
+  },
+  "screens.SyncModal.errorVersionThemBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "{deviceName} inahitaji kuboresha Mapeo"
+  },
+  "screens.SyncModal.errorVersionUsBadDesc": {
+    "description": "Content of error alert when trying to sync with an incompatible newer version of Mapeo",
+    "message": "Kifaa unachojaribu kusawazisha kina toleo jipya zaidi la Mapeo. Unahitaji kuboresha Mapeo ili usawazishe na kifaa hiki."
+  },
+  "screens.SyncModal.errorVersionUsBadTitle": {
+    "description": "Title of error alert when trying to sync with an incompatible older version of Mapeo",
+    "message": "Unahitaji kuboresha Mapeo ili kusawazisha na {deviceName}"
+  },
+  "screens.UnableToLink.bannerTitle": {
+    "description": "Title describing the flow of adding user to project",
+    "message": "Ongeza kwenye Mradi"
+  },
+  "screens.UnableToLink.shareInvite": {
+    "description": "Button prompting user to share a link to invite user to join a project",
+    "message": "Shiriki Mwaliko"
+  },
+  "screens.UnableToLink.showCode": {
+    "description": "Button prompting user to show code for message",
+    "message": "Onyesha Msimbo wa QR"
+  },
+  "screens.UnableToLink.tryAnotherMethod": {
+    "description": "Suggests that user tries another method for adding another device to the project.",
+    "message": "Jaribu kuunganisha kwa kutumia mojawapo ya njia nyingine zilizo hapa chini."
+  },
+  "screens.UnableToLink.unableToLink": {
+    "description": "Main message indicating that user is not able to link to another device which is trying to join a project",
+    "message": "Haiwezi Kuunganisha kwenye Kifaa"
+  },
+  "screens.UncaughtError.errorDesc": {
+    "description": "Description when there is an uncaught message in the app",
+    "message": "Pole sana kwa tukio hili, jambo lisilotarajiwa limetokea, na ni kosa letu si lako. Jaribu kuanzisha upya programu ili uone kama hiyo itarekebisha mambo."
+  },
+  "screens.UncaughtError.errorTitle": {
+    "description": "Title of message when there is an uncaught message in the app",
+    "message": "Hitilafu Isiyotarajiwa"
+  },
+  "sharedComponent.OfflineAreaCard.StreetIntersection": {
+    "description": "Level of detail seen on map - can see street intersections on map",
+    "message": "Makutano ya Mtaa"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetail": {
+    "message": "Kiwango cha Maelezo"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailAddress": {
+    "description": "Level of detail seen on map - can see addresses on map",
+    "message": "Address"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailCity": {
+    "description": "Level of detail seen on map - can see most Cities on Map",
+    "message": "Mji"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailGlobal": {
+    "description": "Level of detail seen on map - farthest zoom level",
+    "message": "Ulimwenguni"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeCountry": {
+    "description": "Level of detail seen on map - can see large countries",
+    "message": "Nchi Kubwa"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailLargeMetro": {
+    "description": "Level of detail seen on map - can see details of large metropolitan areas",
+    "message": "Eneo Kubwa la Mji Mkuu"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallCountry": {
+    "description": "Level of detail seen on map - can see smaller countries",
+    "message": "Nchi Ndogo"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSmallRoad": {
+    "description": "Level of detail seen on map - can see small roads on map",
+    "message": "Barabara Ndogo"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreet": {
+    "description": "Level of detail seen on map - can see most streets on map",
+    "message": "Mtaa"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailStreetBlock": {
+    "description": "Level of detail seen on map - can see details of street blocks on map",
+    "message": "Eneo lililo kati ya Barabara nne Zinazokutana"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailSubcontinent": {
+    "description": "Level of detail seen on map - second farthest zoom level",
+    "message": "Bara ndogo"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailTown": {
+    "description": "Level of detail seen on map - can see most towns on map",
+    "message": "Mji"
+  },
+  "sharedComponent.OfflineAreaCard.lvlDetailVillage": {
+    "description": "Level of detail seen on map - can see villages on map",
+    "message": "Kijiji"
+  },
+  "sharedComponent.OfflineAreaCard.zoomLevel": {
+    "message": "Kiwango cha Ukuzaji"
+  },
+  "sharedComponents.BGMapCard.abbrevMegabyte": {
+    "description": "The abbreviation for megabyte",
+    "message": "MB"
+  },
+  "sharedComponents.BGMapCard.currentMap": {
+    "message": "Ramani ya Sasa"
+  },
+  "sharedComponents.BGMapCard.errorOccurred": {
+    "description": "Message describing that error occurred for map import",
+    "message": "Hitilafu imetokea"
+  },
+  "sharedComponents.BGMapCard.importInProgress": {
+    "description": "Progress bar message about the import being in progress",
+    "message": "Inaendelea kuleta…"
+  },
+  "sharedComponents.BGMapCard.unamedStyle": {
+    "description": "The name for the default map style",
+    "message": "Mtindo Usio na Jina"
+  },
+  "sharedComponents.BGMapCard.waitingForImport": {
+    "description": "Progress bar message indicating that import is waiting to start",
+    "message": "Inasubiri uletaji…"
+  },
+  "sharedComponents.BGMapSelector.close": {
+    "message": "Funga"
+  },
+  "sharedComponents.BGMapSelector.manageMaps": {
+    "message": "Dhibiti Ramani"
+  },
+  "sharedComponents.BGMapSelector.title": {
+    "description": "Title for the background map selector",
+    "message": "Ramani za Chinichini"
+  },
+  "sharedComponents.GpsPill.noGps": {
+    "message": "Hakuna GPS"
+  },
+  "sharedComponents.GpsPill.searching": {
+    "message": "Inatafuta…"
+  },
+  "sharedComponents.PracticeMode.title": {
+    "description": "Indicated to user that they are on practice mode",
+    "message": "Hali ya Mazoezi"
+  },
+  "sharedComponents.WifiBar.noWifi": {
+    "message": "Hakuna Intaneti"
+  },
+  "sharedComponents.WifiBar.wifi": {
+    "description": "Label for wifi network name",
+    "message": "WiFi:"
   }
 }
