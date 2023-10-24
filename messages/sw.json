@@ -1,10 +1,865 @@
 {
+  "AppContainer.EditHeader.discardCancel": {
+    "description": "Button on dialog to keep editing (cancelling close action)",
+    "message": "Endelea kuhariri"
+  },
+  "AppContainer.EditHeader.discardChangesContent": {
+    "description": "Button on dialog to cancel observation edits",
+    "message": "Tupa mabadiliko"
+  },
+  "AppContainer.EditHeader.discardChangesTitle": {
+    "description": "Title of dialog that shows when cancelling observation edits",
+    "message": "Ungependa kutupa mabadiliko?"
+  },
+  "AppContainer.EditHeader.discardContent": {
+    "description": "Button on dialog to cancel a new observation",
+    "message": "Tupa bila kuhifadhi"
+  },
+  "AppContainer.EditHeader.discardTitle": {
+    "description": "Title of dialog that shows when cancelling a new observation",
+    "message": "Ungependa kutupa uchunguzi?"
+  },
+  "hooks.updateNotifier.dialogMessage": {
+    "description": "Message shown in dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo ilifanikiwa kusasishwa kutoka toleo la {previousVersion} hadi {currentVersion} mnamo {updateDateTime}"
+  },
   "hooks.updateNotifier.dialogOK": {
     "description": "Button label to dismiss dialog shown to the user when Mapeo is updated",
     "message": "Sawa"
   },
+  "hooks.updateNotifier.dialogTitle": {
+    "description": "Title of dialog shown to the user when Mapeo is updated",
+    "message": "Mapeo Imesasishwa ✅"
+  },
+  "hooks.useMapStyles.defaultMapName": {
+    "description": "The name of the default background map",
+    "message": "Chaguomsingi"
+  },
+  "hooks.useMapStyles.offlineMapName": {
+    "description": "The name of the legacy offline background map",
+    "message": "Ramani ya Nje ya Mtandao"
+  },
+  "screens.AboutMapeo.androidBuild": {
+    "description": "Label for Android build number",
+    "message": "Nambari ya muundo wa Android"
+  },
+  "screens.AboutMapeo.androidVersion": {
+    "description": "Label for Android version",
+    "message": "Toleo la Android"
+  },
+  "screens.AboutMapeo.mapeoBuild": {
+    "description": "Label for Mapeo build number",
+    "message": "Muundo wa Mopeo"
+  },
+  "screens.AboutMapeo.mapeoType": {
+    "description": "Label for Mapeo type/variant (e.g. QA for testing vs normal version of app)",
+    "message": "Aina ya Mapeo"
+  },
+  "screens.AboutMapeo.mapeoVersion": {
+    "description": "Label for Mapeo version",
+    "message": "Toleo la Mapeo"
+  },
+  "screens.AboutMapeo.phoneModel": {
+    "description": "Label for phone model",
+    "message": "Muundo wa simu"
+  },
+  "screens.AboutMapeo.title": {
+    "description": "Title of 'About Mapeo' screen",
+    "message": "Kuhuu Mapeo"
+  },
+  "screens.AboutMapeo.unknownValue": {
+    "description": "Shown when a device info (e.g. version number) is unknown",
+    "message": "Haijulikani"
+  },
+  "screens.AddPhoto.cancel": {
+    "message": "Ghairi"
+  },
+  "screens.AddToProjectScreen.ConnectStep.title": {
+    "message": "Inaunganisha kwenye kifaa..."
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.cancel": {
+    "message": "Ghairi"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionDescription": {
+    "message": "Waratibu wanaweza kuongeza na kuondoa vifaa kwenye miradi"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.coordinatorOptionTitle": {
+    "message": "Kifaa hiki ni Mratibu"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.participantOptionTitle": {
+    "message": "Kifaa hiki ni Mshiriki"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.selectValidationError": {
+    "message": "Chagua jukumu la kifaa"
+  },
+  "screens.AddToProjectScreen.DeviceFoundStep.title": {
+    "message": "Kifaa {deviceId} Kimepatikana"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTrouble": {
+    "message": "Je, unatatizika?"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.havingTroubleDescription": {
+    "message": "Omba Mramanishi wa jumuia kutuma ombi la kujiunga"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
+    "message": "Changanua kifaa ili uongeze mtu kwenye mradi"
+  },
+  "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
+    "message": "Maagizo"
+  },
+  "screens.AddToProjectScreen.SuccessStep.description": {
+    "message": "{deviceId} kimeongezwa kwenye {projectName}"
+  },
+  "screens.AddToProjectScreen.SuccessStep.goToSync": {
+    "message": "Nenda kwenye Sawazisha"
+  },
+  "screens.AddToProjectScreen.SuccessStep.title": {
+    "message": "Imefaulu!"
+  },
+  "screens.AddToProjectScreen.inviteDevice": {
+    "message": "Alika Kifaa"
+  },
+  "screens.AddToProjectScreen.titleGeneric": {
+    "message": "Ongeza kwenye Mradi"
+  },
+  "screens.AlreadyOnProject.currentProjectWarn": {
+    "description": "Informs user of the name of current project",
+    "message": "Uko kwenye {projectName}"
+  },
+  "screens.AlreadyOnProject.goBack": {
+    "description": "Button to Go Back leaving project",
+    "message": "Rudi Nyuma"
+  },
+  "screens.AlreadyOnProject.leaveButton": {
+    "description": "Button to start leave project flow.",
+    "message": "Ondoka kwenye Mradi wa Sasa"
+  },
+  "screens.AlreadyOnProject.leaveInstructions": {
+    "description": "Informs user that they must leave their current project before they can join the new project",
+    "message": "Ili ujiunge na mradi mpya lazima uache mradi wako wa sasa."
+  },
+  "screens.AlreadyOnProject.title": {
+    "description": "Title of screen letting user know that they are already part of a project.",
+    "message": "Tayari uko kwenye mradi"
+  },
+  "screens.AppPasscode": {
+    "message": "Nambari ya siri ya Programu"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.cancel": {
+    "message": "Ghairi"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.passcode": {
+    "description": "used to indicate to the user what the new passcode will be.",
+    "message": "Nambari ya siri"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.saveAppPasscode": {
+    "message": "Hifadhi Nambari ya siri ya Programu"
+  },
+  "screens.AppPasscode.ConfirmPasscodeSheet.title": {
+    "message": "Nambari za Siri za Programu haziwezi kurejeshwa ikiwa zimepotea au kusahaulika! Hakikisha umeandika nambari yako ya siri katika eneo salama kabla ya kuhifadhi."
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.subTitleEnter": {
+    "message": "Tafadhali Weka Nambari ya siri"
+  },
+  "screens.AppPasscode.EnterPassToTurnOff.titleEnter": {
+    "message": "Weka Nambari ya siri"
+  },
+  "screens.AppPasscode.InputPasscodeScreen.cancel": {
+    "message": "Ghairi"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleConfirm": {
+    "message": "Weka tena Nambari ya siri"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
+    "message": "Weka Nambari ya siri ya Programu"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
+    "message": "Inayofuata"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.initialPassError": {
+    "message": "Nenosiri lazima liwe nambari 5"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.obscurePasscodeError": {
+    "message": "Haiwezi kutumika kama Nambari ya siri"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordDoesNotMatch": {
+    "message": "Nenosiri halilingani"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.passwordError": {
+    "message": "Nambari ya siri si sahihi"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
+    "message": "Nambari hii ya siri itahitajika ili kufungua Programu ya Mapeo"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.title": {
+    "message": "Weka Nambari ya siri"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.continue": {
+    "message": "Endelea"
+  },
+  "screens.AppPasscode.NewPasscode.Splash.title": {
+    "message": "Nambari ya siri ya Programu ni nini?"
+  },
+  "screens.AppPasscode.PasscodeIntro.description": {
+    "message": "Nambari ya siri ya Programu hukuruhusu kuongeza safu ya ziada ya usalama kwa kukuhitaji uweke nambari ya siri ili ufungue programu ya Mapeo. Unaweza kufafanua nambari yako ya siri yenye tarakimu 5 kwa kuwasha kipengele kilicho hapa chini."
+  },
+  "screens.AppPasscode.PasscodeIntro.warning": {
+    "message": "**Tafadhali kumbuka kuwa nambari za siri zilizosahaulika haziwezi kurejeshwa!** Kipengele hiki kikiwashwa, ukisahau au kupoteza nambari yako ya siri, hutaweza kufungua Mapeo na utapoteza ufikiaji wa data yoyote ya Mapeo ambayo haijasawazishwa na washiriki wengine wa mradi."
+  },
+  "screens.AppPasscode.TurnOffPasscode.cancel": {
+    "message": "Ghairi"
+  },
+  "screens.AppPasscode.TurnOffPasscode.changePasscode": {
+    "message": "Badilisha Nambari ya siri ya Programu"
+  },
+  "screens.AppPasscode.TurnOffPasscode.currentlyUsing": {
+    "message": "Kwa sasa unatumia Nambari ya siri ya Programu. Tazama hapa chini ili uache kutumia au ubadilishe nenosiri lako."
+  },
+  "screens.AppPasscode.TurnOffPasscode.description": {
+    "message": "Nambari ya siri ya Programu huongeza safu ya ziada ya usalama kwa kukuhitaji uweke nambari ya siri ili ufungue programu ya Mapeo."
+  },
+  "screens.AppPasscode.TurnOffPasscode.title": {
+    "message": "Nambari ya siri ya Programu"
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOff": {
+    "message": "Zima"
+  },
+  "screens.AppPasscode.TurnOffPasscode.turnOffConfirmation": {
+    "message": "Ungependa Kuzima Nambari ya siri ya Programu?"
+  },
+  "screens.AppPasscode.TurnOffPasscode.usePasscode": {
+    "message": "Tumia Nambari ya siri ya Programu"
+  },
+  "screens.CameraScreen.noCameraAccess": {
+    "description": "Error message shown when app does not have permissions to camera",
+    "message": "Hakuna ufikiaji wa kamera"
+  },
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "Chagua kinachofanyika"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.cancel": {
+    "message": "Ghairi"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.deleteMyObservations": {
+    "message": "Hapana, futa uchunguzi wangu"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepMyObservations": {
+    "message": "Ndiyo, weka uchunguzi wangu"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.keepObservationsQuestion": {
+    "message": "Leta uchunguzi ({observationCount}) {observationCount, plural, one {} other {}} kutoka Hali ya Mazoezi hadi kwenye mradi?"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.leavePracticeMode": {
+    "message": "Ondoa kwenye Hali ya Mazoezi"
+  },
+  "screens.ConfirmLeavePracticeModeScreen.selectValidationError": {
+    "message": "Chagua moja ya chaguo hizi"
+  },
+  "screens.CoordinateFormat.dd": {
+    "description": "Decimal Degrees coordinate format",
+    "message": "Digrii za Desimali (DD)"
+  },
+  "screens.CoordinateFormat.dms": {
+    "description": "Degrees/Minutes/Seconds coordinate format",
+    "message": "Digrii/Dakika/Sekunde (DMS)"
+  },
+  "screens.CoordinateFormat.title": {
+    "description": "Title coordinate format screen",
+    "message": "Muundo wa Kiratibu"
+  },
+  "screens.CoordinateFormat.utm": {
+    "description": "Universal Transverse Mercator coordinate format",
+    "message": "Universal Transverse Mercator (UTM)"
+  },
+  "screens.CreateProject.createProjectButton": {
+    "description": "Text for submit button",
+    "message": "Unda Mradi"
+  },
+  "screens.CreateProject.createProjectTitle": {
+    "description": "Screen title for Create Project flow",
+    "message": "Unda Mradi"
+  },
+  "screens.CreateProject.deviceNameError": {
+    "description": "Validation error for device name input field",
+    "message": "Weka Jina la Kifaa"
+  },
+  "screens.CreateProject.deviceNameLabel": {
+    "description": "Label text for device name input field",
+    "message": "Ongeza jina la kifaa chako"
+  },
+  "screens.CreateProject.deviceNamePlaceholder": {
+    "description": "Placeholder text for device name input field",
+    "message": "Jina la Kifaa"
+  },
+  "screens.CreateProject.projectNameError": {
+    "description": "Validation error for project name input field",
+    "message": "Weka Jina la Mradi"
+  },
+  "screens.CreateProject.projectNameLabel": {
+    "description": "Label text for project name input field",
+    "message": "Weka jina la Mradi"
+  },
+  "screens.CreateProject.projectNamePlaceholder": {
+    "description": "Placeholder text for project name input field",
+    "message": "Jina la Mradi"
+  },
+  "screens.EnterPassword.enterPass": {
+    "message": "Weka nambari yako ya siri"
+  },
+  "screens.EnterPassword.wrongPass": {
+    "message": "Nambari ya siri si sahihi, tafadhali jaribu tena"
+  },
+  "screens.GpsModal.details": {
+    "description": "Section title for details about current position",
+    "message": "Maelezo"
+  },
+  "screens.GpsModal.gpsHeader": {
+    "description": "Header for GPS screen",
+    "message": "Eneo la GPS la Sasa"
+  },
+  "screens.GpsModal.lastUpdate": {
+    "description": "Section title for time of last GPS update",
+    "message": "Sasisho la mwisho"
+  },
+  "screens.GpsModal.locationDD": {
+    "description": "Section title for DD coordinates",
+    "message": "Huratibu Digrii za Desimali"
+  },
+  "screens.GpsModal.locationDMS": {
+    "description": "Section title for DMS coordinates",
+    "message": "Huratibu DMS"
+  },
+  "screens.GpsModal.locationSensors": {
+    "description": "Heading for section about location sensor status",
+    "message": "Hali ya Kitambuzi"
+  },
+  "screens.GpsModal.locationUTM": {
+    "description": "Section title for UTM coordinates",
+    "message": "Huratibu UTM"
+  },
+  "screens.GpsModal.no": {
+    "description": "if a location sensor is active yes/no",
+    "message": "Hapana"
+  },
+  "screens.GpsModal.yes": {
+    "description": "if a location sensor is active yes/no",
+    "message": "Ndiyo"
+  },
+  "screens.JoinRequestModal.close": {
+    "message": "Funga"
+  },
+  "screens.JoinRequestModal.denyRequest": {
+    "message": "Kataa Ombi"
+  },
+  "screens.JoinRequestModal.invite": {
+    "message": "Alika"
+  },
+  "screens.JoinRequestModal.inviteSent": {
+    "message": "Mwaliko umetumwa."
+  },
+  "screens.ManualGpsScreen.coordinateFormat": {
+    "message": "Muundo wa Kiratibu"
+  },
+  "screens.ManualGpsScreen.title": {
+    "description": "title of manual GPS screen",
+    "message": "Weka viratibu"
+  },
+  "screens.ManualGpsScreen.universalTransverseMercator": {
+    "message": "Universal Transverse Mercator (UTM)"
+  },
+  "screens.ManualGpsScreen.zoneLetter": {
+    "message": "Herufi ya Ukanda"
+  },
+  "screens.ManualGpsScreen.zoneNumber": {
+    "message": "Nambari ya Ukanda"
+  },
+  "screens.ObscurePasscode.description": {
+    "message": "Nambari ya siri Isiyojulikana ni kipengele cha usalama kinachokuruhusu kufungua Mapeo katika hali bandia ambayo huficha data yako yote. Kuweka Nambari ya siri Isiyojulikana kwenye skrini ya utangulizi kutaonyesha toleo tupu la Mapeo ambalo hukuruhusu kuunda uchunguzi wa maonyesho ambao hauhifadhiwi kwenye hifadhidata ya Mapeo."
+  },
+  "screens.ObscurePasscode.instructions": {
+    "message": "Weka nambari iliyo hapo juu ili kuficha data yako kwenye Mapeo"
+  },
+  "screens.ObscurePasscode.title": {
+    "message": "Nambari ya siri Isiyojulikana"
+  },
+  "screens.ObscurePasscode.toggleMessage": {
+    "message": "Tumia Nambari ya siri Isiyojulikana"
+  },
+  "screens.ObscurePasscode.whatIsObscure": {
+    "message": "Nambari ya siri Isiyojulikana ni nini?"
+  },
+  "screens.Observation.ObservationView.alertFooter": {
+    "description": "Footer for shared observations message",
+    "message": "Imetumwa kutoka Mapeo"
+  },
+  "screens.Observation.ObservationView.alertSubject": {
+    "description": "Subject-line for shared observations",
+    "message": "Arifa ya Mapeo"
+  },
+  "screens.Observation.ObservationView.delete": {
+    "description": "Button to delete an observation",
+    "message": "Futa"
+  },
+  "screens.Observation.ObservationView.noAnswer": {
+    "description": "Placeholder text for fields on an observation which are not answered",
+    "message": "Hakuna jibu"
+  },
+  "screens.Observation.ObservationView.observation": {
+    "description": "Default name of observation with no matching preset",
+    "message": "Uchunguzi"
+  },
+  "screens.Observation.ObservationView.share": {
+    "description": "Button to share an observation",
+    "message": "Shiriki"
+  },
+  "screens.Observation.cancel": {
+    "description": "Button to cancel delete of observation",
+    "message": "Ghairi"
+  },
+  "screens.Observation.confirm": {
+    "description": "Button to confirm delete of observation",
+    "message": "Ndiyo, futa"
+  },
+  "screens.Observation.deleteTitle": {
+    "description": "Title of dialog asking confirmation to delete an observation",
+    "message": "Ungependa kufuta uchunguzi?"
+  },
+  "screens.Observation.notFound": {
+    "description": "Message shown when an observation is not found",
+    "message": "Uchunguzi haukupatikana"
+  },
+  "screens.Observation.title": {
+    "description": "Title of observation screen showing (non-editable) view of observation with map and answered questions",
+    "message": "Uchunguzi"
+  },
+  "screens.ObservationDetails.done": {
+    "description": "Button text when all questions are complete",
+    "message": "Imekamilika"
+  },
+  "screens.ObservationDetails.nextQuestion": {
+    "description": "Button text to navigate to next question",
+    "message": "Inayofuata"
+  },
+  "screens.ObservationDetails.title": {
+    "description": "Title of observation details screen showing question number and total",
+    "message": "Swali la {current} kati ya {total}"
+  },
+  "screens.ObservationEdit.BottomSheet.addLabel": {
+    "description": "Label above keyboard that expands into bottom sheet of options to add (photo, details etc)",
+    "message": "Ongeza…"
+  },
+  "screens.ObservationEdit.ObservationEditView.changePreset": {
+    "description": "Button to change a category / preset",
+    "message": "Badilisha"
+  },
+  "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
+    "description": "Placeholder for description/notes field",
+    "message": "Ni nini kinachofanyika hapa?"
+  },
+  "screens.ObservationEdit.ObservationEditView.detailsButton": {
+    "description": "Button label to add details",
+    "message": "Ongeza Maelezo"
+  },
+  "screens.ObservationEdit.ObservationEditView.photoButton": {
+    "description": "Button label for adding photo",
+    "message": "Ongeza Picha"
+  },
+  "screens.ObservationEdit.ObservationEditView.searching": {
+    "description": "Shown in new observation screen whilst looking for GPS",
+    "message": "Inatafuta…"
+  },
+  "screens.ObservationEdit.SaveButton.keepWaiting": {
+    "description": "Button to cancel save and continue waiting for GPS",
+    "message": "Endelea kusubiri"
+  },
+  "screens.ObservationEdit.SaveButton.manualEntry": {
+    "description": "Button to manually enter GPS coordinates",
+    "message": "Viratibu vya kuweka Wewe Mwenyewe"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsDesc": {
+    "description": "Description in dialog when trying to save with no GPS coords",
+    "message": "Uchunguzi huu hauna eneo. Unaweza kuendelea kusubiri ishara ya GPS, kuhifadhi uchunguzi bila eneo, au kuweka viratibu wewe mwenyewe"
+  },
+  "screens.ObservationEdit.SaveButton.noGpsTitle": {
+    "description": "Title of dialog when trying to save with no GPS coords",
+    "message": "Hakuna ishara ya GPS"
+  },
+  "screens.ObservationEdit.SaveButton.saveAnyway": {
+    "description": "Button to save regardless of GPS state",
+    "message": "Hifadhi"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsDesc": {
+    "description": "Description in dialog when trying to save with low GPS accuracy.",
+    "message": "Usahihi wa GPS ni wa chini. Unaweza kuendelea kusubiri usahihi bora, kuhifadhi uchunguzi ulio na usahihi wa chini, au uweke viratibu wewe mwenyewe"
+  },
+  "screens.ObservationEdit.SaveButton.weakGpsTitle": {
+    "description": "Title of dialog when trying to save with low GPS accuracy.",
+    "message": "Ishara dhaifu ya GPS"
+  },
+  "screens.ObservationEdit.editTitle": {
+    "description": "screen title for edit observation screen",
+    "message": "Hariri Uchunguzi"
+  },
+  "screens.ObservationEdit.newTitle": {
+    "description": "screen title for new observation screen",
+    "message": "Uchunguzi Mpya"
+  },
+  "screens.ObservationList.observationListTitle": {
+    "description": "Title of screen with list of observations",
+    "message": "Uchunguzi"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.backButton": {
+    "description": "Back button on observation list screen when no observations are yet recorded",
+    "message": "Nenda kwenye Ramani"
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsDesc": {
+    "description": "Description of observation list view when the user has not yet recorded observations",
+    "message": "Anza kwenye ramani au mwonekano wa kamera ili urekodi uchunguzi wako wa kwanza."
+  },
+  "screens.ObservationsList.ObservationsEmptyView.noObservationsTitle": {
+    "description": "Title of observation list view when the user has not yet recorded observations",
+    "message": "Ongeza Uchunguzi"
+  },
+  "screens.ObservationsList.error": {
+    "description": "message shown when there is an unexpected error when loading observations",
+    "message": "Hitilafu ya kupakia uchunguzi. Jaribu kuacha na kuwasha upya Mapeo."
+  },
+  "screens.ObservationsList.loading": {
+    "description": "message shown whilst observations are loading",
+    "message": "Inapakia... hii inaweza kuchukua muda baada ya kusawazisha na kifaa kipya"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.createProject": {
+    "message": "Unda Mradi"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinCta": {
+    "message": "Gusa hapa ili {action}"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.joinProject": {
+    "message": "Jiunge na Mradi"
+  },
+  "screens.Onboarding.CreateOrJoinProjectScreen.praceticeMode": {
+    "message": "Hali ya Mazoezi"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.cancel": {
+    "message": "Ghairi"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionDescriptionAsAdmin": {
+    "message": "Mwambie Mshiriki wa Mradi achanganue msimbo huu wa mwaliko."
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsDescription": {
+    "message": "Onyesha msimbo huu wa QR kwa Msimamizi wa Mradi wako"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.instructionsTitle": {
+    "message": "Maagizo"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.sendJoinRequest": {
+    "message": "Tuma Ombi la Kujiunga badala yake"
+  },
+  "screens.Onboarding.JoinProjectQrScreen.title": {
+    "message": "Jiunge na Mradi"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.instructions": {
+    "message": "Shiriki msimbo huu na Mratibu wa Mradi"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.share": {
+    "message": "Shiriki"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.title": {
+    "message": "Tuma Ombi la Kujiunga"
+  },
+  "screens.Onboarding.SendJoinRequestScreen.verificationCode": {
+    "message": "Msimbo wa Uthibitishaji"
+  },
+  "screens.Onboarding.Sync.Loader.complete": {
+    "message": "Imekamilika!"
+  },
+  "screens.Onboarding.Sync.Loader.numComplete": {
+    "message": "Uchunguzi {num}/{total} umekamilika"
+  },
+  "screens.Onboarding.Sync.Loader.syncing": {
+    "message": "Inasawazisha..."
+  },
+  "screens.Onboarding.Sync.numComplete": {
+    "message": "Uchunguzi {num}/{total} umekamilika"
+  },
+  "screens.Onboarding.Sync.startMapping": {
+    "message": "Anza Uramanishi"
+  },
+  "screens.Photos.ConfirmDeleteModal.cancel": {
+    "message": "Ghairi"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoButton": {
+    "message": "Futa Picha"
+  },
+  "screens.Photos.ConfirmDeleteModal.deletePhotoHeader": {
+    "message": "Ungependa kufuta picha hii?"
+  },
+  "screens.PhotosModal": {
+    "message": "Futa Picha"
+  },
+  "screens.ProjectInviteModal.close": {
+    "message": "Funga"
+  },
+  "screens.ProjectInviteModal.declineInvite": {
+    "message": "Kataa Mwaliko"
+  },
+  "screens.ProjectInviteModal.inviteErrorMessage": {
+    "message": "Haikuweza kurejesha maelezo ya mwaliko"
+  },
+  "screens.ProjectInviteModal.inviteMessage": {
+    "message": "Umealikwa ujiunge na\n {projectName} kama {role}"
+  },
+  "screens.ProjectInviteModal.joinAndSync": {
+    "message": "Jiunge na Usawazishe"
+  },
+  "screens.ProjectInviteModal.title": {
+    "message": "Jiunge na {projectName}"
+  },
+  "screens.ProjectInviteModal.tryAgain": {
+    "message": "Jaribu Tena"
+  },
+  "screens.Security.obscurePassDescriptonPassNotSet": {
+    "message": "Ili kutumia, washa Msimbo wa siri wa Programu"
+  },
+  "screens.Security.obscurePassDescriptonPassSet": {
+    "message": "Linda kifaa chako ili kisipokonywe"
+  },
+  "screens.Security.obscurePasscodeHeader": {
+    "message": "Nambari ya siri Isiyojulikana"
+  },
+  "screens.Security.passDesriptionPassNotSet": {
+    "message": "Nambari ya siri haijawekwa"
+  },
+  "screens.Security.passDesriptionPassSet": {
+    "message": "Nambari ya siri imewekwa"
+  },
+  "screens.Security.passcodeHeader": {
+    "message": "Nambari ya siri ya Programu"
+  },
+  "screens.Security.securitySubheader": {
+    "message": "Usalama wa Kifaa"
+  },
+  "screens.Settings.MapSettings.addBGMap": {
+    "message": "Ongeza Ramani ya Chinichini"
+  },
+  "screens.Settings.MapSettings.backgroundMapTitle": {
+    "message": "Ramani za Chinichini"
+  },
+  "screens.Settings.MapSettings.backgroundMaps": {
+    "message": "Ramani za Chinichini"
+  },
+  "screens.Settings.MapSettings.close": {
+    "message": "Funga"
+  },
+  "screens.Settings.MapSettings.confirmDelete": {
+    "description": "Confirm delete map modal button",
+    "message": "Ndiyo, Futa"
+  },
+  "screens.Settings.MapSettings.defaultMap": {
+    "description": "Name of default map",
+    "message": "Ramani Chaguomsingi"
+  },
+  "screens.Settings.MapSettings.deleteMapTitle": {
+    "description": "Title for the delete map modal",
+    "message": "Futa Ramani"
+  },
+  "screens.Settings.MapSettings.fileErrorDescription": {
+    "description": "Description for file error in bottom sheet content",
+    "message": "Hitilafu ya kuleta faili, tafadhali jaribu faili tofauti."
+  },
+  "screens.Settings.MapSettings.importErrorDescription": {
+    "description": "Description for import error in bottom sheet content",
+    "message": "Haiwezi kuleta {styleNames}. Leta upya {fileCount, plural, one {faili} other {faili}} za ramani ili ujaribu tena."
+  },
+  "screens.Settings.MapSettings.importFromFile": {
+    "message": "Leta kutoka kwenye Faili"
+  },
+  "screens.Settings.MapSettings.mapSettings": {
+    "message": "Mipangilio ya Ramani"
+  },
+  "screens.Settings.MapSettings.processingFile": {
+    "description": "Description for when a file is being processed for import",
+    "message": "Inachakata faili..."
+  },
+  "screens.Settings.MapSettings.subtitle": {
+    "message": "Ongeza, ondoa, na uangalie maelezo ya ramani"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createOrJoinProject": {
+    "message": "Unda au ujiunge na mradi hapa chini"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.createProject": {
+    "message": "Unda Mradi"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.joinProject": {
+    "message": "Jiunge na Mradi"
+  },
+  "screens.Settings.ProjectConfig.LeavePracticeMode.leavePracticeMode": {
+    "message": "Je, uko tayari kuondoka kwenye Hali ya Mazoezi?"
+  },
+  "screens.Settings.ProjectConfig.configErrorOkButton": {
+    "description": "Button to dismiss error dialog when there is an error importing a config file",
+    "message": "Sawa"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertMessage": {
+    "description": "Message for alert after successful config import",
+    "message": "Umefanikiwa kuleta usanidi wa:\n\n{name} {version}"
+  },
+  "screens.Settings.ProjectConfig.configImportAlertOk": {
+    "description": "Button text for config import alert acknowledgement",
+    "message": "Sawa"
+  },
+  "screens.Settings.ProjectConfig.importConfig": {
+    "description": "Button to import Mapeo config file",
+    "message": "Leta Usanidi"
+  },
+  "screens.Settings.ProjectConfig.name": {
+    "description": "Button to import Mapeo config file",
+    "message": "Jina la Mradi:"
+  },
+  "screens.Settings.ProjectConfig.none": {
+    "message": "hakuna"
+  },
+  "screens.Settings.ProjectConfig.practiceModeName": {
+    "description": "Placeholder config name when in Practice Mode",
+    "message": "Hali ya Mazoezi"
+  },
+  "screens.Settings.ProjectConfig.title": {
+    "description": "Title of project configuration screen",
+    "message": "Usanidi wa Mradi"
+  },
+  "screens.Settings.aboutMapeo": {
+    "description": "Primary text for 'About Mapeo' link (version info)",
+    "message": "Kuhuu Mapeo"
+  },
+  "screens.Settings.aboutMapeoDesc": {
+    "description": "Description of the 'About Mapeo' page",
+    "message": "Toleo na nambari ya muundo"
+  },
+  "screens.Settings.appInstall": {
+    "description": "Primary text for Mapeo APK test",
+    "message": "Sakinisha APK"
+  },
+  "screens.Settings.appInstallDesc": {
+    "description": "Secondary text for Mapeo APK test",
+    "message": "Jaribu usakinishaji wa APK (husakinisha upya programu)"
+  },
+  "screens.Settings.appShare": {
+    "description": "Primary text for sharing the mapeo APK installer",
+    "message": "Shiriki Kisakinishaji cha Mapeo"
+  },
+  "screens.Settings.appShareDesc": {
+    "description": "Secondary text for sharing the mapeo APK installer",
+    "message": "Sakinisha au usasishe Mapeo kwenye simu nyingine"
+  },
+  "screens.Settings.coordinateFormat": {
+    "description": "Settings for coordinate format",
+    "message": "Muundo wa Kiratibu"
+  },
+  "screens.Settings.coordinateFormatDesc": {
+    "description": "Description of the 'Coordinate Format' page",
+    "message": "Chagua jinsi viratibu vinavyoonyeshwa"
+  },
+  "screens.Settings.experimentsDesc": {
+    "description": "Description of the 'Experiment' page",
+    "message": "Washa vipengele vipya vya majaribio"
+  },
   "screens.Settings.language": {
     "description": "Primary text for language settings",
     "message": "Lugha"
+  },
+  "screens.Settings.languageDesc": {
+    "description": "Secondary text for language settings",
+    "message": "Lugha ya kuonyesha ya Programu"
+  },
+  "screens.Settings.mapSettings": {
+    "description": "Description of map settings button in settings",
+    "message": "Mipangilio ya Ramani"
+  },
+  "screens.Settings.mapSettingsSubtitle": {
+    "message": "Ramani za Chinichini"
+  },
+  "screens.Settings.projectConfig": {
+    "description": "Primary text for project config settings",
+    "message": "Usanidi wa Mradi"
+  },
+  "screens.Settings.projectConfigDesc": {
+    "description": "Secondary text for project config settings",
+    "message": "Kategoria, aikoni na maswali"
+  },
+  "screens.Settings.security": {
+    "message": "Usalama"
+  },
+  "screens.Settings.securityDesc": {
+    "description": "Description of security button in settings",
+    "message": "Nambari ya siri ya Programu na Usalama wa Kifaa"
+  },
+  "screens.Settings.title": {
+    "description": "Title of settings screen",
+    "message": "Mipangilio"
+  },
+  "screens.SyncModal.PeerList.completeButton": {
+    "description": "Button label when complete",
+    "message": "Imekamilika"
+  },
+  "screens.SyncModal.PeerList.disconnectedButton": {
+    "description": "Button label when disconnected",
+    "message": "Imetenganishwa"
+  },
+  "screens.SyncModal.PeerList.errorButton": {
+    "description": "Button label when there is an error",
+    "message": "Hitilafu"
+  },
+  "screens.SyncModal.PeerList.errorClientMismatch": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible (non-Mapeo) client",
+    "message": "Si huduma ya Mapeo"
+  },
+  "screens.SyncModal.PeerList.errorTheyNeedUgrade": {
+    "description": "Short message shown under device in sync screen when it is running an incompatible version of Mapeo",
+    "message": "Mapeo Isiyooana"
+  },
+  "screens.SyncModal.PeerList.finishingButton": {
+    "description": "Button label when finishing sync but don't have correct progress",
+    "message": "..."
+  },
+  "screens.SyncModal.PeerList.syncButton": {
+    "description": "Button label for sync button",
+    "message": "Sawazisha"
+  },
+  "screens.SyncModal.PeerList.syncLabel": {
+    "description": "Label for last sync datetime",
+    "message": "Imesawazisha:"
+  },
+  "screens.SyncModal.SyncView.checkingUpdates": {
+    "description": "Label in upgrade bar when checking for updates",
+    "message": "Inakagua masasisho ya programu"
+  },
+  "screens.SyncModal.SyncView.installUpdateButton": {
+    "description": "Label for button to install an update",
+    "message": "Sakinisha"
+  },
+  "screens.SyncModal.SyncView.noUpdates": {
+    "description": "Label in upgrade bar when no updates are found",
+    "message": "Hakuna masasisho ya programu yaliyopatikana"
+  },
+  "screens.SyncModal.SyncView.noUpdatesDetails": {
+    "description": "A second line of text describing how many devices have been checked for updates",
+    "message": "Imekagua {count, plural, one {kifaa #} other {vifaa #}}"
+  },
+  "screens.SyncModal.SyncView.noWifiDesc": {
+    "description": "Description shown when no wifi network",
+    "message": "Fungua mipangilio ya simu yako na uunganishe kwenye mtandao wa WiFi ili kusawazisha"
+  },
+  "screens.SyncModal.SyncView.noWifiTitle": {
+    "description": "Title of message shown when no wifi network",
+    "message": "Hakuna WiFi"
+  },
+  "screens.SyncModal.SyncView.openSettingsButton": {
+    "description": "Label for button to open settings to fix update permissions error",
+    "message": "Fungua Mipangilio"
+  },
+  "screens.SyncModal.SyncView.projectKey": {
+    "description": "First 5 characters of project key displayed on sync screen",
+    "message": "Ufunguo wa Mradi: {projectKey}"
   }
 }
