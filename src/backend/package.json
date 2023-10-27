@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": "12.16.3"
+    "node": "16.17.x",
+    "npm": "6.x"
   },
   "scripts": {
     "lint": "eslint *.js \"lib/*.js\" \"test/*.js\"",

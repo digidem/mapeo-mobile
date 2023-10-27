@@ -15,9 +15,11 @@ task:
     NODEJS_MOBILE_BUILD_NATIVE_MODULES: "0"
     MAPBOX_DOWNLOAD_TOKEN: ENCRYPTED[6c72ef68629d29a9a0d9aa396d1f55badda203ce2d2ce0e21c6f79d6714dc2966db4326efb73d0f6e2082cdf27943d34]
   container:
-    image: digidem/docker-android:2
+    image: digidem/docker-android:3
     cpu: 8
     memory: 24G
+  # TODO: Ideally this step wouldn't be needed but npm v8 comes with node 16 by default and doesn't work for our project at the moment
+  update_global_npm_script: npm install --global npm@6.14.18
   node_modules_cache:
     folder: node_modules
     reupload_on_changes: false # since there is a fingerprint script
@@ -61,7 +63,7 @@ android_test_task:
   only_if: $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH || $CIRRUS_PR != ""
   depends_on: android_build
   container:
-    image: digidem/docker-android:2
+    image: digidem/docker-android:3
     kvm: true
     cpu: 8
     memory: 16G
@@ -75,6 +77,8 @@ android_test_task:
     echo "Hardware acceleration:"
     $ANDROID_HOME/emulator/emulator -accel-check
   start_emulator_background_script: $ANDROID_HOME/emulator/emulator -avd emu -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back emulated
+  # TODO: Ideally this step wouldn't be needed but npm v8 comes with node 16 by default and doesn't work for our project at the moment
+  update_global_npm_script: npm install --global npm@6.14.18
   node_modules_cache:
     folder: node_modules
     reupload_on_changes: false # since there is a fingerprint script

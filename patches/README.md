@@ -12,13 +12,17 @@ that they can be accessed by the nodejs process. This is necessary so that
 different variants (Mapeo for ICCAs vs normal Mapeo) can each ship their own
 assets (e.g. presets)
 
-### Use prebuilt toolchain
+### Fix ABI detection issues
 
-Patch the build process to use the prebuilt toolchain that is now included in NDK, rather than build the toolchain as part of the build process. This increases build speed and avoids errors trying to build the toolchain.
+Introduces change from this [commit](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/f1ed0a95563303482d91d4e10e15d32d65c8eec5) that has yet to be released to fix an issue where the build process attempts to build for x86 architecture, which nodejs-mobile-react-native does not currently support.
 
-### Specify NDK version
+Also introduces a change that fixes an issue where all ABIs are built by default (see https://github.com/nodejs-mobile/nodejs-mobile-react-native/issues/11).
 
-`nodejs-mobile-react-native` seems to fail with NDK version 22 and 23. The patch specifies the NDK version in the `nodejs-mobile-react-native` `build.gradle`.
+### Remove unnecessary gradle tasks related to mobile prebuilds detection support
+
+`nodejs-mobile-react-native` introduced support for detecting mobile prebuilds. When building the Android app, it performs a couple of
+additional steps related to this, but these break the caching approach that used to work to avoid building native deps unnecessarily.
+We comment out these steps as we don't currently rely on this feature. See https://github.com/nodejs-mobile/nodejs-mobile-react-native/issues/45 for more info.
 
 ## `react-native`
 

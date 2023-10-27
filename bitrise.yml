@@ -269,7 +269,7 @@ workflows:
       - npm@1.1:
           title: Update npm
           inputs:
-            - command: install -g --force npm@^6.13
+            - command: install -g --force npm@^6.14.8
       - npm@1.1:
           title: npm ci
           inputs:
@@ -291,7 +291,7 @@ workflows:
                 # debug log
                 set -x
 
-                ANDROID_NDK_VERSION='21.4.7075529'
+                ANDROID_NDK_VERSION='24.0.8215888'
 
                 echo '### User Sources for Android SDK Manager' > $HOME/.android/repositories.cfg
                 yes | sdkmanager --licenses
