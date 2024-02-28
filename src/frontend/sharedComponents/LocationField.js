@@ -22,12 +22,12 @@ type Props = {
  * It needs a function as children, which will be called with the current
  * longitude, latitude and accuracy of the location on the observation
  */
-const LocationField = ({ children }: Props) => {
+const LocationField = ({ children, locked }: Props) => {
   const [{ value }, { updateDraft }] = useDraftObservation();
   const location = React.useContext(LocationContext);
 
   React.useEffect(() => {
-    if (!location.position || !value) return;
+    if (locked || !location.position || !value) return;
     const draftHasManualLocation =
       value.metadata && value.metadata.manualLocation;
     const draftHasLocation =
@@ -48,7 +48,7 @@ const LocationField = ({ children }: Props) => {
           location: omit(location, "savedPosition"),
         },
       });
-  }, [location, updateDraft, value]);
+  }, [location, updateDraft, value, locked]);
 
   if (!value) return null;
 
