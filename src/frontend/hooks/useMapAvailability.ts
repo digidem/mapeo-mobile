@@ -4,12 +4,12 @@ import MapboxGL from "@react-native-mapbox-gl/maps";
 
 import api from "../api";
 import { normalizeStyleURL } from "../lib/mapbox";
-import config from "../../config.json";
+import env from "../../../env";
 
 /** URL used for map style when no custom map and user is online */
 export const onlineStyleURL = normalizeStyleURL(
   MapboxGL.StyleURL.Outdoors + "?" + Date.now(),
-  config.mapboxAccessToken
+  env.MAPBOX_ACCESS_TOKEN
 );
 
 export type MapAvailability = "unknown" | "available" | "unavailable";
