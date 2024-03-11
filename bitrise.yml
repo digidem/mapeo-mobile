@@ -323,6 +323,11 @@ workflows:
           inputs:
             - npm_version: ""
             - command: run build:translations
+      - npm@1.1:
+          title: Build environment variables
+          inputs:
+            - npm_version: ""
+            - command: run build:env
       - script@1.2.0:
           title: Set version name & code
           inputs:

@@ -47,6 +47,9 @@ jobs:
       - name: Build translations
         run: |
           npm run build:translations
+      - name: Build env files
+        run: |
+          npm run build:env
       - name: Frontend Tests
         run: |
           npm test

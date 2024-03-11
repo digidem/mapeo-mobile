@@ -13,9 +13,9 @@ import type { LocationContextType } from "../../context/LocationContext";
 import type { ObservationsMap } from "../../context/ObservationsContext";
 import { useIsFullyFocused } from "../../hooks/useIsFullyFocused";
 import bugsnag from "../../lib/logger";
-import config from "../../../config.json";
 import { OfflineMapLayers } from "../OfflineMapLayers";
 import { UserLocation } from "./UserLocation";
+import env from "../../../../env";
 
 // This is the default zoom used when the map first loads, and also the zoom
 // that the map will zoom to if the user clicks the "Locate" button and the
@@ -38,7 +38,7 @@ Logger.setLogCallback(log => {
   );
 });
 
-MapboxGL.setAccessToken(config.mapboxAccessToken);
+MapboxGL.setAccessToken(env.MAPBOX_ACCESS_TOKEN);
 // Forces Mapbox to always be in connected state, rather than reading system
 // connectivity state
 MapboxGL.setConnected(true);
