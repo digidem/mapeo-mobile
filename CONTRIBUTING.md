@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you so much for taking the time to contribute to Mapeo development! Mapeo Mobile is a mobile app written in react-native that currently runs on Android. 
+Thank you so much for taking the time to contribute to Mapeo development! Mapeo Mobile is a mobile app written in react-native that currently runs on Android.
 
 After doing the [Initial Install](#initial-install), for most development you will need Android Studio and the Android SDK installed on your computer as outlined in the [Full App Development](#full-app-development) section.
 
@@ -23,27 +23,27 @@ npm install
 
 ### Pre-requisites
 
-In order to develop the full app you will need the Android Studio, Android SDK, React Native CLI, and other dependencies installed, as per [this guide](https://reactnative.dev/docs/0.66/environment-setup) following the instructions up to *Creating a new application*.
+In order to develop the full app you will need the Android Studio, Android SDK, React Native CLI, and other dependencies installed, as per [this guide](https://reactnative.dev/docs/0.66/environment-setup) following the instructions up to _Creating a new application_.
 
 Once you have done so and have Android Studio open, you may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and configures requirements that might be missing, such as the NDK and CMake to build the native code part of the project. However, the version of NDK to use with Mapeo Mobile needs to be specifically [21.4.7075529](https://developer.android.com/ndk/guides/). You can download this version (as well as CMake if necessary) in Android Studio by navigating to Tools -> SDK Manager -> SDK Tools.
-
 
 Due to an [issue](https://github.com/rnmapbox/maps/issues/1572) with installing some Mapbox SDK Android deps, you will also have to complete additional steps before getting the app to build:
 
 1. Refer to the [`Configure Credentials`](https://docs.mapbox.com/android/maps/guides/install/#configure-credentials) section and follow the instructions for creating a **secret access token**. This requires creating a [Mapbox](https://mapbox.com) account.
 
-2. With the secret token, you'll need to define the `MAPBOX_DOWNLOAD_TOKEN` environment variable. Although not ideal, there are a couple of options to choose from:
+2. With the secret token, you'll need to define the `MAPBOX_DOWNLOAD_TOKEN` and the `MAPBOX_ACCESS_TOKEN` environment variable. Although not ideal, there are a couple of options to choose from:
 
 - Specify the environment variable when running the `react-native run-android` command (or any command that runs it). For example:
 
   ```sh
-  MAPBOX_DOWNLOAD_TOKEN=your_token_here npm run android
+  MAPBOX_DOWNLOAD_TOKEN=your_download_token_here MAPBOX_ACCESS_TOKEN=your_access_token_here npm run android
   ```
 
 - Create a `.env` file in your Mapeo Mobile directory and paste the following in there with your Mapbox access token. This will be utilized when building Mapeo Mobile.
 
   ```sh
-  MAPBOX_DOWNLOAD_TOKEN=your_token_here
+  MAPBOX_DOWNLOAD_TOKEN=your_download_token_here
+  MAPBOX_ACCESS_TOKEN=your_access_token_here
   ```
 
 We recognize that this extra configuration is not ideal and we intend for this to be temporary.
@@ -81,7 +81,8 @@ dev version of the app on your device:
 npm run android
 ```
 
-This process may take a while when you are first building the app. Additionally, to bypass unneeded latency when installing certain dependencies like TypeScript, you can add the following to your `.gitconfig`  file in your home directory (`~`):
+This process may take a while when you are first building the app. Additionally, to bypass unneeded latency when installing certain dependencies like TypeScript, you can add the following to your `.gitconfig` file in your home directory (`~`):
+
 ```sh
 [url "https://"]
         insteadOf = git://
@@ -172,6 +173,7 @@ npm run storybook-native
 
 You will probably need to reload the storybook mobile app for the web app to be
 able to control the mobile app.
+
 ## Release Variants
 
 We generate different variants of the app, each with a different Application ID,
