@@ -285,8 +285,7 @@ workflows:
         title: Create .env file
         inputs:
           - content: |
-              #!/usr/bin/env bash
-              # Create .env file
+              #!/bin/bash
               echo "MAPBOX_ACCESS_TOKEN=$MAPBOX_ACCESS_TOKEN" >> .env
       - script@1.2.0:
           title: Update SDK components
