@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.6.8](https://github.com/digidem/mapeo-mobile/compare/v5.6.7...v5.6.8) (2024-03-13)
+
+### Bug Fixes
+
+- adjust mapbox access token usage ([#1150](https://github.com/digidem/mapeo-mobile/issues/1150)) ([eb7c531](https://github.com/digidem/mapeo-mobile/commit/eb7c5314ffe3c94a151bef919abecf063dd227ef))
+- location of observation should not change from GPS when editing ([#1145](https://github.com/digidem/mapeo-mobile/issues/1145)) ([48b7534](https://github.com/digidem/mapeo-mobile/commit/48b75344d89d6af5ce84a1ce09520d6902d28089)), closes [#1144](https://github.com/digidem/mapeo-mobile/issues/1144)
+
 ### [5.6.7](https://github.com/digidem/mapeo-mobile/compare/v5.6.8...v5.6.7) (2023-10-30)
 
 ### [5.6.6](https://github.com/digidem/mapeo-mobile/compare/v5.6.5...v5.6.6) (2023-10-24)
