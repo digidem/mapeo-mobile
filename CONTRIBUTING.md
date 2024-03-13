@@ -27,24 +27,19 @@ In order to develop the full app you will need the Android Studio, Android SDK, 
 
 Once you have done so and have Android Studio open, you may need to open your app's `/android` folder in Android Studio, so that it detects, downloads and configures requirements that might be missing, such as the NDK and CMake to build the native code part of the project. However, the version of NDK to use with Mapeo Mobile needs to be specifically [21.4.7075529](https://developer.android.com/ndk/guides/). You can download this version (as well as CMake if necessary) in Android Studio by navigating to Tools -> SDK Manager -> SDK Tools.
 
-Due to an [issue](https://github.com/rnmapbox/maps/issues/1572) with installing some Mapbox SDK Android deps, you will also have to complete additional steps before getting the app to build:
+You will also need to have a `.env` file at the project root that defines a couple of necessary environment variables related to Mapbox: `MAPBOX_DOWNLOAD_TOKEN` and `MAPBOX_ACCESS_TOKEN`. You can make a copy of the existing [`.env.example`](./.env.example) file (make sure it is called `.env`) and then replace the existing variables with your tokens. This requires creating a [Mapbox](https://mapbox.com) account.
+
+The `MAPBOX_DOWNLOAD_TOKEN` variable is necessary for installing components of Mapbox's native SDK for building the app (see this [issue](https://github.com/rnmapbox/maps/issues/1572) for more context). To set it up:
 
 1. Refer to the [`Configure Credentials`](https://docs.mapbox.com/android/maps/guides/install/#configure-credentials) section and follow the instructions for creating a **secret access token**. This requires creating a [Mapbox](https://mapbox.com) account.
 
-2. With the secret token, you'll need to define the `MAPBOX_DOWNLOAD_TOKEN` and the `MAPBOX_ACCESS_TOKEN` environment variable. Although not ideal, there are a couple of options to choose from:
+2. With the secret token, update your `.env` file so that it has line similar to the following: `MAPBOX_DOWNLOAD_TOKEN=<your_token_here>`
 
-- Specify the environment variable when running the `react-native run-android` command (or any command that runs it). For example:
+The `MAPBOX_ACCESS_TOKEN` variable is necessary for using the Mapbox client library to render maps in the app. To set it up:
 
-  ```sh
-  MAPBOX_DOWNLOAD_TOKEN=your_download_token_here MAPBOX_ACCESS_TOKEN=your_access_token_here npm run android
-  ```
+1. Follow the instructions listed [here](https://docs.mapbox.com/help/getting-started/access-tokens/) to create a public access token.
 
-- Create a `.env` file in your Mapeo Mobile directory and paste the following in there with your Mapbox access token. This will be utilized when building Mapeo Mobile.
-
-  ```sh
-  MAPBOX_DOWNLOAD_TOKEN=your_download_token_here
-  MAPBOX_ACCESS_TOKEN=your_access_token_here
-  ```
+2. With the public access token, update your `.env` file so that it has a line similar to the following: `MAPBOX_ACCESS_TOKEN=<your_token_here>`
 
 We recognize that this extra configuration is not ideal and we intend for this to be temporary.
 
