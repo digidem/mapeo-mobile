@@ -14,6 +14,7 @@ task:
       -Dkotlin.compiler.execution.strategy=in-process
     NODEJS_MOBILE_BUILD_NATIVE_MODULES: "0"
     MAPBOX_DOWNLOAD_TOKEN: ENCRYPTED[6c72ef68629d29a9a0d9aa396d1f55badda203ce2d2ce0e21c6f79d6714dc2966db4326efb73d0f6e2082cdf27943d34]
+    MAPBOX_ACCESS_TOKEN: ENCRYPTED[820fc045f961fadebee5d3b9ed6350b26e32ed296f4c0d595b7fc2b92a42f393612af52d07c14abf178f34e428e0cbb4]
   container:
     image: digidem/docker-android:2
     cpu: 8
@@ -30,6 +31,7 @@ task:
       - npm ci
   build_backend_script: npm run build:backend
   build_translations_script: npm run build:translations
+  build_env_script: echo "MAPBOX_ACCESS_TOKEN=${MAPBOX_ACCESS_TOKEN}" >> .env
   nodejs_mobile_cache:
     folder: android/build/nodejs-native-assets
     fingerprint_script:

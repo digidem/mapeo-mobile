@@ -108,6 +108,9 @@ apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 // Add bugsnag plugin for source map and symbol uploads
 apply plugin: 'com.bugsnag.android.gradle'
 
+// React Native Config
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -227,7 +230,11 @@ android {
 
         // Bugsnag integration
         manifestPlaceholders = [bugsnagReleaseStage: getDefaultBugsnagReleaseStage(myVersionName)]
+
+        // React Native Config
+        resValue "string", "build_config_package", "com.mapeo"
     }
+
     splits {
         abi {
             reset()

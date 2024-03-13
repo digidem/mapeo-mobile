@@ -5,7 +5,6 @@ import MapboxGL, { Logger } from "@react-native-mapbox-gl/maps";
 import ScaleBar from "react-native-scale-bar";
 import CheapRuler from "cheap-ruler";
 import validateColor from "validate-color";
-
 import ConfigContext from "../../context/ConfigContext";
 import { LocationFollowingIcon, LocationNoFollowIcon } from "../icons";
 import IconButton from "../IconButton";
@@ -13,7 +12,7 @@ import type { LocationContextType } from "../../context/LocationContext";
 import type { ObservationsMap } from "../../context/ObservationsContext";
 import { useIsFullyFocused } from "../../hooks/useIsFullyFocused";
 import bugsnag from "../../lib/logger";
-import config from "../../../config.json";
+import { config } from "../../lib/config";
 import { OfflineMapLayers } from "../OfflineMapLayers";
 import { UserLocation } from "./UserLocation";
 
@@ -38,7 +37,7 @@ Logger.setLogCallback(log => {
   );
 });
 
-MapboxGL.setAccessToken(config.mapboxAccessToken);
+MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 // Forces Mapbox to always be in connected state, rather than reading system
 // connectivity state
 MapboxGL.setConnected(true);
