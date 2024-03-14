@@ -282,6 +282,12 @@ workflows:
             - destination: $PROJECT_LOCATION/app/mapeo-release-key.keystore
             - source: $BITRISEIO_ANDROID_KEYSTORE_URL
       - script@1.2.0:
+          title: Create .env file
+          inputs:
+            - content: |
+                #!/bin/bash
+                echo "MAPBOX_ACCESS_TOKEN=$MAPBOX_ACCESS_TOKEN" >> .env
+      - script@1.2.0:
           title: Update SDK components
           inputs:
             - content: |
