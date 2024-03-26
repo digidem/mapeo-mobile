@@ -1,1 +1,10 @@
-{}
+{
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "I ta ka rau"
+  },
+  "screens.ObservationEdit.ObservationEditView.descriptionPlaceholder": {
+    "description": "Placeholder for description/notes field",
+    "message": "I ta ka rau tai ene?"
+  }
+}
