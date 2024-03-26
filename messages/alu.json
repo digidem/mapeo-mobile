@@ -1,1 +1,6 @@
-{}
+{
+  "screens.CategoryChooser.categoryTitle": {
+    "description": "Title for category chooser screen",
+    "message": "I ta ka rau"
+  }
+}
