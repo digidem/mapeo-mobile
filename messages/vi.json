@@ -31,9 +31,17 @@
     "description": "Title of dialog shown to the user when Mapeo is updated",
     "message": "Mapeo đã được cập nhật"
   },
+  "hooks.useMapStyles.defaultMapName": {
+    "description": "The name of the default background map",
+    "message": "Mặc định"
+  },
+  "hooks.useMapStyles.offlineMapName": {
+    "description": "The name of the legacy offline background map",
+    "message": "Bàn đồ ngoại tuyến"
+  },
   "screens.AboutMapeo.androidBuild": {
     "description": "Label for Android build number",
-    "message": "Android GD2I"
+    "message": "Số bản dựng Android"
   },
   "screens.AboutMapeo.androidVersion": {
     "description": "Label for Android version",
@@ -94,7 +102,7 @@
     "message": "Hỏi người lập bản đồ cộng đồng để gửi yêu cầu tham gia"
   },
   "screens.AddToProjectScreen.ScanQrCodeStep.instructionsDescription": {
-    "message": "Quét t"
+    "message": "Quét thiết bị để thêm người vào dự án"
   },
   "screens.AddToProjectScreen.ScanQrCodeStep.instructionsTitle": {
     "message": "Hướng dẫn"
@@ -163,7 +171,7 @@
     "message": "Nhập lại mật khẩu"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.TitleSet": {
-    "message": "Thiết lập mật khauar ứng dụng"
+    "message": "Thiết lập mật khẩu ứng dụng"
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.button": {
     "message": "Tiếp theo"
@@ -182,6 +190,9 @@
   },
   "screens.AppPasscode.NewPasscode.InputPasscodeScreen.subTitleSet": {
     "message": "Mật khẩu này sẽ được yêu cầu để mở ứng dụng Mapeo"
+  },
+  "screens.AppPasscode.NewPasscode.InputPasscodeScreen.title": {
+    "message": "Đặt mã khóa"
   },
   "screens.AppPasscode.NewPasscode.Splash.continue": {
     "message": "Tiếp tục"
@@ -206,6 +217,9 @@
   },
   "screens.AppPasscode.TurnOffPasscode.description": {
     "message": "Mật khẩu ứng dụng bổ sung thêm một lớp bảo mật bằng cách yêu cầu bạn nhập mật khẩu để mở ứng dụng Mapeo."
+  },
+  "screens.AppPasscode.TurnOffPasscode.title": {
+    "message": "Mật khẩu Ứng dụng"
   },
   "screens.AppPasscode.TurnOffPasscode.turnOff": {
     "message": "Tắt"
@@ -508,6 +522,21 @@
   "screens.ManualGpsScreen.zoneNumber": {
     "message": "Zone Number"
   },
+  "screens.ObscurePasscode.description": {
+    "message": "Obscure Passcode là một tính năng bảo mật cho phép bạn mở Mapeo ở chế độ mồi để ẩn toàn bộ dữ liệu của bạn. Nhập Obscure Passcode trên màn hình giới thiệu sẽ hiển thị phiên bản trống của Mapeo, cho phép bạn tạo các quan sát trình diễn không được lưu vào cơ sở dữ liệu Mapeo."
+  },
+  "screens.ObscurePasscode.instructions": {
+    "message": "Nhập mã phía trên để ẩn dữ liệu của bạn trong Mapeo"
+  },
+  "screens.ObscurePasscode.title": {
+    "message": "Mã truy cập bí mật"
+  },
+  "screens.ObscurePasscode.toggleMessage": {
+    "message": "Sử dụng Mã Khóa Bí Mật"
+  },
+  "screens.ObscurePasscode.whatIsObscure": {
+    "message": "Mã truy cập bí mật là gì?"
+  },
   "screens.Observation.ObservationView.alertFooter": {
     "description": "Footer for shared observations message",
     "message": "Được gửi từ Mapeo"
@@ -738,6 +767,15 @@
   "screens.ProjectInviteModal.tryAgain": {
     "message": "Thử lại"
   },
+  "screens.Security.obscurePassDescriptonPassNotSet": {
+    "message": "Để sử dụng, bật Mật khẩu ứng dụng"
+  },
+  "screens.Security.obscurePassDescriptonPassSet": {
+    "message": "Bảo vệ thiế bị của bạn khỏi bị tịch thu"
+  },
+  "screens.Security.obscurePasscodeHeader": {
+    "message": "Mã truy cập bí mật"
+  },
   "screens.Security.passDesriptionPassNotSet": {
     "message": "Mật khẩu chưa được đặt"
   },
@@ -787,6 +825,10 @@
   "screens.Settings.Experiments.BGMaps.goTo": {
     "message": "Thử ngay"
   },
+  "screens.Settings.Experiments.BGMaps.shortLink": {
+    "description": "Used as a link to the gitbooks documentation for adding background maps",
+    "message": "ở đây."
+  },
   "screens.Settings.Experiments.BGMaps.useBGMap": {
     "message": "Sử dụng (tính năng) bản đồ nền"
   },
@@ -804,6 +846,9 @@
   },
   "screens.Settings.Experiments.DirectionalArrow.useArrow": {
     "message": "Sử dụng Mũi tên định hướng"
+  },
+  "screens.Settings.Experiments.P2pUpgrade.p2pWillBeDeprecated": {
+    "message": "Quan trọng: Một hạn chế mới của Google có nghĩa là bạn không thể cập nhật ứng dụng này qua các bản cập nhật P2P nữa. Tuy nhiên, kích hoạt tính năng này vẫn cho phép bạn cập nhật các phiên bản cũ hơn của Mapeo lên v5.6.0 trên các điện thoại khác. Chúng tôi đang nghiên cứu cách khắc phục vấn đề này cho các phiên bản Mapeo Mobile tương lai"
   },
   "screens.Settings.Experiments.P2pUpgrade.title": {
     "message": "Cập nhật ứng dụng ngang hàng"
@@ -832,8 +877,15 @@
     "description": "Label for p2p app updates",
     "message": "Cập nhật ứng dụng ngang hàng"
   },
+  "screens.Settings.Experiments.p2pUpgradesDesc": {
+    "description": "Label for p2p upgrades description",
+    "message": "Chia sẻ và nhận cập nhật với các thiết bị gần đó"
+  },
   "screens.Settings.Experiments.title": {
     "message": "Thử nghiệm"
+  },
+  "screens.Settings.ManagePeople.add": {
+    "message": "Thêm vào"
   },
   "screens.Settings.ManagePeople.leaveProject": {
     "message": "Rời khỏi dự án"
@@ -848,11 +900,57 @@
     "description": "Row label indicating details related to the user's device membership",
     "message": "(Bạn) {deviceName}"
   },
+  "screens.Settings.MapSettings.BackgroundMapInfo.cancel": {
+    "message": "Hủy"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.deleteMap": {
+    "message": "Xoá bản đồ"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.description": {
+    "message": "Mức độ chi tiết"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.maxZoom": {
+    "description": "Shows the user the max zoom for an offline map",
+    "message": "Zoom tối đa "
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.mb": {
+    "description": "abbreviation for megabyte",
+    "message": "MB"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.minZoom": {
+    "description": "Shows the user the min zoom for an offline map",
+    "message": "Thu nhỏ tối thiểu"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.removeMap": {
+    "message": "Xóa bản đồ"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.subtitle": {
+    "message": "Bản đồ này và các khu vực ngoại tuyến liên quan sẽ bị xóa. Việc này không thể phục hồi được"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.useMap": {
+    "message": "Sử dụng bản đồ"
+  },
+  "screens.Settings.MapSettings.BackgroundMapInfo.zoomRange": {
+    "description": "Shows the user the range of zoom available for an offline map",
+    "message": "Phạm vi phóng to"
+  },
   "screens.Settings.MapSettings.BackgroundMapTitle": {
     "message": "Bản đồ nền"
   },
   "screens.Settings.MapSettings.BackgroundMaps": {
     "message": "Thêm Bản đồ nền"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.cancel": {
+    "message": "Hủy"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMap": {
+    "message": "Xoá bản đồ"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapMessage": {
+    "message": "Bạn có chắc chắn muốn xóa bản đồ {mapName}?"
+  },
+  "screens.Settings.MapSettings.DeleteMapBottomSheet.deleteMapWarning": {
+    "message": "Khu vực này sẽ không còn khả dụng ngoại tuyến. Không thể hoàn tác."
   },
   "screens.Settings.MapSettings.addBGMap": {
     "message": "Thêm Bản đồ nền"
@@ -1028,6 +1126,13 @@
   "screens.Settings.projectConfigDesc": {
     "description": "Secondary text for project config settings",
     "message": "Các thể loại, biểu tượng và câu hỏi"
+  },
+  "screens.Settings.security": {
+    "message": "Bảo mật"
+  },
+  "screens.Settings.securityDesc": {
+    "description": "Description of security button in settings",
+    "message": "Mã truy cập ứng dụng và bảo mật thiết bị"
   },
   "screens.Settings.title": {
     "description": "Title of settings screen",
